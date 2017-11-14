@@ -8,6 +8,8 @@ namespace RimWorld
 	{
 		private const int JobEndInterval = 4000;
 
+		private const float BaseResearchSpeed = 1.1f;
+
 		private ResearchProjectDef Project
 		{
 			get
@@ -26,7 +28,7 @@ namespace RimWorld
 
 		public override bool TryMakePreToilReservations()
 		{
-			return base.pawn.Reserve((Thing)this.ResearchBench, base.job, 1, -1, null);
+			return base.pawn.Reserve(this.ResearchBench, base.job, 1, -1, null);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()

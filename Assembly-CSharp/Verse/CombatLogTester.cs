@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse
 {
@@ -7,7 +6,7 @@ namespace Verse
 	{
 		public static Pawn GenerateRandom()
 		{
-			PawnKindDef pawnKindDef = DefDatabase<PawnKindDef>.AllDefsListForReading.RandomElementByWeight((Func<PawnKindDef, float>)((PawnKindDef pawnkind) => (float)((!pawnkind.RaceProps.Humanlike) ? 1 : 5)));
+			PawnKindDef pawnKindDef = DefDatabase<PawnKindDef>.AllDefsListForReading.RandomElementByWeight((PawnKindDef pawnkind) => (float)((!pawnkind.RaceProps.Humanlike) ? 1 : 5));
 			Faction faction = FactionUtility.DefaultFactionFrom(pawnKindDef.defaultFactionType);
 			return PawnGenerator.GeneratePawn(pawnKindDef, faction);
 		}

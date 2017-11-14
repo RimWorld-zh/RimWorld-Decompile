@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -136,9 +135,9 @@ namespace RimWorld
 		{
 			if (this.TicksLeft >= this.fadeOutDuration && this.Props.sound != null)
 			{
-				LongEventHandler.ExecuteWhenFinished((Action)delegate
+				LongEventHandler.ExecuteWhenFinished(delegate
 				{
-					this.sustainer = this.Props.sound.TrySpawnSustainer(SoundInfo.InMap((Thing)base.parent, MaintenanceType.PerTick));
+					this.sustainer = this.Props.sound.TrySpawnSustainer(SoundInfo.InMap(base.parent, MaintenanceType.PerTick));
 				});
 			}
 		}

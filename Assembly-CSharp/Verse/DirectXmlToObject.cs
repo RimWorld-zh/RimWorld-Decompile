@@ -27,7 +27,6 @@ namespace Verse
 		public static T ObjectFromXml<T>(XmlNode xmlRoot, bool doPostLoad) where T : new()
 		{
 			MethodInfo methodInfo = DirectXmlToObject.CustomDataLoadMethodOf(typeof(T));
-			T result;
 			if (methodInfo != null)
 			{
 				xmlRoot = XmlInheritance.GetResolvedNodeFor(xmlRoot);
@@ -49,21 +48,16 @@ namespace Verse
 				{
 					DirectXmlToObject.TryDoPostLoad(val);
 				}
-				result = val;
-				goto IL_0834;
+				return val;
 			}
 			if (xmlRoot.ChildNodes.Count == 1 && xmlRoot.FirstChild.NodeType == XmlNodeType.CDATA)
 			{
 				if (typeof(T) != typeof(string))
 				{
 					Log.Error("CDATA can only be used for strings. Bad xml: " + xmlRoot.OuterXml);
-					result = default(T);
+					return default(T);
 				}
-				else
-				{
-					result = (T)(object)xmlRoot.FirstChild.Value;
-				}
-				goto IL_0834;
+				return (T)(object)xmlRoot.FirstChild.Value;
 			}
 			if (xmlRoot.ChildNodes.Count == 1 && xmlRoot.FirstChild.NodeType == XmlNodeType.Text)
 			{
@@ -75,8 +69,7 @@ namespace Verse
 				{
 					Log.Error("Exception parsing " + xmlRoot.OuterXml + " to type " + typeof(T) + ": " + ex2);
 				}
-				result = default(T);
-				goto IL_0834;
+				return default(T);
 			}
 			if (Attribute.IsDefined(typeof(T), typeof(FlagsAttribute)))
 			{
@@ -87,8 +80,7 @@ namespace Verse
 					int num2 = (int)(object)item;
 					num |= num2;
 				}
-				result = (T)(object)num;
-				goto IL_0834;
+				return (T)(object)num;
 			}
 			if (typeof(T).HasGenericDefinition(typeof(List<>)))
 			{
@@ -100,8 +92,7 @@ namespace Verse
 					xmlRoot
 				};
 				object obj = methodInfo2.Invoke(null, parameters);
-				result = (T)obj;
-				goto IL_0834;
+				return (T)obj;
 			}
 			if (typeof(T).HasGenericDefinition(typeof(Dictionary<, >)))
 			{
@@ -113,35 +104,31 @@ namespace Verse
 					xmlRoot
 				};
 				object obj2 = methodInfo3.Invoke(null, parameters2);
-				result = (T)obj2;
-				goto IL_0834;
+				return (T)obj2;
 			}
 			if (!xmlRoot.HasChildNodes)
 			{
 				if (typeof(T) == typeof(string))
 				{
-					result = (T)(object)"";
-					goto IL_0834;
+					return (T)(object)string.Empty;
 				}
 				XmlAttribute xmlAttribute = xmlRoot.Attributes["IsNull"];
 				if (xmlAttribute != null && xmlAttribute.Value.ToUpperInvariant() == "TRUE")
 				{
-					result = default(T);
-					goto IL_0834;
+					return default(T);
 				}
 				if (typeof(T).IsGenericType)
 				{
 					Type genericTypeDefinition = typeof(T).GetGenericTypeDefinition();
 					if (genericTypeDefinition != typeof(List<>) && genericTypeDefinition != typeof(HashSet<>) && genericTypeDefinition != typeof(Dictionary<, >))
 					{
-						goto IL_0441;
+						goto IL_03ed;
 					}
-					result = new T();
-					goto IL_0834;
+					return new T();
 				}
 			}
-			goto IL_0441;
-			IL_0441:
+			goto IL_03ed;
+			IL_03ed:
 			xmlRoot = XmlInheritance.GetResolvedNodeFor(xmlRoot);
 			Type type2 = DirectXmlToObject.ClassTypeOf<T>(xmlRoot);
 			T val2 = (T)Activator.CreateInstance(type2);
@@ -175,9 +162,8 @@ namespace Verse
 						{
 							FieldInfo fieldInfo2 = fields[num3];
 							object[] customAttributes = fieldInfo2.GetCustomAttributes(typeof(LoadAliasAttribute), true);
-							for (int j = 0; j < customAttributes.Length; j++)
+							foreach (object obj3 in customAttributes)
 							{
-								object obj3 = customAttributes[j];
 								string alias = ((LoadAliasAttribute)obj3).alias;
 								if (alias.EqualsIgnoreCase(xmlNode.Name))
 								{
@@ -197,9 +183,8 @@ namespace Verse
 					{
 						bool flag = false;
 						object[] customAttributes2 = val2.GetType().GetCustomAttributes(typeof(IgnoreSavedElementAttribute), true);
-						for (int k = 0; k < customAttributes2.Length; k++)
+						foreach (object obj4 in customAttributes2)
 						{
-							object obj4 = customAttributes2[k];
 							string elementToIgnore = ((IgnoreSavedElementAttribute)obj4).elementToIgnore;
 							if (string.Equals(elementToIgnore, xmlNode.Name, StringComparison.OrdinalIgnoreCase))
 							{
@@ -258,34 +243,23 @@ namespace Verse
 			{
 				DirectXmlToObject.TryDoPostLoad(val2);
 			}
-			result = val2;
-			goto IL_0834;
-			IL_0834:
-			return result;
+			return val2;
 		}
 
 		private static Type ClassTypeOf<T>(XmlNode xmlRoot)
 		{
 			XmlAttribute xmlAttribute = xmlRoot.Attributes["Class"];
-			Type result;
 			if (xmlAttribute != null)
 			{
 				Type typeInAnyAssembly = GenTypes.GetTypeInAnyAssembly(xmlAttribute.Value);
 				if (typeInAnyAssembly == null)
 				{
 					Log.Error("Could not find type named " + xmlAttribute.Value + " from node " + xmlRoot.OuterXml);
-					result = typeof(T);
+					return typeof(T);
 				}
-				else
-				{
-					result = typeInAnyAssembly;
-				}
+				return typeInAnyAssembly;
 			}
-			else
-			{
-				result = typeof(T);
-			}
-			return result;
+			return typeof(T);
 		}
 
 		private static void TryDoPostLoad(object obj)
@@ -320,7 +294,7 @@ namespace Verse
 						{
 							if (flag)
 							{
-								DirectXmlCrossRefLoader.RegisterListWantsCrossRef<T>(list, xmlNode.InnerText);
+								DirectXmlCrossRefLoader.RegisterListWantsCrossRef(list, xmlNode.InnerText);
 							}
 							else
 							{
@@ -328,6 +302,7 @@ namespace Verse
 							}
 						}
 					}
+					return list;
 				}
 				finally
 				{
@@ -341,11 +316,11 @@ namespace Verse
 			catch (Exception ex)
 			{
 				Log.Error("Exception loading list from XML: " + ex + "\nXML:\n" + listRootNode.OuterXml);
+				return list;
 			}
-			return list;
 		}
 
-		private static Dictionary<K, V> DictionaryFromXml<K, V>(XmlNode dictRootNode) where K : new() where V : new()
+		private static Dictionary<K, V> DictionaryFromXml<K, V>(XmlNode dictRootNode) where K : new()where V : new()
 		{
 			Dictionary<K, V> dictionary = new Dictionary<K, V>();
 			try
@@ -362,11 +337,12 @@ namespace Verse
 							XmlNode xmlNode = (XmlNode)enumerator.Current;
 							if (DirectXmlToObject.ValidateListNode(xmlNode, dictRootNode, typeof(KeyValuePair<K, V>)))
 							{
-								K key = DirectXmlToObject.ObjectFromXml<K>((XmlNode)xmlNode["key"], true);
-								V value = DirectXmlToObject.ObjectFromXml<V>((XmlNode)xmlNode["value"], true);
+								K key = DirectXmlToObject.ObjectFromXml<K>(xmlNode["key"], true);
+								V value = DirectXmlToObject.ObjectFromXml<V>(xmlNode["value"], true);
 								dictionary.Add(key, value);
 							}
 						}
+						return dictionary;
 					}
 					finally
 					{
@@ -377,35 +353,33 @@ namespace Verse
 						}
 					}
 				}
-				else
+				IEnumerator enumerator2 = dictRootNode.ChildNodes.GetEnumerator();
+				try
 				{
-					IEnumerator enumerator2 = dictRootNode.ChildNodes.GetEnumerator();
-					try
+					while (enumerator2.MoveNext())
 					{
-						while (enumerator2.MoveNext())
+						XmlNode xmlNode2 = (XmlNode)enumerator2.Current;
+						if (DirectXmlToObject.ValidateListNode(xmlNode2, dictRootNode, typeof(KeyValuePair<K, V>)))
 						{
-							XmlNode xmlNode2 = (XmlNode)enumerator2.Current;
-							if (DirectXmlToObject.ValidateListNode(xmlNode2, dictRootNode, typeof(KeyValuePair<K, V>)))
-							{
-								DirectXmlCrossRefLoader.RegisterDictionaryWantsCrossRef<K, V>(dictionary, xmlNode2);
-							}
+							DirectXmlCrossRefLoader.RegisterDictionaryWantsCrossRef(dictionary, xmlNode2);
 						}
 					}
-					finally
+					return dictionary;
+				}
+				finally
+				{
+					IDisposable disposable2;
+					if ((disposable2 = (enumerator2 as IDisposable)) != null)
 					{
-						IDisposable disposable2;
-						if ((disposable2 = (enumerator2 as IDisposable)) != null)
-						{
-							disposable2.Dispose();
-						}
+						disposable2.Dispose();
 					}
 				}
 			}
 			catch (Exception ex)
 			{
 				Log.Error("Malformed dictionary XML. Node: " + dictRootNode.OuterXml + ".\n\nException: " + ex);
+				return dictionary;
 			}
-			return dictionary;
 		}
 
 		private static MethodInfo CustomDataLoadMethodOf(Type type)
@@ -415,26 +389,21 @@ namespace Verse
 
 		private static bool ValidateListNode(XmlNode listEntryNode, XmlNode listRootNode, Type listItemType)
 		{
-			bool result;
 			if (listEntryNode is XmlComment)
 			{
-				result = false;
+				return false;
 			}
-			else if (listEntryNode is XmlText)
+			if (listEntryNode is XmlText)
 			{
 				Log.Error("XML format error: Raw text found inside a list element. Did you mean to surround it with list item <li> tags? " + listRootNode.OuterXml);
-				result = false;
+				return false;
 			}
-			else if (listEntryNode.Name != "li" && DirectXmlToObject.CustomDataLoadMethodOf(listItemType) == null)
+			if (listEntryNode.Name != "li" && DirectXmlToObject.CustomDataLoadMethodOf(listItemType) == null)
 			{
 				Log.Error("XML format error: List item found with name that is not <li>, and which does not have a custom XML loader method, in " + listRootNode.OuterXml);
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		private static FieldInfo GetFieldInfoForType(Type type, string token, XmlNode debugXmlNode)
@@ -472,7 +441,7 @@ namespace Verse
 			FieldInfo fieldInfo = null;
 			while (true)
 			{
-				fieldInfo = type.GetField(token, (BindingFlags)((int)extraFlags | 16 | 32 | 4));
+				fieldInfo = type.GetField(token, extraFlags | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 				if (fieldInfo != null)
 					break;
 				if (type.BaseType == typeof(object))

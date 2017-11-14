@@ -5,7 +5,7 @@ namespace Verse
 {
 	public class RecipeWorkerCounter_MakeStoneBlocks : RecipeWorkerCounter
 	{
-		private List<ThingDef> stoneBlocksDefs = null;
+		private List<ThingDef> stoneBlocksDefs;
 
 		public override bool CanCountProducts(Bill_Production bill)
 		{

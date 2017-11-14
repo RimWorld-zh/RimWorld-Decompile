@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
@@ -10,7 +9,7 @@ namespace Verse.Profile
 	{
 		public static void UnloadUnusedUnityAssets()
 		{
-			LongEventHandler.ExecuteWhenFinished((Action)delegate
+			LongEventHandler.ExecuteWhenFinished(delegate
 			{
 				Resources.UnloadUnusedAssets();
 			});
@@ -33,7 +32,7 @@ namespace Verse.Profile
 					}
 				}
 				maps.Clear();
-				Current.Game.visibleMapIndex = (sbyte)(-1);
+				Current.Game.visibleMapIndex = -1;
 			}
 			if (Find.World != null)
 			{

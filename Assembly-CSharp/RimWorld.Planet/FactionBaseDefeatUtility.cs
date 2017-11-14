@@ -22,7 +22,7 @@ namespace RimWorld.Planet
 						stringBuilder.AppendLine();
 						stringBuilder.Append("LetterFactionBaseDefeated_FactionDestroyed".Translate(factionBase.Faction.Name));
 					}
-					Find.LetterStack.ReceiveLetter("LetterLabelFactionBaseDefeated".Translate(), stringBuilder.ToString(), LetterDefOf.PositiveEvent, new GlobalTargetInfo(factionBase.Tile), (string)null);
+					Find.LetterStack.ReceiveLetter("LetterLabelFactionBaseDefeated".Translate(), stringBuilder.ToString(), LetterDefOf.PositiveEvent, new GlobalTargetInfo(factionBase.Tile), null);
 					DestroyedFactionBase destroyedFactionBase = (DestroyedFactionBase)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.DestroyedFactionBase);
 					destroyedFactionBase.Tile = factionBase.Tile;
 					Find.WorldObjects.Add(destroyedFactionBase);
@@ -37,49 +37,29 @@ namespace RimWorld.Planet
 		private static bool IsDefeated(Map map, Faction faction)
 		{
 			List<Pawn> list = map.mapPawns.SpawnedPawnsInFaction(faction);
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < list.Count; i++)
 			{
-				if (num < list.Count)
+				Pawn pawn = list[i];
+				if (pawn.RaceProps.Humanlike && GenHostility.IsActiveThreatToPlayer(pawn))
 				{
-					Pawn pawn = list[num];
-					if (pawn.RaceProps.Humanlike && GenHostility.IsActiveThreatToPlayer(pawn))
-					{
-						result = false;
-						break;
-					}
-					num++;
-					continue;
+					return false;
 				}
-				result = true;
-				break;
 			}
-			return result;
+			return true;
 		}
 
 		private static bool HasAnyOtherBase(FactionBase defeatedFactionBase)
 		{
 			List<FactionBase> factionBases = Find.WorldObjects.FactionBases;
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < factionBases.Count; i++)
 			{
-				if (num < factionBases.Count)
+				FactionBase factionBase = factionBases[i];
+				if (factionBase.Faction == defeatedFactionBase.Faction && factionBase != defeatedFactionBase)
 				{
-					FactionBase factionBase = factionBases[num];
-					if (factionBase.Faction == defeatedFactionBase.Faction && factionBase != defeatedFactionBase)
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 	}
 }

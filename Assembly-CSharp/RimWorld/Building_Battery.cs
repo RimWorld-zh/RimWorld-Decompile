@@ -7,9 +7,9 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Building_Battery : Building
 	{
-		private int ticksToExplode = 0;
+		private int ticksToExplode;
 
-		private Sustainer wickSustainer = null;
+		private Sustainer wickSustainer;
 
 		private static readonly Vector2 BarSize = new Vector2(1.3f, 0.4f);
 
@@ -33,15 +33,13 @@ namespace RimWorld
 		{
 			base.Draw();
 			CompPowerBattery comp = base.GetComp<CompPowerBattery>();
-			GenDraw.FillableBarRequest r = new GenDraw.FillableBarRequest
-			{
-				center = this.DrawPos + Vector3.up * 0.1f,
-				size = Building_Battery.BarSize,
-				fillPercent = comp.StoredEnergy / comp.Props.storedEnergyMax,
-				filledMat = Building_Battery.BatteryBarFilledMat,
-				unfilledMat = Building_Battery.BatteryBarUnfilledMat,
-				margin = 0.15f
-			};
+			GenDraw.FillableBarRequest r = default(GenDraw.FillableBarRequest);
+			r.center = this.DrawPos + Vector3.up * 0.1f;
+			r.size = Building_Battery.BarSize;
+			r.fillPercent = comp.StoredEnergy / comp.Props.storedEnergyMax;
+			r.filledMat = Building_Battery.BatteryBarFilledMat;
+			r.unfilledMat = Building_Battery.BatteryBarUnfilledMat;
+			r.margin = 0.15f;
 			Rot4 rotation = base.Rotation;
 			rotation.Rotate(RotationDirection.Clockwise);
 			r.rotation = rotation;
@@ -88,7 +86,7 @@ namespace RimWorld
 
 		private void StartWickSustainer()
 		{
-			SoundInfo info = SoundInfo.InMap((Thing)this, MaintenanceType.PerTick);
+			SoundInfo info = SoundInfo.InMap(this, MaintenanceType.PerTick);
 			this.wickSustainer = SoundDefOf.HissSmall.TrySpawnSustainer(info);
 		}
 	}

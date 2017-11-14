@@ -9,7 +9,7 @@ namespace Verse
 {
 	public static class PlayDataLoader
 	{
-		private static bool loadedInt = false;
+		private static bool loadedInt;
 
 		public static bool Loaded
 		{
@@ -187,6 +187,7 @@ namespace Verse
 				HealthUtility.Reset();
 				ResourceCounter.ResetDefs();
 				WildSpawner.Reset();
+				ApparelProperties.Reset();
 			}
 			finally
 			{
@@ -251,7 +252,7 @@ namespace Verse
 			{
 				DeepProfiler.End();
 			}
-			LongEventHandler.ExecuteWhenFinished((Action)delegate
+			LongEventHandler.ExecuteWhenFinished(delegate
 			{
 				DeepProfiler.Start("Load backstories.");
 				try
@@ -263,7 +264,7 @@ namespace Verse
 					DeepProfiler.End();
 				}
 			});
-			LongEventHandler.ExecuteWhenFinished((Action)delegate
+			LongEventHandler.ExecuteWhenFinished(delegate
 			{
 				DeepProfiler.Start("Inject selected language data into game data.");
 				try
@@ -276,7 +277,7 @@ namespace Verse
 					DeepProfiler.End();
 				}
 			});
-			LongEventHandler.ExecuteWhenFinished((Action)delegate
+			LongEventHandler.ExecuteWhenFinished(delegate
 			{
 				StaticConstructorOnStartupUtility.CallAll();
 				if (Prefs.DevMode)

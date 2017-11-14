@@ -5,13 +5,13 @@ namespace Verse
 {
 	public class BodyDef : Def
 	{
-		public BodyPartRecord corePart = null;
+		public BodyPartRecord corePart;
 
 		[Unsaved]
 		private List<BodyPartRecord> cachedAllParts = new List<BodyPartRecord>();
 
 		[Unsaved]
-		private List<BodyPartRecord> cachedPartsVulnerableToFrostbite = null;
+		private List<BodyPartRecord> cachedPartsVulnerableToFrostbite;
 
 		public List<BodyPartRecord> AllParts
 		{
@@ -53,25 +53,15 @@ namespace Verse
 
 		public bool HasPartWithTag(string tag)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.AllParts.Count; i++)
 			{
-				if (num < this.AllParts.Count)
+				BodyPartRecord bodyPartRecord = this.AllParts[i];
+				if (bodyPartRecord.def.tags.Contains(tag))
 				{
-					BodyPartRecord bodyPartRecord = this.AllParts[num];
-					if (bodyPartRecord.def.tags.Contains(tag))
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public BodyPartRecord GetPartAtIndex(int index)
@@ -93,7 +83,7 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -107,25 +97,17 @@ namespace Verse
 				yield return "no parts vulnerable to frostbite";
 				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			using (List<BodyPartRecord>.Enumerator enumerator2 = this.AllParts.GetEnumerator())
+			foreach (BodyPartRecord allPart in this.AllParts)
 			{
-				BodyPartRecord part;
-				while (true)
+				if (allPart.def.isConceptual && allPart.coverageAbs != 0.0)
 				{
-					if (enumerator2.MoveNext())
-					{
-						part = enumerator2.Current;
-						if (part.def.isConceptual && part.coverageAbs != 0.0)
-							break;
-						continue;
-					}
-					yield break;
+					yield return string.Format("part {0} is tagged conceptual, but has nonzero coverage", allPart);
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
-				yield return string.Format("part {0} is tagged conceptual, but has nonzero coverage", part);
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			IL_01b8:
-			/*Error near IL_01b9: Unexpected return in MoveNext()*/;
+			yield break;
+			IL_01b1:
+			/*Error near IL_01b2: Unexpected return in MoveNext()*/;
 		}
 
 		public override void ResolveReferences()

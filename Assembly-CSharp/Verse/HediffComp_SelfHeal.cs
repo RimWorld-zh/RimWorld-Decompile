@@ -2,7 +2,7 @@ namespace Verse
 {
 	public class HediffComp_SelfHeal : HediffComp
 	{
-		public int ticksSinceHeal = 0;
+		public int ticksSinceHeal;
 
 		public HediffCompProperties_SelfHeal Props
 		{

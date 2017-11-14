@@ -12,7 +12,7 @@ namespace Verse
 
 		public List<Assembly> loadedAssemblies = new List<Assembly>();
 
-		private static bool globalResolverIsSet = false;
+		private static bool globalResolverIsSet;
 
 		public ModAssemblyHandler(ModContentPack mod)
 		{
@@ -23,9 +23,9 @@ namespace Verse
 		{
 			if (!ModAssemblyHandler.globalResolverIsSet)
 			{
-				ResolveEventHandler @object = (ResolveEventHandler)((object obj, ResolveEventArgs args) => Assembly.GetExecutingAssembly());
+				ResolveEventHandler @object = (object obj, ResolveEventArgs args) => Assembly.GetExecutingAssembly();
 				AppDomain currentDomain = AppDomain.CurrentDomain;
-				currentDomain.AssemblyResolve += new ResolveEventHandler(@object.Invoke);
+				currentDomain.AssemblyResolve += @object.Invoke;
 				ModAssemblyHandler.globalResolverIsSet = true;
 			}
 			string path = Path.Combine(this.mod.RootDir, "Assemblies");
@@ -34,9 +34,8 @@ namespace Verse
 			if (directoryInfo.Exists)
 			{
 				FileInfo[] files = directoryInfo.GetFiles("*.*", SearchOption.AllDirectories);
-				for (int i = 0; i < files.Length; i++)
+				foreach (FileInfo fileInfo in files)
 				{
-					FileInfo fileInfo = files[i];
 					if (!(fileInfo.Extension.ToLower() != ".dll"))
 					{
 						Assembly assembly = null;
@@ -84,9 +83,8 @@ namespace Verse
 				if (ex.LoaderExceptions != null)
 				{
 					Exception[] loaderExceptions = ex.LoaderExceptions;
-					for (int i = 0; i < loaderExceptions.Length; i++)
+					foreach (Exception ex2 in loaderExceptions)
 					{
-						Exception ex2 = loaderExceptions[i];
 						stringBuilder.AppendLine("   => " + ex2.ToString());
 					}
 				}

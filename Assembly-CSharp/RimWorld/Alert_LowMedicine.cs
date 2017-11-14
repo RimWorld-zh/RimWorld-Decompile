@@ -16,46 +16,39 @@ namespace RimWorld
 		public override string GetExplanation()
 		{
 			Map map = this.MapWithLowMedicine();
-			string result;
 			if (map == null)
 			{
-				result = "";
+				return string.Empty;
 			}
-			else
+			int num = this.MedicineCount(map);
+			if (num == 0)
 			{
-				int num = this.MedicineCount(map);
-				result = ((num != 0) ? string.Format("LowMedicineDesc".Translate(), num) : string.Format("NoMedicineDesc".Translate()));
+				return string.Format("NoMedicineDesc".Translate());
 			}
-			return result;
+			return string.Format("LowMedicineDesc".Translate(), num);
 		}
 
 		public override AlertReport GetReport()
 		{
-			return (Find.TickManager.TicksGame >= 150000) ? (this.MapWithLowMedicine() != null) : false;
+			if (Find.TickManager.TicksGame < 150000)
+			{
+				return false;
+			}
+			return this.MapWithLowMedicine() != null;
 		}
 
 		private Map MapWithLowMedicine()
 		{
 			List<Map> maps = Find.Maps;
-			int num = 0;
-			Map result;
-			while (true)
+			for (int i = 0; i < maps.Count; i++)
 			{
-				if (num < maps.Count)
+				Map map = maps[i];
+				if (map.IsPlayerHome && map.mapPawns.AnyColonistSpawned && (float)this.MedicineCount(map) < 2.0 * (float)map.mapPawns.FreeColonistsSpawnedCount)
 				{
-					Map map = maps[num];
-					if (map.IsPlayerHome && map.mapPawns.AnyColonistSpawned && (float)this.MedicineCount(map) < 2.0 * (float)map.mapPawns.FreeColonistsSpawnedCount)
-					{
-						result = map;
-						break;
-					}
-					num++;
-					continue;
+					return map;
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		private int MedicineCount(Map map)

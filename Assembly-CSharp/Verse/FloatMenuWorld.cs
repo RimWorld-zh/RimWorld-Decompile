@@ -8,7 +8,8 @@ namespace Verse
 	{
 		private Vector2 clickPos;
 
-		public FloatMenuWorld(List<FloatMenuOption> options, string title, Vector2 clickPos) : base(options, title, false)
+		public FloatMenuWorld(List<FloatMenuOption> options, string title, Vector2 clickPos)
+			: base(options, title, false)
 		{
 			this.clickPos = clickPos;
 		}
@@ -36,21 +37,21 @@ namespace Verse
 
 		private static bool StillValid(FloatMenuOption opt, List<FloatMenuOption> curOpts)
 		{
-			bool result;
 			if (opt.revalidateWorldClickTarget == null)
 			{
 				for (int i = 0; i < curOpts.Count; i++)
 				{
 					if (FloatMenuWorld.OptionsMatch(opt, curOpts[i]))
-						goto IL_0027;
+					{
+						return true;
+					}
 				}
 			}
 			else
 			{
 				if (!opt.revalidateWorldClickTarget.Spawned)
 				{
-					result = false;
-					goto IL_00d3;
+					return false;
 				}
 				Vector2 mousePos = opt.revalidateWorldClickTarget.ScreenPos();
 				mousePos.y = (float)UI.screenHeight - mousePos.y;
@@ -58,24 +59,21 @@ namespace Verse
 				for (int j = 0; j < list.Count; j++)
 				{
 					if (FloatMenuWorld.OptionsMatch(opt, list[j]))
-						goto IL_00b0;
+					{
+						return true;
+					}
 				}
 			}
-			result = false;
-			goto IL_00d3;
-			IL_00d3:
-			return result;
-			IL_0027:
-			result = true;
-			goto IL_00d3;
-			IL_00b0:
-			result = true;
-			goto IL_00d3;
+			return false;
 		}
 
 		private static bool OptionsMatch(FloatMenuOption a, FloatMenuOption b)
 		{
-			return (byte)((a.Label == b.Label) ? 1 : 0) != 0;
+			if (a.Label == b.Label)
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }

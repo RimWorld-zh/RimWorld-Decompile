@@ -1,6 +1,5 @@
 using RimWorld;
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,13 +15,13 @@ namespace Verse
 
 		public int startingPawnCount = 3;
 
-		public Faction playerFaction = null;
+		public Faction playerFaction;
 
-		public Season startingSeason = Season.Undefined;
+		public Season startingSeason;
 
 		public bool permadeath;
 
-		public bool startedFromEntry = false;
+		public bool startedFromEntry;
 
 		public string gameToLoad;
 
@@ -100,7 +99,7 @@ namespace Verse
 						select col;
 						if (source.Any())
 						{
-							Pawn pawn = source.InRandomOrder(null).MaxBy((Func<Pawn, float>)((Pawn c) => c.skills.AverageOfRelevantSkillsFor(allDef)));
+							Pawn pawn = source.InRandomOrder(null).MaxBy((Pawn c) => c.skills.AverageOfRelevantSkillsFor(allDef));
 							pawn.workSettings.SetPriority(allDef, 3);
 						}
 						else if (allDef.requireCapableColonist)

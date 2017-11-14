@@ -14,7 +14,11 @@ namespace RimWorld
 		protected override IntVec3 GetWanderRoot(Pawn pawn)
 		{
 			Hive hive = pawn.mindState.duty.focus.Thing as Hive;
-			return (hive != null && hive.Spawned) ? hive.Position : pawn.Position;
+			if (hive != null && hive.Spawned)
+			{
+				return hive.Position;
+			}
+			return pawn.Position;
 		}
 	}
 }

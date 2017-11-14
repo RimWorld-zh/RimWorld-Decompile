@@ -36,7 +36,11 @@ namespace Verse.AI
 
 		public override string GetReport()
 		{
-			return (base.job.RecipeDef == null) ? base.GetReport() : base.ReportStringProcessed(base.job.RecipeDef.jobString);
+			if (base.job.RecipeDef != null)
+			{
+				return base.ReportStringProcessed(base.job.RecipeDef.jobString);
+			}
+			return base.GetReport();
 		}
 
 		public override void ExposeData()
@@ -55,45 +59,43 @@ namespace Verse.AI
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			base.AddEndCondition((Func<JobCondition>)delegate
+			base.AddEndCondition(delegate
 			{
-				Thing thing = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006c: stateMachine*/)._0024this.GetActor().jobs.curJob.GetTarget(TargetIndex.A).Thing;
-				return (JobCondition)((!(thing is Building) || thing.Spawned) ? 1 : 3);
+				Thing thing = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006b: stateMachine*/)._0024this.GetActor().jobs.curJob.GetTarget(TargetIndex.A).Thing;
+				if (thing is Building && !thing.Spawned)
+				{
+					return JobCondition.Incompletable;
+				}
+				return JobCondition.Ongoing;
 			});
 			this.FailOnBurningImmobile(TargetIndex.A);
-			this.FailOn((Func<bool>)delegate
+			this.FailOn(delegate
 			{
-				IBillGiver billGiver = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0090: stateMachine*/)._0024this.job.GetTarget(TargetIndex.A).Thing as IBillGiver;
-				bool result;
+				IBillGiver billGiver = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_008f: stateMachine*/)._0024this.job.GetTarget(TargetIndex.A).Thing as IBillGiver;
 				if (billGiver != null)
 				{
-					if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0090: stateMachine*/)._0024this.job.bill.DeletedOrDereferenced)
+					if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_008f: stateMachine*/)._0024this.job.bill.DeletedOrDereferenced)
 					{
-						result = true;
-						goto IL_0062;
+						return true;
 					}
 					if (!billGiver.CurrentlyUsableForBills())
 					{
-						result = true;
-						goto IL_0062;
+						return true;
 					}
 				}
-				result = false;
-				goto IL_0062;
-				IL_0062:
-				return result;
+				return false;
 			});
-			Toil gotoBillGiver = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.InteractionCell);
+			Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.InteractionCell);
 			yield return new Toil
 			{
-				initAction = (Action)delegate
+				initAction = delegate
 				{
-					if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_00c0: stateMachine*/)._0024this.job.targetQueueB != null && ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_00c0: stateMachine*/)._0024this.job.targetQueueB.Count == 1)
+					if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_00bf: stateMachine*/)._0024this.job.targetQueueB != null && ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_00bf: stateMachine*/)._0024this.job.targetQueueB.Count == 1)
 					{
-						UnfinishedThing unfinishedThing = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_00c0: stateMachine*/)._0024this.job.targetQueueB[0].Thing as UnfinishedThing;
+						UnfinishedThing unfinishedThing = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_00bf: stateMachine*/)._0024this.job.targetQueueB[0].Thing as UnfinishedThing;
 						if (unfinishedThing != null)
 						{
-							unfinishedThing.BoundBill = (Bill_ProductionWithUft)((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_00c0: stateMachine*/)._0024this.job.bill;
+							unfinishedThing.BoundBill = (Bill_ProductionWithUft)((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_00bf: stateMachine*/)._0024this.job.bill;
 						}
 					}
 				}
@@ -104,7 +106,7 @@ namespace Verse.AI
 		private static Toil JumpToCollectNextIntoHandsForBill(Toil gotoGetTargetToil, TargetIndex ind)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Pawn actor = toil.actor;
 				if (actor.carryTracker.CarriedThing == null)

@@ -6,6 +6,10 @@ namespace RimWorld
 	{
 		public int duration;
 
+		public Thing instigator;
+
+		public ThingDef weaponDef;
+
 		private float angle;
 
 		private int startTick;
@@ -37,6 +41,8 @@ namespace RimWorld
 		public override void ExposeData()
 		{
 			base.ExposeData();
+			Scribe_References.Look<Thing>(ref this.instigator, "instigator", false);
+			Scribe_Defs.Look<ThingDef>(ref this.weaponDef, "weaponDef");
 			Scribe_Values.Look<int>(ref this.duration, "duration", 0, false);
 			Scribe_Values.Look<float>(ref this.angle, "angle", 0f, false);
 			Scribe_Values.Look<int>(ref this.startTick, "startTick", 0, false);

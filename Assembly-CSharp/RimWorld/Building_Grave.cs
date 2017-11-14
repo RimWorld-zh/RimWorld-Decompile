@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,37 +8,29 @@ namespace RimWorld
 {
 	public class Building_Grave : Building_Casket, IStoreSettingsParent, IAssignableBuilding
 	{
-		private StorageSettings storageSettings = null;
+		private StorageSettings storageSettings;
 
-		private Graphic cachedGraphicFull = null;
+		private Graphic cachedGraphicFull;
 
-		public Pawn assignedPawn = null;
+		public Pawn assignedPawn;
 
 		public override Graphic Graphic
 		{
 			get
 			{
-				Graphic graphic;
 				if (this.HasCorpse)
 				{
 					if (base.def.building.fullGraveGraphicData == null)
 					{
-						graphic = base.Graphic;
+						return base.Graphic;
 					}
-					else
+					if (this.cachedGraphicFull == null)
 					{
-						if (this.cachedGraphicFull == null)
-						{
-							this.cachedGraphicFull = base.def.building.fullGraveGraphicData.GraphicColoredFor(this);
-						}
-						graphic = this.cachedGraphicFull;
+						this.cachedGraphicFull = base.def.building.fullGraveGraphicData.GraphicColoredFor(this);
 					}
+					return this.cachedGraphicFull;
 				}
-				else
-				{
-					graphic = base.Graphic;
-				}
-				return graphic;
+				return base.Graphic;
 			}
 		}
 
@@ -55,25 +46,15 @@ namespace RimWorld
 		{
 			get
 			{
-				int num = 0;
-				Corpse result;
-				while (true)
+				for (int i = 0; i < base.innerContainer.Count; i++)
 				{
-					if (num < base.innerContainer.Count)
+					Corpse corpse = base.innerContainer[i] as Corpse;
+					if (corpse != null)
 					{
-						Corpse corpse = base.innerContainer[num] as Corpse;
-						if (corpse != null)
-						{
-							result = corpse;
-							break;
-						}
-						num++;
-						continue;
+						return corpse;
 					}
-					result = null;
-					break;
 				}
-				return result;
+				return null;
 			}
 		}
 
@@ -81,19 +62,14 @@ namespace RimWorld
 		{
 			get
 			{
-				IEnumerable<Pawn> result;
 				if (!base.Spawned)
 				{
-					result = Enumerable.Empty<Pawn>();
+					return Enumerable.Empty<Pawn>();
 				}
-				else
-				{
-					IEnumerable<Pawn> second = from Corpse x in base.Map.listerThings.ThingsInGroup(ThingRequestGroup.Corpse)
-					where x.InnerPawn.IsColonist
-					select x.InnerPawn;
-					result = base.Map.mapPawns.FreeColonistsSpawned.Concat(second);
-				}
-				return result;
+				IEnumerable<Pawn> second = from Corpse x in base.Map.listerThings.ThingsInGroup(ThingRequestGroup.Corpse)
+				where x.InnerPawn.IsColonist
+				select x.InnerPawn;
+				return base.Map.mapPawns.FreeColonistsSpawned.Concat(second);
 			}
 		}
 
@@ -188,46 +164,35 @@ namespace RimWorld
 
 		public override bool Accepts(Thing thing)
 		{
-			bool result;
 			if (!base.Accepts(thing))
 			{
-				result = false;
+				return false;
 			}
-			else if (this.HasCorpse)
+			if (this.HasCorpse)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (this.assignedPawn != null)
 			{
-				if (this.assignedPawn != null)
+				Corpse corpse = thing as Corpse;
+				if (corpse == null)
 				{
-					Corpse corpse = thing as Corpse;
-					if (corpse == null)
-					{
-						result = false;
-						goto IL_0085;
-					}
-					if (corpse.InnerPawn != this.assignedPawn)
-					{
-						result = false;
-						goto IL_0085;
-					}
+					return false;
 				}
-				else if (!this.storageSettings.AllowedToAccept(thing))
+				if (corpse.InnerPawn != this.assignedPawn)
 				{
-					result = false;
-					goto IL_0085;
+					return false;
 				}
-				result = true;
 			}
-			goto IL_0085;
-			IL_0085:
-			return result;
+			else if (!this.storageSettings.AllowedToAccept(thing))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override bool TryAcceptThing(Thing thing, bool allowSpecialEffects = true)
 		{
-			bool result;
 			if (base.TryAcceptThing(thing, allowSpecialEffects))
 			{
 				Corpse corpse = thing as Corpse;
@@ -239,18 +204,14 @@ namespace RimWorld
 				{
 					base.Map.mapDrawer.MapMeshDirty(base.Position, MapMeshFlag.Things);
 				}
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -278,15 +239,15 @@ namespace RimWorld
 				defaultLabel = "CommandGraveAssignColonistLabel".Translate(),
 				icon = ContentFinder<Texture2D>.Get("UI/Commands/AssignOwner", true),
 				defaultDesc = "CommandGraveAssignColonistDesc".Translate(),
-				action = (Action)delegate
+				action = delegate
 				{
-					Find.WindowStack.Add(new Dialog_AssignBuildingOwner(((_003CGetGizmos_003Ec__Iterator1)/*Error near IL_01c5: stateMachine*/)._0024this));
+					Find.WindowStack.Add(new Dialog_AssignBuildingOwner(((_003CGetGizmos_003Ec__Iterator1)/*Error near IL_01bb: stateMachine*/)._0024this));
 				},
 				hotKey = KeyBindingDefOf.Misc3
 			};
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0210:
-			/*Error near IL_0211: Unexpected return in MoveNext()*/;
+			IL_0205:
+			/*Error near IL_0206: Unexpected return in MoveNext()*/;
 		}
 
 		public override string GetInspectString()

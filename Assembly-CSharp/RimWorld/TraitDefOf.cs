@@ -48,5 +48,7 @@ namespace RimWorld
 		public static TraitDef Prosthophobe;
 
 		public static TraitDef NaturalMood;
+
+		public static TraitDef PsychicSensitivity;
 	}
 }

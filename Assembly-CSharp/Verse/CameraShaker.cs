@@ -4,7 +4,7 @@ namespace Verse
 {
 	public class CameraShaker
 	{
-		private float curShakeMag = 0f;
+		private float curShakeMag;
 
 		private const float ShakeDecayRate = 0.5f;
 

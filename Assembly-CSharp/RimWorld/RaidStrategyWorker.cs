@@ -17,7 +17,15 @@ namespace RimWorld
 
 		public virtual bool CanUseWith(IncidentParms parms)
 		{
-			return (byte)((!((float)GenDate.DaysPassed < this.def.minDaysPassed)) ? ((!(parms.points < this.MinimumPoints(parms.faction))) ? 1 : 0) : 0) != 0;
+			if ((float)GenDate.DaysPassed < this.def.minDaysPassed)
+			{
+				return false;
+			}
+			if (parms.points < this.MinimumPoints(parms.faction))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public virtual float MinimumPoints(Faction faction)

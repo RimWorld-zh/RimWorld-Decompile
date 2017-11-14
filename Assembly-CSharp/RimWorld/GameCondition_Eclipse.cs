@@ -16,7 +16,7 @@ namespace RimWorld
 
 		public override SkyTarget? SkyTarget()
 		{
-			return new SkyTarget?(new SkyTarget(0f, this.EclipseSkyColors, 1f, 0f));
+			return new SkyTarget(0f, this.EclipseSkyColors, 1f, 0f);
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,13 +10,13 @@ namespace RimWorld
 	{
 		private enum MusicManagerState
 		{
-			Normal = 0,
-			Fadeout = 1
+			Normal,
+			Fadeout
 		}
 
 		private AudioSource audioSource;
 
-		private MusicManagerState state = MusicManagerState.Normal;
+		private MusicManagerState state;
 
 		private float fadeoutFactor = 1f;
 
@@ -27,13 +26,13 @@ namespace RimWorld
 
 		private Queue<SongDef> recentSongs = new Queue<SongDef>();
 
-		public bool disabled = false;
+		public bool disabled;
 
-		private SongDef forcedNextSong = null;
+		private SongDef forcedNextSong;
 
-		private bool songWasForced = false;
+		private bool songWasForced;
 
-		private bool ignorePrefsVolumeThisSong = false;
+		private bool ignorePrefsVolumeThisSong;
 
 		public float subtleAmbienceSoundVolumeMultiplier = 1f;
 
@@ -58,24 +57,14 @@ namespace RimWorld
 			get
 			{
 				List<Map> maps = Find.Maps;
-				int num = 0;
-				bool result;
-				while (true)
+				for (int i = 0; i < maps.Count; i++)
 				{
-					if (num < maps.Count)
+					if (maps[i].IsPlayerHome && maps[i].dangerWatcher.DangerRating == StoryDanger.High)
 					{
-						if (maps[num].IsPlayerHome && maps[num].dangerWatcher.DangerRating == StoryDanger.High)
-						{
-							result = true;
-							break;
-						}
-						num++;
-						continue;
+						return true;
 					}
-					result = false;
-					break;
 				}
-				return result;
+				return false;
 			}
 		}
 
@@ -84,7 +73,11 @@ namespace RimWorld
 			get
 			{
 				float num = (float)((!this.ignorePrefsVolumeThisSong) ? Prefs.VolumeMusic : 1.0);
-				return (this.lastStartedSong != null) ? (this.lastStartedSong.volume * num * this.fadeoutFactor) : num;
+				if (this.lastStartedSong == null)
+				{
+					return num;
+				}
+				return this.lastStartedSong.volume * num * this.fadeoutFactor;
 			}
 		}
 
@@ -134,15 +127,15 @@ namespace RimWorld
 				{
 					if (this.DangerMusicMode && !this.lastStartedSong.tense)
 					{
-						goto IL_010c;
+						goto IL_0102;
 					}
 					if (!this.DangerMusicMode && this.lastStartedSong.tense)
-						goto IL_010c;
+						goto IL_0102;
 				}
-				goto IL_0116;
+				goto IL_0109;
 			}
 			return;
-			IL_0116:
+			IL_0109:
 			this.audioSource.volume = this.CurSanitizedVolume;
 			if (this.audioSource.isPlaying)
 			{
@@ -181,9 +174,9 @@ namespace RimWorld
 				}
 			}
 			return;
-			IL_010c:
+			IL_0102:
 			this.state = MusicManagerState.Fadeout;
-			goto IL_0116;
+			goto IL_0109;
 		}
 
 		private void UpdateSubtleAmbienceSoundVolumeMultiplier()
@@ -219,82 +212,79 @@ namespace RimWorld
 		private SongDef ChooseNextSong()
 		{
 			this.songWasForced = false;
-			SongDef result;
 			if (this.forcedNextSong != null)
 			{
-				SongDef songDef = this.forcedNextSong;
+				SongDef result = this.forcedNextSong;
 				this.forcedNextSong = null;
 				this.songWasForced = true;
-				result = songDef;
+				return result;
 			}
-			else
+			IEnumerable<SongDef> source = from song in DefDatabase<SongDef>.AllDefs
+			where this.AppropriateNow(song)
+			select song;
+			while (this.recentSongs.Count > 7)
 			{
-				IEnumerable<SongDef> source = from song in DefDatabase<SongDef>.AllDefs
-				where this.AppropriateNow(song)
-				select song;
-				while (this.recentSongs.Count > 7)
-				{
-					this.recentSongs.Dequeue();
-				}
-				while (!source.Any() && this.recentSongs.Count > 0)
-				{
-					this.recentSongs.Dequeue();
-				}
-				if (!source.Any())
-				{
-					Log.Error("Could not get any appropriate song. Getting random and logging song selection data.");
-					this.LogSongSelectionData();
-					result = DefDatabase<SongDef>.GetRandom();
-				}
-				else
-				{
-					result = source.RandomElementByWeight((Func<SongDef, float>)((SongDef s) => s.commonality));
-				}
+				this.recentSongs.Dequeue();
 			}
-			return result;
+			while (!source.Any() && this.recentSongs.Count > 0)
+			{
+				this.recentSongs.Dequeue();
+			}
+			if (!source.Any())
+			{
+				Log.Error("Could not get any appropriate song. Getting random and logging song selection data.");
+				this.LogSongSelectionData();
+				return DefDatabase<SongDef>.GetRandom();
+			}
+			return source.RandomElementByWeight((SongDef s) => s.commonality);
 		}
 
 		private bool AppropriateNow(SongDef song)
 		{
-			bool result;
 			if (!song.playOnMap)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (this.DangerMusicMode)
 			{
-				if (this.DangerMusicMode)
+				if (!song.tense)
 				{
-					if (!song.tense)
-					{
-						result = false;
-						goto IL_0129;
-					}
+					return false;
 				}
-				else if (song.tense)
-				{
-					result = false;
-					goto IL_0129;
-				}
-				Map map = Find.AnyPlayerHomeMap ?? Find.VisibleMap;
-				if (!song.allowedSeasons.NullOrEmpty())
-				{
-					if (map == null)
-					{
-						result = false;
-						goto IL_0129;
-					}
-					if (!song.allowedSeasons.Contains(GenLocalDate.Season(map)))
-					{
-						result = false;
-						goto IL_0129;
-					}
-				}
-				result = (!this.recentSongs.Contains(song) && (song.allowedTimeOfDay == TimeOfDay.Any || map == null || ((song.allowedTimeOfDay != 0) ? (GenLocalDate.DayPercent(map) > 0.20000000298023224 && GenLocalDate.DayPercent(map) < 0.699999988079071) : (GenLocalDate.DayPercent(map) < 0.20000000298023224 || GenLocalDate.DayPercent(map) > 0.699999988079071))));
 			}
-			goto IL_0129;
-			IL_0129:
-			return result;
+			else if (song.tense)
+			{
+				return false;
+			}
+			Map map = Find.AnyPlayerHomeMap ?? Find.VisibleMap;
+			if (!song.allowedSeasons.NullOrEmpty())
+			{
+				if (map == null)
+				{
+					return false;
+				}
+				if (!song.allowedSeasons.Contains(GenLocalDate.Season(map)))
+				{
+					return false;
+				}
+			}
+			if (this.recentSongs.Contains(song))
+			{
+				return false;
+			}
+			if (song.allowedTimeOfDay != TimeOfDay.Any)
+			{
+				if (map == null)
+				{
+					return true;
+				}
+				if (song.allowedTimeOfDay == TimeOfDay.Night)
+				{
+					return GenLocalDate.DayPercent(map) < 0.20000000298023224 || GenLocalDate.DayPercent(map) > 0.699999988079071;
+				}
+				return GenLocalDate.DayPercent(map) > 0.20000000298023224 && GenLocalDate.DayPercent(map) < 0.699999988079071;
+			}
+			return true;
 		}
 
 		public string DebugString()

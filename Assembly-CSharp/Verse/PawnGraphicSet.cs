@@ -8,27 +8,27 @@ namespace Verse
 	{
 		public Pawn pawn;
 
-		public Graphic nakedGraphic = null;
+		public Graphic nakedGraphic;
 
-		public Graphic rottingGraphic = null;
+		public Graphic rottingGraphic;
 
-		public Graphic dessicatedGraphic = null;
+		public Graphic dessicatedGraphic;
 
-		public Graphic packGraphic = null;
+		public Graphic packGraphic;
 
 		public DamageFlasher flasher;
 
-		public Graphic headGraphic = null;
+		public Graphic headGraphic;
 
-		public Graphic desiccatedHeadGraphic = null;
+		public Graphic desiccatedHeadGraphic;
 
-		public Graphic skullGraphic = null;
+		public Graphic skullGraphic;
 
-		public Graphic headStumpGraphic = null;
+		public Graphic headStumpGraphic;
 
-		public Graphic desiccatedHeadStumpGraphic = null;
+		public Graphic desiccatedHeadStumpGraphic;
 
-		public Graphic hairGraphic = null;
+		public Graphic hairGraphic;
 
 		public List<ApparelGraphicRecord> apparelGraphics = new List<ApparelGraphicRecord>();
 
@@ -50,21 +50,16 @@ namespace Verse
 		{
 			get
 			{
-				GraphicMeshSet result;
 				if (this.pawn.story.crownType == CrownType.Average)
 				{
-					result = MeshPool.humanlikeHairSetAverage;
+					return MeshPool.humanlikeHairSetAverage;
 				}
-				else if (this.pawn.story.crownType == CrownType.Narrow)
+				if (this.pawn.story.crownType == CrownType.Narrow)
 				{
-					result = MeshPool.humanlikeHairSetNarrow;
+					return MeshPool.humanlikeHairSetNarrow;
 				}
-				else
-				{
-					Log.Error("Unknown crown type: " + this.pawn.story.crownType);
-					result = MeshPool.humanlikeHairSetAverage;
-				}
-				return result;
+				Log.Error("Unknown crown type: " + this.pawn.story.crownType);
+				return MeshPool.humanlikeHairSetAverage;
 			}
 		}
 
@@ -83,47 +78,36 @@ namespace Verse
 				this.cachedMatsBodyBaseHash = num;
 				switch (bodyCondition)
 				{
-				case RotDrawMode.Rotting:
-					goto IL_0065;
 				case RotDrawMode.Fresh:
-				{
 					this.cachedMatsBodyBase.Add(this.nakedGraphic.MatAt(facing, null));
 					break;
-				}
 				default:
-				{
 					if (this.dessicatedGraphic == null)
-						goto IL_0065;
+						goto case RotDrawMode.Rotting;
 					if (bodyCondition == RotDrawMode.Dessicated)
 					{
 						this.cachedMatsBodyBase.Add(this.dessicatedGraphic.MatAt(facing, null));
 					}
 					break;
+				case RotDrawMode.Rotting:
+					this.cachedMatsBodyBase.Add(this.rottingGraphic.MatAt(facing, null));
+					break;
 				}
-				}
-				goto IL_00a1;
-			}
-			goto IL_0139;
-			IL_00a1:
-			for (int i = 0; i < this.apparelGraphics.Count; i++)
-			{
-				ApparelGraphicRecord apparelGraphicRecord = this.apparelGraphics[i];
-				if (apparelGraphicRecord.sourceApparel.def.apparel.LastLayer != ApparelLayer.Shell)
+				for (int i = 0; i < this.apparelGraphics.Count; i++)
 				{
-					ApparelGraphicRecord apparelGraphicRecord2 = this.apparelGraphics[i];
-					if (apparelGraphicRecord2.sourceApparel.def.apparel.LastLayer != ApparelLayer.Overhead)
+					ApparelGraphicRecord apparelGraphicRecord = this.apparelGraphics[i];
+					if (apparelGraphicRecord.sourceApparel.def.apparel.LastLayer != ApparelLayer.Shell)
 					{
-						List<Material> obj = this.cachedMatsBodyBase;
-						ApparelGraphicRecord apparelGraphicRecord3 = this.apparelGraphics[i];
-						obj.Add(apparelGraphicRecord3.graphic.MatAt(facing, null));
+						ApparelGraphicRecord apparelGraphicRecord2 = this.apparelGraphics[i];
+						if (apparelGraphicRecord2.sourceApparel.def.apparel.LastLayer != ApparelLayer.Overhead)
+						{
+							List<Material> list = this.cachedMatsBodyBase;
+							ApparelGraphicRecord apparelGraphicRecord3 = this.apparelGraphics[i];
+							list.Add(apparelGraphicRecord3.graphic.MatAt(facing, null));
+						}
 					}
 				}
 			}
-			goto IL_0139;
-			IL_0065:
-			this.cachedMatsBodyBase.Add(this.rottingGraphic.MatAt(facing, null));
-			goto IL_00a1;
-			IL_0139:
 			return this.cachedMatsBodyBase;
 		}
 
@@ -133,23 +117,17 @@ namespace Verse
 			switch (bodyCondition)
 			{
 			case RotDrawMode.Fresh:
-			{
 				material = ((!stump) ? this.headGraphic.MatAt(facing, null) : this.headStumpGraphic.MatAt(facing, null));
 				break;
-			}
 			case RotDrawMode.Rotting:
-			{
 				material = ((!stump) ? this.desiccatedHeadGraphic.MatAt(facing, null) : this.desiccatedHeadStumpGraphic.MatAt(facing, null));
 				break;
-			}
 			case RotDrawMode.Dessicated:
-			{
 				if (!stump)
 				{
 					material = this.skullGraphic.MatAt(facing, null);
 				}
 				break;
-			}
 			}
 			if ((Object)material != (Object)null)
 			{

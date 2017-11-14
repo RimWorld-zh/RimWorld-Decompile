@@ -15,44 +15,46 @@ namespace RimWorld
 
 		public override string ExplanationPart(StatRequest req)
 		{
-			string result;
 			if (req.HasThing)
 			{
 				Room room = req.Thing.GetRoom(RegionType.Set_All);
 				if (room != null)
 				{
 					string str = (!this.ConsideredOutdoors(req)) ? "Indoors".Translate() : "Outdoors".Translate();
-					result = str + ": x" + this.OutdoorsFactor(req).ToStringPercent();
-					goto IL_006f;
+					return str + ": x" + this.OutdoorsFactor(req).ToStringPercent();
 				}
 			}
-			result = (string)null;
-			goto IL_006f;
-			IL_006f:
-			return result;
+			return null;
 		}
 
 		private float OutdoorsFactor(StatRequest req)
 		{
-			return (!this.ConsideredOutdoors(req)) ? this.factorIndoors : this.factorOutdoors;
+			if (this.ConsideredOutdoors(req))
+			{
+				return this.factorOutdoors;
+			}
+			return this.factorIndoors;
 		}
 
 		private bool ConsideredOutdoors(StatRequest req)
 		{
-			bool result;
 			if (req.HasThing)
 			{
 				Room room = req.Thing.GetRoom(RegionType.Set_All);
 				if (room != null)
 				{
-					result = ((byte)(room.OutdoorsForWork ? 1 : ((req.HasThing && req.Thing.Spawned && !req.Thing.Map.roofGrid.Roofed(req.Thing.Position)) ? 1 : 0)) != 0);
-					goto IL_008f;
+					if (room.OutdoorsForWork)
+					{
+						return true;
+					}
+					if (req.HasThing && req.Thing.Spawned && !req.Thing.Map.roofGrid.Roofed(req.Thing.Position))
+					{
+						return true;
+					}
+					return false;
 				}
 			}
-			result = false;
-			goto IL_008f;
-			IL_008f:
-			return result;
+			return false;
 		}
 	}
 }

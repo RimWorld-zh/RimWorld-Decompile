@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -28,14 +27,14 @@ namespace RimWorld
 		public override GizmoResult GizmoOnGUI(Vector2 topLeft)
 		{
 			Rect overRect = new Rect(topLeft.x, topLeft.y, this.Width, 75f);
-			Find.WindowStack.ImmediateWindow(1523289473, overRect, WindowLayer.GameUI, (Action)delegate
+			Find.WindowStack.ImmediateWindow(1523289473, overRect, WindowLayer.GameUI, delegate
 			{
-				Rect rect;
-				Rect rect2 = rect = overRect.AtZero().ContractedBy(6f);
-				rect.height = (float)(overRect.height / 2.0);
+				Rect rect = overRect.AtZero().ContractedBy(6f);
+				Rect rect2 = rect;
+				rect2.height = (float)(overRect.height / 2.0);
 				Text.Font = GameFont.Tiny;
-				Widgets.Label(rect, "FuelLevelGizmoLabel".Translate());
-				Rect rect3 = rect2;
+				Widgets.Label(rect2, "FuelLevelGizmoLabel".Translate());
+				Rect rect3 = rect;
 				rect3.yMin = (float)(overRect.height / 2.0);
 				float fillPercent = this.refuelable.Fuel / this.refuelable.Props.fuelCapacity;
 				Widgets.FillableBar(rect3, fillPercent, Gizmo_RefuelableFuelStatus.FullBarTex, Gizmo_RefuelableFuelStatus.EmptyBarTex, false);

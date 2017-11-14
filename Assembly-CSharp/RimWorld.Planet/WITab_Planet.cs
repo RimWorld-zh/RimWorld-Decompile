@@ -42,11 +42,11 @@ namespace RimWorld.Planet
 			Vector2 winSize = WITab_Planet.WinSize;
 			float x = winSize.x;
 			Vector2 winSize2 = WITab_Planet.WinSize;
-			Rect rect;
-			Rect rect2 = rect = new Rect(0f, 0f, x, winSize2.y).ContractedBy(10f);
+			Rect rect = new Rect(0f, 0f, x, winSize2.y).ContractedBy(10f);
+			Rect rect2 = rect;
 			Text.Font = GameFont.Medium;
-			Widgets.Label(rect, Find.World.info.name);
-			Rect rect3 = rect2;
+			Widgets.Label(rect2, Find.World.info.name);
+			Rect rect3 = rect;
 			rect3.yMin += 35f;
 			Text.Font = GameFont.Small;
 			Widgets.Label(rect3, this.Desc);

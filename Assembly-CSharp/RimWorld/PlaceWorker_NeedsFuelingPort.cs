@@ -8,7 +8,11 @@ namespace RimWorld
 		public override AcceptanceReport AllowsPlacing(BuildableDef def, IntVec3 center, Rot4 rot, Map map, Thing thingToIgnore = null)
 		{
 			Building building = FuelingPortUtility.FuelingPortGiverAtFuelingPortCell(center, map);
-			return (building != null) ? true : "MustPlaceNearFuelingPort".Translate();
+			if (building == null)
+			{
+				return "MustPlaceNearFuelingPort".Translate();
+			}
+			return true;
 		}
 
 		public override void DrawGhost(ThingDef def, IntVec3 center, Rot4 rot)

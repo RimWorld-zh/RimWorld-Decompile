@@ -14,7 +14,7 @@ namespace Verse
 
 		private Pawn recipient;
 
-		private List<RulePackDef> extraSentencePacks = null;
+		private List<RulePackDef> extraSentencePacks;
 
 		private string InitiatorName
 		{
@@ -53,12 +53,12 @@ namespace Verse
 		{
 			if (pov == this.initiator)
 			{
-				CameraJumper.TryJumpAndSelect((Thing)this.recipient);
+				CameraJumper.TryJumpAndSelect(this.recipient);
 				return;
 			}
 			if (pov == this.recipient)
 			{
-				CameraJumper.TryJumpAndSelect((Thing)this.initiator);
+				CameraJumper.TryJumpAndSelect(this.initiator);
 				return;
 			}
 			throw new NotImplementedException();
@@ -71,13 +71,7 @@ namespace Verse
 
 		public override string ToGameStringFromPOV(Thing pov)
 		{
-			string result;
-			if (this.initiator == null || this.recipient == null)
-			{
-				Log.ErrorOnce("PlayLogEntry_Interaction has a null pawn reference.", 34422);
-				result = "[" + this.intDef.label + " error: null pawn reference]";
-			}
-			else
+			if (this.initiator != null && this.recipient != null)
 			{
 				Rand.PushState();
 				Rand.Seed = base.randSeed;
@@ -86,9 +80,9 @@ namespace Verse
 				if (pov == this.initiator)
 				{
 					request.Rules.AddRange(this.intDef.logRulesInitiator.Rules);
-					request.Rules.AddRange(GrammarUtility.RulesForPawn("me", this.initiator.Name, this.initiator.kindDef, this.initiator.gender, this.initiator.Faction));
-					request.Rules.AddRange(GrammarUtility.RulesForPawn("other", this.recipient.Name, this.recipient.kindDef, this.recipient.gender, this.recipient.Faction));
-					text = GrammarResolver.Resolve("logentry", request, "interaction from initiator");
+					request.Rules.AddRange(GrammarUtility.RulesForPawn("me", this.initiator, request.Constants));
+					request.Rules.AddRange(GrammarUtility.RulesForPawn("other", this.recipient, request.Constants));
+					text = GrammarResolver.Resolve("logentry", request, "interaction from initiator", false);
 				}
 				else if (pov == this.recipient)
 				{
@@ -100,9 +94,9 @@ namespace Verse
 					{
 						request.Rules.AddRange(this.intDef.logRulesInitiator.Rules);
 					}
-					request.Rules.AddRange(GrammarUtility.RulesForPawn("me", this.recipient.Name, this.recipient.kindDef, this.recipient.gender, this.recipient.Faction));
-					request.Rules.AddRange(GrammarUtility.RulesForPawn("other", this.initiator.Name, this.initiator.kindDef, this.initiator.gender, this.initiator.Faction));
-					text = GrammarResolver.Resolve("logentry", request, "interaction from recipient");
+					request.Rules.AddRange(GrammarUtility.RulesForPawn("me", this.recipient, request.Constants));
+					request.Rules.AddRange(GrammarUtility.RulesForPawn("other", this.initiator, request.Constants));
+					text = GrammarResolver.Resolve("logentry", request, "interaction from recipient", false);
 				}
 				else
 				{
@@ -115,15 +109,16 @@ namespace Verse
 					{
 						request.Clear();
 						request.Includes.Add(this.extraSentencePacks[i]);
-						request.Rules.AddRange(GrammarUtility.RulesForPawn("initiator", this.initiator.Name, this.initiator.kindDef, this.initiator.gender, this.initiator.Faction));
-						request.Rules.AddRange(GrammarUtility.RulesForPawn("recipient", this.recipient.Name, this.recipient.kindDef, this.recipient.gender, this.recipient.Faction));
-						text = text + " " + GrammarResolver.Resolve(this.extraSentencePacks[i].RulesPlusIncludes[0].keyword, request, "extraSentencePack");
+						request.Rules.AddRange(GrammarUtility.RulesForPawn("initiator", this.initiator, request.Constants));
+						request.Rules.AddRange(GrammarUtility.RulesForPawn("recipient", this.recipient, request.Constants));
+						text = text + " " + GrammarResolver.Resolve(this.extraSentencePacks[i].RulesPlusIncludes[0].keyword, request, "extraSentencePack", false);
 					}
 				}
 				Rand.PopState();
-				result = text;
+				return text;
 			}
-			return result;
+			Log.ErrorOnce("PlayLogEntry_Interaction has a null pawn reference.", 34422);
+			return "[" + this.intDef.label + " error: null pawn reference]";
 		}
 
 		public override void ExposeData()

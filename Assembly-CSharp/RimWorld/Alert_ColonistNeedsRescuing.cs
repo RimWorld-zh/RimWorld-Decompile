@@ -11,36 +11,40 @@ namespace RimWorld
 		{
 			get
 			{
-				using (IEnumerator<Pawn> enumerator = PawnsFinder.AllMaps_FreeColonistsSpawned.GetEnumerator())
+				foreach (Pawn item in PawnsFinder.AllMaps_FreeColonistsSpawned)
 				{
-					Pawn p;
-					while (true)
+					if (Alert_ColonistNeedsRescuing.NeedsRescue(item))
 					{
-						if (enumerator.MoveNext())
-						{
-							p = enumerator.Current;
-							if (Alert_ColonistNeedsRescuing.NeedsRescue(p))
-								break;
-							continue;
-						}
-						yield break;
+						yield return item;
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
-					yield return p;
-					/*Error: Unable to find new state assignment for yield return*/;
 				}
-				IL_00c7:
-				/*Error near IL_00c8: Unexpected return in MoveNext()*/;
+				yield break;
+				IL_00c3:
+				/*Error near IL_00c4: Unexpected return in MoveNext()*/;
 			}
 		}
 
 		public static bool NeedsRescue(Pawn p)
 		{
-			return (byte)((p.Downed && !p.InBed() && !(p.ParentHolder is Pawn_CarryTracker)) ? ((p.jobs.jobQueue == null || p.jobs.jobQueue.Count <= 0 || !p.jobs.jobQueue.Peek().job.CanBeginNow(p)) ? 1 : 0) : 0) != 0;
+			if (p.Downed && !p.InBed() && !(p.ParentHolder is Pawn_CarryTracker))
+			{
+				if (p.jobs.jobQueue != null && p.jobs.jobQueue.Count > 0 && p.jobs.jobQueue.Peek().job.CanBeginNow(p, false))
+				{
+					return false;
+				}
+				return true;
+			}
+			return false;
 		}
 
 		public override string GetLabel()
 		{
-			return (this.ColonistsNeedingRescue.Count() != 1) ? "ColonistsNeedRescue".Translate() : "ColonistNeedsRescue".Translate();
+			if (this.ColonistsNeedingRescue.Count() == 1)
+			{
+				return "ColonistNeedsRescue".Translate();
+			}
+			return "ColonistsNeedRescue".Translate();
 		}
 
 		public override string GetExplanation()
@@ -55,7 +59,7 @@ namespace RimWorld
 
 		public override AlertReport GetReport()
 		{
-			return AlertReport.CulpritIs((Thing)this.ColonistsNeedingRescue.FirstOrDefault());
+			return AlertReport.CulpritIs(this.ColonistsNeedingRescue.FirstOrDefault());
 		}
 	}
 }

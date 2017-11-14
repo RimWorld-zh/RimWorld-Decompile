@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -6,7 +5,7 @@ namespace RimWorld
 {
 	public class PlantProperties
 	{
-		public List<PlantBiomeRecord> wildBiomes = null;
+		public List<PlantBiomeRecord> wildBiomes;
 
 		public float wildCommonalityMaxFraction = 1.25f;
 
@@ -18,29 +17,29 @@ namespace RimWorld
 
 		public float sowWork = 250f;
 
-		public int sowMinSkill = 0;
+		public int sowMinSkill;
 
-		public bool blockAdjacentSow = false;
+		public bool blockAdjacentSow;
 
-		public List<ResearchProjectDef> sowResearchPrerequisites = null;
+		public List<ResearchProjectDef> sowResearchPrerequisites;
 
 		public float harvestWork = 150f;
 
-		public float harvestYield = 0f;
+		public float harvestYield;
 
-		public ThingDef harvestedThingDef = null;
+		public ThingDef harvestedThingDef;
 
 		public string harvestTag;
 
 		public float harvestMinGrowth = 0.65f;
 
-		public float harvestAfterGrowth = 0f;
+		public float harvestAfterGrowth;
 
 		public bool harvestFailable = true;
 
-		public SoundDef soundHarvesting = null;
+		public SoundDef soundHarvesting;
 
-		public SoundDef soundHarvestFinish = null;
+		public SoundDef soundHarvestFinish;
 
 		public float growDays = 2f;
 
@@ -60,7 +59,7 @@ namespace RimWorld
 
 		public float reproduceMtbDays = 10f;
 
-		public bool dieIfLeafless = false;
+		public bool dieIfLeafless;
 
 		public bool neverBlightable;
 
@@ -72,15 +71,15 @@ namespace RimWorld
 
 		public FloatRange visualSizeRange = new FloatRange(0.9f, 1.1f);
 
-		private string leaflessGraphicPath = (string)null;
+		private string leaflessGraphicPath;
 
 		[Unsaved]
-		public Graphic leaflessGraphic = null;
+		public Graphic leaflessGraphic;
 
-		private string immatureGraphicPath = (string)null;
+		private string immatureGraphicPath;
 
 		[Unsaved]
-		public Graphic immatureGraphic = null;
+		public Graphic immatureGraphic;
 
 		public const int MaxMaxMeshCount = 25;
 
@@ -112,7 +111,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (!(this.wildClusterRadius > 0.0)) ? this.reproduceRadius : this.wildClusterRadius;
+				if (this.wildClusterRadius > 0.0)
+				{
+					return this.wildClusterRadius;
+				}
+				return this.reproduceRadius;
 			}
 		}
 
@@ -160,14 +163,14 @@ namespace RimWorld
 		{
 			if (!this.leaflessGraphicPath.NullOrEmpty())
 			{
-				LongEventHandler.ExecuteWhenFinished((Action)delegate()
+				LongEventHandler.ExecuteWhenFinished(delegate
 				{
 					this.leaflessGraphic = GraphicDatabase.Get(parentDef.graphicData.graphicClass, this.leaflessGraphicPath, parentDef.graphic.Shader, parentDef.graphicData.drawSize, parentDef.graphicData.color, parentDef.graphicData.colorTwo);
 				});
 			}
 			if (!this.immatureGraphicPath.NullOrEmpty())
 			{
-				LongEventHandler.ExecuteWhenFinished((Action)delegate()
+				LongEventHandler.ExecuteWhenFinished(delegate
 				{
 					this.immatureGraphic = GraphicDatabase.Get(parentDef.graphicData.graphicClass, this.immatureGraphicPath, parentDef.graphic.Shader, parentDef.graphicData.drawSize, parentDef.graphicData.color, parentDef.graphicData.colorTwo);
 				});
@@ -186,27 +189,27 @@ namespace RimWorld
 		{
 			if (this.sowMinSkill > 0)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "MinGrowingSkillToSow".Translate(), this.sowMinSkill.ToString(), 0, "");
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "MinGrowingSkillToSow".Translate(), this.sowMinSkill.ToString(), 0, string.Empty);
 				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			string attributes2 = "";
+			string attributes = string.Empty;
 			if (this.Harvestable)
 			{
-				if (!attributes2.NullOrEmpty())
+				if (!attributes.NullOrEmpty())
 				{
-					attributes2 += ", ";
+					attributes += ", ";
 				}
-				attributes2 += "Harvestable".Translate();
+				attributes += "Harvestable".Translate();
 			}
 			if (this.LimitedLifespan)
 			{
-				if (!attributes2.NullOrEmpty())
+				if (!attributes.NullOrEmpty())
 				{
-					attributes2 += ", ";
+					attributes += ", ";
 				}
-				attributes2 += "LimitedLifespan".Translate();
+				_003F val = attributes + "LimitedLifespan".Translate();
 			}
-			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "GrowingTime".Translate(), this.growDays.ToString("0.##") + " " + "Days".Translate(), 0, "")
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "GrowingTime".Translate(), this.growDays.ToString("0.##") + " " + "Days".Translate(), 0, string.Empty)
 			{
 				overrideReportText = "GrowingTimeDesc".Translate()
 			};

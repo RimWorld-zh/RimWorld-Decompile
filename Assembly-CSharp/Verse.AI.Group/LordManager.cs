@@ -71,7 +71,7 @@ namespace Verse.AI.Group
 				{
 					if (allPawn.Spawned)
 					{
-						string text = "";
+						string text = string.Empty;
 						if (!allPawn.Dead && allPawn.mindState.duty != null)
 						{
 							text = allPawn.mindState.duty.ToString();
@@ -102,29 +102,18 @@ namespace Verse.AI.Group
 
 		public Lord LordOf(Pawn p)
 		{
-			int num = 0;
-			Lord result;
-			while (true)
+			for (int i = 0; i < this.lords.Count; i++)
 			{
-				Lord lord;
-				if (num < this.lords.Count)
+				Lord lord = this.lords[i];
+				for (int j = 0; j < lord.ownedPawns.Count; j++)
 				{
-					lord = this.lords[num];
-					for (int i = 0; i < lord.ownedPawns.Count; i++)
+					if (lord.ownedPawns[j] == p)
 					{
-						if (lord.ownedPawns[i] == p)
-							goto IL_0030;
+						return lord;
 					}
-					num++;
-					continue;
 				}
-				result = null;
-				break;
-				IL_0030:
-				result = lord;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		public void LogLords()

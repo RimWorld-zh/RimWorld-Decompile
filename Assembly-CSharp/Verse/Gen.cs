@@ -12,7 +12,11 @@ namespace Verse
 		public static Vector3 TrueCenter(this Thing t)
 		{
 			Pawn pawn = t as Pawn;
-			return (pawn == null) ? Gen.TrueCenter(t.Position, t.Rotation, t.def.size, t.def.Altitude) : pawn.Drawer.DrawPos;
+			if (pawn != null)
+			{
+				return pawn.Drawer.DrawPos;
+			}
+			return Gen.TrueCenter(t.Position, t.Rotation, t.def.size, t.def.Altitude);
 		}
 
 		public static Vector3 TrueCenter(IntVec3 loc, Rot4 rotation, IntVec2 thingSize, float altitude)
@@ -29,7 +33,6 @@ namespace Verse
 				switch (rotation.AsInt)
 				{
 				case 0:
-				{
 					if (thingSize.x % 2 == 0)
 					{
 						result.x += 0.5f;
@@ -39,9 +42,7 @@ namespace Verse
 						result.z += 0.5f;
 					}
 					break;
-				}
 				case 1:
-				{
 					if (thingSize.x % 2 == 0)
 					{
 						result.x += 0.5f;
@@ -51,9 +52,7 @@ namespace Verse
 						result.z -= 0.5f;
 					}
 					break;
-				}
 				case 2:
-				{
 					if (thingSize.x % 2 == 0)
 					{
 						result.x -= 0.5f;
@@ -63,9 +62,7 @@ namespace Verse
 						result.z -= 0.5f;
 					}
 					break;
-				}
 				case 3:
-				{
 					if (thingSize.x % 2 == 0)
 					{
 						result.x -= 0.5f;
@@ -75,7 +72,6 @@ namespace Verse
 						result.z += 0.5f;
 					}
 					break;
-				}
 				}
 			}
 			return result;
@@ -83,7 +79,7 @@ namespace Verse
 
 		public static Vector3 AveragePosition(List<IntVec3> cells)
 		{
-			return new Vector3((float)((float)cells.Average((Func<IntVec3, int>)((IntVec3 c) => c.x)) + 0.5), 0f, (float)((float)cells.Average((Func<IntVec3, int>)((IntVec3 c) => c.z)) + 0.5));
+			return new Vector3((float)((float)cells.Average((IntVec3 c) => c.x) + 0.5), 0f, (float)((float)cells.Average((IntVec3 c) => c.z) + 0.5));
 		}
 
 		public static T RandomEnumValue<T>(bool disallowFirstValue)
@@ -115,21 +111,16 @@ namespace Verse
 			IEnumerator enumerator = Enum.GetValues(typeof(T)).GetEnumerator();
 			try
 			{
-				object item;
-				while (true)
+				while (enumerator.MoveNext())
 				{
-					if (enumerator.MoveNext())
+					object item = enumerator.Current;
+					int itemAsInt = Convert.ToInt32(item);
+					if (itemAsInt == (valueAsInt & itemAsInt))
 					{
-						item = enumerator.Current;
-						int itemAsInt = Convert.ToInt32(item);
-						if (itemAsInt == (valueAsInt & itemAsInt))
-							break;
-						continue;
+						yield return (T)item;
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
-					yield break;
 				}
-				yield return (T)item;
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			finally
 			{
@@ -140,8 +131,9 @@ namespace Verse
 					disposable2.Dispose();
 				}
 			}
-			IL_0110:
-			/*Error near IL_0111: Unexpected return in MoveNext()*/;
+			yield break;
+			IL_010a:
+			/*Error near IL_010b: Unexpected return in MoveNext()*/;
 		}
 
 		public static IEnumerable<T> YieldSingle<T>(T val)
@@ -192,7 +184,7 @@ namespace Verse
 			}
 			try
 			{
-				string text = "";
+				string text = string.Empty;
 				IEnumerator enumerator = enumerable.GetEnumerator();
 				try
 				{

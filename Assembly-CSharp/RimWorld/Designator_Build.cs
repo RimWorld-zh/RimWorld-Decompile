@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,9 +9,9 @@ namespace RimWorld
 	{
 		protected BuildableDef entDef;
 
-		private ThingDef stuffDef = null;
+		private ThingDef stuffDef;
 
-		private bool writeStuff = false;
+		private bool writeStuff;
 
 		private static readonly Vector2 TerrainTextureCroppedSize = new Vector2(64f, 64f);
 
@@ -33,7 +32,11 @@ namespace RimWorld
 			get
 			{
 				ThingDef thingDef = this.entDef as ThingDef;
-				return (thingDef == null || !this.writeStuff) ? this.entDef.label : GenLabel.ThingLabel(thingDef, this.stuffDef, 1);
+				if (thingDef != null && this.writeStuff)
+				{
+					return GenLabel.ThingLabel(thingDef, this.stuffDef, 1);
+				}
+				return this.entDef.label;
 			}
 		}
 
@@ -49,7 +52,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (this.stuffDef == null) ? this.entDef.IconDrawColor : this.stuffDef.stuffProps.color;
+				if (this.stuffDef != null)
+				{
+					return this.stuffDef.stuffProps.color;
+				}
+				return this.entDef.IconDrawColor;
 			}
 		}
 
@@ -57,48 +64,39 @@ namespace RimWorld
 		{
 			get
 			{
-				bool result;
 				if (DebugSettings.godMode)
 				{
-					result = true;
+					return true;
 				}
-				else if (this.entDef.minTechLevelToBuild != 0 && (int)Faction.OfPlayer.def.techLevel < (int)this.entDef.minTechLevelToBuild)
+				if (this.entDef.minTechLevelToBuild != 0 && (int)Faction.OfPlayer.def.techLevel < (int)this.entDef.minTechLevelToBuild)
 				{
-					result = false;
+					return false;
 				}
-				else if (this.entDef.maxTechLevelToBuild != 0 && (int)Faction.OfPlayer.def.techLevel > (int)this.entDef.maxTechLevelToBuild)
+				if (this.entDef.maxTechLevelToBuild != 0 && (int)Faction.OfPlayer.def.techLevel > (int)this.entDef.maxTechLevelToBuild)
 				{
-					result = false;
+					return false;
 				}
-				else
+				if (this.entDef.researchPrerequisites != null)
 				{
-					if (this.entDef.researchPrerequisites != null)
+					for (int i = 0; i < this.entDef.researchPrerequisites.Count; i++)
 					{
-						for (int i = 0; i < this.entDef.researchPrerequisites.Count; i++)
+						if (!this.entDef.researchPrerequisites[i].IsFinished)
 						{
-							if (!this.entDef.researchPrerequisites[i].IsFinished)
-								goto IL_00b4;
+							return false;
 						}
 					}
-					if (this.entDef.buildingPrerequisites != null)
+				}
+				if (this.entDef.buildingPrerequisites != null)
+				{
+					for (int j = 0; j < this.entDef.buildingPrerequisites.Count; j++)
 					{
-						for (int j = 0; j < this.entDef.buildingPrerequisites.Count; j++)
+						if (!base.Map.listerBuildings.ColonistsHaveBuilding(this.entDef.buildingPrerequisites[j]))
 						{
-							if (!base.Map.listerBuildings.ColonistsHaveBuilding(this.entDef.buildingPrerequisites[j]))
-								goto IL_0116;
+							return false;
 						}
 					}
-					result = true;
 				}
-				goto IL_0140;
-				IL_00b4:
-				result = false;
-				goto IL_0140;
-				IL_0116:
-				result = false;
-				goto IL_0140;
-				IL_0140:
-				return result;
+				return true;
 			}
 		}
 
@@ -220,9 +218,9 @@ namespace RimWorld
 						{
 							ThingDef localStuffDef = key;
 							string labelCap = localStuffDef.LabelCap;
-							FloatMenuOption floatMenuOption = new FloatMenuOption(labelCap, (Action)delegate()
+							FloatMenuOption floatMenuOption = new FloatMenuOption(labelCap, delegate
 							{
-								this._003CProcessInput_003E__BaseCallProxy0(ev);
+								base.ProcessInput(ev);
 								Find.DesignatorManager.Select(this);
 								this.stuffDef = localStuffDef;
 								this.writeStuff = true;

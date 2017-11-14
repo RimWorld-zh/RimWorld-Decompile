@@ -30,7 +30,7 @@ namespace Ionic.Zlib
 
 		internal int[] tree;
 
-		internal int tree_index = 0;
+		internal int tree_index;
 
 		internal int need;
 
@@ -80,135 +80,25 @@ namespace Ionic.Zlib
 			num2 = blocks.bitk;
 			int num5 = blocks.writeAt;
 			int num6 = (num5 >= blocks.readAt) ? (blocks.end - num5) : (blocks.readAt - num5 - 1);
-			int result;
 			while (true)
 			{
-				int num7;
 				switch (this.mode)
 				{
-				case 1:
-					goto IL_01ca;
-				case 3:
-					goto IL_0493;
-				case 5:
-					goto IL_06ff;
-				case 8:
-					goto IL_0ae1;
 				case 0:
-				{
-					if (num6 >= 258 && num4 >= 10)
-					{
-						blocks.bitb = num;
-						blocks.bitk = num2;
-						codec.AvailableBytesIn = num4;
-						codec.TotalBytesIn += (long)(num3 - codec.NextIn);
-						codec.NextIn = num3;
-						blocks.writeAt = num5;
-						r = this.InflateFast(this.lbits, this.dbits, this.ltree, this.ltree_index, this.dtree, this.dtree_index, blocks, codec);
-						num3 = codec.NextIn;
-						num4 = codec.AvailableBytesIn;
-						num = blocks.bitb;
-						num2 = blocks.bitk;
-						num5 = blocks.writeAt;
-						num6 = ((num5 >= blocks.readAt) ? (blocks.end - num5) : (blocks.readAt - num5 - 1));
-						if (r != 0)
-						{
-							this.mode = ((r != 1) ? 9 : 7);
-							continue;
-						}
-					}
-					this.need = this.lbits;
-					this.tree = this.ltree;
-					this.tree_index = this.ltree_index;
-					this.mode = 1;
-					goto IL_01ca;
-				}
+					break;
+				case 1:
+					goto IL_01c4;
 				case 2:
-				{
-					num7 = this.bitsToGet;
-					while (num2 < num7)
-					{
-						if (num4 != 0)
-						{
-							r = 0;
-							num4--;
-							num |= (codec.InputBuffer[num3++] & 255) << num2;
-							num2 += 8;
-							continue;
-						}
-						goto IL_03bc;
-					}
-					this.len += (num & InternalInflateConstants.InflateMask[num7]);
-					num >>= num7;
-					num2 -= num7;
-					this.need = this.dbits;
-					this.tree = this.dtree;
-					this.tree_index = this.dtree_index;
-					this.mode = 3;
-					goto IL_0493;
-				}
+					goto IL_0387;
+				case 3:
+					goto IL_0471;
 				case 4:
-				{
-					num7 = this.bitsToGet;
-					while (num2 < num7)
-					{
-						if (num4 != 0)
-						{
-							r = 0;
-							num4--;
-							num |= (codec.InputBuffer[num3++] & 255) << num2;
-							num2 += 8;
-							continue;
-						}
-						goto IL_064c;
-					}
-					this.dist += (num & InternalInflateConstants.InflateMask[num7]);
-					num >>= num7;
-					num2 -= num7;
-					this.mode = 5;
-					goto IL_06ff;
-				}
+					goto IL_05fd;
+				case 5:
+					goto IL_06c3;
 				case 6:
-				{
-					if (num6 == 0)
-					{
-						if (((num5 == blocks.end) ? blocks.readAt : 0) != 0)
-						{
-							num5 = 0;
-							num6 = ((num5 >= blocks.readAt) ? (blocks.end - num5) : (blocks.readAt - num5 - 1));
-						}
-						if (num6 == 0)
-						{
-							blocks.writeAt = num5;
-							r = blocks.Flush(r);
-							num5 = blocks.writeAt;
-							num6 = ((num5 >= blocks.readAt) ? (blocks.end - num5) : (blocks.readAt - num5 - 1));
-							if (((num5 == blocks.end) ? blocks.readAt : 0) != 0)
-							{
-								num5 = 0;
-								num6 = ((num5 >= blocks.readAt) ? (blocks.end - num5) : (blocks.readAt - num5 - 1));
-							}
-							if (num6 == 0)
-							{
-								blocks.bitb = num;
-								blocks.bitk = num2;
-								codec.AvailableBytesIn = num4;
-								codec.TotalBytesIn += (long)(num3 - codec.NextIn);
-								codec.NextIn = num3;
-								blocks.writeAt = num5;
-								result = blocks.Flush(r);
-								goto end_IL_0062;
-							}
-						}
-					}
-					r = 0;
-					blocks.window[num5++] = (byte)this.lit;
-					num6--;
-					this.mode = 0;
-					continue;
-				}
+					goto IL_0868;
 				case 7:
-				{
 					if (num2 > 7)
 					{
 						num2 -= 8;
@@ -224,70 +114,130 @@ namespace Ionic.Zlib
 						blocks.bitb = num;
 						blocks.bitk = num2;
 						codec.AvailableBytesIn = num4;
-						codec.TotalBytesIn += (long)(num3 - codec.NextIn);
+						codec.TotalBytesIn += num3 - codec.NextIn;
 						codec.NextIn = num3;
 						blocks.writeAt = num5;
-						result = blocks.Flush(r);
-						goto end_IL_0062;
+						return blocks.Flush(r);
 					}
 					this.mode = 8;
-					goto IL_0ae1;
-				}
+					goto case 8;
+				case 8:
+					r = 1;
+					blocks.bitb = num;
+					blocks.bitk = num2;
+					codec.AvailableBytesIn = num4;
+					codec.TotalBytesIn += num3 - codec.NextIn;
+					codec.NextIn = num3;
+					blocks.writeAt = num5;
+					return blocks.Flush(r);
 				case 9:
-				{
 					r = -3;
 					blocks.bitb = num;
 					blocks.bitk = num2;
 					codec.AvailableBytesIn = num4;
-					codec.TotalBytesIn += (long)(num3 - codec.NextIn);
+					codec.TotalBytesIn += num3 - codec.NextIn;
 					codec.NextIn = num3;
 					blocks.writeAt = num5;
-					result = blocks.Flush(r);
-					break;
-				}
+					return blocks.Flush(r);
 				default:
-				{
 					r = -2;
 					blocks.bitb = num;
 					blocks.bitk = num2;
 					codec.AvailableBytesIn = num4;
-					codec.TotalBytesIn += (long)(num3 - codec.NextIn);
+					codec.TotalBytesIn += num3 - codec.NextIn;
 					codec.NextIn = num3;
 					blocks.writeAt = num5;
-					result = blocks.Flush(r);
-					break;
+					return blocks.Flush(r);
 				}
+				if (num6 >= 258 && num4 >= 10)
+				{
+					blocks.bitb = num;
+					blocks.bitk = num2;
+					codec.AvailableBytesIn = num4;
+					codec.TotalBytesIn += num3 - codec.NextIn;
+					codec.NextIn = num3;
+					blocks.writeAt = num5;
+					r = this.InflateFast(this.lbits, this.dbits, this.ltree, this.ltree_index, this.dtree, this.dtree_index, blocks, codec);
+					num3 = codec.NextIn;
+					num4 = codec.AvailableBytesIn;
+					num = blocks.bitb;
+					num2 = blocks.bitk;
+					num5 = blocks.writeAt;
+					num6 = ((num5 >= blocks.readAt) ? (blocks.end - num5) : (blocks.readAt - num5 - 1));
+					if (r != 0)
+					{
+						this.mode = ((r != 1) ? 9 : 7);
+						continue;
+					}
 				}
-				break;
-				IL_0493:
-				num7 = this.need;
-				while (num2 < num7)
+				this.need = this.lbits;
+				this.tree = this.ltree;
+				this.tree_index = this.ltree_index;
+				this.mode = 1;
+				goto IL_01c4;
+				IL_0868:
+				if (num6 == 0)
+				{
+					if (num5 == blocks.end && blocks.readAt != 0)
+					{
+						num5 = 0;
+						num6 = ((num5 >= blocks.readAt) ? (blocks.end - num5) : (blocks.readAt - num5 - 1));
+					}
+					if (num6 == 0)
+					{
+						blocks.writeAt = num5;
+						r = blocks.Flush(r);
+						num5 = blocks.writeAt;
+						num6 = ((num5 >= blocks.readAt) ? (blocks.end - num5) : (blocks.readAt - num5 - 1));
+						if (num5 == blocks.end && blocks.readAt != 0)
+						{
+							num5 = 0;
+							num6 = ((num5 >= blocks.readAt) ? (blocks.end - num5) : (blocks.readAt - num5 - 1));
+						}
+						if (num6 == 0)
+							break;
+					}
+				}
+				r = 0;
+				blocks.window[num5++] = (byte)this.lit;
+				num6--;
+				this.mode = 0;
+				continue;
+				IL_0471:
+				int num8 = this.need;
+				while (num2 < num8)
 				{
 					if (num4 != 0)
 					{
 						r = 0;
 						num4--;
-						num |= (codec.InputBuffer[num3++] & 255) << num2;
+						num |= (codec.InputBuffer[num3++] & 0xFF) << num2;
 						num2 += 8;
 						continue;
 					}
-					goto IL_04af;
+					blocks.bitb = num;
+					blocks.bitk = num2;
+					codec.AvailableBytesIn = num4;
+					codec.TotalBytesIn += num3 - codec.NextIn;
+					codec.NextIn = num3;
+					blocks.writeAt = num5;
+					return blocks.Flush(r);
 				}
-				int num12 = (this.tree_index + (num & InternalInflateConstants.InflateMask[num7])) * 3;
-				num >>= this.tree[num12 + 1];
-				num2 -= this.tree[num12 + 1];
-				int num13 = this.tree[num12];
-				if ((num13 & 16) != 0)
+				int num10 = (this.tree_index + (num & InternalInflateConstants.InflateMask[num8])) * 3;
+				num >>= this.tree[num10 + 1];
+				num2 -= this.tree[num10 + 1];
+				int num11 = this.tree[num10];
+				if ((num11 & 0x10) != 0)
 				{
-					this.bitsToGet = (num13 & 15);
-					this.dist = this.tree[num12 + 2];
+					this.bitsToGet = (num11 & 0xF);
+					this.dist = this.tree[num10 + 2];
 					this.mode = 4;
 					continue;
 				}
-				if ((num13 & 64) == 0)
+				if ((num11 & 0x40) == 0)
 				{
-					this.need = num13;
-					this.tree_index = num12 / 3 + this.tree[num12 + 2];
+					this.need = num11;
+					this.tree_index = num10 / 3 + this.tree[num10 + 2];
 					continue;
 				}
 				this.mode = 9;
@@ -296,58 +246,45 @@ namespace Ionic.Zlib
 				blocks.bitb = num;
 				blocks.bitk = num2;
 				codec.AvailableBytesIn = num4;
-				codec.TotalBytesIn += (long)(num3 - codec.NextIn);
+				codec.TotalBytesIn += num3 - codec.NextIn;
 				codec.NextIn = num3;
 				blocks.writeAt = num5;
-				result = blocks.Flush(r);
-				break;
-				IL_0ae1:
-				r = 1;
-				blocks.bitb = num;
-				blocks.bitk = num2;
-				codec.AvailableBytesIn = num4;
-				codec.TotalBytesIn += (long)(num3 - codec.NextIn);
-				codec.NextIn = num3;
-				blocks.writeAt = num5;
-				result = blocks.Flush(r);
-				break;
-				IL_04af:
-				blocks.bitb = num;
-				blocks.bitk = num2;
-				codec.AvailableBytesIn = num4;
-				codec.TotalBytesIn += (long)(num3 - codec.NextIn);
-				codec.NextIn = num3;
-				blocks.writeAt = num5;
-				result = blocks.Flush(r);
-				break;
-				IL_01e6:
-				blocks.bitb = num;
-				blocks.bitk = num2;
-				codec.AvailableBytesIn = num4;
-				codec.TotalBytesIn += (long)(num3 - codec.NextIn);
-				codec.NextIn = num3;
-				blocks.writeAt = num5;
-				result = blocks.Flush(r);
-				break;
-				IL_03bc:
-				blocks.bitb = num;
-				blocks.bitk = num2;
-				codec.AvailableBytesIn = num4;
-				codec.TotalBytesIn += (long)(num3 - codec.NextIn);
-				codec.NextIn = num3;
-				blocks.writeAt = num5;
-				result = blocks.Flush(r);
-				break;
-				IL_06ff:
-				int num14;
-				for (num14 = num5 - this.dist; num14 < 0; num14 += blocks.end)
+				return blocks.Flush(r);
+				IL_05fd:
+				num8 = this.bitsToGet;
+				while (num2 < num8)
+				{
+					if (num4 != 0)
+					{
+						r = 0;
+						num4--;
+						num |= (codec.InputBuffer[num3++] & 0xFF) << num2;
+						num2 += 8;
+						continue;
+					}
+					blocks.bitb = num;
+					blocks.bitk = num2;
+					codec.AvailableBytesIn = num4;
+					codec.TotalBytesIn += num3 - codec.NextIn;
+					codec.NextIn = num3;
+					blocks.writeAt = num5;
+					return blocks.Flush(r);
+				}
+				this.dist += (num & InternalInflateConstants.InflateMask[num8]);
+				num >>= num8;
+				num2 -= num8;
+				this.mode = 5;
+				goto IL_06c3;
+				IL_06c3:
+				int i;
+				for (i = num5 - this.dist; i < 0; i += blocks.end)
 				{
 				}
 				while (this.len != 0)
 				{
 					if (num6 == 0)
 					{
-						if (((num5 == blocks.end) ? blocks.readAt : 0) != 0)
+						if (num5 == blocks.end && blocks.readAt != 0)
 						{
 							num5 = 0;
 							num6 = ((num5 >= blocks.readAt) ? (blocks.end - num5) : (blocks.readAt - num5 - 1));
@@ -358,81 +295,105 @@ namespace Ionic.Zlib
 							r = blocks.Flush(r);
 							num5 = blocks.writeAt;
 							num6 = ((num5 >= blocks.readAt) ? (blocks.end - num5) : (blocks.readAt - num5 - 1));
-							if (((num5 == blocks.end) ? blocks.readAt : 0) != 0)
+							if (num5 == blocks.end && blocks.readAt != 0)
 							{
 								num5 = 0;
 								num6 = ((num5 >= blocks.readAt) ? (blocks.end - num5) : (blocks.readAt - num5 - 1));
 							}
 							if (num6 == 0)
-								goto IL_080c;
+							{
+								blocks.bitb = num;
+								blocks.bitk = num2;
+								codec.AvailableBytesIn = num4;
+								codec.TotalBytesIn += num3 - codec.NextIn;
+								codec.NextIn = num3;
+								blocks.writeAt = num5;
+								return blocks.Flush(r);
+							}
 						}
 					}
-					blocks.window[num5++] = blocks.window[num14++];
+					blocks.window[num5++] = blocks.window[i++];
 					num6--;
-					if (num14 == blocks.end)
+					if (i == blocks.end)
 					{
-						num14 = 0;
+						i = 0;
 					}
 					this.len--;
 				}
 				this.mode = 0;
 				continue;
-				IL_064c:
-				blocks.bitb = num;
-				blocks.bitk = num2;
-				codec.AvailableBytesIn = num4;
-				codec.TotalBytesIn += (long)(num3 - codec.NextIn);
-				codec.NextIn = num3;
-				blocks.writeAt = num5;
-				result = blocks.Flush(r);
-				break;
-				IL_080c:
-				blocks.bitb = num;
-				blocks.bitk = num2;
-				codec.AvailableBytesIn = num4;
-				codec.TotalBytesIn += (long)(num3 - codec.NextIn);
-				codec.NextIn = num3;
-				blocks.writeAt = num5;
-				result = blocks.Flush(r);
-				break;
-				IL_01ca:
-				num7 = this.need;
-				while (num2 < num7)
+				IL_0387:
+				num8 = this.bitsToGet;
+				while (num2 < num8)
 				{
 					if (num4 != 0)
 					{
 						r = 0;
 						num4--;
-						num |= (codec.InputBuffer[num3++] & 255) << num2;
+						num |= (codec.InputBuffer[num3++] & 0xFF) << num2;
 						num2 += 8;
 						continue;
 					}
-					goto IL_01e6;
+					blocks.bitb = num;
+					blocks.bitk = num2;
+					codec.AvailableBytesIn = num4;
+					codec.TotalBytesIn += num3 - codec.NextIn;
+					codec.NextIn = num3;
+					blocks.writeAt = num5;
+					return blocks.Flush(r);
 				}
-				num12 = (this.tree_index + (num & InternalInflateConstants.InflateMask[num7])) * 3;
-				num >>= this.tree[num12 + 1];
-				num2 -= this.tree[num12 + 1];
-				num13 = this.tree[num12];
-				if (num13 == 0)
+				this.len += (num & InternalInflateConstants.InflateMask[num8]);
+				num >>= num8;
+				num2 -= num8;
+				this.need = this.dbits;
+				this.tree = this.dtree;
+				this.tree_index = this.dtree_index;
+				this.mode = 3;
+				goto IL_0471;
+				IL_01c4:
+				num8 = this.need;
+				while (num2 < num8)
 				{
-					this.lit = this.tree[num12 + 2];
+					if (num4 != 0)
+					{
+						r = 0;
+						num4--;
+						num |= (codec.InputBuffer[num3++] & 0xFF) << num2;
+						num2 += 8;
+						continue;
+					}
+					blocks.bitb = num;
+					blocks.bitk = num2;
+					codec.AvailableBytesIn = num4;
+					codec.TotalBytesIn += num3 - codec.NextIn;
+					codec.NextIn = num3;
+					blocks.writeAt = num5;
+					return blocks.Flush(r);
+				}
+				num10 = (this.tree_index + (num & InternalInflateConstants.InflateMask[num8])) * 3;
+				num >>= this.tree[num10 + 1];
+				num2 -= this.tree[num10 + 1];
+				num11 = this.tree[num10];
+				if (num11 == 0)
+				{
+					this.lit = this.tree[num10 + 2];
 					this.mode = 6;
 					continue;
 				}
-				if ((num13 & 16) != 0)
+				if ((num11 & 0x10) != 0)
 				{
-					this.bitsToGet = (num13 & 15);
-					this.len = this.tree[num12 + 2];
+					this.bitsToGet = (num11 & 0xF);
+					this.len = this.tree[num10 + 2];
 					this.mode = 2;
 					continue;
 				}
-				if ((num13 & 64) == 0)
+				if ((num11 & 0x40) == 0)
 				{
-					this.need = num13;
-					this.tree_index = num12 / 3 + this.tree[num12 + 2];
+					this.need = num11;
+					this.tree_index = num10 / 3 + this.tree[num10 + 2];
 					continue;
 				}
-				if ((num13 & 32) != 0)
+				if ((num11 & 0x20) != 0)
 				{
 					this.mode = 7;
 					continue;
@@ -443,16 +404,18 @@ namespace Ionic.Zlib
 				blocks.bitb = num;
 				blocks.bitk = num2;
 				codec.AvailableBytesIn = num4;
-				codec.TotalBytesIn += (long)(num3 - codec.NextIn);
+				codec.TotalBytesIn += num3 - codec.NextIn;
 				codec.NextIn = num3;
 				blocks.writeAt = num5;
-				result = blocks.Flush(r);
-				break;
-				continue;
-				end_IL_0062:
-				break;
+				return blocks.Flush(r);
 			}
-			return result;
+			blocks.bitb = num;
+			blocks.bitk = num2;
+			codec.AvailableBytesIn = num4;
+			codec.TotalBytesIn += num3 - codec.NextIn;
+			codec.NextIn = num3;
+			blocks.writeAt = num5;
+			return blocks.Flush(r);
 		}
 
 		internal int InflateFast(int bl, int bd, int[] tl, int tl_index, int[] td, int td_index, InflateBlocks s, ZlibCodec z)
@@ -465,20 +428,19 @@ namespace Ionic.Zlib
 			int num6 = (num5 >= s.readAt) ? (s.end - num5) : (s.readAt - num5 - 1);
 			int num7 = InternalInflateConstants.InflateMask[bl];
 			int num8 = InternalInflateConstants.InflateMask[bd];
-			int result;
+			int num14;
 			while (true)
 			{
 				if (num4 < 20)
 				{
 					num2--;
-					num3 |= (z.InputBuffer[num++] & 255) << num4;
+					num3 |= (z.InputBuffer[num++] & 0xFF) << num4;
 					num4 += 8;
 					continue;
 				}
 				int num10 = num3 & num7;
 				int num11 = (tl_index + num10) * 3;
 				int num12;
-				int num14;
 				if ((num12 = tl[num11]) == 0)
 				{
 					num3 >>= tl[num11 + 1];
@@ -492,28 +454,28 @@ namespace Ionic.Zlib
 					{
 						num3 >>= tl[num11 + 1];
 						num4 -= tl[num11 + 1];
-						if ((num12 & 16) == 0)
+						if ((num12 & 0x10) == 0)
 						{
-							if ((num12 & 64) == 0)
+							if ((num12 & 0x40) == 0)
 							{
 								num10 += tl[num11 + 2];
 								num10 += (num3 & InternalInflateConstants.InflateMask[num12]);
 								num11 = (tl_index + num10) * 3;
 								if ((num12 = tl[num11]) != 0)
 									continue;
-								goto IL_04fb;
+								goto IL_04cb;
 							}
-							goto IL_053c;
+							goto IL_050a;
 						}
 						break;
 					}
-					num12 &= 15;
+					num12 &= 0xF;
 					num14 = tl[num11 + 2] + (num3 & InternalInflateConstants.InflateMask[num12]);
 					num3 >>= num12;
 					for (num4 -= num12; num4 < 15; num4 += 8)
 					{
 						num2--;
-						num3 |= (z.InputBuffer[num++] & 255) << num4;
+						num3 |= (z.InputBuffer[num++] & 0xFF) << num4;
 					}
 					num10 = (num3 & num8);
 					num11 = (td_index + num10) * 3;
@@ -522,9 +484,9 @@ namespace Ionic.Zlib
 					{
 						num3 >>= td[num11 + 1];
 						num4 -= td[num11 + 1];
-						if ((num12 & 16) == 0)
+						if ((num12 & 0x10) == 0)
 						{
-							if ((num12 & 64) == 0)
+							if ((num12 & 0x40) == 0)
 							{
 								num10 += td[num11 + 2];
 								num10 += (num3 & InternalInflateConstants.InflateMask[num12]);
@@ -532,16 +494,27 @@ namespace Ionic.Zlib
 								num12 = td[num11];
 								continue;
 							}
-							goto IL_0427;
+							z.Message = "invalid distance code";
+							num14 = z.AvailableBytesIn - num2;
+							num14 = ((num4 >> 3 >= num14) ? num14 : (num4 >> 3));
+							num2 += num14;
+							num -= num14;
+							num4 -= num14 << 3;
+							s.bitb = num3;
+							s.bitk = num4;
+							z.AvailableBytesIn = num2;
+							z.TotalBytesIn += num - z.NextIn;
+							z.NextIn = num;
+							s.writeAt = num5;
+							return -3;
 						}
 						break;
 					}
-					num12 &= 15;
-					while (num4 < num12)
+					num12 &= 0xF;
+					for (; num4 < num12; num4 += 8)
 					{
 						num2--;
-						num3 |= (z.InputBuffer[num++] & 255) << num4;
-						num4 += 8;
+						num3 |= (z.InputBuffer[num++] & 0xFF) << num4;
 					}
 					int num17 = td[num11 + 2] + (num3 & InternalInflateConstants.InflateMask[num12]);
 					num3 >>= num12;
@@ -614,15 +587,21 @@ namespace Ionic.Zlib
 						num14 = 0;
 					}
 				}
-				goto IL_066d;
-				IL_04fb:
+				goto IL_062b;
+				IL_062b:
+				if (num6 < 258)
+					break;
+				if (num2 < 10)
+					break;
+				continue;
+				IL_04cb:
 				num3 >>= tl[num11 + 1];
 				num4 -= tl[num11 + 1];
 				s.window[num5++] = (byte)tl[num11 + 2];
 				num6--;
-				goto IL_066d;
-				IL_053c:
-				if ((num12 & 32) != 0)
+				goto IL_062b;
+				IL_050a:
+				if ((num12 & 0x20) != 0)
 				{
 					num14 = z.AvailableBytesIn - num2;
 					num14 = ((num4 >> 3 >= num14) ? num14 : (num4 >> 3));
@@ -632,31 +611,12 @@ namespace Ionic.Zlib
 					s.bitb = num3;
 					s.bitk = num4;
 					z.AvailableBytesIn = num2;
-					z.TotalBytesIn += (long)(num - z.NextIn);
+					z.TotalBytesIn += num - z.NextIn;
 					z.NextIn = num;
 					s.writeAt = num5;
-					result = 1;
+					return 1;
 				}
-				else
-				{
-					z.Message = "invalid literal/length code";
-					num14 = z.AvailableBytesIn - num2;
-					num14 = ((num4 >> 3 >= num14) ? num14 : (num4 >> 3));
-					num2 += num14;
-					num -= num14;
-					num4 -= num14 << 3;
-					s.bitb = num3;
-					s.bitk = num4;
-					z.AvailableBytesIn = num2;
-					z.TotalBytesIn += (long)(num - z.NextIn);
-					z.NextIn = num;
-					s.writeAt = num5;
-					result = -3;
-				}
-				break;
-				IL_066d:
-				if (num6 >= 258 && num2 >= 10)
-					continue;
+				z.Message = "invalid literal/length code";
 				num14 = z.AvailableBytesIn - num2;
 				num14 = ((num4 >> 3 >= num14) ? num14 : (num4 >> 3));
 				num2 += num14;
@@ -665,28 +625,23 @@ namespace Ionic.Zlib
 				s.bitb = num3;
 				s.bitk = num4;
 				z.AvailableBytesIn = num2;
-				z.TotalBytesIn += (long)(num - z.NextIn);
+				z.TotalBytesIn += num - z.NextIn;
 				z.NextIn = num;
 				s.writeAt = num5;
-				result = 0;
-				break;
-				IL_0427:
-				z.Message = "invalid distance code";
-				num14 = z.AvailableBytesIn - num2;
-				num14 = ((num4 >> 3 >= num14) ? num14 : (num4 >> 3));
-				num2 += num14;
-				num -= num14;
-				num4 -= num14 << 3;
-				s.bitb = num3;
-				s.bitk = num4;
-				z.AvailableBytesIn = num2;
-				z.TotalBytesIn += (long)(num - z.NextIn);
-				z.NextIn = num;
-				s.writeAt = num5;
-				result = -3;
-				break;
+				return -3;
 			}
-			return result;
+			num14 = z.AvailableBytesIn - num2;
+			num14 = ((num4 >> 3 >= num14) ? num14 : (num4 >> 3));
+			num2 += num14;
+			num -= num14;
+			num4 -= num14 << 3;
+			s.bitb = num3;
+			s.bitk = num4;
+			z.AvailableBytesIn = num2;
+			z.TotalBytesIn += num - z.NextIn;
+			z.NextIn = num;
+			s.writeAt = num5;
+			return 0;
 		}
 	}
 }

@@ -53,32 +53,30 @@ namespace RimWorld
 
 		public bool TryStartIgnite(Thing target)
 		{
-			bool result;
 			if (this.IgniteVerb == null)
 			{
 				Log.ErrorOnce(this.pawn + " tried to ignite " + target + " but has no ignite verb.", 76453432);
-				result = false;
+				return false;
 			}
-			else
+			if (this.pawn.stances.FullBodyBusy)
 			{
-				result = (!this.pawn.stances.FullBodyBusy && this.IgniteVerb.TryStartCastOn(target, false, true));
+				return false;
 			}
-			return result;
+			return this.IgniteVerb.TryStartCastOn(target, false, true);
 		}
 
 		public bool TryBeatFire(Fire targetFire)
 		{
-			bool result;
 			if (this.BeatFireVerb == null)
 			{
 				Log.ErrorOnce(this.pawn + " tried to beat fire " + targetFire + " but has no beat fire verb.", 935137531);
-				result = false;
+				return false;
 			}
-			else
+			if (this.pawn.stances.FullBodyBusy)
 			{
-				result = (!this.pawn.stances.FullBodyBusy && this.BeatFireVerb.TryStartCastOn((Thing)targetFire, false, true));
+				return false;
 			}
-			return result;
+			return this.BeatFireVerb.TryStartCastOn(targetFire, false, true);
 		}
 
 		public void ExposeData()

@@ -5,7 +5,7 @@ namespace RimWorld
 {
 	public abstract class Transferable
 	{
-		private int countToTransfer = 0;
+		private int countToTransfer;
 
 		private string editBuffer = "0";
 
@@ -90,17 +90,20 @@ namespace RimWorld
 
 		public AcceptanceReport CanAdjustTo(int destination)
 		{
-			AcceptanceReport result;
 			if (destination == this.CountToTransfer)
 			{
-				result = AcceptanceReport.WasAccepted;
+				return AcceptanceReport.WasAccepted;
 			}
-			else
+			int num = this.ClampAmount(destination);
+			if (num != this.CountToTransfer)
 			{
-				int num = this.ClampAmount(destination);
-				result = ((num == this.CountToTransfer) ? ((destination >= this.CountToTransfer) ? this.OverflowReport() : this.UnderflowReport()) : AcceptanceReport.WasAccepted);
+				return AcceptanceReport.WasAccepted;
 			}
-			return result;
+			if (destination < this.CountToTransfer)
+			{
+				return this.UnderflowReport();
+			}
+			return this.OverflowReport();
 		}
 
 		public void AdjustBy(int adjustment)

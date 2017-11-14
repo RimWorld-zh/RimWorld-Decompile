@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -33,7 +32,7 @@ namespace RimWorld
 			if (thingDef != null && thingDef.rotatable)
 			{
 				Rect winRect = new Rect(leftX, (float)(bottomY - 90.0), 200f, 90f);
-				Find.WindowStack.ImmediateWindow(73095, winRect, WindowLayer.GameUI, (Action)delegate
+				Find.WindowStack.ImmediateWindow(73095, winRect, WindowLayer.GameUI, delegate
 				{
 					RotationDirection rotationDirection = RotationDirection.None;
 					Text.Anchor = TextAnchor.MiddleCenter;

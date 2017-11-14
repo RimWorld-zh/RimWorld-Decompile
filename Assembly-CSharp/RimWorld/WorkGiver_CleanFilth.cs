@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -40,29 +39,29 @@ namespace RimWorld
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			bool result;
 			if (pawn.Faction != Faction.OfPlayer)
 			{
-				result = false;
+				return false;
 			}
-			else
+			Filth filth = t as Filth;
+			if (filth == null)
 			{
-				Filth filth = t as Filth;
-				if (filth == null)
-				{
-					result = false;
-				}
-				else if (!((Area)filth.Map.areaManager.Home)[filth.Position])
-				{
-					result = false;
-				}
-				else
-				{
-					LocalTargetInfo target = t;
-					result = ((byte)(pawn.CanReserve(target, 1, -1, null, forced) ? ((filth.TicksSinceThickened >= this.MinTicksSinceThickened) ? 1 : 0) : 0) != 0);
-				}
+				return false;
 			}
-			return result;
+			if (!((Area)filth.Map.areaManager.Home)[filth.Position])
+			{
+				return false;
+			}
+			LocalTargetInfo target = t;
+			if (!pawn.CanReserve(target, 1, -1, null, forced))
+			{
+				return false;
+			}
+			if (filth.TicksSinceThickened < this.MinTicksSinceThickened)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
@@ -92,7 +91,7 @@ namespace RimWorld
 			}
 			if (job.targetQueueA != null && job.targetQueueA.Count >= 5)
 			{
-				job.targetQueueA.SortBy((Func<LocalTargetInfo, int>)((LocalTargetInfo targ) => targ.Cell.DistanceToSquared(pawn.Position)));
+				job.targetQueueA.SortBy((LocalTargetInfo targ) => targ.Cell.DistanceToSquared(pawn.Position));
 			}
 			return job;
 		}

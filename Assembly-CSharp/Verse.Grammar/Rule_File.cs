@@ -4,7 +4,7 @@ namespace Verse.Grammar
 {
 	public class Rule_File : Rule
 	{
-		private string path = (string)null;
+		private string path;
 
 		private List<string> pathList = new List<string>();
 
@@ -49,7 +49,15 @@ namespace Verse.Grammar
 
 		public override string ToString()
 		{
-			return this.path.NullOrEmpty() ? ((this.pathList.Count <= 0) ? (base.keyword + "->(Rule_File with no configuration)") : (base.keyword + "->(" + this.cachedStrings.Count + " strings from " + this.pathList.Count + " files)")) : (base.keyword + "->(" + this.cachedStrings.Count + " strings from file: " + this.path + ")");
+			if (!this.path.NullOrEmpty())
+			{
+				return base.keyword + "->(" + this.cachedStrings.Count + " strings from file: " + this.path + ")";
+			}
+			if (this.pathList.Count > 0)
+			{
+				return base.keyword + "->(" + this.cachedStrings.Count + " strings from " + this.pathList.Count + " files)";
+			}
+			return base.keyword + "->(Rule_File with no configuration)";
 		}
 	}
 }

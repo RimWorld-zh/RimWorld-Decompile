@@ -55,17 +55,12 @@ namespace Verse
 		public static IntRange FromString(string s)
 		{
 			string[] array = s.Split('~');
-			IntRange result;
 			if (array.Length == 1)
 			{
 				int num = Convert.ToInt32(array[0]);
-				result = new IntRange(num, num);
+				return new IntRange(num, num);
 			}
-			else
-			{
-				result = new IntRange(Convert.ToInt32(array[0]), Convert.ToInt32(array[1]));
-			}
-			return result;
+			return new IntRange(Convert.ToInt32(array[0]), Convert.ToInt32(array[1]));
 		}
 
 		public override string ToString()
@@ -80,7 +75,11 @@ namespace Verse
 
 		public override bool Equals(object obj)
 		{
-			return obj is IntRange && this.Equals((IntRange)obj);
+			if (!(obj is IntRange))
+			{
+				return false;
+			}
+			return this.Equals((IntRange)obj);
 		}
 
 		public bool Equals(IntRange other)

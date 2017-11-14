@@ -5,26 +5,26 @@ namespace Verse
 {
 	public class BodyPartRecord
 	{
-		public BodyPartDef def = null;
+		public BodyPartDef def;
 
 		public List<BodyPartRecord> parts = new List<BodyPartRecord>();
 
-		public BodyPartHeight height = BodyPartHeight.Undefined;
+		public BodyPartHeight height;
 
-		public BodyPartDepth depth = BodyPartDepth.Undefined;
+		public BodyPartDepth depth;
 
 		public float coverage = 1f;
 
 		public List<BodyPartGroupDef> groups = new List<BodyPartGroupDef>();
 
 		[Unsaved]
-		public BodyPartRecord parent = null;
+		public BodyPartRecord parent;
 
 		[Unsaved]
-		public float coverageAbsWithChildren = 0f;
+		public float coverageAbsWithChildren;
 
 		[Unsaved]
-		public float coverageAbs = 0f;
+		public float coverageAbs;
 
 		public bool IsCorePart
 		{
@@ -41,24 +41,14 @@ namespace Verse
 
 		public bool IsInGroup(BodyPartGroupDef group)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.groups.Count; i++)
 			{
-				if (num < this.groups.Count)
+				if (this.groups[i] == group)
 				{
-					if (this.groups[num] == group)
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public IEnumerable<BodyPartRecord> GetChildParts(string tag)
@@ -81,8 +71,8 @@ namespace Verse
 				}
 			}
 			yield break;
-			IL_0150:
-			/*Error near IL_0151: Unexpected return in MoveNext()*/;
+			IL_0148:
+			/*Error near IL_0149: Unexpected return in MoveNext()*/;
 		}
 
 		public IEnumerable<BodyPartRecord> GetDirectChildParts()
@@ -117,8 +107,8 @@ namespace Verse
 				}
 			}
 			yield break;
-			IL_011c:
-			/*Error near IL_011d: Unexpected return in MoveNext()*/;
+			IL_0116:
+			/*Error near IL_0117: Unexpected return in MoveNext()*/;
 		}
 	}
 }

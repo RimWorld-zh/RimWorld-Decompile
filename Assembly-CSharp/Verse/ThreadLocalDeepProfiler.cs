@@ -67,14 +67,12 @@ namespace Verse
 			ThreadLocalDeepProfiler.Prefixes = new string[50];
 			for (int i = 0; i < 50; i++)
 			{
-				ThreadLocalDeepProfiler.Prefixes[i] = "";
-				for (int num = 0; num < i; num++)
+				ThreadLocalDeepProfiler.Prefixes[i] = string.Empty;
+				for (int j = 0; j < i; j++)
 				{
 					string[] prefixes;
-					string[] obj = prefixes = ThreadLocalDeepProfiler.Prefixes;
-					int num2 = i;
-					int num3 = num2;
-					obj[num2] = prefixes[num3] + " -";
+					int num;
+					(prefixes = ThreadLocalDeepProfiler.Prefixes)[num = i] = prefixes[num] + " -";
 				}
 			}
 		}

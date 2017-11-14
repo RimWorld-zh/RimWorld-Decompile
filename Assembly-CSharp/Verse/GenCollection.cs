@@ -9,7 +9,7 @@ namespace Verse
 	{
 		public static bool SharesElementWith<T>(this IEnumerable<T> source, IEnumerable<T> other)
 		{
-			return source.Any<T>((Func<T, bool>)((T item) => ((IEnumerable<T>)other).Contains<T>(item)));
+			return source.Any((Func<T, bool>)((T item) => Enumerable.Contains<T>((IEnumerable<T>)other, item)));
 		}
 
 		public static IEnumerable<T> InRandomOrder<T>(this IEnumerable<T> source, IList<T> workingList = null)
@@ -20,7 +20,7 @@ namespace Verse
 			}
 			if (workingList == null)
 			{
-				workingList = source.ToList<T>();
+				workingList = Enumerable.ToList<T>(source);
 			}
 			else
 			{
@@ -31,11 +31,10 @@ namespace Verse
 				}
 			}
 			int countUnChosen = ((ICollection<T>)workingList).Count;
-			int rand2 = 0;
 			if (countUnChosen > 0)
 			{
-				rand2 = Rand.Range(0, countUnChosen);
-				yield return workingList[rand2];
+				int rand = Rand.Range(0, countUnChosen);
+				yield return workingList[rand];
 				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
@@ -49,25 +48,24 @@ namespace Verse
 			IList<T> list = source as IList<T>;
 			if (list == null)
 			{
-				list = source.ToList<T>();
+				list = source.ToList();
 			}
-			T result;
 			if (((ICollection<T>)list).Count == 0)
 			{
 				Log.Warning("Getting random element from empty collection.");
-				result = default(T);
+				return default(T);
 			}
-			else
-			{
-				result = list[Rand.Range(0, ((ICollection<T>)list).Count)];
-			}
-			return result;
+			return list[Rand.Range(0, ((ICollection<T>)list).Count)];
 		}
 
 		public static T RandomElementWithFallback<T>(this IEnumerable<T> source, T fallback = default(T))
 		{
-			T val = default(T);
-			return (!source.TryRandomElement<T>(out val)) ? fallback : val;
+			T result = default(T);
+			if (source.TryRandomElement<T>(out result))
+			{
+				return result;
+			}
+			return fallback;
 		}
 
 		public static bool TryRandomElement<T>(this IEnumerable<T> source, out T result)
@@ -77,34 +75,31 @@ namespace Verse
 				throw new ArgumentNullException("source");
 			}
 			IList<T> list = source as IList<T>;
-			bool result2;
 			if (list != null)
 			{
 				if (((ICollection<T>)list).Count == 0)
 				{
 					result = default(T);
-					result2 = false;
-					goto IL_007f;
+					return false;
 				}
 			}
-			else if (!source.Any<T>())
+			else
 			{
-				result = default(T);
-				result2 = false;
-				goto IL_007f;
+				list = source.ToList();
+				if (!list.Any())
+				{
+					result = default(T);
+					return false;
+				}
 			}
-			result = source.RandomElement<T>();
-			result2 = true;
-			goto IL_007f;
-			IL_007f:
-			return result2;
+			result = list.RandomElement();
+			return true;
 		}
 
 		public static T RandomElementByWeight<T>(this IEnumerable<T> source, Func<T, float> weightSelector)
 		{
 			float num = 0f;
 			IList<T> list = source as IList<T>;
-			T result;
 			if (list != null)
 			{
 				for (int i = 0; i < ((ICollection<T>)list).Count; i++)
@@ -119,8 +114,7 @@ namespace Verse
 				}
 				if (((ICollection<T>)list).Count == 1 && num > 0.0)
 				{
-					result = list[0];
-					goto IL_02a3;
+					return list[0];
 				}
 			}
 			else
@@ -139,69 +133,62 @@ namespace Verse
 				}
 				if (num3 == 1 && num > 0.0)
 				{
-					result = source.First<T>();
-					goto IL_02a3;
+					return source.First();
 				}
 			}
-			int j;
 			if (num <= 0.0)
 			{
 				Log.Error("RandomElementByWeight with totalWeight=" + num + " - use TryRandomElementByWeight.");
-				result = default(T);
+				return default(T);
+			}
+			float num5 = Rand.Value * num;
+			float num6 = 0f;
+			if (list != null)
+			{
+				for (int j = 0; j < ((ICollection<T>)list).Count; j++)
+				{
+					float num7 = weightSelector(list[j]);
+					if (!(num7 <= 0.0))
+					{
+						num6 += num7;
+						if (num6 >= num5)
+						{
+							return list[j];
+						}
+					}
+				}
 			}
 			else
 			{
-				float num5 = Rand.Value * num;
-				float num6 = 0f;
-				if (list != null)
+				foreach (T item2 in source)
 				{
-					for (j = 0; j < ((ICollection<T>)list).Count; j++)
+					float num8 = weightSelector(item2);
+					if (!(num8 <= 0.0))
 					{
-						float num7 = weightSelector(list[j]);
-						if (!(num7 <= 0.0))
+						num6 += num8;
+						if (num6 >= num5)
 						{
-							num6 += num7;
-							if (num6 >= num5)
-								goto IL_01fa;
+							return item2;
 						}
 					}
 				}
-				else
-				{
-					foreach (T item2 in source)
-					{
-						float num8 = weightSelector(item2);
-						if (!(num8 <= 0.0))
-						{
-							num6 += num8;
-							if (num6 >= num5)
-							{
-								return item2;
-							}
-						}
-					}
-				}
-				result = default(T);
 			}
-			goto IL_02a3;
-			IL_01fa:
-			result = list[j];
-			goto IL_02a3;
-			IL_02a3:
-			return result;
+			return default(T);
 		}
 
 		public static T RandomElementByWeightWithFallback<T>(this IEnumerable<T> source, Func<T, float> weightSelector, T fallback = default(T))
 		{
-			T val = default(T);
-			return (!source.TryRandomElementByWeight<T>(weightSelector, out val)) ? fallback : val;
+			T result = default(T);
+			if (source.TryRandomElementByWeight<T>(weightSelector, out result))
+			{
+				return result;
+			}
+			return fallback;
 		}
 
 		public static bool TryRandomElementByWeight<T>(this IEnumerable<T> source, Func<T, float> weightSelector, out T result)
 		{
 			IList<T> list = source as IList<T>;
-			bool result2;
-			int j;
 			if (list != null)
 			{
 				float num = 0f;
@@ -218,24 +205,25 @@ namespace Verse
 				if (((ICollection<T>)list).Count == 1 && num > 0.0)
 				{
 					result = list[0];
-					result2 = true;
-					goto IL_02b2;
+					return true;
 				}
 				if (num == 0.0)
 				{
 					result = default(T);
-					result2 = false;
-					goto IL_02b2;
+					return false;
 				}
 				num *= Rand.Value;
-				for (j = 0; j < ((ICollection<T>)list).Count; j++)
+				for (int j = 0; j < ((ICollection<T>)list).Count; j++)
 				{
 					float num3 = weightSelector(list[j]);
 					if (!(num3 <= 0.0))
 					{
 						num -= num3;
 						if (num <= 0.0)
-							goto IL_011e;
+						{
+							result = list[j];
+							return true;
+						}
 					}
 				}
 			}
@@ -255,34 +243,24 @@ namespace Verse
 			if (num4 == 0.0)
 			{
 				result = default(T);
-				result2 = false;
+				return false;
 			}
-			else
+			while (enumerator.MoveNext())
 			{
-				while (enumerator.MoveNext())
+				T current = enumerator.Current;
+				float num5 = weightSelector(current);
+				if (num5 < 0.0)
 				{
-					T current = enumerator.Current;
-					float num5 = weightSelector(current);
-					if (num5 < 0.0)
-					{
-						Log.Error("Negative weight in selector: " + num5 + " from " + current);
-						num5 = 0f;
-					}
-					if (Rand.Range(0f, num4 + num5) >= num4)
-					{
-						result = current;
-					}
-					num4 += num5;
+					Log.Error("Negative weight in selector: " + num5 + " from " + current);
+					num5 = 0f;
 				}
-				result2 = true;
+				if (Rand.Range(0f, num4 + num5) >= num4)
+				{
+					result = current;
+				}
+				num4 += num5;
 			}
-			goto IL_02b2;
-			IL_02b2:
-			return result2;
-			IL_011e:
-			result = list[j];
-			result2 = true;
-			goto IL_02b2;
+			return true;
 		}
 
 		public static T RandomElementByWeightWithDefault<T>(this IEnumerable<T> source, Func<T, float> weightSelector, float defaultValueWeight)
@@ -304,17 +282,16 @@ namespace Verse
 				num += num2;
 			}
 			float num3 = defaultValueWeight + num;
-			T result;
 			if (num3 <= 0.0)
 			{
 				Log.Error("RandomElementByWeightWithDefault with totalWeight=" + num3);
-				result = default(T);
+				return default(T);
 			}
-			else
+			if (!(Rand.Value < defaultValueWeight / num3) && num != 0.0)
 			{
-				result = ((!(Rand.Value < defaultValueWeight / num3) && num != 0.0) ? source.RandomElementByWeight<T>(weightSelector) : default(T));
+				return source.RandomElementByWeight(weightSelector);
 			}
-			return result;
+			return default(T);
 		}
 
 		public static T FirstOrFallback<T>(this IEnumerable<T> source, T fallback = default(T))
@@ -325,13 +302,13 @@ namespace Verse
 				{
 					return enumerator.Current;
 				}
+				return fallback;
 			}
-			return fallback;
 		}
 
 		public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector)
 		{
-			return source.MaxBy<TSource, TKey>(selector, (IComparer<TKey>)Comparer<TKey>.Default);
+			return source.MaxBy(selector, Comparer<TKey>.Default);
 		}
 
 		public static TSource MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer)
@@ -340,7 +317,7 @@ namespace Verse
 			{
 				throw new ArgumentNullException("source");
 			}
-			if ((object)selector == null)
+			if (selector == null)
 			{
 				throw new ArgumentNullException("selector");
 			}
@@ -372,7 +349,7 @@ namespace Verse
 
 		public static TSource MaxByWithFallback<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, TSource fallback = default(TSource))
 		{
-			return source.MaxByWithFallback<TSource, TKey>(selector, (IComparer<TKey>)Comparer<TKey>.Default, fallback);
+			return source.MaxByWithFallback(selector, Comparer<TKey>.Default, fallback);
 		}
 
 		public static TSource MaxByWithFallback<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer, TSource fallback = default(TSource))
@@ -381,7 +358,7 @@ namespace Verse
 			{
 				throw new ArgumentNullException("source");
 			}
-			if ((object)selector == null)
+			if (selector == null)
 			{
 				throw new ArgumentNullException("selector");
 			}
@@ -413,7 +390,7 @@ namespace Verse
 
 		public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector)
 		{
-			return source.MinBy<TSource, TKey>(selector, (IComparer<TKey>)Comparer<TKey>.Default);
+			return source.MinBy(selector, Comparer<TKey>.Default);
 		}
 
 		public static TSource MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> selector, IComparer<TKey> comparer)
@@ -422,7 +399,7 @@ namespace Verse
 			{
 				throw new ArgumentNullException("source");
 			}
-			if ((object)selector == null)
+			if (selector == null)
 			{
 				throw new ArgumentNullException("selector");
 			}
@@ -456,7 +433,7 @@ namespace Verse
 		{
 			if (list.Count > 1)
 			{
-				list.Sort((Comparison<T>)((T a, T b) => ((IComparable<TSortBy>)selector(a)).CompareTo(selector(b))));
+				list.Sort((Comparison<T>)((T a, T b) => selector(a).CompareTo(selector(b))));
 			}
 		}
 
@@ -468,7 +445,11 @@ namespace Verse
 				{
 					TSortBy val = selector(a);
 					TSortBy other = selector(b);
-					return ((IEquatable<TSortBy>)val).Equals(other) ? ((IComparable<TThenBy>)thenBySelector(a)).CompareTo(thenBySelector(b)) : ((IComparable<TSortBy>)val).CompareTo(other);
+					if (!val.Equals(other))
+					{
+						return val.CompareTo(other);
+					}
+					return thenBySelector(a).CompareTo(thenBySelector(b));
 				});
 			}
 		}
@@ -477,7 +458,7 @@ namespace Verse
 		{
 			if (list.Count > 1)
 			{
-				list.Sort((Comparison<T>)((T a, T b) => ((IComparable<TSortByDescending>)selector(b)).CompareTo(selector(a))));
+				list.Sort((Comparison<T>)((T a, T b) => selector(b).CompareTo(selector(a))));
 			}
 		}
 
@@ -489,7 +470,11 @@ namespace Verse
 				{
 					TSortByDescending other = selector(a);
 					TSortByDescending other2 = selector(b);
-					return ((IEquatable<TSortByDescending>)other).Equals(other2) ? ((IComparable<TThenByDescending>)thenByDescendingSelector(b)).CompareTo(thenByDescendingSelector(a)) : ((IComparable<TSortByDescending>)other2).CompareTo(other);
+					if (!other.Equals(other2))
+					{
+						return other2.CompareTo(other);
+					}
+					return thenByDescendingSelector(b).CompareTo(thenByDescendingSelector(a));
 				});
 			}
 		}
@@ -512,12 +497,11 @@ namespace Verse
 				}
 				if (list != null)
 				{
-					int num = 0;
+					int i = 0;
 					int count = list.Count;
-					while (num < count)
+					for (; i < count; i++)
 					{
-						dictionary.Remove(list[num]);
-						num++;
+						dictionary.Remove(list[i]);
 					}
 					return list.Count;
 				}
@@ -632,7 +616,7 @@ namespace Verse
 					num++;
 					continue;
 				}
-				break;
+				return num;
 			}
 			return num;
 		}
@@ -646,8 +630,8 @@ namespace Verse
 
 		public static IEnumerable<Pair<T, V>> Cross<T, V>(this IEnumerable<T> lhs, IEnumerable<V> rhs)
 		{
-			T[] lhsv = lhs.ToArray<T>();
-			V[] rhsv = rhs.ToArray<V>();
+			T[] lhsv = Enumerable.ToArray<T>(lhs);
+			V[] rhsv = Enumerable.ToArray<V>(rhs);
 			int j = 0;
 			int i;
 			while (true)
@@ -679,56 +663,39 @@ namespace Verse
 			}
 			yield return rhs;
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_00dc:
-			/*Error near IL_00dd: Unexpected return in MoveNext()*/;
+			IL_00d8:
+			/*Error near IL_00d9: Unexpected return in MoveNext()*/;
 		}
 
 		public static LocalTargetInfo FirstValid(this List<LocalTargetInfo> source)
 		{
-			LocalTargetInfo result;
-			int i;
 			if (source == null)
 			{
-				result = LocalTargetInfo.Invalid;
+				return LocalTargetInfo.Invalid;
 			}
-			else
+			for (int i = 0; i < source.Count; i++)
 			{
-				for (i = 0; i < source.Count; i++)
+				if (source[i].IsValid)
 				{
-					if (source[i].IsValid)
-						goto IL_002e;
+					return source[i];
 				}
-				result = LocalTargetInfo.Invalid;
 			}
-			goto IL_0057;
-			IL_002e:
-			result = source[i];
-			goto IL_0057;
-			IL_0057:
-			return result;
+			return LocalTargetInfo.Invalid;
 		}
 
 		public static IEnumerable<T> Except<T>(this IEnumerable<T> lhs, T rhs) where T : class
 		{
-			using (IEnumerator<T> enumerator = lhs.GetEnumerator())
+			foreach (T lh in lhs)
 			{
-				T t;
-				while (true)
+				if ((object)lh != (object)rhs)
 				{
-					if (enumerator.MoveNext())
-					{
-						t = enumerator.Current;
-						if ((object)t != (object)rhs)
-							break;
-						continue;
-					}
-					yield break;
+					yield return lh;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
-				yield return t;
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			IL_00d3:
-			/*Error near IL_00d4: Unexpected return in MoveNext()*/;
+			yield break;
+			IL_00cf:
+			/*Error near IL_00d0: Unexpected return in MoveNext()*/;
 		}
 	}
 }

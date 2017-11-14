@@ -12,7 +12,7 @@ namespace Verse
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
 			if (addNullAreaOption)
 			{
-				list.Add(new FloatMenuOption("NoAreaAllowed".Translate(), (Action)delegate()
+				list.Add(new FloatMenuOption("NoAreaAllowed".Translate(), delegate
 				{
 					selAction(null);
 				}, MenuOptionPriority.High, null, null, 0f, null, null));
@@ -22,10 +22,10 @@ namespace Verse
 			select a)
 			{
 				Area localArea = item2;
-				FloatMenuOption item = new FloatMenuOption(localArea.Label, (Action)delegate()
+				FloatMenuOption item = new FloatMenuOption(localArea.Label, delegate
 				{
 					selAction(localArea);
-				}, MenuOptionPriority.Default, (Action)delegate
+				}, MenuOptionPriority.Default, delegate
 				{
 					localArea.MarkForDraw();
 				}, null, 0f, null, null);
@@ -33,7 +33,7 @@ namespace Verse
 			}
 			if (addManageOption)
 			{
-				list.Add(new FloatMenuOption("ManageAreas".Translate(), (Action)delegate()
+				list.Add(new FloatMenuOption("ManageAreas".Translate(), delegate
 				{
 					Find.WindowStack.Add(new Dialog_ManageAreas(map));
 				}, MenuOptionPriority.Low, null, null, 0f, null, null));
@@ -43,12 +43,20 @@ namespace Verse
 
 		public static string AreaAllowedLabel(Pawn pawn)
 		{
-			return (pawn.playerSettings == null) ? AreaUtility.AreaAllowedLabel_Area(null) : AreaUtility.AreaAllowedLabel_Area(pawn.playerSettings.EffectiveAreaRestriction);
+			if (pawn.playerSettings != null)
+			{
+				return AreaUtility.AreaAllowedLabel_Area(pawn.playerSettings.EffectiveAreaRestriction);
+			}
+			return AreaUtility.AreaAllowedLabel_Area(null);
 		}
 
 		public static string AreaAllowedLabel_Area(Area area)
 		{
-			return (area == null) ? "NoAreaAllowed".Translate() : area.Label;
+			if (area != null)
+			{
+				return area.Label;
+			}
+			return "NoAreaAllowed".Translate();
 		}
 	}
 }

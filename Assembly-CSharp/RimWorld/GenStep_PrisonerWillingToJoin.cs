@@ -1,6 +1,5 @@
 using RimWorld.BaseGen;
 using RimWorld.Planet;
-using System;
 using Verse;
 
 namespace RimWorld
@@ -11,39 +10,29 @@ namespace RimWorld
 
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
-			bool result;
 			if (!base.CanScatterAt(c, map))
 			{
-				result = false;
+				return false;
 			}
-			else if (!c.SupportsStructureType(map, TerrainAffordance.Heavy))
+			if (!c.SupportsStructureType(map, TerrainAffordance.Heavy))
 			{
-				result = false;
+				return false;
 			}
-			else if (!map.reachability.CanReachMapEdge(c, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
+			if (!map.reachability.CanReachMapEdge(c, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
 			{
-				result = false;
+				return false;
 			}
-			else
+			CellRect.CellRectIterator iterator = CellRect.CenteredOn(c, 8, 8).GetIterator();
+			while (!iterator.Done())
 			{
-				CellRect.CellRectIterator iterator = CellRect.CenteredOn(c, 8, 8).GetIterator();
-				while (!iterator.Done())
+				if (iterator.Current.InBounds(map) && iterator.Current.GetEdifice(map) == null)
 				{
-					if (iterator.Current.InBounds(map) && iterator.Current.GetEdifice(map) == null)
-					{
-						iterator.MoveNext();
-						continue;
-					}
-					goto IL_0084;
+					iterator.MoveNext();
+					continue;
 				}
-				result = true;
+				return false;
 			}
-			goto IL_00a6;
-			IL_0084:
-			result = false;
-			goto IL_00a6;
-			IL_00a6:
-			return result;
+			return true;
 		}
 
 		protected override void ScatterAt(IntVec3 loc, Map map, int count = 1)
@@ -52,24 +41,20 @@ namespace RimWorld
 			CellRect cellRect = CellRect.CenteredOn(loc, 8, 8).ClipInsideMap(map);
 			PrisonerWillingToJoinComp component = ((WorldObject)map.info.parent).GetComponent<PrisonerWillingToJoinComp>();
 			Pawn singlePawnToSpawn = (component == null || !component.pawn.Any) ? PrisonerWillingToJoinQuestUtility.GeneratePrisoner(map.Tile, faction) : component.pawn.Take(component.pawn[0]);
-			ResolveParams resolveParams = new ResolveParams
-			{
-				rect = cellRect,
-				faction = faction
-			};
+			ResolveParams resolveParams = default(ResolveParams);
+			resolveParams.rect = cellRect;
+			resolveParams.faction = faction;
 			RimWorld.BaseGen.BaseGen.globalSettings.map = map;
 			RimWorld.BaseGen.BaseGen.symbolStack.Push("prisonCell", resolveParams);
 			RimWorld.BaseGen.BaseGen.Generate();
-			ResolveParams resolveParams2 = new ResolveParams
+			ResolveParams resolveParams2 = default(ResolveParams);
+			resolveParams2.rect = cellRect;
+			resolveParams2.faction = faction;
+			resolveParams2.singlePawnToSpawn = singlePawnToSpawn;
+			resolveParams2.postThingSpawn = delegate(Thing x)
 			{
-				rect = cellRect,
-				faction = faction,
-				singlePawnToSpawn = singlePawnToSpawn,
-				postThingSpawn = (Action<Thing>)delegate(Thing x)
-				{
-					MapGenerator.rootsToUnfog.Add(x.Position);
-					((Pawn)x).mindState.willJoinColonyIfRescued = true;
-				}
+				MapGenerator.rootsToUnfog.Add(x.Position);
+				((Pawn)x).mindState.willJoinColonyIfRescued = true;
 			};
 			RimWorld.BaseGen.BaseGen.globalSettings.map = map;
 			RimWorld.BaseGen.BaseGen.symbolStack.Push("pawn", resolveParams2);

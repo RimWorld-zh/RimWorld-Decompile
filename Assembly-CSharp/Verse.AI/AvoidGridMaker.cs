@@ -1,8 +1,6 @@
-#define ENABLE_PROFILER
 using RimWorld;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Profiling;
 using Verse.AI.Group;
 
 namespace Verse.AI
@@ -15,13 +13,11 @@ namespace Verse.AI
 		{
 			if (faction.def.canUseAvoidGrid)
 			{
-				Profiler.BeginSample("RegenerateAllAvoidGridsFor " + faction);
 				List<Map> maps = Find.Maps;
 				for (int i = 0; i < maps.Count; i++)
 				{
 					AvoidGridMaker.RegenerateAvoidGridsFor(faction, maps[i]);
 				}
-				Profiler.EndSample();
 			}
 		}
 
@@ -29,11 +25,10 @@ namespace Verse.AI
 		{
 			if (faction.def.canUseAvoidGrid)
 			{
-				Profiler.BeginSample("RegenerateAvoidGridsFor " + faction);
 				ByteGrid byteGrid = default(ByteGrid);
 				if (faction.avoidGridsSmart.TryGetValue(map, out byteGrid))
 				{
-					byteGrid.Clear((byte)0);
+					byteGrid.Clear(0);
 				}
 				else
 				{
@@ -43,7 +38,7 @@ namespace Verse.AI
 				ByteGrid byteGrid2 = default(ByteGrid);
 				if (faction.avoidGridsBasic.TryGetValue(map, out byteGrid2))
 				{
-					byteGrid2.Clear((byte)0);
+					byteGrid2.Clear(0);
 				}
 				else
 				{
@@ -52,7 +47,6 @@ namespace Verse.AI
 				}
 				AvoidGridMaker.GenerateAvoidGridInternal(byteGrid, faction, map, AvoidGridMode.Smart);
 				AvoidGridMaker.GenerateAvoidGridInternal(byteGrid2, faction, map, AvoidGridMode.Basic);
-				Profiler.EndSample();
 			}
 		}
 
@@ -113,9 +107,9 @@ namespace Verse.AI
 		private static void PrintAvoidGridAroundTurret(Building_TurretGun tur, ByteGrid avoidGrid)
 		{
 			int num = GenRadial.NumCellsInRadius((float)(tur.GunCompEq.PrimaryVerb.verbProps.range + 4.0));
-			for (int num2 = 0; num2 < num; num2++)
+			for (int i = 0; i < num; i++)
 			{
-				IntVec3 intVec = tur.Position + GenRadial.RadialPattern[num2];
+				IntVec3 intVec = tur.Position + GenRadial.RadialPattern[i];
 				if (intVec.InBounds(tur.Map) && intVec.Walkable(tur.Map) && GenSight.LineOfSight(intVec, tur.Position, tur.Map, true, null, 0, 0))
 				{
 					AvoidGridMaker.IncrementAvoidGrid(avoidGrid, intVec, 12);
@@ -126,26 +120,25 @@ namespace Verse.AI
 		private static void IncrementAvoidGrid(ByteGrid avoidGrid, IntVec3 c, int num)
 		{
 			byte b = avoidGrid[c];
-			b = (byte)Mathf.Min(255, b + num);
-			avoidGrid[c] = b;
+			b = (avoidGrid[c] = (byte)Mathf.Min(255, b + num));
 		}
 
 		private static void ExpandAvoidGridIntoEdifices(ByteGrid avoidGrid, Map map)
 		{
 			int numGridCells = map.cellIndices.NumGridCells;
-			for (int num = 0; num < numGridCells; num++)
+			for (int i = 0; i < numGridCells; i++)
 			{
-				if (avoidGrid[num] != 0 && map.edificeGrid[num] == null)
+				if (avoidGrid[i] != 0 && map.edificeGrid[i] == null)
 				{
-					for (int i = 0; i < 8; i++)
+					for (int j = 0; j < 8; j++)
 					{
-						IntVec3 c = map.cellIndices.IndexToCell(num) + GenAdj.AdjacentCells[i];
+						IntVec3 c = map.cellIndices.IndexToCell(i) + GenAdj.AdjacentCells[j];
 						if (c.InBounds(map))
 						{
 							Building edifice = c.GetEdifice(map);
 							if (edifice != null)
 							{
-								avoidGrid[c] = (byte)Mathf.Min(255, Mathf.Max(avoidGrid[c], avoidGrid[num]));
+								avoidGrid[c] = (byte)Mathf.Min(255, Mathf.Max(avoidGrid[c], avoidGrid[i]));
 							}
 						}
 					}

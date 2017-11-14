@@ -22,7 +22,7 @@ namespace Verse.AI
 
 		protected override Predicate<Thing> GetCustomValidator()
 		{
-			return (Predicate<Thing>)((Thing x) => TantrumMentalStateUtility.CanAttackPrisoner(base.pawn, x));
+			return (Thing x) => TantrumMentalStateUtility.CanAttackPrisoner(base.pawn, x);
 		}
 
 		public override void Notify_AttackedTarget(LocalTargetInfo hitTarget)

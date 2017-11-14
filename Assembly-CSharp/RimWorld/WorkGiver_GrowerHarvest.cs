@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -17,7 +16,27 @@ namespace RimWorld
 		public override bool HasJobOnCell(Pawn pawn, IntVec3 c)
 		{
 			Plant plant = c.GetPlant(pawn.Map);
-			return (byte)((plant != null) ? ((!plant.IsForbidden(pawn)) ? ((plant.HarvestableNow && plant.LifeStage == PlantLifeStage.Mature) ? ((plant.YieldNow() > 0) ? (pawn.CanReserve((Thing)plant, 1, -1, null, false) ? 1 : 0) : 0) : 0) : 0) : 0) != 0;
+			if (plant == null)
+			{
+				return false;
+			}
+			if (plant.IsForbidden(pawn))
+			{
+				return false;
+			}
+			if (plant.HarvestableNow && plant.LifeStage == PlantLifeStage.Mature)
+			{
+				if (plant.YieldNow() <= 0)
+				{
+					return false;
+				}
+				if (!pawn.CanReserve(plant, 1, -1, null, false))
+				{
+					return false;
+				}
+				return true;
+			}
+			return false;
 		}
 
 		public override Job JobOnCell(Pawn pawn, IntVec3 c)
@@ -35,7 +54,7 @@ namespace RimWorld
 					num += plant.def.plant.harvestWork;
 					if (!(num > 2400.0))
 					{
-						job.AddQueuedTarget(TargetIndex.A, (Thing)plant);
+						job.AddQueuedTarget(TargetIndex.A, plant);
 						continue;
 					}
 					break;
@@ -43,7 +62,7 @@ namespace RimWorld
 			}
 			if (job.targetQueueA != null && job.targetQueueA.Count >= 3)
 			{
-				job.targetQueueA.SortBy((Func<LocalTargetInfo, int>)((LocalTargetInfo targ) => targ.Cell.DistanceToSquared(pawn.Position)));
+				job.targetQueueA.SortBy((LocalTargetInfo targ) => targ.Cell.DistanceToSquared(pawn.Position));
 			}
 			return job;
 		}

@@ -36,36 +36,30 @@ namespace Verse
 			if (typeof(T) == typeof(AudioClip))
 			{
 				array = ModContentLoader<T>.AcceptableExtensionsAudio;
-				goto IL_008e;
+				goto IL_0087;
 			}
 			if (typeof(T) == typeof(Texture2D))
 			{
 				array = ModContentLoader<T>.AcceptableExtensionsTexture;
-				goto IL_008e;
+				goto IL_0087;
 			}
 			if (typeof(T) == typeof(string))
 			{
 				array = ModContentLoader<T>.AcceptableExtensionsString;
-				goto IL_008e;
+				goto IL_0087;
 			}
 			Log.Error("Unknown content type " + typeof(T));
-			bool result = false;
-			goto IL_00cf;
-			IL_00cf:
-			return result;
-			IL_008e:
+			return false;
+			IL_0087:
 			string[] array2 = array;
-			for (int i = 0; i < array2.Length; i++)
+			foreach (string b in array2)
 			{
-				string b = array2[i];
 				if (extension.ToLower() == b)
-					goto IL_00b0;
+				{
+					return true;
+				}
 			}
-			result = false;
-			goto IL_00cf;
-			IL_00b0:
-			result = true;
-			goto IL_00cf;
+			return false;
 		}
 
 		public static IEnumerable<LoadedContentItem<T>> LoadAllForMod(ModContentPack mod)
@@ -76,9 +70,8 @@ namespace Verse
 			{
 				DeepProfiler.Start("Loading assets of type " + typeof(T) + " for mod " + mod);
 				FileInfo[] files = contentDir.GetFiles("*.*", SearchOption.AllDirectories);
-				for (int i = 0; i < files.Length; i++)
+				foreach (FileInfo file in files)
 				{
-					FileInfo file = files[i];
 					if (ModContentLoader<T>.IsAcceptableExtension(file.Extension))
 					{
 						LoadedContentItem<T> loadedItem = ModContentLoader<T>.LoadItem(file.FullName, contentDirPath);
@@ -143,22 +136,21 @@ namespace Verse
 			{
 				Log.Error("Exception loading " + typeof(T) + " from file.\nabsFilePath: " + absFilePath + "\ncontentDirPath: " + contentDirPath + "\nException: " + ex.ToString());
 			}
-			return (typeof(T) != typeof(Texture2D)) ? null : ((LoadedContentItem<T>)new LoadedContentItem<Texture2D>(absFilePath, BaseContent.BadTex));
+			if (typeof(T) == typeof(Texture2D))
+			{
+				return (LoadedContentItem<T>)new LoadedContentItem<Texture2D>(absFilePath, BaseContent.BadTex);
+			}
+			return null;
 		}
 
 		private static bool ShouldStreamAudioClipFromPath(string absPath)
 		{
-			bool result;
 			if (!File.Exists(absPath))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				FileInfo fileInfo = new FileInfo(absPath);
-				result = (fileInfo.Length > 307200);
-			}
-			return result;
+			FileInfo fileInfo = new FileInfo(absPath);
+			return fileInfo.Length > 307200;
 		}
 
 		private static Texture2D LoadPNG(string filePath)

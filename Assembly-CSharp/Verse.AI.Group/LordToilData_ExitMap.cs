@@ -2,9 +2,9 @@ namespace Verse.AI.Group
 {
 	public class LordToilData_ExitMap : LordToilData
 	{
-		public LocomotionUrgency locomotion = LocomotionUrgency.None;
+		public LocomotionUrgency locomotion;
 
-		public bool canDig = false;
+		public bool canDig;
 
 		public override void ExposeData()
 		{

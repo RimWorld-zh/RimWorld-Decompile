@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -76,15 +75,15 @@ namespace RimWorld.Planet
 			this.roots.Clear();
 			this.possiblyAllowed.Clear();
 			int tilesCount = Find.WorldGrid.TilesCount;
-			for (int num = 0; num < tilesCount; num++)
+			for (int i = 0; i < tilesCount; i++)
 			{
-				if (this.IsRoot(num))
+				if (this.IsRoot(i))
 				{
-					this.roots.Add(num);
+					this.roots.Add(i);
 				}
-				if (this.IsPossiblyAllowed(num))
+				if (this.IsPossiblyAllowed(i))
 				{
-					this.possiblyAllowed.Add(num);
+					this.possiblyAllowed.Add(i);
 				}
 			}
 			this.rootsSet.Clear();
@@ -110,7 +109,7 @@ namespace RimWorld.Planet
 				if (!FeatureWorker.visited[num] && !this.rootsSet.Contains(num))
 				{
 					FeatureWorker_FloodFill.tmpGroup.Clear();
-					worldFloodFiller.FloodFill(num, (Predicate<int>)((int x) => this.possiblyAllowedSet.Contains(x) && !this.rootsSet.Contains(x)), (Action<int>)delegate(int x)
+					worldFloodFiller.FloodFill(num, (int x) => this.possiblyAllowedSet.Contains(x) && !this.rootsSet.Contains(x), delegate(int x)
 					{
 						FeatureWorker.visited[x] = true;
 						FeatureWorker_FloodFill.tmpGroup.Add(x);
@@ -127,7 +126,7 @@ namespace RimWorld.Planet
 				if (!FeatureWorker.visited[num2])
 				{
 					int initialMembersCountClamped = 0;
-					worldFloodFiller.FloodFill(num2, (Predicate<int>)((int x) => (this.rootsSet.Contains(x) || this.possiblyAllowedSet.Contains(x)) && this.IsMember(x)), (Predicate<int>)delegate(int x)
+					worldFloodFiller.FloodFill(num2, (int x) => (this.rootsSet.Contains(x) || this.possiblyAllowedSet.Contains(x)) && this.IsMember(x), delegate(int x)
 					{
 						FeatureWorker.visited[x] = true;
 						initialMembersCountClamped++;
@@ -136,7 +135,7 @@ namespace RimWorld.Planet
 					if (initialMembersCountClamped >= minSize)
 					{
 						int initialRootsCount = 0;
-						worldFloodFiller.FloodFill(num2, (Predicate<int>)((int x) => this.rootsSet.Contains(x)), (Action<int>)delegate(int x)
+						worldFloodFiller.FloodFill(num2, (int x) => this.rootsSet.Contains(x), delegate(int x)
 						{
 							FeatureWorker.visited[x] = true;
 							initialRootsCount++;
@@ -145,7 +144,7 @@ namespace RimWorld.Planet
 						{
 							int traversedRootsCount = 0;
 							this.currentGroup.Clear();
-							worldFloodFiller.FloodFill(num2, (Predicate<int>)((int x) => this.rootsSet.Contains(x) || (this.possiblyAllowedSet.Contains(x) && FeatureWorker.groupSize[x] <= maxPossiblyAllowedSizeToTake && (float)FeatureWorker.groupSize[x] <= maxPossiblyAllowedSizePctOfMeToTake * (float)Mathf.Max(traversedRootsCount, initialRootsCount) && FeatureWorker.groupSize[x] < maxSize)), (Action<int>)delegate(int x)
+							worldFloodFiller.FloodFill(num2, (int x) => this.rootsSet.Contains(x) || (this.possiblyAllowedSet.Contains(x) && FeatureWorker.groupSize[x] <= maxPossiblyAllowedSizeToTake && (float)FeatureWorker.groupSize[x] <= maxPossiblyAllowedSizePctOfMeToTake * (float)Mathf.Max(traversedRootsCount, initialRootsCount) && FeatureWorker.groupSize[x] < maxSize), delegate(int x)
 							{
 								FeatureWorker.visited[x] = true;
 								if (this.rootsSet.Contains(x))
@@ -154,7 +153,7 @@ namespace RimWorld.Planet
 								}
 								this.currentGroup.Add(x);
 							}, 2147483647, null);
-							if (this.currentGroup.Count >= minSize && this.currentGroup.Count <= maxSize && (base.def.canTouchWorldEdge || !this.currentGroup.Any((Predicate<int>)((int x) => worldGrid.IsOnEdge(x)))))
+							if (this.currentGroup.Count >= minSize && this.currentGroup.Count <= maxSize && (base.def.canTouchWorldEdge || !this.currentGroup.Any((int x) => worldGrid.IsOnEdge(x))))
 							{
 								this.currentGroupMembers.Clear();
 								for (int l = 0; l < this.currentGroup.Count; l++)
@@ -166,9 +165,9 @@ namespace RimWorld.Planet
 								}
 								if (this.currentGroupMembers.Count >= minSize)
 								{
-									if (this.currentGroup.Any((Predicate<int>)((int x) => worldGrid[x].feature == null)))
+									if (this.currentGroup.Any((int x) => worldGrid[x].feature == null))
 									{
-										this.currentGroup.RemoveAll((Predicate<int>)((int x) => worldGrid[x].feature != null));
+										this.currentGroup.RemoveAll((int x) => worldGrid[x].feature != null);
 									}
 									base.AddFeature(this.currentGroupMembers, this.currentGroup);
 								}

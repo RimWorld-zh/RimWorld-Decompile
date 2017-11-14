@@ -17,7 +17,11 @@ namespace RimWorld
 		public override string ExplanationPart(StatRequest req)
 		{
 			float f = default(float);
-			return (!this.TryGetValue(req, out f)) ? null : ("StatsReport_MissingBodyParts".Translate() + ": x" + f.ToStringPercent());
+			if (this.TryGetValue(req, out f))
+			{
+				return "StatsReport_MissingBodyParts".Translate() + ": x" + f.ToStringPercent();
+			}
+			return null;
 		}
 
 		private bool TryGetValue(StatRequest req, out float value)

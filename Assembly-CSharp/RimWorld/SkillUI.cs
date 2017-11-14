@@ -10,8 +10,8 @@ namespace RimWorld
 	{
 		public enum SkillDrawMode : byte
 		{
-			Gameplay = 0,
-			Menu = 1
+			Gameplay,
+			Menu
 		}
 
 		private static float levelLabelWidth = -1f;
@@ -52,13 +52,13 @@ namespace RimWorld
 			for (int j = 0; j < p.skills.skills.Count; j++)
 			{
 				float y = (float)((float)j * 27.0 + offset.y);
-				SkillUI.DrawSkill(p.skills.skills[j], new Vector2(offset.x, y), mode, "");
+				SkillUI.DrawSkill(p.skills.skills[j], new Vector2(offset.x, y), mode, string.Empty);
 			}
 		}
 
 		public static void DrawSkill(SkillRecord skill, Vector2 topLeft, SkillDrawMode mode, string tooltipPrefix = "")
 		{
-			SkillUI.DrawSkill(skill, new Rect(topLeft.x, topLeft.y, 240f, 24f), mode, "");
+			SkillUI.DrawSkill(skill, new Rect(topLeft.x, topLeft.y, 240f, 24f), mode, string.Empty);
 		}
 
 		public static void DrawSkill(SkillRecord skill, Rect holdingRect, SkillDrawMode mode, string tooltipPrefix = "")
@@ -101,7 +101,7 @@ namespace RimWorld
 			GUI.color = Color.white;
 			GUI.EndGroup();
 			string text = SkillUI.GetSkillDescription(skill);
-			if (tooltipPrefix != "")
+			if (tooltipPrefix != string.Empty)
 			{
 				text = tooltipPrefix + "\n\n" + text;
 			}
@@ -127,20 +127,14 @@ namespace RimWorld
 				switch (sk.passion)
 				{
 				case Passion.None:
-				{
 					stringBuilder.Append("PassionNone".Translate(0.35f.ToStringPercent("F0")));
 					break;
-				}
 				case Passion.Minor:
-				{
 					stringBuilder.Append("PassionMinor".Translate(1f.ToStringPercent("F0")));
 					break;
-				}
 				case Passion.Major:
-				{
 					stringBuilder.Append("PassionMajor".Translate(1.5f.ToStringPercent("F0")));
 					break;
-				}
 				}
 				if (sk.LearningSaturatedToday)
 				{

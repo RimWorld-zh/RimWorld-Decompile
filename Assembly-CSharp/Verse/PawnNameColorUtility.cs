@@ -72,17 +72,32 @@ namespace Verse
 
 		public static Color PawnNameColorOf(Pawn pawn)
 		{
-			Color result;
 			if (pawn.MentalStateDef != null)
 			{
-				result = pawn.MentalStateDef.nameColor;
+				return pawn.MentalStateDef.nameColor;
 			}
-			else
+			int index = (pawn.Faction != null) ? (pawn.Faction.randomKey % 10) : 0;
+			if (pawn.IsPrisoner)
 			{
-				int index = (pawn.Faction != null) ? (pawn.Faction.randomKey % 10) : 0;
-				result = ((!pawn.IsPrisoner) ? ((!pawn.IsWildMan()) ? ((pawn.Faction != null) ? ((pawn.Faction != Faction.OfPlayer) ? ((!pawn.Faction.HostileTo(Faction.OfPlayer)) ? PawnNameColorUtility.ColorsNeutral[index] : PawnNameColorUtility.ColorsHostile[index]) : PawnNameColorUtility.ColorColony) : PawnNameColorUtility.ColorsNeutral[index]) : PawnNameColorUtility.ColorWildMan) : PawnNameColorUtility.ColorsPrisoner[index]);
+				return PawnNameColorUtility.ColorsPrisoner[index];
 			}
-			return result;
+			if (pawn.IsWildMan())
+			{
+				return PawnNameColorUtility.ColorWildMan;
+			}
+			if (pawn.Faction == null)
+			{
+				return PawnNameColorUtility.ColorsNeutral[index];
+			}
+			if (pawn.Faction == Faction.OfPlayer)
+			{
+				return PawnNameColorUtility.ColorColony;
+			}
+			if (pawn.Faction.HostileTo(Faction.OfPlayer))
+			{
+				return PawnNameColorUtility.ColorsHostile[index];
+			}
+			return PawnNameColorUtility.ColorsNeutral[index];
 		}
 	}
 }

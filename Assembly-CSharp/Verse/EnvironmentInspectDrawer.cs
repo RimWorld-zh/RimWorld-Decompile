@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -44,7 +43,19 @@ namespace Verse
 
 		private static bool ShouldShow()
 		{
-			return (byte)(Find.PlaySettings.showEnvironment ? ((!Mouse.IsInputBlockedNow) ? ((UI.MouseCell().InBounds(Find.VisibleMap) && !UI.MouseCell().Fogged(Find.VisibleMap)) ? 1 : 0) : 0) : 0) != 0;
+			if (!Find.PlaySettings.showEnvironment)
+			{
+				return false;
+			}
+			if (Mouse.IsInputBlockedNow)
+			{
+				return false;
+			}
+			if (UI.MouseCell().InBounds(Find.VisibleMap) && !UI.MouseCell().Fogged(Find.VisibleMap))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static void EnvironmentInspectOnGUI()
@@ -82,7 +93,7 @@ namespace Verse
 			{
 				windowRect.y -= (float)(windowRect.height + 52.0);
 			}
-			Find.WindowStack.ImmediateWindow(74975, windowRect, WindowLayer.Super, (Action)delegate
+			Find.WindowStack.ImmediateWindow(74975, windowRect, WindowLayer.Super, delegate
 			{
 				PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.InspectRoomStats, KnowledgeAmount.FrameDisplayed);
 				Text.Font = GameFont.Small;
@@ -125,7 +136,7 @@ namespace Verse
 							string label = roomStatDef.ScoreToString(stat);
 							Widgets.Label(rect4, label);
 							Rect rect5 = new Rect((float)(rect4.xMax + 35.0), num, 160f, 23f);
-							Widgets.Label(rect5, (scoreStage != null) ? scoreStage.label : "");
+							Widgets.Label(rect5, (scoreStage != null) ? scoreStage.label : string.Empty);
 							num = (float)(num + 25.0);
 						}
 					}
@@ -163,7 +174,15 @@ namespace Verse
 					pawn2 = owner;
 				}
 			}
-			return (pawn != null) ? ((pawn2 != null) ? "CouplesRoom".Translate(pawn.NameStringShort, pawn2.NameStringShort, room.Role.label) : "SomeonesRoom".Translate(pawn.NameStringShort, room.Role.label)) : room.Role.LabelCap;
+			if (pawn == null)
+			{
+				return room.Role.LabelCap;
+			}
+			if (pawn2 == null)
+			{
+				return "SomeonesRoom".Translate(pawn.NameStringShort, room.Role.label);
+			}
+			return "CouplesRoom".Translate(pawn.NameStringShort, pawn2.NameStringShort, room.Role.label);
 		}
 	}
 }

@@ -12,11 +12,11 @@ namespace Verse
 
 		[Description("A human-readable label used to identify this in game.")]
 		[DefaultValue(null)]
-		public string label = (string)null;
+		public string label;
 
 		[Description("A human-readable description given when the Def is inspected by players.")]
 		[DefaultValue(null)]
-		public string description = (string)null;
+		public string description;
 
 		[Description("Mod-specific data. Not used by core game code.")]
 		[DefaultValue(null)]
@@ -26,10 +26,10 @@ namespace Verse
 		public ushort shortHash;
 
 		[Unsaved]
-		public ushort index = (ushort)65535;
+		public ushort index = 65535;
 
 		[Unsaved]
-		private string cachedLabelCap = (string)null;
+		private string cachedLabelCap;
 
 		[Unsaved]
 		public ushort debugRandomId = (ushort)Rand.RangeInclusive(0, 65535);
@@ -42,20 +42,15 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (this.label.NullOrEmpty())
 				{
-					result = (string)null;
+					return null;
 				}
-				else
+				if (this.cachedLabelCap.NullOrEmpty())
 				{
-					if (this.cachedLabelCap.NullOrEmpty())
-					{
-						this.cachedLabelCap = this.label.CapitalizeFirst();
-					}
-					result = this.cachedLabelCap;
+					this.cachedLabelCap = this.label.CapitalizeFirst();
 				}
-				return result;
+				return this.cachedLabelCap;
 			}
 		}
 
@@ -97,13 +92,13 @@ namespace Verse
 				}
 			}
 			yield break;
-			IL_01fd:
-			/*Error near IL_01fe: Unexpected return in MoveNext()*/;
+			IL_01f5:
+			/*Error near IL_01f6: Unexpected return in MoveNext()*/;
 		}
 
 		public virtual void ClearCachedData()
 		{
-			this.cachedLabelCap = (string)null;
+			this.cachedLabelCap = null;
 		}
 
 		public override string ToString()
@@ -118,27 +113,18 @@ namespace Verse
 
 		public T GetModExtension<T>() where T : DefModExtension
 		{
-			T result;
-			int i;
 			if (this.modExtensions == null)
 			{
-				result = (T)null;
+				return (T)null;
 			}
-			else
+			for (int i = 0; i < this.modExtensions.Count; i++)
 			{
-				for (i = 0; i < this.modExtensions.Count; i++)
+				if (this.modExtensions[i] is T)
 				{
-					if (this.modExtensions[i] is T)
-						goto IL_0036;
+					return (T)(this.modExtensions[i] as T);
 				}
-				result = (T)null;
 			}
-			goto IL_0074;
-			IL_0036:
-			result = (T)(this.modExtensions[i] as T);
-			goto IL_0074;
-			IL_0074:
-			return result;
+			return (T)null;
 		}
 
 		public bool HasModExtension<T>() where T : DefModExtension

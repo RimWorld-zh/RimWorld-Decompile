@@ -13,7 +13,7 @@ namespace RimWorld
 	{
 		private Vector2 scrollPosition = Vector2.zero;
 
-		private float scrollViewHeight = 0f;
+		private float scrollViewHeight;
 
 		private const float TopPadding = 20f;
 
@@ -44,7 +44,23 @@ namespace RimWorld
 			get
 			{
 				Pawn selPawnForGear = this.SelPawnForGear;
-				return (byte)((!selPawnForGear.Downed && !selPawnForGear.InMentalState) ? ((selPawnForGear.Faction == Faction.OfPlayer || selPawnForGear.IsPrisonerOfColony) ? ((!selPawnForGear.IsPrisonerOfColony || !selPawnForGear.Spawned || selPawnForGear.Map.mapPawns.AnyFreeColonistSpawned) ? ((!selPawnForGear.IsPrisonerOfColony || (!PrisonBreakUtility.IsPrisonBreaking(selPawnForGear) && (selPawnForGear.CurJob == null || !selPawnForGear.CurJob.exitMapOnArrival))) ? 1 : 0) : 0) : 0) : 0) != 0;
+				if (!selPawnForGear.Downed && !selPawnForGear.InMentalState)
+				{
+					if (selPawnForGear.Faction != Faction.OfPlayer && !selPawnForGear.IsPrisonerOfColony)
+					{
+						return false;
+					}
+					if (selPawnForGear.IsPrisonerOfColony && selPawnForGear.Spawned && !selPawnForGear.Map.mapPawns.AnyFreeColonistSpawned)
+					{
+						return false;
+					}
+					if (selPawnForGear.IsPrisonerOfColony && (PrisonBreakUtility.IsPrisonBreaking(selPawnForGear) || (selPawnForGear.CurJob != null && selPawnForGear.CurJob.exitMapOnArrival)))
+					{
+						return false;
+					}
+					return true;
+				}
+				return false;
 			}
 		}
 
@@ -60,21 +76,16 @@ namespace RimWorld
 		{
 			get
 			{
-				Pawn result;
 				if (base.SelPawn != null)
 				{
-					result = base.SelPawn;
-					goto IL_004e;
+					return base.SelPawn;
 				}
 				Corpse corpse = base.SelThing as Corpse;
 				if (corpse != null)
 				{
-					result = corpse.InnerPawn;
-					goto IL_004e;
+					return corpse.InnerPawn;
 				}
 				throw new InvalidOperationException("Gear tab on non-pawn non-corpse " + base.SelThing);
-				IL_004e:
-				return result;
 			}
 		}
 
@@ -268,11 +279,11 @@ namespace RimWorld
 			Apparel apparel = t as Apparel;
 			if (apparel != null && this.SelPawnForGear.apparel != null && this.SelPawnForGear.apparel.WornApparel.Contains(apparel))
 			{
-				this.SelPawnForGear.jobs.TryTakeOrderedJob(new Job(JobDefOf.RemoveApparel, (Thing)apparel), JobTag.Misc);
+				this.SelPawnForGear.jobs.TryTakeOrderedJob(new Job(JobDefOf.RemoveApparel, apparel), JobTag.Misc);
 			}
 			else if (thingWithComps != null && this.SelPawnForGear.equipment != null && this.SelPawnForGear.equipment.AllEquipmentListForReading.Contains(thingWithComps))
 			{
-				this.SelPawnForGear.jobs.TryTakeOrderedJob(new Job(JobDefOf.DropEquipment, (Thing)thingWithComps), JobTag.Misc);
+				this.SelPawnForGear.jobs.TryTakeOrderedJob(new Job(JobDefOf.DropEquipment, thingWithComps), JobTag.Misc);
 			}
 			else if (!t.def.destroyOnDrop)
 			{

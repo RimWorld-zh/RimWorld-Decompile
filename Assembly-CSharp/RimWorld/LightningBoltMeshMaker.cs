@@ -41,7 +41,7 @@ namespace RimWorld
 			Vector2 b = LightningBoltMeshMaker.lightningTop / (float)num;
 			LightningBoltMeshMaker.verts2D = new List<Vector2>();
 			Vector2 vector = Vector2.zero;
-			for (int num2 = 0; num2 < num; num2++)
+			for (int i = 0; i < num; i++)
 			{
 				LightningBoltMeshMaker.verts2D.Add(vector);
 				vector += b;
@@ -71,7 +71,7 @@ namespace RimWorld
 			{
 				if (i <= list.Count - 2)
 				{
-					vector = Quaternion.AngleAxis(90f, Vector3.up) * (list[i] - list[i + 1]);
+					vector = Quaternion.AngleAxis(90f, Vector3.up) * (Vector3)(list[i] - list[i + 1]);
 					a = new Vector2(vector.y, vector.z);
 					a.Normalize();
 				}
@@ -95,22 +95,22 @@ namespace RimWorld
 			}
 			float num = 0f;
 			Vector2[] array2 = new Vector2[LightningBoltMeshMaker.verts2D.Count];
-			for (int num2 = 0; num2 < LightningBoltMeshMaker.verts2D.Count; num2 += 2)
+			for (int j = 0; j < LightningBoltMeshMaker.verts2D.Count; j += 2)
 			{
-				array2[num2] = new Vector2(0f, num);
-				array2[num2 + 1] = new Vector2(1f, num);
+				array2[j] = new Vector2(0f, num);
+				array2[j + 1] = new Vector2(1f, num);
 				num = (float)(num + 0.039999999105930328);
 			}
 			int[] array3 = new int[LightningBoltMeshMaker.verts2D.Count * 3];
-			for (int num3 = 0; num3 < LightningBoltMeshMaker.verts2D.Count - 2; num3 += 2)
+			for (int k = 0; k < LightningBoltMeshMaker.verts2D.Count - 2; k += 2)
 			{
-				int num4 = num3 * 3;
-				array3[num4] = num3;
-				array3[num4 + 1] = num3 + 1;
-				array3[num4 + 2] = num3 + 2;
-				array3[num4 + 3] = num3 + 2;
-				array3[num4 + 4] = num3 + 1;
-				array3[num4 + 5] = num3 + 3;
+				int num2 = k * 3;
+				array3[num2] = k;
+				array3[num2 + 1] = k + 1;
+				array3[num2 + 2] = k + 2;
+				array3[num2 + 3] = k + 2;
+				array3[num2 + 4] = k + 1;
+				array3[num2 + 5] = k + 3;
 			}
 			Mesh mesh = new Mesh();
 			mesh.vertices = array;

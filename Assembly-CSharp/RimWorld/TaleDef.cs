@@ -8,9 +8,9 @@ namespace RimWorld
 {
 	public class TaleDef : Def
 	{
-		public TaleType type = TaleType.Volatile;
+		public TaleType type;
 
-		public Type taleClass = null;
+		public Type taleClass;
 
 		public bool usableForArt = true;
 
@@ -18,7 +18,7 @@ namespace RimWorld
 
 		public int maxPerPawn = -1;
 
-		public float ignoreChance = 0f;
+		public float ignoreChance;
 
 		public float expireDays = -1f;
 
@@ -35,13 +35,13 @@ namespace RimWorld
 
 		public Type defType = typeof(ThingDef);
 
-		public float baseInterest = 0f;
+		public float baseInterest;
 
 		public Color historyGraphColor = Color.white;
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -74,8 +74,8 @@ namespace RimWorld
 				yield break;
 			yield return "Non-zero baseInterest but not usable for art";
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_01cc:
-			/*Error near IL_01cd: Unexpected return in MoveNext()*/;
+			IL_01c6:
+			/*Error near IL_01c7: Unexpected return in MoveNext()*/;
 		}
 
 		public static TaleDef Named(string str)

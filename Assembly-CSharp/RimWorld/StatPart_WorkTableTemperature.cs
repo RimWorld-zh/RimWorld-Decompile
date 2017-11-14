@@ -20,31 +20,34 @@ namespace RimWorld
 
 		public override string ExplanationPart(StatRequest req)
 		{
-			return (!req.HasThing || !StatPart_WorkTableTemperature.Applies(req.Thing)) ? null : ("BadTemperature".Translate().CapitalizeFirst() + ": x" + 0.6f.ToStringPercent());
+			if (req.HasThing && StatPart_WorkTableTemperature.Applies(req.Thing))
+			{
+				return "BadTemperature".Translate().CapitalizeFirst() + ": x" + 0.6f.ToStringPercent();
+			}
+			return null;
 		}
 
 		public static bool Applies(Thing t)
 		{
-			return t.Spawned && StatPart_WorkTableTemperature.Applies(t.def, t.Map, t.Position);
+			if (!t.Spawned)
+			{
+				return false;
+			}
+			return StatPart_WorkTableTemperature.Applies(t.def, t.Map, t.Position);
 		}
 
 		public static bool Applies(ThingDef tDef, Map map, IntVec3 c)
 		{
-			bool result;
 			if (map == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (tDef.building == null || !tDef.building.workSpeedPenaltyTemperature)
-			{
-				result = false;
-			}
-			else
+			if (tDef.building != null && tDef.building.workSpeedPenaltyTemperature)
 			{
 				float temperatureForCell = GenTemperature.GetTemperatureForCell(c, map);
-				result = (temperatureForCell < 5.0 || temperatureForCell > 35.0);
+				return temperatureForCell < 5.0 || temperatureForCell > 35.0;
 			}
-			return result;
+			return false;
 		}
 	}
 }

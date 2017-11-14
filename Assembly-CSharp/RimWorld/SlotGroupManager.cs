@@ -95,7 +95,7 @@ namespace RimWorld
 			else
 			{
 				this.allGroups.Add(newGroup);
-				this.allGroups.InsertionSort(new Comparison<SlotGroup>(SlotGroupManager.CompareSlotGroupPrioritiesDescending));
+				this.allGroups.InsertionSort(SlotGroupManager.CompareSlotGroupPrioritiesDescending);
 				List<IntVec3> cellsList = newGroup.CellsList;
 				for (int i = 0; i < cellsList.Count; i++)
 				{
@@ -126,7 +126,7 @@ namespace RimWorld
 
 		public void Notify_GroupChangedPriority()
 		{
-			this.allGroups.InsertionSort(new Comparison<SlotGroup>(SlotGroupManager.CompareSlotGroupPrioritiesDescending));
+			this.allGroups.InsertionSort(SlotGroupManager.CompareSlotGroupPrioritiesDescending);
 		}
 
 		public SlotGroup SlotGroupAt(IntVec3 loc)

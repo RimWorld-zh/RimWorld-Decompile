@@ -4,9 +4,9 @@ namespace Verse
 	{
 		public float becomeOldChance = 1f;
 
-		public string oldLabel = (string)null;
+		public string oldLabel;
 
-		public string instantlyOldLabel = (string)null;
+		public string instantlyOldLabel;
 
 		public HediffCompProperties_GetsOld()
 		{

@@ -28,7 +28,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.targetingVerb != null || (object)this.action != null;
+				return this.targetingVerb != null || this.action != null;
 			}
 		}
 
@@ -43,7 +43,7 @@ namespace RimWorld
 			{
 				Job job = new Job(JobDefOf.UseVerbOnThing);
 				job.verbToUse = verb;
-				verb.CasterPawn.jobs.StartJob(job, JobCondition.None, null, false, true, null, default(JobTag?), false);
+				verb.CasterPawn.jobs.StartJob(job, JobCondition.None, null, false, true, null, null, false);
 			}
 			this.action = null;
 			this.caster = null;
@@ -65,7 +65,7 @@ namespace RimWorld
 
 		public void StopTargeting()
 		{
-			if ((object)this.actionWhenFinished != null)
+			if (this.actionWhenFinished != null)
 			{
 				this.actionWhenFinished();
 				this.actionWhenFinished = null;
@@ -85,7 +85,7 @@ namespace RimWorld
 					{
 						this.OrderVerbForceTarget();
 					}
-					if ((object)this.action != null)
+					if (this.action != null)
 					{
 						LocalTargetInfo obj = this.CurrentTargetUnderMouse(false);
 						if (obj.IsValid)
@@ -117,7 +117,7 @@ namespace RimWorld
 				Texture2D icon = (!this.CurrentTargetUnderMouse(true).IsValid) ? TexCommand.CannotShoot : ((!((UnityEngine.Object)this.targetingVerb.UIIcon != (UnityEngine.Object)BaseContent.BadTex)) ? TexCommand.Attack : this.targetingVerb.UIIcon);
 				GenUI.DrawMouseAttachment(icon);
 			}
-			if ((object)this.action != null)
+			if (this.action != null)
 			{
 				Texture2D icon2 = this.mouseAttachment ?? TexCommand.Attack;
 				GenUI.DrawMouseAttachment(icon2);
@@ -165,7 +165,7 @@ namespace RimWorld
 					}
 				}
 			}
-			if ((object)this.action != null)
+			if (this.action != null)
 			{
 				LocalTargetInfo targ2 = this.CurrentTargetUnderMouse(false);
 				if (targ2.IsValid)
@@ -177,34 +177,25 @@ namespace RimWorld
 
 		public bool IsPawnTargeting(Pawn p)
 		{
-			bool result;
 			if (this.caster == p)
 			{
-				result = true;
+				return true;
 			}
-			else
+			if (this.targetingVerb != null && this.targetingVerb.CasterIsPawn)
 			{
-				if (this.targetingVerb != null && this.targetingVerb.CasterIsPawn)
+				if (this.targetingVerb.CasterPawn == p)
 				{
-					if (this.targetingVerb.CasterPawn == p)
+					return true;
+				}
+				for (int i = 0; i < this.targetingVerbAdditionalPawns.Count; i++)
+				{
+					if (this.targetingVerbAdditionalPawns[i] == p)
 					{
-						result = true;
-						goto IL_0089;
-					}
-					for (int i = 0; i < this.targetingVerbAdditionalPawns.Count; i++)
-					{
-						if (this.targetingVerbAdditionalPawns[i] == p)
-							goto IL_0063;
+						return true;
 					}
 				}
-				result = false;
 			}
-			goto IL_0089;
-			IL_0063:
-			result = true;
-			goto IL_0089;
-			IL_0089:
-			return result;
+			return false;
 		}
 
 		private void ConfirmStillValid()
@@ -259,9 +250,9 @@ namespace RimWorld
 			{
 				int numSelected = Find.Selector.NumSelected;
 				List<object> selectedObjects = Find.Selector.SelectedObjects;
-				for (int num = 0; num < numSelected; num++)
+				for (int j = 0; j < numSelected; j++)
 				{
-					Building_Turret building_Turret = selectedObjects[num] as Building_Turret;
+					Building_Turret building_Turret = selectedObjects[j] as Building_Turret;
 					if (building_Turret != null && building_Turret.Map == Find.VisibleMap)
 					{
 						LocalTargetInfo targ = this.CurrentTargetUnderMouse(true);
@@ -300,54 +291,50 @@ namespace RimWorld
 
 		private LocalTargetInfo CurrentTargetUnderMouse(bool mustBeHittableNowIfNotMelee)
 		{
-			LocalTargetInfo result;
 			if (!this.IsTargeting)
 			{
-				result = LocalTargetInfo.Invalid;
+				return LocalTargetInfo.Invalid;
 			}
-			else
+			TargetingParameters clickParams = (this.targetingVerb == null) ? this.targetParams : this.targetingVerb.verbProps.targetParams;
+			LocalTargetInfo localTargetInfo = LocalTargetInfo.Invalid;
+			using (IEnumerator<LocalTargetInfo> enumerator = GenUI.TargetsAtMouse(clickParams, false).GetEnumerator())
 			{
-				TargetingParameters clickParams = (this.targetingVerb == null) ? this.targetParams : this.targetingVerb.verbProps.targetParams;
-				LocalTargetInfo localTargetInfo = LocalTargetInfo.Invalid;
-				using (IEnumerator<LocalTargetInfo> enumerator = GenUI.TargetsAtMouse(clickParams, false).GetEnumerator())
+				if (enumerator.MoveNext())
 				{
-					if (enumerator.MoveNext())
-					{
-						LocalTargetInfo localTargetInfo2 = localTargetInfo = enumerator.Current;
-					}
+					LocalTargetInfo current = enumerator.Current;
+					localTargetInfo = current;
 				}
-				if (localTargetInfo.IsValid && mustBeHittableNowIfNotMelee && !(localTargetInfo.Thing is Pawn) && this.targetingVerb != null && !this.targetingVerb.verbProps.MeleeRange)
+			}
+			if (localTargetInfo.IsValid && mustBeHittableNowIfNotMelee && !(localTargetInfo.Thing is Pawn) && this.targetingVerb != null && !this.targetingVerb.verbProps.MeleeRange)
+			{
+				if (this.targetingVerbAdditionalPawns != null && this.targetingVerbAdditionalPawns.Any())
 				{
-					if (this.targetingVerbAdditionalPawns != null && this.targetingVerbAdditionalPawns.Any())
+					bool flag = false;
+					for (int i = 0; i < this.targetingVerbAdditionalPawns.Count; i++)
 					{
-						bool flag = false;
-						for (int i = 0; i < this.targetingVerbAdditionalPawns.Count; i++)
+						Verb verb = this.GetTargetingVerb(this.targetingVerbAdditionalPawns[i]);
+						if (verb != null && verb.CanHitTarget(localTargetInfo))
 						{
-							Verb verb = this.GetTargetingVerb(this.targetingVerbAdditionalPawns[i]);
-							if (verb != null && verb.CanHitTarget(localTargetInfo))
-							{
-								flag = true;
-								break;
-							}
-						}
-						if (!flag)
-						{
-							localTargetInfo = LocalTargetInfo.Invalid;
+							flag = true;
+							break;
 						}
 					}
-					else if (!this.targetingVerb.CanHitTarget(localTargetInfo))
+					if (!flag)
 					{
 						localTargetInfo = LocalTargetInfo.Invalid;
 					}
 				}
-				result = localTargetInfo;
+				else if (!this.targetingVerb.CanHitTarget(localTargetInfo))
+				{
+					localTargetInfo = LocalTargetInfo.Invalid;
+				}
 			}
-			return result;
+			return localTargetInfo;
 		}
 
 		private Verb GetTargetingVerb(Pawn pawn)
 		{
-			return pawn.equipment.AllEquipmentVerbs.FirstOrDefault((Func<Verb, bool>)((Verb x) => x.verbProps == this.targetingVerb.verbProps));
+			return pawn.equipment.AllEquipmentVerbs.FirstOrDefault((Verb x) => x.verbProps == this.targetingVerb.verbProps);
 		}
 	}
 }

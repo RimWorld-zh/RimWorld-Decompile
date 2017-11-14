@@ -18,7 +18,7 @@ namespace RimWorld
 
 		public bool requiresFaction;
 
-		public TechLevel minFactionTechLevel = TechLevel.Undefined;
+		public TechLevel minFactionTechLevel;
 
 		[NoTranslate]
 		public List<string> tags = new List<string>();
@@ -70,7 +70,19 @@ namespace RimWorld
 
 		public virtual bool FactionCanOwn(Faction faction)
 		{
-			return (byte)((!this.requiresFaction || faction != null) ? ((this.minFactionTechLevel == TechLevel.Undefined || (faction != null && (int)faction.def.techLevel >= (int)this.minFactionTechLevel)) ? ((faction == null || (!faction.IsPlayer && !faction.defeated && !faction.def.hidden)) ? 1 : 0) : 0) : 0) != 0;
+			if (this.requiresFaction && faction == null)
+			{
+				return false;
+			}
+			if (this.minFactionTechLevel != 0 && (faction == null || (int)faction.def.techLevel < (int)this.minFactionTechLevel))
+			{
+				return false;
+			}
+			if (faction != null && (faction.IsPlayer || faction.defeated || faction.def.hidden))
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

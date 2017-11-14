@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -31,7 +30,7 @@ namespace RimWorld.BaseGen
 		{
 			Map map = BaseGen.globalSettings.map;
 			IntVec3 loc = (from cell in rect.Cells.InRandomOrder(null)
-			where GenConstruct.CanPlaceBlueprintAt(thingDef, cell, rotation, map, false, null).Accepted && GenAdj.OccupiedRect(cell, rotation, thingDef.Size).AdjacentCellsCardinal.Any((Func<IntVec3, bool>)((IntVec3 edgeCell) => edgeCell.InBounds(map) && edgeCell.GetThingList(map).Any((Predicate<Thing>)((Thing thing) => thing.def == ThingDefOf.Ship_Beam))))
+			where GenConstruct.CanPlaceBlueprintAt(thingDef, cell, rotation, map, false, null).Accepted && GenAdj.OccupiedRect(cell, rotation, thingDef.Size).AdjacentCellsCardinal.Any((IntVec3 edgeCell) => edgeCell.InBounds(map) && edgeCell.GetThingList(map).Any((Thing thing) => thing.def == ThingDefOf.Ship_Beam))
 			select cell).FirstOrFallback(IntVec3.Invalid);
 			if (loc.IsValid)
 			{

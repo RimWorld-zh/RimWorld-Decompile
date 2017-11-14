@@ -16,7 +16,11 @@ namespace Verse
 		{
 			get
 			{
-				return (this.comps != null) ? this.comps : ThingWithComps.EmptyCompsList;
+				if (this.comps == null)
+				{
+					return ThingWithComps.EmptyCompsList;
+				}
+				return this.comps;
 			}
 		}
 
@@ -25,7 +29,11 @@ namespace Verse
 			get
 			{
 				CompColorable comp = this.GetComp<CompColorable>();
-				return (comp == null || !comp.Active) ? base.DrawColor : comp.Color;
+				if (comp != null && comp.Active)
+				{
+					return comp.Color;
+				}
+				return base.DrawColor;
 			}
 			set
 			{
@@ -40,12 +48,11 @@ namespace Verse
 				string text = GenLabel.ThingLabel(this);
 				if (this.comps != null)
 				{
-					int num = 0;
+					int i = 0;
 					int count = this.comps.Count;
-					while (num < count)
+					for (; i < count; i++)
 					{
-						text = this.comps[num].TransformLabel(text);
-						num++;
+						text = this.comps[i].TransformLabel(text);
 					}
 				}
 				return text;
@@ -60,26 +67,20 @@ namespace Verse
 
 		public T GetComp<T>() where T : ThingComp
 		{
-			T val;
 			if (this.comps != null)
 			{
-				int num = 0;
+				int i = 0;
 				int count = this.comps.Count;
-				while (num < count)
+				for (; i < count; i++)
 				{
-					val = (T)(this.comps[num] as T);
+					T val = (T)(this.comps[i] as T);
 					if (val != null)
-						goto IL_0043;
-					num++;
+					{
+						return val;
+					}
 				}
 			}
-			T result = (T)null;
-			goto IL_0063;
-			IL_0043:
-			result = val;
-			goto IL_0063;
-			IL_0063:
-			return result;
+			return (T)null;
 		}
 
 		public IEnumerable<T> GetComps<T>() where T : ThingComp
@@ -108,25 +109,19 @@ namespace Verse
 
 		public ThingComp GetCompByDef(CompProperties def)
 		{
-			int num;
 			if (this.comps != null)
 			{
-				num = 0;
+				int i = 0;
 				int count = this.comps.Count;
-				while (num < count)
+				for (; i < count; i++)
 				{
-					if (this.comps[num].props == def)
-						goto IL_0038;
-					num++;
+					if (this.comps[i].props == def)
+					{
+						return this.comps[i];
+					}
 				}
 			}
-			ThingComp result = null;
-			goto IL_005e;
-			IL_0038:
-			result = this.comps[num];
-			goto IL_005e;
-			IL_005e:
-			return result;
+			return null;
 		}
 
 		public void InitializeComps()
@@ -165,12 +160,11 @@ namespace Verse
 			this.ReceiveCompSignal(signal);
 			if (this.comps != null)
 			{
-				int num = 0;
+				int i = 0;
 				int count = this.comps.Count;
-				while (num < count)
+				for (; i < count; i++)
 				{
-					this.comps[num].ReceiveCompSignal(signal);
-					num++;
+					this.comps[i].ReceiveCompSignal(signal);
 				}
 			}
 		}
@@ -221,12 +215,11 @@ namespace Verse
 		{
 			if (this.comps != null)
 			{
-				int num = 0;
+				int i = 0;
 				int count = this.comps.Count;
-				while (num < count)
+				for (; i < count; i++)
 				{
-					this.comps[num].CompTick();
-					num++;
+					this.comps[i].CompTick();
 				}
 			}
 		}
@@ -235,12 +228,11 @@ namespace Verse
 		{
 			if (this.comps != null)
 			{
-				int num = 0;
+				int i = 0;
 				int count = this.comps.Count;
-				while (num < count)
+				for (; i < count; i++)
 				{
-					this.comps[num].CompTickRare();
-					num++;
+					this.comps[i].CompTickRare();
 				}
 			}
 		}
@@ -346,30 +338,25 @@ namespace Verse
 				}
 			}
 			yield break;
-			IL_0116:
-			/*Error near IL_0117: Unexpected return in MoveNext()*/;
+			IL_010e:
+			/*Error near IL_010f: Unexpected return in MoveNext()*/;
 		}
 
 		public override bool TryAbsorbStack(Thing other, bool respectStackLimit)
 		{
-			bool result;
 			if (!this.CanStackWith(other))
 			{
-				result = false;
+				return false;
 			}
-			else
+			int count = ThingUtility.TryAbsorbStackNumToTake(this, other, respectStackLimit);
+			if (this.comps != null)
 			{
-				int count = ThingUtility.TryAbsorbStackNumToTake(this, other, respectStackLimit);
-				if (this.comps != null)
+				for (int i = 0; i < this.comps.Count; i++)
 				{
-					for (int i = 0; i < this.comps.Count; i++)
-					{
-						this.comps[i].PreAbsorbStack(other, count);
-					}
+					this.comps[i].PreAbsorbStack(other, count);
 				}
-				result = base.TryAbsorbStack(other, respectStackLimit);
 			}
-			return result;
+			return base.TryAbsorbStack(other, respectStackLimit);
 		}
 
 		public override Thing SplitOff(int count)
@@ -387,29 +374,21 @@ namespace Verse
 
 		public override bool CanStackWith(Thing other)
 		{
-			bool result;
 			if (!base.CanStackWith(other))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (this.comps != null)
 			{
-				if (this.comps != null)
+				for (int i = 0; i < this.comps.Count; i++)
 				{
-					for (int i = 0; i < this.comps.Count; i++)
+					if (!this.comps[i].AllowStackWith(other))
 					{
-						if (!this.comps[i].AllowStackWith(other))
-							goto IL_003f;
+						return false;
 					}
 				}
-				result = true;
 			}
-			goto IL_0064;
-			IL_0064:
-			return result;
-			IL_003f:
-			result = false;
-			goto IL_0064;
+			return true;
 		}
 
 		public override string GetInspectString()
@@ -430,34 +409,29 @@ namespace Verse
 
 		protected string InspectStringPartsFromComps()
 		{
-			string result;
 			if (this.comps == null)
 			{
-				result = (string)null;
+				return null;
 			}
-			else
+			StringBuilder stringBuilder = new StringBuilder();
+			for (int i = 0; i < this.comps.Count; i++)
 			{
-				StringBuilder stringBuilder = new StringBuilder();
-				for (int i = 0; i < this.comps.Count; i++)
+				string text = this.comps[i].CompInspectStringExtra();
+				if (!text.NullOrEmpty())
 				{
-					string text = this.comps[i].CompInspectStringExtra();
-					if (!text.NullOrEmpty())
+					if (Prefs.DevMode && char.IsWhiteSpace(text[text.Length - 1]))
 					{
-						if (Prefs.DevMode && char.IsWhiteSpace(text[text.Length - 1]))
-						{
-							Log.ErrorOnce(this.comps[i].GetType() + " CompInspectStringExtra ended with whitespace: " + text, 25612);
-							text = text.TrimEndNewlines();
-						}
-						if (stringBuilder.Length != 0)
-						{
-							stringBuilder.AppendLine();
-						}
-						stringBuilder.Append(text);
+						Log.ErrorOnce(this.comps[i].GetType() + " CompInspectStringExtra ended with whitespace: " + text, 25612);
+						text = text.TrimEndNewlines();
 					}
+					if (stringBuilder.Length != 0)
+					{
+						stringBuilder.AppendLine();
+					}
+					stringBuilder.Append(text);
 				}
-				result = stringBuilder.ToString();
 			}
-			return result;
+			return stringBuilder.ToString();
 		}
 
 		public override string GetDescription()
@@ -485,7 +459,7 @@ namespace Verse
 
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Pawn selPawn)
 		{
-			using (IEnumerator<FloatMenuOption> enumerator = this._003CGetFloatMenuOptions_003E__BaseCallProxy0(selPawn).GetEnumerator())
+			using (IEnumerator<FloatMenuOption> enumerator = base.GetFloatMenuOptions(selPawn).GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -510,8 +484,8 @@ namespace Verse
 				}
 			}
 			yield break;
-			IL_01b6:
-			/*Error near IL_01b7: Unexpected return in MoveNext()*/;
+			IL_01ab:
+			/*Error near IL_01ac: Unexpected return in MoveNext()*/;
 		}
 
 		public override void PreTraded(TradeAction action, Pawn playerNegotiator, ITrader trader)

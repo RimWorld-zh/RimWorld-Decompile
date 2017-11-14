@@ -7,7 +7,11 @@ namespace RimWorld
 	{
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			return (pawn.CurJob == null || pawn.jobs.curDriver.layingDown == LayingDownState.NotLaying) ? null : pawn.CurJob;
+			if (pawn.CurJob != null && pawn.jobs.curDriver.layingDown != 0)
+			{
+				return pawn.CurJob;
+			}
+			return new Job(JobDefOf.LayDown, pawn.Position);
 		}
 	}
 }

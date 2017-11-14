@@ -10,30 +10,19 @@ namespace RimWorld
 			get
 			{
 				List<Map> maps = Find.Maps;
-				int num = 0;
-				Fire result;
-				while (true)
+				for (int i = 0; i < maps.Count; i++)
 				{
-					Thing thing;
-					if (num < maps.Count)
+					List<Thing> list = maps[i].listerThings.ThingsOfDef(ThingDefOf.Fire);
+					for (int j = 0; j < list.Count; j++)
 					{
-						List<Thing> list = maps[num].listerThings.ThingsOfDef(ThingDefOf.Fire);
-						for (int i = 0; i < list.Count; i++)
+						Thing thing = list[j];
+						if (((Area)maps[i].areaManager.Home)[thing.Position] && !thing.Position.Fogged(thing.Map))
 						{
-							thing = list[i];
-							if (((Area)maps[num].areaManager.Home)[thing.Position] && !thing.Position.Fogged(thing.Map))
-								goto IL_0071;
+							return (Fire)thing;
 						}
-						num++;
-						continue;
 					}
-					result = null;
-					break;
-					IL_0071:
-					result = (Fire)thing;
-					break;
 				}
-				return result;
+				return null;
 			}
 		}
 
@@ -46,7 +35,11 @@ namespace RimWorld
 		public override AlertReport GetReport()
 		{
 			Fire fireInHomeArea = this.FireInHomeArea;
-			return (fireInHomeArea == null) ? false : AlertReport.CulpritIs((Thing)fireInHomeArea);
+			if (fireInHomeArea != null)
+			{
+				return AlertReport.CulpritIs(fireInHomeArea);
+			}
+			return false;
 		}
 	}
 }

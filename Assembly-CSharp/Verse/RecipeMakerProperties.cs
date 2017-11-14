@@ -11,29 +11,29 @@ namespace Verse
 
 		public int workAmount = -1;
 
-		public StatDef workSpeedStat = null;
+		public StatDef workSpeedStat;
 
-		public StatDef efficiencyStat = null;
+		public StatDef efficiencyStat;
 
-		public ThingDef unfinishedThingDef = null;
+		public ThingDef unfinishedThingDef;
 
-		public ThingFilter defaultIngredientFilter = null;
+		public ThingFilter defaultIngredientFilter;
 
-		public List<SkillRequirement> skillRequirements = null;
+		public List<SkillRequirement> skillRequirements;
 
-		public SkillDef workSkill = null;
+		public SkillDef workSkill;
 
 		public float workSkillLearnPerTick = 1f;
 
-		public EffecterDef effectWorking = null;
+		public EffecterDef effectWorking;
 
-		public SoundDef soundWorking = null;
+		public SoundDef soundWorking;
 
-		public List<ThingDef> recipeUsers = null;
+		public List<ThingDef> recipeUsers;
 
-		public ResearchProjectDef researchPrerequisite = null;
+		public ResearchProjectDef researchPrerequisite;
 
 		[NoTranslate]
-		public List<string> factionPrerequisiteTags = null;
+		public List<string> factionPrerequisiteTags;
 	}
 }

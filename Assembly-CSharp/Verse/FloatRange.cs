@@ -117,17 +117,12 @@ namespace Verse
 		public static FloatRange FromString(string s)
 		{
 			string[] array = s.Split('~');
-			FloatRange result;
 			if (array.Length == 1)
 			{
 				float num = Convert.ToSingle(array[0]);
-				result = new FloatRange(num, num);
+				return new FloatRange(num, num);
 			}
-			else
-			{
-				result = new FloatRange(Convert.ToSingle(array[0]), Convert.ToSingle(array[1]));
-			}
-			return result;
+			return new FloatRange(Convert.ToSingle(array[0]), Convert.ToSingle(array[1]));
 		}
 
 		public override string ToString()
@@ -142,7 +137,11 @@ namespace Verse
 
 		public override bool Equals(object obj)
 		{
-			return obj is FloatRange && this.Equals((FloatRange)obj);
+			if (!(obj is FloatRange))
+			{
+				return false;
+			}
+			return this.Equals((FloatRange)obj);
 		}
 
 		public bool Equals(FloatRange other)

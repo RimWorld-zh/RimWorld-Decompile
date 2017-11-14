@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -51,9 +50,9 @@ namespace Verse.AI
 			}
 			else
 			{
-				Pawn pawn = (base.target == null || Find.TickManager.TicksGame - this.targetFoundTicks <= 1250 || !MentalState_InsultingSpreeAll.candidates.Any((Predicate<Pawn>)((Pawn x) => x != base.target))) ? MentalState_InsultingSpreeAll.candidates.RandomElementByWeight((Func<Pawn, float>)((Pawn x) => this.GetCandidateWeight(x))) : (from x in MentalState_InsultingSpreeAll.candidates
+				Pawn pawn = (base.target == null || Find.TickManager.TicksGame - this.targetFoundTicks <= 1250 || !MentalState_InsultingSpreeAll.candidates.Any((Pawn x) => x != base.target)) ? MentalState_InsultingSpreeAll.candidates.RandomElementByWeight((Pawn x) => this.GetCandidateWeight(x)) : (from x in MentalState_InsultingSpreeAll.candidates
 				where x != base.target
-				select x).RandomElementByWeight((Func<Pawn, float>)((Pawn x) => this.GetCandidateWeight(x)));
+				select x).RandomElementByWeight((Pawn x) => this.GetCandidateWeight(x));
 				if (pawn != base.target)
 				{
 					base.target = pawn;

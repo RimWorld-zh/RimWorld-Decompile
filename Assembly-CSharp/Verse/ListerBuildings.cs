@@ -48,96 +48,55 @@ namespace Verse
 
 		public bool ColonistsHaveBuilding(ThingDef def)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.allBuildingsColonist.Count; i++)
 			{
-				if (num < this.allBuildingsColonist.Count)
+				if (this.allBuildingsColonist[i].def == def)
 				{
-					if (this.allBuildingsColonist[num].def == def)
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public bool ColonistsHaveBuilding(Func<Thing, bool> predicate)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.allBuildingsColonist.Count; i++)
 			{
-				if (num < this.allBuildingsColonist.Count)
+				if (predicate(this.allBuildingsColonist[i]))
 				{
-					if (predicate(this.allBuildingsColonist[num]))
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public bool ColonistsHaveResearchBench()
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.allBuildingsColonist.Count; i++)
 			{
-				if (num < this.allBuildingsColonist.Count)
+				if (this.allBuildingsColonist[i] is Building_ResearchBench)
 				{
-					if (this.allBuildingsColonist[num] is Building_ResearchBench)
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public bool ColonistsHaveBuildingWithPowerOn(ThingDef def)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.allBuildingsColonist.Count; i++)
 			{
-				if (num < this.allBuildingsColonist.Count)
+				if (this.allBuildingsColonist[i].def == def)
 				{
-					if (this.allBuildingsColonist[num].def == def)
+					CompPowerTrader compPowerTrader = this.allBuildingsColonist[i].TryGetComp<CompPowerTrader>();
+					if (compPowerTrader != null && !compPowerTrader.PowerOn)
 					{
-						CompPowerTrader compPowerTrader = this.allBuildingsColonist[num].TryGetComp<CompPowerTrader>();
-						if (compPowerTrader != null && !compPowerTrader.PowerOn)
-						{
-							goto IL_004c;
-						}
-						result = true;
-						break;
+						continue;
 					}
-					goto IL_004c;
+					return true;
 				}
-				result = false;
-				break;
-				IL_004c:
-				num++;
 			}
-			return result;
+			return false;
 		}
 
 		public IEnumerable<Building> AllBuildingsColonistOfDef(ThingDef def)

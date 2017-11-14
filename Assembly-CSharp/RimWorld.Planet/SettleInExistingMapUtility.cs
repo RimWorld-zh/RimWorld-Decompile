@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -17,7 +16,7 @@ namespace RimWorld.Planet
 			command_Settle.defaultLabel = "CommandSettle".Translate();
 			command_Settle.defaultDesc = "CommandSettleDesc".Translate();
 			command_Settle.icon = SettleUtility.SettleCommandTex;
-			command_Settle.action = (Action)delegate()
+			command_Settle.action = delegate
 			{
 				SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
 				SettleInExistingMapUtility.Settle(map);
@@ -41,13 +40,16 @@ namespace RimWorld.Planet
 				}
 				else if (requiresNoEnemies)
 				{
-					foreach (IAttackTarget item in map.attackTargetsCache.TargetsHostileToColony)
 					{
-						if (GenHostility.IsActiveThreatToPlayer(item))
+						foreach (IAttackTarget item in map.attackTargetsCache.TargetsHostileToColony)
 						{
-							command_Settle.Disable("CommandSettleFailEnemies".Translate());
-							break;
+							if (GenHostility.IsActiveThreatToPlayer(item))
+							{
+								command_Settle.Disable("CommandSettleFailEnemies".Translate());
+								return command_Settle;
+							}
 						}
+						return command_Settle;
 					}
 				}
 			}
@@ -57,12 +59,13 @@ namespace RimWorld.Planet
 		public static void Settle(Map map)
 		{
 			MapParent parent = map.info.parent;
-			FactionBase o = (FactionBase)(map.info.parent = SettleUtility.AddNewHome(map.Tile, Faction.OfPlayer));
+			FactionBase factionBase = SettleUtility.AddNewHome(map.Tile, Faction.OfPlayer);
+			map.info.parent = factionBase;
 			if (parent != null)
 			{
 				Find.WorldObjects.Remove(parent);
 			}
-			Messages.Message("MessageSettledInExistingMap".Translate(), (WorldObject)o, MessageTypeDefOf.PositiveEvent);
+			Messages.Message("MessageSettledInExistingMap".Translate(), factionBase, MessageTypeDefOf.PositiveEvent);
 			SettleInExistingMapUtility.tmpPlayerPawns.Clear();
 			SettleInExistingMapUtility.tmpPlayerPawns.AddRange(from x in map.mapPawns.AllPawnsSpawned
 			where x.Faction == Faction.OfPlayer || x.HostFaction == Faction.OfPlayer

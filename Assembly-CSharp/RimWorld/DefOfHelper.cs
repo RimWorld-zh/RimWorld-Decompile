@@ -20,9 +20,8 @@ namespace RimWorld
 		private static void BindDefsFor(Type type)
 		{
 			FieldInfo[] fields = type.GetFields();
-			for (int i = 0; i < fields.Length; i++)
+			foreach (FieldInfo fieldInfo in fields)
 			{
-				FieldInfo fieldInfo = fields[i];
 				Type fieldType = fieldInfo.FieldType;
 				if (!typeof(Def).IsAssignableFrom(fieldType))
 				{

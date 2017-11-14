@@ -7,11 +7,11 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public abstract class Command : Gizmo
 	{
-		public string defaultLabel = (string)null;
+		public string defaultLabel;
 
 		public string defaultDesc = "No description.";
 
-		public Texture2D icon = null;
+		public Texture2D icon;
 
 		public float iconAngle;
 
@@ -25,9 +25,9 @@ namespace Verse
 
 		public KeyBindingDef hotKey;
 
-		public SoundDef activateSound = null;
+		public SoundDef activateSound;
 
-		public int groupKey = 0;
+		public int groupKey;
 
 		public string tutorTag = "TutorTagNotSet";
 
@@ -168,7 +168,6 @@ namespace Verse
 			{
 				UIHighlighter.HighlightOpportunity(rect, this.HighlightTag);
 			}
-			GizmoResult result;
 			if (flag2)
 			{
 				if (base.disabled)
@@ -177,30 +176,43 @@ namespace Verse
 					{
 						Messages.Message(base.disabledReason, MessageTypeDefOf.RejectInput);
 					}
-					result = new GizmoResult(GizmoState.Mouseover, null);
+					return new GizmoResult(GizmoState.Mouseover, null);
 				}
-				else if (!TutorSystem.AllowAction(this.TutorTagSelect))
+				if (!TutorSystem.AllowAction(this.TutorTagSelect))
 				{
-					result = new GizmoResult(GizmoState.Mouseover, null);
+					return new GizmoResult(GizmoState.Mouseover, null);
 				}
-				else
-				{
-					GizmoResult gizmoResult = new GizmoResult(GizmoState.Interacted, Event.current);
-					TutorSystem.Notify_Event(this.TutorTagSelect);
-					result = gizmoResult;
-				}
+				GizmoResult result = new GizmoResult(GizmoState.Interacted, Event.current);
+				TutorSystem.Notify_Event(this.TutorTagSelect);
+				return result;
 			}
-			else
+			if (flag)
 			{
-				result = ((!flag) ? new GizmoResult(GizmoState.Clear, null) : new GizmoResult(GizmoState.Mouseover, null));
+				return new GizmoResult(GizmoState.Mouseover, null);
 			}
-			return result;
+			return new GizmoResult(GizmoState.Clear, null);
 		}
 
 		public override bool GroupsWith(Gizmo other)
 		{
 			Command command = other as Command;
-			return (byte)((command != null) ? ((this.hotKey == command.hotKey && this.Label == command.Label && (Object)this.icon == (Object)command.icon) ? 1 : ((((this.groupKey != 0) ? command.groupKey : 0) != 0) ? ((this.groupKey == command.groupKey) ? 1 : 0) : 0)) : 0) != 0;
+			if (command == null)
+			{
+				return false;
+			}
+			if (this.hotKey == command.hotKey && this.Label == command.Label && (Object)this.icon == (Object)command.icon)
+			{
+				return true;
+			}
+			if (this.groupKey != 0 && command.groupKey != 0)
+			{
+				if (this.groupKey == command.groupKey)
+				{
+					return true;
+				}
+				return false;
+			}
+			return false;
 		}
 
 		public override void ProcessInput(Event ev)

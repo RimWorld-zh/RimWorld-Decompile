@@ -13,7 +13,7 @@ namespace Verse
 		public override void Generate(Map map)
 		{
 			int num = Mathf.RoundToInt((float)((float)map.Area / 10000.0 * this.patchesPer10kCellsRange.RandomInRange));
-			for (int num2 = 0; num2 < num; num2++)
+			for (int i = 0; i < num; i++)
 			{
 				float randomInRange = this.patchSizeRange.RandomInRange;
 				IntVec3 a = CellFinder.RandomCell(map);

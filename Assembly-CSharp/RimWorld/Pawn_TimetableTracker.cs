@@ -13,7 +13,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.pawn.IsColonist ? this.times[GenLocalDate.HourOfDay(this.pawn)] : TimeAssignmentDefOf.Anything;
+				if (!this.pawn.IsColonist)
+				{
+					return TimeAssignmentDefOf.Anything;
+				}
+				return this.times[GenLocalDate.HourOfDay(this.pawn)];
 			}
 		}
 

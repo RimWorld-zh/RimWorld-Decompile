@@ -6,11 +6,11 @@ namespace RimWorld
 {
 	public class JoyGiverDef : Def
 	{
-		public Type giverClass = null;
+		public Type giverClass;
 
-		public float baseChance = 0f;
+		public float baseChance;
 
-		public List<ThingDef> thingDefs = null;
+		public List<ThingDef> thingDefs;
 
 		public JobDef jobDef;
 
@@ -18,7 +18,7 @@ namespace RimWorld
 
 		public float pctPawnsEverDo = 1f;
 
-		public bool unroofedOnly = false;
+		public bool unroofedOnly;
 
 		public JoyKindDef joyKind;
 
@@ -26,7 +26,7 @@ namespace RimWorld
 
 		public bool canDoWhileInBed;
 
-		private JoyGiver workerInt = null;
+		private JoyGiver workerInt;
 
 		public JoyGiver Worker
 		{
@@ -43,7 +43,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -58,8 +58,8 @@ namespace RimWorld
 				yield break;
 			yield return "jobDef " + this.jobDef + " has joyKind " + this.jobDef.joyKind + " which does not match our joyKind " + this.joyKind;
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_015d:
-			/*Error near IL_015e: Unexpected return in MoveNext()*/;
+			IL_0159:
+			/*Error near IL_015a: Unexpected return in MoveNext()*/;
 		}
 	}
 }

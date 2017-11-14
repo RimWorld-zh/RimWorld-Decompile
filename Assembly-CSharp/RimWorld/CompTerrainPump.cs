@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -74,9 +73,9 @@ namespace RimWorld
 			{
 				this.progressTicks += 250;
 				int num = GenRadial.NumCellsInRadius(this.CurrentRadius);
-				for (int num2 = 0; num2 < num; num2++)
+				for (int i = 0; i < num; i++)
 				{
-					this.AffectCell(base.parent.Position + GenRadial.RadialPattern[num2]);
+					this.AffectCell(base.parent.Position + GenRadial.RadialPattern[i]);
 				}
 			}
 		}
@@ -114,9 +113,9 @@ namespace RimWorld
 			yield return (Gizmo)new Command_Action
 			{
 				defaultLabel = "DEBUG: Progress 1 day",
-				action = (Action)delegate
+				action = delegate
 				{
-					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_004e: stateMachine*/)._0024this.progressTicks += 60000;
+					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_004c: stateMachine*/)._0024this.progressTicks += 60000;
 				}
 			};
 			/*Error: Unable to find new state assignment for yield return*/;

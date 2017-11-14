@@ -6,7 +6,6 @@ namespace Verse.AI.Group
 	{
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
-			bool result;
 			if (signal.type == TriggerSignalType.PawnLost && (signal.condition == PawnLostCondition.IncappedOrKilled || signal.condition == PawnLostCondition.MadePrisoner))
 			{
 				TraderCaravanRole traderCaravanRole = signal.Pawn.GetTraderCaravanRole();
@@ -14,20 +13,15 @@ namespace Verse.AI.Group
 				{
 					if (lord.numPawnsLostViolently > 0 && (float)lord.numPawnsLostViolently / (float)lord.numPawnsEverGained >= 0.5)
 					{
-						result = true;
-						goto IL_0080;
+						return true;
 					}
-					goto IL_0079;
+					goto IL_006b;
 				}
-				result = true;
-				goto IL_0080;
+				return true;
 			}
-			goto IL_0079;
-			IL_0080:
-			return result;
-			IL_0079:
-			result = false;
-			goto IL_0080;
+			goto IL_006b;
+			IL_006b:
+			return false;
 		}
 	}
 }

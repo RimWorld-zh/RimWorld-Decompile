@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,7 +26,15 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return this.customLabel.NullOrEmpty() ? ((this.core != SiteCoreDefOf.Nothing || !this.parts.Any()) ? this.core.label : this.parts[0].label) : this.customLabel;
+				if (!this.customLabel.NullOrEmpty())
+				{
+					return this.customLabel;
+				}
+				if (this.core == SiteCoreDefOf.Nothing && this.parts.Any())
+				{
+					return this.parts[0].label;
+				}
+				return this.core.label;
 			}
 		}
 
@@ -59,29 +66,21 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				bool result;
 				if (this.LeadingSiteDef.knownDanger)
 				{
-					result = true;
+					return true;
 				}
-				else
+				if (this.writeSiteParts)
 				{
-					if (this.writeSiteParts)
+					for (int i = 0; i < this.parts.Count; i++)
 					{
-						for (int i = 0; i < this.parts.Count; i++)
+						if (this.parts[i].knownDanger)
 						{
-							if (this.parts[i].knownDanger)
-								goto IL_0042;
+							return true;
 						}
 					}
-					result = false;
 				}
-				goto IL_0067;
-				IL_0067:
-				return result;
-				IL_0042:
-				result = true;
-				goto IL_0067;
+				return false;
 			}
 		}
 
@@ -89,7 +88,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				if ((UnityEngine.Object)this.cachedMat == (UnityEngine.Object)null)
+				if ((Object)this.cachedMat == (Object)null)
 				{
 					Color color = (!this.LeadingSiteDef.applyFactionColorToSiteTexture || base.Faction == null) ? Color.white : base.Faction.Color;
 					this.cachedMat = MaterialPool.MatFrom(this.LeadingSiteDef.siteTexture, ShaderDatabase.WorldOverlayTransparentLit, color, WorldMaterials.WorldObjectRenderQueue);
@@ -110,7 +109,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (SiteDefBase)((this.core != SiteCoreDefOf.Nothing || !this.parts.Any()) ? ((object)this.core) : ((object)this.parts[0]));
+				if (this.core == SiteCoreDefOf.Nothing && this.parts.Any())
+				{
+					return this.parts[0];
+				}
+				return this.core;
 			}
 		}
 
@@ -118,7 +121,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				using (IEnumerator<GenStepDef> enumerator = this._003Cget_ExtraGenStepDefs_003E__BaseCallProxy0().GetEnumerator())
+				using (IEnumerator<GenStepDef> enumerator = base.ExtraGenStepDefs.GetEnumerator())
 				{
 					if (enumerator.MoveNext())
 					{
@@ -152,8 +155,8 @@ namespace RimWorld.Planet
 				}
 				yield return partGenStepDefs[i];
 				/*Error: Unable to find new state assignment for yield return*/;
-				IL_01ed:
-				/*Error near IL_01ee: Unexpected return in MoveNext()*/;
+				IL_01e3:
+				/*Error near IL_01e4: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -202,7 +205,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
 		{
-			using (IEnumerator<FloatMenuOption> enumerator = this._003CGetFloatMenuOptions_003E__BaseCallProxy1(caravan).GetEnumerator())
+			using (IEnumerator<FloatMenuOption> enumerator = base.GetFloatMenuOptions(caravan).GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -221,13 +224,13 @@ namespace RimWorld.Planet
 				}
 			}
 			yield break;
-			IL_016d:
-			/*Error near IL_016e: Unexpected return in MoveNext()*/;
+			IL_0166:
+			/*Error near IL_0167: Unexpected return in MoveNext()*/;
 		}
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy2().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -242,8 +245,8 @@ namespace RimWorld.Planet
 				yield break;
 			yield return (Gizmo)SettleInExistingMapUtility.SettleCommand(base.Map, true);
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0111:
-			/*Error near IL_0112: Unexpected return in MoveNext()*/;
+			IL_010d:
+			/*Error near IL_010e: Unexpected return in MoveNext()*/;
 		}
 
 		private void CheckStartForceExitAndRemoveMapCountdown()
@@ -253,10 +256,16 @@ namespace RimWorld.Planet
 				this.startedCountdown = true;
 				int num = Mathf.RoundToInt((float)(this.core.forceExitAndRemoveMapCountdownDurationDays * 60000.0));
 				string text = (!this.anyEnemiesInitially) ? "MessageSiteCountdownBecauseNoEnemiesInitially".Translate(TimedForcedExit.GetForceExitAndRemoveMapCountdownTimeLeftString(num)) : "MessageSiteCountdownBecauseNoMoreEnemies".Translate(TimedForcedExit.GetForceExitAndRemoveMapCountdownTimeLeftString(num));
-				Messages.Message(text, (WorldObject)this, MessageTypeDefOf.PositiveEvent);
+				Messages.Message(text, this, MessageTypeDefOf.PositiveEvent);
 				base.GetComponent<TimedForcedExit>().StartForceExitAndRemoveMapCountdown(num);
 				TaleRecorder.RecordTale(TaleDefOf.CaravanAssaultSuccessful, base.Map.mapPawns.FreeColonists.RandomElement());
 			}
+		}
+
+		public override bool AllMatchingObjectsOnScreenMatchesWith(WorldObject other)
+		{
+			Site site = other as Site;
+			return site != null && site.LeadingSiteDef == this.LeadingSiteDef;
 		}
 
 		public override string GetInspectString()

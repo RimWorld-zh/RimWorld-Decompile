@@ -6,21 +6,20 @@ namespace RimWorld
 	{
 		public override bool ShouldShowFor(BuildableDef eDef)
 		{
-			bool result;
 			if (!base.ShouldShowFor(eDef))
 			{
-				result = false;
+				return false;
 			}
-			else if (!(eDef is ThingDef))
+			if (!(eDef is ThingDef))
 			{
-				result = false;
+				return false;
 			}
-			else
+			ThingDef thingDef = eDef as ThingDef;
+			if (typeof(Building_Bed).IsAssignableFrom(thingDef.thingClass))
 			{
-				ThingDef thingDef = eDef as ThingDef;
-				result = ((byte)(typeof(Building_Bed).IsAssignableFrom(thingDef.thingClass) ? 1 : 0) != 0);
+				return true;
 			}
-			return result;
+			return false;
 		}
 	}
 }

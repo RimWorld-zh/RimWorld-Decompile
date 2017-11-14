@@ -1,4 +1,3 @@
-using System;
 using UnityEngine.SceneManagement;
 using Verse.Profile;
 
@@ -29,7 +28,7 @@ namespace Verse
 		public static void GoToMainMenu()
 		{
 			LongEventHandler.ClearQueuedEvents();
-			LongEventHandler.QueueLongEvent((Action)delegate
+			LongEventHandler.QueueLongEvent(delegate
 			{
 				MemoryUtility.ClearAllMapsAndWorld();
 				Current.Game = null;

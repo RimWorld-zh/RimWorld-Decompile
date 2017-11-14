@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -30,10 +29,8 @@ namespace RimWorld
 			if (countIn != 0)
 			{
 				base.OpenCloseWidget(node, nestLevel, openMask);
-				Rect rect = new Rect(0f, base.curY, this.LabelWidth, base.lineHeight)
-				{
-					xMin = (float)(base.XAtIndentLevel(nestLevel) + 18.0)
-				};
+				Rect rect = new Rect(0f, base.curY, this.LabelWidth, base.lineHeight);
+				rect.xMin = (float)(base.XAtIndentLevel(nestLevel) + 18.0);
 				Rect position = rect;
 				position.width = 80f;
 				position.yMax -= 3f;
@@ -45,15 +42,12 @@ namespace RimWorld
 				}
 				TooltipHandler.TipRegion(rect, new TipSignal(node.catDef.LabelCap, node.catDef.GetHashCode()));
 				Rect position2 = new Rect(rect);
-				float num = 28f;
-				position2.height = num;
-				position2.width = num;
+				float num3 = position2.width = (position2.height = 28f);
 				position2.y = (float)(rect.y + rect.height / 2.0 - position2.height / 2.0);
 				GUI.DrawTexture(position2, node.catDef.icon);
-				Widgets.Label(new Rect(rect)
-				{
-					xMin = (float)(position2.xMax + 6.0)
-				}, countIn.ToStringCached());
+				Rect rect2 = new Rect(rect);
+				rect2.xMin = (float)(position2.xMax + 6.0);
+				Widgets.Label(rect2, countIn.ToStringCached());
 				base.EndLine();
 				if (node.IsOpen(openMask))
 				{
@@ -85,25 +79,20 @@ namespace RimWorld
 			int count = this.map.resourceCounter.GetCount(thingDef);
 			if (count != 0)
 			{
-				Rect rect = new Rect(0f, base.curY, this.LabelWidth, base.lineHeight)
-				{
-					xMin = (float)(base.XAtIndentLevel(nestLevel) + 18.0)
-				};
+				Rect rect = new Rect(0f, base.curY, this.LabelWidth, base.lineHeight);
+				rect.xMin = (float)(base.XAtIndentLevel(nestLevel) + 18.0);
 				if (Mouse.IsOver(rect))
 				{
 					GUI.DrawTexture(rect, TexUI.HighlightTex);
 				}
-				TooltipHandler.TipRegion(rect, new TipSignal((Func<string>)(() => thingDef.LabelCap + ": " + thingDef.description), thingDef.shortHash));
+				TooltipHandler.TipRegion(rect, new TipSignal(() => thingDef.LabelCap + ": " + thingDef.description, thingDef.shortHash));
 				Rect rect2 = new Rect(rect);
-				float num = 28f;
-				rect2.height = num;
-				rect2.width = num;
+				float num3 = rect2.width = (rect2.height = 28f);
 				rect2.y = (float)(rect.y + rect.height / 2.0 - rect2.height / 2.0);
 				Widgets.ThingIcon(rect2, thingDef);
-				Widgets.Label(new Rect(rect)
-				{
-					xMin = (float)(rect2.xMax + 6.0)
-				}, count.ToStringCached());
+				Rect rect3 = new Rect(rect);
+				rect3.xMin = (float)(rect2.xMax + 6.0);
+				Widgets.Label(rect3, count.ToStringCached());
 				base.EndLine();
 			}
 		}

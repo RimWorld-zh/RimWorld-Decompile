@@ -12,20 +12,20 @@ namespace Verse
 			Vector3[] vertices = mesh.vertices;
 			Color32[] colors = mesh.colors32;
 			Vector2[] uv = mesh.uv;
-			for (int num = 0; num < vertexCount; num++)
+			for (int i = 0; i < vertexCount; i++)
 			{
-				subMesh.verts.Add(vertices[num] + center);
-				if (colors.Length > num)
+				subMesh.verts.Add(vertices[i] + center);
+				if (colors.Length > i)
 				{
-					subMesh.colors.Add(colors[num]);
+					subMesh.colors.Add(colors[i]);
 				}
 				else
 				{
-					subMesh.colors.Add(new Color32((byte)255, (byte)255, (byte)255, (byte)255));
+					subMesh.colors.Add(new Color32(255, 255, 255, 255));
 				}
-				if (uv.Length > num)
+				if (uv.Length > i)
 				{
-					subMesh.uvs.Add(uv[num]);
+					subMesh.uvs.Add(uv[i]);
 				}
 				else
 				{
@@ -33,10 +33,9 @@ namespace Verse
 				}
 			}
 			int[] triangles = mesh.triangles;
-			for (int i = 0; i < triangles.Length; i++)
+			foreach (int num in triangles)
 			{
-				int num2 = triangles[i];
-				subMesh.tris.Add(count + num2);
+				subMesh.tris.Add(count + num);
 			}
 		}
 	}

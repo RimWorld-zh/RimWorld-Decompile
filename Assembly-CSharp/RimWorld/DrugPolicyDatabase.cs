@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -45,13 +44,20 @@ namespace RimWorld
 					return new AcceptanceReport("DrugPolicyInUse".Translate(allMapsCaravansAndTravelingTransportPod));
 				}
 			}
+			foreach (Pawn item in PawnsFinder.AllMapsWorldAndTemporary_AliveOrDead)
+			{
+				if (item.drugs != null && item.drugs.CurrentPolicy == policy)
+				{
+					item.drugs.CurrentPolicy = null;
+				}
+			}
 			this.policies.Remove(policy);
 			return AcceptanceReport.WasAccepted;
 		}
 
 		public DrugPolicy MakeNewDrugPolicy()
 		{
-			int uniqueId = (!this.policies.Any()) ? 1 : (this.policies.Max((Func<DrugPolicy, int>)((DrugPolicy o) => o.uniqueId)) + 1);
+			int uniqueId = (!this.policies.Any()) ? 1 : (this.policies.Max((DrugPolicy o) => o.uniqueId) + 1);
 			DrugPolicy drugPolicy = new DrugPolicy(uniqueId, "DrugPolicy".Translate() + " " + uniqueId.ToString());
 			this.policies.Add(drugPolicy);
 			return drugPolicy;

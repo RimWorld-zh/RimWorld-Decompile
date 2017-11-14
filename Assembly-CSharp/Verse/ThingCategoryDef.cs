@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,15 +5,15 @@ namespace Verse
 {
 	public class ThingCategoryDef : Def
 	{
-		public ThingCategoryDef parent = null;
+		public ThingCategoryDef parent;
 
 		[NoTranslate]
-		public string iconPath = (string)null;
+		public string iconPath;
 
-		public bool resourceReadoutRoot = false;
+		public bool resourceReadoutRoot;
 
 		[Unsaved]
-		public TreeNode_ThingCategory treeNode = null;
+		public TreeNode_ThingCategory treeNode;
 
 		[Unsaved]
 		public List<ThingCategoryDef> childCategories = new List<ThingCategoryDef>();
@@ -65,8 +64,8 @@ namespace Verse
 					}
 				}
 				yield break;
-				IL_0126:
-				/*Error near IL_0127: Unexpected return in MoveNext()*/;
+				IL_011f:
+				/*Error near IL_0120: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -87,8 +86,8 @@ namespace Verse
 					}
 				}
 				yield break;
-				IL_0126:
-				/*Error near IL_0127: Unexpected return in MoveNext()*/;
+				IL_011f:
+				/*Error near IL_0120: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -109,8 +108,8 @@ namespace Verse
 					}
 				}
 				yield break;
-				IL_0126:
-				/*Error near IL_0127: Unexpected return in MoveNext()*/;
+				IL_011f:
+				/*Error near IL_0120: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -119,7 +118,7 @@ namespace Verse
 			this.treeNode = new TreeNode_ThingCategory(this);
 			if (!this.iconPath.NullOrEmpty())
 			{
-				LongEventHandler.ExecuteWhenFinished((Action)delegate
+				LongEventHandler.ExecuteWhenFinished(delegate
 				{
 					this.icon = ContentFinder<Texture2D>.Get(this.iconPath, true);
 				});

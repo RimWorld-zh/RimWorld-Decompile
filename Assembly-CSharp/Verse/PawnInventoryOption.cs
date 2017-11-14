@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -13,9 +12,9 @@ namespace Verse
 
 		public float skipChance;
 
-		public List<PawnInventoryOption> subOptionsTakeAll = null;
+		public List<PawnInventoryOption> subOptionsTakeAll;
 
-		public List<PawnInventoryOption> subOptionsChooseOne = null;
+		public List<PawnInventoryOption> subOptionsChooseOne;
 
 		public IEnumerable<Thing> GenerateThings()
 		{
@@ -45,7 +44,7 @@ namespace Verse
 				}
 				if (this.subOptionsChooseOne != null)
 				{
-					PawnInventoryOption chosen = this.subOptionsChooseOne.RandomElementByWeight((Func<PawnInventoryOption, float>)((PawnInventoryOption o) => o.choiceChance));
+					PawnInventoryOption chosen = this.subOptionsChooseOne.RandomElementByWeight((PawnInventoryOption o) => o.choiceChance);
 					using (IEnumerator<Thing> enumerator3 = chosen.GenerateThings().GetEnumerator())
 					{
 						if (enumerator3.MoveNext())
@@ -58,8 +57,8 @@ namespace Verse
 				}
 			}
 			yield break;
-			IL_02a9:
-			/*Error near IL_02aa: Unexpected return in MoveNext()*/;
+			IL_0299:
+			/*Error near IL_029a: Unexpected return in MoveNext()*/;
 		}
 	}
 }

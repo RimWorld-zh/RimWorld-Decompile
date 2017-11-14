@@ -11,13 +11,13 @@ namespace RimWorld
 	{
 		private enum HistoryTab : byte
 		{
-			Graph = 0,
-			Statistics = 1
+			Graph,
+			Statistics
 		}
 
-		private HistoryTab curTab = HistoryTab.Graph;
+		private HistoryTab curTab;
 
-		private HistoryAutoRecorderGroup historyAutoRecorderGroup = null;
+		private HistoryAutoRecorderGroup historyAutoRecorderGroup;
 
 		private FloatRange graphSection;
 
@@ -52,11 +52,11 @@ namespace RimWorld
 			Rect rect2 = rect;
 			rect2.yMin += 45f;
 			List<TabRecord> list = new List<TabRecord>();
-			list.Add(new TabRecord("Graph".Translate(), (Action)delegate
+			list.Add(new TabRecord("Graph".Translate(), delegate
 			{
 				this.curTab = HistoryTab.Graph;
 			}, this.curTab == HistoryTab.Graph));
-			list.Add(new TabRecord("Statistics".Translate(), (Action)delegate
+			list.Add(new TabRecord("Statistics".Translate(), delegate
 			{
 				this.curTab = HistoryTab.Statistics;
 			}, this.curTab == HistoryTab.Statistics));
@@ -64,15 +64,11 @@ namespace RimWorld
 			switch (this.curTab)
 			{
 			case HistoryTab.Graph:
-			{
 				this.DoGraphPage(rect2);
 				break;
-			}
 			case HistoryTab.Statistics:
-			{
 				this.DoStatisticsPage(rect2);
 				break;
-			}
 			}
 		}
 
@@ -158,7 +154,7 @@ namespace RimWorld
 				for (int j = 0; j < list2.Count; j++)
 				{
 					HistoryAutoRecorderGroup groupLocal = list2[j];
-					list.Add(new FloatMenuOption(groupLocal.def.LabelCap, (Action)delegate
+					list.Add(new FloatMenuOption(groupLocal.def.LabelCap, delegate
 					{
 						this.historyAutoRecorderGroup = groupLocal;
 					}, MenuOptionPriority.Default, null, null, 0f, null, null));

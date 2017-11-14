@@ -81,6 +81,7 @@ namespace Verse
 			Scribe_Values.Look<CellRect>(ref this.rect, "rect", default(CellRect), false);
 			Scribe_Values.Look<bool>(ref this.destroyIfUnfogged, "destroyIfUnfogged", false, false);
 			Scribe_Values.Look<bool>(ref this.activateOnExplosion, "activateOnExplosion", false, false);
+			Scribe_Values.Look<string>(ref this.signalTag, "signalTag", (string)null, false);
 		}
 	}
 }

@@ -6,16 +6,16 @@ namespace Ionic.Zlib
 	{
 		private enum InflateBlockMode
 		{
-			TYPE = 0,
-			LENS = 1,
-			STORED = 2,
-			TABLE = 3,
-			BTREE = 4,
-			DTREE = 5,
-			CODES = 6,
-			DRY = 7,
-			DONE = 8,
-			BAD = 9
+			TYPE,
+			LENS,
+			STORED,
+			TABLE,
+			BTREE,
+			DTREE,
+			CODES,
+			DRY,
+			DONE,
+			BAD
 		}
 
 		private const int MANY = 1440;
@@ -116,280 +116,285 @@ namespace Ionic.Zlib
 			int num4 = this.bitk;
 			int num5 = this.writeAt;
 			int num6 = (num5 >= this.readAt) ? (this.end - num5) : (this.readAt - num5 - 1);
-			int result;
 			while (true)
 			{
-				int num8;
 				switch (this.mode)
 				{
-				case InflateBlockMode.DTREE:
-					goto IL_09cf;
-				case InflateBlockMode.CODES:
-					goto IL_0e42;
-				case InflateBlockMode.DRY:
-					goto IL_0f34;
-				case InflateBlockMode.DONE:
-					goto IL_0ff0;
 				case InflateBlockMode.TYPE:
-				{
-					while (num4 < 3)
-					{
-						if (num2 != 0)
-						{
-							r = 0;
-							num2--;
-							num3 |= (this._codec.InputBuffer[num++] & 255) << num4;
-							num4 += 8;
-							continue;
-						}
-						goto IL_00ad;
-					}
-					num8 = (num3 & 7);
-					this.last = (num8 & 1);
-					switch ((uint)num8 >> 1)
-					{
-					case 0u:
-					{
-						num3 >>= 3;
-						num4 -= 3;
-						num8 = (num4 & 7);
-						num3 >>= num8;
-						num4 -= num8;
-						this.mode = InflateBlockMode.LENS;
-						break;
-					}
-					case 1u:
-					{
-						int[] array = new int[1];
-						int[] array2 = new int[1];
-						int[][] array3 = new int[1][];
-						int[][] array4 = new int[1][];
-						InfTree.inflate_trees_fixed(array, array2, array3, array4, this._codec);
-						this.codes.Init(array[0], array2[0], array3[0], 0, array4[0], 0);
-						num3 >>= 3;
-						num4 -= 3;
-						this.mode = InflateBlockMode.CODES;
-						break;
-					}
-					case 2u:
-					{
-						num3 >>= 3;
-						num4 -= 3;
-						this.mode = InflateBlockMode.TABLE;
-						break;
-					}
-					case 3u:
-					{
-						num3 >>= 3;
-						num4 -= 3;
-						this.mode = InflateBlockMode.BAD;
-						this._codec.Message = "invalid block type";
-						r = -3;
-						this.bitb = num3;
-						this.bitk = num4;
-						this._codec.AvailableBytesIn = num2;
-						this._codec.TotalBytesIn += (long)(num - this._codec.NextIn);
-						this._codec.NextIn = num;
-						this.writeAt = num5;
-						result = this.Flush(r);
-						goto end_IL_0058;
-					}
-					}
-					continue;
-				}
+					break;
 				case InflateBlockMode.LENS:
+					goto IL_030c;
+				case InflateBlockMode.STORED:
+					goto IL_03dd;
+				case InflateBlockMode.TABLE:
+					goto IL_068c;
+				case InflateBlockMode.BTREE:
+					goto IL_085f;
+				case InflateBlockMode.DTREE:
+					goto IL_0965;
+				case InflateBlockMode.CODES:
+					goto IL_0da6;
+				case InflateBlockMode.DRY:
+					goto IL_0e90;
+				case InflateBlockMode.DONE:
+					goto end_IL_0057;
+				case InflateBlockMode.BAD:
+					r = -3;
+					this.bitb = num3;
+					this.bitk = num4;
+					this._codec.AvailableBytesIn = num2;
+					this._codec.TotalBytesIn += num - this._codec.NextIn;
+					this._codec.NextIn = num;
+					this.writeAt = num5;
+					return this.Flush(r);
+				default:
+					r = -2;
+					this.bitb = num3;
+					this.bitk = num4;
+					this._codec.AvailableBytesIn = num2;
+					this._codec.TotalBytesIn += num - this._codec.NextIn;
+					this._codec.NextIn = num;
+					this.writeAt = num5;
+					return this.Flush(r);
+				}
+				while (num4 < 3)
 				{
-					while (num4 < 32)
+					if (num2 != 0)
 					{
-						if (num2 != 0)
-						{
-							r = 0;
-							num2--;
-							num3 |= (this._codec.InputBuffer[num++] & 255) << num4;
-							num4 += 8;
-							continue;
-						}
-						goto IL_02a3;
+						r = 0;
+						num2--;
+						num3 |= (this._codec.InputBuffer[num++] & 0xFF) << num4;
+						num4 += 8;
+						continue;
 					}
-					if ((~num3 >> 16 & 65535) != (num3 & 65535))
+					this.bitb = num3;
+					this.bitk = num4;
+					this._codec.AvailableBytesIn = num2;
+					this._codec.TotalBytesIn += num - this._codec.NextIn;
+					this._codec.NextIn = num;
+					this.writeAt = num5;
+					return this.Flush(r);
+				}
+				int num8 = num3 & 7;
+				this.last = (num8 & 1);
+				switch ((uint)num8 >> 1)
+				{
+				case 0u:
+					num3 >>= 3;
+					num4 -= 3;
+					num8 = (num4 & 7);
+					num3 >>= num8;
+					num4 -= num8;
+					this.mode = InflateBlockMode.LENS;
+					break;
+				case 1u:
+				{
+					int[] array = new int[1];
+					int[] array2 = new int[1];
+					int[][] array3 = new int[1][];
+					int[][] array4 = new int[1][];
+					InfTree.inflate_trees_fixed(array, array2, array3, array4, this._codec);
+					this.codes.Init(array[0], array2[0], array3[0], 0, array4[0], 0);
+					num3 >>= 3;
+					num4 -= 3;
+					this.mode = InflateBlockMode.CODES;
+					break;
+				}
+				case 2u:
+					num3 >>= 3;
+					num4 -= 3;
+					this.mode = InflateBlockMode.TABLE;
+					break;
+				case 3u:
+					num3 >>= 3;
+					num4 -= 3;
+					this.mode = InflateBlockMode.BAD;
+					this._codec.Message = "invalid block type";
+					r = -3;
+					this.bitb = num3;
+					this.bitk = num4;
+					this._codec.AvailableBytesIn = num2;
+					this._codec.TotalBytesIn += num - this._codec.NextIn;
+					this._codec.NextIn = num;
+					this.writeAt = num5;
+					return this.Flush(r);
+				}
+				continue;
+				IL_068c:
+				while (num4 < 14)
+				{
+					if (num2 != 0)
 					{
-						this.mode = InflateBlockMode.BAD;
-						this._codec.Message = "invalid stored block lengths";
-						r = -3;
-						this.bitb = num3;
-						this.bitk = num4;
-						this._codec.AvailableBytesIn = num2;
-						this._codec.TotalBytesIn += (long)(num - this._codec.NextIn);
-						this._codec.NextIn = num;
-						this.writeAt = num5;
-						result = this.Flush(r);
-						goto end_IL_0058;
+						r = 0;
+						num2--;
+						num3 |= (this._codec.InputBuffer[num++] & 0xFF) << num4;
+						num4 += 8;
+						continue;
 					}
-					this.left = (num3 & 65535);
-					num3 = (num4 = 0);
-					this.mode = (InflateBlockMode)((this.left == 0) ? ((this.last != 0) ? 7 : 0) : 2);
+					this.bitb = num3;
+					this.bitk = num4;
+					this._codec.AvailableBytesIn = num2;
+					this._codec.TotalBytesIn += num - this._codec.NextIn;
+					this._codec.NextIn = num;
+					this.writeAt = num5;
+					return this.Flush(r);
+				}
+				num8 = (this.table = (num3 & 0x3FFF));
+				if ((num8 & 0x1F) <= 29 && (num8 >> 5 & 0x1F) <= 29)
+				{
+					num8 = 258 + (num8 & 0x1F) + (num8 >> 5 & 0x1F);
+					if (this.blens == null || this.blens.Length < num8)
+					{
+						this.blens = new int[num8];
+					}
+					else
+					{
+						Array.Clear(this.blens, 0, num8);
+					}
+					num3 >>= 14;
+					num4 -= 14;
+					this.index = 0;
+					this.mode = InflateBlockMode.BTREE;
+					goto IL_085f;
+				}
+				this.mode = InflateBlockMode.BAD;
+				this._codec.Message = "too many length or distance symbols";
+				r = -3;
+				this.bitb = num3;
+				this.bitk = num4;
+				this._codec.AvailableBytesIn = num2;
+				this._codec.TotalBytesIn += num - this._codec.NextIn;
+				this._codec.NextIn = num;
+				this.writeAt = num5;
+				return this.Flush(r);
+				IL_030c:
+				while (num4 < 32)
+				{
+					if (num2 != 0)
+					{
+						r = 0;
+						num2--;
+						num3 |= (this._codec.InputBuffer[num++] & 0xFF) << num4;
+						num4 += 8;
+						continue;
+					}
+					this.bitb = num3;
+					this.bitk = num4;
+					this._codec.AvailableBytesIn = num2;
+					this._codec.TotalBytesIn += num - this._codec.NextIn;
+					this._codec.NextIn = num;
+					this.writeAt = num5;
+					return this.Flush(r);
+				}
+				if ((~num3 >> 16 & 0xFFFF) != (num3 & 0xFFFF))
+				{
+					this.mode = InflateBlockMode.BAD;
+					this._codec.Message = "invalid stored block lengths";
+					r = -3;
+					this.bitb = num3;
+					this.bitk = num4;
+					this._codec.AvailableBytesIn = num2;
+					this._codec.TotalBytesIn += num - this._codec.NextIn;
+					this._codec.NextIn = num;
+					this.writeAt = num5;
+					return this.Flush(r);
+				}
+				this.left = (num3 & 0xFFFF);
+				num3 = (num4 = 0);
+				this.mode = (InflateBlockMode)((this.left == 0) ? ((this.last != 0) ? 7 : 0) : 2);
+				continue;
+				IL_0da6:
+				this.bitb = num3;
+				this.bitk = num4;
+				this._codec.AvailableBytesIn = num2;
+				this._codec.TotalBytesIn += num - this._codec.NextIn;
+				this._codec.NextIn = num;
+				this.writeAt = num5;
+				r = this.codes.Process(this, r);
+				if (r != 1)
+				{
+					return this.Flush(r);
+				}
+				r = 0;
+				num = this._codec.NextIn;
+				num2 = this._codec.AvailableBytesIn;
+				num3 = this.bitb;
+				num4 = this.bitk;
+				num5 = this.writeAt;
+				num6 = ((num5 >= this.readAt) ? (this.end - num5) : (this.readAt - num5 - 1));
+				if (this.last == 0)
+				{
+					this.mode = InflateBlockMode.TYPE;
 					continue;
 				}
-				case InflateBlockMode.STORED:
+				this.mode = InflateBlockMode.DRY;
+				goto IL_0e90;
+				IL_03dd:
+				if (num2 == 0)
 				{
-					if (num2 == 0)
+					this.bitb = num3;
+					this.bitk = num4;
+					this._codec.AvailableBytesIn = num2;
+					this._codec.TotalBytesIn += num - this._codec.NextIn;
+					this._codec.NextIn = num;
+					this.writeAt = num5;
+					return this.Flush(r);
+				}
+				if (num6 == 0)
+				{
+					if (num5 == this.end && this.readAt != 0)
 					{
-						this.bitb = num3;
-						this.bitk = num4;
-						this._codec.AvailableBytesIn = num2;
-						this._codec.TotalBytesIn += (long)(num - this._codec.NextIn);
-						this._codec.NextIn = num;
-						this.writeAt = num5;
-						result = this.Flush(r);
-						goto end_IL_0058;
+						num5 = 0;
+						num6 = ((num5 >= this.readAt) ? (this.end - num5) : (this.readAt - num5 - 1));
 					}
 					if (num6 == 0)
 					{
-						if (((num5 == this.end) ? this.readAt : 0) != 0)
+						this.writeAt = num5;
+						r = this.Flush(r);
+						num5 = this.writeAt;
+						num6 = ((num5 >= this.readAt) ? (this.end - num5) : (this.readAt - num5 - 1));
+						if (num5 == this.end && this.readAt != 0)
 						{
 							num5 = 0;
 							num6 = ((num5 >= this.readAt) ? (this.end - num5) : (this.readAt - num5 - 1));
 						}
 						if (num6 == 0)
 						{
+							this.bitb = num3;
+							this.bitk = num4;
+							this._codec.AvailableBytesIn = num2;
+							this._codec.TotalBytesIn += num - this._codec.NextIn;
+							this._codec.NextIn = num;
 							this.writeAt = num5;
-							r = this.Flush(r);
-							num5 = this.writeAt;
-							num6 = ((num5 >= this.readAt) ? (this.end - num5) : (this.readAt - num5 - 1));
-							if (((num5 == this.end) ? this.readAt : 0) != 0)
-							{
-								num5 = 0;
-								num6 = ((num5 >= this.readAt) ? (this.end - num5) : (this.readAt - num5 - 1));
-							}
-							if (num6 == 0)
-							{
-								this.bitb = num3;
-								this.bitk = num4;
-								this._codec.AvailableBytesIn = num2;
-								this._codec.TotalBytesIn += (long)(num - this._codec.NextIn);
-								this._codec.NextIn = num;
-								this.writeAt = num5;
-								result = this.Flush(r);
-								goto end_IL_0058;
-							}
+							return this.Flush(r);
 						}
 					}
-					r = 0;
-					num8 = this.left;
-					if (num8 > num2)
-					{
-						num8 = num2;
-					}
-					if (num8 > num6)
-					{
-						num8 = num6;
-					}
-					Array.Copy(this._codec.InputBuffer, num, this.window, num5, num8);
-					num += num8;
-					num2 -= num8;
-					num5 += num8;
-					num6 -= num8;
-					if ((this.left -= num8) == 0)
-					{
-						this.mode = (InflateBlockMode)((this.last != 0) ? 7 : 0);
-					}
-					continue;
 				}
-				case InflateBlockMode.TABLE:
+				r = 0;
+				num8 = this.left;
+				if (num8 > num2)
 				{
-					while (num4 < 14)
-					{
-						if (num2 != 0)
-						{
-							r = 0;
-							num2--;
-							num3 |= (this._codec.InputBuffer[num++] & 255) << num4;
-							num4 += 8;
-							continue;
-						}
-						goto IL_064b;
-					}
-					num8 = (this.table = (num3 & 16383));
-					if ((num8 & 31) <= 29 && (num8 >> 5 & 31) <= 29)
-					{
-						num8 = 258 + (num8 & 31) + (num8 >> 5 & 31);
-						if (this.blens == null || this.blens.Length < num8)
-						{
-							this.blens = new int[num8];
-						}
-						else
-						{
-							Array.Clear(this.blens, 0, num8);
-						}
-						num3 >>= 14;
-						num4 -= 14;
-						this.index = 0;
-						this.mode = InflateBlockMode.BTREE;
-						goto IL_08be;
-					}
-					this.mode = InflateBlockMode.BAD;
-					this._codec.Message = "too many length or distance symbols";
-					r = -3;
-					this.bitb = num3;
-					this.bitk = num4;
-					this._codec.AvailableBytesIn = num2;
-					this._codec.TotalBytesIn += (long)(num - this._codec.NextIn);
-					this._codec.NextIn = num;
-					this.writeAt = num5;
-					result = this.Flush(r);
-					break;
+					num8 = num2;
 				}
-				case InflateBlockMode.BTREE:
-					goto IL_08be;
-				case InflateBlockMode.BAD:
+				if (num8 > num6)
 				{
-					r = -3;
-					this.bitb = num3;
-					this.bitk = num4;
-					this._codec.AvailableBytesIn = num2;
-					this._codec.TotalBytesIn += (long)(num - this._codec.NextIn);
-					this._codec.NextIn = num;
-					this.writeAt = num5;
-					result = this.Flush(r);
-					break;
+					num8 = num6;
 				}
-				default:
+				Array.Copy(this._codec.InputBuffer, num, this.window, num5, num8);
+				num += num8;
+				num2 -= num8;
+				num5 += num8;
+				num6 -= num8;
+				if ((this.left -= num8) == 0)
 				{
-					r = -2;
-					this.bitb = num3;
-					this.bitk = num4;
-					this._codec.AvailableBytesIn = num2;
-					this._codec.TotalBytesIn += (long)(num - this._codec.NextIn);
-					this._codec.NextIn = num;
-					this.writeAt = num5;
-					result = this.Flush(r);
-					break;
+					this.mode = (InflateBlockMode)((this.last != 0) ? 7 : 0);
 				}
-				}
-				break;
-				IL_0b5e:
-				this.bitb = num3;
-				this.bitk = num4;
-				this._codec.AvailableBytesIn = num2;
-				this._codec.TotalBytesIn += (long)(num - this._codec.NextIn);
-				this._codec.NextIn = num;
-				this.writeAt = num5;
-				result = this.Flush(r);
-				break;
-				IL_02a3:
-				this.bitb = num3;
-				this.bitk = num4;
-				this._codec.AvailableBytesIn = num2;
-				this._codec.TotalBytesIn += (long)(num - this._codec.NextIn);
-				this._codec.NextIn = num;
-				this.writeAt = num5;
-				result = this.Flush(r);
-				break;
-				IL_09cf:
+				continue;
+				IL_0965:
 				while (true)
 				{
 					num8 = this.table;
-					if (this.index < 258 + (num8 & 31) + (num8 >> 5 & 31))
+					if (this.index < 258 + (num8 & 0x1F) + (num8 >> 5 & 0x1F))
 					{
 						num8 = this.bb[0];
 						while (num4 < num8)
@@ -398,11 +403,17 @@ namespace Ionic.Zlib
 							{
 								r = 0;
 								num2--;
-								num3 |= (this._codec.InputBuffer[num++] & 255) << num4;
+								num3 |= (this._codec.InputBuffer[num++] & 0xFF) << num4;
 								num4 += 8;
 								continue;
 							}
-							goto IL_0a1a;
+							this.bitb = num3;
+							this.bitk = num4;
+							this._codec.AvailableBytesIn = num2;
+							this._codec.TotalBytesIn += num - this._codec.NextIn;
+							this._codec.NextIn = num;
+							this.writeAt = num5;
+							return this.Flush(r);
 						}
 						num8 = this.hufts[(this.tb[0] + (num3 & InternalInflateConstants.InflateMask[num8])) * 3 + 1];
 						int num12 = this.hufts[(this.tb[0] + (num3 & InternalInflateConstants.InflateMask[num8])) * 3 + 2];
@@ -410,47 +421,59 @@ namespace Ionic.Zlib
 						{
 							num3 >>= num8;
 							num4 -= num8;
-							int[] obj = this.blens;
-							int num13 = this.index;
-							int num14 = num13;
-							this.index = num13 + 1;
-							obj[num14] = num12;
+							this.blens[this.index++] = num12;
 							continue;
 						}
-						int num15 = (num12 != 18) ? (num12 - 14) : 7;
-						int num16 = (num12 != 18) ? 3 : 11;
-						while (num4 < num8 + num15)
+						int num13 = (num12 != 18) ? (num12 - 14) : 7;
+						int num14 = (num12 != 18) ? 3 : 11;
+						while (num4 < num8 + num13)
 						{
 							if (num2 != 0)
 							{
 								r = 0;
 								num2--;
-								num3 |= (this._codec.InputBuffer[num++] & 255) << num4;
+								num3 |= (this._codec.InputBuffer[num++] & 0xFF) << num4;
 								num4 += 8;
 								continue;
 							}
-							goto IL_0b5e;
+							this.bitb = num3;
+							this.bitk = num4;
+							this._codec.AvailableBytesIn = num2;
+							this._codec.TotalBytesIn += num - this._codec.NextIn;
+							this._codec.NextIn = num;
+							this.writeAt = num5;
+							return this.Flush(r);
 						}
 						num3 >>= num8;
 						num4 -= num8;
-						num16 += (num3 & InternalInflateConstants.InflateMask[num15]);
-						num3 >>= num15;
-						num4 -= num15;
-						num15 = this.index;
+						num14 += (num3 & InternalInflateConstants.InflateMask[num13]);
+						num3 >>= num13;
+						num4 -= num13;
+						num13 = this.index;
 						num8 = this.table;
-						if (num15 + num16 <= 258 + (num8 & 31) + (num8 >> 5 & 31) && (num12 != 16 || num15 >= 1))
+						if (num13 + num14 <= 258 + (num8 & 0x1F) + (num8 >> 5 & 0x1F) && (num12 != 16 || num13 >= 1))
 						{
-							num12 = ((num12 == 16) ? this.blens[num15 - 1] : 0);
+							num12 = ((num12 == 16) ? this.blens[num13 - 1] : 0);
 							while (true)
 							{
-								this.blens[num15++] = num12;
-								if (--num16 == 0)
+								this.blens[num13++] = num12;
+								if (--num14 == 0)
 									break;
 							}
-							this.index = num15;
+							this.index = num13;
 							continue;
 						}
-						goto IL_0c52;
+						this.blens = null;
+						this.mode = InflateBlockMode.BAD;
+						this._codec.Message = "invalid bit length repeat";
+						r = -3;
+						this.bitb = num3;
+						this.bitk = num4;
+						this._codec.AvailableBytesIn = num2;
+						this._codec.TotalBytesIn += num - this._codec.NextIn;
+						this._codec.NextIn = num;
+						this.writeAt = num5;
+						return this.Flush(r);
 					}
 					break;
 				}
@@ -466,127 +489,29 @@ namespace Ionic.Zlib
 				int[] array7 = new int[1];
 				int[] array8 = new int[1];
 				num8 = this.table;
-				num8 = this.inftree.inflate_trees_dynamic(257 + (num8 & 31), 1 + (num8 >> 5 & 31), this.blens, array5, array6, array7, array8, this.hufts, this._codec);
+				num8 = this.inftree.inflate_trees_dynamic(257 + (num8 & 0x1F), 1 + (num8 >> 5 & 0x1F), this.blens, array5, array6, array7, array8, this.hufts, this._codec);
 				switch (num8)
 				{
 				case -3:
-				{
 					this.blens = null;
 					this.mode = InflateBlockMode.BAD;
-					break;
-				}
-				case 0:
-				{
-					this.codes.Init(array5[0], array6[0], this.hufts, array7[0], this.hufts, array8[0]);
-					this.mode = InflateBlockMode.CODES;
-					goto IL_0e42;
-				}
-				}
-				r = num8;
-				this.bitb = num3;
-				this.bitk = num4;
-				this._codec.AvailableBytesIn = num2;
-				this._codec.TotalBytesIn += (long)(num - this._codec.NextIn);
-				this._codec.NextIn = num;
-				this.writeAt = num5;
-				result = this.Flush(r);
-				break;
-				IL_00ad:
-				this.bitb = num3;
-				this.bitk = num4;
-				this._codec.AvailableBytesIn = num2;
-				this._codec.TotalBytesIn += (long)(num - this._codec.NextIn);
-				this._codec.NextIn = num;
-				this.writeAt = num5;
-				result = this.Flush(r);
-				break;
-				IL_0f34:
-				this.writeAt = num5;
-				r = this.Flush(r);
-				num5 = this.writeAt;
-				num6 = ((num5 >= this.readAt) ? (this.end - num5) : (this.readAt - num5 - 1));
-				if (this.readAt != this.writeAt)
-				{
+					goto default;
+				default:
+					r = num8;
 					this.bitb = num3;
 					this.bitk = num4;
 					this._codec.AvailableBytesIn = num2;
-					this._codec.TotalBytesIn += (long)(num - this._codec.NextIn);
+					this._codec.TotalBytesIn += num - this._codec.NextIn;
 					this._codec.NextIn = num;
 					this.writeAt = num5;
-					result = this.Flush(r);
+					return this.Flush(r);
+				case 0:
 					break;
 				}
-				this.mode = InflateBlockMode.DONE;
-				goto IL_0ff0;
-				IL_064b:
-				this.bitb = num3;
-				this.bitk = num4;
-				this._codec.AvailableBytesIn = num2;
-				this._codec.TotalBytesIn += (long)(num - this._codec.NextIn);
-				this._codec.NextIn = num;
-				this.writeAt = num5;
-				result = this.Flush(r);
-				break;
-				IL_0ff0:
-				r = 1;
-				this.bitb = num3;
-				this.bitk = num4;
-				this._codec.AvailableBytesIn = num2;
-				this._codec.TotalBytesIn += (long)(num - this._codec.NextIn);
-				this._codec.NextIn = num;
-				this.writeAt = num5;
-				result = this.Flush(r);
-				break;
-				IL_0803:
-				this.bitb = num3;
-				this.bitk = num4;
-				this._codec.AvailableBytesIn = num2;
-				this._codec.TotalBytesIn += (long)(num - this._codec.NextIn);
-				this._codec.NextIn = num;
-				this.writeAt = num5;
-				result = this.Flush(r);
-				break;
-				IL_0c52:
-				this.blens = null;
-				this.mode = InflateBlockMode.BAD;
-				this._codec.Message = "invalid bit length repeat";
-				r = -3;
-				this.bitb = num3;
-				this.bitk = num4;
-				this._codec.AvailableBytesIn = num2;
-				this._codec.TotalBytesIn += (long)(num - this._codec.NextIn);
-				this._codec.NextIn = num;
-				this.writeAt = num5;
-				result = this.Flush(r);
-				break;
-				IL_0e42:
-				this.bitb = num3;
-				this.bitk = num4;
-				this._codec.AvailableBytesIn = num2;
-				this._codec.TotalBytesIn += (long)(num - this._codec.NextIn);
-				this._codec.NextIn = num;
-				this.writeAt = num5;
-				r = this.codes.Process(this, r);
-				if (r != 1)
-				{
-					result = this.Flush(r);
-					break;
-				}
-				r = 0;
-				num = this._codec.NextIn;
-				num2 = this._codec.AvailableBytesIn;
-				num3 = this.bitb;
-				num4 = this.bitk;
-				num5 = this.writeAt;
-				num6 = ((num5 >= this.readAt) ? (this.end - num5) : (this.readAt - num5 - 1));
-				if (this.last == 0)
-				{
-					this.mode = InflateBlockMode.TYPE;
-					continue;
-				}
-				this.mode = InflateBlockMode.DRY;
-				goto IL_0f34;
-				IL_08be:
+				this.codes.Init(array5[0], array6[0], this.hufts, array7[0], this.hufts, array8[0]);
+				this.mode = InflateBlockMode.CODES;
+				goto IL_0da6;
+				IL_085f:
 				while (this.index < 4 + (this.table >> 10))
 				{
 					while (num4 < 3)
@@ -595,29 +520,25 @@ namespace Ionic.Zlib
 						{
 							r = 0;
 							num2--;
-							num3 |= (this._codec.InputBuffer[num++] & 255) << num4;
+							num3 |= (this._codec.InputBuffer[num++] & 0xFF) << num4;
 							num4 += 8;
 							continue;
 						}
-						goto IL_0803;
+						this.bitb = num3;
+						this.bitk = num4;
+						this._codec.AvailableBytesIn = num2;
+						this._codec.TotalBytesIn += num - this._codec.NextIn;
+						this._codec.NextIn = num;
+						this.writeAt = num5;
+						return this.Flush(r);
 					}
-					int[] obj2 = this.blens;
-					int[] obj3 = InflateBlocks.border;
-					int num20 = this.index;
-					int num14 = num20;
-					this.index = num20 + 1;
-					obj2[obj3[num14]] = (num3 & 7);
+					this.blens[InflateBlocks.border[this.index++]] = (num3 & 7);
 					num3 >>= 3;
 					num4 -= 3;
 				}
 				while (this.index < 19)
 				{
-					int[] obj4 = this.blens;
-					int[] obj5 = InflateBlocks.border;
-					int num21 = this.index;
-					int num14 = num21;
-					this.index = num21 + 1;
-					obj4[obj5[num14]] = 0;
+					this.blens[InflateBlocks.border[this.index++]] = 0;
 				}
 				this.bb[0] = 7;
 				num8 = this.inftree.inflate_trees_bits(this.blens, this.bb, this.tb, this.hufts, this._codec);
@@ -632,29 +553,43 @@ namespace Ionic.Zlib
 					this.bitb = num3;
 					this.bitk = num4;
 					this._codec.AvailableBytesIn = num2;
-					this._codec.TotalBytesIn += (long)(num - this._codec.NextIn);
+					this._codec.TotalBytesIn += num - this._codec.NextIn;
 					this._codec.NextIn = num;
 					this.writeAt = num5;
-					result = this.Flush(r);
-					break;
+					return this.Flush(r);
 				}
 				this.index = 0;
 				this.mode = InflateBlockMode.DTREE;
-				goto IL_09cf;
-				IL_0a1a:
-				this.bitb = num3;
-				this.bitk = num4;
-				this._codec.AvailableBytesIn = num2;
-				this._codec.TotalBytesIn += (long)(num - this._codec.NextIn);
-				this._codec.NextIn = num;
+				goto IL_0965;
+				IL_0e90:
 				this.writeAt = num5;
-				result = this.Flush(r);
+				r = this.Flush(r);
+				num5 = this.writeAt;
+				num6 = ((num5 >= this.readAt) ? (this.end - num5) : (this.readAt - num5 - 1));
+				if (this.readAt != this.writeAt)
+				{
+					this.bitb = num3;
+					this.bitk = num4;
+					this._codec.AvailableBytesIn = num2;
+					this._codec.TotalBytesIn += num - this._codec.NextIn;
+					this._codec.NextIn = num;
+					this.writeAt = num5;
+					return this.Flush(r);
+				}
+				this.mode = InflateBlockMode.DONE;
 				break;
 				continue;
-				end_IL_0058:
+				end_IL_0057:
 				break;
 			}
-			return result;
+			r = 1;
+			this.bitb = num3;
+			this.bitk = num4;
+			this._codec.AvailableBytesIn = num2;
+			this._codec.TotalBytesIn += num - this._codec.NextIn;
+			this._codec.NextIn = num;
+			this.writeAt = num5;
+			return this.Flush(r);
 		}
 
 		internal void Free()
@@ -677,58 +612,48 @@ namespace Ionic.Zlib
 
 		internal int Flush(int r)
 		{
-			int num = 0;
-			int result;
-			while (true)
+			for (int i = 0; i < 2; i++)
 			{
-				if (num < 2)
+				int num = (i != 0) ? (this.writeAt - this.readAt) : (((this.readAt > this.writeAt) ? this.end : this.writeAt) - this.readAt);
+				if (num == 0)
 				{
-					int num2 = (num != 0) ? (this.writeAt - this.readAt) : (((this.readAt > this.writeAt) ? this.end : this.writeAt) - this.readAt);
-					if (num2 == 0)
-					{
-						if (r == -5)
-						{
-							r = 0;
-						}
-						result = r;
-						break;
-					}
-					if (num2 > this._codec.AvailableBytesOut)
-					{
-						num2 = this._codec.AvailableBytesOut;
-					}
-					if (num2 != 0 && r == -5)
+					if (r == -5)
 					{
 						r = 0;
 					}
-					this._codec.AvailableBytesOut -= num2;
-					this._codec.TotalBytesOut += (long)num2;
-					if (this.checkfn != null)
-					{
-						this._codec._Adler32 = (this.check = Adler.Adler32(this.check, this.window, this.readAt, num2));
-					}
-					Array.Copy(this.window, this.readAt, this._codec.OutputBuffer, this._codec.NextOut, num2);
-					this._codec.NextOut += num2;
-					this.readAt += num2;
-					if (this.readAt == this.end && num == 0)
-					{
-						this.readAt = 0;
-						if (this.writeAt == this.end)
-						{
-							this.writeAt = 0;
-						}
-					}
-					else
-					{
-						num++;
-					}
-					num++;
-					continue;
+					return r;
 				}
-				result = r;
-				break;
+				if (num > this._codec.AvailableBytesOut)
+				{
+					num = this._codec.AvailableBytesOut;
+				}
+				if (num != 0 && r == -5)
+				{
+					r = 0;
+				}
+				this._codec.AvailableBytesOut -= num;
+				this._codec.TotalBytesOut += num;
+				if (this.checkfn != null)
+				{
+					this._codec._Adler32 = (this.check = Adler.Adler32(this.check, this.window, this.readAt, num));
+				}
+				Array.Copy(this.window, this.readAt, this._codec.OutputBuffer, this._codec.NextOut, num);
+				this._codec.NextOut += num;
+				this.readAt += num;
+				if (this.readAt == this.end && i == 0)
+				{
+					this.readAt = 0;
+					if (this.writeAt == this.end)
+					{
+						this.writeAt = 0;
+					}
+				}
+				else
+				{
+					i++;
+				}
 			}
-			return result;
+			return r;
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -31,7 +30,15 @@ namespace RimWorld
 		{
 			get
 			{
-				return (!(this.configuredTargetFuelLevel >= 0.0)) ? ((!this.Props.targetFuelLevelConfigurable) ? this.Props.fuelCapacity : this.Props.initialConfigurableTargetFuelLevel) : this.configuredTargetFuelLevel;
+				if (this.configuredTargetFuelLevel >= 0.0)
+				{
+					return this.configuredTargetFuelLevel;
+				}
+				if (this.Props.targetFuelLevelConfigurable)
+				{
+					return this.Props.initialConfigurableTargetFuelLevel;
+				}
+				return this.Props.fuelCapacity;
 			}
 			set
 			{
@@ -129,15 +136,13 @@ namespace RimWorld
 			}
 			if (this.Props.drawFuelGaugeInMap)
 			{
-				GenDraw.FillableBarRequest r = new GenDraw.FillableBarRequest
-				{
-					center = base.parent.DrawPos + Vector3.up * 0.1f,
-					size = CompRefuelable.FuelBarSize,
-					fillPercent = this.FuelPercentOfMax,
-					filledMat = CompRefuelable.FuelBarFilledMat,
-					unfilledMat = CompRefuelable.FuelBarUnfilledMat,
-					margin = 0.15f
-				};
+				GenDraw.FillableBarRequest r = default(GenDraw.FillableBarRequest);
+				r.center = base.parent.DrawPos + Vector3.up * 0.1f;
+				r.size = CompRefuelable.FuelBarSize;
+				r.fillPercent = this.FuelPercentOfMax;
+				r.filledMat = CompRefuelable.FuelBarFilledMat;
+				r.unfilledMat = CompRefuelable.FuelBarUnfilledMat;
+				r.margin = 0.15f;
 				Rot4 rotation = base.parent.Rotation;
 				rotation.Rotate(RotationDirection.Clockwise);
 				r.rotation = rotation;
@@ -265,10 +270,10 @@ namespace RimWorld
 			yield return (Gizmo)new Command_Action
 			{
 				defaultLabel = "Debug: Set fuel to 0.1",
-				action = (Action)delegate
+				action = delegate
 				{
-					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0154: stateMachine*/)._0024this.fuel = 0.1f;
-					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0154: stateMachine*/)._0024this.parent.BroadcastCompSignal("Refueled");
+					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_014e: stateMachine*/)._0024this.fuel = 0.1f;
+					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_014e: stateMachine*/)._0024this.parent.BroadcastCompSignal("Refueled");
 				}
 			};
 			/*Error: Unable to find new state assignment for yield return*/;

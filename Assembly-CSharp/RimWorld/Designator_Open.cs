@@ -34,7 +34,15 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			return c.InBounds(base.Map) ? (this.OpenablesInCell(c).Any() ? true : false) : false;
+			if (!c.InBounds(base.Map))
+			{
+				return false;
+			}
+			if (!this.OpenablesInCell(c).Any())
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override void DesignateSingleCell(IntVec3 c)
@@ -48,7 +56,11 @@ namespace RimWorld
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			IOpenable openable = t as IOpenable;
-			return (openable != null && openable.CanOpen && base.Map.designationManager.DesignationOn(t, DesignationDefOf.Open) == null) ? true : false;
+			if (openable != null && openable.CanOpen && base.Map.designationManager.DesignationOn(t, DesignationDefOf.Open) == null)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public override void DesignateThing(Thing t)

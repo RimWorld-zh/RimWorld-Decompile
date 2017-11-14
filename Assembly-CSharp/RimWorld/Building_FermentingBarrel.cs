@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -49,7 +48,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if ((UnityEngine.Object)this.barFilledCachedMat == (UnityEngine.Object)null)
+				if ((Object)this.barFilledCachedMat == (Object)null)
 				{
 					this.barFilledCachedMat = SolidColorMaterials.SimpleSolidColorMaterial(Color.Lerp(Building_FermentingBarrel.BarZeroProgressColor, Building_FermentingBarrel.BarFermentedColor, this.Progress), false);
 				}
@@ -61,7 +60,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (!this.Fermented) ? (25 - this.wortCount) : 0;
+				if (this.Fermented)
+				{
+					return 0;
+				}
+				return 25 - this.wortCount;
 			}
 		}
 
@@ -87,7 +90,15 @@ namespace RimWorld
 			{
 				CompProperties_TemperatureRuinable compProperties = base.def.GetCompProperties<CompProperties_TemperatureRuinable>();
 				float ambientTemperature = base.AmbientTemperature;
-				return (float)((!(ambientTemperature < compProperties.minSafeTemperature)) ? ((!(ambientTemperature < 7.0)) ? 1.0 : GenMath.LerpDouble(compProperties.minSafeTemperature, 7f, 0.1f, 1f, ambientTemperature)) : 0.10000000149011612);
+				if (ambientTemperature < compProperties.minSafeTemperature)
+				{
+					return 0.1f;
+				}
+				if (ambientTemperature < 7.0)
+				{
+					return GenMath.LerpDouble(compProperties.minSafeTemperature, 7f, 0.1f, 1f, ambientTemperature);
+				}
+				return 1f;
 			}
 		}
 
@@ -207,20 +218,15 @@ namespace RimWorld
 
 		public Thing TakeOutBeer()
 		{
-			Thing result;
 			if (!this.Fermented)
 			{
 				Log.Warning("Tried to get beer but it's not yet fermented.");
-				result = null;
+				return null;
 			}
-			else
-			{
-				Thing thing = ThingMaker.MakeThing(ThingDefOf.Beer, null);
-				thing.stackCount = this.wortCount;
-				this.Reset();
-				result = thing;
-			}
-			return result;
+			Thing thing = ThingMaker.MakeThing(ThingDefOf.Beer, null);
+			thing.stackCount = this.wortCount;
+			this.Reset();
+			return thing;
 		}
 
 		public override void Draw()
@@ -231,22 +237,21 @@ namespace RimWorld
 				Vector3 drawPos = this.DrawPos;
 				drawPos.y += 0.046875f;
 				drawPos.z += 0.25f;
-				GenDraw.DrawFillableBar(new GenDraw.FillableBarRequest
-				{
-					center = drawPos,
-					size = Building_FermentingBarrel.BarSize,
-					fillPercent = (float)((float)this.wortCount / 25.0),
-					filledMat = this.BarFilledMat,
-					unfilledMat = Building_FermentingBarrel.BarUnfilledMat,
-					margin = 0.1f,
-					rotation = Rot4.North
-				});
+				GenDraw.FillableBarRequest r = default(GenDraw.FillableBarRequest);
+				r.center = drawPos;
+				r.size = Building_FermentingBarrel.BarSize;
+				r.fillPercent = (float)((float)this.wortCount / 25.0);
+				r.filledMat = this.BarFilledMat;
+				r.unfilledMat = Building_FermentingBarrel.BarUnfilledMat;
+				r.margin = 0.1f;
+				r.rotation = Rot4.North;
+				GenDraw.DrawFillableBar(r);
 			}
 		}
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -262,14 +267,14 @@ namespace RimWorld
 			yield return (Gizmo)new Command_Action
 			{
 				defaultLabel = "Debug: Set progress to 1",
-				action = (Action)delegate
+				action = delegate
 				{
-					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00f4: stateMachine*/)._0024this.Progress = 1f;
+					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00ef: stateMachine*/)._0024this.Progress = 1f;
 				}
 			};
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_012f:
-			/*Error near IL_0130: Unexpected return in MoveNext()*/;
+			IL_0129:
+			/*Error near IL_012a: Unexpected return in MoveNext()*/;
 		}
 	}
 }

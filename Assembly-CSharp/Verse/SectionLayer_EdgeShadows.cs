@@ -9,9 +9,9 @@ namespace Verse
 
 		private const byte ShadowBrightness = 195;
 
-		private static readonly Color32 Shadowed = new Color32((byte)195, (byte)195, (byte)195, (byte)255);
+		private static readonly Color32 Shadowed = new Color32(195, 195, 195, 255);
 
-		private static readonly Color32 Lit = new Color32((byte)255, (byte)255, (byte)255, (byte)255);
+		private static readonly Color32 Lit = new Color32(255, 255, 255, 255);
 
 		public override bool Visible
 		{
@@ -21,7 +21,8 @@ namespace Verse
 			}
 		}
 
-		public SectionLayer_EdgeShadows(Section section) : base(section)
+		public SectionLayer_EdgeShadows(Section section)
+			: base(section)
 		{
 			base.relevantChangeTypes = MapMeshFlag.Buildings;
 		}
@@ -113,7 +114,7 @@ namespace Verse
 								}
 							}
 						}
-						Action<int> action = (Action<int>)delegate(int idx)
+						Action<int> action = delegate(int idx)
 						{
 							sm.tris.Add(sm.verts.Count - 2);
 							sm.tris.Add(idx);
@@ -122,7 +123,7 @@ namespace Verse
 							sm.tris.Add(idx);
 							sm.tris.Add(idx + 1);
 						};
-						Action action2 = (Action)delegate
+						Action action2 = delegate
 						{
 							sm.colors.Add(SectionLayer_EdgeShadows.Shadowed);
 							sm.colors.Add(SectionLayer_EdgeShadows.Lit);

@@ -7,52 +7,27 @@ namespace RimWorld
 	{
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
-			ThoughtState result;
 			if (p.needs.comfort == null)
 			{
-				result = ThoughtState.Inactive;
+				return ThoughtState.Inactive;
 			}
-			else
+			switch (p.needs.comfort.CurCategory)
 			{
-				switch (p.needs.comfort.CurCategory)
-				{
-				case ComfortCategory.Uncomfortable:
-				{
-					result = ThoughtState.ActiveAtStage(0);
-					break;
-				}
-				case ComfortCategory.Normal:
-				{
-					result = ThoughtState.Inactive;
-					break;
-				}
-				case ComfortCategory.Comfortable:
-				{
-					result = ThoughtState.ActiveAtStage(1);
-					break;
-				}
-				case ComfortCategory.VeryComfortable:
-				{
-					result = ThoughtState.ActiveAtStage(2);
-					break;
-				}
-				case ComfortCategory.ExtremelyComfortable:
-				{
-					result = ThoughtState.ActiveAtStage(3);
-					break;
-				}
-				case ComfortCategory.LuxuriantlyComfortable:
-				{
-					result = ThoughtState.ActiveAtStage(4);
-					break;
-				}
-				default:
-				{
-					throw new NotImplementedException();
-				}
-				}
+			case ComfortCategory.Uncomfortable:
+				return ThoughtState.ActiveAtStage(0);
+			case ComfortCategory.Normal:
+				return ThoughtState.Inactive;
+			case ComfortCategory.Comfortable:
+				return ThoughtState.ActiveAtStage(1);
+			case ComfortCategory.VeryComfortable:
+				return ThoughtState.ActiveAtStage(2);
+			case ComfortCategory.ExtremelyComfortable:
+				return ThoughtState.ActiveAtStage(3);
+			case ComfortCategory.LuxuriantlyComfortable:
+				return ThoughtState.ActiveAtStage(4);
+			default:
+				throw new NotImplementedException();
 			}
-			return result;
 		}
 	}
 }

@@ -2,19 +2,19 @@ namespace Ionic.Zlib
 {
 	public enum CompressionLevel
 	{
-		None = 0,
+		None,
 		Level0 = 0,
-		BestSpeed = 1,
+		BestSpeed,
 		Level1 = 1,
-		Level2 = 2,
-		Level3 = 3,
-		Level4 = 4,
-		Level5 = 5,
-		Default = 6,
+		Level2,
+		Level3,
+		Level4,
+		Level5,
+		Default,
 		Level6 = 6,
-		Level7 = 7,
-		Level8 = 8,
-		BestCompression = 9,
+		Level7,
+		Level8,
+		BestCompression,
 		Level9 = 9
 	}
 }

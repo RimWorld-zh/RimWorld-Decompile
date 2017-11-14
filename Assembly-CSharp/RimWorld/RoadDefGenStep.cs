@@ -8,7 +8,7 @@ namespace RimWorld
 
 		public float antialiasingMultiplier = 1f;
 
-		public int periodicSpacing = 0;
+		public int periodicSpacing;
 
 		public abstract void Place(Map map, IntVec3 position, TerrainDef rockDef);
 	}

@@ -7,99 +7,114 @@ namespace RimWorld
 {
 	public class TargetingParameters
 	{
-		public bool canTargetLocations = false;
+		public bool canTargetLocations;
 
-		public bool canTargetSelf = false;
+		public bool canTargetSelf;
 
 		public bool canTargetPawns = true;
 
-		public bool canTargetFires = false;
+		public bool canTargetFires;
 
 		public bool canTargetBuildings = true;
 
-		public bool canTargetItems = false;
+		public bool canTargetItems;
 
-		public List<Faction> onlyTargetFactions = null;
+		public List<Faction> onlyTargetFactions;
 
-		public Predicate<TargetInfo> validator = null;
+		public Predicate<TargetInfo> validator;
 
-		public bool onlyTargetFlammables = false;
+		public bool onlyTargetFlammables;
 
-		public Thing targetSpecificThing = null;
+		public Thing targetSpecificThing;
 
-		public bool mustBeSelectable = false;
+		public bool mustBeSelectable;
 
-		public bool neverTargetDoors = false;
+		public bool neverTargetDoors;
 
-		public bool neverTargetIncapacitated = false;
+		public bool neverTargetIncapacitated;
 
-		public bool onlyTargetThingsAffectingRegions = false;
+		public bool onlyTargetThingsAffectingRegions;
 
-		public bool onlyTargetDamagedThings = false;
+		public bool onlyTargetDamagedThings;
 
 		public bool mapObjectTargetsMustBeAutoAttackable = true;
 
-		public bool onlyTargetIncapacitatedPawns = false;
+		public bool onlyTargetIncapacitatedPawns;
 
 		public bool CanTarget(TargetInfo targ)
 		{
-			bool result;
-			if ((object)this.validator != null && !this.validator(targ))
+			if (this.validator != null && !this.validator(targ))
 			{
-				result = false;
+				return false;
 			}
-			else if (targ.Thing == null)
+			if (targ.Thing == null)
 			{
-				result = this.canTargetLocations;
+				return this.canTargetLocations;
 			}
-			else if (this.neverTargetDoors && targ.Thing.def.IsDoor)
+			if (this.neverTargetDoors && targ.Thing.def.IsDoor)
 			{
-				result = false;
+				return false;
 			}
-			else if (this.onlyTargetDamagedThings && targ.Thing.HitPoints == targ.Thing.MaxHitPoints)
+			if (this.onlyTargetDamagedThings && targ.Thing.HitPoints == targ.Thing.MaxHitPoints)
 			{
-				result = false;
+				return false;
 			}
-			else if (this.onlyTargetFlammables && !targ.Thing.FlammableNow)
+			if (this.onlyTargetFlammables && !targ.Thing.FlammableNow)
 			{
-				result = false;
+				return false;
 			}
-			else if (this.mustBeSelectable && !ThingSelectionUtility.SelectableByMapClick(targ.Thing))
+			if (this.mustBeSelectable && !ThingSelectionUtility.SelectableByMapClick(targ.Thing))
 			{
-				result = false;
+				return false;
 			}
-			else if (this.targetSpecificThing != null && targ.Thing == this.targetSpecificThing)
+			if (this.targetSpecificThing != null && targ.Thing == this.targetSpecificThing)
 			{
-				result = true;
+				return true;
 			}
-			else if (this.canTargetFires && targ.Thing.def == ThingDefOf.Fire)
+			if (this.canTargetFires && targ.Thing.def == ThingDefOf.Fire)
 			{
-				result = true;
+				return true;
 			}
-			else if (this.canTargetPawns && targ.Thing.def.category == ThingCategory.Pawn)
+			if (this.canTargetPawns && targ.Thing.def.category == ThingCategory.Pawn)
 			{
 				if (((Pawn)targ.Thing).Downed)
 				{
 					if (this.neverTargetIncapacitated)
 					{
-						result = false;
-						goto IL_0282;
+						return false;
 					}
 				}
 				else if (this.onlyTargetIncapacitatedPawns)
 				{
-					result = false;
-					goto IL_0282;
+					return false;
 				}
-				result = ((byte)((this.onlyTargetFactions == null || this.onlyTargetFactions.Contains(targ.Thing.Faction)) ? 1 : 0) != 0);
+				if (this.onlyTargetFactions != null && !this.onlyTargetFactions.Contains(targ.Thing.Faction))
+				{
+					return false;
+				}
+				return true;
 			}
-			else
+			if (this.canTargetBuildings && targ.Thing.def.category == ThingCategory.Building)
 			{
-				result = ((byte)((!this.canTargetBuildings || targ.Thing.def.category != ThingCategory.Building) ? (this.canTargetItems ? ((!this.mapObjectTargetsMustBeAutoAttackable || targ.Thing.def.isAutoAttackableMapObject) ? 1 : 0) : 0) : ((!this.onlyTargetThingsAffectingRegions || targ.Thing.def.AffectsRegions) ? ((this.onlyTargetFactions == null || this.onlyTargetFactions.Contains(targ.Thing.Faction)) ? 1 : 0) : 0)) != 0);
+				if (this.onlyTargetThingsAffectingRegions && !targ.Thing.def.AffectsRegions)
+				{
+					return false;
+				}
+				if (this.onlyTargetFactions != null && !this.onlyTargetFactions.Contains(targ.Thing.Faction))
+				{
+					return false;
+				}
+				return true;
 			}
-			goto IL_0282;
-			IL_0282:
-			return result;
+			if (this.canTargetItems)
+			{
+				if (this.mapObjectTargetsMustBeAutoAttackable && !targ.Thing.def.isAutoAttackableMapObject)
+				{
+					return false;
+				}
+				return true;
+			}
+			return false;
 		}
 
 		public static TargetingParameters ForSelf(Pawn p)
@@ -118,19 +133,22 @@ namespace RimWorld
 			targetingParameters.canTargetPawns = true;
 			targetingParameters.canTargetBuildings = false;
 			targetingParameters.mapObjectTargetsMustBeAutoAttackable = false;
-			targetingParameters.validator = (Predicate<TargetInfo>)delegate(TargetInfo targ)
+			targetingParameters.validator = delegate(TargetInfo targ)
 			{
-				bool result;
 				if (!targ.HasThing)
 				{
-					result = false;
+					return false;
 				}
-				else
+				Pawn pawn = targ.Thing as Pawn;
+				if (pawn != null && pawn != arrester && pawn.CanBeArrestedBy(arrester))
 				{
-					Pawn pawn = targ.Thing as Pawn;
-					result = ((byte)((pawn != null && pawn != arrester && pawn.CanBeArrestedBy(arrester)) ? ((!pawn.Downed) ? 1 : 0) : 0) != 0);
+					if (pawn.Downed)
+					{
+						return false;
+					}
+					return true;
 				}
-				return result;
+				return false;
 			};
 			return targetingParameters;
 		}
@@ -142,23 +160,22 @@ namespace RimWorld
 			targetingParameters.canTargetBuildings = true;
 			targetingParameters.canTargetItems = true;
 			targetingParameters.mapObjectTargetsMustBeAutoAttackable = true;
-			targetingParameters.validator = (Predicate<TargetInfo>)delegate(TargetInfo targ)
+			targetingParameters.validator = delegate(TargetInfo targ)
 			{
-				bool result;
 				if (!targ.HasThing)
 				{
-					result = false;
+					return false;
 				}
-				else if (targ.Thing.HostileTo(Faction.OfPlayer))
+				if (targ.Thing.HostileTo(Faction.OfPlayer))
 				{
-					result = true;
+					return true;
 				}
-				else
+				Pawn pawn = targ.Thing as Pawn;
+				if (pawn != null && pawn.NonHumanlikeOrWildMan())
 				{
-					Pawn pawn = targ.Thing as Pawn;
-					result = ((byte)((pawn != null && pawn.NonHumanlikeOrWildMan()) ? 1 : 0) != 0);
+					return true;
 				}
-				return result;
+				return false;
 			};
 			return targetingParameters;
 		}
@@ -189,7 +206,14 @@ namespace RimWorld
 			targetingParameters.canTargetPawns = true;
 			targetingParameters.canTargetItems = true;
 			targetingParameters.mapObjectTargetsMustBeAutoAttackable = false;
-			targetingParameters.validator = (Predicate<TargetInfo>)((TargetInfo targ) => targ.HasThing && StrippableUtility.CanBeStrippedByColony(targ.Thing));
+			targetingParameters.validator = delegate(TargetInfo targ)
+			{
+				if (!targ.HasThing)
+				{
+					return false;
+				}
+				return StrippableUtility.CanBeStrippedByColony(targ.Thing);
+			};
 			return targetingParameters;
 		}
 
@@ -199,10 +223,14 @@ namespace RimWorld
 			targetingParameters.canTargetPawns = true;
 			targetingParameters.canTargetBuildings = false;
 			targetingParameters.mapObjectTargetsMustBeAutoAttackable = false;
-			targetingParameters.validator = (Predicate<TargetInfo>)delegate(TargetInfo x)
+			targetingParameters.validator = delegate(TargetInfo x)
 			{
 				ITrader trader = x.Thing as ITrader;
-				return trader != null && trader.CanTradeNow;
+				if (trader == null)
+				{
+					return false;
+				}
+				return trader.CanTradeNow;
 			};
 			return targetingParameters;
 		}
@@ -216,7 +244,7 @@ namespace RimWorld
 			targetingParameters.canTargetFires = false;
 			targetingParameters.canTargetBuildings = false;
 			targetingParameters.canTargetItems = false;
-			targetingParameters.validator = (Predicate<TargetInfo>)((TargetInfo x) => DropCellFinder.IsGoodDropSpot(x.Cell, x.Map, false, true));
+			targetingParameters.validator = ((TargetInfo x) => DropCellFinder.IsGoodDropSpot(x.Cell, x.Map, false, true));
 			return targetingParameters;
 		}
 	}

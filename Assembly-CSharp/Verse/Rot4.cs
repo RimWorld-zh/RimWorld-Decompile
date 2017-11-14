@@ -47,36 +47,19 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				switch (this.AsInt)
 				{
 				case 0:
-				{
-					result = 0f;
-					break;
-				}
+					return 0f;
 				case 1:
-				{
-					result = 90f;
-					break;
-				}
+					return 90f;
 				case 2:
-				{
-					result = 180f;
-					break;
-				}
+					return 180f;
 				case 3:
-				{
-					result = 270f;
-					break;
-				}
+					return 270f;
 				default:
-				{
-					result = 0f;
-					break;
+					return 0f;
 				}
-				}
-				return result;
 			}
 		}
 
@@ -84,37 +67,20 @@ namespace Verse
 		{
 			get
 			{
-				Quaternion result;
 				switch (this.rotInt)
 				{
-				case (byte)0:
-				{
-					result = Quaternion.identity;
-					break;
-				}
-				case (byte)1:
-				{
-					result = Quaternion.LookRotation(Vector3.right);
-					break;
-				}
-				case (byte)2:
-				{
-					result = Quaternion.LookRotation(Vector3.back);
-					break;
-				}
-				case (byte)3:
-				{
-					result = Quaternion.LookRotation(Vector3.left);
-					break;
-				}
+				case 0:
+					return Quaternion.identity;
+				case 1:
+					return Quaternion.LookRotation(Vector3.right);
+				case 2:
+					return Quaternion.LookRotation(Vector3.back);
+				case 3:
+					return Quaternion.LookRotation(Vector3.left);
 				default:
-				{
 					Log.Error("ToQuat with Rot = " + this.AsInt);
-					result = Quaternion.identity;
-					break;
+					return Quaternion.identity;
 				}
-				}
-				return result;
 			}
 		}
 
@@ -170,10 +136,9 @@ namespace Verse
 		{
 			get
 			{
-				return new Rot4
-				{
-					rotInt = (byte)200
-				};
+				Rot4 result = default(Rot4);
+				result.rotInt = 200;
+				return result;
 			}
 		}
 
@@ -181,36 +146,19 @@ namespace Verse
 		{
 			get
 			{
-				IntVec3 result;
 				switch (this.AsInt)
 				{
 				case 0:
-				{
-					result = new IntVec3(0, 0, 1);
-					break;
-				}
+					return new IntVec3(0, 0, 1);
 				case 1:
-				{
-					result = new IntVec3(1, 0, 0);
-					break;
-				}
+					return new IntVec3(1, 0, 0);
 				case 2:
-				{
-					result = new IntVec3(0, 0, -1);
-					break;
-				}
+					return new IntVec3(0, 0, -1);
 				case 3:
-				{
-					result = new IntVec3(-1, 0, 0);
-					break;
-				}
+					return new IntVec3(-1, 0, 0);
 				default:
-				{
-					result = default(IntVec3);
-					break;
+					return default(IntVec3);
 				}
-				}
-				return result;
 			}
 		}
 
@@ -218,36 +166,19 @@ namespace Verse
 		{
 			get
 			{
-				Rot4 result;
 				switch (this.AsInt)
 				{
 				case 0:
-				{
-					result = new Rot4(2);
-					break;
-				}
+					return new Rot4(2);
 				case 1:
-				{
-					result = new Rot4(3);
-					break;
-				}
+					return new Rot4(3);
 				case 2:
-				{
-					result = new Rot4(0);
-					break;
-				}
+					return new Rot4(0);
 				case 3:
-				{
-					result = new Rot4(1);
-					break;
-				}
+					return new Rot4(1);
 				default:
-				{
-					result = default(Rot4);
-					break;
+					return default(Rot4);
 				}
-				}
-				return result;
 			}
 		}
 
@@ -276,34 +207,45 @@ namespace Verse
 		public static Rot4 FromAngleFlat(float angle)
 		{
 			angle = GenMath.PositiveMod(angle, 360f);
-			return (!(angle < 45.0)) ? ((!(angle < 135.0)) ? ((!(angle < 225.0)) ? ((!(angle < 315.0)) ? Rot4.North : Rot4.West) : Rot4.South) : Rot4.East) : Rot4.North;
+			if (angle < 45.0)
+			{
+				return Rot4.North;
+			}
+			if (angle < 135.0)
+			{
+				return Rot4.East;
+			}
+			if (angle < 225.0)
+			{
+				return Rot4.South;
+			}
+			if (angle < 315.0)
+			{
+				return Rot4.West;
+			}
+			return Rot4.North;
 		}
 
 		public static Rot4 FromIntVec3(IntVec3 offset)
 		{
-			Rot4 result;
 			if (offset.x == 1)
 			{
-				result = Rot4.East;
+				return Rot4.East;
 			}
-			else if (offset.x == -1)
+			if (offset.x == -1)
 			{
-				result = Rot4.West;
+				return Rot4.West;
 			}
-			else if (offset.z == 1)
+			if (offset.z == 1)
 			{
-				result = Rot4.North;
+				return Rot4.North;
 			}
-			else if (offset.z == -1)
+			if (offset.z == -1)
 			{
-				result = Rot4.South;
+				return Rot4.South;
 			}
-			else
-			{
-				Log.Error("FromIntVec3 with bad offset " + offset);
-				result = Rot4.North;
-			}
-			return result;
+			Log.Error("FromIntVec3 with bad offset " + offset);
+			return Rot4.North;
 		}
 
 		public static Rot4 FromIntVec2(IntVec2 offset)
@@ -323,35 +265,19 @@ namespace Verse
 
 		public override int GetHashCode()
 		{
-			int result;
 			switch (this.rotInt)
 			{
-			case (byte)0:
-			{
-				result = 235515;
-				break;
-			}
-			case (byte)1:
-			{
-				result = 5612938;
-				break;
-			}
-			case (byte)2:
-			{
-				result = 1215650;
-				break;
-			}
-			case (byte)3:
-			{
-				result = 9231792;
-				break;
-			}
+			case 0:
+				return 235515;
+			case 1:
+				return 5612938;
+			case 2:
+				return 1215650;
+			case 3:
+				return 9231792;
 			default:
-			{
 				throw new InvalidOperationException("IntRot out of range.");
 			}
-			}
-			return result;
 		}
 
 		public override string ToString()
@@ -361,36 +287,19 @@ namespace Verse
 
 		public string ToStringHuman()
 		{
-			string result;
 			switch (this.rotInt)
 			{
-			case (byte)0:
-			{
-				result = "North".Translate();
-				break;
-			}
-			case (byte)1:
-			{
-				result = "East".Translate();
-				break;
-			}
-			case (byte)2:
-			{
-				result = "South".Translate();
-				break;
-			}
-			case (byte)3:
-			{
-				result = "West".Translate();
-				break;
-			}
+			case 0:
+				return "North".Translate();
+			case 1:
+				return "East".Translate();
+			case 2:
+				return "South".Translate();
+			case 3:
+				return "West".Translate();
 			default:
-			{
-				result = "error";
-				break;
+				return "error";
 			}
-			}
-			return result;
 		}
 
 		public static Rot4 FromString(string str)
@@ -400,7 +309,7 @@ namespace Verse
 			if (int.TryParse(str, out num))
 			{
 				newRot = (byte)num;
-				goto IL_0096;
+				goto IL_0093;
 			}
 			if (str != null)
 			{
@@ -412,36 +321,40 @@ namespace Verse
 						{
 							if (str == "West")
 							{
-								newRot = (byte)3;
-								goto IL_0096;
+								newRot = 3;
+								goto IL_0093;
 							}
-							goto IL_007e;
+							goto IL_007c;
 						}
-						newRot = (byte)2;
+						newRot = 2;
 					}
 					else
 					{
-						newRot = (byte)1;
+						newRot = 1;
 					}
 				}
 				else
 				{
-					newRot = (byte)0;
+					newRot = 0;
 				}
-				goto IL_0096;
+				goto IL_0093;
 			}
-			goto IL_007e;
-			IL_0096:
+			goto IL_007c;
+			IL_0093:
 			return new Rot4(newRot);
-			IL_007e:
-			newRot = (byte)0;
+			IL_007c:
+			newRot = 0;
 			Log.Error("Invalid rotation: " + str);
-			goto IL_0096;
+			goto IL_0093;
 		}
 
 		public override bool Equals(object obj)
 		{
-			return obj is Rot4 && this.Equals((Rot4)obj);
+			if (!(obj is Rot4))
+			{
+				return false;
+			}
+			return this.Equals((Rot4)obj);
 		}
 
 		public bool Equals(Rot4 other)

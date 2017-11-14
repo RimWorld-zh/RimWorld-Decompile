@@ -34,9 +34,9 @@ namespace RimWorld
 			_003CGetFloatMenuOptions_003Ec__Iterator0 _003CGetFloatMenuOptions_003Ec__Iterator = (_003CGetFloatMenuOptions_003Ec__Iterator0)/*Error near IL_0036: stateMachine*/;
 			if (site.HasMap)
 				yield break;
-			string label2;
-			string label = label2 = ((!site.KnownDanger) ? "VisitSite".Translate(site.Label) : "AttackSite".Translate(site.Label));
-			Action action = (Action)delegate()
+			string label = (!site.KnownDanger) ? "VisitSite".Translate(site.Label) : "AttackSite".Translate(site.Label);
+			string label2 = label;
+			Action action = delegate
 			{
 				caravan.pather.StartPath(site.Tile, new CaravanArrivalAction_VisitSite(site), true);
 			};
@@ -49,7 +49,7 @@ namespace RimWorld
 		{
 			if (!site.HasMap)
 			{
-				LongEventHandler.QueueLongEvent((Action)delegate()
+				LongEventHandler.QueueLongEvent(delegate
 				{
 					this.DoEnter(caravan, site);
 				}, "GeneratingMapForNewEncounter", false, null);
@@ -64,16 +64,16 @@ namespace RimWorld
 		{
 			Pawn t = caravan.PawnsListForReading[0];
 			bool flag = site.Faction == null || site.Faction.HostileTo(Faction.OfPlayer);
-			Map orGenerateMap;
-			Map map = orGenerateMap = GetOrGenerateMapUtility.GetOrGenerateMap(site.Tile, SiteCoreWorker.MapSize, null);
+			Map orGenerateMap = GetOrGenerateMapUtility.GetOrGenerateMap(site.Tile, SiteCoreWorker.MapSize, null);
+			Map map = orGenerateMap;
 			CaravanEnterMode enterMode = CaravanEnterMode.Edge;
 			bool draftColonists = flag;
-			CaravanEnterMapUtility.Enter(caravan, orGenerateMap, enterMode, CaravanDropInventoryMode.DoNotDrop, draftColonists, null);
+			CaravanEnterMapUtility.Enter(caravan, map, enterMode, CaravanDropInventoryMode.DoNotDrop, draftColonists, null);
 			if (flag)
 			{
 				Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
 			}
-			Messages.Message("MessageCaravanArrivedAtDestination".Translate(caravan.Label).CapitalizeFirst(), (Thing)t, MessageTypeDefOf.TaskCompletion);
+			Messages.Message("MessageCaravanArrivedAtDestination".Translate(caravan.Label).CapitalizeFirst(), t, MessageTypeDefOf.TaskCompletion);
 		}
 	}
 }

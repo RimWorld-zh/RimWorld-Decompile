@@ -195,17 +195,29 @@ namespace Verse
 
 		public static bool operator ==(IntVec2 a, IntVec2 b)
 		{
-			return (byte)((a.x == b.x && a.z == b.z) ? 1 : 0) != 0;
+			if (a.x == b.x && a.z == b.z)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static bool operator !=(IntVec2 a, IntVec2 b)
 		{
-			return (byte)((a.x != b.x || a.z != b.z) ? 1 : 0) != 0;
+			if (a.x == b.x && a.z == b.z)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override bool Equals(object obj)
 		{
-			return obj is IntVec2 && this.Equals((IntVec2)obj);
+			if (!(obj is IntVec2))
+			{
+				return false;
+			}
+			return this.Equals((IntVec2)obj);
 		}
 
 		public bool Equals(IntVec2 other)

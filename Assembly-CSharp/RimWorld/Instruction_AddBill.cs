@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -28,20 +27,15 @@ namespace RimWorld
 
 		private Bill_Production RelevantBill()
 		{
-			Bill_Production result;
 			if (Find.Selector.SingleSelectedThing != null && Find.Selector.SingleSelectedThing.def == base.def.thingDef)
 			{
 				IBillGiver billGiver = Find.Selector.SingleSelectedThing as IBillGiver;
 				if (billGiver != null)
 				{
-					result = (Bill_Production)billGiver.BillStack.Bills.FirstOrDefault((Func<Bill, bool>)((Bill b) => b.recipe == base.def.recipeDef));
-					goto IL_0076;
+					return (Bill_Production)billGiver.BillStack.Bills.FirstOrDefault((Bill b) => b.recipe == base.def.recipeDef);
 				}
 			}
-			result = null;
-			goto IL_0076;
-			IL_0076:
-			return result;
+			return null;
 		}
 
 		private IEnumerable<Thing> ThingsToSelect()
@@ -58,8 +52,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_0116:
-			/*Error near IL_0117: Unexpected return in MoveNext()*/;
+			IL_0110:
+			/*Error near IL_0111: Unexpected return in MoveNext()*/;
 		}
 
 		public override void LessonOnGUI()

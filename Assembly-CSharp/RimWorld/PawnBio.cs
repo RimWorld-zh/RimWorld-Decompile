@@ -14,13 +14,21 @@ namespace RimWorld
 
 		public Backstory adulthood;
 
-		public bool pirateKing = false;
+		public bool pirateKing;
 
 		public PawnBioType BioType
 		{
 			get
 			{
-				return (PawnBioType)((!this.pirateKing) ? ((this.adulthood != null) ? 1 : 0) : 2);
+				if (this.pirateKing)
+				{
+					return PawnBioType.PirateKing;
+				}
+				if (this.adulthood != null)
+				{
+					return PawnBioType.BackstoryInGame;
+				}
+				return PawnBioType.Undefined;
 			}
 		}
 
@@ -79,8 +87,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_01ff:
-			/*Error near IL_0200: Unexpected return in MoveNext()*/;
+			IL_01f4:
+			/*Error near IL_01f5: Unexpected return in MoveNext()*/;
 		}
 
 		public override string ToString()

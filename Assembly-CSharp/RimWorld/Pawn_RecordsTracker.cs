@@ -11,13 +11,13 @@ namespace RimWorld
 
 		private DefMap<RecordDef, float> records = new DefMap<RecordDef, float>();
 
-		private double storyRelevance = 0.0;
+		private double storyRelevance;
 
-		private Battle battleActive = null;
+		private Battle battleActive;
 
-		private int battleExitTick = 0;
+		private int battleExitTick;
 
-		private float storyRelevanceBonus = 0f;
+		private float storyRelevanceBonus;
 
 		private const int UpdateTimeRecordsIntervalTicks = 80;
 
@@ -112,7 +112,11 @@ namespace RimWorld
 		public float GetValue(RecordDef def)
 		{
 			float num = this.records[def];
-			return (((def.type != RecordType.Int) ? def.type : RecordType.Time) != 0) ? num : Mathf.Round(num);
+			if (def.type != RecordType.Int && def.type != 0)
+			{
+				return num;
+			}
+			return Mathf.Round(num);
 		}
 
 		public int GetAsInt(RecordDef def)

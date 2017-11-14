@@ -57,6 +57,8 @@ namespace RimWorld
 
 		public static ThingDef Chemfuel;
 
+		public static ThingDef Uranium;
+
 		public static ThingDef Shell_HighExplosive;
 
 		public static ThingDef Shell_AntigrainWarhead;

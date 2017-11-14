@@ -37,7 +37,7 @@ namespace RimWorld
 
 		public SoundDef explosionSound;
 
-		public DamageDef startWickOnDamageTaken = null;
+		public DamageDef startWickOnDamageTaken;
 
 		public float startWickHitPointsPercent = 0.2f;
 
@@ -45,9 +45,9 @@ namespace RimWorld
 
 		public float wickScale = 1f;
 
-		public float chanceNeverExplodeFromDamage = 0f;
+		public float chanceNeverExplodeFromDamage;
 
-		public float destroyThingOnExplosionSize = 0f;
+		public float destroyThingOnExplosionSize;
 
 		public CompProperties_Explosive()
 		{
@@ -56,7 +56,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0(parentDef).GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors(parentDef).GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -69,8 +69,8 @@ namespace RimWorld
 				yield break;
 			yield return "CompExplosive requires Normal ticker type";
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_00f7:
-			/*Error near IL_00f8: Unexpected return in MoveNext()*/;
+			IL_00f3:
+			/*Error near IL_00f4: Unexpected return in MoveNext()*/;
 		}
 	}
 }

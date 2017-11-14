@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -43,6 +42,16 @@ namespace RimWorld
 
 		private static readonly IntRange DurationTicks = new IntRange(2700, 10080);
 
+		private const float DownedPawnDamageFactor = 0.2f;
+
+		private const float AnimalPawnDamageFactor = 0.75f;
+
+		private const float BuildingDamageFactor = 0.8f;
+
+		private const float PlantDamageFactor = 1.7f;
+
+		private const float ItemDamageFactor = 0.68f;
+
 		private const float CellsPerSecond = 1.7f;
 
 		private const float DirectionChangeSpeed = 0.78f;
@@ -57,7 +66,7 @@ namespace RimWorld
 
 		private const int FadeOutTicks = 120;
 
-		private const float MaxMidOffset = 4f;
+		private const float MaxMidOffset = 2f;
 
 		private static readonly Material TornadoMaterial = MaterialPool.MatFrom("Things/Ethereal/Tornado", ShaderDatabase.Transparent, MapMaterialRenderQueues.Tornado);
 
@@ -151,13 +160,12 @@ namespace RimWorld
 								Messages.Message("MessageTornadoDissipated".Translate(), new TargetInfo(base.Position, base.Map, false), MessageTypeDefOf.PositiveEvent);
 							}
 						}
-						if (this.IsHashIntervalTick(4))
+						if (this.IsHashIntervalTick(4) && !this.CellImmuneToDamage(base.Position))
 						{
 							float num = Rand.Range(0.6f, 1f);
-							MoteMaker.ThrowTornadoDustPuff(new Vector3(this.realPosition.x, 0f, this.realPosition.y)
-							{
-								y = Altitudes.AltitudeFor(AltitudeLayer.MoteOverhead)
-							} + Vector3Utility.RandomHorizontalOffset(1.5f), base.Map, Rand.Range(1.5f, 3f), new Color(num, num, num));
+							Vector3 a = new Vector3(this.realPosition.x, 0f, this.realPosition.y);
+							a.y = Altitudes.AltitudeFor(AltitudeLayer.MoteOverhead);
+							MoteMaker.ThrowTornadoDustPuff(a + Vector3Utility.RandomHorizontalOffset(1.5f), base.Map, Rand.Range(1.5f, 3f), new Color(num, num, num));
 						}
 					}
 					else
@@ -203,7 +211,7 @@ namespace RimWorld
 			FloatRange partsDistanceFromCenter = Tornado.PartsDistanceFromCenter;
 			float num6 = Mathf.Min((float)(distanceFromCenter / (partsDistanceFromCenter.max + 2.0)), 1f);
 			float d = Mathf.InverseLerp(0.18f, 0.4f, num6);
-			Vector3 a2 = new Vector3((float)(Mathf.Sin((float)((float)ticksGame / 1000.0 + (float)(base.thingIDNumber * 10))) * 4.0), 0f, 0f);
+			Vector3 a2 = new Vector3((float)(Mathf.Sin((float)((float)ticksGame / 1000.0 + (float)(base.thingIDNumber * 10))) * 2.0), 0f, 0f);
 			a += a2 * d;
 			float a3 = Mathf.Max((float)(1.0 - num6), 0f) * num5 * this.FadeInOutFactor;
 			Color value = new Color(colorMultiplier, colorMultiplier, colorMultiplier, a3);
@@ -226,10 +234,10 @@ namespace RimWorld
 
 		private void CreateSustainer()
 		{
-			LongEventHandler.ExecuteWhenFinished((Action)delegate
+			LongEventHandler.ExecuteWhenFinished(delegate
 			{
 				SoundDef soundDef = SoundDef.Named("Tornado");
-				this.sustainer = soundDef.TrySpawnSustainer(SoundInfo.InMap((Thing)this, MaintenanceType.PerTick));
+				this.sustainer = soundDef.TrySpawnSustainer(SoundInfo.InMap(this, MaintenanceType.PerTick));
 				this.UpdateSustainerVolume();
 			});
 		}
@@ -237,13 +245,17 @@ namespace RimWorld
 		private void DamageCloseThings()
 		{
 			int num = GenRadial.NumCellsInRadius(3f);
-			for (int num2 = 0; num2 < num; num2++)
+			for (int i = 0; i < num; i++)
 			{
-				IntVec3 intVec = base.Position + GenRadial.RadialPattern[num2];
+				IntVec3 intVec = base.Position + GenRadial.RadialPattern[i];
 				if (intVec.InBounds(base.Map) && !this.CellImmuneToDamage(intVec))
 				{
-					float damageFactor = GenMath.LerpDouble(0f, 3f, 1f, 0.2f, intVec.DistanceTo(base.Position));
-					this.DoDamage(intVec, damageFactor);
+					Pawn firstPawn = intVec.GetFirstPawn(base.Map);
+					if (firstPawn == null || !firstPawn.Downed || !Rand.Bool)
+					{
+						float damageFactor = GenMath.LerpDouble(0f, 3f, 1f, 0.2f, intVec.DistanceTo(base.Position));
+						this.DoDamage(intVec, damageFactor);
+					}
 				}
 			}
 		}
@@ -261,7 +273,16 @@ namespace RimWorld
 
 		private bool CellImmuneToDamage(IntVec3 c)
 		{
-			return c.Roofed(base.Map) && c.GetRoof(base.Map).isThickRoof;
+			if (c.Roofed(base.Map) && c.GetRoof(base.Map).isThickRoof)
+			{
+				return true;
+			}
+			Building edifice = c.GetEdifice(base.Map);
+			if (edifice != null && edifice.def.category == ThingCategory.Building && (edifice.def.building.isNaturalRock || (edifice.def == ThingDefOf.Wall && edifice.Faction == null)))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		private void DoDamage(IntVec3 c, float damageFactor)
@@ -273,8 +294,40 @@ namespace RimWorld
 			float angle = (float)(0.0 - this.realPosition.AngleTo(b) + 180.0);
 			for (int i = 0; i < Tornado.tmpThings.Count; i++)
 			{
+				BattleLogEntry_DamageTaken battleLogEntry_DamageTaken = null;
+				switch (Tornado.tmpThings[i].def.category)
+				{
+				case ThingCategory.Pawn:
+				{
+					Pawn pawn = (Pawn)Tornado.tmpThings[i];
+					battleLogEntry_DamageTaken = new BattleLogEntry_DamageTaken(pawn, RulePackDefOf.DamageEvent_Tornado, null);
+					Find.BattleLog.Add(battleLogEntry_DamageTaken);
+					if (pawn.RaceProps.baseHealthScale < 1.0)
+					{
+						damageFactor *= pawn.RaceProps.baseHealthScale;
+					}
+					if (pawn.RaceProps.Animal)
+					{
+						damageFactor = (float)(damageFactor * 0.75);
+					}
+					if (pawn.Downed)
+					{
+						damageFactor = (float)(damageFactor * 0.20000000298023224);
+					}
+					break;
+				}
+				case ThingCategory.Building:
+					damageFactor = (float)(damageFactor * 0.800000011920929);
+					break;
+				case ThingCategory.Item:
+					damageFactor = (float)(damageFactor * 0.68000000715255737);
+					break;
+				case ThingCategory.Plant:
+					damageFactor = (float)(damageFactor * 1.7000000476837158);
+					break;
+				}
 				int amount = Mathf.Max(GenMath.RoundRandom((float)(30.0 * damageFactor)), 1);
-				Tornado.tmpThings[i].TakeDamage(new DamageInfo(DamageDefOf.TornadoScratch, amount, angle, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
+				Tornado.tmpThings[i].TakeDamage(new DamageInfo(DamageDefOf.TornadoScratch, amount, angle, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown)).InsertIntoLog(battleLogEntry_DamageTaken);
 			}
 			Tornado.tmpThings.Clear();
 		}

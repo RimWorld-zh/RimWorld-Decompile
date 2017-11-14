@@ -20,27 +20,30 @@ namespace RimWorld
 
 		public override Texture2D IconReverseDesignating(Thing t, out float angle)
 		{
-			Texture2D result;
 			if (!t.def.plant.IsTree)
 			{
-				result = base.IconReverseDesignating(t, out angle);
+				return base.IconReverseDesignating(t, out angle);
 			}
-			else
-			{
-				angle = 0f;
-				result = TexCommand.TreeChop;
-			}
-			return result;
+			angle = 0f;
+			return TexCommand.TreeChop;
 		}
 
 		public override string LabelCapReverseDesignating(Thing t)
 		{
-			return t.def.plant.IsTree ? "DesignatorHarvestWood".Translate() : base.LabelCapReverseDesignating(t);
+			if (!t.def.plant.IsTree)
+			{
+				return base.LabelCapReverseDesignating(t);
+			}
+			return "DesignatorHarvestWood".Translate();
 		}
 
 		public override string DescReverseDesignating(Thing t)
 		{
-			return t.def.plant.IsTree ? "DesignatorHarvestWoodDesc".Translate() : base.DescReverseDesignating(t);
+			if (!t.def.plant.IsTree)
+			{
+				return base.DescReverseDesignating(t);
+			}
+			return "DesignatorHarvestWoodDesc".Translate();
 		}
 	}
 }

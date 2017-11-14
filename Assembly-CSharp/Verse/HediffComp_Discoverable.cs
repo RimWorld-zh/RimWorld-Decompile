@@ -4,7 +4,7 @@ namespace Verse
 {
 	public class HediffComp_Discoverable : HediffComp
 	{
-		private bool discovered = false;
+		private bool discovered;
 
 		public HediffCompProperties_Discoverable Props
 		{
@@ -48,11 +48,11 @@ namespace Verse
 					string text = this.Props.discoverLetterText.NullOrEmpty() ? ((base.parent.Part != null) ? "NewPartDisease".Translate(base.Pawn.LabelIndefinite(), base.parent.Part.def.label, base.Pawn.LabelDefinite(), base.Def.LabelCap).AdjustedFor(base.Pawn).CapitalizeFirst() : "NewDisease".Translate(base.Pawn.LabelIndefinite(), base.Def.label, base.Pawn.LabelDefinite()).AdjustedFor(base.Pawn).CapitalizeFirst()) : string.Format(this.Props.discoverLetterText, base.Pawn.LabelIndefinite()).AdjustedFor(base.Pawn).CapitalizeFirst();
 					if (base.Pawn.RaceProps.Humanlike)
 					{
-						Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.NegativeEvent, (Thing)base.Pawn, (string)null);
+						Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.NegativeEvent, base.Pawn, null);
 					}
 					else
 					{
-						Messages.Message(text, (Thing)base.Pawn, MessageTypeDefOf.NeutralEvent);
+						Messages.Message(text, base.Pawn, MessageTypeDefOf.NeutralEvent);
 					}
 				}
 			}

@@ -68,23 +68,18 @@ namespace RimWorld
 
 		public static float NegativeInteractionChanceFactor(Pawn initiator, Pawn recipient)
 		{
-			float result;
 			if (initiator.story.traits.HasTrait(TraitDefOf.Kind))
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			float num = 1f;
+			num *= NegativeInteractionUtility.OpinionFactorCurve.Evaluate((float)initiator.relations.OpinionOf(recipient));
+			num *= NegativeInteractionUtility.CompatibilityFactorCurve.Evaluate(initiator.relations.CompatibilityWith(recipient));
+			if (initiator.story.traits.HasTrait(TraitDefOf.Abrasive))
 			{
-				float num = 1f;
-				num *= NegativeInteractionUtility.OpinionFactorCurve.Evaluate((float)initiator.relations.OpinionOf(recipient));
-				num *= NegativeInteractionUtility.CompatibilityFactorCurve.Evaluate(initiator.relations.CompatibilityWith(recipient));
-				if (initiator.story.traits.HasTrait(TraitDefOf.Abrasive))
-				{
-					num = (float)(num * 2.2999999523162842);
-				}
-				result = num;
+				num = (float)(num * 2.2999999523162842);
 			}
-			return result;
+			return num;
 		}
 	}
 }

@@ -7,10 +7,10 @@ namespace Verse.Grammar
 	{
 		private List<string> rulesStrings = new List<string>();
 
-		private List<Rule> rulesRaw = null;
+		private List<Rule> rulesRaw;
 
 		[Unsaved]
-		private List<Rule> rulesResolved = null;
+		private List<Rule> rulesResolved;
 
 		public List<Rule> Rules
 		{

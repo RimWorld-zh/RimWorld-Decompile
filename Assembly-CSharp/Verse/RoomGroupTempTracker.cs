@@ -16,7 +16,7 @@ namespace Verse
 
 		private float thickRoofCoverage;
 
-		private int cycleIndex = 0;
+		private int cycleIndex;
 
 		private const float ThinRoofEqualizeRate = 5E-05f;
 
@@ -132,13 +132,13 @@ namespace Verse
 											}
 										}
 										if (!flag)
-											goto IL_024f;
+											goto IL_0234;
 									}
 									continue;
 								}
 							}
-							goto IL_024f;
-							IL_024f:
+							goto IL_0234;
+							IL_0234:
 							if (intVec2.InBounds(map))
 							{
 								RoomGroup roomGroup = intVec2.GetRoomGroup(map);
@@ -187,88 +187,69 @@ namespace Verse
 
 		private float WallEqualizationTempChangePerInterval()
 		{
-			float result;
 			if (this.equalizeCells.Count == 0)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			float num = 0f;
+			int num2 = Mathf.CeilToInt((float)((float)this.equalizeCells.Count * 0.20000000298023224));
+			for (int i = 0; i < num2; i++)
 			{
-				float num = 0f;
-				int num2 = Mathf.CeilToInt((float)((float)this.equalizeCells.Count * 0.20000000298023224));
-				for (int num3 = 0; num3 < num2; num3++)
-				{
-					this.cycleIndex++;
-					int index = this.cycleIndex % this.equalizeCells.Count;
-					float num4 = default(float);
-					num = ((!GenTemperature.TryGetDirectAirTemperatureForCell(this.equalizeCells[index], this.Map, out num4)) ? (num + (Mathf.Lerp(this.Temperature, this.Map.mapTemperature.OutdoorTemp, 0.5f) - this.Temperature)) : (num + (num4 - this.Temperature)));
-				}
-				float num5 = num / (float)num2;
-				float num6 = num5 * (float)this.equalizeCells.Count;
-				result = (float)(num6 * 120.0 * 0.00016999999934341758 / (float)this.roomGroup.CellCount);
+				this.cycleIndex++;
+				int index = this.cycleIndex % this.equalizeCells.Count;
+				float num3 = default(float);
+				num = ((!GenTemperature.TryGetDirectAirTemperatureForCell(this.equalizeCells[index], this.Map, out num3)) ? (num + (Mathf.Lerp(this.Temperature, this.Map.mapTemperature.OutdoorTemp, 0.5f) - this.Temperature)) : (num + (num3 - this.Temperature)));
 			}
-			return result;
+			float num4 = num / (float)num2;
+			float num5 = num4 * (float)this.equalizeCells.Count;
+			return (float)(num5 * 120.0 * 0.00016999999934341758 / (float)this.roomGroup.CellCount);
 		}
 
 		private float TempDiffFromOutdoorsAdjusted()
 		{
 			float num = this.Map.mapTemperature.OutdoorTemp - this.temperatureInt;
-			return (float)((!(Mathf.Abs(num) < 100.0)) ? (Mathf.Sign(num) * 100.0 + 5.0 * (num - Mathf.Sign(num) * 100.0)) : num);
+			if (Mathf.Abs(num) < 100.0)
+			{
+				return num;
+			}
+			return (float)(Mathf.Sign(num) * 100.0 + 5.0 * (num - Mathf.Sign(num) * 100.0));
 		}
 
 		private float ThinRoofEqualizationTempChangePerInterval()
 		{
-			float result;
 			if (this.ThinRoofCoverage < 0.0010000000474974513)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				float num = this.TempDiffFromOutdoorsAdjusted();
-				float num2 = (float)(num * this.ThinRoofCoverage * 4.9999998736893758E-05);
-				num2 = (result = (float)(num2 * 120.0));
-			}
-			return result;
+			float num = this.TempDiffFromOutdoorsAdjusted();
+			float num2 = (float)(num * this.ThinRoofCoverage * 4.9999998736893758E-05);
+			return (float)(num2 * 120.0);
 		}
 
 		private float NoRoofEqualizationTempChangePerInterval()
 		{
-			float result;
 			if (this.noRoofCoverage < 0.0010000000474974513)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				float num = this.TempDiffFromOutdoorsAdjusted();
-				float num2 = (float)(num * this.noRoofCoverage * 0.000699999975040555);
-				num2 = (result = (float)(num2 * 120.0));
-			}
-			return result;
+			float num = this.TempDiffFromOutdoorsAdjusted();
+			float num2 = (float)(num * this.noRoofCoverage * 0.000699999975040555);
+			return (float)(num2 * 120.0);
 		}
 
 		private float DeepEqualizationTempChangePerInterval()
 		{
-			float result;
 			if (this.thickRoofCoverage < 0.0010000000474974513)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			float num = (float)(15.0 - this.temperatureInt);
+			if (num > 0.0)
 			{
-				float num = (float)(15.0 - this.temperatureInt);
-				if (num > 0.0)
-				{
-					result = 0f;
-				}
-				else
-				{
-					float num2 = (float)(num * this.thickRoofCoverage * 4.9999998736893758E-05);
-					num2 = (result = (float)(num2 * 120.0));
-				}
+				return 0f;
 			}
-			return result;
+			float num2 = (float)(num * this.thickRoofCoverage * 4.9999998736893758E-05);
+			return (float)(num2 * 120.0);
 		}
 
 		public void DebugDraw()
@@ -281,26 +262,21 @@ namespace Verse
 
 		internal string DebugString()
 		{
-			string result;
 			if (this.roomGroup.UsesOutdoorTemperature)
 			{
-				result = "uses outdoor temperature";
+				return "uses outdoor temperature";
 			}
-			else
+			if (Time.frameCount > RoomGroupTempTracker.debugGetFrame + 120)
 			{
-				if (Time.frameCount > RoomGroupTempTracker.debugGetFrame + 120)
+				RoomGroupTempTracker.debugWallEq = 0f;
+				for (int i = 0; i < 40; i++)
 				{
-					RoomGroupTempTracker.debugWallEq = 0f;
-					for (int i = 0; i < 40; i++)
-					{
-						RoomGroupTempTracker.debugWallEq += this.WallEqualizationTempChangePerInterval();
-					}
-					RoomGroupTempTracker.debugWallEq /= 40f;
-					RoomGroupTempTracker.debugGetFrame = Time.frameCount;
+					RoomGroupTempTracker.debugWallEq += this.WallEqualizationTempChangePerInterval();
 				}
-				result = "  thick roof coverage: " + this.thickRoofCoverage.ToStringPercent("F0") + "\n  thin roof coverage: " + this.ThinRoofCoverage.ToStringPercent("F0") + "\n  no roof coverage: " + this.noRoofCoverage.ToStringPercent("F0") + "\n\n  wall equalization: " + RoomGroupTempTracker.debugWallEq.ToStringTemperatureOffset("F3") + "\n  thin roof equalization: " + this.ThinRoofEqualizationTempChangePerInterval().ToStringTemperatureOffset("F3") + "\n  no roof equalization: " + this.NoRoofEqualizationTempChangePerInterval().ToStringTemperatureOffset("F3") + "\n  deep equalization: " + this.DeepEqualizationTempChangePerInterval().ToStringTemperatureOffset("F3") + "\n\n  temp diff from outdoors, adjusted: " + this.TempDiffFromOutdoorsAdjusted().ToStringTemperatureOffset("F3") + "\n  tempChange e=20 targ= 200C: " + GenTemperature.ControlTemperatureTempChange(this.roomGroup.Cells.First(), this.roomGroup.Map, 20f, 200f) + "\n  tempChange e=20 targ=-200C: " + GenTemperature.ControlTemperatureTempChange(this.roomGroup.Cells.First(), this.roomGroup.Map, 20f, -200f) + "\n  equalize interval ticks: " + 120 + "\n  equalize cells count:" + this.equalizeCells.Count;
+				RoomGroupTempTracker.debugWallEq /= 40f;
+				RoomGroupTempTracker.debugGetFrame = Time.frameCount;
 			}
-			return result;
+			return "  thick roof coverage: " + this.thickRoofCoverage.ToStringPercent("F0") + "\n  thin roof coverage: " + this.ThinRoofCoverage.ToStringPercent("F0") + "\n  no roof coverage: " + this.noRoofCoverage.ToStringPercent("F0") + "\n\n  wall equalization: " + RoomGroupTempTracker.debugWallEq.ToStringTemperatureOffset("F3") + "\n  thin roof equalization: " + this.ThinRoofEqualizationTempChangePerInterval().ToStringTemperatureOffset("F3") + "\n  no roof equalization: " + this.NoRoofEqualizationTempChangePerInterval().ToStringTemperatureOffset("F3") + "\n  deep equalization: " + this.DeepEqualizationTempChangePerInterval().ToStringTemperatureOffset("F3") + "\n\n  temp diff from outdoors, adjusted: " + this.TempDiffFromOutdoorsAdjusted().ToStringTemperatureOffset("F3") + "\n  tempChange e=20 targ= 200C: " + GenTemperature.ControlTemperatureTempChange(this.roomGroup.Cells.First(), this.roomGroup.Map, 20f, 200f) + "\n  tempChange e=20 targ=-200C: " + GenTemperature.ControlTemperatureTempChange(this.roomGroup.Cells.First(), this.roomGroup.Map, 20f, -200f) + "\n  equalize interval ticks: " + 120 + "\n  equalize cells count:" + this.equalizeCells.Count;
 		}
 	}
 }

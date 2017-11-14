@@ -42,7 +42,7 @@ namespace Verse
 			{
 				stringBuilder.Append("\n");
 			}
-			for (int num = 0; num < depth; num++)
+			for (int i = 0; i < depth; i++)
 			{
 				stringBuilder.Append("  ");
 			}

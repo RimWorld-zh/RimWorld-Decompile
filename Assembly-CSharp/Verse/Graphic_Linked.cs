@@ -4,7 +4,7 @@ namespace Verse
 {
 	public class Graphic_Linked : Graphic
 	{
-		protected Graphic subGraphic = null;
+		protected Graphic subGraphic;
 
 		public virtual LinkDrawerType LinkerType
 		{
@@ -62,14 +62,22 @@ namespace Verse
 				}
 				num2 *= 2;
 			}
-			LinkDirections linkSet = (LinkDirections)(byte)num;
+			LinkDirections linkSet = (LinkDirections)num;
 			Material mat = this.subGraphic.MatSingleFor(parent);
 			return MaterialAtlasPool.SubMaterialFromAtlas(mat, linkSet);
 		}
 
 		public virtual bool ShouldLinkWith(IntVec3 c, Thing parent)
 		{
-			return parent.Spawned && (c.InBounds(parent.Map) ? ((parent.Map.linkGrid.LinkFlagsAt(c) & parent.def.graphicData.linkFlags) != LinkFlags.None) : (((int)parent.def.graphicData.linkFlags & 1) != 0));
+			if (!parent.Spawned)
+			{
+				return false;
+			}
+			if (!c.InBounds(parent.Map))
+			{
+				return (parent.def.graphicData.linkFlags & LinkFlags.MapEdge) != LinkFlags.None;
+			}
+			return (parent.Map.linkGrid.LinkFlagsAt(c) & parent.def.graphicData.linkFlags) != LinkFlags.None;
 		}
 	}
 }

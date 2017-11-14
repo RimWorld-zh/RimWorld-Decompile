@@ -36,7 +36,7 @@ namespace Ionic.Zlib
 
 		public int WindowBits = 15;
 
-		public CompressionStrategy Strategy = CompressionStrategy.Default;
+		public CompressionStrategy Strategy;
 
 		public int Adler32
 		{
@@ -55,21 +55,15 @@ namespace Ionic.Zlib
 			switch (mode)
 			{
 			case CompressionMode.Compress:
-			{
 				if (this.InitializeDeflate() == 0)
-					return;
+					break;
 				throw new ZlibException("Cannot initialize for deflate.");
-			}
 			case CompressionMode.Decompress:
-			{
 				if (this.InitializeInflate() == 0)
-					return;
+					break;
 				throw new ZlibException("Cannot initialize for inflate.");
-			}
 			default:
-			{
 				throw new ZlibException("Invalid ZlibStreamFlavor.");
-			}
 			}
 		}
 
@@ -210,20 +204,15 @@ namespace Ionic.Zlib
 
 		public int SetDictionary(byte[] dictionary)
 		{
-			int result;
 			if (this.istate != null)
 			{
-				result = this.istate.SetDictionary(dictionary);
-				goto IL_0046;
+				return this.istate.SetDictionary(dictionary);
 			}
 			if (this.dstate != null)
 			{
-				result = this.dstate.SetDictionary(dictionary);
-				goto IL_0046;
+				return this.dstate.SetDictionary(dictionary);
 			}
 			throw new ZlibException("No Inflate or Deflate state!");
-			IL_0046:
-			return result;
 		}
 
 		internal void flush_pending()
@@ -242,7 +231,7 @@ namespace Ionic.Zlib
 				Array.Copy(this.dstate.pending, this.dstate.nextPending, this.OutputBuffer, this.NextOut, num);
 				this.NextOut += num;
 				this.dstate.nextPending += num;
-				this.TotalBytesOut += (long)num;
+				this.TotalBytesOut += num;
 				this.AvailableBytesOut -= num;
 				this.dstate.pendingCount -= num;
 				if (this.dstate.pendingCount == 0)
@@ -259,24 +248,19 @@ namespace Ionic.Zlib
 			{
 				num = size;
 			}
-			int result;
 			if (num == 0)
 			{
-				result = 0;
+				return 0;
 			}
-			else
+			this.AvailableBytesIn -= num;
+			if (this.dstate.WantRfc1950HeaderBytes)
 			{
-				this.AvailableBytesIn -= num;
-				if (this.dstate.WantRfc1950HeaderBytes)
-				{
-					this._Adler32 = Adler.Adler32(this._Adler32, this.InputBuffer, this.NextIn, num);
-				}
-				Array.Copy(this.InputBuffer, this.NextIn, buf, start, num);
-				this.NextIn += num;
-				this.TotalBytesIn += (long)num;
-				result = num;
+				this._Adler32 = Adler.Adler32(this._Adler32, this.InputBuffer, this.NextIn, num);
 			}
-			return result;
+			Array.Copy(this.InputBuffer, this.NextIn, buf, start, num);
+			this.NextIn += num;
+			this.TotalBytesIn += num;
+			return num;
 		}
 	}
 }

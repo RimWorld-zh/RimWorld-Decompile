@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI.Group;
 
@@ -46,7 +45,7 @@ namespace RimWorld
 			LordToil_End lordToil_End = new LordToil_End();
 			stateGraph.AddToil(lordToil_End);
 			Transition transition = new Transition(lordToil_Party, lordToil_End);
-			transition.AddTrigger(new Trigger_TickCondition((Func<bool>)(() => this.ShouldBeCalledOff()), 1));
+			transition.AddTrigger(new Trigger_TickCondition(() => this.ShouldBeCalledOff(), 1));
 			transition.AddTrigger(new Trigger_PawnLostViolently());
 			transition.AddPreAction(new TransitionAction_Message("MessagePartyCalledOff".Translate(), MessageTypeDefOf.NegativeEvent, new TargetInfo(this.spot, base.Map, false)));
 			stateGraph.AddTransition(transition);
@@ -60,12 +59,36 @@ namespace RimWorld
 
 		private bool ShouldBeCalledOff()
 		{
-			return (byte)((!PartyUtility.AcceptableGameConditionsToContinueParty(base.Map)) ? 1 : ((!this.spot.Roofed(base.Map) && !JoyUtility.EnjoyableOutsideNow(base.Map, null)) ? 1 : 0)) != 0;
+			if (!PartyUtility.AcceptableGameConditionsToContinueParty(base.Map))
+			{
+				return true;
+			}
+			if (!this.spot.Roofed(base.Map) && !JoyUtility.EnjoyableOutsideNow(base.Map, null))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public override float VoluntaryJoinPriorityFor(Pawn p)
 		{
-			return (float)((!this.IsInvited(p)) ? 0.0 : (PartyUtility.ShouldPawnKeepPartying(p) ? ((base.lord.ownedPawns.Contains(p) || !this.IsPartyAboutToEnd()) ? VoluntarilyJoinableLordJobJoinPriorities.PartyGuest : 0.0) : 0.0));
+			if (this.IsInvited(p))
+			{
+				if (!PartyUtility.ShouldPawnKeepPartying(p))
+				{
+					return 0f;
+				}
+				if (this.spot.IsForbidden(p))
+				{
+					return 0f;
+				}
+				if (!base.lord.ownedPawns.Contains(p) && this.IsPartyAboutToEnd())
+				{
+					return 0f;
+				}
+				return VoluntarilyJoinableLordJobJoinPriorities.PartyGuest;
+			}
+			return 0f;
 		}
 
 		public override void ExposeData()
@@ -81,7 +104,11 @@ namespace RimWorld
 
 		private bool IsPartyAboutToEnd()
 		{
-			return (byte)((this.timeoutTrigger.TicksLeft < 1200) ? 1 : 0) != 0;
+			if (this.timeoutTrigger.TicksLeft < 1200)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		private bool IsInvited(Pawn p)

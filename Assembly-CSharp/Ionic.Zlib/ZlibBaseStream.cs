@@ -10,12 +10,12 @@ namespace Ionic.Zlib
 	{
 		internal enum StreamMode
 		{
-			Writer = 0,
-			Reader = 1,
-			Undefined = 2
+			Writer,
+			Reader,
+			Undefined
 		}
 
-		protected internal ZlibCodec _z = null;
+		protected internal ZlibCodec _z;
 
 		protected internal StreamMode _streamMode = StreamMode.Undefined;
 
@@ -37,7 +37,7 @@ namespace Ionic.Zlib
 
 		protected internal Stream _stream;
 
-		protected internal CompressionStrategy Strategy = CompressionStrategy.Default;
+		protected internal CompressionStrategy Strategy;
 
 		private CRC32 crc;
 
@@ -49,13 +49,17 @@ namespace Ionic.Zlib
 
 		protected internal int _gzipHeaderByteCount;
 
-		private bool nomoreinput = false;
+		private bool nomoreinput;
 
 		internal int Crc32
 		{
 			get
 			{
-				return (this.crc != null) ? this.crc.Crc32Result : 0;
+				if (this.crc == null)
+				{
+					return 0;
+				}
+				return this.crc.Crc32Result;
 			}
 		}
 
@@ -213,7 +217,7 @@ namespace Ionic.Zlib
 						this._z.NextOut = 0;
 						this._z.AvailableBytesOut = this._workingBuffer.Length;
 						int num = (!this._wantCompress) ? this._z.Inflate(FlushType.Finish) : this._z.Deflate(FlushType.Finish);
-						if (((num != 1) ? num : 0) != 0)
+						if (num != 1 && num != 0)
 						{
 							string text = ((!this._wantCompress) ? "in" : "de") + "flating";
 							if (this._z.Message == null)
@@ -370,16 +374,13 @@ namespace Ionic.Zlib
 			int num = 0;
 			byte[] array = new byte[10];
 			int num2 = this._stream.Read(array, 0, array.Length);
-			int result;
 			switch (num2)
 			{
 			case 0:
-			{
-				result = 0;
-				break;
-			}
+				return 0;
+			default:
+				throw new ZlibException("Not a valid GZIP stream.");
 			case 10:
-			{
 				if (array[0] == 31 && array[1] == 139 && array[2] == 8)
 				{
 					int num3 = BitConverter.ToInt32(array, 4);
@@ -402,7 +403,7 @@ namespace Ionic.Zlib
 					{
 						this._GzipFileName = this.ReadZeroTerminatedString();
 					}
-					if ((array[3] & 16) == 16)
+					if ((array[3] & 0x10) == 16)
 					{
 						this._GzipComment = this.ReadZeroTerminatedString();
 					}
@@ -410,24 +411,14 @@ namespace Ionic.Zlib
 					{
 						this.Read(this._buf1, 0, 1);
 					}
-					result = num;
-					goto IL_013f;
+					return num;
 				}
 				throw new ZlibException("Bad GZIP header.");
 			}
-			default:
-			{
-				throw new ZlibException("Not a valid GZIP stream.");
-			}
-			}
-			goto IL_013f;
-			IL_013f:
-			return result;
 		}
 
 		public override int Read(byte[] buffer, int offset, int count)
 		{
-			int result;
 			if (this._streamMode == StreamMode.Undefined)
 			{
 				if (!this._stream.CanRead)
@@ -441,8 +432,7 @@ namespace Ionic.Zlib
 					this._gzipHeaderByteCount = this._ReadAndValidateGzipHeader();
 					if (this._gzipHeaderByteCount == 0)
 					{
-						result = 0;
-						goto IL_032e;
+						return 0;
 					}
 				}
 			}
@@ -450,75 +440,67 @@ namespace Ionic.Zlib
 			{
 				throw new ZlibException("Cannot Read after Writing.");
 			}
-			int num;
 			if (count == 0)
 			{
-				result = 0;
+				return 0;
 			}
-			else if (this.nomoreinput && this._wantCompress)
+			if (this.nomoreinput && this._wantCompress)
 			{
-				result = 0;
+				return 0;
 			}
-			else
+			if (buffer == null)
 			{
-				if (buffer == null)
-				{
-					throw new ArgumentNullException("buffer");
-				}
-				if (count < 0)
-				{
-					throw new ArgumentOutOfRangeException("count");
-				}
-				if (offset < buffer.GetLowerBound(0))
-				{
-					throw new ArgumentOutOfRangeException("offset");
-				}
-				if (offset + count > buffer.GetLength(0))
-				{
-					throw new ArgumentOutOfRangeException("count");
-				}
-				num = 0;
-				this._z.OutputBuffer = buffer;
-				this._z.NextOut = offset;
-				this._z.AvailableBytesOut = count;
-				this._z.InputBuffer = this.workingBuffer;
-				while (true)
-				{
-					if (this._z.AvailableBytesIn == 0 && !this.nomoreinput)
-					{
-						this._z.NextIn = 0;
-						this._z.AvailableBytesIn = this._stream.Read(this._workingBuffer, 0, this._workingBuffer.Length);
-						if (this._z.AvailableBytesIn == 0)
-						{
-							this.nomoreinput = true;
-						}
-					}
-					num = ((!this._wantCompress) ? this._z.Inflate(this._flushMode) : this._z.Deflate(this._flushMode));
-					if (this.nomoreinput && num == -5)
-						break;
-					if (num != 0 && num != 1)
-					{
-						throw new ZlibException(string.Format("{0}flating:  rc={1}  msg={2}", (!this._wantCompress) ? "in" : "de", num, this._z.Message));
-					}
-					if (!this.nomoreinput && num != 1)
-					{
-						goto IL_025d;
-					}
-					if (this._z.AvailableBytesOut != count)
-						goto IL_025d;
-					goto IL_0280;
-					IL_025d:
-					if (this._z.AvailableBytesOut > 0 && !this.nomoreinput && num == 0)
-						continue;
-					goto IL_0280;
-				}
-				result = 0;
+				throw new ArgumentNullException("buffer");
 			}
-			goto IL_032e;
-			IL_0280:
+			if (count < 0)
+			{
+				throw new ArgumentOutOfRangeException("count");
+			}
+			if (offset < buffer.GetLowerBound(0))
+			{
+				throw new ArgumentOutOfRangeException("offset");
+			}
+			if (offset + count > buffer.GetLength(0))
+			{
+				throw new ArgumentOutOfRangeException("count");
+			}
+			int num = 0;
+			this._z.OutputBuffer = buffer;
+			this._z.NextOut = offset;
+			this._z.AvailableBytesOut = count;
+			this._z.InputBuffer = this.workingBuffer;
+			while (true)
+			{
+				if (this._z.AvailableBytesIn == 0 && !this.nomoreinput)
+				{
+					this._z.NextIn = 0;
+					this._z.AvailableBytesIn = this._stream.Read(this._workingBuffer, 0, this._workingBuffer.Length);
+					if (this._z.AvailableBytesIn == 0)
+					{
+						this.nomoreinput = true;
+					}
+				}
+				num = ((!this._wantCompress) ? this._z.Inflate(this._flushMode) : this._z.Deflate(this._flushMode));
+				if (this.nomoreinput && num == -5)
+				{
+					return 0;
+				}
+				if (num != 0 && num != 1)
+				{
+					throw new ZlibException(string.Format("{0}flating:  rc={1}  msg={2}", (!this._wantCompress) ? "in" : "de", num, this._z.Message));
+				}
+				if ((this.nomoreinput || num == 1) && this._z.AvailableBytesOut == count)
+					break;
+				if (this._z.AvailableBytesOut <= 0)
+					break;
+				if (this.nomoreinput)
+					break;
+				if (num != 0)
+					break;
+			}
 			if (this._z.AvailableBytesOut > 0)
 			{
-				if (((num != 0) ? 1 : this._z.AvailableBytesIn) != 0)
+				if (num != 0 || this._z.AvailableBytesIn != 0)
 					;
 				if (this.nomoreinput && this._wantCompress)
 				{
@@ -534,10 +516,7 @@ namespace Ionic.Zlib
 			{
 				this.crc.SlurpBlock(buffer, offset, num);
 			}
-			result = num;
-			goto IL_032e;
-			IL_032e:
-			return result;
+			return num;
 		}
 
 		public static void CompressString(string s, Stream compressor)

@@ -27,6 +27,7 @@ namespace Verse
 					}
 					parentNode.RemoveChild(xmlNode);
 				}
+				return result;
 			}
 			finally
 			{
@@ -36,7 +37,6 @@ namespace Verse
 					disposable.Dispose();
 				}
 			}
-			return result;
 		}
 	}
 }

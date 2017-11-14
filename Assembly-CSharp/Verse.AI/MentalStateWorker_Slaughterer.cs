@@ -4,7 +4,11 @@ namespace Verse.AI
 	{
 		public override bool StateCanOccur(Pawn pawn)
 		{
-			return base.StateCanOccur(pawn) && SlaughtererMentalStateUtility.FindAnimal(pawn) != null;
+			if (!base.StateCanOccur(pawn))
+			{
+				return false;
+			}
+			return SlaughtererMentalStateUtility.FindAnimal(pawn) != null;
 		}
 	}
 }

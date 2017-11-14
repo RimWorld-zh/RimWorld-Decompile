@@ -4,22 +4,25 @@ namespace Verse
 	{
 		public static Region RegionAt(IntVec3 c, Map map, RegionType allowedRegionTypes = RegionType.Set_Passable)
 		{
-			Region result;
 			if (!c.InBounds(map))
 			{
-				result = null;
+				return null;
 			}
-			else
+			Region validRegionAt = map.regionGrid.GetValidRegionAt(c);
+			if (validRegionAt != null && (validRegionAt.type & allowedRegionTypes) != 0)
 			{
-				Region validRegionAt = map.regionGrid.GetValidRegionAt(c);
-				result = ((validRegionAt == null || (validRegionAt.type & allowedRegionTypes) == RegionType.None) ? null : validRegionAt);
+				return validRegionAt;
 			}
-			return result;
+			return null;
 		}
 
 		public static Region GetRegion(this Thing thing, RegionType allowedRegionTypes = RegionType.Set_Passable)
 		{
-			return thing.Spawned ? RegionAndRoomQuery.RegionAt(thing.Position, thing.Map, allowedRegionTypes) : null;
+			if (!thing.Spawned)
+			{
+				return null;
+			}
+			return RegionAndRoomQuery.RegionAt(thing.Position, thing.Map, allowedRegionTypes);
 		}
 
 		public static Room RoomAt(IntVec3 c, Map map, RegionType allowedRegionTypes = RegionType.Set_Passable)
@@ -36,7 +39,11 @@ namespace Verse
 
 		public static Room GetRoom(this Thing thing, RegionType allowedRegionTypes = RegionType.Set_Passable)
 		{
-			return thing.Spawned ? RegionAndRoomQuery.RoomAt(thing.Position, thing.Map, allowedRegionTypes) : null;
+			if (!thing.Spawned)
+			{
+				return null;
+			}
+			return RegionAndRoomQuery.RoomAt(thing.Position, thing.Map, allowedRegionTypes);
 		}
 
 		public static RoomGroup GetRoomGroup(this Thing thing)
@@ -48,34 +55,30 @@ namespace Verse
 		public static Room RoomAtFast(IntVec3 c, Map map, RegionType allowedRegionTypes = RegionType.Set_Passable)
 		{
 			Region validRegionAt = map.regionGrid.GetValidRegionAt(c);
-			return (validRegionAt == null || (validRegionAt.type & allowedRegionTypes) == RegionType.None) ? null : validRegionAt.Room;
+			if (validRegionAt != null && (validRegionAt.type & allowedRegionTypes) != 0)
+			{
+				return validRegionAt.Room;
+			}
+			return null;
 		}
 
 		public static Room RoomAtOrAdjacent(IntVec3 c, Map map, RegionType allowedRegionTypes = RegionType.Set_Passable)
 		{
 			Room room = RegionAndRoomQuery.RoomAt(c, map, allowedRegionTypes);
-			Room result;
 			if (room != null)
 			{
-				result = room;
+				return room;
 			}
-			else
+			for (int i = 0; i < 8; i++)
 			{
-				for (int i = 0; i < 8; i++)
+				IntVec3 c2 = c + GenAdj.AdjacentCells[i];
+				room = RegionAndRoomQuery.RoomAt(c2, map, allowedRegionTypes);
+				if (room != null)
 				{
-					IntVec3 c2 = c + GenAdj.AdjacentCells[i];
-					room = RegionAndRoomQuery.RoomAt(c2, map, allowedRegionTypes);
-					if (room != null)
-						goto IL_0045;
+					return room;
 				}
-				result = room;
 			}
-			goto IL_005f;
-			IL_0045:
-			result = room;
-			goto IL_005f;
-			IL_005f:
-			return result;
+			return room;
 		}
 	}
 }

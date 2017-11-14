@@ -35,25 +35,17 @@ namespace RimWorld
 					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
-			using (IEnumerator<TerrainDef> enumerator2 = DefDatabase<TerrainDef>.AllDefs.GetEnumerator())
+			foreach (TerrainDef allDef in DefDatabase<TerrainDef>.AllDefs)
 			{
-				TerrainDef terrDef;
-				while (true)
+				if (allDef.designationCategory != null)
 				{
-					if (enumerator2.MoveNext())
-					{
-						terrDef = enumerator2.Current;
-						if (terrDef.designationCategory != null)
-							break;
-						continue;
-					}
-					yield break;
+					yield return ThingDefGenerator_Buildings.NewBlueprintDef_Terrain(allDef);
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
-				yield return ThingDefGenerator_Buildings.NewBlueprintDef_Terrain(terrDef);
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			IL_0231:
-			/*Error near IL_0232: Unexpected return in MoveNext()*/;
+			yield break;
+			IL_0226:
+			/*Error near IL_0227: Unexpected return in MoveNext()*/;
 		}
 
 		private static ThingDef BaseBlueprintDef()
@@ -93,8 +85,11 @@ namespace RimWorld
 			thingDef.defName = def.defName + ThingDefGenerator_Buildings.BlueprintDefNameSuffix;
 			thingDef.label = def.label + "BlueprintLabelExtra".Translate();
 			thingDef.size = def.size;
-			thingDef.constructionSkillPrerequisite = def.constructionSkillPrerequisite;
 			thingDef.clearBuildingArea = def.clearBuildingArea;
+			if (!isInstallBlueprint)
+			{
+				thingDef.constructionSkillPrerequisite = def.constructionSkillPrerequisite;
+			}
 			thingDef.drawPlaceWorkersWhileSelected = def.drawPlaceWorkersWhileSelected;
 			if (def.placeWorkers != null)
 			{
@@ -102,8 +97,8 @@ namespace RimWorld
 			}
 			if (isInstallBlueprint)
 			{
-				ThingDef obj = thingDef;
-				obj.defName += ThingDefGenerator_Buildings.InstallBlueprintDefNameSuffix;
+				ThingDef thingDef2 = thingDef;
+				thingDef2.defName += ThingDefGenerator_Buildings.InstallBlueprintDefNameSuffix;
 			}
 			if (isInstallBlueprint && normalBlueprint != null)
 			{

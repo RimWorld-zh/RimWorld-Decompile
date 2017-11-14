@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -37,12 +36,12 @@ namespace RimWorld
 					{
 						Hediff hediff = HediffMaker.MakeHediff(chemicalDef.addictionHediff, pawn, null);
 						hediff.Severity = PawnAddictionHediffsGenerator.GeneratedAddictionSeverityRange.RandomInRange;
-						pawn.health.AddHediff(hediff, null, default(DamageInfo?));
+						pawn.health.AddHediff(hediff, null, null);
 						if (chemicalDef.toleranceHediff != null && Rand.Value < chemicalDef.onGeneratedAddictedToleranceChance)
 						{
 							Hediff hediff2 = HediffMaker.MakeHediff(chemicalDef.toleranceHediff, pawn, null);
 							hediff2.Severity = PawnAddictionHediffsGenerator.GeneratedToleranceSeverityRange.RandomInRange;
-							pawn.health.AddHediff(hediff2, null, default(DamageInfo?));
+							pawn.health.AddHediff(hediff2, null, null);
 						}
 						if (chemicalDef.onGeneratedAddictedEvents != null)
 						{
@@ -62,7 +61,11 @@ namespace RimWorld
 
 		private static bool PossibleWithTechLevel(ChemicalDef chemical, Faction faction)
 		{
-			return faction == null || PawnAddictionHediffsGenerator.allDrugs.Any((Predicate<ThingDef>)((ThingDef x) => x.GetCompProperties<CompProperties_Drug>().chemical == chemical && (int)x.techLevel <= (int)faction.def.techLevel));
+			if (faction == null)
+			{
+				return true;
+			}
+			return PawnAddictionHediffsGenerator.allDrugs.Any((ThingDef x) => x.GetCompProperties<CompProperties_Drug>().chemical == chemical && (int)x.techLevel <= (int)faction.def.techLevel);
 		}
 
 		private static void DoIngestionOutcomeDoers(Pawn pawn, ChemicalDef chemical)

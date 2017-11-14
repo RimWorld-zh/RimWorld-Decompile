@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -84,7 +83,7 @@ namespace RimWorld
 					if (!visited[allCell2] && this.IsNaturalRoofAt(allCell2, map))
 					{
 						toRemove.Clear();
-						map.floodFiller.FloodFill(allCell2, (Predicate<IntVec3>)((IntVec3 x) => this.IsNaturalRoofAt(x, map)), (Action<IntVec3>)delegate(IntVec3 x)
+						map.floodFiller.FloodFill(allCell2, (IntVec3 x) => this.IsNaturalRoofAt(x, map), delegate(IntVec3 x)
 						{
 							visited[x] = true;
 							toRemove.Add(x);
@@ -103,30 +102,20 @@ namespace RimWorld
 				switch (Find.WorldGrid[map.Tile].hilliness)
 				{
 				case Hilliness.Flat:
-				{
 					num4 = 4f;
 					break;
-				}
 				case Hilliness.SmallHills:
-				{
 					num4 = 8f;
 					break;
-				}
 				case Hilliness.LargeHills:
-				{
 					num4 = 11f;
 					break;
-				}
 				case Hilliness.Mountainous:
-				{
 					num4 = 15f;
 					break;
-				}
 				case Hilliness.Impassable:
-				{
 					num4 = 16f;
 					break;
-				}
 				}
 				genStep_ScatterLumpsMineable.countPer10kCellsRange = new FloatRange(num4, num4);
 				genStep_ScatterLumpsMineable.Generate(map);

@@ -48,23 +48,30 @@ namespace RimWorld
 		{
 			get
 			{
-				bool result;
 				if (!base.Active)
 				{
-					result = false;
+					return false;
 				}
-				else
+				Pawn pawn = base.parent as Pawn;
+				if (this.Props.milkFemaleOnly && pawn != null && pawn.gender != Gender.Female)
 				{
-					Pawn pawn = base.parent as Pawn;
-					result = ((byte)((!this.Props.milkFemaleOnly || pawn == null || pawn.gender == Gender.Female) ? ((pawn == null || pawn.ageTracker.CurLifeStage.milkable) ? 1 : 0) : 0) != 0);
+					return false;
 				}
-				return result;
+				if (pawn != null && !pawn.ageTracker.CurLifeStage.milkable)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
 		public override string CompInspectStringExtra()
 		{
-			return this.Active ? ("MilkFullness".Translate() + ": " + base.Fullness.ToStringPercent()) : null;
+			if (!this.Active)
+			{
+				return null;
+			}
+			return "MilkFullness".Translate() + ": " + base.Fullness.ToStringPercent();
 		}
 	}
 }

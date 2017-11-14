@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -10,7 +9,7 @@ namespace RimWorld
 	public class CompTempControl : ThingComp
 	{
 		[Unsaved]
-		public bool operatingAtHighPower = false;
+		public bool operatingAtHighPower;
 
 		public float targetTemperature = -99999f;
 
@@ -48,7 +47,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CCompGetGizmosExtra_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.CompGetGizmosExtra().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -57,11 +56,11 @@ namespace RimWorld
 					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
-			_003CCompGetGizmosExtra_003Ec__Iterator0 _003CCompGetGizmosExtra_003Ec__Iterator = (_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_00d9: stateMachine*/;
+			_003CCompGetGizmosExtra_003Ec__Iterator0 _003CCompGetGizmosExtra_003Ec__Iterator = (_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_00d5: stateMachine*/;
 			float offset = this.RoundedToCurrentTempModeOffset(-10f);
 			yield return (Gizmo)new Command_Action
 			{
-				action = (Action)delegate
+				action = delegate
 				{
 					_003CCompGetGizmosExtra_003Ec__Iterator._0024this.InterfaceChangeTargetTemperature(offset);
 				},
@@ -71,8 +70,8 @@ namespace RimWorld
 				icon = ContentFinder<Texture2D>.Get("UI/Commands/TempLower", true)
 			};
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_04d1:
-			/*Error near IL_04d2: Unexpected return in MoveNext()*/;
+			IL_04c3:
+			/*Error near IL_04c4: Unexpected return in MoveNext()*/;
 		}
 
 		private void InterfaceChangeTargetTemperature(float offset)

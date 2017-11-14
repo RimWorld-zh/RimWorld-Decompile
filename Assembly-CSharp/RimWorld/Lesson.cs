@@ -29,6 +29,14 @@ namespace RimWorld
 			}
 		}
 
+		public virtual InstructionDef Instruction
+		{
+			get
+			{
+				return null;
+			}
+		}
+
 		public virtual float MessagesYOffset
 		{
 			get
@@ -41,7 +49,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (string)null;
+				return null;
 			}
 		}
 

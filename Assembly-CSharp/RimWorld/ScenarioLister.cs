@@ -38,8 +38,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_01dd:
-			/*Error near IL_01de: Unexpected return in MoveNext()*/;
+			IL_01d3:
+			/*Error near IL_01d4: Unexpected return in MoveNext()*/;
 		}
 
 		public static IEnumerable<Scenario> ScenariosInCategory(ScenarioCategory cat)
@@ -48,20 +48,17 @@ namespace RimWorld
 			switch (cat)
 			{
 			case ScenarioCategory.FromDef:
-			{
-				using (IEnumerator<ScenarioDef> enumerator = DefDatabase<ScenarioDef>.AllDefs.GetEnumerator())
+				using (IEnumerator<ScenarioDef> enumerator3 = DefDatabase<ScenarioDef>.AllDefs.GetEnumerator())
 				{
-					if (enumerator.MoveNext())
+					if (enumerator3.MoveNext())
 					{
-						ScenarioDef scenDef = enumerator.Current;
+						ScenarioDef scenDef = enumerator3.Current;
 						yield return scenDef.scenario;
 						/*Error: Unable to find new state assignment for yield return*/;
 					}
 				}
 				break;
-			}
 			case ScenarioCategory.CustomLocal:
-			{
 				using (IEnumerator<Scenario> enumerator2 = ScenarioFiles.AllScenariosLocal.GetEnumerator())
 				{
 					if (enumerator2.MoveNext())
@@ -72,24 +69,21 @@ namespace RimWorld
 					}
 				}
 				break;
-			}
 			case ScenarioCategory.SteamWorkshop:
-			{
-				using (IEnumerator<Scenario> enumerator3 = ScenarioFiles.AllScenariosWorkshop.GetEnumerator())
+				using (IEnumerator<Scenario> enumerator = ScenarioFiles.AllScenariosWorkshop.GetEnumerator())
 				{
-					if (enumerator3.MoveNext())
+					if (enumerator.MoveNext())
 					{
-						Scenario scen = enumerator3.Current;
+						Scenario scen = enumerator.Current;
 						yield return scen;
 						/*Error: Unable to find new state assignment for yield return*/;
 					}
 				}
 				break;
 			}
-			}
 			yield break;
-			IL_0211:
-			/*Error near IL_0212: Unexpected return in MoveNext()*/;
+			IL_0201:
+			/*Error near IL_0202: Unexpected return in MoveNext()*/;
 		}
 
 		public static bool ScenarioIsListedAnywhere(Scenario scen)

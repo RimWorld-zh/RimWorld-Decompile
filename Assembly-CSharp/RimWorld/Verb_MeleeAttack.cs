@@ -53,7 +53,7 @@ namespace RimWorld
 					result = target.Thing.TakeDamage(item);
 					continue;
 				}
-				break;
+				return result;
 			}
 			return result;
 		}

@@ -71,7 +71,11 @@ namespace Ionic.Crc
 		{
 			get
 			{
-				return (this._lengthLimit != CrcCalculatorStream.UnsetLengthLimit) ? this._lengthLimit : this._innerStream.Length;
+				if (this._lengthLimit == CrcCalculatorStream.UnsetLengthLimit)
+				{
+					return this._innerStream.Length;
+				}
+				return this._lengthLimit;
 			}
 		}
 
@@ -87,29 +91,34 @@ namespace Ionic.Crc
 			}
 		}
 
-		public CrcCalculatorStream(Stream stream) : this(true, CrcCalculatorStream.UnsetLengthLimit, stream, null)
+		public CrcCalculatorStream(Stream stream)
+			: this(true, CrcCalculatorStream.UnsetLengthLimit, stream, null)
 		{
 		}
 
-		public CrcCalculatorStream(Stream stream, bool leaveOpen) : this(leaveOpen, CrcCalculatorStream.UnsetLengthLimit, stream, null)
+		public CrcCalculatorStream(Stream stream, bool leaveOpen)
+			: this(leaveOpen, CrcCalculatorStream.UnsetLengthLimit, stream, null)
 		{
 		}
 
-		public CrcCalculatorStream(Stream stream, long length) : this(true, length, stream, null)
-		{
-			if (length >= 0)
-				return;
-			throw new ArgumentException("length");
-		}
-
-		public CrcCalculatorStream(Stream stream, long length, bool leaveOpen) : this(leaveOpen, length, stream, null)
+		public CrcCalculatorStream(Stream stream, long length)
+			: this(true, length, stream, null)
 		{
 			if (length >= 0)
 				return;
 			throw new ArgumentException("length");
 		}
 
-		public CrcCalculatorStream(Stream stream, long length, bool leaveOpen, CRC32 crc32) : this(leaveOpen, length, stream, crc32)
+		public CrcCalculatorStream(Stream stream, long length, bool leaveOpen)
+			: this(leaveOpen, length, stream, null)
+		{
+			if (length >= 0)
+				return;
+			throw new ArgumentException("length");
+		}
+
+		public CrcCalculatorStream(Stream stream, long length, bool leaveOpen, CRC32 crc32)
+			: this(leaveOpen, length, stream, crc32)
 		{
 			if (length >= 0)
 				return;
@@ -131,13 +140,11 @@ namespace Ionic.Crc
 		public override int Read(byte[] buffer, int offset, int count)
 		{
 			int count2 = count;
-			int result;
 			if (this._lengthLimit != CrcCalculatorStream.UnsetLengthLimit)
 			{
 				if (this._crc32.TotalBytesRead >= this._lengthLimit)
 				{
-					result = 0;
-					goto IL_007b;
+					return 0;
 				}
 				long num = this._lengthLimit - this._crc32.TotalBytesRead;
 				if (num < count)
@@ -150,10 +157,7 @@ namespace Ionic.Crc
 			{
 				this._crc32.SlurpBlock(buffer, offset, num2);
 			}
-			result = num2;
-			goto IL_007b;
-			IL_007b:
-			return result;
+			return num2;
 		}
 
 		public override void Write(byte[] buffer, int offset, int count)

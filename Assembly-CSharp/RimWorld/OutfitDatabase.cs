@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -45,13 +44,20 @@ namespace RimWorld
 					return new AcceptanceReport("OutfitInUse".Translate(allMapsCaravansAndTravelingTransportPod));
 				}
 			}
+			foreach (Pawn item in PawnsFinder.AllMapsWorldAndTemporary_AliveOrDead)
+			{
+				if (item.outfits != null && item.outfits.CurrentOutfit == outfit)
+				{
+					item.outfits.CurrentOutfit = null;
+				}
+			}
 			this.outfits.Remove(outfit);
 			return AcceptanceReport.WasAccepted;
 		}
 
 		public Outfit MakeNewOutfit()
 		{
-			int uniqueId = (!this.outfits.Any()) ? 1 : (this.outfits.Max((Func<Outfit, int>)((Outfit o) => o.uniqueId)) + 1);
+			int uniqueId = (!this.outfits.Any()) ? 1 : (this.outfits.Max((Outfit o) => o.uniqueId) + 1);
 			Outfit outfit = new Outfit(uniqueId, "Outfit".Translate() + " " + uniqueId.ToString());
 			outfit.filter.SetAllow(ThingCategoryDefOf.Apparel, true, null, null);
 			this.outfits.Add(outfit);

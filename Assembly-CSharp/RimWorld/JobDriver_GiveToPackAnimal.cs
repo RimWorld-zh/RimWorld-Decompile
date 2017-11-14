@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -42,7 +41,7 @@ namespace RimWorld
 		private Toil FindNearestCarrierToil()
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate
+			toil.initAction = delegate
 			{
 				Pawn pawn = this.FindNearestCarrier();
 				if (pawn == null)
@@ -51,7 +50,7 @@ namespace RimWorld
 				}
 				else
 				{
-					base.job.SetTarget(TargetIndex.B, (Thing)pawn);
+					base.job.SetTarget(TargetIndex.B, pawn);
 				}
 			};
 			return toil;
@@ -85,7 +84,7 @@ namespace RimWorld
 		private Toil GiveToCarrierAsMuchAsPossibleToil()
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate
+			toil.initAction = delegate
 			{
 				if (this.Item == null)
 				{

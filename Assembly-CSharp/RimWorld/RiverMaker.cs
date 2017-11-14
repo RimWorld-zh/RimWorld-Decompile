@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -51,12 +50,11 @@ namespace RimWorld
 		{
 			float value = this.generator.GetValue(loc);
 			float num = this.surfaceLevel - Mathf.Abs(value);
-			TerrainDef result;
 			if (num > 2.0 && this.shallowizer.GetValue(loc) > this.shallowFactor)
 			{
-				result = TerrainDefOf.WaterMovingDeep;
+				return TerrainDefOf.WaterMovingDeep;
 			}
-			else if (num > 0.0)
+			if (num > 0.0)
 			{
 				if (recordForValidation)
 				{
@@ -69,13 +67,9 @@ namespace RimWorld
 						this.rhs.Add(loc);
 					}
 				}
-				result = TerrainDefOf.WaterMovingShallow;
+				return TerrainDefOf.WaterMovingShallow;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		public Vector3 WaterCoordinateAt(IntVec3 loc)

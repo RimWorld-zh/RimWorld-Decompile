@@ -15,34 +15,29 @@ namespace Verse
 		public virtual int CountProducts(Bill_Production bill)
 		{
 			ThingCountClass thingCountClass = this.recipe.products[0];
-			int result;
 			if (thingCountClass.thingDef.CountAsResource)
 			{
-				result = bill.Map.resourceCounter.GetCount(thingCountClass.thingDef);
+				return bill.Map.resourceCounter.GetCount(thingCountClass.thingDef);
 			}
-			else
+			int num = bill.Map.listerThings.ThingsOfDef(thingCountClass.thingDef).Count;
+			if (thingCountClass.thingDef.Minifiable)
 			{
-				int num = bill.Map.listerThings.ThingsOfDef(thingCountClass.thingDef).Count;
-				if (thingCountClass.thingDef.Minifiable)
+				List<Thing> list = bill.Map.listerThings.ThingsInGroup(ThingRequestGroup.MinifiedThing);
+				for (int i = 0; i < list.Count; i++)
 				{
-					List<Thing> list = bill.Map.listerThings.ThingsInGroup(ThingRequestGroup.MinifiedThing);
-					for (int i = 0; i < list.Count; i++)
+					MinifiedThing minifiedThing = (MinifiedThing)list[i];
+					if (minifiedThing.InnerThing.def == thingCountClass.thingDef)
 					{
-						MinifiedThing minifiedThing = (MinifiedThing)list[i];
-						if (minifiedThing.InnerThing.def == thingCountClass.thingDef)
-						{
-							num++;
-						}
+						num++;
 					}
 				}
-				result = num;
 			}
-			return result;
+			return num;
 		}
 
 		public virtual string ProductsDescription(Bill_Production bill)
 		{
-			return (string)null;
+			return null;
 		}
 	}
 }

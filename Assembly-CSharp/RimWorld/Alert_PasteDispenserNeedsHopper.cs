@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -39,7 +38,7 @@ namespace RimWorld
 					}
 					if (!flag)
 					{
-						return AlertReport.CulpritIs((Thing)item);
+						return AlertReport.CulpritIs(item);
 					}
 				}
 			}

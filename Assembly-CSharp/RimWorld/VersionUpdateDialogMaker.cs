@@ -5,7 +5,7 @@ namespace RimWorld
 {
 	public static class VersionUpdateDialogMaker
 	{
-		private static bool dialogDone = false;
+		private static bool dialogDone;
 
 		public static void CreateVersionUpdateDialogIfNecessary()
 		{
@@ -26,7 +26,7 @@ namespace RimWorld
 			str = ((!BackCompatibility.IsSaveCompatibleWith(LastPlayedVersion.Version.ToString())) ? (str + "GameUpdatedToNewVersionSavesIncompatible".Translate()) : (str + "GameUpdatedToNewVersionSavesCompatible".Translate()));
 			str += "\n\n";
 			str += "GameUpdatedToNewVersionSteam".Translate();
-			Find.WindowStack.Add(new Dialog_MessageBox(str, (string)null, null, (string)null, null, (string)null, false));
+			Find.WindowStack.Add(new Dialog_MessageBox(str, null, null, null, null, null, false));
 			VersionUpdateDialogMaker.dialogDone = true;
 		}
 	}

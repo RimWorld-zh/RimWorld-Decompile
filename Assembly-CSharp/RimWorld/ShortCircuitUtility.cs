@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -47,10 +46,10 @@ namespace RimWorld
 			}
 			finally
 			{
-				((_003CGetShortCircuitablePowerConduits_003Ec__Iterator0)/*Error near IL_0157: stateMachine*/)._003C_003E__Finally0();
+				((_003CGetShortCircuitablePowerConduits_003Ec__Iterator0)/*Error near IL_0150: stateMachine*/)._003C_003E__Finally0();
 			}
-			IL_0167:
-			/*Error near IL_0168: Unexpected return in MoveNext()*/;
+			IL_0160:
+			/*Error near IL_0161: Unexpected return in MoveNext()*/;
 		}
 
 		public static void DoShortCircuit(Building culprit)
@@ -60,7 +59,7 @@ namespace RimWorld
 			float num = 0f;
 			float num2 = 0f;
 			bool flag = false;
-			if (powerNet.batteryComps.Any((Predicate<CompPowerBattery>)((CompPowerBattery x) => x.StoredEnergy > 20.0)))
+			if (powerNet.batteryComps.Any((CompPowerBattery x) => x.StoredEnergy > 20.0))
 			{
 				ShortCircuitUtility.DrainBatteriesAndCauseExplosion(powerNet, culprit, out num, out num2);
 			}
@@ -96,7 +95,7 @@ namespace RimWorld
 				stringBuilder.AppendLine();
 				stringBuilder.Append("ShortCircuitWasHuge".Translate());
 			}
-			Find.LetterStack.ReceiveLetter("LetterLabelShortCircuit".Translate(), stringBuilder.ToString(), LetterDefOf.NegativeEvent, new TargetInfo(culprit.Position, map, false), (string)null);
+			Find.LetterStack.ReceiveLetter("LetterLabelShortCircuit".Translate(), stringBuilder.ToString(), LetterDefOf.NegativeEvent, new TargetInfo(culprit.Position, map, false), null);
 		}
 
 		public static bool TryShortCircuitInRain(Thing thing)
@@ -104,28 +103,24 @@ namespace RimWorld
 			CompPowerTrader compPowerTrader = thing.TryGetComp<CompPowerTrader>();
 			if (compPowerTrader != null && compPowerTrader.PowerOn && compPowerTrader.Props.shortCircuitInRain)
 			{
-				goto IL_0049;
+				goto IL_0048;
 			}
 			if (thing.TryGetComp<CompPowerBattery>() != null && thing.TryGetComp<CompPowerBattery>().StoredEnergy > 100.0)
-				goto IL_0049;
-			bool result = false;
-			goto IL_010e;
-			IL_010e:
-			return result;
-			IL_0049:
+				goto IL_0048;
+			return false;
+			IL_0048:
 			string text = "ShortCircuitRain".Translate(thing.Label);
 			TargetInfo target = new TargetInfo(thing.Position, thing.Map, false);
 			if (thing.Faction == Faction.OfPlayer)
 			{
-				Find.LetterStack.ReceiveLetter("LetterLabelShortCircuit".Translate(), text, LetterDefOf.NegativeEvent, target, (string)null);
+				Find.LetterStack.ReceiveLetter("LetterLabelShortCircuit".Translate(), text, LetterDefOf.NegativeEvent, target, null);
 			}
 			else
 			{
 				Messages.Message(text, target, MessageTypeDefOf.NeutralEvent);
 			}
 			GenExplosion.DoExplosion(thing.OccupiedRect().RandomCell, thing.Map, 1.9f, DamageDefOf.Flame, null, -1, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
-			result = true;
-			goto IL_010e;
+			return true;
 		}
 
 		private static void DrainBatteriesAndCauseExplosion(PowerNet net, Building culprit, out float totalEnergy, out float explosionRadius)
@@ -151,15 +146,19 @@ namespace RimWorld
 			ShortCircuitUtility.tmpCells.Clear();
 			int num = GenRadial.NumCellsInRadius(3f);
 			CellRect startRect = b.OccupiedRect();
-			for (int num2 = 0; num2 < num; num2++)
+			for (int i = 0; i < num; i++)
 			{
-				IntVec3 intVec = b.Position + GenRadial.RadialPattern[num2];
+				IntVec3 intVec = b.Position + GenRadial.RadialPattern[i];
 				if (GenSight.LineOfSight(b.Position, intVec, b.Map, startRect, CellRect.SingleCell(intVec), null) && FireUtility.ChanceToStartFireIn(intVec, b.Map) > 0.0)
 				{
 					ShortCircuitUtility.tmpCells.Add(intVec);
 				}
 			}
-			return ShortCircuitUtility.tmpCells.Any() && FireUtility.TryStartFireIn(ShortCircuitUtility.tmpCells.RandomElement(), b.Map, Rand.Range(0.1f, 1.75f));
+			if (ShortCircuitUtility.tmpCells.Any())
+			{
+				return FireUtility.TryStartFireIn(ShortCircuitUtility.tmpCells.RandomElement(), b.Map, Rand.Range(0.1f, 1.75f));
+			}
+			return false;
 		}
 	}
 }

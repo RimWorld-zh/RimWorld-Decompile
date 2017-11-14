@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 
 namespace Verse.AI
@@ -20,7 +19,7 @@ namespace Verse.AI
 
 		public override bool TryMakePreToilReservations()
 		{
-			return base.pawn.Reserve((Thing)this.Prisoner, base.job, 1, -1, null);
+			return base.pawn.Reserve(this.Prisoner, base.job, 1, -1, null);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -28,10 +27,10 @@ namespace Verse.AI
 			_003CMakeNewToils_003Ec__Iterator0 _003CMakeNewToils_003Ec__Iterator = (_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0042: stateMachine*/;
 			this.FailOnDestroyedOrNull(TargetIndex.A);
 			this.FailOnBurningImmobile(TargetIndex.B);
-			this.FailOn((Func<bool>)(() => ((Pawn)(Thing)_003CMakeNewToils_003Ec__Iterator._0024this.GetActor().CurJob.GetTarget(TargetIndex.A)).guest.interactionMode != PrisonerInteractionModeDefOf.Release));
+			this.FailOn(() => ((Pawn)(Thing)_003CMakeNewToils_003Ec__Iterator._0024this.GetActor().CurJob.GetTarget(TargetIndex.A)).guest.interactionMode != PrisonerInteractionModeDefOf.Release);
 			this.FailOnDowned(TargetIndex.A);
 			this.FailOnAggroMentalState(TargetIndex.A);
-			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOn((Func<bool>)(() => !_003CMakeNewToils_003Ec__Iterator._0024this.Prisoner.IsPrisonerOfColony || !_003CMakeNewToils_003Ec__Iterator._0024this.Prisoner.guest.PrisonerIsSecure)).FailOnSomeonePhysicallyInteracting(TargetIndex.A);
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOn(() => !_003CMakeNewToils_003Ec__Iterator._0024this.Prisoner.IsPrisonerOfColony || !_003CMakeNewToils_003Ec__Iterator._0024this.Prisoner.guest.PrisonerIsSecure).FailOnSomeonePhysicallyInteracting(TargetIndex.A);
 			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}

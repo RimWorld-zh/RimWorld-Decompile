@@ -2,7 +2,8 @@ namespace Verse
 {
 	public class SubEffecter_DrifterEmoteTriggered : SubEffecter_DrifterEmote
 	{
-		public SubEffecter_DrifterEmoteTriggered(SubEffecterDef def) : base(def)
+		public SubEffecter_DrifterEmoteTriggered(SubEffecterDef def)
+			: base(def)
 		{
 		}
 

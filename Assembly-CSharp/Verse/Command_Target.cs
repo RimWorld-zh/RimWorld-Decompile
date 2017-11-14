@@ -15,7 +15,7 @@ namespace Verse
 		{
 			base.ProcessInput(ev);
 			SoundDefOf.TickTiny.PlayOneShotOnCamera(null);
-			Find.Targeter.BeginTargeting(this.targetingParams, (Action<LocalTargetInfo>)delegate(LocalTargetInfo target)
+			Find.Targeter.BeginTargeting(this.targetingParams, delegate(LocalTargetInfo target)
 			{
 				this.action(target.Thing);
 			}, null, null, null);

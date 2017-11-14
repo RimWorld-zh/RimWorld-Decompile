@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse.Sound;
@@ -130,7 +129,7 @@ namespace Verse
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Letter>(ref this.letters, "letters", LookMode.Deep, new object[0]);
-			if (((Scribe.mode == LoadSaveMode.PostLoadInit) ? this.letters.RemoveAll((Predicate<Letter>)((Letter x) => x == null)) : 0) != 0)
+			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.letters.RemoveAll((Letter x) => x == null) != 0)
 			{
 				Log.Error("Some letters were null.");
 			}

@@ -12,7 +12,15 @@ namespace RimWorld
 
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
-			return (byte)(base.CanScatterAt(c, map) ? (c.SupportsStructureType(map, TerrainAffordance.Heavy) ? 1 : 0) : 0) != 0;
+			if (!base.CanScatterAt(c, map))
+			{
+				return false;
+			}
+			if (!c.SupportsStructureType(map, TerrainAffordance.Heavy))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		protected bool CanPlaceAncientBuildingInRange(CellRect rect, Map map)

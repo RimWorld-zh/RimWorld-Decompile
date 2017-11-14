@@ -16,6 +16,14 @@ namespace RimWorld
 			}
 		}
 
+		public bool IsMeleeAttack
+		{
+			get
+			{
+				return this.verb.IsMeleeAttack;
+			}
+		}
+
 		public VerbEntry(Verb verb, Pawn pawn, Thing equipment = null)
 		{
 			this.verb = verb;

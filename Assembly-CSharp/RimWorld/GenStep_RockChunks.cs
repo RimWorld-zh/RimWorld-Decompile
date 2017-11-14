@@ -6,7 +6,7 @@ namespace RimWorld
 {
 	public class GenStep_RockChunks : GenStep
 	{
-		private ModuleBase freqFactorNoise = null;
+		private ModuleBase freqFactorNoise;
 
 		private const float ThreshLooseRock = 0.55f;
 
@@ -51,9 +51,8 @@ namespace RimWorld
 				{
 					GenSpawn.Spawn(mineableThing, intVec, map);
 					IntVec3[] adjacentCellsAndInside = GenAdj.AdjacentCellsAndInside;
-					for (int i = 0; i < adjacentCellsAndInside.Length; i++)
+					foreach (IntVec3 b in adjacentCellsAndInside)
 					{
-						IntVec3 b = adjacentCellsAndInside[i];
 						if (Rand.Value < 0.5)
 						{
 							IntVec3 c = intVec + b;

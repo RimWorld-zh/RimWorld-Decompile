@@ -19,33 +19,28 @@ namespace RimWorld.Planet
 
 		public static int EstimatedTicksToArrive(Caravan caravan, bool allowCaching)
 		{
-			int result;
 			if (allowCaching && caravan == CaravanArrivalTimeEstimator.cachedForCaravan && caravan.pather.Destination == CaravanArrivalTimeEstimator.cachedForDest && Find.TickManager.TicksGame - CaravanArrivalTimeEstimator.cacheTicks < 100)
 			{
-				result = CaravanArrivalTimeEstimator.cachedResult;
+				return CaravanArrivalTimeEstimator.cachedResult;
+			}
+			int to;
+			int result;
+			if (!caravan.Spawned || !caravan.pather.Moving || caravan.pather.curPath == null)
+			{
+				to = -1;
+				result = 0;
 			}
 			else
 			{
-				int to;
-				int num;
-				if (!caravan.Spawned || !caravan.pather.Moving || caravan.pather.curPath == null)
-				{
-					to = -1;
-					num = 0;
-				}
-				else
-				{
-					to = caravan.pather.Destination;
-					num = CaravanArrivalTimeEstimator.EstimatedTicksToArrive(caravan.Tile, to, caravan.pather.curPath, caravan.pather.nextTileCostLeft, caravan.TicksPerMove, Find.TickManager.TicksAbs);
-				}
-				if (allowCaching)
-				{
-					CaravanArrivalTimeEstimator.cacheTicks = Find.TickManager.TicksGame;
-					CaravanArrivalTimeEstimator.cachedForCaravan = caravan;
-					CaravanArrivalTimeEstimator.cachedForDest = to;
-					CaravanArrivalTimeEstimator.cachedResult = num;
-				}
-				result = num;
+				to = caravan.pather.Destination;
+				result = CaravanArrivalTimeEstimator.EstimatedTicksToArrive(caravan.Tile, to, caravan.pather.curPath, caravan.pather.nextTileCostLeft, caravan.TicksPerMove, Find.TickManager.TicksAbs);
+			}
+			if (allowCaching)
+			{
+				CaravanArrivalTimeEstimator.cacheTicks = Find.TickManager.TicksGame;
+				CaravanArrivalTimeEstimator.cachedForCaravan = caravan;
+				CaravanArrivalTimeEstimator.cachedForDest = to;
+				CaravanArrivalTimeEstimator.cachedResult = result;
 			}
 			return result;
 		}
@@ -81,21 +76,18 @@ namespace RimWorld.Planet
 			{
 				num8 = CaravanRestUtility.LeftNonRestTicksAt(from, curTicksAbs);
 			}
-			int result;
 			while (true)
 			{
 				num7++;
 				if (num7 >= 10000)
 				{
 					Log.ErrorOnce("Could not calculate estimated ticks to arrive. Too many iterations.", 1837451324);
-					result = num;
-					break;
+					return num;
 				}
 				if (num6 <= 0)
 				{
 					if (num2 == to)
 					{
-						result = num;
 						break;
 					}
 					bool flag = num3 == 0;
@@ -129,7 +121,7 @@ namespace RimWorld.Planet
 					num6 = 0;
 				}
 			}
-			return result;
+			return num;
 		}
 	}
 }

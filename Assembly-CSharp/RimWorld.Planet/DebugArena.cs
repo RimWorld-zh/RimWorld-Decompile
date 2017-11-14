@@ -13,9 +13,9 @@ namespace RimWorld.Planet
 
 		public Action<ArenaUtility.ArenaResult> callback;
 
-		private int tickCreated = 0;
+		private int tickCreated;
 
-		private int tickFightStarted = 0;
+		private int tickFightStarted;
 
 		public DebugArena()
 		{
@@ -32,10 +32,10 @@ namespace RimWorld.Planet
 			{
 				if (this.tickFightStarted == 0 && Find.TickManager.TicksGame - this.tickCreated > 10000)
 				{
-					goto IL_0078;
+					goto IL_0072;
 				}
 				if (this.tickFightStarted != 0 && Find.TickManager.TicksGame - this.tickFightStarted > 60000)
-					goto IL_0078;
+					goto IL_0072;
 				if (this.tickFightStarted == 0)
 				{
 					foreach (Pawn item in this.lhs.Concat(this.rhs))
@@ -50,14 +50,12 @@ namespace RimWorld.Planet
 				}
 				if (this.tickFightStarted != 0)
 				{
-					bool flag = !this.lhs.Any((Predicate<Pawn>)((Pawn pawn) => !pawn.Dead && !pawn.Downed));
-					bool flag2 = !this.rhs.Any((Predicate<Pawn>)((Pawn pawn) => !pawn.Dead && !pawn.Downed));
+					bool flag = !this.lhs.Any((Pawn pawn) => !pawn.Dead && !pawn.Downed);
+					bool flag2 = !this.rhs.Any((Pawn pawn) => !pawn.Dead && !pawn.Downed);
 					if (!flag && !flag2)
 						return;
-					ArenaUtility.ArenaResult obj = new ArenaUtility.ArenaResult
-					{
-						tickDuration = Find.TickManager.TicksGame - this.tickFightStarted
-					};
+					ArenaUtility.ArenaResult obj = default(ArenaUtility.ArenaResult);
+					obj.tickDuration = Find.TickManager.TicksGame - this.tickFightStarted;
 					if (flag && !flag2)
 					{
 						obj.winner = ArenaUtility.ArenaResult.Winner.Rhs;
@@ -82,13 +80,11 @@ namespace RimWorld.Planet
 				}
 			}
 			return;
-			IL_0078:
+			IL_0072:
 			Log.Message("Fight timed out");
-			ArenaUtility.ArenaResult obj2 = new ArenaUtility.ArenaResult
-			{
-				tickDuration = Find.TickManager.TicksGame - this.tickCreated,
-				winner = ArenaUtility.ArenaResult.Winner.Other
-			};
+			ArenaUtility.ArenaResult obj2 = default(ArenaUtility.ArenaResult);
+			obj2.tickDuration = Find.TickManager.TicksGame - this.tickCreated;
+			obj2.winner = ArenaUtility.ArenaResult.Winner.Other;
 			this.callback(obj2);
 			Find.WorldObjects.Remove(base.parent);
 		}

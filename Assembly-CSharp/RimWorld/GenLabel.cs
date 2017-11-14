@@ -45,7 +45,11 @@ namespace RimWorld
 
 			public override bool Equals(object obj)
 			{
-				return obj is LabelRequest && this.Equals((LabelRequest)obj);
+				if (!(obj is LabelRequest))
+				{
+					return false;
+				}
+				return this.Equals((LabelRequest)obj);
 			}
 
 			public bool Equals(LabelRequest other)
@@ -92,12 +96,10 @@ namespace RimWorld
 
 		public static string ThingLabel(BuildableDef entDef, ThingDef stuffDef, int stackCount = 1)
 		{
-			LabelRequest key = new LabelRequest
-			{
-				entDef = entDef,
-				stuffDef = stuffDef,
-				stackCount = stackCount
-			};
+			LabelRequest key = default(LabelRequest);
+			key.entDef = entDef;
+			key.stuffDef = stuffDef;
+			key.stackCount = stackCount;
 			string text = default(string);
 			if (!GenLabel.labelDictionary.TryGetValue(key, out text))
 			{
@@ -123,13 +125,11 @@ namespace RimWorld
 
 		public static string ThingLabel(Thing t)
 		{
-			LabelRequest key = new LabelRequest
-			{
-				thing = t,
-				entDef = t.def,
-				stuffDef = t.Stuff,
-				stackCount = t.stackCount
-			};
+			LabelRequest key = default(LabelRequest);
+			key.thing = t;
+			key.entDef = t.def;
+			key.stuffDef = t.Stuff;
+			key.stackCount = t.stackCount;
 			t.TryGetQuality(out key.quality);
 			if (t.def.useHitPoints)
 			{
@@ -191,33 +191,37 @@ namespace RimWorld
 		public static string ThingsLabel(List<Thing> things)
 		{
 			GenLabel.tmpThingsLabelElements.Clear();
-			foreach (Thing item in things)
+			foreach (Thing thing in things)
 			{
 				LabelElement labelElement = (from elem in GenLabel.tmpThingsLabelElements
-				where item.def.stackLimit > 1 && elem.thingTemplate.def == item.def && elem.thingTemplate.Stuff == item.Stuff
+				where thing.def.stackLimit > 1 && elem.thingTemplate.def == thing.def && elem.thingTemplate.Stuff == thing.Stuff
 				select elem).FirstOrDefault();
 				if (labelElement != null)
 				{
-					labelElement.count += item.stackCount;
+					labelElement.count += thing.stackCount;
 				}
 				else
 				{
 					GenLabel.tmpThingsLabelElements.Add(new LabelElement
 					{
-						thingTemplate = item,
-						count = item.stackCount
+						thingTemplate = thing,
+						count = thing.stackCount
 					});
 				}
 			}
-			GenLabel.tmpThingsLabelElements.Sort((Comparison<LabelElement>)delegate(LabelElement lhs, LabelElement rhs)
+			GenLabel.tmpThingsLabelElements.Sort(delegate(LabelElement lhs, LabelElement rhs)
 			{
 				int num = TransferableComparer_Category.Compare(lhs.thingTemplate.def, rhs.thingTemplate.def);
-				return (num == 0) ? lhs.thingTemplate.MarketValue.CompareTo(rhs.thingTemplate.MarketValue) : num;
+				if (num != 0)
+				{
+					return num;
+				}
+				return lhs.thingTemplate.MarketValue.CompareTo(rhs.thingTemplate.MarketValue);
 			});
 			StringBuilder stringBuilder = new StringBuilder();
 			foreach (LabelElement tmpThingsLabelElement in GenLabel.tmpThingsLabelElements)
 			{
-				string str = "";
+				string str = string.Empty;
 				if (tmpThingsLabelElement.thingTemplate.ParentHolder is Pawn_ApparelTracker)
 				{
 					str = " (" + "WornBy".Translate((tmpThingsLabelElement.thingTemplate.ParentHolder.ParentHolder as Pawn).LabelShort) + ")";
@@ -243,11 +247,10 @@ namespace RimWorld
 		{
 			bool flag = false;
 			bool flag2 = false;
-			string text = (string)null;
+			string text = null;
 			switch (pawn.gender)
 			{
 			case Gender.None:
-			{
 				if (plural && !pawn.RaceProps.Humanlike && pawn.ageTracker.CurKindLifeStage.labelPlural != null)
 				{
 					text = pawn.ageTracker.CurKindLifeStage.labelPlural;
@@ -275,9 +278,7 @@ namespace RimWorld
 					}
 				}
 				break;
-			}
 			case Gender.Male:
-			{
 				if (plural && !pawn.RaceProps.Humanlike && pawn.ageTracker.CurKindLifeStage.labelMalePlural != null)
 				{
 					text = pawn.ageTracker.CurKindLifeStage.labelMalePlural;
@@ -335,9 +336,7 @@ namespace RimWorld
 					}
 				}
 				break;
-			}
 			case Gender.Female:
-			{
 				if (plural && !pawn.RaceProps.Humanlike && pawn.ageTracker.CurKindLifeStage.labelFemalePlural != null)
 				{
 					text = pawn.ageTracker.CurKindLifeStage.labelFemalePlural;
@@ -396,8 +395,7 @@ namespace RimWorld
 				}
 				break;
 			}
-			}
-			if ((mustNoteGender ? ((!flag) ? pawn.gender : Gender.None) : Gender.None) != 0)
+			if (mustNoteGender && !flag && pawn.gender != 0)
 			{
 				text = "PawnMainDescGendered".Translate(pawn.gender.GetLabel(), text);
 			}

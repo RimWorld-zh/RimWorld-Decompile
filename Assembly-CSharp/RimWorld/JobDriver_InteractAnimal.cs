@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -44,7 +43,7 @@ namespace RimWorld
 
 		public override bool TryMakePreToilReservations()
 		{
-			return base.pawn.Reserve((Thing)this.Animal, base.job, 1, -1, null);
+			return base.pawn.Reserve(this.Animal, base.job, 1, -1, null);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -65,9 +64,9 @@ namespace RimWorld
 		{
 			yield return new Toil
 			{
-				initAction = (Action)delegate
+				initAction = delegate
 				{
-					((_003CFeedToils_003Ec__Iterator1)/*Error near IL_004b: stateMachine*/)._0024this.feedNutritionLeft = JobDriver_InteractAnimal.RequiredNutritionPerFeed(((_003CFeedToils_003Ec__Iterator1)/*Error near IL_004b: stateMachine*/)._0024this.Animal);
+					((_003CFeedToils_003Ec__Iterator1)/*Error near IL_004a: stateMachine*/)._0024this.feedNutritionLeft = JobDriver_InteractAnimal.RequiredNutritionPerFeed(((_003CFeedToils_003Ec__Iterator1)/*Error near IL_004a: stateMachine*/)._0024this.Animal);
 				},
 				defaultCompleteMode = ToilCompleteMode.Instant
 			};
@@ -77,7 +76,7 @@ namespace RimWorld
 		private static Toil TalkToAnimal(TargetIndex tameeInd)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Pawn actor = toil.GetActor();
 				Pawn recipient = (Pawn)(Thing)actor.CurJob.GetTarget(tameeInd);
@@ -91,7 +90,7 @@ namespace RimWorld
 		private Toil StartFeedAnimal(TargetIndex tameeInd)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Pawn actor = toil.GetActor();
 				Pawn pawn = (Pawn)(Thing)actor.CurJob.GetTarget(tameeInd);

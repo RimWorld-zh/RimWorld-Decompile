@@ -9,7 +9,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (Find.ResearchManager.currentProj != null) ? ThingRequest.ForGroup(ThingRequestGroup.BuildingArtificial) : ThingRequest.ForGroup(ThingRequestGroup.Nothing);
+				if (Find.ResearchManager.currentProj == null)
+				{
+					return ThingRequest.ForGroup(ThingRequestGroup.Nothing);
+				}
+				return ThingRequest.ForGroup(ThingRequestGroup.BuildingArtificial);
 			}
 		}
 
@@ -23,35 +27,35 @@ namespace RimWorld
 
 		public override bool ShouldSkip(Pawn pawn)
 		{
-			return (byte)((Find.ResearchManager.currentProj == null) ? 1 : 0) != 0;
+			if (Find.ResearchManager.currentProj == null)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			ResearchProjectDef currentProj = Find.ResearchManager.currentProj;
-			bool result;
 			if (currentProj == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			Building_ResearchBench building_ResearchBench = t as Building_ResearchBench;
+			if (building_ResearchBench == null)
 			{
-				Building_ResearchBench building_ResearchBench = t as Building_ResearchBench;
-				if (building_ResearchBench == null)
-				{
-					result = false;
-				}
-				else if (!currentProj.CanBeResearchedAt(building_ResearchBench, false))
-				{
-					result = false;
-				}
-				else
-				{
-					LocalTargetInfo target = t;
-					result = ((byte)(pawn.CanReserve(target, 1, -1, null, forced) ? 1 : 0) != 0);
-				}
+				return false;
 			}
-			return result;
+			if (!currentProj.CanBeResearchedAt(building_ResearchBench, false))
+			{
+				return false;
+			}
+			LocalTargetInfo target = t;
+			if (!pawn.CanReserve(target, 1, -1, null, forced))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -41,47 +40,47 @@ namespace RimWorld
 		{
 			Toil to = new Toil
 			{
-				initAction = (Action)delegate
+				initAction = delegate
 				{
-					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0033: stateMachine*/)._0024this.ticksLeft = Rand.Range(300, 900);
+					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0032: stateMachine*/)._0024this.ticksLeft = Rand.Range(300, 900);
 					int num = 0;
 					IntVec3 c;
 					while (true)
 					{
-						c = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0033: stateMachine*/)._0024this.pawn.Position + GenAdj.AdjacentCellsAndInside[Rand.Range(0, 9)];
+						c = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0032: stateMachine*/)._0024this.pawn.Position + GenAdj.AdjacentCellsAndInside[Rand.Range(0, 9)];
 						num++;
 						if (num > 12)
 						{
-							c = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0033: stateMachine*/)._0024this.pawn.Position;
+							c = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0032: stateMachine*/)._0024this.pawn.Position;
 							break;
 						}
-						if (c.InBounds(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0033: stateMachine*/)._0024this.pawn.Map) && c.Standable(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0033: stateMachine*/)._0024this.pawn.Map))
+						if (c.InBounds(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0032: stateMachine*/)._0024this.pawn.Map) && c.Standable(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0032: stateMachine*/)._0024this.pawn.Map))
 							break;
 					}
-					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0033: stateMachine*/)._0024this.job.targetA = c;
-					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0033: stateMachine*/)._0024this.pawn.pather.StopDead();
+					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0032: stateMachine*/)._0024this.job.targetA = c;
+					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0032: stateMachine*/)._0024this.pawn.pather.StopDead();
 				},
-				tickAction = (Action)delegate
+				tickAction = delegate
 				{
-					if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/)._0024this.ticksLeft % 150 == 149)
+					if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0049: stateMachine*/)._0024this.ticksLeft % 150 == 149)
 					{
-						FilthMaker.MakeFilth(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/)._0024this.job.targetA.Cell, ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/)._0024this.Map, ThingDefOf.FilthVomit, ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/)._0024this.pawn.LabelIndefinite(), 1);
-						if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/)._0024this.pawn.needs.food.CurLevelPercentage > 0.10000000149011612)
+						FilthMaker.MakeFilth(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0049: stateMachine*/)._0024this.job.targetA.Cell, ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0049: stateMachine*/)._0024this.Map, ThingDefOf.FilthVomit, ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0049: stateMachine*/)._0024this.pawn.LabelIndefinite(), 1);
+						if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0049: stateMachine*/)._0024this.pawn.needs.food.CurLevelPercentage > 0.10000000149011612)
 						{
-							((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/)._0024this.pawn.needs.food.CurLevel -= (float)(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/)._0024this.pawn.needs.food.MaxLevel * 0.039999999105930328);
+							((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0049: stateMachine*/)._0024this.pawn.needs.food.CurLevel -= (float)(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0049: stateMachine*/)._0024this.pawn.needs.food.MaxLevel * 0.039999999105930328);
 						}
 					}
-					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/)._0024this.ticksLeft--;
-					if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/)._0024this.ticksLeft <= 0)
+					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0049: stateMachine*/)._0024this.ticksLeft--;
+					if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0049: stateMachine*/)._0024this.ticksLeft <= 0)
 					{
-						((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/)._0024this.ReadyForNextToil();
-						TaleRecorder.RecordTale(TaleDefOf.Vomited, ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/)._0024this.pawn);
+						((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0049: stateMachine*/)._0024this.ReadyForNextToil();
+						TaleRecorder.RecordTale(TaleDefOf.Vomited, ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0049: stateMachine*/)._0024this.pawn);
 					}
 				},
 				defaultCompleteMode = ToilCompleteMode.Never
 			};
 			to.WithEffect(EffecterDefOf.Vomit, TargetIndex.A);
-			to.PlaySustainerOrSound((Func<SoundDef>)(() => SoundDef.Named("Vomit")));
+			to.PlaySustainerOrSound(() => SoundDef.Named("Vomit"));
 			yield return to;
 			/*Error: Unable to find new state assignment for yield return*/;
 		}

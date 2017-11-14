@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -16,7 +15,7 @@ namespace RimWorld.Planet
 		public static void FormAndCreateCaravan(IEnumerable<Pawn> pawns, Faction faction, int exitFromTile, int directionTile)
 		{
 			Caravan o = CaravanExitMapUtility.ExitMapAndCreateCaravan(pawns, faction, exitFromTile, directionTile);
-			Find.LetterStack.ReceiveLetter("LetterLabelFormedCaravan".Translate(), "LetterFormedCaravan".Translate(), LetterDefOf.NeutralEvent, (WorldObject)o, (string)null);
+			Find.LetterStack.ReceiveLetter("LetterLabelFormedCaravan".Translate(), "LetterFormedCaravan".Translate(), LetterDefOf.NeutralEvent, o, null);
 		}
 
 		public static void StartFormingCaravan(List<Pawn> pawns, Faction faction, List<TransferableOneWay> transferables, IntVec3 meetingPoint, IntVec3 exitSpot, int startingTile)
@@ -31,12 +30,12 @@ namespace RimWorld.Planet
 			}
 			else
 			{
-				if (pawns.Any((Predicate<Pawn>)((Pawn x) => x.Downed)))
+				if (pawns.Any((Pawn x) => x.Downed))
 				{
 					Log.Warning("Forming a caravan with a downed pawn. This shouldn't happen because we have to create a Lord.");
 				}
 				List<TransferableOneWay> list = transferables.ToList();
-				list.RemoveAll((Predicate<TransferableOneWay>)((TransferableOneWay x) => x.CountToTransfer <= 0 || !x.HasAnyThing || x.AnyThing is Pawn));
+				list.RemoveAll((TransferableOneWay x) => x.CountToTransfer <= 0 || !x.HasAnyThing || x.AnyThing is Pawn);
 				for (int i = 0; i < pawns.Count; i++)
 				{
 					Lord lord = pawns[i].GetLord();

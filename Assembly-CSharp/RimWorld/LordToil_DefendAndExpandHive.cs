@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -29,38 +28,34 @@ namespace RimWorld
 			for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 			{
 				Hive hiveFor = this.GetHiveFor(base.lord.ownedPawns[i]);
-				PawnDuty pawnDuty = base.lord.ownedPawns[i].mindState.duty = new PawnDuty(DutyDefOf.DefendAndExpandHive, (Thing)hiveFor, this.distToHiveToAttack);
+				PawnDuty duty = new PawnDuty(DutyDefOf.DefendAndExpandHive, hiveFor, this.distToHiveToAttack);
+				base.lord.ownedPawns[i].mindState.duty = duty;
 			}
 		}
 
 		private void FilterOutUnspawnedHives()
 		{
-			this.Data.assignedHives.RemoveAll((Predicate<KeyValuePair<Pawn, Hive>>)((KeyValuePair<Pawn, Hive> x) => x.Value == null || !x.Value.Spawned));
+			this.Data.assignedHives.RemoveAll((KeyValuePair<Pawn, Hive> x) => x.Value == null || !x.Value.Spawned);
 		}
 
 		private Hive GetHiveFor(Pawn pawn)
 		{
 			Hive hive = default(Hive);
-			Hive result;
 			if (this.Data.assignedHives.TryGetValue(pawn, out hive))
 			{
-				result = hive;
+				return hive;
 			}
-			else
+			hive = this.FindClosestHive(pawn);
+			if (hive != null)
 			{
-				hive = this.FindClosestHive(pawn);
-				if (hive != null)
-				{
-					this.Data.assignedHives.Add(pawn, hive);
-				}
-				result = hive;
+				this.Data.assignedHives.Add(pawn, hive);
 			}
-			return result;
+			return hive;
 		}
 
 		private Hive FindClosestHive(Pawn pawn)
 		{
-			return (Hive)GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForDef(ThingDefOf.Hive), PathEndMode.Touch, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 30f, (Predicate<Thing>)((Thing x) => x.Faction == pawn.Faction), null, 0, 30, false, RegionType.Set_Passable, false);
+			return (Hive)GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForDef(ThingDefOf.Hive), PathEndMode.Touch, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 30f, (Thing x) => x.Faction == pawn.Faction, null, 0, 30, false, RegionType.Set_Passable, false);
 		}
 	}
 }

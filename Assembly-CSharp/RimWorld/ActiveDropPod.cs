@@ -7,7 +7,7 @@ namespace RimWorld
 {
 	public class ActiveDropPod : Thing, IActiveDropPod, IThingHolder
 	{
-		public int age = 0;
+		public int age;
 
 		private ActiveDropPodInfo contents;
 

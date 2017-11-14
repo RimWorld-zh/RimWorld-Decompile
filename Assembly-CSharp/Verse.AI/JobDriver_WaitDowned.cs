@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.AI
 {
 	public class JobDriver_WaitDowned : JobDriver_Wait
@@ -7,7 +5,7 @@ namespace Verse.AI
 		public override void DecorateWaitToil(Toil wait)
 		{
 			base.DecorateWaitToil(wait);
-			wait.AddFailCondition((Func<bool>)(() => !base.pawn.Downed));
+			wait.AddFailCondition(() => !base.pawn.Downed);
 		}
 	}
 }

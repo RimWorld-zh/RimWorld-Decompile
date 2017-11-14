@@ -6,9 +6,9 @@ namespace RimWorld
 	{
 		public int destroyTick;
 
-		public float graphicRotation = 0f;
+		public float graphicRotation;
 
-		public float graphicRotationSpeed = 0f;
+		public float graphicRotationSpeed;
 
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{

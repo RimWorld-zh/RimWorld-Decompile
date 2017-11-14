@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse.AI;
 
@@ -52,25 +51,15 @@ namespace Verse
 
 		public bool IsReservedBy(Pawn claimant, LocalTargetInfo target)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.reservations.Count; i++)
 			{
-				if (num < this.reservations.Count)
+				PhysicalInteractionReservation physicalInteractionReservation = this.reservations[i];
+				if (physicalInteractionReservation.target == target && physicalInteractionReservation.claimant == claimant)
 				{
-					PhysicalInteractionReservation physicalInteractionReservation = this.reservations[num];
-					if (physicalInteractionReservation.target == target && physicalInteractionReservation.claimant == claimant)
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public bool IsReserved(LocalTargetInfo target)
@@ -80,52 +69,32 @@ namespace Verse
 
 		public Pawn FirstReserverOf(LocalTargetInfo target)
 		{
-			int num = 0;
-			Pawn result;
-			while (true)
+			for (int i = 0; i < this.reservations.Count; i++)
 			{
-				if (num < this.reservations.Count)
+				PhysicalInteractionReservation physicalInteractionReservation = this.reservations[i];
+				if (physicalInteractionReservation.target == target)
 				{
-					PhysicalInteractionReservation physicalInteractionReservation = this.reservations[num];
-					if (physicalInteractionReservation.target == target)
-					{
-						result = physicalInteractionReservation.claimant;
-						break;
-					}
-					num++;
-					continue;
+					return physicalInteractionReservation.claimant;
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		public LocalTargetInfo FirstReservationFor(Pawn claimant)
 		{
-			int num = this.reservations.Count - 1;
-			LocalTargetInfo result;
-			while (true)
+			for (int num = this.reservations.Count - 1; num >= 0; num--)
 			{
-				if (num >= 0)
+				if (this.reservations[num].claimant == claimant)
 				{
-					if (this.reservations[num].claimant == claimant)
-					{
-						result = this.reservations[num].target;
-						break;
-					}
-					num--;
-					continue;
+					return this.reservations[num].target;
 				}
-				result = LocalTargetInfo.Invalid;
-				break;
 			}
-			return result;
+			return LocalTargetInfo.Invalid;
 		}
 
 		public void ReleaseAllForTarget(LocalTargetInfo target)
 		{
-			this.reservations.RemoveAll((Predicate<PhysicalInteractionReservation>)((PhysicalInteractionReservation x) => x.target == target));
+			this.reservations.RemoveAll((PhysicalInteractionReservation x) => x.target == target);
 		}
 
 		public void ReleaseClaimedBy(Pawn claimant, Job job)
@@ -153,7 +122,7 @@ namespace Verse
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<PhysicalInteractionReservation>(ref this.reservations, "reservations", LookMode.Deep, new object[0]);
-			if (((Scribe.mode == LoadSaveMode.PostLoadInit) ? this.reservations.RemoveAll((Predicate<PhysicalInteractionReservation>)((PhysicalInteractionReservation x) => x.claimant.DestroyedOrNull())) : 0) != 0)
+			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.reservations.RemoveAll((PhysicalInteractionReservation x) => x.claimant.DestroyedOrNull()) != 0)
 			{
 				Log.Warning("Some physical interaction reservations had null or destroyed claimant.");
 			}

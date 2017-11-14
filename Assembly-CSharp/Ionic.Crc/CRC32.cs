@@ -37,11 +37,13 @@ namespace Ionic.Crc
 			}
 		}
 
-		public CRC32() : this(false)
+		public CRC32()
+			: this(false)
 		{
 		}
 
-		public CRC32(bool reverseBits) : this(-306674912, reverseBits)
+		public CRC32(bool reverseBits)
+			: this(-306674912, reverseBits)
 		{
 		}
 
@@ -71,7 +73,7 @@ namespace Ionic.Crc
 			{
 				output.Write(array, 0, num);
 			}
-			this._TotalBytesRead += (long)num;
+			this._TotalBytesRead += num;
 			while (num > 0)
 			{
 				this.SlurpBlock(array, 0, num);
@@ -80,7 +82,7 @@ namespace Ionic.Crc
 				{
 					output.Write(array, 0, num);
 				}
-				this._TotalBytesRead += (long)num;
+				this._TotalBytesRead += num;
 			}
 			return (int)(~this._register);
 		}
@@ -92,7 +94,7 @@ namespace Ionic.Crc
 
 		internal int _InternalComputeCrc32(uint W, byte B)
 		{
-			return (int)(this.crc32Table[(W ^ B) & 255] ^ W >> 8);
+			return (int)(this.crc32Table[(W ^ B) & 0xFF] ^ W >> 8);
 		}
 
 		public void SlurpBlock(byte[] block, int offset, int count)
@@ -101,22 +103,22 @@ namespace Ionic.Crc
 			{
 				throw new Exception("The data buffer must not be null.");
 			}
-			for (int num = 0; num < count; num++)
+			for (int i = 0; i < count; i++)
 			{
-				int num2 = offset + num;
-				byte b = block[num2];
+				int num = offset + i;
+				byte b = block[num];
 				if (this.reverseBits)
 				{
-					uint num3 = this._register >> 24 ^ b;
-					this._register = (this._register << 8 ^ this.crc32Table[num3]);
+					uint num2 = this._register >> 24 ^ b;
+					this._register = (this._register << 8 ^ this.crc32Table[num2]);
 				}
 				else
 				{
-					uint num4 = (this._register & 255) ^ b;
-					this._register = (this._register >> 8 ^ this.crc32Table[num4]);
+					uint num3 = (this._register & 0xFF) ^ b;
+					this._register = (this._register >> 8 ^ this.crc32Table[num3]);
 				}
 			}
-			this._TotalBytesRead += (long)count;
+			this._TotalBytesRead += count;
 		}
 
 		public void UpdateCRC(byte b)
@@ -128,7 +130,7 @@ namespace Ionic.Crc
 			}
 			else
 			{
-				uint num2 = (this._register & 255) ^ b;
+				uint num2 = (this._register & 0xFF) ^ b;
 				this._register = (this._register >> 8 ^ this.crc32Table[num2]);
 			}
 		}
@@ -144,7 +146,7 @@ namespace Ionic.Crc
 				}
 				else
 				{
-					uint num3 = (this._register & 255) ^ b;
+					uint num3 = (this._register & 0xFF) ^ b;
 					this._register = (this._register >> 8 ^ this.crc32Table[(num3 < 0) ? (num3 + 256) : num3]);
 				}
 			}
@@ -170,11 +172,11 @@ namespace Ionic.Crc
 		private void GenerateLookupTable()
 		{
 			this.crc32Table = new uint[256];
-			byte b = (byte)0;
+			byte b = 0;
 			while (true)
 			{
 				uint num = b;
-				for (byte b2 = (byte)8; b2 > 0; b2 = (byte)(b2 - 1))
+				for (byte b2 = 8; b2 > 0; b2 = (byte)(b2 - 1))
 				{
 					num = (((num & 1) != 1) ? (num >> 1) : (num >> 1 ^ this.dwPolynomial));
 				}

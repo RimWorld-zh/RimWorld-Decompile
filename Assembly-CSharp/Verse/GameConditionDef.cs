@@ -8,20 +8,24 @@ namespace Verse
 	{
 		public Type conditionClass = typeof(GameCondition);
 
-		private List<GameConditionDef> exclusiveConditions = null;
+		private List<GameConditionDef> exclusiveConditions;
 
 		[MustTranslate]
-		public string endMessage = (string)null;
+		public string endMessage;
 
-		public bool canBePermanent = false;
+		public bool canBePermanent;
 
 		public PsychicDroneLevel droneLevel = PsychicDroneLevel.BadMedium;
 
-		public bool preventRain = false;
+		public bool preventRain;
 
 		public bool CanCoexistWith(GameConditionDef other)
 		{
-			return this != other && (this.exclusiveConditions == null || !this.exclusiveConditions.Contains(other));
+			if (this == other)
+			{
+				return false;
+			}
+			return this.exclusiveConditions == null || !this.exclusiveConditions.Contains(other);
 		}
 
 		public static GameConditionDef Named(string defName)
@@ -31,7 +35,7 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -44,8 +48,8 @@ namespace Verse
 				yield break;
 			yield return "conditionClass is null";
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_00f0:
-			/*Error near IL_00f1: Unexpected return in MoveNext()*/;
+			IL_00ec:
+			/*Error near IL_00ed: Unexpected return in MoveNext()*/;
 		}
 	}
 }

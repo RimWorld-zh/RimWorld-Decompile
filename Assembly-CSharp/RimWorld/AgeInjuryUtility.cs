@@ -47,21 +47,21 @@ namespace RimWorld
 		public static void GenerateRandomOldAgeInjuries(Pawn pawn, bool tryNotToKillPawn)
 		{
 			int num = 0;
-			for (int num2 = 10; num2 < Mathf.Min(pawn.ageTracker.AgeBiologicalYears, 120); num2 += 10)
+			for (int i = 10; i < Mathf.Min(pawn.ageTracker.AgeBiologicalYears, 120); i += 10)
 			{
 				if (Rand.Value < 0.15000000596046448)
 				{
 					num++;
 				}
 			}
-			for (int num3 = 0; num3 < num; num3++)
+			for (int j = 0; j < num; j++)
 			{
 				IEnumerable<BodyPartRecord> source = from x in pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined)
 				where x.depth == BodyPartDepth.Outside && !Mathf.Approximately(x.def.oldInjuryBaseChance, 0f) && !pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(x)
 				select x;
 				if (source.Any())
 				{
-					BodyPartRecord bodyPartRecord = source.RandomElementByWeight((Func<BodyPartRecord, float>)((BodyPartRecord x) => x.coverageAbs));
+					BodyPartRecord bodyPartRecord = source.RandomElementByWeight((BodyPartRecord x) => x.coverageAbs);
 					DamageDef dam = AgeInjuryUtility.RandomOldInjuryDamageType(bodyPartRecord.def.frostbiteVulnerability > 0.0 && pawn.RaceProps.ToolUser);
 					HediffDef hediffDefFromDamage = HealthUtility.GetHediffDefFromDamage(dam, pawn, bodyPartRecord);
 					if (bodyPartRecord.def.oldInjuryBaseChance > 0.0 && hediffDefFromDamage.CompPropsFor(typeof(HediffComp_GetsOld)) != null)
@@ -71,7 +71,7 @@ namespace RimWorld
 							Hediff_MissingPart hediff_MissingPart = (Hediff_MissingPart)HediffMaker.MakeHediff(HediffDefOf.MissingBodyPart, pawn, null);
 							hediff_MissingPart.lastInjury = hediffDefFromDamage;
 							hediff_MissingPart.TryGetComp<HediffComp_GetsOld>().IsOld = true;
-							pawn.health.AddHediff(hediff_MissingPart, bodyPartRecord, default(DamageInfo?));
+							pawn.health.AddHediff(hediff_MissingPart, bodyPartRecord, null);
 							if (pawn.RaceProps.Humanlike && (bodyPartRecord.def == BodyPartDefOf.LeftLeg || bodyPartRecord.def == BodyPartDefOf.RightLeg) && Rand.Chance(0.5f))
 							{
 								RecipeDefOf.InstallPegLeg.Worker.ApplyOnPawn(pawn, bodyPartRecord, null, AgeInjuryUtility.emptyIngredientsList, null);
@@ -82,23 +82,23 @@ namespace RimWorld
 							Hediff_Injury hediff_Injury = (Hediff_Injury)HediffMaker.MakeHediff(hediffDefFromDamage, pawn, null);
 							hediff_Injury.Severity = (float)Rand.RangeInclusive(2, 6);
 							hediff_Injury.TryGetComp<HediffComp_GetsOld>().IsOld = true;
-							pawn.health.AddHediff(hediff_Injury, bodyPartRecord, default(DamageInfo?));
+							pawn.health.AddHediff(hediff_Injury, bodyPartRecord, null);
 						}
 					}
 				}
 			}
-			int num4 = 1;
-			while (num4 < pawn.ageTracker.AgeBiologicalYears)
+			int num2 = 1;
+			while (num2 < pawn.ageTracker.AgeBiologicalYears)
 			{
-				foreach (HediffGiver_Birthday item in AgeInjuryUtility.RandomHediffsToGainOnBirthday(pawn, num4))
+				foreach (HediffGiver_Birthday item in AgeInjuryUtility.RandomHediffsToGainOnBirthday(pawn, num2))
 				{
-					item.TryApplyAndSimulateSeverityChange(pawn, (float)num4, tryNotToKillPawn);
+					item.TryApplyAndSimulateSeverityChange(pawn, (float)num2, tryNotToKillPawn);
 					if (pawn.Dead)
 						break;
 				}
 				if (!pawn.Dead)
 				{
-					num4++;
+					num2++;
 					continue;
 				}
 				break;
@@ -107,40 +107,21 @@ namespace RimWorld
 
 		private static DamageDef RandomOldInjuryDamageType(bool allowFrostbite)
 		{
-			DamageDef result;
 			switch (Rand.RangeInclusive(0, 3 + (allowFrostbite ? 1 : 0)))
 			{
 			case 0:
-			{
-				result = DamageDefOf.Bullet;
-				break;
-			}
+				return DamageDefOf.Bullet;
 			case 1:
-			{
-				result = DamageDefOf.Scratch;
-				break;
-			}
+				return DamageDefOf.Scratch;
 			case 2:
-			{
-				result = DamageDefOf.Bite;
-				break;
-			}
+				return DamageDefOf.Bite;
 			case 3:
-			{
-				result = DamageDefOf.Stab;
-				break;
-			}
+				return DamageDefOf.Stab;
 			case 4:
-			{
-				result = DamageDefOf.Frostbite;
-				break;
-			}
+				return DamageDefOf.Frostbite;
 			default:
-			{
 				throw new Exception();
 			}
-			}
-			return result;
 		}
 
 		public static void LogOldInjuryCalculations()

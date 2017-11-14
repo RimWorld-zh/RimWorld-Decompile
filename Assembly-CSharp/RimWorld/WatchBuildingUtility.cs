@@ -24,150 +24,121 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_0143:
-			/*Error near IL_0144: Unexpected return in MoveNext()*/;
+			IL_013d:
+			/*Error near IL_013e: Unexpected return in MoveNext()*/;
 		}
 
 		public static bool TryFindBestWatchCell(Thing toWatch, Pawn pawn, bool desireSit, out IntVec3 result, out Building chair)
 		{
 			List<int> list = WatchBuildingUtility.CalculateAllowedDirections(toWatch.def, toWatch.Rotation);
 			IntVec3 intVec = IntVec3.Invalid;
-			int num = 0;
-			bool result2;
-			while (true)
+			for (int i = 0; i < list.Count; i++)
 			{
-				IntVec3 intVec2;
-				Building building;
-				if (num < list.Count)
+				CellRect watchCellRect = WatchBuildingUtility.GetWatchCellRect(toWatch.def, toWatch.Position, toWatch.Rotation, list[i]);
+				IntVec3 centerCell = watchCellRect.CenterCell;
+				int num = watchCellRect.Area * 4;
+				for (int j = 0; j < num; j++)
 				{
-					CellRect watchCellRect = WatchBuildingUtility.GetWatchCellRect(toWatch.def, toWatch.Position, toWatch.Rotation, list[num]);
-					IntVec3 centerCell = watchCellRect.CenterCell;
-					int num2 = watchCellRect.Area * 4;
-					for (int num3 = 0; num3 < num2; num3++)
+					IntVec3 intVec2 = centerCell + GenRadial.RadialPattern[j];
+					if (watchCellRect.Contains(intVec2))
 					{
-						intVec2 = centerCell + GenRadial.RadialPattern[num3];
-						if (watchCellRect.Contains(intVec2))
+						bool flag = false;
+						Building building = null;
+						if (WatchBuildingUtility.EverPossibleToWatchFrom(intVec2, toWatch.Position, toWatch.Map, false) && !intVec2.IsForbidden(pawn) && pawn.CanReserve(intVec2, 1, -1, null, false) && pawn.Map.pawnDestinationReservationManager.CanReserve(intVec2, pawn))
 						{
-							bool flag = false;
-							building = null;
-							if (WatchBuildingUtility.EverPossibleToWatchFrom(intVec2, toWatch.Position, toWatch.Map, false) && !intVec2.IsForbidden(pawn) && pawn.CanReserve(intVec2, 1, -1, null, false) && pawn.Map.pawnDestinationReservationManager.CanReserve(intVec2, pawn))
+							if (desireSit)
 							{
-								if (desireSit)
-								{
-									building = intVec2.GetEdifice(pawn.Map);
-									if (building != null && building.def.building.isSittable && pawn.CanReserve((Thing)building, 1, -1, null, false))
-									{
-										flag = true;
-									}
-								}
-								else
+								building = intVec2.GetEdifice(pawn.Map);
+								if (building != null && building.def.building.isSittable && pawn.CanReserve(building, 1, -1, null, false))
 								{
 									flag = true;
 								}
 							}
-							if (flag)
+							else
 							{
-								if (!desireSit || !(building.Rotation != new Rot4(list[num]).Opposite))
-								{
-									goto IL_0179;
-								}
-								intVec = intVec2;
+								flag = true;
 							}
 						}
+						if (flag)
+						{
+							if (!desireSit || !(building.Rotation != new Rot4(list[i]).Opposite))
+							{
+								result = intVec2;
+								chair = building;
+								return true;
+							}
+							intVec = intVec2;
+						}
 					}
-					num++;
-					continue;
 				}
-				if (intVec.IsValid)
-				{
-					result = intVec;
-					chair = intVec.GetEdifice(pawn.Map);
-					result2 = true;
-				}
-				else
-				{
-					result = IntVec3.Invalid;
-					chair = null;
-					result2 = false;
-				}
-				break;
-				IL_0179:
-				result = intVec2;
-				chair = building;
-				result2 = true;
-				break;
 			}
-			return result2;
+			if (intVec.IsValid)
+			{
+				result = intVec;
+				chair = intVec.GetEdifice(pawn.Map);
+				return true;
+			}
+			result = IntVec3.Invalid;
+			chair = null;
+			return false;
 		}
 
 		public static bool CanWatchFromBed(Pawn pawn, Building_Bed bed, Thing toWatch)
 		{
-			bool result;
 			if (!WatchBuildingUtility.EverPossibleToWatchFrom(pawn.Position, toWatch.Position, pawn.Map, true))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (toWatch.def.rotatable)
 			{
-				if (toWatch.def.rotatable)
+				Rot4 rotation = bed.Rotation;
+				CellRect cellRect = toWatch.OccupiedRect();
+				if (rotation == Rot4.North)
 				{
-					Rot4 rotation = bed.Rotation;
-					CellRect cellRect = toWatch.OccupiedRect();
-					if (rotation == Rot4.North)
+					int maxZ = cellRect.maxZ;
+					IntVec3 position = pawn.Position;
+					if (maxZ < position.z)
 					{
-						int maxZ = cellRect.maxZ;
-						IntVec3 position = pawn.Position;
-						if (maxZ < position.z)
-						{
-							result = false;
-							goto IL_017f;
-						}
-					}
-					if (rotation == Rot4.South)
-					{
-						int minZ = cellRect.minZ;
-						IntVec3 position2 = pawn.Position;
-						if (minZ > position2.z)
-						{
-							result = false;
-							goto IL_017f;
-						}
-					}
-					if (rotation == Rot4.East)
-					{
-						int maxX = cellRect.maxX;
-						IntVec3 position3 = pawn.Position;
-						if (maxX < position3.x)
-						{
-							result = false;
-							goto IL_017f;
-						}
-					}
-					if (rotation == Rot4.West)
-					{
-						int minX = cellRect.minX;
-						IntVec3 position4 = pawn.Position;
-						if (minX > position4.x)
-						{
-							result = false;
-							goto IL_017f;
-						}
+						return false;
 					}
 				}
-				List<int> list = WatchBuildingUtility.CalculateAllowedDirections(toWatch.def, toWatch.Rotation);
-				for (int i = 0; i < list.Count; i++)
+				if (rotation == Rot4.South)
 				{
-					if (WatchBuildingUtility.GetWatchCellRect(toWatch.def, toWatch.Position, toWatch.Rotation, list[i]).Contains(pawn.Position))
-						goto IL_015c;
+					int minZ = cellRect.minZ;
+					IntVec3 position2 = pawn.Position;
+					if (minZ > position2.z)
+					{
+						return false;
+					}
 				}
-				result = false;
+				if (rotation == Rot4.East)
+				{
+					int maxX = cellRect.maxX;
+					IntVec3 position3 = pawn.Position;
+					if (maxX < position3.x)
+					{
+						return false;
+					}
+				}
+				if (rotation == Rot4.West)
+				{
+					int minX = cellRect.minX;
+					IntVec3 position4 = pawn.Position;
+					if (minX > position4.x)
+					{
+						return false;
+					}
+				}
 			}
-			goto IL_017f;
-			IL_017f:
-			return result;
-			IL_015c:
-			result = true;
-			goto IL_017f;
+			List<int> list = WatchBuildingUtility.CalculateAllowedDirections(toWatch.def, toWatch.Rotation);
+			for (int i = 0; i < list.Count; i++)
+			{
+				if (WatchBuildingUtility.GetWatchCellRect(toWatch.def, toWatch.Position, toWatch.Rotation, list[i]).Contains(pawn.Position))
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 
 		private static CellRect GetWatchCellRect(ThingDef def, IntVec3 center, Rot4 rot, int watchRot)

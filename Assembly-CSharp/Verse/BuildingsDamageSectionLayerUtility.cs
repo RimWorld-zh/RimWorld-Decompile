@@ -55,7 +55,7 @@ namespace Verse
 				{
 					num += Mathf.RoundToInt((float)((num2 - 4.0) * 0.54000002145767212));
 				}
-				for (int num3 = 0; num3 < num; num3++)
+				for (int i = 0; i < num; i++)
 				{
 					BuildingsDamageSectionLayerUtility.availableOverlays.Add(DamageOverlay.Scratch);
 				}
@@ -175,28 +175,23 @@ namespace Verse
 			BuildingsDamageSectionLayerUtility.overlays.Clear();
 			BuildingsDamageSectionLayerUtility.overlaysWorkingList.Clear();
 			BuildingsDamageSectionLayerUtility.overlaysWorkingList.AddRange(BuildingsDamageSectionLayerUtility.GetAvailableOverlays(b));
-			List<DamageOverlay> result;
 			if (!BuildingsDamageSectionLayerUtility.overlaysWorkingList.Any())
 			{
-				result = BuildingsDamageSectionLayerUtility.overlays;
+				return BuildingsDamageSectionLayerUtility.overlays;
 			}
-			else
+			Rand.PushState();
+			Rand.Seed = Gen.HashCombineInt(b.thingIDNumber, 1958376471);
+			int damageOverlaysCount = BuildingsDamageSectionLayerUtility.GetDamageOverlaysCount(b, b.HitPoints);
+			int num = 0;
+			while (num < damageOverlaysCount && BuildingsDamageSectionLayerUtility.overlaysWorkingList.Any())
 			{
-				Rand.PushState();
-				Rand.Seed = Gen.HashCombineInt(b.thingIDNumber, 1958376471);
-				int damageOverlaysCount = BuildingsDamageSectionLayerUtility.GetDamageOverlaysCount(b, b.HitPoints);
-				int num = 0;
-				while (num < damageOverlaysCount && BuildingsDamageSectionLayerUtility.overlaysWorkingList.Any())
-				{
-					DamageOverlay item = BuildingsDamageSectionLayerUtility.overlaysWorkingList.RandomElement();
-					BuildingsDamageSectionLayerUtility.overlaysWorkingList.Remove(item);
-					BuildingsDamageSectionLayerUtility.overlays.Add(item);
-					num++;
-				}
-				Rand.PopState();
-				result = BuildingsDamageSectionLayerUtility.overlays;
+				DamageOverlay item = BuildingsDamageSectionLayerUtility.overlaysWorkingList.RandomElement();
+				BuildingsDamageSectionLayerUtility.overlaysWorkingList.Remove(item);
+				BuildingsDamageSectionLayerUtility.overlays.Add(item);
+				num++;
 			}
-			return result;
+			Rand.PopState();
+			return BuildingsDamageSectionLayerUtility.overlays;
 		}
 
 		public static Rect GetDamageRect(Building b)
@@ -276,53 +271,37 @@ namespace Verse
 		private static bool DifferentAt(Building b, int x, int z)
 		{
 			IntVec3 c = new IntVec3(x, 0, z);
-			bool result;
 			if (!c.InBounds(b.Map))
 			{
-				result = true;
+				return true;
 			}
-			else
+			List<Thing> thingList = c.GetThingList(b.Map);
+			for (int i = 0; i < thingList.Count; i++)
 			{
-				List<Thing> thingList = c.GetThingList(b.Map);
-				for (int i = 0; i < thingList.Count; i++)
+				if (thingList[i].def == b.def)
 				{
-					if (thingList[i].def == b.def)
-						goto IL_004f;
+					return false;
 				}
-				result = true;
 			}
-			goto IL_006e;
-			IL_004f:
-			result = false;
-			goto IL_006e;
-			IL_006e:
-			return result;
+			return true;
 		}
 
 		private static bool SameAndDamagedAt(Building b, int x, int z)
 		{
 			IntVec3 c = new IntVec3(x, 0, z);
-			bool result;
 			if (!c.InBounds(b.Map))
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Thing> thingList = c.GetThingList(b.Map);
+			for (int i = 0; i < thingList.Count; i++)
 			{
-				List<Thing> thingList = c.GetThingList(b.Map);
-				for (int i = 0; i < thingList.Count; i++)
+				if (thingList[i].def == b.def && thingList[i].HitPoints < thingList[i].MaxHitPoints)
 				{
-					if (thingList[i].def == b.def && thingList[i].HitPoints < thingList[i].MaxHitPoints)
-						goto IL_006c;
+					return true;
 				}
-				result = false;
 			}
-			goto IL_008b;
-			IL_008b:
-			return result;
-			IL_006c:
-			result = true;
-			goto IL_008b;
+			return false;
 		}
 	}
 }

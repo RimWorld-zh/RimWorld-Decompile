@@ -41,24 +41,14 @@ namespace Verse.Steam
 
 		public static WorkshopItem GetItem(PublishedFileId_t pfid)
 		{
-			int num = 0;
-			WorkshopItem result;
-			while (true)
+			for (int i = 0; i < WorkshopItems.subbedItems.Count; i++)
 			{
-				if (num < WorkshopItems.subbedItems.Count)
+				if (WorkshopItems.subbedItems[i].PublishedFileId == pfid)
 				{
-					if (WorkshopItems.subbedItems[num].PublishedFileId == pfid)
-					{
-						result = WorkshopItems.subbedItems[num];
-						break;
-					}
-					num++;
-					continue;
+					return WorkshopItems.subbedItems[i];
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		public static bool HasItem(PublishedFileId_t pfid)

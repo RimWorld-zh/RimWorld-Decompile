@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -20,11 +19,11 @@ namespace RimWorld
 
 		private const int DamagePerDay = 5;
 
-		private const float MinSeverityToReproduce = 0.3f;
+		private const float MinSeverityToReproduce = 0.28f;
 
-		private const float ReproduceMTBHoursAtMinSeverity = 48f;
+		private const float ReproduceMTBHoursAtMinSeverity = 24f;
 
-		private const float ReproduceMTBHoursAtMaxSeverity = 6f;
+		private const float ReproduceMTBHoursAtMaxSeverity = 3f;
 
 		private const float ReproductionRadius = 4f;
 
@@ -48,7 +47,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return base.Spawned ? BlightUtility.GetFirstBlightableEverPlant(base.Position, base.Map) : null;
+				if (!base.Spawned)
+				{
+					return null;
+				}
+				return BlightUtility.GetFirstBlightableEverPlant(base.Position, base.Map);
 			}
 		}
 
@@ -56,7 +59,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (float)((!(this.severity < 0.30000001192092896)) ? GenMath.LerpDouble(0.3f, 1f, 48f, 6f, this.severity) : -1.0);
+				if (this.severity < 0.2800000011920929)
+				{
+					return -1f;
+				}
+				return GenMath.LerpDouble(0.28f, 1f, 24f, 3f, this.severity);
 			}
 		}
 
@@ -86,7 +93,7 @@ namespace RimWorld
 				float reproduceMTBHours = this.ReproduceMTBHours;
 				if (reproduceMTBHours > 0.0 && Rand.MTBEventOccurs(reproduceMTBHours, 2500f, 2000f))
 				{
-					this.TryReproduce();
+					this.TryReproduceNow();
 				}
 				if (Mathf.Abs(this.Severity - this.lastMapMeshUpdateSeverity) >= 0.05000000074505806)
 				{
@@ -103,21 +110,16 @@ namespace RimWorld
 
 		private bool DestroyIfNoPlantHere()
 		{
-			bool result;
 			if (base.Destroyed)
 			{
-				result = true;
+				return true;
 			}
-			else if (this.Plant == null)
+			if (this.Plant == null)
 			{
 				this.Destroy(DestroyMode.Vanish);
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		private void CheckHarmPlant()
@@ -150,24 +152,19 @@ namespace RimWorld
 			}
 		}
 
-		private void TryReproduce()
+		public void TryReproduceNow()
 		{
-			GenRadial.ProcessEquidistantCells(base.Position, 4f, (Func<List<IntVec3>, bool>)delegate(List<IntVec3> cells)
+			GenRadial.ProcessEquidistantCells(base.Position, 4f, delegate(List<IntVec3> cells)
 			{
 				IntVec3 c = default(IntVec3);
-				bool result;
 				if ((from x in cells
 				where BlightUtility.GetFirstBlightableNowPlant(x, base.Map) != null
 				select x).TryRandomElement<IntVec3>(out c))
 				{
 					BlightUtility.GetFirstBlightableNowPlant(c, base.Map).CropBlighted();
-					result = true;
+					return true;
 				}
-				else
-				{
-					result = false;
-				}
-				return result;
+				return false;
 			}, base.Map);
 		}
 
@@ -180,7 +177,7 @@ namespace RimWorld
 			}
 			else
 			{
-				Blight.workingColors[0].a = (Blight.workingColors[1].a = (Blight.workingColors[2].a = (Blight.workingColors[3].a = (byte)0)));
+				Blight.workingColors[0].a = (Blight.workingColors[1].a = (Blight.workingColors[2].a = (Blight.workingColors[3].a = 0)));
 			}
 			float num = Blight.SizeRange.LerpThroughRange(this.severity);
 			if (plant != null)

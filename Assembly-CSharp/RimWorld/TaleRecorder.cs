@@ -1,11 +1,15 @@
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
 	public static class TaleRecorder
 	{
+		[CompilerGenerated]
+		private static Func<object, string> _003C_003Ef__mg_0024cache0;
+
 		public static void RecordTale(TaleDef def, params object[] args)
 		{
 			bool flag = Rand.Value < def.ignoreChance;
@@ -35,8 +39,7 @@ namespace RimWorld
 			{
 				if (DebugViewSettings.logTaleRecording)
 				{
-					Log.Message(string.Format("Tale {0} from {1}, targets {2}:\n{3}", (!flag) ? "recorded" : "ignored", def, GenText.ToCommaList(from arg in args
-					select arg.ToStringSafe(), true), TaleTextGenerator.GenerateTextFromTale(TextGenerationPurpose.ArtDescription, tale, Rand.Int, RulePackDefOf.ArtDescription_Sculpture.RulesPlusIncludes)));
+					Log.Message(string.Format("Tale {0} from {1}, targets {2}:\n{3}", (!flag) ? "recorded" : "ignored", def, GenText.ToCommaList(args.Select(Gen.ToStringSafe<object>), true), TaleTextGenerator.GenerateTextFromTale(TextGenerationPurpose.ArtDescription, tale, Rand.Int, RulePackDefOf.ArtDescription_Sculpture.RulesPlusIncludes)));
 				}
 				if (!flag)
 				{

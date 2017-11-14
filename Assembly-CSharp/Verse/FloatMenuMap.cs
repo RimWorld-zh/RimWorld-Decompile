@@ -8,7 +8,8 @@ namespace Verse
 	{
 		private Vector3 clickPos;
 
-		public FloatMenuMap(List<FloatMenuOption> options, string title, Vector3 clickPos) : base(options, title, false)
+		public FloatMenuMap(List<FloatMenuOption> options, string title, Vector3 clickPos)
+			: base(options, title, false)
 		{
 			this.clickPos = clickPos;
 		}
@@ -36,44 +37,41 @@ namespace Verse
 
 		private static bool StillValid(FloatMenuOption opt, List<FloatMenuOption> curOpts)
 		{
-			bool result;
 			if (opt.revalidateClickTarget == null)
 			{
 				for (int i = 0; i < curOpts.Count; i++)
 				{
 					if (FloatMenuMap.OptionsMatch(opt, curOpts[i]))
-						goto IL_0027;
+					{
+						return true;
+					}
 				}
 			}
 			else
 			{
 				if (!opt.revalidateClickTarget.Spawned)
 				{
-					result = false;
-					goto IL_00c4;
+					return false;
 				}
 				List<FloatMenuOption> list = FloatMenuMakerMap.ChoicesAtFor(opt.revalidateClickTarget.Position.ToVector3Shifted(), Find.Selector.SingleSelectedThing as Pawn);
 				for (int j = 0; j < list.Count; j++)
 				{
 					if (FloatMenuMap.OptionsMatch(opt, list[j]))
-						goto IL_00a1;
+					{
+						return true;
+					}
 				}
 			}
-			result = false;
-			goto IL_00c4;
-			IL_00c4:
-			return result;
-			IL_0027:
-			result = true;
-			goto IL_00c4;
-			IL_00a1:
-			result = true;
-			goto IL_00c4;
+			return false;
 		}
 
 		private static bool OptionsMatch(FloatMenuOption a, FloatMenuOption b)
 		{
-			return (byte)((a.Label == b.Label) ? 1 : 0) != 0;
+			if (a.Label == b.Label)
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }

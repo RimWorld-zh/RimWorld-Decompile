@@ -9,13 +9,25 @@ namespace Verse
 			get
 			{
 				WindowStack windowStack = Find.WindowStack;
-				return (byte)(windowStack.MouseObscuredNow ? 1 : ((!windowStack.CurrentWindowGetsInput) ? 1 : 0)) != 0;
+				if (windowStack.MouseObscuredNow)
+				{
+					return true;
+				}
+				if (!windowStack.CurrentWindowGetsInput)
+				{
+					return true;
+				}
+				return false;
 			}
 		}
 
 		public static bool IsOver(Rect rect)
 		{
-			return (byte)((rect.Contains(Event.current.mousePosition) && !Mouse.IsInputBlockedNow) ? 1 : 0) != 0;
+			if (rect.Contains(Event.current.mousePosition) && !Mouse.IsInputBlockedNow)
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }

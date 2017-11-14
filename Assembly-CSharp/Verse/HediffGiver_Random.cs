@@ -2,7 +2,7 @@ namespace Verse
 {
 	public class HediffGiver_Random : HediffGiver
 	{
-		public float mtbDays = 0f;
+		public float mtbDays;
 
 		public override void OnIntervalPassed(Pawn pawn, Hediff cause)
 		{

@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public static class RoofCollapseUtility
@@ -12,35 +10,25 @@ namespace Verse
 		{
 			CellIndices cellIndices = map.cellIndices;
 			Building[] innerArray = map.edificeGrid.InnerArray;
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < RoofCollapseUtility.RoofSupportRadialCellsCount; i++)
 			{
-				if (num < RoofCollapseUtility.RoofSupportRadialCellsCount)
+				IntVec3 c2 = c + GenRadial.RadialPattern[i];
+				if (c2.InBounds(map))
 				{
-					IntVec3 c2 = c + GenRadial.RadialPattern[num];
-					if (c2.InBounds(map))
+					Building building = innerArray[cellIndices.CellToIndex(c2)];
+					if (building != null && building.def.holdsRoof)
 					{
-						Building building = innerArray[cellIndices.CellToIndex(c2)];
-						if (building != null && building.def.holdsRoof)
-						{
-							result = true;
-							break;
-						}
+						return true;
 					}
-					num++;
-					continue;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public static bool ConnectedToRoofHolder(IntVec3 c, Map map, bool assumeRoofAtRoot)
 		{
 			bool connected = false;
-			map.floodFiller.FloodFill(c, (Predicate<IntVec3>)((IntVec3 x) => (x.Roofed(map) || (x == c && assumeRoofAtRoot)) && !connected), (Action<IntVec3>)delegate(IntVec3 x)
+			map.floodFiller.FloodFill(c, (IntVec3 x) => (x.Roofed(map) || (x == c && assumeRoofAtRoot)) && !connected, delegate(IntVec3 x)
 			{
 				int num = 0;
 				while (true)

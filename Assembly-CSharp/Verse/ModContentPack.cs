@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -73,7 +72,7 @@ namespace Verse
 		{
 			get
 			{
-				return this.defPackages.SelectMany((Func<DefPackage, IEnumerable<Def>>)((DefPackage x) => x.defs));
+				return this.defPackages.SelectMany((DefPackage x) => x.defs);
 			}
 		}
 
@@ -116,30 +115,25 @@ namespace Verse
 
 		public ModContentHolder<T> GetContentHolder<T>() where T : class
 		{
-			ModContentHolder<T> result;
 			if (typeof(T) == typeof(Texture2D))
 			{
-				result = (ModContentHolder<T>)this.textures;
+				return (ModContentHolder<T>)this.textures;
 			}
-			else if (typeof(T) == typeof(AudioClip))
+			if (typeof(T) == typeof(AudioClip))
 			{
-				result = (ModContentHolder<T>)this.audioClips;
+				return (ModContentHolder<T>)this.audioClips;
 			}
-			else if (typeof(T) == typeof(string))
+			if (typeof(T) == typeof(string))
 			{
-				result = (ModContentHolder<T>)this.strings;
+				return (ModContentHolder<T>)this.strings;
 			}
-			else
-			{
-				Log.Error("Mod lacks manager for asset type " + this.strings);
-				result = null;
-			}
-			return result;
+			Log.Error("Mod lacks manager for asset type " + this.strings);
+			return null;
 		}
 
 		public void ReloadContent()
 		{
-			LongEventHandler.ExecuteWhenFinished((Action)delegate
+			LongEventHandler.ExecuteWhenFinished(delegate
 			{
 				this.audioClips.ReloadAll();
 				this.textures.ReloadAll();
@@ -154,9 +148,9 @@ namespace Verse
 			List<LoadableXmlAsset> list = DirectXmlLoader.XmlAssetsInModFolder(this, "Defs/").ToList();
 			foreach (LoadableXmlAsset item in list)
 			{
-				foreach (PatchOperation item2 in patches)
+				foreach (PatchOperation patch in patches)
 				{
-					item2.Apply(item.xmlDoc);
+					patch.Apply(item.xmlDoc);
 				}
 			}
 			for (int i = 0; i < list.Count; i++)
@@ -176,9 +170,9 @@ namespace Verse
 			{
 				string relFolder = GenFilePaths.FolderPathRelativeToDefsFolder(list[j].fullFolderPath, this);
 				DefPackage defPackage = new DefPackage(list[j].name, relFolder);
-				foreach (Def item3 in DirectXmlLoader.AllDefsFromAsset(list[j]))
+				foreach (Def item2 in DirectXmlLoader.AllDefsFromAsset(list[j]))
 				{
-					defPackage.defs.Add(item3);
+					defPackage.defs.Add(item2);
 				}
 				this.defPackages.Add(defPackage);
 			}
@@ -188,19 +182,14 @@ namespace Verse
 		public IEnumerable<DefPackage> GetDefPackagesInFolder(string relFolder)
 		{
 			string path = Path.Combine(Path.Combine(this.RootDir, "Defs/"), relFolder);
-			IEnumerable<DefPackage> result;
 			if (!Directory.Exists(path))
 			{
-				result = Enumerable.Empty<DefPackage>();
+				return Enumerable.Empty<DefPackage>();
 			}
-			else
-			{
-				string fullPath = Path.GetFullPath(path);
-				result = from x in this.defPackages
-				where x.GetFullFolderPath(this).StartsWith(fullPath)
-				select x;
-			}
-			return result;
+			string fullPath = Path.GetFullPath(path);
+			return from x in this.defPackages
+			where x.GetFullFolderPath(this).StartsWith(fullPath)
+			select x;
 		}
 
 		public void AddDefPackage(DefPackage defPackage)
@@ -233,7 +222,9 @@ namespace Verse
 							}
 							else
 							{
-								this.patches.Add(DirectXmlToObject.ObjectFromXml<PatchOperation>(xmlNode, false));
+								PatchOperation patchOperation = DirectXmlToObject.ObjectFromXml<PatchOperation>(xmlNode, false);
+								patchOperation.sourceFile = list[i].FullFilePath;
+								this.patches.Add(patchOperation);
 							}
 						}
 					}

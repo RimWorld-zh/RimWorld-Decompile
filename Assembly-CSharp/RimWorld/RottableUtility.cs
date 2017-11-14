@@ -19,7 +19,11 @@ namespace RimWorld
 		public static RotStage GetRotStage(this Thing t)
 		{
 			CompRottable compRottable = t.TryGetComp<CompRottable>();
-			return (compRottable != null) ? compRottable.Stage : RotStage.Fresh;
+			if (compRottable == null)
+			{
+				return RotStage.Fresh;
+			}
+			return compRottable.Stage;
 		}
 	}
 }

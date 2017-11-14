@@ -16,11 +16,10 @@ namespace Verse.AI.Group
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
-			LordToil startingToil = stateGraph.AttachSubgraph(new LordJob_Travel(this.travelDest).CreateGraph()).StartingToil;
-			stateGraph.StartingToil = startingToil;
+			LordToil firstSource = stateGraph.StartingToil = stateGraph.AttachSubgraph(new LordJob_Travel(this.travelDest).CreateGraph()).StartingToil;
 			LordToil_ExitMap lordToil_ExitMap = new LordToil_ExitMap(LocomotionUrgency.None, false);
 			stateGraph.AddToil(lordToil_ExitMap);
-			Transition transition = new Transition(startingToil, lordToil_ExitMap);
+			Transition transition = new Transition(firstSource, lordToil_ExitMap);
 			transition.triggers.Add(new Trigger_Memo("TravelArrived"));
 			stateGraph.AddTransition(transition);
 			return stateGraph;

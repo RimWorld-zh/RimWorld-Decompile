@@ -15,7 +15,8 @@ namespace Verse
 
 		public static void InvokeGenericMethod(object objectToInvoke, Type genericParam, string methodName, params object[] args)
 		{
-			objectToInvoke.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).MakeGenericMethod(genericParam).Invoke(objectToInvoke, args);
+			objectToInvoke.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).MakeGenericMethod(genericParam)
+				.Invoke(objectToInvoke, args);
 		}
 
 		public static object InvokeStaticMethodOnGenericType(Type genericBase, Type genericParam, string methodName, params object[] args)
@@ -70,33 +71,25 @@ namespace Verse
 			{
 				throw new ArgumentException("The Def needs to be a GenericTypeDefinition", "Def");
 			}
-			Type type2;
 			if (Def.IsInterface)
 			{
 				Type[] interfaces = type.GetInterfaces();
-				for (int i = 0; i < interfaces.Length; i++)
+				foreach (Type type2 in interfaces)
 				{
-					type2 = interfaces[i];
 					if (type2.IsGenericType && type2.GetGenericTypeDefinition() == Def)
-						goto IL_0075;
+					{
+						return type2;
+					}
 				}
 			}
-			Type type3;
-			for (type3 = type; type3 != null; type3 = type3.BaseType)
+			for (Type type3 = type; type3 != null; type3 = type3.BaseType)
 			{
 				if (type3.IsGenericType && type3.GetGenericTypeDefinition() == Def)
-					goto IL_00ad;
+				{
+					return type3;
+				}
 			}
-			Type result = null;
-			goto IL_00cd;
-			IL_00cd:
-			return result;
-			IL_00ad:
-			result = type3;
-			goto IL_00cd;
-			IL_0075:
-			result = type2;
-			goto IL_00cd;
+			return null;
 		}
 	}
 }

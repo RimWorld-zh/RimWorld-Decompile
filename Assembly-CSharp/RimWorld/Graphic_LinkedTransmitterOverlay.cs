@@ -9,13 +9,22 @@ namespace RimWorld
 		{
 		}
 
-		public Graphic_LinkedTransmitterOverlay(Graphic subGraphic) : base(subGraphic)
+		public Graphic_LinkedTransmitterOverlay(Graphic subGraphic)
+			: base(subGraphic)
 		{
 		}
 
 		public override bool ShouldLinkWith(IntVec3 c, Thing parent)
 		{
-			return (byte)(c.InBounds(parent.Map) ? ((parent.Map.powerNetGrid.TransmittedPowerNetAt(c) != null) ? 1 : 0) : 0) != 0;
+			if (!c.InBounds(parent.Map))
+			{
+				return false;
+			}
+			if (parent.Map.powerNetGrid.TransmittedPowerNetAt(c) != null)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public override void Print(SectionLayer layer, Thing parent)

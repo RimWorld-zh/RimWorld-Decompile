@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -34,7 +33,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if ((UnityEngine.Object)this.cachedCommandTex == (UnityEngine.Object)null)
+				if ((Object)this.cachedCommandTex == (Object)null)
 				{
 					this.cachedCommandTex = ContentFinder<Texture2D>.Get(this.Props.commandTexture, true);
 				}
@@ -73,20 +72,15 @@ namespace RimWorld
 		{
 			get
 			{
-				Graphic defaultGraphic;
 				if (this.SwitchIsOn)
 				{
-					defaultGraphic = base.parent.DefaultGraphic;
+					return base.parent.DefaultGraphic;
 				}
-				else
+				if (this.offGraphic == null)
 				{
-					if (this.offGraphic == null)
-					{
-						this.offGraphic = GraphicDatabase.Get(base.parent.def.graphicData.graphicClass, base.parent.def.graphicData.texPath + "_Off", ShaderDatabase.ShaderFromType(base.parent.def.graphicData.shaderType), base.parent.def.graphicData.drawSize, base.parent.DrawColor, base.parent.DrawColorTwo);
-					}
-					defaultGraphic = this.offGraphic;
+					this.offGraphic = GraphicDatabase.Get(base.parent.def.graphicData.graphicClass, base.parent.def.graphicData.texPath + "_Off", ShaderDatabase.ShaderFromType(base.parent.def.graphicData.shaderType), base.parent.def.graphicData.drawSize, base.parent.DrawColor, base.parent.DrawColorTwo);
 				}
-				return defaultGraphic;
+				return this.offGraphic;
 			}
 		}
 
@@ -116,7 +110,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CCompGetGizmosExtra_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.CompGetGizmosExtra().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -133,16 +127,16 @@ namespace RimWorld
 				icon = this.CommandTex,
 				defaultLabel = this.Props.commandLabelKey.Translate(),
 				defaultDesc = this.Props.commandDescKey.Translate(),
-				isActive = (Func<bool>)(() => ((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_014a: stateMachine*/)._0024this.wantSwitchOn),
-				toggleAction = (Action)delegate
+				isActive = (() => ((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0145: stateMachine*/)._0024this.wantSwitchOn),
+				toggleAction = delegate
 				{
-					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0161: stateMachine*/)._0024this.wantSwitchOn = !((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0161: stateMachine*/)._0024this.wantSwitchOn;
-					FlickUtility.UpdateFlickDesignation(((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0161: stateMachine*/)._0024this.parent);
+					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_015c: stateMachine*/)._0024this.wantSwitchOn = !((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_015c: stateMachine*/)._0024this.wantSwitchOn;
+					FlickUtility.UpdateFlickDesignation(((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_015c: stateMachine*/)._0024this.parent);
 				}
 			};
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_019c:
-			/*Error near IL_019d: Unexpected return in MoveNext()*/;
+			IL_0196:
+			/*Error near IL_0197: Unexpected return in MoveNext()*/;
 		}
 	}
 }

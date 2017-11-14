@@ -6,9 +6,9 @@ namespace Verse
 	{
 		private float[] vertDepth = new float[9];
 
-		private static readonly Color32 ColorClear = new Color32((byte)255, (byte)255, (byte)255, (byte)0);
+		private static readonly Color32 ColorClear = new Color32(255, 255, 255, 0);
 
-		private static readonly Color32 ColorWhite = new Color32((byte)255, (byte)255, (byte)255, (byte)255);
+		private static readonly Color32 ColorWhite = new Color32(255, 255, 255, 255);
 
 		public override bool Visible
 		{
@@ -18,7 +18,8 @@ namespace Verse
 			}
 		}
 
-		public SectionLayer_Snow(Section section) : base(section)
+		public SectionLayer_Snow(Section section)
+			: base(section)
 		{
 			base.relevantChangeTypes = MapMeshFlag.Snow;
 		}

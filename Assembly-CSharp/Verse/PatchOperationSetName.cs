@@ -23,6 +23,7 @@ namespace Verse
 					xmlNode.ParentNode.InsertBefore(xmlNode2, xmlNode);
 					xmlNode.ParentNode.RemoveChild(xmlNode);
 				}
+				return result;
 			}
 			finally
 			{
@@ -32,7 +33,6 @@ namespace Verse
 					disposable.Dispose();
 				}
 			}
-			return result;
 		}
 	}
 }

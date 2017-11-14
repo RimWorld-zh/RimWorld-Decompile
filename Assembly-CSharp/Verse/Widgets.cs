@@ -1,4 +1,3 @@
-#define ENABLE_PROFILER
 using RimWorld;
 using RimWorld.Planet;
 using System;
@@ -7,7 +6,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using UnityEngine;
-using UnityEngine.Profiling;
 using Verse.Sound;
 
 namespace Verse
@@ -17,9 +15,9 @@ namespace Verse
 	{
 		private enum RangeEnd : byte
 		{
-			None = 0,
-			Min = 1,
-			Max = 2
+			None,
+			Min,
+			Max
 		}
 
 		public static readonly GUIStyle EmptyStyle;
@@ -354,8 +352,7 @@ namespace Verse
 			{
 				flag = false;
 			}
-			num = ((!flag) ? Text.CalcHeight(label, rect.width) : Widgets.LabelCache[label]);
-			rect.height = num;
+			num = (rect.height = ((!flag) ? Text.CalcHeight(label, rect.width) : Widgets.LabelCache[label]));
 			if (renderLabel)
 			{
 				Widgets.Label(rect, label);
@@ -505,24 +502,17 @@ namespace Verse
 			switch (state)
 			{
 			case MultiCheckboxState.On:
-			{
 				tex = Widgets.CheckboxOnTex;
 				break;
-			}
 			case MultiCheckboxState.Off:
-			{
 				tex = Widgets.CheckboxOffTex;
 				break;
-			}
 			default:
-			{
 				tex = Widgets.CheckboxPartialTex;
 				break;
 			}
-			}
 			Rect rect = new Rect(topLeft.x, topLeft.y, size, size);
 			MouseoverSounds.DoRegion(rect);
-			bool result;
 			if (Widgets.ButtonImage(rect, tex))
 			{
 				if (state == MultiCheckboxState.Off || state == MultiCheckboxState.Partial)
@@ -533,13 +523,9 @@ namespace Verse
 				{
 					SoundDefOf.CheckboxTurnedOff.PlayOneShotOnCamera(null);
 				}
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public static bool RadioButton(Vector2 topLeft, bool chosen)
@@ -627,7 +613,11 @@ namespace Verse
 			Widgets.Label(rect, label);
 			Text.Anchor = anchor;
 			GUI.color = color;
-			return active && Widgets.ButtonInvisible(rect, false);
+			if (active)
+			{
+				return Widgets.ButtonInvisible(rect, false);
+			}
+			return false;
 		}
 
 		public static void DrawRectFast(Rect position, Color color, GUIContent content = null)
@@ -666,7 +656,11 @@ namespace Verse
 			Widgets.Label(rect, label);
 			Text.Anchor = anchor;
 			GUI.color = color;
-			return active && Widgets.ButtonInvisible(rect, false);
+			if (active)
+			{
+				return Widgets.ButtonInvisible(rect, false);
+			}
+			return false;
 		}
 
 		public static bool ButtonTextSubtle(Rect rect, string label, float barPercent = 0f, float textLeftMargin = -1f, SoundDef mouseoverSound = null, Vector2 functionalSizeOffset = default(Vector2))
@@ -674,7 +668,6 @@ namespace Verse
 			Rect rect2 = rect;
 			rect2.width += functionalSizeOffset.x;
 			rect2.height += functionalSizeOffset.y;
-			Profiler.BeginSample("ButtonTextSubtle");
 			bool flag = false;
 			if (Mouse.IsOver(rect2))
 			{
@@ -685,9 +678,7 @@ namespace Verse
 			{
 				MouseoverSounds.DoRegion(rect2, mouseoverSound);
 			}
-			Profiler.BeginSample("atlas");
 			Widgets.DrawAtlas(rect, Widgets.ButtonSubtleAtlas);
-			Profiler.EndSample();
 			GUI.color = Color.white;
 			if (barPercent > 0.0010000000474974513)
 			{
@@ -711,9 +702,7 @@ namespace Verse
 			Widgets.Label(rect4, label);
 			Text.Anchor = TextAnchor.UpperLeft;
 			Text.WordWrap = true;
-			bool result = Widgets.ButtonInvisible(rect2, false);
-			Profiler.EndSample();
-			return result;
+			return Widgets.ButtonInvisible(rect2, false);
 		}
 
 		public static bool ButtonImage(Rect butRect, Texture2D tex)
@@ -753,14 +742,14 @@ namespace Verse
 			{
 				MouseoverSounds.DoRegion(butRect);
 			}
-			return GUI.Button(butRect, "", Widgets.EmptyStyle);
+			return GUI.Button(butRect, string.Empty, Widgets.EmptyStyle);
 		}
 
 		public static string TextField(Rect rect, string text)
 		{
 			if (text == null)
 			{
-				text = "";
+				text = string.Empty;
 			}
 			return GUI.TextField(rect, text, Text.CurTextFieldStyle);
 		}
@@ -768,14 +757,18 @@ namespace Verse
 		public static string TextField(Rect rect, string text, int maxLength, Regex inputValidator)
 		{
 			string text2 = Widgets.TextField(rect, text);
-			return (text2.Length > maxLength || !inputValidator.IsMatch(text2)) ? text : text2;
+			if (text2.Length <= maxLength && inputValidator.IsMatch(text2))
+			{
+				return text2;
+			}
+			return text;
 		}
 
 		public static string TextArea(Rect rect, string text, bool readOnly = false)
 		{
 			if (text == null)
 			{
-				text = "";
+				text = string.Empty;
 			}
 			return GUI.TextArea(rect, text, (!readOnly) ? Text.CurTextAreaStyle : Text.CurTextAreaReadOnlyStyle);
 		}
@@ -797,7 +790,11 @@ namespace Verse
 			Text.Anchor = TextAnchor.MiddleRight;
 			Widgets.Label(rect2, label);
 			Text.Anchor = anchor;
-			return (!(rect.height <= 30.0)) ? Widgets.TextArea(rect3, text, false) : Widgets.TextField(rect3, text);
+			if (rect.height <= 30.0)
+			{
+				return Widgets.TextField(rect3, text);
+			}
+			return Widgets.TextArea(rect3, text, false);
 		}
 
 		public static void TextFieldNumeric<T>(Rect rect, ref T val, ref string buffer, float min = 0f, float max = 1E+09f) where T : struct
@@ -835,7 +832,7 @@ namespace Verse
 				else if (int.TryParse(edited, out num))
 				{
 					val = (T)(object)Mathf.RoundToInt(Mathf.Clamp((float)num, min, max));
-					buffer = Widgets.ToStringTypedIn<T>(val);
+					buffer = Widgets.ToStringTypedIn(val);
 				}
 				else if (force)
 				{
@@ -848,7 +845,7 @@ namespace Verse
 				if (float.TryParse(edited, out value))
 				{
 					val = (T)(object)Mathf.Clamp(value, min, max);
-					buffer = Widgets.ToStringTypedIn<T>(val);
+					buffer = Widgets.ToStringTypedIn(val);
 				}
 				else if (force)
 				{
@@ -872,62 +869,60 @@ namespace Verse
 			{
 				val = (T)(object)Mathf.RoundToInt(max);
 			}
-			buffer = Widgets.ToStringTypedIn<T>(val);
+			buffer = Widgets.ToStringTypedIn(val);
 		}
 
 		private static string ToStringTypedIn<T>(T val)
 		{
-			return (typeof(T) != typeof(float)) ? val.ToString() : ((float)(object)val).ToString("0.##########");
+			if (typeof(T) == typeof(float))
+			{
+				return ((float)(object)val).ToString("0.##########");
+			}
+			return val.ToString();
 		}
 
 		private static bool IsPartiallyOrFullyTypedNumber<T>(ref T val, string s, float min, float max)
 		{
-			bool result;
-			if (s == "")
+			if (s == string.Empty)
 			{
-				result = true;
+				return true;
 			}
-			else if (s[0] == '-' && min >= 0.0)
+			if (s[0] == '-' && min >= 0.0)
 			{
-				result = false;
+				return false;
 			}
-			else if (s.Length > 1 && s[s.Length - 1] == '-')
+			if (s.Length > 1 && s[s.Length - 1] == '-')
 			{
-				result = false;
+				return false;
 			}
-			else if (s == "00")
+			if (s == "00")
 			{
-				result = false;
+				return false;
 			}
-			else if (s.Length > 12)
+			if (s.Length > 12)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (typeof(T) == typeof(float))
 			{
-				if (typeof(T) == typeof(float))
+				int num = s.CharacterCount('.');
+				if (num <= 1 && s.ContainsOnlyCharacters("-.0123456789"))
 				{
-					int num = s.CharacterCount('.');
-					if (num <= 1 && s.ContainsOnlyCharacters("-.0123456789"))
-					{
-						result = true;
-						goto IL_00e6;
-					}
+					return true;
 				}
-				result = ((byte)(s.IsFullyTypedNumber<T>() ? 1 : 0) != 0);
 			}
-			goto IL_00e6;
-			IL_00e6:
-			return result;
+			if (s.IsFullyTypedNumber<T>())
+			{
+				return true;
+			}
+			return false;
 		}
 
 		private static bool IsFullyTypedNumber<T>(this string s)
 		{
-			bool result;
-			if (s == "")
+			if (s == string.Empty)
 			{
-				result = false;
-				goto IL_00df;
+				return false;
 			}
 			if (typeof(T) == typeof(float))
 			{
@@ -936,47 +931,35 @@ namespace Verse
 				{
 					if (!array[0].ContainsOnlyCharacters("-0123456789"))
 					{
-						result = false;
-						goto IL_00df;
+						return false;
 					}
 					if (array.Length == 2 && (array[1].Length == 0 || !array[1].ContainsOnlyCharacters("0123456789")))
 					{
-						result = false;
-						goto IL_00df;
+						return false;
 					}
-					goto IL_00a6;
+					goto IL_008f;
 				}
-				result = false;
-				goto IL_00df;
+				return false;
 			}
-			goto IL_00a6;
-			IL_00df:
-			return result;
-			IL_00a6:
-			result = ((byte)((typeof(T) != typeof(int) || s.ContainsOnlyCharacters("-0123456789")) ? 1 : 0) != 0);
-			goto IL_00df;
+			goto IL_008f;
+			IL_008f:
+			if (typeof(T) == typeof(int) && !s.ContainsOnlyCharacters("-0123456789"))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		private static bool ContainsOnlyCharacters(this string s, string allowedChars)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < s.Length; i++)
 			{
-				if (num < s.Length)
+				if (!allowedChars.Contains(s[i]))
 				{
-					if (!allowedChars.Contains(s[num]))
-					{
-						result = false;
-						break;
-					}
-					num++;
-					continue;
+					return false;
 				}
-				result = true;
-				break;
 			}
-			return result;
+			return true;
 		}
 
 		private static int CharacterCount(this string s, char c)
@@ -1089,7 +1072,7 @@ namespace Verse
 				num = GenMath.LerpDouble(maxFreq, 1f, 0f, 0.5f, freq);
 			}
 			string label = (freq != 1.0) ? ((!(freq < 1.0)) ? "EveryDays".Translate(freq.ToString("0.##")) : "TimesPerDay".Translate(((float)(1.0 / freq)).ToString("0.##"))) : "EveryDay".Translate();
-			float num2 = Widgets.HorizontalSlider(rect, num, 0f, 1f, true, label, (string)null, (string)null, -1f);
+			float num2 = Widgets.HorizontalSlider(rect, num, 0f, 1f, true, label, null, null, -1f);
 			if (num != num2)
 			{
 				float num3;
@@ -1393,9 +1376,9 @@ namespace Verse
 					value = Mathf.Clamp(value, 0, length - 1);
 					if (Widgets.curDragEnd == RangeEnd.Min)
 					{
-						if (range.min != (QualityCategory)(byte)value)
+						if ((uint)range.min != (byte)value)
 						{
-							range.min = (QualityCategory)(byte)value;
+							range.min = (QualityCategory)value;
 							if ((int)range.max < (int)range.min)
 							{
 								range.max = range.min;
@@ -1403,9 +1386,9 @@ namespace Verse
 							SoundDefOf.DragSlider.PlayOneShotOnCamera(null);
 						}
 					}
-					else if (Widgets.curDragEnd == RangeEnd.Max && range.max != (QualityCategory)(byte)value)
+					else if (Widgets.curDragEnd == RangeEnd.Max && (uint)range.max != (byte)value)
 					{
-						range.max = (QualityCategory)(byte)value;
+						range.max = (QualityCategory)value;
 						if ((int)range.min > (int)range.max)
 						{
 							range.min = range.max;
@@ -1420,28 +1403,20 @@ namespace Verse
 
 		public static void FloatRangeWithTypeIn(Rect rect, int id, ref FloatRange fRange, float sliderMin = 0f, float sliderMax = 1f, ToStringStyle valueStyle = ToStringStyle.FloatTwo, string labelKey = null)
 		{
-			Rect rect2 = new Rect(rect)
-			{
-				width = (float)(rect.width / 4.0)
-			};
-			Rect rect3 = new Rect(rect)
-			{
-				width = (float)(rect.width / 2.0),
-				x = (float)(rect.x + rect.width / 4.0),
-				height = (float)(rect.height / 2.0)
-			};
+			Rect rect2 = new Rect(rect);
+			rect2.width = (float)(rect.width / 4.0);
+			Rect rect3 = new Rect(rect);
+			rect3.width = (float)(rect.width / 2.0);
+			rect3.x = (float)(rect.x + rect.width / 4.0);
+			rect3.height = (float)(rect.height / 2.0);
 			rect3.width -= rect.height;
-			Rect butRect = new Rect(rect3)
-			{
-				x = rect3.xMax,
-				height = rect.height,
-				width = rect.height
-			};
-			Rect rect4 = new Rect(rect)
-			{
-				x = (float)(rect.x + rect.width * 0.75),
-				width = (float)(rect.width / 4.0)
-			};
+			Rect butRect = new Rect(rect3);
+			butRect.x = rect3.xMax;
+			butRect.height = rect.height;
+			butRect.width = rect.height;
+			Rect rect4 = new Rect(rect);
+			rect4.x = (float)(rect.x + rect.width * 0.75);
+			rect4.width = (float)(rect.width / 4.0);
 			Widgets.FloatRange(rect3, id, ref fRange, sliderMin, sliderMax, labelKey, valueStyle);
 			if (Widgets.ButtonImage(butRect, TexButton.RangeMatch))
 			{
@@ -1538,7 +1513,7 @@ namespace Verse
 					num4 = -8f;
 					image = Widgets.FillArrowTexLeft;
 				}
-				for (int num5 = 0; num5 < num2; num5++)
+				for (int i = 0; i < num2; i++)
 				{
 					Rect position = new Rect(num3, y, 8f, num);
 					GUI.DrawTexture(position, image);
@@ -1755,67 +1730,51 @@ namespace Verse
 		public static bool InfoCardButton(float x, float y, Thing thing)
 		{
 			IConstructible constructible = thing as IConstructible;
-			bool result;
 			if (constructible != null)
 			{
 				ThingDef thingDef = thing.def.entityDefToBuild as ThingDef;
-				result = ((thingDef == null) ? Widgets.InfoCardButton(x, y, thing.def.entityDefToBuild) : Widgets.InfoCardButton(x, y, thingDef, constructible.UIStuff()));
+				if (thingDef != null)
+				{
+					return Widgets.InfoCardButton(x, y, thingDef, constructible.UIStuff());
+				}
+				return Widgets.InfoCardButton(x, y, thing.def.entityDefToBuild);
 			}
-			else if (Widgets.InfoCardButtonWorker(x, y))
+			if (Widgets.InfoCardButtonWorker(x, y))
 			{
 				Find.WindowStack.Add(new Dialog_InfoCard(thing));
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public static bool InfoCardButton(float x, float y, Def def)
 		{
-			bool result;
 			if (Widgets.InfoCardButtonWorker(x, y))
 			{
 				Find.WindowStack.Add(new Dialog_InfoCard(def));
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public static bool InfoCardButton(float x, float y, ThingDef thingDef, ThingDef stuffDef)
 		{
-			bool result;
 			if (Widgets.InfoCardButtonWorker(x, y))
 			{
 				Find.WindowStack.Add(new Dialog_InfoCard(thingDef, stuffDef));
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public static bool InfoCardButton(float x, float y, WorldObject worldObject)
 		{
-			bool result;
 			if (Widgets.InfoCardButtonWorker(x, y))
 			{
 				Find.WindowStack.Add(new Dialog_InfoCard(worldObject));
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		private static bool InfoCardButtonWorker(float x, float y)

@@ -55,7 +55,7 @@ namespace RimWorld
 
 		public virtual void Depart()
 		{
-			if (this.Map.listerBuildings.ColonistsHaveBuilding((Func<Thing, bool>)((Thing b) => b.def.IsCommsConsole)))
+			if (this.Map.listerBuildings.ColonistsHaveBuilding((Thing b) => b.def.IsCommsConsole))
 			{
 				Messages.Message("MessageShipHasLeftCommsRange".Translate(this.FullTitle), MessageTypeDefOf.SituationResolved);
 			}

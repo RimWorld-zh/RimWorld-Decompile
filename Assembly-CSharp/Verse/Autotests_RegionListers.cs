@@ -32,9 +32,9 @@ namespace Verse
 		{
 			for (int i = 1; i < lister.Count; i++)
 			{
-				for (int num = 0; num < i; num++)
+				for (int j = 0; j < i; j++)
 				{
-					if (lister[i] == lister[num])
+					if (lister[i] == lister[j])
 					{
 						if (expected)
 						{

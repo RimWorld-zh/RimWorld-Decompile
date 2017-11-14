@@ -57,7 +57,11 @@ namespace Verse
 
 		private static Color CurrentInstantColor()
 		{
-			return (!(ScreenFader.CurTime > ScreenFader.targetTime) && ScreenFader.targetTime != ScreenFader.sourceTime) ? Color.Lerp(ScreenFader.sourceColor, ScreenFader.targetColor, (ScreenFader.CurTime - ScreenFader.sourceTime) / (ScreenFader.targetTime - ScreenFader.sourceTime)) : ScreenFader.targetColor;
+			if (!(ScreenFader.CurTime > ScreenFader.targetTime) && ScreenFader.targetTime != ScreenFader.sourceTime)
+			{
+				return Color.Lerp(ScreenFader.sourceColor, ScreenFader.targetColor, (ScreenFader.CurTime - ScreenFader.sourceTime) / (ScreenFader.targetTime - ScreenFader.sourceTime));
+			}
+			return ScreenFader.targetColor;
 		}
 
 		public static void SetColor(Color newColor)

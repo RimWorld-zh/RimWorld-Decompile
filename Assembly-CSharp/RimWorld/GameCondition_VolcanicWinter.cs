@@ -24,7 +24,7 @@ namespace RimWorld
 
 		public override SkyTarget? SkyTarget()
 		{
-			return new SkyTarget?(new SkyTarget(0.55f, this.VolcanicWinterColors, 1f, 1f));
+			return new SkyTarget(0.55f, this.VolcanicWinterColors, 1f, 1f);
 		}
 
 		public override float TemperatureOffset()

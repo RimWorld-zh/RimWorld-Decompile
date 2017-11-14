@@ -24,33 +24,23 @@ namespace RimWorld.Planet
 
 		public WorldPath GetEmptyWorldPath()
 		{
-			int num = 0;
-			WorldPath result;
-			while (true)
+			for (int i = 0; i < this.paths.Count; i++)
 			{
-				if (num < this.paths.Count)
+				if (!this.paths[i].inUse)
 				{
-					if (!this.paths[num].inUse)
-					{
-						this.paths[num].inUse = true;
-						result = this.paths[num];
-						break;
-					}
-					num++;
-					continue;
+					this.paths[i].inUse = true;
+					return this.paths[i];
 				}
-				if (this.paths.Count > Find.WorldObjects.CaravansCount + 2 + (Find.WorldObjects.RoutePlannerWaypointsCount - 1))
-				{
-					Log.ErrorOnce("WorldPathPool leak: more paths than caravans. Force-recovering.", 664788);
-					this.paths.Clear();
-				}
-				WorldPath worldPath = new WorldPath();
-				this.paths.Add(worldPath);
-				worldPath.inUse = true;
-				result = worldPath;
-				break;
 			}
-			return result;
+			if (this.paths.Count > Find.WorldObjects.CaravansCount + 2 + (Find.WorldObjects.RoutePlannerWaypointsCount - 1))
+			{
+				Log.ErrorOnce("WorldPathPool leak: more paths than caravans. Force-recovering.", 664788);
+				this.paths.Clear();
+			}
+			WorldPath worldPath = new WorldPath();
+			this.paths.Add(worldPath);
+			worldPath.inUse = true;
+			return worldPath;
 		}
 	}
 }

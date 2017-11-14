@@ -10,7 +10,15 @@ namespace RimWorld.Planet
 			get
 			{
 				WorldDragBox dragBox = Find.World.UI.selector.dragBox;
-				return (!dragBox.IsValidAndActive) ? ((!Find.WorldTargeter.IsTargeting) ? GenWorld.MouseTile(false) : (-1)) : (-1);
+				if (dragBox.IsValidAndActive)
+				{
+					return -1;
+				}
+				if (Find.WorldTargeter.IsTargeting)
+				{
+					return -1;
+				}
+				return GenWorld.MouseTile(false);
 			}
 		}
 

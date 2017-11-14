@@ -68,7 +68,15 @@ namespace Verse.Steam
 		{
 			get
 			{
-				return !(this.PublishedFileId == PublishedFileId_t.Invalid) && (this.steamAuthor == CSteamID.Nil || this.steamAuthor != SteamUser.GetSteamID());
+				if (this.PublishedFileId == PublishedFileId_t.Invalid)
+				{
+					return false;
+				}
+				if (this.steamAuthor == CSteamID.Nil)
+				{
+					return true;
+				}
+				return this.steamAuthor != SteamUser.GetSteamID();
 			}
 		}
 
@@ -89,7 +97,7 @@ namespace Verse.Steam
 		private void SendSteamDetailsQuery()
 		{
 			SteamAPICall_t hAPICall = SteamUGC.RequestUGCDetails(this.PublishedFileId, 999999u);
-			this.queryResult = CallResult<SteamUGCRequestUGCDetailsResult_t>.Create(new CallResult<SteamUGCRequestUGCDetailsResult_t>.APIDispatchDelegate(this.OnDetailsQueryReturned));
+			this.queryResult = CallResult<SteamUGCRequestUGCDetailsResult_t>.Create(this.OnDetailsQueryReturned);
 			this.queryResult.Set(hAPICall, null);
 		}
 

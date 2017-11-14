@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -27,9 +26,9 @@ namespace RimWorld.Planet
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
 				WorldGrid grid = Find.WorldGrid;
-				if (((grid.tileFeature != null) ? grid.tileFeature.Length : 0) != 0)
+				if (grid.tileFeature != null && grid.tileFeature.Length != 0)
 				{
-					DataSerializeUtility.LoadUshort(grid.tileFeature, grid.TilesCount, (Action<int, ushort>)delegate(int i, ushort data)
+					DataSerializeUtility.LoadUshort(grid.tileFeature, grid.TilesCount, delegate(int i, ushort data)
 					{
 						grid[i].feature = ((data != 65535) ? this.GetFeatureWithID(data) : null);
 					});
@@ -64,24 +63,14 @@ namespace RimWorld.Planet
 
 		public WorldFeature GetFeatureWithID(int uniqueID)
 		{
-			int num = 0;
-			WorldFeature result;
-			while (true)
+			for (int i = 0; i < this.features.Count; i++)
 			{
-				if (num < this.features.Count)
+				if (this.features[i].uniqueID == uniqueID)
 				{
-					if (this.features[num].uniqueID == uniqueID)
-					{
-						result = this.features[num];
-						break;
-					}
-					num++;
-					continue;
+					return this.features[i];
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		private void UpdateAlpha(TextMeshPro text, WorldFeature feature)
@@ -111,7 +100,19 @@ namespace RimWorld.Planet
 			float altitude = Find.WorldCameraDriver.altitude;
 			float num = (float)(1.0 / (altitude / 125.0 * (altitude / 125.0)));
 			renderedHeight *= num;
-			return ((int)Find.WorldCameraDriver.CurrentZoom > 0 || !(renderedHeight >= 0.56000000238418579)) && ((!(renderedHeight < 0.037999998778104782)) ? (!(renderedHeight > 0.81999999284744263) || Find.WorldCameraDriver.AltitudePercent >= 0.34999999403953552) : (Find.WorldCameraDriver.AltitudePercent <= 0.070000000298023224));
+			if ((int)Find.WorldCameraDriver.CurrentZoom <= 0 && renderedHeight >= 0.56000000238418579)
+			{
+				return false;
+			}
+			if (renderedHeight < 0.037999998778104782)
+			{
+				return Find.WorldCameraDriver.AltitudePercent <= 0.070000000298023224;
+			}
+			if (renderedHeight > 0.81999999284744263)
+			{
+				return Find.WorldCameraDriver.AltitudePercent >= 0.34999999403953552;
+			}
+			return true;
 		}
 
 		private void CreateTextsAndSetPosition()
@@ -138,13 +139,13 @@ namespace RimWorld.Planet
 		{
 			while (WorldFeatures.texts.Count > this.features.Count)
 			{
-				UnityEngine.Object.Destroy(WorldFeatures.texts[WorldFeatures.texts.Count - 1]);
+				Object.Destroy(WorldFeatures.texts[WorldFeatures.texts.Count - 1]);
 				WorldFeatures.texts.RemoveLast();
 			}
 			while (WorldFeatures.texts.Count < this.features.Count)
 			{
-				GameObject gameObject = UnityEngine.Object.Instantiate(WorldFeatures.WorldTextPrefab);
-				UnityEngine.Object.DontDestroyOnLoad(gameObject);
+				GameObject gameObject = Object.Instantiate(WorldFeatures.WorldTextPrefab);
+				Object.DontDestroyOnLoad(gameObject);
 				TextMeshPro component = gameObject.GetComponent<TextMeshPro>();
 				component.color = new Color(1f, 1f, 1f, 0f);
 				Material[] sharedMaterials = ((Component)component).GetComponent<MeshRenderer>().sharedMaterials;
@@ -167,28 +168,28 @@ namespace RimWorld.Planet
 				Vector3 extents = textMesh.bounds.extents;
 				float num = (float)(extents.x * 2.0);
 				float num2 = Find.WorldGrid.DistOnSurfaceToAngle(num);
-				for (int num3 = 0; num3 < characterCount; num3++)
+				for (int i = 0; i < characterCount; i++)
 				{
-					TMP_CharacterInfo tMP_CharacterInfo = textInfo.characterInfo[num3];
+					TMP_CharacterInfo tMP_CharacterInfo = textInfo.characterInfo[i];
 					if (tMP_CharacterInfo.isVisible)
 					{
 						int vertexIndex = tMP_CharacterInfo.vertexIndex;
 						Vector3 a = vertices[vertexIndex] + vertices[vertexIndex + 1] + vertices[vertexIndex + 2] + vertices[vertexIndex + 3];
 						a /= 4f;
-						float num4 = (float)(a.x / (num / 2.0));
-						bool flag = num4 >= 0.0;
-						num4 = Mathf.Abs(num4);
-						float num5 = (float)(num2 / 2.0 * num4);
-						float num6 = (float)((180.0 - num5) / 2.0);
-						float num7 = (float)(200.0 * Mathf.Tan((float)(num5 / 2.0 * 0.01745329238474369)));
-						Vector3 vector = new Vector3((float)(Mathf.Sin((float)(num6 * 0.01745329238474369)) * num7 * ((!flag) ? -1.0 : 1.0)), a.y, Mathf.Cos((float)(num6 * 0.01745329238474369)) * num7);
-						vector += new Vector3((float)(Mathf.Sin((float)(num5 * 0.01745329238474369)) * ((!flag) ? -1.0 : 1.0)), 0f, (float)(0.0 - Mathf.Cos((float)(num5 * 0.01745329238474369)))) * 0.06f;
+						float num3 = (float)(a.x / (num / 2.0));
+						bool flag = num3 >= 0.0;
+						num3 = Mathf.Abs(num3);
+						float num4 = (float)(num2 / 2.0 * num3);
+						float num5 = (float)((180.0 - num4) / 2.0);
+						float num6 = (float)(200.0 * Mathf.Tan((float)(num4 / 2.0 * 0.01745329238474369)));
+						Vector3 vector = new Vector3((float)(Mathf.Sin((float)(num5 * 0.01745329238474369)) * num6 * ((!flag) ? -1.0 : 1.0)), a.y, Mathf.Cos((float)(num5 * 0.01745329238474369)) * num6);
+						vector += new Vector3((float)(Mathf.Sin((float)(num4 * 0.01745329238474369)) * ((!flag) ? -1.0 : 1.0)), 0f, (float)(0.0 - Mathf.Cos((float)(num4 * 0.01745329238474369)))) * 0.06f;
 						Vector3 b = vector - a;
 						Vector3 a2 = vertices[vertexIndex] + b;
 						Vector3 a3 = vertices[vertexIndex + 1] + b;
 						Vector3 a4 = vertices[vertexIndex + 2] + b;
 						Vector3 a5 = vertices[vertexIndex + 3] + b;
-						Quaternion rotation = Quaternion.Euler(0f, (float)(num5 * ((!flag) ? 1.0 : -1.0)), 0f);
+						Quaternion rotation = Quaternion.Euler(0f, (float)(num4 * ((!flag) ? 1.0 : -1.0)), 0f);
 						a2 = rotation * (a2 - vector) + vector;
 						a3 = rotation * (a3 - vector) + vector;
 						a4 = rotation * (a4 - vector) + vector;

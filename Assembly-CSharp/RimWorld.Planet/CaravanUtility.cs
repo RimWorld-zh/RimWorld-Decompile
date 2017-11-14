@@ -9,17 +9,12 @@ namespace RimWorld.Planet
 	{
 		public static bool IsOwner(Pawn pawn, Faction caravanFaction)
 		{
-			bool result;
 			if (caravanFaction == null)
 			{
 				Log.Warning("Called IsOwner with null faction.");
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = (!pawn.NonHumanlikeOrWildMan() && pawn.Faction == caravanFaction && pawn.HostFaction == null);
-			}
-			return result;
+			return !pawn.NonHumanlikeOrWildMan() && pawn.Faction == caravanFaction && pawn.HostFaction == null;
 		}
 
 		public static Caravan GetCaravan(this Pawn pawn)
@@ -40,42 +35,38 @@ namespace RimWorld.Planet
 
 		public static int BestGotoDestNear(int tile, Caravan c)
 		{
-			Predicate<int> predicate = (Predicate<int>)((int t) => (byte)((!Find.World.Impassable(t)) ? (c.CanReach(t) ? 1 : 0) : 0) != 0);
-			int result;
+			Predicate<int> predicate = delegate(int t)
+			{
+				if (Find.World.Impassable(t))
+				{
+					return false;
+				}
+				if (!c.CanReach(t))
+				{
+					return false;
+				}
+				return true;
+			};
 			if (predicate(tile))
 			{
-				result = tile;
+				return tile;
 			}
-			else
-			{
-				int num = default(int);
-				GenWorldClosest.TryFindClosestTile(tile, predicate, out num, 50, true);
-				result = num;
-			}
+			int result = default(int);
+			GenWorldClosest.TryFindClosestTile(tile, predicate, out result, 50, true);
 			return result;
 		}
 
 		public static bool PlayerHasAnyCaravan()
 		{
 			List<Caravan> caravans = Find.WorldObjects.Caravans;
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < caravans.Count; i++)
 			{
-				if (num < caravans.Count)
+				if (caravans[i].IsPlayerControlled)
 				{
-					if (caravans[num].IsPlayerControlled)
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public static Pawn RandomOwner(this Caravan caravan)

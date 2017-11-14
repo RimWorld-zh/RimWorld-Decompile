@@ -19,17 +19,41 @@ namespace RimWorld
 
 		public static bool ShouldBeTendedNowUrgent(Pawn pawn)
 		{
-			return HealthAIUtility.ShouldBeTendedNow(pawn) && HealthUtility.TicksUntilDeathDueToBloodLoss(pawn) < 15000;
+			if (!HealthAIUtility.ShouldBeTendedNow(pawn))
+			{
+				return false;
+			}
+			return HealthUtility.TicksUntilDeathDueToBloodLoss(pawn) < 15000;
 		}
 
 		public static bool ShouldBeTendedNow(Pawn pawn)
 		{
-			return pawn.playerSettings != null && HealthAIUtility.ShouldEverReceiveMedicalCare(pawn) && pawn.health.HasHediffsNeedingTendByColony(false);
+			if (pawn.playerSettings == null)
+			{
+				return false;
+			}
+			if (!HealthAIUtility.ShouldEverReceiveMedicalCare(pawn))
+			{
+				return false;
+			}
+			return pawn.health.HasHediffsNeedingTendByColony(false);
 		}
 
 		public static bool ShouldEverReceiveMedicalCare(Pawn pawn)
 		{
-			return (byte)((((pawn.playerSettings == null) ? MedicalCareCategory.NoMeds : pawn.playerSettings.medCare) != 0) ? ((pawn.guest == null || pawn.guest.interactionMode != PrisonerInteractionModeDefOf.Execution) ? ((pawn.Map.designationManager.DesignationOn(pawn, DesignationDefOf.Slaughter) == null) ? 1 : 0) : 0) : 0) != 0;
+			if (pawn.playerSettings != null && pawn.playerSettings.medCare == MedicalCareCategory.NoCare)
+			{
+				return false;
+			}
+			if (pawn.guest != null && pawn.guest.interactionMode == PrisonerInteractionModeDefOf.Execution)
+			{
+				return false;
+			}
+			if (pawn.Map.designationManager.DesignationOn(pawn, DesignationDefOf.Slaughter) != null)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static bool ShouldHaveSurgeryDoneNow(Pawn pawn)
@@ -39,24 +63,26 @@ namespace RimWorld
 
 		public static Thing FindBestMedicine(Pawn healer, Pawn patient)
 		{
-			Thing result;
-			if (patient.playerSettings == null || (int)patient.playerSettings.medCare <= 1)
+			if (patient.playerSettings != null && (int)patient.playerSettings.medCare > 1)
 			{
-				result = null;
-			}
-			else
-			{
-				Predicate<Thing> predicate = (Predicate<Thing>)((Thing m) => (byte)((!m.IsForbidden(healer) && patient.playerSettings.medCare.AllowsMedicine(m.def) && healer.CanReserve(m, 1, -1, null, false)) ? 1 : 0) != 0);
-				Func<Thing, float> priorityGetter = (Func<Thing, float>)((Thing t) => t.def.GetStatValueAbstract(StatDefOf.MedicalPotency, null));
+				Predicate<Thing> predicate = delegate(Thing m)
+				{
+					if (!m.IsForbidden(healer) && patient.playerSettings.medCare.AllowsMedicine(m.def) && healer.CanReserve(m, 1, -1, null, false))
+					{
+						return true;
+					}
+					return false;
+				};
+				Func<Thing, float> priorityGetter = (Thing t) => t.def.GetStatValueAbstract(StatDefOf.MedicalPotency, null);
 				IntVec3 position = patient.Position;
 				Map map = patient.Map;
 				List<Thing> searchSet = patient.Map.listerThings.ThingsInGroup(ThingRequestGroup.Medicine);
 				PathEndMode peMode = PathEndMode.ClosestTouch;
 				TraverseParms traverseParams = TraverseParms.For(healer, Danger.Deadly, TraverseMode.ByPawn, false);
 				Predicate<Thing> validator = predicate;
-				result = GenClosest.ClosestThing_Global_Reachable(position, map, searchSet, peMode, traverseParams, 9999f, validator, priorityGetter);
+				return GenClosest.ClosestThing_Global_Reachable(position, map, searchSet, peMode, traverseParams, 9999f, validator, priorityGetter);
 			}
-			return result;
+			return null;
 		}
 	}
 }

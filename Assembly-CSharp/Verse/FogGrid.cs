@@ -9,6 +9,8 @@ namespace Verse
 
 		public bool[] fogGrid;
 
+		private const int AlwaysSendLetterIfUnfoggedMoreCellsThan = 600;
+
 		public FogGrid(Map map)
 		{
 			this.map = map;
@@ -60,7 +62,11 @@ namespace Verse
 
 		public bool IsFogged(IntVec3 c)
 		{
-			return c.InBounds(this.map) && this.fogGrid != null && this.fogGrid[this.map.cellIndices.CellToIndex(c)];
+			if (c.InBounds(this.map) && this.fogGrid != null)
+			{
+				return this.fogGrid[this.map.cellIndices.CellToIndex(c)];
+			}
+			return false;
 		}
 
 		public bool IsFogged(int index)
@@ -180,11 +186,13 @@ namespace Verse
 			{
 				if (floodUnfogResult.mechanoidFound)
 				{
-					Find.LetterStack.ReceiveLetter("LetterLabelAreaRevealed".Translate(), "AreaRevealedWithMechanoids".Translate(), LetterDefOf.ThreatBig, new TargetInfo(c, this.map, false), (string)null);
+					Find.LetterStack.ReceiveLetter("LetterLabelAreaRevealed".Translate(), "AreaRevealedWithMechanoids".Translate(), LetterDefOf.ThreatBig, new TargetInfo(c, this.map, false), null);
 				}
 				else
 				{
-					Find.LetterStack.ReceiveLetter("LetterLabelAreaRevealed".Translate(), "AreaRevealed".Translate(), LetterDefOf.NeutralEvent, new TargetInfo(c, this.map, false), (string)null);
+					if (floodUnfogResult.allOnScreen && floodUnfogResult.cellsUnfogged < 600)
+						return;
+					Find.LetterStack.ReceiveLetter("LetterLabelAreaRevealed".Translate(), "AreaRevealed".Translate(), LetterDefOf.NeutralEvent, new TargetInfo(c, this.map, false), null);
 				}
 			}
 		}

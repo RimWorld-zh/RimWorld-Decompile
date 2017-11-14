@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -34,11 +33,11 @@ namespace Verse
 
 		public void ExposeData()
 		{
-			MapExposeUtility.ExposeUshort(this.map, (Func<IntVec3, ushort>)((IntVec3 c) => this.defGrid[this.map.cellIndices.CellToIndex(c)]), (Action<IntVec3, ushort>)delegate(IntVec3 c, ushort val)
+			MapExposeUtility.ExposeUshort(this.map, (IntVec3 c) => this.defGrid[this.map.cellIndices.CellToIndex(c)], delegate(IntVec3 c, ushort val)
 			{
 				this.defGrid[this.map.cellIndices.CellToIndex(c)] = val;
 			}, "defGrid");
-			MapExposeUtility.ExposeUshort(this.map, (Func<IntVec3, ushort>)((IntVec3 c) => this.countGrid[this.map.cellIndices.CellToIndex(c)]), (Action<IntVec3, ushort>)delegate(IntVec3 c, ushort val)
+			MapExposeUtility.ExposeUshort(this.map, (IntVec3 c) => this.countGrid[this.map.cellIndices.CellToIndex(c)], delegate(IntVec3 c, ushort val)
 			{
 				this.countGrid[this.map.cellIndices.CellToIndex(c)] = val;
 			}, "countGrid");
@@ -65,12 +64,12 @@ namespace Verse
 			if (count > 65535)
 			{
 				Log.Error("Cannot store count " + count + " in DeepResourceGrid: out of ushort range.");
-				num2 = (ushort)65535;
+				num2 = 65535;
 			}
 			if (count < 0)
 			{
 				Log.Error("Cannot store count " + count + " in DeepResourceGrid: out of ushort range.");
-				num2 = (ushort)0;
+				num2 = 0;
 			}
 			int num3 = this.map.cellIndices.CellToIndex(c);
 			if (this.defGrid[num3] == num && this.countGrid[num3] == num2)

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +12,7 @@ namespace RimWorld
 		{
 			yield return (Gizmo)new Command_Action
 			{
-				action = new Action(this.ShowReport),
+				action = this.ShowReport,
 				defaultLabel = "CommandShipLaunchReport".Translate(),
 				defaultDesc = "CommandShipLaunchReportDesc".Translate(),
 				hotKey = KeyBindingDefOf.Misc4,
@@ -38,7 +37,7 @@ namespace RimWorld
 					stringBuilder.AppendLine(item);
 				}
 			}
-			Dialog_MessageBox window = new Dialog_MessageBox(stringBuilder.ToString(), (string)null, null, (string)null, null, (string)null, false);
+			Dialog_MessageBox window = new Dialog_MessageBox(stringBuilder.ToString(), null, null, null, null, null, false);
 			Find.WindowStack.Add(window);
 		}
 	}

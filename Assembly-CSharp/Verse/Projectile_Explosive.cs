@@ -2,7 +2,7 @@ namespace Verse
 {
 	public class Projectile_Explosive : Projectile
 	{
-		private int ticksToDetonation = 0;
+		private int ticksToDetonation;
 
 		public override void ExposeData()
 		{

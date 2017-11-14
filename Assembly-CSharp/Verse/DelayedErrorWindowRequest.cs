@@ -25,7 +25,7 @@ namespace Verse
 					string buttonAText = "OK".Translate();
 					Request request2 = DelayedErrorWindowRequest.requests[i];
 					string title = request2.title;
-					windowStack.Add(new Dialog_MessageBox(text, buttonAText, null, (string)null, null, title, false));
+					windowStack.Add(new Dialog_MessageBox(text, buttonAText, null, null, null, title, false));
 				}
 			}
 			finally
@@ -36,11 +36,9 @@ namespace Verse
 
 		public static void Add(string text, string title = null)
 		{
-			Request item = new Request
-			{
-				text = text,
-				title = title
-			};
+			Request item = default(Request);
+			item.text = text;
+			item.title = title;
 			DelayedErrorWindowRequest.requests.Add(item);
 		}
 	}

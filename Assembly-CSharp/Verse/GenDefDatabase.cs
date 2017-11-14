@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,50 +13,46 @@ namespace Verse
 
 		public static Def GetDefSilentFail(Type type, string targetDefName)
 		{
-			return (type != typeof(SoundDef)) ? ((Def)GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), type, "GetNamedSilentFail", targetDefName)) : SoundDef.Named(targetDefName);
+			if (type == typeof(SoundDef))
+			{
+				return SoundDef.Named(targetDefName);
+			}
+			return (Def)GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), type, "GetNamedSilentFail", targetDefName);
 		}
 
 		public static IEnumerable<Type> AllDefTypesWithDatabases()
 		{
-			using (IEnumerator<Type> enumerator = typeof(Def).AllSubclasses().GetEnumerator())
+			foreach (Type item in typeof(Def).AllSubclasses())
 			{
-				Type defType;
-				while (true)
+				if (!item.IsAbstract && item != typeof(Def))
 				{
-					if (enumerator.MoveNext())
+					bool foundNonAbstractAncestor = false;
+					Type parent = item.BaseType;
+					while (parent != null && parent != typeof(Def))
 					{
-						defType = enumerator.Current;
-						if (!defType.IsAbstract && defType != typeof(Def))
+						if (parent.IsAbstract)
 						{
-							bool foundNonAbstractAncestor = false;
-							Type parent = defType.BaseType;
-							while (parent != null && parent != typeof(Def))
-							{
-								if (parent.IsAbstract)
-								{
-									parent = parent.BaseType;
-									continue;
-								}
-								foundNonAbstractAncestor = true;
-								break;
-							}
-							if (!foundNonAbstractAncestor)
-								break;
+							parent = parent.BaseType;
+							continue;
 						}
-						continue;
+						foundNonAbstractAncestor = true;
+						break;
 					}
-					yield break;
+					if (!foundNonAbstractAncestor)
+					{
+						yield return item;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
-				yield return defType;
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			IL_016d:
-			/*Error near IL_016e: Unexpected return in MoveNext()*/;
+			yield break;
+			IL_0166:
+			/*Error near IL_0167: Unexpected return in MoveNext()*/;
 		}
 
 		public static IEnumerable<T> DefsToGoInDatabase<T>(ModContentPack mod)
 		{
-			return ((IEnumerable)mod.AllDefs).OfType<T>();
+			return mod.AllDefs.OfType<T>();
 		}
 	}
 }

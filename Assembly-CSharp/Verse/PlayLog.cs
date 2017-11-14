@@ -57,24 +57,14 @@ namespace Verse
 
 		public bool AnyEntryConcerns(Pawn p)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.entries.Count; i++)
 			{
-				if (num < this.entries.Count)
+				if (this.entries[i].Concerns(p))
 				{
-					if (this.entries[num].Concerns(p))
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 	}
 }

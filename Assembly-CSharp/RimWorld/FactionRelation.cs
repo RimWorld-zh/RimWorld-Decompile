@@ -4,11 +4,11 @@ namespace RimWorld
 {
 	public class FactionRelation : IExposable
 	{
-		public Faction other = null;
+		public Faction other;
 
 		public float goodwill = 100f;
 
-		public bool hostile = false;
+		public bool hostile;
 
 		public void ExposeData()
 		{
@@ -19,7 +19,7 @@ namespace RimWorld
 
 		public override string ToString()
 		{
-			return "(" + this.other + ", goodwill=" + this.goodwill.ToString("F1") + ((!this.hostile) ? "" : " hostile") + ")";
+			return "(" + this.other + ", goodwill=" + this.goodwill.ToString("F1") + ((!this.hostile) ? string.Empty : " hostile") + ")";
 		}
 	}
 }

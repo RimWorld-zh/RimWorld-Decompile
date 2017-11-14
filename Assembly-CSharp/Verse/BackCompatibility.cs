@@ -16,641 +16,522 @@ namespace Verse
 
 		public static bool IsSaveCompatibleWith(string version)
 		{
-			bool result;
 			if (VersionControl.BuildFromVersionString(version) == VersionControl.CurrentBuild)
 			{
-				result = true;
+				return true;
 			}
-			else if (((VersionControl.MajorFromVersionString(version) != 0) ? 1 : VersionControl.CurrentMajor) != 0)
-			{
-				result = false;
-			}
-			else
+			if (VersionControl.MajorFromVersionString(version) == 0 && VersionControl.CurrentMajor == 0)
 			{
 				int num = VersionControl.MinorFromVersionString(version);
 				int currentMinor = VersionControl.CurrentMinor;
 				for (int i = 0; i < BackCompatibility.SaveCompatibleMinorVersions.Length; i++)
 				{
 					if (BackCompatibility.SaveCompatibleMinorVersions[i].First == num && BackCompatibility.SaveCompatibleMinorVersions[i].Second == currentMinor)
-						goto IL_0075;
+					{
+						return true;
+					}
 				}
-				result = false;
+				return false;
 			}
-			goto IL_0095;
-			IL_0095:
-			return result;
-			IL_0075:
-			result = true;
-			goto IL_0095;
+			return false;
 		}
 
 		public static string BackCompatibleDefName(Type defType, string defName)
 		{
-			string result;
 			if (defType == typeof(ThingDef))
 			{
 				if (defName == "Gun_PDW")
 				{
-					result = "Gun_MachinePistol";
-					goto IL_0c6b;
+					return "Gun_MachinePistol";
 				}
 				if (defName == "Bullet_PDW")
 				{
-					result = "Bullet_MachinePistol";
-					goto IL_0c6b;
+					return "Bullet_MachinePistol";
 				}
 				if (defName == "Components")
 				{
-					result = "Component";
-					goto IL_0c6b;
+					return "Component";
 				}
 				if (defName == "Megatherium")
 				{
-					result = "Megasloth";
-					goto IL_0c6b;
+					return "Megasloth";
 				}
 				if (defName == "MegatheriumWool")
 				{
-					result = "MegaslothWool";
-					goto IL_0c6b;
+					return "MegaslothWool";
 				}
 				if (defName == "MalariBlock")
 				{
-					result = "Penoxycyline";
-					goto IL_0c6b;
+					return "Penoxycyline";
 				}
 				if (defName == "ArtilleryShell")
 				{
-					result = "MortarShell";
-					goto IL_0c6b;
+					return "MortarShell";
 				}
 				if (defName == "EquipmentRack")
 				{
-					result = "Shelf";
-					goto IL_0c6b;
+					return "Shelf";
 				}
 				if (defName == "Apparel_MilitaryHelmet")
 				{
-					result = "Apparel_SimpleHelmet";
-					goto IL_0c6b;
+					return "Apparel_SimpleHelmet";
 				}
 				if (defName == "Apparel_KevlarHelmet")
 				{
-					result = "Apparel_AdvancedHelmet";
-					goto IL_0c6b;
+					return "Apparel_AdvancedHelmet";
 				}
 				if (defName == "Apparel_PersonalShield")
 				{
-					result = "Apparel_ShieldBelt";
-					goto IL_0c6b;
+					return "Apparel_ShieldBelt";
 				}
 				if (defName == "MuffaloWool")
 				{
-					result = "WoolMuffalo";
-					goto IL_0c6b;
+					return "WoolMuffalo";
 				}
 				if (defName == "MegaslothWool")
 				{
-					result = "WoolMegasloth";
-					goto IL_0c6b;
+					return "WoolMegasloth";
 				}
 				if (defName == "AlpacaWool")
 				{
-					result = "WoolAlpaca";
-					goto IL_0c6b;
+					return "WoolAlpaca";
 				}
 				if (defName == "CamelHair")
 				{
-					result = "WoolCamel";
-					goto IL_0c6b;
+					return "WoolCamel";
 				}
 				if (defName == "Gun_SurvivalRifle")
 				{
-					result = "Gun_BoltActionRifle";
-					goto IL_0c6b;
+					return "Gun_BoltActionRifle";
 				}
 				if (defName == "Bullet_SurvivalRifle")
 				{
-					result = "Bullet_BoltActionRifle";
-					goto IL_0c6b;
+					return "Bullet_BoltActionRifle";
 				}
 				if (defName == "Neurotrainer")
 				{
-					result = "MechSerumNeurotrainer";
-					goto IL_0c6b;
+					return "MechSerumNeurotrainer";
 				}
 				if (defName == "FueledGenerator")
 				{
-					result = "WoodFiredGenerator";
-					goto IL_0c6b;
+					return "WoodFiredGenerator";
 				}
 				if (defName == "Gun_Pistol")
 				{
-					result = "Gun_Revolver";
-					goto IL_0c6b;
+					return "Gun_Revolver";
 				}
 				if (defName == "Bullet_Pistol")
 				{
-					result = "Bullet_Revolver";
-					goto IL_0c6b;
+					return "Bullet_Revolver";
 				}
 				if (defName == "TableShort")
 				{
-					result = "Table2x2c";
-					goto IL_0c6b;
+					return "Table2x2c";
 				}
 				if (defName == "TableLong")
 				{
-					result = "Table2x4c";
-					goto IL_0c6b;
+					return "Table2x4c";
 				}
 				if (defName == "TableShort_Blueprint")
 				{
-					result = "Table2x2c_Blueprint";
-					goto IL_0c6b;
+					return "Table2x2c_Blueprint";
 				}
 				if (defName == "TableLong_Blueprint")
 				{
-					result = "Table2x4c_Blueprint";
-					goto IL_0c6b;
+					return "Table2x4c_Blueprint";
 				}
 				if (defName == "TableShort_Frame")
 				{
-					result = "Table2x2c_Frame";
-					goto IL_0c6b;
+					return "Table2x2c_Frame";
 				}
 				if (defName == "TableLong_Frame")
 				{
-					result = "Table2x4c_Frame";
-					goto IL_0c6b;
+					return "Table2x4c_Frame";
 				}
 				if (defName == "TableShort_Install")
 				{
-					result = "Table2x2c_Install";
-					goto IL_0c6b;
+					return "Table2x2c_Install";
 				}
 				if (defName == "TableLong_Install")
 				{
-					result = "Table2x4c_Install";
-					goto IL_0c6b;
+					return "Table2x4c_Install";
 				}
 				if (defName == "Turret_MortarBomb")
 				{
-					result = "Turret_Mortar";
-					goto IL_0c6b;
+					return "Turret_Mortar";
 				}
 				if (defName == "Turret_Incendiary")
 				{
-					result = "Turret_Mortar";
-					goto IL_0c6b;
+					return "Turret_Mortar";
 				}
 				if (defName == "Turret_MortarIncendiary")
 				{
-					result = "Turret_Mortar";
-					goto IL_0c6b;
+					return "Turret_Mortar";
 				}
 				if (defName == "Turret_EMP")
 				{
-					result = "Turret_Mortar";
-					goto IL_0c6b;
+					return "Turret_Mortar";
 				}
 				if (defName == "Turret_MortarEMP")
 				{
-					result = "Turret_Mortar";
-					goto IL_0c6b;
+					return "Turret_Mortar";
 				}
 				if (defName == "Turret_MortarBomb_Blueprint")
 				{
-					result = "Turret_Mortar_Blueprint";
-					goto IL_0c6b;
+					return "Turret_Mortar_Blueprint";
 				}
 				if (defName == "Turret_Incendiary_Blueprint")
 				{
-					result = "Turret_Mortar_Blueprint";
-					goto IL_0c6b;
+					return "Turret_Mortar_Blueprint";
 				}
 				if (defName == "Turret_MortarIncendiary_Blueprint")
 				{
-					result = "Turret_Mortar_Blueprint";
-					goto IL_0c6b;
+					return "Turret_Mortar_Blueprint";
 				}
 				if (defName == "Turret_EMP_Blueprint")
 				{
-					result = "Turret_Mortar_Blueprint";
-					goto IL_0c6b;
+					return "Turret_Mortar_Blueprint";
 				}
 				if (defName == "Turret_MortarEMP_Blueprint")
 				{
-					result = "Turret_Mortar_Blueprint";
-					goto IL_0c6b;
+					return "Turret_Mortar_Blueprint";
 				}
 				if (defName == "Turret_MortarBomb_Frame")
 				{
-					result = "Turret_Mortar_Frame";
-					goto IL_0c6b;
+					return "Turret_Mortar_Frame";
 				}
 				if (defName == "Turret_Incendiary_Frame")
 				{
-					result = "Turret_Mortar_Frame";
-					goto IL_0c6b;
+					return "Turret_Mortar_Frame";
 				}
 				if (defName == "Turret_MortarIncendiary_Frame")
 				{
-					result = "Turret_Mortar_Frame";
-					goto IL_0c6b;
+					return "Turret_Mortar_Frame";
 				}
 				if (defName == "Turret_EMP_Frame")
 				{
-					result = "Turret_Mortar_Frame";
-					goto IL_0c6b;
+					return "Turret_Mortar_Frame";
 				}
 				if (defName == "Turret_MortarEMP_Frame")
 				{
-					result = "Turret_Mortar_Frame";
-					goto IL_0c6b;
+					return "Turret_Mortar_Frame";
 				}
 				if (defName == "Turret_MortarBomb_Install")
 				{
-					result = "Turret_Mortar_Install";
-					goto IL_0c6b;
+					return "Turret_Mortar_Install";
 				}
 				if (defName == "Turret_Incendiary_Install")
 				{
-					result = "Turret_Mortar_Install";
-					goto IL_0c6b;
+					return "Turret_Mortar_Install";
 				}
 				if (defName == "Turret_MortarIncendiary_Install")
 				{
-					result = "Turret_Mortar_Install";
-					goto IL_0c6b;
+					return "Turret_Mortar_Install";
 				}
 				if (defName == "Turret_EMP_Install")
 				{
-					result = "Turret_Mortar_Install";
-					goto IL_0c6b;
+					return "Turret_Mortar_Install";
 				}
 				if (defName == "Turret_MortarEMP_Install")
 				{
-					result = "Turret_Mortar_Install";
-					goto IL_0c6b;
+					return "Turret_Mortar_Install";
 				}
 				if (defName == "Artillery_MortarBomb")
 				{
-					result = "Artillery_Mortar";
-					goto IL_0c6b;
+					return "Artillery_Mortar";
 				}
 				if (defName == "Artillery_MortarIncendiary")
 				{
-					result = "Artillery_Mortar";
-					goto IL_0c6b;
+					return "Artillery_Mortar";
 				}
 				if (defName == "Artillery_MortarEMP")
 				{
-					result = "Artillery_Mortar";
-					goto IL_0c6b;
+					return "Artillery_Mortar";
 				}
 				if (defName == "TrapIEDBomb")
 				{
-					result = "TrapIED_HighExplosive";
-					goto IL_0c6b;
+					return "TrapIED_HighExplosive";
 				}
 				if (defName == "TrapIEDIncendiary")
 				{
-					result = "TrapIED_Incendiary";
-					goto IL_0c6b;
+					return "TrapIED_Incendiary";
 				}
 				if (defName == "TrapIEDBomb_Blueprint")
 				{
-					result = "TrapIED_HighExplosive_Blueprint";
-					goto IL_0c6b;
+					return "TrapIED_HighExplosive_Blueprint";
 				}
 				if (defName == "TrapIEDIncendiary_Blueprint")
 				{
-					result = "TrapIED_Incendiary_Blueprint";
-					goto IL_0c6b;
+					return "TrapIED_Incendiary_Blueprint";
 				}
 				if (defName == "TrapIEDBomb_Frame")
 				{
-					result = "TrapIED_HighExplosive_Frame";
-					goto IL_0c6b;
+					return "TrapIED_HighExplosive_Frame";
 				}
 				if (defName == "TrapIEDIncendiary_Frame")
 				{
-					result = "TrapIED_Incendiary_Frame";
-					goto IL_0c6b;
+					return "TrapIED_Incendiary_Frame";
 				}
 				if (defName == "TrapIEDBomb_Install")
 				{
-					result = "TrapIED_HighExplosive_Install";
-					goto IL_0c6b;
+					return "TrapIED_HighExplosive_Install";
 				}
 				if (defName == "TrapIEDIncendiary_Install")
 				{
-					result = "TrapIED_Incendiary_Install";
-					goto IL_0c6b;
+					return "TrapIED_Incendiary_Install";
 				}
 				if (defName == "Bullet_MortarBomb")
 				{
-					result = "Bullet_Shell_HighExplosive";
-					goto IL_0c6b;
+					return "Bullet_Shell_HighExplosive";
 				}
 				if (defName == "Bullet_MortarIncendiary")
 				{
-					result = "Bullet_Shell_Incendiary";
-					goto IL_0c6b;
+					return "Bullet_Shell_Incendiary";
 				}
 				if (defName == "Bullet_MortarEMP")
 				{
-					result = "Bullet_Shell_EMP";
-					goto IL_0c6b;
+					return "Bullet_Shell_EMP";
 				}
 				if (defName == "MortarShell")
 				{
-					result = "Shell_HighExplosive";
-					goto IL_0c6b;
+					return "Shell_HighExplosive";
 				}
 			}
 			else if (defType == typeof(ConceptDef))
 			{
 				if (defName == "PersonalShields")
 				{
-					result = "ShieldBelts";
-					goto IL_0c6b;
+					return "ShieldBelts";
 				}
 			}
 			else if (defType == typeof(PawnKindDef))
 			{
 				if (defName == "Megatherium")
 				{
-					result = "Megasloth";
-					goto IL_0c6b;
+					return "Megasloth";
 				}
 			}
 			else if (defType == typeof(ThoughtDef))
 			{
 				if (defName == "ComfortLevel")
 				{
-					result = "NeedComfort";
-					goto IL_0c6b;
+					return "NeedComfort";
 				}
 				if (defName == "JoyLevel")
 				{
-					result = "NeedJoy";
-					goto IL_0c6b;
+					return "NeedJoy";
 				}
 				if (defName == "Tired")
 				{
-					result = "NeedRest";
-					goto IL_0c6b;
+					return "NeedRest";
 				}
 				if (defName == "Hungry")
 				{
-					result = "NeedFood";
-					goto IL_0c6b;
+					return "NeedFood";
 				}
 			}
 			else if (defType == typeof(ResearchProjectDef))
 			{
 				if (defName == "MalariBlockProduction")
 				{
-					result = "PenoxycylineProduction";
-					goto IL_0c6b;
+					return "PenoxycylineProduction";
 				}
 				if (defName == "IEDBomb")
 				{
-					result = "IEDs";
-					goto IL_0c6b;
+					return "IEDs";
 				}
 			}
 			else if (defType == typeof(MentalStateDef))
 			{
 				if (defName == "ConfusedWander")
 				{
-					result = "WanderConfused";
-					goto IL_0c6b;
+					return "WanderConfused";
 				}
 				if (defName == "DazedWander")
 				{
-					result = "WanderPsychotic";
-					goto IL_0c6b;
+					return "WanderPsychotic";
 				}
 			}
 			else if (defType == typeof(RulePackDef))
 			{
 				if (defName == "NamerAnimalGeneric")
 				{
-					result = "NamerAnimalGenericMale";
-					goto IL_0c6b;
+					return "NamerAnimalGenericMale";
 				}
 			}
 			else if (defType == typeof(TraderKindDef))
 			{
 				if (defName == "Caravan_Neolithic_SlavesMerchant")
 				{
-					result = "Caravan_Neolithic_Slaver";
-					goto IL_0c6b;
+					return "Caravan_Neolithic_Slaver";
 				}
 			}
 			else if (defType == typeof(DifficultyDef))
 			{
 				if (defName == "FreePlay")
 				{
-					result = "VeryEasy";
-					goto IL_0c6b;
+					return "VeryEasy";
 				}
 				if (defName == "Basebuilder")
 				{
-					result = "Easy";
-					goto IL_0c6b;
+					return "Easy";
 				}
 				if (defName == "Rough")
 				{
-					result = "Medium";
-					goto IL_0c6b;
+					return "Medium";
 				}
 				if (defName == "Challenge")
 				{
-					result = "Hard";
-					goto IL_0c6b;
+					return "Hard";
 				}
 				if (defName == "Extreme")
 				{
-					result = "VeryHard";
-					goto IL_0c6b;
+					return "VeryHard";
 				}
 			}
 			else if (defType == typeof(RecipeDef))
 			{
 				if (defName == "MakeArtilleryShell")
 				{
-					result = "Make_Shell_HighExplosive";
-					goto IL_0c6b;
+					return "Make_Shell_HighExplosive";
 				}
 				if (defName == "Make_MalariBlock")
 				{
-					result = "Make_Penoxycyline";
-					goto IL_0c6b;
+					return "Make_Penoxycyline";
 				}
 				if (defName == "Make_Apparel_MilitaryHelmet")
 				{
-					result = "Make_Apparel_SimpleHelmet";
-					goto IL_0c6b;
+					return "Make_Apparel_SimpleHelmet";
 				}
 				if (defName == "Make_Apparel_KevlarHelmet")
 				{
-					result = "Make_Apparel_AdvancedHelmet";
-					goto IL_0c6b;
+					return "Make_Apparel_AdvancedHelmet";
 				}
 				if (defName == "Make_Gun_SurvivalRifle")
 				{
-					result = "Make_Gun_BoltActionRifle";
-					goto IL_0c6b;
+					return "Make_Gun_BoltActionRifle";
 				}
 				if (defName == "Make_Gun_Pistol")
 				{
-					result = "Make_Gun_Revolver";
-					goto IL_0c6b;
+					return "Make_Gun_Revolver";
 				}
 				if (defName == "Make_TableShort")
 				{
-					result = "Make_Table2x2c";
-					goto IL_0c6b;
+					return "Make_Table2x2c";
 				}
 				if (defName == "Make_TableLong")
 				{
-					result = "Make_Table2x4c";
-					goto IL_0c6b;
+					return "Make_Table2x4c";
 				}
 				if (defName == "MakeMortarShell")
 				{
-					result = "Make_Shell_HighExplosive";
-					goto IL_0c6b;
+					return "Make_Shell_HighExplosive";
 				}
 			}
 			else if (defType == typeof(HediffDef))
 			{
 				if (defName == "Euthanasia")
 				{
-					result = "ShutDown";
-					goto IL_0c6b;
+					return "ShutDown";
 				}
 				if (defName == "ChemicalDamageBrain")
 				{
-					result = "ChemicalDamageModerate";
-					goto IL_0c6b;
+					return "ChemicalDamageModerate";
 				}
 				if (defName == "ChemicalDamageKidney")
 				{
-					result = "ChemicalDamageSevere";
-					goto IL_0c6b;
+					return "ChemicalDamageSevere";
 				}
 			}
 			else if (defType == typeof(TraderKindDef))
 			{
 				if (defName == "Caravan_Neolithic_CombatSupplier")
 				{
-					result = "Caravan_Neolithic_WarMerchant";
-					goto IL_0c6b;
+					return "Caravan_Neolithic_WarMerchant";
 				}
 			}
 			else if (defType == typeof(StatDef))
 			{
 				if (defName == "HarvestYield")
 				{
-					result = "PlantHarvestYield";
-					goto IL_0c6b;
+					return "PlantHarvestYield";
 				}
 				if (defName == "SurgerySuccessChance")
 				{
-					result = "MedicalSurgerySuccessChance";
-					goto IL_0c6b;
+					return "MedicalSurgerySuccessChance";
 				}
 				if (defName == "HealingQuality")
 				{
-					result = "MedicalTendQuality";
-					goto IL_0c6b;
+					return "MedicalTendQuality";
 				}
 				if (defName == "HealingSpeed")
 				{
-					result = "MedicalTendSpeed";
-					goto IL_0c6b;
+					return "MedicalTendSpeed";
 				}
 				if (defName == "GiftImpact")
 				{
-					result = "DiplomacyPower";
-					goto IL_0c6b;
+					return "DiplomacyPower";
 				}
 			}
 			else if (defType == typeof(SkillDef))
 			{
 				if (defName == "Research")
 				{
-					result = "Intellectual";
-					goto IL_0c6b;
+					return "Intellectual";
 				}
 			}
 			else if (defType == typeof(LetterDef))
 			{
 				if (defName == "BadUrgent")
 				{
-					result = "ThreatBig";
-					goto IL_0c6b;
+					return "ThreatBig";
 				}
 				if (defName == "BadNonUrgent")
 				{
-					result = "NegativeEvent";
-					goto IL_0c6b;
+					return "NegativeEvent";
 				}
 				if (defName == "Good")
 				{
-					result = "PositiveEvent";
-					goto IL_0c6b;
+					return "PositiveEvent";
 				}
 			}
 			else if (defType == typeof(WorldObjectDef) && defName == "JourneyDestination")
 			{
-				result = "EscapeShip";
-				goto IL_0c6b;
+				return "EscapeShip";
 			}
-			result = defName;
-			goto IL_0c6b;
-			IL_0c6b:
-			return result;
+			return defName;
 		}
 
 		public static Type GetBackCompatibleType(Type baseType, string providedClassName, XmlNode node)
 		{
-			Type result;
 			if (baseType == typeof(WorldObject))
 			{
 				if (providedClassName == "RimWorld.Planet.WorldObject" && node["def"] != null && node["def"].InnerText == "JourneyDestination")
 				{
-					result = WorldObjectDefOf.EscapeShip.worldObjectClass;
-					goto IL_0123;
+					return WorldObjectDefOf.EscapeShip.worldObjectClass;
 				}
 			}
 			else if (baseType == typeof(Thing))
 			{
 				if (providedClassName == "Building_PoisonShipPart" && node["def"] != null && node["def"].InnerText == "CrashedPoisonShipPart")
 				{
-					result = ThingDefOf.CrashedPoisonShipPart.thingClass;
-					goto IL_0123;
+					return ThingDefOf.CrashedPoisonShipPart.thingClass;
 				}
 				if (providedClassName == "Building_PsychicEmanator" && node["def"] != null && node["def"].InnerText == "CrashedPsychicEmanatorShipPart")
 				{
-					result = ThingDefOf.CrashedPsychicEmanatorShipPart.thingClass;
-					goto IL_0123;
+					return ThingDefOf.CrashedPsychicEmanatorShipPart.thingClass;
 				}
 			}
-			result = GenTypes.GetTypeInAnyAssembly(providedClassName);
-			goto IL_0123;
-			IL_0123:
-			return result;
+			return GenTypes.GetTypeInAnyAssembly(providedClassName);
 		}
 
 		public static string BackCompatibleModifiedTranslationPath(Type defType, string path)
 		{
-			return (defType != typeof(ConceptDef) || !path.Contains("helpTexts.0")) ? path : path.Replace("helpTexts.0", "helpText");
+			if (defType == typeof(ConceptDef) && path.Contains("helpTexts.0"))
+			{
+				return path.Replace("helpTexts.0", "helpText");
+			}
+			return path;
 		}
 
 		public static void AfterLoadingSmallGameClassComponents(Game game)

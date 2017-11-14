@@ -14,17 +14,17 @@ namespace Verse
 
 		public List<IntVec3> cells = new List<IntVec3>();
 
-		private bool cellsShuffled = false;
+		private bool cellsShuffled;
 
 		public Color color = Color.white;
 
-		private Material materialInt = null;
+		private Material materialInt;
 
-		public bool hidden = false;
+		public bool hidden;
 
 		private int lastStaticFireCheckTick = -9999;
 
-		private bool lastStaticFireCheckResult = false;
+		private bool lastStaticFireCheckResult;
 
 		private const int StaticFireCheckInterval = 1000;
 
@@ -227,29 +227,19 @@ namespace Verse
 
 		public bool ContainsCell(IntVec3 c)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.cells.Count; i++)
 			{
-				if (num < this.cells.Count)
+				if (this.cells[i] == c)
 				{
-					if (this.cells[num] == c)
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public virtual string GetInspectString()
 		{
-			return "";
+			return string.Empty;
 		}
 
 		public virtual IEnumerable<InspectTabBase> GetInspectTabs()
@@ -264,9 +254,9 @@ namespace Verse
 				icon = ContentFinder<Texture2D>.Get("UI/Commands/RenameZone", true),
 				defaultLabel = "CommandRenameZoneLabel".Translate(),
 				defaultDesc = "CommandRenameZoneDesc".Translate(),
-				action = (Action)delegate
+				action = delegate
 				{
-					Find.WindowStack.Add(new Dialog_RenameZone(((_003CGetGizmos_003Ec__Iterator3)/*Error near IL_007c: stateMachine*/)._0024this));
+					Find.WindowStack.Add(new Dialog_RenameZone(((_003CGetGizmos_003Ec__Iterator3)/*Error near IL_007a: stateMachine*/)._0024this));
 				},
 				hotKey = KeyBindingDefOf.Misc1
 			};
@@ -297,9 +287,20 @@ namespace Verse
 				{
 					Zone.extantGrid.Set(this.cells[i], true);
 				}
-				Predicate<IntVec3> passCheck = (Predicate<IntVec3>)((IntVec3 c) => (byte)(Zone.extantGrid[c] ? ((!Zone.foundGrid[c]) ? 1 : 0) : 0) != 0);
+				Predicate<IntVec3> passCheck = delegate(IntVec3 c)
+				{
+					if (!Zone.extantGrid[c])
+					{
+						return false;
+					}
+					if (Zone.foundGrid[c])
+					{
+						return false;
+					}
+					return true;
+				};
 				int numFound = 0;
-				Action<IntVec3> processor = (Action<IntVec3>)delegate(IntVec3 c)
+				Action<IntVec3> processor = delegate(IntVec3 c)
 				{
 					Zone.foundGrid.Set(c, true);
 					numFound++;

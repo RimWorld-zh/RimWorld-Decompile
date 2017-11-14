@@ -68,7 +68,11 @@ namespace Verse
 
 		public override bool Equals(object obj)
 		{
-			return obj is MaterialRequest && this.Equals((MaterialRequest)obj);
+			if (!(obj is MaterialRequest))
+			{
+				return false;
+			}
+			return this.Equals((MaterialRequest)obj);
 		}
 
 		public bool Equals(MaterialRequest other)

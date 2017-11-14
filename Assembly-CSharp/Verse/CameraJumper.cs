@@ -157,46 +157,42 @@ namespace Verse
 
 		public static GlobalTargetInfo GetAdjustedTarget(GlobalTargetInfo target)
 		{
-			GlobalTargetInfo result;
 			if (target.HasThing)
 			{
 				Thing thing = target.Thing;
 				if (thing.Spawned)
 				{
-					result = thing;
-					goto IL_0205;
+					return thing;
 				}
-				GlobalTargetInfo globalTargetInfo = GlobalTargetInfo.Invalid;
+				GlobalTargetInfo result = GlobalTargetInfo.Invalid;
 				for (IThingHolder parentHolder = thing.ParentHolder; parentHolder != null; parentHolder = parentHolder.ParentHolder)
 				{
 					Thing thing2 = parentHolder as Thing;
 					if (thing2 != null && thing2.Spawned)
 					{
-						globalTargetInfo = thing2;
+						result = thing2;
 						break;
 					}
 					ThingComp thingComp = parentHolder as ThingComp;
 					if (thingComp != null && thingComp.parent.Spawned)
 					{
-						globalTargetInfo = (Thing)thingComp.parent;
+						result = thingComp.parent;
 						break;
 					}
 					WorldObject worldObject = parentHolder as WorldObject;
 					if (worldObject != null && worldObject.Spawned)
 					{
-						globalTargetInfo = worldObject;
+						result = worldObject;
 						break;
 					}
 				}
-				if (globalTargetInfo.IsValid)
+				if (result.IsValid)
 				{
-					result = globalTargetInfo;
-					goto IL_0205;
+					return result;
 				}
 				if (thing.Tile >= 0)
 				{
-					result = new GlobalTargetInfo(thing.Tile);
-					goto IL_0205;
+					return new GlobalTargetInfo(thing.Tile);
 				}
 			}
 			else
@@ -204,78 +200,91 @@ namespace Verse
 				if (target.Cell.IsValid && target.Tile >= 0 && target.Map != null && !Find.Maps.Contains(target.Map))
 				{
 					MapParent parent = target.Map.info.parent;
-					result = ((parent == null || !parent.Spawned) ? ((parent == null || parent.Tile < 0) ? GlobalTargetInfo.Invalid : new GlobalTargetInfo(target.Map.Tile)) : ((WorldObject)parent));
-					goto IL_0205;
+					if (parent != null && parent.Spawned)
+					{
+						return parent;
+					}
+					if (parent != null && parent.Tile >= 0)
+					{
+						return new GlobalTargetInfo(target.Map.Tile);
+					}
+					return GlobalTargetInfo.Invalid;
 				}
 				if (target.HasWorldObject && !target.WorldObject.Spawned && target.WorldObject.Tile >= 0)
 				{
-					result = new GlobalTargetInfo(target.WorldObject.Tile);
-					goto IL_0205;
+					return new GlobalTargetInfo(target.WorldObject.Tile);
 				}
 			}
-			result = target;
-			goto IL_0205;
-			IL_0205:
-			return result;
+			return target;
 		}
 
 		public static GlobalTargetInfo GetWorldTarget(GlobalTargetInfo target)
 		{
 			GlobalTargetInfo adjustedTarget = CameraJumper.GetAdjustedTarget(target);
-			return (!adjustedTarget.IsValid) ? GlobalTargetInfo.Invalid : ((!adjustedTarget.IsWorldTarget) ? CameraJumper.GetWorldTargetOfMap(adjustedTarget.Map) : adjustedTarget);
+			if (adjustedTarget.IsValid)
+			{
+				if (adjustedTarget.IsWorldTarget)
+				{
+					return adjustedTarget;
+				}
+				return CameraJumper.GetWorldTargetOfMap(adjustedTarget.Map);
+			}
+			return GlobalTargetInfo.Invalid;
 		}
 
 		public static GlobalTargetInfo GetWorldTargetOfMap(Map map)
 		{
-			return (map != null) ? ((map.info.parent == null || !map.info.parent.Spawned) ? ((map.info.parent == null || map.info.parent.Tile < 0) ? GlobalTargetInfo.Invalid : new GlobalTargetInfo(map.Tile)) : ((WorldObject)map.info.parent)) : GlobalTargetInfo.Invalid;
+			if (map == null)
+			{
+				return GlobalTargetInfo.Invalid;
+			}
+			if (map.info.parent != null && map.info.parent.Spawned)
+			{
+				return map.info.parent;
+			}
+			if (map.info.parent != null && map.info.parent.Tile >= 0)
+			{
+				return new GlobalTargetInfo(map.Tile);
+			}
+			return GlobalTargetInfo.Invalid;
 		}
 
 		public static bool TryHideWorld()
 		{
-			bool result;
 			if (!WorldRendererUtility.WorldRenderedNow)
 			{
-				result = true;
+				return true;
 			}
-			else if (Current.ProgramState != ProgramState.Playing)
+			if (Current.ProgramState != ProgramState.Playing)
 			{
-				result = false;
+				return false;
 			}
-			else if (Find.World.renderer.wantedMode != 0)
+			if (Find.World.renderer.wantedMode != 0)
 			{
 				Find.World.renderer.wantedMode = WorldRenderMode.None;
 				SoundDefOf.TabClose.PlayOneShotOnCamera(null);
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public static bool TryShowWorld()
 		{
-			bool result;
 			if (WorldRendererUtility.WorldRenderedNow)
 			{
-				result = true;
+				return true;
 			}
-			else if (Current.ProgramState != ProgramState.Playing)
+			if (Current.ProgramState != ProgramState.Playing)
 			{
-				result = false;
+				return false;
 			}
-			else if (Find.World.renderer.wantedMode == WorldRenderMode.None)
+			if (Find.World.renderer.wantedMode == WorldRenderMode.None)
 			{
 				Find.World.renderer.wantedMode = WorldRenderMode.Planet;
 				SoundDefOf.TabOpen.PlayOneShotOnCamera(null);
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 	}
 }

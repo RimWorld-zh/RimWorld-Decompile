@@ -7,36 +7,27 @@ namespace Verse.AI
 	{
 		public override bool StateCanOccur(Pawn pawn)
 		{
-			bool result;
 			if (!base.StateCanOccur(pawn))
 			{
-				result = false;
+				return false;
 			}
-			else if (!pawn.Spawned)
+			if (!pawn.Spawned)
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<ChemicalDef> allDefsListForReading = DefDatabase<ChemicalDef>.AllDefsListForReading;
+			for (int i = 0; i < allDefsListForReading.Count; i++)
 			{
-				List<ChemicalDef> allDefsListForReading = DefDatabase<ChemicalDef>.AllDefsListForReading;
-				for (int i = 0; i < allDefsListForReading.Count; i++)
+				if (AddictionUtility.CanBingeOnNow(pawn, allDefsListForReading[i], base.def.drugCategory))
 				{
-					if (AddictionUtility.CanBingeOnNow(pawn, allDefsListForReading[i], base.def.drugCategory))
-						goto IL_0051;
-					if (base.def.drugCategory == DrugCategory.Hard && AddictionUtility.CanBingeOnNow(pawn, allDefsListForReading[i], DrugCategory.Social))
-						goto IL_007d;
+					return true;
 				}
-				result = false;
+				if (base.def.drugCategory == DrugCategory.Hard && AddictionUtility.CanBingeOnNow(pawn, allDefsListForReading[i], DrugCategory.Social))
+				{
+					return true;
+				}
 			}
-			goto IL_009d;
-			IL_0051:
-			result = true;
-			goto IL_009d;
-			IL_009d:
-			return result;
-			IL_007d:
-			result = true;
-			goto IL_009d;
+			return false;
 		}
 	}
 }

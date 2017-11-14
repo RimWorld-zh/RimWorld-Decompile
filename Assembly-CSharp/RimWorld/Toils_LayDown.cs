@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Verse;
 using Verse.AI;
@@ -16,7 +15,7 @@ namespace RimWorld
 		public static Toil LayDown(TargetIndex bedOrRestSpotIndex, bool hasBed, bool lookForOtherJobs, bool canSleep = true, bool gainRestAndHealth = true)
 		{
 			Toil layDown = new Toil();
-			layDown.initAction = (Action)delegate()
+			layDown.initAction = delegate
 			{
 				Pawn actor3 = layDown.actor;
 				actor3.pather.StopDead();
@@ -47,7 +46,7 @@ namespace RimWorld
 					ThoughtUtility.RemovePositiveBedroomThoughts(actor3);
 				}
 			};
-			layDown.tickAction = (Action)delegate()
+			layDown.tickAction = delegate
 			{
 				Pawn actor2 = layDown.actor;
 				Job curJob = actor2.CurJob;
@@ -60,10 +59,10 @@ namespace RimWorld
 					{
 						if (actor2.needs.rest != null && actor2.needs.rest.CurLevel < RestUtility.FallAsleepMaxLevel(actor2))
 						{
-							goto IL_008f;
+							goto IL_008c;
 						}
 						if (curJob.forceSleep)
-							goto IL_008f;
+							goto IL_008c;
 					}
 				}
 				else if (!canSleep)
@@ -74,8 +73,8 @@ namespace RimWorld
 				{
 					curDriver2.asleep = false;
 				}
-				goto IL_00f3;
-				IL_00f3:
+				goto IL_00ec;
+				IL_00ec:
 				if (curDriver2.asleep && gainRestAndHealth && actor2.needs.rest != null)
 				{
 					float num = (float)((building_Bed == null || !building_Bed.def.statBases.StatListContains(StatDefOf.BedRestEffectiveness)) ? 0.800000011920929 : building_Bed.GetStatValue(StatDefOf.BedRestEffectiveness, true));
@@ -113,16 +112,16 @@ namespace RimWorld
 					actor2.jobs.CheckForJobOverride();
 				}
 				return;
-				IL_008f:
+				IL_008c:
 				curDriver2.asleep = true;
-				goto IL_00f3;
+				goto IL_00ec;
 			};
 			layDown.defaultCompleteMode = ToilCompleteMode.Never;
 			if (hasBed)
 			{
 				layDown.FailOnBedNoLongerUsable(bedOrRestSpotIndex);
 			}
-			layDown.AddFinishAction((Action)delegate
+			layDown.AddFinishAction(delegate
 			{
 				Pawn actor = layDown.actor;
 				JobDriver curDriver = actor.jobs.curDriver;

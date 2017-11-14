@@ -23,15 +23,15 @@ namespace RimWorld.BaseGen
 		{
 			SymbolResolver_Street.street.Clear();
 			int num = (!horizontal) ? rect.Height : rect.Width;
-			for (int num2 = 0; num2 < num; num2++)
+			for (int i = 0; i < num; i++)
 			{
 				if (horizontal)
 				{
-					SymbolResolver_Street.street.Add(this.CausesStreet(new IntVec3(rect.minX + num2, 0, rect.minZ - 1), floorDef) && this.CausesStreet(new IntVec3(rect.minX + num2, 0, rect.maxZ + 1), floorDef));
+					SymbolResolver_Street.street.Add(this.CausesStreet(new IntVec3(rect.minX + i, 0, rect.minZ - 1), floorDef) && this.CausesStreet(new IntVec3(rect.minX + i, 0, rect.maxZ + 1), floorDef));
 				}
 				else
 				{
-					SymbolResolver_Street.street.Add(this.CausesStreet(new IntVec3(rect.minX - 1, 0, rect.minZ + num2), floorDef) && this.CausesStreet(new IntVec3(rect.maxX + 1, 0, rect.minZ + num2), floorDef));
+					SymbolResolver_Street.street.Add(this.CausesStreet(new IntVec3(rect.minX - 1, 0, rect.minZ + i), floorDef) && this.CausesStreet(new IntVec3(rect.maxX + 1, 0, rect.minZ + i), floorDef));
 				}
 			}
 		}
@@ -101,12 +101,12 @@ namespace RimWorld.BaseGen
 				IntVec3 current = iterator.Current;
 				if (horizontal && SymbolResolver_Street.street[current.x - rect.minX])
 				{
-					goto IL_0071;
+					goto IL_006f;
 				}
 				if (!horizontal && SymbolResolver_Street.street[current.z - rect.minZ])
-					goto IL_0071;
+					goto IL_006f;
 				continue;
-				IL_0071:
+				IL_006f:
 				terrainGrid.SetTerrain(current, floorDef);
 			}
 		}
@@ -114,17 +114,24 @@ namespace RimWorld.BaseGen
 		private bool CausesStreet(IntVec3 c, TerrainDef floorDef)
 		{
 			Map map = BaseGen.globalSettings.map;
-			bool result;
 			if (!c.InBounds(map))
 			{
-				result = false;
+				return false;
 			}
-			else
+			Building edifice = c.GetEdifice(map);
+			if (edifice != null && edifice.def == ThingDefOf.Wall)
 			{
-				Building edifice = c.GetEdifice(map);
-				result = ((byte)((edifice != null && edifice.def == ThingDefOf.Wall) ? 1 : ((c.GetDoor(map) != null) ? 1 : ((c.GetTerrain(map) == floorDef) ? 1 : 0))) != 0);
+				return true;
 			}
-			return result;
+			if (c.GetDoor(map) != null)
+			{
+				return true;
+			}
+			if (c.GetTerrain(map) == floorDef)
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }

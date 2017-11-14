@@ -8,23 +8,20 @@ namespace RimWorld
 
 		protected override bool TryCastShot()
 		{
-			bool result;
 			if (base.currentTarget.HasThing && base.currentTarget.Thing.Map != base.caster.Map)
 			{
-				result = false;
+				return false;
 			}
-			else
+			Bombardment bombardment = (Bombardment)GenSpawn.Spawn(ThingDefOf.Bombardment, base.currentTarget.Cell, base.caster.Map);
+			bombardment.duration = 450;
+			bombardment.instigator = base.caster;
+			bombardment.weaponDef = ((base.ownerEquipment == null) ? null : base.ownerEquipment.def);
+			bombardment.StartStrike();
+			if (base.ownerEquipment != null && !base.ownerEquipment.Destroyed)
 			{
-				Bombardment bombardment = (Bombardment)GenSpawn.Spawn(ThingDefOf.Bombardment, base.currentTarget.Cell, base.caster.Map);
-				bombardment.duration = 450;
-				bombardment.StartStrike();
-				if (base.ownerEquipment != null && !base.ownerEquipment.Destroyed)
-				{
-					base.ownerEquipment.Destroy(DestroyMode.Vanish);
-				}
-				result = true;
+				base.ownerEquipment.Destroy(DestroyMode.Vanish);
 			}
-			return result;
+			return true;
 		}
 
 		public override float HighlightFieldRadiusAroundTarget(out bool needLOSToCenter)

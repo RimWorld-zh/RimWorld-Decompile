@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -19,7 +18,7 @@ namespace RimWorld
 
 		public WorkTags disabledWorkTags;
 
-		private float commonality = 0f;
+		private float commonality;
 
 		private float commonalityFemale = -1f;
 
@@ -32,30 +31,20 @@ namespace RimWorld
 
 		public TraitDegreeData DataAtDegree(int degree)
 		{
-			int num = 0;
-			TraitDegreeData result;
-			while (true)
+			for (int i = 0; i < this.degreeDatas.Count; i++)
 			{
-				if (num < this.degreeDatas.Count)
+				if (this.degreeDatas[i].degree == degree)
 				{
-					if (this.degreeDatas[num].degree == degree)
-					{
-						result = this.degreeDatas[num];
-						break;
-					}
-					num++;
-					continue;
+					return this.degreeDatas[i];
 				}
-				Log.Error(base.defName + " found no data at degree " + degree + ", returning first defined.");
-				result = this.degreeDatas[0];
-				break;
 			}
-			return result;
+			Log.Error(base.defName + " found no data at degree " + degree + ", returning first defined.");
+			return this.degreeDatas[0];
 		}
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -80,7 +69,7 @@ namespace RimWorld
 			{
 				if (i < this.degreeDatas.Count)
 				{
-					_003CConfigErrors_003Ec__Iterator0 _003CConfigErrors_003Ec__Iterator = (_003CConfigErrors_003Ec__Iterator0)/*Error near IL_017f: stateMachine*/;
+					_003CConfigErrors_003Ec__Iterator0 _003CConfigErrors_003Ec__Iterator = (_003CConfigErrors_003Ec__Iterator0)/*Error near IL_017b: stateMachine*/;
 					dd3 = this.degreeDatas[i];
 					if ((from dd2 in this.degreeDatas
 					where dd2.degree == dd3.degree
@@ -95,8 +84,8 @@ namespace RimWorld
 			}
 			yield return ">1 datas for degree " + dd3.degree;
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_023f:
-			/*Error near IL_0240: Unexpected return in MoveNext()*/;
+			IL_0239:
+			/*Error near IL_023a: Unexpected return in MoveNext()*/;
 		}
 
 		public bool ConflictsWith(Trait other)
@@ -106,21 +95,21 @@ namespace RimWorld
 				for (int i = 0; i < other.def.conflictingTraits.Count; i++)
 				{
 					if (other.def.conflictingTraits[i] == this)
-						goto IL_0031;
+					{
+						return true;
+					}
 				}
 			}
-			bool result = false;
-			goto IL_005b;
-			IL_0031:
-			result = true;
-			goto IL_005b;
-			IL_005b:
-			return result;
+			return false;
 		}
 
 		public float GetGenderSpecificCommonality(Pawn pawn)
 		{
-			return (pawn.gender != Gender.Female || !(this.commonalityFemale >= 0.0)) ? this.commonality : this.commonalityFemale;
+			if (pawn.gender == Gender.Female && this.commonalityFemale >= 0.0)
+			{
+				return this.commonalityFemale;
+			}
+			return this.commonality;
 		}
 	}
 }

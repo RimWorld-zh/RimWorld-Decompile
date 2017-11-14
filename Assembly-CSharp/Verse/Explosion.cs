@@ -22,15 +22,15 @@ namespace Verse
 
 		public bool applyDamageToExplosionCellsNeighbors;
 
-		public ThingDef preExplosionSpawnThingDef = null;
+		public ThingDef preExplosionSpawnThingDef;
 
-		public float preExplosionSpawnChance = 0f;
+		public float preExplosionSpawnChance;
 
 		public int preExplosionSpawnThingCount = 1;
 
-		public ThingDef postExplosionSpawnThingDef = null;
+		public ThingDef postExplosionSpawnThingDef;
 
-		public float postExplosionSpawnChance = 0f;
+		public float postExplosionSpawnChance;
 
 		public int postExplosionSpawnThingCount = 1;
 
@@ -98,8 +98,8 @@ namespace Verse
 				this.damType.Worker.ExplosionStart(this, this.cellsToAffect);
 				this.PlayExplosionSound(explosionSound);
 				MoteMaker.MakeWaterSplash(base.Position.ToVector3Shifted(), base.Map, (float)(this.radius * 6.0), 20f);
-				this.cellsToAffect.Sort((Comparison<IntVec3>)((IntVec3 a, IntVec3 b) => this.GetCellAffectTick(b).CompareTo(this.GetCellAffectTick(a))));
-				RegionTraverser.BreadthFirstTraverse(base.Position, base.Map, (RegionEntryPredicate)((Region from, Region to) => true), (RegionProcessor)delegate(Region x)
+				this.cellsToAffect.Sort((IntVec3 a, IntVec3 b) => this.GetCellAffectTick(b).CompareTo(this.GetCellAffectTick(a)));
+				RegionTraverser.BreadthFirstTraverse(base.Position, base.Map, (Region from, Region to) => true, delegate(Region x)
 				{
 					List<Thing> list = x.ListerThings.ThingsInGroup(ThingRequestGroup.Pawn);
 					for (int num = list.Count - 1; num >= 0; num--)
@@ -137,18 +137,13 @@ namespace Verse
 
 		public int GetDamageAmountAt(IntVec3 c)
 		{
-			int result;
 			if (!this.dealMoreDamageAtCenter)
 			{
-				result = this.damAmount;
+				return this.damAmount;
 			}
-			else
-			{
-				float t = c.DistanceTo(base.Position) / this.radius;
-				int a = GenMath.RoundRandom(Mathf.Lerp((float)this.damAmount, (float)((float)this.damAmount * 0.20000000298023224), t));
-				result = Mathf.Max(a, 1);
-			}
-			return result;
+			float t = c.DistanceTo(base.Position) / this.radius;
+			int a = GenMath.RoundRandom(Mathf.Lerp((float)this.damAmount, (float)((float)this.damAmount * 0.20000000298023224), t));
+			return Mathf.Max(a, 1);
 		}
 
 		public override void ExposeData()
@@ -175,7 +170,7 @@ namespace Verse
 			Scribe_Collections.Look<IntVec3>(ref this.addedCellsAffectedOnlyByDamage, "addedCellsAffectedOnlyByDamage", LookMode.Value);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
-				this.damagedThings.RemoveAll((Predicate<Thing>)((Thing x) => x == null));
+				this.damagedThings.RemoveAll((Thing x) => x == null);
 			}
 		}
 
@@ -268,7 +263,11 @@ namespace Verse
 
 		private bool ShouldCellBeAffectedOnlyByDamage(IntVec3 c)
 		{
-			return this.applyDamageToExplosionCellsNeighbors && this.addedCellsAffectedOnlyByDamage.Contains(c);
+			if (!this.applyDamageToExplosionCellsNeighbors)
+			{
+				return false;
+			}
+			return this.addedCellsAffectedOnlyByDamage.Contains(c);
 		}
 	}
 }

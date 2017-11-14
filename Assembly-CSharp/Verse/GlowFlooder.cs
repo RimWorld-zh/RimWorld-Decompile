@@ -33,7 +33,7 @@ namespace Verse
 
 		private FastPriorityQueue<int> openSet;
 
-		private uint statusUnseenValue = 0u;
+		private uint statusUnseenValue;
 
 		private uint statusOpenValue = 1u;
 
@@ -56,36 +56,36 @@ namespace Verse
 		private static readonly sbyte[,] Directions = new sbyte[8, 2]
 		{
 			{
-				(sbyte)0,
-				(sbyte)(-1)
+				0,
+				-1
 			},
 			{
-				(sbyte)1,
-				(sbyte)0
+				1,
+				0
 			},
 			{
-				(sbyte)0,
-				(sbyte)1
+				0,
+				1
 			},
 			{
-				(sbyte)(-1),
-				(sbyte)0
+				-1,
+				0
 			},
 			{
-				(sbyte)1,
-				(sbyte)(-1)
+				1,
+				-1
 			},
 			{
-				(sbyte)1,
-				(sbyte)1
+				1,
+				1
 			},
 			{
-				(sbyte)(-1),
-				(sbyte)1
+				-1,
+				1
 			},
 			{
-				(sbyte)(-1),
-				(sbyte)(-1)
+				-1,
+				-1
 			}
 		};
 
@@ -151,48 +151,42 @@ namespace Verse
 								switch (i)
 								{
 								case 4:
-								{
 									if (this.blockers[0] != null && this.blockers[1] != null)
 									{
-										continue;
+										break;
 									}
-									break;
-								}
+									goto default;
 								case 5:
-								{
 									if (this.blockers[1] != null && this.blockers[2] != null)
 									{
-										continue;
+										break;
 									}
-									break;
-								}
+									goto default;
 								case 6:
-								{
 									if (this.blockers[2] != null && this.blockers[3] != null)
 									{
-										continue;
+										break;
 									}
-									break;
-								}
+									goto default;
 								case 7:
-								{
 									if (this.blockers[0] != null && this.blockers[3] != null)
 									{
-										continue;
+										break;
+									}
+									goto default;
+								default:
+									if (this.calcGrid[num6].status <= this.statusUnseenValue)
+									{
+										this.calcGrid[num6].intDist = 999999;
+										this.calcGrid[num6].status = this.statusOpenValue;
+									}
+									if (num8 < this.calcGrid[num6].intDist)
+									{
+										this.calcGrid[num6].intDist = num8;
+										this.calcGrid[num6].status = this.statusOpenValue;
+										this.openSet.Push(num6);
 									}
 									break;
-								}
-								}
-								if (this.calcGrid[num6].status <= this.statusUnseenValue)
-								{
-									this.calcGrid[num6].intDist = 999999;
-									this.calcGrid[num6].status = this.statusOpenValue;
-								}
-								if (num8 < this.calcGrid[num6].intDist)
-								{
-									this.calcGrid[num6].intDist = num8;
-									this.calcGrid[num6].status = this.statusOpenValue;
-									this.openSet.Push(num6);
 								}
 							}
 						}
@@ -233,7 +227,8 @@ namespace Verse
 			{
 				colA.a = 1;
 			}
-			Color32 color = this.glowGrid[index] = colA.ToColor32;
+			Color32 toColor = colA.ToColor32;
+			this.glowGrid[index] = toColor;
 		}
 	}
 }

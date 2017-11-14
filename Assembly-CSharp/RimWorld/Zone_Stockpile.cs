@@ -40,7 +40,8 @@ namespace RimWorld
 		{
 		}
 
-		public Zone_Stockpile(StorageSettingsPreset preset, ZoneManager zoneManager) : base(preset.PresetName(), zoneManager)
+		public Zone_Stockpile(StorageSettingsPreset preset, ZoneManager zoneManager)
+			: base(preset.PresetName(), zoneManager)
 		{
 			this.settings = new StorageSettings(this);
 			this.settings.SetFromPreset(preset);
@@ -89,7 +90,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -108,8 +109,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_0156:
-			/*Error near IL_0157: Unexpected return in MoveNext()*/;
+			IL_014f:
+			/*Error near IL_0150: Unexpected return in MoveNext()*/;
 		}
 
 		public SlotGroup GetSlotGroup()

@@ -18,12 +18,12 @@ namespace RimWorld.BaseGen
 				CellRect rect = new CellRect(rp.rect.maxX - 3, rp.rect.maxZ - 3, 4, 4);
 				ThingDef harvestedThingDef = thingDef.plant.harvestedThingDef;
 				int num = Rand.RangeInclusive(2, 3);
-				for (int num2 = 0; num2 < num; num2++)
+				for (int i = 0; i < num; i++)
 				{
 					ResolveParams resolveParams = rp;
 					resolveParams.rect = rect.ContractedBy(1);
 					resolveParams.singleThingDef = harvestedThingDef;
-					resolveParams.singleThingStackCount = new int?(Rand.RangeInclusive(Mathf.Min(10, harvestedThingDef.stackLimit), Mathf.Min(50, harvestedThingDef.stackLimit)));
+					resolveParams.singleThingStackCount = Rand.RangeInclusive(Mathf.Min(10, harvestedThingDef.stackLimit), Mathf.Min(50, harvestedThingDef.stackLimit));
 					BaseGen.symbolStack.Push("thing", resolveParams);
 				}
 				ResolveParams resolveParams2 = rp;

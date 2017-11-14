@@ -23,6 +23,7 @@ namespace Verse
 
 		public virtual void UIRootOnGUI()
 		{
+			UnityGUIBugsFixer.OnGUI();
 			Text.StartOfOnGUI();
 			this.CheckOpenLogWindow();
 			DelayedErrorWindowRequest.DelayedErrorWindowRequestOnGUI();

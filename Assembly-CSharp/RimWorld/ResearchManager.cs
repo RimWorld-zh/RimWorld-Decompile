@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -6,7 +5,7 @@ namespace RimWorld
 {
 	public sealed class ResearchManager : IExposable
 	{
-		public ResearchProjectDef currentProj = null;
+		public ResearchProjectDef currentProj;
 
 		private Dictionary<ResearchProjectDef, float> progress = new Dictionary<ResearchProjectDef, float>();
 
@@ -16,7 +15,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return DefDatabase<ResearchProjectDef>.AllDefsListForReading.Find((Predicate<ResearchProjectDef>)((ResearchProjectDef x) => x.CanStartNow)) != null;
+				return DefDatabase<ResearchProjectDef>.AllDefsListForReading.Find((ResearchProjectDef x) => x.CanStartNow) != null;
 			}
 		}
 
@@ -28,18 +27,13 @@ namespace RimWorld
 
 		public float GetProgress(ResearchProjectDef proj)
 		{
-			float num = default(float);
-			float result;
-			if (this.progress.TryGetValue(proj, out num))
+			float result = default(float);
+			if (this.progress.TryGetValue(proj, out result))
 			{
-				result = num;
+				return result;
 			}
-			else
-			{
-				this.progress.Add(proj, 0f);
-				result = 0f;
-			}
-			return result;
+			this.progress.Add(proj, 0f);
+			return 0f;
 		}
 
 		public void ResearchPerformed(float amount, Pawn researcher)
@@ -121,12 +115,12 @@ namespace RimWorld
 			diaNode.options.Add(DiaOption.DefaultOK);
 			DiaOption diaOption = new DiaOption("ResearchScreen".Translate());
 			diaOption.resolveTree = true;
-			diaOption.action = (Action)delegate
+			diaOption.action = delegate
 			{
 				Find.MainTabsRoot.SetCurrentTab(MainButtonDefOf.Research, true);
 			};
 			diaNode.options.Add(diaOption);
-			Find.WindowStack.Add(new Dialog_NodeTree(diaNode, true, false, (string)null));
+			Find.WindowStack.Add(new Dialog_NodeTree(diaNode, true, false, null));
 		}
 
 		public void DebugSetAllProjectsFinished()

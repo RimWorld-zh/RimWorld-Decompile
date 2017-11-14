@@ -14,7 +14,11 @@ namespace Verse.AI.Group
 
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
-			return signal.type == this.signalType && Rand.Value < this.chance;
+			if (signal.type == this.signalType)
+			{
+				return Rand.Value < this.chance;
+			}
+			return false;
 		}
 	}
 }

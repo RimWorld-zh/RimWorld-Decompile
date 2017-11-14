@@ -2,6 +2,7 @@ using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -13,7 +14,7 @@ namespace RimWorld
 	{
 		public FactionDef def;
 
-		private string name = (string)null;
+		private string name;
 
 		public int loadID = -1;
 
@@ -25,7 +26,7 @@ namespace RimWorld
 
 		private List<FactionRelation> relations = new List<FactionRelation>();
 
-		public Pawn leader = null;
+		public Pawn leader;
 
 		private FactionTacticalMemory tacticalMemoryInt = new FactionTacticalMemory();
 
@@ -65,11 +66,21 @@ namespace RimWorld
 
 		private static List<PawnKindDef> allPawnKinds = new List<PawnKindDef>();
 
+		[CompilerGenerated]
+		private static Predicate<FactionBase> _003C_003Ef__mg_0024cache0;
+
+		[CompilerGenerated]
+		private static Predicate<FactionBase> _003C_003Ef__mg_0024cache1;
+
 		public string Name
 		{
 			get
 			{
-				return (!this.HasName) ? this.def.LabelCap : this.name;
+				if (this.HasName)
+				{
+					return this.name;
+				}
+				return this.def.LabelCap;
 			}
 			set
 			{
@@ -117,7 +128,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (!this.def.colorSpectrum.NullOrEmpty()) ? ColorsFromSpectrum.Get(this.def.colorSpectrum, this.colorFromSpectrum) : Color.white;
+				if (this.def.colorSpectrum.NullOrEmpty())
+				{
+					return Color.white;
+				}
+				return ColorsFromSpectrum.Get(this.def.colorSpectrum, this.colorFromSpectrum);
 			}
 		}
 
@@ -170,30 +185,23 @@ namespace RimWorld
 		{
 			get
 			{
-				Faction result;
 				if (Current.ProgramState != ProgramState.Playing)
 				{
 					GameInitData gameInitData = Find.GameInitData;
 					if (gameInitData != null && gameInitData.playerFaction != null)
 					{
-						result = gameInitData.playerFaction;
-						goto IL_007f;
+						return gameInitData.playerFaction;
 					}
 				}
 				List<Faction> allFactionsListForReading = Find.FactionManager.AllFactionsListForReading;
-				int i;
-				for (i = 0; i < allFactionsListForReading.Count; i++)
+				for (int i = 0; i < allFactionsListForReading.Count; i++)
 				{
 					if (allFactionsListForReading[i].def.isPlayer)
-						goto IL_005a;
+					{
+						return allFactionsListForReading[i];
+					}
 				}
-				result = null;
-				goto IL_007f;
-				IL_005a:
-				result = allFactionsListForReading[i];
-				goto IL_007f;
-				IL_007f:
-				return result;
+				return null;
 			}
 		}
 
@@ -225,7 +233,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.lastTraderRequestTick, "lastTraderRequestTick", -9999999, false);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
-				this.predatorThreats.RemoveAll((Predicate<PredatorThreat>)((PredatorThreat x) => x.predator == null));
+				this.predatorThreats.RemoveAll((PredatorThreat x) => x.predator == null);
 			}
 		}
 
@@ -259,7 +267,7 @@ namespace RimWorld
 			{
 				if (NamePlayerFactionAndBaseUtility.CanNameFactionNow())
 				{
-					FactionBase factionBase = Find.WorldObjects.FactionBases.Find((Predicate<FactionBase>)((FactionBase x) => NamePlayerFactionAndBaseUtility.CanNameFactionBaseSoon(x)));
+					FactionBase factionBase = Find.WorldObjects.FactionBases.Find(NamePlayerFactionAndBaseUtility.CanNameFactionBaseSoon);
 					if (factionBase != null)
 					{
 						Find.WindowStack.Add(new Dialog_NamePlayerFactionAndBase(factionBase));
@@ -271,7 +279,7 @@ namespace RimWorld
 				}
 				else
 				{
-					FactionBase factionBase2 = Find.WorldObjects.FactionBases.Find((Predicate<FactionBase>)((FactionBase x) => NamePlayerFactionAndBaseUtility.CanNameFactionBaseNow(x)));
+					FactionBase factionBase2 = Find.WorldObjects.FactionBases.Find(NamePlayerFactionAndBaseUtility.CanNameFactionBaseNow);
 					if (factionBase2 != null)
 					{
 						if (NamePlayerFactionAndBaseUtility.CanNameFactionSoon())
@@ -289,14 +297,22 @@ namespace RimWorld
 
 		public ByteGrid GetAvoidGridBasic(Map map)
 		{
-			ByteGrid byteGrid = default(ByteGrid);
-			return (!this.avoidGridsBasic.TryGetValue(map, out byteGrid)) ? null : byteGrid;
+			ByteGrid result = default(ByteGrid);
+			if (this.avoidGridsBasic.TryGetValue(map, out result))
+			{
+				return result;
+			}
+			return null;
 		}
 
 		public ByteGrid GetAvoidGridSmart(Map map)
 		{
-			ByteGrid byteGrid = default(ByteGrid);
-			return (!this.avoidGridsSmart.TryGetValue(map, out byteGrid)) ? null : byteGrid;
+			ByteGrid result = default(ByteGrid);
+			if (this.avoidGridsSmart.TryGetValue(map, out result))
+			{
+				return result;
+			}
+			return null;
 		}
 
 		public void Notify_MapRemoved(Map map)
@@ -348,52 +364,35 @@ namespace RimWorld
 					}
 				}
 			}
-			PawnKindDef result;
 			if (!Faction.allPawnKinds.Any())
 			{
-				result = this.def.basicMemberKind;
+				return this.def.basicMemberKind;
 			}
-			else
-			{
-				PawnKindDef pawnKindDef = Faction.allPawnKinds.RandomElement();
-				Faction.allPawnKinds.Clear();
-				result = pawnKindDef;
-			}
+			PawnKindDef result = Faction.allPawnKinds.RandomElement();
+			Faction.allPawnKinds.Clear();
 			return result;
 		}
 
 		public FactionRelation RelationWith(Faction other, bool allowNull = false)
 		{
-			FactionRelation result;
-			int i;
 			if (other == this)
 			{
 				Log.Error("Tried to get relation between faction " + this + " and itself.");
-				result = new FactionRelation();
+				return new FactionRelation();
 			}
-			else
+			for (int i = 0; i < this.relations.Count; i++)
 			{
-				for (i = 0; i < this.relations.Count; i++)
+				if (this.relations[i].other == other)
 				{
-					if (this.relations[i].other == other)
-						goto IL_0048;
-				}
-				if (!allowNull)
-				{
-					Log.Error("Faction " + this.name + " has null relation with " + other + ". Returning dummy relation.");
-					result = new FactionRelation();
-				}
-				else
-				{
-					result = null;
+					return this.relations[i];
 				}
 			}
-			goto IL_00be;
-			IL_00be:
-			return result;
-			IL_0048:
-			result = this.relations[i];
-			goto IL_00be;
+			if (!allowNull)
+			{
+				Log.Error("Faction " + this.name + " has null relation with " + other + ". Returning dummy relation.");
+				return new FactionRelation();
+			}
+			return null;
 		}
 
 		public float GoodwillWith(Faction other)
@@ -403,25 +402,20 @@ namespace RimWorld
 
 		public bool AffectGoodwillWith(Faction other, float goodwillChange)
 		{
-			bool result;
-			if (this.def.hidden || other.def.hidden)
+			if (!this.def.hidden && !other.def.hidden)
 			{
-				result = false;
-			}
-			else if (goodwillChange > 0.0 && !this.def.appreciative)
-			{
-				result = false;
-			}
-			else
-			{
+				if (goodwillChange > 0.0 && !this.def.appreciative)
+				{
+					return false;
+				}
 				if (goodwillChange > 0.0)
 				{
 					if (this.IsPlayer && SettlementUtility.IsPlayerAttackingAnySettlementOf(other))
 					{
-						goto IL_0081;
+						goto IL_0076;
 					}
 					if (other.IsPlayer && SettlementUtility.IsPlayerAttackingAnySettlementOf(this))
-						goto IL_0081;
+						goto IL_0076;
 				}
 				float num = this.GoodwillWith(other);
 				float value = num + goodwillChange;
@@ -443,14 +437,11 @@ namespace RimWorld
 						Find.LetterStack.ReceiveLetter("LetterLabelRelationsChangeGood".Translate(), "RelationsWarmed".Translate(this.name), LetterDefOf.PositiveEvent, (string)null);
 					}
 				}
-				result = ((this.IsPlayer || other.IsPlayer) && !this.HostileTo(other) && this.def.appreciative && (goodwillChange > 0.0 || factionRelation.goodwill != num));
+				return (this.IsPlayer || other.IsPlayer) && !this.HostileTo(other) && this.def.appreciative && (goodwillChange > 0.0 || factionRelation.goodwill != num);
 			}
-			goto IL_0215;
-			IL_0215:
-			return result;
-			IL_0081:
-			result = false;
-			goto IL_0215;
+			return false;
+			IL_0076:
+			return false;
 		}
 
 		public void SetHostileTo(Faction other, bool hostile)
@@ -462,16 +453,16 @@ namespace RimWorld
 				{
 					if (Current.ProgramState == ProgramState.Playing)
 					{
-						foreach (Pawn item in PawnsFinder.AllMapsAndWorld_Alive.ToList())
+						foreach (Pawn item in PawnsFinder.AllMapsWorldAndTemporary_Alive.ToList())
 						{
 							if (item.Faction == this && item.HostFaction == other)
 							{
-								goto IL_0091;
+								goto IL_0088;
 							}
 							if (item.Faction == other && item.HostFaction == this)
-								goto IL_0091;
+								goto IL_0088;
 							continue;
-							IL_0091:
+							IL_0088:
 							item.guest.SetGuestStatus(item.HostFaction, true);
 						}
 					}
@@ -524,7 +515,7 @@ namespace RimWorld
 			{
 				if (item != this)
 				{
-					item.relations.RemoveAll((Predicate<FactionRelation>)((FactionRelation x) => x.other == this));
+					item.relations.RemoveAll((FactionRelation x) => x.other == this);
 				}
 			}
 			this.relations.Clear();
@@ -561,7 +552,7 @@ namespace RimWorld
 			if (violator != this && !this.HostileTo(violator) && !member.Faction.def.hidden && !violator.def.hidden)
 			{
 				this.SetHostileTo(violator, true);
-				Find.LetterStack.ReceiveLetter("LetterLabelRelationsChangeBad".Translate().CapitalizeFirst(), "RelationsBrokenCapture".Translate(member, this.name), LetterDefOf.NegativeEvent, (Thing)member, (string)null);
+				Find.LetterStack.ReceiveLetter("LetterLabelRelationsChangeBad".Translate().CapitalizeFirst(), "RelationsBrokenCapture".Translate(member, this.name), LetterDefOf.NegativeEvent, member, null);
 			}
 		}
 
@@ -576,7 +567,7 @@ namespace RimWorld
 						float num = (float)(member.RaceProps.body.corePart.def.GetMaxHealth(member) * 1.2999999523162842 * 0.5 * -1.0);
 						if (this.AffectGoodwillWith(Faction.OfPlayer, num) && MessagesRepeatAvoider.MessageShowAllowed("FactionRelationAdjustmentCrushed-" + this.Name, 5f))
 						{
-							Messages.Message("MessageFactionPawnCrushed".Translate(this.Name, Mathf.RoundToInt(num)), (Thing)member, MessageTypeDefOf.NegativeEvent);
+							Messages.Message("MessageFactionPawnCrushed".Translate(this.Name, Mathf.RoundToInt(num)), member, MessageTypeDefOf.NegativeEvent);
 						}
 					}
 					else if (dinfo.HasValue && (dinfo.Value.Instigator == null || dinfo.Value.Instigator.Faction == null))
@@ -584,7 +575,7 @@ namespace RimWorld
 						float num2 = (float)(member.RaceProps.body.corePart.def.GetMaxHealth(member) * 1.2999999523162842 * 0.10000000149011612 * -1.0);
 						if (this.AffectGoodwillWith(Faction.OfPlayer, num2))
 						{
-							Messages.Message("MessageFactionPawnLost".Translate(this.Name, member.NameStringShort, Mathf.RoundToInt(num2)), (Thing)member, MessageTypeDefOf.NegativeEvent);
+							Messages.Message("MessageFactionPawnLost".Translate(this.Name, member.NameStringShort, Mathf.RoundToInt(num2)), member, MessageTypeDefOf.NegativeEvent);
 						}
 					}
 				}
@@ -650,10 +641,14 @@ namespace RimWorld
 
 		public string GetInfoText()
 		{
-			string labelCap;
-			string text = labelCap = this.def.LabelCap;
-			text = labelCap + "\n" + "ColonyGoodwill".Translate() + ": " + this.PlayerGoodwill.ToString("###0");
-			return (!this.HostileTo(Faction.OfPlayer)) ? (text + "\n" + "Neutral".Translate()) : (text + "\n" + "Hostile".Translate());
+			string labelCap = this.def.LabelCap;
+			string text = labelCap;
+			labelCap = text + "\n" + "ColonyGoodwill".Translate() + ": " + this.PlayerGoodwill.ToString("###0");
+			if (this.HostileTo(Faction.OfPlayer))
+			{
+				return labelCap + "\n" + "Hostile".Translate();
+			}
+			return labelCap + "\n" + "Neutral".Translate();
 		}
 
 		public void TryOpenComms(Pawn negotiator)
@@ -681,24 +676,14 @@ namespace RimWorld
 
 		public bool HasPredatorRecentlyAttackedAnyone(Pawn predator)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.predatorThreats.Count; i++)
 			{
-				if (num < this.predatorThreats.Count)
+				if (this.predatorThreats[i].predator == predator)
 				{
-					if (this.predatorThreats[num].predator == predator)
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public string GetUniqueLoadID()
@@ -708,7 +693,15 @@ namespace RimWorld
 
 		public override string ToString()
 		{
-			return (this.name == null) ? ((this.def == null) ? "[faction of no def]" : this.def.defName) : this.name;
+			if (this.name != null)
+			{
+				return this.name;
+			}
+			if (this.def != null)
+			{
+				return this.def.defName;
+			}
+			return "[faction of no def]";
 		}
 
 		public string DebugString()

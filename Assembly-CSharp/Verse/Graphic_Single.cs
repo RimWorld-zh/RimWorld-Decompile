@@ -4,7 +4,7 @@ namespace Verse
 {
 	public class Graphic_Single : Graphic
 	{
-		protected Material mat = null;
+		protected Material mat;
 
 		public static readonly string MaskSuffix = "_m";
 
@@ -44,7 +44,11 @@ namespace Verse
 		{
 			get
 			{
-				return (byte)((base.data == null || base.data.drawRotated) ? 1 : 0) != 0;
+				if (base.data != null && !base.data.drawRotated)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -55,14 +59,12 @@ namespace Verse
 			base.color = req.color;
 			base.colorTwo = req.colorTwo;
 			base.drawSize = req.drawSize;
-			MaterialRequest req2 = new MaterialRequest
-			{
-				mainTex = ContentFinder<Texture2D>.Get(req.path, true),
-				shader = req.shader,
-				color = base.color,
-				colorTwo = base.colorTwo,
-				renderQueue = req.renderQueue
-			};
+			MaterialRequest req2 = default(MaterialRequest);
+			req2.mainTex = ContentFinder<Texture2D>.Get(req.path, true);
+			req2.shader = req.shader;
+			req2.color = base.color;
+			req2.colorTwo = base.colorTwo;
+			req2.renderQueue = req.renderQueue;
 			if (req.shader.SupportsMaskTex())
 			{
 				req2.maskTex = ContentFinder<Texture2D>.Get(req.path + Graphic_Single.MaskSuffix, false);

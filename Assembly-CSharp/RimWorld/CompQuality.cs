@@ -38,7 +38,11 @@ namespace RimWorld
 		public override bool AllowStackWith(Thing other)
 		{
 			QualityCategory qualityCategory = default(QualityCategory);
-			return other.TryGetQuality(out qualityCategory) && this.qualityInt == qualityCategory;
+			if (other.TryGetQuality(out qualityCategory))
+			{
+				return this.qualityInt == qualityCategory;
+			}
+			return false;
 		}
 
 		public override void PostSplitOff(Thing piece)

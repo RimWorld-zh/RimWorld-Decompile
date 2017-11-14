@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -7,15 +6,15 @@ namespace RimWorld
 {
 	public class LifeStageDef : Def
 	{
-		private string adjective = (string)null;
+		private string adjective;
 
 		public bool visible = true;
 
-		public bool reproductive = false;
+		public bool reproductive;
 
-		public bool milkable = false;
+		public bool milkable;
 
-		public bool shearable = false;
+		public bool shearable;
 
 		public float voxPitch = 1f;
 
@@ -51,7 +50,7 @@ namespace RimWorld
 			base.ResolveReferences();
 			if (!this.icon.NullOrEmpty())
 			{
-				LongEventHandler.ExecuteWhenFinished((Action)delegate
+				LongEventHandler.ExecuteWhenFinished(delegate
 				{
 					this.iconTex = ContentFinder<Texture2D>.Get(this.icon, true);
 				});

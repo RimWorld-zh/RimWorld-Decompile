@@ -12,21 +12,16 @@ namespace Verse.Sound
 		{
 			get
 			{
-				float result;
 				if (this.reporters.Count == 0)
 				{
-					result = this.testSize;
+					return this.testSize;
 				}
-				else
+				float num = 0f;
+				foreach (ISizeReporter reporter in this.reporters)
 				{
-					float num = 0f;
-					foreach (ISizeReporter reporter in this.reporters)
-					{
-						num += reporter.CurrentSize();
-					}
-					result = num;
+					num += reporter.CurrentSize();
 				}
-				return result;
+				return num;
 			}
 		}
 

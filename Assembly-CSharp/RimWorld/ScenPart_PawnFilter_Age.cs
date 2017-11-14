@@ -30,20 +30,19 @@ namespace RimWorld
 
 		public override string Summary(Scenario scen)
 		{
-			string result;
 			if (this.allowedAgeRange.min > 15)
 			{
-				result = ((this.allowedAgeRange.max >= 10000) ? "ScenPart_StartingPawnAgeMin".Translate(this.allowedAgeRange.min) : "ScenPart_StartingPawnAgeRange".Translate(this.allowedAgeRange.min, this.allowedAgeRange.max));
-				goto IL_00d2;
+				if (this.allowedAgeRange.max < 10000)
+				{
+					return "ScenPart_StartingPawnAgeRange".Translate(this.allowedAgeRange.min, this.allowedAgeRange.max);
+				}
+				return "ScenPart_StartingPawnAgeMin".Translate(this.allowedAgeRange.min);
 			}
 			if (this.allowedAgeRange.max < 10000)
 			{
-				result = "ScenPart_StartingPawnAgeMax".Translate(this.allowedAgeRange.max);
-				goto IL_00d2;
+				return "ScenPart_StartingPawnAgeMax".Translate(this.allowedAgeRange.max);
 			}
 			throw new Exception();
-			IL_00d2:
-			return result;
 		}
 
 		public override bool AllowPlayerStartingPawn(Pawn pawn)
@@ -57,21 +56,15 @@ namespace RimWorld
 			switch (Rand.RangeInclusive(0, 2))
 			{
 			case 0:
-			{
 				this.allowedAgeRange.min = Rand.Range(20, 60);
 				break;
-			}
 			case 1:
-			{
 				this.allowedAgeRange.max = Rand.Range(20, 60);
 				break;
-			}
 			case 2:
-			{
 				this.allowedAgeRange.min = Rand.Range(20, 60);
 				this.allowedAgeRange.max = Rand.Range(20, 60);
 				break;
-			}
 			}
 			this.MakeAllowedAgeRangeValid();
 		}

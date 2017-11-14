@@ -43,23 +43,25 @@ namespace RimWorld
 		private float GetMeleeDamage(StatRequest req, bool applyPostProcess = true)
 		{
 			Pawn pawn = req.Thing as Pawn;
-			float result;
 			if (pawn != null)
 			{
 				List<VerbEntry> updatedAvailableVerbsList = pawn.meleeVerbs.GetUpdatedAvailableVerbsList();
 				if (updatedAvailableVerbsList.Count == 0)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
+				float num = 0f;
+				for (int i = 0; i < updatedAvailableVerbsList.Count; i++)
 				{
-					float num = 0f;
-					for (int i = 0; i < updatedAvailableVerbsList.Count; i++)
+					if (updatedAvailableVerbsList[i].IsMeleeAttack)
 					{
 						num += updatedAvailableVerbsList[i].SelectionWeight;
 					}
-					float num2 = 0f;
-					for (int j = 0; j < updatedAvailableVerbsList.Count; j++)
+				}
+				float num2 = 0f;
+				for (int j = 0; j < updatedAvailableVerbsList.Count; j++)
+				{
+					if (updatedAvailableVerbsList[j].IsMeleeAttack)
 					{
 						VerbEntry verbEntry = updatedAvailableVerbsList[j];
 						ThingWithComps ownerEquipment = verbEntry.verb.ownerEquipment;
@@ -70,41 +72,43 @@ namespace RimWorld
 						VerbEntry verbEntry3 = updatedAvailableVerbsList[j];
 						num2 = num3 + num4 * verbProps.AdjustedMeleeDamageAmount(verbEntry3.verb, pawn, ownerEquipment);
 					}
-					result = num2;
 				}
+				return num2;
 			}
-			else
-			{
-				result = 0f;
-			}
-			return result;
+			return 0f;
 		}
 
 		private float GetMeleeHitChance(StatRequest req, bool applyPostProcess = true)
 		{
-			return (!req.HasThing) ? req.Def.GetStatValueAbstract(StatDefOf.MeleeHitChance, null) : req.Thing.GetStatValue(StatDefOf.MeleeHitChance, applyPostProcess);
+			if (req.HasThing)
+			{
+				return req.Thing.GetStatValue(StatDefOf.MeleeHitChance, applyPostProcess);
+			}
+			return req.Def.GetStatValueAbstract(StatDefOf.MeleeHitChance, null);
 		}
 
 		private float GetMeleeCooldown(StatRequest req, bool applyPostProcess = true)
 		{
 			Pawn pawn = req.Thing as Pawn;
-			float result;
 			if (pawn != null)
 			{
 				List<VerbEntry> updatedAvailableVerbsList = pawn.meleeVerbs.GetUpdatedAvailableVerbsList();
 				if (updatedAvailableVerbsList.Count == 0)
 				{
-					result = 1f;
+					return 1f;
 				}
-				else
+				float num = 0f;
+				for (int i = 0; i < updatedAvailableVerbsList.Count; i++)
 				{
-					float num = 0f;
-					for (int i = 0; i < updatedAvailableVerbsList.Count; i++)
+					if (updatedAvailableVerbsList[i].IsMeleeAttack)
 					{
 						num += updatedAvailableVerbsList[i].SelectionWeight;
 					}
-					float num2 = 0f;
-					for (int j = 0; j < updatedAvailableVerbsList.Count; j++)
+				}
+				float num2 = 0f;
+				for (int j = 0; j < updatedAvailableVerbsList.Count; j++)
+				{
+					if (updatedAvailableVerbsList[j].IsMeleeAttack)
 					{
 						VerbEntry verbEntry = updatedAvailableVerbsList[j];
 						ThingWithComps ownerEquipment = verbEntry.verb.ownerEquipment;
@@ -115,14 +119,10 @@ namespace RimWorld
 						VerbEntry verbEntry3 = updatedAvailableVerbsList[j];
 						num2 = num3 + num4 * (float)verbProps.AdjustedCooldownTicks(verbEntry3.verb, pawn, ownerEquipment);
 					}
-					result = (float)(num2 / 60.0);
 				}
+				return (float)(num2 / 60.0);
 			}
-			else
-			{
-				result = 1f;
-			}
-			return result;
+			return 1f;
 		}
 	}
 }

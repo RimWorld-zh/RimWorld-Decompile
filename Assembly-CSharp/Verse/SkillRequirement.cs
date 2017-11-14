@@ -13,13 +13,21 @@ namespace Verse
 		{
 			get
 			{
-				return (this.skill != null) ? string.Format("{0} ({1})", this.skill.LabelCap, this.minLevel) : "";
+				if (this.skill == null)
+				{
+					return string.Empty;
+				}
+				return string.Format("{0} ({1})", this.skill.LabelCap, this.minLevel);
 			}
 		}
 
 		public bool PawnSatisfies(Pawn pawn)
 		{
-			return pawn.skills != null && pawn.skills.GetSkill(this.skill).Level >= this.minLevel;
+			if (pawn.skills == null)
+			{
+				return false;
+			}
+			return pawn.skills.GetSkill(this.skill).Level >= this.minLevel;
 		}
 
 		public void LoadDataFromXmlCustom(XmlNode xmlRoot)
@@ -30,7 +38,11 @@ namespace Verse
 
 		public override string ToString()
 		{
-			return (this.skill != null) ? (this.skill.defName + "-" + this.minLevel) : "null-skill-requirement";
+			if (this.skill == null)
+			{
+				return "null-skill-requirement";
+			}
+			return this.skill.defName + "-" + this.minLevel;
 		}
 	}
 }

@@ -4,98 +4,74 @@ namespace Verse
 	{
 		public static SnowCategory GetSnowCategory(float snowDepth)
 		{
-			return (SnowCategory)((!(snowDepth < 0.029999999329447746)) ? ((snowDepth < 0.25) ? 1 : ((!(snowDepth < 0.5)) ? ((!(snowDepth < 0.75)) ? 4 : 3) : 2)) : 0);
+			if (snowDepth < 0.029999999329447746)
+			{
+				return SnowCategory.None;
+			}
+			if (snowDepth < 0.25)
+			{
+				return SnowCategory.Dusting;
+			}
+			if (snowDepth < 0.5)
+			{
+				return SnowCategory.Thin;
+			}
+			if (snowDepth < 0.75)
+			{
+				return SnowCategory.Medium;
+			}
+			return SnowCategory.Thick;
 		}
 
 		public static string GetDescription(SnowCategory category)
 		{
-			string result;
 			switch (category)
 			{
 			case SnowCategory.None:
-			{
-				result = "SnowNone".Translate();
-				break;
-			}
+				return "SnowNone".Translate();
 			case SnowCategory.Dusting:
-			{
-				result = "SnowDusting".Translate();
-				break;
-			}
+				return "SnowDusting".Translate();
 			case SnowCategory.Thin:
-			{
-				result = "SnowThin".Translate();
-				break;
-			}
+				return "SnowThin".Translate();
 			case SnowCategory.Medium:
-			{
-				result = "SnowMedium".Translate();
-				break;
-			}
+				return "SnowMedium".Translate();
 			case SnowCategory.Thick:
-			{
-				result = "SnowThick".Translate();
-				break;
-			}
+				return "SnowThick".Translate();
 			default:
-			{
-				result = "Unknown snow";
-				break;
+				return "Unknown snow";
 			}
-			}
-			return result;
 		}
 
 		public static int MovementTicksAddOn(SnowCategory category)
 		{
-			int result;
 			switch (category)
 			{
 			case SnowCategory.None:
-			{
-				result = 0;
-				break;
-			}
+				return 0;
 			case SnowCategory.Dusting:
-			{
-				result = 0;
-				break;
-			}
+				return 0;
 			case SnowCategory.Thin:
-			{
-				result = 4;
-				break;
-			}
+				return 4;
 			case SnowCategory.Medium:
-			{
-				result = 8;
-				break;
-			}
+				return 8;
 			case SnowCategory.Thick:
-			{
-				result = 12;
-				break;
-			}
+				return 12;
 			default:
-			{
-				result = 0;
-				break;
+				return 0;
 			}
-			}
-			return result;
 		}
 
 		public static void AddSnowRadial(IntVec3 center, Map map, float radius, float depth)
 		{
 			int num = GenRadial.NumCellsInRadius(radius);
-			for (int num2 = 0; num2 < num; num2++)
+			for (int i = 0; i < num; i++)
 			{
-				IntVec3 intVec = center + GenRadial.RadialPattern[num2];
+				IntVec3 intVec = center + GenRadial.RadialPattern[i];
 				if (intVec.InBounds(map))
 				{
 					float lengthHorizontal = (center - intVec).LengthHorizontal;
-					float num3 = (float)(1.0 - lengthHorizontal / radius);
-					map.snowGrid.AddDepth(intVec, num3 * depth);
+					float num2 = (float)(1.0 - lengthHorizontal / radius);
+					map.snowGrid.AddDepth(intVec, num2 * depth);
 				}
 			}
 		}

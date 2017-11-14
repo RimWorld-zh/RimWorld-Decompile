@@ -8,38 +8,34 @@ namespace RimWorld
 	{
 		public override bool TryMakePreToilReservations()
 		{
-			bool result;
 			if (!base.pawn.Reserve(base.job.targetA, base.job, base.job.def.joyMaxParticipants, 0, null))
 			{
-				result = false;
+				return false;
 			}
-			else if (!base.pawn.Reserve(base.job.targetB, base.job, 1, -1, null))
+			if (!base.pawn.Reserve(base.job.targetB, base.job, 1, -1, null))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (base.TargetC.HasThing)
 			{
-				if (base.TargetC.HasThing)
+				if (base.TargetC.Thing is Building_Bed)
 				{
-					if (base.TargetC.Thing is Building_Bed)
+					if (!base.pawn.Reserve(base.job.targetC, base.job, ((Building_Bed)base.TargetC.Thing).SleepingSlotsCount, 0, null))
 					{
-						if (!base.pawn.Reserve(base.job.targetC, base.job, ((Building_Bed)base.TargetC.Thing).SleepingSlotsCount, 0, null))
-						{
-							result = false;
-							goto IL_0111;
-						}
-					}
-					else if (!base.pawn.Reserve(base.job.targetC, base.job, 1, -1, null))
-					{
-						result = false;
-						goto IL_0111;
+						return false;
 					}
 				}
-				result = true;
+				else if (!base.pawn.Reserve(base.job.targetC, base.job, 1, -1, null))
+				{
+					return false;
+				}
 			}
-			goto IL_0111;
-			IL_0111:
-			return result;
+			return true;
+		}
+
+		public override bool CanBeginNowWhileLyingDown()
+		{
+			return base.TargetC.HasThing && base.TargetC.Thing is Building_Bed && JobInBedUtility.InBedOrRestSpotNow(base.pawn, base.TargetC);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()

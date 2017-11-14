@@ -5,7 +5,7 @@ namespace RimWorld
 {
 	public class JobDriver_Repair : JobDriver
 	{
-		protected float ticksToNextRepair = 0f;
+		protected float ticksToNextRepair;
 
 		private const float WarmupTicks = 80f;
 

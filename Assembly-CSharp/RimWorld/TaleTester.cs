@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +11,7 @@ namespace RimWorld
 		public static void LogGeneratedTales(int count)
 		{
 			List<Tale> list = new List<Tale>();
-			for (int num = 0; num < count; num++)
+			for (int i = 0; i < count; i++)
 			{
 				list.Add(TaleFactory.MakeRandomTestTale(null));
 			}
@@ -22,7 +21,7 @@ namespace RimWorld
 		public static void LogSpecificTale(TaleDef def, int count)
 		{
 			List<Tale> list = new List<Tale>();
-			for (int num = 0; num < count; num++)
+			for (int i = 0; i < count; i++)
 			{
 				list.Add(TaleFactory.MakeRandomTestTale(def));
 			}
@@ -50,9 +49,9 @@ namespace RimWorld
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			int num = 0;
-			foreach (Tale item in tales)
+			foreach (Tale tale in tales)
 			{
-				TaleReference tr = new TaleReference(item);
+				TaleReference tr = new TaleReference(tale);
 				stringBuilder.AppendLine(TaleTester.RandomArtworkName(tr));
 				stringBuilder.AppendLine(TaleTester.RandomArtworkDescription(tr));
 				stringBuilder.AppendLine();
@@ -75,30 +74,20 @@ namespace RimWorld
 			switch (Rand.RangeInclusive(0, 4))
 			{
 			case 0:
-			{
 				list.AddRange(RulePackDefOf.ArtName_Sculpture.RulesPlusIncludes);
 				break;
-			}
 			case 1:
-			{
 				list.AddRange(RulePackDefOf.ArtName_WeaponMelee.RulesPlusIncludes);
 				break;
-			}
 			case 2:
-			{
 				list.AddRange(RulePackDefOf.ArtName_WeaponGun.RulesPlusIncludes);
 				break;
-			}
 			case 3:
-			{
 				list.AddRange(RulePackDefOf.ArtName_Furniture.RulesPlusIncludes);
 				break;
-			}
 			case 4:
-			{
 				list.AddRange(RulePackDefOf.ArtName_SarcophagusPlate.RulesPlusIncludes);
 				break;
-			}
 			}
 			return tr.GenerateText(TextGenerationPurpose.ArtName, list);
 		}
@@ -109,30 +98,20 @@ namespace RimWorld
 			switch (Rand.RangeInclusive(0, 4))
 			{
 			case 0:
-			{
 				list.AddRange(RulePackDefOf.ArtDescription_Sculpture.RulesPlusIncludes);
 				break;
-			}
 			case 1:
-			{
 				list.AddRange(RulePackDefOf.ArtDescription_WeaponMelee.RulesPlusIncludes);
 				break;
-			}
 			case 2:
-			{
 				list.AddRange(RulePackDefOf.ArtDescription_WeaponGun.RulesPlusIncludes);
 				break;
-			}
 			case 3:
-			{
 				list.AddRange(RulePackDefOf.ArtDescription_Furniture.RulesPlusIncludes);
 				break;
-			}
 			case 4:
-			{
 				list.AddRange(RulePackDefOf.ArtDescription_SarcophagusPlate.RulesPlusIncludes);
 				break;
-			}
 			}
 			return tr.GenerateText(TextGenerationPurpose.ArtDescription, list);
 		}

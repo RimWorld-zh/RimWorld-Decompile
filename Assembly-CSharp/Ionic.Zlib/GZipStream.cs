@@ -181,7 +181,15 @@ namespace Ionic.Zlib
 		{
 			get
 			{
-				return (this._baseStream._streamMode != 0) ? ((this._baseStream._streamMode != ZlibBaseStream.StreamMode.Reader) ? 0 : (this._baseStream._z.TotalBytesIn + this._baseStream._gzipHeaderByteCount)) : (this._baseStream._z.TotalBytesOut + this._headerByteCount);
+				if (this._baseStream._streamMode == ZlibBaseStream.StreamMode.Writer)
+				{
+					return this._baseStream._z.TotalBytesOut + this._headerByteCount;
+				}
+				if (this._baseStream._streamMode == ZlibBaseStream.StreamMode.Reader)
+				{
+					return this._baseStream._z.TotalBytesIn + this._baseStream._gzipHeaderByteCount;
+				}
+				return 0L;
 			}
 			set
 			{
@@ -189,15 +197,18 @@ namespace Ionic.Zlib
 			}
 		}
 
-		public GZipStream(Stream stream, CompressionMode mode) : this(stream, mode, CompressionLevel.Default, false)
+		public GZipStream(Stream stream, CompressionMode mode)
+			: this(stream, mode, CompressionLevel.Default, false)
 		{
 		}
 
-		public GZipStream(Stream stream, CompressionMode mode, CompressionLevel level) : this(stream, mode, level, false)
+		public GZipStream(Stream stream, CompressionMode mode, CompressionLevel level)
+			: this(stream, mode, level, false)
 		{
 		}
 
-		public GZipStream(Stream stream, CompressionMode mode, bool leaveOpen) : this(stream, mode, CompressionLevel.Default, leaveOpen)
+		public GZipStream(Stream stream, CompressionMode mode, bool leaveOpen)
+			: this(stream, mode, CompressionLevel.Default, leaveOpen)
 		{
 		}
 
@@ -287,13 +298,13 @@ namespace Ionic.Zlib
 			int num3 = 10 + num + num2;
 			byte[] array3 = new byte[num3];
 			int num4 = 0;
-			array3[num4++] = (byte)31;
-			array3[num4++] = (byte)139;
-			array3[num4++] = (byte)8;
-			byte b = (byte)0;
+			array3[num4++] = 31;
+			array3[num4++] = 139;
+			array3[num4++] = 8;
+			byte b = 0;
 			if (this.Comment != null)
 			{
-				b = (byte)(b ^ 16);
+				b = (byte)(b ^ 0x10);
 			}
 			if (this.FileName != null)
 			{
@@ -302,24 +313,24 @@ namespace Ionic.Zlib
 			array3[num4++] = b;
 			if (!this.LastModified.HasValue)
 			{
-				this.LastModified = new DateTime?(DateTime.Now);
+				this.LastModified = DateTime.Now;
 			}
 			int value = (int)(this.LastModified.Value - GZipStream._unixEpoch).TotalSeconds;
 			Array.Copy(BitConverter.GetBytes(value), 0, array3, num4, 4);
 			num4 += 4;
-			array3[num4++] = (byte)0;
-			array3[num4++] = (byte)255;
+			array3[num4++] = 0;
+			array3[num4++] = 255;
 			if (num2 != 0)
 			{
 				Array.Copy(array2, 0, array3, num4, num2 - 1);
 				num4 += num2 - 1;
-				array3[num4++] = (byte)0;
+				array3[num4++] = 0;
 			}
 			if (num != 0)
 			{
 				Array.Copy(array, 0, array3, num4, num - 1);
 				num4 += num - 1;
-				array3[num4++] = (byte)0;
+				array3[num4++] = 0;
 			}
 			this._baseStream._stream.Write(array3, 0, array3.Length);
 			return array3.Length;

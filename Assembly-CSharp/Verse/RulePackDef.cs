@@ -5,11 +5,11 @@ namespace Verse
 {
 	public class RulePackDef : Def
 	{
-		public List<RulePackDef> include = null;
+		public List<RulePackDef> include;
 
-		private RulePack rulePack = null;
+		private RulePack rulePack;
 
-		private List<Rule> cachedRules = null;
+		private List<Rule> cachedRules;
 
 		public List<Rule> RulesPlusIncludes
 		{
@@ -38,13 +38,13 @@ namespace Verse
 		{
 			get
 			{
-				return this.rulePack.Rules;
+				return (this.rulePack == null) ? null : this.rulePack.Rules;
 			}
 		}
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -69,8 +69,8 @@ namespace Verse
 			}
 			yield return "includes other RulePackDef which includes it: " + this.include[i].defName;
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0194:
-			/*Error near IL_0195: Unexpected return in MoveNext()*/;
+			IL_018c:
+			/*Error near IL_018d: Unexpected return in MoveNext()*/;
 		}
 
 		public static RulePackDef Named(string defName)

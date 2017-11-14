@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,10 +16,14 @@ namespace RimWorld
 			Rect scenPartRect = listing.GetScenPartRect(this, (float)(ScenPart.RowHeight * 3.0 + 31.0));
 			if (Widgets.ButtonText(scenPartRect.TopPartPixels(ScenPart.RowHeight), this.need.LabelCap, true, false, true))
 			{
-				FloatMenuUtility.MakeMenu(this.PossibleNeeds(), (Func<NeedDef, string>)((NeedDef hd) => hd.LabelCap), (Func<NeedDef, Action>)((NeedDef n) => (Action)delegate()
+				FloatMenuUtility.MakeMenu(this.PossibleNeeds(), (NeedDef hd) => hd.LabelCap, delegate(NeedDef n)
 				{
-					this.need = n;
-				}));
+					ScenPart_SetNeedLevel scenPart_SetNeedLevel = this;
+					return delegate
+					{
+						scenPart_SetNeedLevel.need = n;
+					};
+				});
 			}
 			Widgets.FloatRange(new Rect(scenPartRect.x, scenPartRect.y + ScenPart.RowHeight, scenPartRect.width, 31f), listing.CurHeight.GetHashCode(), ref this.levelRange, 0f, 1f, "ConfigurableLevel", ToStringStyle.FloatTwo);
 			base.DoPawnModifierEditInterface(scenPartRect.BottomPartPixels((float)(ScenPart.RowHeight * 2.0)));
@@ -56,17 +59,12 @@ namespace RimWorld
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_SetNeedLevel scenPart_SetNeedLevel = other as ScenPart_SetNeedLevel;
-			bool result;
 			if (scenPart_SetNeedLevel != null && this.need == scenPart_SetNeedLevel.need)
 			{
 				base.chance = GenMath.ChanceEitherHappens(base.chance, scenPart_SetNeedLevel.chance);
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		protected override void ModifyPawn(Pawn p)

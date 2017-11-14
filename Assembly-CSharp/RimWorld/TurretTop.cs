@@ -7,7 +7,7 @@ namespace RimWorld
 	{
 		private Building_Turret parentTurret;
 
-		private float curRotationInt = 0f;
+		private float curRotationInt;
 
 		private int ticksUntilIdleTurn;
 
@@ -53,8 +53,8 @@ namespace RimWorld
 			LocalTargetInfo currentTarget = this.parentTurret.CurrentTarget;
 			if (currentTarget.IsValid)
 			{
-				float curRotation = (currentTarget.Cell.ToVector3Shifted() - this.parentTurret.DrawPos).AngleFlat();
-				this.CurRotation = curRotation;
+				IntVec3 cell = currentTarget.Cell;
+				float num2 = this.CurRotation = (cell.ToVector3Shifted() - this.parentTurret.DrawPos).AngleFlat();
 				this.ticksUntilIdleTurn = Rand.RangeInclusive(150, 350);
 			}
 			else if (this.ticksUntilIdleTurn > 0)

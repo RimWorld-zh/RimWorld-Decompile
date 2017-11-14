@@ -1,8 +1,6 @@
-#define ENABLE_PROFILER
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.Profiling;
 using Verse;
 using Verse.Noise;
 
@@ -215,7 +213,7 @@ namespace RimWorld.Planet
 
 		private void FillComponents()
 		{
-			this.components.RemoveAll((Predicate<WorldComponent>)((WorldComponent component) => component == null));
+			this.components.RemoveAll((WorldComponent component) => component == null);
 			foreach (Type item2 in typeof(WorldComponent).AllSubclassesNonAbstract())
 			{
 				if (this.GetComponent(item2) == null)
@@ -237,29 +235,16 @@ namespace RimWorld.Planet
 
 		public void WorldTick()
 		{
-			Profiler.BeginSample("WorldPawnsTick()");
 			this.worldPawns.WorldPawnsTick();
-			Profiler.EndSample();
-			Profiler.BeginSample("FactionManagerTick()");
 			this.factionManager.FactionManagerTick();
-			Profiler.EndSample();
-			Profiler.BeginSample("WorldObjectsHolderTick()");
 			this.worldObjects.WorldObjectsHolderTick();
-			Profiler.EndSample();
-			Profiler.BeginSample("WorldDebugDrawerTick()");
 			this.debugDrawer.WorldDebugDrawerTick();
-			Profiler.EndSample();
-			Profiler.BeginSample("WorldPathGridTick()");
 			this.pathGrid.WorldPathGridTick();
-			Profiler.EndSample();
-			Profiler.BeginSample("WorldComponentTick()");
 			WorldComponentUtility.WorldComponentTick(this);
-			Profiler.EndSample();
 		}
 
 		public void WorldPostTick()
 		{
-			Profiler.BeginSample("GameConditionManager.GameConditionManagerTick()");
 			try
 			{
 				this.gameConditionManager.GameConditionManagerTick();
@@ -268,7 +253,6 @@ namespace RimWorld.Planet
 			{
 				Log.Error(ex.ToString());
 			}
-			Profiler.EndSample();
 		}
 
 		public void WorldUpdate()
@@ -277,113 +261,72 @@ namespace RimWorld.Planet
 			this.renderer.CheckActivateWorldCamera();
 			if (worldRenderedNow)
 			{
-				Profiler.BeginSample("ExpandableWorldObjectsUpdate()");
 				ExpandableWorldObjectsUtility.ExpandableWorldObjectsUpdate();
-				Profiler.EndSample();
-				Profiler.BeginSample("World.renderer.DrawWorldLayers()");
 				this.renderer.DrawWorldLayers();
-				Profiler.EndSample();
-				Profiler.BeginSample("World.dynamicDrawManager.DrawDynamicWorldObjects()");
 				this.dynamicDrawManager.DrawDynamicWorldObjects();
-				Profiler.EndSample();
-				Profiler.BeginSample("World.features.UpdateFeatures()");
 				this.features.UpdateFeatures();
-				Profiler.EndSample();
-				Profiler.BeginSample("NoiseDebugUI.RenderPlanetNoise()");
 				NoiseDebugUI.RenderPlanetNoise();
-				Profiler.EndSample();
 			}
-			Profiler.BeginSample("WorldComponentUpdate()");
 			WorldComponentUtility.WorldComponentUpdate(this);
-			Profiler.EndSample();
 		}
 
 		public T GetComponent<T>() where T : WorldComponent
 		{
-			int num = 0;
-			T result;
-			while (true)
+			for (int i = 0; i < this.components.Count; i++)
 			{
-				if (num < this.components.Count)
+				T val = (T)(this.components[i] as T);
+				if (val != null)
 				{
-					T val = (T)(this.components[num] as T);
-					if (val != null)
-					{
-						result = val;
-						break;
-					}
-					num++;
-					continue;
+					return val;
 				}
-				result = (T)null;
-				break;
 			}
-			return result;
+			return (T)null;
 		}
 
 		public WorldComponent GetComponent(Type type)
 		{
-			int num = 0;
-			WorldComponent result;
-			while (true)
+			for (int i = 0; i < this.components.Count; i++)
 			{
-				if (num < this.components.Count)
+				if (type.IsAssignableFrom(this.components[i].GetType()))
 				{
-					if (type.IsAssignableFrom(this.components[num].GetType()))
-					{
-						result = this.components[num];
-						break;
-					}
-					num++;
-					continue;
+					return this.components[i];
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		public Rot4 CoastDirectionAt(int tileID)
 		{
 			Tile tile = this.grid[tileID];
-			Rot4 result;
 			if (!tile.biome.canBuildBase)
 			{
-				result = Rot4.Invalid;
+				return Rot4.Invalid;
 			}
-			else
+			World.tmpOceanDirs.Clear();
+			this.grid.GetTileNeighbors(tileID, World.tmpNeighbors);
+			int i = 0;
+			int count = World.tmpNeighbors.Count;
+			for (; i < count; i++)
 			{
-				World.tmpOceanDirs.Clear();
-				this.grid.GetTileNeighbors(tileID, World.tmpNeighbors);
-				int num = 0;
-				int count = World.tmpNeighbors.Count;
-				while (num < count)
+				Tile tile2 = this.grid[World.tmpNeighbors[i]];
+				if (tile2.biome == BiomeDefOf.Ocean)
 				{
-					Tile tile2 = this.grid[World.tmpNeighbors[num]];
-					if (tile2.biome == BiomeDefOf.Ocean)
+					Rot4 rotFromTo = this.grid.GetRotFromTo(tileID, World.tmpNeighbors[i]);
+					if (!World.tmpOceanDirs.Contains(rotFromTo))
 					{
-						Rot4 rotFromTo = this.grid.GetRotFromTo(tileID, World.tmpNeighbors[num]);
-						if (!World.tmpOceanDirs.Contains(rotFromTo))
-						{
-							World.tmpOceanDirs.Add(rotFromTo);
-						}
+						World.tmpOceanDirs.Add(rotFromTo);
 					}
-					num++;
-				}
-				if (World.tmpOceanDirs.Count == 0)
-				{
-					result = Rot4.Invalid;
-				}
-				else
-				{
-					Rand.PushState();
-					Rand.Seed = tileID;
-					int index = Rand.Range(0, World.tmpOceanDirs.Count);
-					Rand.PopState();
-					result = World.tmpOceanDirs[index];
 				}
 			}
-			return result;
+			if (World.tmpOceanDirs.Count == 0)
+			{
+				return Rot4.Invalid;
+			}
+			Rand.PushState();
+			Rand.Seed = tileID;
+			int index = Rand.Range(0, World.tmpOceanDirs.Count);
+			Rand.PopState();
+			return World.tmpOceanDirs[index];
 		}
 
 		public bool HasCaves(int tile)
@@ -393,20 +336,16 @@ namespace RimWorld.Planet
 			if ((int)tile2.hilliness >= 4)
 			{
 				chance = 0.5f;
-				goto IL_0043;
+				goto IL_003d;
 			}
 			if ((int)tile2.hilliness >= 3)
 			{
 				chance = 0.25f;
-				goto IL_0043;
+				goto IL_003d;
 			}
-			bool result = false;
-			goto IL_0064;
-			IL_0043:
-			result = Rand.ChanceSeeded(chance, Gen.HashCombineInt(Find.World.info.Seed, tile));
-			goto IL_0064;
-			IL_0064:
-			return result;
+			return false;
+			IL_003d:
+			return Rand.ChanceSeeded(chance, Gen.HashCombineInt(Find.World.info.Seed, tile));
 		}
 
 		public IEnumerable<ThingDef> NaturalRockTypesIn(int tile)
@@ -422,7 +361,7 @@ namespace RimWorld.Planet
 				num = list.Count;
 			}
 			List<ThingDef> list2 = new List<ThingDef>();
-			for (int num2 = 0; num2 < num; num2++)
+			for (int i = 0; i < num; i++)
 			{
 				ThingDef item = list.RandomElement();
 				list.Remove(item);

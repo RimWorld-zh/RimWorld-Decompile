@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -19,8 +18,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_00c1:
-			/*Error near IL_00c2: Unexpected return in MoveNext()*/;
+			IL_00bd:
+			/*Error near IL_00be: Unexpected return in MoveNext()*/;
 		}
 
 		private static IEnumerable<RecipeDef> DefsFromRecipeMakers()
@@ -78,8 +77,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_03c9:
-			/*Error near IL_03ca: Unexpected return in MoveNext()*/;
+			IL_03bc:
+			/*Error near IL_03bd: Unexpected return in MoveNext()*/;
 		}
 
 		private static IEnumerable<RecipeDef> DrugAdministerDefs()
@@ -119,8 +118,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_02a1:
-			/*Error near IL_02a2: Unexpected return in MoveNext()*/;
+			IL_029a:
+			/*Error near IL_029b: Unexpected return in MoveNext()*/;
 		}
 	}
 }

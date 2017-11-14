@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -37,10 +36,10 @@ namespace RimWorld
 				if (PawnUtility.ShouldSendNotificationAbout(pawn) || PawnUtility.ShouldSendNotificationAbout(billDoer))
 				{
 					string text = base.recipe.successfullyRemovedHediffMessage.NullOrEmpty() ? "MessageSuccessfullyRemovedHediff".Translate(billDoer.LabelShort, pawn.LabelShort, base.recipe.removesHediff.label) : string.Format(base.recipe.successfullyRemovedHediffMessage, billDoer.LabelShort, pawn.LabelShort);
-					Messages.Message(text, (Thing)pawn, MessageTypeDefOf.PositiveEvent);
+					Messages.Message(text, pawn, MessageTypeDefOf.PositiveEvent);
 				}
 			}
-			Hediff hediff = pawn.health.hediffSet.hediffs.Find((Predicate<Hediff>)((Hediff x) => x.def == base.recipe.removesHediff && x.Part == part && x.Visible));
+			Hediff hediff = pawn.health.hediffSet.hediffs.Find((Hediff x) => x.def == base.recipe.removesHediff && x.Part == part && x.Visible);
 			if (hediff != null)
 			{
 				pawn.health.RemoveHediff(hediff);

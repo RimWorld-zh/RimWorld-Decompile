@@ -22,7 +22,7 @@ namespace RimWorld
 				SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
 			}
 			TooltipHandler.TipRegion(rect2, "Copy".Translate());
-			if ((object)pasteAction != null)
+			if (pasteAction != null)
 			{
 				Rect rect3 = rect2;
 				rect3.x = rect2.xMax;

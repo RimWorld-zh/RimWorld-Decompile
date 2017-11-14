@@ -11,33 +11,33 @@ namespace Verse
 {
 	public class Hediff : IExposable
 	{
-		public HediffDef def = null;
+		public HediffDef def;
 
-		public int ageTicks = 0;
+		public int ageTicks;
 
 		private int partIndex = -1;
 
-		public ThingDef source = null;
+		public ThingDef source;
 
-		public BodyPartGroupDef sourceBodyPartGroup = null;
+		public BodyPartGroupDef sourceBodyPartGroup;
 
-		public HediffDef sourceHediffDef = null;
+		public HediffDef sourceHediffDef;
 
 		public int loadID = -1;
 
-		protected float severityInt = 0f;
+		protected float severityInt;
 
-		private bool recordedTale = false;
+		private bool recordedTale;
 
-		protected bool causesNoPain = false;
+		protected bool causesNoPain;
 
-		private bool visible = false;
-
-		[Unsaved]
-		public Pawn pawn = null;
+		private bool visible;
 
 		[Unsaved]
-		private BodyPartRecord cachedPart = null;
+		public Pawn pawn;
+
+		[Unsaved]
+		private BodyPartRecord cachedPart;
 
 		public virtual string LabelBase
 		{
@@ -52,7 +52,7 @@ namespace Verse
 			get
 			{
 				string labelInBrackets = this.LabelInBrackets;
-				return this.LabelBase + ((!labelInBrackets.NullOrEmpty()) ? (" (" + labelInBrackets + ")") : "");
+				return this.LabelBase + ((!labelInBrackets.NullOrEmpty()) ? (" (" + labelInBrackets + ")") : string.Empty);
 			}
 		}
 
@@ -216,29 +216,20 @@ namespace Verse
 		{
 			get
 			{
-				int result;
-				int num;
 				if (this.def.stages == null)
 				{
-					result = 0;
+					return 0;
 				}
-				else
+				List<HediffStage> stages = this.def.stages;
+				float severity = this.Severity;
+				for (int num = stages.Count - 1; num >= 0; num--)
 				{
-					List<HediffStage> stages = this.def.stages;
-					float severity = this.Severity;
-					for (num = stages.Count - 1; num >= 0; num--)
+					if (severity >= stages[num].minSeverity)
 					{
-						if (severity >= stages[num].minSeverity)
-							goto IL_004c;
+						return num;
 					}
-					result = 0;
 				}
-				goto IL_0066;
-				IL_004c:
-				result = num;
-				goto IL_0066;
-				IL_0066:
-				return result;
+				return 0;
 			}
 		}
 
@@ -306,7 +297,11 @@ namespace Verse
 		{
 			get
 			{
-				return (byte)((this.def.tendable && !(this.Severity <= 0.0) && this.Visible && !this.FullyImmune() && !this.IsTended() && !this.IsOld()) ? 1 : 0) != 0;
+				if (this.def.tendable && !(this.Severity <= 0.0) && this.Visible && !this.FullyImmune() && !this.IsTended() && !this.IsOld())
+				{
+					return true;
+				}
+				return false;
 			}
 		}
 
@@ -364,7 +359,7 @@ namespace Verse
 						MentalStateGiver mentalStateGiver = curStage.mentalStateGivers[k];
 						if (Rand.MTBEventOccurs(mentalStateGiver.mtbDays, 60000f, 60f))
 						{
-							this.pawn.mindState.mentalStateHandler.TryStartMentalState(mentalStateGiver.mentalState, (string)null, false, false, null);
+							this.pawn.mindState.mentalStateHandler.TryStartMentalState(mentalStateGiver.mentalState, null, false, false, null);
 						}
 					}
 				}
@@ -377,7 +372,7 @@ namespace Verse
 				}
 				if (curStage.vomitMtbDays > 0.0 && this.pawn.IsHashIntervalTick(600) && Rand.MTBEventOccurs(curStage.vomitMtbDays, 60000f, 600f) && this.pawn.Spawned && this.pawn.Awake())
 				{
-					this.pawn.jobs.StartJob(new Job(JobDefOf.Vomit), JobCondition.InterruptForced, null, true, true, null, default(JobTag?), false);
+					this.pawn.jobs.StartJob(new Job(JobDefOf.Vomit), JobCondition.InterruptForced, null, true, true, null, null, false);
 				}
 				Thought_Memory th = default(Thought_Memory);
 				if (curStage.forgetMemoryThoughtMtbDays > 0.0 && this.pawn.needs.mood != null && this.pawn.IsHashIntervalTick(400) && Rand.MTBEventOccurs(curStage.forgetMemoryThoughtMtbDays, 60000f, 400f) && ((IEnumerable<Thought_Memory>)this.pawn.needs.mood.thoughts.memories.Memories).TryRandomElement<Thought_Memory>(out th))
@@ -391,16 +386,16 @@ namespace Verse
 				}
 				if (curStage.destroyPart && this.Part != null && this.Part != this.pawn.RaceProps.body.corePart)
 				{
-					this.pawn.health.AddHediff(HediffDefOf.MissingBodyPart, this.Part, default(DamageInfo?));
+					this.pawn.health.AddHediff(HediffDefOf.MissingBodyPart, this.Part, null);
 				}
 				if (curStage.deathMtbDays > 0.0 && this.pawn.IsHashIntervalTick(200) && Rand.MTBEventOccurs(curStage.deathMtbDays, 60000f, 200f))
 				{
 					bool flag = PawnUtility.ShouldSendNotificationAbout(this.pawn);
 					Caravan caravan = this.pawn.GetCaravan();
-					this.pawn.Kill(default(DamageInfo?), null);
+					this.pawn.Kill(null, null);
 					if (flag)
 					{
-						this.pawn.health.NotifyPlayerOfKilled(default(DamageInfo?), this, caravan);
+						this.pawn.health.NotifyPlayerOfKilled(null, this, caravan);
 					}
 				}
 			}
@@ -447,23 +442,22 @@ namespace Verse
 
 		public virtual bool TryMergeWith(Hediff other)
 		{
-			bool result;
-			if (other == null || other.def != this.def || other.Part != this.Part)
-			{
-				result = false;
-			}
-			else
+			if (other != null && other.def == this.def && other.Part == this.Part)
 			{
 				this.Severity += other.Severity;
 				this.ageTicks = 0;
-				result = true;
+				return true;
 			}
-			return result;
+			return false;
 		}
 
 		public virtual bool CauseDeathNow()
 		{
-			return this.def.lethalSeverity >= 0.0 && this.Severity >= this.def.lethalSeverity;
+			if (this.def.lethalSeverity >= 0.0)
+			{
+				return this.Severity >= this.def.lethalSeverity;
+			}
+			return false;
 		}
 
 		public virtual void Notify_PawnDied()
@@ -472,12 +466,12 @@ namespace Verse
 
 		public virtual string DebugString()
 		{
-			string str = "";
+			string str = string.Empty;
 			if (!this.Visible)
 			{
 				str += "hidden\n";
 			}
-			str = str + "severity: " + this.Severity.ToString("F3") + ((!(this.Severity >= this.def.maxSeverity)) ? "" : " (reached max)");
+			str = str + "severity: " + this.Severity.ToString("F3") + ((!(this.Severity >= this.def.maxSeverity)) ? string.Empty : " (reached max)");
 			if (this.TendableNow)
 			{
 				str = str + "\ntend priority: " + this.TendPriority;
@@ -487,7 +481,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			return "(" + this.def.defName + ((this.cachedPart == null) ? "" : (" " + this.cachedPart.def.label)) + " ticksSinceCreation=" + this.ageTicks + ")";
+			return "(" + this.def.defName + ((this.cachedPart == null) ? string.Empty : (" " + this.cachedPart.def.label)) + " ticksSinceCreation=" + this.ageTicks + ")";
 		}
 
 		public override int GetHashCode()

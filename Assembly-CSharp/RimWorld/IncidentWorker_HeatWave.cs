@@ -6,17 +6,12 @@ namespace RimWorld
 	{
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
-			bool result;
 			if (!base.CanFireNowSub(target))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Map map = (Map)target;
-				result = (map.mapTemperature.SeasonalTemp >= 20.0);
-			}
-			return result;
+			Map map = (Map)target;
+			return map.mapTemperature.SeasonalTemp >= 20.0;
 		}
 	}
 }

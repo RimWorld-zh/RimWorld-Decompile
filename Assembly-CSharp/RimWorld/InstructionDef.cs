@@ -10,19 +10,21 @@ namespace RimWorld
 
 		public string text;
 
-		public bool startCentered = false;
+		public bool startCentered;
 
 		public bool tutorialModeOnly = true;
 
 		public string eventTagInitiate;
 
+		public InstructionDef eventTagInitiateSource;
+
 		public List<string> eventTagsEnd;
 
-		public List<string> actionTagsAllowed = null;
+		public List<string> actionTagsAllowed;
 
-		public string rejectInputMessage = (string)null;
+		public string rejectInputMessage;
 
-		public ConceptDef concept = null;
+		public ConceptDef concept;
 
 		public List<string> highlightTags;
 
@@ -40,13 +42,13 @@ namespace RimWorld
 
 		public int giveOnActivateCount;
 
-		public bool endTutorial = false;
+		public bool endTutorial;
 
-		public bool resetBuildDesignatorStuffs = false;
+		public bool resetBuildDesignatorStuffs;
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -69,8 +71,8 @@ namespace RimWorld
 				yield break;
 			yield return "no eventTagInitiate";
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0160:
-			/*Error near IL_0161: Unexpected return in MoveNext()*/;
+			IL_015c:
+			/*Error near IL_015d: Unexpected return in MoveNext()*/;
 		}
 	}
 }

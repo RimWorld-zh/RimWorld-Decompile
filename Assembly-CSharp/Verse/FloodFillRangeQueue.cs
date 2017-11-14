@@ -10,9 +10,9 @@ namespace Verse
 
 		private int head;
 
-		private int debugNumTimesExpanded = 0;
+		private int debugNumTimesExpanded;
 
-		private int debugMaxUsedSpace = 0;
+		private int debugMaxUsedSpace;
 
 		public int Count
 		{
@@ -55,12 +55,7 @@ namespace Verse
 				this.head = 0;
 				this.debugNumTimesExpanded++;
 			}
-			FloodFillRange[] obj = this.array;
-			int num = this.head;
-			int num2 = this.count;
-			int num3 = num2;
-			this.count = num2 + 1;
-			obj[num + num3] = r;
+			this.array[this.head + this.count++] = r;
 			this.debugMaxUsedSpace = this.count + this.head;
 		}
 

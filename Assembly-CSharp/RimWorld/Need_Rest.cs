@@ -10,7 +10,7 @@ namespace RimWorld
 
 		private float lastRestEffectiveness = 1f;
 
-		private int ticksAtZero = 0;
+		private int ticksAtZero;
 
 		private const float FullSleepHours = 10.5f;
 
@@ -34,7 +34,19 @@ namespace RimWorld
 		{
 			get
 			{
-				return (RestCategory)((!(this.CurLevel < 0.0099999997764825821)) ? ((!(this.CurLevel < 0.14000000059604645)) ? ((this.CurLevel < 0.2800000011920929) ? 1 : 0) : 2) : 3);
+				if (this.CurLevel < 0.0099999997764825821)
+				{
+					return RestCategory.Exhausted;
+				}
+				if (this.CurLevel < 0.14000000059604645)
+				{
+					return RestCategory.VeryTired;
+				}
+				if (this.CurLevel < 0.2800000011920929)
+				{
+					return RestCategory.Tired;
+				}
+				return RestCategory.Rested;
 			}
 		}
 
@@ -42,36 +54,19 @@ namespace RimWorld
 		{
 			get
 			{
-				float result;
 				switch (this.CurCategory)
 				{
 				case RestCategory.Rested:
-				{
-					result = (float)(1.5833333236514591E-05 * this.RestFallFactor);
-					break;
-				}
+					return (float)(1.5833333236514591E-05 * this.RestFallFactor);
 				case RestCategory.Tired:
-				{
-					result = (float)(1.5833333236514591E-05 * this.RestFallFactor * 0.699999988079071);
-					break;
-				}
+					return (float)(1.5833333236514591E-05 * this.RestFallFactor * 0.699999988079071);
 				case RestCategory.VeryTired:
-				{
-					result = (float)(1.5833333236514591E-05 * this.RestFallFactor * 0.30000001192092896);
-					break;
-				}
+					return (float)(1.5833333236514591E-05 * this.RestFallFactor * 0.30000001192092896);
 				case RestCategory.Exhausted:
-				{
-					result = (float)(1.5833333236514591E-05 * this.RestFallFactor * 0.60000002384185791);
-					break;
-				}
+					return (float)(1.5833333236514591E-05 * this.RestFallFactor * 0.60000002384185791);
 				default:
-				{
-					result = 999f;
-					break;
+					return 999f;
 				}
-				}
-				return result;
 			}
 		}
 
@@ -87,7 +82,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.Resting ? 1 : (-1);
+				if (this.Resting)
+				{
+					return 1;
+				}
+				return -1;
 			}
 		}
 
@@ -107,7 +106,8 @@ namespace RimWorld
 			}
 		}
 
-		public Need_Rest(Pawn pawn) : base(pawn)
+		public Need_Rest(Pawn pawn)
+			: base(pawn)
 		{
 			base.threshPercents = new List<float>();
 			base.threshPercents.Add(0.28f);
@@ -151,10 +151,16 @@ namespace RimWorld
 				float mtb = (float)((this.ticksAtZero >= 15000) ? ((this.ticksAtZero >= 30000) ? ((this.ticksAtZero >= 45000) ? 0.0625 : 0.0833333358168602) : 0.125) : 0.25);
 				if (Rand.MTBEventOccurs(mtb, 60000f, 150f))
 				{
-					base.pawn.jobs.StartJob(new Job(JobDefOf.LayDown, base.pawn.Position), JobCondition.InterruptForced, null, false, true, null, default(JobTag?), false);
+					if (base.pawn.CurJob != null && base.pawn.CurJob.def == JobDefOf.LayDown)
+						return;
+					base.pawn.jobs.StartJob(new Job(JobDefOf.LayDown, base.pawn.Position), JobCondition.InterruptForced, null, false, true, null, JobTag.SatisfyingNeeds, false);
+					if (base.pawn.InMentalState)
+					{
+						base.pawn.mindState.mentalStateHandler.CurState.RecoverFromState();
+					}
 					if (PawnUtility.ShouldSendNotificationAbout(base.pawn))
 					{
-						Messages.Message("MessageInvoluntarySleep".Translate(base.pawn.LabelShort), (Thing)base.pawn, MessageTypeDefOf.NegativeEvent);
+						Messages.Message("MessageInvoluntarySleep".Translate(base.pawn.LabelShort), base.pawn, MessageTypeDefOf.NegativeEvent);
 					}
 					TaleRecorder.RecordTale(TaleDefOf.Exhausted, base.pawn);
 				}

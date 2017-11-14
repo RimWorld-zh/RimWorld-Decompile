@@ -19,7 +19,8 @@ namespace Verse
 
 		public const int RiverOffsetMapBorder = 2;
 
-		public WaterInfo(Map map) : base(map)
+		public WaterInfo(Map map)
+			: base(map)
 		{
 		}
 
@@ -47,35 +48,27 @@ namespace Verse
 
 		public Vector3 GetWaterMovement(Vector3 position)
 		{
-			Vector3 result;
 			if (this.riverOffsetMap == null)
 			{
-				result = Vector3.zero;
+				return Vector3.zero;
 			}
-			else
+			if (this.riverFlowMap == null)
 			{
-				if (this.riverFlowMap == null)
-				{
-					this.GenerateRiverFlowMap();
-				}
-				IntVec3 intVec = new IntVec3(Mathf.FloorToInt(position.x), 0, Mathf.FloorToInt(position.z));
-				IntVec3 c = new IntVec3(Mathf.FloorToInt(position.x) + 1, 0, Mathf.FloorToInt(position.z) + 1);
-				if (!this.riverFlowMapBounds.Contains(intVec) || !this.riverFlowMapBounds.Contains(c))
-				{
-					result = Vector3.zero;
-				}
-				else
-				{
-					int num = this.riverFlowMapBounds.IndexOf(intVec);
-					int num2 = num + 1;
-					int num3 = num + this.riverFlowMapBounds.Width;
-					int num4 = num3 + 1;
-					Vector3 a = Vector3.Lerp(new Vector3(this.riverFlowMap[num * 2], 0f, this.riverFlowMap[num * 2 + 1]), new Vector3(this.riverFlowMap[num2 * 2], 0f, this.riverFlowMap[num2 * 2 + 1]), position.x - Mathf.Floor(position.x));
-					Vector3 b = Vector3.Lerp(new Vector3(this.riverFlowMap[num3 * 2], 0f, this.riverFlowMap[num3 * 2 + 1]), new Vector3(this.riverFlowMap[num4 * 2], 0f, this.riverFlowMap[num4 * 2 + 1]), position.x - Mathf.Floor(position.x));
-					result = Vector3.Lerp(a, b, position.z - (float)Mathf.FloorToInt(position.z));
-				}
+				this.GenerateRiverFlowMap();
 			}
-			return result;
+			IntVec3 intVec = new IntVec3(Mathf.FloorToInt(position.x), 0, Mathf.FloorToInt(position.z));
+			IntVec3 c = new IntVec3(Mathf.FloorToInt(position.x) + 1, 0, Mathf.FloorToInt(position.z) + 1);
+			if (this.riverFlowMapBounds.Contains(intVec) && this.riverFlowMapBounds.Contains(c))
+			{
+				int num = this.riverFlowMapBounds.IndexOf(intVec);
+				int num2 = num + 1;
+				int num3 = num + this.riverFlowMapBounds.Width;
+				int num4 = num3 + 1;
+				Vector3 a = Vector3.Lerp(new Vector3(this.riverFlowMap[num * 2], 0f, this.riverFlowMap[num * 2 + 1]), new Vector3(this.riverFlowMap[num2 * 2], 0f, this.riverFlowMap[num2 * 2 + 1]), position.x - Mathf.Floor(position.x));
+				Vector3 b = Vector3.Lerp(new Vector3(this.riverFlowMap[num3 * 2], 0f, this.riverFlowMap[num3 * 2 + 1]), new Vector3(this.riverFlowMap[num4 * 2], 0f, this.riverFlowMap[num4 * 2 + 1]), position.x - Mathf.Floor(position.x));
+				return Vector3.Lerp(a, b, position.z - (float)Mathf.FloorToInt(position.z));
+			}
+			return Vector3.zero;
 		}
 
 		public void GenerateRiverFlowMap()
@@ -123,9 +116,9 @@ namespace Verse
 
 		public void DebugDrawRiver()
 		{
-			for (int num = 0; num < this.riverDebugData.Count; num += 2)
+			for (int i = 0; i < this.riverDebugData.Count; i += 2)
 			{
-				GenDraw.DrawLineBetween(this.riverDebugData[num], this.riverDebugData[num + 1], SimpleColor.Magenta);
+				GenDraw.DrawLineBetween(this.riverDebugData[i], this.riverDebugData[i + 1], SimpleColor.Magenta);
 			}
 		}
 	}

@@ -1,6 +1,5 @@
 using RimWorld;
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse.Sound;
@@ -60,7 +59,11 @@ namespace Verse
 			{
 				get
 				{
-					return (float)((!(this.TimeLeft < 0.60000002384185791)) ? 1.0 : (this.TimeLeft / 0.60000002384185791));
+					if (this.TimeLeft < 0.60000002384185791)
+					{
+						return (float)(this.TimeLeft / 0.60000002384185791);
+					}
+					return 1f;
 				}
 			}
 
@@ -73,7 +76,8 @@ namespace Verse
 				this.ID = LiveMessage.uniqueID++;
 			}
 
-			public LiveMessage(string text, GlobalTargetInfo lookTarget) : this(text)
+			public LiveMessage(string text, GlobalTargetInfo lookTarget)
+				: this(text)
 			{
 				this.lookTarget = lookTarget;
 			}
@@ -93,7 +97,7 @@ namespace Verse
 			public void Draw(int xOffset, int yOffset)
 			{
 				Rect rect = this.CalculateRect((float)xOffset, (float)yOffset);
-				Find.WindowStack.ImmediateWindow(Gen.HashCombineInt(this.ID, 45574281), rect, WindowLayer.Super, (Action)delegate
+				Find.WindowStack.ImmediateWindow(Gen.HashCombineInt(this.ID, 45574281), rect, WindowLayer.Super, delegate
 				{
 					Text.Font = GameFont.Small;
 					Text.Anchor = TextAnchor.MiddleLeft;
@@ -142,27 +146,19 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
 				if (Current.ProgramState != ProgramState.Playing)
 				{
-					result = true;
+					return true;
 				}
-				else
+				WindowStack windowStack = Find.WindowStack;
+				for (int i = 0; i < windowStack.Count; i++)
 				{
-					WindowStack windowStack = Find.WindowStack;
-					for (int i = 0; i < windowStack.Count; i++)
+					if (windowStack[i].CausesMessageBackground())
 					{
-						if (windowStack[i].CausesMessageBackground())
-							goto IL_0033;
+						return true;
 					}
-					result = false;
 				}
-				goto IL_0053;
-				IL_0033:
-				result = true;
-				goto IL_0053;
-				IL_0053:
-				return result;
+				return false;
 			}
 		}
 
@@ -177,7 +173,7 @@ namespace Verse
 				}
 			}
 			Messages.mouseoverMessageIndex = -1;
-			Messages.liveMessages.RemoveAll((Predicate<LiveMessage>)((LiveMessage m) => m.Expired));
+			Messages.liveMessages.RemoveAll((LiveMessage m) => m.Expired);
 		}
 
 		public static void Message(string text, GlobalTargetInfo lookTarget, MessageTypeDef type)
@@ -248,26 +244,18 @@ namespace Verse
 
 		private static bool AcceptsMessage(string text, GlobalTargetInfo lookTarget)
 		{
-			bool result;
 			if (text.NullOrEmpty())
 			{
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < Messages.liveMessages.Count; i++)
 			{
-				for (int i = 0; i < Messages.liveMessages.Count; i++)
+				if (Messages.liveMessages[i].text == text && Messages.liveMessages[i].lookTarget == lookTarget && Messages.liveMessages[i].startingFrame == RealTime.frameCount)
 				{
-					if (Messages.liveMessages[i].text == text && Messages.liveMessages[i].lookTarget == lookTarget && Messages.liveMessages[i].startingFrame == RealTime.frameCount)
-						goto IL_006b;
+					return false;
 				}
-				result = true;
 			}
-			goto IL_008f;
-			IL_008f:
-			return result;
-			IL_006b:
-			result = false;
-			goto IL_008f;
+			return true;
 		}
 
 		private static void Message(LiveMessage msg, MessageTypeDef type)

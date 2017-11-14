@@ -11,12 +11,12 @@ namespace RimWorld
 	{
 		private enum GoodsType
 		{
-			None = 0,
-			Meals = 1,
-			RawFood = 2,
-			Medicine = 3,
-			Drugs = 4,
-			Resources = 5
+			None,
+			Meals,
+			RawFood,
+			Medicine,
+			Drugs,
+			Resources
 		}
 
 		private static Pair<GoodsType, float>[] GoodsWeights = new Pair<GoodsType, float>[5]
@@ -34,7 +34,7 @@ namespace RimWorld
 			int num = (!count.HasValue) ? Rand.RangeInclusive(10, 20) : count.Value;
 			TechLevel? techLevel = parms.techLevel;
 			TechLevel techLevel2 = (!techLevel.HasValue) ? TechLevel.Spacer : techLevel.Value;
-			for (int num2 = 0; num2 < num; num2++)
+			for (int i = 0; i < num; i++)
 			{
 				outThings.Add(this.GenerateSingle(techLevel2));
 			}
@@ -42,43 +42,23 @@ namespace RimWorld
 
 		private Thing GenerateSingle(TechLevel techLevel)
 		{
-			GoodsType first = ItemCollectionGenerator_RandomGeneralGoods.GoodsWeights.RandomElementByWeight((Func<Pair<GoodsType, float>, float>)((Pair<GoodsType, float> x) => x.Second)).First;
-			Thing result;
+			GoodsType first = ItemCollectionGenerator_RandomGeneralGoods.GoodsWeights.RandomElementByWeight((Pair<GoodsType, float> x) => x.Second).First;
 			switch (first)
 			{
 			case GoodsType.Meals:
-			{
-				result = this.RandomMeals(techLevel);
-				break;
-			}
+				return this.RandomMeals(techLevel);
 			case GoodsType.RawFood:
-			{
-				result = this.RandomRawFood(techLevel);
-				break;
-			}
+				return this.RandomRawFood(techLevel);
 			case GoodsType.Medicine:
-			{
-				result = this.RandomMedicine(techLevel);
-				break;
-			}
+				return this.RandomMedicine(techLevel);
 			case GoodsType.Drugs:
-			{
-				result = this.RandomDrugs(techLevel);
-				break;
-			}
+				return this.RandomDrugs(techLevel);
 			case GoodsType.Resources:
-			{
-				result = this.RandomResources(techLevel);
-				break;
-			}
+				return this.RandomResources(techLevel);
 			default:
-			{
 				Log.Error("Goods type not handled: " + first);
-				result = null;
-				break;
+				return null;
 			}
-			}
-			return result;
 		}
 
 		private Thing RandomMeals(TechLevel techLevel)
@@ -102,21 +82,16 @@ namespace RimWorld
 		private Thing RandomRawFood(TechLevel techLevel)
 		{
 			ThingDef thingDef = default(ThingDef);
-			Thing result;
 			if (!(from x in ItemCollectionGeneratorUtility.allGeneratableItems
 			where x.IsNutritionGivingIngestible && !x.IsCorpse && x.ingestible.HumanEdible && !x.HasComp(typeof(CompHatcher)) && (int)x.techLevel <= (int)techLevel && (int)x.ingestible.preferability < 6
 			select x).TryRandomElement<ThingDef>(out thingDef))
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				Thing thing = ThingMaker.MakeThing(thingDef, null);
-				int max = Mathf.Min(thingDef.stackLimit, 75);
-				thing.stackCount = Rand.RangeInclusive(1, max);
-				result = thing;
-			}
-			return result;
+			Thing thing = ThingMaker.MakeThing(thingDef, null);
+			int max = Mathf.Min(thingDef.stackLimit, 75);
+			thing.stackCount = Rand.RangeInclusive(1, max);
+			return thing;
 		}
 
 		private Thing RandomMedicine(TechLevel techLevel)
@@ -126,7 +101,7 @@ namespace RimWorld
 			{
 				thingDef = (from x in ItemCollectionGeneratorUtility.allGeneratableItems
 				where x.IsMedicine && (int)x.techLevel <= (int)techLevel
-				select x).MaxBy((Func<ThingDef, float>)((ThingDef x) => x.GetStatValueAbstract(StatDefOf.MedicalPotency, null)));
+				select x).MaxBy((ThingDef x) => x.GetStatValueAbstract(StatDefOf.MedicalPotency, null));
 			}
 			else if (!(from x in ItemCollectionGeneratorUtility.allGeneratableItems
 			where x.IsMedicine
@@ -147,21 +122,16 @@ namespace RimWorld
 		private Thing RandomDrugs(TechLevel techLevel)
 		{
 			ThingDef thingDef = default(ThingDef);
-			Thing result;
 			if (!(from x in ItemCollectionGeneratorUtility.allGeneratableItems
 			where x.IsDrug && (int)x.techLevel <= (int)techLevel
 			select x).TryRandomElement<ThingDef>(out thingDef))
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				Thing thing = ThingMaker.MakeThing(thingDef, null);
-				int max = Mathf.Min(thingDef.stackLimit, 25);
-				thing.stackCount = Rand.RangeInclusive(1, max);
-				result = thing;
-			}
-			return result;
+			Thing thing = ThingMaker.MakeThing(thingDef, null);
+			int max = Mathf.Min(thingDef.stackLimit, 25);
+			thing.stackCount = Rand.RangeInclusive(1, max);
+			return thing;
 		}
 
 		private Thing RandomResources(TechLevel techLevel)

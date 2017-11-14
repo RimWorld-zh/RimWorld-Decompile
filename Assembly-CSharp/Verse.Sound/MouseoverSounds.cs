@@ -26,10 +26,9 @@ namespace Verse.Sound
 			{
 				get
 				{
-					return new MouseoverRegionCall
-					{
-						rect = new Rect(-1000f, -1000f, 0f, 0f)
-					};
+					MouseoverRegionCall result = default(MouseoverRegionCall);
+					result.rect = new Rect(-1000f, -1000f, 0f, 0f);
+					return result;
 				}
 			}
 
@@ -40,7 +39,11 @@ namespace Verse.Sound
 
 			public override string ToString()
 			{
-				return this.IsValid ? ("(rect=" + this.rect + ((!this.mouseIsOver) ? "" : "mouseIsOver") + ")") : "(Invalid)";
+				if (!this.IsValid)
+				{
+					return "(Invalid)";
+				}
+				return "(rect=" + this.rect + ((!this.mouseIsOver) ? string.Empty : "mouseIsOver") + ")";
 			}
 		}
 
@@ -66,12 +69,10 @@ namespace Verse.Sound
 		{
 			if (sound != null && Event.current.type == EventType.Repaint)
 			{
-				MouseoverRegionCall item = new MouseoverRegionCall
-				{
-					rect = rect,
-					sound = sound,
-					mouseIsOver = Mouse.IsOver(rect)
-				};
+				MouseoverRegionCall item = default(MouseoverRegionCall);
+				item.rect = rect;
+				item.sound = sound;
+				item.mouseIsOver = Mouse.IsOver(rect);
 				MouseoverSounds.frameCalls.Add(item);
 			}
 		}

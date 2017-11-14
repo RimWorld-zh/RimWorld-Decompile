@@ -34,7 +34,11 @@ namespace Verse
 
 		protected virtual AcceptanceReport NameIsValid(string name)
 		{
-			return (name.Length != 0) ? true : false;
+			if (name.Length == 0)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override void DoWindowContents(Rect inRect)

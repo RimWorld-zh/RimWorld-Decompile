@@ -8,7 +8,7 @@ namespace Verse
 
 		private Region[] regionGrid;
 
-		private int curCleanIndex = 0;
+		private int curCleanIndex;
 
 		public List<Room> allRooms = new List<Room>();
 
@@ -56,10 +56,10 @@ namespace Verse
 				}
 				finally
 				{
-					((_003C_003Ec__Iterator0)/*Error near IL_0115: stateMachine*/)._003C_003E__Finally0();
+					((_003C_003Ec__Iterator0)/*Error near IL_010e: stateMachine*/)._003C_003E__Finally0();
 				}
-				IL_0125:
-				/*Error near IL_0126: Unexpected return in MoveNext()*/;
+				IL_011e:
+				/*Error near IL_011f: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -93,10 +93,10 @@ namespace Verse
 				}
 				finally
 				{
-					((_003C_003Ec__Iterator1)/*Error near IL_0186: stateMachine*/)._003C_003E__Finally0();
+					((_003C_003Ec__Iterator1)/*Error near IL_017d: stateMachine*/)._003C_003E__Finally0();
 				}
-				IL_0196:
-				/*Error near IL_0197: Unexpected return in MoveNext()*/;
+				IL_018d:
+				/*Error near IL_018e: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -108,39 +108,37 @@ namespace Verse
 
 		public Region GetValidRegionAt(IntVec3 c)
 		{
-			Region result;
 			if (!c.InBounds(this.map))
 			{
 				Log.Error("Tried to get valid region out of bounds at " + c);
-				result = null;
+				return null;
 			}
-			else
+			if (!this.map.regionAndRoomUpdater.Enabled && this.map.regionAndRoomUpdater.AnythingToRebuild)
 			{
-				if (!this.map.regionAndRoomUpdater.Enabled && this.map.regionAndRoomUpdater.AnythingToRebuild)
-				{
-					Log.Warning("Trying to get valid region at " + c + " but RegionAndRoomUpdater is disabled. The result may be incorrect.");
-				}
-				this.map.regionAndRoomUpdater.TryRebuildDirtyRegionsAndRooms();
-				Region region = this.regionGrid[this.map.cellIndices.CellToIndex(c)];
-				result = ((region == null || !region.valid) ? null : region);
+				Log.Warning("Trying to get valid region at " + c + " but RegionAndRoomUpdater is disabled. The result may be incorrect.");
 			}
-			return result;
+			this.map.regionAndRoomUpdater.TryRebuildDirtyRegionsAndRooms();
+			Region region = this.regionGrid[this.map.cellIndices.CellToIndex(c)];
+			if (region != null && region.valid)
+			{
+				return region;
+			}
+			return null;
 		}
 
 		public Region GetValidRegionAt_NoRebuild(IntVec3 c)
 		{
-			Region result;
 			if (!c.InBounds(this.map))
 			{
 				Log.Error("Tried to get valid region out of bounds at " + c);
-				result = null;
+				return null;
 			}
-			else
+			Region region = this.regionGrid[this.map.cellIndices.CellToIndex(c)];
+			if (region != null && region.valid)
 			{
-				Region region = this.regionGrid[this.map.cellIndices.CellToIndex(c)];
-				result = ((region == null || !region.valid) ? null : region);
+				return region;
 			}
-			return result;
+			return null;
 		}
 
 		public Region GetRegionAt_NoRebuild_InvalidAllowed(IntVec3 c)

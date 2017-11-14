@@ -6,11 +6,11 @@ namespace Verse
 {
 	public class GraphicData
 	{
-		public string texPath = (string)null;
+		public string texPath;
 
-		public Type graphicClass = null;
+		public Type graphicClass;
 
-		public ShaderType shaderType = ShaderType.None;
+		public ShaderType shaderType;
 
 		public Color color = Color.white;
 
@@ -18,24 +18,24 @@ namespace Verse
 
 		public Vector2 drawSize = Vector2.one;
 
-		public float onGroundRandomRotateAngle = 0f;
+		public float onGroundRandomRotateAngle;
 
 		public bool drawRotated = true;
 
 		public bool allowFlip = true;
 
-		public float flipExtraRotation = 0f;
+		public float flipExtraRotation;
 
-		public ShadowData shadowData = null;
+		public ShadowData shadowData;
 
-		public DamageGraphicData damageData = null;
+		public DamageGraphicData damageData;
 
-		public LinkDrawerType linkType = LinkDrawerType.None;
+		public LinkDrawerType linkType;
 
-		public LinkFlags linkFlags = LinkFlags.None;
+		public LinkFlags linkFlags;
 
 		[Unsaved]
-		private Graphic cachedGraphic = null;
+		private Graphic cachedGraphic;
 
 		public bool Linked
 		{
@@ -111,7 +111,11 @@ namespace Verse
 
 		public Graphic GraphicColoredFor(Thing t)
 		{
-			return (!t.DrawColor.IndistinguishableFrom(this.Graphic.Color) || !t.DrawColorTwo.IndistinguishableFrom(this.Graphic.ColorTwo)) ? this.Graphic.GetColoredVersion(this.Graphic.Shader, t.DrawColor, t.DrawColorTwo) : this.Graphic;
+			if (t.DrawColor.IndistinguishableFrom(this.Graphic.Color) && t.DrawColorTwo.IndistinguishableFrom(this.Graphic.ColorTwo))
+			{
+				return this.Graphic;
+			}
+			return this.Graphic.GetColoredVersion(this.Graphic.Shader, t.DrawColor, t.DrawColorTwo);
 		}
 
 		internal IEnumerable<string> ConfigErrors(ThingDef thingDef)

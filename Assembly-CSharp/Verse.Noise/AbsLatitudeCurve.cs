@@ -8,11 +8,13 @@ namespace Verse.Noise
 
 		public float planetRadius;
 
-		public AbsLatitudeCurve() : base(0)
+		public AbsLatitudeCurve()
+			: base(0)
 		{
 		}
 
-		public AbsLatitudeCurve(SimpleCurve curve, float planetRadius) : base(0)
+		public AbsLatitudeCurve(SimpleCurve curve, float planetRadius)
+			: base(0)
 		{
 			this.curve = curve;
 			this.planetRadius = planetRadius;

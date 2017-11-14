@@ -67,20 +67,14 @@ namespace Verse
 
 		public T ObjectWithLoadID<T>(string loadID)
 		{
-			T result;
-			if (loadID.NullOrEmpty() || loadID == "null")
-			{
-				result = default(T);
-			}
-			else
+			if (!loadID.NullOrEmpty() && !(loadID == "null"))
 			{
 				ILoadReferenceable loadReferenceable = default(ILoadReferenceable);
 				if (this.allObjectsByLoadID.TryGetValue(loadID, out loadReferenceable))
 				{
 					if (loadReferenceable == null)
 					{
-						result = default(T);
-						goto IL_0131;
+						return default(T);
 					}
 					try
 					{
@@ -88,16 +82,14 @@ namespace Verse
 					}
 					catch (Exception ex)
 					{
-						Log.Error("Exception getting object with load id " + loadID + " of type " + typeof(T) + ". What we loaded was " + loadReferenceable.ToStringSafe<ILoadReferenceable>() + ". Exception:\n" + ex);
+						Log.Error("Exception getting object with load id " + loadID + " of type " + typeof(T) + ". What we loaded was " + loadReferenceable.ToStringSafe() + ". Exception:\n" + ex);
 						return default(T);
 					}
 				}
-				Log.Warning("Could not resolve reference to object with loadID " + loadID + " of type " + typeof(T) + ". Was it compressed away, destroyed, had no ID number, or not saved/loaded right? curParent=" + Scribe.loader.curParent.ToStringSafe<IExposable>() + " curPathRelToParent=" + Scribe.loader.curPathRelToParent);
-				result = default(T);
+				Log.Warning("Could not resolve reference to object with loadID " + loadID + " of type " + typeof(T) + ". Was it compressed away, destroyed, had no ID number, or not saved/loaded right? curParent=" + Scribe.loader.curParent.ToStringSafe() + " curPathRelToParent=" + Scribe.loader.curPathRelToParent);
+				return default(T);
 			}
-			goto IL_0131;
-			IL_0131:
-			return result;
+			return default(T);
 		}
 	}
 }

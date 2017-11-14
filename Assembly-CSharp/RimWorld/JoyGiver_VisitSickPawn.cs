@@ -7,17 +7,16 @@ namespace RimWorld
 	{
 		public override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (!InteractionUtility.CanInitiateInteraction(pawn))
 			{
-				result = null;
+				return null;
 			}
-			else
+			Pawn pawn2 = SickPawnVisitUtility.FindRandomSickPawn(pawn, JoyCategory.Low);
+			if (pawn2 == null)
 			{
-				Pawn pawn2 = SickPawnVisitUtility.FindRandomSickPawn(pawn, JoyCategory.Low);
-				result = ((pawn2 != null) ? new Job(base.def.jobDef, (Thing)pawn2, SickPawnVisitUtility.FindChair(pawn, pawn2)) : null);
+				return null;
 			}
-			return result;
+			return new Job(base.def.jobDef, pawn2, SickPawnVisitUtility.FindChair(pawn, pawn2));
 		}
 	}
 }

@@ -15,10 +15,10 @@ namespace RimWorld
 		public static List<RoomOutline> GenerateRoomOutlines(CellRect initialRect, Map map, int divisionsCount, int finalRoomsCount, int maxRoomCells, int minTotalRoomsNonWallCellsCount)
 		{
 			int num = 0;
-			List<RoomOutline> result;
+			List<RoomOutline> list;
 			while (true)
 			{
-				List<RoomOutline> list = RoomOutlinesGenerator.GenerateRoomOutlines(initialRect, map, divisionsCount, finalRoomsCount, maxRoomCells);
+				list = RoomOutlinesGenerator.GenerateRoomOutlines(initialRect, map, divisionsCount, finalRoomsCount, maxRoomCells);
 				int num2 = 0;
 				for (int i = 0; i < list.Count; i++)
 				{
@@ -26,18 +26,13 @@ namespace RimWorld
 				}
 				if (num2 >= minTotalRoomsNonWallCellsCount)
 				{
-					result = list;
+					return list;
 				}
-				else
-				{
-					num++;
-					if (num <= 15)
-						continue;
-					result = list;
-				}
-				break;
+				num++;
+				if (num > 15)
+					break;
 			}
-			return result;
+			return list;
 		}
 
 		public static List<RoomOutline> GenerateRoomOutlines(CellRect initialRect, Map map, int divisionsCount, int finalRoomsCount, int maxRoomCells)
@@ -57,7 +52,7 @@ namespace RimWorld
 				}
 				num++;
 			}
-			while (list.Any((Predicate<RoomOutline>)((RoomOutline x) => x.CellsCountIgnoringWalls > maxRoomCells)))
+			while (list.Any((RoomOutline x) => x.CellsCountIgnoringWalls > maxRoomCells))
 			{
 				RoomOutline roomOutline2 = (from x in list
 				where x.CellsCountIgnoringWalls > maxRoomCells

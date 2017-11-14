@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -19,10 +18,10 @@ namespace RimWorld
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			this.FailOn((Func<bool>)(() => !((Area)((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_002a: stateMachine*/)._0024this.Map.areaManager.BuildRoof)[((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_002a: stateMachine*/)._0024this.Cell]));
-			this.FailOn((Func<bool>)(() => !RoofCollapseUtility.WithinRangeOfRoofHolder(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0042: stateMachine*/)._0024this.Cell, ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0042: stateMachine*/)._0024this.Map)));
-			this.FailOn((Func<bool>)(() => !RoofCollapseUtility.ConnectedToRoofHolder(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_005a: stateMachine*/)._0024this.Cell, ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_005a: stateMachine*/)._0024this.Map, true)));
-			using (IEnumerator<Toil> enumerator = this._003CMakeNewToils_003E__BaseCallProxy0().GetEnumerator())
+			this.FailOn(() => !((Area)((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0029: stateMachine*/)._0024this.Map.areaManager.BuildRoof)[((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0029: stateMachine*/)._0024this.Cell]);
+			this.FailOn(() => !RoofCollapseUtility.WithinRangeOfRoofHolder(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0041: stateMachine*/)._0024this.Cell, ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0041: stateMachine*/)._0024this.Map));
+			this.FailOn(() => !RoofCollapseUtility.ConnectedToRoofHolder(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0059: stateMachine*/)._0024this.Cell, ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0059: stateMachine*/)._0024this.Map, true));
+			using (IEnumerator<Toil> enumerator = base.MakeNewToils().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -32,8 +31,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_0105:
-			/*Error near IL_0106: Unexpected return in MoveNext()*/;
+			IL_0101:
+			/*Error near IL_0102: Unexpected return in MoveNext()*/;
 		}
 
 		protected override void DoEffect()

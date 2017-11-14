@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -40,12 +39,12 @@ namespace RimWorld
 						select def;
 						if (source.Any())
 						{
-							ThingDef thingDef = source.RandomElementByWeight((Func<ThingDef, float>)((ThingDef x) => GenStep_Plants.PlantChoiceWeight(x, map)));
+							ThingDef thingDef = source.RandomElementByWeight((ThingDef x) => GenStep_Plants.PlantChoiceWeight(x, map));
 							int randomInRange = thingDef.plant.wildClusterSizeRange.RandomInRange;
-							for (int num4 = 0; num4 < randomInRange; num4++)
+							for (int j = 0; j < randomInRange; j++)
 							{
 								IntVec3 loc = default(IntVec3);
-								if (num4 == 0)
+								if (j == 0)
 								{
 									loc = item;
 								}

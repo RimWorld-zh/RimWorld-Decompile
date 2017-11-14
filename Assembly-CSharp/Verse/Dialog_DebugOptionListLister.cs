@@ -32,11 +32,11 @@ namespace Verse
 		public static void ShowSimpleDebugMenu<T>(IEnumerable<T> elements, Func<T, string> label, Action<T> chosen)
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
-			foreach (T item in elements)
+			foreach (T element in elements)
 			{
-				list.Add(new DebugMenuOption(label(item), DebugMenuOptionMode.Action, (Action)delegate()
+				list.Add(new DebugMenuOption(label(element), DebugMenuOptionMode.Action, delegate
 				{
-					chosen((T)item);
+					chosen((T)element);
 				}));
 			}
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));

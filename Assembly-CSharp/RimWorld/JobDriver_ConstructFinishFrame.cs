@@ -7,6 +7,14 @@ namespace RimWorld
 	{
 		private const int JobEndInterval = 5000;
 
+		private Frame Frame
+		{
+			get
+			{
+				return (Frame)base.job.GetTarget(TargetIndex.A).Thing;
+			}
+		}
+
 		public override bool TryMakePreToilReservations()
 		{
 			return base.pawn.Reserve(base.job.targetA, base.job, 1, -1, null);

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -10,7 +11,7 @@ namespace RimWorld.Planet
 {
 	public class WorldPawnGC : IExposable
 	{
-		private int lastSuccessfulGCTick = 0;
+		private int lastSuccessfulGCTick;
 
 		private int currentGCRate = 1;
 
@@ -22,11 +23,14 @@ namespace RimWorld.Planet
 
 		private const int GCUpdateInterval = 15000;
 
-		private IEnumerator activeGCProcess = null;
+		private IEnumerator activeGCProcess;
 
-		private StringBuilder logDotgraph = null;
+		private StringBuilder logDotgraph;
 
-		private HashSet<string> logDotgraphUniqueLinks = null;
+		private HashSet<string> logDotgraphUniqueLinks;
+
+		[CompilerGenerated]
+		private static Func<char, bool> _003C_003Ef__mg_0024cache0;
 
 		public void WorldPawnGCTick()
 		{
@@ -79,7 +83,7 @@ namespace RimWorld.Planet
 		private IEnumerable AccumulatePawnGCData(Dictionary<Pawn, string> keptPawns)
 		{
 			_003CAccumulatePawnGCData_003Ec__Iterator0 _003CAccumulatePawnGCData_003Ec__Iterator = (_003CAccumulatePawnGCData_003Ec__Iterator0)/*Error near IL_0032: stateMachine*/;
-			foreach (Pawn item in PawnsFinder.AllMapsAndWorld_AliveOrDead)
+			foreach (Pawn item in PawnsFinder.AllMapsWorldAndTemporary_AliveOrDead)
 			{
 				string criticalPawnReason = this.GetCriticalPawnReason(item);
 				if (!criticalPawnReason.NullOrEmpty())
@@ -95,15 +99,15 @@ namespace RimWorld.Planet
 					this.logDotgraph.AppendLine(string.Format("{0} [color=\"{1}\" shape=\"{2}\"];", WorldPawnGC.DotgraphIdentifier(item), (item.relations == null || !item.relations.everSeenByPlayer) ? "grey" : "black", (!item.RaceProps.Humanlike) ? "box" : "oval"));
 				}
 			}
-			foreach (Pawn item2 in (from pawn in PawnsFinder.AllMapsAndWorld_Alive
+			foreach (Pawn item2 in (from pawn in PawnsFinder.AllMapsWorldAndTemporary_Alive
 			where _003CAccumulatePawnGCData_003Ec__Iterator._0024this.AllowedAsStoryPawn(pawn) && !keptPawns.ContainsKey(pawn)
 			orderby pawn.records.StoryRelevance descending
 			select pawn).Take(20))
 			{
 				keptPawns[item2] = "StoryRelevant";
 			}
-			Pawn[] array;
-			Pawn[] criticalPawns = array = keptPawns.Keys.ToArray();
+			Pawn[] criticalPawns = keptPawns.Keys.ToArray();
+			Pawn[] array = criticalPawns;
 			int num = 0;
 			if (num < array.Length)
 			{
@@ -113,9 +117,8 @@ namespace RimWorld.Planet
 				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			Pawn[] array2 = criticalPawns;
-			for (int i = 0; i < array2.Length; i++)
+			foreach (Pawn pawn3 in array2)
 			{
-				Pawn pawn3 = array2[i];
 				this.AddAllMemories(pawn3, keptPawns);
 			}
 		}
@@ -123,22 +126,7 @@ namespace RimWorld.Planet
 		private Dictionary<Pawn, string> AccumulatePawnGCDataImmediate()
 		{
 			Dictionary<Pawn, string> dictionary = new Dictionary<Pawn, string>();
-			IEnumerator enumerator = this.AccumulatePawnGCData(dictionary).GetEnumerator();
-			try
-			{
-				while (enumerator.MoveNext())
-				{
-					object current = enumerator.Current;
-				}
-			}
-			finally
-			{
-				IDisposable disposable;
-				if ((disposable = (enumerator as IDisposable)) != null)
-				{
-					disposable.Dispose();
-				}
-			}
+			this.AccumulatePawnGCData(dictionary).ExecuteEnumerable();
 			return dictionary;
 		}
 
@@ -169,12 +157,13 @@ namespace RimWorld.Planet
 		public IEnumerable PawnGCPass()
 		{
 			Dictionary<Pawn, string> keptPawns = new Dictionary<Pawn, string>();
+			Pawn[] worldPawnsSnapshot = Find.WorldPawns.AllPawnsAliveOrDead.ToArray();
 			IEnumerator enumerator = this.AccumulatePawnGCData(keptPawns).GetEnumerator();
 			try
 			{
 				if (enumerator.MoveNext())
 				{
-					object _ = enumerator.Current;
+					object obj = enumerator.Current;
 					yield return (object)null;
 					/*Error: Unable to find new state assignment for yield return*/;
 				}
@@ -188,92 +177,89 @@ namespace RimWorld.Planet
 					disposable2.Dispose();
 				}
 			}
-			Pawn[] array = Find.WorldPawns.AllPawnsAlive.ToArray();
-			for (int i = 0; i < array.Length; i++)
+			foreach (Pawn pawn in worldPawnsSnapshot)
 			{
-				Pawn pawn = array[i];
-				if (!keptPawns.ContainsKey(pawn))
+				if (pawn.IsWorldPawn() && !keptPawns.ContainsKey(pawn))
 				{
 					Find.WorldPawns.RemoveAndDiscardPawnViaGC(pawn);
 				}
 			}
 			yield break;
-			IL_0144:
-			/*Error near IL_0145: Unexpected return in MoveNext()*/;
+			IL_0135:
+			/*Error near IL_0136: Unexpected return in MoveNext()*/;
 		}
 
 		private string GetCriticalPawnReason(Pawn pawn)
 		{
-			string result;
 			if (pawn.Discarded)
 			{
-				result = (string)null;
+				return null;
 			}
-			else if (PawnUtility.EverBeenColonistOrTameAnimal(pawn) && pawn.RaceProps.Humanlike)
+			if (PawnUtility.EverBeenColonistOrTameAnimal(pawn) && pawn.RaceProps.Humanlike)
 			{
-				result = "Colonist";
+				return "Colonist";
 			}
-			else if (PawnGenerator.IsBeingGenerated(pawn))
+			if (PawnGenerator.IsBeingGenerated(pawn))
 			{
-				result = "Generating";
+				return "Generating";
 			}
-			else if (PawnUtility.IsFactionLeader(pawn))
+			if (PawnUtility.IsFactionLeader(pawn))
 			{
-				result = "FactionLeader";
+				return "FactionLeader";
 			}
-			else if (PawnUtility.IsKidnappedPawn(pawn))
+			if (PawnUtility.IsKidnappedPawn(pawn))
 			{
-				result = "Kidnapped";
+				return "Kidnapped";
 			}
-			else if (pawn.IsCaravanMember())
+			if (pawn.IsCaravanMember())
 			{
-				result = "CaravanMember";
+				return "CaravanMember";
 			}
-			else if (PawnUtility.IsTravelingInTransportPodWorldObject(pawn))
+			if (PawnUtility.IsTravelingInTransportPodWorldObject(pawn))
 			{
-				result = "TransportPod";
+				return "TransportPod";
 			}
-			else if (PawnUtility.ForSaleBySettlement(pawn))
+			if (PawnUtility.ForSaleBySettlement(pawn))
 			{
-				result = "ForSale";
+				return "ForSale";
 			}
-			else if (Find.WorldPawns.ForcefullyKeptPawns.Contains(pawn))
+			if (Find.WorldPawns.ForcefullyKeptPawns.Contains(pawn))
 			{
-				result = "ForceKept";
+				return "ForceKept";
 			}
-			else if (pawn.SpawnedOrAnyParentSpawned)
+			if (pawn.SpawnedOrAnyParentSpawned)
 			{
-				result = "Spawned";
+				return "Spawned";
 			}
-			else if (!pawn.Corpse.DestroyedOrNull())
+			if (!pawn.Corpse.DestroyedOrNull())
 			{
-				result = "CorpseExists";
+				return "CorpseExists";
 			}
-			else
+			if (pawn.RaceProps.Humanlike && Current.ProgramState == ProgramState.Playing)
 			{
-				if (pawn.RaceProps.Humanlike && Current.ProgramState == ProgramState.Playing)
+				if (Find.PlayLog.AnyEntryConcerns(pawn))
 				{
-					if (Find.PlayLog.AnyEntryConcerns(pawn))
-					{
-						result = "InPlayLog";
-						goto IL_018e;
-					}
-					if (Find.BattleLog.AnyEntryConcerns(pawn))
-					{
-						result = "InBattleLog";
-						goto IL_018e;
-					}
+					return "InPlayLog";
 				}
-				result = ((Current.ProgramState != ProgramState.Playing || !Find.TaleManager.AnyActiveTaleConcerns(pawn)) ? null : "InActiveTale");
+				if (Find.BattleLog.AnyEntryConcerns(pawn))
+				{
+					return "InBattleLog";
+				}
 			}
-			goto IL_018e;
-			IL_018e:
-			return result;
+			if (Current.ProgramState == ProgramState.Playing && Find.TaleManager.AnyActiveTaleConcerns(pawn))
+			{
+				return "InActiveTale";
+			}
+			return null;
 		}
 
 		private bool AllowedAsStoryPawn(Pawn pawn)
 		{
-			return (byte)(pawn.RaceProps.Humanlike ? 1 : 0) != 0;
+			if (!pawn.RaceProps.Humanlike)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public void AddAllRelationships(Pawn pawn, Dictionary<Pawn, string> keptPawns)
@@ -379,9 +365,7 @@ namespace RimWorld.Planet
 
 		public static string DotgraphIdentifier(Pawn pawn)
 		{
-			return new string((from ch in pawn.NameStringShort
-			where char.IsLetter(ch)
-			select ch).ToArray()) + "_" + pawn.thingIDNumber.ToString();
+			return new string(pawn.NameStringShort.Where(char.IsLetter).ToArray()) + "_" + pawn.thingIDNumber.ToString();
 		}
 	}
 }

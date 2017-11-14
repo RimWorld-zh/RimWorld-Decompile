@@ -22,7 +22,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -44,58 +44,40 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_01c0:
-			/*Error near IL_01c1: Unexpected return in MoveNext()*/;
+			IL_01b6:
+			/*Error near IL_01b7: Unexpected return in MoveNext()*/;
 		}
 
 		public bool WillTrade(ThingDef td)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.stockGenerators.Count; i++)
 			{
-				if (num < this.stockGenerators.Count)
+				if (this.stockGenerators[i].HandlesThingDef(td))
 				{
-					if (this.stockGenerators[num].HandlesThingDef(td))
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public PriceType PriceTypeFor(ThingDef thingDef, TradeAction action)
 		{
-			PriceType result;
-			PriceType priceType = default(PriceType);
 			if (thingDef == ThingDefOf.Silver)
 			{
-				result = PriceType.Undefined;
+				return PriceType.Undefined;
 			}
-			else
+			if (action == TradeAction.PlayerBuys)
 			{
-				if (action == TradeAction.PlayerBuys)
+				for (int i = 0; i < this.stockGenerators.Count; i++)
 				{
-					for (int i = 0; i < this.stockGenerators.Count; i++)
+					PriceType result = default(PriceType);
+					if (this.stockGenerators[i].TryGetPriceType(thingDef, action, out result))
 					{
-						if (this.stockGenerators[i].TryGetPriceType(thingDef, action, out priceType))
-							goto IL_003d;
+						return result;
 					}
 				}
-				result = PriceType.Normal;
 			}
-			goto IL_0062;
-			IL_0062:
-			return result;
-			IL_003d:
-			result = priceType;
-			goto IL_0062;
+			return PriceType.Normal;
 		}
 	}
 }

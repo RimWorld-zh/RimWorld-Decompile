@@ -31,6 +31,7 @@ namespace Verse
 					}
 					result = true;
 				}
+				return result;
 			}
 			finally
 			{
@@ -40,7 +41,6 @@ namespace Verse
 					disposable.Dispose();
 				}
 			}
-			return result;
 		}
 	}
 }

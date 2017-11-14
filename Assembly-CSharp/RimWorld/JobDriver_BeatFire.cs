@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -26,15 +25,15 @@ namespace RimWorld
 			this.FailOnDespawnedOrNull(TargetIndex.A);
 			Toil beat = new Toil();
 			Toil approach = new Toil();
-			approach.initAction = (Action)delegate
+			approach.initAction = delegate
 			{
-				if (_003CMakeNewToils_003Ec__Iterator._0024this.Map.reservationManager.CanReserve(_003CMakeNewToils_003Ec__Iterator._0024this.pawn, (Thing)_003CMakeNewToils_003Ec__Iterator._0024this.TargetFire, 1, -1, null, false))
+				if (_003CMakeNewToils_003Ec__Iterator._0024this.Map.reservationManager.CanReserve(_003CMakeNewToils_003Ec__Iterator._0024this.pawn, _003CMakeNewToils_003Ec__Iterator._0024this.TargetFire, 1, -1, null, false))
 				{
-					_003CMakeNewToils_003Ec__Iterator._0024this.pawn.Reserve((Thing)_003CMakeNewToils_003Ec__Iterator._0024this.TargetFire, _003CMakeNewToils_003Ec__Iterator._0024this.job, 1, -1, null);
+					_003CMakeNewToils_003Ec__Iterator._0024this.pawn.Reserve(_003CMakeNewToils_003Ec__Iterator._0024this.TargetFire, _003CMakeNewToils_003Ec__Iterator._0024this.job, 1, -1, null);
 				}
-				_003CMakeNewToils_003Ec__Iterator._0024this.pawn.pather.StartPath((Thing)_003CMakeNewToils_003Ec__Iterator._0024this.TargetFire, PathEndMode.Touch);
+				_003CMakeNewToils_003Ec__Iterator._0024this.pawn.pather.StartPath(_003CMakeNewToils_003Ec__Iterator._0024this.TargetFire, PathEndMode.Touch);
 			};
-			approach.tickAction = (Action)delegate
+			approach.tickAction = delegate
 			{
 				if (_003CMakeNewToils_003Ec__Iterator._0024this.pawn.pather.Moving && _003CMakeNewToils_003Ec__Iterator._0024this.pawn.pather.nextCell != _003CMakeNewToils_003Ec__Iterator._0024this.TargetFire.Position)
 				{
@@ -55,28 +54,18 @@ namespace RimWorld
 		private bool StartBeatingFireIfAnyAt(IntVec3 cell, Toil nextToil)
 		{
 			List<Thing> thingList = cell.GetThingList(base.Map);
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < thingList.Count; i++)
 			{
-				if (num < thingList.Count)
+				Fire fire = thingList[i] as Fire;
+				if (fire != null && fire.parent == null)
 				{
-					Fire fire = thingList[num] as Fire;
-					if (fire != null && fire.parent == null)
-					{
-						base.job.targetA = (Thing)fire;
-						base.pawn.pather.StopDead();
-						base.JumpToToil(nextToil);
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					base.job.targetA = fire;
+					base.pawn.pather.StopDead();
+					base.JumpToToil(nextToil);
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 	}
 }

@@ -4,15 +4,23 @@ namespace Verse
 {
 	public class Hediff_MissingPart : HediffWithComps
 	{
-		public HediffDef lastInjury = null;
+		public HediffDef lastInjury;
 
-		private bool isFreshInt = false;
+		private bool isFreshInt;
 
 		public override float SummaryHealthPercentImpact
 		{
 			get
 			{
-				return (float)(this.IsFreshNonSolidExtremity ? ((!base.Part.def.tags.NullOrEmpty() || !base.Part.parts.NullOrEmpty() || base.Bleeding) ? ((float)base.Part.def.hitPoints / (75.0 * base.pawn.HealthScale)) : 0.0) : 0.0);
+				if (!this.IsFreshNonSolidExtremity)
+				{
+					return 0f;
+				}
+				if (base.Part.def.tags.NullOrEmpty() && base.Part.parts.NullOrEmpty() && !base.Bleeding)
+				{
+					return 0f;
+				}
+				return (float)((float)base.Part.def.hitPoints / (75.0 * base.pawn.HealthScale));
 			}
 		}
 
@@ -36,21 +44,20 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (this.lastInjury != null && this.lastInjury.injuryProps.useRemovedLabel)
 				{
-					result = "RemovedBodyPart".Translate();
+					return "RemovedBodyPart".Translate();
 				}
-				else if (this.lastInjury != null && base.Part.depth != BodyPartDepth.Inside)
+				if (this.lastInjury != null && base.Part.depth != BodyPartDepth.Inside)
 				{
-					result = ((!base.Part.def.useDestroyedOutLabel || this.lastInjury.injuryProps.destroyedOutLabel.NullOrEmpty()) ? this.lastInjury.injuryProps.destroyedLabel : this.lastInjury.injuryProps.destroyedOutLabel);
+					if (base.Part.def.useDestroyedOutLabel && !this.lastInjury.injuryProps.destroyedOutLabel.NullOrEmpty())
+					{
+						return this.lastInjury.injuryProps.destroyedOutLabel;
+					}
+					return this.lastInjury.injuryProps.destroyedLabel;
 				}
-				else
-				{
-					bool solid = base.Part.def.IsSolid(base.Part, base.pawn.health.hediffSet.hediffs);
-					result = HealthUtility.GetGeneralDestroyedPartLabel(base.Part, this.IsFreshNonSolidExtremity, solid);
-				}
-				return result;
+				bool solid = base.Part.def.IsSolid(base.Part, base.pawn.health.hediffSet.hediffs);
+				return HealthUtility.GetGeneralDestroyedPartLabel(base.Part, this.IsFreshNonSolidExtremity, solid);
 			}
 		}
 
@@ -76,7 +83,11 @@ namespace Verse
 		{
 			get
 			{
-				return (float)((!base.pawn.Dead && this.IsFreshNonSolidExtremity && !this.ParentIsMissing) ? (base.Part.def.GetMaxHealth(base.pawn) * base.def.injuryProps.bleedRate * base.Part.def.bleedingRateMultiplier) : 0.0);
+				if (!base.pawn.Dead && this.IsFreshNonSolidExtremity && !this.ParentIsMissing)
+				{
+					return base.Part.def.GetMaxHealth(base.pawn) * base.def.injuryProps.bleedRate * base.Part.def.bleedingRateMultiplier;
+				}
+				return 0f;
 			}
 		}
 
@@ -84,7 +95,11 @@ namespace Verse
 		{
 			get
 			{
-				return (float)((!base.pawn.Dead && !base.causesNoPain && this.IsFreshNonSolidExtremity && !this.ParentIsMissing) ? (base.Part.def.GetMaxHealth(base.pawn) * base.def.injuryProps.painPerSeverity) : 0.0);
+				if (!base.pawn.Dead && !base.causesNoPain && this.IsFreshNonSolidExtremity && !this.ParentIsMissing)
+				{
+					return base.Part.def.GetMaxHealth(base.pawn) * base.def.injuryProps.painPerSeverity;
+				}
+				return 0f;
 			}
 		}
 
@@ -92,25 +107,15 @@ namespace Verse
 		{
 			get
 			{
-				int num = 0;
-				bool result;
-				while (true)
+				for (int i = 0; i < base.pawn.health.hediffSet.hediffs.Count; i++)
 				{
-					if (num < base.pawn.health.hediffSet.hediffs.Count)
+					Hediff_MissingPart hediff_MissingPart = base.pawn.health.hediffSet.hediffs[i] as Hediff_MissingPart;
+					if (hediff_MissingPart != null && hediff_MissingPart.Part == base.Part.parent)
 					{
-						Hediff_MissingPart hediff_MissingPart = base.pawn.health.hediffSet.hediffs[num] as Hediff_MissingPart;
-						if (hediff_MissingPart != null && hediff_MissingPart.Part == base.Part.parent)
-						{
-							result = true;
-							break;
-						}
-						num++;
-						continue;
+						return true;
 					}
-					result = false;
-					break;
 				}
-				return result;
+				return false;
 			}
 		}
 
@@ -130,7 +135,15 @@ namespace Verse
 		{
 			get
 			{
-				return (byte)((Current.ProgramState != 0) ? ((this.IsFresh && base.Part.depth != BodyPartDepth.Inside && !base.Part.def.IsSolid(base.Part, base.pawn.health.hediffSet.hediffs) && !this.ParentIsMissing) ? 1 : 0) : 0) != 0;
+				if (Current.ProgramState == ProgramState.Entry)
+				{
+					return false;
+				}
+				if (this.IsFresh && base.Part.depth != BodyPartDepth.Inside && !base.Part.def.IsSolid(base.Part, base.pawn.health.hediffSet.hediffs) && !this.ParentIsMissing)
+				{
+					return true;
+				}
+				return false;
 			}
 		}
 
@@ -169,7 +182,7 @@ namespace Verse
 				hediff_MissingPart.IsFresh = false;
 				hediff_MissingPart.lastInjury = this.lastInjury;
 				hediff_MissingPart.Part = base.Part.parts[i];
-				base.pawn.health.hediffSet.AddDirect(hediff_MissingPart, default(DamageInfo?));
+				base.pawn.health.hediffSet.AddDirect(hediff_MissingPart, null);
 			}
 		}
 

@@ -7,7 +7,7 @@ namespace RimWorld.Planet
 {
 	public class WorldLayer_Stars : WorldLayer
 	{
-		private bool calculatedForStaticRotation = false;
+		private bool calculatedForStaticRotation;
 
 		private int calculatedForStartingTile = -1;
 
@@ -47,13 +47,17 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (!this.UseStaticRotation) ? Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace()) : Quaternion.identity;
+				if (this.UseStaticRotation)
+				{
+					return Quaternion.identity;
+				}
+				return Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
 			}
 		}
 
 		public override IEnumerable Regenerate()
 		{
-			IEnumerator enumerator = this._003CRegenerate_003E__BaseCallProxy0().GetEnumerator();
+			IEnumerator enumerator = base.Regenerate().GetEnumerator();
 			try
 			{
 				if (enumerator.MoveNext())
@@ -93,8 +97,8 @@ namespace RimWorld.Planet
 			Rand.PopState();
 			base.FinalizeMesh(MeshParts.All);
 			yield break;
-			IL_01f6:
-			/*Error near IL_01f7: Unexpected return in MoveNext()*/;
+			IL_01ee:
+			/*Error near IL_01ef: Unexpected return in MoveNext()*/;
 		}
 	}
 }

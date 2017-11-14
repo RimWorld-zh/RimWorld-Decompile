@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 
 namespace Verse
 {
@@ -15,8 +14,16 @@ namespace Verse
 
 		protected override AcceptanceReport NameIsValid(string name)
 		{
-			AcceptanceReport acceptanceReport = base.NameIsValid(name);
-			return acceptanceReport.Accepted ? ((!this.zone.Map.zoneManager.AllZones.Any((Predicate<Zone>)((Zone z) => z.label == name))) ? true : "NameIsInUse".Translate()) : acceptanceReport;
+			AcceptanceReport result = base.NameIsValid(name);
+			if (!result.Accepted)
+			{
+				return result;
+			}
+			if (this.zone.Map.zoneManager.AllZones.Any((Zone z) => z.label == name))
+			{
+				return "NameIsInUse".Translate();
+			}
+			return true;
 		}
 
 		protected override void SetName(string name)

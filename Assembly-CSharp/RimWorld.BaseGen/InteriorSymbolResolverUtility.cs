@@ -35,7 +35,7 @@ namespace RimWorld.BaseGen
 					flag = true;
 				}
 				int num = (!(map.mapTemperature.OutdoorTemp < -45.0)) ? 1 : 2;
-				for (int num2 = 0; num2 < num; num2++)
+				for (int i = 0; i < num; i++)
 				{
 					ResolveParams resolveParams2 = rp;
 					resolveParams2.singleThingDef = singleThingDef;

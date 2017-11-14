@@ -26,9 +26,9 @@ namespace Verse
 
 		private HashSet<Room> tmpVisitedRooms = new HashSet<Room>();
 
-		private bool initialized = false;
+		private bool initialized;
 
-		private bool working = false;
+		private bool working;
 
 		private bool enabledInt = true;
 
@@ -155,14 +155,14 @@ namespace Verse
 
 		private void CreateOrAttachToExistingRooms(int numRegionGroups)
 		{
-			for (int num = 0; num < numRegionGroups; num++)
+			for (int i = 0; i < numRegionGroups; i++)
 			{
 				this.currentRegionGroup.Clear();
-				for (int i = 0; i < this.newRegions.Count; i++)
+				for (int j = 0; j < this.newRegions.Count; j++)
 				{
-					if (this.newRegions[i].newRegionGroupIndex == num)
+					if (this.newRegions[j].newRegionGroupIndex == i)
 					{
-						this.currentRegionGroup.Add(this.newRegions[i]);
+						this.currentRegionGroup.Add(this.newRegions[j]);
 					}
 				}
 				if (!this.currentRegionGroup[0].type.AllowsMultipleRegionsPerRoom())
@@ -186,9 +186,9 @@ namespace Verse
 					}
 					else if (!flag)
 					{
-						for (int j = 0; j < this.currentRegionGroup.Count; j++)
+						for (int k = 0; k < this.currentRegionGroup.Count; k++)
 						{
-							this.currentRegionGroup[j].Room = room2;
+							this.currentRegionGroup[k].Room = room2;
 						}
 						this.reusedOldRooms.Add(room2);
 					}
@@ -236,21 +236,21 @@ namespace Verse
 
 		private void CreateOrAttachToExistingRoomGroups(int numRoomGroups)
 		{
-			for (int num = 0; num < numRoomGroups; num++)
+			for (int i = 0; i < numRoomGroups; i++)
 			{
 				this.currentRoomGroup.Clear();
 				foreach (Room reusedOldRoom in this.reusedOldRooms)
 				{
-					if (reusedOldRoom.newOrReusedRoomGroupIndex == num)
+					if (reusedOldRoom.newOrReusedRoomGroupIndex == i)
 					{
 						this.currentRoomGroup.Add(reusedOldRoom);
 					}
 				}
-				for (int i = 0; i < this.newRooms.Count; i++)
+				for (int j = 0; j < this.newRooms.Count; j++)
 				{
-					if (this.newRooms[i].newOrReusedRoomGroupIndex == num)
+					if (this.newRooms[j].newOrReusedRoomGroupIndex == i)
 					{
-						this.currentRoomGroup.Add(this.newRooms[i]);
+						this.currentRoomGroup.Add(this.newRooms[j]);
 					}
 				}
 				bool flag = default(bool);
@@ -263,9 +263,9 @@ namespace Verse
 				}
 				else if (!flag)
 				{
-					for (int j = 0; j < this.currentRoomGroup.Count; j++)
+					for (int k = 0; k < this.currentRoomGroup.Count; k++)
 					{
-						this.currentRoomGroup[j].Group = roomGroup;
+						this.currentRoomGroup[k].Group = roomGroup;
 					}
 					this.reusedOldRoomGroups.Add(roomGroup);
 				}

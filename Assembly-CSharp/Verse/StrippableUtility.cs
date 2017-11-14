@@ -5,21 +5,28 @@ namespace Verse
 		public static bool CanBeStrippedByColony(Thing th)
 		{
 			IStrippable strippable = th as IStrippable;
-			bool result;
 			if (strippable == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (!strippable.AnythingToStrip())
+			if (!strippable.AnythingToStrip())
 			{
-				result = false;
+				return false;
 			}
-			else
+			Pawn pawn = th as Pawn;
+			if (pawn == null)
 			{
-				Pawn pawn = th as Pawn;
-				result = ((byte)((pawn == null) ? 1 : (pawn.Downed ? 1 : ((pawn.IsPrisonerOfColony && pawn.guest.PrisonerIsSecure) ? 1 : 0))) != 0);
+				return true;
 			}
-			return result;
+			if (pawn.Downed)
+			{
+				return true;
+			}
+			if (pawn.IsPrisonerOfColony && pawn.guest.PrisonerIsSecure)
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }

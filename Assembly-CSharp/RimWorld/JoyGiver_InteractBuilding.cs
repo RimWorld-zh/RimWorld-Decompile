@@ -18,38 +18,45 @@ namespace RimWorld
 		public override Job TryGiveJob(Pawn pawn)
 		{
 			Thing thing = this.FindBestGame(pawn, false, IntVec3.Invalid);
-			return (thing == null) ? null : this.TryGivePlayJob(pawn, thing);
+			if (thing != null)
+			{
+				return this.TryGivePlayJob(pawn, thing);
+			}
+			return null;
 		}
 
 		public override Job TryGiveJobWhileInBed(Pawn pawn)
 		{
 			Thing thing = this.FindBestGame(pawn, true, IntVec3.Invalid);
-			return (thing == null) ? null : this.TryGivePlayJobWhileInBed(pawn, thing);
+			if (thing != null)
+			{
+				return this.TryGivePlayJobWhileInBed(pawn, thing);
+			}
+			return null;
 		}
 
 		public override Job TryGiveJobInPartyArea(Pawn pawn, IntVec3 partySpot)
 		{
-			Job result;
 			if (!this.CanDoDuringParty)
 			{
-				result = null;
+				return null;
 			}
-			else
+			Thing thing = this.FindBestGame(pawn, false, partySpot);
+			if (thing != null)
 			{
-				Thing thing = this.FindBestGame(pawn, false, partySpot);
-				result = ((thing == null) ? null : this.TryGivePlayJob(pawn, thing));
+				return this.TryGivePlayJob(pawn, thing);
 			}
-			return result;
+			return null;
 		}
 
 		private Thing FindBestGame(Pawn pawn, bool inBed, IntVec3 partySpot)
 		{
 			List<Thing> searchSet = this.GetSearchSet(pawn);
-			Predicate<Thing> predicate = (Predicate<Thing>)((Thing t) => this.CanInteractWith(pawn, t, inBed));
+			Predicate<Thing> predicate = (Thing t) => this.CanInteractWith(pawn, t, inBed);
 			if (partySpot.IsValid)
 			{
 				Predicate<Thing> oldValidator = predicate;
-				predicate = (Predicate<Thing>)((Thing x) => PartyUtility.InPartyArea(x.Position, partySpot, pawn.Map) && oldValidator(x));
+				predicate = ((Thing x) => PartyUtility.InPartyArea(x.Position, partySpot, pawn.Map) && oldValidator(x));
 			}
 			IntVec3 position = pawn.Position;
 			Map map = pawn.Map;
@@ -62,29 +69,32 @@ namespace RimWorld
 
 		protected virtual bool CanInteractWith(Pawn pawn, Thing t, bool inBed)
 		{
-			bool result;
 			if (!pawn.CanReserve(t, base.def.jobDef.joyMaxParticipants, -1, null, false))
 			{
-				result = false;
+				return false;
 			}
-			else if (t.IsForbidden(pawn))
+			if (t.IsForbidden(pawn))
 			{
-				result = false;
+				return false;
 			}
-			else if (!t.IsSociallyProper(pawn))
+			if (!t.IsSociallyProper(pawn))
 			{
-				result = false;
+				return false;
 			}
-			else if (!t.IsPoliticallyProper(pawn))
+			if (!t.IsPoliticallyProper(pawn))
 			{
-				result = false;
+				return false;
 			}
-			else
+			CompPowerTrader compPowerTrader = t.TryGetComp<CompPowerTrader>();
+			if (compPowerTrader != null && !compPowerTrader.PowerOn)
 			{
-				CompPowerTrader compPowerTrader = t.TryGetComp<CompPowerTrader>();
-				result = ((byte)((compPowerTrader == null || compPowerTrader.PowerOn) ? ((!base.def.unroofedOnly || !t.Position.Roofed(t.Map)) ? 1 : 0) : 0) != 0);
+				return false;
 			}
-			return result;
+			if (base.def.unroofedOnly && t.Position.Roofed(t.Map))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		protected abstract Job TryGivePlayJob(Pawn pawn, Thing bestGame);
@@ -92,7 +102,7 @@ namespace RimWorld
 		protected virtual Job TryGivePlayJobWhileInBed(Pawn pawn, Thing bestGame)
 		{
 			Building_Bed t = pawn.CurrentBed();
-			return new Job(base.def.jobDef, bestGame, pawn.Position, (Thing)t);
+			return new Job(base.def.jobDef, bestGame, pawn.Position, t);
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -15,10 +14,14 @@ namespace RimWorld
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight);
 			if (Widgets.ButtonText(scenPartRect, this.project.LabelCap, true, false, true))
 			{
-				FloatMenuUtility.MakeMenu(this.NonRedundantResearchProjects(), (Func<ResearchProjectDef, string>)((ResearchProjectDef d) => d.LabelCap), (Func<ResearchProjectDef, Action>)((ResearchProjectDef d) => (Action)delegate()
+				FloatMenuUtility.MakeMenu(this.NonRedundantResearchProjects(), (ResearchProjectDef d) => d.LabelCap, delegate(ResearchProjectDef d)
 				{
-					this.project = d;
-				}));
+					ScenPart_StartingResearch scenPart_StartingResearch = this;
+					return delegate
+					{
+						scenPart_StartingResearch.project = d;
+					};
+				});
 			}
 		}
 
@@ -29,9 +32,14 @@ namespace RimWorld
 
 		private IEnumerable<ResearchProjectDef> NonRedundantResearchProjects()
 		{
-			return from d in DefDatabase<ResearchProjectDef>.AllDefs
-			where d.tags == null || Find.Scenario.playerFaction.factionDef.startingResearchTags == null || !d.tags.Any((Predicate<string>)((string tag) => Find.Scenario.playerFaction.factionDef.startingResearchTags.Contains(tag)))
-			select d;
+			return DefDatabase<ResearchProjectDef>.AllDefs.Where(delegate(ResearchProjectDef d)
+			{
+				if (d.tags != null && Find.Scenario.playerFaction.factionDef.startingResearchTags != null)
+				{
+					return !d.tags.Any((string tag) => Find.Scenario.playerFaction.factionDef.startingResearchTags.Contains(tag));
+				}
+				return true;
+			});
 		}
 
 		public override void ExposeData()

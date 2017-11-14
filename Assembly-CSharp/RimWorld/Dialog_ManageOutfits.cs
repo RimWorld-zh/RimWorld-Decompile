@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -9,7 +8,7 @@ namespace RimWorld
 	{
 		private Vector2 scrollPosition;
 
-		private Outfit selOutfitInt = null;
+		private Outfit selOutfitInt;
 
 		private const float TopAreaHeight = 40f;
 
@@ -75,7 +74,7 @@ namespace RimWorld
 				foreach (Outfit allOutfit in Current.Game.outfitDatabase.AllOutfits)
 				{
 					Outfit localOut = allOutfit;
-					list.Add(new FloatMenuOption(localOut.label, (Action)delegate
+					list.Add(new FloatMenuOption(localOut.label, delegate
 					{
 						this.SelectedOutfit = localOut;
 					}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -98,7 +97,7 @@ namespace RimWorld
 				foreach (Outfit allOutfit2 in Current.Game.outfitDatabase.AllOutfits)
 				{
 					Outfit localOut2 = allOutfit2;
-					list2.Add(new FloatMenuOption(localOut2.label, (Action)delegate
+					list2.Add(new FloatMenuOption(localOut2.label, delegate
 					{
 						AcceptanceReport acceptanceReport = Current.Game.outfitDatabase.TryDelete(localOut2);
 						if (!acceptanceReport.Accepted)
@@ -130,14 +129,14 @@ namespace RimWorld
 				GUI.BeginGroup(rect4);
 				Rect rect5 = new Rect(0f, 0f, 200f, 30f);
 				Dialog_ManageOutfits.DoNameInputRect(rect5, ref this.SelectedOutfit.label);
-				Rect rect6;
-				Rect rect7 = rect6 = new Rect(0f, 40f, 300f, (float)(rect4.height - 45.0 - 10.0));
+				Rect rect6 = new Rect(0f, 40f, 300f, (float)(rect4.height - 45.0 - 10.0));
+				Rect rect7 = rect6;
 				ref Vector2 reference = ref this.scrollPosition;
 				ThingFilter filter = this.SelectedOutfit.filter;
 				ThingFilter parentFilter = Dialog_ManageOutfits.apparelGlobalFilter;
 				int openMask = 16;
 				IEnumerable<SpecialThingFilterDef> forceHiddenFilters = this.HiddenSpecialThingFilters();
-				ThingFilterUI.DoThingFilterConfigWindow(rect6, ref reference, filter, parentFilter, openMask, (IEnumerable<ThingDef>)null, forceHiddenFilters, (List<ThingDef>)null);
+				ThingFilterUI.DoThingFilterConfigWindow(rect7, ref reference, filter, parentFilter, openMask, (IEnumerable<ThingDef>)null, forceHiddenFilters, (List<ThingDef>)null);
 				GUI.EndGroup();
 			}
 		}

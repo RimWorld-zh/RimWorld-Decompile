@@ -38,20 +38,15 @@ namespace Verse
 
 		public static Material NewSolidColorMaterial(Color col, Shader shader)
 		{
-			Material result;
 			if (!UnityData.IsInMainThread)
 			{
 				Log.Error("Tried to create a material from a different thread.");
-				result = null;
+				return null;
 			}
-			else
-			{
-				Material material = new Material(shader);
-				material.color = col;
-				material.name = "SolidColorMat-" + shader.name + "-" + col;
-				result = material;
-			}
-			return result;
+			Material material = new Material(shader);
+			material.color = col;
+			material.name = "SolidColorMat-" + shader.name + "-" + col;
+			return material;
 		}
 
 		public static Texture2D NewSolidColorTexture(float r, float g, float b, float a)
@@ -61,21 +56,16 @@ namespace Verse
 
 		public static Texture2D NewSolidColorTexture(Color color)
 		{
-			Texture2D result;
 			if (!UnityData.IsInMainThread)
 			{
 				Log.Error("Tried to create a texture from a different thread.");
-				result = null;
+				return null;
 			}
-			else
-			{
-				Texture2D texture2D = new Texture2D(1, 1);
-				texture2D.name = "SolidColorTex-" + color;
-				texture2D.SetPixel(0, 0, color);
-				texture2D.Apply();
-				result = texture2D;
-			}
-			return result;
+			Texture2D texture2D = new Texture2D(1, 1);
+			texture2D.name = "SolidColorTex-" + color;
+			texture2D.SetPixel(0, 0, color);
+			texture2D.Apply();
+			return texture2D;
 		}
 	}
 }

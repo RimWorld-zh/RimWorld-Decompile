@@ -49,14 +49,11 @@ namespace Verse
 		{
 			get
 			{
-				ThingStackPart result;
-				int j;
-				int num;
 				if (this.innerContainer.Count == 0)
 				{
-					result = default(ThingStackPart);
+					return default(ThingStackPart);
 				}
-				else if (this.pawn.drugs != null && this.pawn.drugs.CurrentPolicy != null)
+				if (this.pawn.drugs != null && this.pawn.drugs.CurrentPolicy != null)
 				{
 					DrugPolicy currentPolicy = this.pawn.drugs.CurrentPolicy;
 					Pawn_InventoryTracker.tmpDrugsToKeep.Clear();
@@ -67,11 +64,13 @@ namespace Verse
 							Pawn_InventoryTracker.tmpDrugsToKeep.Add(new ThingCount(currentPolicy[i].drug, currentPolicy[i].takeToInventory));
 						}
 					}
-					for (j = 0; j < this.innerContainer.Count; j++)
+					for (int j = 0; j < this.innerContainer.Count; j++)
 					{
 						if (!this.innerContainer[j].def.IsDrug)
-							goto IL_00d8;
-						num = -1;
+						{
+							return new ThingStackPart(this.innerContainer[j], this.innerContainer[j].stackCount);
+						}
+						int num = -1;
 						int num2 = 0;
 						while (num2 < Pawn_InventoryTracker.tmpDrugsToKeep.Count)
 						{
@@ -84,29 +83,18 @@ namespace Verse
 							break;
 						}
 						if (num < 0)
-							goto IL_0164;
+						{
+							return new ThingStackPart(this.innerContainer[j], this.innerContainer[j].stackCount);
+						}
 						if (this.innerContainer[j].stackCount > Pawn_InventoryTracker.tmpDrugsToKeep[num].Count)
-							goto IL_01ba;
+						{
+							return new ThingStackPart(this.innerContainer[j], this.innerContainer[j].stackCount - Pawn_InventoryTracker.tmpDrugsToKeep[num].Count);
+						}
 						Pawn_InventoryTracker.tmpDrugsToKeep[num] = new ThingCount(Pawn_InventoryTracker.tmpDrugsToKeep[num].ThingDef, Pawn_InventoryTracker.tmpDrugsToKeep[num].Count - this.innerContainer[j].stackCount);
 					}
-					result = default(ThingStackPart);
+					return default(ThingStackPart);
 				}
-				else
-				{
-					result = new ThingStackPart(this.innerContainer[0], this.innerContainer[0].stackCount);
-				}
-				goto IL_0298;
-				IL_0164:
-				result = new ThingStackPart(this.innerContainer[j], this.innerContainer[j].stackCount);
-				goto IL_0298;
-				IL_00d8:
-				result = new ThingStackPart(this.innerContainer[j], this.innerContainer[j].stackCount);
-				goto IL_0298;
-				IL_0298:
-				return result;
-				IL_01ba:
-				result = new ThingStackPart(this.innerContainer[j], this.innerContainer[j].stackCount - Pawn_InventoryTracker.tmpDrugsToKeep[num].Count);
-				goto IL_0298;
+				return new ThingStackPart(this.innerContainer[0], this.innerContainer[0].stackCount);
 			}
 		}
 

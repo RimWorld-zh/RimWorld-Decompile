@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,7 +25,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return this.ForceExitAndRemoveMapCountdownActive ? TimedForcedExit.GetForceExitAndRemoveMapCountdownTimeLeftString(this.ticksLeftToForceExitAndRemoveMap) : "";
+				if (!this.ForceExitAndRemoveMapCountdownActive)
+				{
+					return string.Empty;
+				}
+				return TimedForcedExit.GetForceExitAndRemoveMapCountdownTimeLeftString(this.ticksLeftToForceExitAndRemoveMap);
 			}
 		}
 
@@ -48,7 +51,11 @@ namespace RimWorld.Planet
 
 		public override string CompInspectStringExtra()
 		{
-			return (!this.ForceExitAndRemoveMapCountdownActive) ? null : ("ForceExitAndRemoveMapCountdown".Translate(this.ForceExitAndRemoveMapCountdownTimeLeftString) + ".");
+			if (this.ForceExitAndRemoveMapCountdownActive)
+			{
+				return "ForceExitAndRemoveMapCountdown".Translate(this.ForceExitAndRemoveMapCountdownTimeLeftString) + ".";
+			}
+			return null;
 		}
 
 		public override void CompTick()
@@ -61,11 +68,11 @@ namespace RimWorld.Planet
 					this.ticksLeftToForceExitAndRemoveMap--;
 					if (this.ticksLeftToForceExitAndRemoveMap == 0)
 					{
-						if (Dialog_FormCaravan.AllSendablePawns(mapParent.Map, true).Any((Predicate<Pawn>)((Pawn x) => x.IsColonist)))
+						if (Dialog_FormCaravan.AllSendablePawns(mapParent.Map, true).Any((Pawn x) => x.IsColonist))
 						{
 							Messages.Message("MessageYouHaveToReformCaravanNow".Translate(), new GlobalTargetInfo(mapParent.Tile), MessageTypeDefOf.NeutralEvent);
 							Current.Game.VisibleMap = mapParent.Map;
-							Dialog_FormCaravan window = new Dialog_FormCaravan(mapParent.Map, true, (Action)delegate
+							Dialog_FormCaravan window = new Dialog_FormCaravan(mapParent.Map, true, delegate
 							{
 								if (mapParent.HasMap)
 								{
@@ -83,10 +90,10 @@ namespace RimWorld.Planet
 							select x);
 							if (TimedForcedExit.tmpPawns.Any())
 							{
-								if (TimedForcedExit.tmpPawns.Any((Predicate<Pawn>)((Pawn x) => CaravanUtility.IsOwner(x, Faction.OfPlayer))))
+								if (TimedForcedExit.tmpPawns.Any((Pawn x) => CaravanUtility.IsOwner(x, Faction.OfPlayer)))
 								{
 									Caravan o = CaravanExitMapUtility.ExitMapAndCreateCaravan(TimedForcedExit.tmpPawns, Faction.OfPlayer, mapParent.Tile);
-									Messages.Message("MessageAutomaticallyReformedCaravan".Translate(), (WorldObject)o, MessageTypeDefOf.NeutralEvent);
+									Messages.Message("MessageAutomaticallyReformedCaravan".Translate(), o, MessageTypeDefOf.NeutralEvent);
 								}
 								else
 								{
@@ -95,7 +102,7 @@ namespace RimWorld.Planet
 									{
 										stringBuilder.AppendLine("    " + TimedForcedExit.tmpPawns[i].LabelCap);
 									}
-									Find.LetterStack.ReceiveLetter("LetterLabelPawnsLostDueToMapCountdown".Translate(), "LetterPawnsLostDueToMapCountdown".Translate(stringBuilder.ToString().TrimEndNewlines()), LetterDefOf.NegativeEvent, new GlobalTargetInfo(mapParent.Tile), (string)null);
+									Find.LetterStack.ReceiveLetter("LetterLabelPawnsLostDueToMapCountdown".Translate(), "LetterPawnsLostDueToMapCountdown".Translate(stringBuilder.ToString().TrimEndNewlines()), LetterDefOf.NegativeEvent, new GlobalTargetInfo(mapParent.Tile), null);
 								}
 								TimedForcedExit.tmpPawns.Clear();
 							}
@@ -113,7 +120,11 @@ namespace RimWorld.Planet
 
 		public static string GetForceExitAndRemoveMapCountdownTimeLeftString(int ticksLeft)
 		{
-			return (ticksLeft >= 0) ? ticksLeft.ToStringTicksToPeriod(true, true, true) : "";
+			if (ticksLeft < 0)
+			{
+				return string.Empty;
+			}
+			return ticksLeft.ToStringTicksToPeriod(true, true, true);
 		}
 
 		private void ShowWorldViewIfVisibleMapAboutToBeRemoved(Map map)

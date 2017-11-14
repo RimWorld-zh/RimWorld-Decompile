@@ -7,9 +7,9 @@ namespace Verse
 	{
 		protected Vector2 scrollPosition;
 
-		protected string filter = "";
+		protected string filter = string.Empty;
 
-		protected float totalOptionsHeight = 0f;
+		protected float totalOptionsHeight;
 
 		protected Listing_Standard listing;
 
@@ -79,7 +79,15 @@ namespace Verse
 
 		protected bool FilterAllows(string label)
 		{
-			return this.filter.NullOrEmpty() || label.NullOrEmpty() || label.IndexOf(this.filter, StringComparison.OrdinalIgnoreCase) >= 0;
+			if (this.filter.NullOrEmpty())
+			{
+				return true;
+			}
+			if (label.NullOrEmpty())
+			{
+				return true;
+			}
+			return label.IndexOf(this.filter, StringComparison.OrdinalIgnoreCase) >= 0;
 		}
 	}
 }

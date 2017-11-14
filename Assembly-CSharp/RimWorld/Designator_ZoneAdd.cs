@@ -54,7 +54,7 @@ namespace RimWorld
 		{
 			if (base.useMouseIcon)
 			{
-				string text = "";
+				string text = string.Empty;
 				if (!Input.GetKey(KeyCode.Mouse0))
 				{
 					Zone selectedZone = Find.Selector.SelectedZone;
@@ -66,39 +66,31 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (c.Fogged(base.Map))
+			if (c.Fogged(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (c.InNoZoneEdgeArea(base.Map))
+			if (c.InNoZoneEdgeArea(base.Map))
 			{
-				result = "TooCloseToMapEdge".Translate();
+				return "TooCloseToMapEdge".Translate();
 			}
-			else
+			Zone zone = base.Map.zoneManager.ZoneAt(c);
+			if (zone != null && zone.GetType() != this.zoneTypeToPlace)
 			{
-				Zone zone = base.Map.zoneManager.ZoneAt(c);
-				if (zone != null && zone.GetType() != this.zoneTypeToPlace)
+				return false;
+			}
+			foreach (Thing item in base.Map.thingGrid.ThingsAt(c))
+			{
+				if (!item.def.CanOverlapZones)
 				{
-					result = false;
-				}
-				else
-				{
-					foreach (Thing item in base.Map.thingGrid.ThingsAt(c))
-					{
-						if (!item.def.CanOverlapZones)
-						{
-							return false;
-						}
-					}
-					result = true;
+					return false;
 				}
 			}
-			return result;
+			return true;
 		}
 
 		public override void DesignateMultiCell(IEnumerable<IntVec3> cells)
@@ -120,9 +112,9 @@ namespace RimWorld
 			if (this.SelectedZone == null)
 			{
 				Zone zone2 = null;
-				foreach (IntVec3 item in cells)
+				foreach (IntVec3 cell in cells)
 				{
-					Zone zone3 = base.Map.zoneManager.ZoneAt(item);
+					Zone zone3 = base.Map.zoneManager.ZoneAt(cell);
 					if (zone3 != null && zone3.GetType() == this.zoneTypeToPlace)
 					{
 						if (zone2 == null)
@@ -138,7 +130,7 @@ namespace RimWorld
 				}
 				this.SelectedZone = zone2;
 			}
-			list.RemoveAll((Predicate<IntVec3>)((IntVec3 c) => base.Map.zoneManager.ZoneAt(c) != null));
+			list.RemoveAll((IntVec3 c) => base.Map.zoneManager.ZoneAt(c) != null);
 			if (list.Count != 0 && (!TutorSystem.TutorialMode || TutorSystem.AllowAction(new EventPack(base.TutorTagDesignate, list))))
 			{
 				if (this.SelectedZone == null)

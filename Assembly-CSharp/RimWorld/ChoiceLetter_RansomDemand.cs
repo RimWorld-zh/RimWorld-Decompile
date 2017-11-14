@@ -20,28 +20,28 @@ namespace RimWorld
 			{
 				DiaOption accept = new DiaOption("RansomDemand_Accept".Translate())
 				{
-					action = (Action)delegate()
+					action = delegate
 					{
-						((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.faction.kidnapped.RemoveKidnappedPawn(((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.kidnapped);
-						Find.WorldPawns.RemovePawn(((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.kidnapped);
+						((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.faction.kidnapped.RemoveKidnappedPawn(((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.kidnapped);
+						Find.WorldPawns.RemovePawn(((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.kidnapped);
 						IntVec3 intVec = default(IntVec3);
-						if ((int)((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.faction.def.techLevel < 5)
+						if ((int)((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.faction.def.techLevel < 5)
 						{
-							if (!CellFinder.TryFindRandomEdgeCellWith((Predicate<IntVec3>)((IntVec3 c) => c.Standable(((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.map) && ((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.map.reachability.CanReachColony(c)), ((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.map, CellFinder.EdgeRoadChance_Friendly, out intVec) && !CellFinder.TryFindRandomEdgeCellWith((Predicate<IntVec3>)((IntVec3 c) => c.Standable(((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.map)), ((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.map, CellFinder.EdgeRoadChance_Friendly, out intVec))
+							if (!CellFinder.TryFindRandomEdgeCellWith((Predicate<IntVec3>)((IntVec3 c) => c.Standable(((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.map) && ((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.map.reachability.CanReachColony(c)), ((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.map, CellFinder.EdgeRoadChance_Friendly, out intVec) && !CellFinder.TryFindRandomEdgeCellWith((Predicate<IntVec3>)((IntVec3 c) => c.Standable(((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.map)), ((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.map, CellFinder.EdgeRoadChance_Friendly, out intVec))
 							{
 								Log.Warning("Could not find any edge cell.");
-								intVec = DropCellFinder.TradeDropSpot(((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.map);
+								intVec = DropCellFinder.TradeDropSpot(((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.map);
 							}
-							GenSpawn.Spawn(((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.kidnapped, intVec, ((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.map);
+							GenSpawn.Spawn(((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.kidnapped, intVec, ((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.map);
 						}
 						else
 						{
-							intVec = DropCellFinder.TradeDropSpot(((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.map);
-							TradeUtility.SpawnDropPod(intVec, ((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.map, ((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.kidnapped);
+							intVec = DropCellFinder.TradeDropSpot(((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.map);
+							TradeUtility.SpawnDropPod(intVec, ((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.map, ((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.kidnapped);
 						}
-						CameraJumper.TryJump(intVec, ((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.map);
-						TradeUtility.LaunchSilver(((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.map, ((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.fee);
-						Find.LetterStack.RemoveLetter(((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this);
+						CameraJumper.TryJump(intVec, ((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.map);
+						TradeUtility.LaunchSilver(((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.map, ((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.fee);
+						Find.LetterStack.RemoveLetter(((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this);
 					},
 					resolveTree = true
 				};
@@ -58,7 +58,15 @@ namespace RimWorld
 		{
 			get
 			{
-				return base.StillValid && Find.Maps.Contains(this.map) && this.faction.kidnapped.KidnappedPawnsListForReading.Contains(this.kidnapped);
+				if (!base.StillValid)
+				{
+					return false;
+				}
+				if (!Find.Maps.Contains(this.map))
+				{
+					return false;
+				}
+				return this.faction.kidnapped.KidnappedPawnsListForReading.Contains(this.kidnapped);
 			}
 		}
 

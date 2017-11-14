@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +14,7 @@ namespace Verse
 
 		private int vanishAfterTimestamp = -1000;
 
-		private BillStack operationsBillStack = null;
+		private BillStack operationsBillStack;
 
 		public bool everBuriedInSarcophagus;
 
@@ -25,7 +24,11 @@ namespace Verse
 		{
 			get
 			{
-				return (this.innerContainer.Count <= 0) ? null : this.innerContainer[0];
+				if (this.innerContainer.Count > 0)
+				{
+					return this.innerContainer[0];
+				}
+				return null;
 			}
 			set
 			{
@@ -69,17 +72,24 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
 				if (this.Bugged)
 				{
 					Log.Error("IngestibleNow on Corpse while Bugged.");
-					result = false;
+					return false;
 				}
-				else
+				if (!base.IngestibleNow)
 				{
-					result = ((byte)(base.IngestibleNow ? (this.InnerPawn.RaceProps.IsFlesh ? ((this.GetRotStage() == RotStage.Fresh) ? 1 : 0) : 0) : 0) != 0);
+					return false;
 				}
-				return result;
+				if (!this.InnerPawn.RaceProps.IsFlesh)
+				{
+					return false;
+				}
+				if (this.GetRotStage() != 0)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -88,24 +98,18 @@ namespace Verse
 			get
 			{
 				CompRottable comp = base.GetComp<CompRottable>();
-				RotDrawMode result;
 				if (comp != null)
 				{
 					if (comp.Stage == RotStage.Rotting)
 					{
-						result = RotDrawMode.Rotting;
-						goto IL_003d;
+						return RotDrawMode.Rotting;
 					}
 					if (comp.Stage == RotStage.Dessicated)
 					{
-						result = RotDrawMode.Dessicated;
-						goto IL_003d;
+						return RotDrawMode.Dessicated;
 					}
 				}
-				result = RotDrawMode.Fresh;
-				goto IL_003d;
-				IL_003d:
-				return result;
+				return RotDrawMode.Fresh;
 			}
 		}
 
@@ -121,7 +125,7 @@ namespace Verse
 		{
 			get
 			{
-				using (IEnumerator<StatDrawEntry> enumerator = this._003Cget_SpecialDisplayStats_003E__BaseCallProxy0().GetEnumerator())
+				using (IEnumerator<StatDrawEntry> enumerator = base.SpecialDisplayStats.GetEnumerator())
 				{
 					if (enumerator.MoveNext())
 					{
@@ -132,10 +136,10 @@ namespace Verse
 				}
 				if (this.GetRotStage() != 0)
 					yield break;
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Nutrition".Translate(), FoodUtility.GetBodyPartNutrition(this.InnerPawn, this.InnerPawn.RaceProps.body.corePart).ToString("0.##"), 0, "");
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Nutrition".Translate(), FoodUtility.GetBodyPartNutrition(this.InnerPawn, this.InnerPawn.RaceProps.body.corePart).ToString("0.##"), 0, string.Empty);
 				/*Error: Unable to find new state assignment for yield return*/;
-				IL_020c:
-				/*Error near IL_020d: Unexpected return in MoveNext()*/;
+				IL_0206:
+				/*Error near IL_0207: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -288,7 +292,7 @@ namespace Verse
 			{
 				if (PawnUtility.ShouldSendNotificationAbout(this.InnerPawn) && this.InnerPawn.RaceProps.Humanlike)
 				{
-					Messages.Message("MessageEatenByPredator".Translate(this.InnerPawn.LabelShort, ingester.LabelIndefinite()).CapitalizeFirst(), (Thing)ingester, MessageTypeDefOf.NegativeEvent);
+					Messages.Message("MessageEatenByPredator".Translate(this.InnerPawn.LabelShort, ingester.LabelIndefinite()).CapitalizeFirst(), ingester, MessageTypeDefOf.NegativeEvent);
 				}
 				numTaken = 1;
 			}
@@ -297,7 +301,7 @@ namespace Verse
 				Hediff_MissingPart hediff_MissingPart = (Hediff_MissingPart)HediffMaker.MakeHediff(HediffDefOf.MissingBodyPart, this.InnerPawn, bodyPartRecord);
 				hediff_MissingPart.lastInjury = HediffDefOf.Bite;
 				hediff_MissingPart.IsFresh = true;
-				this.InnerPawn.health.AddHediff(hediff_MissingPart, null, default(DamageInfo?));
+				this.InnerPawn.health.AddHediff(hediff_MissingPart, null, null);
 				numTaken = 0;
 			}
 			if (ingester.RaceProps.Humanlike && Rand.Value < 0.05000000074505806)
@@ -335,8 +339,8 @@ namespace Verse
 				TaleRecorder.RecordTale(TaleDefOf.ButcheredHumanlikeCorpse, butcher);
 			}
 			yield break;
-			IL_023a:
-			/*Error near IL_023b: Unexpected return in MoveNext()*/;
+			IL_0231:
+			/*Error near IL_0232: Unexpected return in MoveNext()*/;
 		}
 
 		public override void ExposeData()
@@ -370,26 +374,18 @@ namespace Verse
 
 		public Thought_Memory GiveObservedThought()
 		{
-			Thought_Memory result;
 			if (!this.InnerPawn.RaceProps.Humanlike)
 			{
-				result = null;
+				return null;
 			}
-			else
+			Thing thing = this.StoringBuilding();
+			if (thing == null)
 			{
-				Thing thing = this.StoringBuilding();
-				if (thing == null)
-				{
-					Thought_MemoryObservation thought_MemoryObservation = (!this.IsNotFresh()) ? ((Thought_MemoryObservation)ThoughtMaker.MakeThought(ThoughtDefOf.ObservedLayingCorpse)) : ((Thought_MemoryObservation)ThoughtMaker.MakeThought(ThoughtDefOf.ObservedLayingRottingCorpse));
-					thought_MemoryObservation.Target = this;
-					result = thought_MemoryObservation;
-				}
-				else
-				{
-					result = null;
-				}
+				Thought_MemoryObservation thought_MemoryObservation = (!this.IsNotFresh()) ? ((Thought_MemoryObservation)ThoughtMaker.MakeThought(ThoughtDefOf.ObservedLayingCorpse)) : ((Thought_MemoryObservation)ThoughtMaker.MakeThought(ThoughtDefOf.ObservedLayingRottingCorpse));
+				thought_MemoryObservation.Target = this;
+				return thought_MemoryObservation;
 			}
-			return result;
+			return null;
 		}
 
 		public override string GetInspectString()
@@ -420,7 +416,11 @@ namespace Verse
 			IEnumerable<BodyPartRecord> source = from x in this.InnerPawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined)
 			where x.depth == BodyPartDepth.Outside && FoodUtility.GetBodyPartNutrition(this.InnerPawn, x) > 0.0010000000474974513
 			select x;
-			return source.Any() ? source.MinBy((Func<BodyPartRecord, float>)((BodyPartRecord x) => Mathf.Abs(FoodUtility.GetBodyPartNutrition(this.InnerPawn, x) - nutritionWanted))) : null;
+			if (!source.Any())
+			{
+				return null;
+			}
+			return source.MinBy((BodyPartRecord x) => Mathf.Abs(FoodUtility.GetBodyPartNutrition(this.InnerPawn, x) - nutritionWanted));
 		}
 
 		private void NotifyColonistBar()

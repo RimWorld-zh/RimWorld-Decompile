@@ -1,5 +1,4 @@
 using Steamworks;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,7 +11,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Page_SelectScenario : Page
 	{
-		private Scenario curScen = null;
+		private Scenario curScen;
 
 		private Vector2 infoScrollPosition = Vector2.zero;
 
@@ -51,12 +50,20 @@ namespace RimWorld
 			ScenarioUI.DrawScenarioInfo(rect3, this.curScen, ref this.infoScrollPosition);
 			GUI.EndGroup();
 			string midLabel = "ScenarioEditor".Translate();
-			base.DoBottomButtons(rect, (string)null, midLabel, new Action(this.GoToScenarioEditor), true);
+			base.DoBottomButtons(rect, null, midLabel, this.GoToScenarioEditor, true);
 		}
 
 		private bool CanEditScenario(Scenario scen)
 		{
-			return (byte)((scen.Category == ScenarioCategory.CustomLocal) ? 1 : (scen.CanToUploadToWorkshop() ? 1 : 0)) != 0;
+			if (scen.Category == ScenarioCategory.CustomLocal)
+			{
+				return true;
+			}
+			if (scen.CanToUploadToWorkshop())
+			{
+				return true;
+			}
+			return false;
 		}
 
 		private void GoToScenarioEditor()
@@ -87,7 +94,7 @@ namespace RimWorld
 			listing_Standard.Gap(12f);
 			Text.Font = GameFont.Small;
 			listing_Standard.Label("ScenariosSteamWorkshop".Translate(), -1f);
-			if (listing_Standard.ButtonText("OpenSteamWorkshop".Translate(), (string)null))
+			if (listing_Standard.ButtonText("OpenSteamWorkshop".Translate(), null))
 			{
 				SteamUtility.OpenSteamWorkshopPage();
 			}
@@ -100,13 +107,13 @@ namespace RimWorld
 		private void ListScenariosOnListing(Listing_Standard listing, IEnumerable<Scenario> scenarios)
 		{
 			bool flag = false;
-			foreach (Scenario item in scenarios)
+			foreach (Scenario scenario in scenarios)
 			{
 				if (flag)
 				{
 					listing.Gap(12f);
 				}
-				Scenario scen = item;
+				Scenario scen = scenario;
 				Rect rect = listing.GetRect(62f);
 				this.DoScenarioListEntry(rect, scen);
 				flag = true;
@@ -138,15 +145,15 @@ namespace RimWorld
 				WidgetRow widgetRow = new WidgetRow(rect.xMax, rect.y, UIDirection.LeftThenDown, 99999f, 4f);
 				if (scen.Category == ScenarioCategory.CustomLocal && widgetRow.ButtonIcon(TexButton.DeleteX, "Delete".Translate()))
 				{
-					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmDelete".Translate(scen.File.Name), (Action)delegate()
+					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmDelete".Translate(scen.File.Name), delegate
 					{
 						scen.File.Delete();
 						ScenarioLister.MarkDirty();
-					}, true, (string)null));
+					}, true, null));
 				}
 				if (scen.Category == ScenarioCategory.SteamWorkshop && widgetRow.ButtonIcon(TexButton.DeleteX, "Unsubscribe".Translate()))
 				{
-					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmUnsubscribe".Translate(scen.File.Name), (Action)delegate()
+					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmUnsubscribe".Translate(scen.File.Name), delegate
 					{
 						scen.enabled = false;
 						if (this.curScen == scen)
@@ -155,7 +162,7 @@ namespace RimWorld
 							this.EnsureValidSelection();
 						}
 						Workshop.Unsubscribe(scen);
-					}, true, (string)null));
+					}, true, null));
 				}
 				if (scen.GetPublishedFileId() != PublishedFileId_t.Invalid)
 				{
@@ -178,21 +185,16 @@ namespace RimWorld
 
 		protected override bool CanDoNext()
 		{
-			bool result;
 			if (!base.CanDoNext())
 			{
-				result = false;
+				return false;
 			}
-			else if (this.curScen == null)
+			if (this.curScen == null)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Page_SelectScenario.BeginScenarioConfiguration(this.curScen, this);
-				result = true;
-			}
-			return result;
+			Page_SelectScenario.BeginScenarioConfiguration(this.curScen, this);
+			return true;
 		}
 
 		public static void BeginScenarioConfiguration(Scenario scen, Page originPage)
@@ -223,7 +225,7 @@ namespace RimWorld
 		internal void Notify_ScenarioListChanged()
 		{
 			PublishedFileId_t selModId = this.curScen.GetPublishedFileId();
-			this.curScen = ScenarioLister.AllScenarios().FirstOrDefault((Func<Scenario, bool>)((Scenario sc) => sc.GetPublishedFileId() == selModId));
+			this.curScen = ScenarioLister.AllScenarios().FirstOrDefault((Scenario sc) => sc.GetPublishedFileId() == selModId);
 			this.EnsureValidSelection();
 		}
 

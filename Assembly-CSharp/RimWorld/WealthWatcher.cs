@@ -8,11 +8,11 @@ namespace RimWorld
 	{
 		private Map map;
 
-		private float wealthItems = 0f;
+		private float wealthItems;
 
-		private float wealthBuildings = 0f;
+		private float wealthBuildings;
 
-		private int totalHealth = 0;
+		private int totalHealth;
 
 		private float lastCountTick = -99999f;
 

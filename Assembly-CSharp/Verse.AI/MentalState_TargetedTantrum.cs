@@ -25,7 +25,7 @@ namespace Verse.AI
 				}
 				else
 				{
-					Messages.Message("MessageTargetedTantrumChangedTarget".Translate(base.pawn.LabelShort, target.Label, base.target.Label).AdjustedFor(base.pawn), (Thing)base.pawn, MessageTypeDefOf.NegativeEvent);
+					Messages.Message("MessageTargetedTantrumChangedTarget".Translate(base.pawn.LabelShort, target.Label, base.target.Label).AdjustedFor(base.pawn), base.pawn, MessageTypeDefOf.NegativeEvent);
 					base.MentalStateTick();
 				}
 			}
@@ -51,17 +51,12 @@ namespace Verse.AI
 
 		public override string GetBeginLetterText()
 		{
-			string result;
 			if (base.target == null)
 			{
 				Log.Error("No target. This should have been checked in this mental state's worker.");
-				result = "";
+				return string.Empty;
 			}
-			else
-			{
-				result = string.Format(base.def.beginLetter, base.pawn.Label, base.target.Label).AdjustedFor(base.pawn).CapitalizeFirst();
-			}
-			return result;
+			return string.Format(base.def.beginLetter, base.pawn.Label, base.target.Label).AdjustedFor(base.pawn).CapitalizeFirst();
 		}
 	}
 }

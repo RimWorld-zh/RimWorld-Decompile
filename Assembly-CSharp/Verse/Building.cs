@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using Verse.AI;
 using Verse.AI.Group;
@@ -9,7 +8,7 @@ namespace Verse
 {
 	public class Building : ThingWithComps
 	{
-		private Sustainer sustainerAmbient = null;
+		private Sustainer sustainerAmbient;
 
 		public CompPower PowerComp
 		{
@@ -71,9 +70,9 @@ namespace Verse
 			AutoHomeAreaMaker.Notify_BuildingSpawned(this);
 			if (base.def.building != null && !base.def.building.soundAmbient.NullOrUndefined())
 			{
-				LongEventHandler.ExecuteWhenFinished((Action)delegate
+				LongEventHandler.ExecuteWhenFinished(delegate
 				{
-					SoundInfo info = SoundInfo.InMap((Thing)this, MaintenanceType.None);
+					SoundInfo info = SoundInfo.InMap(this, MaintenanceType.None);
 					this.sustainerAmbient = base.def.building.soundAmbient.TrySpawnSustainer(info);
 				});
 			}
@@ -114,12 +113,12 @@ namespace Verse
 					MapMeshFlag mapMeshFlag = MapMeshFlag.Buildings;
 					if (base.def.coversFloor)
 					{
-						mapMeshFlag = (MapMeshFlag)((int)mapMeshFlag | 16);
+						mapMeshFlag |= MapMeshFlag.Terrain;
 					}
 					if (base.def.Fillage == FillCategory.Full)
 					{
-						mapMeshFlag = (MapMeshFlag)((int)mapMeshFlag | 32);
-						mapMeshFlag = (MapMeshFlag)((int)mapMeshFlag | 64);
+						mapMeshFlag |= MapMeshFlag.Roofs;
+						mapMeshFlag |= MapMeshFlag.Snow;
 					}
 					map.mapDrawer.MapMeshDirty(loc, mapMeshFlag);
 					map.glowGrid.MarkGlowGridDirty(loc);
@@ -232,7 +231,7 @@ namespace Verse
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -251,25 +250,19 @@ namespace Verse
 				yield break;
 			yield return (Gizmo)buildCopy;
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0165:
-			/*Error near IL_0166: Unexpected return in MoveNext()*/;
+			IL_0161:
+			/*Error near IL_0162: Unexpected return in MoveNext()*/;
 		}
 
 		public virtual bool ClaimableBy(Faction by)
 		{
-			bool result;
-			if (base.def.building.isNaturalRock || !base.def.Claimable)
-			{
-				result = false;
-			}
-			else
+			if (!base.def.building.isNaturalRock && base.def.Claimable)
 			{
 				if (base.Faction != null)
 				{
 					if (base.Faction == by)
 					{
-						result = false;
-						goto IL_00bf;
+						return false;
 					}
 					if (by == Faction.OfPlayer)
 					{
@@ -277,28 +270,25 @@ namespace Verse
 						for (int i = 0; i < list.Count; i++)
 						{
 							if (list[i].RaceProps.Humanlike && GenHostility.IsActiveThreatToPlayer(list[i]))
-								goto IL_009e;
+							{
+								return false;
+							}
 						}
 					}
 				}
-				result = true;
+				return true;
 			}
-			goto IL_00bf;
-			IL_009e:
-			result = false;
-			goto IL_00bf;
-			IL_00bf:
-			return result;
+			return false;
 		}
 
 		public virtual ushort PathFindCostFor(Pawn p)
 		{
-			return (ushort)0;
+			return 0;
 		}
 
 		public virtual ushort PathWalkCostFor(Pawn p)
 		{
-			return (ushort)0;
+			return 0;
 		}
 
 		public virtual bool IsDangerousFor(Pawn p)

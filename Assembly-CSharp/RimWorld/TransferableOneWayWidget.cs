@@ -1,10 +1,9 @@
-#define ENABLE_PROFILER
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
-using UnityEngine.Profiling;
 using Verse;
 
 namespace RimWorld
@@ -82,6 +81,9 @@ namespace RimWorld
 
 		public const float TopAreaWidth = 515f;
 
+		[CompilerGenerated]
+		private static Func<TransferableOneWay, float> _003C_003Ef__mg_0024cache0;
+
 		public float TotalNumbersColumnsWidths
 		{
 			get
@@ -111,25 +113,15 @@ namespace RimWorld
 				{
 					this.CacheTransferables();
 				}
-				int num = 0;
-				bool result;
-				while (true)
+				for (int i = 0; i < this.sections.Count; i++)
 				{
-					if (num < this.sections.Count)
+					Section section = this.sections[i];
+					if (section.cachedTransferables.Any())
 					{
-						Section section = this.sections[num];
-						if (section.cachedTransferables.Any())
-						{
-							result = true;
-							break;
-						}
-						num++;
-						continue;
+						return true;
 					}
-					result = false;
-					break;
 				}
-				return result;
+				return false;
 			}
 		}
 
@@ -137,7 +129,7 @@ namespace RimWorld
 		{
 			if (transferables != null)
 			{
-				this.AddSection((string)null, transferables);
+				this.AddSection(null, transferables);
 			}
 			this.sourceLabel = sourceLabel;
 			this.destinationLabel = destinationLabel;
@@ -156,12 +148,10 @@ namespace RimWorld
 
 		public void AddSection(string title, IEnumerable<TransferableOneWay> transferables)
 		{
-			Section item = new Section
-			{
-				title = title,
-				transferables = transferables,
-				cachedTransferables = new List<TransferableOneWay>()
-			};
+			Section item = default(Section);
+			item.title = title;
+			item.transferables = transferables;
+			item.cachedTransferables = new List<TransferableOneWay>();
 			this.sections.Add(item);
 			this.transferablesCached = false;
 		}
@@ -174,9 +164,10 @@ namespace RimWorld
 				Section section = this.sections[i];
 				List<TransferableOneWay> cachedTransferables = section.cachedTransferables;
 				cachedTransferables.Clear();
-				List<TransferableOneWay> obj = cachedTransferables;
+				List<TransferableOneWay> list = cachedTransferables;
 				Section section2 = this.sections[i];
-				obj.AddRange(section2.transferables.OrderBy((Func<TransferableOneWay, Transferable>)((TransferableOneWay tr) => tr), this.sorter1.Comparer).ThenBy((Func<TransferableOneWay, Transferable>)((TransferableOneWay tr) => tr), this.sorter2.Comparer).ThenBy((Func<TransferableOneWay, float>)((TransferableOneWay tr) => TransferableUIUtility.DefaultListOrderPriority(tr))).ToList());
+				list.AddRange(section2.transferables.OrderBy((TransferableOneWay tr) => tr, this.sorter1.Comparer).ThenBy((TransferableOneWay tr) => tr, this.sorter2.Comparer).ThenBy(TransferableUIUtility.DefaultListOrderPriority)
+					.ToList());
 			}
 		}
 
@@ -192,12 +183,11 @@ namespace RimWorld
 			{
 				this.CacheTransferables();
 			}
-			Profiler.BeginSample("TransferableOneWayWidget.OnGUI()");
-			TransferableUIUtility.DoTransferableSorters(this.sorter1, this.sorter2, (Action<TransferableSorterDef>)delegate(TransferableSorterDef x)
+			TransferableUIUtility.DoTransferableSorters(this.sorter1, this.sorter2, delegate(TransferableSorterDef x)
 			{
 				this.sorter1 = x;
 				this.CacheTransferables();
-			}, (Action<TransferableSorterDef>)delegate(TransferableSorterDef x)
+			}, delegate(TransferableSorterDef x)
 			{
 				this.sorter2 = x;
 				this.CacheTransferables();
@@ -217,7 +207,6 @@ namespace RimWorld
 			GUI.EndGroup();
 			Rect mainRect = new Rect(inRect.x, (float)(inRect.y + 55.0 + this.extraHeaderSpace), inRect.width, (float)(inRect.height - 55.0 - this.extraHeaderSpace));
 			this.FillMainRect(mainRect, out anythingChanged);
-			Profiler.EndSample();
 		}
 
 		private void FillMainRect(Rect mainRect, out bool anythingChanged)
@@ -239,7 +228,7 @@ namespace RimWorld
 					}
 				}
 				float num3 = 6f;
-				float availableMass = (float)(((object)this.availableMassGetter == null) ? 3.4028234663852886E+38 : this.availableMassGetter());
+				float availableMass = (float)((this.availableMassGetter == null) ? 3.4028234663852886E+38 : this.availableMassGetter());
 				Rect viewRect = new Rect(0f, 0f, (float)(mainRect.width - 16.0), num);
 				Widgets.BeginScrollView(mainRect, ref this.scrollPosition, viewRect, true);
 				float num4 = (float)(this.scrollPosition.y - 30.0);
@@ -264,9 +253,7 @@ namespace RimWorld
 							{
 								Rect rect = new Rect(0f, num3, viewRect.width, 30f);
 								int countToTransfer = cachedTransferables[k].CountToTransfer;
-								Profiler.BeginSample("DrawRow()");
 								this.DoRow(rect, cachedTransferables[k], k, availableMass);
-								Profiler.EndSample();
 								if (countToTransfer != cachedTransferables[k].CountToTransfer)
 								{
 									anythingChanged = true;
@@ -300,45 +287,37 @@ namespace RimWorld
 			int maxCount = trad.MaxCount;
 			Rect rect2 = new Rect((float)(width - 240.0), 0f, 240f, rect.height);
 			TransferableOneWayWidget.stoppingPoints.Clear();
-			if ((object)this.availableMassGetter != null && (!(trad.AnyThing is Pawn) || this.includePawnsMassInMassUsage))
+			if (this.availableMassGetter != null && (!(trad.AnyThing is Pawn) || this.includePawnsMassInMassUsage))
 			{
 				float num = availableMass + this.GetMass(trad.AnyThing) * (float)trad.CountToTransfer;
 				int threshold = (!(num <= 0.0)) ? Mathf.FloorToInt(num / this.GetMass(trad.AnyThing)) : 0;
 				TransferableOneWayWidget.stoppingPoints.Add(new TransferableCountToTransferStoppingPoint(threshold, "M<", ">M"));
 			}
-			Profiler.BeginSample("DoCountAdjustInterface()");
 			Rect rect3 = rect2;
 			int min = 0;
 			int max = maxCount;
 			List<TransferableCountToTransferStoppingPoint> extraStoppingPoints = TransferableOneWayWidget.stoppingPoints;
 			TransferableUIUtility.DoCountAdjustInterface(rect3, trad, index, min, max, false, extraStoppingPoints);
-			Profiler.EndSample();
 			width = (float)(width - 240.0);
 			if (this.drawMarketValue)
 			{
 				Rect rect4 = new Rect((float)(width - 100.0), 0f, 100f, rect.height);
 				Text.Anchor = TextAnchor.MiddleLeft;
-				Profiler.BeginSample("DrawMarketValue()");
 				this.DrawMarketValue(rect4, trad);
-				Profiler.EndSample();
 				width = (float)(width - 100.0);
 			}
 			if (this.drawMass)
 			{
 				Rect rect5 = new Rect((float)(width - 100.0), 0f, 100f, rect.height);
 				Text.Anchor = TextAnchor.MiddleLeft;
-				Profiler.BeginSample("DrawMass()");
 				this.DrawMass(rect5, trad, availableMass);
-				Profiler.EndSample();
 				width = (float)(width - 100.0);
 			}
 			if (this.drawDaysUntilRotForTile >= 0)
 			{
 				Rect rect6 = new Rect((float)(width - 75.0), 0f, 75f, rect.height);
 				Text.Anchor = TextAnchor.MiddleLeft;
-				Profiler.BeginSample("DrawDaysUntilRot()");
 				this.DrawDaysUntilRot(rect6, trad);
-				Profiler.EndSample();
 				width = (float)(width - 75.0);
 			}
 			Rect rect7 = new Rect((float)(width - 75.0), 0f, 75f, rect.height);
@@ -354,9 +333,7 @@ namespace RimWorld
 			TooltipHandler.TipRegion(rect7, this.sourceCountDesc);
 			width = (float)(width - 75.0);
 			Rect idRect = new Rect(0f, 0f, width, rect.height);
-			Profiler.BeginSample("DrawTransferableInfo()");
 			TransferableUIUtility.DrawTransferableInfo(trad, idRect, Color.white);
-			Profiler.EndSample();
 			GenUI.ResetLabelAlign();
 			GUI.EndGroup();
 		}
@@ -426,7 +403,7 @@ namespace RimWorld
 						{
 							invMass = MassUtility.InventoryMass(pawn);
 						}
-						TooltipHandler.TipRegion(rect, (Func<string>)(() => this.GetPawnMassTip(trad, 0f, mass - gearMass - invMass, gearMass, invMass)), trad.GetHashCode() * 59);
+						TooltipHandler.TipRegion(rect, () => this.GetPawnMassTip(trad, 0f, mass - gearMass - invMass, gearMass, invMass), trad.GetHashCode() * 59);
 					}
 					else
 					{
@@ -461,7 +438,7 @@ namespace RimWorld
 						GUI.color = Color.gray;
 					}
 					Widgets.Label(rect, num.ToStringMassOffset());
-					TooltipHandler.TipRegion(rect, (Func<string>)(() => this.GetPawnMassTip(trad, cap, 0f, gearMass2, invMass2)), trad.GetHashCode() * 59);
+					TooltipHandler.TipRegion(rect, () => this.GetPawnMassTip(trad, cap, 0f, gearMass2, invMass2), trad.GetHashCode() * 59);
 				}
 				GUI.color = Color.white;
 			}
@@ -469,66 +446,56 @@ namespace RimWorld
 
 		private string GetPawnMassTip(TransferableOneWay trad, float capacity, float pawnMass, float gearMass, float invMass)
 		{
-			string result;
 			if (!trad.HasAnyThing)
 			{
-				result = "";
+				return string.Empty;
+			}
+			StringBuilder stringBuilder = new StringBuilder();
+			if (capacity != 0.0)
+			{
+				stringBuilder.Append("MassCapacity".Translate() + ": " + capacity.ToStringMass());
 			}
 			else
 			{
-				StringBuilder stringBuilder = new StringBuilder();
-				if (capacity != 0.0)
-				{
-					stringBuilder.Append("MassCapacity".Translate() + ": " + capacity.ToStringMass());
-				}
-				else
-				{
-					stringBuilder.Append("Mass".Translate() + ": " + pawnMass.ToStringMass());
-				}
-				if (gearMass != 0.0)
-				{
-					stringBuilder.AppendLine();
-					stringBuilder.Append("EquipmentAndApparelMass".Translate() + ": " + gearMass.ToStringMass());
-				}
-				if (invMass != 0.0)
-				{
-					stringBuilder.AppendLine();
-					stringBuilder.Append("InventoryMass".Translate() + ": " + invMass.ToStringMass());
-				}
-				result = stringBuilder.ToString();
+				stringBuilder.Append("Mass".Translate() + ": " + pawnMass.ToStringMass());
 			}
-			return result;
+			if (gearMass != 0.0)
+			{
+				stringBuilder.AppendLine();
+				stringBuilder.Append("EquipmentAndApparelMass".Translate() + ": " + gearMass.ToStringMass());
+			}
+			if (invMass != 0.0)
+			{
+				stringBuilder.AppendLine();
+				stringBuilder.Append("InventoryMass".Translate() + ": " + invMass.ToStringMass());
+			}
+			return stringBuilder.ToString();
 		}
 
 		private float GetMass(Thing thing)
 		{
-			float result;
 			if (thing == null)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			float num = thing.GetStatValue(StatDefOf.Mass, true);
+			Pawn pawn = thing as Pawn;
+			if (pawn != null)
 			{
-				float num = thing.GetStatValue(StatDefOf.Mass, true);
-				Pawn pawn = thing as Pawn;
-				if (pawn != null)
+				if (InventoryCalculatorsUtility.ShouldIgnoreInventoryOf(pawn, this.ignorePawnInventoryMass))
 				{
-					if (InventoryCalculatorsUtility.ShouldIgnoreInventoryOf(pawn, this.ignorePawnInventoryMass))
-					{
-						num -= MassUtility.InventoryMass(pawn);
-					}
+					num -= MassUtility.InventoryMass(pawn);
 				}
-				else if (this.ignoreCorpseGearAndInventoryMass)
-				{
-					Corpse corpse = thing as Corpse;
-					if (corpse != null)
-					{
-						num -= MassUtility.GearAndInventoryMass(corpse.InnerPawn);
-					}
-				}
-				result = num;
 			}
-			return result;
+			else if (this.ignoreCorpseGearAndInventoryMass)
+			{
+				Corpse corpse = thing as Corpse;
+				if (corpse != null)
+				{
+					num -= MassUtility.GearAndInventoryMass(corpse.InnerPawn);
+				}
+			}
+			return num;
 		}
 	}
 }

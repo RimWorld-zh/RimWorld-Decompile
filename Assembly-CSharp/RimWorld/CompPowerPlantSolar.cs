@@ -45,15 +45,13 @@ namespace RimWorld
 		public override void PostDraw()
 		{
 			base.PostDraw();
-			GenDraw.FillableBarRequest r = new GenDraw.FillableBarRequest
-			{
-				center = base.parent.DrawPos + Vector3.up * 0.1f,
-				size = CompPowerPlantSolar.BarSize,
-				fillPercent = (float)(base.PowerOutput / 1700.0),
-				filledMat = CompPowerPlantSolar.PowerPlantSolarBarFilledMat,
-				unfilledMat = CompPowerPlantSolar.PowerPlantSolarBarUnfilledMat,
-				margin = 0.15f
-			};
+			GenDraw.FillableBarRequest r = default(GenDraw.FillableBarRequest);
+			r.center = base.parent.DrawPos + Vector3.up * 0.1f;
+			r.size = CompPowerPlantSolar.BarSize;
+			r.fillPercent = (float)(base.PowerOutput / 1700.0);
+			r.filledMat = CompPowerPlantSolar.PowerPlantSolarBarFilledMat;
+			r.unfilledMat = CompPowerPlantSolar.PowerPlantSolarBarUnfilledMat;
+			r.margin = 0.15f;
 			Rot4 rotation = base.parent.Rotation;
 			rotation.Rotate(RotationDirection.Clockwise);
 			r.rotation = rotation;

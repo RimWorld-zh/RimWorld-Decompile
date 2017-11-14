@@ -49,7 +49,15 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return WorldRendererUtility.WorldRenderedNow && Find.WindowStack.IsOpen<WorldInspectPane>() && this.InspectPane.CurTabs.Contains(this);
+				if (!WorldRendererUtility.WorldRenderedNow)
+				{
+					return false;
+				}
+				if (!Find.WindowStack.IsOpen<WorldInspectPane>())
+				{
+					return false;
+				}
+				return this.InspectPane.CurTabs.Contains(this);
 			}
 		}
 

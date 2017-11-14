@@ -35,7 +35,7 @@ namespace Verse
 				try
 				{
 					Scribe.loader.curParent = item;
-					Scribe.loader.curPathRelToParent = (string)null;
+					Scribe.loader.curPathRelToParent = null;
 					item.ExposeData();
 				}
 				catch (Exception arg)
@@ -45,7 +45,7 @@ namespace Verse
 			}
 			this.Clear();
 			Scribe.loader.curParent = null;
-			Scribe.loader.curPathRelToParent = (string)null;
+			Scribe.loader.curPathRelToParent = null;
 			Scribe.mode = LoadSaveMode.Inactive;
 		}
 

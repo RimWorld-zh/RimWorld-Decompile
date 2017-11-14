@@ -5,7 +5,8 @@ namespace RimWorld
 {
 	public class Designator_AreaHomeClear : Designator_AreaHome
 	{
-		public Designator_AreaHomeClear() : base(DesignateMode.Remove)
+		public Designator_AreaHomeClear()
+			: base(DesignateMode.Remove)
 		{
 			base.defaultLabel = "DesignatorAreaHomeClear".Translate();
 			base.defaultDesc = "DesignatorAreaHomeClearDesc".Translate();

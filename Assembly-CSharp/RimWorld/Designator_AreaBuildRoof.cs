@@ -36,21 +36,16 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (c.Fogged(base.Map))
+			if (c.Fogged(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				bool flag = ((Area)base.Map.areaManager.BuildRoof)[c];
-				result = !flag;
-			}
-			return result;
+			bool flag = ((Area)base.Map.areaManager.BuildRoof)[c];
+			return !flag;
 		}
 
 		public override void DesignateSingleCell(IntVec3 c)

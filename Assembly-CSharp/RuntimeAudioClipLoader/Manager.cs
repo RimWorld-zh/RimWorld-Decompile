@@ -80,31 +80,23 @@ namespace RuntimeAudioClipLoader
 
 		public static AudioClip Load(string filePath, bool doStream = false, bool loadInBackground = true, bool useCache = true)
 		{
-			AudioClip result;
 			if (!Manager.IsSupportedFormat(filePath))
 			{
 				Debug.LogError("Could not load AudioClip at path '" + filePath + "' it's extensions marks unsupported format, supported formats are: " + string.Join(", ", Enum.GetNames(typeof(AudioFormat))));
-				result = null;
+				return null;
 			}
-			else
+			AudioClip audioClip = null;
+			if (useCache && Manager.cache.TryGetValue(filePath, out audioClip) && (bool)audioClip)
 			{
-				AudioClip audioClip = null;
-				if (useCache && Manager.cache.TryGetValue(filePath, out audioClip) && (UnityEngine.Object)audioClip)
-				{
-					result = audioClip;
-				}
-				else
-				{
-					StreamReader streamReader = new StreamReader(filePath);
-					audioClip = Manager.Load(streamReader.BaseStream, Manager.GetAudioFormat(filePath), filePath, doStream, loadInBackground, true);
-					if (useCache)
-					{
-						Manager.cache[filePath] = audioClip;
-					}
-					result = audioClip;
-				}
+				return audioClip;
 			}
-			return result;
+			StreamReader streamReader = new StreamReader(filePath);
+			audioClip = Manager.Load(streamReader.BaseStream, Manager.GetAudioFormat(filePath), filePath, doStream, loadInBackground, true);
+			if (useCache)
+			{
+				Manager.cache[filePath] = audioClip;
+			}
+			return audioClip;
 		}
 
 		public static AudioClip Load(Stream dataStream, AudioFormat audioFormat, string unityAudioClipName, bool doStream = false, bool loadInBackground = true, bool diposeDataStreamIfNotNeeded = true)
@@ -120,62 +112,59 @@ namespace RuntimeAudioClipLoader
 				AudioInstance audioInstance2 = audioInstance;
 				if (doStream)
 				{
-					audioClip = (audioInstance2.audioClip = AudioClip.Create(unityAudioClipName, audioInstance2.samplesCount / audioInstance2.channels, audioInstance2.channels, audioInstance2.sampleRate, doStream, (AudioClip.PCMReaderCallback)delegate(float[] target)
+					audioClip = (audioInstance2.audioClip = AudioClip.Create(unityAudioClipName, audioInstance2.samplesCount / audioInstance2.channels, audioInstance2.channels, audioInstance2.sampleRate, doStream, delegate(float[] target)
 					{
 						reader.Read(target, 0, target.Length);
-					}, (AudioClip.PCMSetPositionCallback)delegate(int target)
+					}, delegate(int target)
 					{
 						reader.Seek(target, SeekOrigin.Begin);
 					}));
 					Manager.SetAudioClipLoadType(audioInstance2, AudioClipLoadType.Streaming);
 					Manager.SetAudioClipLoadState(audioInstance2, AudioDataLoadState.Loaded);
+					return audioClip;
 				}
-				else
+				audioClip = (audioInstance2.audioClip = AudioClip.Create(unityAudioClipName, audioInstance2.samplesCount / audioInstance2.channels, audioInstance2.channels, audioInstance2.sampleRate, doStream));
+				if (diposeDataStreamIfNotNeeded)
 				{
-					audioClip = (audioInstance2.audioClip = AudioClip.Create(unityAudioClipName, audioInstance2.samplesCount / audioInstance2.channels, audioInstance2.channels, audioInstance2.sampleRate, doStream));
-					if (diposeDataStreamIfNotNeeded)
-					{
-						audioInstance2.streamToDisposeOnceDone = dataStream;
-					}
-					Manager.SetAudioClipLoadType(audioInstance2, AudioClipLoadType.DecompressOnLoad);
-					Manager.SetAudioClipLoadState(audioInstance2, AudioDataLoadState.Loading);
-					if (loadInBackground)
-					{
-						object obj = Manager.deferredLoadQueue;
-						Monitor.Enter(obj);
-						try
-						{
-							Manager.deferredLoadQueue.Enqueue(audioInstance2);
-						}
-						finally
-						{
-							Monitor.Exit(obj);
-						}
-						Manager.RunDeferredLoaderThread();
-						Manager.EnsureInstanceExists();
-					}
-					else
-					{
-						audioInstance2.dataToSet = new float[audioInstance2.samplesCount];
-						audioInstance2.reader.Read(audioInstance2.dataToSet, 0, audioInstance2.dataToSet.Length);
-						audioInstance2.audioClip.SetData(audioInstance2.dataToSet, 0);
-						Manager.SetAudioClipLoadState(audioInstance2, AudioDataLoadState.Loaded);
-					}
+					audioInstance2.streamToDisposeOnceDone = dataStream;
 				}
+				Manager.SetAudioClipLoadType(audioInstance2, AudioClipLoadType.DecompressOnLoad);
+				Manager.SetAudioClipLoadState(audioInstance2, AudioDataLoadState.Loading);
+				if (loadInBackground)
+				{
+					object obj = Manager.deferredLoadQueue;
+					Monitor.Enter(obj);
+					try
+					{
+						Manager.deferredLoadQueue.Enqueue(audioInstance2);
+					}
+					finally
+					{
+						Monitor.Exit(obj);
+					}
+					Manager.RunDeferredLoaderThread();
+					Manager.EnsureInstanceExists();
+					return audioClip;
+				}
+				audioInstance2.dataToSet = new float[audioInstance2.samplesCount];
+				audioInstance2.reader.Read(audioInstance2.dataToSet, 0, audioInstance2.dataToSet.Length);
+				audioInstance2.audioClip.SetData(audioInstance2.dataToSet, 0);
+				Manager.SetAudioClipLoadState(audioInstance2, AudioDataLoadState.Loaded);
+				return audioClip;
 			}
 			catch (Exception ex)
 			{
 				Manager.SetAudioClipLoadState(audioClip, AudioDataLoadState.Failed);
 				Debug.LogError("Could not load AudioClip named '" + unityAudioClipName + "', exception:" + ex);
+				return audioClip;
 			}
-			return audioClip;
 		}
 
 		private static void RunDeferredLoaderThread()
 		{
 			if (Manager.deferredLoaderThread != null && Manager.deferredLoaderThread.IsAlive)
 				return;
-			Manager.deferredLoaderThread = new Thread(new ThreadStart(Manager.DeferredLoaderMain));
+			Manager.deferredLoaderThread = new Thread(Manager.DeferredLoaderMain);
 			Manager.deferredLoaderThread.IsBackground = true;
 			Manager.deferredLoaderThread.Start();
 		}
@@ -198,7 +187,7 @@ namespace RuntimeAudioClipLoader
 					if (flag)
 					{
 						audioInstance = Manager.deferredLoadQueue.Dequeue();
-						goto IL_0055;
+						goto IL_0051;
 					}
 				}
 				finally
@@ -206,7 +195,7 @@ namespace RuntimeAudioClipLoader
 					Monitor.Exit(obj);
 				}
 				continue;
-				IL_0055:
+				IL_0051:
 				num = 100000L;
 				try
 				{
@@ -289,7 +278,7 @@ namespace RuntimeAudioClipLoader
 
 		private static void EnsureInstanceExists()
 		{
-			if (!(UnityEngine.Object)Manager.managerInstance)
+			if (!(bool)Manager.managerInstance)
 			{
 				Manager.managerInstance = new GameObject("Runtime AudioClip Loader Manger singleton instance");
 				Manager.managerInstance.hideFlags = HideFlags.HideAndDontSave;
@@ -345,11 +334,12 @@ namespace RuntimeAudioClipLoader
 			try
 			{
 				result = (AudioFormat)Enum.Parse(typeof(AudioFormat), Manager.GetExtension(filePath), true);
+				return result;
 			}
 			catch
 			{
+				return result;
 			}
-			return result;
 		}
 
 		public static void ClearCache()

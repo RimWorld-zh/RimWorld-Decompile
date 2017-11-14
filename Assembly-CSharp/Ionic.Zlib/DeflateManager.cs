@@ -62,14 +62,14 @@ namespace Ionic.Zlib
 		{
 			"need dictionary",
 			"stream end",
-			"",
+			string.Empty,
 			"file error",
 			"stream error",
 			"data error",
 			"insufficient memory",
 			"buffer error",
 			"incompatible version",
-			""
+			string.Empty
 		};
 
 		private static readonly int PRESET_DICT = 32;
@@ -208,7 +208,7 @@ namespace Ionic.Zlib
 
 		internal int bi_valid;
 
-		private bool Rfc1950BytesEmitted = false;
+		private bool Rfc1950BytesEmitted;
 
 		private bool _WantRfc1950HeaderBytes = true;
 
@@ -253,7 +253,7 @@ namespace Ionic.Zlib
 			this.treeDistances.staticTree = StaticTree.Distances;
 			this.treeBitLengths.dyn_tree = this.bl_tree;
 			this.treeBitLengths.staticTree = StaticTree.BitLengths;
-			this.bi_buf = (short)0;
+			this.bi_buf = 0;
 			this.bi_valid = 0;
 			this.last_eob_len = 8;
 			this._InitializeBlocks();
@@ -263,17 +263,17 @@ namespace Ionic.Zlib
 		{
 			for (int i = 0; i < InternalConstants.L_CODES; i++)
 			{
-				this.dyn_ltree[i * 2] = (short)0;
+				this.dyn_ltree[i * 2] = 0;
 			}
 			for (int j = 0; j < InternalConstants.D_CODES; j++)
 			{
-				this.dyn_dtree[j * 2] = (short)0;
+				this.dyn_dtree[j * 2] = 0;
 			}
 			for (int k = 0; k < InternalConstants.BL_CODES; k++)
 			{
-				this.bl_tree[k * 2] = (short)0;
+				this.bl_tree[k * 2] = 0;
 			}
-			this.dyn_ltree[DeflateManager.END_BLOCK * 2] = (short)1;
+			this.dyn_ltree[DeflateManager.END_BLOCK * 2] = 1;
 			this.opt_len = (this.static_len = 0);
 			this.last_lit = (this.matches = 0);
 		}
@@ -319,45 +319,41 @@ namespace Ionic.Zlib
 				num4 = 138;
 				num5 = 3;
 			}
-			tree[(max_code + 1) * 2 + 1] = (short)32767;
-			for (int num6 = 0; num6 <= max_code; num6++)
+			tree[(max_code + 1) * 2 + 1] = 32767;
+			for (int i = 0; i <= max_code; i++)
 			{
-				int num7 = num2;
-				num2 = tree[(num6 + 1) * 2 + 1];
-				if (++num3 >= num4 || num7 != num2)
+				int num6 = num2;
+				num2 = tree[(i + 1) * 2 + 1];
+				if (++num3 >= num4 || num6 != num2)
 				{
 					if (num3 < num5)
 					{
-						this.bl_tree[num7 * 2] = (short)(this.bl_tree[num7 * 2] + num3);
+						this.bl_tree[num6 * 2] = (short)(this.bl_tree[num6 * 2] + num3);
 					}
-					else if (num7 != 0)
+					else if (num6 != 0)
 					{
-						if (num7 != num)
+						if (num6 != num)
 						{
-							ref short val = ref this.bl_tree[num7 * 2];
-							val = (short)(val + 1);
+							this.bl_tree[num6 * 2]++;
 						}
-						ref short val2 = ref this.bl_tree[InternalConstants.REP_3_6 * 2];
-						val2 = (short)(val2 + 1);
+						this.bl_tree[InternalConstants.REP_3_6 * 2]++;
 					}
 					else if (num3 <= 10)
 					{
-						ref short val3 = ref this.bl_tree[InternalConstants.REPZ_3_10 * 2];
-						val3 = (short)(val3 + 1);
+						this.bl_tree[InternalConstants.REPZ_3_10 * 2]++;
 					}
 					else
 					{
-						ref short val4 = ref this.bl_tree[InternalConstants.REPZ_11_138 * 2];
-						val4 = (short)(val4 + 1);
+						this.bl_tree[InternalConstants.REPZ_11_138 * 2]++;
 					}
 					num3 = 0;
-					num = num7;
+					num = num6;
 					if (num2 == 0)
 					{
 						num4 = 138;
 						num5 = 3;
 					}
-					else if (num7 == num2)
+					else if (num6 == num2)
 					{
 						num4 = 6;
 						num5 = 3;
@@ -390,9 +386,9 @@ namespace Ionic.Zlib
 			this.send_bits(lcodes - 257, 5);
 			this.send_bits(dcodes - 1, 5);
 			this.send_bits(blcodes - 4, 4);
-			for (int num = 0; num < blcodes; num++)
+			for (int i = 0; i < blcodes; i++)
 			{
-				this.send_bits(this.bl_tree[Tree.bl_order[num] * 2 + 1], 3);
+				this.send_bits(this.bl_tree[Tree.bl_order[i] * 2 + 1], 3);
 			}
 			this.send_tree(this.dyn_ltree, lcodes - 1);
 			this.send_tree(this.dyn_dtree, dcodes - 1);
@@ -410,26 +406,26 @@ namespace Ionic.Zlib
 				num4 = 138;
 				num5 = 3;
 			}
-			for (int num6 = 0; num6 <= max_code; num6++)
+			for (int i = 0; i <= max_code; i++)
 			{
-				int num7 = num2;
-				num2 = tree[(num6 + 1) * 2 + 1];
-				if (++num3 >= num4 || num7 != num2)
+				int num6 = num2;
+				num2 = tree[(i + 1) * 2 + 1];
+				if (++num3 >= num4 || num6 != num2)
 				{
 					if (num3 < num5)
 					{
 						while (true)
 						{
-							this.send_code(num7, this.bl_tree);
+							this.send_code(num6, this.bl_tree);
 							if (--num3 == 0)
 								break;
 						}
 					}
-					else if (num7 != 0)
+					else if (num6 != 0)
 					{
-						if (num7 != num)
+						if (num6 != num)
 						{
-							this.send_code(num7, this.bl_tree);
+							this.send_code(num6, this.bl_tree);
 							num3--;
 						}
 						this.send_code(InternalConstants.REP_3_6, this.bl_tree);
@@ -446,13 +442,13 @@ namespace Ionic.Zlib
 						this.send_bits(num3 - 11, 7);
 					}
 					num3 = 0;
-					num = num7;
+					num = num6;
 					if (num2 == 0)
 					{
 						num4 = 138;
 						num5 = 3;
 					}
-					else if (num7 == num2)
+					else if (num6 == num2)
 					{
 						num4 = 6;
 						num5 = 3;
@@ -475,30 +471,22 @@ namespace Ionic.Zlib
 		internal void send_code(int c, short[] tree)
 		{
 			int num = c * 2;
-			this.send_bits(tree[num] & 65535, tree[num + 1] & 65535);
+			this.send_bits(tree[num] & 0xFFFF, tree[num + 1] & 0xFFFF);
 		}
 
 		internal void send_bits(int value, int length)
 		{
 			if (this.bi_valid > DeflateManager.Buf_size - length)
 			{
-				this.bi_buf = (short)(this.bi_buf | (short)(value << this.bi_valid & 65535));
-				byte[] obj = this.pending;
-				int num = this.pendingCount;
-				int num2 = num;
-				this.pendingCount = num + 1;
-				obj[num2] = (byte)this.bi_buf;
-				byte[] obj2 = this.pending;
-				int num3 = this.pendingCount;
-				num2 = num3;
-				this.pendingCount = num3 + 1;
-				obj2[num2] = (byte)(this.bi_buf >> 8);
+				this.bi_buf |= (short)(value << this.bi_valid & 0xFFFF);
+				this.pending[this.pendingCount++] = (byte)this.bi_buf;
+				this.pending[this.pendingCount++] = (byte)(this.bi_buf >> 8);
 				this.bi_buf = (short)((uint)value >> DeflateManager.Buf_size - this.bi_valid);
 				this.bi_valid += length - DeflateManager.Buf_size;
 			}
 			else
 			{
-				this.bi_buf = (short)(this.bi_buf | (short)(value << this.bi_valid & 65535));
+				this.bi_buf |= (short)(value << this.bi_valid & 0xFFFF);
 				this.bi_valid += length;
 			}
 		}
@@ -525,20 +513,16 @@ namespace Ionic.Zlib
 			this.last_lit++;
 			if (dist == 0)
 			{
-				ref short val = ref this.dyn_ltree[lc * 2];
-				val = (short)(val + 1);
+				this.dyn_ltree[lc * 2]++;
 			}
 			else
 			{
 				this.matches++;
 				dist--;
-				ref short val2 = ref this.dyn_ltree[(Tree.LengthCode[lc] + InternalConstants.LITERALS + 1) * 2];
-				val2 = (short)(val2 + 1);
-				ref short val3 = ref this.dyn_dtree[Tree.DistanceCode(dist) * 2];
-				val3 = (short)(val3 + 1);
+				this.dyn_ltree[(Tree.LengthCode[lc] + InternalConstants.LITERALS + 1) * 2]++;
+				this.dyn_dtree[Tree.DistanceCode(dist) * 2]++;
 			}
-			bool result;
-			if ((this.last_lit & 8191) == 0 && this.compressionLevel > CompressionLevel.Level2)
+			if ((this.last_lit & 0x1FFF) == 0 && this.compressionLevel > CompressionLevel.Level2)
 			{
 				int num = this.last_lit << 3;
 				int num2 = this.strstart - this.block_start;
@@ -549,14 +533,10 @@ namespace Ionic.Zlib
 				num >>= 3;
 				if (this.matches < this.last_lit / 2 && num < num2 / 2)
 				{
-					result = true;
-					goto IL_0186;
+					return true;
 				}
 			}
-			result = (this.last_lit == this.lit_bufsize - 1 || this.last_lit == this.lit_bufsize);
-			goto IL_0186;
-			IL_0186:
-			return result;
+			return this.last_lit == this.lit_bufsize - 1 || this.last_lit == this.lit_bufsize;
 		}
 
 		internal void send_compressed_block(short[] ltree, short[] dtree)
@@ -567,8 +547,8 @@ namespace Ionic.Zlib
 				while (true)
 				{
 					int num2 = this._distanceOffset + num * 2;
-					int num3 = (this.pending[num2] << 8 & 65280) | (this.pending[num2 + 1] & 255);
-					int num4 = this.pending[this._lengthOffset + num] & 255;
+					int num3 = (this.pending[num2] << 8 & 65280) | (this.pending[num2 + 1] & 0xFF);
+					int num4 = this.pending[this._lengthOffset + num] & 0xFF;
 					num++;
 					if (num3 == 0)
 					{
@@ -626,27 +606,15 @@ namespace Ionic.Zlib
 		{
 			if (this.bi_valid == 16)
 			{
-				byte[] obj = this.pending;
-				int num = this.pendingCount;
-				int num2 = num;
-				this.pendingCount = num + 1;
-				obj[num2] = (byte)this.bi_buf;
-				byte[] obj2 = this.pending;
-				int num3 = this.pendingCount;
-				num2 = num3;
-				this.pendingCount = num3 + 1;
-				obj2[num2] = (byte)(this.bi_buf >> 8);
-				this.bi_buf = (short)0;
+				this.pending[this.pendingCount++] = (byte)this.bi_buf;
+				this.pending[this.pendingCount++] = (byte)(this.bi_buf >> 8);
+				this.bi_buf = 0;
 				this.bi_valid = 0;
 			}
 			else if (this.bi_valid >= 8)
 			{
-				byte[] obj3 = this.pending;
-				int num4 = this.pendingCount;
-				int num2 = num4;
-				this.pendingCount = num4 + 1;
-				obj3[num2] = (byte)this.bi_buf;
-				this.bi_buf = (short)(this.bi_buf >> 8);
+				this.pending[this.pendingCount++] = (byte)this.bi_buf;
+				this.bi_buf >>= 8;
 				this.bi_valid -= 8;
 			}
 		}
@@ -655,26 +623,14 @@ namespace Ionic.Zlib
 		{
 			if (this.bi_valid > 8)
 			{
-				byte[] obj = this.pending;
-				int num = this.pendingCount;
-				int num2 = num;
-				this.pendingCount = num + 1;
-				obj[num2] = (byte)this.bi_buf;
-				byte[] obj2 = this.pending;
-				int num3 = this.pendingCount;
-				num2 = num3;
-				this.pendingCount = num3 + 1;
-				obj2[num2] = (byte)(this.bi_buf >> 8);
+				this.pending[this.pendingCount++] = (byte)this.bi_buf;
+				this.pending[this.pendingCount++] = (byte)(this.bi_buf >> 8);
 			}
 			else if (this.bi_valid > 0)
 			{
-				byte[] obj3 = this.pending;
-				int num4 = this.pendingCount;
-				int num2 = num4;
-				this.pendingCount = num4 + 1;
-				obj3[num2] = (byte)this.bi_buf;
+				this.pending[this.pendingCount++] = (byte)this.bi_buf;
 			}
-			this.bi_buf = (short)0;
+			this.bi_buf = 0;
 			this.bi_valid = 0;
 		}
 
@@ -684,26 +640,10 @@ namespace Ionic.Zlib
 			this.last_eob_len = 8;
 			if (header)
 			{
-				byte[] obj = this.pending;
-				int num = this.pendingCount;
-				int num2 = num;
-				this.pendingCount = num + 1;
-				obj[num2] = (byte)len;
-				byte[] obj2 = this.pending;
-				int num3 = this.pendingCount;
-				num2 = num3;
-				this.pendingCount = num3 + 1;
-				obj2[num2] = (byte)(len >> 8);
-				byte[] obj3 = this.pending;
-				int num4 = this.pendingCount;
-				num2 = num4;
-				this.pendingCount = num4 + 1;
-				obj3[num2] = (byte)(~len);
-				byte[] obj4 = this.pending;
-				int num5 = this.pendingCount;
-				num2 = num5;
-				this.pendingCount = num5 + 1;
-				obj4[num2] = (byte)(~len >> 8);
+				this.pending[this.pendingCount++] = (byte)len;
+				this.pending[this.pendingCount++] = (byte)(len >> 8);
+				this.pending[this.pendingCount++] = (byte)(~len);
+				this.pending[this.pendingCount++] = (byte)(~len >> 8);
 			}
 			this.put_bytes(this.window, buf, len);
 		}
@@ -722,7 +662,6 @@ namespace Ionic.Zlib
 			{
 				num = this.pending.Length - 5;
 			}
-			BlockState result;
 			while (true)
 			{
 				if (this.lookahead <= 1)
@@ -730,19 +669,11 @@ namespace Ionic.Zlib
 					this._fillWindow();
 					if (this.lookahead == 0 && flush == FlushType.None)
 					{
-						result = BlockState.NeedMore;
+						return BlockState.NeedMore;
 					}
-					else
-					{
-						if (this.lookahead != 0)
-							goto IL_0062;
-						this.flush_block_only(flush == FlushType.Finish);
-						result = (BlockState)((this._codec.AvailableBytesOut != 0) ? ((flush != FlushType.Finish) ? 1 : 3) : ((flush == FlushType.Finish) ? 2 : 0));
-					}
-					break;
+					if (this.lookahead == 0)
+						break;
 				}
-				goto IL_0062;
-				IL_0062:
 				this.strstart += this.lookahead;
 				this.lookahead = 0;
 				int num2 = this.block_start + num;
@@ -753,8 +684,7 @@ namespace Ionic.Zlib
 					this.flush_block_only(false);
 					if (this._codec.AvailableBytesOut == 0)
 					{
-						result = BlockState.NeedMore;
-						break;
+						return BlockState.NeedMore;
 					}
 				}
 				if (this.strstart - this.block_start < this.w_size - DeflateManager.MIN_LOOKAHEAD)
@@ -762,10 +692,14 @@ namespace Ionic.Zlib
 				this.flush_block_only(false);
 				if (this._codec.AvailableBytesOut != 0)
 					continue;
-				result = BlockState.NeedMore;
-				break;
+				return BlockState.NeedMore;
 			}
-			return result;
+			this.flush_block_only(flush == FlushType.Finish);
+			if (this._codec.AvailableBytesOut == 0)
+			{
+				return (BlockState)((flush == FlushType.Finish) ? 2 : 0);
+			}
+			return (BlockState)((flush != FlushType.Finish) ? 1 : 3);
 		}
 
 		internal void _tr_stored_block(int buf, int stored_len, bool eof)
@@ -840,33 +774,34 @@ namespace Ionic.Zlib
 					this.match_start -= this.w_size;
 					this.strstart -= this.w_size;
 					this.block_start -= this.w_size;
-					int num2;
-					int num3 = num2 = this.hash_size;
+					int num2 = this.hash_size;
+					int num3 = num2;
 					while (true)
 					{
-						int num4 = this.head[--num2] & 65535;
-						this.head[num2] = (short)((num4 >= this.w_size) ? (num4 - this.w_size) : 0);
-						if (--num3 == 0)
+						int num4 = this.head[--num3] & 0xFFFF;
+						this.head[num3] = (short)((num4 >= this.w_size) ? (num4 - this.w_size) : 0);
+						if (--num2 == 0)
 							break;
 					}
-					num3 = (num2 = this.w_size);
+					num2 = this.w_size;
+					num3 = num2;
 					while (true)
 					{
-						int num4 = this.prev[--num2] & 65535;
-						this.prev[num2] = (short)((num4 >= this.w_size) ? (num4 - this.w_size) : 0);
-						if (--num3 == 0)
+						int num4 = this.prev[--num3] & 0xFFFF;
+						this.prev[num3] = (short)((num4 >= this.w_size) ? (num4 - this.w_size) : 0);
+						if (--num2 == 0)
 							break;
 					}
 					num += this.w_size;
 				}
 				if (this._codec.AvailableBytesIn != 0)
 				{
-					int num3 = this._codec.read_buf(this.window, this.strstart + this.lookahead, num);
-					this.lookahead += num3;
+					int num2 = this._codec.read_buf(this.window, this.strstart + this.lookahead, num);
+					this.lookahead += num2;
 					if (this.lookahead >= DeflateManager.MIN_MATCH)
 					{
-						this.ins_h = (this.window[this.strstart] & 255);
-						this.ins_h = ((this.ins_h << this.hash_shift ^ (this.window[this.strstart + 1] & 255)) & this.hash_mask);
+						this.ins_h = (this.window[this.strstart] & 0xFF);
+						this.ins_h = ((this.ins_h << this.hash_shift ^ (this.window[this.strstart + 1] & 0xFF)) & this.hash_mask);
 					}
 					if (this.lookahead >= DeflateManager.MIN_LOOKAHEAD)
 						break;
@@ -881,7 +816,6 @@ namespace Ionic.Zlib
 		internal BlockState DeflateFast(FlushType flush)
 		{
 			int num = 0;
-			BlockState result;
 			while (true)
 			{
 				if (this.lookahead < DeflateManager.MIN_LOOKAHEAD)
@@ -889,27 +823,19 @@ namespace Ionic.Zlib
 					this._fillWindow();
 					if (this.lookahead < DeflateManager.MIN_LOOKAHEAD && flush == FlushType.None)
 					{
-						result = BlockState.NeedMore;
+						return BlockState.NeedMore;
 					}
-					else
-					{
-						if (this.lookahead != 0)
-							goto IL_004b;
-						this.flush_block_only(flush == FlushType.Finish);
-						result = (BlockState)((this._codec.AvailableBytesOut != 0) ? ((flush != FlushType.Finish) ? 1 : 3) : ((flush == FlushType.Finish) ? 2 : 0));
-					}
-					break;
+					if (this.lookahead == 0)
+						break;
 				}
-				goto IL_004b;
-				IL_004b:
 				if (this.lookahead >= DeflateManager.MIN_MATCH)
 				{
-					this.ins_h = ((this.ins_h << this.hash_shift ^ (this.window[this.strstart + (DeflateManager.MIN_MATCH - 1)] & 255)) & this.hash_mask);
-					num = (this.head[this.ins_h] & 65535);
+					this.ins_h = ((this.ins_h << this.hash_shift ^ (this.window[this.strstart + (DeflateManager.MIN_MATCH - 1)] & 0xFF)) & this.hash_mask);
+					num = (this.head[this.ins_h] & 0xFFFF);
 					this.prev[this.strstart & this.w_mask] = this.head[this.ins_h];
 					this.head[this.ins_h] = (short)this.strstart;
 				}
-				if (num != 0 && (this.strstart - num & 65535) <= this.w_size - DeflateManager.MIN_LOOKAHEAD && this.compressionStrategy != CompressionStrategy.HuffmanOnly)
+				if ((long)num != 0 && (this.strstart - num & 0xFFFF) <= this.w_size - DeflateManager.MIN_LOOKAHEAD && this.compressionStrategy != CompressionStrategy.HuffmanOnly)
 				{
 					this.match_length = this.longest_match(num);
 				}
@@ -924,8 +850,8 @@ namespace Ionic.Zlib
 						while (true)
 						{
 							this.strstart++;
-							this.ins_h = ((this.ins_h << this.hash_shift ^ (this.window[this.strstart + (DeflateManager.MIN_MATCH - 1)] & 255)) & this.hash_mask);
-							num = (this.head[this.ins_h] & 65535);
+							this.ins_h = ((this.ins_h << this.hash_shift ^ (this.window[this.strstart + (DeflateManager.MIN_MATCH - 1)] & 0xFF)) & this.hash_mask);
+							num = (this.head[this.ins_h] & 0xFFFF);
 							this.prev[this.strstart & this.w_mask] = this.head[this.ins_h];
 							this.head[this.ins_h] = (short)this.strstart;
 							if (--this.match_length == 0)
@@ -937,13 +863,13 @@ namespace Ionic.Zlib
 					{
 						this.strstart += this.match_length;
 						this.match_length = 0;
-						this.ins_h = (this.window[this.strstart] & 255);
-						this.ins_h = ((this.ins_h << this.hash_shift ^ (this.window[this.strstart + 1] & 255)) & this.hash_mask);
+						this.ins_h = (this.window[this.strstart] & 0xFF);
+						this.ins_h = ((this.ins_h << this.hash_shift ^ (this.window[this.strstart + 1] & 0xFF)) & this.hash_mask);
 					}
 				}
 				else
 				{
-					flag = this._tr_tally(0, this.window[this.strstart] & 255);
+					flag = this._tr_tally(0, this.window[this.strstart] & 0xFF);
 					this.lookahead--;
 					this.strstart++;
 				}
@@ -952,16 +878,23 @@ namespace Ionic.Zlib
 				this.flush_block_only(false);
 				if (this._codec.AvailableBytesOut != 0)
 					continue;
-				result = BlockState.NeedMore;
-				break;
+				return BlockState.NeedMore;
 			}
-			return result;
+			this.flush_block_only(flush == FlushType.Finish);
+			if (this._codec.AvailableBytesOut == 0)
+			{
+				if (flush == FlushType.Finish)
+				{
+					return BlockState.FinishStarted;
+				}
+				return BlockState.NeedMore;
+			}
+			return (BlockState)((flush != FlushType.Finish) ? 1 : 3);
 		}
 
 		internal BlockState DeflateSlow(FlushType flush)
 		{
 			int num = 0;
-			BlockState result;
 			while (true)
 			{
 				if (this.lookahead < DeflateManager.MIN_LOOKAHEAD)
@@ -969,35 +902,22 @@ namespace Ionic.Zlib
 					this._fillWindow();
 					if (this.lookahead < DeflateManager.MIN_LOOKAHEAD && flush == FlushType.None)
 					{
-						result = BlockState.NeedMore;
+						return BlockState.NeedMore;
 					}
-					else
-					{
-						if (this.lookahead != 0)
-							goto IL_004a;
-						if (this.match_available != 0)
-						{
-							bool flag = this._tr_tally(0, this.window[this.strstart - 1] & 255);
-							this.match_available = 0;
-						}
-						this.flush_block_only(flush == FlushType.Finish);
-						result = (BlockState)((this._codec.AvailableBytesOut != 0) ? ((flush != FlushType.Finish) ? 1 : 3) : ((flush == FlushType.Finish) ? 2 : 0));
-					}
-					break;
+					if (this.lookahead == 0)
+						break;
 				}
-				goto IL_004a;
-				IL_004a:
 				if (this.lookahead >= DeflateManager.MIN_MATCH)
 				{
-					this.ins_h = ((this.ins_h << this.hash_shift ^ (this.window[this.strstart + (DeflateManager.MIN_MATCH - 1)] & 255)) & this.hash_mask);
-					num = (this.head[this.ins_h] & 65535);
+					this.ins_h = ((this.ins_h << this.hash_shift ^ (this.window[this.strstart + (DeflateManager.MIN_MATCH - 1)] & 0xFF)) & this.hash_mask);
+					num = (this.head[this.ins_h] & 0xFFFF);
 					this.prev[this.strstart & this.w_mask] = this.head[this.ins_h];
 					this.head[this.ins_h] = (short)this.strstart;
 				}
 				this.prev_length = this.match_length;
 				this.prev_match = this.match_start;
 				this.match_length = DeflateManager.MIN_MATCH - 1;
-				if (num != 0 && this.prev_length < this.config.MaxLazy && (this.strstart - num & 65535) <= this.w_size - DeflateManager.MIN_LOOKAHEAD)
+				if (num != 0 && this.prev_length < this.config.MaxLazy && (this.strstart - num & 0xFFFF) <= this.w_size - DeflateManager.MIN_LOOKAHEAD)
 				{
 					if (this.compressionStrategy != CompressionStrategy.HuffmanOnly)
 					{
@@ -1018,8 +938,8 @@ namespace Ionic.Zlib
 					{
 						if (++this.strstart <= num2)
 						{
-							this.ins_h = ((this.ins_h << this.hash_shift ^ (this.window[this.strstart + (DeflateManager.MIN_MATCH - 1)] & 255)) & this.hash_mask);
-							num = (this.head[this.ins_h] & 65535);
+							this.ins_h = ((this.ins_h << this.hash_shift ^ (this.window[this.strstart + (DeflateManager.MIN_MATCH - 1)] & 0xFF)) & this.hash_mask);
+							num = (this.head[this.ins_h] & 0xFFFF);
 							this.prev[this.strstart & this.w_mask] = this.head[this.ins_h];
 							this.head[this.ins_h] = (short)this.strstart;
 						}
@@ -1034,12 +954,11 @@ namespace Ionic.Zlib
 					this.flush_block_only(false);
 					if (this._codec.AvailableBytesOut != 0)
 						continue;
-					result = BlockState.NeedMore;
-					break;
+					return BlockState.NeedMore;
 				}
 				if (this.match_available != 0)
 				{
-					if (this._tr_tally(0, this.window[this.strstart - 1] & 255))
+					if (this._tr_tally(0, this.window[this.strstart - 1] & 0xFF))
 					{
 						this.flush_block_only(false);
 					}
@@ -1047,14 +966,27 @@ namespace Ionic.Zlib
 					this.lookahead--;
 					if (this._codec.AvailableBytesOut != 0)
 						continue;
-					result = BlockState.NeedMore;
-					break;
+					return BlockState.NeedMore;
 				}
 				this.match_available = 1;
 				this.strstart++;
 				this.lookahead--;
 			}
-			return result;
+			if (this.match_available != 0)
+			{
+				bool flag = this._tr_tally(0, this.window[this.strstart - 1] & 0xFF);
+				this.match_available = 0;
+			}
+			this.flush_block_only(flush == FlushType.Finish);
+			if (this._codec.AvailableBytesOut == 0)
+			{
+				if (flush == FlushType.Finish)
+				{
+					return BlockState.FinishStarted;
+				}
+				return BlockState.NeedMore;
+			}
+			return (BlockState)((flush != FlushType.Finish) ? 1 : 3);
 		}
 
 		internal int longest_match(int cur_match)
@@ -1103,8 +1035,12 @@ namespace Ionic.Zlib
 					}
 				}
 			}
-			while (!((cur_match = (this.prev[cur_match & num5] & 65535)) <= num4) && !(--num == 0));
-			return (num3 > this.lookahead) ? this.lookahead : num3;
+			while (!((cur_match = (this.prev[cur_match & num5] & 0xFFFF)) <= num4) && !(--num == 0));
+			if (num3 <= this.lookahead)
+			{
+				return num3;
+			}
+			return this.lookahead;
 		}
 
 		internal int Initialize(ZlibCodec codec, CompressionLevel level)
@@ -1125,7 +1061,7 @@ namespace Ionic.Zlib
 		internal int Initialize(ZlibCodec codec, CompressionLevel level, int windowBits, int memLevel, CompressionStrategy strategy)
 		{
 			this._codec = codec;
-			this._codec.Message = (string)null;
+			this._codec.Message = null;
 			if (windowBits >= 9 && windowBits <= 15)
 			{
 				if (memLevel >= 1 && memLevel <= DeflateManager.MEM_LEVEL_MAX)
@@ -1158,7 +1094,7 @@ namespace Ionic.Zlib
 		internal void Reset()
 		{
 			this._codec.TotalBytesIn = (this._codec.TotalBytesOut = 0L);
-			this._codec.Message = (string)null;
+			this._codec.Message = null;
 			this.pendingCount = 0;
 			this.nextPending = 0;
 			this.Rfc1950BytesEmitted = false;
@@ -1171,20 +1107,15 @@ namespace Ionic.Zlib
 
 		internal int End()
 		{
-			int result;
 			if (this.status != DeflateManager.INIT_STATE && this.status != DeflateManager.BUSY_STATE && this.status != DeflateManager.FINISH_STATE)
 			{
-				result = -2;
+				return -2;
 			}
-			else
-			{
-				this.pending = null;
-				this.head = null;
-				this.prev = null;
-				this.window = null;
-				result = ((this.status == DeflateManager.BUSY_STATE) ? (-3) : 0);
-			}
-			return result;
+			this.pending = null;
+			this.head = null;
+			this.prev = null;
+			this.window = null;
+			return (this.status == DeflateManager.BUSY_STATE) ? (-3) : 0;
 		}
 
 		private void SetDeflater()
@@ -1192,20 +1123,14 @@ namespace Ionic.Zlib
 			switch (this.config.Flavor)
 			{
 			case DeflateFlavor.Store:
-			{
-				this.DeflateFunction = new CompressFunc(this.DeflateNone);
+				this.DeflateFunction = this.DeflateNone;
 				break;
-			}
 			case DeflateFlavor.Fast:
-			{
-				this.DeflateFunction = new CompressFunc(this.DeflateFast);
+				this.DeflateFunction = this.DeflateFast;
 				break;
-			}
 			case DeflateFlavor.Slow:
-			{
-				this.DeflateFunction = new CompressFunc(this.DeflateSlow);
+				this.DeflateFunction = this.DeflateSlow;
 				break;
-			}
 			}
 		}
 
@@ -1234,39 +1159,33 @@ namespace Ionic.Zlib
 			if (dictionary != null && this.status == DeflateManager.INIT_STATE)
 			{
 				this._codec._Adler32 = Adler.Adler32(this._codec._Adler32, dictionary, 0, dictionary.Length);
-				int result;
 				if (num < DeflateManager.MIN_MATCH)
 				{
-					result = 0;
+					return 0;
 				}
-				else
+				if (num > this.w_size - DeflateManager.MIN_LOOKAHEAD)
 				{
-					if (num > this.w_size - DeflateManager.MIN_LOOKAHEAD)
-					{
-						num = this.w_size - DeflateManager.MIN_LOOKAHEAD;
-						sourceIndex = dictionary.Length - num;
-					}
-					Array.Copy(dictionary, sourceIndex, this.window, 0, num);
-					this.strstart = num;
-					this.block_start = num;
-					this.ins_h = (this.window[0] & 255);
-					this.ins_h = ((this.ins_h << this.hash_shift ^ (this.window[1] & 255)) & this.hash_mask);
-					for (int i = 0; i <= num - DeflateManager.MIN_MATCH; i++)
-					{
-						this.ins_h = ((this.ins_h << this.hash_shift ^ (this.window[i + (DeflateManager.MIN_MATCH - 1)] & 255)) & this.hash_mask);
-						this.prev[i & this.w_mask] = this.head[this.ins_h];
-						this.head[this.ins_h] = (short)i;
-					}
-					result = 0;
+					num = this.w_size - DeflateManager.MIN_LOOKAHEAD;
+					sourceIndex = dictionary.Length - num;
 				}
-				return result;
+				Array.Copy(dictionary, sourceIndex, this.window, 0, num);
+				this.strstart = num;
+				this.block_start = num;
+				this.ins_h = (this.window[0] & 0xFF);
+				this.ins_h = ((this.ins_h << this.hash_shift ^ (this.window[1] & 0xFF)) & this.hash_mask);
+				for (int i = 0; i <= num - DeflateManager.MIN_MATCH; i++)
+				{
+					this.ins_h = ((this.ins_h << this.hash_shift ^ (this.window[i + (DeflateManager.MIN_MATCH - 1)] & 0xFF)) & this.hash_mask);
+					this.prev[i & this.w_mask] = this.head[this.ins_h];
+					this.head[this.ins_h] = (short)i;
+				}
+				return 0;
 			}
 			throw new ZlibException("Stream error.");
 		}
 
 		internal int Deflate(FlushType flush)
 		{
-			int result;
 			if (this._codec.OutputBuffer != null && (this._codec.InputBuffer != null || this._codec.AvailableBytesIn == 0) && (this.status != DeflateManager.FINISH_STATE || flush == FlushType.Finish))
 			{
 				if (this._codec.AvailableBytesOut == 0)
@@ -1279,7 +1198,7 @@ namespace Ionic.Zlib
 				if (this.status == DeflateManager.INIT_STATE)
 				{
 					int num2 = DeflateManager.Z_DEFLATED + (this.w_bits - 8 << 4) << 8;
-					int num3 = ((int)(this.compressionLevel - 1) & 255) >> 1;
+					int num3 = (int)(this.compressionLevel - 1 & (CompressionLevel)255) >> 1;
 					if (num3 > 3)
 					{
 						num3 = 3;
@@ -1291,38 +1210,14 @@ namespace Ionic.Zlib
 					}
 					num2 += 31 - num2 % 31;
 					this.status = DeflateManager.BUSY_STATE;
-					byte[] obj = this.pending;
-					int num4 = this.pendingCount;
-					int num5 = num4;
-					this.pendingCount = num4 + 1;
-					obj[num5] = (byte)(num2 >> 8);
-					byte[] obj2 = this.pending;
-					int num6 = this.pendingCount;
-					num5 = num6;
-					this.pendingCount = num6 + 1;
-					obj2[num5] = (byte)num2;
+					this.pending[this.pendingCount++] = (byte)(num2 >> 8);
+					this.pending[this.pendingCount++] = (byte)num2;
 					if (this.strstart != 0)
 					{
-						byte[] obj3 = this.pending;
-						int num7 = this.pendingCount;
-						num5 = num7;
-						this.pendingCount = num7 + 1;
-						obj3[num5] = (byte)((uint)((int)this._codec._Adler32 & -16777216) >> 24);
-						byte[] obj4 = this.pending;
-						int num8 = this.pendingCount;
-						num5 = num8;
-						this.pendingCount = num8 + 1;
-						obj4[num5] = (byte)((this._codec._Adler32 & 16711680) >> 16);
-						byte[] obj5 = this.pending;
-						int num9 = this.pendingCount;
-						num5 = num9;
-						this.pendingCount = num9 + 1;
-						obj5[num5] = (byte)((this._codec._Adler32 & 65280) >> 8);
-						byte[] obj6 = this.pending;
-						int num10 = this.pendingCount;
-						num5 = num10;
-						this.pendingCount = num10 + 1;
-						obj6[num5] = (byte)(this._codec._Adler32 & 255);
+						this.pending[this.pendingCount++] = (byte)((uint)((int)this._codec._Adler32 & -16777216) >> 24);
+						this.pending[this.pendingCount++] = (byte)((this._codec._Adler32 & 16711680) >> 16);
+						this.pending[this.pendingCount++] = (byte)((this._codec._Adler32 & 65280) >> 8);
+						this.pending[this.pendingCount++] = (byte)(this._codec._Adler32 & 0xFF);
 					}
 					this._codec._Adler32 = Adler.Adler32(0u, null, 0, 0);
 				}
@@ -1332,16 +1227,14 @@ namespace Ionic.Zlib
 					if (this._codec.AvailableBytesOut == 0)
 					{
 						this.last_flush = -1;
-						result = 0;
-						goto IL_04e3;
+						return 0;
 					}
 				}
 				else if (this._codec.AvailableBytesIn == 0 && (int)flush <= num && flush != FlushType.Finish)
 				{
-					result = 0;
-					goto IL_04e3;
+					return 0;
 				}
-				if (((this.status == DeflateManager.FINISH_STATE) ? this._codec.AvailableBytesIn : 0) != 0)
+				if (this.status == DeflateManager.FINISH_STATE && this._codec.AvailableBytesIn != 0)
 				{
 					this._codec.Message = DeflateManager._ErrorMessage[7];
 					throw new ZlibException("status == FINISH_STATE && _codec.AvailableBytesIn != 0");
@@ -1357,16 +1250,12 @@ namespace Ionic.Zlib
 					{
 					case BlockState.NeedMore:
 					case BlockState.FinishStarted:
-					{
 						if (this._codec.AvailableBytesOut == 0)
 						{
 							this.last_flush = -1;
 						}
-						result = 0;
-						goto IL_04e3;
-					}
+						return 0;
 					case BlockState.BlockDone:
-					{
 						if (flush == FlushType.Partial)
 						{
 							this._tr_align();
@@ -1378,61 +1267,35 @@ namespace Ionic.Zlib
 							{
 								for (int i = 0; i < this.hash_size; i++)
 								{
-									this.head[i] = (short)0;
+									this.head[i] = 0;
 								}
 							}
 						}
 						this._codec.flush_pending();
-						if (this._codec.AvailableBytesOut == 0)
-						{
-							this.last_flush = -1;
-							result = 0;
-							goto IL_04e3;
-						}
-						break;
-					}
+						if (this._codec.AvailableBytesOut != 0)
+							break;
+						this.last_flush = -1;
+						return 0;
 					}
 				}
 				if (flush != FlushType.Finish)
 				{
-					result = 0;
+					return 0;
 				}
-				else if (!this.WantRfc1950HeaderBytes || this.Rfc1950BytesEmitted)
+				if (this.WantRfc1950HeaderBytes && !this.Rfc1950BytesEmitted)
 				{
-					result = 1;
-				}
-				else
-				{
-					byte[] obj7 = this.pending;
-					int num11 = this.pendingCount;
-					int num5 = num11;
-					this.pendingCount = num11 + 1;
-					obj7[num5] = (byte)((uint)((int)this._codec._Adler32 & -16777216) >> 24);
-					byte[] obj8 = this.pending;
-					int num12 = this.pendingCount;
-					num5 = num12;
-					this.pendingCount = num12 + 1;
-					obj8[num5] = (byte)((this._codec._Adler32 & 16711680) >> 16);
-					byte[] obj9 = this.pending;
-					int num13 = this.pendingCount;
-					num5 = num13;
-					this.pendingCount = num13 + 1;
-					obj9[num5] = (byte)((this._codec._Adler32 & 65280) >> 8);
-					byte[] obj10 = this.pending;
-					int num14 = this.pendingCount;
-					num5 = num14;
-					this.pendingCount = num14 + 1;
-					obj10[num5] = (byte)(this._codec._Adler32 & 255);
+					this.pending[this.pendingCount++] = (byte)((uint)((int)this._codec._Adler32 & -16777216) >> 24);
+					this.pending[this.pendingCount++] = (byte)((this._codec._Adler32 & 16711680) >> 16);
+					this.pending[this.pendingCount++] = (byte)((this._codec._Adler32 & 65280) >> 8);
+					this.pending[this.pendingCount++] = (byte)(this._codec._Adler32 & 0xFF);
 					this._codec.flush_pending();
 					this.Rfc1950BytesEmitted = true;
-					result = ((this.pendingCount == 0) ? 1 : 0);
+					return (this.pendingCount == 0) ? 1 : 0;
 				}
-				goto IL_04e3;
+				return 1;
 			}
 			this._codec.Message = DeflateManager._ErrorMessage[4];
 			throw new ZlibException(string.Format("Something is fishy. [{0}]", this._codec.Message));
-			IL_04e3:
-			return result;
 		}
 	}
 }

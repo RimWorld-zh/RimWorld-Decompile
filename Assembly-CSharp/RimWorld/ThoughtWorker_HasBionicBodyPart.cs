@@ -8,25 +8,15 @@ namespace RimWorld
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			List<Hediff> hediffs = p.health.hediffSet.hediffs;
-			int num = 0;
-			ThoughtState result;
-			while (true)
+			for (int i = 0; i < hediffs.Count; i++)
 			{
-				if (num < hediffs.Count)
+				AddedBodyPartProps addedPartProps = hediffs[i].def.addedPartProps;
+				if (addedPartProps != null && addedPartProps.isBionic)
 				{
-					AddedBodyPartProps addedPartProps = hediffs[num].def.addedPartProps;
-					if (addedPartProps != null && addedPartProps.isBionic)
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 	}
 }

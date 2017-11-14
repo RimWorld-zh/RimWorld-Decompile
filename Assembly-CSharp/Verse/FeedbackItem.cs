@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -35,7 +34,7 @@ namespace Verse
 			Vector2 vector = Text.CalcSize(str);
 			float x = vector.x;
 			Rect wordRect = new Rect((float)(this.CurScreenPos.x - x / 2.0), this.CurScreenPos.y, x, 20f);
-			Find.WindowStack.ImmediateWindow(5983 * this.uniqueID + 495, wordRect, WindowLayer.Super, (Action)delegate()
+			Find.WindowStack.ImmediateWindow(5983 * this.uniqueID + 495, wordRect, WindowLayer.Super, delegate
 			{
 				Rect rect = wordRect.AtZero();
 				Text.Anchor = TextAnchor.UpperCenter;

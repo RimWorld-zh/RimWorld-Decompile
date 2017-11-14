@@ -12,27 +12,27 @@ namespace Verse
 
 		public Type workerClass = typeof(MentalStateWorker);
 
-		public MentalStateCategory category = MentalStateCategory.Undefined;
+		public MentalStateCategory category;
 
 		public bool prisonersCanDo = true;
 
-		public bool unspawnedCanDo = false;
+		public bool unspawnedCanDo;
 
-		public bool colonistsOnly = false;
+		public bool colonistsOnly;
 
 		public List<PawnCapacityDef> requiredCapacities = new List<PawnCapacityDef>();
 
-		public bool blockNormalThoughts = false;
+		public bool blockNormalThoughts;
 
 		public EffecterDef stateEffecter;
 
 		public TaleDef tale;
 
-		public bool allowBeatfire = false;
+		public bool allowBeatfire;
 
 		public DrugCategory drugCategory = DrugCategory.Any;
 
-		public bool ignoreDrugPolicy = false;
+		public bool ignoreDrugPolicy;
 
 		public float recoveryMtbDays = 1f;
 
@@ -40,7 +40,7 @@ namespace Verse
 
 		public int maxTicksBeforeRecovery = 99999999;
 
-		public bool recoverFromSleep = false;
+		public bool recoverFromSleep;
 
 		public ThoughtDef moodRecoveryThought;
 
@@ -60,7 +60,7 @@ namespace Verse
 		[MustTranslate]
 		public string baseInspectLine;
 
-		private MentalStateWorker workerInt = null;
+		private MentalStateWorker workerInt;
 
 		public MentalStateWorker Worker
 		{
@@ -88,24 +88,14 @@ namespace Verse
 			get
 			{
 				List<MentalBreakDef> allDefsListForReading = DefDatabase<MentalBreakDef>.AllDefsListForReading;
-				int num = 0;
-				bool result;
-				while (true)
+				for (int i = 0; i < allDefsListForReading.Count; i++)
 				{
-					if (num < allDefsListForReading.Count)
+					if (allDefsListForReading[i].intensity == MentalBreakIntensity.Extreme && allDefsListForReading[i].mentalState == this)
 					{
-						if (allDefsListForReading[num].intensity == MentalBreakIntensity.Extreme && allDefsListForReading[num].mentalState == this)
-						{
-							result = true;
-							break;
-						}
-						num++;
-						continue;
+						return true;
 					}
-					result = false;
-					break;
 				}
-				return result;
+				return false;
 			}
 		}
 
@@ -120,7 +110,7 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -135,8 +125,8 @@ namespace Verse
 				yield break;
 			yield return "no beginLetter or beginLetterLabel";
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_010a:
-			/*Error near IL_010b: Unexpected return in MoveNext()*/;
+			IL_0106:
+			/*Error near IL_0107: Unexpected return in MoveNext()*/;
 		}
 	}
 }

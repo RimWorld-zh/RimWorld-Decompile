@@ -44,16 +44,12 @@ namespace Verse
 					for (int i = 0; i < this.comps.Count; i++)
 					{
 						if (this.comps[i].CompShouldRemove)
-							goto IL_002b;
+						{
+							return true;
+						}
 					}
 				}
-				bool result = base.ShouldRemove;
-				goto IL_0055;
-				IL_002b:
-				result = true;
-				goto IL_0055;
-				IL_0055:
-				return result;
+				return base.ShouldRemove;
 			}
 		}
 
@@ -66,16 +62,12 @@ namespace Verse
 					for (int i = 0; i < this.comps.Count; i++)
 					{
 						if (this.comps[i].CompDisallowVisible())
-							goto IL_002b;
+						{
+							return false;
+						}
 					}
 				}
-				bool result = base.Visible;
-				goto IL_0055;
-				IL_002b:
-				result = false;
-				goto IL_0055;
-				IL_0055:
-				return result;
+				return base.Visible;
 			}
 		}
 
@@ -104,25 +96,15 @@ namespace Verse
 		{
 			get
 			{
-				int num = 0;
-				TextureAndColor result;
-				while (true)
+				for (int i = 0; i < this.comps.Count; i++)
 				{
-					if (num < this.comps.Count)
+					TextureAndColor compStateIcon = this.comps[i].CompStateIcon;
+					if (compStateIcon.HasValue)
 					{
-						TextureAndColor compStateIcon = this.comps[num].CompStateIcon;
-						if (compStateIcon.HasValue)
-						{
-							result = compStateIcon;
-							break;
-						}
-						num++;
-						continue;
+						return compStateIcon;
 					}
-					result = TextureAndColor.None;
-					break;
 				}
-				return result;
+				return TextureAndColor.None;
 			}
 		}
 
@@ -192,20 +174,15 @@ namespace Verse
 
 		public override bool TryMergeWith(Hediff other)
 		{
-			bool result;
 			if (base.TryMergeWith(other))
 			{
 				for (int i = 0; i < this.comps.Count; i++)
 				{
 					this.comps[i].CompPostMerged(other);
 				}
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public override void Notify_PawnDied()

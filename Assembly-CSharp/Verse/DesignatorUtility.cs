@@ -9,33 +9,22 @@ namespace Verse
 		{
 			List<DesignationCategoryDef> allDefsListForReading = DefDatabase<DesignationCategoryDef>.AllDefsListForReading;
 			GameRules rules = Current.Game.Rules;
-			int num = 0;
-			Designator result;
-			while (true)
+			for (int i = 0; i < allDefsListForReading.Count; i++)
 			{
-				T val;
-				if (num < allDefsListForReading.Count)
+				List<Designator> allResolvedDesignators = allDefsListForReading[i].AllResolvedDesignators;
+				for (int j = 0; j < allResolvedDesignators.Count; j++)
 				{
-					List<Designator> allResolvedDesignators = allDefsListForReading[num].AllResolvedDesignators;
-					for (int i = 0; i < allResolvedDesignators.Count; i++)
+					if (rules.DesignatorAllowed(allResolvedDesignators[j]))
 					{
-						if (rules.DesignatorAllowed(allResolvedDesignators[i]))
+						T val = (T)(allResolvedDesignators[j] as T);
+						if (val != null)
 						{
-							val = (T)(allResolvedDesignators[i] as T);
-							if (val != null)
-								goto IL_0068;
+							return (Designator)(object)val;
 						}
 					}
-					num++;
-					continue;
 				}
-				result = null;
-				break;
-				IL_0068:
-				result = (Designator)(object)val;
-				break;
 			}
-			return result;
+			return null;
 		}
 	}
 }

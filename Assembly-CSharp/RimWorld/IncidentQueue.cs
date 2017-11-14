@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -43,8 +42,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_00b8:
-			/*Error near IL_00b9: Unexpected return in MoveNext()*/;
+			IL_00b4:
+			/*Error near IL_00b5: Unexpected return in MoveNext()*/;
 		}
 
 		public void Clear()
@@ -60,7 +59,7 @@ namespace RimWorld
 		public bool Add(QueuedIncident qi)
 		{
 			this.queuedIncidents.Add(qi);
-			this.queuedIncidents.Sort((Comparison<QueuedIncident>)((QueuedIncident a, QueuedIncident b) => a.FireTick.CompareTo(b.FireTick)));
+			this.queuedIncidents.Sort((QueuedIncident a, QueuedIncident b) => a.FireTick.CompareTo(b.FireTick));
 			return true;
 		}
 

@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using System.Text;
 using Verse;
@@ -25,7 +24,7 @@ namespace RimWorld
 					tile = pawn.Tile;
 				}
 				bool flag = PawnBanishUtility.WouldBeLeftToDie(pawn, tile);
-				PawnDiedOrDownedThoughtsUtility.TryGiveThoughts(pawn, default(DamageInfo?), (PawnDiedOrDownedThoughtsKind)((!flag) ? 1 : 2));
+				PawnDiedOrDownedThoughtsUtility.TryGiveThoughts(pawn, null, (PawnDiedOrDownedThoughtsKind)((!flag) ? 1 : 2));
 				Caravan caravan = pawn.GetCaravan();
 				if (caravan != null)
 				{
@@ -35,7 +34,7 @@ namespace RimWorld
 					{
 						if (Rand.Value < 0.800000011920929)
 						{
-							pawn.Kill(default(DamageInfo?), null);
+							pawn.Kill(null, null);
 						}
 						else
 						{
@@ -75,41 +74,32 @@ namespace RimWorld
 
 		public static bool WouldBeLeftToDie(Pawn p, int tile)
 		{
-			bool result;
 			if (p.Downed)
 			{
-				result = true;
+				return true;
 			}
-			else if (p.health.hediffSet.BleedRateTotal > 0.40000000596046448)
+			if (p.health.hediffSet.BleedRateTotal > 0.40000000596046448)
 			{
-				result = true;
+				return true;
 			}
-			else
+			if (tile != -1)
 			{
-				if (tile != -1)
+				float f = GenTemperature.AverageTemperatureAtTileForTwelfth(tile, GenLocalDate.Twelfth(p));
+				if (!p.SafeTemperatureRange().Includes(f))
 				{
-					float f = GenTemperature.AverageTemperatureAtTileForTwelfth(tile, GenLocalDate.Twelfth(p));
-					if (!p.SafeTemperatureRange().Includes(f))
-					{
-						result = true;
-						goto IL_00c3;
-					}
+					return true;
 				}
-				List<Hediff> hediffs = p.health.hediffSet.hediffs;
-				for (int i = 0; i < hediffs.Count; i++)
-				{
-					HediffStage curStage = hediffs[i].CurStage;
-					if (curStage != null && curStage.lifeThreatening)
-						goto IL_00a1;
-				}
-				result = false;
 			}
-			goto IL_00c3;
-			IL_00a1:
-			result = true;
-			goto IL_00c3;
-			IL_00c3:
-			return result;
+			List<Hediff> hediffs = p.health.hediffSet.hediffs;
+			for (int i = 0; i < hediffs.Count; i++)
+			{
+				HediffStage curStage = hediffs[i].CurStage;
+				if (curStage != null && curStage.lifeThreatening)
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 
 		public static string GetBanishPawnDialogText(Pawn banishedPawn)
@@ -157,22 +147,26 @@ namespace RimWorld
 					}
 				}
 			}
-			PawnDiedOrDownedThoughtsUtility.BuildMoodThoughtsListString(banishedPawn, default(DamageInfo?), (PawnDiedOrDownedThoughtsKind)((!flag) ? 1 : 2), stringBuilder, "\n\n" + "ConfirmBanishPawnDialog_IndividualThoughts".Translate(banishedPawn.LabelShort), "\n\n" + "ConfirmBanishPawnDialog_AllColonistsThoughts".Translate());
+			PawnDiedOrDownedThoughtsUtility.BuildMoodThoughtsListString(banishedPawn, null, (PawnDiedOrDownedThoughtsKind)((!flag) ? 1 : 2), stringBuilder, "\n\n" + "ConfirmBanishPawnDialog_IndividualThoughts".Translate(banishedPawn.LabelShort), "\n\n" + "ConfirmBanishPawnDialog_AllColonistsThoughts".Translate());
 			return stringBuilder.ToString();
 		}
 
 		public static void ShowBanishPawnConfirmationDialog(Pawn pawn)
 		{
-			Dialog_MessageBox window = Dialog_MessageBox.CreateConfirmation(PawnBanishUtility.GetBanishPawnDialogText(pawn), (Action)delegate()
+			Dialog_MessageBox window = Dialog_MessageBox.CreateConfirmation(PawnBanishUtility.GetBanishPawnDialogText(pawn), delegate
 			{
 				PawnBanishUtility.Banish(pawn, -1);
-			}, true, (string)null);
+			}, true, null);
 			Find.WindowStack.Add(window);
 		}
 
 		public static string GetBanishButtonTip(Pawn pawn)
 		{
-			return (!PawnBanishUtility.WouldBeLeftToDie(pawn, pawn.Tile)) ? "BanishTip".Translate() : ("BanishTip".Translate() + "\n\n" + "BanishTipWillDie".Translate(pawn.LabelShort).CapitalizeFirst());
+			if (PawnBanishUtility.WouldBeLeftToDie(pawn, pawn.Tile))
+			{
+				return "BanishTip".Translate() + "\n\n" + "BanishTipWillDie".Translate(pawn.LabelShort).CapitalizeFirst();
+			}
+			return "BanishTip".Translate();
 		}
 
 		private static void HealIfPossible(Pawn p)

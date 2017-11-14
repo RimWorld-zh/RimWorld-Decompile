@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -37,10 +36,14 @@ namespace RimWorld
 			Widgets.TextFieldNumericLabeled<float>(scenPartRect.TopHalf(), "radius".Translate(), ref this.radius, ref this.radiusBuf, 0f, 1E+09f);
 			if (Widgets.ButtonText(scenPartRect.BottomHalf(), this.damage.LabelCap, true, false, true))
 			{
-				FloatMenuUtility.MakeMenu(this.PossibleDamageDefs(), (Func<DamageDef, string>)((DamageDef d) => d.LabelCap), (Func<DamageDef, Action>)((DamageDef d) => (Action)delegate()
+				FloatMenuUtility.MakeMenu(this.PossibleDamageDefs(), (DamageDef d) => d.LabelCap, delegate(DamageDef d)
 				{
-					this.damage = d;
-				}));
+					ScenPart_OnPawnDeathExplode scenPart_OnPawnDeathExplode = this;
+					return delegate
+					{
+						scenPart_OnPawnDeathExplode.damage = d;
+					};
+				});
 			}
 		}
 

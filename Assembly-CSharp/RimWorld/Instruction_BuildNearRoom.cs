@@ -14,7 +14,11 @@ namespace RimWorld
 
 		protected override bool AllowBuildAt(IntVec3 c)
 		{
-			return base.AllowBuildAt(c) && !Find.TutorialState.roomRect.Contains(c);
+			if (!base.AllowBuildAt(c))
+			{
+				return false;
+			}
+			return !Find.TutorialState.roomRect.Contains(c);
 		}
 	}
 }

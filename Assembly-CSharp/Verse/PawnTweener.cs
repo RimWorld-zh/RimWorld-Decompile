@@ -50,7 +50,12 @@ namespace Verse
 					if (tickRateMultiplier < 5.0)
 					{
 						Vector3 a = this.TweenedPosRoot() - this.tweenedPos;
-						this.tweenedPos += a * 0.09f * (float)(RealTime.deltaTime * 60.0 * tickRateMultiplier);
+						float num = (float)(0.090000003576278687 * (RealTime.deltaTime * 60.0 * tickRateMultiplier));
+						if (RealTime.deltaTime > 0.05000000074505806)
+						{
+							num = Mathf.Min(num, 1f);
+						}
+						this.tweenedPos += a * num;
 					}
 					else
 					{
@@ -69,22 +74,37 @@ namespace Verse
 
 		private Vector3 TweenedPosRoot()
 		{
-			Vector3 result;
 			if (!this.pawn.Spawned)
 			{
-				result = this.pawn.Position.ToVector3Shifted();
+				return this.pawn.Position.ToVector3Shifted();
 			}
-			else
-			{
-				float num = this.MovedPercent();
-				result = this.pawn.pather.nextCell.ToVector3Shifted() * num + this.pawn.Position.ToVector3Shifted() * (float)(1.0 - num) + PawnCollisionTweenerUtility.PawnCollisionPosOffsetFor(this.pawn);
-			}
-			return result;
+			float num = this.MovedPercent();
+			return this.pawn.pather.nextCell.ToVector3Shifted() * num + this.pawn.Position.ToVector3Shifted() * (float)(1.0 - num) + PawnCollisionTweenerUtility.PawnCollisionPosOffsetFor(this.pawn);
 		}
 
 		private float MovedPercent()
 		{
-			return (float)(this.pawn.pather.Moving ? ((!this.pawn.stances.FullBodyBusy) ? ((this.pawn.pather.BuildingBlockingNextPathCell() == null) ? ((this.pawn.pather.NextCellDoorToManuallyOpen() == null) ? ((!this.pawn.pather.WillCollideWithPawnOnNextPathCell()) ? (1.0 - this.pawn.pather.nextCellCostLeft / this.pawn.pather.nextCellCostTotal) : 0.0) : 0.0) : 0.0) : 0.0) : 0.0);
+			if (!this.pawn.pather.Moving)
+			{
+				return 0f;
+			}
+			if (this.pawn.stances.FullBodyBusy)
+			{
+				return 0f;
+			}
+			if (this.pawn.pather.BuildingBlockingNextPathCell() != null)
+			{
+				return 0f;
+			}
+			if (this.pawn.pather.NextCellDoorToManuallyOpen() != null)
+			{
+				return 0f;
+			}
+			if (this.pawn.pather.WillCollideWithPawnOnNextPathCell())
+			{
+				return 0f;
+			}
+			return (float)(1.0 - this.pawn.pather.nextCellCostLeft / this.pawn.pather.nextCellCostTotal);
 		}
 	}
 }

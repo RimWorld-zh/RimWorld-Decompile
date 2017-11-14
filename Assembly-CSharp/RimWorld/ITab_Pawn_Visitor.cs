@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -61,7 +60,7 @@ namespace RimWorld
 						base.SelPawn.guest.interactionMode = item;
 						if (item == PrisonerInteractionModeDefOf.Execution && base.SelPawn.MapHeld != null && !this.ColonyHasAnyWardenCapableOfViolence(base.SelPawn.MapHeld))
 						{
-							Messages.Message("MessageCantDoExecutionBecauseNoWardenCapableOfViolence".Translate(), (Thing)base.SelPawn, MessageTypeDefOf.CautionInput);
+							Messages.Message("MessageCantDoExecutionBecauseNoWardenCapableOfViolence".Translate(), base.SelPawn, MessageTypeDefOf.CautionInput);
 						}
 					}
 					rect6.y += 28f;

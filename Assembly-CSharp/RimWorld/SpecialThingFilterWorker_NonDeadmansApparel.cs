@@ -7,7 +7,11 @@ namespace RimWorld
 		public override bool Matches(Thing t)
 		{
 			Apparel apparel = t as Apparel;
-			return apparel != null && !apparel.WornByCorpse;
+			if (apparel != null)
+			{
+				return !apparel.WornByCorpse;
+			}
+			return false;
 		}
 
 		public override bool CanEverMatch(ThingDef def)

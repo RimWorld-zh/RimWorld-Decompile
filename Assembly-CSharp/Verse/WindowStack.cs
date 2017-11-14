@@ -69,24 +69,14 @@ namespace Verse
 		{
 			get
 			{
-				int num = 0;
-				bool result;
-				while (true)
+				for (int i = 0; i < this.windows.Count; i++)
 				{
-					if (num < this.windows.Count)
+					if (this.windows[i].forcePause)
 					{
-						if (this.windows[num].forcePause)
-						{
-							result = true;
-							break;
-						}
-						num++;
-						continue;
+						return true;
 					}
-					result = false;
-					break;
 				}
-				return result;
+				return false;
 			}
 		}
 
@@ -94,24 +84,14 @@ namespace Verse
 		{
 			get
 			{
-				int num = 0;
-				bool result;
-				while (true)
+				for (int i = 0; i < this.windows.Count; i++)
 				{
-					if (num < this.windows.Count)
+					if (this.windows[i].preventCameraMotion)
 					{
-						if (this.windows[num].preventCameraMotion)
-						{
-							result = true;
-							break;
-						}
-						num++;
-						continue;
+						return true;
 					}
-					result = false;
-					break;
 				}
-				return result;
+				return false;
 			}
 		}
 
@@ -119,24 +99,14 @@ namespace Verse
 		{
 			get
 			{
-				int num = 0;
-				bool result;
-				while (true)
+				for (int i = 0; i < this.windows.Count; i++)
 				{
-					if (num < this.windows.Count)
+					if (this.windows[i].preventDrawTutor)
 					{
-						if (this.windows[num].preventDrawTutor)
-						{
-							result = true;
-							break;
-						}
-						num++;
-						continue;
+						return true;
 					}
-					result = false;
-					break;
 				}
-				return result;
+				return false;
 			}
 		}
 
@@ -144,7 +114,15 @@ namespace Verse
 		{
 			get
 			{
-				return (float)((!this.gameStartDialogOpen) ? ((!(this.timeGameStartDialogClosed < 0.0)) ? (Time.time - this.timeGameStartDialogClosed) : 9999999.0) : 0.0);
+				if (this.gameStartDialogOpen)
+				{
+					return 0f;
+				}
+				if (this.timeGameStartDialogClosed < 0.0)
+				{
+					return 9999999f;
+				}
+				return Time.time - this.timeGameStartDialogClosed;
 			}
 		}
 
@@ -152,7 +130,7 @@ namespace Verse
 		{
 			get
 			{
-				Vector3 v = (Event.current == null) ? UI.MousePositionOnUIInverted : UI.GUIToScreenPoint(Event.current.mousePosition);
+				Vector3 v = (Event.current == null) ? ((Vector3)UI.MousePositionOnUIInverted) : ((Vector3)UI.GUIToScreenPoint(Event.current.mousePosition));
 				return this.GetWindowAt(v) != this.currentlyDrawnWindow;
 			}
 		}
@@ -169,24 +147,14 @@ namespace Verse
 		{
 			get
 			{
-				int num = 0;
-				bool result;
-				while (true)
+				for (int i = 0; i < this.windows.Count; i++)
 				{
-					if (num < this.windows.Count)
+					if (!(this.windows[i] is ImmediateWindow) && this.windows[i].layer == WindowLayer.Dialog)
 					{
-						if (!(this.windows[num] is ImmediateWindow) && this.windows[num].layer == WindowLayer.Dialog)
-						{
-							result = true;
-							break;
-						}
-						num++;
-						continue;
+						return true;
 					}
-					result = false;
-					break;
 				}
-				return result;
+				return false;
 			}
 		}
 
@@ -298,95 +266,54 @@ namespace Verse
 
 		public bool IsOpen<WindowType>()
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.windows.Count; i++)
 			{
-				if (num < this.windows.Count)
+				if (this.windows[i] is WindowType)
 				{
-					if (this.windows[num] is WindowType)
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public bool IsOpen(Type type)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.windows.Count; i++)
 			{
-				if (num < this.windows.Count)
+				if (this.windows[i].GetType() == type)
 				{
-					if (this.windows[num].GetType() == type)
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public WindowType WindowOfType<WindowType>() where WindowType : class
 		{
-			int num = 0;
-			WindowType result;
-			while (true)
+			for (int i = 0; i < this.windows.Count; i++)
 			{
-				if (num < this.windows.Count)
+				if (this.windows[i] is WindowType)
 				{
-					if (this.windows[num] is WindowType)
-					{
-						result = (WindowType)(((object)this.windows[num]) as WindowType);
-						break;
-					}
-					num++;
-					continue;
+					return (WindowType)(((object)this.windows[i]) as WindowType);
 				}
-				result = (WindowType)null;
-				break;
 			}
-			return result;
+			return (WindowType)null;
 		}
 
 		public bool GetsInput(Window window)
 		{
-			int num = this.windows.Count - 1;
-			bool result;
-			while (true)
+			for (int num = this.windows.Count - 1; num >= 0; num--)
 			{
-				if (num >= 0)
+				if (this.windows[num] == window)
 				{
-					if (this.windows[num] == window)
-					{
-						result = true;
-						break;
-					}
-					if (this.windows[num].absorbInputAroundWindow)
-					{
-						result = false;
-						break;
-					}
-					num--;
-					continue;
+					return true;
 				}
-				result = true;
-				break;
+				if (this.windows[num].absorbInputAroundWindow)
+				{
+					return false;
+				}
 			}
-			return result;
+			return true;
 		}
 
 		public void Add(Window window)
@@ -441,46 +368,26 @@ namespace Verse
 
 		public bool TryRemove(Type windowType, bool doCloseSound = true)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.windows.Count; i++)
 			{
-				if (num < this.windows.Count)
+				if (this.windows[i].GetType() == windowType)
 				{
-					if (this.windows[num].GetType() == windowType)
-					{
-						result = this.TryRemove(this.windows[num], doCloseSound);
-						break;
-					}
-					num++;
-					continue;
+					return this.TryRemove(this.windows[i], doCloseSound);
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public bool TryRemoveAssignableFromType(Type windowType, bool doCloseSound = true)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.windows.Count; i++)
 			{
-				if (num < this.windows.Count)
+				if (windowType.IsAssignableFrom(this.windows[i].GetType()))
 				{
-					if (windowType.IsAssignableFrom(this.windows[num].GetType()))
-					{
-						result = this.TryRemove(this.windows[num], doCloseSound);
-						break;
-					}
-					num++;
-					continue;
+					return this.TryRemove(this.windows[i], doCloseSound);
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public bool TryRemove(Window window, bool doCloseSound = true)
@@ -497,57 +404,42 @@ namespace Verse
 				flag = true;
 				break;
 			}
-			bool result;
 			if (!flag)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (doCloseSound && window.soundClose != null)
 			{
-				if (doCloseSound && window.soundClose != null)
-				{
-					window.soundClose.PlayOneShotOnCamera(null);
-				}
-				window.PreClose();
-				this.windows.Remove(window);
-				window.PostClose();
-				if (this.focusedWindow == window)
-				{
-					if (this.windows.Count > 0)
-					{
-						this.focusedWindow = this.windows[this.windows.Count - 1];
-					}
-					else
-					{
-						this.focusedWindow = null;
-					}
-					this.updateInternalWindowsOrderLater = true;
-				}
-				result = true;
+				window.soundClose.PlayOneShotOnCamera(null);
 			}
-			return result;
+			window.PreClose();
+			this.windows.Remove(window);
+			window.PostClose();
+			if (this.focusedWindow == window)
+			{
+				if (this.windows.Count > 0)
+				{
+					this.focusedWindow = this.windows[this.windows.Count - 1];
+				}
+				else
+				{
+					this.focusedWindow = null;
+				}
+				this.updateInternalWindowsOrderLater = true;
+			}
+			return true;
 		}
 
 		public Window GetWindowAt(Vector2 pos)
 		{
-			int num = this.windows.Count - 1;
-			Window result;
-			while (true)
+			for (int num = this.windows.Count - 1; num >= 0; num--)
 			{
-				if (num >= 0)
+				if (this.windows[num].windowRect.Contains(pos))
 				{
-					if (this.windows[num].windowRect.Contains(pos))
-					{
-						result = this.windows[num];
-						break;
-					}
-					num--;
-					continue;
+					return this.windows[num];
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		private void AddNewImmediateWindow(int ID, Rect rect, WindowLayer layer, Action doWindowFunc, bool doBackground, bool absorbInputAroundWindow, float shadowAlpha)

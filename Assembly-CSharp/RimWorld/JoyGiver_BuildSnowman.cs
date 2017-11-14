@@ -10,103 +10,77 @@ namespace RimWorld
 
 		public override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (!JoyUtility.EnjoyableOutsideNow(pawn, null))
 			{
-				result = null;
+				return null;
 			}
-			else if (pawn.Map.snowGrid.TotalDepth < 200.0)
+			if (pawn.Map.snowGrid.TotalDepth < 200.0)
 			{
-				result = null;
+				return null;
 			}
-			else
+			IntVec3 c = JoyGiver_BuildSnowman.TryFindSnowmanBuildCell(pawn);
+			if (!c.IsValid)
 			{
-				IntVec3 c = JoyGiver_BuildSnowman.TryFindSnowmanBuildCell(pawn);
-				result = (c.IsValid ? new Job(base.def.jobDef, c) : null);
+				return null;
 			}
-			return result;
+			return new Job(base.def.jobDef, c);
 		}
 
 		private static IntVec3 TryFindSnowmanBuildCell(Pawn pawn)
 		{
 			Region rootReg;
-			IntVec3 result2;
 			if (!CellFinder.TryFindClosestRegionWith(pawn.GetRegion(RegionType.Set_Passable), TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), (Predicate<Region>)((Region r) => r.Room.PsychologicallyOutdoors), 100, out rootReg, RegionType.Set_Passable))
 			{
-				result2 = IntVec3.Invalid;
+				return IntVec3.Invalid;
 			}
-			else
+			IntVec3 result = IntVec3.Invalid;
+			RegionTraverser.BreadthFirstTraverse(rootReg, (Region from, Region r) => r.Room == rootReg.Room, delegate(Region r)
 			{
-				IntVec3 result = IntVec3.Invalid;
-				RegionTraverser.BreadthFirstTraverse(rootReg, (RegionEntryPredicate)((Region from, Region r) => r.Room == rootReg.Room), (RegionProcessor)delegate(Region r)
+				for (int i = 0; i < 5; i++)
 				{
-					int num = 0;
-					bool result3;
-					while (true)
+					IntVec3 randomCell = r.RandomCell;
+					if (JoyGiver_BuildSnowman.IsGoodSnowmanCell(randomCell, pawn))
 					{
-						if (num < 5)
-						{
-							IntVec3 randomCell = r.RandomCell;
-							if (JoyGiver_BuildSnowman.IsGoodSnowmanCell(randomCell, pawn))
-							{
-								result = randomCell;
-								result3 = true;
-								break;
-							}
-							num++;
-							continue;
-						}
-						result3 = false;
-						break;
+						result = randomCell;
+						return true;
 					}
-					return result3;
-				}, 30, RegionType.Set_Passable);
-				result2 = result;
-			}
-			return result2;
+				}
+				return false;
+			}, 30, RegionType.Set_Passable);
+			return result;
 		}
 
 		private static bool IsGoodSnowmanCell(IntVec3 c, Pawn pawn)
 		{
-			bool result;
 			if (pawn.Map.snowGrid.GetDepth(c) < 0.5)
 			{
-				result = false;
+				return false;
 			}
-			else if (c.IsForbidden(pawn))
+			if (c.IsForbidden(pawn))
 			{
-				result = false;
+				return false;
 			}
-			else if (c.GetEdifice(pawn.Map) != null)
+			if (c.GetEdifice(pawn.Map) != null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < 9; i++)
 			{
-				for (int i = 0; i < 9; i++)
+				IntVec3 c2 = c + GenAdj.AdjacentCellsAndInside[i];
+				if (!c2.InBounds(pawn.Map))
 				{
-					IntVec3 c2 = c + GenAdj.AdjacentCellsAndInside[i];
-					if (!c2.InBounds(pawn.Map))
-						goto IL_007e;
-					if (!c2.Standable(pawn.Map))
-						goto IL_0096;
-					if (pawn.Map.reservationManager.IsReservedAndRespected(c2, pawn))
-						goto IL_00b9;
+					return false;
 				}
-				result = true;
+				if (!c2.Standable(pawn.Map))
+				{
+					return false;
+				}
+				if (pawn.Map.reservationManager.IsReservedAndRespected(c2, pawn))
+				{
+					return false;
+				}
 			}
-			goto IL_00d4;
-			IL_00b9:
-			result = false;
-			goto IL_00d4;
-			IL_007e:
-			result = false;
-			goto IL_00d4;
-			IL_0096:
-			result = false;
-			goto IL_00d4;
-			IL_00d4:
-			return result;
+			return true;
 		}
 	}
 }

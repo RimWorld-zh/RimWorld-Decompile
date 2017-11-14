@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -9,21 +10,21 @@ namespace RimWorld
 	{
 		public enum LeaflessCause
 		{
-			Cold = 0,
-			Poison = 1
+			Cold,
+			Poison
 		}
 
 		protected float growthInt = 0.05f;
 
-		protected int ageInt = 0;
+		protected int ageInt;
 
-		protected int unlitTicks = 0;
+		protected int unlitTicks;
 
 		protected int madeLeaflessTick = -99999;
 
-		public bool sown = false;
+		public bool sown;
 
-		private string cachedLabelMouseover = (string)null;
+		private string cachedLabelMouseover;
 
 		private static Color32[] workingColors = new Color32[4];
 
@@ -68,7 +69,7 @@ namespace RimWorld
 			set
 			{
 				this.growthInt = Mathf.Clamp01(value);
-				this.cachedLabelMouseover = (string)null;
+				this.cachedLabelMouseover = null;
 			}
 		}
 
@@ -81,7 +82,7 @@ namespace RimWorld
 			set
 			{
 				this.ageInt = value;
-				this.cachedLabelMouseover = (string)null;
+				this.cachedLabelMouseover = null;
 			}
 		}
 
@@ -90,6 +91,35 @@ namespace RimWorld
 			get
 			{
 				return base.def.plant.Harvestable && this.growthInt > base.def.plant.harvestMinGrowth;
+			}
+		}
+
+		public bool HarvestableSoon
+		{
+			get
+			{
+				if (this.HarvestableNow)
+				{
+					return true;
+				}
+				if (!base.def.plant.Harvestable)
+				{
+					return false;
+				}
+				float num = Mathf.Max((float)(1.0 - this.Growth), 0f);
+				float num2 = num * base.def.plant.growDays;
+				float num3 = Mathf.Max((float)(1.0 - base.def.plant.harvestMinGrowth), 0f);
+				float num4 = num3 * base.def.plant.growDays;
+				int result;
+				if ((num2 <= 10.0 || num4 <= 1.0) && this.GrowthRateFactor_Fertility > 0.0)
+				{
+					result = ((this.GrowthRateFactor_Temperature > 0.0) ? 1 : 0);
+					goto IL_00b8;
+				}
+				result = 0;
+				goto IL_00b8;
+				IL_00b8:
+				return (byte)result != 0;
 			}
 		}
 
@@ -105,7 +135,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (base.Spawned && base.def.plant.Blightable) ? base.Position.GetFirstBlight(base.Map) : null;
+				if (base.Spawned && base.def.plant.Blightable)
+				{
+					return base.Position.GetFirstBlight(base.Map);
+				}
+				return null;
 			}
 		}
 
@@ -129,7 +163,27 @@ namespace RimWorld
 		{
 			get
 			{
-				return (byte)(base.IngestibleNow ? (base.def.plant.IsTree ? 1 : ((!(this.growthInt < base.def.plant.harvestMinGrowth)) ? ((!this.LeaflessNow) ? ((!base.Spawned || !(base.Position.GetSnowDepth(base.Map) > base.def.hideAtSnowDepth)) ? 1 : 0) : 0) : 0)) : 0) != 0;
+				if (!base.IngestibleNow)
+				{
+					return false;
+				}
+				if (base.def.plant.IsTree)
+				{
+					return true;
+				}
+				if (this.growthInt < base.def.plant.harvestMinGrowth)
+				{
+					return false;
+				}
+				if (this.LeaflessNow)
+				{
+					return false;
+				}
+				if (base.Spawned && base.Position.GetSnowDepth(base.Map) > base.def.hideAtSnowDepth)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -137,30 +191,25 @@ namespace RimWorld
 		{
 			get
 			{
-				float result;
 				if (!base.Spawned)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
+				float num = 0f;
+				if (base.def.plant.LimitedLifespan && this.ageInt > base.def.plant.LifespanTicks)
 				{
-					float num = 0f;
-					if (base.def.plant.LimitedLifespan && this.ageInt > base.def.plant.LifespanTicks)
-					{
-						num = Mathf.Max(num, 0.005f);
-					}
-					if (!base.def.plant.cavePlant && this.unlitTicks > 450000)
-					{
-						num = Mathf.Max(num, 0.005f);
-					}
-					if (this.DyingBecauseExposedToLight)
-					{
-						float lerpPct = base.Map.glowGrid.GameGlowAt(base.Position, true);
-						num = Mathf.Max(num, Plant.DyingDamagePerTickBecauseExposedToLight.LerpThroughRange(lerpPct));
-					}
-					result = num;
+					num = Mathf.Max(num, 0.005f);
 				}
-				return result;
+				if (!base.def.plant.cavePlant && this.unlitTicks > 450000)
+				{
+					num = Mathf.Max(num, 0.005f);
+				}
+				if (this.DyingBecauseExposedToLight)
+				{
+					float lerpPct = base.Map.glowGrid.GameGlowAt(base.Position, true);
+					num = Mathf.Max(num, Plant.DyingDamagePerTickBecauseExposedToLight.LerpThroughRange(lerpPct));
+				}
+				return num;
 			}
 		}
 
@@ -192,7 +241,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (float)((!this.Blighted) ? (this.GrowthRateFactor_Fertility * this.GrowthRateFactor_Temperature * this.GrowthRateFactor_Light) : 0.0);
+				if (this.Blighted)
+				{
+					return 0f;
+				}
+				return this.GrowthRateFactor_Fertility * this.GrowthRateFactor_Temperature * this.GrowthRateFactor_Light;
 			}
 		}
 
@@ -200,17 +253,12 @@ namespace RimWorld
 		{
 			get
 			{
-				float result;
-				if (this.LifeStage != PlantLifeStage.Growing || this.Resting)
-				{
-					result = 0f;
-				}
-				else
+				if (this.LifeStage == PlantLifeStage.Growing && !this.Resting)
 				{
 					float num = (float)(1.0 / (60000.0 * base.def.plant.growDays));
-					result = num * this.GrowthRate;
+					return num * this.GrowthRate;
 				}
-				return result;
+				return 0f;
 			}
 		}
 
@@ -227,7 +275,11 @@ namespace RimWorld
 			get
 			{
 				float num = base.Map.glowGrid.GameGlowAt(base.Position, false);
-				return (float)((base.def.plant.growMinGlow != base.def.plant.growOptimalGlow || num != base.def.plant.growOptimalGlow) ? GenMath.InverseLerp(base.def.plant.growMinGlow, base.def.plant.growOptimalGlow, num) : 1.0);
+				if (base.def.plant.growMinGlow == base.def.plant.growOptimalGlow && num == base.def.plant.growOptimalGlow)
+				{
+					return 1f;
+				}
+				return GenMath.InverseLerp(base.def.plant.growMinGlow, base.def.plant.growOptimalGlow, num);
 			}
 		}
 
@@ -236,7 +288,19 @@ namespace RimWorld
 			get
 			{
 				float num = default(float);
-				return (float)(GenTemperature.TryGetTemperatureForCell(base.Position, base.Map, out num) ? ((!(num < 10.0)) ? ((!(num > 42.0)) ? 1.0 : Mathf.InverseLerp(58f, 42f, num)) : Mathf.InverseLerp(0f, 10f, num)) : 1.0);
+				if (!GenTemperature.TryGetTemperatureForCell(base.Position, base.Map, out num))
+				{
+					return 1f;
+				}
+				if (num < 10.0)
+				{
+					return Mathf.InverseLerp(0f, 10f, num);
+				}
+				if (num > 42.0)
+				{
+					return Mathf.InverseLerp(58f, 42f, num);
+				}
+				return 1f;
 			}
 		}
 
@@ -244,17 +308,16 @@ namespace RimWorld
 		{
 			get
 			{
-				int result;
 				if (this.growthInt > 0.99989998340606689)
 				{
-					result = 0;
+					return 0;
 				}
-				else
+				float growthPerTick = this.GrowthPerTick;
+				if (growthPerTick == 0.0)
 				{
-					float growthPerTick = this.GrowthPerTick;
-					result = ((growthPerTick != 0.0) ? ((int)((1.0 - this.growthInt) / growthPerTick)) : 2147483647);
+					return 2147483647;
 				}
-				return result;
+				return (int)((1.0 - this.growthInt) / growthPerTick);
 			}
 		}
 
@@ -298,7 +361,15 @@ namespace RimWorld
 		{
 			get
 			{
-				return (PlantLifeStage)((!(this.growthInt < 0.0010000000474974513)) ? ((!(this.growthInt > 0.99900001287460327)) ? 1 : 2) : 0);
+				if (this.growthInt < 0.0010000000474974513)
+				{
+					return PlantLifeStage.Sowing;
+				}
+				if (this.growthInt > 0.99900001287460327)
+				{
+					return PlantLifeStage.Mature;
+				}
+				return PlantLifeStage.Growing;
 			}
 		}
 
@@ -306,7 +377,19 @@ namespace RimWorld
 		{
 			get
 			{
-				return (this.LifeStage != 0) ? ((base.def.plant.leaflessGraphic == null || !this.LeaflessNow || (this.sown && this.HarvestableNow)) ? ((base.def.plant.immatureGraphic == null || this.HarvestableNow) ? base.Graphic : base.def.plant.immatureGraphic) : base.def.plant.leaflessGraphic) : Plant.GraphicSowing;
+				if (this.LifeStage == PlantLifeStage.Sowing)
+				{
+					return Plant.GraphicSowing;
+				}
+				if (base.def.plant.leaflessGraphic != null && this.LeaflessNow && (!this.sown || !this.HarvestableNow))
+				{
+					return base.def.plant.leaflessGraphic;
+				}
+				if (base.def.plant.immatureGraphic != null && !this.HarvestableNow)
+				{
+					return base.def.plant.immatureGraphic;
+				}
+				return base.Graphic;
 			}
 		}
 
@@ -314,7 +397,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (byte)((Find.TickManager.TicksGame - this.madeLeaflessTick < 60000) ? 1 : 0) != 0;
+				if (Find.TickManager.TicksGame - this.madeLeaflessTick < 60000)
+				{
+					return true;
+				}
+				return false;
 			}
 		}
 
@@ -331,21 +418,16 @@ namespace RimWorld
 		{
 			get
 			{
-				bool result;
 				if (!base.def.plant.Sowable)
 				{
-					result = false;
+					return false;
 				}
-				else if (!base.Spawned)
+				if (!base.Spawned)
 				{
 					Log.Warning("Can't determine if crop when unspawned.");
-					result = false;
+					return false;
 				}
-				else
-				{
-					result = (base.def == WorkGiver_Grower.CalculateWantedPlantDef(base.Position, base.Map));
-				}
-				return result;
+				return base.def == WorkGiver_Grower.CalculateWantedPlantDef(base.Position, base.Map);
 			}
 		}
 
@@ -447,21 +529,17 @@ namespace RimWorld
 					switch (cause)
 					{
 					case LeaflessCause.Cold:
-					{
 						if (MessagesRepeatAvoider.MessageShowAllowed("MessagePlantDiedOfCold-" + base.def.defName, 240f))
 						{
 							Messages.Message("MessagePlantDiedOfCold".Translate(this.Label).CapitalizeFirst(), new TargetInfo(base.Position, map, false), MessageTypeDefOf.NegativeEvent);
 						}
 						break;
-					}
 					case LeaflessCause.Poison:
-					{
 						if (MessagesRepeatAvoider.MessageShowAllowed("MessagePlantDiedOfPoison-" + base.def.defName, 240f))
 						{
 							Messages.Message("MessagePlantDiedOfPoison".Translate(this.Label).CapitalizeFirst(), new TargetInfo(base.Position, map, false), MessageTypeDefOf.NegativeEvent);
 						}
 						break;
-					}
 					}
 				}
 				base.TakeDamage(new DamageInfo(DamageDefOf.Rotting, 99999, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
@@ -492,16 +570,16 @@ namespace RimWorld
 					}
 					if (!flag && this.LifeStage == PlantLifeStage.Mature)
 					{
-						goto IL_009f;
+						goto IL_0099;
 					}
 					if ((int)(num * 10.0) != (int)(this.growthInt * 10.0))
-						goto IL_009f;
-					goto IL_00c3;
+						goto IL_0099;
+					goto IL_00bb;
 				}
-				goto IL_010e;
+				goto IL_0103;
 			}
 			return;
-			IL_010e:
+			IL_0103:
 			if (!this.HasEnoughLightToGrow)
 			{
 				this.unlitTicks += 2000;
@@ -529,75 +607,66 @@ namespace RimWorld
 					return;
 				}
 			}
-			this.cachedLabelMouseover = (string)null;
+			this.cachedLabelMouseover = null;
 			return;
-			IL_00c3:
+			IL_00bb:
 			if (this.CanReproduceNow && Rand.MTBEventOccurs(base.def.plant.reproduceMtbDays, 60000f, 2000f))
 			{
 				GenPlantReproduction.TryReproduceFrom(base.Position, base.def, SeedTargFindMode.Reproduce, base.Map);
 			}
-			goto IL_010e;
-			IL_009f:
+			goto IL_0103;
+			IL_0099:
 			if (this.CurrentlyCultivated())
 			{
 				base.Map.mapDrawer.MapMeshDirty(base.Position, MapMeshFlag.Things);
 			}
-			goto IL_00c3;
+			goto IL_00bb;
 		}
 
 		protected virtual bool CurrentlyCultivated()
 		{
-			bool result;
 			if (!base.def.plant.Sowable)
 			{
-				result = false;
+				return false;
 			}
-			else if (!base.Spawned)
+			if (!base.Spawned)
 			{
-				result = false;
+				return false;
 			}
-			else
+			Zone zone = base.Map.zoneManager.ZoneAt(base.Position);
+			if (zone != null && zone is Zone_Growing)
 			{
-				Zone zone = base.Map.zoneManager.ZoneAt(base.Position);
-				if (zone != null && zone is Zone_Growing)
-				{
-					result = true;
-				}
-				else
-				{
-					Building edifice = base.Position.GetEdifice(base.Map);
-					result = ((byte)((edifice != null && edifice.def.building.SupportsPlants) ? 1 : 0) != 0);
-				}
+				return true;
 			}
-			return result;
+			Building edifice = base.Position.GetEdifice(base.Map);
+			if (edifice != null && edifice.def.building.SupportsPlants)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public virtual int YieldNow()
 		{
-			int result;
 			if (!this.HarvestableNow)
 			{
-				result = 0;
+				return 0;
 			}
-			else if (base.def.plant.harvestYield <= 0.0)
+			if (base.def.plant.harvestYield <= 0.0)
 			{
-				result = 0;
+				return 0;
 			}
-			else if (this.Blighted)
+			if (this.Blighted)
 			{
-				result = 0;
+				return 0;
 			}
-			else
-			{
-				float harvestYield = base.def.plant.harvestYield;
-				float num = Mathf.InverseLerp(base.def.plant.harvestMinGrowth, 1f, this.growthInt);
-				num = (float)(0.5 + num * 0.5);
-				harvestYield *= num;
-				harvestYield *= Mathf.Lerp(0.5f, 1f, (float)this.HitPoints / (float)base.MaxHitPoints);
-				harvestYield *= Find.Storyteller.difficulty.cropYieldFactor;
-				result = GenMath.RoundRandom(harvestYield);
-			}
-			return result;
+			float harvestYield = base.def.plant.harvestYield;
+			float num = Mathf.InverseLerp(base.def.plant.harvestMinGrowth, 1f, this.growthInt);
+			num = (float)(0.5 + num * 0.5);
+			harvestYield *= num;
+			harvestYield *= Mathf.Lerp(0.5f, 1f, (float)this.HitPoints / (float)base.MaxHitPoints);
+			harvestYield *= Find.Storyteller.difficulty.cropYieldFactor;
+			return GenMath.RoundRandom(harvestYield);
 		}
 
 		public override void Print(SectionLayer layer)
@@ -637,35 +706,23 @@ namespace RimWorld
 					switch (base.def.plant.maxMeshCount)
 					{
 					case 1:
-					{
 						num8 = 1;
 						break;
-					}
 					case 4:
-					{
 						num8 = 2;
 						break;
-					}
 					case 9:
-					{
 						num8 = 3;
 						break;
-					}
 					case 16:
-					{
 						num8 = 4;
 						break;
-					}
 					case 25:
-					{
 						num8 = 5;
 						break;
-					}
 					default:
-					{
 						Log.Error(base.def + " must have plant.MaxMeshCount that is a perfect square.");
 						break;
-					}
 					}
 					float num9 = (float)(1.0 / (float)num8);
 					vector = base.Position.ToVector3();
@@ -770,6 +827,34 @@ namespace RimWorld
 			{
 				GenSpawn.Spawn(ThingDefOf.Blight, base.Position, base.Map);
 			}
+		}
+
+		public override IEnumerable<Gizmo> GetGizmos()
+		{
+			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
+			{
+				if (enumerator.MoveNext())
+				{
+					Gizmo gizmo = enumerator.Current;
+					yield return gizmo;
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
+			}
+			if (!Prefs.DevMode)
+				yield break;
+			if (!this.Blighted)
+				yield break;
+			yield return (Gizmo)new Command_Action
+			{
+				defaultLabel = "Dev: Spread blight",
+				action = delegate
+				{
+					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00ef: stateMachine*/)._0024this.Blight.TryReproduceNow();
+				}
+			};
+			/*Error: Unable to find new state assignment for yield return*/;
+			IL_0129:
+			/*Error near IL_012a: Unexpected return in MoveNext()*/;
 		}
 	}
 }

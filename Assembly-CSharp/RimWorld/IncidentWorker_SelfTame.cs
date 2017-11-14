@@ -24,25 +24,20 @@ namespace RimWorld
 		{
 			Map map = (Map)parms.target;
 			Pawn pawn = null;
-			bool result;
 			if (!this.Candidates(map).TryRandomElementByWeight<Pawn>((Func<Pawn, float>)((Pawn x) => x.RaceProps.wildness), out pawn))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (pawn.guest != null)
 			{
-				if (pawn.guest != null)
-				{
-					pawn.guest.SetGuestStatus(null, false);
-				}
-				string text = pawn.LabelIndefinite();
-				bool flag = pawn.Name != null;
-				pawn.SetFaction(Faction.OfPlayer, null);
-				string text2 = (flag || pawn.Name == null) ? "LetterAnimalSelfTame".Translate(pawn.LabelIndefinite()).CapitalizeFirst() : ((!pawn.Name.Numerical) ? "LetterAnimalSelfTameAndName".Translate(text, pawn.Name.ToStringFull).CapitalizeFirst() : "LetterAnimalSelfTameAndNameNumerical".Translate(text, pawn.Name.ToStringFull).CapitalizeFirst());
-				Find.LetterStack.ReceiveLetter("LetterLabelAnimalSelfTame".Translate(pawn.KindLabel).CapitalizeFirst(), text2, LetterDefOf.PositiveEvent, (Thing)pawn, (string)null);
-				result = true;
+				pawn.guest.SetGuestStatus(null, false);
 			}
-			return result;
+			string text = pawn.LabelIndefinite();
+			bool flag = pawn.Name != null;
+			pawn.SetFaction(Faction.OfPlayer, null);
+			string text2 = (flag || pawn.Name == null) ? "LetterAnimalSelfTame".Translate(pawn.LabelIndefinite()).CapitalizeFirst() : ((!pawn.Name.Numerical) ? "LetterAnimalSelfTameAndName".Translate(text, pawn.Name.ToStringFull).CapitalizeFirst() : "LetterAnimalSelfTameAndNameNumerical".Translate(text, pawn.Name.ToStringFull).CapitalizeFirst());
+			Find.LetterStack.ReceiveLetter("LetterLabelAnimalSelfTame".Translate(pawn.KindLabel).CapitalizeFirst(), text2, LetterDefOf.PositiveEvent, pawn, null);
+			return true;
 		}
 	}
 }

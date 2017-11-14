@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -33,17 +32,14 @@ namespace Verse
 		public Region TryGenerateRegionFrom(IntVec3 root)
 		{
 			RegionType expectedRegionType = root.GetExpectedRegionType(this.map);
-			Region result;
 			if (expectedRegionType == RegionType.None)
 			{
-				result = null;
-				goto IL_00c0;
+				return null;
 			}
 			if (this.working)
 			{
 				Log.Error("Trying to generate a new region but we are currently generating one. Nested calls are not allowed.");
-				result = null;
-				goto IL_00c0;
+				return null;
 			}
 			this.working = true;
 			try
@@ -64,8 +60,6 @@ namespace Verse
 			{
 				this.working = false;
 			}
-			IL_00c0:
-			return result;
 		}
 
 		private void FloodFillAndAddCells(IntVec3 root)
@@ -77,7 +71,7 @@ namespace Verse
 			}
 			else
 			{
-				this.map.floodFiller.FloodFill(root, (Predicate<IntVec3>)((IntVec3 x) => this.newReg.extentsLimit.Contains(x) && x.GetExpectedRegionType(this.map) == this.newReg.type), (Action<IntVec3>)delegate(IntVec3 x)
+				this.map.floodFiller.FloodFill(root, (IntVec3 x) => this.newReg.extentsLimit.Contains(x) && x.GetExpectedRegionType(this.map) == this.newReg.type, delegate(IntVec3 x)
 				{
 					this.AddCell(x);
 				}, 2147483647, false, null);
@@ -108,7 +102,7 @@ namespace Verse
 			{
 				int x = c.x;
 				IntVec3 size = this.map.Size;
-				if (((x != size.x - 1) ? c.z : 0) != 0)
+				if (x != size.x - 1 && c.z != 0)
 				{
 					int z = c.z;
 					IntVec3 size2 = this.map.Size;

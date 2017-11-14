@@ -7,34 +7,23 @@ namespace RimWorld
 	{
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			Job result;
 			if (!base.ShouldTakeCareOfPrisoner(pawn, t))
 			{
-				result = null;
+				return null;
 			}
-			else
+			Pawn pawn2 = (Pawn)t;
+			if (pawn2.guest.interactionMode == PrisonerInteractionModeDefOf.Release && !pawn2.Downed && pawn2.Awake())
 			{
-				Pawn pawn2 = (Pawn)t;
-				if (pawn2.guest.interactionMode == PrisonerInteractionModeDefOf.Release && !pawn2.Downed && pawn2.Awake())
+				IntVec3 c = default(IntVec3);
+				if (!RCellFinder.TryFindPrisonerReleaseCell(pawn2, pawn, out c))
 				{
-					IntVec3 c = default(IntVec3);
-					if (!RCellFinder.TryFindPrisonerReleaseCell(pawn2, pawn, out c))
-					{
-						result = null;
-					}
-					else
-					{
-						Job job = new Job(JobDefOf.ReleasePrisoner, (Thing)pawn2, c);
-						job.count = 1;
-						result = job;
-					}
+					return null;
 				}
-				else
-				{
-					result = null;
-				}
+				Job job = new Job(JobDefOf.ReleasePrisoner, pawn2, c);
+				job.count = 1;
+				return job;
 			}
-			return result;
+			return null;
 		}
 	}
 }

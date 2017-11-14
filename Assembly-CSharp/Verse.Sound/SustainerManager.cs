@@ -1,8 +1,5 @@
-#define ENABLE_PROFILER
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.Profiling;
 
 namespace Verse.Sound
 {
@@ -32,34 +29,22 @@ namespace Verse.Sound
 
 		public bool SustainerExists(SoundDef def)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.allSustainers.Count; i++)
 			{
-				if (num < this.allSustainers.Count)
+				if (this.allSustainers[i].def == def)
 				{
-					if (this.allSustainers[num].def == def)
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public void SustainerManagerUpdate()
 		{
-			Profiler.BeginSample("Updating sustainers");
 			for (int num = this.allSustainers.Count - 1; num >= 0; num--)
 			{
 				this.allSustainers[num].SustainerUpdate();
 			}
-			Profiler.EndSample();
 			this.UpdateAllSustainerScopes();
 		}
 

@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -24,8 +23,7 @@ namespace RimWorld
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
-			LordToil_Travel lordToil_Travel = new LordToil_Travel(this.chillSpot);
-			stateGraph.StartingToil = lordToil_Travel;
+			LordToil_Travel lordToil_Travel = (LordToil_Travel)(stateGraph.StartingToil = new LordToil_Travel(this.chillSpot));
 			LordToil_DefendTraderCaravan lordToil_DefendTraderCaravan = new LordToil_DefendTraderCaravan();
 			stateGraph.AddToil(lordToil_DefendTraderCaravan);
 			LordToil_DefendTraderCaravan lordToil_DefendTraderCaravan2 = new LordToil_DefendTraderCaravan(this.chillSpot);
@@ -80,7 +78,7 @@ namespace RimWorld
 			Transition transition9 = new Transition(lordToil_ExitMapAndEscortCarriers, lordToil_ExitMapAndEscortCarriers);
 			transition9.canMoveToSameState = true;
 			transition9.AddTrigger(new Trigger_PawnLost());
-			transition9.AddTrigger(new Trigger_TickCondition((Func<bool>)(() => LordToil_ExitMapAndEscortCarriers.IsAnyDefendingPosition(base.lord.ownedPawns) && !GenHostility.AnyHostileActiveThreatTo(base.Map, this.faction)), 60));
+			transition9.AddTrigger(new Trigger_TickCondition(() => LordToil_ExitMapAndEscortCarriers.IsAnyDefendingPosition(base.lord.ownedPawns) && !GenHostility.AnyHostileActiveThreatTo(base.Map, this.faction), 60));
 			stateGraph.AddTransition(transition9);
 			Transition transition10 = new Transition(lordToil_ExitMapAndEscortCarriers, lordToil_ExitMap);
 			transition10.AddTrigger(new Trigger_TicksPassed(60000));

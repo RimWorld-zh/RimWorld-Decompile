@@ -17,17 +17,16 @@ namespace Verse.Sound
 
 		public override bool Equals(object obj)
 		{
-			bool result;
 			if (obj == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			ResolvedGrain_Silence resolvedGrain_Silence = obj as ResolvedGrain_Silence;
+			if (resolvedGrain_Silence == null)
 			{
-				ResolvedGrain_Silence resolvedGrain_Silence = obj as ResolvedGrain_Silence;
-				result = (resolvedGrain_Silence != null && resolvedGrain_Silence.sourceGrain == this.sourceGrain);
+				return false;
 			}
-			return result;
+			return resolvedGrain_Silence.sourceGrain == this.sourceGrain;
 		}
 
 		public override int GetHashCode()

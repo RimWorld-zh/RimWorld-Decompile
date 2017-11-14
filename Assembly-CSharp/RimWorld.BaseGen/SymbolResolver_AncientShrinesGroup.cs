@@ -25,14 +25,14 @@ namespace RimWorld.BaseGen
 			if (!podContentsType.HasValue)
 			{
 				float value = Rand.Value;
-				podContentsType = ((!(value < 0.5)) ? ((!(value < 0.699999988079071)) ? new PodContentsType?(PodContentsType.SpacerHostile) : new PodContentsType?(PodContentsType.Slave)) : default(PodContentsType?));
+				podContentsType = ((!(value < 0.5)) ? ((!(value < 0.699999988079071)) ? new PodContentsType?(PodContentsType.SpacerHostile) : new PodContentsType?(PodContentsType.Slave)) : null);
 			}
 			int? ancientCryptosleepCasketGroupID = rp.ancientCryptosleepCasketGroupID;
 			int value2 = (!ancientCryptosleepCasketGroupID.HasValue) ? Find.UniqueIDsManager.GetNextAncientCryptosleepCasketGroupID() : ancientCryptosleepCasketGroupID.Value;
 			int num5 = 0;
-			for (int num6 = 0; num6 < num4; num6++)
+			for (int i = 0; i < num4; i++)
 			{
-				for (int num7 = 0; num7 < num2; num7++)
+				for (int j = 0; j < num2; j++)
 				{
 					if (!Rand.Chance(0.25f))
 					{
@@ -41,13 +41,13 @@ namespace RimWorld.BaseGen
 							break;
 						}
 						int x = bottomLeft.x;
-						int num8 = num7;
+						int num6 = j;
 						IntVec2 standardAncientShrineSize3 = SymbolResolver_AncientShrinesGroup.StandardAncientShrineSize;
-						int minX = x + num8 * (standardAncientShrineSize3.x + 1);
+						int minX = x + num6 * (standardAncientShrineSize3.x + 1);
 						int z = bottomLeft.z;
-						int num9 = num6;
+						int num7 = i;
 						IntVec2 standardAncientShrineSize4 = SymbolResolver_AncientShrinesGroup.StandardAncientShrineSize;
-						int minZ = z + num9 * (standardAncientShrineSize4.z + 1);
+						int minZ = z + num7 * (standardAncientShrineSize4.z + 1);
 						IntVec2 standardAncientShrineSize5 = SymbolResolver_AncientShrinesGroup.StandardAncientShrineSize;
 						int x2 = standardAncientShrineSize5.x;
 						IntVec2 standardAncientShrineSize6 = SymbolResolver_AncientShrinesGroup.StandardAncientShrineSize;
@@ -56,7 +56,7 @@ namespace RimWorld.BaseGen
 						{
 							ResolveParams resolveParams = rp;
 							resolveParams.rect = rect;
-							resolveParams.ancientCryptosleepCasketGroupID = new int?(value2);
+							resolveParams.ancientCryptosleepCasketGroupID = value2;
 							resolveParams.podContentsType = podContentsType;
 							BaseGen.symbolStack.Push("ancientShrine", resolveParams);
 							num5++;

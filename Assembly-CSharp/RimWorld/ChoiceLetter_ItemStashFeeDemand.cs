@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -29,19 +28,19 @@ namespace RimWorld
 			{
 				DiaOption accept = new DiaOption("ItemStashQuest_Accept".Translate())
 				{
-					action = (Action)delegate
+					action = delegate
 					{
 						int tile = default(int);
 						if (!TileFinder.TryFindNewSiteTile(out tile, 8, 30, false, true, -1))
 						{
-							Find.LetterStack.RemoveLetter(((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this);
+							Find.LetterStack.RemoveLetter(((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this);
 						}
 						else
 						{
-							Site o = IncidentWorker_QuestItemStash.CreateSite(tile, ((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.sitePart, ((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.siteDaysTimeout, ((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.siteFaction, ((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.items, ((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.sitePartsKnown);
-							CameraJumper.TryJumpAndSelect((WorldObject)o);
-							TradeUtility.LaunchSilver(((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.map, ((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this.fee);
-							Find.LetterStack.RemoveLetter(((_003C_003Ec__Iterator0)/*Error near IL_0046: stateMachine*/)._0024this);
+							Site o = IncidentWorker_QuestItemStash.CreateSite(tile, ((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.sitePart, ((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.siteDaysTimeout, ((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.siteFaction, ((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.items, ((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.sitePartsKnown);
+							CameraJumper.TryJumpAndSelect(o);
+							TradeUtility.LaunchSilver(((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.map, ((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this.fee);
+							Find.LetterStack.RemoveLetter(((_003C_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/)._0024this);
 						}
 					},
 					resolveTree = true
@@ -59,7 +58,19 @@ namespace RimWorld
 		{
 			get
 			{
-				return (byte)(base.StillValid ? ((!this.alliedFaction.HostileTo(Faction.OfPlayer)) ? ((this.map == null || Find.Maps.Contains(this.map)) ? 1 : 0) : 0) : 0) != 0;
+				if (!base.StillValid)
+				{
+					return false;
+				}
+				if (this.alliedFaction.HostileTo(Faction.OfPlayer))
+				{
+					return false;
+				}
+				if (this.map != null && !Find.Maps.Contains(this.map))
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 

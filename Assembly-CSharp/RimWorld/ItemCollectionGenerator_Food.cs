@@ -51,8 +51,8 @@ namespace RimWorld
 				int numLeathers = (from x in enumerable
 				where x.IsLeather
 				select x).Count();
-				Func<ThingDef, float> weightSelector = (Func<ThingDef, float>)((ThingDef x) => ItemCollectionGeneratorUtility.AdjustedSelectionWeight(x, numMeats, numLeathers));
-				List<ThingStuffPair> list = ItemCollectionGeneratorByTotalValueUtility.GenerateDefsWithPossibleTotalValue(count2, totalValue, enumerable, techLevel2, (Func<Thing, float>)((Thing x) => x.def.ingestible.nutrition), (Func<ThingStuffPair, float>)((ThingStuffPair x) => x.thing.ingestible.nutrition), (Func<ThingStuffPair, float>)((ThingStuffPair x) => x.thing.ingestible.nutrition * (float)x.thing.stackLimit), weightSelector, 100);
+				Func<ThingDef, float> weightSelector = (ThingDef x) => ItemCollectionGeneratorUtility.AdjustedSelectionWeight(x, numMeats, numLeathers);
+				List<ThingStuffPair> list = ItemCollectionGeneratorByTotalValueUtility.GenerateDefsWithPossibleTotalValue(count2, totalValue, enumerable, techLevel2, (Thing x) => x.def.ingestible.nutrition, (ThingStuffPair x) => x.thing.ingestible.nutrition, (ThingStuffPair x) => x.thing.ingestible.nutrition * (float)x.thing.stackLimit, weightSelector, 100);
 				for (int i = 0; i < list.Count; i++)
 				{
 					ThingStuffPair thingStuffPair = list[i];
@@ -60,7 +60,7 @@ namespace RimWorld
 					ThingStuffPair thingStuffPair2 = list[i];
 					outThings.Add(ThingMaker.MakeThing(thing, thingStuffPair2.stuff));
 				}
-				ItemCollectionGeneratorByTotalValueUtility.IncreaseStackCountsToTotalValue(outThings, totalValue, (Func<Thing, float>)((Thing x) => x.def.ingestible.nutrition));
+				ItemCollectionGeneratorByTotalValueUtility.IncreaseStackCountsToTotalValue(outThings, totalValue, (Thing x) => x.def.ingestible.nutrition);
 			}
 		}
 	}

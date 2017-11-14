@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -25,10 +24,14 @@ namespace RimWorld
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight);
 			if (Widgets.ButtonText(scenPartRect, this.gameCondition.LabelCap, true, false, true))
 			{
-				FloatMenuUtility.MakeMenu(this.AllowedGameConditions(), (Func<GameConditionDef, string>)((GameConditionDef d) => d.LabelCap), (Func<GameConditionDef, Action>)((GameConditionDef d) => (Action)delegate()
+				FloatMenuUtility.MakeMenu(this.AllowedGameConditions(), (GameConditionDef d) => d.LabelCap, delegate(GameConditionDef d)
 				{
-					this.gameCondition = d;
-				}));
+					ScenPart_PermaGameCondition scenPart_PermaGameCondition = this;
+					return delegate
+					{
+						scenPart_PermaGameCondition.gameCondition = d;
+					};
+				});
 			}
 		}
 
@@ -71,17 +74,16 @@ namespace RimWorld
 
 		public override bool CanCoexistWith(ScenPart other)
 		{
-			bool result;
 			if (this.gameCondition == null)
 			{
-				result = true;
+				return true;
 			}
-			else
+			ScenPart_PermaGameCondition scenPart_PermaGameCondition = other as ScenPart_PermaGameCondition;
+			if (scenPart_PermaGameCondition != null && !this.gameCondition.CanCoexistWith(scenPart_PermaGameCondition.gameCondition))
 			{
-				ScenPart_PermaGameCondition scenPart_PermaGameCondition = other as ScenPart_PermaGameCondition;
-				result = ((byte)((scenPart_PermaGameCondition == null || this.gameCondition.CanCoexistWith(scenPart_PermaGameCondition.gameCondition)) ? 1 : 0) != 0);
+				return false;
 			}
-			return result;
+			return true;
 		}
 	}
 }

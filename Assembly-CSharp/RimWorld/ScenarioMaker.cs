@@ -31,8 +31,8 @@ namespace RimWorld
 			ScenarioMaker.scen = new Scenario();
 			ScenarioMaker.scen.Category = ScenarioCategory.CustomLocal;
 			ScenarioMaker.scen.name = NameGenerator.GenerateName(RulePackDefOf.NamerScenario, (Predicate<string>)null, false, (string)null);
-			ScenarioMaker.scen.description = (string)null;
-			ScenarioMaker.scen.summary = (string)null;
+			ScenarioMaker.scen.description = null;
+			ScenarioMaker.scen.summary = null;
 			Rand.Seed = @int;
 			ScenarioMaker.scen.playerFaction = (ScenPart_PlayerFaction)ScenarioMaker.MakeScenPart(ScenPartDefOf.PlayerFaction);
 			ScenarioMaker.scen.parts.Add(ScenarioMaker.MakeScenPart(ScenPartDefOf.ConfigPage_ConfigureStartingPawns));
@@ -115,7 +115,7 @@ namespace RimWorld
 				{
 					if (numYielded < count && allowedParts.Any())
 					{
-						ScenPartDef def = allowedParts.RandomElementByWeight((Func<ScenPartDef, float>)((ScenPartDef d) => d.selectionWeight));
+						ScenPartDef def = allowedParts.RandomElementByWeight((ScenPartDef d) => d.selectionWeight);
 						ScenPart newPart = ScenarioMaker.MakeScenPart(def);
 						if (ScenarioMaker.CanAddPart(scen, newPart))
 						{
@@ -136,30 +136,20 @@ namespace RimWorld
 		public static IEnumerable<ScenPartDef> AddableParts(Scenario scen)
 		{
 			return from d in DefDatabase<ScenPartDef>.AllDefs
-			where scen.AllParts.Count((Func<ScenPart, bool>)((ScenPart p) => p.def == d)) < d.maxUses
+			where scen.AllParts.Count((ScenPart p) => p.def == d) < d.maxUses
 			select d;
 		}
 
 		private static bool CanAddPart(Scenario scen, ScenPart newPart)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < scen.parts.Count; i++)
 			{
-				if (num < scen.parts.Count)
+				if (!newPart.CanCoexistWith(scen.parts[i]))
 				{
-					if (!newPart.CanCoexistWith(scen.parts[num]))
-					{
-						result = false;
-						break;
-					}
-					num++;
-					continue;
+					return false;
 				}
-				result = true;
-				break;
 			}
-			return result;
+			return true;
 		}
 
 		public static ScenPart MakeScenPart(ScenPartDef def)

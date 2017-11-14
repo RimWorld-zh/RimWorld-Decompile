@@ -68,34 +68,34 @@ namespace RimWorld.Planet
 			Pawn pawn = BestCaravanPawnUtility.FindBestDiplomat(caravan);
 			if (pawn == null)
 			{
-				Messages.Message("MessagePeaceTalksNoDiplomat".Translate(), (WorldObject)caravan, MessageTypeDefOf.NegativeEvent);
+				Messages.Message("MessagePeaceTalksNoDiplomat".Translate(), caravan, MessageTypeDefOf.NegativeEvent);
 			}
 			else
 			{
 				float badOutcomeWeightFactor = PeaceTalks.GetBadOutcomeWeightFactor(pawn);
 				float num = (float)(1.0 / badOutcomeWeightFactor);
 				PeaceTalks.tmpPossibleOutcomes.Clear();
-				PeaceTalks.tmpPossibleOutcomes.Add(new Pair<Action, float>((Action)delegate()
+				PeaceTalks.tmpPossibleOutcomes.Add(new Pair<Action, float>(delegate
 				{
 					this.Outcome_Disaster(caravan);
 				}, (float)(0.05000000074505806 * badOutcomeWeightFactor)));
-				PeaceTalks.tmpPossibleOutcomes.Add(new Pair<Action, float>((Action)delegate()
+				PeaceTalks.tmpPossibleOutcomes.Add(new Pair<Action, float>(delegate
 				{
 					this.Outcome_Backfire(caravan);
 				}, (float)(0.10000000149011612 * badOutcomeWeightFactor)));
-				PeaceTalks.tmpPossibleOutcomes.Add(new Pair<Action, float>((Action)delegate()
+				PeaceTalks.tmpPossibleOutcomes.Add(new Pair<Action, float>(delegate
 				{
 					this.Outcome_TalksFlounder(caravan);
 				}, 0.2f));
-				PeaceTalks.tmpPossibleOutcomes.Add(new Pair<Action, float>((Action)delegate()
+				PeaceTalks.tmpPossibleOutcomes.Add(new Pair<Action, float>(delegate
 				{
 					this.Outcome_Success(caravan);
 				}, (float)(0.550000011920929 * num)));
-				PeaceTalks.tmpPossibleOutcomes.Add(new Pair<Action, float>((Action)delegate()
+				PeaceTalks.tmpPossibleOutcomes.Add(new Pair<Action, float>(delegate
 				{
 					this.Outcome_Triumph(caravan);
 				}, (float)(0.10000000149011612 * num)));
-				Action first = PeaceTalks.tmpPossibleOutcomes.RandomElementByWeight((Func<Pair<Action, float>, float>)((Pair<Action, float> x) => x.Second)).First;
+				Action first = PeaceTalks.tmpPossibleOutcomes.RandomElementByWeight((Pair<Action, float> x) => x.Second).First;
 				first();
 				pawn.skills.Learn(SkillDefOf.Social, 6000f, true);
 				Find.WorldObjects.Remove(this);
@@ -114,18 +114,18 @@ namespace RimWorld.Planet
 					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
-			yield return new FloatMenuOption("VisitPeaceTalks".Translate(this.Label), (Action)delegate()
+			yield return new FloatMenuOption("VisitPeaceTalks".Translate(this.Label), delegate
 			{
 				caravan.pather.StartPath(_003CGetFloatMenuOptions_003Ec__Iterator._0024this.Tile, new CaravanArrivalAction_VisitPeaceTalks(_003CGetFloatMenuOptions_003Ec__Iterator._0024this), true);
 			}, MenuOptionPriority.Default, null, null, 0f, null, this);
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_01c8:
-			/*Error near IL_01c9: Unexpected return in MoveNext()*/;
+			IL_01c2:
+			/*Error near IL_01c3: Unexpected return in MoveNext()*/;
 		}
 
 		private void Outcome_Disaster(Caravan caravan)
 		{
-			LongEventHandler.QueueLongEvent((Action)delegate()
+			LongEventHandler.QueueLongEvent(delegate
 			{
 				float randomInRange = PeaceTalks.DisasterFactionRelationOffset.RandomInRange;
 				base.Faction.AffectGoodwillWith(Faction.OfPlayer, randomInRange);
@@ -145,7 +145,7 @@ namespace RimWorld.Planet
 				}
 				Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
 				GlobalTargetInfo lookTarget = (!list.Any()) ? GlobalTargetInfo.Invalid : new GlobalTargetInfo(list[0].Position, map, false);
-				Find.LetterStack.ReceiveLetter("LetterLabelPeaceTalks_Disaster".Translate(), this.GetLetterText("LetterPeaceTalks_Disaster".Translate(base.Faction.def.pawnsPlural.CapitalizeFirst(), base.Faction.Name, Mathf.RoundToInt(randomInRange)), caravan), LetterDefOf.ThreatBig, lookTarget, (string)null);
+				Find.LetterStack.ReceiveLetter("LetterLabelPeaceTalks_Disaster".Translate(), this.GetLetterText("LetterPeaceTalks_Disaster".Translate(base.Faction.def.pawnsPlural.CapitalizeFirst(), base.Faction.Name, Mathf.RoundToInt(randomInRange)), caravan), LetterDefOf.ThreatBig, lookTarget, null);
 			}, "GeneratingMapForNewEncounter", false, null);
 		}
 
@@ -153,19 +153,19 @@ namespace RimWorld.Planet
 		{
 			float randomInRange = PeaceTalks.BackfireFactionRelationOffset.RandomInRange;
 			base.Faction.AffectGoodwillWith(Faction.OfPlayer, randomInRange);
-			Find.LetterStack.ReceiveLetter("LetterLabelPeaceTalks_Backfire".Translate(), this.GetLetterText("LetterPeaceTalks_Backfire".Translate(base.Faction.Name, Mathf.RoundToInt(randomInRange)), caravan), LetterDefOf.NegativeEvent, (WorldObject)caravan, (string)null);
+			Find.LetterStack.ReceiveLetter("LetterLabelPeaceTalks_Backfire".Translate(), this.GetLetterText("LetterPeaceTalks_Backfire".Translate(base.Faction.Name, Mathf.RoundToInt(randomInRange)), caravan), LetterDefOf.NegativeEvent, caravan, null);
 		}
 
 		private void Outcome_TalksFlounder(Caravan caravan)
 		{
-			Find.LetterStack.ReceiveLetter("LetterLabelPeaceTalks_TalksFlounder".Translate(), this.GetLetterText("LetterPeaceTalks_TalksFlounder".Translate(base.Faction.Name), caravan), LetterDefOf.NeutralEvent, (WorldObject)caravan, (string)null);
+			Find.LetterStack.ReceiveLetter("LetterLabelPeaceTalks_TalksFlounder".Translate(), this.GetLetterText("LetterPeaceTalks_TalksFlounder".Translate(base.Faction.Name), caravan), LetterDefOf.NeutralEvent, caravan, null);
 		}
 
 		private void Outcome_Success(Caravan caravan)
 		{
 			float randomInRange = PeaceTalks.SuccessFactionRelationOffset.RandomInRange;
 			base.Faction.AffectGoodwillWith(Faction.OfPlayer, randomInRange);
-			Find.LetterStack.ReceiveLetter("LetterLabelPeaceTalks_Success".Translate(), this.GetLetterText("LetterPeaceTalks_Success".Translate(base.Faction.Name, Mathf.RoundToInt(randomInRange)), caravan), LetterDefOf.PositiveEvent, (WorldObject)caravan, (string)null);
+			Find.LetterStack.ReceiveLetter("LetterLabelPeaceTalks_Success".Translate(), this.GetLetterText("LetterPeaceTalks_Success".Translate(base.Faction.Name, Mathf.RoundToInt(randomInRange)), caravan), LetterDefOf.PositiveEvent, caravan, null);
 		}
 
 		private void Outcome_Triumph(Caravan caravan)
@@ -177,7 +177,7 @@ namespace RimWorld.Planet
 			{
 				caravan.AddPawnOrItem(list[0], true);
 			}
-			Find.LetterStack.ReceiveLetter("LetterLabelPeaceTalks_Triumph".Translate(), this.GetLetterText("LetterPeaceTalks_Triumph".Translate(base.Faction.Name, Mathf.RoundToInt(randomInRange), list[0].Label), caravan), LetterDefOf.PositiveEvent, (WorldObject)caravan, (string)null);
+			Find.LetterStack.ReceiveLetter("LetterLabelPeaceTalks_Triumph".Translate(), this.GetLetterText("LetterPeaceTalks_Triumph".Translate(base.Faction.Name, Mathf.RoundToInt(randomInRange), list[0].Label), caravan), LetterDefOf.PositiveEvent, caravan, null);
 		}
 
 		private string GetLetterText(string baseText, Caravan caravan)

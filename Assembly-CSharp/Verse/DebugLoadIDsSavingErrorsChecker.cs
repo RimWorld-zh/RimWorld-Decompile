@@ -19,7 +19,11 @@ namespace Verse
 
 			public override bool Equals(object obj)
 			{
-				return obj is ReferencedObject && this.Equals((ReferencedObject)obj);
+				if (!(obj is ReferencedObject))
+				{
+					return false;
+				}
+				return this.Equals((ReferencedObject)obj);
 			}
 
 			public bool Equals(ReferencedObject other)

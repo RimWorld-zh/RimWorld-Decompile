@@ -15,20 +15,15 @@ namespace RimWorld
 		{
 			get
 			{
-				Thing result;
 				if (this.miniToInstall != null)
 				{
-					result = this.miniToInstall;
-					goto IL_003a;
+					return this.miniToInstall;
 				}
 				if (this.buildingToReinstall != null)
 				{
-					result = this.buildingToReinstall;
-					goto IL_003a;
+					return this.buildingToReinstall;
 				}
 				throw new InvalidOperationException("Nothing to install.");
-				IL_003a:
-				return result;
 			}
 		}
 
@@ -94,7 +89,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -108,8 +103,8 @@ namespace RimWorld
 				yield break;
 			yield return (Gizmo)buildCopy;
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0117:
-			/*Error near IL_0118: Unexpected return in MoveNext()*/;
+			IL_0113:
+			/*Error near IL_0114: Unexpected return in MoveNext()*/;
 		}
 
 		internal void SetThingToInstallFromMinified(MinifiedThing itemToInstall)

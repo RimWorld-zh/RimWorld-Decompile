@@ -144,7 +144,11 @@ namespace Verse
 		{
 			get
 			{
-				return Prefs.data == null || Prefs.data.devMode;
+				if (Prefs.data == null)
+				{
+					return true;
+				}
+				return Prefs.data.devMode;
 			}
 			set
 			{
@@ -359,9 +363,13 @@ namespace Verse
 		public static NameTriple RandomPreferredName()
 		{
 			string rawName = default(string);
-			return (!(from name in Prefs.PreferredNames
+			if ((from name in Prefs.PreferredNames
 			where !name.NullOrEmpty()
-			select name).TryRandomElement<string>(out rawName)) ? null : NameTriple.FromString(rawName);
+			select name).TryRandomElement<string>(out rawName))
+			{
+				return NameTriple.FromString(rawName);
+			}
+			return null;
 		}
 	}
 }

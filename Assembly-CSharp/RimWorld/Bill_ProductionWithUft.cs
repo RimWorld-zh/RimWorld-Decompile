@@ -11,7 +11,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (this.BoundWorker != null) ? ("BoundWorkerIs".Translate(this.BoundWorker.NameStringShort) + base.StatusString).Trim() : ("" + base.StatusString).Trim();
+				if (this.BoundWorker == null)
+				{
+					return (string.Empty + base.StatusString).Trim();
+				}
+				return ("BoundWorkerIs".Translate(this.BoundWorker.NameStringShort) + base.StatusString).Trim();
 			}
 		}
 
@@ -19,50 +23,39 @@ namespace RimWorld
 		{
 			get
 			{
-				Pawn result;
 				if (this.boundUftInt == null)
 				{
-					result = null;
+					return null;
 				}
-				else
+				Pawn creator = this.boundUftInt.Creator;
+				if (creator != null && !creator.Downed && creator.HostFaction == null && !creator.Destroyed && creator.Spawned)
 				{
-					Pawn creator = this.boundUftInt.Creator;
-					if (creator == null || creator.Downed || creator.HostFaction != null || creator.Destroyed || !creator.Spawned)
+					Thing thing = base.billStack.billGiver as Thing;
+					if (thing != null)
 					{
-						this.boundUftInt = null;
-						result = null;
-					}
-					else
-					{
-						Thing thing = base.billStack.billGiver as Thing;
-						if (thing != null)
+						WorkTypeDef workTypeDef = null;
+						List<WorkGiverDef> allDefsListForReading = DefDatabase<WorkGiverDef>.AllDefsListForReading;
+						int num = 0;
+						while (num < allDefsListForReading.Count)
 						{
-							WorkTypeDef workTypeDef = null;
-							List<WorkGiverDef> allDefsListForReading = DefDatabase<WorkGiverDef>.AllDefsListForReading;
-							int num = 0;
-							while (num < allDefsListForReading.Count)
+							if (allDefsListForReading[num].fixedBillGiverDefs == null || !allDefsListForReading[num].fixedBillGiverDefs.Contains(thing.def))
 							{
-								if (allDefsListForReading[num].fixedBillGiverDefs == null || !allDefsListForReading[num].fixedBillGiverDefs.Contains(thing.def))
-								{
-									num++;
-									continue;
-								}
-								workTypeDef = allDefsListForReading[num].workType;
-								break;
+								num++;
+								continue;
 							}
-							if (workTypeDef != null && !creator.workSettings.WorkIsActive(workTypeDef))
-							{
-								this.boundUftInt = null;
-								result = null;
-								goto IL_0113;
-							}
+							workTypeDef = allDefsListForReading[num].workType;
+							break;
 						}
-						result = creator;
+						if (workTypeDef != null && !creator.workSettings.WorkIsActive(workTypeDef))
+						{
+							this.boundUftInt = null;
+							return null;
+						}
 					}
+					return creator;
 				}
-				goto IL_0113;
-				IL_0113:
-				return result;
+				this.boundUftInt = null;
+				return null;
 			}
 		}
 
@@ -78,7 +71,8 @@ namespace RimWorld
 		{
 		}
 
-		public Bill_ProductionWithUft(RecipeDef recipe) : base(recipe)
+		public Bill_ProductionWithUft(RecipeDef recipe)
+			: base(recipe)
 		{
 		}
 

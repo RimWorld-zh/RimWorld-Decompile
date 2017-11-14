@@ -6,41 +6,27 @@ namespace Verse
 	{
 		public string text;
 
-		public LogMessageType type = LogMessageType.Message;
+		public LogMessageType type;
 
 		public int repeats = 1;
 
-		private string stackTrace = (string)null;
+		private string stackTrace;
 
 		public Color Color
 		{
 			get
 			{
-				Color result;
 				switch (this.type)
 				{
 				case LogMessageType.Message:
-				{
-					result = Color.white;
-					break;
-				}
+					return Color.white;
 				case LogMessageType.Warning:
-				{
-					result = Color.yellow;
-					break;
-				}
+					return Color.yellow;
 				case LogMessageType.Error:
-				{
-					result = Color.red;
-					break;
-				}
+					return Color.red;
 				default:
-				{
-					result = Color.white;
-					break;
+					return Color.white;
 				}
-				}
-				return result;
 			}
 		}
 
@@ -48,7 +34,11 @@ namespace Verse
 		{
 			get
 			{
-				return (this.stackTrace == null) ? "No stack trace." : this.stackTrace;
+				if (this.stackTrace != null)
+				{
+					return this.stackTrace;
+				}
+				return "No stack trace.";
 			}
 		}
 
@@ -56,7 +46,7 @@ namespace Verse
 		{
 			this.text = text;
 			this.type = LogMessageType.Message;
-			this.stackTrace = (string)null;
+			this.stackTrace = null;
 		}
 
 		public LogMessage(LogMessageType type, string text, string stackTrace)
@@ -68,7 +58,11 @@ namespace Verse
 
 		public override string ToString()
 		{
-			return (this.repeats <= 1) ? this.text : ("(" + this.repeats.ToString() + ") " + this.text);
+			if (this.repeats > 1)
+			{
+				return "(" + this.repeats.ToString() + ") " + this.text;
+			}
+			return this.text;
 		}
 
 		public bool CanCombineWith(LogMessage other)

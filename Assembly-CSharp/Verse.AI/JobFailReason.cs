@@ -27,7 +27,7 @@ namespace Verse.AI
 
 		public static void Clear()
 		{
-			JobFailReason.lastReason = (string)null;
+			JobFailReason.lastReason = null;
 		}
 	}
 }

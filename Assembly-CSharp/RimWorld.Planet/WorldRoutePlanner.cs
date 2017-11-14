@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -50,7 +49,19 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (byte)((!this.active) ? 1 : ((!WorldRendererUtility.WorldRenderedNow) ? 1 : ((((Current.ProgramState == ProgramState.Playing) ? Find.TickManager.CurTimeSpeed : TimeSpeed.Paused) != 0) ? 1 : 0))) != 0;
+				if (!this.active)
+				{
+					return true;
+				}
+				if (!WorldRendererUtility.WorldRenderedNow)
+				{
+					return true;
+				}
+				if (Current.ProgramState == ProgramState.Playing && Find.TickManager.CurTimeSpeed != 0)
+				{
+					return true;
+				}
+				return false;
 			}
 		}
 
@@ -59,7 +70,11 @@ namespace RimWorld.Planet
 			get
 			{
 				List<Pawn> caravanPawns = this.CaravanPawns;
-				return caravanPawns.NullOrEmpty() ? 3000 : CaravanTicksPerMoveUtility.GetTicksPerMove(caravanPawns);
+				if (!caravanPawns.NullOrEmpty())
+				{
+					return CaravanTicksPerMoveUtility.GetTicksPerMove(caravanPawns);
+				}
+				return 3000;
 			}
 		}
 
@@ -67,17 +82,16 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				List<Pawn> result;
 				if (this.currentFormCaravanDialog != null)
 				{
-					result = this.caravanPawnsFromFormCaravanDialog;
+					return this.caravanPawnsFromFormCaravanDialog;
 				}
-				else
+				Caravan caravanAtTheFirstWaypoint = this.CaravanAtTheFirstWaypoint;
+				if (caravanAtTheFirstWaypoint != null)
 				{
-					Caravan caravanAtTheFirstWaypoint = this.CaravanAtTheFirstWaypoint;
-					result = ((caravanAtTheFirstWaypoint == null) ? null : caravanAtTheFirstWaypoint.PawnsListForReading);
+					return caravanAtTheFirstWaypoint.PawnsListForReading;
 				}
-				return result;
+				return null;
 			}
 		}
 
@@ -85,7 +99,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return this.waypoints.Any() ? Find.WorldObjects.PlayerControlledCaravanAt(this.waypoints[0].Tile) : null;
+				if (!this.waypoints.Any())
+				{
+					return null;
+				}
+				return Find.WorldObjects.PlayerControlledCaravanAt(this.waypoints[0].Tile);
 			}
 		}
 
@@ -184,11 +202,11 @@ namespace RimWorld.Planet
 								else
 								{
 									List<FloatMenuOption> list = new List<FloatMenuOption>();
-									list.Add(new FloatMenuOption("AddWaypoint".Translate(), (Action)delegate
+									list.Add(new FloatMenuOption("AddWaypoint".Translate(), delegate
 									{
 										this.TryAddWaypoint(tile, true);
 									}, MenuOptionPriority.Default, null, null, 0f, null, null));
-									list.Add(new FloatMenuOption("RemoveWaypoint".Translate(), (Action)delegate
+									list.Add(new FloatMenuOption("RemoveWaypoint".Translate(), delegate
 									{
 										this.TryRemoveWaypoint(waypoint, true);
 									}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -216,7 +234,7 @@ namespace RimWorld.Planet
 					{
 						rect.y -= 22f;
 					}
-					Find.WindowStack.ImmediateWindow(1373514241, rect, WindowLayer.Dialog, (Action)delegate
+					Find.WindowStack.ImmediateWindow(1373514241, rect, WindowLayer.Dialog, delegate
 					{
 						if (this.active)
 						{
@@ -385,24 +403,14 @@ namespace RimWorld.Planet
 
 		private RoutePlannerWaypoint MostRecentWaypointAt(int tile)
 		{
-			int num = this.waypoints.Count - 1;
-			RoutePlannerWaypoint result;
-			while (true)
+			for (int num = this.waypoints.Count - 1; num >= 0; num--)
 			{
-				if (num >= 0)
+				if (this.waypoints[num].Tile == tile)
 				{
-					if (this.waypoints[num].Tile == tile)
-					{
-						result = this.waypoints[num];
-						break;
-					}
-					num--;
-					continue;
+					return this.waypoints[num];
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 	}
 }

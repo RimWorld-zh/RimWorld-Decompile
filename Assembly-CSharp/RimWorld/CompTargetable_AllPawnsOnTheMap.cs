@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -19,7 +18,7 @@ namespace RimWorld
 			TargetingParameters targetingParameters = new TargetingParameters();
 			targetingParameters.canTargetPawns = true;
 			targetingParameters.canTargetBuildings = false;
-			targetingParameters.validator = (Predicate<TargetInfo>)((TargetInfo x) => base.BaseTargetValidator(x.Thing));
+			targetingParameters.validator = ((TargetInfo x) => base.BaseTargetValidator(x.Thing));
 			return targetingParameters;
 		}
 
@@ -28,27 +27,18 @@ namespace RimWorld
 			if (base.parent.MapHeld != null)
 			{
 				TargetingParameters tp = this.GetTargetingParameters();
-				using (List<Pawn>.Enumerator enumerator = base.parent.MapHeld.mapPawns.AllPawnsSpawned.GetEnumerator())
+				foreach (Pawn item in base.parent.MapHeld.mapPawns.AllPawnsSpawned)
 				{
-					Pawn p;
-					while (true)
+					if (tp.CanTarget(item))
 					{
-						if (enumerator.MoveNext())
-						{
-							p = enumerator.Current;
-							if (tp.CanTarget((Thing)p))
-								break;
-							continue;
-						}
-						yield break;
+						yield return (Thing)item;
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
-					yield return (Thing)p;
-					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 			yield break;
-			IL_010d:
-			/*Error near IL_010e: Unexpected return in MoveNext()*/;
+			IL_0109:
+			/*Error near IL_010a: Unexpected return in MoveNext()*/;
 		}
 	}
 }

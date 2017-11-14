@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -116,7 +115,7 @@ namespace RimWorld
 			Color color = GUI.color;
 			Widgets.ThingIcon(rect, thingDef);
 			GUI.color = color;
-			TooltipHandler.TipRegion(rect, new TipSignal((Func<string>)(() => thingDef.LabelCap + ": " + thingDef.description), thingDef.GetHashCode()));
+			TooltipHandler.TipRegion(rect, new TipSignal(() => thingDef.LabelCap + ": " + thingDef.description, thingDef.GetHashCode()));
 		}
 	}
 }

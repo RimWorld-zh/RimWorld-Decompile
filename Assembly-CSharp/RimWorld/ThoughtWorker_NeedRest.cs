@@ -7,42 +7,23 @@ namespace RimWorld
 	{
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
-			ThoughtState result;
 			if (p.needs.rest == null)
 			{
-				result = ThoughtState.Inactive;
+				return ThoughtState.Inactive;
 			}
-			else
+			switch (p.needs.rest.CurCategory)
 			{
-				switch (p.needs.rest.CurCategory)
-				{
-				case RestCategory.Rested:
-				{
-					result = ThoughtState.Inactive;
-					break;
-				}
-				case RestCategory.Tired:
-				{
-					result = ThoughtState.ActiveAtStage(0);
-					break;
-				}
-				case RestCategory.VeryTired:
-				{
-					result = ThoughtState.ActiveAtStage(1);
-					break;
-				}
-				case RestCategory.Exhausted:
-				{
-					result = ThoughtState.ActiveAtStage(2);
-					break;
-				}
-				default:
-				{
-					throw new NotImplementedException();
-				}
-				}
+			case RestCategory.Rested:
+				return ThoughtState.Inactive;
+			case RestCategory.Tired:
+				return ThoughtState.ActiveAtStage(0);
+			case RestCategory.VeryTired:
+				return ThoughtState.ActiveAtStage(1);
+			case RestCategory.Exhausted:
+				return ThoughtState.ActiveAtStage(2);
+			default:
+				throw new NotImplementedException();
 			}
-			return result;
 		}
 	}
 }

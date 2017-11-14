@@ -24,7 +24,7 @@ namespace RimWorld
 				{
 					Job job = new Job(JobDefOf.Goto, c);
 					job.exitMapOnArrival = true;
-					p.jobs.StartJob(job, JobCondition.None, null, false, true, null, default(JobTag?), false);
+					p.jobs.StartJob(job, JobCondition.None, null, false, true, null, null, false);
 				}
 			}
 		}

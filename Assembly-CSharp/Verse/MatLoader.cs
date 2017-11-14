@@ -20,7 +20,11 @@ namespace Verse
 
 			public override bool Equals(object obj)
 			{
-				return obj is Request && this.Equals((Request)obj);
+				if (!(obj is Request))
+				{
+					return false;
+				}
+				return this.Equals((Request)obj);
 			}
 
 			public bool Equals(Request other)
@@ -53,11 +57,10 @@ namespace Verse
 			{
 				Log.Warning("Could not load material " + matPath);
 			}
-			Request key = new Request
-			{
-				path = matPath,
-				renderQueue = renderQueue
-			};
+			Request request = default(Request);
+			request.path = matPath;
+			request.renderQueue = renderQueue;
+			Request key = request;
 			Material material2 = default(Material);
 			if (!MatLoader.dict.TryGetValue(key, out material2))
 			{

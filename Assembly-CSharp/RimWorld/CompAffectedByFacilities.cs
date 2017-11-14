@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,130 +32,114 @@ namespace RimWorld
 				if (base.parent.Spawned)
 				{
 					IEnumerable<Thing> potentialThings = CompAffectedByFacilities.PotentialThingsToLinkTo(base.parent.def, base.parent.Position, base.parent.Rotation, base.parent.Map);
-					using (IEnumerator<Thing> enumerator = potentialThings.GetEnumerator())
+					foreach (Thing item in potentialThings)
 					{
-						Thing th;
-						while (true)
+						if (this.CanLinkTo(item))
 						{
-							if (enumerator.MoveNext())
-							{
-								th = enumerator.Current;
-								if (this.CanLinkTo(th))
-									break;
-								continue;
-							}
-							yield break;
+							yield return item;
+							/*Error: Unable to find new state assignment for yield return*/;
 						}
-						yield return th;
-						/*Error: Unable to find new state assignment for yield return*/;
 					}
 				}
 				yield break;
-				IL_0133:
-				/*Error near IL_0134: Unexpected return in MoveNext()*/;
+				IL_012f:
+				/*Error near IL_0130: Unexpected return in MoveNext()*/;
 			}
 		}
 
 		public bool CanLinkTo(Thing facility)
 		{
-			bool result;
 			if (!this.CanPotentiallyLinkTo(facility.def, facility.Position, facility.Rotation))
 			{
-				result = false;
+				return false;
 			}
-			else if (!this.IsValidFacilityForMe(facility))
+			if (!this.IsValidFacilityForMe(facility))
 			{
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < this.linkedFacilities.Count; i++)
 			{
-				for (int i = 0; i < this.linkedFacilities.Count; i++)
+				if (this.linkedFacilities[i] == facility)
 				{
-					if (this.linkedFacilities[i] == facility)
-						goto IL_0052;
+					return false;
 				}
-				result = true;
 			}
-			goto IL_0076;
-			IL_0076:
-			return result;
-			IL_0052:
-			result = false;
-			goto IL_0076;
+			return true;
 		}
 
 		public static bool CanPotentiallyLinkTo_Static(Thing facility, ThingDef myDef, IntVec3 myPos, Rot4 myRot)
 		{
-			return (byte)(CompAffectedByFacilities.CanPotentiallyLinkTo_Static(facility.def, facility.Position, facility.Rotation, myDef, myPos, myRot) ? (CompAffectedByFacilities.IsPotentiallyValidFacilityForMe_Static(facility, myDef, myPos, myRot) ? 1 : 0) : 0) != 0;
+			if (!CompAffectedByFacilities.CanPotentiallyLinkTo_Static(facility.def, facility.Position, facility.Rotation, myDef, myPos, myRot))
+			{
+				return false;
+			}
+			if (!CompAffectedByFacilities.IsPotentiallyValidFacilityForMe_Static(facility, myDef, myPos, myRot))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public bool CanPotentiallyLinkTo(ThingDef facilityDef, IntVec3 facilityPos, Rot4 facilityRot)
 		{
-			bool result;
 			if (!CompAffectedByFacilities.CanPotentiallyLinkTo_Static(facilityDef, facilityPos, facilityRot, base.parent.def, base.parent.Position, base.parent.Rotation))
 			{
-				result = false;
+				return false;
 			}
-			else if (!this.IsPotentiallyValidFacilityForMe(facilityDef, facilityPos, facilityRot))
+			if (!this.IsPotentiallyValidFacilityForMe(facilityDef, facilityPos, facilityRot))
 			{
-				result = false;
+				return false;
 			}
-			else
+			int num = 0;
+			bool flag = false;
+			for (int i = 0; i < this.linkedFacilities.Count; i++)
 			{
-				int num = 0;
-				bool flag = false;
-				for (int i = 0; i < this.linkedFacilities.Count; i++)
+				if (this.linkedFacilities[i].def == facilityDef)
 				{
-					if (this.linkedFacilities[i].def == facilityDef)
+					num++;
+					if (this.IsBetter(facilityDef, facilityPos, facilityRot, this.linkedFacilities[i]))
 					{
-						num++;
-						if (this.IsBetter(facilityDef, facilityPos, facilityRot, this.linkedFacilities[i]))
-						{
-							flag = true;
-							break;
-						}
+						flag = true;
+						break;
 					}
 				}
-				if (flag)
-				{
-					result = true;
-				}
-				else
-				{
-					CompProperties_Facility compProperties = facilityDef.GetCompProperties<CompProperties_Facility>();
-					result = ((byte)((num + 1 <= compProperties.maxSimultaneous) ? 1 : 0) != 0);
-				}
 			}
-			return result;
+			if (flag)
+			{
+				return true;
+			}
+			CompProperties_Facility compProperties = facilityDef.GetCompProperties<CompProperties_Facility>();
+			if (num + 1 > compProperties.maxSimultaneous)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static bool CanPotentiallyLinkTo_Static(ThingDef facilityDef, IntVec3 facilityPos, Rot4 facilityRot, ThingDef myDef, IntVec3 myPos, Rot4 myRot)
 		{
 			CompProperties_Facility compProperties = facilityDef.GetCompProperties<CompProperties_Facility>();
-			bool result;
 			if (compProperties.mustBePlacedAdjacent)
 			{
 				CellRect rect = GenAdj.OccupiedRect(myPos, myRot, myDef.size);
 				CellRect rect2 = GenAdj.OccupiedRect(facilityPos, facilityRot, facilityDef.size);
 				if (!GenAdj.AdjacentTo8WayOrInside(rect, rect2))
 				{
-					result = false;
-					goto IL_0135;
+					return false;
 				}
 			}
 			if (compProperties.mustBePlacedAdjacentCardinalToBedHead)
 			{
 				if (!myDef.IsBed)
 				{
-					result = false;
-					goto IL_0135;
+					return false;
 				}
 				CellRect other = GenAdj.OccupiedRect(facilityPos, facilityRot, facilityDef.size);
 				bool flag = false;
 				int sleepingSlotsCount = BedUtility.GetSleepingSlotsCount(myDef.size);
-				for (int num = 0; num < sleepingSlotsCount; num++)
+				for (int i = 0; i < sleepingSlotsCount; i++)
 				{
-					IntVec3 sleepingSlotPos = BedUtility.GetSleepingSlotPos(num, myPos, myRot, myDef.size);
+					IntVec3 sleepingSlotPos = BedUtility.GetSleepingSlotPos(i, myPos, myRot, myDef.size);
 					if (sleepingSlotPos.IsAdjacentToCardinalOrInside(other))
 					{
 						flag = true;
@@ -164,8 +147,7 @@ namespace RimWorld
 				}
 				if (!flag)
 				{
-					result = false;
-					goto IL_0135;
+					return false;
 				}
 			}
 			if (!compProperties.mustBePlacedAdjacent && !compProperties.mustBePlacedAdjacentCardinalToBedHead)
@@ -174,28 +156,26 @@ namespace RimWorld
 				Vector3 b = Gen.TrueCenter(facilityPos, facilityRot, facilityDef.size, facilityDef.Altitude);
 				if (Vector3.Distance(a, b) > compProperties.maxDistance)
 				{
-					result = false;
-					goto IL_0135;
+					return false;
 				}
 			}
-			result = true;
-			goto IL_0135;
-			IL_0135:
-			return result;
+			return true;
 		}
 
 		public bool IsValidFacilityForMe(Thing facility)
 		{
-			return (byte)(CompAffectedByFacilities.IsPotentiallyValidFacilityForMe_Static(facility, base.parent.def, base.parent.Position, base.parent.Rotation) ? 1 : 0) != 0;
+			if (!CompAffectedByFacilities.IsPotentiallyValidFacilityForMe_Static(facility, base.parent.def, base.parent.Position, base.parent.Rotation))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		private bool IsPotentiallyValidFacilityForMe(ThingDef facilityDef, IntVec3 facilityPos, Rot4 facilityRot)
 		{
-			bool result;
 			if (!CompAffectedByFacilities.IsPotentiallyValidFacilityForMe_Static(facilityDef, facilityPos, facilityRot, base.parent.def, base.parent.Position, base.parent.Rotation, base.parent.Map))
 			{
-				result = false;
-				goto IL_0080;
+				return false;
 			}
 			CompProperties_Facility compProperties = facilityDef.GetCompProperties<CompProperties_Facility>();
 			if (compProperties.canLinkToMedBedsOnly)
@@ -203,17 +183,13 @@ namespace RimWorld
 				Building_Bed building_Bed = base.parent as Building_Bed;
 				if (building_Bed != null && building_Bed.Medical)
 				{
-					goto IL_0079;
+					goto IL_006c;
 				}
-				result = false;
-				goto IL_0080;
+				return false;
 			}
-			goto IL_0079;
-			IL_0080:
-			return result;
-			IL_0079:
-			result = true;
-			goto IL_0080;
+			goto IL_006c;
+			IL_006c:
+			return true;
 		}
 
 		private static bool IsPotentiallyValidFacilityForMe_Static(Thing facility, ThingDef myDef, IntVec3 myPos, Rot4 myRot)
@@ -237,16 +213,20 @@ namespace RimWorld
 							IntVec3 start = new IntVec3(j, 0, i);
 							IntVec3 end = new IntVec3(l, 0, k);
 							if (GenSight.LineOfSight(start, end, map, startRect, endRect, null))
-								goto IL_0086;
+								goto IL_0081;
 						}
 					}
 				}
 				continue;
-				IL_0086:
+				IL_0081:
 				flag = true;
 				break;
 			}
-			return (byte)(flag ? 1 : 0) != 0;
+			if (!flag)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public void Notify_NewLink(Thing facility)
@@ -323,41 +303,30 @@ namespace RimWorld
 
 		private bool IsBetter(ThingDef facilityDef, IntVec3 facilityPos, Rot4 facilityRot, Thing thanThisFacility)
 		{
-			bool result;
 			if (facilityDef != thanThisFacility.def)
 			{
 				Log.Error("Comparing two different facility defs.");
-				result = false;
+				return false;
 			}
-			else
+			Vector3 b = Gen.TrueCenter(facilityPos, facilityRot, facilityDef.size, facilityDef.Altitude);
+			Vector3 a = base.parent.TrueCenter();
+			float num = Vector3.Distance(a, b);
+			float num2 = Vector3.Distance(a, thanThisFacility.TrueCenter());
+			if (num != num2)
 			{
-				Vector3 b = Gen.TrueCenter(facilityPos, facilityRot, facilityDef.size, facilityDef.Altitude);
-				Vector3 a = base.parent.TrueCenter();
-				float num = Vector3.Distance(a, b);
-				float num2 = Vector3.Distance(a, thanThisFacility.TrueCenter());
-				if (num != num2)
-				{
-					result = (num < num2);
-				}
-				else
-				{
-					int x = facilityPos.x;
-					IntVec3 position = thanThisFacility.Position;
-					if (x != position.x)
-					{
-						int x2 = facilityPos.x;
-						IntVec3 position2 = thanThisFacility.Position;
-						result = (x2 < position2.x);
-					}
-					else
-					{
-						int z = facilityPos.z;
-						IntVec3 position3 = thanThisFacility.Position;
-						result = (z < position3.z);
-					}
-				}
+				return num < num2;
 			}
-			return result;
+			int x = facilityPos.x;
+			IntVec3 position = thanThisFacility.Position;
+			if (x != position.x)
+			{
+				int x2 = facilityPos.x;
+				IntVec3 position2 = thanThisFacility.Position;
+				return x2 < position2.x;
+			}
+			int z = facilityPos.z;
+			IntVec3 position3 = thanThisFacility.Position;
+			return z < position3.z;
 		}
 
 		public static IEnumerable<Thing> PotentialThingsToLinkTo(ThingDef myDef, IntVec3 myPos, Rot4 myRot, Map map)
@@ -375,49 +344,41 @@ namespace RimWorld
 				Vector3 myTrueCenter = Gen.TrueCenter(myPos, myRot, myDef.size, myDef.Altitude);
 				IOrderedEnumerable<Thing> sortedCandidates = (from x in candidates
 				orderby Vector3.Distance(myTrueCenter, x.TrueCenter())
-				select x).ThenBy((Func<Thing, int>)delegate(Thing x)
+				select x).ThenBy(delegate(Thing x)
 				{
 					IntVec3 position2 = x.Position;
 					return position2.x;
-				}).ThenBy((Func<Thing, int>)delegate(Thing x)
+				}).ThenBy(delegate(Thing x)
 				{
 					IntVec3 position = x.Position;
 					return position.z;
 				});
-				using (IEnumerator<Thing> enumerator = sortedCandidates.GetEnumerator())
+				foreach (Thing item in sortedCandidates)
 				{
-					Thing th;
-					while (true)
+					if (CompAffectedByFacilities.CanPotentiallyLinkTo_Static(item, myDef, myPos, myRot))
 					{
-						if (enumerator.MoveNext())
+						CompProperties_Facility facilityProps = item.def.GetCompProperties<CompProperties_Facility>();
+						if (CompAffectedByFacilities.alreadyReturnedCount.ContainsKey(item.def))
 						{
-							th = enumerator.Current;
-							if (CompAffectedByFacilities.CanPotentiallyLinkTo_Static(th, myDef, myPos, myRot))
-							{
-								CompProperties_Facility facilityProps = th.def.GetCompProperties<CompProperties_Facility>();
-								if (CompAffectedByFacilities.alreadyReturnedCount.ContainsKey(th.def))
-								{
-									if (CompAffectedByFacilities.alreadyReturnedCount[th.def] < facilityProps.maxSimultaneous)
-										break;
-									continue;
-								}
-								CompAffectedByFacilities.alreadyReturnedCount.Add(th.def, 0);
-								break;
-							}
+							if (CompAffectedByFacilities.alreadyReturnedCount[item.def] < facilityProps.maxSimultaneous)
+								goto IL_0232;
 							continue;
 						}
-						yield break;
+						CompAffectedByFacilities.alreadyReturnedCount.Add(item.def, 0);
+						goto IL_0232;
 					}
+					continue;
+					IL_0232:
 					Dictionary<ThingDef, int> dictionary;
 					ThingDef def;
-					(dictionary = CompAffectedByFacilities.alreadyReturnedCount)[def = th.def] = dictionary[def] + 1;
-					yield return th;
+					(dictionary = CompAffectedByFacilities.alreadyReturnedCount)[def = item.def] = dictionary[def] + 1;
+					yield return item;
 					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 			yield break;
-			IL_02b9:
-			/*Error near IL_02ba: Unexpected return in MoveNext()*/;
+			IL_02b1:
+			/*Error near IL_02b2: Unexpected return in MoveNext()*/;
 		}
 
 		public static void DrawLinesToPotentialThingsToLinkTo(ThingDef myDef, IntVec3 myPos, Rot4 myRot, Map map)
@@ -453,32 +414,24 @@ namespace RimWorld
 					num++;
 				}
 			}
-			Thing result;
 			if (num == 0)
 			{
-				result = null;
+				return null;
 			}
-			else
+			CompProperties_Facility compProperties = facilityDef.GetCompProperties<CompProperties_Facility>();
+			if (num + 1 <= compProperties.maxSimultaneous)
 			{
-				CompProperties_Facility compProperties = facilityDef.GetCompProperties<CompProperties_Facility>();
-				if (num + 1 <= compProperties.maxSimultaneous)
+				return null;
+			}
+			Thing thing2 = thing;
+			for (int j = 0; j < this.linkedFacilities.Count; j++)
+			{
+				if (facilityDef == this.linkedFacilities[j].def && this.IsBetter(thing2.def, thing2.Position, thing2.Rotation, this.linkedFacilities[j]))
 				{
-					result = null;
-				}
-				else
-				{
-					Thing thing2 = thing;
-					for (int j = 0; j < this.linkedFacilities.Count; j++)
-					{
-						if (facilityDef == this.linkedFacilities[j].def && this.IsBetter(thing2.def, thing2.Position, thing2.Rotation, this.linkedFacilities[j]))
-						{
-							thing2 = this.linkedFacilities[j];
-						}
-					}
-					result = thing2;
+					thing2 = this.linkedFacilities[j];
 				}
 			}
-			return result;
+			return thing2;
 		}
 
 		public float GetStatOffset(StatDef stat)

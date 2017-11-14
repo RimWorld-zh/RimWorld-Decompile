@@ -6,7 +6,15 @@ namespace RimWorld
 	{
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
-			return (!p.SpawnedOrAnyParentSpawned || !p.MapHeld.gameConditionManager.ConditionIsActive(base.def.gameCondition)) ? ((!Find.World.gameConditionManager.ConditionIsActive(base.def.gameCondition)) ? false : true) : true;
+			if (p.SpawnedOrAnyParentSpawned && p.MapHeld.gameConditionManager.ConditionIsActive(base.def.gameCondition))
+			{
+				return true;
+			}
+			if (Find.World.gameConditionManager.ConditionIsActive(base.def.gameCondition))
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }

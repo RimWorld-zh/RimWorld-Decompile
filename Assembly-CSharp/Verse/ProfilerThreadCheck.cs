@@ -1,6 +1,4 @@
-#define ENABLE_PROFILER
 using System.Diagnostics;
-using UnityEngine.Profiling;
 
 namespace Verse
 {
@@ -9,19 +7,15 @@ namespace Verse
 		[Conditional("UNITY_EDITOR")]
 		public static void BeginSample(string name)
 		{
-			if (UnityData.IsInMainThread)
-			{
-				Profiler.BeginSample(name);
-			}
+			if (!UnityData.IsInMainThread)
+				return;
 		}
 
 		[Conditional("UNITY_EDITOR")]
 		public static void EndSample()
 		{
-			if (UnityData.IsInMainThread)
-			{
-				Profiler.EndSample();
-			}
+			if (!UnityData.IsInMainThread)
+				return;
 		}
 	}
 }

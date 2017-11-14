@@ -2,7 +2,8 @@ namespace Verse.AI.Group
 {
 	public class Trigger_TicksPassedWithoutHarm : Trigger_TicksPassed
 	{
-		public Trigger_TicksPassedWithoutHarm(int tickLimit) : base(tickLimit)
+		public Trigger_TicksPassedWithoutHarm(int tickLimit)
+			: base(tickLimit)
 		{
 		}
 

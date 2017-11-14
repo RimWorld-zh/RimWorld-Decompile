@@ -22,7 +22,7 @@ namespace RimWorld
 				Pawn pawn = base.lord.ownedPawns[i];
 				if (!this.HasFleeingDuty(pawn) || pawn.mindState.duty.def == DutyDefOf.ExitMapRandom)
 				{
-					pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.PanicFlee, (string)null, false, false, null);
+					pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.PanicFlee, null, false, false, null);
 				}
 			}
 		}
@@ -41,7 +41,15 @@ namespace RimWorld
 
 		private bool HasFleeingDuty(Pawn pawn)
 		{
-			return (byte)((pawn.mindState.duty != null) ? ((pawn.mindState.duty.def == DutyDefOf.ExitMapRandom || pawn.mindState.duty.def == DutyDefOf.Steal || pawn.mindState.duty.def == DutyDefOf.Kidnap) ? 1 : 0) : 0) != 0;
+			if (pawn.mindState.duty == null)
+			{
+				return false;
+			}
+			if (pawn.mindState.duty.def != DutyDefOf.ExitMapRandom && pawn.mindState.duty.def != DutyDefOf.Steal && pawn.mindState.duty.def != DutyDefOf.Kidnap)
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

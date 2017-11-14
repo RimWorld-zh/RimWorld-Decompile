@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -35,20 +34,14 @@ namespace RimWorld
 					switch (kind)
 					{
 					case PawnExecutionKind.GenericHumane:
-					{
 						forcedStage = 1;
 						break;
-					}
 					case PawnExecutionKind.GenericBrutal:
-					{
 						forcedStage = 2;
 						break;
-					}
 					case PawnExecutionKind.OrganHarvesting:
-					{
 						forcedStage = 3;
 						break;
-					}
 					}
 				}
 				ThoughtDef def = (!victim.IsColonist) ? ThoughtDefOf.KnowGuestExecuted : ThoughtDefOf.KnowColonistExecuted;
@@ -92,36 +85,28 @@ namespace RimWorld
 
 		public static bool IsSituationalThoughtNullifiedByHediffs(ThoughtDef def, Pawn pawn)
 		{
-			bool result;
 			if (def.IsMemory)
 			{
-				result = false;
+				return false;
 			}
-			else
+			float num = 0f;
+			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
+			for (int i = 0; i < hediffs.Count; i++)
 			{
-				float num = 0f;
-				List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
-				for (int i = 0; i < hediffs.Count; i++)
+				HediffStage curStage = hediffs[i].CurStage;
+				if (curStage != null && curStage.pctConditionalThoughtsNullified > num)
 				{
-					HediffStage curStage = hediffs[i].CurStage;
-					if (curStage != null && curStage.pctConditionalThoughtsNullified > num)
-					{
-						num = curStage.pctConditionalThoughtsNullified;
-					}
-				}
-				if (num == 0.0)
-				{
-					result = false;
-				}
-				else
-				{
-					Rand.PushState();
-					Rand.Seed = pawn.thingIDNumber * 31 + def.index * 139;
-					bool flag = Rand.Value < num;
-					Rand.PopState();
-					result = flag;
+					num = curStage.pctConditionalThoughtsNullified;
 				}
 			}
+			if (num == 0.0)
+			{
+				return false;
+			}
+			Rand.PushState();
+			Rand.Seed = pawn.thingIDNumber * 31 + def.index * 139;
+			bool result = Rand.Value < num;
+			Rand.PopState();
 			return result;
 		}
 
@@ -132,24 +117,20 @@ namespace RimWorld
 				for (int i = 0; i < def.nullifyingOwnTales.Count; i++)
 				{
 					if (Find.TaleManager.GetLatestTale(def.nullifyingOwnTales[i], pawn) != null)
-						goto IL_0031;
+					{
+						return true;
+					}
 				}
 			}
-			bool result = false;
-			goto IL_0056;
-			IL_0031:
-			result = true;
-			goto IL_0056;
-			IL_0056:
-			return result;
+			return false;
 		}
 
 		public static void RemovePositiveBedroomThoughts(Pawn pawn)
 		{
 			if (pawn.needs.mood != null)
 			{
-				pawn.needs.mood.thoughts.memories.RemoveMemoriesOfDefIf(ThoughtDefOf.SleptInBedroom, (Func<Thought_Memory, bool>)((Thought_Memory thought) => thought.MoodOffset() > 0.0));
-				pawn.needs.mood.thoughts.memories.RemoveMemoriesOfDefIf(ThoughtDefOf.SleptInBarracks, (Func<Thought_Memory, bool>)((Thought_Memory thought) => thought.MoodOffset() > 0.0));
+				pawn.needs.mood.thoughts.memories.RemoveMemoriesOfDefIf(ThoughtDefOf.SleptInBedroom, (Thought_Memory thought) => thought.MoodOffset() > 0.0);
+				pawn.needs.mood.thoughts.memories.RemoveMemoriesOfDefIf(ThoughtDefOf.SleptInBarracks, (Thought_Memory thought) => thought.MoodOffset() > 0.0);
 			}
 		}
 

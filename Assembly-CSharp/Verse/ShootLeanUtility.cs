@@ -8,7 +8,11 @@ namespace Verse
 
 		private static bool[] GetWorkingBlockedArray()
 		{
-			return (ShootLeanUtility.blockedArrays.Count <= 0) ? new bool[8] : ShootLeanUtility.blockedArrays.Dequeue();
+			if (ShootLeanUtility.blockedArrays.Count > 0)
+			{
+				return ShootLeanUtility.blockedArrays.Dequeue();
+			}
+			return new bool[8];
 		}
 
 		private static void ReturnWorkingBlockedArray(bool[] ar)
@@ -37,44 +41,44 @@ namespace Verse
 			{
 				if (workingBlockedArray[0] && !workingBlockedArray[5] && flag)
 				{
-					goto IL_00d7;
+					goto IL_00d3;
 				}
 				if (workingBlockedArray[2] && !workingBlockedArray[4] && flag2)
-					goto IL_00d7;
+					goto IL_00d3;
 			}
-			goto IL_00ec;
-			IL_013b:
+			goto IL_00e7;
+			IL_0134:
 			if (!workingBlockedArray[2])
 			{
 				if (workingBlockedArray[3] && !workingBlockedArray[7] && flag3)
 				{
-					goto IL_0177;
+					goto IL_016f;
 				}
 				if (workingBlockedArray[1] && !workingBlockedArray[4] && flag4)
-					goto IL_0177;
+					goto IL_016f;
 			}
-			goto IL_018c;
-			IL_0177:
+			goto IL_0183;
+			IL_016f:
 			listToFill.Add(shooterLoc + new IntVec3(0, 0, -1));
-			goto IL_018c;
-			IL_0126:
+			goto IL_0183;
+			IL_0120:
 			listToFill.Add(shooterLoc + new IntVec3(-1, 0, 0));
-			goto IL_013b;
-			IL_01c8:
+			goto IL_0134;
+			IL_01be:
 			listToFill.Add(shooterLoc + new IntVec3(0, 0, 1));
-			goto IL_01dd;
-			IL_018c:
+			goto IL_01d2;
+			IL_0183:
 			if (!workingBlockedArray[0])
 			{
 				if (workingBlockedArray[3] && !workingBlockedArray[6] && flag3)
 				{
-					goto IL_01c8;
+					goto IL_01be;
 				}
 				if (workingBlockedArray[1] && !workingBlockedArray[5] && flag4)
-					goto IL_01c8;
+					goto IL_01be;
 			}
-			goto IL_01dd;
-			IL_01dd:
+			goto IL_01d2;
+			IL_01d2:
 			for (int j = 0; j < 4; j++)
 			{
 				if (!workingBlockedArray[j] && (j != 0 || flag) && (j != 1 || flag4) && (j != 2 || flag2) && (j != 3 || flag3) && (shooterLoc + GenAdj.AdjacentCells[j]).GetCover(map) != null)
@@ -84,20 +88,20 @@ namespace Verse
 			}
 			ShootLeanUtility.ReturnWorkingBlockedArray(workingBlockedArray);
 			return;
-			IL_00d7:
+			IL_00d3:
 			listToFill.Add(shooterLoc + new IntVec3(1, 0, 0));
-			goto IL_00ec;
-			IL_00ec:
+			goto IL_00e7;
+			IL_00e7:
 			if (!workingBlockedArray[3])
 			{
 				if (workingBlockedArray[0] && !workingBlockedArray[6] && flag)
 				{
-					goto IL_0126;
+					goto IL_0120;
 				}
 				if (workingBlockedArray[2] && !workingBlockedArray[7] && flag2)
-					goto IL_0126;
+					goto IL_0120;
 			}
-			goto IL_013b;
+			goto IL_0134;
 		}
 
 		public static void CalcShootableCellsOf(List<IntVec3> outCells, Thing t)

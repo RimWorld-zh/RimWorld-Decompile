@@ -82,25 +82,20 @@ namespace RimWorld
 
 		public virtual int GetMinWidth(PawnTable table)
 		{
-			int result;
 			if (!this.def.label.NullOrEmpty())
 			{
 				Text.Font = this.DefaultHeaderFont;
 				Vector2 vector = Text.CalcSize(this.def.LabelCap);
-				int num = Mathf.CeilToInt(vector.x);
+				int result = Mathf.CeilToInt(vector.x);
 				Text.Font = GameFont.Small;
-				result = num;
+				return result;
 			}
-			else if ((Object)this.def.HeaderIcon != (Object)null)
+			if ((Object)this.def.HeaderIcon != (Object)null)
 			{
 				Vector2 headerIconSize = this.def.HeaderIconSize;
-				result = Mathf.CeilToInt(headerIconSize.x);
+				return Mathf.CeilToInt(headerIconSize.x);
 			}
-			else
-			{
-				result = 1;
-			}
-			return result;
+			return 1;
 		}
 
 		public virtual int GetMaxWidth(PawnTable table)
@@ -120,25 +115,20 @@ namespace RimWorld
 
 		public virtual int GetMinHeaderHeight(PawnTable table)
 		{
-			int result;
 			if (!this.def.label.NullOrEmpty())
 			{
 				Text.Font = this.DefaultHeaderFont;
 				Vector2 vector = Text.CalcSize(this.def.LabelCap);
-				int num = Mathf.CeilToInt(vector.y);
+				int result = Mathf.CeilToInt(vector.y);
 				Text.Font = GameFont.Small;
-				result = num;
+				return result;
 			}
-			else if ((Object)this.def.HeaderIcon != (Object)null)
+			if ((Object)this.def.HeaderIcon != (Object)null)
 			{
 				Vector2 headerIconSize = this.def.HeaderIconSize;
-				result = Mathf.CeilToInt(headerIconSize.y);
+				return Mathf.CeilToInt(headerIconSize.y);
 			}
-			else
-			{
-				result = 0;
-			}
-			return result;
+			return 0;
 		}
 
 		public virtual int Compare(Pawn a, Pawn b)

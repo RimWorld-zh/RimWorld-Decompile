@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -52,7 +51,7 @@ namespace RimWorld
 				select t)
 				{
 					ThingDef localTd = item;
-					list.Add(new FloatMenuOption(localTd.LabelCap, (Action)delegate
+					list.Add(new FloatMenuOption(localTd.LabelCap, delegate
 					{
 						this.building = localTd;
 					}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -64,7 +63,11 @@ namespace RimWorld
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_DisallowBuilding scenPart_DisallowBuilding = other as ScenPart_DisallowBuilding;
-			return (byte)((scenPart_DisallowBuilding != null && scenPart_DisallowBuilding.building == this.building) ? 1 : 0) != 0;
+			if (scenPart_DisallowBuilding != null && scenPart_DisallowBuilding.building == this.building)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		protected virtual IEnumerable<ThingDef> PossibleBuildingDefs()

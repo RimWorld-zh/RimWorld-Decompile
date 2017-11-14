@@ -11,9 +11,9 @@ namespace RimWorld
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine(base.GetExplanationFinalizePart(req, numberSense, finalVal));
 			stringBuilder.AppendLine();
-			for (int num = 5; num <= 45; num += 5)
+			for (int i = 5; i <= 45; i += 5)
 			{
-				stringBuilder.AppendLine("distance".Translate().CapitalizeFirst() + " " + num.ToString() + ": " + Mathf.Pow(finalVal, (float)num).ToStringPercent());
+				stringBuilder.AppendLine("distance".Translate().CapitalizeFirst() + " " + i.ToString() + ": " + Mathf.Pow(finalVal, (float)i).ToStringPercent());
 			}
 			return stringBuilder.ToString();
 		}

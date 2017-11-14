@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -32,8 +31,8 @@ namespace Verse
 					}
 				}
 				yield break;
-				IL_00d0:
-				/*Error near IL_00d1: Unexpected return in MoveNext()*/;
+				IL_00ce:
+				/*Error near IL_00cf: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -58,22 +57,22 @@ namespace Verse
 			}
 			else
 			{
-				this.rect.xMin = curve.AllPoints.Select((Func<CurvePoint, float>)delegate(CurvePoint pt)
+				this.rect.xMin = curve.AllPoints.Select(delegate(CurvePoint pt)
 				{
 					Vector2 loc4 = pt.Loc;
 					return loc4.x;
 				}).Min();
-				this.rect.xMax = curve.AllPoints.Select((Func<CurvePoint, float>)delegate(CurvePoint pt)
+				this.rect.xMax = curve.AllPoints.Select(delegate(CurvePoint pt)
 				{
 					Vector2 loc3 = pt.Loc;
 					return loc3.x;
 				}).Max();
-				this.rect.yMin = curve.AllPoints.Select((Func<CurvePoint, float>)delegate(CurvePoint pt)
+				this.rect.yMin = curve.AllPoints.Select(delegate(CurvePoint pt)
 				{
 					Vector2 loc2 = pt.Loc;
 					return loc2.y;
 				}).Min();
-				this.rect.yMax = curve.AllPoints.Select((Func<CurvePoint, float>)delegate(CurvePoint pt)
+				this.rect.yMax = curve.AllPoints.Select(delegate(CurvePoint pt)
 				{
 					Vector2 loc = pt.Loc;
 					return loc.y;

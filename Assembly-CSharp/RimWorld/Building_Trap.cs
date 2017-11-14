@@ -76,41 +76,56 @@ namespace RimWorld
 				this.Spring(p);
 				if (p.Faction != Faction.OfPlayer && p.HostFaction != Faction.OfPlayer)
 					return;
-				Find.LetterStack.ReceiveLetter("LetterFriendlyTrapSprungLabel".Translate(p.NameStringShort), "LetterFriendlyTrapSprung".Translate(p.NameStringShort), LetterDefOf.NegativeEvent, new TargetInfo(base.Position, base.Map, false), (string)null);
+				Find.LetterStack.ReceiveLetter("LetterFriendlyTrapSprungLabel".Translate(p.NameStringShort), "LetterFriendlyTrapSprung".Translate(p.NameStringShort), LetterDefOf.NegativeEvent, new TargetInfo(base.Position, base.Map, false), null);
 			}
 		}
 
 		public bool KnowsOfTrap(Pawn p)
 		{
-			bool result;
 			if (p.Faction != null && !p.Faction.HostileTo(base.Faction))
 			{
-				result = true;
+				return true;
 			}
-			else if (p.Faction == null && p.RaceProps.Animal && !p.InAggroMentalState)
+			if (p.Faction == null && p.RaceProps.Animal && !p.InAggroMentalState)
 			{
-				result = true;
+				return true;
 			}
-			else if (p.guest != null && p.guest.Released)
+			if (p.guest != null && p.guest.Released)
 			{
-				result = true;
+				return true;
 			}
-			else
+			Lord lord = p.GetLord();
+			if (p.RaceProps.Humanlike && lord != null && lord.LordJob is LordJob_FormAndSendCaravan)
 			{
-				Lord lord = p.GetLord();
-				result = ((byte)((p.RaceProps.Humanlike && lord != null && lord.LordJob is LordJob_FormAndSendCaravan) ? 1 : 0) != 0);
+				return true;
 			}
-			return result;
+			return false;
 		}
 
 		public override ushort PathFindCostFor(Pawn p)
 		{
-			return (ushort)(this.Armed ? (this.KnowsOfTrap(p) ? 800 : 0) : 0);
+			if (!this.Armed)
+			{
+				return 0;
+			}
+			if (this.KnowsOfTrap(p))
+			{
+				return 800;
+			}
+			return 0;
 		}
 
 		public override ushort PathWalkCostFor(Pawn p)
 		{
-			return (ushort)(this.Armed ? (this.KnowsOfTrap(p) ? 30 : 0) : 0);
+			if (!this.Armed)
+			{
+				return 0;
+			}
+			if (this.KnowsOfTrap(p))
+			{
+				return 30;
+			}
+			return 0;
 		}
 
 		public override bool IsDangerousFor(Pawn p)
@@ -125,7 +140,11 @@ namespace RimWorld
 			{
 				text += "\n";
 			}
-			return (!this.Armed) ? (text + "TrapNotArmed".Translate()) : (text + "TrapArmed".Translate());
+			if (this.Armed)
+			{
+				return text + "TrapArmed".Translate();
+			}
+			return text + "TrapNotArmed".Translate();
 		}
 
 		public void Spring(Pawn p)

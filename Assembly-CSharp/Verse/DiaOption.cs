@@ -15,13 +15,13 @@ namespace Verse
 
 		public Func<DiaNode> linkLateBind;
 
-		public bool resolveTree = false;
+		public bool resolveTree;
 
 		public Action action;
 
-		public bool disabled = false;
+		public bool disabled;
 
-		public string disabledReason = (string)null;
+		public string disabledReason;
 
 		public SoundDef clickSound = SoundDefOf.PageChange;
 
@@ -101,11 +101,11 @@ namespace Verse
 			{
 				this.OwningDialog.Close(true);
 			}
-			if ((object)this.action != null)
+			if (this.action != null)
 			{
 				this.action();
 			}
-			if ((object)this.linkLateBind != null)
+			if (this.linkLateBind != null)
 			{
 				this.OwningDialog.GotoNode(this.linkLateBind());
 			}

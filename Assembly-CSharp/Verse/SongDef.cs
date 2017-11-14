@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,11 +15,11 @@ namespace Verse
 
 		public float commonality = 1f;
 
-		public bool tense = false;
+		public bool tense;
 
 		public TimeOfDay allowedTimeOfDay = TimeOfDay.Any;
 
-		public List<Season> allowedSeasons = null;
+		public List<Season> allowedSeasons;
 
 		[Unsaved]
 		public AudioClip clip;
@@ -38,7 +37,7 @@ namespace Verse
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
-			LongEventHandler.ExecuteWhenFinished((Action)delegate
+			LongEventHandler.ExecuteWhenFinished(delegate
 			{
 				this.clip = ContentFinder<AudioClip>.Get(this.clipPath, true);
 			});

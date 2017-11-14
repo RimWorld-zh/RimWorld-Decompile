@@ -50,7 +50,7 @@ namespace Verse
 
 		protected void DebugToolMapForPawns(string label, Action<Pawn> pawnAction)
 		{
-			this.DebugToolMap(label, (Action)delegate()
+			this.DebugToolMap(label, delegate
 			{
 				if (UI.MouseCell().InBounds(Find.VisibleMap))
 				{
@@ -101,6 +101,7 @@ namespace Verse
 
 		protected void DoLabel(string label)
 		{
+			Text.Font = GameFont.Small;
 			base.listing.Label(label, -1f);
 			base.totalOptionsHeight += (float)(Text.CalcHeight(label, 300f) + 2.0);
 		}

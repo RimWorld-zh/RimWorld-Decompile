@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld.Planet
@@ -36,7 +35,7 @@ namespace RimWorld.Planet
 		{
 			if (!this.settlement.HasMap)
 			{
-				LongEventHandler.QueueLongEvent((Action)delegate()
+				LongEventHandler.QueueLongEvent(delegate
 				{
 					this.DoArrivalAction(caravan);
 				}, "GeneratingMapForNewEncounter", false, null);
@@ -62,11 +61,11 @@ namespace RimWorld.Planet
 			if (!this.settlement.Faction.HostileTo(Faction.OfPlayer))
 			{
 				this.settlement.Faction.SetHostileTo(Faction.OfPlayer, true);
-				Find.LetterStack.ReceiveLetter("LetterLabelCaravanEnteredEnemyBase".Translate(), "LetterCaravanEnteredEnemyBaseBecameHostile".Translate(caravan.Label, this.settlement.Label, this.settlement.Faction.Name).CapitalizeFirst(), LetterDefOf.NeutralEvent, (Thing)t, (string)null);
+				Find.LetterStack.ReceiveLetter("LetterLabelCaravanEnteredEnemyBase".Translate(), "LetterCaravanEnteredEnemyBaseBecameHostile".Translate(caravan.Label, this.settlement.Label, this.settlement.Faction.Name).CapitalizeFirst(), LetterDefOf.NeutralEvent, t, null);
 			}
 			else
 			{
-				Find.LetterStack.ReceiveLetter("LetterLabelCaravanEnteredEnemyBase".Translate(), "LetterCaravanEnteredEnemyBase".Translate(caravan.Label, this.settlement.Label).CapitalizeFirst(), LetterDefOf.NeutralEvent, (Thing)t, (string)null);
+				Find.LetterStack.ReceiveLetter("LetterLabelCaravanEnteredEnemyBase".Translate(), "LetterCaravanEnteredEnemyBase".Translate(caravan.Label, this.settlement.Label).CapitalizeFirst(), LetterDefOf.NeutralEvent, t, null);
 			}
 		}
 	}

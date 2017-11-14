@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -29,22 +28,17 @@ namespace RimWorld
 
 		public override bool SelectedUseOption(Pawn p)
 		{
-			bool result;
 			if (this.PlayerChoosesTarget)
 			{
-				Find.Targeter.BeginTargeting(this.GetTargetingParameters(), (Action<LocalTargetInfo>)delegate(LocalTargetInfo t)
+				Find.Targeter.BeginTargeting(this.GetTargetingParameters(), delegate(LocalTargetInfo t)
 				{
 					this.target = t.Thing;
 					base.parent.GetComp<CompUsable>().TryStartUseJob(p);
 				}, p, null, null);
-				result = true;
+				return true;
 			}
-			else
-			{
-				this.target = null;
-				result = false;
-			}
-			return result;
+			this.target = null;
+			return false;
 		}
 
 		public override void DoEffect(Pawn usedBy)
@@ -70,14 +64,12 @@ namespace RimWorld
 
 		public bool BaseTargetValidator(Thing t)
 		{
-			bool result;
 			if (this.Props.psychicSensitiveTargetsOnly)
 			{
 				Pawn pawn = t as Pawn;
 				if (pawn != null && pawn.GetStatValue(StatDefOf.PsychicSensitivity, true) <= 0.0)
 				{
-					result = false;
-					goto IL_007f;
+					return false;
 				}
 			}
 			if (this.Props.fleshCorpsesOnly)
@@ -85,14 +77,18 @@ namespace RimWorld
 				Corpse corpse = t as Corpse;
 				if (corpse != null && !corpse.InnerPawn.RaceProps.IsFlesh)
 				{
-					result = false;
-					goto IL_007f;
+					return false;
 				}
 			}
-			result = true;
-			goto IL_007f;
-			IL_007f:
-			return result;
+			if (this.Props.nonDessicatedCorpsesOnly)
+			{
+				Corpse corpse2 = t as Corpse;
+				if (corpse2 != null && corpse2.GetRotStage() == RotStage.Dessicated)
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 	}
 }

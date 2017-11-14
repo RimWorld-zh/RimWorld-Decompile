@@ -4,7 +4,7 @@ namespace Verse
 {
 	public class HediffComp_VerbGiver : HediffComp, IVerbOwner
 	{
-		public VerbTracker verbTracker = null;
+		public VerbTracker verbTracker;
 
 		public HediffCompProperties_VerbGiver Props
 		{

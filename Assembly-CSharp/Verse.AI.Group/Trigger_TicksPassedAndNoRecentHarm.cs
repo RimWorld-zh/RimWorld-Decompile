@@ -4,13 +4,18 @@ namespace Verse.AI.Group
 	{
 		private const int MinTicksSinceDamage = 300;
 
-		public Trigger_TicksPassedAndNoRecentHarm(int tickLimit) : base(tickLimit)
+		public Trigger_TicksPassedAndNoRecentHarm(int tickLimit)
+			: base(tickLimit)
 		{
 		}
 
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
-			return (byte)((base.ActivateOn(lord, signal) && Find.TickManager.TicksGame - lord.lastPawnHarmTick >= 300) ? 1 : 0) != 0;
+			if (base.ActivateOn(lord, signal) && Find.TickManager.TicksGame - lord.lastPawnHarmTick >= 300)
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }

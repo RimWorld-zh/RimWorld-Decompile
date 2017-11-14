@@ -42,18 +42,14 @@ namespace RimWorld
 			switch (Rand.RangeInclusive(0, 2))
 			{
 			case 0:
-			{
 				signalAction_Ambush.manhunters = true;
 				break;
-			}
 			case 1:
-			{
 				if (PawnGroupMakerUtility.CanGenerateAnyNormalGroup(Faction.OfMechanoids, signalAction_Ambush.points))
 				{
 					signalAction_Ambush.mechanoids = true;
 				}
 				break;
-			}
 			}
 			return signalAction_Ambush;
 		}

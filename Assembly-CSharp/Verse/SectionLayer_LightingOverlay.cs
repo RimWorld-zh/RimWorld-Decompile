@@ -29,7 +29,8 @@ namespace Verse
 			}
 		}
 
-		public SectionLayer_LightingOverlay(Section section) : base(section)
+		public SectionLayer_LightingOverlay(Section section)
+			: base(section)
 		{
 			base.relevantChangeTypes = MapMeshFlag.GroundGlow;
 		}
@@ -132,33 +133,33 @@ namespace Verse
 					}
 					else
 					{
-						array[num] = new Color32((byte)0, (byte)0, (byte)0, (byte)0);
+						array[num] = new Color32(0, 0, 0, 0);
 					}
 					if (flag && array[num].a < 100)
 					{
-						array[num].a = (byte)100;
+						array[num].a = 100;
 					}
 				}
 			}
-			for (int num7 = this.sectRect.minX; num7 <= maxX; num7++)
+			for (int l = this.sectRect.minX; l <= maxX; l++)
 			{
-				for (int num8 = this.sectRect.minZ; num8 <= maxZ; num8++)
+				for (int m = this.sectRect.minZ; m <= maxZ; m++)
 				{
+					int num7 = default(int);
+					int num8 = default(int);
 					int num9 = default(int);
 					int num10 = default(int);
 					int num11 = default(int);
-					int num12 = default(int);
-					int num13 = default(int);
-					this.CalculateVertexIndices(num7, num8, out num9, out num10, out num11, out num12, out num13);
-					ColorInt colA = default(ColorInt) + array[num9];
+					this.CalculateVertexIndices(l, m, out num7, out num8, out num9, out num10, out num11);
+					ColorInt colA = default(ColorInt) + array[num7];
+					colA += array[num8];
+					colA += array[num9];
 					colA += array[num10];
-					colA += array[num11];
-					colA += array[num12];
-					array[num13] = (colA / 4f).ToColor32;
-					Thing thing = innerArray[cellIndices.CellToIndex(num7, num8)];
-					if (roofGrid.Roofed(num7, num8) && (thing == null || !thing.def.holdsRoof) && array[num13].a < 100)
+					array[num11] = (colA / 4f).ToColor32;
+					Thing thing = innerArray[cellIndices.CellToIndex(l, m)];
+					if (roofGrid.Roofed(l, m) && (thing == null || !thing.def.holdsRoof) && array[num11].a < 100)
 					{
-						array[num13].a = (byte)100;
+						array[num11].a = 100;
 					}
 				}
 			}

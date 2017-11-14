@@ -11,13 +11,13 @@ namespace RimWorld
 
 		public Action powerStoppedAction;
 
-		private bool powerOnInt = false;
+		private bool powerOnInt;
 
-		public float powerOutputInt = 0f;
+		public float powerOutputInt;
 
-		private bool powerLastOutputted = false;
+		private bool powerLastOutputted;
 
-		private Sustainer sustainerPowered = null;
+		private Sustainer sustainerPowered;
 
 		protected CompFlickable flickableComp;
 
@@ -76,7 +76,7 @@ namespace RimWorld
 						}
 						else
 						{
-							if ((object)this.powerStartedAction != null)
+							if (this.powerStartedAction != null)
 							{
 								this.powerStartedAction();
 							}
@@ -92,7 +92,7 @@ namespace RimWorld
 					}
 					else
 					{
-						if ((object)this.powerStoppedAction != null)
+						if (this.powerStoppedAction != null)
 						{
 							this.powerStoppedAction();
 						}
@@ -209,7 +209,7 @@ namespace RimWorld
 			CompProperties_Power props = base.Props;
 			if (!props.soundAmbientPowered.NullOrUndefined() && this.sustainerPowered == null)
 			{
-				SoundInfo info = SoundInfo.InMap((Thing)base.parent, MaintenanceType.None);
+				SoundInfo info = SoundInfo.InMap(base.parent, MaintenanceType.None);
 				this.sustainerPowered = props.soundAmbientPowered.TrySpawnSustainer(info);
 			}
 		}

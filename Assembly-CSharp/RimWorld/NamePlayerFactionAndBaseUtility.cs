@@ -2,6 +2,7 @@ using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 
@@ -14,6 +15,9 @@ namespace RimWorld
 		private const float MinDaysPassedToNameFactionBase = 3f;
 
 		private const int SoonTicks = 30000;
+
+		[CompilerGenerated]
+		private static Func<IAttackTarget, bool> _003C_003Ef__mg_0024cache0;
 
 		public static bool CanNameFactionNow()
 		{
@@ -42,17 +46,12 @@ namespace RimWorld
 
 		private static bool CanNameFactionBase(FactionBase factionBase, int ticksPassed)
 		{
-			return ((factionBase.Faction == Faction.OfPlayer) ? ((!factionBase.namedByPlayer) ? (((float)ticksPassed / 60000.0 >= 3.0) ? (factionBase.HasMap ? ((factionBase.Map.dangerWatcher.DangerRating != StoryDanger.High) ? factionBase.Map.mapPawns.FreeColonistsSpawnedCount : 0) : 0) : 0) : 0) : 0) != 0 && NamePlayerFactionAndBaseUtility.CanNameAnythingNow();
+			return factionBase.Faction == Faction.OfPlayer && !factionBase.namedByPlayer && (float)ticksPassed / 60000.0 >= 3.0 && factionBase.HasMap && factionBase.Map.dangerWatcher.DangerRating != StoryDanger.High && factionBase.Map.mapPawns.FreeColonistsSpawnedCount != 0 && NamePlayerFactionAndBaseUtility.CanNameAnythingNow();
 		}
 
 		private static bool CanNameAnythingNow()
 		{
-			bool result;
-			if (Find.AnyPlayerHomeMap == null || Find.VisibleMap == null || !Find.VisibleMap.IsPlayerHome || Find.GameEnder.gameEnding)
-			{
-				result = false;
-			}
-			else
+			if (Find.AnyPlayerHomeMap != null && Find.VisibleMap != null && Find.VisibleMap.IsPlayerHome && !Find.GameEnder.gameEnding)
 			{
 				bool flag = false;
 				bool flag2 = false;
@@ -65,15 +64,19 @@ namespace RimWorld
 						{
 							flag = true;
 						}
-						if (!maps[i].attackTargetsCache.TargetsHostileToColony.Any((Func<IAttackTarget, bool>)((IAttackTarget x) => GenHostility.IsActiveThreatToPlayer(x))))
+						if (!maps[i].attackTargetsCache.TargetsHostileToColony.Any(GenHostility.IsActiveThreatToPlayer))
 						{
 							flag2 = true;
 						}
 					}
 				}
-				result = ((byte)((flag && flag2) ? 1 : 0) != 0);
+				if (flag && flag2)
+				{
+					return true;
+				}
+				return false;
 			}
-			return result;
+			return false;
 		}
 	}
 }

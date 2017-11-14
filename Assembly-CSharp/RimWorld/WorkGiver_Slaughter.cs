@@ -26,48 +26,40 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_00d6:
-			/*Error near IL_00d7: Unexpected return in MoveNext()*/;
+			IL_00d2:
+			/*Error near IL_00d3: Unexpected return in MoveNext()*/;
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;
-			bool result;
-			if (pawn2 == null || !pawn2.RaceProps.Animal)
+			if (pawn2 != null && pawn2.RaceProps.Animal)
 			{
-				result = false;
-			}
-			else if (pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Slaughter) == null)
-			{
-				result = false;
-			}
-			else if (pawn.Faction != t.Faction)
-			{
-				result = false;
-			}
-			else if (pawn2.InAggroMentalState)
-			{
-				result = false;
-			}
-			else
-			{
+				if (pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Slaughter) == null)
+				{
+					return false;
+				}
+				if (pawn.Faction != t.Faction)
+				{
+					return false;
+				}
+				if (pawn2.InAggroMentalState)
+				{
+					return false;
+				}
 				LocalTargetInfo target = t;
 				if (!pawn.CanReserve(target, 1, -1, null, forced))
 				{
-					result = false;
+					return false;
 				}
-				else if (pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
+				if (pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
 				{
 					JobFailReason.Is("IsIncapableOfViolenceShort".Translate());
-					result = false;
+					return false;
 				}
-				else
-				{
-					result = true;
-				}
+				return true;
 			}
-			return result;
+			return false;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

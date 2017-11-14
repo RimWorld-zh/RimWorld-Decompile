@@ -23,7 +23,7 @@ namespace RimWorld
 
 		private float factorLegendary = 1f;
 
-		private bool alsoAppliesToNegativeValues = false;
+		private bool alsoAppliesToNegativeValues;
 
 		public override void TransformValue(StatRequest req, ref float val)
 		{
@@ -34,66 +34,43 @@ namespace RimWorld
 
 		public override string ExplanationPart(StatRequest req)
 		{
+			if (req.HasThing && !this.alsoAppliesToNegativeValues && req.Thing.GetStatValue(base.parentStat, true) <= 0.0)
+			{
+				return null;
+			}
 			QualityCategory qc = default(QualityCategory);
-			return (!req.HasThing || this.alsoAppliesToNegativeValues || !(req.Thing.GetStatValue(base.parentStat, true) <= 0.0)) ? ((!req.HasThing || !req.Thing.TryGetQuality(out qc)) ? null : ("StatsReport_QualityMultiplier".Translate() + ": x" + this.QualityMultiplier(qc).ToStringPercent())) : null;
+			if (req.HasThing && req.Thing.TryGetQuality(out qc))
+			{
+				return "StatsReport_QualityMultiplier".Translate() + ": x" + this.QualityMultiplier(qc).ToStringPercent();
+			}
+			return null;
 		}
 
 		private float QualityMultiplier(QualityCategory qc)
 		{
-			float result;
 			switch (qc)
 			{
 			case QualityCategory.Awful:
-			{
-				result = this.factorAwful;
-				break;
-			}
+				return this.factorAwful;
 			case QualityCategory.Shoddy:
-			{
-				result = this.factorShoddy;
-				break;
-			}
+				return this.factorShoddy;
 			case QualityCategory.Poor:
-			{
-				result = this.factorPoor;
-				break;
-			}
+				return this.factorPoor;
 			case QualityCategory.Normal:
-			{
-				result = this.factorNormal;
-				break;
-			}
+				return this.factorNormal;
 			case QualityCategory.Good:
-			{
-				result = this.factorGood;
-				break;
-			}
+				return this.factorGood;
 			case QualityCategory.Superior:
-			{
-				result = this.factorSuperior;
-				break;
-			}
+				return this.factorSuperior;
 			case QualityCategory.Excellent:
-			{
-				result = this.factorExcellent;
-				break;
-			}
+				return this.factorExcellent;
 			case QualityCategory.Masterwork:
-			{
-				result = this.factorMasterwork;
-				break;
-			}
+				return this.factorMasterwork;
 			case QualityCategory.Legendary:
-			{
-				result = this.factorLegendary;
-				break;
-			}
+				return this.factorLegendary;
 			default:
-			{
 				throw new ArgumentOutOfRangeException();
 			}
-			}
-			return result;
 		}
 	}
 }

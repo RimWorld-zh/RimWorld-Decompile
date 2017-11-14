@@ -13,9 +13,9 @@ namespace RimWorld
 
 		protected override void DoFileInteraction(string saveFileName)
 		{
-			PreLoadUtility.CheckVersionAndLoad(GenFilePaths.FilePathForSavedGame(saveFileName), ScribeMetaHeaderUtility.ScribeHeaderMode.Map, (Action)delegate()
+			PreLoadUtility.CheckVersionAndLoad(GenFilePaths.FilePathForSavedGame(saveFileName), ScribeMetaHeaderUtility.ScribeHeaderMode.Map, delegate
 			{
-				Action preLoadLevelAction = (Action)delegate()
+				Action preLoadLevelAction = delegate
 				{
 					MemoryUtility.ClearAllMapsAndWorld();
 					Current.Game = new Game();

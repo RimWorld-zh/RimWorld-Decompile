@@ -59,7 +59,7 @@ namespace RimWorld
 			Widgets.CheckboxLabeled(rect, "ManualPriorities".Translate(), ref Current.Game.playSettings.useWorkPriorities, false);
 			if (useWorkPriorities != Current.Game.playSettings.useWorkPriorities)
 			{
-				foreach (Pawn item in PawnsFinder.AllMapsAndWorld_Alive)
+				foreach (Pawn item in PawnsFinder.AllMapsWorldAndTemporary_Alive)
 				{
 					if (item.Faction == Faction.OfPlayer && item.workSettings != null)
 					{

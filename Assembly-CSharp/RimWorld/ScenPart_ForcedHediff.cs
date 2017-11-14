@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -25,18 +24,22 @@ namespace RimWorld
 			Rect scenPartRect = listing.GetScenPartRect(this, (float)(ScenPart.RowHeight * 3.0 + 31.0));
 			if (Widgets.ButtonText(scenPartRect.TopPartPixels(ScenPart.RowHeight), this.hediff.LabelCap, true, false, true))
 			{
-				FloatMenuUtility.MakeMenu(this.PossibleHediffs(), (Func<HediffDef, string>)((HediffDef hd) => hd.LabelCap), (Func<HediffDef, Action>)((HediffDef hd) => (Action)delegate()
+				FloatMenuUtility.MakeMenu(this.PossibleHediffs(), (HediffDef hd) => hd.LabelCap, delegate(HediffDef hd)
 				{
-					this.hediff = hd;
-					if (this.severityRange.max > this.MaxSeverity)
+					ScenPart_ForcedHediff scenPart_ForcedHediff = this;
+					return delegate
 					{
-						this.severityRange.max = this.MaxSeverity;
-					}
-					if (this.severityRange.min > this.MaxSeverity)
-					{
-						this.severityRange.min = this.MaxSeverity;
-					}
-				}));
+						scenPart_ForcedHediff.hediff = hd;
+						if (scenPart_ForcedHediff.severityRange.max > scenPart_ForcedHediff.MaxSeverity)
+						{
+							scenPart_ForcedHediff.severityRange.max = scenPart_ForcedHediff.MaxSeverity;
+						}
+						if (scenPart_ForcedHediff.severityRange.min > scenPart_ForcedHediff.MaxSeverity)
+						{
+							scenPart_ForcedHediff.severityRange.min = scenPart_ForcedHediff.MaxSeverity;
+						}
+					};
+				});
 			}
 			Widgets.FloatRange(new Rect(scenPartRect.x, scenPartRect.y + ScenPart.RowHeight, scenPartRect.width, 31f), listing.CurHeight.GetHashCode(), ref this.severityRange, 0f, this.MaxSeverity, "ConfigurableSeverity", ToStringStyle.FloatTwo);
 			base.DoPawnModifierEditInterface(scenPartRect.BottomPartPixels((float)(ScenPart.RowHeight * 2.0)));
@@ -72,17 +75,12 @@ namespace RimWorld
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_ForcedHediff scenPart_ForcedHediff = other as ScenPart_ForcedHediff;
-			bool result;
 			if (scenPart_ForcedHediff != null && this.hediff == scenPart_ForcedHediff.hediff)
 			{
 				base.chance = GenMath.ChanceEitherHappens(base.chance, scenPart_ForcedHediff.chance);
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		protected override void ModifyPawn(Pawn p)
@@ -91,7 +89,7 @@ namespace RimWorld
 			{
 				Hediff hediff = HediffMaker.MakeHediff(this.hediff, p, null);
 				hediff.Severity = this.severityRange.RandomInRange;
-				p.health.AddHediff(hediff, null, default(DamageInfo?));
+				p.health.AddHediff(hediff, null, null);
 			}
 		}
 	}

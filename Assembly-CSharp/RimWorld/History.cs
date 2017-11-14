@@ -14,10 +14,8 @@ namespace RimWorld
 			this.autoRecorderGroups = new List<HistoryAutoRecorderGroup>();
 			foreach (HistoryAutoRecorderGroupDef allDef in DefDatabase<HistoryAutoRecorderGroupDef>.AllDefs)
 			{
-				HistoryAutoRecorderGroup historyAutoRecorderGroup = new HistoryAutoRecorderGroup
-				{
-					def = allDef
-				};
+				HistoryAutoRecorderGroup historyAutoRecorderGroup = new HistoryAutoRecorderGroup();
+				historyAutoRecorderGroup.def = allDef;
 				historyAutoRecorderGroup.CreateRecorders();
 				this.autoRecorderGroups.Add(historyAutoRecorderGroup);
 			}

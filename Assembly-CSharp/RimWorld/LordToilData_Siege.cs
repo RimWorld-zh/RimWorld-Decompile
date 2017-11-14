@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI.Group;
@@ -25,7 +24,7 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.desiredBuilderFraction, "desiredBuilderFraction", 0.5f, false);
 			if (Scribe.mode == LoadSaveMode.Saving)
 			{
-				this.blueprints.RemoveAll((Predicate<Blueprint>)((Blueprint blue) => blue.Destroyed));
+				this.blueprints.RemoveAll((Blueprint blue) => blue.Destroyed);
 			}
 			Scribe_Collections.Look<Blueprint>(ref this.blueprints, "blueprints", LookMode.Reference, new object[0]);
 		}

@@ -1,10 +1,8 @@
-#define ENABLE_PROFILER
 using RimWorld;
 using RimWorld.Planet;
 using System;
 using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 namespace Verse
 {
@@ -24,27 +22,27 @@ namespace Verse
 			this.musicManagerPlay = new MusicManagerPlay();
 			if (Find.GameInitData != null && !Find.GameInitData.gameToLoad.NullOrEmpty())
 			{
-				LongEventHandler.QueueLongEvent((Action)delegate
+				LongEventHandler.QueueLongEvent(delegate
 				{
 					SavedGameLoader.LoadGameFromSaveFile(Find.GameInitData.gameToLoad);
-				}, "LoadingLongEvent", true, new Action<Exception>(GameAndMapInitExceptionHandlers.ErrorWhileLoadingGame));
+				}, "LoadingLongEvent", true, GameAndMapInitExceptionHandlers.ErrorWhileLoadingGame);
 			}
 			else
 			{
-				LongEventHandler.QueueLongEvent((Action)delegate
+				LongEventHandler.QueueLongEvent(delegate
 				{
 					if (Current.Game == null)
 					{
 						Root_Play.SetupForQuickTestPlay();
 					}
 					Current.Game.InitNewGame();
-				}, "GeneratingMap", true, new Action<Exception>(GameAndMapInitExceptionHandlers.ErrorWhileGeneratingMap));
+				}, "GeneratingMap", true, GameAndMapInitExceptionHandlers.ErrorWhileGeneratingMap);
 			}
-			LongEventHandler.QueueLongEvent((Action)delegate
+			LongEventHandler.QueueLongEvent(delegate
 			{
 				ScreenFader.SetColor(Color.black);
 				ScreenFader.StartFade(Color.clear, 0.5f);
-			}, (string)null, false, null);
+			}, null, false, null);
 		}
 
 		public override void Update()
@@ -54,15 +52,9 @@ namespace Verse
 			{
 				try
 				{
-					Profiler.BeginSample("ShipCountdownUpdate()");
 					ShipCountdown.ShipCountdownUpdate();
-					Profiler.EndSample();
-					Profiler.BeginSample("Game.Update()");
 					Current.Game.UpdatePlay();
-					Profiler.EndSample();
-					Profiler.BeginSample("MusicUpdate()");
 					this.musicManagerPlay.MusicUpdate();
-					Profiler.EndSample();
 				}
 				catch (Exception e)
 				{

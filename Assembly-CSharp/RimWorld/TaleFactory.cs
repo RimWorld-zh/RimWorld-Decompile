@@ -1,11 +1,15 @@
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace RimWorld
 {
 	public static class TaleFactory
 	{
+		[CompilerGenerated]
+		private static Func<object, string> _003C_003Ef__mg_0024cache0;
+
 		public static Tale MakeRawTale(TaleDef def, params object[] args)
 		{
 			try
@@ -16,10 +20,9 @@ namespace RimWorld
 				tale.date = Find.TickManager.TicksAbs;
 				return tale;
 			}
-			catch (Exception arg2)
+			catch (Exception arg)
 			{
-				Log.Error(string.Format("Failed to create tale object {0} with parameters {1}: {2}", def, GenText.ToCommaList(from arg in args
-				select arg.ToStringSafe(), true), arg2));
+				Log.Error(string.Format("Failed to create tale object {0} with parameters {1}: {2}", def, GenText.ToCommaList(args.Select(Gen.ToStringSafe<object>), true), arg));
 				return null;
 			}
 		}

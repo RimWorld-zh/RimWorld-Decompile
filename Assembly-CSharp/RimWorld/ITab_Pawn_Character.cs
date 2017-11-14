@@ -22,17 +22,12 @@ namespace RimWorld
 						pawn = corpse.InnerPawn;
 					}
 				}
-				Pawn result;
 				if (pawn == null)
 				{
 					Log.Error("Character tab found no selected pawn to display.");
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = pawn;
-				}
-				return result;
+				return pawn;
 			}
 		}
 

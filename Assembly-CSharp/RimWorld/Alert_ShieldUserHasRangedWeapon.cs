@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -15,9 +14,9 @@ namespace RimWorld
 		{
 			foreach (Pawn item in PawnsFinder.AllMaps_FreeColonistsSpawned)
 			{
-				if (item.equipment.Primary != null && item.equipment.Primary.def.IsRangedWeapon && item.apparel.WornApparel.Any((Predicate<Apparel>)((Apparel ap) => ap.def == ThingDefOf.Apparel_ShieldBelt)))
+				if (item.equipment.Primary != null && item.equipment.Primary.def.IsRangedWeapon && item.apparel.WornApparel.Any((Apparel ap) => ap.def == ThingDefOf.Apparel_ShieldBelt))
 				{
-					return (Thing)item;
+					return item;
 				}
 			}
 			return false;

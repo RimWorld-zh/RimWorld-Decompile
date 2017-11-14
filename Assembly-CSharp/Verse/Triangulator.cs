@@ -16,79 +16,71 @@ namespace Verse
 		{
 			List<int> list = new List<int>();
 			int count = this.m_points.Count;
-			int[] result;
 			if (count < 3)
 			{
-				result = list.ToArray();
+				return list.ToArray();
+			}
+			int[] array = new int[count];
+			if (this.Area() > 0.0)
+			{
+				for (int i = 0; i < count; i++)
+				{
+					array[i] = i;
+				}
 			}
 			else
 			{
-				int[] array = new int[count];
-				if (this.Area() > 0.0)
+				for (int j = 0; j < count; j++)
 				{
-					for (int num = 0; num < count; num++)
-					{
-						array[num] = num;
-					}
+					array[j] = count - 1 - j;
 				}
-				else
-				{
-					for (int num2 = 0; num2 < count; num2++)
-					{
-						array[num2] = count - 1 - num2;
-					}
-				}
-				int num3 = count;
-				int num4 = 2 * num3;
-				int num5 = 0;
-				int num6 = num3 - 1;
-				while (num3 > 2)
-				{
-					if (num4-- <= 0)
-						goto IL_00a7;
-					int num8 = num6;
-					if (num3 <= num8)
-					{
-						num8 = 0;
-					}
-					num6 = num8 + 1;
-					if (num3 <= num6)
-					{
-						num6 = 0;
-					}
-					int num9 = num6 + 1;
-					if (num3 <= num9)
-					{
-						num9 = 0;
-					}
-					if (this.Snip(num8, num6, num9, num3, array))
-					{
-						int item = array[num8];
-						int item2 = array[num6];
-						int item3 = array[num9];
-						list.Add(item);
-						list.Add(item2);
-						list.Add(item3);
-						num5++;
-						int num10 = num6;
-						for (int num11 = num6 + 1; num11 < num3; num11++)
-						{
-							array[num10] = array[num11];
-							num10++;
-						}
-						num3--;
-						num4 = 2 * num3;
-					}
-				}
-				list.Reverse();
-				result = list.ToArray();
 			}
-			goto IL_0180;
-			IL_00a7:
-			result = list.ToArray();
-			goto IL_0180;
-			IL_0180:
-			return result;
+			int num = count;
+			int num2 = 2 * num;
+			int num3 = 0;
+			int num4 = num - 1;
+			while (num > 2)
+			{
+				if (num2-- <= 0)
+				{
+					return list.ToArray();
+				}
+				int num6 = num4;
+				if (num <= num6)
+				{
+					num6 = 0;
+				}
+				num4 = num6 + 1;
+				if (num <= num4)
+				{
+					num4 = 0;
+				}
+				int num7 = num4 + 1;
+				if (num <= num7)
+				{
+					num7 = 0;
+				}
+				if (this.Snip(num6, num4, num7, num, array))
+				{
+					int item = array[num6];
+					int item2 = array[num4];
+					int item3 = array[num7];
+					list.Add(item);
+					list.Add(item2);
+					list.Add(item3);
+					num3++;
+					int num8 = num4;
+					for (int k = num4 + 1; k < num; k++)
+					{
+						array[num8] = array[k];
+						num8++;
+					}
+					num--;
+					num2 = 2 * num;
+				}
+			}
+			list.Reverse();
+			return list.ToArray();
 		}
 
 		private float Area()
@@ -112,30 +104,22 @@ namespace Verse
 			Vector2 a = this.m_points[V[u]];
 			Vector2 b = this.m_points[V[v]];
 			Vector2 c = this.m_points[V[w]];
-			bool result;
 			if (Mathf.Epsilon > (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x))
 			{
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < n; i++)
 			{
-				for (int num = 0; num < n; num++)
+				if (i != u && i != v && i != w)
 				{
-					if (num != u && num != v && num != w)
+					Vector2 p = this.m_points[V[i]];
+					if (this.InsideTriangle(a, b, c, p))
 					{
-						Vector2 p = this.m_points[V[num]];
-						if (this.InsideTriangle(a, b, c, p))
-							goto IL_00c5;
+						return false;
 					}
 				}
-				result = true;
 			}
-			goto IL_00e2;
-			IL_00e2:
-			return result;
-			IL_00c5:
-			result = false;
-			goto IL_00e2;
+			return true;
 		}
 
 		private bool InsideTriangle(Vector2 A, Vector2 B, Vector2 C, Vector2 P)

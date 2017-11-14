@@ -47,7 +47,15 @@ namespace RimWorld
 
 		public override bool TryMakePreToilReservations()
 		{
-			return (byte)(base.pawn.Reserve(base.job.GetTarget(TargetIndex.B), base.job, 1, -1, null) ? ((!this.HasDrink || base.pawn.Reserve(base.job.GetTarget(TargetIndex.C), base.job, 1, -1, null)) ? 1 : 0) : 0) != 0;
+			if (!base.pawn.Reserve(base.job.GetTarget(TargetIndex.B), base.job, 1, -1, null))
+			{
+				return false;
+			}
+			if (this.HasDrink && !base.pawn.Reserve(base.job.GetTarget(TargetIndex.C), base.job, 1, -1, null))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()

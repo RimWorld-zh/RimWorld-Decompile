@@ -10,16 +10,16 @@ namespace Verse
 		Rock = 2,
 		Wall = 4,
 		Sandbags = 8,
-		PowerConduit = 16,
-		Custom1 = 131072,
-		Custom2 = 262144,
-		Custom3 = 524288,
-		Custom4 = 1048576,
-		Custom5 = 2097152,
-		Custom6 = 4194304,
-		Custom7 = 8388608,
-		Custom8 = 16777216,
-		Custom9 = 33554432,
-		Custom10 = 67108864
+		PowerConduit = 0x10,
+		Custom1 = 0x20000,
+		Custom2 = 0x40000,
+		Custom3 = 0x80000,
+		Custom4 = 0x100000,
+		Custom5 = 0x200000,
+		Custom6 = 0x400000,
+		Custom7 = 0x800000,
+		Custom8 = 0x1000000,
+		Custom9 = 0x2000000,
+		Custom10 = 0x4000000
 	}
 }

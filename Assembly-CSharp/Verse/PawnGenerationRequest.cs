@@ -226,7 +226,7 @@ namespace Verse
 			}
 			else
 			{
-				this.FixedMelanin = new float?(fixedMelanin);
+				this.FixedMelanin = fixedMelanin;
 			}
 		}
 

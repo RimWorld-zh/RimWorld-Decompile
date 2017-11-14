@@ -120,7 +120,7 @@ namespace Verse
 				if (Rand.Value < num)
 				{
 					this.ticksUntilInfect = -4;
-					base.Pawn.health.AddHediff(HediffDefOf.WoundInfection, base.parent.Part, default(DamageInfo?));
+					base.Pawn.health.AddHediff(HediffDefOf.WoundInfection, base.parent.Part, null);
 				}
 				else
 				{
@@ -131,7 +131,27 @@ namespace Verse
 
 		public override string CompDebugString()
 		{
-			return (this.ticksUntilInfect > 0) ? ("infection may appear in: " + this.ticksUntilInfect + " ticks\ninfectChnceFactorFromTendRoom: " + this.infectionChanceFactorFromTendRoom.ToStringPercent()) : ((this.ticksUntilInfect != -4) ? ((this.ticksUntilInfect != -3) ? ((this.ticksUntilInfect != -2) ? ((this.ticksUntilInfect != -1) ? ("unexpected ticksUntilInfect = " + this.ticksUntilInfect) : "uninitialized data!") : "will not make infection") : "failed to make infection") : "already created infection");
+			if (this.ticksUntilInfect <= 0)
+			{
+				if (this.ticksUntilInfect == -4)
+				{
+					return "already created infection";
+				}
+				if (this.ticksUntilInfect == -3)
+				{
+					return "failed to make infection";
+				}
+				if (this.ticksUntilInfect == -2)
+				{
+					return "will not make infection";
+				}
+				if (this.ticksUntilInfect == -1)
+				{
+					return "uninitialized data!";
+				}
+				return "unexpected ticksUntilInfect = " + this.ticksUntilInfect;
+			}
+			return "infection may appear in: " + this.ticksUntilInfect + " ticks\ninfectChnceFactorFromTendRoom: " + this.infectionChanceFactorFromTendRoom.ToStringPercent();
 		}
 	}
 }

@@ -7,50 +7,38 @@ namespace Verse
 	{
 		public static T Get(string itemPath, bool reportFailure = true)
 		{
-			T result;
-			T val;
 			if (!UnityData.IsInMainThread)
 			{
 				Log.Error("Tried to get a resource \"" + itemPath + "\" from a different thread. All resources must be loaded in the main thread.");
-				result = (T)null;
+				return (T)null;
 			}
-			else
+			T val = (T)null;
+			List<ModContentPack> runningModsListForReading = LoadedModManager.RunningModsListForReading;
+			for (int num = runningModsListForReading.Count - 1; num >= 0; num--)
 			{
-				val = (T)null;
-				List<ModContentPack> runningModsListForReading = LoadedModManager.RunningModsListForReading;
-				for (int num = runningModsListForReading.Count - 1; num >= 0; num--)
-				{
-					val = runningModsListForReading[num].GetContentHolder<T>().Get(itemPath);
-					if (val != null)
-						goto IL_0067;
-				}
-				if (typeof(T) == typeof(Texture2D))
-				{
-					val = (T)(object)Resources.Load<Texture2D>(GenFilePaths.ContentPath<Texture2D>() + itemPath);
-				}
-				if (typeof(T) == typeof(AudioClip))
-				{
-					val = (T)(object)Resources.Load<AudioClip>(GenFilePaths.ContentPath<AudioClip>() + itemPath);
-				}
+				val = runningModsListForReading[num].GetContentHolder<T>().Get(itemPath);
 				if (val != null)
 				{
-					result = val;
-				}
-				else
-				{
-					if (reportFailure)
-					{
-						Log.Error("Could not load " + typeof(T) + " at " + itemPath + " in any active mod or in base resources.");
-					}
-					result = (T)null;
+					return val;
 				}
 			}
-			goto IL_0136;
-			IL_0067:
-			result = val;
-			goto IL_0136;
-			IL_0136:
-			return result;
+			if (typeof(T) == typeof(Texture2D))
+			{
+				val = (T)(object)Resources.Load<Texture2D>(GenFilePaths.ContentPath<Texture2D>() + itemPath);
+			}
+			if (typeof(T) == typeof(AudioClip))
+			{
+				val = (T)(object)Resources.Load<AudioClip>(GenFilePaths.ContentPath<AudioClip>() + itemPath);
+			}
+			if (val != null)
+			{
+				return val;
+			}
+			if (reportFailure)
+			{
+				Log.Error("Could not load " + typeof(T) + " at " + itemPath + " in any active mod or in base resources.");
+			}
+			return (T)null;
 		}
 
 		public static IEnumerable<T> GetAllInFolder(string folderPath)
@@ -95,8 +83,8 @@ namespace Verse
 				}
 			}
 			yield break;
-			IL_0257:
-			/*Error near IL_0258: Unexpected return in MoveNext()*/;
+			IL_024a:
+			/*Error near IL_024b: Unexpected return in MoveNext()*/;
 		}
 	}
 }

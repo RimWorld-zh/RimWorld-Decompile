@@ -53,107 +53,73 @@ namespace RimWorld
 				switch (num3)
 				{
 				case 0:
-				{
 					num = (float)(num * 0.0);
 					num2 = (float)(num2 * 0.0);
 					break;
-				}
 				case 1:
-				{
 					num = (float)(num * 0.0);
 					num2 = (float)(num2 * 0.0);
 					break;
-				}
 				case 2:
-				{
 					num = (float)(num * 0.0);
 					num2 = (float)(num2 * 0.0);
 					break;
-				}
 				case 3:
-				{
 					num = (float)(num * 0.0);
 					num2 = (float)(num2 * 0.20000000298023224);
 					break;
-				}
 				case 4:
-				{
 					num = (float)(num * 0.15000000596046448);
 					num2 = (float)(num2 * 0.40000000596046448);
 					break;
-				}
 				case 5:
-				{
 					num = (float)(num * 0.25);
 					num2 = (float)(num2 * 0.60000002384185791);
 					break;
-				}
 				case 6:
-				{
 					num = (float)(num * 0.30000001192092896);
 					num2 = (float)(num2 * 0.699999988079071);
 					break;
-				}
 				case 7:
-				{
 					num = (float)(num * 0.34999999403953552);
 					num2 = (float)(num2 * 0.75);
 					break;
-				}
 				case 8:
-				{
 					num = (float)(num * 0.40000000596046448);
 					num2 = (float)(num2 * 0.800000011920929);
 					break;
-				}
 				case 9:
-				{
 					num = (float)(num * 0.44999998807907104);
 					num2 = (float)(num2 * 0.85000002384185791);
 					break;
-				}
 				case 10:
-				{
 					num = (float)(num * 0.5);
 					num2 = (float)(num2 * 0.89999997615814209);
 					break;
-				}
 				case 11:
-				{
 					num = (float)(num * 0.550000011920929);
 					num2 = (float)(num2 * 0.9100000262260437);
 					break;
-				}
 				case 12:
-				{
 					num = (float)(num * 0.60000002384185791);
 					num2 = (float)(num2 * 0.92000001668930054);
 					break;
-				}
 				case 13:
-				{
 					num = (float)(num * 0.64999997615814209);
 					num2 = (float)(num2 * 0.93000000715255737);
 					break;
-				}
 				case 14:
-				{
 					num = (float)(num * 0.699999988079071);
 					num2 = (float)(num2 * 0.93999999761581421);
 					break;
-				}
 				case 15:
-				{
 					num = (float)(num * 0.75);
 					num2 = (float)(num2 * 0.949999988079071);
 					break;
-				}
 				default:
-				{
 					num *= GenMath.LerpDoubleClamped(16f, 30f, 0.8f, 1f, (float)num3);
 					num2 *= GenMath.LerpDoubleClamped(16f, 30f, 0.95f, 1f, (float)num3);
 					break;
-				}
 				}
 				this.shortTermFactor = (float)(1.0 + num);
 				this.longTermFactor = (float)(1.0 + num2);

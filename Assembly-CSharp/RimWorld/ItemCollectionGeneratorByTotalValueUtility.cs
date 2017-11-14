@@ -18,7 +18,18 @@ namespace RimWorld
 			List<ThingStuffPair> list = new List<ThingStuffPair>();
 			ItemCollectionGeneratorByTotalValueUtility.allowedFiltered.Clear();
 			ItemCollectionGeneratorByTotalValueUtility.allowedFiltered.AddRange(allowed);
-			ItemCollectionGeneratorByTotalValueUtility.allowedFiltered.RemoveAll((Predicate<ThingDef>)((ThingDef x) => (byte)(((int)x.techLevel > (int)techLevel) ? 1 : ((!x.MadeFromStuff && getMinValue(new ThingStuffPair(x, null, 1f)) > totalValue) ? 1 : 0)) != 0));
+			ItemCollectionGeneratorByTotalValueUtility.allowedFiltered.RemoveAll(delegate(ThingDef x)
+			{
+				if ((int)x.techLevel > (int)techLevel)
+				{
+					return true;
+				}
+				if (!x.MadeFromStuff && getMinValue(new ThingStuffPair(x, null, 1f)) > totalValue)
+				{
+					return true;
+				}
+				return false;
+			});
 			ItemCollectionGeneratorByTotalValueUtility.allowedStuff.Clear();
 			for (int i = 0; i < ItemCollectionGeneratorByTotalValueUtility.allowedFiltered.Count; i++)
 			{
@@ -40,48 +51,43 @@ namespace RimWorld
 					}
 				}
 			}
-			ItemCollectionGeneratorByTotalValueUtility.allowedFiltered.RemoveAll((Predicate<ThingDef>)((ThingDef x) => x.MadeFromStuff && !ItemCollectionGeneratorByTotalValueUtility.allowedStuff[x].Any()));
-			List<ThingStuffPair> result;
+			ItemCollectionGeneratorByTotalValueUtility.allowedFiltered.RemoveAll((ThingDef x) => x.MadeFromStuff && !ItemCollectionGeneratorByTotalValueUtility.allowedStuff[x].Any());
 			if (!ItemCollectionGeneratorByTotalValueUtility.allowedFiltered.Any())
 			{
-				result = list;
+				return list;
 			}
-			else
+			float num = 0f;
+			int num2 = 0;
+			while (num2 < tries)
 			{
-				float num = 0f;
-				int num2 = 0;
-				while (num2 < tries)
+				float num3 = 0f;
+				float num4 = 0f;
+				ItemCollectionGeneratorByTotalValueUtility.newCandidates.Clear();
+				for (int j = 0; j < count; j++)
 				{
-					float num3 = 0f;
-					float num4 = 0f;
-					ItemCollectionGeneratorByTotalValueUtility.newCandidates.Clear();
-					for (int num5 = 0; num5 < count; num5++)
-					{
-						ThingDef thingDef2 = ((object)weightSelector == null) ? ItemCollectionGeneratorByTotalValueUtility.allowedFiltered.RandomElement() : ItemCollectionGeneratorByTotalValueUtility.allowedFiltered.RandomElementByWeight(weightSelector);
-						ThingDef stuff = (!thingDef2.MadeFromStuff) ? null : ItemCollectionGeneratorByTotalValueUtility.allowedStuff[thingDef2].RandomElementByWeight((Func<ThingDef, float>)((ThingDef x) => x.stuffProps.commonality));
-						ThingStuffPair thingStuffPair = new ThingStuffPair(thingDef2, stuff, 1f);
-						ItemCollectionGeneratorByTotalValueUtility.newCandidates.Add(thingStuffPair);
-						num3 += getMinValue(thingStuffPair);
-						num4 += getMaxValue(thingStuffPair);
-					}
-					float num6 = (float)((!(num3 <= totalValue)) ? (num3 - totalValue) : 0.0);
-					float num7 = (float)((!(num4 >= totalValue)) ? (totalValue - num4) : 0.0);
-					if (!list.Any() || num > num6 + num7)
-					{
-						list.Clear();
-						list.AddRange(ItemCollectionGeneratorByTotalValueUtility.newCandidates);
-						num = num6 + num7;
-					}
-					if (!(num <= 0.0))
-					{
-						num2++;
-						continue;
-					}
-					break;
+					ThingDef thingDef2 = (weightSelector == null) ? ItemCollectionGeneratorByTotalValueUtility.allowedFiltered.RandomElement() : ItemCollectionGeneratorByTotalValueUtility.allowedFiltered.RandomElementByWeight(weightSelector);
+					ThingDef stuff = (!thingDef2.MadeFromStuff) ? null : ItemCollectionGeneratorByTotalValueUtility.allowedStuff[thingDef2].RandomElementByWeight((ThingDef x) => x.stuffProps.commonality);
+					ThingStuffPair thingStuffPair = new ThingStuffPair(thingDef2, stuff, 1f);
+					ItemCollectionGeneratorByTotalValueUtility.newCandidates.Add(thingStuffPair);
+					num3 += getMinValue(thingStuffPair);
+					num4 += getMaxValue(thingStuffPair);
 				}
-				result = list;
+				float num5 = (float)((!(num3 <= totalValue)) ? (num3 - totalValue) : 0.0);
+				float num6 = (float)((!(num4 >= totalValue)) ? (totalValue - num4) : 0.0);
+				if (!list.Any() || num > num5 + num6)
+				{
+					list.Clear();
+					list.AddRange(ItemCollectionGeneratorByTotalValueUtility.newCandidates);
+					num = num5 + num6;
+				}
+				if (!(num <= 0.0))
+				{
+					num2++;
+					continue;
+				}
+				break;
 			}
-			return result;
+			return list;
 		}
 
 		public static void IncreaseStackCountsToTotalValue(List<Thing> things, float totalValue, Func<Thing, float> getValue)

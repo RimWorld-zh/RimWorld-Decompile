@@ -16,7 +16,7 @@ namespace RimWorld
 		protected override void DoFileInteraction(string fileName)
 		{
 			string filePath = GenFilePaths.AbsPathForScenario(fileName);
-			PreLoadUtility.CheckVersionAndLoad(filePath, ScribeMetaHeaderUtility.ScribeHeaderMode.Scenario, (Action)delegate
+			PreLoadUtility.CheckVersionAndLoad(filePath, ScribeMetaHeaderUtility.ScribeHeaderMode.Scenario, delegate
 			{
 				Scenario obj = null;
 				if (GameDataSaveLoader.TryLoadScenario(filePath, ScenarioCategory.CustomLocal, out obj))

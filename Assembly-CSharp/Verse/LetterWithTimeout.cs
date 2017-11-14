@@ -18,7 +18,15 @@ namespace Verse
 		{
 			get
 			{
-				return (byte)(base.StillValid ? ((!this.TimeoutActive || Find.TickManager.TicksGame < this.disappearAtTick) ? 1 : 0) : 0) != 0;
+				if (!base.StillValid)
+				{
+					return false;
+				}
+				if (this.TimeoutActive && Find.TickManager.TicksGame >= this.disappearAtTick)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 

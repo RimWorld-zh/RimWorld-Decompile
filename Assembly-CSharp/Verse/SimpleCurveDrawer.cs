@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -129,9 +128,9 @@ namespace Verse
 						{
 							SimpleCurveDrawer.DrawCurveMeasures(rect, viewRect, rect2, style.MeasureLabelsXCount, style.MeasureLabelsYCount, style.XIntegersOnly, style.YIntegersOnly);
 						}
-						foreach (SimpleCurveDrawInfo item in curves)
+						foreach (SimpleCurveDrawInfo curf in curves)
 						{
-							SimpleCurveDrawer.DrawCurveLines(rect2, item, style.DrawPoints, viewRect, style.UseAntiAliasedLines, style.PointsRemoveOptimization);
+							SimpleCurveDrawer.DrawCurveLines(rect2, curf, style.DrawPoints, viewRect, style.UseAntiAliasedLines, style.PointsRemoveOptimization);
 						}
 						if (style.DrawLegend)
 						{
@@ -148,7 +147,7 @@ namespace Verse
 
 		public static void DrawCurveLines(Rect rect, SimpleCurveDrawInfo curve, bool drawPoints, Rect viewRect, bool useAALines, bool pointsRemoveOptimization)
 		{
-			if (((curve.curve != null) ? curve.curve.PointsCount : 0) != 0)
+			if (curve.curve != null && curve.curve.PointsCount != 0)
 			{
 				Rect position = rect;
 				position.yMin -= 1f;
@@ -161,7 +160,7 @@ namespace Verse
 						bool flag = true;
 						Vector2 start = default(Vector2);
 						Vector2 curvePoint = default(Vector2);
-						int num = curve.curve.AllPoints.Count((Func<CurvePoint, bool>)((CurvePoint x) => x.x >= viewRect.xMin && x.x <= viewRect.xMax));
+						int num = curve.curve.AllPoints.Count((CurvePoint x) => x.x >= viewRect.xMin && x.x <= viewRect.xMax);
 						int num2 = SimpleCurveDrawer.RemovePointsOptimizationFreq(num);
 						for (int i = 0; i < curve.curve.PointsCount; i++)
 						{
@@ -181,18 +180,18 @@ namespace Verse
 							{
 								if (start.x >= 0.0 && start.x <= rect.width)
 								{
-									goto IL_0176;
+									goto IL_0168;
 								}
 								if (vector.x >= 0.0 && vector.x <= rect.width)
-									goto IL_0176;
+									goto IL_0168;
 							}
-							goto IL_018b;
-							IL_018b:
+							goto IL_017b;
+							IL_017b:
 							start = vector;
 							continue;
-							IL_0176:
+							IL_0168:
 							Widgets.DrawLine(start, vector, curve.color, 1f);
-							goto IL_018b;
+							goto IL_017b;
 						}
 						Vector2 start2 = SimpleCurveDrawer.CurveToScreenCoordsInsideScreenRect(rect, viewRect, curve.curve.AllPoints.First());
 						Vector2 start3 = SimpleCurveDrawer.CurveToScreenCoordsInsideScreenRect(rect, viewRect, curve.curve.AllPoints.Last());
@@ -251,46 +250,46 @@ namespace Verse
 			SimpleCurveDrawer.CalculateMeasureStartAndInc(out num, out num2, out num3, viewRect.xMin, viewRect.xMax, xLabelsCount, xIntegersOnly);
 			Text.Anchor = TextAnchor.UpperCenter;
 			string b = string.Empty;
-			for (int num4 = 0; num4 < num3; num4++)
+			for (int i = 0; i < num3; i++)
 			{
-				float x = num + num2 * (float)num4;
+				float x = num + num2 * (float)i;
 				string text = x.ToString("F0");
 				if (!(text == b))
 				{
 					b = text;
 					Vector2 vector = SimpleCurveDrawer.CurveToScreenCoordsInsideScreenRect(graphRect, viewRect, new Vector2(x, 0f));
 					float x2 = vector.x;
-					float num5 = (float)(x2 + 60.0);
-					float num6 = (float)(rect.height - 30.0);
+					float num4 = (float)(x2 + 60.0);
+					float num5 = (float)(rect.height - 30.0);
 					GUI.color = color;
-					Widgets.DrawLineVertical(num5, num6, 5f);
+					Widgets.DrawLineVertical(num4, num5, 5f);
 					GUI.color = color2;
-					Rect rect2 = new Rect((float)(num5 - 31.0), (float)(num6 + 2.0), 60f, 30f);
+					Rect rect2 = new Rect((float)(num4 - 31.0), (float)(num5 + 2.0), 60f, 30f);
 					Text.Font = GameFont.Tiny;
 					Widgets.Label(rect2, text);
 					Text.Font = GameFont.Small;
 				}
 			}
+			float num6 = default(float);
 			float num7 = default(float);
-			float num8 = default(float);
-			int num9 = default(int);
-			SimpleCurveDrawer.CalculateMeasureStartAndInc(out num7, out num8, out num9, viewRect.yMin, viewRect.yMax, yLabelsCount, yIntegersOnly);
+			int num8 = default(int);
+			SimpleCurveDrawer.CalculateMeasureStartAndInc(out num6, out num7, out num8, viewRect.yMin, viewRect.yMax, yLabelsCount, yIntegersOnly);
 			string b2 = string.Empty;
 			Text.Anchor = TextAnchor.UpperRight;
-			for (int num10 = 0; num10 < num9; num10++)
+			for (int j = 0; j < num8; j++)
 			{
-				float y = num7 + num8 * (float)num10;
+				float y = num6 + num7 * (float)j;
 				string text2 = y.ToString("F0");
 				if (!(text2 == b2))
 				{
 					b2 = text2;
 					Vector2 vector2 = SimpleCurveDrawer.CurveToScreenCoordsInsideScreenRect(graphRect, viewRect, new Vector2(0f, y));
 					float y2 = vector2.y;
-					float num11 = y2 + (graphRect.y - rect.y);
+					float num9 = y2 + (graphRect.y - rect.y);
 					GUI.color = color;
-					Widgets.DrawLineHorizontal(55f, num11, (float)(5.0 + graphRect.width));
+					Widgets.DrawLineHorizontal(55f, num9, (float)(5.0 + graphRect.width));
 					GUI.color = color2;
-					Rect rect3 = new Rect(0f, (float)(num11 - 10.0), 55f, 20f);
+					Rect rect3 = new Rect(0f, (float)(num9 - 10.0), 55f, 20f);
 					Text.Font = GameFont.Tiny;
 					Widgets.Label(rect3, text2);
 					Text.Font = GameFont.Small;
@@ -328,15 +327,15 @@ namespace Verse
 			float num2 = 0f;
 			int num3 = (int)(rect.width / 140.0);
 			int num4 = 0;
-			foreach (SimpleCurveDrawInfo item in curves)
+			foreach (SimpleCurveDrawInfo curf in curves)
 			{
-				GUI.color = item.color;
+				GUI.color = curf.color;
 				GUI.DrawTexture(new Rect(num, (float)(num2 + 2.0), 15f, 15f), BaseContent.WhiteTex);
 				GUI.color = Color.white;
 				num = (float)(num + 20.0);
-				if (item.label != null)
+				if (curf.label != null)
 				{
-					Widgets.Label(new Rect(num, num2, 140f, 20f), item.label);
+					Widgets.Label(new Rect(num, num2, 140f, 20f), curf.label);
 				}
 				num4++;
 				if (num4 == num3)
@@ -364,19 +363,19 @@ namespace Verse
 				Vector2 vector2 = default(Vector2);
 				SimpleCurveDrawInfo simpleCurveDrawInfo = null;
 				bool flag = false;
-				foreach (SimpleCurveDrawInfo item in curves)
+				foreach (SimpleCurveDrawInfo curf in curves)
 				{
-					if (item.curve.AllPoints.Any())
+					if (curf.curve.AllPoints.Any())
 					{
 						Vector2 vector3 = SimpleCurveDrawer.ScreenToCurveCoords(screenRect, viewRect, mousePosition);
-						vector3.y = item.curve.Evaluate(vector3.x);
+						vector3.y = curf.curve.Evaluate(vector3.x);
 						Vector2 vector4 = SimpleCurveDrawer.CurveToScreenCoordsInsideScreenRect(screenRect, viewRect, vector3);
 						if (!flag || Vector2.Distance(vector4, mousePosition) < Vector2.Distance(vector2, mousePosition))
 						{
 							flag = true;
 							vector = vector3;
 							vector2 = vector4;
-							simpleCurveDrawInfo = item;
+							simpleCurveDrawInfo = curf;
 						}
 					}
 				}

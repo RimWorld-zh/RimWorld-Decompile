@@ -5,31 +5,30 @@ namespace Verse
 {
 	public class ImmunityRecord : IExposable
 	{
-		public HediffDef hediffDef = null;
+		public HediffDef hediffDef;
 
-		public float immunity = 0f;
+		public float immunity;
 
 		public float ImmunityChangePerTick(Pawn pawn, bool sick, Hediff diseaseInstance)
 		{
-			float result;
 			if (!pawn.RaceProps.IsFlesh)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			HediffCompProperties_Immunizable hediffCompProperties_Immunizable = this.hediffDef.CompProps<HediffCompProperties_Immunizable>();
+			float num = (!sick) ? hediffCompProperties_Immunizable.immunityPerDayNotSick : hediffCompProperties_Immunizable.immunityPerDaySick;
+			num = (float)(num / 60000.0);
+			float num2 = pawn.GetStatValue(StatDefOf.ImmunityGainSpeed, true);
+			if (diseaseInstance != null)
 			{
-				HediffCompProperties_Immunizable hediffCompProperties_Immunizable = this.hediffDef.CompProps<HediffCompProperties_Immunizable>();
-				float num = (!sick) ? hediffCompProperties_Immunizable.immunityPerDayNotSick : hediffCompProperties_Immunizable.immunityPerDaySick;
-				num = (float)(num / 60000.0);
-				float num2 = pawn.GetStatValue(StatDefOf.ImmunityGainSpeed, true);
-				if (diseaseInstance != null)
-				{
-					int value = Gen.HashCombineInt(diseaseInstance.GetHashCode(), 156482735);
-					num2 *= Mathf.Lerp(0.8f, 1.2f, (float)((float)Mathf.Abs(value) / 2147483648.0));
-				}
-				result = ((!(num > 0.0)) ? (num / num2) : (num * num2));
+				int value = Gen.HashCombineInt(diseaseInstance.GetHashCode(), 156482735);
+				num2 *= Mathf.Lerp(0.8f, 1.2f, (float)((float)Mathf.Abs(value) / 2147483648.0));
 			}
-			return result;
+			if (num > 0.0)
+			{
+				return num * num2;
+			}
+			return num / num2;
 		}
 
 		public void ImmunityTick(Pawn pawn, bool sick, Hediff diseaseInstance)

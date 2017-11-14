@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Verse;
 
@@ -8,16 +7,13 @@ namespace RimWorld.BaseGen
 	{
 		public override bool CanResolve(ResolveParams rp)
 		{
-			bool result;
 			if (!base.CanResolve(rp))
 			{
-				result = false;
-				goto IL_00b7;
+				return false;
 			}
 			if (rp.singleThingToSpawn != null)
 			{
-				result = false;
-				goto IL_00b7;
+				return false;
 			}
 			if (rp.singleThingDef != null)
 			{
@@ -28,17 +24,13 @@ namespace RimWorld.BaseGen
 				GenAdj.AdjustForRotation(ref zero, ref size, rot);
 				if (rp.rect.Width >= size.x && rp.rect.Height >= size.z)
 				{
-					goto IL_00b0;
+					goto IL_009d;
 				}
-				result = false;
-				goto IL_00b7;
+				return false;
 			}
-			goto IL_00b0;
-			IL_00b7:
-			return result;
-			IL_00b0:
-			result = true;
-			goto IL_00b7;
+			goto IL_009d;
+			IL_009d:
+			return true;
 		}
 
 		public override void Resolve(ResolveParams rp)
@@ -63,14 +55,14 @@ namespace RimWorld.BaseGen
 			}
 			else
 			{
-				for (int num2 = rp.rect.minX; num2 <= rp.rect.maxX - size.x + 1; num2 += size.x + num)
+				for (int i = rp.rect.minX; i <= rp.rect.maxX - size.x + 1; i += size.x + num)
 				{
-					for (int num3 = rp.rect.minZ; num3 <= rp.rect.maxZ - size.z + 1; num3 += size.z + num)
+					for (int j = rp.rect.minZ; j <= rp.rect.maxZ - size.z + 1; j += size.z + num)
 					{
 						ResolveParams resolveParams = rp;
-						resolveParams.rect = new CellRect(num2, num3, size.x, size.z);
+						resolveParams.rect = new CellRect(i, j, size.x, size.z);
 						resolveParams.singleThingDef = thingDef;
-						resolveParams.thingRot = new Rot4?(rot);
+						resolveParams.thingRot = rot;
 						BaseGen.symbolStack.Push("thing", resolveParams);
 					}
 				}

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -78,21 +77,21 @@ namespace RimWorld
 			listing_Standard.Begin(rect3);
 			if (this.bill.suspended)
 			{
-				if (listing_Standard.ButtonText("Suspended".Translate(), (string)null))
+				if (listing_Standard.ButtonText("Suspended".Translate(), null))
 				{
 					this.bill.suspended = false;
 				}
 			}
-			else if (listing_Standard.ButtonText("NotSuspended".Translate(), (string)null))
+			else if (listing_Standard.ButtonText("NotSuspended".Translate(), null))
 			{
 				this.bill.suspended = true;
 			}
-			if (listing_Standard.ButtonText(this.bill.repeatMode.LabelCap, (string)null))
+			if (listing_Standard.ButtonText(this.bill.repeatMode.LabelCap, null))
 			{
 				BillRepeatModeUtility.MakeConfigFloatMenu(this.bill);
 			}
 			string labelCap = this.bill.storeMode.LabelCap;
-			if (listing_Standard.ButtonText(labelCap, (string)null))
+			if (listing_Standard.ButtonText(labelCap, null))
 			{
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
 				foreach (BillStoreModeDef item in from bsm in DefDatabase<BillStoreModeDef>.AllDefs
@@ -100,7 +99,7 @@ namespace RimWorld
 				select bsm)
 				{
 					BillStoreModeDef smLocal = item;
-					list.Add(new FloatMenuOption(smLocal.LabelCap, (Action)delegate
+					list.Add(new FloatMenuOption(smLocal.LabelCap, delegate
 					{
 						this.bill.storeMode = smLocal;
 					}, MenuOptionPriority.Default, null, null, 0f, null, null));

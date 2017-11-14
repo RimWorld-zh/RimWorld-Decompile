@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -45,11 +44,11 @@ namespace RimWorld
 			Text.Anchor = TextAnchor.MiddleCenter;
 			Widgets.Label(inRect, "PressAnyKeyOrEsc".Translate());
 			Text.Anchor = TextAnchor.UpperLeft;
-			if ((Event.current.isKey ? ((Event.current.type == EventType.KeyDown) ? Event.current.keyCode : KeyCode.None) : KeyCode.None) != 0)
+			if (Event.current.isKey && Event.current.type == EventType.KeyDown && Event.current.keyCode != 0)
 			{
 				if (Event.current.keyCode != KeyCode.Escape)
 				{
-					this.keyPrefsData.EraseConflictingBindingsForKeyCode(this.keyDef, Event.current.keyCode, (Action<KeyBindingDef>)delegate(KeyBindingDef oldDef)
+					this.keyPrefsData.EraseConflictingBindingsForKeyCode(this.keyDef, Event.current.keyCode, delegate(KeyBindingDef oldDef)
 					{
 						Messages.Message("KeyBindingOverwritten".Translate(oldDef.label), MessageTypeDefOf.TaskCompletion);
 					});

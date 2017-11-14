@@ -6,23 +6,38 @@ namespace Verse
 	{
 		public static Danger NormalMaxDanger(this Pawn p)
 		{
-			return (Danger)((p.CurJob == null || !p.CurJob.playerForced) ? ((FloatMenuMakerMap.makingFor != p) ? ((p.Faction != Faction.OfPlayer) ? 2 : ((p.health.hediffSet.HasTemperatureInjury(TemperatureInjuryStage.Minor) && GenTemperature.FactionOwnsPassableRoomInTemperatureRange(p.Faction, p.SafeTemperatureRange(), p.MapHeld)) ? 1 : 2)) : 3) : 3);
+			if (p.CurJob != null && p.CurJob.playerForced)
+			{
+				return Danger.Deadly;
+			}
+			if (FloatMenuMakerMap.makingFor == p)
+			{
+				return Danger.Deadly;
+			}
+			if (p.Faction == Faction.OfPlayer)
+			{
+				if (p.health.hediffSet.HasTemperatureInjury(TemperatureInjuryStage.Minor) && GenTemperature.FactionOwnsPassableRoomInTemperatureRange(p.Faction, p.SafeTemperatureRange(), p.MapHeld))
+				{
+					return Danger.None;
+				}
+				return Danger.Some;
+			}
+			return Danger.Some;
 		}
 
 		public static Danger GetDangerFor(this IntVec3 c, Pawn p, Map map)
 		{
 			Map mapHeld = p.MapHeld;
-			Danger result;
-			if (mapHeld == null || mapHeld != map)
-			{
-				result = Danger.None;
-			}
-			else
+			if (mapHeld != null && mapHeld == map)
 			{
 				Region region = c.GetRegion(mapHeld, RegionType.Set_All);
-				result = ((region == null) ? Danger.None : region.DangerFor(p));
+				if (region == null)
+				{
+					return Danger.None;
+				}
+				return region.DangerFor(p);
 			}
-			return result;
+			return Danger.None;
 		}
 	}
 }

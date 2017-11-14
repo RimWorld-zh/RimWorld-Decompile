@@ -8,7 +8,7 @@ namespace Verse.AI.Group
 
 		private float radius;
 
-		private LocomotionUrgency locomotion = LocomotionUrgency.None;
+		private LocomotionUrgency locomotion;
 
 		private bool canDig;
 

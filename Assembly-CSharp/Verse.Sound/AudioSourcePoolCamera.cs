@@ -33,27 +33,17 @@ namespace Verse.Sound
 
 		public AudioSource GetSourceCamera()
 		{
-			int num = 0;
-			AudioSource result;
-			while (true)
+			for (int i = 0; i < this.sourcesCamera.Count; i++)
 			{
-				if (num < this.sourcesCamera.Count)
+				AudioSource audioSource = this.sourcesCamera[i];
+				if (!audioSource.isPlaying)
 				{
-					AudioSource audioSource = this.sourcesCamera[num];
-					if (!audioSource.isPlaying)
-					{
-						audioSource.clip = null;
-						SoundFilterUtility.DisableAllFiltersOn(audioSource);
-						result = audioSource;
-						break;
-					}
-					num++;
-					continue;
+					audioSource.clip = null;
+					SoundFilterUtility.DisableAllFiltersOn(audioSource);
+					return audioSource;
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 	}
 }

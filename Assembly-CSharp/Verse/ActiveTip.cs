@@ -8,7 +8,7 @@ namespace Verse
 	{
 		public TipSignal signal;
 
-		public double firstTriggerTime = 0.0;
+		public double firstTriggerTime;
 
 		public int lastTriggerFrame;
 
@@ -21,7 +21,7 @@ namespace Verse
 			get
 			{
 				string text;
-				if ((object)this.signal.textGetter != null)
+				if (this.signal.textGetter != null)
 				{
 					try
 					{
@@ -76,7 +76,7 @@ namespace Verse
 			string finalText = this.FinalText;
 			Rect bgRect = this.TipRect;
 			bgRect.position = pos;
-			Find.WindowStack.ImmediateWindow(153 * this.signal.uniqueId + 62346, bgRect, WindowLayer.Super, (Action)delegate
+			Find.WindowStack.ImmediateWindow(153 * this.signal.uniqueId + 62346, bgRect, WindowLayer.Super, delegate
 			{
 				Rect rect = bgRect.AtZero();
 				Widgets.DrawAtlas(rect, ActiveTip.TooltipBGAtlas);

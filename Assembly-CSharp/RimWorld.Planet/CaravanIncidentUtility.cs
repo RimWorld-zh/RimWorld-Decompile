@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -39,31 +38,23 @@ namespace RimWorld.Planet
 
 		public static bool CanFireIncidentWhichWantsToGenerateMapAt(int tile)
 		{
-			bool result;
 			if (Current.Game.FindMap(tile) != null)
 			{
-				result = false;
+				return false;
 			}
-			else if (!Find.WorldGrid[tile].biome.implemented)
+			if (!Find.WorldGrid[tile].biome.implemented)
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<WorldObject> allWorldObjects = Find.WorldObjects.AllWorldObjects;
+			for (int i = 0; i < allWorldObjects.Count; i++)
 			{
-				List<WorldObject> allWorldObjects = Find.WorldObjects.AllWorldObjects;
-				for (int i = 0; i < allWorldObjects.Count; i++)
+				if (allWorldObjects[i].Tile == tile && !allWorldObjects[i].def.allowCaravanIncidentsWhichGenerateMap)
 				{
-					if (allWorldObjects[i].Tile == tile && !allWorldObjects[i].def.allowCaravanIncidentsWhichGenerateMap)
-						goto IL_0074;
+					return false;
 				}
-				result = true;
 			}
-			goto IL_0094;
-			IL_0074:
-			result = false;
-			goto IL_0094;
-			IL_0094:
-			return result;
+			return true;
 		}
 
 		public static Map SetupCaravanAttackMap(Caravan caravan, List<Pawn> enemies)
@@ -73,7 +64,7 @@ namespace RimWorld.Planet
 			IntVec3 playerStartingSpot;
 			IntVec3 root = default(IntVec3);
 			MultipleCaravansCellFinder.FindStartingCellsFor2Groups(map, out playerStartingSpot, out root);
-			CaravanEnterMapUtility.Enter(caravan, map, (Func<Pawn, IntVec3>)((Pawn x) => CellFinder.RandomSpawnCellForPawnNear(playerStartingSpot, map, 4)), CaravanDropInventoryMode.DoNotDrop, true);
+			CaravanEnterMapUtility.Enter(caravan, map, (Pawn x) => CellFinder.RandomSpawnCellForPawnNear(playerStartingSpot, map, 4), CaravanDropInventoryMode.DoNotDrop, true);
 			for (int i = 0; i < enemies.Count; i++)
 			{
 				IntVec3 loc = CellFinder.RandomSpawnCellForPawnNear(root, map, 4);

@@ -40,7 +40,11 @@ namespace RimWorld
 
 		private int GetValueToCompare(Pawn pawn)
 		{
-			return (int)((pawn.playerSettings != null) ? pawn.playerSettings.hostilityResponse : ((HostilityResponseMode)(-2147483648)));
+			if (pawn.playerSettings == null)
+			{
+				return -2147483648;
+			}
+			return (int)pawn.playerSettings.hostilityResponse;
 		}
 	}
 }

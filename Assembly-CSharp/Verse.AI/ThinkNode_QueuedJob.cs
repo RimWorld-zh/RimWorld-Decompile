@@ -2,10 +2,19 @@ namespace Verse.AI
 {
 	public class ThinkNode_QueuedJob : ThinkNode
 	{
+		public bool inBedOnly;
+
+		public override ThinkNode DeepCopy(bool resolve = true)
+		{
+			ThinkNode_QueuedJob thinkNode_QueuedJob = (ThinkNode_QueuedJob)base.DeepCopy(resolve);
+			thinkNode_QueuedJob.inBedOnly = this.inBedOnly;
+			return thinkNode_QueuedJob;
+		}
+
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			JobQueue jobQueue = pawn.jobs.jobQueue;
-			while (jobQueue.Count > 0 && !jobQueue.Peek().job.CanBeginNow(pawn))
+			while (jobQueue.Count > 0 && !jobQueue.Peek().job.CanBeginNow(pawn, this.inBedOnly))
 			{
 				QueuedJob queuedJob = jobQueue.Dequeue();
 				pawn.ClearReservationsForJob(queuedJob.job);
@@ -14,7 +23,6 @@ namespace Verse.AI
 					pawn.jobs.DebugLogEvent("   Throwing away queued job that I cannot begin now: " + queuedJob.job);
 				}
 			}
-			ThinkResult result;
 			if (jobQueue.Count > 0)
 			{
 				QueuedJob queuedJob2 = jobQueue.Dequeue();
@@ -22,13 +30,9 @@ namespace Verse.AI
 				{
 					pawn.jobs.DebugLogEvent("   Returning queued job: " + queuedJob2.job);
 				}
-				result = new ThinkResult(queuedJob2.job, this, queuedJob2.tag, true);
+				return new ThinkResult(queuedJob2.job, this, queuedJob2.tag, true);
 			}
-			else
-			{
-				result = ThinkResult.NoJob;
-			}
-			return result;
+			return ThinkResult.NoJob;
 		}
 	}
 }

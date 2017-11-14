@@ -14,7 +14,7 @@ namespace RimWorld
 
 		public int order;
 
-		public KeyCode defaultHotKey = KeyCode.None;
+		public KeyCode defaultHotKey;
 
 		public bool canBeTutorDenied = true;
 

@@ -33,7 +33,7 @@ namespace Verse
 			if (text == null)
 			{
 				Log.Error("TipSignal with null text.");
-				text = "";
+				text = string.Empty;
 			}
 			this.text = text;
 			this.textGetter = null;
@@ -43,7 +43,7 @@ namespace Verse
 
 		public TipSignal(Func<string> textGetter, int uniqueId)
 		{
-			this.text = "";
+			this.text = string.Empty;
 			this.textGetter = textGetter;
 			this.uniqueId = uniqueId;
 			this.priority = TooltipPriority.Default;

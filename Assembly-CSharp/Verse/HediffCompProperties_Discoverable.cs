@@ -2,11 +2,11 @@ namespace Verse
 {
 	public class HediffCompProperties_Discoverable : HediffCompProperties
 	{
-		public bool sendLetterWhenDiscovered = false;
+		public bool sendLetterWhenDiscovered;
 
-		public string discoverLetterLabel = (string)null;
+		public string discoverLetterLabel;
 
-		public string discoverLetterText = (string)null;
+		public string discoverLetterText;
 
 		public HediffCompProperties_Discoverable()
 		{

@@ -11,39 +11,33 @@ namespace Verse.AI
 
 		public static bool CanSmash(Pawn pawn, Thing thing, bool skipReachabilityCheck = false, Predicate<Thing> customValidator = null, int extraMinBuildingOrItemMarketValue = 0)
 		{
-			bool result;
-			if ((object)customValidator != null)
+			if (customValidator != null)
 			{
 				if (!customValidator(thing))
 				{
-					result = false;
-					goto IL_015d;
+					return false;
 				}
 			}
 			else if (!thing.def.IsBuildingArtificial && thing.def.category != ThingCategory.Item)
 			{
-				result = false;
-				goto IL_015d;
+				return false;
 			}
 			if (!thing.Destroyed && thing.Spawned && thing != pawn && (thing.def.category == ThingCategory.Pawn || thing.def.useHitPoints) && (thing.def.category == ThingCategory.Pawn || !thing.def.CanHaveFaction || thing.Faction == pawn.Faction) && (thing.def.category != ThingCategory.Item || !(thing.MarketValue * (float)thing.stackCount < 75.0)) && (thing.def.category != ThingCategory.Pawn || !((Pawn)thing).Downed))
 			{
 				if (thing.def.category != ThingCategory.Item && thing.def.category != ThingCategory.Building)
 				{
-					goto IL_013b;
+					goto IL_012e;
 				}
 				if (!(thing.MarketValue * (float)thing.stackCount < (float)extraMinBuildingOrItemMarketValue))
-					goto IL_013b;
+					goto IL_012e;
 			}
-			int num = 0;
-			goto IL_0157;
-			IL_015d:
-			return result;
-			IL_0157:
-			result = ((byte)num != 0);
-			goto IL_015d;
-			IL_013b:
-			num = ((skipReachabilityCheck || pawn.CanReach(thing, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn)) ? 1 : 0);
-			goto IL_0157;
+			int result = 0;
+			goto IL_014a;
+			IL_012e:
+			result = ((skipReachabilityCheck || pawn.CanReach(thing, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn)) ? 1 : 0);
+			goto IL_014a;
+			IL_014a:
+			return (byte)result != 0;
 		}
 
 		public static void GetSmashableThingsNear(Pawn pawn, IntVec3 near, List<Thing> outCandidates, Predicate<Thing> customValidator = null, int extraMinBuildingOrItemMarketValue = 0, int maxDistance = 40)
@@ -55,7 +49,7 @@ namespace Verse.AI
 				if (region != null)
 				{
 					TraverseParms traverseParams = TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
-					RegionTraverser.BreadthFirstTraverse(region, (RegionEntryPredicate)((Region from, Region to) => to.Allows(traverseParams, false)), (RegionProcessor)delegate(Region r)
+					RegionTraverser.BreadthFirstTraverse(region, (Region from, Region to) => to.Allows(traverseParams, false), delegate(Region r)
 					{
 						List<Thing> list = r.ListerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial);
 						for (int i = 0; i < list.Count; i++)

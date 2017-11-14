@@ -12,11 +12,11 @@ namespace Verse
 
 		public float baseCommonality;
 
-		public MentalBreakIntensity intensity = MentalBreakIntensity.Extreme;
+		public MentalBreakIntensity intensity;
 
 		public TraitDef requiredTrait;
 
-		private MentalBreakWorker workerInt = null;
+		private MentalBreakWorker workerInt;
 
 		public MentalBreakWorker Worker
 		{

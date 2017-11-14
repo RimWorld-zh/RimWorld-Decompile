@@ -13,7 +13,8 @@ namespace Verse
 			}
 		}
 
-		public SectionLayer_Zones(Section section) : base(section)
+		public SectionLayer_Zones(Section section)
+			: base(section)
 		{
 			base.relevantChangeTypes = MapMeshFlag.Zone;
 		}

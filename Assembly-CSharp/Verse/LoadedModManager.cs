@@ -77,7 +77,7 @@ namespace Verse
 			{
 				ModContentPack modContentPack3 = LoadedModManager.runningMods[j];
 				DeepProfiler.Start("Loading " + modContentPack3);
-				modContentPack3.LoadDefs(LoadedModManager.runningMods.SelectMany((Func<ModContentPack, IEnumerable<PatchOperation>>)((ModContentPack rm) => rm.Patches)));
+				modContentPack3.LoadDefs(LoadedModManager.runningMods.SelectMany((ModContentPack rm) => rm.Patches));
 				DeepProfiler.End();
 			}
 			foreach (ModContentPack runningMod in LoadedModManager.runningMods)
@@ -107,9 +107,13 @@ namespace Verse
 
 		public static Mod GetMod(Type type)
 		{
-			return (!LoadedModManager.runningModClasses.ContainsKey(type)) ? (from kvp in LoadedModManager.runningModClasses
+			if (LoadedModManager.runningModClasses.ContainsKey(type))
+			{
+				return LoadedModManager.runningModClasses[type];
+			}
+			return (from kvp in LoadedModManager.runningModClasses
 			where type.IsAssignableFrom(kvp.Key)
-			select kvp).FirstOrDefault().Value : LoadedModManager.runningModClasses[type];
+			select kvp).FirstOrDefault().Value;
 		}
 
 		private static string GetSettingsFilename(string modIdentifier, string modHandleName)
@@ -126,7 +130,7 @@ namespace Verse
 				if (File.Exists(settingsFilename))
 				{
 					Scribe.loader.InitLoading(settingsFilename);
-					Scribe_Deep.Look<T>(ref val, "ModSettings", new object[0]);
+					Scribe_Deep.Look(ref val, "ModSettings");
 					Scribe.loader.FinalizeLoading();
 				}
 			}

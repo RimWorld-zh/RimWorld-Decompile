@@ -8,7 +8,7 @@ namespace Verse
 
 		private IntVec3 shootSourceOffset = new IntVec3(0, 0, 0);
 
-		private float leanOffsetCurPct = 0f;
+		private float leanOffsetCurPct;
 
 		private const float LeanOffsetPctChangeRate = 0.075f;
 
@@ -50,7 +50,15 @@ namespace Verse
 		public bool ShouldLean()
 		{
 			Stance_Busy stance_Busy = this.pawn.stances.curStance as Stance_Busy;
-			return (byte)((stance_Busy != null) ? ((!(this.shootSourceOffset == new IntVec3(0, 0, 0))) ? 1 : 0) : 0) != 0;
+			if (stance_Busy != null)
+			{
+				if (this.shootSourceOffset == new IntVec3(0, 0, 0))
+				{
+					return false;
+				}
+				return true;
+			}
+			return false;
 		}
 
 		public void Notify_WarmingCastAlongLine(ShootLine newShootLine, IntVec3 ShootPosition)

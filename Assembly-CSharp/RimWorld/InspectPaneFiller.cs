@@ -88,15 +88,15 @@ namespace RimWorld
 					}
 					fillPct = (float)t.HitPoints / (float)t.MaxHitPoints;
 					label = t.HitPoints.ToStringCached() + " / " + t.MaxHitPoints.ToStringCached();
-					goto IL_00ed;
+					goto IL_00e4;
 				}
 				return;
 			}
 			GUI.color = Color.white;
 			fillPct = pawn.health.summaryHealth.SummaryHealthPercent;
 			label = HealthUtility.GetGeneralConditionLabel(pawn, true);
-			goto IL_00ed;
-			IL_00ed:
+			goto IL_00e4;
+			IL_00e4:
 			row.FillableBar(93f, 16f, fillPct, label, InspectPaneFiller.HealthTex, InspectPaneFiller.BarBGTex);
 			GUI.color = Color.white;
 		}
@@ -136,7 +136,7 @@ namespace RimWorld
 				if (Widgets.ButtonInvisible(rect, false))
 				{
 					AllowedAreaMode mode = (AllowedAreaMode)(pawn.RaceProps.Humanlike ? 1 : 2);
-					AreaUtility.MakeAllowedAreaListFloatMenu((Action<Area>)delegate(Area a)
+					AreaUtility.MakeAllowedAreaListFloatMenu(delegate(Area a)
 					{
 						pawn.playerSettings.AreaRestriction = a;
 					}, mode, true, true, pawn.Map);
@@ -175,7 +175,7 @@ namespace RimWorld
 			}
 			if (!text.NullOrEmpty() && GenText.ContainsEmptyLines(text))
 			{
-				Log.ErrorOnce("Inspect string for " + sel + " contains empty lines.", 837163521);
+				Log.ErrorOnce(string.Format("Inspect string for {0} contains empty lines.\n\nSTART\n{1}\nEND", sel, text), 837163521);
 			}
 			InspectPaneFiller.DrawInspectString(text, rect);
 		}

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -69,7 +68,11 @@ namespace RimWorld
 
 		public override AcceptanceReport AllowAction(EventPack ep)
 		{
-			return (!(ep.Tag == "Designate-Wall")) ? base.AllowAction(ep) : TutorUtility.EventCellsAreWithin(ep, this.cachedEdgeCells);
+			if (ep.Tag == "Designate-Wall")
+			{
+				return TutorUtility.EventCellsAreWithin(ep, this.cachedEdgeCells);
+			}
+			return base.AllowAction(ep);
 		}
 	}
 }

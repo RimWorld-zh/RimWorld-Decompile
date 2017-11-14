@@ -8,25 +8,25 @@ namespace RimWorld
 	{
 		public float difficulty = -1f;
 
-		public float minBodySize = 0f;
+		public float minBodySize;
 
-		public List<TrainableDef> prerequisites = null;
+		public List<TrainableDef> prerequisites;
 
 		[NoTranslate]
 		public List<string> tags = new List<string>();
 
-		public bool defaultTrainable = false;
+		public bool defaultTrainable;
 
 		public TrainableIntelligenceDef requiredTrainableIntelligence;
 
 		public int steps = 1;
 
-		public float listPriority = 0f;
+		public float listPriority;
 
 		public string icon;
 
 		[Unsaved]
-		public int indent = 0;
+		public int indent;
 
 		[Unsaved]
 		private Texture2D iconTex;
@@ -45,31 +45,23 @@ namespace RimWorld
 
 		public bool MatchesTag(string tag)
 		{
-			bool result;
 			if (tag == base.defName)
 			{
-				result = true;
+				return true;
 			}
-			else
+			for (int i = 0; i < this.tags.Count; i++)
 			{
-				for (int i = 0; i < this.tags.Count; i++)
+				if (this.tags[i] == tag)
 				{
-					if (this.tags[i] == tag)
-						goto IL_0038;
+					return true;
 				}
-				result = false;
 			}
-			goto IL_005c;
-			IL_0038:
-			result = true;
-			goto IL_005c;
-			IL_005c:
-			return result;
+			return false;
 		}
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -82,8 +74,8 @@ namespace RimWorld
 				yield break;
 			yield return "difficulty not set";
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_00f5:
-			/*Error near IL_00f6: Unexpected return in MoveNext()*/;
+			IL_00f1:
+			/*Error near IL_00f2: Unexpected return in MoveNext()*/;
 		}
 	}
 }

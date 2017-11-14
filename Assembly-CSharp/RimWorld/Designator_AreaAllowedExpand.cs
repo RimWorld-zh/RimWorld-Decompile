@@ -5,7 +5,8 @@ namespace RimWorld
 {
 	public class Designator_AreaAllowedExpand : Designator_AreaAllowed
 	{
-		public Designator_AreaAllowedExpand() : base(DesignateMode.Add)
+		public Designator_AreaAllowedExpand()
+			: base(DesignateMode.Add)
 		{
 			base.defaultLabel = "DesignatorExpandAreaAllowed".Translate();
 			base.defaultDesc = "DesignatorExpandAreaAllowedDesc".Translate();

@@ -44,53 +44,45 @@ namespace RimWorld
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			Job result;
 			if (t.def.category != ThingCategory.Plant)
 			{
-				result = null;
+				return null;
 			}
-			else
+			LocalTargetInfo target = t;
+			if (!pawn.CanReserve(target, 1, -1, null, forced))
 			{
-				LocalTargetInfo target = t;
-				if (!pawn.CanReserve(target, 1, -1, null, forced))
-				{
-					result = null;
-				}
-				else if (t.IsForbidden(pawn))
-				{
-					result = null;
-				}
-				else if (t.IsBurning())
-				{
-					result = null;
-				}
-				else
-				{
-					using (IEnumerator<Designation> enumerator = pawn.Map.designationManager.AllDesignationsOn(t).GetEnumerator())
-					{
-						while (enumerator.MoveNext())
-						{
-							Designation current = enumerator.Current;
-							if (current.def == DesignationDefOf.HarvestPlant)
-								goto IL_0099;
-							if (current.def == DesignationDefOf.CutPlant)
-							{
-								return new Job(JobDefOf.CutPlant, t);
-							}
-						}
-						goto end_IL_0079;
-						IL_0099:
-						if (!((Plant)t).HarvestableNow)
-						{
-							return null;
-						}
-						return new Job(JobDefOf.Harvest, t);
-						end_IL_0079:;
-					}
-					result = null;
-				}
+				return null;
 			}
-			return result;
+			if (t.IsForbidden(pawn))
+			{
+				return null;
+			}
+			if (t.IsBurning())
+			{
+				return null;
+			}
+			using (IEnumerator<Designation> enumerator = pawn.Map.designationManager.AllDesignationsOn(t).GetEnumerator())
+			{
+				while (enumerator.MoveNext())
+				{
+					Designation current = enumerator.Current;
+					if (current.def == DesignationDefOf.HarvestPlant)
+						goto IL_0080;
+					if (current.def == DesignationDefOf.CutPlant)
+					{
+						return new Job(JobDefOf.CutPlant, t);
+					}
+				}
+				goto end_IL_0063;
+				IL_0080:
+				if (!((Plant)t).HarvestableNow)
+				{
+					return null;
+				}
+				return new Job(JobDefOf.Harvest, t);
+				end_IL_0063:;
+			}
+			return null;
 		}
 	}
 }

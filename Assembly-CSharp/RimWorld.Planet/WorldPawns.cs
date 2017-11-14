@@ -1,9 +1,7 @@
-#define ENABLE_PROFILER
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UnityEngine.Profiling;
 using Verse;
 
 namespace RimWorld.Planet
@@ -97,7 +95,6 @@ namespace RimWorld.Planet
 				this.pawnsDead.Remove(WorldPawns.tmpPawnsToRemove[j]);
 			}
 			WorldPawns.tmpPawnsToRemove.Clear();
-			Profiler.BeginSample("WorldPawnGCTick");
 			try
 			{
 				this.gc.WorldPawnGCTick();
@@ -106,7 +103,6 @@ namespace RimWorld.Planet
 			{
 				Log.Error("Error in WorldPawnGCTick(): " + arg);
 			}
-			Profiler.EndSample();
 		}
 
 		public void ExposeData()
@@ -155,21 +151,15 @@ namespace RimWorld.Planet
 				switch (discardMode)
 				{
 				case PawnDiscardDecideMode.Decide:
-				{
 					this.AddPawn(pawn);
 					break;
-				}
 				case PawnDiscardDecideMode.KeepForever:
-				{
 					this.pawnsForcefullyKeptAsWorldPawns.Add(pawn);
 					this.AddPawn(pawn);
 					break;
-				}
 				case PawnDiscardDecideMode.Discard:
-				{
 					this.DiscardPawn(pawn, false);
 					break;
-				}
 				}
 			}
 		}
@@ -199,7 +189,35 @@ namespace RimWorld.Planet
 
 		public WorldPawnSituation GetSituation(Pawn p)
 		{
-			return (WorldPawnSituation)(this.Contains(p) ? ((p.Dead || p.Destroyed) ? 2 : ((!PawnUtility.IsFactionLeader(p)) ? ((!PawnUtility.IsKidnappedPawn(p)) ? ((!p.IsCaravanMember()) ? ((!PawnUtility.IsTravelingInTransportPodWorldObject(p)) ? ((!PawnUtility.ForSaleBySettlement(p)) ? 1 : 7) : 6) : 5) : 4) : 3)) : 0);
+			if (!this.Contains(p))
+			{
+				return WorldPawnSituation.None;
+			}
+			if (!p.Dead && !p.Destroyed)
+			{
+				if (PawnUtility.IsFactionLeader(p))
+				{
+					return WorldPawnSituation.FactionLeader;
+				}
+				if (PawnUtility.IsKidnappedPawn(p))
+				{
+					return WorldPawnSituation.Kidnapped;
+				}
+				if (p.IsCaravanMember())
+				{
+					return WorldPawnSituation.CaravanMember;
+				}
+				if (PawnUtility.IsTravelingInTransportPodWorldObject(p))
+				{
+					return WorldPawnSituation.InTravelingTransportPod;
+				}
+				if (PawnUtility.ForSaleBySettlement(p))
+				{
+					return WorldPawnSituation.ForSaleBySettlement;
+				}
+				return WorldPawnSituation.Free;
+			}
+			return WorldPawnSituation.Dead;
 		}
 
 		public IEnumerable<Pawn> GetPawnsBySituation(WorldPawnSituation situation)
@@ -256,24 +274,14 @@ namespace RimWorld.Planet
 		private HediffDef DefPreventingMothball(Pawn p)
 		{
 			List<Hediff> hediffs = p.health.hediffSet.hediffs;
-			int num = 0;
-			HediffDef result;
-			while (true)
+			for (int i = 0; i < hediffs.Count; i++)
 			{
-				if (num < hediffs.Count)
+				if (!hediffs[i].def.AlwaysAllowMothball && !hediffs[i].IsOld())
 				{
-					if (!hediffs[num].def.AlwaysAllowMothball && !hediffs[num].IsOld())
-					{
-						result = hediffs[num].def;
-						break;
-					}
-					num++;
-					continue;
+					return hediffs[i].def;
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		private void AddPawn(Pawn p)
@@ -349,9 +357,8 @@ namespace RimWorld.Planet
 			stringBuilder.AppendLine("Count: " + this.AllPawnsAliveOrDead.Count());
 			stringBuilder.AppendLine(string.Format("(Live: {0} - Mothballed: {1} - Dead: {2}; {3} forcefully kept)", this.pawnsAlive.Count, this.pawnsMothballed.Count, this.pawnsDead.Count, this.pawnsForcefullyKeptAsWorldPawns.Count));
 			WorldPawnSituation[] array = (WorldPawnSituation[])Enum.GetValues(typeof(WorldPawnSituation));
-			for (int i = 0; i < array.Length; i++)
+			foreach (WorldPawnSituation worldPawnSituation in array)
 			{
-				WorldPawnSituation worldPawnSituation = array[i];
 				if (worldPawnSituation != 0)
 				{
 					stringBuilder.AppendLine();

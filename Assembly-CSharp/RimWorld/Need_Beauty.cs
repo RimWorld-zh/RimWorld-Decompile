@@ -24,7 +24,15 @@ namespace RimWorld
 		{
 			get
 			{
-				return (float)(base.pawn.health.capacities.CapableOf(PawnCapacityDefOf.Sight) ? (base.pawn.Spawned ? this.LevelFromBeauty(this.CurrentInstantBeauty()) : 0.5) : 0.5);
+				if (!base.pawn.health.capacities.CapableOf(PawnCapacityDefOf.Sight))
+				{
+					return 0.5f;
+				}
+				if (!base.pawn.Spawned)
+				{
+					return 0.5f;
+				}
+				return this.LevelFromBeauty(this.CurrentInstantBeauty());
 			}
 		}
 
@@ -32,11 +40,36 @@ namespace RimWorld
 		{
 			get
 			{
-				return (BeautyCategory)((!(this.CurLevel > 0.99000000953674316)) ? ((!(this.CurLevel > 0.85000002384185791)) ? ((!(this.CurLevel > 0.64999997615814209)) ? ((!(this.CurLevel > 0.34999999403953552)) ? ((!(this.CurLevel > 0.15000000596046448)) ? ((this.CurLevel > 0.0099999997764825821) ? 1 : 0) : 2) : 3) : 4) : 5) : 6);
+				if (this.CurLevel > 0.99000000953674316)
+				{
+					return BeautyCategory.Beautiful;
+				}
+				if (this.CurLevel > 0.85000002384185791)
+				{
+					return BeautyCategory.VeryPretty;
+				}
+				if (this.CurLevel > 0.64999997615814209)
+				{
+					return BeautyCategory.Pretty;
+				}
+				if (this.CurLevel > 0.34999999403953552)
+				{
+					return BeautyCategory.Neutral;
+				}
+				if (this.CurLevel > 0.15000000596046448)
+				{
+					return BeautyCategory.Ugly;
+				}
+				if (this.CurLevel > 0.0099999997764825821)
+				{
+					return BeautyCategory.VeryUgly;
+				}
+				return BeautyCategory.Hideous;
 			}
 		}
 
-		public Need_Beauty(Pawn pawn) : base(pawn)
+		public Need_Beauty(Pawn pawn)
+			: base(pawn)
 		{
 			base.threshPercents = new List<float>();
 			base.threshPercents.Add(0.15f);
@@ -52,7 +85,11 @@ namespace RimWorld
 
 		public float CurrentInstantBeauty()
 		{
-			return (float)(base.pawn.SpawnedOrAnyParentSpawned ? BeautyUtility.AverageBeautyPerceptible(base.pawn.PositionHeld, base.pawn.MapHeld) : 0.5);
+			if (!base.pawn.SpawnedOrAnyParentSpawned)
+			{
+				return 0.5f;
+			}
+			return BeautyUtility.AverageBeautyPerceptible(base.pawn.PositionHeld, base.pawn.MapHeld);
 		}
 	}
 }

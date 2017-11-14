@@ -4,7 +4,8 @@ namespace RimWorld
 {
 	public class SectionLayer_ThingsPowerGrid : SectionLayer_Things
 	{
-		public SectionLayer_ThingsPowerGrid(Section section) : base(section)
+		public SectionLayer_ThingsPowerGrid(Section section)
+			: base(section)
 		{
 			base.requireAddToMapMesh = false;
 			base.relevantChangeTypes = MapMeshFlag.PowerGrid;

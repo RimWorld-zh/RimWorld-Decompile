@@ -41,7 +41,7 @@ namespace RimWorld
 			{
 				return (from x in this.AllFactionsVisible
 				orderby x.defeated
-				select x).ThenByDescending((Func<Faction, float>)((Faction fa) => fa.def.startingGoodwill.Average));
+				select x).ThenByDescending((Faction fa) => fa.def.startingGoodwill.Average);
 			}
 		}
 
@@ -76,24 +76,14 @@ namespace RimWorld
 
 		public Faction FirstFactionOfDef(FactionDef facDef)
 		{
-			int num = 0;
-			Faction result;
-			while (true)
+			for (int i = 0; i < this.allFactions.Count; i++)
 			{
-				if (num < this.allFactions.Count)
+				if (this.allFactions[i].def == facDef)
 				{
-					if (this.allFactions[num].def == facDef)
-					{
-						result = this.allFactions[num];
-						break;
-					}
-					num++;
-					continue;
+					return this.allFactions[i];
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		public bool TryGetRandomNonColonyHumanlikeFaction(out Faction faction, bool tryMedievalOrBetter, bool allowDefeated = false, TechLevel minTechLevel = TechLevel.Undefined)
@@ -101,23 +91,38 @@ namespace RimWorld
 			IEnumerable<Faction> source = from x in this.AllFactions
 			where !x.IsPlayer && !x.def.hidden && x.def.humanlikeFaction && (allowDefeated || !x.defeated) && (minTechLevel == TechLevel.Undefined || (int)x.def.techLevel >= (int)minTechLevel)
 			select x;
-			return source.TryRandomElementByWeight<Faction>((Func<Faction, float>)((Faction x) => (float)((!tryMedievalOrBetter || (int)x.def.techLevel >= 3) ? 1.0 : 0.10000000149011612)), out faction);
+			return source.TryRandomElementByWeight<Faction>((Func<Faction, float>)delegate(Faction x)
+			{
+				if (tryMedievalOrBetter && (int)x.def.techLevel < 3)
+				{
+					return 0.1f;
+				}
+				return 1f;
+			}, out faction);
 		}
 
 		public Faction RandomEnemyFaction(bool allowHidden = false, bool allowDefeated = false, bool allowNonHumanlike = true, TechLevel minTechLevel = TechLevel.Undefined)
 		{
-			Faction faction = default(Faction);
-			return (!(from x in this.AllFactions
+			Faction result = default(Faction);
+			if ((from x in this.AllFactions
 			where !x.IsPlayer && (allowHidden || !x.def.hidden) && (allowDefeated || !x.defeated) && (allowNonHumanlike || x.def.humanlikeFaction) && (minTechLevel == TechLevel.Undefined || (int)x.def.techLevel >= (int)minTechLevel) && x.HostileTo(Faction.OfPlayer)
-			select x).TryRandomElement<Faction>(out faction)) ? null : faction;
+			select x).TryRandomElement<Faction>(out result))
+			{
+				return result;
+			}
+			return null;
 		}
 
 		public Faction RandomAlliedFaction(bool allowHidden = false, bool allowDefeated = false, bool allowNonHumanlike = true, TechLevel minTechLevel = TechLevel.Undefined)
 		{
-			Faction faction = default(Faction);
-			return (!(from x in this.AllFactions
+			Faction result = default(Faction);
+			if ((from x in this.AllFactions
 			where !x.IsPlayer && (allowHidden || !x.def.hidden) && (allowDefeated || !x.defeated) && (allowNonHumanlike || x.def.humanlikeFaction) && (minTechLevel == TechLevel.Undefined || (int)x.def.techLevel >= (int)minTechLevel) && !x.HostileTo(Faction.OfPlayer)
-			select x).TryRandomElement<Faction>(out faction)) ? null : faction;
+			select x).TryRandomElement<Faction>(out result))
+			{
+				return result;
+			}
+			return null;
 		}
 
 		public void LogKidnappedPawns()

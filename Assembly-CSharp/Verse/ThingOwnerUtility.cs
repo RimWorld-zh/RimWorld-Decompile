@@ -12,43 +12,32 @@ namespace Verse
 
 		public static bool ThisOrAnyCompIsThingHolder(this ThingDef thingDef)
 		{
-			bool result;
 			if (typeof(IThingHolder).IsAssignableFrom(thingDef.thingClass))
 			{
-				result = true;
+				return true;
 			}
-			else
+			for (int i = 0; i < thingDef.comps.Count; i++)
 			{
-				for (int i = 0; i < thingDef.comps.Count; i++)
+				if (typeof(IThingHolder).IsAssignableFrom(thingDef.comps[i].compClass))
 				{
-					if (typeof(IThingHolder).IsAssignableFrom(thingDef.comps[i].compClass))
-						goto IL_004f;
+					return true;
 				}
-				result = false;
 			}
-			goto IL_0073;
-			IL_004f:
-			result = true;
-			goto IL_0073;
-			IL_0073:
-			return result;
+			return false;
 		}
 
 		public static ThingOwner TryGetInnerInteractableThingOwner(this Thing thing)
 		{
 			IThingHolder thingHolder = thing as IThingHolder;
 			ThingWithComps thingWithComps = thing as ThingWithComps;
-			ThingOwner result;
 			if (thingHolder != null)
 			{
 				ThingOwner directlyHeldThings = thingHolder.GetDirectlyHeldThings();
 				if (directlyHeldThings != null)
 				{
-					result = directlyHeldThings;
-					goto IL_016f;
+					return directlyHeldThings;
 				}
 			}
-			ThingOwner directlyHeldThings2;
 			if (thingWithComps != null)
 			{
 				List<ThingComp> allComps = thingWithComps.AllComps;
@@ -57,9 +46,11 @@ namespace Verse
 					IThingHolder thingHolder2 = allComps[i] as IThingHolder;
 					if (thingHolder2 != null)
 					{
-						directlyHeldThings2 = thingHolder2.GetDirectlyHeldThings();
+						ThingOwner directlyHeldThings2 = thingHolder2.GetDirectlyHeldThings();
 						if (directlyHeldThings2 != null)
-							goto IL_006b;
+						{
+							return directlyHeldThings2;
+						}
 					}
 				}
 			}
@@ -72,12 +63,10 @@ namespace Verse
 					ThingOwner directlyHeldThings3 = ThingOwnerUtility.tmpHolders[0].GetDirectlyHeldThings();
 					if (directlyHeldThings3 != null)
 					{
-						result = directlyHeldThings3;
-						goto IL_016f;
+						return directlyHeldThings3;
 					}
 				}
 			}
-			ThingOwner directlyHeldThings4;
 			if (thingWithComps != null)
 			{
 				List<ThingComp> allComps2 = thingWithComps.AllComps;
@@ -89,52 +78,36 @@ namespace Verse
 						thingHolder3.GetChildHolders(ThingOwnerUtility.tmpHolders);
 						if (ThingOwnerUtility.tmpHolders.Any())
 						{
-							directlyHeldThings4 = ThingOwnerUtility.tmpHolders[0].GetDirectlyHeldThings();
+							ThingOwner directlyHeldThings4 = ThingOwnerUtility.tmpHolders[0].GetDirectlyHeldThings();
 							if (directlyHeldThings4 != null)
-								goto IL_013e;
+							{
+								return directlyHeldThings4;
+							}
 						}
 					}
 				}
 			}
 			ThingOwnerUtility.tmpHolders.Clear();
-			result = null;
-			goto IL_016f;
-			IL_016f:
-			return result;
-			IL_013e:
-			result = directlyHeldThings4;
-			goto IL_016f;
-			IL_006b:
-			result = directlyHeldThings2;
-			goto IL_016f;
+			return null;
 		}
 
 		public static bool SpawnedOrAnyParentSpawned(IThingHolder holder)
 		{
-			bool result;
-			while (true)
+			while (holder != null)
 			{
-				if (holder != null)
+				Thing thing = holder as Thing;
+				if (thing != null && thing.Spawned)
 				{
-					Thing thing = holder as Thing;
-					if (thing != null && thing.Spawned)
-					{
-						result = true;
-						break;
-					}
-					ThingComp thingComp = holder as ThingComp;
-					if (thingComp != null && thingComp.parent.Spawned)
-					{
-						result = true;
-						break;
-					}
-					holder = holder.ParentHolder;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
+				ThingComp thingComp = holder as ThingComp;
+				if (thingComp != null && thingComp.parent.Spawned)
+				{
+					return true;
+				}
+				holder = holder.ParentHolder;
 			}
-			return result;
+			return false;
 		}
 
 		public static IntVec3 GetRootPosition(IThingHolder holder)
@@ -162,46 +135,30 @@ namespace Verse
 
 		public static Map GetRootMap(IThingHolder holder)
 		{
-			Map result;
-			while (true)
+			while (holder != null)
 			{
-				if (holder != null)
+				Map map = holder as Map;
+				if (map != null)
 				{
-					Map map = holder as Map;
-					if (map != null)
-					{
-						result = map;
-						break;
-					}
-					holder = holder.ParentHolder;
-					continue;
+					return map;
 				}
-				result = null;
-				break;
+				holder = holder.ParentHolder;
 			}
-			return result;
+			return null;
 		}
 
 		public static int GetRootTile(IThingHolder holder)
 		{
-			int result;
-			while (true)
+			while (holder != null)
 			{
-				if (holder != null)
+				WorldObject worldObject = holder as WorldObject;
+				if (worldObject != null && worldObject.Tile >= 0)
 				{
-					WorldObject worldObject = holder as WorldObject;
-					if (worldObject != null && worldObject.Tile >= 0)
-					{
-						result = worldObject.Tile;
-						break;
-					}
-					holder = holder.ParentHolder;
-					continue;
+					return worldObject.Tile;
 				}
-				result = -1;
-				break;
+				holder = holder.ParentHolder;
 			}
-			return result;
+			return -1;
 		}
 
 		public static bool IsEnclosingContainer(this IThingHolder holder)
@@ -228,55 +185,46 @@ namespace Verse
 		{
 			if (container != null)
 			{
-				int num = 0;
+				int i = 0;
 				int count = container.Count;
-				while (num < count)
+				for (; i < count; i++)
 				{
-					IThingHolder thingHolder = container[num] as IThingHolder;
+					IThingHolder thingHolder = container[i] as IThingHolder;
 					if (thingHolder != null)
 					{
 						outThingsHolders.Add(thingHolder);
 					}
-					ThingWithComps thingWithComps = container[num] as ThingWithComps;
+					ThingWithComps thingWithComps = container[i] as ThingWithComps;
 					if (thingWithComps != null)
 					{
 						List<ThingComp> allComps = thingWithComps.AllComps;
-						for (int i = 0; i < allComps.Count; i++)
+						for (int j = 0; j < allComps.Count; j++)
 						{
-							IThingHolder thingHolder2 = allComps[i] as IThingHolder;
+							IThingHolder thingHolder2 = allComps[j] as IThingHolder;
 							if (thingHolder2 != null)
 							{
 								outThingsHolders.Add(thingHolder2);
 							}
 						}
 					}
-					num++;
 				}
 			}
 		}
 
 		public static bool AnyParentIs<T>(Thing thing) where T : IThingHolder
 		{
-			bool result;
 			if (thing is T)
 			{
-				result = true;
+				return true;
 			}
-			else
+			for (IThingHolder parentHolder = thing.ParentHolder; parentHolder != null; parentHolder = parentHolder.ParentHolder)
 			{
-				for (IThingHolder parentHolder = thing.ParentHolder; parentHolder != null; parentHolder = parentHolder.ParentHolder)
+				if (parentHolder is T)
 				{
-					if (parentHolder is T)
-						goto IL_002b;
+					return true;
 				}
-				result = false;
 			}
-			goto IL_0047;
-			IL_002b:
-			result = true;
-			goto IL_0047;
-			IL_0047:
-			return result;
+			return false;
 		}
 
 		public static void GetAllThingsRecursively(IThingHolder holder, List<Thing> outThings, bool allowUnreal = true)
@@ -320,33 +268,28 @@ namespace Verse
 
 		public static bool ContentsFrozen(IThingHolder holder)
 		{
-			return holder is Building_CryptosleepCasket;
+			return holder is Building_CryptosleepCasket || holder is ImportantPawnComp;
 		}
 
 		public static bool TryGetFixedTemperature(IThingHolder holder, out float temperature)
 		{
-			bool result;
 			if (holder is Pawn_InventoryTracker)
 			{
 				temperature = 14f;
-				result = true;
+				return true;
 			}
-			else if (holder is CompLaunchable || holder is ActiveDropPodInfo || holder is TravelingTransportPods)
+			if (!(holder is CompLaunchable) && !(holder is ActiveDropPodInfo) && !(holder is TravelingTransportPods))
 			{
+				if (!(holder is Settlement_TraderTracker) && !(holder is TradeShip))
+				{
+					temperature = 21f;
+					return false;
+				}
 				temperature = 14f;
-				result = true;
+				return true;
 			}
-			else if (holder is Settlement_TraderTracker || holder is TradeShip)
-			{
-				temperature = 14f;
-				result = true;
-			}
-			else
-			{
-				temperature = 21f;
-				result = false;
-			}
-			return result;
+			temperature = 14f;
+			return true;
 		}
 	}
 }

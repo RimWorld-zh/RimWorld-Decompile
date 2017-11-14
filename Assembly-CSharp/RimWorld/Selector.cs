@@ -47,7 +47,15 @@ namespace RimWorld
 		{
 			get
 			{
-				return (this.selected.Count == 1) ? ((!(this.selected[0] is Thing)) ? null : ((Thing)this.selected[0])) : null;
+				if (this.selected.Count != 1)
+				{
+					return null;
+				}
+				if (this.selected[0] is Thing)
+				{
+					return (Thing)this.selected[0];
+				}
+				return null;
 			}
 		}
 
@@ -55,7 +63,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (this.selected.Count != 0) ? this.selected[0] : null;
+				if (this.selected.Count == 0)
+				{
+					return null;
+				}
+				return this.selected[0];
 			}
 		}
 
@@ -63,7 +75,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (this.selected.Count == 1) ? this.selected[0] : null;
+				if (this.selected.Count != 1)
+				{
+					return null;
+				}
+				return this.selected[0];
 			}
 		}
 
@@ -79,7 +95,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (this.selected.Count != 0) ? (this.selected[0] as Zone) : null;
+				if (this.selected.Count == 0)
+				{
+					return null;
+				}
+				return this.selected[0] as Zone;
 			}
 			set
 			{
@@ -293,7 +313,7 @@ namespace RimWorld
 				{
 					if (!selectedSomething)
 					{
-						CameraJumper.TryJumpAndSelect((WorldObject)list2[j]);
+						CameraJumper.TryJumpAndSelect(list2[j]);
 						selectedSomething = true;
 					}
 					else
@@ -304,7 +324,7 @@ namespace RimWorld
 				if (!selectedSomething)
 				{
 					List<Thing> boxThings = ThingSelectionUtility.MultiSelectableThingsInScreenRectDistinct(this.dragBox.ScreenRect).ToList();
-					Func<Predicate<Thing>, bool> func = (Func<Predicate<Thing>, bool>)delegate(Predicate<Thing> predicate)
+					Func<Predicate<Thing>, bool> func = delegate(Predicate<Thing> predicate)
 					{
 						foreach (Thing item in from t in boxThings
 						where predicate(t)
@@ -315,17 +335,17 @@ namespace RimWorld
 						}
 						return selectedSomething;
 					};
-					Predicate<Thing> arg = (Predicate<Thing>)((Thing t) => t.def.category == ThingCategory.Pawn && ((Pawn)t).RaceProps.Humanlike && t.Faction == Faction.OfPlayer);
+					Predicate<Thing> arg = (Thing t) => t.def.category == ThingCategory.Pawn && ((Pawn)t).RaceProps.Humanlike && t.Faction == Faction.OfPlayer;
 					if (!func(arg))
 					{
-						Predicate<Thing> arg2 = (Predicate<Thing>)((Thing t) => t.def.category == ThingCategory.Pawn && ((Pawn)t).RaceProps.Humanlike);
+						Predicate<Thing> arg2 = (Thing t) => t.def.category == ThingCategory.Pawn && ((Pawn)t).RaceProps.Humanlike;
 						if (!func(arg2))
 						{
-							Predicate<Thing> arg3 = (Predicate<Thing>)((Thing t) => t.def.CountAsResource);
+							Predicate<Thing> arg3 = (Thing t) => t.def.CountAsResource;
 							if (!func(arg3))
 							{
-								Predicate<Thing> arg4 = (Predicate<Thing>)((Thing t) => t.def.category == ThingCategory.Pawn);
-								if (!func(arg4) && !func((Predicate<Thing>)((Thing t) => t.def.selectable)))
+								Predicate<Thing> arg4 = (Thing t) => t.def.category == ThingCategory.Pawn;
+								if (!func(arg4) && !func((Thing t) => t.def.selectable))
 								{
 									List<Zone> list3 = ThingSelectionUtility.MultiSelectableZonesInScreenRectDistinct(this.dragBox.ScreenRect).ToList();
 									foreach (Zone item2 in list3)
@@ -414,7 +434,7 @@ namespace RimWorld
 			Caravan caravan = Find.ColonistBar.CaravanMemberCaravanAt(UI.MousePositionOnUIInverted);
 			if (caravan != null)
 			{
-				CameraJumper.TryJumpAndSelect((WorldObject)caravan);
+				CameraJumper.TryJumpAndSelect(caravan);
 			}
 			else
 			{
@@ -515,8 +535,8 @@ namespace RimWorld
 			List<object> list = this.SelectableObjectsUnderMouse().ToList();
 			if (list.Count != 0)
 			{
-				Thing clickedThing = list.FirstOrDefault((Func<object, bool>)((object o) => o is Pawn && ((Pawn)o).Faction == Faction.OfPlayer && !((Pawn)o).IsPrisoner)) as Thing;
-				clickedThing = (list.FirstOrDefault((Func<object, bool>)((object o) => o is Pawn)) as Thing);
+				Thing clickedThing = list.FirstOrDefault((object o) => o is Pawn && ((Pawn)o).Faction == Faction.OfPlayer && !((Pawn)o).IsPrisoner) as Thing;
+				clickedThing = (list.FirstOrDefault((object o) => o is Pawn) as Thing);
 				if (clickedThing == null)
 				{
 					clickedThing = ((from o in list
@@ -526,7 +546,7 @@ namespace RimWorld
 				Rect rect = new Rect(0f, 0f, (float)UI.screenWidth, (float)UI.screenHeight);
 				if (clickedThing == null)
 				{
-					object obj = list.FirstOrDefault((Func<object, bool>)((object o) => o is Zone && ((Zone)o).IsMultiselectable));
+					object obj = list.FirstOrDefault((object o) => o is Zone && ((Zone)o).IsMultiselectable);
 					if (obj != null)
 					{
 						IEnumerable<Zone> enumerable = ThingSelectionUtility.MultiSelectableZonesInScreenRectDistinct(rect);
@@ -542,14 +562,9 @@ namespace RimWorld
 				else
 				{
 					IEnumerable enumerable2 = ThingSelectionUtility.MultiSelectableThingsInScreenRectDistinct(rect);
-					Predicate<Thing> predicate = (Predicate<Thing>)delegate(Thing t)
+					Predicate<Thing> predicate = delegate(Thing t)
 					{
-						bool result;
-						if (t.def != clickedThing.def || t.Faction != clickedThing.Faction || this.IsSelected(t))
-						{
-							result = false;
-						}
-						else
+						if (t.def == clickedThing.def && t.Faction == clickedThing.Faction && !this.IsSelected(t))
 						{
 							Pawn pawn = clickedThing as Pawn;
 							if (pawn != null)
@@ -557,20 +572,16 @@ namespace RimWorld
 								Pawn pawn2 = t as Pawn;
 								if (pawn2.RaceProps != pawn.RaceProps)
 								{
-									result = false;
-									goto IL_0097;
+									return false;
 								}
 								if (pawn2.HostFaction != pawn.HostFaction)
 								{
-									result = false;
-									goto IL_0097;
+									return false;
 								}
 							}
-							result = true;
+							return true;
 						}
-						goto IL_0097;
-						IL_0097:
-						return result;
+						return false;
 					};
 					IEnumerator enumerator2 = enumerable2.GetEnumerator();
 					try
@@ -598,21 +609,13 @@ namespace RimWorld
 
 		private static void AutoOrderToCell(Pawn pawn, IntVec3 dest)
 		{
-			using (List<FloatMenuOption>.Enumerator enumerator = FloatMenuMakerMap.ChoicesAtFor(dest.ToVector3Shifted(), pawn).GetEnumerator())
+			foreach (FloatMenuOption item in FloatMenuMakerMap.ChoicesAtFor(dest.ToVector3Shifted(), pawn))
 			{
-				FloatMenuOption current;
-				while (true)
+				if (item.autoTakeable)
 				{
-					if (enumerator.MoveNext())
-					{
-						current = enumerator.Current;
-						if (current.autoTakeable)
-							break;
-						continue;
-					}
-					return;
+					item.Chosen(true);
+					break;
 				}
-				current.Chosen(true);
 			}
 		}
 	}

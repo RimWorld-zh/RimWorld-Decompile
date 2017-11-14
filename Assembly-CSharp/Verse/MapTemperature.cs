@@ -1,9 +1,7 @@
-#define ENABLE_PROFILER
 using RimWorld;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 namespace Verse
 {
@@ -38,7 +36,6 @@ namespace Verse
 		{
 			if (Find.TickManager.TicksGame % 120 == 7)
 			{
-				Profiler.BeginSample("Rooms equalize temperatures");
 				this.fastProcessedRoomGroups.Clear();
 				List<Room> allRooms = this.map.regionGrid.allRooms;
 				for (int i = 0; i < allRooms.Count; i++)
@@ -51,7 +48,6 @@ namespace Verse
 					}
 				}
 				this.fastProcessedRoomGroups.Clear();
-				Profiler.EndSample();
 			}
 		}
 
@@ -119,7 +115,7 @@ namespace Verse
 			stringBuilder.AppendLine("-----Temperature for each twelfth this year------");
 			for (int j = 0; j < 12; j++)
 			{
-				Twelfth twelfth = (Twelfth)(byte)j;
+				Twelfth twelfth = (Twelfth)j;
 				float num4 = Find.World.tileTemperatures.AverageTemperatureForTwelfth(this.map.Tile, twelfth);
 				stringBuilder.AppendLine(twelfth.GetQuadrum() + "/" + SeasonUtility.GetReportedSeason(twelfth.GetMiddleYearPct(), num2) + " - " + twelfth.ToString() + " " + num4.ToString("F2"));
 			}

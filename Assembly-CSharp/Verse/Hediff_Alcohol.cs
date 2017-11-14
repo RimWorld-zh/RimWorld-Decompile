@@ -20,7 +20,7 @@ namespace Verse
 				{
 					firstHediffOfDef = HediffMaker.MakeHediff(HediffDefOf.Hangover, base.pawn, null);
 					firstHediffOfDef.Severity = 1f;
-					base.pawn.health.AddHediff(firstHediffOfDef, null, default(DamageInfo?));
+					base.pawn.health.AddHediff(firstHediffOfDef, null, null);
 				}
 			}
 		}

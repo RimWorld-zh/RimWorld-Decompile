@@ -123,24 +123,18 @@ namespace RimWorld
 		{
 			get
 			{
-				IEnumerable<InspectTabBase> result;
 				if (this.NumSelected == 1)
 				{
 					if (this.SelThing != null && this.SelThing.def.inspectorTabsResolved != null)
 					{
-						result = this.SelThing.GetInspectTabs();
-						goto IL_0067;
+						return this.SelThing.GetInspectTabs();
 					}
 					if (this.SelZone != null)
 					{
-						result = this.SelZone.GetInspectTabs();
-						goto IL_0067;
+						return this.SelZone.GetInspectTabs();
 					}
 				}
-				result = Enumerable.Empty<InspectTabBase>();
-				goto IL_0067;
-				IL_0067:
-				return result;
+				return Enumerable.Empty<InspectTabBase>();
 			}
 		}
 

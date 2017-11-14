@@ -33,7 +33,8 @@ namespace RimWorld
 		{
 		}
 
-		public Area_BuildRoof(AreaManager areaManager) : base(areaManager)
+		public Area_BuildRoof(AreaManager areaManager)
+			: base(areaManager)
 		{
 		}
 

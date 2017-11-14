@@ -69,8 +69,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_0165:
-			/*Error near IL_0166: Unexpected return in MoveNext()*/;
+			IL_015e:
+			/*Error near IL_015f: Unexpected return in MoveNext()*/;
 		}
 
 		public override void GenerateTestData()

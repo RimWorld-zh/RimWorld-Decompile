@@ -11,17 +11,12 @@ namespace Verse
 
 		public static float AngleFlat(this Vector3 v)
 		{
-			float result;
 			if (v.x == 0.0 && v.z == 0.0)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				Vector3 eulerAngles = Quaternion.LookRotation(v).eulerAngles;
-				result = eulerAngles.y;
-			}
-			return result;
+			Vector3 eulerAngles = Quaternion.LookRotation(v).eulerAngles;
+			return eulerAngles.y;
 		}
 
 		public static Vector3 RandomHorizontalOffset(float maxDist)
@@ -38,36 +33,19 @@ namespace Verse
 
 		public static Vector3 RotatedBy(this Vector3 orig, Rot4 rot)
 		{
-			Vector3 result;
 			switch (rot.AsInt)
 			{
 			case 0:
-			{
-				result = orig;
-				break;
-			}
+				return orig;
 			case 1:
-			{
-				result = new Vector3(orig.z, orig.y, (float)(0.0 - orig.x));
-				break;
-			}
+				return new Vector3(orig.z, orig.y, (float)(0.0 - orig.x));
 			case 2:
-			{
-				result = new Vector3((float)(0.0 - orig.x), orig.y, (float)(0.0 - orig.z));
-				break;
-			}
+				return new Vector3((float)(0.0 - orig.x), orig.y, (float)(0.0 - orig.z));
 			case 3:
-			{
-				result = new Vector3((float)(0.0 - orig.z), orig.y, orig.x);
-				break;
-			}
+				return new Vector3((float)(0.0 - orig.z), orig.y, orig.x);
 			default:
-			{
-				result = orig;
-				break;
+				return orig;
 			}
-			}
-			return result;
 		}
 
 		public static float AngleToFlat(this Vector3 a, Vector3 b)

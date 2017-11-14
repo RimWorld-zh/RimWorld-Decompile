@@ -6,7 +6,8 @@ namespace Verse
 	{
 		protected bool requireAddToMapMesh;
 
-		public SectionLayer_Things(Section section) : base(section)
+		public SectionLayer_Things(Section section)
+			: base(section)
 		{
 		}
 
@@ -26,9 +27,9 @@ namespace Verse
 				IntVec3 current = item;
 				List<Thing> list = base.Map.thingGrid.ThingsListAt(current);
 				int count = list.Count;
-				for (int num = 0; num < count; num++)
+				for (int i = 0; i < count; i++)
 				{
-					Thing thing = list[num];
+					Thing thing = list[i];
 					if (thing.def.drawerType != 0 && (thing.def.drawerType != DrawerType.RealtimeOnly || !this.requireAddToMapMesh) && (!(thing.def.hideAtSnowDepth < 1.0) || !(base.Map.snowGrid.GetDepth(thing.Position) > thing.def.hideAtSnowDepth)))
 					{
 						IntVec3 position = thing.Position;

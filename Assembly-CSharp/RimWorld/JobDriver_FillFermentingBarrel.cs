@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -31,17 +30,17 @@ namespace RimWorld
 
 		public override bool TryMakePreToilReservations()
 		{
-			return base.pawn.Reserve((Thing)this.Barrel, base.job, 1, -1, null) && base.pawn.Reserve(this.Wort, base.job, 1, -1, null);
+			return base.pawn.Reserve(this.Barrel, base.job, 1, -1, null) && base.pawn.Reserve(this.Wort, base.job, 1, -1, null);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
 			this.FailOnBurningImmobile(TargetIndex.A);
-			base.AddEndCondition((Func<JobCondition>)(() => (JobCondition)((((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_005e: stateMachine*/)._0024this.Barrel.SpaceLeftForWort > 0) ? 1 : 2)));
-			yield return Toils_General.DoAtomic((Action)delegate
+			base.AddEndCondition(() => (JobCondition)((((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_005d: stateMachine*/)._0024this.Barrel.SpaceLeftForWort > 0) ? 1 : 2));
+			yield return Toils_General.DoAtomic(delegate
 			{
-				((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0070: stateMachine*/)._0024this.job.count = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0070: stateMachine*/)._0024this.Barrel.SpaceLeftForWort;
+				((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006f: stateMachine*/)._0024this.job.count = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006f: stateMachine*/)._0024this.Barrel.SpaceLeftForWort;
 			});
 			/*Error: Unable to find new state assignment for yield return*/;
 		}

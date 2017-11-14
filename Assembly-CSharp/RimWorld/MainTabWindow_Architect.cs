@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,9 +9,9 @@ namespace RimWorld
 {
 	public class MainTabWindow_Architect : MainTabWindow
 	{
-		private List<ArchitectCategoryTab> desPanelsCached = null;
+		private List<ArchitectCategoryTab> desPanelsCached;
 
-		public ArchitectCategoryTab selectedDesPanel = null;
+		public ArchitectCategoryTab selectedDesPanel;
 
 		public const float WinWidth = 200f;
 

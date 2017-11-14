@@ -84,7 +84,7 @@ namespace Verse
 					list.Add(activeTip.Value);
 				}
 			}
-			list.Sort(new Comparison<ActiveTip>(TooltipHandler.CompareTooltipsByPriority));
+			list.Sort(TooltipHandler.CompareTooltipsByPriority);
 			Vector2 pos = TooltipHandler.CalculateInitialTipPosition(list);
 			for (int i = 0; i < list.Count; i++)
 			{
@@ -133,7 +133,19 @@ namespace Verse
 
 		private static int CompareTooltipsByPriority(ActiveTip A, ActiveTip B)
 		{
-			return (A.signal.priority != B.signal.priority) ? ((A.signal.priority != TooltipPriority.Pawn) ? ((B.signal.priority == TooltipPriority.Pawn) ? 1 : 0) : (-1)) : 0;
+			if (A.signal.priority == B.signal.priority)
+			{
+				return 0;
+			}
+			if (A.signal.priority == TooltipPriority.Pawn)
+			{
+				return -1;
+			}
+			if (B.signal.priority == TooltipPriority.Pawn)
+			{
+				return 1;
+			}
+			return 0;
 		}
 	}
 }

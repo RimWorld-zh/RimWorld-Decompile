@@ -11,7 +11,7 @@ namespace Verse.AI
 
 		public override bool TryStart(Pawn pawn, Thought reason, bool causedByMood)
 		{
-			pawn.health.AddHediff(HediffDefOf.CatatonicBreakdown, null, default(DamageInfo?));
+			pawn.health.AddHediff(HediffDefOf.CatatonicBreakdown, null, null);
 			base.TrySendLetter(pawn, "LetterCatatonicMentalBreak", reason);
 			return true;
 		}

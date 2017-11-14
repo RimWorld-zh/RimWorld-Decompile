@@ -5,7 +5,7 @@ namespace Verse.AI
 {
 	public class JobDriver_AttackMelee : JobDriver
 	{
-		private int numMeleeAttacksMade = 0;
+		private int numMeleeAttacksMade;
 
 		public override void ExposeData()
 		{
@@ -40,10 +40,10 @@ namespace Verse.AI
 					{
 						IntVec3 intVec = default(IntVec3);
 						thing = pawnPath.FirstBlockingBuilding(out intVec, base.pawn);
-						goto end_IL_0050;
+						goto end_IL_004e;
 					}
 					return;
-					end_IL_0050:;
+					end_IL_004e:;
 				}
 				if (thing != null)
 				{

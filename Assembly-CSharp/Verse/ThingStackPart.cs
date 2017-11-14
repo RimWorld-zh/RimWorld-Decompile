@@ -47,7 +47,11 @@ namespace Verse
 
 		public override bool Equals(object obj)
 		{
-			return obj is ThingStackPart && this.Equals((ThingStackPart)obj);
+			if (!(obj is ThingStackPart))
+			{
+				return false;
+			}
+			return this.Equals((ThingStackPart)obj);
 		}
 
 		public bool Equals(ThingStackPart other)
@@ -68,6 +72,11 @@ namespace Verse
 		public override int GetHashCode()
 		{
 			return Gen.HashCombine(this.count, this.thing);
+		}
+
+		public static implicit operator ThingStackPart(ThingStackPartClass t)
+		{
+			return new ThingStackPart(t.thing, t.Count);
 		}
 	}
 }

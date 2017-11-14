@@ -56,7 +56,7 @@ namespace Verse.AI.Group
 
 		public virtual string GetReport()
 		{
-			return (string)null;
+			return null;
 		}
 
 		public virtual bool CanOpenAnyDoor(Pawn p)

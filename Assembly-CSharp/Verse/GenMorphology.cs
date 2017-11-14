@@ -34,11 +34,11 @@ namespace Verse
 				if (GenMorphology.tmpEdgeCells.Any())
 				{
 					GenMorphology.tmpOutput.Clear();
-					Predicate<IntVec3> predicate = ((object)extraPredicate == null) ? ((Predicate<IntVec3>)((IntVec3 x) => GenMorphology.cellsSet.Contains(x))) : ((Predicate<IntVec3>)((IntVec3 x) => GenMorphology.cellsSet.Contains(x) && extraPredicate(x)));
+					Predicate<IntVec3> predicate = (extraPredicate == null) ? ((Predicate<IntVec3>)((IntVec3 x) => GenMorphology.cellsSet.Contains(x))) : ((Predicate<IntVec3>)((IntVec3 x) => GenMorphology.cellsSet.Contains(x) && extraPredicate(x)));
 					FloodFiller floodFiller = map.floodFiller;
 					IntVec3 invalid = IntVec3.Invalid;
 					Predicate<IntVec3> passCheck = predicate;
-					Func<IntVec3, int, bool> processor = (Func<IntVec3, int, bool>)delegate(IntVec3 cell, int traversalDist)
+					Func<IntVec3, int, bool> processor = delegate(IntVec3 cell, int traversalDist)
 					{
 						if (traversalDist >= count)
 						{
@@ -60,25 +60,18 @@ namespace Verse
 			{
 				FloodFiller floodFiller = map.floodFiller;
 				IntVec3 invalid = IntVec3.Invalid;
-				object obj = extraPredicate;
-				Predicate<IntVec3> passCheck;
-				obj = (passCheck = (Predicate<IntVec3>)((IntVec3 x) => true));
-				Func<IntVec3, int, bool> processor = (Func<IntVec3, int, bool>)delegate(IntVec3 cell, int traversalDist)
+				Predicate<IntVec3> passCheck = extraPredicate ?? ((Predicate<IntVec3>)((IntVec3 x) => true));
+				Func<IntVec3, int, bool> processor = delegate(IntVec3 cell, int traversalDist)
 				{
-					bool result;
 					if (traversalDist > count)
 					{
-						result = true;
+						return true;
 					}
-					else
+					if (traversalDist != 0)
 					{
-						if (traversalDist != 0)
-						{
-							cells.Add(cell);
-						}
-						result = false;
+						cells.Add(cell);
 					}
-					return result;
+					return false;
 				};
 				List<IntVec3> extraRoots = cells;
 				floodFiller.FloodFill(invalid, passCheck, processor, 2147483647, false, extraRoots);

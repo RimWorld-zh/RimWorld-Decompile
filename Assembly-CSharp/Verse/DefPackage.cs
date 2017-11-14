@@ -10,7 +10,7 @@ namespace Verse
 	{
 		public string fileName = "NamelessPackage";
 
-		public string relFolder = "";
+		public string relFolder = string.Empty;
 
 		public List<Def> defs = new List<Def>();
 

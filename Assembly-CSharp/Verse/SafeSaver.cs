@@ -111,9 +111,9 @@ namespace Verse
 			{
 				Log.Warning("Could not remove file \"" + path + "\": " + ex);
 				if (!rethrow)
-					goto end_IL_0019;
+					goto end_IL_0016;
 				throw;
-				end_IL_0019:;
+				end_IL_0016:;
 			}
 		}
 

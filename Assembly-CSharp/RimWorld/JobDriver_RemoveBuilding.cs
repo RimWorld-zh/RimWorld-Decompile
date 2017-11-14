@@ -6,9 +6,9 @@ namespace RimWorld
 {
 	public abstract class JobDriver_RemoveBuilding : JobDriver
 	{
-		private float workLeft = 0f;
+		private float workLeft;
 
-		private float totalNeededWork = 0f;
+		private float totalNeededWork;
 
 		protected Thing Target
 		{

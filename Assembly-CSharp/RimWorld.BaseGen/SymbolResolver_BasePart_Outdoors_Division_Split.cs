@@ -11,9 +11,17 @@ namespace RimWorld.BaseGen
 
 		public override bool CanResolve(ResolveParams rp)
 		{
+			if (!base.CanResolve(rp))
+			{
+				return false;
+			}
 			int num = default(int);
 			int num2 = default(int);
-			return (byte)(base.CanResolve(rp) ? ((this.TryFindSplitPoint(false, rp.rect, out num, out num2) || this.TryFindSplitPoint(true, rp.rect, out num, out num2)) ? 1 : 0) : 0) != 0;
+			if (!this.TryFindSplitPoint(false, rp.rect, out num, out num2) && !this.TryFindSplitPoint(true, rp.rect, out num, out num2))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override void Resolve(ResolveParams rp)
@@ -25,16 +33,16 @@ namespace RimWorld.BaseGen
 			if (this.TryFindSplitPoint(@bool, rp.rect, out num, out num2))
 			{
 				flag = @bool;
-				goto IL_0059;
+				goto IL_0053;
 			}
 			if (this.TryFindSplitPoint(!@bool, rp.rect, out num, out num2))
 			{
 				flag = !@bool;
-				goto IL_0059;
+				goto IL_0053;
 			}
 			Log.Warning("Could not find split point.");
 			return;
-			IL_0059:
+			IL_0053:
 			TerrainDef floorDef = rp.pathwayFloorDef ?? BaseGenUtility.RandomBasicFloorDef(rp.faction, false);
 			ResolveParams resolveParams3;
 			ResolveParams resolveParams5;
@@ -43,7 +51,7 @@ namespace RimWorld.BaseGen
 				ResolveParams resolveParams = rp;
 				resolveParams.rect = new CellRect(rp.rect.minX, rp.rect.minZ + num, rp.rect.Width, num2);
 				resolveParams.floorDef = floorDef;
-				resolveParams.streetHorizontal = new bool?(true);
+				resolveParams.streetHorizontal = true;
 				BaseGen.symbolStack.Push("street", resolveParams);
 				ResolveParams resolveParams2 = rp;
 				resolveParams2.rect = new CellRect(rp.rect.minX, rp.rect.minZ, rp.rect.Width, num);
@@ -57,7 +65,7 @@ namespace RimWorld.BaseGen
 				ResolveParams resolveParams6 = rp;
 				resolveParams6.rect = new CellRect(rp.rect.minX + num, rp.rect.minZ, num2, rp.rect.Height);
 				resolveParams6.floorDef = floorDef;
-				resolveParams6.streetHorizontal = new bool?(false);
+				resolveParams6.streetHorizontal = false;
 				BaseGen.symbolStack.Push("street", resolveParams6);
 				ResolveParams resolveParams7 = rp;
 				resolveParams7.rect = new CellRect(rp.rect.minX, rp.rect.minZ, num, rp.rect.Height);
@@ -85,18 +93,13 @@ namespace RimWorld.BaseGen
 			spaceBetween = Mathf.Min(spaceBetween, num - 10);
 			int num2 = spaceBetween;
 			IntRange spaceBetweenRange = SymbolResolver_BasePart_Outdoors_Division_Split.SpaceBetweenRange;
-			bool result;
 			if (num2 < spaceBetweenRange.min)
 			{
 				splitPoint = -1;
-				result = false;
+				return false;
 			}
-			else
-			{
-				splitPoint = Rand.RangeInclusive(5, num - 5 - spaceBetween);
-				result = true;
-			}
-			return result;
+			splitPoint = Rand.RangeInclusive(5, num - 5 - spaceBetween);
+			return true;
 		}
 	}
 }

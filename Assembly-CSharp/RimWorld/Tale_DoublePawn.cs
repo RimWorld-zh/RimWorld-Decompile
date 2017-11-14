@@ -50,7 +50,11 @@ namespace RimWorld
 
 		public override bool Concerns(Thing th)
 		{
-			return (this.secondPawnData != null && this.secondPawnData.pawn == th) || base.Concerns(th) || this.firstPawnData.pawn == th;
+			if (this.secondPawnData != null && this.secondPawnData.pawn == th)
+			{
+				return true;
+			}
+			return base.Concerns(th) || this.firstPawnData.pawn == th;
 		}
 
 		public override void ExposeData()
@@ -102,8 +106,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_02c9:
-			/*Error near IL_02ca: Unexpected return in MoveNext()*/;
+			IL_02ba:
+			/*Error near IL_02bb: Unexpected return in MoveNext()*/;
 		}
 
 		public override void GenerateTestData()

@@ -10,24 +10,18 @@ namespace Verse
 
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
-			bool result;
 			if (xml.SelectSingleNode(base.xpath) != null)
 			{
 				if (this.match != null)
 				{
-					result = this.match.Apply(xml);
-					goto IL_005c;
+					return this.match.Apply(xml);
 				}
 			}
 			else if (this.nomatch != null)
 			{
-				result = this.nomatch.Apply(xml);
-				goto IL_005c;
+				return this.nomatch.Apply(xml);
 			}
-			result = false;
-			goto IL_005c;
-			IL_005c:
-			return result;
+			return false;
 		}
 	}
 }

@@ -10,7 +10,7 @@ namespace RimWorld
 
 		public SlotGroup slotGroup;
 
-		private List<IntVec3> cachedOccupiedCells = null;
+		private List<IntVec3> cachedOccupiedCells;
 
 		public bool StorageTabVisible
 		{
@@ -57,8 +57,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_00bd:
-			/*Error near IL_00be: Unexpected return in MoveNext()*/;
+			IL_00b9:
+			/*Error near IL_00ba: Unexpected return in MoveNext()*/;
 		}
 
 		public List<IntVec3> AllSlotCellsList()
@@ -122,7 +122,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -141,8 +141,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_0156:
-			/*Error near IL_0157: Unexpected return in MoveNext()*/;
+			IL_014f:
+			/*Error near IL_0150: Unexpected return in MoveNext()*/;
 		}
 	}
 }

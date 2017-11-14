@@ -8,7 +8,7 @@ namespace Verse.AI
 		public static Toil Jump(Toil jumpTarget)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				toil.actor.jobs.curDriver.JumpToToil(jumpTarget);
 			};
@@ -18,7 +18,7 @@ namespace Verse.AI
 		public static Toil JumpIf(Toil jumpTarget, Func<bool> condition)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				if (condition())
 				{
@@ -31,7 +31,7 @@ namespace Verse.AI
 		public static Toil JumpIfTargetDespawnedOrNull(TargetIndex ind, Toil jumpToil)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Thing thing = toil.actor.jobs.curJob.GetTarget(ind).Thing;
 				if (thing != null && thing.Spawned)
@@ -44,7 +44,7 @@ namespace Verse.AI
 		public static Toil JumpIfTargetInvalid(TargetIndex ind, Toil jumpToil)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				if (!toil.actor.jobs.curJob.GetTarget(ind).IsValid)
 				{
@@ -57,7 +57,7 @@ namespace Verse.AI
 		public static Toil JumpIfTargetNotHittable(TargetIndex ind, Toil jumpToil)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.jobs.curJob;
@@ -72,7 +72,7 @@ namespace Verse.AI
 		public static Toil JumpIfTargetDownedDistant(TargetIndex ind, Toil jumpToil)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.jobs.curJob;
@@ -89,7 +89,7 @@ namespace Verse.AI
 		public static Toil JumpIfHaveTargetInQueue(TargetIndex ind, Toil jumpToil)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.jobs.curJob;
@@ -105,7 +105,7 @@ namespace Verse.AI
 		public static Toil JumpIfCannotTouch(TargetIndex ind, PathEndMode peMode, Toil jumpToil)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.jobs.curJob;

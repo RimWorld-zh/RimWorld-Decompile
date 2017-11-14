@@ -40,8 +40,8 @@ namespace RimWorld.BaseGen
 			{
 			case 1:
 			{
-				int? edgeDefenseTurretsCount2 = rp.edgeDefenseTurretsCount;
-				num2 = (edgeDefenseTurretsCount2.HasValue ? edgeDefenseTurretsCount2.Value : 0);
+				int? edgeDefenseTurretsCount4 = rp.edgeDefenseTurretsCount;
+				num2 = (edgeDefenseTurretsCount4.HasValue ? edgeDefenseTurretsCount4.Value : 0);
 				num3 = 0;
 				flag = false;
 				flag2 = true;
@@ -60,8 +60,8 @@ namespace RimWorld.BaseGen
 			}
 			case 3:
 			{
-				int? edgeDefenseTurretsCount4 = rp.edgeDefenseTurretsCount;
-				num2 = ((!edgeDefenseTurretsCount4.HasValue) ? (rp.rect.EdgeCellsCount / 30) : edgeDefenseTurretsCount4.Value);
+				int? edgeDefenseTurretsCount2 = rp.edgeDefenseTurretsCount;
+				num2 = ((!edgeDefenseTurretsCount2.HasValue) ? (rp.rect.EdgeCellsCount / 30) : edgeDefenseTurretsCount2.Value);
 				int? edgeDefenseMortarsCount2 = rp.edgeDefenseMortarsCount;
 				num3 = ((!edgeDefenseMortarsCount2.HasValue) ? (rp.rect.EdgeCellsCount / 75) : edgeDefenseMortarsCount2.Value);
 				flag = (num3 == 0);
@@ -89,44 +89,33 @@ namespace RimWorld.BaseGen
 			if (num > 0)
 			{
 				Lord singlePawnLord = rp.singlePawnLord ?? LordMaker.MakeNewLord(faction, new LordJob_DefendBase(faction, rp.rect.CenterCell), map, null);
-				for (int num4 = 0; num4 < num; num4++)
+				for (int i = 0; i < num; i++)
 				{
-					PawnGenerationRequest value = new PawnGenerationRequest(faction.RandomPawnKind(), faction, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, true, 1f, false, true, true, false, false, false, false, null, default(float?), default(float?), default(float?), default(Gender?), default(float?), (string)null);
+					PawnGenerationRequest value = new PawnGenerationRequest(faction.RandomPawnKind(), faction, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, true, 1f, false, true, true, false, false, false, false, null, null, null, null, null, null, null);
 					ResolveParams resolveParams = rp;
 					resolveParams.faction = faction;
 					resolveParams.singlePawnLord = singlePawnLord;
-					resolveParams.singlePawnGenerationRequest = new PawnGenerationRequest?(value);
-					object obj = resolveParams.singlePawnSpawnCellExtraPredicate;
-					obj = (resolveParams.singlePawnSpawnCellExtraPredicate = (Predicate<IntVec3>)delegate(IntVec3 x)
+					resolveParams.singlePawnGenerationRequest = value;
+					resolveParams.singlePawnSpawnCellExtraPredicate = (resolveParams.singlePawnSpawnCellExtraPredicate ?? ((Predicate<IntVec3>)delegate(IntVec3 x)
 					{
 						CellRect cellRect = rp.rect;
-						int num8 = 0;
-						bool result;
-						while (true)
+						for (int m = 0; m < width; m++)
 						{
-							if (num8 < width)
+							if (cellRect.IsOnEdge(x))
 							{
-								if (cellRect.IsOnEdge(x))
-								{
-									result = true;
-									break;
-								}
-								cellRect = cellRect.ContractedBy(1);
-								num8++;
-								continue;
+								return true;
 							}
-							result = true;
-							break;
+							cellRect = cellRect.ContractedBy(1);
 						}
-						return result;
-					});
+						return true;
+					}));
 					BaseGen.symbolStack.Push("pawn", resolveParams);
 				}
 			}
 			CellRect rect = rp.rect;
-			for (int num5 = 0; num5 < width; num5++)
+			for (int j = 0; j < width; j++)
 			{
-				if (num5 % 2 == 0)
+				if (j % 2 == 0)
 				{
 					ResolveParams resolveParams2 = rp;
 					resolveParams2.faction = faction;
@@ -138,7 +127,7 @@ namespace RimWorld.BaseGen
 				rect = rect.ContractedBy(1);
 			}
 			CellRect rect2 = (!flag3) ? rp.rect.ContractedBy(1) : rp.rect;
-			for (int num6 = 0; num6 < num3; num6++)
+			for (int k = 0; k < num3; k++)
 			{
 				ResolveParams resolveParams3 = rp;
 				resolveParams3.faction = faction;
@@ -146,14 +135,14 @@ namespace RimWorld.BaseGen
 				BaseGen.symbolStack.Push("edgeMannedMortar", resolveParams3);
 			}
 			CellRect rect3 = (!flag2) ? rp.rect.ContractedBy(1) : rp.rect;
-			for (int num7 = 0; num7 < num2; num7++)
+			for (int l = 0; l < num2; l++)
 			{
 				ResolveParams resolveParams4 = rp;
 				resolveParams4.faction = faction;
 				resolveParams4.singleThingDef = ThingDefOf.TurretGun;
 				resolveParams4.rect = rect3;
 				bool? edgeThingAvoidOtherEdgeThings = rp.edgeThingAvoidOtherEdgeThings;
-				resolveParams4.edgeThingAvoidOtherEdgeThings = new bool?(!edgeThingAvoidOtherEdgeThings.HasValue || edgeThingAvoidOtherEdgeThings.Value);
+				resolveParams4.edgeThingAvoidOtherEdgeThings = (!edgeThingAvoidOtherEdgeThings.HasValue || edgeThingAvoidOtherEdgeThings.Value);
 				BaseGen.symbolStack.Push("edgeThing", resolveParams4);
 			}
 		}

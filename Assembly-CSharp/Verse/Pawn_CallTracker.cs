@@ -21,7 +21,19 @@ namespace Verse
 		{
 			get
 			{
-				return (byte)(this.pawn.InAggroMentalState ? 1 : ((this.pawn.mindState.enemyTarget != null && this.pawn.mindState.enemyTarget.Spawned && Find.TickManager.TicksGame - this.pawn.mindState.lastEngageTargetTick <= 360) ? 1 : ((this.pawn.CurJob != null && this.pawn.CurJob.def == JobDefOf.AttackMelee) ? 1 : 0))) != 0;
+				if (this.pawn.InAggroMentalState)
+				{
+					return true;
+				}
+				if (this.pawn.mindState.enemyTarget != null && this.pawn.mindState.enemyTarget.Spawned && Find.TickManager.TicksGame - this.pawn.mindState.lastEngageTargetTick <= 360)
+				{
+					return true;
+				}
+				if (this.pawn.CurJob != null && this.pawn.CurJob.def == JobDefOf.AttackMelee)
+				{
+					return true;
+				}
+				return false;
 			}
 		}
 
@@ -29,40 +41,21 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				switch (Find.TickManager.CurTimeSpeed)
 				{
 				case TimeSpeed.Paused:
-				{
-					result = 1f;
-					break;
-				}
+					return 1f;
 				case TimeSpeed.Normal:
-				{
-					result = 1f;
-					break;
-				}
+					return 1f;
 				case TimeSpeed.Fast:
-				{
-					result = 1f;
-					break;
-				}
+					return 1f;
 				case TimeSpeed.Superfast:
-				{
-					result = 0.25f;
-					break;
-				}
+					return 0.25f;
 				case TimeSpeed.Ultrafast:
-				{
-					result = 0.25f;
-					break;
-				}
+					return 0.25f;
 				default:
-				{
 					throw new NotImplementedException();
 				}
-				}
-				return result;
 			}
 		}
 
@@ -108,11 +101,11 @@ namespace Verse
 			{
 				if (this.PawnAggressive)
 				{
-					LifeStageUtility.PlayNearestLifestageSound(this.pawn, (Func<LifeStageAge, SoundDef>)((LifeStageAge ls) => ls.soundAngry), 1f);
+					LifeStageUtility.PlayNearestLifestageSound(this.pawn, (LifeStageAge ls) => ls.soundAngry, 1f);
 				}
 				else
 				{
-					LifeStageUtility.PlayNearestLifestageSound(this.pawn, (Func<LifeStageAge, SoundDef>)((LifeStageAge ls) => ls.soundCall), this.IdleCallVolumeFactor);
+					LifeStageUtility.PlayNearestLifestageSound(this.pawn, (LifeStageAge ls) => ls.soundCall, this.IdleCallVolumeFactor);
 				}
 			}
 		}

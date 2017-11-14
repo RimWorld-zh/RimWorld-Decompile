@@ -56,7 +56,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (base.Faction != Faction.OfPlayer) ? MapGeneratorDefOf.FactionBase : null;
+				if (base.Faction == Faction.OfPlayer)
+				{
+					return null;
+				}
+				return MapGeneratorDefOf.FactionBase;
 			}
 		}
 
@@ -67,7 +71,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable<IncidentTargetTypeDef> AcceptedTypes()
 		{
-			using (IEnumerator<IncidentTargetTypeDef> enumerator = this._003CAcceptedTypes_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<IncidentTargetTypeDef> enumerator = base.AcceptedTypes().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -83,8 +87,8 @@ namespace RimWorld.Planet
 			}
 			yield return IncidentTargetTypeDefOf.MapMisc;
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0121:
-			/*Error near IL_0122: Unexpected return in MoveNext()*/;
+			IL_0119:
+			/*Error near IL_011a: Unexpected return in MoveNext()*/;
 		}
 
 		public override void ExposeData()

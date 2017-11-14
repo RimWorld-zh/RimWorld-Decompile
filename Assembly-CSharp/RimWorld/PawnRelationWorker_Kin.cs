@@ -7,7 +7,11 @@ namespace RimWorld
 	{
 		public override bool InRelation(Pawn me, Pawn other)
 		{
-			return me != other && me.relations.FamilyByBlood.Contains(other);
+			if (me == other)
+			{
+				return false;
+			}
+			return me.relations.FamilyByBlood.Contains(other);
 		}
 	}
 }

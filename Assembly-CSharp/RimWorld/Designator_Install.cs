@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -11,17 +10,16 @@ namespace RimWorld
 			get
 			{
 				Thing singleSelectedThing = Find.Selector.SingleSelectedThing;
-				Thing result;
 				if (singleSelectedThing is MinifiedThing)
 				{
-					result = singleSelectedThing;
+					return singleSelectedThing;
 				}
-				else
+				Building building = singleSelectedThing as Building;
+				if (building != null && building.def.Minifiable)
 				{
-					Building building = singleSelectedThing as Building;
-					result = ((building == null || !building.def.Minifiable) ? null : singleSelectedThing);
+					return singleSelectedThing;
 				}
-				return result;
+				return null;
 			}
 		}
 
@@ -53,7 +51,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (!(this.MiniToInstallOrBuildingToReinstall is MinifiedThing)) ? "CommandReinstall".Translate() : "CommandInstall".Translate();
+				if (this.MiniToInstallOrBuildingToReinstall is MinifiedThing)
+				{
+					return "CommandInstall".Translate();
+				}
+				return "CommandReinstall".Translate();
 			}
 		}
 
@@ -61,7 +63,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (!(this.MiniToInstallOrBuildingToReinstall is MinifiedThing)) ? "CommandReinstallDesc".Translate() : "CommandInstallDesc".Translate();
+				if (this.MiniToInstallOrBuildingToReinstall is MinifiedThing)
+				{
+					return "CommandInstallDesc".Translate();
+				}
+				return "CommandReinstallDesc".Translate();
 			}
 		}
 
@@ -77,7 +83,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return Find.Selector.SingleSelectedThing != null && base.Visible;
+				if (Find.Selector.SingleSelectedThing == null)
+				{
+					return false;
+				}
+				return base.Visible;
 			}
 		}
 
@@ -108,21 +118,20 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			AcceptanceReport result;
-			if (!(this.MiniToInstallOrBuildingToReinstall is MinifiedThing) && c.GetThingList(base.Map).Find((Predicate<Thing>)((Thing x) => x.Position == c && x.Rotation == base.placingRot && x.def == this.PlacingDef)) != null)
+			if (!c.InBounds(base.Map))
 			{
-				result = new AcceptanceReport("IdenticalThingExists".Translate());
+				return false;
 			}
-			else
+			if (!(this.MiniToInstallOrBuildingToReinstall is MinifiedThing) && c.GetThingList(base.Map).Find((Thing x) => x.Position == c && x.Rotation == base.placingRot && x.def == this.PlacingDef) != null)
 			{
-				BuildableDef placingDef = this.PlacingDef;
-				IntVec3 center = c;
-				Rot4 placingRot = base.placingRot;
-				Map map = base.Map;
-				Thing miniToInstallOrBuildingToReinstall = this.MiniToInstallOrBuildingToReinstall;
-				result = GenConstruct.CanPlaceBlueprintAt(placingDef, center, placingRot, map, false, miniToInstallOrBuildingToReinstall);
+				return new AcceptanceReport("IdenticalThingExists".Translate());
 			}
-			return result;
+			BuildableDef placingDef = this.PlacingDef;
+			IntVec3 center = c;
+			Rot4 placingRot = base.placingRot;
+			Map map = base.Map;
+			Thing miniToInstallOrBuildingToReinstall = this.MiniToInstallOrBuildingToReinstall;
+			return GenConstruct.CanPlaceBlueprintAt(placingDef, center, placingRot, map, false, miniToInstallOrBuildingToReinstall);
 		}
 
 		public override void DesignateSingleCell(IntVec3 c)

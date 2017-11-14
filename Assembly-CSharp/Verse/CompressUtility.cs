@@ -21,36 +21,36 @@ namespace Verse
 			MemoryStream stream = new MemoryStream(input);
 			DeflateStream deflateStream = new DeflateStream(stream, CompressionMode.Decompress);
 			List<byte[]> list = null;
-			byte[] result;
+			byte[] array;
+			int num;
 			while (true)
 			{
-				byte[] array = new byte[65536];
-				int num = deflateStream.Read(array, 0, array.Length);
+				array = new byte[65536];
+				num = deflateStream.Read(array, 0, array.Length);
 				if (num < array.Length && list == null)
 				{
 					byte[] array2 = new byte[num];
 					Array.Copy(array, array2, num);
-					result = array2;
-					break;
+					return array2;
 				}
-				if (num < array.Length)
+				if (num >= array.Length)
 				{
-					byte[] array3 = new byte[num + list.Count * array.Length];
-					for (int i = 0; i < list.Count; i++)
+					if (list == null)
 					{
-						Array.ConstrainedCopy(list[i], 0, array3, i * array.Length, array.Length);
+						list = new List<byte[]>();
 					}
-					Array.ConstrainedCopy(array, 0, array3, list.Count * array.Length, num);
-					result = array3;
-					break;
+					list.Add(array);
+					continue;
 				}
-				if (list == null)
-				{
-					list = new List<byte[]>();
-				}
-				list.Add(array);
+				break;
 			}
-			return result;
+			byte[] array3 = new byte[num + list.Count * array.Length];
+			for (int i = 0; i < list.Count; i++)
+			{
+				Array.ConstrainedCopy(list[i], 0, array3, i * array.Length, array.Length);
+			}
+			Array.ConstrainedCopy(array, 0, array3, list.Count * array.Length, num);
+			return array3;
 		}
 	}
 }

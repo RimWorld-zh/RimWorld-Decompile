@@ -20,6 +20,8 @@ namespace Verse
 
 		private ThingDef originalTargetThing;
 
+		private bool originalTargetMobile;
+
 		private ThingDef weaponDef;
 
 		private ThingDef projectileDef;
@@ -32,7 +34,15 @@ namespace Verse
 		{
 			get
 			{
-				return (this.initiatorPawn == null) ? ((this.initiatorThing == null) ? "null" : this.initiatorThing.defName) : this.initiatorPawn.NameStringShort;
+				if (this.initiatorPawn != null)
+				{
+					return this.initiatorPawn.NameStringShort;
+				}
+				if (this.initiatorThing != null)
+				{
+					return this.initiatorThing.defName;
+				}
+				return "null";
 			}
 		}
 
@@ -40,7 +50,15 @@ namespace Verse
 		{
 			get
 			{
-				return (this.recipientPawn == null) ? ((this.recipientThing == null) ? "null" : this.recipientThing.defName) : this.recipientPawn.NameStringShort;
+				if (this.recipientPawn != null)
+				{
+					return this.recipientPawn.NameStringShort;
+				}
+				if (this.recipientThing != null)
+				{
+					return this.recipientThing.defName;
+				}
+				return "null";
 			}
 		}
 
@@ -69,6 +87,7 @@ namespace Verse
 			if (originalTarget is Pawn)
 			{
 				this.originalTargetPawn = (originalTarget as Pawn);
+				this.originalTargetMobile = (!this.originalTargetPawn.Downed && !this.originalTargetPawn.Dead && this.originalTargetPawn.Awake());
 			}
 			else if (originalTarget != null)
 			{
@@ -97,18 +116,30 @@ namespace Verse
 				{
 					if (pov == this.recipientPawn)
 					{
-						CameraJumper.TryJumpAndSelect((Thing)this.initiatorPawn);
+						CameraJumper.TryJumpAndSelect(this.initiatorPawn);
 						return;
 					}
 					throw new NotImplementedException();
 				}
-				CameraJumper.TryJumpAndSelect((Thing)this.recipientPawn);
+				CameraJumper.TryJumpAndSelect(this.recipientPawn);
 			}
 		}
 
 		public override Texture2D IconFromPOV(Thing pov)
 		{
-			return (!this.damagedParts.NullOrEmpty()) ? ((pov == null || pov == this.recipientPawn) ? LogEntry.Blood : ((pov != this.initiatorPawn) ? null : LogEntry.BloodTarget)) : null;
+			if (this.damagedParts.NullOrEmpty())
+			{
+				return null;
+			}
+			if (pov != null && pov != this.recipientPawn)
+			{
+				if (pov == this.initiatorPawn)
+				{
+					return LogEntry.BloodTarget;
+				}
+				return null;
+			}
+			return LogEntry.Blood;
 		}
 
 		public override string ToGameStringFromPOV(Thing pov)
@@ -126,7 +157,7 @@ namespace Verse
 			}
 			if (this.initiatorPawn != null)
 			{
-				request.Rules.AddRange(GrammarUtility.RulesForPawn("initiator", this.initiatorPawn));
+				request.Rules.AddRange(GrammarUtility.RulesForPawn("initiator", this.initiatorPawn, request.Constants));
 			}
 			else if (this.initiatorThing != null)
 			{
@@ -138,7 +169,7 @@ namespace Verse
 			}
 			if (this.recipientPawn != null)
 			{
-				request.Rules.AddRange(GrammarUtility.RulesForPawn("recipient", this.recipientPawn));
+				request.Rules.AddRange(GrammarUtility.RulesForPawn("recipient", this.recipientPawn, request.Constants));
 			}
 			else if (this.recipientThing != null)
 			{
@@ -152,7 +183,8 @@ namespace Verse
 			{
 				if (this.originalTargetPawn != null)
 				{
-					request.Rules.AddRange(GrammarUtility.RulesForPawn("originalTarget", this.originalTargetPawn));
+					request.Rules.AddRange(GrammarUtility.RulesForPawn("originalTarget", this.originalTargetPawn, request.Constants));
+					request.Constants["originalTarget_mobile"] = this.originalTargetMobile.ToString();
 				}
 				else if (this.originalTargetThing != null)
 				{
@@ -165,7 +197,7 @@ namespace Verse
 			}
 			request.Rules.AddRange(PlayLogEntryUtility.RulesForOptionalWeapon("weapon", this.weaponDef, this.projectileDef));
 			request.Rules.AddRange(PlayLogEntryUtility.RulesForDamagedParts("recipient_part", this.damagedParts, this.damagedPartsDestroyed, request.Constants));
-			string result = GrammarResolver.Resolve("logentry", request, "ranged damage");
+			string result = GrammarResolver.Resolve("logentry", request, "ranged damage", false);
 			Rand.PopState();
 			return result;
 		}
@@ -179,6 +211,7 @@ namespace Verse
 			Scribe_Defs.Look<ThingDef>(ref this.recipientThing, "recipientThing");
 			Scribe_References.Look<Pawn>(ref this.originalTargetPawn, "originalTargetPawn", true);
 			Scribe_Defs.Look<ThingDef>(ref this.originalTargetThing, "originalTargetThing");
+			Scribe_Values.Look<bool>(ref this.originalTargetMobile, "originalTargetMobile", false, false);
 			Scribe_Defs.Look<ThingDef>(ref this.weaponDef, "weaponDef");
 			Scribe_Defs.Look<ThingDef>(ref this.projectileDef, "projectileDef");
 			Scribe_Collections.Look<BodyPartDef>(ref this.damagedParts, "damagedParts", LookMode.Def, new object[0]);

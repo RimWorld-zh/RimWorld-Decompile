@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -60,7 +59,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				if ((UnityEngine.Object)this.cachedMat == (UnityEngine.Object)null)
+				if ((Object)this.cachedMat == (Object)null)
 				{
 					Color color = (base.Faction != null) ? ((!base.Faction.IsPlayer) ? base.Faction.Color : Caravan.PlayerCaravanColor) : Color.white;
 					this.cachedMat = MaterialPool.MatFrom(base.def.texture, ShaderDatabase.WorldOverlayTransparentLit, color, WorldMaterials.DynamicObjectRenderQueue);
@@ -101,18 +100,13 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				bool result;
 				if (Find.TickManager.TicksGame - this.cachedImmobilizedForTicks < 60)
 				{
-					result = this.cachedImmobilized;
+					return this.cachedImmobilized;
 				}
-				else
-				{
-					this.cachedImmobilized = (this.MassUsage > this.MassCapacity);
-					this.cachedImmobilizedForTicks = Find.TickManager.TicksGame;
-					result = this.cachedImmobilized;
-				}
-				return result;
+				this.cachedImmobilized = (this.MassUsage > this.MassCapacity);
+				this.cachedImmobilizedForTicks = Find.TickManager.TicksGame;
+				return this.cachedImmobilized;
 			}
 		}
 
@@ -120,18 +114,13 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				Pair<float, float> result;
 				if (Find.TickManager.TicksGame - this.cachedDaysWorthOfFoodForTicks < 3000)
 				{
-					result = this.cachedDaysWorthOfFood;
+					return this.cachedDaysWorthOfFood;
 				}
-				else
-				{
-					this.cachedDaysWorthOfFood = new Pair<float, float>(DaysWorthOfFoodCalculator.ApproxDaysWorthOfFood(this), DaysUntilRotCalculator.ApproxDaysUntilRot(this));
-					this.cachedDaysWorthOfFoodForTicks = Find.TickManager.TicksGame;
-					result = this.cachedDaysWorthOfFood;
-				}
-				return result;
+				this.cachedDaysWorthOfFood = new Pair<float, float>(DaysWorthOfFoodCalculator.ApproxDaysWorthOfFood(this), DaysUntilRotCalculator.ApproxDaysUntilRot(this));
+				this.cachedDaysWorthOfFoodForTicks = Find.TickManager.TicksGame;
+				return this.cachedDaysWorthOfFood;
 			}
 		}
 
@@ -163,24 +152,14 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				int num = 0;
-				bool result;
-				while (true)
+				for (int i = 0; i < this.pawns.Count; i++)
 				{
-					if (num < this.pawns.Count)
+					if (this.IsOwner(this.pawns[i]) && !this.pawns[i].Downed)
 					{
-						if (this.IsOwner(this.pawns[num]) && !this.pawns[num].Downed)
-						{
-							result = false;
-							break;
-						}
-						num++;
-						continue;
+						return false;
 					}
-					result = true;
-					break;
 				}
-				return result;
+				return true;
 			}
 		}
 
@@ -188,24 +167,14 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				int num = 0;
-				bool result;
-				while (true)
+				for (int i = 0; i < this.pawns.Count; i++)
 				{
-					if (num < this.pawns.Count)
+					if (this.IsOwner(this.pawns[i]) && !this.pawns[i].InMentalState)
 					{
-						if (this.IsOwner(this.pawns[num]) && !this.pawns[num].InMentalState)
-						{
-							result = false;
-							break;
-						}
-						num++;
-						continue;
+						return false;
 					}
-					result = true;
-					break;
 				}
-				return result;
+				return true;
 			}
 		}
 
@@ -237,7 +206,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (this.nameInt == null) ? base.Label : this.nameInt;
+				if (this.nameInt != null)
+				{
+					return this.nameInt;
+				}
+				return base.Label;
 			}
 		}
 
@@ -253,24 +226,14 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				int num = 0;
-				Pawn result;
-				while (true)
+				for (int i = 0; i < this.pawns.Count; i++)
 				{
-					if (num < this.pawns.Count)
+					if (this.pawns[i].InMentalState && this.pawns[i].MentalStateDef.IsExtreme)
 					{
-						if (this.pawns[num].InMentalState && this.pawns[num].MentalStateDef.IsExtreme)
-						{
-							result = this.pawns[num];
-							break;
-						}
-						num++;
-						continue;
+						return this.pawns[i];
 					}
-					result = null;
-					break;
 				}
-				return result;
+				return null;
 			}
 		}
 
@@ -311,21 +274,16 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				float result;
 				if (!this.IsPlayerControlled)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
+				float num = 0f;
+				for (int i = 0; i < this.pawns.Count; i++)
 				{
-					float num = 0f;
-					for (int i = 0; i < this.pawns.Count; i++)
-					{
-						num += WealthWatcher.GetEquipmentApparelAndInventoryWealth(this.pawns[i]);
-					}
-					result = (float)(num * 0.5);
+					num += WealthWatcher.GetEquipmentApparelAndInventoryWealth(this.pawns[i]);
 				}
-				return result;
+				return (float)(num * 0.5);
 			}
 		}
 
@@ -333,9 +291,13 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return this.IsPlayerControlled ? (from x in this.PawnsListForReading
+				if (!this.IsPlayerControlled)
+				{
+					return Enumerable.Empty<Pawn>();
+				}
+				return from x in this.PawnsListForReading
 				where x.IsFreeColonist
-				select x) : Enumerable.Empty<Pawn>();
+				select x;
 			}
 		}
 
@@ -425,7 +387,7 @@ namespace RimWorld.Planet
 			base.ExposeData();
 			if (Scribe.mode == LoadSaveMode.Saving)
 			{
-				this.pawns.RemoveAll((Predicate<Pawn>)((Pawn x) => x.Destroyed));
+				this.pawns.RemoveAll((Pawn x) => x.Destroyed);
 			}
 			Scribe_Values.Look<string>(ref this.nameInt, "name", (string)null, false);
 			Scribe_Deep.Look<ThingOwner<Pawn>>(ref this.pawns, "pawns", new object[1]
@@ -665,7 +627,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -681,16 +643,16 @@ namespace RimWorld.Planet
 					yield return (Gizmo)CaravanMergeUtility.MergeCommand(this);
 					/*Error: Unable to find new state assignment for yield return*/;
 				}
-				if (Find.WorldSelector.SingleSelectedObject == this && this.PawnsListForReading.Count((Func<Pawn, bool>)((Pawn x) => x.IsColonist)) >= 2)
+				if (Find.WorldSelector.SingleSelectedObject == this && this.PawnsListForReading.Count((Pawn x) => x.IsColonist) >= 2)
 				{
 					yield return (Gizmo)new Command_Action
 					{
 						defaultLabel = "CommandSplitCaravan".Translate(),
 						defaultDesc = "CommandSplitCaravanDesc".Translate(),
 						icon = Caravan.SplitCommand,
-						action = (Action)delegate
+						action = delegate
 						{
-							Find.WindowStack.Add(new Dialog_SplitCaravan(((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_01b4: stateMachine*/)._0024this));
+							Find.WindowStack.Add(new Dialog_SplitCaravan(((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_01ae: stateMachine*/)._0024this));
 						}
 					};
 					/*Error: Unable to find new state assignment for yield return*/;
@@ -718,20 +680,20 @@ namespace RimWorld.Planet
 			yield return (Gizmo)new Command_Action
 			{
 				defaultLabel = "Dev: Mental break",
-				action = (Action)delegate()
+				action = delegate
 				{
 					Pawn pawn = default(Pawn);
-					if ((from x in ((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_035c: stateMachine*/)._0024this.PawnsListForReading
+					if ((from x in ((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_034c: stateMachine*/)._0024this.PawnsListForReading
 					where x.RaceProps.Humanlike && !x.InMentalState
 					select x).TryRandomElement<Pawn>(out pawn))
 					{
-						pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.WanderSad, (string)null, false, false, null);
+						pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.WanderSad, null, false, false, null);
 					}
 				}
 			};
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0594:
-			/*Error near IL_0595: Unexpected return in MoveNext()*/;
+			IL_0576:
+			/*Error near IL_0577: Unexpected return in MoveNext()*/;
 		}
 
 		public void RecacheImmobilizedNow()
@@ -746,12 +708,12 @@ namespace RimWorld.Planet
 
 		public virtual void Notify_MemberDied(Pawn member)
 		{
-			if (!this.PawnsListForReading.Any((Predicate<Pawn>)((Pawn x) => x != member && this.IsOwner(x))))
+			if (!this.PawnsListForReading.Any((Pawn x) => x != member && this.IsOwner(x)))
 			{
 				this.RemovePawn(member);
 				if (base.Faction == Faction.OfPlayer)
 				{
-					Find.LetterStack.ReceiveLetter("LetterLabelAllCaravanColonistsDied".Translate(), "LetterAllCaravanColonistsDied".Translate(), LetterDefOf.NegativeEvent, new GlobalTargetInfo(base.Tile), (string)null);
+					Find.LetterStack.ReceiveLetter("LetterLabelAllCaravanColonistsDied".Translate(), "LetterAllCaravanColonistsDied".Translate(), LetterDefOf.NegativeEvent, new GlobalTargetInfo(base.Tile), null);
 				}
 				Find.WorldObjects.Remove(this);
 			}

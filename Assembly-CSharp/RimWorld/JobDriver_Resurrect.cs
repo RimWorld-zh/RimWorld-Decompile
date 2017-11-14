@@ -30,7 +30,7 @@ namespace RimWorld
 
 		public override bool TryMakePreToilReservations()
 		{
-			return base.pawn.Reserve((Thing)this.Corpse, base.job, 1, -1, null) && base.pawn.Reserve(this.Item, base.job, 1, -1, null);
+			return base.pawn.Reserve(this.Corpse, base.job, 1, -1, null) && base.pawn.Reserve(this.Item, base.job, 1, -1, null);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -43,7 +43,7 @@ namespace RimWorld
 		{
 			Pawn innerPawn = this.Corpse.InnerPawn;
 			ResurrectionUtility.ResurrectWithSideEffects(innerPawn);
-			Messages.Message("MessagePawnResurrected".Translate(innerPawn.LabelIndefinite()).CapitalizeFirst(), (Thing)innerPawn, MessageTypeDefOf.PositiveEvent);
+			Messages.Message("MessagePawnResurrected".Translate(innerPawn.LabelIndefinite()).CapitalizeFirst(), innerPawn, MessageTypeDefOf.PositiveEvent);
 			this.Item.SplitOff(1).Destroy(DestroyMode.Vanish);
 		}
 	}

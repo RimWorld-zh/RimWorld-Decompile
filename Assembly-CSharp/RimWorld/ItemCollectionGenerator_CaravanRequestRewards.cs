@@ -8,7 +8,7 @@ namespace RimWorld
 		protected override void Generate(ItemCollectionGeneratorParams parms, List<Thing> outThings)
 		{
 			int? count = parms.count;
-			parms.count = new int?((!count.HasValue) ? 1 : count.Value);
+			parms.count = ((!count.HasValue) ? 1 : count.Value);
 			float? totalMarketValue = parms.totalMarketValue;
 			double value;
 			if (totalMarketValue.HasValue)
@@ -27,7 +27,7 @@ namespace RimWorld
 				FloatRange floatRange = new FloatRange(min, num2 * rewardMarketValueFactorRange2.max);
 				value = floatRange.RandomInRange;
 			}
-			parms.totalMarketValue = new float?((float)value);
+			parms.totalMarketValue = (float)value;
 			base.Generate(parms, outThings);
 		}
 	}

@@ -11,11 +11,11 @@ namespace Verse
 
 		private static List<int> trianglesList = new List<int>();
 
-		private static readonly Color32 LowVertexColor = new Color32((byte)0, (byte)0, (byte)0, (byte)0);
+		private static readonly Color32 LowVertexColor = new Color32(0, 0, 0, 0);
 
 		public static Mesh NewShadowMesh(float baseWidth, float baseHeight, float tallness)
 		{
-			Color32 item = new Color32((byte)255, (byte)0, (byte)0, (byte)(255.0 * tallness));
+			Color32 item = new Color32(255, 0, 0, (byte)(255.0 * tallness));
 			float num = (float)(baseWidth / 2.0);
 			float num2 = (float)(baseHeight / 2.0);
 			MeshMakerShadows.vertsList.Clear();

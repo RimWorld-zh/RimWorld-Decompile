@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -11,15 +10,15 @@ namespace RimWorld
 
 		public bool listVisible = true;
 
-		public bool tutorialMode = false;
+		public bool tutorialMode;
 
-		public bool disableAdaptiveTraining = false;
+		public bool disableAdaptiveTraining;
 
-		public bool disableAlerts = false;
+		public bool disableAlerts;
 
-		public bool disablePermadeath = false;
+		public bool disablePermadeath;
 
-		public DifficultyDef forcedDifficulty = null;
+		public DifficultyDef forcedDifficulty;
 
 		[NoTranslate]
 		private string portraitLarge;
@@ -48,7 +47,7 @@ namespace RimWorld
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
-			LongEventHandler.ExecuteWhenFinished((Action)delegate
+			LongEventHandler.ExecuteWhenFinished(delegate
 			{
 				if (!this.portraitTiny.NullOrEmpty())
 				{
@@ -64,7 +63,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -86,8 +85,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_019e:
-			/*Error near IL_019f: Unexpected return in MoveNext()*/;
+			IL_0195:
+			/*Error near IL_0196: Unexpected return in MoveNext()*/;
 		}
 	}
 }

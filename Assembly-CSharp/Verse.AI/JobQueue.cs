@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -28,24 +27,14 @@ namespace Verse.AI
 		{
 			get
 			{
-				int num = 0;
-				bool result;
-				while (true)
+				for (int i = 0; i < this.jobs.Count; i++)
 				{
-					if (num < this.jobs.Count)
+					if (this.jobs[i].job.playerForced)
 					{
-						if (this.jobs[num].job.playerForced)
-						{
-							result = true;
-							break;
-						}
-						num++;
-						continue;
+						return true;
 					}
-					result = false;
-					break;
 				}
-				return result;
+				return false;
 			}
 		}
 
@@ -66,34 +55,24 @@ namespace Verse.AI
 
 		public QueuedJob Extract(Job j)
 		{
-			int num = this.jobs.FindIndex((Predicate<QueuedJob>)((QueuedJob qj) => qj.job == j));
-			QueuedJob result;
+			int num = this.jobs.FindIndex((QueuedJob qj) => qj.job == j);
 			if (num >= 0)
 			{
-				QueuedJob queuedJob = this.jobs[num];
+				QueuedJob result = this.jobs[num];
 				this.jobs.RemoveAt(num);
-				result = queuedJob;
+				return result;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		public QueuedJob Dequeue()
 		{
-			QueuedJob result;
 			if (this.jobs.NullOrEmpty())
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				QueuedJob queuedJob = this.jobs[0];
-				this.jobs.RemoveAt(0);
-				result = queuedJob;
-			}
+			QueuedJob result = this.jobs[0];
+			this.jobs.RemoveAt(0);
 			return result;
 		}
 

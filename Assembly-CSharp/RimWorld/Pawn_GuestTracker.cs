@@ -11,11 +11,11 @@ namespace RimWorld
 
 		public PrisonerInteractionModeDef interactionMode = PrisonerInteractionModeDefOf.NoInteraction;
 
-		private Faction hostFactionInt = null;
+		private Faction hostFactionInt;
 
-		public bool isPrisonerInt = false;
+		public bool isPrisonerInt;
 
-		private bool releasedInt = false;
+		private bool releasedInt;
 
 		private int ticksWhenAllowedToEscapeAgain;
 
@@ -43,17 +43,12 @@ namespace RimWorld
 		{
 			get
 			{
-				bool result;
 				if (this.HostFaction == null)
 				{
 					Log.Error("GetsFood without host faction.");
-					result = true;
+					return true;
 				}
-				else
-				{
-					result = this.getsFoodInt;
-				}
-				return result;
+				return this.getsFoodInt;
 			}
 			set
 			{
@@ -108,39 +103,30 @@ namespace RimWorld
 		{
 			get
 			{
-				bool result;
 				if (this.Released)
 				{
-					result = false;
+					return false;
 				}
-				else if (this.pawn.HostFaction == null)
+				if (this.pawn.HostFaction == null)
 				{
-					result = false;
+					return false;
 				}
-				else if (this.pawn.InMentalState)
+				if (this.pawn.InMentalState)
 				{
-					result = false;
+					return false;
 				}
-				else
+				if (this.pawn.Spawned)
 				{
-					if (this.pawn.Spawned)
+					if (this.pawn.jobs.curJob != null && this.pawn.jobs.curJob.exitMapOnArrival)
 					{
-						if (this.pawn.jobs.curJob != null && this.pawn.jobs.curJob.exitMapOnArrival)
-						{
-							result = false;
-							goto IL_00a7;
-						}
-						if (PrisonBreakUtility.IsPrisonBreaking(this.pawn))
-						{
-							result = false;
-							goto IL_00a7;
-						}
+						return false;
 					}
-					result = true;
+					if (PrisonBreakUtility.IsPrisonBreaking(this.pawn))
+					{
+						return false;
+					}
 				}
-				goto IL_00a7;
-				IL_00a7:
-				return result;
+				return true;
 			}
 		}
 
@@ -148,17 +134,20 @@ namespace RimWorld
 		{
 			get
 			{
-				bool result;
 				if (!this.IsPrisoner)
 				{
-					result = false;
+					return false;
 				}
-				else
+				Map mapHeld = this.pawn.MapHeld;
+				if (mapHeld == null)
 				{
-					Map mapHeld = this.pawn.MapHeld;
-					result = (mapHeld != null && mapHeld.mapPawns.FreeColonistsSpawnedCount != 0 && Find.TickManager.TicksGame < this.ticksWhenAllowedToEscapeAgain);
+					return false;
 				}
-				return result;
+				if (mapHeld.mapPawns.FreeColonistsSpawnedCount == 0)
+				{
+					return false;
+				}
+				return Find.TickManager.TicksGame < this.ticksWhenAllowedToEscapeAgain;
 			}
 		}
 
@@ -278,7 +267,7 @@ namespace RimWorld
 					if (Rand.ValueSeeded(this.pawn.thingIDNumber ^ 8976612) < num)
 					{
 						this.pawn.SetFaction(Faction.OfPlayer, null);
-						Messages.Message("MessageRescueeJoined".Translate(this.pawn.LabelShort).AdjustedFor(this.pawn), (Thing)this.pawn, MessageTypeDefOf.PositiveEvent);
+						Messages.Message("MessageRescueeJoined".Translate(this.pawn.LabelShort).AdjustedFor(this.pawn), this.pawn, MessageTypeDefOf.PositiveEvent);
 					}
 				}
 			}

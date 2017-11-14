@@ -27,53 +27,32 @@ namespace RimWorld
 
 		public override string ExplanationPart(StatRequest req)
 		{
-			string result;
 			if (req.HasThing)
 			{
 				Pawn pawn = req.Thing as Pawn;
 				if (pawn != null && pawn.needs.food != null)
 				{
-					result = pawn.needs.food.CurCategory.GetLabel() + ": x" + this.FoodMultiplier(pawn.needs.food.CurCategory).ToStringPercent();
-					goto IL_007a;
+					return pawn.needs.food.CurCategory.GetLabel() + ": x" + this.FoodMultiplier(pawn.needs.food.CurCategory).ToStringPercent();
 				}
 			}
-			result = (string)null;
-			goto IL_007a;
-			IL_007a:
-			return result;
+			return null;
 		}
 
 		private float FoodMultiplier(HungerCategory hunger)
 		{
-			float result;
 			switch (hunger)
 			{
 			case HungerCategory.Starving:
-			{
-				result = this.factorStarving;
-				break;
-			}
+				return this.factorStarving;
 			case HungerCategory.UrgentlyHungry:
-			{
-				result = this.factorUrgentlyHungry;
-				break;
-			}
+				return this.factorUrgentlyHungry;
 			case HungerCategory.Hungry:
-			{
-				result = this.factorHungry;
-				break;
-			}
+				return this.factorHungry;
 			case HungerCategory.Fed:
-			{
-				result = this.factorFed;
-				break;
-			}
+				return this.factorFed;
 			default:
-			{
 				throw new InvalidOperationException();
 			}
-			}
-			return result;
 		}
 	}
 }

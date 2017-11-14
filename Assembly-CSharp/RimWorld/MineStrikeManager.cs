@@ -29,14 +29,12 @@ namespace RimWorld
 						Building edifice = intVec.GetEdifice(miner.Map);
 						if (edifice != null && edifice.def != justMinedDef && MineStrikeManager.MineableIsValuable(edifice.def) && !this.AlreadyVisibleNearby(intVec, miner.Map, edifice.def) && !this.RecentlyStruck(intVec, edifice.def))
 						{
-							StrikeRecord item = new StrikeRecord
-							{
-								cell = intVec,
-								def = edifice.def,
-								ticksGame = Find.TickManager.TicksGame
-							};
+							StrikeRecord item = default(StrikeRecord);
+							item.cell = intVec;
+							item.def = edifice.def;
+							item.ticksGame = Find.TickManager.TicksGame;
 							this.strikeRecords.Add(item);
-							Messages.Message("StruckMineable".Translate(edifice.def.label), (Thing)edifice, MessageTypeDefOf.PositiveEvent);
+							Messages.Message("StruckMineable".Translate(edifice.def.label), edifice, MessageTypeDefOf.PositiveEvent);
 							TaleRecorder.RecordTale(TaleDefOf.StruckMineable, miner, edifice);
 						}
 					}
@@ -47,73 +45,61 @@ namespace RimWorld
 		public bool AlreadyVisibleNearby(IntVec3 center, Map map, ThingDef mineableDef)
 		{
 			CellRect cellRect = CellRect.CenteredOn(center, 1);
-			int num = 1;
-			bool result;
-			while (true)
+			for (int i = 1; i < MineStrikeManager.RadialVisibleCells; i++)
 			{
-				if (num < MineStrikeManager.RadialVisibleCells)
+				IntVec3 c = center + GenRadial.RadialPattern[i];
+				if (c.InBounds(map) && !c.Fogged(map) && !cellRect.Contains(c))
 				{
-					IntVec3 c = center + GenRadial.RadialPattern[num];
-					if (c.InBounds(map) && !c.Fogged(map) && !cellRect.Contains(c))
+					Building edifice = c.GetEdifice(map);
+					if (edifice != null && edifice.def == mineableDef)
 					{
-						Building edifice = c.GetEdifice(map);
-						if (edifice != null && edifice.def == mineableDef)
-						{
-							result = true;
-							break;
-						}
+						return true;
 					}
-					num++;
-					continue;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		private bool RecentlyStruck(IntVec3 cell, ThingDef def)
 		{
-			int num = this.strikeRecords.Count - 1;
-			bool result;
-			while (true)
+			for (int num = this.strikeRecords.Count - 1; num >= 0; num--)
 			{
-				if (num >= 0)
+				if (this.strikeRecords[num].Expired)
 				{
-					if (this.strikeRecords[num].Expired)
+					this.strikeRecords.RemoveAt(num);
+				}
+				else
+				{
+					StrikeRecord strikeRecord = this.strikeRecords[num];
+					if (strikeRecord.def == def)
 					{
-						this.strikeRecords.RemoveAt(num);
-					}
-					else
-					{
-						StrikeRecord strikeRecord = this.strikeRecords[num];
-						if (strikeRecord.def == def)
+						StrikeRecord strikeRecord2 = this.strikeRecords[num];
+						if (strikeRecord2.cell.InHorDistOf(cell, 12f))
 						{
-							StrikeRecord strikeRecord2 = this.strikeRecords[num];
-							if (strikeRecord2.cell.InHorDistOf(cell, 12f))
-							{
-								result = true;
-								break;
-							}
+							return true;
 						}
 					}
-					num--;
-					continue;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public static bool MineableIsValuable(ThingDef mineableDef)
 		{
-			return mineableDef.mineable && mineableDef.building.mineableThing != null && mineableDef.building.mineableThing.GetStatValueAbstract(StatDefOf.MarketValue, null) * (float)mineableDef.building.mineableYield > 10.0;
+			if (mineableDef.mineable && mineableDef.building.mineableThing != null)
+			{
+				return mineableDef.building.mineableThing.GetStatValueAbstract(StatDefOf.MarketValue, null) * (float)mineableDef.building.mineableYield > 10.0;
+			}
+			return false;
 		}
 
 		public static bool MineableIsVeryValuable(ThingDef mineableDef)
 		{
-			return mineableDef.mineable && mineableDef.building.mineableThing != null && mineableDef.building.mineableThing.GetStatValueAbstract(StatDefOf.MarketValue, null) * (float)mineableDef.building.mineableYield > 100.0;
+			if (mineableDef.mineable && mineableDef.building.mineableThing != null)
+			{
+				return mineableDef.building.mineableThing.GetStatValueAbstract(StatDefOf.MarketValue, null) * (float)mineableDef.building.mineableYield > 100.0;
+			}
+			return false;
 		}
 
 		public string DebugStrikeRecords()

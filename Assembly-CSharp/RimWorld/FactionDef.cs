@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,7 +7,7 @@ namespace RimWorld
 {
 	public class FactionDef : Def
 	{
-		public bool isPlayer = false;
+		public bool isPlayer;
 
 		public RulePackDef factionNameMaker;
 
@@ -18,37 +17,37 @@ namespace RimWorld
 
 		public RulePackDef baseNameMakerPlayer;
 
-		public string fixedName = (string)null;
+		public string fixedName;
 
 		public bool humanlikeFaction = true;
 
-		public bool hidden = false;
+		public bool hidden;
 
-		public List<PawnGroupMaker> pawnGroupMakers = null;
+		public List<PawnGroupMaker> pawnGroupMakers;
 
-		public SimpleCurve raidCommonalityFromPointsCurve = null;
+		public SimpleCurve raidCommonalityFromPointsCurve;
 
 		public bool autoFlee = true;
 
-		public bool canSiege = false;
+		public bool canSiege;
 
-		public bool canStageAttacks = false;
+		public bool canStageAttacks;
 
 		public bool canUseAvoidGrid = true;
 
-		public float earliestRaidDays = 0f;
+		public float earliestRaidDays;
 
 		public FloatRange allowedArrivalTemperatureRange = new FloatRange(-1000f, 1000f);
 
 		public PawnKindDef basicMemberKind;
 
 		[NoTranslate]
-		public List<string> startingResearchTags = null;
+		public List<string> startingResearchTags;
 
 		[NoTranslate]
-		public List<string> recipePrerequisiteTags = null;
+		public List<string> recipePrerequisiteTags;
 
-		public bool rescueesCanJoin = false;
+		public bool rescueesCanJoin;
 
 		[MustTranslate]
 		public string pawnsPlural = "members";
@@ -57,23 +56,23 @@ namespace RimWorld
 
 		public float maxPawnOptionCostFactor = 1f;
 
-		public int requiredCountAtGameStart = 0;
+		public int requiredCountAtGameStart;
 
 		public int maxCountAtGameStart = 9999;
 
-		public bool canMakeRandomly = false;
+		public bool canMakeRandomly;
 
-		public float baseSelectionWeight = 0f;
+		public float baseSelectionWeight;
 
 		public RulePackDef pawnNameMaker;
 
-		public TechLevel techLevel = TechLevel.Undefined;
+		public TechLevel techLevel;
 
-		public string backstoryCategory = (string)null;
+		public string backstoryCategory;
 
 		public List<string> hairTags = new List<string>();
 
-		public ThingFilter apparelStuffFilter = null;
+		public ThingFilter apparelStuffFilter;
 
 		public List<TraderKindDef> caravanTraderKinds = new List<TraderKindDef>();
 
@@ -85,7 +84,7 @@ namespace RimWorld
 
 		public FloatRange startingGoodwill = FloatRange.Zero;
 
-		public bool mustStartOneEnemy = false;
+		public bool mustStartOneEnemy;
 
 		public FloatRange naturalColonyGoodwill = FloatRange.Zero;
 
@@ -108,7 +107,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (byte)((!(this.startingGoodwill.max < 0.0) || this.appreciative) ? 1 : 0) != 0;
+				if (this.startingGoodwill.max < 0.0 && !this.appreciative)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -116,7 +119,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if ((UnityEngine.Object)this.expandingIconTextureInt == (UnityEngine.Object)null)
+				if ((Object)this.expandingIconTextureInt == (Object)null)
 				{
 					if (!this.expandingIconTexture.NullOrEmpty())
 					{
@@ -133,29 +136,36 @@ namespace RimWorld
 
 		public float MinPointsToGenerateNormalPawnGroup()
 		{
-			float result;
 			if (this.pawnGroupMakers == null)
 			{
-				result = 9999999f;
+				return 9999999f;
 			}
-			else
+			IEnumerable<PawnGroupMaker> source = from x in this.pawnGroupMakers
+			where x.kindDef == PawnGroupKindDefOf.Normal
+			select x;
+			if (!source.Any())
 			{
-				IEnumerable<PawnGroupMaker> source = from x in this.pawnGroupMakers
-				where x.kindDef == PawnGroupKindDefOf.Normal
-				select x;
-				result = (float)(source.Any() ? source.Min((Func<PawnGroupMaker, float>)((PawnGroupMaker pgm) => pgm.MinPointsToGenerateAnything)) : 9999999.0);
+				return 9999999f;
 			}
-			return result;
+			return source.Min((PawnGroupMaker pgm) => pgm.MinPointsToGenerateAnything);
 		}
 
 		public bool CanUseStuffForApparel(ThingDef stuffDef)
 		{
-			return this.apparelStuffFilter == null || this.apparelStuffFilter.Allows(stuffDef);
+			if (this.apparelStuffFilter == null)
+			{
+				return true;
+			}
+			return this.apparelStuffFilter.Allows(stuffDef);
 		}
 
 		public float RaidCommonalityFromPoints(float points)
 		{
-			return (float)((!(points < 0.0) && this.raidCommonalityFromPointsCurve != null) ? this.raidCommonalityFromPointsCurve.Evaluate(points) : 1.0);
+			if (!(points < 0.0) && this.raidCommonalityFromPointsCurve != null)
+			{
+				return this.raidCommonalityFromPointsCurve.Evaluate(points);
+			}
+			return 1f;
 		}
 
 		public override void ResolveReferences()
@@ -169,7 +179,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -212,8 +222,8 @@ namespace RimWorld
 				yield break;
 			yield return "isPlayer is true but factionNameMakerPlayer is null";
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_027b:
-			/*Error near IL_027c: Unexpected return in MoveNext()*/;
+			IL_0275:
+			/*Error near IL_0276: Unexpected return in MoveNext()*/;
 		}
 
 		public static FactionDef Named(string defName)

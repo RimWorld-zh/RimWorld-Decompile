@@ -9,34 +9,33 @@ namespace RimWorld
 
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
-			bool result;
 			if (!base.CanScatterAt(c, map))
 			{
-				result = false;
+				return false;
 			}
-			else if (!c.Standable(map))
+			if (!c.Standable(map))
 			{
-				result = false;
+				return false;
 			}
-			else if (c.Roofed(map))
+			if (c.Roofed(map))
 			{
-				result = false;
+				return false;
 			}
-			else if (!map.reachability.CanReachMapEdge(c, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
+			if (!map.reachability.CanReachMapEdge(c, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
 			{
-				result = false;
+				return false;
 			}
-			else
+			IntRange factionBaseSizeRange = GenStep_FactionBase.FactionBaseSizeRange;
+			int min = factionBaseSizeRange.min;
+			CellRect cellRect = new CellRect(c.x - min / 2, c.z - min / 2, min, min);
+			IntVec3 size = map.Size;
+			int x = size.x;
+			IntVec3 size2 = map.Size;
+			if (!cellRect.FullyContainedWithin(new CellRect(0, 0, x, size2.z)))
 			{
-				IntRange factionBaseSizeRange = GenStep_FactionBase.FactionBaseSizeRange;
-				int min = factionBaseSizeRange.min;
-				CellRect cellRect = new CellRect(c.x - min / 2, c.z - min / 2, min, min);
-				IntVec3 size = map.Size;
-				int x = size.x;
-				IntVec3 size2 = map.Size;
-				result = ((byte)(cellRect.FullyContainedWithin(new CellRect(0, 0, x, size2.z)) ? 1 : 0) != 0);
+				return false;
 			}
-			return result;
+			return true;
 		}
 
 		protected override void ScatterAt(IntVec3 c, Map map, int stackCount = 1)
@@ -46,11 +45,9 @@ namespace RimWorld
 			CellRect rect = new CellRect(c.x - randomInRange / 2, c.z - randomInRange2 / 2, randomInRange, randomInRange2);
 			Faction faction = (map.ParentFaction != null && map.ParentFaction != Faction.OfPlayer) ? map.ParentFaction : Find.FactionManager.RandomEnemyFaction(false, false, true, TechLevel.Undefined);
 			rect.ClipInsideMap(map);
-			ResolveParams resolveParams = new ResolveParams
-			{
-				rect = rect,
-				faction = faction
-			};
+			ResolveParams resolveParams = default(ResolveParams);
+			resolveParams.rect = rect;
+			resolveParams.faction = faction;
 			RimWorld.BaseGen.BaseGen.globalSettings.map = map;
 			RimWorld.BaseGen.BaseGen.globalSettings.minBuildings = 1;
 			RimWorld.BaseGen.BaseGen.globalSettings.minBarracks = 1;

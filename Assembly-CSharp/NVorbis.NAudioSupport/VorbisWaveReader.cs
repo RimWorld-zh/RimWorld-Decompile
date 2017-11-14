@@ -11,7 +11,7 @@ namespace NVorbis.NAudioSupport
 		private WaveFormat _waveFormat;
 
 		[ThreadStatic]
-		private static float[] _conversionBuffer = null;
+		private static float[] _conversionBuffer;
 
 		public override WaveFormat WaveFormat
 		{
@@ -82,7 +82,7 @@ namespace NVorbis.NAudioSupport
 				}
 				if (this.NextStreamIndex.HasValue && value == this.NextStreamIndex.Value)
 				{
-					this.NextStreamIndex = default(int?);
+					this.NextStreamIndex = null;
 				}
 			}
 		}
@@ -191,21 +191,16 @@ namespace NVorbis.NAudioSupport
 
 		public bool GetNextStreamIndex()
 		{
-			bool result;
 			if (!this.NextStreamIndex.HasValue)
 			{
 				int streamCount = this._reader.StreamCount;
 				if (this._reader.FindNextStream())
 				{
-					this.NextStreamIndex = new int?(streamCount);
-					result = true;
-					goto IL_004d;
+					this.NextStreamIndex = streamCount;
+					return true;
 				}
 			}
-			result = false;
-			goto IL_004d;
-			IL_004d:
-			return result;
+			return false;
 		}
 	}
 }

@@ -9,7 +9,8 @@ namespace RimWorld.Planet
 
 		public List<int> ancientSites = new List<int>();
 
-		public WorldGenData(World world) : base(world)
+		public WorldGenData(World world)
+			: base(world)
 		{
 		}
 

@@ -8,9 +8,9 @@ namespace Verse
 {
 	public class VerbTracker : IExposable
 	{
-		public IVerbOwner directOwner = null;
+		public IVerbOwner directOwner;
 
-		private List<Verb> verbs = null;
+		private List<Verb> verbs;
 
 		public List<Verb> AllVerbs
 		{
@@ -32,24 +32,14 @@ namespace Verse
 				{
 					this.InitVerbsFromZero();
 				}
-				int num = 0;
-				Verb result;
-				while (true)
+				for (int i = 0; i < this.verbs.Count; i++)
 				{
-					if (num < this.verbs.Count)
+					if (this.verbs[i].verbProps.isPrimary)
 					{
-						if (this.verbs[num].verbProps.isPrimary)
-						{
-							result = this.verbs[num];
-							break;
-						}
-						num++;
-						continue;
+						return this.verbs[i];
 					}
-					result = null;
-					break;
 				}
-				return result;
+				return null;
 			}
 		}
 
@@ -132,9 +122,9 @@ namespace Verse
 			{
 				List<Verb> sources = this.verbs;
 				this.verbs = new List<Verb>();
-				this.InitVerbs((Func<Type, string, Verb>)delegate(Type type, string id)
+				this.InitVerbs(delegate(Type type, string id)
 				{
-					Verb verb = sources.FirstOrDefault((Func<Verb, bool>)((Verb v) => v.loadID == id && v.GetType() == type));
+					Verb verb = sources.FirstOrDefault((Verb v) => v.loadID == id && v.GetType() == type);
 					if (verb == null)
 					{
 						Log.Warning(string.Format("Replaced verb {0}/{1}; may have been changed through a version update or a mod change", type, id));
@@ -149,7 +139,7 @@ namespace Verse
 		private void InitVerbsFromZero()
 		{
 			this.verbs = new List<Verb>();
-			this.InitVerbs((Func<Type, string, Verb>)delegate(Type type, string id)
+			this.InitVerbs(delegate(Type type, string id)
 			{
 				Verb verb = (Verb)Activator.CreateInstance(type);
 				this.verbs.Add(verb);

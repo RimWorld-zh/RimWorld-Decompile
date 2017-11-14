@@ -22,7 +22,6 @@ namespace RimWorld
 
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
-			bool result;
 			if (signal.type == TriggerSignalType.Tick && Find.TickManager.TicksGame % 800 == 0)
 			{
 				TriggerData_PawnCycleInd data = this.Data;
@@ -36,15 +35,11 @@ namespace RimWorld
 					Pawn pawn = lord.ownedPawns[data.pawnCycleInd];
 					if (pawn.Spawned && !pawn.Downed && !pawn.InMentalState && KidnapAIUtility.ReachableWoundedGuest(pawn) != null)
 					{
-						result = true;
-						goto IL_00b7;
+						return true;
 					}
 				}
 			}
-			result = false;
-			goto IL_00b7;
-			IL_00b7:
-			return result;
+			return false;
 		}
 	}
 }

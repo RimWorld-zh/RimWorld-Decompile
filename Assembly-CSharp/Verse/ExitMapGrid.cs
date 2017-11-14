@@ -19,17 +19,16 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
 				if (this.map.IsPlayerHome)
 				{
-					result = false;
+					return false;
 				}
-				else
+				CaravansBattlefield caravansBattlefield = this.map.info.parent as CaravansBattlefield;
+				if (caravansBattlefield != null && caravansBattlefield.def.blockExitGridUntilBattleIsWon && !caravansBattlefield.WonBattle)
 				{
-					CaravansBattlefield caravansBattlefield = this.map.info.parent as CaravansBattlefield;
-					result = ((byte)((caravansBattlefield == null || !caravansBattlefield.def.blockExitGridUntilBattleIsWon || caravansBattlefield.WonBattle) ? 1 : 0) != 0);
+					return false;
 				}
-				return result;
+				return true;
 			}
 		}
 
@@ -37,27 +36,22 @@ namespace Verse
 		{
 			get
 			{
-				CellBoolDrawer result;
 				if (!this.MapUsesExitGrid)
 				{
-					result = null;
+					return null;
 				}
-				else
+				if (this.dirty)
 				{
-					if (this.dirty)
-					{
-						this.Rebuild();
-					}
-					if (this.drawerInt == null)
-					{
-						IntVec3 size = this.map.Size;
-						int x = size.x;
-						IntVec3 size2 = this.map.Size;
-						this.drawerInt = new CellBoolDrawer(this, x, size2.z, 0.33f);
-					}
-					result = this.drawerInt;
+					this.Rebuild();
 				}
-				return result;
+				if (this.drawerInt == null)
+				{
+					IntVec3 size = this.map.Size;
+					int x = size.x;
+					IntVec3 size2 = this.map.Size;
+					this.drawerInt = new CellBoolDrawer(this, x, size2.z, 0.33f);
+				}
+				return this.drawerInt;
 			}
 		}
 
@@ -65,20 +59,15 @@ namespace Verse
 		{
 			get
 			{
-				BoolGrid result;
 				if (!this.MapUsesExitGrid)
 				{
-					result = null;
+					return null;
 				}
-				else
+				if (this.dirty)
 				{
-					if (this.dirty)
-					{
-						this.Rebuild();
-					}
-					result = this.exitMapGrid;
+					this.Rebuild();
 				}
-				return result;
+				return this.exitMapGrid;
 			}
 		}
 
@@ -107,7 +96,11 @@ namespace Verse
 
 		public bool IsExitCell(IntVec3 c)
 		{
-			return this.MapUsesExitGrid && this.Grid[c];
+			if (!this.MapUsesExitGrid)
+			{
+				return false;
+			}
+			return this.Grid[c];
 		}
 
 		public void ExitMapGridUpdate()
@@ -164,28 +157,20 @@ namespace Verse
 
 		private bool IsGoodExitCell(IntVec3 cell)
 		{
-			bool result;
 			if (!cell.CanBeSeenOver(this.map))
 			{
-				result = false;
+				return false;
 			}
-			else
+			int num = GenRadial.NumCellsInRadius(2f);
+			for (int i = 0; i < num; i++)
 			{
-				int num = GenRadial.NumCellsInRadius(2f);
-				for (int num2 = 0; num2 < num; num2++)
+				IntVec3 intVec = cell + GenRadial.RadialPattern[i];
+				if (intVec.InBounds(this.map) && intVec.OnEdge(this.map) && intVec.CanBeSeenOverFast(this.map) && GenSight.LineOfSight(cell, intVec, this.map, false, null, 0, 0))
 				{
-					IntVec3 intVec = cell + GenRadial.RadialPattern[num2];
-					if (intVec.InBounds(this.map) && intVec.OnEdge(this.map) && intVec.CanBeSeenOverFast(this.map) && GenSight.LineOfSight(cell, intVec, this.map, false, null, 0, 0))
-						goto IL_008c;
+					return true;
 				}
-				result = false;
 			}
-			goto IL_00a6;
-			IL_00a6:
-			return result;
-			IL_008c:
-			result = true;
-			goto IL_00a6;
+			return false;
 		}
 	}
 }

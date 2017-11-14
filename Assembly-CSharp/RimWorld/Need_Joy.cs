@@ -27,7 +27,27 @@ namespace RimWorld
 		{
 			get
 			{
-				return (JoyCategory)((!(this.CurLevel < 0.0099999997764825821)) ? ((this.CurLevel < 0.15000000596046448) ? 1 : ((!(this.CurLevel < 0.30000001192092896)) ? ((!(this.CurLevel < 0.699999988079071)) ? ((!(this.CurLevel < 0.85000002384185791)) ? 5 : 4) : 3) : 2)) : 0);
+				if (this.CurLevel < 0.0099999997764825821)
+				{
+					return JoyCategory.Empty;
+				}
+				if (this.CurLevel < 0.15000000596046448)
+				{
+					return JoyCategory.VeryLow;
+				}
+				if (this.CurLevel < 0.30000001192092896)
+				{
+					return JoyCategory.Low;
+				}
+				if (this.CurLevel < 0.699999988079071)
+				{
+					return JoyCategory.Satisfied;
+				}
+				if (this.CurLevel < 0.85000002384185791)
+				{
+					return JoyCategory.High;
+				}
+				return JoyCategory.Extreme;
 			}
 		}
 
@@ -35,45 +55,23 @@ namespace RimWorld
 		{
 			get
 			{
-				float result;
 				switch (this.CurCategory)
 				{
 				case JoyCategory.Empty:
-				{
-					result = 1.00000007E-05f;
-					break;
-				}
+					return 1.00000007E-05f;
 				case JoyCategory.VeryLow:
-				{
-					result = 4.00000044E-06f;
-					break;
-				}
+					return 4.00000044E-06f;
 				case JoyCategory.Low:
-				{
-					result = 7.00000055E-06f;
-					break;
-				}
+					return 7.00000055E-06f;
 				case JoyCategory.Satisfied:
-				{
-					result = 1.00000007E-05f;
-					break;
-				}
+					return 1.00000007E-05f;
 				case JoyCategory.High:
-				{
-					result = 1.00000007E-05f;
-					break;
-				}
+					return 1.00000007E-05f;
 				case JoyCategory.Extreme:
-				{
-					result = 1.00000007E-05f;
-					break;
-				}
+					return 1.00000007E-05f;
 				default:
-				{
 					throw new InvalidOperationException();
 				}
-				}
-				return result;
 			}
 		}
 
@@ -93,7 +91,8 @@ namespace RimWorld
 			}
 		}
 
-		public Need_Joy(Pawn pawn) : base(pawn)
+		public Need_Joy(Pawn pawn)
+			: base(pawn)
 		{
 			base.threshPercents = new List<float>();
 			base.threshPercents.Add(0.15f);

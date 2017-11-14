@@ -33,9 +33,9 @@ namespace RimWorld.BaseGen
 			BaseGen.symbolStack.Push("addWortToFermentingBarrels", rp);
 			ResolveParams resolveParams3 = rp;
 			resolveParams3.singleThingDef = ThingDefOf.FermentingBarrel;
-			resolveParams3.thingRot = new Rot4?((!Rand.Bool) ? Rot4.East : Rot4.North);
+			resolveParams3.thingRot = ((!Rand.Bool) ? Rot4.East : Rot4.North);
 			int? fillWithThingsPadding = rp.fillWithThingsPadding;
-			resolveParams3.fillWithThingsPadding = new int?((!fillWithThingsPadding.HasValue) ? 1 : fillWithThingsPadding.Value);
+			resolveParams3.fillWithThingsPadding = ((!fillWithThingsPadding.HasValue) ? 1 : fillWithThingsPadding.Value);
 			BaseGen.symbolStack.Push("fillWithThings", resolveParams3);
 		}
 	}

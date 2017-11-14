@@ -69,7 +69,7 @@ namespace RimWorld
 			if (!this.def.beginLetter.NullOrEmpty() && PawnUtility.ShouldSendNotificationAbout(this.pawn))
 			{
 				string text = string.Format(this.def.beginLetter.AdjustedFor(this.pawn), this.pawn.LabelCap);
-				Find.LetterStack.ReceiveLetter(this.def.beginLetterLabel, text, this.def.beginLetterDef, (Thing)this.pawn, (string)null);
+				Find.LetterStack.ReceiveLetter(this.def.beginLetterLabel, text, this.def.beginLetterDef, this.pawn, null);
 			}
 		}
 
@@ -78,7 +78,7 @@ namespace RimWorld
 			if (!this.def.endMessage.NullOrEmpty() && PawnUtility.ShouldSendNotificationAbout(this.pawn))
 			{
 				string text = string.Format(this.def.endMessage.AdjustedFor(this.pawn), this.pawn.LabelCap);
-				Messages.Message(text, (Thing)this.pawn, MessageTypeDefOf.NeutralEvent);
+				Messages.Message(text, this.pawn, MessageTypeDefOf.NeutralEvent);
 			}
 		}
 	}

@@ -40,7 +40,11 @@ namespace RimWorld
 
 		public static int Year(Map map)
 		{
-			return (Current.ProgramState == ProgramState.Playing) ? GenLocalDate.Year(map.Tile) : 5500;
+			if (Current.ProgramState != ProgramState.Playing)
+			{
+				return 5500;
+			}
+			return GenLocalDate.Year(map.Tile);
 		}
 
 		public static int DayOfSeason(Map map)
@@ -75,7 +79,11 @@ namespace RimWorld
 
 		public static int DayOfYear(Thing thing)
 		{
-			return (Current.ProgramState == ProgramState.Playing) ? GenDate.DayOfYear(GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing)) : 0;
+			if (Current.ProgramState == ProgramState.Playing)
+			{
+				return GenDate.DayOfYear(GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
+			}
+			return 0;
 		}
 
 		public static int HourOfDay(Thing thing)
@@ -100,7 +108,11 @@ namespace RimWorld
 
 		public static int Year(Thing thing)
 		{
-			return (Current.ProgramState == ProgramState.Playing) ? GenDate.Year(GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing)) : 5500;
+			if (Current.ProgramState != ProgramState.Playing)
+			{
+				return 5500;
+			}
+			return GenDate.Year(GenLocalDate.TicksAbs, GenLocalDate.LongitudeForDate(thing));
 		}
 
 		public static int DayOfSeason(Thing thing)
@@ -135,18 +147,13 @@ namespace RimWorld
 
 		public static int DayOfYear(int tile)
 		{
-			int result;
 			if (Current.ProgramState == ProgramState.Playing)
 			{
 				long absTicks = GenLocalDate.TicksAbs;
 				Vector2 vector = Find.WorldGrid.LongLatOf(tile);
-				result = GenDate.DayOfYear(absTicks, vector.x);
+				return GenDate.DayOfYear(absTicks, vector.x);
 			}
-			else
-			{
-				result = 0;
-			}
-			return result;
+			return 0;
 		}
 
 		public static int HourOfDay(int tile)
@@ -177,18 +184,13 @@ namespace RimWorld
 
 		public static int Year(int tile)
 		{
-			int result;
 			if (Current.ProgramState != ProgramState.Playing)
 			{
-				result = 5500;
+				return 5500;
 			}
-			else
-			{
-				long absTicks = GenLocalDate.TicksAbs;
-				Vector2 vector = Find.WorldGrid.LongLatOf(tile);
-				result = GenDate.Year(absTicks, vector.x);
-			}
-			return result;
+			long absTicks = GenLocalDate.TicksAbs;
+			Vector2 vector = Find.WorldGrid.LongLatOf(tile);
+			return GenDate.Year(absTicks, vector.x);
 		}
 
 		public static int DayOfSeason(int tile)
@@ -242,7 +244,11 @@ namespace RimWorld
 		private static Vector2 LocationForDate(Thing thing)
 		{
 			int tile = thing.Tile;
-			return (tile < 0) ? Vector2.zero : Find.WorldGrid.LongLatOf(tile);
+			if (tile >= 0)
+			{
+				return Find.WorldGrid.LongLatOf(tile);
+			}
+			return Vector2.zero;
 		}
 	}
 }

@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,7 +11,7 @@ namespace Verse.AI
 		public static Toil ExtractNextTargetFromQueue(TargetIndex ind, bool failIfCountFromQueueTooBig = true)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.jobs.curJob;
@@ -41,7 +40,7 @@ namespace Verse.AI
 		public static Toil ClearQueue(TargetIndex ind)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.jobs.curJob;
@@ -57,12 +56,12 @@ namespace Verse.AI
 		public static Toil ClearDespawnedNullOrForbiddenQueuedTargets(TargetIndex ind)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.jobs.curJob;
 				List<LocalTargetInfo> targetQueue = curJob.GetTargetQueue(ind);
-				targetQueue.RemoveAll((Predicate<LocalTargetInfo>)((LocalTargetInfo ta) => !ta.HasThing || !ta.Thing.Spawned || ta.Thing.IsForbidden(actor)));
+				targetQueue.RemoveAll((LocalTargetInfo ta) => !ta.HasThing || !ta.Thing.Spawned || ta.Thing.IsForbidden(actor));
 			};
 			return toil;
 		}
@@ -108,14 +107,14 @@ namespace Verse.AI
 			}
 			yield return c2;
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_020b:
-			/*Error near IL_020c: Unexpected return in MoveNext()*/;
+			IL_0205:
+			/*Error near IL_0206: Unexpected return in MoveNext()*/;
 		}
 
 		public static Toil SetTargetToIngredientPlaceCell(TargetIndex billGiverInd, TargetIndex carryItemInd, TargetIndex cellTargetInd)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.jobs.curJob;
@@ -155,7 +154,7 @@ namespace Verse.AI
 		public static Toil MoveCurrentTargetIntoQueue(TargetIndex ind)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Job curJob = toil.actor.CurJob;
 				LocalTargetInfo target = curJob.GetTarget(ind);
@@ -170,7 +169,7 @@ namespace Verse.AI
 					{
 						targetQueue.Insert(0, target);
 					}
-					curJob.SetTarget(ind, (Thing)null);
+					curJob.SetTarget(ind, null);
 				}
 			};
 			return toil;

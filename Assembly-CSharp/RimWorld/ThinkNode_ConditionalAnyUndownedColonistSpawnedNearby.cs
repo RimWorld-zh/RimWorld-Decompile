@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Verse;
 using Verse.AI;
@@ -9,7 +8,7 @@ namespace RimWorld
 	{
 		protected override bool Satisfied(Pawn pawn)
 		{
-			return pawn.Spawned && pawn.Map.mapPawns.FreeColonistsSpawned.Any((Func<Pawn, bool>)((Pawn x) => !x.Downed));
+			return pawn.Spawned && pawn.Map.mapPawns.FreeColonistsSpawned.Any((Pawn x) => !x.Downed);
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -152,7 +151,7 @@ namespace RimWorld
 				{
 					TendUtility.tmpHediffsWithTendPriority.Add(new Pair<Hediff, float>(hediffs[i], hediffs[i].TendPriority));
 				}
-				TendUtility.tmpHediffsWithTendPriority.SortByDescending((Func<Pair<Hediff, float>, float>)((Pair<Hediff, float> x) => x.Second), (Func<Pair<Hediff, float>, float>)((Pair<Hediff, float> x) => x.First.Severity));
+				TendUtility.tmpHediffsWithTendPriority.SortByDescending((Pair<Hediff, float> x) => x.Second, (Pair<Hediff, float> x) => x.First.Severity);
 				hediffs.Clear();
 				for (int j = 0; j < TendUtility.tmpHediffsWithTendPriority.Count; j++)
 				{

@@ -6,7 +6,19 @@ namespace RimWorld
 	{
 		protected override ThoughtState CurrentSocialStateInternal(Pawn pawn, Pawn other)
 		{
-			return other.RaceProps.Humanlike ? (RelationsUtility.PawnsKnowEachOther(pawn, other) ? ((LovePartnerRelationUtility.IncestOpinionOffsetFor(other, pawn) != 0.0) ? true : false) : false) : false;
+			if (!other.RaceProps.Humanlike)
+			{
+				return false;
+			}
+			if (!RelationsUtility.PawnsKnowEachOther(pawn, other))
+			{
+				return false;
+			}
+			if (LovePartnerRelationUtility.IncestOpinionOffsetFor(other, pawn) == 0.0)
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

@@ -25,7 +25,7 @@ namespace RimWorld
 			{
 				if (value)
 				{
-					pawn.MapHeld.designationManager.AddDesignation(new Designation((Thing)pawn, DesignationDefOf.Slaughter));
+					pawn.MapHeld.designationManager.AddDesignation(new Designation(pawn, DesignationDefOf.Slaughter));
 					SlaughterDesignatorUtility.CheckWarnAboutBondedAnimal(pawn);
 				}
 				else
@@ -47,7 +47,11 @@ namespace RimWorld
 		private Designation GetSlaughterDesignation(Pawn pawn)
 		{
 			Map mapHeld = pawn.MapHeld;
-			return (mapHeld != null) ? mapHeld.designationManager.DesignationOn(pawn, DesignationDefOf.Slaughter) : null;
+			if (mapHeld == null)
+			{
+				return null;
+			}
+			return mapHeld.designationManager.DesignationOn(pawn, DesignationDefOf.Slaughter);
 		}
 	}
 }

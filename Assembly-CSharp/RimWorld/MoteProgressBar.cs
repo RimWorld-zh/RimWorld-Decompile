@@ -19,10 +19,8 @@ namespace RimWorld
 			base.UpdatePositionAndRotation();
 			if (Find.CameraDriver.CurrentZoom == CameraZoomRange.Closest)
 			{
-				GenDraw.FillableBarRequest r = new GenDraw.FillableBarRequest
-				{
-					center = base.exactPosition
-				};
+				GenDraw.FillableBarRequest r = default(GenDraw.FillableBarRequest);
+				r.center = base.exactPosition;
 				r.center.z += this.offsetZ;
 				r.size = new Vector2(base.exactScale.x, base.exactScale.z);
 				r.fillPercent = this.progress;

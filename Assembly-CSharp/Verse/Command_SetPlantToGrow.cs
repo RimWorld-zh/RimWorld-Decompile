@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -68,7 +67,7 @@ namespace Verse
 						string text2 = text;
 						text = text2 + " (" + "MinSkill".Translate() + ": " + item.plant.sowMinSkill + ")";
 					}
-					list.Add(new FloatMenuOption(text, (Action)delegate
+					list.Add(new FloatMenuOption(text, delegate
 					{
 						string s = base.tutorTag + "-" + localPlantDef.defName;
 						if (TutorSystem.AllowAction(s))
@@ -81,7 +80,7 @@ namespace Verse
 							this.WarnAsAppropriate(localPlantDef);
 							TutorSystem.Notify_Event(s);
 						}
-					}, MenuOptionPriority.Default, null, null, 29f, (Func<Rect, bool>)((Rect rect) => Widgets.InfoCardButton((float)(rect.x + 5.0), (float)(rect.y + (rect.height - 24.0) / 2.0), localPlantDef)), null));
+					}, MenuOptionPriority.Default, null, null, 29f, (Rect rect) => Widgets.InfoCardButton((float)(rect.x + 5.0), (float)(rect.y + (rect.height - 24.0) / 2.0), localPlantDef), null));
 				}
 			}
 			Find.WindowStack.Add(new FloatMenu(list));
@@ -106,7 +105,7 @@ namespace Verse
 					if (item.skills.GetSkill(SkillDefOf.Growing).Level >= plantDef.plant.sowMinSkill && !item.Downed && item.workSettings.WorkIsActive(WorkTypeDefOf.Growing))
 						return;
 				}
-				Find.WindowStack.Add(new Dialog_MessageBox("NoGrowerCanPlant".Translate(plantDef.label, plantDef.plant.sowMinSkill).CapitalizeFirst(), (string)null, null, (string)null, null, (string)null, false));
+				Find.WindowStack.Add(new Dialog_MessageBox("NoGrowerCanPlant".Translate(plantDef.label, plantDef.plant.sowMinSkill).CapitalizeFirst(), null, null, null, null, null, false));
 			}
 			if (plantDef.plant.cavePlant)
 			{
@@ -140,26 +139,18 @@ namespace Verse
 		private bool IsPlantAvailable(ThingDef plantDef)
 		{
 			List<ResearchProjectDef> sowResearchPrerequisites = plantDef.plant.sowResearchPrerequisites;
-			bool result;
 			if (sowResearchPrerequisites == null)
 			{
-				result = true;
+				return true;
 			}
-			else
+			for (int i = 0; i < sowResearchPrerequisites.Count; i++)
 			{
-				for (int i = 0; i < sowResearchPrerequisites.Count; i++)
+				if (!sowResearchPrerequisites[i].IsFinished)
 				{
-					if (!sowResearchPrerequisites[i].IsFinished)
-						goto IL_0033;
+					return false;
 				}
-				result = true;
 			}
-			goto IL_0052;
-			IL_0033:
-			result = false;
-			goto IL_0052;
-			IL_0052:
-			return result;
+			return true;
 		}
 	}
 }

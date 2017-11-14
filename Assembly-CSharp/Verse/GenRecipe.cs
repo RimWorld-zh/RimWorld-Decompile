@@ -58,38 +58,34 @@ namespace Verse
 						switch (recipeDef.specialProducts[j])
 						{
 						case SpecialProductType.Butchery:
-						{
-							using (IEnumerator<Thing> enumerator = ing.ButcherProducts(worker, efficiency).GetEnumerator())
+							using (IEnumerator<Thing> enumerator2 = ing.ButcherProducts(worker, efficiency).GetEnumerator())
 							{
-								if (enumerator.MoveNext())
+								if (enumerator2.MoveNext())
 								{
-									Thing product = enumerator.Current;
+									Thing product = enumerator2.Current;
 									yield return GenRecipe.PostProcessProduct(product, recipeDef, worker);
 									/*Error: Unable to find new state assignment for yield return*/;
 								}
 							}
 							break;
-						}
 						case SpecialProductType.Smelted:
-						{
-							using (IEnumerator<Thing> enumerator2 = ing.SmeltProducts(efficiency).GetEnumerator())
+							using (IEnumerator<Thing> enumerator = ing.SmeltProducts(efficiency).GetEnumerator())
 							{
-								if (enumerator2.MoveNext())
+								if (enumerator.MoveNext())
 								{
-									Thing product2 = enumerator2.Current;
+									Thing product2 = enumerator.Current;
 									yield return GenRecipe.PostProcessProduct(product2, recipeDef, worker);
 									/*Error: Unable to find new state assignment for yield return*/;
 								}
 							}
 							break;
 						}
-						}
 					}
 				}
 			}
 			yield break;
-			IL_048a:
-			/*Error near IL_048b: Unexpected return in MoveNext()*/;
+			IL_0473:
+			/*Error near IL_0474: Unexpected return in MoveNext()*/;
 		}
 
 		private static Thing PostProcessProduct(Thing product, RecipeDef recipeDef, Pawn worker)

@@ -8,18 +8,36 @@ namespace RimWorld
 	{
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (pawn.Downed)
 			{
-				result = null;
+				return null;
 			}
-			else
+			Predicate<Thing> validator = delegate(Thing t)
 			{
-				Predicate<Thing> validator = (Predicate<Thing>)((Thing t) => (byte)((t.def.category == ThingCategory.Item) ? (t.IngestibleNow ? (pawn.RaceProps.CanEverEat(t) ? (pawn.CanReserve(t, 1, -1, null, false) ? 1 : 0) : 0) : 0) : 0) != 0);
-				Thing thing = GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForGroup(ThingRequestGroup.HaulableAlways), PathEndMode.OnCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 10f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
-				result = ((thing != null) ? new Job(JobDefOf.Ingest, thing) : null);
+				if (t.def.category != ThingCategory.Item)
+				{
+					return false;
+				}
+				if (!t.IngestibleNow)
+				{
+					return false;
+				}
+				if (!pawn.RaceProps.CanEverEat(t))
+				{
+					return false;
+				}
+				if (!pawn.CanReserve(t, 1, -1, null, false))
+				{
+					return false;
+				}
+				return true;
+			};
+			Thing thing = GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForGroup(ThingRequestGroup.HaulableAlways), PathEndMode.OnCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 10f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
+			if (thing == null)
+			{
+				return null;
 			}
-			return result;
+			return new Job(JobDefOf.Ingest, thing);
 		}
 	}
 }

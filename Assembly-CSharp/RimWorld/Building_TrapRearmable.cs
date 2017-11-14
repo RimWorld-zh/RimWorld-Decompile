@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -8,7 +7,7 @@ namespace RimWorld
 {
 	public class Building_TrapRearmable : Building_Trap
 	{
-		private bool autoRearm = false;
+		private bool autoRearm;
 
 		private bool armedInt = true;
 
@@ -30,20 +29,15 @@ namespace RimWorld
 		{
 			get
 			{
-				Graphic graphic;
 				if (this.armedInt)
 				{
-					graphic = base.Graphic;
+					return base.Graphic;
 				}
-				else
+				if (this.graphicUnarmedInt == null)
 				{
-					if (this.graphicUnarmedInt == null)
-					{
-						this.graphicUnarmedInt = base.def.building.trapUnarmedGraphicData.GraphicColoredFor(this);
-					}
-					graphic = this.graphicUnarmedInt;
+					this.graphicUnarmedInt = base.def.building.trapUnarmedGraphicData.GraphicColoredFor(this);
 				}
-				return graphic;
+				return this.graphicUnarmedInt;
 			}
 		}
 
@@ -63,7 +57,7 @@ namespace RimWorld
 			}
 			if (this.autoRearm)
 			{
-				base.Map.designationManager.AddDesignation(new Designation((Thing)this, DesignationDefOf.RearmTrap));
+				base.Map.designationManager.AddDesignation(new Designation(this, DesignationDefOf.RearmTrap));
 			}
 		}
 
@@ -92,7 +86,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -107,15 +101,15 @@ namespace RimWorld
 				defaultDesc = "CommandAutoRearmDesc".Translate(),
 				hotKey = KeyBindingDefOf.Misc3,
 				icon = TexCommand.RearmTrap,
-				isActive = (Func<bool>)(() => ((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_0113: stateMachine*/)._0024this.autoRearm),
-				toggleAction = (Action)delegate
+				isActive = (() => ((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_010f: stateMachine*/)._0024this.autoRearm),
+				toggleAction = delegate
 				{
-					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_012a: stateMachine*/)._0024this.autoRearm = !((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_012a: stateMachine*/)._0024this.autoRearm;
+					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_0126: stateMachine*/)._0024this.autoRearm = !((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_0126: stateMachine*/)._0024this.autoRearm;
 				}
 			};
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0164:
-			/*Error near IL_0165: Unexpected return in MoveNext()*/;
+			IL_0160:
+			/*Error near IL_0161: Unexpected return in MoveNext()*/;
 		}
 	}
 }

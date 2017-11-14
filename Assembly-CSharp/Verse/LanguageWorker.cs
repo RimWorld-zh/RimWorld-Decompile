@@ -11,7 +11,11 @@ namespace Verse
 			{
 				throw new ArgumentException();
 			}
-			return (!"IndefiniteForm".CanTranslate()) ? ("IndefiniteArticle".Translate() + " " + str) : "IndefiniteForm".Translate(str);
+			if ("IndefiniteForm".CanTranslate())
+			{
+				return "IndefiniteForm".Translate(str);
+			}
+			return "IndefiniteArticle".Translate() + " " + str;
 		}
 
 		public virtual string WithDefiniteArticle(string str)
@@ -20,7 +24,11 @@ namespace Verse
 			{
 				throw new ArgumentException();
 			}
-			return (!"DefiniteForm".CanTranslate()) ? ("DefiniteArticle".Translate() + " " + str) : "DefiniteForm".Translate(str);
+			if ("DefiniteForm".CanTranslate())
+			{
+				return "DefiniteForm".Translate(str);
+			}
+			return "DefiniteArticle".Translate() + " " + str;
 		}
 
 		public virtual string OrdinalNumber(int number)
@@ -36,7 +44,11 @@ namespace Verse
 
 		public virtual string ToTitleCase(string str)
 		{
-			return (!str.NullOrEmpty()) ? CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str) : str;
+			if (str.NullOrEmpty())
+			{
+				return str;
+			}
+			return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(str);
 		}
 
 		public virtual string Pluralize(string str, int count = -1)

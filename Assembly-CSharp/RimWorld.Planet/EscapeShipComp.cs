@@ -15,21 +15,14 @@ namespace RimWorld.Planet
 			if (mapParent.HasMap)
 			{
 				List<Pawn> allPawnsSpawned = mapParent.Map.mapPawns.AllPawnsSpawned;
-				bool flag = false;
+				bool flag = mapParent.Map.mapPawns.FreeColonistsSpawnedOrInPlayerEjectablePodsCount != 0;
 				bool flag2 = false;
 				for (int i = 0; i < allPawnsSpawned.Count; i++)
 				{
 					Pawn pawn = allPawnsSpawned[i];
-					if (pawn.RaceProps.Humanlike && pawn.HostFaction == null)
+					if (pawn.RaceProps.Humanlike && pawn.HostFaction == null && !pawn.Downed && pawn.Faction.HostileTo(Faction.OfPlayer))
 					{
-						if (pawn.Faction == Faction.OfPlayer)
-						{
-							flag = true;
-						}
-						else if (pawn.Faction.HostileTo(Faction.OfPlayer) && !pawn.Downed)
-						{
-							flag2 = true;
-						}
+						flag2 = true;
 					}
 				}
 				if (flag2 && !flag)
@@ -42,7 +35,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable<IncidentTargetTypeDef> AcceptedTypes()
 		{
-			using (IEnumerator<IncidentTargetTypeDef> enumerator = this._003CAcceptedTypes_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<IncidentTargetTypeDef> enumerator = base.AcceptedTypes().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -55,8 +48,8 @@ namespace RimWorld.Planet
 				yield break;
 			yield return IncidentTargetTypeDefOf.MapRaidBeacon;
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_00f2:
-			/*Error near IL_00f3: Unexpected return in MoveNext()*/;
+			IL_00ec:
+			/*Error near IL_00ed: Unexpected return in MoveNext()*/;
 		}
 
 		public override void PostExposeData()
@@ -69,7 +62,7 @@ namespace RimWorld.Planet
 		{
 			_003CGetFloatMenuOptions_003Ec__Iterator1 _003CGetFloatMenuOptions_003Ec__Iterator = (_003CGetFloatMenuOptions_003Ec__Iterator1)/*Error near IL_0036: stateMachine*/;
 			string label = "VisitEscapeShip".Translate(base.parent.Label);
-			Action action = (Action)delegate()
+			Action action = delegate
 			{
 				caravan.pather.StartPath(_003CGetFloatMenuOptions_003Ec__Iterator._0024this.parent.Tile, new CaravanArrivalAction_VisitEscapeShip(_003CGetFloatMenuOptions_003Ec__Iterator._0024this.parent as MapParent), true);
 			};

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -81,7 +80,7 @@ namespace RimWorld
 			rect3.x = rect2.xMax;
 			rect3.width = num;
 			Widgets.Label(rect3, text);
-			TooltipHandler.TipRegion(rect, new TipSignal((Func<string>)(() => record.description), record.GetHashCode()));
+			TooltipHandler.TipRegion(rect, new TipSignal(() => record.description, record.GetHashCode()));
 			return rect.height;
 		}
 	}

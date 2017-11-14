@@ -1,11 +1,10 @@
-using System;
 using Verse;
 
 namespace RimWorld
 {
 	public class StorageSettings : IExposable
 	{
-		public IStoreSettingsParent owner = null;
+		public IStoreSettingsParent owner;
 
 		public ThingFilter filter;
 
@@ -46,10 +45,11 @@ namespace RimWorld
 
 		public StorageSettings()
 		{
-			this.filter = new ThingFilter(new Action(this.TryNotifyChanged));
+			this.filter = new ThingFilter(this.TryNotifyChanged);
 		}
 
-		public StorageSettings(IStoreSettingsParent owner) : this()
+		public StorageSettings(IStoreSettingsParent owner)
+			: this()
 		{
 			this.owner = owner;
 			if (owner != null)
@@ -83,27 +83,19 @@ namespace RimWorld
 
 		public bool AllowedToAccept(Thing t)
 		{
-			bool result;
 			if (!this.filter.Allows(t))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (this.owner != null)
 			{
-				if (this.owner != null)
+				StorageSettings parentStoreSettings = this.owner.GetParentStoreSettings();
+				if (parentStoreSettings != null && !parentStoreSettings.AllowedToAccept(t))
 				{
-					StorageSettings parentStoreSettings = this.owner.GetParentStoreSettings();
-					if (parentStoreSettings != null && !parentStoreSettings.AllowedToAccept(t))
-					{
-						result = false;
-						goto IL_0052;
-					}
+					return false;
 				}
-				result = true;
 			}
-			goto IL_0052;
-			IL_0052:
-			return result;
+			return true;
 		}
 
 		private void TryNotifyChanged()

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -92,36 +91,26 @@ namespace RimWorld
 				{
 					Widgets.DrawHighlight(rect);
 				}
-				TooltipHandler.TipRegion(rect, new TipSignal((Func<string>)(() => trad.GetPriceTooltip(action)), trad.GetHashCode() * 297));
+				TooltipHandler.TipRegion(rect, new TipSignal(() => trad.GetPriceTooltip(action), trad.GetHashCode() * 297));
 				if (action == TradeAction.PlayerBuys)
 				{
 					switch (trad.PriceTypeFor(action))
 					{
 					case PriceType.VeryCheap:
-					{
 						GUI.color = new Color(0f, 1f, 0f);
 						break;
-					}
 					case PriceType.Cheap:
-					{
 						GUI.color = new Color(0.5f, 1f, 0.5f);
 						break;
-					}
 					case PriceType.Normal:
-					{
 						GUI.color = Color.white;
 						break;
-					}
 					case PriceType.Expensive:
-					{
 						GUI.color = new Color(1f, 0.5f, 0.5f);
 						break;
-					}
 					case PriceType.Exorbitant:
-					{
 						GUI.color = new Color(1f, 0f, 0f);
 						break;
-					}
 					}
 				}
 				else
@@ -129,30 +118,20 @@ namespace RimWorld
 					switch (trad.PriceTypeFor(action))
 					{
 					case PriceType.VeryCheap:
-					{
 						GUI.color = new Color(1f, 0f, 0f);
 						break;
-					}
 					case PriceType.Cheap:
-					{
 						GUI.color = new Color(1f, 0.5f, 0.5f);
 						break;
-					}
 					case PriceType.Normal:
-					{
 						GUI.color = Color.white;
 						break;
-					}
 					case PriceType.Expensive:
-					{
 						GUI.color = new Color(0.5f, 1f, 0.5f);
 						break;
-					}
 					case PriceType.Exorbitant:
-					{
 						GUI.color = new Color(0f, 1f, 0f);
 						break;
-					}
 					}
 				}
 				float priceFor = trad.GetPriceFor(action);

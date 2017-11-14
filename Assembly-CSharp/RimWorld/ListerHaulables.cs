@@ -13,7 +13,7 @@ namespace RimWorld
 
 		private const int CellsPerTick = 4;
 
-		private static int groupCycleIndex = 0;
+		private static int groupCycleIndex;
 
 		private List<int> cellCycleIndices = new List<int>();
 
@@ -138,31 +138,26 @@ namespace RimWorld
 
 		private bool ShouldBeHaulable(Thing t)
 		{
-			bool result;
 			if (t.IsForbidden(Faction.OfPlayer))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (!t.def.alwaysHaulable)
 			{
-				if (!t.def.alwaysHaulable)
+				if (!t.def.EverHaulable)
 				{
-					if (!t.def.EverHaulable)
-					{
-						result = false;
-						goto IL_0087;
-					}
-					if (this.map.designationManager.DesignationOn(t, DesignationDefOf.Haul) == null && !t.IsInAnyStorage())
-					{
-						result = false;
-						goto IL_0087;
-					}
+					return false;
 				}
-				result = ((byte)((!t.IsInValidBestStorage()) ? 1 : 0) != 0);
+				if (this.map.designationManager.DesignationOn(t, DesignationDefOf.Haul) == null && !t.IsInAnyStorage())
+				{
+					return false;
+				}
 			}
-			goto IL_0087;
-			IL_0087:
-			return result;
+			if (t.IsInValidBestStorage())
+			{
+				return false;
+			}
+			return true;
 		}
 
 		private void CheckAdd(Thing t)

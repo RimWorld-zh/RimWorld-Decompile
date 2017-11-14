@@ -50,7 +50,19 @@ namespace RimWorld
 		{
 			get
 			{
-				return (HungerCategory)((!(base.CurLevelPercentage <= 0.0)) ? ((!(base.CurLevelPercentage < this.PercentageThreshUrgentlyHungry)) ? ((base.CurLevelPercentage < this.PercentageThreshHungry) ? 1 : 0) : 2) : 3);
+				if (base.CurLevelPercentage <= 0.0)
+				{
+					return HungerCategory.Starving;
+				}
+				if (base.CurLevelPercentage < this.PercentageThreshUrgentlyHungry)
+				{
+					return HungerCategory.UrgentlyHungry;
+				}
+				if (base.CurLevelPercentage < this.PercentageThreshHungry)
+				{
+					return HungerCategory.Hungry;
+				}
+				return HungerCategory.Fed;
 			}
 		}
 
@@ -118,7 +130,8 @@ namespace RimWorld
 			}
 		}
 
-		public Need_Food(Pawn pawn) : base(pawn)
+		public Need_Food(Pawn pawn)
+			: base(pawn)
 		{
 		}
 
@@ -130,36 +143,19 @@ namespace RimWorld
 
 		private float FoodFallPerTickAssumingCategory(HungerCategory cat)
 		{
-			float result;
 			switch (cat)
 			{
 			case HungerCategory.Fed:
-			{
-				result = (float)(2.6666666599339806E-05 * this.HungerRate);
-				break;
-			}
+				return (float)(2.6666666599339806E-05 * this.HungerRate);
 			case HungerCategory.Hungry:
-			{
-				result = (float)(2.6666666599339806E-05 * this.HungerRate * 0.5);
-				break;
-			}
+				return (float)(2.6666666599339806E-05 * this.HungerRate * 0.5);
 			case HungerCategory.UrgentlyHungry:
-			{
-				result = (float)(2.6666666599339806E-05 * this.HungerRate * 0.25);
-				break;
-			}
+				return (float)(2.6666666599339806E-05 * this.HungerRate * 0.25);
 			case HungerCategory.Starving:
-			{
-				result = (float)(2.6666666599339806E-05 * this.HungerRate * 0.15000000596046448);
-				break;
-			}
+				return (float)(2.6666666599339806E-05 * this.HungerRate * 0.15000000596046448);
 			default:
-			{
-				result = 999f;
-				break;
+				return 999f;
 			}
-			}
-			return result;
 		}
 
 		public override void NeedInterval()

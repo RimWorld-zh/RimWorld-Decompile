@@ -11,54 +11,35 @@ namespace Verse
 		{
 			string[] commandLineArgs = Environment.GetCommandLineArgs();
 			int num = 0;
-			bool result;
-			while (true)
+			while (num < commandLineArgs.Length)
 			{
-				if (num < commandLineArgs.Length)
+				if (string.Compare(commandLineArgs[num], key, true) != 0 && string.Compare(commandLineArgs[num], "-" + key, true) != 0)
 				{
-					if (((string.Compare(commandLineArgs[num], key, true) != 0) ? string.Compare(commandLineArgs[num], "-" + key, true) : 0) != 0)
-					{
-						num++;
-						continue;
-					}
-					result = true;
+					num++;
+					continue;
 				}
-				else
-				{
-					result = false;
-				}
-				break;
+				return true;
 			}
-			return result;
+			return false;
 		}
 
 		public static bool TryGetCommandLineArg(string key, out string value)
 		{
 			string[] commandLineArgs = Environment.GetCommandLineArgs();
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < commandLineArgs.Length; i++)
 			{
-				if (num < commandLineArgs.Length)
+				if (commandLineArgs[i].Contains('='))
 				{
-					if (commandLineArgs[num].Contains('='))
+					string[] array = commandLineArgs[i].Split('=');
+					if (array.Length == 2 && (string.Compare(array[0], key, true) == 0 || string.Compare(array[0], "-" + key, true) == 0))
 					{
-						string[] array = commandLineArgs[num].Split('=');
-						if (array.Length == 2 && (string.Compare(array[0], key, true) == 0 || string.Compare(array[0], "-" + key, true) == 0))
-						{
-							value = array[1];
-							result = true;
-							break;
-						}
+						value = array[1];
+						return true;
 					}
-					num++;
-					continue;
 				}
-				value = (string)null;
-				result = false;
-				break;
 			}
-			return result;
+			value = null;
+			return false;
 		}
 
 		public static void Restart()
@@ -67,7 +48,7 @@ namespace Verse
 			{
 				string[] commandLineArgs = Environment.GetCommandLineArgs();
 				string text = commandLineArgs[0];
-				string text2 = "";
+				string text2 = string.Empty;
 				for (int i = 1; i < commandLineArgs.Length; i++)
 				{
 					if (!text2.NullOrEmpty())
@@ -80,7 +61,7 @@ namespace Verse
 				process.StartInfo = new ProcessStartInfo(commandLineArgs[0], text2);
 				process.Start();
 				Root.Shutdown();
-				LongEventHandler.QueueLongEvent((Action)delegate
+				LongEventHandler.QueueLongEvent(delegate
 				{
 					Thread.Sleep(10000);
 				}, "Restarting", true, null);
@@ -88,7 +69,7 @@ namespace Verse
 			catch (Exception arg)
 			{
 				Log.Error("Error restarting: " + arg);
-				Find.WindowStack.Add(new Dialog_MessageBox("FailedToRestart".Translate(), (string)null, null, (string)null, null, (string)null, false));
+				Find.WindowStack.Add(new Dialog_MessageBox("FailedToRestart".Translate(), null, null, null, null, null, false));
 			}
 		}
 	}

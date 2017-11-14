@@ -31,7 +31,15 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			return c.InBounds(base.Map) ? (this.SlaughterablesInCell(c).Any() ? true : "MessageMustDesignateSlaughterable".Translate()) : false;
+			if (!c.InBounds(base.Map))
+			{
+				return false;
+			}
+			if (!this.SlaughterablesInCell(c).Any())
+			{
+				return "MessageMustDesignateSlaughterable".Translate();
+			}
+			return true;
 		}
 
 		public override void DesignateSingleCell(IntVec3 loc)
@@ -45,7 +53,11 @@ namespace RimWorld
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			Pawn pawn = t as Pawn;
-			return (pawn == null || !pawn.def.race.Animal || pawn.Faction != Faction.OfPlayer || base.Map.designationManager.DesignationOn(pawn, DesignationDefOf.Slaughter) != null || pawn.InAggroMentalState) ? false : true;
+			if (pawn != null && pawn.def.race.Animal && pawn.Faction == Faction.OfPlayer && base.Map.designationManager.DesignationOn(pawn, DesignationDefOf.Slaughter) == null && !pawn.InAggroMentalState)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public override void DesignateThing(Thing t)

@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -30,11 +29,11 @@ namespace RimWorld.Planet
 			Vector2 winSize = WITab_Terrain.WinSize;
 			float x = winSize.x;
 			Vector2 winSize2 = WITab_Terrain.WinSize;
-			Rect rect;
-			Rect rect2 = rect = new Rect(0f, 0f, x, winSize2.y).ContractedBy(10f);
+			Rect rect = new Rect(0f, 0f, x, winSize2.y).ContractedBy(10f);
+			Rect rect2 = rect;
 			Text.Font = GameFont.Medium;
-			Widgets.Label(rect, base.SelTile.biome.LabelCap);
-			Rect rect3 = rect2;
+			Widgets.Label(rect2, base.SelTile.biome.LabelCap);
+			Rect rect3 = rect;
 			rect3.yMin += 35f;
 			Text.Font = GameFont.Small;
 			Listing_Standard listing_Standard = new Listing_Standard();
@@ -59,10 +58,10 @@ namespace RimWorld.Planet
 			}
 			if (selTile.VisibleRivers != null)
 			{
-				Listing_Standard obj = listing_Standard;
+				Listing_Standard listing_Standard2 = listing_Standard;
 				string leftLabel = "River".Translate();
-				Tile.RiverLink riverLink = selTile.VisibleRivers.MaxBy((Func<Tile.RiverLink, int>)((Tile.RiverLink riverlink) => riverlink.river.degradeThreshold));
-				obj.LabelDouble(leftLabel, riverLink.river.LabelCap);
+				Tile.RiverLink riverLink = selTile.VisibleRivers.MaxBy((Tile.RiverLink riverlink) => riverlink.river.degradeThreshold);
+				listing_Standard2.LabelDouble(leftLabel, riverLink.river.LabelCap);
 			}
 			if (!Find.World.Impassable(selTileID))
 			{
@@ -91,10 +90,10 @@ namespace RimWorld.Planet
 			listing_Standard.LabelDouble("AnimalsCanGrazeNow".Translate(), (!VirtualPlantsUtility.EnvironmentAllowsEatingVirtualPlantsNowAt(selTileID)) ? "No".Translate() : "Yes".Translate());
 			listing_Standard.GapLine(12f);
 			listing_Standard.LabelDouble("AverageDiseaseFrequency".Translate(), string.Format("{0} {1}", ((float)(60.0 / selTile.biome.diseaseMtbDays)).ToString("F1"), "PerYear".Translate()));
-			Listing_Standard obj2 = listing_Standard;
+			Listing_Standard listing_Standard3 = listing_Standard;
 			string leftLabel2 = "TimeZone".Translate();
 			Vector2 vector2 = Find.WorldGrid.LongLatOf(selTileID);
-			obj2.LabelDouble(leftLabel2, GenDate.TimeZoneAt(vector2.x).ToStringWithSign());
+			listing_Standard3.LabelDouble(leftLabel2, GenDate.TimeZoneAt(vector2.x).ToStringWithSign());
 			StringBuilder stringBuilder = new StringBuilder();
 			Rot4 rot = Find.World.CoastDirectionAt(selTileID);
 			if (rot.IsValid)

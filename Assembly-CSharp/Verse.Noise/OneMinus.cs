@@ -2,11 +2,13 @@ namespace Verse.Noise
 {
 	public class OneMinus : ModuleBase
 	{
-		public OneMinus() : base(1)
+		public OneMinus()
+			: base(1)
 		{
 		}
 
-		public OneMinus(ModuleBase module) : base(1)
+		public OneMinus(ModuleBase module)
+			: base(1)
 		{
 			base.modules[0] = module;
 		}

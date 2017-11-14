@@ -85,7 +85,6 @@ namespace RuntimeAudioClipLoader
 			switch (format)
 			{
 			case AudioFormat.wav:
-			{
 				this.readerStream = new WaveFileReader(stream);
 				if (this.readerStream.WaveFormat.Encoding != WaveFormatEncoding.Pcm && this.readerStream.WaveFormat.Encoding != WaveFormatEncoding.IeeeFloat)
 				{
@@ -93,27 +92,18 @@ namespace RuntimeAudioClipLoader
 					this.readerStream = new BlockAlignReductionStream(this.readerStream);
 				}
 				break;
-			}
 			case AudioFormat.mp3:
-			{
 				this.readerStream = new Mp3FileReader(stream);
 				break;
-			}
 			case AudioFormat.aiff:
-			{
 				this.readerStream = new AiffFileReader(stream);
 				break;
-			}
 			case AudioFormat.ogg:
-			{
 				this.readerStream = new VorbisWaveReader(stream);
 				break;
-			}
 			default:
-			{
 				Debug.LogWarning("Audio format " + format + " is not supported");
 				break;
-			}
 			}
 		}
 

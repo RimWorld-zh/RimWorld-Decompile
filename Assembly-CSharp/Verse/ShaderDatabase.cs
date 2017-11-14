@@ -66,77 +66,36 @@ namespace Verse
 
 		public static Shader ShaderFromType(ShaderType sType)
 		{
-			Shader result;
 			switch (sType)
 			{
 			case ShaderType.Cutout:
-			{
-				result = ShaderDatabase.Cutout;
-				break;
-			}
+				return ShaderDatabase.Cutout;
 			case ShaderType.CutoutPlant:
-			{
-				result = ShaderDatabase.CutoutPlant;
-				break;
-			}
+				return ShaderDatabase.CutoutPlant;
 			case ShaderType.CutoutComplex:
-			{
-				result = ShaderDatabase.CutoutComplex;
-				break;
-			}
+				return ShaderDatabase.CutoutComplex;
 			case ShaderType.CutoutSkin:
-			{
-				result = ShaderDatabase.CutoutSkin;
-				break;
-			}
+				return ShaderDatabase.CutoutSkin;
 			case ShaderType.CutoutFlying:
-			{
-				result = ShaderDatabase.CutoutFlying;
-				break;
-			}
+				return ShaderDatabase.CutoutFlying;
 			case ShaderType.Transparent:
-			{
-				result = ShaderDatabase.Transparent;
-				break;
-			}
+				return ShaderDatabase.Transparent;
 			case ShaderType.MetaOverlay:
-			{
-				result = ShaderDatabase.MetaOverlay;
-				break;
-			}
+				return ShaderDatabase.MetaOverlay;
 			case ShaderType.Mote:
-			{
-				result = ShaderDatabase.Mote;
-				break;
-			}
+				return ShaderDatabase.Mote;
 			case ShaderType.MoteGlow:
-			{
-				result = ShaderDatabase.MoteGlow;
-				break;
-			}
+				return ShaderDatabase.MoteGlow;
 			case ShaderType.TransparentPostLight:
-			{
-				result = ShaderDatabase.TransparentPostLight;
-				break;
-			}
+				return ShaderDatabase.TransparentPostLight;
 			case ShaderType.TransparentPlant:
-			{
-				result = ShaderDatabase.TransparentPlant;
-				break;
-			}
+				return ShaderDatabase.TransparentPlant;
 			case ShaderType.MoteWater:
-			{
-				result = ShaderDatabase.MoteWater;
-				break;
-			}
+				return ShaderDatabase.MoteWater;
 			default:
-			{
 				Log.ErrorOnce("Unknown ShaderType " + sType, 2766893);
-				result = ShaderDatabase.DefaultShader;
-				break;
+				return ShaderDatabase.DefaultShader;
 			}
-			}
-			return result;
 		}
 
 		public static Shader LoadShader(string shaderPath)
@@ -150,17 +109,12 @@ namespace Verse
 				ShaderDatabase.lookup[shaderPath] = (Shader)Resources.Load("Materials/" + shaderPath, typeof(Shader));
 			}
 			Shader shader = ShaderDatabase.lookup[shaderPath];
-			Shader result;
 			if ((Object)shader == (Object)null)
 			{
 				Log.Warning("Could not load shader " + shaderPath);
-				result = ShaderDatabase.DefaultShader;
+				return ShaderDatabase.DefaultShader;
 			}
-			else
-			{
-				result = shader;
-			}
-			return result;
+			return shader;
 		}
 	}
 }

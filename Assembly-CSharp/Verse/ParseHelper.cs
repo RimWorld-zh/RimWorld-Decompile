@@ -75,10 +75,10 @@ namespace Verse
 				{
 					string[] array = str.Split('.');
 					string methodName = array[array.Length - 1];
-					string text = "";
-					text = ((array.Length != 3) ? array[0] : (array[0] + "." + array[1]));
-					Type typeInAnyAssembly2 = GenTypes.GetTypeInAnyAssembly(text);
-					MethodInfo method = typeInAnyAssembly2.GetMethods().First((Func<MethodInfo, bool>)((MethodInfo m) => m.Name == methodName));
+					string empty = string.Empty;
+					empty = ((array.Length != 3) ? array[0] : (array[0] + "." + array[1]));
+					Type typeInAnyAssembly2 = GenTypes.GetTypeInAnyAssembly(empty);
+					MethodInfo method = typeInAnyAssembly2.GetMethods().First((MethodInfo m) => m.Name == methodName);
 					return (Action)Delegate.CreateDelegate(typeof(Action), method);
 				}
 				if (itemType == typeof(Vector3))
@@ -148,7 +148,7 @@ namespace Verse
 				if (itemType == typeof(NameTriple))
 				{
 					NameTriple nameTriple = NameTriple.FromString(str);
-					nameTriple.ResolveMissingPieces((string)null);
+					nameTriple.ResolveMissingPieces(null);
 				}
 				else
 				{
@@ -169,12 +169,10 @@ namespace Verse
 						str = str.TrimStart('(', 'R', 'G', 'B', 'A');
 						str = str.TrimEnd(')');
 						string[] array3 = str.Split(',');
-						ColorInt colorInt = new ColorInt(255, 255, 255, 255)
-						{
-							r = (int)ParseHelper.FromString(array3[0], typeof(int)),
-							g = (int)ParseHelper.FromString(array3[1], typeof(int)),
-							b = (int)ParseHelper.FromString(array3[2], typeof(int))
-						};
+						ColorInt colorInt = new ColorInt(255, 255, 255, 255);
+						colorInt.r = (int)ParseHelper.FromString(array3[0], typeof(int));
+						colorInt.g = (int)ParseHelper.FromString(array3[1], typeof(int));
+						colorInt.b = (int)ParseHelper.FromString(array3[2], typeof(int));
 						if (array3.Length == 4)
 						{
 							colorInt.a = (int)ParseHelper.FromString(array3[3], typeof(int));
@@ -221,16 +219,16 @@ namespace Verse
 			if (array.Length == 1)
 			{
 				x = (y = Convert.ToSingle(array[0]));
-				goto IL_007c;
+				goto IL_0077;
 			}
 			if (array.Length == 2)
 			{
 				x = Convert.ToSingle(array[0]);
 				y = Convert.ToSingle(array[1]);
-				goto IL_007c;
+				goto IL_0077;
 			}
 			throw new InvalidOperationException();
-			IL_007c:
+			IL_0077:
 			return new Vector2(x, y);
 		}
 

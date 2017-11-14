@@ -26,7 +26,7 @@ namespace RimWorld
 
 		public bool neverMultiSelect;
 
-		public MapGeneratorDef mapGenerator = null;
+		public MapGeneratorDef mapGenerator;
 
 		public List<Type> inspectorTabs;
 
@@ -57,20 +57,15 @@ namespace RimWorld
 		{
 			get
 			{
-				Material result;
 				if (this.texture.NullOrEmpty())
 				{
-					result = null;
+					return null;
 				}
-				else
+				if ((UnityEngine.Object)this.material == (UnityEngine.Object)null)
 				{
-					if ((UnityEngine.Object)this.material == (UnityEngine.Object)null)
-					{
-						this.material = MaterialPool.MatFrom(this.texture, ShaderDatabase.WorldOverlayTransparentLit, WorldMaterials.WorldObjectRenderQueue);
-					}
-					result = this.material;
+					this.material = MaterialPool.MatFrom(this.texture, ShaderDatabase.WorldOverlayTransparentLit, WorldMaterials.WorldObjectRenderQueue);
 				}
-				return result;
+				return this.material;
 			}
 		}
 
@@ -78,20 +73,15 @@ namespace RimWorld
 		{
 			get
 			{
-				Texture2D result;
 				if ((UnityEngine.Object)this.expandingIconTextureInt == (UnityEngine.Object)null)
 				{
 					if (this.expandingIconTexture.NullOrEmpty())
 					{
-						result = null;
-						goto IL_0049;
+						return null;
 					}
 					this.expandingIconTextureInt = ContentFinder<Texture2D>.Get(this.expandingIconTexture, true);
 				}
-				result = this.expandingIconTextureInt;
-				goto IL_0049;
-				IL_0049:
-				return result;
+				return this.expandingIconTextureInt;
 			}
 		}
 
@@ -129,7 +119,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -151,8 +141,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_019e:
-			/*Error near IL_019f: Unexpected return in MoveNext()*/;
+			IL_0195:
+			/*Error near IL_0196: Unexpected return in MoveNext()*/;
 		}
 	}
 }

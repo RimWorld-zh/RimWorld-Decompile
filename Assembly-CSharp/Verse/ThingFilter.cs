@@ -12,7 +12,7 @@ namespace Verse
 		private Action settingsChangedCallback;
 
 		[Unsaved]
-		private TreeNode_ThingCategory displayRootCategoryInt = null;
+		private TreeNode_ThingCategory displayRootCategoryInt;
 
 		[Unsaved]
 		private HashSet<ThingDef> allowedDefs = new HashSet<ThingDef>();
@@ -28,29 +28,45 @@ namespace Verse
 
 		public bool allowedQualitiesConfigurable = true;
 
-		public string customSummary = (string)null;
+		public string customSummary;
 
-		private List<ThingDef> thingDefs = null;
+		private List<ThingDef> thingDefs;
 
-		private List<string> categories = null;
+		private List<string> categories;
 
-		private List<ThingDef> exceptedThingDefs = null;
+		private List<ThingDef> exceptedThingDefs;
 
-		private List<string> exceptedCategories = null;
+		private List<string> exceptedCategories;
 
-		private List<string> specialFiltersToAllow = null;
+		private List<string> specialFiltersToAllow;
 
-		private List<string> specialFiltersToDisallow = null;
+		private List<string> specialFiltersToDisallow;
 
-		private List<StuffCategoryDef> stuffCategoriesToAllow = null;
+		private List<StuffCategoryDef> stuffCategoriesToAllow;
 
-		private List<ThingDef> allowAllWhoCanMake = null;
+		private List<ThingDef> allowAllWhoCanMake;
 
 		public string Summary
 		{
 			get
 			{
-				return this.customSummary.NullOrEmpty() ? ((this.thingDefs == null || this.thingDefs.Count != 1 || !this.categories.NullOrEmpty() || !this.exceptedThingDefs.NullOrEmpty() || !this.exceptedCategories.NullOrEmpty() || !this.specialFiltersToAllow.NullOrEmpty() || !this.specialFiltersToDisallow.NullOrEmpty() || !this.stuffCategoriesToAllow.NullOrEmpty() || !this.allowAllWhoCanMake.NullOrEmpty()) ? ((!this.thingDefs.NullOrEmpty() || this.categories == null || this.categories.Count != 1 || !this.exceptedThingDefs.NullOrEmpty() || !this.exceptedCategories.NullOrEmpty() || !this.specialFiltersToAllow.NullOrEmpty() || !this.specialFiltersToDisallow.NullOrEmpty() || !this.stuffCategoriesToAllow.NullOrEmpty() || !this.allowAllWhoCanMake.NullOrEmpty()) ? ((this.allowedDefs.Count != 1) ? "UsableIngredients".Translate() : this.allowedDefs.First().label) : DefDatabase<ThingCategoryDef>.GetNamed(this.categories[0], true).label) : this.thingDefs[0].label) : this.customSummary;
+				if (!this.customSummary.NullOrEmpty())
+				{
+					return this.customSummary;
+				}
+				if (this.thingDefs != null && this.thingDefs.Count == 1 && this.categories.NullOrEmpty() && this.exceptedThingDefs.NullOrEmpty() && this.exceptedCategories.NullOrEmpty() && this.specialFiltersToAllow.NullOrEmpty() && this.specialFiltersToDisallow.NullOrEmpty() && this.stuffCategoriesToAllow.NullOrEmpty() && this.allowAllWhoCanMake.NullOrEmpty())
+				{
+					return this.thingDefs[0].label;
+				}
+				if (this.thingDefs.NullOrEmpty() && this.categories != null && this.categories.Count == 1 && this.exceptedThingDefs.NullOrEmpty() && this.exceptedCategories.NullOrEmpty() && this.specialFiltersToAllow.NullOrEmpty() && this.specialFiltersToDisallow.NullOrEmpty() && this.stuffCategoriesToAllow.NullOrEmpty() && this.allowAllWhoCanMake.NullOrEmpty())
+				{
+					return DefDatabase<ThingCategoryDef>.GetNamed(this.categories[0], true).label;
+				}
+				if (this.allowedDefs.Count == 1)
+				{
+					return this.allowedDefs.First().label;
+				}
+				return "UsableIngredients".Translate();
 			}
 		}
 
@@ -58,7 +74,11 @@ namespace Verse
 		{
 			get
 			{
-				return (this.allowedDefs.Count != 1) ? ThingRequest.ForGroup(ThingRequestGroup.HaulableEver) : ThingRequest.ForDef(this.allowedDefs.First());
+				if (this.allowedDefs.Count == 1)
+				{
+					return ThingRequest.ForDef(this.allowedDefs.First());
+				}
+				return ThingRequest.ForGroup(ThingRequestGroup.HaulableEver);
 			}
 		}
 
@@ -128,7 +148,11 @@ namespace Verse
 				{
 					this.RecalculateDisplayRootCategory();
 				}
-				return (this.displayRootCategoryInt != null) ? this.displayRootCategoryInt : ThingCategoryNodeDatabase.RootNode;
+				if (this.displayRootCategoryInt == null)
+				{
+					return ThingCategoryNodeDatabase.RootNode;
+				}
+				return this.displayRootCategoryInt;
 			}
 			set
 			{
@@ -302,24 +326,14 @@ namespace Verse
 
 		public bool IsAlwaysDisallowedDueToSpecialFilters(ThingDef def)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.disallowedSpecialFilters.Count; i++)
 			{
-				if (num < this.disallowedSpecialFilters.Count)
+				if (this.disallowedSpecialFilters[i].Worker.AlwaysMatches(def))
 				{
-					if (this.disallowedSpecialFilters[num].Worker.AlwaysMatches(def))
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public virtual void CopyAllowancesFrom(ThingFilter other)
@@ -342,7 +356,7 @@ namespace Verse
 			this.specialFiltersToDisallow = other.specialFiltersToDisallow.ListFullCopyOrNull();
 			this.stuffCategoriesToAllow = other.stuffCategoriesToAllow.ListFullCopyOrNull();
 			this.allowAllWhoCanMake = other.allowAllWhoCanMake.ListFullCopyOrNull();
-			if ((object)this.settingsChangedCallback != null)
+			if (this.settingsChangedCallback != null)
 			{
 				this.settingsChangedCallback();
 			}
@@ -360,7 +374,7 @@ namespace Verse
 				{
 					this.allowedDefs.Remove(thingDef);
 				}
-				if ((object)this.settingsChangedCallback != null)
+				if (this.settingsChangedCallback != null)
 				{
 					this.settingsChangedCallback();
 				}
@@ -382,7 +396,7 @@ namespace Verse
 				{
 					this.disallowedSpecialFilters.Add(sfDef);
 				}
-				if ((object)this.settingsChangedCallback != null)
+				if (this.settingsChangedCallback != null)
 				{
 					this.settingsChangedCallback();
 				}
@@ -409,7 +423,7 @@ namespace Verse
 					this.SetAllow(descendantSpecialThingFilterDef, allow);
 				}
 			}
-			if ((object)this.settingsChangedCallback != null)
+			if (this.settingsChangedCallback != null)
 			{
 				this.settingsChangedCallback();
 			}
@@ -425,7 +439,7 @@ namespace Verse
 					this.SetAllow(thingDef, true);
 				}
 			}
-			if ((object)this.settingsChangedCallback != null)
+			if (this.settingsChangedCallback != null)
 			{
 				this.settingsChangedCallback();
 			}
@@ -441,7 +455,7 @@ namespace Verse
 					this.SetAllow(thingDef, true);
 				}
 			}
-			if ((object)this.settingsChangedCallback != null)
+			if (this.settingsChangedCallback != null)
 			{
 				this.settingsChangedCallback();
 			}
@@ -465,7 +479,7 @@ namespace Verse
 				this.SetAllow(ThingCategoryDefOf.Corpses, true, null, null);
 				this.SetAllow(ThingCategoryDefOf.Chunks, true, null, null);
 			}
-			if ((object)this.settingsChangedCallback != null)
+			if (this.settingsChangedCallback != null)
 			{
 				this.settingsChangedCallback();
 			}
@@ -473,8 +487,8 @@ namespace Verse
 
 		public void SetDisallowAll(IEnumerable<ThingDef> exceptedDefs = null, IEnumerable<SpecialThingFilterDef> exceptedFilters = null)
 		{
-			this.allowedDefs.RemoveWhere((Predicate<ThingDef>)((ThingDef d) => exceptedDefs == null || !exceptedDefs.Contains(d)));
-			this.disallowedSpecialFilters.RemoveAll((Predicate<SpecialThingFilterDef>)((SpecialThingFilterDef sf) => sf.configurable && (exceptedFilters == null || !exceptedFilters.Contains(sf))));
+			this.allowedDefs.RemoveWhere((ThingDef d) => exceptedDefs == null || !exceptedDefs.Contains(d));
+			this.disallowedSpecialFilters.RemoveAll((SpecialThingFilterDef sf) => sf.configurable && (exceptedFilters == null || !exceptedFilters.Contains(sf)));
 			foreach (SpecialThingFilterDef allDef in DefDatabase<SpecialThingFilterDef>.AllDefs)
 			{
 				if (allDef.configurable && (exceptedFilters == null || !exceptedFilters.Contains(allDef)))
@@ -482,7 +496,7 @@ namespace Verse
 					this.disallowedSpecialFilters.Add(allDef);
 				}
 			}
-			if ((object)this.settingsChangedCallback != null)
+			if (this.settingsChangedCallback != null)
 			{
 				this.settingsChangedCallback();
 			}
@@ -508,8 +522,8 @@ namespace Verse
 					}
 				}
 			}
-			this.disallowedSpecialFilters.RemoveAll((Predicate<SpecialThingFilterDef>)((SpecialThingFilterDef sf) => sf.configurable));
-			if ((object)this.settingsChangedCallback != null)
+			this.disallowedSpecialFilters.RemoveAll((SpecialThingFilterDef sf) => sf.configurable);
+			if (this.settingsChangedCallback != null)
 			{
 				this.settingsChangedCallback();
 			}
@@ -517,49 +531,39 @@ namespace Verse
 
 		public virtual bool Allows(Thing t)
 		{
-			bool result;
 			if (!this.Allows(t.def))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (t.def.useHitPoints)
 			{
-				if (t.def.useHitPoints)
+				float f = (float)t.HitPoints / (float)t.MaxHitPoints;
+				f = GenMath.RoundedHundredth(f);
+				if (!this.allowedHitPointsPercents.IncludesEpsilon(Mathf.Clamp01(f)))
 				{
-					float f = (float)t.HitPoints / (float)t.MaxHitPoints;
-					f = GenMath.RoundedHundredth(f);
-					if (!this.allowedHitPointsPercents.IncludesEpsilon(Mathf.Clamp01(f)))
-					{
-						result = false;
-						goto IL_00f7;
-					}
+					return false;
 				}
-				if (this.allowedQualities != QualityRange.All && t.def.FollowQualityThingFilter())
-				{
-					QualityCategory p = default(QualityCategory);
-					if (!t.TryGetQuality(out p))
-					{
-						p = QualityCategory.Normal;
-					}
-					if (!this.allowedQualities.Includes(p))
-					{
-						result = false;
-						goto IL_00f7;
-					}
-				}
-				for (int i = 0; i < this.disallowedSpecialFilters.Count; i++)
-				{
-					if (this.disallowedSpecialFilters[i].Worker.Matches(t))
-						goto IL_00d3;
-				}
-				result = true;
 			}
-			goto IL_00f7;
-			IL_00d3:
-			result = false;
-			goto IL_00f7;
-			IL_00f7:
-			return result;
+			if (this.allowedQualities != QualityRange.All && t.def.FollowQualityThingFilter())
+			{
+				QualityCategory p = default(QualityCategory);
+				if (!t.TryGetQuality(out p))
+				{
+					p = QualityCategory.Normal;
+				}
+				if (!this.allowedQualities.Includes(p))
+				{
+					return false;
+				}
+			}
+			for (int i = 0; i < this.disallowedSpecialFilters.Count; i++)
+			{
+				if (this.disallowedSpecialFilters[i].Worker.Matches(t))
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 
 		public bool Allows(ThingDef def)
@@ -574,7 +578,11 @@ namespace Verse
 
 		public ThingRequest GetThingRequest()
 		{
-			return (!this.AllowedThingDefs.Any((Func<ThingDef, bool>)((ThingDef def) => !def.alwaysHaulable))) ? ThingRequest.ForGroup(ThingRequestGroup.HaulableAlways) : ThingRequest.ForGroup(ThingRequestGroup.HaulableEver);
+			if (this.AllowedThingDefs.Any((ThingDef def) => !def.alwaysHaulable))
+			{
+				return ThingRequest.ForGroup(ThingRequestGroup.HaulableEver);
+			}
+			return ThingRequest.ForGroup(ThingRequestGroup.HaulableAlways);
 		}
 
 		public override string ToString()

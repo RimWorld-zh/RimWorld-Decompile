@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 
 namespace Verse.AI
@@ -24,7 +23,11 @@ namespace Verse.AI
 		{
 			Thing thing = null;
 			thing = ((base.pawn.CurJob != base.job || base.pawn.carryTracker.CarriedThing == null) ? base.TargetThingA : base.pawn.carryTracker.CarriedThing);
-			return (thing != null && base.job.targetB.HasThing) ? "ReportHaulingTo".Translate(thing.LabelCap, base.job.targetB.Thing.LabelShort) : "ReportHaulingUnknown".Translate();
+			if (thing != null && base.job.targetB.HasThing)
+			{
+				return "ReportHaulingTo".Translate(thing.LabelCap, base.job.targetB.Thing.LabelShort);
+			}
+			return "ReportHaulingUnknown".Translate();
 		}
 
 		public override bool TryMakePreToilReservations()
@@ -38,7 +41,7 @@ namespace Verse.AI
 		{
 			this.FailOnDestroyedOrNull(TargetIndex.A);
 			this.FailOnDestroyedNullOrForbidden(TargetIndex.B);
-			this.FailOn((Func<bool>)(() => TransporterUtility.WasLoadingCanceled(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0062: stateMachine*/)._0024this.Container)));
+			this.FailOn(() => TransporterUtility.WasLoadingCanceled(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0061: stateMachine*/)._0024this.Container));
 			Toil getToHaulTarget = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOnSomeonePhysicallyInteracting(TargetIndex.A);
 			yield return getToHaulTarget;
 			/*Error: Unable to find new state assignment for yield return*/;

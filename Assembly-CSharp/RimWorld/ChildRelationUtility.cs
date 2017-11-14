@@ -32,133 +32,115 @@ namespace RimWorld
 
 		private static float ChanceOfBecomingChildOfInternal(Pawn child, Pawn father, Pawn mother, PawnGenerationRequest? childGenerationRequest, PawnGenerationRequest? fatherGenerationRequest, PawnGenerationRequest? motherGenerationRequest)
 		{
-			float result;
 			if (father != null && father.gender != Gender.Male)
 			{
 				Log.Warning("Tried to calculate chance for father with gender \"" + father.gender + "\".");
-				result = 0f;
+				return 0f;
 			}
-			else if (mother != null && mother.gender != Gender.Female)
+			if (mother != null && mother.gender != Gender.Female)
 			{
 				Log.Warning("Tried to calculate chance for mother with gender \"" + mother.gender + "\".");
-				result = 0f;
+				return 0f;
 			}
-			else if (father != null && child.GetFather() != null && child.GetFather() != father)
+			if (father != null && child.GetFather() != null && child.GetFather() != father)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else if (mother != null && child.GetMother() != null && child.GetMother() != mother)
+			if (mother != null && child.GetMother() != null && child.GetMother() != mother)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else if (mother != null && father != null && !LovePartnerRelationUtility.LovePartnerRelationExists(mother, father) && !LovePartnerRelationUtility.ExLovePartnerRelationExists(mother, father))
+			if (mother != null && father != null && !LovePartnerRelationUtility.LovePartnerRelationExists(mother, father) && !LovePartnerRelationUtility.ExLovePartnerRelationExists(mother, father))
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			float? melanin = ChildRelationUtility.GetMelanin(child, childGenerationRequest);
+			float? melanin2 = ChildRelationUtility.GetMelanin(father, fatherGenerationRequest);
+			float? melanin3 = ChildRelationUtility.GetMelanin(mother, motherGenerationRequest);
+			bool fatherIsNew = father != null && child.GetFather() != father;
+			bool motherIsNew = mother != null && child.GetMother() != mother;
+			float skinColorFactor = ChildRelationUtility.GetSkinColorFactor(melanin, melanin2, melanin3, fatherIsNew, motherIsNew);
+			if (skinColorFactor <= 0.0)
 			{
-				float? melanin = ChildRelationUtility.GetMelanin(child, childGenerationRequest);
-				float? melanin2 = ChildRelationUtility.GetMelanin(father, fatherGenerationRequest);
-				float? melanin3 = ChildRelationUtility.GetMelanin(mother, motherGenerationRequest);
-				bool fatherIsNew = father != null && child.GetFather() != father;
-				bool motherIsNew = mother != null && child.GetMother() != mother;
-				float skinColorFactor = ChildRelationUtility.GetSkinColorFactor(melanin, melanin2, melanin3, fatherIsNew, motherIsNew);
-				if (skinColorFactor <= 0.0)
+				return 0f;
+			}
+			float num = 1f;
+			float num2 = 1f;
+			float num3 = 1f;
+			float num4 = 1f;
+			if (father != null && child.GetFather() == null)
+			{
+				num = ChildRelationUtility.GetParentAgeFactor(father, child, 14f, 30f, 50f);
+				if (num == 0.0)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
+				if (father.story.traits.HasTrait(TraitDefOf.Gay))
 				{
-					float num = 1f;
-					float num2 = 1f;
-					float num3 = 1f;
-					float num4 = 1f;
-					if (father != null && child.GetFather() == null)
-					{
-						num = ChildRelationUtility.GetParentAgeFactor(father, child, 14f, 30f, 50f);
-						if (num == 0.0)
-						{
-							result = 0f;
-							goto IL_030d;
-						}
-						if (father.story.traits.HasTrait(TraitDefOf.Gay))
-						{
-							num4 = 0.1f;
-						}
-					}
-					if (mother != null && child.GetMother() == null)
-					{
-						num2 = ChildRelationUtility.GetParentAgeFactor(mother, child, 16f, 27f, 45f);
-						if (num2 == 0.0)
-						{
-							result = 0f;
-							goto IL_030d;
-						}
-						int num5 = ChildRelationUtility.NumberOfChildrenFemaleWantsEver(mother);
-						if (mother.relations.ChildrenCount >= num5)
-						{
-							result = 0f;
-							goto IL_030d;
-						}
-						num3 = (float)(1.0 - (float)mother.relations.ChildrenCount / (float)num5);
-						if (mother.story.traits.HasTrait(TraitDefOf.Gay))
-						{
-							num4 = 0.1f;
-						}
-					}
-					float num6 = 1f;
-					if (mother != null)
-					{
-						Pawn firstDirectRelationPawn = mother.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Spouse, null);
-						if (firstDirectRelationPawn != null && firstDirectRelationPawn != father)
-						{
-							num6 = (float)(num6 * 0.15000000596046448);
-						}
-					}
-					if (father != null)
-					{
-						Pawn firstDirectRelationPawn2 = father.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Spouse, null);
-						if (firstDirectRelationPawn2 != null && firstDirectRelationPawn2 != mother)
-						{
-							num6 = (float)(num6 * 0.15000000596046448);
-						}
-					}
-					result = skinColorFactor * num * num2 * num3 * num6 * num4;
+					num4 = 0.1f;
 				}
 			}
-			goto IL_030d;
-			IL_030d:
-			return result;
+			if (mother != null && child.GetMother() == null)
+			{
+				num2 = ChildRelationUtility.GetParentAgeFactor(mother, child, 16f, 27f, 45f);
+				if (num2 == 0.0)
+				{
+					return 0f;
+				}
+				int num5 = ChildRelationUtility.NumberOfChildrenFemaleWantsEver(mother);
+				if (mother.relations.ChildrenCount >= num5)
+				{
+					return 0f;
+				}
+				num3 = (float)(1.0 - (float)mother.relations.ChildrenCount / (float)num5);
+				if (mother.story.traits.HasTrait(TraitDefOf.Gay))
+				{
+					num4 = 0.1f;
+				}
+			}
+			float num6 = 1f;
+			if (mother != null)
+			{
+				Pawn firstDirectRelationPawn = mother.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Spouse, null);
+				if (firstDirectRelationPawn != null && firstDirectRelationPawn != father)
+				{
+					num6 = (float)(num6 * 0.15000000596046448);
+				}
+			}
+			if (father != null)
+			{
+				Pawn firstDirectRelationPawn2 = father.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Spouse, null);
+				if (firstDirectRelationPawn2 != null && firstDirectRelationPawn2 != mother)
+				{
+					num6 = (float)(num6 * 0.15000000596046448);
+				}
+			}
+			return skinColorFactor * num * num2 * num3 * num6 * num4;
 		}
 
 		private static float GetParentAgeFactor(Pawn parent, Pawn child, float minAgeToHaveChildren, float usualAgeToHaveChildren, float maxAgeToHaveChildren)
 		{
 			float num = PawnRelationUtility.MaxPossibleBioAgeAt(parent.ageTracker.AgeBiologicalYearsFloat, parent.ageTracker.AgeChronologicalYearsFloat, child.ageTracker.AgeChronologicalYearsFloat);
 			float num2 = PawnRelationUtility.MinPossibleBioAgeAt(parent.ageTracker.AgeBiologicalYearsFloat, child.ageTracker.AgeChronologicalYearsFloat);
-			float result;
 			if (num <= 0.0)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else if (num2 > num)
+			if (num2 > num)
 			{
 				if (num2 > num + 0.10000000149011612)
 				{
 					Log.Warning("Min possible bio age (" + num2 + ") is greater than max possible bio age (" + num + ").");
 				}
-				result = 0f;
+				return 0f;
 			}
-			else if (num2 <= usualAgeToHaveChildren && num >= usualAgeToHaveChildren)
+			if (num2 <= usualAgeToHaveChildren && num >= usualAgeToHaveChildren)
 			{
-				result = 1f;
+				return 1f;
 			}
-			else
-			{
-				float ageFactor = ChildRelationUtility.GetAgeFactor(num2, minAgeToHaveChildren, maxAgeToHaveChildren, usualAgeToHaveChildren);
-				float ageFactor2 = ChildRelationUtility.GetAgeFactor(num, minAgeToHaveChildren, maxAgeToHaveChildren, usualAgeToHaveChildren);
-				result = Mathf.Max(ageFactor, ageFactor2);
-			}
-			return result;
+			float ageFactor = ChildRelationUtility.GetAgeFactor(num2, minAgeToHaveChildren, maxAgeToHaveChildren, usualAgeToHaveChildren);
+			float ageFactor2 = ChildRelationUtility.GetAgeFactor(num, minAgeToHaveChildren, maxAgeToHaveChildren, usualAgeToHaveChildren);
+			return Mathf.Max(ageFactor, ageFactor2);
 		}
 
 		public static bool ChildWantsNameOfAnyParent(Pawn child)
@@ -177,7 +159,15 @@ namespace RimWorld
 
 		private static float? GetMelanin(Pawn pawn, PawnGenerationRequest? request)
 		{
-			return (!request.HasValue) ? ((pawn == null) ? default(float?) : new float?(pawn.story.melanin)) : request.Value.FixedMelanin;
+			if (request.HasValue)
+			{
+				return request.Value.FixedMelanin;
+			}
+			if (pawn != null)
+			{
+				return pawn.story.melanin;
+			}
+			return null;
 		}
 
 		private static float GetAgeFactor(float ageAtBirth, float min, float max, float mid)
@@ -187,20 +177,17 @@ namespace RimWorld
 
 		private static float GetSkinColorFactor(float? childMelanin, float? fatherMelanin, float? motherMelanin, bool fatherIsNew, bool motherIsNew)
 		{
-			float result;
 			if (childMelanin.HasValue && fatherMelanin.HasValue && motherMelanin.HasValue)
 			{
 				float num = Mathf.Min(fatherMelanin.Value, motherMelanin.Value);
 				float num2 = Mathf.Max(fatherMelanin.Value, motherMelanin.Value);
 				if (childMelanin.HasValue && childMelanin.GetValueOrDefault() < num - 0.05000000074505806)
 				{
-					result = 0f;
-					goto IL_00dd;
+					return 0f;
 				}
 				if (childMelanin.HasValue && childMelanin.GetValueOrDefault() > num2 + 0.05000000074505806)
 				{
-					result = 0f;
-					goto IL_00dd;
+					return 0f;
 				}
 			}
 			float num3 = 1f;
@@ -212,46 +199,43 @@ namespace RimWorld
 			{
 				num3 *= ChildRelationUtility.GetNewParentSkinColorFactor(motherMelanin, fatherMelanin, childMelanin);
 			}
-			result = num3;
-			goto IL_00dd;
-			IL_00dd:
-			return result;
+			return num3;
 		}
 
 		private static float GetNewParentSkinColorFactor(float? newParentMelanin, float? otherParentMelanin, float? childMelanin)
 		{
-			float result;
 			if (newParentMelanin.HasValue)
 			{
 				if (!otherParentMelanin.HasValue)
 				{
-					result = ((!childMelanin.HasValue) ? PawnSkinColors.GetMelaninCommonalityFactor(newParentMelanin.Value) : ChildRelationUtility.GetMelaninSimilarityFactor(newParentMelanin.Value, childMelanin.Value));
+					if (childMelanin.HasValue)
+					{
+						return ChildRelationUtility.GetMelaninSimilarityFactor(newParentMelanin.Value, childMelanin.Value);
+					}
+					return PawnSkinColors.GetMelaninCommonalityFactor(newParentMelanin.Value);
 				}
-				else if (childMelanin.HasValue)
+				if (childMelanin.HasValue)
 				{
 					float reflectedSkin = ChildRelationUtility.GetReflectedSkin(otherParentMelanin.Value, childMelanin.Value);
-					result = ChildRelationUtility.GetMelaninSimilarityFactor(newParentMelanin.Value, reflectedSkin);
+					return ChildRelationUtility.GetMelaninSimilarityFactor(newParentMelanin.Value, reflectedSkin);
 				}
-				else
-				{
-					float melanin = (float)((newParentMelanin.Value + otherParentMelanin.Value) / 2.0);
-					result = PawnSkinColors.GetMelaninCommonalityFactor(melanin);
-				}
+				float melanin = (float)((newParentMelanin.Value + otherParentMelanin.Value) / 2.0);
+				return PawnSkinColors.GetMelaninCommonalityFactor(melanin);
 			}
-			else if (!otherParentMelanin.HasValue)
+			if (!otherParentMelanin.HasValue)
 			{
-				result = (float)((!childMelanin.HasValue) ? 1.0 : PawnSkinColors.GetMelaninCommonalityFactor(childMelanin.Value));
+				if (childMelanin.HasValue)
+				{
+					return PawnSkinColors.GetMelaninCommonalityFactor(childMelanin.Value);
+				}
+				return 1f;
 			}
-			else if (childMelanin.HasValue)
+			if (childMelanin.HasValue)
 			{
 				float reflectedSkin2 = ChildRelationUtility.GetReflectedSkin(otherParentMelanin.Value, childMelanin.Value);
-				result = PawnSkinColors.GetMelaninCommonalityFactor(reflectedSkin2);
+				return PawnSkinColors.GetMelaninCommonalityFactor(reflectedSkin2);
 			}
-			else
-			{
-				result = PawnSkinColors.GetMelaninCommonalityFactor(otherParentMelanin.Value);
-			}
-			return result;
+			return PawnSkinColors.GetMelaninCommonalityFactor(otherParentMelanin.Value);
 		}
 
 		public static float GetReflectedSkin(float value, float mirror)
@@ -277,35 +261,24 @@ namespace RimWorld
 		public static bool DefinitelyHasNotBirthName(Pawn pawn)
 		{
 			Pawn spouse = pawn.GetSpouse();
-			bool result;
 			if (spouse == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			string last = ((NameTriple)spouse.Name).Last;
+			if (((NameTriple)pawn.Name).Last != last)
 			{
-				string last = ((NameTriple)spouse.Name).Last;
-				if (((NameTriple)pawn.Name).Last != last)
-				{
-					result = false;
-				}
-				else
-				{
-					if (spouse.GetMother() != null && ((NameTriple)spouse.GetMother().Name).Last == last)
-					{
-						goto IL_009e;
-					}
-					if (spouse.GetFather() != null && ((NameTriple)spouse.GetFather().Name).Last == last)
-						goto IL_009e;
-					result = false;
-				}
+				return false;
 			}
-			goto IL_00ad;
-			IL_009e:
-			result = true;
-			goto IL_00ad;
-			IL_00ad:
-			return result;
+			if (spouse.GetMother() != null && ((NameTriple)spouse.GetMother().Name).Last == last)
+			{
+				goto IL_0093;
+			}
+			if (spouse.GetFather() != null && ((NameTriple)spouse.GetFather().Name).Last == last)
+				goto IL_0093;
+			return false;
+			IL_0093:
+			return true;
 		}
 	}
 }

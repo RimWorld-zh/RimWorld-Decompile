@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -23,7 +22,11 @@ namespace RimWorld.Planet
 
 			public Connectedness Group()
 			{
-				return (this.parent != null) ? this.parent.Group() : this;
+				if (this.parent == null)
+				{
+					return this;
+				}
+				return this.parent.Group();
 			}
 		}
 
@@ -61,26 +64,27 @@ namespace RimWorld.Planet
 			where Rand.Value > 0.05000000074505806
 			select wo.Tile).ToList();
 			int num = GenMath.RoundRandom((float)((float)Find.WorldGrid.TilesCount / 100000.0 * WorldGenStep_Roads.ExtraRoadNodesPer100kTiles.RandomInRange));
-			for (int num2 = 0; num2 < num; num2++)
+			for (int i = 0; i < num; i++)
 			{
 				list.Add(TileFinder.RandomFactionBaseTileFor(null, false, null));
 			}
 			List<int> list2 = new List<int>();
-			for (int i = 0; i < list.Count; i++)
+			for (int j = 0; j < list.Count; j++)
 			{
-				int num3 = Mathf.Max(0, WorldGenStep_Roads.RoadDistanceFromSettlement.RandomInRange);
-				int num4 = list[i];
-				for (int num5 = 0; num5 < num3; num5++)
+				int num2 = Mathf.Max(0, WorldGenStep_Roads.RoadDistanceFromSettlement.RandomInRange);
+				int num3 = list[j];
+				for (int k = 0; k < num2; k++)
 				{
-					Find.WorldGrid.GetTileNeighbors(num4, list2);
-					num4 = list2.RandomElement();
+					Find.WorldGrid.GetTileNeighbors(num3, list2);
+					num3 = list2.RandomElement();
 				}
-				if (Find.WorldReachability.CanReach(list[i], num4))
+				if (Find.WorldReachability.CanReach(list[j], num3))
 				{
-					list[i] = num4;
+					list[j] = num3;
 				}
 			}
-			list = (Find.World.genData.roadNodes = list.Distinct().ToList());
+			list = list.Distinct().ToList();
+			Find.World.genData.roadNodes = list;
 		}
 
 		private void GenerateRoadNetwork()
@@ -107,7 +111,7 @@ namespace RimWorld.Planet
 				list.Clear();
 				list.Add(srcTile);
 				int found = 0;
-				Find.WorldPathFinder.FloodPathsWithCost(list, (Func<int, int, int>)((int src, int dst) => WorldPathFinder.StandardPathCost(src, dst, null)), null, (Func<int, float, bool>)delegate(int tile, float distance)
+				Find.WorldPathFinder.FloodPathsWithCost(list, (int src, int dst) => WorldPathFinder.StandardPathCost(src, dst, null), null, delegate(int tile, float distance)
 				{
 					if (tile != srcTile && tileToIndexLookup.ContainsKey(tile))
 					{
@@ -122,22 +126,22 @@ namespace RimWorld.Planet
 					return found >= 8;
 				});
 			}
-			linkProspective.Sort((Comparison<Link>)((Link lhs, Link rhs) => lhs.distance.CompareTo(rhs.distance)));
+			linkProspective.Sort((Link lhs, Link rhs) => lhs.distance.CompareTo(rhs.distance));
 			return linkProspective;
 		}
 
 		private List<Link> GenerateFinalLinks(List<Link> linkProspective, int endpointCount)
 		{
 			List<Connectedness> list = new List<Connectedness>();
-			for (int num = 0; num < endpointCount; num++)
+			for (int i = 0; i < endpointCount; i++)
 			{
 				list.Add(new Connectedness());
 			}
 			List<Link> list2 = new List<Link>();
-			for (int i = 0; i < linkProspective.Count; i++)
+			for (int j = 0; j < linkProspective.Count; j++)
 			{
-				Link prospective = linkProspective[i];
-				if (list[prospective.indexA].Group() != list[prospective.indexB].Group() || (!(Rand.Value > 0.014999999664723873) && !list2.Any((Predicate<Link>)((Link link) => link.indexB == prospective.indexA && link.indexA == prospective.indexB))))
+				Link prospective = linkProspective[j];
+				if (list[prospective.indexA].Group() != list[prospective.indexB].Group() || (!(Rand.Value > 0.014999999664723873) && !list2.Any((Link link) => link.indexB == prospective.indexA && link.indexA == prospective.indexB)))
 				{
 					if (Rand.Value > 0.10000000149011612)
 					{
@@ -145,7 +149,8 @@ namespace RimWorld.Planet
 					}
 					if (list[prospective.indexA].Group() != list[prospective.indexB].Group())
 					{
-						Connectedness parent = list[prospective.indexA].Group().parent = new Connectedness();
+						Connectedness parent = new Connectedness();
+						list[prospective.indexA].Group().parent = parent;
 						list[prospective.indexB].Group().parent = parent;
 					}
 				}

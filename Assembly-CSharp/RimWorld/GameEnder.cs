@@ -6,7 +6,7 @@ namespace RimWorld
 {
 	public sealed class GameEnder : IExposable
 	{
-		public bool gameEnding = false;
+		public bool gameEnding;
 
 		private int ticksToGameOver = -1;
 
@@ -18,45 +18,42 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.ticksToGameOver, "ticksToGameOver", -1, false);
 		}
 
-		public void CheckGameOver()
+		public void CheckOrUpdateGameOver()
 		{
-			if (Find.TickManager.TicksGame >= 300 && !this.gameEnding)
+			if (Find.TickManager.TicksGame >= 300)
 			{
 				List<Map> maps = Find.Maps;
-				int num = 0;
-				while (num < maps.Count)
+				for (int i = 0; i < maps.Count; i++)
 				{
-					if (maps[num].mapPawns.FreeColonistsSpawnedOrInPlayerEjectablePodsCount < 1)
+					if (maps[i].mapPawns.FreeColonistsSpawnedOrInPlayerEjectablePodsCount >= 1)
 					{
-						num++;
-						continue;
+						this.gameEnding = false;
+						return;
 					}
-					return;
 				}
 				List<Caravan> caravans = Find.WorldObjects.Caravans;
-				int num2 = 0;
-				while (num2 < caravans.Count)
+				for (int j = 0; j < caravans.Count; j++)
 				{
-					if (!this.IsPlayerControlledWithFreeColonist(caravans[num2]))
+					if (this.IsPlayerControlledWithFreeColonist(caravans[j]))
 					{
-						num2++;
-						continue;
+						this.gameEnding = false;
+						return;
 					}
-					return;
 				}
 				List<TravelingTransportPods> travelingTransportPods = Find.WorldObjects.TravelingTransportPods;
-				int num3 = 0;
-				while (num3 < travelingTransportPods.Count)
+				for (int k = 0; k < travelingTransportPods.Count; k++)
 				{
-					if (!travelingTransportPods[num3].PodsHaveAnyFreeColonist)
+					if (travelingTransportPods[k].PodsHaveAnyFreeColonist)
 					{
-						num3++;
-						continue;
+						this.gameEnding = false;
+						return;
 					}
-					return;
 				}
-				this.gameEnding = true;
-				this.ticksToGameOver = 400;
+				if (!this.gameEnding)
+				{
+					this.gameEnding = true;
+					this.ticksToGameOver = 400;
+				}
 			}
 		}
 
@@ -74,28 +71,20 @@ namespace RimWorld
 
 		private bool IsPlayerControlledWithFreeColonist(Caravan caravan)
 		{
-			bool result;
 			if (!caravan.IsPlayerControlled)
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Pawn> pawnsListForReading = caravan.PawnsListForReading;
+			for (int i = 0; i < pawnsListForReading.Count; i++)
 			{
-				List<Pawn> pawnsListForReading = caravan.PawnsListForReading;
-				for (int i = 0; i < pawnsListForReading.Count; i++)
+				Pawn pawn = pawnsListForReading[i];
+				if (pawn.IsColonist && pawn.HostFaction == null)
 				{
-					Pawn pawn = pawnsListForReading[i];
-					if (pawn.IsColonist && pawn.HostFaction == null)
-						goto IL_0040;
+					return true;
 				}
-				result = false;
 			}
-			goto IL_005f;
-			IL_005f:
-			return result;
-			IL_0040:
-			result = true;
-			goto IL_005f;
+			return false;
 		}
 	}
 }

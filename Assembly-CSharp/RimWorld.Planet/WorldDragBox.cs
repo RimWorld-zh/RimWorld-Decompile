@@ -6,7 +6,7 @@ namespace RimWorld.Planet
 {
 	public class WorldDragBox
 	{
-		public bool active = false;
+		public bool active;
 
 		public Vector2 start;
 
@@ -103,7 +103,11 @@ namespace RimWorld.Planet
 
 		public bool Contains(Vector2 screenPoint)
 		{
-			return (byte)((screenPoint.x + 0.5 > this.LeftX && screenPoint.x - 0.5 < this.RightX && screenPoint.y + 0.5 > this.BotZ && screenPoint.y - 0.5 < this.TopZ) ? 1 : 0) != 0;
+			if (screenPoint.x + 0.5 > this.LeftX && screenPoint.x - 0.5 < this.RightX && screenPoint.y + 0.5 > this.BotZ && screenPoint.y - 0.5 < this.TopZ)
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }

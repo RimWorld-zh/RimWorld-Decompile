@@ -10,23 +10,15 @@ namespace RimWorld
 	{
 		public static bool EverTradeable(ThingDef def)
 		{
-			bool result;
 			if (def.tradeability == Tradeability.Never)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if ((def.category == ThingCategory.Item || def.category == ThingCategory.Pawn) && def.GetStatValueAbstract(StatDefOf.MarketValue, null) > 0.0)
 			{
-				if ((def.category == ThingCategory.Item || def.category == ThingCategory.Pawn) && def.GetStatValueAbstract(StatDefOf.MarketValue, null) > 0.0)
-				{
-					result = true;
-					goto IL_0051;
-				}
-				result = false;
+				return true;
 			}
-			goto IL_0051;
-			IL_0051:
-			return result;
+			return false;
 		}
 
 		public static void SpawnDropPod(IntVec3 dropSpot, Map map, Thing t)
@@ -58,8 +50,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_01fb:
-			/*Error near IL_01fc: Unexpected return in MoveNext()*/;
+			IL_01f0:
+			/*Error near IL_01f1: Unexpected return in MoveNext()*/;
 		}
 
 		public static IEnumerable<Pawn> AllSellableColonyPawns(Map map)
@@ -72,51 +64,42 @@ namespace RimWorld
 					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
-			using (List<Pawn>.Enumerator enumerator2 = map.mapPawns.SpawnedPawnsInFaction(Faction.OfPlayer).GetEnumerator())
+			foreach (Pawn item2 in map.mapPawns.SpawnedPawnsInFaction(Faction.OfPlayer))
 			{
-				Pawn p;
-				while (true)
+				if (item2.RaceProps.Animal && item2.HostFaction == null && !item2.InMentalState && !item2.Downed && map.mapTemperature.SeasonAndOutdoorTemperatureAcceptableFor(item2.def))
 				{
-					if (enumerator2.MoveNext())
-					{
-						p = enumerator2.Current;
-						if (p.RaceProps.Animal && p.HostFaction == null && !p.InMentalState && !p.Downed && map.mapTemperature.SeasonAndOutdoorTemperatureAcceptableFor(p.def))
-							break;
-						continue;
-					}
-					yield break;
+					yield return item2;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
-				yield return p;
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			IL_01d0:
-			/*Error near IL_01d1: Unexpected return in MoveNext()*/;
+			yield break;
+			IL_01c9:
+			/*Error near IL_01ca: Unexpected return in MoveNext()*/;
 		}
 
 		public static Thing ThingFromStockToMergeWith(ITrader trader, Thing thing)
 		{
-			Thing result;
 			if (thing is Pawn)
 			{
-				result = null;
+				return null;
 			}
-			else
+			foreach (Thing good in trader.Goods)
 			{
-				foreach (Thing good in trader.Goods)
+				if (TransferableUtility.TransferAsOne(good, thing))
 				{
-					if (TransferableUtility.TransferAsOne(good, thing))
-					{
-						return good;
-					}
+					return good;
 				}
-				result = null;
 			}
-			return result;
+			return null;
 		}
 
 		public static bool TradeableNow(Thing t)
 		{
-			return (byte)((!t.IsNotFresh()) ? 1 : 0) != 0;
+			if (t.IsNotFresh())
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static void LaunchThingsOfType(ThingDef resDef, int debt, Map map, TradeShip trader)
@@ -136,15 +119,15 @@ namespace RimWorld
 								if (item2.def == resDef)
 								{
 									thing = item2;
-									goto IL_00d8;
+									goto IL_00cc;
 								}
 							}
 						}
 					}
-					goto IL_00d8;
+					goto IL_00cc;
 				}
 				return;
-				IL_00d8:
+				IL_00cc:
 				if (thing != null)
 				{
 					int num = Math.Min(debt, thing.stackCount);
@@ -173,16 +156,16 @@ namespace RimWorld
 		{
 			return (from x in Find.Maps
 			where x.IsPlayerHome
-			select x).MaxBy((Func<Map, int>)((Map x) => (from t in TradeUtility.AllLaunchableThings(x)
+			select x).MaxBy((Map x) => (from t in TradeUtility.AllLaunchableThings(x)
 			where t.def == ThingDefOf.Silver
-			select t).Sum((Func<Thing, int>)((Thing t) => t.stackCount))));
+			select t).Sum((Thing t) => t.stackCount));
 		}
 
 		public static bool ColonyHasEnoughSilver(Map map, int fee)
 		{
 			return (from t in TradeUtility.AllLaunchableThings(map)
 			where t.def == ThingDefOf.Silver
-			select t).Sum((Func<Thing, int>)((Thing t) => t.stackCount)) >= fee;
+			select t).Sum((Thing t) => t.stackCount) >= fee;
 		}
 
 		public static void CheckInteractWithTradersTeachOpportunity(Pawn pawn)

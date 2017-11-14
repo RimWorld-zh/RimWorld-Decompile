@@ -11,7 +11,7 @@ namespace RimWorld.BaseGen
 			ResolveParams resolveParams2 = rp;
 			resolveParams2.wallStuff = (rp.wallStuff ?? BaseGenUtility.RandomCheapWallStuff(rp.faction, true));
 			bool? clearEdificeOnly = rp.clearEdificeOnly;
-			resolveParams2.clearEdificeOnly = new bool?(!clearEdificeOnly.HasValue || clearEdificeOnly.Value);
+			resolveParams2.clearEdificeOnly = (!clearEdificeOnly.HasValue || clearEdificeOnly.Value);
 			BaseGen.symbolStack.Push("emptyRoom", resolveParams2);
 		}
 	}

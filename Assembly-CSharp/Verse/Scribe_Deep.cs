@@ -1,5 +1,4 @@
 using System;
-using System.Xml;
 
 namespace Verse
 {
@@ -59,7 +58,7 @@ namespace Verse
 						}
 						catch (Exception ex)
 						{
-							Log.Error("Exception while saving " + exposable.ToStringSafe<IExposable>() + ": " + ex);
+							Log.Error("Exception while saving " + exposable.ToStringSafe() + ": " + ex);
 						}
 						finally
 						{
@@ -73,11 +72,11 @@ namespace Verse
 			{
 				try
 				{
-					target = ScribeExtractor.SaveableFromNode<T>((XmlNode)Scribe.loader.curXmlParent[label], ctorArgs);
+					target = ScribeExtractor.SaveableFromNode<T>(Scribe.loader.curXmlParent[label], ctorArgs);
 				}
 				catch (Exception ex2)
 				{
-					Log.Error("Exception while loading " + Scribe.loader.curXmlParent[label].ToStringSafe<XmlElement>() + ": " + ex2);
+					Log.Error("Exception while loading " + Scribe.loader.curXmlParent[label].ToStringSafe() + ": " + ex2);
 					target = default(T);
 				}
 			}

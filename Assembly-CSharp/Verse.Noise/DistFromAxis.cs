@@ -6,11 +6,13 @@ namespace Verse.Noise
 	{
 		public float span;
 
-		public DistFromAxis() : base(0)
+		public DistFromAxis()
+			: base(0)
 		{
 		}
 
-		public DistFromAxis(float span) : base(0)
+		public DistFromAxis(float span)
+			: base(0)
 		{
 			this.span = span;
 		}

@@ -37,8 +37,8 @@ namespace Verse
 				}
 			}
 			yield break;
-			IL_01c9:
-			/*Error near IL_01ca: Unexpected return in MoveNext()*/;
+			IL_01be:
+			/*Error near IL_01bf: Unexpected return in MoveNext()*/;
 		}
 
 		public static IEnumerable<Rule> RulesForDamagedParts(string prefix, List<BodyPartDef> bodyParts, List<bool> bodyPartsDestroyed, Dictionary<string, string> constants)

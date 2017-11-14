@@ -43,88 +43,70 @@ namespace RimWorld
 		public static bool CanBuildOnTerrain(BuildableDef entDef, IntVec3 c, Map map, Rot4 rot, Thing thingToIgnore = null)
 		{
 			TerrainDef terrainDef = entDef as TerrainDef;
-			bool result;
 			if (terrainDef != null && !c.GetTerrain(map).changeable)
 			{
-				result = false;
+				return false;
 			}
-			else
+			CellRect cellRect = GenAdj.OccupiedRect(c, rot, entDef.Size);
+			cellRect.ClipInsideMap(map);
+			CellRect.CellRectIterator iterator = cellRect.GetIterator();
+			while (!iterator.Done())
 			{
-				CellRect cellRect = GenAdj.OccupiedRect(c, rot, entDef.Size);
-				cellRect.ClipInsideMap(map);
-				CellRect.CellRectIterator iterator = cellRect.GetIterator();
-				while (!iterator.Done())
+				TerrainDef terrainDef2 = map.terrainGrid.TerrainAt(iterator.Current);
+				if (!terrainDef2.affordances.Contains(entDef.terrainAffordanceNeeded))
 				{
-					TerrainDef terrainDef2 = map.terrainGrid.TerrainAt(iterator.Current);
-					if (!terrainDef2.affordances.Contains(entDef.terrainAffordanceNeeded))
-						goto IL_0078;
-					List<Thing> thingList = iterator.Current.GetThingList(map);
-					for (int i = 0; i < thingList.Count; i++)
+					return false;
+				}
+				List<Thing> thingList = iterator.Current.GetThingList(map);
+				for (int i = 0; i < thingList.Count; i++)
+				{
+					if (thingList[i] != thingToIgnore)
 					{
-						if (thingList[i] != thingToIgnore)
+						TerrainDef terrainDef3 = thingList[i].def.entityDefToBuild as TerrainDef;
+						if (terrainDef3 != null && !terrainDef3.affordances.Contains(entDef.terrainAffordanceNeeded))
 						{
-							TerrainDef terrainDef3 = thingList[i].def.entityDefToBuild as TerrainDef;
-							if (terrainDef3 != null && !terrainDef3.affordances.Contains(entDef.terrainAffordanceNeeded))
-								goto IL_00e4;
+							return false;
 						}
 					}
-					iterator.MoveNext();
 				}
-				result = true;
+				iterator.MoveNext();
 			}
-			goto IL_011b;
-			IL_00e4:
-			result = false;
-			goto IL_011b;
-			IL_011b:
-			return result;
-			IL_0078:
-			result = false;
-			goto IL_011b;
+			return true;
 		}
 
 		public static Thing MiniToInstallOrBuildingToReinstall(Blueprint b)
 		{
 			Blueprint_Install blueprint_Install = b as Blueprint_Install;
-			return (blueprint_Install == null) ? null : blueprint_Install.MiniToInstallOrBuildingToReinstall;
+			if (blueprint_Install != null)
+			{
+				return blueprint_Install.MiniToInstallOrBuildingToReinstall;
+			}
+			return null;
 		}
 
 		public static bool CanConstruct(Thing t, Pawn p, bool forced = false)
 		{
-			Blueprint blueprint = t as Blueprint;
-			bool result;
-			if (blueprint != null)
+			if (GenConstruct.FirstBlockingThing(t, p) != null)
 			{
-				Thing thingToIgnore = GenConstruct.MiniToInstallOrBuildingToReinstall(blueprint);
-				if (blueprint.FirstBlockingThing(p, thingToIgnore, false) != null)
-				{
-					result = false;
-					goto IL_00bd;
-				}
+				return false;
 			}
 			LocalTargetInfo target = t;
 			PathEndMode peMode = PathEndMode.Touch;
 			Danger maxDanger = (!forced) ? p.NormalMaxDanger() : Danger.Deadly;
 			if (!p.CanReserveAndReach(target, peMode, maxDanger, 1, -1, null, forced))
 			{
-				result = false;
+				return false;
 			}
-			else if (t.IsBurning())
+			if (t.IsBurning())
 			{
-				result = false;
+				return false;
 			}
-			else if (p.skills.GetSkill(SkillDefOf.Construction).Level < t.def.constructionSkillPrerequisite)
+			if (p.skills.GetSkill(SkillDefOf.Construction).Level < t.def.constructionSkillPrerequisite)
 			{
 				JobFailReason.Is(GenConstruct.ConstructionSkillTooLowTrans);
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			goto IL_00bd;
-			IL_00bd:
-			return result;
+			return true;
 		}
 
 		public static int AmountNeededByOf(IConstructible c, ThingDef resDef)
@@ -143,176 +125,151 @@ namespace RimWorld
 		{
 			CellRect cellRect = GenAdj.OccupiedRect(center, rot, entDef.Size);
 			CellRect.CellRectIterator iterator = cellRect.GetIterator();
-			AcceptanceReport result;
-			while (true)
+			while (!iterator.Done())
 			{
-				if (!iterator.Done())
+				IntVec3 current = iterator.Current;
+				if (!current.InBounds(map))
 				{
-					IntVec3 current = iterator.Current;
-					if (!current.InBounds(map))
-					{
-						result = new AcceptanceReport("OutOfBounds".Translate());
-						break;
-					}
-					if (current.InNoBuildEdgeArea(map) && !DebugSettings.godMode)
-					{
-						result = "TooCloseToMapEdge".Translate();
-						break;
-					}
-					iterator.MoveNext();
-					continue;
+					return new AcceptanceReport("OutOfBounds".Translate());
 				}
-				Thing thing;
-				List<Thing> list;
-				int j;
-				Blueprint blueprint;
-				AcceptanceReport acceptanceReport;
-				if (center.Fogged(map))
+				if (current.InNoBuildEdgeArea(map) && !DebugSettings.godMode)
 				{
-					result = "CannotPlaceInUndiscovered".Translate();
+					return "TooCloseToMapEdge".Translate();
 				}
-				else
+				iterator.MoveNext();
+			}
+			if (center.Fogged(map))
+			{
+				return "CannotPlaceInUndiscovered".Translate();
+			}
+			List<Thing> thingList = center.GetThingList(map);
+			for (int i = 0; i < thingList.Count; i++)
+			{
+				Thing thing = thingList[i];
+				if (thing != thingToIgnore && thing.Position == center && thing.Rotation == rot)
 				{
-					List<Thing> thingList = center.GetThingList(map);
-					for (int i = 0; i < thingList.Count; i++)
+					if (thing.def == entDef)
 					{
-						thing = thingList[i];
-						if (thing != thingToIgnore && thing.Position == center && thing.Rotation == rot)
+						return new AcceptanceReport("IdenticalThingExists".Translate());
+					}
+					if (thing.def.entityDefToBuild == entDef)
+					{
+						if (thing is Blueprint)
 						{
-							if (thing.def == entDef)
-								goto IL_0103;
-							if (thing.def.entityDefToBuild == entDef)
-								goto IL_012a;
+							return new AcceptanceReport("IdenticalBlueprintExists".Translate());
+						}
+						return new AcceptanceReport("IdenticalThingExists".Translate());
+					}
+				}
+			}
+			ThingDef thingDef = entDef as ThingDef;
+			if (thingDef != null && thingDef.hasInteractionCell)
+			{
+				IntVec3 c = ThingUtility.InteractionCellWhenAt(thingDef, center, rot, map);
+				if (!c.InBounds(map))
+				{
+					return new AcceptanceReport("InteractionSpotOutOfBounds".Translate());
+				}
+				List<Thing> list = map.thingGrid.ThingsListAtFast(c);
+				for (int j = 0; j < list.Count; j++)
+				{
+					if (list[j] != thingToIgnore)
+					{
+						if (list[j].def.passability == Traversability.Impassable)
+						{
+							return new AcceptanceReport("InteractionSpotBlocked".Translate(list[j].LabelNoCount).CapitalizeFirst());
+						}
+						Blueprint blueprint = list[j] as Blueprint;
+						if (blueprint != null && blueprint.def.entityDefToBuild.passability == Traversability.Impassable)
+						{
+							return new AcceptanceReport("InteractionSpotWillBeBlocked".Translate(blueprint.LabelNoCount).CapitalizeFirst());
 						}
 					}
-					ThingDef thingDef = entDef as ThingDef;
-					if (thingDef != null && thingDef.hasInteractionCell)
+				}
+			}
+			if (entDef.passability != 0)
+			{
+				foreach (IntVec3 item in GenAdj.CellsAdjacentCardinal(center, rot, entDef.Size))
+				{
+					if (item.InBounds(map))
 					{
-						IntVec3 c = ThingUtility.InteractionCellWhenAt(thingDef, center, rot, map);
-						if (!c.InBounds(map))
+						thingList = item.GetThingList(map);
+						for (int k = 0; k < thingList.Count; k++)
 						{
-							result = new AcceptanceReport("InteractionSpotOutOfBounds".Translate());
-							break;
-						}
-						list = map.thingGrid.ThingsListAtFast(c);
-						for (j = 0; j < list.Count; j++)
-						{
-							if (list[j] != thingToIgnore)
+							Thing thing2 = thingList[k];
+							ThingDef thingDef2;
+							if (thing2 != thingToIgnore)
 							{
-								if (list[j].def.passability == Traversability.Impassable)
-									goto IL_0207;
-								blueprint = (list[j] as Blueprint);
-								if (blueprint != null && blueprint.def.entityDefToBuild.passability == Traversability.Impassable)
-									goto IL_0266;
-							}
-						}
-					}
-					if (entDef.passability != 0)
-					{
-						foreach (IntVec3 item in GenAdj.CellsAdjacentCardinal(center, rot, entDef.Size))
-						{
-							if (item.InBounds(map))
-							{
-								thingList = item.GetThingList(map);
-								for (int k = 0; k < thingList.Count; k++)
+								thingDef2 = null;
+								Blueprint blueprint2 = thing2 as Blueprint;
+								if (blueprint2 != null)
 								{
-									Thing thing2 = thingList[k];
-									ThingDef thingDef2;
-									if (thing2 != thingToIgnore)
+									ThingDef thingDef3 = blueprint2.def.entityDefToBuild as ThingDef;
+									if (thingDef3 != null)
 									{
-										thingDef2 = null;
-										Blueprint blueprint2 = thing2 as Blueprint;
-										if (blueprint2 != null)
-										{
-											ThingDef thingDef3 = blueprint2.def.entityDefToBuild as ThingDef;
-											if (thingDef3 != null)
-											{
-												thingDef2 = thingDef3;
-												goto IL_035a;
-											}
-											continue;
-										}
-										thingDef2 = thing2.def;
-										goto IL_035a;
+										thingDef2 = thingDef3;
+										goto IL_0316;
 									}
 									continue;
-									IL_035a:
-									if (thingDef2.hasInteractionCell && cellRect.Contains(ThingUtility.InteractionCellWhenAt(thingDef2, thing2.Position, thing2.Rotation, thing2.Map)))
-									{
-										return new AcceptanceReport("WouldBlockInteractionSpot".Translate(entDef.label, thingDef2.label).CapitalizeFirst());
-									}
 								}
+								thingDef2 = thing2.def;
+								goto IL_0316;
 							}
-						}
-					}
-					TerrainDef terrainDef = entDef as TerrainDef;
-					if (terrainDef != null)
-					{
-						if (map.terrainGrid.TerrainAt(center) == terrainDef)
-						{
-							result = new AcceptanceReport("TerrainIsAlready".Translate(terrainDef.label));
-							break;
-						}
-						if (map.designationManager.DesignationAt(center, DesignationDefOf.SmoothFloor) != null)
-						{
-							result = new AcceptanceReport("SpaceBeingSmoothed".Translate());
-							break;
-						}
-					}
-					if (!GenConstruct.CanBuildOnTerrain(entDef, center, map, rot, thingToIgnore))
-					{
-						result = new AcceptanceReport("TerrainCannotSupport".Translate());
-					}
-					else
-					{
-						if (!godMode)
-						{
-							CellRect.CellRectIterator iterator2 = cellRect.GetIterator();
-							while (!iterator2.Done())
+							continue;
+							IL_0316:
+							if (thingDef2.hasInteractionCell && cellRect.Contains(ThingUtility.InteractionCellWhenAt(thingDef2, thing2.Position, thing2.Rotation, thing2.Map)))
 							{
-								thingList = iterator2.Current.GetThingList(map);
-								for (int l = 0; l < thingList.Count; l++)
-								{
-									Thing thing3 = thingList[l];
-									if (thing3 != thingToIgnore && !GenConstruct.CanPlaceBlueprintOver(entDef, thing3.def))
-										goto IL_04eb;
-								}
-								iterator2.MoveNext();
+								return new AcceptanceReport("WouldBlockInteractionSpot".Translate(entDef.label, thingDef2.label).CapitalizeFirst());
 							}
 						}
-						if (entDef.PlaceWorkers != null)
-						{
-							for (int m = 0; m < entDef.PlaceWorkers.Count; m++)
-							{
-								acceptanceReport = entDef.PlaceWorkers[m].AllowsPlacing(entDef, center, rot, map, thingToIgnore);
-								if (!acceptanceReport.Accepted)
-									goto IL_0565;
-							}
-						}
-						result = AcceptanceReport.WasAccepted;
 					}
 				}
-				break;
-				IL_04eb:
-				result = new AcceptanceReport("SpaceAlreadyOccupied".Translate());
-				break;
-				IL_0565:
-				result = acceptanceReport;
-				break;
-				IL_0103:
-				result = new AcceptanceReport("IdenticalThingExists".Translate());
-				break;
-				IL_0207:
-				result = new AcceptanceReport("InteractionSpotBlocked".Translate(list[j].LabelNoCount).CapitalizeFirst());
-				break;
-				IL_0266:
-				result = new AcceptanceReport("InteractionSpotWillBeBlocked".Translate(blueprint.LabelNoCount).CapitalizeFirst());
-				break;
-				IL_012a:
-				result = ((!(thing is Blueprint)) ? new AcceptanceReport("IdenticalThingExists".Translate()) : new AcceptanceReport("IdenticalBlueprintExists".Translate()));
-				break;
 			}
-			return result;
+			TerrainDef terrainDef = entDef as TerrainDef;
+			if (terrainDef != null)
+			{
+				if (map.terrainGrid.TerrainAt(center) == terrainDef)
+				{
+					return new AcceptanceReport("TerrainIsAlready".Translate(terrainDef.label));
+				}
+				if (map.designationManager.DesignationAt(center, DesignationDefOf.SmoothFloor) != null)
+				{
+					return new AcceptanceReport("SpaceBeingSmoothed".Translate());
+				}
+			}
+			if (!GenConstruct.CanBuildOnTerrain(entDef, center, map, rot, thingToIgnore))
+			{
+				return new AcceptanceReport("TerrainCannotSupport".Translate());
+			}
+			if (!godMode)
+			{
+				CellRect.CellRectIterator iterator2 = cellRect.GetIterator();
+				while (!iterator2.Done())
+				{
+					thingList = iterator2.Current.GetThingList(map);
+					for (int l = 0; l < thingList.Count; l++)
+					{
+						Thing thing3 = thingList[l];
+						if (thing3 != thingToIgnore && !GenConstruct.CanPlaceBlueprintOver(entDef, thing3.def))
+						{
+							return new AcceptanceReport("SpaceAlreadyOccupied".Translate());
+						}
+					}
+					iterator2.MoveNext();
+				}
+			}
+			if (entDef.PlaceWorkers != null)
+			{
+				for (int m = 0; m < entDef.PlaceWorkers.Count; m++)
+				{
+					AcceptanceReport result = entDef.PlaceWorkers[m].AllowsPlacing(entDef, center, rot, map, thingToIgnore);
+					if (!result.Accepted)
+					{
+						return result;
+					}
+				}
+			}
+			return AcceptanceReport.WasAccepted;
 		}
 
 		public static BuildableDef BuiltDefOf(ThingDef def)
@@ -322,133 +279,206 @@ namespace RimWorld
 
 		public static bool CanPlaceBlueprintOver(BuildableDef newDef, ThingDef oldDef)
 		{
-			bool result;
 			if (oldDef.EverHaulable)
 			{
-				result = true;
+				return true;
 			}
-			else
+			TerrainDef terrainDef = newDef as TerrainDef;
+			if (terrainDef != null)
 			{
-				TerrainDef terrainDef = newDef as TerrainDef;
-				if (terrainDef != null)
+				if (oldDef.category == ThingCategory.Building && !terrainDef.affordances.Contains(oldDef.terrainAffordanceNeeded))
 				{
-					if (oldDef.category == ThingCategory.Building && !terrainDef.affordances.Contains(oldDef.terrainAffordanceNeeded))
-					{
-						result = false;
-						goto IL_0279;
-					}
-					if ((oldDef.IsBlueprint || oldDef.IsFrame) && !terrainDef.affordances.Contains(oldDef.entityDefToBuild.terrainAffordanceNeeded))
-					{
-						result = false;
-						goto IL_0279;
-					}
+					return false;
 				}
-				ThingDef thingDef = newDef as ThingDef;
-				BuildableDef buildableDef = GenConstruct.BuiltDefOf(oldDef);
-				ThingDef thingDef2 = buildableDef as ThingDef;
-				if (oldDef == ThingDefOf.SteamGeyser && !newDef.ForceAllowPlaceOver(oldDef))
+				if ((oldDef.IsBlueprint || oldDef.IsFrame) && !terrainDef.affordances.Contains(oldDef.entityDefToBuild.terrainAffordanceNeeded))
 				{
-					result = false;
-				}
-				else if (oldDef.category == ThingCategory.Plant && oldDef.passability == Traversability.Impassable && thingDef != null && thingDef.category == ThingCategory.Building && !thingDef.building.canPlaceOverImpassablePlant)
-				{
-					result = false;
-				}
-				else if (oldDef.category == ThingCategory.Building || oldDef.IsBlueprint || oldDef.IsFrame)
-				{
-					if (thingDef != null)
-					{
-						if (!thingDef.IsEdifice())
-						{
-							result = ((byte)((oldDef.building == null || oldDef.building.canBuildNonEdificesUnder) ? ((!thingDef.EverTransmitsPower || !oldDef.EverTransmitsPower) ? 1 : 0) : 0) != 0);
-							goto IL_0279;
-						}
-						if (thingDef.IsEdifice() && oldDef != null && oldDef.category == ThingCategory.Building && !oldDef.IsEdifice())
-						{
-							result = ((byte)((thingDef.building == null || thingDef.building.canBuildNonEdificesUnder) ? 1 : 0) != 0);
-							goto IL_0279;
-						}
-						if (thingDef2 != null && thingDef2 == ThingDefOf.Wall && thingDef.building != null && thingDef.building.canPlaceOverWall)
-						{
-							result = true;
-							goto IL_0279;
-						}
-						if (newDef != ThingDefOf.PowerConduit && buildableDef == ThingDefOf.PowerConduit)
-						{
-							result = true;
-							goto IL_0279;
-						}
-					}
-					result = ((byte)((newDef is TerrainDef && buildableDef is ThingDef && ((ThingDef)buildableDef).CoexistsWithFloors) ? 1 : ((buildableDef is TerrainDef && !(newDef is TerrainDef)) ? 1 : 0)) != 0);
-				}
-				else
-				{
-					result = true;
+					return false;
 				}
 			}
-			goto IL_0279;
-			IL_0279:
-			return result;
+			ThingDef thingDef = newDef as ThingDef;
+			BuildableDef buildableDef = GenConstruct.BuiltDefOf(oldDef);
+			ThingDef thingDef2 = buildableDef as ThingDef;
+			if (oldDef == ThingDefOf.SteamGeyser && !newDef.ForceAllowPlaceOver(oldDef))
+			{
+				return false;
+			}
+			if (oldDef.category == ThingCategory.Plant && oldDef.passability == Traversability.Impassable && thingDef != null && thingDef.category == ThingCategory.Building && !thingDef.building.canPlaceOverImpassablePlant)
+			{
+				return false;
+			}
+			if (oldDef.category != ThingCategory.Building && !oldDef.IsBlueprint && !oldDef.IsFrame)
+			{
+				return true;
+			}
+			if (thingDef != null)
+			{
+				if (!thingDef.IsEdifice())
+				{
+					if (oldDef.building != null && !oldDef.building.canBuildNonEdificesUnder)
+					{
+						return false;
+					}
+					if (thingDef.EverTransmitsPower && oldDef.EverTransmitsPower)
+					{
+						return false;
+					}
+					return true;
+				}
+				if (thingDef.IsEdifice() && oldDef != null && oldDef.category == ThingCategory.Building && !oldDef.IsEdifice())
+				{
+					if (thingDef.building != null && !thingDef.building.canBuildNonEdificesUnder)
+					{
+						return false;
+					}
+					return true;
+				}
+				if (thingDef2 != null && thingDef2 == ThingDefOf.Wall && thingDef.building != null && thingDef.building.canPlaceOverWall)
+				{
+					return true;
+				}
+				if (newDef != ThingDefOf.PowerConduit && buildableDef == ThingDefOf.PowerConduit)
+				{
+					return true;
+				}
+			}
+			if (newDef is TerrainDef && buildableDef is ThingDef && ((ThingDef)buildableDef).CoexistsWithFloors)
+			{
+				return true;
+			}
+			if (buildableDef is TerrainDef && !(newDef is TerrainDef))
+			{
+				return true;
+			}
+			return false;
 		}
 
-		public static bool BlocksFramePlacement(Blueprint blue, Thing t)
+		public static Thing FirstBlockingThing(Thing constructible, Pawn pawnToIgnore)
 		{
-			bool result;
-			if (t.def.category == ThingCategory.Plant)
+			Blueprint blueprint = constructible as Blueprint;
+			Thing thing = (blueprint == null) ? null : GenConstruct.MiniToInstallOrBuildingToReinstall(blueprint);
+			CellRect.CellRectIterator iterator = constructible.OccupiedRect().GetIterator();
+			while (!iterator.Done())
 			{
-				result = ((byte)((t.def.plant.harvestWork >= 200.0) ? 1 : 0) != 0);
-			}
-			else if (!blue.def.clearBuildingArea)
-			{
-				result = false;
-			}
-			else if (t.def == ThingDefOf.SteamGeyser && blue.def.entityDefToBuild.ForceAllowPlaceOver(t.def))
-			{
-				result = false;
-			}
-			else
-			{
-				ThingDef thingDef = blue.def.entityDefToBuild as ThingDef;
-				if (thingDef != null)
+				List<Thing> thingList = iterator.Current.GetThingList(constructible.Map);
+				for (int i = 0; i < thingList.Count; i++)
 				{
-					if (thingDef.EverTransmitsPower && t.def == ThingDefOf.PowerConduit && thingDef != ThingDefOf.PowerConduit)
+					Thing thing2 = thingList[i];
+					if (GenConstruct.BlocksConstruction(constructible, thing2) && thing2 != pawnToIgnore && thing2 != thing)
 					{
-						result = false;
-						goto IL_017e;
-					}
-					if (t.def == ThingDefOf.Wall && thingDef.building != null && thingDef.building.canPlaceOverWall)
-					{
-						result = false;
-						goto IL_017e;
+						return thing2;
 					}
 				}
-				result = ((byte)((t.def.IsEdifice() && thingDef.IsEdifice()) ? 1 : ((t.def.category == ThingCategory.Pawn || (t.def.category == ThingCategory.Item && blue.def.entityDefToBuild.passability == Traversability.Impassable)) ? 1 : (((int)t.def.Fillage >= 1) ? 1 : 0))) != 0);
+				iterator.MoveNext();
 			}
-			goto IL_017e;
-			IL_017e:
-			return result;
+			return null;
+		}
+
+		public static Job HandleBlockingThingJob(Thing constructible, Pawn worker, bool forced = false)
+		{
+			Thing thing = GenConstruct.FirstBlockingThing(constructible, worker);
+			if (thing == null)
+			{
+				return null;
+			}
+			if (thing.def.category == ThingCategory.Plant)
+			{
+				LocalTargetInfo target = thing;
+				PathEndMode peMode = PathEndMode.ClosestTouch;
+				Danger maxDanger = worker.NormalMaxDanger();
+				if (worker.CanReserveAndReach(target, peMode, maxDanger, 1, -1, null, forced))
+				{
+					return new Job(JobDefOf.CutPlant, thing);
+				}
+			}
+			else if (thing.def.category == ThingCategory.Item)
+			{
+				if (thing.def.EverHaulable)
+				{
+					return HaulAIUtility.HaulAsideJobFor(worker, thing);
+				}
+				Log.ErrorOnce("Never haulable " + thing + " blocking " + constructible.ToStringSafe() + " at " + constructible.Position, 6429262);
+			}
+			else if (thing.def.category == ThingCategory.Building)
+			{
+				LocalTargetInfo target = thing;
+				PathEndMode peMode = PathEndMode.Touch;
+				Danger maxDanger = worker.NormalMaxDanger();
+				if (worker.CanReserveAndReach(target, peMode, maxDanger, 1, -1, null, forced))
+				{
+					Job job = new Job(JobDefOf.Deconstruct, thing);
+					job.ignoreDesignations = true;
+					return job;
+				}
+			}
+			return null;
+		}
+
+		public static bool BlocksConstruction(Thing constructible, Thing t)
+		{
+			if (t == constructible)
+			{
+				return false;
+			}
+			ThingDef thingDef = (!(constructible is Blueprint)) ? ((!(constructible is Frame)) ? constructible.def.blueprintDef : constructible.def.entityDefToBuild.blueprintDef) : constructible.def;
+			if (t.def.category == ThingCategory.Building && GenSpawn.SpawningWipes(thingDef.entityDefToBuild, t.def))
+			{
+				return true;
+			}
+			if (t.def.category == ThingCategory.Plant)
+			{
+				if (t.def.plant.harvestWork >= 200.0)
+				{
+					return true;
+				}
+				return false;
+			}
+			if (!thingDef.clearBuildingArea)
+			{
+				return false;
+			}
+			if (t.def == ThingDefOf.SteamGeyser && thingDef.entityDefToBuild.ForceAllowPlaceOver(t.def))
+			{
+				return false;
+			}
+			ThingDef thingDef2 = thingDef.entityDefToBuild as ThingDef;
+			if (thingDef2 != null)
+			{
+				if (thingDef2.EverTransmitsPower && t.def == ThingDefOf.PowerConduit && thingDef2 != ThingDefOf.PowerConduit)
+				{
+					return false;
+				}
+				if (t.def == ThingDefOf.Wall && thingDef2.building != null && thingDef2.building.canPlaceOverWall)
+				{
+					return false;
+				}
+			}
+			if (t.def.IsEdifice() && thingDef2.IsEdifice())
+			{
+				return true;
+			}
+			if (t.def.category != ThingCategory.Pawn && (t.def.category != ThingCategory.Item || thingDef.entityDefToBuild.passability != Traversability.Impassable))
+			{
+				if ((int)t.def.Fillage >= 1)
+				{
+					return true;
+				}
+				return false;
+			}
+			return true;
 		}
 
 		public static bool TerrainCanSupport(CellRect rect, Map map, ThingDef thing)
 		{
 			CellRect.CellRectIterator iterator = rect.GetIterator();
-			bool result;
-			while (true)
+			while (!iterator.Done())
 			{
-				if (!iterator.Done())
+				if (!iterator.Current.SupportsStructureType(map, thing.terrainAffordanceNeeded))
 				{
-					if (!iterator.Current.SupportsStructureType(map, thing.terrainAffordanceNeeded))
-					{
-						result = false;
-						break;
-					}
-					iterator.MoveNext();
-					continue;
+					return false;
 				}
-				result = true;
-				break;
+				iterator.MoveNext();
 			}
-			return result;
+			return true;
 		}
 	}
 }

@@ -128,9 +128,9 @@ namespace RimWorld.Planet
 			List<Tile> tiles = Find.WorldGrid.tiles;
 			tiles.Clear();
 			int tilesCount = Find.WorldGrid.TilesCount;
-			for (int num = 0; num < tilesCount; num++)
+			for (int i = 0; i < tilesCount; i++)
 			{
-				Tile item = this.GenerateTileFor(num);
+				Tile item = this.GenerateTileFor(i);
 				tiles.Add(item);
 			}
 		}
@@ -202,7 +202,7 @@ namespace RimWorld.Planet
 			input2 = new Clamp(0.0, 1.0, input2);
 			NoiseDebugUI.StorePlanetNoise(input2, "elevationRainfallEffect");
 			this.noiseRainfall = new Multiply(this.noiseRainfall, input2);
-			Func<double, double> processor = (Func<double, double>)delegate(double val)
+			Func<double, double> processor = delegate(double val)
 			{
 				if (val < 0.0)
 				{
@@ -297,25 +297,17 @@ namespace RimWorld.Planet
 				switch (Rand.Range(0, 4))
 				{
 				case 0:
-				{
 					tile.hilliness = Hilliness.Flat;
 					break;
-				}
 				case 1:
-				{
 					tile.hilliness = Hilliness.SmallHills;
 					break;
-				}
 				case 2:
-				{
 					tile.hilliness = Hilliness.LargeHills;
 					break;
-				}
 				case 3:
-				{
 					tile.hilliness = Hilliness.Mountainous;
 					break;
-				}
 				}
 			}
 			else if (value > 0.036299999803304672)
@@ -373,7 +365,19 @@ namespace RimWorld.Planet
 
 		private static float FertilityFactorFromTemperature(float temp)
 		{
-			return (float)((!(temp < -15.0)) ? ((!(temp < 30.0)) ? ((!(temp < 50.0)) ? 0.0 : Mathf.InverseLerp(50f, 30f, temp)) : Mathf.InverseLerp(-15f, 30f, temp)) : 0.0);
+			if (temp < -15.0)
+			{
+				return 0f;
+			}
+			if (temp < 30.0)
+			{
+				return Mathf.InverseLerp(-15f, 30f, temp);
+			}
+			if (temp < 50.0)
+			{
+				return Mathf.InverseLerp(50f, 30f, temp);
+			}
+			return 0f;
 		}
 
 		private static float BaseTemperatureAtLatitude(float lat)
@@ -384,17 +388,12 @@ namespace RimWorld.Planet
 
 		private static float TemperatureReductionAtElevation(float elev)
 		{
-			float result;
 			if (elev < 250.0)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				float t = (float)((elev - 250.0) / 4750.0);
-				result = Mathf.Lerp(0f, 40f, t);
-			}
-			return result;
+			float t = (float)((elev - 250.0) / 4750.0);
+			return Mathf.Lerp(0f, 40f, t);
 		}
 	}
 }

@@ -25,20 +25,15 @@ namespace RimWorld
 					}
 				}
 			}
-			Job result;
 			if (thing != null)
 			{
 				Job job = new Job(JobDefOf.Goto, thing);
 				job.checkOverrideOnExpire = true;
 				job.expiryInterval = 500;
 				job.collideWithPawns = true;
-				result = job;
+				return job;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 	}
 }

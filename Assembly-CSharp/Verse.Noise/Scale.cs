@@ -1,6 +1,3 @@
-#define DEBUG
-using System.Diagnostics;
-
 namespace Verse.Noise
 {
 	public class Scale : ModuleBase
@@ -47,16 +44,19 @@ namespace Verse.Noise
 			}
 		}
 
-		public Scale() : base(1)
+		public Scale()
+			: base(1)
 		{
 		}
 
-		public Scale(ModuleBase input) : base(1)
+		public Scale(ModuleBase input)
+			: base(1)
 		{
 			base.modules[0] = input;
 		}
 
-		public Scale(double x, double y, double z, ModuleBase input) : base(1)
+		public Scale(double x, double y, double z, ModuleBase input)
+			: base(1)
 		{
 			base.modules[0] = input;
 			this.X = x;
@@ -66,7 +66,6 @@ namespace Verse.Noise
 
 		public override double GetValue(double x, double y, double z)
 		{
-			Debug.Assert(base.modules[0] != null);
 			return base.modules[0].GetValue(x * this.m_x, y * this.m_y, z * this.m_z);
 		}
 	}

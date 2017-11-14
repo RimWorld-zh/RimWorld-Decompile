@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -95,11 +94,11 @@ namespace RimWorld.Planet
 		{
 			this.roots.Clear();
 			int tilesCount = Find.WorldGrid.TilesCount;
-			for (int num = 0; num < tilesCount; num++)
+			for (int i = 0; i < tilesCount; i++)
 			{
-				if (this.IsRoot(num))
+				if (this.IsRoot(i))
 				{
-					this.roots.Add(num);
+					this.roots.Add(i);
 				}
 			}
 			this.rootsSet.Clear();
@@ -134,7 +133,7 @@ namespace RimWorld.Planet
 				{
 					bool anyMember = false;
 					FeatureWorker_Cluster.tmpGroup.Clear();
-					worldFloodFiller.FloodFill(num, (Predicate<int>)((int x) => this.rootsSet.Contains(x)), (Action<int>)delegate(int x)
+					worldFloodFiller.FloodFill(num, (int x) => this.rootsSet.Contains(x), delegate(int x)
 					{
 						FeatureWorker.visited[x] = true;
 						FeatureWorker_Cluster.tmpGroup.Add(x);
@@ -162,8 +161,23 @@ namespace RimWorld.Planet
 				{
 					this.currentGroup.Clear();
 					this.visitedValidGroupIDs.Clear();
-					bool flag2 = default(bool);
-					worldFloodFiller.FloodFill(num2, (Predicate<int>)((int x) => (byte)(this.rootsWithAreaInBetweenSet.Contains(x) ? (this.CanTraverse(x, out flag2) ? ((!flag2 || !this.rootsSet.Contains(x) || (FeatureWorker.groupSize[x] >= minRootGroupSize && FeatureWorker.groupSize[x] <= maxRootGroupSize)) ? 1 : 0) : 0) : 0) != 0), (Action<int>)delegate(int x)
+					worldFloodFiller.FloodFill(num2, delegate(int x)
+					{
+						if (!this.rootsWithAreaInBetweenSet.Contains(x))
+						{
+							return false;
+						}
+						bool flag2 = default(bool);
+						if (!this.CanTraverse(x, out flag2))
+						{
+							return false;
+						}
+						if (flag2 && this.rootsSet.Contains(x) && (FeatureWorker.groupSize[x] < minRootGroupSize || FeatureWorker.groupSize[x] > maxRootGroupSize))
+						{
+							return false;
+						}
+						return true;
+					}, delegate(int x)
 					{
 						FeatureWorker.visited[x] = true;
 						this.currentGroup.Add(x);
@@ -172,7 +186,7 @@ namespace RimWorld.Planet
 							this.visitedValidGroupIDs.Add(FeatureWorker.groupID[x]);
 						}
 					}, 2147483647, null);
-					if (this.currentGroup.Count >= minOverallSize && this.currentGroup.Count <= maxOverallSize && this.visitedValidGroupIDs.Count >= minRootGroupsInCluster && (base.def.canTouchWorldEdge || !this.currentGroup.Any((Predicate<int>)((int x) => worldGrid.IsOnEdge(x)))))
+					if (this.currentGroup.Count >= minOverallSize && this.currentGroup.Count <= maxOverallSize && this.visitedValidGroupIDs.Count >= minRootGroupsInCluster && (base.def.canTouchWorldEdge || !this.currentGroup.Any((int x) => worldGrid.IsOnEdge(x))))
 					{
 						this.currentGroupMembers.Clear();
 						for (int l = 0; l < this.currentGroup.Count; l++)
@@ -186,9 +200,9 @@ namespace RimWorld.Planet
 						}
 						if (this.currentGroupMembers.Count >= minOverallSize)
 						{
-							if (this.currentGroup.Any((Predicate<int>)((int x) => worldGrid[x].feature == null)))
+							if (this.currentGroup.Any((int x) => worldGrid[x].feature == null))
 							{
-								this.currentGroup.RemoveAll((Predicate<int>)((int x) => worldGrid[x].feature != null));
+								this.currentGroup.RemoveAll((int x) => worldGrid[x].feature != null);
 							}
 							base.AddFeature(this.currentGroupMembers, this.currentGroup);
 						}

@@ -7,7 +7,7 @@ namespace RimWorld
 	{
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
-			string text = (string)null;
+			string text = null;
 			int num = 0;
 			List<Apparel> wornApparel = p.apparel.WornApparel;
 			for (int i = 0; i < wornApparel.Count; i++)
@@ -21,7 +21,15 @@ namespace RimWorld
 					num++;
 				}
 			}
-			return (num != 0) ? ((num < 5) ? ThoughtState.ActiveAtStage(num - 1, text) : ThoughtState.ActiveAtStage(4, text)) : ThoughtState.Inactive;
+			if (num == 0)
+			{
+				return ThoughtState.Inactive;
+			}
+			if (num >= 5)
+			{
+				return ThoughtState.ActiveAtStage(4, text);
+			}
+			return ThoughtState.ActiveAtStage(num - 1, text);
 		}
 	}
 }

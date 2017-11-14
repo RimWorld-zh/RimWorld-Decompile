@@ -5,7 +5,8 @@ namespace RimWorld
 {
 	public class Designator_AreaHomeExpand : Designator_AreaHome
 	{
-		public Designator_AreaHomeExpand() : base(DesignateMode.Add)
+		public Designator_AreaHomeExpand()
+			: base(DesignateMode.Add)
 		{
 			base.defaultLabel = "DesignatorAreaHomeExpand".Translate();
 			base.defaultDesc = "DesignatorAreaHomeExpandDesc".Translate();

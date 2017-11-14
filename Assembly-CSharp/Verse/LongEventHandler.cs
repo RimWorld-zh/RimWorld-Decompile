@@ -13,21 +13,21 @@ namespace Verse
 	{
 		private class QueuedLongEvent
 		{
-			public Action eventAction = null;
+			public Action eventAction;
 
-			public IEnumerator eventActionEnumerator = null;
+			public IEnumerator eventActionEnumerator;
 
-			public string levelToLoad = (string)null;
+			public string levelToLoad;
 
-			public string eventTextKey = "";
+			public string eventTextKey = string.Empty;
 
-			public string eventText = "";
+			public string eventText = string.Empty;
 
-			public bool doAsynchronously = false;
+			public bool doAsynchronously;
 
-			public Action<Exception> exceptionHandler = null;
+			public Action<Exception> exceptionHandler;
 
-			public bool alreadyDisplayed = false;
+			public bool alreadyDisplayed;
 
 			public bool canEverUseStandardWindow = true;
 
@@ -76,7 +76,19 @@ namespace Verse
 		{
 			get
 			{
-				return (byte)(LongEventHandler.AnyEventNowOrWaiting ? ((LongEventHandler.currentEvent != null && !LongEventHandler.currentEvent.UseStandardWindow) ? 1 : ((Find.UIRoot == null || Find.WindowStack == null) ? 1 : 0)) : 0) != 0;
+				if (!LongEventHandler.AnyEventNowOrWaiting)
+				{
+					return false;
+				}
+				if (LongEventHandler.currentEvent != null && !LongEventHandler.currentEvent.UseStandardWindow)
+				{
+					return true;
+				}
+				if (Find.UIRoot != null && Find.WindowStack != null)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -102,7 +114,11 @@ namespace Verse
 			get
 			{
 				QueuedLongEvent queuedLongEvent = LongEventHandler.currentEvent;
-				return (queuedLongEvent != null && !queuedLongEvent.UseStandardWindow) || LongEventHandler.eventQueue.Any((Func<QueuedLongEvent, bool>)((QueuedLongEvent x) => !x.UseStandardWindow));
+				if (queuedLongEvent != null && !queuedLongEvent.UseStandardWindow)
+				{
+					return true;
+				}
+				return LongEventHandler.eventQueue.Any((QueuedLongEvent x) => !x.UseStandardWindow);
 			}
 		}
 
@@ -193,7 +209,7 @@ namespace Verse
 				}
 				else
 				{
-					Find.WindowStack.ImmediateWindow(62893994, rect, WindowLayer.Super, (Action)delegate
+					Find.WindowStack.ImmediateWindow(62893994, rect, WindowLayer.Super, delegate
 					{
 						LongEventHandler.DrawLongEventWindowContents(rect.AtZero());
 					}, true, false, 1f);
@@ -224,7 +240,7 @@ namespace Verse
 				LongEventHandler.currentEvent = LongEventHandler.eventQueue.Dequeue();
 				if (LongEventHandler.currentEvent.eventTextKey == null)
 				{
-					LongEventHandler.currentEvent.eventText = "";
+					LongEventHandler.currentEvent.eventText = string.Empty;
 				}
 				else
 				{
@@ -291,7 +307,7 @@ namespace Verse
 					{
 						disposable2.Dispose();
 					}
-					if ((object)LongEventHandler.currentEvent.exceptionHandler != null)
+					if (LongEventHandler.currentEvent.exceptionHandler != null)
 					{
 						LongEventHandler.currentEvent.exceptionHandler(ex);
 					}
@@ -347,7 +363,7 @@ namespace Verse
 			{
 				try
 				{
-					if ((object)LongEventHandler.currentEvent.eventAction != null)
+					if (LongEventHandler.currentEvent.eventAction != null)
 					{
 						LongEventHandler.currentEvent.eventAction();
 					}
@@ -364,7 +380,7 @@ namespace Verse
 				catch (Exception ex)
 				{
 					Log.Error("Exception from long event: " + ex);
-					if (LongEventHandler.currentEvent != null && (object)LongEventHandler.currentEvent.exceptionHandler != null)
+					if (LongEventHandler.currentEvent != null && LongEventHandler.currentEvent.exceptionHandler != null)
 					{
 						LongEventHandler.currentEvent.exceptionHandler(ex);
 					}
@@ -379,7 +395,7 @@ namespace Verse
 		{
 			try
 			{
-				if ((object)action != null)
+				if (action != null)
 				{
 					action();
 				}
@@ -389,7 +405,7 @@ namespace Verse
 				Log.Error("Exception from asynchronous event: " + ex);
 				try
 				{
-					if (LongEventHandler.currentEvent != null && (object)LongEventHandler.currentEvent.exceptionHandler != null)
+					if (LongEventHandler.currentEvent != null && LongEventHandler.currentEvent.exceptionHandler != null)
 					{
 						LongEventHandler.currentEvent.exceptionHandler(ex);
 					}

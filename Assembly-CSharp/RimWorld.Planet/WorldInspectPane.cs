@@ -134,7 +134,15 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (this.NumSelectedObjects != 1) ? ((this.NumSelectedObjects != 0 || this.SelectedTile < 0) ? Enumerable.Empty<InspectTabBase>() : WorldInspectPane.TileTabs) : Find.WorldSelector.SingleSelectedObject.GetInspectTabs();
+				if (this.NumSelectedObjects == 1)
+				{
+					return Find.WorldSelector.SingleSelectedObject.GetInspectTabs();
+				}
+				if (this.NumSelectedObjects == 0 && this.SelectedTile >= 0)
+				{
+					return WorldInspectPane.TileTabs;
+				}
+				return Enumerable.Empty<InspectTabBase>();
 			}
 		}
 
@@ -151,7 +159,7 @@ namespace RimWorld.Planet
 				if (tile.VisibleRoads != null)
 				{
 					stringBuilder.Append("\n" + (from rl in tile.VisibleRoads
-					select rl.road).MaxBy((Func<RoadDef, int>)((RoadDef road) => road.priority)).LabelCap);
+					select rl.road).MaxBy((RoadDef road) => road.priority).LabelCap);
 				}
 				return stringBuilder.ToString();
 			}
@@ -192,7 +200,15 @@ namespace RimWorld.Planet
 
 		public string GetLabel(Rect rect)
 		{
-			return (this.NumSelectedObjects <= 0) ? ((this.SelectedTile < 0) ? "error" : Find.WorldGrid[this.SelectedTile].biome.LabelCap) : WorldInspectPaneUtility.AdjustedLabelFor(this.Selected, rect);
+			if (this.NumSelectedObjects > 0)
+			{
+				return WorldInspectPaneUtility.AdjustedLabelFor(this.Selected, rect);
+			}
+			if (this.SelectedTile >= 0)
+			{
+				return Find.WorldGrid[this.SelectedTile].biome.LabelCap;
+			}
+			return "error";
 		}
 
 		public void SelectNextInCell()

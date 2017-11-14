@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -15,11 +14,11 @@ namespace RimWorld
 			{
 				float partsMoney = pawn.kindDef.techHediffsMoney.RandomInRange;
 				IEnumerable<ThingDef> source = from x in DefDatabase<ThingDef>.AllDefs
-				where x.isBodyPartOrImplant && x.BaseMarketValue <= partsMoney && x.techHediffsTags != null && pawn.kindDef.techHediffsTags.Any((Predicate<string>)((string tag) => x.techHediffsTags.Contains(tag)))
+				where x.isBodyPartOrImplant && x.BaseMarketValue <= partsMoney && x.techHediffsTags != null && pawn.kindDef.techHediffsTags.Any((string tag) => x.techHediffsTags.Contains(tag))
 				select x;
 				if (source.Any())
 				{
-					ThingDef partDef = source.RandomElementByWeight((Func<ThingDef, float>)((ThingDef w) => w.BaseMarketValue));
+					ThingDef partDef = source.RandomElementByWeight((ThingDef w) => w.BaseMarketValue);
 					IEnumerable<RecipeDef> source2 = from x in DefDatabase<RecipeDef>.AllDefs
 					where x.IsIngredient(partDef) && pawn.def.AllRecipes.Contains(x)
 					select x;

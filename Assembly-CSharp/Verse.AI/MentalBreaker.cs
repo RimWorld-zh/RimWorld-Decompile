@@ -11,11 +11,11 @@ namespace Verse.AI
 	{
 		private Pawn pawn;
 
-		private int ticksBelowExtreme = 0;
+		private int ticksBelowExtreme;
 
-		private int ticksBelowMajor = 0;
+		private int ticksBelowMajor;
 
-		private int ticksBelowMinor = 0;
+		private int ticksBelowMinor;
 
 		private const int CheckInterval = 150;
 
@@ -101,7 +101,11 @@ namespace Verse.AI
 		{
 			get
 			{
-				return (float)((this.pawn.needs.mood != null) ? this.pawn.needs.mood.CurLevel : 0.5);
+				if (this.pawn.needs.mood == null)
+				{
+					return 0.5f;
+				}
+				return this.pawn.needs.mood.CurLevel;
 			}
 		}
 
@@ -139,8 +143,8 @@ namespace Verse.AI
 				}
 				Log.ErrorOnce("No mental breaks possible for " + this.pawn, 888112);
 				yield break;
-				IL_017f:
-				/*Error near IL_0180: Unexpected return in MoveNext()*/;
+				IL_0178:
+				/*Error near IL_0179: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -148,25 +152,20 @@ namespace Verse.AI
 		{
 			get
 			{
-				MentalBreakIntensity result;
 				if (this.ticksBelowExtreme >= 1500)
 				{
-					result = MentalBreakIntensity.Extreme;
+					return MentalBreakIntensity.Extreme;
 				}
-				else if (this.ticksBelowMajor >= 1500)
+				if (this.ticksBelowMajor >= 1500)
 				{
-					result = MentalBreakIntensity.Major;
+					return MentalBreakIntensity.Major;
 				}
-				else if (this.ticksBelowMinor >= 1500)
+				if (this.ticksBelowMinor >= 1500)
 				{
-					result = MentalBreakIntensity.Minor;
+					return MentalBreakIntensity.Minor;
 				}
-				else
-				{
-					Log.ErrorOnce("Got CurrentDesiredBreakIntensity for " + this.pawn + " but he don't desire any break right now.", 123126);
-					result = MentalBreakIntensity.Minor;
-				}
-				return result;
+				Log.ErrorOnce("Got CurrentDesiredBreakIntensity for " + this.pawn + " but he don't desire any break right now.", 123126);
+				return MentalBreakIntensity.Minor;
 			}
 		}
 
@@ -231,7 +230,7 @@ namespace Verse.AI
 						if (currentData.randomMentalState != null)
 						{
 							float mtb = currentData.randomMentalStateMtbDaysMoodCurve.Evaluate(this.CurMood);
-							if (Rand.MTBEventOccurs(mtb, 60000f, 150f) && currentData.randomMentalState.Worker.StateCanOccur(this.pawn) && this.pawn.mindState.mentalStateHandler.TryStartMentalState(currentData.randomMentalState, (string)null, false, false, null))
+							if (Rand.MTBEventOccurs(mtb, 60000f, 150f) && currentData.randomMentalState.Worker.StateCanOccur(this.pawn) && this.pawn.mindState.mentalStateHandler.TryStartMentalState(currentData.randomMentalState, null, false, false, null))
 								break;
 						}
 					}
@@ -241,31 +240,38 @@ namespace Verse.AI
 
 		private bool TestMoodMentalBreak()
 		{
-			return (this.ticksBelowExtreme <= 1500) ? ((this.ticksBelowMajor <= 1500) ? (this.ticksBelowMinor > 1500 && Rand.MTBEventOccurs(10f, 60000f, 150f)) : Rand.MTBEventOccurs(3f, 60000f, 150f)) : Rand.MTBEventOccurs(0.7f, 60000f, 150f);
+			if (this.ticksBelowExtreme > 1500)
+			{
+				return Rand.MTBEventOccurs(0.7f, 60000f, 150f);
+			}
+			if (this.ticksBelowMajor > 1500)
+			{
+				return Rand.MTBEventOccurs(3f, 60000f, 150f);
+			}
+			if (this.ticksBelowMinor > 1500)
+			{
+				return Rand.MTBEventOccurs(10f, 60000f, 150f);
+			}
+			return false;
 		}
 
 		public bool TryDoRandomMoodCausedMentalBreak()
 		{
-			bool result;
-			MentalBreakDef mentalBreakDef = default(MentalBreakDef);
-			if (!this.CanDoRandomMentalBreaks || this.pawn.Downed || !this.pawn.Awake() || this.pawn.InMentalState)
+			if (this.CanDoRandomMentalBreaks && !this.pawn.Downed && this.pawn.Awake() && !this.pawn.InMentalState)
 			{
-				result = false;
-			}
-			else if (((this.pawn.Faction != Faction.OfPlayer) ? this.CurrentDesiredMoodBreakIntensity : MentalBreakIntensity.Extreme) != 0)
-			{
-				result = false;
-			}
-			else if (!this.CurrentPossibleMoodBreaks.TryRandomElementByWeight<MentalBreakDef>((Func<MentalBreakDef, float>)((MentalBreakDef d) => d.Worker.CommonalityFor(this.pawn)), out mentalBreakDef))
-			{
-				result = false;
-			}
-			else
-			{
+				if (this.pawn.Faction != Faction.OfPlayer && this.CurrentDesiredMoodBreakIntensity != 0)
+				{
+					return false;
+				}
+				MentalBreakDef mentalBreakDef = default(MentalBreakDef);
+				if (!this.CurrentPossibleMoodBreaks.TryRandomElementByWeight<MentalBreakDef>((Func<MentalBreakDef, float>)((MentalBreakDef d) => d.Worker.CommonalityFor(this.pawn)), out mentalBreakDef))
+				{
+					return false;
+				}
 				Thought reason = this.RandomFinalStraw();
-				result = mentalBreakDef.Worker.TryStart(this.pawn, reason, true);
+				return mentalBreakDef.Worker.TryStart(this.pawn, reason, true);
 			}
-			return result;
+			return false;
 		}
 
 		private Thought RandomFinalStraw()
@@ -291,30 +297,17 @@ namespace Verse.AI
 
 		public float MentalBreakThresholdFor(MentalBreakIntensity intensity)
 		{
-			float result;
 			switch (intensity)
 			{
 			case MentalBreakIntensity.Extreme:
-			{
-				result = this.BreakThresholdExtreme;
-				break;
-			}
+				return this.BreakThresholdExtreme;
 			case MentalBreakIntensity.Major:
-			{
-				result = this.BreakThresholdMajor;
-				break;
-			}
+				return this.BreakThresholdMajor;
 			case MentalBreakIntensity.Minor:
-			{
-				result = this.BreakThresholdMinor;
-				break;
-			}
+				return this.BreakThresholdMinor;
 			default:
-			{
 				throw new NotImplementedException();
 			}
-			}
-			return result;
 		}
 
 		internal string DebugString()

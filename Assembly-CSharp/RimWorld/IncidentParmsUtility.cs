@@ -30,20 +30,14 @@ namespace RimWorld
 			switch (parms.raidArrivalMode)
 			{
 			case PawnsArriveMode.EdgeWalkIn:
-			{
 				parms.points *= 1f;
 				break;
-			}
 			case PawnsArriveMode.EdgeDrop:
-			{
 				parms.points *= 1f;
 				break;
-			}
 			case PawnsArriveMode.CenterDrop:
-			{
 				parms.points *= 0.45f;
 				break;
-			}
 			}
 			if (parms.raidStrategy != null)
 			{

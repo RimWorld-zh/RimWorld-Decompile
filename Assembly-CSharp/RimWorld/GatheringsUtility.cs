@@ -8,31 +8,53 @@ namespace RimWorld
 	{
 		public static bool ShouldGuestKeepAttendingGathering(Pawn p)
 		{
-			return (byte)((!p.Downed) ? ((p.needs == null || !p.needs.food.Starving) ? ((!(p.health.hediffSet.BleedRateTotal > 0.0)) ? (((int)p.needs.rest.CurCategory < 3) ? ((!p.health.hediffSet.HasTendableNonInjuryNonMissingPartHediff(false)) ? (p.Awake() ? ((!p.InAggroMentalState) ? ((!p.IsPrisoner) ? 1 : 0) : 0) : 0) : 0) : 0) : 0) : 0) : 0) != 0;
+			if (p.Downed)
+			{
+				return false;
+			}
+			if (p.needs != null && p.needs.food.Starving)
+			{
+				return false;
+			}
+			if (p.health.hediffSet.BleedRateTotal > 0.0)
+			{
+				return false;
+			}
+			if ((int)p.needs.rest.CurCategory >= 3)
+			{
+				return false;
+			}
+			if (p.health.hediffSet.HasTendableNonInjuryNonMissingPartHediff(false))
+			{
+				return false;
+			}
+			if (!p.Awake())
+			{
+				return false;
+			}
+			if (p.InAggroMentalState)
+			{
+				return false;
+			}
+			if (p.IsPrisoner)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static bool AnyLordJobPreventsNewGatherings(Map map)
 		{
 			List<Lord> lords = map.lordManager.lords;
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < lords.Count; i++)
 			{
-				if (num < lords.Count)
+				LordJob lordJob = lords[i].LordJob;
+				if (!lordJob.AllowStartNewGatherings)
 				{
-					LordJob lordJob = lords[num].LordJob;
-					if (!lordJob.AllowStartNewGatherings)
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 	}
 }

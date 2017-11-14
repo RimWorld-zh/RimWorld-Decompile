@@ -1,7 +1,4 @@
-#define DEBUG
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 namespace Verse.Noise
@@ -26,11 +23,13 @@ namespace Verse.Noise
 			}
 		}
 
-		public Curve() : base(1)
+		public Curve()
+			: base(1)
 		{
 		}
 
-		public Curve(ModuleBase input) : base(1)
+		public Curve(ModuleBase input)
+			: base(1)
 		{
 			base.modules[0] = input;
 		}
@@ -42,7 +41,7 @@ namespace Verse.Noise
 			{
 				this.m_data.Add(item);
 			}
-			this.m_data.Sort((Comparison<KeyValuePair<double, double>>)((KeyValuePair<double, double> lhs, KeyValuePair<double, double> rhs) => lhs.Key.CompareTo(rhs.Key)));
+			this.m_data.Sort((KeyValuePair<double, double> lhs, KeyValuePair<double, double> rhs) => lhs.Key.CompareTo(rhs.Key));
 		}
 
 		public void Clear()
@@ -52,8 +51,6 @@ namespace Verse.Noise
 
 		public override double GetValue(double x, double y, double z)
 		{
-			System.Diagnostics.Debug.Assert(base.modules[0] != null);
-			System.Diagnostics.Debug.Assert(this.ControlPointCount >= 4);
 			double value = base.modules[0].GetValue(x, y, z);
 			int num = 0;
 			while (num < this.m_data.Count && !(value < this.m_data[num].Key))
@@ -64,19 +61,14 @@ namespace Verse.Noise
 			int num2 = Mathf.Clamp(num - 1, 0, this.m_data.Count - 1);
 			int num3 = Mathf.Clamp(num, 0, this.m_data.Count - 1);
 			int index2 = Mathf.Clamp(num + 1, 0, this.m_data.Count - 1);
-			double result;
 			if (num2 == num3)
 			{
-				result = this.m_data[num2].Value;
+				return this.m_data[num2].Value;
 			}
-			else
-			{
-				double key = this.m_data[num2].Key;
-				double key2 = this.m_data[num3].Key;
-				double position = (value - key) / (key2 - key);
-				result = Utils.InterpolateCubic(this.m_data[index].Value, this.m_data[num2].Value, this.m_data[num3].Value, this.m_data[index2].Value, position);
-			}
-			return result;
+			double key = this.m_data[num2].Key;
+			double key2 = this.m_data[num3].Key;
+			double position = (value - key) / (key2 - key);
+			return Utils.InterpolateCubic(this.m_data[index].Value, this.m_data[num2].Value, this.m_data[num3].Value, this.m_data[index2].Value, position);
 		}
 	}
 }

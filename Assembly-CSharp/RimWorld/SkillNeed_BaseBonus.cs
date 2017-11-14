@@ -11,17 +11,12 @@ namespace RimWorld
 
 		public override float ValueFor(Pawn pawn)
 		{
-			float result;
 			if (pawn.skills == null)
 			{
-				result = 1f;
+				return 1f;
 			}
-			else
-			{
-				int level = pawn.skills.GetSkill(base.skill).Level;
-				result = this.ValueAtLevel(level);
-			}
-			return result;
+			int level = pawn.skills.GetSkill(base.skill).Level;
+			return this.ValueAtLevel(level);
 		}
 
 		private float ValueAtLevel(int level)
@@ -31,7 +26,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -57,8 +52,8 @@ namespace RimWorld
 			}
 			yield return "SkillNeed yields factor < 0 at skill level " + i;
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0140:
-			/*Error near IL_0141: Unexpected return in MoveNext()*/;
+			IL_013a:
+			/*Error near IL_013b: Unexpected return in MoveNext()*/;
 		}
 	}
 }

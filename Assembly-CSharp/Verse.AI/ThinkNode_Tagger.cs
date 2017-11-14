@@ -2,7 +2,7 @@ namespace Verse.AI
 {
 	public class ThinkNode_Tagger : ThinkNode_Priority
 	{
-		private JobTag tagToGive = JobTag.Misc;
+		private JobTag tagToGive;
 
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -13,21 +13,16 @@ namespace Verse.AI
 
 		public override float GetPriority(Pawn pawn)
 		{
-			float result;
 			if (base.priority >= 0.0)
 			{
-				result = base.priority;
+				return base.priority;
 			}
-			else if (base.subNodes.Any())
+			if (base.subNodes.Any())
 			{
-				result = base.subNodes[0].GetPriority(pawn);
+				return base.subNodes[0].GetPriority(pawn);
 			}
-			else
-			{
-				Log.ErrorOnce("ThinkNode_PrioritySorter has child node which didn't give a priority: " + this, this.GetHashCode());
-				result = 0f;
-			}
-			return result;
+			Log.ErrorOnce("ThinkNode_PrioritySorter has child node which didn't give a priority: " + this, this.GetHashCode());
+			return 0f;
 		}
 
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
@@ -35,7 +30,7 @@ namespace Verse.AI
 			ThinkResult result = base.TryIssueJobPackage(pawn, jobParams);
 			if (result.IsValid && !result.Tag.HasValue)
 			{
-				result = new ThinkResult(result.Job, result.SourceNode, new JobTag?(this.tagToGive), false);
+				result = new ThinkResult(result.Job, result.SourceNode, this.tagToGive, false);
 			}
 			return result;
 		}

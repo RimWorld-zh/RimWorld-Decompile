@@ -71,9 +71,9 @@ namespace RimWorld
 				{
 					int num = GenRadial.NumCellsInRadius(8f);
 					float num2 = StealAIUtility.StartStealingMarketValueThreshold(StealAIDebugDrawer.debugDrawLord);
-					for (int num3 = 0; num3 < num; num3++)
+					for (int i = 0; i < num; i++)
 					{
-						IntVec3 intVec = thing.Position + GenRadial.RadialPattern[num3];
+						IntVec3 intVec = thing.Position + GenRadial.RadialPattern[i];
 						if (intVec.InBounds(thing.Map))
 						{
 							StealAIDebugDrawer.debugDrawGrid[intVec] = (StealAIDebugDrawer.TotalMarketValueAround(intVec, Find.VisibleMap, StealAIDebugDrawer.debugDrawLord.ownedPawns.Count) > num2);
@@ -85,33 +85,28 @@ namespace RimWorld
 
 		private static float TotalMarketValueAround(IntVec3 center, Map map, int pawnsCount)
 		{
-			float result;
 			if (center.Impassable(map))
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			float num = 0f;
+			StealAIDebugDrawer.tmpToSteal.Clear();
+			for (int i = 0; i < pawnsCount; i++)
 			{
-				float num = 0f;
-				StealAIDebugDrawer.tmpToSteal.Clear();
-				for (int num2 = 0; num2 < pawnsCount; num2++)
+				IntVec3 intVec = center + GenRadial.RadialPattern[i];
+				if (!intVec.InBounds(map) || intVec.Impassable(map) || !GenSight.LineOfSight(center, intVec, map, false, null, 0, 0))
 				{
-					IntVec3 intVec = center + GenRadial.RadialPattern[num2];
-					if (!intVec.InBounds(map) || intVec.Impassable(map) || !GenSight.LineOfSight(center, intVec, map, false, null, 0, 0))
-					{
-						intVec = center;
-					}
-					Thing thing = default(Thing);
-					if (StealAIUtility.TryFindBestItemToSteal(intVec, map, 7f, out thing, (Pawn)null, StealAIDebugDrawer.tmpToSteal))
-					{
-						num += StealAIUtility.GetValue(thing);
-						StealAIDebugDrawer.tmpToSteal.Add(thing);
-					}
+					intVec = center;
 				}
-				StealAIDebugDrawer.tmpToSteal.Clear();
-				result = num;
+				Thing thing = default(Thing);
+				if (StealAIUtility.TryFindBestItemToSteal(intVec, map, 7f, out thing, (Pawn)null, StealAIDebugDrawer.tmpToSteal))
+				{
+					num += StealAIUtility.GetValue(thing);
+					StealAIDebugDrawer.tmpToSteal.Add(thing);
+				}
 			}
-			return result;
+			StealAIDebugDrawer.tmpToSteal.Clear();
+			return num;
 		}
 
 		private static Lord FindHostileLord()

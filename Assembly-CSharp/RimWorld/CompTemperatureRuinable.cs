@@ -5,7 +5,7 @@ namespace RimWorld
 {
 	public class CompTemperatureRuinable : ThingComp
 	{
-		protected float ruinedPercent = 0f;
+		protected float ruinedPercent;
 
 		public const string RuinedSignal = "RuinedByTemperature";
 
@@ -91,37 +91,29 @@ namespace RimWorld
 
 		public override string CompInspectStringExtra()
 		{
-			string result;
-			string str;
 			if (this.Ruined)
 			{
-				result = "RuinedByTemperature".Translate();
+				return "RuinedByTemperature".Translate();
 			}
-			else if (this.ruinedPercent > 0.0)
+			string str;
+			if (this.ruinedPercent > 0.0)
 			{
 				float ambientTemperature = base.parent.AmbientTemperature;
 				if (ambientTemperature > this.Props.maxSafeTemperature)
 				{
 					str = "Overheating".Translate();
-					goto IL_0082;
+					goto IL_0076;
 				}
 				if (ambientTemperature < this.Props.minSafeTemperature)
 				{
 					str = "Freezing".Translate();
-					goto IL_0082;
+					goto IL_0076;
 				}
-				result = (string)null;
+				return null;
 			}
-			else
-			{
-				result = (string)null;
-			}
-			goto IL_00a5;
-			IL_0082:
-			result = str + ": " + this.ruinedPercent.ToStringPercent();
-			goto IL_00a5;
-			IL_00a5:
-			return result;
+			return null;
+			IL_0076:
+			return str + ": " + this.ruinedPercent.ToStringPercent();
 		}
 	}
 }

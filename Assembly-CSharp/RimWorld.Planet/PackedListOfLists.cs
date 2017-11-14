@@ -22,9 +22,9 @@ namespace RimWorld.Planet
 			{
 				num2 = offsets[listIndex + 1];
 			}
-			for (int num3 = num; num3 < num2; num3++)
+			for (int i = num; i < num2; i++)
 			{
-				outList.Add(values[num3]);
+				outList.Add(values[i]);
 			}
 		}
 
@@ -37,9 +37,9 @@ namespace RimWorld.Planet
 			{
 				num2 = offsets[listIndex + 1];
 			}
-			for (int num3 = num; num3 < num2; num3++)
+			for (int i = num; i < num2; i++)
 			{
-				outList.Add(num3);
+				outList.Add(i);
 			}
 		}
 
@@ -59,18 +59,17 @@ namespace RimWorld.Planet
 			outOffsets.Clear();
 			outValues.Clear();
 			PackedListOfLists.vertAdjacentTrisCount.Clear();
-			int num = 0;
+			int i = 0;
 			int count = verts.Count;
-			while (num < count)
+			for (; i < count; i++)
 			{
 				PackedListOfLists.vertAdjacentTrisCount.Add(0);
-				num++;
 			}
-			int num2 = 0;
+			int j = 0;
 			int count2 = tris.Count;
-			while (num2 < count2)
+			for (; j < count2; j++)
 			{
-				TriangleIndices triangleIndices = tris[num2];
+				TriangleIndices triangleIndices = tris[j];
 				int v;
 				List<int> list;
 				(list = PackedListOfLists.vertAdjacentTrisCount)[v = triangleIndices.v1] = list[v] + 1;
@@ -78,31 +77,29 @@ namespace RimWorld.Planet
 				(list = PackedListOfLists.vertAdjacentTrisCount)[v2 = triangleIndices.v2] = list[v2] + 1;
 				int v3;
 				(list = PackedListOfLists.vertAdjacentTrisCount)[v3 = triangleIndices.v3] = list[v3] + 1;
-				num2++;
 			}
-			int num3 = 0;
-			int num4 = 0;
+			int num = 0;
+			int k = 0;
 			int count3 = verts.Count;
-			while (num4 < count3)
+			for (; k < count3; k++)
 			{
-				outOffsets.Add(num3);
-				int num5 = PackedListOfLists.vertAdjacentTrisCount[num4];
-				PackedListOfLists.vertAdjacentTrisCount[num4] = 0;
-				for (int num6 = 0; num6 < num5; num6++)
+				outOffsets.Add(num);
+				int num2 = PackedListOfLists.vertAdjacentTrisCount[k];
+				PackedListOfLists.vertAdjacentTrisCount[k] = 0;
+				for (int l = 0; l < num2; l++)
 				{
 					outValues.Add(-1);
 				}
-				num3 += num5;
-				num4++;
+				num += num2;
 			}
-			int num7 = 0;
+			int m = 0;
 			int count4 = tris.Count;
-			while (num7 < count4)
+			for (; m < count4; m++)
 			{
-				TriangleIndices triangleIndices2 = tris[num7];
-				outValues[outOffsets[triangleIndices2.v1] + PackedListOfLists.vertAdjacentTrisCount[triangleIndices2.v1]] = num7;
-				outValues[outOffsets[triangleIndices2.v2] + PackedListOfLists.vertAdjacentTrisCount[triangleIndices2.v2]] = num7;
-				outValues[outOffsets[triangleIndices2.v3] + PackedListOfLists.vertAdjacentTrisCount[triangleIndices2.v3]] = num7;
+				TriangleIndices triangleIndices2 = tris[m];
+				outValues[outOffsets[triangleIndices2.v1] + PackedListOfLists.vertAdjacentTrisCount[triangleIndices2.v1]] = m;
+				outValues[outOffsets[triangleIndices2.v2] + PackedListOfLists.vertAdjacentTrisCount[triangleIndices2.v2]] = m;
+				outValues[outOffsets[triangleIndices2.v3] + PackedListOfLists.vertAdjacentTrisCount[triangleIndices2.v3]] = m;
 				int v4;
 				List<int> list;
 				(list = PackedListOfLists.vertAdjacentTrisCount)[v4 = triangleIndices2.v1] = list[v4] + 1;
@@ -110,7 +107,6 @@ namespace RimWorld.Planet
 				(list = PackedListOfLists.vertAdjacentTrisCount)[v5 = triangleIndices2.v2] = list[v5] + 1;
 				int v6;
 				(list = PackedListOfLists.vertAdjacentTrisCount)[v6 = triangleIndices2.v3] = list[v6] + 1;
-				num7++;
 			}
 		}
 	}

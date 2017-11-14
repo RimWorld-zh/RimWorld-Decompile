@@ -6,11 +6,13 @@ namespace Verse.Noise
 
 		private float to;
 
-		public InverseLerp() : base(1)
+		public InverseLerp()
+			: base(1)
 		{
 		}
 
-		public InverseLerp(ModuleBase module, float from, float to) : base(1)
+		public InverseLerp(ModuleBase module, float from, float to)
+			: base(1)
 		{
 			base.modules[0] = module;
 			this.from = from;
@@ -21,7 +23,15 @@ namespace Verse.Noise
 		{
 			double value = base.modules[0].GetValue(x, y, z);
 			double num = (value - (double)this.from) / (double)(this.to - this.from);
-			return (!(num < 0.0)) ? ((!(num > 1.0)) ? num : 1.0) : 0.0;
+			if (num < 0.0)
+			{
+				return 0.0;
+			}
+			if (num > 1.0)
+			{
+				return 1.0;
+			}
+			return num;
 		}
 	}
 }

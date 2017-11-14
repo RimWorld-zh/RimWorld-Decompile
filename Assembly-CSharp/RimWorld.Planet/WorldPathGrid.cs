@@ -39,7 +39,11 @@ namespace RimWorld.Planet
 
 		public bool Passable(int tile)
 		{
-			return Find.WorldGrid.InBounds(tile) && this.pathGrid[tile] < 1000000;
+			if (!Find.WorldGrid.InBounds(tile))
+			{
+				return false;
+			}
+			return this.pathGrid[tile] < 1000000;
 		}
 
 		public bool PassableFast(int tile)
@@ -78,76 +82,48 @@ namespace RimWorld.Planet
 		{
 			int num = 0;
 			Tile tile2 = Find.WorldGrid[tile];
-			int result;
 			if (tile2.biome.impassable)
 			{
-				result = 1000000;
+				return 1000000;
 			}
-			else
+			if (yearPercent < 0.0)
 			{
-				if (yearPercent < 0.0)
-				{
-					yearPercent = (float)((float)WorldPathGrid.DayOfYearAt0Long / 60.0);
-				}
-				float yearPct = yearPercent;
-				Vector2 vector = Find.WorldGrid.LongLatOf(tile);
-				float num2 = default(float);
-				float num3 = default(float);
-				float num4 = default(float);
-				float num5 = default(float);
-				float num6 = default(float);
-				float num7 = default(float);
-				SeasonUtility.GetSeason(yearPct, vector.y, out num2, out num3, out num4, out num5, out num6, out num7);
-				num += Mathf.RoundToInt((float)tile2.biome.pathCost_spring * num2 + (float)tile2.biome.pathCost_summer * num3 + (float)tile2.biome.pathCost_fall * num4 + (float)tile2.biome.pathCost_winter * num5 + (float)tile2.biome.pathCost_summer * num6 + (float)tile2.biome.pathCost_winter * num7);
-				if (tile2.hilliness == Hilliness.Impassable)
-				{
-					result = 1000000;
-				}
-				else
-				{
-					num = (result = num + WorldPathGrid.CostFromTileHilliness(tile2.hilliness));
-				}
+				yearPercent = (float)((float)WorldPathGrid.DayOfYearAt0Long / 60.0);
 			}
-			return result;
+			float yearPct = yearPercent;
+			Vector2 vector = Find.WorldGrid.LongLatOf(tile);
+			float num2 = default(float);
+			float num3 = default(float);
+			float num4 = default(float);
+			float num5 = default(float);
+			float num6 = default(float);
+			float num7 = default(float);
+			SeasonUtility.GetSeason(yearPct, vector.y, out num2, out num3, out num4, out num5, out num6, out num7);
+			num += Mathf.RoundToInt((float)tile2.biome.pathCost_spring * num2 + (float)tile2.biome.pathCost_summer * num3 + (float)tile2.biome.pathCost_fall * num4 + (float)tile2.biome.pathCost_winter * num5 + (float)tile2.biome.pathCost_summer * num6 + (float)tile2.biome.pathCost_winter * num7);
+			if (tile2.hilliness == Hilliness.Impassable)
+			{
+				return 1000000;
+			}
+			return num + WorldPathGrid.CostFromTileHilliness(tile2.hilliness);
 		}
 
 		private static int CostFromTileHilliness(Hilliness hilliness)
 		{
-			int result;
 			switch (hilliness)
 			{
 			case Hilliness.Flat:
-			{
-				result = 0;
-				break;
-			}
+				return 0;
 			case Hilliness.SmallHills:
-			{
-				result = 2000;
-				break;
-			}
+				return 2000;
 			case Hilliness.LargeHills:
-			{
-				result = 6000;
-				break;
-			}
+				return 6000;
 			case Hilliness.Mountainous:
-			{
-				result = 30000;
-				break;
-			}
+				return 30000;
 			case Hilliness.Impassable:
-			{
-				result = 30000;
-				break;
-			}
+				return 30000;
 			default:
-			{
-				result = 0;
-				break;
+				return 0;
 			}
-			}
-			return result;
 		}
 	}
 }

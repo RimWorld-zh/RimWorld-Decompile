@@ -2,10 +2,10 @@ namespace RuntimeAudioClipLoader
 {
 	public enum AudioFormat
 	{
-		wav = 0,
-		mp3 = 1,
-		aiff = 2,
-		ogg = 3,
+		wav,
+		mp3,
+		aiff,
+		ogg,
 		unknown = -1
 	}
 }

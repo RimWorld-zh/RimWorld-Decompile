@@ -8,41 +8,41 @@ namespace RimWorld
 	{
 		public Type needClass;
 
-		public Intelligence minIntelligence = Intelligence.Animal;
+		public Intelligence minIntelligence;
 
-		public bool colonistAndPrisonersOnly = false;
+		public bool colonistAndPrisonersOnly;
 
-		public bool colonistsOnly = false;
+		public bool colonistsOnly;
 
-		public bool onlyIfCausedByHediff = false;
+		public bool onlyIfCausedByHediff;
 
-		public bool neverOnPrisoner = false;
+		public bool neverOnPrisoner;
 
 		public bool showOnNeedList = true;
 
 		public float baseLevel = 0.5f;
 
-		public bool major = false;
+		public bool major;
 
-		public int listPriority = 0;
+		public int listPriority;
 
-		public string tutorHighlightTag = (string)null;
+		public string tutorHighlightTag;
 
-		public bool showForCaravanMembers = false;
+		public bool showForCaravanMembers;
 
-		public bool scaleBar = false;
+		public bool scaleBar;
 
 		public float fallPerDay = 0.5f;
 
-		public float seekerRisePerHour = 0f;
+		public float seekerRisePerHour;
 
-		public float seekerFallPerHour = 0f;
+		public float seekerFallPerHour;
 
-		public bool freezeWhileSleeping = false;
+		public bool freezeWhileSleeping;
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -67,8 +67,8 @@ namespace RimWorld
 				yield break;
 			yield return "seeker rise/fall rates not set";
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0191:
-			/*Error near IL_0192: Unexpected return in MoveNext()*/;
+			IL_018b:
+			/*Error near IL_018c: Unexpected return in MoveNext()*/;
 		}
 	}
 }

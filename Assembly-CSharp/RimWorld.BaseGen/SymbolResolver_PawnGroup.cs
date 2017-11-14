@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Verse;
 
@@ -10,9 +9,17 @@ namespace RimWorld.BaseGen
 
 		public override bool CanResolve(ResolveParams rp)
 		{
-			return (byte)(base.CanResolve(rp) ? ((from x in rp.rect.Cells
+			if (!base.CanResolve(rp))
+			{
+				return false;
+			}
+			if (!(from x in rp.rect.Cells
 			where x.Standable(BaseGen.globalSettings.map)
-			select x).Any() ? 1 : 0) : 0) != 0;
+			select x).Any())
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override void Resolve(ResolveParams rp)

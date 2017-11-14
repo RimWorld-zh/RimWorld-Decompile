@@ -27,7 +27,11 @@ namespace Verse
 
 		public static List<T> ListFullCopyOrNull<T>(this List<T> source)
 		{
-			return (source != null) ? source.ListFullCopy<T>() : null;
+			if (source == null)
+			{
+				return null;
+			}
+			return source.ListFullCopy();
 		}
 
 		public static void RemoveDuplicates<T>(this List<T> list) where T : class
@@ -67,16 +71,16 @@ namespace Verse
 		public static void InsertionSort<T>(this IList<T> list, Comparison<T> comparison)
 		{
 			int count = ((ICollection<T>)list).Count;
-			for (int num = 1; num < count; num++)
+			for (int i = 1; i < count; i++)
 			{
-				T val = list[num];
-				int num2 = num - 1;
-				while (num2 >= 0 && comparison(list[num2], val) > 0)
+				T val = list[i];
+				int num = i - 1;
+				while (num >= 0 && comparison(list[num], val) > 0)
 				{
-					list[num2 + 1] = list[num2];
-					num2--;
+					list[num + 1] = list[num];
+					num--;
 				}
-				list[num2 + 1] = val;
+				list[num + 1] = val;
 			}
 		}
 	}

@@ -28,7 +28,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (object)this.action != null;
+				return this.action != null;
 			}
 		}
 
@@ -93,7 +93,7 @@ namespace RimWorld
 				Texture2D image = this.mouseAttachment ?? TexCommand.Attack;
 				Rect position = new Rect((float)(mousePosition.x + 8.0), (float)(mousePosition.y + 8.0), 32f, 32f);
 				GUI.DrawTexture(position, image);
-				if ((object)this.extraLabelGetter != null)
+				if (this.extraLabelGetter != null)
 				{
 					string text = this.extraLabelGetter(this.CurrentTargetUnderMouse());
 					if (!text.NullOrEmpty())
@@ -124,7 +124,7 @@ namespace RimWorld
 				{
 					WorldRendererUtility.DrawQuadTangentialToPlanet(pos, (float)(0.800000011920929 * Find.WorldGrid.averageTileSize), 0.018f, WorldMaterials.CurTargetingMat, false, false, null);
 				}
-				if ((object)this.onUpdate != null)
+				if (this.onUpdate != null)
 				{
 					this.onUpdate();
 				}
@@ -133,47 +133,42 @@ namespace RimWorld
 
 		public bool IsTargetedNow(WorldObject o, List<WorldObject> worldObjectsUnderMouse = null)
 		{
-			bool result;
 			if (!this.IsTargeting)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (worldObjectsUnderMouse == null)
 			{
-				if (worldObjectsUnderMouse == null)
-				{
-					worldObjectsUnderMouse = GenWorldUI.WorldObjectsUnderMouse(UI.MousePositionOnUI);
-				}
-				result = (worldObjectsUnderMouse.Any() && o == worldObjectsUnderMouse[0]);
+				worldObjectsUnderMouse = GenWorldUI.WorldObjectsUnderMouse(UI.MousePositionOnUI);
 			}
-			return result;
+			if (worldObjectsUnderMouse.Any())
+			{
+				return o == worldObjectsUnderMouse[0];
+			}
+			return false;
 		}
 
 		private GlobalTargetInfo CurrentTargetUnderMouse()
 		{
-			GlobalTargetInfo result;
 			if (!this.IsTargeting)
 			{
-				result = GlobalTargetInfo.Invalid;
+				return GlobalTargetInfo.Invalid;
 			}
-			else
+			List<WorldObject> list = GenWorldUI.WorldObjectsUnderMouse(UI.MousePositionOnUI);
+			if (list.Any())
 			{
-				List<WorldObject> list = GenWorldUI.WorldObjectsUnderMouse(UI.MousePositionOnUI);
-				if (list.Any())
-				{
-					result = list[0];
-				}
-				else if (this.canTargetTiles)
-				{
-					int num = GenWorld.MouseTile(false);
-					result = ((num < 0) ? GlobalTargetInfo.Invalid : new GlobalTargetInfo(num));
-				}
-				else
-				{
-					result = GlobalTargetInfo.Invalid;
-				}
+				return list[0];
 			}
-			return result;
+			if (this.canTargetTiles)
+			{
+				int num = GenWorld.MouseTile(false);
+				if (num >= 0)
+				{
+					return new GlobalTargetInfo(num);
+				}
+				return GlobalTargetInfo.Invalid;
+			}
+			return GlobalTargetInfo.Invalid;
 		}
 	}
 }

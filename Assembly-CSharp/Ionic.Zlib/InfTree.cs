@@ -1808,17 +1808,17 @@ namespace Ionic.Zlib
 
 		internal const int BMAX = 15;
 
-		internal int[] hn = null;
+		internal int[] hn;
 
-		internal int[] v = null;
+		internal int[] v;
 
-		internal int[] c = null;
+		internal int[] c;
 
-		internal int[] r = null;
+		internal int[] r;
 
-		internal int[] u = null;
+		internal int[] u;
 
-		internal int[] x = null;
+		internal int[] x;
 
 		private int huft_build(int[] b, int bindex, int n, int s, int[] d, int[] e, int[] t, int[] m, int[] hp, int[] hn, int[] v)
 		{
@@ -1832,173 +1832,160 @@ namespace Ionic.Zlib
 				if (num2 == 0)
 					break;
 			}
-			int result;
 			if (this.c[0] == n)
 			{
 				t[0] = -1;
 				m[0] = 0;
-				result = 0;
+				return 0;
 			}
-			else
+			int num3 = m[0];
+			int num4 = 1;
+			while (num4 <= 15 && this.c[num4] == 0)
 			{
-				int num3 = m[0];
-				int num4 = 1;
-				while (num4 <= 15 && this.c[num4] == 0)
+				num4++;
+			}
+			int i = num4;
+			if (num3 < num4)
+			{
+				num3 = num4;
+			}
+			num2 = 15;
+			while (num2 != 0 && this.c[num2] == 0)
+			{
+				num2--;
+			}
+			int num5 = num2;
+			if (num3 > num2)
+			{
+				num3 = num2;
+			}
+			m[0] = num3;
+			int num6 = 1 << num4;
+			while (num4 < num2)
+			{
+				if ((num6 -= this.c[num4]) < 0)
 				{
-					num4++;
+					return -3;
 				}
-				int num5 = num4;
-				if (num3 < num4)
+				num4++;
+				num6 <<= 1;
+			}
+			if ((num6 -= this.c[num2]) < 0)
+			{
+				return -3;
+			}
+			this.c[num2] += num6;
+			num4 = (this.x[1] = 0);
+			num = 1;
+			int num7 = 2;
+			while (--num2 != 0)
+			{
+				num4 = (this.x[num7] = num4 + this.c[num]);
+				num7++;
+				num++;
+			}
+			num2 = 0;
+			num = 0;
+			while (true)
+			{
+				if ((num4 = b[bindex + num]) != 0)
 				{
-					num3 = num4;
+					v[this.x[num4]++] = num2;
 				}
-				num2 = 15;
-				while (num2 != 0 && this.c[num2] == 0)
+				num++;
+				if (++num2 >= n)
+					break;
+			}
+			n = this.x[num5];
+			num2 = (this.x[0] = 0);
+			num = 0;
+			int num8 = -1;
+			int num9 = -num3;
+			this.u[0] = 0;
+			int num10 = 0;
+			int num11 = 0;
+			for (; i <= num5; i++)
+			{
+				int num12 = this.c[i];
+				while (num12-- != 0)
 				{
-					num2--;
-				}
-				int num6 = num2;
-				if (num3 > num2)
-				{
-					num3 = num2;
-				}
-				m[0] = num3;
-				int num7 = 1 << num4;
-				while (num4 < num2)
-				{
-					if ((num7 -= this.c[num4]) < 0)
-						goto IL_00fd;
-					num4++;
-					num7 <<= 1;
-				}
-				if ((num7 -= this.c[num2]) < 0)
-				{
-					result = -3;
-				}
-				else
-				{
-					this.c[num2] += num7;
-					num4 = (this.x[1] = 0);
-					num = 1;
-					int num8 = 2;
-					while (--num2 != 0)
+					int num14;
+					while (i > num9 + num3)
 					{
-						num4 = (this.x[num8] = num4 + this.c[num]);
 						num8++;
-						num++;
-					}
-					num2 = 0;
-					num = 0;
-					while (true)
-					{
-						if ((num4 = b[bindex + num]) != 0)
+						num9 += num3;
+						num11 = num5 - num9;
+						num11 = ((num11 <= num3) ? num11 : num3);
+						if ((num14 = 1 << (num4 = i - num9)) > num12 + 1)
 						{
-							v[this.x[num4]++] = num2;
-						}
-						num++;
-						if (++num2 >= n)
-							break;
-					}
-					n = this.x[num6];
-					num2 = (this.x[0] = 0);
-					num = 0;
-					int num9 = -1;
-					int num10 = -num3;
-					this.u[0] = 0;
-					int num11 = 0;
-					int num12 = 0;
-					while (num5 <= num6)
-					{
-						int num13 = this.c[num5];
-						while (num13-- != 0)
-						{
-							int num15;
-							while (num5 > num10 + num3)
+							num14 -= num12 + 1;
+							num7 = i;
+							if (num4 < num11)
 							{
-								num9++;
-								num10 += num3;
-								num12 = num6 - num10;
-								num12 = ((num12 <= num3) ? num12 : num3);
-								if ((num15 = 1 << (num4 = num5 - num10)) > num13 + 1)
+								while (++num4 < num11 && (num14 <<= 1) > this.c[++num7])
 								{
-									num15 -= num13 + 1;
-									num8 = num5;
-									if (num4 < num12)
-									{
-										while (++num4 < num12 && (num15 <<= 1) > this.c[++num8])
-										{
-											num15 -= this.c[num8];
-										}
-									}
+									num14 -= this.c[num7];
 								}
-								num12 = 1 << num4;
-								if (hn[0] + num12 > 1440)
-									goto IL_02d5;
-								num11 = (this.u[num9] = hn[0]);
-								hn[0] += num12;
-								if (num9 != 0)
-								{
-									this.x[num9] = num2;
-									this.r[0] = (sbyte)num4;
-									this.r[1] = (sbyte)num3;
-									num4 = SharedUtils.URShift(num2, num10 - num3);
-									this.r[2] = num11 - this.u[num9 - 1] - num4;
-									Array.Copy(this.r, 0, hp, (this.u[num9 - 1] + num4) * 3, 3);
-								}
-								else
-								{
-									t[0] = num11;
-								}
-							}
-							this.r[1] = (sbyte)(num5 - num10);
-							if (num >= n)
-							{
-								this.r[0] = 192;
-							}
-							else if (v[num] < s)
-							{
-								this.r[0] = (sbyte)((v[num] >= 256) ? 96 : 0);
-								this.r[2] = v[num++];
-							}
-							else
-							{
-								this.r[0] = (sbyte)(e[v[num] - s] + 16 + 64);
-								this.r[2] = d[v[num++] - s];
-							}
-							num15 = 1 << num5 - num10;
-							for (num4 = SharedUtils.URShift(num2, num10); num4 < num12; num4 += num15)
-							{
-								Array.Copy(this.r, 0, hp, (num11 + num4) * 3, 3);
-							}
-							num4 = 1 << num5 - 1;
-							while ((num2 & num4) != 0)
-							{
-								num2 ^= num4;
-								num4 = SharedUtils.URShift(num4, 1);
-							}
-							num2 ^= num4;
-							int num18 = (1 << num10) - 1;
-							while ((num2 & num18) != this.x[num9])
-							{
-								num9--;
-								num10 -= num3;
-								num18 = (1 << num10) - 1;
 							}
 						}
-						num5++;
+						num11 = 1 << num4;
+						if (hn[0] + num11 > 1440)
+						{
+							return -3;
+						}
+						num10 = (this.u[num8] = hn[0]);
+						hn[0] += num11;
+						if (num8 != 0)
+						{
+							this.x[num8] = num2;
+							this.r[0] = (sbyte)num4;
+							this.r[1] = (sbyte)num3;
+							num4 = SharedUtils.URShift(num2, num9 - num3);
+							this.r[2] = num10 - this.u[num8 - 1] - num4;
+							Array.Copy(this.r, 0, hp, (this.u[num8 - 1] + num4) * 3, 3);
+						}
+						else
+						{
+							t[0] = num10;
+						}
 					}
-					result = ((num7 != 0 && num6 != 1) ? (-5) : 0);
+					this.r[1] = (sbyte)(i - num9);
+					if (num >= n)
+					{
+						this.r[0] = 192;
+					}
+					else if (v[num] < s)
+					{
+						this.r[0] = (sbyte)((v[num] >= 256) ? 96 : 0);
+						this.r[2] = v[num++];
+					}
+					else
+					{
+						this.r[0] = (sbyte)(e[v[num] - s] + 16 + 64);
+						this.r[2] = d[v[num++] - s];
+					}
+					num14 = 1 << i - num9;
+					for (num4 = SharedUtils.URShift(num2, num9); num4 < num11; num4 += num14)
+					{
+						Array.Copy(this.r, 0, hp, (num10 + num4) * 3, 3);
+					}
+					num4 = 1 << i - 1;
+					while ((num2 & num4) != 0)
+					{
+						num2 ^= num4;
+						num4 = SharedUtils.URShift(num4, 1);
+					}
+					num2 ^= num4;
+					int num17 = (1 << num9) - 1;
+					while ((num2 & num17) != this.x[num8])
+					{
+						num8--;
+						num9 -= num3;
+						num17 = (1 << num9) - 1;
+					}
 				}
 			}
-			goto IL_0511;
-			IL_0511:
-			return result;
-			IL_00fd:
-			result = -3;
-			goto IL_0511;
-			IL_02d5:
-			result = -3;
-			goto IL_0511;
+			return (num6 != 0 && num5 != 1) ? (-5) : 0;
 		}
 
 		internal int inflate_trees_bits(int[] c, int[] bb, int[] tb, int[] hp, ZlibCodec z)
@@ -2008,27 +1995,19 @@ namespace Ionic.Zlib
 			int num = this.huft_build(c, 0, 19, 19, null, null, tb, bb, hp, this.hn, this.v);
 			switch (num)
 			{
-			case -5:
-				goto IL_005c;
 			case -3:
-			{
 				z.Message = "oversubscribed dynamic bit lengths tree";
 				break;
-			}
 			default:
-			{
-				if (bb[0] == 0)
-					goto IL_005c;
+				if (bb[0] != 0)
+					break;
+				goto case -5;
+			case -5:
+				z.Message = "incomplete dynamic bit lengths tree";
+				num = -3;
 				break;
 			}
-			}
-			goto IL_006d;
-			IL_006d:
 			return num;
-			IL_005c:
-			z.Message = "incomplete dynamic bit lengths tree";
-			num = -3;
-			goto IL_006d;
 		}
 
 		internal int inflate_trees_dynamic(int nl, int nd, int[] c, int[] bl, int[] bd, int[] tl, int[] td, int[] hp, ZlibCodec z)
@@ -2036,65 +2015,45 @@ namespace Ionic.Zlib
 			this.initWorkArea(288);
 			this.hn[0] = 0;
 			int num = this.huft_build(c, 0, nl, 257, InfTree.cplens, InfTree.cplext, tl, bl, hp, this.hn, this.v);
-			int result;
-			if (((num == 0) ? bl[0] : 0) != 0)
+			if (num == 0 && bl[0] != 0)
 			{
 				this.initWorkArea(288);
 				num = this.huft_build(c, nl, nd, 0, InfTree.cpdist, InfTree.cpdext, td, bd, hp, this.hn, this.v);
 				if (num == 0 && (bd[0] != 0 || nl <= 257))
 				{
-					result = 0;
-					goto IL_0138;
+					return 0;
 				}
 				switch (num)
 				{
-				case -4:
-					goto IL_012a;
 				case -3:
-				{
 					z.Message = "oversubscribed distance tree";
 					break;
-				}
 				case -5:
-				{
 					z.Message = "incomplete distance tree";
 					num = -3;
 					break;
-				}
 				default:
-				{
 					z.Message = "empty distance tree with lengths";
 					num = -3;
 					break;
+				case -4:
+					break;
 				}
-				}
-				goto IL_012a;
+				return num;
 			}
 			switch (num)
 			{
-			case -4:
-				goto IL_0084;
 			case -3:
-			{
 				z.Message = "oversubscribed literal/length tree";
 				break;
-			}
 			default:
-			{
 				z.Message = "incomplete literal/length tree";
 				num = -3;
 				break;
+			case -4:
+				break;
 			}
-			}
-			goto IL_0084;
-			IL_012a:
-			result = num;
-			goto IL_0138;
-			IL_0138:
-			return result;
-			IL_0084:
-			result = num;
-			goto IL_0138;
+			return num;
 		}
 
 		internal static int inflate_trees_fixed(int[] bl, int[] bd, int[][] tl, int[][] td, ZlibCodec z)

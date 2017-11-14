@@ -53,9 +53,9 @@ namespace Verse
 			int i;
 			for (i = ModsConfig.data.activeMods.Count - 1; i >= 0; i--)
 			{
-				if (!ModLister.AllInstalledMods.Any((Func<ModMetaData, bool>)((ModMetaData m) => m.Identifier == ModsConfig.data.activeMods[i])))
+				if (!ModLister.AllInstalledMods.Any((ModMetaData m) => m.Identifier == ModsConfig.data.activeMods[i]))
 				{
-					if ((object)logCallback != null)
+					if (logCallback != null)
 					{
 						logCallback("Deactivating " + ModsConfig.data.activeMods[i]);
 					}
@@ -120,10 +120,10 @@ namespace Verse
 
 		public static void RestartFromChangedMods()
 		{
-			Find.WindowStack.Add(new Dialog_MessageBox("ModsChanged".Translate(), (string)null, (Action)delegate
+			Find.WindowStack.Add(new Dialog_MessageBox("ModsChanged".Translate(), null, delegate
 			{
 				GenCommandLine.Restart();
-			}, (string)null, null, (string)null, false));
+			}, null, null, null, false));
 		}
 	}
 }

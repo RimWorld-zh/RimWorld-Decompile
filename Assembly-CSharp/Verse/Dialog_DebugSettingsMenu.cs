@@ -29,18 +29,16 @@ namespace Verse
 			Text.Font = GameFont.Small;
 			base.listing.Label("Gameplay", -1f);
 			FieldInfo[] fields = typeof(DebugSettings).GetFields();
-			for (int i = 0; i < fields.Length; i++)
+			foreach (FieldInfo fi in fields)
 			{
-				FieldInfo fi = fields[i];
 				this.DoField(fi);
 			}
 			base.listing.Gap(36f);
 			Text.Font = GameFont.Small;
 			base.listing.Label("View", -1f);
 			FieldInfo[] fields2 = typeof(DebugViewSettings).GetFields();
-			for (int j = 0; j < fields2.Length; j++)
+			foreach (FieldInfo fi2 in fields2)
 			{
-				FieldInfo fi2 = fields2[j];
 				this.DoField(fi2);
 			}
 		}
@@ -50,12 +48,12 @@ namespace Verse
 			if (!fi.IsLiteral)
 			{
 				string label = GenText.SplitCamelCase(fi.Name).CapitalizeFirst();
-				bool flag;
-				bool flag2 = flag = (bool)fi.GetValue(null);
-				base.CheckboxLabeledDebug(label, ref flag2);
-				if (flag2 != flag)
+				bool flag = (bool)fi.GetValue(null);
+				bool flag2 = flag;
+				base.CheckboxLabeledDebug(label, ref flag);
+				if (flag != flag2)
 				{
-					fi.SetValue(null, flag2);
+					fi.SetValue(null, flag);
 					MethodInfo method = fi.DeclaringType.GetMethod(fi.Name + "Toggled", BindingFlags.Static | BindingFlags.Public);
 					if (method != null)
 					{

@@ -12,13 +12,12 @@ namespace RimWorld
 		{
 			Rand.PushState();
 			Rand.Seed = seed;
-			string rootKeyword = (string)null;
+			string rootKeyword = null;
 			GrammarRequest request = default(GrammarRequest);
 			request.Rules.AddRange(extraRules);
 			switch (purpose)
 			{
 			case TextGenerationPurpose.ArtDescription:
-			{
 				rootKeyword = "art_description_root";
 				if (tale != null && Rand.Value > 0.20000000298023224)
 				{
@@ -32,9 +31,7 @@ namespace RimWorld
 				}
 				request.Includes.Add(RulePackDefOf.ArtDescriptionUtility_Global);
 				break;
-			}
 			case TextGenerationPurpose.ArtName:
-			{
 				rootKeyword = "art_name";
 				if (tale != null)
 				{
@@ -42,8 +39,7 @@ namespace RimWorld
 				}
 				break;
 			}
-			}
-			string result = GrammarResolver.Resolve(rootKeyword, request, (tale == null) ? "null_tale" : tale.def.defName);
+			string result = GrammarResolver.Resolve(rootKeyword, request, (tale == null) ? "null_tale" : tale.def.defName, false);
 			Rand.PopState();
 			return result;
 		}

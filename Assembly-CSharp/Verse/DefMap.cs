@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	public class DefMap<D, V> : IExposable where D : Def, new() where V : new()
+	public class DefMap<D, V> : IExposable where D : Def, new()where V : new()
 	{
-		private List<V> values = null;
+		private List<V> values;
 
 		public int Count
 		{
@@ -47,7 +47,7 @@ namespace Verse
 				throw new Exception("Constructed DefMap<" + typeof(D) + ", " + typeof(V) + "> without defs being initialized. Try constructing it in ResolveReferences instead of the constructor.");
 			}
 			this.values = new List<V>(defCount);
-			for (int num = 0; num < defCount; num++)
+			for (int i = 0; i < defCount; i++)
 			{
 				this.values.Add(new V());
 			}

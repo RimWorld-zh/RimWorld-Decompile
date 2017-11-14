@@ -47,33 +47,29 @@ namespace Verse.Sound
 					}
 				}
 				yield break;
-				IL_00cb:
-				/*Error near IL_00cc: Unexpected return in MoveNext()*/;
+				IL_00c9:
+				/*Error near IL_00ca: Unexpected return in MoveNext()*/;
 			}
 		}
 
 		public static SoundInfo OnCamera(MaintenanceType maint = MaintenanceType.None)
 		{
-			SoundInfo result = new SoundInfo
-			{
-				IsOnCamera = true,
-				Maintenance = maint,
-				Maker = TargetInfo.Invalid,
-				testPlay = false
-			};
+			SoundInfo result = default(SoundInfo);
+			result.IsOnCamera = true;
+			result.Maintenance = maint;
+			result.Maker = TargetInfo.Invalid;
+			result.testPlay = false;
 			result.volumeFactor = (result.pitchFactor = 1f);
 			return result;
 		}
 
 		public static SoundInfo InMap(TargetInfo maker, MaintenanceType maint = MaintenanceType.None)
 		{
-			SoundInfo result = new SoundInfo
-			{
-				IsOnCamera = false,
-				Maintenance = maint,
-				Maker = maker,
-				testPlay = false
-			};
+			SoundInfo result = default(SoundInfo);
+			result.IsOnCamera = false;
+			result.Maintenance = maint;
+			result.Maker = maker;
+			result.testPlay = false;
 			result.volumeFactor = (result.pitchFactor = 1f);
 			return result;
 		}
@@ -99,7 +95,7 @@ namespace Verse.Sound
 
 		public override string ToString()
 		{
-			string text = (string)null;
+			string text = null;
 			if (this.parameters != null && this.parameters.Count > 0)
 			{
 				text = "parameters=";
@@ -109,12 +105,12 @@ namespace Verse.Sound
 					text = text2 + parameter.Key.ToString() + "-" + parameter.Value.ToString() + " ";
 				}
 			}
-			string text3 = (string)null;
+			string text3 = null;
 			if (this.Maker.HasThing || this.Maker.Cell.IsValid)
 			{
 				text3 = this.Maker.ToString();
 			}
-			string text4 = (string)null;
+			string text4 = null;
 			if (this.Maintenance != 0)
 			{
 				text4 = ", Maint=" + this.Maintenance;

@@ -205,46 +205,23 @@ namespace RimWorld.Planet
 
 		public static SimpleCurve GetTemperatureCurve(this OverallTemperature overallTemperature)
 		{
-			SimpleCurve result;
 			switch (overallTemperature)
 			{
 			case OverallTemperature.VeryCold:
-			{
-				result = OverallTemperatureUtility.Curve_VeryCold;
-				break;
-			}
+				return OverallTemperatureUtility.Curve_VeryCold;
 			case OverallTemperature.Cold:
-			{
-				result = OverallTemperatureUtility.Curve_Cold;
-				break;
-			}
+				return OverallTemperatureUtility.Curve_Cold;
 			case OverallTemperature.LittleBitColder:
-			{
-				result = OverallTemperatureUtility.Curve_LittleBitColder;
-				break;
-			}
+				return OverallTemperatureUtility.Curve_LittleBitColder;
 			case OverallTemperature.LittleBitWarmer:
-			{
-				result = OverallTemperatureUtility.Curve_LittleBitWarmer;
-				break;
-			}
+				return OverallTemperatureUtility.Curve_LittleBitWarmer;
 			case OverallTemperature.Hot:
-			{
-				result = OverallTemperatureUtility.Curve_Hot;
-				break;
-			}
+				return OverallTemperatureUtility.Curve_Hot;
 			case OverallTemperature.VeryHot:
-			{
-				result = OverallTemperatureUtility.Curve_VeryHot;
-				break;
-			}
+				return OverallTemperatureUtility.Curve_VeryHot;
 			default:
-			{
-				result = null;
-				break;
+				return null;
 			}
-			}
-			return result;
 		}
 	}
 }

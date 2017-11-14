@@ -7,7 +7,7 @@ namespace RimWorld
 {
 	public class IncidentWorker
 	{
-		public IncidentDef def = null;
+		public IncidentDef def;
 
 		public virtual float AdjustedChance
 		{
@@ -19,76 +19,69 @@ namespace RimWorld
 
 		public bool CanFireNow(IIncidentTarget target)
 		{
-			bool result;
 			if (!this.def.TargetAllowed(target))
 			{
-				result = false;
+				return false;
 			}
-			else if (GenDate.DaysPassed < this.def.earliestDay)
+			if (GenDate.DaysPassed < this.def.earliestDay)
 			{
-				result = false;
+				return false;
 			}
-			else if (this.def.minPopulation > 0 && PawnsFinder.AllMapsCaravansAndTravelingTransportPods_FreeColonists.Count() < this.def.minPopulation)
+			if (this.def.minPopulation > 0 && PawnsFinder.AllMapsCaravansAndTravelingTransportPods_FreeColonists.Count() < this.def.minPopulation)
 			{
-				result = false;
+				return false;
 			}
-			else if (Find.Storyteller.difficulty.difficulty < this.def.minDifficulty)
+			if (Find.Storyteller.difficulty.difficulty < this.def.minDifficulty)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (this.def.allowedBiomes != null)
 			{
-				if (this.def.allowedBiomes != null)
+				BiomeDef biome = Find.WorldGrid[target.Tile].biome;
+				if (!this.def.allowedBiomes.Contains(biome))
 				{
-					BiomeDef biome = Find.WorldGrid[target.Tile].biome;
-					if (!this.def.allowedBiomes.Contains(biome))
-					{
-						result = false;
-						goto IL_020c;
-					}
+					return false;
 				}
-				for (int i = 0; i < Find.Scenario.parts.Count; i++)
+			}
+			for (int i = 0; i < Find.Scenario.parts.Count; i++)
+			{
+				ScenPart_DisableIncident scenPart_DisableIncident = Find.Scenario.parts[i] as ScenPart_DisableIncident;
+				if (scenPart_DisableIncident != null && scenPart_DisableIncident.Incident == this.def)
 				{
-					ScenPart_DisableIncident scenPart_DisableIncident = Find.Scenario.parts[i] as ScenPart_DisableIncident;
-					if (scenPart_DisableIncident != null && scenPart_DisableIncident.Incident == this.def)
-						goto IL_0107;
+					return false;
 				}
-				Dictionary<IncidentDef, int> lastFireTicks = target.StoryState.lastFireTicks;
-				int ticksGame = Find.TickManager.TicksGame;
-				int num = default(int);
-				if (lastFireTicks.TryGetValue(this.def, out num))
+			}
+			Dictionary<IncidentDef, int> lastFireTicks = target.StoryState.lastFireTicks;
+			int ticksGame = Find.TickManager.TicksGame;
+			int num = default(int);
+			if (lastFireTicks.TryGetValue(this.def, out num))
+			{
+				float num2 = (float)((float)(ticksGame - num) / 60000.0);
+				if (num2 < this.def.minRefireDays)
 				{
-					float num2 = (float)((float)(ticksGame - num) / 60000.0);
-					if (num2 < this.def.minRefireDays)
-					{
-						result = false;
-						goto IL_020c;
-					}
+					return false;
 				}
-				List<IncidentDef> refireCheckIncidents = this.def.RefireCheckIncidents;
-				if (refireCheckIncidents != null)
+			}
+			List<IncidentDef> refireCheckIncidents = this.def.RefireCheckIncidents;
+			if (refireCheckIncidents != null)
+			{
+				for (int j = 0; j < refireCheckIncidents.Count; j++)
 				{
-					for (int j = 0; j < refireCheckIncidents.Count; j++)
+					if (lastFireTicks.TryGetValue(refireCheckIncidents[j], out num))
 					{
-						if (lastFireTicks.TryGetValue(refireCheckIncidents[j], out num))
+						float num3 = (float)((float)(ticksGame - num) / 60000.0);
+						if (num3 < this.def.minRefireDays)
 						{
-							float num3 = (float)((float)(ticksGame - num) / 60000.0);
-							if (num3 < this.def.minRefireDays)
-								goto IL_01d4;
+							return false;
 						}
 					}
 				}
-				result = ((byte)(this.CanFireNowSub(target) ? 1 : 0) != 0);
 			}
-			goto IL_020c;
-			IL_0107:
-			result = false;
-			goto IL_020c;
-			IL_01d4:
-			result = false;
-			goto IL_020c;
-			IL_020c:
-			return result;
+			if (!this.CanFireNowSub(target))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		protected virtual bool CanFireNowSub(IIncidentTarget target)
@@ -144,7 +137,7 @@ namespace RimWorld
 				Log.Error("Sending standard incident letter with no label or text.");
 			}
 			string text = string.Format(this.def.letterText, textArgs).CapitalizeFirst();
-			Find.LetterStack.ReceiveLetter(this.def.letterLabel, text, this.def.letterDef, target, (string)null);
+			Find.LetterStack.ReceiveLetter(this.def.letterLabel, text, this.def.letterDef, target, null);
 		}
 	}
 }

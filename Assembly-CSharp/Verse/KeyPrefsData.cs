@@ -28,102 +28,64 @@ namespace Verse
 		public bool SetBinding(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot, KeyCode keyCode)
 		{
 			KeyBindingData keyBindingData = default(KeyBindingData);
-			bool result;
 			if (this.keyPrefs.TryGetValue(keyDef, out keyBindingData))
 			{
 				switch (slot)
 				{
 				case KeyPrefs.BindingSlot.A:
-				{
 					keyBindingData.keyBindingA = keyCode;
-					goto IL_006d;
-				}
-				case KeyPrefs.BindingSlot.B:
-				{
-					keyBindingData.keyBindingB = keyCode;
-					goto IL_006d;
-				}
-				default:
-				{
-					Log.Error("Tried to set a key binding for \"" + keyDef.LabelCap + "\" on a nonexistent slot: " + slot.ToString());
-					result = false;
 					break;
+				case KeyPrefs.BindingSlot.B:
+					keyBindingData.keyBindingB = keyCode;
+					break;
+				default:
+					Log.Error("Tried to set a key binding for \"" + keyDef.LabelCap + "\" on a nonexistent slot: " + slot.ToString());
+					return false;
 				}
-				}
+				return true;
 			}
-			else
-			{
-				Log.Error("Key not found in keyprefs: \"" + keyDef.LabelCap + "\"");
-				result = false;
-			}
-			goto IL_0096;
-			IL_0096:
-			return result;
-			IL_006d:
-			result = true;
-			goto IL_0096;
+			Log.Error("Key not found in keyprefs: \"" + keyDef.LabelCap + "\"");
+			return false;
 		}
 
 		public KeyCode GetBoundKeyCode(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot)
 		{
 			KeyBindingData keyBindingData = default(KeyBindingData);
-			KeyCode result;
 			if (!this.keyPrefs.TryGetValue(keyDef, out keyBindingData))
 			{
 				Log.Error("Key not found in keyprefs: \"" + keyDef.LabelCap + "\"");
-				result = KeyCode.None;
+				return KeyCode.None;
 			}
-			else
+			switch (slot)
 			{
-				switch (slot)
-				{
-				case KeyPrefs.BindingSlot.A:
-				{
-					result = keyBindingData.keyBindingA;
-					break;
-				}
-				case KeyPrefs.BindingSlot.B:
-				{
-					result = keyBindingData.keyBindingB;
-					break;
-				}
-				default:
-				{
-					throw new InvalidOperationException();
-				}
-				}
+			case KeyPrefs.BindingSlot.A:
+				return keyBindingData.keyBindingA;
+			case KeyPrefs.BindingSlot.B:
+				return keyBindingData.keyBindingB;
+			default:
+				throw new InvalidOperationException();
 			}
-			return result;
 		}
 
 		private IEnumerable<KeyBindingDef> ConflictingBindings(KeyBindingDef keyDef, KeyCode code)
 		{
 			using (IEnumerator<KeyBindingDef> enumerator = DefDatabase<KeyBindingDef>.AllDefs.GetEnumerator())
 			{
-				KeyBindingDef def;
-				while (true)
+				while (enumerator.MoveNext())
 				{
-					if (enumerator.MoveNext())
+					_003CConflictingBindings_003Ec__Iterator0 _003CConflictingBindings_003Ec__Iterator = (_003CConflictingBindings_003Ec__Iterator0)/*Error near IL_0058: stateMachine*/;
+					KeyBindingDef def = enumerator.Current;
+					KeyBindingData prefData;
+					if (def != keyDef && ((def.category == keyDef.category && def.category.selfConflicting) || keyDef.category.checkForConflicts.Contains(def.category) || (keyDef.extraConflictTags != null && def.extraConflictTags != null && keyDef.extraConflictTags.Any((string tag) => def.extraConflictTags.Contains(tag)))) && this.keyPrefs.TryGetValue(def, out prefData) && (prefData.keyBindingA == code || prefData.keyBindingB == code))
 					{
-						_003CConflictingBindings_003Ec__Iterator0 _003CConflictingBindings_003Ec__Iterator = (_003CConflictingBindings_003Ec__Iterator0)/*Error near IL_005a: stateMachine*/;
-						def = enumerator.Current;
-						KeyBindingData prefData;
-						if (def != keyDef && ((def.category == keyDef.category && def.category.selfConflicting) || keyDef.category.checkForConflicts.Contains(def.category) || (keyDef.extraConflictTags != null && def.extraConflictTags != null && keyDef.extraConflictTags.Any((Predicate<string>)((string tag) => def.extraConflictTags.Contains(tag))))) && this.keyPrefs.TryGetValue(def, out prefData))
-						{
-							if (prefData.keyBindingA == code)
-								break;
-							if (prefData.keyBindingB == code)
-								break;
-						}
-						continue;
+						yield return def;
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
-					yield break;
 				}
-				yield return def;
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			IL_01f1:
-			/*Error near IL_01f2: Unexpected return in MoveNext()*/;
+			yield break;
+			IL_01eb:
+			/*Error near IL_01ec: Unexpected return in MoveNext()*/;
 		}
 
 		public void EraseConflictingBindingsForKeyCode(KeyBindingDef keyDef, KeyCode keyCode, Action<KeyBindingDef> callBackOnErase = null)
@@ -139,7 +101,7 @@ namespace Verse
 				{
 					keyBindingData.keyBindingB = KeyCode.None;
 				}
-				if ((object)callBackOnErase != null)
+				if (callBackOnErase != null)
 				{
 					callBackOnErase(item);
 				}
@@ -183,7 +145,7 @@ namespace Verse
 				foreach (KeyBindingDef item in this.ConflictingBindings(keyDef, boundKeyCode))
 				{
 					bool flag = boundKeyCode != keyDef.GetDefaultKeyCode(slot);
-					Log.Error("Key binding conflict: " + item + " and " + keyDef + " are both bound to " + boundKeyCode + "." + ((!flag) ? "" : " Fixed automatically."));
+					Log.Error("Key binding conflict: " + item + " and " + keyDef + " are both bound to " + boundKeyCode + "." + ((!flag) ? string.Empty : " Fixed automatically."));
 					if (flag)
 					{
 						if (slot == KeyPrefs.BindingSlot.A)

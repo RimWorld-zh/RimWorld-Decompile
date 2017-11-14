@@ -1062,26 +1062,20 @@ namespace Verse.Noise
 			switch (quality)
 			{
 			case QualityMode.Low:
-			{
 				position = x - (double)num;
 				position2 = y - (double)num2;
 				position3 = z - (double)num3;
 				break;
-			}
 			case QualityMode.Medium:
-			{
 				position = Utils.MapCubicSCurve(x - (double)num);
 				position2 = Utils.MapCubicSCurve(y - (double)num2);
 				position3 = Utils.MapCubicSCurve(z - (double)num3);
 				break;
-			}
 			case QualityMode.High:
-			{
 				position = Utils.MapQuinticSCurve(x - (double)num);
 				position2 = Utils.MapQuinticSCurve(y - (double)num2);
 				position3 = Utils.MapQuinticSCurve(z - (double)num3);
 				break;
-			}
 			}
 			double a = Utils.GradientNoise3D(x, y, z, num, num2, num3, seed);
 			double b = Utils.GradientNoise3D(x, y, z, ix, num2, num3, seed);
@@ -1104,7 +1098,7 @@ namespace Verse.Noise
 		{
 			long num = 1619 * ix + 31337 * iy + 6971 * iz + 1013 * seed & 4294967295u;
 			num ^= num >> 8;
-			num &= 255;
+			num &= 0xFF;
 			double num2 = Utils._randoms[num << 2];
 			double num3 = Utils._randoms[(num << 2) + 1];
 			double num4 = Utils._randoms[(num << 2) + 2];
@@ -1129,7 +1123,15 @@ namespace Verse.Noise
 
 		internal static double MakeInt32Range(double value)
 		{
-			return (!(value >= 1073741824.0)) ? ((!(value <= -1073741824.0)) ? value : (2.0 * Math.IEEERemainder(value, 1073741824.0) + 1073741824.0)) : (2.0 * Math.IEEERemainder(value, 1073741824.0) - 1073741824.0);
+			if (value >= 1073741824.0)
+			{
+				return 2.0 * Math.IEEERemainder(value, 1073741824.0) - 1073741824.0;
+			}
+			if (value <= -1073741824.0)
+			{
+				return 2.0 * Math.IEEERemainder(value, 1073741824.0) + 1073741824.0;
+			}
+			return value;
 		}
 
 		internal static double MapCubicSCurve(double value)
@@ -1152,9 +1154,9 @@ namespace Verse.Noise
 
 		internal static long ValueNoise3DInt(int x, int y, int z, int seed)
 		{
-			long num = 1619 * x + 31337 * y + 6971 * z + 1013 * seed & 2147483647;
+			long num = 1619 * x + 31337 * y + 6971 * z + 1013 * seed & 0x7FFFFFFF;
 			num = (num >> 13 ^ num);
-			return num * (num * num * 60493 + 19990303) + 1376312589 & 2147483647;
+			return num * (num * num * 60493 + 19990303) + 1376312589 & 0x7FFFFFFF;
 		}
 	}
 }

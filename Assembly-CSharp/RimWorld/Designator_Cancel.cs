@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -31,31 +30,23 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (this.CancelableDesignationsAt(c).Count() > 0)
+			if (this.CancelableDesignationsAt(c).Count() > 0)
 			{
-				result = true;
+				return true;
 			}
-			else
+			List<Thing> thingList = c.GetThingList(base.Map);
+			for (int i = 0; i < thingList.Count; i++)
 			{
-				List<Thing> thingList = c.GetThingList(base.Map);
-				for (int i = 0; i < thingList.Count; i++)
+				if (this.CanDesignateThing(thingList[i]).Accepted)
 				{
-					if (this.CanDesignateThing(thingList[i]).Accepted)
-						goto IL_006b;
+					return true;
 				}
-				result = false;
 			}
-			goto IL_0094;
-			IL_0094:
-			return result;
-			IL_006b:
-			result = true;
-			goto IL_0094;
+			return false;
 		}
 
 		public override void DesignateSingleCell(IntVec3 c)
@@ -89,7 +80,11 @@ namespace RimWorld
 					}
 				}
 			}
-			return (!t.def.mineable || base.Map.designationManager.DesignationAt(t.Position, DesignationDefOf.Mine) == null) ? (t.Faction == Faction.OfPlayer && (t is Frame || t is Blueprint)) : true;
+			if (t.def.mineable && base.Map.designationManager.DesignationAt(t.Position, DesignationDefOf.Mine) != null)
+			{
+				return true;
+			}
+			return t.Faction == Faction.OfPlayer && (t is Frame || t is Blueprint);
 		}
 
 		public override void DesignateThing(Thing t)

@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -8,19 +7,14 @@ namespace RimWorld
 		protected override TargetingParameters GetTargetingParameters()
 		{
 			TargetingParameters targetingParameters = base.GetTargetingParameters();
-			targetingParameters.validator = (Predicate<TargetInfo>)delegate(TargetInfo targ)
+			targetingParameters.validator = delegate(TargetInfo targ)
 			{
-				bool result;
 				if (!base.BaseTargetValidator(targ.Thing))
 				{
-					result = false;
+					return false;
 				}
-				else
-				{
-					Pawn pawn = targ.Thing as Pawn;
-					result = (pawn != null && pawn.RaceProps.Animal);
-				}
-				return result;
+				Pawn pawn = targ.Thing as Pawn;
+				return pawn != null && pawn.RaceProps.Animal;
 			};
 			return targetingParameters;
 		}

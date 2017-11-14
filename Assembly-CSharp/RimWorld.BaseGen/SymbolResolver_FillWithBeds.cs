@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld.BaseGen
@@ -17,20 +16,20 @@ namespace RimWorld.BaseGen
 				if (@bool)
 				{
 					if (current.x % 3 == 0 && current.z % 2 == 0)
-						goto IL_00dc;
+						goto IL_00d5;
 				}
 				else if (current.x % 2 == 0 && current.z % 3 == 0)
-					goto IL_00dc;
+					goto IL_00d5;
 				continue;
-				IL_00dc:
+				IL_00d5:
 				Rot4 rot = (!@bool) ? Rot4.North : Rot4.West;
-				if (!GenSpawn.WouldWipeAnythingWith(current, rot, thingDef, map, (Predicate<Thing>)((Thing x) => x.def.category == ThingCategory.Building)) && !BaseGenUtility.AnyDoorAdjacentCardinalTo(GenAdj.OccupiedRect(current, rot, thingDef.Size), map))
+				if (!GenSpawn.WouldWipeAnythingWith(current, rot, thingDef, map, (Thing x) => x.def.category == ThingCategory.Building) && !BaseGenUtility.AnyDoorAdjacentCardinalTo(GenAdj.OccupiedRect(current, rot, thingDef.Size), map))
 				{
 					ResolveParams resolveParams = rp;
 					resolveParams.rect = GenAdj.OccupiedRect(current, rot, thingDef.size);
 					resolveParams.singleThingDef = thingDef;
 					resolveParams.singleThingStuff = singleThingStuff;
-					resolveParams.thingRot = new Rot4?(rot);
+					resolveParams.thingRot = rot;
 					BaseGen.symbolStack.Push("bed", resolveParams);
 				}
 			}

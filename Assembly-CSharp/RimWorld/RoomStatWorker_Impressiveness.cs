@@ -24,7 +24,15 @@ namespace RimWorld
 
 		private float GetFactor(float baseFactor)
 		{
-			return (float)((!(Mathf.Abs(baseFactor) < 1.0)) ? ((!(baseFactor > 0.0)) ? (-1.0 - Mathf.Log((float)(0.0 - baseFactor))) : (1.0 + Mathf.Log(baseFactor))) : baseFactor);
+			if (Mathf.Abs(baseFactor) < 1.0)
+			{
+				return baseFactor;
+			}
+			if (baseFactor > 0.0)
+			{
+				return (float)(1.0 + Mathf.Log(baseFactor));
+			}
+			return (float)(-1.0 - Mathf.Log((float)(0.0 - baseFactor)));
 		}
 	}
 }

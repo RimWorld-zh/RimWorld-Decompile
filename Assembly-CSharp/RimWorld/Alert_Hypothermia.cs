@@ -11,29 +11,21 @@ namespace RimWorld
 		{
 			get
 			{
-				using (IEnumerator<Pawn> enumerator = PawnsFinder.AllMaps_FreeColonistsSpawned.GetEnumerator())
+				foreach (Pawn item in PawnsFinder.AllMaps_FreeColonistsSpawned)
 				{
-					Pawn p;
-					while (true)
+					if (!item.SafeTemperatureRange().Includes(item.AmbientTemperature))
 					{
-						if (enumerator.MoveNext())
+						Hediff hypo = item.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Hypothermia, false);
+						if (hypo != null && hypo.CurStageIndex >= 3)
 						{
-							p = enumerator.Current;
-							if (!p.SafeTemperatureRange().Includes(p.AmbientTemperature))
-							{
-								Hediff hypo = p.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Hypothermia, false);
-								if (hypo != null && hypo.CurStageIndex >= 3)
-									break;
-							}
-							continue;
+							yield return item;
+							/*Error: Unable to find new state assignment for yield return*/;
 						}
-						yield break;
 					}
-					yield return p;
-					/*Error: Unable to find new state assignment for yield return*/;
 				}
-				IL_0119:
-				/*Error near IL_011a: Unexpected return in MoveNext()*/;
+				yield break;
+				IL_0113:
+				/*Error near IL_0114: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -55,7 +47,11 @@ namespace RimWorld
 		public override AlertReport GetReport()
 		{
 			Pawn pawn = this.HypothermiaDangerColonists.FirstOrDefault();
-			return (pawn != null) ? AlertReport.CulpritIs((Thing)pawn) : false;
+			if (pawn == null)
+			{
+				return false;
+			}
+			return AlertReport.CulpritIs(pawn);
 		}
 	}
 }

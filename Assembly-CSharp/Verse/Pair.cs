@@ -45,7 +45,11 @@ namespace Verse
 
 		public override bool Equals(object other)
 		{
-			return other is Pair<T1, T2> && this.Equals((Pair<T1, T2>)other);
+			if (!(other is Pair<T1, T2>))
+			{
+				return false;
+			}
+			return this.Equals((Pair<T1, T2>)other);
 		}
 
 		public bool Equals(Pair<T1, T2> other)

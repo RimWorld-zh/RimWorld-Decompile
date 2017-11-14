@@ -8,22 +8,17 @@ namespace RimWorld
 
 		private int cachedForStartingTile = -1;
 
-		private Season cachedForStartingSeason = Season.Undefined;
+		private Season cachedForStartingSeason;
 
 		public bool TryGetCachedValue(GameInitData initData, out int ticksAbs)
 		{
-			bool result;
 			if (initData.startingTile == this.cachedForStartingTile && initData.startingSeason == this.cachedForStartingSeason)
 			{
 				ticksAbs = this.cachedTicks;
-				result = true;
+				return true;
 			}
-			else
-			{
-				ticksAbs = -1;
-				result = false;
-			}
-			return result;
+			ticksAbs = -1;
+			return false;
 		}
 
 		public void Cache(int ticksAbs, GameInitData initData)

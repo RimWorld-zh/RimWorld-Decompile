@@ -209,8 +209,8 @@ namespace RimWorld.Planet
 				}
 			}
 			yield break;
-			IL_01af:
-			/*Error near IL_01b0: Unexpected return in MoveNext()*/;
+			IL_01a4:
+			/*Error near IL_01a5: Unexpected return in MoveNext()*/;
 		}
 
 		public virtual void ExposeData()
@@ -368,47 +368,27 @@ namespace RimWorld.Planet
 
 		public T GetComponent<T>() where T : WorldObjectComp
 		{
-			int num = 0;
-			T result;
-			while (true)
+			for (int i = 0; i < this.comps.Count; i++)
 			{
-				if (num < this.comps.Count)
+				T val = (T)(this.comps[i] as T);
+				if (val != null)
 				{
-					T val = (T)(this.comps[num] as T);
-					if (val != null)
-					{
-						result = val;
-						break;
-					}
-					num++;
-					continue;
+					return val;
 				}
-				result = (T)null;
-				break;
 			}
-			return result;
+			return (T)null;
 		}
 
 		public WorldObjectComp GetComponent(Type type)
 		{
-			int num = 0;
-			WorldObjectComp result;
-			while (true)
+			for (int i = 0; i < this.comps.Count; i++)
 			{
-				if (num < this.comps.Count)
+				if (type.IsAssignableFrom(this.comps[i].GetType()))
 				{
-					if (type.IsAssignableFrom(this.comps[num].GetType()))
-					{
-						result = this.comps[num];
-						break;
-					}
-					num++;
-					continue;
+					return this.comps[i];
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		public virtual IEnumerable<Gizmo> GetGizmos()
@@ -426,8 +406,8 @@ namespace RimWorld.Planet
 				}
 			}
 			yield break;
-			IL_0104:
-			/*Error near IL_0105: Unexpected return in MoveNext()*/;
+			IL_00fe:
+			/*Error near IL_00ff: Unexpected return in MoveNext()*/;
 		}
 
 		public virtual IEnumerable<Gizmo> GetCaravanGizmos(Caravan caravan)
@@ -450,13 +430,22 @@ namespace RimWorld.Planet
 				}
 			}
 			yield break;
-			IL_010a:
-			/*Error near IL_010b: Unexpected return in MoveNext()*/;
+			IL_0104:
+			/*Error near IL_0105: Unexpected return in MoveNext()*/;
 		}
 
 		public virtual IEnumerable<InspectTabBase> GetInspectTabs()
 		{
-			return (this.def.inspectorTabsResolved == null) ? Enumerable.Empty<InspectTabBase>() : this.def.inspectorTabsResolved;
+			if (this.def.inspectorTabsResolved != null)
+			{
+				return this.def.inspectorTabsResolved;
+			}
+			return Enumerable.Empty<InspectTabBase>();
+		}
+
+		public virtual bool AllMatchingObjectsOnScreenMatchesWith(WorldObject other)
+		{
+			return this.Faction == other.Faction;
 		}
 
 		public override string ToString()

@@ -32,11 +32,9 @@ namespace RimWorld
 
 		public float AverageTotalStockValue(TraderKindDef td)
 		{
-			ItemCollectionGeneratorParams parms = new ItemCollectionGeneratorParams
-			{
-				traderDef = td,
-				tile = new int?(-1)
-			};
+			ItemCollectionGeneratorParams parms = default(ItemCollectionGeneratorParams);
+			parms.traderDef = td;
+			parms.tile = -1;
 			float num = 0f;
 			for (int i = 0; i < 50; i++)
 			{
@@ -53,11 +51,9 @@ namespace RimWorld
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine(td.defName);
 			stringBuilder.AppendLine("Average total market value:" + this.AverageTotalStockValue(td).ToString("F0"));
-			ItemCollectionGeneratorParams parms = new ItemCollectionGeneratorParams
-			{
-				traderDef = td,
-				tile = new int?(-1)
-			};
+			ItemCollectionGeneratorParams parms = default(ItemCollectionGeneratorParams);
+			parms.traderDef = td;
+			parms.tile = -1;
 			stringBuilder.AppendLine("Example generated stock:\n\n");
 			foreach (Thing item in base.Generate(parms))
 			{

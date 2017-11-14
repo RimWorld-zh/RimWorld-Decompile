@@ -39,7 +39,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (this.selected.Count == 1) ? this.selected[0] : null;
+				if (this.selected.Count != 1)
+				{
+					return null;
+				}
+				return this.selected[0];
 			}
 		}
 
@@ -47,7 +51,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (this.selected.Count != 0) ? this.selected[0] : null;
+				if (this.selected.Count == 0)
+				{
+					return null;
+				}
+				return this.selected[0];
 			}
 		}
 
@@ -222,12 +230,12 @@ namespace RimWorld.Planet
 			if (!flag)
 			{
 				List<WorldObject> list3 = WorldObjectSelectionUtility.MultiSelectableWorldObjectsInScreenRectDistinct(this.dragBox.ScreenRect).ToList();
-				if (list3.Any((Predicate<WorldObject>)((WorldObject x) => x is Caravan)))
+				if (list3.Any((WorldObject x) => x is Caravan))
 				{
-					list3.RemoveAll((Predicate<WorldObject>)((WorldObject x) => !(x is Caravan)));
-					if (list3.Any((Predicate<WorldObject>)((WorldObject x) => x.Faction == Faction.OfPlayer)))
+					list3.RemoveAll((WorldObject x) => !(x is Caravan));
+					if (list3.Any((WorldObject x) => x.Faction == Faction.OfPlayer))
 					{
-						list3.RemoveAll((Predicate<WorldObject>)((WorldObject x) => x.Faction != Faction.OfPlayer));
+						list3.RemoveAll((WorldObject x) => x.Faction != Faction.OfPlayer);
 					}
 				}
 				for (int k = 0; k < list3.Count; k++)
@@ -252,7 +260,6 @@ namespace RimWorld.Planet
 		public IEnumerable<WorldObject> SelectableObjectsUnderMouse(out bool clickedDirectlyOnCaravan, out bool usedColonistBar)
 		{
 			Vector2 mousePositionOnUIInverted = UI.MousePositionOnUIInverted;
-			IEnumerable<WorldObject> result;
 			if (Current.ProgramState == ProgramState.Playing)
 			{
 				Caravan caravan = Find.ColonistBar.CaravanMemberCaravanAt(mousePositionOnUIInverted);
@@ -260,8 +267,7 @@ namespace RimWorld.Planet
 				{
 					clickedDirectlyOnCaravan = true;
 					usedColonistBar = true;
-					result = Gen.YieldSingle((WorldObject)caravan);
-					goto IL_00e4;
+					return Gen.YieldSingle((WorldObject)caravan);
 				}
 			}
 			List<WorldObject> list = GenWorldUI.WorldObjectsUnderMouse(UI.MousePositionOnUI);
@@ -279,33 +285,22 @@ namespace RimWorld.Planet
 				}
 			}
 			usedColonistBar = false;
-			result = list;
-			goto IL_00e4;
-			IL_00e4:
-			return result;
+			return list;
 		}
 
 		public static IEnumerable<WorldObject> SelectableObjectsAt(int tileID)
 		{
-			using (IEnumerator<WorldObject> enumerator = Find.WorldObjects.ObjectsAt(tileID).GetEnumerator())
+			foreach (WorldObject item in Find.WorldObjects.ObjectsAt(tileID))
 			{
-				WorldObject o;
-				while (true)
+				if (item.SelectableNow)
 				{
-					if (enumerator.MoveNext())
-					{
-						o = enumerator.Current;
-						if (o.SelectableNow)
-							break;
-						continue;
-					}
-					yield break;
+					yield return item;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
-				yield return o;
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			IL_00d2:
-			/*Error near IL_00d3: Unexpected return in MoveNext()*/;
+			yield break;
+			IL_00ce:
+			/*Error near IL_00cf: Unexpected return in MoveNext()*/;
 		}
 
 		private void SelectUnderMouse(bool canSelectTile = true)
@@ -393,7 +388,7 @@ namespace RimWorld.Planet
 				List<WorldObject> allWorldObjects = Find.WorldObjects.AllWorldObjects;
 				for (int i = 0; i < allWorldObjects.Count; i++)
 				{
-					if (list[0].Faction == allWorldObjects[i].Faction && type == allWorldObjects[i].GetType() && allWorldObjects[i].VisibleToCameraNow())
+					if (type == allWorldObjects[i].GetType() && (allWorldObjects[i] == list[0] || allWorldObjects[i].AllMatchingObjectsOnScreenMatchesWith(list[0])) && allWorldObjects[i].VisibleToCameraNow())
 					{
 						this.Select(allWorldObjects[i], true);
 					}
@@ -407,7 +402,7 @@ namespace RimWorld.Planet
 			{
 				if (c.autoJoinable && CaravanExitMapUtility.IsTheOnlyJoinableCaravanForAnyPrisonerOrAnimal(c))
 				{
-					CaravanExitMapUtility.OpenTheOnlyJoinableCaravanForPrisonerOrAnimalDialog(c, (Action)delegate()
+					CaravanExitMapUtility.OpenTheOnlyJoinableCaravanForPrisonerOrAnimalDialog(c, delegate
 					{
 						this.AutoOrderToTileNow(c, tile);
 					});
@@ -437,7 +432,7 @@ namespace RimWorld.Planet
 
 		private void SelectFirstOrNextFrom(List<WorldObject> objects, int tile)
 		{
-			int num = objects.FindIndex((Predicate<WorldObject>)((WorldObject x) => this.selected.Contains(x)));
+			int num = objects.FindIndex((WorldObject x) => this.selected.Contains(x));
 			int num2 = -1;
 			int num3 = -1;
 			if (num != -1)

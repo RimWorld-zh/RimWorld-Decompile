@@ -6,7 +6,23 @@ namespace RimWorld
 	{
 		protected override ThoughtState CurrentSocialStateInternal(Pawn pawn, Pawn other)
 		{
-			return (!other.RaceProps.Humanlike || other.Dead) ? false : (RelationsUtility.PawnsKnowEachOther(pawn, other) ? (RelationsUtility.IsDisfigured(other) ? (pawn.health.capacities.CapableOf(PawnCapacityDefOf.Sight) ? true : false) : false) : false);
+			if (other.RaceProps.Humanlike && !other.Dead)
+			{
+				if (!RelationsUtility.PawnsKnowEachOther(pawn, other))
+				{
+					return false;
+				}
+				if (!RelationsUtility.IsDisfigured(other))
+				{
+					return false;
+				}
+				if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Sight))
+				{
+					return false;
+				}
+				return true;
+			}
+			return false;
 		}
 	}
 }

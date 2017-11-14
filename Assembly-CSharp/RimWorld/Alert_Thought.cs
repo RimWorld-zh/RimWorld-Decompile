@@ -41,19 +41,23 @@ namespace RimWorld
 					}
 					finally
 					{
-						((_003CAffectedPawns_003Ec__Iterator0)/*Error near IL_0163: stateMachine*/)._003C_003E__Finally0();
+						((_003CAffectedPawns_003Ec__Iterator0)/*Error near IL_015a: stateMachine*/)._003C_003E__Finally0();
 					}
 				}
 			}
 			yield break;
-			IL_01a4:
-			/*Error near IL_01a5: Unexpected return in MoveNext()*/;
+			IL_019a:
+			/*Error near IL_019b: Unexpected return in MoveNext()*/;
 		}
 
 		public override AlertReport GetReport()
 		{
 			Pawn pawn = this.AffectedPawns().FirstOrDefault();
-			return (pawn == null) ? AlertReport.Inactive : AlertReport.CulpritIs((Thing)pawn);
+			if (pawn != null)
+			{
+				return AlertReport.CulpritIs(pawn);
+			}
+			return AlertReport.Inactive;
 		}
 
 		public override string GetExplanation()

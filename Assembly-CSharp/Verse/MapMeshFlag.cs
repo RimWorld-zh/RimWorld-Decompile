@@ -10,11 +10,11 @@ namespace Verse
 		FogOfWar = 2,
 		Buildings = 4,
 		GroundGlow = 8,
-		Terrain = 16,
-		Roofs = 32,
-		Snow = 64,
-		Zone = 128,
-		PowerGrid = 256,
-		BuildingsDamage = 512
+		Terrain = 0x10,
+		Roofs = 0x20,
+		Snow = 0x40,
+		Zone = 0x80,
+		PowerGrid = 0x100,
+		BuildingsDamage = 0x200
 	}
 }

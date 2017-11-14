@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -194,17 +193,12 @@ namespace Verse
 		{
 			get
 			{
-				PawnKindLifeStage result;
 				if (this.pawn.RaceProps.Humanlike)
 				{
 					Log.ErrorOnce("Tried to get CurKindLifeStage from humanlike pawn " + this.pawn, 8888811);
-					result = null;
+					return null;
 				}
-				else
-				{
-					result = this.pawn.kindDef.lifeStages[this.CurLifeStageIndex];
-				}
-				return result;
+				return this.pawn.kindDef.lifeStages[this.CurLifeStageIndex];
 			}
 		}
 
@@ -239,7 +233,7 @@ namespace Verse
 		public void AgeTickMothballed(int interval)
 		{
 			long num = this.ageBiologicalTicksInt;
-			this.ageBiologicalTicksInt += (long)interval;
+			this.ageBiologicalTicksInt += interval;
 			while (Find.TickManager.TicksGame >= this.nextLifeStageChangeTick)
 			{
 				this.RecalculateLifeStageIndex();
@@ -273,7 +267,7 @@ namespace Verse
 			this.cachedLifeStageIndex = num;
 			if (flag && !this.pawn.RaceProps.Humanlike)
 			{
-				LongEventHandler.ExecuteWhenFinished((Action)delegate
+				LongEventHandler.ExecuteWhenFinished(delegate
 				{
 					this.pawn.Drawer.renderer.graphics.ResolveAllGraphics();
 				});
@@ -308,7 +302,7 @@ namespace Verse
 			if (this.pawn.RaceProps.Humanlike && PawnUtility.ShouldSendNotificationAbout(this.pawn) && stringBuilder.Length > 0)
 			{
 				string text = "BirthdayBiologicalAgeInjuries".Translate(this.pawn, this.AgeBiologicalYears, stringBuilder).AdjustedFor(this.pawn);
-				Find.LetterStack.ReceiveLetter("LetterLabelBirthday".Translate(), text, LetterDefOf.NegativeEvent, (Thing)this.pawn, (string)null);
+				Find.LetterStack.ReceiveLetter("LetterLabelBirthday".Translate(), text, LetterDefOf.NegativeEvent, (TargetInfo)this.pawn, null);
 			}
 		}
 
@@ -333,7 +327,7 @@ namespace Verse
 					}
 					else
 					{
-						this.pawn.Name = PawnBioAndNameGenerator.GeneratePawnName(this.pawn, NameStyle.Numeric, (string)null);
+						this.pawn.Name = PawnBioAndNameGenerator.GeneratePawnName(this.pawn, NameStyle.Numeric, null);
 					}
 				}
 			}

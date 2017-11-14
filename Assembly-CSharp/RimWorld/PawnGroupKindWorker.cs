@@ -19,6 +19,7 @@ namespace RimWorld
 			try
 			{
 				this.GeneratePawns(parms, groupMaker, list, errorOnZeroResults);
+				return list;
 			}
 			catch (Exception arg)
 			{
@@ -28,12 +29,12 @@ namespace RimWorld
 					list[i].Destroy(DestroyMode.Vanish);
 				}
 				list.Clear();
+				return list;
 			}
 			finally
 			{
 				PawnGroupKindWorker.pawnsBeingGeneratedNow.Remove(list);
 			}
-			return list;
 		}
 
 		protected abstract void GeneratePawns(PawnGroupMakerParms parms, PawnGroupMaker groupMaker, List<Pawn> outPawns, bool errorOnZeroResults = true);

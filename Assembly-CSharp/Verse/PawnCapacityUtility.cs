@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -58,7 +57,6 @@ namespace Verse
 
 		public static float CalculateCapacityLevel(HediffSet diffSet, PawnCapacityDef capacity, List<CapacityImpactor> impactors = null)
 		{
-			float result;
 			if (capacity.zeroIfCannotBeAwake && !diffSet.pawn.health.capacities.CanBeAwake)
 			{
 				if (impactors != null)
@@ -68,156 +66,144 @@ namespace Verse
 						capacity = PawnCapacityDefOf.Consciousness
 					});
 				}
-				result = 0f;
+				return 0f;
 			}
-			else
+			float num = capacity.Worker.CalculateCapacityLevel(diffSet, impactors);
+			if (num > 0.0 && capacity.minValue <= 0.0)
 			{
-				float num = capacity.Worker.CalculateCapacityLevel(diffSet, impactors);
-				if (num > 0.0 && capacity.minValue <= 0.0)
+				float num2 = 99999f;
+				float num3 = 1f;
+				for (int i = 0; i < diffSet.hediffs.Count; i++)
 				{
-					float num2 = 99999f;
-					float num3 = 1f;
-					for (int i = 0; i < diffSet.hediffs.Count; i++)
+					Hediff hediff = diffSet.hediffs[i];
+					List<PawnCapacityModifier> capMods = hediff.CapMods;
+					if (capMods != null)
 					{
-						Hediff hediff = diffSet.hediffs[i];
-						List<PawnCapacityModifier> capMods = hediff.CapMods;
-						if (capMods != null)
+						for (int j = 0; j < capMods.Count; j++)
 						{
-							for (int j = 0; j < capMods.Count; j++)
+							PawnCapacityModifier pawnCapacityModifier = capMods[j];
+							if (pawnCapacityModifier.capacity == capacity)
 							{
-								PawnCapacityModifier pawnCapacityModifier = capMods[j];
-								if (pawnCapacityModifier.capacity == capacity)
+								num += pawnCapacityModifier.offset;
+								num3 *= pawnCapacityModifier.postFactor;
+								if (pawnCapacityModifier.setMax < num2)
 								{
-									num += pawnCapacityModifier.offset;
-									num3 *= pawnCapacityModifier.postFactor;
-									if (pawnCapacityModifier.setMax < num2)
-									{
-										num2 = pawnCapacityModifier.setMax;
-									}
-									if (impactors != null)
-									{
-										impactors.Add(new CapacityImpactorHediff
-										{
-											hediff = hediff
-										});
-									}
+									num2 = pawnCapacityModifier.setMax;
 								}
-							}
-						}
-					}
-					num *= num3;
-					num = Mathf.Min(num, num2);
-				}
-				num = Mathf.Max(num, capacity.minValue);
-				num = (result = GenMath.RoundedHundredth(num));
-			}
-			return result;
-		}
-
-		public static float CalculatePartEfficiency(HediffSet diffSet, BodyPartRecord part, bool ignoreAddedParts = false, List<CapacityImpactor> impactors = null)
-		{
-			BodyPartRecord rec = part.parent;
-			float result;
-			while (true)
-			{
-				if (rec != null)
-				{
-					if (diffSet.HasDirectlyAddedPartFor(rec))
-					{
-						Hediff_AddedPart hediff_AddedPart = (from x in diffSet.GetHediffs<Hediff_AddedPart>()
-						where x.Part == rec
-						select x).First();
-						if (impactors != null)
-						{
-							impactors.Add(new CapacityImpactorHediff
-							{
-								hediff = hediff_AddedPart
-							});
-						}
-						result = hediff_AddedPart.def.addedPartProps.partEfficiency;
-						break;
-					}
-					rec = rec.parent;
-					continue;
-				}
-				if (part.parent != null && diffSet.PartIsMissing(part.parent))
-				{
-					result = 0f;
-				}
-				else
-				{
-					float num = 1f;
-					if (!ignoreAddedParts)
-					{
-						for (int i = 0; i < diffSet.hediffs.Count; i++)
-						{
-							Hediff_AddedPart hediff_AddedPart2 = diffSet.hediffs[i] as Hediff_AddedPart;
-							if (hediff_AddedPart2 != null && hediff_AddedPart2.Part == part)
-							{
-								num *= hediff_AddedPart2.def.addedPartProps.partEfficiency;
-								if (hediff_AddedPart2.def.addedPartProps.partEfficiency != 1.0 && impactors != null)
+								if (impactors != null)
 								{
 									impactors.Add(new CapacityImpactorHediff
 									{
-										hediff = hediff_AddedPart2
+										hediff = hediff
 									});
 								}
 							}
 						}
 					}
-					float b = -1f;
-					float num2 = 0f;
-					bool flag = false;
-					for (int j = 0; j < diffSet.hediffs.Count; j++)
-					{
-						if (diffSet.hediffs[j].Part == part && diffSet.hediffs[j].CurStage != null)
-						{
-							HediffStage curStage = diffSet.hediffs[j].CurStage;
-							num2 += curStage.partEfficiencyOffset;
-							flag |= curStage.partIgnoreMissingHP;
-							if (curStage.partEfficiencyOffset != 0.0 && curStage.becomeVisible && impactors != null)
-							{
-								impactors.Add(new CapacityImpactorHediff
-								{
-									hediff = diffSet.hediffs[j]
-								});
-							}
-						}
-					}
-					if (!flag)
-					{
-						float num3 = diffSet.GetPartHealth(part) / part.def.GetMaxHealth(diffSet.pawn);
-						if (num3 != 1.0)
-						{
-							if (DamageWorker_AddInjury.ShouldReduceDamageToPreservePart(part))
-							{
-								num3 = Mathf.InverseLerp(0.1f, 1f, num3);
-							}
-							if (impactors != null)
-							{
-								impactors.Add(new CapacityImpactorBodyPartHealth
-								{
-									bodyPart = part
-								});
-							}
-							num *= num3;
-						}
-					}
-					num += num2;
-					if (num > 9.9999997473787516E-05)
-					{
-						num = Mathf.Max(num, b);
-					}
-					result = Mathf.Max(num, 0f);
 				}
-				break;
+				num *= num3;
+				num = Mathf.Min(num, num2);
 			}
-			return result;
+			num = Mathf.Max(num, capacity.minValue);
+			return GenMath.RoundedHundredth(num);
+		}
+
+		public static float CalculatePartEfficiency(HediffSet diffSet, BodyPartRecord part, bool ignoreAddedParts = false, List<CapacityImpactor> impactors = null)
+		{
+			BodyPartRecord rec;
+			for (rec = part.parent; rec != null; rec = rec.parent)
+			{
+				if (diffSet.HasDirectlyAddedPartFor(rec))
+				{
+					Hediff_AddedPart hediff_AddedPart = (from x in diffSet.GetHediffs<Hediff_AddedPart>()
+					where x.Part == rec
+					select x).First();
+					if (impactors != null)
+					{
+						impactors.Add(new CapacityImpactorHediff
+						{
+							hediff = hediff_AddedPart
+						});
+					}
+					return hediff_AddedPart.def.addedPartProps.partEfficiency;
+				}
+			}
+			if (part.parent != null && diffSet.PartIsMissing(part.parent))
+			{
+				return 0f;
+			}
+			float num = 1f;
+			if (!ignoreAddedParts)
+			{
+				for (int i = 0; i < diffSet.hediffs.Count; i++)
+				{
+					Hediff_AddedPart hediff_AddedPart2 = diffSet.hediffs[i] as Hediff_AddedPart;
+					if (hediff_AddedPart2 != null && hediff_AddedPart2.Part == part)
+					{
+						num *= hediff_AddedPart2.def.addedPartProps.partEfficiency;
+						if (hediff_AddedPart2.def.addedPartProps.partEfficiency != 1.0 && impactors != null)
+						{
+							impactors.Add(new CapacityImpactorHediff
+							{
+								hediff = hediff_AddedPart2
+							});
+						}
+					}
+				}
+			}
+			float b = -1f;
+			float num2 = 0f;
+			bool flag = false;
+			for (int j = 0; j < diffSet.hediffs.Count; j++)
+			{
+				if (diffSet.hediffs[j].Part == part && diffSet.hediffs[j].CurStage != null)
+				{
+					HediffStage curStage = diffSet.hediffs[j].CurStage;
+					num2 += curStage.partEfficiencyOffset;
+					flag |= curStage.partIgnoreMissingHP;
+					if (curStage.partEfficiencyOffset != 0.0 && curStage.becomeVisible && impactors != null)
+					{
+						impactors.Add(new CapacityImpactorHediff
+						{
+							hediff = diffSet.hediffs[j]
+						});
+					}
+				}
+			}
+			if (!flag)
+			{
+				float num3 = diffSet.GetPartHealth(part) / part.def.GetMaxHealth(diffSet.pawn);
+				if (num3 != 1.0)
+				{
+					if (DamageWorker_AddInjury.ShouldReduceDamageToPreservePart(part))
+					{
+						num3 = Mathf.InverseLerp(0.1f, 1f, num3);
+					}
+					if (impactors != null)
+					{
+						impactors.Add(new CapacityImpactorBodyPartHealth
+						{
+							bodyPart = part
+						});
+					}
+					num *= num3;
+				}
+			}
+			num += num2;
+			if (num > 9.9999997473787516E-05)
+			{
+				num = Mathf.Max(num, b);
+			}
+			return Mathf.Max(num, 0f);
 		}
 
 		public static float CalculateImmediatePartEfficiencyAndRecord(HediffSet diffSet, BodyPartRecord part, List<CapacityImpactor> impactors = null)
 		{
-			return (float)((!diffSet.AncestorHasDirectlyAddedParts(part)) ? PawnCapacityUtility.CalculatePartEfficiency(diffSet, part, false, impactors) : 1.0);
+			if (diffSet.AncestorHasDirectlyAddedParts(part))
+			{
+				return 1f;
+			}
+			return PawnCapacityUtility.CalculatePartEfficiency(diffSet, part, false, impactors);
 		}
 
 		public static float CalculateNaturalPartsAverageEfficiency(HediffSet diffSet, BodyPartGroupDef bodyPartGroup)
@@ -235,7 +221,11 @@ namespace Verse
 				}
 				num2++;
 			}
-			return (float)((num2 != 0 && !(num < 0.0)) ? (num / (float)num2) : 0.0);
+			if (num2 != 0 && !(num < 0.0))
+			{
+				return num / (float)num2;
+			}
+			return 0f;
 		}
 
 		public static float CalculateTagEfficiency(HediffSet diffSet, string tag, float maximum = 3.40282347E+38f, List<CapacityImpactor> impactors = null)
@@ -259,22 +249,17 @@ namespace Verse
 				num += num3;
 				num2++;
 			}
-			float result;
 			if (num2 == 0)
 			{
-				result = 1f;
+				return 1f;
 			}
-			else
+			float num4 = num / (float)num2;
+			float num5 = Mathf.Min(num4, maximum);
+			if (impactors != null && list != null && (maximum != 1.0 || num4 <= 1.0 || num5 == 1.0))
 			{
-				float num4 = num / (float)num2;
-				float num5 = Mathf.Min(num4, maximum);
-				if (impactors != null && list != null && (maximum != 1.0 || num4 <= 1.0 || num5 == 1.0))
-				{
-					impactors.AddRange(list);
-				}
-				result = num5;
+				impactors.AddRange(list);
 			}
-			return result;
+			return num5;
 		}
 
 		public static float CalculateLimbEfficiency(HediffSet diffSet, string limbCoreTag, string limbSegmentTag, string limbDigitTag, float appendageWeight, out float functionalPercentage, List<CapacityImpactor> impactors)
@@ -292,7 +277,7 @@ namespace Verse
 				}
 				if (item.HasChildParts(limbDigitTag))
 				{
-					num4 = Mathf.Lerp(num4, num4 * item.GetChildParts(limbDigitTag).Average((Func<BodyPartRecord, float>)((BodyPartRecord digitPart) => PawnCapacityUtility.CalculateImmediatePartEfficiencyAndRecord(diffSet, digitPart, impactors))), appendageWeight);
+					num4 = Mathf.Lerp(num4, num4 * item.GetChildParts(limbDigitTag).Average((BodyPartRecord digitPart) => PawnCapacityUtility.CalculateImmediatePartEfficiencyAndRecord(diffSet, digitPart, impactors)), appendageWeight);
 				}
 				num += num4;
 				num2++;
@@ -301,18 +286,13 @@ namespace Verse
 					num3++;
 				}
 			}
-			float result;
 			if (num2 == 0)
 			{
 				functionalPercentage = 0f;
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				functionalPercentage = (float)num3 / (float)num2;
-				result = num / (float)num2;
-			}
-			return result;
+			functionalPercentage = (float)num3 / (float)num2;
+			return num / (float)num2;
 		}
 	}
 }

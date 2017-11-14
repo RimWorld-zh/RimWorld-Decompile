@@ -37,7 +37,7 @@ namespace Verse
 						disposable.Dispose();
 					}
 				}
-				list.SortBy((Func<Def, string>)((Def d) => d.defName));
+				list.SortBy((Def d) => d.defName);
 				for (int i = 0; i < list.Count; i++)
 				{
 					ShortHashGiver.GiveShortHash(list[i], item2);

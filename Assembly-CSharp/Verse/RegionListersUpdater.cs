@@ -46,9 +46,9 @@ namespace Verse
 		{
 			List<Thing> thingList = c.GetThingList(map);
 			int count = thingList.Count;
-			for (int num = 0; num < count; num++)
+			for (int i = 0; i < count; i++)
 			{
-				Thing thing = thingList[num];
+				Thing thing = thingList[i];
 				if (processedThings == null || processedThings.Add(thing))
 				{
 					RegionListersUpdater.RegisterInRegions(thing, map);
@@ -59,13 +59,13 @@ namespace Verse
 		public static void GetTouchableRegions(Thing thing, Map map, List<Region> outRegions, bool allowAdjacentEvenIfCantTouch = false)
 		{
 			outRegions.Clear();
-			CellRect cellRect;
-			CellRect cellRect2 = cellRect = thing.OccupiedRect();
+			CellRect cellRect = thing.OccupiedRect();
+			CellRect cellRect2 = cellRect;
 			if (RegionListersUpdater.CanRegisterInAdjacentRegions(thing))
 			{
-				cellRect = cellRect.ExpandedBy(1);
+				cellRect2 = cellRect2.ExpandedBy(1);
 			}
-			CellRect.CellRectIterator iterator = cellRect.GetIterator();
+			CellRect.CellRectIterator iterator = cellRect2.GetIterator();
 			while (!iterator.Done())
 			{
 				IntVec3 current = iterator.Current;
@@ -74,7 +74,7 @@ namespace Verse
 					Region validRegionAt_NoRebuild = map.regionGrid.GetValidRegionAt_NoRebuild(current);
 					if (validRegionAt_NoRebuild != null && validRegionAt_NoRebuild.type.Passable() && !outRegions.Contains(validRegionAt_NoRebuild))
 					{
-						if (cellRect2.Contains(current))
+						if (cellRect.Contains(current))
 						{
 							outRegions.Add(validRegionAt_NoRebuild);
 						}

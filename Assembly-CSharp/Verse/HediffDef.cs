@@ -9,51 +9,53 @@ namespace Verse
 	{
 		public Type hediffClass = typeof(Hediff);
 
-		public List<HediffCompProperties> comps = null;
+		public List<HediffCompProperties> comps;
 
 		public float initialSeverity = 0.5f;
 
 		public float lethalSeverity = -1f;
 
-		public List<HediffStage> stages = null;
+		public List<HediffStage> stages;
 
-		public bool tendable = false;
+		public bool tendable;
 
 		public bool isBad = true;
 
-		public ThingDef spawnThingOnRemoved = null;
+		public ThingDef spawnThingOnRemoved;
 
-		public float chanceToCauseNoPain = 0f;
+		public float chanceToCauseNoPain;
 
-		public bool makesSickThought = false;
+		public bool makesSickThought;
 
 		public bool makesAlert = true;
 
-		public NeedDef causesNeed = null;
+		public NeedDef causesNeed;
 
-		public float minSeverity = 0f;
+		public float minSeverity;
 
 		public float maxSeverity = 3.40282347E+38f;
 
-		public bool scenarioCanAdd = false;
+		public bool scenarioCanAdd;
 
-		public List<HediffGiver> hediffGivers = null;
+		public List<HediffGiver> hediffGivers;
 
-		public bool cureAllAtOnceIfCuredByItem = false;
+		public bool cureAllAtOnceIfCuredByItem;
 
-		public TaleDef taleOnVisible = null;
+		public TaleDef taleOnVisible;
 
-		public bool displayWound = false;
+		public bool everCurableByItem = true;
+
+		public bool displayWound;
 
 		public Color defaultLabelColor = Color.white;
 
-		public InjuryProps injuryProps = null;
+		public InjuryProps injuryProps;
 
-		public AddedBodyPartProps addedPartProps = null;
+		public AddedBodyPartProps addedPartProps;
 
-		public string labelNoun = (string)null;
+		public string labelNoun;
 
-		private bool alwaysAllowMothballCached = false;
+		private bool alwaysAllowMothballCached;
 
 		private bool alwaysAllowMothball;
 
@@ -114,68 +116,58 @@ namespace Verse
 				for (int i = 0; i < this.comps.Count; i++)
 				{
 					if (this.comps[i].compClass == compClass)
-						goto IL_002c;
+					{
+						return true;
+					}
 				}
 			}
-			bool result = false;
-			goto IL_0051;
-			IL_002c:
-			result = true;
-			goto IL_0051;
-			IL_0051:
-			return result;
+			return false;
 		}
 
 		public HediffCompProperties CompPropsFor(Type compClass)
 		{
-			int i;
-			if (this.comps != null)
-			{
-				for (i = 0; i < this.comps.Count; i++)
-				{
-					if (this.comps[i].compClass == compClass)
-						goto IL_002c;
-				}
-			}
-			HediffCompProperties result = null;
-			goto IL_005c;
-			IL_002c:
-			result = this.comps[i];
-			goto IL_005c;
-			IL_005c:
-			return result;
-		}
-
-		public T CompProps<T>() where T : class
-		{
-			T val;
 			if (this.comps != null)
 			{
 				for (int i = 0; i < this.comps.Count; i++)
 				{
-					val = (T)(((object)this.comps[i]) as T);
-					if (val != null)
-						goto IL_003c;
+					if (this.comps[i].compClass == compClass)
+					{
+						return this.comps[i];
+					}
 				}
 			}
-			T result = (T)null;
-			goto IL_0066;
-			IL_003c:
-			result = val;
-			goto IL_0066;
-			IL_0066:
-			return result;
+			return null;
+		}
+
+		public T CompProps<T>() where T : class
+		{
+			if (this.comps != null)
+			{
+				for (int i = 0; i < this.comps.Count; i++)
+				{
+					T val = (T)(((object)this.comps[i]) as T);
+					if (val != null)
+					{
+						return val;
+					}
+				}
+			}
+			return (T)null;
 		}
 
 		public bool PossibleToDevelopImmunityNaturally()
 		{
 			HediffCompProperties_Immunizable hediffCompProperties_Immunizable = this.CompProps<HediffCompProperties_Immunizable>();
-			return (byte)((hediffCompProperties_Immunizable != null && (hediffCompProperties_Immunizable.immunityPerDayNotSick > 0.0 || hediffCompProperties_Immunizable.immunityPerDaySick > 0.0)) ? 1 : 0) != 0;
+			if (hediffCompProperties_Immunizable != null && (hediffCompProperties_Immunizable.immunityPerDayNotSick > 0.0 || hediffCompProperties_Immunizable.immunityPerDaySick > 0.0))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -242,7 +234,7 @@ namespace Verse
 			{
 				if (i < this.stages.Count)
 				{
-					if (this.stages[i].makeImmuneTo != null && !this.stages[i].makeImmuneTo.Any((Predicate<HediffDef>)((HediffDef im) => im.HasComp(typeof(HediffComp_Immunizable)))))
+					if (this.stages[i].makeImmuneTo != null && !this.stages[i].makeImmuneTo.Any((HediffDef im) => im.HasComp(typeof(HediffComp_Immunizable))))
 						break;
 					i++;
 					continue;
@@ -251,8 +243,8 @@ namespace Verse
 			}
 			yield return "makes immune to hediff which doesn't have comp immunizable";
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_04b6:
-			/*Error near IL_04b7: Unexpected return in MoveNext()*/;
+			IL_04a3:
+			/*Error near IL_04a4: Unexpected return in MoveNext()*/;
 		}
 
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
@@ -270,8 +262,8 @@ namespace Verse
 				}
 			}
 			yield break;
-			IL_00f0:
-			/*Error near IL_00f1: Unexpected return in MoveNext()*/;
+			IL_00ea:
+			/*Error near IL_00eb: Unexpected return in MoveNext()*/;
 		}
 
 		public static HediffDef Named(string defName)

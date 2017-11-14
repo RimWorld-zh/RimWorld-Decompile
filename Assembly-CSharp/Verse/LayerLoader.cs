@@ -77,27 +77,27 @@ namespace Verse
 
 		public static void MarkNonRootNodes(List<DiaNodeMold> NodeList)
 		{
-			foreach (DiaNodeMold item in NodeList)
+			foreach (DiaNodeMold Node in NodeList)
 			{
-				LayerLoader.RecursiveSetIsRootFalse(item);
+				LayerLoader.RecursiveSetIsRootFalse(Node);
 			}
-			foreach (DiaNodeMold item2 in NodeList)
+			foreach (DiaNodeMold Node2 in NodeList)
 			{
-				foreach (DiaNodeMold item3 in NodeList)
+				foreach (DiaNodeMold Node3 in NodeList)
 				{
-					foreach (DiaOptionMold option in item3.optionList)
+					foreach (DiaOptionMold option in Node3.optionList)
 					{
 						bool flag = false;
 						foreach (string childNodeName in option.ChildNodeNames)
 						{
-							if (childNodeName == item2.name)
+							if (childNodeName == Node2.name)
 							{
 								flag = true;
 							}
 						}
 						if (flag)
 						{
-							item2.isRoot = false;
+							Node2.isRoot = false;
 						}
 					}
 				}

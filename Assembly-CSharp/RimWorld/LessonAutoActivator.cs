@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -26,6 +27,12 @@ namespace RimWorld
 		private const int CheckInterval = 15;
 
 		private const float MaxLessonInterval = 900f;
+
+		[CompilerGenerated]
+		private static Func<ConceptDef, float> _003C_003Ef__mg_0024cache0;
+
+		[CompilerGenerated]
+		private static Func<ConceptDef, float> _003C_003Ef__mg_0024cache1;
 
 		private static float SecondsSinceLesson
 		{
@@ -61,25 +68,17 @@ namespace RimWorld
 				switch (opp)
 				{
 				case OpportunityType.GoodToKnow:
-				{
 					value = 60f;
 					break;
-				}
 				case OpportunityType.Important:
-				{
 					value = 80f;
 					break;
-				}
 				case OpportunityType.Critical:
-				{
 					value = 100f;
 					break;
-				}
 				default:
-				{
 					Log.Error("Unknown need");
 					break;
-				}
 				}
 				LessonAutoActivator.opportunities[conc] = value;
 				if ((int)opp < 1 && Find.Tutor.learningReadout.ActiveConceptsCount >= 4)
@@ -183,47 +182,37 @@ namespace RimWorld
 
 		private static float GetDesire(ConceptDef conc)
 		{
-			float result;
 			if (PlayerKnowledgeDatabase.IsComplete(conc))
 			{
-				result = 0f;
+				return 0f;
 			}
-			else if (Find.Tutor.learningReadout.IsActive(conc))
+			if (Find.Tutor.learningReadout.IsActive(conc))
 			{
-				result = 0f;
+				return 0f;
 			}
-			else if (Current.ProgramState != conc.gameMode)
+			if (Current.ProgramState != conc.gameMode)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else if (conc.needsOpportunity && LessonAutoActivator.GetOpportunity(conc) < 0.10000000149011612)
+			if (conc.needsOpportunity && LessonAutoActivator.GetOpportunity(conc) < 0.10000000149011612)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				float num = 0f;
-				num += conc.priority;
-				num = (float)(num + LessonAutoActivator.GetOpportunity(conc) / 100.0 * 60.0);
-				num = (result = (float)(num * (1.0 - PlayerKnowledgeDatabase.GetKnowledge(conc))));
-			}
-			return result;
+			float num = 0f;
+			num += conc.priority;
+			num = (float)(num + LessonAutoActivator.GetOpportunity(conc) / 100.0 * 60.0);
+			return (float)(num * (1.0 - PlayerKnowledgeDatabase.GetKnowledge(conc)));
 		}
 
 		private static float GetOpportunity(ConceptDef conc)
 		{
-			float num = default(float);
-			float result;
-			if (LessonAutoActivator.opportunities.TryGetValue(conc, out num))
+			float result = default(float);
+			if (LessonAutoActivator.opportunities.TryGetValue(conc, out result))
 			{
-				result = num;
+				return result;
 			}
-			else
-			{
-				LessonAutoActivator.opportunities[conc] = 0f;
-				result = 0f;
-			}
-			return result;
+			LessonAutoActivator.opportunities[conc] = 0f;
+			return 0f;
 		}
 
 		private static void TryInitiateLesson(ConceptDef conc)
@@ -248,9 +237,7 @@ namespace RimWorld
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("RelaxDesire: " + LessonAutoActivator.RelaxDesire);
-			foreach (ConceptDef item in from co in DefDatabase<ConceptDef>.AllDefs
-			orderby LessonAutoActivator.GetDesire(co) descending
-			select co)
+			foreach (ConceptDef item in DefDatabase<ConceptDef>.AllDefs.OrderByDescending(LessonAutoActivator.GetDesire))
 			{
 				if (PlayerKnowledgeDatabase.IsComplete(item))
 				{
@@ -266,9 +253,7 @@ namespace RimWorld
 
 		public static void DebugForceInitiateBestLessonNow()
 		{
-			LessonAutoActivator.TryInitiateLesson((from def in DefDatabase<ConceptDef>.AllDefs
-			orderby LessonAutoActivator.GetDesire(def) descending
-			select def).First());
+			LessonAutoActivator.TryInitiateLesson(DefDatabase<ConceptDef>.AllDefs.OrderByDescending(LessonAutoActivator.GetDesire).First());
 		}
 	}
 }

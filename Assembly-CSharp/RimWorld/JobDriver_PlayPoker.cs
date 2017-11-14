@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -9,7 +8,7 @@ namespace RimWorld
 		protected override void ModifyPlayToil(Toil toil)
 		{
 			base.ModifyPlayToil(toil);
-			toil.WithEffect((Func<EffecterDef>)(() => EffecterDefOf.PlayPoker), (Func<LocalTargetInfo>)(() => base.TargetA.Thing.OccupiedRect().ClosestCellTo(base.pawn.Position)));
+			toil.WithEffect(() => EffecterDefOf.PlayPoker, () => base.TargetA.Thing.OccupiedRect().ClosestCellTo(base.pawn.Position));
 		}
 	}
 }

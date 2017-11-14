@@ -44,13 +44,13 @@ namespace RimWorld
 					{
 						TransferableCountToTransferStoppingPoint transferableCountToTransferStoppingPoint3 = TransferableUIUtility.stoppingPoints[i];
 						if (transferableCountToTransferStoppingPoint3.threshold >= max)
-							goto IL_007c;
+							goto IL_007a;
 						continue;
 					}
-					goto IL_007c;
+					goto IL_007a;
 				}
 				continue;
-				IL_007c:
+				IL_007a:
 				TransferableUIUtility.stoppingPoints.RemoveAt(i);
 			}
 			bool flag = false;
@@ -91,12 +91,12 @@ namespace RimWorld
 			}
 			else if (flag)
 			{
-				bool flag2;
-				bool flag3 = flag2 = (trad.CountToTransfer != 0);
-				Widgets.Checkbox(rect2.position, ref flag2, 24f, false);
-				if (flag2 != flag3)
+				bool flag2 = trad.CountToTransfer != 0;
+				bool flag3 = flag2;
+				Widgets.Checkbox(rect2.position, ref flag3, 24f, false);
+				if (flag3 != flag2)
 				{
-					if (flag2)
+					if (flag3)
 					{
 						trad.AdjustTo(trad.GetMaximum());
 					}
@@ -141,7 +141,7 @@ namespace RimWorld
 					if (!flag4)
 					{
 						string label = "<<";
-						int? nullable = default(int?);
+						int? nullable = null;
 						int num3 = 0;
 						for (int i = 0; i < TransferableUIUtility.stoppingPoints.Count; i++)
 						{
@@ -151,13 +151,13 @@ namespace RimWorld
 								if (trad.CountToTransfer < transferableCountToTransferStoppingPoint.threshold && (transferableCountToTransferStoppingPoint.threshold < num3 || !nullable.HasValue))
 								{
 									label = transferableCountToTransferStoppingPoint.leftLabel;
-									nullable = new int?(transferableCountToTransferStoppingPoint.threshold);
+									nullable = transferableCountToTransferStoppingPoint.threshold;
 								}
 							}
 							else if (trad.CountToTransfer > transferableCountToTransferStoppingPoint.threshold && (transferableCountToTransferStoppingPoint.threshold > num3 || !nullable.HasValue))
 							{
 								label = transferableCountToTransferStoppingPoint.leftLabel;
-								nullable = new int?(transferableCountToTransferStoppingPoint.threshold);
+								nullable = transferableCountToTransferStoppingPoint.threshold;
 							}
 						}
 						rect4.x -= rect4.width;
@@ -194,7 +194,7 @@ namespace RimWorld
 					if (!flag4)
 					{
 						string label2 = ">>";
-						int? nullable2 = default(int?);
+						int? nullable2 = null;
 						int num4 = 0;
 						for (int j = 0; j < TransferableUIUtility.stoppingPoints.Count; j++)
 						{
@@ -204,13 +204,13 @@ namespace RimWorld
 								if (trad.CountToTransfer < transferableCountToTransferStoppingPoint2.threshold && (transferableCountToTransferStoppingPoint2.threshold < num4 || !nullable2.HasValue))
 								{
 									label2 = transferableCountToTransferStoppingPoint2.rightLabel;
-									nullable2 = new int?(transferableCountToTransferStoppingPoint2.threshold);
+									nullable2 = transferableCountToTransferStoppingPoint2.threshold;
 								}
 							}
 							else if (trad.CountToTransfer > transferableCountToTransferStoppingPoint2.threshold && (transferableCountToTransferStoppingPoint2.threshold > num4 || !nullable2.HasValue))
 							{
 								label2 = transferableCountToTransferStoppingPoint2.rightLabel;
-								nullable2 = new int?(transferableCountToTransferStoppingPoint2.threshold);
+								nullable2 = transferableCountToTransferStoppingPoint2.threshold;
 							}
 						}
 						rect5.x += rect5.width;
@@ -239,16 +239,16 @@ namespace RimWorld
 			TransferablePositiveCountDirection positiveCountDirection2 = trad.PositiveCountDirection;
 			if (positiveCountDirection2 == TransferablePositiveCountDirection.Source && trad.CountToTransfer > 0)
 			{
-				goto IL_0680;
+				goto IL_064a;
 			}
 			if (positiveCountDirection2 == TransferablePositiveCountDirection.Destination && trad.CountToTransfer < 0)
-				goto IL_0680;
-			goto IL_06aa;
-			IL_0680:
+				goto IL_064a;
+			goto IL_0672;
+			IL_064a:
 			position.x += position.width;
 			position.width *= -1f;
-			goto IL_06aa;
-			IL_06aa:
+			goto IL_0672;
+			IL_0672:
 			GUI.DrawTexture(position, TransferableUIUtility.TradeArrow);
 		}
 
@@ -292,36 +292,67 @@ namespace RimWorld
 				Widgets.Label(rect2, trad.Label);
 				GUI.color = Color.white;
 				Text.WordWrap = true;
-				TooltipHandler.TipRegion(idRect, new TipSignal((Func<string>)delegate()
+				TooltipHandler.TipRegion(idRect, new TipSignal(delegate
 				{
-					string result;
 					if (!trad.HasAnyThing)
 					{
-						result = "";
+						return string.Empty;
 					}
-					else
+					string text = trad.Label;
+					string tipDescription = trad.TipDescription;
+					if (!tipDescription.NullOrEmpty())
 					{
-						string text = trad.Label;
-						string tipDescription = trad.TipDescription;
-						if (!tipDescription.NullOrEmpty())
-						{
-							text = text + ": " + tipDescription;
-						}
-						result = text;
+						text = text + ": " + tipDescription;
 					}
-					return result;
+					return text;
 				}, trad.GetHashCode()));
 			}
 		}
 
 		public static float DefaultListOrderPriority(Transferable transferable)
 		{
-			return (float)(transferable.HasAnyThing ? TransferableUIUtility.DefaultListOrderPriority(transferable.ThingDef) : 0.0);
+			if (!transferable.HasAnyThing)
+			{
+				return 0f;
+			}
+			return TransferableUIUtility.DefaultListOrderPriority(transferable.ThingDef);
 		}
 
 		public static float DefaultListOrderPriority(ThingDef def)
 		{
-			return (float)((def != ThingDefOf.Silver) ? ((def != ThingDefOf.Gold) ? ((!def.Minifiable) ? ((!def.IsApparel) ? ((!def.IsRangedWeapon) ? ((!def.IsMeleeWeapon) ? ((!def.isBodyPartOrImplant) ? ((!def.CountAsResource) ? 20.0 : -10.0) : 50.0) : 60.0) : 70.0) : 80.0) : 90.0) : 99.0) : 100.0);
+			if (def == ThingDefOf.Silver)
+			{
+				return 100f;
+			}
+			if (def == ThingDefOf.Gold)
+			{
+				return 99f;
+			}
+			if (def.Minifiable)
+			{
+				return 90f;
+			}
+			if (def.IsApparel)
+			{
+				return 80f;
+			}
+			if (def.IsRangedWeapon)
+			{
+				return 70f;
+			}
+			if (def.IsMeleeWeapon)
+			{
+				return 60f;
+			}
+			if (def.isBodyPartOrImplant)
+			{
+				return 50f;
+			}
+			if (def.CountAsResource)
+			{
+				return -10f;
+			}
+			return 20f;
 		}
 
 		public static void DoTransferableSorters(TransferableSorterDef sorter1, TransferableSorterDef sorter2, Action<TransferableSorterDef> sorter1Setter, Action<TransferableSorterDef> sorter2Setter)
@@ -353,7 +384,7 @@ namespace RimWorld
 			for (int i = 0; i < allDefsListForReading.Count; i++)
 			{
 				TransferableSorterDef def = allDefsListForReading[i];
-				list.Add(new FloatMenuOption(def.LabelCap, (Action)delegate()
+				list.Add(new FloatMenuOption(def.LabelCap, delegate
 				{
 					sorterSetter(def);
 				}, MenuOptionPriority.Default, null, null, 0f, null, null));

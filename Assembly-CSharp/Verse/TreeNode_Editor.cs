@@ -14,7 +14,7 @@ namespace Verse
 
 		public int owningIndex = -1;
 
-		private MethodInfo editWidgetsMethod = null;
+		private MethodInfo editWidgetsMethod;
 
 		public EditTreeNodeType nodeType;
 
@@ -32,25 +32,19 @@ namespace Verse
 		{
 			get
 			{
-				Type result;
 				if (this.owningField != null)
 				{
-					result = this.owningField.FieldType;
-					goto IL_0062;
+					return this.owningField.FieldType;
 				}
 				if (this.IsListItem)
 				{
-					result = this.ListRootObject.GetType().GetGenericArguments()[0];
-					goto IL_0062;
+					return this.ListRootObject.GetType().GetGenericArguments()[0];
 				}
 				if (this.obj != null)
 				{
-					result = this.obj.GetType();
-					goto IL_0062;
+					return this.obj.GetType();
 				}
 				throw new InvalidOperationException();
-				IL_0062:
-				return result;
 			}
 		}
 
@@ -58,23 +52,18 @@ namespace Verse
 		{
 			get
 			{
-				object value;
 				if (this.owningField != null)
 				{
-					value = this.owningField.GetValue(this.ParentObj);
-					goto IL_006e;
+					return this.owningField.GetValue(this.ParentObj);
 				}
 				if (this.IsListItem)
 				{
-					value = this.ListRootObject.GetType().GetProperty("Item").GetValue(this.ListRootObject, new object[1]
+					return this.ListRootObject.GetType().GetProperty("Item").GetValue(this.ListRootObject, new object[1]
 					{
 						this.owningIndex
 					});
-					goto IL_006e;
 				}
 				throw new InvalidOperationException();
-				IL_006e:
-				return value;
 			}
 			set
 			{
@@ -112,7 +101,19 @@ namespace Verse
 		{
 			get
 			{
-				return (byte)((this.obj != null) ? ((this.nodeType != EditTreeNodeType.TerminalValue) ? ((((this.nodeType != EditTreeNodeType.ListRoot) ? 1 : ((int)this.obj.GetType().GetProperty("Count").GetValue(this.obj, null))) != 0) ? 1 : 0) : 0) : 0) != 0;
+				if (this.obj == null)
+				{
+					return false;
+				}
+				if (this.nodeType == EditTreeNodeType.TerminalValue)
+				{
+					return false;
+				}
+				if (this.nodeType == EditTreeNodeType.ListRoot && (int)this.obj.GetType().GetProperty("Count").GetValue(this.obj, null) == 0)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -128,7 +129,15 @@ namespace Verse
 		{
 			get
 			{
-				return (byte)((this.nodeType == EditTreeNodeType.ComplexObject && this.obj == null) ? 1 : ((this.owningField != null && this.owningField.FieldType.HasAttribute<EditorReplaceableAttribute>()) ? 1 : 0)) != 0;
+				if (this.nodeType == EditTreeNodeType.ComplexObject && this.obj == null)
+				{
+					return true;
+				}
+				if (this.owningField != null && this.owningField.FieldType.HasAttribute<EditorReplaceableAttribute>())
+				{
+					return true;
+				}
+				return false;
 			}
 		}
 
@@ -136,7 +145,15 @@ namespace Verse
 		{
 			get
 			{
-				return (byte)(this.IsListItem ? 1 : ((this.owningField != null && this.owningField.FieldType.HasAttribute<EditorNullableAttribute>()) ? 1 : 0)) != 0;
+				if (this.IsListItem)
+				{
+					return true;
+				}
+				if (this.owningField != null && this.owningField.FieldType.HasAttribute<EditorNullableAttribute>())
+				{
+					return true;
+				}
+				return false;
 			}
 		}
 
@@ -144,25 +161,20 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (this.obj == null)
 				{
-					result = "null";
+					return "null";
 				}
-				else if (this.obj.GetType().HasAttribute<EditorShowClassNameAttribute>())
+				if (this.obj.GetType().HasAttribute<EditorShowClassNameAttribute>())
 				{
-					result = this.obj.GetType().Name;
+					return this.obj.GetType().Name;
 				}
-				else if (this.obj.GetType().IsGenericType && this.obj.GetType().GetGenericTypeDefinition() == typeof(List<>))
+				if (this.obj.GetType().IsGenericType && this.obj.GetType().GetGenericTypeDefinition() == typeof(List<>))
 				{
 					int num = (int)this.obj.GetType().GetProperty("Count").GetValue(this.obj, null);
-					result = "(" + num.ToString() + " " + ((num != 1) ? "elements" : "element") + ")";
+					return "(" + num.ToString() + " " + ((num != 1) ? "elements" : "element") + ")";
 				}
-				else
-				{
-					result = "";
-				}
-				return result;
+				return string.Empty;
 			}
 		}
 
@@ -170,7 +182,15 @@ namespace Verse
 		{
 			get
 			{
-				return (this.owningField == null) ? ((!this.IsListItem) ? this.ObjectType.Name : this.owningIndex.ToString()) : this.owningField.Name;
+				if (this.owningField != null)
+				{
+					return this.owningField.Name;
+				}
+				if (this.IsListItem)
+				{
+					return this.owningIndex.ToString();
+				}
+				return this.ObjectType.Name;
 			}
 		}
 
@@ -258,9 +278,9 @@ namespace Verse
 				if (objType.IsGenericType && objType.GetGenericTypeDefinition() == typeof(List<>))
 				{
 					int num = (int)objType.GetProperty("Count").GetValue(this.obj, null);
-					for (int num2 = 0; num2 < num; num2++)
+					for (int i = 0; i < num; i++)
 					{
-						TreeNode_Editor item = TreeNode_Editor.NewChildNodeFromListItem(this, num2);
+						TreeNode_Editor item = TreeNode_Editor.NewChildNodeFromListItem(this, i);
 						base.children.Add(item);
 					}
 				}
@@ -284,25 +304,19 @@ namespace Verse
 		{
 			Type type = childType;
 			int num = 0;
-			int result;
 			while (true)
 			{
 				if (type == parentType)
 				{
-					result = num;
+					return num;
 				}
-				else
-				{
-					type = type.BaseType;
-					num++;
-					if (type != null)
-						continue;
-					Log.Error(childType + " is not a subclass of " + parentType);
-					result = -1;
-				}
-				break;
+				type = type.BaseType;
+				num++;
+				if (type == null)
+					break;
 			}
-			return result;
+			Log.Error(childType + " is not a subclass of " + parentType);
+			return -1;
 		}
 
 		public void CheckLatentDelete()

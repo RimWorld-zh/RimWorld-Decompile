@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -51,15 +50,22 @@ namespace RimWorld
 			IEnumerable<Pawn> enumerable = from p in base.parent.Map.mapPawns.AllPawnsSpawned
 			where p.RaceProps.Animal && p.Position.InHorDistOf(base.parent.Position, (float)this.Props.radius)
 			select p;
+			bool flag = false;
 			foreach (Pawn item in enumerable)
 			{
-				item.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, (string)null, false, false, null);
+				if (item.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, null, false, false, null))
+				{
+					flag = true;
+				}
 			}
-			Messages.Message("MessageAnimalInsanityPulse".Translate(), (Thing)base.parent, MessageTypeDefOf.ThreatSmall);
-			SoundDefOf.PsychicPulseGlobal.PlayOneShotOnCamera(base.parent.Map);
-			if (base.parent.Map == Find.VisibleMap)
+			if (flag)
 			{
-				Find.CameraDriver.shaker.DoShake(4f);
+				Messages.Message("MessageAnimalInsanityPulse".Translate(), base.parent, MessageTypeDefOf.ThreatSmall);
+				SoundDefOf.PsychicPulseGlobal.PlayOneShotOnCamera(base.parent.Map);
+				if (base.parent.Map == Find.VisibleMap)
+				{
+					Find.CameraDriver.shaker.DoShake(4f);
+				}
 			}
 		}
 	}

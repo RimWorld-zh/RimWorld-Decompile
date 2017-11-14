@@ -6,48 +6,40 @@ namespace Verse
 	{
 		public static bool IsSaveCompressible(this Thing t)
 		{
-			bool result;
 			if (Scribe.saver.savingForDebug)
 			{
-				result = false;
+				return false;
 			}
-			else if (!t.def.saveCompressible)
+			if (!t.def.saveCompressible)
 			{
-				result = false;
+				return false;
 			}
-			else if (t.def.useHitPoints && t.HitPoints != t.MaxHitPoints)
+			if (t.def.useHitPoints && t.HitPoints != t.MaxHitPoints)
 			{
-				result = false;
+				return false;
 			}
-			else if (!t.Spawned)
+			if (!t.Spawned)
 			{
-				result = false;
+				return false;
 			}
-			else
+			bool flag = false;
+			List<Map> maps = Find.Maps;
+			for (int i = 0; i < maps.Count; i++)
 			{
-				bool flag = false;
-				List<Map> maps = Find.Maps;
-				for (int i = 0; i < maps.Count; i++)
+				if (maps[i].compressor != null)
 				{
-					if (maps[i].compressor != null)
+					flag = true;
+					if (maps[i].compressor.compressibilityDecider.IsReferenced(t))
 					{
-						flag = true;
-						if (maps[i].compressor.compressibilityDecider.IsReferenced(t))
-							goto IL_00a8;
+						return false;
 					}
 				}
-				if (!flag)
-				{
-					Log.ErrorOnce("Called IsSaveCompressible but there are no maps with compressor != null. This should never happen. It probably means that we're not saving any map at the moment?", 1935111328);
-				}
-				result = true;
 			}
-			goto IL_00df;
-			IL_00a8:
-			result = false;
-			goto IL_00df;
-			IL_00df:
-			return result;
+			if (!flag)
+			{
+				Log.ErrorOnce("Called IsSaveCompressible but there are no maps with compressor != null. This should never happen. It probably means that we're not saving any map at the moment?", 1935111328);
+			}
+			return true;
 		}
 	}
 }

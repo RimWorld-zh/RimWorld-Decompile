@@ -4,9 +4,9 @@ namespace RimWorld
 {
 	internal class AlertBounce
 	{
-		private float position = 0f;
+		private float position;
 
-		private float velocity = 0f;
+		private float velocity;
 
 		private float lastTime = Time.time;
 
@@ -34,31 +34,26 @@ namespace RimWorld
 
 		public float CalculateHorizontalOffset()
 		{
-			float result;
 			if (this.idle)
 			{
-				result = this.position;
+				return this.position;
 			}
-			else
+			float num = Mathf.Min(Time.time - this.lastTime, 0.05f);
+			this.lastTime = Time.time;
+			this.velocity -= (float)(1200.0 * num);
+			this.position += this.velocity * num;
+			if (this.position < 0.0)
 			{
-				float num = Mathf.Min(Time.time - this.lastTime, 0.05f);
-				this.lastTime = Time.time;
-				this.velocity -= (float)(1200.0 * num);
-				this.position += this.velocity * num;
-				if (this.position < 0.0)
-				{
-					this.position = 0f;
-					this.velocity = Mathf.Max((float)((0.0 - this.velocity) / 3.0 - 1.0), 0f);
-				}
-				if (Mathf.Abs(this.velocity) < 9.9999997473787516E-05 && this.position < 1.0)
-				{
-					this.velocity = 0f;
-					this.position = 0f;
-					this.idle = true;
-				}
-				result = this.position;
+				this.position = 0f;
+				this.velocity = Mathf.Max((float)((0.0 - this.velocity) / 3.0 - 1.0), 0f);
 			}
-			return result;
+			if (Mathf.Abs(this.velocity) < 9.9999997473787516E-05 && this.position < 1.0)
+			{
+				this.velocity = 0f;
+				this.position = 0f;
+				this.idle = true;
+			}
+			return this.position;
 		}
 	}
 }

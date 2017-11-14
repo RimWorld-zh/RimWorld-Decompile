@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -37,9 +36,9 @@ namespace RimWorld
 				diaOption.resolveTree = true;
 				diaOption.clickSound = null;
 				diaNode.options.Add(diaOption);
-				Dialog_NodeTree dialog_NodeTree = new Dialog_NodeTree(diaNode, false, false, (string)null);
+				Dialog_NodeTree dialog_NodeTree = new Dialog_NodeTree(diaNode, false, false, null);
 				dialog_NodeTree.soundClose = ((this.closeSound == null) ? SoundDefOf.GameStartSting : this.closeSound);
-				dialog_NodeTree.closeAction = (Action)delegate
+				dialog_NodeTree.closeAction = delegate
 				{
 					Find.MusicManagerPlay.ForceSilenceFor(7f);
 					Find.MusicManagerPlay.disabled = false;

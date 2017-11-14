@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -32,7 +31,15 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			return c.InBounds(base.Map) ? (this.HuntablesInCell(c).Any() ? true : "MessageMustDesignateHuntable".Translate()) : false;
+			if (!c.InBounds(base.Map))
+			{
+				return false;
+			}
+			if (!this.HuntablesInCell(c).Any())
+			{
+				return "MessageMustDesignateHuntable".Translate();
+			}
+			return true;
 		}
 
 		public override void DesignateSingleCell(IntVec3 loc)
@@ -46,7 +53,11 @@ namespace RimWorld
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			Pawn pawn = t as Pawn;
-			return (pawn == null || !pawn.AnimalOrWildMan() || pawn.Faction != null || base.Map.designationManager.DesignationOn(pawn, DesignationDefOf.Hunt) != null) ? false : true;
+			if (pawn != null && pawn.AnimalOrWildMan() && pawn.Faction == null && base.Map.designationManager.DesignationOn(pawn, DesignationDefOf.Hunt) == null)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public override void DesignateThing(Thing t)
@@ -65,7 +76,7 @@ namespace RimWorld
 				float num = (float)((item != PawnKindDefOf.WildMan) ? item.RaceProps.manhunterOnDamageChance : 0.5);
 				if (num > 0.20000000298023224)
 				{
-					Messages.Message("MessageAnimalsGoPsychoHunted".Translate(item.GetLabelPlural(-1)), (Thing)this.justDesignated.First((Func<Pawn, bool>)((Pawn x) => x.kindDef == item)), MessageTypeDefOf.CautionInput);
+					Messages.Message("MessageAnimalsGoPsychoHunted".Translate(item.GetLabelPlural(-1)), this.justDesignated.First((Pawn x) => x.kindDef == item), MessageTypeDefOf.CautionInput);
 				}
 			}
 			this.justDesignated.Clear();

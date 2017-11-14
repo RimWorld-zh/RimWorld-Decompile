@@ -8,23 +8,20 @@ namespace RimWorld
 
 		protected override bool TryCastShot()
 		{
-			bool result;
 			if (base.currentTarget.HasThing && base.currentTarget.Thing.Map != base.caster.Map)
 			{
-				result = false;
+				return false;
 			}
-			else
+			PowerBeam powerBeam = (PowerBeam)GenSpawn.Spawn(ThingDefOf.PowerBeam, base.currentTarget.Cell, base.caster.Map);
+			powerBeam.duration = 600;
+			powerBeam.instigator = base.caster;
+			powerBeam.weaponDef = ((base.ownerEquipment == null) ? null : base.ownerEquipment.def);
+			powerBeam.StartStrike();
+			if (base.ownerEquipment != null && !base.ownerEquipment.Destroyed)
 			{
-				PowerBeam powerBeam = (PowerBeam)GenSpawn.Spawn(ThingDefOf.PowerBeam, base.currentTarget.Cell, base.caster.Map);
-				powerBeam.duration = 600;
-				powerBeam.StartStrike();
-				if (base.ownerEquipment != null && !base.ownerEquipment.Destroyed)
-				{
-					base.ownerEquipment.Destroy(DestroyMode.Vanish);
-				}
-				result = true;
+				base.ownerEquipment.Destroy(DestroyMode.Vanish);
 			}
-			return result;
+			return true;
 		}
 
 		public override float HighlightFieldRadiusAroundTarget(out bool needLOSToCenter)

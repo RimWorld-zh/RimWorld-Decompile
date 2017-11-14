@@ -25,7 +25,7 @@ namespace Verse.AI
 
 		public override void MentalStateTick()
 		{
-			if (base.target != null && (!base.target.Spawned || !base.pawn.CanReach((Thing)base.target, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn)))
+			if (base.target != null && (!base.target.Spawned || !base.pawn.CanReach(base.target, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn)))
 			{
 				Pawn target = base.target;
 				if (!this.TryFindNewTarget())
@@ -34,7 +34,7 @@ namespace Verse.AI
 				}
 				else
 				{
-					Messages.Message("MessageTargetedInsultingSpreeChangedTarget".Translate(base.pawn.LabelShort, target.Label, base.target.Label).AdjustedFor(base.pawn), (Thing)base.pawn, MessageTypeDefOf.NegativeEvent);
+					Messages.Message("MessageTargetedInsultingSpreeChangedTarget".Translate(base.pawn.LabelShort, target.Label, base.target.Label).AdjustedFor(base.pawn), base.pawn, MessageTypeDefOf.NegativeEvent);
 					base.MentalStateTick();
 				}
 			}
@@ -67,23 +67,18 @@ namespace Verse.AI
 			base.PostEnd();
 			if (base.target != null && PawnUtility.ShouldSendNotificationAbout(base.pawn))
 			{
-				Messages.Message("MessageNoLongerOnTargetedInsultingSpree".Translate(base.pawn.NameStringShort, base.target.Label), (Thing)base.pawn, MessageTypeDefOf.SituationResolved);
+				Messages.Message("MessageNoLongerOnTargetedInsultingSpree".Translate(base.pawn.NameStringShort, base.target.Label), base.pawn, MessageTypeDefOf.SituationResolved);
 			}
 		}
 
 		public override string GetBeginLetterText()
 		{
-			string result;
 			if (base.target == null)
 			{
 				Log.Error("No target. This should have been checked in this mental state's worker.");
-				result = "";
+				return string.Empty;
 			}
-			else
-			{
-				result = string.Format(base.def.beginLetter, base.pawn.Label, base.target.Label).AdjustedFor(base.pawn).CapitalizeFirst();
-			}
-			return result;
+			return string.Format(base.def.beginLetter, base.pawn.Label, base.target.Label).AdjustedFor(base.pawn).CapitalizeFirst();
 		}
 	}
 }

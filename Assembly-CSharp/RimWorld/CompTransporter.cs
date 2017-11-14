@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -86,17 +85,16 @@ namespace RimWorld
 		{
 			get
 			{
-				Thing result;
 				if (this.leftToLoad == null)
 				{
-					result = null;
+					return null;
 				}
-				else
+				TransferableOneWay transferableOneWay = this.leftToLoad.Find((TransferableOneWay x) => x.CountToTransfer != 0 && x.HasAnyThing);
+				if (transferableOneWay != null)
 				{
-					TransferableOneWay transferableOneWay = this.leftToLoad.Find((Predicate<TransferableOneWay>)((TransferableOneWay x) => x.CountToTransfer != 0 && x.HasAnyThing));
-					result = ((transferableOneWay == null) ? null : transferableOneWay.AnyThing);
+					return transferableOneWay.AnyThing;
 				}
-				return result;
+				return null;
 			}
 		}
 
@@ -105,25 +103,15 @@ namespace RimWorld
 			get
 			{
 				List<CompTransporter> list = this.TransportersInGroup(base.parent.Map);
-				int num = 0;
-				Thing result;
-				while (true)
+				for (int i = 0; i < list.Count; i++)
 				{
-					if (num < list.Count)
+					Thing firstThingLeftToLoad = list[i].FirstThingLeftToLoad;
+					if (firstThingLeftToLoad != null)
 					{
-						Thing firstThingLeftToLoad = list[num].FirstThingLeftToLoad;
-						if (firstThingLeftToLoad != null)
-						{
-							result = firstThingLeftToLoad;
-							break;
-						}
-						num++;
-						continue;
+						return firstThingLeftToLoad;
 					}
-					result = null;
-					break;
 				}
-				return result;
+				return null;
 			}
 		}
 
@@ -161,22 +149,17 @@ namespace RimWorld
 
 		public List<CompTransporter> TransportersInGroup(Map map)
 		{
-			List<CompTransporter> result;
 			if (!this.LoadingInProgressOrReadyToLaunch)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				TransporterUtility.GetTransportersInGroup(this.groupID, map, CompTransporter.tmpTransportersInGroup);
-				result = CompTransporter.tmpTransportersInGroup;
-			}
-			return result;
+			TransporterUtility.GetTransportersInGroup(this.groupID, map, CompTransporter.tmpTransportersInGroup);
+			return CompTransporter.tmpTransportersInGroup;
 		}
 
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CCompGetGizmosExtra_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.CompGetGizmosExtra().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -192,10 +175,10 @@ namespace RimWorld
 					defaultLabel = "CommandCancelLoad".Translate(),
 					defaultDesc = "CommandCancelLoadDesc".Translate(),
 					icon = CompTransporter.CancelLoadCommandTex,
-					action = (Action)delegate
+					action = delegate
 					{
 						SoundDefOf.DesignateCancel.PlayOneShotOnCamera(null);
-						((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0124: stateMachine*/)._0024this.CancelLoad();
+						((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_011f: stateMachine*/)._0024this.CancelLoad();
 					}
 				};
 				/*Error: Unable to find new state assignment for yield return*/;
@@ -232,8 +215,8 @@ namespace RimWorld
 			}
 			yield return (Gizmo)loadGroup;
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0469:
-			/*Error near IL_046a: Unexpected return in MoveNext()*/;
+			IL_045b:
+			/*Error near IL_045c: Unexpected return in MoveNext()*/;
 		}
 
 		public override void PostDeSpawn(Map map)
@@ -285,23 +268,18 @@ namespace RimWorld
 
 		public bool CancelLoad(Map map)
 		{
-			bool result;
 			if (!this.LoadingInProgressOrReadyToLaunch)
 			{
-				result = false;
+				return false;
 			}
-			else
+			this.TryRemoveLord(map);
+			List<CompTransporter> list = this.TransportersInGroup(map);
+			for (int i = 0; i < list.Count; i++)
 			{
-				this.TryRemoveLord(map);
-				List<CompTransporter> list = this.TransportersInGroup(map);
-				for (int i = 0; i < list.Count; i++)
-				{
-					list[i].CleanUpLoadingVars(map);
-				}
-				this.CleanUpLoadingVars(map);
-				result = true;
+				list[i].CleanUpLoadingVars(map);
 			}
-			return result;
+			this.CleanUpLoadingVars(map);
+			return true;
 		}
 
 		public void TryRemoveLord(Map map)
@@ -340,7 +318,7 @@ namespace RimWorld
 					}
 					if (!this.AnyInGroupHasAnythingLeftToLoad)
 					{
-						Messages.Message("MessageFinishedLoadingTransporters".Translate(), (Thing)base.parent, MessageTypeDefOf.TaskCompletion);
+						Messages.Message("MessageFinishedLoadingTransporters".Translate(), base.parent, MessageTypeDefOf.TaskCompletion);
 					}
 				}
 			}
@@ -350,7 +328,7 @@ namespace RimWorld
 		{
 			List<CompTransporter> list = this.TransportersInGroup(this.Map);
 			int num = list.IndexOf(this);
-			CameraJumper.TryJumpAndSelect((Thing)list[GenMath.PositiveMod(num - 1, list.Count)].parent);
+			CameraJumper.TryJumpAndSelect(list[GenMath.PositiveMod(num - 1, list.Count)].parent);
 		}
 
 		private void SelectAllInGroup()
@@ -368,7 +346,7 @@ namespace RimWorld
 		{
 			List<CompTransporter> list = this.TransportersInGroup(this.Map);
 			int num = list.IndexOf(this);
-			CameraJumper.TryJumpAndSelect((Thing)list[(num + 1) % list.Count].parent);
+			CameraJumper.TryJumpAndSelect(list[(num + 1) % list.Count].parent);
 		}
 	}
 }

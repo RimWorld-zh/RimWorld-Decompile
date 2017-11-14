@@ -64,7 +64,11 @@ namespace RimWorld
 
 		public override AcceptanceReport AllowAction(EventPack ep)
 		{
-			return (!(ep.Tag == "Designate-Mine")) ? base.AllowAction(ep) : TutorUtility.EventCellsAreWithin(ep, this.mineCells);
+			if (ep.Tag == "Designate-Mine")
+			{
+				return TutorUtility.EventCellsAreWithin(ep, this.mineCells);
+			}
+			return base.AllowAction(ep);
 		}
 
 		public override void Notify_Event(EventPack ep)

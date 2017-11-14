@@ -33,8 +33,8 @@ namespace RimWorld
 		public override string ToString()
 		{
 			string text = this.def.ToString();
-			string text2;
-			text = (text2 = text.PadRight(17));
+			text = text.PadRight(17);
+			string text2 = text;
 			if (this.parms != null)
 			{
 				text2 = text2 + " " + this.parms.ToString();

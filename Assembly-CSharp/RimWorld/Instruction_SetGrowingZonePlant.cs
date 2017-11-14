@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Verse;
 
@@ -10,7 +9,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (Zone_Growing)base.Map.zoneManager.AllZones.FirstOrDefault((Func<Zone, bool>)((Zone z) => z is Zone_Growing));
+				return (Zone_Growing)base.Map.zoneManager.AllZones.FirstOrDefault((Zone z) => z is Zone_Growing);
 			}
 		}
 

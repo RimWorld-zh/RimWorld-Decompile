@@ -1,6 +1,5 @@
 using RimWorld;
 using Steamworks;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
@@ -13,11 +12,11 @@ namespace Verse
 	{
 		private class ModMetaDataInternal
 		{
-			public string name = "";
+			public string name = string.Empty;
 
 			public string author = "Anonymous";
 
-			public string url = "";
+			public string url = string.Empty;
 
 			public string targetVersion = "Unknown";
 
@@ -28,7 +27,7 @@ namespace Verse
 
 		private ContentSource source;
 
-		public Texture2D previewImage = null;
+		public Texture2D previewImage;
 
 		public bool enabled = true;
 
@@ -80,7 +79,15 @@ namespace Verse
 		{
 			get
 			{
-				return this.IsCoreMod || (VersionControl.IsWellFormattedVersionString(this.TargetVersion) && VersionControl.MinorFromVersionString(this.TargetVersion) == VersionControl.CurrentMinor);
+				if (this.IsCoreMod)
+				{
+					return true;
+				}
+				if (!VersionControl.IsWellFormattedVersionString(this.TargetVersion))
+				{
+					return false;
+				}
+				return VersionControl.MinorFromVersionString(this.TargetVersion) == VersionControl.CurrentMinor;
 			}
 		}
 
@@ -192,7 +199,7 @@ namespace Verse
 			{
 				Log.ErrorOnce("Mod " + this.meta.name + " has incorrectly formatted target version '" + this.meta.targetVersion + "'. For the current version, write: <targetVersion>" + VersionControl.CurrentVersionString + "</targetVersion>", this.Identifier.GetHashCode());
 			}
-			LongEventHandler.ExecuteWhenFinished((Action)delegate
+			LongEventHandler.ExecuteWhenFinished(delegate
 			{
 				string url = GenFilePaths.SafeURIForUnityWWWFromPath(this.PreviewImagePath);
 				using (WWW wWW = new WWW(url))
@@ -228,7 +235,19 @@ namespace Verse
 
 		public bool CanToUploadToWorkshop()
 		{
-			return (byte)((!this.IsCoreMod) ? ((this.Source == ContentSource.LocalFolder) ? ((!this.GetWorkshopItemHook().MayHaveAuthorNotCurrentUser) ? 1 : 0) : 0) : 0) != 0;
+			if (this.IsCoreMod)
+			{
+				return false;
+			}
+			if (this.Source != ContentSource.LocalFolder)
+			{
+				return false;
+			}
+			if (this.GetWorkshopItemHook().MayHaveAuthorNotCurrentUser)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public PublishedFileId_t GetPublishedFileId()

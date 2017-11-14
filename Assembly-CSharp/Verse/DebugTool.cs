@@ -7,9 +7,9 @@ namespace Verse
 	{
 		private string label;
 
-		private Action clickAction = null;
+		private Action clickAction;
 
-		private Action onGUIAction = null;
+		private Action onGUIAction;
 
 		public DebugTool(string label, Action clickAction, Action onGUIAction = null)
 		{
@@ -22,7 +22,7 @@ namespace Verse
 		{
 			this.label = label;
 			this.clickAction = clickAction;
-			this.onGUIAction = (Action)delegate()
+			this.onGUIAction = delegate
 			{
 				IntVec3 intVec = UI.MouseCell();
 				Vector3 v = firstRectCorner.ToVector3Shifted();
@@ -71,7 +71,7 @@ namespace Verse
 			Rect rect = new Rect(vector.x, vector.y, 999f, 999f);
 			Text.Font = GameFont.Small;
 			Widgets.Label(rect, this.label);
-			if ((object)this.onGUIAction != null)
+			if (this.onGUIAction != null)
 			{
 				this.onGUIAction();
 			}

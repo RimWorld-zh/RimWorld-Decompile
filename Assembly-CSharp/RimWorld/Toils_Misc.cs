@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -10,7 +9,7 @@ namespace RimWorld
 		public static Toil Learn(SkillDef skill, float xp)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				toil.actor.skills.Learn(skill, xp, false);
 			};
@@ -20,7 +19,7 @@ namespace RimWorld
 		public static Toil SetForbidden(TargetIndex ind, bool forbidden)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				toil.actor.CurJob.GetTarget(ind).Thing.SetForbidden(forbidden, true);
 			};
@@ -30,7 +29,7 @@ namespace RimWorld
 		public static Toil TakeItemFromInventoryToCarrier(Pawn pawn, TargetIndex itemInd)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Job curJob = pawn.CurJob;
 				Thing thing = (Thing)curJob.GetTarget(itemInd);
@@ -44,7 +43,7 @@ namespace RimWorld
 		public static Toil ThrowColonistAttackingMote(TargetIndex target)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.CurJob;
@@ -59,7 +58,7 @@ namespace RimWorld
 		public static Toil FindRandomAdjacentReachableCell(TargetIndex adjacentToInd, TargetIndex cellInd)
 		{
 			Toil findCell = new Toil();
-			findCell.initAction = (Action)delegate()
+			findCell.initAction = delegate
 			{
 				Pawn actor = findCell.actor;
 				Job curJob = actor.CurJob;

@@ -18,7 +18,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable Regenerate()
 		{
-			IEnumerator enumerator = this._003CRegenerate_003E__BaseCallProxy0().GetEnumerator();
+			IEnumerator enumerator = base.Regenerate().GetEnumerator();
 			try
 			{
 				if (enumerator.MoveNext())
@@ -83,14 +83,14 @@ namespace RimWorld.Planet
 								{
 									flag = true;
 								}
-								List<OutputDirection> obj = outputs;
+								List<OutputDirection> list = outputs;
 								OutputDirection item = default(OutputDirection);
 								Tile.RoadLink roadLink4 = tile.roads[l];
 								item.neighbor = roadLink4.neighbor;
 								item.width = layerWidth;
 								item.distortionFrequency = road.distortionFrequency;
 								item.distortionIntensity = road.distortionIntensity;
-								obj.Add(item);
+								list.Add(item);
 							}
 							if (flag)
 							{
@@ -102,8 +102,8 @@ namespace RimWorld.Planet
 			}
 			base.FinalizeMesh(MeshParts.All);
 			yield break;
-			IL_03b0:
-			/*Error near IL_03b1: Unexpected return in MoveNext()*/;
+			IL_03a2:
+			/*Error near IL_03a3: Unexpected return in MoveNext()*/;
 		}
 
 		public override Vector3 FinalizePoint(Vector3 inp, float distortionFrequency, float distortionIntensity)

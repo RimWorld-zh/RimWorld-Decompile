@@ -103,7 +103,11 @@ namespace Verse
 
 		public static bool IsUppercaseTitleWord(string word)
 		{
-			return word.Length > 1 && !TitleCaseHelper.NonUppercaseWords.Contains(word);
+			if (word.Length <= 1)
+			{
+				return false;
+			}
+			return !TitleCaseHelper.NonUppercaseWords.Contains(word);
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -28,32 +27,22 @@ namespace RimWorld.Planet
 			get
 			{
 				List<WorldObject> selectedObjects = Find.WorldSelector.SelectedObjects;
-				int num = 0;
-				bool result;
-				while (true)
+				for (int i = 0; i < selectedObjects.Count; i++)
 				{
-					if (num < selectedObjects.Count)
+					Caravan caravan = selectedObjects[i] as Caravan;
+					if (caravan != null && caravan.IsPlayerControlled)
 					{
-						Caravan caravan = selectedObjects[num] as Caravan;
-						if (caravan != null && caravan.IsPlayerControlled)
+						for (int j = i + 1; j < selectedObjects.Count; j++)
 						{
-							for (int i = num + 1; i < selectedObjects.Count; i++)
+							Caravan caravan2 = selectedObjects[j] as Caravan;
+							if (caravan2 != null && caravan2.IsPlayerControlled && CaravanMergeUtility.CloseToEachOther(caravan, caravan2))
 							{
-								Caravan caravan2 = selectedObjects[i] as Caravan;
-								if (caravan2 != null && caravan2.IsPlayerControlled && CaravanMergeUtility.CloseToEachOther(caravan, caravan2))
-									goto IL_006b;
+								return true;
 							}
 						}
-						num++;
-						continue;
 					}
-					result = false;
-					break;
-					IL_006b:
-					result = true;
-					break;
 				}
-				return result;
+				return false;
 			}
 		}
 
@@ -63,32 +52,22 @@ namespace RimWorld.Planet
 			{
 				List<WorldObject> selectedObjects = Find.WorldSelector.SelectedObjects;
 				List<Caravan> caravans = Find.WorldObjects.Caravans;
-				int num = 0;
-				bool result;
-				while (true)
+				for (int i = 0; i < selectedObjects.Count; i++)
 				{
-					if (num < selectedObjects.Count)
+					Caravan caravan = selectedObjects[i] as Caravan;
+					if (caravan != null && caravan.IsPlayerControlled)
 					{
-						Caravan caravan = selectedObjects[num] as Caravan;
-						if (caravan != null && caravan.IsPlayerControlled)
+						for (int j = 0; j < caravans.Count; j++)
 						{
-							for (int i = 0; i < caravans.Count; i++)
+							Caravan caravan2 = caravans[j];
+							if (caravan2 != caravan && caravan2.IsPlayerControlled && CaravanMergeUtility.CloseToEachOther(caravan, caravan2))
 							{
-								Caravan caravan2 = caravans[i];
-								if (caravan2 != caravan && caravan2.IsPlayerControlled && CaravanMergeUtility.CloseToEachOther(caravan, caravan2))
-									goto IL_0077;
+								return true;
 							}
 						}
-						num++;
-						continue;
 					}
-					result = false;
-					break;
-					IL_0077:
-					result = true;
-					break;
 				}
-				return result;
+				return false;
 			}
 		}
 
@@ -98,7 +77,7 @@ namespace RimWorld.Planet
 			command_Action.defaultLabel = "CommandMergeCaravans".Translate();
 			command_Action.defaultDesc = "CommandMergeCaravansDesc".Translate();
 			command_Action.icon = CaravanMergeUtility.MergeCommandTex;
-			command_Action.action = (Action)delegate
+			command_Action.action = delegate
 			{
 				CaravanMergeUtility.TryMergeSelectedCaravans();
 				SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
@@ -145,24 +124,23 @@ namespace RimWorld.Planet
 
 		private static bool CloseToEachOther(Caravan c1, Caravan c2)
 		{
-			bool result;
 			if (c1.Tile == c2.Tile)
 			{
-				result = true;
+				return true;
 			}
-			else
+			Vector3 drawPos = c1.DrawPos;
+			Vector3 drawPos2 = c2.DrawPos;
+			float num = (float)(Find.WorldGrid.averageTileSize * 0.5);
+			if ((drawPos - drawPos2).sqrMagnitude < num * num)
 			{
-				Vector3 drawPos = c1.DrawPos;
-				Vector3 drawPos2 = c2.DrawPos;
-				float num = (float)(Find.WorldGrid.averageTileSize * 0.5);
-				result = ((byte)(((drawPos - drawPos2).sqrMagnitude < num * num) ? 1 : 0) != 0);
+				return true;
 			}
-			return result;
+			return false;
 		}
 
 		private static void MergeCaravans(List<Caravan> caravans)
 		{
-			Caravan caravan = caravans.MaxBy((Func<Caravan, int>)((Caravan x) => x.PawnsListForReading.Count));
+			Caravan caravan = caravans.MaxBy((Caravan x) => x.PawnsListForReading.Count);
 			for (int i = 0; i < caravans.Count; i++)
 			{
 				Caravan caravan2 = caravans[i];

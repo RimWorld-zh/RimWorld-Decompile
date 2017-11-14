@@ -9,8 +9,8 @@ namespace Verse
 	{
 		public enum BindingSlot : byte
 		{
-			A = 0,
-			B = 1
+			A,
+			B
 		}
 
 		private static KeyPrefsData data;

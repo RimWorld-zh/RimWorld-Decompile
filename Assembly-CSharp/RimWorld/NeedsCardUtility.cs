@@ -37,18 +37,13 @@ namespace RimWorld
 		public static Vector2 GetSize(Pawn pawn)
 		{
 			NeedsCardUtility.UpdateDisplayNeeds(pawn);
-			Vector2 result;
 			if (pawn.needs.mood != null)
 			{
-				result = NeedsCardUtility.FullSize;
+				return NeedsCardUtility.FullSize;
 			}
-			else
-			{
-				float num = (float)NeedsCardUtility.displayNeeds.Count;
-				Vector2 fullSize = NeedsCardUtility.FullSize;
-				result = new Vector2(225f, num * Mathf.Min(70f, fullSize.y / (float)NeedsCardUtility.displayNeeds.Count));
-			}
-			return result;
+			float num = (float)NeedsCardUtility.displayNeeds.Count;
+			Vector2 fullSize = NeedsCardUtility.FullSize;
+			return new Vector2(225f, num * Mathf.Min(70f, fullSize.y / (float)NeedsCardUtility.displayNeeds.Count));
 		}
 
 		public static void DoNeedsMoodAndThoughts(Rect rect, Pawn pawn, ref Vector2 thoughtScrollPosition)

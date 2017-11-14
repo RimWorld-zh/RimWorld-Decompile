@@ -8,12 +8,7 @@ namespace RimWorld
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			MentalState_Tantrum mentalState_Tantrum = pawn.MentalState as MentalState_Tantrum;
-			Job result;
-			if (mentalState_Tantrum == null || mentalState_Tantrum.target == null || !pawn.CanReach(mentalState_Tantrum.target, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
-			{
-				result = null;
-			}
-			else
+			if (mentalState_Tantrum != null && mentalState_Tantrum.target != null && pawn.CanReach(mentalState_Tantrum.target, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
 			{
 				Verb verbToUse = null;
 				Pawn pawn2 = mentalState_Tantrum.target as Pawn;
@@ -21,23 +16,19 @@ namespace RimWorld
 				{
 					if (pawn2.Downed)
 					{
-						result = null;
-						goto IL_00ab;
+						return null;
 					}
 					if (!InteractionUtility.TryGetRandomVerbForSocialFight(pawn, out verbToUse))
 					{
-						result = null;
-						goto IL_00ab;
+						return null;
 					}
 				}
 				Job job = new Job(JobDefOf.AttackMelee, mentalState_Tantrum.target);
 				job.maxNumMeleeAttacks = 1;
 				job.verbToUse = verbToUse;
-				result = job;
+				return job;
 			}
-			goto IL_00ab;
-			IL_00ab:
-			return result;
+			return null;
 		}
 	}
 }

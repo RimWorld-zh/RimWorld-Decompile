@@ -6,11 +6,11 @@ namespace RimWorld
 	{
 		public ThingDef drug;
 
-		public bool allowedForAddiction = false;
+		public bool allowedForAddiction;
 
-		public bool allowedForJoy = false;
+		public bool allowedForJoy;
 
-		public bool allowScheduled = false;
+		public bool allowScheduled;
 
 		public float daysFrequency = 1f;
 
@@ -18,7 +18,7 @@ namespace RimWorld
 
 		public float onlyIfJoyBelow = 1f;
 
-		public int takeToInventory = 0;
+		public int takeToInventory;
 
 		public string takeToInventoryTempBuffer;
 

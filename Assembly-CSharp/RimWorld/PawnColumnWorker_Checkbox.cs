@@ -17,9 +17,9 @@ namespace RimWorld
 				int num2 = Mathf.Max(3, 0);
 				Vector2 topLeft = new Vector2(rect.x + (float)num, rect.y + (float)num2);
 				Rect rect2 = new Rect(topLeft.x, topLeft.y, 24f, 24f);
-				bool value;
-				bool flag = value = this.GetValue(pawn);
-				Widgets.Checkbox(topLeft, ref flag, 24f, false);
+				bool value = this.GetValue(pawn);
+				bool flag = value;
+				Widgets.Checkbox(topLeft, ref value, 24f, false);
 				if (Mouse.IsOver(rect2))
 				{
 					string tip = this.GetTip(pawn);
@@ -28,9 +28,9 @@ namespace RimWorld
 						TooltipHandler.TipRegion(rect2, tip);
 					}
 				}
-				if (flag != value)
+				if (value != flag)
 				{
-					this.SetValue(pawn, flag);
+					this.SetValue(pawn, value);
 				}
 			}
 		}
@@ -57,12 +57,20 @@ namespace RimWorld
 
 		private int GetValueToCompare(Pawn pawn)
 		{
-			return this.HasCheckbox(pawn) ? ((!this.GetValue(pawn)) ? 1 : 2) : 0;
+			if (!this.HasCheckbox(pawn))
+			{
+				return 0;
+			}
+			if (!this.GetValue(pawn))
+			{
+				return 1;
+			}
+			return 2;
 		}
 
 		protected virtual string GetTip(Pawn pawn)
 		{
-			return (string)null;
+			return null;
 		}
 
 		protected virtual bool HasCheckbox(Pawn pawn)

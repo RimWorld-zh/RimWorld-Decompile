@@ -32,7 +32,7 @@ namespace RimWorld
 
 		public override bool TryMakePreToilReservations()
 		{
-			return base.pawn.Reserve((Thing)this.Barrel, base.job, 1, -1, null);
+			return base.pawn.Reserve(this.Barrel, base.job, 1, -1, null);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()

@@ -9,11 +9,11 @@ namespace RimWorld
 
 		private int ticksUntilSpray = 500;
 
-		private int sprayTicksLeft = 0;
+		private int sprayTicksLeft;
 
-		public Action startSprayCallback = null;
+		public Action startSprayCallback;
 
-		public Action endSprayCallback = null;
+		public Action endSprayCallback;
 
 		private const int MinTicksBetweenSprays = 500;
 
@@ -45,7 +45,7 @@ namespace RimWorld
 				}
 				if (this.sprayTicksLeft <= 0)
 				{
-					if ((object)this.endSprayCallback != null)
+					if (this.endSprayCallback != null)
 					{
 						this.endSprayCallback();
 					}
@@ -57,7 +57,7 @@ namespace RimWorld
 				this.ticksUntilSpray--;
 				if (this.ticksUntilSpray <= 0)
 				{
-					if ((object)this.startSprayCallback != null)
+					if (this.startSprayCallback != null)
 					{
 						this.startSprayCallback();
 					}

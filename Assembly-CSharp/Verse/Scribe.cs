@@ -17,7 +17,19 @@ namespace Verse
 
 		public static bool EnterNode(string nodeName)
 		{
-			return Scribe.mode != 0 && ((Scribe.mode != LoadSaveMode.Saving) ? ((Scribe.mode != LoadSaveMode.LoadingVars && Scribe.mode != LoadSaveMode.ResolvingCrossRefs && Scribe.mode != LoadSaveMode.PostLoadInit) || Scribe.loader.EnterNode(nodeName)) : Scribe.saver.EnterNode(nodeName));
+			if (Scribe.mode == LoadSaveMode.Inactive)
+			{
+				return false;
+			}
+			if (Scribe.mode == LoadSaveMode.Saving)
+			{
+				return Scribe.saver.EnterNode(nodeName);
+			}
+			if (Scribe.mode != LoadSaveMode.LoadingVars && Scribe.mode != LoadSaveMode.ResolvingCrossRefs && Scribe.mode != LoadSaveMode.PostLoadInit)
+			{
+				return true;
+			}
+			return Scribe.loader.EnterNode(nodeName);
 		}
 
 		public static void ExitNode()

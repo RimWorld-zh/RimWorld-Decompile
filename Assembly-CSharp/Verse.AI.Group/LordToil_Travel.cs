@@ -4,7 +4,7 @@ namespace Verse.AI.Group
 {
 	public class LordToil_Travel : LordToil
 	{
-		public Danger maxDanger = Danger.Unspecified;
+		public Danger maxDanger;
 
 		public override IntVec3 FlagLoc
 		{

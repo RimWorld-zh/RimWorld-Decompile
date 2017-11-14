@@ -13,9 +13,9 @@ namespace Verse
 		{
 			public enum Winner
 			{
-				Other = 0,
-				Lhs = 1,
-				Rhs = 2
+				Other,
+				Lhs,
+				Rhs
 			}
 
 			public Winner winner;
@@ -25,7 +25,7 @@ namespace Verse
 
 		private class ArenaSetState
 		{
-			public int live = 0;
+			public int live;
 		}
 
 		private const int liveSimultaneous = 15;
@@ -33,7 +33,7 @@ namespace Verse
 		public static void BeginArenaFight(List<PawnKindDef> lhs, List<PawnKindDef> rhs, Action<ArenaResult> callback)
 		{
 			MapParent mapParent = (MapParent)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Debug_Arena);
-			mapParent.Tile = TileFinder.RandomFactionBaseTileFor(Faction.OfPlayer, true, (Predicate<int>)((int tile) => lhs.Concat(rhs).Any((Func<PawnKindDef, bool>)((PawnKindDef pawnkind) => Find.World.tileTemperatures.SeasonAndOutdoorTemperatureAcceptableFor(tile, pawnkind.race)))));
+			mapParent.Tile = TileFinder.RandomFactionBaseTileFor(Faction.OfPlayer, true, (int tile) => lhs.Concat(rhs).Any((PawnKindDef pawnkind) => Find.World.tileTemperatures.SeasonAndOutdoorTemperatureAcceptableFor(tile, pawnkind.race)));
 			mapParent.SetFaction(Faction.OfPlayer);
 			Find.WorldObjects.Add(mapParent);
 			Map orGenerateMap = GetOrGenerateMapUtility.GetOrGenerateMap(mapParent.Tile, new IntVec3(50, 1, 50), null);
@@ -64,30 +64,25 @@ namespace Verse
 
 		private static bool ArenaFightQueue(List<PawnKindDef> lhs, List<PawnKindDef> rhs, Action<ArenaResult> callback, ArenaSetState state)
 		{
-			bool result2;
 			if (state.live < 15)
 			{
-				ArenaUtility.BeginArenaFight(lhs, rhs, (Action<ArenaResult>)delegate(ArenaResult result)
+				ArenaUtility.BeginArenaFight(lhs, rhs, delegate(ArenaResult result)
 				{
 					state.live--;
 					callback(result);
 				});
 				state.live++;
-				result2 = true;
+				return true;
 			}
-			else
-			{
-				result2 = false;
-			}
-			return result2;
+			return false;
 		}
 
 		public static void BeginArenaFightSet(int count, List<PawnKindDef> lhs, List<PawnKindDef> rhs, Action<ArenaResult> callback, Action report)
 		{
 			ArenaSetState state = new ArenaSetState();
-			for (int num = 0; num < count; num++)
+			for (int i = 0; i < count; i++)
 			{
-				Current.Game.GetComponent<GameComponent_DebugTools>().AddPerFrameCallback((Func<bool>)(() => ArenaUtility.ArenaFightQueue(lhs, rhs, (Action<ArenaResult>)delegate(ArenaResult result)
+				Current.Game.GetComponent<GameComponent_DebugTools>().AddPerFrameCallback(() => ArenaUtility.ArenaFightQueue(lhs, rhs, delegate(ArenaResult result)
 				{
 					callback(result);
 					count--;
@@ -95,7 +90,7 @@ namespace Verse
 					{
 						report();
 					}
-				}, state)));
+				}, state));
 			}
 		}
 	}

@@ -5,11 +5,11 @@ namespace RimWorld
 {
 	public class CompProperties_Drug : CompProperties
 	{
-		public ChemicalDef chemical = null;
+		public ChemicalDef chemical;
 
-		public float addictiveness = 0f;
+		public float addictiveness;
 
-		public float minToleranceToAddict = 0f;
+		public float minToleranceToAddict;
 
 		public float existingAddictionSeverityOffset = 0.1f;
 
@@ -17,11 +17,11 @@ namespace RimWorld
 
 		public FloatRange overdoseSeverityOffset = FloatRange.Zero;
 
-		public float largeOverdoseChance = 0f;
+		public float largeOverdoseChance;
 
-		public bool isCombatEnhancingDrug = false;
+		public bool isCombatEnhancingDrug;
 
-		public float listOrder = 0f;
+		public float listOrder;
 
 		public bool Addictive
 		{
@@ -46,7 +46,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0(parentDef).GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors(parentDef).GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -61,13 +61,13 @@ namespace RimWorld
 				yield break;
 			yield return "addictive but chemical is null";
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0106:
-			/*Error near IL_0107: Unexpected return in MoveNext()*/;
+			IL_0102:
+			/*Error near IL_0103: Unexpected return in MoveNext()*/;
 		}
 
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
-			using (IEnumerator<StatDrawEntry> enumerator = this._003CSpecialDisplayStats_003E__BaseCallProxy1().GetEnumerator())
+			using (IEnumerator<StatDrawEntry> enumerator = base.SpecialDisplayStats().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -78,10 +78,10 @@ namespace RimWorld
 			}
 			if (!this.Addictive)
 				yield break;
-			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Addictiveness".Translate(), this.addictiveness.ToStringPercent(), 0, "");
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Addictiveness".Translate(), this.addictiveness.ToStringPercent(), 0, string.Empty);
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0117:
-			/*Error near IL_0118: Unexpected return in MoveNext()*/;
+			IL_0111:
+			/*Error near IL_0112: Unexpected return in MoveNext()*/;
 		}
 	}
 }

@@ -6,7 +6,11 @@ namespace Verse.Steam
 	{
 		public static string GetLabel(this WorkshopInteractStage stage)
 		{
-			return (stage != 0) ? ("WorkshopInteractStage_" + stage.ToString()).Translate() : "None".Translate();
+			if (stage == WorkshopInteractStage.None)
+			{
+				return "None".Translate();
+			}
+			return ("WorkshopInteractStage_" + stage.ToString()).Translate();
 		}
 
 		public static string GetLabel(this EItemUpdateStatus status)

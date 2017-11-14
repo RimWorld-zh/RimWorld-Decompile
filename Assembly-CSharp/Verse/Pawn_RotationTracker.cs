@@ -168,7 +168,23 @@ namespace Verse
 
 		public static Rot4 RotFromAngleBiased(float angle)
 		{
-			return (!(angle < 30.0)) ? ((!(angle < 150.0)) ? ((!(angle < 210.0)) ? ((!(angle < 330.0)) ? Rot4.North : Rot4.West) : Rot4.South) : Rot4.East) : Rot4.North;
+			if (angle < 30.0)
+			{
+				return Rot4.North;
+			}
+			if (angle < 150.0)
+			{
+				return Rot4.East;
+			}
+			if (angle < 210.0)
+			{
+				return Rot4.South;
+			}
+			if (angle < 330.0)
+			{
+				return Rot4.West;
+			}
+			return Rot4.North;
 		}
 
 		public void ExposeData()

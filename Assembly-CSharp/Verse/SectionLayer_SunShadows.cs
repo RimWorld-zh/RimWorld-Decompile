@@ -6,7 +6,7 @@ namespace Verse
 	{
 		private static Building[] edificeGrid;
 
-		private static readonly Color32 LowVertexColor = new Color32((byte)0, (byte)0, (byte)0, (byte)0);
+		private static readonly Color32 LowVertexColor = new Color32(0, 0, 0, 0);
 
 		public override bool Visible
 		{
@@ -16,7 +16,8 @@ namespace Verse
 			}
 		}
 
-		public SectionLayer_SunShadows(Section section) : base(section)
+		public SectionLayer_SunShadows(Section section)
+			: base(section)
 		{
 			base.relevantChangeTypes = MapMeshFlag.Buildings;
 		}
@@ -43,7 +44,7 @@ namespace Verse
 						if (thing != null && thing.def.staticSunShadowHeight > 0.0)
 						{
 							float staticSunShadowHeight = thing.def.staticSunShadowHeight;
-							Color32 item = new Color32((byte)0, (byte)0, (byte)0, (byte)(255.0 * staticSunShadowHeight));
+							Color32 item = new Color32(0, 0, 0, (byte)(255.0 * staticSunShadowHeight));
 							int count = subMesh.verts.Count;
 							subMesh.verts.Add(new Vector3((float)i, y, (float)j));
 							subMesh.verts.Add(new Vector3((float)i, y, (float)(j + 1)));

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -15,7 +14,7 @@ namespace RimWorld
 
 		public static void DriveInsane(Pawn p)
 		{
-			p.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, (string)null, true, false, null);
+			p.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, null, true, false, null);
 		}
 
 		protected override bool TryExecuteWorker(IncidentParms parms)
@@ -29,9 +28,9 @@ namespace RimWorld
 			float adjustedPoints = parms.points;
 			if (adjustedPoints > 250.0)
 			{
-				adjustedPoints -= 250f;
-				adjustedPoints *= 0.5f;
-				adjustedPoints += 250f;
+				adjustedPoints = (float)(adjustedPoints - 250.0);
+				adjustedPoints = (float)(adjustedPoints * 0.5);
+				adjustedPoints = (float)(adjustedPoints + 250.0);
 			}
 			IEnumerable<PawnKindDef> source = from def in DefDatabase<PawnKindDef>.AllDefs
 			where def.RaceProps.Animal && def.combatPower <= adjustedPoints && (from p in map.mapPawns.AllPawnsSpawned
@@ -39,64 +38,56 @@ namespace RimWorld
 			select p).Count() >= 3
 			select def;
 			PawnKindDef animalDef;
-			bool result;
 			if (!source.TryRandomElement<PawnKindDef>(out animalDef))
 			{
-				result = false;
+				return false;
+			}
+			List<Pawn> list = (from p in map.mapPawns.AllPawnsSpawned
+			where p.kindDef == animalDef && IncidentWorker_AnimalInsanityMass.AnimalUsable(p)
+			select p).ToList();
+			float combatPower = animalDef.combatPower;
+			float num = 0f;
+			int num2 = 0;
+			Pawn pawn = null;
+			list.Shuffle();
+			foreach (Pawn item in list)
+			{
+				if (!(num + combatPower > adjustedPoints))
+				{
+					IncidentWorker_AnimalInsanityMass.DriveInsane(item);
+					num += combatPower;
+					num2++;
+					pawn = item;
+					continue;
+				}
+				break;
+			}
+			if (num == 0.0)
+			{
+				return false;
+			}
+			string label;
+			string text;
+			LetterDef textLetterDef;
+			if (num2 == 1)
+			{
+				label = "LetterLabelAnimalInsanitySingle".Translate() + ": " + pawn.LabelCap;
+				text = "AnimalInsanitySingle".Translate(pawn.LabelShort);
+				textLetterDef = LetterDefOf.ThreatSmall;
 			}
 			else
 			{
-				List<Pawn> list = (from p in map.mapPawns.AllPawnsSpawned
-				where p.kindDef == animalDef && IncidentWorker_AnimalInsanityMass.AnimalUsable(p)
-				select p).ToList();
-				float combatPower = animalDef.combatPower;
-				float num = 0f;
-				int num2 = 0;
-				Pawn pawn = null;
-				list.Shuffle();
-				foreach (Pawn item in list)
-				{
-					if (!(num + combatPower > adjustedPoints))
-					{
-						IncidentWorker_AnimalInsanityMass.DriveInsane(item);
-						num += combatPower;
-						num2++;
-						pawn = item;
-						continue;
-					}
-					break;
-				}
-				if (num == 0.0)
-				{
-					result = false;
-				}
-				else
-				{
-					string label;
-					string text;
-					LetterDef textLetterDef;
-					if (num2 == 1)
-					{
-						label = "LetterLabelAnimalInsanitySingle".Translate() + ": " + pawn.LabelCap;
-						text = "AnimalInsanitySingle".Translate(pawn.LabelShort);
-						textLetterDef = LetterDefOf.ThreatSmall;
-					}
-					else
-					{
-						label = "LetterLabelAnimalInsanityMultiple".Translate() + ": " + animalDef.LabelCap;
-						text = "AnimalInsanityMultiple".Translate(animalDef.GetLabelPlural(-1));
-						textLetterDef = LetterDefOf.ThreatBig;
-					}
-					Find.LetterStack.ReceiveLetter(label, text, textLetterDef, (Thing)pawn, (string)null);
-					SoundDefOf.PsychicPulseGlobal.PlayOneShotOnCamera(map);
-					if (map == Find.VisibleMap)
-					{
-						Find.CameraDriver.shaker.DoShake(1f);
-					}
-					result = true;
-				}
+				label = "LetterLabelAnimalInsanityMultiple".Translate() + ": " + animalDef.LabelCap;
+				text = "AnimalInsanityMultiple".Translate(animalDef.GetLabelPlural(-1));
+				textLetterDef = LetterDefOf.ThreatBig;
 			}
-			return result;
+			Find.LetterStack.ReceiveLetter(label, text, textLetterDef, pawn, null);
+			SoundDefOf.PsychicPulseGlobal.PlayOneShotOnCamera(map);
+			if (map == Find.VisibleMap)
+			{
+				Find.CameraDriver.shaker.DoShake(1f);
+			}
+			return true;
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -25,12 +24,12 @@ namespace Verse
 		{
 			this.compressibilityDecider = new CompressibilityDecider(this.map);
 			this.compressibilityDecider.DetermineReferences();
-			this.compressedData = MapSerializeUtility.SerializeUshort(this.map, new Func<IntVec3, ushort>(this.HashValueForSquare));
+			this.compressedData = MapSerializeUtility.SerializeUshort(this.map, this.HashValueForSquare);
 		}
 
 		private ushort HashValueForSquare(IntVec3 curSq)
 		{
-			ushort num = (ushort)0;
+			ushort num = 0;
 			foreach (Thing item in this.map.thingGrid.ThingsAt(curSq))
 			{
 				if (item.IsSaveCompressible())
@@ -60,7 +59,7 @@ namespace Verse
 				}
 			}
 			List<Thing> loadables = new List<Thing>();
-			MapSerializeUtility.LoadUshort(this.compressedData, this.map, (Action<IntVec3, ushort>)delegate(IntVec3 c, ushort val)
+			MapSerializeUtility.LoadUshort(this.compressedData, this.map, delegate(IntVec3 c, ushort val)
 			{
 				if (val != 0)
 				{

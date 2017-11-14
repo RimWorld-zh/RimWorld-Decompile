@@ -1,6 +1,5 @@
 using RimWorld;
 using RimWorld.Planet;
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -9,7 +8,7 @@ namespace Verse
 	{
 		public CameraShaker shaker = new CameraShaker();
 
-		private Camera cachedCamera = null;
+		private Camera cachedCamera;
 
 		private GameObject reverbDummy;
 
@@ -27,7 +26,7 @@ namespace Verse
 
 		private Vector2 mouseDragVect = Vector2.zero;
 
-		private bool mouseCoveredByUI = false;
+		private bool mouseCoveredByUI;
 
 		private float mouseTouchingScreenBottomEdgeStartTime = -1f;
 
@@ -71,7 +70,7 @@ namespace Verse
 		{
 			get
 			{
-				if ((UnityEngine.Object)this.cachedCamera == (UnityEngine.Object)null)
+				if ((Object)this.cachedCamera == (Object)null)
 				{
 					this.cachedCamera = base.GetComponent<Camera>();
 				}
@@ -83,7 +82,11 @@ namespace Verse
 		{
 			get
 			{
-				return (float)((!Screen.fullScreen) ? 20.0 : 6.0);
+				if (Screen.fullScreen)
+				{
+					return 6f;
+				}
+				return 20f;
 			}
 		}
 
@@ -91,7 +94,23 @@ namespace Verse
 		{
 			get
 			{
-				return (CameraZoomRange)((!(this.rootSize < 12.0)) ? ((this.rootSize < 13.800000190734863) ? 1 : ((!(this.rootSize < 42.0)) ? ((!(this.rootSize < 57.0)) ? 4 : 3) : 2)) : 0);
+				if (this.rootSize < 12.0)
+				{
+					return CameraZoomRange.Closest;
+				}
+				if (this.rootSize < 13.800000190734863)
+				{
+					return CameraZoomRange.Close;
+				}
+				if (this.rootSize < 42.0)
+				{
+					return CameraZoomRange.Middle;
+				}
+				if (this.rootSize < 57.0)
+				{
+					return CameraZoomRange.Far;
+				}
+				return CameraZoomRange.Furthest;
 			}
 		}
 
@@ -191,6 +210,7 @@ namespace Verse
 			GUI.depth = 100;
 			if (!LongEventHandler.ShouldWaitForEvent && Find.VisibleMap != null)
 			{
+				UnityGUIBugsFixer.OnGUI();
 				this.mouseCoveredByUI = false;
 				if (Find.WindowStack.GetWindowAt(UI.MousePositionOnUIInverted) != null)
 				{
@@ -262,7 +282,10 @@ namespace Verse
 		{
 			if (LongEventHandler.ShouldWaitForEvent)
 			{
-				Current.SubcameraDriver.UpdatePositions(this.MyCamera);
+				if ((Object)Current.SubcameraDriver != (Object)null)
+				{
+					Current.SubcameraDriver.UpdatePositions(this.MyCamera);
+				}
 			}
 			else if (Find.VisibleMap != null)
 			{
@@ -432,7 +455,7 @@ namespace Verse
 			this.rootSize = rootSize;
 			this.desiredDolly = Vector2.zero;
 			this.desiredSize = rootSize;
-			LongEventHandler.ExecuteWhenFinished(new Action(this.ApplyPositionToGameObject));
+			LongEventHandler.ExecuteWhenFinished(this.ApplyPositionToGameObject);
 		}
 	}
 }

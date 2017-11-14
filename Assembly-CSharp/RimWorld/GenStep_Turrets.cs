@@ -30,23 +30,19 @@ namespace RimWorld
 			select x).RandomElementWithFallback(Find.FactionManager.RandomEnemyFaction(false, false, true, TechLevel.Undefined));
 			int randomInRange = this.widthRange.RandomInRange;
 			CellRect rect = cellRect.ExpandedBy(7 + randomInRange).ClipInsideMap(map);
-			ResolveParams resolveParams = new ResolveParams
-			{
-				rect = rect,
-				faction = faction,
-				edgeDefenseWidth = new int?(randomInRange),
-				edgeDefenseTurretsCount = new int?(this.turretsCountRange.RandomInRange),
-				edgeDefenseMortarsCount = new int?(this.mortarsCountRange.RandomInRange),
-				edgeDefenseGuardsCount = new int?(this.guardsCountRange.RandomInRange)
-			};
+			ResolveParams resolveParams = default(ResolveParams);
+			resolveParams.rect = rect;
+			resolveParams.faction = faction;
+			resolveParams.edgeDefenseWidth = randomInRange;
+			resolveParams.edgeDefenseTurretsCount = this.turretsCountRange.RandomInRange;
+			resolveParams.edgeDefenseMortarsCount = this.mortarsCountRange.RandomInRange;
+			resolveParams.edgeDefenseGuardsCount = this.guardsCountRange.RandomInRange;
 			RimWorld.BaseGen.BaseGen.globalSettings.map = map;
 			RimWorld.BaseGen.BaseGen.symbolStack.Push("edgeDefense", resolveParams);
 			RimWorld.BaseGen.BaseGen.Generate();
-			ResolveParams resolveParams2 = new ResolveParams
-			{
-				rect = rect,
-				faction = faction
-			};
+			ResolveParams resolveParams2 = default(ResolveParams);
+			resolveParams2.rect = rect;
+			resolveParams2.faction = faction;
 			RimWorld.BaseGen.BaseGen.globalSettings.map = map;
 			RimWorld.BaseGen.BaseGen.symbolStack.Push("outdoorLighting", resolveParams2);
 			RimWorld.BaseGen.BaseGen.Generate();
@@ -60,37 +56,37 @@ namespace RimWorld
 			int rectRadius = Mathf.Max(Mathf.RoundToInt((float)((float)Mathf.Min(x2, size2.z) * 0.070000000298023224)), 1);
 			TraverseParms traverseParams = TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false);
 			IntVec3 center = default(IntVec3);
-			return (!RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith((Predicate<IntVec3>)delegate(IntVec3 x)
+			if (RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith((Predicate<IntVec3>)delegate(IntVec3 x)
 			{
-				bool result;
 				if (!map.reachability.CanReachMapEdge(x, traverseParams))
 				{
-					result = false;
+					return false;
 				}
-				else
+				CellRect cellRect = CellRect.CenteredOn(x, rectRadius);
+				int num = 0;
+				CellRect.CellRectIterator iterator = cellRect.GetIterator();
+				while (!iterator.Done())
 				{
-					CellRect cellRect = CellRect.CenteredOn(x, rectRadius);
-					int num = 0;
-					CellRect.CellRectIterator iterator = cellRect.GetIterator();
-					while (!iterator.Done())
+					if (!iterator.Current.InBounds(map))
 					{
-						if (!iterator.Current.InBounds(map))
-							goto IL_0058;
-						if (iterator.Current.Standable(map) || iterator.Current.GetPlant(map) != null)
-						{
-							num++;
-						}
-						iterator.MoveNext();
+						return false;
 					}
-					result = ((float)num / (float)cellRect.Area >= 0.60000002384185791);
+					if (iterator.Current.Standable(map) || iterator.Current.GetPlant(map) != null)
+					{
+						num++;
+					}
+					iterator.MoveNext();
 				}
-				goto IL_00c0;
-				IL_0058:
-				result = false;
-				goto IL_00c0;
-				IL_00c0:
-				return result;
-			}, map, out center)) ? ((!RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith((Predicate<IntVec3>)((IntVec3 x) => x.Standable(map)), map, out center)) ? CellRect.CenteredOn(CellFinder.RandomCell(map), rectRadius).ClipInsideMap(map) : CellRect.CenteredOn(center, rectRadius)) : CellRect.CenteredOn(center, rectRadius);
+				return (float)num / (float)cellRect.Area >= 0.60000002384185791;
+			}, map, out center))
+			{
+				return CellRect.CenteredOn(center, rectRadius);
+			}
+			if (RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith((Predicate<IntVec3>)((IntVec3 x) => x.Standable(map)), map, out center))
+			{
+				return CellRect.CenteredOn(center, rectRadius);
+			}
+			return CellRect.CenteredOn(CellFinder.RandomCell(map), rectRadius).ClipInsideMap(map);
 		}
 	}
 }

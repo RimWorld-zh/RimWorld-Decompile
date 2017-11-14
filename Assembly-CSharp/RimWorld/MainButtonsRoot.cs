@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -73,7 +72,7 @@ namespace RimWorld
 			GUI.color = Color.white;
 			int visibleButtonsCount = this.VisibleButtonsCount;
 			int num = (int)((float)UI.screenWidth / (float)visibleButtonsCount);
-			int num2 = this.allButtonsInOrder.FindLastIndex((Predicate<MainButtonDef>)((MainButtonDef x) => x.buttonVisible));
+			int num2 = this.allButtonsInOrder.FindLastIndex((MainButtonDef x) => x.buttonVisible);
 			int num3 = 0;
 			for (int i = 0; i < this.allButtonsInOrder.Count; i++)
 			{

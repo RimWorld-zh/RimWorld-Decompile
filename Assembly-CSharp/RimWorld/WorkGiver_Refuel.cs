@@ -25,58 +25,44 @@ namespace RimWorld
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			CompRefuelable compRefuelable = t.TryGetComp<CompRefuelable>();
-			bool result;
 			if (compRefuelable != null && !compRefuelable.IsFull)
 			{
 				if (!forced && !compRefuelable.ShouldAutoRefuelNow)
 				{
-					result = false;
-					goto IL_010c;
+					return false;
 				}
 				if (!t.IsForbidden(pawn))
 				{
 					LocalTargetInfo target = t;
 					if (!pawn.CanReserve(target, 1, -1, null, forced))
-						goto IL_0068;
+						goto IL_005b;
 					if (t.Faction != pawn.Faction)
 					{
-						result = false;
+						return false;
 					}
-					else
+					ThingWithComps thingWithComps = t as ThingWithComps;
+					if (thingWithComps != null)
 					{
-						ThingWithComps thingWithComps = t as ThingWithComps;
-						if (thingWithComps != null)
+						CompFlickable comp = thingWithComps.GetComp<CompFlickable>();
+						if (comp != null && !comp.SwitchIsOn)
 						{
-							CompFlickable comp = thingWithComps.GetComp<CompFlickable>();
-							if (comp != null && !comp.SwitchIsOn)
-							{
-								result = false;
-								goto IL_010c;
-							}
-						}
-						Thing thing = this.FindBestFuel(pawn, t);
-						if (thing == null)
-						{
-							ThingFilter fuelFilter = t.TryGetComp<CompRefuelable>().Props.fuelFilter;
-							JobFailReason.Is("NoFuelToRefuel".Translate(fuelFilter.Summary));
-							result = false;
-						}
-						else
-						{
-							result = true;
+							return false;
 						}
 					}
-					goto IL_010c;
+					Thing thing = this.FindBestFuel(pawn, t);
+					if (thing == null)
+					{
+						ThingFilter fuelFilter = t.TryGetComp<CompRefuelable>().Props.fuelFilter;
+						JobFailReason.Is("NoFuelToRefuel".Translate(fuelFilter.Summary));
+						return false;
+					}
+					return true;
 				}
-				goto IL_0068;
+				goto IL_005b;
 			}
-			result = false;
-			goto IL_010c;
-			IL_0068:
-			result = false;
-			goto IL_010c;
-			IL_010c:
-			return result;
+			return false;
+			IL_005b:
+			return false;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
@@ -88,7 +74,18 @@ namespace RimWorld
 		private Thing FindBestFuel(Pawn pawn, Thing refuelable)
 		{
 			ThingFilter filter = refuelable.TryGetComp<CompRefuelable>().Props.fuelFilter;
-			Predicate<Thing> predicate = (Predicate<Thing>)((Thing x) => (byte)((!x.IsForbidden(pawn) && pawn.CanReserve(x, 1, -1, null, false)) ? (filter.Allows(x) ? 1 : 0) : 0) != 0);
+			Predicate<Thing> predicate = delegate(Thing x)
+			{
+				if (!x.IsForbidden(pawn) && pawn.CanReserve(x, 1, -1, null, false))
+				{
+					if (!filter.Allows(x))
+					{
+						return false;
+					}
+					return true;
+				}
+				return false;
+			};
 			IntVec3 position = pawn.Position;
 			Map map = pawn.Map;
 			ThingRequest bestThingRequest = filter.BestThingRequest;

@@ -20,7 +20,14 @@ namespace RimWorld
 			{
 				float x2 = (float)((float)Find.TickManager.TicksGame / 3600000.0);
 				float timePassedFactor = Mathf.Clamp(GenMath.LerpDouble(0f, 1.2f, 1f, 0.1f, x2), 0.1f, 1f);
-				return IncidentWorker_ShipChunkDrop.CountChance.RandomElementByWeight((Func<Pair<int, float>, float>)((Pair<int, float> x) => (x.First != 1) ? (x.Second * timePassedFactor) : x.Second)).First;
+				return IncidentWorker_ShipChunkDrop.CountChance.RandomElementByWeight(delegate(Pair<int, float> x)
+				{
+					if (x.First == 1)
+					{
+						return x.Second;
+					}
+					return x.Second * timePassedFactor;
+				}).First;
 			}
 		}
 
@@ -28,18 +35,13 @@ namespace RimWorld
 		{
 			Map map = (Map)parms.target;
 			IntVec3 intVec = default(IntVec3);
-			bool result;
 			if (!this.TryFindShipChunkDropCell(map.Center, map, 999999, out intVec))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				this.SpawnShipChunks(intVec, map, this.RandomCountToDrop);
-				Messages.Message("MessageShipChunkDrop".Translate(), new TargetInfo(intVec, map, false), MessageTypeDefOf.NeutralEvent);
-				result = true;
-			}
-			return result;
+			this.SpawnShipChunks(intVec, map, this.RandomCountToDrop);
+			Messages.Message("MessageShipChunkDrop".Translate(), new TargetInfo(intVec, map, false), MessageTypeDefOf.NeutralEvent);
+			return true;
 		}
 
 		private void SpawnShipChunks(IntVec3 firstChunkPos, Map map, int count)

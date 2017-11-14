@@ -30,20 +30,20 @@ namespace RimWorld
 				return;
 			if (this.pawn.jobs.curJob != null && this.pawn.jobs.curJob.def != JobDefOf.WaitCombat)
 			{
-				goto IL_0063;
+				goto IL_0061;
 			}
 			if (this.AnyHostilePreventingAutoUndraft())
-				goto IL_0063;
-			goto IL_0075;
-			IL_0075:
+				goto IL_0061;
+			goto IL_0071;
+			IL_0071:
 			if (this.ShouldAutoUndraft())
 			{
 				this.pawn.drafter.Drafted = false;
 			}
 			return;
-			IL_0063:
+			IL_0061:
 			this.lastNonWaitingTick = Find.TickManager.TicksGame;
-			goto IL_0075;
+			goto IL_0071;
 		}
 
 		public void Notify_Drafted()
@@ -53,30 +53,28 @@ namespace RimWorld
 
 		private bool ShouldAutoUndraft()
 		{
-			return (byte)((Find.TickManager.TicksGame - this.lastNonWaitingTick >= 5000) ? ((!this.AnyHostilePreventingAutoUndraft()) ? 1 : 0) : 0) != 0;
+			if (Find.TickManager.TicksGame - this.lastNonWaitingTick < 5000)
+			{
+				return false;
+			}
+			if (this.AnyHostilePreventingAutoUndraft())
+			{
+				return false;
+			}
+			return true;
 		}
 
 		private bool AnyHostilePreventingAutoUndraft()
 		{
 			List<IAttackTarget> potentialTargetsFor = this.pawn.Map.attackTargetsCache.GetPotentialTargetsFor(this.pawn);
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < potentialTargetsFor.Count; i++)
 			{
-				if (num < potentialTargetsFor.Count)
+				if (GenHostility.IsActiveThreatToPlayer(potentialTargetsFor[i]))
 				{
-					if (GenHostility.IsActiveThreatToPlayer(potentialTargetsFor[num]))
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 	}
 }

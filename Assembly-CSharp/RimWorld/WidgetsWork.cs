@@ -1,7 +1,5 @@
-#define ENABLE_PROFILER
 using System.Text;
 using UnityEngine;
-using UnityEngine.Profiling;
 using Verse;
 using Verse.Sound;
 
@@ -38,36 +36,19 @@ namespace RimWorld
 
 		private static Color ColorOfPriority(int prio)
 		{
-			Color result;
 			switch (prio)
 			{
 			case 1:
-			{
-				result = new Color(0f, 1f, 0f);
-				break;
-			}
+				return new Color(0f, 1f, 0f);
 			case 2:
-			{
-				result = new Color(1f, 0.9f, 0.5f);
-				break;
-			}
+				return new Color(1f, 0.9f, 0.5f);
 			case 3:
-			{
-				result = new Color(0.8f, 0.7f, 0.5f);
-				break;
-			}
+				return new Color(0.8f, 0.7f, 0.5f);
 			case 4:
-			{
-				result = new Color(0.74f, 0.74f, 0.74f);
-				break;
-			}
+				return new Color(0.74f, 0.74f, 0.74f);
 			default:
-			{
-				result = Color.grey;
-				break;
+				return Color.grey;
 			}
-			}
-			return result;
 		}
 
 		public static void DrawWorkBoxFor(float x, float y, Pawn p, WorkTypeDef wType, bool incapableBecauseOfCapacities)
@@ -75,14 +56,12 @@ namespace RimWorld
 			if (p.story != null && !p.story.WorkTypeIsDisabled(wType))
 			{
 				Rect rect = new Rect(x, y, 25f, 25f);
-				Profiler.BeginSample("DrawWorkBoxFor - Background");
 				if (incapableBecauseOfCapacities)
 				{
 					GUI.color = new Color(1f, 0.3f, 0.3f);
 				}
 				WidgetsWork.DrawWorkBoxBackground(rect, p, wType);
 				GUI.color = Color.white;
-				Profiler.EndSample();
 				if (Find.PlaySettings.useWorkPriorities)
 				{
 					int priority = p.workSettings.GetPriority(wType);
@@ -169,7 +148,7 @@ namespace RimWorld
 				float num = p.skills.AverageOfRelevantSkillsFor(wDef);
 				if (wDef.relevantSkills.Any())
 				{
-					string text = "";
+					string text = string.Empty;
 					foreach (SkillDef relevantSkill in wDef.relevantSkills)
 					{
 						text = text + relevantSkill.skillLabel.CapitalizeFirst() + ", ";
@@ -197,9 +176,7 @@ namespace RimWorld
 
 		private static void DrawWorkBoxBackground(Rect rect, Pawn p, WorkTypeDef workDef)
 		{
-			Profiler.BeginSample("AverageOfRelevantSkillsFor");
 			float num = p.skills.AverageOfRelevantSkillsFor(workDef);
-			Profiler.EndSample();
 			Texture2D image;
 			Texture2D image2;
 			float a;
@@ -246,15 +223,11 @@ namespace RimWorld
 				switch (passion)
 				{
 				case Passion.Minor:
-				{
 					GUI.DrawTexture(position, WidgetsWork.PassionWorkboxMinorIcon);
 					break;
-				}
 				case Passion.Major:
-				{
 					GUI.DrawTexture(position, WidgetsWork.PassionWorkboxMajorIcon);
 					break;
-				}
 				}
 			}
 			GUI.color = Color.white;

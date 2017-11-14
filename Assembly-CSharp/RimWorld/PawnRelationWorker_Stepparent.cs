@@ -6,21 +6,24 @@ namespace RimWorld
 	{
 		public override bool InRelation(Pawn me, Pawn other)
 		{
-			bool result;
 			if (me == other)
 			{
-				result = false;
+				return false;
 			}
-			else if (PawnRelationDefOf.Parent.Worker.InRelation(me, other))
+			if (PawnRelationDefOf.Parent.Worker.InRelation(me, other))
 			{
-				result = false;
+				return false;
 			}
-			else
+			PawnRelationWorker worker = PawnRelationDefOf.Spouse.Worker;
+			if (me.GetMother() != null && worker.InRelation(me.GetMother(), other))
 			{
-				PawnRelationWorker worker = PawnRelationDefOf.Spouse.Worker;
-				result = ((byte)((me.GetMother() != null && worker.InRelation(me.GetMother(), other)) ? 1 : ((me.GetFather() != null && worker.InRelation(me.GetFather(), other)) ? 1 : 0)) != 0);
+				return true;
 			}
-			return result;
+			if (me.GetFather() != null && worker.InRelation(me.GetFather(), other))
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }

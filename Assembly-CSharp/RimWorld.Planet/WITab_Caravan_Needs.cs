@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -24,17 +23,12 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				float result;
-				if (this.specificNeedsTabForPawn == null || this.specificNeedsTabForPawn.Destroyed)
-				{
-					result = 0f;
-				}
-				else
+				if (this.specificNeedsTabForPawn != null && !this.specificNeedsTabForPawn.Destroyed)
 				{
 					Vector2 size = NeedsCardUtility.GetSize(this.specificNeedsTabForPawn);
-					result = size.x;
+					return size.x;
 				}
-				return result;
+				return 0f;
 			}
 		}
 
@@ -64,10 +58,10 @@ namespace RimWorld.Planet
 			{
 				this.doNeeds = true;
 			}
-			ref Vector2 val = ref base.size;
+			ref Vector2 size = ref base.size;
 			float y = base.size.y;
 			Vector2 fullSize = NeedsCardUtility.FullSize;
-			val.y = Mathf.Max(y, fullSize.y);
+			size.y = Mathf.Max(y, fullSize.y);
 			WITab_Caravan_Needs.tmpThings.Clear();
 		}
 
@@ -80,7 +74,7 @@ namespace RimWorld.Planet
 				Rect tabRect = base.TabRect;
 				float specificNeedsTabWidth = this.SpecificNeedsTabWidth;
 				Rect rect = new Rect((float)(tabRect.xMax - 1.0), tabRect.yMin, specificNeedsTabWidth, tabRect.height);
-				Find.WindowStack.ImmediateWindow(1439870015, rect, WindowLayer.GameUI, (Action)delegate
+				Find.WindowStack.ImmediateWindow(1439870015, rect, WindowLayer.GameUI, delegate
 				{
 					if (!localSpecificNeedsTabForPawn.DestroyedOrNull())
 					{

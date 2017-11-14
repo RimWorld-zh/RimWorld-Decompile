@@ -17,7 +17,7 @@ namespace Verse
 			FileInfo fileInfo = new FileInfo(GenFilePaths.BackstoryOutputFilePath);
 			if (fileInfo.Exists)
 			{
-				Find.WindowStack.Add(new Dialog_MessageBox("Cannot write: File already exists at " + GenFilePaths.BackstoryOutputFilePath, (string)null, null, (string)null, null, (string)null, false));
+				Find.WindowStack.Add(new Dialog_MessageBox("Cannot write: File already exists at " + GenFilePaths.BackstoryOutputFilePath, null, null, null, null, null, false));
 			}
 			else
 			{

@@ -7,10 +7,10 @@ namespace Verse
 	{
 		private static Color32[] defaultColors = new Color32[4]
 		{
-			new Color32((byte)255, (byte)255, (byte)255, (byte)255),
-			new Color32((byte)255, (byte)255, (byte)255, (byte)255),
-			new Color32((byte)255, (byte)255, (byte)255, (byte)255),
-			new Color32((byte)255, (byte)255, (byte)255, (byte)255)
+			new Color32(255, 255, 255, 255),
+			new Color32(255, 255, 255, 255),
+			new Color32(255, 255, 255, 255),
+			new Color32(255, 255, 255, 255)
 		};
 
 		private static Vector2[] defaultUvs = new Vector2[4]

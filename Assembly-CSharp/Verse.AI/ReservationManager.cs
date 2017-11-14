@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -57,49 +56,40 @@ namespace Verse.AI
 
 		public bool CanReserve(Pawn claimant, LocalTargetInfo target, int maxPawns = 1, int stackCount = -1, ReservationLayerDef layer = null, bool ignoreOtherReservations = false)
 		{
-			bool result;
 			if (claimant == null)
 			{
 				Log.Error("CanReserve with claimant==null");
-				result = false;
+				return false;
 			}
-			else if (!target.IsValid || (target.HasThing && target.Thing.Destroyed))
+			if (target.IsValid && (!target.HasThing || !target.Thing.Destroyed))
 			{
-				result = false;
-			}
-			else if (!claimant.Spawned || claimant.Map != this.map)
-			{
-				result = false;
-			}
-			else if (target.HasThing && target.Thing.Spawned && target.Thing.Map != this.map)
-			{
-				result = false;
-			}
-			else
-			{
-				int num = 1;
-				if (target.HasThing)
+				if (claimant.Spawned && claimant.Map == this.map)
 				{
-					num = target.Thing.stackCount;
-				}
-				if (stackCount == -1)
-				{
-					stackCount = num;
-				}
-				if (stackCount > num)
-				{
-					result = false;
-				}
-				else if (ignoreOtherReservations)
-				{
-					result = true;
-				}
-				else if (this.map.physicalInteractionReservationManager.IsReserved(target) && !this.map.physicalInteractionReservationManager.IsReservedBy(claimant, target))
-				{
-					result = false;
-				}
-				else
-				{
+					if (target.HasThing && target.Thing.Spawned && target.Thing.Map != this.map)
+					{
+						return false;
+					}
+					int num = 1;
+					if (target.HasThing)
+					{
+						num = target.Thing.stackCount;
+					}
+					if (stackCount == -1)
+					{
+						stackCount = num;
+					}
+					if (stackCount > num)
+					{
+						return false;
+					}
+					if (ignoreOtherReservations)
+					{
+						return true;
+					}
+					if (this.map.physicalInteractionReservationManager.IsReserved(target) && !this.map.physicalInteractionReservationManager.IsReservedBy(claimant, target))
+					{
+						return false;
+					}
 					int num2 = 0;
 					int count = this.reservations.Count;
 					int num3 = 0;
@@ -109,33 +99,27 @@ namespace Verse.AI
 						if (!(reservation.Target != target) && reservation.Layer == layer && ReservationManager.RespectsReservationsOf(claimant, reservation.Claimant))
 						{
 							if (reservation.Claimant == claimant)
-								goto IL_0196;
+							{
+								return true;
+							}
 							if (reservation.MaxPawns != maxPawns)
-								goto IL_01aa;
+							{
+								return false;
+							}
 							num2++;
 							num3 = ((reservation.StackCount != -1) ? (num3 + reservation.StackCount) : num);
 							if (num2 < maxPawns && num3 + stackCount <= num)
 							{
 								continue;
 							}
-							goto IL_01e8;
+							return false;
 						}
 					}
-					result = true;
+					return true;
 				}
+				return false;
 			}
-			goto IL_0205;
-			IL_01aa:
-			result = false;
-			goto IL_0205;
-			IL_0196:
-			result = true;
-			goto IL_0205;
-			IL_01e8:
-			result = false;
-			goto IL_0205;
-			IL_0205:
-			return result;
+			return false;
 		}
 
 		public bool Reserve(Pawn claimant, Job job, LocalTargetInfo target, int maxPawns = 1, int stackCount = -1, ReservationLayerDef layer = null)
@@ -144,25 +128,24 @@ namespace Verse.AI
 			{
 				Log.ErrorOnce("Reserving with maxPawns > 1 and stackCount = All; this will not have a useful effect (suppressing future warnings)", 83269);
 			}
-			bool result;
 			if (!target.IsValid)
 			{
-				result = false;
+				return false;
 			}
-			else if (this.ReservedBy(target, claimant, job))
+			if (this.ReservedBy(target, claimant, job))
 			{
-				result = true;
+				return true;
 			}
-			else if (target.ThingDestroyed)
+			if (target.ThingDestroyed)
 			{
-				result = false;
+				return false;
 			}
-			else if (job == null)
+			if (job == null)
 			{
 				Log.Warning(claimant + " tried to reserve thing " + target + " without a valid job");
-				result = false;
+				return false;
 			}
-			else if (!this.CanReserve(claimant, target, maxPawns, stackCount, layer, false))
+			if (!this.CanReserve(claimant, target, maxPawns, stackCount, layer, false))
 			{
 				if (job != null && job.playerForced && this.CanReserve(claimant, target, maxPawns, stackCount, layer, true))
 				{
@@ -174,20 +157,13 @@ namespace Verse.AI
 							item.Claimant.jobs.EndJob(item.Job, JobCondition.InterruptForced);
 						}
 					}
-					result = true;
+					return true;
 				}
-				else
-				{
-					this.LogCouldNotReserveError(claimant, job, target, maxPawns, stackCount, layer);
-					result = false;
-				}
+				this.LogCouldNotReserveError(claimant, job, target, maxPawns, stackCount, layer);
+				return false;
 			}
-			else
-			{
-				this.reservations.Add(new Reservation(claimant, job, maxPawns, stackCount, target, layer));
-				result = true;
-			}
-			return result;
+			this.reservations.Add(new Reservation(claimant, job, maxPawns, stackCount, target, layer));
+			return true;
 		}
 
 		public void Release(LocalTargetInfo target, Pawn claimant, Job job)
@@ -220,7 +196,7 @@ namespace Verse.AI
 		{
 			if (t != null)
 			{
-				this.reservations.RemoveAll((Predicate<Reservation>)((Reservation r) => r.Target.Thing == t));
+				this.reservations.RemoveAll((Reservation r) => r.Target.Thing == t);
 			}
 		}
 
@@ -248,48 +224,28 @@ namespace Verse.AI
 
 		public LocalTargetInfo FirstReservationFor(Pawn claimant)
 		{
-			int num = this.reservations.Count - 1;
-			LocalTargetInfo result;
-			while (true)
+			for (int num = this.reservations.Count - 1; num >= 0; num--)
 			{
-				if (num >= 0)
+				if (this.reservations[num].Claimant == claimant)
 				{
-					if (this.reservations[num].Claimant == claimant)
-					{
-						result = this.reservations[num].Target;
-						break;
-					}
-					num--;
-					continue;
+					return this.reservations[num].Target;
 				}
-				result = LocalTargetInfo.Invalid;
-				break;
 			}
-			return result;
+			return LocalTargetInfo.Invalid;
 		}
 
 		public bool IsReservedByAnyoneOf(LocalTargetInfo target, Faction faction)
 		{
 			int count = this.reservations.Count;
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < count; i++)
 			{
-				if (num < count)
+				Reservation reservation = this.reservations[i];
+				if (reservation.Target == target && reservation.Claimant.Faction == faction)
 				{
-					Reservation reservation = this.reservations[num];
-					if (reservation.Target == target && reservation.Claimant.Faction == faction)
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public bool IsReservedAndRespected(LocalTargetInfo target, Pawn claimant)
@@ -300,49 +256,29 @@ namespace Verse.AI
 		public Pawn FirstRespectedReserver(LocalTargetInfo target, Pawn claimant)
 		{
 			int count = this.reservations.Count;
-			int num = 0;
-			Pawn result;
-			while (true)
+			for (int i = 0; i < count; i++)
 			{
-				if (num < count)
+				Reservation reservation = this.reservations[i];
+				if (reservation.Target == target && ReservationManager.RespectsReservationsOf(claimant, reservation.Claimant))
 				{
-					Reservation reservation = this.reservations[num];
-					if (reservation.Target == target && ReservationManager.RespectsReservationsOf(claimant, reservation.Claimant))
-					{
-						result = reservation.Claimant;
-						break;
-					}
-					num++;
-					continue;
+					return reservation.Claimant;
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		public bool ReservedBy(LocalTargetInfo target, Pawn claimant, Job job = null)
 		{
 			int count = this.reservations.Count;
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < count; i++)
 			{
-				if (num < count)
+				Reservation reservation = this.reservations[i];
+				if (reservation.Target == target && reservation.Claimant == claimant && (job == null || reservation.Job == job))
 				{
-					Reservation reservation = this.reservations[num];
-					if (reservation.Target == target && reservation.Claimant == claimant && (job == null || reservation.Job == job))
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public IEnumerable<Thing> AllReservedThings()
@@ -353,47 +289,38 @@ namespace Verse.AI
 
 		private static bool RespectsReservationsOf(Pawn newClaimant, Pawn oldClaimant)
 		{
-			bool result;
 			if (newClaimant == oldClaimant)
 			{
-				result = true;
+				return true;
 			}
-			else if (newClaimant.Faction == null || oldClaimant.Faction == null)
+			if (newClaimant.Faction != null && oldClaimant.Faction != null)
 			{
-				result = false;
-			}
-			else if (newClaimant.Faction == oldClaimant.Faction)
-			{
-				result = true;
-			}
-			else if (!newClaimant.Faction.HostileTo(oldClaimant.Faction))
-			{
-				result = true;
-			}
-			else if (oldClaimant.HostFaction != null && oldClaimant.HostFaction == newClaimant.HostFaction)
-			{
-				result = true;
-			}
-			else
-			{
+				if (newClaimant.Faction == oldClaimant.Faction)
+				{
+					return true;
+				}
+				if (!newClaimant.Faction.HostileTo(oldClaimant.Faction))
+				{
+					return true;
+				}
+				if (oldClaimant.HostFaction != null && oldClaimant.HostFaction == newClaimant.HostFaction)
+				{
+					return true;
+				}
 				if (newClaimant.HostFaction != null)
 				{
 					if (oldClaimant.HostFaction != null)
 					{
-						result = true;
-						goto IL_00c2;
+						return true;
 					}
 					if (newClaimant.HostFaction == oldClaimant.Faction)
 					{
-						result = true;
-						goto IL_00c2;
+						return true;
 					}
 				}
-				result = false;
+				return false;
 			}
-			goto IL_00c2;
-			IL_00c2:
-			return result;
+			return false;
 		}
 
 		internal string DebugString()

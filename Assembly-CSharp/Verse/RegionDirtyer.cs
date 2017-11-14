@@ -61,7 +61,8 @@ namespace Verse
 		internal void Notify_ThingAffectingRegionsSpawned(Thing b)
 		{
 			this.regionsToDirty.Clear();
-			CellRect.CellRectIterator iterator = b.OccupiedRect().ExpandedBy(1).ClipInsideMap(b.Map).GetIterator();
+			CellRect.CellRectIterator iterator = b.OccupiedRect().ExpandedBy(1).ClipInsideMap(b.Map)
+				.GetIterator();
 			while (!iterator.Done())
 			{
 				IntVec3 current = iterator.Current;
@@ -151,7 +152,7 @@ namespace Verse
 						this.dirtyCells.Add(cell);
 						if (DebugViewSettings.drawRegionDirties)
 						{
-							this.map.debugDrawer.FlashCell(cell, 0f, (string)null, 50);
+							this.map.debugDrawer.FlashCell(cell, 0f, null, 50);
 						}
 					}
 				}

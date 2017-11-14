@@ -12,37 +12,32 @@ namespace RimWorld.BaseGen
 
 		public override bool CanResolve(ResolveParams rp)
 		{
-			bool result;
 			if (!base.CanResolve(rp))
 			{
-				result = false;
+				return false;
 			}
-			else if (BaseGen.globalSettings.basePart_buildingsResolved < BaseGen.globalSettings.minBuildings)
+			if (BaseGen.globalSettings.basePart_buildingsResolved < BaseGen.globalSettings.minBuildings)
 			{
-				result = false;
+				return false;
 			}
-			else if (BaseGen.globalSettings.basePart_emptyNodesResolved < BaseGen.globalSettings.minEmptyNodes)
+			if (BaseGen.globalSettings.basePart_emptyNodesResolved < BaseGen.globalSettings.minEmptyNodes)
 			{
-				result = false;
+				return false;
 			}
-			else if (BaseGen.globalSettings.basePart_powerPlantsCoverage + (float)rp.rect.Area / (float)BaseGen.globalSettings.mainRect.Area >= 0.090000003576278687)
+			if (BaseGen.globalSettings.basePart_powerPlantsCoverage + (float)rp.rect.Area / (float)BaseGen.globalSettings.mainRect.Area >= 0.090000003576278687)
 			{
-				result = false;
+				return false;
 			}
-			else if (rp.faction != null && (int)rp.faction.def.techLevel < 4)
+			if (rp.faction != null && (int)rp.faction.def.techLevel < 4)
 			{
-				result = false;
+				return false;
 			}
-			else if (rp.rect.Width > 13 || rp.rect.Height > 13)
-			{
-				result = false;
-			}
-			else
+			if (rp.rect.Width <= 13 && rp.rect.Height <= 13)
 			{
 				this.CalculateAvailablePowerPlants(rp.rect);
-				result = SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant.availablePowerPlants.Any();
+				return SymbolResolver_BasePart_Outdoors_Leaf_PowerPlant.availablePowerPlants.Any();
 			}
-			return result;
+			return false;
 		}
 
 		public override void Resolve(ResolveParams rp)
@@ -55,7 +50,7 @@ namespace RimWorld.BaseGen
 				ResolveParams resolveParams = rp;
 				resolveParams.singleThingDef = thingDef;
 				int? fillWithThingsPadding = rp.fillWithThingsPadding;
-				resolveParams.fillWithThingsPadding = new int?((!fillWithThingsPadding.HasValue) ? Mathf.Max(5 - thingDef.size.x, 1) : fillWithThingsPadding.Value);
+				resolveParams.fillWithThingsPadding = ((!fillWithThingsPadding.HasValue) ? Mathf.Max(5 - thingDef.size.x, 1) : fillWithThingsPadding.Value);
 				BaseGen.symbolStack.Push("fillWithThings", resolveParams);
 				BaseGen.globalSettings.basePart_powerPlantsCoverage += (float)rp.rect.Area / (float)BaseGen.globalSettings.mainRect.Area;
 			}

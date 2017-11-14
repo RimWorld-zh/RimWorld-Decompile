@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -28,7 +27,7 @@ namespace RimWorld
 			{
 				if (totalMarketValue.HasValue)
 				{
-					List<ThingStuffPair> list = ItemCollectionGeneratorByTotalValueUtility.GenerateDefsWithPossibleTotalValue(num, totalMarketValue.Value, enumerable, techLevel2, (Func<Thing, float>)((Thing x) => x.MarketValue), new Func<ThingStuffPair, float>(this.GetMinValue), new Func<ThingStuffPair, float>(this.GetMaxValue), null, 100);
+					List<ThingStuffPair> list = ItemCollectionGeneratorByTotalValueUtility.GenerateDefsWithPossibleTotalValue(num, totalMarketValue.Value, enumerable, techLevel2, (Thing x) => x.MarketValue, this.GetMinValue, this.GetMaxValue, null, 100);
 					for (int i = 0; i < list.Count; i++)
 					{
 						ThingStuffPair thingStuffPair = list[i];
@@ -36,11 +35,11 @@ namespace RimWorld
 						ThingStuffPair thingStuffPair2 = list[i];
 						outThings.Add(ThingMaker.MakeThing(thing, thingStuffPair2.stuff));
 					}
-					ItemCollectionGeneratorByTotalValueUtility.IncreaseStackCountsToTotalValue(outThings, totalMarketValue.Value, (Func<Thing, float>)((Thing x) => x.MarketValue));
+					ItemCollectionGeneratorByTotalValueUtility.IncreaseStackCountsToTotalValue(outThings, totalMarketValue.Value, (Thing x) => x.MarketValue);
 				}
 				else
 				{
-					for (int num2 = 0; num2 < num; num2++)
+					for (int j = 0; j < num; j++)
 					{
 						ThingDef thingDef = enumerable.RandomElement();
 						outThings.Add(ThingMaker.MakeThing(thingDef, GenStuff.RandomStuffFor(thingDef)));

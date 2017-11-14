@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -9,11 +10,14 @@ namespace RimWorld
 	{
 		private IntVec3 meetingPoint;
 
+		[CompilerGenerated]
+		private static Predicate<Pawn> _003C_003Ef__mg_0024cache0;
+
 		public override float? CustomWakeThreshold
 		{
 			get
 			{
-				return new float?(0.5f);
+				return 0.5f;
 			}
 		}
 
@@ -51,7 +55,7 @@ namespace RimWorld
 		{
 			if (Find.TickManager.TicksGame % 100 == 0)
 			{
-				GatherAnimalsAndSlavesForCaravanUtility.CheckArrived(base.lord, this.meetingPoint, "AllSlavesGathered", (Predicate<Pawn>)((Pawn x) => !x.IsColonist && !x.RaceProps.Animal), (Predicate<Pawn>)((Pawn x) => GatherAnimalsAndSlavesForCaravanUtility.IsFollowingAnyone(x)));
+				GatherAnimalsAndSlavesForCaravanUtility.CheckArrived(base.lord, this.meetingPoint, "AllSlavesGathered", (Pawn x) => !x.IsColonist && !x.RaceProps.Animal, GatherAnimalsAndSlavesForCaravanUtility.IsFollowingAnyone);
 			}
 		}
 	}

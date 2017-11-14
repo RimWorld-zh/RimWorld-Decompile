@@ -54,7 +54,11 @@ namespace Verse
 		{
 			get
 			{
-				return (this.thingInt == null) ? this.cellInt : this.thingInt.PositionHeld;
+				if (this.thingInt != null)
+				{
+					return this.thingInt.PositionHeld;
+				}
+				return this.cellInt;
 			}
 		}
 
@@ -62,7 +66,11 @@ namespace Verse
 		{
 			get
 			{
-				return (this.thingInt == null) ? this.cellInt.ToVector3Shifted() : this.thingInt.DrawPos;
+				if (this.thingInt != null)
+				{
+					return this.thingInt.DrawPos;
+				}
+				return this.cellInt.ToVector3Shifted();
 			}
 		}
 
@@ -108,17 +116,41 @@ namespace Verse
 
 		public TargetInfo ToTargetInfo(Map map)
 		{
-			return this.IsValid ? ((this.Thing == null) ? new TargetInfo(this.Cell, map, false) : new TargetInfo(this.Thing)) : TargetInfo.Invalid;
+			if (!this.IsValid)
+			{
+				return TargetInfo.Invalid;
+			}
+			if (this.Thing != null)
+			{
+				return new TargetInfo(this.Thing);
+			}
+			return new TargetInfo(this.Cell, map, false);
 		}
 
 		public GlobalTargetInfo ToGlobalTargetInfo(Map map)
 		{
-			return this.IsValid ? ((this.Thing == null) ? new GlobalTargetInfo(this.Cell, map, false) : new GlobalTargetInfo(this.Thing)) : GlobalTargetInfo.Invalid;
+			if (!this.IsValid)
+			{
+				return GlobalTargetInfo.Invalid;
+			}
+			if (this.Thing != null)
+			{
+				return new GlobalTargetInfo(this.Thing);
+			}
+			return new GlobalTargetInfo(this.Cell, map, false);
 		}
 
 		public static bool operator ==(LocalTargetInfo a, LocalTargetInfo b)
 		{
-			return (a.Thing != null || b.Thing != null) ? (a.Thing == b.Thing) : ((!a.cellInt.IsValid && !b.cellInt.IsValid) || a.cellInt == b.cellInt);
+			if (a.Thing == null && b.Thing == null)
+			{
+				if (!a.cellInt.IsValid && !b.cellInt.IsValid)
+				{
+					return true;
+				}
+				return a.cellInt == b.cellInt;
+			}
+			return a.Thing == b.Thing;
 		}
 
 		public static bool operator !=(LocalTargetInfo a, LocalTargetInfo b)
@@ -128,7 +160,11 @@ namespace Verse
 
 		public override bool Equals(object obj)
 		{
-			return obj is LocalTargetInfo && this.Equals((LocalTargetInfo)obj);
+			if (!(obj is LocalTargetInfo))
+			{
+				return false;
+			}
+			return this.Equals((LocalTargetInfo)obj);
 		}
 
 		public bool Equals(LocalTargetInfo other)
@@ -138,12 +174,24 @@ namespace Verse
 
 		public override int GetHashCode()
 		{
-			return (this.thingInt == null) ? this.cellInt.GetHashCode() : this.thingInt.GetHashCode();
+			if (this.thingInt != null)
+			{
+				return this.thingInt.GetHashCode();
+			}
+			return this.cellInt.GetHashCode();
 		}
 
 		public override string ToString()
 		{
-			return (this.Thing == null) ? ((!this.Cell.IsValid) ? "null" : this.Cell.ToString()) : this.Thing.GetUniqueLoadID();
+			if (this.Thing != null)
+			{
+				return this.Thing.GetUniqueLoadID();
+			}
+			if (this.Cell.IsValid)
+			{
+				return this.Cell.ToString();
+			}
+			return "null";
 		}
 	}
 }

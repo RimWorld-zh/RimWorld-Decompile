@@ -75,12 +75,12 @@ namespace RimWorld
 						rect2.x = rect2.xMax;
 						rect2.width = (float)(viewRect.width * 0.40000000596046448);
 						if (Widgets.ButtonText(rect2, "BuildingAssign".Translate(), true, false, true))
-							goto IL_0221;
+							goto IL_0219;
 						num = (float)(num + 35.0);
 					}
 				}
-				goto end_IL_018e;
-				IL_0221:
+				goto end_IL_0187;
+				IL_0219:
 				this.assignable.TryAssignPawn(current2);
 				if (this.assignable.MaxAssignedPawnsCount == 1)
 				{
@@ -91,7 +91,7 @@ namespace RimWorld
 					SoundDefOf.Click.PlayOneShotOnCamera(null);
 				}
 				return;
-				end_IL_018e:;
+				end_IL_0187:;
 			}
 			Widgets.EndScrollView();
 		}

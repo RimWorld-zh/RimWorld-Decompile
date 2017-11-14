@@ -37,7 +37,6 @@ namespace RimWorld
 
 		private bool TryChooseIncident(IIncidentTarget target, out IncidentDef result)
 		{
-			bool result2;
 			if (IncidentDefOf.TraderCaravanArrival.TargetAllowed(target))
 			{
 				int num = 0;
@@ -48,14 +47,10 @@ namespace RimWorld
 				if (Find.TickManager.TicksGame > num + 780000)
 				{
 					result = IncidentDefOf.TraderCaravanArrival;
-					result2 = true;
-					goto IL_009a;
+					return true;
 				}
 			}
-			result2 = this.UsableIncidentsInCategory(IncidentCategory.AllyArrival, target).TryRandomElementByWeight<IncidentDef>((Func<IncidentDef, float>)((IncidentDef d) => d.baseChance), out result);
-			goto IL_009a;
-			IL_009a:
-			return result2;
+			return this.UsableIncidentsInCategory(IncidentCategory.AllyArrival, target).TryRandomElementByWeight<IncidentDef>((Func<IncidentDef, float>)((IncidentDef d) => d.baseChance), out result);
 		}
 	}
 }

@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,11 +22,11 @@ namespace Verse
 
 		public bool visible = true;
 
-		public int naturalPriority = 0;
+		public int naturalPriority;
 
-		public bool alwaysStartActive = false;
+		public bool alwaysStartActive;
 
-		public bool requireCapableColonist = false;
+		public bool requireCapableColonist;
 
 		public List<SkillDef> relevantSkills = new List<SkillDef>();
 
@@ -36,7 +35,7 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -49,8 +48,8 @@ namespace Verse
 				yield break;
 			yield return "naturalPriority is " + this.naturalPriority + ", but it must be between 0 and 10000";
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0120:
-			/*Error near IL_0121: Unexpected return in MoveNext()*/;
+			IL_011c:
+			/*Error near IL_011d: Unexpected return in MoveNext()*/;
 		}
 
 		public override void ResolveReferences()

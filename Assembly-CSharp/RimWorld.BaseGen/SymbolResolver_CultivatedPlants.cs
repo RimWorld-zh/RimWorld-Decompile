@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -46,12 +45,7 @@ namespace RimWorld.BaseGen
 		public static ThingDef DeterminePlantDef(CellRect rect)
 		{
 			Map map = BaseGen.globalSettings.map;
-			ThingDef result;
-			if (map.mapTemperature.OutdoorTemp < 0.0 || map.mapTemperature.OutdoorTemp > 58.0)
-			{
-				result = null;
-			}
-			else
+			if (!(map.mapTemperature.OutdoorTemp < 0.0) && !(map.mapTemperature.OutdoorTemp > 58.0))
 			{
 				float minFertility = 3.40282347E+38f;
 				bool flag = false;
@@ -66,12 +60,20 @@ namespace RimWorld.BaseGen
 					}
 					iterator.MoveNext();
 				}
-				ThingDef thingDef = default(ThingDef);
-				result = (flag ? ((!(from x in DefDatabase<ThingDef>.AllDefsListForReading
+				if (!flag)
+				{
+					return null;
+				}
+				ThingDef result = default(ThingDef);
+				if ((from x in DefDatabase<ThingDef>.AllDefsListForReading
 				where x.category == ThingCategory.Plant && x.plant.Sowable && !x.plant.IsTree && !x.plant.cavePlant && x.plant.fertilityMin <= minFertility && x.plant.Harvestable
-				select x).TryRandomElement<ThingDef>(out thingDef)) ? null : thingDef) : null);
+				select x).TryRandomElement<ThingDef>(out result))
+				{
+					return result;
+				}
+				return null;
 			}
-			return result;
+			return null;
 		}
 
 		private bool TryDestroyBlockingThingsAt(IntVec3 c)
@@ -79,33 +81,23 @@ namespace RimWorld.BaseGen
 			Map map = BaseGen.globalSettings.map;
 			SymbolResolver_CultivatedPlants.tmpThings.Clear();
 			SymbolResolver_CultivatedPlants.tmpThings.AddRange(c.GetThingList(map));
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < SymbolResolver_CultivatedPlants.tmpThings.Count; i++)
 			{
-				if (num < SymbolResolver_CultivatedPlants.tmpThings.Count)
+				if (!(SymbolResolver_CultivatedPlants.tmpThings[i] is Pawn) && !SymbolResolver_CultivatedPlants.tmpThings[i].def.destroyable)
 				{
-					if (!(SymbolResolver_CultivatedPlants.tmpThings[num] is Pawn) && !SymbolResolver_CultivatedPlants.tmpThings[num].def.destroyable)
-					{
-						SymbolResolver_CultivatedPlants.tmpThings.Clear();
-						result = false;
-						break;
-					}
-					num++;
-					continue;
+					SymbolResolver_CultivatedPlants.tmpThings.Clear();
+					return false;
 				}
-				for (int i = 0; i < SymbolResolver_CultivatedPlants.tmpThings.Count; i++)
-				{
-					if (!(SymbolResolver_CultivatedPlants.tmpThings[i] is Pawn))
-					{
-						SymbolResolver_CultivatedPlants.tmpThings[i].Destroy(DestroyMode.Vanish);
-					}
-				}
-				SymbolResolver_CultivatedPlants.tmpThings.Clear();
-				result = true;
-				break;
 			}
-			return result;
+			for (int j = 0; j < SymbolResolver_CultivatedPlants.tmpThings.Count; j++)
+			{
+				if (!(SymbolResolver_CultivatedPlants.tmpThings[j] is Pawn))
+				{
+					SymbolResolver_CultivatedPlants.tmpThings[j].Destroy(DestroyMode.Vanish);
+				}
+			}
+			SymbolResolver_CultivatedPlants.tmpThings.Clear();
+			return true;
 		}
 	}
 }

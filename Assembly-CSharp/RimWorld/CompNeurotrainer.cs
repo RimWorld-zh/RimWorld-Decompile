@@ -33,17 +33,16 @@ namespace RimWorld
 
 		public override bool AllowStackWith(Thing other)
 		{
-			bool result;
 			if (!base.AllowStackWith(other))
 			{
-				result = false;
+				return false;
 			}
-			else
+			CompNeurotrainer compNeurotrainer = other.TryGetComp<CompNeurotrainer>();
+			if (compNeurotrainer != null && compNeurotrainer.skill == this.skill)
 			{
-				CompNeurotrainer compNeurotrainer = other.TryGetComp<CompNeurotrainer>();
-				result = ((byte)((compNeurotrainer != null && compNeurotrainer.skill == this.skill) ? 1 : 0) != 0);
+				return true;
 			}
-			return result;
+			return false;
 		}
 
 		public override void PostSplitOff(Thing piece)

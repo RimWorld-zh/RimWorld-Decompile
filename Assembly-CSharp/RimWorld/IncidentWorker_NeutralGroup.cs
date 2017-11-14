@@ -22,23 +22,26 @@ namespace RimWorld
 
 		protected bool TryResolveParms(IncidentParms parms)
 		{
-			bool result;
 			if (!this.TryResolveParmsGeneral(parms))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				this.ResolveParmsPoints(parms);
-				result = true;
-			}
-			return result;
+			this.ResolveParmsPoints(parms);
+			return true;
 		}
 
 		protected virtual bool TryResolveParmsGeneral(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
-			return (byte)((parms.spawnCenter.IsValid || RCellFinder.TryFindRandomPawnEntryCell(out parms.spawnCenter, map, CellFinder.EdgeRoadChance_Neutral, (Predicate<IntVec3>)null)) ? ((parms.faction != null || base.CandidateFactions(map, false).TryRandomElement<Faction>(out parms.faction) || base.CandidateFactions(map, true).TryRandomElement<Faction>(out parms.faction)) ? 1 : 0) : 0) != 0;
+			if (!parms.spawnCenter.IsValid && !RCellFinder.TryFindRandomPawnEntryCell(out parms.spawnCenter, map, CellFinder.EdgeRoadChance_Neutral, (Predicate<IntVec3>)null))
+			{
+				return false;
+			}
+			if (parms.faction == null && !base.CandidateFactions(map, false).TryRandomElement<Faction>(out parms.faction) && !base.CandidateFactions(map, true).TryRandomElement<Faction>(out parms.faction))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		protected virtual void ResolveParmsPoints(IncidentParms parms)

@@ -11,7 +11,7 @@ namespace RimWorld
 
 		public override bool AlwaysMatches(ThingDef def)
 		{
-			return def.ingestible != null && ((int)def.ingestible.foodType & 64) != 0;
+			return def.ingestible != null && (def.ingestible.foodType & FoodTypeFlags.Plant) != FoodTypeFlags.None;
 		}
 	}
 }

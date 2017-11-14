@@ -16,7 +16,11 @@ namespace RimWorld
 
 		public override string GetReport()
 		{
-			return (this.TargetFire == null || this.TargetFire.parent == null) ? "ReportExtinguishingFire".Translate() : "ReportExtinguishingFireOn".Translate(this.TargetFire.parent.LabelCap);
+			if (this.TargetFire != null && this.TargetFire.parent != null)
+			{
+				return "ReportExtinguishingFireOn".Translate(this.TargetFire.parent.LabelCap);
+			}
+			return "ReportExtinguishingFire".Translate();
 		}
 
 		public override bool TryMakePreToilReservations()

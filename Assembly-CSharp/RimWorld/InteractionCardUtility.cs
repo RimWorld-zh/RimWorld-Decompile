@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -42,7 +41,7 @@ namespace RimWorld
 				}
 				float num4 = Mathf.Max(26f, Text.CalcHeight(first, width));
 				Texture2D texture2D = entry.IconFromPOV(pawn);
-				if ((UnityEngine.Object)texture2D != (UnityEngine.Object)null)
+				if ((Object)texture2D != (Object)null)
 				{
 					Rect position = new Rect(0f, num3, 26f, 26f);
 					GUI.DrawTexture(position, texture2D);
@@ -50,7 +49,7 @@ namespace RimWorld
 				Rect rect2 = new Rect(29f, num3, width, num4);
 				Widgets.DrawHighlightIfMouseover(rect2);
 				Widgets.Label(rect2, first);
-				TooltipHandler.TipRegion(rect2, (Func<string>)(() => entry.GetTipString()), 613261 + j * 611);
+				TooltipHandler.TipRegion(rect2, () => entry.GetTipString(), 613261 + j * 611);
 				if (Widgets.ButtonInvisible(rect2, false))
 				{
 					entry.ClickedFromPOV(pawn);

@@ -71,7 +71,15 @@ namespace RimWorld
 			float num = default(float);
 			float num2 = default(float);
 			SeasonUtility.GetSeason(yearPct, latitude, out by, out by2, out by3, out by4, out num, out num2);
-			return (num != 1.0) ? ((num2 != 1.0) ? GenMath.MaxBy(Season.Spring, by, Season.Summer, by2, Season.Fall, by3, Season.Winter, by4) : Season.PermanentWinter) : Season.PermanentSummer;
+			if (num == 1.0)
+			{
+				return Season.PermanentSummer;
+			}
+			if (num2 == 1.0)
+			{
+				return Season.PermanentWinter;
+			}
+			return GenMath.MaxBy(Season.Spring, by, Season.Summer, by2, Season.Fall, by3, Season.Winter, by4);
 		}
 
 		public static Season GetDominantSeason(float yearPct, float latitude)
@@ -160,41 +168,22 @@ namespace RimWorld
 
 		public static Twelfth GetFirstTwelfth(this Season season, float latitude)
 		{
-			Twelfth result;
 			if (latitude >= 0.0)
 			{
 				switch (season)
 				{
 				case Season.Spring:
-				{
-					result = Twelfth.First;
-					goto IL_00bd;
-				}
+					return Twelfth.First;
 				case Season.Summer:
-				{
-					result = Twelfth.Fourth;
-					goto IL_00bd;
-				}
+					return Twelfth.Fourth;
 				case Season.Fall:
-				{
-					result = Twelfth.Seventh;
-					goto IL_00bd;
-				}
+					return Twelfth.Seventh;
 				case Season.Winter:
-				{
-					result = Twelfth.Tenth;
-					goto IL_00bd;
-				}
+					return Twelfth.Tenth;
 				case Season.PermanentSummer:
-				{
-					result = Twelfth.First;
-					goto IL_00bd;
-				}
+					return Twelfth.First;
 				case Season.PermanentWinter:
-				{
-					result = Twelfth.First;
-					goto IL_00bd;
-				}
+					return Twelfth.First;
 				}
 			}
 			else
@@ -202,80 +191,40 @@ namespace RimWorld
 				switch (season)
 				{
 				case Season.Fall:
-				{
-					result = Twelfth.First;
-					goto IL_00bd;
-				}
+					return Twelfth.First;
 				case Season.Winter:
-				{
-					result = Twelfth.Fourth;
-					goto IL_00bd;
-				}
+					return Twelfth.Fourth;
 				case Season.Spring:
-				{
-					result = Twelfth.Seventh;
-					goto IL_00bd;
-				}
+					return Twelfth.Seventh;
 				case Season.Summer:
-				{
-					result = Twelfth.Tenth;
-					goto IL_00bd;
-				}
+					return Twelfth.Tenth;
 				case Season.PermanentSummer:
-				{
-					result = Twelfth.First;
-					goto IL_00bd;
-				}
+					return Twelfth.First;
 				case Season.PermanentWinter:
-				{
-					result = Twelfth.First;
-					goto IL_00bd;
-				}
+					return Twelfth.First;
 				}
 			}
-			result = Twelfth.Undefined;
-			goto IL_00bd;
-			IL_00bd:
-			return result;
+			return Twelfth.Undefined;
 		}
 
 		public static Twelfth GetMiddleTwelfth(this Season season, float latitude)
 		{
-			Twelfth result;
 			if (latitude >= 0.0)
 			{
 				switch (season)
 				{
 				case Season.Spring:
-				{
-					result = Twelfth.Second;
-					goto IL_00bd;
-				}
+					return Twelfth.Second;
 				case Season.Summer:
-				{
-					result = Twelfth.Fifth;
-					goto IL_00bd;
-				}
+					return Twelfth.Fifth;
 				case Season.Fall:
-				{
-					result = Twelfth.Eighth;
-					goto IL_00bd;
-				}
+					return Twelfth.Eighth;
 				case Season.Winter:
-				{
-					result = Twelfth.Eleventh;
-					goto IL_00bd;
-				}
+					return Twelfth.Eleventh;
 				case Season.PermanentSummer:
-				{
-					result = Twelfth.Sixth;
-					goto IL_00bd;
-				}
+					return Twelfth.Sixth;
 				case Season.PermanentWinter:
-				{
-					result = Twelfth.Sixth;
-					goto IL_00bd;
-				}
+					return Twelfth.Sixth;
 				}
 			}
 			else
@@ -283,139 +232,73 @@ namespace RimWorld
 				switch (season)
 				{
 				case Season.Fall:
-				{
-					result = Twelfth.Second;
-					goto IL_00bd;
-				}
+					return Twelfth.Second;
 				case Season.Winter:
-				{
-					result = Twelfth.Fifth;
-					goto IL_00bd;
-				}
+					return Twelfth.Fifth;
 				case Season.Spring:
-				{
-					result = Twelfth.Eighth;
-					goto IL_00bd;
-				}
+					return Twelfth.Eighth;
 				case Season.Summer:
-				{
-					result = Twelfth.Eleventh;
-					goto IL_00bd;
-				}
+					return Twelfth.Eleventh;
 				case Season.PermanentSummer:
-				{
-					result = Twelfth.Sixth;
-					goto IL_00bd;
-				}
+					return Twelfth.Sixth;
 				case Season.PermanentWinter:
-				{
-					result = Twelfth.Sixth;
-					goto IL_00bd;
-				}
+					return Twelfth.Sixth;
 				}
 			}
-			result = Twelfth.Undefined;
-			goto IL_00bd;
-			IL_00bd:
-			return result;
+			return Twelfth.Undefined;
 		}
 
 		public static Season GetPreviousSeason(this Season season)
 		{
-			Season result;
 			switch (season)
 			{
 			case Season.Undefined:
-			{
-				result = Season.Undefined;
-				break;
-			}
+				return Season.Undefined;
 			case Season.Spring:
-			{
-				result = Season.Winter;
-				break;
-			}
+				return Season.Winter;
 			case Season.Summer:
-			{
-				result = Season.Spring;
-				break;
-			}
+				return Season.Spring;
 			case Season.Fall:
-			{
-				result = Season.Summer;
-				break;
-			}
+				return Season.Summer;
 			case Season.Winter:
-			{
-				result = Season.Fall;
-				break;
-			}
+				return Season.Fall;
 			case Season.PermanentSummer:
-			{
-				result = Season.PermanentSummer;
-				break;
-			}
+				return Season.PermanentSummer;
 			case Season.PermanentWinter:
-			{
-				result = Season.PermanentWinter;
-				break;
-			}
+				return Season.PermanentWinter;
 			default:
-			{
-				result = Season.Undefined;
-				break;
+				return Season.Undefined;
 			}
-			}
-			return result;
 		}
 
 		public static float GetMiddleYearPct(this Season season, float latitude)
 		{
-			return (float)((season != 0) ? season.GetMiddleTwelfth(latitude).GetMiddleYearPct() : 0.5);
+			if (season == Season.Undefined)
+			{
+				return 0.5f;
+			}
+			return season.GetMiddleTwelfth(latitude).GetMiddleYearPct();
 		}
 
 		public static string Label(this Season season)
 		{
-			string result;
 			switch (season)
 			{
 			case Season.Spring:
-			{
-				result = "SeasonSpring".Translate();
-				break;
-			}
+				return "SeasonSpring".Translate();
 			case Season.Summer:
-			{
-				result = "SeasonSummer".Translate();
-				break;
-			}
+				return "SeasonSummer".Translate();
 			case Season.Fall:
-			{
-				result = "SeasonFall".Translate();
-				break;
-			}
+				return "SeasonFall".Translate();
 			case Season.Winter:
-			{
-				result = "SeasonWinter".Translate();
-				break;
-			}
+				return "SeasonWinter".Translate();
 			case Season.PermanentSummer:
-			{
-				result = "SeasonPermanentSummer".Translate();
-				break;
-			}
+				return "SeasonPermanentSummer".Translate();
 			case Season.PermanentWinter:
-			{
-				result = "SeasonPermanentWinter".Translate();
-				break;
-			}
+				return "SeasonPermanentWinter".Translate();
 			default:
-			{
-				result = "Unknown season";
-				break;
+				return "Unknown season";
 			}
-			}
-			return result;
 		}
 
 		public static string LabelCap(this Season season)
@@ -425,33 +308,28 @@ namespace RimWorld
 
 		public static string SeasonsRangeLabel(List<Twelfth> twelfths, Vector2 longLat)
 		{
-			string result;
 			if (twelfths.Count == 0)
 			{
-				result = "";
+				return string.Empty;
 			}
-			else if (twelfths.Count == 12)
+			if (twelfths.Count == 12)
 			{
-				result = "WholeYear".Translate();
+				return "WholeYear".Translate();
 			}
-			else
+			string text = string.Empty;
+			for (int i = 0; i < 12; i++)
 			{
-				string text = "";
-				for (int i = 0; i < 12; i++)
+				Twelfth twelfth = (Twelfth)i;
+				if (twelfths.Contains(twelfth))
 				{
-					Twelfth twelfth = (Twelfth)(byte)i;
-					if (twelfths.Contains(twelfth))
+					if (!text.NullOrEmpty())
 					{
-						if (!text.NullOrEmpty())
-						{
-							text += ", ";
-						}
-						text += SeasonUtility.SeasonsContinuousRangeLabel(twelfths, twelfth, longLat);
+						text += ", ";
 					}
+					text += SeasonUtility.SeasonsContinuousRangeLabel(twelfths, twelfth, longLat);
 				}
-				result = text;
 			}
-			return result;
+			return text;
 		}
 
 		private static string SeasonsContinuousRangeLabel(List<Twelfth> twelfths, Twelfth rootTwelfth, Vector2 longLat)

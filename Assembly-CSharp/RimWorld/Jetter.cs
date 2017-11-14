@@ -7,20 +7,20 @@ namespace RimWorld
 	{
 		private enum JetterState
 		{
-			Resting = 0,
-			WickBurning = 1,
-			Jetting = 2
+			Resting,
+			WickBurning,
+			Jetting
 		}
 
-		private JetterState JState = JetterState.Resting;
+		private JetterState JState;
 
-		private int WickTicksLeft = 0;
+		private int WickTicksLeft;
 
-		private int TicksUntilMove = 0;
+		private int TicksUntilMove;
 
-		protected Sustainer wickSoundSustainer = null;
+		protected Sustainer wickSoundSustainer;
 
-		protected Sustainer jetSoundSustainer = null;
+		protected Sustainer jetSoundSustainer;
 
 		private const int TicksBeforeBeginAccelerate = 25;
 
@@ -61,8 +61,8 @@ namespace RimWorld
 		{
 			this.JState = JetterState.WickBurning;
 			this.WickTicksLeft = 25;
-			SoundDef.Named("MetalHitImportant").PlayOneShot((Thing)this);
-			this.wickSoundSustainer = SoundDef.Named("HissSmall").TrySpawnSustainer((Thing)this);
+			SoundDef.Named("MetalHitImportant").PlayOneShot(this);
+			this.wickSoundSustainer = SoundDef.Named("HissSmall").TrySpawnSustainer(this);
 		}
 
 		protected void StartJetting()
@@ -71,7 +71,7 @@ namespace RimWorld
 			this.TicksUntilMove = 3;
 			this.wickSoundSustainer.End();
 			this.wickSoundSustainer = null;
-			this.wickSoundSustainer = SoundDef.Named("HissJet").TrySpawnSustainer((Thing)this);
+			this.wickSoundSustainer = SoundDef.Named("HissJet").TrySpawnSustainer(this);
 		}
 
 		protected void MoveJetter()

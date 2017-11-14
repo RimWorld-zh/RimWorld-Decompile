@@ -24,9 +24,9 @@ namespace Verse
 		public void ResetTemperatureCache()
 		{
 			int numGridCells = this.map.cellIndices.NumGridCells;
-			for (int num = 0; num < numGridCells; num++)
+			for (int i = 0; i < numGridCells; i++)
 			{
-				this.tempCache[num].Reset();
+				this.tempCache[i].Reset();
 			}
 		}
 

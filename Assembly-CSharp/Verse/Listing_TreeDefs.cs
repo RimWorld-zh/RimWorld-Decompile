@@ -73,19 +73,19 @@ namespace Verse
 
 		private void ControlButtonsRight(TreeNode_Editor node, WidgetRow widgetRow)
 		{
-			if (node.HasNewButton && widgetRow.ButtonIcon(TexButton.NewItem, (string)null))
+			if (node.HasNewButton && widgetRow.ButtonIcon(TexButton.NewItem, null))
 			{
-				Action<object> addAction = (Action<object>)delegate(object o)
+				Action<object> addAction = delegate(object o)
 				{
 					node.owningField.SetValue(node.ParentObj, o);
 					((TreeNode_Editor)node.parentNode).RebuildChildNodes();
 				};
 				this.MakeCreateNewObjectMenu(node, node.owningField, node.owningField.FieldType, addAction);
 			}
-			if (node.nodeType == EditTreeNodeType.ListRoot && widgetRow.ButtonIcon(TexButton.Add, (string)null))
+			if (node.nodeType == EditTreeNodeType.ListRoot && widgetRow.ButtonIcon(TexButton.Add, null))
 			{
 				Type baseType = node.obj.GetType().GetGenericArguments()[0];
-				Action<object> addAction2 = (Action<object>)delegate(object o)
+				Action<object> addAction2 = delegate(object o)
 				{
 					node.obj.GetType().GetMethod("Add").Invoke(node.obj, new object[1]
 					{
@@ -94,7 +94,7 @@ namespace Verse
 				};
 				this.MakeCreateNewObjectMenu(node, node.owningField, baseType, addAction2);
 			}
-			if (node.HasDeleteButton && widgetRow.ButtonIcon(TexButton.DeleteX, (string)null))
+			if (node.HasDeleteButton && widgetRow.ButtonIcon(TexButton.DeleteX, null))
 			{
 				node.Delete();
 			}
@@ -103,7 +103,7 @@ namespace Verse
 		private void ExtraInfoText(TreeNode_Editor node, WidgetRow widgetRow)
 		{
 			string extraInfoText = node.ExtraInfoText;
-			if (extraInfoText != "")
+			if (extraInfoText != string.Empty)
 			{
 				if (extraInfoText == "null")
 				{
@@ -120,7 +120,7 @@ namespace Verse
 
 		protected void NodeLabelLeft(TreeNode_Editor node, int indentLevel)
 		{
-			string tipText = "";
+			string tipText = string.Empty;
 			if (node.owningField != null)
 			{
 				DescriptionAttribute[] array = (DescriptionAttribute[])node.owningField.GetCustomAttributes(typeof(DescriptionAttribute), true);
@@ -139,10 +139,10 @@ namespace Verse
 			foreach (Type item in list)
 			{
 				Type creatingType = item;
-				Action action = (Action)delegate()
+				Action action = delegate
 				{
 					owningNode.SetOpen(-1, true);
-					object obj = (creatingType != typeof(string)) ? Activator.CreateInstance(creatingType) : "";
+					object obj = (creatingType != typeof(string)) ? Activator.CreateInstance(creatingType) : string.Empty;
 					addAction(obj);
 					if (owningNode != null)
 					{
@@ -165,19 +165,19 @@ namespace Verse
 			Type objectType = node.ObjectType;
 			if (objectType == typeof(string))
 			{
-				string text;
-				string text2 = text = (string)obj;
-				if (text == null)
+				string text = (string)obj;
+				string text2 = text;
+				if (text2 == null)
 				{
-					text = "";
+					text2 = string.Empty;
 				}
-				string b = text;
-				text = Widgets.TextField(rect, text);
-				if (text != b)
+				string b = text2;
+				text2 = Widgets.TextField(rect, text2);
+				if (text2 != b)
 				{
-					text2 = text;
+					text = text2;
 				}
-				obj = text2;
+				obj = text;
 			}
 			else if (objectType == typeof(bool))
 			{
@@ -202,7 +202,7 @@ namespace Verse
 				{
 					float value = (float)obj;
 					Rect rect2 = new Rect((float)(this.LabelWidth + 60.0 + 4.0), base.curY, (float)(base.EditAreaWidth - 60.0 - 8.0), base.lineHeight);
-					value = Widgets.HorizontalSlider(rect2, value, array[0].min, array[0].max, false, (string)null, (string)null, (string)null, -1f);
+					value = Widgets.HorizontalSlider(rect2, value, array[0].min, array[0].max, false, null, null, null, -1f);
 					obj = value;
 				}
 				rect.width = 60f;
@@ -226,7 +226,7 @@ namespace Verse
 						{
 							object current = enumerator.Current;
 							object localVal = current;
-							list.Add(new FloatMenuOption(current.ToString(), (Action)delegate()
+							list.Add(new FloatMenuOption(current.ToString(), delegate
 							{
 								node.Value = localVal;
 							}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -254,7 +254,7 @@ namespace Verse
 					sliderMax = array2[0].max;
 				}
 				FloatRange floatRange = (FloatRange)obj;
-				Widgets.FloatRangeWithTypeIn(rect, node.owningIndex, ref floatRange, sliderMin, sliderMax, ToStringStyle.FloatTwo, (string)null);
+				Widgets.FloatRangeWithTypeIn(rect, node.owningIndex, ref floatRange, sliderMin, sliderMax, ToStringStyle.FloatTwo, null);
 				obj = floatRange;
 			}
 			else

@@ -8,27 +8,27 @@ namespace Verse.AI
 	{
 		public Pawn actor;
 
-		public Action initAction = null;
+		public Action initAction;
 
-		public Action tickAction = null;
+		public Action tickAction;
 
 		public List<Func<JobCondition>> endConditions = new List<Func<JobCondition>>();
 
-		public List<Action> preInitActions = null;
+		public List<Action> preInitActions;
 
-		public List<Action> preTickActions = null;
+		public List<Action> preTickActions;
 
-		public List<Action> finishActions = null;
+		public List<Action> finishActions;
 
-		public bool atomicWithPrevious = false;
+		public bool atomicWithPrevious;
 
 		public RandomSocialMode socialMode = RandomSocialMode.Normal;
 
 		public ToilCompleteMode defaultCompleteMode = ToilCompleteMode.Instant;
 
-		public int defaultDuration = 0;
+		public int defaultDuration;
 
-		public bool handlingFacing = false;
+		public bool handlingFacing;
 
 		public void Cleanup()
 		{
@@ -55,7 +55,14 @@ namespace Verse.AI
 
 		public void AddFailCondition(Func<bool> newFailCondition)
 		{
-			this.endConditions.Add((Func<JobCondition>)(() => (JobCondition)((!newFailCondition()) ? 1 : 3)));
+			this.endConditions.Add(delegate
+			{
+				if (newFailCondition())
+				{
+					return JobCondition.Incompletable;
+				}
+				return JobCondition.Ongoing;
+			});
 		}
 
 		public void AddEndCondition(Func<JobCondition> newEndCondition)

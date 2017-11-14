@@ -15,7 +15,7 @@ namespace Verse
 
 		public int clusterSize = 1;
 
-		public float terrainValidationRadius = 0f;
+		public float terrainValidationRadius;
 
 		[NoTranslate]
 		private List<string> terrainValidationDisallowed;
@@ -24,7 +24,7 @@ namespace Verse
 		private IntVec3 clusterCenter;
 
 		[Unsaved]
-		private int leftInCluster = 0;
+		private int leftInCluster;
 
 		private const int ClusterRadius = 4;
 
@@ -82,7 +82,6 @@ namespace Verse
 
 		protected override bool TryFindScatterCell(Map map, out IntVec3 result)
 		{
-			bool result2;
 			if (this.clusterSize > 1)
 			{
 				if (this.leftInCluster <= 0)
@@ -95,14 +94,10 @@ namespace Verse
 				}
 				this.leftInCluster--;
 				Rot4 rot = default(Rot4);
-				result = CellFinder.RandomClosewalkCellNear(this.clusterCenter, map, 4, (Predicate<IntVec3>)((IntVec3 x) => this.TryGetRandomValidRotation(x, map, out rot)));
-				result2 = result.IsValid;
+				result = CellFinder.RandomClosewalkCellNear(this.clusterCenter, map, 4, (IntVec3 x) => this.TryGetRandomValidRotation(x, map, out rot));
+				return result.IsValid;
 			}
-			else
-			{
-				result2 = base.TryFindScatterCell(map, out result);
-			}
-			return result2;
+			return base.TryFindScatterCell(map, out result);
 		}
 
 		protected override void ScatterAt(IntVec3 loc, Map map, int stackCount = 1)
@@ -150,38 +145,33 @@ namespace Verse
 
 		protected override bool CanScatterAt(IntVec3 loc, Map map)
 		{
-			bool result;
-			Rot4 rot = default(Rot4);
 			if (!base.CanScatterAt(loc, map))
 			{
-				result = false;
+				return false;
 			}
-			else if (!this.TryGetRandomValidRotation(loc, map, out rot))
+			Rot4 rot = default(Rot4);
+			if (!this.TryGetRandomValidRotation(loc, map, out rot))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (this.terrainValidationRadius > 0.0)
 			{
-				if (this.terrainValidationRadius > 0.0)
+				foreach (IntVec3 item in GenRadial.RadialCellsAround(loc, this.terrainValidationRadius, true))
 				{
-					foreach (IntVec3 item in GenRadial.RadialCellsAround(loc, this.terrainValidationRadius, true))
+					if (item.InBounds(map))
 					{
-						if (item.InBounds(map))
+						TerrainDef terrain = item.GetTerrain(map);
+						for (int i = 0; i < this.terrainValidationDisallowed.Count; i++)
 						{
-							TerrainDef terrain = item.GetTerrain(map);
-							for (int i = 0; i < this.terrainValidationDisallowed.Count; i++)
+							if (terrain.HasTag(this.terrainValidationDisallowed[i]))
 							{
-								if (terrain.HasTag(this.terrainValidationDisallowed[i]))
-								{
-									return false;
-								}
+								return false;
 							}
 						}
 					}
 				}
-				result = true;
 			}
-			return result;
+			return true;
 		}
 
 		private bool TryGetRandomValidRotation(IntVec3 loc, Map map, out Rot4 rot)
@@ -194,23 +184,26 @@ namespace Verse
 					GenStep_ScatterThings.tmpRotations.Add(possibleRotations[i]);
 				}
 			}
-			bool result;
 			if (((IEnumerable<Rot4>)GenStep_ScatterThings.tmpRotations).TryRandomElement<Rot4>(out rot))
 			{
 				GenStep_ScatterThings.tmpRotations.Clear();
-				result = true;
+				return true;
 			}
-			else
-			{
-				rot = Rot4.Invalid;
-				result = false;
-			}
-			return result;
+			rot = Rot4.Invalid;
+			return false;
 		}
 
 		private bool IsRotationValid(IntVec3 loc, Rot4 rot, Map map)
 		{
-			return (byte)(GenAdj.OccupiedRect(loc, rot, this.thingDef.size).InBounds(map) ? ((!GenSpawn.WouldWipeAnythingWith(loc, rot, this.thingDef, map, (Predicate<Thing>)((Thing x) => x.def == this.thingDef || (x.def.category != ThingCategory.Plant && x.def.category != ThingCategory.Filth)))) ? 1 : 0) : 0) != 0;
+			if (!GenAdj.OccupiedRect(loc, rot, this.thingDef.size).InBounds(map))
+			{
+				return false;
+			}
+			if (GenSpawn.WouldWipeAnythingWith(loc, rot, this.thingDef, map, (Thing x) => x.def == this.thingDef || (x.def.category != ThingCategory.Plant && x.def.category != ThingCategory.Filth)))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static List<int> CountDividedIntoStacks(int count, IntRange stackSizeRange)

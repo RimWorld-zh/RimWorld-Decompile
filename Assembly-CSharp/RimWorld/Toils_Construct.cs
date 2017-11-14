@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -9,7 +8,7 @@ namespace RimWorld
 		public static Toil MakeSolidThingFromBlueprintIfNecessary(TargetIndex blueTarget, TargetIndex targetToUpdate = TargetIndex.None)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.jobs.curJob;
@@ -41,7 +40,7 @@ namespace RimWorld
 		public static Toil UninstallIfMinifiable(TargetIndex thingInd)
 		{
 			Toil uninstallIfMinifiable = new Toil().FailOnDestroyedNullOrForbidden(thingInd);
-			uninstallIfMinifiable.initAction = (Action)delegate()
+			uninstallIfMinifiable.initAction = delegate
 			{
 				Pawn actor2 = uninstallIfMinifiable.actor;
 				JobDriver curDriver2 = actor2.jobs.curDriver;
@@ -55,7 +54,7 @@ namespace RimWorld
 					curDriver2.ReadyForNextToil();
 				}
 			};
-			uninstallIfMinifiable.tickAction = (Action)delegate()
+			uninstallIfMinifiable.tickAction = delegate
 			{
 				Pawn actor = uninstallIfMinifiable.actor;
 				JobDriver curDriver = actor.jobs.curDriver;
@@ -66,12 +65,12 @@ namespace RimWorld
 					Thing thing = curJob.GetTarget(thingInd).Thing;
 					MinifiedThing minifiedThing = thing.MakeMinified();
 					GenSpawn.Spawn(minifiedThing, thing.Position, uninstallIfMinifiable.actor.Map);
-					curJob.SetTarget(thingInd, (Thing)minifiedThing);
+					curJob.SetTarget(thingInd, minifiedThing);
 					actor.jobs.curDriver.ReadyForNextToil();
 				}
 			};
 			uninstallIfMinifiable.defaultCompleteMode = ToilCompleteMode.Never;
-			uninstallIfMinifiable.WithProgressBar(thingInd, (Func<float>)(() => (float)(1.0 - uninstallIfMinifiable.actor.jobs.curDriver.uninstallWorkLeft / 90.0)), false, -0.5f);
+			uninstallIfMinifiable.WithProgressBar(thingInd, () => (float)(1.0 - uninstallIfMinifiable.actor.jobs.curDriver.uninstallWorkLeft / 90.0), false, -0.5f);
 			return uninstallIfMinifiable;
 		}
 	}

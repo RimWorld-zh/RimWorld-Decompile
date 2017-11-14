@@ -6,7 +6,19 @@ namespace RimWorld
 	{
 		protected override ThoughtState CurrentSocialStateInternal(Pawn pawn, Pawn other)
 		{
-			return (!other.RaceProps.Humanlike || !RelationsUtility.PawnsKnowEachOther(pawn, other)) ? false : (other.story.traits.HasTrait(TraitDefOf.CreepyBreathing) ? (pawn.health.capacities.CapableOf(PawnCapacityDefOf.Hearing) ? true : false) : false);
+			if (other.RaceProps.Humanlike && RelationsUtility.PawnsKnowEachOther(pawn, other))
+			{
+				if (!other.story.traits.HasTrait(TraitDefOf.CreepyBreathing))
+				{
+					return false;
+				}
+				if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Hearing))
+				{
+					return false;
+				}
+				return true;
+			}
+			return false;
 		}
 	}
 }

@@ -6,15 +6,15 @@ namespace RimWorld
 {
 	public class CompExplosive : ThingComp
 	{
-		public bool wickStarted = false;
+		public bool wickStarted;
 
-		protected int wickTicksLeft = 0;
+		protected int wickTicksLeft;
 
 		private Thing instigator;
 
 		public bool destroyedThroughDetonation;
 
-		protected Sustainer wickSoundSustainer = null;
+		protected Sustainer wickSoundSustainer;
 
 		public CompProperties_Explosive Props
 		{
@@ -36,19 +36,14 @@ namespace RimWorld
 		{
 			get
 			{
-				bool result;
 				if (this.Props.chanceNeverExplodeFromDamage < 9.9999997473787516E-06)
 				{
-					result = true;
+					return true;
 				}
-				else
-				{
-					Rand.PushState();
-					Rand.Seed = base.parent.thingIDNumber.GetHashCode();
-					bool flag = Rand.Value < this.Props.chanceNeverExplodeFromDamage;
-					Rand.PopState();
-					result = flag;
-				}
+				Rand.PushState();
+				Rand.Seed = base.parent.thingIDNumber.GetHashCode();
+				bool result = Rand.Value < this.Props.chanceNeverExplodeFromDamage;
+				Rand.PopState();
 				return result;
 			}
 		}
@@ -85,7 +80,7 @@ namespace RimWorld
 		private void StartWickSustainer()
 		{
 			SoundDefOf.MetalHitImportant.PlayOneShot(new TargetInfo(base.parent.Position, base.parent.Map, false));
-			SoundInfo info = SoundInfo.InMap((Thing)base.parent, MaintenanceType.PerTick);
+			SoundInfo info = SoundInfo.InMap(base.parent, MaintenanceType.PerTick);
 			this.wickSoundSustainer = SoundDefOf.HissSmall.TrySpawnSustainer(info);
 		}
 
@@ -190,7 +185,7 @@ namespace RimWorld
 				if (props.destroyThingOnExplosionSize <= num && !base.parent.Destroyed)
 				{
 					this.destroyedThroughDetonation = true;
-					base.parent.Kill(default(DamageInfo?), null);
+					base.parent.Kill(null, null);
 				}
 				this.EndWickSustainer();
 				this.wickStarted = false;

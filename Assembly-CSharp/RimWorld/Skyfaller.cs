@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -35,7 +34,11 @@ namespace RimWorld
 			get
 			{
 				Thing thingForGraphic = this.GetThingForGraphic();
-				return (thingForGraphic != this) ? thingForGraphic.Graphic.ExtractInnerGraphicFor(thingForGraphic).GetShadowlessGraphic() : base.Graphic;
+				if (thingForGraphic == this)
+				{
+					return base.Graphic;
+				}
+				return thingForGraphic.Graphic.ExtractInnerGraphicFor(thingForGraphic).GetShadowlessGraphic();
 			}
 		}
 
@@ -43,32 +46,18 @@ namespace RimWorld
 		{
 			get
 			{
-				Vector3 result;
 				switch (base.def.skyfaller.movementType)
 				{
 				case SkyfallerMovementType.Accelerate:
-				{
-					result = SkyfallerDrawPosUtility.DrawPos_Accelerate(base.DrawPos, this.ticksToImpact, this.angle, base.def.skyfaller.speed);
-					break;
-				}
+					return SkyfallerDrawPosUtility.DrawPos_Accelerate(base.DrawPos, this.ticksToImpact, this.angle, base.def.skyfaller.speed);
 				case SkyfallerMovementType.ConstantSpeed:
-				{
-					result = SkyfallerDrawPosUtility.DrawPos_ConstantSpeed(base.DrawPos, this.ticksToImpact, this.angle, base.def.skyfaller.speed);
-					break;
-				}
+					return SkyfallerDrawPosUtility.DrawPos_ConstantSpeed(base.DrawPos, this.ticksToImpact, this.angle, base.def.skyfaller.speed);
 				case SkyfallerMovementType.Decelerate:
-				{
-					result = SkyfallerDrawPosUtility.DrawPos_Decelerate(base.DrawPos, this.ticksToImpact, this.angle, base.def.skyfaller.speed);
-					break;
-				}
+					return SkyfallerDrawPosUtility.DrawPos_Decelerate(base.DrawPos, this.ticksToImpact, this.angle, base.def.skyfaller.speed);
 				default:
-				{
 					Log.ErrorOnce("SkyfallerMovementType not handled: " + base.def.skyfaller.movementType, base.thingIDNumber ^ 1948576711);
-					result = SkyfallerDrawPosUtility.DrawPos_Accelerate(base.DrawPos, this.ticksToImpact, this.angle, base.def.skyfaller.speed);
-					break;
+					return SkyfallerDrawPosUtility.DrawPos_Accelerate(base.DrawPos, this.ticksToImpact, this.angle, base.def.skyfaller.speed);
 				}
-				}
-				return result;
 			}
 		}
 
@@ -76,7 +65,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if ((UnityEngine.Object)this.cachedShadowMaterial == (UnityEngine.Object)null && !base.def.skyfaller.shadow.NullOrEmpty())
+				if ((Object)this.cachedShadowMaterial == (Object)null && !base.def.skyfaller.shadow.NullOrEmpty())
 				{
 					this.cachedShadowMaterial = MaterialPool.MatFrom(base.def.skyfaller.shadow, ShaderDatabase.Transparent);
 				}
@@ -203,34 +192,33 @@ namespace RimWorld
 			if (base.def.skyfaller.hitRoof)
 			{
 				CellRect cr = this.OccupiedRect();
-				if (cr.Cells.Any((Func<IntVec3, bool>)((IntVec3 x) => x.Roofed(base.Map))))
+				if (cr.Cells.Any((IntVec3 x) => x.Roofed(base.Map)))
 				{
-					RoofDef roof = cr.Cells.First((Func<IntVec3, bool>)((IntVec3 x) => x.Roofed(base.Map))).GetRoof(base.Map);
+					RoofDef roof = cr.Cells.First((IntVec3 x) => x.Roofed(base.Map)).GetRoof(base.Map);
 					if (!roof.soundPunchThrough.NullOrUndefined())
 					{
 						roof.soundPunchThrough.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
 					}
-					RoofCollapserImmediate.DropRoofInCells(cr.ExpandedBy(1).ClipInsideMap(base.Map).Cells.Where((Func<IntVec3, bool>)delegate(IntVec3 c)
+					RoofCollapserImmediate.DropRoofInCells(cr.ExpandedBy(1).ClipInsideMap(base.Map).Cells.Where(delegate(IntVec3 c)
 					{
-						bool result;
 						if (!c.InBounds(base.Map))
 						{
-							result = false;
+							return false;
 						}
-						else if (cr.Contains(c))
+						if (cr.Contains(c))
 						{
-							result = true;
+							return true;
 						}
-						else if (c.GetFirstPawn(base.Map) != null)
+						if (c.GetFirstPawn(base.Map) != null)
 						{
-							result = false;
+							return false;
 						}
-						else
+						Building edifice = c.GetEdifice(base.Map);
+						if (edifice != null && edifice.def.holdsRoof)
 						{
-							Building edifice = c.GetEdifice(base.Map);
-							result = ((byte)((edifice == null || !edifice.def.holdsRoof) ? 1 : 0) != 0);
+							return false;
 						}
-						return result;
+						return true;
 					}), base.Map);
 				}
 			}
@@ -244,7 +232,7 @@ namespace RimWorld
 			}
 			for (int num = this.innerContainer.Count - 1; num >= 0; num--)
 			{
-				GenPlace.TryPlaceThing(this.innerContainer[num], base.Position, base.Map, ThingPlaceMode.Near, (Action<Thing, int>)delegate(Thing thing, int count)
+				GenPlace.TryPlaceThing(this.innerContainer[num], base.Position, base.Map, ThingPlaceMode.Near, delegate(Thing thing, int count)
 				{
 					PawnUtility.RecoverFromUnwalkablePositionOrKill(thing.Position, thing.Map);
 				});
@@ -287,13 +275,17 @@ namespace RimWorld
 
 		private Thing GetThingForGraphic()
 		{
-			return (base.def.graphicData == null && this.innerContainer.Any) ? this.innerContainer[0] : this;
+			if (base.def.graphicData == null && this.innerContainer.Any)
+			{
+				return this.innerContainer[0];
+			}
+			return this;
 		}
 
 		private void DrawDropSpotShadow()
 		{
 			Material shadowMaterial = this.ShadowMaterial;
-			if (!((UnityEngine.Object)shadowMaterial == (UnityEngine.Object)null))
+			if (!((Object)shadowMaterial == (Object)null))
 			{
 				Skyfaller.DrawDropSpotShadow(base.DrawPos, base.Rotation, shadowMaterial, base.def.skyfaller.shadowSize, this.ticksToImpact);
 			}

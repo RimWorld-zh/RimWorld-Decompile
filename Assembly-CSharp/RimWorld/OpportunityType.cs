@@ -2,8 +2,8 @@ namespace RimWorld
 {
 	public enum OpportunityType : byte
 	{
-		GoodToKnow = 0,
-		Important = 1,
-		Critical = 2
+		GoodToKnow,
+		Important,
+		Critical
 	}
 }

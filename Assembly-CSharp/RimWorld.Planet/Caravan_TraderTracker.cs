@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -16,25 +15,15 @@ namespace RimWorld.Planet
 			get
 			{
 				List<Pawn> pawnsListForReading = this.caravan.PawnsListForReading;
-				int num = 0;
-				TraderKindDef result;
-				while (true)
+				for (int i = 0; i < pawnsListForReading.Count; i++)
 				{
-					if (num < pawnsListForReading.Count)
+					Pawn pawn = pawnsListForReading[i];
+					if (this.caravan.IsOwner(pawn) && pawn.TraderKind != null)
 					{
-						Pawn pawn = pawnsListForReading[num];
-						if (this.caravan.IsOwner(pawn) && pawn.TraderKind != null)
-						{
-							result = pawn.TraderKind;
-							break;
-						}
-						num++;
-						continue;
+						return pawn.TraderKind;
 					}
-					result = null;
-					break;
 				}
-				return result;
+				return null;
 			}
 		}
 
@@ -89,7 +78,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return this.TraderKind != null && !this.caravan.AllOwnersDowned && this.caravan.Faction != Faction.OfPlayer && this.Goods.Any((Func<Thing, bool>)((Thing x) => this.TraderKind.WillTrade(x.def)));
+				return this.TraderKind != null && !this.caravan.AllOwnersDowned && this.caravan.Faction != Faction.OfPlayer && this.Goods.Any((Thing x) => this.TraderKind.WillTrade(x.def));
 			}
 		}
 
@@ -103,7 +92,7 @@ namespace RimWorld.Planet
 			Scribe_Collections.Look<Pawn>(ref this.soldPrisoners, "soldPrisoners", LookMode.Reference, new object[0]);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
-				this.soldPrisoners.RemoveAll((Predicate<Pawn>)((Pawn x) => x == null));
+				this.soldPrisoners.RemoveAll((Pawn x) => x == null);
 			}
 		}
 
@@ -136,8 +125,8 @@ namespace RimWorld.Planet
 			}
 			yield return (Thing)pawns[i];
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_015c:
-			/*Error near IL_015d: Unexpected return in MoveNext()*/;
+			IL_0156:
+			/*Error near IL_0157: Unexpected return in MoveNext()*/;
 		}
 
 		public void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)

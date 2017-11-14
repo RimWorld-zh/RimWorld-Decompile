@@ -8,7 +8,8 @@ namespace RimWorld
 		{
 		}
 
-		public Tale_DoublePawnKilledBy(Pawn victim, DamageInfo dinfo) : base(victim, null)
+		public Tale_DoublePawnKilledBy(Pawn victim, DamageInfo dinfo)
+			: base(victim, null)
 		{
 			if (dinfo.Instigator != null && dinfo.Instigator is Pawn)
 			{

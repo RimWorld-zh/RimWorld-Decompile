@@ -38,7 +38,7 @@ namespace RimWorld.BaseGen
 						resolveParams.rect = CellRect.SingleCell(current);
 						resolveParams.singleThingDef = ThingDefOf.DiningChair;
 						resolveParams.singleThingStuff = (rp.singleThingStuff ?? ThingDefOf.WoodLog);
-						resolveParams.thingRot = new Rot4?(value);
+						resolveParams.thingRot = value;
 						BaseGen.symbolStack.Push("thing", resolveParams);
 						flag = true;
 					}

@@ -89,8 +89,8 @@ namespace Verse
 					}
 				}
 				yield break;
-				IL_0104:
-				/*Error near IL_0105: Unexpected return in MoveNext()*/;
+				IL_00fe:
+				/*Error near IL_00ff: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -127,8 +127,8 @@ namespace Verse
 					}
 				}
 				yield break;
-				IL_00ff:
-				/*Error near IL_0100: Unexpected return in MoveNext()*/;
+				IL_00f9:
+				/*Error near IL_00fa: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -165,24 +165,14 @@ namespace Verse
 		{
 			get
 			{
-				int num = 0;
-				bool result;
-				while (true)
+				for (int i = 0; i < this.rooms.Count; i++)
 				{
-					if (num < this.rooms.Count)
+					if (this.rooms[i].TouchesMapEdge)
 					{
-						if (this.rooms[num].TouchesMapEdge)
-						{
-							result = true;
-							break;
-						}
-						num++;
-						continue;
+						return true;
 					}
-					result = false;
-					break;
 				}
-				return result;
+				return false;
 			}
 		}
 
@@ -221,17 +211,12 @@ namespace Verse
 
 		public bool PushHeat(float energy)
 		{
-			bool result;
 			if (this.UsesOutdoorTemperature)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				this.Temperature += energy / (float)this.CellCount;
-				result = true;
-			}
-			return result;
+			this.Temperature += energy / (float)this.CellCount;
+			return true;
 		}
 
 		public void Notify_RoofChanged()

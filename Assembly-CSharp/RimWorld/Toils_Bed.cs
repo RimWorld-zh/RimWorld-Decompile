@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 
@@ -9,7 +8,7 @@ namespace RimWorld
 		public static Toil GotoBed(TargetIndex bedIndex)
 		{
 			Toil gotoBed = new Toil();
-			gotoBed.initAction = (Action)delegate()
+			gotoBed.initAction = delegate
 			{
 				Pawn actor2 = gotoBed.actor;
 				Building_Bed bed = (Building_Bed)actor2.CurJob.GetTarget(bedIndex).Thing;
@@ -23,7 +22,7 @@ namespace RimWorld
 					actor2.pather.StartPath(RestUtility.GetBedSleepingSlotPosFor(actor2, bed), PathEndMode.OnCell);
 				}
 			};
-			gotoBed.tickAction = (Action)delegate()
+			gotoBed.tickAction = delegate
 			{
 				Pawn actor = gotoBed.actor;
 				Building_Bed building_Bed = (Building_Bed)actor.CurJob.GetTarget(bedIndex).Thing;
@@ -41,7 +40,7 @@ namespace RimWorld
 		public static Toil ClaimBedIfNonMedical(TargetIndex ind, TargetIndex claimantIndex = TargetIndex.None)
 		{
 			Toil claim = new Toil();
-			claim.initAction = (Action)delegate()
+			claim.initAction = delegate
 			{
 				Pawn actor = claim.GetActor();
 				Pawn pawn = (claimantIndex != 0) ? ((Pawn)actor.CurJob.GetTarget(claimantIndex).Thing) : actor;
@@ -56,11 +55,10 @@ namespace RimWorld
 
 		public static T FailOnNonMedicalBedNotOwned<T>(this T f, TargetIndex bedIndex, TargetIndex claimantIndex = TargetIndex.None) where T : IJobEndable
 		{
-			f.AddEndCondition((Func<JobCondition>)delegate()
+			f.AddEndCondition(delegate
 			{
 				Pawn actor = f.GetActor();
 				Pawn pawn = (claimantIndex != 0) ? ((Pawn)actor.CurJob.GetTarget(claimantIndex).Thing) : actor;
-				JobCondition result;
 				if (pawn.ownership != null)
 				{
 					Building_Bed building_Bed = (Building_Bed)actor.CurJob.GetTarget(bedIndex).Thing;
@@ -68,35 +66,29 @@ namespace RimWorld
 					{
 						if ((!pawn.InBed() || pawn.CurrentBed() != building_Bed) && !building_Bed.AnyUnoccupiedSleepingSlot)
 						{
-							result = JobCondition.Incompletable;
-							goto IL_011e;
+							return JobCondition.Incompletable;
 						}
 					}
 					else
 					{
 						if (!building_Bed.owners.Contains(pawn))
 						{
-							result = JobCondition.Incompletable;
-							goto IL_011e;
+							return JobCondition.Incompletable;
 						}
 						if (pawn.InBed() && pawn.CurrentBed() == building_Bed)
 						{
 							int curOccupantSlotIndex = building_Bed.GetCurOccupantSlotIndex(pawn);
 							if (curOccupantSlotIndex < building_Bed.owners.Count && building_Bed.owners[curOccupantSlotIndex] == pawn)
 							{
-								goto IL_0116;
+								goto IL_00fb;
 							}
-							result = JobCondition.Incompletable;
-							goto IL_011e;
+							return JobCondition.Incompletable;
 						}
 					}
 				}
-				goto IL_0116;
-				IL_011e:
-				return result;
-				IL_0116:
-				result = JobCondition.Ongoing;
-				goto IL_011e;
+				goto IL_00fb;
+				IL_00fb:
+				return JobCondition.Ongoing;
 			});
 			return f;
 		}
@@ -104,11 +96,11 @@ namespace RimWorld
 		public static void FailOnBedNoLongerUsable(this Toil toil, TargetIndex bedIndex)
 		{
 			toil.FailOnDespawnedOrNull(bedIndex);
-			toil.FailOn((Func<bool>)(() => ((Building_Bed)toil.actor.CurJob.GetTarget(bedIndex).Thing).IsBurning()));
-			toil.FailOn((Func<bool>)(() => ((Building_Bed)toil.actor.CurJob.GetTarget(bedIndex).Thing).ForPrisoners != toil.actor.IsPrisoner));
+			toil.FailOn(() => ((Building_Bed)toil.actor.CurJob.GetTarget(bedIndex).Thing).IsBurning());
+			toil.FailOn(() => ((Building_Bed)toil.actor.CurJob.GetTarget(bedIndex).Thing).ForPrisoners != toil.actor.IsPrisoner);
 			toil.FailOnNonMedicalBedNotOwned(bedIndex, TargetIndex.None);
-			toil.FailOn((Func<bool>)(() => !HealthAIUtility.ShouldSeekMedicalRest(toil.actor) && !HealthAIUtility.ShouldSeekMedicalRestUrgent(toil.actor) && ((Building_Bed)toil.actor.CurJob.GetTarget(bedIndex).Thing).Medical));
-			toil.FailOn((Func<bool>)(() => toil.actor.IsColonist && !toil.actor.CurJob.ignoreForbidden && !toil.actor.Downed && toil.actor.CurJob.GetTarget(bedIndex).Thing.IsForbidden(toil.actor)));
+			toil.FailOn(() => !HealthAIUtility.ShouldSeekMedicalRest(toil.actor) && !HealthAIUtility.ShouldSeekMedicalRestUrgent(toil.actor) && ((Building_Bed)toil.actor.CurJob.GetTarget(bedIndex).Thing).Medical);
+			toil.FailOn(() => toil.actor.IsColonist && !toil.actor.CurJob.ignoreForbidden && !toil.actor.Downed && toil.actor.CurJob.GetTarget(bedIndex).Thing.IsForbidden(toil.actor));
 		}
 	}
 }

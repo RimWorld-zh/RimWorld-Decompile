@@ -7,65 +7,31 @@ namespace RimWorld
 	{
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
-			ThoughtState result;
 			switch ((p.GetHashCode() ^ (GenLocalDate.DayOfYear(p) + GenLocalDate.Year(p) * 60) * 391) % 10)
 			{
 			case 0:
-			{
-				result = ThoughtState.ActiveAtStage(0);
-				break;
-			}
+				return ThoughtState.ActiveAtStage(0);
 			case 1:
-			{
-				result = ThoughtState.ActiveAtStage(1);
-				break;
-			}
+				return ThoughtState.ActiveAtStage(1);
 			case 2:
-			{
-				result = ThoughtState.ActiveAtStage(1);
-				break;
-			}
+				return ThoughtState.ActiveAtStage(1);
 			case 3:
-			{
-				result = ThoughtState.ActiveAtStage(1);
-				break;
-			}
+				return ThoughtState.ActiveAtStage(1);
 			case 4:
-			{
-				result = ThoughtState.Inactive;
-				break;
-			}
+				return ThoughtState.Inactive;
 			case 5:
-			{
-				result = ThoughtState.Inactive;
-				break;
-			}
+				return ThoughtState.Inactive;
 			case 6:
-			{
-				result = ThoughtState.ActiveAtStage(2);
-				break;
-			}
+				return ThoughtState.ActiveAtStage(2);
 			case 7:
-			{
-				result = ThoughtState.ActiveAtStage(2);
-				break;
-			}
+				return ThoughtState.ActiveAtStage(2);
 			case 8:
-			{
-				result = ThoughtState.ActiveAtStage(2);
-				break;
-			}
+				return ThoughtState.ActiveAtStage(2);
 			case 9:
-			{
-				result = ThoughtState.ActiveAtStage(3);
-				break;
-			}
+				return ThoughtState.ActiveAtStage(3);
 			default:
-			{
 				throw new NotImplementedException();
 			}
-			}
-			return result;
 		}
 	}
 }

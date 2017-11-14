@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -21,9 +20,15 @@ namespace RimWorld
 		{
 			TechLevel? techLevel2 = parms.techLevel;
 			TechLevel techLevel = (!techLevel2.HasValue) ? TechLevel.Spacer : techLevel2.Value;
-			return ((int)techLevel < 5) ? (from x in ItemCollectionGenerator_Weapons.weapons
+			if ((int)techLevel >= 5)
+			{
+				return from x in ItemCollectionGenerator_Weapons.weapons
+				where (int)x.techLevel >= 4 && (int)x.techLevel <= (int)techLevel
+				select x;
+			}
+			return from x in ItemCollectionGenerator_Weapons.weapons
 			where (int)x.techLevel <= (int)techLevel
-			select x) : ItemCollectionGenerator_Weapons.weapons.Where((Func<ThingDef, bool>)((ThingDef x) => (int)x.techLevel >= 4 && (int)x.techLevel <= (int)techLevel));
+			select x;
 		}
 	}
 }

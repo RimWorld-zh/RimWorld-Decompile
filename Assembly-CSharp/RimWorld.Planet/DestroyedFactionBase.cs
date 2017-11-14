@@ -7,23 +7,18 @@ namespace RimWorld.Planet
 	{
 		public override bool ShouldRemoveMapNow(out bool alsoRemoveWorldObject)
 		{
-			bool result;
 			if (!base.Map.mapPawns.AnyPawnBlockingMapRemoval)
 			{
 				alsoRemoveWorldObject = true;
-				result = true;
+				return true;
 			}
-			else
-			{
-				alsoRemoveWorldObject = false;
-				result = false;
-			}
-			return result;
+			alsoRemoveWorldObject = false;
+			return false;
 		}
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -38,8 +33,8 @@ namespace RimWorld.Planet
 				yield break;
 			yield return (Gizmo)SettleInExistingMapUtility.SettleCommand(base.Map, false);
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0111:
-			/*Error near IL_0112: Unexpected return in MoveNext()*/;
+			IL_010d:
+			/*Error near IL_010e: Unexpected return in MoveNext()*/;
 		}
 	}
 }

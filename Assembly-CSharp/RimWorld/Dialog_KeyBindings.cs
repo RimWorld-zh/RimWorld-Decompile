@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -12,7 +11,7 @@ namespace RimWorld
 
 		protected float contentHeight;
 
-		protected KeyPrefsData keyPrefsData = null;
+		protected KeyPrefsData keyPrefsData;
 
 		protected Vector2 WindowSize = new Vector2(900f, 760f);
 
@@ -80,7 +79,7 @@ namespace RimWorld
 			KeyBindingCategoryDef keyBindingCategoryDef = null;
 			Dialog_KeyBindings.keyBindingsWorkingList.Clear();
 			Dialog_KeyBindings.keyBindingsWorkingList.AddRange(DefDatabase<KeyBindingDef>.AllDefs);
-			Dialog_KeyBindings.keyBindingsWorkingList.SortBy((Func<KeyBindingDef, ushort>)((KeyBindingDef x) => x.category.index), (Func<KeyBindingDef, ushort>)((KeyBindingDef x) => x.index));
+			Dialog_KeyBindings.keyBindingsWorkingList.SortBy((KeyBindingDef x) => x.category.index, (KeyBindingDef x) => x.index);
 			for (int i = 0; i < Dialog_KeyBindings.keyBindingsWorkingList.Count; i++)
 			{
 				KeyBindingDef keyBindingDef = Dialog_KeyBindings.keyBindingsWorkingList[i];
@@ -186,12 +185,12 @@ namespace RimWorld
 			else if (Event.current.button == 1)
 			{
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
-				list.Add(new FloatMenuOption("ResetBinding".Translate(), (Action)delegate()
+				list.Add(new FloatMenuOption("ResetBinding".Translate(), delegate
 				{
 					KeyCode keyCode = (slot != 0) ? keyDef.defaultKeyCodeB : keyDef.defaultKeyCodeA;
 					this.keyPrefsData.SetBinding(keyDef, slot, keyCode);
 				}, MenuOptionPriority.Default, null, null, 0f, null, null));
-				list.Add(new FloatMenuOption("ClearBinding".Translate(), (Action)delegate()
+				list.Add(new FloatMenuOption("ClearBinding".Translate(), delegate
 				{
 					this.keyPrefsData.SetBinding(keyDef, slot, KeyCode.None);
 				}, MenuOptionPriority.Default, null, null, 0f, null, null));

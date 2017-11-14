@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,62 +8,62 @@ namespace Verse
 	{
 		public enum TerrainEdgeType : byte
 		{
-			Hard = 0,
-			Fade = 1,
-			FadeRough = 2,
-			Water = 3
+			Hard,
+			Fade,
+			FadeRough,
+			Water
 		}
 
 		[NoTranslate]
 		public string texturePath;
 
-		public TerrainEdgeType edgeType = TerrainEdgeType.Hard;
+		public TerrainEdgeType edgeType;
 
 		[NoTranslate]
-		public string waterDepthShader = (string)null;
+		public string waterDepthShader;
 
-		public List<ShaderParameter> waterDepthShaderParameters = null;
+		public List<ShaderParameter> waterDepthShaderParameters;
 
-		public int renderPrecedence = 0;
+		public int renderPrecedence;
 
 		public List<TerrainAffordance> affordances = new List<TerrainAffordance>();
 
-		public bool layerable = false;
+		public bool layerable;
 
 		[NoTranslate]
-		public string scatterType = (string)null;
+		public string scatterType;
 
-		public bool takeFootprints = false;
+		public bool takeFootprints;
 
-		public bool takeSplashes = false;
+		public bool takeSplashes;
 
-		public bool avoidWander = false;
+		public bool avoidWander;
 
 		public bool changeable = true;
 
-		public TerrainDef smoothedTerrain = null;
+		public TerrainDef smoothedTerrain;
 
 		public bool holdSnow = true;
 
-		public bool extinguishesFire = false;
+		public bool extinguishesFire;
 
 		public Color color = Color.white;
 
-		public TerrainDef driesTo = null;
+		public TerrainDef driesTo;
 
 		[NoTranslate]
-		public List<string> tags = null;
+		public List<string> tags;
 
-		public TerrainDef burnedDef = null;
+		public TerrainDef burnedDef;
 
-		public ThingDef terrainFilthDef = null;
+		public ThingDef terrainFilthDef;
 
-		public bool acceptTerrainSourceFilth = false;
+		public bool acceptTerrainSourceFilth;
 
 		public bool acceptFilth = true;
 
 		[Unsaved]
-		public Material waterDepthMaterial = null;
+		public Material waterDepthMaterial;
 
 		public override Color IconDrawColor
 		{
@@ -93,34 +92,26 @@ namespace Verse
 		public override void PostLoad()
 		{
 			base.placingDraggableDimensions = 2;
-			LongEventHandler.ExecuteWhenFinished((Action)delegate
+			LongEventHandler.ExecuteWhenFinished(delegate
 			{
 				Shader shader = null;
 				switch (this.edgeType)
 				{
 				case TerrainEdgeType.Hard:
-				{
 					shader = ShaderDatabase.TerrainHard;
 					break;
-				}
 				case TerrainEdgeType.Fade:
-				{
 					shader = ShaderDatabase.TerrainFade;
 					break;
-				}
 				case TerrainEdgeType.FadeRough:
-				{
 					shader = ShaderDatabase.TerrainFadeRough;
 					break;
-				}
 				case TerrainEdgeType.Water:
-				{
 					shader = ShaderDatabase.TerrainWater;
 					break;
 				}
-				}
 				base.graphic = GraphicDatabase.Get<Graphic_Terrain>(this.texturePath, shader, Vector2.one, this.color, 2000 + this.renderPrecedence);
-				if ((UnityEngine.Object)shader == (UnityEngine.Object)ShaderDatabase.TerrainFadeRough || (UnityEngine.Object)shader == (UnityEngine.Object)ShaderDatabase.TerrainWater)
+				if ((Object)shader == (Object)ShaderDatabase.TerrainFadeRough || (Object)shader == (Object)ShaderDatabase.TerrainWater)
 				{
 					base.graphic.MatSingle.SetTexture("_AlphaAddTex", TexGame.AlphaAddTex);
 				}
@@ -143,7 +134,7 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -183,8 +174,8 @@ namespace Verse
 				yield break;
 			yield return "burnedDef is flammable";
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_026d:
-			/*Error near IL_026e: Unexpected return in MoveNext()*/;
+			IL_0269:
+			/*Error near IL_026a: Unexpected return in MoveNext()*/;
 		}
 
 		public static TerrainDef Named(string defName)

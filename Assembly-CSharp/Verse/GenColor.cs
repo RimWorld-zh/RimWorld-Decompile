@@ -30,13 +30,12 @@ namespace Verse
 
 		public static Color FromBytes(int r, int g, int b, int a = 255)
 		{
-			return new Color
-			{
-				r = (float)((float)r / 255.0),
-				g = (float)((float)g / 255.0),
-				b = (float)((float)b / 255.0),
-				a = (float)((float)a / 255.0)
-			};
+			Color result = default(Color);
+			result.r = (float)((float)r / 255.0);
+			result.g = (float)((float)g / 255.0);
+			result.b = (float)((float)b / 255.0);
+			result.a = (float)((float)a / 255.0);
+			return result;
 		}
 
 		public static Color FromHex(string hex)
@@ -45,25 +44,20 @@ namespace Verse
 			{
 				hex = hex.Substring(1);
 			}
-			Color result;
 			if (hex.Length != 6 && hex.Length != 8)
 			{
 				Log.Error(hex + " is not a valid hex color.");
-				result = Color.white;
+				return Color.white;
 			}
-			else
+			int r = int.Parse(hex.Substring(0, 2), NumberStyles.HexNumber);
+			int g = int.Parse(hex.Substring(2, 2), NumberStyles.HexNumber);
+			int b = int.Parse(hex.Substring(4, 2), NumberStyles.HexNumber);
+			int a = 255;
+			if (hex.Length == 8)
 			{
-				int r = int.Parse(hex.Substring(0, 2), NumberStyles.HexNumber);
-				int g = int.Parse(hex.Substring(2, 2), NumberStyles.HexNumber);
-				int b = int.Parse(hex.Substring(4, 2), NumberStyles.HexNumber);
-				int a = 255;
-				if (hex.Length == 8)
-				{
-					a = int.Parse(hex.Substring(6, 2), NumberStyles.HexNumber);
-				}
-				result = GenColor.FromBytes(r, g, b, a);
+				a = int.Parse(hex.Substring(6, 2), NumberStyles.HexNumber);
 			}
-			return result;
+			return GenColor.FromBytes(r, g, b, a);
 		}
 	}
 }

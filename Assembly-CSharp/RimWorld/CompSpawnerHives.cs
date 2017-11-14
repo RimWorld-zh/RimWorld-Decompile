@@ -48,7 +48,7 @@ namespace RimWorld
 				if (this.TrySpawnChildHive(false, out hive2))
 				{
 					hive2.nextPawnSpawnTick = Find.TickManager.TicksGame + Rand.Range(150, 350);
-					Messages.Message("MessageHiveReproduced".Translate(), (Thing)hive2, MessageTypeDefOf.NegativeEvent);
+					Messages.Message("MessageHiveReproduced".Translate(), hive2, MessageTypeDefOf.NegativeEvent);
 				}
 				else
 				{
@@ -59,7 +59,15 @@ namespace RimWorld
 
 		public override string CompInspectStringExtra()
 		{
-			return this.canSpawnHives ? ((!this.CanSpawnChildHive) ? null : ("HiveReproducesIn".Translate() + ": " + (this.nextHiveSpawnTick - Find.TickManager.TicksGame).ToStringTicksToPeriod(true, false, true))) : "DormantHiveNotReproducing".Translate();
+			if (!this.canSpawnHives)
+			{
+				return "DormantHiveNotReproducing".Translate();
+			}
+			if (this.CanSpawnChildHive)
+			{
+				return "HiveReproducesIn".Translate() + ": " + (this.nextHiveSpawnTick - Find.TickManager.TicksGame).ToStringTicksToPeriod(true, false, true);
+			}
+			return null;
 		}
 
 		public void CalculateNextHiveSpawnTick()
@@ -67,75 +75,62 @@ namespace RimWorld
 			Room room = base.parent.GetRoom(RegionType.Set_Passable);
 			int num = 0;
 			int num2 = GenRadial.NumCellsInRadius(9f);
-			for (int num3 = 0; num3 < num2; num3++)
+			for (int i = 0; i < num2; i++)
 			{
-				IntVec3 intVec = base.parent.Position + GenRadial.RadialPattern[num3];
-				if (intVec.InBounds(base.parent.Map) && intVec.GetRoom(base.parent.Map, RegionType.Set_Passable) == room && intVec.GetThingList(base.parent.Map).Any((Predicate<Thing>)((Thing t) => t is Hive)))
+				IntVec3 intVec = base.parent.Position + GenRadial.RadialPattern[i];
+				if (intVec.InBounds(base.parent.Map) && intVec.GetRoom(base.parent.Map, RegionType.Set_Passable) == room && intVec.GetThingList(base.parent.Map).Any((Thing t) => t is Hive))
 				{
 					num++;
 				}
 			}
-			float num4 = GenMath.LerpDouble(0f, 7f, 1f, 0.35f, (float)Mathf.Clamp(num, 0, 7));
-			this.nextHiveSpawnTick = Find.TickManager.TicksGame + (int)(this.Props.HiveSpawnIntervalDays.RandomInRange * 60000.0 / (num4 * Find.Storyteller.difficulty.enemyReproductionRateFactor));
+			float num3 = GenMath.LerpDouble(0f, 7f, 1f, 0.35f, (float)Mathf.Clamp(num, 0, 7));
+			this.nextHiveSpawnTick = Find.TickManager.TicksGame + (int)(this.Props.HiveSpawnIntervalDays.RandomInRange * 60000.0 / (num3 * Find.Storyteller.difficulty.enemyReproductionRateFactor));
 		}
 
 		public bool TrySpawnChildHive(bool ignoreRoofedRequirement, out Hive newHive)
 		{
-			bool result;
 			if (!this.CanSpawnChildHive)
 			{
 				newHive = null;
-				result = false;
+				return false;
 			}
-			else
+			IntVec3 invalid = IntVec3.Invalid;
+			int num = 0;
+			while (num < 3)
 			{
-				IntVec3 invalid = IntVec3.Invalid;
-				int num = 0;
-				while (num < 3)
+				float minDist = this.Props.HiveSpawnPreferredMinDist;
+				switch (num)
 				{
-					float minDist = this.Props.HiveSpawnPreferredMinDist;
-					switch (num)
-					{
-					case 2:
-						goto IL_0079;
-					case 1:
-					{
-						minDist = 0f;
-						break;
-					}
-					}
-					if (!CellFinder.TryFindRandomReachableCellNear(base.parent.Position, base.parent.Map, this.Props.HiveSpawnRadius, TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Deadly, false), (Predicate<IntVec3>)((IntVec3 c) => this.CanSpawnHiveAt(c, minDist, ignoreRoofedRequirement)), (Predicate<Region>)null, out invalid, 999999))
-					{
-						num++;
-						continue;
-					}
+				case 1:
+					minDist = 0f;
 					break;
+				case 2:
+					newHive = null;
+					return false;
 				}
-				newHive = (Hive)GenSpawn.Spawn(base.parent.def, invalid, base.parent.Map);
-				if (newHive.Faction != base.parent.Faction)
+				if (!CellFinder.TryFindRandomReachableCellNear(base.parent.Position, base.parent.Map, this.Props.HiveSpawnRadius, TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Deadly, false), (Predicate<IntVec3>)((IntVec3 c) => this.CanSpawnHiveAt(c, minDist, ignoreRoofedRequirement)), (Predicate<Region>)null, out invalid, 999999))
 				{
-					newHive.SetFaction(base.parent.Faction, null);
+					num++;
+					continue;
 				}
-				Hive hive = base.parent as Hive;
-				if (hive != null)
-				{
-					newHive.active = hive.active;
-				}
-				this.CalculateNextHiveSpawnTick();
-				result = true;
+				break;
 			}
-			goto IL_015a;
-			IL_0079:
-			newHive = null;
-			result = false;
-			goto IL_015a;
-			IL_015a:
-			return result;
+			newHive = (Hive)GenSpawn.Spawn(base.parent.def, invalid, base.parent.Map);
+			if (newHive.Faction != base.parent.Faction)
+			{
+				newHive.SetFaction(base.parent.Faction, null);
+			}
+			Hive hive = base.parent as Hive;
+			if (hive != null)
+			{
+				newHive.active = hive.active;
+			}
+			this.CalculateNextHiveSpawnTick();
+			return true;
 		}
 
 		private bool CanSpawnHiveAt(IntVec3 c, float minDist, bool ignoreRoofedRequirement)
 		{
-			bool result;
 			if ((ignoreRoofedRequirement || c.Roofed(base.parent.Map)) && c.Standable(base.parent.Map) && (minDist == 0.0 || (float)c.DistanceToSquared(base.parent.Position) >= minDist * minDist))
 			{
 				for (int i = 0; i < 8; i++)
@@ -147,7 +142,9 @@ namespace RimWorld
 						for (int j = 0; j < thingList.Count; j++)
 						{
 							if (thingList[j] is Hive)
-								goto IL_00c7;
+							{
+								return false;
+							}
 						}
 					}
 				}
@@ -156,21 +153,13 @@ namespace RimWorld
 				{
 					Thing thing = thingList2[k];
 					if ((thing.def.category == ThingCategory.Item || thing.def.category == ThingCategory.Building) && GenSpawn.SpawningWipes(base.parent.def, thing.def))
-						goto IL_0155;
+					{
+						return false;
+					}
 				}
-				result = true;
-				goto IL_0179;
+				return true;
 			}
-			result = false;
-			goto IL_0179;
-			IL_0155:
-			result = false;
-			goto IL_0179;
-			IL_0179:
-			return result;
-			IL_00c7:
-			result = false;
-			goto IL_0179;
+			return false;
 		}
 
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
@@ -181,10 +170,10 @@ namespace RimWorld
 			{
 				defaultLabel = "DEBUG: Reproduce",
 				icon = TexCommand.GatherSpotActive,
-				action = (Action)delegate
+				action = delegate
 				{
 					Hive hive = default(Hive);
-					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_005e: stateMachine*/)._0024this.TrySpawnChildHive(false, out hive);
+					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_005c: stateMachine*/)._0024this.TrySpawnChildHive(false, out hive);
 				}
 			};
 			/*Error: Unable to find new state assignment for yield return*/;

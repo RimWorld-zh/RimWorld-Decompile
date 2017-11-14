@@ -17,21 +17,35 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Predicate<Thing> validator = (Predicate<Thing>)((Thing t) => (byte)(t.def.hasInteractionCell ? (t.def.HasComp(typeof(CompMannable)) ? (pawn.CanReserve(t, 1, -1, null, false) ? ((JobDriver_ManTurret.FindAmmoForTurret(pawn, (Building_TurretGun)t) != null) ? 1 : 0) : 0) : 0) : 0) != 0);
+			Predicate<Thing> validator = delegate(Thing t)
+			{
+				if (!t.def.hasInteractionCell)
+				{
+					return false;
+				}
+				if (!t.def.HasComp(typeof(CompMannable)))
+				{
+					return false;
+				}
+				if (!pawn.CanReserve(t, 1, -1, null, false))
+				{
+					return false;
+				}
+				if (JobDriver_ManTurret.FindAmmoForTurret(pawn, (Building_TurretGun)t) == null)
+				{
+					return false;
+				}
+				return true;
+			};
 			Thing thing = GenClosest.ClosestThingReachable(this.GetRoot(pawn), pawn.Map, ThingRequest.ForGroup(ThingRequestGroup.BuildingArtificial), PathEndMode.InteractionCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), this.maxDistFromPoint, validator, null, 0, -1, false, RegionType.Set_Passable, false);
-			Job result;
 			if (thing != null)
 			{
 				Job job = new Job(JobDefOf.ManTurret, thing);
 				job.expiryInterval = 2000;
 				job.checkOverrideOnExpire = true;
-				result = job;
+				return job;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 
 		protected abstract IntVec3 GetRoot(Pawn pawn);

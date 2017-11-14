@@ -19,6 +19,7 @@ namespace Verse
 					XmlNode xmlNode = current as XmlNode;
 					xmlNode.ParentNode.RemoveChild(xmlNode);
 				}
+				return result;
 			}
 			finally
 			{
@@ -28,7 +29,6 @@ namespace Verse
 					disposable.Dispose();
 				}
 			}
-			return result;
 		}
 	}
 }

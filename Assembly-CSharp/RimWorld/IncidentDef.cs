@@ -9,23 +9,23 @@ namespace RimWorld
 	{
 		public Type workerClass;
 
-		public IncidentCategory category = IncidentCategory.Undefined;
+		public IncidentCategory category;
 
-		public List<IncidentTargetTypeDef> targetTypes = null;
+		public List<IncidentTargetTypeDef> targetTypes;
 
-		public float baseChance = 0f;
+		public float baseChance;
 
-		public IncidentPopulationEffect populationEffect = IncidentPopulationEffect.None;
+		public IncidentPopulationEffect populationEffect;
 
-		public int earliestDay = 0;
+		public int earliestDay;
 
-		public int minPopulation = 0;
+		public int minPopulation;
 
-		public float minRefireDays = 0f;
+		public float minRefireDays;
 
-		public int minDifficulty = 0;
+		public int minDifficulty;
 
-		public bool pointsScaleable = false;
+		public bool pointsScaleable;
 
 		public float minThreatPoints = -1f;
 
@@ -35,7 +35,7 @@ namespace RimWorld
 
 		public List<string> refireCheckTags;
 
-		public SimpleCurve chanceFactorByPopulationCurve = null;
+		public SimpleCurve chanceFactorByPopulationCurve;
 
 		[MustTranslate]
 		public string letterText;
@@ -49,27 +49,27 @@ namespace RimWorld
 
 		public FloatRange durationDays;
 
-		public HediffDef diseaseIncident = null;
+		public HediffDef diseaseIncident;
 
 		public FloatRange diseaseVictimFractionRange = new FloatRange(0f, 0.49f);
 
 		public int diseaseMaxVictims = 99999;
 
-		public List<BiomeDiseaseRecord> diseaseBiomeRecords = null;
+		public List<BiomeDiseaseRecord> diseaseBiomeRecords;
 
-		public List<BodyPartDef> diseasePartsToAffect = null;
+		public List<BodyPartDef> diseasePartsToAffect;
 
-		public ThingDef shipPart = null;
+		public ThingDef shipPart;
 
 		public List<MTBByBiome> mtbDaysByBiome;
 
-		public TaleDef tale = null;
+		public TaleDef tale;
 
 		[Unsaved]
-		private IncidentWorker workerInt = null;
+		private IncidentWorker workerInt;
 
 		[Unsaved]
-		private List<IncidentDef> cachedRefireCheckIncidents = null;
+		private List<IncidentDef> cachedRefireCheckIncidents;
 
 		public bool NeedsParms
 		{
@@ -96,28 +96,23 @@ namespace RimWorld
 		{
 			get
 			{
-				List<IncidentDef> result;
 				if (this.refireCheckTags == null)
 				{
-					result = null;
+					return null;
 				}
-				else
+				if (this.cachedRefireCheckIncidents == null)
 				{
-					if (this.cachedRefireCheckIncidents == null)
+					this.cachedRefireCheckIncidents = new List<IncidentDef>();
+					List<IncidentDef> allDefsListForReading = DefDatabase<IncidentDef>.AllDefsListForReading;
+					for (int i = 0; i < allDefsListForReading.Count; i++)
 					{
-						this.cachedRefireCheckIncidents = new List<IncidentDef>();
-						List<IncidentDef> allDefsListForReading = DefDatabase<IncidentDef>.AllDefsListForReading;
-						for (int i = 0; i < allDefsListForReading.Count; i++)
+						if (this.ShouldDoRefireCheckWith(allDefsListForReading[i]))
 						{
-							if (this.ShouldDoRefireCheckWith(allDefsListForReading[i]))
-							{
-								this.cachedRefireCheckIncidents.Add(allDefsListForReading[i]);
-							}
+							this.cachedRefireCheckIncidents.Add(allDefsListForReading[i]);
 						}
 					}
-					result = this.cachedRefireCheckIncidents;
 				}
-				return result;
+				return this.cachedRefireCheckIncidents;
 			}
 		}
 
@@ -128,38 +123,30 @@ namespace RimWorld
 
 		private bool ShouldDoRefireCheckWith(IncidentDef other)
 		{
-			bool result;
 			if (other.tags == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (other == this)
+			if (other == this)
 			{
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < other.tags.Count; i++)
 			{
-				for (int i = 0; i < other.tags.Count; i++)
+				for (int j = 0; j < this.refireCheckTags.Count; j++)
 				{
-					for (int j = 0; j < this.refireCheckTags.Count; j++)
+					if (other.tags[i] == this.refireCheckTags[j])
 					{
-						if (other.tags[i] == this.refireCheckTags[j])
-							goto IL_0053;
+						return true;
 					}
 				}
-				result = false;
 			}
-			goto IL_008d;
-			IL_0053:
-			result = true;
-			goto IL_008d;
-			IL_008d:
-			return result;
+			return false;
 		}
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -173,9 +160,9 @@ namespace RimWorld
 				yield return "category is undefined.";
 				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			if (((this.targetTypes != null) ? this.targetTypes.Count : 0) != 0)
+			if (this.targetTypes != null && this.targetTypes.Count != 0)
 			{
-				if (this.TargetTypeAllowed(IncidentTargetTypeDefOf.World) && this.targetTypes.Any((Predicate<IncidentTargetTypeDef>)((IncidentTargetTypeDef tt) => tt != IncidentTargetTypeDefOf.World)))
+				if (this.TargetTypeAllowed(IncidentTargetTypeDefOf.World) && this.targetTypes.Any((IncidentTargetTypeDef tt) => tt != IncidentTargetTypeDefOf.World))
 				{
 					yield return "allows world target type along with other targets. World targeting incidents should only target the world.";
 					/*Error: Unable to find new state assignment for yield return*/;
@@ -189,8 +176,8 @@ namespace RimWorld
 			}
 			yield return "no target type";
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_01ea:
-			/*Error near IL_01eb: Unexpected return in MoveNext()*/;
+			IL_01e6:
+			/*Error near IL_01e7: Unexpected return in MoveNext()*/;
 		}
 
 		public bool TargetTypeAllowed(IncidentTargetTypeDef target)

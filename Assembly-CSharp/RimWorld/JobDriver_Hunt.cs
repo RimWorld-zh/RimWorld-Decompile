@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -22,7 +21,11 @@ namespace RimWorld
 			get
 			{
 				Corpse corpse = this.Corpse;
-				return (corpse == null) ? ((Pawn)base.job.GetTarget(TargetIndex.A).Thing) : corpse.InnerPawn;
+				if (corpse != null)
+				{
+					return corpse.InnerPawn;
+				}
+				return (Pawn)base.job.GetTarget(TargetIndex.A).Thing;
 			}
 		}
 
@@ -42,38 +45,37 @@ namespace RimWorld
 
 		public override string GetReport()
 		{
-			return (this.Victim == null) ? base.GetReport() : base.job.def.reportString.Replace("TargetA", this.Victim.LabelShort);
+			if (this.Victim != null)
+			{
+				return base.job.def.reportString.Replace("TargetA", this.Victim.LabelShort);
+			}
+			return base.GetReport();
 		}
 
 		public override bool TryMakePreToilReservations()
 		{
-			return base.pawn.Reserve((Thing)this.Victim, base.job, 1, -1, null);
+			return base.pawn.Reserve(this.Victim, base.job, 1, -1, null);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			this.FailOn((Func<bool>)delegate
+			this.FailOn(delegate
 			{
-				bool result;
-				if (!((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0058: stateMachine*/)._0024this.job.ignoreDesignations)
+				if (!((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0057: stateMachine*/)._0024this.job.ignoreDesignations)
 				{
-					Pawn victim = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0058: stateMachine*/)._0024this.Victim;
-					if (victim != null && !victim.Dead && ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0058: stateMachine*/)._0024this.Map.designationManager.DesignationOn(victim, DesignationDefOf.Hunt) == null)
+					Pawn victim = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0057: stateMachine*/)._0024this.Victim;
+					if (victim != null && !victim.Dead && ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0057: stateMachine*/)._0024this.Map.designationManager.DesignationOn(victim, DesignationDefOf.Hunt) == null)
 					{
-						result = true;
-						goto IL_0064;
+						return true;
 					}
 				}
-				result = false;
-				goto IL_0064;
-				IL_0064:
-				return result;
+				return false;
 			});
 			yield return new Toil
 			{
-				initAction = (Action)delegate
+				initAction = delegate
 				{
-					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_007b: stateMachine*/)._0024this.jobStartTick = Find.TickManager.TicksGame;
+					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_007a: stateMachine*/)._0024this.jobStartTick = Find.TickManager.TicksGame;
 				}
 			};
 			/*Error: Unable to find new state assignment for yield return*/;
@@ -82,7 +84,7 @@ namespace RimWorld
 		private Toil StartCollectCorpseToil()
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate
+			toil.initAction = delegate
 			{
 				if (this.Victim == null)
 				{
@@ -92,7 +94,7 @@ namespace RimWorld
 				{
 					TaleRecorder.RecordTale(TaleDefOf.Hunted, base.pawn, this.Victim);
 					Corpse corpse = this.Victim.Corpse;
-					if (corpse == null || !base.pawn.CanReserveAndReach((Thing)corpse, PathEndMode.ClosestTouch, Danger.Deadly, 1, -1, null, false))
+					if (corpse == null || !base.pawn.CanReserveAndReach(corpse, PathEndMode.ClosestTouch, Danger.Deadly, 1, -1, null, false))
 					{
 						base.pawn.jobs.EndCurrentJob(JobCondition.Incompletable, true);
 					}
@@ -102,10 +104,10 @@ namespace RimWorld
 						IntVec3 c = default(IntVec3);
 						if (StoreUtility.TryFindBestBetterStoreCellFor((Thing)corpse, base.pawn, base.Map, StoragePriority.Unstored, base.pawn.Faction, out c, true))
 						{
-							base.pawn.Reserve((Thing)corpse, base.job, 1, -1, null);
+							base.pawn.Reserve(corpse, base.job, 1, -1, null);
 							base.pawn.Reserve(c, base.job, 1, -1, null);
 							base.job.SetTarget(TargetIndex.B, c);
-							base.job.SetTarget(TargetIndex.A, (Thing)corpse);
+							base.job.SetTarget(TargetIndex.A, corpse);
 							base.job.count = 1;
 							base.job.haulMode = HaulMode.ToCellStorage;
 						}

@@ -18,7 +18,7 @@ namespace Verse
 					Texture2D tex = array[num];
 					string origAssetName = tex.name;
 					string[] pieces = origAssetName.Split('_');
-					assetName = "";
+					assetName = string.Empty;
 					if (pieces.Length <= 2)
 					{
 						assetName = pieces[0];

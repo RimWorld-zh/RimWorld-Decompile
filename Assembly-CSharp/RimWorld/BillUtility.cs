@@ -14,7 +14,11 @@ namespace RimWorld
 
 		public static Bill MakeNewBill(this RecipeDef recipe)
 		{
-			return (!recipe.UsesUnfinishedThing) ? new Bill_Production(recipe) : new Bill_ProductionWithUft(recipe);
+			if (recipe.UsesUnfinishedThing)
+			{
+				return new Bill_ProductionWithUft(recipe);
+			}
+			return new Bill_Production(recipe);
 		}
 	}
 }

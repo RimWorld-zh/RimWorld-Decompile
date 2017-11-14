@@ -36,7 +36,7 @@ namespace Verse.AI.Group
 		public TriggerSignal(TriggerSignalType type)
 		{
 			this.type = type;
-			this.memo = (string)null;
+			this.memo = null;
 			this.thing = null;
 			this.dinfo = default(DamageInfo);
 			this.condition = PawnLostCondition.Undefined;
@@ -45,10 +45,9 @@ namespace Verse.AI.Group
 
 		public static TriggerSignal ForMemo(string memo)
 		{
-			return new TriggerSignal(TriggerSignalType.Memo)
-			{
-				memo = memo
-			};
+			TriggerSignal result = new TriggerSignal(TriggerSignalType.Memo);
+			result.memo = memo;
+			return result;
 		}
 
 		public override string ToString()

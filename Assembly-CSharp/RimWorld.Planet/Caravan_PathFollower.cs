@@ -12,7 +12,7 @@ namespace RimWorld.Planet
 
 		public int nextTile = -1;
 
-		public float nextTileCostLeft = 0f;
+		public float nextTileCostLeft;
 
 		public float nextTileCostTotal = 1f;
 
@@ -164,7 +164,6 @@ namespace RimWorld.Planet
 		private bool TryRecoverFromUnwalkablePosition(int originalDest, CaravanArrivalAction originalArrivalAction)
 		{
 			int num = default(int);
-			bool result;
 			if (GenWorldClosest.TryFindClosestTile(this.caravan.Tile, (Predicate<int>)((int t) => this.IsPassable(t)), out num, 2147483647, true))
 			{
 				Log.Warning(this.caravan + " on unwalkable tile " + this.caravan.Tile + ". Teleporting to " + num);
@@ -172,15 +171,11 @@ namespace RimWorld.Planet
 				this.moving = false;
 				this.nextTile = this.caravan.Tile;
 				this.StartPath(originalDest, originalArrivalAction, false);
-				result = true;
+				return true;
 			}
-			else
-			{
-				Find.WorldObjects.Remove(this.caravan);
-				Log.Error(this.caravan + " on unwalkable tile " + this.caravan.Tile + ". Could not find walkable position nearby. Removed.");
-				result = false;
-			}
-			return result;
+			Find.WorldObjects.Remove(this.caravan);
+			Log.Error(this.caravan + " on unwalkable tile " + this.caravan.Tile + ". Could not find walkable position nearby. Removed.");
+			return false;
 		}
 
 		private void PatherArrived()
@@ -193,7 +188,7 @@ namespace RimWorld.Planet
 			}
 			else if (this.caravan.IsPlayerControlled && !this.caravan.VisibleToCameraNow())
 			{
-				Messages.Message("MessageCaravanArrivedAtDestination".Translate(this.caravan.Label).CapitalizeFirst(), (WorldObject)this.caravan, MessageTypeDefOf.TaskCompletion);
+				Messages.Message("MessageCaravanArrivedAtDestination".Translate(this.caravan.Label).CapitalizeFirst(), this.caravan, MessageTypeDefOf.TaskCompletion);
 			}
 		}
 
@@ -268,29 +263,24 @@ namespace RimWorld.Planet
 
 		public static int CostToDisplay(Caravan caravan, int start, int end, float yearPercent = -1f)
 		{
-			int result;
 			if (start != end && end != -1)
 			{
-				result = Caravan_PathFollower.CostToMove(caravan.TicksPerMove, start, end, yearPercent);
+				return Caravan_PathFollower.CostToMove(caravan.TicksPerMove, start, end, yearPercent);
 			}
-			else
+			int ticksPerMove = caravan.TicksPerMove;
+			ticksPerMove += WorldPathGrid.CalculatedCostAt(start, false, yearPercent);
+			Tile tile = Find.WorldGrid[start];
+			float num = 1f;
+			if (tile.roads != null)
 			{
-				int ticksPerMove = caravan.TicksPerMove;
-				ticksPerMove += WorldPathGrid.CalculatedCostAt(start, false, yearPercent);
-				Tile tile = Find.WorldGrid[start];
-				float num = 1f;
-				if (tile.roads != null)
+				for (int i = 0; i < tile.roads.Count; i++)
 				{
-					for (int i = 0; i < tile.roads.Count; i++)
-					{
-						float a = num;
-						Tile.RoadLink roadLink = tile.roads[i];
-						num = Mathf.Min(a, roadLink.road.movementCostMultiplier);
-					}
+					float a = num;
+					Tile.RoadLink roadLink = tile.roads[i];
+					num = Mathf.Min(a, roadLink.road.movementCostMultiplier);
 				}
-				result = Mathf.RoundToInt((float)ticksPerMove * num);
 			}
-			return result;
+			return Mathf.RoundToInt((float)ticksPerMove * num);
 		}
 
 		private float CostToPayThisTick()
@@ -310,22 +300,17 @@ namespace RimWorld.Planet
 		private bool TrySetNewPath()
 		{
 			WorldPath worldPath = this.GenerateNewPath();
-			bool result;
 			if (!worldPath.Found)
 			{
 				this.PatherFailed();
-				result = false;
+				return false;
 			}
-			else
+			if (this.curPath != null)
 			{
-				if (this.curPath != null)
-				{
-					this.curPath.ReleaseToPool();
-				}
-				this.curPath = worldPath;
-				result = true;
+				this.curPath.ReleaseToPool();
 			}
-			return result;
+			this.curPath = worldPath;
+			return true;
 		}
 
 		private WorldPath GenerateNewPath()
@@ -347,33 +332,25 @@ namespace RimWorld.Planet
 
 		private bool NeedNewPath()
 		{
-			bool result;
 			if (!this.moving)
 			{
-				result = false;
+				return false;
 			}
-			else if (this.curPath == null || !this.curPath.Found || this.curPath.NodesLeftCount == 0)
-			{
-				result = true;
-			}
-			else
+			if (this.curPath != null && this.curPath.Found && this.curPath.NodesLeftCount != 0)
 			{
 				int num = 0;
 				while (num < 20 && num < this.curPath.NodesLeftCount)
 				{
 					int tileID = this.curPath.Peek(num);
 					if (Find.World.Impassable(tileID))
-						goto IL_006a;
+					{
+						return true;
+					}
 					num++;
 				}
-				result = false;
+				return false;
 			}
-			goto IL_0096;
-			IL_0096:
-			return result;
-			IL_006a:
-			result = true;
-			goto IL_0096;
+			return true;
 		}
 	}
 }

@@ -38,22 +38,23 @@ namespace RimWorld
 			float x = winSize.x;
 			Vector2 winSize2 = ITab_Bills.WinSize;
 			Rect rect2 = new Rect(0f, 0f, x, winSize2.y).ContractedBy(10f);
-			Func<List<FloatMenuOption>> recipeOptionsMaker = (Func<List<FloatMenuOption>>)delegate()
+			Func<List<FloatMenuOption>> recipeOptionsMaker = delegate
 			{
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
 				for (int i = 0; i < this.SelTable.def.AllRecipes.Count; i++)
 				{
+					ITab_Bills tab_Bills = this;
 					if (this.SelTable.def.AllRecipes[i].AvailableNow)
 					{
 						RecipeDef recipe = this.SelTable.def.AllRecipes[i];
-						list.Add(new FloatMenuOption(recipe.LabelCap, (Action)delegate()
+						list.Add(new FloatMenuOption(recipe.LabelCap, delegate
 						{
-							if (!this.SelTable.Map.mapPawns.FreeColonists.Any((Func<Pawn, bool>)((Pawn col) => recipe.PawnSatisfiesSkillRequirements(col))))
+							if (!tab_Bills.SelTable.Map.mapPawns.FreeColonists.Any((Pawn col) => recipe.PawnSatisfiesSkillRequirements(col)))
 							{
 								Bill.CreateNoPawnsWithSkillDialog(recipe);
 							}
 							Bill bill = recipe.MakeNewBill();
-							this.SelTable.billStack.AddBill(bill);
+							tab_Bills.SelTable.billStack.AddBill(bill);
 							if (recipe.conceptLearned != null)
 							{
 								PlayerKnowledgeDatabase.KnowledgeDemonstrated(recipe.conceptLearned, KnowledgeAmount.Total);
@@ -62,7 +63,7 @@ namespace RimWorld
 							{
 								TutorSystem.Notify_Event("AddBill-" + recipe.LabelCap);
 							}
-						}, MenuOptionPriority.Default, null, null, 29f, (Func<Rect, bool>)((Rect rect) => Widgets.InfoCardButton((float)(rect.x + 5.0), (float)(rect.y + (rect.height - 24.0) / 2.0), recipe)), null));
+						}, MenuOptionPriority.Default, null, null, 29f, (Rect rect) => Widgets.InfoCardButton((float)(rect.x + 5.0), (float)(rect.y + (rect.height - 24.0) / 2.0), recipe), null));
 					}
 				}
 				if (!list.Any())

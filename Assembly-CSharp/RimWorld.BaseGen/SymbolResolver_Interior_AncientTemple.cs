@@ -28,14 +28,14 @@ namespace RimWorld.BaseGen
 				{
 					ResolveParams resolveParams2 = rp;
 					int? mechanoidsCount = rp.mechanoidsCount;
-					resolveParams2.mechanoidsCount = new int?((!mechanoidsCount.HasValue) ? SymbolResolver_Interior_AncientTemple.MechanoidCountRange.RandomInRange : mechanoidsCount.Value);
+					resolveParams2.mechanoidsCount = ((!mechanoidsCount.HasValue) ? SymbolResolver_Interior_AncientTemple.MechanoidCountRange.RandomInRange : mechanoidsCount.Value);
 					BaseGen.symbolStack.Push("randomMechanoidGroup", resolveParams2);
 				}
 				else if (Rand.Chance(0.45f))
 				{
 					ResolveParams resolveParams3 = rp;
 					int? hivesCount = rp.hivesCount;
-					resolveParams3.hivesCount = new int?((!hivesCount.HasValue) ? SymbolResolver_Interior_AncientTemple.HivesCountRange.RandomInRange : hivesCount.Value);
+					resolveParams3.hivesCount = ((!hivesCount.HasValue) ? SymbolResolver_Interior_AncientTemple.HivesCountRange.RandomInRange : hivesCount.Value);
 					BaseGen.symbolStack.Push("hives", resolveParams3);
 				}
 			}

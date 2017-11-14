@@ -6,17 +6,16 @@ namespace Verse.AI
 	{
 		protected override float MtbHours(Pawn pawn)
 		{
-			float result;
 			if (pawn.CurrentBed() == null)
 			{
-				result = -1f;
+				return -1f;
 			}
-			else
+			Pawn partnerInMyBed = LovePartnerRelationUtility.GetPartnerInMyBed(pawn);
+			if (partnerInMyBed == null)
 			{
-				Pawn partnerInMyBed = LovePartnerRelationUtility.GetPartnerInMyBed(pawn);
-				result = (float)((partnerInMyBed != null) ? LovePartnerRelationUtility.GetLovinMtbHours(pawn, partnerInMyBed) : -1.0);
+				return -1f;
 			}
-			return result;
+			return LovePartnerRelationUtility.GetLovinMtbHours(pawn, partnerInMyBed);
 		}
 	}
 }

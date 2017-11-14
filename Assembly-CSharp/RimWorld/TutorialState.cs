@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -14,13 +13,13 @@ namespace RimWorld
 
 		public int endTick = -1;
 
-		public bool introDone = false;
+		public bool introDone;
 
 		public void ExposeData()
 		{
 			if (Scribe.mode == LoadSaveMode.Saving && this.startingItems != null)
 			{
-				this.startingItems.RemoveAll((Predicate<Thing>)((Thing it) => it == null || it.Destroyed || (it.Map == null && it.MapHeld == null)));
+				this.startingItems.RemoveAll((Thing it) => it == null || it.Destroyed || (it.Map == null && it.MapHeld == null));
 			}
 			Scribe_Collections.Look<Thing>(ref this.startingItems, "startingItems", LookMode.Reference, new object[0]);
 			Scribe_Values.Look<CellRect>(ref this.roomRect, "roomRect", default(CellRect), false);
@@ -29,7 +28,7 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.introDone, "introDone", false, false);
 			if (this.startingItems != null)
 			{
-				this.startingItems.RemoveAll((Predicate<Thing>)((Thing it) => it == null));
+				this.startingItems.RemoveAll((Thing it) => it == null);
 			}
 		}
 

@@ -9,6 +9,8 @@ namespace Verse.Grammar
 			public string key;
 
 			public string value;
+
+			public bool equality;
 		}
 
 		public string keyword;
@@ -26,7 +28,7 @@ namespace Verse.Grammar
 		{
 		}
 
-		public void AddConstantConstraint(string key, string value)
+		public void AddConstantConstraint(string key, string value, bool equality)
 		{
 			if (this.constantConstraints == null)
 			{
@@ -35,7 +37,8 @@ namespace Verse.Grammar
 			this.constantConstraints.Add(new ConstrantConstraint
 			{
 				key = key,
-				value = value
+				value = value,
+				equality = equality
 			});
 		}
 	}

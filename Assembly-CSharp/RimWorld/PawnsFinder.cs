@@ -7,16 +7,16 @@ namespace RimWorld
 {
 	public static class PawnsFinder
 	{
-		public static IEnumerable<Pawn> AllMapsAndWorld_AliveOrDead
+		public static IEnumerable<Pawn> AllMapsWorldAndTemporary_AliveOrDead
 		{
 			get
 			{
-				using (IEnumerator<Pawn> enumerator = PawnsFinder.AllMapsAndWorld_Alive.GetEnumerator())
+				using (IEnumerator<Pawn> enumerator = PawnsFinder.AllMapsWorldAndTemporary_Alive.GetEnumerator())
 				{
 					if (enumerator.MoveNext())
 					{
-						Pawn alive = enumerator.Current;
-						yield return alive;
+						Pawn p3 = enumerator.Current;
+						yield return p3;
 						/*Error: Unable to find new state assignment for yield return*/;
 					}
 				}
@@ -32,82 +32,37 @@ namespace RimWorld
 						}
 					}
 				}
-				List<List<Pawn>> makingPawnsList = PawnGroupKindWorker.pawnsBeingGeneratedNow;
-				for (int l = 0; l < makingPawnsList.Count; l++)
+				using (IEnumerator<Pawn> enumerator3 = PawnsFinder.Temporary_Dead.GetEnumerator())
 				{
-					List<Pawn> makingPawns = makingPawnsList[l];
-					for (int i = 0; i < makingPawns.Count; i++)
+					if (enumerator3.MoveNext())
 					{
-						if (makingPawns[i].Dead)
-						{
-							yield return makingPawns[i];
-							/*Error: Unable to find new state assignment for yield return*/;
-						}
-					}
-				}
-				List<List<Thing>> makingThingsList = ItemCollectionGenerator.thingsBeingGeneratedNow;
-				for (int k = 0; k < makingThingsList.Count; k++)
-				{
-					List<Thing> makingThings = makingThingsList[k];
-					for (int j = 0; j < makingThings.Count; j++)
-					{
-						Pawn p = makingThings[j] as Pawn;
-						if (p != null && p.Dead)
-						{
-							yield return p;
-							/*Error: Unable to find new state assignment for yield return*/;
-						}
+						Pawn p = enumerator3.Current;
+						yield return p;
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
 				}
 				yield break;
-				IL_0307:
-				/*Error near IL_0308: Unexpected return in MoveNext()*/;
+				IL_01d8:
+				/*Error near IL_01d9: Unexpected return in MoveNext()*/;
 			}
 		}
 
-		public static IEnumerable<Pawn> AllMapsAndWorld_Alive
+		public static IEnumerable<Pawn> AllMapsWorldAndTemporary_Alive
 		{
 			get
 			{
-				List<List<Pawn>> makingPawnsList = PawnGroupKindWorker.pawnsBeingGeneratedNow;
-				for (int m = 0; m < makingPawnsList.Count; m++)
+				using (IEnumerator<Pawn> enumerator = PawnsFinder.AllMaps.GetEnumerator())
 				{
-					List<Pawn> makingPawns = makingPawnsList[m];
-					for (int i = 0; i < makingPawns.Count; i++)
+					if (enumerator.MoveNext())
 					{
-						if (!makingPawns[i].Dead)
-						{
-							yield return makingPawns[i];
-							/*Error: Unable to find new state assignment for yield return*/;
-						}
-					}
-				}
-				List<List<Thing>> makingThingsList = ItemCollectionGenerator.thingsBeingGeneratedNow;
-				for (int l = 0; l < makingThingsList.Count; l++)
-				{
-					List<Thing> makingThings = makingThingsList[l];
-					for (int j = 0; j < makingThings.Count; j++)
-					{
-						Pawn p = makingThings[j] as Pawn;
-						if (p != null && !p.Dead)
-						{
-							yield return p;
-							/*Error: Unable to find new state assignment for yield return*/;
-						}
+						Pawn p3 = enumerator.Current;
+						yield return p3;
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
 				}
 				if (Find.World != null)
 				{
-					using (IEnumerator<Pawn> enumerator = Find.WorldPawns.AllPawnsAlive.GetEnumerator())
-					{
-						if (enumerator.MoveNext())
-						{
-							Pawn p3 = enumerator.Current;
-							yield return p3;
-							/*Error: Unable to find new state assignment for yield return*/;
-						}
-					}
-					using (IEnumerator<Pawn> enumerator2 = PawnsFinder.AllMaps.GetEnumerator())
+					using (IEnumerator<Pawn> enumerator2 = Find.WorldPawns.AllPawnsAlive.GetEnumerator())
 					{
 						if (enumerator2.MoveNext())
 						{
@@ -117,31 +72,18 @@ namespace RimWorld
 						}
 					}
 				}
-				if (Current.ProgramState == ProgramState.Playing)
-					yield break;
-				if (Find.GameInitData == null)
-					yield break;
-				if (Find.GameInitData == null)
-					yield break;
-				List<Pawn> startingPawns = Find.GameInitData.startingPawns;
-				int k = 0;
-				while (true)
+				using (IEnumerator<Pawn> enumerator3 = PawnsFinder.Temporary_Alive.GetEnumerator())
 				{
-					if (k < startingPawns.Count)
+					if (enumerator3.MoveNext())
 					{
-						if (startingPawns[k] == null)
-						{
-							k++;
-							continue;
-						}
-						break;
+						Pawn p = enumerator3.Current;
+						yield return p;
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
-					yield break;
 				}
-				yield return startingPawns[k];
-				/*Error: Unable to find new state assignment for yield return*/;
-				IL_03b1:
-				/*Error near IL_03b2: Unexpected return in MoveNext()*/;
+				yield break;
+				IL_01d8:
+				/*Error near IL_01d9: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -163,8 +105,8 @@ namespace RimWorld
 					}
 				}
 				yield break;
-				IL_010a:
-				/*Error near IL_010b: Unexpected return in MoveNext()*/;
+				IL_0104:
+				/*Error near IL_0105: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -191,6 +133,95 @@ namespace RimWorld
 				}
 				yield return spawned[i];
 				/*Error: Unable to find new state assignment for yield return*/;
+			}
+		}
+
+		public static IEnumerable<Pawn> Temporary
+		{
+			get
+			{
+				List<List<Pawn>> makingPawnsList = PawnGroupKindWorker.pawnsBeingGeneratedNow;
+				for (int m = 0; m < makingPawnsList.Count; m++)
+				{
+					List<Pawn> makingPawns = makingPawnsList[m];
+					int i = 0;
+					if (i < makingPawns.Count)
+					{
+						yield return makingPawns[i];
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
+				}
+				List<List<Thing>> makingThingsList = ItemCollectionGenerator.thingsBeingGeneratedNow;
+				for (int l = 0; l < makingThingsList.Count; l++)
+				{
+					List<Thing> makingThings = makingThingsList[l];
+					for (int j = 0; j < makingThings.Count; j++)
+					{
+						Pawn p = makingThings[j] as Pawn;
+						if (p != null)
+						{
+							yield return p;
+							/*Error: Unable to find new state assignment for yield return*/;
+						}
+					}
+				}
+				if (Current.ProgramState == ProgramState.Playing)
+					yield break;
+				if (Find.GameInitData == null)
+					yield break;
+				List<Pawn> startingPawns = Find.GameInitData.startingPawns;
+				int k = 0;
+				while (true)
+				{
+					if (k < startingPawns.Count)
+					{
+						if (startingPawns[k] == null)
+						{
+							k++;
+							continue;
+						}
+						break;
+					}
+					yield break;
+				}
+				yield return startingPawns[k];
+				/*Error: Unable to find new state assignment for yield return*/;
+			}
+		}
+
+		public static IEnumerable<Pawn> Temporary_Alive
+		{
+			get
+			{
+				foreach (Pawn item in PawnsFinder.Temporary)
+				{
+					if (!item.Dead)
+					{
+						yield return item;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
+				}
+				yield break;
+				IL_00c3:
+				/*Error near IL_00c4: Unexpected return in MoveNext()*/;
+			}
+		}
+
+		public static IEnumerable<Pawn> Temporary_Dead
+		{
+			get
+			{
+				foreach (Pawn item in PawnsFinder.Temporary)
+				{
+					if (item.Dead)
+					{
+						yield return item;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
+				}
+				yield break;
+				IL_00c3:
+				/*Error near IL_00c4: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -235,8 +266,8 @@ namespace RimWorld
 					}
 				}
 				yield break;
-				IL_0263:
-				/*Error near IL_0264: Unexpected return in MoveNext()*/;
+				IL_0254:
+				/*Error near IL_0255: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -244,25 +275,17 @@ namespace RimWorld
 		{
 			get
 			{
-				using (IEnumerator<Pawn> enumerator = PawnsFinder.AllMapsCaravansAndTravelingTransportPods.GetEnumerator())
+				foreach (Pawn allMapsCaravansAndTravelingTransportPod in PawnsFinder.AllMapsCaravansAndTravelingTransportPods)
 				{
-					Pawn p;
-					while (true)
+					if (allMapsCaravansAndTravelingTransportPod.IsColonist)
 					{
-						if (enumerator.MoveNext())
-						{
-							p = enumerator.Current;
-							if (p.IsColonist)
-								break;
-							continue;
-						}
-						yield break;
+						yield return allMapsCaravansAndTravelingTransportPod;
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
-					yield return p;
-					/*Error: Unable to find new state assignment for yield return*/;
 				}
-				IL_00c7:
-				/*Error near IL_00c8: Unexpected return in MoveNext()*/;
+				yield break;
+				IL_00c3:
+				/*Error near IL_00c4: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -270,25 +293,17 @@ namespace RimWorld
 		{
 			get
 			{
-				using (IEnumerator<Pawn> enumerator = PawnsFinder.AllMapsCaravansAndTravelingTransportPods.GetEnumerator())
+				foreach (Pawn allMapsCaravansAndTravelingTransportPod in PawnsFinder.AllMapsCaravansAndTravelingTransportPods)
 				{
-					Pawn p;
-					while (true)
+					if (allMapsCaravansAndTravelingTransportPod.IsFreeColonist)
 					{
-						if (enumerator.MoveNext())
-						{
-							p = enumerator.Current;
-							if (p.IsFreeColonist)
-								break;
-							continue;
-						}
-						yield break;
+						yield return allMapsCaravansAndTravelingTransportPod;
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
-					yield return p;
-					/*Error: Unable to find new state assignment for yield return*/;
 				}
-				IL_00c7:
-				/*Error near IL_00c8: Unexpected return in MoveNext()*/;
+				yield break;
+				IL_00c3:
+				/*Error near IL_00c4: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -296,25 +311,17 @@ namespace RimWorld
 		{
 			get
 			{
-				using (IEnumerator<Pawn> enumerator = PawnsFinder.AllMapsCaravansAndTravelingTransportPods.GetEnumerator())
+				foreach (Pawn allMapsCaravansAndTravelingTransportPod in PawnsFinder.AllMapsCaravansAndTravelingTransportPods)
 				{
-					Pawn p;
-					while (true)
+					if (allMapsCaravansAndTravelingTransportPod.IsPrisonerOfColony)
 					{
-						if (enumerator.MoveNext())
-						{
-							p = enumerator.Current;
-							if (p.IsPrisonerOfColony)
-								break;
-							continue;
-						}
-						yield break;
+						yield return allMapsCaravansAndTravelingTransportPod;
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
-					yield return p;
-					/*Error: Unable to find new state assignment for yield return*/;
 				}
-				IL_00c7:
-				/*Error near IL_00c8: Unexpected return in MoveNext()*/;
+				yield break;
+				IL_00c3:
+				/*Error near IL_00c4: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -370,8 +377,8 @@ namespace RimWorld
 					}
 				}
 				yield break;
-				IL_010a:
-				/*Error near IL_010b: Unexpected return in MoveNext()*/;
+				IL_0104:
+				/*Error near IL_0105: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -393,8 +400,8 @@ namespace RimWorld
 					}
 				}
 				yield break;
-				IL_010a:
-				/*Error near IL_010b: Unexpected return in MoveNext()*/;
+				IL_0104:
+				/*Error near IL_0105: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -416,8 +423,8 @@ namespace RimWorld
 					}
 				}
 				yield break;
-				IL_010a:
-				/*Error near IL_010b: Unexpected return in MoveNext()*/;
+				IL_0104:
+				/*Error near IL_0105: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -439,8 +446,8 @@ namespace RimWorld
 					}
 				}
 				yield break;
-				IL_010a:
-				/*Error near IL_010b: Unexpected return in MoveNext()*/;
+				IL_0104:
+				/*Error near IL_0105: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -462,8 +469,8 @@ namespace RimWorld
 					}
 				}
 				yield break;
-				IL_010a:
-				/*Error near IL_010b: Unexpected return in MoveNext()*/;
+				IL_0104:
+				/*Error near IL_0105: Unexpected return in MoveNext()*/;
 			}
 		}
 

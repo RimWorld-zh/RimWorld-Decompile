@@ -6,7 +6,7 @@ namespace RimWorld
 {
 	public class DateNotifier : IExposable
 	{
-		private Season lastSeason = Season.Undefined;
+		private Season lastSeason;
 
 		public void ExposeData()
 		{
@@ -82,52 +82,32 @@ namespace RimWorld
 		private bool AnyPlayerHomeSeasonsAreMeaningful()
 		{
 			List<Map> maps = Find.Maps;
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < maps.Count; i++)
 			{
-				if (num < maps.Count)
+				if (maps[i].IsPlayerHome && maps[i].mapTemperature.LocalSeasonsAreMeaningful())
 				{
-					if (maps[num].IsPlayerHome && maps[num].mapTemperature.LocalSeasonsAreMeaningful())
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		private bool AnyPlayerHomeAvgTempIsLowInWinter()
 		{
 			List<Map> maps = Find.Maps;
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < maps.Count; i++)
 			{
-				if (num < maps.Count)
+				if (maps[i].IsPlayerHome)
 				{
-					if (maps[num].IsPlayerHome)
+					int tile = maps[i].Tile;
+					Vector2 vector = Find.WorldGrid.LongLatOf(maps[i].Tile);
+					if (GenTemperature.AverageTemperatureAtTileForTwelfth(tile, Season.Winter.GetMiddleTwelfth(vector.y)) < 8.0)
 					{
-						int tile = maps[num].Tile;
-						Vector2 vector = Find.WorldGrid.LongLatOf(maps[num].Tile);
-						if (GenTemperature.AverageTemperatureAtTileForTwelfth(tile, Season.Winter.GetMiddleTwelfth(vector.y)) < 8.0)
-						{
-							result = true;
-							break;
-						}
+						return true;
 					}
-					num++;
-					continue;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 	}
 }

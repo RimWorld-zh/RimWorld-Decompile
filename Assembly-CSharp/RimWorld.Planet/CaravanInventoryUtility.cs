@@ -34,20 +34,15 @@ namespace RimWorld.Planet
 		public static Pawn GetOwnerOf(Caravan caravan, Thing item)
 		{
 			IThingHolder parentHolder = item.ParentHolder;
-			Pawn result;
 			if (parentHolder is Pawn_InventoryTracker)
 			{
 				Pawn pawn = (Pawn)parentHolder.ParentHolder;
 				if (caravan.ContainsPawn(pawn))
 				{
-					result = pawn;
-					goto IL_003b;
+					return pawn;
 				}
 			}
-			result = null;
-			goto IL_003b;
-			IL_003b:
-			return result;
+			return null;
 		}
 
 		public static bool TryGetBestFood(Caravan caravan, Pawn forPawn, out Thing food, out Pawn owner)
@@ -68,75 +63,55 @@ namespace RimWorld.Planet
 					}
 				}
 			}
-			bool result;
 			if (thing != null)
 			{
 				food = thing;
 				owner = CaravanInventoryUtility.GetOwnerOf(caravan, thing);
-				result = true;
+				return true;
 			}
-			else
-			{
-				food = null;
-				owner = null;
-				result = false;
-			}
-			return result;
+			food = null;
+			owner = null;
+			return false;
 		}
 
 		public static bool TryGetBestDrug(Caravan caravan, Pawn forPawn, Need_Chemical chemical, out Thing drug, out Pawn owner)
 		{
 			Hediff_Addiction addictionHediff = chemical.AddictionHediff;
-			bool result;
 			if (addictionHediff == null)
 			{
 				drug = null;
 				owner = null;
-				result = false;
+				return false;
 			}
-			else
+			List<Thing> list = CaravanInventoryUtility.AllInventoryItems(caravan);
+			Thing thing = null;
+			for (int i = 0; i < list.Count; i++)
 			{
-				List<Thing> list = CaravanInventoryUtility.AllInventoryItems(caravan);
-				Thing thing = null;
-				for (int i = 0; i < list.Count; i++)
+				Thing thing2 = list[i];
+				if (thing2.IngestibleNow && thing2.def.IsDrug)
 				{
-					Thing thing2 = list[i];
-					if (thing2.IngestibleNow && thing2.def.IsDrug)
+					CompDrug compDrug = thing2.TryGetComp<CompDrug>();
+					if (compDrug != null && compDrug.Props.chemical != null && compDrug.Props.chemical.addictionHediff == addictionHediff.def && (forPawn.drugs == null || forPawn.drugs.CurrentPolicy[thing2.def].allowedForAddiction || forPawn.story == null || forPawn.story.traits.DegreeOfTrait(TraitDefOf.DrugDesire) > 0))
 					{
-						CompDrug compDrug = thing2.TryGetComp<CompDrug>();
-						if (compDrug != null && compDrug.Props.chemical != null && compDrug.Props.chemical.addictionHediff == addictionHediff.def && (forPawn.drugs == null || forPawn.drugs.CurrentPolicy[thing2.def].allowedForAddiction || forPawn.story == null || forPawn.story.traits.DegreeOfTrait(TraitDefOf.DrugDesire) > 0))
-						{
-							thing = thing2;
-							break;
-						}
+						thing = thing2;
+						break;
 					}
 				}
-				if (thing != null)
-				{
-					drug = thing;
-					owner = CaravanInventoryUtility.GetOwnerOf(caravan, thing);
-					result = true;
-				}
-				else
-				{
-					drug = null;
-					owner = null;
-					result = false;
-				}
 			}
-			return result;
+			if (thing != null)
+			{
+				drug = thing;
+				owner = CaravanInventoryUtility.GetOwnerOf(caravan, thing);
+				return true;
+			}
+			drug = null;
+			owner = null;
+			return false;
 		}
 
 		public static bool TryGetBestMedicine(Caravan caravan, Pawn patient, out Medicine medicine, out Pawn owner)
 		{
-			bool result;
-			if (patient.playerSettings == null || (int)patient.playerSettings.medCare <= 1)
-			{
-				medicine = null;
-				owner = null;
-				result = false;
-			}
-			else
+			if (patient.playerSettings != null && (int)patient.playerSettings.medCare > 1)
 			{
 				List<Thing> list = CaravanInventoryUtility.AllInventoryItems(caravan);
 				Medicine medicine2 = null;
@@ -158,44 +133,33 @@ namespace RimWorld.Planet
 				{
 					medicine = medicine2;
 					owner = CaravanInventoryUtility.GetOwnerOf(caravan, medicine2);
-					result = true;
+					return true;
 				}
-				else
-				{
-					medicine = null;
-					owner = null;
-					result = false;
-				}
+				medicine = null;
+				owner = null;
+				return false;
 			}
-			return result;
+			medicine = null;
+			owner = null;
+			return false;
 		}
 
 		public static bool TryGetThingOfDef(Caravan caravan, ThingDef thingDef, out Thing thing, out Pawn owner)
 		{
 			List<Thing> list = CaravanInventoryUtility.AllInventoryItems(caravan);
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < list.Count; i++)
 			{
-				if (num < list.Count)
+				Thing thing2 = list[i];
+				if (thing2.def == thingDef)
 				{
-					Thing thing2 = list[num];
-					if (thing2.def == thingDef)
-					{
-						thing = thing2;
-						owner = CaravanInventoryUtility.GetOwnerOf(caravan, thing2);
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					thing = thing2;
+					owner = CaravanInventoryUtility.GetOwnerOf(caravan, thing2);
+					return true;
 				}
-				thing = null;
-				owner = null;
-				result = false;
-				break;
 			}
-			return result;
+			thing = null;
+			owner = null;
+			return false;
 		}
 
 		public static void MoveAllInventoryToSomeoneElse(Pawn from, List<Pawn> candidates, List<Pawn> ignoreCandidates = null)
@@ -227,24 +191,31 @@ namespace RimWorld.Planet
 
 		public static Pawn FindPawnToMoveInventoryTo(Thing item, List<Pawn> candidates, List<Pawn> ignoreCandidates, Pawn currentItemOwner = null)
 		{
-			Pawn result;
 			if (item is Pawn)
 			{
 				Log.Error("Called FindPawnToMoveInventoryTo but the item is a pawn.");
-				result = null;
+				return null;
 			}
-			else
+			Pawn result = default(Pawn);
+			if ((from x in candidates
+			where CaravanInventoryUtility.CanMoveInventoryTo(x) && (ignoreCandidates == null || !ignoreCandidates.Contains(x)) && x != currentItemOwner && !MassUtility.IsOverEncumbered(x)
+			select x).TryRandomElement<Pawn>(out result))
 			{
-				Pawn pawn = default(Pawn);
-				result = ((!(from x in candidates
-				where CaravanInventoryUtility.CanMoveInventoryTo(x) && (ignoreCandidates == null || !ignoreCandidates.Contains(x)) && x != currentItemOwner && !MassUtility.IsOverEncumbered(x)
-				select x).TryRandomElement<Pawn>(out pawn)) ? ((!(from x in candidates
-				where CaravanInventoryUtility.CanMoveInventoryTo(x) && (ignoreCandidates == null || !ignoreCandidates.Contains(x)) && x != currentItemOwner
-				select x).TryRandomElement<Pawn>(out pawn)) ? ((!(from x in candidates
-				where (ignoreCandidates == null || !ignoreCandidates.Contains(x)) && x != currentItemOwner
-				select x).TryRandomElement<Pawn>(out pawn)) ? null : pawn) : pawn) : pawn);
+				return result;
 			}
-			return result;
+			if ((from x in candidates
+			where CaravanInventoryUtility.CanMoveInventoryTo(x) && (ignoreCandidates == null || !ignoreCandidates.Contains(x)) && x != currentItemOwner
+			select x).TryRandomElement<Pawn>(out result))
+			{
+				return result;
+			}
+			if ((from x in candidates
+			where (ignoreCandidates == null || !ignoreCandidates.Contains(x)) && x != currentItemOwner
+			select x).TryRandomElement<Pawn>(out result))
+			{
+				return result;
+			}
+			return null;
 		}
 
 		public static void MoveAllApparelToSomeonesInventory(Pawn moveFrom, List<Pawn> candidates)
@@ -333,7 +304,7 @@ namespace RimWorld.Planet
 			for (int i = 0; i < list.Count; i++)
 			{
 				Thing thing = list[i];
-				if (thing.def == thingDef && ((object)validator == null || validator(thing)))
+				if (thing.def == thingDef && (validator == null || validator(thing)))
 				{
 					num += thing.stackCount;
 				}

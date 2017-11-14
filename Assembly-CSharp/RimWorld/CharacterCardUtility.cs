@@ -28,7 +28,7 @@ namespace RimWorld
 
 		public static void DrawCharacterCard(Rect rect, Pawn pawn, Action randomizeCallback = null, Rect creationRect = default(Rect))
 		{
-			bool flag = (object)randomizeCallback != null;
+			bool flag = randomizeCallback != null;
 			GUI.BeginGroup((!flag) ? rect : creationRect);
 			Rect rect2 = new Rect(0f, 0f, 300f, 30f);
 			NameTriple nameTriple = pawn.Name as NameTriple;
@@ -68,7 +68,7 @@ namespace RimWorld
 				Widgets.Label(rect2, pawn.Name.ToStringFull);
 				Text.Font = GameFont.Small;
 			}
-			if ((object)randomizeCallback != null)
+			if (randomizeCallback != null)
 			{
 				Rect rect6 = new Rect((float)(creationRect.width - 24.0 - 100.0), 0f, 100f, rect2.height);
 				if (Widgets.ButtonText(rect6, "Randomize".Translate(), true, false, true))
@@ -93,7 +93,7 @@ namespace RimWorld
 					{
 						if (pawn.Downed)
 						{
-							Messages.Message("MessageCantBanishDownedPawn".Translate(pawn.LabelShort).AdjustedFor(pawn), (Thing)pawn, MessageTypeDefOf.RejectInput);
+							Messages.Message("MessageCantBanishDownedPawn".Translate(pawn.LabelShort).AdjustedFor(pawn), pawn, MessageTypeDefOf.RejectInput);
 						}
 						else
 						{
@@ -116,7 +116,7 @@ namespace RimWorld
 			string label = pawn.MainDesc(true);
 			Rect rect9 = new Rect(0f, 45f, rect.width, 60f);
 			Widgets.Label(rect9, label);
-			TooltipHandler.TipRegion(rect9, (Func<string>)(() => pawn.ageTracker.AgeTooltipString), 6873641);
+			TooltipHandler.TipRegion(rect9, () => pawn.ageTracker.AgeTooltipString, 6873641);
 			Rect position = new Rect(0f, 100f, 250f, 450f);
 			Rect position2 = new Rect(position.xMax, 100f, 258f, 450f);
 			GUI.BeginGroup(position);
@@ -210,7 +210,7 @@ namespace RimWorld
 				Widgets.Label(rect13, trait.LabelCap);
 				num2 = (float)(num2 + (rect13.height + 2.0));
 				Trait trLocal = trait;
-				TipSignal tip = new TipSignal((Func<string>)(() => trLocal.TipString(pawn)), (int)num2 * 37);
+				TipSignal tip = new TipSignal(() => trLocal.TipString(pawn), (int)num2 * 37);
 				TooltipHandler.TipRegion(rect13, tip);
 			}
 			GUI.EndGroup();
@@ -234,25 +234,17 @@ namespace RimWorld
 
 		private static IEnumerable<WorkTags> WorkTagsFrom(WorkTags tags)
 		{
-			using (IEnumerator<WorkTags> enumerator = ((Enum)(object)tags).GetAllSelectedItems<WorkTags>().GetEnumerator())
+			foreach (WorkTags allSelectedItem in ((Enum)(object)tags).GetAllSelectedItems<WorkTags>())
 			{
-				WorkTags workTag;
-				while (true)
+				if (allSelectedItem != 0)
 				{
-					if (enumerator.MoveNext())
-					{
-						workTag = enumerator.Current;
-						if (workTag != 0)
-							break;
-						continue;
-					}
-					yield break;
+					yield return allSelectedItem;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
-				yield return workTag;
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			IL_00d2:
-			/*Error near IL_00d3: Unexpected return in MoveNext()*/;
+			yield break;
+			IL_00ce:
+			/*Error near IL_00cf: Unexpected return in MoveNext()*/;
 		}
 	}
 }

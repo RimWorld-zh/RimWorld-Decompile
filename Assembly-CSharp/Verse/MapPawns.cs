@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,8 +39,8 @@ namespace Verse
 					}
 				}
 				yield break;
-				IL_0128:
-				/*Error near IL_0129: Unexpected return in MoveNext()*/;
+				IL_0122:
+				/*Error near IL_0123: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -139,17 +138,12 @@ namespace Verse
 		{
 			get
 			{
-				int result;
 				if (Current.ProgramState != ProgramState.Playing)
 				{
 					Log.Error("ColonistCount while not playing. This should get the starting player pawn count.");
-					result = 3;
+					return 3;
 				}
-				else
-				{
-					result = this.AllPawns.Count((Func<Pawn, bool>)((Pawn x) => x.IsColonist));
-				}
-				return result;
+				return this.AllPawns.Count((Pawn x) => x.IsColonist);
 			}
 		}
 
@@ -199,52 +193,39 @@ namespace Verse
 			{
 				Faction ofPlayer = Faction.OfPlayer;
 				int num = 0;
-				bool result;
-				while (true)
+				while (num < this.pawnsSpawned.Count)
 				{
-					if (num < this.pawnsSpawned.Count)
+					if (this.pawnsSpawned[num].Faction != ofPlayer && this.pawnsSpawned[num].HostFaction != ofPlayer)
 					{
-						if (this.pawnsSpawned[num].Faction != ofPlayer && this.pawnsSpawned[num].HostFaction != ofPlayer)
+						if (this.pawnsSpawned[num].relations != null && this.pawnsSpawned[num].relations.relativeInvolvedInRescueQuest != null)
 						{
-							if (this.pawnsSpawned[num].relations != null && this.pawnsSpawned[num].relations.relativeInvolvedInRescueQuest != null)
-							{
-								result = true;
-								break;
-							}
-							num++;
-							continue;
+							return true;
 						}
-						result = true;
+						num++;
+						continue;
 					}
-					else
-					{
-						List<Thing> list = this.map.listerThings.ThingsInGroup(ThingRequestGroup.ThingHolder);
-						for (int i = 0; i < list.Count; i++)
-						{
-							if (list[i] is IActiveDropPod || list[i].TryGetComp<CompTransporter>() != null)
-							{
-								IThingHolder holder = list[i].TryGetComp<CompTransporter>() ?? ((IThingHolder)list[i]);
-								ThingOwnerUtility.GetAllThingsRecursively(holder, MapPawns.tmpThings, true);
-								for (int j = 0; j < MapPawns.tmpThings.Count; j++)
-								{
-									Pawn pawn = MapPawns.tmpThings[j] as Pawn;
-									if (pawn != null && (pawn.Faction == ofPlayer || pawn.HostFaction == ofPlayer))
-									{
-										goto IL_0140;
-									}
-								}
-							}
-						}
-						MapPawns.tmpThings.Clear();
-						result = false;
-					}
-					break;
-					IL_0140:
-					MapPawns.tmpThings.Clear();
-					result = true;
-					break;
+					return true;
 				}
-				return result;
+				List<Thing> list = this.map.listerThings.ThingsInGroup(ThingRequestGroup.ThingHolder);
+				for (int i = 0; i < list.Count; i++)
+				{
+					if (list[i] is IActiveDropPod || list[i].TryGetComp<CompTransporter>() != null)
+					{
+						IThingHolder holder = list[i].TryGetComp<CompTransporter>() ?? ((IThingHolder)list[i]);
+						ThingOwnerUtility.GetAllThingsRecursively(holder, MapPawns.tmpThings, true);
+						for (int j = 0; j < MapPawns.tmpThings.Count; j++)
+						{
+							Pawn pawn = MapPawns.tmpThings[j] as Pawn;
+							if (pawn != null && (pawn.Faction == ofPlayer || pawn.HostFaction == ofPlayer))
+							{
+								MapPawns.tmpThings.Clear();
+								return true;
+							}
+						}
+					}
+				}
+				MapPawns.tmpThings.Clear();
+				return false;
 			}
 		}
 
@@ -370,24 +351,14 @@ namespace Verse
 			get
 			{
 				List<Pawn> list = this.SpawnedPawnsInFaction(Faction.OfPlayer);
-				int num = 0;
-				bool result;
-				while (true)
+				for (int i = 0; i < list.Count; i++)
 				{
-					if (num < list.Count)
+					if (list[i].IsColonist)
 					{
-						if (list[num].IsColonist)
-						{
-							result = true;
-							break;
-						}
-						num++;
-						continue;
+						return true;
 					}
-					result = false;
-					break;
 				}
-				return result;
+				return false;
 			}
 		}
 
@@ -396,24 +367,14 @@ namespace Verse
 			get
 			{
 				List<Pawn> list = this.SpawnedPawnsInFaction(Faction.OfPlayer);
-				int num = 0;
-				bool result;
-				while (true)
+				for (int i = 0; i < list.Count; i++)
 				{
-					if (num < list.Count)
+					if (list[i].IsFreeColonist)
 					{
-						if (list[num].IsFreeColonist)
-						{
-							result = true;
-							break;
-						}
-						num++;
-						continue;
+						return true;
 					}
-					result = false;
-					break;
 				}
-				return result;
+				return false;
 			}
 		}
 
@@ -436,35 +397,25 @@ namespace Verse
 
 		public IEnumerable<Pawn> PawnsInFaction(Faction faction)
 		{
-			IEnumerable<Pawn> result;
 			if (faction == null)
 			{
 				Log.Error("Called PawnsInFaction with null faction.");
-				result = new List<Pawn>();
+				return new List<Pawn>();
 			}
-			else
-			{
-				result = from x in this.AllPawns
-				where x.Faction == faction
-				select x;
-			}
-			return result;
+			return from x in this.AllPawns
+			where x.Faction == faction
+			select x;
 		}
 
 		public List<Pawn> SpawnedPawnsInFaction(Faction faction)
 		{
 			this.EnsureFactionsListsInit();
-			List<Pawn> result;
 			if (faction == null)
 			{
 				Log.Error("Called SpawnedPawnsInFaction with null faction.");
-				result = new List<Pawn>();
+				return new List<Pawn>();
 			}
-			else
-			{
-				result = this.pawnsInFactionSpawned[faction];
-			}
-			return result;
+			return this.pawnsInFactionSpawned[faction];
 		}
 
 		public IEnumerable<Pawn> FreeHumanlikesOfFaction(Faction faction)
@@ -507,7 +458,7 @@ namespace Verse
 					this.pawnsInFactionSpawned[p.Faction].Add(p);
 					if (p.Faction == Faction.OfPlayer)
 					{
-						this.pawnsInFactionSpawned[Faction.OfPlayer].InsertionSort((Comparison<Pawn>)delegate(Pawn a, Pawn b)
+						this.pawnsInFactionSpawned[Faction.OfPlayer].InsertionSort(delegate(Pawn a, Pawn b)
 						{
 							int num = (a.playerSettings != null) ? a.playerSettings.joinTick : 0;
 							int value = (b.playerSettings != null) ? b.playerSettings.joinTick : 0;

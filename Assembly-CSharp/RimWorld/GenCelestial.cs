@@ -15,9 +15,9 @@ namespace RimWorld
 
 		public enum LightType
 		{
-			Shadow = 0,
-			LightingSun = 1,
-			LightingMoon = 2
+			Shadow,
+			LightingSun,
+			LightingMoon
 		}
 
 		public const float ShadowMaxLengthDay = 15f;
@@ -32,28 +32,23 @@ namespace RimWorld
 		{
 			get
 			{
-				int result;
 				if (Current.ProgramState != 0)
 				{
-					result = GenTicks.TicksAbs;
+					return GenTicks.TicksAbs;
+				}
+				int startingTile = Find.GameInitData.startingTile;
+				double num;
+				if (startingTile >= 0)
+				{
+					Vector2 vector = Find.WorldGrid.LongLatOf(startingTile);
+					num = vector.x;
 				}
 				else
 				{
-					int startingTile = Find.GameInitData.startingTile;
-					double num;
-					if (startingTile >= 0)
-					{
-						Vector2 vector = Find.WorldGrid.LongLatOf(startingTile);
-						num = vector.x;
-					}
-					else
-					{
-						num = 0.0;
-					}
-					float longitude = (float)num;
-					result = Mathf.RoundToInt((float)(2500.0 * (12.0 - GenDate.TimeZoneFloatAt(longitude))));
+					num = 0.0;
 				}
-				return result;
+				float longitude = (float)num;
+				return Mathf.RoundToInt((float)(2500.0 * (12.0 - GenDate.TimeZoneFloatAt(longitude))));
 			}
 		}
 
@@ -81,30 +76,22 @@ namespace RimWorld
 			switch (type)
 			{
 			case LightType.Shadow:
-			{
 				flag = GenCelestial.IsDaytime(GenCelestial.CurCelestialSunGlow(map));
 				intensity = GenCelestial.CurShadowStrength(map);
 				break;
-			}
 			case LightType.LightingSun:
-			{
 				flag = true;
 				intensity = Mathf.Clamp01((float)((GenCelestial.CurCelestialSunGlow(map) - 0.60000002384185791 + 0.20000000298023224) / 0.15000000596046448));
 				break;
-			}
 			case LightType.LightingMoon:
-			{
 				flag = false;
 				intensity = Mathf.Clamp01((float)((0.0 - (GenCelestial.CurCelestialSunGlow(map) - 0.60000002384185791 - 0.20000000298023224)) / 0.15000000596046448));
 				break;
-			}
 			default:
-			{
 				Log.ErrorOnce("Invalid light type requested", 64275614);
 				flag = true;
 				intensity = 0f;
 				break;
-			}
 			}
 			float t;
 			float num2;
@@ -123,11 +110,10 @@ namespace RimWorld
 			}
 			float num4 = Mathf.LerpUnclamped((float)(0.0 - num3), num3, t);
 			float y = (float)(num2 - 2.5 * (num4 * num4 / 100.0));
-			return new LightInfo
-			{
-				vector = new Vector2(num4, y),
-				intensity = intensity
-			};
+			LightInfo result = default(LightInfo);
+			result.vector = new Vector2(num4, y);
+			result.intensity = intensity;
+			return result;
 		}
 
 		public static Vector3 CurSunPositionInWorldSpace()
@@ -183,23 +169,23 @@ namespace RimWorld
 
 		public static void LogSunGlowForYear()
 		{
-			for (int num = -90; num <= 90; num += 10)
+			for (int i = -90; i <= 90; i += 10)
 			{
 				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.AppendLine("Sun visibility percents for latitude " + num + ", for each hour of each day of the year");
+				stringBuilder.AppendLine("Sun visibility percents for latitude " + i + ", for each hour of each day of the year");
 				stringBuilder.AppendLine("---------------------------------------");
 				stringBuilder.Append("Day/hr".PadRight(6));
-				for (int num2 = 0; num2 < 24; num2 += 2)
+				for (int j = 0; j < 24; j += 2)
 				{
-					stringBuilder.Append((num2.ToString() + "h").PadRight(6));
+					stringBuilder.Append((j.ToString() + "h").PadRight(6));
 				}
 				stringBuilder.AppendLine();
-				for (int num3 = 0; num3 < 60; num3 += 5)
+				for (int k = 0; k < 60; k += 5)
 				{
-					stringBuilder.Append(num3.ToString().PadRight(6));
-					for (int num4 = 0; num4 < 24; num4 += 2)
+					stringBuilder.Append(k.ToString().PadRight(6));
+					for (int l = 0; l < 24; l += 2)
 					{
-						stringBuilder.Append(GenCelestial.CelestialSunGlowPercent((float)num, num3, (float)((float)num4 / 24.0)).ToString("F3").PadRight(6));
+						stringBuilder.Append(GenCelestial.CelestialSunGlowPercent((float)i, k, (float)((float)l / 24.0)).ToString("F3").PadRight(6));
 					}
 					stringBuilder.AppendLine();
 				}

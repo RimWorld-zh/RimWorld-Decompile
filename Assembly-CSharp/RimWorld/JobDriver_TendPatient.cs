@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -41,42 +40,52 @@ namespace RimWorld
 
 		public override bool TryMakePreToilReservations()
 		{
-			return (byte)(base.pawn.Reserve((Thing)this.Deliveree, base.job, 1, -1, null) ? ((!this.usesMedicine || base.pawn.Reserve(this.MedicineUsed, base.job, 1, -1, null)) ? 1 : 0) : 0) != 0;
+			if (!base.pawn.Reserve(this.Deliveree, base.job, 1, -1, null))
+			{
+				return false;
+			}
+			if (this.usesMedicine && !base.pawn.Reserve(this.MedicineUsed, base.job, 1, -1, null))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			_003CMakeNewToils_003Ec__Iterator0 _003CMakeNewToils_003Ec__Iterator = (_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0052: stateMachine*/;
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
-			this.FailOn((Func<bool>)delegate
+			this.FailOn(delegate
 			{
-				bool result;
 				if (!WorkGiver_Tend.GoodLayingStatusForTend(_003CMakeNewToils_003Ec__Iterator._0024this.Deliveree, _003CMakeNewToils_003Ec__Iterator._0024this.pawn))
 				{
-					result = true;
+					return true;
 				}
-				else
+				if (_003CMakeNewToils_003Ec__Iterator._0024this.MedicineUsed != null)
 				{
-					if (_003CMakeNewToils_003Ec__Iterator._0024this.MedicineUsed != null)
+					if (_003CMakeNewToils_003Ec__Iterator._0024this.Deliveree.playerSettings == null)
 					{
-						if (_003CMakeNewToils_003Ec__Iterator._0024this.Deliveree.playerSettings == null)
-						{
-							result = true;
-							goto IL_0116;
-						}
-						if (!_003CMakeNewToils_003Ec__Iterator._0024this.Deliveree.playerSettings.medCare.AllowsMedicine(_003CMakeNewToils_003Ec__Iterator._0024this.MedicineUsed.def))
-						{
-							result = true;
-							goto IL_0116;
-						}
+						return true;
 					}
-					result = ((byte)((_003CMakeNewToils_003Ec__Iterator._0024this.pawn == _003CMakeNewToils_003Ec__Iterator._0024this.Deliveree && (_003CMakeNewToils_003Ec__Iterator._0024this.pawn.playerSettings == null || !_003CMakeNewToils_003Ec__Iterator._0024this.pawn.playerSettings.selfTend)) ? 1 : 0) != 0);
+					if (!_003CMakeNewToils_003Ec__Iterator._0024this.Deliveree.playerSettings.medCare.AllowsMedicine(_003CMakeNewToils_003Ec__Iterator._0024this.MedicineUsed.def))
+					{
+						return true;
+					}
 				}
-				goto IL_0116;
-				IL_0116:
-				return result;
+				if (_003CMakeNewToils_003Ec__Iterator._0024this.pawn == _003CMakeNewToils_003Ec__Iterator._0024this.Deliveree && (_003CMakeNewToils_003Ec__Iterator._0024this.pawn.playerSettings == null || !_003CMakeNewToils_003Ec__Iterator._0024this.pawn.playerSettings.selfTend))
+				{
+					return true;
+				}
+				return false;
 			});
-			base.AddEndCondition((Func<JobCondition>)(() => (JobCondition)(HealthAIUtility.ShouldBeTendedNow(_003CMakeNewToils_003Ec__Iterator._0024this.Deliveree) ? 1 : 2)));
+			base.AddEndCondition(delegate
+			{
+				if (HealthAIUtility.ShouldBeTendedNow(_003CMakeNewToils_003Ec__Iterator._0024this.Deliveree))
+				{
+					return JobCondition.Ongoing;
+				}
+				return JobCondition.Succeeded;
+			});
 			this.FailOnAggroMentalState(TargetIndex.A);
 			Toil reserveMedicine = null;
 			if (this.usesMedicine)

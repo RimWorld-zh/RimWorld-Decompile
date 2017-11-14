@@ -33,7 +33,7 @@ namespace Verse
 			try
 			{
 				scen.fileName = Path.GetFileNameWithoutExtension(absFilePath);
-				SafeSaver.Save(absFilePath, "savedscenario", (Action)delegate()
+				SafeSaver.Save(absFilePath, "savedscenario", delegate
 				{
 					ScribeMetaHeaderUtility.WriteMetaHeader();
 					Scribe_Deep.Look(ref scen, "scenario");
@@ -79,7 +79,7 @@ namespace Verse
 			try
 			{
 				string path = GenFilePaths.FilePathForSavedGame(fileName);
-				SafeSaver.Save(path, "savegame", (Action)delegate
+				SafeSaver.Save(path, "savegame", delegate
 				{
 					ScribeMetaHeaderUtility.WriteMetaHeader();
 					Game game = Current.Game;

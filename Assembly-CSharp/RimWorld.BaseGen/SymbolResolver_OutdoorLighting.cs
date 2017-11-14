@@ -62,24 +62,14 @@ namespace RimWorld.BaseGen
 
 		private bool AnyGlowerNearby(IntVec3 c)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < SymbolResolver_OutdoorLighting.nearbyGlowers.Count; i++)
 			{
-				if (num < SymbolResolver_OutdoorLighting.nearbyGlowers.Count)
+				if (c.InHorDistOf(SymbolResolver_OutdoorLighting.nearbyGlowers[i].parent.Position, (float)(SymbolResolver_OutdoorLighting.nearbyGlowers[i].Props.glowRadius + 2.0)))
 				{
-					if (c.InHorDistOf(SymbolResolver_OutdoorLighting.nearbyGlowers[num].parent.Position, (float)(SymbolResolver_OutdoorLighting.nearbyGlowers[num].Props.glowRadius + 2.0)))
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 	}
 }

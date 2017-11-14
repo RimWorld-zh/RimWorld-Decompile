@@ -24,76 +24,66 @@ namespace RimWorld
 			List<IntVec3> list = new List<IntVec3>();
 			list.Add(root);
 			IntVec3 intVec = root;
-			int num = 0;
-			bool result2;
-			while (true)
+			for (int i = 0; i < 8; i++)
 			{
-				if (num < 8)
+				IntVec3 intVec2 = IntVec3.Invalid;
+				float num = -1f;
+				for (int num2 = WalkPathFinder.StartRadialIndex; num2 > WalkPathFinder.EndRadialIndex; num2 -= WalkPathFinder.RadialIndexStride)
 				{
-					IntVec3 intVec2 = IntVec3.Invalid;
-					float num2 = -1f;
-					for (int num3 = WalkPathFinder.StartRadialIndex; num3 > WalkPathFinder.EndRadialIndex; num3 -= WalkPathFinder.RadialIndexStride)
+					IntVec3 intVec3 = intVec + GenRadial.RadialPattern[num2];
+					if (intVec3.InBounds(pawn.Map) && intVec3.Standable(pawn.Map) && !intVec3.IsForbidden(pawn) && GenSight.LineOfSight(intVec, intVec3, pawn.Map, false, null, 0, 0) && !intVec3.Roofed(pawn.Map) && !PawnUtility.KnownDangerAt(intVec3, pawn))
 					{
-						IntVec3 intVec3 = intVec + GenRadial.RadialPattern[num3];
-						if (intVec3.InBounds(pawn.Map) && intVec3.Standable(pawn.Map) && !intVec3.IsForbidden(pawn) && GenSight.LineOfSight(intVec, intVec3, pawn.Map, false, null, 0, 0) && !intVec3.Roofed(pawn.Map) && !PawnUtility.KnownDangerAt(intVec3, pawn))
+						float num3 = 10000f;
+						for (int j = 0; j < list.Count; j++)
 						{
-							float num4 = 10000f;
-							for (int i = 0; i < list.Count; i++)
+							num3 += (float)(list[j] - intVec3).LengthManhattan;
+						}
+						float num4 = (float)(intVec3 - root).LengthManhattan;
+						if (num4 > 40.0)
+						{
+							num3 *= Mathf.InverseLerp(70f, 40f, num4);
+						}
+						if (list.Count >= 2)
+						{
+							float angleFlat = (list[list.Count - 1] - list[list.Count - 2]).AngleFlat;
+							float angleFlat2 = (intVec3 - intVec).AngleFlat;
+							float num5;
+							if (angleFlat2 > angleFlat)
 							{
-								num4 += (float)(list[i] - intVec3).LengthManhattan;
+								num5 = angleFlat2 - angleFlat;
 							}
-							float num5 = (float)(intVec3 - root).LengthManhattan;
-							if (num5 > 40.0)
+							else
 							{
-								num4 *= Mathf.InverseLerp(70f, 40f, num5);
+								angleFlat = (float)(angleFlat - 360.0);
+								num5 = angleFlat2 - angleFlat;
 							}
-							if (list.Count >= 2)
+							if (num5 > 110.0)
 							{
-								float angleFlat = (list[list.Count - 1] - list[list.Count - 2]).AngleFlat;
-								float angleFlat2 = (intVec3 - intVec).AngleFlat;
-								float num6;
-								if (angleFlat2 > angleFlat)
-								{
-									num6 = angleFlat2 - angleFlat;
-								}
-								else
-								{
-									angleFlat = (float)(angleFlat - 360.0);
-									num6 = angleFlat2 - angleFlat;
-								}
-								if (num6 > 110.0)
-								{
-									num4 = (float)(num4 * 0.0099999997764825821);
-								}
-							}
-							if (list.Count >= 4 && (intVec - root).LengthManhattan < (intVec3 - root).LengthManhattan)
-							{
-								num4 = (float)(num4 * 9.9999997473787516E-06);
-							}
-							if (num4 > num2)
-							{
-								intVec2 = intVec3;
-								num2 = num4;
+								num3 = (float)(num3 * 0.0099999997764825821);
 							}
 						}
+						if (list.Count >= 4 && (intVec - root).LengthManhattan < (intVec3 - root).LengthManhattan)
+						{
+							num3 = (float)(num3 * 9.9999997473787516E-06);
+						}
+						if (num3 > num)
+						{
+							intVec2 = intVec3;
+							num = num3;
+						}
 					}
-					if (num2 < 0.0)
-					{
-						result = null;
-						result2 = false;
-						break;
-					}
-					list.Add(intVec2);
-					intVec = intVec2;
-					num++;
-					continue;
 				}
-				list.Add(root);
-				result = list;
-				result2 = true;
-				break;
+				if (num < 0.0)
+				{
+					result = null;
+					return false;
+				}
+				list.Add(intVec2);
+				intVec = intVec2;
 			}
-			return result2;
+			list.Add(root);
+			result = list;
+			return true;
 		}
 
 		public static void DebugFlashWalkPath(IntVec3 root, int numEntries = 8)

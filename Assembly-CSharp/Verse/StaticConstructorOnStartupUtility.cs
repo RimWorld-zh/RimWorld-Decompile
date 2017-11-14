@@ -28,7 +28,7 @@ namespace Verse
 			{
 				if (!allType.HasAttribute<StaticConstructorOnStartup>())
 				{
-					FieldInfo fieldInfo = allType.GetFields(bindingAttr).FirstOrDefault((Func<FieldInfo, bool>)delegate(FieldInfo x)
+					FieldInfo fieldInfo = allType.GetFields(bindingAttr).FirstOrDefault(delegate(FieldInfo x)
 					{
 						Type type = x.FieldType;
 						if (type.IsArray)

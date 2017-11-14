@@ -74,68 +74,38 @@ namespace RimWorld
 
 		public bool HasTrait(TraitDef tDef)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.allTraits.Count; i++)
 			{
-				if (num < this.allTraits.Count)
+				if (this.allTraits[i].def == tDef)
 				{
-					if (this.allTraits[num].def == tDef)
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public Trait GetTrait(TraitDef tDef)
 		{
-			int num = 0;
-			Trait result;
-			while (true)
+			for (int i = 0; i < this.allTraits.Count; i++)
 			{
-				if (num < this.allTraits.Count)
+				if (this.allTraits[i].def == tDef)
 				{
-					if (this.allTraits[num].def == tDef)
-					{
-						result = this.allTraits[num];
-						break;
-					}
-					num++;
-					continue;
+					return this.allTraits[i];
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		public int DegreeOfTrait(TraitDef tDef)
 		{
-			int num = 0;
-			int result;
-			while (true)
+			for (int i = 0; i < this.allTraits.Count; i++)
 			{
-				if (num < this.allTraits.Count)
+				if (this.allTraits[i].def == tDef)
 				{
-					if (this.allTraits[num].def == tDef)
-					{
-						result = this.allTraits[num].Degree;
-						break;
-					}
-					num++;
-					continue;
+					return this.allTraits[i].Degree;
 				}
-				result = 0;
-				break;
 			}
-			return result;
+			return 0;
 		}
 	}
 }

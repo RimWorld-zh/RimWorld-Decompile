@@ -9,9 +9,9 @@ namespace RimWorld
 		PowerOff = 2,
 		BurningWick = 4,
 		Forbidden = 8,
-		ForbiddenBig = 16,
-		QuestionMark = 32,
-		BrokenDown = 64,
-		OutOfFuel = 128
+		ForbiddenBig = 0x10,
+		QuestionMark = 0x20,
+		BrokenDown = 0x40,
+		OutOfFuel = 0x80
 	}
 }

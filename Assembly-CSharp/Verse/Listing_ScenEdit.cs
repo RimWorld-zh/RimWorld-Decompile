@@ -19,17 +19,17 @@ namespace Verse
 			Rect rect = base.GetRect(height);
 			Widgets.DrawBoxSolid(rect, new Color(1f, 1f, 1f, 0.08f));
 			WidgetRow widgetRow = new WidgetRow(rect.x, rect.y, UIDirection.RightThenDown, 72f, 0f);
-			if (part.def.PlayerAddRemovable && widgetRow.ButtonIcon(TexButton.DeleteX, (string)null))
+			if (part.def.PlayerAddRemovable && widgetRow.ButtonIcon(TexButton.DeleteX, null))
 			{
 				this.scen.RemovePart(part);
 				SoundDefOf.Click.PlayOneShotOnCamera(null);
 			}
-			if (this.scen.CanReorder(part, ReorderDirection.Up) && widgetRow.ButtonIcon(TexButton.ReorderUp, (string)null))
+			if (this.scen.CanReorder(part, ReorderDirection.Up) && widgetRow.ButtonIcon(TexButton.ReorderUp, null))
 			{
 				this.scen.Reorder(part, ReorderDirection.Up);
 				SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
 			}
-			if (this.scen.CanReorder(part, ReorderDirection.Down) && widgetRow.ButtonIcon(TexButton.ReorderDown, (string)null))
+			if (this.scen.CanReorder(part, ReorderDirection.Down) && widgetRow.ButtonIcon(TexButton.ReorderDown, null))
 			{
 				this.scen.Reorder(part, ReorderDirection.Down);
 				SoundDefOf.TickLow.PlayOneShotOnCamera(null);

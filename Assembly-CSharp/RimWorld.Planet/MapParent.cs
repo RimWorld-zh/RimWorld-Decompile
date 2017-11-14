@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -118,7 +117,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -135,9 +134,9 @@ namespace RimWorld.Planet
 				defaultDesc = "CommandShowMapDesc".Translate(),
 				icon = MapParent.ShowMapCommand,
 				hotKey = KeyBindingDefOf.Misc1,
-				action = (Action)delegate
+				action = delegate
 				{
-					Current.Game.VisibleMap = ((_003CGetGizmos_003Ec__Iterator1)/*Error near IL_0125: stateMachine*/)._0024this.Map;
+					Current.Game.VisibleMap = ((_003CGetGizmos_003Ec__Iterator1)/*Error near IL_011f: stateMachine*/)._0024this.Map;
 					if (!CameraJumper.TryHideWorld())
 					{
 						SoundDefOf.TabClose.PlayOneShotOnCamera(null);
@@ -145,8 +144,8 @@ namespace RimWorld.Planet
 				}
 			};
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0161:
-			/*Error near IL_0162: Unexpected return in MoveNext()*/;
+			IL_0159:
+			/*Error near IL_015a: Unexpected return in MoveNext()*/;
 		}
 
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan)
@@ -165,13 +164,13 @@ namespace RimWorld.Planet
 				yield break;
 			if (!this.UseGenericEnterMapFloatMenuOption)
 				yield break;
-			yield return new FloatMenuOption("EnterMap".Translate(this.Label), (Action)delegate()
+			yield return new FloatMenuOption("EnterMap".Translate(this.Label), delegate
 			{
 				caravan.pather.StartPath(_003CGetFloatMenuOptions_003Ec__Iterator._0024this.Tile, new CaravanArrivalAction_Enter(_003CGetFloatMenuOptions_003Ec__Iterator._0024this), true);
 			}, MenuOptionPriority.Default, null, null, 0f, null, this);
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_01ea:
-			/*Error near IL_01eb: Unexpected return in MoveNext()*/;
+			IL_01e2:
+			/*Error near IL_01e3: Unexpected return in MoveNext()*/;
 		}
 
 		public void CheckRemoveMapNow()

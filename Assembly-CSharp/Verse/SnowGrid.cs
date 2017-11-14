@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -9,7 +8,7 @@ namespace Verse
 
 		private float[] depthGrid;
 
-		private double totalDepth = 0.0;
+		private double totalDepth;
 
 		public const float MaxDepth = 1f;
 
@@ -37,7 +36,7 @@ namespace Verse
 
 		public void ExposeData()
 		{
-			MapExposeUtility.ExposeUshort(this.map, (Func<IntVec3, ushort>)((IntVec3 c) => SnowGrid.SnowFloatToShort(this.GetDepth(c))), (Action<IntVec3, ushort>)delegate(IntVec3 c, ushort val)
+			MapExposeUtility.ExposeUshort(this.map, (IntVec3 c) => SnowGrid.SnowFloatToShort(this.GetDepth(c)), delegate(IntVec3 c, ushort val)
 			{
 				this.depthGrid[this.map.cellIndices.CellToIndex(c)] = SnowGrid.SnowShortToFloat(val);
 			}, "depthGrid");
@@ -58,22 +57,25 @@ namespace Verse
 		private bool CanHaveSnow(int ind)
 		{
 			Building building = this.map.edificeGrid[ind];
-			bool result;
 			if (building != null && !SnowGrid.CanCoexistWithSnow(building.def))
 			{
-				result = false;
+				return false;
 			}
-			else
+			TerrainDef terrainDef = this.map.terrainGrid.TerrainAt(ind);
+			if (terrainDef != null && !terrainDef.holdSnow)
 			{
-				TerrainDef terrainDef = this.map.terrainGrid.TerrainAt(ind);
-				result = ((byte)((terrainDef == null || terrainDef.holdSnow) ? 1 : 0) != 0);
+				return false;
 			}
-			return result;
+			return true;
 		}
 
 		public static bool CanCoexistWithSnow(ThingDef def)
 		{
-			return (byte)((def.category != ThingCategory.Building || def.Fillage != FillCategory.Full) ? 1 : 0) != 0;
+			if (def.category == ThingCategory.Building && def.Fillage == FillCategory.Full)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public void AddDepth(IntVec3 c, float depthToAdd)
@@ -142,7 +144,11 @@ namespace Verse
 
 		public float GetDepth(IntVec3 c)
 		{
-			return (float)(c.InBounds(this.map) ? this.depthGrid[this.map.cellIndices.CellToIndex(c)] : 0.0);
+			if (!c.InBounds(this.map))
+			{
+				return 0f;
+			}
+			return this.depthGrid[this.map.cellIndices.CellToIndex(c)];
 		}
 
 		public SnowCategory GetCategory(IntVec3 c)

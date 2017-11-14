@@ -8,35 +8,26 @@ namespace RimWorld
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			MentalState_CorpseObsession mentalState_CorpseObsession = pawn.MentalState as MentalState_CorpseObsession;
-			Job result;
-			if (mentalState_CorpseObsession == null || mentalState_CorpseObsession.corpse == null)
-			{
-				result = null;
-			}
-			else
+			if (mentalState_CorpseObsession != null && mentalState_CorpseObsession.corpse != null)
 			{
 				Corpse corpse = mentalState_CorpseObsession.corpse;
 				Building_Grave building_Grave = mentalState_CorpseObsession.corpse.ParentHolder as Building_Grave;
 				if (building_Grave != null)
 				{
-					if (!pawn.CanReserveAndReach((Thing)building_Grave, PathEndMode.InteractionCell, Danger.Deadly, 1, -1, null, false))
+					if (!pawn.CanReserveAndReach(building_Grave, PathEndMode.InteractionCell, Danger.Deadly, 1, -1, null, false))
 					{
-						result = null;
-						goto IL_00ae;
+						return null;
 					}
 				}
-				else if (!pawn.CanReserveAndReach((Thing)corpse, PathEndMode.Touch, Danger.Deadly, 1, -1, null, false))
+				else if (!pawn.CanReserveAndReach(corpse, PathEndMode.Touch, Danger.Deadly, 1, -1, null, false))
 				{
-					result = null;
-					goto IL_00ae;
+					return null;
 				}
-				Job job = new Job(JobDefOf.HaulCorpseToPublicPlace, (Thing)corpse, (Thing)building_Grave);
+				Job job = new Job(JobDefOf.HaulCorpseToPublicPlace, corpse, building_Grave);
 				job.count = 1;
-				result = job;
+				return job;
 			}
-			goto IL_00ae;
-			IL_00ae:
-			return result;
+			return null;
 		}
 	}
 }

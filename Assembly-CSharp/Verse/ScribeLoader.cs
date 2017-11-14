@@ -31,7 +31,7 @@ namespace Verse
 			if (this.curPathRelToParent != null)
 			{
 				Log.Error("Current path relative to parent is not null in InitLoading");
-				this.curPathRelToParent = (string)null;
+				this.curPathRelToParent = null;
 			}
 			try
 			{
@@ -102,7 +102,7 @@ namespace Verse
 					Scribe.ExitNode();
 					this.curXmlParent = null;
 					this.curParent = null;
-					this.curPathRelToParent = (string)null;
+					this.curPathRelToParent = null;
 					Scribe.mode = LoadSaveMode.Inactive;
 					this.crossRefs.ResolveAllCrossReferences();
 					this.initer.DoAllPostLoadInits();
@@ -118,7 +118,6 @@ namespace Verse
 
 		public bool EnterNode(string nodeName)
 		{
-			bool result;
 			if (this.curXmlParent != null)
 			{
 				XmlNode xmlNode = this.curXmlParent[nodeName];
@@ -128,16 +127,12 @@ namespace Verse
 				}
 				if (xmlNode == null)
 				{
-					result = false;
-					goto IL_007d;
+					return false;
 				}
 				this.curXmlParent = xmlNode;
 			}
 			this.curPathRelToParent = this.curPathRelToParent + '/' + nodeName;
-			result = true;
-			goto IL_007d;
-			IL_007d:
-			return result;
+			return true;
 		}
 
 		public void ExitNode()
@@ -155,7 +150,7 @@ namespace Verse
 				}
 				else
 				{
-					this.curPathRelToParent = (string)null;
+					this.curPathRelToParent = null;
 				}
 			}
 		}

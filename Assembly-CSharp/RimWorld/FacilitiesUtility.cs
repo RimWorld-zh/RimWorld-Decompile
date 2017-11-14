@@ -30,7 +30,7 @@ namespace RimWorld
 					{
 						if (!FacilitiesUtility.visited.Contains(affectedRegions[i]))
 						{
-							RegionTraverser.BreadthFirstTraverse(affectedRegions[i], (RegionEntryPredicate)((Region from, Region r) => !FacilitiesUtility.visited.Contains(r)), (RegionProcessor)delegate(Region x)
+							RegionTraverser.BreadthFirstTraverse(affectedRegions[i], (Region from, Region r) => !FacilitiesUtility.visited.Contains(r), delegate(Region x)
 							{
 								FacilitiesUtility.visited.Add(x);
 								List<Thing> list = x.ListerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial);

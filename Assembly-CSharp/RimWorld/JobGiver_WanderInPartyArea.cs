@@ -8,8 +8,12 @@ namespace RimWorld
 	{
 		protected override IntVec3 GetExactWanderDest(Pawn pawn)
 		{
-			IntVec3 intVec = default(IntVec3);
-			return PartyUtility.TryFindRandomCellInPartyArea(pawn, out intVec) ? intVec : IntVec3.Invalid;
+			IntVec3 result = default(IntVec3);
+			if (!PartyUtility.TryFindRandomCellInPartyArea(pawn, out result))
+			{
+				return IntVec3.Invalid;
+			}
+			return result;
 		}
 
 		protected override IntVec3 GetWanderRoot(Pawn pawn)

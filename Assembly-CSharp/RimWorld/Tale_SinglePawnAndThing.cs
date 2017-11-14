@@ -12,7 +12,8 @@ namespace RimWorld
 		{
 		}
 
-		public Tale_SinglePawnAndThing(Pawn pawn, Thing item) : base(pawn)
+		public Tale_SinglePawnAndThing(Pawn pawn, Thing item)
+			: base(pawn)
 		{
 			this.thingData = TaleData_Thing.GenerateFrom(item);
 		}
@@ -30,7 +31,7 @@ namespace RimWorld
 
 		protected override IEnumerable<Rule> SpecialTextGenerationRules()
 		{
-			using (IEnumerator<Rule> enumerator = this._003CSpecialTextGenerationRules_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Rule> enumerator = base.SpecialTextGenerationRules().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -49,8 +50,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_015b:
-			/*Error near IL_015c: Unexpected return in MoveNext()*/;
+			IL_0154:
+			/*Error near IL_0155: Unexpected return in MoveNext()*/;
 		}
 
 		public override void GenerateTestData()

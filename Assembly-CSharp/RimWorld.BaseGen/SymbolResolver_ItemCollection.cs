@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -12,11 +11,17 @@ namespace RimWorld.BaseGen
 			Map map = BaseGen.globalSettings.map;
 			ItemCollectionGeneratorDef itemCollectionGeneratorDef = rp.itemCollectionGeneratorDef ?? ItemCollectionGeneratorDefOf.RandomGeneralGoods;
 			ItemCollectionGeneratorParams? itemCollectionGeneratorParams = rp.itemCollectionGeneratorParams;
-			ItemCollectionGeneratorParams parms = (!itemCollectionGeneratorParams.HasValue) ? new ItemCollectionGeneratorParams
+			ItemCollectionGeneratorParams parms;
+			if (itemCollectionGeneratorParams.HasValue)
 			{
-				count = new int?(rp.rect.Cells.Count((Func<IntVec3, bool>)((IntVec3 x) => x.Standable(map) && x.GetFirstItem(map) == null))),
-				techLevel = new TechLevel?((rp.faction == null) ? TechLevel.Spacer : rp.faction.def.techLevel)
-			} : rp.itemCollectionGeneratorParams.Value;
+				parms = rp.itemCollectionGeneratorParams.Value;
+			}
+			else
+			{
+				parms = default(ItemCollectionGeneratorParams);
+				parms.count = rp.rect.Cells.Count((IntVec3 x) => x.Standable(map) && x.GetFirstItem(map) == null);
+				parms.techLevel = ((rp.faction == null) ? TechLevel.Spacer : rp.faction.def.techLevel);
+			}
 			List<Thing> list = itemCollectionGeneratorDef.Worker.Generate(parms);
 			for (int i = 0; i < list.Count; i++)
 			{

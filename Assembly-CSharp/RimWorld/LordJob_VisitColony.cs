@@ -23,8 +23,7 @@ namespace RimWorld
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
-			LordToil startingToil = stateGraph.AttachSubgraph(new LordJob_Travel(this.chillSpot).CreateGraph()).StartingToil;
-			stateGraph.StartingToil = startingToil;
+			LordToil lordToil = stateGraph.StartingToil = stateGraph.AttachSubgraph(new LordJob_Travel(this.chillSpot).CreateGraph()).StartingToil;
 			LordToil_DefendPoint lordToil_DefendPoint = new LordToil_DefendPoint(this.chillSpot, 28f);
 			stateGraph.AddToil(lordToil_DefendPoint);
 			LordToil_TakeWoundedGuest lordToil_TakeWoundedGuest = new LordToil_TakeWoundedGuest();
@@ -34,14 +33,14 @@ namespace RimWorld
 			LordToil target = stateGraph2.lordToils[1];
 			LordToil_ExitMap lordToil_ExitMap = new LordToil_ExitMap(LocomotionUrgency.Walk, true);
 			stateGraph.AddToil(lordToil_ExitMap);
-			Transition transition = new Transition(startingToil, startingToil2);
+			Transition transition = new Transition(lordToil, startingToil2);
 			transition.AddSources(lordToil_DefendPoint);
 			transition.AddTrigger(new Trigger_PawnExperiencingDangerousTemperatures());
 			transition.AddPreAction(new TransitionAction_Message("MessageVisitorsDangerousTemperature".Translate(this.faction.def.pawnsPlural.CapitalizeFirst(), this.faction.Name)));
 			transition.AddPreAction(new TransitionAction_EnsureHaveExitDestination());
 			transition.AddPostAction(new TransitionAction_WakeAll());
 			stateGraph.AddTransition(transition);
-			Transition transition2 = new Transition(startingToil, lordToil_ExitMap);
+			Transition transition2 = new Transition(lordToil, lordToil_ExitMap);
 			transition2.AddSources(lordToil_DefendPoint, lordToil_TakeWoundedGuest);
 			transition2.AddSources(stateGraph2.lordToils);
 			transition2.AddTrigger(new Trigger_PawnCannotReachMapEdge());
@@ -52,7 +51,7 @@ namespace RimWorld
 			transition3.AddPreAction(new TransitionAction_EnsureHaveExitDestination());
 			transition3.AddPostAction(new TransitionAction_EndAllJobs());
 			stateGraph.AddTransition(transition3);
-			Transition transition4 = new Transition(startingToil, lordToil_DefendPoint);
+			Transition transition4 = new Transition(lordToil, lordToil_DefendPoint);
 			transition4.AddTrigger(new Trigger_Memo("TravelArrived"));
 			stateGraph.AddTransition(transition4);
 			Transition transition5 = new Transition(lordToil_DefendPoint, lordToil_TakeWoundedGuest);
@@ -60,7 +59,7 @@ namespace RimWorld
 			transition5.AddPreAction(new TransitionAction_Message("MessageVisitorsTakingWounded".Translate(this.faction.def.pawnsPlural.CapitalizeFirst(), this.faction.Name)));
 			stateGraph.AddTransition(transition5);
 			Transition transition6 = new Transition(lordToil_DefendPoint, target);
-			transition6.AddSources(lordToil_TakeWoundedGuest, startingToil);
+			transition6.AddSources(lordToil_TakeWoundedGuest, lordToil);
 			transition6.AddTrigger(new Trigger_BecameColonyEnemy());
 			transition6.AddPreAction(new TransitionAction_SetDefendLocalGroup());
 			transition6.AddPostAction(new TransitionAction_WakeAll());

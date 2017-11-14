@@ -13,11 +13,11 @@ namespace Verse.Sound
 
 		[Description("Whether this sound plays on the camera or in the world.\n\nThis must match what the game expects from the sound Def with this name.")]
 		[DefaultValue(false)]
-		public bool onCamera = false;
+		public bool onCamera;
 
 		[Description("Whether to mute this subSound while the game is paused (either by the pausing in play or by opening a menu)")]
 		[DefaultValue(false)]
-		public bool muteWhenPaused = false;
+		public bool muteWhenPaused;
 
 		[Description("Whether this subSound's tempo should be affected by the current tick rate.")]
 		[DefaultValue(false)]
@@ -75,7 +75,7 @@ namespace Verse.Sound
 		[EditSliderRange(0f, 2f)]
 		[Description("The fade-in time of each sample. The sample will start at 0 volume and fade in over this number of seconds.")]
 		[DefaultValue(0f)]
-		public float sustainAttack = 0f;
+		public float sustainAttack;
 
 		[Description("Skip the attack on the first sustainer sample.")]
 		[DefaultValue(true)]
@@ -84,7 +84,7 @@ namespace Verse.Sound
 		[EditSliderRange(0f, 2f)]
 		[Description("The fade-out time of each sample. At this number of seconds before the sample ends, it will start fading out. Its volume will be zero at the moment it finishes fading out.")]
 		[DefaultValue(0f)]
-		public float sustainRelease = 0f;
+		public float sustainRelease;
 
 		[Unsaved]
 		public SoundDef parentDef;
@@ -93,13 +93,13 @@ namespace Verse.Sound
 		private List<ResolvedGrain> resolvedGrains = new List<ResolvedGrain>();
 
 		[Unsaved]
-		private ResolvedGrain lastPlayedResolvedGrain = null;
+		private ResolvedGrain lastPlayedResolvedGrain;
 
 		[Unsaved]
-		private int numToAvoid = 0;
+		private int numToAvoid;
 
 		[Unsaved]
-		private int distinctResolvedGrainsCount = 0;
+		private int distinctResolvedGrainsCount;
 
 		[Unsaved]
 		private Queue<ResolvedGrain> recentlyPlayedResolvedGrains = new Queue<ResolvedGrain>();
@@ -121,14 +121,14 @@ namespace Verse.Sound
 					if (sampleOneShot != null)
 					{
 						SoundSlotManager.Notify_Played(this.parentDef.slot, resolvedGrain_Clip.clip.length);
-						goto IL_00b6;
+						goto IL_00a6;
 					}
 					return;
 				}
-				goto IL_00b6;
+				goto IL_00a6;
 			}
 			return;
-			IL_00b6:
+			IL_00a6:
 			if (this.distinctResolvedGrainsCount > 1)
 			{
 				if (this.repeatMode == RepeatSelectMode.NeverLastHalf)
@@ -152,8 +152,8 @@ namespace Verse.Sound
 		public ResolvedGrain RandomizedResolvedGrain()
 		{
 			ResolvedGrain chosenGrain = null;
-			goto IL_000e;
-			IL_000e:
+			goto IL_000d;
+			IL_000d:
 			while (true)
 			{
 				chosenGrain = this.resolvedGrains.RandomElement();
@@ -175,8 +175,8 @@ namespace Verse.Sound
 				}
 			}
 			return chosenGrain;
-			IL_009d:
-			goto IL_000e;
+			IL_008f:
+			goto IL_000d;
 		}
 
 		public float RandomizedVolume()
@@ -187,7 +187,7 @@ namespace Verse.Sound
 
 		public override void ResolveReferences()
 		{
-			LongEventHandler.ExecuteWhenFinished((Action)delegate
+			LongEventHandler.ExecuteWhenFinished(delegate
 			{
 				this.resolvedGrains.Clear();
 				foreach (AudioGrain grain in this.grains)
@@ -223,37 +223,30 @@ namespace Verse.Sound
 				yield return "Dist range min/max are reversed.";
 				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			using (List<SoundParameterMapping>.Enumerator enumerator = this.paramMappings.GetEnumerator())
+			foreach (SoundParameterMapping paramMapping in this.paramMappings)
 			{
-				Type neededFilter;
-				while (true)
+				if (paramMapping.inParam != null && paramMapping.outParam != null)
 				{
-					if (enumerator.MoveNext())
+					if (paramMapping.outParam != null)
 					{
-						SoundParameterMapping mapping = enumerator.Current;
-						if (mapping.inParam != null && mapping.outParam != null)
+						_003CConfigErrors_003Ec__Iterator0 _003CConfigErrors_003Ec__Iterator = (_003CConfigErrors_003Ec__Iterator0)/*Error near IL_019c: stateMachine*/;
+						Type neededFilter = paramMapping.outParam.NeededFilterType;
+						if (neededFilter != null && !(from fil in this.filters
+						where fil.GetType() == neededFilter
+						select fil).Any())
 						{
-							if (mapping.outParam != null)
-							{
-								_003CConfigErrors_003Ec__Iterator0 _003CConfigErrors_003Ec__Iterator = (_003CConfigErrors_003Ec__Iterator0)/*Error near IL_01a0: stateMachine*/;
-								neededFilter = mapping.outParam.NeededFilterType;
-								if (neededFilter != null && !(from fil in this.filters
-								where fil.GetType() == neededFilter
-								select fil).Any())
-									break;
-							}
-							continue;
+							yield return "A parameter wants to modify the " + neededFilter.ToString() + " filter, but this sound doesn't have it.";
+							/*Error: Unable to find new state assignment for yield return*/;
 						}
-						yield return "At least one parameter mapping is missing an in or out parameter.";
-						/*Error: Unable to find new state assignment for yield return*/;
 					}
-					yield break;
+					continue;
 				}
-				yield return "A parameter wants to modify the " + neededFilter.ToString() + " filter, but this sound doesn't have it.";
+				yield return "At least one parameter mapping is missing an in or out parameter.";
 				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			IL_0270:
-			/*Error near IL_0271: Unexpected return in MoveNext()*/;
+			yield break;
+			IL_0267:
+			/*Error near IL_0268: Unexpected return in MoveNext()*/;
 		}
 
 		public override string ToString()

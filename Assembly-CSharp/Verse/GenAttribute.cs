@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -15,19 +14,14 @@ namespace Verse
 
 		public static bool TryGetAttribute<T>(this MemberInfo memberInfo, out T customAttribute) where T : Attribute
 		{
-			object obj = ((IEnumerable<object>)memberInfo.GetCustomAttributes(typeof(T), true)).FirstOrDefault<object>();
-			bool result;
+			object obj = memberInfo.GetCustomAttributes(typeof(T), true).FirstOrDefault();
 			if (obj == null)
 			{
 				customAttribute = (T)null;
-				result = false;
+				return false;
 			}
-			else
-			{
-				customAttribute = (T)obj;
-				result = true;
-			}
-			return result;
+			customAttribute = (T)obj;
+			return true;
 		}
 	}
 }

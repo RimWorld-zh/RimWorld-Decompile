@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -18,12 +17,12 @@ namespace RimWorld
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.A);
 			this.FailOnAggroMentalState(TargetIndex.A);
-			this.FailOn((Func<bool>)(() => !StrippableUtility.CanBeStrippedByColony(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/)._0024this.TargetThingA)));
+			this.FailOn(() => !StrippableUtility.CanBeStrippedByColony(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0049: stateMachine*/)._0024this.TargetThingA));
 			Toil gotoThing = new Toil
 			{
-				initAction = (Action)delegate
+				initAction = delegate
 				{
-					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006e: stateMachine*/)._0024this.pawn.pather.StartPath(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006e: stateMachine*/)._0024this.TargetThingA, PathEndMode.ClosestTouch);
+					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006c: stateMachine*/)._0024this.pawn.pather.StartPath(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006c: stateMachine*/)._0024this.TargetThingA, PathEndMode.ClosestTouch);
 				},
 				defaultCompleteMode = ToilCompleteMode.PatherArrival
 			};

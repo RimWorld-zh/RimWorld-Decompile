@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,7 +7,7 @@ namespace RimWorld
 {
 	public class Dialog_ModSettings : Window
 	{
-		private Mod selMod = null;
+		private Mod selMod;
 
 		private const float TopAreaHeight = 40f;
 
@@ -57,7 +56,7 @@ namespace RimWorld
 					select mod)
 					{
 						Mod localMod = item;
-						list.Add(new FloatMenuOption(item.SettingsCategory(), (Action)delegate
+						list.Add(new FloatMenuOption(item.SettingsCategory(), delegate
 						{
 							if (this.selMod != null)
 							{
@@ -90,7 +89,7 @@ namespace RimWorld
 
 		public static bool HasSettings()
 		{
-			return LoadedModManager.ModHandles.Any((Func<Mod, bool>)((Mod mod) => !mod.SettingsCategory().NullOrEmpty()));
+			return LoadedModManager.ModHandles.Any((Mod mod) => !mod.SettingsCategory().NullOrEmpty());
 		}
 	}
 }

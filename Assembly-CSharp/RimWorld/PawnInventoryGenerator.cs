@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -59,23 +58,18 @@ namespace RimWorld
 				IEnumerable<Hediff_Addiction> hediffs = p.health.hediffSet.GetHediffs<Hediff_Addiction>();
 				foreach (Hediff_Addiction item in hediffs)
 				{
-					IEnumerable<ThingDef> source = DefDatabase<ThingDef>.AllDefsListForReading.Where((Func<ThingDef, bool>)delegate(ThingDef x)
+					IEnumerable<ThingDef> source = DefDatabase<ThingDef>.AllDefsListForReading.Where(delegate(ThingDef x)
 					{
-						bool result;
 						if (x.category != ThingCategory.Item)
 						{
-							result = false;
+							return false;
 						}
-						else if (p.Faction != null && (int)x.techLevel > (int)p.Faction.def.techLevel)
+						if (p.Faction != null && (int)x.techLevel > (int)p.Faction.def.techLevel)
 						{
-							result = false;
+							return false;
 						}
-						else
-						{
-							CompProperties_Drug compProperties = x.GetCompProperties<CompProperties_Drug>();
-							result = (compProperties != null && compProperties.chemical != null && compProperties.chemical.addictionHediff == item.def);
-						}
-						return result;
+						CompProperties_Drug compProperties = x.GetCompProperties<CompProperties_Drug>();
+						return compProperties != null && compProperties.chemical != null && compProperties.chemical.addictionHediff == item.def;
 					});
 					ThingDef def = default(ThingDef);
 					if (source.TryRandomElement<ThingDef>(out def))
@@ -102,23 +96,22 @@ namespace RimWorld
 				int randomInRange = pawn.kindDef.combatEnhancingDrugsCount.RandomInRange;
 				if (randomInRange > 0)
 				{
-					IEnumerable<ThingDef> source = DefDatabase<ThingDef>.AllDefsListForReading.Where((Func<ThingDef, bool>)delegate(ThingDef x)
+					IEnumerable<ThingDef> source = DefDatabase<ThingDef>.AllDefsListForReading.Where(delegate(ThingDef x)
 					{
-						bool result;
 						if (x.category != ThingCategory.Item)
 						{
-							result = false;
+							return false;
 						}
-						else if (pawn.Faction != null && (int)x.techLevel > (int)pawn.Faction.def.techLevel)
+						if (pawn.Faction != null && (int)x.techLevel > (int)pawn.Faction.def.techLevel)
 						{
-							result = false;
+							return false;
 						}
-						else
+						CompProperties_Drug compProperties = x.GetCompProperties<CompProperties_Drug>();
+						if (compProperties != null && compProperties.isCombatEnhancingDrug)
 						{
-							CompProperties_Drug compProperties = x.GetCompProperties<CompProperties_Drug>();
-							result = ((byte)((compProperties != null && compProperties.isCombatEnhancingDrug) ? 1 : 0) != 0);
+							return true;
 						}
-						return result;
+						return false;
 					});
 					int num = 0;
 					ThingDef def = default(ThingDef);

@@ -111,17 +111,16 @@ namespace RimWorld
 		public bool ThreatDisabled()
 		{
 			CompPowerTrader comp = base.GetComp<CompPowerTrader>();
-			bool result;
 			if (comp != null && !comp.PowerOn)
 			{
-				result = true;
+				return true;
 			}
-			else
+			CompMannable comp2 = base.GetComp<CompMannable>();
+			if (comp2 != null && !comp2.MannedNow)
 			{
-				CompMannable comp2 = base.GetComp<CompMannable>();
-				result = ((byte)((comp2 != null && !comp2.MannedNow) ? 1 : 0) != 0);
+				return true;
 			}
-			return result;
+			return false;
 		}
 
 		protected void OnAttackedTarget(LocalTargetInfo target)

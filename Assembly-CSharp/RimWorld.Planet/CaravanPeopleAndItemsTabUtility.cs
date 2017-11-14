@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -129,7 +128,7 @@ namespace RimWorld.Planet
 		public static Vector2 GetSize(List<Thing> things, float paneTopY, bool doNeeds = true)
 		{
 			float a = 0f;
-			if (things.Any((Predicate<Thing>)((Thing x) => x is Pawn)))
+			if (things.Any((Thing x) => x is Pawn))
 			{
 				a = 100f;
 				if (doNeeds)
@@ -153,7 +152,7 @@ namespace RimWorld.Planet
 
 		private static bool AnyItemOrEmpty(List<Thing> things)
 		{
-			return things.Any((Predicate<Thing>)((Thing x) => !(x is Pawn))) || !things.Any();
+			return things.Any((Thing x) => !(x is Pawn)) || !things.Any();
 		}
 
 		public static void DoAbandonButton(Rect rowRect, Thing t, Caravan caravan)
@@ -163,7 +162,7 @@ namespace RimWorld.Planet
 			{
 				CaravanAbandonOrBanishUtility.TryAbandonOrBanishViaInterface(t, caravan);
 			}
-			TooltipHandler.TipRegion(rect, (Func<string>)(() => CaravanAbandonOrBanishUtility.GetAbandonOrBanishButtonTooltip(t, caravan, false)), Gen.HashCombineInt(t.GetHashCode(), 1383004931));
+			TooltipHandler.TipRegion(rect, () => CaravanAbandonOrBanishUtility.GetAbandonOrBanishButtonTooltip(t, caravan, false), Gen.HashCombineInt(t.GetHashCode(), 1383004931));
 		}
 
 		private static void DoAbandonSpecificCountButton(Rect rowRect, Thing t, Caravan caravan)
@@ -173,7 +172,7 @@ namespace RimWorld.Planet
 			{
 				CaravanAbandonOrBanishUtility.TryAbandonSpecificCountViaInterface(t, caravan);
 			}
-			TooltipHandler.TipRegion(rect, (Func<string>)(() => CaravanAbandonOrBanishUtility.GetAbandonOrBanishButtonTooltip(t, caravan, true)), Gen.HashCombineInt(t.GetHashCode(), 1163428609));
+			TooltipHandler.TipRegion(rect, () => CaravanAbandonOrBanishUtility.GetAbandonOrBanishButtonTooltip(t, caravan, true), Gen.HashCombineInt(t.GetHashCode(), 1163428609));
 		}
 
 		public static void DoOpenSpecificTabButton(Rect rowRect, Pawn p, ref Pawn specificTabForPawn)
@@ -279,7 +278,7 @@ namespace RimWorld.Planet
 						{
 							maxThresholdMarkers = 1;
 							doTooltip = false;
-							TooltipHandler.TipRegion(rect5, new TipSignal((Func<string>)(() => CaravanPeopleAndItemsTabUtility.CustomMoodNeedTooltip(mood)), rect5.GetHashCode()));
+							TooltipHandler.TipRegion(rect5, new TipSignal(() => CaravanPeopleAndItemsTabUtility.CustomMoodNeedTooltip(mood), rect5.GetHashCode()));
 						}
 						need.DrawOnGUI(rect5, maxThresholdMarkers, 10f, false, doTooltip);
 						xMax = rect5.xMax;

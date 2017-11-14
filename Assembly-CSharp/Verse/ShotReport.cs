@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -42,20 +41,15 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (this.target.HasThing)
 				{
 					Pawn pawn = this.target.Thing as Pawn;
-					if (((pawn != null) ? ((this.distance >= 4.5) ? pawn.GetPosture() : PawnPosture.Standing) : PawnPosture.Standing) != 0)
+					if (pawn != null && this.distance >= 4.5 && pawn.GetPosture() != 0)
 					{
-						result = 0.2f;
-						goto IL_005d;
+						return 0.2f;
 					}
 				}
-				result = 1f;
-				goto IL_005d;
-				IL_005d:
-				return result;
+				return 1f;
 			}
 		}
 
@@ -63,20 +57,15 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (this.target.HasThing)
 				{
 					Pawn pawn = this.target.Thing as Pawn;
-					if (((pawn != null) ? ((this.distance <= 3.9000000953674316) ? pawn.GetPosture() : PawnPosture.Standing) : PawnPosture.Standing) != 0)
+					if (pawn != null && this.distance <= 3.9000000953674316 && pawn.GetPosture() != 0)
 					{
-						result = 7.5f;
-						goto IL_005d;
+						return 7.5f;
 					}
 				}
-				result = 1f;
-				goto IL_005d;
-				IL_005d:
-				return result;
+				return 1f;
 			}
 		}
 
@@ -84,7 +73,11 @@ namespace Verse
 		{
 			get
 			{
-				return (float)((this.coveringGas == null) ? 1.0 : (1.0 - this.coveringGas.gas.accuracyPenalty));
+				if (this.coveringGas != null)
+				{
+					return (float)(1.0 - this.coveringGas.gas.accuracyPenalty);
+				}
+				return 1f;
 			}
 		}
 
@@ -223,7 +216,7 @@ namespace Verse
 
 		public Thing GetRandomCoverToMissInto()
 		{
-			return this.covers.RandomElementByWeight((Func<CoverInfo, float>)((CoverInfo c) => c.BlockChance)).Thing;
+			return this.covers.RandomElementByWeight((CoverInfo c) => c.BlockChance).Thing;
 		}
 	}
 }

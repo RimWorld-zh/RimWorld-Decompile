@@ -8,25 +8,20 @@ namespace RimWorld
 	{
 		public static bool AcceptableGameConditionsToStartCeremony(Map map)
 		{
-			bool result;
 			if (!MarriageCeremonyUtility.AcceptableGameConditionsToContinueCeremony(map))
 			{
-				result = false;
+				return false;
 			}
-			else if (GenLocalDate.HourInteger(map) < 5 || GenLocalDate.HourInteger(map) > 16)
+			if (GenLocalDate.HourInteger(map) >= 5 && GenLocalDate.HourInteger(map) <= 16)
 			{
-				result = false;
-			}
-			else if (GatheringsUtility.AnyLordJobPreventsNewGatherings(map))
-			{
-				result = false;
-			}
-			else if (map.dangerWatcher.DangerRating != 0)
-			{
-				result = false;
-			}
-			else
-			{
+				if (GatheringsUtility.AnyLordJobPreventsNewGatherings(map))
+				{
+					return false;
+				}
+				if (map.dangerWatcher.DangerRating != 0)
+				{
+					return false;
+				}
 				int num = 0;
 				foreach (Pawn item in map.mapPawns.FreeColonistsSpawned)
 				{
@@ -35,38 +30,69 @@ namespace RimWorld
 						num++;
 					}
 				}
-				result = ((byte)((!((float)num / (float)map.mapPawns.FreeColonistsSpawnedCount >= 0.5)) ? 1 : 0) != 0);
+				if ((float)num / (float)map.mapPawns.FreeColonistsSpawnedCount >= 0.5)
+				{
+					return false;
+				}
+				return true;
 			}
-			return result;
+			return false;
 		}
 
 		public static bool AcceptableGameConditionsToContinueCeremony(Map map)
 		{
-			return (byte)((map.dangerWatcher.DangerRating != StoryDanger.High) ? 1 : 0) != 0;
+			if (map.dangerWatcher.DangerRating == StoryDanger.High)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static bool FianceReadyToStartCeremony(Pawn pawn)
 		{
-			return MarriageCeremonyUtility.FianceCanContinueCeremony(pawn) && !(pawn.health.hediffSet.BleedRateTotal > 0.0) && !HealthAIUtility.ShouldSeekMedicalRestUrgent(pawn) && !PawnUtility.WillSoonHaveBasicNeed(pawn) && !MarriageCeremonyUtility.IsCurrentlyMarryingSomeone(pawn) && pawn.GetLord() == null && !pawn.Drafted && !pawn.InMentalState && pawn.Awake() && !pawn.IsBurning() && !pawn.InBed();
+			if (!MarriageCeremonyUtility.FianceCanContinueCeremony(pawn))
+			{
+				return false;
+			}
+			if (pawn.health.hediffSet.BleedRateTotal > 0.0)
+			{
+				return false;
+			}
+			if (HealthAIUtility.ShouldSeekMedicalRestUrgent(pawn))
+			{
+				return false;
+			}
+			if (PawnUtility.WillSoonHaveBasicNeed(pawn))
+			{
+				return false;
+			}
+			if (MarriageCeremonyUtility.IsCurrentlyMarryingSomeone(pawn))
+			{
+				return false;
+			}
+			if (pawn.GetLord() != null)
+			{
+				return false;
+			}
+			return !pawn.Drafted && !pawn.InMentalState && pawn.Awake() && !pawn.IsBurning() && !pawn.InBed();
 		}
 
 		public static bool FianceCanContinueCeremony(Pawn pawn)
 		{
-			bool result;
 			if (pawn.health.hediffSet.BleedRateTotal > 0.30000001192092896)
 			{
-				result = false;
+				return false;
 			}
-			else if (pawn.IsPrisoner)
+			if (pawn.IsPrisoner)
 			{
-				result = false;
+				return false;
 			}
-			else
+			Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.BloodLoss, false);
+			if (firstHediffOfDef != null && firstHediffOfDef.Severity > 0.20000000298023224)
 			{
-				Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.BloodLoss, false);
-				result = ((firstHediffOfDef == null || !(firstHediffOfDef.Severity > 0.20000000298023224)) && pawn.Spawned && !pawn.Downed && !pawn.InAggroMentalState);
+				return false;
 			}
-			return result;
+			return pawn.Spawned && !pawn.Downed && !pawn.InAggroMentalState;
 		}
 
 		public static bool ShouldGuestKeepAttendingCeremony(Pawn p)
@@ -97,30 +123,20 @@ namespace RimWorld
 
 		private static bool IsCurrentlyMarryingSomeone(Pawn p)
 		{
-			bool result;
 			if (!p.Spawned)
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Lord> lords = p.Map.lordManager.lords;
+			for (int i = 0; i < lords.Count; i++)
 			{
-				List<Lord> lords = p.Map.lordManager.lords;
-				for (int i = 0; i < lords.Count; i++)
+				LordJob_Joinable_MarriageCeremony lordJob_Joinable_MarriageCeremony = lords[i].LordJob as LordJob_Joinable_MarriageCeremony;
+				if (lordJob_Joinable_MarriageCeremony != null && (lordJob_Joinable_MarriageCeremony.firstPawn == p || lordJob_Joinable_MarriageCeremony.secondPawn == p))
 				{
-					LordJob_Joinable_MarriageCeremony lordJob_Joinable_MarriageCeremony = lords[i].LordJob as LordJob_Joinable_MarriageCeremony;
-					if (lordJob_Joinable_MarriageCeremony != null && (lordJob_Joinable_MarriageCeremony.firstPawn == p || lordJob_Joinable_MarriageCeremony.secondPawn == p))
-					{
-						goto IL_005c;
-					}
+					return true;
 				}
-				result = false;
 			}
-			goto IL_007b;
-			IL_007b:
-			return result;
-			IL_005c:
-			result = true;
-			goto IL_007b;
+			return false;
 		}
 	}
 }

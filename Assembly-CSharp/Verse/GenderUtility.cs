@@ -14,142 +14,77 @@ namespace Verse
 
 		public static string GetLabel(this Gender gender)
 		{
-			string result;
 			switch (gender)
 			{
 			case Gender.None:
-			{
-				result = "NoneLower".Translate();
-				break;
-			}
+				return "NoneLower".Translate();
 			case Gender.Male:
-			{
-				result = "Male".Translate();
-				break;
-			}
+				return "Male".Translate();
 			case Gender.Female:
-			{
-				result = "Female".Translate();
-				break;
-			}
+				return "Female".Translate();
 			default:
-			{
 				throw new ArgumentException();
 			}
-			}
-			return result;
 		}
 
 		public static string GetPronoun(this Gender gender)
 		{
-			string result;
 			switch (gender)
 			{
 			case Gender.None:
-			{
-				result = "Proit".Translate();
-				break;
-			}
+				return "Proit".Translate();
 			case Gender.Male:
-			{
-				result = "Prohe".Translate();
-				break;
-			}
+				return "Prohe".Translate();
 			case Gender.Female:
-			{
-				result = "Proshe".Translate();
-				break;
-			}
+				return "Proshe".Translate();
 			default:
-			{
 				throw new ArgumentException();
 			}
-			}
-			return result;
 		}
 
 		public static string GetPossessive(this Gender gender)
 		{
-			string result;
 			switch (gender)
 			{
 			case Gender.None:
-			{
-				result = "Proits".Translate();
-				break;
-			}
+				return "Proits".Translate();
 			case Gender.Male:
-			{
-				result = "Prohis".Translate();
-				break;
-			}
+				return "Prohis".Translate();
 			case Gender.Female:
-			{
-				result = "Proher".Translate();
-				break;
-			}
+				return "Proher".Translate();
 			default:
-			{
 				throw new ArgumentException();
 			}
-			}
-			return result;
 		}
 
 		public static string GetObjective(this Gender gender)
 		{
-			string result;
 			switch (gender)
 			{
 			case Gender.None:
-			{
-				result = "ProitObj".Translate();
-				break;
-			}
+				return "ProitObj".Translate();
 			case Gender.Male:
-			{
-				result = "ProhimObj".Translate();
-				break;
-			}
+				return "ProhimObj".Translate();
 			case Gender.Female:
-			{
-				result = "ProherObj".Translate();
-				break;
-			}
+				return "ProherObj".Translate();
 			default:
-			{
 				throw new ArgumentException();
 			}
-			}
-			return result;
 		}
 
 		public static Texture2D GetIcon(this Gender gender)
 		{
-			Texture2D result;
 			switch (gender)
 			{
 			case Gender.None:
-			{
-				result = GenderUtility.GenderlessIcon;
-				break;
-			}
+				return GenderUtility.GenderlessIcon;
 			case Gender.Male:
-			{
-				result = GenderUtility.MaleIcon;
-				break;
-			}
+				return GenderUtility.MaleIcon;
 			case Gender.Female:
-			{
-				result = GenderUtility.FemaleIcon;
-				break;
-			}
+				return GenderUtility.FemaleIcon;
 			default:
-			{
 				throw new ArgumentException();
 			}
-			}
-			return result;
 		}
 	}
 }

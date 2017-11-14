@@ -9,6 +9,8 @@ namespace Verse
 
 		public string label;
 
+		public bool labelUsedInLogging = true;
+
 		public List<ToolCapacityDef> capacities;
 
 		public float power;
@@ -19,13 +21,19 @@ namespace Verse
 
 		public float commonality = 1f;
 
+		public bool alwaysTreatAsWeapon;
+
 		public BodyPartGroupDef linkedBodyPartsGroup;
 
 		public string Id
 		{
 			get
 			{
-				return this.id.NullOrEmpty() ? this.label : this.id;
+				if (!this.id.NullOrEmpty())
+				{
+					return this.id;
+				}
+				return this.label;
 			}
 		}
 

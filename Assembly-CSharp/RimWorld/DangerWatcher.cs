@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -11,7 +12,7 @@ namespace RimWorld
 	{
 		private Map map;
 
-		private StoryDanger dangerRatingInt = StoryDanger.None;
+		private StoryDanger dangerRatingInt;
 
 		private int lastUpdateTick = -10000;
 
@@ -21,13 +22,16 @@ namespace RimWorld
 
 		private const int ColonistHarmedDangerSeconds = 15;
 
+		[CompilerGenerated]
+		private static Func<IAttackTarget, bool> _003C_003Ef__mg_0024cache0;
+
 		public StoryDanger DangerRating
 		{
 			get
 			{
 				if (Find.TickManager.TicksGame > this.lastUpdateTick + 101)
 				{
-					int num = this.map.attackTargetsCache.TargetsHostileToColony.Count((Func<IAttackTarget, bool>)((IAttackTarget x) => GenHostility.IsActiveThreatToPlayer(x)));
+					int num = this.map.attackTargetsCache.TargetsHostileToColony.Count(GenHostility.IsActiveThreatToPlayer);
 					if (num == 0)
 					{
 						this.dangerRatingInt = StoryDanger.None;

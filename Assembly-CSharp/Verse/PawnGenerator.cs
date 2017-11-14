@@ -3,6 +3,7 @@ using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
@@ -141,9 +142,21 @@ namespace Verse
 			}
 		};
 
+		[CompilerGenerated]
+		private static Func<Pawn, bool> _003C_003Ef__mg_0024cache0;
+
+		[CompilerGenerated]
+		private static Func<Pawn, float> _003C_003Ef__mg_0024cache1;
+
+		[CompilerGenerated]
+		private static Func<Pawn, float> _003C_003Ef__mg_0024cache2;
+
+		[CompilerGenerated]
+		private static Func<Pawn, float> _003C_003Ef__mg_0024cache3;
+
 		public static Pawn GeneratePawn(PawnKindDef kindDef, Faction faction = null)
 		{
-			return PawnGenerator.GeneratePawn(new PawnGenerationRequest(kindDef, faction, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, false, false, false, null, default(float?), default(float?), default(float?), default(Gender?), default(float?), (string)null));
+			return PawnGenerator.GeneratePawn(new PawnGenerationRequest(kindDef, faction, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, false, false, false, null, null, null, null, null, null, null));
 		}
 
 		public static Pawn GeneratePawn(PawnGenerationRequest request)
@@ -166,9 +179,7 @@ namespace Verse
 				if (request.ForceRedressWorldPawnIfFormerColonist)
 				{
 					IEnumerable<Pawn> validCandidatesToRedress = PawnGenerator.GetValidCandidatesToRedress(request);
-					if ((from x in validCandidatesToRedress
-					where PawnUtility.EverBeenColonistOrTameAnimal(x)
-					select x).TryRandomElementByWeight<Pawn>((Func<Pawn, float>)((Pawn x) => PawnGenerator.WorldPawnSelectionWeight(x)), out pawn))
+					if (validCandidatesToRedress.Where(PawnUtility.EverBeenColonistOrTameAnimal).TryRandomElementByWeight<Pawn>((Func<Pawn, float>)PawnGenerator.WorldPawnSelectionWeight, out pawn))
 					{
 						PawnGenerator.RedressPawn(pawn, request);
 						Find.WorldPawns.RemovePawn(pawn);
@@ -182,7 +193,7 @@ namespace Verse
 						IEnumerable<Pawn> validCandidatesToRedress2 = PawnGenerator.GetValidCandidatesToRedress(request);
 						if ((from x in validCandidatesToRedress2
 						where settlement.previouslyGeneratedInhabitants.Contains(x)
-						select x).TryRandomElementByWeight<Pawn>((Func<Pawn, float>)((Pawn x) => PawnGenerator.WorldPawnSelectionWeight(x)), out pawn))
+						select x).TryRandomElementByWeight<Pawn>((Func<Pawn, float>)PawnGenerator.WorldPawnSelectionWeight, out pawn))
 						{
 							PawnGenerator.RedressPawn(pawn, request);
 							Find.WorldPawns.RemovePawn(pawn);
@@ -192,21 +203,19 @@ namespace Verse
 				if (pawn == null && Rand.Chance(PawnGenerator.ChanceToRedressAnyWorldPawn(request)))
 				{
 					IEnumerable<Pawn> validCandidatesToRedress3 = PawnGenerator.GetValidCandidatesToRedress(request);
-					if (validCandidatesToRedress3.TryRandomElementByWeight<Pawn>((Func<Pawn, float>)((Pawn x) => PawnGenerator.WorldPawnSelectionWeight(x)), out pawn))
+					if (validCandidatesToRedress3.TryRandomElementByWeight<Pawn>((Func<Pawn, float>)PawnGenerator.WorldPawnSelectionWeight, out pawn))
 					{
 						PawnGenerator.RedressPawn(pawn, request);
 						Find.WorldPawns.RemovePawn(pawn);
 					}
 				}
 			}
-			Pawn result;
 			if (pawn == null)
 			{
 				pawn = PawnGenerator.GenerateNewNakedPawn(ref request);
 				if (pawn == null)
 				{
-					result = null;
-					goto IL_0247;
+					return null;
 				}
 				if (!request.Newborn)
 				{
@@ -225,10 +234,7 @@ namespace Verse
 			{
 				Find.Scenario.Notify_PawnGenerated(pawn, request.Context);
 			}
-			result = pawn;
-			goto IL_0247;
-			IL_0247:
-			return result;
+			return pawn;
 		}
 
 		public static void RedressPawn(Pawn pawn, PawnGenerationRequest request)
@@ -253,90 +259,81 @@ namespace Verse
 
 		public static bool IsBeingGenerated(Pawn pawn)
 		{
-			return PawnGenerator.pawnsBeingGenerated.Any((Predicate<PawnGenerationStatus>)((PawnGenerationStatus x) => x.Pawn == pawn));
+			return PawnGenerator.pawnsBeingGenerated.Any((PawnGenerationStatus x) => x.Pawn == pawn);
 		}
 
 		private static bool IsValidCandidateToRedress(Pawn pawn, PawnGenerationRequest request)
 		{
-			bool result;
 			if (pawn.def != request.KindDef.race)
 			{
-				result = false;
+				return false;
 			}
-			else if (!request.WorldPawnFactionDoesntMatter && pawn.Faction != request.Faction)
+			if (!request.WorldPawnFactionDoesntMatter && pawn.Faction != request.Faction)
 			{
-				result = false;
+				return false;
 			}
-			else if (!request.AllowDead && (pawn.Dead || pawn.Destroyed))
+			if (!request.AllowDead && (pawn.Dead || pawn.Destroyed))
 			{
-				result = false;
+				return false;
 			}
-			else if (!request.AllowDowned && pawn.Downed)
+			if (!request.AllowDowned && pawn.Downed)
 			{
-				result = false;
+				return false;
 			}
-			else if (pawn.health.hediffSet.BleedRateTotal > 0.0010000000474974513)
+			if (pawn.health.hediffSet.BleedRateTotal > 0.0010000000474974513)
 			{
-				result = false;
+				return false;
 			}
-			else if (!request.CanGeneratePawnRelations && pawn.RaceProps.IsFlesh && pawn.relations.RelatedToAnyoneOrAnyoneRelatedToMe)
+			if (!request.CanGeneratePawnRelations && pawn.RaceProps.IsFlesh && pawn.relations.RelatedToAnyoneOrAnyoneRelatedToMe)
 			{
-				result = false;
+				return false;
 			}
-			else if (!request.AllowGay && pawn.RaceProps.Humanlike && pawn.story.traits.HasTrait(TraitDefOf.Gay))
+			if (!request.AllowGay && pawn.RaceProps.Humanlike && pawn.story.traits.HasTrait(TraitDefOf.Gay))
 			{
-				result = false;
+				return false;
 			}
-			else if ((object)request.Validator != null && !request.Validator(pawn))
+			if (request.Validator != null && !request.Validator(pawn))
 			{
-				result = false;
+				return false;
 			}
-			else if (request.FixedBiologicalAge.HasValue && pawn.ageTracker.AgeBiologicalYearsFloat != request.FixedBiologicalAge)
+			if (request.FixedBiologicalAge.HasValue && pawn.ageTracker.AgeBiologicalYearsFloat != request.FixedBiologicalAge)
 			{
-				result = false;
+				return false;
 			}
-			else if (request.FixedChronologicalAge.HasValue && (float)pawn.ageTracker.AgeChronologicalYears != request.FixedChronologicalAge)
+			if (request.FixedChronologicalAge.HasValue && (float)pawn.ageTracker.AgeChronologicalYears != request.FixedChronologicalAge)
 			{
-				result = false;
+				return false;
 			}
-			else if (request.FixedGender.HasValue && pawn.gender != request.FixedGender)
+			if (request.FixedGender.HasValue && pawn.gender != request.FixedGender)
 			{
-				result = false;
+				return false;
 			}
-			else if (request.FixedLastName != null && ((NameTriple)pawn.Name).Last != request.FixedLastName)
+			if (request.FixedLastName != null && ((NameTriple)pawn.Name).Last != request.FixedLastName)
 			{
-				result = false;
+				return false;
 			}
-			else if (request.FixedMelanin.HasValue && pawn.story != null && pawn.story.melanin != request.FixedMelanin)
+			if (request.FixedMelanin.HasValue && pawn.story != null && pawn.story.melanin != request.FixedMelanin)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (request.MustBeCapableOfViolence)
 			{
-				if (request.MustBeCapableOfViolence)
+				if (pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
 				{
-					if (pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
-					{
-						result = false;
-						goto IL_030e;
-					}
-					if (pawn.RaceProps.ToolUser && !pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
-					{
-						result = false;
-						goto IL_030e;
-					}
+					return false;
 				}
-				result = true;
+				if (pawn.RaceProps.ToolUser && !pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
+				{
+					return false;
+				}
 			}
-			goto IL_030e;
-			IL_030e:
-			return result;
+			return true;
 		}
 
 		private static Pawn GenerateNewNakedPawn(ref PawnGenerationRequest request)
 		{
 			Pawn pawn = null;
-			string text = (string)null;
+			string text = null;
 			bool ignoreScenarioRequirements = false;
 			for (int i = 0; i < 100; i++)
 			{
@@ -353,22 +350,17 @@ namespace Verse
 					break;
 				}
 			}
-			Pawn result;
 			if (pawn == null)
 			{
 				Log.Error("Pawn generation error: " + text + " Too many tries (" + 100 + "), returning null. Generation request: " + request);
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = pawn;
-			}
-			return result;
+			return pawn;
 		}
 
 		private static Pawn TryGenerateNewNakedPawn(ref PawnGenerationRequest request, out string error, bool ignoreScenarioRequirements)
 		{
-			error = (string)null;
+			error = null;
 			Pawn pawn = (Pawn)ThingMaker.MakeThing(request.KindDef.race, null);
 			PawnGenerator.pawnsBeingGenerated.Add(new PawnGenerationStatus(pawn, null));
 			try
@@ -437,10 +429,10 @@ namespace Verse
 				{
 					if (pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
 					{
-						goto IL_02bc;
+						goto IL_02b0;
 					}
 					if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
-						goto IL_02bc;
+						goto IL_02b0;
 				}
 				if (!ignoreScenarioRequirements && request.Context == PawnGenerationContext.PlayerStarter && !Find.Scenario.AllowPlayerStartingPawn(pawn))
 				{
@@ -448,7 +440,7 @@ namespace Verse
 					error = "Generated pawn doesn't meet scenario requirements.";
 					return null;
 				}
-				if ((object)request.Validator != null && !request.Validator(pawn))
+				if (request.Validator != null && !request.Validator(pawn))
 				{
 					PawnGenerator.DiscardGeneratedPawn(pawn);
 					error = "Generated pawn didn't pass validator check.";
@@ -463,7 +455,7 @@ namespace Verse
 					PawnGenerator.pawnsBeingGenerated[i].PawnsGeneratedInTheMeantime.Add(pawn);
 				}
 				return pawn;
-				IL_02bc:
+				IL_02b0:
 				PawnGenerator.DiscardGeneratedPawn(pawn);
 				error = "Generated pawn incapable of violence.";
 				return null;
@@ -525,7 +517,11 @@ namespace Verse
 
 		private static float WorldPawnSelectionWeight(Pawn p)
 		{
-			return (float)((!p.RaceProps.IsFlesh || p.relations.everSeenByPlayer || !p.relations.RelatedToAnyoneOrAnyoneRelatedToMe) ? 1.0 : 0.10000000149011612);
+			if (p.RaceProps.IsFlesh && !p.relations.everSeenByPlayer && p.relations.RelatedToAnyoneOrAnyoneRelatedToMe)
+			{
+				return 0.1f;
+			}
+			return 1f;
 		}
 
 		private static void GenerateGearFor(Pawn pawn, PawnGenerationRequest request)
@@ -641,7 +637,11 @@ namespace Verse
 
 		public static int RandomTraitDegree(TraitDef traitDef)
 		{
-			return (traitDef.degreeDatas.Count != 1) ? traitDef.degreeDatas.RandomElementByWeight((Func<TraitDegreeData, float>)((TraitDegreeData dd) => dd.Commonality)).degree : traitDef.degreeDatas[0].degree;
+			if (traitDef.degreeDatas.Count == 1)
+			{
+				return traitDef.degreeDatas[0].degree;
+			}
+			return traitDef.degreeDatas.RandomElementByWeight((TraitDegreeData dd) => dd.Commonality).degree;
 		}
 
 		private static void GenerateTraits(Pawn pawn, PawnGenerationRequest request)
@@ -688,9 +688,9 @@ namespace Verse
 				}
 				while (pawn.story.traits.allTraits.Count < num)
 				{
-					TraitDef newTraitDef = DefDatabase<TraitDef>.AllDefsListForReading.RandomElementByWeight((Func<TraitDef, float>)((TraitDef tr) => tr.GetGenderSpecificCommonality(pawn)));
+					TraitDef newTraitDef = DefDatabase<TraitDef>.AllDefsListForReading.RandomElementByWeight((TraitDef tr) => tr.GetGenderSpecificCommonality(pawn));
 					Trait trait2;
-					if (!pawn.story.traits.HasTrait(newTraitDef) && (newTraitDef != TraitDefOf.Gay || (request.AllowGay && !LovePartnerRelationUtility.HasAnyLovePartnerOfTheOppositeGender(pawn) && !LovePartnerRelationUtility.HasAnyExLovePartnerOfTheOppositeGender(pawn))) && (request.Faction == null || Faction.OfPlayerSilentFail == null || !request.Faction.HostileTo(Faction.OfPlayer) || newTraitDef.allowOnHostileSpawn) && !pawn.story.traits.allTraits.Any((Predicate<Trait>)((Trait tr) => newTraitDef.ConflictsWith(tr))) && (newTraitDef.conflictingTraits == null || !newTraitDef.conflictingTraits.Any((Predicate<TraitDef>)((TraitDef tr) => pawn.story.traits.HasTrait(tr)))) && (newTraitDef.requiredWorkTypes == null || !pawn.story.OneOfWorkTypesIsDisabled(newTraitDef.requiredWorkTypes)) && !pawn.story.WorkTagIsDisabled(newTraitDef.requiredWorkTags))
+					if (!pawn.story.traits.HasTrait(newTraitDef) && (newTraitDef != TraitDefOf.Gay || (request.AllowGay && !LovePartnerRelationUtility.HasAnyLovePartnerOfTheOppositeGender(pawn) && !LovePartnerRelationUtility.HasAnyExLovePartnerOfTheOppositeGender(pawn))) && (request.Faction == null || Faction.OfPlayerSilentFail == null || !request.Faction.HostileTo(Faction.OfPlayer) || newTraitDef.allowOnHostileSpawn) && !pawn.story.traits.allTraits.Any((Trait tr) => newTraitDef.ConflictsWith(tr)) && (newTraitDef.conflictingTraits == null || !newTraitDef.conflictingTraits.Any((TraitDef tr) => pawn.story.traits.HasTrait(tr))) && (newTraitDef.requiredWorkTypes == null || !pawn.story.OneOfWorkTypesIsDisabled(newTraitDef.requiredWorkTypes)) && !pawn.story.WorkTagIsDisabled(newTraitDef.requiredWorkTags))
 					{
 						int degree = PawnGenerator.RandomTraitDegree(newTraitDef);
 						if (!pawn.story.childhood.DisallowsTrait(newTraitDef, degree) && (pawn.story.adulthood == null || !pawn.story.adulthood.DisallowsTrait(newTraitDef, degree)))
@@ -702,14 +702,14 @@ namespace Verse
 								breakThresholdExtreme += trait2.OffsetOfStat(StatDefOf.MentalBreakThreshold);
 								breakThresholdExtreme *= trait2.MultiplierOfStat(StatDefOf.MentalBreakThreshold);
 								if (!(breakThresholdExtreme > 0.40000000596046448))
-									goto IL_04d8;
+									goto IL_04be;
 								continue;
 							}
-							goto IL_04d8;
+							goto IL_04be;
 						}
 					}
 					continue;
-					IL_04d8:
+					IL_04be:
 					pawn.story.traits.GainTrait(trait2);
 				}
 			}
@@ -802,8 +802,7 @@ namespace Verse
 				if (randomInRange < 1.0)
 				{
 					int b = Mathf.RoundToInt(randomInRange * (float)gear.MaxHitPoints);
-					b = Mathf.Max(1, b);
-					gear.HitPoints = b;
+					b = (gear.HitPoints = Mathf.Max(1, b));
 				}
 			}
 		}
@@ -814,7 +813,7 @@ namespace Verse
 			{
 				List<KeyValuePair<Pawn, PawnRelationDef>> list = new List<KeyValuePair<Pawn, PawnRelationDef>>();
 				List<PawnRelationDef> allDefsListForReading = DefDatabase<PawnRelationDef>.AllDefsListForReading;
-				IEnumerable<Pawn> enumerable = from x in PawnsFinder.AllMapsAndWorld_AliveOrDead
+				IEnumerable<Pawn> enumerable = from x in PawnsFinder.AllMapsWorldAndTemporary_AliveOrDead
 				where x.def == pawn.def
 				select x;
 				int num = 0;
@@ -839,35 +838,25 @@ namespace Verse
 				float num2 = 82f;
 				num2 = (float)(num2 + (float)num * 88.0);
 				PawnGenerationRequest localReq = request;
-				KeyValuePair<Pawn, PawnRelationDef> keyValuePair = list.RandomElementByWeightWithDefault((Func<KeyValuePair<Pawn, PawnRelationDef>, float>)delegate(KeyValuePair<Pawn, PawnRelationDef> x)
+				KeyValuePair<Pawn, PawnRelationDef> keyValuePair = list.RandomElementByWeightWithDefault(delegate(KeyValuePair<Pawn, PawnRelationDef> x)
 				{
-					float result2;
 					if (!x.Value.familyByBloodRelation)
 					{
-						result2 = 0f;
+						return 0f;
 					}
-					else
-					{
-						float num4 = result2 = x.Value.generationChanceFactor * x.Value.Worker.GenerationChance(pawn, x.Key, localReq);
-					}
-					return result2;
+					return x.Value.generationChanceFactor * x.Value.Worker.GenerationChance(pawn, x.Key, localReq);
 				}, num2);
 				if (keyValuePair.Key != null)
 				{
 					keyValuePair.Value.Worker.CreateRelation(pawn, keyValuePair.Key, ref request);
 				}
-				KeyValuePair<Pawn, PawnRelationDef> keyValuePair2 = list.RandomElementByWeightWithDefault((Func<KeyValuePair<Pawn, PawnRelationDef>, float>)delegate(KeyValuePair<Pawn, PawnRelationDef> x)
+				KeyValuePair<Pawn, PawnRelationDef> keyValuePair2 = list.RandomElementByWeightWithDefault(delegate(KeyValuePair<Pawn, PawnRelationDef> x)
 				{
-					float result;
 					if (x.Value.familyByBloodRelation)
 					{
-						result = 0f;
+						return 0f;
 					}
-					else
-					{
-						float num3 = result = x.Value.generationChanceFactor * x.Value.Worker.GenerationChance(pawn, x.Key, localReq);
-					}
-					return result;
+					return x.Value.generationChanceFactor * x.Value.Worker.GenerationChance(pawn, x.Key, localReq);
 				}, num2);
 				if (keyValuePair2.Key != null)
 				{

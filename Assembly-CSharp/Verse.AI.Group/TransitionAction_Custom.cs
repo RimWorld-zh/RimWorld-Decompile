@@ -20,11 +20,11 @@ namespace Verse.AI.Group
 
 		public override void DoAction(Transition trans)
 		{
-			if ((object)this.actionWithArg != null)
+			if (this.actionWithArg != null)
 			{
 				this.actionWithArg(trans);
 			}
-			if ((object)this.action != null)
+			if (this.action != null)
 			{
 				this.action();
 			}

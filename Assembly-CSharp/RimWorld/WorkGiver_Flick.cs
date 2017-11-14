@@ -42,17 +42,16 @@ namespace RimWorld
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			bool result;
 			if (pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Flick) == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			LocalTargetInfo target = t;
+			if (!pawn.CanReserve(target, 1, -1, null, forced))
 			{
-				LocalTargetInfo target = t;
-				result = ((byte)(pawn.CanReserve(target, 1, -1, null, forced) ? 1 : 0) != 0);
+				return false;
 			}
-			return result;
+			return true;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

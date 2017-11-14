@@ -63,7 +63,7 @@ namespace Verse
 
 		public static Pawn NewGeneratedStartingPawn()
 		{
-			PawnGenerationRequest request = new PawnGenerationRequest(Faction.OfPlayer.def.basicMemberKind, Faction.OfPlayer, PawnGenerationContext.PlayerStarter, -1, true, false, false, false, true, false, 26f, false, true, true, false, false, false, false, null, default(float?), default(float?), default(float?), default(Gender?), default(float?), (string)null);
+			PawnGenerationRequest request = new PawnGenerationRequest(Faction.OfPlayer.def.basicMemberKind, Faction.OfPlayer, PawnGenerationContext.PlayerStarter, -1, true, false, false, false, true, false, 26f, false, true, true, false, false, false, false, null, null, null, null, null, null, null);
 			Pawn pawn = null;
 			try
 			{
@@ -81,43 +81,39 @@ namespace Verse
 
 		public static bool WorkTypeRequirementsSatisfied()
 		{
-			bool result;
 			if (StartingPawnUtility.StartingPawns.Count == 0)
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<WorkTypeDef> allDefsListForReading = DefDatabase<WorkTypeDef>.AllDefsListForReading;
+			for (int i = 0; i < allDefsListForReading.Count; i++)
 			{
-				List<WorkTypeDef> allDefsListForReading = DefDatabase<WorkTypeDef>.AllDefsListForReading;
-				for (int i = 0; i < allDefsListForReading.Count; i++)
+				WorkTypeDef workTypeDef = allDefsListForReading[i];
+				if (workTypeDef.requireCapableColonist)
 				{
-					WorkTypeDef workTypeDef = allDefsListForReading[i];
-					if (workTypeDef.requireCapableColonist)
+					bool flag = false;
+					int num = 0;
+					while (num < StartingPawnUtility.StartingPawns.Count)
 					{
-						bool flag = false;
-						int num = 0;
-						while (num < StartingPawnUtility.StartingPawns.Count)
+						if (StartingPawnUtility.StartingPawns[num].story.WorkTypeIsDisabled(workTypeDef))
 						{
-							if (StartingPawnUtility.StartingPawns[num].story.WorkTypeIsDisabled(workTypeDef))
-							{
-								num++;
-								continue;
-							}
-							flag = true;
-							break;
+							num++;
+							continue;
 						}
-						if (!flag)
-							goto IL_008d;
+						flag = true;
+						break;
+					}
+					if (!flag)
+					{
+						return false;
 					}
 				}
-				result = ((byte)((!TutorSystem.TutorialMode || !StartingPawnUtility.StartingPawns.Any((Predicate<Pawn>)((Pawn p) => p.story.WorkTagIsDisabled(WorkTags.Violent)))) ? 1 : 0) != 0);
 			}
-			goto IL_00eb;
-			IL_008d:
-			result = false;
-			goto IL_00eb;
-			IL_00eb:
-			return result;
+			if (TutorSystem.TutorialMode && StartingPawnUtility.StartingPawns.Any((Pawn p) => p.story.WorkTagIsDisabled(WorkTags.Violent)))
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

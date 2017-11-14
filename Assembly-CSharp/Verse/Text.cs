@@ -85,24 +85,16 @@ namespace Verse
 				switch (Text.fontInt)
 				{
 				case GameFont.Tiny:
-				{
 					gUIStyle = Text.fontStyles[0];
 					break;
-				}
 				case GameFont.Small:
-				{
 					gUIStyle = Text.fontStyles[1];
 					break;
-				}
 				case GameFont.Medium:
-				{
 					gUIStyle = Text.fontStyles[2];
 					break;
-				}
 				default:
-				{
 					throw new NotImplementedException();
-				}
 				}
 				gUIStyle.alignment = Text.anchorInt;
 				gUIStyle.wordWrap = Text.wordWrapInt;
@@ -114,30 +106,17 @@ namespace Verse
 		{
 			get
 			{
-				GUIStyle result;
 				switch (Text.fontInt)
 				{
 				case GameFont.Tiny:
-				{
-					result = Text.textFieldStyles[0];
-					break;
-				}
+					return Text.textFieldStyles[0];
 				case GameFont.Small:
-				{
-					result = Text.textFieldStyles[1];
-					break;
-				}
+					return Text.textFieldStyles[1];
 				case GameFont.Medium:
-				{
-					result = Text.textFieldStyles[2];
-					break;
-				}
+					return Text.textFieldStyles[2];
 				default:
-				{
 					throw new NotImplementedException();
 				}
-				}
-				return result;
 			}
 		}
 
@@ -145,30 +124,17 @@ namespace Verse
 		{
 			get
 			{
-				GUIStyle result;
 				switch (Text.fontInt)
 				{
 				case GameFont.Tiny:
-				{
-					result = Text.textAreaStyles[0];
-					break;
-				}
+					return Text.textAreaStyles[0];
 				case GameFont.Small:
-				{
-					result = Text.textAreaStyles[1];
-					break;
-				}
+					return Text.textAreaStyles[1];
 				case GameFont.Medium:
-				{
-					result = Text.textAreaStyles[2];
-					break;
-				}
+					return Text.textAreaStyles[2];
 				default:
-				{
 					throw new NotImplementedException();
 				}
-				}
-				return result;
 			}
 		}
 
@@ -176,30 +142,17 @@ namespace Verse
 		{
 			get
 			{
-				GUIStyle result;
 				switch (Text.fontInt)
 				{
 				case GameFont.Tiny:
-				{
-					result = Text.textAreaReadOnlyStyles[0];
-					break;
-				}
+					return Text.textAreaReadOnlyStyles[0];
 				case GameFont.Small:
-				{
-					result = Text.textAreaReadOnlyStyles[1];
-					break;
-				}
+					return Text.textAreaReadOnlyStyles[1];
 				case GameFont.Medium:
-				{
-					result = Text.textAreaReadOnlyStyles[2];
-					break;
-				}
+					return Text.textAreaReadOnlyStyles[2];
 				default:
-				{
 					throw new NotImplementedException();
 				}
-				}
-				return result;
 			}
 		}
 
@@ -258,7 +211,8 @@ namespace Verse
 				{
 					GameFont font4 = (GameFont)enumerator.Current;
 					Text.Font = font4;
-					float num2 = Text.lineHeights[num] = Text.CalcHeight("W", 999f);
+					float num2 = Text.CalcHeight("W", 999f);
+					Text.lineHeights[num] = num2;
 					num++;
 				}
 			}

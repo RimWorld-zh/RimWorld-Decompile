@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -6,7 +5,7 @@ namespace RimWorld
 {
 	public class CompForbiddable : ThingComp
 	{
-		private bool forbiddenInt = false;
+		private bool forbiddenInt;
 
 		public bool Forbidden
 		{
@@ -82,7 +81,7 @@ namespace RimWorld
 			{
 				hotKey = KeyBindingDefOf.CommandItemForbid,
 				icon = TexCommand.Forbidden,
-				isActive = (Func<bool>)(() => !((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0087: stateMachine*/)._0024this.forbiddenInt),
+				isActive = (() => !((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0086: stateMachine*/)._0024this.forbiddenInt),
 				defaultLabel = "CommandForbid".Translate()
 			};
 			if (this.forbiddenInt)
@@ -96,18 +95,18 @@ namespace RimWorld
 			if (base.parent.def.IsDoor)
 			{
 				com.tutorTag = "ToggleForbidden-Door";
-				com.toggleAction = (Action)delegate
+				com.toggleAction = delegate
 				{
-					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_011d: stateMachine*/)._0024this.Forbidden = !((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_011d: stateMachine*/)._0024this.Forbidden;
+					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_011b: stateMachine*/)._0024this.Forbidden = !((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_011b: stateMachine*/)._0024this.Forbidden;
 					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.ForbiddingDoors, KnowledgeAmount.SpecificInteraction);
 				};
 			}
 			else
 			{
 				com.tutorTag = "ToggleForbidden";
-				com.toggleAction = (Action)delegate
+				com.toggleAction = delegate
 				{
-					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_014b: stateMachine*/)._0024this.Forbidden = !((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_014b: stateMachine*/)._0024this.Forbidden;
+					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0147: stateMachine*/)._0024this.Forbidden = !((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0147: stateMachine*/)._0024this.Forbidden;
 					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.Forbidding, KnowledgeAmount.SpecificInteraction);
 				};
 			}

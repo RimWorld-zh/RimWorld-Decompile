@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -20,20 +19,15 @@ namespace RimWorld
 			List<Pawn> list = (from p in map.mapPawns.AllPawnsSpawned
 			where p.RaceProps.Animal && p.kindDef.combatPower <= (float)maxPoints && IncidentWorker_AnimalInsanityMass.AnimalUsable(p)
 			select p).ToList();
-			bool result;
 			if (list.Count == 0)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Pawn pawn = list.RandomElement();
-				IncidentWorker_AnimalInsanityMass.DriveInsane(pawn);
-				string text = "AnimalInsanitySingle".Translate(pawn.Label);
-				Find.LetterStack.ReceiveLetter("LetterLabelAnimalInsanitySingle".Translate(), text, LetterDefOf.ThreatSmall, (Thing)pawn, (string)null);
-				result = true;
-			}
-			return result;
+			Pawn pawn = list.RandomElement();
+			IncidentWorker_AnimalInsanityMass.DriveInsane(pawn);
+			string text = "AnimalInsanitySingle".Translate(pawn.Label);
+			Find.LetterStack.ReceiveLetter("LetterLabelAnimalInsanitySingle".Translate(), text, LetterDefOf.ThreatSmall, pawn, null);
+			return true;
 		}
 	}
 }

@@ -1,6 +1,5 @@
 using RimWorld;
 using RimWorld.Planet;
-using System;
 using UnityEngine;
 using Verse.Sound;
 
@@ -30,7 +29,15 @@ namespace Verse
 		{
 			get
 			{
-				return (byte)((this.lookTarget.Thing == null || !this.lookTarget.Thing.Destroyed) ? ((this.lookTarget.WorldObject == null || this.lookTarget.WorldObject.Spawned) ? 1 : 0) : 0) != 0;
+				if (this.lookTarget.Thing != null && this.lookTarget.Thing.Destroyed)
+				{
+					return false;
+				}
+				if (this.lookTarget.WorldObject != null && !this.lookTarget.WorldObject.Spawned)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -135,7 +142,7 @@ namespace Verse
 					num2 = (float)(num2 + 20.0);
 					float x = (float)(num - 330.0 - 10.0);
 					Rect infoRect = new Rect(x, (float)(topY - num2 / 2.0), 330f, num2);
-					Find.WindowStack.ImmediateWindow(2768333, infoRect, WindowLayer.Super, (Action)delegate
+					Find.WindowStack.ImmediateWindow(2768333, infoRect, WindowLayer.Super, delegate
 					{
 						Text.Font = GameFont.Small;
 						Rect position = infoRect.AtZero().ContractedBy(10f);

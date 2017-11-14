@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -38,7 +37,7 @@ namespace RimWorld
 				icon = ContentFinder<Texture2D>.Get("UI/Commands/CopySettings", true),
 				defaultLabel = "CommandCopyZoneSettingsLabel".Translate(),
 				defaultDesc = "CommandCopyZoneSettingsDesc".Translate(),
-				action = (Action)delegate()
+				action = delegate
 				{
 					SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
 					StorageSettingsClipboard.Copy(s);

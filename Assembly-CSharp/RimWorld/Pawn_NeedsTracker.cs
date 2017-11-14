@@ -75,46 +75,26 @@ namespace RimWorld
 
 		public T TryGetNeed<T>() where T : Need
 		{
-			int num = 0;
-			T result;
-			while (true)
+			for (int i = 0; i < this.needs.Count; i++)
 			{
-				if (num < this.needs.Count)
+				if (this.needs[i].GetType() == typeof(T))
 				{
-					if (this.needs[num].GetType() == typeof(T))
-					{
-						result = (T)this.needs[num];
-						break;
-					}
-					num++;
-					continue;
+					return (T)this.needs[i];
 				}
-				result = (T)null;
-				break;
 			}
-			return result;
+			return (T)null;
 		}
 
 		public Need TryGetNeed(NeedDef def)
 		{
-			int num = 0;
-			Need result;
-			while (true)
+			for (int i = 0; i < this.needs.Count; i++)
 			{
-				if (num < this.needs.Count)
+				if (this.needs[i].def == def)
 				{
-					if (this.needs[num].def == def)
-					{
-						result = this.needs[num];
-						break;
-					}
-					num++;
-					continue;
+					return this.needs[i];
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		public void SetInitialLevels()
@@ -147,7 +127,35 @@ namespace RimWorld
 
 		private bool ShouldHaveNeed(NeedDef nd)
 		{
-			return (int)this.pawn.RaceProps.intelligence >= (int)nd.minIntelligence && (!nd.colonistsOnly || (this.pawn.Faction != null && this.pawn.Faction.IsPlayer)) && (!nd.colonistAndPrisonersOnly || (this.pawn.Faction != null && this.pawn.Faction.IsPlayer) || (this.pawn.HostFaction != null && this.pawn.HostFaction == Faction.OfPlayer)) && (!nd.onlyIfCausedByHediff || this.pawn.health.hediffSet.hediffs.Any((Predicate<Hediff>)((Hediff x) => x.def.causesNeed == nd))) && (!nd.neverOnPrisoner || !this.pawn.IsPrisoner) && ((nd != NeedDefOf.Food) ? (nd != NeedDefOf.Rest || this.pawn.RaceProps.needsRest) : this.pawn.RaceProps.EatsFood);
+			if ((int)this.pawn.RaceProps.intelligence < (int)nd.minIntelligence)
+			{
+				return false;
+			}
+			if (nd.colonistsOnly && (this.pawn.Faction == null || !this.pawn.Faction.IsPlayer))
+			{
+				return false;
+			}
+			if (nd.colonistAndPrisonersOnly && (this.pawn.Faction == null || !this.pawn.Faction.IsPlayer) && (this.pawn.HostFaction == null || this.pawn.HostFaction != Faction.OfPlayer))
+			{
+				return false;
+			}
+			if (nd.onlyIfCausedByHediff && !this.pawn.health.hediffSet.hediffs.Any((Hediff x) => x.def.causesNeed == nd))
+			{
+				return false;
+			}
+			if (nd.neverOnPrisoner && this.pawn.IsPrisoner)
+			{
+				return false;
+			}
+			if (nd == NeedDefOf.Food)
+			{
+				return this.pawn.RaceProps.EatsFood;
+			}
+			if (nd == NeedDefOf.Rest)
+			{
+				return this.pawn.RaceProps.needsRest;
+			}
+			return true;
 		}
 
 		private void AddNeed(NeedDef nd)

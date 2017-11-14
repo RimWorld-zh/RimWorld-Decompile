@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -21,7 +20,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return new float?(0.5f);
+				return 0.5f;
 			}
 		}
 
@@ -52,7 +51,7 @@ namespace RimWorld
 		{
 			if (Find.TickManager.TicksGame % 100 == 0)
 			{
-				GatherAnimalsAndSlavesForCaravanUtility.CheckArrived(base.lord, this.exitSpot, "ReadyToExitMap", (Predicate<Pawn>)((Pawn x) => true), null);
+				GatherAnimalsAndSlavesForCaravanUtility.CheckArrived(base.lord, this.exitSpot, "ReadyToExitMap", (Pawn x) => true, null);
 			}
 		}
 	}

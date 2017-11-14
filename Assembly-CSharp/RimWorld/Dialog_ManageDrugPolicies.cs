@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -90,7 +89,7 @@ namespace RimWorld
 				foreach (DrugPolicy allPolicy in Current.Game.drugPolicyDatabase.AllPolicies)
 				{
 					DrugPolicy localAssignedDrugs = allPolicy;
-					list.Add(new FloatMenuOption(localAssignedDrugs.label, (Action)delegate
+					list.Add(new FloatMenuOption(localAssignedDrugs.label, delegate
 					{
 						this.SelectedPolicy = localAssignedDrugs;
 					}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -113,7 +112,7 @@ namespace RimWorld
 				foreach (DrugPolicy allPolicy2 in Current.Game.drugPolicyDatabase.AllPolicies)
 				{
 					DrugPolicy localAssignedDrugs2 = allPolicy2;
-					list2.Add(new FloatMenuOption(localAssignedDrugs2.label, (Action)delegate
+					list2.Add(new FloatMenuOption(localAssignedDrugs2.label, delegate
 					{
 						AcceptanceReport acceptanceReport = Current.Game.drugPolicyDatabase.TryDelete(localAssignedDrugs2);
 						if (!acceptanceReport.Accepted)
@@ -298,10 +297,10 @@ namespace RimWorld
 				entry.daysFrequency = Widgets.FrequencyHorizontalSlider(new Rect(x, rect.y, num5, rect.height).ContractedBy(4f), entry.daysFrequency, 0.1f, 25f, true);
 				x += num5;
 				string label = (!(entry.onlyIfMoodBelow < 1.0)) ? "NoDrugUseRequirement".Translate() : entry.onlyIfMoodBelow.ToStringPercent();
-				entry.onlyIfMoodBelow = Widgets.HorizontalSlider(new Rect(x, rect.y, num6, rect.height).ContractedBy(4f), entry.onlyIfMoodBelow, 0.01f, 1f, true, label, (string)null, (string)null, -1f);
+				entry.onlyIfMoodBelow = Widgets.HorizontalSlider(new Rect(x, rect.y, num6, rect.height).ContractedBy(4f), entry.onlyIfMoodBelow, 0.01f, 1f, true, label, null, null, -1f);
 				x += num6;
 				string label2 = (!(entry.onlyIfJoyBelow < 1.0)) ? "NoDrugUseRequirement".Translate() : entry.onlyIfJoyBelow.ToStringPercent();
-				entry.onlyIfJoyBelow = Widgets.HorizontalSlider(new Rect(x, rect.y, num7, rect.height).ContractedBy(4f), entry.onlyIfJoyBelow, 0.01f, 1f, true, label2, (string)null, (string)null, -1f);
+				entry.onlyIfJoyBelow = Widgets.HorizontalSlider(new Rect(x, rect.y, num7, rect.height).ContractedBy(4f), entry.onlyIfJoyBelow, 0.01f, 1f, true, label2, null, null, -1f);
 				x += num7;
 				Widgets.TextFieldNumeric<int>(new Rect(x, rect.y, num8, rect.height).ContractedBy(4f), ref entry.takeToInventory, ref entry.takeToInventoryTempBuffer, 0f, 15f);
 				x += num8;

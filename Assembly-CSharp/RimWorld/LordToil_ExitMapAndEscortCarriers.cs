@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -52,7 +51,7 @@ namespace RimWorld
 				{
 					if (trader != null)
 					{
-						pawn.mindState.duty = new PawnDuty(DutyDefOf.Follow, (Thing)trader, 5f);
+						pawn.mindState.duty = new PawnDuty(DutyDefOf.Follow, trader, 5f);
 					}
 					else
 					{
@@ -70,7 +69,7 @@ namespace RimWorld
 			{
 				if (trader != null)
 				{
-					p.mindState.duty = new PawnDuty(DutyDefOf.Escort, (Thing)trader, 14f);
+					p.mindState.duty = new PawnDuty(DutyDefOf.Escort, trader, 14f);
 				}
 				else if (!this.TryToDefendClosestCarrier(p, 14f))
 				{
@@ -83,7 +82,7 @@ namespace RimWorld
 			{
 				if (trader != null)
 				{
-					p.mindState.duty = new PawnDuty(DutyDefOf.Escort, (Thing)trader, 26f);
+					p.mindState.duty = new PawnDuty(DutyDefOf.Escort, trader, 26f);
 				}
 				else
 				{
@@ -97,12 +96,12 @@ namespace RimWorld
 		private bool TryToDefendClosestCarrier(Pawn p, float escortRadius)
 		{
 			Pawn closestCarrier = this.GetClosestCarrier(p);
-			Thing thing = GenClosest.ClosestThingReachable(p.Position, p.Map, ThingRequest.ForGroup(ThingRequestGroup.Corpse), PathEndMode.ClosestTouch, TraverseParms.For(p, Danger.Deadly, TraverseMode.ByPawn, false), 20f, (Predicate<Thing>)delegate(Thing x)
+			Thing thing = GenClosest.ClosestThingReachable(p.Position, p.Map, ThingRequest.ForGroup(ThingRequestGroup.Corpse), PathEndMode.ClosestTouch, TraverseParms.For(p, Danger.Deadly, TraverseMode.ByPawn, false), 20f, delegate(Thing x)
 			{
 				Pawn innerPawn = ((Corpse)x).InnerPawn;
 				return innerPawn.Faction == p.Faction && innerPawn.GetTraderCaravanRole() == TraderCaravanRole.Carrier;
 			}, null, 0, 15, false, RegionType.Set_Passable, false);
-			Thing thing2 = GenClosest.ClosestThingReachable(p.Position, p.Map, ThingRequest.ForGroup(ThingRequestGroup.Pawn), PathEndMode.ClosestTouch, TraverseParms.For(p, Danger.Deadly, TraverseMode.ByPawn, false), 20f, (Predicate<Thing>)delegate(Thing x)
+			Thing thing2 = GenClosest.ClosestThingReachable(p.Position, p.Map, ThingRequest.ForGroup(ThingRequestGroup.Pawn), PathEndMode.ClosestTouch, TraverseParms.For(p, Danger.Deadly, TraverseMode.ByPawn, false), 20f, delegate(Thing x)
 			{
 				Pawn pawn = (Pawn)x;
 				return pawn.Downed && pawn.Faction == p.Faction && pawn.GetTraderCaravanRole() == TraderCaravanRole.Carrier;
@@ -120,26 +119,21 @@ namespace RimWorld
 			{
 				thing3 = thing2;
 			}
-			bool result;
 			if (thing3 == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (thing3 is Pawn && !((Pawn)thing3).Downed)
+			if (thing3 is Pawn && !((Pawn)thing3).Downed)
 			{
 				p.mindState.duty = new PawnDuty(DutyDefOf.Escort, thing3, escortRadius);
-				result = true;
+				return true;
 			}
-			else if (!GenHostility.AnyHostileActiveThreatTo(base.Map, base.lord.faction))
+			if (!GenHostility.AnyHostileActiveThreatTo(base.Map, base.lord.faction))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				p.mindState.duty = new PawnDuty(DutyDefOf.Defend, thing3.Position, 16f);
-				result = true;
-			}
-			return result;
+			p.mindState.duty = new PawnDuty(DutyDefOf.Defend, thing3.Position, 16f);
+			return true;
 		}
 
 		public static bool IsDefendingPosition(Pawn pawn)
@@ -149,24 +143,14 @@ namespace RimWorld
 
 		public static bool IsAnyDefendingPosition(List<Pawn> pawns)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < pawns.Count; i++)
 			{
-				if (num < pawns.Count)
+				if (LordToil_ExitMapAndEscortCarriers.IsDefendingPosition(pawns[i]))
 				{
-					if (LordToil_ExitMapAndEscortCarriers.IsDefendingPosition(pawns[num]))
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		private Pawn GetClosestCarrier(Pawn closestTo)

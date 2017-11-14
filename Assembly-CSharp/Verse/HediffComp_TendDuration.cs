@@ -9,9 +9,9 @@ namespace Verse
 	{
 		public int tendTick = -999999;
 
-		public float tendQuality = 0f;
+		public float tendQuality;
 
-		private int tendedCount = 0;
+		private int tendedCount;
 
 		private const float TendQualityRandomVariance = 0.25f;
 
@@ -35,7 +35,11 @@ namespace Verse
 		{
 			get
 			{
-				return base.CompShouldRemove || (this.TProps.disappearsAtTendedCount >= 0 && this.tendedCount >= this.TProps.disappearsAtTendedCount);
+				if (base.CompShouldRemove)
+				{
+					return true;
+				}
+				return this.TProps.disappearsAtTendedCount >= 0 && this.tendedCount >= this.TProps.disappearsAtTendedCount;
 			}
 		}
 
@@ -43,7 +47,15 @@ namespace Verse
 		{
 			get
 			{
-				return Current.ProgramState == ProgramState.Playing && ((this.TProps.tendDuration <= 0) ? (this.tendTick > 0) : (Find.TickManager.TicksGame <= this.tendTick + this.TProps.tendDuration));
+				if (Current.ProgramState != ProgramState.Playing)
+				{
+					return false;
+				}
+				if (this.TProps.tendDuration > 0)
+				{
+					return Find.TickManager.TicksGame <= this.tendTick + this.TProps.tendDuration;
+				}
+				return this.tendTick > 0;
 			}
 		}
 
@@ -51,40 +63,35 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (base.parent.IsOld())
 				{
-					result = (string)null;
+					return null;
+				}
+				StringBuilder stringBuilder = new StringBuilder();
+				if (!this.IsTended)
+				{
+					if (!base.Pawn.Dead && base.parent.TendableNow)
+					{
+						stringBuilder.AppendLine("NeedsTendingNow".Translate());
+					}
 				}
 				else
 				{
-					StringBuilder stringBuilder = new StringBuilder();
-					if (!this.IsTended)
+					string text = null;
+					text = ((base.parent.Part == null || !base.parent.Part.def.IsSolid(base.parent.Part, base.Pawn.health.hediffSet.hediffs)) ? ((base.parent.Part == null || base.parent.Part.depth != BodyPartDepth.Inside) ? this.TProps.labelTendedWell : this.TProps.labelTendedWellInner) : this.TProps.labelSolidTendedWell);
+					if (text != null)
 					{
-						if (!base.Pawn.Dead && base.parent.TendableNow)
-						{
-							stringBuilder.AppendLine("NeedsTendingNow".Translate());
-						}
+						stringBuilder.AppendLine(text.CapitalizeFirst() + " (" + "Quality".Translate().ToLower() + " " + this.tendQuality.ToStringPercent("F0") + ")");
 					}
-					else
+					if (!base.Pawn.Dead && this.TProps.tendDuration > 0)
 					{
-						string text = (string)null;
-						text = ((base.parent.Part == null || !base.parent.Part.def.IsSolid(base.parent.Part, base.Pawn.health.hediffSet.hediffs)) ? ((base.parent.Part == null || base.parent.Part.depth != BodyPartDepth.Inside) ? this.TProps.labelTendedWell : this.TProps.labelTendedWellInner) : this.TProps.labelSolidTendedWell);
-						if (text != null)
-						{
-							stringBuilder.AppendLine(text.CapitalizeFirst() + " (" + "Quality".Translate().ToLower() + " " + this.tendQuality.ToStringPercent("F0") + ")");
-						}
-						if (!base.Pawn.Dead && this.TProps.tendDuration > 0)
-						{
-							int numTicks = this.tendTick + this.TProps.tendDuration - Find.TickManager.TicksGame;
-							string text2 = numTicks.ToStringTicksToPeriod(true, false, true);
-							text2 = ((!"NextTendIn".CanTranslate()) ? "NextTreatmentIn".Translate(text2) : "NextTendIn".Translate(text2));
-							stringBuilder.AppendLine(text2);
-						}
+						int numTicks = this.tendTick + this.TProps.tendDuration - Find.TickManager.TicksGame;
+						string text2 = numTicks.ToStringTicksToPeriod(true, false, true);
+						text2 = ((!"NextTendIn".CanTranslate()) ? "NextTreatmentIn".Translate(text2) : "NextTendIn".Translate(text2));
+						stringBuilder.AppendLine(text2);
 					}
-					result = stringBuilder.ToString().TrimEndNewlines();
 				}
-				return result;
+				return stringBuilder.ToString().TrimEndNewlines();
 			}
 		}
 
@@ -92,14 +99,12 @@ namespace Verse
 		{
 			get
 			{
-				TextureAndColor result;
 				if (base.parent is Hediff_Injury)
 				{
 					if (this.IsTended && !base.parent.IsOld())
 					{
 						Color color = Color.Lerp(HediffComp_TendDuration.UntendedColor, Color.white, Mathf.Clamp01(this.tendQuality));
-						result = new TextureAndColor(HediffComp_TendDuration.TendedIcon_Well_Injury, color);
-						goto IL_00dd;
+						return new TextureAndColor(HediffComp_TendDuration.TendedIcon_Well_Injury, color);
 					}
 				}
 				else if (!(base.parent is Hediff_MissingPart) && !base.parent.FullyImmune())
@@ -107,18 +112,11 @@ namespace Verse
 					if (this.IsTended)
 					{
 						Color color2 = Color.Lerp(HediffComp_TendDuration.UntendedColor, Color.white, Mathf.Clamp01(this.tendQuality));
-						result = new TextureAndColor(HediffComp_TendDuration.TendedIcon_Well_General, color2);
+						return new TextureAndColor(HediffComp_TendDuration.TendedIcon_Well_General, color2);
 					}
-					else
-					{
-						result = HediffComp_TendDuration.TendedIcon_Need_General;
-					}
-					goto IL_00dd;
+					return HediffComp_TendDuration.TendedIcon_Need_General;
 				}
-				result = TextureAndColor.None;
-				goto IL_00dd;
-				IL_00dd:
-				return result;
+				return TextureAndColor.None;
 			}
 		}
 
@@ -131,7 +129,11 @@ namespace Verse
 
 		protected override float SeverityChangePerDay()
 		{
-			return (float)((!this.IsTended) ? 0.0 : (this.TProps.severityPerDayTended * this.tendQuality));
+			if (this.IsTended)
+			{
+				return this.TProps.severityPerDayTended * this.tendQuality;
+			}
+			return 0f;
 		}
 
 		public override void CompTended(float quality, int batchPosition = 0)

@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,7 +8,27 @@ namespace Verse
 	{
 		public static bool IsDebugSpawnable(ThingDef def)
 		{
-			return (byte)(def.forceDebugSpawnable ? 1 : ((def.thingClass != typeof(Corpse) && !def.IsBlueprint && !def.IsFrame && def != ThingDefOf.ActiveDropPod && def.thingClass != typeof(MinifiedThing) && def.thingClass != typeof(UnfinishedThing) && !def.destroyOnDrop) ? ((def.category == ThingCategory.Filth || def.category == ThingCategory.Item || def.category == ThingCategory.Plant || def.category == ThingCategory.Ethereal) ? 1 : ((def.category == ThingCategory.Building && def.building.isNaturalRock) ? 1 : ((def.category == ThingCategory.Building && def.designationCategory == null) ? 1 : 0))) : 0)) != 0;
+			if (def.forceDebugSpawnable)
+			{
+				return true;
+			}
+			if (def.thingClass != typeof(Corpse) && !def.IsBlueprint && !def.IsFrame && def != ThingDefOf.ActiveDropPod && def.thingClass != typeof(MinifiedThing) && def.thingClass != typeof(UnfinishedThing) && !def.destroyOnDrop)
+			{
+				if (def.category != ThingCategory.Filth && def.category != ThingCategory.Item && def.category != ThingCategory.Plant && def.category != ThingCategory.Ethereal)
+				{
+					if (def.category == ThingCategory.Building && def.building.isNaturalRock)
+					{
+						return true;
+					}
+					if (def.category == ThingCategory.Building && def.designationCategory == null)
+					{
+						return true;
+					}
+					return false;
+				}
+				return true;
+			}
+			return false;
 		}
 
 		public static void DebugSpawn(ThingDef def, IntVec3 c, int stackCount = -1, bool direct = false)
@@ -49,22 +68,25 @@ namespace Verse
 			foreach (ThingDef item in enumerable)
 			{
 				ThingDef localDef = item;
-				list.Add(new DebugMenuOption(localDef.LabelCap, DebugMenuOptionMode.Tool, (Action)delegate()
+				list.Add(new DebugMenuOption(localDef.LabelCap, DebugMenuOptionMode.Tool, delegate
 				{
 					DebugThingPlaceHelper.DebugSpawn(localDef, UI.MouseCell(), stackCount, direct);
 				}));
 			}
 			if (stackCount == 1)
 			{
-				foreach (ThingDef item2 in from def in DefDatabase<ThingDef>.AllDefs
-				where def.Minifiable
-				select def)
 				{
-					ThingDef localDef2 = item2;
-					list.Add(new DebugMenuOption(localDef2.LabelCap + " (minified)", DebugMenuOptionMode.Tool, (Action)delegate()
+					foreach (ThingDef item2 in from def in DefDatabase<ThingDef>.AllDefs
+					where def.Minifiable
+					select def)
 					{
-						DebugThingPlaceHelper.DebugSpawn(localDef2, UI.MouseCell(), stackCount, direct);
-					}));
+						ThingDef localDef2 = item2;
+						list.Add(new DebugMenuOption(localDef2.LabelCap + " (minified)", DebugMenuOptionMode.Tool, delegate
+						{
+							DebugThingPlaceHelper.DebugSpawn(localDef2, UI.MouseCell(), stackCount, direct);
+						}));
+					}
+					return list;
 				}
 			}
 			return list;

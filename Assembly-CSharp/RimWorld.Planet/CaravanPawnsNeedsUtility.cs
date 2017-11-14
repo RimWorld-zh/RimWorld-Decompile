@@ -33,53 +33,43 @@ namespace RimWorld.Planet
 				}
 			}
 			List<Pawn> pawnsListForReading = c.PawnsListForReading;
-			int num = 0;
-			bool result;
-			while (true)
+			for (int j = 0; j < pawnsListForReading.Count; j++)
 			{
-				if (num < pawnsListForReading.Count)
+				Pawn pawn = pawnsListForReading[j];
+				if (pawn.RaceProps.EatsFood && !VirtualPlantsUtility.CanEatVirtualPlantsNow(pawn))
 				{
-					Pawn pawn = pawnsListForReading[num];
-					if (pawn.RaceProps.EatsFood && !VirtualPlantsUtility.CanEatVirtualPlantsNow(pawn))
+					bool flag = false;
+					int num = 0;
+					while (num < CaravanPawnsNeedsUtility.tmpInvFood.Count)
 					{
-						bool flag = false;
-						int num2 = 0;
-						while (num2 < CaravanPawnsNeedsUtility.tmpInvFood.Count)
+						if (!CaravanPawnsNeedsUtility.CanEverEatForNutrition(CaravanPawnsNeedsUtility.tmpInvFood[num].def, pawn))
 						{
-							if (!CaravanPawnsNeedsUtility.CanEverEatForNutrition(CaravanPawnsNeedsUtility.tmpInvFood[num2].def, pawn))
-							{
-								num2++;
-								continue;
-							}
-							flag = true;
-							break;
+							num++;
+							continue;
 						}
-						if (!flag)
-						{
-							int num3 = -1;
-							string text = (string)null;
-							for (int j = 0; j < pawnsListForReading.Count; j++)
-							{
-								Hediff firstHediffOfDef = pawnsListForReading[j].health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Malnutrition, false);
-								if (firstHediffOfDef != null && (text == null || firstHediffOfDef.CurStageIndex > num3))
-								{
-									num3 = firstHediffOfDef.CurStageIndex;
-									text = firstHediffOfDef.LabelCap;
-								}
-							}
-							malnutritionHediff = text;
-							result = true;
-							break;
-						}
+						flag = true;
+						break;
 					}
-					num++;
-					continue;
+					if (!flag)
+					{
+						int num2 = -1;
+						string text = null;
+						for (int k = 0; k < pawnsListForReading.Count; k++)
+						{
+							Hediff firstHediffOfDef = pawnsListForReading[k].health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Malnutrition, false);
+							if (firstHediffOfDef != null && (text == null || firstHediffOfDef.CurStageIndex > num2))
+							{
+								num2 = firstHediffOfDef.CurStageIndex;
+								text = firstHediffOfDef.LabelCap;
+							}
+						}
+						malnutritionHediff = text;
+						return true;
+					}
 				}
-				malnutritionHediff = (string)null;
-				result = false;
-				break;
 			}
-			return result;
+			malnutritionHediff = null;
+			return false;
 		}
 
 		private static void TrySatisfyPawnNeeds(Pawn pawn, Caravan caravan)
@@ -141,7 +131,7 @@ namespace RimWorld.Planet
 						}
 						if (!CaravanInventoryUtility.TryGetBestFood(caravan, pawn, out thing, out pawn2))
 						{
-							Messages.Message("MessageCaravanRunOutOfFood".Translate(caravan.LabelCap, pawn.Label), (WorldObject)caravan, MessageTypeDefOf.ThreatBig);
+							Messages.Message("MessageCaravanRunOutOfFood".Translate(caravan.LabelCap, pawn.Label), caravan, MessageTypeDefOf.ThreatBig);
 						}
 					}
 				}
@@ -181,12 +171,28 @@ namespace RimWorld.Planet
 
 		public static bool CanNowEatForNutrition(ThingDef food, Pawn pawn)
 		{
-			return (byte)(CaravanPawnsNeedsUtility.CanEverEatForNutrition(food, pawn) ? ((!pawn.RaceProps.Humanlike || (int)pawn.needs.food.CurCategory >= 3 || (int)food.ingestible.preferability > 3) ? 1 : 0) : 0) != 0;
+			if (!CaravanPawnsNeedsUtility.CanEverEatForNutrition(food, pawn))
+			{
+				return false;
+			}
+			if (pawn.RaceProps.Humanlike && (int)pawn.needs.food.CurCategory < 3 && (int)food.ingestible.preferability <= 3)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static bool CanNowEatForNutrition(Thing food, Pawn pawn)
 		{
-			return (byte)(food.IngestibleNow ? (CaravanPawnsNeedsUtility.CanNowEatForNutrition(food.def, pawn) ? 1 : 0) : 0) != 0;
+			if (!food.IngestibleNow)
+			{
+				return false;
+			}
+			if (!CaravanPawnsNeedsUtility.CanNowEatForNutrition(food.def, pawn))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static float GetFoodScore(Thing food, Pawn pawn)
@@ -204,37 +210,32 @@ namespace RimWorld.Planet
 
 		public static float GetFoodScore(ThingDef food, Pawn pawn)
 		{
-			float result;
 			if (pawn.RaceProps.Humanlike)
 			{
-				result = (float)(int)food.ingestible.preferability;
+				return (float)(int)food.ingestible.preferability;
 			}
-			else
+			float num = 0f;
+			if (food == ThingDefOf.Kibble || food == ThingDefOf.Hay)
 			{
-				float num = 0f;
-				if (food == ThingDefOf.Kibble || food == ThingDefOf.Hay)
-				{
-					num = 5f;
-				}
-				else if (food.ingestible.preferability == FoodPreferability.DesperateOnlyForHumanlikes)
-				{
-					num = 4f;
-				}
-				else if (food.ingestible.preferability == FoodPreferability.RawBad)
-				{
-					num = 3f;
-				}
-				else if (food.ingestible.preferability == FoodPreferability.RawTasty)
-				{
-					num = 2f;
-				}
-				else if ((int)food.ingestible.preferability < 6)
-				{
-					num = 1f;
-				}
-				result = num + Mathf.Min((float)(food.ingestible.nutrition / 100.0), 0.999f);
+				num = 5f;
 			}
-			return result;
+			else if (food.ingestible.preferability == FoodPreferability.DesperateOnlyForHumanlikes)
+			{
+				num = 4f;
+			}
+			else if (food.ingestible.preferability == FoodPreferability.RawBad)
+			{
+				num = 3f;
+			}
+			else if (food.ingestible.preferability == FoodPreferability.RawTasty)
+			{
+				num = 2f;
+			}
+			else if ((int)food.ingestible.preferability < 6)
+			{
+				num = 1f;
+			}
+			return num + Mathf.Min((float)(food.ingestible.nutrition / 100.0), 0.999f);
 		}
 
 		public static void Notify_CaravanMemberIngestedFood(Pawn p, ThingDef foodDef)

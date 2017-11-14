@@ -45,7 +45,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -56,8 +56,8 @@ namespace RimWorld
 			}
 			yield return (Gizmo)PlantToGrowSettableUtility.SetPlantToGrowCommand(this);
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_00e6:
-			/*Error near IL_00e7: Unexpected return in MoveNext()*/;
+			IL_00e2:
+			/*Error near IL_00e3: Unexpected return in MoveNext()*/;
 		}
 
 		public override void PostMake()
@@ -122,7 +122,11 @@ namespace RimWorld
 
 		public bool CanAcceptSowNow()
 		{
-			return (byte)((this.compPower == null || this.compPower.PowerOn) ? 1 : 0) != 0;
+			if (this.compPower != null && !this.compPower.PowerOn)
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

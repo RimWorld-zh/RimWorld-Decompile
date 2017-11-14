@@ -31,25 +31,15 @@ namespace RimWorld
 
 		public SkillRecord GetSkill(SkillDef skillDef)
 		{
-			int num = 0;
-			SkillRecord result;
-			while (true)
+			for (int i = 0; i < this.skills.Count; i++)
 			{
-				if (num < this.skills.Count)
+				if (this.skills[i].def == skillDef)
 				{
-					if (this.skills[num].def == skillDef)
-					{
-						result = this.skills[num];
-						break;
-					}
-					num++;
-					continue;
+					return this.skills[i];
 				}
-				Log.Error("Did not find skill of def " + skillDef + ", returning " + this.skills[0]);
-				result = this.skills[0];
-				break;
 			}
-			return result;
+			Log.Error("Did not find skill of def " + skillDef + ", returning " + this.skills[0]);
+			return this.skills[0];
 		}
 
 		public void SkillsTick()
@@ -78,44 +68,34 @@ namespace RimWorld
 
 		public float AverageOfRelevantSkillsFor(WorkTypeDef workDef)
 		{
-			float result;
 			if (workDef.relevantSkills.Count == 0)
 			{
-				result = 3f;
+				return 3f;
 			}
-			else
+			float num = 0f;
+			for (int i = 0; i < workDef.relevantSkills.Count; i++)
 			{
-				float num = 0f;
-				for (int i = 0; i < workDef.relevantSkills.Count; i++)
-				{
-					num += (float)this.GetSkill(workDef.relevantSkills[i]).Level;
-				}
-				num = (result = num / (float)workDef.relevantSkills.Count);
+				num += (float)this.GetSkill(workDef.relevantSkills[i]).Level;
 			}
-			return result;
+			return num / (float)workDef.relevantSkills.Count;
 		}
 
 		public Passion MaxPassionOfRelevantSkillsFor(WorkTypeDef workDef)
 		{
-			Passion result;
 			if (workDef.relevantSkills.Count == 0)
 			{
-				result = Passion.None;
+				return Passion.None;
 			}
-			else
+			Passion passion = Passion.None;
+			for (int i = 0; i < workDef.relevantSkills.Count; i++)
 			{
-				Passion passion = Passion.None;
-				for (int i = 0; i < workDef.relevantSkills.Count; i++)
+				Passion passion2 = this.GetSkill(workDef.relevantSkills[i]).passion;
+				if ((int)passion2 > (int)passion)
 				{
-					Passion passion2 = this.GetSkill(workDef.relevantSkills[i]).passion;
-					if ((int)passion2 > (int)passion)
-					{
-						passion = passion2;
-					}
+					passion = passion2;
 				}
-				result = passion;
 			}
-			return result;
+			return passion;
 		}
 
 		public void Notify_SkillDisablesChanged()

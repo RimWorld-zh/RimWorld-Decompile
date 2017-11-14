@@ -6,17 +6,29 @@ namespace Verse.AI
 	{
 		public static bool CanReserve(this Pawn p, LocalTargetInfo target, int maxPawns = 1, int stackCount = -1, ReservationLayerDef layer = null, bool ignoreOtherReservations = false)
 		{
-			return p.Spawned && p.Map.reservationManager.CanReserve(p, target, maxPawns, stackCount, layer, ignoreOtherReservations);
+			if (!p.Spawned)
+			{
+				return false;
+			}
+			return p.Map.reservationManager.CanReserve(p, target, maxPawns, stackCount, layer, ignoreOtherReservations);
 		}
 
 		public static bool CanReserveAndReach(this Pawn p, LocalTargetInfo target, PathEndMode peMode, Danger maxDanger, int maxPawns = 1, int stackCount = -1, ReservationLayerDef layer = null, bool ignoreOtherReservations = false)
 		{
-			return p.Spawned && p.CanReach(target, peMode, maxDanger, false, TraverseMode.ByPawn) && p.Map.reservationManager.CanReserve(p, target, maxPawns, stackCount, layer, ignoreOtherReservations);
+			if (!p.Spawned)
+			{
+				return false;
+			}
+			return p.CanReach(target, peMode, maxDanger, false, TraverseMode.ByPawn) && p.Map.reservationManager.CanReserve(p, target, maxPawns, stackCount, layer, ignoreOtherReservations);
 		}
 
 		public static bool Reserve(this Pawn p, LocalTargetInfo target, Job job, int maxPawns = 1, int stackCount = -1, ReservationLayerDef layer = null)
 		{
-			return p.Spawned && p.Map.reservationManager.Reserve(p, job, target, maxPawns, stackCount, layer);
+			if (!p.Spawned)
+			{
+				return false;
+			}
+			return p.Map.reservationManager.Reserve(p, job, target, maxPawns, stackCount, layer);
 		}
 
 		public static void ReserveAsManyAsPossible(this Pawn p, List<LocalTargetInfo> target, Job job, int maxPawns = 1, int stackCount = -1, ReservationLayerDef layer = null)
@@ -32,7 +44,11 @@ namespace Verse.AI
 
 		public static bool HasReserved(this Pawn p, LocalTargetInfo target, Job job = null)
 		{
-			return p.Spawned && p.Map.reservationManager.ReservedBy(target, p, job);
+			if (!p.Spawned)
+			{
+				return false;
+			}
+			return p.Map.reservationManager.ReservedBy(target, p, job);
 		}
 
 		public static bool CanReserveNew(this Pawn p, LocalTargetInfo target)

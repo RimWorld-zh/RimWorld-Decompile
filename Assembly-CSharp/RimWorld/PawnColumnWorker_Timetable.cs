@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -66,7 +65,11 @@ namespace RimWorld
 
 		private int GetValueToCompare(Pawn pawn)
 		{
-			return (pawn.timetable != null) ? pawn.timetable.times.FirstIndexOf((Func<TimeAssignmentDef, bool>)((TimeAssignmentDef x) => x == TimeAssignmentDefOf.Work)) : (-2147483648);
+			if (pawn.timetable == null)
+			{
+				return -2147483648;
+			}
+			return pawn.timetable.times.FirstIndexOf((TimeAssignmentDef x) => x == TimeAssignmentDefOf.Work);
 		}
 
 		private void DoTimeAssignment(Rect rect, Pawn p, int hour)

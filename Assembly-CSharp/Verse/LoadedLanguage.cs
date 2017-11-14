@@ -10,11 +10,11 @@ namespace Verse
 	{
 		public string folderName;
 
-		public LanguageInfo info = null;
+		public LanguageInfo info;
 
 		private LanguageWorker workerInt;
 
-		private bool dataIsLoaded = false;
+		private bool dataIsLoaded;
 
 		public Texture2D icon = BaseContent.BadTex;
 
@@ -28,7 +28,11 @@ namespace Verse
 		{
 			get
 			{
-				return (this.info != null && !this.info.friendlyNameNative.NullOrEmpty()) ? this.info.friendlyNameNative : this.folderName;
+				if (this.info != null && !this.info.friendlyNameNative.NullOrEmpty())
+				{
+					return this.info.friendlyNameNative;
+				}
+				return this.folderName;
 			}
 		}
 
@@ -36,7 +40,11 @@ namespace Verse
 		{
 			get
 			{
-				return (this.info != null && !this.info.friendlyNameEnglish.NullOrEmpty()) ? this.info.friendlyNameEnglish : this.folderName;
+				if (this.info != null && !this.info.friendlyNameEnglish.NullOrEmpty())
+				{
+					return this.info.friendlyNameEnglish;
+				}
+				return this.folderName;
 			}
 		}
 
@@ -44,28 +52,20 @@ namespace Verse
 		{
 			get
 			{
-				using (IEnumerator<ModContentPack> enumerator = LoadedModManager.RunningMods.GetEnumerator())
+				foreach (ModContentPack runningMod in LoadedModManager.RunningMods)
 				{
-					string myDirPath;
-					while (true)
+					string langDirPath = Path.Combine(runningMod.RootDir, "Languages");
+					string myDirPath = Path.Combine(langDirPath, this.folderName);
+					DirectoryInfo myDir = new DirectoryInfo(myDirPath);
+					if (myDir.Exists)
 					{
-						if (enumerator.MoveNext())
-						{
-							ModContentPack mod = enumerator.Current;
-							string langDirPath = Path.Combine(mod.RootDir, "Languages");
-							myDirPath = Path.Combine(langDirPath, this.folderName);
-							DirectoryInfo myDir = new DirectoryInfo(myDirPath);
-							if (myDir.Exists)
-								break;
-							continue;
-						}
-						yield break;
+						yield return myDirPath;
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
-					yield return myDirPath;
-					/*Error: Unable to find new state assignment for yield return*/;
 				}
-				IL_010f:
-				/*Error near IL_0110: Unexpected return in MoveNext()*/;
+				yield break;
+				IL_010b:
+				/*Error near IL_010c: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -121,14 +121,14 @@ namespace Verse
 				foreach (string folderPath in this.FolderPaths)
 				{
 					string localFolderPath = folderPath;
-					LongEventHandler.ExecuteWhenFinished((Action)delegate
+					LongEventHandler.ExecuteWhenFinished(delegate
 					{
 						if ((UnityEngine.Object)this.icon == (UnityEngine.Object)BaseContent.BadTex)
 						{
 							FileInfo fileInfo = new FileInfo(Path.Combine(localFolderPath.ToString(), "LangIcon.png"));
 							if (fileInfo.Exists)
 							{
-								this.icon = ModContentLoader<Texture2D>.LoadItem(fileInfo.FullName, (string)null).contentItem;
+								this.icon = ModContentLoader<Texture2D>.LoadItem(fileInfo.FullName, null).contentItem;
 							}
 						}
 					});
@@ -144,9 +144,8 @@ namespace Verse
 					if (directoryInfo.Exists)
 					{
 						FileInfo[] files = directoryInfo.GetFiles("*.xml", SearchOption.AllDirectories);
-						for (int i = 0; i < files.Length; i++)
+						foreach (FileInfo file in files)
 						{
-							FileInfo file = files[i];
 							this.LoadFromFile_Keyed(file);
 						}
 					}
@@ -162,9 +161,8 @@ namespace Verse
 					if (directoryInfo2.Exists)
 					{
 						DirectoryInfo[] directories = directoryInfo2.GetDirectories("*", SearchOption.TopDirectoryOnly);
-						for (int j = 0; j < directories.Length; j++)
+						foreach (DirectoryInfo directoryInfo3 in directories)
 						{
-							DirectoryInfo directoryInfo3 = directories[j];
 							string name = directoryInfo3.Name;
 							Type typeInAnyAssembly = GenTypes.GetTypeInAnyAssembly(name);
 							if (typeInAnyAssembly == null && name.Length > 3)
@@ -178,9 +176,8 @@ namespace Verse
 							else
 							{
 								FileInfo[] files2 = directoryInfo3.GetFiles("*.xml", SearchOption.AllDirectories);
-								for (int k = 0; k < files2.Length; k++)
+								foreach (FileInfo file2 in files2)
 								{
-									FileInfo file2 = files2[k];
 									this.LoadFromFile_DefInject(file2, typeInAnyAssembly);
 								}
 							}
@@ -190,13 +187,11 @@ namespace Verse
 					if (directoryInfo4.Exists)
 					{
 						DirectoryInfo[] directories2 = directoryInfo4.GetDirectories("*", SearchOption.TopDirectoryOnly);
-						for (int l = 0; l < directories2.Length; l++)
+						foreach (DirectoryInfo directoryInfo5 in directories2)
 						{
-							DirectoryInfo directoryInfo5 = directories2[l];
 							FileInfo[] files3 = directoryInfo5.GetFiles("*.txt", SearchOption.AllDirectories);
-							for (int m = 0; m < files3.Length; m++)
+							foreach (FileInfo file3 in files3)
 							{
-								FileInfo file3 = files3[m];
 								this.LoadFromFile_Strings(file3, directoryInfo4);
 							}
 						}
@@ -300,17 +295,12 @@ namespace Verse
 			{
 				this.LoadData();
 			}
-			bool result;
 			if (!this.keyedReplacements.TryGetValue(key, out translated))
 			{
 				translated = key;
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public bool TryGetStringsFromFile(string fileName, out List<string> stringsList)
@@ -319,17 +309,12 @@ namespace Verse
 			{
 				this.LoadData();
 			}
-			bool result;
 			if (!this.stringFiles.TryGetValue(fileName, out stringsList))
 			{
 				stringsList = null;
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public void InjectIntoData()

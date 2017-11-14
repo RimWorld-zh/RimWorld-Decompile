@@ -8,27 +8,27 @@ namespace Verse
 {
 	public class FloatMenuOption
 	{
-		private string labelInt = (string)null;
+		private string labelInt;
 
-		public Action action = null;
+		public Action action;
 
 		private MenuOptionPriority priorityInt = MenuOptionPriority.Default;
 
-		public bool autoTakeable = false;
+		public bool autoTakeable;
 
-		public Action mouseoverGuiAction = null;
+		public Action mouseoverGuiAction;
 
-		public Thing revalidateClickTarget = null;
+		public Thing revalidateClickTarget;
 
-		public WorldObject revalidateWorldClickTarget = null;
+		public WorldObject revalidateWorldClickTarget;
 
-		public float extraPartWidth = 0f;
+		public float extraPartWidth;
 
-		public Func<Rect, bool> extraPartOnGUI = null;
+		public Func<Rect, bool> extraPartOnGUI;
 
-		public string tutorTag = (string)null;
+		public string tutorTag;
 
-		private FloatMenuSizeMode sizeMode = FloatMenuSizeMode.Undefined;
+		private FloatMenuSizeMode sizeMode;
 
 		private float cachedRequiredHeight;
 
@@ -103,7 +103,7 @@ namespace Verse
 		{
 			get
 			{
-				return (object)this.action == null;
+				return this.action == null;
 			}
 			set
 			{
@@ -134,7 +134,11 @@ namespace Verse
 		{
 			get
 			{
-				return (!this.Disabled) ? this.priorityInt : MenuOptionPriority.DisabledOption;
+				if (this.Disabled)
+				{
+					return MenuOptionPriority.DisabledOption;
+				}
+				return this.priorityInt;
 			}
 			set
 			{
@@ -178,7 +182,7 @@ namespace Verse
 		{
 			if (!this.Disabled)
 			{
-				if ((object)this.action != null)
+				if (this.action != null)
 				{
 					if (colonistOrdering)
 					{
@@ -245,18 +249,16 @@ namespace Verse
 			Widgets.Label(rect3, this.Label);
 			Text.Anchor = TextAnchor.UpperLeft;
 			GUI.color = color;
-			bool result;
-			if ((object)this.extraPartOnGUI != null)
+			if (this.extraPartOnGUI != null)
 			{
 				bool flag3 = this.extraPartOnGUI(rect4);
 				GUI.color = color;
 				if (flag3)
 				{
-					result = true;
-					goto IL_02c1;
+					return true;
 				}
 			}
-			if (flag && (object)this.mouseoverGuiAction != null)
+			if (flag && this.mouseoverGuiAction != null)
 			{
 				this.mouseoverGuiAction();
 			}
@@ -268,25 +270,16 @@ namespace Verse
 			{
 				if (this.tutorTag != null && !TutorSystem.AllowAction(this.tutorTag))
 				{
-					result = false;
+					return false;
 				}
-				else
+				this.Chosen(colonistOrdering);
+				if (this.tutorTag != null)
 				{
-					this.Chosen(colonistOrdering);
-					if (this.tutorTag != null)
-					{
-						TutorSystem.Notify_Event(this.tutorTag);
-					}
-					result = true;
+					TutorSystem.Notify_Event(this.tutorTag);
 				}
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			goto IL_02c1;
-			IL_02c1:
-			return result;
+			return false;
 		}
 
 		public override string ToString()

@@ -10,7 +10,7 @@ namespace Verse
 			Region region = source.GetRegion(RegionType.Set_Passable);
 			if (region != null)
 			{
-				RegionTraverser.BreadthFirstTraverse(region, (RegionEntryPredicate)((Region from, Region r) => r.portal == null || r.portal.Open), (RegionProcessor)delegate(Region r)
+				RegionTraverser.BreadthFirstTraverse(region, (Region from, Region r) => r.portal == null || r.portal.Open, delegate(Region r)
 				{
 					List<Thing> list = r.ListerThings.ThingsInGroup(ThingRequestGroup.Pawn);
 					for (int i = 0; i < list.Count; i++)

@@ -11,7 +11,8 @@ namespace Verse.AI.Group
 
 		public TargetInfo lookTarget = TargetInfo.Invalid;
 
-		public TransitionAction_Message(string message) : this(message, MessageTypeDefOf.NeutralEvent)
+		public TransitionAction_Message(string message)
+			: this(message, MessageTypeDefOf.NeutralEvent)
 		{
 			this.message = message;
 		}
@@ -31,7 +32,7 @@ namespace Verse.AI.Group
 
 		public override void DoAction(Transition trans)
 		{
-			TargetInfo target = (!this.lookTarget.IsValid) ? ((Thing)trans.target.lord.ownedPawns.FirstOrDefault()) : this.lookTarget;
+			TargetInfo target = (!this.lookTarget.IsValid) ? ((TargetInfo)trans.target.lord.ownedPawns.FirstOrDefault()) : this.lookTarget;
 			Messages.Message(this.message, target, this.type);
 		}
 	}

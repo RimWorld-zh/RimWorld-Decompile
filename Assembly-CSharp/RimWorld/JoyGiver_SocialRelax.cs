@@ -28,208 +28,158 @@ namespace RimWorld
 
 		public override Job TryGiveJobInPartyArea(Pawn pawn, IntVec3 partySpot)
 		{
-			return this.TryGiveJobInt(pawn, (Predicate<CompGatherSpot>)((CompGatherSpot x) => PartyUtility.InPartyArea(x.parent.Position, partySpot, pawn.Map)));
+			return this.TryGiveJobInt(pawn, (CompGatherSpot x) => PartyUtility.InPartyArea(x.parent.Position, partySpot, pawn.Map));
 		}
 
 		private Job TryGiveJobInt(Pawn pawn, Predicate<CompGatherSpot> gatherSpotValidator)
 		{
-			Job result;
 			if (pawn.Map.gatherSpotLister.activeSpots.Count == 0)
 			{
-				result = null;
-				goto IL_0271;
+				return null;
 			}
 			JoyGiver_SocialRelax.workingSpots.Clear();
 			for (int i = 0; i < pawn.Map.gatherSpotLister.activeSpots.Count; i++)
 			{
 				JoyGiver_SocialRelax.workingSpots.Add(pawn.Map.gatherSpotLister.activeSpots[i]);
 			}
-			goto IL_0074;
-			IL_011c:
+			goto IL_006c;
+			IL_0108:
+			goto IL_006c;
+			IL_006c:
 			CompGatherSpot compGatherSpot = default(CompGatherSpot);
+			while (true)
+			{
+				if (!((IEnumerable<CompGatherSpot>)JoyGiver_SocialRelax.workingSpots).TryRandomElement<CompGatherSpot>(out compGatherSpot))
+				{
+					return null;
+				}
+				JoyGiver_SocialRelax.workingSpots.Remove(compGatherSpot);
+				if (!compGatherSpot.parent.IsForbidden(pawn) && pawn.CanReach(compGatherSpot.parent, PathEndMode.Touch, Danger.None, false, TraverseMode.ByPawn) && compGatherSpot.parent.IsSociallyProper(pawn) && compGatherSpot.parent.IsPoliticallyProper(pawn))
+				{
+					if (gatherSpotValidator == null)
+						break;
+					if (gatherSpotValidator(compGatherSpot))
+						break;
+				}
+			}
 			Job job;
 			if (compGatherSpot.parent.def.surfaceType == SurfaceType.Eat)
 			{
 				Thing t = default(Thing);
 				if (JoyGiver_SocialRelax.TryFindChairBesideTable((Thing)compGatherSpot.parent, pawn, out t))
 				{
-					job = new Job(base.def.jobDef, (Thing)compGatherSpot.parent, t);
-					goto IL_0204;
+					job = new Job(base.def.jobDef, compGatherSpot.parent, t);
+					goto IL_01e6;
 				}
-				result = null;
+				return null;
 			}
-			else
+			Thing t2 = default(Thing);
+			if (JoyGiver_SocialRelax.TryFindChairNear(compGatherSpot.parent.Position, pawn, out t2))
 			{
-				Thing t2 = default(Thing);
-				if (JoyGiver_SocialRelax.TryFindChairNear(compGatherSpot.parent.Position, pawn, out t2))
-				{
-					job = new Job(base.def.jobDef, (Thing)compGatherSpot.parent, t2);
-					goto IL_0204;
-				}
-				IntVec3 c = default(IntVec3);
-				if (JoyGiver_SocialRelax.TryFindSitSpotOnGroundNear(compGatherSpot.parent.Position, pawn, out c))
-				{
-					job = new Job(base.def.jobDef, (Thing)compGatherSpot.parent, c);
-					goto IL_0204;
-				}
-				result = null;
+				job = new Job(base.def.jobDef, compGatherSpot.parent, t2);
+				goto IL_01e6;
 			}
-			goto IL_0271;
-			IL_0117:
-			goto IL_0074;
-			IL_0271:
-			return result;
-			IL_0074:
-			while (((IEnumerable<CompGatherSpot>)JoyGiver_SocialRelax.workingSpots).TryRandomElement<CompGatherSpot>(out compGatherSpot))
+			IntVec3 c = default(IntVec3);
+			if (JoyGiver_SocialRelax.TryFindSitSpotOnGroundNear(compGatherSpot.parent.Position, pawn, out c))
 			{
-				JoyGiver_SocialRelax.workingSpots.Remove(compGatherSpot);
-				if (compGatherSpot.parent.IsForbidden(pawn))
-					continue;
-				if (!pawn.CanReach((Thing)compGatherSpot.parent, PathEndMode.Touch, Danger.None, false, TraverseMode.ByPawn))
-					continue;
-				if (!compGatherSpot.parent.IsSociallyProper(pawn))
-					continue;
-				if (!compGatherSpot.parent.IsPoliticallyProper(pawn))
-					continue;
-				if ((object)gatherSpotValidator != null && !gatherSpotValidator(compGatherSpot))
-					continue;
-				goto IL_011c;
+				job = new Job(base.def.jobDef, compGatherSpot.parent, c);
+				goto IL_01e6;
 			}
-			result = null;
-			goto IL_0271;
-			IL_0204:
+			return null;
+			IL_01e6:
 			Thing thing = default(Thing);
 			if (pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) && JoyGiver_SocialRelax.TryFindIngestibleToNurse(compGatherSpot.parent.Position, pawn, out thing))
 			{
 				job.targetC = thing;
 				job.count = Mathf.Min(thing.stackCount, thing.def.ingestible.maxNumToIngestAtOnce);
 			}
-			result = job;
-			goto IL_0271;
+			return job;
 		}
 
 		private static bool TryFindIngestibleToNurse(IntVec3 center, Pawn ingester, out Thing ingestible)
 		{
-			bool result;
 			if (ingester.IsTeetotaler())
 			{
 				ingestible = null;
-				result = false;
+				return false;
 			}
-			else if (ingester.drugs == null)
+			if (ingester.drugs == null)
 			{
 				ingestible = null;
-				result = false;
+				return false;
 			}
-			else
+			JoyGiver_SocialRelax.nurseableDrugs.Clear();
+			DrugPolicy currentPolicy = ingester.drugs.CurrentPolicy;
+			for (int i = 0; i < currentPolicy.Count; i++)
 			{
-				JoyGiver_SocialRelax.nurseableDrugs.Clear();
-				DrugPolicy currentPolicy = ingester.drugs.CurrentPolicy;
-				for (int i = 0; i < currentPolicy.Count; i++)
+				if (currentPolicy[i].allowedForJoy && currentPolicy[i].drug.ingestible.nurseable)
 				{
-					if (currentPolicy[i].allowedForJoy && currentPolicy[i].drug.ingestible.nurseable)
-					{
-						JoyGiver_SocialRelax.nurseableDrugs.Add(currentPolicy[i].drug);
-					}
+					JoyGiver_SocialRelax.nurseableDrugs.Add(currentPolicy[i].drug);
 				}
-				JoyGiver_SocialRelax.nurseableDrugs.Shuffle();
-				for (int j = 0; j < JoyGiver_SocialRelax.nurseableDrugs.Count; j++)
-				{
-					List<Thing> list = ingester.Map.listerThings.ThingsOfDef(JoyGiver_SocialRelax.nurseableDrugs[j]);
-					if (list.Count > 0)
-					{
-						Predicate<Thing> validator = (Predicate<Thing>)((Thing t) => ingester.CanReserve(t, 1, -1, null, false) && !t.IsForbidden(ingester));
-						ingestible = GenClosest.ClosestThing_Global_Reachable(center, ingester.Map, list, PathEndMode.OnCell, TraverseParms.For(ingester, Danger.Deadly, TraverseMode.ByPawn, false), 40f, validator, null);
-						if (ingestible != null)
-							goto IL_013f;
-					}
-				}
-				ingestible = null;
-				result = false;
 			}
-			goto IL_0169;
-			IL_013f:
-			result = true;
-			goto IL_0169;
-			IL_0169:
-			return result;
+			JoyGiver_SocialRelax.nurseableDrugs.Shuffle();
+			for (int j = 0; j < JoyGiver_SocialRelax.nurseableDrugs.Count; j++)
+			{
+				List<Thing> list = ingester.Map.listerThings.ThingsOfDef(JoyGiver_SocialRelax.nurseableDrugs[j]);
+				if (list.Count > 0)
+				{
+					Predicate<Thing> validator = (Thing t) => ingester.CanReserve(t, 1, -1, null, false) && !t.IsForbidden(ingester);
+					ingestible = GenClosest.ClosestThing_Global_Reachable(center, ingester.Map, list, PathEndMode.OnCell, TraverseParms.For(ingester, Danger.Deadly, TraverseMode.ByPawn, false), 40f, validator, null);
+					if (ingestible != null)
+					{
+						return true;
+					}
+				}
+			}
+			ingestible = null;
+			return false;
 		}
 
 		private static bool TryFindChairBesideTable(Thing table, Pawn sitter, out Thing chair)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < 30; i++)
 			{
-				if (num < 30)
+				IntVec3 c = table.RandomAdjacentCellCardinal();
+				Building edifice = c.GetEdifice(table.Map);
+				if (edifice != null && edifice.def.building.isSittable && sitter.CanReserve(edifice, 1, -1, null, false))
 				{
-					IntVec3 c = table.RandomAdjacentCellCardinal();
-					Building edifice = c.GetEdifice(table.Map);
-					if (edifice != null && edifice.def.building.isSittable && sitter.CanReserve((Thing)edifice, 1, -1, null, false))
-					{
-						chair = edifice;
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					chair = edifice;
+					return true;
 				}
-				chair = null;
-				result = false;
-				break;
 			}
-			return result;
+			chair = null;
+			return false;
 		}
 
 		private static bool TryFindChairNear(IntVec3 center, Pawn sitter, out Thing chair)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < JoyGiver_SocialRelax.RadialPatternMiddleOutward.Count; i++)
 			{
-				if (num < JoyGiver_SocialRelax.RadialPatternMiddleOutward.Count)
+				IntVec3 c = center + JoyGiver_SocialRelax.RadialPatternMiddleOutward[i];
+				Building edifice = c.GetEdifice(sitter.Map);
+				if (edifice != null && edifice.def.building.isSittable && sitter.CanReserve(edifice, 1, -1, null, false) && !edifice.IsForbidden(sitter) && GenSight.LineOfSight(center, edifice.Position, sitter.Map, true, null, 0, 0))
 				{
-					IntVec3 c = center + JoyGiver_SocialRelax.RadialPatternMiddleOutward[num];
-					Building edifice = c.GetEdifice(sitter.Map);
-					if (edifice != null && edifice.def.building.isSittable && sitter.CanReserve((Thing)edifice, 1, -1, null, false) && !edifice.IsForbidden(sitter) && GenSight.LineOfSight(center, edifice.Position, sitter.Map, true, null, 0, 0))
-					{
-						chair = edifice;
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					chair = edifice;
+					return true;
 				}
-				chair = null;
-				result = false;
-				break;
 			}
-			return result;
+			chair = null;
+			return false;
 		}
 
 		private static bool TryFindSitSpotOnGroundNear(IntVec3 center, Pawn sitter, out IntVec3 result)
 		{
-			int num = 0;
-			bool result2;
-			while (true)
+			for (int i = 0; i < 30; i++)
 			{
-				if (num < 30)
+				IntVec3 intVec = center + GenRadial.RadialPattern[Rand.Range(1, JoyGiver_SocialRelax.NumRadiusCells)];
+				if (sitter.CanReserveAndReach(intVec, PathEndMode.OnCell, Danger.None, 1, -1, null, false) && intVec.GetEdifice(sitter.Map) == null && GenSight.LineOfSight(center, intVec, sitter.Map, true, null, 0, 0))
 				{
-					IntVec3 intVec = center + GenRadial.RadialPattern[Rand.Range(1, JoyGiver_SocialRelax.NumRadiusCells)];
-					if (sitter.CanReserveAndReach(intVec, PathEndMode.OnCell, Danger.None, 1, -1, null, false) && intVec.GetEdifice(sitter.Map) == null && GenSight.LineOfSight(center, intVec, sitter.Map, true, null, 0, 0))
-					{
-						result = intVec;
-						result2 = true;
-						break;
-					}
-					num++;
-					continue;
+					result = intVec;
+					return true;
 				}
-				result = IntVec3.Invalid;
-				result2 = false;
-				break;
 			}
-			return result2;
+			result = IntVec3.Invalid;
+			return false;
 		}
 	}
 }

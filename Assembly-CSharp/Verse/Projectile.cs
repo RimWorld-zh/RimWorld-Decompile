@@ -11,25 +11,25 @@ namespace Verse
 
 		protected Vector3 destination;
 
-		protected Thing assignedTarget = null;
+		protected Thing assignedTarget;
 
-		protected Thing intendedTarget = null;
+		protected Thing intendedTarget;
 
 		private bool interceptWallsInt = true;
 
 		private bool freeInterceptInt = true;
 
-		protected ThingDef equipmentDef = null;
+		protected ThingDef equipmentDef;
 
-		protected Thing launcher = null;
+		protected Thing launcher;
 
-		private Thing neverInterceptTargetInt = null;
+		private Thing neverInterceptTargetInt;
 
-		protected bool landed = false;
+		protected bool landed;
 
 		protected int ticksToImpact;
 
-		private Sustainer ambientSustainer = null;
+		private Sustainer ambientSustainer;
 
 		private const float BasePawnInterceptChance = 0.4f;
 
@@ -57,7 +57,15 @@ namespace Verse
 		{
 			get
 			{
-				return base.def.projectile.alwaysFreeIntercept || (!base.def.projectile.flyOverhead && this.interceptWallsInt);
+				if (base.def.projectile.alwaysFreeIntercept)
+				{
+					return true;
+				}
+				if (base.def.projectile.flyOverhead)
+				{
+					return false;
+				}
+				return this.interceptWallsInt;
 			}
 			set
 			{
@@ -84,7 +92,15 @@ namespace Verse
 		{
 			get
 			{
-				return base.def.projectile.alwaysFreeIntercept || (!base.def.projectile.flyOverhead && this.freeInterceptInt);
+				if (base.def.projectile.alwaysFreeIntercept)
+				{
+					return true;
+				}
+				if (base.def.projectile.flyOverhead)
+				{
+					return false;
+				}
+				return this.freeInterceptInt;
 			}
 			set
 			{
@@ -206,7 +222,7 @@ namespace Verse
 			this.ticksToImpact = this.StartingTicksToImpact;
 			if (!base.def.projectile.soundAmbient.NullOrUndefined())
 			{
-				SoundInfo info = SoundInfo.InMap((Thing)this, MaintenanceType.PerTick);
+				SoundInfo info = SoundInfo.InMap(this, MaintenanceType.PerTick);
 				this.ambientSustainer = base.def.projectile.soundAmbient.TrySpawnSustainer(info);
 			}
 		}
@@ -232,7 +248,7 @@ namespace Verse
 						base.Position = this.ExactPosition.ToIntVec3();
 						if (this.ticksToImpact == 60 && Find.TickManager.CurTimeSpeed == TimeSpeed.Normal && base.def.projectile.soundImpactAnticipate != null)
 						{
-							base.def.projectile.soundImpactAnticipate.PlayOneShot((Thing)this);
+							base.def.projectile.soundImpactAnticipate.PlayOneShot(this);
 						}
 						if (this.ticksToImpact <= 0)
 						{
@@ -255,156 +271,134 @@ namespace Verse
 		{
 			IntVec3 intVec = lastExactPos.ToIntVec3();
 			IntVec3 intVec2 = newExactPos.ToIntVec3();
-			bool result;
 			if (intVec2 == intVec)
 			{
-				result = false;
+				return false;
 			}
-			else if (!intVec.InBounds(base.Map) || !intVec2.InBounds(base.Map))
+			if (intVec.InBounds(base.Map) && intVec2.InBounds(base.Map))
 			{
-				result = false;
-			}
-			else if (intVec2.AdjacentToCardinal(intVec))
-			{
-				bool flag = this.CheckForFreeIntercept(intVec2);
-				if (DebugViewSettings.drawInterceptChecks)
+				if (intVec2.AdjacentToCardinal(intVec))
 				{
-					if (flag)
-					{
-						MoteMaker.ThrowText(intVec2.ToVector3Shifted(), base.Map, "x", -1f);
-					}
-					else
-					{
-						MoteMaker.ThrowText(intVec2.ToVector3Shifted(), base.Map, "o", -1f);
-					}
-				}
-				result = flag;
-			}
-			else if ((float)this.origin.ToIntVec3().DistanceToSquared(intVec2) > 16.0)
-			{
-				Vector3 vector = lastExactPos;
-				Vector3 v = newExactPos - lastExactPos;
-				Vector3 b = v.normalized * 0.2f;
-				int num = (int)(v.MagnitudeHorizontal() / 0.20000000298023224);
-				Projectile.checkedCells.Clear();
-				int num2 = 0;
-				while (true)
-				{
-					vector += b;
-					IntVec3 intVec3 = vector.ToIntVec3();
-					if (!Projectile.checkedCells.Contains(intVec3))
-					{
-						if (this.CheckForFreeIntercept(intVec3))
-						{
-							break;
-						}
-						Projectile.checkedCells.Add(intVec3);
-					}
+					bool flag = this.CheckForFreeIntercept(intVec2);
 					if (DebugViewSettings.drawInterceptChecks)
 					{
-						MoteMaker.ThrowText(vector, base.Map, "o", -1f);
+						if (flag)
+						{
+							MoteMaker.ThrowText(intVec2.ToVector3Shifted(), base.Map, "x", -1f);
+						}
+						else
+						{
+							MoteMaker.ThrowText(intVec2.ToVector3Shifted(), base.Map, "o", -1f);
+						}
 					}
-					num2++;
-					if (num2 > num)
-						goto IL_01ab;
-					if (!(intVec3 == intVec2))
-						continue;
-					goto IL_01bf;
+					return flag;
 				}
-				if (DebugViewSettings.drawInterceptChecks)
+				if ((float)this.origin.ToIntVec3().DistanceToSquared(intVec2) > 16.0)
 				{
-					MoteMaker.ThrowText(vector, base.Map, "x", -1f);
+					Vector3 vector = lastExactPos;
+					Vector3 v = newExactPos - lastExactPos;
+					Vector3 b = v.normalized * 0.2f;
+					int num = (int)(v.MagnitudeHorizontal() / 0.20000000298023224);
+					Projectile.checkedCells.Clear();
+					int num2 = 0;
+					while (true)
+					{
+						vector += b;
+						IntVec3 intVec3 = vector.ToIntVec3();
+						if (!Projectile.checkedCells.Contains(intVec3))
+						{
+							if (this.CheckForFreeIntercept(intVec3))
+							{
+								if (DebugViewSettings.drawInterceptChecks)
+								{
+									MoteMaker.ThrowText(vector, base.Map, "x", -1f);
+								}
+								return true;
+							}
+							Projectile.checkedCells.Add(intVec3);
+						}
+						if (DebugViewSettings.drawInterceptChecks)
+						{
+							MoteMaker.ThrowText(vector, base.Map, "o", -1f);
+						}
+						num2++;
+						if (num2 > num)
+						{
+							return false;
+						}
+						if (intVec3 == intVec2)
+							break;
+					}
+					return false;
 				}
-				result = true;
+				return false;
 			}
-			else
-			{
-				result = false;
-			}
-			goto IL_01d3;
-			IL_01bf:
-			result = false;
-			goto IL_01d3;
-			IL_01d3:
-			return result;
-			IL_01ab:
-			result = false;
-			goto IL_01d3;
+			return false;
 		}
 
 		private bool CheckForFreeIntercept(IntVec3 c)
 		{
 			float num = (c.ToVector3Shifted() - this.origin).MagnitudeHorizontalSquared();
-			bool result;
-			Thing thing;
 			if (num < 16.0)
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Thing> list = base.Map.thingGrid.ThingsListAt(c);
+			for (int i = 0; i < list.Count; i++)
 			{
-				List<Thing> list = base.Map.thingGrid.ThingsListAt(c);
-				for (int i = 0; i < list.Count; i++)
+				Thing thing = list[i];
+				if (thing != this.ThingToNeverIntercept && thing != this.launcher)
 				{
-					thing = list[i];
-					if (thing != this.ThingToNeverIntercept && thing != this.launcher)
+					if (thing.def.Fillage == FillCategory.Full && this.InterceptWalls)
 					{
-						if (thing.def.Fillage == FillCategory.Full && this.InterceptWalls)
-							goto IL_008f;
-						if (this.FreeIntercept)
+						this.Impact(thing);
+						return true;
+					}
+					if (this.FreeIntercept)
+					{
+						float num2 = 0f;
+						Pawn pawn = thing as Pawn;
+						if (pawn != null)
 						{
-							float num2 = 0f;
-							Pawn pawn = thing as Pawn;
-							if (pawn != null)
+							num2 = 0.4f;
+							if (pawn.GetPosture() != 0)
 							{
-								num2 = 0.4f;
-								if (pawn.GetPosture() != 0)
-								{
-									num2 = (float)(num2 * 0.10000000149011612);
-								}
-								if (this.launcher != null && pawn.Faction != null && this.launcher.Faction != null && !pawn.Faction.HostileTo(this.launcher.Faction))
-								{
-									num2 = (float)(num2 * 0.40000000596046448);
-								}
-								num2 *= Mathf.Clamp(pawn.BodySize, 0.1f, 2f);
+								num2 = (float)(num2 * 0.10000000149011612);
 							}
-							else if (thing.def.fillPercent > 0.20000000298023224)
+							if (this.launcher != null && pawn.Faction != null && this.launcher.Faction != null && !pawn.Faction.HostileTo(this.launcher.Faction))
 							{
-								num2 = (float)(thing.def.fillPercent * 0.070000000298023224);
+								num2 = (float)(num2 * 0.40000000596046448);
 							}
-							if (num2 > 9.9999997473787516E-06)
+							num2 *= Mathf.Clamp(pawn.BodySize, 0.1f, 2f);
+						}
+						else if (thing.def.fillPercent > 0.20000000298023224)
+						{
+							num2 = (float)(thing.def.fillPercent * 0.070000000298023224);
+						}
+						if (num2 > 9.9999997473787516E-06)
+						{
+							if (num < 49.0)
 							{
-								if (num < 49.0)
-								{
-									num2 = (float)(num2 * 0.5);
-								}
-								else if (num < 100.0)
-								{
-									num2 = (float)(num2 * 0.75);
-								}
-								if (DebugViewSettings.drawShooting)
-								{
-									MoteMaker.ThrowText(this.ExactPosition, base.Map, num2.ToStringPercent(), -1f);
-								}
-								if (Rand.Value < num2)
-									goto IL_01e9;
+								num2 = (float)(num2 * 0.5);
+							}
+							else if (num < 100.0)
+							{
+								num2 = (float)(num2 * 0.75);
+							}
+							if (DebugViewSettings.drawShooting)
+							{
+								MoteMaker.ThrowText(this.ExactPosition, base.Map, num2.ToStringPercent(), -1f);
+							}
+							if (Rand.Value < num2)
+							{
+								this.Impact(thing);
+								return true;
 							}
 						}
 					}
 				}
-				result = false;
 			}
-			goto IL_0213;
-			IL_008f:
-			this.Impact(thing);
-			result = true;
-			goto IL_0213;
-			IL_01e9:
-			this.Impact(thing);
-			result = true;
-			goto IL_0213;
-			IL_0213:
-			return result;
+			return false;
 		}
 
 		public override void Draw()
@@ -473,7 +467,11 @@ namespace Verse
 		private static float ImpactSomethingHitThingChance(Thing t)
 		{
 			Pawn pawn = t as Pawn;
-			return (float)((pawn == null) ? (t.def.fillPercent * 1.5) : (pawn.BodySize * 0.5));
+			if (pawn != null)
+			{
+				return (float)(pawn.BodySize * 0.5);
+			}
+			return (float)(t.def.fillPercent * 1.5);
 		}
 
 		protected virtual void Impact(Thing hitThing)

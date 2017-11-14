@@ -25,7 +25,11 @@ namespace RimWorld
 		public override AlertReport GetReport()
 		{
 			Pawn pawn = this.BadHunter();
-			return (pawn != null) ? AlertReport.CulpritIs((Thing)pawn) : false;
+			if (pawn == null)
+			{
+				return false;
+			}
+			return AlertReport.CulpritIs(pawn);
 		}
 	}
 }

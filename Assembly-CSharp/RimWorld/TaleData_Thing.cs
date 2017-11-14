@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -51,7 +50,7 @@ namespace RimWorld
 		public static TaleData_Thing GenerateRandom()
 		{
 			ThingDef thingDef = (from d in DefDatabase<ThingDef>.AllDefs
-			where d.comps != null && d.comps.Any((Predicate<CompProperties>)((CompProperties cp) => cp.compClass == typeof(CompArt)))
+			where d.comps != null && d.comps.Any((CompProperties cp) => cp.compClass == typeof(CompArt))
 			select d).RandomElement();
 			ThingDef thingDef2 = GenStuff.RandomStuffFor(thingDef);
 			Thing thing = ThingMaker.MakeThing(thingDef, thingDef2);

@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using Verse.AI;
 
@@ -11,7 +10,7 @@ namespace Verse
 
 		private IntVec3 prioritizedCell = IntVec3.Invalid;
 
-		private WorkTypeDef prioritizedWorkType = null;
+		private WorkTypeDef prioritizedWorkType;
 
 		private int prioritizeTick = Find.TickManager.TicksGame;
 
@@ -21,20 +20,15 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
 				if (this.prioritizedCell.IsValid)
 				{
 					if (Find.TickManager.TicksGame < this.prioritizeTick + 30000)
 					{
-						result = true;
-						goto IL_0042;
+						return true;
 					}
 					this.Clear();
 				}
-				result = false;
-				goto IL_0042;
-				IL_0042:
-				return result;
+				return false;
 			}
 		}
 
@@ -102,12 +96,12 @@ namespace Verse
 				defaultDesc = "CommandClearPrioritizedWorkDesc".Translate(),
 				icon = TexCommand.ClearPrioritizedWork,
 				activateSound = SoundDefOf.TickLow,
-				action = (Action)delegate
+				action = delegate
 				{
-					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00f1: stateMachine*/)._0024this.ClearPrioritizedWorkAndJobQueue();
-					if (((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00f1: stateMachine*/)._0024this.pawn.CurJob.playerForced)
+					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00ef: stateMachine*/)._0024this.ClearPrioritizedWorkAndJobQueue();
+					if (((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00ef: stateMachine*/)._0024this.pawn.CurJob.playerForced)
 					{
-						((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00f1: stateMachine*/)._0024this.pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+						((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00ef: stateMachine*/)._0024this.pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
 					}
 				},
 				hotKey = KeyBindingDefOf.DesignatorCancel,

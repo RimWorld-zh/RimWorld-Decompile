@@ -24,7 +24,7 @@ namespace RimWorld
 			if (Rand.Chance(0.9f))
 			{
 				int randomInRange = ItemCollectionGenerator_AncientTempleContents.ArtifactsCountRange.RandomInRange;
-				for (int num = 0; num < randomInRange; num++)
+				for (int i = 0; i < randomInRange; i++)
 				{
 					ThingDef def = ItemCollectionGenerator_Artifacts.artifacts.RandomElement();
 					Thing item = ThingMaker.MakeThing(def, null);

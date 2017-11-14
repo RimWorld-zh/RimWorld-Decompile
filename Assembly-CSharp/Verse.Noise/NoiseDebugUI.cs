@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,7 +18,7 @@ namespace Verse.Noise
 			{
 				get
 				{
-					if ((UnityEngine.Object)this.tex == (UnityEngine.Object)null)
+					if ((Object)this.tex == (Object)null)
 					{
 						this.tex = NoiseRenderer.NoiseRendered(this.noise);
 					}
@@ -172,7 +171,7 @@ namespace Verse.Noise
 		{
 			if (Prefs.DevMode && DebugViewSettings.drawRecordedNoise && NoiseDebugUI.currentPlanetNoise != null)
 			{
-				if ((UnityEngine.Object)NoiseDebugUI.planetNoiseMesh == (UnityEngine.Object)null)
+				if ((Object)NoiseDebugUI.planetNoiseMesh == (Object)null)
 				{
 					List<int> triangles = default(List<int>);
 					SphereGenerator.Generate(6, 100.3f, Vector3.forward, 360f, out NoiseDebugUI.planetNoiseMeshVerts, out triangles);
@@ -195,7 +194,7 @@ namespace Verse.Noise
 		{
 			for (int i = 0; i < NoiseDebugUI.noises2D.Count; i++)
 			{
-				UnityEngine.Object.Destroy(NoiseDebugUI.noises2D[i].Texture);
+				Object.Destroy(NoiseDebugUI.noises2D[i].Texture);
 			}
 			NoiseDebugUI.noises2D.Clear();
 			NoiseDebugUI.ClearPlanetNoises();
@@ -206,12 +205,12 @@ namespace Verse.Noise
 			NoiseDebugUI.planetNoises.Clear();
 			NoiseDebugUI.currentPlanetNoise = null;
 			NoiseDebugUI.lastDrawnPlanetNoise = null;
-			if ((UnityEngine.Object)NoiseDebugUI.planetNoiseMesh != (UnityEngine.Object)null)
+			if ((Object)NoiseDebugUI.planetNoiseMesh != (Object)null)
 			{
 				Mesh localPlanetNoiseMesh = NoiseDebugUI.planetNoiseMesh;
-				LongEventHandler.ExecuteWhenFinished((Action)delegate
+				LongEventHandler.ExecuteWhenFinished(delegate
 				{
-					UnityEngine.Object.Destroy(localPlanetNoiseMesh);
+					Object.Destroy(localPlanetNoiseMesh);
 				});
 				NoiseDebugUI.planetNoiseMesh = null;
 			}
@@ -224,7 +223,7 @@ namespace Verse.Noise
 			{
 				float value = NoiseDebugUI.currentPlanetNoise.noise.GetValue(NoiseDebugUI.planetNoiseMeshVerts[i]);
 				byte b = (byte)Mathf.Clamp((float)((value * 0.5 + 0.5) * 255.0), 0f, 255f);
-				NoiseDebugUI.planetNoiseMeshColors.Add(new Color32(b, b, b, (byte)255));
+				NoiseDebugUI.planetNoiseMeshColors.Add(new Color32(b, b, b, 255));
 			}
 			NoiseDebugUI.planetNoiseMesh.SetColors(NoiseDebugUI.planetNoiseMeshColors);
 		}

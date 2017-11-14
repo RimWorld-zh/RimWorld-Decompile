@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -137,7 +136,7 @@ namespace RimWorld
 			{
 				if (useAudiovisualEffects)
 				{
-					Find.LetterStack.ReceiveLetter("LetterLabelMessageRecruitSuccess".Translate(), "MessageRecruitSuccess".Translate(recruiter, recruitee, recruitChance.ToStringPercent()), LetterDefOf.PositiveEvent, (Thing)recruitee, (string)null);
+					Find.LetterStack.ReceiveLetter("LetterLabelMessageRecruitSuccess".Translate(), "MessageRecruitSuccess".Translate(recruiter, recruitee, recruitChance.ToStringPercent()), LetterDefOf.PositiveEvent, recruitee, null);
 				}
 				TaleRecorder.RecordTale(TaleDefOf.Recruited, recruiter, recruitee);
 				recruiter.records.Increment(RecordDefOf.PrisonersRecruited);
@@ -149,11 +148,11 @@ namespace RimWorld
 				{
 					if (!flag)
 					{
-						Messages.Message("MessageTameAndNameSuccess".Translate(recruiter.LabelShort, text, recruitChance.ToStringPercent(), recruitee.Name.ToStringFull).AdjustedFor(recruitee), (Thing)recruitee, MessageTypeDefOf.PositiveEvent);
+						Messages.Message("MessageTameAndNameSuccess".Translate(recruiter.LabelShort, text, recruitChance.ToStringPercent(), recruitee.Name.ToStringFull).AdjustedFor(recruitee), recruitee, MessageTypeDefOf.PositiveEvent);
 					}
 					else
 					{
-						Messages.Message("MessageTameSuccess".Translate(recruiter.LabelShort, text, recruitChance.ToStringPercent()), (Thing)recruitee, MessageTypeDefOf.PositiveEvent);
+						Messages.Message("MessageTameSuccess".Translate(recruiter.LabelShort, text, recruitChance.ToStringPercent()), recruitee, MessageTypeDefOf.PositiveEvent);
 					}
 					MoteMaker.ThrowText((recruiter.DrawPos + recruitee.DrawPos) / 2f, recruiter.Map, "TextMote_TameSuccess".Translate(recruitChance.ToStringPercent()), 8f);
 				}
@@ -164,7 +163,7 @@ namespace RimWorld
 				{
 					TaleRecorder.RecordTale(TaleDefOf.TamedAnimal, recruiter, recruitee);
 				}
-				if (PawnsFinder.AllMapsAndWorld_Alive.Count((Func<Pawn, bool>)((Pawn p) => p.playerSettings != null && p.playerSettings.master == recruiter)) >= 10)
+				if (PawnsFinder.AllMapsWorldAndTemporary_Alive.Count((Pawn p) => p.playerSettings != null && p.playerSettings.master == recruiter) >= 10)
 				{
 					TaleRecorder.RecordTale(TaleDefOf.IncreasedMenagerie, recruiter, recruitee);
 				}

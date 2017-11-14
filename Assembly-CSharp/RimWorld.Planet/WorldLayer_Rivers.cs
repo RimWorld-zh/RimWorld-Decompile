@@ -9,7 +9,7 @@ namespace RimWorld.Planet
 {
 	public class WorldLayer_Rivers : WorldLayer_Paths
 	{
-		private Color32 riverColor = new Color32((byte)73, (byte)82, (byte)100, (byte)255);
+		private Color32 riverColor = new Color32(73, 82, 100, 255);
 
 		private const float PerlinFrequency = 0.6f;
 
@@ -28,7 +28,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable Regenerate()
 		{
-			IEnumerator enumerator = this._003CRegenerate_003E__BaseCallProxy0().GetEnumerator();
+			IEnumerator enumerator = base.Regenerate().GetEnumerator();
 			try
 			{
 				if (enumerator.MoveNext())
@@ -71,20 +71,20 @@ namespace RimWorld.Planet
 					outputsBorder.Clear();
 					for (int j = 0; j < tile.rivers.Count; j++)
 					{
-						List<OutputDirection> obj = outputs;
+						List<OutputDirection> list = outputs;
 						OutputDirection item = default(OutputDirection);
 						Tile.RiverLink riverLink = tile.rivers[j];
 						item.neighbor = riverLink.neighbor;
 						Tile.RiverLink riverLink2 = tile.rivers[j];
 						item.width = (float)(riverLink2.river.widthOnWorld - 0.20000000298023224);
-						obj.Add(item);
-						List<OutputDirection> obj2 = outputsBorder;
+						list.Add(item);
+						List<OutputDirection> list2 = outputsBorder;
 						OutputDirection item2 = default(OutputDirection);
 						Tile.RiverLink riverLink3 = tile.rivers[j];
 						item2.neighbor = riverLink3.neighbor;
 						Tile.RiverLink riverLink4 = tile.rivers[j];
 						item2.width = riverLink4.river.widthOnWorld;
-						obj2.Add(item2);
+						list2.Add(item2);
 					}
 					base.GeneratePaths(subMesh, i, outputs, this.riverColor, true);
 					base.GeneratePaths(subMeshBorder, i, outputsBorder, this.riverColor, true);
@@ -92,8 +92,8 @@ namespace RimWorld.Planet
 			}
 			base.FinalizeMesh(MeshParts.All);
 			yield break;
-			IL_0341:
-			/*Error near IL_0342: Unexpected return in MoveNext()*/;
+			IL_0335:
+			/*Error near IL_0336: Unexpected return in MoveNext()*/;
 		}
 
 		public override Vector3 FinalizePoint(Vector3 inp, float distortionFrequency, float distortionIntensity)

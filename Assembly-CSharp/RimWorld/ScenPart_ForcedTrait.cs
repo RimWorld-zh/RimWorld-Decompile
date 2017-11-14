@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,7 +9,7 @@ namespace RimWorld
 	{
 		private TraitDef trait;
 
-		private int degree = 0;
+		private int degree;
 
 		public override void ExposeData()
 		{
@@ -33,7 +32,7 @@ namespace RimWorld
 					{
 						TraitDef localDef = item;
 						TraitDegreeData localDeg = degreeData;
-						list.Add(new FloatMenuOption(localDeg.label.CapitalizeFirst(), (Action)delegate
+						list.Add(new FloatMenuOption(localDeg.label.CapitalizeFirst(), delegate
 						{
 							this.trait = localDef;
 							this.degree = localDeg.degree;
@@ -60,7 +59,11 @@ namespace RimWorld
 		public override bool CanCoexistWith(ScenPart other)
 		{
 			ScenPart_ForcedTrait scenPart_ForcedTrait = other as ScenPart_ForcedTrait;
-			return (byte)((scenPart_ForcedTrait == null || this.trait != scenPart_ForcedTrait.trait || !base.context.OverlapsWith(scenPart_ForcedTrait.context)) ? 1 : 0) != 0;
+			if (scenPart_ForcedTrait != null && this.trait == scenPart_ForcedTrait.trait && base.context.OverlapsWith(scenPart_ForcedTrait.context))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		protected override void ModifyPawn(Pawn pawn)
@@ -69,7 +72,7 @@ namespace RimWorld
 			{
 				if (pawn.story.traits.HasTrait(this.trait))
 				{
-					pawn.story.traits.allTraits.RemoveAll((Predicate<Trait>)((Trait tr) => tr.def == this.trait));
+					pawn.story.traits.allTraits.RemoveAll((Trait tr) => tr.def == this.trait);
 				}
 				else
 				{
@@ -97,7 +100,15 @@ namespace RimWorld
 
 		private static bool PawnHasTraitForcedByBackstory(Pawn pawn, TraitDef trait)
 		{
-			return (byte)((pawn.story.childhood != null && pawn.story.childhood.forcedTraits != null && pawn.story.childhood.forcedTraits.Any((Predicate<TraitEntry>)((TraitEntry te) => te.def == trait))) ? 1 : ((pawn.story.adulthood != null && pawn.story.adulthood.forcedTraits != null && pawn.story.adulthood.forcedTraits.Any((Predicate<TraitEntry>)((TraitEntry te) => te.def == trait))) ? 1 : 0)) != 0;
+			if (pawn.story.childhood != null && pawn.story.childhood.forcedTraits != null && pawn.story.childhood.forcedTraits.Any((TraitEntry te) => te.def == trait))
+			{
+				return true;
+			}
+			if (pawn.story.adulthood != null && pawn.story.adulthood.forcedTraits != null && pawn.story.adulthood.forcedTraits.Any((TraitEntry te) => te.def == trait))
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }

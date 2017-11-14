@@ -8,7 +8,15 @@ namespace RimWorld
 	{
 		public override bool InRelation(Pawn me, Pawn other)
 		{
-			return (byte)((me != other) ? ((me.GetMother() != null && me.GetFather() != null && me.GetMother() == other.GetMother() && me.GetFather() == other.GetFather()) ? 1 : 0) : 0) != 0;
+			if (me == other)
+			{
+				return false;
+			}
+			if (me.GetMother() != null && me.GetFather() != null && me.GetMother() == other.GetMother() && me.GetFather() == other.GetFather())
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public override float GenerationChance(Pawn generated, Pawn other, PawnGenerationRequest request)
@@ -21,7 +29,7 @@ namespace RimWorld
 			}
 			else
 			{
-				num = ChildRelationUtility.ChanceOfBecomingChildOf(generated, other.GetFather(), other.GetMother(), new PawnGenerationRequest?(request), default(PawnGenerationRequest?), default(PawnGenerationRequest?));
+				num = ChildRelationUtility.ChanceOfBecomingChildOf(generated, other.GetFather(), other.GetMother(), request, null, null);
 			}
 			float num3 = Mathf.Abs(generated.ageTracker.AgeChronologicalYearsFloat - other.ageTracker.AgeChronologicalYearsFloat);
 			float num4 = 1f;
@@ -124,10 +132,10 @@ namespace RimWorld
 			bool allowDead = true;
 			bool allowDowned = true;
 			bool canGeneratePawnRelations = false;
-			Gender? fixedGender = new Gender?(genderToGenerate);
-			float? fixedMelanin = new float?(value3);
+			Gender? fixedGender = genderToGenerate;
+			float? fixedMelanin = value3;
 			string fixedLastName = last;
-			PawnGenerationRequest request = new PawnGenerationRequest(kindDef, faction2, PawnGenerationContext.NonPlayer, -1, forceGenerateNewPawn, false, allowDead, allowDowned, canGeneratePawnRelations, false, 1f, false, allowGay, true, false, false, false, false, null, default(float?), new float?(value), new float?(value2), fixedGender, fixedMelanin, fixedLastName);
+			PawnGenerationRequest request = new PawnGenerationRequest(kindDef, faction2, PawnGenerationContext.NonPlayer, -1, forceGenerateNewPawn, false, allowDead, allowDowned, canGeneratePawnRelations, false, 1f, false, allowGay, true, false, false, false, false, null, null, value, value2, fixedGender, fixedMelanin, fixedLastName);
 			Pawn pawn = PawnGenerator.GeneratePawn(request);
 			if (!Find.WorldPawns.Contains(pawn))
 			{
@@ -166,7 +174,7 @@ namespace RimWorld
 					melanin = PawnSkinColors.GetRandomMelaninSimilarTo(num2, num2, 1f);
 				}
 			}
-			lastName = (string)null;
+			lastName = null;
 			if (!ChildRelationUtility.DefinitelyHasNotBirthName(existingChild) && ChildRelationUtility.ChildWantsNameOfAnyParent(existingChild))
 			{
 				if (existingChild.GetMother() == null && existingChild.GetFather() == null)
@@ -179,7 +187,7 @@ namespace RimWorld
 				else
 				{
 					string last = ((NameTriple)existingChild.Name).Last;
-					string b = (string)null;
+					string b = null;
 					if (existingChild.GetMother() != null)
 					{
 						b = ((NameTriple)existingChild.GetMother().Name).Last;

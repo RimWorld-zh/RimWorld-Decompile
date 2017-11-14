@@ -39,7 +39,8 @@ namespace RimWorld
 		{
 		}
 
-		public Zone_Growing(ZoneManager zoneManager) : base("GrowingZone".Translate(), zoneManager)
+		public Zone_Growing(ZoneManager zoneManager)
+			: base("GrowingZone".Translate(), zoneManager)
 		{
 		}
 
@@ -52,7 +53,7 @@ namespace RimWorld
 
 		public override string GetInspectString()
 		{
-			string text = "";
+			string text = string.Empty;
 			if (!base.Cells.NullOrEmpty())
 			{
 				IntVec3 c = base.Cells.First();
@@ -69,12 +70,20 @@ namespace RimWorld
 		public static string GrowingQuadrumsDescription(int tile)
 		{
 			List<Twelfth> list = GenTemperature.TwelfthsInAverageTemperatureRange(tile, 10f, 42f);
-			return (!list.NullOrEmpty()) ? ((list.Count != 12) ? ("PeriodDays".Translate(list.Count * 5 + "/" + 60) + " (" + QuadrumUtility.QuadrumsRangeLabel(list) + ")") : "GrowYearRound".Translate()) : "NoGrowingPeriod".Translate();
+			if (list.NullOrEmpty())
+			{
+				return "NoGrowingPeriod".Translate();
+			}
+			if (list.Count == 12)
+			{
+				return "GrowYearRound".Translate();
+			}
+			return "PeriodDays".Translate(list.Count * 5 + "/" + 60) + " (" + QuadrumUtility.QuadrumsRangeLabel(list) + ")";
 		}
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -85,8 +94,8 @@ namespace RimWorld
 			}
 			yield return (Gizmo)PlantToGrowSettableUtility.SetPlantToGrowCommand(this);
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_018f:
-			/*Error near IL_0190: Unexpected return in MoveNext()*/;
+			IL_0189:
+			/*Error near IL_018a: Unexpected return in MoveNext()*/;
 		}
 
 		public ThingDef GetPlantDefToGrow()

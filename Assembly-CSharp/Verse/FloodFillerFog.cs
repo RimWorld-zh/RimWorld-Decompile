@@ -20,21 +20,26 @@ namespace Verse
 			List<IntVec3> newlyUnfoggedCells = new List<IntVec3>();
 			int numUnfogged = 0;
 			bool expanding = false;
-			Predicate<IntVec3> predicate = (Predicate<IntVec3>)delegate(IntVec3 c)
+			CellRect viewRect = CellRect.ViewRect(map);
+			result.allOnScreen = true;
+			Predicate<IntVec3> predicate = delegate(IntVec3 c)
 			{
-				bool result2;
 				if (!fogGridDirect[map.cellIndices.CellToIndex(c)])
 				{
-					result2 = false;
+					return false;
 				}
-				else
+				Thing edifice = c.GetEdifice(map);
+				if (edifice != null && edifice.def.MakeFog)
 				{
-					Thing edifice = c.GetEdifice(map);
-					result2 = ((byte)((edifice == null || !edifice.def.MakeFog) ? ((!FloodFillerFog.testMode || expanding || numUnfogged <= 500) ? 1 : 0) : 0) != 0);
+					return false;
 				}
-				return result2;
+				if (FloodFillerFog.testMode && !expanding && numUnfogged > 500)
+				{
+					return false;
+				}
+				return true;
 			};
-			Action<IntVec3> processor = (Action<IntVec3>)delegate(IntVec3 c)
+			Action<IntVec3> processor = delegate(IntVec3 c)
 			{
 				fogGrid.Unfog(c);
 				newlyUnfoggedCells.Add(c);
@@ -51,6 +56,11 @@ namespace Verse
 						}
 					}
 				}
+				if (!viewRect.Contains(c))
+				{
+					result.allOnScreen = false;
+				}
+				result.cellsUnfogged++;
 				if (FloodFillerFog.testMode)
 				{
 					numUnfogged++;

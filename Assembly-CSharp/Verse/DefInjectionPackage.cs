@@ -23,7 +23,11 @@ namespace Verse
 
 		private string ProcessedPath(string path)
 		{
-			return (path.Contains('[') || path.Contains(']')) ? path.Replace("]", "").Replace('[', '.') : path;
+			if (!path.Contains('[') && !path.Contains(']'))
+			{
+				return path;
+			}
+			return path.Replace("]", string.Empty).Replace('[', '.');
 		}
 
 		private string ProcessedTranslation(string rawTranslation)
@@ -38,7 +42,7 @@ namespace Verse
 				XDocument xDocument = XDocument.Load(file.FullName);
 				foreach (XElement item in xDocument.Root.Elements())
 				{
-					if (item.Name == "rep")
+					if (item.Name == (XName)"rep")
 					{
 						string key = this.ProcessedPath(item.Elements("path").First().Value);
 						string translation = this.ProcessedTranslation(item.Elements("trans").First().Value);
@@ -71,22 +75,17 @@ namespace Verse
 
 		private bool HasError(FileInfo file, string key)
 		{
-			bool result;
 			if (!key.Contains('.'))
 			{
 				Log.Warning("Error loading DefInjection from file " + file + ": Key lacks a dot: " + key);
-				result = true;
+				return true;
 			}
-			else if (this.injections.ContainsKey(key))
+			if (this.injections.ContainsKey(key))
 			{
 				Log.Warning("Duplicate def-linked translation key: " + key);
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public void InjectIntoDefs()
@@ -176,10 +175,8 @@ namespace Verse
 							break;
 						}
 						default:
-						{
 							obj2 = obj;
 							break;
-						}
 						}
 						Type type = obj2.GetType();
 						PropertyInfo property = type.GetProperty("Count");
@@ -214,7 +211,7 @@ namespace Verse
 						{
 							num
 						});
-						goto IL_043b;
+						goto IL_0421;
 					}
 					FieldInfo field2 = obj.GetType().GetField(text, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
 					if (field2 == null)
@@ -224,7 +221,7 @@ namespace Verse
 					if (defInjectionPathPartKind == DefInjectionPathPartKind.Field)
 					{
 						obj = field2.GetValue(obj);
-						goto IL_043b;
+						goto IL_0421;
 					}
 					object value2 = field2.GetValue(obj);
 					PropertyInfo property4 = value2.GetType().GetProperty("Item");
@@ -234,10 +231,10 @@ namespace Verse
 						{
 							num
 						});
-						goto IL_043b;
+						goto IL_0421;
 					}
 					break;
-					IL_043b:
+					IL_0421:
 					list.RemoveAt(0);
 				}
 				throw new InvalidOperationException("Tried to use index on non-list (missing 'Item' property).");
@@ -251,12 +248,10 @@ namespace Verse
 		private FieldInfo GetFieldNamed(Type type, string name)
 		{
 			FieldInfo field = type.GetField(name, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-			FieldInfo[] fields;
-			int i;
 			if (field == null)
 			{
-				fields = type.GetFields(BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-				for (i = 0; i < fields.Length; i++)
+				FieldInfo[] fields = type.GetFields(BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+				for (int i = 0; i < fields.Length; i++)
 				{
 					object[] customAttributes = fields[i].GetCustomAttributes(typeof(LoadAliasAttribute), false);
 					if (customAttributes != null && customAttributes.Length > 0)
@@ -265,18 +260,14 @@ namespace Verse
 						{
 							LoadAliasAttribute loadAliasAttribute = (LoadAliasAttribute)customAttributes[j];
 							if (loadAliasAttribute.alias == name)
-								goto IL_006d;
+							{
+								return fields[i];
+							}
 						}
 					}
 				}
 			}
-			FieldInfo result = field;
-			goto IL_00a0;
-			IL_00a0:
-			return result;
-			IL_006d:
-			result = fields[i];
-			goto IL_00a0;
+			return field;
 		}
 
 		public IEnumerable<string> MissingInjections()
@@ -312,8 +303,8 @@ namespace Verse
 				}
 			}
 			yield break;
-			IL_01a7:
-			/*Error near IL_01a8: Unexpected return in MoveNext()*/;
+			IL_01a0:
+			/*Error near IL_01a1: Unexpected return in MoveNext()*/;
 		}
 
 		private IEnumerable<string> MissingInjectionsFromDef(Def def)

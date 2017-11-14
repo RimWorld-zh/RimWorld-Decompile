@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -31,7 +30,7 @@ namespace RimWorld
 				foreach (StatDef allDef in DefDatabase<StatDef>.AllDefs)
 				{
 					StatDef localSd = allDef;
-					list.Add(new FloatMenuOption(localSd.LabelCap, (Action)delegate
+					list.Add(new FloatMenuOption(localSd.LabelCap, delegate
 					{
 						this.stat = localSd;
 					}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -63,22 +62,21 @@ namespace RimWorld
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_StatFactor scenPart_StatFactor = other as ScenPart_StatFactor;
-			bool result;
 			if (scenPart_StatFactor != null && scenPart_StatFactor.stat == this.stat)
 			{
 				this.factor *= scenPart_StatFactor.factor;
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public float GetStatFactor(StatDef stat)
 		{
-			return (float)((stat != this.stat) ? 1.0 : this.factor);
+			if (stat == this.stat)
+			{
+				return this.factor;
+			}
+			return 1f;
 		}
 	}
 }

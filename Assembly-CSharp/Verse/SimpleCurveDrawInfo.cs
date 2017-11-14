@@ -4,7 +4,7 @@ namespace Verse
 {
 	public class SimpleCurveDrawInfo
 	{
-		public SimpleCurve curve = null;
+		public SimpleCurve curve;
 
 		public string label = string.Empty;
 

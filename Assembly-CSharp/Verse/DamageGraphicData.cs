@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -65,7 +64,7 @@ namespace Verse
 
 		public void ResolveReferencesSpecial()
 		{
-			LongEventHandler.ExecuteWhenFinished((Action)delegate
+			LongEventHandler.ExecuteWhenFinished(delegate
 			{
 				if (this.scratches != null)
 				{

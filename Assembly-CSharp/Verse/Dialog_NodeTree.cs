@@ -68,7 +68,7 @@ namespace Verse
 		public override void PostClose()
 		{
 			base.PostClose();
-			if ((object)this.closeAction != null)
+			if (this.closeAction != null)
 			{
 				this.closeAction();
 			}

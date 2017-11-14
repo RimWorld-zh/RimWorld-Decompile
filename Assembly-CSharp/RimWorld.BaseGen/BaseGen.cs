@@ -129,7 +129,7 @@ namespace RimWorld.BaseGen
 			}
 			else
 			{
-				SymbolResolver symbolResolver2 = BaseGen.tmpResolvers.RandomElementByWeight((Func<SymbolResolver, float>)((SymbolResolver x) => x.selectionWeight));
+				SymbolResolver symbolResolver2 = BaseGen.tmpResolvers.RandomElementByWeight((SymbolResolver x) => x.selectionWeight);
 				symbolResolver2.Resolve(second);
 			}
 		}

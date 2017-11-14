@@ -74,7 +74,7 @@ namespace RimWorld
 						this.entriesInt.Add(drugPolicyEntry);
 					}
 				}
-				this.entriesInt.SortBy((Func<DrugPolicyEntry, float>)((DrugPolicyEntry e) => e.drug.GetCompProperties<CompProperties_Drug>().listOrder));
+				this.entriesInt.SortBy((DrugPolicyEntry e) => e.drug.GetCompProperties<CompProperties_Drug>().listOrder);
 			}
 		}
 

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -10,15 +9,17 @@ namespace RimWorld
 	{
 		private IntVec3 strikeLoc = IntVec3.Invalid;
 
-		private Mesh boltMesh = null;
+		private Mesh boltMesh;
 
 		private static readonly Material LightningMat = MatLoader.LoadMat("Weather/LightningBolt", -1);
 
-		public WeatherEvent_LightningStrike(Map map) : base(map)
+		public WeatherEvent_LightningStrike(Map map)
+			: base(map)
 		{
 		}
 
-		public WeatherEvent_LightningStrike(Map map, IntVec3 forcedStrikeLoc) : base(map)
+		public WeatherEvent_LightningStrike(Map map, IntVec3 forcedStrikeLoc)
+			: base(map)
 		{
 			this.strikeLoc = forcedStrikeLoc;
 		}
@@ -28,7 +29,7 @@ namespace RimWorld
 			base.FireEvent();
 			if (!this.strikeLoc.IsValid)
 			{
-				this.strikeLoc = CellFinderLoose.RandomCellWith((Predicate<IntVec3>)((IntVec3 sq) => sq.Standable(base.map) && !base.map.roofGrid.Roofed(sq)), base.map, 1000);
+				this.strikeLoc = CellFinderLoose.RandomCellWith((IntVec3 sq) => sq.Standable(base.map) && !base.map.roofGrid.Roofed(sq), base.map, 1000);
 			}
 			this.boltMesh = LightningBoltMeshPool.RandomBoltMesh;
 			GenExplosion.DoExplosion(this.strikeLoc, base.map, 1.9f, DamageDefOf.Flame, null, -1, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);

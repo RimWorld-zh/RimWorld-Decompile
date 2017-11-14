@@ -22,22 +22,21 @@ namespace Verse.AI
 			IntVec3 cell = base.job.targetB.Cell;
 			Thing thing = null;
 			thing = ((base.pawn.CurJob != base.job || base.pawn.carryTracker.CarriedThing == null) ? base.TargetThingA : base.pawn.carryTracker.CarriedThing);
-			string result;
 			if (thing == null)
 			{
-				result = "ReportHaulingUnknown".Translate();
+				return "ReportHaulingUnknown".Translate();
 			}
-			else
+			string text = null;
+			SlotGroup slotGroup = cell.GetSlotGroup(base.Map);
+			if (slotGroup != null)
 			{
-				string text = (string)null;
-				SlotGroup slotGroup = cell.GetSlotGroup(base.Map);
-				if (slotGroup != null)
-				{
-					text = slotGroup.parent.SlotYielderLabel();
-				}
-				result = ((text == null) ? "ReportHauling".Translate(thing.LabelCap) : "ReportHaulingTo".Translate(thing.LabelCap, text));
+				text = slotGroup.parent.SlotYielderLabel();
 			}
-			return result;
+			if (text != null)
+			{
+				return "ReportHaulingTo".Translate(thing.LabelCap, text);
+			}
+			return "ReportHauling".Translate(thing.LabelCap);
 		}
 
 		public override bool TryMakePreToilReservations()

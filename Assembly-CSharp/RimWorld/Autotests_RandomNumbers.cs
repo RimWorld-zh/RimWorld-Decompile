@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -20,18 +19,18 @@ namespace RimWorld
 		private static void CheckSimpleFloats()
 		{
 			List<float> list = Autotests_RandomNumbers.RandomFloats(500).ToList();
-			if (list.Any((Predicate<float>)((float x) => x < 0.0 || x > 1.0)))
+			if (list.Any((float x) => x < 0.0 || x > 1.0))
 			{
 				Log.Error("Float out of range.");
 			}
-			if (!list.Any((Predicate<float>)((float x) => x < 0.10000000149011612)) || !list.Any((Predicate<float>)((float x) => (double)x > 0.5 && (double)x < 0.6)) || !list.Any((Predicate<float>)((float x) => (double)x > 0.9)))
+			if (!list.Any((float x) => x < 0.10000000149011612) || !list.Any((float x) => (double)x > 0.5 && (double)x < 0.6) || !list.Any((float x) => (double)x > 0.9))
 			{
 				Log.Warning("Possibly uneven distribution.");
 			}
 			list = Autotests_RandomNumbers.RandomFloats(1300000).ToList();
-			int num = list.Count((Func<float, bool>)((float x) => (double)x < 0.1));
+			int num = list.Count((float x) => (double)x < 0.1);
 			Log.Message("< 0.1 count (should be ~10%): " + (float)((float)num / (float)list.Count() * 100.0) + "%");
-			num = list.Count((Func<float, bool>)((float x) => (double)x < 0.0001));
+			num = list.Count((float x) => (double)x < 0.0001);
 			Log.Message("< 0.0001 count (should be ~0.01%): " + (float)((float)num / (float)list.Count() * 100.0) + "%");
 		}
 
@@ -93,9 +92,9 @@ namespace RimWorld
 				break;
 			}
 			Log.Message("Values between " + num + " and " + num2 + " (value: number of occurrences):");
-			for (int num6 = num; num6 <= num2; num6++)
+			for (int i = num; i <= num2; i++)
 			{
-				Log.Message(num6 + ": " + dictionary[num6]);
+				Log.Message(i + ": " + dictionary[i]);
 			}
 		}
 
@@ -111,14 +110,13 @@ namespace RimWorld
 			int i;
 			for (i = 0; i < 4; i++)
 			{
-				Log.Message(i + ": " + (float)((float)list.Count((Func<int, bool>)((int x) => x == i)) / (float)list.Count() * 100.0) + "%");
+				Log.Message(i + ": " + (float)((float)list.Count((int x) => x == i) / (float)list.Count() * 100.0) + "%");
 			}
 		}
 
 		private static void CheckSeed()
 		{
-			int seed = 10;
-			Rand.Seed = seed;
+			int seed = Rand.Seed = 10;
 			int @int = Rand.Int;
 			int int2 = Rand.Int;
 			Rand.Seed = seed;

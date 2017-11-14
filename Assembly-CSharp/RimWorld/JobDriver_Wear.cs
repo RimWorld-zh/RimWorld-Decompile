@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse.AI;
 
@@ -17,9 +16,9 @@ namespace RimWorld
 		{
 			Toil gotoApparel = new Toil
 			{
-				initAction = (Action)delegate
+				initAction = delegate
 				{
-					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_003c: stateMachine*/)._0024this.pawn.pather.StartPath(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_003c: stateMachine*/)._0024this.TargetThingA, PathEndMode.ClosestTouch);
+					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_003a: stateMachine*/)._0024this.pawn.pather.StartPath(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_003a: stateMachine*/)._0024this.TargetThingA, PathEndMode.ClosestTouch);
 				},
 				defaultCompleteMode = ToilCompleteMode.PatherArrival
 			};

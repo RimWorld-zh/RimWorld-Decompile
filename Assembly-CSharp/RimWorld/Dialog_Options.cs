@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -24,6 +25,9 @@ namespace RimWorld
 			3.5f,
 			4f
 		};
+
+		[CompilerGenerated]
+		private static Predicate<string> _003C_003Ef__mg_0024cache0;
 
 		public override Vector2 InitialSize
 		{
@@ -65,14 +69,14 @@ namespace RimWorld
 				Find.WindowStack.Add(new Dialog_ResolutionPicker());
 			}
 			bool customCursorEnabled = Prefs.CustomCursorEnabled;
-			listing_Standard.CheckboxLabeled("CustomCursor".Translate(), ref customCursorEnabled, (string)null);
+			listing_Standard.CheckboxLabeled("CustomCursor".Translate(), ref customCursorEnabled, null);
 			Prefs.CustomCursorEnabled = customCursorEnabled;
-			bool fullScreen;
-			bool flag = fullScreen = Screen.fullScreen;
-			listing_Standard.CheckboxLabeled("Fullscreen".Translate(), ref flag, (string)null);
-			if (flag != fullScreen)
+			bool fullScreen = Screen.fullScreen;
+			bool flag = fullScreen;
+			listing_Standard.CheckboxLabeled("Fullscreen".Translate(), ref fullScreen, null);
+			if (fullScreen != flag)
 			{
-				ResolutionUtility.SafeSetFullscreen(flag);
+				ResolutionUtility.SafeSetFullscreen(fullScreen);
 			}
 			listing_Standard.Label("UIScale".Translate(), -1f);
 			float[] uIScales = Dialog_Options.UIScales;
@@ -93,7 +97,7 @@ namespace RimWorld
 			}
 			listing_Standard.Gap(12f);
 			bool hatsOnlyOnMap = Prefs.HatsOnlyOnMap;
-			listing_Standard.CheckboxLabeled("HatsShownOnlyOnMap".Translate(), ref hatsOnlyOnMap, (string)null);
+			listing_Standard.CheckboxLabeled("HatsShownOnlyOnMap".Translate(), ref hatsOnlyOnMap, null);
 			if (hatsOnlyOnMap != Prefs.HatsOnlyOnMap)
 			{
 				PortraitsCache.Clear();
@@ -105,11 +109,11 @@ namespace RimWorld
 			Text.Font = GameFont.Small;
 			listing_Standard.Gap(12f);
 			listing_Standard.Gap(12f);
-			if (listing_Standard.ButtonText("KeyboardConfig".Translate(), (string)null))
+			if (listing_Standard.ButtonText("KeyboardConfig".Translate(), null))
 			{
 				Find.WindowStack.Add(new Dialog_KeyBindings());
 			}
-			if (listing_Standard.ButtonText("ChooseLanguage".Translate(), (string)null))
+			if (listing_Standard.ButtonText("ChooseLanguage".Translate(), null))
 			{
 				if (Current.ProgramState == ProgramState.Playing)
 				{
@@ -121,7 +125,7 @@ namespace RimWorld
 					foreach (LoadedLanguage allLoadedLanguage in LanguageDatabase.AllLoadedLanguages)
 					{
 						LoadedLanguage localLang = allLoadedLanguage;
-						list.Add(new FloatMenuOption(localLang.FriendlyNameNative, (Action)delegate
+						list.Add(new FloatMenuOption(localLang.FriendlyNameNative, delegate
 						{
 							LanguageDatabase.SelectLanguage(localLang);
 						}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -129,41 +133,40 @@ namespace RimWorld
 					Find.WindowStack.Add(new FloatMenu(list));
 				}
 			}
-			if ((Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor) && listing_Standard.ButtonText("OpenSaveGameDataFolder".Translate(), (string)null))
+			if ((Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor) && listing_Standard.ButtonText("OpenSaveGameDataFolder".Translate(), null))
 			{
 				Application.OpenURL(GenFilePaths.SaveDataFolderPath);
 			}
 			bool adaptiveTrainingEnabled = Prefs.AdaptiveTrainingEnabled;
-			listing_Standard.CheckboxLabeled("LearningHelper".Translate(), ref adaptiveTrainingEnabled, (string)null);
+			listing_Standard.CheckboxLabeled("LearningHelper".Translate(), ref adaptiveTrainingEnabled, null);
 			Prefs.AdaptiveTrainingEnabled = adaptiveTrainingEnabled;
-			if (listing_Standard.ButtonText("ResetAdaptiveTutor".Translate(), (string)null))
+			if (listing_Standard.ButtonText("ResetAdaptiveTutor".Translate(), null))
 			{
 				Messages.Message("AdaptiveTutorIsReset".Translate(), MessageTypeDefOf.TaskCompletion);
 				PlayerKnowledgeDatabase.ResetPersistent();
 			}
 			bool runInBackground = Prefs.RunInBackground;
-			listing_Standard.CheckboxLabeled("RunInBackground".Translate(), ref runInBackground, (string)null);
+			listing_Standard.CheckboxLabeled("RunInBackground".Translate(), ref runInBackground, null);
 			Prefs.RunInBackground = runInBackground;
 			bool edgeScreenScroll = Prefs.EdgeScreenScroll;
-			listing_Standard.CheckboxLabeled("EdgeScreenScroll".Translate(), ref edgeScreenScroll, (string)null);
+			listing_Standard.CheckboxLabeled("EdgeScreenScroll".Translate(), ref edgeScreenScroll, null);
 			Prefs.EdgeScreenScroll = edgeScreenScroll;
 			bool pauseOnLoad = Prefs.PauseOnLoad;
-			listing_Standard.CheckboxLabeled("PauseOnLoad".Translate(), ref pauseOnLoad, (string)null);
+			listing_Standard.CheckboxLabeled("PauseOnLoad".Translate(), ref pauseOnLoad, null);
 			Prefs.PauseOnLoad = pauseOnLoad;
 			bool pauseOnUrgentLetter = Prefs.PauseOnUrgentLetter;
-			listing_Standard.CheckboxLabeled("PauseOnUrgentLetter".Translate(), ref pauseOnUrgentLetter, (string)null);
+			listing_Standard.CheckboxLabeled("PauseOnUrgentLetter".Translate(), ref pauseOnUrgentLetter, null);
 			Prefs.PauseOnUrgentLetter = pauseOnUrgentLetter;
 			bool showRealtimeClock = Prefs.ShowRealtimeClock;
-			listing_Standard.CheckboxLabeled("ShowRealtimeClock".Translate(), ref showRealtimeClock, (string)null);
+			listing_Standard.CheckboxLabeled("ShowRealtimeClock".Translate(), ref showRealtimeClock, null);
 			Prefs.ShowRealtimeClock = showRealtimeClock;
 			bool plantWindSway = Prefs.PlantWindSway;
-			listing_Standard.CheckboxLabeled("PlantWindSway".Translate(), ref plantWindSway, (string)null);
+			listing_Standard.CheckboxLabeled("PlantWindSway".Translate(), ref plantWindSway, null);
 			Prefs.PlantWindSway = plantWindSway;
 			int maxNumberOfPlayerHomes = Prefs.MaxNumberOfPlayerHomes;
 			listing_Standard.Label("MaxNumberOfPlayerHomes".Translate(maxNumberOfPlayerHomes), -1f);
-			int num2 = Mathf.RoundToInt(listing_Standard.Slider((float)maxNumberOfPlayerHomes, 1f, 5f));
-			Prefs.MaxNumberOfPlayerHomes = num2;
-			if (maxNumberOfPlayerHomes != num2 && num2 > 1)
+			int num3 = Prefs.MaxNumberOfPlayerHomes = Mathf.RoundToInt(listing_Standard.Slider((float)maxNumberOfPlayerHomes, 1f, 5f));
+			if (maxNumberOfPlayerHomes != num3 && num3 > 1)
 			{
 				TutorUtility.DoModalDialogIfNotKnown(ConceptDefOf.MaxNumberOfPlayerHomes);
 			}
@@ -177,7 +180,7 @@ namespace RimWorld
 					{
 						TemperatureDisplayMode temperatureDisplayMode = (TemperatureDisplayMode)enumerator2.Current;
 						TemperatureDisplayMode localTmode = temperatureDisplayMode;
-						list2.Add(new FloatMenuOption(localTmode.ToString(), (Action)delegate
+						list2.Add(new FloatMenuOption(localTmode.ToString(), delegate
 						{
 							Prefs.TemperatureMode = localTmode;
 						}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -201,32 +204,32 @@ namespace RimWorld
 				List<FloatMenuOption> list3 = new List<FloatMenuOption>();
 				if (Prefs.DevMode)
 				{
-					list3.Add(new FloatMenuOption("0.125 " + text + "(debug)", (Action)delegate
+					list3.Add(new FloatMenuOption("0.125 " + text + "(debug)", delegate
 					{
 						Prefs.AutosaveIntervalDays = 0.125f;
 					}, MenuOptionPriority.Default, null, null, 0f, null, null));
-					list3.Add(new FloatMenuOption("0.25 " + text + "(debug)", (Action)delegate
+					list3.Add(new FloatMenuOption("0.25 " + text + "(debug)", delegate
 					{
 						Prefs.AutosaveIntervalDays = 0.25f;
 					}, MenuOptionPriority.Default, null, null, 0f, null, null));
 				}
-				list3.Add(new FloatMenuOption("0.5 " + text + "", (Action)delegate
+				list3.Add(new FloatMenuOption("0.5 " + text + string.Empty, delegate
 				{
 					Prefs.AutosaveIntervalDays = 0.5f;
 				}, MenuOptionPriority.Default, null, null, 0f, null, null));
-				list3.Add(new FloatMenuOption(1.ToString() + " " + text2, (Action)delegate
+				list3.Add(new FloatMenuOption(1.ToString() + " " + text2, delegate
 				{
 					Prefs.AutosaveIntervalDays = 1f;
 				}, MenuOptionPriority.Default, null, null, 0f, null, null));
-				list3.Add(new FloatMenuOption(3.ToString() + " " + text, (Action)delegate
+				list3.Add(new FloatMenuOption(3.ToString() + " " + text, delegate
 				{
 					Prefs.AutosaveIntervalDays = 3f;
 				}, MenuOptionPriority.Default, null, null, 0f, null, null));
-				list3.Add(new FloatMenuOption(7.ToString() + " " + text, (Action)delegate
+				list3.Add(new FloatMenuOption(7.ToString() + " " + text, delegate
 				{
 					Prefs.AutosaveIntervalDays = 7f;
 				}, MenuOptionPriority.Default, null, null, 0f, null, null));
-				list3.Add(new FloatMenuOption(14.ToString() + " " + text, (Action)delegate
+				list3.Add(new FloatMenuOption(14.ToString() + " " + text, delegate
 				{
 					Prefs.AutosaveIntervalDays = 14f;
 				}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -252,7 +255,7 @@ namespace RimWorld
 					{
 						AnimalNameDisplayMode animalNameDisplayMode = (AnimalNameDisplayMode)enumerator3.Current;
 						AnimalNameDisplayMode localMode = animalNameDisplayMode;
-						list4.Add(new FloatMenuOption(localMode.ToStringHuman(), (Action)delegate
+						list4.Add(new FloatMenuOption(localMode.ToStringHuman(), delegate
 						{
 							Prefs.AnimalNameMode = localMode;
 						}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -269,30 +272,30 @@ namespace RimWorld
 				Find.WindowStack.Add(new FloatMenu(list4));
 			}
 			bool devMode = Prefs.DevMode;
-			listing_Standard.CheckboxLabeled("DevelopmentMode".Translate(), ref devMode, (string)null);
+			listing_Standard.CheckboxLabeled("DevelopmentMode".Translate(), ref devMode, null);
 			Prefs.DevMode = devMode;
 			if (Prefs.DevMode)
 			{
 				bool resetModsConfigOnCrash = Prefs.ResetModsConfigOnCrash;
-				listing_Standard.CheckboxLabeled("ResetModsConfigOnCrash".Translate(), ref resetModsConfigOnCrash, (string)null);
+				listing_Standard.CheckboxLabeled("ResetModsConfigOnCrash".Translate(), ref resetModsConfigOnCrash, null);
 				Prefs.ResetModsConfigOnCrash = resetModsConfigOnCrash;
 				bool logVerbose = Prefs.LogVerbose;
-				listing_Standard.CheckboxLabeled("LogVerbose".Translate(), ref logVerbose, (string)null);
+				listing_Standard.CheckboxLabeled("LogVerbose".Translate(), ref logVerbose, null);
 				Prefs.LogVerbose = logVerbose;
 			}
 			listing_Standard.NewColumn();
 			Text.Font = GameFont.Medium;
-			listing_Standard.Label("", -1f);
+			listing_Standard.Label(string.Empty, -1f);
 			Text.Font = GameFont.Small;
 			listing_Standard.Gap(12f);
 			listing_Standard.Gap(12f);
-			if (listing_Standard.ButtonText("ModSettings".Translate(), (string)null))
+			if (listing_Standard.ButtonText("ModSettings".Translate(), null))
 			{
 				Find.WindowStack.Add(new Dialog_ModSettings());
 			}
-			listing_Standard.Label("", -1f);
+			listing_Standard.Label(string.Empty, -1f);
 			listing_Standard.Label("NamesYouWantToSee".Translate(), -1f);
-			Prefs.PreferredNames.RemoveAll((Predicate<string>)((string n) => n.NullOrEmpty()));
+			Prefs.PreferredNames.RemoveAll(GenText.NullOrEmpty);
 			for (int j = 0; j < Prefs.PreferredNames.Count; j++)
 			{
 				string name = Prefs.PreferredNames[j];
@@ -308,15 +311,11 @@ namespace RimWorld
 					switch (pawnBio.BioType)
 					{
 					case PawnBioType.BackstoryInGame:
-					{
 						name += " [B]";
 						break;
-					}
 					case PawnBioType.PirateKing:
-					{
 						name += " [PK]";
 						break;
-					}
 					}
 				}
 				Rect rect2 = listing_Standard.GetRect(24f);
@@ -328,7 +327,7 @@ namespace RimWorld
 					SoundDefOf.TickLow.PlayOneShotOnCamera(null);
 				}
 			}
-			if (Prefs.PreferredNames.Count < 6 && listing_Standard.ButtonText("AddName".Translate() + "...", (string)null))
+			if (Prefs.PreferredNames.Count < 6 && listing_Standard.ButtonText("AddName".Translate() + "...", null))
 			{
 				Find.WindowStack.Add(new Dialog_AddPreferredName());
 			}

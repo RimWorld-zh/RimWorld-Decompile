@@ -1,5 +1,3 @@
-using System.Xml;
-
 namespace Verse
 {
 	public static class Scribe_Defs
@@ -9,11 +7,11 @@ namespace Verse
 			if (Scribe.mode == LoadSaveMode.Saving)
 			{
 				string text = (value != null) ? ((Def)(object)value).defName : "null";
-				Scribe_Values.Look<string>(ref text, label, "null", false);
+				Scribe_Values.Look(ref text, label, "null", false);
 			}
 			else if (Scribe.mode == LoadSaveMode.LoadingVars)
 			{
-				value = ScribeExtractor.DefFromNode<T>((XmlNode)Scribe.loader.curXmlParent[label]);
+				value = ScribeExtractor.DefFromNode<T>(Scribe.loader.curXmlParent[label]);
 			}
 		}
 	}

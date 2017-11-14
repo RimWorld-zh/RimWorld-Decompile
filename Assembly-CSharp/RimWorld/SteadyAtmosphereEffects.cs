@@ -1,7 +1,5 @@
-#define ENABLE_PROFILER
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Profiling;
 using Verse;
 using Verse.Noise;
 
@@ -11,9 +9,9 @@ namespace RimWorld
 	{
 		private Map map;
 
-		private ModuleBase snowNoise = null;
+		private ModuleBase snowNoise;
 
-		private int cycleIndex = 0;
+		private int cycleIndex;
 
 		private float outdoorMeltAmount;
 
@@ -48,7 +46,6 @@ namespace RimWorld
 
 		public void SteadyAtmosphereEffectsTick()
 		{
-			Profiler.BeginSample("Init");
 			if ((float)Find.TickManager.TicksGame % 97.0 == 0.0 && Rand.Value < 0.019999999552965164)
 			{
 				this.RollForRainFire();
@@ -59,23 +56,16 @@ namespace RimWorld
 			this.deteriorationRate = Mathf.Lerp(1f, 5f, this.rainRate);
 			int num = Mathf.RoundToInt((float)((float)this.map.Area * 0.00060000002849847078));
 			int area = this.map.Area;
-			Profiler.EndSample();
-			Profiler.BeginSample("DoCells");
-			for (int num2 = 0; num2 < num; num2++)
+			for (int i = 0; i < num; i++)
 			{
 				if (this.cycleIndex >= area)
 				{
 					this.cycleIndex = 0;
 				}
-				Profiler.BeginSample("Get cell");
 				IntVec3 c = this.map.cellsInRandomOrder.Get(this.cycleIndex);
-				Profiler.EndSample();
-				Profiler.BeginSample("Affect cell");
 				this.DoCellSteadyEffects(c);
-				Profiler.EndSample();
 				this.cycleIndex++;
 			}
-			Profiler.EndSample();
 		}
 
 		private void DoCellSteadyEffects(IntVec3 c)
@@ -85,7 +75,6 @@ namespace RimWorld
 			bool flag2 = room != null && room.UsesOutdoorTemperature;
 			if (room == null || flag2)
 			{
-				Profiler.BeginSample("Roomless or Outdoors");
 				if (this.outdoorMeltAmount > 0.0)
 				{
 					this.map.snowGrid.AddDepth(c, (float)(0.0 - this.outdoorMeltAmount));
@@ -94,13 +83,11 @@ namespace RimWorld
 				{
 					this.AddFallenSnowAt(c, (float)(0.046000000089406967 * this.map.weatherManager.SnowRate));
 				}
-				Profiler.EndSample();
 			}
 			if (room != null)
 			{
 				if (flag2)
 				{
-					Profiler.BeginSample("Outdoors");
 					if (!flag)
 					{
 						List<Thing> thingList = c.GetThingList(this.map);
@@ -130,11 +117,9 @@ namespace RimWorld
 							}
 						}
 					}
-					Profiler.EndSample();
 				}
 				else
 				{
-					Profiler.BeginSample("Indoors");
 					float temperature = room.Temperature;
 					if (temperature > 0.0)
 					{
@@ -161,32 +146,49 @@ namespace RimWorld
 							}
 						}
 					}
-					Profiler.EndSample();
 				}
 			}
-			Profiler.BeginSample("GameConditions");
 			List<GameCondition> activeConditions = this.map.gameConditionManager.ActiveConditions;
 			for (int k = 0; k < activeConditions.Count; k++)
 			{
 				activeConditions[k].DoCellSteadyEffects(c);
 			}
-			Profiler.EndSample();
 		}
 
 		public static bool InDeterioratingPosition(Thing t)
 		{
-			return (byte)((!t.Position.Roofed(t.Map)) ? ((!SteadyAtmosphereEffects.ProtectedByEdifice(t.Position, t.Map)) ? 1 : 0) : 0) != 0;
+			if (t.Position.Roofed(t.Map))
+			{
+				return false;
+			}
+			if (SteadyAtmosphereEffects.ProtectedByEdifice(t.Position, t.Map))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		private static bool ProtectedByEdifice(IntVec3 c, Map map)
 		{
 			Building edifice = c.GetEdifice(map);
-			return (byte)((edifice != null && edifice.def.building != null && edifice.def.building.preventDeteriorationOnTop) ? 1 : 0) != 0;
+			if (edifice != null && edifice.def.building != null && edifice.def.building.preventDeteriorationOnTop)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		private float MeltAmountAt(float temperature)
 		{
-			return (float)((!(temperature < 0.0)) ? ((!(temperature < 10.0)) ? (temperature * 0.0057999999262392521) : (temperature * temperature * 0.0057999999262392521 * 0.10000000149011612)) : 0.0);
+			if (temperature < 0.0)
+			{
+				return 0f;
+			}
+			if (temperature < 10.0)
+			{
+				return (float)(temperature * temperature * 0.0057999999262392521 * 0.10000000149011612);
+			}
+			return (float)(temperature * 0.0057999999262392521);
 		}
 
 		public void AddFallenSnowAt(IntVec3 c, float baseAmount)
@@ -208,7 +210,11 @@ namespace RimWorld
 
 		public static float FinalDeteriorationRate(Thing t)
 		{
-			return (float)(t.def.CanEverDeteriorate ? t.GetStatValue(StatDefOf.DeteriorationRate, true) : 0.0);
+			if (!t.def.CanEverDeteriorate)
+			{
+				return 0f;
+			}
+			return t.GetStatValue(StatDefOf.DeteriorationRate, true);
 		}
 
 		private void TryDoDeteriorate(Thing t, IntVec3 c, bool checkEdifice)

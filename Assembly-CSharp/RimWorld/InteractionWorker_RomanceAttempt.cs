@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -18,47 +17,36 @@ namespace RimWorld
 
 		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
 		{
-			float result;
 			if (LovePartnerRelationUtility.LovePartnerRelationExists(initiator, recipient))
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			float num = initiator.relations.SecondaryRomanceChanceFactor(recipient);
+			if (num < 0.25)
 			{
-				float num = initiator.relations.SecondaryRomanceChanceFactor(recipient);
-				if (num < 0.25)
-				{
-					result = 0f;
-				}
-				else
-				{
-					int num2 = initiator.relations.OpinionOf(recipient);
-					if (num2 < 5)
-					{
-						result = 0f;
-					}
-					else if (recipient.relations.OpinionOf(initiator) < 5)
-					{
-						result = 0f;
-					}
-					else
-					{
-						float num3 = 1f;
-						Pawn pawn = LovePartnerRelationUtility.ExistingMostLikedLovePartner(initiator, false);
-						if (pawn != null)
-						{
-							float value = (float)initiator.relations.OpinionOf(pawn);
-							num3 = Mathf.InverseLerp(50f, -50f, value);
-						}
-						float num4 = (float)((!initiator.story.traits.HasTrait(TraitDefOf.Gay)) ? ((initiator.gender != Gender.Female) ? 1.0 : 0.15000000596046448) : 1.0);
-						float num5 = Mathf.InverseLerp(0.25f, 1f, num);
-						float num6 = Mathf.InverseLerp(5f, 100f, (float)num2);
-						float num7 = (float)((initiator.gender != recipient.gender) ? ((initiator.story.traits.HasTrait(TraitDefOf.Gay) || recipient.story.traits.HasTrait(TraitDefOf.Gay)) ? 0.15000000596046448 : 1.0) : ((!initiator.story.traits.HasTrait(TraitDefOf.Gay) || !recipient.story.traits.HasTrait(TraitDefOf.Gay)) ? 0.15000000596046448 : 1.0));
-						result = (float)(1.1499999761581421 * num4 * num5 * num6 * num3 * num7);
-					}
-				}
+				return 0f;
 			}
-			return result;
+			int num2 = initiator.relations.OpinionOf(recipient);
+			if (num2 < 5)
+			{
+				return 0f;
+			}
+			if (recipient.relations.OpinionOf(initiator) < 5)
+			{
+				return 0f;
+			}
+			float num3 = 1f;
+			Pawn pawn = LovePartnerRelationUtility.ExistingMostLikedLovePartner(initiator, false);
+			if (pawn != null)
+			{
+				float value = (float)initiator.relations.OpinionOf(pawn);
+				num3 = Mathf.InverseLerp(50f, -50f, value);
+			}
+			float num4 = (float)((!initiator.story.traits.HasTrait(TraitDefOf.Gay)) ? ((initiator.gender != Gender.Female) ? 1.0 : 0.15000000596046448) : 1.0);
+			float num5 = Mathf.InverseLerp(0.25f, 1f, num);
+			float num6 = Mathf.InverseLerp(5f, 100f, (float)num2);
+			float num7 = (float)((initiator.gender != recipient.gender) ? ((initiator.story.traits.HasTrait(TraitDefOf.Gay) || recipient.story.traits.HasTrait(TraitDefOf.Gay)) ? 0.15000000596046448 : 1.0) : ((!initiator.story.traits.HasTrait(TraitDefOf.Gay) || !recipient.story.traits.HasTrait(TraitDefOf.Gay)) ? 0.15000000596046448 : 1.0));
+			return (float)(1.1499999761581421 * num4 * num5 * num6 * num3 * num7);
 		}
 
 		public float SuccessChance(Pawn initiator, Pawn recipient)
@@ -68,12 +56,12 @@ namespace RimWorld
 			num *= Mathf.InverseLerp(5f, 100f, (float)recipient.relations.OpinionOf(initiator));
 			float num2 = 1f;
 			Pawn pawn = null;
-			if (recipient.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Lover, (Predicate<Pawn>)((Pawn x) => !x.Dead)) != null)
+			if (recipient.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Lover, (Pawn x) => !x.Dead) != null)
 			{
 				pawn = recipient.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Lover, null);
 				num2 = 0.6f;
 			}
-			else if (recipient.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Fiance, (Predicate<Pawn>)((Pawn x) => !x.Dead)) != null)
+			else if (recipient.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Fiance, (Pawn x) => !x.Dead) != null)
 			{
 				pawn = recipient.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Fiance, null);
 				num2 = 0.1f;
@@ -139,8 +127,8 @@ namespace RimWorld
 		private void BreakLoverAndFianceRelations(Pawn pawn, out List<Pawn> oldLoversAndFiances)
 		{
 			oldLoversAndFiances = new List<Pawn>();
-			goto IL_0008;
-			IL_0008:
+			goto IL_0007;
+			IL_0007:
 			while (true)
 			{
 				Pawn firstDirectRelationPawn = pawn.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Lover, null);
@@ -161,8 +149,8 @@ namespace RimWorld
 				}
 			}
 			return;
-			IL_009f:
-			goto IL_0008;
+			IL_009a:
+			goto IL_0007;
 		}
 
 		private void TryAddCheaterThought(Pawn pawn, Pawn cheater)
@@ -178,21 +166,21 @@ namespace RimWorld
 			bool flag = false;
 			if (initiator.GetSpouse() != null && !initiator.GetSpouse().Dead)
 			{
-				goto IL_0039;
+				goto IL_0038;
 			}
 			if (recipient.GetSpouse() != null && !recipient.GetSpouse().Dead)
-				goto IL_0039;
+				goto IL_0038;
 			string label = "LetterLabelNewLovers".Translate();
 			LetterDef textLetterDef = LetterDefOf.PositiveEvent;
 			Pawn t = initiator;
-			goto IL_008c;
-			IL_0039:
+			goto IL_0087;
+			IL_0038:
 			label = "LetterLabelAffair".Translate();
 			textLetterDef = LetterDefOf.NegativeEvent;
 			t = ((initiator.GetSpouse() == null || initiator.GetSpouse().Dead) ? recipient : initiator);
 			flag = true;
-			goto IL_008c;
-			IL_008c:
+			goto IL_0087;
+			IL_0087:
 			StringBuilder stringBuilder = new StringBuilder();
 			if (flag)
 			{
@@ -229,7 +217,7 @@ namespace RimWorld
 					stringBuilder.AppendLine("LetterNoLongerLovers".Translate(recipient.LabelShort, recipientOldLoversAndFiances[j].LabelShort));
 				}
 			}
-			Find.LetterStack.ReceiveLetter(label, stringBuilder.ToString().TrimEndNewlines(), textLetterDef, (Thing)t, (string)null);
+			Find.LetterStack.ReceiveLetter(label, stringBuilder.ToString().TrimEndNewlines(), textLetterDef, t, null);
 		}
 	}
 }

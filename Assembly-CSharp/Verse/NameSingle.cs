@@ -50,31 +50,22 @@ namespace Verse
 		{
 			get
 			{
-				int result;
-				int num;
 				if (!this.numerical)
 				{
-					result = -1;
+					return -1;
 				}
-				else if (this.nameInt.NullOrEmpty() || !char.IsDigit(this.nameInt[this.nameInt.Length - 1]))
+				if (!this.nameInt.NullOrEmpty() && char.IsDigit(this.nameInt[this.nameInt.Length - 1]))
 				{
-					result = -1;
-				}
-				else
-				{
-					for (num = this.nameInt.Length - 2; num >= 0; num--)
+					for (int num = this.nameInt.Length - 2; num >= 0; num--)
 					{
 						if (!char.IsDigit(this.nameInt[num]))
-							goto IL_0076;
+						{
+							return num + 1;
+						}
 					}
-					result = 0;
+					return 0;
 				}
-				goto IL_0092;
-				IL_0092:
-				return result;
-				IL_0076:
-				result = num + 1;
-				goto IL_0092;
+				return -1;
 			}
 		}
 
@@ -82,29 +73,25 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (!this.numerical)
 				{
-					result = this.nameInt;
+					return this.nameInt;
 				}
-				else
+				int firstDigitPosition = this.FirstDigitPosition;
+				if (firstDigitPosition < 0)
 				{
-					int firstDigitPosition = this.FirstDigitPosition;
-					if (firstDigitPosition < 0)
-					{
-						result = this.nameInt;
-					}
-					else
-					{
-						int num = firstDigitPosition;
-						if (num - 1 >= 0 && this.nameInt[num - 1] == ' ')
-						{
-							num--;
-						}
-						result = ((num > 0) ? this.nameInt.Substring(0, num) : "");
-					}
+					return this.nameInt;
 				}
-				return result;
+				int num = firstDigitPosition;
+				if (num - 1 >= 0 && this.nameInt[num - 1] == ' ')
+				{
+					num--;
+				}
+				if (num <= 0)
+				{
+					return string.Empty;
+				}
+				return this.nameInt.Substring(0, num);
 			}
 		}
 
@@ -112,17 +99,16 @@ namespace Verse
 		{
 			get
 			{
-				int result;
 				if (!this.numerical)
 				{
-					result = 0;
+					return 0;
 				}
-				else
+				int firstDigitPosition = this.FirstDigitPosition;
+				if (firstDigitPosition < 0)
 				{
-					int firstDigitPosition = this.FirstDigitPosition;
-					result = ((firstDigitPosition >= 0) ? int.Parse(this.nameInt.Substring(firstDigitPosition)) : 0);
+					return 0;
 				}
-				return result;
+				return int.Parse(this.nameInt.Substring(firstDigitPosition));
 			}
 		}
 
@@ -145,17 +131,16 @@ namespace Verse
 		public override bool ConfusinglySimilarTo(Name other)
 		{
 			NameSingle nameSingle = other as NameSingle;
-			bool result;
 			if (nameSingle != null && nameSingle.nameInt == this.nameInt)
 			{
-				result = true;
+				return true;
 			}
-			else
+			NameTriple nameTriple = other as NameTriple;
+			if (nameTriple != null && nameTriple.Nick == this.nameInt)
 			{
-				NameTriple nameTriple = other as NameTriple;
-				result = ((byte)((nameTriple != null && nameTriple.Nick == this.nameInt) ? 1 : 0) != 0);
+				return true;
 			}
-			return result;
+			return false;
 		}
 
 		public override string ToString()
@@ -165,21 +150,16 @@ namespace Verse
 
 		public override bool Equals(object obj)
 		{
-			bool result;
 			if (obj == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (!(obj is NameSingle))
+			if (!(obj is NameSingle))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				NameSingle nameSingle = (NameSingle)obj;
-				result = (this.nameInt == nameSingle.nameInt);
-			}
-			return result;
+			NameSingle nameSingle = (NameSingle)obj;
+			return this.nameInt == nameSingle.nameInt;
 		}
 
 		public override int GetHashCode()

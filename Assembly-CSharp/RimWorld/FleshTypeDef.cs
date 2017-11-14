@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -20,35 +19,30 @@ namespace RimWorld
 			}
 		}
 
-		public ThoughtDef ateDirect = null;
+		public ThoughtDef ateDirect;
 
-		public ThoughtDef ateAsIngredient = null;
+		public ThoughtDef ateAsIngredient;
 
-		public ThingCategoryDef corpseCategory = null;
+		public ThingCategoryDef corpseCategory;
 
 		public bool requiresBedForSurgery = true;
 
-		public List<Wound> wounds = null;
+		public List<Wound> wounds;
 
-		private List<Material> woundsResolved = null;
+		private List<Material> woundsResolved;
 
 		public Material ChooseWoundOverlay()
 		{
-			Material result;
 			if (this.wounds == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			if (this.woundsResolved == null)
 			{
-				if (this.woundsResolved == null)
-				{
-					this.woundsResolved = (from wound in this.wounds
-					select wound.GetMaterial()).ToList();
-				}
-				result = this.woundsResolved.RandomElement();
+				this.woundsResolved = (from wound in this.wounds
+				select wound.GetMaterial()).ToList();
 			}
-			return result;
+			return this.woundsResolved.RandomElement();
 		}
 	}
 }

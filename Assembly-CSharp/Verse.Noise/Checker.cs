@@ -4,7 +4,8 @@ namespace Verse.Noise
 {
 	public class Checker : ModuleBase
 	{
-		public Checker() : base(0)
+		public Checker()
+			: base(0)
 		{
 		}
 

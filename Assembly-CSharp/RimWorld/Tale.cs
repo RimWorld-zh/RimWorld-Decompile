@@ -11,7 +11,7 @@ namespace RimWorld
 
 		public int id;
 
-		private int uses = 0;
+		private int uses;
 
 		public int date = -1;
 
@@ -59,20 +59,14 @@ namespace RimWorld
 				switch (this.def.type)
 				{
 				case TaleType.Volatile:
-				{
 					a = 50f;
 					break;
-				}
 				case TaleType.PermanentHistorical:
-				{
 					a = 50f;
 					break;
-				}
 				case TaleType.Expirable:
-				{
 					a = this.def.expireDays;
 					break;
-				}
 				}
 				float value = (float)(this.AgeTicks / 60000);
 				baseInterest *= Mathf.InverseLerp(a, 0f, value);
@@ -88,7 +82,15 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.Unused && this.def.type == TaleType.Expirable && (float)this.AgeTicks > this.def.expireDays * 60000.0;
+				if (!this.Unused)
+				{
+					return false;
+				}
+				if (this.def.type != TaleType.Expirable)
+				{
+					return false;
+				}
+				return (float)this.AgeTicks > this.def.expireDays * 60000.0;
 			}
 		}
 

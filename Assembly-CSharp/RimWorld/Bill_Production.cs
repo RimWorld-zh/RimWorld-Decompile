@@ -16,17 +16,21 @@ namespace RimWorld
 
 		public BillStoreModeDef storeMode = BillStoreModeDefOf.BestStockpile;
 
-		public bool pauseWhenSatisfied = false;
+		public bool pauseWhenSatisfied;
 
 		public int unpauseWhenYouHave = 5;
 
-		public bool paused = false;
+		public bool paused;
 
 		protected override string StatusString
 		{
 			get
 			{
-				return (!this.paused) ? "" : (" " + "Paused".Translate());
+				if (this.paused)
+				{
+					return " " + "Paused".Translate();
+				}
+				return string.Empty;
 			}
 		}
 
@@ -42,25 +46,19 @@ namespace RimWorld
 		{
 			get
 			{
-				string result;
 				if (this.repeatMode == BillRepeatModeDefOf.Forever)
 				{
-					result = "Forever".Translate();
-					goto IL_00a8;
+					return "Forever".Translate();
 				}
 				if (this.repeatMode == BillRepeatModeDefOf.RepeatCount)
 				{
-					result = this.repeatCount.ToString() + "x";
-					goto IL_00a8;
+					return this.repeatCount.ToString() + "x";
 				}
 				if (this.repeatMode == BillRepeatModeDefOf.TargetCount)
 				{
-					result = base.recipe.WorkerCounter.CountProducts(this).ToString() + "/" + this.targetCount.ToString();
-					goto IL_00a8;
+					return base.recipe.WorkerCounter.CountProducts(this).ToString() + "/" + this.targetCount.ToString();
 				}
 				throw new InvalidOperationException();
-				IL_00a8:
-				return result;
 			}
 		}
 
@@ -68,7 +66,8 @@ namespace RimWorld
 		{
 		}
 
-		public Bill_Production(RecipeDef recipe) : base(recipe)
+		public Bill_Production(RecipeDef recipe)
+			: base(recipe)
 		{
 		}
 
@@ -103,21 +102,17 @@ namespace RimWorld
 			{
 				this.paused = false;
 			}
-			bool result;
 			if (base.suspended)
 			{
-				result = false;
-				goto IL_00e8;
+				return false;
 			}
 			if (this.repeatMode == BillRepeatModeDefOf.Forever)
 			{
-				result = true;
-				goto IL_00e8;
+				return true;
 			}
 			if (this.repeatMode == BillRepeatModeDefOf.RepeatCount)
 			{
-				result = (this.repeatCount > 0);
-				goto IL_00e8;
+				return this.repeatCount > 0;
 			}
 			if (this.repeatMode == BillRepeatModeDefOf.TargetCount)
 			{
@@ -130,12 +125,13 @@ namespace RimWorld
 				{
 					this.paused = false;
 				}
-				result = (!this.paused && num < this.targetCount);
-				goto IL_00e8;
+				if (this.paused)
+				{
+					return false;
+				}
+				return num < this.targetCount;
 			}
 			throw new InvalidOperationException();
-			IL_00e8:
-			return result;
 		}
 
 		public override void Notify_IterationCompleted(Pawn billDoer, List<Thing> ingredients)
@@ -160,15 +156,15 @@ namespace RimWorld
 			Widgets.Label(rect, this.RepeatInfoText);
 			GUI.color = baseColor;
 			WidgetRow widgetRow = new WidgetRow(baseRect.xMax, (float)(baseRect.y + 29.0), UIDirection.LeftThenUp, 99999f, 4f);
-			if (widgetRow.ButtonText("Details".Translate() + "...", (string)null, true, false))
+			if (widgetRow.ButtonText("Details".Translate() + "...", null, true, false))
 			{
 				Find.WindowStack.Add(new Dialog_BillConfig(this, ((Thing)base.billStack.billGiver).Position));
 			}
-			if (widgetRow.ButtonText(this.repeatMode.LabelCap.PadRight(20), (string)null, true, false))
+			if (widgetRow.ButtonText(this.repeatMode.LabelCap.PadRight(20), null, true, false))
 			{
 				BillRepeatModeUtility.MakeConfigFloatMenu(this);
 			}
-			if (widgetRow.ButtonIcon(TexButton.Plus, (string)null))
+			if (widgetRow.ButtonIcon(TexButton.Plus, null))
 			{
 				if (this.repeatMode == BillRepeatModeDefOf.Forever)
 				{
@@ -191,7 +187,7 @@ namespace RimWorld
 					TutorSystem.Notify_Event(base.recipe.defName + "-RepeatCountSetTo-" + this.repeatCount);
 				}
 			}
-			if (widgetRow.ButtonIcon(TexButton.Minus, (string)null))
+			if (widgetRow.ButtonIcon(TexButton.Minus, null))
 			{
 				if (this.repeatMode == BillRepeatModeDefOf.Forever)
 				{
@@ -226,7 +222,7 @@ namespace RimWorld
 			if (this.paused)
 			{
 				WidgetRow widgetRow = new WidgetRow(rect.xMax, rect.y, UIDirection.LeftThenUp, 99999f, 4f);
-				if (widgetRow.ButtonText("Unpause".Translate(), (string)null, true, false))
+				if (widgetRow.ButtonText("Unpause".Translate(), null, true, false))
 				{
 					this.paused = false;
 				}

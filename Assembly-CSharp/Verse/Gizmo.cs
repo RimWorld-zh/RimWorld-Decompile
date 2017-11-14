@@ -8,6 +8,8 @@ namespace Verse
 
 		public string disabledReason;
 
+		public bool alsoClickIfOtherInGroupClicked = true;
+
 		public const float Height = 75f;
 
 		public abstract float Width
@@ -36,7 +38,7 @@ namespace Verse
 
 		public virtual bool InheritInteractionsFrom(Gizmo other)
 		{
-			return true;
+			return this.alsoClickIfOtherInGroupClicked;
 		}
 
 		public void Disable(string reason = null)

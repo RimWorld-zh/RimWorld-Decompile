@@ -1,4 +1,3 @@
-using System;
 using Verse.Sound;
 
 namespace Verse.AI
@@ -8,7 +7,7 @@ namespace Verse.AI
 		public static Toil MakeSound(string soundDefName)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Pawn actor = toil.actor;
 				SoundDef.Named(soundDefName).PlayOneShot(new TargetInfo(actor.Position, actor.Map, false));

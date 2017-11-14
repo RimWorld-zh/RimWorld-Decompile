@@ -33,10 +33,8 @@ namespace Verse
 
 		public void FlashLine(IntVec3 a, IntVec3 b, int duration = 50)
 		{
-			DebugLine item = new DebugLine(a.ToVector3Shifted(), b.ToVector3Shifted())
-			{
-				TicksLeft = duration
-			};
+			DebugLine item = new DebugLine(a.ToVector3Shifted(), b.ToVector3Shifted());
+			item.TicksLeft = duration;
 			this.debugLines.Add(item);
 		}
 
@@ -65,12 +63,12 @@ namespace Verse
 			}
 			for (int num2 = this.debugLines.Count - 1; num2 >= 0; num2--)
 			{
-				List<DebugLine> obj = this.debugLines;
+				List<DebugLine> list = this.debugLines;
 				int index = num2;
 				DebugLine debugLine = this.debugLines[num2];
 				Vector3 a = debugLine.a;
 				DebugLine debugLine2 = this.debugLines[num2];
-				obj[index] = new DebugLine(a, debugLine2.b, this.debugLines[num2].TicksLeft - 1);
+				list[index] = new DebugLine(a, debugLine2.b, this.debugLines[num2].TicksLeft - 1);
 				if (this.debugLines[num2].TicksLeft <= 0)
 				{
 					this.debugLines.RemoveAt(num2);

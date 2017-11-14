@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld.BaseGen
@@ -11,7 +10,7 @@ namespace RimWorld.BaseGen
 			Map map = BaseGen.globalSettings.map;
 			if (!rp.thingRot.HasValue && !rp.thrustAxis.HasValue)
 			{
-				rp.thrustAxis = new Rot4?(Rot4.Random);
+				rp.thrustAxis = Rot4.Random;
 				rp.thingRot = rp.thrustAxis;
 			}
 			IntVec2 intVec = IntVec2.Invalid;
@@ -33,7 +32,7 @@ namespace RimWorld.BaseGen
 					b = new IntVec2(newX, (!(rp.thingRot.Value == Rot4.North)) ? rp.rect.minZ : rp.rect.maxZ);
 				}
 				bool? allowPlacementOffEdge = rp.allowPlacementOffEdge;
-				if (allowPlacementOffEdge.HasValue && !allowPlacementOffEdge.Value && !(intVec - toIntVec).ToIntVec3.GetThingList(map).Any((Predicate<Thing>)((Thing thing) => thing.def == ThingDefOf.Ship_Beam)))
+				if (allowPlacementOffEdge.HasValue && !allowPlacementOffEdge.Value && !(intVec - toIntVec).ToIntVec3.GetThingList(map).Any((Thing thing) => thing.def == ThingDefOf.Ship_Beam))
 				{
 					if (num != 20)
 					{
@@ -70,7 +69,7 @@ namespace RimWorld.BaseGen
 				IntVec2 size3 = ship_Beam.Size;
 				IntVec2 intVec2 = a + a2 * (num6 + size3.z / 2 - 1);
 				Thing t = null;
-				for (int num7 = 0; num7 < num5; num7++)
+				for (int i = 0; i < num5; i++)
 				{
 					Thing thing2 = ThingMaker.MakeThing(ship_Beam, null);
 					thing2.SetFaction(rp.faction, null);
@@ -116,8 +115,8 @@ namespace RimWorld.BaseGen
 				{
 					ResolveParams resolveParams = rp;
 					resolveParams.rect = rect;
-					resolveParams.thingRot = new Rot4?(value);
-					resolveParams.allowPlacementOffEdge = new bool?(false);
+					resolveParams.thingRot = value;
+					resolveParams.allowPlacementOffEdge = false;
 					BaseGen.symbolStack.Push("ship_spine", resolveParams);
 				}
 				bool? allowPlacementOffEdge5 = rp.allowPlacementOffEdge;
@@ -125,8 +124,8 @@ namespace RimWorld.BaseGen
 				{
 					ResolveParams resolveParams2 = rp;
 					resolveParams2.rect = rect2;
-					resolveParams2.thingRot = new Rot4?(value2);
-					resolveParams2.allowPlacementOffEdge = new bool?(false);
+					resolveParams2.thingRot = value2;
+					resolveParams2.allowPlacementOffEdge = false;
 					BaseGen.symbolStack.Push("ship_spine", resolveParams2);
 				}
 				ResolveParams resolveParams3 = rp;

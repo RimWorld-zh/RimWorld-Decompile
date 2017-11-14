@@ -14,7 +14,11 @@ namespace Verse
 		{
 			get
 			{
-				return (byte)((FlickUtility.WantsToBeOn(base.parent) && (this.powerComp == null || this.powerComp.PowerOn) && (this.refuelableComp == null || this.refuelableComp.HasFuel) && (this.breakdownableComp == null || !this.breakdownableComp.BrokenDown)) ? 1 : 0) != 0;
+				if (FlickUtility.WantsToBeOn(base.parent) && (this.powerComp == null || this.powerComp.PowerOn) && (this.refuelableComp == null || this.refuelableComp.HasFuel) && (this.breakdownableComp == null || !this.breakdownableComp.BrokenDown))
+				{
+					return true;
+				}
+				return false;
 			}
 		}
 

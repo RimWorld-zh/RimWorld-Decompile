@@ -31,17 +31,12 @@ namespace Verse
 
 			public Material SubMat(LinkDirections linkSet)
 			{
-				Material result;
 				if ((int)linkSet >= this.subMats.Length)
 				{
 					Log.Warning("Cannot get submat of index " + (int)linkSet + ": out of range.");
-					result = BaseContent.BadMat;
+					return BaseContent.BadMat;
 				}
-				else
-				{
-					result = this.subMats[(uint)linkSet];
-				}
-				return result;
+				return this.subMats[(uint)linkSet];
 			}
 		}
 

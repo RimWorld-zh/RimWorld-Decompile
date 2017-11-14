@@ -35,17 +35,20 @@ namespace RimWorld
 		{
 			get
 			{
-				Room result;
 				if (this.OwnedBed == null)
 				{
-					result = null;
+					return null;
 				}
-				else
+				Room room = this.OwnedBed.GetRoom(RegionType.Set_Passable);
+				if (room == null)
 				{
-					Room room = this.OwnedBed.GetRoom(RegionType.Set_Passable);
-					result = ((room != null) ? ((!room.Owners.Contains(this.pawn)) ? null : room) : null);
+					return null;
 				}
-				return result;
+				if (room.Owners.Contains(this.pawn))
+				{
+					return room;
+				}
+				return null;
 			}
 		}
 

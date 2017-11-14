@@ -59,9 +59,9 @@ namespace Verse.AI
 			}
 			else
 			{
-				Thing thing = (base.target == null || Find.TickManager.TicksGame - this.targetFoundTicks <= 1250 || !MentalState_TantrumRandom.candidates.Any((Predicate<Thing>)((Thing x) => x != base.target))) ? MentalState_TantrumRandom.candidates.RandomElementByWeight((Func<Thing, float>)((Thing x) => this.GetCandidateWeight(x))) : (from x in MentalState_TantrumRandom.candidates
+				Thing thing = (base.target == null || Find.TickManager.TicksGame - this.targetFoundTicks <= 1250 || !MentalState_TantrumRandom.candidates.Any((Thing x) => x != base.target)) ? MentalState_TantrumRandom.candidates.RandomElementByWeight((Thing x) => this.GetCandidateWeight(x)) : (from x in MentalState_TantrumRandom.candidates
 				where x != base.target
-				select x).RandomElementByWeight((Func<Thing, float>)((Thing x) => this.GetCandidateWeight(x)));
+				select x).RandomElementByWeight((Thing x) => this.GetCandidateWeight(x));
 				if (thing != base.target)
 				{
 					base.target = thing;

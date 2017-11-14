@@ -7,11 +7,11 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public class DesignationDragger
 	{
-		private bool dragging = false;
+		private bool dragging;
 
 		private IntVec3 startDragCell;
 
-		private int lastFrameDragCellsDrawn = 0;
+		private int lastFrameDragCellsDrawn;
 
 		private Sustainer sustainer;
 
@@ -19,7 +19,7 @@ namespace Verse
 
 		private List<IntVec3> dragCells = new List<IntVec3>();
 
-		private string failureReasonInt = (string)null;
+		private string failureReasonInt;
 
 		private int lastUpdateFrame = -1;
 
@@ -154,7 +154,7 @@ namespace Verse
 			{
 				this.lastUpdateFrame = Time.frameCount;
 				this.dragCells.Clear();
-				this.failureReasonInt = (string)null;
+				this.failureReasonInt = null;
 				IntVec3 intVec = this.startDragCell;
 				IntVec3 intVec2 = UI.MouseCell();
 				if (this.SelDes.DraggableDimensions == 1)

@@ -6,9 +6,9 @@ namespace RimWorld
 {
 	public static class LastPlayedVersion
 	{
-		private static bool initialized = false;
+		private static bool initialized;
 
-		private static Version lastPlayedVersionInt = null;
+		private static Version lastPlayedVersionInt;
 
 		public static Version Version
 		{
@@ -25,7 +25,7 @@ namespace RimWorld
 			{
 				try
 				{
-					string text = (string)null;
+					string text = null;
 					if (File.Exists(GenFilePaths.LastPlayedVersionFilePath))
 					{
 						try

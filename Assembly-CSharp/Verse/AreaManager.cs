@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -105,52 +104,32 @@ namespace Verse
 
 		public Area GetLabeled(string s)
 		{
-			int num = 0;
-			Area result;
-			while (true)
+			for (int i = 0; i < this.areas.Count; i++)
 			{
-				if (num < this.areas.Count)
+				if (this.areas[i].Label == s)
 				{
-					if (this.areas[num].Label == s)
-					{
-						result = this.areas[num];
-						break;
-					}
-					num++;
-					continue;
+					return this.areas[i];
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		public T Get<T>() where T : Area
 		{
-			int num = 0;
-			T result;
-			while (true)
+			for (int i = 0; i < this.areas.Count; i++)
 			{
-				if (num < this.areas.Count)
+				T val = (T)(this.areas[i] as T);
+				if (val != null)
 				{
-					T val = (T)(this.areas[num] as T);
-					if (val != null)
-					{
-						result = val;
-						break;
-					}
-					num++;
-					continue;
+					return val;
 				}
-				result = (T)null;
-				break;
 			}
-			return result;
+			return (T)null;
 		}
 
 		private void SortAreas()
 		{
-			this.areas.InsertionSort((Comparison<Area>)((Area a, Area b) => b.ListPriority.CompareTo(a.ListPriority)));
+			this.areas.InsertionSort((Area a, Area b) => b.ListPriority.CompareTo(a.ListPriority));
 		}
 
 		private void UpdateAllAreasLinks()
@@ -163,7 +142,7 @@ namespace Verse
 
 		private void NotifyEveryoneAreaRemoved(Area area)
 		{
-			foreach (Pawn item in PawnsFinder.AllMapsAndWorld_Alive)
+			foreach (Pawn item in PawnsFinder.AllMapsWorldAndTemporary_Alive)
 			{
 				if (item.playerSettings != null)
 				{
@@ -189,20 +168,15 @@ namespace Verse
 
 		public bool TryMakeNewAllowed(AllowedAreaMode mode, out Area_Allowed area)
 		{
-			bool result;
 			if (!this.CanMakeNewAllowed(mode))
 			{
 				area = null;
-				result = false;
+				return false;
 			}
-			else
-			{
-				area = new Area_Allowed(this, mode, (string)null);
-				this.areas.Add(area);
-				this.SortAreas();
-				result = true;
-			}
-			return result;
+			area = new Area_Allowed(this, mode, null);
+			this.areas.Add(area);
+			this.SortAreas();
+			return true;
 		}
 	}
 }

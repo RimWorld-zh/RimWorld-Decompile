@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,9 +9,13 @@ namespace RimWorld
 {
 	public static class ResurrectionUtility
 	{
-		private const float BrainDamageChancePerDayRotting = 0.3f;
+		private const float BrainDamageChancePerDaySinceDeath = 0.2f;
 
-		private const float BlindnessChancePerDayRotting = 0.3f;
+		private const float MinBrainDamageChance = 0.08f;
+
+		private const float BlindnessChancePerDaySinceDeath = 0.12f;
+
+		private const float MinBlindnessChance = 0.04f;
 
 		private const float ResurrectionPsychosisChance = 0.3f;
 
@@ -82,18 +85,22 @@ namespace RimWorld
 		{
 			Corpse corpse = pawn.Corpse;
 			float num;
+			bool flag;
 			if (corpse != null)
 			{
 				CompRottable comp = corpse.GetComp<CompRottable>();
-				num = Mathf.Max((float)((comp.RotProgress - (float)comp.PropsRot.TicksToRotStart) / 60000.0), 0f);
+				num = (float)(comp.RotProgress / 60000.0);
+				flag = (comp.Stage == RotStage.Fresh);
 			}
 			else
 			{
 				num = 0f;
+				flag = true;
 			}
 			ResurrectionUtility.Resurrect(pawn);
 			BodyPartRecord brain = pawn.health.hediffSet.GetBrain();
-			if (Rand.Chance((float)(0.30000001192092896 * num)) && brain != null)
+			float chance = Mathf.Max((float)(0.20000000298023224 * num), 0.08f);
+			if (Rand.Chance(chance) && brain != null)
 			{
 				int a = Rand.RangeInclusive(1, 5);
 				int b = Mathf.FloorToInt(pawn.health.hediffSet.GetPartHealth(brain)) - 1;
@@ -106,7 +113,8 @@ namespace RimWorld
 					pawn.TakeDamage(new DamageInfo(burn, amount, -1f, null, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown));
 				}
 			}
-			if (Rand.Chance((float)(0.30000001192092896 * num)))
+			float chance2 = Mathf.Max((float)(0.11999999731779099 * num), 0.04f);
+			if (Rand.Chance(chance2))
 			{
 				IEnumerable<BodyPartRecord> enumerable = from x in pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined)
 				where x.def == BodyPartDefOf.LeftEye || x.def == BodyPartDefOf.RightEye
@@ -114,15 +122,21 @@ namespace RimWorld
 				foreach (BodyPartRecord item in enumerable)
 				{
 					Hediff hediff = HediffMaker.MakeHediff(HediffDefOf.Blindness, pawn, item);
-					pawn.health.AddHediff(hediff, null, default(DamageInfo?));
+					pawn.health.AddHediff(hediff, null, null);
 				}
 			}
 			Hediff hediff2 = HediffMaker.MakeHediff(HediffDefOf.ResurrectionSickness, pawn, null);
-			pawn.health.AddHediff(hediff2, null, default(DamageInfo?));
-			if (Rand.Chance(0.3f) && brain != null)
+			if (!pawn.health.WouldDieAfterAddingHediff(hediff2))
+			{
+				pawn.health.AddHediff(hediff2, null, null);
+			}
+			if ((!flag || Rand.Chance(0.3f)) && brain != null)
 			{
 				Hediff hediff3 = HediffMaker.MakeHediff(HediffDefOf.ResurrectionPsychosis, pawn, brain);
-				pawn.health.AddHediff(hediff3, null, default(DamageInfo?));
+				if (!pawn.health.WouldDieAfterAddingHediff(hediff3))
+				{
+					pawn.health.AddHediff(hediff3, null, null);
+				}
 			}
 			if (pawn.Dead)
 			{

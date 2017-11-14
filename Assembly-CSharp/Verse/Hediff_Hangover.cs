@@ -8,7 +8,11 @@ namespace Verse
 		{
 			get
 			{
-				return !base.pawn.health.hediffSet.HasHediff(HediffDefOf.AlcoholHigh, false) && base.Visible;
+				if (base.pawn.health.hediffSet.HasHediff(HediffDefOf.AlcoholHigh, false))
+				{
+					return false;
+				}
+				return base.Visible;
 			}
 		}
 	}

@@ -10,11 +10,13 @@ namespace Verse.Noise
 
 		public bool invert;
 
-		public DistanceFromPlanetViewCenter() : base(0)
+		public DistanceFromPlanetViewCenter()
+			: base(0)
 		{
 		}
 
-		public DistanceFromPlanetViewCenter(Vector3 viewCenter, float viewAngle, bool invert = false) : base(0)
+		public DistanceFromPlanetViewCenter(Vector3 viewCenter, float viewAngle, bool invert = false)
+			: base(0)
 		{
 			this.viewCenter = viewCenter;
 			this.viewAngle = viewAngle;
@@ -24,22 +26,21 @@ namespace Verse.Noise
 		public override double GetValue(double x, double y, double z)
 		{
 			float valueInt = this.GetValueInt(x, y, z);
-			return (!this.invert) ? ((double)valueInt) : (1.0 - valueInt);
+			if (this.invert)
+			{
+				return 1.0 - valueInt;
+			}
+			return (double)valueInt;
 		}
 
 		private float GetValueInt(double x, double y, double z)
 		{
-			float result;
 			if (this.viewAngle >= 180.0)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				float num = Vector3.Angle(this.viewCenter, new Vector3((float)x, (float)y, (float)z));
-				result = Mathf.Min(num / this.viewAngle, 1f);
-			}
-			return result;
+			float num = Vector3.Angle(this.viewCenter, new Vector3((float)x, (float)y, (float)z));
+			return Mathf.Min(num / this.viewAngle, 1f);
 		}
 	}
 }

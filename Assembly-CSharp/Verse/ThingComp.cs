@@ -100,12 +100,12 @@ namespace Verse
 
 		public virtual string CompInspectStringExtra()
 		{
-			return (string)null;
+			return null;
 		}
 
 		public virtual string GetDescriptionPart()
 		{
-			return (string)null;
+			return null;
 		}
 
 		public virtual IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn selPawn)

@@ -22,36 +22,19 @@ namespace Verse
 
 		public static IntVec3 RotatedBy(this IntVec3 orig, Rot4 rot)
 		{
-			IntVec3 result;
 			switch (rot.AsInt)
 			{
 			case 0:
-			{
-				result = orig;
-				break;
-			}
+				return orig;
 			case 1:
-			{
-				result = new IntVec3(orig.z, orig.y, -orig.x);
-				break;
-			}
+				return new IntVec3(orig.z, orig.y, -orig.x);
 			case 2:
-			{
-				result = new IntVec3(-orig.x, orig.y, -orig.z);
-				break;
-			}
+				return new IntVec3(-orig.x, orig.y, -orig.z);
 			case 3:
-			{
-				result = new IntVec3(-orig.z, orig.y, orig.x);
-				break;
-			}
+				return new IntVec3(-orig.z, orig.y, orig.x);
 			default:
-			{
-				result = orig;
-				break;
+				return orig;
 			}
-			}
-			return result;
 		}
 
 		public static int ManhattanDistanceFlat(IntVec3 a, IntVec3 b)

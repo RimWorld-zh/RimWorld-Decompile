@@ -100,11 +100,19 @@ namespace Verse
 					list.Add(new IntVec3(i, 0, j));
 				}
 			}
-			list.Sort((Comparison<IntVec3>)delegate(IntVec3 A, IntVec3 B)
+			list.Sort(delegate(IntVec3 A, IntVec3 B)
 			{
 				float num = (float)A.LengthHorizontalSquared;
 				float num2 = (float)B.LengthHorizontalSquared;
-				return (!(num < num2)) ? ((num != num2) ? 1 : 0) : (-1);
+				if (num < num2)
+				{
+					return -1;
+				}
+				if (num == num2)
+				{
+					return 0;
+				}
+				return 1;
 			});
 			for (int k = 0; k < 10000; k++)
 			{
@@ -115,64 +123,38 @@ namespace Verse
 
 		public static int NumCellsToFillForRadius_ManualRadialPattern(int radius)
 		{
-			int result;
 			switch (radius)
 			{
 			case 0:
-			{
-				result = 1;
-				break;
-			}
+				return 1;
 			case 1:
-			{
-				result = 9;
-				break;
-			}
+				return 9;
 			case 2:
-			{
-				result = 21;
-				break;
-			}
+				return 21;
 			case 3:
-			{
-				result = 37;
-				break;
-			}
+				return 37;
 			default:
-			{
 				Log.Error("NumSquares radius error");
-				result = 0;
-				break;
+				return 0;
 			}
-			}
-			return result;
 		}
 
 		public static int NumCellsInRadius(float radius)
 		{
-			int result;
-			int i;
 			if (radius >= GenRadial.MaxRadialPatternRadius)
 			{
 				Log.Error("Not enough squares to get to radius " + radius + ". Max is " + GenRadial.MaxRadialPatternRadius);
-				result = 10000;
+				return 10000;
 			}
-			else
+			float num = (float)(radius + 1.4012984643248171E-45);
+			for (int i = 0; i < 10000; i++)
 			{
-				float num = (float)(radius + 1.4012984643248171E-45);
-				for (i = 0; i < 10000; i++)
+				if (GenRadial.RadialPatternRadii[i] > num)
 				{
-					if (GenRadial.RadialPatternRadii[i] > num)
-						goto IL_006b;
+					return i;
 				}
-				result = 10000;
 			}
-			goto IL_008d;
-			IL_006b:
-			result = i;
-			goto IL_008d;
-			IL_008d:
-			return result;
+			return 10000;
 		}
 
 		public static float RadiusOfNumCells(int numCells)
@@ -225,13 +207,13 @@ namespace Verse
 							if (!returnedThings.Contains(t))
 							{
 								returnedThings.Add(t);
-								goto IL_014f;
+								goto IL_014a;
 							}
 							i++;
 							continue;
 						}
-						goto IL_014f;
-						IL_014f:
+						goto IL_014a;
+						IL_014a:
 						yield return t;
 						/*Error: Unable to find new state assignment for yield return*/;
 					}
@@ -253,17 +235,17 @@ namespace Verse
 				{
 					float num = -1f;
 					int num2 = GenRadial.NumCellsInRadius(radius);
-					for (int num3 = 0; num3 < num2; num3++)
+					for (int i = 0; i < num2; i++)
 					{
-						IntVec3 intVec = center + GenRadial.RadialPattern[num3];
+						IntVec3 intVec = center + GenRadial.RadialPattern[i];
 						if (map == null || intVec.InBounds(map))
 						{
-							float num4 = (float)intVec.DistanceToSquared(center);
-							if (Mathf.Abs(num4 - num) > 9.9999997473787516E-05)
+							float num3 = (float)intVec.DistanceToSquared(center);
+							if (Mathf.Abs(num3 - num) > 9.9999997473787516E-05)
 							{
 								if (GenRadial.tmpCells.Any() && processor(GenRadial.tmpCells))
 									return;
-								num = num4;
+								num = num3;
 								GenRadial.tmpCells.Clear();
 							}
 							GenRadial.tmpCells.Add(intVec);

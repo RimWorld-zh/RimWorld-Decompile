@@ -47,17 +47,12 @@ namespace RimWorld
 			get
 			{
 				float desiredAnimalDensity = this.DesiredAnimalDensity;
-				float result;
 				if (desiredAnimalDensity == 0.0)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					float num = (float)(10000.0 / desiredAnimalDensity);
-					result = (float)this.map.Area / num;
-				}
-				return result;
+				float num = (float)(10000.0 / desiredAnimalDensity);
+				return (float)this.map.Area / num;
 			}
 		}
 
@@ -120,7 +115,7 @@ namespace RimWorld
 				}
 			}
 			int num6 = (int)(3600000.0 / ((float)this.map.Area / 10000.0));
-			if (((num6 > 0) ? (Find.TickManager.TicksGame % num6) : 0) != 0)
+			if (num6 > 0 && Find.TickManager.TicksGame % num6 != 0)
 				return;
 			this.TrySpawnCavePlant();
 		}
@@ -142,7 +137,7 @@ namespace RimWorld
 			while (!iterator.Done())
 			{
 				IntVec3 current = iterator.Current;
-				if (GenPlantReproduction.GoodRoofForCavePlantReproduction(current, this.map))
+				if (GenPlantReproduction.GoodRoofForCavePlantReproduction(current, this.map) && current.GetFirstItem(this.map) == null && current.GetFirstPawn(this.map) == null && current.GetFirstBuilding(this.map) == null)
 				{
 					bool flag = false;
 					int num = 0;
@@ -177,26 +172,21 @@ namespace RimWorld
 		{
 			PawnKindDef pawnKindDef = (from a in this.map.Biome.AllWildAnimals
 			where this.map.mapTemperature.SeasonAcceptableFor(a.race)
-			select a).RandomElementByWeight((Func<PawnKindDef, float>)((PawnKindDef def) => this.map.Biome.CommonalityOfAnimal(def) / def.wildSpawn_GroupSizeRange.Average));
-			bool result;
+			select a).RandomElementByWeight((PawnKindDef def) => this.map.Biome.CommonalityOfAnimal(def) / def.wildSpawn_GroupSizeRange.Average);
 			if (pawnKindDef == null)
 			{
 				Log.Error("No spawnable animals right now.");
-				result = false;
+				return false;
 			}
-			else
+			int randomInRange = pawnKindDef.wildSpawn_GroupSizeRange.RandomInRange;
+			int radius = Mathf.CeilToInt(Mathf.Sqrt((float)pawnKindDef.wildSpawn_GroupSizeRange.max));
+			for (int i = 0; i < randomInRange; i++)
 			{
-				int randomInRange = pawnKindDef.wildSpawn_GroupSizeRange.RandomInRange;
-				int radius = Mathf.CeilToInt(Mathf.Sqrt((float)pawnKindDef.wildSpawn_GroupSizeRange.max));
-				for (int num = 0; num < randomInRange; num++)
-				{
-					IntVec3 loc2 = CellFinder.RandomClosewalkCellNear(loc, this.map, radius, null);
-					Pawn newThing = PawnGenerator.GeneratePawn(pawnKindDef, null);
-					GenSpawn.Spawn(newThing, loc2, this.map);
-				}
-				result = true;
+				IntVec3 loc2 = CellFinder.RandomClosewalkCellNear(loc, this.map, radius, null);
+				Pawn newThing = PawnGenerator.GeneratePawn(pawnKindDef, null);
+				GenSpawn.Spawn(newThing, loc2, this.map);
 			}
-			return result;
+			return true;
 		}
 
 		public string DebugString()

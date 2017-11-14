@@ -19,51 +19,43 @@ namespace Verse
 
 		public static Thing Spawn(Thing newThing, IntVec3 loc, Map map, Rot4 rot, bool respawningAfterLoad = false)
 		{
-			Thing result;
 			if (map == null)
 			{
 				Log.Error("Tried to spawn " + newThing + " in a null map.");
-				result = null;
+				return null;
 			}
-			else if (!loc.InBounds(map))
+			if (!loc.InBounds(map))
 			{
 				Log.Error("Tried to spawn " + newThing + " out of bounds at " + loc + ".");
-				result = null;
+				return null;
 			}
-			else if (newThing.Spawned)
+			if (newThing.Spawned)
 			{
 				Log.Error("Tried to spawn " + newThing + " but it's already spawned.");
-				result = newThing;
+				return newThing;
+			}
+			GenSpawn.WipeExistingThings(loc, rot, newThing.def, map, DestroyMode.Vanish);
+			if (newThing.def.randomizeRotationOnSpawn)
+			{
+				newThing.Rotation = Rot4.Random;
 			}
 			else
 			{
-				GenSpawn.WipeExistingThings(loc, rot, newThing.def, map, DestroyMode.Vanish);
-				if (newThing.def.randomizeRotationOnSpawn)
-				{
-					newThing.Rotation = Rot4.Random;
-				}
-				else
-				{
-					newThing.Rotation = rot;
-				}
-				newThing.Position = loc;
-				if (newThing.holdingOwner != null)
-				{
-					newThing.holdingOwner.Remove(newThing);
-				}
-				newThing.SpawnSetup(map, respawningAfterLoad);
-				if (newThing.Spawned && newThing.stackCount == 0)
-				{
-					Log.Error("Spawned thing with 0 stackCount: " + newThing);
-					newThing.Destroy(DestroyMode.Vanish);
-					result = null;
-				}
-				else
-				{
-					result = newThing;
-				}
+				newThing.Rotation = rot;
 			}
-			return result;
+			newThing.Position = loc;
+			if (newThing.holdingOwner != null)
+			{
+				newThing.holdingOwner.Remove(newThing);
+			}
+			newThing.SpawnSetup(map, respawningAfterLoad);
+			if (newThing.Spawned && newThing.stackCount == 0)
+			{
+				Log.Error("Spawned thing with 0 stackCount: " + newThing);
+				newThing.Destroy(DestroyMode.Vanish);
+				return null;
+			}
+			return newThing;
 		}
 
 		public static void SpawnBuildingAsPossible(Building building, Map map, bool respawningAfterLoad = false)
@@ -156,117 +148,107 @@ namespace Verse
 		{
 			ThingDef thingDef = newEntDef as ThingDef;
 			ThingDef thingDef2 = oldEntDef as ThingDef;
-			bool result;
-			if (thingDef == null || thingDef2 == null)
+			if (thingDef != null && thingDef2 != null)
 			{
-				result = false;
-			}
-			else if (thingDef.category == ThingCategory.Attachment || thingDef.category == ThingCategory.Mote || thingDef.category == ThingCategory.Filth || thingDef.category == ThingCategory.Projectile)
-			{
-				result = false;
-			}
-			else if (!thingDef2.destroyable)
-			{
-				result = false;
-			}
-			else if (thingDef.category == ThingCategory.Plant)
-			{
-				result = false;
-			}
-			else if (((thingDef2.category == ThingCategory.Filth) ? thingDef.passability : Traversability.Standable) != 0)
-			{
-				result = true;
-			}
-			else if (thingDef2.category == ThingCategory.Item && thingDef.passability == Traversability.Impassable && thingDef.surfaceType == SurfaceType.None)
-			{
-				result = true;
-			}
-			else if (thingDef.EverTransmitsPower && thingDef2 == ThingDefOf.PowerConduit)
-			{
-				result = true;
-			}
-			else if (thingDef.IsFrame && GenSpawn.SpawningWipes(thingDef.entityDefToBuild, oldEntDef))
-			{
-				result = true;
-			}
-			else
-			{
-				BuildableDef buildableDef = GenConstruct.BuiltDefOf(thingDef);
-				BuildableDef buildableDef2 = GenConstruct.BuiltDefOf(thingDef2);
-				if (buildableDef == null || buildableDef2 == null)
+				if (thingDef.category != ThingCategory.Attachment && thingDef.category != ThingCategory.Mote && thingDef.category != ThingCategory.Filth && thingDef.category != ThingCategory.Projectile)
 				{
-					result = false;
-				}
-				else
-				{
-					ThingDef thingDef3 = thingDef.entityDefToBuild as ThingDef;
-					if (thingDef2.IsBlueprint)
+					if (!thingDef2.destroyable)
 					{
-						if (thingDef.IsBlueprint)
-						{
-							if (thingDef3 != null && thingDef3.building != null && thingDef3.building.canPlaceOverWall && thingDef2.entityDefToBuild is ThingDef && (ThingDef)thingDef2.entityDefToBuild == ThingDefOf.Wall)
-							{
-								result = true;
-								goto IL_032f;
-							}
-							if (thingDef2.entityDefToBuild is TerrainDef)
-							{
-								if (thingDef.entityDefToBuild is ThingDef && ((ThingDef)thingDef.entityDefToBuild).coversFloor)
-								{
-									result = true;
-									goto IL_032f;
-								}
-								if (thingDef.entityDefToBuild is TerrainDef)
-								{
-									result = true;
-									goto IL_032f;
-								}
-							}
-						}
-						result = ((byte)((thingDef2.entityDefToBuild == ThingDefOf.PowerConduit && thingDef.entityDefToBuild is ThingDef && (thingDef.entityDefToBuild as ThingDef).EverTransmitsPower) ? 1 : 0) != 0);
+						return false;
 					}
-					else
+					if (thingDef.category == ThingCategory.Plant)
 					{
+						return false;
+					}
+					if (thingDef2.category == ThingCategory.Filth && thingDef.passability != 0)
+					{
+						return true;
+					}
+					if (thingDef2.category == ThingCategory.Item && thingDef.passability == Traversability.Impassable && thingDef.surfaceType == SurfaceType.None)
+					{
+						return true;
+					}
+					if (thingDef.EverTransmitsPower && thingDef2 == ThingDefOf.PowerConduit)
+					{
+						return true;
+					}
+					if (thingDef.IsFrame && GenSpawn.SpawningWipes(thingDef.entityDefToBuild, oldEntDef))
+					{
+						return true;
+					}
+					BuildableDef buildableDef = GenConstruct.BuiltDefOf(thingDef);
+					BuildableDef buildableDef2 = GenConstruct.BuiltDefOf(thingDef2);
+					if (buildableDef != null && buildableDef2 != null)
+					{
+						ThingDef thingDef3 = thingDef.entityDefToBuild as ThingDef;
+						if (thingDef2.IsBlueprint)
+						{
+							if (thingDef.IsBlueprint)
+							{
+								if (thingDef3 != null && thingDef3.building != null && thingDef3.building.canPlaceOverWall && thingDef2.entityDefToBuild is ThingDef && (ThingDef)thingDef2.entityDefToBuild == ThingDefOf.Wall)
+								{
+									return true;
+								}
+								if (thingDef2.entityDefToBuild is TerrainDef)
+								{
+									if (thingDef.entityDefToBuild is ThingDef && ((ThingDef)thingDef.entityDefToBuild).coversFloor)
+									{
+										return true;
+									}
+									if (thingDef.entityDefToBuild is TerrainDef)
+									{
+										return true;
+									}
+								}
+							}
+							if (thingDef2.entityDefToBuild == ThingDefOf.PowerConduit && thingDef.entityDefToBuild is ThingDef && (thingDef.entityDefToBuild as ThingDef).EverTransmitsPower)
+							{
+								return true;
+							}
+							return false;
+						}
 						if ((thingDef2.IsFrame || thingDef2.IsBlueprint) && thingDef2.entityDefToBuild is TerrainDef)
 						{
 							ThingDef thingDef4 = buildableDef as ThingDef;
 							if (thingDef4 != null && !thingDef4.CoexistsWithFloors)
 							{
-								result = true;
-								goto IL_032f;
+								return true;
 							}
 						}
 						if (thingDef2 == ThingDefOf.ActiveDropPod)
 						{
-							result = false;
+							return false;
 						}
-						else if (thingDef == ThingDefOf.ActiveDropPod)
+						if (thingDef == ThingDefOf.ActiveDropPod)
 						{
-							result = ((byte)((thingDef2 != ThingDefOf.ActiveDropPod) ? ((thingDef2.category == ThingCategory.Building && thingDef2.passability == Traversability.Impassable) ? 1 : 0) : 0) != 0);
-						}
-						else
-						{
-							if (thingDef.IsEdifice())
+							if (thingDef2 == ThingDefOf.ActiveDropPod)
 							{
-								if (thingDef.BlockPlanting && thingDef2.category == ThingCategory.Plant)
-								{
-									result = true;
-									goto IL_032f;
-								}
-								if (!(buildableDef is TerrainDef) && buildableDef2.IsEdifice())
-								{
-									result = true;
-									goto IL_032f;
-								}
+								return false;
 							}
-							result = false;
+							if (thingDef2.category == ThingCategory.Building && thingDef2.passability == Traversability.Impassable)
+							{
+								return true;
+							}
+							return false;
 						}
+						if (thingDef.IsEdifice())
+						{
+							if (thingDef.BlockPlanting && thingDef2.category == ThingCategory.Plant)
+							{
+								return true;
+							}
+							if (!(buildableDef is TerrainDef) && buildableDef2.IsEdifice())
+							{
+								return true;
+							}
+						}
+						return false;
 					}
+					return false;
 				}
+				return false;
 			}
-			goto IL_032f;
-			IL_032f:
-			return result;
+			return false;
 		}
 	}
 }

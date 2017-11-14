@@ -6,9 +6,9 @@ namespace RimWorld
 {
 	public abstract class JobDriver_PlantWork : JobDriver
 	{
-		private float workDone = 0f;
+		private float workDone;
 
-		protected float xpPerTick = 0f;
+		protected float xpPerTick;
 
 		protected const TargetIndex PlantInd = TargetIndex.A;
 
@@ -23,17 +23,12 @@ namespace RimWorld
 		public override bool TryMakePreToilReservations()
 		{
 			LocalTargetInfo target = base.job.GetTarget(TargetIndex.A);
-			bool result;
 			if (target.IsValid && !base.pawn.Reserve(target, base.job, 1, -1, null))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				base.pawn.ReserveAsManyAsPossible(base.job.GetTargetQueue(TargetIndex.A), base.job, 1, -1, null);
-				result = true;
-			}
-			return result;
+			base.pawn.ReserveAsManyAsPossible(base.job.GetTargetQueue(TargetIndex.A), base.job, 1, -1, null);
+			return true;
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()

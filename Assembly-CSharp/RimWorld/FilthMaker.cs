@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -11,7 +10,7 @@ namespace RimWorld
 
 		public static void MakeFilth(IntVec3 c, Map map, ThingDef filthDef, int count = 1)
 		{
-			for (int num = 0; num < count; num++)
+			for (int i = 0; i < count; i++)
 			{
 				FilthMaker.MakeFilth(c, map, filthDef, null, true);
 			}
@@ -20,7 +19,7 @@ namespace RimWorld
 		public static bool MakeFilth(IntVec3 c, Map map, ThingDef filthDef, string source, int count = 1)
 		{
 			bool flag = false;
-			for (int num = 0; num < count; num++)
+			for (int i = 0; i < count; i++)
 			{
 				flag |= FilthMaker.MakeFilth(c, map, filthDef, Gen.YieldSingle(source), true);
 			}
@@ -37,26 +36,7 @@ namespace RimWorld
 			Filth filth = (Filth)(from t in c.GetThingList(map)
 			where t.def == filthDef
 			select t).FirstOrDefault();
-			bool result;
-			if (!c.Walkable(map) || (filth != null && !filth.CanBeThickened))
-			{
-				if (shouldPropagate)
-				{
-					List<IntVec3> list = GenAdj.AdjacentCells8WayRandomized();
-					for (int i = 0; i < 8; i++)
-					{
-						IntVec3 c2 = c + list[i];
-						if (c2.InBounds(map) && FilthMaker.MakeFilth(c2, map, filthDef, sources, false))
-							goto IL_009b;
-					}
-				}
-				if (filth != null)
-				{
-					filth.AddSources(sources);
-				}
-				result = false;
-			}
-			else
+			if (c.Walkable(map) && (filth == null || filth.CanBeThickened))
 			{
 				if (filth != null)
 				{
@@ -69,14 +49,25 @@ namespace RimWorld
 					filth2.AddSources(sources);
 					GenSpawn.Spawn(filth2, c, map);
 				}
-				result = true;
+				return true;
 			}
-			goto IL_010e;
-			IL_009b:
-			result = true;
-			goto IL_010e;
-			IL_010e:
-			return result;
+			if (shouldPropagate)
+			{
+				List<IntVec3> list = GenAdj.AdjacentCells8WayRandomized();
+				for (int i = 0; i < 8; i++)
+				{
+					IntVec3 c2 = c + list[i];
+					if (c2.InBounds(map) && FilthMaker.MakeFilth(c2, map, filthDef, sources, false))
+					{
+						return true;
+					}
+				}
+			}
+			if (filth != null)
+			{
+				filth.AddSources(sources);
+			}
+			return false;
 		}
 
 		public static void RemoveAllFilth(IntVec3 c, Map map)

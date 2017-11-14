@@ -47,38 +47,21 @@ namespace Verse
 
 		private bool WorthMentioningInCrushLetter(Thing t)
 		{
-			bool result;
 			if (!t.def.destroyable)
 			{
-				result = false;
+				return false;
 			}
-			else
+			switch (t.def.category)
 			{
-				switch (t.def.category)
-				{
-				case ThingCategory.Building:
-				{
-					result = true;
-					break;
-				}
-				case ThingCategory.Pawn:
-				{
-					result = true;
-					break;
-				}
-				case ThingCategory.Item:
-				{
-					result = (t.MarketValue > 0.0099999997764825821);
-					break;
-				}
-				default:
-				{
-					result = false;
-					break;
-				}
-				}
+			case ThingCategory.Building:
+				return true;
+			case ThingCategory.Pawn:
+				return true;
+			case ThingCategory.Item:
+				return t.MarketValue > 0.0099999997764825821;
+			default:
+				return false;
 			}
-			return result;
 		}
 
 		public void Clear()

@@ -14,87 +14,81 @@ namespace RimWorld
 
 		public static void RemoveVertices(List<Vector3> verts, List<TriangleIndices> tris, Predicate<Vector3> predicate)
 		{
-			int num = 0;
+			int i = 0;
 			int count = tris.Count;
-			while (num < count)
+			for (; i < count; i++)
 			{
-				TriangleIndices triangleIndices = tris[num];
+				TriangleIndices triangleIndices = tris[i];
 				if (predicate(verts[triangleIndices.v1]) || predicate(verts[triangleIndices.v2]) || predicate(verts[triangleIndices.v3]))
 				{
-					tris[num] = new TriangleIndices(-1, -1, -1);
+					tris[i] = new TriangleIndices(-1, -1, -1);
 				}
-				num++;
 			}
-			tris.RemoveAll((Predicate<TriangleIndices>)((TriangleIndices x) => x.v1 == -1));
+			tris.RemoveAll((TriangleIndices x) => x.v1 == -1);
 			MeshUtility.RemoveUnusedVertices(verts, tris);
 		}
 
 		public static void RemoveUnusedVertices(List<Vector3> verts, List<TriangleIndices> tris)
 		{
 			MeshUtility.vertIsUsed.Clear();
-			int num = 0;
+			int i = 0;
 			int count = verts.Count;
-			while (num < count)
+			for (; i < count; i++)
 			{
 				MeshUtility.vertIsUsed.Add(false);
-				num++;
 			}
-			int num2 = 0;
+			int j = 0;
 			int count2 = tris.Count;
-			while (num2 < count2)
+			for (; j < count2; j++)
 			{
-				TriangleIndices triangleIndices = tris[num2];
+				TriangleIndices triangleIndices = tris[j];
 				MeshUtility.vertIsUsed[triangleIndices.v1] = true;
 				MeshUtility.vertIsUsed[triangleIndices.v2] = true;
 				MeshUtility.vertIsUsed[triangleIndices.v3] = true;
-				num2++;
 			}
-			int num3 = 0;
+			int num = 0;
 			MeshUtility.offsets.Clear();
-			int num4 = 0;
+			int k = 0;
 			int count3 = verts.Count;
-			while (num4 < count3)
+			for (; k < count3; k++)
 			{
-				if (!MeshUtility.vertIsUsed[num4])
+				if (!MeshUtility.vertIsUsed[k])
 				{
-					num3++;
+					num++;
 				}
-				MeshUtility.offsets.Add(num3);
-				num4++;
+				MeshUtility.offsets.Add(num);
 			}
-			int num5 = 0;
+			int l = 0;
 			int count4 = tris.Count;
-			while (num5 < count4)
+			for (; l < count4; l++)
 			{
-				TriangleIndices triangleIndices2 = tris[num5];
-				tris[num5] = new TriangleIndices(triangleIndices2.v1 - MeshUtility.offsets[triangleIndices2.v1], triangleIndices2.v2 - MeshUtility.offsets[triangleIndices2.v2], triangleIndices2.v3 - MeshUtility.offsets[triangleIndices2.v3]);
-				num5++;
+				TriangleIndices triangleIndices2 = tris[l];
+				tris[l] = new TriangleIndices(triangleIndices2.v1 - MeshUtility.offsets[triangleIndices2.v1], triangleIndices2.v2 - MeshUtility.offsets[triangleIndices2.v2], triangleIndices2.v3 - MeshUtility.offsets[triangleIndices2.v3]);
 			}
-			verts.RemoveAll((Func<Vector3, int, bool>)((Vector3 elem, int index) => !MeshUtility.vertIsUsed[index]));
+			verts.RemoveAll((Vector3 elem, int index) => !MeshUtility.vertIsUsed[index]);
 		}
 
 		public static bool Visible(Vector3 point, float radius, Vector3 viewCenter, float viewAngle)
 		{
-			return viewAngle >= 180.0 || Vector3.Angle(viewCenter * radius, point) <= viewAngle;
+			if (viewAngle >= 180.0)
+			{
+				return true;
+			}
+			return Vector3.Angle(viewCenter * radius, point) <= viewAngle;
 		}
 
 		public static bool VisibleForWorldgen(Vector3 point, float radius, Vector3 viewCenter, float viewAngle)
 		{
-			bool result;
 			if (viewAngle >= 180.0)
 			{
-				result = true;
+				return true;
 			}
-			else
+			float num = (float)(Vector3.Angle(viewCenter * radius, point) + -9.9999997473787516E-06);
+			if (Mathf.Abs(num - viewAngle) < 9.9999999747524271E-07)
 			{
-				float num = (float)(Vector3.Angle(viewCenter * radius, point) + -9.9999997473787516E-06);
-				if (Mathf.Abs(num - viewAngle) < 9.9999999747524271E-07)
-				{
-					Log.Warning(string.Format("Angle difference {0} is within epsilon; recommend adjusting visibility tweak", num - viewAngle));
-				}
-				result = (num <= viewAngle);
+				Log.Warning(string.Format("Angle difference {0} is within epsilon; recommend adjusting visibility tweak", num - viewAngle));
 			}
-			return result;
+			return num <= viewAngle;
 		}
 
 		public static Color32 MutateAlpha(this Color32 input, byte newAlpha)

@@ -25,7 +25,11 @@ namespace RimWorld
 		protected bool ShouldTakeCareOfPrisoner(Pawn warden, Thing prisoner)
 		{
 			Pawn pawn = prisoner as Pawn;
-			return (byte)((pawn != null && pawn.IsPrisonerOfColony && pawn.guest.PrisonerIsSecure && pawn.Spawned && !pawn.InAggroMentalState && !prisoner.IsForbidden(warden) && (pawn.GetLord() == null || !(pawn.GetLord().LordJob is LordJob_FormAndSendCaravan)) && warden.CanReserveAndReach((Thing)pawn, PathEndMode.OnCell, warden.NormalMaxDanger(), 1, -1, null, false)) ? 1 : 0) != 0;
+			if (pawn != null && pawn.IsPrisonerOfColony && pawn.guest.PrisonerIsSecure && pawn.Spawned && !pawn.InAggroMentalState && !prisoner.IsForbidden(warden) && (pawn.GetLord() == null || !(pawn.GetLord().LordJob is LordJob_FormAndSendCaravan)) && warden.CanReserveAndReach(pawn, PathEndMode.OnCell, warden.NormalMaxDanger(), 1, -1, null, false))
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }

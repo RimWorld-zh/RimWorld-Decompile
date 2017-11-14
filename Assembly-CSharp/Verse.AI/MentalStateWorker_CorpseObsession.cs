@@ -4,7 +4,11 @@ namespace Verse.AI
 	{
 		public override bool StateCanOccur(Pawn pawn)
 		{
-			return base.StateCanOccur(pawn) && CorpseObsessionMentalStateUtility.GetClosestCorpseToDigUp(pawn) != null;
+			if (!base.StateCanOccur(pawn))
+			{
+				return false;
+			}
+			return CorpseObsessionMentalStateUtility.GetClosestCorpseToDigUp(pawn) != null;
 		}
 	}
 }

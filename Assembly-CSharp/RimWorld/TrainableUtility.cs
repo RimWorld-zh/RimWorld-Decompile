@@ -66,7 +66,7 @@ namespace RimWorld
 		public static void OpenMasterSelectMenu(Pawn p)
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
-			list.Add(new FloatMenuOption("(" + "NoneLower".Translate() + ")", (Action)delegate()
+			list.Add(new FloatMenuOption("(" + "NoneLower".Translate() + ")", delegate
 			{
 				p.playerSettings.master = null;
 			}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -79,7 +79,7 @@ namespace RimWorld
 				if (level >= num)
 				{
 					Pawn localCol = item;
-					action = (Action)delegate()
+					action = delegate
 					{
 						p.playerSettings.master = localCol;
 					};

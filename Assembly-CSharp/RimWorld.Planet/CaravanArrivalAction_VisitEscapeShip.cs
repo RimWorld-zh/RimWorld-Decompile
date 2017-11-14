@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld.Planet
@@ -36,11 +35,11 @@ namespace RimWorld.Planet
 		{
 			if (!this.target.HasMap)
 			{
-				LongEventHandler.QueueLongEvent((Action)delegate()
+				LongEventHandler.QueueLongEvent(delegate
 				{
 					this.target.SetFaction(Faction.OfPlayer);
 					this.DoArrivalAction(caravan);
-					Find.LetterStack.ReceiveLetter("EscapeShipFoundLabel".Translate(), "EscapeShipFound".Translate(), LetterDefOf.PositiveEvent, new GlobalTargetInfo(this.target.Map.Center, this.target.Map, false), (string)null);
+					Find.LetterStack.ReceiveLetter("EscapeShipFoundLabel".Translate(), "EscapeShipFound".Translate(), LetterDefOf.PositiveEvent, new GlobalTargetInfo(this.target.Map.Center, this.target.Map, false), null);
 				}, "GeneratingMapForNewEncounter", false, null);
 			}
 			else

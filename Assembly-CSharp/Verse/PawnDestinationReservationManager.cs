@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse.AI;
@@ -35,7 +34,7 @@ namespace Verse
 			public void ExposeData()
 			{
 				Scribe_Collections.Look<PawnDestinationReservation>(ref this.list, "list", LookMode.Deep, new object[0]);
-				if (((Scribe.mode == LoadSaveMode.PostLoadInit) ? this.list.RemoveAll((Predicate<PawnDestinationReservation>)((PawnDestinationReservation x) => x.claimant.DestroyedOrNull())) : 0) != 0)
+				if (Scribe.mode == LoadSaveMode.PostLoadInit && this.list.RemoveAll((PawnDestinationReservation x) => x.claimant.DestroyedOrNull()) != 0)
 				{
 					Log.Warning("Some destination reservations had null or destroyed claimant.");
 				}
@@ -81,83 +80,53 @@ namespace Verse
 
 		public IntVec3 MostRecentReservationFor(Pawn p)
 		{
-			IntVec3 result;
-			List<PawnDestinationReservation> list;
-			int i;
 			if (p.Faction == null)
 			{
-				result = IntVec3.Invalid;
+				return IntVec3.Invalid;
 			}
-			else
+			List<PawnDestinationReservation> list = this.reservedDestinations[p.Faction].list;
+			for (int i = 0; i < list.Count; i++)
 			{
-				list = this.reservedDestinations[p.Faction].list;
-				for (i = 0; i < list.Count; i++)
+				if (list[i].claimant == p && !list[i].obsolete)
 				{
-					if (list[i].claimant == p && !list[i].obsolete)
-						goto IL_0059;
+					return list[i].target;
 				}
-				result = IntVec3.Invalid;
 			}
-			goto IL_0087;
-			IL_0087:
-			return result;
-			IL_0059:
-			result = list[i].target;
-			goto IL_0087;
+			return IntVec3.Invalid;
 		}
 
 		public IntVec3 FirstObsoleteReservationFor(Pawn p)
 		{
-			IntVec3 result;
-			List<PawnDestinationReservation> list;
-			int i;
 			if (p.Faction == null)
 			{
-				result = IntVec3.Invalid;
+				return IntVec3.Invalid;
 			}
-			else
+			List<PawnDestinationReservation> list = this.reservedDestinations[p.Faction].list;
+			for (int i = 0; i < list.Count; i++)
 			{
-				list = this.reservedDestinations[p.Faction].list;
-				for (i = 0; i < list.Count; i++)
+				if (list[i].claimant == p && list[i].obsolete)
 				{
-					if (list[i].claimant == p && list[i].obsolete)
-						goto IL_0059;
+					return list[i].target;
 				}
-				result = IntVec3.Invalid;
 			}
-			goto IL_0087;
-			IL_0087:
-			return result;
-			IL_0059:
-			result = list[i].target;
-			goto IL_0087;
+			return IntVec3.Invalid;
 		}
 
 		public Job FirstObsoleteReservationJobFor(Pawn p)
 		{
-			Job result;
-			List<PawnDestinationReservation> list;
-			int i;
 			if (p.Faction == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			List<PawnDestinationReservation> list = this.reservedDestinations[p.Faction].list;
+			for (int i = 0; i < list.Count; i++)
 			{
-				list = this.reservedDestinations[p.Faction].list;
-				for (i = 0; i < list.Count; i++)
+				if (list[i].claimant == p && list[i].obsolete)
 				{
-					if (list[i].claimant == p && list[i].obsolete)
-						goto IL_0055;
+					return list[i].job;
 				}
-				result = null;
 			}
-			goto IL_007f;
-			IL_007f:
-			return result;
-			IL_0055:
-			result = list[i].job;
-			goto IL_007f;
+			return null;
 		}
 
 		public bool IsReserved(IntVec3 loc)
@@ -178,54 +147,36 @@ namespace Verse
 
 		public bool CanReserve(IntVec3 c, Pawn searcher)
 		{
-			bool result;
 			if (searcher.Faction == null)
 			{
-				result = true;
+				return true;
 			}
-			else
+			List<PawnDestinationReservation> list = this.reservedDestinations[searcher.Faction].list;
+			for (int i = 0; i < list.Count; i++)
 			{
-				List<PawnDestinationReservation> list = this.reservedDestinations[searcher.Faction].list;
-				for (int i = 0; i < list.Count; i++)
+				if (list[i].target == c && list[i].claimant != searcher)
 				{
-					if (list[i].target == c && list[i].claimant != searcher)
-						goto IL_005b;
+					return false;
 				}
-				result = true;
 			}
-			goto IL_007a;
-			IL_007a:
-			return result;
-			IL_005b:
-			result = false;
-			goto IL_007a;
+			return true;
 		}
 
 		public Pawn FirstReserverOf(IntVec3 c, Faction faction)
 		{
-			Pawn result;
-			List<PawnDestinationReservation> list;
-			int i;
 			if (faction == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			List<PawnDestinationReservation> list = this.reservedDestinations[faction].list;
+			for (int i = 0; i < list.Count; i++)
 			{
-				list = this.reservedDestinations[faction].list;
-				for (i = 0; i < list.Count; i++)
+				if (list[i].target == c)
 				{
-					if (list[i].target == c)
-						goto IL_003f;
+					return list[i].claimant;
 				}
-				result = null;
 			}
-			goto IL_0069;
-			IL_003f:
-			result = list[i].claimant;
-			goto IL_0069;
-			IL_0069:
-			return result;
+			return null;
 		}
 
 		public void ReleaseAllObsoleteClaimedBy(Pawn p)

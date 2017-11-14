@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -43,7 +42,7 @@ namespace RimWorld
 			}
 			if (pawn.skills != null)
 			{
-				num *= PriceUtility.AverageSkillCurve.Evaluate(pawn.skills.skills.Average((Func<SkillRecord, float>)((SkillRecord sk) => (float)sk.Level)));
+				num *= PriceUtility.AverageSkillCurve.Evaluate(pawn.skills.skills.Average((SkillRecord sk) => (float)sk.Level));
 			}
 			num *= pawn.ageTracker.CurLifeStage.marketValueFactor;
 			if (pawn.story != null && pawn.story.traits != null)

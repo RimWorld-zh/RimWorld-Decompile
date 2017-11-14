@@ -16,7 +16,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (this.noGrowUntilTick <= 0 || Find.TickManager.TicksGame >= this.noGrowUntilTick) && Find.TickManager.TicksGame < this.growthSeasonUntilTick;
+				if (this.noGrowUntilTick > 0 && Find.TickManager.TicksGame < this.noGrowUntilTick)
+				{
+					return false;
+				}
+				return Find.TickManager.TicksGame < this.growthSeasonUntilTick;
 			}
 		}
 

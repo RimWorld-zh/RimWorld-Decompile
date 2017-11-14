@@ -9,9 +9,9 @@ namespace RimWorld.BaseGen
 		{
 			ResolveParams resolveParams = rp;
 			Action<Thing> prevPostThingSpawn = resolveParams.postThingSpawn;
-			resolveParams.postThingSpawn = (Action<Thing>)delegate(Thing x)
+			resolveParams.postThingSpawn = delegate(Thing x)
 			{
-				if ((object)prevPostThingSpawn != null)
+				if (prevPostThingSpawn != null)
 				{
 					prevPostThingSpawn(x);
 				}

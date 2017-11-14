@@ -19,17 +19,16 @@ namespace RimWorld.Planet
 		public static bool EnvironmentAllowsEatingVirtualPlantsNowAt(int tile)
 		{
 			BiomeDef biome = Find.WorldGrid[tile].biome;
-			bool result;
 			if (!biome.hasVirtualPlants)
 			{
-				result = false;
+				return false;
 			}
-			else
+			float temperatureAtTile = GenTemperature.GetTemperatureAtTile(tile);
+			if (temperatureAtTile < 0.0)
 			{
-				float temperatureAtTile = GenTemperature.GetTemperatureAtTile(tile);
-				result = ((byte)((!(temperatureAtTile < 0.0)) ? 1 : 0) != 0);
+				return false;
 			}
-			return result;
+			return true;
 		}
 
 		public static void EatVirtualPlants(Pawn p)

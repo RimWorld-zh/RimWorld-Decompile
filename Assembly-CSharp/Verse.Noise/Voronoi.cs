@@ -8,9 +8,9 @@ namespace Verse.Noise
 
 		private double m_frequency = 1.0;
 
-		private int m_seed = 0;
+		private int m_seed;
 
-		private bool m_distance = false;
+		private bool m_distance;
 
 		public double Displacement
 		{
@@ -60,11 +60,13 @@ namespace Verse.Noise
 			}
 		}
 
-		public Voronoi() : base(0)
+		public Voronoi()
+			: base(0)
 		{
 		}
 
-		public Voronoi(double frequency, double displacement, int seed, bool distance) : base(0)
+		public Voronoi(double frequency, double displacement, int seed, bool distance)
+			: base(0)
 		{
 			this.Frequency = frequency;
 			this.Displacement = displacement;

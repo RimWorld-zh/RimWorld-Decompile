@@ -16,7 +16,7 @@ namespace RimWorld
 
 		public static void Reset()
 		{
-			LongEventHandler.ExecuteWhenFinished((Action)delegate
+			LongEventHandler.ExecuteWhenFinished(delegate
 			{
 				MedicalCareUtility.careTextures = new Texture2D[5];
 				MedicalCareUtility.careTextures[0] = ContentFinder<Texture2D>.Get("UI/Icons/Medical/NoCare", true);
@@ -32,7 +32,7 @@ namespace RimWorld
 			Rect rect2 = new Rect(rect.x, rect.y, (float)(rect.width / 5.0), rect.height);
 			for (int i = 0; i < 5; i++)
 			{
-				MedicalCareCategory mc = (MedicalCareCategory)(byte)i;
+				MedicalCareCategory mc = (MedicalCareCategory)i;
 				Widgets.DrawHighlightIfMouseover(rect2);
 				GUI.DrawTexture(rect2, MedicalCareUtility.careTextures[i]);
 				if (Widgets.ButtonInvisible(rect2, false))
@@ -44,7 +44,7 @@ namespace RimWorld
 				{
 					Widgets.DrawBox(rect2, 3);
 				}
-				TooltipHandler.TipRegion(rect2, (Func<string>)(() => mc.GetLabel()), 632165 + i * 17);
+				TooltipHandler.TipRegion(rect2, () => mc.GetLabel(), 632165 + i * 17);
 				rect2.x += rect2.width;
 			}
 		}
@@ -56,40 +56,21 @@ namespace RimWorld
 
 		public static bool AllowsMedicine(this MedicalCareCategory cat, ThingDef meds)
 		{
-			bool result;
 			switch (cat)
 			{
 			case MedicalCareCategory.NoCare:
-			{
-				result = false;
-				break;
-			}
+				return false;
 			case MedicalCareCategory.NoMeds:
-			{
-				result = false;
-				break;
-			}
+				return false;
 			case MedicalCareCategory.HerbalOrWorse:
-			{
-				result = (meds.GetStatValueAbstract(StatDefOf.MedicalPotency, null) <= ThingDefOf.HerbalMedicine.GetStatValueAbstract(StatDefOf.MedicalPotency, null));
-				break;
-			}
+				return meds.GetStatValueAbstract(StatDefOf.MedicalPotency, null) <= ThingDefOf.HerbalMedicine.GetStatValueAbstract(StatDefOf.MedicalPotency, null);
 			case MedicalCareCategory.NormalOrWorse:
-			{
-				result = (meds.GetStatValueAbstract(StatDefOf.MedicalPotency, null) <= ThingDefOf.Medicine.GetStatValueAbstract(StatDefOf.MedicalPotency, null));
-				break;
-			}
+				return meds.GetStatValueAbstract(StatDefOf.MedicalPotency, null) <= ThingDefOf.Medicine.GetStatValueAbstract(StatDefOf.MedicalPotency, null);
 			case MedicalCareCategory.Best:
-			{
-				result = true;
-				break;
-			}
+				return true;
 			default:
-			{
 				throw new InvalidOperationException();
 			}
-			}
-			return result;
 		}
 	}
 }

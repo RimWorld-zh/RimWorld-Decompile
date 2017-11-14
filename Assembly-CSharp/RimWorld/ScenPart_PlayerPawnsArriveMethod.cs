@@ -8,7 +8,7 @@ namespace RimWorld
 {
 	public class ScenPart_PlayerPawnsArriveMethod : ScenPart
 	{
-		private PlayerPawnsArriveMethod method = PlayerPawnsArriveMethod.Standing;
+		private PlayerPawnsArriveMethod method;
 
 		public override void ExposeData()
 		{
@@ -29,7 +29,7 @@ namespace RimWorld
 					{
 						PlayerPawnsArriveMethod playerPawnsArriveMethod = (PlayerPawnsArriveMethod)enumerator.Current;
 						PlayerPawnsArriveMethod localM = playerPawnsArriveMethod;
-						list.Add(new FloatMenuOption(localM.ToStringHuman(), (Action)delegate
+						list.Add(new FloatMenuOption(localM.ToStringHuman(), delegate
 						{
 							this.method = localM;
 						}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -49,7 +49,11 @@ namespace RimWorld
 
 		public override string Summary(Scenario scen)
 		{
-			return (this.method != PlayerPawnsArriveMethod.DropPods) ? null : "ScenPart_ArriveInDropPods".Translate();
+			if (this.method == PlayerPawnsArriveMethod.DropPods)
+			{
+				return "ScenPart_ArriveInDropPods".Translate();
+			}
+			return null;
 		}
 
 		public override void Randomize()

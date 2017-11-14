@@ -26,7 +26,7 @@ namespace RimWorld.BaseGen
 			}
 			ResolveParams resolveParams = rp;
 			resolveParams.rect = CellRect.SingleCell(rect.BottomLeft);
-			resolveParams.thingRot = new Rot4?(Rot4.East);
+			resolveParams.thingRot = Rot4.East;
 			BaseGen.symbolStack.Push("ancientCryptosleepCasket", resolveParams);
 			ResolveParams resolveParams2 = rp;
 			resolveParams2.rect = rect;

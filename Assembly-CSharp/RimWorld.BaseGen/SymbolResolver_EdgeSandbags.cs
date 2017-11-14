@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld.BaseGen
@@ -49,7 +48,7 @@ namespace RimWorld.BaseGen
 						}
 					}
 				}
-				else if (edgeCell.Standable(map) && !edgeCell.Roofed(map) && edgeCell.SupportsStructureType(map, ThingDefOf.Sandbags.terrainAffordanceNeeded) && !GenSpawn.WouldWipeAnythingWith(edgeCell, Rot4.North, ThingDefOf.Sandbags, map, (Predicate<Thing>)((Thing x) => x.def.category == ThingCategory.Building || x.def.category == ThingCategory.Item)))
+				else if (edgeCell.Standable(map) && !edgeCell.Roofed(map) && edgeCell.SupportsStructureType(map, ThingDefOf.Sandbags.terrainAffordanceNeeded) && !GenSpawn.WouldWipeAnythingWith(edgeCell, Rot4.North, ThingDefOf.Sandbags, map, (Thing x) => x.def.category == ThingCategory.Building || x.def.category == ThingCategory.Item))
 				{
 					if (num > 0)
 					{

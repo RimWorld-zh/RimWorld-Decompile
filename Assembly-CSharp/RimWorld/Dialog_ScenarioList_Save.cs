@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -25,7 +24,7 @@ namespace RimWorld
 		protected override void DoFileInteraction(string fileName)
 		{
 			string absPath = GenFilePaths.AbsPathForScenario(fileName);
-			LongEventHandler.QueueLongEvent((Action)delegate
+			LongEventHandler.QueueLongEvent(delegate
 			{
 				GameDataSaveLoader.SaveScenario(this.savingScen, absPath);
 			}, "SavingLongEvent", false, null);

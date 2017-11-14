@@ -35,12 +35,7 @@ namespace RimWorld
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Building_FermentingBarrel building_FermentingBarrel = t as Building_FermentingBarrel;
-			bool result;
-			if (building_FermentingBarrel == null || building_FermentingBarrel.Fermented || building_FermentingBarrel.SpaceLeftForWort <= 0)
-			{
-				result = false;
-			}
-			else
+			if (building_FermentingBarrel != null && !building_FermentingBarrel.Fermented && building_FermentingBarrel.SpaceLeftForWort > 0)
 			{
 				float ambientTemperature = building_FermentingBarrel.AmbientTemperature;
 				CompProperties_TemperatureRuinable compProperties = building_FermentingBarrel.def.GetCompProperties<CompProperties_TemperatureRuinable>();
@@ -50,37 +45,31 @@ namespace RimWorld
 					{
 						LocalTargetInfo target = t;
 						if (!pawn.CanReserve(target, 1, -1, null, forced))
-							goto IL_00a2;
+							goto IL_0094;
 						if (pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Deconstruct) != null)
 						{
-							result = false;
+							return false;
 						}
-						else
+						Thing thing = this.FindWort(pawn, building_FermentingBarrel);
+						if (thing == null)
 						{
-							Thing thing = this.FindWort(pawn, building_FermentingBarrel);
-							if (thing == null)
-							{
-								JobFailReason.Is(WorkGiver_FillFermentingBarrel.NoWortTrans);
-								result = false;
-							}
-							else
-							{
-								result = ((byte)((!t.IsBurning()) ? 1 : 0) != 0);
-							}
+							JobFailReason.Is(WorkGiver_FillFermentingBarrel.NoWortTrans);
+							return false;
 						}
-						goto IL_0107;
+						if (t.IsBurning())
+						{
+							return false;
+						}
+						return true;
 					}
-					goto IL_00a2;
+					goto IL_0094;
 				}
 				JobFailReason.Is(WorkGiver_FillFermentingBarrel.TemperatureTrans);
-				result = false;
+				return false;
 			}
-			goto IL_0107;
-			IL_00a2:
-			result = false;
-			goto IL_0107;
-			IL_0107:
-			return result;
+			return false;
+			IL_0094:
+			return false;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
@@ -92,7 +81,14 @@ namespace RimWorld
 
 		private Thing FindWort(Pawn pawn, Building_FermentingBarrel barrel)
 		{
-			Predicate<Thing> predicate = (Predicate<Thing>)((Thing x) => (byte)((!x.IsForbidden(pawn) && pawn.CanReserve(x, 1, -1, null, false)) ? 1 : 0) != 0);
+			Predicate<Thing> predicate = delegate(Thing x)
+			{
+				if (!x.IsForbidden(pawn) && pawn.CanReserve(x, 1, -1, null, false))
+				{
+					return true;
+				}
+				return false;
+			};
 			IntVec3 position = pawn.Position;
 			Map map = pawn.Map;
 			ThingRequest thingReq = ThingRequest.ForDef(ThingDefOf.Wort);

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,8 +26,8 @@ namespace RimWorld
 			{
 				list = (req.Def as ThingDef).GetConcreteExample(req.StuffDef).TryGetComp<CompEquippable>().AllVerbs.OfType<Verb_MeleeAttack>().ToList();
 			}
-			float num = list.AverageWeighted((Func<Verb_MeleeAttack, float>)((Verb_MeleeAttack verb) => verb.verbProps.AdjustedMeleeSelectionWeight(verb, thingHolder as Pawn, thing)), (Func<Verb_MeleeAttack, float>)((Verb_MeleeAttack verb) => verb.verbProps.AdjustedMeleeDamageAmount(verb, thingHolder as Pawn, thing)));
-			float num2 = list.AverageWeighted((Func<Verb_MeleeAttack, float>)((Verb_MeleeAttack verb) => verb.verbProps.AdjustedMeleeSelectionWeight(verb, thingHolder as Pawn, thing)), (Func<Verb_MeleeAttack, float>)((Verb_MeleeAttack verb) => verb.verbProps.AdjustedCooldown(verb, thingHolder as Pawn, thing)));
+			float num = list.AverageWeighted((Verb_MeleeAttack verb) => verb.verbProps.AdjustedMeleeSelectionWeight(verb, thingHolder as Pawn, thing), (Verb_MeleeAttack verb) => verb.verbProps.AdjustedMeleeDamageAmount(verb, thingHolder as Pawn, thing));
+			float num2 = list.AverageWeighted((Verb_MeleeAttack verb) => verb.verbProps.AdjustedMeleeSelectionWeight(verb, thingHolder as Pawn, thing), (Verb_MeleeAttack verb) => verb.verbProps.AdjustedCooldown(verb, thingHolder as Pawn, thing));
 			return num / num2;
 		}
 

@@ -28,7 +28,11 @@ namespace Verse
 					list.Remove(item);
 				}
 			}
-			return (list.Count != 0) ? list.RandomElement() : null;
+			if (list.Count == 0)
+			{
+				return null;
+			}
+			return list.RandomElement();
 		}
 	}
 }

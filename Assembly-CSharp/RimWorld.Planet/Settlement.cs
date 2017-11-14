@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -50,7 +49,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (this.trader != null) ? this.trader.TraderKind : null;
+				if (this.trader == null)
+				{
+					return null;
+				}
+				return this.trader.TraderKind;
 			}
 		}
 
@@ -58,7 +61,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (this.trader != null) ? this.trader.StockListForReading : null;
+				if (this.trader == null)
+				{
+					return null;
+				}
+				return this.trader.StockListForReading;
 			}
 		}
 
@@ -66,7 +73,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (this.trader != null) ? this.trader.RandomPriceFactorSeed : 0;
+				if (this.trader == null)
+				{
+					return 0;
+				}
+				return this.trader.RandomPriceFactorSeed;
 			}
 		}
 
@@ -74,7 +85,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (this.trader != null) ? this.trader.TraderName : null;
+				if (this.trader == null)
+				{
+					return null;
+				}
+				return this.trader.TraderName;
 			}
 		}
 
@@ -82,7 +97,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return this.trader != null && this.trader.CanTradeNow;
+				if (this.trader == null)
+				{
+					return false;
+				}
+				return this.trader.CanTradeNow;
 			}
 		}
 
@@ -90,13 +109,21 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (float)((this.trader != null) ? this.trader.TradePriceImprovementOffsetForPlayer : 0.0);
+				if (this.trader == null)
+				{
+					return 0f;
+				}
+				return this.trader.TradePriceImprovementOffsetForPlayer;
 			}
 		}
 
 		public IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
-			return (this.trader != null) ? this.trader.ColonyThingsWillingToBuy(playerNegotiator) : null;
+			if (this.trader == null)
+			{
+				return null;
+			}
+			return this.trader.ColonyThingsWillingToBuy(playerNegotiator);
 		}
 
 		public void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
@@ -120,7 +147,7 @@ namespace RimWorld.Planet
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
 				BackCompatibility.SettlementPostLoadInit(this);
-				this.previouslyGeneratedInhabitants.RemoveAll((Predicate<Pawn>)((Pawn x) => x == null));
+				this.previouslyGeneratedInhabitants.RemoveAll((Pawn x) => x == null);
 			}
 		}
 
@@ -163,7 +190,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -174,6 +201,8 @@ namespace RimWorld.Planet
 			}
 			if (base.Faction == Faction.OfPlayer)
 				yield break;
+			if (Current.ProgramState != ProgramState.Playing)
+				yield break;
 			if (PlayerKnowledgeDatabase.IsComplete(ConceptDefOf.FormCaravan))
 				yield break;
 			yield return (Gizmo)new Command_Action
@@ -181,15 +210,15 @@ namespace RimWorld.Planet
 				defaultLabel = "CommandFormCaravan".Translate(),
 				defaultDesc = "CommandFormCaravanDesc".Translate(),
 				icon = Settlement.FormCaravanCommand,
-				action = (Action)delegate
+				action = delegate
 				{
 					Find.Tutor.learningReadout.TryActivateConcept(ConceptDefOf.FormCaravan);
 					Messages.Message("MessageSelectOwnBaseToFormCaravan".Translate(), MessageTypeDefOf.RejectInput);
 				}
 			};
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0176:
-			/*Error near IL_0177: Unexpected return in MoveNext()*/;
+			IL_0179:
+			/*Error near IL_017a: Unexpected return in MoveNext()*/;
 		}
 
 		public override IEnumerable<Gizmo> GetCaravanGizmos(Caravan caravan)
@@ -221,7 +250,7 @@ namespace RimWorld.Planet
 			}
 			if (this.Visitable && CaravanVisitUtility.SettlementVisitedNow(caravan) != this)
 			{
-				yield return new FloatMenuOption("VisitSettlement".Translate(this.Label), (Action)delegate()
+				yield return new FloatMenuOption("VisitSettlement".Translate(this.Label), delegate
 				{
 					caravan.pather.StartPath(_003CGetFloatMenuOptions_003Ec__Iterator._0024this.Tile, new CaravanArrivalAction_VisitSettlement(_003CGetFloatMenuOptions_003Ec__Iterator._0024this), true);
 				}, MenuOptionPriority.Default, null, null, 0f, null, this);
@@ -229,13 +258,13 @@ namespace RimWorld.Planet
 			}
 			if (!this.Attackable)
 				yield break;
-			yield return new FloatMenuOption("AttackSettlement".Translate(this.Label), (Action)delegate()
+			yield return new FloatMenuOption("AttackSettlement".Translate(this.Label), delegate
 			{
 				caravan.pather.StartPath(_003CGetFloatMenuOptions_003Ec__Iterator._0024this.Tile, new CaravanArrivalAction_AttackSettlement(_003CGetFloatMenuOptions_003Ec__Iterator._0024this), true);
 			}, MenuOptionPriority.Default, null, null, 0f, null, this);
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_02df:
-			/*Error near IL_02e0: Unexpected return in MoveNext()*/;
+			IL_02d3:
+			/*Error near IL_02d4: Unexpected return in MoveNext()*/;
 		}
 
 		public override void GetChildHolders(List<IThingHolder> outChildren)

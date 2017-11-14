@@ -26,36 +26,26 @@ namespace RimWorld
 			switch (map.TileInfo.hilliness)
 			{
 			case Hilliness.Flat:
-			{
 				num = MapGenTuning.ElevationFactorFlat;
 				break;
-			}
 			case Hilliness.SmallHills:
-			{
 				num = MapGenTuning.ElevationFactorSmallHills;
 				break;
-			}
 			case Hilliness.LargeHills:
-			{
 				num = MapGenTuning.ElevationFactorLargeHills;
 				break;
-			}
 			case Hilliness.Mountainous:
-			{
 				num = MapGenTuning.ElevationFactorMountains;
 				break;
-			}
 			case Hilliness.Impassable:
-			{
 				num = MapGenTuning.ElevationFactorImpassableMountains;
 				break;
-			}
 			}
 			input = new Multiply(input, new Const((double)num));
 			NoiseDebugUI.StoreNoiseRender(input, "elev world-factored");
 			if (map.TileInfo.hilliness != Hilliness.Mountainous && map.TileInfo.hilliness != Hilliness.Impassable)
 			{
-				goto IL_02bf;
+				goto IL_02b1;
 			}
 			IntVec3 size3 = map.Size;
 			ModuleBase input2 = new DistFromAxis((float)((float)size3.x * 0.41999998688697815));
@@ -85,14 +75,14 @@ namespace RimWorld
 				input2 = new Rotate(0.0, 90.0, 0.0, input2);
 			}
 			else if (!(random == Rot4.West))
-				goto IL_029e;
-			goto IL_029e;
-			IL_029e:
+				goto IL_0291;
+			goto IL_0291;
+			IL_0291:
 			NoiseDebugUI.StoreNoiseRender(input2, "mountain");
 			input = new Add(input, input2);
 			NoiseDebugUI.StoreNoiseRender(input, "elev + mountain");
-			goto IL_02bf;
-			IL_02bf:
+			goto IL_02b1;
+			IL_02b1:
 			float b = (float)((!map.TileInfo.WaterCovered) ? 3.4028234663852886E+38 : 0.0);
 			MapGenFloatGrid elevation = MapGenerator.Elevation;
 			foreach (IntVec3 allCell in map.AllCells)

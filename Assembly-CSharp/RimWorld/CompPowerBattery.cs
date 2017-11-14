@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -7,7 +6,7 @@ namespace RimWorld
 {
 	public class CompPowerBattery : CompPower
 	{
-		private float storedEnergy = 0f;
+		private float storedEnergy;
 
 		private const float SelfDischargingWatts = 5f;
 
@@ -15,17 +14,12 @@ namespace RimWorld
 		{
 			get
 			{
-				float result;
 				if (base.parent.IsBrokenDown())
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					CompProperties_Battery props = this.Props;
-					result = (props.storedEnergyMax - this.storedEnergy) / props.efficiency;
-				}
-				return result;
+				CompProperties_Battery props = this.Props;
+				return (props.storedEnergyMax - this.storedEnergy) / props.efficiency;
 			}
 		}
 
@@ -114,20 +108,20 @@ namespace RimWorld
 		public override string CompInspectStringExtra()
 		{
 			CompProperties_Battery props = this.Props;
-			string text;
-			string text2 = text = "PowerBatteryStored".Translate() + ": " + this.storedEnergy.ToString("F0") + " / " + props.storedEnergyMax.ToString("F0") + " Wd";
-			text2 = text + "\n" + "PowerBatteryEfficiency".Translate() + ": " + ((float)(props.efficiency * 100.0)).ToString("F0") + "%";
+			string text = "PowerBatteryStored".Translate() + ": " + this.storedEnergy.ToString("F0") + " / " + props.storedEnergyMax.ToString("F0") + " Wd";
+			string text2 = text;
+			text = text2 + "\n" + "PowerBatteryEfficiency".Translate() + ": " + ((float)(props.efficiency * 100.0)).ToString("F0") + "%";
 			if (this.storedEnergy > 0.0)
 			{
-				text = text2;
-				text2 = text + "\n" + "SelfDischarging".Translate() + ": " + 5f.ToString("F0") + " W";
+				text2 = text;
+				text = text2 + "\n" + "SelfDischarging".Translate() + ": " + 5f.ToString("F0") + " W";
 			}
-			return text2 + "\n" + base.CompInspectStringExtra();
+			return text + "\n" + base.CompInspectStringExtra();
 		}
 
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CCompGetGizmosExtra_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.CompGetGizmosExtra().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -141,14 +135,14 @@ namespace RimWorld
 			yield return (Gizmo)new Command_Action
 			{
 				defaultLabel = "DEBUG: Fill",
-				action = (Action)delegate
+				action = delegate
 				{
-					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_00e8: stateMachine*/)._0024this.SetStoredEnergyPct(1f);
+					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_00e3: stateMachine*/)._0024this.SetStoredEnergyPct(1f);
 				}
 			};
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0175:
-			/*Error near IL_0176: Unexpected return in MoveNext()*/;
+			IL_016f:
+			/*Error near IL_0170: Unexpected return in MoveNext()*/;
 		}
 	}
 }

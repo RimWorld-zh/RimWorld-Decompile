@@ -34,7 +34,11 @@ namespace RimWorld
 
 		public bool CanGenerateFrom(PawnGroupMakerParms parms)
 		{
-			return (this.disallowedStrategies == null || !this.disallowedStrategies.Contains(parms.raidStrategy)) && this.kindDef.Worker.CanGenerateFrom(parms, this);
+			if (this.disallowedStrategies != null && this.disallowedStrategies.Contains(parms.raidStrategy))
+			{
+				return false;
+			}
+			return this.kindDef.Worker.CanGenerateFrom(parms, this);
 		}
 	}
 }

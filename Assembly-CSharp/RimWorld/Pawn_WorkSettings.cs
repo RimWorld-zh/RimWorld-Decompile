@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +9,7 @@ namespace RimWorld
 	{
 		private Pawn pawn;
 
-		private DefMap<WorkTypeDef, int> priorities = null;
+		private DefMap<WorkTypeDef, int> priorities;
 
 		private bool workGiversDirty = true;
 
@@ -140,7 +139,11 @@ namespace RimWorld
 		{
 			this.ConfirmInitializedDebug();
 			int num = this.priorities[w];
-			return (num <= 0 || Find.PlaySettings.useWorkPriorities) ? num : 3;
+			if (num > 0 && !Find.PlaySettings.useWorkPriorities)
+			{
+				return 3;
+			}
+			return num;
 		}
 
 		public bool WorkIsActive(WorkTypeDef w)
@@ -189,14 +192,14 @@ namespace RimWorld
 				int priority = this.GetPriority(workTypeDef);
 				if (priority > 0)
 				{
-					if (priority < num && workTypeDef.workGiversByPriority.Any((Predicate<WorkGiverDef>)((WorkGiverDef wg) => !wg.emergency)))
+					if (priority < num && workTypeDef.workGiversByPriority.Any((WorkGiverDef wg) => !wg.emergency))
 					{
 						num = priority;
 					}
 					Pawn_WorkSettings.wtsByPrio.Add(workTypeDef);
 				}
 			}
-			Pawn_WorkSettings.wtsByPrio.InsertionSort((Comparison<WorkTypeDef>)delegate(WorkTypeDef a, WorkTypeDef b)
+			Pawn_WorkSettings.wtsByPrio.InsertionSort(delegate(WorkTypeDef a, WorkTypeDef b)
 			{
 				float value = (float)(a.naturalPriority + (4 - this.GetPriority(a)) * 100000);
 				return ((float)(b.naturalPriority + (4 - this.GetPriority(b)) * 100000)).CompareTo(value);

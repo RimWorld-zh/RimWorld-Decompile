@@ -2,31 +2,32 @@ using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Verse
 {
 	public class PawnKindDef : Def
 	{
-		public ThingDef race = null;
+		public ThingDef race;
 
 		public FactionDef defaultFactionType;
 
-		public string backstoryCategory = (string)null;
+		public string backstoryCategory;
 
-		public string labelPlural = (string)null;
+		public string labelPlural;
 
-		public float backstoryCryptosleepCommonality = 0f;
+		public float backstoryCryptosleepCommonality;
 
-		public bool forceNormalGearQuality = false;
+		public bool forceNormalGearQuality;
 
-		public int minGenerationAge = 0;
+		public int minGenerationAge;
 
 		public int maxGenerationAge = 999999;
 
 		public FloatRange gearHealthRange = FloatRange.One;
 
-		public bool factionLeader = false;
+		public bool factionLeader;
 
 		public List<PawnKindLifeStage> lifeStages = new List<PawnKindLifeStage>();
 
@@ -38,27 +39,27 @@ namespace Verse
 
 		public float baseRecruitDifficulty = 0.5f;
 
-		public bool aiAvoidCover = false;
+		public bool aiAvoidCover;
 
 		public FloatRange fleeHealthThresholdRange = new FloatRange(-0.4f, 0.4f);
 
 		public FloatRange apparelMoney = FloatRange.Zero;
 
-		public List<ThingDef> apparelRequired = null;
+		public List<ThingDef> apparelRequired;
 
-		public List<string> apparelTags = null;
+		public List<string> apparelTags;
 
 		public float apparelAllowHeadwearChance = 1f;
 
-		public bool apparelIgnoreSeasons = false;
+		public bool apparelIgnoreSeasons;
 
 		public FloatRange weaponMoney = FloatRange.Zero;
 
-		public List<string> weaponTags = null;
+		public List<string> weaponTags;
 
 		public FloatRange techHediffsMoney = FloatRange.Zero;
 
-		public List<string> techHediffsTags = null;
+		public List<string> techHediffsTags;
 
 		public float techHediffsChance = 0.1f;
 
@@ -66,33 +67,36 @@ namespace Verse
 
 		public List<ThingCountClass> fixedInventory = new List<ThingCountClass>();
 
-		public PawnInventoryOption inventoryOptions = null;
+		public PawnInventoryOption inventoryOptions;
 
-		public float invNutrition = 0f;
+		public float invNutrition;
 
-		public ThingDef invFoodDef = null;
+		public ThingDef invFoodDef;
 
-		public float chemicalAddictionChance = 0f;
+		public float chemicalAddictionChance;
 
 		public float combatEnhancingDrugsChance = 0.04f;
 
 		public IntRange combatEnhancingDrugsCount = IntRange.zero;
 
-		public bool trader = false;
+		public bool trader;
 
-		public string labelMale = (string)null;
+		public string labelMale;
 
-		public string labelMalePlural = (string)null;
+		public string labelMalePlural;
 
-		public string labelFemale = (string)null;
+		public string labelFemale;
 
-		public string labelFemalePlural = (string)null;
+		public string labelFemalePlural;
 
-		public bool wildSpawn_spawnWild = false;
+		public bool wildSpawn_spawnWild;
 
 		public float wildSpawn_EcoSystemWeight = 1f;
 
 		public IntRange wildSpawn_GroupSizeRange = IntRange.one;
+
+		[CompilerGenerated]
+		private static Func<ThingDef, float> _003C_003Ef__mg_0024cache0;
 
 		public RaceProperties RaceProps
 		{
@@ -113,12 +117,16 @@ namespace Verse
 
 		public string GetLabelPlural(int count = -1)
 		{
-			return this.labelPlural.NullOrEmpty() ? Find.ActiveLanguageWorker.Pluralize(base.label, count) : this.labelPlural;
+			if (!this.labelPlural.NullOrEmpty())
+			{
+				return this.labelPlural;
+			}
+			return Find.ActiveLanguageWorker.Pluralize(base.label, count);
 		}
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -150,13 +158,13 @@ namespace Verse
 			if (this.weaponMoney.min > 0.0)
 			{
 				float minCost = 999999f;
-				_003CConfigErrors_003Ec__Iterator0 _003CConfigErrors_003Ec__Iterator = (_003CConfigErrors_003Ec__Iterator0)/*Error near IL_01fe: stateMachine*/;
+				_003CConfigErrors_003Ec__Iterator0 _003CConfigErrors_003Ec__Iterator = (_003CConfigErrors_003Ec__Iterator0)/*Error near IL_01f9: stateMachine*/;
 				int i;
 				for (i = 0; i < this.weaponTags.Count; i++)
 				{
 					minCost = Mathf.Min(minCost, (from d in DefDatabase<ThingDef>.AllDefs
 					where d.weaponTags != null && d.weaponTags.Contains(_003CConfigErrors_003Ec__Iterator._0024this.weaponTags[i])
-					select d).Min((Func<ThingDef, float>)((ThingDef d) => PawnWeaponGenerator.CheapestNonDerpPriceFor(d))));
+					select d).Min((Func<ThingDef, float>)PawnWeaponGenerator.CheapestNonDerpPriceFor));
 				}
 				if (minCost > this.weaponMoney.min)
 				{
@@ -170,8 +178,8 @@ namespace Verse
 				yield break;
 			yield return "PawnKindDef defines " + this.lifeStages.Count + " lifeStages while race def defines " + this.RaceProps.lifeStageAges.Count;
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_03b7:
-			/*Error near IL_03b8: Unexpected return in MoveNext()*/;
+			IL_03ad:
+			/*Error near IL_03ae: Unexpected return in MoveNext()*/;
 		}
 
 		public static PawnKindDef Named(string defName)

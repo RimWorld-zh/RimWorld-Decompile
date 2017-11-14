@@ -11,24 +11,14 @@ namespace RimWorld
 			get
 			{
 				List<Caravan> caravans = Find.WorldObjects.Caravans;
-				int num = 0;
-				Caravan result;
-				while (true)
+				for (int i = 0; i < caravans.Count; i++)
 				{
-					if (num < caravans.Count)
+					if (caravans[i].IsPlayerControlled && caravans[i].ImmobilizedByMass)
 					{
-						if (caravans[num].IsPlayerControlled && caravans[num].ImmobilizedByMass)
-						{
-							result = caravans[num];
-							break;
-						}
-						num++;
-						continue;
+						return caravans[i];
 					}
-					result = null;
-					break;
 				}
-				return result;
+				return null;
 			}
 		}
 
@@ -41,7 +31,7 @@ namespace RimWorld
 
 		public override AlertReport GetReport()
 		{
-			return (WorldObject)this.FirstImmobileCaravan;
+			return this.FirstImmobileCaravan;
 		}
 	}
 }

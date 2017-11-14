@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,15 +9,15 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class MainTabWindow_Research : MainTabWindow
 	{
-		protected ResearchProjectDef selectedProject = null;
+		protected ResearchProjectDef selectedProject;
 
-		private bool noBenchWarned = false;
+		private bool noBenchWarned;
 
-		private bool requiredByThisFound = false;
+		private bool requiredByThisFound;
 
 		private Vector2 leftScrollPosition = Vector2.zero;
 
-		private float leftScrollViewHeight = 0f;
+		private float leftScrollViewHeight;
 
 		private Vector2 rightScrollPosition = default(Vector2);
 
@@ -26,7 +25,7 @@ namespace RimWorld
 
 		private float rightViewHeight;
 
-		private ResearchTabDef curTabInt = null;
+		private ResearchTabDef curTabInt;
 
 		private const float LeftAreaWidth = 200f;
 
@@ -87,7 +86,7 @@ namespace RimWorld
 			{
 				Vector2 initialSize = base.InitialSize;
 				float b = (float)(UI.screenHeight - 35);
-				float b2 = (float)(this.Margin + 10.0 + 32.0 + 10.0 + DefDatabase<ResearchTabDef>.AllDefs.Max((Func<ResearchTabDef, float>)delegate(ResearchTabDef tab)
+				float b2 = (float)(this.Margin + 10.0 + 32.0 + 10.0 + DefDatabase<ResearchTabDef>.AllDefs.Max(delegate(ResearchTabDef tab)
 				{
 					Vector2 vector = this.ViewSize(tab);
 					return vector.y;
@@ -156,7 +155,7 @@ namespace RimWorld
 				}
 				if (!flag)
 				{
-					Find.WindowStack.Add(new Dialog_MessageBox("ResearchMenuWithoutBench".Translate(), (string)null, null, (string)null, null, (string)null, false));
+					Find.WindowStack.Add(new Dialog_MessageBox("ResearchMenuWithoutBench".Translate(), null, null, null, null, null, false));
 				}
 				this.noBenchWarned = true;
 			}
@@ -293,7 +292,7 @@ namespace RimWorld
 			foreach (ResearchTabDef allDef in DefDatabase<ResearchTabDef>.AllDefs)
 			{
 				ResearchTabDef localTabDef = allDef;
-				list.Add(new TabRecord(localTabDef.LabelCap, (Action)delegate
+				list.Add(new TabRecord(localTabDef.LabelCap, delegate
 				{
 					this.CurTab = localTabDef;
 				}, this.CurTab == localTabDef));
@@ -415,26 +414,21 @@ namespace RimWorld
 
 		private float DrawResearchPrereqs(ResearchProjectDef project, Rect rect)
 		{
-			float result;
 			if (project.prerequisites.NullOrEmpty())
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			float yMin = rect.yMin;
+			Widgets.LabelCacheHeight(ref rect, "ResearchPrerequisites".Translate() + ":", true, false);
+			rect.yMin += rect.height;
+			for (int i = 0; i < project.prerequisites.Count; i++)
 			{
-				float yMin = rect.yMin;
-				Widgets.LabelCacheHeight(ref rect, "ResearchPrerequisites".Translate() + ":", true, false);
+				this.SetPrerequisiteStatusColor(project.prerequisites[i].IsFinished, project);
+				Widgets.LabelCacheHeight(ref rect, "  " + project.prerequisites[i].LabelCap, true, false);
 				rect.yMin += rect.height;
-				for (int i = 0; i < project.prerequisites.Count; i++)
-				{
-					this.SetPrerequisiteStatusColor(project.prerequisites[i].IsFinished, project);
-					Widgets.LabelCacheHeight(ref rect, "  " + project.prerequisites[i].LabelCap, true, false);
-					rect.yMin += rect.height;
-				}
-				GUI.color = Color.white;
-				result = rect.yMin - yMin;
 			}
-			return result;
+			GUI.color = Color.white;
+			return rect.yMin - yMin;
 		}
 
 		private float DrawResearchBenchRequirements(ResearchProjectDef project, Rect rect)
@@ -447,7 +441,7 @@ namespace RimWorld
 				int num = 0;
 				while (num < maps.Count)
 				{
-					if (maps[num].listerBuildings.allBuildingsColonist.Find((Predicate<Building>)((Building x) => x.def == project.requiredResearchBuilding)) == null)
+					if (maps[num].listerBuildings.allBuildingsColonist.Find((Building x) => x.def == project.requiredResearchBuilding) == null)
 					{
 						num++;
 						continue;
@@ -508,8 +502,8 @@ namespace RimWorld
 			Thing thing2 = null;
 			if (bestMatchingBench != null)
 			{
-				thing = bestMatchingBench.LinkedFacilitiesListForReading.Find((Predicate<Thing>)((Thing x) => x.def == requiredFacility));
-				thing2 = bestMatchingBench.LinkedFacilitiesListForReading.Find((Predicate<Thing>)((Thing x) => x.def == requiredFacility && bestMatchingBench.IsFacilityActive(x)));
+				thing = bestMatchingBench.LinkedFacilitiesListForReading.Find((Thing x) => x.def == requiredFacility);
+				thing2 = bestMatchingBench.LinkedFacilitiesListForReading.Find((Thing x) => x.def == requiredFacility && bestMatchingBench.IsFacilityActive(x));
 			}
 			this.SetPrerequisiteStatusColor(thing2 != null, project);
 			string text = requiredFacility.LabelCap;
@@ -557,11 +551,11 @@ namespace RimWorld
 				if (benchComp != null)
 				{
 					List<Thing> linkedFacilitiesListForReading = benchComp.LinkedFacilitiesListForReading;
-					if (linkedFacilitiesListForReading.Find((Predicate<Thing>)((Thing x) => x.def == requiredFacilities[i] && benchComp.IsFacilityActive(x))) != null)
+					if (linkedFacilitiesListForReading.Find((Thing x) => x.def == requiredFacilities[i] && benchComp.IsFacilityActive(x)) != null)
 					{
 						num = (float)(num + 1.0);
 					}
-					else if (linkedFacilitiesListForReading.Find((Predicate<Thing>)((Thing x) => x.def == requiredFacilities[i])) != null)
+					else if (linkedFacilitiesListForReading.Find((Thing x) => x.def == requiredFacilities[i]) != null)
 					{
 						num = (float)(num + 0.60000002384185791);
 					}

@@ -28,9 +28,9 @@ namespace RimWorld
 
 		public float minPawns = 1f;
 
-		public float minDaysPassed = 0f;
+		public float minDaysPassed;
 
-		public bool pawnsCanBringFood = false;
+		public bool pawnsCanBringFood;
 
 		private RaidStrategyWorker workerInt;
 

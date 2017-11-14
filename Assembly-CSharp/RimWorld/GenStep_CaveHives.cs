@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -51,7 +50,7 @@ namespace RimWorld
 						}
 					}
 					this.spawnedHives.Clear();
-					for (int num4 = 0; num4 < num3; num4++)
+					for (int j = 0; j < num3; j++)
 					{
 						this.TrySpawnHive(map);
 					}

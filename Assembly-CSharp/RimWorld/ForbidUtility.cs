@@ -56,110 +56,128 @@ namespace RimWorld
 
 		public static bool CaresAboutForbidden(Pawn pawn, bool cellTarget)
 		{
-			return (byte)((pawn.HostFaction == null || (pawn.HostFaction == Faction.OfPlayer && pawn.Spawned && !pawn.Map.IsPlayerHome && (pawn.GetRoom(RegionType.Set_Passable) == null || !pawn.GetRoom(RegionType.Set_Passable).isPrisonCell) && (!pawn.IsPrisoner || pawn.guest.PrisonerIsSecure))) ? ((!pawn.InMentalState) ? ((!cellTarget || !ThinkNode_ConditionalShouldFollowMaster.ShouldFollowMaster(pawn)) ? 1 : 0) : 0) : 0) != 0;
+			if (pawn.HostFaction != null && (pawn.HostFaction != Faction.OfPlayer || !pawn.Spawned || pawn.Map.IsPlayerHome || (pawn.GetRoom(RegionType.Set_Passable) != null && pawn.GetRoom(RegionType.Set_Passable).isPrisonCell) || (pawn.IsPrisoner && !pawn.guest.PrisonerIsSecure)))
+			{
+				return false;
+			}
+			if (pawn.InMentalState)
+			{
+				return false;
+			}
+			if (cellTarget && ThinkNode_ConditionalShouldFollowMaster.ShouldFollowMaster(pawn))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static bool InAllowedArea(this IntVec3 c, Pawn forPawn)
 		{
-			bool result;
 			if (forPawn.playerSettings != null)
 			{
 				Area effectiveAreaRestrictionInPawnCurrentMap = forPawn.playerSettings.EffectiveAreaRestrictionInPawnCurrentMap;
 				if (effectiveAreaRestrictionInPawnCurrentMap != null && effectiveAreaRestrictionInPawnCurrentMap.TrueCount > 0 && !effectiveAreaRestrictionInPawnCurrentMap[c])
 				{
-					result = false;
-					goto IL_0046;
+					return false;
 				}
 			}
-			result = true;
-			goto IL_0046;
-			IL_0046:
-			return result;
+			return true;
 		}
 
 		public static bool IsForbidden(this Thing t, Pawn pawn)
 		{
-			bool result;
 			if (!ForbidUtility.CaresAboutForbidden(pawn, false))
 			{
-				result = false;
+				return false;
 			}
-			else if (t.Spawned && t.Position.IsForbidden(pawn))
+			if (t.Spawned && t.Position.IsForbidden(pawn))
 			{
-				result = true;
+				return true;
 			}
-			else if (t.IsForbidden(pawn.Faction) || t.IsForbidden(pawn.HostFaction))
-			{
-				result = true;
-			}
-			else
+			if (!t.IsForbidden(pawn.Faction) && !t.IsForbidden(pawn.HostFaction))
 			{
 				Lord lord = pawn.GetLord();
-				result = ((byte)((lord != null && lord.extraForbiddenThings.Contains(t)) ? 1 : 0) != 0);
+				if (lord != null && lord.extraForbiddenThings.Contains(t))
+				{
+					return true;
+				}
+				return false;
 			}
-			return result;
+			return true;
 		}
 
 		public static bool IsForbiddenToPass(this Thing t, Pawn pawn)
 		{
-			return (byte)(ForbidUtility.CaresAboutForbidden(pawn, false) ? ((t.Spawned && t.Position.IsForbidden(pawn) && !(t is Building_Door)) ? 1 : (t.IsForbidden(pawn.Faction) ? 1 : 0)) : 0) != 0;
+			if (!ForbidUtility.CaresAboutForbidden(pawn, false))
+			{
+				return false;
+			}
+			if (t.Spawned && t.Position.IsForbidden(pawn) && !(t is Building_Door))
+			{
+				return true;
+			}
+			if (t.IsForbidden(pawn.Faction))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static bool IsForbidden(this IntVec3 c, Pawn pawn)
 		{
-			return (byte)(ForbidUtility.CaresAboutForbidden(pawn, true) ? ((!c.InAllowedArea(pawn)) ? 1 : ((pawn.mindState.maxDistToSquadFlag > 0.0 && !c.InHorDistOf(pawn.DutyLocation(), pawn.mindState.maxDistToSquadFlag)) ? 1 : 0)) : 0) != 0;
+			if (!ForbidUtility.CaresAboutForbidden(pawn, true))
+			{
+				return false;
+			}
+			if (!c.InAllowedArea(pawn))
+			{
+				return true;
+			}
+			if (pawn.mindState.maxDistToSquadFlag > 0.0 && !c.InHorDistOf(pawn.DutyLocation(), pawn.mindState.maxDistToSquadFlag))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static bool IsForbiddenEntirely(this Region r, Pawn pawn)
 		{
-			bool result;
 			if (!ForbidUtility.CaresAboutForbidden(pawn, true))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (pawn.playerSettings != null)
 			{
-				if (pawn.playerSettings != null)
+				Area effectiveAreaRestriction = pawn.playerSettings.EffectiveAreaRestriction;
+				if (effectiveAreaRestriction != null && effectiveAreaRestriction.TrueCount > 0 && effectiveAreaRestriction.Map == r.Map && r.OverlapWith(effectiveAreaRestriction) == AreaOverlap.None)
 				{
-					Area effectiveAreaRestriction = pawn.playerSettings.EffectiveAreaRestriction;
-					if (effectiveAreaRestriction != null && effectiveAreaRestriction.TrueCount > 0 && effectiveAreaRestriction.Map == r.Map && r.OverlapWith(effectiveAreaRestriction) == AreaOverlap.None)
-					{
-						result = true;
-						goto IL_006a;
-					}
+					return true;
 				}
-				result = false;
 			}
-			goto IL_006a;
-			IL_006a:
-			return result;
+			return false;
 		}
 
 		public static bool IsForbidden(this Thing t, Faction faction)
 		{
-			bool result;
 			if (faction == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (faction != Faction.OfPlayer)
+			if (faction != Faction.OfPlayer)
 			{
-				result = false;
+				return false;
 			}
-			else
+			ThingWithComps thingWithComps = t as ThingWithComps;
+			if (thingWithComps == null)
 			{
-				ThingWithComps thingWithComps = t as ThingWithComps;
-				if (thingWithComps == null)
-				{
-					result = false;
-				}
-				else
-				{
-					CompForbiddable comp = thingWithComps.GetComp<CompForbiddable>();
-					result = (comp != null && comp.Forbidden);
-				}
+				return false;
 			}
-			return result;
+			CompForbiddable comp = thingWithComps.GetComp<CompForbiddable>();
+			if (comp == null)
+			{
+				return false;
+			}
+			return comp.Forbidden;
 		}
 	}
 }

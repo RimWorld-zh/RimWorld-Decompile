@@ -25,7 +25,7 @@ namespace RimWorld
 				{
 					IntVec3 loc = CellFinder.RandomSpawnCellForPawnNear(root, map, 10);
 					GenSpawn.Spawn(list[i], loc, map, Rot4.Random, false);
-					list[i].mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.ManhunterPermanent, (string)null, false, false, null);
+					list[i].mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.ManhunterPermanent, null, false, false, null);
 				}
 			}
 		}

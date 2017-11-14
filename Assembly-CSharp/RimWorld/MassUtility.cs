@@ -56,9 +56,12 @@ namespace RimWorld
 			}
 			if (p.equipment != null)
 			{
-				foreach (ThingWithComps item in p.equipment.AllEquipmentListForReading)
 				{
-					num += item.GetStatValue(StatDefOf.Mass, true);
+					foreach (ThingWithComps item in p.equipment.AllEquipmentListForReading)
+					{
+						num += item.GetStatValue(StatDefOf.Mass, true);
+					}
+					return num;
 				}
 			}
 			return num;
@@ -77,7 +80,11 @@ namespace RimWorld
 
 		public static float Capacity(Pawn p)
 		{
-			return (float)(MassUtility.CanEverCarryAnything(p) ? (p.BodySize * 35.0) : 0.0);
+			if (!MassUtility.CanEverCarryAnything(p))
+			{
+				return 0f;
+			}
+			return (float)(p.BodySize * 35.0);
 		}
 
 		public static bool CanEverCarryAnything(Pawn p)

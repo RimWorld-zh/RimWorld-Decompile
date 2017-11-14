@@ -29,8 +29,8 @@ namespace RimWorld
 					}
 				}
 				yield break;
-				IL_013c:
-				/*Error near IL_013d: Unexpected return in MoveNext()*/;
+				IL_0134:
+				/*Error near IL_0135: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -51,7 +51,11 @@ namespace RimWorld
 
 		public override AlertReport GetReport()
 		{
-			return (GenDate.DaysPassed >= 1) ? ((Thing)this.IdleColonists.FirstOrDefault()) : AlertReport.Inactive;
+			if (GenDate.DaysPassed < 1)
+			{
+				return AlertReport.Inactive;
+			}
+			return this.IdleColonists.FirstOrDefault();
 		}
 	}
 }

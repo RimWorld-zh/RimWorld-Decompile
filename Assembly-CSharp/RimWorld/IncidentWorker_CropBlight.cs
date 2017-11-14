@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -21,34 +20,28 @@ namespace RimWorld
 		{
 			Map map = (Map)parms.target;
 			Plant plant = default(Plant);
-			bool result;
 			if (!this.TryFindRandomBlightablePlant(map, out plant))
 			{
-				result = false;
+				return false;
 			}
-			else
+			Room room = plant.GetRoom(RegionType.Set_Passable);
+			plant.CropBlighted();
+			int i = 0;
+			int num = GenRadial.NumCellsInRadius(16f);
+			for (; i < num; i++)
 			{
-				Room room = plant.GetRoom(RegionType.Set_Passable);
-				plant.CropBlighted();
-				int num = 0;
-				int num2 = GenRadial.NumCellsInRadius(16f);
-				while (num < num2)
+				IntVec3 intVec = plant.Position + GenRadial.RadialPattern[i];
+				if (intVec.InBounds(map) && intVec.GetRoom(map, RegionType.Set_Passable) == room)
 				{
-					IntVec3 intVec = plant.Position + GenRadial.RadialPattern[num];
-					if (intVec.InBounds(map) && intVec.GetRoom(map, RegionType.Set_Passable) == room)
+					Plant firstBlightableNowPlant = BlightUtility.GetFirstBlightableNowPlant(intVec, map);
+					if (firstBlightableNowPlant != null && firstBlightableNowPlant != plant && Rand.Chance((float)(0.10000000149011612 * this.BlightChanceFactor(firstBlightableNowPlant.Position, plant.Position))))
 					{
-						Plant firstBlightableNowPlant = BlightUtility.GetFirstBlightableNowPlant(intVec, map);
-						if (firstBlightableNowPlant != null && firstBlightableNowPlant != plant && Rand.Chance((float)(0.10000000149011612 * this.BlightChanceFactor(firstBlightableNowPlant.Position, plant.Position))))
-						{
-							firstBlightableNowPlant.CropBlighted();
-						}
+						firstBlightableNowPlant.CropBlighted();
 					}
-					num++;
 				}
-				Find.LetterStack.ReceiveLetter("LetterLabelCropBlight".Translate(), "LetterCropBlight".Translate(), LetterDefOf.NegativeEvent, new TargetInfo(plant.Position, map, false), (string)null);
-				result = true;
 			}
-			return result;
+			Find.LetterStack.ReceiveLetter("LetterLabelCropBlight".Translate(), "LetterCropBlight".Translate(), LetterDefOf.NegativeEvent, new TargetInfo(plant.Position, map, false), null);
+			return true;
 		}
 
 		private bool TryFindRandomBlightablePlant(Map map, out Plant plant)

@@ -16,16 +16,13 @@ namespace RimWorld.BaseGen
 
 		public override bool CanResolve(ResolveParams rp)
 		{
-			bool result;
 			if (!base.CanResolve(rp))
 			{
-				result = false;
-				goto IL_00d8;
+				return false;
 			}
 			if (rp.singleThingToSpawn != null && rp.singleThingToSpawn.Spawned)
 			{
-				result = true;
-				goto IL_00d8;
+				return true;
 			}
 			IntVec3 intVec = default(IntVec3);
 			if (rp.singleThingToSpawn is Pawn)
@@ -34,29 +31,24 @@ namespace RimWorld.BaseGen
 				rp2.singlePawnToSpawn = (Pawn)rp.singleThingToSpawn;
 				if (!SymbolResolver_SinglePawn.TryFindSpawnCell(rp2, out intVec))
 				{
-					result = false;
-					goto IL_00d8;
+					return false;
 				}
 			}
 			if (rp.singleThingDef != null && rp.singleThingDef.category == ThingCategory.Item)
 			{
-				goto IL_00b5;
+				goto IL_00a3;
 			}
 			if (rp.singleThingToSpawn != null && rp.singleThingToSpawn.def.category == ThingCategory.Item)
-				goto IL_00b5;
-			goto IL_00d1;
-			IL_00b5:
+				goto IL_00a3;
+			goto IL_00b9;
+			IL_00b9:
+			return true;
+			IL_00a3:
 			if (!this.TryFindSpawnCellForItem(rp.rect, out intVec))
 			{
-				result = false;
-				goto IL_00d8;
+				return false;
 			}
-			goto IL_00d1;
-			IL_00d8:
-			return result;
-			IL_00d1:
-			result = true;
-			goto IL_00d8;
+			goto IL_00b9;
 		}
 
 		public override void Resolve(ResolveParams rp)
@@ -78,7 +70,7 @@ namespace RimWorld.BaseGen
 				IntVec3 loc = default(IntVec3);
 				if (thingDef.category == ThingCategory.Item)
 				{
-					nullable = new Rot4?(Rot4.North);
+					nullable = Rot4.North;
 					if (!this.TryFindSpawnCellForItem(rp.rect, out loc))
 					{
 						if (rp.singleThingToSpawn != null)
@@ -105,9 +97,9 @@ namespace RimWorld.BaseGen
 				{
 					ThingDef stuff = (rp.singleThingStuff == null || !rp.singleThingStuff.stuffProps.CanMake(thingDef)) ? GenStuff.RandomStuffByCommonalityFor(thingDef, (rp.faction != null) ? rp.faction.def.techLevel : TechLevel.Undefined) : rp.singleThingStuff;
 					thing = ThingMaker.MakeThing(thingDef, stuff);
-					Thing obj = thing;
+					Thing thing2 = thing;
 					int? singleThingStackCount = rp.singleThingStackCount;
-					obj.stackCount = ((!singleThingStackCount.HasValue) ? 1 : singleThingStackCount.Value);
+					thing2.stackCount = ((!singleThingStackCount.HasValue) ? 1 : singleThingStackCount.Value);
 					if (thing.stackCount <= 0)
 					{
 						thing.stackCount = 1;
@@ -121,7 +113,7 @@ namespace RimWorld.BaseGen
 					{
 						compQuality.SetQuality(QualityUtility.RandomBaseGenItemQuality(), ArtGenerationContext.Outsider);
 					}
-					if ((object)rp.postThingGenerate != null)
+					if (rp.postThingGenerate != null)
 					{
 						rp.postThingGenerate(thing);
 					}
@@ -135,7 +127,7 @@ namespace RimWorld.BaseGen
 				{
 					thing.SetForbidden(true, false);
 				}
-				if ((object)rp.postThingSpawn != null)
+				if (rp.postThingSpawn != null)
 				{
 					rp.postThingSpawn(thing);
 				}
@@ -147,27 +139,19 @@ namespace RimWorld.BaseGen
 			Map map = BaseGen.globalSettings.map;
 			return CellFinder.TryFindRandomCellInsideWith(rect, (Predicate<IntVec3>)delegate(IntVec3 c)
 			{
-				bool result2;
 				if (c.GetFirstItem(map) != null)
 				{
-					result2 = false;
+					return false;
 				}
-				else
+				if (!c.Standable(map))
 				{
-					if (!c.Standable(map))
+					SurfaceType surfaceType = c.GetSurfaceType(map);
+					if (surfaceType != SurfaceType.Item && surfaceType != SurfaceType.Eat)
 					{
-						SurfaceType surfaceType = c.GetSurfaceType(map);
-						if (surfaceType != SurfaceType.Item && surfaceType != SurfaceType.Eat)
-						{
-							result2 = false;
-							goto IL_0055;
-						}
+						return false;
 					}
-					result2 = true;
 				}
-				goto IL_0055;
-				IL_0055:
-				return result2;
+				return true;
 			}, out result);
 		}
 
@@ -175,46 +159,33 @@ namespace RimWorld.BaseGen
 		{
 			if (!thingDef.rotatable)
 			{
-				rot = new Rot4?(Rot4.North);
+				rot = Rot4.North;
 			}
-			int i;
-			IntVec3 intVec;
-			int j;
-			IntVec3 intVec2;
-			IntVec3 result;
 			if (!rot.HasValue)
 			{
 				SymbolResolver_SingleThing.tmpRotations.Shuffle();
-				for (i = 0; i < SymbolResolver_SingleThing.tmpRotations.Length; i++)
+				for (int i = 0; i < SymbolResolver_SingleThing.tmpRotations.Length; i++)
 				{
-					intVec = this.FindBestSpawnCellForNonItem(rect, thingDef, SymbolResolver_SingleThing.tmpRotations[i], out hasToWipeBuilding, out doesntFit);
+					IntVec3 result = this.FindBestSpawnCellForNonItem(rect, thingDef, SymbolResolver_SingleThing.tmpRotations[i], out hasToWipeBuilding, out doesntFit);
 					if (!hasToWipeBuilding && !doesntFit)
-						goto IL_006a;
+					{
+						rot = SymbolResolver_SingleThing.tmpRotations[i];
+						return result;
+					}
 				}
-				for (j = 0; j < SymbolResolver_SingleThing.tmpRotations.Length; j++)
+				for (int j = 0; j < SymbolResolver_SingleThing.tmpRotations.Length; j++)
 				{
-					intVec2 = this.FindBestSpawnCellForNonItem(rect, thingDef, SymbolResolver_SingleThing.tmpRotations[j], out hasToWipeBuilding, out doesntFit);
+					IntVec3 result2 = this.FindBestSpawnCellForNonItem(rect, thingDef, SymbolResolver_SingleThing.tmpRotations[j], out hasToWipeBuilding, out doesntFit);
 					if (!doesntFit)
-						goto IL_00cd;
+					{
+						rot = SymbolResolver_SingleThing.tmpRotations[j];
+						return result2;
+					}
 				}
-				rot = new Rot4?(Rot4.Random);
-				result = this.FindBestSpawnCellForNonItem(rect, thingDef, rot.Value, out hasToWipeBuilding, out doesntFit);
+				rot = Rot4.Random;
+				return this.FindBestSpawnCellForNonItem(rect, thingDef, rot.Value, out hasToWipeBuilding, out doesntFit);
 			}
-			else
-			{
-				result = this.FindBestSpawnCellForNonItem(rect, thingDef, rot.Value, out hasToWipeBuilding, out doesntFit);
-			}
-			goto IL_0143;
-			IL_00cd:
-			rot = new Rot4?(SymbolResolver_SingleThing.tmpRotations[j]);
-			result = intVec2;
-			goto IL_0143;
-			IL_0143:
-			return result;
-			IL_006a:
-			rot = new Rot4?(SymbolResolver_SingleThing.tmpRotations[i]);
-			result = intVec;
-			goto IL_0143;
+			return this.FindBestSpawnCellForNonItem(rect, thingDef, rot.Value, out hasToWipeBuilding, out doesntFit);
 		}
 
 		private IntVec3 FindBestSpawnCellForNonItem(CellRect rect, ThingDef thingDef, Rot4 rot, out bool hasToWipeBuilding, out bool doesntFit)
@@ -299,28 +270,19 @@ namespace RimWorld.BaseGen
 		{
 			Map map = BaseGen.globalSettings.map;
 			CellRect.CellRectIterator iterator = rect.GetIterator();
-			bool result;
-			while (true)
+			while (!iterator.Done())
 			{
-				if (!iterator.Done())
+				if (!iterator.Current.Standable(map))
 				{
-					if (!iterator.Current.Standable(map))
-					{
-						result = true;
-						break;
-					}
-					if (iterator.Current.GetEdifice(map) != null)
-					{
-						result = true;
-						break;
-					}
-					iterator.MoveNext();
-					continue;
+					return true;
 				}
-				result = false;
-				break;
+				if (iterator.Current.GetEdifice(map) != null)
+				{
+					return true;
+				}
+				iterator.MoveNext();
 			}
-			return result;
+			return false;
 		}
 	}
 }

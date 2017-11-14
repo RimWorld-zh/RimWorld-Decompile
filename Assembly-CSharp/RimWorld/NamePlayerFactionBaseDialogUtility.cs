@@ -6,7 +6,11 @@ namespace RimWorld
 	{
 		public static bool IsValidName(string s)
 		{
-			return (byte)((s.Length != 0) ? 1 : 0) != 0;
+			if (s.Length == 0)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static void Named(FactionBase factionBase, string s)

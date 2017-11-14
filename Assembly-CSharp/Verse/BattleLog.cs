@@ -37,24 +37,14 @@ namespace Verse
 
 		public bool AnyEntryConcerns(Pawn p)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.rawEntries.Count; i++)
 			{
-				if (num < this.rawEntries.Count)
+				if (this.rawEntries[i].Concerns(p))
 				{
-					if (this.rawEntries[num].Concerns(p))
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public void Notify_PawnDiscarded(Pawn p, bool silentlyRemoveReferences)

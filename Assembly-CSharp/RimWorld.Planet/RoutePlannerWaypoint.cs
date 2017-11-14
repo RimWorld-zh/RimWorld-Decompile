@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using Verse;
@@ -12,20 +11,15 @@ namespace RimWorld.Planet
 			get
 			{
 				WorldRoutePlanner worldRoutePlanner = Find.WorldRoutePlanner;
-				string result;
 				if (worldRoutePlanner.Active)
 				{
 					int num = worldRoutePlanner.waypoints.IndexOf(this);
 					if (num >= 0)
 					{
-						result = base.Label + ' ' + (num + 1);
-						goto IL_0054;
+						return base.Label + ' ' + (num + 1);
 					}
 				}
-				result = base.Label;
-				goto IL_0054;
-				IL_0054:
-				return result;
+				return base.Label;
 			}
 		}
 
@@ -58,7 +52,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -72,14 +66,14 @@ namespace RimWorld.Planet
 				defaultLabel = "CommandRemoveWaypointLabel".Translate(),
 				defaultDesc = "CommandRemoveWaypointDesc".Translate(),
 				icon = TexCommand.RemoveRoutePlannerWaypoint,
-				action = (Action)delegate
+				action = delegate
 				{
-					Find.WorldRoutePlanner.TryRemoveWaypoint(((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_0104: stateMachine*/)._0024this, true);
+					Find.WorldRoutePlanner.TryRemoveWaypoint(((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00ff: stateMachine*/)._0024this, true);
 				}
 			};
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_013f:
-			/*Error near IL_0140: Unexpected return in MoveNext()*/;
+			IL_0139:
+			/*Error near IL_013a: Unexpected return in MoveNext()*/;
 		}
 	}
 }

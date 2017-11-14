@@ -6,7 +6,7 @@ namespace Verse.Sound
 	public class AudioGrain_Folder : AudioGrain
 	{
 		[LoadAlias("clipPath")]
-		public string clipFolderPath = "";
+		public string clipFolderPath = string.Empty;
 
 		public override IEnumerable<ResolvedGrain> GetResolvedGrains()
 		{
@@ -20,8 +20,8 @@ namespace Verse.Sound
 				}
 			}
 			yield break;
-			IL_00c7:
-			/*Error near IL_00c8: Unexpected return in MoveNext()*/;
+			IL_00c3:
+			/*Error near IL_00c4: Unexpected return in MoveNext()*/;
 		}
 	}
 }

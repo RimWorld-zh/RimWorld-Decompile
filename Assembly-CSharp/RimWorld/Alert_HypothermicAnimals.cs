@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,7 +35,11 @@ namespace RimWorld
 
 		public override AlertReport GetReport()
 		{
-			return Prefs.DevMode ? ((Thing)this.HypothermicAnimals.FirstOrDefault()) : false;
+			if (!Prefs.DevMode)
+			{
+				return false;
+			}
+			return this.HypothermicAnimals.FirstOrDefault();
 		}
 	}
 }

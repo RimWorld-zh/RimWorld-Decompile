@@ -124,54 +124,44 @@ namespace RimWorld
 
 		public TaleReference GetRandomTaleReferenceForArt(ArtGenerationContext source)
 		{
-			TaleReference result;
-			Tale tale = default(Tale);
 			if (source == ArtGenerationContext.Outsider)
 			{
-				result = TaleReference.Taleless;
+				return TaleReference.Taleless;
 			}
-			else if (this.tales.Count == 0)
+			if (this.tales.Count == 0)
 			{
-				result = TaleReference.Taleless;
+				return TaleReference.Taleless;
 			}
-			else if (Rand.Value < 0.25)
+			if (Rand.Value < 0.25)
 			{
-				result = TaleReference.Taleless;
+				return TaleReference.Taleless;
 			}
-			else if (!(from x in this.tales
+			Tale tale = default(Tale);
+			if (!(from x in this.tales
 			where x.def.usableForArt
 			select x).TryRandomElementByWeight<Tale>((Func<Tale, float>)((Tale ta) => ta.InterestLevel), out tale))
 			{
-				result = TaleReference.Taleless;
+				return TaleReference.Taleless;
 			}
-			else
-			{
-				tale.Notify_NewlyUsed();
-				result = new TaleReference(tale);
-			}
-			return result;
+			tale.Notify_NewlyUsed();
+			return new TaleReference(tale);
 		}
 
 		public TaleReference GetRandomTaleReferenceForArtConcerning(Thing th)
 		{
-			TaleReference result;
-			Tale tale = default(Tale);
 			if (this.tales.Count == 0)
 			{
-				result = TaleReference.Taleless;
+				return TaleReference.Taleless;
 			}
-			else if (!(from x in this.tales
+			Tale tale = default(Tale);
+			if (!(from x in this.tales
 			where x.def.usableForArt && x.Concerns(th)
 			select x).TryRandomElementByWeight<Tale>((Func<Tale, float>)((Tale x) => x.InterestLevel), out tale))
 			{
-				result = TaleReference.Taleless;
+				return TaleReference.Taleless;
 			}
-			else
-			{
-				tale.Notify_NewlyUsed();
-				result = new TaleReference(tale);
-			}
-			return result;
+			tale.Notify_NewlyUsed();
+			return new TaleReference(tale);
 		}
 
 		public Tale GetLatestTale(TaleDef def, Pawn pawn)
@@ -221,46 +211,26 @@ namespace RimWorld
 
 		public bool AnyActiveTaleConcerns(Pawn p)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.tales.Count; i++)
 			{
-				if (num < this.tales.Count)
+				if (!this.tales[i].Unused && this.tales[i].Concerns(p))
 				{
-					if (!this.tales[num].Unused && this.tales[num].Concerns(p))
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public bool AnyTaleConcerns(Pawn p)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.tales.Count; i++)
 			{
-				if (num < this.tales.Count)
+				if (this.tales[i].Concerns(p))
 				{
-					if (this.tales[num].Concerns(p))
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public float GetMaxHistoricalTaleDay()
@@ -330,16 +300,16 @@ namespace RimWorld
 			StringBuilder stringBuilder = new StringBuilder();
 			float num = (from t in this.tales
 			where t.def.usableForArt
-			select t).Sum((Func<Tale, float>)((Tale t) => t.InterestLevel));
-			Func<TaleDef, float> defInterest = (Func<TaleDef, float>)((TaleDef def) => (from t in this.tales
+			select t).Sum((Tale t) => t.InterestLevel);
+			Func<TaleDef, float> defInterest = (TaleDef def) => (from t in this.tales
 			where t.def == def
-			select t).Sum((Func<Tale, float>)((Tale t) => t.InterestLevel)));
+			select t).Sum((Tale t) => t.InterestLevel);
 			foreach (TaleDef item in from def in DefDatabase<TaleDef>.AllDefs
 			where def.usableForArt
 			orderby defInterest(def) descending
 			select def)
 			{
-				stringBuilder.AppendLine(item.defName + ":   [" + this.tales.Where((Func<Tale, bool>)((Tale t) => t.def == item)).Count() + "]   " + (defInterest(item) / num).ToStringPercent("F2"));
+				stringBuilder.AppendLine(item.defName + ":   [" + this.tales.Where((Tale t) => t.def == item).Count() + "]   " + (defInterest(item) / num).ToStringPercent("F2"));
 			}
 			Log.Message(stringBuilder.ToString());
 		}

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse.AI
@@ -15,9 +14,9 @@ namespace Verse.AI
 			this.FailOnDestroyedOrNull(TargetIndex.A);
 			Toil gotoThing = new Toil
 			{
-				initAction = (Action)delegate
+				initAction = delegate
 				{
-					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0045: stateMachine*/)._0024this.pawn.pather.StartPath(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0045: stateMachine*/)._0024this.TargetThingA, PathEndMode.ClosestTouch);
+					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0043: stateMachine*/)._0024this.pawn.pather.StartPath(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0043: stateMachine*/)._0024this.TargetThingA, PathEndMode.ClosestTouch);
 				},
 				defaultCompleteMode = ToilCompleteMode.PatherArrival
 			};

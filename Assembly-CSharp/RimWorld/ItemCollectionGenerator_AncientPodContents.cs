@@ -11,45 +11,33 @@ namespace RimWorld
 			PodContentsType podContentsType2 = (!podContentsType.HasValue) ? Gen.RandomEnumValue<PodContentsType>(true) : podContentsType.Value;
 			switch (podContentsType2)
 			{
+			case PodContentsType.Empty:
+				break;
 			case PodContentsType.SpacerFriendly:
-			{
 				outThings.Add(this.GenerateFriendlySpacer());
 				break;
-			}
 			case PodContentsType.SpacerIncapped:
-			{
 				outThings.Add(this.GenerateIncappedSpacer());
 				break;
-			}
 			case PodContentsType.SpacerHostile:
-			{
 				outThings.Add(this.GenerateAngrySpacer());
 				break;
-			}
 			case PodContentsType.Slave:
-			{
 				outThings.Add(this.GenerateSlave());
 				break;
-			}
 			case PodContentsType.SpacerHalfEaten:
-			{
 				outThings.Add(this.GenerateHalfEatenSpacer());
 				outThings.AddRange(this.GenerateScarabs());
 				break;
-			}
-			case PodContentsType.Empty:
-				return;
 			default:
-			{
 				Log.Error("Pod contents type not handled: " + podContentsType2);
 				break;
-			}
 			}
 		}
 
 		private Pawn GenerateFriendlySpacer()
 		{
-			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.SpaceSoldier, Faction.OfSpacer, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, true, false, false, null, default(float?), default(float?), default(float?), default(Gender?), default(float?), (string)null);
+			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.SpaceSoldier, Faction.OfSpacer, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, true, false, false, null, null, null, null, null, null, null);
 			Pawn pawn = PawnGenerator.GeneratePawn(request);
 			this.GiveRandomLootInventoryForTombPawn(pawn);
 			return pawn;
@@ -57,7 +45,7 @@ namespace RimWorld
 
 		private Pawn GenerateIncappedSpacer()
 		{
-			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.SpaceSoldier, Faction.OfSpacer, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, true, false, false, null, default(float?), default(float?), default(float?), default(Gender?), default(float?), (string)null);
+			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.SpaceSoldier, Faction.OfSpacer, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, true, false, false, null, null, null, null, null, null, null);
 			Pawn pawn = PawnGenerator.GeneratePawn(request);
 			HealthUtility.DamageUntilDowned(pawn);
 			this.GiveRandomLootInventoryForTombPawn(pawn);
@@ -66,7 +54,7 @@ namespace RimWorld
 
 		private Pawn GenerateSlave()
 		{
-			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.Slave, Faction.OfSpacer, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, true, false, false, null, default(float?), default(float?), default(float?), default(Gender?), default(float?), (string)null);
+			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.Slave, Faction.OfSpacer, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, true, false, false, null, null, null, null, null, null, null);
 			Pawn pawn = PawnGenerator.GeneratePawn(request);
 			HealthUtility.DamageUntilDowned(pawn);
 			this.GiveRandomLootInventoryForTombPawn(pawn);
@@ -79,7 +67,7 @@ namespace RimWorld
 
 		private Pawn GenerateAngrySpacer()
 		{
-			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.SpaceSoldier, Faction.OfSpacerHostile, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, true, false, false, null, default(float?), default(float?), default(float?), default(Gender?), default(float?), (string)null);
+			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.SpaceSoldier, Faction.OfSpacerHostile, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, true, false, false, null, null, null, null, null, null, null);
 			Pawn pawn = PawnGenerator.GeneratePawn(request);
 			this.GiveRandomLootInventoryForTombPawn(pawn);
 			return pawn;
@@ -87,16 +75,16 @@ namespace RimWorld
 
 		private Pawn GenerateHalfEatenSpacer()
 		{
-			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.SpaceSoldier, Faction.OfSpacer, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, true, false, false, null, default(float?), default(float?), default(float?), default(Gender?), default(float?), (string)null);
+			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.SpaceSoldier, Faction.OfSpacer, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, true, false, false, null, null, null, null, null, null, null);
 			Pawn pawn = PawnGenerator.GeneratePawn(request);
 			int num = Rand.Range(6, 10);
-			for (int num2 = 0; num2 < num; num2++)
+			for (int i = 0; i < num; i++)
 			{
-				Pawn obj = pawn;
+				Pawn pawn2 = pawn;
 				DamageDef bite = DamageDefOf.Bite;
 				int amount = Rand.Range(3, 8);
 				Pawn instigator = pawn;
-				obj.TakeDamage(new DamageInfo(bite, amount, -1f, instigator, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
+				pawn2.TakeDamage(new DamageInfo(bite, amount, -1f, instigator, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
 			}
 			this.GiveRandomLootInventoryForTombPawn(pawn);
 			return pawn;
@@ -106,10 +94,10 @@ namespace RimWorld
 		{
 			List<Thing> list = new List<Thing>();
 			int num = Rand.Range(3, 6);
-			for (int num2 = 0; num2 < num; num2++)
+			for (int i = 0; i < num; i++)
 			{
 				Pawn pawn = PawnGenerator.GeneratePawn(PawnKindDefOf.Megascarab, null);
-				pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, (string)null, false, false, null);
+				pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, null, false, false, null);
 				list.Add(pawn);
 			}
 			return list;

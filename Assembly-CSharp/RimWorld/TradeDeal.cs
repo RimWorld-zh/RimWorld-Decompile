@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -24,24 +23,14 @@ namespace RimWorld
 		{
 			get
 			{
-				int num = 0;
-				Tradeable result;
-				while (true)
+				for (int i = 0; i < this.tradeables.Count; i++)
 				{
-					if (num < this.tradeables.Count)
+					if (this.tradeables[i].ThingDef == ThingDefOf.Silver)
 					{
-						if (this.tradeables[num].ThingDef == ThingDefOf.Silver)
-						{
-							result = this.tradeables[num];
-							break;
-						}
-						num++;
-						continue;
+						return this.tradeables[i];
 					}
-					result = null;
-					break;
 				}
-				return result;
+				return null;
 			}
 		}
 
@@ -91,7 +80,7 @@ namespace RimWorld
 			{
 				this.AddToTradeables(good, Transactor.Trader);
 			}
-			if (this.tradeables.Find((Predicate<Tradeable>)((Tradeable x) => x.IsCurrency)) == null)
+			if (this.tradeables.Find((Tradeable x) => x.IsCurrency) == null)
 			{
 				Thing thing = ThingMaker.MakeThing(ThingDefOf.Silver, null);
 				thing.stackCount = 0;
@@ -101,46 +90,38 @@ namespace RimWorld
 
 		private bool InSellablePosition(Thing t, out string reason)
 		{
-			bool result;
 			if (!t.Spawned)
 			{
-				reason = (string)null;
-				result = false;
+				reason = null;
+				return false;
 			}
-			else if (t.Position.Fogged(t.Map))
+			if (t.Position.Fogged(t.Map))
 			{
-				reason = (string)null;
-				result = false;
+				reason = null;
+				return false;
 			}
-			else
+			Room room = t.GetRoom(RegionType.Set_Passable);
+			if (room != null)
 			{
-				Room room = t.GetRoom(RegionType.Set_Passable);
-				if (room != null)
+				int num = GenRadial.NumCellsInRadius(6.9f);
+				for (int i = 0; i < num; i++)
 				{
-					int num = GenRadial.NumCellsInRadius(6.9f);
-					for (int num2 = 0; num2 < num; num2++)
+					IntVec3 intVec = t.Position + GenRadial.RadialPattern[i];
+					if (intVec.InBounds(t.Map) && intVec.GetRoom(t.Map, RegionType.Set_Passable) == room)
 					{
-						IntVec3 intVec = t.Position + GenRadial.RadialPattern[num2];
-						if (intVec.InBounds(t.Map) && intVec.GetRoom(t.Map, RegionType.Set_Passable) == room)
+						List<Thing> thingList = intVec.GetThingList(t.Map);
+						for (int j = 0; j < thingList.Count; j++)
 						{
-							List<Thing> thingList = intVec.GetThingList(t.Map);
-							for (int i = 0; i < thingList.Count; i++)
+							if (thingList[j].PreventPlayerSellingThingsNearby(out reason))
 							{
-								if (thingList[i].PreventPlayerSellingThingsNearby(out reason))
-									goto IL_00ce;
+								return false;
 							}
 						}
 					}
 				}
-				reason = (string)null;
-				result = true;
 			}
-			goto IL_0101;
-			IL_0101:
-			return result;
-			IL_00ce:
-			result = false;
-			goto IL_0101;
+			reason = null;
+			return true;
 		}
 
 		private void AddToTradeables(Thing t, Transactor trans)
@@ -170,31 +151,26 @@ namespace RimWorld
 
 		public bool TryExecute(out bool actuallyTraded)
 		{
-			bool result;
 			if (this.SilverTradeable.CountPostDealFor(Transactor.Colony) < 0)
 			{
 				Find.WindowStack.WindowOfType<Dialog_Trade>().FlashSilver();
 				Messages.Message("MessageColonyCannotAfford".Translate(), MessageTypeDefOf.RejectInput);
 				actuallyTraded = false;
-				result = false;
+				return false;
 			}
-			else
+			this.UpdateCurrencyCount();
+			this.LimitCurrencyCountToTraderFunds();
+			actuallyTraded = false;
+			foreach (Tradeable tradeable in this.tradeables)
 			{
-				this.UpdateCurrencyCount();
-				this.LimitCurrencyCountToTraderFunds();
-				actuallyTraded = false;
-				foreach (Tradeable tradeable in this.tradeables)
+				if (tradeable.ActionToDo != 0)
 				{
-					if (tradeable.ActionToDo != 0)
-					{
-						actuallyTraded = true;
-					}
-					tradeable.ResolveTrade();
+					actuallyTraded = true;
 				}
-				this.Reset();
-				result = true;
+				tradeable.ResolveTrade();
 			}
-			return result;
+			this.Reset();
+			return true;
 		}
 
 		public bool DoesTraderHaveEnoughSilver()

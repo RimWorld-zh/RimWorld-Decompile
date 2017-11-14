@@ -28,35 +28,27 @@ namespace Verse
 
 			public override bool TryResolve(FailMode failReportMode)
 			{
-				bool result;
 				if (this.fi == null)
 				{
 					Log.Error("Trying to resolve null field for def named " + this.defName.ToStringSafe());
-					result = false;
+					return false;
 				}
-				else
+				Def defSilentFail = GenDefDatabase.GetDefSilentFail(this.fi.FieldType, this.defName);
+				if (defSilentFail == null)
 				{
-					Def defSilentFail = GenDefDatabase.GetDefSilentFail(this.fi.FieldType, this.defName);
-					if (defSilentFail == null)
+					if (failReportMode == FailMode.LogErrors)
 					{
-						if (failReportMode == FailMode.LogErrors)
-						{
-							Log.Error("Could not resolve cross-reference: No " + this.fi.FieldType + " named " + this.defName.ToStringSafe() + " found to give to " + base.wanter.GetType() + " " + base.wanter.ToStringSafe());
-						}
-						result = false;
+						Log.Error("Could not resolve cross-reference: No " + this.fi.FieldType + " named " + this.defName.ToStringSafe() + " found to give to " + base.wanter.GetType() + " " + base.wanter.ToStringSafe());
 					}
-					else
-					{
-						SoundDef soundDef = defSilentFail as SoundDef;
-						if (soundDef != null && soundDef.isUndefined)
-						{
-							Log.Warning("Could not resolve cross-reference: No " + this.fi.FieldType + " named " + this.defName.ToStringSafe() + " found to give to " + base.wanter.GetType() + " " + base.wanter.ToStringSafe() + " (using undefined sound instead)");
-						}
-						this.fi.SetValue(base.wanter, defSilentFail);
-						result = true;
-					}
+					return false;
 				}
-				return result;
+				SoundDef soundDef = defSilentFail as SoundDef;
+				if (soundDef != null && soundDef.isUndefined)
+				{
+					Log.Warning("Could not resolve cross-reference: No " + this.fi.FieldType + " named " + this.defName.ToStringSafe() + " found to give to " + base.wanter.GetType() + " " + base.wanter.ToStringSafe() + " (using undefined sound instead)");
+				}
+				this.fi.SetValue(base.wanter, defSilentFail);
+				return true;
 			}
 		}
 
@@ -95,7 +87,7 @@ namespace Verse
 			}
 		}
 
-		private class WantedRefForDictionary<K, V> : WantedRef where K : new() where V : new()
+		private class WantedRefForDictionary<K, V> : WantedRef where K : new()where V : new()
 		{
 			private List<XmlNode> wantedDictRefs = new List<XmlNode>();
 
@@ -181,7 +173,7 @@ namespace Verse
 			wantedRefForList.AddWantedListEntry(targetDefName);
 		}
 
-		public static void RegisterDictionaryWantsCrossRef<K, V>(Dictionary<K, V> wanterDict, XmlNode entryNode) where K : new() where V : new()
+		public static void RegisterDictionaryWantsCrossRef<K, V>(Dictionary<K, V> wanterDict, XmlNode entryNode) where K : new()where V : new()
 		{
 			WantedRefForDictionary<K, V> wantedRefForDictionary = null;
 			foreach (WantedRef wantedRef in DirectXmlCrossRefLoader.wantedRefs)
@@ -203,20 +195,15 @@ namespace Verse
 		public static T TryResolveDef<T>(string defName, FailMode failReportMode)
 		{
 			T val = (T)(object)GenDefDatabase.GetDefSilentFail(typeof(T), defName);
-			T result;
 			if (val != null)
 			{
-				result = val;
+				return val;
 			}
-			else
+			if (failReportMode == FailMode.LogErrors)
 			{
-				if (failReportMode == FailMode.LogErrors)
-				{
-					Log.Error("Could not resolve cross-reference to " + typeof(T) + " named " + defName);
-				}
-				result = default(T);
+				Log.Error("Could not resolve cross-reference to " + typeof(T) + " named " + defName);
 			}
-			return result;
+			return default(T);
 		}
 
 		public static void Clear()

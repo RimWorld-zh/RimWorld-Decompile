@@ -8,11 +8,11 @@ namespace RimWorld
 
 		public bool showZones = true;
 
-		public bool showEnvironment = false;
+		public bool showEnvironment;
 
 		public bool showColonistBar = true;
 
-		public bool showRoofOverlay = false;
+		public bool showRoofOverlay;
 
 		public bool autoHomeArea = true;
 
@@ -24,7 +24,7 @@ namespace RimWorld
 
 		public bool showWorldFeatures = true;
 
-		public bool useWorkPriorities = false;
+		public bool useWorkPriorities;
 
 		public void ExposeData()
 		{
@@ -68,12 +68,12 @@ namespace RimWorld
 				row.ToggleableIcon(ref this.showColonistBar, TexButton.ShowColonistBar, "ShowColonistBarToggleButton".Translate(), SoundDefOf.MouseoverToggle, (string)null);
 				row.ToggleableIcon(ref this.showRoofOverlay, TexButton.ShowRoofOverlay, "ShowRoofOverlayToggleButton".Translate(), SoundDefOf.MouseoverToggle, (string)null);
 				row.ToggleableIcon(ref this.autoHomeArea, TexButton.AutoHomeArea, "AutoHomeAreaToggleButton".Translate(), SoundDefOf.MouseoverToggle, (string)null);
-				bool resourceReadoutCategorized;
-				bool flag3 = resourceReadoutCategorized = Prefs.ResourceReadoutCategorized;
-				row.ToggleableIcon(ref flag3, TexButton.CategorizedResourceReadout, "CategorizedResourceReadoutToggleButton".Translate(), SoundDefOf.MouseoverToggle, (string)null);
-				if (flag3 != resourceReadoutCategorized)
+				bool resourceReadoutCategorized = Prefs.ResourceReadoutCategorized;
+				bool flag3 = resourceReadoutCategorized;
+				row.ToggleableIcon(ref resourceReadoutCategorized, TexButton.CategorizedResourceReadout, "CategorizedResourceReadoutToggleButton".Translate(), SoundDefOf.MouseoverToggle, null);
+				if (resourceReadoutCategorized != flag3)
 				{
-					Prefs.ResourceReadoutCategorized = flag3;
+					Prefs.ResourceReadoutCategorized = resourceReadoutCategorized;
 				}
 			}
 			if (flag != this.showColonistBar)

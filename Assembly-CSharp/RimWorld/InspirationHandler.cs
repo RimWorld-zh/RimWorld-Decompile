@@ -44,17 +44,16 @@ namespace RimWorld
 		{
 			get
 			{
-				float result;
 				if (this.pawn.needs.mood == null)
 				{
-					result = -1f;
+					return -1f;
 				}
-				else
+				float curLevel = this.pawn.needs.mood.CurLevel;
+				if (curLevel < 0.5)
 				{
-					float curLevel = this.pawn.needs.mood.CurLevel;
-					result = (float)((!(curLevel < 0.5)) ? GenMath.LerpDouble(0.5f, 1f, 210f, 10f, curLevel) : -1.0);
+					return -1f;
 				}
-				return result;
+				return GenMath.LerpDouble(0.5f, 1f, 210f, 10f, curLevel);
 			}
 		}
 
@@ -86,24 +85,19 @@ namespace RimWorld
 
 		public bool TryStartInspiration(InspirationDef def)
 		{
-			bool result;
 			if (this.Inspired)
 			{
-				result = false;
+				return false;
 			}
-			else if (!def.Worker.InspirationCanOccur(this.pawn))
+			if (!def.Worker.InspirationCanOccur(this.pawn))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				this.curState = (Inspiration)Activator.CreateInstance(def.inspirationClass);
-				this.curState.def = def;
-				this.curState.pawn = this.pawn;
-				this.curState.PostStart();
-				result = true;
-			}
-			return result;
+			this.curState = (Inspiration)Activator.CreateInstance(def.inspirationClass);
+			this.curState.def = def;
+			this.curState.pawn = this.pawn;
+			this.curState.PostStart();
+			return true;
 		}
 
 		public void EndInspiration(Inspiration inspiration)
@@ -155,7 +149,7 @@ namespace RimWorld
 		{
 			return (from x in DefDatabase<InspirationDef>.AllDefsListForReading
 			where x.Worker.InspirationCanOccur(this.pawn)
-			select x).RandomElementByWeightWithFallback((Func<InspirationDef, float>)((InspirationDef x) => x.Worker.CommonalityFor(this.pawn)), null);
+			select x).RandomElementByWeightWithFallback((InspirationDef x) => x.Worker.CommonalityFor(this.pawn), null);
 		}
 	}
 }

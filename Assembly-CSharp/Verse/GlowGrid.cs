@@ -1,7 +1,5 @@
-#define ENABLE_PROFILER
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 namespace Verse
 {
@@ -13,7 +11,7 @@ namespace Verse
 
 		public Color32[] glowGridNoCavePlants;
 
-		private bool glowGridDirty = false;
+		private bool glowGridDirty;
 
 		private HashSet<CompGlower> litGlowers = new HashSet<CompGlower>();
 
@@ -46,31 +44,23 @@ namespace Verse
 		public float GameGlowAt(IntVec3 c, bool ignoreCavePlants = false)
 		{
 			float num = 0f;
-			float result;
 			if (!this.map.roofGrid.Roofed(c))
 			{
 				num = this.map.skyManager.CurSkyGlow;
 				if (num == 1.0)
 				{
-					result = num;
-					goto IL_00d7;
+					return num;
 				}
 			}
 			Color32[] array = (!ignoreCavePlants) ? this.glowGrid : this.glowGridNoCavePlants;
 			Color32 color = array[this.map.cellIndices.CellToIndex(c)];
 			if (color.a == 1)
 			{
-				result = 1f;
+				return 1f;
 			}
-			else
-			{
-				float b = (float)((float)(color.r + color.g + color.b) / 3.0 / 255.0 * 3.5999999046325684);
-				b = Mathf.Min(0.5f, b);
-				result = Mathf.Max(num, b);
-			}
-			goto IL_00d7;
-			IL_00d7:
-			return result;
+			float b = (float)((float)(color.r + color.g + color.b) / 3.0 / 255.0 * 3.5999999046325684);
+			b = Mathf.Min(0.5f, b);
+			return Mathf.Max(num, b);
 		}
 
 		public PsychGlow PsychGlowAt(IntVec3 c)
@@ -81,7 +71,15 @@ namespace Verse
 
 		public static PsychGlow PsychGlowAtGlow(float glow)
 		{
-			return (PsychGlow)((!(glow > 0.89999997615814209)) ? ((glow > 0.30000001192092896) ? 1 : 0) : 2);
+			if (glow > 0.89999997615814209)
+			{
+				return PsychGlow.Overlit;
+			}
+			if (glow > 0.30000001192092896)
+			{
+				return PsychGlow.Lit;
+			}
+			return PsychGlow.Dark;
 		}
 
 		public void RegisterGlower(CompGlower newGlow)
@@ -119,7 +117,6 @@ namespace Verse
 		{
 			if (Current.ProgramState == ProgramState.Playing)
 			{
-				Profiler.BeginSample("RecalculateAllGlow");
 				if (this.initialGlowerLocs != null)
 				{
 					foreach (IntVec3 initialGlowerLoc in this.initialGlowerLocs)
@@ -129,10 +126,10 @@ namespace Verse
 					this.initialGlowerLocs = null;
 				}
 				int numGridCells = this.map.cellIndices.NumGridCells;
-				for (int num = 0; num < numGridCells; num++)
+				for (int i = 0; i < numGridCells; i++)
 				{
-					this.glowGrid[num] = new Color32((byte)0, (byte)0, (byte)0, (byte)0);
-					this.glowGridNoCavePlants[num] = new Color32((byte)0, (byte)0, (byte)0, (byte)0);
+					this.glowGrid[i] = new Color32(0, 0, 0, 0);
+					this.glowGridNoCavePlants[i] = new Color32(0, 0, 0, 0);
 				}
 				foreach (CompGlower litGlower in this.litGlowers)
 				{
@@ -142,7 +139,6 @@ namespace Verse
 						this.map.glowFlooder.AddFloodGlowFor(litGlower, this.glowGridNoCavePlants);
 					}
 				}
-				Profiler.EndSample();
 			}
 		}
 	}

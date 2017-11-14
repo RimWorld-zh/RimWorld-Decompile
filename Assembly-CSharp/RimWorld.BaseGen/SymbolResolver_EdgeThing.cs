@@ -20,65 +20,55 @@ namespace RimWorld.BaseGen
 
 		public override bool CanResolve(ResolveParams rp)
 		{
-			bool result;
 			if (!base.CanResolve(rp))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (rp.singleThingDef != null)
 			{
-				if (rp.singleThingDef != null)
+				bool? edgeThingAvoidOtherEdgeThings = rp.edgeThingAvoidOtherEdgeThings;
+				bool avoidOtherEdgeThings = edgeThingAvoidOtherEdgeThings.HasValue && edgeThingAvoidOtherEdgeThings.Value;
+				IntVec3 intVec = default(IntVec3);
+				if (rp.thingRot.HasValue)
 				{
-					bool? edgeThingAvoidOtherEdgeThings = rp.edgeThingAvoidOtherEdgeThings;
-					bool avoidOtherEdgeThings = edgeThingAvoidOtherEdgeThings.HasValue && edgeThingAvoidOtherEdgeThings.Value;
-					IntVec3 intVec = default(IntVec3);
-					if (rp.thingRot.HasValue)
+					if (!this.TryFindSpawnCell(rp.rect, rp.singleThingDef, rp.thingRot.Value, avoidOtherEdgeThings, out intVec))
 					{
-						if (!this.TryFindSpawnCell(rp.rect, rp.singleThingDef, rp.thingRot.Value, avoidOtherEdgeThings, out intVec))
-						{
-							result = false;
-							goto IL_0129;
-						}
-					}
-					else if (!rp.singleThingDef.rotatable)
-					{
-						if (!this.TryFindSpawnCell(rp.rect, rp.singleThingDef, Rot4.North, avoidOtherEdgeThings, out intVec))
-						{
-							result = false;
-							goto IL_0129;
-						}
-					}
-					else
-					{
-						bool flag = false;
-						int num = 0;
-						while (num < 4)
-						{
-							if (!this.TryFindSpawnCell(rp.rect, rp.singleThingDef, new Rot4(num), avoidOtherEdgeThings, out intVec))
-							{
-								num++;
-								continue;
-							}
-							flag = true;
-							break;
-						}
-						if (!flag)
-						{
-							result = false;
-							goto IL_0129;
-						}
+						return false;
 					}
 				}
-				result = true;
+				else if (!rp.singleThingDef.rotatable)
+				{
+					if (!this.TryFindSpawnCell(rp.rect, rp.singleThingDef, Rot4.North, avoidOtherEdgeThings, out intVec))
+					{
+						return false;
+					}
+				}
+				else
+				{
+					bool flag = false;
+					int num = 0;
+					while (num < 4)
+					{
+						if (!this.TryFindSpawnCell(rp.rect, rp.singleThingDef, new Rot4(num), avoidOtherEdgeThings, out intVec))
+						{
+							num++;
+							continue;
+						}
+						flag = true;
+						break;
+					}
+					if (!flag)
+					{
+						return false;
+					}
+				}
 			}
-			goto IL_0129;
-			IL_0129:
-			return result;
+			return true;
 		}
 
 		public override void Resolve(ResolveParams rp)
 		{
-			ThingDef thingDef = rp.singleThingDef ?? DefDatabase<ThingDef>.AllDefsListForReading.Where((Func<ThingDef, bool>)delegate(ThingDef x)
+			ThingDef thingDef = rp.singleThingDef ?? DefDatabase<ThingDef>.AllDefsListForReading.Where(delegate(ThingDef x)
 			{
 				int result;
 				if ((x.IsWeapon || x.IsMedicine || x.IsDrug) && x.graphicData != null && !x.destroyOnDrop && x.size.x <= rp.rect.Width && x.size.z <= rp.rect.Width && x.size.x <= rp.rect.Height)
@@ -100,7 +90,7 @@ namespace RimWorld.BaseGen
 				if (this.TryFindSpawnCell(rp.rect, thingDef, rp.thingRot.Value, avoidOtherEdgeThings, out invalid))
 				{
 					value = rp.thingRot.Value;
-					goto IL_0192;
+					goto IL_017c;
 				}
 				return;
 			}
@@ -109,7 +99,7 @@ namespace RimWorld.BaseGen
 				if (this.TryFindSpawnCell(rp.rect, thingDef, Rot4.North, avoidOtherEdgeThings, out invalid))
 				{
 					value = Rot4.North;
-					goto IL_0192;
+					goto IL_017c;
 				}
 				return;
 			}
@@ -129,18 +119,17 @@ namespace RimWorld.BaseGen
 			}
 			if (!flag)
 				return;
-			goto IL_0192;
-			IL_0192:
+			goto IL_017c;
+			IL_017c:
 			ResolveParams resolveParams = rp;
 			resolveParams.rect = CellRect.SingleCell(invalid);
-			resolveParams.thingRot = new Rot4?(value);
+			resolveParams.thingRot = value;
 			resolveParams.singleThingDef = thingDef;
 			BaseGen.symbolStack.Push("thing", resolveParams);
 		}
 
 		private bool TryFindSpawnCell(CellRect rect, ThingDef thingDef, Rot4 rot, bool avoidOtherEdgeThings, out IntVec3 spawnCell)
 		{
-			bool result;
 			if (avoidOtherEdgeThings)
 			{
 				spawnCell = IntVec3.Invalid;
@@ -160,13 +149,9 @@ namespace RimWorld.BaseGen
 						}
 					}
 				}
-				result = spawnCell.IsValid;
+				return spawnCell.IsValid;
 			}
-			else
-			{
-				result = this.TryFindSpawnCell(rect, thingDef, rot, out spawnCell);
-			}
-			return result;
+			return this.TryFindSpawnCell(rect, thingDef, rot, out spawnCell);
 		}
 
 		private bool TryFindSpawnCell(CellRect rect, ThingDef thingDef, Rot4 rot, out IntVec3 spawnCell)
@@ -176,7 +161,7 @@ namespace RimWorld.BaseGen
 			IntVec2 size = thingDef.size;
 			GenAdj.AdjustForRotation(ref zero, ref size, rot);
 			CellRect empty = CellRect.Empty;
-			Predicate<CellRect> basePredicate = (Predicate<CellRect>)((CellRect x) => x.Cells.All((Func<IntVec3, bool>)((IntVec3 y) => y.Standable(map))) && !GenSpawn.WouldWipeAnythingWith(x, thingDef, map, (Predicate<Thing>)((Thing z) => z.def.category == ThingCategory.Building)) && (thingDef.category != ThingCategory.Item || x.CenterCell.GetFirstItem(map) == null));
+			Predicate<CellRect> basePredicate = (CellRect x) => x.Cells.All((IntVec3 y) => y.Standable(map)) && !GenSpawn.WouldWipeAnythingWith(x, thingDef, map, (Thing z) => z.def.category == ThingCategory.Building) && (thingDef.category != ThingCategory.Item || x.CenterCell.GetFirstItem(map) == null);
 			bool flag = false;
 			if (thingDef.category == ThingCategory.Building)
 			{
@@ -186,33 +171,24 @@ namespace RimWorld.BaseGen
 					flag = rect.TryFindRandomInnerRectTouchingEdge(size, out empty, (Predicate<CellRect>)((CellRect x) => basePredicate(x) && !BaseGenUtility.AnyDoorAdjacentCardinalTo(x, map)));
 				}
 			}
-			bool result;
-			CellRect.CellRectIterator iterator;
 			if (!flag && !rect.TryFindRandomInnerRectTouchingEdge(size, out empty, basePredicate))
 			{
 				spawnCell = IntVec3.Invalid;
-				result = false;
+				return false;
 			}
-			else
+			CellRect.CellRectIterator iterator = empty.GetIterator();
+			while (!iterator.Done())
 			{
-				iterator = empty.GetIterator();
-				while (!iterator.Done())
+				if (GenAdj.OccupiedRect(iterator.Current, rot, thingDef.size) == empty)
 				{
-					if (GenAdj.OccupiedRect(iterator.Current, rot, thingDef.size) == empty)
-						goto IL_0102;
-					iterator.MoveNext();
+					spawnCell = iterator.Current;
+					return true;
 				}
-				Log.Error("We found a valid rect but we couldn't find the root position. This should never happen.");
-				spawnCell = IntVec3.Invalid;
-				result = false;
+				iterator.MoveNext();
 			}
-			goto IL_014b;
-			IL_014b:
-			return result;
-			IL_0102:
-			spawnCell = iterator.Current;
-			result = true;
-			goto IL_014b;
+			Log.Error("We found a valid rect but we couldn't find the root position. This should never happen.");
+			spawnCell = IntVec3.Invalid;
+			return false;
 		}
 
 		private int GetDistanceSquaredToExistingEdgeThing(IntVec3 cell, CellRect rect, ThingDef thingDef)

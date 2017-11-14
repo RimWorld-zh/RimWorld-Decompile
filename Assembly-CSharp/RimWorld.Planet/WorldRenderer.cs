@@ -13,30 +13,20 @@ namespace RimWorld.Planet
 
 		public WorldRenderMode wantedMode;
 
-		private bool asynchronousRegenerationActive = false;
+		private bool asynchronousRegenerationActive;
 
 		private bool ShouldRegenerateDirtyLayersInLongEvent
 		{
 			get
 			{
-				int num = 0;
-				bool result;
-				while (true)
+				for (int i = 0; i < this.layers.Count; i++)
 				{
-					if (num < this.layers.Count)
+					if (this.layers[i].Dirty && this.layers[i] is WorldLayer_Terrain)
 					{
-						if (this.layers[num].Dirty && this.layers[num] is WorldLayer_Terrain)
-						{
-							result = true;
-							break;
-						}
-						num++;
-						continue;
+						return true;
 					}
-					result = false;
-					break;
 				}
-				return result;
+				return false;
 			}
 		}
 
@@ -106,8 +96,8 @@ namespace RimWorld.Planet
 			}
 			this.asynchronousRegenerationActive = false;
 			yield break;
-			IL_0162:
-			/*Error near IL_0163: Unexpected return in MoveNext()*/;
+			IL_015c:
+			/*Error near IL_015d: Unexpected return in MoveNext()*/;
 		}
 
 		public void Notify_StaticWorldObjectPosChanged()
@@ -150,26 +140,17 @@ namespace RimWorld.Planet
 
 		public int GetTileIDFromRayHit(RaycastHit hit)
 		{
-			int num = 0;
+			int i = 0;
 			int count = this.layers.Count;
-			int result;
-			while (true)
+			for (; i < count; i++)
 			{
-				if (num < count)
+				WorldLayer_Terrain worldLayer_Terrain = this.layers[i] as WorldLayer_Terrain;
+				if (worldLayer_Terrain != null)
 				{
-					WorldLayer_Terrain worldLayer_Terrain = this.layers[num] as WorldLayer_Terrain;
-					if (worldLayer_Terrain != null)
-					{
-						result = worldLayer_Terrain.GetTileIDFromRayHit(hit);
-						break;
-					}
-					num++;
-					continue;
+					return worldLayer_Terrain.GetTileIDFromRayHit(hit);
 				}
-				result = -1;
-				break;
 			}
-			return result;
+			return -1;
 		}
 	}
 }

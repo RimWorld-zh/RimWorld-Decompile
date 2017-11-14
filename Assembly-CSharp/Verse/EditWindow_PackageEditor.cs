@@ -1,17 +1,14 @@
-#define ENABLE_PROFILER
 using RimWorld;
-using System;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 namespace Verse
 {
 	public class EditWindow_PackageEditor<TNewDef> : EditWindow where TNewDef : Def, new()
 	{
-		public ModContentPack curMod = LoadedModManager.RunningMods.First<ModContentPack>();
+		public ModContentPack curMod = Enumerable.First<ModContentPack>(LoadedModManager.RunningMods);
 
-		private DefPackage curPackage = null;
+		private DefPackage curPackage;
 
 		private Vector2 scrollPosition = default(Vector2);
 
@@ -46,7 +43,6 @@ namespace Verse
 
 		public override void DoWindowContents(Rect selectorInner)
 		{
-			Profiler.BeginSample("PackageEditorOnGUI");
 			Text.Font = GameFont.Tiny;
 			float width = (float)((selectorInner.width - 4.0) / 2.0);
 			Rect rect = new Rect(0f, 0f, width, 24f);
@@ -64,7 +60,7 @@ namespace Verse
 			}
 			if (Widgets.ButtonText(rect2, label, true, false, true))
 			{
-				Find.WindowStack.Add(new Dialog_PackageSelector((Action<DefPackage>)delegate(DefPackage pack)
+				Find.WindowStack.Add(new Dialog_PackageSelector(delegate(DefPackage pack)
 				{
 					if (pack != this.curPackage)
 					{
@@ -114,12 +110,13 @@ namespace Verse
 				}
 				else
 				{
-					Def deletingDef = null;
+					Def deletingDef2 = null;
 					foreach (Def item in this.curPackage)
 					{
-						if (listing_Standard.SelectableDef(item.defName, false, (Action)delegate
+						Def deletingDef;
+						if (listing_Standard.SelectableDef(item.defName, false, delegate
 						{
-							Def deletingDef2 = item;
+							deletingDef = item;
 						}))
 						{
 							bool flag = false;
@@ -138,12 +135,12 @@ namespace Verse
 							}
 						}
 					}
-					if (deletingDef != null)
+					if (deletingDef2 != null)
 					{
-						Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("Really delete Def " + deletingDef.defName + "?", (Action)delegate
+						Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("Really delete Def " + deletingDef2.defName + "?", delegate
 						{
-							this.curPackage.RemoveDef(deletingDef);
-						}, true, (string)null));
+							this.curPackage.RemoveDef(deletingDef2);
+						}, true, null));
 					}
 				}
 				if (listing_Standard.ButtonImage(TexButton.Add, 24f, 24f))
@@ -159,7 +156,6 @@ namespace Verse
 			}
 			listing_Standard.End();
 			Widgets.EndScrollView();
-			Profiler.EndSample();
 		}
 	}
 }

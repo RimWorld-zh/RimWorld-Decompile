@@ -86,7 +86,7 @@ namespace Verse
 		{
 			if (this.MapSizeMatches(map) && this.grid != null)
 			{
-				this.Clear((byte)0);
+				this.Clear(0);
 			}
 			else
 			{

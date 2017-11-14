@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -29,7 +28,7 @@ namespace RimWorld
 
 		public override bool TryMakePreToilReservations()
 		{
-			return base.pawn.Reserve((Thing)this.Takee, base.job, 1, -1, null) && base.pawn.Reserve((Thing)this.DropBed, base.job, this.DropBed.SleepingSlotsCount, 0, null);
+			return base.pawn.Reserve(this.Takee, base.job, 1, -1, null) && base.pawn.Reserve(this.DropBed, base.job, this.DropBed.SleepingSlotsCount, 0, null);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -37,26 +36,20 @@ namespace RimWorld
 			this.FailOnDestroyedOrNull(TargetIndex.A);
 			this.FailOnDestroyedOrNull(TargetIndex.B);
 			this.FailOnAggroMentalStateAndHostile(TargetIndex.A);
-			this.FailOn((Func<bool>)delegate
+			this.FailOn(delegate
 			{
-				bool result;
-				if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006b: stateMachine*/)._0024this.job.def.makeTargetPrisoner)
+				if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006a: stateMachine*/)._0024this.job.def.makeTargetPrisoner)
 				{
-					if (!((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006b: stateMachine*/)._0024this.DropBed.ForPrisoners)
+					if (!((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006a: stateMachine*/)._0024this.DropBed.ForPrisoners)
 					{
-						result = true;
-						goto IL_0073;
+						return true;
 					}
 				}
-				else if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006b: stateMachine*/)._0024this.DropBed.ForPrisoners != ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006b: stateMachine*/)._0024this.Takee.IsPrisoner)
+				else if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006a: stateMachine*/)._0024this.DropBed.ForPrisoners != ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006a: stateMachine*/)._0024this.Takee.IsPrisoner)
 				{
-					result = true;
-					goto IL_0073;
+					return true;
 				}
-				result = false;
-				goto IL_0073;
-				IL_0073:
-				return result;
+				return false;
 			});
 			yield return Toils_Bed.ClaimBedIfNonMedical(TargetIndex.B, TargetIndex.A);
 			/*Error: Unable to find new state assignment for yield return*/;

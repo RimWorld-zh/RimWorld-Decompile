@@ -11,32 +11,24 @@ namespace RimWorld
 		{
 			Room room = pawn.GetRoom(RegionType.Set_Passable);
 			int num = 0;
-			Job result;
-			while (true)
+			while ((float)num < JobGiver_MaintainHives.CellsInScanRadius)
 			{
-				if ((float)num < JobGiver_MaintainHives.CellsInScanRadius)
+				IntVec3 intVec = pawn.Position + GenRadial.RadialPattern[num];
+				if (intVec.InBounds(pawn.Map) && intVec.GetRoom(pawn.Map, RegionType.Set_Passable) == room)
 				{
-					IntVec3 intVec = pawn.Position + GenRadial.RadialPattern[num];
-					if (intVec.InBounds(pawn.Map) && intVec.GetRoom(pawn.Map, RegionType.Set_Passable) == room)
+					Hive hive = (Hive)pawn.Map.thingGrid.ThingAt(intVec, ThingDefOf.Hive);
+					if (hive != null && pawn.CanReserve(hive, 1, -1, null, false))
 					{
-						Hive hive = (Hive)pawn.Map.thingGrid.ThingAt(intVec, ThingDefOf.Hive);
-						if (hive != null && pawn.CanReserve((Thing)hive, 1, -1, null, false))
+						CompMaintainable compMaintainable = hive.TryGetComp<CompMaintainable>();
+						if (compMaintainable.CurStage != 0)
 						{
-							CompMaintainable compMaintainable = hive.TryGetComp<CompMaintainable>();
-							if (compMaintainable.CurStage != 0)
-							{
-								result = new Job(JobDefOf.Maintain, (Thing)hive);
-								break;
-							}
+							return new Job(JobDefOf.Maintain, hive);
 						}
 					}
-					num++;
-					continue;
 				}
-				result = null;
-				break;
+				num++;
 			}
-			return result;
+			return null;
 		}
 	}
 }

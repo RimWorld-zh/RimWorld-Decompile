@@ -16,7 +16,7 @@ namespace Verse
 
 		private static float detailsPaneHeight = 100f;
 
-		private bool borderDragging = false;
+		private bool borderDragging;
 
 		private static bool canAutoOpen = true;
 
@@ -135,12 +135,12 @@ namespace Verse
 			}
 			if (EditWindow_Log.canAutoOpen)
 			{
-				if (widgetRow.ButtonText("Auto-open is ON", "", true, false))
+				if (widgetRow.ButtonText("Auto-open is ON", string.Empty, true, false))
 				{
 					EditWindow_Log.canAutoOpen = false;
 				}
 			}
-			else if (widgetRow.ButtonText("Auto-open is OFF", "", true, false))
+			else if (widgetRow.ButtonText("Auto-open is OFF", string.Empty, true, false))
 			{
 				EditWindow_Log.canAutoOpen = true;
 			}
@@ -156,10 +156,8 @@ namespace Verse
 			{
 				rect.yMax -= EditWindow_Log.detailsPaneHeight;
 			}
-			Rect detailsRect = new Rect(inRect)
-			{
-				yMin = rect.yMax
-			};
+			Rect detailsRect = new Rect(inRect);
+			detailsRect.yMin = rect.yMax;
 			this.DoMessagesListing(rect);
 			this.DoMessageDetails(detailsRect, inRect);
 			if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Mouse.IsOver(rect))

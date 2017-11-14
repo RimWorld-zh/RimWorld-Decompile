@@ -9,7 +9,7 @@ namespace Verse
 	{
 		public Type workerClass = typeof(DamageWorker);
 
-		public bool externalViolence = false;
+		public bool externalViolence;
 
 		public bool hasForcefulImpact = true;
 
@@ -22,17 +22,17 @@ namespace Verse
 		[MustTranslate]
 		public string deathMessage = "{0} has been killed.";
 
-		public ImpactSoundTypeDef impactSoundType = null;
+		public ImpactSoundTypeDef impactSoundType;
 
-		public DamageArmorCategoryDef armorCategory = null;
+		public DamageArmorCategoryDef armorCategory;
 
-		public bool spreadOut = false;
+		public bool spreadOut;
 
-		public bool execution = false;
+		public bool execution;
 
-		public RulePackDef combatLogRules = null;
+		public RulePackDef combatLogRules;
 
-		public bool isExplosive = false;
+		public bool isExplosive;
 
 		public int explosionDamage = 10;
 
@@ -42,7 +42,7 @@ namespace Verse
 
 		public bool explosionAffectOutsidePartsOnly = true;
 
-		public ThingDef explosionCellMote = null;
+		public ThingDef explosionCellMote;
 
 		public Color explosionColorCenter = Color.white;
 
@@ -50,27 +50,27 @@ namespace Verse
 
 		public ThingDef explosionInteriorMote;
 
-		public float explosionHeatEnergyPerCell = 0f;
+		public float explosionHeatEnergyPerCell;
 
-		public SoundDef soundExplosion = null;
+		public SoundDef soundExplosion;
 
-		public bool harmAllLayersUntilOutside = false;
+		public bool harmAllLayersUntilOutside;
 
-		public HediffDef hediff = null;
+		public HediffDef hediff;
 
-		public HediffDef hediffSkin = null;
+		public HediffDef hediffSkin;
 
-		public HediffDef hediffSolid = null;
+		public HediffDef hediffSolid;
 
-		public float stabChanceOfForcedInternal = 0f;
+		public float stabChanceOfForcedInternal;
 
-		public float stabPierceBonus = 0f;
+		public float stabPierceBonus;
 
 		public SimpleCurve cutExtraTargetsCurve;
 
 		public float cutCleaveBonus;
 
-		public float bluntInnerHitFrequency = 0f;
+		public float bluntInnerHitFrequency;
 
 		public FloatRange bluntInnerHitConverted;
 
@@ -80,10 +80,10 @@ namespace Verse
 
 		public float biteDamageMultiplier = 1f;
 
-		public List<DamageDefAdditionalHediff> additionalHediffs = null;
+		public List<DamageDefAdditionalHediff> additionalHediffs;
 
 		[Unsaved]
-		private DamageWorker workerInt = null;
+		private DamageWorker workerInt;
 
 		public DamageWorker Worker
 		{

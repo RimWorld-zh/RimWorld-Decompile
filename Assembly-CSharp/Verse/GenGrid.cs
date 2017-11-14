@@ -34,33 +34,28 @@ namespace Verse
 
 		public static bool OnEdge(this IntVec3 c, Map map, Rot4 dir)
 		{
-			bool result;
 			if (dir == Rot4.North)
 			{
-				result = (c.z == 0);
+				return c.z == 0;
 			}
-			else if (dir == Rot4.South)
+			if (dir == Rot4.South)
 			{
 				int z = c.z;
 				IntVec3 size = map.Size;
-				result = (z == size.z - 1);
+				return z == size.z - 1;
 			}
-			else if (dir == Rot4.West)
+			if (dir == Rot4.West)
 			{
-				result = (c.x == 0);
+				return c.x == 0;
 			}
-			else if (dir == Rot4.East)
+			if (dir == Rot4.East)
 			{
 				int x = c.x;
 				IntVec3 size2 = map.Size;
-				result = (x == size2.x - 1);
+				return x == size2.x - 1;
 			}
-			else
-			{
-				Log.ErrorOnce("Invalid edge direction", 55370769);
-				result = false;
-			}
-			return result;
+			Log.ErrorOnce("Invalid edge direction", 55370769);
+			return false;
 		}
 
 		public static bool InBounds(this IntVec3 c, Map map)
@@ -82,50 +77,32 @@ namespace Verse
 
 		public static bool Standable(this IntVec3 c, Map map)
 		{
-			bool result;
 			if (!map.pathGrid.Walkable(c))
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Thing> list = map.thingGrid.ThingsListAt(c);
+			for (int i = 0; i < list.Count; i++)
 			{
-				List<Thing> list = map.thingGrid.ThingsListAt(c);
-				for (int i = 0; i < list.Count; i++)
+				if (list[i].def.passability != 0)
 				{
-					if (list[i].def.passability != 0)
-						goto IL_0044;
+					return false;
 				}
-				result = true;
 			}
-			goto IL_0063;
-			IL_0044:
-			result = false;
-			goto IL_0063;
-			IL_0063:
-			return result;
+			return true;
 		}
 
 		public static bool Impassable(this IntVec3 c, Map map)
 		{
 			List<Thing> list = map.thingGrid.ThingsListAtFast(c);
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < list.Count; i++)
 			{
-				if (num < list.Count)
+				if (list[i].def.passability == Traversability.Impassable)
 				{
-					if (list[num].def.passability == Traversability.Impassable)
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public static bool SupportsStructureType(this IntVec3 c, Map map, TerrainAffordance surfaceType)
@@ -135,65 +112,57 @@ namespace Verse
 
 		public static bool CanBeSeenOver(this IntVec3 c, Map map)
 		{
-			bool result;
 			if (!c.InBounds(map))
 			{
-				result = false;
+				return false;
 			}
-			else
+			Building edifice = c.GetEdifice(map);
+			if (edifice != null && !edifice.CanBeSeenOver())
 			{
-				Building edifice = c.GetEdifice(map);
-				result = ((byte)((edifice == null || edifice.CanBeSeenOver()) ? 1 : 0) != 0);
+				return false;
 			}
-			return result;
+			return true;
 		}
 
 		public static bool CanBeSeenOverFast(this IntVec3 c, Map map)
 		{
 			Building edifice = c.GetEdifice(map);
-			return (byte)((edifice == null || edifice.CanBeSeenOver()) ? 1 : 0) != 0;
+			if (edifice != null && !edifice.CanBeSeenOver())
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static bool CanBeSeenOver(this Building b)
 		{
-			bool result;
 			if (b.def.Fillage == FillCategory.Full)
 			{
 				Building_Door building_Door = b as Building_Door;
-				result = ((byte)((building_Door != null && building_Door.Open) ? 1 : 0) != 0);
+				if (building_Door != null && building_Door.Open)
+				{
+					return true;
+				}
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public static SurfaceType GetSurfaceType(this IntVec3 c, Map map)
 		{
-			SurfaceType result;
-			List<Thing> thingList;
-			int i;
 			if (!c.InBounds(map))
 			{
-				result = SurfaceType.None;
+				return SurfaceType.None;
 			}
-			else
+			List<Thing> thingList = c.GetThingList(map);
+			for (int i = 0; i < thingList.Count; i++)
 			{
-				thingList = c.GetThingList(map);
-				for (i = 0; i < thingList.Count; i++)
+				if (thingList[i].def.surfaceType != 0)
 				{
-					if (thingList[i].def.surfaceType != 0)
-						goto IL_003a;
+					return thingList[i].def.surfaceType;
 				}
-				result = SurfaceType.None;
 			}
-			goto IL_0069;
-			IL_003a:
-			result = thingList[i].def.surfaceType;
-			goto IL_0069;
-			IL_0069:
-			return result;
+			return SurfaceType.None;
 		}
 
 		public static bool HasEatSurface(this IntVec3 c, Map map)

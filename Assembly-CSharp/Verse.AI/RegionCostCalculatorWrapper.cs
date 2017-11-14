@@ -89,14 +89,12 @@ namespace Verse.AI
 		{
 			Region region = this.regionGrid[cellIndex];
 			IntVec3 cell = this.map.cellIndices.IndexToCell(cellIndex);
-			int result;
 			if (region != this.cachedRegion)
 			{
 				this.cachedRegionIsDestination = this.destRegions.Contains(region);
 				if (this.cachedRegionIsDestination)
 				{
-					result = this.OctileDistanceToEnd(cell);
-					goto IL_0140;
+					return this.OctileDistanceToEnd(cell);
 				}
 				this.cachedBestLinkCost = this.regionCostCalculator.GetRegionBestDistances(region, out this.cachedBestLink, out this.cachedSecondBestLink, out this.cachedSecondBestLinkCost);
 				this.cachedRegionCellPathCost = this.regionCostCalculator.RegionMedianPathCost(region);
@@ -104,8 +102,7 @@ namespace Verse.AI
 			}
 			else if (this.cachedRegionIsDestination)
 			{
-				result = this.OctileDistanceToEnd(cell);
-				goto IL_0140;
+				return this.OctileDistanceToEnd(cell);
 			}
 			if (this.cachedBestLink != null)
 			{
@@ -120,15 +117,9 @@ namespace Verse.AI
 				{
 					num3 = this.cachedBestLinkCost + num;
 				}
-				num3 = (result = num3 + this.OctileDistanceToEndEps(cell));
+				return num3 + this.OctileDistanceToEndEps(cell);
 			}
-			else
-			{
-				result = 10000;
-			}
-			goto IL_0140;
-			IL_0140:
-			return result;
+			return 10000;
 		}
 
 		private int OctileDistanceToEnd(IntVec3 cell)

@@ -45,10 +45,8 @@ namespace Verse
 
 		protected void LabelLeft(string label, string tipText, int indentLevel)
 		{
-			Rect rect = new Rect(0f, base.curY, base.ColumnWidth, base.lineHeight)
-			{
-				xMin = (float)(this.XAtIndentLevel(indentLevel) + 18.0)
-			};
+			Rect rect = new Rect(0f, base.curY, base.ColumnWidth, base.lineHeight);
+			rect.xMin = (float)(this.XAtIndentLevel(indentLevel) + 18.0);
 			Widgets.DrawHighlightIfMouseover(rect);
 			if (!tipText.NullOrEmpty())
 			{
@@ -68,37 +66,27 @@ namespace Verse
 
 		protected bool OpenCloseWidget(TreeNode node, int indentLevel, int openMask)
 		{
-			bool result;
 			if (!node.Openable)
 			{
-				result = false;
+				return false;
 			}
-			else
+			float x = this.XAtIndentLevel(indentLevel);
+			float y = (float)(base.curY + base.lineHeight / 2.0 - 9.0);
+			Rect butRect = new Rect(x, y, 18f, 18f);
+			Texture2D tex = (!node.IsOpen(openMask)) ? TexButton.Reveal : TexButton.Collapse;
+			if (Widgets.ButtonImage(butRect, tex))
 			{
-				float x = this.XAtIndentLevel(indentLevel);
-				float y = (float)(base.curY + base.lineHeight / 2.0 - 9.0);
-				Rect butRect = new Rect(x, y, 18f, 18f);
-				Texture2D tex = (!node.IsOpen(openMask)) ? TexButton.Reveal : TexButton.Collapse;
-				if (Widgets.ButtonImage(butRect, tex))
-				{
-					node.SetOpen(openMask, !node.IsOpen(openMask));
-					result = true;
-				}
-				else
-				{
-					result = false;
-				}
+				node.SetOpen(openMask, !node.IsOpen(openMask));
+				return true;
 			}
-			return result;
+			return false;
 		}
 
 		public void InfoText(string text, int indentLevel)
 		{
 			Text.WordWrap = true;
-			Rect rect = new Rect(0f, base.curY, base.ColumnWidth, 50f)
-			{
-				xMin = this.LabelWidth
-			};
+			Rect rect = new Rect(0f, base.curY, base.ColumnWidth, 50f);
+			rect.xMin = this.LabelWidth;
 			rect.height = Text.CalcHeight(text, rect.width);
 			Widgets.Label(rect, text);
 			base.curY += rect.height;

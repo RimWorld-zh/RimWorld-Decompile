@@ -22,79 +22,80 @@ namespace RimWorld
 
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
-			Faction faction = default(Faction);
+			if (!base.CanFireNowSub(target))
+			{
+				return false;
+			}
 			int num = default(int);
-			return base.CanFireNowSub(target) && Find.FactionManager.RandomAlliedFaction(false, false, false, TechLevel.Undefined) != null && TileFinder.TryFindNewSiteTile(out num, 8, 30, false, true, -1) && SiteMakerHelper.TryFindRandomFactionFor(SiteCoreDefOf.ItemStash, (IEnumerable<SitePartDef>)null, out faction, true, (Predicate<Faction>)null);
+			Faction faction = default(Faction);
+			return Find.FactionManager.RandomAlliedFaction(false, false, false, TechLevel.Undefined) != null && TileFinder.TryFindNewSiteTile(out num, 8, 30, false, true, -1) && SiteMakerHelper.TryFindRandomFactionFor(SiteCoreDefOf.ItemStash, (IEnumerable<SitePartDef>)null, out faction, true, (Predicate<Faction>)null);
 		}
 
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Faction faction = Find.FactionManager.RandomAlliedFaction(false, false, false, TechLevel.Undefined);
-			bool result;
-			int tile = default(int);
-			SitePartDef sitePart = default(SitePartDef);
-			Faction siteFaction = default(Faction);
 			if (faction == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (!TileFinder.TryFindNewSiteTile(out tile, 8, 30, false, true, -1))
+			int tile = default(int);
+			if (!TileFinder.TryFindNewSiteTile(out tile, 8, 30, false, true, -1))
 			{
-				result = false;
+				return false;
 			}
-			else if (!SiteMakerHelper.TryFindSiteParams_SingleSitePart(SiteCoreDefOf.ItemStash, (!Rand.Chance(0.15f)) ? IncidentWorker_QuestItemStash.ItemStashQuestThreatTag : null, out sitePart, out siteFaction, (Faction)null, true, (Predicate<Faction>)null))
+			SitePartDef sitePart = default(SitePartDef);
+			Faction siteFaction = default(Faction);
+			if (!SiteMakerHelper.TryFindSiteParams_SingleSitePart(SiteCoreDefOf.ItemStash, (!Rand.Chance(0.15f)) ? IncidentWorker_QuestItemStash.ItemStashQuestThreatTag : null, out sitePart, out siteFaction, (Faction)null, true, (Predicate<Faction>)null))
 			{
-				result = false;
+				return false;
+			}
+			int randomInRange = IncidentWorker_QuestItemStash.TimeoutDaysRange.RandomInRange;
+			List<Thing> list = this.GenerateItems(siteFaction);
+			bool sitePartsKnown = Rand.Chance(0.5f);
+			int num = 0;
+			if (Rand.Chance(this.FeeDemandChance(faction)))
+			{
+				num = IncidentWorker_QuestItemStash.FeeRange.RandomInRange;
+			}
+			string letterText = this.GetLetterText(faction, list, randomInRange, sitePart, sitePartsKnown, num);
+			if (num > 0)
+			{
+				Map map = TradeUtility.PlayerHomeMapWithMostLaunchableSilver();
+				ChoiceLetter_ItemStashFeeDemand choiceLetter_ItemStashFeeDemand = (ChoiceLetter_ItemStashFeeDemand)LetterMaker.MakeLetter(base.def.letterLabel, letterText, LetterDefOf.ItemStashFeeDemand);
+				choiceLetter_ItemStashFeeDemand.title = "ItemStashQuestTitle".Translate();
+				choiceLetter_ItemStashFeeDemand.radioMode = true;
+				choiceLetter_ItemStashFeeDemand.map = map;
+				choiceLetter_ItemStashFeeDemand.fee = num;
+				choiceLetter_ItemStashFeeDemand.siteDaysTimeout = randomInRange;
+				choiceLetter_ItemStashFeeDemand.items.TryAddRangeOrTransfer(list, false, false);
+				choiceLetter_ItemStashFeeDemand.siteFaction = siteFaction;
+				choiceLetter_ItemStashFeeDemand.sitePart = sitePart;
+				choiceLetter_ItemStashFeeDemand.alliedFaction = faction;
+				choiceLetter_ItemStashFeeDemand.sitePartsKnown = sitePartsKnown;
+				choiceLetter_ItemStashFeeDemand.StartTimeout(60000);
+				Find.LetterStack.ReceiveLetter(choiceLetter_ItemStashFeeDemand, null);
 			}
 			else
 			{
-				int randomInRange = IncidentWorker_QuestItemStash.TimeoutDaysRange.RandomInRange;
-				List<Thing> list = this.GenerateItems(siteFaction);
-				bool sitePartsKnown = Rand.Chance(0.5f);
-				int num = 0;
-				if (Rand.Chance(this.FeeDemandChance(faction)))
-				{
-					num = IncidentWorker_QuestItemStash.FeeRange.RandomInRange;
-				}
-				string letterText = this.GetLetterText(faction, list, randomInRange, sitePart, sitePartsKnown, num);
-				if (num > 0)
-				{
-					Map map = TradeUtility.PlayerHomeMapWithMostLaunchableSilver();
-					ChoiceLetter_ItemStashFeeDemand choiceLetter_ItemStashFeeDemand = (ChoiceLetter_ItemStashFeeDemand)LetterMaker.MakeLetter(base.def.letterLabel, letterText, LetterDefOf.ItemStashFeeDemand);
-					choiceLetter_ItemStashFeeDemand.title = "ItemStashQuestTitle".Translate();
-					choiceLetter_ItemStashFeeDemand.radioMode = true;
-					choiceLetter_ItemStashFeeDemand.map = map;
-					choiceLetter_ItemStashFeeDemand.fee = num;
-					choiceLetter_ItemStashFeeDemand.siteDaysTimeout = randomInRange;
-					choiceLetter_ItemStashFeeDemand.items.TryAddRangeOrTransfer(list, false, false);
-					choiceLetter_ItemStashFeeDemand.siteFaction = siteFaction;
-					choiceLetter_ItemStashFeeDemand.sitePart = sitePart;
-					choiceLetter_ItemStashFeeDemand.alliedFaction = faction;
-					choiceLetter_ItemStashFeeDemand.sitePartsKnown = sitePartsKnown;
-					choiceLetter_ItemStashFeeDemand.StartTimeout(60000);
-					Find.LetterStack.ReceiveLetter(choiceLetter_ItemStashFeeDemand, (string)null);
-				}
-				else
-				{
-					Site o = IncidentWorker_QuestItemStash.CreateSite(tile, sitePart, randomInRange, siteFaction, list, sitePartsKnown);
-					Find.LetterStack.ReceiveLetter(base.def.letterLabel, letterText, base.def.letterDef, (WorldObject)o, (string)null);
-				}
-				result = true;
+				Site o = IncidentWorker_QuestItemStash.CreateSite(tile, sitePart, randomInRange, siteFaction, list, sitePartsKnown);
+				Find.LetterStack.ReceiveLetter(base.def.letterLabel, letterText, base.def.letterDef, o, null);
 			}
-			return result;
+			return true;
 		}
 
 		private string GetSitePartInfo(SitePartDef sitePart, string leaderLabel)
 		{
-			return (sitePart != null) ? "ItemStashSitePart_Part".Translate(leaderLabel, string.Format(sitePart.descriptionDialogue)) : "ItemStashSitePart_Nothing".Translate(leaderLabel);
+			if (sitePart == null)
+			{
+				return "ItemStashSitePart_Nothing".Translate(leaderLabel);
+			}
+			return "ItemStashSitePart_Part".Translate(leaderLabel, string.Format(sitePart.descriptionDialogue));
 		}
 
 		private List<Thing> GenerateItems(Faction siteFaction)
 		{
-			ItemCollectionGeneratorParams parms = new ItemCollectionGeneratorParams
-			{
-				techLevel = new TechLevel?((siteFaction == null) ? TechLevel.Spacer : siteFaction.def.techLevel)
-			};
+			ItemCollectionGeneratorParams parms = default(ItemCollectionGeneratorParams);
+			parms.techLevel = ((siteFaction == null) ? TechLevel.Spacer : siteFaction.def.techLevel);
 			return ItemCollectionGeneratorDefOf.ItemStashQuest.Worker.Generate(parms);
 		}
 

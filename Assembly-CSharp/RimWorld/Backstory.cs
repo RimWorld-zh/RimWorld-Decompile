@@ -8,38 +8,38 @@ namespace RimWorld
 	[CaseInsensitiveXMLParsing]
 	public class Backstory
 	{
-		public string identifier = (string)null;
+		public string identifier;
 
 		public BackstorySlot slot;
 
-		private string title = (string)null;
+		private string title;
 
-		private string titleShort = (string)null;
+		private string titleShort;
 
-		public string baseDesc = (string)null;
+		public string baseDesc;
 
 		public Dictionary<string, int> skillGains = new Dictionary<string, int>();
 
 		public Dictionary<SkillDef, int> skillGainsResolved = new Dictionary<SkillDef, int>();
 
-		public WorkTags workDisables = WorkTags.None;
+		public WorkTags workDisables;
 
-		public WorkTags requiredWorkTags = WorkTags.None;
+		public WorkTags requiredWorkTags;
 
 		public List<string> spawnCategories = new List<string>();
 
 		[LoadAlias("bodyNameGlobal")]
-		public BodyType bodyTypeGlobal = BodyType.Undefined;
+		public BodyType bodyTypeGlobal;
 
 		[LoadAlias("bodyNameFemale")]
-		public BodyType bodyTypeFemale = BodyType.Undefined;
+		public BodyType bodyTypeFemale;
 
 		[LoadAlias("bodyNameMale")]
-		public BodyType bodyTypeMale = BodyType.Undefined;
+		public BodyType bodyTypeMale;
 
-		public List<TraitEntry> forcedTraits = null;
+		public List<TraitEntry> forcedTraits;
 
-		public List<TraitEntry> disallowedTraits = null;
+		public List<TraitEntry> disallowedTraits;
 
 		public bool shuffleable = true;
 
@@ -103,62 +103,45 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.titleShort.NullOrEmpty() ? this.title : this.titleShort;
+				if (!this.titleShort.NullOrEmpty())
+				{
+					return this.titleShort;
+				}
+				return this.title;
 			}
 		}
 
 		public bool DisallowsTrait(TraitDef def, int degree)
 		{
-			bool result;
 			if (this.disallowedTraits == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < this.disallowedTraits.Count; i++)
 			{
-				for (int i = 0; i < this.disallowedTraits.Count; i++)
+				if (this.disallowedTraits[i].def == def && this.disallowedTraits[i].degree == degree)
 				{
-					if (this.disallowedTraits[i].def == def && this.disallowedTraits[i].degree == degree)
-						goto IL_0049;
+					return true;
 				}
-				result = false;
 			}
-			goto IL_006d;
-			IL_006d:
-			return result;
-			IL_0049:
-			result = true;
-			goto IL_006d;
+			return false;
 		}
 
 		public BodyType BodyTypeFor(Gender g)
 		{
-			BodyType result;
 			if (this.bodyTypeGlobal == BodyType.Undefined)
 			{
 				switch (g)
 				{
 				case Gender.None:
-					goto IL_0012;
+					break;
 				case Gender.Female:
-				{
-					result = this.bodyTypeFemale;
-					break;
-				}
+					return this.bodyTypeFemale;
 				default:
-				{
-					result = this.bodyTypeMale;
-					break;
+					return this.bodyTypeMale;
 				}
-				}
-				goto IL_003d;
 			}
-			goto IL_0012;
-			IL_0012:
-			result = this.bodyTypeGlobal;
-			goto IL_003d;
-			IL_003d:
-			return result;
+			return this.bodyTypeGlobal;
 		}
 
 		public string FullDescriptionFor(Pawn p)
@@ -264,7 +247,7 @@ namespace RimWorld
 				yield return "null titleShort, baseDesc is " + this.baseDesc;
 				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			if (((int)this.workDisables & 8) != 0 && this.spawnCategories.Contains("Raider"))
+			if ((this.workDisables & WorkTags.Violent) != 0 && this.spawnCategories.Contains("Raider"))
 			{
 				yield return "cannot do Violent work but can spawn as a raider";
 				/*Error: Unable to find new state assignment for yield return*/;
@@ -292,34 +275,28 @@ namespace RimWorld
 					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
-			if (!Prefs.DevMode)
-				yield break;
-			foreach (KeyValuePair<SkillDef, int> item in this.skillGainsResolved)
+			if (Prefs.DevMode)
 			{
-				if (item.Key.IsDisabled(this.workDisables, this.DisabledWorkTypes))
+				foreach (KeyValuePair<SkillDef, int> item in this.skillGainsResolved)
 				{
-					yield return "modifies skill " + item.Key + " but also disables this skill";
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
-			}
-			using (Dictionary<string, Backstory>.Enumerator enumerator2 = BackstoryDatabase.allBackstories.GetEnumerator())
-			{
-				while (true)
-				{
-					if (enumerator2.MoveNext())
+					if (item.Key.IsDisabled(this.workDisables, this.DisabledWorkTypes))
 					{
-						KeyValuePair<string, Backstory> kvp = enumerator2.Current;
-						if (kvp.Value != this && kvp.Value.identifier == this.identifier)
-							break;
-						continue;
+						yield return "modifies skill " + item.Key + " but also disables this skill";
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
-					yield break;
 				}
-				yield return "backstory identifier used more than once: " + this.identifier;
-				/*Error: Unable to find new state assignment for yield return*/;
+				foreach (KeyValuePair<string, Backstory> allBackstory in BackstoryDatabase.allBackstories)
+				{
+					if (allBackstory.Value != this && allBackstory.Value.identifier == this.identifier)
+					{
+						yield return "backstory identifier used more than once: " + this.identifier;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
+				}
 			}
-			IL_03f7:
-			/*Error near IL_03f8: Unexpected return in MoveNext()*/;
+			yield break;
+			IL_03ec:
+			/*Error near IL_03ed: Unexpected return in MoveNext()*/;
 		}
 
 		public void SetTitle(string newTitle)
@@ -334,7 +311,11 @@ namespace RimWorld
 
 		public override string ToString()
 		{
-			return (!this.title.NullOrEmpty()) ? ("(" + this.title + ")") : "(NullTitleBackstory)";
+			if (this.title.NullOrEmpty())
+			{
+				return "(NullTitleBackstory)";
+			}
+			return "(" + this.title + ")";
 		}
 
 		public override int GetHashCode()

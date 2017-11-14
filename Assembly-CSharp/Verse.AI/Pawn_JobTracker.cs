@@ -1,9 +1,7 @@
-#define ENABLE_PROFILER
 using RimWorld;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Profiling;
 using Verse.AI.Group;
 
 namespace Verse.AI
@@ -12,17 +10,17 @@ namespace Verse.AI
 	{
 		protected Pawn pawn;
 
-		public Job curJob = null;
+		public Job curJob;
 
-		public JobDriver curDriver = null;
+		public JobDriver curDriver;
 
 		public JobQueue jobQueue = new JobQueue();
 
 		public bool startingNewJob;
 
-		private int jobsGivenThisTick = 0;
+		private int jobsGivenThisTick;
 
-		private string jobsGivenThisTickTextual = "";
+		private string jobsGivenThisTickTextual = string.Empty;
 
 		private int lastJobGivenAtFrame = -1;
 
@@ -30,7 +28,7 @@ namespace Verse.AI
 
 		private List<string> jobsGivenRecentTicksTextual = new List<string>(10);
 
-		public bool debugLog = false;
+		public bool debugLog;
 
 		private const int ConstantThinkTreeJobCheckIntervalTicks = 30;
 
@@ -38,7 +36,7 @@ namespace Verse.AI
 
 		private const int MaxRecentJobs = 10;
 
-		private bool startingErrorRecoverJob = false;
+		private bool startingErrorRecoverJob;
 
 		private int lastDamageCheckTick = -99999;
 
@@ -76,7 +74,7 @@ namespace Verse.AI
 		public virtual void JobTrackerTick()
 		{
 			this.jobsGivenThisTick = 0;
-			this.jobsGivenThisTickTextual = "";
+			this.jobsGivenThisTickTextual = string.Empty;
 			if (this.pawn.IsHashIntervalTick(30))
 			{
 				ThinkResult thinkResult = this.DetermineNextConstantThinkTreeJob();
@@ -127,7 +125,6 @@ namespace Verse.AI
 
 		private void FinalizeTick()
 		{
-			Profiler.BeginSample("FinalizeTick");
 			this.jobsGivenRecentTicks.Add(this.jobsGivenThisTick);
 			this.jobsGivenRecentTicksTextual.Add(this.jobsGivenThisTickTextual);
 			while (this.jobsGivenRecentTicks.Count > 10)
@@ -150,7 +147,6 @@ namespace Verse.AI
 					this.StartErrorRecoverJob(this.pawn + " started " + 10 + " jobs in " + 10 + " ticks. List: " + text);
 				}
 			}
-			Profiler.EndSample();
 		}
 
 		public void StartJob(Job newJob, JobCondition lastJobEndCondition = JobCondition.None, ThinkNode jobGiver = null, bool resumeCurJobAfterwards = false, bool cancelBusyStances = true, ThinkTreeDef thinkTree = null, JobTag? tag = default(JobTag?), bool fromQueue = false)
@@ -168,7 +164,7 @@ namespace Verse.AI
 				{
 					string text = this.jobsGivenThisTickTextual;
 					this.jobsGivenThisTick = 0;
-					this.jobsGivenThisTickTextual = "";
+					this.jobsGivenThisTickTextual = string.Empty;
 					this.startingNewJob = false;
 					this.pawn.ClearReservationsForJob(newJob);
 					this.StartErrorRecoverJob(this.pawn + " started 10 jobs in one tick. newJob=" + newJob + " jobGiver=" + jobGiver + " jobList=" + text);
@@ -194,7 +190,7 @@ namespace Verse.AI
 						}
 						if (resumeCurJobAfterwards && this.curJob.def.suspendable)
 						{
-							this.jobQueue.EnqueueFirst(this.curJob, default(JobTag?));
+							this.jobQueue.EnqueueFirst(this.curJob, null);
 							if (this.debugLog)
 							{
 								this.DebugLogEvent("   JobQueue EnqueueFirst curJob: " + this.curJob);
@@ -290,19 +286,17 @@ namespace Verse.AI
 				{
 				case JobCondition.Errored:
 				case JobCondition.ErroredPather:
-				{
-					this.StartJob(new Job(JobDefOf.Wait, 250, false), JobCondition.None, null, false, true, null, default(JobTag?), false);
+					this.StartJob(new Job(JobDefOf.Wait, 250, false), JobCondition.None, null, false, true, null, null, false);
 					return;
-				}
 				case JobCondition.Succeeded:
-				{
-					if (job != null && job.def != JobDefOf.WaitMaintainPosture && !this.pawn.pather.Moving)
-					{
-						this.StartJob(new Job(JobDefOf.WaitMaintainPosture, 1, false), JobCondition.None, null, false, false, null, default(JobTag?), false);
-						return;
-					}
-					break;
-				}
+					if (job == null)
+						break;
+					if (job.def == JobDefOf.WaitMaintainPosture)
+						break;
+					if (this.pawn.pather.Moving)
+						break;
+					this.StartJob(new Job(JobDefOf.WaitMaintainPosture, 1, false), JobCondition.None, null, false, false, null, null, false);
+					return;
 				}
 				this.TryFindAndStartJob();
 			}
@@ -366,7 +360,7 @@ namespace Verse.AI
 
 		public void StopAll(bool ifLayingKeepLaying = false)
 		{
-			if ((ifLayingKeepLaying ? ((this.curJob != null) ? this.curDriver.layingDown : LayingDownState.NotLaying) : LayingDownState.NotLaying) != 0)
+			if (ifLayingKeepLaying && this.curJob != null && this.curDriver.layingDown != 0)
 				return;
 			this.CleanupCurrentJob(JobCondition.InterruptForced, true, true);
 			this.ClearQueuedJobs();
@@ -414,67 +408,57 @@ namespace Verse.AI
 
 		private ThinkResult DetermineNextJob(out ThinkTreeDef thinkTree)
 		{
-			ThinkResult thinkResult = this.DetermineNextConstantThinkTreeJob();
-			ThinkResult result;
-			if (thinkResult.Job != null)
+			ThinkResult result = this.DetermineNextConstantThinkTreeJob();
+			if (result.Job != null)
 			{
 				thinkTree = this.pawn.thinker.ConstantThinkTree;
-				result = thinkResult;
+				return result;
 			}
-			else
+			ThinkResult result2 = ThinkResult.NoJob;
+			try
 			{
-				ThinkResult thinkResult2 = ThinkResult.NoJob;
-				try
-				{
-					Profiler.BeginSample("Determine next job (main)");
-					thinkResult2 = this.pawn.thinker.MainThinkNodeRoot.TryIssueJobPackage(this.pawn, default(JobIssueParams));
-				}
-				catch (Exception ex)
-				{
-					this.StartErrorRecoverJob(this.pawn + " threw exception while determining job (main): " + ex.ToString());
-					thinkTree = null;
-					return ThinkResult.NoJob;
-				}
-				finally
-				{
-					Profiler.EndSample();
-				}
-				thinkTree = this.pawn.thinker.MainThinkTree;
-				result = thinkResult2;
+				result2 = this.pawn.thinker.MainThinkNodeRoot.TryIssueJobPackage(this.pawn, default(JobIssueParams));
 			}
-			return result;
+			catch (Exception ex)
+			{
+				this.StartErrorRecoverJob(this.pawn + " threw exception while determining job (main): " + ex.ToString());
+				thinkTree = null;
+				return ThinkResult.NoJob;
+			}
+			finally
+			{
+			}
+			thinkTree = this.pawn.thinker.MainThinkTree;
+			return result2;
 		}
 
 		private ThinkResult DetermineNextConstantThinkTreeJob()
 		{
-			ThinkResult noJob;
 			if (this.pawn.thinker.ConstantThinkTree == null)
 			{
-				noJob = ThinkResult.NoJob;
+				return ThinkResult.NoJob;
 			}
-			else
+			try
 			{
-				try
-				{
-					Profiler.BeginSample("Determine next job (constant)");
-					return this.pawn.thinker.ConstantThinkNodeRoot.TryIssueJobPackage(this.pawn, default(JobIssueParams));
-				}
-				catch (Exception ex)
-				{
-					this.StartErrorRecoverJob(this.pawn + " threw exception while determining job (constant): " + ex.ToString());
-				}
-				finally
-				{
-					Profiler.EndSample();
-				}
-				noJob = ThinkResult.NoJob;
+				return this.pawn.thinker.ConstantThinkNodeRoot.TryIssueJobPackage(this.pawn, default(JobIssueParams));
 			}
-			return noJob;
+			catch (Exception ex)
+			{
+				this.StartErrorRecoverJob(this.pawn + " threw exception while determining job (constant): " + ex.ToString());
+			}
+			finally
+			{
+			}
+			return ThinkResult.NoJob;
 		}
 
 		public void StartErrorRecoverJob(string message)
 		{
-			string text = message + " lastJobGiver=" + this.pawn.mindState.lastJobGiver;
+			string text = message;
+			if (this.pawn.mindState != null)
+			{
+				text = text + " lastJobGiver=" + this.pawn.mindState.lastJobGiver.ToStringSafe();
+			}
 			if (this.curJob != null)
 			{
 				text = text + ", curJob.def=" + this.curJob.def.defName;
@@ -497,7 +481,7 @@ namespace Verse.AI
 				this.startingErrorRecoverJob = true;
 				try
 				{
-					this.StartJob(new Job(JobDefOf.Wait, 150, false), JobCondition.None, null, false, true, null, default(JobTag?), false);
+					this.StartJob(new Job(JobDefOf.Wait, 150, false), JobCondition.None, null, false, true, null, null, false);
 				}
 				finally
 				{
@@ -541,17 +525,40 @@ namespace Verse.AI
 
 		private bool ShouldStartJobFromThinkTree(ThinkResult thinkResult)
 		{
-			return (byte)((this.curJob == null) ? 1 : ((this.curJob != thinkResult.Job) ? (thinkResult.FromQueue ? 1 : ((thinkResult.Job.def != this.curJob.def || thinkResult.SourceNode != this.pawn.mindState.lastJobGiver || !this.curDriver.IsContinuation(thinkResult.Job)) ? 1 : 0)) : 0)) != 0;
+			if (this.curJob == null)
+			{
+				return true;
+			}
+			if (this.curJob == thinkResult.Job)
+			{
+				return false;
+			}
+			if (thinkResult.FromQueue)
+			{
+				return true;
+			}
+			if (thinkResult.Job.def == this.curJob.def && thinkResult.SourceNode == this.pawn.mindState.lastJobGiver && this.curDriver.IsContinuation(thinkResult.Job))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public bool IsCurrentJobPlayerInterruptible()
 		{
-			return (byte)((this.curJob == null || this.curJob.def.playerInterruptible) ? ((!this.pawn.HasAttachment(ThingDefOf.Fire)) ? 1 : 0) : 0) != 0;
+			if (this.curJob != null && !this.curJob.def.playerInterruptible)
+			{
+				return false;
+			}
+			if (this.pawn.HasAttachment(ThingDefOf.Fire))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public bool TryTakeOrderedJobPrioritizedWork(Job job, WorkGiver giver, IntVec3 cell)
 		{
-			bool result;
 			if (this.TryTakeOrderedJob(job, giver.def.tagToGive))
 			{
 				this.pawn.mindState.lastGivenWorkType = giver.def.workType;
@@ -559,13 +566,9 @@ namespace Verse.AI
 				{
 					this.pawn.mindState.priorityWork.Set(cell, giver.def.workType);
 				}
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public bool TryTakeOrderedJob(Job job, JobTag tag = JobTag.Misc)
@@ -575,75 +578,58 @@ namespace Verse.AI
 				this.DebugLogEvent("TryTakeOrderedJob " + job);
 			}
 			job.playerForced = true;
-			bool result;
 			if (this.curJob != null && this.curJob.JobIsSameAs(job))
 			{
-				result = true;
+				return true;
 			}
-			else
+			bool flag = this.pawn.jobs.IsCurrentJobPlayerInterruptible();
+			bool flag2 = this.pawn.mindState.IsIdle || this.pawn.CurJob == null || this.pawn.CurJob.def.isIdle;
+			bool isDownEvent = KeyBindingDefOf.QueueOrder.IsDownEvent;
+			if (flag && (!isDownEvent || flag2))
 			{
-				bool flag = this.pawn.jobs.IsCurrentJobPlayerInterruptible();
-				bool flag2 = this.pawn.mindState.IsIdle || this.pawn.CurJob == null || this.pawn.CurJob.def.isIdle;
-				bool isDownEvent = KeyBindingDefOf.QueueOrder.IsDownEvent;
-				if (flag && (!isDownEvent || flag2))
+				this.pawn.stances.CancelBusyStanceSoft();
+				if (this.debugLog)
 				{
-					this.pawn.stances.CancelBusyStanceSoft();
-					if (this.debugLog)
+					this.DebugLogEvent("    Queueing job");
+				}
+				this.ClearQueuedJobs();
+				if (job.TryMakePreToilReservations(this.pawn))
+				{
+					this.jobQueue.EnqueueFirst(job, tag);
+					if (this.curJob != null)
 					{
-						this.DebugLogEvent("    Queueing job");
-					}
-					this.ClearQueuedJobs();
-					if (job.TryMakePreToilReservations(this.pawn))
-					{
-						this.jobQueue.EnqueueFirst(job, new JobTag?(tag));
-						if (this.curJob != null)
-						{
-							this.curDriver.EndJobWith(JobCondition.InterruptForced);
-						}
-						else
-						{
-							this.CheckForJobOverride();
-						}
-						result = true;
+						this.curDriver.EndJobWith(JobCondition.InterruptForced);
 					}
 					else
 					{
-						Log.Warning("TryMakePreToilReservations() returned false right after TryTakeOrderedJob(). This should have been checked before. job=" + job.ToStringSafe());
-						this.pawn.ClearReservationsForJob(job);
-						result = false;
+						this.CheckForJobOverride();
 					}
+					return true;
 				}
-				else if (isDownEvent)
-				{
-					if (job.TryMakePreToilReservations(this.pawn))
-					{
-						this.jobQueue.EnqueueLast(job, new JobTag?(tag));
-						result = true;
-					}
-					else
-					{
-						Log.Warning("TryMakePreToilReservations() returned false right after TryTakeOrderedJob(). This should have been checked before. job=" + job.ToStringSafe());
-						this.pawn.ClearReservationsForJob(job);
-						result = false;
-					}
-				}
-				else
-				{
-					this.ClearQueuedJobs();
-					if (job.TryMakePreToilReservations(this.pawn))
-					{
-						this.jobQueue.EnqueueLast(job, new JobTag?(tag));
-						result = true;
-					}
-					else
-					{
-						Log.Warning("TryMakePreToilReservations() returned false right after TryTakeOrderedJob(). This should have been checked before. job=" + job.ToStringSafe());
-						this.pawn.ClearReservationsForJob(job);
-						result = false;
-					}
-				}
+				Log.Warning("TryMakePreToilReservations() returned false right after TryTakeOrderedJob(). This should have been checked before. job=" + job.ToStringSafe());
+				this.pawn.ClearReservationsForJob(job);
+				return false;
 			}
-			return result;
+			if (isDownEvent)
+			{
+				if (job.TryMakePreToilReservations(this.pawn))
+				{
+					this.jobQueue.EnqueueLast(job, tag);
+					return true;
+				}
+				Log.Warning("TryMakePreToilReservations() returned false right after TryTakeOrderedJob(). This should have been checked before. job=" + job.ToStringSafe());
+				this.pawn.ClearReservationsForJob(job);
+				return false;
+			}
+			this.ClearQueuedJobs();
+			if (job.TryMakePreToilReservations(this.pawn))
+			{
+				this.jobQueue.EnqueueLast(job, tag);
+				return true;
+			}
+			Log.Warning("TryMakePreToilReservations() returned false right after TryTakeOrderedJob(). This should have been checked before. job=" + job.ToStringSafe());
+			this.pawn.ClearReservationsForJob(job);
+			return false;
 		}
 
 		public void Notify_TuckedIntoBed(Building_Bed bed)
@@ -651,7 +637,7 @@ namespace Verse.AI
 			this.pawn.Position = RestUtility.GetBedSleepingSlotPosFor(this.pawn, bed);
 			this.pawn.Notify_Teleported(false);
 			this.pawn.stances.CancelBusyStanceHard();
-			this.StartJob(new Job(JobDefOf.LayDown, (Thing)bed), JobCondition.InterruptForced, null, false, true, null, new JobTag?(JobTag.TuckedIntoBed), false);
+			this.StartJob(new Job(JobDefOf.LayDown, bed), JobCondition.InterruptForced, null, false, true, null, JobTag.TuckedIntoBed, false);
 		}
 
 		public void Notify_DamageTaken(DamageInfo dinfo)

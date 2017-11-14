@@ -4,11 +4,11 @@ namespace RimWorld
 {
 	public class DamageWatcher : IExposable
 	{
-		private float everDamage = 0f;
+		private float everDamage;
 
-		private float recentDamage = 0f;
+		private float recentDamage;
 
-		private int lastSeriousDamageTick = 0;
+		private int lastSeriousDamageTick;
 
 		private const int UpdateInterval = 2000;
 

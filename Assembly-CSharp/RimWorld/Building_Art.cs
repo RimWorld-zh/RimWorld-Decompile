@@ -6,9 +6,9 @@ namespace RimWorld
 	{
 		public override string GetInspectString()
 		{
-			string inspectString;
-			string text = inspectString = base.GetInspectString();
-			return inspectString + "\n" + StatDefOf.Beauty.LabelCap + ": " + StatDefOf.Beauty.ValueToString(this.GetStatValue(StatDefOf.Beauty, true), ToStringNumberSense.Absolute);
+			string inspectString = base.GetInspectString();
+			string text = inspectString;
+			return text + "\n" + StatDefOf.Beauty.LabelCap + ": " + StatDefOf.Beauty.ValueToString(this.GetStatValue(StatDefOf.Beauty, true), ToStringNumberSense.Absolute);
 		}
 	}
 }

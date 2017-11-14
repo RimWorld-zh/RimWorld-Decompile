@@ -8,47 +8,69 @@ namespace RimWorld
 	{
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (!pawn.Position.IsForbidden(pawn))
 			{
-				result = null;
+				return null;
 			}
-			else
+			if (this.HasJobWithSpawnedAllowedTarget(pawn))
 			{
-				Region region = pawn.GetRegion(RegionType.Set_Passable);
-				if (region == null)
-				{
-					result = null;
-				}
-				else
-				{
-					TraverseParms traverseParms = TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
-					RegionEntryPredicate entryCondition = (RegionEntryPredicate)((Region from, Region r) => r.Allows(traverseParms, false));
-					Region reg = null;
-					RegionProcessor regionProcessor = (RegionProcessor)delegate(Region r)
-					{
-						bool result2;
-						if (r.portal != null)
-						{
-							result2 = false;
-						}
-						else if (!r.IsForbiddenEntirely(pawn))
-						{
-							reg = r;
-							result2 = true;
-						}
-						else
-						{
-							result2 = false;
-						}
-						return result2;
-					};
-					RegionTraverser.BreadthFirstTraverse(region, entryCondition, regionProcessor, 9999, RegionType.Set_Passable);
-					IntVec3 c = default(IntVec3);
-					result = ((reg == null) ? null : (reg.TryFindRandomCellInRegionUnforbidden(pawn, (Predicate<IntVec3>)null, out c) ? new Job(JobDefOf.Goto, c) : null));
-				}
+				return null;
 			}
-			return result;
+			Region region = pawn.GetRegion(RegionType.Set_Passable);
+			if (region == null)
+			{
+				return null;
+			}
+			TraverseParms traverseParms = TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
+			RegionEntryPredicate entryCondition = (Region from, Region r) => r.Allows(traverseParms, false);
+			Region reg = null;
+			RegionProcessor regionProcessor = delegate(Region r)
+			{
+				if (r.portal != null)
+				{
+					return false;
+				}
+				if (!r.IsForbiddenEntirely(pawn))
+				{
+					reg = r;
+					return true;
+				}
+				return false;
+			};
+			RegionTraverser.BreadthFirstTraverse(region, entryCondition, regionProcessor, 9999, RegionType.Set_Passable);
+			if (reg != null)
+			{
+				IntVec3 c = default(IntVec3);
+				if (!reg.TryFindRandomCellInRegionUnforbidden(pawn, (Predicate<IntVec3>)null, out c))
+				{
+					return null;
+				}
+				return new Job(JobDefOf.Goto, c);
+			}
+			return null;
+		}
+
+		private bool HasJobWithSpawnedAllowedTarget(Pawn pawn)
+		{
+			Job curJob = pawn.CurJob;
+			if (curJob == null)
+			{
+				return false;
+			}
+			return this.IsSpawnedAllowedTarget(curJob.targetA, pawn) || this.IsSpawnedAllowedTarget(curJob.targetB, pawn) || this.IsSpawnedAllowedTarget(curJob.targetC, pawn);
+		}
+
+		private bool IsSpawnedAllowedTarget(LocalTargetInfo target, Pawn pawn)
+		{
+			if (!target.IsValid)
+			{
+				return false;
+			}
+			if (target.HasThing)
+			{
+				return target.Thing.Spawned && !target.Thing.Position.IsForbidden(pawn);
+			}
+			return target.Cell.InBounds(pawn.Map) && !target.Cell.IsForbidden(pawn);
 		}
 	}
 }

@@ -4,10 +4,10 @@ namespace Verse
 	{
 		public float partEfficiency = 1f;
 
-		public bool isBionic = false;
+		public bool isBionic;
 
 		public bool isSolid = true;
 
-		public bool isGoodWeapon = false;
+		public bool isGoodWeapon;
 	}
 }

@@ -16,35 +16,27 @@ namespace Verse
 
 		public static RegionType GetExpectedRegionType(this IntVec3 c, Map map)
 		{
-			RegionType result;
 			if (!c.InBounds(map))
 			{
-				result = RegionType.None;
+				return RegionType.None;
 			}
-			else if (c.GetDoor(map) != null)
+			if (c.GetDoor(map) != null)
 			{
-				result = RegionType.Portal;
+				return RegionType.Portal;
 			}
-			else if (c.Walkable(map))
+			if (c.Walkable(map))
 			{
-				result = RegionType.Normal;
+				return RegionType.Normal;
 			}
-			else
+			List<Thing> thingList = c.GetThingList(map);
+			for (int i = 0; i < thingList.Count; i++)
 			{
-				List<Thing> thingList = c.GetThingList(map);
-				for (int i = 0; i < thingList.Count; i++)
+				if (thingList[i].def.Fillage == FillCategory.Full)
 				{
-					if (thingList[i].def.Fillage == FillCategory.Full)
-						goto IL_0061;
+					return RegionType.None;
 				}
-				result = RegionType.ImpassableFreeAirExchange;
 			}
-			goto IL_0080;
-			IL_0061:
-			result = RegionType.None;
-			goto IL_0080;
-			IL_0080:
-			return result;
+			return RegionType.ImpassableFreeAirExchange;
 		}
 
 		public static RegionType GetRegionType(this IntVec3 c, Map map)
@@ -55,7 +47,7 @@ namespace Verse
 
 		public static bool Passable(this RegionType regionType)
 		{
-			return ((int)regionType & 6) != 0;
+			return (regionType & RegionType.Set_Passable) != RegionType.None;
 		}
 	}
 }

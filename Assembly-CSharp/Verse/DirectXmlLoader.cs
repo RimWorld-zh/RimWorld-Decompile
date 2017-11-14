@@ -17,12 +17,12 @@ namespace Verse
 			DirectoryInfo di = new DirectoryInfo(Path.Combine(mod.RootDir, folderPath));
 			if (di.Exists)
 			{
-				FileInfo[] files2;
-				FileInfo[] files = files2 = di.GetFiles("*.xml", SearchOption.AllDirectories);
+				FileInfo[] files = di.GetFiles("*.xml", SearchOption.AllDirectories);
+				FileInfo[] array = files;
 				int num = 0;
-				if (num < files2.Length)
+				if (num < array.Length)
 				{
-					FileInfo file = files2[num];
+					FileInfo file = array[num];
 					LoadableXmlAsset asset = new LoadableXmlAsset(file.Name, file.Directory.FullName, File.ReadAllText(file.FullName));
 					yield return asset;
 					/*Error: Unable to find new state assignment for yield return*/;
@@ -34,12 +34,12 @@ namespace Verse
 		{
 			XmlInheritance.Clear();
 			List<LoadableXmlAsset> assets = new List<LoadableXmlAsset>();
-			object[] array;
-			object[] textObjects = array = Resources.LoadAll<TextAsset>(folderPath);
+			object[] textObjects = Resources.LoadAll<TextAsset>(folderPath);
+			object[] array = textObjects;
 			for (int j = 0; j < array.Length; j++)
 			{
 				TextAsset textAsset = (TextAsset)array[j];
-				LoadableXmlAsset loadableXmlAsset = new LoadableXmlAsset(textAsset.name, "", textAsset.text);
+				LoadableXmlAsset loadableXmlAsset = new LoadableXmlAsset(textAsset.name, string.Empty, textAsset.text);
 				XmlInheritance.TryRegisterAllFrom(loadableXmlAsset, null);
 				assets.Add(loadableXmlAsset);
 			}
@@ -58,8 +58,8 @@ namespace Verse
 			}
 			XmlInheritance.Clear();
 			yield break;
-			IL_019e:
-			/*Error near IL_019f: Unexpected return in MoveNext()*/;
+			IL_0195:
+			/*Error near IL_0196: Unexpected return in MoveNext()*/;
 		}
 
 		public static T ItemFromXmlFile<T>(string filePath, bool resolveCrossRefs = true) where T : new()
@@ -77,7 +77,7 @@ namespace Verse
 			{
 				XmlDocument xmlDocument = new XmlDocument();
 				xmlDocument.LoadXml(File.ReadAllText(fileInfo.FullName));
-				T result = DirectXmlToObject.ObjectFromXml<T>((XmlNode)xmlDocument.DocumentElement, false);
+				T result = DirectXmlToObject.ObjectFromXml<T>(xmlDocument.DocumentElement, false);
 				if (resolveCrossRefs)
 				{
 					DirectXmlCrossRefLoader.ResolveAllWantedCrossReferences(FailMode.LogErrors);
@@ -162,8 +162,8 @@ namespace Verse
 				DirectXmlLoader.loadingAsset = null;
 			}
 			yield break;
-			IL_02eb:
-			/*Error near IL_02ec: Unexpected return in MoveNext()*/;
+			IL_02e2:
+			/*Error near IL_02e3: Unexpected return in MoveNext()*/;
 		}
 
 		public static IEnumerable<T> AllGameItemsFromAsset<T>(LoadableXmlAsset asset) where T : new()
@@ -219,8 +219,8 @@ namespace Verse
 				DirectXmlLoader.loadingAsset = null;
 			}
 			yield break;
-			IL_024e:
-			/*Error near IL_024f: Unexpected return in MoveNext()*/;
+			IL_0247:
+			/*Error near IL_0248: Unexpected return in MoveNext()*/;
 		}
 	}
 }

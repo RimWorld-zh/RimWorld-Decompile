@@ -39,20 +39,20 @@ namespace RimWorld
 					float num = (float)(base.parent.HitPoints - dinfo.Amount);
 					if (num < (float)base.parent.MaxHitPoints * 0.98000001907348633 && dinfo.Instigator != null && dinfo.Instigator.Faction != null)
 					{
-						goto IL_00a4;
+						goto IL_009e;
 					}
 					if (num < (float)base.parent.MaxHitPoints * 0.89999997615814209)
-						goto IL_00a4;
+						goto IL_009e;
 				}
-				goto IL_00ad;
+				goto IL_00a4;
 			}
 			return;
-			IL_00ad:
+			IL_00a4:
 			absorbed = false;
 			return;
-			IL_00a4:
+			IL_009e:
 			this.TrySpawnMechanoids();
-			goto IL_00ad;
+			goto IL_00a4;
 		}
 
 		public void Notify_BlueprintReplacedWithSolidThingNearby(Pawn by)
@@ -70,7 +70,7 @@ namespace RimWorld
 				if (this.lord == null)
 				{
 					IntVec3 invalid = default(IntVec3);
-					if (!CellFinder.TryFindRandomCellNear(base.parent.Position, base.parent.Map, 5, (Predicate<IntVec3>)((IntVec3 c) => c.Standable(base.parent.Map) && base.parent.Map.reachability.CanReach(c, (Thing)base.parent, PathEndMode.Touch, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false))), out invalid))
+					if (!CellFinder.TryFindRandomCellNear(base.parent.Position, base.parent.Map, 5, (Predicate<IntVec3>)((IntVec3 c) => c.Standable(base.parent.Map) && base.parent.Map.reachability.CanReach(c, base.parent, PathEndMode.Touch, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false))), out invalid))
 					{
 						Log.Error("Found no place for mechanoids to defend " + this);
 						invalid = IntVec3.Invalid;

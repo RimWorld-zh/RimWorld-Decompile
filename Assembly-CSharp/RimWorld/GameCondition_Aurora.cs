@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -110,7 +109,7 @@ namespace RimWorld
 			this.AuroraSkyColors.sky = Color.Lerp(Color.white, currentColor, 0.075f) * this.Brightness;
 			this.AuroraSkyColors.overlay = Color.Lerp(Color.white, currentColor, 0.025f) * this.Brightness;
 			float glow = Mathf.Max(GenCelestial.CurCelestialSunGlow(base.Map), 0.25f);
-			return new SkyTarget?(new SkyTarget(glow, this.AuroraSkyColors, 1f, 1f));
+			return new SkyTarget(glow, this.AuroraSkyColors, 1f, 1f);
 		}
 
 		public override void GameConditionTick()

@@ -14,7 +14,7 @@ namespace RimWorld
 			ItemCollectionGeneratorUtility.allGeneratableItems.Clear();
 			foreach (ThingDef allDef in DefDatabase<ThingDef>.AllDefs)
 			{
-				if ((allDef.category == ThingCategory.Item || allDef.Minifiable) && !allDef.isUnfinishedThing && !allDef.IsCorpse && allDef.PlayerAcquirable && allDef.graphicData != null && !typeof(MinifiedThing).IsAssignableFrom(allDef.thingClass))
+				if ((allDef.category == ThingCategory.Item || allDef.Minifiable) && (allDef.category != ThingCategory.Item || allDef.EverHaulable) && !allDef.isUnfinishedThing && !allDef.IsCorpse && allDef.PlayerAcquirable && allDef.graphicData != null && !typeof(MinifiedThing).IsAssignableFrom(allDef.thingClass))
 				{
 					ItemCollectionGeneratorUtility.allGeneratableItems.Add(allDef);
 				}
@@ -24,6 +24,7 @@ namespace RimWorld
 			ItemCollectionGenerator_RawResources.Reset();
 			ItemCollectionGenerator_Artifacts.Reset();
 			ItemCollectionGenerator_Food.Reset();
+			ItemCollectionGenerator_Meteorite.Reset();
 		}
 
 		public static void AssignRandomBaseGenItemQuality(List<Thing> things)

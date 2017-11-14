@@ -8,7 +8,7 @@ namespace RimWorld
 {
 	public class Bill_Medical : Bill
 	{
-		private BodyPartRecord part = null;
+		private BodyPartRecord part;
 
 		private int partIndex = -1;
 
@@ -26,7 +26,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (byte)((!base.recipe.targetsBodyPart || base.recipe.Worker.GetPartsToApplyOn(this.GiverPawn, base.recipe).Contains(this.part)) ? 1 : 0) != 0;
+				if (base.recipe.targetsBodyPart && !base.recipe.Worker.GetPartsToApplyOn(this.GiverPawn, base.recipe).Contains(this.part))
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -97,13 +101,18 @@ namespace RimWorld
 		{
 		}
 
-		public Bill_Medical(RecipeDef recipe) : base(recipe)
+		public Bill_Medical(RecipeDef recipe)
+			: base(recipe)
 		{
 		}
 
 		public override bool ShouldDoNow()
 		{
-			return (byte)((!base.suspended) ? 1 : 0) != 0;
+			if (base.suspended)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override void Notify_IterationCompleted(Pawn billDoer, List<Thing> ingredients)

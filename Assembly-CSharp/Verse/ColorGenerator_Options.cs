@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +9,7 @@ namespace Verse
 
 		public override Color NewRandomizedColor()
 		{
-			ColorOption colorOption = this.options.RandomElementByWeight((Func<ColorOption, float>)((ColorOption pi) => pi.weight));
+			ColorOption colorOption = this.options.RandomElementByWeight((ColorOption pi) => pi.weight);
 			return colorOption.RandomizedColor();
 		}
 	}

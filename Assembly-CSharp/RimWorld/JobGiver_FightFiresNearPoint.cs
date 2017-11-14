@@ -18,13 +18,29 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Predicate<Thing> validator = (Predicate<Thing>)delegate(Thing t)
+			Predicate<Thing> validator = delegate(Thing t)
 			{
 				Pawn pawn2 = ((AttachableThing)t).parent as Pawn;
-				return (byte)((pawn2 == null) ? (pawn.CanReserve(t, 1, -1, null, false) ? ((!pawn.story.WorkTagIsDisabled(WorkTags.Firefighting)) ? 1 : 0) : 0) : 0) != 0;
+				if (pawn2 != null)
+				{
+					return false;
+				}
+				if (!pawn.CanReserve(t, 1, -1, null, false))
+				{
+					return false;
+				}
+				if (pawn.story.WorkTagIsDisabled(WorkTags.Firefighting))
+				{
+					return false;
+				}
+				return true;
 			};
 			Thing thing = GenClosest.ClosestThingReachable(pawn.GetLord().CurLordToil.FlagLoc, pawn.Map, ThingRequest.ForDef(ThingDefOf.Fire), PathEndMode.Touch, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), this.maxDistFromPoint, validator, null, 0, -1, false, RegionType.Set_Passable, false);
-			return (thing == null) ? null : new Job(JobDefOf.BeatFire, thing);
+			if (thing != null)
+			{
+				return new Job(JobDefOf.BeatFire, thing);
+			}
+			return null;
 		}
 	}
 }

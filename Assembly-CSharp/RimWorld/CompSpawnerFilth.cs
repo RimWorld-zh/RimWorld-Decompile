@@ -20,17 +20,16 @@ namespace RimWorld
 			get
 			{
 				Hive hive = base.parent as Hive;
-				bool result;
 				if (hive != null && !hive.active)
 				{
-					result = false;
+					return false;
 				}
-				else
+				RotStage? requiredRotStage = this.Props.requiredRotStage;
+				if (requiredRotStage.HasValue && base.parent.GetRotStage() != this.Props.requiredRotStage)
 				{
-					RotStage? requiredRotStage = this.Props.requiredRotStage;
-					result = ((byte)((!requiredRotStage.HasValue || base.parent.GetRotStage() == this.Props.requiredRotStage) ? 1 : 0) != 0);
+					return false;
 				}
-				return result;
+				return true;
 			}
 		}
 

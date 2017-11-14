@@ -40,11 +40,11 @@ namespace RimWorld.Planet
 				if (GenPlanetMorphology.tmpEdgeTiles.Any())
 				{
 					GenPlanetMorphology.tmpOutput.Clear();
-					Predicate<int> predicate = ((object)extraPredicate == null) ? ((Predicate<int>)((int x) => GenPlanetMorphology.tilesSet.Contains(x))) : ((Predicate<int>)((int x) => GenPlanetMorphology.tilesSet.Contains(x) && extraPredicate(x)));
+					Predicate<int> predicate = (extraPredicate == null) ? ((Predicate<int>)((int x) => GenPlanetMorphology.tilesSet.Contains(x))) : ((Predicate<int>)((int x) => GenPlanetMorphology.tilesSet.Contains(x) && extraPredicate(x)));
 					WorldFloodFiller worldFloodFiller = Find.WorldFloodFiller;
 					int rootTile = -1;
 					Predicate<int> passCheck = predicate;
-					Func<int, int, bool> processor = (Func<int, int, bool>)delegate(int tile, int traversalDist)
+					Func<int, int, bool> processor = delegate(int tile, int traversalDist)
 					{
 						if (traversalDist >= count)
 						{
@@ -66,25 +66,18 @@ namespace RimWorld.Planet
 			{
 				WorldFloodFiller worldFloodFiller = Find.WorldFloodFiller;
 				int rootTile = -1;
-				object obj = extraPredicate;
-				Predicate<int> passCheck;
-				obj = (passCheck = (Predicate<int>)((int x) => true));
-				Func<int, int, bool> processor = (Func<int, int, bool>)delegate(int tile, int traversalDist)
+				Predicate<int> passCheck = extraPredicate ?? ((Predicate<int>)((int x) => true));
+				Func<int, int, bool> processor = delegate(int tile, int traversalDist)
 				{
-					bool result;
 					if (traversalDist > count)
 					{
-						result = true;
+						return true;
 					}
-					else
+					if (traversalDist != 0)
 					{
-						if (traversalDist != 0)
-						{
-							tiles.Add(tile);
-						}
-						result = false;
+						tiles.Add(tile);
 					}
-					return result;
+					return false;
 				};
 				List<int> extraRootTiles = tiles;
 				worldFloodFiller.FloodFill(rootTile, passCheck, processor, 2147483647, extraRootTiles);

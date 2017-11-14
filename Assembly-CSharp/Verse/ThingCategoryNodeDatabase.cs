@@ -5,7 +5,7 @@ namespace Verse
 {
 	public static class ThingCategoryNodeDatabase
 	{
-		public static bool initialized = false;
+		public static bool initialized;
 
 		private static TreeNode_ThingCategory rootNode;
 

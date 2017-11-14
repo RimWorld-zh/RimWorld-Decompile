@@ -102,44 +102,44 @@ namespace RimWorld
 			if (Current.ProgramState == ProgramState.Entry)
 			{
 				string label = "Tutorial".CanTranslate() ? "Tutorial".Translate() : "LearnToPlay".Translate();
-				list.Add(new ListableOption(label, (Action)delegate
+				list.Add(new ListableOption(label, delegate
 				{
 					MainMenuDrawer.InitLearnToPlay();
-				}, (string)null));
-				list.Add(new ListableOption("NewColony".Translate(), (Action)delegate
+				}, null));
+				list.Add(new ListableOption("NewColony".Translate(), delegate
 				{
 					Find.WindowStack.Add(new Page_SelectScenario());
-				}, (string)null));
+				}, null));
 			}
 			if (Current.ProgramState == ProgramState.Playing && !Current.Game.Info.permadeathMode)
 			{
-				list.Add(new ListableOption("Save".Translate(), (Action)delegate
+				list.Add(new ListableOption("Save".Translate(), delegate
 				{
 					MainMenuDrawer.CloseMainTab();
 					Find.WindowStack.Add(new Dialog_SaveFileList_Save());
-				}, (string)null));
+				}, null));
 			}
 			ListableOption item;
 			if (anyMapFiles && (Current.ProgramState != ProgramState.Playing || !Current.Game.Info.permadeathMode))
 			{
-				item = new ListableOption("LoadGame".Translate(), (Action)delegate
+				item = new ListableOption("LoadGame".Translate(), delegate
 				{
 					MainMenuDrawer.CloseMainTab();
 					Find.WindowStack.Add(new Dialog_SaveFileList_Load());
-				}, (string)null);
+				}, null);
 				list.Add(item);
 			}
 			if (Current.ProgramState == ProgramState.Playing)
 			{
-				list.Add(new ListableOption("ReviewScenario".Translate(), (Action)delegate
+				list.Add(new ListableOption("ReviewScenario".Translate(), delegate
 				{
 					WindowStack windowStack = Find.WindowStack;
 					string fullInformationText = Find.Scenario.GetFullInformationText();
 					string name = Find.Scenario.name;
-					windowStack.Add(new Dialog_MessageBox(fullInformationText, (string)null, null, (string)null, null, name, false));
-				}, (string)null));
+					windowStack.Add(new Dialog_MessageBox(fullInformationText, null, null, null, null, name, false));
+				}, null));
 			}
-			item = new ListableOption("Options".Translate(), (Action)delegate
+			item = new ListableOption("Options".Translate(), delegate
 			{
 				MainMenuDrawer.CloseMainTab();
 				Find.WindowStack.Add(new Dialog_Options());
@@ -147,85 +147,85 @@ namespace RimWorld
 			list.Add(item);
 			if (Current.ProgramState == ProgramState.Entry)
 			{
-				item = new ListableOption("Mods".Translate(), (Action)delegate
+				item = new ListableOption("Mods".Translate(), delegate
 				{
 					Find.WindowStack.Add(new Page_ModsConfig());
-				}, (string)null);
+				}, null);
 				list.Add(item);
-				item = new ListableOption("Credits".Translate(), (Action)delegate
+				item = new ListableOption("Credits".Translate(), delegate
 				{
 					Find.WindowStack.Add(new Screen_Credits());
-				}, (string)null);
+				}, null);
 				list.Add(item);
 			}
 			if (Current.ProgramState == ProgramState.Playing)
 			{
 				if (Current.Game.Info.permadeathMode)
 				{
-					item = new ListableOption("SaveAndQuitToMainMenu".Translate(), (Action)delegate
+					item = new ListableOption("SaveAndQuitToMainMenu".Translate(), delegate
 					{
-						LongEventHandler.QueueLongEvent((Action)delegate
+						LongEventHandler.QueueLongEvent(delegate
 						{
 							GameDataSaveLoader.SaveGame(Current.Game.Info.permadeathModeUniqueName);
 							MemoryUtility.ClearAllMapsAndWorld();
 						}, "Entry", "SavingLongEvent", false, null);
-					}, (string)null);
+					}, null);
 					list.Add(item);
-					item = new ListableOption("SaveAndQuitToOS".Translate(), (Action)delegate
+					item = new ListableOption("SaveAndQuitToOS".Translate(), delegate
 					{
-						LongEventHandler.QueueLongEvent((Action)delegate
+						LongEventHandler.QueueLongEvent(delegate
 						{
 							GameDataSaveLoader.SaveGame(Current.Game.Info.permadeathModeUniqueName);
-							LongEventHandler.ExecuteWhenFinished((Action)delegate
+							LongEventHandler.ExecuteWhenFinished(delegate
 							{
 								Root.Shutdown();
 							});
 						}, "SavingLongEvent", false, null);
-					}, (string)null);
+					}, null);
 					list.Add(item);
 				}
 				else
 				{
-					Action action = (Action)delegate
+					Action action = delegate
 					{
 						if (GameDataSaveLoader.CurrentGameStateIsValuable)
 						{
-							Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmQuit".Translate(), (Action)delegate
+							Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmQuit".Translate(), delegate
 							{
 								GenScene.GoToMainMenu();
-							}, true, (string)null));
+							}, true, null));
 						}
 						else
 						{
 							GenScene.GoToMainMenu();
 						}
 					};
-					item = new ListableOption("QuitToMainMenu".Translate(), action, (string)null);
+					item = new ListableOption("QuitToMainMenu".Translate(), action, null);
 					list.Add(item);
-					Action action2 = (Action)delegate
+					Action action2 = delegate
 					{
 						if (GameDataSaveLoader.CurrentGameStateIsValuable)
 						{
-							Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmQuit".Translate(), (Action)delegate
+							Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmQuit".Translate(), delegate
 							{
 								Root.Shutdown();
-							}, true, (string)null));
+							}, true, null));
 						}
 						else
 						{
 							Root.Shutdown();
 						}
 					};
-					item = new ListableOption("QuitToOS".Translate(), action2, (string)null);
+					item = new ListableOption("QuitToOS".Translate(), action2, null);
 					list.Add(item);
 				}
 			}
 			else
 			{
-				item = new ListableOption("QuitToOS".Translate(), (Action)delegate
+				item = new ListableOption("QuitToOS".Translate(), delegate
 				{
 					Root.Shutdown();
-				}, (string)null);
+				}, null);
 				list.Add(item);
 			}
 			OptionListingUtility.DrawOptionListing(rect2, list);
@@ -255,7 +255,7 @@ namespace RimWorld
 				foreach (LoadedLanguage allLoadedLanguage in LanguageDatabase.AllLoadedLanguages)
 				{
 					LoadedLanguage localLang = allLoadedLanguage;
-					list3.Add(new FloatMenuOption(localLang.FriendlyNameNative, (Action)delegate
+					list3.Add(new FloatMenuOption(localLang.FriendlyNameNative, delegate
 					{
 						LanguageDatabase.SelectLanguage(localLang);
 						Prefs.Save();

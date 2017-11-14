@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -30,7 +29,15 @@ namespace RimWorld
 		{
 			get
 			{
-				return base.parent.Spawned && (this.powerComp == null || this.powerComp.PowerOn) && base.parent.Faction == Faction.OfPlayer;
+				if (!base.parent.Spawned)
+				{
+					return false;
+				}
+				if (this.powerComp != null && !this.powerComp.PowerOn)
+				{
+					return false;
+				}
+				return base.parent.Faction == Faction.OfPlayer;
 			}
 		}
 
@@ -40,7 +47,11 @@ namespace RimWorld
 			{
 				CompProperties_LongRangeMineralScanner props = this.Props;
 				float effectiveAreaPct = this.EffectiveAreaPct;
-				return (float)((!(effectiveAreaPct <= 0.0010000000474974513)) ? (props.mtbDays / effectiveAreaPct) : -1.0);
+				if (effectiveAreaPct <= 0.0010000000474974513)
+				{
+					return -1f;
+				}
+				return props.mtbDays / effectiveAreaPct;
 			}
 		}
 
@@ -101,9 +112,9 @@ namespace RimWorld
 					{
 						Vector3 point = Rand.PointOnSphereCap(tileCenter, angle);
 						bool flag = false;
-						for (int num2 = 0; num2 < count; num2++)
+						for (int j = 0; j < count; j++)
 						{
-							Pair<Vector3, float> pair = this.otherActiveMineralScanners[num2];
+							Pair<Vector3, float> pair = this.otherActiveMineralScanners[j];
 							if (MeshUtility.Visible(point, 1f, pair.First, pair.Second))
 							{
 								flag = true;
@@ -144,7 +155,7 @@ namespace RimWorld
 				{
 					site.Tile = tile2;
 					Find.WorldObjects.Add(site);
-					Find.LetterStack.ReceiveLetter("LetterLabelFoundPreciousLump".Translate(), "LetterFoundPreciousLump".Translate(), LetterDefOf.PositiveEvent, (WorldObject)site, (string)null);
+					Find.LetterStack.ReceiveLetter("LetterLabelFoundPreciousLump".Translate(), "LetterFoundPreciousLump".Translate(), LetterDefOf.PositiveEvent, site, null);
 				}
 			}
 		}
@@ -172,22 +183,29 @@ namespace RimWorld
 
 		private bool InterruptsMe(CompLongRangeMineralScanner otherScanner)
 		{
-			return otherScanner != this && otherScanner.Active && ((this.Props.mtbDays == otherScanner.Props.mtbDays) ? (otherScanner.parent.thingIDNumber < base.parent.thingIDNumber) : (otherScanner.Props.mtbDays < this.Props.mtbDays));
+			if (otherScanner == this)
+			{
+				return false;
+			}
+			if (!otherScanner.Active)
+			{
+				return false;
+			}
+			if (this.Props.mtbDays != otherScanner.Props.mtbDays)
+			{
+				return otherScanner.Props.mtbDays < this.Props.mtbDays;
+			}
+			return otherScanner.parent.thingIDNumber < base.parent.thingIDNumber;
 		}
 
 		public override string CompInspectStringExtra()
 		{
-			string result;
 			if (this.Active)
 			{
 				this.RecacheEffectiveAreaPct();
-				result = "LongRangeMineralScannerEfficiency".Translate(this.EffectiveAreaPct.ToStringPercent());
+				return "LongRangeMineralScannerEfficiency".Translate(this.EffectiveAreaPct.ToStringPercent());
 			}
-			else
-			{
-				result = (string)null;
-			}
-			return result;
+			return null;
 		}
 
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
@@ -197,9 +215,9 @@ namespace RimWorld
 			yield return (Gizmo)new Command_Action
 			{
 				defaultLabel = "Dev: Find resources now",
-				action = (Action)delegate
+				action = delegate
 				{
-					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_004e: stateMachine*/)._0024this.FoundMinerals();
+					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_004c: stateMachine*/)._0024this.FoundMinerals();
 				}
 			};
 			/*Error: Unable to find new state assignment for yield return*/;

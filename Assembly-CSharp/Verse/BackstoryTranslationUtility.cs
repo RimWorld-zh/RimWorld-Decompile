@@ -11,10 +11,10 @@ namespace Verse
 	{
 		private static IEnumerable<XElement> BackstoryTranslationElements(LoadedLanguage lang)
 		{
-			foreach (string folderPath2 in lang.FolderPaths)
+			foreach (string folderPath in lang.FolderPaths)
 			{
-				string _ = folderPath2;
-				FileInfo fi = new FileInfo(Path.Combine(folderPath2.ToString(), "Backstories/Backstories.xml"));
+				string localFolderPath = folderPath;
+				FileInfo fi = new FileInfo(Path.Combine(localFolderPath.ToString(), "Backstories/Backstories.xml"));
 				if (fi.Exists)
 				{
 					XDocument doc;
@@ -41,8 +41,8 @@ namespace Verse
 				break;
 			}
 			yield break;
-			IL_01c2:
-			/*Error near IL_01c3: Unexpected return in MoveNext()*/;
+			IL_01b8:
+			/*Error near IL_01b9: Unexpected return in MoveNext()*/;
 		}
 
 		public static void LoadAndInjectBackstoryData(LoadedLanguage lang)
@@ -131,8 +131,8 @@ namespace Verse
 				}
 			}
 			yield break;
-			IL_0302:
-			/*Error near IL_0303: Unexpected return in MoveNext()*/;
+			IL_02fa:
+			/*Error near IL_02fb: Unexpected return in MoveNext()*/;
 		}
 	}
 }

@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
@@ -8,12 +8,38 @@ namespace RimWorld
 	{
 		public static Pawn GetFather(this Pawn pawn)
 		{
-			return pawn.RaceProps.IsFlesh ? pawn.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Parent, (Predicate<Pawn>)((Pawn x) => x.gender != Gender.Female)) : null;
+			if (!pawn.RaceProps.IsFlesh)
+			{
+				return null;
+			}
+			List<DirectPawnRelation> directRelations = pawn.relations.DirectRelations;
+			for (int i = 0; i < directRelations.Count; i++)
+			{
+				DirectPawnRelation directPawnRelation = directRelations[i];
+				if (directPawnRelation.def == PawnRelationDefOf.Parent && directPawnRelation.otherPawn.gender != Gender.Female)
+				{
+					return directPawnRelation.otherPawn;
+				}
+			}
+			return null;
 		}
 
 		public static Pawn GetMother(this Pawn pawn)
 		{
-			return pawn.RaceProps.IsFlesh ? pawn.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Parent, (Predicate<Pawn>)((Pawn x) => x.gender == Gender.Female)) : null;
+			if (!pawn.RaceProps.IsFlesh)
+			{
+				return null;
+			}
+			List<DirectPawnRelation> directRelations = pawn.relations.DirectRelations;
+			for (int i = 0; i < directRelations.Count; i++)
+			{
+				DirectPawnRelation directPawnRelation = directRelations[i];
+				if (directPawnRelation.def == PawnRelationDefOf.Parent && directPawnRelation.otherPawn.gender == Gender.Female)
+				{
+					return directPawnRelation.otherPawn;
+				}
+			}
+			return null;
 		}
 
 		public static void SetFather(this Pawn pawn, Pawn newFather)

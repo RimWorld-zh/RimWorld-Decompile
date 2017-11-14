@@ -46,7 +46,11 @@ namespace RimWorld
 			{
 				for (int j = 0; j < NameBank.numSlots; j++)
 				{
-					this.names[i, j] = new List<string>();
+					List<string>[,] array = this.names;
+					int num = i;
+					int num2 = j;
+					List<string> list = new List<string>();
+					array[num, num2] = list;
 				}
 			}
 		}
@@ -95,35 +99,24 @@ namespace RimWorld
 		{
 			List<string> list = this.NamesFor(slot, gender);
 			int num = 0;
-			string result;
-			string text;
 			if (list.Count == 0)
 			{
 				Log.Error("Name list for gender=" + gender + " slot=" + slot + " is empty.");
-				result = "Errorname";
+				return "Errorname";
 			}
-			else
+			string text;
+			while (true)
 			{
-				while (true)
+				text = list.RandomElement();
+				if (!NameUseChecker.NameWordIsUsed(text))
 				{
-					text = list.RandomElement();
-					if (NameUseChecker.NameWordIsUsed(text))
-					{
-						num++;
-						if (num <= 50)
-							continue;
-						goto IL_0084;
-					}
-					break;
+					return text;
 				}
-				result = text;
+				num++;
+				if (num > 50)
+					break;
 			}
-			goto IL_0091;
-			IL_0091:
-			return result;
-			IL_0084:
-			result = text;
-			goto IL_0091;
+			return text;
 		}
 	}
 }

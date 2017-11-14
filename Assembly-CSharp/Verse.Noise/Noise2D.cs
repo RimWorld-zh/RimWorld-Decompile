@@ -26,33 +26,32 @@ namespace Verse.Noise
 
 		public static readonly double Bottom = 1.0;
 
-		private int m_width = 0;
+		private int m_width;
 
-		private int m_height = 0;
+		private int m_height;
 
-		private float[,] m_data = null;
+		private float[,] m_data;
 
-		private int m_ucWidth = 0;
+		private int m_ucWidth;
 
-		private int m_ucHeight = 0;
+		private int m_ucHeight;
 
 		private int m_ucBorder = 1;
 
-		private float[,] m_ucData = null;
+		private float[,] m_ucData;
 
 		private float m_borderValue = float.NaN;
 
-		private ModuleBase m_generator = null;
+		private ModuleBase m_generator;
 
 		[NonSerialized]
 		[XmlIgnore]
-		private bool m_disposed = false;
+		private bool m_disposed;
 
 		public float this[int x, int y, bool isCropped = true]
 		{
 			get
 			{
-				float result;
 				if (isCropped)
 				{
 					if (x < 0 && x >= this.m_width)
@@ -63,21 +62,17 @@ namespace Verse.Noise
 					{
 						throw new ArgumentOutOfRangeException("Inavlid y position");
 					}
-					result = this.m_data[x, y];
+					return this.m_data[x, y];
 				}
-				else
+				if (x < 0 && x >= this.m_ucWidth)
 				{
-					if (x < 0 && x >= this.m_ucWidth)
-					{
-						throw new ArgumentOutOfRangeException("Invalid x position");
-					}
-					if (y < 0 && y >= this.m_ucHeight)
-					{
-						throw new ArgumentOutOfRangeException("Inavlid y position");
-					}
-					result = this.m_ucData[x, y];
+					throw new ArgumentOutOfRangeException("Invalid x position");
 				}
-				return result;
+				if (y < 0 && y >= this.m_ucHeight)
+				{
+					throw new ArgumentOutOfRangeException("Inavlid y position");
+				}
+				return this.m_ucData[x, y];
 			}
 			set
 			{
@@ -160,15 +155,18 @@ namespace Verse.Noise
 		{
 		}
 
-		public Noise2D(int size) : this(size, size, null)
+		public Noise2D(int size)
+			: this(size, size, null)
 		{
 		}
 
-		public Noise2D(int size, ModuleBase generator) : this(size, size, generator)
+		public Noise2D(int size, ModuleBase generator)
+			: this(size, size, generator)
 		{
 		}
 
-		public Noise2D(int width, int height) : this(width, height, null)
+		public Noise2D(int width, int height)
+			: this(width, height, null)
 		{
 		}
 
@@ -208,12 +206,12 @@ namespace Verse.Noise
 			num -= xCrop;
 			num2 -= yCrop;
 			float[,] array2 = new float[num, num2];
-			for (int num3 = 0; num3 < num; num3++)
+			for (int i = 0; i < num; i++)
 			{
-				for (int num4 = 0; num4 < num2; num4++)
+				for (int j = 0; j < num2; j++)
 				{
-					float num5 = (float)((!isNormalized) ? array[num3, num4] : ((array[num3, num4] + 1.0) / 2.0));
-					array2[num3, num4] = num5;
+					float num3 = (float)((!isNormalized) ? array[i, j] : ((array[i, j] + 1.0) / 2.0));
+					array2[i, j] = num3;
 				}
 			}
 			return array2;
@@ -319,10 +317,18 @@ namespace Verse.Noise
 					double num6 = heightMin;
 					for (int j = 0; j < this.m_ucHeight; j++)
 					{
-						this.m_ucData[i, j] = (float)this.GenerateCylindrical(num5, num6);
+						float[,] ucData = this.m_ucData;
+						int num7 = i;
+						int num8 = j;
+						float num9 = (float)this.GenerateCylindrical(num5, num6);
+						ucData[num7, num8] = num9;
 						if (i >= this.m_ucBorder && j >= this.m_ucBorder && i < this.m_width + this.m_ucBorder && j < this.m_height + this.m_ucBorder)
 						{
-							this.m_data[i - this.m_ucBorder, j - this.m_ucBorder] = (float)this.GenerateCylindrical(num5, num6);
+							float[,] data = this.m_data;
+							int num10 = i - this.m_ucBorder;
+							int num11 = j - this.m_ucBorder;
+							float num12 = (float)this.GenerateCylindrical(num5, num6);
+							data[num10, num11] = num12;
 						}
 						num6 += num4;
 					}
@@ -357,10 +363,18 @@ namespace Verse.Noise
 					double num6 = south;
 					for (int j = 0; j < this.m_ucHeight; j++)
 					{
-						this.m_ucData[i, j] = (float)this.GenerateSpherical(num6, num5);
+						float[,] ucData = this.m_ucData;
+						int num7 = i;
+						int num8 = j;
+						float num9 = (float)this.GenerateSpherical(num6, num5);
+						ucData[num7, num8] = num9;
 						if (i >= this.m_ucBorder && j >= this.m_ucBorder && i < this.m_width + this.m_ucBorder && j < this.m_height + this.m_ucBorder)
 						{
-							this.m_data[i - this.m_ucBorder, j - this.m_ucBorder] = (float)this.GenerateSpherical(num6, num5);
+							float[,] data = this.m_data;
+							int num10 = i - this.m_ucBorder;
+							int num11 = j - this.m_ucBorder;
+							float num12 = (float)this.GenerateSpherical(num6, num5);
+							data[num10, num11] = num12;
 						}
 						num6 += num4;
 					}

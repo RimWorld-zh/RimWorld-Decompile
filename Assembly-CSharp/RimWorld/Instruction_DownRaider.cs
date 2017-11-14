@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -78,7 +77,7 @@ namespace RimWorld
 				}
 			}
 			IEnumerable<Pawn> source = base.Map.mapPawns.PawnsInFaction(Faction.OfPlayer);
-			if (source.Any((Func<Pawn, bool>)((Pawn p) => p.Downed)))
+			if (source.Any((Pawn p) => p.Downed))
 			{
 				foreach (Pawn allPawn in base.Map.mapPawns.AllPawns)
 				{

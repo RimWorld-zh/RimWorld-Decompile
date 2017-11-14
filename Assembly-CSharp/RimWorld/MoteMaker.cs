@@ -16,26 +16,21 @@ namespace RimWorld
 
 		public static Mote ThrowMetaIcon(IntVec3 cell, Map map, ThingDef moteDef)
 		{
-			Mote result;
-			if (!cell.ShouldSpawnMotesAt(map) || map.moteCounter.Saturated)
-			{
-				result = null;
-			}
-			else
+			if (cell.ShouldSpawnMotesAt(map) && !map.moteCounter.Saturated)
 			{
 				MoteThrown moteThrown = (MoteThrown)ThingMaker.MakeThing(moteDef, null);
 				moteThrown.Scale = 0.7f;
 				moteThrown.rotationRate = Rand.Range(-3f, 3f);
 				moteThrown.exactPosition = cell.ToVector3Shifted();
-				MoteThrown obj = moteThrown;
-				obj.exactPosition += new Vector3(0.35f, 0f, 0.35f);
-				MoteThrown obj2 = moteThrown;
-				obj2.exactPosition += new Vector3(Rand.Value, 0f, Rand.Value) * 0.1f;
+				MoteThrown moteThrown2 = moteThrown;
+				moteThrown2.exactPosition += new Vector3(0.35f, 0f, 0.35f);
+				MoteThrown moteThrown3 = moteThrown;
+				moteThrown3.exactPosition += new Vector3(Rand.Value, 0f, Rand.Value) * 0.1f;
 				moteThrown.SetVelocity((float)Rand.Range(30, 60), 0.42f);
 				GenSpawn.Spawn(moteThrown, cell, map);
-				result = moteThrown;
+				return moteThrown;
 			}
-			return result;
+			return null;
 		}
 
 		public static void MakeStaticMote(IntVec3 cell, Map map, ThingDef moteDef, float scale = 1f)
@@ -95,7 +90,7 @@ namespace RimWorld
 		{
 			Vector3 a = (!targ.HasThing) ? targ.Cell.ToVector3Shifted() : targ.Thing.TrueCenter();
 			int num = Rand.RangeInclusive(4, 6);
-			for (int num2 = 0; num2 < num; num2++)
+			for (int i = 0; i < num; i++)
 			{
 				Vector3 loc = a + new Vector3(Rand.Range(-0.5f, 0.5f), 0f, Rand.Range(-0.5f, 0.5f));
 				MoteMaker.ThrowMetaPuff(loc, targ.Map);
@@ -129,8 +124,8 @@ namespace RimWorld
 			{
 				MoteThrown moteThrown = MoteMaker.NewBaseAirPuff();
 				moteThrown.exactPosition = loc;
-				MoteThrown obj = moteThrown;
-				obj.exactPosition += new Vector3(Rand.Range(-0.02f, 0.02f), 0f, Rand.Range(-0.02f, 0.02f));
+				MoteThrown moteThrown2 = moteThrown;
+				moteThrown2.exactPosition += new Vector3(Rand.Range(-0.02f, 0.02f), 0f, Rand.Range(-0.02f, 0.02f));
 				moteThrown.SetVelocity((float)Rand.Range(-45, 45), Rand.Range(1.2f, 1.5f));
 				GenSpawn.Spawn(moteThrown, loc.ToIntVec3(), map);
 			}
@@ -142,11 +137,11 @@ namespace RimWorld
 			{
 				MoteThrown moteThrown = MoteMaker.NewBaseAirPuff();
 				moteThrown.exactPosition = loc;
-				MoteThrown obj = moteThrown;
-				obj.exactPosition += new Vector3(Rand.Range(-0.005f, 0.005f), 0f, Rand.Range(-0.005f, 0.005f));
+				MoteThrown moteThrown2 = moteThrown;
+				moteThrown2.exactPosition += new Vector3(Rand.Range(-0.005f, 0.005f), 0f, Rand.Range(-0.005f, 0.005f));
 				moteThrown.SetVelocity(throwAngle + (float)Rand.Range(-10, 10), Rand.Range(0.1f, 0.8f));
-				MoteThrown obj2 = moteThrown;
-				obj2.Velocity += inheritVelocity * 0.5f;
+				MoteThrown moteThrown3 = moteThrown;
+				moteThrown3.Velocity += inheritVelocity * 0.5f;
 				moteThrown.Scale = Rand.Range(0.6f, 0.7f);
 				GenSpawn.Spawn(moteThrown, loc.ToIntVec3(), map);
 			}
@@ -242,10 +237,10 @@ namespace RimWorld
 				moteThrown.Scale = Rand.Range(0.8f, 1.2f);
 				moteThrown.rotationRate = Rand.Range(-12f, 12f);
 				moteThrown.exactPosition = loc;
-				MoteThrown obj = moteThrown;
-				obj.exactPosition -= new Vector3(0.5f, 0f, 0.5f);
-				MoteThrown obj2 = moteThrown;
-				obj2.exactPosition += new Vector3(Rand.Value, 0f, Rand.Value);
+				MoteThrown moteThrown2 = moteThrown;
+				moteThrown2.exactPosition -= new Vector3(0.5f, 0f, 0.5f);
+				MoteThrown moteThrown3 = moteThrown;
+				moteThrown3.exactPosition += new Vector3(Rand.Value, 0f, Rand.Value);
 				moteThrown.SetVelocity((float)Rand.Range(35, 45), 1.2f);
 				GenSpawn.Spawn(moteThrown, loc.ToIntVec3(), map);
 			}
@@ -324,7 +319,7 @@ namespace RimWorld
 		public static void MakeColonistActionOverlay(Pawn pawn, ThingDef moteDef)
 		{
 			MoteThrownAttached moteThrownAttached = (MoteThrownAttached)ThingMaker.MakeThing(moteDef, null);
-			moteThrownAttached.Attach((Thing)pawn);
+			moteThrownAttached.Attach(pawn);
 			moteThrownAttached.Scale = 1.5f;
 			moteThrownAttached.SetVelocity(Rand.Range(20f, 25f), 0.4f);
 			GenSpawn.Spawn(moteThrownAttached, pawn.Position, pawn.Map);
@@ -332,83 +327,63 @@ namespace RimWorld
 
 		private static MoteBubble ExistingMoteBubbleOn(Pawn pawn)
 		{
-			MoteBubble result;
-			MoteBubble moteBubble;
 			if (!pawn.Spawned)
 			{
-				result = null;
+				return null;
 			}
-			else
+			for (int i = 0; i < 4; i++)
 			{
-				for (int i = 0; i < 4; i++)
+				IntVec3 c = pawn.Position + MoteMaker.UpRightPattern[i];
+				if (c.InBounds(pawn.Map))
 				{
-					IntVec3 c = pawn.Position + MoteMaker.UpRightPattern[i];
-					if (c.InBounds(pawn.Map))
+					List<Thing> thingList = pawn.Position.GetThingList(pawn.Map);
+					for (int j = 0; j < thingList.Count; j++)
 					{
-						List<Thing> thingList = pawn.Position.GetThingList(pawn.Map);
-						for (int j = 0; j < thingList.Count; j++)
+						Thing thing = thingList[j];
+						MoteBubble moteBubble = thing as MoteBubble;
+						if (moteBubble != null && moteBubble.link1.Linked && moteBubble.link1.Target.HasThing && moteBubble.link1.Target == (TargetInfo)pawn)
 						{
-							Thing thing = thingList[j];
-							moteBubble = (thing as MoteBubble);
-							if (moteBubble != null && moteBubble.link1.Linked && moteBubble.link1.Target.HasThing && moteBubble.link1.Target == (Thing)pawn)
-								goto IL_00c9;
+							return moteBubble;
 						}
 					}
 				}
-				result = null;
 			}
-			goto IL_00f8;
-			IL_00c9:
-			result = moteBubble;
-			goto IL_00f8;
-			IL_00f8:
-			return result;
+			return null;
 		}
 
 		public static MoteBubble MakeMoodThoughtBubble(Pawn pawn, Thought thought)
 		{
-			MoteBubble result;
 			if (Current.ProgramState != ProgramState.Playing)
 			{
-				result = null;
+				return null;
 			}
-			else if (!pawn.Spawned)
+			if (!pawn.Spawned)
 			{
-				result = null;
+				return null;
 			}
-			else
+			float num = thought.MoodOffset();
+			if (num == 0.0)
 			{
-				float num = thought.MoodOffset();
-				if (num == 0.0)
+				return null;
+			}
+			MoteBubble moteBubble = MoteMaker.ExistingMoteBubbleOn(pawn);
+			if (moteBubble != null)
+			{
+				if (moteBubble.def == ThingDefOf.Mote_Speech)
 				{
-					result = null;
+					return null;
 				}
-				else
+				if (moteBubble.def == ThingDefOf.Mote_ThoughtBad || moteBubble.def == ThingDefOf.Mote_ThoughtGood)
 				{
-					MoteBubble moteBubble = MoteMaker.ExistingMoteBubbleOn(pawn);
-					if (moteBubble != null)
-					{
-						if (moteBubble.def == ThingDefOf.Mote_Speech)
-						{
-							result = null;
-							goto IL_00eb;
-						}
-						if (moteBubble.def == ThingDefOf.Mote_ThoughtBad || moteBubble.def == ThingDefOf.Mote_ThoughtGood)
-						{
-							moteBubble.Destroy(DestroyMode.Vanish);
-						}
-					}
-					ThingDef def = (!(num > 0.0)) ? ThingDefOf.Mote_ThoughtBad : ThingDefOf.Mote_ThoughtGood;
-					MoteBubble moteBubble2 = (MoteBubble)ThingMaker.MakeThing(def, null);
-					moteBubble2.SetupMoteBubble(thought.Icon, null);
-					moteBubble2.Attach((Thing)pawn);
-					GenSpawn.Spawn(moteBubble2, pawn.Position, pawn.Map);
-					result = moteBubble2;
+					moteBubble.Destroy(DestroyMode.Vanish);
 				}
 			}
-			goto IL_00eb;
-			IL_00eb:
-			return result;
+			ThingDef def = (!(num > 0.0)) ? ThingDefOf.Mote_ThoughtBad : ThingDefOf.Mote_ThoughtGood;
+			MoteBubble moteBubble2 = (MoteBubble)ThingMaker.MakeThing(def, null);
+			moteBubble2.SetupMoteBubble(thought.Icon, null);
+			moteBubble2.Attach(pawn);
+			GenSpawn.Spawn(moteBubble2, pawn.Position, pawn.Map);
+			return moteBubble2;
 		}
 
 		public static MoteBubble MakeInteractionBubble(Pawn initiator, Pawn recipient, ThingDef interactionMote, Texture2D symbol)
@@ -427,7 +402,7 @@ namespace RimWorld
 			}
 			MoteBubble moteBubble2 = (MoteBubble)ThingMaker.MakeThing(interactionMote, null);
 			moteBubble2.SetupMoteBubble(symbol, recipient);
-			moteBubble2.Attach((Thing)initiator);
+			moteBubble2.Attach(initiator);
 			GenSpawn.Spawn(moteBubble2, initiator.Position, initiator.Map);
 			return moteBubble2;
 		}

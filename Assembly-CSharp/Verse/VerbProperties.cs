@@ -8,21 +8,21 @@ namespace Verse
 	{
 		private enum RangeCategory : byte
 		{
-			Touch = 0,
-			Short = 1,
-			Medium = 2,
-			Long = 3
+			Touch,
+			Short,
+			Medium,
+			Long
 		}
 
 		public VerbCategory category = VerbCategory.Nonnative;
 
 		public Type verbClass = typeof(Verb);
 
-		public string label = (string)null;
+		public string label;
 
 		public bool isPrimary = true;
 
-		public float minRange = 0f;
+		public float minRange;
 
 		public float range = 1f;
 
@@ -32,7 +32,7 @@ namespace Verse
 
 		public float noiseRadius = 3f;
 
-		public bool hasStandardCommand = false;
+		public bool hasStandardCommand;
 
 		public bool targetable = true;
 
@@ -40,11 +40,11 @@ namespace Verse
 
 		public bool requireLineOfSight = true;
 
-		public bool mustCastOnOpenGround = false;
+		public bool mustCastOnOpenGround;
 
 		public bool forceNormalTimeSpeed = true;
 
-		public bool onlyManualCast = false;
+		public bool onlyManualCast;
 
 		public bool stopBurstWithoutLos = true;
 
@@ -52,33 +52,33 @@ namespace Verse
 
 		public float commonality = 1f;
 
-		public float warmupTime = 0f;
+		public float warmupTime;
 
-		public float defaultCooldownTime = 0f;
+		public float defaultCooldownTime;
 
-		public SoundDef soundCast = null;
+		public SoundDef soundCast;
 
-		public SoundDef soundCastTail = null;
+		public SoundDef soundCastTail;
 
 		public SoundDef soundAiming;
 
-		public float muzzleFlashScale = 0f;
+		public float muzzleFlashScale;
 
-		public BodyPartGroupDef linkedBodyPartsGroup = null;
+		public BodyPartGroupDef linkedBodyPartsGroup;
 
-		public DamageDef meleeDamageDef = null;
+		public DamageDef meleeDamageDef;
 
 		public int meleeDamageBaseAmount = 1;
 
 		public bool ai_IsWeapon = true;
 
-		public bool ai_IsBuildingDestroyer = false;
+		public bool ai_IsBuildingDestroyer;
 
 		public float ai_AvoidFriendlyFireRadius;
 
 		public ThingDef defaultProjectile;
 
-		public float forcedMissRadius = 0f;
+		public float forcedMissRadius;
 
 		public float accuracyTouch = 1f;
 
@@ -88,7 +88,7 @@ namespace Verse
 
 		public float accuracyLong = 1f;
 
-		public bool meleeShoot = false;
+		public bool meleeShoot;
 
 		private const float DistTouch = 4f;
 
@@ -99,6 +99,8 @@ namespace Verse
 		private const float DistLong = 50f;
 
 		private const float MeleeGunfireWeighting = 0.25f;
+
+		private const float BodypartVerbWeighting = 0.3f;
 
 		public bool MeleeRange
 		{
@@ -164,18 +166,50 @@ namespace Verse
 
 		private float AdjustedExpectedMeleeDamage(Verb ownerVerb, Pawn attacker, Thing equipment)
 		{
-			return (float)((!this.IsMeleeAttack) ? ((!this.LaunchesProjectile || this.defaultProjectile == null) ? 0.0 : ((float)this.defaultProjectile.projectile.damageAmountBase)) : this.AdjustedMeleeDamageAmount(ownerVerb, attacker, equipment));
+			if (this.IsMeleeAttack)
+			{
+				return this.AdjustedMeleeDamageAmount(ownerVerb, attacker, equipment);
+			}
+			if (this.LaunchesProjectile && this.defaultProjectile != null)
+			{
+				return (float)this.defaultProjectile.projectile.damageAmountBase;
+			}
+			return 0f;
 		}
 
 		public float AdjustedMeleeSelectionWeight(Verb ownerVerb, Pawn attacker, Thing equipment)
 		{
 			float num = (float)(this.AdjustedExpectedMeleeDamage(ownerVerb, attacker, equipment) * this.commonality * ((ownerVerb.tool != null) ? ownerVerb.tool.commonality : 1.0));
-			return (float)((!this.IsMeleeAttack) ? ((!this.meleeShoot) ? 0.0 : (num * 0.25 / equipment.GetStatValue(StatDefOf.Weapon_Bulk, true))) : num);
+			if (this.IsMeleeAttack && equipment != null)
+			{
+				return num;
+			}
+			if (this.IsMeleeAttack && ownerVerb.tool != null && ownerVerb.tool.alwaysTreatAsWeapon)
+			{
+				return num;
+			}
+			if (this.IsMeleeAttack)
+			{
+				return (float)(num * 0.30000001192092896);
+			}
+			if (this.meleeShoot)
+			{
+				return (float)(num * 0.25 / equipment.GetStatValue(StatDefOf.Weapon_Bulk, true));
+			}
+			return 0f;
 		}
 
 		public float AdjustedCooldown(Verb ownerVerb, Pawn attacker, Thing equipment)
 		{
-			return (ownerVerb.tool == null) ? ((equipment == null || this.MeleeRange) ? this.defaultCooldownTime : equipment.GetStatValue(StatDefOf.RangedWeapon_Cooldown, true)) : ownerVerb.tool.AdjustedCooldown(equipment);
+			if (ownerVerb.tool != null)
+			{
+				return ownerVerb.tool.AdjustedCooldown(equipment);
+			}
+			if (equipment != null && !this.MeleeRange)
+			{
+				return equipment.GetStatValue(StatDefOf.RangedWeapon_Cooldown, true);
+			}
+			return this.defaultCooldownTime;
 		}
 
 		public int AdjustedCooldownTicks(Verb ownerVerb, Pawn attacker, Thing equipment)
@@ -185,66 +219,39 @@ namespace Verse
 
 		private float AdjustedAccuracy(RangeCategory cat, Thing equipment)
 		{
-			float statValue;
 			if (equipment == null)
 			{
 				switch (cat)
 				{
 				case RangeCategory.Touch:
-				{
-					statValue = this.accuracyTouch;
-					break;
-				}
+					return this.accuracyTouch;
 				case RangeCategory.Short:
-				{
-					statValue = this.accuracyShort;
-					break;
-				}
+					return this.accuracyShort;
 				case RangeCategory.Medium:
-				{
-					statValue = this.accuracyMedium;
-					break;
-				}
+					return this.accuracyMedium;
 				case RangeCategory.Long:
-				{
-					statValue = this.accuracyLong;
-					break;
-				}
+					return this.accuracyLong;
 				default:
-				{
 					throw new InvalidOperationException();
 				}
-				}
 			}
-			else
+			StatDef stat = null;
+			switch (cat)
 			{
-				StatDef stat = null;
-				switch (cat)
-				{
-				case RangeCategory.Touch:
-				{
-					stat = StatDefOf.AccuracyTouch;
-					break;
-				}
-				case RangeCategory.Short:
-				{
-					stat = StatDefOf.AccuracyShort;
-					break;
-				}
-				case RangeCategory.Medium:
-				{
-					stat = StatDefOf.AccuracyMedium;
-					break;
-				}
-				case RangeCategory.Long:
-				{
-					stat = StatDefOf.AccuracyLong;
-					break;
-				}
-				}
-				statValue = equipment.GetStatValue(stat, true);
+			case RangeCategory.Touch:
+				stat = StatDefOf.AccuracyTouch;
+				break;
+			case RangeCategory.Short:
+				stat = StatDefOf.AccuracyShort;
+				break;
+			case RangeCategory.Medium:
+				stat = StatDefOf.AccuracyMedium;
+				break;
+			case RangeCategory.Long:
+				stat = StatDefOf.AccuracyLong;
+				break;
 			}
-			return statValue;
+			return equipment.GetStatValue(stat, true);
 		}
 
 		public float GetHitChanceFactor(Thing equipment, float dist)

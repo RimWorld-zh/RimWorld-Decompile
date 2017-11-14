@@ -20,11 +20,10 @@ namespace RimWorld
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
-			LordToil_DefendTraderCaravan lordToil_DefendTraderCaravan = new LordToil_DefendTraderCaravan(this.defendSpot);
-			stateGraph.StartingToil = lordToil_DefendTraderCaravan;
+			LordToil_DefendTraderCaravan firstSource = (LordToil_DefendTraderCaravan)(stateGraph.StartingToil = new LordToil_DefendTraderCaravan(this.defendSpot));
 			LordToil_ExitMap lordToil_ExitMap = new LordToil_ExitMap(LocomotionUrgency.None, false);
 			stateGraph.AddToil(lordToil_ExitMap);
-			Transition transition = new Transition(lordToil_DefendTraderCaravan, lordToil_ExitMap);
+			Transition transition = new Transition(firstSource, lordToil_ExitMap);
 			transition.AddTrigger(new Trigger_BecameColonyAlly());
 			transition.AddTrigger(new Trigger_TraderAndAllTraderCaravanGuardsLost());
 			stateGraph.AddTransition(transition);

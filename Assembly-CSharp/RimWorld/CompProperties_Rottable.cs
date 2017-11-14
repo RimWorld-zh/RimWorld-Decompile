@@ -8,13 +8,13 @@ namespace RimWorld
 	{
 		public float daysToRotStart = 2f;
 
-		public bool rotDestroys = false;
+		public bool rotDestroys;
 
 		public float rotDamagePerDay = 40f;
 
 		public float daysToDessicated = 999f;
 
-		public float dessicatedDamagePerDay = 0f;
+		public float dessicatedDamagePerDay;
 
 		public bool disableIfHatcher;
 
@@ -46,7 +46,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0(parentDef).GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors(parentDef).GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -61,8 +61,8 @@ namespace RimWorld
 				yield break;
 			yield return "CompRottable needs tickerType " + TickerType.Rare + " or " + TickerType.Normal + ", has " + parentDef.tickerType;
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_014b:
-			/*Error near IL_014c: Unexpected return in MoveNext()*/;
+			IL_0147:
+			/*Error near IL_0148: Unexpected return in MoveNext()*/;
 		}
 	}
 }

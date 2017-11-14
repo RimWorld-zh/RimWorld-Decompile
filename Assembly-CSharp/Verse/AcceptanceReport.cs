@@ -26,10 +26,9 @@ namespace Verse
 		{
 			get
 			{
-				return new AcceptanceReport("")
-				{
-					acceptedInt = true
-				};
+				AcceptanceReport result = new AcceptanceReport(string.Empty);
+				result.acceptedInt = true;
+				return result;
 			}
 		}
 
@@ -37,10 +36,9 @@ namespace Verse
 		{
 			get
 			{
-				return new AcceptanceReport("")
-				{
-					acceptedInt = false
-				};
+				AcceptanceReport result = new AcceptanceReport(string.Empty);
+				result.acceptedInt = false;
+				return result;
 			}
 		}
 
@@ -52,7 +50,11 @@ namespace Verse
 
 		public static implicit operator AcceptanceReport(bool value)
 		{
-			return (!value) ? AcceptanceReport.WasRejected : AcceptanceReport.WasAccepted;
+			if (value)
+			{
+				return AcceptanceReport.WasAccepted;
+			}
+			return AcceptanceReport.WasRejected;
 		}
 
 		public static implicit operator AcceptanceReport(string value)

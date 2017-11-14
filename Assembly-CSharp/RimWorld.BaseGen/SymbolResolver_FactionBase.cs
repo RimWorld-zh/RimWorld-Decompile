@@ -33,8 +33,7 @@ namespace RimWorld.BaseGen
 			resolveParams.faction = faction;
 			resolveParams.singlePawnLord = singlePawnLord;
 			resolveParams.pawnGroupKindDef = (rp.pawnGroupKindDef ?? PawnGroupKindDefOf.FactionBase);
-			object obj = rp.singlePawnSpawnCellExtraPredicate;
-			obj = (resolveParams.singlePawnSpawnCellExtraPredicate = (Predicate<IntVec3>)((IntVec3 x) => map.reachability.CanReachMapEdge(x, traverseParms)));
+			resolveParams.singlePawnSpawnCellExtraPredicate = (rp.singlePawnSpawnCellExtraPredicate ?? ((Predicate<IntVec3>)((IntVec3 x) => map.reachability.CanReachMapEdge(x, traverseParms))));
 			if (resolveParams.pawnGroupMakerParams == null)
 			{
 				float num3 = (!faction.def.techLevel.IsNeolithicOrWorse()) ? SymbolResolver_FactionBase.NonNeolithicPawnsPoints.RandomInRange : SymbolResolver_FactionBase.NeolithicPawnsPoints.RandomInRange;
@@ -54,7 +53,7 @@ namespace RimWorld.BaseGen
 			if ((int)faction.def.techLevel >= 4)
 			{
 				int num4 = Rand.Chance(0.75f) ? GenMath.RoundRandom((float)((float)rp.rect.Area / 400.0)) : 0;
-				for (int num5 = 0; num5 < num4; num5++)
+				for (int i = 0; i < num4; i++)
 				{
 					ResolveParams resolveParams2 = rp;
 					resolveParams2.faction = faction;
@@ -65,7 +64,7 @@ namespace RimWorld.BaseGen
 			{
 				ResolveParams resolveParams3 = rp;
 				resolveParams3.faction = faction;
-				resolveParams3.edgeDefenseWidth = new int?(num);
+				resolveParams3.edgeDefenseWidth = num;
 				BaseGen.symbolStack.Push("edgeDefense", resolveParams3);
 			}
 			ResolveParams resolveParams4 = rp;

@@ -21,7 +21,11 @@ namespace RimWorld
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
 			Map map = (Map)target;
-			return (byte)((map.listerThings.ThingsOfDef(base.def.shipPart).Count <= 0) ? 1 : 0) != 0;
+			if (map.listerThings.ThingsOfDef(base.def.shipPart).Count > 0)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		protected override bool TryExecuteWorker(IncidentParms parms)

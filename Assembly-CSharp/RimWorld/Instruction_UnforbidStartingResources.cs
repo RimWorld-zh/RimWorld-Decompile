@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -27,7 +26,7 @@ namespace RimWorld
 		public override void PostDeactivated()
 		{
 			base.PostDeactivated();
-			Find.TutorialState.startingItems.RemoveAll((Predicate<Thing>)((Thing it) => !Instruction_EquipWeapons.IsWeapon(it)));
+			Find.TutorialState.startingItems.RemoveAll((Thing it) => !Instruction_EquipWeapons.IsWeapon(it));
 		}
 
 		public override void LessonOnGUI()

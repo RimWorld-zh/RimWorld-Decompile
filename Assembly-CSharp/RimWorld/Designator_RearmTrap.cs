@@ -29,7 +29,15 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			return c.InBounds(base.Map) ? (this.RearmablesInCell(c).Any() ? true : false) : false;
+			if (!c.InBounds(base.Map))
+			{
+				return false;
+			}
+			if (!this.RearmablesInCell(c).Any())
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override void DesignateSingleCell(IntVec3 c)

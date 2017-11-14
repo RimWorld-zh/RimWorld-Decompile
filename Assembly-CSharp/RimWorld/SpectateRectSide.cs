@@ -12,6 +12,6 @@ namespace RimWorld
 		Left = 8,
 		Vertical = 5,
 		Horizontal = 10,
-		All = 15
+		All = 0xF
 	}
 }

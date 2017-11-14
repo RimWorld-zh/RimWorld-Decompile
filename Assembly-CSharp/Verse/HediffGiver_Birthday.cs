@@ -5,9 +5,9 @@ namespace Verse
 {
 	public class HediffGiver_Birthday : HediffGiver
 	{
-		public SimpleCurve ageFractionChanceCurve = null;
+		public SimpleCurve ageFractionChanceCurve;
 
-		public float averageSeverityPerDayBeforeGeneration = 0f;
+		public float averageSeverityPerDayBeforeGeneration;
 
 		private static List<Hediff> addedHediffs = new List<Hediff>();
 
@@ -79,9 +79,9 @@ namespace Verse
 		public float DebugChanceToHaveAtAge(Pawn pawn, int age)
 		{
 			float num = 1f;
-			for (int num2 = 1; num2 <= age; num2++)
+			for (int i = 1; i <= age; i++)
 			{
-				float x = (float)num2 / pawn.RaceProps.lifeExpectancy;
+				float x = (float)i / pawn.RaceProps.lifeExpectancy;
 				num = (float)(num * (1.0 - this.ageFractionChanceCurve.Evaluate(x)));
 			}
 			return (float)(1.0 - num);

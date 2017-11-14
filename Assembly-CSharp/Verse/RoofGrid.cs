@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -43,7 +42,7 @@ namespace Verse
 
 		public void ExposeData()
 		{
-			MapExposeUtility.ExposeUshort(this.map, (Func<IntVec3, ushort>)((IntVec3 c) => this.roofGrid[this.map.cellIndices.CellToIndex(c)]), (Action<IntVec3, ushort>)delegate(IntVec3 c, ushort val)
+			MapExposeUtility.ExposeUshort(this.map, (IntVec3 c) => this.roofGrid[this.map.cellIndices.CellToIndex(c)], delegate(IntVec3 c, ushort val)
 			{
 				this.SetRoof(c, DefDatabase<RoofDef>.GetByShortHash(val));
 			}, "roofs");
@@ -56,7 +55,11 @@ namespace Verse
 
 		public Color GetCellExtraColor(int index)
 		{
-			return (RoofDefOf.RoofRockThick == null || this.roofGrid[index] != RoofDefOf.RoofRockThick.shortHash) ? Color.white : Color.gray;
+			if (RoofDefOf.RoofRockThick != null && this.roofGrid[index] == RoofDefOf.RoofRockThick.shortHash)
+			{
+				return Color.gray;
+			}
+			return Color.white;
 		}
 
 		public bool Roofed(int x, int z)

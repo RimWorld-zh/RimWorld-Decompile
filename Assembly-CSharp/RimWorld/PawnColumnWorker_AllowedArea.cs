@@ -60,17 +60,12 @@ namespace RimWorld
 
 		private int GetValueToCompare(Pawn pawn)
 		{
-			int result;
 			if (pawn.Faction != Faction.OfPlayer)
 			{
-				result = -2147483648;
+				return -2147483648;
 			}
-			else
-			{
-				Area areaRestriction = pawn.playerSettings.AreaRestriction;
-				result = ((areaRestriction == null) ? (-2147483647) : areaRestriction.ID);
-			}
-			return result;
+			Area areaRestriction = pawn.playerSettings.AreaRestriction;
+			return (areaRestriction == null) ? (-2147483647) : areaRestriction.ID;
 		}
 
 		protected override void HeaderClicked(Rect headerRect, PawnTable table)

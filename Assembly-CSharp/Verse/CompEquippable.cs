@@ -5,7 +5,7 @@ namespace Verse
 {
 	public class CompEquippable : ThingComp, IVerbOwner
 	{
-		public VerbTracker verbTracker = null;
+		public VerbTracker verbTracker;
 
 		private Pawn Holder
 		{

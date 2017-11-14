@@ -27,53 +27,32 @@ namespace RimWorld
 
 		public override string ExplanationPart(StatRequest req)
 		{
-			string result;
 			if (req.HasThing)
 			{
 				Pawn pawn = req.Thing as Pawn;
 				if (pawn != null && pawn.needs.rest != null)
 				{
-					result = pawn.needs.rest.CurCategory.GetLabel() + ": x" + this.RestMultiplier(pawn.needs.rest.CurCategory).ToStringPercent();
-					goto IL_007a;
+					return pawn.needs.rest.CurCategory.GetLabel() + ": x" + this.RestMultiplier(pawn.needs.rest.CurCategory).ToStringPercent();
 				}
 			}
-			result = (string)null;
-			goto IL_007a;
-			IL_007a:
-			return result;
+			return null;
 		}
 
 		private float RestMultiplier(RestCategory fatigue)
 		{
-			float result;
 			switch (fatigue)
 			{
 			case RestCategory.Exhausted:
-			{
-				result = this.factorExhausted;
-				break;
-			}
+				return this.factorExhausted;
 			case RestCategory.VeryTired:
-			{
-				result = this.factorVeryTired;
-				break;
-			}
+				return this.factorVeryTired;
 			case RestCategory.Tired:
-			{
-				result = this.factorTired;
-				break;
-			}
+				return this.factorTired;
 			case RestCategory.Rested:
-			{
-				result = this.factorRested;
-				break;
-			}
+				return this.factorRested;
 			default:
-			{
 				throw new InvalidOperationException();
 			}
-			}
-			return result;
 		}
 	}
 }

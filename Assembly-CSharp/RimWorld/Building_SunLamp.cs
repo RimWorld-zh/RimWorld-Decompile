@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -18,7 +17,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -31,15 +30,15 @@ namespace RimWorld
 				yield break;
 			yield return (Gizmo)new Command_Action
 			{
-				action = new Action(this.MakeMatchingGrowZone),
+				action = this.MakeMatchingGrowZone,
 				hotKey = KeyBindingDefOf.Misc2,
 				defaultDesc = "CommandSunLampMakeGrowingZoneDesc".Translate(),
 				icon = ContentFinder<Texture2D>.Get("UI/Designators/ZoneCreate_Growing", true),
 				defaultLabel = "CommandSunLampMakeGrowingZoneLabel".Translate()
 			};
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0164:
-			/*Error near IL_0165: Unexpected return in MoveNext()*/;
+			IL_015e:
+			/*Error near IL_015f: Unexpected return in MoveNext()*/;
 		}
 
 		private void MakeMatchingGrowZone()

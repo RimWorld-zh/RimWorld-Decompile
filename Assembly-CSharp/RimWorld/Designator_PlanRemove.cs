@@ -5,7 +5,8 @@ namespace RimWorld
 {
 	public class Designator_PlanRemove : Designator_Plan
 	{
-		public Designator_PlanRemove() : base(DesignateMode.Remove)
+		public Designator_PlanRemove()
+			: base(DesignateMode.Remove)
 		{
 			base.defaultLabel = "DesignatorPlanRemove".Translate();
 			base.defaultDesc = "DesignatorPlanRemoveDesc".Translate();

@@ -8,13 +8,13 @@ namespace Verse
 {
 	public abstract class Designator : Command
 	{
-		protected bool useMouseIcon = false;
+		protected bool useMouseIcon;
 
-		public SoundDef soundDragSustain = null;
+		public SoundDef soundDragSustain;
 
-		public SoundDef soundDragChanged = null;
+		public SoundDef soundDragChanged;
 
-		protected SoundDef soundSucceeded = null;
+		protected SoundDef soundSucceeded;
 
 		protected SoundDef soundFailed = SoundDefOf.DesignateFailed;
 
@@ -60,20 +60,15 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (base.tutorTag == null)
 				{
-					result = (string)null;
+					return null;
 				}
-				else
+				if (this.cachedTutorTagSelect == null)
 				{
-					if (this.cachedTutorTagSelect == null)
-					{
-						this.cachedTutorTagSelect = "SelectDesignator-" + base.tutorTag;
-					}
-					result = this.cachedTutorTagSelect;
+					this.cachedTutorTagSelect = "SelectDesignator-" + base.tutorTag;
 				}
-				return result;
+				return this.cachedTutorTagSelect;
 			}
 		}
 
@@ -81,20 +76,15 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (base.tutorTag == null)
 				{
-					result = (string)null;
+					return null;
 				}
-				else
+				if (this.cachedTutorTagDesignate == null)
 				{
-					if (this.cachedTutorTagDesignate == null)
-					{
-						this.cachedTutorTagDesignate = "Designate-" + base.tutorTag;
-					}
-					result = this.cachedTutorTagDesignate;
+					this.cachedTutorTagDesignate = "Designate-" + base.tutorTag;
 				}
-				return result;
+				return this.cachedTutorTagDesignate;
 			}
 		}
 
@@ -117,7 +107,11 @@ namespace Verse
 
 		protected bool CheckCanInteract()
 		{
-			return (byte)((!TutorSystem.TutorialMode || TutorSystem.AllowAction(this.TutorTagSelect)) ? 1 : 0) != 0;
+			if (TutorSystem.TutorialMode && !TutorSystem.AllowAction(this.TutorTagSelect))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override void ProcessInput(Event ev)
@@ -146,11 +140,11 @@ namespace Verse
 			if (TutorSystem.TutorialMode && !TutorSystem.AllowAction(new EventPack(this.TutorTagDesignate, cells)))
 				return;
 			bool somethingSucceeded = false;
-			foreach (IntVec3 item in cells)
+			foreach (IntVec3 cell in cells)
 			{
-				if (this.CanDesignateCell(item).Accepted)
+				if (this.CanDesignateCell(cell).Accepted)
 				{
-					this.DesignateSingleCell(item);
+					this.DesignateSingleCell(cell);
 					somethingSucceeded = true;
 				}
 			}
@@ -218,7 +212,7 @@ namespace Verse
 		{
 			if (this.useMouseIcon)
 			{
-				GenUI.DrawMouseAttachment(base.icon, "", base.iconAngle);
+				GenUI.DrawMouseAttachment(base.icon, string.Empty, base.iconAngle);
 			}
 		}
 

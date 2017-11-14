@@ -14,24 +14,14 @@ namespace Verse
 		{
 			get
 			{
-				int num = 0;
-				ThingWithComps result;
-				while (true)
+				for (int i = 0; i < this.equipment.Count; i++)
 				{
-					if (num < this.equipment.Count)
+					if (this.equipment[i].def.equipmentType == EquipmentType.Primary)
 					{
-						if (this.equipment[num].def.equipmentType == EquipmentType.Primary)
-						{
-							result = this.equipment[num];
-							break;
-						}
-						num++;
-						continue;
+						return this.equipment[i];
 					}
-					result = null;
-					break;
 				}
-				return result;
+				return null;
 			}
 			private set
 			{
@@ -179,26 +169,21 @@ namespace Verse
 
 		public bool TryDropEquipment(ThingWithComps eq, out ThingWithComps resultingEq, IntVec3 pos, bool forbid = true)
 		{
-			bool result;
 			if (!pos.IsValid)
 			{
 				Log.Error(this.pawn + " tried to drop " + eq + " at invalid cell.");
 				resultingEq = null;
-				result = false;
+				return false;
 			}
-			else if (this.equipment.TryDrop((Thing)eq, pos, this.pawn.MapHeld, ThingPlaceMode.Near, out resultingEq, (Action<ThingWithComps, int>)null))
+			if (this.equipment.TryDrop((Thing)eq, pos, this.pawn.MapHeld, ThingPlaceMode.Near, out resultingEq, (Action<ThingWithComps, int>)null))
 			{
 				if (resultingEq != null)
 				{
 					resultingEq.SetForbidden(forbid, false);
 				}
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public void DropAllEquipment(IntVec3 pos, bool forbid = true)
@@ -278,20 +263,14 @@ namespace Verse
 							switch (i)
 							{
 							case 0:
-							{
 								command.hotKey = KeyBindingDefOf.Misc1;
 								break;
-							}
 							case 1:
-							{
 								command.hotKey = KeyBindingDefOf.Misc2;
 								break;
-							}
 							case 2:
-							{
 								command.hotKey = KeyBindingDefOf.Misc3;
 								break;
-							}
 							}
 							yield return (Gizmo)command;
 							/*Error: Unable to find new state assignment for yield return*/;
@@ -300,8 +279,8 @@ namespace Verse
 				}
 			}
 			yield break;
-			IL_018f:
-			/*Error near IL_0190: Unexpected return in MoveNext()*/;
+			IL_0187:
+			/*Error near IL_0188: Unexpected return in MoveNext()*/;
 		}
 
 		public void Notify_EquipmentAdded(ThingWithComps eq)

@@ -44,26 +44,24 @@ namespace RimWorld.BaseGen
 				}
 				else
 				{
-					value = new ItemCollectionGeneratorParams
-					{
-						techLevel = new TechLevel?((rp.faction == null) ? TechLevel.Spacer : rp.faction.def.techLevel)
-					};
+					value = default(ItemCollectionGeneratorParams);
+					value.techLevel = ((rp.faction == null) ? TechLevel.Spacer : rp.faction.def.techLevel);
 					if (itemCollectionGeneratorDef.Worker is ItemCollectionGenerator_Standard)
 					{
 						float? stockpileMarketValue = rp.stockpileMarketValue;
 						float value2 = (!stockpileMarketValue.HasValue) ? Mathf.Min((float)((float)this.cells.Count * 120.0), 1800f) : stockpileMarketValue.Value;
-						value.totalMarketValue = new float?(value2);
+						value.totalMarketValue = value2;
 					}
 				}
 				int? count = value.count;
 				if (!count.HasValue)
 				{
 					this.CalculateFreeCells(rp.rect, 0.41f);
-					value.count = new int?(this.cells.Count);
+					value.count = this.cells.Count;
 				}
 				ResolveParams resolveParams = rp;
 				resolveParams.itemCollectionGeneratorDef = itemCollectionGeneratorDef;
-				resolveParams.itemCollectionGeneratorParams = new ItemCollectionGeneratorParams?(value);
+				resolveParams.itemCollectionGeneratorParams = value;
 				BaseGen.symbolStack.Push("itemCollection", resolveParams);
 			}
 		}
@@ -80,7 +78,7 @@ namespace RimWorld.BaseGen
 				}
 			}
 			int num = (int)(freeCellsFraction * (float)this.cells.Count);
-			for (int num2 = 0; num2 < num; num2++)
+			for (int i = 0; i < num; i++)
 			{
 				this.cells.RemoveAt(Rand.Range(0, this.cells.Count));
 			}

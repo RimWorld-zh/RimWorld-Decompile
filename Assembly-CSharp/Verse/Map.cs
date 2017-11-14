@@ -1,10 +1,8 @@
-#define ENABLE_PROFILER
 using RimWorld;
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.Profiling;
 using Verse.AI;
 using Verse.AI.Group;
 
@@ -329,21 +327,16 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (this.IsPlayerHome)
 				{
-					result = (float)(this.wealthWatcher.WealthItems + this.wealthWatcher.WealthBuildings * 0.5);
+					return (float)(this.wealthWatcher.WealthItems + this.wealthWatcher.WealthBuildings * 0.5);
 				}
-				else
+				float num = 0f;
+				foreach (Pawn freeColonist in this.mapPawns.FreeColonists)
 				{
-					float num = 0f;
-					foreach (Pawn freeColonist in this.mapPawns.FreeColonists)
-					{
-						num += WealthWatcher.GetEquipmentApparelAndInventoryWealth(freeColonist);
-					}
-					result = num;
+					num += WealthWatcher.GetEquipmentApparelAndInventoryWealth(freeColonist);
 				}
-				return result;
+				return num;
 			}
 		}
 
@@ -375,8 +368,8 @@ namespace Verse
 				}
 			}
 			yield break;
-			IL_00bd:
-			/*Error near IL_00be: Unexpected return in MoveNext()*/;
+			IL_00b9:
+			/*Error near IL_00ba: Unexpected return in MoveNext()*/;
 		}
 
 		public IEnumerable<IncidentTargetTypeDef> AcceptedTypes()
@@ -535,7 +528,7 @@ namespace Verse
 
 		private void FillComponents()
 		{
-			this.components.RemoveAll((Predicate<MapComponent>)((MapComponent component) => component == null));
+			this.components.RemoveAll((MapComponent component) => component == null);
 			foreach (Type item2 in typeof(MapComponent).AllSubclassesNonAbstract())
 			{
 				if (this.GetComponent(item2) == null)
@@ -611,7 +604,7 @@ namespace Verse
 				}
 			}
 			this.listerFilthInHomeArea.RebuildAll();
-			LongEventHandler.ExecuteWhenFinished((Action)delegate
+			LongEventHandler.ExecuteWhenFinished(delegate
 			{
 				this.mapDrawer.RegenerateEverythingNow();
 			});
@@ -715,13 +708,8 @@ namespace Verse
 
 		public void MapPreTick()
 		{
-			Profiler.BeginSample("ItemAvailabilityUtility.Tick()");
 			this.itemAvailability.Tick();
-			Profiler.EndSample();
-			Profiler.BeginSample("ListerHaulables.ListerHaulablesTick");
 			this.listerHaulables.ListerHaulablesTick();
-			Profiler.EndSample();
-			Profiler.BeginSample("AutoBuildRoofAreaSetter.AutoBuildRoofAreaSetterTick()");
 			try
 			{
 				this.autoBuildRoofAreaSetter.AutoBuildRoofAreaSetterTick_First();
@@ -730,14 +718,8 @@ namespace Verse
 			{
 				Log.Error(ex.ToString());
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("RoofCollapseChecker.RoofCollapseCheckerTick_First()");
 			this.roofCollapseBufferResolver.CollapseRoofsMarkedToCollapse();
-			Profiler.EndSample();
-			Profiler.BeginSample("WindManager.WindManagerTick()");
 			this.windManager.WindManagerTick();
-			Profiler.EndSample();
-			Profiler.BeginSample("MapTemperature.MapTemperatureTick()");
 			try
 			{
 				this.mapTemperature.MapTemperatureTick();
@@ -746,12 +728,10 @@ namespace Verse
 			{
 				Log.Error(ex2.ToString());
 			}
-			Profiler.EndSample();
 		}
 
 		public void MapPostTick()
 		{
-			Profiler.BeginSample("WildSpawnerTick()");
 			try
 			{
 				this.wildSpawner.WildSpawnerTick();
@@ -760,8 +740,6 @@ namespace Verse
 			{
 				Log.Error(ex.ToString());
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("PowerNetManager.PowerNetsTick()");
 			try
 			{
 				this.powerNetManager.PowerNetsTick();
@@ -770,8 +748,6 @@ namespace Verse
 			{
 				Log.Error(ex2.ToString());
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("SteadyAtmosphereEffects.SteadyAtmosphereEffectsTick()");
 			try
 			{
 				this.steadyAtmosphereEffects.SteadyAtmosphereEffectsTick();
@@ -780,8 +756,6 @@ namespace Verse
 			{
 				Log.Error(ex3.ToString());
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("LordManagerTick()");
 			try
 			{
 				this.lordManager.LordManagerTick();
@@ -790,8 +764,6 @@ namespace Verse
 			{
 				Log.Error(ex4.ToString());
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("PassingShipManagerTick()");
 			try
 			{
 				this.passingShipManager.PassingShipManagerTick();
@@ -800,8 +772,6 @@ namespace Verse
 			{
 				Log.Error(ex5.ToString());
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("DebugDrawer.DebugDrawerTick()");
 			try
 			{
 				this.debugDrawer.DebugDrawerTick();
@@ -810,8 +780,6 @@ namespace Verse
 			{
 				Log.Error(ex6.ToString());
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("VoluntarilyJoinableLordsStarterTick()");
 			try
 			{
 				this.lordsStarter.VoluntarilyJoinableLordsStarterTick();
@@ -820,8 +788,6 @@ namespace Verse
 			{
 				Log.Error(ex7.ToString());
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("GameConditionManager.GameConditionManagerTick()");
 			try
 			{
 				this.gameConditionManager.GameConditionManagerTick();
@@ -830,8 +796,6 @@ namespace Verse
 			{
 				Log.Error(ex8.ToString());
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("WeatherManager.WeatherManagerTick()");
 			try
 			{
 				this.weatherManager.WeatherManagerTick();
@@ -840,8 +804,6 @@ namespace Verse
 			{
 				Log.Error(ex9.ToString());
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("ResourceCounter.ResourceCounterTick()");
 			try
 			{
 				this.resourceCounter.ResourceCounterTick();
@@ -850,8 +812,6 @@ namespace Verse
 			{
 				Log.Error(ex10.ToString());
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("WeatherDecided.WeatherDeciderTick()");
 			try
 			{
 				this.weatherDecider.WeatherDeciderTick();
@@ -860,8 +820,6 @@ namespace Verse
 			{
 				Log.Error(ex11.ToString());
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("FireWatcher.FireWatcherTick()");
 			try
 			{
 				this.fireWatcher.FireWatcherTick();
@@ -870,8 +828,6 @@ namespace Verse
 			{
 				Log.Error(ex12.ToString());
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("DamageWatcher.DamageWatcherTick()");
 			try
 			{
 				this.damageWatcher.DamageWatcherTick();
@@ -880,70 +836,32 @@ namespace Verse
 			{
 				Log.Error(ex13.ToString());
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("MapComponentTick()");
 			MapComponentUtility.MapComponentTick(this);
-			Profiler.EndSample();
 		}
 
 		public void MapUpdate()
 		{
 			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
-			Profiler.BeginSample("SkyManagerUpdate()");
 			this.skyManager.SkyManagerUpdate();
-			Profiler.EndSample();
-			Profiler.BeginSample("PowerNetManager.UpdatePowerNetsAndConnections_First()");
 			this.powerNetManager.UpdatePowerNetsAndConnections_First();
-			Profiler.EndSample();
-			Profiler.BeginSample("regionGrid.UpdateClean()");
 			this.regionGrid.UpdateClean();
-			Profiler.EndSample();
-			Profiler.BeginSample("RegionAndRoomUpdater.TryRebuildDirtyRegionsAndRooms()");
 			this.regionAndRoomUpdater.TryRebuildDirtyRegionsAndRooms();
-			Profiler.EndSample();
-			Profiler.BeginSample("glowGrid.GlowGridUpdate_First()");
 			this.glowGrid.GlowGridUpdate_First();
-			Profiler.EndSample();
-			Profiler.BeginSample("LordManagerUpdate()");
 			this.lordManager.LordManagerUpdate();
-			Profiler.EndSample();
 			if (!worldRenderedNow && Find.VisibleMap == this)
 			{
-				Profiler.BeginSample("waterInfo.SetTextures()");
 				this.waterInfo.SetTextures();
-				Profiler.EndSample();
-				Profiler.BeginSample("FactionsDebugDrawOnMap()");
 				Find.FactionManager.FactionsDebugDrawOnMap();
-				Profiler.EndSample();
-				Profiler.BeginSample("mapDrawer.MapMeshDrawerUpdate_First");
 				this.mapDrawer.MapMeshDrawerUpdate_First();
-				Profiler.EndSample();
-				Profiler.BeginSample("PowerNetGrid.DrawDebugPowerNetGrid()");
 				this.powerNetGrid.DrawDebugPowerNetGrid();
-				Profiler.EndSample();
-				Profiler.BeginSample("DoorsDebugDrawer.DrawDebug()");
 				DoorsDebugDrawer.DrawDebug();
-				Profiler.EndSample();
-				Profiler.BeginSample("mapDrawer.DrawMapMesh");
 				this.mapDrawer.DrawMapMesh();
-				Profiler.EndSample();
-				Profiler.BeginSample("drawManager.DrawDynamicThings");
 				this.dynamicDrawManager.DrawDynamicThings();
-				Profiler.EndSample();
-				Profiler.BeginSample("GameConditionManagerDraw");
 				this.gameConditionManager.GameConditionManagerDraw();
-				Profiler.EndSample();
-				Profiler.BeginSample("DrawClippers");
 				MapEdgeClipDrawer.DrawClippers(this);
-				Profiler.EndSample();
-				Profiler.BeginSample("designationManager.DrawDesignations()");
 				this.designationManager.DrawDesignations();
-				Profiler.EndSample();
-				Profiler.BeginSample("OverlayDrawer.DrawAllOverlays()");
 				this.overlayDrawer.DrawAllOverlays();
-				Profiler.EndSample();
 			}
-			Profiler.BeginSample("AreaManagerUpdate()");
 			try
 			{
 				this.areaManager.AreaManagerUpdate();
@@ -952,58 +870,33 @@ namespace Verse
 			{
 				Log.Error(ex.ToString());
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("WeatherManagerUpdate()");
 			this.weatherManager.WeatherManagerUpdate();
-			Profiler.EndSample();
-			Profiler.BeginSample("MapComponentUpdate()");
 			MapComponentUtility.MapComponentUpdate(this);
-			Profiler.EndSample();
 		}
 
 		public T GetComponent<T>() where T : MapComponent
 		{
-			int num = 0;
-			T result;
-			while (true)
+			for (int i = 0; i < this.components.Count; i++)
 			{
-				if (num < this.components.Count)
+				T val = (T)(this.components[i] as T);
+				if (val != null)
 				{
-					T val = (T)(this.components[num] as T);
-					if (val != null)
-					{
-						result = val;
-						break;
-					}
-					num++;
-					continue;
+					return val;
 				}
-				result = (T)null;
-				break;
 			}
-			return result;
+			return (T)null;
 		}
 
 		public MapComponent GetComponent(Type type)
 		{
-			int num = 0;
-			MapComponent result;
-			while (true)
+			for (int i = 0; i < this.components.Count; i++)
 			{
-				if (num < this.components.Count)
+				if (type.IsAssignableFrom(this.components[i].GetType()))
 				{
-					if (type.IsAssignableFrom(this.components[num].GetType()))
-					{
-						result = this.components[num];
-						break;
-					}
-					num++;
-					continue;
+					return this.components[i];
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		public string GetUniqueLoadID()

@@ -14,25 +14,20 @@ namespace RimWorld
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			IntVec3 c = default(IntVec3);
-			Job result;
-			Thing thing = default(Thing);
 			if (!RCellFinder.TryFindBestExitSpot(pawn, out c, TraverseMode.ByPawn))
 			{
-				result = null;
+				return null;
 			}
-			else if (StealAIUtility.TryFindBestItemToSteal(pawn.Position, pawn.Map, 12f, out thing, pawn, (List<Thing>)null) && !GenAI.InDangerousCombat(pawn))
+			Thing thing = default(Thing);
+			if (StealAIUtility.TryFindBestItemToSteal(pawn.Position, pawn.Map, 12f, out thing, pawn, (List<Thing>)null) && !GenAI.InDangerousCombat(pawn))
 			{
 				Job job = new Job(JobDefOf.Steal);
 				job.targetA = thing;
 				job.targetB = c;
 				job.count = Mathf.Min(thing.stackCount, (int)(pawn.GetStatValue(StatDefOf.CarryingCapacity, true) / thing.def.VolumePerUnit));
-				result = job;
+				return job;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 	}
 }

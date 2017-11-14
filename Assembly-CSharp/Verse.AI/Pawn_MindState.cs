@@ -1,6 +1,5 @@
 using RimWorld;
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using Verse.AI.Group;
 
@@ -20,7 +19,7 @@ namespace Verse.AI
 
 		private bool activeInt = true;
 
-		public JobTag lastJobTag = JobTag.Misc;
+		public JobTag lastJobTag;
 
 		public int lastIngestTick = -99999;
 
@@ -40,7 +39,7 @@ namespace Verse.AI
 
 		public IntVec3 forcedGotoPosition = IntVec3.Invalid;
 
-		public Thing knownExploder = null;
+		public Thing knownExploder;
 
 		public bool wantsToTradeWithColony;
 
@@ -50,7 +49,7 @@ namespace Verse.AI
 
 		public int canSleepTick = -99999;
 
-		public Pawn meleeThreat = null;
+		public Pawn meleeThreat;
 
 		public int lastMeleeThreatHarmTick;
 
@@ -62,15 +61,15 @@ namespace Verse.AI
 
 		public Thing enemyTarget;
 
-		public PawnDuty duty = null;
+		public PawnDuty duty;
 
 		public Dictionary<int, int> thinkData = new Dictionary<int, int>();
 
 		public int lastAssignedInteractTime = -99999;
 
-		public int lastInventoryRawFoodUseTick = 0;
+		public int lastInventoryRawFoodUseTick;
 
-		public bool nextMoveOrderIsWait = false;
+		public bool nextMoveOrderIsWait;
 
 		public int lastTakeCombatEnhancingDrugTick = -99999;
 
@@ -125,7 +124,15 @@ namespace Verse.AI
 		{
 			get
 			{
-				return !this.pawn.Downed && this.pawn.Spawned && this.lastJobTag == JobTag.Idle;
+				if (this.pawn.Downed)
+				{
+					return false;
+				}
+				if (!this.pawn.Spawned)
+				{
+					return false;
+				}
+				return this.lastJobTag == JobTag.Idle;
 			}
 		}
 
@@ -329,7 +336,7 @@ namespace Verse.AI
 		{
 			this.willJoinColonyIfRescued = false;
 			InteractionWorker_RecruitAttempt.DoRecruit(by, this.pawn, 1f, false);
-			Messages.Message("MessagePrisonerRescued".Translate().AdjustedFor(this.pawn).CapitalizeFirst(), (Thing)this.pawn, MessageTypeDefOf.PositiveEvent);
+			Messages.Message("MessagePrisonerRescued".Translate().AdjustedFor(this.pawn).CapitalizeFirst(), this.pawn, MessageTypeDefOf.PositiveEvent);
 		}
 
 		public void ResetLastDisturbanceTick()
@@ -360,15 +367,15 @@ namespace Verse.AI
 				defaultDesc = "CommandCancelFormingCaravanDesc".Translate(),
 				icon = TexCommand.ClearPrioritizedWork,
 				activateSound = SoundDefOf.TickLow,
-				action = (Action)delegate
+				action = delegate
 				{
 					CaravanFormingUtility.StopFormingCaravan(lord);
 				},
 				hotKey = KeyBindingDefOf.DesignatorCancel
 			};
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_01c5:
-			/*Error near IL_01c6: Unexpected return in MoveNext()*/;
+			IL_01bf:
+			/*Error near IL_01c0: Unexpected return in MoveNext()*/;
 		}
 
 		public void Notify_OutfitChanged()
@@ -424,21 +431,16 @@ namespace Verse.AI
 
 		internal bool CheckStartMentalStateBecauseRecruitAttempted(Pawn tamer)
 		{
-			bool result;
 			if (!this.pawn.RaceProps.Animal)
 			{
-				result = false;
+				return false;
 			}
-			else if (!this.mentalStateHandler.InMentalState && this.pawn.Faction == null && Rand.Value < this.pawn.RaceProps.manhunterOnTameFailChance)
+			if (!this.mentalStateHandler.InMentalState && this.pawn.Faction == null && Rand.Value < this.pawn.RaceProps.manhunterOnTameFailChance)
 			{
 				this.StartManhunterBecauseOfPawnAction("AnimalManhunterFromTaming");
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		internal void Notify_DangerousExploderAboutToExplode(Thing exploder)
@@ -455,6 +457,14 @@ namespace Verse.AI
 			if (this.pawn.Faction == null && !(explosion.radius < 3.5) && this.pawn.Position.InHorDistOf(explosion.Position, (float)(explosion.radius + 7.0)) && Pawn_MindState.CanStartFleeingBecauseOfPawnAction(this.pawn))
 			{
 				this.StartFleeingBecauseOfPawnAction(explosion);
+			}
+		}
+
+		public void Notify_TuckedIntoBed()
+		{
+			if (this.pawn.IsWildMan())
+			{
+				this.wildManEverReachedOutside = false;
 			}
 		}
 
@@ -480,16 +490,16 @@ namespace Verse.AI
 
 		private void StartManhunterBecauseOfPawnAction(string letterTextKey)
 		{
-			if (this.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, (string)null, false, false, null))
+			if (this.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, null, false, false, null))
 			{
 				string text = letterTextKey.Translate(this.pawn.Label);
-				GlobalTargetInfo lookTarget = (Thing)this.pawn;
+				GlobalTargetInfo lookTarget = this.pawn;
 				int num = 1;
 				if (Find.Storyteller.difficulty.allowBigThreats && Rand.Value < 0.5)
 				{
 					foreach (Pawn packmate in this.GetPackmates(this.pawn, 24f))
 					{
-						if (packmate.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, (string)null, false, false, null))
+						if (packmate.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, null, false, false, null))
 						{
 							num++;
 						}
@@ -502,7 +512,7 @@ namespace Verse.AI
 					}
 				}
 				string label = (!"LetterLabelAnimalManhunterRevenge".CanTranslate()) ? "LetterLabelAnimalManhunterFromDamage".Translate(this.pawn.Label).CapitalizeFirst() : "LetterLabelAnimalManhunterRevenge".Translate(this.pawn.Label).CapitalizeFirst();
-				Find.LetterStack.ReceiveLetter(label, text, (num != 1) ? LetterDefOf.ThreatBig : LetterDefOf.ThreatSmall, lookTarget, (string)null);
+				Find.LetterStack.ReceiveLetter(label, text, (num != 1) ? LetterDefOf.ThreatBig : LetterDefOf.ThreatSmall, lookTarget, null);
 			}
 		}
 
@@ -519,7 +529,7 @@ namespace Verse.AI
 			IntVec3 fleeDest = CellFinderLoose.GetFleeDest(this.pawn, threats, (float)(this.pawn.Position.DistanceTo(instigator.Position) + 14.0));
 			if (fleeDest != this.pawn.Position)
 			{
-				this.pawn.jobs.StartJob(new Job(JobDefOf.Flee, fleeDest, instigator), JobCondition.InterruptOptional, null, false, true, null, default(JobTag?), false);
+				this.pawn.jobs.StartJob(new Job(JobDefOf.Flee, fleeDest, instigator), JobCondition.InterruptOptional, null, false, true, null, null, false);
 			}
 			if (this.pawn.RaceProps.herdAnimal && Rand.Chance(0.1f))
 			{
@@ -530,7 +540,7 @@ namespace Verse.AI
 						IntVec3 fleeDest2 = CellFinderLoose.GetFleeDest(packmate, threats, (float)(packmate.Position.DistanceTo(instigator.Position) + 14.0));
 						if (fleeDest2 != packmate.Position)
 						{
-							packmate.jobs.StartJob(new Job(JobDefOf.Flee, fleeDest2, instigator), JobCondition.InterruptOptional, null, false, true, null, default(JobTag?), false);
+							packmate.jobs.StartJob(new Job(JobDefOf.Flee, fleeDest2, instigator), JobCondition.InterruptOptional, null, false, true, null, null, false);
 						}
 					}
 				}

@@ -86,12 +86,11 @@ namespace Verse.Sound
 		public static Sustainer TrySpawnSustainer(this SoundDef soundDef, SoundInfo info)
 		{
 			DebugSoundEventsLog.Notify_SoundEvent(soundDef, info);
-			Sustainer result;
 			if (soundDef == null)
 			{
-				result = null;
+				return null;
 			}
-			else if (soundDef.isUndefined)
+			if (soundDef.isUndefined)
 			{
 				if (Prefs.DevMode && Find.WindowStack.IsOpen(typeof(EditWindow_DefEditor)))
 				{
@@ -100,32 +99,25 @@ namespace Verse.Sound
 					SoundDef soundDef2 = SoundDef.Named(soundDef.defName);
 					if (!soundDef2.isUndefined)
 					{
-						result = soundDef2.TrySpawnSustainer(info);
-						goto IL_0112;
+						return soundDef2.TrySpawnSustainer(info);
 					}
 				}
-				result = null;
+				return null;
 			}
-			else if (!soundDef.sustain)
+			if (!soundDef.sustain)
 			{
 				Log.Error("Tried to spawn a sustainer from non-sustainer sound " + soundDef + ".");
-				result = null;
+				return null;
 			}
-			else if (!info.IsOnCamera && info.Maker.Thing != null && info.Maker.Thing.Destroyed)
+			if (!info.IsOnCamera && info.Maker.Thing != null && info.Maker.Thing.Destroyed)
 			{
-				result = null;
+				return null;
 			}
-			else
+			if (!soundDef.sustainStartSound.NullOrEmpty())
 			{
-				if (!soundDef.sustainStartSound.NullOrEmpty())
-				{
-					SoundDef.Named(soundDef.sustainStartSound).PlayOneShot(info);
-				}
-				result = new Sustainer(soundDef, info);
+				SoundDef.Named(soundDef.sustainStartSound).PlayOneShot(info);
 			}
-			goto IL_0112;
-			IL_0112:
-			return result;
+			return new Sustainer(soundDef, info);
 		}
 	}
 }

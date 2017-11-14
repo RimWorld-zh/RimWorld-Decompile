@@ -5,9 +5,9 @@ namespace RimWorld
 {
 	public class ThinkNode_ConditionalNeedPercentageAbove : ThinkNode_Conditional
 	{
-		private NeedDef need = null;
+		private NeedDef need;
 
-		private float threshold = 0f;
+		private float threshold;
 
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{

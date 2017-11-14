@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -15,7 +14,7 @@ namespace RimWorld
 
 		protected float curLevelInt;
 
-		protected List<float> threshPercents = null;
+		protected List<float> threshPercents;
 
 		public const float MaxDrawHeight = 70f;
 
@@ -93,7 +92,15 @@ namespace RimWorld
 		{
 			get
 			{
-				return ThingOwnerUtility.ContentsFrozen(this.pawn.ParentHolder) || (this.def.freezeWhileSleeping && !this.pawn.Awake()) || !this.IsPawnInteractableOrVisible;
+				if (ThingOwnerUtility.ContentsFrozen(this.pawn.ParentHolder))
+				{
+					return true;
+				}
+				if (this.def.freezeWhileSleeping && !this.pawn.Awake())
+				{
+					return true;
+				}
+				return !this.IsPawnInteractableOrVisible;
 			}
 		}
 
@@ -101,7 +108,19 @@ namespace RimWorld
 		{
 			get
 			{
-				return (byte)(this.pawn.SpawnedOrAnyParentSpawned ? 1 : (this.pawn.IsCaravanMember() ? 1 : (PawnUtility.IsTravelingInTransportPodWorldObject(this.pawn) ? 1 : 0))) != 0;
+				if (this.pawn.SpawnedOrAnyParentSpawned)
+				{
+					return true;
+				}
+				if (this.pawn.IsCaravanMember())
+				{
+					return true;
+				}
+				if (PawnUtility.IsTravelingInTransportPodWorldObject(this.pawn))
+				{
+					return true;
+				}
+				return false;
 			}
 		}
 
@@ -152,7 +171,7 @@ namespace RimWorld
 			}
 			if (doTooltip)
 			{
-				TooltipHandler.TipRegion(rect, new TipSignal((Func<string>)(() => this.GetTipString()), rect.GetHashCode()));
+				TooltipHandler.TipRegion(rect, new TipSignal(() => this.GetTipString(), rect.GetHashCode()));
 			}
 			float num2 = 14f;
 			float num3 = (float)((!(customMargin >= 0.0)) ? (num2 + 15.0) : customMargin);
@@ -165,25 +184,25 @@ namespace RimWorld
 			Rect rect2 = new Rect((float)(rect.x + num3 + rect.width * 0.10000000149011612), rect.y, (float)(rect.width - num3 - rect.width * 0.10000000149011612), (float)(rect.height / 2.0));
 			Widgets.Label(rect2, this.LabelCap);
 			Text.Anchor = TextAnchor.UpperLeft;
-			Rect barRect = new Rect(rect.x, (float)(rect.y + rect.height / 2.0), rect.width, (float)(rect.height / 2.0));
-			Rect rect3;
-			barRect = (rect3 = new Rect(barRect.x + num3, barRect.y, (float)(barRect.width - num3 * 2.0), barRect.height - num2));
+			Rect rect3 = new Rect(rect.x, (float)(rect.y + rect.height / 2.0), rect.width, (float)(rect.height / 2.0));
+			rect3 = new Rect(rect3.x + num3, rect3.y, (float)(rect3.width - num3 * 2.0), rect3.height - num2);
+			Rect rect4 = rect3;
 			float num4 = 1f;
 			if (this.def.scaleBar && this.MaxLevel < 1.0)
 			{
 				num4 = this.MaxLevel;
 			}
-			rect3.width *= num4;
-			Rect barRect2 = Widgets.FillableBar(rect3, this.CurLevelPercentage);
+			rect4.width *= num4;
+			Rect barRect = Widgets.FillableBar(rect4, this.CurLevelPercentage);
 			if (drawArrows)
 			{
-				Widgets.FillableBarChangeArrows(rect3, this.GUIChangeArrow);
+				Widgets.FillableBarChangeArrows(rect4, this.GUIChangeArrow);
 			}
 			if (this.threshPercents != null)
 			{
 				for (int i = 0; i < Mathf.Min(this.threshPercents.Count, maxThresholdMarkers); i++)
 				{
-					this.DrawBarThreshold(barRect2, this.threshPercents[i] * num4);
+					this.DrawBarThreshold(barRect, this.threshPercents[i] * num4);
 				}
 			}
 			if (this.def.scaleBar)
@@ -191,14 +210,14 @@ namespace RimWorld
 				int num5 = 1;
 				while ((float)num5 < this.MaxLevel)
 				{
-					this.DrawBarDivision(barRect2, (float)num5 / this.MaxLevel * num4);
+					this.DrawBarDivision(barRect, (float)num5 / this.MaxLevel * num4);
 					num5++;
 				}
 			}
 			float curInstantLevelPercentage = this.CurInstantLevelPercentage;
 			if (curInstantLevelPercentage >= 0.0)
 			{
-				this.DrawBarInstantMarkerAt(barRect, curInstantLevelPercentage * num4);
+				this.DrawBarInstantMarkerAt(rect3, curInstantLevelPercentage * num4);
 			}
 			if (!this.def.tutorHighlightTag.NullOrEmpty())
 			{

@@ -6,8 +6,8 @@ namespace RimWorld
 	{
 		public Vector3 offset = new Vector3(-1000f, -1000f, -1000f);
 
-		public bool flip = false;
+		public bool flip;
 
-		public bool behind = false;
+		public bool behind;
 	}
 }

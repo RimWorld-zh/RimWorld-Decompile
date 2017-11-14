@@ -44,7 +44,11 @@ namespace RimWorld
 		{
 			IntVec3 c = center + IntVec3.South.RotatedBy(rot);
 			IntVec3 c2 = center + IntVec3.North.RotatedBy(rot);
-			return (!c.Impassable(map) && !c2.Impassable(map)) ? true : "MustPlaceCoolerWithFreeSpaces".Translate();
+			if (!c.Impassable(map) && !c2.Impassable(map))
+			{
+				return true;
+			}
+			return "MustPlaceCoolerWithFreeSpaces".Translate();
 		}
 	}
 }

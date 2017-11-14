@@ -16,7 +16,7 @@ namespace RimWorld
 		{
 			foreach (PawnBio item in DirectXmlLoader.LoadXmlDataInResourcesFolder<PawnBio>("Backstories/Solid"))
 			{
-				item.name.ResolveMissingPieces((string)null);
+				item.name.ResolveMissingPieces(null);
 				if (item.childhood == null || item.adulthood == null)
 				{
 					PawnNameDatabaseSolid.AddPlayerContentName(item.name, item.gender);
@@ -34,6 +34,7 @@ namespace RimWorld
 					item.childhood.slot = BackstorySlot.Childhood;
 					item.adulthood.shuffleable = false;
 					item.adulthood.slot = BackstorySlot.Adulthood;
+					BackstoryHardcodedData.InjectHardcodedData(item);
 					BackstoryDatabase.AddBackstory(item.childhood);
 					BackstoryDatabase.AddBackstory(item.adulthood);
 				}

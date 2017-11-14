@@ -13,25 +13,20 @@ namespace RimWorld
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			IntVec3 c = default(IntVec3);
-			Job result;
-			Pawn t = default(Pawn);
 			if (!RCellFinder.TryFindBestExitSpot(pawn, out c, TraverseMode.ByPawn))
 			{
-				result = null;
+				return null;
 			}
-			else if (KidnapAIUtility.TryFindGoodKidnapVictim(pawn, 18f, out t, (List<Thing>)null) && !GenAI.InDangerousCombat(pawn))
+			Pawn t = default(Pawn);
+			if (KidnapAIUtility.TryFindGoodKidnapVictim(pawn, 18f, out t, (List<Thing>)null) && !GenAI.InDangerousCombat(pawn))
 			{
 				Job job = new Job(JobDefOf.Kidnap);
-				job.targetA = (Thing)t;
+				job.targetA = t;
 				job.targetB = c;
 				job.count = 1;
-				result = job;
+				return job;
 			}
-			else
-			{
-				result = null;
-			}
-			return result;
+			return null;
 		}
 	}
 }

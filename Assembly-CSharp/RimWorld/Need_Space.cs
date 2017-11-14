@@ -51,11 +51,24 @@ namespace RimWorld
 		{
 			get
 			{
-				return (SpaceCategory)((!(this.CurLevel < 0.0099999997764825821)) ? ((this.CurLevel < 0.30000001192092896) ? 1 : ((!(this.CurLevel < 0.699999988079071)) ? 3 : 2)) : 0);
+				if (this.CurLevel < 0.0099999997764825821)
+				{
+					return SpaceCategory.VeryCramped;
+				}
+				if (this.CurLevel < 0.30000001192092896)
+				{
+					return SpaceCategory.Cramped;
+				}
+				if (this.CurLevel < 0.699999988079071)
+				{
+					return SpaceCategory.Normal;
+				}
+				return SpaceCategory.Spacious;
 			}
 		}
 
-		public Need_Space(Pawn pawn) : base(pawn)
+		public Need_Space(Pawn pawn)
+			: base(pawn)
 		{
 			base.threshPercents = new List<float>();
 			base.threshPercents.Add(0.3f);
@@ -64,47 +77,39 @@ namespace RimWorld
 
 		public float SpacePerceptibleNow()
 		{
-			float result;
 			if (!base.pawn.Spawned)
 			{
-				result = 1f;
+				return 1f;
 			}
-			else
+			IntVec3 position = base.pawn.Position;
+			Need_Space.tempScanRooms.Clear();
+			for (int i = 0; i < 5; i++)
 			{
-				IntVec3 position = base.pawn.Position;
-				Need_Space.tempScanRooms.Clear();
-				for (int i = 0; i < 5; i++)
+				IntVec3 loc = position + GenRadial.RadialPattern[i];
+				Room room = loc.GetRoom(base.pawn.Map, RegionType.Set_Passable);
+				if (room != null)
 				{
-					IntVec3 loc = position + GenRadial.RadialPattern[i];
-					Room room = loc.GetRoom(base.pawn.Map, RegionType.Set_Passable);
-					if (room != null)
+					if (i == 0 && room.PsychologicallyOutdoors)
 					{
-						if (i == 0 && room.PsychologicallyOutdoors)
-							goto IL_007f;
-						if ((i == 0 || room.RegionType != RegionType.Portal) && !Need_Space.tempScanRooms.Contains(room))
-						{
-							Need_Space.tempScanRooms.Add(room);
-						}
+						return 1f;
+					}
+					if ((i == 0 || room.RegionType != RegionType.Portal) && !Need_Space.tempScanRooms.Contains(room))
+					{
+						Need_Space.tempScanRooms.Add(room);
 					}
 				}
-				float num = 0f;
-				for (int j = 0; j < Need_Space.SampleNumCells; j++)
-				{
-					IntVec3 loc2 = position + GenRadial.RadialPattern[j];
-					if (Need_Space.tempScanRooms.Contains(loc2.GetRoom(base.pawn.Map, RegionType.Set_Passable)))
-					{
-						num = (float)(num + 1.0);
-					}
-				}
-				Need_Space.tempScanRooms.Clear();
-				result = Need_Space.RoomCellCountSpaceCurve.Evaluate(num);
 			}
-			goto IL_0155;
-			IL_0155:
-			return result;
-			IL_007f:
-			result = 1f;
-			goto IL_0155;
+			float num = 0f;
+			for (int j = 0; j < Need_Space.SampleNumCells; j++)
+			{
+				IntVec3 loc2 = position + GenRadial.RadialPattern[j];
+				if (Need_Space.tempScanRooms.Contains(loc2.GetRoom(base.pawn.Map, RegionType.Set_Passable)))
+				{
+					num = (float)(num + 1.0);
+				}
+			}
+			Need_Space.tempScanRooms.Clear();
+			return Need_Space.RoomCellCountSpaceCurve.Evaluate(num);
 		}
 	}
 }

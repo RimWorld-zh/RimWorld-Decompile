@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,7 +34,7 @@ namespace RimWorld
 
 		public override AlertReport GetReport()
 		{
-			return (Thing)this.AwaitingMedicalOperation.FirstOrDefault();
+			return this.AwaitingMedicalOperation.FirstOrDefault();
 		}
 	}
 }

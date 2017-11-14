@@ -13,7 +13,7 @@ namespace RimWorld
 
 		public IntVec3 destinationCell = IntVec3.Invalid;
 
-		public PawnsArriveMode arriveMode = PawnsArriveMode.Undecided;
+		public PawnsArriveMode arriveMode;
 
 		public bool attackOnArrival;
 

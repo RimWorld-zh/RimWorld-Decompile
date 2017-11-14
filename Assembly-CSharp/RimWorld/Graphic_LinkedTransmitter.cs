@@ -5,13 +5,22 @@ namespace RimWorld
 {
 	public class Graphic_LinkedTransmitter : Graphic_Linked
 	{
-		public Graphic_LinkedTransmitter(Graphic subGraphic) : base(subGraphic)
+		public Graphic_LinkedTransmitter(Graphic subGraphic)
+			: base(subGraphic)
 		{
 		}
 
 		public override bool ShouldLinkWith(IntVec3 c, Thing parent)
 		{
-			return (byte)(c.InBounds(parent.Map) ? ((base.ShouldLinkWith(c, parent) || parent.Map.powerNetGrid.TransmittedPowerNetAt(c) != null) ? 1 : 0) : 0) != 0;
+			if (!c.InBounds(parent.Map))
+			{
+				return false;
+			}
+			if (!base.ShouldLinkWith(c, parent) && parent.Map.powerNetGrid.TransmittedPowerNetAt(c) == null)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override void Print(SectionLayer layer, Thing thing)

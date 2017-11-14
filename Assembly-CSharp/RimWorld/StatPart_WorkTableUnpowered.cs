@@ -14,32 +14,26 @@ namespace RimWorld
 
 		public override string ExplanationPart(StatRequest req)
 		{
-			string result;
 			if (req.HasThing && StatPart_WorkTableUnpowered.Applies(req.Thing))
 			{
 				float unpoweredWorkTableWorkSpeedFactor = req.Thing.def.building.unpoweredWorkTableWorkSpeedFactor;
-				result = "NoPower".Translate() + ": x" + unpoweredWorkTableWorkSpeedFactor.ToStringPercent();
+				return "NoPower".Translate() + ": x" + unpoweredWorkTableWorkSpeedFactor.ToStringPercent();
 			}
-			else
-			{
-				result = (string)null;
-			}
-			return result;
+			return null;
 		}
 
 		public static bool Applies(Thing th)
 		{
-			bool result;
 			if (th.def.building.unpoweredWorkTableWorkSpeedFactor == 0.0)
 			{
-				result = false;
+				return false;
 			}
-			else
+			CompPowerTrader compPowerTrader = th.TryGetComp<CompPowerTrader>();
+			if (compPowerTrader != null && !compPowerTrader.PowerOn)
 			{
-				CompPowerTrader compPowerTrader = th.TryGetComp<CompPowerTrader>();
-				result = ((byte)((compPowerTrader != null && !compPowerTrader.PowerOn) ? 1 : 0) != 0);
+				return true;
 			}
-			return result;
+			return false;
 		}
 	}
 }

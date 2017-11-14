@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -29,7 +28,19 @@ namespace RimWorld
 
 		public override bool CanUseWith(IncidentParms parms)
 		{
-			return (byte)((parms.faction.def.humanlikeFaction && (int)parms.faction.def.techLevel >= 4) ? (this.PawnGenOptionsWithSappers(parms.faction).Any() ? (base.CanUseWith(parms) ? 1 : 0) : 0) : 0) != 0;
+			if (parms.faction.def.humanlikeFaction && (int)parms.faction.def.techLevel >= 4)
+			{
+				if (!this.PawnGenOptionsWithSappers(parms.faction).Any())
+				{
+					return false;
+				}
+				if (!base.CanUseWith(parms))
+				{
+					return false;
+				}
+				return true;
+			}
+			return false;
 		}
 
 		public override float MinimumPoints(Faction faction)
@@ -45,41 +56,40 @@ namespace RimWorld
 		private float CheapestSapperCost(Faction faction)
 		{
 			IEnumerable<PawnGroupMaker> enumerable = this.PawnGenOptionsWithSappers(faction);
-			float result;
 			if (!enumerable.Any())
 			{
 				Log.Error("Tried to get MinimumPoints for " + base.GetType().ToString() + " for faction " + faction.ToString() + " but the faction has no groups with sappers.");
-				result = 99999f;
+				return 99999f;
 			}
-			else
+			float num = 9999999f;
+			foreach (PawnGroupMaker item in enumerable)
 			{
-				float num = 9999999f;
-				foreach (PawnGroupMaker item in enumerable)
+				foreach (PawnGenOption item2 in from op in item.options
+				where RaidStrategyWorker_ImmediateAttackSappers.CanBeSapper(op.kind)
+				select op)
 				{
-					foreach (PawnGenOption item2 in from op in item.options
-					where RaidStrategyWorker_ImmediateAttackSappers.CanBeSapper(op.kind)
-					select op)
+					if (item2.Cost < num)
 					{
-						if (item2.Cost < num)
-						{
-							num = item2.Cost;
-						}
+						num = item2.Cost;
 					}
 				}
-				result = num;
 			}
-			return result;
+			return num;
 		}
 
 		public override bool CanUsePawnGenOption(PawnGenOption opt, List<PawnGenOption> chosenOpts)
 		{
-			return (byte)((chosenOpts.Count != 0 || (opt.kind.weaponTags.Count == 1 && RaidStrategyWorker_ImmediateAttackSappers.CanBeSapper(opt.kind))) ? 1 : 0) != 0;
+			if (chosenOpts.Count == 0 && (opt.kind.weaponTags.Count != 1 || !RaidStrategyWorker_ImmediateAttackSappers.CanBeSapper(opt.kind)))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		private IEnumerable<PawnGroupMaker> PawnGenOptionsWithSappers(Faction faction)
 		{
 			return from gm in faction.def.pawnGroupMakers
-			where gm.kindDef == PawnGroupKindDefOf.Normal && gm.options.Any((Predicate<PawnGenOption>)((PawnGenOption op) => RaidStrategyWorker_ImmediateAttackSappers.CanBeSapper(op.kind)))
+			where gm.kindDef == PawnGroupKindDefOf.Normal && gm.options.Any((PawnGenOption op) => RaidStrategyWorker_ImmediateAttackSappers.CanBeSapper(op.kind))
 			select gm;
 		}
 

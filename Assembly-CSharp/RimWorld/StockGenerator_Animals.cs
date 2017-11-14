@@ -10,13 +10,13 @@ namespace RimWorld
 	{
 		private IntRange kindCountRange = new IntRange(1, 1);
 
-		private float minWildness = 0f;
+		private float minWildness;
 
 		private float maxWildness = 1f;
 
-		private List<string> tradeTags = null;
+		private List<string> tradeTags;
 
-		private bool checkTemperature = false;
+		private bool checkTemperature;
 
 		private static readonly SimpleCurve SelectionChanceFromWildnessCurve = new SimpleCurve
 		{
@@ -63,7 +63,7 @@ namespace RimWorld
 			{
 				PawnKindDef kind2 = kind;
 				int tile = forTile;
-				PawnGenerationRequest request = new PawnGenerationRequest(kind2, null, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 1f, false, true, true, false, false, false, false, null, default(float?), default(float?), default(float?), default(Gender?), default(float?), (string)null);
+				PawnGenerationRequest request = new PawnGenerationRequest(kind2, null, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 1f, false, true, true, false, false, false, false, null, null, null, null, null, null, null);
 				yield return (Thing)PawnGenerator.GeneratePawn(request);
 				/*Error: Unable to find new state assignment for yield return*/;
 			}
@@ -81,12 +81,7 @@ namespace RimWorld
 
 		private bool PawnKindAllowed(PawnKindDef kind, int forTile)
 		{
-			bool result;
-			if (!kind.RaceProps.Animal || kind.RaceProps.wildness < this.minWildness || kind.RaceProps.wildness > this.maxWildness || kind.RaceProps.wildness > 1.0)
-			{
-				result = false;
-			}
-			else
+			if (kind.RaceProps.Animal && !(kind.RaceProps.wildness < this.minWildness) && !(kind.RaceProps.wildness > this.maxWildness) && !(kind.RaceProps.wildness > 1.0))
 			{
 				if (this.checkTemperature)
 				{
@@ -97,15 +92,24 @@ namespace RimWorld
 					}
 					if (num != -1 && !Find.World.tileTemperatures.SeasonAndOutdoorTemperatureAcceptableFor(num, kind.race))
 					{
-						result = false;
-						goto IL_0137;
+						return false;
 					}
 				}
-				result = ((byte)((kind.race.tradeTags != null) ? ((this.tradeTags.Find((Predicate<string>)((string x) => kind.race.tradeTags.Contains(x))) != null) ? ((kind.race.tradeability == Tradeability.Stockable) ? 1 : 0) : 0) : 0) != 0);
+				if (kind.race.tradeTags == null)
+				{
+					return false;
+				}
+				if (this.tradeTags.Find((string x) => kind.race.tradeTags.Contains(x)) == null)
+				{
+					return false;
+				}
+				if (kind.race.tradeability != Tradeability.Stockable)
+				{
+					return false;
+				}
+				return true;
 			}
-			goto IL_0137;
-			IL_0137:
-			return result;
+			return false;
 		}
 
 		public void LogAnimalChances()

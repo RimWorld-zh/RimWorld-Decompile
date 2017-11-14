@@ -28,7 +28,11 @@ namespace RimWorld.Planet
 
 		public override string CompInspectStringExtra()
 		{
-			return (!this.ActiveRequest) ? null : "CaravanRequestInfo".Translate(GenLabel.ThingLabel(this.requestThingDef, null, this.requestCount).CapitalizeFirst(), this.rewards[0].LabelCap, (this.expiration - Find.TickManager.TicksGame).ToStringTicksToDays("F1"));
+			if (this.ActiveRequest)
+			{
+				return "CaravanRequestInfo".Translate(GenLabel.ThingLabel(this.requestThingDef, null, this.requestCount).CapitalizeFirst(), this.rewards[0].LabelCap, (this.expiration - Find.TickManager.TicksGame).ToStringTicksToDays("F1"));
+			}
+			return null;
 		}
 
 		public void GetChildHolders(List<IThingHolder> outChildren)

@@ -151,24 +151,23 @@ namespace RimWorld.BaseGen
 		public bool TryGetCustom<T>(string name, out T obj)
 		{
 			object obj2 = default(object);
-			bool result;
-			if (this.custom == null || !this.custom.TryGetValue(name, out obj2))
-			{
-				obj = default(T);
-				result = false;
-			}
-			else
+			if (this.custom != null && this.custom.TryGetValue(name, out obj2))
 			{
 				obj = (T)obj2;
-				result = true;
+				return true;
 			}
-			return result;
+			obj = default(T);
+			return false;
 		}
 
 		public T GetCustom<T>(string name)
 		{
 			object obj = default(object);
-			return (this.custom != null && this.custom.TryGetValue(name, out obj)) ? ((T)obj) : default(T);
+			if (this.custom != null && this.custom.TryGetValue(name, out obj))
+			{
+				return (T)obj;
+			}
+			return default(T);
 		}
 
 		public override string ToString()
@@ -322,14 +321,14 @@ namespace RimWorld.BaseGen
 			obj[34] = ", singlePawnLord=";
 			obj[35] = ((this.singlePawnLord == null) ? "null" : this.singlePawnLord.ToString());
 			obj[36] = ", singlePawnSpawnCellExtraPredicate=";
-			obj[37] = (((object)this.singlePawnSpawnCellExtraPredicate == null) ? "null" : this.singlePawnSpawnCellExtraPredicate.ToString());
+			obj[37] = ((this.singlePawnSpawnCellExtraPredicate == null) ? "null" : this.singlePawnSpawnCellExtraPredicate.ToString());
 			obj[38] = ", singlePawnGenerationRequest=";
 			PawnGenerationRequest? nullable7 = this.singlePawnGenerationRequest;
 			obj[39] = ((!nullable7.HasValue) ? "null" : this.singlePawnGenerationRequest.ToString());
 			obj[40] = ", postThingSpawn=";
-			obj[41] = (((object)this.postThingSpawn == null) ? "null" : this.postThingSpawn.ToString());
+			obj[41] = ((this.postThingSpawn == null) ? "null" : this.postThingSpawn.ToString());
 			obj[42] = ", postThingGenerate=";
-			obj[43] = (((object)this.postThingGenerate == null) ? "null" : this.postThingGenerate.ToString());
+			obj[43] = ((this.postThingGenerate == null) ? "null" : this.postThingGenerate.ToString());
 			obj[44] = ", mechanoidsCount=";
 			int? nullable8 = this.mechanoidsCount;
 			obj[45] = ((!nullable8.HasValue) ? "null" : this.mechanoidsCount.ToString());

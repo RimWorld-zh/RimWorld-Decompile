@@ -32,7 +32,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable Regenerate()
 		{
-			IEnumerator enumerator = this._003CRegenerate_003E__BaseCallProxy0().GetEnumerator();
+			IEnumerator enumerator = base.Regenerate().GetEnumerator();
 			try
 			{
 				if (enumerator.MoveNext())
@@ -57,26 +57,25 @@ namespace RimWorld.Planet
 				LayerSubMesh subMesh = base.GetSubMesh(this.Material);
 				Find.WorldGrid.GetTileVertices(tile, this.verts);
 				int count = subMesh.verts.Count;
-				int num = 0;
+				int i = 0;
 				int count2 = this.verts.Count;
-				while (num < count2)
+				for (; i < count2; i++)
 				{
-					subMesh.verts.Add(this.verts[num] + this.verts[num].normalized * 0.012f);
-					subMesh.uvs.Add((GenGeo.RegularPolygonVertexPosition(count2, num) + Vector2.one) / 2f);
-					if (num < count2 - 2)
+					subMesh.verts.Add(this.verts[i] + this.verts[i].normalized * 0.012f);
+					subMesh.uvs.Add((GenGeo.RegularPolygonVertexPosition(count2, i) + Vector2.one) / 2f);
+					if (i < count2 - 2)
 					{
-						subMesh.tris.Add(count + num + 2);
-						subMesh.tris.Add(count + num + 1);
+						subMesh.tris.Add(count + i + 2);
+						subMesh.tris.Add(count + i + 1);
 						subMesh.tris.Add(count);
 					}
-					num++;
 				}
 				base.FinalizeMesh(MeshParts.All);
 			}
 			this.lastDrawnTile = tile;
 			yield break;
-			IL_0224:
-			/*Error near IL_0225: Unexpected return in MoveNext()*/;
+			IL_021a:
+			/*Error near IL_021b: Unexpected return in MoveNext()*/;
 		}
 	}
 }

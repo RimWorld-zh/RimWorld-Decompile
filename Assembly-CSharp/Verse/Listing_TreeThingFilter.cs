@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,7 +12,7 @@ namespace Verse
 
 		private List<SpecialThingFilterDef> hiddenSpecialFilters;
 
-		private List<ThingDef> forceHiddenDefs = null;
+		private List<ThingDef> forceHiddenDefs;
 
 		private List<SpecialThingFilterDef> tempForceHiddenSpecialFilters;
 
@@ -77,12 +76,12 @@ namespace Verse
 			if (sfDef.configurable)
 			{
 				base.LabelLeft("*" + sfDef.LabelCap, sfDef.description, nestLevel);
-				bool flag;
-				bool flag2 = flag = this.filter.Allows(sfDef);
-				Widgets.Checkbox(new Vector2(this.LabelWidth, base.curY), ref flag2, base.lineHeight, false);
-				if (flag2 != flag)
+				bool flag = this.filter.Allows(sfDef);
+				bool flag2 = flag;
+				Widgets.Checkbox(new Vector2(this.LabelWidth, base.curY), ref flag, base.lineHeight, false);
+				if (flag != flag2)
 				{
-					this.filter.SetAllow(sfDef, flag2);
+					this.filter.SetAllow(sfDef, flag);
 				}
 				base.EndLine();
 			}
@@ -111,11 +110,11 @@ namespace Verse
 			if ((this.suppressSmallVolumeTags == null || !this.suppressSmallVolumeTags.Contains(tDef)) && tDef.IsStuff)
 			{
 				num = (tDef.smallVolume ? 1 : 0);
-				goto IL_0031;
+				goto IL_0030;
 			}
 			num = 0;
-			goto IL_0031;
-			IL_0031:
+			goto IL_0030;
+			IL_0030:
 			bool flag = (byte)num != 0;
 			string text = tDef.description;
 			if (flag)
@@ -132,12 +131,12 @@ namespace Verse
 				Text.Font = GameFont.Small;
 				GUI.color = Color.white;
 			}
-			bool flag2;
-			bool flag3 = flag2 = this.filter.Allows(tDef);
-			Widgets.Checkbox(new Vector2(this.LabelWidth, base.curY), ref flag3, base.lineHeight, false);
-			if (flag3 != flag2)
+			bool flag2 = this.filter.Allows(tDef);
+			bool flag3 = flag2;
+			Widgets.Checkbox(new Vector2(this.LabelWidth, base.curY), ref flag2, base.lineHeight, false);
+			if (flag2 != flag3)
 			{
-				this.filter.SetAllow(tDef, flag3);
+				this.filter.SetAllow(tDef, flag2);
 			}
 			base.EndLine();
 		}
@@ -168,73 +167,64 @@ namespace Verse
 					}
 				}
 			}
-			return (MultiCheckboxState)((num2 == 0) ? 1 : ((num != num2) ? 2 : 0));
+			if (num2 == 0)
+			{
+				return MultiCheckboxState.Off;
+			}
+			if (num == num2)
+			{
+				return MultiCheckboxState.On;
+			}
+			return MultiCheckboxState.Partial;
 		}
 
 		private bool Visible(ThingDef td)
 		{
-			bool result;
 			if (td.menuHidden)
 			{
-				result = false;
+				return false;
 			}
-			else if (this.forceHiddenDefs != null && this.forceHiddenDefs.Contains(td))
+			if (this.forceHiddenDefs != null && this.forceHiddenDefs.Contains(td))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (this.parentFilter != null)
 			{
-				if (this.parentFilter != null)
+				if (!this.parentFilter.Allows(td))
 				{
-					if (!this.parentFilter.Allows(td))
-					{
-						result = false;
-						goto IL_007a;
-					}
-					if (this.parentFilter.IsAlwaysDisallowedDueToSpecialFilters(td))
-					{
-						result = false;
-						goto IL_007a;
-					}
+					return false;
 				}
-				result = true;
+				if (this.parentFilter.IsAlwaysDisallowedDueToSpecialFilters(td))
+				{
+					return false;
+				}
 			}
-			goto IL_007a;
-			IL_007a:
-			return result;
+			return true;
 		}
 
 		private bool Visible(TreeNode_ThingCategory node)
 		{
-			return node.catDef.DescendantThingDefs.Any(new Func<ThingDef, bool>(this.Visible));
+			return node.catDef.DescendantThingDefs.Any(this.Visible);
 		}
 
 		private bool Visible(SpecialThingFilterDef filter)
 		{
-			bool result;
 			if (this.parentFilter != null && !this.parentFilter.Allows(filter))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (this.hiddenSpecialFilters == null)
 			{
-				if (this.hiddenSpecialFilters == null)
-				{
-					this.CalculateHiddenSpecialFilters();
-				}
-				for (int i = 0; i < this.hiddenSpecialFilters.Count; i++)
-				{
-					if (this.hiddenSpecialFilters[i] == filter)
-						goto IL_004f;
-				}
-				result = true;
+				this.CalculateHiddenSpecialFilters();
 			}
-			goto IL_0073;
-			IL_004f:
-			result = false;
-			goto IL_0073;
-			IL_0073:
-			return result;
+			for (int i = 0; i < this.hiddenSpecialFilters.Count; i++)
+			{
+				if (this.hiddenSpecialFilters[i] == filter)
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 
 		private void CalculateHiddenSpecialFilters()

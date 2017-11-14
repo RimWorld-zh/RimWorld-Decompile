@@ -51,7 +51,7 @@ namespace Verse
 
 		public static void UnfocusCurrentControl()
 		{
-			GUI.FocusControl((string)null);
+			GUI.FocusControl(null);
 		}
 
 		public static Vector2 GUIToScreenPoint(Vector2 guiPoint)

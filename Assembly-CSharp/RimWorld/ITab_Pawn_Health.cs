@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -14,17 +13,16 @@ namespace RimWorld
 		{
 			get
 			{
-				Pawn result;
 				if (base.SelPawn != null)
 				{
-					result = base.SelPawn;
+					return base.SelPawn;
 				}
-				else
+				Corpse corpse = base.SelThing as Corpse;
+				if (corpse != null)
 				{
-					Corpse corpse = base.SelThing as Corpse;
-					result = ((corpse == null) ? null : corpse.InnerPawn);
+					return corpse.InnerPawn;
 				}
-				return result;
+				return null;
 			}
 		}
 
@@ -54,7 +52,31 @@ namespace RimWorld
 		private bool ShouldAllowOperations()
 		{
 			Pawn pawnForHealth = this.PawnForHealth;
-			return (byte)((!pawnForHealth.Dead) ? (base.SelThing.def.AllRecipes.Any((Predicate<RecipeDef>)((RecipeDef x) => x.AvailableNow)) ? ((pawnForHealth.Faction == Faction.OfPlayer) ? 1 : ((pawnForHealth.IsPrisonerOfColony || (pawnForHealth.HostFaction == Faction.OfPlayer && !pawnForHealth.health.capacities.CapableOf(PawnCapacityDefOf.Moving))) ? 1 : ((!pawnForHealth.RaceProps.IsFlesh || pawnForHealth.Faction == null || !pawnForHealth.Faction.HostileTo(Faction.OfPlayer)) ? ((!pawnForHealth.RaceProps.Humanlike && pawnForHealth.Downed) ? 1 : 0) : 0))) : 0) : 0) != 0;
+			if (pawnForHealth.Dead)
+			{
+				return false;
+			}
+			if (!base.SelThing.def.AllRecipes.Any((RecipeDef x) => x.AvailableNow))
+			{
+				return false;
+			}
+			if (pawnForHealth.Faction == Faction.OfPlayer)
+			{
+				return true;
+			}
+			if (!pawnForHealth.IsPrisonerOfColony && (pawnForHealth.HostFaction != Faction.OfPlayer || pawnForHealth.health.capacities.CapableOf(PawnCapacityDefOf.Moving)))
+			{
+				if (pawnForHealth.RaceProps.IsFlesh && pawnForHealth.Faction != null && pawnForHealth.Faction.HostileTo(Faction.OfPlayer))
+				{
+					return false;
+				}
+				if (!pawnForHealth.RaceProps.Humanlike && pawnForHealth.Downed)
+				{
+					return true;
+				}
+				return false;
+			}
+			return true;
 		}
 	}
 }

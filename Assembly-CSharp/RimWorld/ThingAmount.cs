@@ -22,26 +22,16 @@ namespace RimWorld
 
 		public static int CountUsed(List<ThingAmount> list, Thing thing)
 		{
-			int num = 0;
-			int result;
-			while (true)
+			for (int i = 0; i < list.Count; i++)
 			{
-				if (num < list.Count)
+				ThingAmount thingAmount = list[i];
+				if (thingAmount.thing == thing)
 				{
-					ThingAmount thingAmount = list[num];
-					if (thingAmount.thing == thing)
-					{
-						ThingAmount thingAmount2 = list[num];
-						result = thingAmount2.count;
-						break;
-					}
-					num++;
-					continue;
+					ThingAmount thingAmount2 = list[i];
+					return thingAmount2.count;
 				}
-				result = 0;
-				break;
 			}
-			return result;
+			return 0;
 		}
 
 		public static void AddToList(List<ThingAmount> list, Thing thing, int countToAdd)

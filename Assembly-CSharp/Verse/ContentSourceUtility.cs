@@ -14,30 +14,17 @@ namespace Verse
 
 		public static Texture2D GetIcon(this ContentSource s)
 		{
-			Texture2D result;
 			switch (s)
 			{
 			case ContentSource.Undefined:
-			{
-				result = BaseContent.BadTex;
-				break;
-			}
+				return BaseContent.BadTex;
 			case ContentSource.LocalFolder:
-			{
-				result = ContentSourceUtility.ContentSourceIcon_LocalFolder;
-				break;
-			}
+				return ContentSourceUtility.ContentSourceIcon_LocalFolder;
 			case ContentSource.SteamWorkshop:
-			{
-				result = ContentSourceUtility.ContentSourceIcon_SteamWorkshop;
-				break;
-			}
+				return ContentSourceUtility.ContentSourceIcon_SteamWorkshop;
 			default:
-			{
 				throw new NotImplementedException();
 			}
-			}
-			return result;
 		}
 
 		public static void DrawContentSource(Rect r, ContentSource source, Action clickAction = null)
@@ -45,8 +32,8 @@ namespace Verse
 			Rect rect = new Rect(r.x, (float)(r.y + r.height / 2.0 - 12.0), 24f, 24f);
 			GUI.DrawTexture(rect, source.GetIcon());
 			Widgets.DrawHighlightIfMouseover(rect);
-			TooltipHandler.TipRegion(rect, (Func<string>)(() => "Source".Translate() + ": " + source.HumanLabel()), (int)(r.x + r.y * 56161.0));
-			if ((object)clickAction != null && Widgets.ButtonInvisible(rect, false))
+			TooltipHandler.TipRegion(rect, () => "Source".Translate() + ": " + source.HumanLabel(), (int)(r.x + r.y * 56161.0));
+			if (clickAction != null && Widgets.ButtonInvisible(rect, false))
 			{
 				clickAction();
 			}

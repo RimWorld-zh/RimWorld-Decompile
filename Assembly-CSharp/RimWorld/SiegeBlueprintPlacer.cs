@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -48,8 +47,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_016d:
-			/*Error near IL_016e: Unexpected return in MoveNext()*/;
+			IL_0166:
+			/*Error near IL_0167: Unexpected return in MoveNext()*/;
 		}
 
 		private static bool CanPlaceBlueprintAt(IntVec3 root, Rot4 rot, ThingDef buildingDef, Map map)
@@ -94,8 +93,8 @@ namespace RimWorld
 				break;
 			}
 			yield break;
-			IL_027a:
-			/*Error near IL_027b: Unexpected return in MoveNext()*/;
+			IL_0271:
+			/*Error near IL_0272: Unexpected return in MoveNext()*/;
 		}
 
 		private static IEnumerable<Blueprint_Build> MakeSandbagLine(IntVec3 root, Map map, Rot4 growDir, int maxLength)
@@ -136,25 +135,19 @@ namespace RimWorld
 			CellRect cellRect2 = CellRect.CenteredOn(SiegeBlueprintPlacer.center, 8);
 			cellRect2.ClipInsideMap(map);
 			int num = 0;
-			goto IL_002e;
-			IL_002e:
-			IntVec3 result;
+			goto IL_002d;
+			IL_002d:
+			IntVec3 randomCell;
 			while (true)
 			{
 				num++;
 				if (num > 200)
 				{
-					result = IntVec3.Invalid;
+					return IntVec3.Invalid;
 				}
-				else
+				randomCell = cellRect.RandomCell;
+				if (!cellRect2.Contains(randomCell) && map.reachability.CanReach(randomCell, SiegeBlueprintPlacer.center, PathEndMode.OnCell, TraverseMode.NoPassClosedDoors, Danger.Deadly) && SiegeBlueprintPlacer.CanPlaceBlueprintAt(randomCell, Rot4.North, ThingDefOf.Sandbags, map))
 				{
-					IntVec3 randomCell = cellRect.RandomCell;
-					if (cellRect2.Contains(randomCell))
-						continue;
-					if (!map.reachability.CanReach(randomCell, SiegeBlueprintPlacer.center, PathEndMode.OnCell, TraverseMode.NoPassClosedDoors, Danger.Deadly))
-						continue;
-					if (!SiegeBlueprintPlacer.CanPlaceBlueprintAt(randomCell, Rot4.North, ThingDefOf.Sandbags, map))
-						continue;
 					bool flag = false;
 					for (int i = 0; i < SiegeBlueprintPlacer.placedSandbagLocs.Count; i++)
 					{
@@ -164,15 +157,13 @@ namespace RimWorld
 							flag = true;
 						}
 					}
-					if (flag)
-						continue;
-					result = randomCell;
+					if (!flag)
+						break;
 				}
-				break;
 			}
-			return result;
-			IL_010c:
-			goto IL_002e;
+			return randomCell;
+			IL_00f7:
+			goto IL_002d;
 		}
 
 		private static IntVec3 FindArtySpot(ThingDef artyDef, Rot4 rot, Map map)
@@ -180,32 +171,23 @@ namespace RimWorld
 			CellRect cellRect = CellRect.CenteredOn(SiegeBlueprintPlacer.center, 8);
 			cellRect.ClipInsideMap(map);
 			int num = 0;
-			goto IL_0018;
-			IL_0018:
-			IntVec3 result;
+			goto IL_0017;
+			IL_0017:
+			IntVec3 randomCell;
 			while (true)
 			{
 				num++;
 				if (num > 200)
 				{
-					result = IntVec3.Invalid;
+					return IntVec3.Invalid;
 				}
-				else
-				{
-					IntVec3 randomCell = cellRect.RandomCell;
-					if (!map.reachability.CanReach(randomCell, SiegeBlueprintPlacer.center, PathEndMode.OnCell, TraverseMode.NoPassClosedDoors, Danger.Deadly))
-						continue;
-					if (randomCell.Roofed(map))
-						continue;
-					if (!SiegeBlueprintPlacer.CanPlaceBlueprintAt(randomCell, rot, artyDef, map))
-						continue;
-					result = randomCell;
-				}
-				break;
+				randomCell = cellRect.RandomCell;
+				if (map.reachability.CanReach(randomCell, SiegeBlueprintPlacer.center, PathEndMode.OnCell, TraverseMode.NoPassClosedDoors, Danger.Deadly) && !randomCell.Roofed(map) && SiegeBlueprintPlacer.CanPlaceBlueprintAt(randomCell, rot, artyDef, map))
+					break;
 			}
-			return result;
-			IL_008a:
-			goto IL_0018;
+			return randomCell;
+			IL_007d:
+			goto IL_0017;
 		}
 	}
 }

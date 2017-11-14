@@ -29,7 +29,15 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			return c.InBounds(base.Map) ? (this.StrippablesInCell(c).Any() ? true : "MessageMustDesignateStrippable".Translate()) : false;
+			if (!c.InBounds(base.Map))
+			{
+				return false;
+			}
+			if (!this.StrippablesInCell(c).Any())
+			{
+				return "MessageMustDesignateStrippable".Translate();
+			}
+			return true;
 		}
 
 		public override void DesignateSingleCell(IntVec3 c)
@@ -42,7 +50,11 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
-			return (base.Map.designationManager.DesignationOn(t, DesignationDefOf.Strip) == null) ? StrippableUtility.CanBeStrippedByColony(t) : false;
+			if (base.Map.designationManager.DesignationOn(t, DesignationDefOf.Strip) != null)
+			{
+				return false;
+			}
+			return StrippableUtility.CanBeStrippedByColony(t);
 		}
 
 		public override void DesignateThing(Thing t)

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -19,7 +18,7 @@ namespace Verse.Sound
 
 		public float resolvedPitch;
 
-		private bool mappingsApplied = false;
+		private bool mappingsApplied;
 
 		private Dictionary<SoundParamTarget, float> volumeInMappings = new Dictionary<SoundParamTarget, float>();
 
@@ -35,7 +34,11 @@ namespace Verse.Sound
 		{
 			get
 			{
-				return (Current.ProgramState != ProgramState.Playing) ? ((int)(this.AgeRealTime * 60.0)) : (Find.TickManager.TicksGame - this.startTick);
+				if (Current.ProgramState == ProgramState.Playing)
+				{
+					return Find.TickManager.TicksGame - this.startTick;
+				}
+				return (int)(this.AgeRealTime * 60.0);
 			}
 		}
 
@@ -99,7 +102,11 @@ namespace Verse.Sound
 		{
 			get
 			{
-				return (float)((!SoundDefHelper.CorrectContextNow(this.subDef.parentDef, this.Map)) ? 0.0 : 1.0);
+				if (SoundDefHelper.CorrectContextNow(this.subDef.parentDef, this.Map))
+				{
+					return 1f;
+				}
+				return 0f;
 			}
 		}
 
@@ -107,18 +114,13 @@ namespace Verse.Sound
 		{
 			get
 			{
-				float result;
 				if (this.subDef.muteWhenPaused && Current.ProgramState == ProgramState.Playing && Find.TickManager.Paused && !this.TestPlaying)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					float num = this.resolvedVolume;
-					SoundInfo info = this.Info;
-					result = num * info.volumeFactor * this.MappedVolumeMultiplier * this.ContextVolumeMultiplier;
-				}
-				return result;
+				float num = this.resolvedVolume;
+				SoundInfo info = this.Info;
+				return num * info.volumeFactor * this.MappedVolumeMultiplier * this.ContextVolumeMultiplier;
 			}
 		}
 

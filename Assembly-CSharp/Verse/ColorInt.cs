@@ -17,13 +17,12 @@ namespace Verse
 		{
 			get
 			{
-				return new Color
-				{
-					r = (float)((float)this.r / 255.0),
-					g = (float)((float)this.g / 255.0),
-					b = (float)((float)this.b / 255.0),
-					a = (float)((float)this.a / 255.0)
-				};
+				Color result = default(Color);
+				result.r = (float)((float)this.r / 255.0);
+				result.g = (float)((float)this.g / 255.0);
+				result.b = (float)((float)this.b / 255.0);
+				result.a = (float)((float)this.a / 255.0);
+				return result;
 			}
 		}
 
@@ -34,7 +33,7 @@ namespace Verse
 				Color32 result = default(Color32);
 				if (this.a > 255)
 				{
-					result.a = (byte)255;
+					result.a = 255;
 				}
 				else
 				{
@@ -42,7 +41,7 @@ namespace Verse
 				}
 				if (this.r > 255)
 				{
-					result.r = (byte)255;
+					result.r = 255;
 				}
 				else
 				{
@@ -50,7 +49,7 @@ namespace Verse
 				}
 				if (this.g > 255)
 				{
-					result.g = (byte)255;
+					result.g = 255;
 				}
 				else
 				{
@@ -58,7 +57,7 @@ namespace Verse
 				}
 				if (this.b > 255)
 				{
-					result.b = (byte)255;
+					result.b = 255;
 				}
 				else
 				{
@@ -139,7 +138,11 @@ namespace Verse
 
 		public override bool Equals(object o)
 		{
-			return o is ColorInt && this.Equals((ColorInt)o);
+			if (!(o is ColorInt))
+			{
+				return false;
+			}
+			return this.Equals((ColorInt)o);
 		}
 
 		public bool Equals(ColorInt other)

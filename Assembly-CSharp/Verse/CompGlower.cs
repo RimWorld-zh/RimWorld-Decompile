@@ -4,7 +4,7 @@ namespace Verse
 {
 	public class CompGlower : ThingComp
 	{
-		private bool glowOnInt = false;
+		private bool glowOnInt;
 
 		public CompProperties_Glower Props
 		{
@@ -18,29 +18,25 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
 				if (!base.parent.Spawned)
 				{
-					result = false;
+					return false;
 				}
-				else if (!FlickUtility.WantsToBeOn(base.parent))
+				if (!FlickUtility.WantsToBeOn(base.parent))
 				{
-					result = false;
+					return false;
 				}
-				else
+				CompPowerTrader compPowerTrader = base.parent.TryGetComp<CompPowerTrader>();
+				if (compPowerTrader != null && !compPowerTrader.PowerOn)
 				{
-					CompPowerTrader compPowerTrader = base.parent.TryGetComp<CompPowerTrader>();
-					if (compPowerTrader != null && !compPowerTrader.PowerOn)
-					{
-						result = false;
-					}
-					else
-					{
-						CompRefuelable compRefuelable = base.parent.TryGetComp<CompRefuelable>();
-						result = ((byte)((compRefuelable == null || compRefuelable.HasFuel) ? 1 : 0) != 0);
-					}
+					return false;
 				}
-				return result;
+				CompRefuelable compRefuelable = base.parent.TryGetComp<CompRefuelable>();
+				if (compRefuelable != null && !compRefuelable.HasFuel)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 

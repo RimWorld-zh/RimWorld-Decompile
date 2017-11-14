@@ -1,6 +1,5 @@
 using RimWorld;
 using RimWorld.Planet;
-using System;
 using UnityEngine;
 using Verse.Steam;
 
@@ -12,26 +11,18 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
 				if (LongEventHandler.AnyEventNowOrWaiting)
 				{
-					result = false;
+					return false;
 				}
-				else
+				for (int i = 0; i < Find.WindowStack.Count; i++)
 				{
-					for (int i = 0; i < Find.WindowStack.Count; i++)
+					if (base.windows[i].layer == WindowLayer.Dialog && !Find.WindowStack[i].IsDebug)
 					{
-						if (base.windows[i].layer == WindowLayer.Dialog && !Find.WindowStack[i].IsDebug)
-							goto IL_0046;
+						return false;
 					}
-					result = true;
 				}
-				goto IL_0069;
-				IL_0069:
-				return result;
-				IL_0046:
-				result = false;
-				goto IL_0069;
+				return true;
 			}
 		}
 
@@ -45,10 +36,10 @@ namespace Verse
 			if (!SteamManager.Initialized)
 			{
 				string text = "SteamClientMissing".Translate();
-				Dialog_MessageBox window = new Dialog_MessageBox(text, "Quit".Translate(), (Action)delegate
+				Dialog_MessageBox window = new Dialog_MessageBox(text, "Quit".Translate(), delegate
 				{
 					Application.Quit();
-				}, "Ignore".Translate(), null, (string)null, false);
+				}, "Ignore".Translate(), null, null, false);
 				Find.WindowStack.Add(window);
 			}
 		}

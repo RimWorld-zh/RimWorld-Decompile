@@ -23,59 +23,39 @@ namespace Verse
 
 		public float DiseaseContractChanceFactor(HediffDef diseaseDef, BodyPartRecord part = null)
 		{
-			float result;
-			int j;
 			if (!this.pawn.RaceProps.IsFlesh)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			List<Hediff> hediffs = this.pawn.health.hediffSet.hediffs;
+			for (int i = 0; i < hediffs.Count; i++)
 			{
-				List<Hediff> hediffs = this.pawn.health.hediffSet.hediffs;
-				for (int i = 0; i < hediffs.Count; i++)
+				if (hediffs[i].def == diseaseDef && hediffs[i].Part == part)
 				{
-					if (hediffs[i].def == diseaseDef && hediffs[i].Part == part)
-						goto IL_0063;
+					return 0f;
 				}
-				for (j = 0; j < this.immunityList.Count; j++)
-				{
-					if (this.immunityList[j].hediffDef == diseaseDef)
-						goto IL_009e;
-				}
-				result = 1f;
 			}
-			goto IL_00eb;
-			IL_009e:
-			result = Mathf.Lerp(1f, 0f, (float)(this.immunityList[j].immunity / 0.60000002384185791));
-			goto IL_00eb;
-			IL_0063:
-			result = 0f;
-			goto IL_00eb;
-			IL_00eb:
-			return result;
+			for (int j = 0; j < this.immunityList.Count; j++)
+			{
+				if (this.immunityList[j].hediffDef == diseaseDef)
+				{
+					return Mathf.Lerp(1f, 0f, (float)(this.immunityList[j].immunity / 0.60000002384185791));
+				}
+			}
+			return 1f;
 		}
 
 		public float GetImmunity(HediffDef def)
 		{
-			int num = 0;
-			float result;
-			while (true)
+			for (int i = 0; i < this.immunityList.Count; i++)
 			{
-				if (num < this.immunityList.Count)
+				ImmunityRecord immunityRecord = this.immunityList[i];
+				if (immunityRecord.hediffDef == def)
 				{
-					ImmunityRecord immunityRecord = this.immunityList[num];
-					if (immunityRecord.hediffDef == def)
-					{
-						result = immunityRecord.immunity;
-						break;
-					}
-					num++;
-					continue;
+					return immunityRecord.immunity;
 				}
-				result = 0f;
-				break;
 			}
-			return result;
+			return 0f;
 		}
 
 		internal void ImmunityHandlerTick()
@@ -129,31 +109,21 @@ namespace Verse
 		private bool AnyHediffMakesFullyImmuneTo(HediffDef def)
 		{
 			List<Hediff> hediffs = this.pawn.health.hediffSet.hediffs;
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < hediffs.Count; i++)
 			{
-				if (num < hediffs.Count)
+				HediffStage curStage = hediffs[i].CurStage;
+				if (curStage != null && curStage.makeImmuneTo != null)
 				{
-					HediffStage curStage = hediffs[num].CurStage;
-					if (curStage != null && curStage.makeImmuneTo != null)
+					for (int j = 0; j < curStage.makeImmuneTo.Count; j++)
 					{
-						for (int i = 0; i < curStage.makeImmuneTo.Count; i++)
+						if (curStage.makeImmuneTo[j] == def)
 						{
-							if (curStage.makeImmuneTo[i] == def)
-								goto IL_0058;
+							return true;
 						}
 					}
-					num++;
-					continue;
 				}
-				result = false;
-				break;
-				IL_0058:
-				result = true;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		private void TryAddImmunityRecord(HediffDef def)
@@ -168,24 +138,14 @@ namespace Verse
 
 		public ImmunityRecord GetImmunityRecord(HediffDef def)
 		{
-			int num = 0;
-			ImmunityRecord result;
-			while (true)
+			for (int i = 0; i < this.immunityList.Count; i++)
 			{
-				if (num < this.immunityList.Count)
+				if (this.immunityList[i].hediffDef == def)
 				{
-					if (this.immunityList[num].hediffDef == def)
-					{
-						result = this.immunityList[num];
-						break;
-					}
-					num++;
-					continue;
+					return this.immunityList[i];
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		public bool ImmunityRecordExists(HediffDef def)

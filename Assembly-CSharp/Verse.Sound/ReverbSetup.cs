@@ -7,13 +7,13 @@ namespace Verse.Sound
 {
 	public class ReverbSetup
 	{
-		public float dryLevel = 0f;
+		public float dryLevel;
 
-		public float room = 0f;
+		public float room;
 
-		public float roomHF = 0f;
+		public float roomHF;
 
-		public float roomLF = 0f;
+		public float roomLF;
 
 		public float decayTime = 1f;
 
@@ -21,9 +21,9 @@ namespace Verse.Sound
 
 		public float reflectionsLevel = -10000f;
 
-		public float reflectionsDelay = 0f;
+		public float reflectionsDelay;
 
-		public float reverbLevel = 0f;
+		public float reverbLevel;
 
 		public float reverbDelay = 0.04f;
 
@@ -49,7 +49,7 @@ namespace Verse.Sound
 						if (audioReverbPreset != AudioReverbPreset.User)
 						{
 							AudioReverbPreset localPreset = audioReverbPreset;
-							list.Add(new FloatMenuOption(audioReverbPreset.ToString(), (Action)delegate
+							list.Add(new FloatMenuOption(audioReverbPreset.ToString(), delegate
 							{
 								this.SetupAs(localPreset);
 							}, MenuOptionPriority.Default, null, null, 0f, null, null));

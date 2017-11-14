@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -75,8 +74,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_0596:
-			/*Error near IL_0597: Unexpected return in MoveNext()*/;
+			IL_058c:
+			/*Error near IL_058d: Unexpected return in MoveNext()*/;
 		}
 	}
 }

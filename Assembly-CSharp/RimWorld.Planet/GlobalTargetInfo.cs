@@ -93,7 +93,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (this.thingInt == null) ? this.cellInt : this.thingInt.PositionHeld;
+				if (this.thingInt != null)
+				{
+					return this.thingInt.PositionHeld;
+				}
+				return this.cellInt;
 			}
 		}
 
@@ -101,7 +105,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (this.thingInt == null) ? this.mapInt : this.thingInt.MapHeld;
+				if (this.thingInt != null)
+				{
+					return this.thingInt.MapHeld;
+				}
+				return this.mapInt;
 			}
 		}
 
@@ -109,7 +117,23 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (this.worldObjectInt == null) ? ((this.tileInt < 0) ? ((this.thingInt == null || this.thingInt.Tile < 0) ? ((!this.cellInt.IsValid || this.mapInt == null) ? (-1) : this.mapInt.Tile) : this.thingInt.Tile) : this.tileInt) : this.worldObjectInt.Tile;
+				if (this.worldObjectInt != null)
+				{
+					return this.worldObjectInt.Tile;
+				}
+				if (this.tileInt >= 0)
+				{
+					return this.tileInt;
+				}
+				if (this.thingInt != null && this.thingInt.Tile >= 0)
+				{
+					return this.thingInt.Tile;
+				}
+				if (this.cellInt.IsValid && this.mapInt != null)
+				{
+					return this.mapInt.Tile;
+				}
+				return -1;
 			}
 		}
 
@@ -155,7 +179,11 @@ namespace RimWorld.Planet
 
 		public static implicit operator GlobalTargetInfo(TargetInfo target)
 		{
-			return (!target.HasThing) ? new GlobalTargetInfo(target.Cell, target.Map, false) : new GlobalTargetInfo(target.Thing);
+			if (target.HasThing)
+			{
+				return new GlobalTargetInfo(target.Thing);
+			}
+			return new GlobalTargetInfo(target.Cell, target.Map, false);
 		}
 
 		public static implicit operator GlobalTargetInfo(Thing t)
@@ -170,42 +198,48 @@ namespace RimWorld.Planet
 
 		public static explicit operator LocalTargetInfo(GlobalTargetInfo targ)
 		{
-			LocalTargetInfo result;
 			if (targ.worldObjectInt != null)
 			{
 				Log.ErrorOnce("Casted GlobalTargetInfo to LocalTargetInfo but it had WorldObject " + targ.worldObjectInt, 134566);
-				result = LocalTargetInfo.Invalid;
+				return LocalTargetInfo.Invalid;
 			}
-			else if (targ.tileInt >= 0)
+			if (targ.tileInt >= 0)
 			{
 				Log.ErrorOnce("Casted GlobalTargetInfo to LocalTargetInfo but it had tile " + targ.tileInt, 7833122);
-				result = LocalTargetInfo.Invalid;
+				return LocalTargetInfo.Invalid;
 			}
-			else
+			if (!targ.IsValid)
 			{
-				result = (targ.IsValid ? ((targ.thingInt == null) ? new LocalTargetInfo(targ.cellInt) : new LocalTargetInfo(targ.thingInt)) : LocalTargetInfo.Invalid);
+				return LocalTargetInfo.Invalid;
 			}
-			return result;
+			if (targ.thingInt != null)
+			{
+				return new LocalTargetInfo(targ.thingInt);
+			}
+			return new LocalTargetInfo(targ.cellInt);
 		}
 
 		public static explicit operator TargetInfo(GlobalTargetInfo targ)
 		{
-			TargetInfo result;
 			if (targ.worldObjectInt != null)
 			{
 				Log.ErrorOnce("Casted GlobalTargetInfo to TargetInfo but it had WorldObject " + targ.worldObjectInt, 134566);
-				result = TargetInfo.Invalid;
+				return TargetInfo.Invalid;
 			}
-			else if (targ.tileInt >= 0)
+			if (targ.tileInt >= 0)
 			{
 				Log.ErrorOnce("Casted GlobalTargetInfo to TargetInfo but it had tile " + targ.tileInt, 7833122);
-				result = TargetInfo.Invalid;
+				return TargetInfo.Invalid;
 			}
-			else
+			if (!targ.IsValid)
 			{
-				result = (targ.IsValid ? ((targ.thingInt == null) ? new TargetInfo(targ.cellInt, targ.mapInt, false) : new TargetInfo(targ.thingInt)) : TargetInfo.Invalid);
+				return TargetInfo.Invalid;
 			}
-			return result;
+			if (targ.thingInt != null)
+			{
+				return new TargetInfo(targ.thingInt);
+			}
+			return new TargetInfo(targ.cellInt, targ.mapInt, false);
 		}
 
 		public static explicit operator IntVec3(GlobalTargetInfo targ)
@@ -261,7 +295,23 @@ namespace RimWorld.Planet
 
 		public static bool operator ==(GlobalTargetInfo a, GlobalTargetInfo b)
 		{
-			return (a.Thing != null || b.Thing != null) ? (a.Thing == b.Thing) : ((a.cellInt.IsValid || b.cellInt.IsValid) ? (a.cellInt == b.cellInt && a.mapInt == b.mapInt) : ((a.WorldObject != null || b.WorldObject != null) ? (a.WorldObject == b.WorldObject) : ((a.tileInt < 0 && b.tileInt < 0) || a.tileInt == b.tileInt)));
+			if (a.Thing == null && b.Thing == null)
+			{
+				if (!a.cellInt.IsValid && !b.cellInt.IsValid)
+				{
+					if (a.WorldObject == null && b.WorldObject == null)
+					{
+						if (a.tileInt < 0 && b.tileInt < 0)
+						{
+							return true;
+						}
+						return a.tileInt == b.tileInt;
+					}
+					return a.WorldObject == b.WorldObject;
+				}
+				return a.cellInt == b.cellInt && a.mapInt == b.mapInt;
+			}
+			return a.Thing == b.Thing;
 		}
 
 		public static bool operator !=(GlobalTargetInfo a, GlobalTargetInfo b)
@@ -271,7 +321,11 @@ namespace RimWorld.Planet
 
 		public override bool Equals(object obj)
 		{
-			return obj is GlobalTargetInfo && this.Equals((GlobalTargetInfo)obj);
+			if (!(obj is GlobalTargetInfo))
+			{
+				return false;
+			}
+			return this.Equals((GlobalTargetInfo)obj);
 		}
 
 		public bool Equals(GlobalTargetInfo other)
@@ -281,12 +335,44 @@ namespace RimWorld.Planet
 
 		public override int GetHashCode()
 		{
-			return (this.thingInt == null) ? ((!this.cellInt.IsValid) ? ((this.worldObjectInt == null) ? ((this.tileInt < 0) ? (-1) : this.tileInt) : this.worldObjectInt.GetHashCode()) : Gen.HashCombine(this.cellInt.GetHashCode(), this.mapInt)) : this.thingInt.GetHashCode();
+			if (this.thingInt != null)
+			{
+				return this.thingInt.GetHashCode();
+			}
+			if (this.cellInt.IsValid)
+			{
+				return Gen.HashCombine(this.cellInt.GetHashCode(), this.mapInt);
+			}
+			if (this.worldObjectInt != null)
+			{
+				return this.worldObjectInt.GetHashCode();
+			}
+			if (this.tileInt >= 0)
+			{
+				return this.tileInt;
+			}
+			return -1;
 		}
 
 		public override string ToString()
 		{
-			return (this.thingInt == null) ? ((!this.cellInt.IsValid) ? ((this.worldObjectInt == null) ? ((this.tileInt < 0) ? "null" : this.tileInt.ToString()) : ('@' + this.worldObjectInt.GetUniqueLoadID())) : (this.cellInt.ToString() + ", " + ((this.mapInt == null) ? "null" : this.mapInt.GetUniqueLoadID()))) : this.thingInt.GetUniqueLoadID();
+			if (this.thingInt != null)
+			{
+				return this.thingInt.GetUniqueLoadID();
+			}
+			if (this.cellInt.IsValid)
+			{
+				return this.cellInt.ToString() + ", " + ((this.mapInt == null) ? "null" : this.mapInt.GetUniqueLoadID());
+			}
+			if (this.worldObjectInt != null)
+			{
+				return '@' + this.worldObjectInt.GetUniqueLoadID();
+			}
+			if (this.tileInt >= 0)
+			{
+				return this.tileInt.ToString();
+			}
+			return "null";
 		}
 	}
 }

@@ -15,13 +15,13 @@ namespace Verse.AI
 
 		public LocalTargetInfo targetC = LocalTargetInfo.Invalid;
 
-		public List<LocalTargetInfo> targetQueueA = null;
+		public List<LocalTargetInfo> targetQueueA;
 
-		public List<LocalTargetInfo> targetQueueB = null;
+		public List<LocalTargetInfo> targetQueueB;
 
 		public int count = -1;
 
-		public List<int> countQueue = null;
+		public List<int> countQueue;
 
 		public int loadID;
 
@@ -29,11 +29,11 @@ namespace Verse.AI
 
 		public int expiryInterval = -1;
 
-		public bool checkOverrideOnExpire = false;
+		public bool checkOverrideOnExpire;
 
-		public bool playerForced = false;
+		public bool playerForced;
 
-		public List<ThingStackPartClass> placedThings = null;
+		public List<ThingStackPartClass> placedThings;
 
 		public int maxNumMeleeAttacks = 2147483647;
 
@@ -41,45 +41,45 @@ namespace Verse.AI
 
 		public LocomotionUrgency locomotionUrgency = LocomotionUrgency.Jog;
 
-		public HaulMode haulMode = HaulMode.Undefined;
+		public HaulMode haulMode;
 
-		public Bill bill = null;
+		public Bill bill;
 
-		public ICommunicable commTarget = null;
+		public ICommunicable commTarget;
 
-		public ThingDef plantDefToSow = null;
+		public ThingDef plantDefToSow;
 
 		public Verb verbToUse;
 
-		public bool haulOpportunisticDuplicates = false;
+		public bool haulOpportunisticDuplicates;
 
-		public bool exitMapOnArrival = false;
+		public bool exitMapOnArrival;
 
-		public bool failIfCantJoinOrCreateCaravan = false;
+		public bool failIfCantJoinOrCreateCaravan;
 
-		public bool killIncappedTarget = false;
+		public bool killIncappedTarget;
 
-		public bool ignoreForbidden = false;
+		public bool ignoreForbidden;
 
-		public bool ignoreDesignations = false;
+		public bool ignoreDesignations;
 
-		public bool canBash = false;
+		public bool canBash;
 
-		public bool haulDroppedApparel = false;
+		public bool haulDroppedApparel;
 
-		public bool restUntilHealed = false;
+		public bool restUntilHealed;
 
-		public bool ignoreJoyTimeAssignment = false;
+		public bool ignoreJoyTimeAssignment;
 
-		public bool overeat = false;
+		public bool overeat;
 
-		public bool attackDoorIfTargetLost = false;
+		public bool attackDoorIfTargetLost;
 
-		public int takeExtraIngestibles = 0;
+		public int takeExtraIngestibles;
 
-		public bool expireRequiresEnemiesNearby = false;
+		public bool expireRequiresEnemiesNearby;
 
-		public Lord lord = null;
+		public Lord lord;
 
 		public bool collideWithPawns;
 
@@ -103,11 +103,13 @@ namespace Verse.AI
 		{
 		}
 
-		public Job(JobDef def) : this(def, (Thing)null)
+		public Job(JobDef def)
+			: this(def, null)
 		{
 		}
 
-		public Job(JobDef def, LocalTargetInfo targetA) : this(def, targetA, (Thing)null)
+		public Job(JobDef def, LocalTargetInfo targetA)
+			: this(def, targetA, null)
 		{
 		}
 
@@ -147,61 +149,38 @@ namespace Verse.AI
 
 		public LocalTargetInfo GetTarget(TargetIndex ind)
 		{
-			LocalTargetInfo result;
 			switch (ind)
 			{
 			case TargetIndex.A:
-			{
-				result = this.targetA;
-				break;
-			}
+				return this.targetA;
 			case TargetIndex.B:
-			{
-				result = this.targetB;
-				break;
-			}
+				return this.targetB;
 			case TargetIndex.C:
-			{
-				result = this.targetC;
-				break;
-			}
+				return this.targetC;
 			default:
-			{
 				throw new ArgumentException();
 			}
-			}
-			return result;
 		}
 
 		public List<LocalTargetInfo> GetTargetQueue(TargetIndex ind)
 		{
-			List<LocalTargetInfo> result;
 			switch (ind)
 			{
 			case TargetIndex.A:
-			{
 				if (this.targetQueueA == null)
 				{
 					this.targetQueueA = new List<LocalTargetInfo>();
 				}
-				result = this.targetQueueA;
-				break;
-			}
+				return this.targetQueueA;
 			case TargetIndex.B:
-			{
 				if (this.targetQueueB == null)
 				{
 					this.targetQueueB = new List<LocalTargetInfo>();
 				}
-				result = this.targetQueueB;
-				break;
-			}
+				return this.targetQueueB;
 			default:
-			{
 				throw new ArgumentException();
 			}
-			}
-			return result;
 		}
 
 		public void SetTarget(TargetIndex ind, LocalTargetInfo pack)
@@ -209,24 +188,16 @@ namespace Verse.AI
 			switch (ind)
 			{
 			case TargetIndex.A:
-			{
 				this.targetA = pack;
 				break;
-			}
 			case TargetIndex.B:
-			{
 				this.targetB = pack;
 				break;
-			}
 			case TargetIndex.C:
-			{
 				this.targetC = pack;
 				break;
-			}
 			default:
-			{
 				throw new ArgumentException();
-			}
 			}
 		}
 
@@ -295,6 +266,10 @@ namespace Verse.AI
 			{
 				this.cachedDriver = this.MakeDriver(driverPawn);
 			}
+			if (this.cachedDriver.pawn != driverPawn)
+			{
+				Log.Error("Tried to use the same driver for 2 pawns: " + this.cachedDriver.ToStringSafe() + ", first pawn= " + this.cachedDriver.pawn.ToStringSafe() + ", second pawn=" + driverPawn.ToStringSafe());
+			}
 			return this.cachedDriver;
 		}
 
@@ -313,19 +288,43 @@ namespace Verse.AI
 			return this.targetA;
 		}
 
-		public bool CanBeginNow(Pawn pawn)
+		public bool CanBeginNow(Pawn pawn, bool whileLyingDown = false)
 		{
-			return !pawn.Downed || (this.def == JobDefOf.LayDown && ((!this.targetA.HasThing) ? (this.targetA.Cell == pawn.Position) : (RestUtility.GetBedSleepingSlotPosFor(pawn, (Building_Bed)this.targetA.Thing) == pawn.Position)));
+			if (pawn.Downed)
+			{
+				whileLyingDown = true;
+			}
+			if (whileLyingDown)
+			{
+				return this.GetCachedDriver(pawn).CanBeginNowWhileLyingDown();
+			}
+			return true;
 		}
 
 		public bool JobIsSameAs(Job other)
 		{
-			return (byte)((other != null) ? ((this == other) ? 1 : ((this.def == other.def && !(this.targetA != other.targetA) && !(this.targetB != other.targetB) && this.verbToUse == other.verbToUse && !(this.targetC != other.targetC) && this.commTarget == other.commTarget && this.bill == other.bill) ? 1 : 0)) : 0) != 0;
+			if (other == null)
+			{
+				return false;
+			}
+			if (this == other)
+			{
+				return true;
+			}
+			if (this.def == other.def && !(this.targetA != other.targetA) && !(this.targetB != other.targetB) && this.verbToUse == other.verbToUse && !(this.targetC != other.targetC) && this.commTarget == other.commTarget && this.bill == other.bill)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public bool AnyTargetIs(LocalTargetInfo target)
 		{
-			return target.IsValid && (this.targetA == target || this.targetB == target || this.targetC == target || (this.targetQueueA != null && this.targetQueueA.Contains(target)) || (this.targetQueueB != null && this.targetQueueB.Contains(target)));
+			if (!target.IsValid)
+			{
+				return false;
+			}
+			return this.targetA == target || this.targetB == target || this.targetC == target || (this.targetQueueA != null && this.targetQueueA.Contains(target)) || (this.targetQueueB != null && this.targetQueueB.Contains(target));
 		}
 
 		public override string ToString()

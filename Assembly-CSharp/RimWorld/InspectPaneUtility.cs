@@ -35,24 +35,19 @@ namespace RimWorld
 
 		public static float PaneWidthFor(IInspectPane pane)
 		{
-			float result;
 			if (pane == null)
 			{
-				result = 432f;
+				return 432f;
 			}
-			else
+			int num = 0;
+			foreach (InspectTabBase curTab in pane.CurTabs)
 			{
-				int num = 0;
-				foreach (InspectTabBase curTab in pane.CurTabs)
+				if (curTab.IsVisible)
 				{
-					if (curTab.IsVisible)
-					{
-						num++;
-					}
+					num++;
 				}
-				result = (float)(72.0 * (float)Mathf.Max(6, num));
 			}
-			return result;
+			return (float)(72.0 * (float)Mathf.Max(6, num));
 		}
 
 		public static Vector2 PaneSizeFor(IInspectPane pane)
@@ -64,7 +59,15 @@ namespace RimWorld
 		{
 			Thing thing = A as Thing;
 			Thing thing2 = B as Thing;
-			return thing != null && thing2 != null && thing.def.category != ThingCategory.Pawn && thing.def == thing2.def;
+			if (thing != null && thing2 != null)
+			{
+				if (thing.def.category == ThingCategory.Pawn)
+				{
+					return false;
+				}
+				return thing.def == thing2.def;
+			}
+			return false;
 		}
 
 		public static string AdjustedLabelFor(IEnumerable<object> selected, Rect rect)
@@ -94,7 +97,7 @@ namespace RimWorld
 				{
 					IEnumerable<IGrouping<string, Thing>> source = from th in InspectPaneUtility.selectedThings
 					group th by th.LabelCapNoCount into g
-					select g;
+					select (g);
 					if (source.Count() > 1)
 					{
 						str = "VariousLabel".Translate();

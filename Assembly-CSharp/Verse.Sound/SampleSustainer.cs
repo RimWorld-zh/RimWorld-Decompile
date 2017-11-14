@@ -9,7 +9,7 @@ namespace Verse.Sound
 
 		public float scheduledEndTime;
 
-		public bool resolvedSkipAttack = false;
+		public bool resolvedSkipAttack;
 
 		public override float ParentStartRealTime
 		{
@@ -62,38 +62,31 @@ namespace Verse.Sound
 					num2 = (float)(1.0 - Mathf.Min(this.subSustainer.parent.TimeSinceEnd / base.subDef.parentDef.sustainFadeoutTime, 1f));
 				}
 				float realtimeSinceStartup = Time.realtimeSinceStartup;
-				float result;
 				if (base.AgeRealTime < base.subDef.sustainAttack)
 				{
-					if (this.resolvedSkipAttack || base.subDef.sustainAttack < 0.0099999997764825821)
-					{
-						result = num * num2;
-					}
-					else
+					if (!this.resolvedSkipAttack && !(base.subDef.sustainAttack < 0.0099999997764825821))
 					{
 						float f = base.AgeRealTime / base.subDef.sustainAttack;
 						f = Mathf.Sqrt(f);
-						result = Mathf.Lerp(0f, num, f) * num2;
+						return Mathf.Lerp(0f, num, f) * num2;
 					}
+					return num * num2;
 				}
-				else if (realtimeSinceStartup > this.scheduledEndTime - base.subDef.sustainRelease)
+				if (realtimeSinceStartup > this.scheduledEndTime - base.subDef.sustainRelease)
 				{
 					float num3 = (realtimeSinceStartup - (this.scheduledEndTime - base.subDef.sustainRelease)) / base.subDef.sustainRelease;
 					num3 = (float)(1.0 - num3);
 					num3 = Mathf.Max(num3, 0f);
 					num3 = Mathf.Sqrt(num3);
 					num3 = (float)(1.0 - num3);
-					result = Mathf.Lerp(num, 0f, num3) * num2;
+					return Mathf.Lerp(num, 0f, num3) * num2;
 				}
-				else
-				{
-					result = num * num2;
-				}
-				return result;
+				return num * num2;
 			}
 		}
 
-		private SampleSustainer(SubSoundDef def) : base(def)
+		private SampleSustainer(SubSoundDef def)
+			: base(def)
 		{
 		}
 
@@ -107,38 +100,33 @@ namespace Verse.Sound
 			gameObject.transform.parent = gameObject2.transform;
 			gameObject.transform.localPosition = Vector3.zero;
 			sampleSustainer.source = AudioSourceMaker.NewAudioSourceOn(gameObject);
-			SampleSustainer result;
 			if ((Object)sampleSustainer.source == (Object)null)
 			{
 				if ((Object)gameObject != (Object)null)
 				{
 					Object.Destroy(gameObject);
 				}
-				result = null;
+				return null;
 			}
-			else
+			sampleSustainer.source.clip = clip;
+			sampleSustainer.source.volume = sampleSustainer.SanitizedVolume;
+			sampleSustainer.source.pitch = sampleSustainer.SanitizedPitch;
+			sampleSustainer.source.minDistance = sampleSustainer.subDef.distRange.TrueMin;
+			sampleSustainer.source.maxDistance = sampleSustainer.subDef.distRange.TrueMax;
+			sampleSustainer.source.spatialBlend = 1f;
+			List<SoundFilter> filters = sampleSustainer.subDef.filters;
+			for (int i = 0; i < filters.Count; i++)
 			{
-				sampleSustainer.source.clip = clip;
-				sampleSustainer.source.volume = sampleSustainer.SanitizedVolume;
-				sampleSustainer.source.pitch = sampleSustainer.SanitizedPitch;
-				sampleSustainer.source.minDistance = sampleSustainer.subDef.distRange.TrueMin;
-				sampleSustainer.source.maxDistance = sampleSustainer.subDef.distRange.TrueMax;
-				sampleSustainer.source.spatialBlend = 1f;
-				List<SoundFilter> filters = sampleSustainer.subDef.filters;
-				for (int i = 0; i < filters.Count; i++)
-				{
-					filters[i].SetupOn(sampleSustainer.source);
-				}
-				if (sampleSustainer.subDef.sustainLoop)
-				{
-					sampleSustainer.source.loop = true;
-				}
-				sampleSustainer.Update();
-				sampleSustainer.source.Play();
-				sampleSustainer.source.Play();
-				result = sampleSustainer;
+				filters[i].SetupOn(sampleSustainer.source);
 			}
-			return result;
+			if (sampleSustainer.subDef.sustainLoop)
+			{
+				sampleSustainer.source.loop = true;
+			}
+			sampleSustainer.Update();
+			sampleSustainer.source.Play();
+			sampleSustainer.source.Play();
+			return sampleSustainer;
 		}
 
 		public override void SampleCleanup()

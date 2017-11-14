@@ -45,31 +45,22 @@ namespace RimWorld
 			listing_Standard.Begin(inRect.AtZero());
 			listing_Standard.Label("MapSize".Translate(), -1f);
 			int[] mapSizes = Dialog_AdvancedGameConfig.MapSizes;
-			for (int i = 0; i < mapSizes.Length; i++)
+			foreach (int num in mapSizes)
 			{
-				int num = mapSizes[i];
 				switch (num)
 				{
 				case 200:
-				{
 					listing_Standard.Label("MapSizeSmall".Translate(), -1f);
 					break;
-				}
 				case 250:
-				{
 					listing_Standard.Label("MapSizeMedium".Translate(), -1f);
 					break;
-				}
 				case 300:
-				{
 					listing_Standard.Label("MapSizeLarge".Translate(), -1f);
 					break;
-				}
 				case 350:
-				{
 					listing_Standard.Label("MapSizeExtreme".Translate(), -1f);
 					break;
-				}
 				}
 				string label = "MapSizeDesc".Translate(num, num * num);
 				if (listing_Standard.RadioButton(label, Find.GameInitData.mapSize == num, 0f))
@@ -97,7 +88,7 @@ namespace RimWorld
 				Find.GameInitData.startingSeason = startingSeason2;
 			}
 			GenUI.ResetLabelAlign();
-			if (((this.selTile >= 0) ? Find.GameInitData.startingSeason : Season.Undefined) != 0)
+			if (this.selTile >= 0 && Find.GameInitData.startingSeason != 0)
 			{
 				Vector2 vector = Find.WorldGrid.LongLatOf(this.selTile);
 				float y = vector.y;

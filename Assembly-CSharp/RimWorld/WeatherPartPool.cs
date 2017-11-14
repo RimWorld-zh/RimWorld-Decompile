@@ -9,27 +9,17 @@ namespace RimWorld
 
 		public static SkyOverlay GetInstanceOf<T>() where T : SkyOverlay
 		{
-			int num = 0;
-			SkyOverlay result;
-			while (true)
+			for (int i = 0; i < WeatherPartPool.instances.Count; i++)
 			{
-				if (num < WeatherPartPool.instances.Count)
+				T val = (T)(WeatherPartPool.instances[i] as T);
+				if (val != null)
 				{
-					T val = (T)(WeatherPartPool.instances[num] as T);
-					if (val != null)
-					{
-						result = (SkyOverlay)(object)val;
-						break;
-					}
-					num++;
-					continue;
+					return (SkyOverlay)(object)val;
 				}
-				SkyOverlay skyOverlay = (SkyOverlay)(object)new T();
-				WeatherPartPool.instances.Add(skyOverlay);
-				result = skyOverlay;
-				break;
 			}
-			return result;
+			SkyOverlay skyOverlay = (SkyOverlay)(object)new T();
+			WeatherPartPool.instances.Add(skyOverlay);
+			return skyOverlay;
 		}
 	}
 }

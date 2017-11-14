@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -44,24 +43,19 @@ namespace Verse.Sound
 		{
 			get
 			{
-				float result;
 				if (this.info.IsOnCamera)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else if ((UnityEngine.Object)this.worldRootObject == (UnityEngine.Object)null)
+				if ((Object)this.worldRootObject == (Object)null)
 				{
 					if (Prefs.DevMode)
 					{
 						Log.Error("Sustainer " + this.def + " info is " + this.info + " but its worldRootObject is null");
 					}
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					result = (float)(Find.CameraDriver.MapPosition - this.worldRootObject.transform.position.ToIntVec3()).LengthHorizontalSquared;
-				}
-				return result;
+				return (float)(Find.CameraDriver.MapPosition - this.worldRootObject.transform.position.ToIntVec3()).LengthHorizontalSquared;
 			}
 		}
 
@@ -98,7 +92,7 @@ namespace Verse.Sound
 					this.subSustainers.Add(new SubSustainer(this, def.subSounds[i]));
 				}
 			}
-			LongEventHandler.ExecuteWhenFinished((Action)delegate
+			LongEventHandler.ExecuteWhenFinished(delegate
 			{
 				this.lastMaintainTick = Find.TickManager.TicksGame;
 				this.lastMaintainFrame = Time.frameCount;
@@ -143,7 +137,7 @@ namespace Verse.Sound
 
 		private void UpdateRootObjectPosition()
 		{
-			if ((UnityEngine.Object)this.worldRootObject != (UnityEngine.Object)null)
+			if ((Object)this.worldRootObject != (Object)null)
 			{
 				this.worldRootObject.transform.position = this.info.Maker.Cell.ToVector3ShiftedWithAltitude(0f);
 			}
@@ -184,9 +178,9 @@ namespace Verse.Sound
 					this.subSustainers[i].Cleanup();
 				}
 			}
-			if (this.def.sustainStopSound != "")
+			if (this.def.sustainStopSound != string.Empty)
 			{
-				if ((UnityEngine.Object)this.worldRootObject != (UnityEngine.Object)null)
+				if ((Object)this.worldRootObject != (Object)null)
 				{
 					Map map = this.info.Maker.Map;
 					if (map != null)
@@ -200,9 +194,9 @@ namespace Verse.Sound
 					SoundDef.Named(this.def.sustainStopSound).PlayOneShot(SoundInfo.OnCamera(MaintenanceType.None));
 				}
 			}
-			if ((UnityEngine.Object)this.worldRootObject != (UnityEngine.Object)null)
+			if ((Object)this.worldRootObject != (Object)null)
 			{
-				UnityEngine.Object.Destroy(this.worldRootObject);
+				Object.Destroy(this.worldRootObject);
 			}
 			DebugSoundEventsLog.Notify_SustainerEnded(this, this.info);
 		}

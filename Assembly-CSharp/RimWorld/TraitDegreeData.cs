@@ -12,76 +12,53 @@ namespace RimWorld
 		[MustTranslate]
 		public string description;
 
-		public int degree = 0;
+		public int degree;
 
 		public List<StatModifier> statOffsets;
 
 		public List<StatModifier> statFactors;
 
-		public ThinkTreeDef thinkTree = null;
+		public ThinkTreeDef thinkTree;
 
 		private float commonality = -1f;
 
-		public MentalStateDef randomMentalState = null;
+		public MentalStateDef randomMentalState;
 
-		public SimpleCurve randomMentalStateMtbDaysMoodCurve = null;
+		public SimpleCurve randomMentalStateMtbDaysMoodCurve;
 
-		public List<MentalStateDef> disallowedMentalStates = null;
+		public List<MentalStateDef> disallowedMentalStates;
 
-		public List<MentalBreakDef> theOnlyAllowedMentalBreaks = null;
+		public List<MentalBreakDef> theOnlyAllowedMentalBreaks;
 
 		public Dictionary<SkillDef, int> skillGains = new Dictionary<SkillDef, int>();
 
 		public float socialFightChanceFactor = 1f;
 
-		public float marketValueFactorOffset = 0f;
+		public float marketValueFactorOffset;
 
 		public float Commonality
 		{
 			get
 			{
-				float result;
 				if (this.commonality >= 0.0)
 				{
-					result = this.commonality;
+					return this.commonality;
 				}
-				else
+				switch (Mathf.Abs(this.degree))
 				{
-					switch (Mathf.Abs(this.degree))
-					{
-					case 0:
-					{
-						result = 1f;
-						break;
-					}
-					case 1:
-					{
-						result = 1f;
-						break;
-					}
-					case 2:
-					{
-						result = 0.4f;
-						break;
-					}
-					case 3:
-					{
-						result = 0.2f;
-						break;
-					}
-					case 4:
-					{
-						result = 0.1f;
-						break;
-					}
-					default:
-					{
-						result = 0.05f;
-						break;
-					}
-					}
+				case 0:
+					return 1f;
+				case 1:
+					return 1f;
+				case 2:
+					return 0.4f;
+				case 3:
+					return 0.2f;
+				case 4:
+					return 0.1f;
+				default:
+					return 0.05f;
 				}
-				return result;
 			}
 		}
 	}

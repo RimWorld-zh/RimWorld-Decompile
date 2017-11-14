@@ -39,7 +39,19 @@ namespace RimWorld
 		{
 			get
 			{
-				return (this.mode != AllowedAreaMode.Any) ? ((this.mode != AllowedAreaMode.Humanlike) ? ((this.mode != AllowedAreaMode.Animal) ? 500 : 800) : 900) : 1000;
+				if (this.mode == AllowedAreaMode.Any)
+				{
+					return 1000;
+				}
+				if (this.mode == AllowedAreaMode.Humanlike)
+				{
+					return 900;
+				}
+				if (this.mode == AllowedAreaMode.Animal)
+				{
+					return 800;
+				}
+				return 500;
 			}
 		}
 
@@ -47,7 +59,8 @@ namespace RimWorld
 		{
 		}
 
-		public Area_Allowed(AreaManager areaManager, AllowedAreaMode mode, string label = null) : base(areaManager)
+		public Area_Allowed(AreaManager areaManager, AllowedAreaMode mode, string label = null)
+			: base(areaManager)
 		{
 			base.areaManager = areaManager;
 			this.mode = mode;

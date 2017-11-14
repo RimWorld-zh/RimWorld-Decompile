@@ -4,7 +4,8 @@ namespace Verse.Noise
 	{
 		private SimpleCurve curve;
 
-		public CurveSimple(ModuleBase input, SimpleCurve curve) : base(1)
+		public CurveSimple(ModuleBase input, SimpleCurve curve)
+			: base(1)
 		{
 			base.modules[0] = input;
 			this.curve = curve;

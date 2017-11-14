@@ -59,7 +59,7 @@ namespace Verse
 				try
 				{
 					Scribe.loader.curParent = crossReferencingExposable2;
-					Scribe.loader.curPathRelToParent = (string)null;
+					Scribe.loader.curPathRelToParent = null;
 					crossReferencingExposable2.ExposeData();
 				}
 				catch (Exception arg)
@@ -68,7 +68,7 @@ namespace Verse
 				}
 			}
 			Scribe.loader.curParent = null;
-			Scribe.loader.curPathRelToParent = (string)null;
+			Scribe.loader.curPathRelToParent = null;
 			Scribe.mode = LoadSaveMode.Inactive;
 			this.Clear(true);
 		}

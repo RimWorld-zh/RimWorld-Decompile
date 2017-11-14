@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse.AI;
 
@@ -22,11 +21,11 @@ namespace RimWorld
 			{
 				atomicWithPrevious = true,
 				defaultCompleteMode = ToilCompleteMode.Instant,
-				initAction = (Action)delegate
+				initAction = delegate
 				{
-					if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0050: stateMachine*/)._0024this.pawn.IsColonist)
+					if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004e: stateMachine*/)._0024this.pawn.IsColonist)
 					{
-						MoteMaker.MakeColonistActionOverlay(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0050: stateMachine*/)._0024this.pawn, ThingDefOf.Mote_ColonistFleeing);
+						MoteMaker.MakeColonistActionOverlay(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004e: stateMachine*/)._0024this.pawn, ThingDefOf.Mote_ColonistFleeing);
 					}
 				}
 			};

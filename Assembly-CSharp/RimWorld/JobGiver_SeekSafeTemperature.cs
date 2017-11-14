@@ -7,61 +7,47 @@ namespace RimWorld
 	{
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (!pawn.health.hediffSet.HasTemperatureInjury(TemperatureInjuryStage.Serious))
 			{
-				result = null;
+				return null;
 			}
-			else
+			FloatRange tempRange = pawn.ComfortableTemperatureRange();
+			if (tempRange.Includes(pawn.AmbientTemperature))
 			{
-				FloatRange tempRange = pawn.ComfortableTemperatureRange();
-				if (tempRange.Includes(pawn.AmbientTemperature))
-				{
-					result = new Job(JobDefOf.WaitSafeTemperature, 500, true);
-				}
-				else
-				{
-					Region region = JobGiver_SeekSafeTemperature.ClosestRegionWithinTemperatureRange(pawn.Position, pawn.Map, tempRange, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), RegionType.Set_Passable);
-					result = ((region == null) ? null : new Job(JobDefOf.GotoSafeTemperature, region.RandomCell));
-				}
+				return new Job(JobDefOf.WaitSafeTemperature, 500, true);
 			}
-			return result;
+			Region region = JobGiver_SeekSafeTemperature.ClosestRegionWithinTemperatureRange(pawn.Position, pawn.Map, tempRange, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), RegionType.Set_Passable);
+			if (region != null)
+			{
+				return new Job(JobDefOf.GotoSafeTemperature, region.RandomCell);
+			}
+			return null;
 		}
 
 		private static Region ClosestRegionWithinTemperatureRange(IntVec3 root, Map map, FloatRange tempRange, TraverseParms traverseParms, RegionType traversableRegionTypes = RegionType.Set_Passable)
 		{
 			Region region = root.GetRegion(map, traversableRegionTypes);
-			Region result;
 			if (region == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			RegionEntryPredicate entryCondition = (Region from, Region r) => r.Allows(traverseParms, false);
+			Region foundReg = null;
+			RegionProcessor regionProcessor = delegate(Region r)
 			{
-				RegionEntryPredicate entryCondition = (RegionEntryPredicate)((Region from, Region r) => r.Allows(traverseParms, false));
-				Region foundReg = null;
-				RegionProcessor regionProcessor = (RegionProcessor)delegate(Region r)
+				if (r.portal != null)
 				{
-					bool result2;
-					if (r.portal != null)
-					{
-						result2 = false;
-					}
-					else if (tempRange.Includes(r.Room.Temperature))
-					{
-						foundReg = r;
-						result2 = true;
-					}
-					else
-					{
-						result2 = false;
-					}
-					return result2;
-				};
-				RegionTraverser.BreadthFirstTraverse(region, entryCondition, regionProcessor, 9999, traversableRegionTypes);
-				result = foundReg;
-			}
-			return result;
+					return false;
+				}
+				if (tempRange.Includes(r.Room.Temperature))
+				{
+					foundReg = r;
+					return true;
+				}
+				return false;
+			};
+			RegionTraverser.BreadthFirstTraverse(region, entryCondition, regionProcessor, 9999, traversableRegionTypes);
+			return foundReg;
 		}
 	}
 }

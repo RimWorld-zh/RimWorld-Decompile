@@ -22,18 +22,13 @@ namespace RimWorld.Planet
 
 		public override bool ShouldRemoveMapNow(out bool alsoRemoveWorldObject)
 		{
-			bool result;
 			if (!base.Map.mapPawns.AnyPawnBlockingMapRemoval)
 			{
 				alsoRemoveWorldObject = true;
-				result = true;
+				return true;
 			}
-			else
-			{
-				alsoRemoveWorldObject = false;
-				result = false;
-			}
-			return result;
+			alsoRemoveWorldObject = false;
+			return false;
 		}
 
 		public override void Tick()
@@ -49,7 +44,7 @@ namespace RimWorld.Planet
 		{
 			if (!this.wonBattle && !GenHostility.AnyHostileActiveThreatToPlayer(base.Map))
 			{
-				Messages.Message("MessageAmbushVictory".Translate(TimedForcedExit.GetForceExitAndRemoveMapCountdownTimeLeftString(60000)), (WorldObject)this, MessageTypeDefOf.PositiveEvent);
+				Messages.Message("MessageAmbushVictory".Translate(TimedForcedExit.GetForceExitAndRemoveMapCountdownTimeLeftString(60000)), this, MessageTypeDefOf.PositiveEvent);
 				TaleRecorder.RecordTale(TaleDefOf.CaravanAmbushDefeated, base.Map.mapPawns.FreeColonists.RandomElement());
 				this.wonBattle = true;
 				base.GetComponent<TimedForcedExit>().StartForceExitAndRemoveMapCountdown();

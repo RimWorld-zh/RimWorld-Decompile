@@ -7,17 +7,17 @@ namespace RimWorld
 	{
 		public float priority = 3.40282347E+38f;
 
-		public bool noteTeaches = false;
+		public bool noteTeaches;
 
-		public bool needsOpportunity = false;
+		public bool needsOpportunity;
 
 		public bool opportunityDecays = true;
 
 		public ProgramState gameMode = ProgramState.Playing;
 
-		private string helpText = (string)null;
+		private string helpText;
 
-		public List<string> highlightTags = null;
+		public List<string> highlightTags;
 
 		public bool TriggeredDirect
 		{
@@ -46,7 +46,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -71,8 +71,8 @@ namespace RimWorld
 				yield break;
 			yield return "no label";
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0175:
-			/*Error near IL_0176: Unexpected return in MoveNext()*/;
+			IL_0171:
+			/*Error near IL_0172: Unexpected return in MoveNext()*/;
 		}
 
 		public static ConceptDef Named(string defName)

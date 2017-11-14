@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,15 +11,15 @@ namespace RimWorld
 
 		private const float IntervalDeviation = 15f;
 
-		private float intervalDays = 0f;
+		private float intervalDays;
 
-		private bool repeat = false;
+		private bool repeat;
 
 		private string intervalDaysBuffer;
 
-		private float occurTick = 0f;
+		private float occurTick;
 
-		private bool isFinished = false;
+		private bool isFinished;
 
 		protected override string IncidentTag
 		{

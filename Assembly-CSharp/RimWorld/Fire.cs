@@ -1,8 +1,5 @@
-#define ENABLE_PROFILER
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Profiling;
 using Verse;
 using Verse.Sound;
 
@@ -18,9 +15,9 @@ namespace RimWorld
 
 		private float flammabilityMax = 0.5f;
 
-		private int ticksUntilSmoke = 0;
+		private int ticksUntilSmoke;
 
-		private Sustainer sustainer = null;
+		private Sustainer sustainer;
 
 		private static List<Thing> flammableList = new List<Thing>();
 
@@ -74,7 +71,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (base.parent == null) ? "Fire".Translate() : "FireOn".Translate(base.parent.LabelCap);
+				if (base.parent != null)
+				{
+					return "FireOn".Translate(base.parent.LabelCap);
+				}
+				return "Fire".Translate();
 			}
 		}
 
@@ -111,7 +112,7 @@ namespace RimWorld
 			this.RecalcPathsOnAndAroundMe(map);
 			LessonAutoActivator.TeachOpportunity(ConceptDefOf.HomeArea, this, OpportunityType.Important);
 			this.ticksSinceSpread = (int)(this.SpreadInterval * Rand.Value);
-			LongEventHandler.ExecuteWhenFinished((Action)delegate()
+			LongEventHandler.ExecuteWhenFinished(delegate
 			{
 				SoundDef def = SoundDef.Named("FireBurning");
 				SoundInfo info = SoundInfo.InMap(new TargetInfo(base.Position, map, false), MaintenanceType.PerTick);
@@ -175,7 +176,6 @@ namespace RimWorld
 			{
 				Log.ErrorOnce("Fire sustainer was null at " + base.Position, 917321);
 			}
-			Profiler.BeginSample("Spawn particles");
 			this.ticksUntilSmoke--;
 			if (this.ticksUntilSmoke <= 0)
 			{
@@ -185,8 +185,6 @@ namespace RimWorld
 			{
 				MoteMaker.ThrowMicroSparks(this.DrawPos, base.Map);
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("Spread");
 			if (this.fireSize > 1.0)
 			{
 				this.ticksSinceSpread++;
@@ -196,7 +194,6 @@ namespace RimWorld
 					this.ticksSinceSpread = 0;
 				}
 			}
-			Profiler.EndSample();
 			if (this.IsHashIntervalTick(150))
 			{
 				this.DoComplexCalcs();
@@ -229,7 +226,6 @@ namespace RimWorld
 		private void DoComplexCalcs()
 		{
 			bool flag = false;
-			Profiler.BeginSample("Determine flammability");
 			Fire.flammableList.Clear();
 			this.flammabilityMax = 0f;
 			if (!base.Position.GetTerrain(base.Map).extinguishesFire)
@@ -269,38 +265,30 @@ namespace RimWorld
 					this.flammabilityMax = base.parent.GetStatValue(StatDefOf.Flammability, true);
 				}
 			}
-			Profiler.EndSample();
 			if (this.flammabilityMax < 0.0099999997764825821)
 			{
 				this.Destroy(DestroyMode.Vanish);
 			}
 			else
 			{
-				Profiler.BeginSample("Do damage");
 				Thing thing2 = (base.parent == null) ? ((Fire.flammableList.Count <= 0) ? null : Fire.flammableList.RandomElement()) : base.parent;
 				if (thing2 != null && (!(this.fireSize < 0.40000000596046448) || thing2 == base.parent || thing2.def.category != ThingCategory.Pawn))
 				{
 					this.DoFireDamage(thing2);
 				}
-				Profiler.EndSample();
 				if (base.Spawned)
 				{
-					Profiler.BeginSample("Room heat");
 					float num = (float)(this.fireSize * 160.0);
 					if (flag)
 					{
 						num = (float)(num * 0.15000000596046448);
 					}
 					GenTemperature.PushHeat(base.Position, base.Map, num);
-					Profiler.EndSample();
-					Profiler.BeginSample("Snow clear");
 					if (Rand.Value < 0.40000000596046448)
 					{
 						float radius = (float)(this.fireSize * 3.0);
 						SnowUtility.AddSnowRadial(base.Position, base.Map, radius, (float)(0.0 - this.fireSize * 0.10000000149011612));
 					}
-					Profiler.EndSample();
-					Profiler.BeginSample("Grow/extinguish");
 					this.fireSize += (float)(0.00054999999701976776 * this.flammabilityMax * 150.0);
 					if (this.fireSize > 1.75)
 					{
@@ -310,7 +298,6 @@ namespace RimWorld
 					{
 						base.TakeDamage(new DamageInfo(DamageDefOf.Extinguish, 10, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
 					}
-					Profiler.EndSample();
 				}
 			}
 		}
@@ -332,29 +319,21 @@ namespace RimWorld
 
 		private bool VulnerableToRain()
 		{
-			bool result;
 			if (!base.Spawned)
 			{
-				result = false;
+				return false;
 			}
-			else
+			RoofDef roofDef = base.Map.roofGrid.RoofAt(base.Position);
+			if (roofDef == null)
 			{
-				RoofDef roofDef = base.Map.roofGrid.RoofAt(base.Position);
-				if (roofDef == null)
-				{
-					result = true;
-				}
-				else if (roofDef.isThickRoof)
-				{
-					result = false;
-				}
-				else
-				{
-					Thing edifice = base.Position.GetEdifice(base.Map);
-					result = (edifice != null && edifice.def.holdsRoof);
-				}
+				return true;
 			}
-			return result;
+			if (roofDef.isThickRoof)
+			{
+				return false;
+			}
+			Thing edifice = base.Position.GetEdifice(base.Map);
+			return edifice != null && edifice.def.holdsRoof;
 		}
 
 		private void DoFireDamage(Thing targ)
@@ -369,7 +348,7 @@ namespace RimWorld
 			Pawn pawn = targ as Pawn;
 			if (pawn != null)
 			{
-				BattleLogEntry_DamageTaken battleLogEntry_DamageTaken = new BattleLogEntry_DamageTaken(pawn, RulePackDefOf.DamageEvent_Fire);
+				BattleLogEntry_DamageTaken battleLogEntry_DamageTaken = new BattleLogEntry_DamageTaken(pawn, RulePackDefOf.DamageEvent_Fire, null);
 				Find.BattleLog.Add(battleLogEntry_DamageTaken);
 				DamageInfo dinfo = new DamageInfo(DamageDefOf.Flame, num, -1f, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
 				dinfo.SetBodyRegion(BodyPartHeight.Undefined, BodyPartDepth.Outside);

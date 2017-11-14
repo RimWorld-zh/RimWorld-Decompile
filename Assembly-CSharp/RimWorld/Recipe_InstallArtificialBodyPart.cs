@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -15,7 +14,7 @@ namespace RimWorld
 				List<BodyPartRecord> bpList = pawn.RaceProps.body.AllParts;
 				for (int i = 0; i < bpList.Count; i++)
 				{
-					_003CGetPartsToApplyOn_003Ec__Iterator0 _003CGetPartsToApplyOn_003Ec__Iterator = (_003CGetPartsToApplyOn_003Ec__Iterator0)/*Error near IL_0083: stateMachine*/;
+					_003CGetPartsToApplyOn_003Ec__Iterator0 _003CGetPartsToApplyOn_003Ec__Iterator = (_003CGetPartsToApplyOn_003Ec__Iterator0)/*Error near IL_0081: stateMachine*/;
 					BodyPartRecord record = bpList[i];
 					if (record.def == part)
 					{
@@ -49,7 +48,7 @@ namespace RimWorld
 				{
 					TaleRecorder.RecordTale(TaleDefOf.DidSurgery, billDoer, pawn);
 					MedicalRecipesUtility.RestorePartAndSpawnAllPreviousParts(pawn, part, billDoer.Position, billDoer.Map);
-					goto IL_0085;
+					goto IL_007a;
 				}
 				return;
 			}
@@ -61,9 +60,9 @@ namespace RimWorld
 			{
 				pawn.health.RestorePart(part, null, true);
 			}
-			goto IL_0085;
-			IL_0085:
-			pawn.health.AddHediff(base.recipe.addsHediff, part, default(DamageInfo?));
+			goto IL_007a;
+			IL_007a:
+			pawn.health.AddHediff(base.recipe.addsHediff, part, null);
 		}
 	}
 }

@@ -9,8 +9,20 @@ namespace RimWorld.BaseGen
 	{
 		public override bool CanResolve(ResolveParams rp)
 		{
+			if (!base.CanResolve(rp))
+			{
+				return false;
+			}
+			if (rp.singlePawnToSpawn != null && rp.singlePawnToSpawn.Spawned)
+			{
+				return true;
+			}
 			IntVec3 intVec = default(IntVec3);
-			return (byte)(base.CanResolve(rp) ? ((rp.singlePawnToSpawn != null && rp.singlePawnToSpawn.Spawned) ? 1 : (SymbolResolver_SinglePawn.TryFindSpawnCell(rp, out intVec) ? 1 : 0)) : 0) != 0;
+			if (!SymbolResolver_SinglePawn.TryFindSpawnCell(rp, out intVec))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override void Resolve(ResolveParams rp)
@@ -58,10 +70,10 @@ namespace RimWorld.BaseGen
 						PawnKindDef kind = pawnKindDef;
 						Faction faction2 = faction;
 						int tile = map.Tile;
-						request = new PawnGenerationRequest(kind, faction2, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 1f, false, true, true, false, false, false, false, null, default(float?), default(float?), default(float?), default(Gender?), default(float?), (string)null);
+						request = new PawnGenerationRequest(kind, faction2, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 1f, false, true, true, false, false, false, false, null, null, null, null, null, null, null);
 					}
 					pawn = PawnGenerator.GeneratePawn(request);
-					if ((object)rp.postThingGenerate != null)
+					if (rp.postThingGenerate != null)
 					{
 						rp.postThingGenerate(pawn);
 					}
@@ -79,7 +91,7 @@ namespace RimWorld.BaseGen
 				{
 					rp.singlePawnLord.AddPawn(pawn);
 				}
-				if ((object)rp.postThingSpawn != null)
+				if (rp.postThingSpawn != null)
 				{
 					rp.postThingSpawn(pawn);
 				}
@@ -89,7 +101,7 @@ namespace RimWorld.BaseGen
 		public static bool TryFindSpawnCell(ResolveParams rp, out IntVec3 cell)
 		{
 			Map map = BaseGen.globalSettings.map;
-			return CellFinder.TryFindRandomCellInsideWith(rp.rect, (Predicate<IntVec3>)((IntVec3 x) => x.Standable(map) && ((object)rp.singlePawnSpawnCellExtraPredicate == null || rp.singlePawnSpawnCellExtraPredicate(x))), out cell);
+			return CellFinder.TryFindRandomCellInsideWith(rp.rect, (Predicate<IntVec3>)((IntVec3 x) => x.Standable(map) && (rp.singlePawnSpawnCellExtraPredicate == null || rp.singlePawnSpawnCellExtraPredicate(x))), out cell);
 		}
 	}
 }

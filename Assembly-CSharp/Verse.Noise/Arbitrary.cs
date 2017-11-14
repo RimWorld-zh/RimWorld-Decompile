@@ -6,11 +6,13 @@ namespace Verse.Noise
 	{
 		private Func<double, double> processor;
 
-		public Arbitrary() : base(1)
+		public Arbitrary()
+			: base(1)
 		{
 		}
 
-		public Arbitrary(ModuleBase source, Func<double, double> processor) : base(1)
+		public Arbitrary(ModuleBase source, Func<double, double> processor)
+			: base(1)
 		{
 			base.modules[0] = source;
 			this.processor = processor;

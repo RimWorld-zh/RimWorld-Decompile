@@ -19,28 +19,20 @@ namespace RimWorld
 			CellRect cellRect = GenAdj.OccupiedRect(center, rot, def.Size);
 			cellRect = cellRect.ExpandedBy(1);
 			CellRect.CellRectIterator iterator = cellRect.GetIterator();
-			AcceptanceReport result;
-			while (true)
+			while (!iterator.Done())
 			{
-				if (!iterator.Done())
+				IntVec3 current = iterator.Current;
+				List<Thing> list = map.thingGrid.ThingsListAt(current);
+				for (int i = 0; i < list.Count; i++)
 				{
-					IntVec3 current = iterator.Current;
-					List<Thing> list = map.thingGrid.ThingsListAt(current);
-					for (int i = 0; i < list.Count; i++)
+					if (list[i] != thingToIgnore && list[i].def.passability != 0)
 					{
-						if (((list[i] != thingToIgnore) ? list[i].def.passability : Traversability.Standable) != 0)
-							goto IL_006b;
+						return "MustPlaceAdjacentStandable".Translate();
 					}
-					iterator.MoveNext();
-					continue;
 				}
-				result = true;
-				break;
-				IL_006b:
-				result = "MustPlaceAdjacentStandable".Translate();
-				break;
+				iterator.MoveNext();
 			}
-			return result;
+			return true;
 		}
 	}
 }

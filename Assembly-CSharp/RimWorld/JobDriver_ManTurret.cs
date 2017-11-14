@@ -14,23 +14,37 @@ namespace RimWorld
 		private static bool GunNeedsLoading(Building b)
 		{
 			Building_TurretGun building_TurretGun = b as Building_TurretGun;
-			bool result;
 			if (building_TurretGun == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			CompChangeableProjectile compChangeableProjectile = building_TurretGun.gun.TryGetComp<CompChangeableProjectile>();
+			if (compChangeableProjectile != null && !compChangeableProjectile.Loaded)
 			{
-				CompChangeableProjectile compChangeableProjectile = building_TurretGun.gun.TryGetComp<CompChangeableProjectile>();
-				result = ((byte)((compChangeableProjectile != null && !compChangeableProjectile.Loaded) ? 1 : 0) != 0);
+				return true;
 			}
-			return result;
+			return false;
 		}
 
 		public static Thing FindAmmoForTurret(Pawn pawn, Building_TurretGun gun)
 		{
 			StorageSettings allowedShellsSettings = (!pawn.IsColonist) ? null : gun.gun.TryGetComp<CompChangeableProjectile>().allowedShellsSettings;
-			Predicate<Thing> validator = (Predicate<Thing>)((Thing t) => (byte)((!t.IsForbidden(pawn)) ? (pawn.CanReserve(t, 10, 1, null, false) ? ((allowedShellsSettings == null || allowedShellsSettings.AllowedToAccept(t)) ? 1 : 0) : 0) : 0) != 0);
+			Predicate<Thing> validator = delegate(Thing t)
+			{
+				if (t.IsForbidden(pawn))
+				{
+					return false;
+				}
+				if (!pawn.CanReserve(t, 10, 1, null, false))
+				{
+					return false;
+				}
+				if (allowedShellsSettings != null && !allowedShellsSettings.AllowedToAccept(t))
+				{
+					return false;
+				}
+				return true;
+			};
 			return GenClosest.ClosestThingReachable(gun.Position, gun.Map, ThingRequest.ForGroup(ThingRequestGroup.Shell), PathEndMode.OnCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 40f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
 		}
 
@@ -45,7 +59,7 @@ namespace RimWorld
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
 			Toil gotoTurret = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.InteractionCell);
 			Toil loadIfNeeded = new Toil();
-			loadIfNeeded.initAction = (Action)delegate
+			loadIfNeeded.initAction = delegate
 			{
 				Pawn actor = loadIfNeeded.actor;
 				Building building = (Building)actor.CurJob.targetA.Thing;
@@ -61,7 +75,7 @@ namespace RimWorld
 					{
 						if (actor.Faction == Faction.OfPlayer)
 						{
-							Messages.Message("MessageOutOfNearbyShellsFor".Translate(actor.LabelShort, building_TurretGun.Label).CapitalizeFirst(), (Thing)building_TurretGun, MessageTypeDefOf.NegativeEvent);
+							Messages.Message("MessageOutOfNearbyShellsFor".Translate(actor.LabelShort, building_TurretGun.Label).CapitalizeFirst(), building_TurretGun, MessageTypeDefOf.NegativeEvent);
 						}
 						actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
 					}

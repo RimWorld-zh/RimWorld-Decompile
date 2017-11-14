@@ -66,13 +66,13 @@ namespace RimWorld
 								}
 							}
 							if (flag)
-								goto IL_0185;
+								goto IL_0175;
 							continue;
 						}
-						goto IL_0185;
+						goto IL_0175;
 					}
 					continue;
-					IL_0185:
+					IL_0175:
 					BeautyUtility.beautyRelevantCells.Add(intVec);
 				}
 				BeautyUtility.visibleRooms.Clear();
@@ -115,16 +115,11 @@ namespace RimWorld
 					}
 				}
 			}
-			float result;
 			if (flag)
 			{
-				result = num2;
+				return num2;
 			}
-			else
-			{
-				num = (result = num + map.terrainGrid.TerrainAt(c).GetStatValueAbstract(StatDefOf.Beauty, null));
-			}
-			return result;
+			return num + map.terrainGrid.TerrainAt(c).GetStatValueAbstract(StatDefOf.Beauty, null);
 		}
 	}
 }

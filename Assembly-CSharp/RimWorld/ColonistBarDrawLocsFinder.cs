@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -52,17 +51,17 @@ namespace RimWorld
 			this.entriesInGroup.Clear();
 			List<ColonistBar.Entry> entries = this.ColonistBar.Entries;
 			int num = this.CalculateGroupsCount();
-			for (int num2 = 0; num2 < num; num2++)
+			for (int i = 0; i < num; i++)
 			{
 				this.entriesInGroup.Add(0);
 			}
-			for (int i = 0; i < entries.Count; i++)
+			for (int j = 0; j < entries.Count; j++)
 			{
 				List<int> list;
-				List<int> obj = list = this.entriesInGroup;
-				ColonistBar.Entry entry = entries[i];
+				List<int> list2 = list = this.entriesInGroup;
+				ColonistBar.Entry entry = entries[j];
 				int group;
-				obj[group = entry.group] = list[group] + 1;
+				list2[group = entry.group] = list[group] + 1;
 			}
 		}
 
@@ -110,12 +109,12 @@ namespace RimWorld
 						{
 							ColonistBar.Entry entry2 = entries[i];
 							num5 = entry2.group;
-							List<int> obj = this.entriesInGroup;
+							List<int> list = this.entriesInGroup;
 							ColonistBar.Entry entry3 = entries[i];
-							float num7 = (float)obj[entry3.group];
-							List<int> obj2 = this.horizontalSlotsPerGroup;
+							float num7 = (float)list[entry3.group];
+							List<int> list2 = this.horizontalSlotsPerGroup;
 							ColonistBar.Entry entry4 = entries[i];
-							int num8 = Mathf.CeilToInt(num7 / (float)obj2[entry4.group]);
+							int num8 = Mathf.CeilToInt(num7 / (float)list2[entry4.group]);
 							if (num8 > 1)
 							{
 								onlyOneRow = false;
@@ -139,44 +138,42 @@ namespace RimWorld
 		{
 			int num = this.CalculateGroupsCount();
 			this.horizontalSlotsPerGroup.Clear();
-			for (int num2 = 0; num2 < num; num2++)
+			for (int j = 0; j < num; j++)
 			{
 				this.horizontalSlotsPerGroup.Add(0);
 			}
-			GenMath.DHondtDistribution(this.horizontalSlotsPerGroup, (Func<int, float>)((int i) => (float)this.entriesInGroup[i]), maxPerGlobalRow);
-			int num3 = 0;
-			bool result;
-			while (true)
+			GenMath.DHondtDistribution(this.horizontalSlotsPerGroup, (int i) => (float)this.entriesInGroup[i], maxPerGlobalRow);
+			for (int k = 0; k < this.horizontalSlotsPerGroup.Count; k++)
 			{
-				if (num3 < this.horizontalSlotsPerGroup.Count)
+				if (this.horizontalSlotsPerGroup[k] == 0)
 				{
-					if (this.horizontalSlotsPerGroup[num3] == 0)
+					int num2 = this.horizontalSlotsPerGroup.Max();
+					if (num2 <= 1)
 					{
-						int num4 = this.horizontalSlotsPerGroup.Max();
-						if (num4 <= 1)
-						{
-							result = false;
-							break;
-						}
-						int num5 = this.horizontalSlotsPerGroup.IndexOf(num4);
-						int index;
-						List<int> list;
-						(list = this.horizontalSlotsPerGroup)[index = num5] = list[index] - 1;
-						int index2;
-						(list = this.horizontalSlotsPerGroup)[index2 = num3] = list[index2] + 1;
+						return false;
 					}
-					num3++;
-					continue;
+					int num3 = this.horizontalSlotsPerGroup.IndexOf(num2);
+					int index;
+					List<int> list;
+					(list = this.horizontalSlotsPerGroup)[index = num3] = list[index] - 1;
+					int index2;
+					(list = this.horizontalSlotsPerGroup)[index2 = k] = list[index2] + 1;
 				}
-				result = true;
-				break;
 			}
-			return result;
+			return true;
 		}
 
 		private static int GetAllowedRowsCountForScale(float scale)
 		{
-			return (scale > 0.57999998331069946) ? 1 : ((!(scale > 0.41999998688697815)) ? 3 : 2);
+			if (scale > 0.57999998331069946)
+			{
+				return 1;
+			}
+			if (scale > 0.41999998688697815)
+			{
+				return 2;
+			}
+			return 3;
 		}
 
 		private void CalculateDrawLocs(List<Vector2> outDrawLocs, float scale, bool onlyOneRow, int maxPerGlobalRow)

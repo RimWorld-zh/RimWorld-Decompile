@@ -11,19 +11,19 @@ namespace Verse
 
 		public FloatRange countPer10kCellsRange = FloatRange.Zero;
 
-		public bool nearPlayerStart = false;
+		public bool nearPlayerStart;
 
-		public bool nearMapCenter = false;
+		public bool nearMapCenter;
 
 		public float minSpacing = 10f;
 
-		public bool spotMustBeStandable = false;
+		public bool spotMustBeStandable;
 
-		public int minDistToPlayerStart = 0;
+		public int minDistToPlayerStart;
 
-		public int minEdgeDist = 0;
+		public int minEdgeDist;
 
-		public int extraNoBuildEdgeDist = 0;
+		public int extraNoBuildEdgeDist;
 
 		public List<ScattererValidator> validators = new List<ScattererValidator>();
 
@@ -59,109 +59,88 @@ namespace Verse
 
 		protected virtual bool TryFindScatterCell(Map map, out IntVec3 result)
 		{
-			bool result2;
 			if (this.nearMapCenter)
 			{
 				if (RCellFinder.TryFindRandomCellNearWith(map.Center, (Predicate<IntVec3>)((IntVec3 x) => this.CanScatterAt(x, map)), map, out result, 3, 2147483647))
 				{
-					result2 = true;
-					goto IL_00e6;
+					return true;
 				}
 			}
 			else
 			{
 				if (this.nearPlayerStart)
 				{
-					result = CellFinder.RandomClosewalkCellNear(MapGenerator.PlayerStartSpot, map, 20, (Predicate<IntVec3>)((IntVec3 x) => this.CanScatterAt(x, map)));
-					result2 = true;
-					goto IL_00e6;
+					result = CellFinder.RandomClosewalkCellNear(MapGenerator.PlayerStartSpot, map, 20, (IntVec3 x) => this.CanScatterAt(x, map));
+					return true;
 				}
 				if (CellFinderLoose.TryFindRandomNotEdgeCellWith(5, (Predicate<IntVec3>)((IntVec3 x) => this.CanScatterAt(x, map)), map, out result))
 				{
-					result2 = true;
-					goto IL_00e6;
+					return true;
 				}
 			}
 			if (this.warnOnFail)
 			{
 				Log.Warning("Scatterer " + this.ToString() + " could not find cell to generate at.");
 			}
-			result2 = false;
-			goto IL_00e6;
-			IL_00e6:
-			return result2;
+			return false;
 		}
 
 		protected abstract void ScatterAt(IntVec3 loc, Map map, int count = 1);
 
 		protected virtual bool CanScatterAt(IntVec3 loc, Map map)
 		{
-			bool result;
 			if (this.extraNoBuildEdgeDist > 0 && loc.CloseToEdge(map, this.extraNoBuildEdgeDist + 10))
 			{
-				result = false;
+				return false;
 			}
-			else if (this.minEdgeDist > 0 && loc.CloseToEdge(map, this.minEdgeDist))
+			if (this.minEdgeDist > 0 && loc.CloseToEdge(map, this.minEdgeDist))
 			{
-				result = false;
+				return false;
 			}
-			else if (this.NearUsedSpot(loc, this.minSpacing))
+			if (this.NearUsedSpot(loc, this.minSpacing))
 			{
-				result = false;
+				return false;
 			}
-			else if ((map.Center - loc).LengthHorizontalSquared < this.minDistToPlayerStart * this.minDistToPlayerStart)
+			if ((map.Center - loc).LengthHorizontalSquared < this.minDistToPlayerStart * this.minDistToPlayerStart)
 			{
-				result = false;
+				return false;
 			}
-			else if (this.spotMustBeStandable && !loc.Standable(map))
+			if (this.spotMustBeStandable && !loc.Standable(map))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (this.validators != null)
 			{
-				if (this.validators != null)
+				for (int i = 0; i < this.validators.Count; i++)
 				{
-					for (int i = 0; i < this.validators.Count; i++)
+					if (!this.validators[i].Allows(loc, map))
 					{
-						if (!this.validators[i].Allows(loc, map))
-							goto IL_00de;
+						return false;
 					}
 				}
-				result = true;
 			}
-			goto IL_0103;
-			IL_00de:
-			result = false;
-			goto IL_0103;
-			IL_0103:
-			return result;
+			return true;
 		}
 
 		protected bool NearUsedSpot(IntVec3 c, float dist)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.usedSpots.Count; i++)
 			{
-				if (num < this.usedSpots.Count)
+				if ((float)(this.usedSpots[i] - c).LengthHorizontalSquared <= dist * dist)
 				{
-					if ((float)(this.usedSpots[num] - c).LengthHorizontalSquared <= dist * dist)
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		protected int CalculateFinalCount(Map map)
 		{
-			return (this.count >= 0) ? this.count : GenStep_Scatterer.CountFromPer10kCells(this.countPer10kCellsRange.RandomInRange, map, -1);
+			if (this.count < 0)
+			{
+				return GenStep_Scatterer.CountFromPer10kCells(this.countPer10kCellsRange.RandomInRange, map, -1);
+			}
+			return this.count;
 		}
 
 		public static int CountFromPer10kCells(float countPer10kCells, Map map, int mapSize = -1)

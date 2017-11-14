@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -10,7 +9,7 @@ namespace RimWorld
 	{
 		public Pawn pawn;
 
-		private bool draftedInt = false;
+		private bool draftedInt;
 
 		private bool fireAtWillInt = true;
 
@@ -100,10 +99,10 @@ namespace RimWorld
 			Command_Toggle draft = new Command_Toggle
 			{
 				hotKey = KeyBindingDefOf.CommandColonistDraft,
-				isActive = (Func<bool>)(() => ((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_0048: stateMachine*/)._0024this.Drafted),
-				toggleAction = (Action)delegate
+				isActive = this.get_Drafted,
+				toggleAction = delegate
 				{
-					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_005f: stateMachine*/)._0024this.Drafted = !((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_005f: stateMachine*/)._0024this.Drafted;
+					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_0062: stateMachine*/)._0024this.Drafted = !((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_0062: stateMachine*/)._0024this.Drafted;
 					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.Drafting, KnowledgeAmount.SpecificInteraction);
 				},
 				defaultDesc = "CommandToggleDraftDesc".Translate(),

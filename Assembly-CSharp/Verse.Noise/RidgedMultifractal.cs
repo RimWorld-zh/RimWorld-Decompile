@@ -13,7 +13,7 @@ namespace Verse.Noise
 
 		private int m_octaveCount = 6;
 
-		private int m_seed = 0;
+		private int m_seed;
 
 		private double[] m_weights = new double[30];
 
@@ -78,12 +78,14 @@ namespace Verse.Noise
 			}
 		}
 
-		public RidgedMultifractal() : base(0)
+		public RidgedMultifractal()
+			: base(0)
 		{
 			this.UpdateWeights();
 		}
 
-		public RidgedMultifractal(double frequency, double lacunarity, int octaves, int seed, QualityMode quality) : base(0)
+		public RidgedMultifractal(double frequency, double lacunarity, int octaves, int seed, QualityMode quality)
+			: base(0)
 		{
 			this.Frequency = frequency;
 			this.Lacunarity = lacunarity;
@@ -117,7 +119,7 @@ namespace Verse.Noise
 				double x2 = Utils.MakeInt32Range(x);
 				double y2 = Utils.MakeInt32Range(y);
 				double z2 = Utils.MakeInt32Range(z);
-				long seed = this.m_seed + i & 2147483647;
+				long seed = this.m_seed + i & 0x7FFFFFFF;
 				num = Utils.GradientCoherentNoise3D(x2, y2, z2, seed, this.m_quality);
 				num = Math.Abs(num);
 				num = num4 - num;

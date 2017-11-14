@@ -9,7 +9,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class ShieldBelt : Apparel
 	{
-		private float energy = 0f;
+		private float energy;
 
 		private int ticksToReset = -1;
 
@@ -67,7 +67,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (ShieldState)((this.ticksToReset > 0) ? 1 : 0);
+				if (this.ticksToReset > 0)
+				{
+					return ShieldState.Resetting;
+				}
+				return ShieldState.Active;
 			}
 		}
 
@@ -76,7 +80,27 @@ namespace RimWorld
 			get
 			{
 				Pawn wearer = base.Wearer;
-				return (byte)((wearer.Spawned && !wearer.Dead && !wearer.Downed) ? (wearer.InAggroMentalState ? 1 : (wearer.Drafted ? 1 : ((wearer.Faction.HostileTo(Faction.OfPlayer) && !wearer.IsPrisoner) ? 1 : ((Find.TickManager.TicksGame < this.lastKeepDisplayTick + this.KeepDisplayingTicks) ? 1 : 0)))) : 0) != 0;
+				if (wearer.Spawned && !wearer.Dead && !wearer.Downed)
+				{
+					if (wearer.InAggroMentalState)
+					{
+						return true;
+					}
+					if (wearer.Drafted)
+					{
+						return true;
+					}
+					if (wearer.Faction.HostileTo(Faction.OfPlayer) && !wearer.IsPrisoner)
+					{
+						return true;
+					}
+					if (Find.TickManager.TicksGame < this.lastKeepDisplayTick + this.KeepDisplayingTicks)
+					{
+						return true;
+					}
+					return false;
+				}
+				return false;
 			}
 		}
 
@@ -135,21 +159,19 @@ namespace RimWorld
 			{
 				if (dinfo.Instigator != null && !dinfo.Instigator.Position.AdjacentTo8WayOrInside(base.Wearer.Position))
 				{
-					goto IL_004b;
+					goto IL_0049;
 				}
 				if (dinfo.Def.isExplosive)
-					goto IL_004b;
+					goto IL_0049;
 			}
-			bool result = false;
-			goto IL_00ee;
-			IL_004b:
+			return false;
+			IL_0049:
 			if (dinfo.Instigator != null)
 			{
 				AttachableThing attachableThing = dinfo.Instigator as AttachableThing;
 				if (attachableThing != null && attachableThing.parent == base.Wearer)
 				{
-					result = false;
-					goto IL_00ee;
+					return false;
 				}
 			}
 			this.energy -= (float)dinfo.Amount * this.EnergyLossPerDamage;
@@ -165,10 +187,7 @@ namespace RimWorld
 			{
 				this.AbsorbedDamage(dinfo);
 			}
-			result = true;
-			goto IL_00ee;
-			IL_00ee:
-			return result;
+			return true;
 		}
 
 		public void KeepDisplaying()
@@ -184,7 +203,7 @@ namespace RimWorld
 			float num = Mathf.Min(10f, (float)(2.0 + (float)dinfo.Amount / 10.0));
 			MoteMaker.MakeStaticMote(loc, base.Wearer.Map, ThingDefOf.Mote_ExplosionFlash, num);
 			int num2 = (int)num;
-			for (int num3 = 0; num3 < num2; num3++)
+			for (int i = 0; i < num2; i++)
 			{
 				MoteMaker.ThrowDustPuff(loc, base.Wearer.Map, Rand.Range(0.8f, 1.2f));
 			}

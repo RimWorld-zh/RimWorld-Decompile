@@ -5,7 +5,15 @@ namespace RimWorld
 		public override float OpinionOffset()
 		{
 			int num = base.otherPawn.story.traits.DegreeOfTrait(TraitDefOf.DrugDesire);
-			return (float)((num > 0) ? ((num != 1) ? -30.0 : -20.0) : 0.0);
+			if (num <= 0)
+			{
+				return 0f;
+			}
+			if (num == 1)
+			{
+				return -20f;
+			}
+			return -30f;
 		}
 	}
 }

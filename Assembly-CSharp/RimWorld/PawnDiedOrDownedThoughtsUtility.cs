@@ -52,9 +52,9 @@ namespace RimWorld
 
 		public static void TryGiveThoughts(IEnumerable<Pawn> victims, PawnDiedOrDownedThoughtsKind thoughtsKind)
 		{
-			foreach (Pawn item in victims)
+			foreach (Pawn victim in victims)
 			{
-				PawnDiedOrDownedThoughtsUtility.TryGiveThoughts(item, default(DamageInfo?), thoughtsKind);
+				PawnDiedOrDownedThoughtsUtility.TryGiveThoughts(victim, null, thoughtsKind);
 			}
 		}
 
@@ -92,7 +92,7 @@ namespace RimWorld
 					sb.Append("  - " + thoughtDef.stages[0].label.CapitalizeFirst() + " " + Mathf.RoundToInt(thoughtDef.stages[0].baseMoodEffect).ToStringWithSign());
 				}
 			}
-			if (PawnDiedOrDownedThoughtsUtility.tmpIndividualThoughtsToAdd.Any((Predicate<IndividualThoughtToAdd>)((IndividualThoughtToAdd x) => x.thought.MoodOffset() != 0.0)))
+			if (PawnDiedOrDownedThoughtsUtility.tmpIndividualThoughtsToAdd.Any((IndividualThoughtToAdd x) => x.thought.MoodOffset() != 0.0))
 			{
 				if (!individualThoughtsHeader.NullOrEmpty())
 				{
@@ -121,9 +121,9 @@ namespace RimWorld
 
 		public static void BuildMoodThoughtsListString(IEnumerable<Pawn> victims, PawnDiedOrDownedThoughtsKind thoughtsKind, StringBuilder sb, string individualThoughtsHeader, string allColonistsThoughtsHeader, string victimLabelKey)
 		{
-			foreach (Pawn item in victims)
+			foreach (Pawn victim in victims)
 			{
-				PawnDiedOrDownedThoughtsUtility.GetThoughts(item, default(DamageInfo?), thoughtsKind, PawnDiedOrDownedThoughtsUtility.tmpIndividualThoughtsToAdd, PawnDiedOrDownedThoughtsUtility.tmpAllColonistsThoughts);
+				PawnDiedOrDownedThoughtsUtility.GetThoughts(victim, null, thoughtsKind, PawnDiedOrDownedThoughtsUtility.tmpIndividualThoughtsToAdd, PawnDiedOrDownedThoughtsUtility.tmpAllColonistsThoughts);
 				if (PawnDiedOrDownedThoughtsUtility.tmpIndividualThoughtsToAdd.Any() || PawnDiedOrDownedThoughtsUtility.tmpAllColonistsThoughts.Any())
 				{
 					if (sb.Length > 0)
@@ -131,7 +131,7 @@ namespace RimWorld
 						sb.AppendLine();
 						sb.AppendLine();
 					}
-					string text = item.KindLabel.CapitalizeFirst() + " " + item.LabelShort;
+					string text = victim.KindLabel.CapitalizeFirst() + " " + victim.LabelShort;
 					if (victimLabelKey.NullOrEmpty())
 					{
 						sb.Append(text + ":");
@@ -140,7 +140,7 @@ namespace RimWorld
 					{
 						sb.Append(victimLabelKey.Translate(text));
 					}
-					PawnDiedOrDownedThoughtsUtility.BuildMoodThoughtsListString(item, default(DamageInfo?), thoughtsKind, sb, individualThoughtsHeader, allColonistsThoughtsHeader);
+					PawnDiedOrDownedThoughtsUtility.BuildMoodThoughtsListString(victim, null, thoughtsKind, sb, individualThoughtsHeader, allColonistsThoughtsHeader);
 				}
 			}
 		}
@@ -315,7 +315,27 @@ namespace RimWorld
 
 		private static bool Witnessed(Pawn p, Pawn victim)
 		{
-			return (byte)((p.Awake() && p.health.capacities.CapableOf(PawnCapacityDefOf.Sight)) ? ((!victim.IsCaravanMember()) ? ((victim.Spawned && p.Spawned) ? (p.Position.InHorDistOf(victim.Position, 12f) ? (GenSight.LineOfSight(victim.Position, p.Position, victim.Map, false, null, 0, 0) ? 1 : 0) : 0) : 0) : ((victim.GetCaravan() == p.GetCaravan()) ? 1 : 0)) : 0) != 0;
+			if (p.Awake() && p.health.capacities.CapableOf(PawnCapacityDefOf.Sight))
+			{
+				if (victim.IsCaravanMember())
+				{
+					return victim.GetCaravan() == p.GetCaravan();
+				}
+				if (victim.Spawned && p.Spawned)
+				{
+					if (!p.Position.InHorDistOf(victim.Position, 12f))
+					{
+						return false;
+					}
+					if (!GenSight.LineOfSight(victim.Position, p.Position, victim.Map, false, null, 0, 0))
+					{
+						return false;
+					}
+					return true;
+				}
+				return false;
+			}
+			return false;
 		}
 	}
 }

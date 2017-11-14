@@ -25,7 +25,7 @@ namespace Verse
 
 		public bool buttonCClose = true;
 
-		public float interactionDelay = 0f;
+		public float interactionDelay;
 
 		private Vector2 scrollPosition = Vector2.zero;
 
@@ -72,7 +72,7 @@ namespace Verse
 			{
 				this.buttonAText = "OK".Translate();
 			}
-			if ((object)buttonAAction == null)
+			if (buttonAAction == null)
 			{
 				base.closeOnEscapeKey = true;
 			}
@@ -116,7 +116,7 @@ namespace Verse
 			string label = (!this.InteractionDelayExpired) ? (this.buttonAText + "(" + Mathf.Ceil(this.TimeUntilInteractive).ToString("F0") + ")") : this.buttonAText;
 			if (Widgets.ButtonText(new Rect((float)(num3 * (float)(num2 - 1) + 10.0), (float)(inRect.height - 35.0), width2, 35f), label, true, false, true) && this.InteractionDelayExpired)
 			{
-				if ((object)this.buttonAAction != null)
+				if (this.buttonAAction != null)
 				{
 					this.buttonAAction();
 				}
@@ -125,7 +125,7 @@ namespace Verse
 			GUI.color = Color.white;
 			if (this.buttonBText != null && Widgets.ButtonText(new Rect(0f, (float)(inRect.height - 35.0), width2, 35f), this.buttonBText, true, false, true))
 			{
-				if ((object)this.buttonBAction != null)
+				if (this.buttonBAction != null)
 				{
 					this.buttonBAction();
 				}
@@ -133,7 +133,7 @@ namespace Verse
 			}
 			if (this.buttonCText != null && Widgets.ButtonText(new Rect((float)(num3 + 10.0), (float)(inRect.height - 35.0), width2, 35f), this.buttonCText, true, false, true))
 			{
-				if ((object)this.buttonCAction != null)
+				if (this.buttonCAction != null)
 				{
 					this.buttonCAction();
 				}

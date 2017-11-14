@@ -7,37 +7,37 @@ namespace Verse
 {
 	public abstract class BuildableDef : Def
 	{
-		public List<StatModifier> statBases = null;
+		public List<StatModifier> statBases;
 
-		public Traversability passability = Traversability.Standable;
+		public Traversability passability;
 
-		public int pathCost = 0;
+		public int pathCost;
 
 		public bool pathCostIgnoreRepeat = true;
 
 		public float fertility = -1f;
 
-		public List<ThingCountClass> costList = null;
+		public List<ThingCountClass> costList;
 
 		public int costStuffCount = -1;
 
-		public List<StuffCategoryDef> stuffCategories = null;
+		public List<StuffCategoryDef> stuffCategories;
 
 		public TerrainAffordance terrainAffordanceNeeded = TerrainAffordance.Light;
 
-		public List<ThingDef> buildingPrerequisites = null;
+		public List<ThingDef> buildingPrerequisites;
 
-		public List<ResearchProjectDef> researchPrerequisites = null;
+		public List<ResearchProjectDef> researchPrerequisites;
 
-		public int constructionSkillPrerequisite = 0;
+		public int constructionSkillPrerequisite;
 
-		public int placingDraggableDimensions = 0;
+		public int placingDraggableDimensions;
 
 		public bool clearBuildingArea = true;
 
-		public EffecterDef repairEffect = null;
+		public EffecterDef repairEffect;
 
-		public EffecterDef constructEffect = null;
+		public EffecterDef constructEffect;
 
 		public Rot4 defaultPlacingRot = Rot4.North;
 
@@ -52,7 +52,7 @@ namespace Verse
 		[Unsaved]
 		public ThingDef frameDef;
 
-		public string uiIconPath = (string)null;
+		public string uiIconPath;
 
 		public AltitudeLayer altitudeLayer = AltitudeLayer.Item;
 
@@ -65,23 +65,23 @@ namespace Verse
 		[Unsaved]
 		public Graphic graphic = BaseContent.BadGraphic;
 
-		public bool menuHidden = false;
+		public bool menuHidden;
 
-		public float specialDisplayRadius = 0f;
+		public float specialDisplayRadius;
 
-		public List<Type> placeWorkers = null;
+		public List<Type> placeWorkers;
 
 		[NoTranslate]
-		public DesignationCategoryDef designationCategory = null;
+		public DesignationCategoryDef designationCategory;
 
-		public KeyBindingDef designationHotKey = null;
+		public KeyBindingDef designationHotKey;
 
-		public TechLevel minTechLevelToBuild = TechLevel.Undefined;
+		public TechLevel minTechLevelToBuild;
 
-		public TechLevel maxTechLevelToBuild = TechLevel.Undefined;
+		public TechLevel maxTechLevelToBuild;
 
 		[Unsaved]
-		private List<PlaceWorker> placeWorkersInstantiatedInt = null;
+		private List<PlaceWorker> placeWorkersInstantiatedInt;
 
 		public virtual IntVec2 Size
 		{
@@ -108,7 +108,11 @@ namespace Verse
 		{
 			get
 			{
-				return (this.graphic != null) ? this.graphic.MatSingle : null;
+				if (this.graphic == null)
+				{
+					return null;
+				}
+				return this.graphic.MatSingle;
 			}
 		}
 
@@ -124,52 +128,39 @@ namespace Verse
 		{
 			get
 			{
-				List<PlaceWorker> result;
 				if (this.placeWorkers == null)
 				{
-					result = null;
+					return null;
 				}
-				else
+				this.placeWorkersInstantiatedInt = new List<PlaceWorker>();
+				foreach (Type placeWorker in this.placeWorkers)
 				{
-					this.placeWorkersInstantiatedInt = new List<PlaceWorker>();
-					foreach (Type placeWorker in this.placeWorkers)
-					{
-						this.placeWorkersInstantiatedInt.Add((PlaceWorker)Activator.CreateInstance(placeWorker));
-					}
-					result = this.placeWorkersInstantiatedInt;
+					this.placeWorkersInstantiatedInt.Add((PlaceWorker)Activator.CreateInstance(placeWorker));
 				}
-				return result;
+				return this.placeWorkersInstantiatedInt;
 			}
 		}
 
 		public bool ForceAllowPlaceOver(BuildableDef other)
 		{
-			bool result;
 			if (this.PlaceWorkers == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < this.PlaceWorkers.Count; i++)
 			{
-				for (int i = 0; i < this.PlaceWorkers.Count; i++)
+				if (this.PlaceWorkers[i].ForceAllowPlaceOver(other))
 				{
-					if (this.PlaceWorkers[i].ForceAllowPlaceOver(other))
-						goto IL_0032;
+					return true;
 				}
-				result = false;
 			}
-			goto IL_0056;
-			IL_0032:
-			result = true;
-			goto IL_0056;
-			IL_0056:
-			return result;
+			return false;
 		}
 
 		public override void PostLoad()
 		{
 			base.PostLoad();
-			LongEventHandler.ExecuteWhenFinished((Action)delegate
+			LongEventHandler.ExecuteWhenFinished(delegate
 			{
 				if (!this.uiIconPath.NullOrEmpty())
 				{
@@ -199,7 +190,7 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -209,8 +200,8 @@ namespace Verse
 				}
 			}
 			yield break;
-			IL_00bd:
-			/*Error near IL_00be: Unexpected return in MoveNext()*/;
+			IL_00b9:
+			/*Error near IL_00ba: Unexpected return in MoveNext()*/;
 		}
 
 		public override string ToString()

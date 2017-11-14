@@ -8,7 +8,7 @@ namespace RimWorld
 	{
 		public int thickness = 1;
 
-		public List<string> sources = null;
+		public List<string> sources;
 
 		private int growTick;
 
@@ -122,9 +122,9 @@ namespace RimWorld
 		{
 			if (sources != null)
 			{
-				foreach (string item in sources)
+				foreach (string source in sources)
 				{
-					this.AddSource(item);
+					this.AddSource(source);
 				}
 			}
 		}
@@ -166,7 +166,15 @@ namespace RimWorld
 		public bool CanDropAt(IntVec3 c, Map map)
 		{
 			TerrainDef terrainDef = map.terrainGrid.TerrainAt(c);
-			return (byte)(terrainDef.acceptFilth ? ((!base.def.filth.terrainSourced || terrainDef.acceptTerrainSourceFilth) ? 1 : 0) : 0) != 0;
+			if (!terrainDef.acceptFilth)
+			{
+				return false;
+			}
+			if (base.def.filth.terrainSourced && !terrainDef.acceptTerrainSourceFilth)
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -7,7 +6,7 @@ namespace RimWorld
 {
 	public class StockGenerator_Tag : StockGenerator
 	{
-		private string tradeTag = (string)null;
+		private string tradeTag;
 
 		private IntRange thingDefCountRange = IntRange.one;
 
@@ -35,8 +34,8 @@ namespace RimWorld
 				i++;
 			}
 			yield break;
-			IL_017e:
-			/*Error near IL_017f: Unexpected return in MoveNext()*/;
+			IL_0178:
+			/*Error near IL_0179: Unexpected return in MoveNext()*/;
 		}
 
 		public override bool HandlesThingDef(ThingDef thingDef)

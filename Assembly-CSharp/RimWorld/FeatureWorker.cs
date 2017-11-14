@@ -84,8 +84,8 @@ namespace RimWorld
 			FeatureWorker.tmpTraversedTiles.Clear();
 			WorldFloodFiller worldFloodFiller = Find.WorldFloodFiller;
 			int rootTile = -1;
-			Predicate<int> passCheck = (Predicate<int>)((int x) => FeatureWorker.tmpTilesForTextDrawPosCalculationSet.Contains(x));
-			Func<int, int, bool> processor = (Func<int, int, bool>)delegate(int tile, int traversalDist)
+			Predicate<int> passCheck = (int x) => FeatureWorker.tmpTilesForTextDrawPosCalculationSet.Contains(x);
+			Func<int, int, bool> processor = delegate(int tile, int traversalDist)
 			{
 				FeatureWorker.tmpTraversedTiles.Add(new Pair<int, int>(tile, traversalDist));
 				bestTileDist = traversalDist;

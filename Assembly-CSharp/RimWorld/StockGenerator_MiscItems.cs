@@ -13,8 +13,8 @@ namespace RimWorld
 			int i = 0;
 			ThingDef finalDef;
 			if (i < count && (from t in DefDatabase<ThingDef>.AllDefs
-			where ((_003CGenerateThings_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/)._0024this.HandlesThingDef(t) && t.tradeability == Tradeability.Stockable && (int)t.techLevel <= (int)((_003CGenerateThings_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/)._0024this.maxTechLevelGenerate
-			select t).TryRandomElementByWeight<ThingDef>(new Func<ThingDef, float>(this.SelectionWeight), out finalDef))
+			where ((_003CGenerateThings_003Ec__Iterator0)/*Error near IL_0048: stateMachine*/)._0024this.HandlesThingDef(t) && t.tradeability == Tradeability.Stockable && (int)t.techLevel <= (int)((_003CGenerateThings_003Ec__Iterator0)/*Error near IL_0048: stateMachine*/)._0024this.maxTechLevelGenerate
+			select t).TryRandomElementByWeight<ThingDef>((Func<ThingDef, float>)this.SelectionWeight, out finalDef))
 			{
 				yield return this.MakeThing(finalDef);
 				/*Error: Unable to find new state assignment for yield return*/;

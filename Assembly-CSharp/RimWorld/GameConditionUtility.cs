@@ -6,7 +6,11 @@ namespace RimWorld
 	{
 		public static float LerpInOutValue(GameCondition gameCondition, float lerpTime, float lerpTarget = 1f)
 		{
-			return (!gameCondition.Permanent) ? GameConditionUtility.LerpInOutValue((float)gameCondition.TicksPassed, (float)gameCondition.TicksLeft, lerpTime, lerpTarget) : GameConditionUtility.LerpInOutValue((float)gameCondition.TicksPassed, (float)(lerpTime + 1.0), lerpTime, lerpTarget);
+			if (gameCondition.Permanent)
+			{
+				return GameConditionUtility.LerpInOutValue((float)gameCondition.TicksPassed, (float)(lerpTime + 1.0), lerpTime, lerpTarget);
+			}
+			return GameConditionUtility.LerpInOutValue((float)gameCondition.TicksPassed, (float)gameCondition.TicksLeft, lerpTime, lerpTarget);
 		}
 
 		public static float LerpInOutValue(float timePassed, float timeLeft, float lerpTime, float lerpTarget = 1f)

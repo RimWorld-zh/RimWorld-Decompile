@@ -89,35 +89,28 @@ namespace RimWorld
 
 		protected override bool CanDoNext()
 		{
-			bool result;
 			if (!base.CanDoNext())
 			{
-				result = false;
+				return false;
 			}
-			else
+			int selectedTile = Find.WorldInterface.SelectedTile;
+			if (selectedTile < 0)
 			{
-				int selectedTile = Find.WorldInterface.SelectedTile;
-				if (selectedTile < 0)
-				{
-					Messages.Message("MustSelectLandingSite".Translate(), MessageTypeDefOf.RejectInput);
-					result = false;
-				}
-				else
-				{
-					StringBuilder stringBuilder = new StringBuilder();
-					if (!TileFinder.IsValidTileForNewSettlement(selectedTile, stringBuilder))
-					{
-						Messages.Message(stringBuilder.ToString(), MessageTypeDefOf.RejectInput);
-						result = false;
-					}
-					else
-					{
-						Tile tile = Find.WorldGrid[selectedTile];
-						result = ((byte)(TutorSystem.AllowAction("ChooseBiome-" + tile.biome.defName + "-" + tile.hilliness.ToString()) ? 1 : 0) != 0);
-					}
-				}
+				Messages.Message("MustSelectLandingSite".Translate(), MessageTypeDefOf.RejectInput);
+				return false;
 			}
-			return result;
+			StringBuilder stringBuilder = new StringBuilder();
+			if (!TileFinder.IsValidTileForNewSettlement(selectedTile, stringBuilder))
+			{
+				Messages.Message(stringBuilder.ToString(), MessageTypeDefOf.RejectInput);
+				return false;
+			}
+			Tile tile = Find.WorldGrid[selectedTile];
+			if (!TutorSystem.AllowAction("ChooseBiome-" + tile.biome.defName + "-" + tile.hilliness.ToString()))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		protected override void DoNext()

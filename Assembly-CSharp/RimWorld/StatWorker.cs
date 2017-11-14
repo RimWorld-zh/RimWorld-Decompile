@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,22 +22,17 @@ namespace RimWorld
 
 		public float GetValue(StatRequest req, bool applyPostProcess = true)
 		{
-			float result;
 			if (this.stat.minifiedThingInherits)
 			{
 				MinifiedThing minifiedThing = req.Thing as MinifiedThing;
 				if (minifiedThing != null)
 				{
-					result = minifiedThing.InnerThing.GetStatValue(this.stat, applyPostProcess);
-					goto IL_0058;
+					return minifiedThing.InnerThing.GetStatValue(this.stat, applyPostProcess);
 				}
 			}
 			float valueUnfinalized = this.GetValueUnfinalized(req, applyPostProcess);
 			this.FinalizeValue(req, ref valueUnfinalized, applyPostProcess);
-			result = valueUnfinalized;
-			goto IL_0058;
-			IL_0058:
-			return result;
+			return valueUnfinalized;
 		}
 
 		public float GetValueAbstract(BuildableDef def, ThingDef stuffDef = null)
@@ -227,10 +221,10 @@ namespace RimWorld
 					if (pawn.story != null && pawn.story.traits != null)
 					{
 						List<Trait> list = (from tr in pawn.story.traits.allTraits
-						where tr.CurrentData.statOffsets != null && tr.CurrentData.statOffsets.Any((Predicate<StatModifier>)((StatModifier se) => se.stat == this.stat))
+						where tr.CurrentData.statOffsets != null && tr.CurrentData.statOffsets.Any((StatModifier se) => se.stat == this.stat)
 						select tr).ToList();
 						List<Trait> list2 = (from tr in pawn.story.traits.allTraits
-						where tr.CurrentData.statFactors != null && tr.CurrentData.statFactors.Any((Predicate<StatModifier>)((StatModifier se) => se.stat == this.stat))
+						where tr.CurrentData.statFactors != null && tr.CurrentData.statFactors.Any((StatModifier se) => se.stat == this.stat)
 						select tr).ToList();
 						if (list.Count > 0 || list2.Count > 0)
 						{
@@ -238,13 +232,13 @@ namespace RimWorld
 							for (int j = 0; j < list.Count; j++)
 							{
 								Trait trait = list[j];
-								string valueToStringAsOffset = trait.CurrentData.statOffsets.First((Func<StatModifier, bool>)((StatModifier se) => se.stat == this.stat)).ValueToStringAsOffset;
+								string valueToStringAsOffset = trait.CurrentData.statOffsets.First((StatModifier se) => se.stat == this.stat).ValueToStringAsOffset;
 								stringBuilder.AppendLine("    " + trait.LabelCap + ": " + valueToStringAsOffset);
 							}
 							for (int k = 0; k < list2.Count; k++)
 							{
 								Trait trait2 = list2[k];
-								string toStringAsFactor = trait2.CurrentData.statFactors.First((Func<StatModifier, bool>)((StatModifier se) => se.stat == this.stat)).ToStringAsFactor;
+								string toStringAsFactor = trait2.CurrentData.statFactors.First((StatModifier se) => se.stat == this.stat).ToStringAsFactor;
 								stringBuilder.AppendLine("    " + trait2.LabelCap + ": " + toStringAsFactor);
 							}
 							stringBuilder.AppendLine();
@@ -459,84 +453,77 @@ namespace RimWorld
 
 		public virtual bool ShouldShowFor(BuildableDef eDef)
 		{
-			bool result;
 			if (!this.stat.showIfUndefined && !eDef.statBases.StatListContains(this.stat))
 			{
-				result = false;
+				return false;
 			}
-			else
+			ThingDef thingDef = eDef as ThingDef;
+			if (thingDef != null && thingDef.category == ThingCategory.Pawn)
 			{
-				ThingDef thingDef = eDef as ThingDef;
-				if (thingDef != null && thingDef.category == ThingCategory.Pawn)
+				if (!this.stat.showOnPawns)
 				{
-					if (!this.stat.showOnPawns)
-					{
-						result = false;
-						goto IL_02eb;
-					}
-					if (!this.stat.showOnHumanlikes && thingDef.race.Humanlike)
-					{
-						result = false;
-						goto IL_02eb;
-					}
-					if (!this.stat.showOnAnimals && thingDef.race.Animal)
-					{
-						result = false;
-						goto IL_02eb;
-					}
-					if (!this.stat.showOnMechanoids && thingDef.race.IsMechanoid)
-					{
-						result = false;
-						goto IL_02eb;
-					}
+					return false;
 				}
-				if (this.stat.category == StatCategoryDefOf.BasicsPawn || this.stat.category == StatCategoryDefOf.PawnCombat)
+				if (!this.stat.showOnHumanlikes && thingDef.race.Humanlike)
 				{
-					result = (thingDef != null && thingDef.category == ThingCategory.Pawn);
+					return false;
 				}
-				else if (this.stat.category == StatCategoryDefOf.PawnMisc || this.stat.category == StatCategoryDefOf.PawnSocial || this.stat.category == StatCategoryDefOf.PawnWork)
+				if (!this.stat.showOnAnimals && thingDef.race.Animal)
 				{
-					result = (thingDef != null && thingDef.category == ThingCategory.Pawn && thingDef.race.Humanlike);
+					return false;
 				}
-				else if (this.stat.category == StatCategoryDefOf.Building)
+				if (!this.stat.showOnMechanoids && thingDef.race.IsMechanoid)
 				{
-					result = (thingDef != null && ((this.stat != StatDefOf.DoorOpenSpeed) ? ((this.stat.showOnNonWorkTables || thingDef.IsWorkTable) && thingDef.category == ThingCategory.Building) : thingDef.IsDoor));
-				}
-				else if (this.stat.category == StatCategoryDefOf.Apparel)
-				{
-					result = (thingDef != null && (thingDef.IsApparel || thingDef.category == ThingCategory.Pawn));
-				}
-				else if (this.stat.category == StatCategoryDefOf.Weapon)
-				{
-					result = (thingDef != null && (thingDef.IsMeleeWeapon || thingDef.IsRangedWeapon));
-				}
-				else if (this.stat.category == StatCategoryDefOf.BasicsNonPawn)
-				{
-					result = (thingDef == null || thingDef.category != ThingCategory.Pawn);
-				}
-				else if (this.stat.category.displayAllByDefault)
-				{
-					result = true;
-				}
-				else
-				{
-					Log.Error("Unhandled case: " + this.stat + ", " + eDef);
-					result = false;
+					return false;
 				}
 			}
-			goto IL_02eb;
-			IL_02eb:
-			return result;
+			if (this.stat.category != StatCategoryDefOf.BasicsPawn && this.stat.category != StatCategoryDefOf.PawnCombat)
+			{
+				if (this.stat.category != StatCategoryDefOf.PawnMisc && this.stat.category != StatCategoryDefOf.PawnSocial && this.stat.category != StatCategoryDefOf.PawnWork)
+				{
+					if (this.stat.category == StatCategoryDefOf.Building)
+					{
+						if (thingDef == null)
+						{
+							return false;
+						}
+						if (this.stat == StatDefOf.DoorOpenSpeed)
+						{
+							return thingDef.IsDoor;
+						}
+						if (!this.stat.showOnNonWorkTables && !thingDef.IsWorkTable)
+						{
+							return false;
+						}
+						return thingDef.category == ThingCategory.Building;
+					}
+					if (this.stat.category == StatCategoryDefOf.Apparel)
+					{
+						return thingDef != null && (thingDef.IsApparel || thingDef.category == ThingCategory.Pawn);
+					}
+					if (this.stat.category == StatCategoryDefOf.Weapon)
+					{
+						return thingDef != null && (thingDef.IsMeleeWeapon || thingDef.IsRangedWeapon);
+					}
+					if (this.stat.category == StatCategoryDefOf.BasicsNonPawn)
+					{
+						return thingDef == null || thingDef.category != ThingCategory.Pawn;
+					}
+					if (this.stat.category.displayAllByDefault)
+					{
+						return true;
+					}
+					Log.Error("Unhandled case: " + this.stat + ", " + eDef);
+					return false;
+				}
+				return thingDef != null && thingDef.category == ThingCategory.Pawn && thingDef.race.Humanlike;
+			}
+			return thingDef != null && thingDef.category == ThingCategory.Pawn;
 		}
 
 		public virtual bool IsDisabledFor(Thing thing)
 		{
-			bool result;
-			if (this.stat.neverDisabled || (this.stat.skillNeedFactors.NullOrEmpty() && this.stat.skillNeedOffsets.NullOrEmpty()))
-			{
-				result = false;
-			}
-			else
+			if (!this.stat.neverDisabled && (!this.stat.skillNeedFactors.NullOrEmpty() || !this.stat.skillNeedOffsets.NullOrEmpty()))
 			{
 				Pawn pawn = thing as Pawn;
 				if (pawn != null && pawn.story != null)
@@ -546,7 +533,9 @@ namespace RimWorld
 						for (int i = 0; i < this.stat.skillNeedFactors.Count; i++)
 						{
 							if (pawn.skills.GetSkill(this.stat.skillNeedFactors[i].skill).TotallyDisabled)
-								goto IL_009f;
+							{
+								return true;
+							}
 						}
 					}
 					if (this.stat.skillNeedOffsets != null)
@@ -554,21 +543,15 @@ namespace RimWorld
 						for (int j = 0; j < this.stat.skillNeedOffsets.Count; j++)
 						{
 							if (pawn.skills.GetSkill(this.stat.skillNeedOffsets[j].skill).TotallyDisabled)
-								goto IL_0106;
+							{
+								return true;
+							}
 						}
 					}
 				}
-				result = false;
+				return false;
 			}
-			goto IL_0131;
-			IL_009f:
-			result = true;
-			goto IL_0131;
-			IL_0106:
-			result = true;
-			goto IL_0131;
-			IL_0131:
-			return result;
+			return false;
 		}
 
 		public virtual string GetStatDrawEntryLabel(StatDef stat, float value, ToStringNumberSense numberSense, StatRequest optionalReq)
@@ -600,27 +583,20 @@ namespace RimWorld
 					}
 				}
 			}
-			if (pawn.equipment == null)
-				yield break;
-			using (List<ThingWithComps>.Enumerator enumerator2 = pawn.equipment.AllEquipmentListForReading.GetEnumerator())
+			if (pawn.equipment != null)
 			{
-				ThingWithComps t;
-				while (true)
+				foreach (ThingWithComps item2 in pawn.equipment.AllEquipmentListForReading)
 				{
-					if (enumerator2.MoveNext())
+					if (StatWorker.GearAffectsStat(item2.def, stat))
 					{
-						t = enumerator2.Current;
-						if (StatWorker.GearAffectsStat(t.def, stat))
-							break;
-						continue;
+						yield return (Thing)item2;
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
-					yield break;
 				}
-				yield return (Thing)t;
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			IL_01ab:
-			/*Error near IL_01ac: Unexpected return in MoveNext()*/;
+			yield break;
+			IL_01a0:
+			/*Error near IL_01a1: Unexpected return in MoveNext()*/;
 		}
 
 		private static bool GearAffectsStat(ThingDef gearDef, StatDef stat)
@@ -630,16 +606,12 @@ namespace RimWorld
 				for (int i = 0; i < gearDef.equippedStatOffsets.Count; i++)
 				{
 					if (gearDef.equippedStatOffsets[i].stat == stat && gearDef.equippedStatOffsets[i].value != 0.0)
-						goto IL_0047;
+					{
+						return true;
+					}
 				}
 			}
-			bool result = false;
-			goto IL_006c;
-			IL_006c:
-			return result;
-			IL_0047:
-			result = true;
-			goto IL_006c;
+			return false;
 		}
 
 		private float GetBaseValueFor(BuildableDef def)
@@ -664,21 +636,16 @@ namespace RimWorld
 
 		public string ValueToString(float val, bool finalized, ToStringNumberSense numberSense = ToStringNumberSense.Absolute)
 		{
-			string result;
 			if (!finalized)
 			{
-				result = val.ToStringByStyle(this.stat.ToStringStyleUnfinalized, numberSense);
+				return val.ToStringByStyle(this.stat.ToStringStyleUnfinalized, numberSense);
 			}
-			else
+			string text = val.ToStringByStyle(this.stat.toStringStyle, numberSense);
+			if (numberSense != ToStringNumberSense.Factor && !this.stat.formatString.NullOrEmpty())
 			{
-				string text = val.ToStringByStyle(this.stat.toStringStyle, numberSense);
-				if (numberSense != ToStringNumberSense.Factor && !this.stat.formatString.NullOrEmpty())
-				{
-					text = string.Format(this.stat.formatString, text);
-				}
-				result = text;
+				text = string.Format(this.stat.formatString, text);
 			}
-			return result;
+			return text;
 		}
 	}
 }

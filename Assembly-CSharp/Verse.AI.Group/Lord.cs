@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,13 +27,13 @@ namespace Verse.AI.Group
 
 		private bool initialized;
 
-		public int ticksInToil = 0;
+		public int ticksInToil;
 
-		public int numPawnsLostViolently = 0;
+		public int numPawnsLostViolently;
 
-		public int numPawnsEverGained = 0;
+		public int numPawnsEverGained;
 
-		public int initialColonyHealthTotal = 0;
+		public int initialColonyHealthTotal;
 
 		public int lastPawnHarmTick = -99999;
 
@@ -114,7 +113,7 @@ namespace Verse.AI.Group
 			Scribe_Values.Look<int>(ref this.lastPawnHarmTick, "lastPawnHarmTick", -99999, false);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
-				this.extraForbiddenThings.RemoveAll((Predicate<Thing>)((Thing x) => x == null));
+				this.extraForbiddenThings.RemoveAll((Thing x) => x == null);
 			}
 			this.ExposeData_StateGraph();
 		}
@@ -324,29 +323,18 @@ namespace Verse.AI.Group
 		private Trigger GetTriggerByIndex(int index)
 		{
 			int num = 0;
-			int num2 = 0;
-			Trigger result;
-			while (true)
+			for (int i = 0; i < this.graph.transitions.Count; i++)
 			{
-				int i;
-				if (num2 < this.graph.transitions.Count)
+				for (int j = 0; j < this.graph.transitions[i].triggers.Count; j++)
 				{
-					for (i = 0; i < this.graph.transitions[num2].triggers.Count; i++)
+					if (num == index)
 					{
-						if (num == index)
-							goto IL_001a;
-						num++;
+						return this.graph.transitions[i].triggers[j];
 					}
-					num2++;
-					continue;
+					num++;
 				}
-				result = null;
-				break;
-				IL_001a:
-				result = this.graph.transitions[num2].triggers[i];
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		public void ReceiveMemo(string memo)
@@ -356,11 +344,10 @@ namespace Verse.AI.Group
 
 		public void Notify_FactionRelationsChanged(Faction otherFaction)
 		{
-			this.CheckTransitionOnSignal(new TriggerSignal
-			{
-				type = TriggerSignalType.FactionRelationsChanged,
-				faction = otherFaction
-			});
+			TriggerSignal signal = default(TriggerSignal);
+			signal.type = TriggerSignalType.FactionRelationsChanged;
+			signal.faction = otherFaction;
+			this.CheckTransitionOnSignal(signal);
 		}
 
 		public void Notify_PawnLost(Pawn pawn, PawnLostCondition cond)
@@ -380,12 +367,11 @@ namespace Verse.AI.Group
 				{
 					this.curLordToil.Notify_PawnLost(pawn, cond);
 					this.curJob.Notify_PawnLost(pawn, cond);
-					this.CheckTransitionOnSignal(new TriggerSignal
-					{
-						type = TriggerSignalType.PawnLost,
-						thing = pawn,
-						condition = cond
-					});
+					TriggerSignal signal = default(TriggerSignal);
+					signal.type = TriggerSignalType.PawnLost;
+					signal.thing = pawn;
+					signal.condition = cond;
+					this.CheckTransitionOnSignal(signal);
 				}
 			}
 			else
@@ -396,31 +382,28 @@ namespace Verse.AI.Group
 
 		public void Notify_BuildingDamaged(Building building, DamageInfo dinfo)
 		{
-			this.CheckTransitionOnSignal(new TriggerSignal
-			{
-				type = TriggerSignalType.BuildingDamaged,
-				thing = building,
-				dinfo = dinfo
-			});
+			TriggerSignal signal = default(TriggerSignal);
+			signal.type = TriggerSignalType.BuildingDamaged;
+			signal.thing = building;
+			signal.dinfo = dinfo;
+			this.CheckTransitionOnSignal(signal);
 		}
 
 		public void Notify_PawnDamaged(Pawn victim, DamageInfo dinfo)
 		{
-			this.CheckTransitionOnSignal(new TriggerSignal
-			{
-				type = TriggerSignalType.PawnDamaged,
-				thing = victim,
-				dinfo = dinfo
-			});
+			TriggerSignal signal = default(TriggerSignal);
+			signal.type = TriggerSignalType.PawnDamaged;
+			signal.thing = victim;
+			signal.dinfo = dinfo;
+			this.CheckTransitionOnSignal(signal);
 		}
 
 		public void Notify_PawnAttemptArrested(Pawn victim)
 		{
-			this.CheckTransitionOnSignal(new TriggerSignal
-			{
-				type = TriggerSignalType.PawnArrestAttempted,
-				thing = victim
-			});
+			TriggerSignal signal = default(TriggerSignal);
+			signal.type = TriggerSignalType.PawnArrestAttempted;
+			signal.thing = victim;
+			this.CheckTransitionOnSignal(signal);
 		}
 
 		public void Notify_PawnAcquiredTarget(Pawn detector, Thing newTarg)
@@ -443,24 +426,14 @@ namespace Verse.AI.Group
 			{
 				this.lastPawnHarmTick = Find.TickManager.TicksGame;
 			}
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.graph.transitions.Count; i++)
 			{
-				if (num < this.graph.transitions.Count)
+				if (this.graph.transitions[i].sources.Contains(this.curLordToil) && this.graph.transitions[i].CheckSignal(this, signal))
 				{
-					if (this.graph.transitions[num].sources.Contains(this.curLordToil) && this.graph.transitions[num].CheckSignal(this, signal))
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		private Vector3 DebugCenter()
@@ -472,14 +445,14 @@ namespace Verse.AI.Group
 			{
 				result.x = (from p in this.ownedPawns
 				where p.Spawned
-				select p).Average((Func<Pawn, float>)delegate(Pawn p)
+				select p).Average(delegate(Pawn p)
 				{
 					Vector3 drawPos2 = p.DrawPos;
 					return drawPos2.x;
 				});
 				result.z = (from p in this.ownedPawns
 				where p.Spawned
-				select p).Average((Func<Pawn, float>)delegate(Pawn p)
+				select p).Average(delegate(Pawn p)
 				{
 					Vector3 drawPos = p.DrawPos;
 					return drawPos.z;
@@ -537,26 +510,18 @@ namespace Verse.AI.Group
 		{
 			IntVec3 a = UI.MouseCell();
 			IntVec3 flagLoc = this.curLordToil.FlagLoc;
-			bool result;
 			if (flagLoc.IsValid && a == flagLoc)
 			{
-				result = true;
+				return true;
 			}
-			else
+			for (int i = 0; i < this.ownedPawns.Count; i++)
 			{
-				for (int i = 0; i < this.ownedPawns.Count; i++)
+				if (a == this.ownedPawns[i].Position)
 				{
-					if (a == this.ownedPawns[i].Position)
-						goto IL_0056;
+					return true;
 				}
-				result = false;
 			}
-			goto IL_007a;
-			IL_007a:
-			return result;
-			IL_0056:
-			result = true;
-			goto IL_007a;
+			return false;
 		}
 	}
 }

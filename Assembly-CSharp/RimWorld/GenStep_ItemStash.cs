@@ -15,49 +15,37 @@ namespace RimWorld
 
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
-			bool result;
 			if (!base.CanScatterAt(c, map))
 			{
-				result = false;
+				return false;
 			}
-			else if (!c.SupportsStructureType(map, TerrainAffordance.Heavy))
+			if (!c.SupportsStructureType(map, TerrainAffordance.Heavy))
 			{
-				result = false;
+				return false;
 			}
-			else if (!map.reachability.CanReachMapEdge(c, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
+			if (!map.reachability.CanReachMapEdge(c, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
 			{
-				result = false;
+				return false;
 			}
-			else
+			CellRect.CellRectIterator iterator = CellRect.CenteredOn(c, 7, 7).GetIterator();
+			while (!iterator.Done())
 			{
-				CellRect.CellRectIterator iterator = CellRect.CenteredOn(c, 7, 7).GetIterator();
-				while (!iterator.Done())
+				if (iterator.Current.InBounds(map) && iterator.Current.GetEdifice(map) == null)
 				{
-					if (iterator.Current.InBounds(map) && iterator.Current.GetEdifice(map) == null)
-					{
-						iterator.MoveNext();
-						continue;
-					}
-					goto IL_0084;
+					iterator.MoveNext();
+					continue;
 				}
-				result = true;
+				return false;
 			}
-			goto IL_00a6;
-			IL_0084:
-			result = false;
-			goto IL_00a6;
-			IL_00a6:
-			return result;
+			return true;
 		}
 
 		protected override void ScatterAt(IntVec3 loc, Map map, int count = 1)
 		{
 			CellRect cellRect = CellRect.CenteredOn(loc, 7, 7).ClipInsideMap(map);
-			ResolveParams resolveParams = new ResolveParams
-			{
-				rect = cellRect,
-				faction = map.ParentFaction
-			};
+			ResolveParams resolveParams = default(ResolveParams);
+			resolveParams.rect = cellRect;
+			resolveParams.faction = map.ParentFaction;
 			ItemStashContentsComp component = ((WorldObject)map.info.parent).GetComponent<ItemStashContentsComp>();
 			if (component != null && component.contents.Any)
 			{
@@ -65,7 +53,7 @@ namespace RimWorld
 			}
 			else
 			{
-				resolveParams.stockpileMarketValue = new float?(this.totalValueRange.RandomInRange);
+				resolveParams.stockpileMarketValue = this.totalValueRange.RandomInRange;
 				if (this.itemCollectionGeneratorDefs != null)
 				{
 					resolveParams.itemCollectionGeneratorDef = this.itemCollectionGeneratorDefs.RandomElement();

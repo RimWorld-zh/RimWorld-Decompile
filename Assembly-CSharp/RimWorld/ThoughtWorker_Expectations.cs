@@ -7,29 +7,40 @@ namespace RimWorld
 	{
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
-			ThoughtState result;
 			if (Current.ProgramState != ProgramState.Playing)
 			{
-				result = ThoughtState.Inactive;
+				return ThoughtState.Inactive;
 			}
-			else if (p.Faction != Faction.OfPlayer)
+			if (p.Faction != Faction.OfPlayer)
 			{
-				result = ThoughtState.ActiveAtStage(3);
+				return ThoughtState.ActiveAtStage(3);
 			}
-			else if (p.IsCaravanMember())
+			if (p.IsCaravanMember())
 			{
-				result = ThoughtState.ActiveAtStage(2);
+				return ThoughtState.ActiveAtStage(2);
 			}
-			else if (p.MapHeld == null)
+			if (p.MapHeld == null)
 			{
-				result = ThoughtState.Inactive;
+				return ThoughtState.Inactive;
 			}
-			else
+			float wealthTotal = p.MapHeld.wealthWatcher.WealthTotal;
+			if (wealthTotal < 10000.0)
 			{
-				float wealthTotal = p.MapHeld.wealthWatcher.WealthTotal;
-				result = ((!(wealthTotal < 10000.0)) ? ((!(wealthTotal < 50000.0)) ? ((!(wealthTotal < 150000.0)) ? ((!(wealthTotal < 300000.0)) ? ThoughtState.Inactive : ThoughtState.ActiveAtStage(0)) : ThoughtState.ActiveAtStage(1)) : ThoughtState.ActiveAtStage(2)) : ThoughtState.ActiveAtStage(3));
+				return ThoughtState.ActiveAtStage(3);
 			}
-			return result;
+			if (wealthTotal < 50000.0)
+			{
+				return ThoughtState.ActiveAtStage(2);
+			}
+			if (wealthTotal < 150000.0)
+			{
+				return ThoughtState.ActiveAtStage(1);
+			}
+			if (wealthTotal < 300000.0)
+			{
+				return ThoughtState.ActiveAtStage(0);
+			}
+			return ThoughtState.Inactive;
 		}
 	}
 }

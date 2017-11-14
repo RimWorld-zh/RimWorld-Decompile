@@ -5,7 +5,7 @@ namespace RimWorld
 {
 	public class StatPart_Mood : StatPart
 	{
-		private SimpleCurve factorFromMoodCurve = null;
+		private SimpleCurve factorFromMoodCurve;
 
 		public override IEnumerable<string> ConfigErrors()
 		{
@@ -29,20 +29,15 @@ namespace RimWorld
 
 		public override string ExplanationPart(StatRequest req)
 		{
-			string result;
 			if (req.HasThing)
 			{
 				Pawn pawn = req.Thing as Pawn;
 				if (pawn != null && this.ActiveFor(pawn))
 				{
-					result = "StatsReport_MoodMultiplier".Translate(pawn.needs.mood.CurLevel.ToStringPercent()) + ": x" + this.FactorFromMood(pawn).ToStringPercent();
-					goto IL_007a;
+					return "StatsReport_MoodMultiplier".Translate(pawn.needs.mood.CurLevel.ToStringPercent()) + ": x" + this.FactorFromMood(pawn).ToStringPercent();
 				}
 			}
-			result = (string)null;
-			goto IL_007a;
-			IL_007a:
-			return result;
+			return null;
 		}
 
 		private bool ActiveFor(Pawn pawn)

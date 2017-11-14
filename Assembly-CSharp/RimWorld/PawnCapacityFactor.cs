@@ -11,7 +11,7 @@ namespace RimWorld
 
 		public float max = 9999f;
 
-		public bool useReciprocal = false;
+		public bool useReciprocal;
 
 		public float allowedDefect;
 

@@ -27,19 +27,31 @@ namespace RimWorld.Planet
 		public static Site TryMakeSite_SingleSitePart(SiteCoreDef core, IEnumerable<SitePartDef> singleSitePartCandidates, Faction faction = null, bool disallowAlliedFactions = true, Predicate<Faction> extraFactionValidator = null)
 		{
 			SitePartDef sitePart = default(SitePartDef);
-			return SiteMakerHelper.TryFindSiteParams_SingleSitePart(core, singleSitePartCandidates, out sitePart, out faction, faction, disallowAlliedFactions, extraFactionValidator) ? SiteMaker.MakeSite(core, sitePart, faction) : null;
+			if (!SiteMakerHelper.TryFindSiteParams_SingleSitePart(core, singleSitePartCandidates, out sitePart, out faction, faction, disallowAlliedFactions, extraFactionValidator))
+			{
+				return null;
+			}
+			return SiteMaker.MakeSite(core, sitePart, faction);
 		}
 
 		public static Site TryMakeSite_SingleSitePart(SiteCoreDef core, string singleSitePartTag, Faction faction = null, bool disallowAlliedFactions = true, Predicate<Faction> extraFactionValidator = null)
 		{
 			SitePartDef sitePart = default(SitePartDef);
-			return SiteMakerHelper.TryFindSiteParams_SingleSitePart(core, singleSitePartTag, out sitePart, out faction, faction, disallowAlliedFactions, extraFactionValidator) ? SiteMaker.MakeSite(core, sitePart, faction) : null;
+			if (!SiteMakerHelper.TryFindSiteParams_SingleSitePart(core, singleSitePartTag, out sitePart, out faction, faction, disallowAlliedFactions, extraFactionValidator))
+			{
+				return null;
+			}
+			return SiteMaker.MakeSite(core, sitePart, faction);
 		}
 
 		public static Site TryMakeSite(SiteCoreDef core, IEnumerable<SitePartDef> siteParts, bool disallowAlliedFactions = true, Predicate<Faction> extraFactionValidator = null)
 		{
 			Faction faction = default(Faction);
-			return SiteMakerHelper.TryFindRandomFactionFor(core, siteParts, out faction, disallowAlliedFactions, extraFactionValidator) ? SiteMaker.MakeSite(core, siteParts, faction) : null;
+			if (!SiteMakerHelper.TryFindRandomFactionFor(core, siteParts, out faction, disallowAlliedFactions, extraFactionValidator))
+			{
+				return null;
+			}
+			return SiteMaker.MakeSite(core, siteParts, faction);
 		}
 	}
 }

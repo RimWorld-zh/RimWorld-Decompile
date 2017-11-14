@@ -24,7 +24,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (this.thisDay == GenDate.DaysPassed) ? this.timesTakenThisDayInt : 0;
+				if (this.thisDay != GenDate.DaysPassed)
+				{
+					return 0;
+				}
+				return this.timesTakenThisDayInt;
 			}
 			set
 			{

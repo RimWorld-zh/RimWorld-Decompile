@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,6 +7,8 @@ namespace Verse.AI
 	public class MentalState_BingingDrug : MentalState_Binging
 	{
 		public ChemicalDef chemical;
+
+		public DrugCategory drugCategory;
 
 		private static List<ChemicalDef> addictions = new List<ChemicalDef>();
 
@@ -23,6 +24,7 @@ namespace Verse.AI
 		{
 			base.ExposeData();
 			Scribe_Defs.Look<ChemicalDef>(ref this.chemical, "chemical");
+			Scribe_Values.Look<DrugCategory>(ref this.drugCategory, "drugCategory", DrugCategory.None, false);
 		}
 
 		public override void PostStart(string reason)
@@ -37,7 +39,7 @@ namespace Verse.AI
 				{
 					text = text + "\n\n" + "FinalStraw".Translate(reason);
 				}
-				Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.ThreatSmall, (Thing)base.pawn, (string)null);
+				Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.ThreatSmall, base.pawn, null);
 			}
 		}
 
@@ -46,7 +48,7 @@ namespace Verse.AI
 			base.PostEnd();
 			if (PawnUtility.ShouldSendNotificationAbout(base.pawn))
 			{
-				Messages.Message("MessageNoLongerBingingOnDrug".Translate(base.pawn.NameStringShort, this.chemical.label), (Thing)base.pawn, MessageTypeDefOf.SituationResolved);
+				Messages.Message("MessageNoLongerBingingOnDrug".Translate(base.pawn.NameStringShort, this.chemical.label), base.pawn, MessageTypeDefOf.SituationResolved);
 			}
 		}
 
@@ -65,15 +67,33 @@ namespace Verse.AI
 			if (MentalState_BingingDrug.addictions.Count > 0)
 			{
 				this.chemical = MentalState_BingingDrug.addictions.RandomElement();
+				this.drugCategory = DrugCategory.Any;
 				MentalState_BingingDrug.addictions.Clear();
 			}
-			else if (!(from x in DefDatabase<ChemicalDef>.AllDefsListForReading
-			where AddictionUtility.CanBingeOnNow(base.pawn, x, base.def.drugCategory)
-			select x).TryRandomElement<ChemicalDef>(out this.chemical) && !(from x in DefDatabase<ChemicalDef>.AllDefsListForReading
-			where AddictionUtility.CanBingeOnNow(base.pawn, x, DrugCategory.Any)
-			select x).TryRandomElement<ChemicalDef>(out this.chemical))
+			else
 			{
-				this.chemical = DefDatabase<ChemicalDef>.AllDefsListForReading.RandomElement();
+				this.chemical = (from x in DefDatabase<ChemicalDef>.AllDefsListForReading
+				where AddictionUtility.CanBingeOnNow(base.pawn, x, base.def.drugCategory)
+				select x).RandomElementWithFallback(null);
+				if (this.chemical != null)
+				{
+					this.drugCategory = base.def.drugCategory;
+				}
+				else
+				{
+					this.chemical = (from x in DefDatabase<ChemicalDef>.AllDefsListForReading
+					where AddictionUtility.CanBingeOnNow(base.pawn, x, DrugCategory.Any)
+					select x).RandomElementWithFallback(null);
+					if (this.chemical != null)
+					{
+						this.drugCategory = DrugCategory.Any;
+					}
+					else
+					{
+						this.chemical = DefDatabase<ChemicalDef>.AllDefsListForReading.RandomElement();
+						this.drugCategory = DrugCategory.Any;
+					}
+				}
 			}
 		}
 	}

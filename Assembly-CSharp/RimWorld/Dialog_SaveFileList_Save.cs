@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -29,7 +28,7 @@ namespace RimWorld
 
 		protected override void DoFileInteraction(string mapName)
 		{
-			LongEventHandler.QueueLongEvent((Action)delegate()
+			LongEventHandler.QueueLongEvent(delegate
 			{
 				GameDataSaveLoader.SaveGame(mapName);
 			}, "SavingLongEvent", false, null);

@@ -1,5 +1,4 @@
 using Steamworks;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -60,7 +59,7 @@ namespace Verse
 		public static void SelectLanguage(LoadedLanguage lang)
 		{
 			Prefs.LangFolderName = lang.folderName;
-			LongEventHandler.QueueLongEvent((Action)delegate
+			LongEventHandler.QueueLongEvent(delegate
 			{
 				PlayDataLoader.ClearAllPlayData();
 				PlayDataLoader.LoadAllPlayData(false);
@@ -82,19 +81,18 @@ namespace Verse
 				if (directoryInfo.Exists)
 				{
 					DirectoryInfo[] directories = directoryInfo.GetDirectories("*", SearchOption.TopDirectoryOnly);
-					for (int i = 0; i < directories.Length; i++)
+					foreach (DirectoryInfo langDir in directories)
 					{
-						DirectoryInfo langDir = directories[i];
 						LanguageDatabase.LoadLanguageMetadataFrom(langDir);
 					}
 				}
 			}
-			LanguageDatabase.defaultLanguage = LanguageDatabase.languages.FirstOrDefault((Func<LoadedLanguage, bool>)((LoadedLanguage la) => la.folderName == LanguageDatabase.DefaultLangFolderName));
-			LanguageDatabase.activeLanguage = LanguageDatabase.languages.FirstOrDefault((Func<LoadedLanguage, bool>)((LoadedLanguage la) => la.folderName == Prefs.LangFolderName));
+			LanguageDatabase.defaultLanguage = LanguageDatabase.languages.FirstOrDefault((LoadedLanguage la) => la.folderName == LanguageDatabase.DefaultLangFolderName);
+			LanguageDatabase.activeLanguage = LanguageDatabase.languages.FirstOrDefault((LoadedLanguage la) => la.folderName == Prefs.LangFolderName);
 			if (LanguageDatabase.activeLanguage == null)
 			{
 				Prefs.LangFolderName = LanguageDatabase.DefaultLangFolderName;
-				LanguageDatabase.activeLanguage = LanguageDatabase.languages.FirstOrDefault((Func<LoadedLanguage, bool>)((LoadedLanguage la) => la.folderName == Prefs.LangFolderName));
+				LanguageDatabase.activeLanguage = LanguageDatabase.languages.FirstOrDefault((LoadedLanguage la) => la.folderName == Prefs.LangFolderName);
 			}
 			if (LanguageDatabase.activeLanguage != null && LanguageDatabase.defaultLanguage != null)
 				return;
@@ -105,7 +103,7 @@ namespace Verse
 
 		private static LoadedLanguage LoadLanguageMetadataFrom(DirectoryInfo langDir)
 		{
-			LoadedLanguage loadedLanguage = LanguageDatabase.languages.FirstOrDefault((Func<LoadedLanguage, bool>)((LoadedLanguage lib) => lib.folderName == langDir.Name));
+			LoadedLanguage loadedLanguage = LanguageDatabase.languages.FirstOrDefault((LoadedLanguage lib) => lib.folderName == langDir.Name);
 			if (loadedLanguage == null)
 			{
 				loadedLanguage = new LoadedLanguage(langDir.ToString());
@@ -120,21 +118,20 @@ namespace Verse
 
 		public static string SystemLanguageFolderName()
 		{
-			string result;
 			if (SteamManager.Initialized)
 			{
 				string text = SteamApps.GetCurrentGameLanguage().CapitalizeFirst();
 				if (LanguageDatabase.SupportedAutoSelectLanguages.Contains(text))
 				{
-					result = text;
-					goto IL_0067;
+					return text;
 				}
 			}
 			string text2 = Application.systemLanguage.ToString();
-			result = ((!LanguageDatabase.SupportedAutoSelectLanguages.Contains(text2)) ? LanguageDatabase.DefaultLangFolderName : text2);
-			goto IL_0067;
-			IL_0067:
-			return result;
+			if (LanguageDatabase.SupportedAutoSelectLanguages.Contains(text2))
+			{
+				return text2;
+			}
+			return LanguageDatabase.DefaultLangFolderName;
 		}
 	}
 }

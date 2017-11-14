@@ -55,17 +55,12 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (this.x == 0 && this.z == 0)
 				{
-					result = 0f;
+					return 0f;
 				}
-				else
-				{
-					Vector3 eulerAngles = Quaternion.LookRotation(this.ToVector3()).eulerAngles;
-					result = eulerAngles.y;
-				}
-				return result;
+				Vector3 eulerAngles = Quaternion.LookRotation(this.ToVector3()).eulerAngles;
+				return eulerAngles.y;
 			}
 		}
 
@@ -233,46 +228,51 @@ namespace Verse
 
 		public bool AdjacentToCardinal(IntVec3 other)
 		{
-			return (byte)(this.IsValid ? ((other.z == this.z && (other.x == this.x + 1 || other.x == this.x - 1)) ? 1 : ((other.x == this.x && (other.z == this.z + 1 || other.z == this.z - 1)) ? 1 : 0)) : 0) != 0;
+			if (!this.IsValid)
+			{
+				return false;
+			}
+			if (other.z == this.z && (other.x == this.x + 1 || other.x == this.x - 1))
+			{
+				return true;
+			}
+			if (other.x == this.x && (other.z == this.z + 1 || other.z == this.z - 1))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public bool AdjacentToDiagonal(IntVec3 other)
 		{
-			return this.IsValid && Mathf.Abs(this.x - other.x) == 1 && Mathf.Abs(this.z - other.z) == 1;
+			if (!this.IsValid)
+			{
+				return false;
+			}
+			return Mathf.Abs(this.x - other.x) == 1 && Mathf.Abs(this.z - other.z) == 1;
 		}
 
 		public bool AdjacentToCardinal(Room room)
 		{
-			bool result;
 			if (!this.IsValid)
 			{
-				result = false;
+				return false;
 			}
-			else
+			Map map = room.Map;
+			if (this.InBounds(map) && this.GetRoom(map, RegionType.Set_All) == room)
 			{
-				Map map = room.Map;
-				if (this.InBounds(map) && this.GetRoom(map, RegionType.Set_All) == room)
+				return true;
+			}
+			IntVec3[] cardinalDirections = GenAdj.CardinalDirections;
+			for (int i = 0; i < cardinalDirections.Length; i++)
+			{
+				IntVec3 intVec = this + cardinalDirections[i];
+				if (intVec.InBounds(map) && intVec.GetRoom(map, RegionType.Set_All) == room)
 				{
-					result = true;
-				}
-				else
-				{
-					IntVec3[] cardinalDirections = GenAdj.CardinalDirections;
-					for (int i = 0; i < cardinalDirections.Length; i++)
-					{
-						IntVec3 intVec = this + cardinalDirections[i];
-						if (intVec.InBounds(map) && intVec.GetRoom(map, RegionType.Set_All) == room)
-							goto IL_0088;
-					}
-					result = false;
+					return true;
 				}
 			}
-			goto IL_00a4;
-			IL_00a4:
-			return result;
-			IL_0088:
-			result = true;
-			goto IL_00a4;
+			return false;
 		}
 
 		public static IntVec3 operator +(IntVec3 a, IntVec3 b)
@@ -292,12 +292,20 @@ namespace Verse
 
 		public static bool operator ==(IntVec3 a, IntVec3 b)
 		{
-			return (byte)((a.x == b.x && a.z == b.z && a.y == b.y) ? 1 : 0) != 0;
+			if (a.x == b.x && a.z == b.z && a.y == b.y)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static bool operator !=(IntVec3 a, IntVec3 b)
 		{
-			return (byte)((a.x != b.x || a.z != b.z || a.y != b.y) ? 1 : 0) != 0;
+			if (a.x == b.x && a.z == b.z && a.y == b.y)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override bool Equals(object obj)

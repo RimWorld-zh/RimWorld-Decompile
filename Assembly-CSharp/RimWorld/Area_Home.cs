@@ -33,13 +33,14 @@ namespace RimWorld
 		{
 		}
 
-		public Area_Home(AreaManager areaManager) : base(areaManager)
+		public Area_Home(AreaManager areaManager)
+			: base(areaManager)
 		{
 		}
 
 		public override bool AssignableAsAllowed(AllowedAreaMode mode)
 		{
-			return (byte)((int)mode & 3) != 0;
+			return (mode & AllowedAreaMode.Any) != (AllowedAreaMode)0;
 		}
 
 		public override string GetUniqueLoadID()

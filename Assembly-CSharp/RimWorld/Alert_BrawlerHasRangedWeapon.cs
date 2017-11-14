@@ -16,7 +16,7 @@ namespace RimWorld
 			{
 				if (item.story.traits.HasTrait(TraitDefOf.Brawler) && item.equipment.Primary != null && item.equipment.Primary.def.IsRangedWeapon)
 				{
-					return (Thing)item;
+					return item;
 				}
 			}
 			return false;

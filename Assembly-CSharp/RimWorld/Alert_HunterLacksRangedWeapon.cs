@@ -17,7 +17,7 @@ namespace RimWorld
 			{
 				if (item.workSettings.WorkIsActive(WorkTypeDefOf.Hunting) && !WorkGiver_HunterHunt.HasHuntingWeapon(item) && !item.Downed)
 				{
-					return (Thing)item;
+					return item;
 				}
 			}
 			return false;

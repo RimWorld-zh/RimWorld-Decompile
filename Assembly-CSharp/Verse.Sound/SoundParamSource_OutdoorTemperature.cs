@@ -12,7 +12,15 @@ namespace Verse.Sound
 
 		public override float ValueFor(Sample samp)
 		{
-			return (float)((Current.ProgramState == ProgramState.Playing) ? ((Find.VisibleMap != null) ? Find.VisibleMap.mapTemperature.OutdoorTemp : 0.0) : 0.0);
+			if (Current.ProgramState != ProgramState.Playing)
+			{
+				return 0f;
+			}
+			if (Find.VisibleMap == null)
+			{
+				return 0f;
+			}
+			return Find.VisibleMap.mapTemperature.OutdoorTemp;
 		}
 	}
 }

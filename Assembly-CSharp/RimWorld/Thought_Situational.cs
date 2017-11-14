@@ -29,7 +29,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.reason.NullOrEmpty() ? base.LabelCap : string.Format(base.CurStage.label, this.reason).CapitalizeFirst();
+				if (!this.reason.NullOrEmpty())
+				{
+					return string.Format(base.CurStage.label, this.reason).CapitalizeFirst();
+				}
+				return base.LabelCap;
 			}
 		}
 

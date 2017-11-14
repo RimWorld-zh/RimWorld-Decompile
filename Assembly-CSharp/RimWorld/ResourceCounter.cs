@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -79,23 +78,18 @@ namespace RimWorld
 
 		public int GetCount(ThingDef rDef)
 		{
-			int result;
-			int num = default(int);
 			if (rDef.resourceReadoutPriority == ResourceCountPriority.Uncounted)
 			{
-				result = 0;
+				return 0;
 			}
-			else if (this.countedAmounts.TryGetValue(rDef, out num))
+			int result = default(int);
+			if (this.countedAmounts.TryGetValue(rDef, out result))
 			{
-				result = num;
+				return result;
 			}
-			else
-			{
-				Log.Error("Looked for nonexistent key " + rDef + " in counted resources.");
-				this.countedAmounts.Add(rDef, 0);
-				result = 0;
-			}
-			return result;
+			Log.Error("Looked for nonexistent key " + rDef + " in counted resources.");
+			this.countedAmounts.Add(rDef, 0);
+			return 0;
 		}
 
 		public int GetCountIn(ThingRequestGroup group)
@@ -157,7 +151,11 @@ namespace RimWorld
 
 		private bool ShouldCount(Thing t)
 		{
-			return (byte)((!t.IsNotFresh()) ? 1 : 0) != 0;
+			if (t.IsNotFresh())
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

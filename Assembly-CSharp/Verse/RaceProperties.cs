@@ -7,11 +7,11 @@ namespace Verse
 {
 	public class RaceProperties
 	{
-		public Intelligence intelligence = Intelligence.Animal;
+		public Intelligence intelligence;
 
-		private FleshTypeDef fleshType = null;
+		private FleshTypeDef fleshType;
 
-		private ThingDef bloodDef = null;
+		private ThingDef bloodDef;
 
 		public bool hasGenders = true;
 
@@ -21,33 +21,33 @@ namespace Verse
 
 		public ThinkTreeDef thinkTreeConstant;
 
-		public PawnNameCategory nameCategory = PawnNameCategory.NoName;
+		public PawnNameCategory nameCategory;
 
-		public FoodTypeFlags foodType = FoodTypeFlags.None;
+		public FoodTypeFlags foodType;
 
-		public BodyDef body = null;
+		public BodyDef body;
 
 		public Type deathActionWorkerClass;
 
-		public List<AnimalBiomeRecord> wildBiomes = null;
+		public List<AnimalBiomeRecord> wildBiomes;
 
-		public SimpleCurve ageGenerationCurve = null;
+		public SimpleCurve ageGenerationCurve;
 
-		public bool makesFootprints = false;
+		public bool makesFootprints;
 
 		public int executionRange = 2;
 
 		public float lifeExpectancy = 10f;
 
-		public List<HediffGiverSetDef> hediffGiverSets = null;
+		public List<HediffGiverSetDef> hediffGiverSets;
 
-		public float petness = 0f;
+		public float petness;
 
-		public bool packAnimal = false;
+		public bool packAnimal;
 
-		public bool herdAnimal = false;
+		public bool herdAnimal;
 
-		public bool predator = false;
+		public bool predator;
 
 		public float maxPreyBodySize = 99999f;
 
@@ -55,31 +55,33 @@ namespace Verse
 
 		public float nuzzleMtbHours = -1f;
 
-		public float manhunterOnDamageChance = 0f;
+		public float manhunterOnDamageChance;
 
-		public float manhunterOnTameFailChance = 0f;
+		public float manhunterOnTameFailChance;
 
 		public bool canBePredatorPrey = true;
 
+		public bool herdMigrationAllowed = true;
+
 		public float gestationPeriodDays = 10f;
 
-		public SimpleCurve litterSizeCurve = null;
+		public SimpleCurve litterSizeCurve;
 
 		public float mateMtbHours = 12f;
 
-		public List<string> untrainableTags = null;
+		public List<string> untrainableTags;
 
-		public List<string> trainableTags = null;
+		public List<string> trainableTags;
 
-		private TrainableIntelligenceDef trainableIntelligence = null;
+		private TrainableIntelligenceDef trainableIntelligence;
 
 		private RulePackDef nameGenerator;
 
 		private RulePackDef nameGeneratorFemale;
 
-		public float nameOnTameChance = 0f;
+		public float nameOnTameChance;
 
-		public float nameOnNuzzleChance = 0f;
+		public float nameOnNuzzleChance;
 
 		public float baseBodySize = 1f;
 
@@ -91,45 +93,45 @@ namespace Verse
 
 		public Color leatherColor = ColorLibrary.Leather;
 
-		public string leatherLabel = (string)null;
+		public string leatherLabel;
 
 		public float leatherCommonalityFactor = 1f;
 
 		public float leatherInsulation = 1.1f;
 
-		public List<StatModifier> leatherStatFactors = null;
+		public List<StatModifier> leatherStatFactors;
 
 		public float leatherMarketValueFactor = 1f;
 
-		public string meatLabel = (string)null;
+		public string meatLabel;
 
 		public Color meatColor = new ColorInt(141, 56, 52).ToColor;
 
-		public ThingDef useMeatFrom = null;
+		public ThingDef useMeatFrom;
 
-		public ThingDef useLeatherFrom = null;
+		public ThingDef useLeatherFrom;
 
-		public ShadowData specialShadowData = null;
+		public ShadowData specialShadowData;
 
 		public IntRange soundCallIntervalRange = new IntRange(2000, 4000);
 
-		public SoundDef soundMeleeHitPawn = null;
+		public SoundDef soundMeleeHitPawn;
 
-		public SoundDef soundMeleeHitBuilding = null;
+		public SoundDef soundMeleeHitBuilding;
 
-		public SoundDef soundMeleeMiss = null;
-
-		[Unsaved]
-		private DeathActionWorker deathActionWorkerInt = null;
+		public SoundDef soundMeleeMiss;
 
 		[Unsaved]
-		public ThingDef meatDef = null;
+		private DeathActionWorker deathActionWorkerInt;
 
 		[Unsaved]
-		public ThingDef leatherDef = null;
+		public ThingDef meatDef;
 
 		[Unsaved]
-		public ThingDef corpseDef = null;
+		public ThingDef leatherDef;
+
+		[Unsaved]
+		public ThingDef corpseDef;
 
 		public bool Humanlike
 		{
@@ -167,45 +169,23 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				switch (this.ResolvedDietCategory)
 				{
 				case DietCategory.NeverEats:
-				{
-					result = 0.3f;
-					break;
-				}
+					return 0.3f;
 				case DietCategory.Omnivorous:
-				{
-					result = 0.3f;
-					break;
-				}
+					return 0.3f;
 				case DietCategory.Carnivorous:
-				{
-					result = 0.3f;
-					break;
-				}
+					return 0.3f;
 				case DietCategory.Ovivorous:
-				{
-					result = 0.4f;
-					break;
-				}
+					return 0.4f;
 				case DietCategory.Herbivorous:
-				{
-					result = 0.45f;
-					break;
-				}
+					return 0.45f;
 				case DietCategory.Dendrovorous:
-				{
-					result = 0.45f;
-					break;
-				}
+					return 0.45f;
 				default:
-				{
 					throw new InvalidOperationException();
 				}
-				}
-				return result;
 			}
 		}
 
@@ -213,7 +193,27 @@ namespace Verse
 		{
 			get
 			{
-				return (DietCategory)(this.EatsFood ? ((!this.Eats(FoodTypeFlags.Tree)) ? ((!this.Eats(FoodTypeFlags.Meat)) ? ((!this.Eats(FoodTypeFlags.AnimalProduct)) ? 1 : 3) : ((!this.Eats(FoodTypeFlags.VegetableOrFruit) && !this.Eats(FoodTypeFlags.Plant)) ? 5 : 4)) : 2) : 0);
+				if (!this.EatsFood)
+				{
+					return DietCategory.NeverEats;
+				}
+				if (this.Eats(FoodTypeFlags.Tree))
+				{
+					return DietCategory.Dendrovorous;
+				}
+				if (this.Eats(FoodTypeFlags.Meat))
+				{
+					if (!this.Eats(FoodTypeFlags.VegetableOrFruit) && !this.Eats(FoodTypeFlags.Plant))
+					{
+						return DietCategory.Carnivorous;
+					}
+					return DietCategory.Omnivorous;
+				}
+				if (this.Eats(FoodTypeFlags.AnimalProduct))
+				{
+					return DietCategory.Ovivorous;
+				}
+				return DietCategory.Herbivorous;
 			}
 		}
 
@@ -240,7 +240,11 @@ namespace Verse
 		{
 			get
 			{
-				return (this.fleshType == null) ? FleshTypeDefOf.Normal : this.fleshType;
+				if (this.fleshType != null)
+				{
+					return this.fleshType;
+				}
+				return FleshTypeDefOf.Normal;
 			}
 		}
 
@@ -264,7 +268,15 @@ namespace Verse
 		{
 			get
 			{
-				return (this.bloodDef == null) ? ((!this.IsFlesh) ? null : ThingDefOf.FilthBlood) : this.bloodDef;
+				if (this.bloodDef != null)
+				{
+					return this.bloodDef;
+				}
+				if (this.IsFlesh)
+				{
+					return ThingDefOf.FilthBlood;
+				}
+				return null;
 			}
 		}
 
@@ -272,18 +284,42 @@ namespace Verse
 		{
 			get
 			{
-				return (this.trainableIntelligence != null) ? this.trainableIntelligence : TrainableIntelligenceDefOf.Intermediate;
+				if (this.trainableIntelligence == null)
+				{
+					return TrainableIntelligenceDefOf.Intermediate;
+				}
+				return this.trainableIntelligence;
+			}
+		}
+
+		public bool CanDoHerdMigration
+		{
+			get
+			{
+				return this.Animal && this.herdAnimal && this.herdMigrationAllowed;
 			}
 		}
 
 		public RulePackDef GetNameGenerator(Gender gender)
 		{
-			return (gender != Gender.Female || this.nameGeneratorFemale == null) ? this.nameGenerator : this.nameGeneratorFemale;
+			if (gender == Gender.Female && this.nameGeneratorFemale != null)
+			{
+				return this.nameGeneratorFemale;
+			}
+			return this.nameGenerator;
 		}
 
 		public bool WillAutomaticallyEat(Thing t)
 		{
-			return (byte)((t.def.ingestible != null) ? (this.CanEverEat(t) ? 1 : 0) : 0) != 0;
+			if (t.def.ingestible == null)
+			{
+				return false;
+			}
+			if (!this.CanEverEat(t))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public bool CanEverEat(Thing t)
@@ -293,12 +329,28 @@ namespace Verse
 
 		public bool CanEverEat(ThingDef t)
 		{
-			return this.EatsFood && t.ingestible != null && t.ingestible.preferability != 0 && this.Eats(t.ingestible.foodType);
+			if (!this.EatsFood)
+			{
+				return false;
+			}
+			if (t.ingestible == null)
+			{
+				return false;
+			}
+			if (t.ingestible.preferability == FoodPreferability.Undefined)
+			{
+				return false;
+			}
+			return this.Eats(t.ingestible.foodType);
 		}
 
 		public bool Eats(FoodTypeFlags food)
 		{
-			return this.EatsFood && (this.foodType & food) != FoodTypeFlags.None;
+			if (!this.EatsFood)
+			{
+				return false;
+			}
+			return (this.foodType & food) != FoodTypeFlags.None;
 		}
 
 		public void ResolveReferencesSpecial()
@@ -389,13 +441,13 @@ namespace Verse
 				yield break;
 			yield return "tries to use leather from " + this.useLeatherFrom + " which uses leather from " + this.useLeatherFrom.race.useLeatherFrom;
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_04d0:
-			/*Error near IL_04d1: Unexpected return in MoveNext()*/;
+			IL_04c6:
+			/*Error near IL_04c7: Unexpected return in MoveNext()*/;
 		}
 
 		internal IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
 		{
-			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Race".Translate(), parentDef.LabelCap, 2000, "");
+			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Race".Translate(), parentDef.LabelCap, 2000, string.Empty);
 			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}

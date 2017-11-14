@@ -2,9 +2,9 @@ namespace Verse
 {
 	public enum VerbCategory : byte
 	{
-		Undefined = 0,
-		BeatFire = 1,
-		Ignite = 2,
-		Nonnative = 3
+		Undefined,
+		BeatFire,
+		Ignite,
+		Nonnative
 	}
 }

@@ -26,7 +26,7 @@ namespace RimWorld.BaseGen
 					SymbolResolver_Clear.tmpThingsToDestroy.AddRange(iterator.Current.GetThingList(BaseGen.globalSettings.map));
 					for (int i = 0; i < SymbolResolver_Clear.tmpThingsToDestroy.Count; i++)
 					{
-						if ((SymbolResolver_Clear.tmpThingsToDestroy[i].def.destroyable ? SymbolResolver_Clear.tmpThingsToDestroy[i].def.Fillage : FillCategory.None) != 0)
+						if (SymbolResolver_Clear.tmpThingsToDestroy[i].def.destroyable && SymbolResolver_Clear.tmpThingsToDestroy[i].def.Fillage != 0)
 						{
 							SymbolResolver_Clear.tmpThingsToDestroy[i].Destroy(DestroyMode.Vanish);
 						}

@@ -9,40 +9,35 @@ namespace RimWorld
 			bool flag = StatPart_WorkTableOutdoors.Applies(base.parent.def, base.parent.Map, base.parent.Position);
 			bool flag2 = StatPart_WorkTableTemperature.Applies(base.parent);
 			bool flag3 = StatPart_WorkTableUnpowered.Applies(base.parent);
-			string result;
-			if (flag || flag2 || flag3)
+			if (!flag && !flag2 && !flag3)
 			{
-				string text = "WorkSpeedPenalty".Translate() + ": ";
-				bool flag4 = false;
-				if (flag)
-				{
-					text += "Outdoors".Translate().ToLower();
-					flag4 = true;
-				}
-				if (flag2)
-				{
-					if (flag4)
-					{
-						text += ", ";
-					}
-					text += "BadTemperature".Translate().ToLower();
-					flag4 = true;
-				}
-				if (flag3)
-				{
-					if (flag4)
-					{
-						text += ", ";
-					}
-					text += "NoPower".Translate().ToLower();
-				}
-				result = text;
+				return null;
 			}
-			else
+			string text = "WorkSpeedPenalty".Translate() + ": ";
+			bool flag4 = false;
+			if (flag)
 			{
-				result = (string)null;
+				text += "Outdoors".Translate().ToLower();
+				flag4 = true;
 			}
-			return result;
+			if (flag2)
+			{
+				if (flag4)
+				{
+					text += ", ";
+				}
+				text += "BadTemperature".Translate().ToLower();
+				flag4 = true;
+			}
+			if (flag3)
+			{
+				if (flag4)
+				{
+					text += ", ";
+				}
+				text += "NoPower".Translate().ToLower();
+			}
+			return text;
 		}
 	}
 }

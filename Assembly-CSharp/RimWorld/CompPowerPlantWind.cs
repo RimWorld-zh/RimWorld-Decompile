@@ -12,7 +12,7 @@ namespace RimWorld
 
 		private int ticksSinceWeatherUpdate;
 
-		private float cachedPowerOutput = 0f;
+		private float cachedPowerOutput;
 
 		private List<IntVec3> windPathCells = new List<IntVec3>();
 
@@ -20,7 +20,7 @@ namespace RimWorld
 
 		private List<IntVec3> windPathBlockedCells = new List<IntVec3>();
 
-		private float spinPosition = 0f;
+		private float spinPosition;
 
 		private const float MaxUsableWindIntensity = 1.5f;
 
@@ -111,15 +111,14 @@ namespace RimWorld
 		public override void PostDraw()
 		{
 			base.PostDraw();
-			GenDraw.FillableBarRequest r = new GenDraw.FillableBarRequest
-			{
-				center = base.parent.DrawPos + Vector3.up * 0.1f,
-				size = CompPowerPlantWind.BarSize,
-				fillPercent = this.PowerPercent,
-				filledMat = CompPowerPlantWind.WindTurbineBarFilledMat,
-				unfilledMat = CompPowerPlantWind.WindTurbineBarUnfilledMat,
-				margin = 0.15f
-			};
+			GenDraw.FillableBarRequest fillableBarRequest = default(GenDraw.FillableBarRequest);
+			fillableBarRequest.center = base.parent.DrawPos + Vector3.up * 0.1f;
+			fillableBarRequest.size = CompPowerPlantWind.BarSize;
+			fillableBarRequest.fillPercent = this.PowerPercent;
+			fillableBarRequest.filledMat = CompPowerPlantWind.WindTurbineBarFilledMat;
+			fillableBarRequest.unfilledMat = CompPowerPlantWind.WindTurbineBarUnfilledMat;
+			fillableBarRequest.margin = 0.15f;
+			GenDraw.FillableBarRequest r = fillableBarRequest;
 			Rot4 rotation = base.parent.Rotation;
 			rotation.Rotate(RotationDirection.Clockwise);
 			r.rotation = rotation;

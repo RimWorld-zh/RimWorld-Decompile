@@ -7,7 +7,7 @@ namespace Verse
 	{
 		private bool[] arr;
 
-		private int trueCountInt = 0;
+		private int trueCountInt;
 
 		private int mapSizeX;
 
@@ -27,7 +27,6 @@ namespace Verse
 			{
 				if (this.trueCountInt != 0)
 				{
-					int yieldedCount = 0;
 					int i = 0;
 					while (true)
 					{

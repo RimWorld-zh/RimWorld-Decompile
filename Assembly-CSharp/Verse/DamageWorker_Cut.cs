@@ -46,7 +46,8 @@ namespace Verse
 						lhs = lhs.Concat(dinfo.HitPart.parent);
 						lhs = lhs.Concat(dinfo.HitPart.parent.GetDirectChildParts());
 					}
-					list2 = lhs.Except(dinfo.HitPart).InRandomOrder(null).Take(num2).ToList();
+					list2 = lhs.Except(dinfo.HitPart).InRandomOrder(null).Take(num2)
+						.ToList();
 				}
 				else
 				{

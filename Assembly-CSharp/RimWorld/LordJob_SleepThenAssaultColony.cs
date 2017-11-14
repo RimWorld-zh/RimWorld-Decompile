@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI.Group;
@@ -28,17 +27,16 @@ namespace RimWorld
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
-			LordToil_Sleep lordToil_Sleep = new LordToil_Sleep();
-			stateGraph.StartingToil = lordToil_Sleep;
+			LordToil_Sleep firstSource = (LordToil_Sleep)(stateGraph.StartingToil = new LordToil_Sleep());
 			LordToil startingToil = stateGraph.AttachSubgraph(new LordJob_AssaultColony(this.faction, true, true, false, false, true).CreateGraph()).StartingToil;
-			Transition transition = new Transition(lordToil_Sleep, startingToil);
+			Transition transition = new Transition(firstSource, startingToil);
 			transition.AddTrigger(new Trigger_PawnHarmed(1f, false));
 			transition.AddPreAction(new TransitionAction_Message("MessageSleepingPawnsWokenUp".Translate(this.faction.def.pawnsPlural).CapitalizeFirst(), MessageTypeDefOf.ThreatBig));
 			transition.AddPostAction(new TransitionAction_WakeAll());
 			stateGraph.AddTransition(transition);
 			if (this.wakeUpIfColonistClose)
 			{
-				transition.AddTrigger(new Trigger_Custom((Func<TriggerSignal, bool>)((TriggerSignal x) => Find.TickManager.TicksGame % 30 == 0 && this.AnyColonistClose())));
+				transition.AddTrigger(new Trigger_Custom((TriggerSignal x) => Find.TickManager.TicksGame % 30 == 0 && this.AnyColonistClose()));
 			}
 			return stateGraph;
 		}
@@ -53,53 +51,33 @@ namespace RimWorld
 		{
 			int num = GenRadial.NumCellsInRadius(6f);
 			Map map = base.Map;
-			int num2 = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 			{
-				if (num2 < base.lord.ownedPawns.Count)
+				Pawn pawn = base.lord.ownedPawns[i];
+				for (int j = 0; j < num; j++)
 				{
-					Pawn pawn = base.lord.ownedPawns[num2];
-					for (int num3 = 0; num3 < num; num3++)
+					IntVec3 intVec = pawn.Position + GenRadial.RadialPattern[j];
+					if (intVec.InBounds(map) && this.AnyColonistAt(intVec) && GenSight.LineOfSight(pawn.Position, intVec, map, false, null, 0, 0))
 					{
-						IntVec3 intVec = pawn.Position + GenRadial.RadialPattern[num3];
-						if (intVec.InBounds(map) && this.AnyColonistAt(intVec) && GenSight.LineOfSight(pawn.Position, intVec, map, false, null, 0, 0))
-							goto IL_0085;
+						return true;
 					}
-					num2++;
-					continue;
 				}
-				result = false;
-				break;
-				IL_0085:
-				result = true;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		private bool AnyColonistAt(IntVec3 c)
 		{
 			List<Thing> thingList = c.GetThingList(base.Map);
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < thingList.Count; i++)
 			{
-				if (num < thingList.Count)
+				Pawn pawn = thingList[i] as Pawn;
+				if (pawn != null && pawn.IsColonist)
 				{
-					Pawn pawn = thingList[num] as Pawn;
-					if (pawn != null && pawn.IsColonist)
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 	}
 }

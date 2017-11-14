@@ -24,7 +24,7 @@ namespace RimWorld
 			IEnumerable<IncidentDef> options;
 			while (true)
 			{
-				_003CMakeIntervalIncidents_003Ec__Iterator0 _003CMakeIntervalIncidents_003Ec__Iterator2 = (_003CMakeIntervalIncidents_003Ec__Iterator0)/*Error near IL_0081: stateMachine*/;
+				_003CMakeIntervalIncidents_003Ec__Iterator0 _003CMakeIntervalIncidents_003Ec__Iterator2 = (_003CMakeIntervalIncidents_003Ec__Iterator0)/*Error near IL_007f: stateMachine*/;
 				if (triedCategories.Count < this.Props.categoryWeights.Count)
 				{
 					IncidentCategory category = this.DecideCategory(target, triedCategories);
@@ -40,7 +40,7 @@ namespace RimWorld
 				yield break;
 			}
 			IncidentDef incDef;
-			if (!options.TryRandomElementByWeight<IncidentDef>(new Func<IncidentDef, float>(base.IncidentChanceFinal), out incDef))
+			if (!options.TryRandomElementByWeight<IncidentDef>((Func<IncidentDef, float>)base.IncidentChanceFinal, out incDef))
 				yield break;
 			yield return new FiringIncident(incDef, this, this.GenerateParms(incDef.category, target));
 			/*Error: Unable to find new state assignment for yield return*/;
@@ -48,22 +48,17 @@ namespace RimWorld
 
 		private IncidentCategory DecideCategory(IIncidentTarget target, List<IncidentCategory> skipCategories)
 		{
-			IncidentCategory result;
 			if (!skipCategories.Contains(IncidentCategory.ThreatBig))
 			{
 				int num = Find.TickManager.TicksGame - target.StoryState.LastThreatBigTick;
 				if ((float)num > 60000.0 * this.Props.maxThreatBigIntervalDays)
 				{
-					result = IncidentCategory.ThreatBig;
-					goto IL_00a0;
+					return IncidentCategory.ThreatBig;
 				}
 			}
-			result = (from cw in this.Props.categoryWeights
+			return (from cw in this.Props.categoryWeights
 			where !skipCategories.Contains(cw.category)
-			select cw).RandomElementByWeight((Func<IncidentCategoryEntry, float>)((IncidentCategoryEntry cw) => cw.weight)).category;
-			goto IL_00a0;
-			IL_00a0:
-			return result;
+			select cw).RandomElementByWeight((IncidentCategoryEntry cw) => cw.weight).category;
 		}
 
 		public override IncidentParms GenerateParms(IncidentCategory incCat, IIncidentTarget target)

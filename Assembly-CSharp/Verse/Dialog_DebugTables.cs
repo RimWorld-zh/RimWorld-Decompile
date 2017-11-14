@@ -11,7 +11,7 @@ namespace Verse
 
 		private List<float> colWidths = new List<float>();
 
-		private float totalWidth = 0f;
+		private float totalWidth;
 
 		private const float RowHeight = 23f;
 
@@ -63,15 +63,15 @@ namespace Verse
 				{
 					if (!((float)(j + 1) * 23.0 - this.scrollPosition.y < 0.0) && !((float)j * 23.0 - this.scrollPosition.y > inRect.height))
 					{
-						Rect rect;
-						Rect rect2 = rect = new Rect(num, (float)((float)j * 23.0), this.colWidths[i], 23f);
-						rect.xMin -= 999f;
-						rect.xMax += 999f;
-						if (Mouse.IsOver(rect) || i % 2 == 0)
+						Rect rect = new Rect(num, (float)((float)j * 23.0), this.colWidths[i], 23f);
+						Rect rect2 = rect;
+						rect2.xMin -= 999f;
+						rect2.xMax += 999f;
+						if (Mouse.IsOver(rect2) || i % 2 == 0)
 						{
-							Widgets.DrawHighlight(rect2);
+							Widgets.DrawHighlight(rect);
 						}
-						Widgets.Label(rect2, this.table[i, j]);
+						Widgets.Label(rect, this.table[i, j]);
 					}
 				}
 				num += this.colWidths[i];

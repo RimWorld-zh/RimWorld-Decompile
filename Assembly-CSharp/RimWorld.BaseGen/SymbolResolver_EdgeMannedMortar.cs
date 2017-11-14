@@ -17,10 +17,10 @@ namespace RimWorld.BaseGen
 			CellRect rect = default(CellRect);
 			if (this.TryFindRandomInnerRectTouchingEdge(rp.rect, out rect))
 			{
-				Rot4 value = (!rect.Cells.Any((Func<IntVec3, bool>)((IntVec3 x) => x.x == rp.rect.minX))) ? ((!rect.Cells.Any((Func<IntVec3, bool>)((IntVec3 x) => x.x == rp.rect.maxX))) ? ((!rect.Cells.Any((Func<IntVec3, bool>)((IntVec3 x) => x.z == rp.rect.minZ))) ? Rot4.North : Rot4.South) : Rot4.East) : Rot4.West;
+				Rot4 value = (!rect.Cells.Any((IntVec3 x) => x.x == rp.rect.minX)) ? ((!rect.Cells.Any((IntVec3 x) => x.x == rp.rect.maxX)) ? ((!rect.Cells.Any((IntVec3 x) => x.z == rp.rect.minZ)) ? Rot4.North : Rot4.South) : Rot4.East) : Rot4.West;
 				ResolveParams resolveParams = rp;
 				resolveParams.rect = rect;
-				resolveParams.thingRot = new Rot4?(value);
+				resolveParams.thingRot = value;
 				BaseGen.symbolStack.Push("mannedMortar", resolveParams);
 			}
 		}
@@ -29,7 +29,15 @@ namespace RimWorld.BaseGen
 		{
 			Map map = BaseGen.globalSettings.map;
 			IntVec2 size = new IntVec2(3, 3);
-			return (byte)(rect.TryFindRandomInnerRectTouchingEdge(size, out mortarRect, (Predicate<CellRect>)((CellRect x) => x.Cells.All((Func<IntVec3, bool>)((IntVec3 y) => y.Standable(map) && y.GetEdifice(map) == null)) && GenConstruct.TerrainCanSupport(x, map, ThingDefOf.Turret_Mortar))) ? 1 : (rect.TryFindRandomInnerRectTouchingEdge(size, out mortarRect, (Predicate<CellRect>)((CellRect x) => x.Cells.All((Func<IntVec3, bool>)((IntVec3 y) => y.Standable(map) && y.GetEdifice(map) == null)))) ? 1 : 0)) != 0;
+			if (rect.TryFindRandomInnerRectTouchingEdge(size, out mortarRect, (Predicate<CellRect>)((CellRect x) => x.Cells.All((IntVec3 y) => y.Standable(map) && y.GetEdifice(map) == null) && GenConstruct.TerrainCanSupport(x, map, ThingDefOf.Turret_Mortar))))
+			{
+				return true;
+			}
+			if (rect.TryFindRandomInnerRectTouchingEdge(size, out mortarRect, (Predicate<CellRect>)((CellRect x) => x.Cells.All((IntVec3 y) => y.Standable(map) && y.GetEdifice(map) == null))))
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }

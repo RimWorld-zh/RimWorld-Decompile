@@ -14,7 +14,11 @@ namespace Verse.AI.Group
 
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
-			return signal.type == TriggerSignalType.Tick && (this.thing.DestroyedOrNull() || (float)this.thing.HitPoints < (1.0 - this.damageFraction) * (float)this.thing.MaxHitPoints);
+			if (signal.type == TriggerSignalType.Tick)
+			{
+				return this.thing.DestroyedOrNull() || (float)this.thing.HitPoints < (1.0 - this.damageFraction) * (float)this.thing.MaxHitPoints;
+			}
+			return false;
 		}
 	}
 }

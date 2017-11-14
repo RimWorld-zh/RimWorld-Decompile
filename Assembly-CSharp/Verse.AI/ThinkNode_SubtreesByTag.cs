@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,7 +8,7 @@ namespace Verse.AI
 		public string insertTag;
 
 		[Unsaved]
-		private List<ThinkTreeDef> matchedTrees = null;
+		private List<ThinkTreeDef> matchedTrees;
 
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -38,25 +37,15 @@ namespace Verse.AI
 				orderby tDef.insertPriority descending
 				select tDef).ToList();
 			}
-			int num = 0;
-			ThinkResult result;
-			while (true)
+			for (int i = 0; i < this.matchedTrees.Count; i++)
 			{
-				if (num < this.matchedTrees.Count)
+				ThinkResult result = this.matchedTrees[i].thinkRoot.TryIssueJobPackage(pawn, jobParams);
+				if (result.IsValid)
 				{
-					ThinkResult thinkResult = this.matchedTrees[num].thinkRoot.TryIssueJobPackage(pawn, jobParams);
-					if (thinkResult.IsValid)
-					{
-						result = thinkResult;
-						break;
-					}
-					num++;
-					continue;
+					return result;
 				}
-				result = ThinkResult.NoJob;
-				break;
 			}
-			return result;
+			return ThinkResult.NoJob;
 		}
 	}
 }

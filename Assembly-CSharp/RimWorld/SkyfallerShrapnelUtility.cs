@@ -89,7 +89,7 @@ namespace RimWorld
 
 		private static void SpawnShrapnel(ThingDef def, int quantity, IntVec3 center, Map map, float angle, float distanceFactor)
 		{
-			for (int num = 0; num < quantity; num++)
+			for (int i = 0; i < quantity; i++)
 			{
 				IntVec3 intVec = SkyfallerShrapnelUtility.GenerateShrapnelLocation(center, angle, distanceFactor);
 				if (SkyfallerShrapnelUtility.IsGoodShrapnelCell(intVec, map) && intVec.GetFirstThing(map, def) == null)
@@ -101,7 +101,7 @@ namespace RimWorld
 
 		private static void ThrowShrapnelMotes(int count, IntVec3 center, Map map, float angle, float distanceFactor)
 		{
-			for (int num = 0; num < count; num++)
+			for (int i = 0; i < count; i++)
 			{
 				IntVec3 c = SkyfallerShrapnelUtility.GenerateShrapnelLocation(center, angle, distanceFactor);
 				if (SkyfallerShrapnelUtility.IsGoodShrapnelCell(c, map))
@@ -113,21 +113,20 @@ namespace RimWorld
 
 		private static bool IsGoodShrapnelCell(IntVec3 c, Map map)
 		{
-			bool result;
 			if (!c.InBounds(map))
 			{
-				result = false;
+				return false;
 			}
-			else if (c.Impassable(map) || c.Filled(map))
-			{
-				result = false;
-			}
-			else
+			if (!c.Impassable(map) && !c.Filled(map))
 			{
 				RoofDef roofDef = map.roofGrid.RoofAt(c);
-				result = ((byte)((roofDef == null) ? 1 : 0) != 0);
+				if (roofDef != null)
+				{
+					return false;
+				}
+				return true;
 			}
-			return result;
+			return false;
 		}
 
 		private static IntVec3 GenerateShrapnelLocation(IntVec3 center, float angleOffset, float distanceFactor)

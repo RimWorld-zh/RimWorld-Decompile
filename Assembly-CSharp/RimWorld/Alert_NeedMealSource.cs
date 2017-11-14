@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -14,32 +13,36 @@ namespace RimWorld
 
 		public override AlertReport GetReport()
 		{
-			AlertReport result;
 			if (GenDate.DaysPassed < 2)
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Map> maps = Find.Maps;
+			for (int i = 0; i < maps.Count; i++)
 			{
-				List<Map> maps = Find.Maps;
-				for (int i = 0; i < maps.Count; i++)
+				if (this.NeedMealSource(maps[i]))
 				{
-					if (this.NeedMealSource(maps[i]))
-						goto IL_0038;
+					return true;
 				}
-				result = false;
 			}
-			goto IL_0061;
-			IL_0038:
-			result = true;
-			goto IL_0061;
-			IL_0061:
-			return result;
+			return false;
 		}
 
 		private bool NeedMealSource(Map map)
 		{
-			return (byte)(map.IsPlayerHome ? (map.mapPawns.AnyColonistSpawned ? ((!map.listerBuildings.allBuildingsColonist.Any((Predicate<Building>)((Building b) => b.def.building.isMealSource))) ? 1 : 0) : 0) : 0) != 0;
+			if (!map.IsPlayerHome)
+			{
+				return false;
+			}
+			if (!map.mapPawns.AnyColonistSpawned)
+			{
+				return false;
+			}
+			if (map.listerBuildings.allBuildingsColonist.Any((Building b) => b.def.building.isMealSource))
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -64,10 +63,10 @@ namespace RimWorld
 				hotKey = KeyBindingDefOf.CommandTogglePower,
 				defaultLabel = "CommandGatherSpotToggleLabel".Translate(),
 				icon = TexCommand.GatherSpotActive,
-				isActive = (Func<bool>)(() => ((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0068: stateMachine*/)._0024this.Active),
-				toggleAction = (Action)delegate
+				isActive = this.get_Active,
+				toggleAction = delegate
 				{
-					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_007f: stateMachine*/)._0024this.Active = !((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_007f: stateMachine*/)._0024this.Active;
+					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0083: stateMachine*/)._0024this.Active = !((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0083: stateMachine*/)._0024this.Active;
 				}
 			};
 			if (this.Active)

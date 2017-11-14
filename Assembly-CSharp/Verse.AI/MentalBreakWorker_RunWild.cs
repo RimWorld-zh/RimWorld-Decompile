@@ -11,13 +11,17 @@ namespace Verse.AI
 
 		public override bool TryStart(Pawn pawn, Thought reason, bool causedByMood)
 		{
+			base.TrySendLetter(pawn, "LetterRunWildMentalBreak", reason);
 			pawn.ChangeKind(PawnKindDefOf.WildMan);
 			if (pawn.Faction != null)
 			{
 				pawn.SetFaction(null, null);
 			}
 			pawn.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.Catharsis, null);
-			base.TrySendLetter(pawn, "LetterRunWildMentalBreak", reason);
+			if (pawn.Spawned && !pawn.Downed)
+			{
+				pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+			}
 			return true;
 		}
 	}

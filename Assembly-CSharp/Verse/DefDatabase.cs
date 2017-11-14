@@ -38,9 +38,7 @@ namespace Verse
 		public static void AddAllInMods()
 		{
 			HashSet<string> hashSet = new HashSet<string>();
-			foreach (ModContentPack item in (IEnumerable<ModContentPack>)(from m in LoadedModManager.RunningMods
-			orderby m.OverwritePriority
-			select m).ThenBy<ModContentPack, int>((Func<ModContentPack, int>)((ModContentPack x) => LoadedModManager.RunningModsListForReading.IndexOf(x))))
+			foreach (ModContentPack item in Enumerable.ThenBy<ModContentPack, int>(Enumerable.OrderBy<ModContentPack, int>(LoadedModManager.RunningMods, (Func<ModContentPack, int>)((ModContentPack m) => m.OverwritePriority)), (Func<ModContentPack, int>)((ModContentPack x) => LoadedModManager.RunningModsListForReading.IndexOf(x))))
 			{
 				hashSet.Clear();
 				foreach (T item2 in GenDefDatabase.DefsToGoInDatabase<T>(item))
@@ -70,9 +68,9 @@ namespace Verse
 
 		public static void Add(IEnumerable<T> defs)
 		{
-			foreach (T item in defs)
+			foreach (T def in defs)
 			{
-				DefDatabase<T>.Add(item);
+				DefDatabase<T>.Add(def);
 			}
 		}
 
@@ -126,14 +124,14 @@ namespace Verse
 					{
 						T val = DefDatabase<T>.defsList[i];
 						if (val.GetType() == typeof(T))
-							goto IL_0042;
-						goto end_IL_000e;
+							goto IL_003f;
+						goto end_IL_000c;
 					}
-					goto IL_0042;
-					IL_0042:
+					goto IL_003f;
+					IL_003f:
 					T val2 = DefDatabase<T>.defsList[i];
 					val2.ResolveReferences();
-					end_IL_000e:;
+					end_IL_000c:;
 				}
 				catch (Exception ex)
 				{
@@ -165,26 +163,22 @@ namespace Verse
 
 		public static T GetNamed(string defName, bool errorOnFail = true)
 		{
-			T result;
 			if (errorOnFail)
 			{
-				T val = default(T);
-				if (DefDatabase<T>.defsByName.TryGetValue(defName, out val))
+				T result = default(T);
+				if (DefDatabase<T>.defsByName.TryGetValue(defName, out result))
 				{
-					result = val;
+					return result;
 				}
-				else
-				{
-					Log.Error("Failed to find " + typeof(T) + " named " + defName + ". There are " + DefDatabase<T>.defsList.Count + " defs of this type loaded.");
-					result = (T)null;
-				}
+				Log.Error("Failed to find " + typeof(T) + " named " + defName + ". There are " + DefDatabase<T>.defsList.Count + " defs of this type loaded.");
+				return (T)null;
 			}
-			else
+			T result2 = default(T);
+			if (DefDatabase<T>.defsByName.TryGetValue(defName, out result2))
 			{
-				T val2 = default(T);
-				result = ((!DefDatabase<T>.defsByName.TryGetValue(defName, out val2)) ? ((T)null) : val2);
+				return result2;
 			}
-			return result;
+			return (T)null;
 		}
 
 		public static T GetNamedSilentFail(string defName)
@@ -194,29 +188,19 @@ namespace Verse
 
 		public static T GetByShortHash(ushort shortHash)
 		{
-			int num = 0;
-			T result;
-			while (true)
+			for (int i = 0; i < DefDatabase<T>.defsList.Count; i++)
 			{
-				if (num < DefDatabase<T>.defsList.Count)
+				if (((Def)(object)DefDatabase<T>.defsList[i]).shortHash == shortHash)
 				{
-					if (((Def)(object)DefDatabase<T>.defsList[num]).shortHash == shortHash)
-					{
-						result = DefDatabase<T>.defsList[num];
-						break;
-					}
-					num++;
-					continue;
+					return DefDatabase<T>.defsList[i];
 				}
-				result = (T)null;
-				break;
 			}
-			return result;
+			return (T)null;
 		}
 
 		public static T GetRandom()
 		{
-			return ((IEnumerable<T>)DefDatabase<T>.defsList).RandomElement<T>();
+			return GenCollection.RandomElement<T>((IEnumerable<T>)DefDatabase<T>.defsList);
 		}
 	}
 }

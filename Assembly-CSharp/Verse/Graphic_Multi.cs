@@ -103,14 +103,12 @@ namespace Verse
 				}
 				for (int i = 0; i < 3; i++)
 				{
-					MaterialRequest req2 = new MaterialRequest
-					{
-						mainTex = array[i],
-						shader = req.shader,
-						color = base.color,
-						colorTwo = base.colorTwo,
-						maskTex = array2[i]
-					};
+					MaterialRequest req2 = default(MaterialRequest);
+					req2.mainTex = array[i];
+					req2.shader = req.shader;
+					req2.color = base.color;
+					req2.colorTwo = base.colorTwo;
+					req2.maskTex = array2[i];
 					this.mats[i] = MaterialPool.MatFrom(req2);
 				}
 			}

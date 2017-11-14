@@ -8,26 +8,16 @@ namespace RimWorld
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			List<DirectPawnRelation> directRelations = p.relations.DirectRelations;
-			int num = 0;
-			ThoughtState result;
-			while (true)
+			for (int i = 0; i < directRelations.Count; i++)
 			{
-				if (num < directRelations.Count)
+				DirectPawnRelation directPawnRelation = directRelations[i];
+				Pawn otherPawn = directPawnRelation.otherPawn;
+				if (directPawnRelation.def == PawnRelationDefOf.Bond && !otherPawn.Dead && otherPawn.Spawned && otherPawn.Faction == Faction.OfPlayer && otherPawn.training.IsCompleted(TrainableDefOf.Obedience) && p.skills.GetSkill(SkillDefOf.Animals).Level >= TrainableUtility.MinimumHandlingSkill(otherPawn) && this.AnimalMasterCheck(p, otherPawn))
 				{
-					DirectPawnRelation directPawnRelation = directRelations[num];
-					Pawn otherPawn = directPawnRelation.otherPawn;
-					if (directPawnRelation.def == PawnRelationDefOf.Bond && !otherPawn.Dead && otherPawn.Spawned && otherPawn.Faction == Faction.OfPlayer && otherPawn.training.IsCompleted(TrainableDefOf.Obedience) && p.skills.GetSkill(SkillDefOf.Animals).Level >= TrainableUtility.MinimumHandlingSkill(otherPawn) && this.AnimalMasterCheck(p, otherPawn))
-					{
-						result = ThoughtState.ActiveWithReason(otherPawn.LabelShort);
-						break;
-					}
-					num++;
-					continue;
+					return ThoughtState.ActiveWithReason(otherPawn.LabelShort);
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		protected virtual bool AnimalMasterCheck(Pawn p, Pawn animal)

@@ -1,6 +1,3 @@
-#define ENABLE_PROFILER
-using System;
-using UnityEngine.Profiling;
 using Verse;
 using Verse.AI;
 
@@ -11,111 +8,68 @@ namespace RimWorld
 		public override float GetPriority(Pawn pawn)
 		{
 			DrugPolicy currentPolicy = pawn.drugs.CurrentPolicy;
-			int num = 0;
-			float result;
-			while (true)
+			for (int i = 0; i < currentPolicy.Count; i++)
 			{
-				if (num < currentPolicy.Count)
+				if (pawn.drugs.ShouldTryToTakeScheduledNow(currentPolicy[i].drug))
 				{
-					if (pawn.drugs.ShouldTryToTakeScheduledNow(currentPolicy[num].drug))
-					{
-						result = 7.5f;
-						break;
-					}
-					num++;
-					continue;
+					return 7.5f;
 				}
-				result = 0f;
-				break;
 			}
-			return result;
+			return 0f;
 		}
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Profiler.BeginSample("DrugPolicy");
 			DrugPolicy currentPolicy = pawn.drugs.CurrentPolicy;
-			int num = 0;
-			Job result;
-			while (true)
+			for (int i = 0; i < currentPolicy.Count; i++)
 			{
-				if (num < currentPolicy.Count)
+				if (pawn.drugs.ShouldTryToTakeScheduledNow(currentPolicy[i].drug))
 				{
-					if (pawn.drugs.ShouldTryToTakeScheduledNow(currentPolicy[num].drug))
+					Thing thing = this.FindDrugFor(pawn, currentPolicy[i].drug);
+					if (thing != null)
 					{
-						Thing thing = this.FindDrugFor(pawn, currentPolicy[num].drug);
-						if (thing != null)
-						{
-							Profiler.EndSample();
-							result = DrugAIUtility.IngestAndTakeToInventoryJob(thing, pawn, 1);
-							break;
-						}
+						return DrugAIUtility.IngestAndTakeToInventoryJob(thing, pawn, 1);
 					}
-					num++;
-					continue;
 				}
-				Profiler.EndSample();
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		private Thing FindDrugFor(Pawn pawn, ThingDef drugDef)
 		{
 			ThingOwner<Thing> innerContainer = pawn.inventory.innerContainer;
-			int num = 0;
-			Thing result;
-			while (true)
+			for (int i = 0; i < innerContainer.Count; i++)
 			{
-				if (num < innerContainer.Count)
+				if (innerContainer[i].def == drugDef && this.DrugValidator(pawn, innerContainer[i]))
 				{
-					if (innerContainer[num].def == drugDef && this.DrugValidator(pawn, innerContainer[num]))
-					{
-						result = innerContainer[num];
-						break;
-					}
-					num++;
-					continue;
+					return innerContainer[i];
 				}
-				result = GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForDef(drugDef), PathEndMode.ClosestTouch, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, (Predicate<Thing>)((Thing x) => this.DrugValidator(pawn, x)), null, 0, -1, false, RegionType.Set_Passable, false);
-				break;
 			}
-			return result;
+			return GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForDef(drugDef), PathEndMode.ClosestTouch, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, (Thing x) => this.DrugValidator(pawn, x), null, 0, -1, false, RegionType.Set_Passable, false);
 		}
 
 		private bool DrugValidator(Pawn pawn, Thing drug)
 		{
-			bool result;
 			if (!drug.def.IsDrug)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (drug.Spawned)
 			{
-				if (drug.Spawned)
+				if (drug.IsForbidden(pawn))
 				{
-					if (drug.IsForbidden(pawn))
-					{
-						result = false;
-						goto IL_006e;
-					}
-					if (!pawn.CanReserve(drug, 1, -1, null, false))
-					{
-						result = false;
-						goto IL_006e;
-					}
-					if (!drug.IsSociallyProper(pawn))
-					{
-						result = false;
-						goto IL_006e;
-					}
+					return false;
 				}
-				result = true;
+				if (!pawn.CanReserve(drug, 1, -1, null, false))
+				{
+					return false;
+				}
+				if (!drug.IsSociallyProper(pawn))
+				{
+					return false;
+				}
 			}
-			goto IL_006e;
-			IL_006e:
-			return result;
+			return true;
 		}
 	}
 }

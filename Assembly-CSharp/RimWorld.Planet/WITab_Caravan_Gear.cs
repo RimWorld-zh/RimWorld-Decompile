@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -140,7 +139,7 @@ namespace RimWorld.Planet
 			{
 				Vector2 mousePosition = Event.current.mousePosition;
 				Rect rect = new Rect(mousePosition.x - this.draggedItemPosOffset.x, mousePosition.y - this.draggedItemPosOffset.y, 32f, 32f);
-				Find.WindowStack.ImmediateWindow(1283641090, rect, WindowLayer.Super, (Action)delegate
+				Find.WindowStack.ImmediateWindow(1283641090, rect, WindowLayer.Super, delegate
 				{
 					if (this.draggedItem != null)
 					{
@@ -206,12 +205,12 @@ namespace RimWorld.Planet
 			bool flag = this.draggedItem != null && rect2.Contains(Event.current.mousePosition) && this.CurrentWearerOf(this.draggedItem) != p;
 			if (Mouse.IsOver(rect2) && this.draggedItem == null)
 			{
-				goto IL_00bc;
+				goto IL_00ba;
 			}
 			if (flag)
-				goto IL_00bc;
-			goto IL_00c2;
-			IL_00c2:
+				goto IL_00ba;
+			goto IL_00c0;
+			IL_00c0:
 			if (flag && this.droppedDraggedItem)
 			{
 				this.TryEquipDraggedItem(p);
@@ -234,7 +233,7 @@ namespace RimWorld.Planet
 			{
 				WITab_Caravan_Gear.tmpApparel.Clear();
 				WITab_Caravan_Gear.tmpApparel.AddRange(p.apparel.WornApparel);
-				WITab_Caravan_Gear.tmpApparel.SortBy((Func<Apparel, int>)((Apparel x) => (int)x.def.apparel.LastLayer), (Func<Apparel, float>)((Apparel x) => (float)(0.0 - x.def.apparel.HumanBodyCoverage)));
+				WITab_Caravan_Gear.tmpApparel.SortBy((Apparel x) => (int)x.def.apparel.LastLayer, (Apparel x) => (float)(0.0 - x.def.apparel.HumanBodyCoverage));
 				for (int j = 0; j < WITab_Caravan_Gear.tmpApparel.Count; j++)
 				{
 					this.DoEquippedGear(WITab_Caravan_Gear.tmpApparel[j], p, ref xMax);
@@ -248,9 +247,9 @@ namespace RimWorld.Planet
 			}
 			GUI.EndGroup();
 			return;
-			IL_00bc:
+			IL_00ba:
 			Widgets.DrawHighlight(rect2);
-			goto IL_00c2;
+			goto IL_00c0;
 		}
 
 		private void DoInventoryRows(ref float curY, Rect scrollViewRect, Rect scrollOutRect)
@@ -390,7 +389,11 @@ namespace RimWorld.Planet
 		private Pawn CurrentWearerOf(Thing t)
 		{
 			IThingHolder parentHolder = t.ParentHolder;
-			return (!(parentHolder is Pawn_EquipmentTracker) && !(parentHolder is Pawn_ApparelTracker)) ? null : ((Pawn)parentHolder.ParentHolder);
+			if (!(parentHolder is Pawn_EquipmentTracker) && !(parentHolder is Pawn_ApparelTracker))
+			{
+				return null;
+			}
+			return (Pawn)parentHolder.ParentHolder;
 		}
 
 		private void MoveDraggedItemToInventory()
@@ -415,13 +418,13 @@ namespace RimWorld.Planet
 			{
 				if (p.story != null && p.story.WorkTagIsDisabled(WorkTags.Violent))
 				{
-					Messages.Message("MessageCantEquipIncapableOfViolence".Translate(p.LabelShort), (Thing)p, MessageTypeDefOf.RejectInput);
+					Messages.Message("MessageCantEquipIncapableOfViolence".Translate(p.LabelShort), p, MessageTypeDefOf.RejectInput);
 					this.draggedItem = null;
 					return;
 				}
 				if (!p.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
 				{
-					Messages.Message("MessageCantEquipIncapableOfManipulation".Translate(), (Thing)p, MessageTypeDefOf.RejectInput);
+					Messages.Message("MessageCantEquipIncapableOfManipulation".Translate(), p, MessageTypeDefOf.RejectInput);
 					this.draggedItem = null;
 					return;
 				}

@@ -20,5 +20,11 @@ namespace RimWorld
 		}
 
 		protected abstract void DoAction(object[] args);
+
+		public override void ExposeData()
+		{
+			base.ExposeData();
+			Scribe_Values.Look<string>(ref this.signalTag, "signalTag", (string)null, false);
+		}
 	}
 }

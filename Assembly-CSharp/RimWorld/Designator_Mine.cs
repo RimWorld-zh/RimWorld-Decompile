@@ -36,38 +36,42 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if (base.Map.designationManager.DesignationAt(c, DesignationDefOf.Mine) != null)
+			if (base.Map.designationManager.DesignationAt(c, DesignationDefOf.Mine) != null)
 			{
-				result = AcceptanceReport.WasRejected;
+				return AcceptanceReport.WasRejected;
 			}
-			else if (c.Fogged(base.Map))
+			if (c.Fogged(base.Map))
 			{
-				result = true;
+				return true;
 			}
-			else
+			Mineable firstMineable = c.GetFirstMineable(base.Map);
+			if (firstMineable == null)
 			{
-				Mineable firstMineable = c.GetFirstMineable(base.Map);
-				if (firstMineable == null)
-				{
-					result = "MessageMustDesignateMineable".Translate();
-				}
-				else
-				{
-					AcceptanceReport acceptanceReport = this.CanDesignateThing(firstMineable);
-					result = (acceptanceReport.Accepted ? AcceptanceReport.WasAccepted : acceptanceReport);
-				}
+				return "MessageMustDesignateMineable".Translate();
 			}
-			return result;
+			AcceptanceReport result = this.CanDesignateThing(firstMineable);
+			if (!result.Accepted)
+			{
+				return result;
+			}
+			return AcceptanceReport.WasAccepted;
 		}
 
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
-			return t.def.mineable ? ((base.Map.designationManager.DesignationAt(t.Position, DesignationDefOf.Mine) == null) ? true : AcceptanceReport.WasRejected) : false;
+			if (!t.def.mineable)
+			{
+				return false;
+			}
+			if (base.Map.designationManager.DesignationAt(t.Position, DesignationDefOf.Mine) != null)
+			{
+				return AcceptanceReport.WasRejected;
+			}
+			return true;
 		}
 
 		public override void DesignateSingleCell(IntVec3 loc)

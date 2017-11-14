@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -33,7 +32,11 @@ namespace RimWorld
 			get
 			{
 				Thing ingestibleSource = this.IngestibleSource;
-				return (float)((ingestibleSource.def.ingestible == null || ingestibleSource.def.ingestible.useEatingSpeedStat) ? (1.0 / base.pawn.GetStatValue(StatDefOf.EatingSpeed, true)) : 1.0);
+				if (ingestibleSource.def.ingestible != null && !ingestibleSource.def.ingestible.useEatingSpeedStat)
+				{
+					return 1f;
+				}
+				return (float)(1.0 / base.pawn.GetStatValue(StatDefOf.EatingSpeed, true));
 			}
 		}
 
@@ -46,32 +49,23 @@ namespace RimWorld
 
 		public override string GetReport()
 		{
-			string result;
 			if (this.usingNutrientPasteDispenser)
 			{
-				result = base.job.def.reportString.Replace("TargetA", ThingDefOf.MealNutrientPaste.label);
+				return base.job.def.reportString.Replace("TargetA", ThingDefOf.MealNutrientPaste.label);
 			}
-			else
+			Thing thing = base.job.targetA.Thing;
+			if (thing != null && thing.def.ingestible != null)
 			{
-				Thing thing = base.job.targetA.Thing;
-				if (thing != null && thing.def.ingestible != null)
+				if (!thing.def.ingestible.ingestReportStringEat.NullOrEmpty() && (thing.def.ingestible.ingestReportString.NullOrEmpty() || (int)base.pawn.RaceProps.intelligence < 1))
 				{
-					if (!thing.def.ingestible.ingestReportStringEat.NullOrEmpty() && (thing.def.ingestible.ingestReportString.NullOrEmpty() || (int)base.pawn.RaceProps.intelligence < 1))
-					{
-						result = string.Format(thing.def.ingestible.ingestReportStringEat, base.job.targetA.Thing.LabelShort);
-						goto IL_0130;
-					}
-					if (!thing.def.ingestible.ingestReportString.NullOrEmpty())
-					{
-						result = string.Format(thing.def.ingestible.ingestReportString, base.job.targetA.Thing.LabelShort);
-						goto IL_0130;
-					}
+					return string.Format(thing.def.ingestible.ingestReportStringEat, base.job.targetA.Thing.LabelShort);
 				}
-				result = base.GetReport();
+				if (!thing.def.ingestible.ingestReportString.NullOrEmpty())
+				{
+					return string.Format(thing.def.ingestible.ingestReportString, base.job.targetA.Thing.LabelShort);
+				}
 			}
-			goto IL_0130;
-			IL_0130:
-			return result;
+			return base.GetReport();
 		}
 
 		public override void Notify_Starting()
@@ -83,30 +77,25 @@ namespace RimWorld
 
 		public override bool TryMakePreToilReservations()
 		{
-			bool result;
 			if (base.pawn.Faction != null && !(this.IngestibleSource is Building_NutrientPasteDispenser))
 			{
 				Thing ingestibleSource = this.IngestibleSource;
 				int num = FoodUtility.WillIngestStackCountOf(base.pawn, ingestibleSource.def);
 				if (num >= ingestibleSource.stackCount && ingestibleSource.Spawned && !base.pawn.Reserve(ingestibleSource, base.job, 1, -1, null))
 				{
-					result = false;
-					goto IL_0082;
+					return false;
 				}
 			}
-			result = true;
-			goto IL_0082;
-			IL_0082:
-			return result;
+			return true;
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			if (!this.usingNutrientPasteDispenser)
 			{
-				this.FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0047: stateMachine*/)._0024this.IngestibleSource.Destroyed && !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0047: stateMachine*/)._0024this.IngestibleSource.IngestibleNow));
+				this.FailOn(() => !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0045: stateMachine*/)._0024this.IngestibleSource.Destroyed && !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0045: stateMachine*/)._0024this.IngestibleSource.IngestibleNow);
 			}
-			Toil chew = Toils_Ingest.ChewIngestible(base.pawn, this.ChewDurationMultiplier, TargetIndex.A, TargetIndex.B).FailOn((Func<Toil, bool>)((Toil x) => !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0078: stateMachine*/)._0024this.IngestibleSource.Spawned && (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0078: stateMachine*/)._0024this.pawn.carryTracker == null || ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0078: stateMachine*/)._0024this.pawn.carryTracker.CarriedThing != ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0078: stateMachine*/)._0024this.IngestibleSource))).FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
+			Toil chew = Toils_Ingest.ChewIngestible(base.pawn, this.ChewDurationMultiplier, TargetIndex.A, TargetIndex.B).FailOn((Toil x) => !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0075: stateMachine*/)._0024this.IngestibleSource.Spawned && (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0075: stateMachine*/)._0024this.pawn.carryTracker == null || ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0075: stateMachine*/)._0024this.pawn.carryTracker.CarriedThing != ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0075: stateMachine*/)._0024this.IngestibleSource)).FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
 			using (IEnumerator<Toil> enumerator = this.PrepareToIngestToils(chew).GetEnumerator())
 			{
 				if (enumerator.MoveNext())
@@ -118,13 +107,21 @@ namespace RimWorld
 			}
 			yield return chew;
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_01b0:
-			/*Error near IL_01b1: Unexpected return in MoveNext()*/;
+			IL_01aa:
+			/*Error near IL_01ab: Unexpected return in MoveNext()*/;
 		}
 
 		private IEnumerable<Toil> PrepareToIngestToils(Toil chewToil)
 		{
-			return (!this.usingNutrientPasteDispenser) ? ((!base.pawn.RaceProps.ToolUser) ? this.PrepareToIngestToils_NonToolUser() : this.PrepareToIngestToils_ToolUser(chewToil)) : this.PrepareToIngestToils_Dispenser();
+			if (this.usingNutrientPasteDispenser)
+			{
+				return this.PrepareToIngestToils_Dispenser();
+			}
+			if (base.pawn.RaceProps.ToolUser)
+			{
+				return this.PrepareToIngestToils_ToolUser(chewToil);
+			}
+			return this.PrepareToIngestToils_NonToolUser();
 		}
 
 		private IEnumerable<Toil> PrepareToIngestToils_Dispenser()
@@ -153,7 +150,7 @@ namespace RimWorld
 		private Toil ReserveFoodIfWillIngestWholeStack()
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate
+			toil.initAction = delegate
 			{
 				if (base.pawn.Faction != null)
 				{
@@ -188,43 +185,32 @@ namespace RimWorld
 
 		public static bool ModifyCarriedThingDrawPosWorker(ref Vector3 drawPos, ref bool behind, ref bool flip, IntVec3 placeCell, Pawn pawn)
 		{
-			bool result;
 			if (pawn.pather.Moving)
 			{
-				result = false;
+				return false;
 			}
-			else
+			Thing carriedThing = pawn.carryTracker.CarriedThing;
+			if (carriedThing != null && carriedThing.IngestibleNow)
 			{
-				Thing carriedThing = pawn.carryTracker.CarriedThing;
-				if (carriedThing == null || !carriedThing.IngestibleNow)
-				{
-					result = false;
-				}
-				else if (placeCell.IsValid && placeCell.AdjacentToCardinal(pawn.Position) && placeCell.HasEatSurface(pawn.Map) && carriedThing.def.ingestible.ingestHoldUsesTable)
+				if (placeCell.IsValid && placeCell.AdjacentToCardinal(pawn.Position) && placeCell.HasEatSurface(pawn.Map) && carriedThing.def.ingestible.ingestHoldUsesTable)
 				{
 					drawPos = new Vector3((float)((float)placeCell.x + 0.5), drawPos.y, (float)((float)placeCell.z + 0.5));
-					result = true;
+					return true;
 				}
-				else
+				if (carriedThing.def.ingestible.ingestHoldOffsetStanding != null)
 				{
-					if (carriedThing.def.ingestible.ingestHoldOffsetStanding != null)
+					HoldOffset holdOffset = carriedThing.def.ingestible.ingestHoldOffsetStanding.Pick(pawn.Rotation);
+					if (holdOffset != null)
 					{
-						HoldOffset holdOffset = carriedThing.def.ingestible.ingestHoldOffsetStanding.Pick(pawn.Rotation);
-						if (holdOffset != null)
-						{
-							drawPos += holdOffset.offset;
-							behind = holdOffset.behind;
-							flip = holdOffset.flip;
-							result = true;
-							goto IL_0124;
-						}
+						drawPos += holdOffset.offset;
+						behind = holdOffset.behind;
+						flip = holdOffset.flip;
+						return true;
 					}
-					result = false;
 				}
+				return false;
 			}
-			goto IL_0124;
-			IL_0124:
-			return result;
+			return false;
 		}
 	}
 }

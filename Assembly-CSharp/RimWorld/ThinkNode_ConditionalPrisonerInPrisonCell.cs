@@ -7,17 +7,12 @@ namespace RimWorld
 	{
 		protected override bool Satisfied(Pawn pawn)
 		{
-			bool result;
 			if (!pawn.IsPrisoner)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Room room = pawn.GetRoom(RegionType.Set_Passable);
-				result = (room != null && room.isPrisonCell);
-			}
-			return result;
+			Room room = pawn.GetRoom(RegionType.Set_Passable);
+			return room != null && room.isPrisonCell;
 		}
 	}
 }

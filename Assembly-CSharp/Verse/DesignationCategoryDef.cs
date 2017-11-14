@@ -9,9 +9,9 @@ namespace Verse
 	{
 		public List<Type> specialDesignatorClasses = new List<Type>();
 
-		public int order = 0;
+		public int order;
 
-		public bool showPowerGrid = false;
+		public bool showPowerGrid;
 
 		[Unsaved]
 		private List<Designator> resolvedDesignators = new List<Designator>();
@@ -59,7 +59,7 @@ namespace Verse
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
-			LongEventHandler.ExecuteWhenFinished((Action)delegate
+			LongEventHandler.ExecuteWhenFinished(delegate
 			{
 				this.ResolveDesignators();
 			});

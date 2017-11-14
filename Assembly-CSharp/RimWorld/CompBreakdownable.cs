@@ -77,13 +77,17 @@ namespace RimWorld
 			base.parent.Map.GetComponent<BreakdownManager>().Notify_BrokenDown(base.parent);
 			if (base.parent.Faction == Faction.OfPlayer)
 			{
-				Find.LetterStack.ReceiveLetter("LetterLabelBuildingBrokenDown".Translate(base.parent.LabelShort), "LetterBuildingBrokenDown".Translate(base.parent.LabelShort), LetterDefOf.NegativeEvent, (Thing)base.parent, (string)null);
+				Find.LetterStack.ReceiveLetter("LetterLabelBuildingBrokenDown".Translate(base.parent.LabelShort), "LetterBuildingBrokenDown".Translate(base.parent.LabelShort), LetterDefOf.NegativeEvent, base.parent, null);
 			}
 		}
 
 		public override string CompInspectStringExtra()
 		{
-			return (!this.BrokenDown) ? null : "BrokenDown".Translate();
+			if (this.BrokenDown)
+			{
+				return "BrokenDown".Translate();
+			}
+			return null;
 		}
 	}
 }

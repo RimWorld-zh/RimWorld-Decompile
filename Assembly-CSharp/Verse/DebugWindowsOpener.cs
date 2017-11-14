@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,7 +21,7 @@ namespace Verse
 				{
 					num2 = (float)(num2 + 15.0);
 				}
-				Find.WindowStack.ImmediateWindow(1593759361, new Rect(vector.x, vector.y, (float)((float)num * 28.0 - 4.0 + 1.0), num2).Rounded(), WindowLayer.GameUI, (Action)delegate
+				Find.WindowStack.ImmediateWindow(1593759361, new Rect(vector.x, vector.y, (float)((float)num * 28.0 - 4.0 + 1.0), num2).Rounded(), WindowLayer.GameUI, delegate
 				{
 					this.DrawButtons();
 				}, false, false, 0f);
@@ -98,7 +97,7 @@ namespace Verse
 					Widgets.Label(new Rect(0f, 25f, 200f, 100f), "God mode");
 				}
 				bool pauseOnError = Prefs.PauseOnError;
-				widgetRow.ToggleableIcon(ref pauseOnError, TexButton.TogglePauseOnError, "Pause the game when an error is logged.", null, (string)null);
+				widgetRow.ToggleableIcon(ref pauseOnError, TexButton.TogglePauseOnError, "Pause the game when an error is logged.", null, null);
 				Prefs.PauseOnError = pauseOnError;
 			}
 		}
@@ -114,12 +113,12 @@ namespace Verse
 		private void OpenPackageEditor()
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
-			FloatMenuOption item = new FloatMenuOption("SoundDefs", (Action)delegate
+			FloatMenuOption item = new FloatMenuOption("SoundDefs", delegate
 			{
 				Find.WindowStack.Add(new EditWindow_PackageEditor<SoundDef>("SoundDefs"));
 			}, MenuOptionPriority.Default, null, null, 0f, null, null);
 			list.Add(item);
-			item = new FloatMenuOption("HairDefs", (Action)delegate
+			item = new FloatMenuOption("HairDefs", delegate
 			{
 				Find.WindowStack.Add(new EditWindow_PackageEditor<HairDef>("HairDefs"));
 			}, MenuOptionPriority.Default, null, null, 0f, null, null);

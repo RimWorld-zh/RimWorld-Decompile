@@ -43,7 +43,7 @@ namespace Verse.AI.Group
 		{
 			get
 			{
-				return default(float?);
+				return null;
 			}
 		}
 
@@ -59,24 +59,14 @@ namespace Verse.AI.Group
 		{
 			get
 			{
-				int num = 0;
-				bool result;
-				while (true)
+				for (int i = 0; i < this.failConditions.Count; i++)
 				{
-					if (num < this.failConditions.Count)
+					if (this.failConditions[i]())
 					{
-						if (this.failConditions[num]())
-						{
-							result = true;
-							break;
-						}
-						num++;
-						continue;
+						return true;
 					}
-					result = false;
-					break;
 				}
-				return result;
+				return false;
 			}
 		}
 

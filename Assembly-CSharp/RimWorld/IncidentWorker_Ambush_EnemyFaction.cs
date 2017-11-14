@@ -10,18 +10,13 @@ namespace RimWorld
 	{
 		protected override List<Pawn> GeneratePawns(IncidentParms parms)
 		{
-			List<Pawn> result;
 			if (!PawnGroupMakerUtility.TryGetRandomFactionForNormalPawnGroup(parms.points, out parms.faction, (Predicate<Faction>)null, false, false, false, true))
 			{
-				result = new List<Pawn>();
+				return new List<Pawn>();
 			}
-			else
-			{
-				PawnGroupMakerParms defaultPawnGroupMakerParms = IncidentParmsUtility.GetDefaultPawnGroupMakerParms(parms, false);
-				defaultPawnGroupMakerParms.generateFightersOnly = true;
-				result = PawnGroupMakerUtility.GeneratePawns(PawnGroupKindDefOf.Normal, defaultPawnGroupMakerParms, true).ToList();
-			}
-			return result;
+			PawnGroupMakerParms defaultPawnGroupMakerParms = IncidentParmsUtility.GetDefaultPawnGroupMakerParms(parms, false);
+			defaultPawnGroupMakerParms.generateFightersOnly = true;
+			return PawnGroupMakerUtility.GeneratePawns(PawnGroupKindDefOf.Normal, defaultPawnGroupMakerParms, true).ToList();
 		}
 
 		protected override LordJob CreateLordJob(List<Pawn> generatedPawns, IncidentParms parms)
@@ -31,7 +26,7 @@ namespace RimWorld
 
 		protected override void SendAmbushLetter(Pawn anyPawn, IncidentParms parms)
 		{
-			base.SendStandardLetter((Thing)anyPawn, parms.faction.def.pawnsPlural, parms.faction.Name);
+			base.SendStandardLetter(anyPawn, parms.faction.def.pawnsPlural, parms.faction.Name);
 		}
 	}
 }

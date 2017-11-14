@@ -13,26 +13,25 @@ namespace RimWorld.BaseGen
 		public override bool CanResolve(ResolveParams rp)
 		{
 			Map map = BaseGen.globalSettings.map;
-			bool result;
 			if (!base.CanResolve(rp))
 			{
-				result = false;
+				return false;
 			}
-			else
+			int num = 0;
+			CellRect.CellRectIterator iterator = rp.rect.GetIterator();
+			while (!iterator.Done())
 			{
-				int num = 0;
-				CellRect.CellRectIterator iterator = rp.rect.GetIterator();
-				while (!iterator.Done())
+				if (iterator.Current.Standable(map))
 				{
-					if (iterator.Current.Standable(map))
-					{
-						num++;
-					}
-					iterator.MoveNext();
+					num++;
 				}
-				result = ((byte)((num >= 2) ? 1 : 0) != 0);
+				iterator.MoveNext();
 			}
-			return result;
+			if (num < 2)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override void Resolve(ResolveParams rp)
@@ -54,10 +53,10 @@ namespace RimWorld.BaseGen
 					PawnKindDef kind = faction.RandomPawnKind();
 					Faction faction2 = faction;
 					int tile = map.Tile;
-					PawnGenerationRequest value = new PawnGenerationRequest(kind, faction2, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, true, 1f, false, true, true, true, false, false, false, null, default(float?), default(float?), default(float?), default(Gender?), default(float?), (string)null);
+					PawnGenerationRequest value = new PawnGenerationRequest(kind, faction2, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, true, 1f, false, true, true, true, false, false, false, null, null, null, null, null, null, null);
 					ResolveParams resolveParams = rp;
 					resolveParams.faction = faction;
-					resolveParams.singlePawnGenerationRequest = new PawnGenerationRequest?(value);
+					resolveParams.singlePawnGenerationRequest = value;
 					resolveParams.rect = CellRect.SingleCell(c);
 					resolveParams.singlePawnLord = singlePawnLord;
 					BaseGen.symbolStack.Push("pawn", resolveParams);
@@ -71,14 +70,14 @@ namespace RimWorld.BaseGen
 					ResolveParams resolveParams2 = rp;
 					resolveParams2.faction = faction;
 					resolveParams2.singleThingDef = thingDef2;
-					resolveParams2.singleThingStackCount = new int?(Rand.RangeInclusive(5, Mathf.Min(8, thingDef2.stackLimit)));
+					resolveParams2.singleThingStackCount = Rand.RangeInclusive(5, Mathf.Min(8, thingDef2.stackLimit));
 					BaseGen.symbolStack.Push("thing", resolveParams2);
 				}
 				ResolveParams resolveParams3 = rp;
 				resolveParams3.faction = faction;
 				resolveParams3.singleThingDef = thingDef;
 				resolveParams3.rect = CellRect.SingleCell(intVec);
-				resolveParams3.thingRot = new Rot4?(rot);
+				resolveParams3.thingRot = rot;
 				BaseGen.symbolStack.Push("thing", resolveParams3);
 			}
 		}
@@ -90,27 +89,31 @@ namespace RimWorld.BaseGen
 			if (rot == Rot4.North)
 			{
 				CellRect rect5;
-				edgeTouchCheck = (Predicate<CellRect>)((CellRect x) => x.Cells.Any((Func<IntVec3, bool>)((IntVec3 y) => y.z == rect5.maxZ)));
+				edgeTouchCheck = ((CellRect x) => x.Cells.Any((IntVec3 y) => y.z == rect5.maxZ));
 			}
 			else if (rot == Rot4.South)
 			{
 				CellRect rect4;
-				edgeTouchCheck = (Predicate<CellRect>)((CellRect x) => x.Cells.Any((Func<IntVec3, bool>)((IntVec3 y) => y.z == rect4.minZ)));
+				edgeTouchCheck = ((CellRect x) => x.Cells.Any((IntVec3 y) => y.z == rect4.minZ));
 			}
 			else if (rot == Rot4.West)
 			{
 				CellRect rect3;
-				edgeTouchCheck = (Predicate<CellRect>)((CellRect x) => x.Cells.Any((Func<IntVec3, bool>)((IntVec3 y) => y.x == rect3.minX)));
+				edgeTouchCheck = ((CellRect x) => x.Cells.Any((IntVec3 y) => y.x == rect3.minX));
 			}
 			else
 			{
 				CellRect rect2;
-				edgeTouchCheck = (Predicate<CellRect>)((CellRect x) => x.Cells.Any((Func<IntVec3, bool>)((IntVec3 y) => y.x == rect2.maxX)));
+				edgeTouchCheck = ((CellRect x) => x.Cells.Any((IntVec3 y) => y.x == rect2.maxX));
 			}
 			return CellFinder.TryFindRandomCellInsideWith(rect, (Predicate<IntVec3>)delegate(IntVec3 x)
 			{
 				CellRect obj = GenAdj.OccupiedRect(x, rot, mortarDef.size);
-				return ThingUtility.InteractionCellWhenAt(mortarDef, x, rot, map).Standable(map) && obj.FullyContainedWithin(rect) && edgeTouchCheck(obj);
+				if (!ThingUtility.InteractionCellWhenAt(mortarDef, x, rot, map).Standable(map))
+				{
+					return false;
+				}
+				return obj.FullyContainedWithin(rect) && edgeTouchCheck(obj);
 			}, out cell);
 		}
 	}

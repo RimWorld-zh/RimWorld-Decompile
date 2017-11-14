@@ -8,18 +8,13 @@ namespace RimWorld
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Pawn pawn2 = JailbreakerMentalStateUtility.FindPrisoner(pawn);
-			Job result;
-			if (pawn2 == null || !pawn.CanReach((Thing)pawn2, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+			if (pawn2 != null && pawn.CanReach(pawn2, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
 			{
-				result = null;
-			}
-			else
-			{
-				Job job = new Job(JobDefOf.InducePrisonerToEscape, (Thing)pawn2);
+				Job job = new Job(JobDefOf.InducePrisonerToEscape, pawn2);
 				job.interaction = InteractionDefOf.SparkJailbreak;
-				result = job;
+				return job;
 			}
-			return result;
+			return null;
 		}
 	}
 }

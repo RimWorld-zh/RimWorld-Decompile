@@ -51,7 +51,11 @@ namespace RimWorld
 		public override bool CanCoexistWith(ScenPart other)
 		{
 			ScenPart_GameCondition scenPart_GameCondition = other as ScenPart_GameCondition;
-			return (byte)((scenPart_GameCondition == null || scenPart_GameCondition.def.gameCondition.CanCoexistWith(base.def.gameCondition)) ? 1 : 0) != 0;
+			if (scenPart_GameCondition != null && !scenPart_GameCondition.def.gameCondition.CanCoexistWith(base.def.gameCondition))
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

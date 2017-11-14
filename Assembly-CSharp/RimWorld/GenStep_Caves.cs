@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -73,7 +72,7 @@ namespace RimWorld
 					if (!visited[allCell] && this.IsRock(allCell, elevation, map))
 					{
 						group.Clear();
-						map.floodFiller.FloodFill(allCell, (Predicate<IntVec3>)((IntVec3 x) => this.IsRock(x, elevation, map)), (Action<IntVec3>)delegate(IntVec3 x)
+						map.floodFiller.FloodFill(allCell, (IntVec3 x) => this.IsRock(x, elevation, map), delegate(IntVec3 x)
 						{
 							visited[x] = true;
 							group.Add(x);
@@ -104,25 +103,29 @@ namespace RimWorld
 		{
 			int a = GenMath.RoundRandom((float)((float)group.Count * Rand.Range(0.9f, 1.1f) * 5.8000001907348633 / 10000.0));
 			a = Mathf.Min(a, 3);
+			if (a > 0)
+			{
+				a = Rand.RangeInclusive(1, a);
+			}
 			float num = GenStep_Caves.TunnelsWidthPerRockCount.Evaluate((float)group.Count);
-			for (int num2 = 0; num2 < a; num2++)
+			for (int i = 0; i < a; i++)
 			{
 				IntVec3 start = IntVec3.Invalid;
-				float num3 = -1f;
+				float num2 = -1f;
 				float dir = -1f;
-				float num4 = -1f;
-				for (int i = 0; i < 10; i++)
+				float num3 = -1f;
+				for (int j = 0; j < 10; j++)
 				{
 					IntVec3 intVec = this.FindRandomEdgeCellForTunnel(group, map);
 					float distToCave = this.GetDistToCave(intVec, group, map, 40f, false);
-					float num5 = default(float);
-					float num6 = this.FindBestInitialDir(intVec, group, out num5);
-					if (!start.IsValid || distToCave > num3 || (distToCave == num3 && num5 > num4))
+					float num4 = default(float);
+					float num5 = this.FindBestInitialDir(intVec, group, out num4);
+					if (!start.IsValid || distToCave > num2 || (distToCave == num2 && num4 > num3))
 					{
 						start = intVec;
-						num3 = distToCave;
-						dir = num6;
-						num4 = num5;
+						num2 = distToCave;
+						dir = num5;
+						num3 = num4;
 					}
 				}
 				float width = Rand.Range((float)(num * 0.800000011920929), num);
@@ -134,19 +137,23 @@ namespace RimWorld
 		{
 			int a = GenMath.RoundRandom((float)((float)group.Count * Rand.Range(0.9f, 1.1f) * 2.5 / 10000.0));
 			a = Mathf.Min(a, 1);
+			if (a > 0)
+			{
+				a = Rand.RangeInclusive(0, a);
+			}
 			float num = GenStep_Caves.TunnelsWidthPerRockCount.Evaluate((float)group.Count);
-			for (int num2 = 0; num2 < a; num2++)
+			for (int i = 0; i < a; i++)
 			{
 				IntVec3 start = IntVec3.Invalid;
-				float num3 = -1f;
-				for (int i = 0; i < 7; i++)
+				float num2 = -1f;
+				for (int j = 0; j < 7; j++)
 				{
 					IntVec3 intVec = group.RandomElement();
 					float distToCave = this.GetDistToCave(intVec, group, map, 30f, true);
-					if (!start.IsValid || distToCave > num3)
+					if (!start.IsValid || distToCave > num2)
 					{
 						start = intVec;
-						num3 = distToCave;
+						num2 = distToCave;
 					}
 				}
 				float width = Rand.Range((float)(num * 0.800000011920929), num);
@@ -176,17 +183,12 @@ namespace RimWorld
 					}
 				}
 			}
-			IntVec3 result;
 			if (!GenStep_Caves.tmpCells.Any())
 			{
 				Log.Warning("Could not find any valid edge cell.");
-				result = group.RandomElement();
+				return group.RandomElement();
 			}
-			else
-			{
-				result = GenStep_Caves.tmpCells.RandomElement();
-			}
-			return result;
+			return GenStep_Caves.tmpCells.RandomElement();
 		}
 
 		private float FindBestInitialDir(IntVec3 start, List<IntVec3> group, out float dist)
@@ -224,9 +226,9 @@ namespace RimWorld
 				if (closed)
 				{
 					int num3 = GenRadial.NumCellsInRadius((float)(width / 2.0 + 1.5));
-					for (int num4 = 0; num4 < num3; num4++)
+					for (int i = 0; i < num3; i++)
 					{
-						IntVec3 intVec2 = intVec + GenRadial.RadialPattern[num4];
+						IntVec3 intVec2 = intVec + GenRadial.RadialPattern[i];
 						if (!visited.Contains(intVec2))
 						{
 							if (!GenStep_Caves.tmpGroupSet.Contains(intVec2))
@@ -238,9 +240,9 @@ namespace RimWorld
 				}
 				if (num2 >= 15)
 				{
-					float num5 = width;
+					float num4 = width;
 					FloatRange branchedTunnelWidthOffset = GenStep_Caves.BranchedTunnelWidthOffset;
-					if (num5 > 1.3999999761581421 + branchedTunnelWidthOffset.max)
+					if (num4 > 1.3999999761581421 + branchedTunnelWidthOffset.max)
 					{
 						if (!flag && Rand.Chance(0.1f))
 						{
@@ -313,9 +315,9 @@ namespace RimWorld
 			int num = GenRadial.NumCellsInRadius((float)(tunnelWidth / 2.0));
 			MapGenFloatGrid elevation = MapGenerator.Elevation;
 			MapGenFloatGrid caves = MapGenerator.Caves;
-			for (int num2 = 0; num2 < num; num2++)
+			for (int i = 0; i < num; i++)
 			{
-				IntVec3 intVec = around + GenRadial.RadialPattern[num2];
+				IntVec3 intVec = around + GenRadial.RadialPattern[i];
 				if (this.IsRock(intVec, elevation, map))
 				{
 					if (caves[intVec] > 0.0 && !visited.Contains(intVec))
@@ -332,25 +334,15 @@ namespace RimWorld
 		{
 			GenStep_Caves.groupSet.Clear();
 			GenStep_Caves.groupSet.AddRange(group);
-			int num = 0;
-			int result;
-			while (true)
+			for (int i = 0; i <= maxDist; i++)
 			{
-				if (num <= maxDist)
+				IntVec3 item = from + offset * i;
+				if (!GenStep_Caves.groupSet.Contains(item))
 				{
-					IntVec3 item = from + offset * num;
-					if (!GenStep_Caves.groupSet.Contains(item))
-					{
-						result = num;
-						break;
-					}
-					num++;
-					continue;
+					return i;
 				}
-				result = maxDist;
-				break;
 			}
-			return result;
+			return maxDist;
 		}
 
 		private int GetDistToNonRock(IntVec3 from, List<IntVec3> group, float dir, int maxDist)
@@ -358,25 +350,15 @@ namespace RimWorld
 			GenStep_Caves.groupSet.Clear();
 			GenStep_Caves.groupSet.AddRange(group);
 			Vector3 a = Vector3Utility.FromAngleFlat(dir);
-			int num = 0;
-			int result;
-			while (true)
+			for (int i = 0; i <= maxDist; i++)
 			{
-				if (num <= maxDist)
+				IntVec3 item = (from.ToVector3Shifted() + a * (float)i).ToIntVec3();
+				if (!GenStep_Caves.groupSet.Contains(item))
 				{
-					IntVec3 item = (from.ToVector3Shifted() + a * (float)num).ToIntVec3();
-					if (!GenStep_Caves.groupSet.Contains(item))
-					{
-						result = num;
-						break;
-					}
-					num++;
-					continue;
+					return i;
 				}
-				result = maxDist;
-				break;
 			}
-			return result;
+			return maxDist;
 		}
 
 		private float GetDistToCave(IntVec3 cell, List<IntVec3> group, Map map, float maxDist, bool treatOpenSpaceAsCave)
@@ -386,30 +368,20 @@ namespace RimWorld
 			GenStep_Caves.tmpGroupSet.AddRange(group);
 			int num = GenRadial.NumCellsInRadius(maxDist);
 			IntVec3[] radialPattern = GenRadial.RadialPattern;
-			int num2 = 0;
-			float result;
-			while (true)
+			for (int i = 0; i < num; i++)
 			{
-				IntVec3 intVec;
-				if (num2 < num)
+				IntVec3 intVec = cell + radialPattern[i];
+				if (treatOpenSpaceAsCave && !GenStep_Caves.tmpGroupSet.Contains(intVec))
 				{
-					intVec = cell + radialPattern[num2];
-					if (treatOpenSpaceAsCave && !GenStep_Caves.tmpGroupSet.Contains(intVec))
-					{
-						goto IL_007d;
-					}
-					if (intVec.InBounds(map) && caves[intVec] > 0.0)
-						goto IL_007d;
-					num2++;
-					continue;
+					goto IL_007b;
 				}
-				result = maxDist;
-				break;
-				IL_007d:
-				result = cell.DistanceTo(intVec);
-				break;
+				if (intVec.InBounds(map) && caves[intVec] > 0.0)
+					goto IL_007b;
+				continue;
+				IL_007b:
+				return cell.DistanceTo(intVec);
 			}
-			return result;
+			return maxDist;
 		}
 
 		private void RemoveSmallDisconnectedSubGroups(List<IntVec3> group, Map map)
@@ -422,7 +394,7 @@ namespace RimWorld
 				if (!GenStep_Caves.groupVisited.Contains(group[i]) && GenStep_Caves.groupSet.Contains(group[i]))
 				{
 					GenStep_Caves.subGroup.Clear();
-					map.floodFiller.FloodFill(group[i], (Predicate<IntVec3>)((IntVec3 x) => GenStep_Caves.groupSet.Contains(x)), (Action<IntVec3>)delegate(IntVec3 x)
+					map.floodFiller.FloodFill(group[i], (IntVec3 x) => GenStep_Caves.groupSet.Contains(x), delegate(IntVec3 x)
 					{
 						GenStep_Caves.subGroup.Add(x);
 						GenStep_Caves.groupVisited.Add(x);

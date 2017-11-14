@@ -2,9 +2,9 @@ namespace Verse
 {
 	public class HediffGiver_RandomDrugEffect : HediffGiver
 	{
-		public float baseMtbDays = 0f;
+		public float baseMtbDays;
 
-		public float minSeverity = 0f;
+		public float minSeverity;
 
 		public override void OnIntervalPassed(Pawn pawn, Hediff cause)
 		{

@@ -9,9 +9,9 @@ namespace Verse.AI
 
 		public MentalStateDef def;
 
-		private int age = 0;
+		private int age;
 
-		public bool causedByMood = false;
+		public bool causedByMood;
 
 		private const int TickInterval = 150;
 
@@ -54,7 +54,7 @@ namespace Verse.AI
 		{
 			if (!this.def.recoveryMessage.NullOrEmpty() && PawnUtility.ShouldSendNotificationAbout(this.pawn))
 			{
-				string text = (string)null;
+				string text = null;
 				try
 				{
 					text = string.Format(this.def.recoveryMessage, this.pawn.NameStringShort);
@@ -65,7 +65,7 @@ namespace Verse.AI
 				}
 				if (!text.NullOrEmpty())
 				{
-					Messages.Message(text.AdjustedFor(this.pawn), (Thing)this.pawn, MessageTypeDefOf.SituationResolved);
+					Messages.Message(text.AdjustedFor(this.pawn), this.pawn, MessageTypeDefOf.SituationResolved);
 				}
 			}
 		}
@@ -122,7 +122,11 @@ namespace Verse.AI
 
 		public virtual string GetBeginLetterText()
 		{
-			return (!this.def.beginLetter.NullOrEmpty()) ? string.Format(this.def.beginLetter, this.pawn.Label).AdjustedFor(this.pawn).CapitalizeFirst() : null;
+			if (this.def.beginLetter.NullOrEmpty())
+			{
+				return null;
+			}
+			return string.Format(this.def.beginLetter, this.pawn.Label).AdjustedFor(this.pawn).CapitalizeFirst();
 		}
 
 		public virtual void Notify_AttackedTarget(LocalTargetInfo hitTarget)

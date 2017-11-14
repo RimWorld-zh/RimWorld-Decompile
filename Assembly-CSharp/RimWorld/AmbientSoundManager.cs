@@ -10,7 +10,7 @@ namespace RimWorld
 	{
 		private static List<Sustainer> biomeAmbientSustainers = new List<Sustainer>();
 
-		private static Action recreateMapSustainers = new Action(AmbientSoundManager.RecreateMapSustainers);
+		private static Action recreateMapSustainers = AmbientSoundManager.RecreateMapSustainers;
 
 		[CompilerGenerated]
 		private static Action _003C_003Ef__mg_0024cache0;

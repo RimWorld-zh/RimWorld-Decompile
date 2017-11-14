@@ -19,7 +19,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0(parentDef).GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors(parentDef).GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -34,8 +34,8 @@ namespace RimWorld
 				yield break;
 			yield return "orbital beam requires realtime drawer";
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0108:
-			/*Error near IL_0109: Unexpected return in MoveNext()*/;
+			IL_0104:
+			/*Error near IL_0105: Unexpected return in MoveNext()*/;
 		}
 	}
 }

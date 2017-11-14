@@ -33,12 +33,7 @@ namespace Verse
 
 		public static T DefFromNode<T>(XmlNode subNode) where T : Def, new()
 		{
-			T result;
-			if (subNode == null || subNode.InnerText == null || subNode.InnerText == "null")
-			{
-				result = (T)null;
-			}
-			else
+			if (subNode != null && subNode.InnerText != null && !(subNode.InnerText == "null"))
 			{
 				string defName = BackCompatibility.BackCompatibleDefName(typeof(T), subNode.InnerText);
 				T namedSilentFail = DefDatabase<T>.GetNamedSilentFail(defName);
@@ -46,9 +41,9 @@ namespace Verse
 				{
 					Log.Error("Could not load reference to " + typeof(T) + " named " + subNode.InnerText);
 				}
-				result = namedSilentFail;
+				return namedSilentFail;
 			}
-			return result;
+			return (T)null;
 		}
 
 		public static T DefFromNodeUnsafe<T>(XmlNode subNode)
@@ -58,77 +53,68 @@ namespace Verse
 
 		public static T SaveableFromNode<T>(XmlNode subNode, object[] ctorArgs)
 		{
-			T result;
 			if (Scribe.mode != LoadSaveMode.LoadingVars)
 			{
 				Log.Error("Called SaveableFromNode(), but mode is " + Scribe.mode);
-				result = default(T);
+				return default(T);
 			}
-			else if (subNode == null)
+			if (subNode == null)
 			{
-				result = default(T);
+				return default(T);
 			}
-			else
+			XmlAttribute xmlAttribute = subNode.Attributes["IsNull"];
+			if (xmlAttribute != null && xmlAttribute.Value == "True")
 			{
-				XmlAttribute xmlAttribute = subNode.Attributes["IsNull"];
-				T val;
-				if (xmlAttribute != null && xmlAttribute.Value == "True")
-				{
-					val = default(T);
-				}
-				else
-				{
-					try
-					{
-						XmlAttribute xmlAttribute2 = subNode.Attributes["Class"];
-						string text = (xmlAttribute2 == null) ? typeof(T).FullName : xmlAttribute2.Value;
-						Type type = BackCompatibility.GetBackCompatibleType(typeof(T), text, subNode);
-						if (type == null)
-						{
-							Log.Error("Could not find class " + text + " while resolving node " + subNode.Name + ". Trying to use " + typeof(T) + " instead. Full node: " + subNode.OuterXml);
-							type = typeof(T);
-						}
-						if (type.IsAbstract)
-						{
-							throw new ArgumentException("Can't load abstract class " + type);
-						}
-						IExposable exposable = (IExposable)Activator.CreateInstance(type, ctorArgs);
-						bool flag = typeof(T).IsValueType || typeof(Name).IsAssignableFrom(typeof(T));
-						if (!flag)
-						{
-							Scribe.loader.crossRefs.RegisterForCrossRefResolve(exposable);
-						}
-						XmlNode curXmlParent = Scribe.loader.curXmlParent;
-						IExposable curParent = Scribe.loader.curParent;
-						string curPathRelToParent = Scribe.loader.curPathRelToParent;
-						Scribe.loader.curXmlParent = subNode;
-						Scribe.loader.curParent = exposable;
-						Scribe.loader.curPathRelToParent = (string)null;
-						try
-						{
-							exposable.ExposeData();
-						}
-						finally
-						{
-							Scribe.loader.curXmlParent = curXmlParent;
-							Scribe.loader.curParent = curParent;
-							Scribe.loader.curPathRelToParent = curPathRelToParent;
-						}
-						if (!flag)
-						{
-							Scribe.loader.initer.RegisterForPostLoadInit(exposable);
-						}
-						val = (T)exposable;
-					}
-					catch (Exception ex)
-					{
-						val = default(T);
-						Log.Error("SaveableFromNode exception: " + ex + "\nSubnode:\n" + subNode.OuterXml);
-					}
-				}
-				result = val;
+				return default(T);
 			}
-			return result;
+			try
+			{
+				XmlAttribute xmlAttribute2 = subNode.Attributes["Class"];
+				string text = (xmlAttribute2 == null) ? typeof(T).FullName : xmlAttribute2.Value;
+				Type type = BackCompatibility.GetBackCompatibleType(typeof(T), text, subNode);
+				if (type == null)
+				{
+					Log.Error("Could not find class " + text + " while resolving node " + subNode.Name + ". Trying to use " + typeof(T) + " instead. Full node: " + subNode.OuterXml);
+					type = typeof(T);
+				}
+				if (type.IsAbstract)
+				{
+					throw new ArgumentException("Can't load abstract class " + type);
+				}
+				IExposable exposable = (IExposable)Activator.CreateInstance(type, ctorArgs);
+				bool flag = typeof(T).IsValueType || typeof(Name).IsAssignableFrom(typeof(T));
+				if (!flag)
+				{
+					Scribe.loader.crossRefs.RegisterForCrossRefResolve(exposable);
+				}
+				XmlNode curXmlParent = Scribe.loader.curXmlParent;
+				IExposable curParent = Scribe.loader.curParent;
+				string curPathRelToParent = Scribe.loader.curPathRelToParent;
+				Scribe.loader.curXmlParent = subNode;
+				Scribe.loader.curParent = exposable;
+				Scribe.loader.curPathRelToParent = null;
+				try
+				{
+					exposable.ExposeData();
+				}
+				finally
+				{
+					Scribe.loader.curXmlParent = curXmlParent;
+					Scribe.loader.curParent = curParent;
+					Scribe.loader.curPathRelToParent = curPathRelToParent;
+				}
+				if (!flag)
+				{
+					Scribe.loader.initer.RegisterForPostLoadInit(exposable);
+				}
+				return (T)exposable;
+			}
+			catch (Exception ex)
+			{
+				T result = default(T);
+				Log.Error("SaveableFromNode exception: " + ex + "\nSubnode:\n" + subNode.OuterXml);
+				return result;
+			}
 		}
 
 		public static LocalTargetInfo LocalTargetInfoFromNode(XmlNode node, string label, LocalTargetInfo defaultValue)
@@ -141,7 +127,7 @@ namespace Verse
 					string innerText = node.InnerText;
 					if (innerText.Length != 0 && innerText[0] == '(')
 					{
-						loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Thing), "thing");
+						loadIDs.RegisterLoadIDReadFromXml(null, typeof(Thing), "thing");
 						return new LocalTargetInfo(IntVec3.FromString(innerText));
 					}
 					loadIDs.RegisterLoadIDReadFromXml(innerText, typeof(Thing), "thing");
@@ -152,7 +138,7 @@ namespace Verse
 					Scribe.ExitNode();
 				}
 			}
-			loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Thing), label + "/thing");
+			loadIDs.RegisterLoadIDReadFromXml(null, typeof(Thing), label + "/thing");
 			return defaultValue;
 		}
 
@@ -169,12 +155,12 @@ namespace Verse
 						string str = default(string);
 						string targetLoadID = default(string);
 						ScribeExtractor.ExtractCellAndMapPairFromTargetInfo(innerText, out str, out targetLoadID);
-						loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Thing), "thing");
+						loadIDs.RegisterLoadIDReadFromXml(null, typeof(Thing), "thing");
 						loadIDs.RegisterLoadIDReadFromXml(targetLoadID, typeof(Map), "map");
 						return new TargetInfo(IntVec3.FromString(str), null, true);
 					}
 					loadIDs.RegisterLoadIDReadFromXml(innerText, typeof(Thing), "thing");
-					loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Map), "map");
+					loadIDs.RegisterLoadIDReadFromXml(null, typeof(Map), "map");
 					return TargetInfo.Invalid;
 				}
 				finally
@@ -182,8 +168,8 @@ namespace Verse
 					Scribe.ExitNode();
 				}
 			}
-			loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Thing), label + "/thing");
-			loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Map), label + "/map");
+			loadIDs.RegisterLoadIDReadFromXml(null, typeof(Thing), label + "/thing");
+			loadIDs.RegisterLoadIDReadFromXml(null, typeof(Map), label + "/map");
 			return defaultValue;
 		}
 
@@ -200,29 +186,29 @@ namespace Verse
 						string str = default(string);
 						string targetLoadID = default(string);
 						ScribeExtractor.ExtractCellAndMapPairFromTargetInfo(innerText, out str, out targetLoadID);
-						loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Thing), "thing");
+						loadIDs.RegisterLoadIDReadFromXml(null, typeof(Thing), "thing");
 						loadIDs.RegisterLoadIDReadFromXml(targetLoadID, typeof(Map), "map");
-						loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(WorldObject), "worldObject");
+						loadIDs.RegisterLoadIDReadFromXml(null, typeof(WorldObject), "worldObject");
 						return new GlobalTargetInfo(IntVec3.FromString(str), null, true);
 					}
 					int tile = default(int);
 					if (int.TryParse(innerText, out tile))
 					{
-						loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Thing), "thing");
-						loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Map), "map");
-						loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(WorldObject), "worldObject");
+						loadIDs.RegisterLoadIDReadFromXml(null, typeof(Thing), "thing");
+						loadIDs.RegisterLoadIDReadFromXml(null, typeof(Map), "map");
+						loadIDs.RegisterLoadIDReadFromXml(null, typeof(WorldObject), "worldObject");
 						return new GlobalTargetInfo(tile);
 					}
 					if (innerText.Length != 0 && innerText[0] == '@')
 					{
-						loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Thing), "thing");
-						loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Map), "map");
+						loadIDs.RegisterLoadIDReadFromXml(null, typeof(Thing), "thing");
+						loadIDs.RegisterLoadIDReadFromXml(null, typeof(Map), "map");
 						loadIDs.RegisterLoadIDReadFromXml(innerText.Substring(1), typeof(WorldObject), "worldObject");
 						return GlobalTargetInfo.Invalid;
 					}
 					loadIDs.RegisterLoadIDReadFromXml(innerText, typeof(Thing), "thing");
-					loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Map), "map");
-					loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(WorldObject), "worldObject");
+					loadIDs.RegisterLoadIDReadFromXml(null, typeof(Map), "map");
+					loadIDs.RegisterLoadIDReadFromXml(null, typeof(WorldObject), "worldObject");
 					return GlobalTargetInfo.Invalid;
 				}
 				finally
@@ -230,9 +216,9 @@ namespace Verse
 					Scribe.ExitNode();
 				}
 			}
-			loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Thing), label + "/thing");
-			loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(Map), label + "/map");
-			loadIDs.RegisterLoadIDReadFromXml((string)null, typeof(WorldObject), label + "/worldObject");
+			loadIDs.RegisterLoadIDReadFromXml(null, typeof(Thing), label + "/thing");
+			loadIDs.RegisterLoadIDReadFromXml(null, typeof(Map), label + "/map");
+			loadIDs.RegisterLoadIDReadFromXml(null, typeof(WorldObject), label + "/worldObject");
 			return defaultValue;
 		}
 

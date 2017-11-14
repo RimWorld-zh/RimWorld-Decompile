@@ -78,18 +78,13 @@ namespace Verse
 
 		public static float BackgroundDarkAlphaForText()
 		{
-			float result;
 			if (Find.VisibleMap == null)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				float num = GenCelestial.CurCelestialSunGlow(Find.VisibleMap);
-				float num2 = (float)((Find.VisibleMap.Biome != BiomeDefOf.IceSheet) ? Mathf.Clamp01((float)(Find.VisibleMap.snowGrid.TotalDepth / 1000.0)) : 1.0);
-				result = (float)(num * num2 * 0.40999999642372131);
-			}
-			return result;
+			float num = GenCelestial.CurCelestialSunGlow(Find.VisibleMap);
+			float num2 = (float)((Find.VisibleMap.Biome != BiomeDefOf.IceSheet) ? Mathf.Clamp01((float)(Find.VisibleMap.snowGrid.TotalDepth / 1000.0)) : 1.0);
+			return (float)(num * num2 * 0.40999999642372131);
 		}
 
 		public static void DrawTextWinterShadow(Rect rect)
@@ -105,46 +100,38 @@ namespace Verse
 
 		public static float IconDrawScale(ThingDef tDef)
 		{
-			float result;
 			if (tDef.graphicData == null)
 			{
-				result = 1f;
+				return 1f;
 			}
-			else if (tDef.iconDrawScale > 0.0)
+			if (tDef.iconDrawScale > 0.0)
 			{
-				result = tDef.iconDrawScale;
+				return tDef.iconDrawScale;
 			}
-			else
+			float x = tDef.graphicData.drawSize.x;
+			IntVec2 size = tDef.Size;
+			if (x > (float)size.x)
 			{
-				float x = tDef.graphicData.drawSize.x;
-				IntVec2 size = tDef.Size;
-				if (x > (float)size.x)
+				float y = tDef.graphicData.drawSize.y;
+				IntVec2 size2 = tDef.Size;
+				if (y > (float)size2.z)
 				{
-					float y = tDef.graphicData.drawSize.y;
-					IntVec2 size2 = tDef.Size;
-					if (y > (float)size2.z)
-					{
-						float num = tDef.graphicData.drawSize.x;
-						IntVec2 size3 = tDef.Size;
-						float a = num / (float)size3.x;
-						float num2 = tDef.graphicData.drawSize.y;
-						IntVec2 size4 = tDef.Size;
-						result = Mathf.Min(a, num2 / (float)size4.z);
-						goto IL_00d5;
-					}
+					float num = tDef.graphicData.drawSize.x;
+					IntVec2 size3 = tDef.Size;
+					float a = num / (float)size3.x;
+					float num2 = tDef.graphicData.drawSize.y;
+					IntVec2 size4 = tDef.Size;
+					return Mathf.Min(a, num2 / (float)size4.z);
 				}
-				result = 1f;
 			}
-			goto IL_00d5;
-			IL_00d5:
-			return result;
+			return 1f;
 		}
 
 		public static void ErrorDialog(string message)
 		{
 			if (Find.WindowStack != null)
 			{
-				Find.WindowStack.Add(new Dialog_MessageBox(message, (string)null, null, (string)null, null, (string)null, false));
+				Find.WindowStack.Add(new Dialog_MessageBox(message, null, null, null, null, null, false));
 			}
 		}
 
@@ -165,19 +152,14 @@ namespace Verse
 				GenUI.labelWidthCache.Clear();
 			}
 			float x = default(float);
-			float result;
 			if (GenUI.labelWidthCache.TryGetValue(s, out x))
 			{
-				result = x;
+				return x;
 			}
-			else
-			{
-				Vector2 vector = Text.CalcSize(s);
-				x = vector.x;
-				GenUI.labelWidthCache.Add(s, x);
-				result = x;
-			}
-			return result;
+			Vector2 vector = Text.CalcSize(s);
+			x = vector.x;
+			GenUI.labelWidthCache.Add(s, x);
+			return x;
 		}
 
 		public static Rect Rounded(this Rect r)
@@ -219,7 +201,7 @@ namespace Verse
 				Widgets.DrawTextureRotated(rect, iconTex, angle);
 				num += rect.height;
 			}
-			if (text != "")
+			if (text != string.Empty)
 			{
 				Rect rect2 = new Rect((float)(mousePosition.x + 12.0), num, 200f, 9999f);
 				Widgets.Label(rect2, text);
@@ -268,7 +250,7 @@ namespace Verse
 			int i = 0;
 			if (i < clickableList.Count)
 			{
-				yield return clickableList[i];
+				yield return (LocalTargetInfo)clickableList[i];
 				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (thingsOnly)
@@ -278,7 +260,7 @@ namespace Verse
 				yield break;
 			if (!clickParams.CanTarget(new TargetInfo(cellTarg, Find.VisibleMap, false)))
 				yield break;
-			yield return cellTarg;
+			yield return (LocalTargetInfo)cellTarg;
 			/*Error: Unable to find new state assignment for yield return*/;
 		}
 
@@ -291,12 +273,12 @@ namespace Verse
 			for (int i = 0; i < allPawnsSpawned.Count; i++)
 			{
 				Pawn pawn = allPawnsSpawned[i];
-				if ((pawn.DrawPos - clickPos).MagnitudeHorizontal() < 0.40000000596046448 && clickParams.CanTarget((Thing)pawn))
+				if ((pawn.DrawPos - clickPos).MagnitudeHorizontal() < 0.40000000596046448 && clickParams.CanTarget(pawn))
 				{
 					GenUI.clickedPawns.Add(pawn);
 				}
 			}
-			GenUI.clickedPawns.Sort(new Comparison<Pawn>(GenUI.CompareThingsByDistanceToMousePointer));
+			GenUI.clickedPawns.Sort(GenUI.CompareThingsByDistanceToMousePointer);
 			for (int j = 0; j < GenUI.clickedPawns.Count; j++)
 			{
 				list.Add(GenUI.clickedPawns[j]);
@@ -309,19 +291,19 @@ namespace Verse
 					list2.Add(item);
 				}
 			}
-			list2.Sort(new Comparison<Thing>(GenUI.CompareThingsByDrawAltitude));
+			list2.Sort(GenUI.CompareThingsByDrawAltitude);
 			list.AddRange(list2);
 			GenUI.clickedPawns.Clear();
 			List<Pawn> allPawnsSpawned2 = Find.VisibleMap.mapPawns.AllPawnsSpawned;
 			for (int k = 0; k < allPawnsSpawned2.Count; k++)
 			{
 				Pawn pawn2 = allPawnsSpawned2[k];
-				if ((pawn2.DrawPos - clickPos).MagnitudeHorizontal() < pawnWideClickRadius && clickParams.CanTarget((Thing)pawn2))
+				if ((pawn2.DrawPos - clickPos).MagnitudeHorizontal() < pawnWideClickRadius && clickParams.CanTarget(pawn2))
 				{
 					GenUI.clickedPawns.Add(pawn2);
 				}
 			}
-			GenUI.clickedPawns.Sort(new Comparison<Pawn>(GenUI.CompareThingsByDistanceToMousePointer));
+			GenUI.clickedPawns.Sort(GenUI.CompareThingsByDistanceToMousePointer);
 			for (int l = 0; l < GenUI.clickedPawns.Count; l++)
 			{
 				if (!list.Contains(GenUI.clickedPawns[l]))
@@ -329,7 +311,7 @@ namespace Verse
 					list.Add(GenUI.clickedPawns[l]);
 				}
 			}
-			list.RemoveAll((Predicate<Thing>)((Thing t) => !t.Spawned));
+			list.RemoveAll((Thing t) => !t.Spawned);
 			GenUI.clickedPawns.Clear();
 			return list;
 		}
@@ -339,17 +321,45 @@ namespace Verse
 			Vector3 b2 = UI.MouseMapPosition();
 			float num = (a.DrawPos - b2).MagnitudeHorizontalSquared();
 			float num2 = (b.DrawPos - b2).MagnitudeHorizontalSquared();
-			return (!(num < num2)) ? ((num != num2) ? 1 : 0) : (-1);
+			if (num < num2)
+			{
+				return -1;
+			}
+			if (num == num2)
+			{
+				return 0;
+			}
+			return 1;
 		}
 
 		private static int CompareThingsByDrawAltitude(Thing A, Thing B)
 		{
-			return (A.def.Altitude < B.def.Altitude) ? 1 : ((A.def.Altitude != B.def.Altitude) ? (-1) : 0);
+			if (A.def.Altitude < B.def.Altitude)
+			{
+				return 1;
+			}
+			if (A.def.Altitude == B.def.Altitude)
+			{
+				return 0;
+			}
+			return -1;
 		}
 
 		public static int CurrentAdjustmentMultiplier()
 		{
-			return (!KeyBindingDefOf.ModifierIncrement10x.IsDownEvent || !KeyBindingDefOf.ModifierIncrement100x.IsDownEvent) ? ((!KeyBindingDefOf.ModifierIncrement100x.IsDownEvent) ? ((!KeyBindingDefOf.ModifierIncrement10x.IsDownEvent) ? 1 : 10) : 100) : 1000;
+			if (KeyBindingDefOf.ModifierIncrement10x.IsDownEvent && KeyBindingDefOf.ModifierIncrement100x.IsDownEvent)
+			{
+				return 1000;
+			}
+			if (KeyBindingDefOf.ModifierIncrement100x.IsDownEvent)
+			{
+				return 100;
+			}
+			if (KeyBindingDefOf.ModifierIncrement10x.IsDownEvent)
+			{
+				return 10;
+			}
+			return 1;
 		}
 
 		public static Rect GetInnerRect(this Rect rect)

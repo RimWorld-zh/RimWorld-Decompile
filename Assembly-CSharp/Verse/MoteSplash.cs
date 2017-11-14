@@ -41,8 +41,7 @@ namespace Verse
 			base.TimeInterval(deltaTime);
 			if (!base.Destroyed)
 			{
-				float scale = base.AgeSecs * this.velocity;
-				base.Scale = scale;
+				float num2 = base.Scale = base.AgeSecs * this.velocity;
 				base.exactPosition += base.Map.waterInfo.GetWaterMovement(base.exactPosition) * deltaTime;
 			}
 		}

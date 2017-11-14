@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -51,7 +50,7 @@ namespace RimWorld
 
 		public static void Reset()
 		{
-			DateReadout.dateString = (string)null;
+			DateReadout.dateString = null;
 			DateReadout.dateStringDay = -1;
 			DateReadout.dateStringSeason = Season.Undefined;
 			DateReadout.dateStringQuadrum = Quadrum.Undefined;
@@ -85,7 +84,7 @@ namespace RimWorld
 			Season season = GenDate.Season(Find.TickManager.TicksAbs, location);
 			Quadrum quadrum = GenDate.Quadrum(Find.TickManager.TicksAbs, location.x);
 			int num2 = GenDate.Year(Find.TickManager.TicksAbs, location.x);
-			string text = (!DateReadout.SeasonLabelVisible) ? "" : season.LabelCap();
+			string text = (!DateReadout.SeasonLabelVisible) ? string.Empty : season.LabelCap();
 			if (num != DateReadout.dateStringDay || season != DateReadout.dateStringSeason || quadrum != DateReadout.dateStringQuadrum || num2 != DateReadout.dateStringYear)
 			{
 				DateReadout.dateString = GenDate.DateReadoutStringAt(Find.TickManager.TicksAbs, location);
@@ -121,12 +120,12 @@ namespace RimWorld
 			}
 			Text.Anchor = TextAnchor.UpperLeft;
 			GUI.EndGroup();
-			TooltipHandler.TipRegion(dateRect, new TipSignal((Func<string>)delegate
+			TooltipHandler.TipRegion(dateRect, new TipSignal(delegate
 			{
 				StringBuilder stringBuilder = new StringBuilder();
 				for (int i = 0; i < 4; i++)
 				{
-					Quadrum quadrum2 = (Quadrum)(byte)i;
+					Quadrum quadrum2 = (Quadrum)i;
 					stringBuilder.AppendLine(quadrum2.Label() + " - " + quadrum2.GetSeason(location.y).LabelCap());
 				}
 				return "DateReadoutTip".Translate(GenDate.DaysPassed, 15, season.LabelCap(), 15, GenDate.Quadrum(GenTicks.TicksAbs, location.x).Label(), stringBuilder.ToString());

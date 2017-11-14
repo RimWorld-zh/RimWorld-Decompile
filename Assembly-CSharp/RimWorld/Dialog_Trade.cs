@@ -2,6 +2,7 @@ using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -14,9 +15,9 @@ namespace RimWorld
 
 		public static float lastCurrencyFlashTime = -100f;
 
-		private List<Tradeable> cachedTradeables = null;
+		private List<Tradeable> cachedTradeables;
 
-		private Tradeable cachedCurrencyTradeable = null;
+		private Tradeable cachedCurrencyTradeable;
 
 		private TransferableSorterDef sorter1;
 
@@ -53,6 +54,9 @@ namespace RimWorld
 		protected readonly Vector2 AcceptButtonSize = new Vector2(160f, 40f);
 
 		protected readonly Vector2 OtherBottomButtonSize = new Vector2(160f, 40f);
+
+		[CompilerGenerated]
+		private static Func<Tradeable, float> _003C_003Ef__mg_0024cache0;
 
 		public override Vector2 InitialSize
 		{
@@ -174,7 +178,7 @@ namespace RimWorld
 			{
 				string str = (!(level < 0.949999988079071)) ? "NegotiatorHearingImpaired".Translate(playerNegotiator.LabelShort) : "NegotiatorTalkingImpaired".Translate(playerNegotiator.LabelShort);
 				str = str + "\n\n" + "NegotiatorCapacityImpaired".Translate();
-				Find.WindowStack.Add(new Dialog_MessageBox(str, (string)null, null, (string)null, null, (string)null, false));
+				Find.WindowStack.Add(new Dialog_MessageBox(str, null, null, null, null, null, false));
 			}
 			this.CacheTradeables();
 		}
@@ -184,21 +188,32 @@ namespace RimWorld
 			this.cachedCurrencyTradeable = (from x in TradeSession.deal.AllTradeables
 			where x.IsCurrency
 			select x).FirstOrDefault();
-			QualityCategory qualityCategory = default(QualityCategory);
 			this.cachedTradeables = (from tr in TradeSession.deal.AllTradeables
 			where !tr.IsCurrency
 			orderby (!tr.TraderWillTrade) ? (-1) : 0 descending
-			select tr).ThenBy((Func<Tradeable, Transferable>)((Tradeable tr) => tr), this.sorter1.Comparer).ThenBy((Func<Tradeable, Transferable>)((Tradeable tr) => tr), this.sorter2.Comparer).ThenBy((Func<Tradeable, float>)((Tradeable tr) => TransferableUIUtility.DefaultListOrderPriority(tr))).ThenBy((Func<Tradeable, string>)((Tradeable tr) => tr.ThingDef.label)).ThenBy((Func<Tradeable, int>)((Tradeable tr) => (!tr.AnyThing.TryGetQuality(out qualityCategory)) ? (-1) : ((int)qualityCategory))).ThenBy((Func<Tradeable, int>)((Tradeable tr) => tr.AnyThing.HitPoints)).ToList();
+			select tr).ThenBy((Tradeable tr) => tr, this.sorter1.Comparer).ThenBy((Tradeable tr) => tr, this.sorter2.Comparer).ThenBy(TransferableUIUtility.DefaultListOrderPriority)
+				.ThenBy((Tradeable tr) => tr.ThingDef.label)
+				.ThenBy(delegate(Tradeable tr)
+				{
+					QualityCategory result = default(QualityCategory);
+					if (tr.AnyThing.TryGetQuality(out result))
+					{
+						return (int)result;
+					}
+					return -1;
+				})
+				.ThenBy((Tradeable tr) => tr.AnyThing.HitPoints)
+				.ToList();
 		}
 
 		public override void DoWindowContents(Rect inRect)
 		{
 			TradeSession.deal.UpdateCurrencyCount();
-			TransferableUIUtility.DoTransferableSorters(this.sorter1, this.sorter2, (Action<TransferableSorterDef>)delegate(TransferableSorterDef x)
+			TransferableUIUtility.DoTransferableSorters(this.sorter1, this.sorter2, delegate(TransferableSorterDef x)
 			{
 				this.sorter1 = x;
 				this.CacheTradeables();
-			}, (Action<TransferableSorterDef>)delegate(TransferableSorterDef x)
+			}, delegate(TransferableSorterDef x)
 			{
 				this.sorter2 = x;
 				this.CacheTradeables();
@@ -269,7 +284,7 @@ namespace RimWorld
 			Rect rect9 = new Rect((float)x2, (float)y, x3, acceptButtonSize3.y);
 			if (Widgets.ButtonText(rect9, "AcceptButton".Translate(), true, false, true))
 			{
-				Action action = (Action)delegate
+				Action action = delegate
 				{
 					bool flag = default(bool);
 					if (TradeSession.deal.TryExecute(out flag))
@@ -299,7 +314,7 @@ namespace RimWorld
 				{
 					this.FlashSilver();
 					SoundDefOf.ClickReject.PlayOneShotOnCamera(null);
-					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmTraderShortFunds".Translate(), action, false, (string)null));
+					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmTraderShortFunds".Translate(), action, false, null));
 				}
 				Event.current.Use();
 			}

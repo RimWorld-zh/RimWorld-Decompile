@@ -187,7 +187,7 @@ namespace Verse
 		public float Slider(float val, float min, float max)
 		{
 			Rect rect = base.GetRect(22f);
-			float result = Widgets.HorizontalSlider(rect, val, min, max, false, (string)null, (string)null, (string)null, -1f);
+			float result = Widgets.HorizontalSlider(rect, val, min, max, false, null, null, null, -1f);
 			base.Gap(base.verticalSpacing);
 			return result;
 		}
@@ -231,28 +231,19 @@ namespace Verse
 
 		private Vector2 GetLabelScrollbarPosition(float x, float y)
 		{
-			Vector2 result;
-			int i;
 			if (this.labelScrollbarPositions == null)
 			{
-				result = Vector2.zero;
+				return Vector2.zero;
 			}
-			else
+			for (int i = 0; i < this.labelScrollbarPositions.Count; i++)
 			{
-				for (i = 0; i < this.labelScrollbarPositions.Count; i++)
+				Vector2 first = this.labelScrollbarPositions[i].First;
+				if (first.x == x && first.y == y)
 				{
-					Vector2 first = this.labelScrollbarPositions[i].First;
-					if (first.x == x && first.y == y)
-						goto IL_004e;
+					return this.labelScrollbarPositions[i].Second;
 				}
-				result = Vector2.zero;
 			}
-			goto IL_008a;
-			IL_008a:
-			return result;
-			IL_004e:
-			result = this.labelScrollbarPositions[i].Second;
-			goto IL_008a;
+			return Vector2.zero;
 		}
 
 		private void SetLabelScrollbarPosition(float x, float y, Vector2 scrollbarPosition)
@@ -292,7 +283,7 @@ namespace Verse
 			Text.WordWrap = false;
 			Widgets.Label(rect, name);
 			Text.WordWrap = true;
-			if ((object)deleteCallback != null)
+			if (deleteCallback != null)
 			{
 				Rect butRect = new Rect(rect.xMax, rect.y, 21f, 21f);
 				if (Widgets.ButtonImage(butRect, TexButton.DeleteX))

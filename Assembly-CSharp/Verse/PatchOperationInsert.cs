@@ -8,8 +8,8 @@ namespace Verse
 	{
 		private enum Order
 		{
-			Append = 0,
-			Prepend = 1
+			Append,
+			Prepend
 		}
 
 		private XmlContainer value;
@@ -44,6 +44,7 @@ namespace Verse
 						}
 					}
 				}
+				return result;
 			}
 			finally
 			{
@@ -53,7 +54,6 @@ namespace Verse
 					disposable.Dispose();
 				}
 			}
-			return result;
 		}
 	}
 }

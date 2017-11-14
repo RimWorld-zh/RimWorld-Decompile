@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -26,19 +25,26 @@ namespace Verse
 			{
 				get
 				{
-					return (this.parts != null) ? ((this.parts.Count > 0) ? this.parts[this.parts.Count - 1] : null) : null;
+					if (this.parts == null)
+					{
+						return null;
+					}
+					if (this.parts.Count <= 0)
+					{
+						return null;
+					}
+					return this.parts[this.parts.Count - 1];
 				}
 			}
 
 			public static DamageResult MakeNew()
 			{
-				return new DamageResult
-				{
-					wounded = false,
-					headshot = false,
-					deflected = false,
-					totalDamageDealt = 0f
-				};
+				DamageResult result = default(DamageResult);
+				result.wounded = false;
+				result.headshot = false;
+				result.deflected = false;
+				result.totalDamageDealt = 0f;
+				return result;
 			}
 
 			public void AddPart(Thing hitThing, BodyPartRecord part)
@@ -98,7 +104,7 @@ namespace Verse
 				if (victim.HitPoints <= 0)
 				{
 					victim.HitPoints = 0;
-					victim.Kill(default(DamageInfo?), null);
+					victim.Kill(dinfo, null);
 				}
 			}
 			return result;
@@ -128,7 +134,7 @@ namespace Verse
 			if (this.def.explosionInteriorMote != null)
 			{
 				int num = Mathf.RoundToInt((float)(3.1415927410125732 * explosion.radius * explosion.radius / 6.0));
-				for (int num2 = 0; num2 < num; num2++)
+				for (int j = 0; j < num; j++)
 				{
 					MoteMaker.ThrowExplosionInteriorMote(explosion.Position.ToVector3Shifted() + Gen.RandomHorizontalVector((float)(explosion.radius * 0.699999988079071)), explosion.Map, this.def.explosionInteriorMote);
 				}
@@ -240,22 +246,22 @@ namespace Verse
 			DamageWorker.openCells.Clear();
 			DamageWorker.adjWallCells.Clear();
 			int num = GenRadial.NumCellsInRadius(radius);
-			for (int num2 = 0; num2 < num; num2++)
+			for (int i = 0; i < num; i++)
 			{
-				IntVec3 intVec = center + GenRadial.RadialPattern[num2];
+				IntVec3 intVec = center + GenRadial.RadialPattern[i];
 				if (intVec.InBounds(map) && GenSight.LineOfSight(center, intVec, map, true, null, 0, 0))
 				{
 					DamageWorker.openCells.Add(intVec);
 				}
 			}
-			for (int i = 0; i < DamageWorker.openCells.Count; i++)
+			for (int j = 0; j < DamageWorker.openCells.Count; j++)
 			{
-				IntVec3 intVec2 = DamageWorker.openCells[i];
+				IntVec3 intVec2 = DamageWorker.openCells[j];
 				if (intVec2.Walkable(map))
 				{
-					for (int j = 0; j < 4; j++)
+					for (int k = 0; k < 4; k++)
 					{
-						IntVec3 intVec3 = intVec2 + GenAdj.CardinalDirections[j];
+						IntVec3 intVec3 = intVec2 + GenAdj.CardinalDirections[k];
 						if (intVec3.InHorDistOf(center, radius) && intVec3.InBounds(map) && !intVec3.Standable(map) && intVec3.GetEdifice(map) != null && !DamageWorker.openCells.Contains(intVec3) && DamageWorker.adjWallCells.Contains(intVec3))
 						{
 							DamageWorker.adjWallCells.Add(intVec3);

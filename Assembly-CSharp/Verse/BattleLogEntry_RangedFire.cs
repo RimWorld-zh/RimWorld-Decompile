@@ -76,64 +76,54 @@ namespace Verse
 				{
 					if (pov == this.recipientPawn)
 					{
-						CameraJumper.TryJumpAndSelect((Thing)this.initiatorPawn);
+						CameraJumper.TryJumpAndSelect(this.initiatorPawn);
 						return;
 					}
 					throw new NotImplementedException();
 				}
-				CameraJumper.TryJumpAndSelect((Thing)this.recipientPawn);
+				CameraJumper.TryJumpAndSelect(this.recipientPawn);
 			}
 		}
 
 		public override string ToGameStringFromPOV(Thing pov)
 		{
-			string result;
 			if (this.initiatorPawn == null && this.initiatorThing == null)
 			{
 				Log.ErrorOnce("BattleLogEntry_RangedFire has a null initiator.", 60465709);
-				result = "[BattleLogEntry_RangedFire error: null pawn reference]";
+				return "[BattleLogEntry_RangedFire error: null pawn reference]";
+			}
+			Rand.PushState();
+			Rand.Seed = base.randSeed;
+			GrammarRequest request = default(GrammarRequest);
+			request.Includes.Add(RulePackDefOf.Combat_RangedFire);
+			if (this.initiatorPawn != null)
+			{
+				request.Rules.AddRange(GrammarUtility.RulesForPawn("initiator", this.initiatorPawn, request.Constants));
+			}
+			else if (this.initiatorThing != null)
+			{
+				request.Rules.AddRange(GrammarUtility.RulesForDef("initiator", this.initiatorThing));
 			}
 			else
 			{
-				Rand.PushState();
-				Rand.Seed = base.randSeed;
-				GrammarRequest request = new GrammarRequest
-				{
-					Includes = 
-					{
-						RulePackDefOf.Combat_RangedFire
-					}
-				};
-				if (this.initiatorPawn != null)
-				{
-					request.Rules.AddRange(GrammarUtility.RulesForPawn("initiator", this.initiatorPawn));
-				}
-				else if (this.initiatorThing != null)
-				{
-					request.Rules.AddRange(GrammarUtility.RulesForDef("initiator", this.initiatorThing));
-				}
-				else
-				{
-					request.Constants["initiator_missing"] = "True";
-				}
-				if (this.recipientPawn != null)
-				{
-					request.Rules.AddRange(GrammarUtility.RulesForPawn("recipient", this.recipientPawn));
-				}
-				else if (this.recipientThing != null)
-				{
-					request.Rules.AddRange(GrammarUtility.RulesForDef("recipient", this.recipientThing));
-				}
-				else
-				{
-					request.Constants["recipient_missing"] = "True";
-				}
-				request.Rules.AddRange(PlayLogEntryUtility.RulesForOptionalWeapon("weapon", this.weaponDef, this.projectileDef));
-				request.Constants["burst"] = this.burst.ToString();
-				string text = GrammarResolver.Resolve("logentry", request, "ranged fire");
-				Rand.PopState();
-				result = text;
+				request.Constants["initiator_missing"] = "True";
 			}
+			if (this.recipientPawn != null)
+			{
+				request.Rules.AddRange(GrammarUtility.RulesForPawn("recipient", this.recipientPawn, request.Constants));
+			}
+			else if (this.recipientThing != null)
+			{
+				request.Rules.AddRange(GrammarUtility.RulesForDef("recipient", this.recipientThing));
+			}
+			else
+			{
+				request.Constants["recipient_missing"] = "True";
+			}
+			request.Rules.AddRange(PlayLogEntryUtility.RulesForOptionalWeapon("weapon", this.weaponDef, this.projectileDef));
+			request.Constants["burst"] = this.burst.ToString();
+			string result = GrammarResolver.Resolve("logentry", request, "ranged fire", false);
+			Rand.PopState();
 			return result;
 		}
 

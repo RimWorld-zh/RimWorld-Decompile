@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using UnityEngine;
 
@@ -38,13 +37,13 @@ namespace Verse
 						}
 					}
 				}
-				arr = MapSerializeUtility.SerializeUshort(this.map, (Func<IntVec3, ushort>)((IntVec3 c) => tempGrid[this.map.cellIndices.CellToIndex(c)]));
+				arr = MapSerializeUtility.SerializeUshort(this.map, (IntVec3 c) => tempGrid[this.map.cellIndices.CellToIndex(c)]);
 			}
 			DataExposeUtility.ByteArray(ref arr, "temperatures");
 			if (Scribe.mode == LoadSaveMode.LoadingVars)
 			{
 				this.tempGrid = new ushort[this.map.cellIndices.NumGridCells];
-				MapSerializeUtility.LoadUshort(arr, this.map, (Action<IntVec3, ushort>)delegate(IntVec3 c, ushort val)
+				MapSerializeUtility.LoadUshort(arr, this.map, delegate(IntVec3 c, ushort val)
 				{
 					this.tempGrid[this.map.cellIndices.CellToIndex(c)] = val;
 				});

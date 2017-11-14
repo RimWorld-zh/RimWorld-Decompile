@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.Sound;
 
@@ -8,9 +7,9 @@ namespace RimWorld
 	{
 		private IntermittentSteamSprayer steamSprayer;
 
-		public Building harvester = null;
+		public Building harvester;
 
-		private Sustainer spraySustainer = null;
+		private Sustainer spraySustainer;
 
 		private int spraySustainerStartTick = -999;
 
@@ -18,8 +17,8 @@ namespace RimWorld
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
 			this.steamSprayer = new IntermittentSteamSprayer(this);
-			this.steamSprayer.startSprayCallback = new Action(this.StartSpray);
-			this.steamSprayer.endSprayCallback = new Action(this.EndSpray);
+			this.steamSprayer.startSprayCallback = this.StartSpray;
+			this.steamSprayer.endSprayCallback = this.EndSpray;
 		}
 
 		private void StartSpray()

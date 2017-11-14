@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -42,7 +41,7 @@ namespace RimWorld
 
 		protected void DoInfoBox(Rect infoRect, Designator designator)
 		{
-			Find.WindowStack.ImmediateWindow(32520, infoRect, WindowLayer.GameUI, (Action)delegate()
+			Find.WindowStack.ImmediateWindow(32520, infoRect, WindowLayer.GameUI, delegate
 			{
 				if (designator != null)
 				{

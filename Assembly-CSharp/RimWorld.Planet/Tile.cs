@@ -21,23 +21,23 @@ namespace RimWorld.Planet
 
 		public const int Invalid = -1;
 
-		public BiomeDef biome = null;
+		public BiomeDef biome;
 
 		public float elevation = 100f;
 
-		public Hilliness hilliness = Hilliness.Undefined;
+		public Hilliness hilliness;
 
 		public float temperature = 20f;
 
-		public float rainfall = 0f;
+		public float rainfall;
 
 		public float swampiness;
 
 		public WorldFeature feature;
 
-		public List<RoadLink> roads = null;
+		public List<RoadLink> roads;
 
-		public List<RiverLink> rivers = null;
+		public List<RiverLink> rivers;
 
 		public bool WaterCovered
 		{

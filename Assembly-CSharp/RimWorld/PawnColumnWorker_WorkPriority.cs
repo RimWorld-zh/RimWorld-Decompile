@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -23,7 +22,7 @@ namespace RimWorld
 				bool incapable = this.IsIncapableOfWholeWorkType(pawn, base.def.workType);
 				WidgetsWork.DrawWorkBoxFor(x, y, pawn, base.def.workType, incapable);
 				Rect rect2 = new Rect(x, y, 25f, 25f);
-				TooltipHandler.TipRegion(rect2, (Func<string>)(() => WidgetsWork.TipForPawnWorker(pawn, base.def.workType, incapable)), pawn.thingIDNumber ^ base.def.workType.GetHashCode());
+				TooltipHandler.TipRegion(rect2, () => WidgetsWork.TipForPawnWorker(pawn, base.def.workType, incapable), pawn.thingIDNumber ^ base.def.workType.GetHashCode());
 				Text.Font = GameFont.Small;
 			}
 		}
@@ -70,34 +69,24 @@ namespace RimWorld
 
 		private bool IsIncapableOfWholeWorkType(Pawn p, WorkTypeDef work)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < work.workGiversByPriority.Count; i++)
 			{
-				if (num < work.workGiversByPriority.Count)
+				bool flag = true;
+				for (int j = 0; j < work.workGiversByPriority[i].requiredCapacities.Count; j++)
 				{
-					bool flag = true;
-					for (int i = 0; i < work.workGiversByPriority[num].requiredCapacities.Count; i++)
+					PawnCapacityDef capacity = work.workGiversByPriority[i].requiredCapacities[j];
+					if (!p.health.capacities.CapableOf(capacity))
 					{
-						PawnCapacityDef capacity = work.workGiversByPriority[num].requiredCapacities[i];
-						if (!p.health.capacities.CapableOf(capacity))
-						{
-							flag = false;
-							break;
-						}
-					}
-					if (flag)
-					{
-						result = false;
+						flag = false;
 						break;
 					}
-					num++;
-					continue;
 				}
-				result = true;
-				break;
+				if (flag)
+				{
+					return false;
+				}
 			}
-			return result;
+			return true;
 		}
 
 		protected override Rect GetInteractableHeaderRect(Rect headerRect, PawnTable table)
@@ -112,7 +101,15 @@ namespace RimWorld
 
 		private float GetValueToCompare(Pawn pawn)
 		{
-			return (float)((pawn.workSettings == null || !pawn.workSettings.EverWork) ? -2.0 : ((pawn.story == null || !pawn.story.WorkTypeIsDisabled(base.def.workType)) ? pawn.skills.AverageOfRelevantSkillsFor(base.def.workType) : -1.0));
+			if (pawn.workSettings != null && pawn.workSettings.EverWork)
+			{
+				if (pawn.story != null && pawn.story.WorkTypeIsDisabled(base.def.workType))
+				{
+					return -1f;
+				}
+				return pawn.skills.AverageOfRelevantSkillsFor(base.def.workType);
+			}
+			return -2f;
 		}
 
 		private Rect GetLabelRect(Rect headerRect)
@@ -135,7 +132,11 @@ namespace RimWorld
 			{
 				str = str + "\n" + "ClickToSortByThisColumn".Translate();
 			}
-			return (!Find.PlaySettings.useWorkPriorities) ? (str + "\n" + "WorkPriorityShiftClickEnableDisableTip".Translate()) : (str + "\n" + "WorkPriorityShiftClickTip".Translate());
+			if (Find.PlaySettings.useWorkPriorities)
+			{
+				return str + "\n" + "WorkPriorityShiftClickTip".Translate();
+			}
+			return str + "\n" + "WorkPriorityShiftClickEnableDisableTip".Translate();
 		}
 
 		private static string SpecificWorkListString(WorkTypeDef def)
@@ -179,7 +180,7 @@ namespace RimWorld
 								}
 								pawn.workSettings.SetPriority(base.def.workType, num);
 							}
-							if (((Event.current.button == 1) ? priority : 0) != 0)
+							if (Event.current.button == 1 && priority != 0)
 							{
 								int num2 = priority + 1;
 								if (num2 > 4)

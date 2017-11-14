@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 
 namespace Verse.AI
@@ -15,14 +14,14 @@ namespace Verse.AI
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			Toil gotoCell = Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);
-			gotoCell.AddPreTickAction((Action)delegate
+			gotoCell.AddPreTickAction(delegate
 			{
-				if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_003a: stateMachine*/)._0024this.job.exitMapOnArrival && ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_003a: stateMachine*/)._0024this.pawn.Map.exitMapGrid.IsExitCell(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_003a: stateMachine*/)._0024this.pawn.Position))
+				if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0038: stateMachine*/)._0024this.job.exitMapOnArrival && ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0038: stateMachine*/)._0024this.pawn.Map.exitMapGrid.IsExitCell(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0038: stateMachine*/)._0024this.pawn.Position))
 				{
-					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_003a: stateMachine*/)._0024this.TryExitMap();
+					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0038: stateMachine*/)._0024this.TryExitMap();
 				}
 			});
-			gotoCell.FailOn((Func<bool>)(() => ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0051: stateMachine*/)._0024this.job.failIfCantJoinOrCreateCaravan && !CaravanExitMapUtility.CanExitMapAndJoinOrCreateCaravanNow(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0051: stateMachine*/)._0024this.pawn)));
+			gotoCell.FailOn(() => ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004f: stateMachine*/)._0024this.job.failIfCantJoinOrCreateCaravan && !CaravanExitMapUtility.CanExitMapAndJoinOrCreateCaravanNow(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004f: stateMachine*/)._0024this.pawn));
 			yield return gotoCell;
 			/*Error: Unable to find new state assignment for yield return*/;
 		}

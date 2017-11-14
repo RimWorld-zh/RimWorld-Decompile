@@ -6,33 +6,33 @@ namespace Verse
 	{
 		public float speed = 4f;
 
-		public bool flyOverhead = false;
+		public bool flyOverhead;
 
-		public bool alwaysFreeIntercept = false;
+		public bool alwaysFreeIntercept;
 
-		public DamageDef damageDef = null;
+		public DamageDef damageDef;
 
 		public int damageAmountBase = 1;
 
-		public SoundDef soundHitThickRoof = null;
+		public SoundDef soundHitThickRoof;
 
-		public SoundDef soundExplode = null;
+		public SoundDef soundExplode;
 
-		public SoundDef soundImpactAnticipate = null;
+		public SoundDef soundImpactAnticipate;
 
-		public SoundDef soundAmbient = null;
+		public SoundDef soundAmbient;
 
-		public float explosionRadius = 0f;
+		public float explosionRadius;
 
-		public int explosionDelay = 0;
+		public int explosionDelay;
 
-		public ThingDef preExplosionSpawnThingDef = null;
+		public ThingDef preExplosionSpawnThingDef;
 
 		public float preExplosionSpawnChance = 1f;
 
 		public int preExplosionSpawnThingCount = 1;
 
-		public ThingDef postExplosionSpawnThingDef = null;
+		public ThingDef postExplosionSpawnThingDef;
 
 		public float postExplosionSpawnChance = 1f;
 
@@ -46,7 +46,7 @@ namespace Verse
 
 		public EffecterDef explosionEffect;
 
-		public bool ai_IsIncendiary = false;
+		public bool ai_IsIncendiary;
 
 		public IEnumerable<string> ConfigErrors(ThingDef parent)
 		{

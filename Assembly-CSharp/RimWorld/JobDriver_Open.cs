@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -26,11 +25,11 @@ namespace RimWorld
 		{
 			yield return new Toil
 			{
-				initAction = (Action)delegate
+				initAction = delegate
 				{
-					if (!((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_003f: stateMachine*/)._0024this.Openable.CanOpen)
+					if (!((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_003e: stateMachine*/)._0024this.Openable.CanOpen)
 					{
-						Designation designation = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_003f: stateMachine*/)._0024this.Map.designationManager.DesignationOn(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_003f: stateMachine*/)._0024this.job.targetA.Thing, DesignationDefOf.Open);
+						Designation designation = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_003e: stateMachine*/)._0024this.Map.designationManager.DesignationOn(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_003e: stateMachine*/)._0024this.job.targetA.Thing, DesignationDefOf.Open);
 						if (designation != null)
 						{
 							designation.Delete();

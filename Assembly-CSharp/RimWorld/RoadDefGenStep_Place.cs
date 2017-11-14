@@ -6,7 +6,7 @@ namespace RimWorld
 	{
 		public BuildableDef place;
 
-		public int proximitySpacing = 0;
+		public int proximitySpacing;
 
 		public override void Place(Map map, IntVec3 position, TerrainDef rockDef)
 		{

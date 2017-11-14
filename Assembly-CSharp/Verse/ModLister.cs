@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -60,14 +59,14 @@ namespace Verse
 				s = s + "\n  Adding " + modMetaData2.ToStringLong();
 			}
 			s += "\nDeactivating not-installed mods:";
-			ModsConfig.DeactivateNotInstalledMods((Action<string>)delegate(string log)
+			ModsConfig.DeactivateNotInstalledMods(delegate(string log)
 			{
 				s = s + "\n   " + log;
 			});
-			if (ModLister.mods.Count((Func<ModMetaData, bool>)((ModMetaData m) => m.Active)) == 0)
+			if (ModLister.mods.Count((ModMetaData m) => m.Active) == 0)
 			{
 				s += "\nThere are no active mods. Activating Core mod.";
-				ModLister.mods.First((Func<ModMetaData, bool>)((ModMetaData m) => m.IsCoreMod)).Active = true;
+				ModLister.mods.First((ModMetaData m) => m.IsCoreMod).Active = true;
 			}
 			if (Prefs.LogVerbose)
 			{
@@ -92,24 +91,14 @@ namespace Verse
 
 		internal static ModMetaData GetModWithIdentifier(string identifier)
 		{
-			int num = 0;
-			ModMetaData result;
-			while (true)
+			for (int i = 0; i < ModLister.mods.Count; i++)
 			{
-				if (num < ModLister.mods.Count)
+				if (ModLister.mods[i].Identifier == identifier)
 				{
-					if (ModLister.mods[num].Identifier == identifier)
-					{
-						result = ModLister.mods[num];
-						break;
-					}
-					num++;
-					continue;
+					return ModLister.mods[i];
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 	}
 }

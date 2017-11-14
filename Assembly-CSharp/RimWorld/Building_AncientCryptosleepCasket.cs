@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -48,7 +47,7 @@ namespace RimWorld
 			if (!base.contentsKnown)
 			{
 				list.AddRange(base.innerContainer);
-				list.AddRange(this.UnopenedCasketsInGroup().SelectMany((Func<Building_AncientCryptosleepCasket, IEnumerable<Thing>>)((Building_AncientCryptosleepCasket c) => c.innerContainer)));
+				list.AddRange(this.UnopenedCasketsInGroup().SelectMany((Building_AncientCryptosleepCasket c) => c.innerContainer));
 			}
 			bool contentsKnown = base.contentsKnown;
 			base.EjectContents();

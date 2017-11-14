@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Verse;
 
@@ -54,10 +53,17 @@ namespace RimWorld
 
 		private void CreateRandomExplosion()
 		{
-			IntVec3 center = (from x in GenRadial.RadialCellsAround(base.Position, 15f, true)
+			IntVec3 intVec = (from x in GenRadial.RadialCellsAround(base.Position, 15f, true)
 			where x.InBounds(base.Map)
 			select x).RandomElement();
-			GenExplosion.DoExplosion(center, base.Map, 8f, DamageDefOf.Bomb, null, -1, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
+			IntVec3 center = intVec;
+			Map map = base.Map;
+			float radius = 8f;
+			DamageDef bomb = DamageDefOf.Bomb;
+			Thing instigator = base.instigator;
+			ThingDef def = base.def;
+			ThingDef weaponDef = base.weaponDef;
+			GenExplosion.DoExplosion(center, map, radius, bomb, instigator, -1, null, weaponDef, def, null, 0f, 1, false, null, 0f, 1, 0f, false);
 			this.anyExplosion = true;
 		}
 

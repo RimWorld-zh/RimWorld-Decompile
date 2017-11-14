@@ -8,7 +8,7 @@ namespace Verse.AI
 		public static Toil TrySetJobToUseAttackVerb()
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate
+			toil.initAction = delegate
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.jobs.curJob;
@@ -29,21 +29,20 @@ namespace Verse.AI
 		public static Toil GotoCastPosition(TargetIndex targetInd, bool closeIfDowned = false)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.jobs.curJob;
 				Thing thing = curJob.GetTarget(targetInd).Thing;
 				Pawn pawn = thing as Pawn;
+				CastPositionRequest newReq = default(CastPositionRequest);
+				newReq.caster = toil.actor;
+				newReq.target = thing;
+				newReq.verb = curJob.verbToUse;
+				newReq.maxRangeFromTarget = ((closeIfDowned && pawn != null && pawn.Downed) ? Mathf.Min(curJob.verbToUse.verbProps.range, (float)pawn.RaceProps.executionRange) : curJob.verbToUse.verbProps.range);
+				newReq.wantCoverFromTarget = false;
 				IntVec3 intVec = default(IntVec3);
-				if (!CastPositionFinder.TryFindCastPosition(new CastPositionRequest
-				{
-					caster = toil.actor,
-					target = thing,
-					verb = curJob.verbToUse,
-					maxRangeFromTarget = ((closeIfDowned && pawn != null && pawn.Downed) ? Mathf.Min(curJob.verbToUse.verbProps.range, (float)pawn.RaceProps.executionRange) : curJob.verbToUse.verbProps.range),
-					wantCoverFromTarget = false
-				}, out intVec))
+				if (!CastPositionFinder.TryFindCastPosition(newReq, out intVec))
 				{
 					toil.actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
 				}
@@ -61,7 +60,7 @@ namespace Verse.AI
 		public static Toil CastVerb(TargetIndex targetInd, bool canFreeIntercept = true)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Verb verbToUse = toil.actor.jobs.curJob.verbToUse;
 				LocalTargetInfo target = toil.actor.jobs.curJob.GetTarget(targetInd);
@@ -75,7 +74,7 @@ namespace Verse.AI
 		public static Toil FollowAndMeleeAttack(TargetIndex targetInd, Action hitAction)
 		{
 			Toil followAndAttack = new Toil();
-			followAndAttack.tickAction = (Action)delegate()
+			followAndAttack.tickAction = delegate
 			{
 				Pawn actor = followAndAttack.actor;
 				Job curJob = actor.jobs.curJob;

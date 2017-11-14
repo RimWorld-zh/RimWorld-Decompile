@@ -30,7 +30,7 @@ namespace Verse.AI
 			base.MentalStateTick();
 			if (base.pawn.IsHashIntervalTick(120))
 			{
-				if (this.target != null && this.target.Spawned && base.pawn.CanReach((Thing)this.target, PathEndMode.Touch, Danger.Deadly, true, TraverseMode.ByPawn))
+				if (this.target != null && this.target.Spawned && base.pawn.CanReach(this.target, PathEndMode.Touch, Danger.Deadly, true, TraverseMode.ByPawn))
 					return;
 				base.RecoverFromState();
 			}
@@ -38,17 +38,12 @@ namespace Verse.AI
 
 		public override string GetBeginLetterText()
 		{
-			string result;
 			if (this.target == null)
 			{
 				Log.Error("No target. This should have been checked in this mental state's worker.");
-				result = "";
+				return string.Empty;
 			}
-			else
-			{
-				result = string.Format(base.def.beginLetter, base.pawn.Label, this.target.LabelShort).AdjustedFor(base.pawn).CapitalizeFirst();
-			}
-			return result;
+			return string.Format(base.def.beginLetter, base.pawn.Label, this.target.LabelShort).AdjustedFor(base.pawn).CapitalizeFirst();
 		}
 	}
 }

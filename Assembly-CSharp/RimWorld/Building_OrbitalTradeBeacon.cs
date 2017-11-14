@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -22,7 +21,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -35,15 +34,15 @@ namespace RimWorld
 				yield break;
 			yield return (Gizmo)new Command_Action
 			{
-				action = new Action(this.MakeMatchingStockpile),
+				action = this.MakeMatchingStockpile,
 				hotKey = KeyBindingDefOf.Misc1,
 				defaultDesc = "CommandMakeBeaconStockpileDesc".Translate(),
 				icon = ContentFinder<Texture2D>.Get("UI/Designators/ZoneCreate_Stockpile", true),
 				defaultLabel = "CommandMakeBeaconStockpileLabel".Translate()
 			};
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0164:
-			/*Error near IL_0165: Unexpected return in MoveNext()*/;
+			IL_015e:
+			/*Error near IL_015f: Unexpected return in MoveNext()*/;
 		}
 
 		private void MakeMatchingStockpile()
@@ -57,61 +56,44 @@ namespace RimWorld
 		public static List<IntVec3> TradeableCellsAround(IntVec3 pos, Map map)
 		{
 			Building_OrbitalTradeBeacon.tradeableCells.Clear();
-			List<IntVec3> result;
 			if (!pos.InBounds(map))
 			{
-				result = Building_OrbitalTradeBeacon.tradeableCells;
+				return Building_OrbitalTradeBeacon.tradeableCells;
 			}
-			else
+			Region region = pos.GetRegion(map, RegionType.Set_Passable);
+			if (region == null)
 			{
-				Region region = pos.GetRegion(map, RegionType.Set_Passable);
-				if (region == null)
-				{
-					result = Building_OrbitalTradeBeacon.tradeableCells;
-				}
-				else
-				{
-					RegionTraverser.BreadthFirstTraverse(region, (RegionEntryPredicate)((Region from, Region r) => r.portal == null), (RegionProcessor)delegate(Region r)
-					{
-						foreach (IntVec3 cell in r.Cells)
-						{
-							if (cell.InHorDistOf(pos, 7.9f))
-							{
-								Building_OrbitalTradeBeacon.tradeableCells.Add(cell);
-							}
-						}
-						return false;
-					}, 13, RegionType.Set_Passable);
-					result = Building_OrbitalTradeBeacon.tradeableCells;
-				}
+				return Building_OrbitalTradeBeacon.tradeableCells;
 			}
-			return result;
+			RegionTraverser.BreadthFirstTraverse(region, (Region from, Region r) => r.portal == null, delegate(Region r)
+			{
+				foreach (IntVec3 cell in r.Cells)
+				{
+					if (cell.InHorDistOf(pos, 7.9f))
+					{
+						Building_OrbitalTradeBeacon.tradeableCells.Add(cell);
+					}
+				}
+				return false;
+			}, 13, RegionType.Set_Passable);
+			return Building_OrbitalTradeBeacon.tradeableCells;
 		}
 
 		public static IEnumerable<Building_OrbitalTradeBeacon> AllPowered(Map map)
 		{
-			using (IEnumerator<Building_OrbitalTradeBeacon> enumerator = map.listerBuildings.AllBuildingsColonistOfClass<Building_OrbitalTradeBeacon>().GetEnumerator())
+			foreach (Building_OrbitalTradeBeacon item in map.listerBuildings.AllBuildingsColonistOfClass<Building_OrbitalTradeBeacon>())
 			{
-				Building_OrbitalTradeBeacon b;
-				while (true)
+				CompPowerTrader power = item.GetComp<CompPowerTrader>();
+				if (power != null && !power.PowerOn)
 				{
-					if (enumerator.MoveNext())
-					{
-						b = enumerator.Current;
-						CompPowerTrader power = b.GetComp<CompPowerTrader>();
-						if (power == null)
-							break;
-						if (power.PowerOn)
-							break;
-						continue;
-					}
-					yield break;
+					continue;
 				}
-				yield return b;
+				yield return item;
 				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			IL_00f3:
-			/*Error near IL_00f4: Unexpected return in MoveNext()*/;
+			yield break;
+			IL_00ef:
+			/*Error near IL_00f0: Unexpected return in MoveNext()*/;
 		}
 	}
 }

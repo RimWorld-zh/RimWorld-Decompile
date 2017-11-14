@@ -5,7 +5,7 @@ namespace RimWorld
 {
 	public class SlotGroup
 	{
-		public ISlotGroupParent parent = null;
+		public ISlotGroupParent parent;
 
 		private Map Map
 		{
@@ -86,7 +86,11 @@ namespace RimWorld
 
 		public override string ToString()
 		{
-			return (this.parent == null) ? "NullParent" : this.parent.ToString();
+			if (this.parent != null)
+			{
+				return this.parent.ToString();
+			}
+			return "NullParent";
 		}
 	}
 }

@@ -10,7 +10,7 @@ namespace RimWorld
 
 		private Vector2 shadowVector;
 
-		private int age = 0;
+		private int age;
 
 		private const int FlashFadeInTicks = 3;
 
@@ -42,7 +42,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return new Vector2?(this.shadowVector);
+				return this.shadowVector;
 			}
 		}
 
@@ -58,11 +58,16 @@ namespace RimWorld
 		{
 			get
 			{
-				return (float)((this.age > 3) ? (1.0 - (float)this.age / (float)this.duration) : ((float)this.age / 3.0));
+				if (this.age <= 3)
+				{
+					return (float)((float)this.age / 3.0);
+				}
+				return (float)(1.0 - (float)this.age / (float)this.duration);
 			}
 		}
 
-		public WeatherEvent_LightningFlash(Map map) : base(map)
+		public WeatherEvent_LightningFlash(Map map)
+			: base(map)
 		{
 			this.duration = Rand.Range(15, 60);
 			this.shadowVector = new Vector2(Rand.Range(-5f, 5f), Rand.Range(-5f, 0f));

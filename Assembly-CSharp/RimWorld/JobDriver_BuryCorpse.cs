@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -34,14 +33,14 @@ namespace RimWorld
 
 		public override bool TryMakePreToilReservations()
 		{
-			return base.pawn.Reserve((Thing)this.Corpse, base.job, 1, -1, null) && base.pawn.Reserve((Thing)this.Grave, base.job, 1, -1, null);
+			return base.pawn.Reserve(this.Corpse, base.job, 1, -1, null) && base.pawn.Reserve(this.Grave, base.job, 1, -1, null);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDestroyedNullOrForbidden(TargetIndex.A);
 			this.FailOnDestroyedNullOrForbidden(TargetIndex.B);
-			this.FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0052: stateMachine*/)._0024this.Grave.Accepts(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0052: stateMachine*/)._0024this.Corpse)));
+			this.FailOn(() => !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0051: stateMachine*/)._0024this.Grave.Accepts(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0051: stateMachine*/)._0024this.Corpse));
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOnSomeonePhysicallyInteracting(TargetIndex.A);
 			/*Error: Unable to find new state assignment for yield return*/;
 		}

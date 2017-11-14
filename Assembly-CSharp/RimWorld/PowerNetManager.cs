@@ -8,10 +8,10 @@ namespace RimWorld
 	{
 		private enum DelayedActionType
 		{
-			RegisterTransmitter = 0,
-			DeregisterTransmitter = 1,
-			RegisterConnector = 2,
-			DeregisterConnector = 3
+			RegisterTransmitter,
+			DeregisterTransmitter,
+			RegisterConnector,
+			DeregisterConnector
 		}
 
 		private struct DelayedAction
@@ -20,10 +20,16 @@ namespace RimWorld
 
 			public CompPower compPower;
 
+			public IntVec3 position;
+
+			public Rot4 rotation;
+
 			public DelayedAction(DelayedActionType type, CompPower compPower)
 			{
 				this.type = type;
 				this.compPower = compPower;
+				this.position = compPower.parent.Position;
+				this.rotation = compPower.parent.Rotation;
 			}
 		}
 
@@ -114,65 +120,68 @@ namespace RimWorld
 		public void UpdatePowerNetsAndConnections_First()
 		{
 			int count = this.delayedActions.Count;
-			for (int num = 0; num < count; num++)
+			for (int i = 0; i < count; i++)
 			{
-				DelayedAction delayedAction = this.delayedActions[num];
-				DelayedAction delayedAction2 = this.delayedActions[num];
+				DelayedAction delayedAction = this.delayedActions[i];
+				DelayedAction delayedAction2 = this.delayedActions[i];
 				switch (delayedAction2.type)
 				{
 				case DelayedActionType.RegisterTransmitter:
-				{
-					ThingWithComps parent = delayedAction.compPower.parent;
-					if (this.map.powerNetGrid.TransmittedPowerNetAt(parent.Position) != null)
+					if (delayedAction.position == delayedAction.compPower.parent.Position)
 					{
-						Log.Warning("Tried to register trasmitter " + parent + " at " + parent.Position + ", but there is already a power net here. There can't be two transmitters on the same cell.");
-					}
-					delayedAction.compPower.SetUpPowerVars();
-					foreach (IntVec3 item in GenAdj.CellsAdjacentCardinal(parent))
-					{
-						this.TryDestroyNetAt(item);
+						ThingWithComps parent = delayedAction.compPower.parent;
+						if (this.map.powerNetGrid.TransmittedPowerNetAt(parent.Position) != null)
+						{
+							Log.Warning("Tried to register trasmitter " + parent + " at " + parent.Position + ", but there is already a power net here. There can't be two transmitters on the same cell.");
+						}
+						delayedAction.compPower.SetUpPowerVars();
+						foreach (IntVec3 item in GenAdj.CellsAdjacentCardinal(parent))
+						{
+							this.TryDestroyNetAt(item);
+						}
 					}
 					break;
-				}
 				case DelayedActionType.DeregisterTransmitter:
-				{
-					this.TryDestroyNetAt(delayedAction.compPower.parent.Position);
+					this.TryDestroyNetAt(delayedAction.position);
 					PowerConnectionMaker.DisconnectAllFromTransmitterAndSetWantConnect(delayedAction.compPower, this.map);
 					delayedAction.compPower.ResetPowerVars();
 					break;
 				}
-				}
 			}
-			for (int num2 = 0; num2 < count; num2++)
+			for (int j = 0; j < count; j++)
 			{
-				DelayedAction delayedAction3 = this.delayedActions[num2];
-				if (delayedAction3.type == DelayedActionType.RegisterTransmitter || delayedAction3.type == DelayedActionType.DeregisterTransmitter)
+				DelayedAction delayedAction3 = this.delayedActions[j];
+				if (delayedAction3.type == DelayedActionType.RegisterTransmitter && delayedAction3.position == delayedAction3.compPower.parent.Position)
 				{
-					this.TryCreateNetAt(delayedAction3.compPower.parent.Position);
-					foreach (IntVec3 item2 in GenAdj.CellsAdjacentCardinal(delayedAction3.compPower.parent))
-					{
-						this.TryCreateNetAt(item2);
-					}
+					goto IL_01b4;
+				}
+				if (delayedAction3.type == DelayedActionType.DeregisterTransmitter)
+					goto IL_01b4;
+				continue;
+				IL_01b4:
+				this.TryCreateNetAt(delayedAction3.position);
+				foreach (IntVec3 item2 in GenAdj.CellsAdjacentCardinal(delayedAction3.position, delayedAction3.rotation, delayedAction3.compPower.parent.def.size))
+				{
+					this.TryCreateNetAt(item2);
 				}
 			}
-			for (int num3 = 0; num3 < count; num3++)
+			for (int k = 0; k < count; k++)
 			{
-				DelayedAction delayedAction4 = this.delayedActions[num3];
-				DelayedAction delayedAction5 = this.delayedActions[num3];
+				DelayedAction delayedAction4 = this.delayedActions[k];
+				DelayedAction delayedAction5 = this.delayedActions[k];
 				switch (delayedAction5.type)
 				{
 				case DelayedActionType.RegisterConnector:
-				{
-					delayedAction4.compPower.SetUpPowerVars();
-					PowerConnectionMaker.TryConnectToAnyPowerNet(delayedAction4.compPower, null);
+					if (delayedAction4.position == delayedAction4.compPower.parent.Position)
+					{
+						delayedAction4.compPower.SetUpPowerVars();
+						PowerConnectionMaker.TryConnectToAnyPowerNet(delayedAction4.compPower, null);
+					}
 					break;
-				}
 				case DelayedActionType.DeregisterConnector:
-				{
 					PowerConnectionMaker.DisconnectFromPowerNet(delayedAction4.compPower);
 					delayedAction4.compPower.ResetPowerVars();
 					break;
-				}
 				}
 			}
 			this.delayedActions.RemoveRange(0, count);
@@ -184,35 +193,24 @@ namespace RimWorld
 
 		private bool HasRegisterConnectorDuplicate(CompPower compPower)
 		{
-			int num = this.delayedActions.Count - 1;
-			bool result;
-			while (true)
+			for (int num = this.delayedActions.Count - 1; num >= 0; num--)
 			{
-				if (num >= 0)
+				DelayedAction delayedAction = this.delayedActions[num];
+				if (delayedAction.compPower == compPower)
 				{
-					DelayedAction delayedAction = this.delayedActions[num];
-					if (delayedAction.compPower == compPower)
+					DelayedAction delayedAction2 = this.delayedActions[num];
+					if (delayedAction2.type == DelayedActionType.DeregisterConnector)
 					{
-						DelayedAction delayedAction2 = this.delayedActions[num];
-						if (delayedAction2.type == DelayedActionType.DeregisterConnector)
-						{
-							result = false;
-							break;
-						}
-						DelayedAction delayedAction3 = this.delayedActions[num];
-						if (delayedAction3.type == DelayedActionType.RegisterConnector)
-						{
-							result = true;
-							break;
-						}
+						return false;
 					}
-					num--;
-					continue;
+					DelayedAction delayedAction3 = this.delayedActions[num];
+					if (delayedAction3.type == DelayedActionType.RegisterConnector)
+					{
+						return true;
+					}
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		private void TryCreateNetAt(IntVec3 cell)

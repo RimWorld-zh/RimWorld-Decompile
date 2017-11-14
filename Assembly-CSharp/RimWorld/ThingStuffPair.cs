@@ -90,7 +90,7 @@ namespace RimWorld
 						where st.IsStuff && st.stuffProps.CanMake(thingDef)
 						select st;
 						int num = enumerable.Count();
-						float num2 = enumerable.Average((Func<ThingDef, float>)((ThingDef st) => st.stuffProps.commonality));
+						float num2 = enumerable.Average((ThingDef st) => st.stuffProps.commonality);
 						float num3 = (float)(1.0 / (float)num / num2);
 						foreach (ThingDef item in enumerable)
 						{
@@ -106,17 +106,12 @@ namespace RimWorld
 
 		public override string ToString()
 		{
-			string result;
 			if (this.thing == null)
 			{
-				result = "(null)";
+				return "(null)";
 			}
-			else
-			{
-				string text = (this.stuff != null) ? (this.thing.label + " " + this.stuff.LabelAsStuff) : this.thing.label;
-				result = text + " $" + this.Price.ToString("F0") + " c=" + this.Commonality.ToString("F4");
-			}
-			return result;
+			string text = (this.stuff != null) ? (this.thing.label + " " + this.stuff.LabelAsStuff) : this.thing.label;
+			return text + " $" + this.Price.ToString("F0") + " c=" + this.Commonality.ToString("F4");
 		}
 	}
 }

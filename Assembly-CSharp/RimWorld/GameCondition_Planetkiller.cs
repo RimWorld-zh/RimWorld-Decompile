@@ -18,9 +18,10 @@ namespace RimWorld
 			{
 				string labelCap = base.def.LabelCap;
 				labelCap += "\n";
-				string text;
-				labelCap = (text = labelCap + "\n" + base.def.description);
-				labelCap = (text = text + "\n" + "ImpactDate".Translate().CapitalizeFirst() + ": " + GenDate.DateFullStringAt(GenDate.TickGameToAbs(base.startTick + base.Duration), Find.WorldGrid.LongLatOf(base.Map.Tile)));
+				labelCap = labelCap + "\n" + base.def.description;
+				string text = labelCap;
+				labelCap = text + "\n" + "ImpactDate".Translate().CapitalizeFirst() + ": " + GenDate.DateFullStringAt(GenDate.TickGameToAbs(base.startTick + base.Duration), Find.WorldGrid.LongLatOf(base.Map.Tile));
+				text = labelCap;
 				return text + "\n" + "TimeLeft".Translate().CapitalizeFirst() + ": " + base.TicksLeft.ToStringTicksToPeriod(true, false, true);
 			}
 		}

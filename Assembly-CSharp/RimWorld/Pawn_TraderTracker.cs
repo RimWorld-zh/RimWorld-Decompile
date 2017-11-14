@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -32,15 +31,11 @@ namespace RimWorld
 						}
 					}
 				}
-				if (lord == null)
-					yield break;
-				int j = 0;
-				Pawn p;
-				while (true)
+				if (lord != null)
 				{
-					if (j < lord.ownedPawns.Count)
+					for (int j = 0; j < lord.ownedPawns.Count; j++)
 					{
-						p = lord.ownedPawns[j];
+						Pawn p = lord.ownedPawns[j];
 						switch (p.GetTraderCaravanRole())
 						{
 						case TraderCaravanRole.Carrier:
@@ -54,22 +49,13 @@ namespace RimWorld
 							break;
 						}
 						case TraderCaravanRole.Chattel:
-						{
-							if (!this.soldPrisoners.Contains(p))
-								goto end_IL_023d;
-							break;
+							if (this.soldPrisoners.Contains(p))
+								break;
+							yield return (Thing)p;
+							/*Error: Unable to find new state assignment for yield return*/;
 						}
-						}
-						j++;
-						continue;
 					}
-					yield break;
-					continue;
-					end_IL_023d:
-					break;
 				}
-				yield return (Thing)p;
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
 		}
 
@@ -93,7 +79,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return !this.pawn.Dead && this.pawn.Spawned && this.pawn.mindState.wantsToTradeWithColony && this.pawn.CanCasuallyInteractNow(false) && !this.pawn.Downed && !this.pawn.IsPrisoner && this.pawn.Faction != Faction.OfPlayer && (this.pawn.Faction == null || !this.pawn.Faction.HostileTo(Faction.OfPlayer)) && this.Goods.Any((Func<Thing, bool>)((Thing x) => this.traderKind.WillTrade(x.def)));
+				return !this.pawn.Dead && this.pawn.Spawned && this.pawn.mindState.wantsToTradeWithColony && this.pawn.CanCasuallyInteractNow(false) && !this.pawn.Downed && !this.pawn.IsPrisoner && this.pawn.Faction != Faction.OfPlayer && (this.pawn.Faction == null || !this.pawn.Faction.HostileTo(Faction.OfPlayer)) && this.Goods.Any((Thing x) => this.traderKind.WillTrade(x.def));
 			}
 		}
 
@@ -108,14 +94,14 @@ namespace RimWorld
 			Scribe_Collections.Look<Pawn>(ref this.soldPrisoners, "soldPrisoners", LookMode.Reference, new object[0]);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
-				this.soldPrisoners.RemoveAll((Predicate<Pawn>)((Pawn x) => x == null));
+				this.soldPrisoners.RemoveAll((Pawn x) => x == null);
 			}
 		}
 
 		public IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
 			IEnumerable<Thing> items = from x in this.pawn.Map.listerThings.AllThings
-			where TradeUtility.EverTradeable(x.def) && x.def.category == ThingCategory.Item && !x.Position.Fogged(x.Map) && (((Area)((_003CColonyThingsWillingToBuy_003Ec__Iterator1)/*Error near IL_0043: stateMachine*/)._0024this.pawn.Map.areaManager.Home)[x.Position] || x.IsInAnyStorage()) && TradeUtility.TradeableNow(x) && ((_003CColonyThingsWillingToBuy_003Ec__Iterator1)/*Error near IL_0043: stateMachine*/)._0024this.ReachableForTrade(x)
+			where TradeUtility.EverTradeable(x.def) && x.def.category == ThingCategory.Item && !x.Position.Fogged(x.Map) && (((Area)((_003CColonyThingsWillingToBuy_003Ec__Iterator1)/*Error near IL_0042: stateMachine*/)._0024this.pawn.Map.areaManager.Home)[x.Position] || x.IsInAnyStorage()) && TradeUtility.TradeableNow(x) && ((_003CColonyThingsWillingToBuy_003Ec__Iterator1)/*Error near IL_0042: stateMachine*/)._0024this.ReachableForTrade(x)
 			select x;
 			using (IEnumerator<Thing> enumerator = items.GetEnumerator())
 			{
@@ -129,7 +115,7 @@ namespace RimWorld
 			if (this.pawn.GetLord() != null)
 			{
 				using (IEnumerator<Pawn> enumerator2 = (from x in TradeUtility.AllSellableColonyPawns(this.pawn.Map)
-				where !x.Downed && ((_003CColonyThingsWillingToBuy_003Ec__Iterator1)/*Error near IL_0123: stateMachine*/)._0024this.ReachableForTrade(x)
+				where !x.Downed && ((_003CColonyThingsWillingToBuy_003Ec__Iterator1)/*Error near IL_011d: stateMachine*/)._0024this.ReachableForTrade(x)
 				select x).GetEnumerator())
 				{
 					if (enumerator2.MoveNext())
@@ -141,8 +127,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_01c1:
-			/*Error near IL_01c2: Unexpected return in MoveNext()*/;
+			IL_01b8:
+			/*Error near IL_01b9: Unexpected return in MoveNext()*/;
 		}
 
 		public void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
@@ -272,7 +258,11 @@ namespace RimWorld
 
 		private bool ReachableForTrade(Thing thing)
 		{
-			return this.pawn.Map == thing.Map && this.pawn.Map.reachability.CanReach(this.pawn.Position, thing, PathEndMode.Touch, TraverseMode.PassDoors, Danger.Some);
+			if (this.pawn.Map != thing.Map)
+			{
+				return false;
+			}
+			return this.pawn.Map.reachability.CanReach(this.pawn.Position, thing, PathEndMode.Touch, TraverseMode.PassDoors, Danger.Some);
 		}
 	}
 }

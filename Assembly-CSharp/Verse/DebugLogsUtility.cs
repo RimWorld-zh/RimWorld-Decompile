@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,35 +8,30 @@ namespace Verse
 	{
 		public static string ThingListToUniqueCountString(IEnumerable<Thing> things)
 		{
-			string result;
 			if (things == null)
 			{
-				result = "null";
+				return "null";
 			}
-			else
+			Dictionary<ThingDef, int> dictionary = new Dictionary<ThingDef, int>();
+			foreach (Thing thing in things)
 			{
-				Dictionary<ThingDef, int> dictionary = new Dictionary<ThingDef, int>();
-				foreach (Thing item in things)
+				if (!dictionary.ContainsKey(thing.def))
 				{
-					if (!dictionary.ContainsKey(item.def))
-					{
-						dictionary.Add(item.def, 0);
-					}
-					Dictionary<ThingDef, int> dictionary2;
-					ThingDef def;
-					(dictionary2 = dictionary)[def = item.def] = dictionary2[def] + 1;
+					dictionary.Add(thing.def, 0);
 				}
-				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.AppendLine("Registered things in dynamic draw list:");
-				foreach (KeyValuePair<ThingDef, int> item2 in from k in dictionary
-				orderby k.Value descending
-				select k)
-				{
-					stringBuilder.AppendLine(item2.Key + " - " + item2.Value);
-				}
-				result = stringBuilder.ToString();
+				Dictionary<ThingDef, int> dictionary2;
+				ThingDef def;
+				(dictionary2 = dictionary)[def = thing.def] = dictionary2[def] + 1;
 			}
-			return result;
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.AppendLine("Registered things in dynamic draw list:");
+			foreach (KeyValuePair<ThingDef, int> item in from k in dictionary
+			orderby k.Value descending
+			select k)
+			{
+				stringBuilder.AppendLine(item.Key + " - " + item.Value);
+			}
+			return stringBuilder.ToString();
 		}
 	}
 }

@@ -1,7 +1,5 @@
-#define ENABLE_PROFILER
 using System;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 namespace Verse
 {
@@ -13,7 +11,7 @@ namespace Verse
 
 		public string tutorTag;
 
-		private string cachedTutorHighlightTagClosed = (string)null;
+		private string cachedTutorHighlightTagClosed;
 
 		protected abstract float PaneTopY
 		{
@@ -37,20 +35,15 @@ namespace Verse
 		{
 			get
 			{
-				string result;
 				if (this.tutorTag == null)
 				{
-					result = (string)null;
+					return null;
 				}
-				else
+				if (this.cachedTutorHighlightTagClosed == null)
 				{
-					if (this.cachedTutorHighlightTagClosed == null)
-					{
-						this.cachedTutorHighlightTagClosed = "ITab-" + this.tutorTag + "-Closed";
-					}
-					result = this.cachedTutorHighlightTagClosed;
+					this.cachedTutorHighlightTagClosed = "ITab-" + this.tutorTag + "-Closed";
 				}
-				return result;
+				return this.cachedTutorHighlightTagClosed;
 			}
 		}
 
@@ -66,9 +59,8 @@ namespace Verse
 
 		public void DoTabGUI()
 		{
-			Profiler.BeginSample("Inspect tab GUI");
 			Rect rect = this.TabRect;
-			Find.WindowStack.ImmediateWindow(235086, rect, WindowLayer.GameUI, (Action)delegate
+			Find.WindowStack.ImmediateWindow(235086, rect, WindowLayer.GameUI, delegate
 			{
 				if (this.StillValid && this.IsVisible)
 				{
@@ -87,7 +79,6 @@ namespace Verse
 				}
 			}, true, false, 1f);
 			this.ExtraOnGUI();
-			Profiler.EndSample();
 		}
 
 		protected abstract void CloseTab();

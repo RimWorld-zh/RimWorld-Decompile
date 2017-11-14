@@ -16,17 +16,16 @@ namespace RimWorld
 
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
-			bool result;
 			if (!base.CanScatterAt(c, map))
 			{
-				result = false;
+				return false;
 			}
-			else
+			Building edifice = c.GetEdifice(map);
+			if (edifice != null && edifice.def.building.isNaturalRock)
 			{
-				Building edifice = c.GetEdifice(map);
-				result = ((byte)((edifice != null && edifice.def.building.isNaturalRock) ? 1 : 0) != 0);
+				return true;
 			}
-			return result;
+			return false;
 		}
 
 		protected override void ScatterAt(IntVec3 loc, Map map, int stackCount = 1)
@@ -60,13 +59,11 @@ namespace RimWorld
 				}
 				if (base.CanPlaceAncientBuildingInRange(rect, map))
 				{
-					ResolveParams resolveParams = new ResolveParams
-					{
-						rect = rect,
-						disableSinglePawn = new bool?(true),
-						disableHives = new bool?(true),
-						ancientTempleEntranceHeight = new int?(randomInRange3)
-					};
+					ResolveParams resolveParams = default(ResolveParams);
+					resolveParams.rect = rect;
+					resolveParams.disableSinglePawn = true;
+					resolveParams.disableHives = true;
+					resolveParams.ancientTempleEntranceHeight = randomInRange3;
 					RimWorld.BaseGen.BaseGen.globalSettings.map = map;
 					RimWorld.BaseGen.BaseGen.symbolStack.Push("ancientTemple", resolveParams);
 					RimWorld.BaseGen.BaseGen.Generate();

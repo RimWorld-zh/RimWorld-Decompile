@@ -10,9 +10,20 @@ namespace Verse
 		private List<CurvePoint> points = new List<CurvePoint>();
 
 		[Unsaved]
-		private SimpleCurveView view = null;
+		private SimpleCurveView view;
 
-		private static Comparison<CurvePoint> CurvePointsComparer = (Comparison<CurvePoint>)((CurvePoint a, CurvePoint b) => (!(a.x < b.x)) ? ((b.x < a.x) ? 1 : 0) : (-1));
+		private static Comparison<CurvePoint> CurvePointsComparer = delegate(CurvePoint a, CurvePoint b)
+		{
+			if (a.x < b.x)
+			{
+				return -1;
+			}
+			if (b.x < a.x)
+			{
+				return 1;
+			}
+			return 0;
+		};
 
 		public int PointsCount
 		{
@@ -80,16 +91,16 @@ namespace Verse
 				}
 			}
 			yield break;
-			IL_00b8:
-			/*Error near IL_00b9: Unexpected return in MoveNext()*/;
+			IL_00b4:
+			/*Error near IL_00b5: Unexpected return in MoveNext()*/;
 		}
 
 		public void SetPoints(IEnumerable<CurvePoint> newPoints)
 		{
 			this.points.Clear();
-			foreach (CurvePoint item in newPoints)
+			foreach (CurvePoint newPoint in newPoints)
 			{
-				this.points.Add(item);
+				this.points.Add(newPoint);
 			}
 			this.SortPoints();
 		}
@@ -135,71 +146,61 @@ namespace Verse
 
 		public float Evaluate(float x)
 		{
-			float result;
 			if (this.points.Count == 0)
 			{
 				Log.Error("Evaluating a SimpleCurve with no points.");
-				result = 0f;
+				return 0f;
 			}
-			else if (x <= this.points[0].x)
+			if (x <= this.points[0].x)
 			{
-				result = this.points[0].y;
+				return this.points[0].y;
 			}
-			else if (x >= this.points[this.points.Count - 1].x)
+			if (x >= this.points[this.points.Count - 1].x)
 			{
-				result = this.points[this.points.Count - 1].y;
+				return this.points[this.points.Count - 1].y;
 			}
-			else
+			CurvePoint curvePoint = this.points[0];
+			CurvePoint curvePoint2 = this.points[this.points.Count - 1];
+			int num = 0;
+			while (num < this.points.Count)
 			{
-				CurvePoint curvePoint = this.points[0];
-				CurvePoint curvePoint2 = this.points[this.points.Count - 1];
-				int num = 0;
-				while (num < this.points.Count)
+				if (!(x <= this.points[num].x))
 				{
-					if (!(x <= this.points[num].x))
-					{
-						num++;
-						continue;
-					}
-					curvePoint2 = this.points[num];
-					if (num > 0)
-					{
-						curvePoint = this.points[num - 1];
-					}
-					break;
+					num++;
+					continue;
 				}
-				float t = (x - curvePoint.x) / (curvePoint2.x - curvePoint.x);
-				result = Mathf.Lerp(curvePoint.y, curvePoint2.y, t);
+				curvePoint2 = this.points[num];
+				if (num > 0)
+				{
+					curvePoint = this.points[num - 1];
+				}
+				break;
 			}
-			return result;
+			float t = (x - curvePoint.x) / (curvePoint2.x - curvePoint.x);
+			return Mathf.Lerp(curvePoint.y, curvePoint2.y, t);
 		}
 
 		public float PeriodProbabilityFromCumulative(float startX, float span)
 		{
-			float result;
 			if (this.points.Count < 2)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			if (this.points[0].y != 0.0)
 			{
-				if (this.points[0].y != 0.0)
-				{
-					Log.Warning("PeriodProbabilityFromCumulative should only run on curves whose first point is 0.");
-				}
-				float num = this.Evaluate(startX + span) - this.Evaluate(startX);
-				if (num < 0.0)
-				{
-					Log.Error("PeriodicProbability got negative probability from " + this + ": slope should never be negative.");
-					num = 0f;
-				}
-				if (num > 1.0)
-				{
-					num = 1f;
-				}
-				result = num;
+				Log.Warning("PeriodProbabilityFromCumulative should only run on curves whose first point is 0.");
 			}
-			return result;
+			float num = this.Evaluate(startX + span) - this.Evaluate(startX);
+			if (num < 0.0)
+			{
+				Log.Error("PeriodicProbability got negative probability from " + this + ": slope should never be negative.");
+				num = 0f;
+			}
+			if (num > 1.0)
+			{
+				num = 1f;
+			}
+			return num;
 		}
 
 		public IEnumerable<string> ConfigErrors(string prefix)

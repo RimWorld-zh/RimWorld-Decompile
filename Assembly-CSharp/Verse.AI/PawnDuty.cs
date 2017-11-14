@@ -4,7 +4,7 @@ namespace Verse.AI
 {
 	public class PawnDuty : IExposable
 	{
-		public DutyDef def = null;
+		public DutyDef def;
 
 		public LocalTargetInfo focus = LocalTargetInfo.Invalid;
 
@@ -12,17 +12,17 @@ namespace Verse.AI
 
 		public float radius = -1f;
 
-		public LocomotionUrgency locomotion = LocomotionUrgency.None;
+		public LocomotionUrgency locomotion;
 
-		public Danger maxDanger = Danger.Unspecified;
+		public Danger maxDanger;
 
 		public CellRect spectateRect = default(CellRect);
 
 		public SpectateRectSide spectateRectAllowedSides = SpectateRectSide.All;
 
-		public bool canDig = false;
+		public bool canDig;
 
-		public PawnsToGather pawnsToGather = PawnsToGather.None;
+		public PawnsToGather pawnsToGather;
 
 		public int transportersGroup = -1;
 
@@ -35,13 +35,15 @@ namespace Verse.AI
 			this.def = def;
 		}
 
-		public PawnDuty(DutyDef def, LocalTargetInfo focus, float radius = -1f) : this(def)
+		public PawnDuty(DutyDef def, LocalTargetInfo focus, float radius = -1f)
+			: this(def)
 		{
 			this.focus = focus;
 			this.radius = radius;
 		}
 
-		public PawnDuty(DutyDef def, LocalTargetInfo focus, LocalTargetInfo focusSecond, float radius = -1f) : this(def, focus, radius)
+		public PawnDuty(DutyDef def, LocalTargetInfo focus, LocalTargetInfo focusSecond, float radius = -1f)
+			: this(def, focus, radius)
 		{
 			this.focusSecond = focusSecond;
 		}
@@ -63,9 +65,9 @@ namespace Verse.AI
 
 		public override string ToString()
 		{
-			string text = (!this.focus.IsValid) ? "" : this.focus.ToString();
-			string text2 = (!this.focusSecond.IsValid) ? "" : (", second=" + this.focusSecond.ToString());
-			string text3 = (!(this.radius > 0.0)) ? "" : (", rad=" + this.radius.ToString("F2"));
+			string text = (!this.focus.IsValid) ? string.Empty : this.focus.ToString();
+			string text2 = (!this.focusSecond.IsValid) ? string.Empty : (", second=" + this.focusSecond.ToString());
+			string text3 = (!(this.radius > 0.0)) ? string.Empty : (", rad=" + this.radius.ToString("F2"));
 			return "(" + this.def + " " + text + text2 + text3 + ")";
 		}
 

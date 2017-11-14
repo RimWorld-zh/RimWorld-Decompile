@@ -4,20 +4,20 @@ namespace Verse
 	{
 		public int tendDuration = -1;
 
-		public bool tendAllAtOnce = false;
+		public bool tendAllAtOnce;
 
 		public int disappearsAtTendedCount = -1;
 
-		public float severityPerDayTended = 0f;
+		public float severityPerDayTended;
 
 		[LoadAlias("labelTreatedWell")]
-		public string labelTendedWell = (string)null;
+		public string labelTendedWell;
 
 		[LoadAlias("labelTreatedWellInner")]
-		public string labelTendedWellInner = (string)null;
+		public string labelTendedWellInner;
 
 		[LoadAlias("labelSolidTreatedWell")]
-		public string labelSolidTendedWell = (string)null;
+		public string labelSolidTendedWell;
 
 		public HediffCompProperties_TendDuration()
 		{

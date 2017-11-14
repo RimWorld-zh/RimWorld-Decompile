@@ -1,7 +1,5 @@
-#define ENABLE_PROFILER
 using RimWorld;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 namespace Verse
 {
@@ -33,7 +31,11 @@ namespace Verse
 				sunShadowsViewRect.ClipInsideMap(this.map);
 				IntVec2 intVec = this.SectionCoordsAt(sunShadowsViewRect.BottomLeft);
 				IntVec2 intVec2 = this.SectionCoordsAt(sunShadowsViewRect.TopRight);
-				return (intVec2.x >= intVec.x && intVec2.z >= intVec.z) ? CellRect.FromLimits(intVec.x, intVec.z, intVec2.x, intVec2.z) : CellRect.Empty;
+				if (intVec2.x >= intVec.x && intVec2.z >= intVec.z)
+				{
+					return CellRect.FromLimits(intVec.x, intVec.z, intVec2.x, intVec2.z);
+				}
+				return CellRect.Empty;
 			}
 		}
 
@@ -44,8 +46,8 @@ namespace Verse
 
 		public void MapMeshDirty(IntVec3 loc, MapMeshFlag dirtyFlags)
 		{
-			bool regenAdjacentCells = ((int)dirtyFlags & 6) != 0;
-			bool regenAdjacentSections = ((int)dirtyFlags & 8) != 0;
+			bool regenAdjacentCells = (dirtyFlags & (MapMeshFlag.FogOfWar | MapMeshFlag.Buildings)) != MapMeshFlag.None;
+			bool regenAdjacentSections = (dirtyFlags & MapMeshFlag.GroundGlow) != MapMeshFlag.None;
 			this.MapMeshDirty(loc, dirtyFlags, regenAdjacentCells, regenAdjacentSections);
 		}
 
@@ -134,25 +136,20 @@ namespace Verse
 
 		private bool TryUpdateSection(Section sect)
 		{
-			bool result;
 			if (sect.dirtyFlags == MapMeshFlag.None)
 			{
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < MapMeshFlagUtility.allFlags.Count; i++)
 			{
-				for (int i = 0; i < MapMeshFlagUtility.allFlags.Count; i++)
+				MapMeshFlag mapMeshFlag = MapMeshFlagUtility.allFlags[i];
+				if ((sect.dirtyFlags & mapMeshFlag) != 0)
 				{
-					MapMeshFlag mapMeshFlag = MapMeshFlagUtility.allFlags[i];
-					if ((sect.dirtyFlags & mapMeshFlag) != 0)
-					{
-						sect.RegenerateLayers(mapMeshFlag);
-					}
+					sect.RegenerateLayers(mapMeshFlag);
 				}
-				sect.dirtyFlags = MapMeshFlag.None;
-				result = true;
 			}
-			return result;
+			sect.dirtyFlags = MapMeshFlag.None;
+			return true;
 		}
 
 		public void DrawMapMesh()
@@ -160,9 +157,7 @@ namespace Verse
 			CellRect currentViewRect = Find.CameraDriver.CurrentViewRect;
 			currentViewRect.minX -= 17;
 			currentViewRect.minZ -= 17;
-			CellRect visibleSections = this.VisibleSections;
-			Profiler.BeginSample("Draw sections");
-			CellRect.CellRectIterator iterator = visibleSections.GetIterator();
+			CellRect.CellRectIterator iterator = this.VisibleSections.GetIterator();
 			while (!iterator.Done())
 			{
 				IntVec3 current = iterator.Current;
@@ -170,7 +165,6 @@ namespace Verse
 				section.DrawSection(!currentViewRect.Contains(section.botLeft));
 				iterator.MoveNext();
 			}
-			Profiler.EndSample();
 		}
 
 		private IntVec2 SectionCoordsAt(IntVec3 loc)
@@ -209,7 +203,11 @@ namespace Verse
 						{
 							if (this.sections[num, num3] == null)
 							{
-								this.sections[num, num3] = new Section(new IntVec3(num, 0, num3), this.map);
+								Section[,] array = this.sections;
+								int num5 = num;
+								int num6 = num3;
+								Section section = new Section(new IntVec3(num, 0, num3), this.map);
+								array[num5, num6] = section;
 							}
 							this.sections[num, num3].RegenerateAllLayers();
 							num3++;

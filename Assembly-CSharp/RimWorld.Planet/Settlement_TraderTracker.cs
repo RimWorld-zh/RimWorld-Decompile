@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -61,7 +60,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (this.settlement.Faction != null) ? "SettlementTrader".Translate(this.settlement.LabelCap, this.settlement.Faction.Name) : this.settlement.LabelCap;
+				if (this.settlement.Faction == null)
+				{
+					return this.settlement.LabelCap;
+				}
+				return "SettlementTrader".Translate(this.settlement.LabelCap, this.settlement.Faction.Name);
 			}
 		}
 
@@ -69,7 +72,7 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return this.TraderKind != null && (this.stock == null || this.stock.InnerListForReading.Any((Predicate<Thing>)((Thing x) => this.TraderKind.WillTrade(x.def))));
+				return this.TraderKind != null && (this.stock == null || this.stock.InnerListForReading.Any((Thing x) => this.TraderKind.WillTrade(x.def)));
 			}
 		}
 
@@ -145,8 +148,8 @@ namespace RimWorld.Planet
 			}
 			yield return (Thing)pawns[i];
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_015c:
-			/*Error near IL_015d: Unexpected return in MoveNext()*/;
+			IL_0156:
+			/*Error near IL_0157: Unexpected return in MoveNext()*/;
 		}
 
 		public virtual void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
@@ -245,7 +248,11 @@ namespace RimWorld.Planet
 
 		public bool ContainsPawn(Pawn p)
 		{
-			return this.stock != null && this.stock.Contains(p);
+			if (this.stock != null)
+			{
+				return this.stock.Contains(p);
+			}
+			return false;
 		}
 
 		protected virtual void RegenerateStock()
@@ -254,12 +261,10 @@ namespace RimWorld.Planet
 			this.stock = new ThingOwner<Thing>(this);
 			if (this.settlement.Faction == null || !this.settlement.Faction.IsPlayer)
 			{
-				ItemCollectionGeneratorParams parms = new ItemCollectionGeneratorParams
-				{
-					traderDef = this.TraderKind,
-					tile = new int?(this.settlement.Tile),
-					traderFaction = this.settlement.Faction
-				};
+				ItemCollectionGeneratorParams parms = default(ItemCollectionGeneratorParams);
+				parms.traderDef = this.TraderKind;
+				parms.tile = this.settlement.Tile;
+				parms.traderFaction = this.settlement.Faction;
 				this.stock.TryAddRangeOrTransfer(ItemCollectionGeneratorDefOf.TraderStock.Worker.Generate(parms), true, false);
 			}
 			for (int i = 0; i < this.stock.Count; i++)

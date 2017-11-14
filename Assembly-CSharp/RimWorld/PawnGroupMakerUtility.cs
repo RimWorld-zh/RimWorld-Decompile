@@ -102,8 +102,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_029a:
-			/*Error near IL_029b: Unexpected return in MoveNext()*/;
+			IL_0293:
+			/*Error near IL_0294: Unexpected return in MoveNext()*/;
 		}
 
 		public static IEnumerable<PawnGenOption> ChoosePawnGenOptionsByPoints(float points, List<PawnGenOption> options, PawnGroupMakerParms parms)
@@ -127,7 +127,7 @@ namespace RimWorld
 				if (list.Count != 0)
 				{
 					float desireToSuppressCount = PawnGroupMakerUtility.DesireToSuppressCountPerRaidPointsCurve.Evaluate(points);
-					Func<PawnGenOption, float> weightSelector = (Func<PawnGenOption, float>)delegate(PawnGenOption gr)
+					Func<PawnGenOption, float> weightSelector = delegate(PawnGenOption gr)
 					{
 						float num3 = gr.selectionWeight;
 						if (desireToSuppressCount > 0.0)
@@ -173,41 +173,33 @@ namespace RimWorld
 
 		public static bool CanGenerateAnyNormalGroup(Faction faction, float points)
 		{
-			bool result;
 			if (faction.def.pawnGroupMakers == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			PawnGroupMakerParms pawnGroupMakerParms = new PawnGroupMakerParms();
+			pawnGroupMakerParms.faction = faction;
+			pawnGroupMakerParms.points = points;
+			for (int i = 0; i < faction.def.pawnGroupMakers.Count; i++)
 			{
-				PawnGroupMakerParms pawnGroupMakerParms = new PawnGroupMakerParms();
-				pawnGroupMakerParms.faction = faction;
-				pawnGroupMakerParms.points = points;
-				for (int i = 0; i < faction.def.pawnGroupMakers.Count; i++)
+				PawnGroupMaker pawnGroupMaker = faction.def.pawnGroupMakers[i];
+				if (pawnGroupMaker.kindDef == PawnGroupKindDefOf.Normal && pawnGroupMaker.CanGenerateFrom(pawnGroupMakerParms))
 				{
-					PawnGroupMaker pawnGroupMaker = faction.def.pawnGroupMakers[i];
-					if (pawnGroupMaker.kindDef == PawnGroupKindDefOf.Normal && pawnGroupMaker.CanGenerateFrom(pawnGroupMakerParms))
-						goto IL_0067;
+					return true;
 				}
-				result = false;
 			}
-			goto IL_0090;
-			IL_0090:
-			return result;
-			IL_0067:
-			result = true;
-			goto IL_0090;
+			return false;
 		}
 
 		public static void LogPawnGroupsMade()
 		{
 			Dialog_DebugOptionListLister.ShowSimpleDebugMenu(from fac in Find.FactionManager.AllFactions
 			where !fac.def.pawnGroupMakers.NullOrEmpty()
-			select fac, (Func<Faction, string>)((Faction fac) => fac.Name + " (" + fac.def.defName + ")"), (Action<Faction>)delegate(Faction fac)
+			select fac, (Faction fac) => fac.Name + " (" + fac.def.defName + ")", delegate(Faction fac)
 			{
 				StringBuilder sb = new StringBuilder();
 				sb.AppendLine("FACTION: " + fac.Name + " (" + fac.def.defName + ") min=" + fac.def.MinPointsToGenerateNormalPawnGroup());
-				Action<float> action = (Action<float>)delegate(float points)
+				Action<float> action = delegate(float points)
 				{
 					if (!(points < fac.def.MinPointsToGenerateNormalPawnGroup()))
 					{
@@ -217,7 +209,7 @@ namespace RimWorld
 						pawnGroupMakerParms.faction = fac;
 						sb.AppendLine("Group with " + pawnGroupMakerParms.points + " points (max option cost: " + PawnGroupMakerUtility.MaxAllowedPawnGenOptionCost(fac, points, RaidStrategyDefOf.ImmediateAttack) + ")");
 						float num = 0f;
-						foreach (Pawn item in PawnGroupMakerUtility.GeneratePawns(PawnGroupKindDefOf.Normal, pawnGroupMakerParms, false).OrderBy((Func<Pawn, float>)((Pawn pa) => pa.kindDef.combatPower)))
+						foreach (Pawn item in PawnGroupMakerUtility.GeneratePawns(PawnGroupKindDefOf.Normal, pawnGroupMakerParms, false).OrderBy((Pawn pa) => pa.kindDef.combatPower))
 						{
 							string text = (item.equipment.Primary == null) ? "no-equipment" : item.equipment.Primary.Label;
 							Apparel apparel = item.apparel.FirstApparelOnBodyPartGroup(BodyPartGroupDefOf.Torso);
@@ -240,10 +232,10 @@ namespace RimWorld
 
 		public static bool TryGetRandomFactionForNormalPawnGroup(float points, out Faction faction, Predicate<Faction> validator = null, bool allowNonHostileToPlayer = false, bool allowHidden = false, bool allowDefeated = false, bool allowNonHumanlike = true)
 		{
-			return Find.FactionManager.AllFactions.Where((Func<Faction, bool>)delegate(Faction f)
+			return Find.FactionManager.AllFactions.Where(delegate(Faction f)
 			{
 				int result;
-				if ((allowHidden || !f.def.hidden) && (allowDefeated || !f.defeated) && (allowNonHumanlike || f.def.humanlikeFaction) && (allowNonHostileToPlayer || f.HostileTo(Faction.OfPlayer)) && f.def.pawnGroupMakers != null && f.def.pawnGroupMakers.Any((Predicate<PawnGroupMaker>)((PawnGroupMaker x) => x.kindDef == PawnGroupKindDefOf.Normal)) && ((object)validator == null || validator(f)))
+				if ((allowHidden || !f.def.hidden) && (allowDefeated || !f.defeated) && (allowNonHumanlike || f.def.humanlikeFaction) && (allowNonHostileToPlayer || f.HostileTo(Faction.OfPlayer)) && f.def.pawnGroupMakers != null && f.def.pawnGroupMakers.Any((PawnGroupMaker x) => x.kindDef == PawnGroupKindDefOf.Normal) && (validator == null || validator(f)))
 				{
 					result = ((points >= f.def.MinPointsToGenerateNormalPawnGroup()) ? 1 : 0);
 					goto IL_00de;

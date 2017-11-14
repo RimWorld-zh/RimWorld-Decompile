@@ -8,9 +8,9 @@ namespace Verse
 	{
 		public string label = "Tab";
 
-		public Action clickedAction = null;
+		public Action clickedAction;
 
-		public bool selected = false;
+		public bool selected;
 
 		private const float TabEndWidth = 30f;
 
@@ -27,15 +27,11 @@ namespace Verse
 
 		public void Draw(Rect rect)
 		{
-			Rect drawRect = new Rect(rect)
-			{
-				width = 30f
-			};
-			Rect drawRect2 = new Rect(rect)
-			{
-				width = 30f,
-				x = (float)(rect.x + rect.width - 30.0)
-			};
+			Rect drawRect = new Rect(rect);
+			drawRect.width = 30f;
+			Rect drawRect2 = new Rect(rect);
+			drawRect2.width = 30f;
+			drawRect2.x = (float)(rect.x + rect.width - 30.0);
 			Rect uvRect = new Rect(0.53125f, 0f, 0.46875f, 1f);
 			Rect drawRect3 = new Rect(rect);
 			drawRect3.x += drawRect.width;

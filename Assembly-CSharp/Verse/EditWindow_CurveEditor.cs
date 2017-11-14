@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,7 +8,7 @@ namespace Verse
 	{
 		private SimpleCurve curve;
 
-		public List<float> debugInputValues = null;
+		public List<float> debugInputValues;
 
 		private int draggingPointIndex = -1;
 
@@ -113,11 +112,9 @@ namespace Verse
 				Vector2 v = SimpleCurveDrawer.ScreenToCurveCoords(screenRect, this.curve.View.rect, mousePosition);
 				Widgets.Label(rect, v.ToStringTwoDigits());
 			}
-			Rect rect2 = new Rect(0f, 0f, 50f, 24f)
-			{
-				x = screenRect.x,
-				y = (float)(screenRect.y + screenRect.height / 2.0 - 12.0)
-			};
+			Rect rect2 = new Rect(0f, 0f, 50f, 24f);
+			rect2.x = screenRect.x;
+			rect2.y = (float)(screenRect.y + screenRect.height / 2.0 - 12.0);
 			string s = Widgets.TextField(rect2, this.curve.View.rect.x.ToString());
 			float num = default(float);
 			if (float.TryParse(s, out num))
@@ -182,14 +179,14 @@ namespace Verse
 				{
 					Vector2 mouseCurveCoords = SimpleCurveDrawer.ScreenToCurveCoords(screenRect, this.curve.View.rect, Event.current.mousePosition);
 					List<FloatMenuOption> list2 = new List<FloatMenuOption>();
-					list2.Add(new FloatMenuOption("Add point at " + mouseCurveCoords.ToString(), (Action)delegate
+					list2.Add(new FloatMenuOption("Add point at " + mouseCurveCoords.ToString(), delegate
 					{
 						this.curve.Add(new CurvePoint(mouseCurveCoords), true);
 					}, MenuOptionPriority.Default, null, null, 0f, null, null));
 					foreach (int item in this.PointsNearMouse(screenRect))
 					{
 						CurvePoint point = this.curve[item];
-						list2.Add(new FloatMenuOption("Remove point at " + point.ToString(), (Action)delegate
+						list2.Add(new FloatMenuOption("Remove point at " + point.ToString(), delegate
 						{
 							this.curve.RemovePointNear(point);
 						}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -249,10 +246,10 @@ namespace Verse
 			}
 			finally
 			{
-				((_003CPointsNearMouse_003Ec__Iterator0)/*Error near IL_010d: stateMachine*/)._003C_003E__Finally0();
+				GUI.EndGroup();
 			}
-			IL_011d:
-			/*Error near IL_011e: Unexpected return in MoveNext()*/;
+			IL_0118:
+			/*Error near IL_0119: Unexpected return in MoveNext()*/;
 		}
 	}
 }

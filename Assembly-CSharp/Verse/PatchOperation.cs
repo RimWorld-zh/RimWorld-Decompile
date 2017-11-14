@@ -6,15 +6,17 @@ namespace Verse
 	{
 		private enum Success
 		{
-			Normal = 0,
-			Invert = 1,
-			Always = 2,
-			Never = 3
+			Normal,
+			Invert,
+			Always,
+			Never
 		}
+
+		public string sourceFile;
 
 		private bool neverSucceeded = true;
 
-		private Success success = Success.Normal;
+		private Success success;
 
 		public bool Apply(XmlDocument xml)
 		{
@@ -44,11 +46,16 @@ namespace Verse
 			return false;
 		}
 
-		public void Complete(string modIdentifier)
+		public virtual void Complete(string modIdentifier)
 		{
 			if (this.neverSucceeded)
 			{
-				Log.Error(string.Format("[{0}] Patch operation {1} failed", modIdentifier, this));
+				string text = string.Format("[{0}] Patch operation {1} failed", modIdentifier, this);
+				if (!string.IsNullOrEmpty(this.sourceFile))
+				{
+					text = text + "\nfile: " + this.sourceFile;
+				}
+				Log.Error(text);
 			}
 		}
 	}

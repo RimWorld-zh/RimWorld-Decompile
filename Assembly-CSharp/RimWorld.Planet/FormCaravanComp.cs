@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -33,7 +32,7 @@ namespace RimWorld.Planet
 					icon = FormCaravanComp.FormCaravanCommand,
 					hotKey = KeyBindingDefOf.Misc2,
 					tutorTag = "FormCaravan",
-					action = (Action)delegate
+					action = delegate
 					{
 						Find.WindowStack.Add(new Dialog_FormCaravan(mapParent.Map, false, null, true, false));
 					}
@@ -49,7 +48,7 @@ namespace RimWorld.Planet
 				icon = FormCaravanComp.FormCaravanCommand,
 				hotKey = KeyBindingDefOf.Misc2,
 				tutorTag = "ReformCaravan",
-				action = (Action)delegate
+				action = delegate
 				{
 					Find.WindowStack.Add(new Dialog_FormCaravan(mapParent.Map, true, null, true, false));
 				}

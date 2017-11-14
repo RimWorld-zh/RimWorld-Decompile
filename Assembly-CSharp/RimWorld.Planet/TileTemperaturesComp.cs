@@ -10,7 +10,7 @@ namespace RimWorld.Planet
 		{
 			private int tile;
 
-			private int tickCachesNeedReset = 0;
+			private int tickCachesNeedReset;
 
 			private float cachedOutdoorTemp = -3.40282347E+38f;
 
@@ -95,7 +95,8 @@ namespace RimWorld.Planet
 
 		private List<int> usedSlots;
 
-		public TileTemperaturesComp(World world) : base(world)
+		public TileTemperaturesComp(World world)
+			: base(world)
 		{
 			this.ClearCaches();
 		}
@@ -163,18 +164,13 @@ namespace RimWorld.Planet
 
 		private CachedTileTemperatureData RetrieveCachedData(int tile)
 		{
-			CachedTileTemperatureData result;
 			if (this.cache[tile] != null)
 			{
-				result = this.cache[tile];
+				return this.cache[tile];
 			}
-			else
-			{
-				this.cache[tile] = new CachedTileTemperatureData(tile);
-				this.usedSlots.Add(tile);
-				result = this.cache[tile];
-			}
-			return result;
+			this.cache[tile] = new CachedTileTemperatureData(tile);
+			this.usedSlots.Add(tile);
+			return this.cache[tile];
 		}
 	}
 }

@@ -2,25 +2,25 @@ namespace Verse
 {
 	public class PawnKindLifeStage
 	{
-		public string label = (string)null;
+		public string label;
 
-		public string labelPlural = (string)null;
+		public string labelPlural;
 
-		public string labelMale = (string)null;
+		public string labelMale;
 
-		public string labelMalePlural = (string)null;
+		public string labelMalePlural;
 
-		public string labelFemale = (string)null;
+		public string labelFemale;
 
-		public string labelFemalePlural = (string)null;
+		public string labelFemalePlural;
 
-		public GraphicData bodyGraphicData = null;
+		public GraphicData bodyGraphicData;
 
-		public GraphicData femaleGraphicData = null;
+		public GraphicData femaleGraphicData;
 
-		public GraphicData dessicatedBodyGraphicData = null;
+		public GraphicData dessicatedBodyGraphicData;
 
-		public BodyPartToDrop butcherBodyPart = null;
+		public BodyPartToDrop butcherBodyPart;
 
 		public void ResolveReferences()
 		{

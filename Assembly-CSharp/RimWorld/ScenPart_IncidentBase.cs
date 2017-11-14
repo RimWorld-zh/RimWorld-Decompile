@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -57,13 +56,21 @@ namespace RimWorld
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_IncidentBase scenPart_IncidentBase = other as ScenPart_IncidentBase;
-			return (byte)((scenPart_IncidentBase != null && scenPart_IncidentBase.Incident == this.incident) ? 1 : 0) != 0;
+			if (scenPart_IncidentBase != null && scenPart_IncidentBase.Incident == this.incident)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public override bool CanCoexistWith(ScenPart other)
 		{
 			ScenPart_IncidentBase scenPart_IncidentBase = other as ScenPart_IncidentBase;
-			return (byte)((scenPart_IncidentBase == null || scenPart_IncidentBase.Incident != this.incident) ? 1 : 0) != 0;
+			if (scenPart_IncidentBase != null && scenPart_IncidentBase.Incident == this.incident)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		protected virtual IEnumerable<IncidentDef> RandomizableIncidents()
@@ -75,10 +82,14 @@ namespace RimWorld
 		{
 			if (Widgets.ButtonText(rect, this.incident.LabelCap, true, false, true))
 			{
-				FloatMenuUtility.MakeMenu(DefDatabase<IncidentDef>.AllDefs, (Func<IncidentDef, string>)((IncidentDef id) => id.LabelCap), (Func<IncidentDef, Action>)((IncidentDef id) => (Action)delegate()
+				FloatMenuUtility.MakeMenu(DefDatabase<IncidentDef>.AllDefs, (IncidentDef id) => id.LabelCap, delegate(IncidentDef id)
 				{
-					this.incident = id;
-				}));
+					ScenPart_IncidentBase scenPart_IncidentBase = this;
+					return delegate
+					{
+						scenPart_IncidentBase.incident = id;
+					};
+				});
 			}
 		}
 	}

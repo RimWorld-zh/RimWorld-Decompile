@@ -7,13 +7,13 @@ namespace RimWorld
 {
 	public class WorkGiverDef : Def
 	{
-		public Type giverClass = null;
+		public Type giverClass;
 
-		public WorkTypeDef workType = null;
+		public WorkTypeDef workType;
 
-		public WorkTags workTags = WorkTags.None;
+		public WorkTags workTags;
 
-		public int priorityInType = 0;
+		public int priorityInType;
 
 		[MustTranslate]
 		public string verb;
@@ -23,44 +23,44 @@ namespace RimWorld
 
 		public bool scanThings = true;
 
-		public bool scanCells = false;
+		public bool scanCells;
 
-		public bool emergency = false;
+		public bool emergency;
 
 		public List<PawnCapacityDef> requiredCapacities = new List<PawnCapacityDef>();
 
 		public bool directOrderable = true;
 
-		public bool prioritizeSustains = false;
+		public bool prioritizeSustains;
 
-		public bool canBeDoneByNonColonists = false;
+		public bool canBeDoneByNonColonists;
 
 		public JobTag tagToGive = JobTag.MiscWork;
 
-		public List<ThingDef> fixedBillGiverDefs = null;
+		public List<ThingDef> fixedBillGiverDefs;
 
-		public bool billGiversAllHumanlikes = false;
+		public bool billGiversAllHumanlikes;
 
-		public bool billGiversAllHumanlikesCorpses = false;
+		public bool billGiversAllHumanlikesCorpses;
 
-		public bool billGiversAllMechanoids = false;
+		public bool billGiversAllMechanoids;
 
-		public bool billGiversAllMechanoidsCorpses = false;
+		public bool billGiversAllMechanoidsCorpses;
 
-		public bool billGiversAllAnimals = false;
+		public bool billGiversAllAnimals;
 
-		public bool billGiversAllAnimalsCorpses = false;
+		public bool billGiversAllAnimalsCorpses;
 
-		public bool tendToHumanlikesOnly = false;
+		public bool tendToHumanlikesOnly;
 
-		public bool tendToAnimalsOnly = false;
+		public bool tendToAnimalsOnly;
 
-		public bool feedHumanlikesOnly = false;
+		public bool feedHumanlikesOnly;
 
-		public bool feedAnimalsOnly = false;
+		public bool feedAnimalsOnly;
 
 		[Unsaved]
-		private WorkGiver workerInt = null;
+		private WorkGiver workerInt;
 
 		public WorkGiver Worker
 		{
@@ -77,7 +77,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -95,8 +95,8 @@ namespace RimWorld
 				yield break;
 			yield return base.defName + " lacks a gerund.";
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_014d:
-			/*Error near IL_014e: Unexpected return in MoveNext()*/;
+			IL_0149:
+			/*Error near IL_014a: Unexpected return in MoveNext()*/;
 		}
 	}
 }

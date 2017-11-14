@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -83,26 +82,16 @@ namespace Verse
 
 		public string NewZoneName(string nameBase)
 		{
-			int num = 1;
-			string result;
-			while (true)
+			for (int i = 1; i <= 1000; i++)
 			{
-				if (num <= 1000)
+				string cand = nameBase + " " + i;
+				if (!this.allZones.Any((Zone z) => z.label == cand))
 				{
-					string cand = nameBase + " " + num;
-					if (!this.allZones.Any((Predicate<Zone>)((Zone z) => z.label == cand)))
-					{
-						result = cand;
-						break;
-					}
-					num++;
-					continue;
+					return cand;
 				}
-				Log.Error("Ran out of zone names.");
-				result = "Zone X";
-				break;
 			}
-			return result;
+			Log.Error("Ran out of zone names.");
+			return "Zone X";
 		}
 
 		internal void Notify_NoZoneOverlapThingSpawned(Thing thing)

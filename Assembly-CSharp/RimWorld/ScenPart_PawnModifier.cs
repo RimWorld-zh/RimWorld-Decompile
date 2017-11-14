@@ -12,7 +12,7 @@ namespace RimWorld
 
 		protected PawnGenerationContext context;
 
-		private bool hideOffMap = false;
+		private bool hideOffMap;
 
 		private string chanceBuf;
 
@@ -49,7 +49,7 @@ namespace RimWorld
 					{
 						PawnGenerationContext pawnGenerationContext = (PawnGenerationContext)enumerator.Current;
 						PawnGenerationContext localCont = pawnGenerationContext;
-						list.Add(new FloatMenuOption(localCont.ToStringHuman(), (Action)delegate
+						list.Add(new FloatMenuOption(localCont.ToStringHuman(), delegate
 						{
 							this.context = localCont;
 						}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -88,7 +88,7 @@ namespace RimWorld
 		{
 			if (Find.GameInitData != null && this.hideOffMap)
 			{
-				if (((this.context != PawnGenerationContext.PlayerStarter) ? this.context : PawnGenerationContext.All) != 0)
+				if (this.context != PawnGenerationContext.PlayerStarter && this.context != 0)
 					return;
 				foreach (Pawn startingPawn in Find.GameInitData.startingPawns)
 				{

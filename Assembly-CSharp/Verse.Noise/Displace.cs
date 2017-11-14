@@ -1,6 +1,3 @@
-#define DEBUG
-using System.Diagnostics;
-
 namespace Verse.Noise
 {
 	public class Displace : ModuleBase
@@ -13,7 +10,6 @@ namespace Verse.Noise
 			}
 			set
 			{
-				Debug.Assert(value != null);
 				base.modules[1] = value;
 			}
 		}
@@ -26,7 +22,6 @@ namespace Verse.Noise
 			}
 			set
 			{
-				Debug.Assert(value != null);
 				base.modules[2] = value;
 			}
 		}
@@ -39,16 +34,17 @@ namespace Verse.Noise
 			}
 			set
 			{
-				Debug.Assert(value != null);
 				base.modules[3] = value;
 			}
 		}
 
-		public Displace() : base(4)
+		public Displace()
+			: base(4)
 		{
 		}
 
-		public Displace(ModuleBase input, ModuleBase x, ModuleBase y, ModuleBase z) : base(4)
+		public Displace(ModuleBase input, ModuleBase x, ModuleBase y, ModuleBase z)
+			: base(4)
 		{
 			base.modules[0] = input;
 			base.modules[1] = x;
@@ -58,10 +54,6 @@ namespace Verse.Noise
 
 		public override double GetValue(double x, double y, double z)
 		{
-			Debug.Assert(base.modules[0] != null);
-			Debug.Assert(base.modules[1] != null);
-			Debug.Assert(base.modules[2] != null);
-			Debug.Assert(base.modules[3] != null);
 			double x2 = x + base.modules[1].GetValue(x, y, z);
 			double y2 = y + base.modules[2].GetValue(x, y, z);
 			double z2 = z + base.modules[3].GetValue(x, y, z);

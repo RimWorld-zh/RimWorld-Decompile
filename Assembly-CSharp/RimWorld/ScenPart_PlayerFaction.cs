@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -28,7 +27,7 @@ namespace RimWorld
 				select d)
 				{
 					FactionDef localFd = item;
-					list.Add(new FloatMenuOption(localFd.LabelCap, (Action)delegate
+					list.Add(new FloatMenuOption(localFd.LabelCap, delegate
 					{
 						this.factionDef = localFd;
 					}, MenuOptionPriority.Default, null, null, 0f, null, null));

@@ -6,7 +6,7 @@ namespace RimWorld
 	{
 		private IntermittentSteamSprayer steamSprayer;
 
-		private Building_SteamGeyser geyser = null;
+		private Building_SteamGeyser geyser;
 
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{

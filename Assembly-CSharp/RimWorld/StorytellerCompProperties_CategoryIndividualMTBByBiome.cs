@@ -4,7 +4,7 @@ namespace RimWorld
 	{
 		public IncidentCategory category;
 
-		public bool applyCaravanStealthFactor = false;
+		public bool applyCaravanStealthFactor;
 
 		public StorytellerCompProperties_CategoryIndividualMTBByBiome()
 		{

@@ -11,18 +11,21 @@ namespace Verse
 
 		private static readonly Vector2 Imagesize = new Vector2(24f, 18f);
 
-		public ListableOption_WebLink(string label, Texture2D image) : base(label, null, (string)null)
+		public ListableOption_WebLink(string label, Texture2D image)
+			: base(label, null, null)
 		{
 			base.minHeight = 24f;
 			this.image = image;
 		}
 
-		public ListableOption_WebLink(string label, string url, Texture2D image) : this(label, image)
+		public ListableOption_WebLink(string label, string url, Texture2D image)
+			: this(label, image)
 		{
 			this.url = url;
 		}
 
-		public ListableOption_WebLink(string label, Action action, Texture2D image) : this(label, image)
+		public ListableOption_WebLink(string label, Action action, Texture2D image)
+			: this(label, image)
 		{
 			base.action = action;
 		}
@@ -56,7 +59,7 @@ namespace Verse
 			GUI.color = Color.white;
 			if (Widgets.ButtonInvisible(rect, true))
 			{
-				if ((object)base.action != null)
+				if (base.action != null)
 				{
 					base.action();
 				}

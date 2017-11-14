@@ -15,17 +15,24 @@ namespace RimWorld
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			Job result;
 			if (t.Faction != pawn.Faction)
 			{
-				result = null;
+				return null;
 			}
-			else
+			Frame frame = t as Frame;
+			if (frame == null)
 			{
-				Frame frame = t as Frame;
-				result = ((frame == null) ? null : (GenConstruct.CanConstruct(frame, pawn, forced) ? base.ResourceDeliverJobFor(pawn, frame, true) : null));
+				return null;
 			}
-			return result;
+			if (GenConstruct.FirstBlockingThing(frame, pawn) != null)
+			{
+				return GenConstruct.HandleBlockingThingJob(frame, pawn, forced);
+			}
+			if (!GenConstruct.CanConstruct(frame, pawn, forced))
+			{
+				return null;
+			}
+			return base.ResourceDeliverJobFor(pawn, frame, true);
 		}
 	}
 }

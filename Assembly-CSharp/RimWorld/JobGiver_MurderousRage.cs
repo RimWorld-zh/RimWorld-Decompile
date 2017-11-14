@@ -8,19 +8,14 @@ namespace RimWorld
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			MentalState_MurderousRage mentalState_MurderousRage = pawn.MentalState as MentalState_MurderousRage;
-			Job result;
-			if (mentalState_MurderousRage == null || mentalState_MurderousRage.target == null || !pawn.CanReach((Thing)mentalState_MurderousRage.target, PathEndMode.Touch, Danger.Deadly, true, TraverseMode.ByPawn))
+			if (mentalState_MurderousRage != null && mentalState_MurderousRage.target != null && pawn.CanReach(mentalState_MurderousRage.target, PathEndMode.Touch, Danger.Deadly, true, TraverseMode.ByPawn))
 			{
-				result = null;
-			}
-			else
-			{
-				Job job = new Job(JobDefOf.AttackMelee, (Thing)mentalState_MurderousRage.target);
+				Job job = new Job(JobDefOf.AttackMelee, mentalState_MurderousRage.target);
 				job.canBash = true;
 				job.killIncappedTarget = true;
-				result = job;
+				return job;
 			}
-			return result;
+			return null;
 		}
 	}
 }

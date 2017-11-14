@@ -26,8 +26,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_00d6:
-			/*Error near IL_00d7: Unexpected return in MoveNext()*/;
+			IL_00d2:
+			/*Error near IL_00d3: Unexpected return in MoveNext()*/;
 		}
 
 		public override Danger MaxPathDanger(Pawn pawn)
@@ -37,23 +37,34 @@ namespace RimWorld
 
 		public override bool ShouldSkip(Pawn pawn)
 		{
-			return (byte)((!WorkGiver_HunterHunt.HasHuntingWeapon(pawn)) ? 1 : (WorkGiver_HunterHunt.HasShieldAndRangedWeapon(pawn) ? 1 : 0)) != 0;
+			if (!WorkGiver_HunterHunt.HasHuntingWeapon(pawn))
+			{
+				return true;
+			}
+			if (WorkGiver_HunterHunt.HasShieldAndRangedWeapon(pawn))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;
-			bool result;
-			if (pawn2 == null || !pawn2.AnimalOrWildMan())
-			{
-				result = false;
-			}
-			else
+			if (pawn2 != null && pawn2.AnimalOrWildMan())
 			{
 				LocalTargetInfo target = t;
-				result = ((byte)(pawn.CanReserve(target, 1, -1, null, forced) ? ((pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Hunt) != null) ? 1 : 0) : 0) != 0);
+				if (!pawn.CanReserve(target, 1, -1, null, forced))
+				{
+					return false;
+				}
+				if (pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Hunt) == null)
+				{
+					return false;
+				}
+				return true;
 			}
-			return result;
+			return false;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
@@ -63,7 +74,11 @@ namespace RimWorld
 
 		public static bool HasHuntingWeapon(Pawn p)
 		{
-			return (byte)((p.equipment.Primary != null && p.equipment.Primary.def.IsRangedWeapon && p.equipment.PrimaryEq.PrimaryVerb.HarmsHealth()) ? 1 : 0) != 0;
+			if (p.equipment.Primary != null && p.equipment.Primary.def.IsRangedWeapon && p.equipment.PrimaryEq.PrimaryVerb.HarmsHealth())
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static bool HasShieldAndRangedWeapon(Pawn p)
@@ -74,16 +89,12 @@ namespace RimWorld
 				for (int i = 0; i < wornApparel.Count; i++)
 				{
 					if (wornApparel[i] is ShieldBelt)
-						goto IL_0051;
+					{
+						return true;
+					}
 				}
 			}
-			bool result = false;
-			goto IL_0071;
-			IL_0071:
-			return result;
-			IL_0051:
-			result = true;
-			goto IL_0071;
+			return false;
 		}
 	}
 }

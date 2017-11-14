@@ -11,7 +11,7 @@ namespace RimWorld
 {
 	public class Page_ModsConfig : Page
 	{
-		public ModMetaData selectedMod = null;
+		public ModMetaData selectedMod;
 
 		private Vector2 modListScrollPosition = Vector2.zero;
 
@@ -75,8 +75,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_0189:
-			/*Error near IL_018a: Unexpected return in MoveNext()*/;
+			IL_0182:
+			/*Error near IL_0183: Unexpected return in MoveNext()*/;
 		}
 
 		public override void DoWindowContents(Rect rect)
@@ -107,7 +107,7 @@ namespace RimWorld
 			Listing_Standard listing_Standard = new Listing_Standard();
 			listing_Standard.ColumnWidth = rect6.width;
 			listing_Standard.Begin(rect6);
-			int reorderableGroup = ReorderableWidget.NewGroup((Action<int, int>)delegate(int from, int to)
+			int reorderableGroup = ReorderableWidget.NewGroup(delegate(int from, int to)
 			{
 				ModsConfig.Reorder(from, to);
 			});
@@ -118,7 +118,7 @@ namespace RimWorld
 				num2++;
 			}
 			int downloadingItemsCount = WorkshopItems.DownloadingItemsCount;
-			for (int num3 = 0; num3 < downloadingItemsCount; num3++)
+			for (int i = 0; i < downloadingItemsCount; i++)
 			{
 				this.DoModRowDownloading(listing_Standard, num2);
 				num2++;
@@ -162,18 +162,18 @@ namespace RimWorld
 					GUI.DrawTexture(position2, this.selectedMod.previewImage, ScaleMode.ScaleToFit);
 				}
 				Text.Font = GameFont.Small;
-				float num4 = (float)(position2.yMax + 10.0);
+				float num3 = (float)(position2.yMax + 10.0);
 				if (!this.selectedMod.Author.NullOrEmpty())
 				{
-					Rect rect9 = new Rect(0f, num4, (float)(position.width / 2.0), 25f);
+					Rect rect9 = new Rect(0f, num3, (float)(position.width / 2.0), 25f);
 					Widgets.Label(rect9, "Author".Translate() + ": " + this.selectedMod.Author);
 				}
 				if (!this.selectedMod.Url.NullOrEmpty())
 				{
 					double a = position.width / 2.0;
 					Vector2 vector = Text.CalcSize(this.selectedMod.Url);
-					float num5 = Mathf.Min((float)a, vector.x);
-					Rect rect10 = new Rect(position.width - num5, num4, num5, 25f);
+					float num4 = Mathf.Min((float)a, vector.x);
+					Rect rect10 = new Rect(position.width - num4, num3, num4, 25f);
 					Text.WordWrap = false;
 					if (Widgets.ButtonText(rect10, this.selectedMod.Url, false, false, true))
 					{
@@ -181,25 +181,25 @@ namespace RimWorld
 					}
 					Text.WordWrap = true;
 				}
-				WidgetRow widgetRow = new WidgetRow(position.width, (float)(num4 + 25.0), UIDirection.LeftThenUp, 99999f, 4f);
+				WidgetRow widgetRow = new WidgetRow(position.width, (float)(num3 + 25.0), UIDirection.LeftThenUp, 99999f, 4f);
 				if (SteamManager.Initialized && this.selectedMod.OnSteamWorkshop)
 				{
-					if (widgetRow.ButtonText("Unsubscribe", (string)null, true, false))
+					if (widgetRow.ButtonText("Unsubscribe", null, true, false))
 					{
-						Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmUnsubscribe".Translate(this.selectedMod.Name), (Action)delegate
+						Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmUnsubscribe".Translate(this.selectedMod.Name), delegate
 						{
 							this.selectedMod.enabled = false;
 							Workshop.Unsubscribe(this.selectedMod);
 							this.Notify_SteamItemUnsubscribed(this.selectedMod.GetPublishedFileId());
-						}, true, (string)null));
+						}, true, null));
 					}
-					if (widgetRow.ButtonText("WorkshopPage".Translate(), (string)null, true, false))
+					if (widgetRow.ButtonText("WorkshopPage".Translate(), null, true, false))
 					{
 						SteamUtility.OpenWorkshopPage(this.selectedMod.GetPublishedFileId());
 					}
 				}
-				float num6 = (float)(num4 + 25.0 + 24.0);
-				Rect outRect = new Rect(0f, num6, position.width, (float)(position.height - num6 - 40.0));
+				float num5 = (float)(num3 + 25.0 + 24.0);
+				Rect outRect = new Rect(0f, num5, position.width, (float)(position.height - num5 - 40.0));
 				float width = (float)(outRect.width - 16.0);
 				Rect rect11 = new Rect(0f, 0f, width, Text.CalcHeight(this.selectedMod.Description, width));
 				Widgets.BeginScrollView(outRect, ref this.modDescriptionScrollPosition, rect11, true);
@@ -216,19 +216,19 @@ namespace RimWorld
 						}
 						else
 						{
-							Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmSteamWorkshopUpload".Translate(), (Action)delegate
+							Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmSteamWorkshopUpload".Translate(), delegate
 							{
 								SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
-								Dialog_MessageBox dialog_MessageBox = Dialog_MessageBox.CreateConfirmation("ConfirmContentAuthor".Translate(), (Action)delegate
+								Dialog_MessageBox dialog_MessageBox = Dialog_MessageBox.CreateConfirmation("ConfirmContentAuthor".Translate(), delegate
 								{
 									SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
 									Workshop.Upload(this.selectedMod);
-								}, true, (string)null);
+								}, true, null);
 								dialog_MessageBox.buttonAText = "Yes".Translate();
 								dialog_MessageBox.buttonBText = "No".Translate();
 								dialog_MessageBox.interactionDelay = 6f;
 								Find.WindowStack.Add(dialog_MessageBox);
-							}, true, (string)null));
+							}, true, null));
 						}
 					}
 				}
@@ -247,7 +247,7 @@ namespace RimWorld
 			Action clickAction = null;
 			if (mod.Source == ContentSource.SteamWorkshop)
 			{
-				clickAction = (Action)delegate()
+				clickAction = delegate
 				{
 					SteamUtility.OpenWorkshopPage(mod.GetPublishedFileId());
 				};
@@ -259,7 +259,7 @@ namespace RimWorld
 			Rect rect2 = rect;
 			if (mod.enabled)
 			{
-				string text = "";
+				string text = string.Empty;
 				if (mod.Active)
 				{
 					text = text + "DragToReorder".Translate() + ".\n\n";
@@ -289,11 +289,11 @@ namespace RimWorld
 				if (mod.Active && !active && mod.IsCoreMod)
 				{
 					ModMetaData coreMod = mod;
-					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmDisableCoreMod".Translate(), (Action)delegate
+					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmDisableCoreMod".Translate(), delegate
 					{
 						coreMod.Active = false;
 						this.truncatedModNamesCache.Clear();
-					}, false, (string)null));
+					}, false, null));
 				}
 				else
 				{
@@ -320,7 +320,7 @@ namespace RimWorld
 		public void Notify_ModsListChanged()
 		{
 			string selModId = this.selectedMod.Identifier;
-			this.selectedMod = ModLister.AllInstalledMods.FirstOrDefault((Func<ModMetaData, bool>)((ModMetaData m) => m.Identifier == selModId));
+			this.selectedMod = ModLister.AllInstalledMods.FirstOrDefault((ModMetaData m) => m.Identifier == selModId);
 		}
 
 		internal void Notify_SteamItemUnsubscribed(PublishedFileId_t pfid)

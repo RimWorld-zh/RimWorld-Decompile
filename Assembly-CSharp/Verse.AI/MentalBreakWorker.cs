@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,35 +15,31 @@ namespace Verse.AI
 
 		public virtual bool BreakCanOccur(Pawn pawn)
 		{
-			bool result;
 			if (this.def.requiredTrait != null && (pawn.story == null || !pawn.story.traits.HasTrait(this.def.requiredTrait)))
 			{
-				result = false;
+				return false;
 			}
-			else if (this.def.mentalState != null && pawn.story != null && pawn.story.traits.allTraits.Any((Predicate<Trait>)((Trait tr) => tr.CurrentData.disallowedMentalStates != null && tr.CurrentData.disallowedMentalStates.Contains(this.def.mentalState))))
+			if (this.def.mentalState != null && pawn.story != null && pawn.story.traits.allTraits.Any((Trait tr) => tr.CurrentData.disallowedMentalStates != null && tr.CurrentData.disallowedMentalStates.Contains(this.def.mentalState)))
 			{
-				result = false;
+				return false;
 			}
-			else if (this.def.mentalState != null && !this.def.mentalState.Worker.StateCanOccur(pawn))
+			if (this.def.mentalState != null && !this.def.mentalState.Worker.StateCanOccur(pawn))
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (pawn.story != null)
 			{
-				if (pawn.story != null)
+				IEnumerable<MentalBreakDef> theOnlyAllowedMentalBreaks = pawn.story.traits.TheOnlyAllowedMentalBreaks;
+				if (!theOnlyAllowedMentalBreaks.Contains(this.def) && theOnlyAllowedMentalBreaks.Any((MentalBreakDef x) => x.intensity == this.def.intensity && x.Worker.BreakCanOccur(pawn)))
 				{
-					IEnumerable<MentalBreakDef> theOnlyAllowedMentalBreaks = pawn.story.traits.TheOnlyAllowedMentalBreaks;
-					if (!theOnlyAllowedMentalBreaks.Contains(this.def) && theOnlyAllowedMentalBreaks.Any((Func<MentalBreakDef, bool>)((MentalBreakDef x) => x.intensity == this.def.intensity && x.Worker.BreakCanOccur(pawn))))
-					{
-						result = false;
-						goto IL_0171;
-					}
+					return false;
 				}
-				result = ((byte)((!TutorSystem.TutorialMode || pawn.Faction != Faction.OfPlayer) ? 1 : 0) != 0);
 			}
-			goto IL_0171;
-			IL_0171:
-			return result;
+			if (TutorSystem.TutorialMode && pawn.Faction == Faction.OfPlayer)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public virtual bool TryStart(Pawn pawn, Thought reason, bool causedByMood)
@@ -58,23 +53,18 @@ namespace Verse.AI
 
 		protected bool TrySendLetter(Pawn pawn, string textKey, Thought reason)
 		{
-			bool result;
 			if (!PawnUtility.ShouldSendNotificationAbout(pawn))
 			{
-				result = false;
+				return false;
 			}
-			else
+			string label = "MentalBreakLetterLabel".Translate() + ": " + this.def.label;
+			string text = textKey.Translate(pawn.Label).CapitalizeFirst();
+			if (reason != null)
 			{
-				string label = "MentalBreakLetterLabel".Translate() + ": " + this.def.label;
-				string text = textKey.Translate(pawn.Label).CapitalizeFirst();
-				if (reason != null)
-				{
-					text = text + "\n\n" + "FinalStraw".Translate(reason.LabelCap);
-				}
-				Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.NegativeEvent, (Thing)pawn, (string)null);
-				result = true;
+				text = text + "\n\n" + "FinalStraw".Translate(reason.LabelCap);
 			}
-			return result;
+			Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.NegativeEvent, pawn, null);
+			return true;
 		}
 	}
 }

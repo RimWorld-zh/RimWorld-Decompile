@@ -1,4 +1,3 @@
-using System;
 using Verse;
 
 namespace RimWorld
@@ -27,16 +26,16 @@ namespace RimWorld
 				}
 				else if (Rand.Value < this.Props.addictiveness && num >= this.Props.minToleranceToAddict)
 				{
-					ingester.health.AddHediff(addictionHediffDef, null, default(DamageInfo?));
+					ingester.health.AddHediff(addictionHediffDef, null, null);
 					if (PawnUtility.ShouldSendNotificationAbout(ingester))
 					{
-						Find.LetterStack.ReceiveLetter("LetterLabelNewlyAddicted".Translate(this.Props.chemical.label).CapitalizeFirst(), "LetterNewlyAddicted".Translate(ingester.LabelShort, this.Props.chemical.label).AdjustedFor(ingester).CapitalizeFirst(), LetterDefOf.NegativeEvent, (Thing)ingester, (string)null);
+						Find.LetterStack.ReceiveLetter("LetterLabelNewlyAddicted".Translate(this.Props.chemical.label).CapitalizeFirst(), "LetterNewlyAddicted".Translate(ingester.LabelShort, this.Props.chemical.label).AdjustedFor(ingester).CapitalizeFirst(), LetterDefOf.NegativeEvent, ingester, null);
 					}
 					AddictionUtility.CheckDrugAddictionTeachOpportunity(ingester);
 				}
 				if (addictionHediffDef.causesNeed != null)
 				{
-					Need need = ingester.needs.AllNeeds.Find((Predicate<Need>)((Need x) => x.def == addictionHediffDef.causesNeed));
+					Need need = ingester.needs.AllNeeds.Find((Need x) => x.def == addictionHediffDef.causesNeed);
 					if (need != null)
 					{
 						float needLevelOffset = this.Props.needLevelOffset;

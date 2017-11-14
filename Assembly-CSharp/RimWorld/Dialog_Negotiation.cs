@@ -21,7 +21,8 @@ namespace RimWorld
 			}
 		}
 
-		public Dialog_Negotiation(Pawn negotiator, ICommunicable commTarget, DiaNode startNode, bool radioMode) : base(startNode, radioMode, false, (string)null)
+		public Dialog_Negotiation(Pawn negotiator, ICommunicable commTarget, DiaNode startNode, bool radioMode)
+			: base(startNode, radioMode, false, null)
 		{
 			this.negotiator = negotiator;
 			this.commTarget = commTarget;

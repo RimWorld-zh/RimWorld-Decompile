@@ -16,40 +16,52 @@ namespace RimWorld
 
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
+			if (!base.CanFireNowSub(target))
+			{
+				return false;
+			}
+			if (Find.AnyPlayerHomeMap == null)
+			{
+				return false;
+			}
+			if (!CommsConsoleUtility.PlayerHasPoweredCommsConsole())
+			{
+				return false;
+			}
 			int num = default(int);
+			if (!this.TryFindTile(out num))
+			{
+				return false;
+			}
 			SitePartDef sitePartDef = default(SitePartDef);
 			Faction faction = default(Faction);
-			return (byte)(base.CanFireNowSub(target) ? ((Find.AnyPlayerHomeMap != null) ? (CommsConsoleUtility.PlayerHasPoweredCommsConsole() ? (this.TryFindTile(out num) ? (SiteMakerHelper.TryFindSiteParams_SingleSitePart(SiteCoreDefOf.PrisonerWillingToJoin, IncidentWorker_QuestPrisonerWillingToJoin.PrisonerWillingToJoinQuestThreatTag, out sitePartDef, out faction, (Faction)null, true, (Predicate<Faction>)null) ? 1 : 0) : 0) : 0) : 0) : 0) != 0;
+			if (!SiteMakerHelper.TryFindSiteParams_SingleSitePart(SiteCoreDefOf.PrisonerWillingToJoin, IncidentWorker_QuestPrisonerWillingToJoin.PrisonerWillingToJoinQuestThreatTag, out sitePartDef, out faction, (Faction)null, true, (Predicate<Faction>)null))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			int tile = default(int);
-			bool result;
 			if (!this.TryFindTile(out tile))
 			{
-				result = false;
+				return false;
 			}
-			else
+			Site site = SiteMaker.TryMakeSite_SingleSitePart(SiteCoreDefOf.PrisonerWillingToJoin, IncidentWorker_QuestPrisonerWillingToJoin.PrisonerWillingToJoinQuestThreatTag, null, true, null);
+			if (site == null)
 			{
-				Site site = SiteMaker.TryMakeSite_SingleSitePart(SiteCoreDefOf.PrisonerWillingToJoin, IncidentWorker_QuestPrisonerWillingToJoin.PrisonerWillingToJoinQuestThreatTag, null, true, null);
-				if (site == null)
-				{
-					result = false;
-				}
-				else
-				{
-					site.Tile = tile;
-					Pawn pawn = PrisonerWillingToJoinQuestUtility.GeneratePrisoner(tile, site.Faction);
-					((WorldObject)site).GetComponent<PrisonerWillingToJoinComp>().pawn.TryAdd(pawn, true);
-					int randomInRange = IncidentWorker_QuestPrisonerWillingToJoin.TimeoutDaysRange.RandomInRange;
-					((WorldObject)site).GetComponent<TimeoutComp>().StartTimeout(randomInRange * 60000);
-					Find.WorldObjects.Add(site);
-					Find.LetterStack.ReceiveLetter(base.def.letterLabel, this.GetLetterText(pawn, site.Faction, randomInRange), base.def.letterDef, (WorldObject)site, (string)null);
-					result = true;
-				}
+				return false;
 			}
-			return result;
+			site.Tile = tile;
+			Pawn pawn = PrisonerWillingToJoinQuestUtility.GeneratePrisoner(tile, site.Faction);
+			((WorldObject)site).GetComponent<PrisonerWillingToJoinComp>().pawn.TryAdd(pawn, true);
+			int randomInRange = IncidentWorker_QuestPrisonerWillingToJoin.TimeoutDaysRange.RandomInRange;
+			((WorldObject)site).GetComponent<TimeoutComp>().StartTimeout(randomInRange * 60000);
+			Find.WorldObjects.Add(site);
+			Find.LetterStack.ReceiveLetter(base.def.letterLabel, this.GetLetterText(pawn, site.Faction, randomInRange), base.def.letterDef, site, null);
+			return true;
 		}
 
 		private bool TryFindTile(out int tile)

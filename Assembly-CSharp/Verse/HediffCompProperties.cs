@@ -5,7 +5,7 @@ namespace Verse
 {
 	public class HediffCompProperties
 	{
-		public Type compClass = null;
+		public Type compClass;
 
 		public virtual IEnumerable<string> ConfigErrors(HediffDef parentDef)
 		{

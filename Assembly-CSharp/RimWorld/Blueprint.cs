@@ -46,66 +46,48 @@ namespace RimWorld
 		public virtual bool TryReplaceWithSolidThing(Pawn workerPawn, out Thing createdThing, out bool jobEnded)
 		{
 			jobEnded = false;
-			bool result;
-			if (this.FirstBlockingThing(workerPawn, null, false) != null)
+			if (GenConstruct.FirstBlockingThing(this, workerPawn) != null)
 			{
 				workerPawn.jobs.EndCurrentJob(JobCondition.Incompletable, true);
 				jobEnded = true;
 				createdThing = null;
-				result = false;
+				return false;
 			}
-			else
+			createdThing = this.MakeSolidThing();
+			Map map = base.Map;
+			CellRect cellRect = this.OccupiedRect();
+			GenSpawn.WipeExistingThings(base.Position, base.Rotation, createdThing.def, map, DestroyMode.Deconstruct);
+			if (!base.Destroyed)
 			{
-				Thing thing = this.FirstBlockingThing(null, null, false);
-				if (thing != null)
+				this.Destroy(DestroyMode.Vanish);
+			}
+			createdThing.SetFactionDirect(workerPawn.Faction);
+			GenSpawn.Spawn(createdThing, base.Position, map, base.Rotation, false);
+			Blueprint.tmpCrashedShipParts.Clear();
+			CellRect.CellRectIterator iterator = cellRect.ExpandedBy(3).GetIterator();
+			while (!iterator.Done())
+			{
+				if (iterator.Current.InBounds(map))
 				{
-					Log.Error(workerPawn + " tried to replace blueprint " + this.ToString() + " at " + base.Position + " with solid thing, but it is blocked by " + thing + " at " + thing.Position);
-					if (thing != workerPawn)
+					List<Thing> thingList = iterator.Current.GetThingList(map);
+					for (int i = 0; i < thingList.Count; i++)
 					{
-						createdThing = null;
-						result = false;
-						goto IL_0201;
-					}
-				}
-				createdThing = this.MakeSolidThing();
-				Map map = base.Map;
-				CellRect cellRect = this.OccupiedRect();
-				GenSpawn.WipeExistingThings(base.Position, base.Rotation, createdThing.def, map, DestroyMode.Deconstruct);
-				if (!base.Destroyed)
-				{
-					this.Destroy(DestroyMode.Vanish);
-				}
-				createdThing.SetFactionDirect(workerPawn.Faction);
-				GenSpawn.Spawn(createdThing, base.Position, map, base.Rotation, false);
-				Blueprint.tmpCrashedShipParts.Clear();
-				CellRect.CellRectIterator iterator = cellRect.ExpandedBy(3).GetIterator();
-				while (!iterator.Done())
-				{
-					if (iterator.Current.InBounds(map))
-					{
-						List<Thing> thingList = iterator.Current.GetThingList(map);
-						for (int i = 0; i < thingList.Count; i++)
+						CompSpawnerMechanoidsOnDamaged compSpawnerMechanoidsOnDamaged = thingList[i].TryGetComp<CompSpawnerMechanoidsOnDamaged>();
+						if (compSpawnerMechanoidsOnDamaged != null)
 						{
-							CompSpawnerMechanoidsOnDamaged compSpawnerMechanoidsOnDamaged = thingList[i].TryGetComp<CompSpawnerMechanoidsOnDamaged>();
-							if (compSpawnerMechanoidsOnDamaged != null)
-							{
-								Blueprint.tmpCrashedShipParts.Add(compSpawnerMechanoidsOnDamaged);
-							}
+							Blueprint.tmpCrashedShipParts.Add(compSpawnerMechanoidsOnDamaged);
 						}
 					}
-					iterator.MoveNext();
 				}
-				Blueprint.tmpCrashedShipParts.RemoveDuplicates();
-				for (int j = 0; j < Blueprint.tmpCrashedShipParts.Count; j++)
-				{
-					Blueprint.tmpCrashedShipParts[j].Notify_BlueprintReplacedWithSolidThingNearby(workerPawn);
-				}
-				Blueprint.tmpCrashedShipParts.Clear();
-				result = true;
+				iterator.MoveNext();
 			}
-			goto IL_0201;
-			IL_0201:
-			return result;
+			Blueprint.tmpCrashedShipParts.RemoveDuplicates();
+			for (int j = 0; j < Blueprint.tmpCrashedShipParts.Count; j++)
+			{
+				Blueprint.tmpCrashedShipParts[j].Notify_BlueprintReplacedWithSolidThingNearby(workerPawn);
+			}
+			Blueprint.tmpCrashedShipParts.Clear();
+			return true;
 		}
 
 		protected abstract Thing MakeSolidThing();
@@ -116,62 +98,25 @@ namespace RimWorld
 
 		public Thing BlockingHaulableOnTop()
 		{
-			Thing result;
-			Thing thing;
 			if (base.def.entityDefToBuild.passability == Traversability.Standable)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				CellRect.CellRectIterator iterator = this.OccupiedRect().GetIterator();
-				while (!iterator.Done())
-				{
-					List<Thing> thingList = iterator.Current.GetThingList(base.Map);
-					for (int i = 0; i < thingList.Count; i++)
-					{
-						thing = thingList[i];
-						if (thing.def.EverHaulable)
-							goto IL_0069;
-					}
-					iterator.MoveNext();
-				}
-				result = null;
-			}
-			goto IL_00a0;
-			IL_00a0:
-			return result;
-			IL_0069:
-			result = thing;
-			goto IL_00a0;
-		}
-
-		public Thing FirstBlockingThing(Pawn pawnToIgnore = null, Thing thingToIgnore = null, bool haulableOnly = false)
-		{
 			CellRect.CellRectIterator iterator = this.OccupiedRect().GetIterator();
-			Thing result;
-			while (true)
+			while (!iterator.Done())
 			{
-				Thing thing;
-				if (!iterator.Done())
+				List<Thing> thingList = iterator.Current.GetThingList(base.Map);
+				for (int i = 0; i < thingList.Count; i++)
 				{
-					List<Thing> thingList = iterator.Current.GetThingList(base.Map);
-					for (int i = 0; i < thingList.Count; i++)
+					Thing thing = thingList[i];
+					if (thing.def.EverHaulable)
 					{
-						thing = thingList[i];
-						if ((!haulableOnly || thing.def.EverHaulable) && GenConstruct.BlocksFramePlacement(this, thing) && thing != pawnToIgnore && thing != thingToIgnore)
-							goto IL_0073;
+						return thing;
 					}
-					iterator.MoveNext();
-					continue;
 				}
-				result = null;
-				break;
-				IL_0073:
-				result = thing;
-				break;
+				iterator.MoveNext();
 			}
-			return result;
+			return null;
 		}
 
 		public override string GetInspectString()

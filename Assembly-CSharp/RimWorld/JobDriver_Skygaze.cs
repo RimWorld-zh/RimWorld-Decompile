@@ -29,21 +29,28 @@ namespace RimWorld
 
 		public override string GetReport()
 		{
-			string result;
 			if (base.Map.gameConditionManager.ConditionIsActive(GameConditionDefOf.Eclipse))
 			{
-				result = "WatchingEclipse".Translate();
+				return "WatchingEclipse".Translate();
 			}
-			else if (base.Map.gameConditionManager.ConditionIsActive(GameConditionDefOf.Aurora))
+			if (base.Map.gameConditionManager.ConditionIsActive(GameConditionDefOf.Aurora))
 			{
-				result = "WatchingAurora".Translate();
+				return "WatchingAurora".Translate();
 			}
-			else
+			float num = GenCelestial.CurCelestialSunGlow(base.Map);
+			if (num < 0.10000000149011612)
 			{
-				float num = GenCelestial.CurCelestialSunGlow(base.Map);
-				result = ((!(num < 0.10000000149011612)) ? ((!(num < 0.64999997615814209)) ? "CloudWatching".Translate() : ((!(GenLocalDate.DayPercent(base.pawn) < 0.5)) ? "WatchingSunset".Translate() : "WatchingSunrise".Translate())) : "Stargazing".Translate());
+				return "Stargazing".Translate();
 			}
-			return result;
+			if (num < 0.64999997615814209)
+			{
+				if (GenLocalDate.DayPercent(base.pawn) < 0.5)
+				{
+					return "WatchingSunrise".Translate();
+				}
+				return "WatchingSunset".Translate();
+			}
+			return "CloudWatching".Translate();
 		}
 	}
 }

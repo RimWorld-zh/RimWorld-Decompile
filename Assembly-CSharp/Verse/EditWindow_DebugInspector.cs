@@ -18,7 +18,7 @@ namespace Verse
 	{
 		private StringBuilder debugStringBuilder = new StringBuilder();
 
-		public bool fullMode = false;
+		public bool fullMode;
 
 		private float columnWidth = 360f;
 
@@ -81,11 +81,10 @@ namespace Verse
 			Listing_Standard listing_Standard = new Listing_Standard(GameFont.Tiny);
 			listing_Standard.ColumnWidth = Mathf.Min(this.columnWidth, inRect.width);
 			listing_Standard.Begin(inRect);
-			string[] array;
-			string[] array2 = array = this.debugStringBuilder.ToString().Split('\n');
-			for (int i = 0; i < array.Length; i++)
+			string[] array = this.debugStringBuilder.ToString().Split('\n');
+			string[] array2 = array;
+			foreach (string label in array2)
 			{
-				string label = array[i];
 				listing_Standard.Label(label, -1f);
 				listing_Standard.Gap(-10f);
 			}
@@ -341,7 +340,7 @@ namespace Verse
 							for (int i = 0; i < potentialTargetsFor.Count; i++)
 							{
 								Thing thing = (Thing)potentialTargetsFor[i];
-								stringBuilder.AppendLine(thing.LabelShort + ", " + thing.Faction + ((!potentialTargetsFor[i].ThreatDisabled()) ? "" : " (threat disabled)"));
+								stringBuilder.AppendLine(thing.LabelShort + ", " + thing.Faction + ((!potentialTargetsFor[i].ThreatDisabled()) ? string.Empty : " (threat disabled)"));
 							}
 						}
 					}
@@ -457,7 +456,7 @@ namespace Verse
 							PowerNet powerNet = Find.VisibleMap.powerNetGrid.TransmittedPowerNetAt(intVec);
 							if (powerNet != null)
 							{
-								stringBuilder.AppendLine("" + powerNet.DebugString());
+								stringBuilder.AppendLine(string.Empty + powerNet.DebugString());
 							}
 							else
 							{
@@ -474,20 +473,17 @@ namespace Verse
 								{
 									pawn3 = (thingList[j] as Pawn);
 									if (pawn3 != null)
-										goto IL_1109;
+										goto IL_107b;
 								}
 							}
 						}
 					}
 				}
-				goto IL_1172;
+				goto IL_10de;
 			}
 			stringBuilder.AppendLine("World view");
-			string result = stringBuilder.ToString();
-			goto IL_117e;
-			IL_117e:
-			return result;
-			IL_1109:
+			return stringBuilder.ToString();
+			IL_107b:
 			stringBuilder.AppendLine("---");
 			if (FoodUtility.IsAcceptablePreyFor(pawn2, pawn3))
 			{
@@ -497,10 +493,9 @@ namespace Verse
 			{
 				stringBuilder.AppendLine("Prey score: None");
 			}
-			goto IL_1172;
-			IL_1172:
-			result = stringBuilder.ToString();
-			goto IL_117e;
+			goto IL_10de;
+			IL_10de:
+			return stringBuilder.ToString();
 		}
 	}
 }

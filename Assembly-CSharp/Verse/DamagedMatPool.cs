@@ -19,24 +19,18 @@ namespace Verse
 
 		public static Material GetDamageFlashMat(Material baseMat, float damPct)
 		{
-			Material result;
 			if (damPct < 0.0099999997764825821)
 			{
-				result = baseMat;
+				return baseMat;
 			}
-			else
+			Material material = default(Material);
+			if (!DamagedMatPool.damagedMats.TryGetValue(baseMat, out material))
 			{
-				Material material = default(Material);
-				if (!DamagedMatPool.damagedMats.TryGetValue(baseMat, out material))
-				{
-					material = new Material(baseMat);
-					DamagedMatPool.damagedMats.Add(baseMat, material);
-				}
-				Color color = Color.Lerp(baseMat.color, DamagedMatPool.DamagedMatStartingColor, damPct);
-				material.color = color;
-				result = material;
+				material = new Material(baseMat);
+				DamagedMatPool.damagedMats.Add(baseMat, material);
 			}
-			return result;
+			Color color2 = material.color = Color.Lerp(baseMat.color, DamagedMatPool.DamagedMatStartingColor, damPct);
+			return material;
 		}
 	}
 }

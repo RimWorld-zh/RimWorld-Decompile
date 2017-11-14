@@ -7,7 +7,7 @@ namespace RimWorld
 	{
 		private Pawn pawn;
 
-		private bool doThisBreath = false;
+		private bool doThisBreath;
 
 		private const int BreathDuration = 80;
 

@@ -5,13 +5,25 @@ namespace Verse
 {
 	public class ScreenshotModeHandler
 	{
-		private bool active = false;
+		private bool active;
 
 		public bool FiltersCurrentEvent
 		{
 			get
 			{
-				return (byte)(this.active ? ((Event.current.type == EventType.Repaint || Event.current.type == EventType.Layout) ? 1 : ((Event.current.type == EventType.MouseDown || Event.current.type == EventType.MouseUp || Event.current.type == EventType.MouseDrag) ? 1 : 0)) : 0) != 0;
+				if (!this.active)
+				{
+					return false;
+				}
+				if (Event.current.type != EventType.Repaint && Event.current.type != EventType.Layout)
+				{
+					if (Event.current.type != 0 && Event.current.type != EventType.MouseUp && Event.current.type != EventType.MouseDrag)
+					{
+						return false;
+					}
+					return true;
+				}
+				return true;
 			}
 		}
 

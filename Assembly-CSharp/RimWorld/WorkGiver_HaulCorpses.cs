@@ -1,6 +1,4 @@
-#define ENABLE_PROFILER
 using System.Collections.Generic;
-using UnityEngine.Profiling;
 using Verse;
 using Verse.AI;
 
@@ -20,26 +18,15 @@ namespace RimWorld
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			Job result;
 			if (!(t is Corpse))
 			{
-				result = null;
+				return null;
 			}
-			else
+			if (!HaulAIUtility.PawnCanAutomaticallyHaulFast(pawn, t, forced))
 			{
-				Profiler.BeginSample("PawnCanAutomaticallyHaulFast");
-				if (!HaulAIUtility.PawnCanAutomaticallyHaulFast(pawn, t, forced))
-				{
-					Profiler.EndSample();
-					result = null;
-				}
-				else
-				{
-					Profiler.EndSample();
-					result = HaulAIUtility.HaulToStorageJob(pawn, t);
-				}
+				return null;
 			}
-			return result;
+			return HaulAIUtility.HaulToStorageJob(pawn, t);
 		}
 	}
 }

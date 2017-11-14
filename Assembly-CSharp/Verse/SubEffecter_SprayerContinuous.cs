@@ -2,9 +2,10 @@ namespace Verse
 {
 	public class SubEffecter_SprayerContinuous : SubEffecter_Sprayer
 	{
-		private int ticksUntilMote = 0;
+		private int ticksUntilMote;
 
-		public SubEffecter_SprayerContinuous(SubEffecterDef def) : base(def)
+		public SubEffecter_SprayerContinuous(SubEffecterDef def)
+			: base(def)
 		{
 		}
 

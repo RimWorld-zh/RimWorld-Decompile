@@ -34,11 +34,9 @@ namespace RimWorld
 			if ((int)techLevel >= (int)ThingDefOf.AIPersonaCore.techLevel)
 			{
 				ItemCollectionGeneratorDef standard = ItemCollectionGeneratorDefOf.Standard;
-				ItemCollectionGeneratorParams second = new ItemCollectionGeneratorParams
-				{
-					extraAllowedDefs = Gen.YieldSingle(ThingDefOf.AIPersonaCore),
-					count = new int?(1)
-				};
+				ItemCollectionGeneratorParams second = default(ItemCollectionGeneratorParams);
+				second.extraAllowedDefs = Gen.YieldSingle(ThingDefOf.AIPersonaCore);
+				second.count = 1;
 				this.possibleItemCollectionGenerators.Add(new Pair<ItemCollectionGeneratorDef, ItemCollectionGeneratorParams>(standard, second));
 				if (Rand.Chance(0.25f) && !this.PlayerOrItemStashHasAIPersonaCore())
 					return;
@@ -46,11 +44,9 @@ namespace RimWorld
 			if ((int)techLevel >= (int)ThingDefOf.MechSerumNeurotrainer.techLevel)
 			{
 				ItemCollectionGeneratorDef standard2 = ItemCollectionGeneratorDefOf.Standard;
-				ItemCollectionGeneratorParams second2 = new ItemCollectionGeneratorParams
-				{
-					extraAllowedDefs = Gen.YieldSingle(ThingDefOf.MechSerumNeurotrainer),
-					count = new int?(ItemCollectionGenerator_ItemStashQuest.NeurotrainersCountRange.RandomInRange)
-				};
+				ItemCollectionGeneratorParams second2 = default(ItemCollectionGeneratorParams);
+				second2.extraAllowedDefs = Gen.YieldSingle(ThingDefOf.MechSerumNeurotrainer);
+				second2.count = ItemCollectionGenerator_ItemStashQuest.NeurotrainersCountRange.RandomInRange;
 				this.possibleItemCollectionGenerators.Add(new Pair<ItemCollectionGeneratorDef, ItemCollectionGeneratorParams>(standard2, second2));
 			}
 			List<ThingDef> allGeneratableItems = ItemCollectionGeneratorUtility.allGeneratableItems;
@@ -60,20 +56,16 @@ namespace RimWorld
 				if ((int)techLevel >= (int)thingDef.techLevel && thingDef.itemGeneratorTags != null && thingDef.itemGeneratorTags.Contains(ItemCollectionGeneratorUtility.SpecialRewardTag))
 				{
 					ItemCollectionGeneratorDef standard3 = ItemCollectionGeneratorDefOf.Standard;
-					ItemCollectionGeneratorParams second3 = new ItemCollectionGeneratorParams
-					{
-						extraAllowedDefs = Gen.YieldSingle(thingDef),
-						count = new int?(1)
-					};
+					ItemCollectionGeneratorParams second3 = default(ItemCollectionGeneratorParams);
+					second3.extraAllowedDefs = Gen.YieldSingle(thingDef);
+					second3.count = 1;
 					this.possibleItemCollectionGenerators.Add(new Pair<ItemCollectionGeneratorDef, ItemCollectionGeneratorParams>(standard3, second3));
 				}
 			}
-			ItemCollectionGeneratorParams second4 = new ItemCollectionGeneratorParams
-			{
-				count = new int?(ItemCollectionGenerator_ItemStashQuest.ThingsCountRange.RandomInRange),
-				totalMarketValue = new float?(ItemCollectionGenerator_ItemStashQuest.TotalMarketValueRange.RandomInRange),
-				techLevel = new TechLevel?(techLevel)
-			};
+			ItemCollectionGeneratorParams second4 = default(ItemCollectionGeneratorParams);
+			second4.count = ItemCollectionGenerator_ItemStashQuest.ThingsCountRange.RandomInRange;
+			second4.totalMarketValue = ItemCollectionGenerator_ItemStashQuest.TotalMarketValueRange.RandomInRange;
+			second4.techLevel = techLevel;
 			this.possibleItemCollectionGenerators.Add(new Pair<ItemCollectionGeneratorDef, ItemCollectionGeneratorParams>(ItemCollectionGeneratorDefOf.Weapons, second4));
 			this.possibleItemCollectionGenerators.Add(new Pair<ItemCollectionGeneratorDef, ItemCollectionGeneratorParams>(ItemCollectionGeneratorDefOf.RawResources, second4));
 			this.possibleItemCollectionGenerators.Add(new Pair<ItemCollectionGeneratorDef, ItemCollectionGeneratorParams>(ItemCollectionGeneratorDefOf.Apparel, second4));
@@ -82,50 +74,38 @@ namespace RimWorld
 		private bool PlayerOrItemStashHasAIPersonaCore()
 		{
 			List<Map> maps = Find.Maps;
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < maps.Count; i++)
 			{
-				if (num < maps.Count)
+				if (maps[i].listerThings.ThingsOfDef(ThingDefOf.AIPersonaCore).Count > 0)
 				{
-					if (maps[num].listerThings.ThingsOfDef(ThingDefOf.AIPersonaCore).Count > 0)
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				List<Caravan> caravans = Find.WorldObjects.Caravans;
-				for (int i = 0; i < caravans.Count; i++)
+			}
+			List<Caravan> caravans = Find.WorldObjects.Caravans;
+			for (int j = 0; j < caravans.Count; j++)
+			{
+				if (caravans[j].IsPlayerControlled && CaravanInventoryUtility.HasThings(caravans[j], ThingDefOf.AIPersonaCore, 1, null))
 				{
-					if (caravans[i].IsPlayerControlled && CaravanInventoryUtility.HasThings(caravans[i], ThingDefOf.AIPersonaCore, 1, null))
-						goto IL_0087;
+					return true;
 				}
-				List<Site> sites = Find.WorldObjects.Sites;
-				for (int j = 0; j < sites.Count; j++)
+			}
+			List<Site> sites = Find.WorldObjects.Sites;
+			for (int k = 0; k < sites.Count; k++)
+			{
+				ItemStashContentsComp component = ((WorldObject)sites[k]).GetComponent<ItemStashContentsComp>();
+				if (component != null)
 				{
-					ItemStashContentsComp component = ((WorldObject)sites[j]).GetComponent<ItemStashContentsComp>();
-					if (component != null)
+					ThingOwner contents = component.contents;
+					for (int l = 0; l < contents.Count; l++)
 					{
-						ThingOwner contents = component.contents;
-						for (int k = 0; k < contents.Count; k++)
+						if (contents[l].def == ThingDefOf.AIPersonaCore)
 						{
-							if (contents[k].def == ThingDefOf.AIPersonaCore)
-								goto IL_00fe;
+							return true;
 						}
 					}
 				}
-				result = false;
-				break;
-				IL_00fe:
-				result = true;
-				break;
-				IL_0087:
-				result = true;
-				break;
 			}
-			return result;
+			return false;
 		}
 	}
 }

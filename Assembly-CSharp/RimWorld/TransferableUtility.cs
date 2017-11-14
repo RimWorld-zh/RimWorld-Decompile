@@ -75,16 +75,11 @@ namespace RimWorld
 
 		public static bool TransferAsOne(Thing a, Thing b)
 		{
-			bool result;
 			if (a == b)
 			{
-				result = true;
+				return true;
 			}
-			else if (a.def.tradeNeverStack || b.def.tradeNeverStack)
-			{
-				result = false;
-			}
-			else
+			if (!a.def.tradeNeverStack && !b.def.tradeNeverStack)
 			{
 				float num = -1f;
 				CompRottable compRottable = a.TryGetComp<CompRottable>();
@@ -100,183 +95,150 @@ namespace RimWorld
 				}
 				if (Mathf.Abs(num - num2) > 0.10000000149011612)
 				{
-					result = false;
+					return false;
 				}
-				else if (a is Corpse && b is Corpse)
+				if (a is Corpse && b is Corpse)
 				{
 					Pawn innerPawn = ((Corpse)a).InnerPawn;
 					Pawn innerPawn2 = ((Corpse)b).InnerPawn;
 					if (innerPawn.def != innerPawn2.def)
 					{
-						result = false;
+						return false;
 					}
-					else if (innerPawn.kindDef != innerPawn2.kindDef)
+					if (innerPawn.kindDef != innerPawn2.kindDef)
 					{
-						result = false;
+						return false;
 					}
-					else if (innerPawn.RaceProps.Humanlike || innerPawn2.RaceProps.Humanlike)
-					{
-						result = false;
-					}
-					else
+					if (!innerPawn.RaceProps.Humanlike && !innerPawn2.RaceProps.Humanlike)
 					{
 						if (innerPawn.Name != null && !innerPawn.Name.Numerical)
 						{
-							goto IL_0150;
+							goto IL_012b;
 						}
 						if (innerPawn2.Name != null && !innerPawn2.Name.Numerical)
-							goto IL_0150;
-						result = true;
+							goto IL_012b;
+						return true;
 					}
+					return false;
 				}
-				else if (a.def.category == ThingCategory.Pawn)
+				if (a.def.category == ThingCategory.Pawn)
 				{
 					if (b.def != a.def)
 					{
-						result = false;
+						return false;
 					}
-					else if (a.def.race.Humanlike || b.def.race.Humanlike)
-					{
-						result = false;
-					}
-					else
+					if (!a.def.race.Humanlike && !b.def.race.Humanlike)
 					{
 						Pawn pawn = (Pawn)a;
 						Pawn pawn2 = (Pawn)b;
 						if (pawn.kindDef != pawn2.kindDef)
 						{
-							result = false;
+							return false;
 						}
-						else if (pawn.health.summaryHealth.SummaryHealthPercent < 0.99989998340606689 || pawn2.health.summaryHealth.SummaryHealthPercent < 0.99989998340606689)
+						if (!(pawn.health.summaryHealth.SummaryHealthPercent < 0.99989998340606689) && !(pawn2.health.summaryHealth.SummaryHealthPercent < 0.99989998340606689))
 						{
-							result = false;
-						}
-						else if (pawn.gender != pawn2.gender)
-						{
-							result = false;
-						}
-						else
-						{
+							if (pawn.gender != pawn2.gender)
+							{
+								return false;
+							}
 							if (pawn.Name != null && !pawn.Name.Numerical)
 							{
-								goto IL_0274;
+								goto IL_022b;
 							}
 							if (pawn2.Name != null && !pawn2.Name.Numerical)
-								goto IL_0274;
-							result = ((byte)((pawn.ageTracker.CurLifeStageIndex == pawn2.ageTracker.CurLifeStageIndex) ? ((!(Mathf.Abs(pawn.ageTracker.AgeBiologicalYearsFloat - pawn2.ageTracker.AgeBiologicalYearsFloat) > 1.0)) ? 1 : 0) : 0) != 0);
+								goto IL_022b;
+							if (pawn.ageTracker.CurLifeStageIndex != pawn2.ageTracker.CurLifeStageIndex)
+							{
+								return false;
+							}
+							if (Mathf.Abs(pawn.ageTracker.AgeBiologicalYearsFloat - pawn2.ageTracker.AgeBiologicalYearsFloat) > 1.0)
+							{
+								return false;
+							}
+							return true;
 						}
+						return false;
 					}
+					return false;
 				}
-				else
+				Apparel apparel = a as Apparel;
+				Apparel apparel2 = b as Apparel;
+				if (apparel != null && apparel2 != null && apparel.WornByCorpse != apparel2.WornByCorpse)
 				{
-					Apparel apparel = a as Apparel;
-					Apparel apparel2 = b as Apparel;
-					QualityCategory qualityCategory = default(QualityCategory);
-					QualityCategory qualityCategory2 = default(QualityCategory);
-					if (apparel != null && apparel2 != null && apparel.WornByCorpse != apparel2.WornByCorpse)
-					{
-						result = false;
-					}
-					else if (a.def.useHitPoints && Mathf.Abs(a.HitPoints - b.HitPoints) >= 10)
-					{
-						result = false;
-					}
-					else if (a.TryGetQuality(out qualityCategory) && b.TryGetQuality(out qualityCategory2) && qualityCategory != qualityCategory2)
-					{
-						result = false;
-					}
-					else if (a.def.category == ThingCategory.Item)
-					{
-						result = a.CanStackWith(b);
-					}
-					else
-					{
-						Log.Error("Unknown TransferAsOne pair: " + a + ", " + b);
-						result = false;
-					}
+					return false;
 				}
+				if (a.def.useHitPoints && Mathf.Abs(a.HitPoints - b.HitPoints) >= 10)
+				{
+					return false;
+				}
+				QualityCategory qualityCategory = default(QualityCategory);
+				QualityCategory qualityCategory2 = default(QualityCategory);
+				if (a.TryGetQuality(out qualityCategory) && b.TryGetQuality(out qualityCategory2) && qualityCategory != qualityCategory2)
+				{
+					return false;
+				}
+				if (a.def.category == ThingCategory.Item)
+				{
+					return a.CanStackWith(b);
+				}
+				Log.Error("Unknown TransferAsOne pair: " + a + ", " + b);
+				return false;
 			}
-			goto IL_03b8;
-			IL_0274:
-			result = false;
-			goto IL_03b8;
-			IL_0150:
-			result = false;
-			goto IL_03b8;
-			IL_03b8:
-			return result;
+			return false;
+			IL_022b:
+			return false;
+			IL_012b:
+			return false;
 		}
 
 		public static T TransferableMatching<T>(Thing thing, List<T> transferables) where T : Transferable
 		{
-			T result;
-			T val;
-			if (thing == null || transferables == null)
-			{
-				result = (T)null;
-			}
-			else
+			if (thing != null && transferables != null)
 			{
 				for (int i = 0; i < transferables.Count; i++)
 				{
-					val = transferables[i];
-					if (val.HasAnyThing && TransferableUtility.TransferAsOne(thing, val.AnyThing))
-						goto IL_0058;
+					T result = transferables[i];
+					if (result.HasAnyThing && TransferableUtility.TransferAsOne(thing, result.AnyThing))
+					{
+						return result;
+					}
 				}
-				result = (T)null;
+				return (T)null;
 			}
-			goto IL_007c;
-			IL_0058:
-			result = val;
-			goto IL_007c;
-			IL_007c:
-			return result;
+			return (T)null;
 		}
 
 		public static TransferableOneWay TransferableMatchingDesperate(Thing thing, List<TransferableOneWay> transferables)
 		{
-			TransferableOneWay result;
-			TransferableOneWay transferableOneWay;
-			TransferableOneWay transferableOneWay2;
-			TransferableOneWay transferableOneWay3;
-			if (thing == null || transferables == null)
-			{
-				result = null;
-			}
-			else
+			if (thing != null && transferables != null)
 			{
 				for (int i = 0; i < transferables.Count; i++)
 				{
-					transferableOneWay = transferables[i];
+					TransferableOneWay transferableOneWay = transferables[i];
 					if (transferableOneWay.HasAnyThing && transferableOneWay.things.Contains(thing))
-						goto IL_0045;
+					{
+						return transferableOneWay;
+					}
 				}
 				for (int j = 0; j < transferables.Count; j++)
 				{
-					transferableOneWay2 = transferables[j];
+					TransferableOneWay transferableOneWay2 = transferables[j];
 					if (transferableOneWay2.HasAnyThing && TransferableUtility.TransferAsOne(thing, transferableOneWay2.AnyThing))
-						goto IL_0091;
+					{
+						return transferableOneWay2;
+					}
 				}
 				for (int k = 0; k < transferables.Count; k++)
 				{
-					transferableOneWay3 = transferables[k];
+					TransferableOneWay transferableOneWay3 = transferables[k];
 					if (transferableOneWay3.HasAnyThing && transferableOneWay3.ThingDef == thing.def)
-						goto IL_00e0;
+					{
+						return transferableOneWay3;
+					}
 				}
-				result = null;
+				return null;
 			}
-			goto IL_0103;
-			IL_00e0:
-			result = transferableOneWay3;
-			goto IL_0103;
-			IL_0091:
-			result = transferableOneWay2;
-			goto IL_0103;
-			IL_0045:
-			result = transferableOneWay;
-			goto IL_0103;
-			IL_0103:
-			return result;
+			return null;
 		}
 
 		public static List<Pawn> GetPawnsFromTransferables(List<TransferableOneWay> transferables)
@@ -309,14 +271,14 @@ namespace RimWorld
 				int num = -countToTransfer;
 				if (countToTransfer > 0)
 				{
-					TransferableUtility.TransferNoSplit(tradeables[j].thingsTrader, countToTransfer, (Action<Thing, int>)delegate(Thing originalThing, int toTake)
+					TransferableUtility.TransferNoSplit(tradeables[j].thingsTrader, countToTransfer, delegate(Thing originalThing, int toTake)
 					{
 						outThingsAfterTransfer.Add(new ThingStackPart(originalThing, toTake));
 					}, false, false);
 				}
 				else if (num > 0)
 				{
-					TransferableUtility.TransferNoSplit(tradeables[j].thingsColony, num, (Action<Thing, int>)delegate(Thing originalThing, int toTake)
+					TransferableUtility.TransferNoSplit(tradeables[j].thingsColony, num, delegate(Thing originalThing, int toTake)
 					{
 						int num2 = 0;
 						ThingStackPart thingStackPart;

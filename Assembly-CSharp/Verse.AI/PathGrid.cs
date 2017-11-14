@@ -25,7 +25,11 @@ namespace Verse.AI
 
 		public bool Walkable(IntVec3 loc)
 		{
-			return loc.InBounds(this.map) && this.pathGrid[this.map.cellIndices.CellToIndex(loc)] < 10000;
+			if (!loc.InBounds(this.map))
+			{
+				return false;
+			}
+			return this.pathGrid[this.map.cellIndices.CellToIndex(loc)] < 10000;
 		}
 
 		public bool WalkableFast(IntVec3 loc)
@@ -98,88 +102,68 @@ namespace Verse.AI
 			int num2 = SnowUtility.MovementTicksAddOn(this.map.snowGrid.GetCategory(c));
 			num += num2;
 			List<Thing> list = this.map.thingGrid.ThingsListAt(c);
-			int num3 = 0;
-			int result;
-			while (true)
+			for (int i = 0; i < list.Count; i++)
 			{
-				if (num3 < list.Count)
+				Thing thing = list[i];
+				if (thing.def.passability == Traversability.Impassable)
 				{
-					Thing thing = list[num3];
-					if (thing.def.passability == Traversability.Impassable)
-					{
-						result = 10000;
-						break;
-					}
-					if (!PathGrid.IsPathCostIgnoreRepeater(thing.def) || !prevCell.IsValid || !this.ContainsPathCostIgnoreRepeater(prevCell))
-					{
-						num += thing.def.pathCost;
-					}
-					if (prevCell.IsValid && thing is Building_Door)
-					{
-						Building edifice = prevCell.GetEdifice(this.map);
-						if (edifice != null && edifice is Building_Door)
-						{
-							num += 45;
-						}
-					}
-					num3++;
-					continue;
+					return 10000;
 				}
-				if (perceivedStatic)
+				if (!PathGrid.IsPathCostIgnoreRepeater(thing.def) || !prevCell.IsValid || !this.ContainsPathCostIgnoreRepeater(prevCell))
 				{
-					for (int i = 0; i < 9; i++)
+					num += thing.def.pathCost;
+				}
+				if (prevCell.IsValid && thing is Building_Door)
+				{
+					Building edifice = prevCell.GetEdifice(this.map);
+					if (edifice != null && edifice is Building_Door)
 					{
-						IntVec3 b = GenAdj.AdjacentCellsAndInside[i];
-						IntVec3 c2 = c + b;
-						if (c2.InBounds(this.map))
-						{
-							Fire fire = null;
-							list = this.map.thingGrid.ThingsListAtFast(c2);
-							int num4 = 0;
-							while (num4 < list.Count)
-							{
-								fire = (list[num4] as Fire);
-								if (fire == null)
-								{
-									num4++;
-									continue;
-								}
-								break;
-							}
-							if (fire != null && fire.parent == null)
-							{
-								num = ((((b.x != 0) ? 1 : b.z) != 0) ? (num + 150) : (num + 1000));
-							}
-						}
+						num += 45;
 					}
 				}
-				result = num;
-				break;
 			}
-			return result;
+			if (perceivedStatic)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					IntVec3 b = GenAdj.AdjacentCellsAndInside[j];
+					IntVec3 c2 = c + b;
+					if (c2.InBounds(this.map))
+					{
+						Fire fire = null;
+						list = this.map.thingGrid.ThingsListAtFast(c2);
+						int num3 = 0;
+						while (num3 < list.Count)
+						{
+							fire = (list[num3] as Fire);
+							if (fire == null)
+							{
+								num3++;
+								continue;
+							}
+							break;
+						}
+						if (fire != null && fire.parent == null)
+						{
+							num = ((b.x != 0 || b.z != 0) ? (num + 150) : (num + 1000));
+						}
+					}
+				}
+			}
+			return num;
 		}
 
 		private bool ContainsPathCostIgnoreRepeater(IntVec3 c)
 		{
 			List<Thing> list = this.map.thingGrid.ThingsListAt(c);
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < list.Count; i++)
 			{
-				if (num < list.Count)
+				if (PathGrid.IsPathCostIgnoreRepeater(list[i].def))
 				{
-					if (PathGrid.IsPathCostIgnoreRepeater(list[num].def))
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		private static bool IsPathCostIgnoreRepeater(ThingDef def)

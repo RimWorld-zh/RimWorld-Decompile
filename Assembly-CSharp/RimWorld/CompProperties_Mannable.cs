@@ -4,7 +4,7 @@ namespace RimWorld
 {
 	public class CompProperties_Mannable : CompProperties
 	{
-		public WorkTags manWorkType = WorkTags.None;
+		public WorkTags manWorkType;
 
 		public CompProperties_Mannable()
 		{

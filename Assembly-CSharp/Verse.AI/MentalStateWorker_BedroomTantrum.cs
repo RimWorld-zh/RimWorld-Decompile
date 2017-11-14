@@ -9,28 +9,20 @@ namespace Verse.AI
 
 		public override bool StateCanOccur(Pawn pawn)
 		{
-			bool result;
 			if (!base.StateCanOccur(pawn))
 			{
-				result = false;
+				return false;
 			}
-			else
+			Building_Bed ownedBed = pawn.ownership.OwnedBed;
+			if (ownedBed != null && ownedBed.GetRoom(RegionType.Set_Passable) != null && !ownedBed.GetRoom(RegionType.Set_Passable).PsychologicallyOutdoors)
 			{
-				Building_Bed ownedBed = pawn.ownership.OwnedBed;
-				if (ownedBed == null || ownedBed.GetRoom(RegionType.Set_Passable) == null || ownedBed.GetRoom(RegionType.Set_Passable).PsychologicallyOutdoors)
-				{
-					result = false;
-				}
-				else
-				{
-					MentalStateWorker_BedroomTantrum.tmpThings.Clear();
-					TantrumMentalStateUtility.GetSmashableThingsIn(ownedBed.GetRoom(RegionType.Set_Passable), pawn, MentalStateWorker_BedroomTantrum.tmpThings, null, 0);
-					bool flag = MentalStateWorker_BedroomTantrum.tmpThings.Any();
-					MentalStateWorker_BedroomTantrum.tmpThings.Clear();
-					result = flag;
-				}
+				MentalStateWorker_BedroomTantrum.tmpThings.Clear();
+				TantrumMentalStateUtility.GetSmashableThingsIn(ownedBed.GetRoom(RegionType.Set_Passable), pawn, MentalStateWorker_BedroomTantrum.tmpThings, null, 0);
+				bool result = MentalStateWorker_BedroomTantrum.tmpThings.Any();
+				MentalStateWorker_BedroomTantrum.tmpThings.Clear();
+				return result;
 			}
-			return result;
+			return false;
 		}
 	}
 }

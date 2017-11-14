@@ -12,7 +12,7 @@ namespace RimWorld.Planet
 
 		public override IEnumerable Regenerate()
 		{
-			IEnumerator enumerator = this._003CRegenerate_003E__BaseCallProxy0().GetEnumerator();
+			IEnumerator enumerator = base.Regenerate().GetEnumerator();
 			try
 			{
 				if (enumerator.MoveNext())
@@ -54,8 +54,8 @@ namespace RimWorld.Planet
 			}
 			base.FinalizeMesh(MeshParts.All);
 			yield break;
-			IL_01b2:
-			/*Error near IL_01b3: Unexpected return in MoveNext()*/;
+			IL_01ab:
+			/*Error near IL_01ac: Unexpected return in MoveNext()*/;
 		}
 	}
 }

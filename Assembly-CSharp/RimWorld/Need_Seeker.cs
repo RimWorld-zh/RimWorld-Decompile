@@ -11,21 +11,25 @@ namespace RimWorld
 		{
 			get
 			{
-				int result;
 				if (!base.pawn.Awake())
 				{
-					result = 0;
+					return 0;
 				}
-				else
+				float curInstantLevelPercentage = base.CurInstantLevelPercentage;
+				if (curInstantLevelPercentage > base.CurLevelPercentage + 0.05000000074505806)
 				{
-					float curInstantLevelPercentage = base.CurInstantLevelPercentage;
-					result = ((curInstantLevelPercentage > base.CurLevelPercentage + 0.05000000074505806) ? 1 : ((curInstantLevelPercentage < base.CurLevelPercentage - 0.05000000074505806) ? (-1) : 0));
+					return 1;
 				}
-				return result;
+				if (curInstantLevelPercentage < base.CurLevelPercentage - 0.05000000074505806)
+				{
+					return -1;
+				}
+				return 0;
 			}
 		}
 
-		public Need_Seeker(Pawn pawn) : base(pawn)
+		public Need_Seeker(Pawn pawn)
+			: base(pawn)
 		{
 		}
 

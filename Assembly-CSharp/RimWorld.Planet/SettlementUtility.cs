@@ -7,32 +7,24 @@ namespace RimWorld.Planet
 	{
 		public static bool IsPlayerAttackingAnySettlementOf(Faction faction)
 		{
-			bool result;
 			if (faction == Faction.OfPlayer)
 			{
-				result = false;
+				return false;
 			}
-			else if (!faction.HostileTo(Faction.OfPlayer))
+			if (!faction.HostileTo(Faction.OfPlayer))
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Map> maps = Find.Maps;
+			for (int i = 0; i < maps.Count; i++)
 			{
-				List<Map> maps = Find.Maps;
-				for (int i = 0; i < maps.Count; i++)
+				Settlement settlement = maps[i].info.parent as Settlement;
+				if (settlement != null && settlement.Faction == faction)
 				{
-					Settlement settlement = maps[i].info.parent as Settlement;
-					if (settlement != null && settlement.Faction == faction)
-						goto IL_0061;
+					return true;
 				}
-				result = false;
 			}
-			goto IL_0080;
-			IL_0061:
-			result = true;
-			goto IL_0080;
-			IL_0080:
-			return result;
+			return false;
 		}
 	}
 }

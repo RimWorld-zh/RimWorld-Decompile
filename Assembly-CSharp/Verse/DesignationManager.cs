@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -32,23 +31,19 @@ namespace Verse
 					switch (this.allDesignations[num].def.targetType)
 					{
 					case TargetType.Thing:
-					{
 						if (!this.allDesignations[num].target.HasThing)
 						{
 							Log.Error("Thing-needing designation " + this.allDesignations[num] + " had no thing target. Removing...");
 							this.allDesignations.RemoveAt(num);
 						}
 						break;
-					}
 					case TargetType.Cell:
-					{
 						if (!this.allDesignations[num].target.Cell.IsValid)
 						{
 							Log.Error("Cell-needing designation " + this.allDesignations[num] + " had no cell target. Removing...");
 							this.allDesignations.RemoveAt(num);
 						}
 						break;
-					}
 					}
 				}
 			}
@@ -94,79 +89,51 @@ namespace Verse
 
 		public Designation DesignationOn(Thing t)
 		{
-			int num = 0;
-			Designation result;
-			while (true)
+			for (int i = 0; i < this.allDesignations.Count; i++)
 			{
-				if (num < this.allDesignations.Count)
+				Designation designation = this.allDesignations[i];
+				if (designation.target.Thing == t)
 				{
-					Designation designation = this.allDesignations[num];
-					if (designation.target.Thing == t)
-					{
-						result = designation;
-						break;
-					}
-					num++;
-					continue;
+					return designation;
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		public Designation DesignationOn(Thing t, DesignationDef def)
 		{
-			Designation result;
-			Designation designation;
 			if (def.targetType == TargetType.Cell)
 			{
 				Log.Error("Designations of type " + def.defName + " are indexed by location only and you are trying to get one on a Thing.");
-				result = null;
+				return null;
 			}
-			else
+			for (int i = 0; i < this.allDesignations.Count; i++)
 			{
-				for (int i = 0; i < this.allDesignations.Count; i++)
+				Designation designation = this.allDesignations[i];
+				if (designation.target.Thing == t && designation.def == def)
 				{
-					designation = this.allDesignations[i];
-					if (designation.target.Thing == t && designation.def == def)
-						goto IL_0061;
+					return designation;
 				}
-				result = null;
 			}
-			goto IL_0085;
-			IL_0085:
-			return result;
-			IL_0061:
-			result = designation;
-			goto IL_0085;
+			return null;
 		}
 
 		public Designation DesignationAt(IntVec3 c, DesignationDef def)
 		{
-			Designation result;
-			Designation designation;
 			if (def.targetType == TargetType.Thing)
 			{
 				Log.Error("Designations of type " + def.defName + " are indexed by Thing only and you are trying to get one on a location.");
-				result = null;
+				return null;
 			}
-			else
+			for (int i = 0; i < this.allDesignations.Count; i++)
 			{
-				for (int i = 0; i < this.allDesignations.Count; i++)
+				Designation designation = this.allDesignations[i];
+				if (designation.def == def && (!designation.target.HasThing || designation.target.Thing.Map == this.map) && designation.target.Cell == c)
 				{
-					designation = this.allDesignations[i];
-					if (designation.def == def && (!designation.target.HasThing || designation.target.Thing.Map == this.map) && designation.target.Cell == c)
-						goto IL_0090;
+					return designation;
 				}
-				result = null;
 			}
-			goto IL_00b4;
-			IL_00b4:
-			return result;
-			IL_0090:
-			result = designation;
-			goto IL_00b4;
+			return null;
 		}
 
 		public IEnumerable<Designation> AllDesignationsOn(Thing t)
@@ -253,7 +220,7 @@ namespace Verse
 					designation.Notify_Removing();
 				}
 			}
-			this.allDesignations.RemoveAll((Predicate<Designation>)((Designation d) => (!standardCanceling || d.def.designateCancelable) && d.target.Thing == t));
+			this.allDesignations.RemoveAll((Designation d) => (!standardCanceling || d.def.designateCancelable) && d.target.Thing == t);
 		}
 
 		public void Notify_BuildingDespawned(Thing b)

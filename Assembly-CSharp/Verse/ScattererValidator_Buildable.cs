@@ -9,38 +9,26 @@ namespace Verse
 		public override bool Allows(IntVec3 c, Map map)
 		{
 			CellRect cellRect = CellRect.CenteredOn(c, this.radius);
-			int num = cellRect.minZ;
-			bool result;
-			while (true)
+			for (int i = cellRect.minZ; i <= cellRect.maxZ; i++)
 			{
-				if (num <= cellRect.maxZ)
+				for (int j = cellRect.minX; j <= cellRect.maxX; j++)
 				{
-					for (int i = cellRect.minX; i <= cellRect.maxX; i++)
+					IntVec3 c2 = new IntVec3(j, 0, i);
+					if (!c2.InBounds(map))
 					{
-						IntVec3 c2 = new IntVec3(i, 0, num);
-						if (!c2.InBounds(map))
-							goto IL_0040;
-						if (c2.InNoBuildEdgeArea(map))
-							goto IL_0054;
-						if (!c2.GetTerrain(map).affordances.Contains(this.affordance))
-							goto IL_0078;
+						return false;
 					}
-					num++;
-					continue;
+					if (c2.InNoBuildEdgeArea(map))
+					{
+						return false;
+					}
+					if (!c2.GetTerrain(map).affordances.Contains(this.affordance))
+					{
+						return false;
+					}
 				}
-				result = true;
-				break;
-				IL_0078:
-				result = false;
-				break;
-				IL_0040:
-				result = false;
-				break;
-				IL_0054:
-				result = false;
-				break;
 			}
-			return result;
+			return true;
 		}
 	}
 }

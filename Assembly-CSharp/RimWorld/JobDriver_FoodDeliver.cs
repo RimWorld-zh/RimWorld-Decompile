@@ -31,7 +31,11 @@ namespace RimWorld
 
 		public override string GetReport()
 		{
-			return (!(base.job.GetTarget(TargetIndex.A).Thing is Building_NutrientPasteDispenser) || this.Deliveree == null) ? base.GetReport() : base.job.def.reportString.Replace("TargetA", ThingDefOf.MealNutrientPaste.label).Replace("TargetB", this.Deliveree.LabelShort);
+			if (base.job.GetTarget(TargetIndex.A).Thing is Building_NutrientPasteDispenser && this.Deliveree != null)
+			{
+				return base.job.def.reportString.Replace("TargetA", ThingDefOf.MealNutrientPaste.label).Replace("TargetB", this.Deliveree.LabelShort);
+			}
+			return base.GetReport();
 		}
 
 		public override void Notify_Starting()
@@ -43,7 +47,7 @@ namespace RimWorld
 
 		public override bool TryMakePreToilReservations()
 		{
-			return base.pawn.Reserve((Thing)this.Deliveree, base.job, 1, -1, null);
+			return base.pawn.Reserve(this.Deliveree, base.job, 1, -1, null);
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()

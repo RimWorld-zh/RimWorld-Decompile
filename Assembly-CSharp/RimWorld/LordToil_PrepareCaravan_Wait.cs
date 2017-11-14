@@ -12,7 +12,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return new float?(0.5f);
+				return 0.5f;
 			}
 		}
 

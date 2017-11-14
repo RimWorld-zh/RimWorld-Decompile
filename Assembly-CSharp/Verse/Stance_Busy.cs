@@ -2,13 +2,13 @@ namespace Verse
 {
 	public abstract class Stance_Busy : Stance
 	{
-		public int ticksLeft = 0;
+		public int ticksLeft;
 
 		public Verb verb;
 
 		public LocalTargetInfo focusTarg;
 
-		public bool neverAimWeapon = false;
+		public bool neverAimWeapon;
 
 		protected float pieSizeFactor = 1f;
 
@@ -32,7 +32,8 @@ namespace Verse
 			this.verb = verb;
 		}
 
-		public Stance_Busy(int ticks) : this(ticks, (Thing)null, null)
+		public Stance_Busy(int ticks)
+			: this(ticks, null, null)
 		{
 		}
 

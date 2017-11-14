@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -9,7 +8,7 @@ namespace RimWorld
 	{
 		private float workLeft = -1000f;
 
-		protected bool clearSnow = false;
+		protected bool clearSnow;
 
 		protected abstract int BaseWorkAmount
 		{
@@ -41,7 +40,14 @@ namespace RimWorld
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			_003CMakeNewToils_003Ec__Iterator0 _003CMakeNewToils_003Ec__Iterator = (_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0036: stateMachine*/;
-			this.FailOn((Func<bool>)(() => (byte)((!_003CMakeNewToils_003Ec__Iterator._0024this.job.ignoreDesignations && _003CMakeNewToils_003Ec__Iterator._0024this.Map.designationManager.DesignationAt(_003CMakeNewToils_003Ec__Iterator._0024this.TargetLocA, _003CMakeNewToils_003Ec__Iterator._0024this.DesDef) == null) ? 1 : 0) != 0));
+			this.FailOn(delegate
+			{
+				if (!_003CMakeNewToils_003Ec__Iterator._0024this.job.ignoreDesignations && _003CMakeNewToils_003Ec__Iterator._0024this.Map.designationManager.DesignationAt(_003CMakeNewToils_003Ec__Iterator._0024this.TargetLocA, _003CMakeNewToils_003Ec__Iterator._0024this.DesDef) == null)
+				{
+					return true;
+				}
+				return false;
+			});
 			yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.Touch);
 			/*Error: Unable to find new state assignment for yield return*/;
 		}

@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -16,36 +15,35 @@ namespace RimWorld
 
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
-			int num = default(int);
+			if (!base.CanFireNowSub(target))
+			{
+				return false;
+			}
 			Faction faction = default(Faction);
-			return base.CanFireNowSub(target) && this.TryFindFaction(out faction) && this.TryFindTile(out num);
+			int num = default(int);
+			return this.TryFindFaction(out faction) && this.TryFindTile(out num);
 		}
 
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Faction faction = default(Faction);
-			bool result;
-			int tile = default(int);
 			if (!this.TryFindFaction(out faction))
 			{
-				result = false;
+				return false;
 			}
-			else if (!this.TryFindTile(out tile))
+			int tile = default(int);
+			if (!this.TryFindTile(out tile))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				PeaceTalks peaceTalks = (PeaceTalks)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.PeaceTalks);
-				peaceTalks.Tile = tile;
-				peaceTalks.SetFaction(faction);
-				((WorldObject)peaceTalks).GetComponent<TimeoutComp>().StartTimeout(900000);
-				Find.WorldObjects.Add(peaceTalks);
-				string text = string.Format(base.def.letterText.AdjustedFor(faction.leader), faction.def.leaderTitle, faction.Name, 15).CapitalizeFirst();
-				Find.LetterStack.ReceiveLetter(base.def.letterLabel, text, base.def.letterDef, (WorldObject)peaceTalks, (string)null);
-				result = true;
-			}
-			return result;
+			PeaceTalks peaceTalks = (PeaceTalks)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.PeaceTalks);
+			peaceTalks.Tile = tile;
+			peaceTalks.SetFaction(faction);
+			((WorldObject)peaceTalks).GetComponent<TimeoutComp>().StartTimeout(900000);
+			Find.WorldObjects.Add(peaceTalks);
+			string text = string.Format(base.def.letterText.AdjustedFor(faction.leader), faction.def.leaderTitle, faction.Name, 15).CapitalizeFirst();
+			Find.LetterStack.ReceiveLetter(base.def.letterLabel, text, base.def.letterDef, peaceTalks, null);
+			return true;
 		}
 
 		private bool TryFindFaction(out Faction faction)
@@ -63,24 +61,14 @@ namespace RimWorld
 		private bool PeaceTalksExist(Faction faction)
 		{
 			List<PeaceTalks> peaceTalks = Find.WorldObjects.PeaceTalks;
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < peaceTalks.Count; i++)
 			{
-				if (num < peaceTalks.Count)
+				if (peaceTalks[i].Faction == faction)
 				{
-					if (peaceTalks[num].Faction == faction)
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 	}
 }

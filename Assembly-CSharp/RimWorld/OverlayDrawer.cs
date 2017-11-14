@@ -79,7 +79,7 @@ namespace RimWorld
 				this.curOffset = Vector3.zero;
 				Thing key = item.Key;
 				OverlayTypes value = item.Value;
-				if (((int)value & 4) != 0)
+				if ((value & OverlayTypes.BurningWick) != 0)
 				{
 					this.RenderBurningWick(key);
 				}
@@ -91,47 +91,41 @@ namespace RimWorld
 					switch (bitCountOf)
 					{
 					case 1:
-					{
 						this.curOffset = Vector3.zero;
 						break;
-					}
 					case 2:
-					{
 						this.curOffset = new Vector3((float)(-0.5 * num), 0f, 0f);
 						break;
-					}
 					case 3:
-					{
 						this.curOffset = new Vector3((float)(-1.5 * num), 0f, 0f);
 						break;
 					}
-					}
-					if (((int)value & 1) != 0)
+					if ((value & OverlayTypes.NeedsPower) != 0)
 					{
 						this.RenderNeedsPowerOverlay(key);
 					}
-					if (((int)value & 2) != 0)
+					if ((value & OverlayTypes.PowerOff) != 0)
 					{
 						this.RenderPowerOffOverlay(key);
 					}
-					if (((int)value & 64) != 0)
+					if ((value & OverlayTypes.BrokenDown) != 0)
 					{
 						this.RenderBrokenDownOverlay(key);
 					}
-					if (((int)value & 128) != 0)
+					if ((value & OverlayTypes.OutOfFuel) != 0)
 					{
 						this.RenderOutOfFuelOverlay(key);
 					}
 				}
-				if (((int)value & 16) != 0)
+				if ((value & OverlayTypes.ForbiddenBig) != 0)
 				{
 					this.RenderForbiddenBigOverlay(key);
 				}
-				if (((int)value & 8) != 0)
+				if ((value & OverlayTypes.Forbidden) != 0)
 				{
 					this.RenderForbiddenOverlay(key);
 				}
-				if (((int)value & 32) != 0)
+				if ((value & OverlayTypes.QuestionMark) != 0)
 				{
 					this.RenderQuestionMarkOverlay(key);
 				}

@@ -13,29 +13,20 @@ namespace RimWorld.Planet
 
 		public static Settlement SettlementVisitedNow(Caravan caravan)
 		{
-			Settlement result;
-			Settlement settlement;
-			if (!caravan.Spawned || caravan.pather.Moving)
-			{
-				result = null;
-			}
-			else
+			if (caravan.Spawned && !caravan.pather.Moving)
 			{
 				List<Settlement> settlements = Find.WorldObjects.Settlements;
 				for (int i = 0; i < settlements.Count; i++)
 				{
-					settlement = settlements[i];
+					Settlement settlement = settlements[i];
 					if (settlement.Tile == caravan.Tile && settlement.Faction != caravan.Faction && settlement.Visitable)
-						goto IL_006b;
+					{
+						return settlement;
+					}
 				}
-				result = null;
+				return null;
 			}
-			goto IL_008b;
-			IL_006b:
-			result = settlement;
-			goto IL_008b;
-			IL_008b:
-			return result;
+			return null;
 		}
 
 		public static Command TradeCommand(Caravan caravan)
@@ -45,18 +36,18 @@ namespace RimWorld.Planet
 			command_Action.defaultLabel = "CommandTrade".Translate();
 			command_Action.defaultDesc = "CommandTradeDesc".Translate();
 			command_Action.icon = CaravanVisitUtility.TradeCommandTex;
-			command_Action.action = (Action)delegate()
+			command_Action.action = delegate
 			{
 				Settlement settlement = CaravanVisitUtility.SettlementVisitedNow(caravan);
 				if (settlement != null && settlement.CanTradeNow)
 				{
 					Find.WindowStack.Add(new Dialog_Trade(bestNegotiator, settlement));
-					string label = "";
-					string text = "";
-					PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter(settlement.Goods.OfType<Pawn>(), ref label, ref text, "LetterRelatedPawnsTradingWithSettlement".Translate(), false, true);
-					if (!text.NullOrEmpty())
+					string empty = string.Empty;
+					string empty2 = string.Empty;
+					PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter(settlement.Goods.OfType<Pawn>(), ref empty, ref empty2, "LetterRelatedPawnsTradingWithSettlement".Translate(), false, true);
+					if (!empty2.NullOrEmpty())
 					{
-						Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.NeutralEvent, (WorldObject)settlement, (string)null);
+						Find.LetterStack.ReceiveLetter(empty, empty2, LetterDefOf.NeutralEvent, settlement, null);
 					}
 				}
 			};
@@ -73,12 +64,19 @@ namespace RimWorld.Planet
 
 		public static Command FulfillRequestCommand(Caravan caravan)
 		{
-			Func<Thing, bool> validator = (Func<Thing, bool>)((Thing thing) => (byte)((thing.GetRotStage() == RotStage.Fresh) ? 1 : 0) != 0);
+			Func<Thing, bool> validator = delegate(Thing thing)
+			{
+				if (thing.GetRotStage() != 0)
+				{
+					return false;
+				}
+				return true;
+			};
 			Command_Action command_Action = new Command_Action();
 			command_Action.defaultLabel = "CommandFulfillTradeOffer".Translate();
 			command_Action.defaultDesc = "CommandFulfillTradeOfferDesc".Translate();
 			command_Action.icon = CaravanVisitUtility.TradeCommandTex;
-			command_Action.action = (Action)delegate()
+			command_Action.action = delegate
 			{
 				Settlement settlement2 = CaravanVisitUtility.SettlementVisitedNow(caravan);
 				CaravanRequestComp caravanRequest = (settlement2 == null) ? null : ((WorldObject)settlement2).GetComponent<CaravanRequestComp>();
@@ -94,23 +92,18 @@ namespace RimWorld.Planet
 					}
 					else
 					{
-						Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("CommandFulfillTradeOfferConfirm".Translate(GenLabel.ThingLabel(caravanRequest.requestThingDef, null, caravanRequest.requestCount), caravanRequest.rewards[0].Label), (Action)delegate()
+						Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("CommandFulfillTradeOfferConfirm".Translate(GenLabel.ThingLabel(caravanRequest.requestThingDef, null, caravanRequest.requestCount), caravanRequest.rewards[0].Label), delegate
 						{
 							int remaining = caravanRequest.requestCount;
-							List<Thing> list = CaravanInventoryUtility.TakeThings(caravan, (Func<Thing, int>)delegate(Thing thing)
+							List<Thing> list = CaravanInventoryUtility.TakeThings(caravan, delegate(Thing thing)
 							{
-								int result;
 								if (caravanRequest.requestThingDef != thing.def)
 								{
-									result = 0;
+									return 0;
 								}
-								else
-								{
-									int num = Mathf.Min(remaining, thing.stackCount);
-									remaining -= num;
-									result = num;
-								}
-								return result;
+								int num = Mathf.Min(remaining, thing.stackCount);
+								remaining -= num;
+								return num;
 							});
 							for (int i = 0; i < list.Count; i++)
 							{
@@ -123,7 +116,7 @@ namespace RimWorld.Planet
 								CaravanInventoryUtility.GiveThing(caravan, thing2);
 							}
 							caravanRequest.Disable();
-						}, false, (string)null));
+						}, false, null));
 					}
 				}
 			};

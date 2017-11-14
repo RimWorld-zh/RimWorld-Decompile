@@ -6,11 +6,11 @@ namespace Verse
 	{
 		public Vector3 exactPosition;
 
-		public float exactRotation = 0f;
+		public float exactRotation;
 
 		public Vector3 exactScale = new Vector3(1f, 1f, 1f);
 
-		public float rotationRate = 0f;
+		public float rotationRate;
 
 		public Color instanceColor = Color.white;
 
@@ -38,7 +38,11 @@ namespace Verse
 		{
 			get
 			{
-				return (float)((!base.def.mote.realTime) ? ((float)(Find.TickManager.TicksGame - this.spawnTick) / 60.0) : (Time.realtimeSinceStartup - this.spawnRealTime));
+				if (base.def.mote.realTime)
+				{
+					return Time.realtimeSinceStartup - this.spawnRealTime;
+				}
+				return (float)((float)(Find.TickManager.TicksGame - this.spawnTick) / 60.0);
 			}
 		}
 

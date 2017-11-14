@@ -35,7 +35,7 @@ namespace RimWorld.Planet
 		{
 			if (caravan.IsPlayerControlled)
 			{
-				Messages.Message("MessageCaravanIsVisitingSettlement".Translate(caravan.Label, this.settlement.Label).CapitalizeFirst(), (WorldObject)caravan, MessageTypeDefOf.TaskCompletion);
+				Messages.Message("MessageCaravanIsVisitingSettlement".Translate(caravan.Label, this.settlement.Label).CapitalizeFirst(), caravan, MessageTypeDefOf.TaskCompletion);
 			}
 		}
 

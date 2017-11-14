@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -11,6 +12,9 @@ namespace RimWorld
 	public static class QualityUtility
 	{
 		public static List<QualityCategory> AllQualityCategories;
+
+		[CompilerGenerated]
+		private static Func<QualityCategory> _003C_003Ef__mg_0024cache0;
 
 		static QualityUtility()
 		{
@@ -38,139 +42,80 @@ namespace RimWorld
 		{
 			MinifiedThing minifiedThing = t as MinifiedThing;
 			CompQuality compQuality = (minifiedThing == null) ? t.TryGetComp<CompQuality>() : minifiedThing.InnerThing.TryGetComp<CompQuality>();
-			bool result;
 			if (compQuality == null)
 			{
 				qc = QualityCategory.Normal;
-				result = false;
+				return false;
 			}
-			else
-			{
-				qc = compQuality.Quality;
-				result = true;
-			}
-			return result;
+			qc = compQuality.Quality;
+			return true;
 		}
 
 		public static string GetLabel(this QualityCategory cat)
 		{
-			string result;
 			switch (cat)
 			{
 			case QualityCategory.Awful:
-			{
-				result = "QualityCategory_Awful".Translate();
-				break;
-			}
+				return "QualityCategory_Awful".Translate();
 			case QualityCategory.Shoddy:
-			{
-				result = "QualityCategory_Shoddy".Translate();
-				break;
-			}
+				return "QualityCategory_Shoddy".Translate();
 			case QualityCategory.Poor:
-			{
-				result = "QualityCategory_Poor".Translate();
-				break;
-			}
+				return "QualityCategory_Poor".Translate();
 			case QualityCategory.Normal:
-			{
-				result = "QualityCategory_Normal".Translate();
-				break;
-			}
+				return "QualityCategory_Normal".Translate();
 			case QualityCategory.Good:
-			{
-				result = "QualityCategory_Good".Translate();
-				break;
-			}
+				return "QualityCategory_Good".Translate();
 			case QualityCategory.Excellent:
-			{
-				result = "QualityCategory_Excellent".Translate();
-				break;
-			}
+				return "QualityCategory_Excellent".Translate();
 			case QualityCategory.Superior:
-			{
-				result = "QualityCategory_Superior".Translate();
-				break;
-			}
+				return "QualityCategory_Superior".Translate();
 			case QualityCategory.Masterwork:
-			{
-				result = "QualityCategory_Masterwork".Translate();
-				break;
-			}
+				return "QualityCategory_Masterwork".Translate();
 			case QualityCategory.Legendary:
-			{
-				result = "QualityCategory_Legendary".Translate();
-				break;
-			}
+				return "QualityCategory_Legendary".Translate();
 			default:
-			{
 				throw new ArgumentException();
 			}
-			}
-			return result;
 		}
 
 		public static string GetLabelShort(this QualityCategory cat)
 		{
-			string result;
 			switch (cat)
 			{
 			case QualityCategory.Awful:
-			{
-				result = "QualityCategoryShort_Awful".Translate();
-				break;
-			}
+				return "QualityCategoryShort_Awful".Translate();
 			case QualityCategory.Shoddy:
-			{
-				result = "QualityCategoryShort_Shoddy".Translate();
-				break;
-			}
+				return "QualityCategoryShort_Shoddy".Translate();
 			case QualityCategory.Poor:
-			{
-				result = "QualityCategoryShort_Poor".Translate();
-				break;
-			}
+				return "QualityCategoryShort_Poor".Translate();
 			case QualityCategory.Normal:
-			{
-				result = "QualityCategoryShort_Normal".Translate();
-				break;
-			}
+				return "QualityCategoryShort_Normal".Translate();
 			case QualityCategory.Good:
-			{
-				result = "QualityCategoryShort_Good".Translate();
-				break;
-			}
+				return "QualityCategoryShort_Good".Translate();
 			case QualityCategory.Excellent:
-			{
-				result = "QualityCategoryShort_Excellent".Translate();
-				break;
-			}
+				return "QualityCategoryShort_Excellent".Translate();
 			case QualityCategory.Superior:
-			{
-				result = "QualityCategoryShort_Superior".Translate();
-				break;
-			}
+				return "QualityCategoryShort_Superior".Translate();
 			case QualityCategory.Masterwork:
-			{
-				result = "QualityCategoryShort_Masterwork".Translate();
-				break;
-			}
+				return "QualityCategoryShort_Masterwork".Translate();
 			case QualityCategory.Legendary:
-			{
-				result = "QualityCategoryShort_Legendary".Translate();
-				break;
-			}
+				return "QualityCategoryShort_Legendary".Translate();
 			default:
-			{
 				throw new ArgumentException();
 			}
-			}
-			return result;
 		}
 
 		public static bool FollowQualityThingFilter(this ThingDef def)
 		{
-			return (byte)((def.stackLimit == 1) ? 1 : (def.HasComp(typeof(CompQuality)) ? 1 : 0)) != 0;
+			if (def.stackLimit == 1)
+			{
+				return true;
+			}
+			if (def.HasComp(typeof(CompQuality)))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static QualityCategory RandomQuality()
@@ -184,110 +129,68 @@ namespace RimWorld
 			switch (relevantSkillLevel)
 			{
 			case 0:
-			{
 				centerX = 0.167f;
 				break;
-			}
 			case 1:
-			{
 				centerX = 0.5f;
 				break;
-			}
 			case 2:
-			{
 				centerX = 0.833f;
 				break;
-			}
 			case 3:
-			{
 				centerX = 1.166f;
 				break;
-			}
 			case 4:
-			{
 				centerX = 1.5f;
 				break;
-			}
 			case 5:
-			{
 				centerX = 1.833f;
 				break;
-			}
 			case 6:
-			{
 				centerX = 2.166f;
 				break;
-			}
 			case 7:
-			{
 				centerX = 2.5f;
 				break;
-			}
 			case 8:
-			{
 				centerX = 2.833f;
 				break;
-			}
 			case 9:
-			{
 				centerX = 3.166f;
 				break;
-			}
 			case 10:
-			{
 				centerX = 3.5f;
 				break;
-			}
 			case 11:
-			{
 				centerX = 3.75f;
 				break;
-			}
 			case 12:
-			{
 				centerX = 4f;
 				break;
-			}
 			case 13:
-			{
 				centerX = 4.25f;
 				break;
-			}
 			case 14:
-			{
 				centerX = 4.5f;
 				break;
-			}
 			case 15:
-			{
 				centerX = 4.7f;
 				break;
-			}
 			case 16:
-			{
 				centerX = 4.9f;
 				break;
-			}
 			case 17:
-			{
 				centerX = 5.1f;
 				break;
-			}
 			case 18:
-			{
 				centerX = 5.3f;
 				break;
-			}
 			case 19:
-			{
 				centerX = 5.5f;
 				break;
-			}
 			case 20:
-			{
 				centerX = 5.7f;
 				break;
-			}
 			}
 			float value = Rand.Gaussian(centerX, 1.25f);
 			value = Mathf.Clamp(value, 0f, (float)((float)QualityUtility.AllQualityCategories.Count - 0.5));
@@ -296,18 +199,13 @@ namespace RimWorld
 
 		public static QualityCategory RandomTraderItemQuality()
 		{
-			QualityCategory result;
 			if (Rand.Value < 0.25)
 			{
-				result = QualityCategory.Normal;
+				return QualityCategory.Normal;
 			}
-			else
-			{
-				float value = Rand.Gaussian(3.5f, 1.13f);
-				value = Mathf.Clamp(value, 0f, (float)((float)QualityUtility.AllQualityCategories.Count - 0.5));
-				result = (QualityCategory)(byte)(int)value;
-			}
-			return result;
+			float value = Rand.Gaussian(3.5f, 1.13f);
+			value = Mathf.Clamp(value, 0f, (float)((float)QualityUtility.AllQualityCategories.Count - 0.5));
+			return (QualityCategory)(byte)(int)value;
 		}
 
 		public static QualityCategory RandomBaseGenItemQuality()
@@ -317,23 +215,18 @@ namespace RimWorld
 
 		public static QualityCategory RandomGeneratedGearQuality(PawnKindDef pawnKind)
 		{
-			QualityCategory result;
 			if (pawnKind.forceNormalGearQuality)
 			{
-				result = QualityCategory.Normal;
+				return QualityCategory.Normal;
 			}
-			else if (Rand.Value < 0.25)
+			if (Rand.Value < 0.25)
 			{
-				result = pawnKind.itemQuality;
+				return pawnKind.itemQuality;
 			}
-			else
-			{
-				float centerX = (float)((float)(int)pawnKind.itemQuality + 0.5);
-				float value = Rand.GaussianAsymmetric(centerX, 1.25f, 1.07f);
-				value = Mathf.Clamp(value, 0f, (float)((float)QualityUtility.AllQualityCategories.Count - 0.5));
-				result = (QualityCategory)(byte)(int)value;
-			}
-			return result;
+			float centerX = (float)((float)(int)pawnKind.itemQuality + 0.5);
+			float value = Rand.GaussianAsymmetric(centerX, 1.25f, 1.07f);
+			value = Mathf.Clamp(value, 0f, (float)((float)QualityUtility.AllQualityCategories.Count - 0.5));
+			return (QualityCategory)(byte)(int)value;
 		}
 
 		public static QualityCategory AddLevels(this QualityCategory quality, int levels)
@@ -345,13 +238,13 @@ namespace RimWorld
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("Qualities for trader items");
-			stringBuilder.AppendLine(QualityUtility.DebugQualitiesString((Func<QualityCategory>)(() => QualityUtility.RandomTraderItemQuality())));
+			stringBuilder.AppendLine(QualityUtility.DebugQualitiesString(QualityUtility.RandomTraderItemQuality));
 			foreach (PawnKindDef allDef in DefDatabase<PawnKindDef>.AllDefs)
 			{
 				if (allDef.RaceProps.Humanlike)
 				{
 					stringBuilder.AppendLine("Qualities for items generated for pawn kind " + allDef.defName);
-					stringBuilder.Append(QualityUtility.DebugQualitiesString((Func<QualityCategory>)(() => QualityUtility.RandomGeneratedGearQuality(allDef))));
+					stringBuilder.Append(QualityUtility.DebugQualitiesString(() => QualityUtility.RandomGeneratedGearQuality(allDef)));
 					stringBuilder.AppendLine();
 				}
 			}
@@ -360,7 +253,7 @@ namespace RimWorld
 			{
 				stringBuilder.AppendLine();
 				stringBuilder.AppendLine("Creation qualities for worker at level " + level);
-				stringBuilder.Append(QualityUtility.DebugQualitiesString((Func<QualityCategory>)(() => QualityUtility.RandomCreationQuality(level))));
+				stringBuilder.Append(QualityUtility.DebugQualitiesString(() => QualityUtility.RandomCreationQuality(level)));
 			}
 			Log.Message(stringBuilder.ToString());
 		}

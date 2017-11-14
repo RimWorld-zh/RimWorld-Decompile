@@ -1,6 +1,5 @@
 using RimWorld;
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,10 +9,10 @@ namespace Verse
 	{
 		private enum InfoCardTab : byte
 		{
-			Stats = 0,
-			Character = 1,
-			Health = 2,
-			Records = 3
+			Stats,
+			Character,
+			Health,
+			Records
 		}
 
 		private Thing thing;
@@ -30,7 +29,15 @@ namespace Verse
 		{
 			get
 			{
-				return (this.thing == null) ? ((this.worldObject == null) ? this.def : this.worldObject.def) : this.thing.def;
+				if (this.thing != null)
+				{
+					return this.thing.def;
+				}
+				if (this.worldObject != null)
+				{
+					return this.worldObject.def;
+				}
+				return this.def;
 			}
 		}
 
@@ -109,15 +116,13 @@ namespace Verse
 			rect.height = 34f;
 			Text.Font = GameFont.Medium;
 			Widgets.Label(rect, this.GetTitle());
-			Rect rect2 = new Rect(inRect)
-			{
-				yMin = rect.yMax
-			};
+			Rect rect2 = new Rect(inRect);
+			rect2.yMin = rect.yMax;
 			rect2.yMax -= 38f;
 			Rect rect3 = rect2;
 			rect3.yMin += 45f;
 			List<TabRecord> list = new List<TabRecord>();
-			TabRecord item = new TabRecord("TabStats".Translate(), (Action)delegate
+			TabRecord item = new TabRecord("TabStats".Translate(), delegate
 			{
 				this.tab = InfoCardTab.Stats;
 			}, this.tab == InfoCardTab.Stats);
@@ -126,18 +131,18 @@ namespace Verse
 			{
 				if (this.ThingPawn.RaceProps.Humanlike)
 				{
-					TabRecord item2 = new TabRecord("TabCharacter".Translate(), (Action)delegate
+					TabRecord item2 = new TabRecord("TabCharacter".Translate(), delegate
 					{
 						this.tab = InfoCardTab.Character;
 					}, this.tab == InfoCardTab.Character);
 					list.Add(item2);
 				}
-				TabRecord item3 = new TabRecord("TabHealth".Translate(), (Action)delegate
+				TabRecord item3 = new TabRecord("TabHealth".Translate(), delegate
 				{
 					this.tab = InfoCardTab.Health;
 				}, this.tab == InfoCardTab.Health);
 				list.Add(item3);
-				TabRecord item4 = new TabRecord("TabRecords".Translate(), (Action)delegate
+				TabRecord item4 = new TabRecord("TabRecords".Translate(), delegate
 				{
 					this.tab = InfoCardTab.Records;
 				}, this.tab == InfoCardTab.Records);
@@ -187,21 +192,20 @@ namespace Verse
 
 		private string GetTitle()
 		{
-			string result;
 			if (this.thing != null)
 			{
-				result = this.thing.LabelCapNoCount;
+				return this.thing.LabelCapNoCount;
 			}
-			else if (this.worldObject != null)
+			if (this.worldObject != null)
 			{
-				result = this.worldObject.LabelCap;
+				return this.worldObject.LabelCap;
 			}
-			else
+			ThingDef thingDef = this.Def as ThingDef;
+			if (thingDef != null)
 			{
-				ThingDef thingDef = this.Def as ThingDef;
-				result = ((thingDef == null) ? this.Def.LabelCap : GenLabel.ThingLabel(thingDef, this.stuff, 1).CapitalizeFirst());
+				return GenLabel.ThingLabel(thingDef, this.stuff, 1).CapitalizeFirst();
 			}
-			return result;
+			return this.Def.LabelCap;
 		}
 	}
 }

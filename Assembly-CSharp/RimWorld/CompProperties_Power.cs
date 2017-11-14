@@ -5,23 +5,23 @@ namespace RimWorld
 {
 	public class CompProperties_Power : CompProperties
 	{
-		public bool transmitsPower = false;
+		public bool transmitsPower;
 
-		public float basePowerConsumption = 0f;
+		public float basePowerConsumption;
 
-		public bool startElectricalFires = false;
+		public bool startElectricalFires;
 
 		public bool shortCircuitInRain = true;
 
-		public SoundDef soundPowerOn = null;
+		public SoundDef soundPowerOn;
 
-		public SoundDef soundPowerOff = null;
+		public SoundDef soundPowerOff;
 
-		public SoundDef soundAmbientPowered = null;
+		public SoundDef soundAmbientPowered;
 
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0(parentDef).GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors(parentDef).GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -31,8 +31,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_00c3:
-			/*Error near IL_00c4: Unexpected return in MoveNext()*/;
+			IL_00bf:
+			/*Error near IL_00c0: Unexpected return in MoveNext()*/;
 		}
 	}
 }

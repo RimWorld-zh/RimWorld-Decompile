@@ -9,16 +9,12 @@ namespace Verse.AI.Group
 				for (int i = 0; i < lord.ownedPawns.Count; i++)
 				{
 					if (lord.ownedPawns[i].InMentalState)
-						goto IL_002d;
+					{
+						return true;
+					}
 				}
 			}
-			bool result = false;
-			goto IL_0052;
-			IL_002d:
-			result = true;
-			goto IL_0052;
-			IL_0052:
-			return result;
+			return false;
 		}
 	}
 }

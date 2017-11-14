@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -17,43 +16,33 @@ namespace RimWorld
 		public override AlertReport GetReport()
 		{
 			List<Map> maps = Find.Maps;
-			int num = 0;
-			AlertReport result;
-			while (true)
+			for (int i = 0; i < maps.Count; i++)
 			{
-				if (num < maps.Count)
+				Map map = maps[i];
+				if (map.IsPlayerHome)
 				{
-					Map map = maps[num];
-					if (map.IsPlayerHome)
+					Designation designation = (from d in map.designationManager.allDesignations
+					where d.def == DesignationDefOf.Mine
+					select d).FirstOrDefault();
+					if (designation != null)
 					{
-						Designation designation = (from d in map.designationManager.allDesignations
-						where d.def == DesignationDefOf.Mine
-						select d).FirstOrDefault();
-						if (designation != null)
+						bool flag = false;
+						foreach (Pawn item in map.mapPawns.FreeColonistsSpawned)
 						{
-							bool flag = false;
-							foreach (Pawn item in map.mapPawns.FreeColonistsSpawned)
+							if (!item.Downed && item.workSettings != null && item.workSettings.GetPriority(WorkTypeDefOf.Mining) > 0)
 							{
-								if (!item.Downed && item.workSettings != null && item.workSettings.GetPriority(WorkTypeDefOf.Mining) > 0)
-								{
-									flag = true;
-									break;
-								}
-							}
-							if (!flag)
-							{
-								result = AlertReport.CulpritIs(designation.target.Thing);
+								flag = true;
 								break;
 							}
 						}
+						if (!flag)
+						{
+							return AlertReport.CulpritIs(designation.target.Thing);
+						}
 					}
-					num++;
-					continue;
 				}
-				result = AlertReport.Inactive;
-				break;
 			}
-			return result;
+			return AlertReport.Inactive;
 		}
 	}
 }

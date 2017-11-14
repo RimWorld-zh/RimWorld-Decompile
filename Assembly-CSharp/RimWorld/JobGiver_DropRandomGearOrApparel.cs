@@ -7,7 +7,15 @@ namespace RimWorld
 	{
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			return (pawn.equipment == null || !pawn.equipment.HasAnything()) ? ((pawn.apparel == null || !pawn.apparel.WornApparel.Any()) ? null : new Job(JobDefOf.RemoveApparel, (Thing)pawn.apparel.WornApparel.RandomElement())) : new Job(JobDefOf.DropEquipment, (Thing)pawn.equipment.AllEquipmentListForReading.RandomElement());
+			if (pawn.equipment != null && pawn.equipment.HasAnything())
+			{
+				return new Job(JobDefOf.DropEquipment, pawn.equipment.AllEquipmentListForReading.RandomElement());
+			}
+			if (pawn.apparel != null && pawn.apparel.WornApparel.Any())
+			{
+				return new Job(JobDefOf.RemoveApparel, pawn.apparel.WornApparel.RandomElement());
+			}
+			return null;
 		}
 	}
 }

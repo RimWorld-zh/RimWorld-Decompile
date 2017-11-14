@@ -32,7 +32,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (string)null;
+				return null;
 			}
 		}
 
@@ -94,7 +94,7 @@ namespace RimWorld
 				}
 				UIHighlighter.HighlightOpportunity(rect3, "NextPage");
 			}
-			if ((object)midAct != null)
+			if (midAct != null)
 			{
 				double num3 = rect.x + rect.width / 2.0;
 				Vector2 bottomButSize6 = Page.BottomButSize;
@@ -127,7 +127,7 @@ namespace RimWorld
 			{
 				Find.WindowStack.Add(this.next);
 			}
-			if ((object)this.nextAct != null)
+			if (this.nextAct != null)
 			{
 				this.nextAct();
 			}

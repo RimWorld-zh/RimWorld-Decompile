@@ -12,7 +12,7 @@ namespace Verse
 			public ModuleBase noise;
 		}
 
-		public static List<RockNoise> rockNoises = null;
+		public static List<RockNoise> rockNoises;
 
 		private const float RockNoiseFreq = 0.005f;
 

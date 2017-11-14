@@ -14,7 +14,7 @@ namespace RimWorld
 				{
 					num2 += 12;
 				}
-				Twelfth twelfth = (Twelfth)(byte)num2;
+				Twelfth twelfth = (Twelfth)num2;
 				float num3 = GenTemperature.AverageTemperatureAtTileForTwelfth(map.Tile, twelfth);
 				if (num3 < 0.0)
 				{
@@ -24,23 +24,17 @@ namespace RimWorld
 			float num4 = 0f;
 			switch (num)
 			{
-			case 1:
-			{
-				num4 = 0.3f;
-				break;
-			}
-			case 2:
-			{
-				num4 = 0.7f;
-				break;
-			}
-			case 3:
-			{
-				num4 = 1f;
-				break;
-			}
 			case 0:
 				return;
+			case 1:
+				num4 = 0.3f;
+				break;
+			case 2:
+				num4 = 0.7f;
+				break;
+			case 3:
+				num4 = 1f;
+				break;
 			}
 			if (map.mapTemperature.SeasonalTemp > 0.0)
 			{

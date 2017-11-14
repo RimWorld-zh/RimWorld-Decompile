@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -15,9 +14,9 @@ namespace RimWorld
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			_003CMakeNewToils_003Ec__Iterator0 _003CMakeNewToils_003Ec__Iterator = (_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0036: stateMachine*/;
-			this.FailOn((Func<bool>)(() => !JoyUtility.EnjoyableOutsideNow(_003CMakeNewToils_003Ec__Iterator._0024this.pawn, null)));
+			this.FailOn(() => !JoyUtility.EnjoyableOutsideNow(_003CMakeNewToils_003Ec__Iterator._0024this.pawn, null));
 			Toil goToil = Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);
-			goToil.tickAction = (Action)delegate
+			goToil.tickAction = delegate
 			{
 				if (Find.TickManager.TicksGame > _003CMakeNewToils_003Ec__Iterator._0024this.startTick + _003CMakeNewToils_003Ec__Iterator._0024this.job.def.joyDuration)
 				{

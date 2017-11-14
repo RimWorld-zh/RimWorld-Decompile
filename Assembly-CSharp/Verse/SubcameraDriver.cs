@@ -72,7 +72,11 @@ namespace Verse
 
 		public Camera GetSubcamera(SubcameraDef def)
 		{
-			return (this.subcameras != null && def != null && this.subcameras.Length > def.index) ? this.subcameras[def.index] : null;
+			if (this.subcameras != null && def != null && this.subcameras.Length > def.index)
+			{
+				return this.subcameras[def.index];
+			}
+			return null;
 		}
 	}
 }

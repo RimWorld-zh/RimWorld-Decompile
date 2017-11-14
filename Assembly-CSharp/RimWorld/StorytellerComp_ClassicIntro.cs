@@ -18,7 +18,7 @@ namespace RimWorld
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
 			_003CMakeIntervalIncidents_003Ec__Iterator0 _003CMakeIntervalIncidents_003Ec__Iterator = (_003CMakeIntervalIncidents_003Ec__Iterator0)/*Error near IL_003e: stateMachine*/;
-			if (target == Find.Maps.Find((Predicate<Map>)((Map x) => x.IsPlayerHome)))
+			if (target == Find.Maps.Find((Map x) => x.IsPlayerHome))
 			{
 				if (this.IntervalsPassed == 150)
 				{
@@ -38,12 +38,12 @@ namespace RimWorld
 				}
 				if (this.IntervalsPassed == 204)
 				{
-					_003CMakeIntervalIncidents_003Ec__Iterator0 _003CMakeIntervalIncidents_003Ec__Iterator2 = (_003CMakeIntervalIncidents_003Ec__Iterator0)/*Error near IL_0165: stateMachine*/;
+					_003CMakeIntervalIncidents_003Ec__Iterator0 _003CMakeIntervalIncidents_003Ec__Iterator2 = (_003CMakeIntervalIncidents_003Ec__Iterator0)/*Error near IL_015f: stateMachine*/;
 					IncidentCategory threatCategory = (IncidentCategory)((!Find.Storyteller.difficulty.allowIntroThreats) ? 1 : 2);
 					IncidentDef incDef2;
 					if ((from def in DefDatabase<IncidentDef>.AllDefs
 					where def.TargetAllowed(target) && def.category == threatCategory
-					select def).TryRandomElementByWeight<IncidentDef>(new Func<IncidentDef, float>(base.IncidentChanceFinal), out incDef2))
+					select def).TryRandomElementByWeight<IncidentDef>((Func<IncidentDef, float>)base.IncidentChanceFinal, out incDef2))
 					{
 						yield return new FiringIncident(incDef2, this, null)
 						{
@@ -55,7 +55,7 @@ namespace RimWorld
 				IncidentDef incDef;
 				if (this.IntervalsPassed == 264 && (from def in DefDatabase<IncidentDef>.AllDefs
 				where def.TargetAllowed(target) && def.category == IncidentCategory.Misc
-				select def).TryRandomElementByWeight<IncidentDef>(new Func<IncidentDef, float>(base.IncidentChanceFinal), out incDef))
+				select def).TryRandomElementByWeight<IncidentDef>((Func<IncidentDef, float>)base.IncidentChanceFinal, out incDef))
 				{
 					yield return new FiringIncident(incDef, this, null)
 					{
@@ -70,7 +70,7 @@ namespace RimWorld
 				{
 					inc = (from def in DefDatabase<IncidentDef>.AllDefs
 					where def.TargetAllowed(target) && def.category == IncidentCategory.Misc
-					select def).RandomElementByWeightWithFallback(new Func<IncidentDef, float>(base.IncidentChanceFinal), null);
+					select def).RandomElementByWeightWithFallback(base.IncidentChanceFinal, null);
 				}
 				if (inc == null)
 					yield break;

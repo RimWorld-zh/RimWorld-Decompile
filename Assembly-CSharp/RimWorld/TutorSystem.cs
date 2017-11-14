@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
@@ -18,7 +17,15 @@ namespace RimWorld
 		{
 			get
 			{
-				return (byte)(Prefs.AdaptiveTrainingEnabled ? ((Find.Storyteller == null || Find.Storyteller.def == null || !Find.Storyteller.def.disableAdaptiveTraining) ? 1 : 0) : 0) != 0;
+				if (!Prefs.AdaptiveTrainingEnabled)
+				{
+					return false;
+				}
+				if (Find.Storyteller != null && Find.Storyteller.def != null && Find.Storyteller.def.disableAdaptiveTraining)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -37,30 +44,18 @@ namespace RimWorld
 				}
 				if (Current.Game != null)
 				{
+					Lesson current = Find.ActiveLesson.Current;
 					if (Find.ActiveLesson.Current != null)
 					{
 						Find.ActiveLesson.Current.Notify_Event(ep);
 					}
-					using (IEnumerator<InstructionDef> enumerator = DefDatabase<InstructionDef>.AllDefs.GetEnumerator())
+					foreach (InstructionDef allDef in DefDatabase<InstructionDef>.AllDefs)
 					{
-						InstructionDef current;
-						while (true)
+						if (allDef.eventTagInitiate == ep.Tag && (allDef.eventTagInitiateSource == null || (current != null && allDef.eventTagInitiateSource == current.Instruction)) && (TutorSystem.TutorialMode || !allDef.tutorialModeOnly))
 						{
-							if (enumerator.MoveNext())
-							{
-								current = enumerator.Current;
-								if (current.eventTagInitiate == ep.Tag)
-								{
-									if (TutorSystem.TutorialMode)
-										break;
-									if (!current.tutorialModeOnly)
-										break;
-								}
-								continue;
-							}
-							return;
+							Find.ActiveLesson.Activate(allDef);
+							break;
 						}
-						Find.ActiveLesson.Activate(current);
 					}
 				}
 			}
@@ -68,40 +63,29 @@ namespace RimWorld
 
 		public static bool AllowAction(EventPack ep)
 		{
-			bool result;
 			if (!TutorSystem.TutorialMode)
 			{
-				result = true;
+				return true;
 			}
-			else
+			if (DebugViewSettings.logTutor)
 			{
-				if (DebugViewSettings.logTutor)
+				Log.Message("AllowAction: " + ep);
+			}
+			if (ep.Cells != null && ep.Cells.Count() == 1)
+			{
+				return TutorSystem.AllowAction(new EventPack(ep.Tag, ep.Cells.First()));
+			}
+			if (Find.ActiveLesson.Current != null)
+			{
+				AcceptanceReport acceptanceReport = Find.ActiveLesson.Current.AllowAction(ep);
+				if (!acceptanceReport.Accepted)
 				{
-					Log.Message("AllowAction: " + ep);
-				}
-				if (ep.Cells != null && ep.Cells.Count() == 1)
-				{
-					result = TutorSystem.AllowAction(new EventPack(ep.Tag, ep.Cells.First()));
-				}
-				else
-				{
-					if (Find.ActiveLesson.Current != null)
-					{
-						AcceptanceReport acceptanceReport = Find.ActiveLesson.Current.AllowAction(ep);
-						if (!acceptanceReport.Accepted)
-						{
-							string text = acceptanceReport.Reason.NullOrEmpty() ? Find.ActiveLesson.Current.DefaultRejectInputMessage : acceptanceReport.Reason;
-							Messages.Message(text, MessageTypeDefOf.RejectInput);
-							result = false;
-							goto IL_00e7;
-						}
-					}
-					result = true;
+					string text = acceptanceReport.Reason.NullOrEmpty() ? Find.ActiveLesson.Current.DefaultRejectInputMessage : acceptanceReport.Reason;
+					Messages.Message(text, MessageTypeDefOf.RejectInput);
+					return false;
 				}
 			}
-			goto IL_00e7;
-			IL_00e7:
-			return result;
+			return true;
 		}
 	}
 }

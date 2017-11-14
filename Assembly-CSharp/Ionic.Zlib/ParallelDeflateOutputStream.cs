@@ -17,19 +17,19 @@ namespace Ionic.Zlib
 			EmitLock = 2u,
 			EmitEnter = 4u,
 			EmitBegin = 8u,
-			EmitDone = 16u,
-			EmitSkip = 32u,
+			EmitDone = 0x10,
+			EmitSkip = 0x20,
 			EmitAll = 58u,
-			Flush = 64u,
-			Lifecycle = 128u,
-			Session = 256u,
-			Synch = 512u,
-			Instance = 1024u,
-			Compress = 2048u,
-			Write = 4096u,
-			WriteEnter = 8192u,
-			WriteTake = 16384u,
-			All = 4294967295u
+			Flush = 0x40,
+			Lifecycle = 0x80,
+			Session = 0x100,
+			Synch = 0x200,
+			Instance = 0x400,
+			Compress = 0x800,
+			Write = 0x1000,
+			WriteEnter = 0x2000,
+			WriteTake = 0x4000,
+			All = 0xFFFFFFFF
 		}
 
 		private static readonly int IO_BUFFER_SIZE_DEFAULT = 65536;
@@ -184,19 +184,23 @@ namespace Ionic.Zlib
 			}
 		}
 
-		public ParallelDeflateOutputStream(Stream stream) : this(stream, CompressionLevel.Default, CompressionStrategy.Default, false)
+		public ParallelDeflateOutputStream(Stream stream)
+			: this(stream, CompressionLevel.Default, CompressionStrategy.Default, false)
 		{
 		}
 
-		public ParallelDeflateOutputStream(Stream stream, CompressionLevel level) : this(stream, level, CompressionStrategy.Default, false)
+		public ParallelDeflateOutputStream(Stream stream, CompressionLevel level)
+			: this(stream, level, CompressionStrategy.Default, false)
 		{
 		}
 
-		public ParallelDeflateOutputStream(Stream stream, bool leaveOpen) : this(stream, CompressionLevel.Default, CompressionStrategy.Default, leaveOpen)
+		public ParallelDeflateOutputStream(Stream stream, bool leaveOpen)
+			: this(stream, CompressionLevel.Default, CompressionStrategy.Default, leaveOpen)
 		{
 		}
 
-		public ParallelDeflateOutputStream(Stream stream, CompressionLevel level, bool leaveOpen) : this(stream, CompressionLevel.Default, CompressionStrategy.Default, leaveOpen)
+		public ParallelDeflateOutputStream(Stream stream, CompressionLevel level, bool leaveOpen)
+			: this(stream, CompressionLevel.Default, CompressionStrategy.Default, leaveOpen)
 		{
 		}
 
@@ -216,10 +220,10 @@ namespace Ionic.Zlib
 			this._pool = new List<WorkItem>();
 			int val = ParallelDeflateOutputStream.BufferPairsPerCore * Environment.ProcessorCount;
 			val = Math.Min(val, this._maxBufferPairs);
-			for (int num = 0; num < val; num++)
+			for (int i = 0; i < val; i++)
 			{
-				this._pool.Add(new WorkItem(this._bufferSize, this._compressLevel, this.Strategy, num));
-				this._toFill.Enqueue(num);
+				this._pool.Add(new WorkItem(this._bufferSize, this._compressLevel, this.Strategy, i));
+				this._toFill.Enqueue(i);
 			}
 			this._newlyCompressedBlob = new AutoResetEvent(false);
 			this._runningCrc = new CRC32();
@@ -264,7 +268,7 @@ namespace Ionic.Zlib
 						if (this._toFill.Count == 0)
 						{
 							mustWait = true;
-							goto IL_0184;
+							goto IL_0173;
 						}
 						num = this._toFill.Dequeue();
 						this._lastFilled++;
@@ -278,20 +282,20 @@ namespace Ionic.Zlib
 					workItem.inputBytesAvailable += num2;
 					if (workItem.inputBytesAvailable == workItem.buffer.Length)
 					{
-						if (ThreadPool.QueueUserWorkItem(new WaitCallback(this._DeflateOne), workItem))
+						if (ThreadPool.QueueUserWorkItem(this._DeflateOne, workItem))
 						{
 							this._currentlyFilling = -1;
-							goto IL_017c;
+							goto IL_016c;
 						}
 						break;
 					}
 					this._currentlyFilling = num;
-					goto IL_017c;
-					IL_017c:
+					goto IL_016c;
+					IL_016c:
 					if (count <= 0)
-						goto IL_0184;
-					goto IL_0184;
-					IL_0184:
+						goto IL_0173;
+					goto IL_0173;
+					IL_0173:
 					if (count <= 0)
 						return;
 				}
@@ -311,7 +315,7 @@ namespace Ionic.Zlib
 			zlibCodec.NextOut = 0;
 			zlibCodec.AvailableBytesOut = array.Length;
 			num = zlibCodec.Deflate(FlushType.Finish);
-			if (((num != 1) ? num : 0) != 0)
+			if (num != 1 && num != 0)
 			{
 				throw new Exception("deflating: " + zlibCodec.Message);
 			}
@@ -479,7 +483,7 @@ namespace Ionic.Zlib
 									num = -1;
 									this._outStream.Write(workItem.compressed, 0, workItem.compressedBytesAvailable);
 									this._runningCrc.Combine(workItem.crc, workItem.inputBytesAvailable);
-									this._totalBytesProcessed += (long)workItem.inputBytesAvailable;
+									this._totalBytesProcessed += workItem.inputBytesAvailable;
 									workItem.inputBytesAvailable = 0;
 									this._lastWritten = workItem.ordinal;
 									this._toFill.Enqueue(workItem.index);
@@ -569,7 +573,7 @@ namespace Ionic.Zlib
 			while (true)
 			{
 				compressor.Deflate(FlushType.None);
-				if (((compressor.AvailableBytesIn <= 0) ? compressor.AvailableBytesOut : 0) != 0)
+				if (compressor.AvailableBytesIn <= 0 && compressor.AvailableBytesOut != 0)
 					break;
 			}
 			compressor.Deflate(FlushType.Sync);

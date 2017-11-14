@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -29,11 +28,11 @@ namespace RimWorld
 						inc = allIncidents[i];
 						if (inc.category == this.Props.category)
 						{
-							_003CMakeIntervalIncidents_003Ec__Iterator0 _003CMakeIntervalIncidents_003Ec__Iterator = (_003CMakeIntervalIncidents_003Ec__Iterator0)/*Error near IL_0097: stateMachine*/;
+							_003CMakeIntervalIncidents_003Ec__Iterator0 _003CMakeIntervalIncidents_003Ec__Iterator = (_003CMakeIntervalIncidents_003Ec__Iterator0)/*Error near IL_0095: stateMachine*/;
 							BiomeDef biome = Find.WorldGrid[target.Tile].biome;
 							if (inc.mtbDaysByBiome != null)
 							{
-								MTBByBiome entry = inc.mtbDaysByBiome.Find((Predicate<MTBByBiome>)((MTBByBiome x) => x.biome == biome));
+								MTBByBiome entry = inc.mtbDaysByBiome.Find((MTBByBiome x) => x.biome == biome);
 								if (entry != null)
 								{
 									float mtb = entry.mtbDays;

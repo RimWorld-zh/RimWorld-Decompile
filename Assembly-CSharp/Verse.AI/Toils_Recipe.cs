@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,7 +11,7 @@ namespace Verse.AI
 		public static Toil MakeUnfinishedThingIfNeeded()
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate
+			toil.initAction = delegate
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.jobs.curJob;
@@ -40,8 +39,8 @@ namespace Verse.AI
 						compColorable.Color = thing.DrawColor;
 					}
 					GenSpawn.Spawn(unfinishedThing, curJob.GetTarget(TargetIndex.A).Cell, actor.Map);
-					curJob.SetTarget(TargetIndex.B, (Thing)unfinishedThing);
-					actor.Reserve((Thing)unfinishedThing, curJob, 1, -1, null);
+					curJob.SetTarget(TargetIndex.B, unfinishedThing);
+					actor.Reserve(unfinishedThing, curJob, 1, -1, null);
 				}
 			};
 			return toil;
@@ -50,7 +49,7 @@ namespace Verse.AI
 		public static Toil DoRecipeWork()
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate
+			toil.initAction = delegate
 			{
 				Pawn actor3 = toil.actor;
 				Job curJob3 = actor3.jobs.curJob;
@@ -72,7 +71,7 @@ namespace Verse.AI
 				jobDriver_DoBill2.ticksSpentDoingRecipeWork = 0;
 				curJob3.bill.Notify_DoBillStarted(actor3);
 			};
-			toil.tickAction = (Action)delegate
+			toil.tickAction = delegate
 			{
 				Pawn actor2 = toil.actor;
 				Job curJob2 = actor2.jobs.curJob;
@@ -126,23 +125,23 @@ namespace Verse.AI
 				}
 			};
 			toil.defaultCompleteMode = ToilCompleteMode.Never;
-			toil.WithEffect((Func<EffecterDef>)(() => toil.actor.CurJob.bill.recipe.effectWorking), TargetIndex.A);
-			toil.PlaySustainerOrSound((Func<SoundDef>)(() => toil.actor.CurJob.bill.recipe.soundWorking));
-			toil.WithProgressBar(TargetIndex.A, (Func<float>)delegate
+			toil.WithEffect(() => toil.actor.CurJob.bill.recipe.effectWorking, TargetIndex.A);
+			toil.PlaySustainerOrSound(() => toil.actor.CurJob.bill.recipe.soundWorking);
+			toil.WithProgressBar(TargetIndex.A, delegate
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.CurJob;
 				UnfinishedThing unfinishedThing = curJob.GetTarget(TargetIndex.B).Thing as UnfinishedThing;
 				return (float)(1.0 - ((JobDriver_DoBill)actor.jobs.curDriver).workLeft / curJob.bill.recipe.WorkAmountTotal((unfinishedThing == null) ? null : unfinishedThing.Stuff));
 			}, false, -0.5f);
-			toil.FailOn((Func<bool>)(() => toil.actor.CurJob.bill.suspended));
+			toil.FailOn(() => toil.actor.CurJob.bill.suspended);
 			return toil;
 		}
 
 		public static Toil FinishRecipeAndStartStoringProduct()
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate
+			toil.initAction = delegate
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.jobs.curJob;
@@ -215,57 +214,68 @@ namespace Verse.AI
 		private static List<Thing> CalculateIngredients(Job job, Pawn actor)
 		{
 			UnfinishedThing unfinishedThing = job.GetTarget(TargetIndex.B).Thing as UnfinishedThing;
-			List<Thing> result;
 			if (unfinishedThing != null)
 			{
 				List<Thing> ingredients = unfinishedThing.ingredients;
 				job.RecipeDef.Worker.ConsumeIngredient(unfinishedThing, job.RecipeDef, actor.Map);
 				job.placedThings = null;
-				result = ingredients;
+				return ingredients;
 			}
-			else
+			List<Thing> list = new List<Thing>();
+			if (job.placedThings != null)
 			{
-				List<Thing> list = new List<Thing>();
-				if (job.placedThings != null)
+				for (int i = 0; i < job.placedThings.Count; i++)
 				{
-					for (int i = 0; i < job.placedThings.Count; i++)
+					if (job.placedThings[i].Count <= 0)
 					{
-						if (job.placedThings[i].Count <= 0)
+						Log.Error("PlacedThing " + job.placedThings[i] + " with count " + job.placedThings[i].Count + " for job " + job);
+					}
+					else
+					{
+						Thing thing = (job.placedThings[i].Count >= job.placedThings[i].thing.stackCount) ? job.placedThings[i].thing : job.placedThings[i].thing.SplitOff(job.placedThings[i].Count);
+						job.placedThings[i].Count = 0;
+						if (list.Contains(thing))
 						{
-							Log.Error("PlacedThing " + job.placedThings[i] + " with count " + job.placedThings[i].Count + " for job " + job);
+							Log.Error("Tried to add ingredient from job placed targets twice: " + thing);
 						}
 						else
 						{
-							Thing thing = (job.placedThings[i].Count >= job.placedThings[i].thing.stackCount) ? job.placedThings[i].thing : job.placedThings[i].thing.SplitOff(job.placedThings[i].Count);
-							job.placedThings[i].Count = 0;
-							if (list.Contains(thing))
+							list.Add(thing);
+							IStrippable strippable = thing as IStrippable;
+							if (strippable != null)
 							{
-								Log.Error("Tried to add ingredient from job placed targets twice: " + thing);
-							}
-							else
-							{
-								list.Add(thing);
-								IStrippable strippable = thing as IStrippable;
-								if (strippable != null)
-								{
-									strippable.Strip();
-								}
+								strippable.Strip();
 							}
 						}
 					}
 				}
-				job.placedThings = null;
-				result = list;
 			}
-			return result;
+			job.placedThings = null;
+			return list;
 		}
 
 		private static Thing CalculateDominantIngredient(Job job, List<Thing> ingredients)
 		{
 			UnfinishedThing uft = job.GetTarget(TargetIndex.B).Thing as UnfinishedThing;
-			return (uft == null || !uft.def.MadeFromStuff) ? (ingredients.NullOrEmpty() ? null : ((!job.RecipeDef.productHasIngredientStuff) ? ((!job.RecipeDef.products.Any((Predicate<ThingCountClass>)((ThingCountClass x) => x.thingDef.MadeFromStuff))) ? ingredients.RandomElementByWeight((Func<Thing, float>)((Thing x) => (float)x.stackCount)) : (from x in ingredients
-			where x.def.IsStuff
-			select x).RandomElementByWeight((Func<Thing, float>)((Thing x) => (float)x.stackCount))) : ingredients[0])) : uft.ingredients.First((Func<Thing, bool>)((Thing ing) => ing.def == uft.Stuff));
+			if (uft != null && uft.def.MadeFromStuff)
+			{
+				return uft.ingredients.First((Thing ing) => ing.def == uft.Stuff);
+			}
+			if (!ingredients.NullOrEmpty())
+			{
+				if (job.RecipeDef.productHasIngredientStuff)
+				{
+					return ingredients[0];
+				}
+				if (job.RecipeDef.products.Any((ThingCountClass x) => x.thingDef.MadeFromStuff))
+				{
+					return (from x in ingredients
+					where x.def.IsStuff
+					select x).RandomElementByWeight((Thing x) => (float)x.stackCount);
+				}
+				return ingredients.RandomElementByWeight((Thing x) => (float)x.stackCount);
+			}
+			return null;
 		}
 
 		private static void ConsumeIngredients(List<Thing> ingredients, RecipeDef recipe, Map map)

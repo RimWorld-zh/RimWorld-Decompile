@@ -108,7 +108,7 @@ namespace Verse.AI
 		public RegionCostCalculator(Map map)
 		{
 			this.map = map;
-			this.preciseRegionLinkDistancesDistanceGetter = new Func<int, int, float>(this.PreciseRegionLinkDistancesDistanceGetter);
+			this.preciseRegionLinkDistancesDistanceGetter = this.PreciseRegionLinkDistancesDistanceGetter;
 		}
 
 		public void Init(CellRect destination, HashSet<Region> destRegions, TraverseParms parms, int moveTicksCardinal, int moveTicksDiagonal, ByteGrid avoidGrid, Area allowedArea)
@@ -125,13 +125,13 @@ namespace Verse.AI
 			this.linkTargetCells.Clear();
 			this.queue.Clear();
 			this.minPathCosts.Clear();
-			foreach (Region item in destRegions)
+			foreach (Region destRegion in destRegions)
 			{
-				int minPathCost = this.RegionMedianPathCost(item);
-				for (int i = 0; i < item.links.Count; i++)
+				int minPathCost = this.RegionMedianPathCost(destRegion);
+				for (int i = 0; i < destRegion.links.Count; i++)
 				{
-					RegionLink regionLink = item.links[i];
-					if (regionLink.GetOtherRegion(item).type.Passable())
+					RegionLink regionLink = destRegion.links[i];
+					if (regionLink.GetOtherRegion(destRegion).type.Passable())
 					{
 						int num = this.RegionLinkDistance(this.destinationCell, regionLink, minPathCost);
 						int num2 = default(int);
@@ -150,7 +150,7 @@ namespace Verse.AI
 						this.distances[regionLink] = num;
 					}
 				}
-				this.GetPreciseRegionLinkDistances(item, destination, this.preciseRegionLinkDistances);
+				this.GetPreciseRegionLinkDistances(destRegion, destination, this.preciseRegionLinkDistances);
 				for (int j = 0; j < this.preciseRegionLinkDistances.Count; j++)
 				{
 					Pair<RegionLink, int> pair = this.preciseRegionLinkDistances[j];
@@ -166,90 +166,81 @@ namespace Verse.AI
 					{
 						num4 = num3;
 					}
-					this.queue.Push(new RegionLinkQueueEntry(item, first, num4, num4));
+					this.queue.Push(new RegionLinkQueueEntry(destRegion, first, num4, num4));
 				}
 			}
 		}
 
 		public int GetRegionDistance(Region region, out RegionLink minLink)
 		{
-			int result;
-			RegionLinkQueueEntry regionLinkQueueEntry;
 			if (this.regionMinLink.TryGetValue(region.id, out minLink))
 			{
-				result = this.distances[minLink];
+				return this.distances[minLink];
 			}
-			else
+			while (this.queue.Count != 0)
 			{
-				while (this.queue.Count != 0)
+				RegionLinkQueueEntry regionLinkQueueEntry = this.queue.Pop();
+				int num = this.distances[regionLinkQueueEntry.Link];
+				Region otherRegion;
+				int num2;
+				if (regionLinkQueueEntry.Cost == num)
 				{
-					regionLinkQueueEntry = this.queue.Pop();
-					int num = this.distances[regionLinkQueueEntry.Link];
-					Region otherRegion;
-					int num2;
-					if (regionLinkQueueEntry.Cost == num)
+					otherRegion = regionLinkQueueEntry.Link.GetOtherRegion(regionLinkQueueEntry.From);
+					if (otherRegion != null && otherRegion.valid)
 					{
-						otherRegion = regionLinkQueueEntry.Link.GetOtherRegion(regionLinkQueueEntry.From);
-						if (otherRegion != null && otherRegion.valid)
+						num2 = 0;
+						if (otherRegion.portal != null)
 						{
-							num2 = 0;
-							if (otherRegion.portal != null)
+							num2 = PathFinder.GetBuildingCost(otherRegion.portal, this.traverseParms, this.traverseParms.pawn);
+							if (num2 != 2147483647)
 							{
-								num2 = PathFinder.GetBuildingCost(otherRegion.portal, this.traverseParms, this.traverseParms.pawn);
-								if (num2 != 2147483647)
-								{
-									num2 += this.OctileDistance(1, 0);
-									goto IL_00d8;
-								}
-								continue;
+								num2 += this.OctileDistance(1, 0);
+								goto IL_00ca;
 							}
-							goto IL_00d8;
+							continue;
 						}
+						goto IL_00ca;
 					}
-					continue;
-					IL_00d8:
-					int minPathCost = this.RegionMedianPathCost(otherRegion);
-					for (int i = 0; i < otherRegion.links.Count; i++)
+				}
+				continue;
+				IL_00ca:
+				int minPathCost = this.RegionMedianPathCost(otherRegion);
+				for (int i = 0; i < otherRegion.links.Count; i++)
+				{
+					RegionLink regionLink = otherRegion.links[i];
+					if (regionLink != regionLinkQueueEntry.Link && regionLink.GetOtherRegion(otherRegion).type.Passable())
 					{
-						RegionLink regionLink = otherRegion.links[i];
-						if (regionLink != regionLinkQueueEntry.Link && regionLink.GetOtherRegion(otherRegion).type.Passable())
+						int val = (otherRegion.portal == null) ? this.RegionLinkDistance(regionLinkQueueEntry.Link, regionLink, minPathCost) : num2;
+						val = Math.Max(val, 1);
+						int num3 = num + val;
+						int estimatedPathCost = this.MinimumRegionLinkDistance(this.destinationCell, regionLink) + num3;
+						int num4 = default(int);
+						if (this.distances.TryGetValue(regionLink, out num4))
 						{
-							int val = (otherRegion.portal == null) ? this.RegionLinkDistance(regionLinkQueueEntry.Link, regionLink, minPathCost) : num2;
-							val = Math.Max(val, 1);
-							int num3 = num + val;
-							int estimatedPathCost = this.MinimumRegionLinkDistance(this.destinationCell, regionLink) + num3;
-							int num4 = default(int);
-							if (this.distances.TryGetValue(regionLink, out num4))
+							if (num3 < num4)
 							{
-								if (num3 < num4)
-								{
-									this.distances[regionLink] = num3;
-									this.queue.Push(new RegionLinkQueueEntry(otherRegion, regionLink, num3, estimatedPathCost));
-								}
-							}
-							else
-							{
-								this.distances.Add(regionLink, num3);
+								this.distances[regionLink] = num3;
 								this.queue.Push(new RegionLinkQueueEntry(otherRegion, regionLink, num3, estimatedPathCost));
 							}
 						}
-					}
-					if (!this.regionMinLink.ContainsKey(otherRegion.id))
-					{
-						this.regionMinLink.Add(otherRegion.id, regionLinkQueueEntry.Link);
-						if (otherRegion == region)
-							goto IL_022e;
+						else
+						{
+							this.distances.Add(regionLink, num3);
+							this.queue.Push(new RegionLinkQueueEntry(otherRegion, regionLink, num3, estimatedPathCost));
+						}
 					}
 				}
-				result = 10000;
+				if (!this.regionMinLink.ContainsKey(otherRegion.id))
+				{
+					this.regionMinLink.Add(otherRegion.id, regionLinkQueueEntry.Link);
+					if (otherRegion == region)
+					{
+						minLink = regionLinkQueueEntry.Link;
+						return regionLinkQueueEntry.Cost;
+					}
+				}
 			}
-			goto IL_0262;
-			IL_0262:
-			return result;
-			IL_022e:
-			minLink = regionLinkQueueEntry.Link;
-			result = regionLinkQueueEntry.Cost;
-			goto IL_0262;
+			return 10000;
 		}
 
 		public int GetRegionBestDistances(Region region, out RegionLink bestLink, out RegionLink secondBestLink, out int secondBestCost)
@@ -272,29 +263,24 @@ namespace Verse.AI
 
 		public int RegionMedianPathCost(Region region)
 		{
-			int num = default(int);
-			int result;
-			if (this.minPathCosts.TryGetValue(region, out num))
+			int result = default(int);
+			if (this.minPathCosts.TryGetValue(region, out result))
 			{
-				result = num;
+				return result;
 			}
-			else
+			bool ignoreAllowedAreaCost = this.allowedArea != null && region.OverlapWith(this.allowedArea) != AreaOverlap.None;
+			CellIndices cellIndices = this.map.cellIndices;
+			Rand.PushState();
+			Rand.Seed = cellIndices.CellToIndex(region.extentsClose.CenterCell) * (region.links.Count + 1);
+			for (int i = 0; i < 11; i++)
 			{
-				bool ignoreAllowedAreaCost = this.allowedArea != null && region.OverlapWith(this.allowedArea) != AreaOverlap.None;
-				CellIndices cellIndices = this.map.cellIndices;
-				Rand.PushState();
-				Rand.Seed = cellIndices.CellToIndex(region.extentsClose.CenterCell) * (region.links.Count + 1);
-				for (int i = 0; i < 11; i++)
-				{
-					RegionCostCalculator.pathCostSamples[i] = this.GetCellCostFast(cellIndices.CellToIndex(region.RandomCell), ignoreAllowedAreaCost);
-				}
-				Rand.PopState();
-				Array.Sort(RegionCostCalculator.pathCostSamples);
-				int num2 = RegionCostCalculator.pathCostSamples[4];
-				this.minPathCosts[region] = num2;
-				result = num2;
+				RegionCostCalculator.pathCostSamples[i] = this.GetCellCostFast(cellIndices.CellToIndex(region.RandomCell), ignoreAllowedAreaCost);
 			}
-			return result;
+			Rand.PopState();
+			Array.Sort(RegionCostCalculator.pathCostSamples);
+			int num = RegionCostCalculator.pathCostSamples[4];
+			this.minPathCosts[region] = num;
+			return num;
 		}
 
 		private int GetCellCostFast(int index, bool ignoreAllowedAreaCost = false)
@@ -399,7 +385,7 @@ namespace Verse.AI
 					iterator.MoveNext();
 				}
 			}
-			Dijkstra<int>.Run((IEnumerable<int>)RegionCostCalculator.tmpCellIndices, (Func<int, IEnumerable<int>>)((int x) => this.PreciseRegionLinkDistancesNeighborsGetter(x, region)), this.preciseRegionLinkDistancesDistanceGetter, ref RegionCostCalculator.tmpDistances);
+			Dijkstra<int>.Run(RegionCostCalculator.tmpCellIndices, (int x) => this.PreciseRegionLinkDistancesNeighborsGetter(x, region), this.preciseRegionLinkDistancesDistanceGetter, RegionCostCalculator.tmpDistances, null);
 			for (int i = 0; i < region.links.Count; i++)
 			{
 				RegionLink regionLink = region.links[i];
@@ -418,7 +404,11 @@ namespace Verse.AI
 
 		private IEnumerable<int> PreciseRegionLinkDistancesNeighborsGetter(int node, Region region)
 		{
-			return (this.regionGrid[node] != null && this.regionGrid[node] == region) ? this.PathableNeighborIndices(node) : null;
+			if (this.regionGrid[node] != null && this.regionGrid[node] == region)
+			{
+				return this.PathableNeighborIndices(node);
+			}
+			return null;
 		}
 
 		private float PreciseRegionLinkDistancesDistanceGetter(int a, int b)

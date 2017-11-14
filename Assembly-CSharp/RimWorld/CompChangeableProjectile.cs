@@ -86,6 +86,15 @@ namespace RimWorld
 			this.loadedShell = ((count <= 0) ? null : shell);
 		}
 
+		public Thing RemoveShell()
+		{
+			Thing thing = ThingMaker.MakeThing(this.loadedShell, null);
+			thing.stackCount = this.loadedCount;
+			this.loadedCount = 0;
+			this.loadedShell = null;
+			return thing;
+		}
+
 		public StorageSettings GetStoreSettings()
 		{
 			return this.allowedShellsSettings;

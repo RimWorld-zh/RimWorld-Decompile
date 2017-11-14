@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -22,7 +21,11 @@ namespace RimWorld
 			get
 			{
 				Corpse corpse = this.Corpse;
-				return (corpse == null) ? ((Pawn)base.job.GetTarget(TargetIndex.A).Thing) : corpse.InnerPawn;
+				if (corpse != null)
+				{
+					return corpse.InnerPawn;
+				}
+				return (Pawn)base.job.GetTarget(TargetIndex.A).Thing;
 			}
 		}
 
@@ -42,7 +45,11 @@ namespace RimWorld
 
 		public override string GetReport()
 		{
-			return (this.Corpse == null) ? base.GetReport() : base.ReportStringProcessed(JobDefOf.Ingest.reportString);
+			if (this.Corpse != null)
+			{
+				return base.ReportStringProcessed(JobDefOf.Ingest.reportString);
+			}
+			return base.GetReport();
 		}
 
 		public override bool TryMakePreToilReservations()
@@ -53,12 +60,12 @@ namespace RimWorld
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			_003CMakeNewToils_003Ec__Iterator0 _003CMakeNewToils_003Ec__Iterator = (_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/;
-			base.AddFinishAction((Action)delegate
+			base.AddFinishAction(delegate
 			{
 				_003CMakeNewToils_003Ec__Iterator._0024this.Map.attackTargetsCache.UpdateTarget(_003CMakeNewToils_003Ec__Iterator._0024this.pawn);
 			});
 			Toil prepareToEatCorpse = new Toil();
-			prepareToEatCorpse.initAction = (Action)delegate
+			prepareToEatCorpse.initAction = delegate
 			{
 				Pawn actor = prepareToEatCorpse.actor;
 				Corpse corpse = _003CMakeNewToils_003Ec__Iterator._0024this.Corpse;
@@ -74,14 +81,14 @@ namespace RimWorld
 						corpse = prey.Corpse;
 						if (corpse != null && corpse.Spawned)
 						{
-							goto IL_007b;
+							goto IL_006e;
 						}
 						actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
 					}
 					return;
 				}
-				goto IL_007b;
-				IL_007b:
+				goto IL_006e;
+				IL_006e:
 				if (actor.Faction == Faction.OfPlayer)
 				{
 					corpse.SetForbidden(false, false);
@@ -90,9 +97,9 @@ namespace RimWorld
 				{
 					corpse.SetForbidden(true, false);
 				}
-				actor.CurJob.SetTarget(TargetIndex.A, (Thing)corpse);
+				actor.CurJob.SetTarget(TargetIndex.A, corpse);
 			};
-			yield return Toils_General.DoAtomic((Action)delegate
+			yield return Toils_General.DoAtomic(delegate
 			{
 				_003CMakeNewToils_003Ec__Iterator._0024this.Map.attackTargetsCache.UpdateTarget(_003CMakeNewToils_003Ec__Iterator._0024this.pawn);
 			});

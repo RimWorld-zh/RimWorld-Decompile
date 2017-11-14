@@ -13,7 +13,7 @@ namespace Verse
 
 		private List<Pair<SkyOverlay, float>> tempOverlays = new List<Pair<SkyOverlay, float>>();
 
-		private static readonly Color FogOfWarBaseColor = new Color32((byte)77, (byte)69, (byte)66, (byte)255);
+		private static readonly Color FogOfWarBaseColor = new Color32(77, 69, 66, 255);
 
 		public const float NightMaxCelGlow = 0.1f;
 
@@ -157,36 +157,24 @@ namespace Verse
 		private Vector3? GetOverridenShadowVector()
 		{
 			List<WeatherEvent> liveEventsListForReading = this.map.weatherManager.eventHandler.LiveEventsListForReading;
-			int num = 0;
-			Vector3? result;
-			while (true)
+			for (int i = 0; i < liveEventsListForReading.Count; i++)
 			{
-				if (num < liveEventsListForReading.Count)
+				Vector2? overrideShadowVector = liveEventsListForReading[i].OverrideShadowVector;
+				if (overrideShadowVector.HasValue)
 				{
-					Vector2? overrideShadowVector = liveEventsListForReading[num].OverrideShadowVector;
-					if (overrideShadowVector.HasValue)
-					{
-						result = overrideShadowVector;
-						break;
-					}
-					num++;
-					continue;
+					return overrideShadowVector;
 				}
-				List<Thing> list = this.map.listerThings.ThingsInGroup(ThingRequestGroup.AffectsSky);
-				Vector2? overrideShadowVector2;
-				for (int i = 0; i < list.Count; i++)
-				{
-					overrideShadowVector2 = list[i].TryGetComp<CompAffectsSky>().OverrideShadowVector;
-					if (overrideShadowVector2.HasValue)
-						goto IL_00b9;
-				}
-				result = default(Vector3?);
-				break;
-				IL_00b9:
-				result = overrideShadowVector2;
-				break;
 			}
-			return result;
+			List<Thing> list = this.map.listerThings.ThingsInGroup(ThingRequestGroup.AffectsSky);
+			for (int j = 0; j < list.Count; j++)
+			{
+				Vector2? overrideShadowVector2 = list[j].TryGetComp<CompAffectsSky>().OverrideShadowVector;
+				if (overrideShadowVector2.HasValue)
+				{
+					return overrideShadowVector2;
+				}
+			}
+			return null;
 		}
 
 		public string DebugString()

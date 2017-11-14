@@ -10,7 +10,15 @@ namespace Verse.AI
 		{
 			get
 			{
-				return (byte)((!this.otherPawn.Spawned || this.otherPawn.Dead || this.otherPawn.Downed) ? 1 : ((!this.IsOtherPawnSocialFightingWithMe) ? 1 : 0)) != 0;
+				if (this.otherPawn.Spawned && !this.otherPawn.Dead && !this.otherPawn.Downed)
+				{
+					if (!this.IsOtherPawnSocialFightingWithMe)
+					{
+						return true;
+					}
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -18,17 +26,20 @@ namespace Verse.AI
 		{
 			get
 			{
-				bool result;
 				if (!this.otherPawn.InMentalState)
 				{
-					result = false;
+					return false;
 				}
-				else
+				MentalState_SocialFighting mentalState_SocialFighting = this.otherPawn.MentalState as MentalState_SocialFighting;
+				if (mentalState_SocialFighting == null)
 				{
-					MentalState_SocialFighting mentalState_SocialFighting = this.otherPawn.MentalState as MentalState_SocialFighting;
-					result = ((byte)((mentalState_SocialFighting != null) ? ((mentalState_SocialFighting.otherPawn == base.pawn) ? 1 : 0) : 0) != 0);
+					return false;
 				}
-				return result;
+				if (mentalState_SocialFighting.otherPawn != base.pawn)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -55,7 +66,7 @@ namespace Verse.AI
 			}
 			if ((PawnUtility.ShouldSendNotificationAbout(base.pawn) || PawnUtility.ShouldSendNotificationAbout(this.otherPawn)) && base.pawn.thingIDNumber < this.otherPawn.thingIDNumber)
 			{
-				Messages.Message("MessageNoLongerSocialFighting".Translate(base.pawn.NameStringShort, this.otherPawn.LabelShort), (Thing)base.pawn, MessageTypeDefOf.SituationResolved);
+				Messages.Message("MessageNoLongerSocialFighting".Translate(base.pawn.NameStringShort, this.otherPawn.LabelShort), base.pawn, MessageTypeDefOf.SituationResolved);
 			}
 			if (!base.pawn.Dead && base.pawn.needs.mood != null && !this.otherPawn.Dead)
 			{

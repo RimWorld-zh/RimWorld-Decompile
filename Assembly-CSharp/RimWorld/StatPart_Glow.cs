@@ -5,9 +5,9 @@ namespace RimWorld
 {
 	public class StatPart_Glow : StatPart
 	{
-		private bool humanlikeOnly = false;
+		private bool humanlikeOnly;
 
-		private SimpleCurve factorFromGlowCurve = null;
+		private SimpleCurve factorFromGlowCurve;
 
 		public override IEnumerable<string> ConfigErrors()
 		{
@@ -27,25 +27,24 @@ namespace RimWorld
 
 		public override string ExplanationPart(StatRequest req)
 		{
-			return (!req.HasThing || !this.ActiveFor(req.Thing)) ? null : ("StatsReport_LightMultiplier".Translate(this.GlowLevel(req.Thing).ToStringPercent()) + ": x" + this.FactorFromGlow(req.Thing).ToStringPercent());
+			if (req.HasThing && this.ActiveFor(req.Thing))
+			{
+				return "StatsReport_LightMultiplier".Translate(this.GlowLevel(req.Thing).ToStringPercent()) + ": x" + this.FactorFromGlow(req.Thing).ToStringPercent();
+			}
+			return null;
 		}
 
 		private bool ActiveFor(Thing t)
 		{
-			bool result;
 			if (this.humanlikeOnly)
 			{
 				Pawn pawn = t as Pawn;
 				if (pawn != null && !pawn.RaceProps.Humanlike)
 				{
-					result = false;
-					goto IL_003e;
+					return false;
 				}
 			}
-			result = t.Spawned;
-			goto IL_003e;
-			IL_003e:
-			return result;
+			return t.Spawned;
 		}
 
 		private float GlowLevel(Thing t)

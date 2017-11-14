@@ -7,30 +7,28 @@ namespace Verse.AI.Group
 	{
 		public static Lord MakeNewLord(Faction faction, LordJob lordJob, Map map, IEnumerable<Pawn> startingPawns = null)
 		{
-			Lord result;
 			if (map == null)
 			{
 				Log.Warning("Tried to create a lord with null map.");
-				result = null;
+				return null;
 			}
-			else
+			Lord lord = new Lord();
+			lord.loadID = Find.UniqueIDsManager.GetNextLordID();
+			lord.faction = faction;
+			map.lordManager.AddLord(lord);
+			lord.SetJob(lordJob);
+			lord.GotoToil(lord.Graph.StartingToil);
+			if (startingPawns != null)
 			{
-				Lord lord = new Lord();
-				lord.loadID = Find.UniqueIDsManager.GetNextLordID();
-				lord.faction = faction;
-				map.lordManager.AddLord(lord);
-				lord.SetJob(lordJob);
-				lord.GotoToil(lord.Graph.StartingToil);
-				if (startingPawns != null)
 				{
-					foreach (Pawn item in startingPawns)
+					foreach (Pawn startingPawn in startingPawns)
 					{
-						lord.AddPawn(item);
+						lord.AddPawn(startingPawn);
 					}
+					return lord;
 				}
-				result = lord;
 			}
-			return result;
+			return lord;
 		}
 	}
 }

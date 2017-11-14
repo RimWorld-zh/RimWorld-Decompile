@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse
 {
 	public class Dialog_RenameArea : Dialog_Rename
@@ -14,8 +12,16 @@ namespace Verse
 
 		protected override AcceptanceReport NameIsValid(string name)
 		{
-			AcceptanceReport acceptanceReport = base.NameIsValid(name);
-			return acceptanceReport.Accepted ? ((!this.area.Map.areaManager.AllAreas.Any((Predicate<Area>)((Area a) => a.Label == name))) ? true : "NameIsInUse".Translate()) : acceptanceReport;
+			AcceptanceReport result = base.NameIsValid(name);
+			if (!result.Accepted)
+			{
+				return result;
+			}
+			if (this.area.Map.areaManager.AllAreas.Any((Area a) => a.Label == name))
+			{
+				return "NameIsInUse".Translate();
+			}
+			return true;
 		}
 
 		protected override void SetName(string name)

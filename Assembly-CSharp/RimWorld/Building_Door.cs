@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -12,15 +11,15 @@ namespace RimWorld
 	{
 		public CompPowerTrader powerComp;
 
-		private bool openInt = false;
+		private bool openInt;
 
-		private bool holdOpenInt = false;
+		private bool holdOpenInt;
 
 		private int lastFriendlyTouchTick = -9999;
 
-		protected int ticksUntilClose = 0;
+		protected int ticksUntilClose;
 
-		protected int visualTicksOpen = 0;
+		protected int visualTicksOpen;
 
 		private bool freePassageWhenClearedReachabilityCache;
 
@@ -56,7 +55,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.openInt && (this.holdOpenInt || !this.WillCloseSoon);
+				if (!this.openInt)
+				{
+					return false;
+				}
+				return this.holdOpenInt || !this.WillCloseSoon;
 			}
 		}
 
@@ -64,49 +67,39 @@ namespace RimWorld
 		{
 			get
 			{
-				bool result;
 				if (!base.Spawned)
 				{
-					result = true;
+					return true;
 				}
-				else if (!this.openInt)
+				if (!this.openInt)
 				{
-					result = true;
+					return true;
 				}
-				else if (this.holdOpenInt)
+				if (this.holdOpenInt)
 				{
-					result = false;
+					return false;
 				}
-				else if (this.ticksUntilClose > 0 && this.ticksUntilClose <= 60 && this.CanCloseAutomatically)
+				if (this.ticksUntilClose > 0 && this.ticksUntilClose <= 60 && this.CanCloseAutomatically)
 				{
-					result = true;
+					return true;
 				}
-				else
+				for (int i = 0; i < 5; i++)
 				{
-					for (int i = 0; i < 5; i++)
+					IntVec3 c = base.Position + GenAdj.CardinalDirectionsAndInside[i];
+					if (c.InBounds(base.Map))
 					{
-						IntVec3 c = base.Position + GenAdj.CardinalDirectionsAndInside[i];
-						if (c.InBounds(base.Map))
+						List<Thing> thingList = c.GetThingList(base.Map);
+						for (int j = 0; j < thingList.Count; j++)
 						{
-							List<Thing> thingList = c.GetThingList(base.Map);
-							for (int j = 0; j < thingList.Count; j++)
+							Pawn pawn = thingList[j] as Pawn;
+							if (pawn != null && !pawn.HostileTo(this) && !pawn.Downed && (pawn.Position == base.Position || (pawn.pather.MovingNow && pawn.pather.nextCell == base.Position)))
 							{
-								Pawn pawn = thingList[j] as Pawn;
-								if (pawn != null && !pawn.HostileTo(this) && !pawn.Downed && (pawn.Position == base.Position || (pawn.pather.MovingNow && pawn.pather.nextCell == base.Position)))
-								{
-									goto IL_012a;
-								}
+								return true;
 							}
 						}
 					}
-					result = false;
 				}
-				goto IL_0158;
-				IL_0158:
-				return result;
-				IL_012a:
-				result = true;
-				goto IL_0158;
+				return false;
 			}
 		}
 
@@ -116,26 +109,17 @@ namespace RimWorld
 			{
 				List<Thing> thingList = base.Position.GetThingList(base.Map);
 				int num = 0;
-				bool result;
-				while (true)
+				while (num < thingList.Count)
 				{
-					if (num < thingList.Count)
+					Thing thing = thingList[num];
+					if (thing.def.category != ThingCategory.Item && thing.def.category != ThingCategory.Pawn)
 					{
-						Thing thing = thingList[num];
-						if (thing.def.category != ThingCategory.Item && thing.def.category != ThingCategory.Pawn)
-						{
-							num++;
-							continue;
-						}
-						result = true;
+						num++;
+						continue;
 					}
-					else
-					{
-						result = false;
-					}
-					break;
+					return true;
 				}
-				return result;
+				return false;
 			}
 		}
 
@@ -320,12 +304,32 @@ namespace RimWorld
 		public virtual bool PawnCanOpen(Pawn p)
 		{
 			Lord lord = p.GetLord();
-			return (lord != null && lord.LordJob != null && lord.LordJob.CanOpenAnyDoor(p)) || (p.IsWildMan() && !p.mindState.wildManEverReachedOutside) || base.Faction == null || (p.guest != null && p.guest.Released) || GenAI.MachinesLike(base.Faction, p);
+			if (lord != null && lord.LordJob != null && lord.LordJob.CanOpenAnyDoor(p))
+			{
+				return true;
+			}
+			if (p.IsWildMan() && !p.mindState.wildManEverReachedOutside)
+			{
+				return true;
+			}
+			if (base.Faction == null)
+			{
+				return true;
+			}
+			if (p.guest != null && p.guest.Released)
+			{
+				return true;
+			}
+			return GenAI.MachinesLike(base.Faction, p);
 		}
 
 		public override bool BlocksPawn(Pawn p)
 		{
-			return !this.openInt && !this.PawnCanOpen(p);
+			if (this.openInt)
+			{
+				return false;
+			}
+			return !this.PawnCanOpen(p);
 		}
 
 		protected void DoorOpen(int ticksToClose = 60)
@@ -403,46 +407,36 @@ namespace RimWorld
 
 		private static int AlignQualityAgainst(IntVec3 c, Map map)
 		{
-			int result;
 			if (!c.InBounds(map))
 			{
-				result = 0;
+				return 0;
 			}
-			else if (!c.Walkable(map))
+			if (!c.Walkable(map))
 			{
-				result = 9;
+				return 9;
 			}
-			else
+			List<Thing> thingList = c.GetThingList(map);
+			for (int i = 0; i < thingList.Count; i++)
 			{
-				List<Thing> thingList = c.GetThingList(map);
-				for (int i = 0; i < thingList.Count; i++)
+				Thing thing = thingList[i];
+				if (typeof(Building_Door).IsAssignableFrom(thing.def.thingClass))
 				{
-					Thing thing = thingList[i];
-					if (typeof(Building_Door).IsAssignableFrom(thing.def.thingClass))
-						goto IL_005f;
-					Thing thing2 = thing as Blueprint;
-					if (thing2 != null)
+					return 1;
+				}
+				Thing thing2 = thing as Blueprint;
+				if (thing2 != null)
+				{
+					if (thing2.def.entityDefToBuild.passability == Traversability.Impassable)
 					{
-						if (thing2.def.entityDefToBuild.passability == Traversability.Impassable)
-							goto IL_008d;
-						if (typeof(Building_Door).IsAssignableFrom(thing.def.thingClass))
-							goto IL_00b4;
+						return 9;
+					}
+					if (typeof(Building_Door).IsAssignableFrom(thing.def.thingClass))
+					{
+						return 1;
 					}
 				}
-				result = 0;
 			}
-			goto IL_00d4;
-			IL_00b4:
-			result = 1;
-			goto IL_00d4;
-			IL_00d4:
-			return result;
-			IL_005f:
-			result = 1;
-			goto IL_00d4;
-			IL_008d:
-			result = 9;
-			goto IL_00d4;
+			return 0;
 		}
 
 		public static Rot4 DoorRotationAt(IntVec3 loc, Map map)
@@ -453,12 +447,16 @@ namespace RimWorld
 			num += Building_Door.AlignQualityAgainst(loc + IntVec3.West, map);
 			num2 += Building_Door.AlignQualityAgainst(loc + IntVec3.North, map);
 			num2 += Building_Door.AlignQualityAgainst(loc + IntVec3.South, map);
-			return (num < num2) ? Rot4.East : Rot4.North;
+			if (num >= num2)
+			{
+				return Rot4.North;
+			}
+			return Rot4.East;
 		}
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -475,15 +473,15 @@ namespace RimWorld
 				defaultDesc = "CommandToggleDoorHoldOpenDesc".Translate(),
 				hotKey = KeyBindingDefOf.Misc3,
 				icon = TexCommand.HoldOpen,
-				isActive = (Func<bool>)(() => ((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_0129: stateMachine*/)._0024this.holdOpenInt),
-				toggleAction = (Action)delegate
+				isActive = (() => ((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_0124: stateMachine*/)._0024this.holdOpenInt),
+				toggleAction = delegate
 				{
-					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_0140: stateMachine*/)._0024this.holdOpenInt = !((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_0140: stateMachine*/)._0024this.holdOpenInt;
+					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_013b: stateMachine*/)._0024this.holdOpenInt = !((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_013b: stateMachine*/)._0024this.holdOpenInt;
 				}
 			};
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_017b:
-			/*Error near IL_017c: Unexpected return in MoveNext()*/;
+			IL_0175:
+			/*Error near IL_0176: Unexpected return in MoveNext()*/;
 		}
 
 		private void ClearReachabilityCache(Map map)

@@ -1,5 +1,6 @@
 using RimWorld.Planet;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -36,93 +37,114 @@ namespace RimWorld
 			}
 		};
 
+		private static Dictionary<ThingDef, int> requestCountDict = new Dictionary<ThingDef, int>();
+
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
-			return IncidentWorker_CaravanRequest.RandomNearbyTradeableSettlement(((Map)target).Tile) != null && base.CanFireNowSub(target);
+			Map map = (Map)target;
+			if (!this.AtLeast2HealthyColonists(map))
+			{
+				return false;
+			}
+			if (IncidentWorker_CaravanRequest.RandomNearbyTradeableSettlement(map.Tile) == null)
+			{
+				return false;
+			}
+			return base.CanFireNowSub(target);
 		}
 
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Settlement settlement = IncidentWorker_CaravanRequest.RandomNearbyTradeableSettlement(parms.target.Tile);
-			bool result;
 			if (settlement == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			CaravanRequestComp component = ((WorldObject)settlement).GetComponent<CaravanRequestComp>();
+			if (!this.TryGenerateCaravanRequest(component, (Map)parms.target))
 			{
-				CaravanRequestComp component = ((WorldObject)settlement).GetComponent<CaravanRequestComp>();
-				if (!this.GenerateCaravanRequest(component, (Map)parms.target))
-				{
-					result = false;
-				}
-				else
-				{
-					Find.LetterStack.ReceiveLetter("LetterLabelCaravanRequest".Translate(), "LetterCaravanRequest".Translate(settlement.Label, GenLabel.ThingLabel(component.requestThingDef, null, component.requestCount).CapitalizeFirst(), component.rewards[0].LabelCap, (component.expiration - Find.TickManager.TicksGame).ToStringTicksToDays("F0")), LetterDefOf.PositiveEvent, (WorldObject)settlement, (string)null);
-					result = true;
-				}
+				return false;
 			}
-			return result;
+			Find.LetterStack.ReceiveLetter("LetterLabelCaravanRequest".Translate(), "LetterCaravanRequest".Translate(settlement.Label, GenLabel.ThingLabel(component.requestThingDef, null, component.requestCount).CapitalizeFirst(), component.rewards[0].LabelCap, (component.expiration - Find.TickManager.TicksGame).ToStringTicksToDays("F0")), LetterDefOf.PositiveEvent, settlement, null);
+			return true;
 		}
 
-		public bool GenerateCaravanRequest(CaravanRequestComp target, Map map)
+		public bool TryGenerateCaravanRequest(CaravanRequestComp target, Map map)
 		{
 			int num = this.RandomOfferDuration(map.Tile, target.parent.Tile);
-			bool result;
 			if (num < 1)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (!IncidentWorker_CaravanRequest.TryFindRandomRequestedThingDef(map, out target.requestThingDef, out target.requestCount))
 			{
-				target.requestThingDef = IncidentWorker_CaravanRequest.RandomRequestedThingDef();
-				if (target.requestThingDef == null)
-				{
-					Log.Error("Attempted to create a caravan request, but couldn't find a valid request object");
-					result = false;
-				}
-				else
-				{
-					target.requestCount = IncidentWorker_CaravanRequest.RandomRequestCount(target.requestThingDef, map);
-					target.rewards.ClearAndDestroyContents(DestroyMode.Vanish);
-					target.rewards.TryAdd(IncidentWorker_CaravanRequest.GenerateRewardFor(target.requestThingDef, target.requestCount, target.parent.Faction), true);
-					target.expiration = Find.TickManager.TicksGame + num;
-					result = true;
-				}
+				return false;
 			}
-			return result;
+			target.rewards.ClearAndDestroyContents(DestroyMode.Vanish);
+			target.rewards.TryAdd(IncidentWorker_CaravanRequest.GenerateRewardFor(target.requestThingDef, target.requestCount, target.parent.Faction), true);
+			target.expiration = Find.TickManager.TicksGame + num;
+			return true;
 		}
 
 		public static Settlement RandomNearbyTradeableSettlement(int originTile)
 		{
-			return (from settlement in Find.WorldObjects.Settlements
-			where settlement.Visitable && ((WorldObject)settlement).GetComponent<CaravanRequestComp>() != null && !((WorldObject)settlement).GetComponent<CaravanRequestComp>().ActiveRequest && Find.WorldGrid.ApproxDistanceInTiles(originTile, settlement.Tile) < 36.0 && Find.WorldReachability.CanReach(originTile, settlement.Tile)
-			select settlement).RandomElementWithFallback(null);
+			return Find.WorldObjects.Settlements.Where(delegate(Settlement settlement)
+			{
+				if (settlement.Visitable && ((WorldObject)settlement).GetComponent<CaravanRequestComp>() != null && !((WorldObject)settlement).GetComponent<CaravanRequestComp>().ActiveRequest)
+				{
+					return Find.WorldGrid.ApproxDistanceInTiles(originTile, settlement.Tile) < 36.0 && Find.WorldReachability.CanReach(originTile, settlement.Tile);
+				}
+				return false;
+			}).RandomElementWithFallback(null);
 		}
 
-		private static ThingDef RandomRequestedThingDef()
+		private static bool TryFindRandomRequestedThingDef(Map map, out ThingDef thingDef, out int count)
 		{
-			Func<ThingDef, bool> globalValidator = (Func<ThingDef, bool>)delegate(ThingDef td)
+			IncidentWorker_CaravanRequest.requestCountDict.Clear();
+			Func<ThingDef, bool> globalValidator = delegate(ThingDef td)
 			{
-				bool result;
 				if (td.BaseMarketValue / td.BaseMass < 5.0)
 				{
-					result = false;
+					return false;
 				}
-				else if (!td.alwaysHaulable)
+				if (!td.alwaysHaulable)
 				{
-					result = false;
+					return false;
 				}
-				else
+				CompProperties_Rottable compProperties = td.GetCompProperties<CompProperties_Rottable>();
+				if (compProperties != null && compProperties.daysToRotStart < 10.0)
 				{
-					CompProperties_Rottable compProperties = td.GetCompProperties<CompProperties_Rottable>();
-					result = ((byte)((compProperties == null || !(compProperties.daysToRotStart < 10.0)) ? ((td.ingestible == null || !td.ingestible.HumanEdible) ? ((td != ThingDefOf.Silver) ? (td.PlayerAcquirable ? 1 : 0) : 0) : 0) : 0) != 0);
+					return false;
 				}
-				return result;
+				if (td.ingestible != null && td.ingestible.HumanEdible)
+				{
+					return false;
+				}
+				if (td == ThingDefOf.Silver)
+				{
+					return false;
+				}
+				if (!td.PlayerAcquirable)
+				{
+					return false;
+				}
+				int num = IncidentWorker_CaravanRequest.RandomRequestCount(td, map);
+				IncidentWorker_CaravanRequest.requestCountDict.Add(td, num);
+				if (!PlayerItemAccessibilityUtility.PossiblyAccessible(td, num, map))
+				{
+					return false;
+				}
+				return true;
 			};
-			return (from td in DefDatabase<ThingDef>.AllDefs
+			if ((from td in ItemCollectionGeneratorUtility.allGeneratableItems
 			where globalValidator(td)
-			select td).RandomElementWithFallback(null);
+			select td).TryRandomElement<ThingDef>(out thingDef))
+			{
+				count = IncidentWorker_CaravanRequest.requestCountDict[thingDef];
+				return true;
+			}
+			count = 0;
+			return false;
 		}
 
 		private static int RandomRequestCount(ThingDef thingDef, Map map)
@@ -136,12 +158,10 @@ namespace RimWorld
 		private static Thing GenerateRewardFor(ThingDef thingDef, int quantity, Faction faction)
 		{
 			TechLevel value = (faction != null) ? faction.def.techLevel : TechLevel.Spacer;
-			ItemCollectionGeneratorParams parms = new ItemCollectionGeneratorParams
-			{
-				totalMarketValue = new float?(thingDef.BaseMarketValue * (float)quantity * IncidentWorker_CaravanRequest.RewardMarketValueFactorRange.RandomInRange),
-				techLevel = new TechLevel?(value),
-				validator = (Predicate<ThingDef>)((ThingDef td) => td != thingDef)
-			};
+			ItemCollectionGeneratorParams parms = default(ItemCollectionGeneratorParams);
+			parms.totalMarketValue = thingDef.BaseMarketValue * (float)quantity * IncidentWorker_CaravanRequest.RewardMarketValueFactorRange.RandomInRange;
+			parms.techLevel = value;
+			parms.validator = ((ThingDef td) => td != thingDef);
 			return ItemCollectionGeneratorDefOf.CaravanRequestRewards.Worker.Generate(parms)[0];
 		}
 
@@ -154,7 +174,29 @@ namespace RimWorld
 			randomInRange = Mathf.Max(randomInRange, b);
 			int num3 = randomInRange;
 			IntRange offerDurationRange = IncidentWorker_CaravanRequest.OfferDurationRange;
-			return (num3 <= offerDurationRange.max) ? (60000 * randomInRange) : (-1);
+			if (num3 > offerDurationRange.max)
+			{
+				return -1;
+			}
+			return 60000 * randomInRange;
+		}
+
+		private bool AtLeast2HealthyColonists(Map map)
+		{
+			List<Pawn> list = map.mapPawns.SpawnedPawnsInFaction(Faction.OfPlayer);
+			int num = 0;
+			for (int i = 0; i < list.Count; i++)
+			{
+				if (list[i].IsFreeColonist && !HealthAIUtility.ShouldSeekMedicalRest(list[i]))
+				{
+					num++;
+					if (num >= 2)
+					{
+						return true;
+					}
+				}
+			}
+			return false;
 		}
 	}
 }

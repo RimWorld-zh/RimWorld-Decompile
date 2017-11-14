@@ -19,7 +19,11 @@ namespace RimWorld.Planet
 
 		public override string CompInspectStringExtra()
 		{
-			return (!base.pawn.Any) ? null : ("Prisoner".Translate() + ": " + base.pawn[0].LabelShort);
+			if (base.pawn.Any)
+			{
+				return "Prisoner".Translate() + ": " + base.pawn[0].LabelShort;
+			}
+			return null;
 		}
 	}
 }

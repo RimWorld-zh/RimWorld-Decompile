@@ -5,7 +5,7 @@ namespace RimWorld
 {
 	public class StockGenerator_SingleDef : StockGenerator
 	{
-		private ThingDef thingDef = null;
+		private ThingDef thingDef;
 
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
@@ -19,8 +19,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_00d8:
-			/*Error near IL_00d9: Unexpected return in MoveNext()*/;
+			IL_00d4:
+			/*Error near IL_00d5: Unexpected return in MoveNext()*/;
 		}
 
 		public override bool HandlesThingDef(ThingDef thingDef)
@@ -30,7 +30,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors(TraderKindDef parentDef)
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0(parentDef).GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors(parentDef).GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -43,8 +43,8 @@ namespace RimWorld
 				yield break;
 			yield return this.thingDef + " is not Stockable";
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_010c:
-			/*Error near IL_010d: Unexpected return in MoveNext()*/;
+			IL_0108:
+			/*Error near IL_0109: Unexpected return in MoveNext()*/;
 		}
 	}
 }

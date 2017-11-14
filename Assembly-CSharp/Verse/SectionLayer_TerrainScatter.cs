@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -54,7 +53,8 @@ namespace Verse
 			}
 		}
 
-		public SectionLayer_TerrainScatter(Section section) : base(section)
+		public SectionLayer_TerrainScatter(Section section)
+			: base(section)
 		{
 			base.relevantChangeTypes = MapMeshFlag.Terrain;
 		}
@@ -62,7 +62,7 @@ namespace Verse
 		public override void Regenerate()
 		{
 			base.ClearSubMeshes(MeshParts.All);
-			this.scats.RemoveAll((Predicate<Scatterable>)((Scatterable scat) => !scat.IsOnValidTerrain));
+			this.scats.RemoveAll((Scatterable scat) => !scat.IsOnValidTerrain);
 			int num = 0;
 			TerrainDef[] topGrid = base.Map.terrainGrid.topGrid;
 			CellRect cellRect = base.section.CellRect;

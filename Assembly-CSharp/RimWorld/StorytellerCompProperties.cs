@@ -7,9 +7,9 @@ namespace RimWorld
 	{
 		public Type compClass;
 
-		public float minDaysPassed = 0f;
+		public float minDaysPassed;
 
-		public List<IncidentTargetTypeDef> allowedTargetTypes = null;
+		public List<IncidentTargetTypeDef> allowedTargetTypes;
 
 		public float minIncChancePopulationIntentFactor = 0.05f;
 

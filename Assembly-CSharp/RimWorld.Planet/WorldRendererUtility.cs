@@ -9,7 +9,15 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (Find.World != null) ? ((Current.ProgramState == ProgramState.Playing && Find.VisibleMap == null) ? WorldRenderMode.Planet : Find.World.renderer.wantedMode) : WorldRenderMode.None;
+				if (Find.World == null)
+				{
+					return WorldRenderMode.None;
+				}
+				if (Current.ProgramState == ProgramState.Playing && Find.VisibleMap == null)
+				{
+					return WorldRenderMode.Planet;
+				}
+				return Find.World.renderer.wantedMode;
 			}
 		}
 

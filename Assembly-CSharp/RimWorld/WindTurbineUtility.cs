@@ -12,16 +12,16 @@ namespace RimWorld
 			int offset = 0;
 			int neDist;
 			int swDist;
-			if (!(rot == Rot4.North) && !(rot == Rot4.East))
+			if (rot == Rot4.North || rot == Rot4.East)
+			{
+				neDist = 9;
+				swDist = 5;
+			}
+			else
 			{
 				neDist = 5;
 				swDist = 9;
 				offset = -1;
-			}
-			else
-			{
-				neDist = 9;
-				swDist = 5;
 			}
 			if (rot.IsHorizontal)
 			{

@@ -5,7 +5,7 @@ namespace RimWorld
 {
 	public class StatPart_Age : StatPart
 	{
-		private SimpleCurve curve = null;
+		private SimpleCurve curve;
 
 		public override void TransformValue(StatRequest req, ref float val)
 		{
@@ -21,20 +21,15 @@ namespace RimWorld
 
 		public override string ExplanationPart(StatRequest req)
 		{
-			string result;
 			if (req.HasThing)
 			{
 				Pawn pawn = req.Thing as Pawn;
 				if (pawn != null && pawn.ageTracker != null)
 				{
-					result = "StatsReport_AgeMultiplier".Translate(pawn.ageTracker.AgeBiologicalYears) + ": x" + this.AgeMultiplier(pawn).ToStringPercent();
-					goto IL_0073;
+					return "StatsReport_AgeMultiplier".Translate(pawn.ageTracker.AgeBiologicalYears) + ": x" + this.AgeMultiplier(pawn).ToStringPercent();
 				}
 			}
-			result = (string)null;
-			goto IL_0073;
-			IL_0073:
-			return result;
+			return null;
 		}
 
 		private float AgeMultiplier(Pawn pawn)

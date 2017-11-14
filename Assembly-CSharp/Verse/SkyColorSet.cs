@@ -22,13 +22,12 @@ namespace Verse
 
 		public static SkyColorSet Lerp(SkyColorSet A, SkyColorSet B, float t)
 		{
-			return new SkyColorSet
-			{
-				sky = Color.Lerp(A.sky, B.sky, t),
-				shadow = Color.Lerp(A.shadow, B.shadow, t),
-				overlay = Color.Lerp(A.overlay, B.overlay, t),
-				saturation = Mathf.Lerp(A.saturation, B.saturation, t)
-			};
+			SkyColorSet result = default(SkyColorSet);
+			result.sky = Color.Lerp(A.sky, B.sky, t);
+			result.shadow = Color.Lerp(A.shadow, B.shadow, t);
+			result.overlay = Color.Lerp(A.overlay, B.overlay, t);
+			result.saturation = Mathf.Lerp(A.saturation, B.saturation, t);
+			return result;
 		}
 
 		public override string ToString()

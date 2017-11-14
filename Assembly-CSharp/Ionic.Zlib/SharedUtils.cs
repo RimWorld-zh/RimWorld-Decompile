@@ -12,29 +12,21 @@ namespace Ionic.Zlib
 
 		public static int ReadInput(TextReader sourceTextReader, byte[] target, int start, int count)
 		{
-			int result;
 			if (target.Length == 0)
 			{
-				result = 0;
+				return 0;
 			}
-			else
+			char[] array = new char[target.Length];
+			int num = sourceTextReader.Read(array, start, count);
+			if (num == 0)
 			{
-				char[] array = new char[target.Length];
-				int num = sourceTextReader.Read(array, start, count);
-				if (num == 0)
-				{
-					result = -1;
-				}
-				else
-				{
-					for (int i = start; i < start + num; i++)
-					{
-						target[i] = (byte)array[i];
-					}
-					result = num;
-				}
+				return -1;
 			}
-			return result;
+			for (int i = start; i < start + num; i++)
+			{
+				target[i] = (byte)array[i];
+			}
+			return num;
 		}
 
 		internal static byte[] ToByteArray(string sourceString)

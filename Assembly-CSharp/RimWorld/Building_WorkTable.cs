@@ -5,19 +5,27 @@ namespace RimWorld
 {
 	public class Building_WorkTable : Building, IBillGiver, IBillGiverWithTickAction
 	{
-		public BillStack billStack = null;
+		public BillStack billStack;
 
-		private CompPowerTrader powerComp = null;
+		private CompPowerTrader powerComp;
 
-		private CompRefuelable refuelableComp = null;
+		private CompRefuelable refuelableComp;
 
-		private CompBreakdownable breakdownableComp = null;
+		private CompBreakdownable breakdownableComp;
 
 		public bool CanWorkWithoutPower
 		{
 			get
 			{
-				return (byte)((this.powerComp == null) ? 1 : ((base.def.building.unpoweredWorkTableWorkSpeedFactor > 0.0) ? 1 : 0)) != 0;
+				if (this.powerComp == null)
+				{
+					return true;
+				}
+				if (base.def.building.unpoweredWorkTableWorkSpeedFactor > 0.0)
+				{
+					return true;
+				}
+				return false;
 			}
 		}
 
@@ -25,7 +33,19 @@ namespace RimWorld
 		{
 			get
 			{
-				return (byte)((this.CanWorkWithoutPower || (this.powerComp != null && this.powerComp.PowerOn)) ? ((this.refuelableComp == null || this.refuelableComp.HasFuel) ? ((this.breakdownableComp == null || !this.breakdownableComp.BrokenDown) ? 1 : 0) : 0) : 0) != 0;
+				if (!this.CanWorkWithoutPower && (this.powerComp == null || !this.powerComp.PowerOn))
+				{
+					return false;
+				}
+				if (this.refuelableComp != null && !this.refuelableComp.HasFuel)
+				{
+					return false;
+				}
+				if (this.breakdownableComp != null && this.breakdownableComp.BrokenDown)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 

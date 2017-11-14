@@ -40,22 +40,46 @@ namespace RimWorld
 		{
 			int valueToCompare = this.GetValueToCompare1(a);
 			int valueToCompare2 = this.GetValueToCompare1(b);
-			return (valueToCompare == valueToCompare2) ? this.GetValueToCompare2(a).CompareTo(this.GetValueToCompare2(b)) : valueToCompare.CompareTo(valueToCompare2);
+			if (valueToCompare != valueToCompare2)
+			{
+				return valueToCompare.CompareTo(valueToCompare2);
+			}
+			return this.GetValueToCompare2(a).CompareTo(this.GetValueToCompare2(b));
 		}
 
 		private bool CanAssignMaster(Pawn pawn)
 		{
-			return (byte)((pawn.RaceProps.Animal && pawn.Faction == Faction.OfPlayer) ? (pawn.training.IsCompleted(TrainableDefOf.Obedience) ? 1 : 0) : 0) != 0;
+			if (pawn.RaceProps.Animal && pawn.Faction == Faction.OfPlayer)
+			{
+				if (!pawn.training.IsCompleted(TrainableDefOf.Obedience))
+				{
+					return false;
+				}
+				return true;
+			}
+			return false;
 		}
 
 		private int GetValueToCompare1(Pawn pawn)
 		{
-			return this.CanAssignMaster(pawn) ? ((pawn.playerSettings.master == null) ? 1 : 2) : 0;
+			if (!this.CanAssignMaster(pawn))
+			{
+				return 0;
+			}
+			if (pawn.playerSettings.master == null)
+			{
+				return 1;
+			}
+			return 2;
 		}
 
 		private string GetValueToCompare2(Pawn pawn)
 		{
-			return (pawn.playerSettings == null || pawn.playerSettings.master == null) ? "" : pawn.playerSettings.master.Label;
+			if (pawn.playerSettings != null && pawn.playerSettings.master != null)
+			{
+				return pawn.playerSettings.master.Label;
+			}
+			return string.Empty;
 		}
 	}
 }

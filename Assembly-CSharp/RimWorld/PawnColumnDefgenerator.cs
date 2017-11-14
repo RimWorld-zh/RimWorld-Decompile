@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -26,7 +25,7 @@ namespace RimWorld
 						sortable = true,
 						headerTip = sourceDef.LabelCap
 					};
-					animalsTable.columns.Insert(animalsTable.columns.FindIndex((Predicate<PawnColumnDef>)((PawnColumnDef x) => x.Worker is PawnColumnWorker_Checkbox)) - 1, d3);
+					animalsTable.columns.Insert(animalsTable.columns.FindIndex((PawnColumnDef x) => x.Worker is PawnColumnWorker_Checkbox) - 1, d3);
 					yield return d3;
 					/*Error: Unable to find new state assignment for yield return*/;
 				}
@@ -49,14 +48,14 @@ namespace RimWorld
 						workerClass = typeof(PawnColumnWorker_WorkPriority),
 						sortable = true
 					};
-					workTable.columns.Insert(workTable.columns.FindIndex((Predicate<PawnColumnDef>)((PawnColumnDef x) => x.Worker is PawnColumnWorker_CopyPasteWorkPriorities)) + 1, d2);
+					workTable.columns.Insert(workTable.columns.FindIndex((PawnColumnDef x) => x.Worker is PawnColumnWorker_CopyPasteWorkPriorities) + 1, d2);
 					yield return d2;
 					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 			yield break;
-			IL_033b:
-			/*Error near IL_033c: Unexpected return in MoveNext()*/;
+			IL_0334:
+			/*Error near IL_0335: Unexpected return in MoveNext()*/;
 		}
 	}
 }

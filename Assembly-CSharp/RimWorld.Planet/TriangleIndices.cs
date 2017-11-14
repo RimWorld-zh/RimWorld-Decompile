@@ -19,24 +19,32 @@ namespace RimWorld.Planet
 		{
 			if (this.v1 != otherThan && (this.v1 == t.v1 || this.v1 == t.v2 || this.v1 == t.v3))
 			{
-				goto IL_00cc;
+				goto IL_00cb;
 			}
 			if (this.v2 != otherThan && (this.v2 == t.v1 || this.v2 == t.v2 || this.v2 == t.v3))
 			{
-				goto IL_00cc;
+				goto IL_00cb;
 			}
 			int result = (this.v3 != otherThan && (this.v3 == t.v1 || this.v3 == t.v2 || this.v3 == t.v3)) ? 1 : 0;
-			goto IL_00cd;
-			IL_00cd:
-			return (byte)result != 0;
+			goto IL_00cc;
 			IL_00cc:
+			return (byte)result != 0;
+			IL_00cb:
 			result = 1;
-			goto IL_00cd;
+			goto IL_00cc;
 		}
 
 		public int GetNextOrderedVertex(int root)
 		{
-			return (this.v1 != root) ? ((this.v2 != root) ? this.v1 : this.v3) : this.v2;
+			if (this.v1 == root)
+			{
+				return this.v2;
+			}
+			if (this.v2 == root)
+			{
+				return this.v3;
+			}
+			return this.v1;
 		}
 	}
 }

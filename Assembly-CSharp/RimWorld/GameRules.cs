@@ -38,7 +38,11 @@ namespace RimWorld
 		public bool DesignatorAllowed(Designator d)
 		{
 			Designator_Place designator_Place = d as Designator_Place;
-			return (designator_Place == null) ? (!this.disallowedDesignatorTypes.Contains(d.GetType())) : (!this.disallowedBuildings.Contains(designator_Place.PlacingDef));
+			if (designator_Place != null)
+			{
+				return !this.disallowedBuildings.Contains(designator_Place.PlacingDef);
+			}
+			return !this.disallowedDesignatorTypes.Contains(d.GetType());
 		}
 
 		public void ExposeData()

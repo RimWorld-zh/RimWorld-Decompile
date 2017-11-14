@@ -23,12 +23,20 @@ namespace Verse
 
 		public override Material MatAt(Rot4 rot, Thing thing = null)
 		{
-			return (thing != null) ? this.MatSingleFor(thing) : this.MatSingle;
+			if (thing == null)
+			{
+				return this.MatSingle;
+			}
+			return this.MatSingleFor(thing);
 		}
 
 		public override Material MatSingleFor(Thing thing)
 		{
-			return (thing != null) ? this.SubGraphicFor(thing).MatSingle : this.MatSingle;
+			if (thing == null)
+			{
+				return this.MatSingle;
+			}
+			return this.SubGraphicFor(thing).MatSingle;
 		}
 
 		public Graphic SubGraphicFor(Thing thing)
@@ -44,43 +52,40 @@ namespace Verse
 
 		public Graphic SubGraphicForStackCount(int stackCount, ThingDef def)
 		{
-			Graphic result;
 			switch (base.subGraphics.Length)
 			{
 			case 1:
-			{
-				result = base.subGraphics[0];
-				break;
-			}
+				return base.subGraphics[0];
 			case 2:
-			{
-				result = ((stackCount != 1) ? base.subGraphics[1] : base.subGraphics[0]);
-				break;
-			}
+				if (stackCount == 1)
+				{
+					return base.subGraphics[0];
+				}
+				return base.subGraphics[1];
 			case 3:
-			{
-				result = ((stackCount != 1) ? ((stackCount != def.stackLimit) ? base.subGraphics[1] : base.subGraphics[2]) : base.subGraphics[0]);
-				break;
-			}
+				if (stackCount == 1)
+				{
+					return base.subGraphics[0];
+				}
+				if (stackCount == def.stackLimit)
+				{
+					return base.subGraphics[2];
+				}
+				return base.subGraphics[1];
 			default:
 			{
 				if (stackCount == 1)
 				{
-					result = base.subGraphics[0];
+					return base.subGraphics[0];
 				}
-				else if (stackCount == def.stackLimit)
+				if (stackCount == def.stackLimit)
 				{
-					result = base.subGraphics[base.subGraphics.Length - 1];
+					return base.subGraphics[base.subGraphics.Length - 1];
 				}
-				else
-				{
-					int num = 1 + Mathf.RoundToInt(Mathf.InverseLerp(2f, (float)(def.stackLimit - 1), (float)(base.subGraphics.Length - 2)));
-					result = base.subGraphics[num];
-				}
-				break;
+				int num = 1 + Mathf.RoundToInt(Mathf.InverseLerp(2f, (float)(def.stackLimit - 1), (float)(base.subGraphics.Length - 2)));
+				return base.subGraphics[num];
 			}
 			}
-			return result;
 		}
 
 		public override string ToString()

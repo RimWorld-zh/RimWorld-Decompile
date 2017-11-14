@@ -12,20 +12,15 @@ namespace RimWorld
 	{
 		public override bool TryAcceptThing(Thing thing, bool allowSpecialEffects = true)
 		{
-			bool result;
 			if (base.TryAcceptThing(thing, allowSpecialEffects))
 			{
 				if (allowSpecialEffects)
 				{
 					SoundDef.Named("CryptosleepCasketAccept").PlayOneShot(new TargetInfo(base.Position, base.Map, false));
 				}
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Pawn myPawn)
@@ -42,29 +37,29 @@ namespace RimWorld
 			}
 			if (base.innerContainer.Count != 0)
 				yield break;
-			if (!myPawn.CanReach((Thing)this, PathEndMode.InteractionCell, Danger.Deadly, false, TraverseMode.ByPawn))
+			if (!myPawn.CanReach(this, PathEndMode.InteractionCell, Danger.Deadly, false, TraverseMode.ByPawn))
 			{
 				FloatMenuOption failer = new FloatMenuOption("CannotUseNoPath".Translate(), null, MenuOptionPriority.Default, null, null, 0f, null, null);
 				yield return failer;
 				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			_003CGetFloatMenuOptions_003Ec__Iterator0 _003CGetFloatMenuOptions_003Ec__Iterator2 = (_003CGetFloatMenuOptions_003Ec__Iterator0)/*Error near IL_0181: stateMachine*/;
+			_003CGetFloatMenuOptions_003Ec__Iterator0 _003CGetFloatMenuOptions_003Ec__Iterator2 = (_003CGetFloatMenuOptions_003Ec__Iterator0)/*Error near IL_017a: stateMachine*/;
 			JobDef jobDef = JobDefOf.EnterCryptosleepCasket;
 			string jobStr = "EnterCryptosleepCasket".Translate();
-			Action jobAction = (Action)delegate()
+			Action jobAction = delegate
 			{
-				Job job = new Job(jobDef, (Thing)_003CGetFloatMenuOptions_003Ec__Iterator2._0024this);
+				Job job = new Job(jobDef, _003CGetFloatMenuOptions_003Ec__Iterator2._0024this);
 				myPawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
 			};
-			yield return FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(jobStr, jobAction, MenuOptionPriority.Default, null, null, 0f, null, null), myPawn, (Thing)this, "ReservedBy");
+			yield return FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(jobStr, jobAction, MenuOptionPriority.Default, null, null, 0f, null, null), myPawn, this, "ReservedBy");
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0230:
-			/*Error near IL_0231: Unexpected return in MoveNext()*/;
+			IL_0226:
+			/*Error near IL_0227: Unexpected return in MoveNext()*/;
 		}
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy1().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -81,7 +76,7 @@ namespace RimWorld
 				yield break;
 			Command_Action eject = new Command_Action
 			{
-				action = new Action(this.EjectContents),
+				action = ((Building_Casket)this).EjectContents,
 				defaultLabel = "CommandPodEject".Translate(),
 				defaultDesc = "CommandPodEjectDesc".Translate()
 			};
@@ -93,8 +88,8 @@ namespace RimWorld
 			eject.icon = ContentFinder<Texture2D>.Get("UI/Commands/PodEject", true);
 			yield return (Gizmo)eject;
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_01ca:
-			/*Error near IL_01cb: Unexpected return in MoveNext()*/;
+			IL_01c4:
+			/*Error near IL_01c5: Unexpected return in MoveNext()*/;
 		}
 
 		public override void EjectContents()
@@ -109,7 +104,7 @@ namespace RimWorld
 					pawn.filth.GainFilth(filthSlime);
 					if (pawn.RaceProps.IsFlesh)
 					{
-						pawn.health.AddHediff(HediffDefOf.CryptosleepSickness, null, default(DamageInfo?));
+						pawn.health.AddHediff(HediffDefOf.CryptosleepSickness, null, null);
 					}
 				}
 			}
@@ -127,7 +122,7 @@ namespace RimWorld
 			select def;
 			foreach (ThingDef item in enumerable)
 			{
-				Building_CryptosleepCasket building_CryptosleepCasket = (Building_CryptosleepCasket)GenClosest.ClosestThingReachable(p.Position, p.Map, ThingRequest.ForDef(item), PathEndMode.InteractionCell, TraverseParms.For(traveler, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, (Predicate<Thing>)delegate(Thing x)
+				Building_CryptosleepCasket building_CryptosleepCasket = (Building_CryptosleepCasket)GenClosest.ClosestThingReachable(p.Position, p.Map, ThingRequest.ForDef(item), PathEndMode.InteractionCell, TraverseParms.For(traveler, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, delegate(Thing x)
 				{
 					int result;
 					if (!((Building_CryptosleepCasket)x).HasAnyContents)

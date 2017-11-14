@@ -28,21 +28,15 @@ namespace Verse
 				{
 					switch (Prefs.AnimalNameMode)
 					{
-					case AnimalNameDisplayMode.TameAll:
-					{
-						if (this.pawn.Name == null)
-							return;
-						break;
-					}
-					case AnimalNameDisplayMode.TameNamed:
-					{
-						if (this.pawn.Name == null)
-							return;
-						if (this.pawn.Name.Numerical)
-							return;
-						break;
-					}
 					case AnimalNameDisplayMode.None:
+						return;
+					case AnimalNameDisplayMode.TameAll:
+						if (this.pawn.Name != null)
+							break;
+						return;
+					case AnimalNameDisplayMode.TameNamed:
+						if (this.pawn.Name != null && !this.pawn.Name.Numerical)
+							break;
 						return;
 					}
 				}

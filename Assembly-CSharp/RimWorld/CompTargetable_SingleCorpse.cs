@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -21,7 +20,7 @@ namespace RimWorld
 			targetingParameters.canTargetBuildings = false;
 			targetingParameters.canTargetItems = true;
 			targetingParameters.mapObjectTargetsMustBeAutoAttackable = false;
-			targetingParameters.validator = (Predicate<TargetInfo>)((TargetInfo x) => x.Thing is Corpse && base.BaseTargetValidator(x.Thing));
+			targetingParameters.validator = ((TargetInfo x) => x.Thing is Corpse && base.BaseTargetValidator(x.Thing));
 			return targetingParameters;
 		}
 

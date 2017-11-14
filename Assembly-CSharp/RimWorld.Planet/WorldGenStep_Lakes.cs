@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -22,7 +21,7 @@ namespace RimWorld.Planet
 			{
 				if (!touched[i] && grid[i].biome == BiomeDefOf.Ocean)
 				{
-					Find.WorldFloodFiller.FloodFill(i, (Predicate<int>)((int tid) => grid[tid].biome == BiomeDefOf.Ocean), (Action<int>)delegate(int tid)
+					Find.WorldFloodFiller.FloodFill(i, (int tid) => grid[tid].biome == BiomeDefOf.Ocean, delegate(int tid)
 					{
 						oceanChunk.Add(tid);
 						touched[tid] = true;

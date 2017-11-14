@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -30,9 +29,21 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			return c.InBounds(base.Map) ? ((!c.Fogged(base.Map)) ? ((from t in c.GetThingList(base.Map)
+			if (!c.InBounds(base.Map))
+			{
+				return false;
+			}
+			if (c.Fogged(base.Map))
+			{
+				return false;
+			}
+			if (!(from t in c.GetThingList(base.Map)
 			where this.CanDesignateThing(t).Accepted
-			select t).Any() ? true : "MessageMustDesignateClaimable".Translate()) : false) : false;
+			select t).Any())
+			{
+				return "MessageMustDesignateClaimable".Translate();
+			}
+			return true;
 		}
 
 		public override void DesignateSingleCell(IntVec3 c)

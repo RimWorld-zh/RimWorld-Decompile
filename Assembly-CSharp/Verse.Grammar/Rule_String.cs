@@ -8,7 +8,7 @@ namespace Verse.Grammar
 
 		private float weight = 1f;
 
-		private static Regex pattern = new Regex("\r\n\t\t# hold on to your butts, this is gonna get weird\r\n\r\n\t\t^\r\n\t\t(?<keyword>[a-zA-Z0-9_]+)\t\t\t\t\t# keyword; roughly limited to standard C# identifier rules\r\n\t\t(\t\t\t\t\t\t\t\t\t\t\t# parameter list is optional, open the capture group so we can keep it or ignore it\r\n\t\t\t\\(\t\t\t\t\t\t\t\t\t\t# this is the actual parameter list opening\r\n\t\t\t\t(\t\t\t\t\t\t\t\t\t# unlimited number of parameter groups\r\n\t\t\t\t\t(?<paramname>[a-zA-Z0-9_]+)=\t# parameter name is similar\r\n\t\t\t\t\t(?<paramvalue>[^\\,\\)]*)\t\t\t# parameter value, however, allows everything except comma and closeparen!\r\n\t\t\t\t\t,?\t\t\t\t\t\t\t\t# comma can be used to separate blocks; it is also silently ignored if it's a trailing comma\r\n\t\t\t\t)*\r\n\t\t\t\\)\r\n\t\t)?\r\n\t\t->(?<output>.*)\t\t\t\t\t\t\t\t# output is anything-goes\r\n\t\t$\r\n\r\n\t\t", RegexOptions.IgnorePatternWhitespace);
+		private static Regex pattern = new Regex("\r\n\t\t# hold on to your butts, this is gonna get weird\r\n\r\n\t\t^\r\n\t\t(?<keyword>[a-zA-Z0-9_]+)\t\t\t\t\t# keyword; roughly limited to standard C# identifier rules\r\n\t\t(\t\t\t\t\t\t\t\t\t\t\t# parameter list is optional, open the capture group so we can keep it or ignore it\r\n\t\t\t\\(\t\t\t\t\t\t\t\t\t\t# this is the actual parameter list opening\r\n\t\t\t\t(\t\t\t\t\t\t\t\t\t# unlimited number of parameter groups\r\n\t\t\t\t\t(?<paramname>[a-zA-Z0-9_]+)\t# parameter name is similar\r\n\t\t\t\t\t(?<paramoperator>==|=|!=)\t\t# operators\r\n\t\t\t\t\t(?<paramvalue>[^\\,\\)]*)\t\t\t# parameter value, however, allows everything except comma and closeparen!\r\n\t\t\t\t\t,?\t\t\t\t\t\t\t\t# comma can be used to separate blocks; it is also silently ignored if it's a trailing comma\r\n\t\t\t\t)*\r\n\t\t\t\\)\r\n\t\t)?\r\n\t\t->(?<output>.*)\t\t\t\t\t\t\t\t# output is anything-goes\r\n\t\t$\r\n\r\n\t\t", RegexOptions.ExplicitCapture | RegexOptions.IgnorePatternWhitespace);
 
 		public override float BaseSelectionWeight
 		{
@@ -38,14 +38,19 @@ namespace Verse.Grammar
 				for (int i = 0; i < match.Groups["paramname"].Captures.Count; i++)
 				{
 					string value = match.Groups["paramname"].Captures[i].Value;
-					string value2 = match.Groups["paramvalue"].Captures[i].Value;
+					string value2 = match.Groups["paramoperator"].Captures[i].Value;
+					string value3 = match.Groups["paramvalue"].Captures[i].Value;
 					if (value == "p")
 					{
-						this.weight = float.Parse(value2);
+						if (value2 != "=")
+						{
+							Log.Error(string.Format("Attempt to compare p instead of assigning in rule {0}", rawString));
+						}
+						this.weight = float.Parse(value3);
 					}
-					else if (value2.Length > 0 && value2[0] == '=')
+					else if (value2 == "==" || value2 == "!=")
 					{
-						base.AddConstantConstraint(value, value2.Substring(1));
+						base.AddConstantConstraint(value, value3, value2 == "==");
 					}
 					else
 					{

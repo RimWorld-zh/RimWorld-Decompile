@@ -8,49 +8,29 @@ namespace RimWorld
 		public static Plant GetFirstBlightableNowPlant(IntVec3 c, Map map)
 		{
 			List<Thing> thingList = c.GetThingList(map);
-			int num = 0;
-			Plant result;
-			while (true)
+			for (int i = 0; i < thingList.Count; i++)
 			{
-				if (num < thingList.Count)
+				Plant plant = thingList[i] as Plant;
+				if (plant != null && plant.BlightableNow)
 				{
-					Plant plant = thingList[num] as Plant;
-					if (plant != null && plant.BlightableNow)
-					{
-						result = plant;
-						break;
-					}
-					num++;
-					continue;
+					return plant;
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		public static Plant GetFirstBlightableEverPlant(IntVec3 c, Map map)
 		{
 			List<Thing> thingList = c.GetThingList(map);
-			int num = 0;
-			Plant result;
-			while (true)
+			for (int i = 0; i < thingList.Count; i++)
 			{
-				if (num < thingList.Count)
+				Plant plant = thingList[i] as Plant;
+				if (plant != null && plant.def.plant.Blightable)
 				{
-					Plant plant = thingList[num] as Plant;
-					if (plant != null && plant.def.plant.Blightable)
-					{
-						result = plant;
-						break;
-					}
-					num++;
-					continue;
+					return plant;
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 	}
 }

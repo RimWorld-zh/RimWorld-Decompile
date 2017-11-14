@@ -14,7 +14,11 @@ namespace Verse
 
 		public Color RandomizedColor()
 		{
-			return (!(this.only.a >= 0.0)) ? new Color(Rand.Range(this.min.r, this.max.r), Rand.Range(this.min.g, this.max.g), Rand.Range(this.min.b, this.max.b), Rand.Range(this.min.a, this.max.a)) : this.only;
+			if (this.only.a >= 0.0)
+			{
+				return this.only;
+			}
+			return new Color(Rand.Range(this.min.r, this.max.r), Rand.Range(this.min.g, this.max.g), Rand.Range(this.min.b, this.max.b), Rand.Range(this.min.a, this.max.a));
 		}
 
 		public void SetSingle(Color color)

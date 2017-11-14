@@ -13,7 +13,7 @@ namespace Verse
 
 		public ThingCategory category;
 
-		public TickerType tickerType = TickerType.Never;
+		public TickerType tickerType;
 
 		public int stackLimit = 1;
 
@@ -23,53 +23,53 @@ namespace Verse
 
 		public bool rotatable = true;
 
-		public bool smallVolume = false;
+		public bool smallVolume;
 
 		public bool useHitPoints = true;
 
-		public bool receivesSignals = false;
+		public bool receivesSignals;
 
 		public List<CompProperties> comps = new List<CompProperties>();
 
-		public List<ThingCountClass> killedLeavings = null;
+		public List<ThingCountClass> killedLeavings;
 
-		public List<ThingCountClass> butcherProducts = null;
+		public List<ThingCountClass> butcherProducts;
 
-		public List<ThingCountClass> smeltProducts = null;
+		public List<ThingCountClass> smeltProducts;
 
-		public bool smeltable = false;
+		public bool smeltable;
 
-		public bool randomizeRotationOnSpawn = false;
+		public bool randomizeRotationOnSpawn;
 
-		public List<DamageMultiplier> damageMultipliers = null;
+		public List<DamageMultiplier> damageMultipliers;
 
-		public bool isBodyPartOrImplant = false;
+		public bool isBodyPartOrImplant;
 
-		public RecipeMakerProperties recipeMaker = null;
+		public RecipeMakerProperties recipeMaker;
 
-		public ThingDef minifiedDef = null;
+		public ThingDef minifiedDef;
 
-		public bool isUnfinishedThing = false;
+		public bool isUnfinishedThing;
 
-		public bool leaveResourcesWhenKilled = false;
+		public bool leaveResourcesWhenKilled;
 
-		public ThingDef slagDef = null;
+		public ThingDef slagDef;
 
-		public bool isFrame = false;
+		public bool isFrame;
 
 		public IntVec3 interactionCellOffset = IntVec3.Zero;
 
-		public bool hasInteractionCell = false;
+		public bool hasInteractionCell;
 
-		public ThingDef filthLeaving = null;
+		public ThingDef filthLeaving;
 
-		public bool forceDebugSpawnable = false;
+		public bool forceDebugSpawnable;
 
-		public bool intricate = false;
+		public bool intricate;
 
 		public bool scatterableOnMapGen = true;
 
-		public float deepCommonality = 0f;
+		public float deepCommonality;
 
 		public int deepCountPerCell = 150;
 
@@ -82,64 +82,64 @@ namespace Verse
 		public FloatRange startingHpRange = FloatRange.One;
 
 		[NoTranslate]
-		public List<string> itemGeneratorTags = null;
+		public List<string> itemGeneratorTags;
 
 		public bool alwaysFlee;
 
 		public List<Tool> tools;
 
-		public GraphicData graphicData = null;
+		public GraphicData graphicData;
 
 		public DrawerType drawerType = DrawerType.RealtimeOnly;
 
-		public bool drawOffscreen = false;
+		public bool drawOffscreen;
 
-		public ColorGenerator colorGenerator = null;
+		public ColorGenerator colorGenerator;
 
 		public float hideAtSnowDepth = 99999f;
 
 		public bool drawDamagedOverlay = true;
 
-		public bool castEdgeShadows = false;
+		public bool castEdgeShadows;
 
-		public float staticSunShadowHeight = 0f;
+		public float staticSunShadowHeight;
 
-		public bool selectable = false;
+		public bool selectable;
 
-		public bool neverMultiSelect = false;
+		public bool neverMultiSelect;
 
-		public bool isAutoAttackableMapObject = false;
+		public bool isAutoAttackableMapObject;
 
-		public bool hasTooltip = false;
+		public bool hasTooltip;
 
-		public List<Type> inspectorTabs = null;
+		public List<Type> inspectorTabs;
 
 		[Unsaved]
-		public List<InspectTabBase> inspectorTabsResolved = null;
+		public List<InspectTabBase> inspectorTabsResolved;
 
-		public bool seeThroughFog = false;
+		public bool seeThroughFog;
 
-		public bool drawGUIOverlay = false;
+		public bool drawGUIOverlay;
 
-		public ResourceCountPriority resourceReadoutPriority = ResourceCountPriority.Uncounted;
+		public ResourceCountPriority resourceReadoutPriority;
 
-		public bool resourceReadoutAlwaysShow = false;
+		public bool resourceReadoutAlwaysShow;
 
-		public bool drawPlaceWorkersWhileSelected = false;
+		public bool drawPlaceWorkersWhileSelected;
 
-		public ConceptDef storedConceptLearnOpportunity = null;
+		public ConceptDef storedConceptLearnOpportunity;
 
 		public float iconDrawScale = -1f;
 
-		public bool alwaysHaulable = false;
+		public bool alwaysHaulable;
 
-		public bool designateHaulable = false;
+		public bool designateHaulable;
 
-		public List<ThingCategoryDef> thingCategories = null;
+		public List<ThingCategoryDef> thingCategories;
 
-		public bool mineable = false;
+		public bool mineable;
 
-		public bool socialPropernessMatters = false;
+		public bool socialPropernessMatters;
 
 		public bool stealable = true;
 
@@ -151,99 +151,99 @@ namespace Verse
 
 		public SoundDef soundImpactDefault;
 
-		public bool saveCompressible = false;
+		public bool saveCompressible;
 
 		public bool isSaveable = true;
 
-		public bool holdsRoof = false;
+		public bool holdsRoof;
 
-		public float fillPercent = 0f;
+		public float fillPercent;
 
-		public bool coversFloor = false;
+		public bool coversFloor;
 
-		public bool neverOverlapFloors = false;
+		public bool neverOverlapFloors;
 
-		public SurfaceType surfaceType = SurfaceType.None;
+		public SurfaceType surfaceType;
 
-		public bool blockPlants = false;
+		public bool blockPlants;
 
-		public bool blockLight = false;
+		public bool blockLight;
 
-		public bool blockWind = false;
+		public bool blockWind;
 
 		[Unsaved]
-		public bool affectsRegions = false;
+		public bool affectsRegions;
 
 		public Tradeability tradeability = Tradeability.Stockable;
 
 		[NoTranslate]
-		public List<string> tradeTags = null;
+		public List<string> tradeTags;
 
-		public bool tradeNeverStack = false;
+		public bool tradeNeverStack;
 
-		public ColorGenerator colorGeneratorInTraderStock = null;
+		public ColorGenerator colorGeneratorInTraderStock;
 
 		public Type blueprintClass = typeof(Blueprint_Build);
 
-		public GraphicData blueprintGraphicData = null;
+		public GraphicData blueprintGraphicData;
 
-		public TerrainDef naturalTerrain = null;
+		public TerrainDef naturalTerrain;
 
-		public TerrainDef leaveTerrain = null;
+		public TerrainDef leaveTerrain;
 
-		public List<RecipeDef> recipes = null;
+		public List<RecipeDef> recipes;
 
-		private List<VerbProperties> verbs = null;
+		private List<VerbProperties> verbs;
 
-		public float equippedAngleOffset = 0f;
+		public float equippedAngleOffset;
 
-		public EquipmentType equipmentType = EquipmentType.None;
+		public EquipmentType equipmentType;
 
-		public TechLevel techLevel = TechLevel.Undefined;
-
-		[NoTranslate]
-		public List<string> weaponTags = null;
+		public TechLevel techLevel;
 
 		[NoTranslate]
-		public List<string> techHediffsTags = null;
+		public List<string> weaponTags;
+
+		[NoTranslate]
+		public List<string> techHediffsTags;
 
 		public bool canBeSpawningInventory = true;
 
-		public bool destroyOnDrop = false;
+		public bool destroyOnDrop;
 
-		public List<StatModifier> equippedStatOffsets = null;
+		public List<StatModifier> equippedStatOffsets;
 
-		public BuildableDef entityDefToBuild = null;
+		public BuildableDef entityDefToBuild;
 
 		public ThingDef projectileWhenLoaded;
 
-		public IngestibleProperties ingestible = null;
+		public IngestibleProperties ingestible;
 
-		public FilthProperties filth = null;
+		public FilthProperties filth;
 
-		public GasProperties gas = null;
+		public GasProperties gas;
 
-		public BuildingProperties building = null;
+		public BuildingProperties building;
 
-		public RaceProperties race = null;
+		public RaceProperties race;
 
-		public ApparelProperties apparel = null;
+		public ApparelProperties apparel;
 
-		public MoteProperties mote = null;
+		public MoteProperties mote;
 
-		public PlantProperties plant = null;
+		public PlantProperties plant;
 
-		public ProjectileProperties projectile = null;
+		public ProjectileProperties projectile;
 
-		public StuffProperties stuffProps = null;
+		public StuffProperties stuffProps;
 
-		public SkyfallerProperties skyfaller = null;
+		public SkyfallerProperties skyfaller;
 
 		public const int SmallUnitPerVolume = 10;
 
 		public const float SmallVolumePerUnit = 0.1f;
 
-		private List<RecipeDef> allRecipesCached = null;
+		private List<RecipeDef> allRecipesCached;
 
 		private static List<VerbProperties> EmptyVerbPropertiesList = new List<VerbProperties>();
 
@@ -345,25 +345,15 @@ namespace Verse
 		{
 			get
 			{
-				int num = 0;
-				bool result;
-				while (true)
+				for (int i = 0; i < this.comps.Count; i++)
 				{
-					if (num < this.comps.Count)
+					CompProperties_Power compProperties_Power = this.comps[i] as CompProperties_Power;
+					if (compProperties_Power != null && compProperties_Power.transmitsPower)
 					{
-						CompProperties_Power compProperties_Power = this.comps[num] as CompProperties_Power;
-						if (compProperties_Power != null && compProperties_Power.transmitsPower)
-						{
-							result = true;
-							break;
-						}
-						num++;
-						continue;
+						return true;
 					}
-					result = false;
-					break;
 				}
-				return result;
+				return false;
 			}
 		}
 
@@ -414,31 +404,22 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
 				if (this.EverTransmitsPower)
 				{
-					result = false;
+					return false;
 				}
-				else
+				for (int i = 0; i < this.comps.Count; i++)
 				{
-					for (int i = 0; i < this.comps.Count; i++)
+					if (this.comps[i].compClass == typeof(CompPowerBattery))
 					{
-						if (this.comps[i].compClass == typeof(CompPowerBattery))
-							goto IL_003b;
-						if (this.comps[i].compClass == typeof(CompPowerTrader))
-							goto IL_0062;
+						return true;
 					}
-					result = false;
+					if (this.comps[i].compClass == typeof(CompPowerTrader))
+					{
+						return true;
+					}
 				}
-				goto IL_0086;
-				IL_0062:
-				result = true;
-				goto IL_0086;
-				IL_0086:
-				return result;
-				IL_003b:
-				result = true;
-				goto IL_0086;
+				return false;
 			}
 		}
 
@@ -454,7 +435,15 @@ namespace Verse
 		{
 			get
 			{
-				return (FillCategory)((!(this.fillPercent < 0.0099999997764825821)) ? ((!(this.fillPercent > 0.99000000953674316)) ? 1 : 2) : 0);
+				if (this.fillPercent < 0.0099999997764825821)
+				{
+					return FillCategory.None;
+				}
+				if (this.fillPercent > 0.99000000953674316)
+				{
+					return FillCategory.Full;
+				}
+				return FillCategory.Partial;
 			}
 		}
 
@@ -470,43 +459,35 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
 				if (this.building != null && this.building.SupportsPlants)
 				{
-					result = false;
+					return false;
 				}
-				else if (base.passability == Traversability.Impassable && this.category != ThingCategory.Plant)
+				if (base.passability == Traversability.Impassable && this.category != ThingCategory.Plant)
 				{
-					result = false;
+					return false;
 				}
-				else if ((int)this.surfaceType >= 1)
+				if ((int)this.surfaceType >= 1)
 				{
-					result = false;
+					return false;
 				}
-				else if (typeof(ISlotGroupParent).IsAssignableFrom(this.thingClass))
+				if (typeof(ISlotGroupParent).IsAssignableFrom(this.thingClass))
 				{
-					result = false;
+					return false;
 				}
-				else if (!this.canOverlapZones)
+				if (!this.canOverlapZones)
 				{
-					result = false;
+					return false;
 				}
-				else
+				if (this.IsBlueprint || this.IsFrame)
 				{
-					if (this.IsBlueprint || this.IsFrame)
+					ThingDef thingDef = this.entityDefToBuild as ThingDef;
+					if (thingDef != null)
 					{
-						ThingDef thingDef = this.entityDefToBuild as ThingDef;
-						if (thingDef != null)
-						{
-							result = thingDef.CanOverlapZones;
-							goto IL_00c5;
-						}
+						return thingDef.CanOverlapZones;
 					}
-					result = true;
 				}
-				goto IL_00c5;
-				IL_00c5:
-				return result;
+				return true;
 			}
 		}
 
@@ -522,7 +503,27 @@ namespace Verse
 		{
 			get
 			{
-				return (byte)((this.building == null || !this.building.SupportsPlants) ? (this.blockPlants ? 1 : ((this.category == ThingCategory.Plant) ? 1 : (((int)this.Fillage > 0) ? 1 : (this.IsEdifice() ? 1 : 0)))) : 0) != 0;
+				if (this.building != null && this.building.SupportsPlants)
+				{
+					return false;
+				}
+				if (this.blockPlants)
+				{
+					return true;
+				}
+				if (this.category == ThingCategory.Plant)
+				{
+					return true;
+				}
+				if ((int)this.Fillage > 0)
+				{
+					return true;
+				}
+				if (this.IsEdifice())
+				{
+					return true;
+				}
+				return false;
 			}
 		}
 
@@ -530,7 +531,11 @@ namespace Verse
 		{
 			get
 			{
-				return (this.verbs == null) ? ThingDef.EmptyVerbPropertiesList : this.verbs;
+				if (this.verbs != null)
+				{
+					return this.verbs;
+				}
+				return ThingDef.EmptyVerbPropertiesList;
 			}
 		}
 
@@ -538,33 +543,19 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
 				if (!this.IsBlueprint && !this.IsFrame)
 				{
 					switch (this.category)
 					{
 					case ThingCategory.Pawn:
-					{
-						result = true;
-						break;
-					}
+						return true;
 					case ThingCategory.Building:
-					{
-						result = true;
-						break;
-					}
+						return true;
 					default:
-					{
-						result = false;
-						break;
-					}
+						return false;
 					}
 				}
-				else
-				{
-					result = true;
-				}
-				return result;
+				return true;
 			}
 		}
 
@@ -580,7 +571,11 @@ namespace Verse
 		{
 			get
 			{
-				return (!this.thingCategories.NullOrEmpty()) ? this.thingCategories[0] : null;
+				if (this.thingCategories.NullOrEmpty())
+				{
+					return null;
+				}
+				return this.thingCategories[0];
 			}
 		}
 
@@ -596,7 +591,11 @@ namespace Verse
 		{
 			get
 			{
-				return this.useHitPoints && (this.category == ThingCategory.Item || this == ThingDefOf.BurnedTree);
+				if (!this.useHitPoints)
+				{
+					return false;
+				}
+				return this.category == ThingCategory.Item || this == ThingDefOf.BurnedTree;
 			}
 		}
 
@@ -612,7 +611,19 @@ namespace Verse
 		{
 			get
 			{
-				return (byte)(this.AffectsRegions ? 1 : ((base.passability == Traversability.Impassable || this.IsDoor) ? 1 : (TouchPathEndModeUtility.MakesOccupiedCellsAlwaysReachableDiagonally(this) ? 1 : 0))) != 0;
+				if (this.AffectsRegions)
+				{
+					return true;
+				}
+				if (base.passability != Traversability.Impassable && !this.IsDoor)
+				{
+					if (TouchPathEndModeUtility.MakesOccupiedCellsAlwaysReachableDiagonally(this))
+					{
+						return true;
+					}
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -821,29 +832,21 @@ namespace Verse
 		{
 			get
 			{
-				bool result;
 				if (!this.IsWeapon)
 				{
-					result = false;
+					return false;
 				}
-				else
+				if (!this.verbs.NullOrEmpty())
 				{
-					if (!this.verbs.NullOrEmpty())
+					for (int i = 0; i < this.verbs.Count; i++)
 					{
-						for (int i = 0; i < this.verbs.Count; i++)
+						if (!this.verbs[i].MeleeRange)
 						{
-							if (!this.verbs[i].MeleeRange)
-								goto IL_0042;
+							return true;
 						}
 					}
-					result = false;
 				}
-				goto IL_0067;
-				IL_0067:
-				return result;
-				IL_0042:
-				result = true;
-				goto IL_0067;
+				return false;
 			}
 		}
 
@@ -867,7 +870,11 @@ namespace Verse
 		{
 			get
 			{
-				return this.stuffProps.stuffAdjective.NullOrEmpty() ? base.label : this.stuffProps.stuffAdjective;
+				if (!this.stuffProps.stuffAdjective.NullOrEmpty())
+				{
+					return this.stuffProps.stuffAdjective;
+				}
+				return base.label;
 			}
 		}
 
@@ -924,64 +931,44 @@ namespace Verse
 
 		public CompProperties CompDefFor<T>() where T : ThingComp
 		{
-			return ((IEnumerable<CompProperties>)this.comps).FirstOrDefault<CompProperties>((Func<CompProperties, bool>)((CompProperties c) => c.compClass == typeof(T)));
+			return this.comps.FirstOrDefault((CompProperties c) => c.compClass == typeof(T));
 		}
 
 		public CompProperties CompDefForAssignableFrom<T>() where T : ThingComp
 		{
-			return ((IEnumerable<CompProperties>)this.comps).FirstOrDefault<CompProperties>((Func<CompProperties, bool>)((CompProperties c) => typeof(T).IsAssignableFrom(c.compClass)));
+			return this.comps.FirstOrDefault((CompProperties c) => typeof(T).IsAssignableFrom(c.compClass));
 		}
 
 		public bool HasComp(Type compType)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.comps.Count; i++)
 			{
-				if (num < this.comps.Count)
+				if (this.comps[i].compClass == compType)
 				{
-					if (this.comps[num].compClass == compType)
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public T GetCompProperties<T>() where T : CompProperties
 		{
-			int num = 0;
-			T result;
-			while (true)
+			for (int i = 0; i < this.comps.Count; i++)
 			{
-				if (num < this.comps.Count)
+				T val = (T)(this.comps[i] as T);
+				if (val != null)
 				{
-					T val = (T)(this.comps[num] as T);
-					if (val != null)
-					{
-						result = val;
-						break;
-					}
-					num++;
-					continue;
+					return val;
 				}
-				result = (T)null;
-				break;
 			}
-			return result;
+			return (T)null;
 		}
 
 		public override void PostLoad()
 		{
 			if (this.graphicData != null)
 			{
-				LongEventHandler.ExecuteWhenFinished((Action)delegate
+				LongEventHandler.ExecuteWhenFinished(delegate
 				{
 					if (this.graphicData.shaderType == ShaderType.None)
 					{
@@ -1066,7 +1053,7 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -1110,7 +1097,7 @@ namespace Verse
 				{
 					while (enumerator4.MoveNext())
 					{
-						_003CConfigErrors_003Ec__Iterator0 _003CConfigErrors_003Ec__Iterator = (_003CConfigErrors_003Ec__Iterator0)/*Error near IL_0327: stateMachine*/;
+						_003CConfigErrors_003Ec__Iterator0 _003CConfigErrors_003Ec__Iterator = (_003CConfigErrors_003Ec__Iterator0)/*Error near IL_0317: stateMachine*/;
 						StatModifier statBase = enumerator4.Current;
 						if ((from st in base.statBases
 						where st.stat == statBase.stat
@@ -1155,10 +1142,10 @@ namespace Verse
 			}
 			if (this.thingCategories != null)
 			{
-				ThingCategoryDef doubleCat = this.thingCategories.FirstOrDefault((Func<ThingCategoryDef, bool>)delegate(ThingCategoryDef cat)
+				ThingCategoryDef doubleCat = this.thingCategories.FirstOrDefault(delegate(ThingCategoryDef cat)
 				{
-					ThingDef _0024this2 = ((_003CConfigErrors_003Ec__Iterator0)/*Error near IL_0651: stateMachine*/)._0024this;
-					return ((_003CConfigErrors_003Ec__Iterator0)/*Error near IL_0651: stateMachine*/)._0024this.thingCategories.Count((Func<ThingCategoryDef, bool>)((ThingCategoryDef c) => c == cat)) > 1;
+					ThingDef _0024this2 = ((_003CConfigErrors_003Ec__Iterator0)/*Error near IL_0638: stateMachine*/)._0024this;
+					return ((_003CConfigErrors_003Ec__Iterator0)/*Error near IL_0638: stateMachine*/)._0024this.thingCategories.Count((ThingCategoryDef c) => c == cat) > 1;
 				});
 				if (doubleCat != null)
 				{
@@ -1171,7 +1158,7 @@ namespace Verse
 				yield return base.defName + " gives full cover but is not a building.";
 				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			if (this.comps.Any((Predicate<CompProperties>)((CompProperties c) => c.compClass == typeof(CompPowerTrader))) && this.drawerType == DrawerType.MapMeshOnly)
+			if (this.comps.Any((CompProperties c) => c.compClass == typeof(CompPowerTrader)) && this.drawerType == DrawerType.MapMeshOnly)
 			{
 				yield return base.defName + " has PowerTrader comp but does not draw real time. It won't draw a needs-power overlay.";
 				/*Error: Unable to find new state assignment for yield return*/;
@@ -1183,7 +1170,7 @@ namespace Verse
 					yield return base.defName + " has no tech level.";
 					/*Error: Unable to find new state assignment for yield return*/;
 				}
-				if (!this.comps.Any((Predicate<CompProperties>)((CompProperties c) => c.compClass == typeof(CompEquippable))))
+				if (!this.comps.Any((CompProperties c) => c.compClass == typeof(CompEquippable)))
 				{
 					yield return "is equipment but has no CompEquippable";
 					/*Error: Unable to find new state assignment for yield return*/;
@@ -1210,7 +1197,7 @@ namespace Verse
 				{
 					while (enumerator6.MoveNext())
 					{
-						_003CConfigErrors_003Ec__Iterator0 _003CConfigErrors_003Ec__Iterator2 = (_003CConfigErrors_003Ec__Iterator0)/*Error near IL_0977: stateMachine*/;
+						_003CConfigErrors_003Ec__Iterator0 _003CConfigErrors_003Ec__Iterator2 = (_003CConfigErrors_003Ec__Iterator0)/*Error near IL_0959: stateMachine*/;
 						DamageMultiplier mult = enumerator6.Current;
 						if ((from m in this.damageMultipliers
 						where m.damageDef == mult.damageDef
@@ -1247,7 +1234,7 @@ namespace Verse
 				yield return "has >0 DeteriorationRate but can't deteriorate.";
 				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			if (this.drawerType == DrawerType.MapMeshOnly && this.comps.Any((Predicate<CompProperties>)((CompProperties c) => c.compClass == typeof(CompForbiddable))))
+			if (this.drawerType == DrawerType.MapMeshOnly && this.comps.Any((CompProperties c) => c.compClass == typeof(CompForbiddable)))
 			{
 				yield return "drawerType=MapMeshOnly but has a CompForbiddable, which must draw in real time.";
 				/*Error: Unable to find new state assignment for yield return*/;
@@ -1277,26 +1264,26 @@ namespace Verse
 			}
 			if (this.race != null && this.verbs != null)
 			{
-				_003CConfigErrors_003Ec__Iterator0 _003CConfigErrors_003Ec__Iterator3 = (_003CConfigErrors_003Ec__Iterator0)/*Error near IL_0d69: stateMachine*/;
-				int j;
-				for (j = 0; j < this.verbs.Count; j++)
+				_003CConfigErrors_003Ec__Iterator0 _003CConfigErrors_003Ec__Iterator3 = (_003CConfigErrors_003Ec__Iterator0)/*Error near IL_0d42: stateMachine*/;
+				int i;
+				for (i = 0; i < this.verbs.Count; i++)
 				{
-					if (this.verbs[j].linkedBodyPartsGroup != null && !this.race.body.AllParts.Any((Predicate<BodyPartRecord>)((BodyPartRecord part) => part.groups.Contains(_003CConfigErrors_003Ec__Iterator3._0024this.verbs[j].linkedBodyPartsGroup))))
+					if (this.verbs[i].linkedBodyPartsGroup != null && !this.race.body.AllParts.Any((BodyPartRecord part) => part.groups.Contains(_003CConfigErrors_003Ec__Iterator3._0024this.verbs[i].linkedBodyPartsGroup)))
 					{
-						yield return "has verb with linkedBodyPartsGroup " + this.verbs[j].linkedBodyPartsGroup + " but body " + this.race.body + " has no parts with that group.";
+						yield return "has verb with linkedBodyPartsGroup " + this.verbs[i].linkedBodyPartsGroup + " but body " + this.race.body + " has no parts with that group.";
 						/*Error: Unable to find new state assignment for yield return*/;
 					}
 				}
 			}
 			if (this.race != null && this.tools != null)
 			{
-				_003CConfigErrors_003Ec__Iterator0 _003CConfigErrors_003Ec__Iterator4 = (_003CConfigErrors_003Ec__Iterator0)/*Error near IL_0eb8: stateMachine*/;
-				int i;
-				for (i = 0; i < this.tools.Count; i++)
+				_003CConfigErrors_003Ec__Iterator0 _003CConfigErrors_003Ec__Iterator4 = (_003CConfigErrors_003Ec__Iterator0)/*Error near IL_0e8b: stateMachine*/;
+				int j;
+				for (j = 0; j < this.tools.Count; j++)
 				{
-					if (this.tools[i].linkedBodyPartsGroup != null && !this.race.body.AllParts.Any((Predicate<BodyPartRecord>)((BodyPartRecord part) => part.groups.Contains(_003CConfigErrors_003Ec__Iterator4._0024this.tools[i].linkedBodyPartsGroup))))
+					if (this.tools[j].linkedBodyPartsGroup != null && !this.race.body.AllParts.Any((BodyPartRecord part) => part.groups.Contains(_003CConfigErrors_003Ec__Iterator4._0024this.tools[j].linkedBodyPartsGroup)))
 					{
-						yield return "has tool with linkedBodyPartsGroup " + this.tools[i].linkedBodyPartsGroup + " but body " + this.race.body + " has no parts with that group.";
+						yield return "has tool with linkedBodyPartsGroup " + this.tools[j].linkedBodyPartsGroup + " but body " + this.race.body + " has no parts with that group.";
 						/*Error: Unable to find new state assignment for yield return*/;
 					}
 				}
@@ -1389,10 +1376,10 @@ namespace Verse
 			}
 			if (this.tools == null)
 				yield break;
-			Tool dupeTool = this.tools.SelectMany((Func<Tool, IEnumerable<Tool>>)delegate(Tool lhs)
+			Tool dupeTool = this.tools.SelectMany(delegate(Tool lhs)
 			{
-				ThingDef _0024this = ((_003CConfigErrors_003Ec__Iterator0)/*Error near IL_156c: stateMachine*/)._0024this;
-				return from rhs in ((_003CConfigErrors_003Ec__Iterator0)/*Error near IL_156c: stateMachine*/)._0024this.tools
+				ThingDef _0024this = ((_003CConfigErrors_003Ec__Iterator0)/*Error near IL_1514: stateMachine*/)._0024this;
+				return from rhs in ((_003CConfigErrors_003Ec__Iterator0)/*Error near IL_1514: stateMachine*/)._0024this.tools
 				where lhs != rhs && lhs.Id == rhs.Id
 				select rhs;
 			}).FirstOrDefault();
@@ -1400,8 +1387,8 @@ namespace Verse
 				yield break;
 			yield return string.Format("duplicate thingdef tool id {0}", dupeTool.Id);
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_15cc:
-			/*Error near IL_15cd: Unexpected return in MoveNext()*/;
+			IL_1573:
+			/*Error near IL_1574: Unexpected return in MoveNext()*/;
 		}
 
 		public static ThingDef Named(string defName)
@@ -1411,31 +1398,21 @@ namespace Verse
 
 		public bool IsWithinCategory(ThingCategoryDef category)
 		{
-			bool result;
 			if (this.thingCategories == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			int num = 0;
+			while (num < this.thingCategories.Count)
 			{
-				int num = 0;
-				while (num < this.thingCategories.Count)
+				if (this.thingCategories[num] != category && !this.thingCategories[num].Parents.Contains(category))
 				{
-					if (this.thingCategories[num] != category && !this.thingCategories[num].Parents.Contains(category))
-					{
-						num++;
-						continue;
-					}
-					goto IL_004a;
+					num++;
+					continue;
 				}
-				result = false;
+				return true;
 			}
-			goto IL_006e;
-			IL_004a:
-			result = true;
-			goto IL_006e;
-			IL_006e:
-			return result;
+			return false;
 		}
 
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
@@ -1443,17 +1420,17 @@ namespace Verse
 			if (this.apparel != null)
 			{
 				string coveredParts = this.apparel.GetCoveredOuterPartsString(BodyDefOf.Human);
-				yield return new StatDrawEntry(StatCategoryDefOf.Apparel, "Covers".Translate(), coveredParts, 100, "");
+				yield return new StatDrawEntry(StatCategoryDefOf.Apparel, "Covers".Translate(), coveredParts, 100, string.Empty);
 				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.IsMedicine && this.MedicineTendXpGainFactor != 1.0)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "MedicineXpGainFactor".Translate(), this.MedicineTendXpGainFactor.ToStringPercent(), 0, "");
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "MedicineXpGainFactor".Translate(), this.MedicineTendXpGainFactor.ToStringPercent(), 0, string.Empty);
 				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.fillPercent > 0.0 && this.fillPercent < 1.0 && (this.category == ThingCategory.Item || this.category == ThingCategory.Building || this.category == ThingCategory.Plant))
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "CoverEffectiveness".Translate(), this.BaseBlockChance().ToStringPercent(), 0, "")
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "CoverEffectiveness".Translate(), this.BaseBlockChance().ToStringPercent(), 0, string.Empty)
 				{
 					overrideReportText = "CoverEffectivenessExplanation".Translate()
 				};
@@ -1473,45 +1450,42 @@ namespace Verse
 				VerbProperties verb2 = (from x in this.verbs
 				where x.isPrimary
 				select x).First();
-				object obj;
-				StatCategoryDef verbStatCategory3;
+				object statCategoryDef;
 				if (this.category == ThingCategory.Pawn)
 				{
-					StatCategoryDef basics;
-					verbStatCategory3 = (basics = StatCategoryDefOf.PawnCombat);
-					obj = basics;
+					StatCategoryDef basics = StatCategoryDefOf.PawnCombat;
+					statCategoryDef = basics;
 				}
 				else
 				{
-					StatCategoryDef basics;
-					verbStatCategory3 = (basics = StatCategoryDefOf.Weapon);
-					obj = basics;
+					StatCategoryDef basics = StatCategoryDefOf.Weapon;
+					statCategoryDef = basics;
 				}
-				verbStatCategory3 = (StatCategoryDef)obj;
+				StatCategoryDef verbStatCategory = (StatCategoryDef)statCategoryDef;
 				float warmup = verb2.warmupTime;
 				if (warmup > 0.0)
 				{
 					string warmupLabel = (this.category != ThingCategory.Pawn) ? "WarmupTime".Translate() : "MeleeWarmupTime".Translate();
-					yield return new StatDrawEntry(verbStatCategory3, warmupLabel, warmup.ToString("0.##") + " s", 40, "");
+					yield return new StatDrawEntry(verbStatCategory, warmupLabel, warmup.ToString("0.##") + " s", 40, string.Empty);
 					/*Error: Unable to find new state assignment for yield return*/;
 				}
 				if (verb2.defaultProjectile != null)
 				{
 					float dam = (float)verb2.defaultProjectile.projectile.damageAmountBase;
-					yield return new StatDrawEntry(verbStatCategory3, "Damage".Translate(), dam.ToString(), 50, "");
+					yield return new StatDrawEntry(verbStatCategory, "Damage".Translate(), dam.ToString(), 50, string.Empty);
 					/*Error: Unable to find new state assignment for yield return*/;
 				}
 				if (verb2.LaunchesProjectile)
 				{
 					int burstShotCount = verb2.burstShotCount;
-					float burstShotFireRate = (float)(60.0 / verb2.ticksBetweenBurstShots.TicksToSeconds());
+					double num = 60.0 / verb2.ticksBetweenBurstShots.TicksToSeconds();
 					float range = verb2.range;
 					if (burstShotCount > 1)
 					{
-						yield return new StatDrawEntry(verbStatCategory3, "BurstShotCount".Translate(), burstShotCount.ToString(), 20, "");
+						yield return new StatDrawEntry(verbStatCategory, "BurstShotCount".Translate(), burstShotCount.ToString(), 20, string.Empty);
 						/*Error: Unable to find new state assignment for yield return*/;
 					}
-					yield return new StatDrawEntry(verbStatCategory3, "Range".Translate(), range.ToString("0.##"), 10, "");
+					yield return new StatDrawEntry(verbStatCategory, "Range".Translate(), range.ToString("0.##"), 10, string.Empty);
 					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
@@ -1554,7 +1528,7 @@ namespace Verse
 			if (this.isBodyPartOrImplant)
 			{
 				foreach (RecipeDef item in from x in DefDatabase<RecipeDef>.AllDefs
-				where x.IsIngredient(((_003CSpecialDisplayStats_003Ec__Iterator1)/*Error near IL_0763: stateMachine*/)._0024this)
+				where x.IsIngredient(((_003CSpecialDisplayStats_003Ec__Iterator1)/*Error near IL_0743: stateMachine*/)._0024this)
 				select x)
 				{
 					HediffDef diff = item.addsHediff;
@@ -1562,7 +1536,7 @@ namespace Verse
 					{
 						if (diff.addedPartProps != null)
 						{
-							yield return new StatDrawEntry(StatCategoryDefOf.Basics, "BodyPartEfficiency".Translate(), diff.addedPartProps.partEfficiency.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Absolute), 0, "");
+							yield return new StatDrawEntry(StatCategoryDefOf.Basics, "BodyPartEfficiency".Translate(), diff.addedPartProps.partEfficiency.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Absolute), 0, string.Empty);
 							/*Error: Unable to find new state assignment for yield return*/;
 						}
 						using (IEnumerator<StatDrawEntry> enumerator5 = diff.SpecialDisplayStats().GetEnumerator())
@@ -1585,30 +1559,30 @@ namespace Verse
 									if (verb.defaultProjectile != null)
 									{
 										int projDamage = verb.defaultProjectile.projectile.damageAmountBase;
-										yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Damage".Translate(), projDamage.ToString(), 0, "");
+										yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Damage".Translate(), projDamage.ToString(), 0, string.Empty);
 										/*Error: Unable to find new state assignment for yield return*/;
 									}
-									goto IL_0aa2;
+									goto IL_0a71;
 								}
 								int meleeDamage = verb.meleeDamageBaseAmount;
-								yield return new StatDrawEntry(StatCategoryDefOf.Weapon, "Damage".Translate(), meleeDamage.ToString(), 0, "");
+								yield return new StatDrawEntry(StatCategoryDefOf.Weapon, "Damage".Translate(), meleeDamage.ToString(), 0, string.Empty);
 								/*Error: Unable to find new state assignment for yield return*/;
 							}
 							if (!vg.tools.NullOrEmpty())
 							{
 								Tool tool = vg.tools[0];
-								yield return new StatDrawEntry(StatCategoryDefOf.Weapon, "Damage".Translate(), tool.power.ToString(), 0, "");
+								yield return new StatDrawEntry(StatCategoryDefOf.Weapon, "Damage".Translate(), tool.power.ToString(), 0, string.Empty);
 								/*Error: Unable to find new state assignment for yield return*/;
 							}
 						}
-						goto IL_0aa2;
+						goto IL_0a71;
 					}
 					continue;
-					IL_0aa2:
-					ThoughtDef thought = DefDatabase<ThoughtDef>.AllDefs.FirstOrDefault((Func<ThoughtDef, bool>)((ThoughtDef x) => x.hediff == diff));
+					IL_0a71:
+					ThoughtDef thought = DefDatabase<ThoughtDef>.AllDefs.FirstOrDefault((ThoughtDef x) => x.hediff == diff);
 					if (thought != null && thought.stages != null && thought.stages.Any())
 					{
-						yield return new StatDrawEntry(StatCategoryDefOf.Basics, "MoodChange".Translate(), thought.stages.First().baseMoodEffect.ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Offset), 0, "");
+						yield return new StatDrawEntry(StatCategoryDefOf.Basics, "MoodChange".Translate(), thought.stages.First().baseMoodEffect.ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Offset), 0, string.Empty);
 						/*Error: Unable to find new state assignment for yield return*/;
 					}
 				}
@@ -1626,8 +1600,8 @@ namespace Verse
 				}
 			}
 			yield break;
-			IL_0c5b:
-			/*Error near IL_0c5c: Unexpected return in MoveNext()*/;
+			IL_0c22:
+			/*Error near IL_0c23: Unexpected return in MoveNext()*/;
 		}
 	}
 }

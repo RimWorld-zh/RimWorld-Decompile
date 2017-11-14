@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 
 namespace Verse.AI
@@ -10,7 +9,15 @@ namespace Verse.AI
 
 		public override string GetReport()
 		{
-			return (base.job.def != JobDefOf.WaitCombat) ? base.GetReport() : ((!base.pawn.RaceProps.Humanlike || !base.pawn.story.WorkTagIsDisabled(WorkTags.Violent)) ? base.GetReport() : "ReportStanding".Translate());
+			if (base.job.def == JobDefOf.WaitCombat)
+			{
+				if (base.pawn.RaceProps.Humanlike && base.pawn.story.WorkTagIsDisabled(WorkTags.Violent))
+				{
+					return "ReportStanding".Translate();
+				}
+				return base.GetReport();
+			}
+			return base.GetReport();
 		}
 
 		public override bool TryMakePreToilReservations()
@@ -22,22 +29,22 @@ namespace Verse.AI
 		{
 			Toil wait = new Toil
 			{
-				initAction = (Action)delegate
+				initAction = delegate
 				{
-					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0033: stateMachine*/)._0024this.Map.pawnDestinationReservationManager.Reserve(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0033: stateMachine*/)._0024this.pawn, ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0033: stateMachine*/)._0024this.job, ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0033: stateMachine*/)._0024this.pawn.Position);
-					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0033: stateMachine*/)._0024this.pawn.pather.StopDead();
-					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0033: stateMachine*/)._0024this.CheckForAutoAttack();
+					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0032: stateMachine*/)._0024this.Map.pawnDestinationReservationManager.Reserve(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0032: stateMachine*/)._0024this.pawn, ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0032: stateMachine*/)._0024this.job, ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0032: stateMachine*/)._0024this.pawn.Position);
+					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0032: stateMachine*/)._0024this.pawn.pather.StopDead();
+					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0032: stateMachine*/)._0024this.CheckForAutoAttack();
 				},
-				tickAction = (Action)delegate
+				tickAction = delegate
 				{
-					if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/)._0024this.job.expiryInterval == -1 && ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/)._0024this.job.def == JobDefOf.WaitCombat && !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/)._0024this.pawn.Drafted)
+					if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0049: stateMachine*/)._0024this.job.expiryInterval == -1 && ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0049: stateMachine*/)._0024this.job.def == JobDefOf.WaitCombat && !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0049: stateMachine*/)._0024this.pawn.Drafted)
 					{
-						Log.Error(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/)._0024this.pawn + " in eternal WaitCombat without being drafted.");
-						((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/)._0024this.ReadyForNextToil();
+						Log.Error(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0049: stateMachine*/)._0024this.pawn + " in eternal WaitCombat without being drafted.");
+						((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0049: stateMachine*/)._0024this.ReadyForNextToil();
 					}
-					else if ((Find.TickManager.TicksGame + ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/)._0024this.pawn.thingIDNumber) % 4 == 0)
+					else if ((Find.TickManager.TicksGame + ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0049: stateMachine*/)._0024this.pawn.thingIDNumber) % 4 == 0)
 					{
-						((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/)._0024this.CheckForAutoAttack();
+						((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0049: stateMachine*/)._0024this.CheckForAutoAttack();
 					}
 				}
 			};
@@ -111,7 +118,7 @@ namespace Verse.AI
 						TargetScanFlags targetScanFlags = TargetScanFlags.NeedLOSToPawns | TargetScanFlags.NeedLOSToNonPawns | TargetScanFlags.NeedThreat;
 						if (verb.IsIncendiary())
 						{
-							targetScanFlags = (TargetScanFlags)(byte)((int)targetScanFlags | 16);
+							targetScanFlags |= TargetScanFlags.NeedNonBurning;
 						}
 						Thing thing = (Thing)AttackTargetFinder.BestShootTargetFromCurrentPosition(base.pawn, null, verb.verbProps.range, verb.verbProps.minRange, targetScanFlags);
 						if (thing != null)

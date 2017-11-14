@@ -4,9 +4,9 @@ namespace Verse
 {
 	public sealed class ThingCountClass
 	{
-		public ThingDef thingDef = null;
+		public ThingDef thingDef;
 
-		public int count = 0;
+		public int count;
 
 		public string Summary
 		{
@@ -47,6 +47,11 @@ namespace Verse
 		public override int GetHashCode()
 		{
 			return this.thingDef.shortHash + this.count << 16;
+		}
+
+		public static implicit operator ThingCountClass(ThingCount t)
+		{
+			return new ThingCountClass(t.ThingDef, t.Count);
 		}
 	}
 }

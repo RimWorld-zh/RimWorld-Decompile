@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Verse;
 using Verse.AI.Group;
@@ -18,19 +17,19 @@ namespace RimWorld.BaseGen
 			{
 				Map map = BaseGen.globalSettings.map;
 				IntVec3 point = default(IntVec3);
-				LordJob lordJob = (LordJob)((!Rand.Bool || !(from x in rp.rect.Cells
+				LordJob lordJob = (!Rand.Bool || !(from x in rp.rect.Cells
 				where !x.Impassable(map)
-				select x).TryRandomElement<IntVec3>(out point)) ? ((object)new LordJob_AssaultColony(Faction.OfMechanoids, false, false, false, false, false)) : ((object)new LordJob_DefendPoint(point)));
+				select x).TryRandomElement<IntVec3>(out point)) ? ((LordJob)new LordJob_AssaultColony(Faction.OfMechanoids, false, false, false, false, false)) : ((LordJob)new LordJob_DefendPoint(point));
 				lord = LordMaker.MakeNewLord(Faction.OfMechanoids, lordJob, map, null);
 			}
-			for (int num2 = 0; num2 < num; num2++)
+			for (int i = 0; i < num; i++)
 			{
 				PawnKindDef pawnKindDef = rp.singlePawnKindDef;
 				if (pawnKindDef == null)
 				{
 					pawnKindDef = (from kind in DefDatabase<PawnKindDef>.AllDefsListForReading
 					where kind.RaceProps.IsMechanoid
-					select kind).RandomElementByWeight((Func<PawnKindDef, float>)((PawnKindDef kind) => (float)(1.0 / kind.combatPower)));
+					select kind).RandomElementByWeight((PawnKindDef kind) => (float)(1.0 / kind.combatPower));
 				}
 				ResolveParams resolveParams = rp;
 				resolveParams.singlePawnKindDef = pawnKindDef;

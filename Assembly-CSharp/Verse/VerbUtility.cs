@@ -13,17 +13,16 @@ namespace Verse
 
 		public static DamageDef GetDamageDef(this Verb verb)
 		{
-			DamageDef result;
 			if (verb.verbProps.LaunchesProjectile)
 			{
 				ThingDef projectile = verb.GetProjectile();
-				result = ((projectile == null) ? null : projectile.projectile.damageDef);
+				if (projectile != null)
+				{
+					return projectile.projectile.damageDef;
+				}
+				return null;
 			}
-			else
-			{
-				result = verb.verbProps.meleeDamageDef;
-			}
-			return result;
+			return verb.verbProps.meleeDamageDef;
 		}
 
 		public static bool IsIncendiary(this Verb verb)

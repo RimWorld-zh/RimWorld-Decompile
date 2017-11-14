@@ -4,7 +4,15 @@ namespace RimWorld.BaseGen
 	{
 		public override bool CanResolve(ResolveParams rp)
 		{
-			return (byte)(base.CanResolve(rp) ? ((BaseGen.globalSettings.basePart_buildingsResolved >= BaseGen.globalSettings.minBuildings) ? 1 : 0) : 0) != 0;
+			if (!base.CanResolve(rp))
+			{
+				return false;
+			}
+			if (BaseGen.globalSettings.basePart_buildingsResolved < BaseGen.globalSettings.minBuildings)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override void Resolve(ResolveParams rp)

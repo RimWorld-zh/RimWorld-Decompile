@@ -23,7 +23,11 @@ namespace RimWorld
 				{
 					thing = minifiedThing.InnerThing;
 				}
-				return (thing != null) ? thing.TryGetComp<CompArt>() : null;
+				if (thing == null)
+				{
+					return null;
+				}
+				return thing.TryGetComp<CompArt>();
 			}
 		}
 
@@ -47,17 +51,17 @@ namespace RimWorld
 			Vector2 winSize = ITab_Art.WinSize;
 			float x = winSize.x;
 			Vector2 winSize2 = ITab_Art.WinSize;
-			Rect rect;
-			Rect rect2 = rect = new Rect(0f, 0f, x, winSize2.y).ContractedBy(10f);
+			Rect rect = new Rect(0f, 0f, x, winSize2.y).ContractedBy(10f);
+			Rect rect2 = rect;
 			Text.Font = GameFont.Medium;
-			Widgets.Label(rect, this.SelectedCompArt.Title);
+			Widgets.Label(rect2, this.SelectedCompArt.Title);
 			if (ITab_Art.cachedImageSource != this.SelectedCompArt || ITab_Art.cachedTaleRef != this.SelectedCompArt.TaleRef)
 			{
 				ITab_Art.cachedImageDescription = this.SelectedCompArt.GenerateImageDescription();
 				ITab_Art.cachedImageSource = this.SelectedCompArt;
 				ITab_Art.cachedTaleRef = this.SelectedCompArt.TaleRef;
 			}
-			Rect rect3 = rect2;
+			Rect rect3 = rect;
 			rect3.yMin += 35f;
 			Text.Font = GameFont.Small;
 			Widgets.Label(rect3, ITab_Art.cachedImageDescription);

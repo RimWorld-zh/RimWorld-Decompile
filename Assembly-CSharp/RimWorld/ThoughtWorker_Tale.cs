@@ -6,7 +6,19 @@ namespace RimWorld
 	{
 		protected override ThoughtState CurrentSocialStateInternal(Pawn p, Pawn other)
 		{
-			return other.RaceProps.Humanlike ? (RelationsUtility.PawnsKnowEachOther(p, other) ? ((Find.TaleManager.GetLatestTale(base.def.taleDef, other) != null) ? true : false) : false) : false;
+			if (!other.RaceProps.Humanlike)
+			{
+				return false;
+			}
+			if (!RelationsUtility.PawnsKnowEachOther(p, other))
+			{
+				return false;
+			}
+			if (Find.TaleManager.GetLatestTale(base.def.taleDef, other) == null)
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }

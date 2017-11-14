@@ -106,7 +106,7 @@ namespace Verse
 			if (Scribe.mode != 0)
 			{
 				Log.Error("DebugOutput needs current mode to be Inactive");
-				return "";
+				return string.Empty;
 			}
 			try
 			{
@@ -136,23 +136,18 @@ namespace Verse
 			{
 				Log.Error("Exception while getting debug output: " + arg);
 				this.ForceStop();
-				return "";
+				return string.Empty;
 			}
 		}
 
 		public bool EnterNode(string nodeName)
 		{
-			bool result;
 			if (this.writer == null)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				this.writer.WriteStartElement(nodeName);
-				result = true;
-			}
-			return result;
+			this.writer.WriteStartElement(nodeName);
+			return true;
 		}
 
 		public void ExitNode()

@@ -20,21 +20,16 @@ namespace RimWorld
 		{
 			get
 			{
-				Pawn result;
 				if (base.SelPawn != null)
 				{
-					result = base.SelPawn;
-					goto IL_004e;
+					return base.SelPawn;
 				}
 				Corpse corpse = base.SelThing as Corpse;
 				if (corpse != null)
 				{
-					result = corpse.InnerPawn;
-					goto IL_004e;
+					return corpse.InnerPawn;
 				}
 				throw new InvalidOperationException("Social tab on non-pawn non-corpse " + base.SelThing);
-				IL_004e:
-				return result;
 			}
 		}
 

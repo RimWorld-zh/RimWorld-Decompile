@@ -50,7 +50,23 @@ namespace Verse
 		{
 			ThingDef def = mote.def;
 			float ageSecs = mote.AgeSecs;
-			return (float)((!(ageSecs <= def.mote.fadeInTime)) ? ((!(ageSecs <= def.mote.fadeInTime + def.mote.solidTime)) ? ((!(def.mote.fadeOutTime > 0.0)) ? 1.0 : (1.0 - Mathf.InverseLerp(def.mote.fadeInTime + def.mote.solidTime, def.mote.fadeInTime + def.mote.solidTime + def.mote.fadeOutTime, ageSecs))) : 1.0) : ((!(def.mote.fadeInTime > 0.0)) ? 1.0 : (ageSecs / def.mote.fadeInTime)));
+			if (ageSecs <= def.mote.fadeInTime)
+			{
+				if (def.mote.fadeInTime > 0.0)
+				{
+					return ageSecs / def.mote.fadeInTime;
+				}
+				return 1f;
+			}
+			if (ageSecs <= def.mote.fadeInTime + def.mote.solidTime)
+			{
+				return 1f;
+			}
+			if (def.mote.fadeOutTime > 0.0)
+			{
+				return (float)(1.0 - Mathf.InverseLerp(def.mote.fadeInTime + def.mote.solidTime, def.mote.fadeInTime + def.mote.solidTime + def.mote.fadeOutTime, ageSecs));
+			}
+			return 1f;
 		}
 
 		public override string ToString()

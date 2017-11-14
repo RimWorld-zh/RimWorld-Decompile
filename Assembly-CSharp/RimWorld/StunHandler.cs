@@ -7,11 +7,11 @@ namespace RimWorld
 	{
 		public Thing parent;
 
-		private int stunTicksLeft = 0;
+		private int stunTicksLeft;
 
-		private Mote moteStun = null;
+		private Mote moteStun;
 
-		private int EMPAdaptedTicksLeft = 0;
+		private int EMPAdaptedTicksLeft;
 
 		private const float StunDurationFactor_Standard = 20f;
 
@@ -30,7 +30,11 @@ namespace RimWorld
 			get
 			{
 				Pawn pawn = this.parent as Pawn;
-				return (pawn != null && pawn.RaceProps.IsMechanoid) ? 2200 : 0;
+				if (pawn != null && pawn.RaceProps.IsMechanoid)
+				{
+					return 2200;
+				}
+				return 0;
 			}
 		}
 

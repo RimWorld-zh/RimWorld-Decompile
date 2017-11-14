@@ -80,11 +80,9 @@ namespace Verse
 			SkyThreshold skyThreshold2 = this.skyTargets[num3];
 			float num5 = skyThreshold2.celGlowThreshold - skyThreshold.celGlowThreshold;
 			float t = (float)((num5 != 0.0) ? ((num - skyThreshold.celGlowThreshold) / num5) : 1.0);
-			SkyTarget result = new SkyTarget
-			{
-				glow = num,
-				colors = SkyColorSet.Lerp(skyThreshold.colors, skyThreshold2.colors, t)
-			};
+			SkyTarget result = default(SkyTarget);
+			result.glow = num;
+			result.colors = SkyColorSet.Lerp(skyThreshold.colors, skyThreshold2.colors, t);
 			if (GenCelestial.IsDaytime(num))
 			{
 				result.lightsourceShineIntensity = 1f;

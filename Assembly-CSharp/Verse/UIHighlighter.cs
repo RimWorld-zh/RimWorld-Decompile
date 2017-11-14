@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -48,7 +47,7 @@ namespace Verse
 
 		public static void UIHighlighterUpdate()
 		{
-			UIHighlighter.liveTags.RemoveAll((Predicate<Pair<string, int>>)((Pair<string, int> pair) => Time.frameCount > pair.Second + 1));
+			UIHighlighter.liveTags.RemoveAll((Pair<string, int> pair) => Time.frameCount > pair.Second + 1);
 		}
 	}
 }

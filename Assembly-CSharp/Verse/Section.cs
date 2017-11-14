@@ -1,9 +1,7 @@
-#define ENABLE_PROFILER
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 namespace Verse
 {
@@ -13,11 +11,11 @@ namespace Verse
 
 		public Map map;
 
-		public MapMeshFlag dirtyFlags = MapMeshFlag.None;
+		public MapMeshFlag dirtyFlags;
 
 		private List<SectionLayer> layers = new List<SectionLayer>();
 
-		private bool foundRect = false;
+		private bool foundRect;
 
 		private CellRect calculatedRect;
 
@@ -50,11 +48,11 @@ namespace Verse
 		public void DrawSection(bool drawSunShadowsOnly)
 		{
 			int count = this.layers.Count;
-			for (int num = 0; num < count; num++)
+			for (int i = 0; i < count; i++)
 			{
-				if (!drawSunShadowsOnly || this.layers[num] is SectionLayer_SunShadows)
+				if (!drawSunShadowsOnly || this.layers[i] is SectionLayer_SunShadows)
 				{
-					this.layers[num].DrawLayer();
+					this.layers[i].DrawLayer();
 				}
 			}
 			if (!drawSunShadowsOnly && DebugViewSettings.drawSectionEdges)
@@ -82,9 +80,7 @@ namespace Verse
 				SectionLayer sectionLayer = this.layers[i];
 				if ((sectionLayer.relevantChangeTypes & changeType) != 0)
 				{
-					Profiler.BeginSample("Regen " + sectionLayer.GetType().Name + " " + this.botLeft);
 					sectionLayer.Regenerate();
-					Profiler.EndSample();
 				}
 			}
 		}

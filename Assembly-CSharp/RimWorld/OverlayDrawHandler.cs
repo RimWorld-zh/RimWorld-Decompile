@@ -21,7 +21,15 @@ namespace RimWorld
 		{
 			get
 			{
-				return (byte)(Find.PlaySettings.showZones ? 1 : ((Time.frameCount <= OverlayDrawHandler.lastZoneDrawFrame + 1) ? 1 : 0)) != 0;
+				if (Find.PlaySettings.showZones)
+				{
+					return true;
+				}
+				if (Time.frameCount <= OverlayDrawHandler.lastZoneDrawFrame + 1)
+				{
+					return true;
+				}
+				return false;
 			}
 		}
 

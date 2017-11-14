@@ -61,7 +61,11 @@ namespace Verse
 
 		private float LeftX(float elementWidth)
 		{
-			return (this.growDirection != UIDirection.RightThenUp && this.growDirection != UIDirection.RightThenDown) ? (this.curX - elementWidth) : this.curX;
+			if (this.growDirection != UIDirection.RightThenUp && this.growDirection != UIDirection.RightThenDown)
+			{
+				return this.curX - elementWidth;
+			}
+			return this.curX;
 		}
 
 		private void IncrementPosition(float amount)

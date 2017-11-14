@@ -56,7 +56,7 @@ namespace Verse.AI
 		{
 			get
 			{
-				return new ThinkResult(null, null, default(JobTag?), false);
+				return new ThinkResult(null, null, null, false);
 			}
 		}
 
@@ -86,7 +86,11 @@ namespace Verse.AI
 
 		public override bool Equals(object obj)
 		{
-			return obj is ThinkResult && this.Equals((ThinkResult)obj);
+			if (!(obj is ThinkResult))
+			{
+				return false;
+			}
+			return this.Equals((ThinkResult)obj);
 		}
 
 		public bool Equals(ThinkResult other)
@@ -100,12 +104,12 @@ namespace Verse.AI
 				if (valueOrDefault == nullable2.GetValueOrDefault() && nullable.HasValue == nullable2.HasValue)
 				{
 					result = ((this.fromQueue == other.fromQueue) ? 1 : 0);
-					goto IL_006e;
+					goto IL_006d;
 				}
 			}
 			result = 0;
-			goto IL_006e;
-			IL_006e:
+			goto IL_006d;
+			IL_006d:
 			return (byte)result != 0;
 		}
 

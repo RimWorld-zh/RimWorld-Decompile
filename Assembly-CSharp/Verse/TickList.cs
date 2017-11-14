@@ -1,7 +1,5 @@
-#define ENABLE_PROFILER
 using System;
 using System.Collections.Generic;
-using UnityEngine.Profiling;
 
 namespace Verse
 {
@@ -19,31 +17,17 @@ namespace Verse
 		{
 			get
 			{
-				int result;
 				switch (this.tickType)
 				{
 				case TickerType.Normal:
-				{
-					result = 1;
-					break;
-				}
+					return 1;
 				case TickerType.Rare:
-				{
-					result = 250;
-					break;
-				}
+					return 250;
 				case TickerType.Long:
-				{
-					result = 2000;
-					break;
-				}
+					return 2000;
 				default:
-				{
-					result = -1;
-					break;
+					return -1;
 				}
-				}
-				return result;
 			}
 		}
 
@@ -120,26 +104,18 @@ namespace Verse
 				{
 					try
 					{
-						Profiler.BeginSample(list2[m].def.defName);
 						switch (this.tickType)
 						{
 						case TickerType.Normal:
-						{
 							list2[m].Tick();
 							break;
-						}
 						case TickerType.Rare:
-						{
 							list2[m].TickRare();
 							break;
-						}
 						case TickerType.Long:
-						{
 							list2[m].TickLong();
 							break;
 						}
-						}
-						Profiler.EndSample();
 					}
 					catch (Exception ex)
 					{

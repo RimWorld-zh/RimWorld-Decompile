@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -17,7 +16,7 @@ namespace RimWorld
 			_003CMakeNewToils_003Ec__Iterator0 _003CMakeNewToils_003Ec__Iterator = (_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0036: stateMachine*/;
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
 			this.FailOnBurningImmobile(TargetIndex.A);
-			this.FailOn((Func<bool>)delegate
+			this.FailOn(delegate
 			{
 				CompDeepDrill compDeepDrill = _003CMakeNewToils_003Ec__Iterator._0024this.job.targetA.Thing.TryGetComp<CompDeepDrill>();
 				return !compDeepDrill.CanDrillNow();

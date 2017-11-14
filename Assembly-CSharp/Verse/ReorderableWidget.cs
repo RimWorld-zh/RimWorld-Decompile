@@ -82,9 +82,9 @@ namespace Verse
 					if (ReorderableWidget.lastInsertAt >= 0 && ReorderableWidget.lastInsertAt != ReorderableWidget.draggingReorderable)
 					{
 						SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
-						List<ReorderableGroup> obj = ReorderableWidget.groups;
+						List<ReorderableGroup> list = ReorderableWidget.groups;
 						ReorderableInstance reorderableInstance2 = ReorderableWidget.reorderables[ReorderableWidget.draggingReorderable];
-						ReorderableGroup reorderableGroup = obj[reorderableInstance2.groupID];
+						ReorderableGroup reorderableGroup = list[reorderableInstance2.groupID];
 						reorderableGroup.reorderedAction(ReorderableWidget.draggingReorderable, ReorderableWidget.lastInsertAt);
 					}
 					ReorderableWidget.draggingReorderable = -1;
@@ -97,34 +97,24 @@ namespace Verse
 
 		public static int NewGroup(Action<int, int> reorderedAction)
 		{
-			int result;
 			if (Event.current.type != EventType.Repaint)
 			{
-				result = -1;
+				return -1;
 			}
-			else
-			{
-				ReorderableGroup item = new ReorderableGroup
-				{
-					reorderedAction = reorderedAction
-				};
-				ReorderableWidget.groups.Add(item);
-				result = ReorderableWidget.groups.Count - 1;
-			}
-			return result;
+			ReorderableGroup item = default(ReorderableGroup);
+			item.reorderedAction = reorderedAction;
+			ReorderableWidget.groups.Add(item);
+			return ReorderableWidget.groups.Count - 1;
 		}
 
 		public static bool Reorderable(int groupID, Rect rect)
 		{
-			bool result;
 			if (Event.current.type == EventType.Repaint)
 			{
-				ReorderableInstance item = new ReorderableInstance
-				{
-					groupID = groupID,
-					rect = rect,
-					absRect = new Rect(UI.GUIToScreenPoint(rect.position), rect.size)
-				};
+				ReorderableInstance item = default(ReorderableInstance);
+				item.groupID = groupID;
+				item.rect = rect;
+				item.absRect = new Rect(UI.GUIToScreenPoint(rect.position), rect.size);
 				ReorderableWidget.reorderables.Add(item);
 				int num = ReorderableWidget.reorderables.Count - 1;
 				if (ReorderableWidget.draggingReorderable != -1 && Vector2.Distance(ReorderableWidget.clickedAt, Event.current.mousePosition) > 5.0)
@@ -160,104 +150,92 @@ namespace Verse
 						GUI.color = Color.white;
 					}
 				}
-				result = (ReorderableWidget.draggingReorderable == num && ReorderableWidget.dragBegun);
+				return ReorderableWidget.draggingReorderable == num && ReorderableWidget.dragBegun;
 			}
-			else
+			if (Event.current.rawType == EventType.MouseUp)
 			{
-				if (Event.current.rawType == EventType.MouseUp)
-				{
-					ReorderableWidget.released = true;
-				}
-				if (Event.current.type == EventType.MouseDown && Mouse.IsOver(rect))
-				{
-					ReorderableWidget.clicked = true;
-					ReorderableWidget.clickedAt = Event.current.mousePosition;
-					ReorderableWidget.clickedInRect = rect;
-				}
-				result = false;
+				ReorderableWidget.released = true;
 			}
-			return result;
+			if (Event.current.type == EventType.MouseDown && Mouse.IsOver(rect))
+			{
+				ReorderableWidget.clicked = true;
+				ReorderableWidget.clickedAt = Event.current.mousePosition;
+				ReorderableWidget.clickedInRect = rect;
+			}
+			return false;
 		}
 
 		private static int CurrentInsertAt()
 		{
-			int result;
 			if (ReorderableWidget.draggingReorderable < 0)
 			{
-				result = -1;
+				return -1;
 			}
-			else
+			ReorderableInstance reorderableInstance = ReorderableWidget.reorderables[ReorderableWidget.draggingReorderable];
+			int groupID = reorderableInstance.groupID;
+			if (groupID >= 0 && groupID < ReorderableWidget.groups.Count)
 			{
-				ReorderableInstance reorderableInstance = ReorderableWidget.reorderables[ReorderableWidget.draggingReorderable];
-				int groupID = reorderableInstance.groupID;
-				if (groupID < 0 || groupID >= ReorderableWidget.groups.Count)
+				int num = -1;
+				int num2 = -1;
+				for (int i = 0; i < ReorderableWidget.reorderables.Count; i++)
 				{
-					Log.ErrorOnce("Reorderable used invalid group.", 1968375560);
-					result = -1;
-				}
-				else
-				{
-					int num = -1;
-					int num2 = -1;
-					for (int i = 0; i < ReorderableWidget.reorderables.Count; i++)
+					ReorderableInstance reorderableInstance2 = ReorderableWidget.reorderables[i];
+					if (reorderableInstance2.groupID == groupID)
 					{
-						ReorderableInstance reorderableInstance2 = ReorderableWidget.reorderables[i];
-						if (reorderableInstance2.groupID == groupID)
+						int num3 = (i > ReorderableWidget.draggingReorderable) ? num2 : i;
+						Rect rect = reorderableInstance2.absRect.TopHalf();
+						if (rect.yMin > 0.0)
 						{
-							int num3 = (i > ReorderableWidget.draggingReorderable) ? num2 : i;
-							Rect rect = reorderableInstance2.absRect.TopHalf();
-							if (rect.yMin > 0.0)
-							{
-								rect.yMin = 0f;
-							}
-							if (rect.Contains(Event.current.mousePosition))
+							rect.yMin = 0f;
+						}
+						if (rect.Contains(Event.current.mousePosition))
+						{
+							num = num3;
+							break;
+						}
+						if (num2 >= 0)
+						{
+							float x = reorderableInstance2.absRect.x;
+							ReorderableInstance reorderableInstance3 = ReorderableWidget.reorderables[num2];
+							float num4 = Mathf.Min(x, reorderableInstance3.absRect.x);
+							float x2 = num4;
+							ReorderableInstance reorderableInstance4 = ReorderableWidget.reorderables[num2];
+							Vector2 center = reorderableInstance4.absRect.center;
+							float y = center.y;
+							float xMax = reorderableInstance2.absRect.xMax;
+							ReorderableInstance reorderableInstance5 = ReorderableWidget.reorderables[num2];
+							float width = Mathf.Max(xMax, reorderableInstance5.absRect.xMax) - num4;
+							Vector2 center2 = reorderableInstance2.absRect.center;
+							float y2 = center2.y;
+							ReorderableInstance reorderableInstance6 = ReorderableWidget.reorderables[num2];
+							Vector2 center3 = reorderableInstance6.absRect.center;
+							Rect rect2 = new Rect(x2, y, width, y2 - center3.y);
+							if (rect2.Contains(Event.current.mousePosition))
 							{
 								num = num3;
 								break;
 							}
-							if (num2 >= 0)
-							{
-								float x = reorderableInstance2.absRect.x;
-								ReorderableInstance reorderableInstance3 = ReorderableWidget.reorderables[num2];
-								float num4 = Mathf.Min(x, reorderableInstance3.absRect.x);
-								float x2 = num4;
-								ReorderableInstance reorderableInstance4 = ReorderableWidget.reorderables[num2];
-								Vector2 center = reorderableInstance4.absRect.center;
-								float y = center.y;
-								float xMax = reorderableInstance2.absRect.xMax;
-								ReorderableInstance reorderableInstance5 = ReorderableWidget.reorderables[num2];
-								float width = Mathf.Max(xMax, reorderableInstance5.absRect.xMax) - num4;
-								Vector2 center2 = reorderableInstance2.absRect.center;
-								float y2 = center2.y;
-								ReorderableInstance reorderableInstance6 = ReorderableWidget.reorderables[num2];
-								Vector2 center3 = reorderableInstance6.absRect.center;
-								Rect rect2 = new Rect(x2, y, width, y2 - center3.y);
-								if (rect2.Contains(Event.current.mousePosition))
-								{
-									num = num3;
-									break;
-								}
-							}
-							num2 = i;
 						}
+						num2 = i;
 					}
-					if (num < 0 && num2 >= 0)
-					{
-						ReorderableInstance reorderableInstance7 = ReorderableWidget.reorderables[num2];
-						Rect rect3 = reorderableInstance7.absRect.BottomHalf();
-						if (rect3.yMax < (float)UI.screenHeight)
-						{
-							rect3.yMax = (float)UI.screenHeight;
-						}
-						if (rect3.Contains(Event.current.mousePosition))
-						{
-							num = num2;
-						}
-					}
-					result = num;
 				}
+				if (num < 0 && num2 >= 0)
+				{
+					ReorderableInstance reorderableInstance7 = ReorderableWidget.reorderables[num2];
+					Rect rect3 = reorderableInstance7.absRect.BottomHalf();
+					if (rect3.yMax < (float)UI.screenHeight)
+					{
+						rect3.yMax = (float)UI.screenHeight;
+					}
+					if (rect3.Contains(Event.current.mousePosition))
+					{
+						num = num2;
+					}
+				}
+				return num;
 			}
-			return result;
+			Log.ErrorOnce("Reorderable used invalid group.", 1968375560);
+			return -1;
 		}
 	}
 }

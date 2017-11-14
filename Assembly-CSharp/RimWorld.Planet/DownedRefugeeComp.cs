@@ -18,7 +18,7 @@ namespace RimWorld.Planet
 			{
 				if (!base.pawn[num].Dead)
 				{
-					base.pawn[num].Kill(default(DamageInfo?), null);
+					base.pawn[num].Kill(null, null);
 				}
 			}
 			base.pawn.ClearAndDestroyContents(DestroyMode.Vanish);
@@ -26,7 +26,11 @@ namespace RimWorld.Planet
 
 		public override string CompInspectStringExtra()
 		{
-			return (!base.pawn.Any) ? null : ("Refugee".Translate() + ": " + base.pawn[0].LabelShort);
+			if (base.pawn.Any)
+			{
+				return "Refugee".Translate() + ": " + base.pawn[0].LabelShort;
+			}
+			return null;
 		}
 	}
 }

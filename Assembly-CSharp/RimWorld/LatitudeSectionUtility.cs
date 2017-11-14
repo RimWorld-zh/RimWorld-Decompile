@@ -14,7 +14,19 @@ namespace RimWorld
 			float num2 = default(float);
 			float num3 = default(float);
 			LatitudeSectionUtility.GetLatitudeSection(latitude, out num, out num2, out num3);
-			return (LatitudeSection)((num != 0.0 || num2 != 0.0 || num3 != 0.0) ? ((num == 1.0) ? 1 : ((num3 != 1.0) ? 2 : 3)) : 0);
+			if (num == 0.0 && num2 == 0.0 && num3 == 0.0)
+			{
+				return LatitudeSection.Undefined;
+			}
+			if (num == 1.0)
+			{
+				return LatitudeSection.Equatorial;
+			}
+			if (num3 == 1.0)
+			{
+				return LatitudeSection.Polar;
+			}
+			return LatitudeSection.Seasonal;
 		}
 
 		public static LatitudeSection GetDominantLatitudeSection(float latitude)
@@ -23,7 +35,11 @@ namespace RimWorld
 			float num2 = default(float);
 			float num3 = default(float);
 			LatitudeSectionUtility.GetLatitudeSection(latitude, out num, out num2, out num3);
-			return (num != 0.0 || num2 != 0.0 || num3 != 0.0) ? GenMath.MaxBy(LatitudeSection.Equatorial, num, LatitudeSection.Seasonal, num2, LatitudeSection.Polar, num3) : LatitudeSection.Undefined;
+			if (num == 0.0 && num2 == 0.0 && num3 == 0.0)
+			{
+				return LatitudeSection.Undefined;
+			}
+			return GenMath.MaxBy(LatitudeSection.Equatorial, num, LatitudeSection.Seasonal, num2, LatitudeSection.Polar, num3);
 		}
 
 		public static void GetLatitudeSection(float latitude, out float equatorial, out float seasonal, out float polar)
@@ -63,168 +79,87 @@ namespace RimWorld
 
 		public static float GetMaxLatitude(this LatitudeSection latitudeSection)
 		{
-			float result;
 			switch (Find.World.info.overallTemperature)
 			{
 			case OverallTemperature.VeryCold:
-			{
 				switch (latitudeSection)
 				{
 				case LatitudeSection.Equatorial:
-				{
-					result = -999f;
-					goto IL_0203;
-				}
+					return -999f;
 				case LatitudeSection.Seasonal:
-				{
-					result = -999f;
-					goto IL_0203;
-				}
+					return -999f;
 				case LatitudeSection.Polar:
-				{
-					result = 999f;
-					goto IL_0203;
-				}
+					return 999f;
 				}
 				break;
-			}
 			case OverallTemperature.Cold:
-			{
 				switch (latitudeSection)
 				{
 				case LatitudeSection.Equatorial:
-				{
-					result = -999f;
-					goto IL_0203;
-				}
+					return -999f;
 				case LatitudeSection.Seasonal:
-				{
-					result = 15f;
-					goto IL_0203;
-				}
+					return 15f;
 				case LatitudeSection.Polar:
-				{
-					result = 999f;
-					goto IL_0203;
-				}
+					return 999f;
 				}
 				break;
-			}
 			case OverallTemperature.LittleBitColder:
-			{
 				switch (latitudeSection)
 				{
 				case LatitudeSection.Equatorial:
-				{
-					result = -999f;
-					goto IL_0203;
-				}
+					return -999f;
 				case LatitudeSection.Seasonal:
-				{
-					result = 40f;
-					goto IL_0203;
-				}
+					return 40f;
 				case LatitudeSection.Polar:
-				{
-					result = 999f;
-					goto IL_0203;
-				}
+					return 999f;
 				}
 				break;
-			}
 			case OverallTemperature.Normal:
-			{
 				switch (latitudeSection)
 				{
 				case LatitudeSection.Equatorial:
-				{
-					result = 15f;
-					goto IL_0203;
-				}
+					return 15f;
 				case LatitudeSection.Seasonal:
-				{
-					result = 75f;
-					goto IL_0203;
-				}
+					return 75f;
 				case LatitudeSection.Polar:
-				{
-					result = 999f;
-					goto IL_0203;
-				}
+					return 999f;
 				}
 				break;
-			}
 			case OverallTemperature.LittleBitWarmer:
-			{
 				switch (latitudeSection)
 				{
 				case LatitudeSection.Equatorial:
-				{
-					result = 35f;
-					goto IL_0203;
-				}
+					return 35f;
 				case LatitudeSection.Seasonal:
-				{
-					result = 999f;
-					goto IL_0203;
-				}
+					return 999f;
 				case LatitudeSection.Polar:
-				{
-					result = 999f;
-					goto IL_0203;
-				}
+					return 999f;
 				}
 				break;
-			}
 			case OverallTemperature.Hot:
-			{
 				switch (latitudeSection)
 				{
 				case LatitudeSection.Equatorial:
-				{
-					result = 65f;
-					goto IL_0203;
-				}
+					return 65f;
 				case LatitudeSection.Seasonal:
-				{
-					result = 999f;
-					goto IL_0203;
-				}
+					return 999f;
 				case LatitudeSection.Polar:
-				{
-					result = 999f;
-					goto IL_0203;
-				}
+					return 999f;
 				}
 				break;
-			}
 			case OverallTemperature.VeryHot:
-			{
 				switch (latitudeSection)
 				{
 				case LatitudeSection.Equatorial:
-				{
-					result = 999f;
-					goto IL_0203;
-				}
+					return 999f;
 				case LatitudeSection.Seasonal:
-				{
-					result = 999f;
-					goto IL_0203;
-				}
+					return 999f;
 				case LatitudeSection.Polar:
-				{
-					result = 999f;
-					goto IL_0203;
-				}
+					return 999f;
 				}
 				break;
 			}
-			}
-			result = -1f;
-			goto IL_0203;
-			IL_0203:
-			return result;
+			return -1f;
 		}
 	}
 }

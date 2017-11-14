@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -33,7 +32,15 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			return c.InBounds(base.Map) ? (this.TameablesInCell(c).Any() ? true : "MessageMustDesignateTameable".Translate()) : false;
+			if (!c.InBounds(base.Map))
+			{
+				return false;
+			}
+			if (!this.TameablesInCell(c).Any())
+			{
+				return "MessageMustDesignateTameable".Translate();
+			}
+			return true;
 		}
 
 		public override void DesignateSingleCell(IntVec3 loc)
@@ -47,7 +54,11 @@ namespace RimWorld
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			Pawn pawn = t as Pawn;
-			return (pawn == null || !pawn.AnimalOrWildMan() || pawn.Faction != null || !(pawn.RaceProps.wildness < 1.0) || pawn.HostileTo(t) || base.Map.designationManager.DesignationOn(pawn, DesignationDefOf.Tame) != null) ? false : true;
+			if (pawn != null && pawn.AnimalOrWildMan() && pawn.Faction == null && pawn.RaceProps.wildness < 1.0 && !pawn.HostileTo(t) && base.Map.designationManager.DesignationOn(pawn, DesignationDefOf.Tame) == null)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		protected override void FinalizeDesignationSucceeded()
@@ -58,7 +69,7 @@ namespace RimWorld
 			{
 				if (item.RaceProps.manhunterOnTameFailChance > 0.0)
 				{
-					Messages.Message("MessageAnimalManhuntsOnTameFailed".Translate(item.GetLabelPlural(-1), item.RaceProps.manhunterOnTameFailChance.ToStringPercent("F2")), (Thing)this.justDesignated.First((Func<Pawn, bool>)((Pawn x) => x.kindDef == item)), MessageTypeDefOf.CautionInput);
+					Messages.Message("MessageAnimalManhuntsOnTameFailed".Translate(item.GetLabelPlural(-1), item.RaceProps.manhunterOnTameFailChance.ToStringPercent("F2")), this.justDesignated.First((Pawn x) => x.kindDef == item), MessageTypeDefOf.CautionInput);
 				}
 			}
 			IEnumerable<Pawn> source = from c in base.Map.mapPawns.FreeColonistsSpawned
@@ -70,7 +81,7 @@ namespace RimWorld
 			}
 			if (source.Any())
 			{
-				Pawn pawn = source.MaxBy((Func<Pawn, int>)((Pawn c) => c.skills.GetSkill(SkillDefOf.Animals).Level));
+				Pawn pawn = source.MaxBy((Pawn c) => c.skills.GetSkill(SkillDefOf.Animals).Level);
 				int level = pawn.skills.GetSkill(SkillDefOf.Animals).Level;
 				foreach (ThingDef item2 in (from t in this.justDesignated
 				select t.def).Distinct())
@@ -78,7 +89,7 @@ namespace RimWorld
 					int num = Mathf.RoundToInt(item2.GetStatValueAbstract(StatDefOf.MinimumHandlingSkill, null));
 					if (num > level)
 					{
-						Messages.Message("MessageNoHandlerSkilledEnough".Translate(item2.label, num.ToStringCached(), SkillDefOf.Animals.LabelCap, pawn.LabelShort, level), (Thing)this.justDesignated.First((Func<Pawn, bool>)((Pawn x) => x.def == item2)), MessageTypeDefOf.CautionInput);
+						Messages.Message("MessageNoHandlerSkilledEnough".Translate(item2.label, num.ToStringCached(), SkillDefOf.Animals.LabelCap, pawn.LabelShort, level), this.justDesignated.First((Pawn x) => x.def == item2), MessageTypeDefOf.CautionInput);
 					}
 				}
 			}

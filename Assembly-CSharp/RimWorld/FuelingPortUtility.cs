@@ -24,81 +24,50 @@ namespace RimWorld
 		public static Building FuelingPortGiverAt(IntVec3 c, Map map)
 		{
 			List<Thing> thingList = c.GetThingList(map);
-			int num = 0;
-			Building result;
-			while (true)
+			for (int i = 0; i < thingList.Count; i++)
 			{
-				if (num < thingList.Count)
+				Building building = thingList[i] as Building;
+				if (building != null && building.def.building.hasFuelingPort)
 				{
-					Building building = thingList[num] as Building;
-					if (building != null && building.def.building.hasFuelingPort)
-					{
-						result = building;
-						break;
-					}
-					num++;
-					continue;
+					return building;
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		public static Building FuelingPortGiverAtFuelingPortCell(IntVec3 c, Map map)
 		{
-			int num = 0;
-			Building result;
-			while (true)
+			for (int i = 0; i < 4; i++)
 			{
-				Building building;
-				if (num < 4)
+				IntVec3 c2 = c + GenAdj.CardinalDirections[i];
+				if (c2.InBounds(map))
 				{
-					IntVec3 c2 = c + GenAdj.CardinalDirections[num];
-					if (c2.InBounds(map))
+					List<Thing> thingList = c2.GetThingList(map);
+					for (int j = 0; j < thingList.Count; j++)
 					{
-						List<Thing> thingList = c2.GetThingList(map);
-						for (int i = 0; i < thingList.Count; i++)
+						Building building = thingList[j] as Building;
+						if (building != null && building.def.building.hasFuelingPort && FuelingPortUtility.GetFuelingPortCell(building) == c)
 						{
-							building = (thingList[i] as Building);
-							if (building != null && building.def.building.hasFuelingPort && FuelingPortUtility.GetFuelingPortCell(building) == c)
-								goto IL_007e;
+							return building;
 						}
 					}
-					num++;
-					continue;
 				}
-				result = null;
-				break;
-				IL_007e:
-				result = building;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		public static CompLaunchable LaunchableAt(IntVec3 c, Map map)
 		{
 			List<Thing> thingList = c.GetThingList(map);
-			int num = 0;
-			CompLaunchable result;
-			while (true)
+			for (int i = 0; i < thingList.Count; i++)
 			{
-				if (num < thingList.Count)
+				CompLaunchable compLaunchable = thingList[i].TryGetComp<CompLaunchable>();
+				if (compLaunchable != null)
 				{
-					CompLaunchable compLaunchable = thingList[num].TryGetComp<CompLaunchable>();
-					if (compLaunchable != null)
-					{
-						result = compLaunchable;
-						break;
-					}
-					num++;
-					continue;
+					return compLaunchable;
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 	}
 }

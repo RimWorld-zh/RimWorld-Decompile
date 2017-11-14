@@ -8,57 +8,73 @@ namespace Verse
 	{
 		public static void MakeTablesDialog<T>(IEnumerable<T> dataSources, params TableDataGetter<T>[] getters)
 		{
-			List<TableDataGetter<T>> list = ((IEnumerable<TableDataGetter<T>>)getters).ToList<TableDataGetter<T>>();
-			int num = dataSources.Count<T>() + 1;
+			List<TableDataGetter<T>> list = getters.ToList();
+			int num = dataSources.Count() + 1;
 			int count = list.Count;
 			string[,] array = new string[count, num];
 			int num2 = 0;
-			for (int i = 0; i < getters.Length; i++)
+			foreach (TableDataGetter<T> tableDataGetter in getters)
 			{
-				TableDataGetter<T> tableDataGetter = getters[i];
-				array[num2, 0] = tableDataGetter.label;
+				string[,] array2 = array;
+				int num3 = num2;
+				string label = tableDataGetter.label;
+				array2[num3, 0] = label;
 				num2++;
 			}
-			int num3 = 1;
-			foreach (T item in dataSources)
+			int num4 = 1;
+			foreach (T dataSource in dataSources)
 			{
-				for (int num4 = 0; num4 < count; num4++)
+				for (int j = 0; j < count; j++)
 				{
-					array[num4, num3] = list[num4].getter(item);
+					string[,] array3 = array;
+					int num5 = j;
+					int num6 = num4;
+					string text = list[j].getter(dataSource);
+					array3[num5, num6] = text;
 				}
-				num3++;
+				num4++;
 			}
 			Find.WindowStack.Add(new Dialog_DebugTables(array));
 		}
 
 		public static void MakeTablesDialog<TColumn, TRow>(IEnumerable<TColumn> colValues, Func<TColumn, string> colLabelFormatter, IEnumerable<TRow> rowValues, Func<TRow, string> rowLabelFormatter, Func<TColumn, TRow, string> func, string tlLabel = "")
 		{
-			int num = colValues.Count<TColumn>() + 1;
-			int num2 = rowValues.Count<TRow>() + 1;
+			int num = colValues.Count() + 1;
+			int num2 = rowValues.Count() + 1;
 			string[,] array = new string[num, num2];
 			array[0, 0] = tlLabel;
 			int num3 = 1;
-			foreach (TColumn item in colValues)
+			foreach (TColumn colValue in colValues)
 			{
-				array[num3, 0] = colLabelFormatter(item);
+				string[,] array2 = array;
+				int num4 = num3;
+				string text = colLabelFormatter(colValue);
+				array2[num4, 0] = text;
 				num3++;
 			}
-			int num4 = 1;
-			foreach (TRow item2 in rowValues)
-			{
-				array[0, num4] = rowLabelFormatter(item2);
-				num4++;
-			}
 			int num5 = 1;
-			foreach (TRow item3 in rowValues)
+			foreach (TRow rowValue in rowValues)
 			{
-				int num6 = 1;
-				foreach (TColumn item4 in colValues)
-				{
-					array[num6, num5] = func(item4, item3);
-					num6++;
-				}
+				string[,] array3 = array;
+				int num6 = num5;
+				string text2 = rowLabelFormatter(rowValue);
+				array3[0, num6] = text2;
 				num5++;
+			}
+			int num7 = 1;
+			foreach (TRow rowValue2 in rowValues)
+			{
+				int num8 = 1;
+				foreach (TColumn colValue2 in colValues)
+				{
+					string[,] array4 = array;
+					int num9 = num8;
+					int num10 = num7;
+					string text3 = func(colValue2, rowValue2);
+					array4[num9, num10] = text3;
+					num8++;
+				}
+				num7++;
 			}
 			Find.WindowStack.Add(new Dialog_DebugTables(array));
 		}

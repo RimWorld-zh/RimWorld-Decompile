@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -24,7 +23,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (this.map != null) ? Find.World.gameConditionManager : null;
+				if (this.map == null)
+				{
+					return null;
+				}
+				return Find.World.gameConditionManager;
 			}
 		}
 
@@ -87,47 +90,35 @@ namespace RimWorld
 
 		public GameCondition GetActiveCondition(GameConditionDef def)
 		{
-			int num = 0;
-			GameCondition result;
-			while (true)
+			for (int i = 0; i < this.activeConditions.Count; i++)
 			{
-				if (num < this.activeConditions.Count)
+				if (def == this.activeConditions[i].def)
 				{
-					if (def == this.activeConditions[num].def)
-					{
-						result = this.activeConditions[num];
-						break;
-					}
-					num++;
-					continue;
+					return this.activeConditions[i];
 				}
-				result = ((this.Parent == null) ? null : this.Parent.GetActiveCondition(def));
-				break;
 			}
-			return result;
+			if (this.Parent != null)
+			{
+				return this.Parent.GetActiveCondition(def);
+			}
+			return null;
 		}
 
 		public T GetActiveCondition<T>() where T : GameCondition
 		{
-			int num = 0;
-			T result;
-			while (true)
+			for (int i = 0; i < this.activeConditions.Count; i++)
 			{
-				if (num < this.activeConditions.Count)
+				T val = (T)(this.activeConditions[i] as T);
+				if (val != null)
 				{
-					T val = (T)(this.activeConditions[num] as T);
-					if (val != null)
-					{
-						result = val;
-						break;
-					}
-					num++;
-					continue;
+					return val;
 				}
-				result = ((this.Parent == null) ? ((T)null) : this.Parent.GetActiveCondition<T>());
-				break;
 			}
-			return result;
+			if (this.Parent != null)
+			{
+				return this.Parent.GetActiveCondition<T>();
+			}
+			return (T)null;
 		}
 
 		public float TotalHeightAt(float width)
@@ -156,7 +147,7 @@ namespace RimWorld
 				Text.Anchor = TextAnchor.MiddleRight;
 				Widgets.Label(rect2, this.activeConditions[i].LabelCap);
 				GameCondition localCond = this.activeConditions[i];
-				TooltipHandler.TipRegion(rect2, (Func<string>)(() => localCond.TooltipString), i * 631);
+				TooltipHandler.TipRegion(rect2, () => localCond.TooltipString, i * 631);
 				num += rect2.height;
 			}
 			rect.yMin += num;
@@ -187,7 +178,11 @@ namespace RimWorld
 			SkyTarget value = default(SkyTarget);
 			float num = 0f;
 			this.AggregateSkyTargetWorker(ref value, ref num);
-			return (num != 0.0) ? new SkyTarget?(value) : default(SkyTarget?);
+			if (num == 0.0)
+			{
+				return null;
+			}
+			return value;
 		}
 
 		private void AggregateSkyTargetWorker(ref SkyTarget total, ref float lfTotal)
@@ -266,27 +261,21 @@ namespace RimWorld
 
 		internal bool AllowEnjoyableOutsideNow(out GameConditionDef reason)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.activeConditions.Count; i++)
 			{
-				if (num < this.activeConditions.Count)
+				GameCondition gameCondition = this.activeConditions[i];
+				if (!gameCondition.AllowEnjoyableOutsideNow())
 				{
-					GameCondition gameCondition = this.activeConditions[num];
-					if (!gameCondition.AllowEnjoyableOutsideNow())
-					{
-						reason = gameCondition.def;
-						result = false;
-						break;
-					}
-					num++;
-					continue;
+					reason = gameCondition.def;
+					return false;
 				}
-				reason = null;
-				result = (this.Parent == null || this.Parent.AllowEnjoyableOutsideNow(out reason));
-				break;
 			}
-			return result;
+			reason = null;
+			if (this.Parent != null)
+			{
+				return this.Parent.AllowEnjoyableOutsideNow(out reason);
+			}
+			return true;
 		}
 
 		public string DebugString()

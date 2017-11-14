@@ -16,7 +16,7 @@ namespace RimWorld
 			public IntVec3 bestNode;
 		}
 
-		private static bool debug_WarnedMissingTerrain = false;
+		private static bool debug_WarnedMissingTerrain;
 
 		public override void Generate(Map map)
 		{
@@ -33,16 +33,16 @@ namespace RimWorld
 				TerrainDef terrainDef = null;
 				if (edifice != null && edifice.def.Fillage == FillCategory.Full)
 				{
-					goto IL_0086;
+					goto IL_0083;
 				}
 				if (caves[allCell] > 0.0)
-					goto IL_0086;
+					goto IL_0083;
 				terrainDef = this.TerrainFrom(allCell, map, elevation[allCell], fertility[allCell], riverMaker, false);
-				goto IL_00c5;
-				IL_0086:
+				goto IL_00c2;
+				IL_0083:
 				terrainDef = this.TerrainFrom(allCell, map, elevation[allCell], fertility[allCell], riverMaker, true);
-				goto IL_00c5;
-				IL_00c5:
+				goto IL_00c2;
+				IL_00c2:
 				if ((terrainDef == TerrainDefOf.WaterMovingShallow || terrainDef == TerrainDefOf.WaterMovingDeep) && edifice != null)
 				{
 					list.Add(edifice.Position);
@@ -69,84 +69,61 @@ namespace RimWorld
 			{
 				terrainDef = river.TerrainAt(c, true);
 			}
-			TerrainDef result;
-			TerrainDef terrainDef2;
 			if (terrainDef == null && preferSolid)
 			{
-				result = GenStep_RocksFromGrid.RockDefAt(c).naturalTerrain;
+				return GenStep_RocksFromGrid.RockDefAt(c).naturalTerrain;
 			}
-			else
+			TerrainDef terrainDef2 = BeachMaker.BeachTerrainAt(c, map.Biome);
+			if (terrainDef2 == TerrainDefOf.WaterOceanDeep)
 			{
-				terrainDef2 = BeachMaker.BeachTerrainAt(c, map.Biome);
-				if (terrainDef2 == TerrainDefOf.WaterOceanDeep)
-				{
-					result = terrainDef2;
-				}
-				else if (terrainDef == TerrainDefOf.WaterMovingShallow || terrainDef == TerrainDefOf.WaterMovingDeep)
-				{
-					result = terrainDef;
-				}
-				else if (terrainDef2 != null)
-				{
-					result = terrainDef2;
-				}
-				else if (terrainDef != null)
-				{
-					result = terrainDef;
-				}
-				else
-				{
-					for (int i = 0; i < map.Biome.terrainPatchMakers.Count; i++)
-					{
-						terrainDef2 = map.Biome.terrainPatchMakers[i].TerrainAt(c, map);
-						if (terrainDef2 != null)
-							goto IL_00af;
-					}
-					if (elevation > 0.550000011920929 && elevation < 0.61000001430511475)
-					{
-						result = TerrainDefOf.Gravel;
-					}
-					else if (elevation >= 0.61000001430511475)
-					{
-						result = GenStep_RocksFromGrid.RockDefAt(c).naturalTerrain;
-					}
-					else
-					{
-						terrainDef2 = TerrainThreshold.TerrainAtValue(map.Biome.terrainsByFertility, fertility);
-						if (terrainDef2 != null)
-						{
-							result = terrainDef2;
-						}
-						else
-						{
-							if (!GenStep_Terrain.debug_WarnedMissingTerrain)
-							{
-								Log.Error("No terrain found in biome " + map.Biome.defName + " for elevation=" + elevation + ", fertility=" + fertility);
-								GenStep_Terrain.debug_WarnedMissingTerrain = true;
-							}
-							result = TerrainDefOf.Sand;
-						}
-					}
-				}
+				return terrainDef2;
 			}
-			goto IL_0198;
-			IL_0198:
-			return result;
-			IL_00af:
-			result = terrainDef2;
-			goto IL_0198;
+			if (terrainDef != TerrainDefOf.WaterMovingShallow && terrainDef != TerrainDefOf.WaterMovingDeep)
+			{
+				if (terrainDef2 != null)
+				{
+					return terrainDef2;
+				}
+				if (terrainDef != null)
+				{
+					return terrainDef;
+				}
+				for (int i = 0; i < map.Biome.terrainPatchMakers.Count; i++)
+				{
+					terrainDef2 = map.Biome.terrainPatchMakers[i].TerrainAt(c, map);
+					if (terrainDef2 != null)
+					{
+						return terrainDef2;
+					}
+				}
+				if (elevation > 0.550000011920929 && elevation < 0.61000001430511475)
+				{
+					return TerrainDefOf.Gravel;
+				}
+				if (elevation >= 0.61000001430511475)
+				{
+					return GenStep_RocksFromGrid.RockDefAt(c).naturalTerrain;
+				}
+				terrainDef2 = TerrainThreshold.TerrainAtValue(map.Biome.terrainsByFertility, fertility);
+				if (terrainDef2 != null)
+				{
+					return terrainDef2;
+				}
+				if (!GenStep_Terrain.debug_WarnedMissingTerrain)
+				{
+					Log.Error("No terrain found in biome " + map.Biome.defName + " for elevation=" + elevation + ", fertility=" + fertility);
+					GenStep_Terrain.debug_WarnedMissingTerrain = true;
+				}
+				return TerrainDefOf.Sand;
+			}
+			return terrainDef;
 		}
 
 		private RiverMaker GenerateRiver(Map map)
 		{
 			Tile tile = Find.WorldGrid[map.Tile];
 			List<Tile.RiverLink> visibleRivers = tile.VisibleRivers;
-			RiverMaker result;
-			if (visibleRivers == null || visibleRivers.Count == 0)
-			{
-				result = null;
-			}
-			else
+			if (visibleRivers != null && visibleRivers.Count != 0)
 			{
 				WorldGrid worldGrid = Find.WorldGrid;
 				int tile2 = map.Tile;
@@ -167,9 +144,9 @@ namespace RimWorld
 				select rl).FirstOrDefault();
 				RiverMaker riverMaker = new RiverMaker(center, angle, riverLink2.river);
 				this.GenerateRiverLookupTexture(map, riverMaker);
-				result = riverMaker;
+				return riverMaker;
 			}
-			return result;
+			return null;
 		}
 
 		private void UpdateRiverAnchorEntry(Dictionary<int, GRLT_Entry> entries, IntVec3 center, int entryId, float zValue)
@@ -231,87 +208,109 @@ namespace RimWorld
 			}
 			int num7 = Mathf.Max(dictionary.Keys.Min(), dictionary2.Keys.Min(), dictionary3.Keys.Min());
 			int num8 = Mathf.Min(dictionary.Keys.Max(), dictionary2.Keys.Max(), dictionary3.Keys.Max());
-			for (int num9 = num7; num9 < num8; num9++)
+			for (int i = num7; i < num8; i++)
 			{
 				WaterInfo waterInfo = map.waterInfo;
-				List<Vector3> riverDebugData = waterInfo.riverDebugData;
-				GRLT_Entry gRLT_Entry = dictionary2[num9];
-				riverDebugData.Add(gRLT_Entry.bestNode.ToVector3Shifted());
-				List<Vector3> riverDebugData2 = waterInfo.riverDebugData;
-				GRLT_Entry gRLT_Entry2 = dictionary2[num9 + 1];
-				riverDebugData2.Add(gRLT_Entry2.bestNode.ToVector3Shifted());
-				List<Vector3> riverDebugData3 = waterInfo.riverDebugData;
-				GRLT_Entry gRLT_Entry3 = dictionary[num9];
-				riverDebugData3.Add(gRLT_Entry3.bestNode.ToVector3Shifted());
-				List<Vector3> riverDebugData4 = waterInfo.riverDebugData;
-				GRLT_Entry gRLT_Entry4 = dictionary[num9 + 1];
-				riverDebugData4.Add(gRLT_Entry4.bestNode.ToVector3Shifted());
-				List<Vector3> riverDebugData5 = waterInfo.riverDebugData;
-				GRLT_Entry gRLT_Entry5 = dictionary3[num9];
-				riverDebugData5.Add(gRLT_Entry5.bestNode.ToVector3Shifted());
-				List<Vector3> riverDebugData6 = waterInfo.riverDebugData;
-				GRLT_Entry gRLT_Entry6 = dictionary3[num9 + 1];
-				riverDebugData6.Add(gRLT_Entry6.bestNode.ToVector3Shifted());
-				List<Vector3> riverDebugData7 = waterInfo.riverDebugData;
-				GRLT_Entry gRLT_Entry7 = dictionary2[num9];
-				riverDebugData7.Add(gRLT_Entry7.bestNode.ToVector3Shifted());
-				List<Vector3> riverDebugData8 = waterInfo.riverDebugData;
-				GRLT_Entry gRLT_Entry8 = dictionary[num9];
-				riverDebugData8.Add(gRLT_Entry8.bestNode.ToVector3Shifted());
-				List<Vector3> riverDebugData9 = waterInfo.riverDebugData;
-				GRLT_Entry gRLT_Entry9 = dictionary[num9];
-				riverDebugData9.Add(gRLT_Entry9.bestNode.ToVector3Shifted());
-				List<Vector3> riverDebugData10 = waterInfo.riverDebugData;
-				GRLT_Entry gRLT_Entry10 = dictionary3[num9];
-				riverDebugData10.Add(gRLT_Entry10.bestNode.ToVector3Shifted());
+				if (dictionary2.ContainsKey(i) && dictionary2.ContainsKey(i + 1))
+				{
+					List<Vector3> riverDebugData = waterInfo.riverDebugData;
+					GRLT_Entry gRLT_Entry = dictionary2[i];
+					riverDebugData.Add(gRLT_Entry.bestNode.ToVector3Shifted());
+					List<Vector3> riverDebugData2 = waterInfo.riverDebugData;
+					GRLT_Entry gRLT_Entry2 = dictionary2[i + 1];
+					riverDebugData2.Add(gRLT_Entry2.bestNode.ToVector3Shifted());
+				}
+				if (dictionary.ContainsKey(i) && dictionary.ContainsKey(i + 1))
+				{
+					List<Vector3> riverDebugData3 = waterInfo.riverDebugData;
+					GRLT_Entry gRLT_Entry3 = dictionary[i];
+					riverDebugData3.Add(gRLT_Entry3.bestNode.ToVector3Shifted());
+					List<Vector3> riverDebugData4 = waterInfo.riverDebugData;
+					GRLT_Entry gRLT_Entry4 = dictionary[i + 1];
+					riverDebugData4.Add(gRLT_Entry4.bestNode.ToVector3Shifted());
+				}
+				if (dictionary3.ContainsKey(i) && dictionary3.ContainsKey(i + 1))
+				{
+					List<Vector3> riverDebugData5 = waterInfo.riverDebugData;
+					GRLT_Entry gRLT_Entry5 = dictionary3[i];
+					riverDebugData5.Add(gRLT_Entry5.bestNode.ToVector3Shifted());
+					List<Vector3> riverDebugData6 = waterInfo.riverDebugData;
+					GRLT_Entry gRLT_Entry6 = dictionary3[i + 1];
+					riverDebugData6.Add(gRLT_Entry6.bestNode.ToVector3Shifted());
+				}
+				if (dictionary2.ContainsKey(i) && dictionary.ContainsKey(i))
+				{
+					List<Vector3> riverDebugData7 = waterInfo.riverDebugData;
+					GRLT_Entry gRLT_Entry7 = dictionary2[i];
+					riverDebugData7.Add(gRLT_Entry7.bestNode.ToVector3Shifted());
+					List<Vector3> riverDebugData8 = waterInfo.riverDebugData;
+					GRLT_Entry gRLT_Entry8 = dictionary[i];
+					riverDebugData8.Add(gRLT_Entry8.bestNode.ToVector3Shifted());
+				}
+				if (dictionary.ContainsKey(i) && dictionary3.ContainsKey(i))
+				{
+					List<Vector3> riverDebugData9 = waterInfo.riverDebugData;
+					GRLT_Entry gRLT_Entry9 = dictionary[i];
+					riverDebugData9.Add(gRLT_Entry9.bestNode.ToVector3Shifted());
+					List<Vector3> riverDebugData10 = waterInfo.riverDebugData;
+					GRLT_Entry gRLT_Entry10 = dictionary3[i];
+					riverDebugData10.Add(gRLT_Entry10.bestNode.ToVector3Shifted());
+				}
 			}
 			IntVec3 size3 = map.Size;
 			int width = size3.x + 4;
 			IntVec3 size4 = map.Size;
 			CellRect cellRect = new CellRect(-2, -2, width, size4.z + 4);
 			float[] array = new float[cellRect.Area * 2];
-			int num10 = 0;
-			for (int i = cellRect.minZ; i <= cellRect.maxZ; i++)
+			int num9 = 0;
+			for (int j = cellRect.minZ; j <= cellRect.maxZ; j++)
 			{
-				for (int j = cellRect.minX; j <= cellRect.maxX; j++)
+				for (int k = cellRect.minX; k <= cellRect.maxX; k++)
 				{
-					IntVec3 a = new IntVec3(j, 0, i);
+					IntVec3 a = new IntVec3(k, 0, j);
 					bool flag = true;
-					for (int k = 0; k < GenAdj.AdjacentCellsAndInside.Length; k++)
+					int num10 = 0;
+					while (num10 < GenAdj.AdjacentCellsAndInside.Length)
 					{
-						flag = (flag && riverMaker.TerrainAt(a + GenAdj.AdjacentCellsAndInside[k], false) == null);
+						if (riverMaker.TerrainAt(a + GenAdj.AdjacentCellsAndInside[num10], false) == null)
+						{
+							num10++;
+							continue;
+						}
+						flag = false;
+						break;
 					}
 					if (!flag)
 					{
 						Vector2 p = a.ToIntVec2.ToVector2();
 						int num11 = -2147483648;
 						Vector2 vector2 = Vector2.zero;
-						for (int num12 = num7; num12 < num8; num12++)
+						for (int l = num7; l < num8; l++)
 						{
-							GRLT_Entry gRLT_Entry11 = dictionary2[num12];
+							GRLT_Entry gRLT_Entry11 = dictionary2[l];
 							Vector2 p2 = gRLT_Entry11.bestNode.ToIntVec2.ToVector2();
-							GRLT_Entry gRLT_Entry12 = dictionary2[num12 + 1];
+							GRLT_Entry gRLT_Entry12 = dictionary2[l + 1];
 							Vector2 p3 = gRLT_Entry12.bestNode.ToIntVec2.ToVector2();
-							GRLT_Entry gRLT_Entry13 = dictionary[num12];
+							GRLT_Entry gRLT_Entry13 = dictionary[l];
 							Vector2 p4 = gRLT_Entry13.bestNode.ToIntVec2.ToVector2();
-							GRLT_Entry gRLT_Entry14 = dictionary[num12 + 1];
+							GRLT_Entry gRLT_Entry14 = dictionary[l + 1];
 							Vector2 p5 = gRLT_Entry14.bestNode.ToIntVec2.ToVector2();
-							GRLT_Entry gRLT_Entry15 = dictionary3[num12];
+							GRLT_Entry gRLT_Entry15 = dictionary3[l];
 							Vector2 p6 = gRLT_Entry15.bestNode.ToIntVec2.ToVector2();
-							GRLT_Entry gRLT_Entry16 = dictionary3[num12 + 1];
+							GRLT_Entry gRLT_Entry16 = dictionary3[l + 1];
 							Vector2 p7 = gRLT_Entry16.bestNode.ToIntVec2.ToVector2();
 							Vector2 vector3 = GenGeo.InverseQuadBilinear(p, p4, p2, p5, p3);
 							if (vector3.x >= -9.9999997473787516E-05 && vector3.x <= 1.0001000165939331 && vector3.y >= -9.9999997473787516E-05 && vector3.y <= 1.0001000165939331)
 							{
-								vector2 = new Vector2((float)((0.0 - vector3.x) * (float)num), (float)((vector3.y + (float)num12) * 4.0));
-								num11 = num12;
+								vector2 = new Vector2((float)((0.0 - vector3.x) * (float)num), (float)((vector3.y + (float)l) * 4.0));
+								num11 = l;
 								break;
 							}
 							Vector2 vector4 = GenGeo.InverseQuadBilinear(p, p4, p6, p5, p7);
 							if (vector4.x >= -9.9999997473787516E-05 && vector4.x <= 1.0001000165939331 && vector4.y >= -9.9999997473787516E-05 && vector4.y <= 1.0001000165939331)
 							{
-								vector2 = new Vector2(vector4.x * (float)num, (float)((vector4.y + (float)num12) * 4.0));
-								num11 = num12;
+								vector2 = new Vector2(vector4.x * (float)num, (float)((vector4.y + (float)l) * 4.0));
+								num11 = l;
 								break;
 							}
 						}
@@ -319,10 +318,10 @@ namespace RimWorld
 						{
 							Log.ErrorOnce("Failed to find all necessary river flow data", 5273133);
 						}
-						array[num10] = vector2.x;
-						array[num10 + 1] = vector2.y;
+						array[num9] = vector2.x;
+						array[num9 + 1] = vector2.y;
 					}
-					num10 += 2;
+					num9 += 2;
 				}
 			}
 			float[] array2 = new float[cellRect.Area * 2];
@@ -338,39 +337,39 @@ namespace RimWorld
 				0.077847f,
 				0.195346f
 			};
-			int num13 = 0;
-			for (int l = cellRect.minZ; l <= cellRect.maxZ; l++)
+			int num12 = 0;
+			for (int m = cellRect.minZ; m <= cellRect.maxZ; m++)
 			{
-				for (int m = cellRect.minX; m <= cellRect.maxX; m++)
+				for (int n = cellRect.minX; n <= cellRect.maxX; n++)
 				{
-					IntVec3 a2 = new IntVec3(m, 0, l);
+					IntVec3 a2 = new IntVec3(n, 0, m);
+					float num13 = 0f;
 					float num14 = 0f;
 					float num15 = 0f;
-					float num16 = 0f;
-					for (int n = 0; n < GenAdj.AdjacentCellsAndInside.Length; n++)
+					for (int num16 = 0; num16 < GenAdj.AdjacentCellsAndInside.Length; num16++)
 					{
-						IntVec3 c = a2 + GenAdj.AdjacentCellsAndInside[n];
+						IntVec3 c = a2 + GenAdj.AdjacentCellsAndInside[num16];
 						if (cellRect.Contains(c))
 						{
-							int num17 = num13 + (GenAdj.AdjacentCellsAndInside[n].x + GenAdj.AdjacentCellsAndInside[n].z * cellRect.Width) * 2;
+							int num17 = num12 + (GenAdj.AdjacentCellsAndInside[num16].x + GenAdj.AdjacentCellsAndInside[num16].z * cellRect.Width) * 2;
 							if (array.Length <= num17 + 1 || num17 < 0)
 							{
 								Log.Message("you wut");
 							}
 							if (array[num17] != 0.0 || array[num17 + 1] != 0.0)
 							{
-								num14 += array[num17] * array3[n];
-								num15 += array[num17 + 1] * array3[n];
-								num16 += array3[n];
+								num13 += array[num17] * array3[num16];
+								num14 += array[num17 + 1] * array3[num16];
+								num15 += array3[num16];
 							}
 						}
 					}
-					if (num16 > 0.0)
+					if (num15 > 0.0)
 					{
-						array2[num13] = num14 / num16;
-						array2[num13 + 1] = num15 / num16;
+						array2[num12] = num13 / num15;
+						array2[num12 + 1] = num14 / num15;
 					}
-					num13 += 2;
+					num12 += 2;
 				}
 			}
 			array = array2;

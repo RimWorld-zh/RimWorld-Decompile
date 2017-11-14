@@ -37,21 +37,24 @@ namespace Verse
 			base.absorbInputAroundWindow = true;
 		}
 
-		public Dialog_ResolutionConfirm(bool oldFullscreen) : this()
+		public Dialog_ResolutionConfirm(bool oldFullscreen)
+			: this()
 		{
 			this.oldFullscreen = oldFullscreen;
 			this.oldRes = new IntVec2(Screen.width, Screen.height);
 			this.oldUIScale = Prefs.UIScale;
 		}
 
-		public Dialog_ResolutionConfirm(IntVec2 oldRes) : this()
+		public Dialog_ResolutionConfirm(IntVec2 oldRes)
+			: this()
 		{
 			this.oldFullscreen = Screen.fullScreen;
 			this.oldRes = oldRes;
 			this.oldUIScale = Prefs.UIScale;
 		}
 
-		public Dialog_ResolutionConfirm(float oldUIScale) : this()
+		public Dialog_ResolutionConfirm(float oldUIScale)
+			: this()
 		{
 			this.oldFullscreen = Screen.fullScreen;
 			this.oldRes = new IntVec2(Screen.width, Screen.height);

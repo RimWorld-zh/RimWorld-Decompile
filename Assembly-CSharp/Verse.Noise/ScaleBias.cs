@@ -1,13 +1,10 @@
-#define DEBUG
-using System.Diagnostics;
-
 namespace Verse.Noise
 {
 	public class ScaleBias : ModuleBase
 	{
 		private double scale = 1.0;
 
-		private double bias = 0.0;
+		private double bias;
 
 		public double Bias
 		{
@@ -33,16 +30,19 @@ namespace Verse.Noise
 			}
 		}
 
-		public ScaleBias() : base(1)
+		public ScaleBias()
+			: base(1)
 		{
 		}
 
-		public ScaleBias(ModuleBase input) : base(1)
+		public ScaleBias(ModuleBase input)
+			: base(1)
 		{
 			base.modules[0] = input;
 		}
 
-		public ScaleBias(double scale, double bias, ModuleBase input) : base(1)
+		public ScaleBias(double scale, double bias, ModuleBase input)
+			: base(1)
 		{
 			base.modules[0] = input;
 			this.Bias = bias;
@@ -51,7 +51,6 @@ namespace Verse.Noise
 
 		public override double GetValue(double x, double y, double z)
 		{
-			Debug.Assert(base.modules[0] != null);
 			return base.modules[0].GetValue(x, y, z) * this.scale + this.bias;
 		}
 	}

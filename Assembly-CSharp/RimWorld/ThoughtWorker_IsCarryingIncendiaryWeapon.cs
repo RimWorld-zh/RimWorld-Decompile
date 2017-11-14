@@ -7,27 +7,19 @@ namespace RimWorld
 	{
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
-			ThoughtState result;
 			if (p.equipment.Primary == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Verb> allVerbs = p.equipment.Primary.GetComp<CompEquippable>().AllVerbs;
+			for (int i = 0; i < allVerbs.Count; i++)
 			{
-				List<Verb> allVerbs = p.equipment.Primary.GetComp<CompEquippable>().AllVerbs;
-				for (int i = 0; i < allVerbs.Count; i++)
+				if (allVerbs[i].IsIncendiary())
 				{
-					if (allVerbs[i].IsIncendiary())
-						goto IL_004c;
+					return true;
 				}
-				result = false;
 			}
-			goto IL_0075;
-			IL_004c:
-			result = true;
-			goto IL_0075;
-			IL_0075:
-			return result;
+			return false;
 		}
 	}
 }

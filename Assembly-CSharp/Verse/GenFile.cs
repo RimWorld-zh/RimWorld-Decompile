@@ -14,30 +14,24 @@ namespace Verse
 		public static string TextFromResourceFile(string filePath)
 		{
 			TextAsset textAsset = Resources.Load("Text/" + filePath) as TextAsset;
-			string result;
 			if ((Object)textAsset == (Object)null)
 			{
 				Log.Message("Found no text asset in resources at " + filePath);
-				result = (string)null;
+				return null;
 			}
-			else
-			{
-				result = GenFile.GetTextWithoutBOM(textAsset);
-			}
-			return result;
+			return GenFile.GetTextWithoutBOM(textAsset);
 		}
 
 		public static string GetTextWithoutBOM(TextAsset textAsset)
 		{
-			string result = (string)null;
+			string text = null;
 			using (MemoryStream stream = new MemoryStream(textAsset.bytes))
 			{
 				using (StreamReader streamReader = new StreamReader(stream, true))
 				{
-					result = streamReader.ReadToEnd();
+					return streamReader.ReadToEnd();
 				}
 			}
-			return result;
 		}
 
 		public static IEnumerable<string> LinesFromFile(string filePath)
@@ -53,8 +47,8 @@ namespace Verse
 				}
 			}
 			yield break;
-			IL_00ce:
-			/*Error near IL_00cf: Unexpected return in MoveNext()*/;
+			IL_00ca:
+			/*Error near IL_00cb: Unexpected return in MoveNext()*/;
 		}
 
 		public static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs, bool useLinuxLineEndings = false)
@@ -69,11 +63,10 @@ namespace Verse
 			{
 				Directory.CreateDirectory(destDirName);
 			}
-			FileInfo[] files;
-			FileInfo[] array = files = directoryInfo.GetFiles();
-			for (int i = 0; i < files.Length; i++)
+			FileInfo[] files = directoryInfo.GetFiles();
+			FileInfo[] array = files;
+			foreach (FileInfo fileInfo in array)
 			{
-				FileInfo fileInfo = files[i];
 				string text = Path.Combine(destDirName, fileInfo.Name);
 				if (useLinuxLineEndings && (fileInfo.Extension == ".sh" || fileInfo.Extension == ".txt"))
 				{
@@ -90,9 +83,8 @@ namespace Verse
 			if (copySubDirs)
 			{
 				DirectoryInfo[] array2 = directories;
-				for (int j = 0; j < array2.Length; j++)
+				foreach (DirectoryInfo directoryInfo2 in array2)
 				{
-					DirectoryInfo directoryInfo2 = array2[j];
 					string destDirName2 = Path.Combine(destDirName, directoryInfo2.Name);
 					GenFile.DirectoryCopy(directoryInfo2.FullName, destDirName2, copySubDirs, useLinuxLineEndings);
 				}

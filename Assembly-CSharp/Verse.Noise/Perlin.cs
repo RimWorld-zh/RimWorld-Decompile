@@ -14,7 +14,7 @@ namespace Verse.Noise
 
 		private double m_persistence = 0.5;
 
-		private int m_seed = 0;
+		private int m_seed;
 
 		public double Frequency
 		{
@@ -88,11 +88,13 @@ namespace Verse.Noise
 			}
 		}
 
-		public Perlin() : base(0)
+		public Perlin()
+			: base(0)
 		{
 		}
 
-		public Perlin(double frequency, double lacunarity, double persistence, int octaves, int seed, QualityMode quality) : base(0)
+		public Perlin(double frequency, double lacunarity, double persistence, int octaves, int seed, QualityMode quality)
+			: base(0)
 		{
 			this.Frequency = frequency;
 			this.Lacunarity = lacunarity;

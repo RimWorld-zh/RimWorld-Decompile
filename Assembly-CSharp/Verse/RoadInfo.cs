@@ -6,7 +6,8 @@ namespace Verse
 	{
 		public List<IntVec3> roadEdgeTiles = new List<IntVec3>();
 
-		public RoadInfo(Map map) : base(map)
+		public RoadInfo(Map map)
+			: base(map)
 		{
 		}
 

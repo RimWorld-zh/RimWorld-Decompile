@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -48,51 +47,46 @@ namespace RimWorld
 			bool flag = pawn.training.IsCompleted(td);
 			bool flag2 = default(bool);
 			AcceptanceReport canTrain = pawn.training.CanAssignToTrain(td, out flag2);
-			bool result;
 			if (!flag2)
 			{
-				result = false;
+				return false;
+			}
+			Widgets.DrawHighlightIfMouseover(rect);
+			Rect rect2 = rect;
+			rect2.width -= 50f;
+			rect2.xMin += (float)((float)td.indent * 10.0);
+			Rect rect3 = rect;
+			rect3.xMin = (float)(rect3.xMax - 50.0 + 17.0);
+			if (!flag)
+			{
+				TrainingCardUtility.DoTrainableCheckbox(rect2, pawn, td, canTrain, true, false);
 			}
 			else
 			{
-				Widgets.DrawHighlightIfMouseover(rect);
-				Rect rect2 = rect;
-				rect2.width -= 50f;
-				rect2.xMin += (float)((float)td.indent * 10.0);
-				Rect rect3 = rect;
-				rect3.xMin = (float)(rect3.xMax - 50.0 + 17.0);
-				if (!flag)
-				{
-					TrainingCardUtility.DoTrainableCheckbox(rect2, pawn, td, canTrain, true, false);
-				}
-				else
-				{
-					Text.Anchor = TextAnchor.MiddleLeft;
-					Widgets.Label(rect2, td.LabelCap);
-					Text.Anchor = TextAnchor.UpperLeft;
-				}
-				if (flag)
-				{
-					GUI.color = Color.green;
-				}
 				Text.Anchor = TextAnchor.MiddleLeft;
-				Widgets.Label(rect3, pawn.training.GetSteps(td) + " / " + td.steps);
+				Widgets.Label(rect2, td.LabelCap);
 				Text.Anchor = TextAnchor.UpperLeft;
-				if (DebugSettings.godMode && !pawn.training.IsCompleted(td))
-				{
-					Rect rect4 = rect3;
-					rect4.yMin = (float)(rect4.yMax - 10.0);
-					rect4.xMin = (float)(rect4.xMax - 10.0);
-					if (Widgets.ButtonText(rect4, "+", true, false, true))
-					{
-						pawn.training.Train(td, pawn.Map.mapPawns.FreeColonistsSpawned.RandomElement());
-					}
-				}
-				TrainingCardUtility.DoTrainableTooltip(rect, pawn, td, canTrain);
-				GUI.color = Color.white;
-				result = true;
 			}
-			return result;
+			if (flag)
+			{
+				GUI.color = Color.green;
+			}
+			Text.Anchor = TextAnchor.MiddleLeft;
+			Widgets.Label(rect3, pawn.training.GetSteps(td) + " / " + td.steps);
+			Text.Anchor = TextAnchor.UpperLeft;
+			if (DebugSettings.godMode && !pawn.training.IsCompleted(td))
+			{
+				Rect rect4 = rect3;
+				rect4.yMin = (float)(rect4.yMax - 10.0);
+				rect4.xMin = (float)(rect4.xMax - 10.0);
+				if (Widgets.ButtonText(rect4, "+", true, false, true))
+				{
+					pawn.training.Train(td, pawn.Map.mapPawns.FreeColonistsSpawned.RandomElement());
+				}
+			}
+			TrainingCardUtility.DoTrainableTooltip(rect, pawn, td, canTrain);
+			GUI.color = Color.white;
+			return true;
 		}
 
 		public static void DoTrainableCheckbox(Rect rect, Pawn pawn, TrainableDef td, AcceptanceReport canTrain, bool drawLabel, bool doTooltip)
@@ -106,20 +100,20 @@ namespace RimWorld
 			}
 			else
 			{
-				bool wanted;
-				bool flag = wanted = pawn.training.GetWanted(td);
+				bool wanted = pawn.training.GetWanted(td);
+				bool flag = wanted;
 				if (drawLabel)
 				{
-					Widgets.CheckboxLabeled(rect, td.LabelCap, ref flag, !canTrain.Accepted);
+					Widgets.CheckboxLabeled(rect, td.LabelCap, ref wanted, !canTrain.Accepted);
 				}
 				else
 				{
-					Widgets.Checkbox(rect.position, ref flag, rect.width, !canTrain.Accepted);
+					Widgets.Checkbox(rect.position, ref wanted, rect.width, !canTrain.Accepted);
 				}
-				if (flag != wanted)
+				if (wanted != flag)
 				{
 					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.AnimalTraining, KnowledgeAmount.Total);
-					pawn.training.SetWantedRecursive(td, flag);
+					pawn.training.SetWantedRecursive(td, wanted);
 				}
 			}
 			if (doTooltip)
@@ -130,7 +124,7 @@ namespace RimWorld
 
 		private static void DoTrainableTooltip(Rect rect, Pawn pawn, TrainableDef td, AcceptanceReport canTrain)
 		{
-			TooltipHandler.TipRegion(rect, (Func<string>)delegate()
+			TooltipHandler.TipRegion(rect, delegate
 			{
 				string text = td.LabelCap + "\n\n" + td.description;
 				if (!canTrain.Accepted)

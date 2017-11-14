@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,21 +11,16 @@ namespace RimWorld
 		public static bool GrowthSeasonNow(IntVec3 c, Map map)
 		{
 			Room roomOrAdjacent = c.GetRoomOrAdjacent(map, RegionType.Set_All);
-			bool result;
 			if (roomOrAdjacent == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (roomOrAdjacent.UsesOutdoorTemperature)
+			if (roomOrAdjacent.UsesOutdoorTemperature)
 			{
-				result = map.weatherManager.growthSeasonMemory.GrowthSeasonOutdoorsNow;
+				return map.weatherManager.growthSeasonMemory.GrowthSeasonOutdoorsNow;
 			}
-			else
-			{
-				float temperature = c.GetTemperature(map);
-				result = (temperature > 0.0 && temperature < 58.0);
-			}
-			return result;
+			float temperature = c.GetTemperature(map);
+			return temperature > 0.0 && temperature < 58.0;
 		}
 
 		public static bool SnowAllowsPlanting(IntVec3 c, Map map)
@@ -40,55 +34,43 @@ namespace RimWorld
 			{
 				Log.Error("Checking CanGrowAt with " + plantDef + " which is not a plant.");
 			}
-			bool result;
 			if (!c.InBounds(map))
 			{
-				result = false;
+				return false;
 			}
-			else if (map.fertilityGrid.FertilityAt(c) < plantDef.plant.fertilityMin)
+			if (map.fertilityGrid.FertilityAt(c) < plantDef.plant.fertilityMin)
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Thing> list = map.thingGrid.ThingsListAt(c);
+			for (int i = 0; i < list.Count; i++)
 			{
-				List<Thing> list = map.thingGrid.ThingsListAt(c);
-				for (int i = 0; i < list.Count; i++)
+				Thing thing = list[i];
+				if (thing.def.BlockPlanting)
 				{
-					Thing thing = list[i];
-					if (thing.def.BlockPlanting)
-						goto IL_0085;
-					if (plantDef.passability == Traversability.Impassable && (thing.def.category == ThingCategory.Pawn || thing.def.category == ThingCategory.Item || thing.def.category == ThingCategory.Building || thing.def.category == ThingCategory.Plant))
-					{
-						goto IL_00dd;
-					}
+					return false;
 				}
-				if (plantDef.passability == Traversability.Impassable)
+				if (plantDef.passability == Traversability.Impassable && (thing.def.category == ThingCategory.Pawn || thing.def.category == ThingCategory.Item || thing.def.category == ThingCategory.Building || thing.def.category == ThingCategory.Plant))
 				{
-					for (int j = 0; j < 4; j++)
+					return false;
+				}
+			}
+			if (plantDef.passability == Traversability.Impassable)
+			{
+				for (int j = 0; j < 4; j++)
+				{
+					IntVec3 c2 = c + GenAdj.CardinalDirections[j];
+					if (c2.InBounds(map))
 					{
-						IntVec3 c2 = c + GenAdj.CardinalDirections[j];
-						if (c2.InBounds(map))
+						Building edifice = c2.GetEdifice(map);
+						if (edifice != null && edifice.def.IsDoor)
 						{
-							Building edifice = c2.GetEdifice(map);
-							if (edifice != null && edifice.def.IsDoor)
-								goto IL_0155;
+							return false;
 						}
 					}
 				}
-				result = true;
 			}
-			goto IL_0174;
-			IL_0155:
-			result = false;
-			goto IL_0174;
-			IL_0085:
-			result = false;
-			goto IL_0174;
-			IL_0174:
-			return result;
-			IL_00dd:
-			result = false;
-			goto IL_0174;
+			return true;
 		}
 
 		public static void LogPlantProportions()
@@ -154,66 +136,51 @@ namespace RimWorld
 			where def.category == ThingCategory.Plant
 			select def).GetEnumerator())
 			{
-				ThingDef plantDef;
-				while (true)
+				while (enumerator.MoveNext())
 				{
-					if (enumerator.MoveNext())
+					_003CValidPlantTypesForGrowers_003Ec__Iterator0 _003CValidPlantTypesForGrowers_003Ec__Iterator = (_003CValidPlantTypesForGrowers_003Ec__Iterator0)/*Error near IL_007a: stateMachine*/;
+					ThingDef plantDef = enumerator.Current;
+					if (sel.TrueForAll((IPlantToGrowSettable x) => GenPlant.CanSowOnGrower(plantDef, x)))
 					{
-						_003CValidPlantTypesForGrowers_003Ec__Iterator0 _003CValidPlantTypesForGrowers_003Ec__Iterator = (_003CValidPlantTypesForGrowers_003Ec__Iterator0)/*Error near IL_007c: stateMachine*/;
-						plantDef = enumerator.Current;
-						if (sel.TrueForAll((Predicate<IPlantToGrowSettable>)((IPlantToGrowSettable x) => GenPlant.CanSowOnGrower(plantDef, x))))
-							break;
-						continue;
+						yield return plantDef;
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
-					yield break;
 				}
-				yield return plantDef;
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			IL_011b:
-			/*Error near IL_011c: Unexpected return in MoveNext()*/;
+			yield break;
+			IL_0117:
+			/*Error near IL_0118: Unexpected return in MoveNext()*/;
 		}
 
 		public static bool CanSowOnGrower(ThingDef plantDef, object obj)
 		{
-			bool result;
 			if (obj is Zone)
 			{
-				result = plantDef.plant.sowTags.Contains("Ground");
+				return plantDef.plant.sowTags.Contains("Ground");
 			}
-			else
+			Thing thing = obj as Thing;
+			if (thing != null && thing.def.building != null)
 			{
-				Thing thing = obj as Thing;
-				result = (thing != null && thing.def.building != null && plantDef.plant.sowTags.Contains(thing.def.building.sowTag));
+				return plantDef.plant.sowTags.Contains(thing.def.building.sowTag);
 			}
-			return result;
+			return false;
 		}
 
 		public static Thing AdjacentSowBlocker(ThingDef plantDef, IntVec3 c, Map map)
 		{
-			int num = 0;
-			Thing result;
-			while (true)
+			for (int i = 0; i < 8; i++)
 			{
-				if (num < 8)
+				IntVec3 c2 = c + GenAdj.AdjacentCells[i];
+				if (c2.InBounds(map))
 				{
-					IntVec3 c2 = c + GenAdj.AdjacentCells[num];
-					if (c2.InBounds(map))
+					Plant plant = c2.GetPlant(map);
+					if (plant != null && (plant.def.plant.blockAdjacentSow || (plantDef.plant.blockAdjacentSow && plant.sown)))
 					{
-						Plant plant = c2.GetPlant(map);
-						if (plant != null && (plant.def.plant.blockAdjacentSow || (plantDef.plant.blockAdjacentSow && plant.sown)))
-						{
-							result = plant;
-							break;
-						}
+						return plant;
 					}
-					num++;
-					continue;
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		internal static void LogPlantData()
@@ -253,7 +220,7 @@ namespace RimWorld
 		public static void SetWindExposureColors(Color32[] colors, Plant plant)
 		{
 			colors[1].a = (colors[2].a = GenPlant.GetWindExposure(plant));
-			colors[0].a = (colors[3].a = (byte)0);
+			colors[0].a = (colors[3].a = 0);
 		}
 	}
 }

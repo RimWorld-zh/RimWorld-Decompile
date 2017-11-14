@@ -14,38 +14,32 @@ namespace RimWorld
 
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
-			bool result;
 			if (!base.TryExecuteWorker(parms))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Find.TickManager.slower.SignalForceNormalSpeedShort();
-				Find.StoryWatcher.statsRecord.numRaidsEnemy++;
-				result = true;
-			}
-			return result;
+			Find.TickManager.slower.SignalForceNormalSpeedShort();
+			Find.StoryWatcher.statsRecord.numRaidsEnemy++;
+			return true;
 		}
 
 		protected override bool TryResolveRaidFaction(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
-			bool result;
 			if (parms.faction != null)
 			{
-				result = true;
+				return true;
 			}
-			else
+			float num = parms.points;
+			if (num <= 0.0)
 			{
-				float num = parms.points;
-				if (num <= 0.0)
-				{
-					num = 999999f;
-				}
-				result = ((byte)((PawnGroupMakerUtility.TryGetRandomFactionForNormalPawnGroup(num, out parms.faction, (Predicate<Faction>)((Faction f) => this.FactionCanBeGroupSource(f, map, false)), true, true, true, true) || PawnGroupMakerUtility.TryGetRandomFactionForNormalPawnGroup(num, out parms.faction, (Predicate<Faction>)((Faction f) => this.FactionCanBeGroupSource(f, map, true)), true, true, true, true)) ? 1 : 0) != 0);
+				num = 999999f;
 			}
-			return result;
+			if (!PawnGroupMakerUtility.TryGetRandomFactionForNormalPawnGroup(num, out parms.faction, (Predicate<Faction>)((Faction f) => this.FactionCanBeGroupSource(f, map, false)), true, true, true, true) && !PawnGroupMakerUtility.TryGetRandomFactionForNormalPawnGroup(num, out parms.faction, (Predicate<Faction>)((Faction f) => this.FactionCanBeGroupSource(f, map, true)), true, true, true, true))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		protected override void ResolveRaidPoints(IncidentParms parms)
@@ -64,7 +58,7 @@ namespace RimWorld
 				Map map = (Map)parms.target;
 				parms.raidStrategy = (from d in DefDatabase<RaidStrategyDef>.AllDefs
 				where d.Worker.CanUseWith(parms)
-				select d).RandomElementByWeight((Func<RaidStrategyDef, float>)((RaidStrategyDef d) => d.Worker.SelectionChance(map)));
+				select d).RandomElementByWeight((RaidStrategyDef d) => d.Worker.SelectionChance(map));
 			}
 		}
 
@@ -75,28 +69,22 @@ namespace RimWorld
 
 		protected override string GetLetterText(IncidentParms parms, List<Pawn> pawns)
 		{
-			string str = (string)null;
+			string str = null;
 			switch (parms.raidArrivalMode)
 			{
 			case PawnsArriveMode.EdgeWalkIn:
-			{
 				str = "EnemyRaidWalkIn".Translate(parms.faction.def.pawnsPlural, parms.faction.Name);
 				break;
-			}
 			case PawnsArriveMode.EdgeDrop:
-			{
 				str = "EnemyRaidEdgeDrop".Translate(parms.faction.def.pawnsPlural, parms.faction.Name);
 				break;
-			}
 			case PawnsArriveMode.CenterDrop:
-			{
 				str = "EnemyRaidCenterDrop".Translate(parms.faction.def.pawnsPlural, parms.faction.Name);
 				break;
 			}
-			}
 			str += "\n\n";
 			str += parms.raidStrategy.arrivalTextEnemy;
-			Pawn pawn = pawns.Find((Predicate<Pawn>)((Pawn x) => x.Faction.leader == x));
+			Pawn pawn = pawns.Find((Pawn x) => x.Faction.leader == x);
 			if (pawn != null)
 			{
 				str += "\n\n";

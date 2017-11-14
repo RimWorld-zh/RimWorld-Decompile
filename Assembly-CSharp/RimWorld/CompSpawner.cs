@@ -45,18 +45,21 @@ namespace RimWorld
 
 		private void TickInterval(int interval)
 		{
-			Hive hive = base.parent as Hive;
-			if (hive != null)
+			if (base.parent.Spawned)
 			{
-				if (!hive.active)
+				Hive hive = base.parent as Hive;
+				if (hive != null)
+				{
+					if (!hive.active)
+						return;
+				}
+				else if (base.parent.Position.Fogged(base.parent.Map))
 					return;
+				if (this.PropsSpawner.requiresPower && !this.PowerOn)
+					return;
+				this.ticksUntilSpawn -= interval;
+				this.CheckShouldSpawn();
 			}
-			else if (base.parent.Position.Fogged(base.parent.Map))
-				return;
-			if (this.PropsSpawner.requiresPower && !this.PowerOn)
-				return;
-			this.ticksUntilSpawn -= interval;
-			this.CheckShouldSpawn();
 		}
 
 		private void CheckShouldSpawn()
@@ -82,13 +85,14 @@ namespace RimWorld
 						{
 							num += thingList[j].stackCount;
 							if (num >= this.PropsSpawner.spawnMaxAdjacent)
-								goto IL_0093;
+							{
+								return false;
+							}
 						}
 					}
 				}
 			}
 			IntVec3 center = default(IntVec3);
-			bool result;
 			if (this.TryFindSpawnCell(out center))
 			{
 				Thing thing = ThingMaker.MakeThing(this.PropsSpawner.thingToSpawn, null);
@@ -103,18 +107,9 @@ namespace RimWorld
 				{
 					Messages.Message("MessageCompSpawnerSpawnedItem".Translate(this.PropsSpawner.thingToSpawn.label).CapitalizeFirst(), thing, MessageTypeDefOf.PositiveEvent);
 				}
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			goto IL_018e;
-			IL_018e:
-			return result;
-			IL_0093:
-			result = false;
-			goto IL_018e;
+			return false;
 		}
 
 		private bool TryFindSpawnCell(out IntVec3 result)
@@ -171,10 +166,10 @@ namespace RimWorld
 			{
 				defaultLabel = "DEBUG: Spawn " + this.PropsSpawner.thingToSpawn.label,
 				icon = TexCommand.DesirePower,
-				action = (Action)delegate
+				action = delegate
 				{
-					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0078: stateMachine*/)._0024this.TryDoSpawn();
-					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0078: stateMachine*/)._0024this.ResetCountdown();
+					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0076: stateMachine*/)._0024this.TryDoSpawn();
+					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0076: stateMachine*/)._0024this.ResetCountdown();
 				}
 			};
 			/*Error: Unable to find new state assignment for yield return*/;
@@ -182,7 +177,11 @@ namespace RimWorld
 
 		public override string CompInspectStringExtra()
 		{
-			return (!this.PropsSpawner.writeTimeLeftToSpawn || (this.PropsSpawner.requiresPower && !this.PowerOn)) ? null : ("NextSpawnedItemIn".Translate(GenLabel.ThingLabel(this.PropsSpawner.thingToSpawn, null, this.PropsSpawner.spawnCount)) + ": " + this.ticksUntilSpawn.ToStringTicksToPeriod(true, false, true));
+			if (this.PropsSpawner.writeTimeLeftToSpawn && (!this.PropsSpawner.requiresPower || this.PowerOn))
+			{
+				return "NextSpawnedItemIn".Translate(GenLabel.ThingLabel(this.PropsSpawner.thingToSpawn, null, this.PropsSpawner.spawnCount)) + ": " + this.ticksUntilSpawn.ToStringTicksToPeriod(true, false, true);
+			}
+			return null;
 		}
 	}
 }

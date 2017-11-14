@@ -7,7 +7,11 @@ namespace RimWorld
 	{
 		public override Job NonScanJob(Pawn pawn)
 		{
-			return HealthAIUtility.ShouldBeTendedNowUrgent(pawn) ? base.NonScanJob(pawn) : null;
+			if (!HealthAIUtility.ShouldBeTendedNowUrgent(pawn))
+			{
+				return null;
+			}
+			return base.NonScanJob(pawn);
 		}
 	}
 }

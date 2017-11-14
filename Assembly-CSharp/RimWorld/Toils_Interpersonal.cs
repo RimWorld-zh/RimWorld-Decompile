@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -10,7 +9,7 @@ namespace RimWorld
 		public static Toil GotoInteractablePosition(TargetIndex target)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Pawn actor2 = toil.actor;
 				Pawn pawn2 = (Pawn)(Thing)actor2.CurJob.GetTarget(target);
@@ -20,10 +19,10 @@ namespace RimWorld
 				}
 				else
 				{
-					actor2.pather.StartPath((Thing)pawn2, PathEndMode.Touch);
+					actor2.pather.StartPath(pawn2, PathEndMode.Touch);
 				}
 			};
-			toil.tickAction = (Action)delegate()
+			toil.tickAction = delegate
 			{
 				Pawn actor = toil.actor;
 				Pawn pawn = (Pawn)(Thing)actor.CurJob.GetTarget(target);
@@ -62,11 +61,30 @@ namespace RimWorld
 		public static Toil GotoPrisoner(Pawn pawn, Pawn talkee, PrisonerInteractionModeDef mode)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
-				pawn.pather.StartPath((Thing)talkee, PathEndMode.Touch);
+				pawn.pather.StartPath(talkee, PathEndMode.Touch);
 			};
-			toil.AddFailCondition((Func<bool>)(() => (byte)(talkee.DestroyedOrNull() ? 1 : ((mode != PrisonerInteractionModeDefOf.Execution && !talkee.Awake()) ? 1 : ((!talkee.IsPrisonerOfColony) ? 1 : ((talkee.guest == null || talkee.guest.interactionMode != mode) ? 1 : 0)))) != 0));
+			toil.AddFailCondition(delegate
+			{
+				if (talkee.DestroyedOrNull())
+				{
+					return true;
+				}
+				if (mode != PrisonerInteractionModeDefOf.Execution && !talkee.Awake())
+				{
+					return true;
+				}
+				if (!talkee.IsPrisonerOfColony)
+				{
+					return true;
+				}
+				if (talkee.guest != null && talkee.guest.interactionMode == mode)
+				{
+					return false;
+				}
+				return true;
+			});
 			toil.socialMode = RandomSocialMode.Off;
 			toil.defaultCompleteMode = ToilCompleteMode.PatherArrival;
 			return toil;
@@ -75,14 +93,14 @@ namespace RimWorld
 		public static Toil WaitToBeAbleToInteract(Pawn pawn)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				if (!pawn.interactions.InteractedTooRecentlyToInteract())
 				{
 					pawn.jobs.curDriver.ReadyForNextToil();
 				}
 			};
-			toil.tickAction = (Action)delegate()
+			toil.tickAction = delegate
 			{
 				if (!pawn.interactions.InteractedTooRecentlyToInteract())
 				{
@@ -97,7 +115,7 @@ namespace RimWorld
 		public static Toil ConvinceRecruitee(Pawn pawn, Pawn talkee)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				if (!pawn.interactions.TryInteractWith(talkee, InteractionDefOf.BuildRapport))
 				{
@@ -117,7 +135,7 @@ namespace RimWorld
 		public static Toil SetLastInteractTime(TargetIndex targetInd)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Pawn pawn = (Pawn)toil.actor.jobs.curJob.GetTarget(targetInd).Thing;
 				pawn.mindState.lastAssignedInteractTime = Find.TickManager.TicksGame;
@@ -129,7 +147,7 @@ namespace RimWorld
 		public static Toil TryRecruit(TargetIndex recruiteeInd)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Pawn actor = toil.actor;
 				Pawn pawn = (Pawn)actor.jobs.curJob.GetTarget(recruiteeInd).Thing;
@@ -148,7 +166,7 @@ namespace RimWorld
 		public static Toil TryTrain(TargetIndex traineeInd)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Pawn actor = toil.actor;
 				Pawn pawn = (Pawn)actor.jobs.curJob.GetTarget(traineeInd).Thing;
@@ -191,7 +209,7 @@ namespace RimWorld
 		public static Toil Interact(TargetIndex otherPawnInd, InteractionDef interaction)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Pawn actor = toil.actor;
 				Pawn pawn = (Pawn)actor.jobs.curJob.GetTarget(otherPawnInd).Thing;

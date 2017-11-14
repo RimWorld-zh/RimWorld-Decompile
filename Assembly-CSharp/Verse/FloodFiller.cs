@@ -26,7 +26,7 @@ namespace Verse
 
 		public void FloodFill(IntVec3 root, Predicate<IntVec3> passCheck, Action<IntVec3> processor, int maxCellsToProcess = 2147483647, bool rememberParents = false, IEnumerable<IntVec3> extraRoots = null)
 		{
-			this.FloodFill(root, passCheck, (Func<IntVec3, int, bool>)delegate(IntVec3 cell, int traversalDist)
+			this.FloodFill(root, passCheck, delegate(IntVec3 cell, int traversalDist)
 			{
 				processor(cell);
 				return false;
@@ -35,7 +35,7 @@ namespace Verse
 
 		public void FloodFill(IntVec3 root, Predicate<IntVec3> passCheck, Action<IntVec3, int> processor, int maxCellsToProcess = 2147483647, bool rememberParents = false, IEnumerable<IntVec3> extraRoots = null)
 		{
-			this.FloodFill(root, passCheck, (Func<IntVec3, int, bool>)delegate(IntVec3 cell, int traversalDist)
+			this.FloodFill(root, passCheck, delegate(IntVec3 cell, int traversalDist)
 			{
 				processor(cell, traversalDist);
 				return false;
@@ -44,7 +44,7 @@ namespace Verse
 
 		public void FloodFill(IntVec3 root, Predicate<IntVec3> passCheck, Func<IntVec3, bool> processor, int maxCellsToProcess = 2147483647, bool rememberParents = false, IEnumerable<IntVec3> extraRoots = null)
 		{
-			this.FloodFill(root, passCheck, (Func<IntVec3, int, bool>)((IntVec3 cell, int traversalDist) => processor(cell)), maxCellsToProcess, rememberParents, extraRoots);
+			this.FloodFill(root, passCheck, (IntVec3 cell, int traversalDist) => processor(cell), maxCellsToProcess, rememberParents, extraRoots);
 		}
 
 		public void FloodFill(IntVec3 root, Predicate<IntVec3> passCheck, Func<IntVec3, int, bool> processor, int maxCellsToProcess = 2147483647, bool rememberParents = false, IEnumerable<IntVec3> extraRoots = null)
@@ -97,12 +97,12 @@ namespace Verse
 					}
 					else
 					{
-						foreach (IntVec3 item in extraRoots)
+						foreach (IntVec3 extraRoot in extraRoots)
 						{
-							int num5 = cellIndices.CellToIndex(item);
+							int num5 = cellIndices.CellToIndex(extraRoot);
 							this.visited.Add(num5);
 							this.traversalDistance[num5] = 0;
-							this.openSet.Enqueue(item);
+							this.openSet.Enqueue(extraRoot);
 						}
 					}
 				}
@@ -123,18 +123,18 @@ namespace Verse
 						num2++;
 						if (num2 != maxCellsToProcess)
 						{
-							for (int num7 = 0; num7 < num; num7++)
+							for (int k = 0; k < num; k++)
 							{
-								IntVec3 intVec3 = intVec2 + cardinalDirectionsAround[num7];
-								int num8 = cellIndices.CellToIndex(intVec3);
-								if (intVec3.InBounds(this.map) && this.traversalDistance[num8] == -1 && passCheck(intVec3))
+								IntVec3 intVec3 = intVec2 + cardinalDirectionsAround[k];
+								int num7 = cellIndices.CellToIndex(intVec3);
+								if (intVec3.InBounds(this.map) && this.traversalDistance[num7] == -1 && passCheck(intVec3))
 								{
-									this.visited.Add(num8);
+									this.visited.Add(num7);
 									this.openSet.Enqueue(intVec3);
-									this.traversalDistance[num8] = num6 + 1;
+									this.traversalDistance[num7] = num6 + 1;
 									if (rememberParents)
 									{
-										this.parentGrid[num8] = intVec2;
+										this.parentGrid[num7] = intVec2;
 									}
 								}
 							}
@@ -185,17 +185,16 @@ namespace Verse
 
 		private void ClearVisited()
 		{
-			int num = 0;
+			int i = 0;
 			int count = this.visited.Count;
-			while (num < count)
+			for (; i < count; i++)
 			{
-				int index = this.visited[num];
+				int index = this.visited[i];
 				this.traversalDistance[index] = -1;
 				if (this.parentGrid != null)
 				{
 					this.parentGrid[index] = IntVec3.Invalid;
 				}
-				num++;
 			}
 			this.visited.Clear();
 			this.openSet.Clear();

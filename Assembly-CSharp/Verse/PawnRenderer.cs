@@ -64,7 +64,11 @@ namespace Verse
 		{
 			get
 			{
-				return (this.pawn.Dead && this.pawn.Corpse != null) ? this.pawn.Corpse.CurRotDrawMode : RotDrawMode.Fresh;
+				if (this.pawn.Dead && this.pawn.Corpse != null)
+				{
+					return this.pawn.Corpse.CurRotDrawMode;
+				}
+				return RotDrawMode.Fresh;
 			}
 		}
 
@@ -141,14 +145,14 @@ namespace Verse
 					Rot4 rotation = building_Bed.Rotation;
 					rotation.AsInt += 2;
 					quat = rotation.AsQuat;
-					AltitudeLayer altLayer = (AltitudeLayer)(byte)Mathf.Max((int)building_Bed.def.altitudeLayer, 15);
-					Vector3 vector2;
-					Vector3 a = vector2 = this.pawn.Position.ToVector3ShiftedWithAltitude(altLayer);
-					vector2.y += 0.02734375f;
-					Vector3 vector3 = this.BaseHeadOffsetAt(Rot4.South);
-					float d = (float)(0.0 - vector3.z);
-					Vector3 a2 = rotation.FacingCell.ToVector3();
-					rootLoc = a + a2 * d;
+					AltitudeLayer altLayer = (AltitudeLayer)Mathf.Max((int)building_Bed.def.altitudeLayer, 15);
+					Vector3 vector2 = this.pawn.Position.ToVector3ShiftedWithAltitude(altLayer);
+					Vector3 vector3 = vector2;
+					vector3.y += 0.02734375f;
+					Vector3 vector4 = this.BaseHeadOffsetAt(Rot4.South);
+					float d = (float)(0.0 - vector4.z);
+					Vector3 a = rotation.FacingCell.ToVector3();
+					rootLoc = vector2 + a * d;
 					rootLoc.y += 0.0078125f;
 				}
 				else
@@ -173,15 +177,11 @@ namespace Verse
 						switch (this.pawn.thingIDNumber % 2)
 						{
 						case 0:
-						{
 							rot2 = Rot4.West;
 							break;
-						}
 						case 1:
-						{
 							rot2 = Rot4.East;
 							break;
-						}
 						}
 						quat = rot2.AsQuat;
 					}
@@ -422,111 +422,79 @@ namespace Verse
 
 		private bool CarryWeaponOpenly()
 		{
-			return (byte)((this.pawn.carryTracker == null || this.pawn.carryTracker.CarriedThing == null) ? (this.pawn.Drafted ? 1 : ((this.pawn.CurJob != null && this.pawn.CurJob.def.alwaysShowWeapon) ? 1 : ((this.pawn.mindState.duty != null && this.pawn.mindState.duty.def.alwaysShowWeapon) ? 1 : 0))) : 0) != 0;
+			if (this.pawn.carryTracker != null && this.pawn.carryTracker.CarriedThing != null)
+			{
+				return false;
+			}
+			if (this.pawn.Drafted)
+			{
+				return true;
+			}
+			if (this.pawn.CurJob != null && this.pawn.CurJob.def.alwaysShowWeapon)
+			{
+				return true;
+			}
+			if (this.pawn.mindState.duty != null && this.pawn.mindState.duty.def.alwaysShowWeapon)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		private Rot4 LayingFacing()
 		{
-			Rot4 result;
 			if (this.pawn.GetPosture() == PawnPosture.LayingFaceUp)
 			{
-				result = Rot4.South;
+				return Rot4.South;
+			}
+			if (this.pawn.RaceProps.Humanlike)
+			{
+				switch (this.pawn.thingIDNumber % 4)
+				{
+				case 0:
+					return Rot4.South;
+				case 1:
+					return Rot4.South;
+				case 2:
+					return Rot4.East;
+				case 3:
+					return Rot4.West;
+				}
 			}
 			else
 			{
-				if (this.pawn.RaceProps.Humanlike)
+				switch (this.pawn.thingIDNumber % 4)
 				{
-					switch (this.pawn.thingIDNumber % 4)
-					{
-					case 0:
-					{
-						result = Rot4.South;
-						goto IL_00f0;
-					}
-					case 1:
-					{
-						result = Rot4.South;
-						goto IL_00f0;
-					}
-					case 2:
-					{
-						result = Rot4.East;
-						goto IL_00f0;
-					}
-					case 3:
-					{
-						result = Rot4.West;
-						goto IL_00f0;
-					}
-					}
+				case 0:
+					return Rot4.South;
+				case 1:
+					return Rot4.East;
+				case 2:
+					return Rot4.West;
+				case 3:
+					return Rot4.West;
 				}
-				else
-				{
-					switch (this.pawn.thingIDNumber % 4)
-					{
-					case 0:
-					{
-						result = Rot4.South;
-						goto IL_00f0;
-					}
-					case 1:
-					{
-						result = Rot4.East;
-						goto IL_00f0;
-					}
-					case 2:
-					{
-						result = Rot4.West;
-						goto IL_00f0;
-					}
-					case 3:
-					{
-						result = Rot4.West;
-						goto IL_00f0;
-					}
-					}
-				}
-				result = Rot4.Random;
 			}
-			goto IL_00f0;
-			IL_00f0:
-			return result;
+			return Rot4.Random;
 		}
 
 		public Vector3 BaseHeadOffsetAt(Rot4 rotation)
 		{
 			float num = PawnRenderer.HorHeadOffsets[(uint)this.pawn.story.bodyType];
-			Vector3 result;
 			switch (rotation.AsInt)
 			{
 			case 0:
-			{
-				result = new Vector3(0f, 0f, 0.34f);
-				break;
-			}
+				return new Vector3(0f, 0f, 0.34f);
 			case 1:
-			{
-				result = new Vector3(num, 0f, 0.34f);
-				break;
-			}
+				return new Vector3(num, 0f, 0.34f);
 			case 2:
-			{
-				result = new Vector3(0f, 0f, 0.34f);
-				break;
-			}
+				return new Vector3(0f, 0f, 0.34f);
 			case 3:
-			{
-				result = new Vector3((float)(0.0 - num), 0f, 0.34f);
-				break;
-			}
+				return new Vector3((float)(0.0 - num), 0f, 0.34f);
 			default:
-			{
 				Log.Error("BaseHeadOffsetAt error in " + this.pawn);
-				result = Vector3.zero;
-				break;
+				return Vector3.zero;
 			}
-			}
-			return result;
 		}
 
 		public void Notify_DamageApplied(DamageInfo dam)

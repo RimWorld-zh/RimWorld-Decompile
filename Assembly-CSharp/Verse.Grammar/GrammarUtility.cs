@@ -6,22 +6,21 @@ namespace Verse.Grammar
 {
 	public static class GrammarUtility
 	{
-		public static IEnumerable<Rule> RulesForPawn(string prefix, Pawn pawn)
+		public static IEnumerable<Rule> RulesForPawn(string prefix, Pawn pawn, Dictionary<string, string> constants = null)
 		{
-			IEnumerable<Rule> result;
 			if (pawn == null)
 			{
 				Log.ErrorOnce(string.Format("Tried to insert rule {0} for null pawn", prefix), 16015097);
-				result = Enumerable.Empty<Rule>();
+				return Enumerable.Empty<Rule>();
 			}
-			else
+			if (pawn.RaceProps.Humanlike)
 			{
-				result = ((!pawn.RaceProps.Humanlike) ? GrammarUtility.RulesForPawn(prefix, null, pawn.kindDef, pawn.gender, pawn.Faction) : GrammarUtility.RulesForPawn(prefix, pawn.Name, pawn.kindDef, pawn.gender, pawn.Faction));
+				return GrammarUtility.RulesForPawn(prefix, pawn.Name, pawn.kindDef, pawn.gender, pawn.Faction, constants);
 			}
-			return result;
+			return GrammarUtility.RulesForPawn(prefix, null, pawn.kindDef, pawn.gender, pawn.Faction, constants);
 		}
 
-		public static IEnumerable<Rule> RulesForPawn(string prefix, Name name, PawnKindDef kind, Gender gender, Faction faction = null)
+		public static IEnumerable<Rule> RulesForPawn(string prefix, Name name, PawnKindDef kind, Gender gender, Faction faction, Dictionary<string, string> constants = null)
 		{
 			string nameFull = (name == null) ? Find.ActiveLanguageWorker.WithIndefiniteArticle(kind.label) : name.ToStringFull;
 			yield return (Rule)new Rule_String(prefix + "_nameFull", nameFull);

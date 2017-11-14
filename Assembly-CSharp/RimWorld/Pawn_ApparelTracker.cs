@@ -60,35 +60,38 @@ namespace RimWorld
 		{
 			get
 			{
-				bool result;
 				if (this.pawn.gender == Gender.None)
 				{
-					result = false;
+					return false;
 				}
-				else
+				bool flag = default(bool);
+				bool flag2 = default(bool);
+				this.HasBasicApparel(out flag, out flag2);
+				if (!flag)
 				{
-					bool flag = default(bool);
-					bool flag2 = default(bool);
-					this.HasBasicApparel(out flag, out flag2);
-					if (!flag)
+					bool flag3 = false;
+					foreach (BodyPartRecord notMissingPart in this.pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined))
 					{
-						bool flag3 = false;
-						foreach (BodyPartRecord notMissingPart in this.pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined))
+						if (notMissingPart.IsInGroup(BodyPartGroupDefOf.Legs))
 						{
-							if (notMissingPart.IsInGroup(BodyPartGroupDefOf.Legs))
-							{
-								flag3 = true;
-								break;
-							}
-						}
-						if (!flag3)
-						{
-							flag = true;
+							flag3 = true;
+							break;
 						}
 					}
-					result = ((this.pawn.gender != Gender.Male) ? (this.pawn.gender == Gender.Female && (!flag || !flag2)) : (!flag));
+					if (!flag3)
+					{
+						flag = true;
+					}
 				}
-				return result;
+				if (this.pawn.gender == Gender.Male)
+				{
+					return !flag;
+				}
+				if (this.pawn.gender == Gender.Female)
+				{
+					return !flag || !flag2;
+				}
+				return false;
 			}
 		}
 
@@ -148,30 +151,20 @@ namespace RimWorld
 			{
 				string str = "MessageWornApparelDeterioratedAway".Translate(GenLabel.ThingLabel(ap.def, ap.Stuff, 1), this.pawn);
 				str = str.CapitalizeFirst();
-				Messages.Message(str, (Thing)this.pawn, MessageTypeDefOf.NegativeEvent);
+				Messages.Message(str, this.pawn, MessageTypeDefOf.NegativeEvent);
 			}
 		}
 
 		public bool CanWearWithoutDroppingAnything(ThingDef apDef)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.wornApparel.Count; i++)
 			{
-				if (num < this.wornApparel.Count)
+				if (!ApparelUtility.CanWearTogether(apDef, this.wornApparel[i].def, this.pawn.RaceProps.body))
 				{
-					if (!ApparelUtility.CanWearTogether(apDef, this.wornApparel[num].def, this.pawn.RaceProps.body))
-					{
-						result = false;
-						break;
-					}
-					num++;
-					continue;
+					return false;
 				}
-				result = true;
-				break;
 			}
-			return result;
+			return true;
 		}
 
 		public void Wear(Apparel newApparel, bool dropReplacedApparel = true)
@@ -227,20 +220,15 @@ namespace RimWorld
 
 		public bool TryDrop(Apparel ap, out Apparel resultingAp, IntVec3 pos, bool forbid = true)
 		{
-			bool result;
 			if (this.wornApparel.TryDrop((Thing)ap, pos, this.pawn.MapHeld, ThingPlaceMode.Near, out resultingAp, (Action<Apparel, int>)null))
 			{
 				if (resultingAp != null)
 				{
 					resultingAp.SetForbidden(forbid, false);
 				}
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public void DropAll(IntVec3 pos, bool forbid = true)
@@ -305,7 +293,7 @@ namespace RimWorld
 
 		private void SortWornApparelIntoDrawOrder()
 		{
-			this.wornApparel.InnerListForReading.Sort((Comparison<Apparel>)((Apparel a, Apparel b) => a.def.apparel.LastLayer.CompareTo(b.def.apparel.LastLayer)));
+			this.wornApparel.InnerListForReading.Sort((Apparel a, Apparel b) => a.def.apparel.LastLayer.CompareTo(b.def.apparel.LastLayer));
 		}
 
 		public void HasBasicApparel(out bool hasPants, out bool hasShirt)
@@ -333,55 +321,34 @@ namespace RimWorld
 
 		public Apparel FirstApparelOnBodyPartGroup(BodyPartGroupDef g)
 		{
-			int num = 0;
-			Apparel result;
-			while (true)
+			for (int i = 0; i < this.wornApparel.Count; i++)
 			{
-				Apparel apparel;
-				if (num < this.wornApparel.Count)
+				Apparel apparel = this.wornApparel[i];
+				for (int j = 0; j < apparel.def.apparel.bodyPartGroups.Count; j++)
 				{
-					apparel = this.wornApparel[num];
-					for (int i = 0; i < apparel.def.apparel.bodyPartGroups.Count; i++)
+					if (apparel.def.apparel.bodyPartGroups[j] == BodyPartGroupDefOf.Torso)
 					{
-						if (apparel.def.apparel.bodyPartGroups[i] == BodyPartGroupDefOf.Torso)
-							goto IL_003e;
+						return apparel;
 					}
-					num++;
-					continue;
 				}
-				result = null;
-				break;
-				IL_003e:
-				result = apparel;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		public bool BodyPartGroupIsCovered(BodyPartGroupDef bp)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.wornApparel.Count; i++)
 			{
-				if (num < this.wornApparel.Count)
+				Apparel apparel = this.wornApparel[i];
+				for (int j = 0; j < apparel.def.apparel.bodyPartGroups.Count; j++)
 				{
-					Apparel apparel = this.wornApparel[num];
-					for (int i = 0; i < apparel.def.apparel.bodyPartGroups.Count; i++)
+					if (apparel.def.apparel.bodyPartGroups[j] == bp)
 					{
-						if (apparel.def.apparel.bodyPartGroups[i] == bp)
-							goto IL_003a;
+						return true;
 					}
-					num++;
-					continue;
 				}
-				result = false;
-				break;
-				IL_003a:
-				result = true;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public IEnumerable<Gizmo> GetGizmos()
@@ -399,13 +366,13 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_0104:
-			/*Error near IL_0105: Unexpected return in MoveNext()*/;
+			IL_00fe:
+			/*Error near IL_00ff: Unexpected return in MoveNext()*/;
 		}
 
 		private void ApparelChanged()
 		{
-			LongEventHandler.ExecuteWhenFinished((Action)delegate
+			LongEventHandler.ExecuteWhenFinished(delegate
 			{
 				this.pawn.Drawer.renderer.graphics.ResolveApparelGraphics();
 				PortraitsCache.SetDirty(this.pawn);

@@ -50,50 +50,39 @@ namespace RimWorld
 		private FiringIncident GenerateQueuedThreatSmall(IIncidentTarget target)
 		{
 			IncidentDef incidentDef = default(IncidentDef);
-			FiringIncident result;
-			if (!this.UsableIncidentsInCategory(this.Props.threatSmallCategory, target).TryRandomElementByWeight<IncidentDef>(new Func<IncidentDef, float>(base.IncidentChanceFinal), out incidentDef))
+			if (!this.UsableIncidentsInCategory(this.Props.threatSmallCategory, target).TryRandomElementByWeight<IncidentDef>((Func<IncidentDef, float>)base.IncidentChanceFinal, out incidentDef))
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				FiringIncident firingIncident = new FiringIncident(incidentDef, this, null);
-				firingIncident.parms = this.GenerateParms(incidentDef.category, target);
-				result = firingIncident;
-			}
-			return result;
+			FiringIncident firingIncident = new FiringIncident(incidentDef, this, null);
+			firingIncident.parms = this.GenerateParms(incidentDef.category, target);
+			return firingIncident;
 		}
 
 		private FiringIncident GenerateQueuedThreatBig(IIncidentTarget target)
 		{
 			IncidentParms parms = this.GenerateParms(this.Props.threatBigCategory, target);
 			IncidentDef raidEnemy = default(IncidentDef);
-			FiringIncident result;
 			if ((float)GenDate.DaysPassed < this.Props.minDaysBeforeNonRaidThreatBig)
 			{
 				if (IncidentDefOf.RaidEnemy.Worker.CanFireNow(target))
 				{
 					raidEnemy = IncidentDefOf.RaidEnemy;
-					goto IL_00b3;
+					goto IL_00a3;
 				}
-				result = null;
-				goto IL_00cf;
+				return null;
 			}
 			if (!(from def in DefDatabase<IncidentDef>.AllDefs
 			where def.category == this.Props.threatBigCategory && parms.points >= def.minThreatPoints && def.Worker.CanFireNow(target)
-			select def).TryRandomElementByWeight<IncidentDef>(new Func<IncidentDef, float>(base.IncidentChanceFinal), out raidEnemy))
+			select def).TryRandomElementByWeight<IncidentDef>((Func<IncidentDef, float>)base.IncidentChanceFinal, out raidEnemy))
 			{
-				result = null;
-				goto IL_00cf;
+				return null;
 			}
-			goto IL_00b3;
-			IL_00cf:
-			return result;
-			IL_00b3:
+			goto IL_00a3;
+			IL_00a3:
 			FiringIncident firingIncident = new FiringIncident(raidEnemy, this, null);
 			firingIncident.parms = parms;
-			result = firingIncident;
-			goto IL_00cf;
+			return firingIncident;
 		}
 	}
 }

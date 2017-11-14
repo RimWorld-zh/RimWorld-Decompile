@@ -13,39 +13,43 @@ namespace RimWorld
 			IEnumerable<BodyPartRecord> parts = pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined);
 			using (IEnumerator<BodyPartRecord> enumerator = parts.GetEnumerator())
 			{
-				BodyPartRecord part;
-				while (true)
+				while (enumerator.MoveNext())
 				{
-					if (enumerator.MoveNext())
+					_003CGetPartsToApplyOn_003Ec__Iterator0 _003CGetPartsToApplyOn_003Ec__Iterator = (_003CGetPartsToApplyOn_003Ec__Iterator0)/*Error near IL_0086: stateMachine*/;
+					BodyPartRecord part = enumerator.Current;
+					if (pawn.health.hediffSet.HasDirectlyAddedPartFor(part))
 					{
-						_003CGetPartsToApplyOn_003Ec__Iterator0 _003CGetPartsToApplyOn_003Ec__Iterator = (_003CGetPartsToApplyOn_003Ec__Iterator0)/*Error near IL_0088: stateMachine*/;
-						part = enumerator.Current;
-						if (pawn.health.hediffSet.HasDirectlyAddedPartFor(part))
-						{
-							yield return part;
-							/*Error: Unable to find new state assignment for yield return*/;
-						}
-						if (MedicalRecipesUtility.IsCleanAndDroppable(pawn, part))
-						{
-							yield return part;
-							/*Error: Unable to find new state assignment for yield return*/;
-						}
-						if (part != pawn.RaceProps.body.corePart && !part.def.dontSuggestAmputation && pawn.health.hediffSet.hediffs.Any((Predicate<Hediff>)((Hediff d) => !(d is Hediff_Injury) && d.def.isBad && d.Visible && d.Part == part)))
-							break;
-						continue;
+						yield return part;
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
-					yield break;
+					if (MedicalRecipesUtility.IsCleanAndDroppable(pawn, part))
+					{
+						yield return part;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
+					if (part != pawn.RaceProps.body.corePart && !part.def.dontSuggestAmputation && pawn.health.hediffSet.hediffs.Any((Hediff d) => !(d is Hediff_Injury) && d.def.isBad && d.Visible && d.Part == part))
+					{
+						yield return part;
+						/*Error: Unable to find new state assignment for yield return*/;
+					}
 				}
-				yield return part;
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			IL_0213:
-			/*Error near IL_0214: Unexpected return in MoveNext()*/;
+			yield break;
+			IL_0209:
+			/*Error near IL_020a: Unexpected return in MoveNext()*/;
 		}
 
 		public override bool IsViolationOnPawn(Pawn pawn, BodyPartRecord part, Faction billDoerFaction)
 		{
-			return (byte)((pawn.Faction != billDoerFaction) ? ((HealthUtility.PartRemovalIntent(pawn, part) == BodyPartRemovalIntent.Harvest) ? 1 : 0) : 0) != 0;
+			if (pawn.Faction == billDoerFaction)
+			{
+				return false;
+			}
+			if (HealthUtility.PartRemovalIntent(pawn, part) == BodyPartRemovalIntent.Harvest)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public override void ApplyOnPawn(Pawn pawn, BodyPartRecord part, Pawn billDoer, List<Thing> ingredients, Bill bill)
@@ -84,32 +88,23 @@ namespace RimWorld
 
 		public override string GetLabelWhenUsedOn(Pawn pawn, BodyPartRecord part)
 		{
-			string result;
 			if (!pawn.RaceProps.IsMechanoid && !pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(part))
 			{
 				switch (HealthUtility.PartRemovalIntent(pawn, part))
 				{
 				case BodyPartRemovalIntent.Amputate:
-				{
-					result = ((part.depth != BodyPartDepth.Inside && !part.def.useDestroyedOutLabel) ? "Amputate".Translate() : "RemoveOrgan".Translate());
-					break;
-				}
+					if (part.depth != BodyPartDepth.Inside && !part.def.useDestroyedOutLabel)
+					{
+						return "Amputate".Translate();
+					}
+					return "RemoveOrgan".Translate();
 				case BodyPartRemovalIntent.Harvest:
-				{
-					result = "Harvest".Translate();
-					break;
-				}
+					return "Harvest".Translate();
 				default:
-				{
 					throw new InvalidOperationException();
 				}
-				}
 			}
-			else
-			{
-				result = RecipeDefOf.RemoveBodyPart.LabelCap;
-			}
-			return result;
+			return RecipeDefOf.RemoveBodyPart.LabelCap;
 		}
 	}
 }

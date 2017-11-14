@@ -46,5 +46,10 @@ namespace Verse
 			Scribe_References.Look<Thing>(ref this.thing, "thing", false);
 			Scribe_Values.Look<int>(ref this.countInt, "count", 1, false);
 		}
+
+		public static implicit operator ThingStackPartClass(ThingStackPart t)
+		{
+			return new ThingStackPartClass(t.Thing, t.Count);
+		}
 	}
 }

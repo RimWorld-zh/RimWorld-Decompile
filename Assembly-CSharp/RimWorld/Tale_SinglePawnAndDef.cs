@@ -12,7 +12,8 @@ namespace RimWorld
 		{
 		}
 
-		public Tale_SinglePawnAndDef(Pawn pawn, Def def) : base(pawn)
+		public Tale_SinglePawnAndDef(Pawn pawn, Def def)
+			: base(pawn)
 		{
 			this.defData = TaleData_Def.GenerateFrom(def);
 		}
@@ -25,7 +26,7 @@ namespace RimWorld
 
 		protected override IEnumerable<Rule> SpecialTextGenerationRules()
 		{
-			using (IEnumerator<Rule> enumerator = this._003CSpecialTextGenerationRules_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Rule> enumerator = base.SpecialTextGenerationRules().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -44,8 +45,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_0166:
-			/*Error near IL_0167: Unexpected return in MoveNext()*/;
+			IL_015f:
+			/*Error near IL_0160: Unexpected return in MoveNext()*/;
 		}
 
 		public override void GenerateTestData()

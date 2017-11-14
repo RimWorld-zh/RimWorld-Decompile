@@ -8,14 +8,9 @@ namespace Verse
 
 		public override DamageResult Apply(DamageInfo dinfo, Thing victim)
 		{
-			DamageResult damageResult = DamageResult.MakeNew();
+			DamageResult result = DamageResult.MakeNew();
 			Fire fire = victim as Fire;
-			DamageResult result;
-			if (fire == null || fire.Destroyed)
-			{
-				result = damageResult;
-			}
-			else
+			if (fire != null && !fire.Destroyed)
 			{
 				base.Apply(dinfo, victim);
 				fire.fireSize -= (float)((float)dinfo.Amount * 0.0099999997764825821);
@@ -23,7 +18,7 @@ namespace Verse
 				{
 					fire.Destroy(DestroyMode.Vanish);
 				}
-				result = damageResult;
+				return result;
 			}
 			return result;
 		}

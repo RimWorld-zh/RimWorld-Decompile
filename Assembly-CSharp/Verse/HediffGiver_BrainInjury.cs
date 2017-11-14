@@ -12,32 +12,24 @@ namespace Verse
 
 		public override bool OnHediffAdded(Pawn pawn, Hediff hediff)
 		{
-			bool result;
 			if (!(hediff is Hediff_Injury))
 			{
-				result = false;
+				return false;
 			}
-			else if (hediff.Part != pawn.health.hediffSet.GetBrain())
+			if (hediff.Part != pawn.health.hediffSet.GetBrain())
 			{
-				result = false;
+				return false;
 			}
-			else
+			float num = hediff.Severity / hediff.Part.def.GetMaxHealth(pawn);
+			if (Rand.Value < num * this.chancePerDamagePct && base.TryApply(pawn, null))
 			{
-				float num = hediff.Severity / hediff.Part.def.GetMaxHealth(pawn);
-				if (Rand.Value < num * this.chancePerDamagePct && base.TryApply(pawn, null))
+				if ((pawn.Faction == Faction.OfPlayer || pawn.IsPrisonerOfColony) && !this.letter.NullOrEmpty())
 				{
-					if ((pawn.Faction == Faction.OfPlayer || pawn.IsPrisonerOfColony) && !this.letter.NullOrEmpty())
-					{
-						Find.LetterStack.ReceiveLetter(this.letterLabel, this.letter.AdjustedFor(pawn), LetterDefOf.NegativeEvent, (Thing)pawn, (string)null);
-					}
-					result = true;
+					Find.LetterStack.ReceiveLetter(this.letterLabel, this.letter.AdjustedFor(pawn), LetterDefOf.NegativeEvent, pawn, null);
 				}
-				else
-				{
-					result = false;
-				}
+				return true;
 			}
-			return result;
+			return false;
 		}
 	}
 }

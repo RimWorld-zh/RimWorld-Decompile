@@ -8,7 +8,7 @@ namespace Verse
 	{
 		private static readonly int PawnNotifyCellCount = GenRadial.NumCellsInRadius(4.5f);
 
-		public static void DoExplosion(IntVec3 center, Map map, float radius, DamageDef damType, Thing instigator, int damAmount = -1, SoundDef explosionSound = null, ThingDef source = null, ThingDef projectile = null, ThingDef postExplosionSpawnThingDef = null, float postExplosionSpawnChance = 0f, int postExplosionSpawnThingCount = 1, bool applyDamageToExplosionCellsNeighbors = false, ThingDef preExplosionSpawnThingDef = null, float preExplosionSpawnChance = 0f, int preExplosionSpawnThingCount = 1, float chanceToStartFire = 0f, bool dealMoreDamageAtCenter = false)
+		public static void DoExplosion(IntVec3 center, Map map, float radius, DamageDef damType, Thing instigator, int damAmount = -1, SoundDef explosionSound = null, ThingDef weapon = null, ThingDef projectile = null, ThingDef postExplosionSpawnThingDef = null, float postExplosionSpawnChance = 0f, int postExplosionSpawnThingCount = 1, bool applyDamageToExplosionCellsNeighbors = false, ThingDef preExplosionSpawnThingDef = null, float preExplosionSpawnChance = 0f, int preExplosionSpawnThingCount = 1, float chanceToStartFire = 0f, bool dealMoreDamageAtCenter = false)
 		{
 			if (map == null)
 			{
@@ -25,7 +25,7 @@ namespace Verse
 				explosion.damType = damType;
 				explosion.instigator = instigator;
 				explosion.damAmount = ((damAmount <= 0) ? damType.explosionDamage : damAmount);
-				explosion.weapon = source;
+				explosion.weapon = weapon;
 				explosion.projectile = projectile;
 				explosion.preExplosionSpawnThingDef = preExplosionSpawnThingDef;
 				explosion.preExplosionSpawnChance = preExplosionSpawnChance;

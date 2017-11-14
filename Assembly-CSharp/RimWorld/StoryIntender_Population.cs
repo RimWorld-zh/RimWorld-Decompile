@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,7 +41,7 @@ namespace RimWorld
 			{
 				float num = 0f;
 				num += (float)PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Colonists.Count();
-				return (float)(num + (float)PawnsFinder.AllMapsCaravansAndTravelingTransportPods.Count((Func<Pawn, bool>)((Pawn x) => x.IsPrisonerOfColony)) * 0.5);
+				return (float)(num + (float)PawnsFinder.AllMapsCaravansAndTravelingTransportPods.Count((Pawn x) => x.IsPrisonerOfColony) * 0.5);
 			}
 		}
 
@@ -101,11 +100,11 @@ namespace RimWorld
 				list.Add((float)i);
 			}
 			List<float> list2 = new List<float>();
-			for (int num = 0; num < 40; num += 2)
+			for (int j = 0; j < 40; j += 2)
 			{
-				list2.Add((float)num);
+				list2.Add((float)j);
 			}
-			DebugTables.MakeTablesDialog(list2, (Func<float, string>)((float ds) => "d-" + ds.ToString("F0")), list, (Func<float, string>)((float rv) => rv.ToString("F2")), (Func<float, float, string>)((float ds, float p) => StoryIntender_Population.CalculatePopulationIntent(this.Def, p, (int)(ds * 60000.0)).ToString("F2")), "pop");
+			DebugTables.MakeTablesDialog(list2, (float ds) => "d-" + ds.ToString("F0"), list, (float rv) => rv.ToString("F2"), (float ds, float p) => StoryIntender_Population.CalculatePopulationIntent(this.Def, p, (int)(ds * 60000.0)).ToString("F2"), "pop");
 		}
 	}
 }

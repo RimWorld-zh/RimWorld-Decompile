@@ -4,17 +4,21 @@ namespace RimWorld
 {
 	public class CompArt : ThingComp
 	{
-		private string authorNameInt = (string)null;
+		private string authorNameInt;
 
-		private string titleInt = (string)null;
+		private string titleInt;
 
-		private TaleReference taleRef = null;
+		private TaleReference taleRef;
 
 		public string AuthorName
 		{
 			get
 			{
-				return (!this.authorNameInt.NullOrEmpty()) ? this.authorNameInt : "UnknownLower".Translate();
+				if (this.authorNameInt.NullOrEmpty())
+				{
+					return "UnknownLower".Translate();
+				}
+				return this.authorNameInt;
 			}
 		}
 
@@ -43,24 +47,23 @@ namespace RimWorld
 		{
 			get
 			{
-				bool result;
 				if (this.Props.mustBeFullGrave)
 				{
 					Building_Grave building_Grave = base.parent as Building_Grave;
 					if (building_Grave != null && building_Grave.HasCorpse)
 					{
-						goto IL_0037;
+						goto IL_002f;
 					}
-					result = false;
-					goto IL_0067;
+					return false;
 				}
-				goto IL_0037;
-				IL_0037:
+				goto IL_002f;
+				IL_002f:
 				QualityCategory qualityCategory = default(QualityCategory);
-				result = (!((Thing)base.parent).TryGetQuality(out qualityCategory) || (int)qualityCategory >= (int)this.Props.minQualityForArtistic);
-				goto IL_0067;
-				IL_0067:
-				return result;
+				if (!((Thing)base.parent).TryGetQuality(out qualityCategory))
+				{
+					return true;
+				}
+				return (int)qualityCategory >= (int)this.Props.minQualityForArtistic;
 			}
 		}
 
@@ -118,7 +121,7 @@ namespace RimWorld
 			}
 			else
 			{
-				this.titleInt = (string)null;
+				this.titleInt = null;
 				this.taleRef = null;
 			}
 		}
@@ -133,8 +136,8 @@ namespace RimWorld
 
 		public void Clear()
 		{
-			this.authorNameInt = (string)null;
-			this.titleInt = (string)null;
+			this.authorNameInt = null;
+			this.titleInt = null;
 			if (this.taleRef != null)
 			{
 				this.taleRef.ReferenceDestroyed();
@@ -152,18 +155,13 @@ namespace RimWorld
 
 		public override string CompInspectStringExtra()
 		{
-			string result;
 			if (!this.Active)
 			{
-				result = (string)null;
+				return null;
 			}
-			else
-			{
-				string text;
-				string text2 = text = "Author".Translate() + ": " + this.AuthorName;
-				text2 = (result = text + "\n" + "Title".Translate() + ": " + this.Title);
-			}
-			return result;
+			string text = "Author".Translate() + ": " + this.AuthorName;
+			string text2 = text;
+			return text2 + "\n" + "Title".Translate() + ": " + this.Title;
 		}
 
 		public override void PostDestroy(DestroyMode mode, Map previousMap)
@@ -178,26 +176,25 @@ namespace RimWorld
 
 		public override string GetDescriptionPart()
 		{
-			string result;
 			if (!this.Active)
 			{
-				result = (string)null;
+				return null;
 			}
-			else
-			{
-				string str = "";
-				str += this.Title;
-				str += "\n\n";
-				str += this.GenerateImageDescription();
-				str += "\n\n";
-				str = (result = str + "Author".Translate() + ": " + this.AuthorName);
-			}
-			return result;
+			string empty = string.Empty;
+			empty += this.Title;
+			empty += "\n\n";
+			empty += this.GenerateImageDescription();
+			empty += "\n\n";
+			return empty + "Author".Translate() + ": " + this.AuthorName;
 		}
 
 		public override bool AllowStackWith(Thing other)
 		{
-			return (byte)((!this.Active) ? 1 : 0) != 0;
+			if (this.Active)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public string GenerateImageDescription()

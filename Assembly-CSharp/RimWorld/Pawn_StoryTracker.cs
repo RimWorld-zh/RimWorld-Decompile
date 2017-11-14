@@ -16,23 +16,27 @@ namespace RimWorld
 
 		public Color hairColor = Color.white;
 
-		public CrownType crownType = CrownType.Undefined;
+		public CrownType crownType;
 
-		public BodyType bodyType = BodyType.Undefined;
+		public BodyType bodyType;
 
-		private string headGraphicPath = (string)null;
+		private string headGraphicPath;
 
-		public HairDef hairDef = null;
+		public HairDef hairDef;
 
 		public TraitSet traits;
 
-		private List<WorkTypeDef> cachedDisabledWorkTypes = null;
+		private List<WorkTypeDef> cachedDisabledWorkTypes;
 
 		public string Title
 		{
 			get
 			{
-				return (this.adulthood == null) ? this.childhood.Title : this.adulthood.Title;
+				if (this.adulthood != null)
+				{
+					return this.adulthood.Title;
+				}
+				return this.childhood.Title;
 			}
 		}
 
@@ -40,7 +44,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (this.adulthood == null) ? this.childhood.TitleShort : this.adulthood.TitleShort;
+				if (this.adulthood != null)
+				{
+					return this.adulthood.TitleShort;
+				}
+				return this.childhood.TitleShort;
 			}
 		}
 
@@ -142,14 +150,14 @@ namespace RimWorld
 		public void ExposeData()
 		{
 			string text = (this.childhood == null) ? null : this.childhood.identifier;
-			Scribe_Values.Look(ref text, "childhood", (string)null, false);
+			Scribe_Values.Look(ref text, "childhood", null, false);
 			if (Scribe.mode == LoadSaveMode.LoadingVars && !text.NullOrEmpty() && !BackstoryDatabase.TryGetWithIdentifier(text, out this.childhood))
 			{
 				Log.Error("Couldn't load child backstory with identifier " + text + ". Giving random.");
 				this.childhood = BackstoryDatabase.RandomBackstory(BackstorySlot.Childhood);
 			}
 			string text2 = (this.adulthood == null) ? null : this.adulthood.identifier;
-			Scribe_Values.Look(ref text2, "adulthood", (string)null, false);
+			Scribe_Values.Look(ref text2, "adulthood", null, false);
 			if (Scribe.mode == LoadSaveMode.LoadingVars && !text2.NullOrEmpty() && !BackstoryDatabase.TryGetWithIdentifier(text2, out this.adulthood))
 			{
 				Log.Error("Couldn't load adult backstory with identifier " + text2 + ". Giving random.");
@@ -173,7 +181,11 @@ namespace RimWorld
 
 		public Backstory GetBackstory(BackstorySlot slot)
 		{
-			return (slot != 0) ? this.adulthood : this.childhood;
+			if (slot == BackstorySlot.Childhood)
+			{
+				return this.childhood;
+			}
+			return this.adulthood;
 		}
 
 		public bool WorkTypeIsDisabled(WorkTypeDef w)
@@ -183,24 +195,14 @@ namespace RimWorld
 
 		public bool OneOfWorkTypesIsDisabled(List<WorkTypeDef> wts)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < wts.Count; i++)
 			{
-				if (num < wts.Count)
+				if (this.WorkTypeIsDisabled(wts[i]))
 				{
-					if (this.WorkTypeIsDisabled(wts[num]))
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public bool WorkTagIsDisabled(WorkTags w)

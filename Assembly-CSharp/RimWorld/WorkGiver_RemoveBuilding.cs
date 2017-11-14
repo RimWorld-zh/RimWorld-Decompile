@@ -36,31 +36,33 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_00dc:
-			/*Error near IL_00dd: Unexpected return in MoveNext()*/;
+			IL_00d8:
+			/*Error near IL_00d9: Unexpected return in MoveNext()*/;
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			bool result;
 			if (t.def.Claimable)
 			{
 				if (t.Faction != pawn.Faction)
 				{
-					result = false;
-					goto IL_0095;
+					return false;
 				}
 			}
 			else if (pawn.Faction != Faction.OfPlayer)
 			{
-				result = false;
-				goto IL_0095;
+				return false;
 			}
 			LocalTargetInfo target = t;
-			result = ((byte)(pawn.CanReserve(target, 1, -1, null, forced) ? ((pawn.Map.designationManager.DesignationOn(t, this.Designation) != null) ? 1 : 0) : 0) != 0);
-			goto IL_0095;
-			IL_0095:
-			return result;
+			if (!pawn.CanReserve(target, 1, -1, null, forced))
+			{
+				return false;
+			}
+			if (pawn.Map.designationManager.DesignationOn(t, this.Designation) == null)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -54,60 +53,41 @@ namespace RimWorld
 
 		public virtual Building AdjacentReachableHopper(Pawn reacher)
 		{
-			int num = 0;
-			Building result;
-			while (true)
+			for (int i = 0; i < this.AdjCellsCardinalInBounds.Count; i++)
 			{
-				if (num < this.AdjCellsCardinalInBounds.Count)
+				IntVec3 c = this.AdjCellsCardinalInBounds[i];
+				Building edifice = c.GetEdifice(base.Map);
+				if (edifice != null && edifice.def == ThingDefOf.Hopper && reacher.CanReach(edifice, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
 				{
-					IntVec3 c = this.AdjCellsCardinalInBounds[num];
-					Building edifice = c.GetEdifice(base.Map);
-					if (edifice != null && edifice.def == ThingDefOf.Hopper && reacher.CanReach((Thing)edifice, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
-					{
-						result = (Building_Storage)edifice;
-						break;
-					}
-					num++;
-					continue;
+					return (Building_Storage)edifice;
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		public virtual Thing TryDispenseFood()
 		{
-			Thing result;
-			List<ThingDef> list;
 			if (!this.CanDispenseNow)
 			{
-				result = null;
+				return null;
 			}
-			else
+			float num = (float)(base.def.building.nutritionCostPerDispense - 9.9999997473787516E-05);
+			List<ThingDef> list = new List<ThingDef>();
+			while (true)
 			{
-				float num = (float)(base.def.building.nutritionCostPerDispense - 9.9999997473787516E-05);
-				list = new List<ThingDef>();
-				while (true)
+				Thing thing = this.FindFeedInAnyHopper();
+				if (thing == null)
 				{
-					Thing thing = this.FindFeedInAnyHopper();
-					if (thing != null)
-					{
-						int num2 = Mathf.Min(thing.stackCount, Mathf.CeilToInt(num / thing.def.ingestible.nutrition));
-						num -= (float)num2 * thing.def.ingestible.nutrition;
-						list.Add(thing.def);
-						thing.SplitOff(num2);
-						if (!(num <= 0.0))
-							continue;
-						goto IL_00b8;
-					}
-					break;
+					Log.Error("Did not find enough food in hoppers while trying to dispense.");
+					return null;
 				}
-				Log.Error("Did not find enough food in hoppers while trying to dispense.");
-				result = null;
+				int num2 = Mathf.Min(thing.stackCount, Mathf.CeilToInt(num / thing.def.ingestible.nutrition));
+				num -= (float)num2 * thing.def.ingestible.nutrition;
+				list.Add(thing.def);
+				thing.SplitOff(num2);
+				if (num <= 0.0)
+					break;
 			}
-			goto IL_012e;
-			IL_00b8:
 			base.def.building.soundDispense.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
 			Thing thing2 = ThingMaker.MakeThing(ThingDefOf.MealNutrientPaste, null);
 			CompIngredients compIngredients = thing2.TryGetComp<CompIngredients>();
@@ -115,95 +95,72 @@ namespace RimWorld
 			{
 				compIngredients.RegisterIngredient(list[i]);
 			}
-			result = thing2;
-			goto IL_012e;
-			IL_012e:
-			return result;
+			return thing2;
 		}
 
 		public virtual Thing FindFeedInAnyHopper()
 		{
-			int num = 0;
-			Thing result;
-			while (true)
+			for (int i = 0; i < this.AdjCellsCardinalInBounds.Count; i++)
 			{
-				if (num < this.AdjCellsCardinalInBounds.Count)
+				Thing thing = null;
+				Thing thing2 = null;
+				List<Thing> thingList = this.AdjCellsCardinalInBounds[i].GetThingList(base.Map);
+				for (int j = 0; j < thingList.Count; j++)
 				{
-					Thing thing = null;
-					Thing thing2 = null;
-					List<Thing> thingList = this.AdjCellsCardinalInBounds[num].GetThingList(base.Map);
-					for (int i = 0; i < thingList.Count; i++)
+					Thing thing3 = thingList[j];
+					if (Building_NutrientPasteDispenser.IsAcceptableFeedstock(thing3.def))
 					{
-						Thing thing3 = thingList[i];
-						if (Building_NutrientPasteDispenser.IsAcceptableFeedstock(thing3.def))
-						{
-							thing = thing3;
-						}
-						if (thing3.def == ThingDefOf.Hopper)
-						{
-							thing2 = thing3;
-						}
+						thing = thing3;
 					}
-					if (thing != null && thing2 != null)
+					if (thing3.def == ThingDefOf.Hopper)
 					{
-						result = thing;
-						break;
+						thing2 = thing3;
 					}
-					num++;
-					continue;
 				}
-				result = null;
-				break;
+				if (thing != null && thing2 != null)
+				{
+					return thing;
+				}
 			}
-			return result;
+			return null;
 		}
 
 		public virtual bool HasEnoughFeedstockInHoppers()
 		{
 			float num = 0f;
-			int num2 = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.AdjCellsCardinalInBounds.Count; i++)
 			{
-				if (num2 < this.AdjCellsCardinalInBounds.Count)
+				IntVec3 c = this.AdjCellsCardinalInBounds[i];
+				Thing thing = null;
+				Thing thing2 = null;
+				List<Thing> thingList = c.GetThingList(base.Map);
+				for (int j = 0; j < thingList.Count; j++)
 				{
-					IntVec3 c = this.AdjCellsCardinalInBounds[num2];
-					Thing thing = null;
-					Thing thing2 = null;
-					List<Thing> thingList = c.GetThingList(base.Map);
-					for (int i = 0; i < thingList.Count; i++)
+					Thing thing3 = thingList[j];
+					if (Building_NutrientPasteDispenser.IsAcceptableFeedstock(thing3.def))
 					{
-						Thing thing3 = thingList[i];
-						if (Building_NutrientPasteDispenser.IsAcceptableFeedstock(thing3.def))
-						{
-							thing = thing3;
-						}
-						if (thing3.def == ThingDefOf.Hopper)
-						{
-							thing2 = thing3;
-						}
+						thing = thing3;
 					}
-					if (thing != null && thing2 != null)
+					if (thing3.def == ThingDefOf.Hopper)
 					{
-						num += (float)thing.stackCount * thing.def.ingestible.nutrition;
+						thing2 = thing3;
 					}
-					if (num >= base.def.building.nutritionCostPerDispense)
-					{
-						result = true;
-						break;
-					}
-					num2++;
-					continue;
 				}
-				result = false;
-				break;
+				if (thing != null && thing2 != null)
+				{
+					num += (float)thing.stackCount * thing.def.ingestible.nutrition;
+				}
+				if (num >= base.def.building.nutritionCostPerDispense)
+				{
+					return true;
+				}
 			}
-			return result;
+			return false;
 		}
 
 		public static bool IsAcceptableFeedstock(ThingDef def)
 		{
-			return def.IsNutritionGivingIngestible && def.ingestible.preferability != 0 && ((int)def.ingestible.foodType & 64) != 64 && ((int)def.ingestible.foodType & 128) != 128;
+			return def.IsNutritionGivingIngestible && def.ingestible.preferability != 0 && (def.ingestible.foodType & FoodTypeFlags.Plant) != FoodTypeFlags.Plant && (def.ingestible.foodType & FoodTypeFlags.Tree) != FoodTypeFlags.Tree;
 		}
 	}
 }

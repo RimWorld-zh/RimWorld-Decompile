@@ -1,11 +1,9 @@
-#define ENABLE_PROFILER
 using RimWorld;
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UnityEngine.Profiling;
 using Verse.Profile;
 
 namespace Verse
@@ -14,7 +12,7 @@ namespace Verse
 	{
 		private GameInitData initData;
 
-		public sbyte visibleMapIndex = (sbyte)(-1);
+		public sbyte visibleMapIndex = -1;
 
 		private GameInfo info = new GameInfo();
 
@@ -93,7 +91,11 @@ namespace Verse
 		{
 			get
 			{
-				return (this.visibleMapIndex >= 0) ? this.maps[this.visibleMapIndex] : null;
+				if (this.visibleMapIndex < 0)
+				{
+					return null;
+				}
+				return this.maps[this.visibleMapIndex];
 			}
 			set
 			{
@@ -124,28 +126,19 @@ namespace Verse
 		{
 			get
 			{
-				Map result;
-				Map map;
 				if (Faction.OfPlayerSilentFail == null)
 				{
-					result = null;
+					return null;
 				}
-				else
+				for (int i = 0; i < this.maps.Count; i++)
 				{
-					for (int i = 0; i < this.maps.Count; i++)
+					Map map = this.maps[i];
+					if (map.IsPlayerHome)
 					{
-						map = this.maps[i];
-						if (map.IsPlayerHome)
-							goto IL_0032;
+						return map;
 					}
-					result = null;
 				}
-				goto IL_0056;
-				IL_0032:
-				result = map;
-				goto IL_0056;
-				IL_0056:
-				return result;
+				return null;
 			}
 		}
 
@@ -213,46 +206,26 @@ namespace Verse
 
 		public Map FindMap(MapParent mapParent)
 		{
-			int num = 0;
-			Map result;
-			while (true)
+			for (int i = 0; i < this.maps.Count; i++)
 			{
-				if (num < this.maps.Count)
+				if (this.maps[i].info.parent == mapParent)
 				{
-					if (this.maps[num].info.parent == mapParent)
-					{
-						result = this.maps[num];
-						break;
-					}
-					num++;
-					continue;
+					return this.maps[i];
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		public Map FindMap(int tile)
 		{
-			int num = 0;
-			Map result;
-			while (true)
+			for (int i = 0; i < this.maps.Count; i++)
 			{
-				if (num < this.maps.Count)
+				if (this.maps[i].Tile == tile)
 				{
-					if (this.maps[num].Tile == tile)
-					{
-						result = this.maps[num];
-						break;
-					}
-					num++;
-					continue;
+					return this.maps[i];
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		public void ExposeData()
@@ -304,7 +277,7 @@ namespace Verse
 
 		private void FillComponents()
 		{
-			this.components.RemoveAll((Predicate<GameComponent>)((GameComponent component) => component == null));
+			this.components.RemoveAll((GameComponent component) => component == null);
 			foreach (Type item2 in typeof(GameComponent).AllSubclassesNonAbstract())
 			{
 				if (this.GetComponent(item2) == null)
@@ -368,7 +341,7 @@ namespace Verse
 					Find.CameraDriver.ResetSize();
 					if (Prefs.PauseOnLoad && this.initData.startedFromEntry)
 					{
-						LongEventHandler.ExecuteWhenFinished((Action)delegate
+						LongEventHandler.ExecuteWhenFinished(delegate
 						{
 							this.tickManager.DoSingleTick();
 							this.tickManager.CurTimeSpeed = TimeSpeed.Paused;
@@ -437,7 +410,7 @@ namespace Verse
 						Log.Error("Visible map index out of bounds after loading.");
 						num = ((!this.maps.Any()) ? (-1) : 0);
 					}
-					this.visibleMapIndex = (sbyte)(-128);
+					this.visibleMapIndex = -128;
 					this.VisibleMap = ((num < 0) ? null : this.maps[num]);
 					LongEventHandler.SetCurrentEventText("InitializingGame".Translate());
 					Find.CameraDriver.Expose();
@@ -452,7 +425,7 @@ namespace Verse
 					this.FinalizeInit();
 					if (Prefs.PauseOnLoad)
 					{
-						LongEventHandler.ExecuteWhenFinished((Action)delegate
+						LongEventHandler.ExecuteWhenFinished(delegate
 						{
 							Find.TickManager.DoSingleTick();
 							Find.TickManager.CurTimeSpeed = TimeSpeed.Paused;
@@ -474,74 +447,40 @@ namespace Verse
 
 		public void UpdatePlay()
 		{
-			Profiler.BeginSample("tickManager.TickManagerUpdate()");
 			this.tickManager.TickManagerUpdate();
-			Profiler.EndSample();
-			Profiler.BeginSample("letterStack.LetterStackUpdate()");
 			this.letterStack.LetterStackUpdate();
-			Profiler.EndSample();
-			Profiler.BeginSample("World.WorldUpdate()");
 			this.World.WorldUpdate();
-			Profiler.EndSample();
-			Profiler.BeginSample("Map.MapUpdate()");
 			for (int i = 0; i < this.maps.Count; i++)
 			{
-				Profiler.BeginSample("Map " + i);
 				this.maps[i].MapUpdate();
-				Profiler.EndSample();
 			}
-			Profiler.EndSample();
-			Profiler.BeginSample("GameInfoUpdate()");
 			this.Info.GameInfoUpdate();
-			Profiler.EndSample();
-			Profiler.BeginSample("GameComponentUpdate()");
 			GameComponentUtility.GameComponentUpdate();
-			Profiler.EndSample();
 		}
 
 		public T GetComponent<T>() where T : GameComponent
 		{
-			int num = 0;
-			T result;
-			while (true)
+			for (int i = 0; i < this.components.Count; i++)
 			{
-				if (num < this.components.Count)
+				T val = (T)(this.components[i] as T);
+				if (val != null)
 				{
-					T val = (T)(this.components[num] as T);
-					if (val != null)
-					{
-						result = val;
-						break;
-					}
-					num++;
-					continue;
+					return val;
 				}
-				result = (T)null;
-				break;
 			}
-			return result;
+			return (T)null;
 		}
 
 		public GameComponent GetComponent(Type type)
 		{
-			int num = 0;
-			GameComponent result;
-			while (true)
+			for (int i = 0; i < this.components.Count; i++)
 			{
-				if (num < this.components.Count)
+				if (type.IsAssignableFrom(this.components[i].GetType()))
 				{
-					if (type.IsAssignableFrom(this.components[num].GetType()))
-					{
-						result = this.components[num];
-						break;
-					}
-					num++;
-					continue;
+					return this.components[i];
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		public void FinalizeInit()

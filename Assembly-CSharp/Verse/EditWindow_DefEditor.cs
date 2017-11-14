@@ -45,7 +45,7 @@ namespace Verse
 				UI.UnfocusCurrentControl();
 			}
 			Rect rect = new Rect(0f, 0f, inRect.width, 16f);
-			this.labelColumnWidth = Widgets.HorizontalSlider(rect, this.labelColumnWidth, 0f, inRect.width, false, (string)null, (string)null, (string)null, -1f);
+			this.labelColumnWidth = Widgets.HorizontalSlider(rect, this.labelColumnWidth, 0f, inRect.width, false, null, null, null, -1f);
 			Rect outRect = inRect.AtZero();
 			outRect.yMin += 16f;
 			Rect rect2 = new Rect(0f, 0f, (float)(outRect.width - 16.0), this.viewHeight);

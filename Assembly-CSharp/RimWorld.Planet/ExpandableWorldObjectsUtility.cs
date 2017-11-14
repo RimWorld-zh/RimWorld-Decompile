@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -17,7 +16,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (float)(Find.PlaySettings.showExpandingIcons ? ExpandableWorldObjectsUtility.transitionPct : 0.0);
+				if (!Find.PlaySettings.showExpandingIcons)
+				{
+					return 0f;
+				}
+				return ExpandableWorldObjectsUtility.transitionPct;
 			}
 		}
 
@@ -102,7 +105,7 @@ namespace RimWorld.Planet
 
 		private static void SortByExpandingIconPriority(List<WorldObject> worldObjects)
 		{
-			worldObjects.SortBy((Func<WorldObject, float>)delegate(WorldObject x)
+			worldObjects.SortBy(delegate(WorldObject x)
 			{
 				float num = x.ExpandingIconPriority;
 				if (x.Faction != null && x.Faction.IsPlayer)
@@ -110,7 +113,7 @@ namespace RimWorld.Planet
 					num = (float)(num + 0.0010000000474974513);
 				}
 				return num;
-			}, (Func<WorldObject, int>)((WorldObject x) => x.ID));
+			}, (WorldObject x) => x.ID);
 		}
 	}
 }

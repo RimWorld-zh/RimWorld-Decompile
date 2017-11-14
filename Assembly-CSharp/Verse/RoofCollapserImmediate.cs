@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -24,19 +23,19 @@ namespace Verse
 		public static void DropRoofInCells(IEnumerable<IntVec3> cells, Map map)
 		{
 			IntVec3 cell = IntVec3.Invalid;
-			foreach (IntVec3 item in cells)
+			foreach (IntVec3 cell2 in cells)
 			{
-				if (item.Roofed(map))
+				if (cell2.Roofed(map))
 				{
-					RoofCollapserImmediate.DropRoofInCellPhaseOne(item, map);
+					RoofCollapserImmediate.DropRoofInCellPhaseOne(cell2, map);
 				}
 			}
-			foreach (IntVec3 item2 in cells)
+			foreach (IntVec3 cell3 in cells)
 			{
-				if (item2.Roofed(map))
+				if (cell3.Roofed(map))
 				{
-					RoofCollapserImmediate.DropRoofInCellPhaseTwo(item2, map);
-					cell = item2;
+					RoofCollapserImmediate.DropRoofInCellPhaseTwo(cell3, map);
+					cell = cell3;
 				}
 			}
 			if (cell.IsValid)
@@ -103,7 +102,7 @@ namespace Verse
 							BattleLogEntry_DamageTaken battleLogEntry_DamageTaken = null;
 							if (i == 0 && pawn != null)
 							{
-								battleLogEntry_DamageTaken = new BattleLogEntry_DamageTaken(pawn, RulePackDefOf.DamageEvent_Ceiling);
+								battleLogEntry_DamageTaken = new BattleLogEntry_DamageTaken(pawn, RulePackDefOf.DamageEvent_Ceiling, null);
 								Find.BattleLog.Add(battleLogEntry_DamageTaken);
 							}
 							thing.TakeDamage(dinfo).InsertIntoLog(battleLogEntry_DamageTaken);
@@ -131,7 +130,7 @@ namespace Verse
 							BattleLogEntry_DamageTaken battleLogEntry_DamageTaken2 = null;
 							if (thing2 is Pawn)
 							{
-								battleLogEntry_DamageTaken2 = new BattleLogEntry_DamageTaken(thing2 as Pawn, RulePackDefOf.DamageEvent_Ceiling);
+								battleLogEntry_DamageTaken2 = new BattleLogEntry_DamageTaken(thing2 as Pawn, RulePackDefOf.DamageEvent_Ceiling, null);
 								Find.BattleLog.Add(battleLogEntry_DamageTaken2);
 							}
 							DamageInfo dinfo2 = new DamageInfo(DamageDefOf.Crush, GenMath.RoundRandom(num3), -1f, null, null, null, DamageInfo.SourceCategory.Collapse);

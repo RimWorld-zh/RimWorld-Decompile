@@ -13,7 +13,8 @@ namespace Verse
 		{
 		}
 
-		public Stance_Warmup(int ticks, LocalTargetInfo focusTarg, Verb verb) : base(ticks, focusTarg, verb)
+		public Stance_Warmup(int ticks, LocalTargetInfo focusTarg, Verb verb)
+			: base(ticks, focusTarg, verb)
 		{
 			if (focusTarg.HasThing && focusTarg.Thing is Pawn)
 			{
@@ -73,7 +74,7 @@ namespace Verse
 			}
 			else
 			{
-				if (base.focusTarg == base.Pawn.mindState.enemyTarget)
+				if (base.focusTarg == (LocalTargetInfo)base.Pawn.mindState.enemyTarget)
 				{
 					base.Pawn.mindState.Notify_EngagedTarget();
 				}

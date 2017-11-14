@@ -29,29 +29,24 @@ namespace RimWorld
 
 		protected virtual bool CanInteractWithAnimal(Pawn pawn, Pawn animal)
 		{
-			bool result;
-			if (!pawn.CanReserve((Thing)animal, 1, -1, null, false))
+			if (!pawn.CanReserve(animal, 1, -1, null, false))
 			{
-				result = false;
+				return false;
 			}
-			else if (animal.Downed)
+			if (animal.Downed)
 			{
-				result = false;
+				return false;
 			}
-			else if (!animal.CanCasuallyInteractNow(false))
+			if (!animal.CanCasuallyInteractNow(false))
 			{
-				result = false;
+				return false;
 			}
-			else if (Mathf.RoundToInt(animal.GetStatValue(StatDefOf.MinimumHandlingSkill, true)) > pawn.skills.GetSkill(SkillDefOf.Animals).Level)
+			if (Mathf.RoundToInt(animal.GetStatValue(StatDefOf.MinimumHandlingSkill, true)) > pawn.skills.GetSkill(SkillDefOf.Animals).Level)
 			{
 				JobFailReason.Is(WorkGiver_InteractAnimal.AnimalsSkillTooLowTrans);
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		protected bool HasFoodToInteractAnimal(Pawn pawn, Pawn tamee)
@@ -60,37 +55,27 @@ namespace RimWorld
 			int num = 0;
 			float num2 = JobDriver_InteractAnimal.RequiredNutritionPerFeed(tamee);
 			float num3 = 0f;
-			int num4 = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < innerContainer.Count; i++)
 			{
-				if (num4 < innerContainer.Count)
+				Thing thing = innerContainer[i];
+				if (tamee.RaceProps.CanEverEat(thing) && (int)thing.def.ingestible.preferability <= 5 && !thing.def.IsDrug)
 				{
-					Thing thing = innerContainer[num4];
-					if (tamee.RaceProps.CanEverEat(thing) && (int)thing.def.ingestible.preferability <= 5 && !thing.def.IsDrug)
+					for (int j = 0; j < thing.stackCount; j++)
 					{
-						for (int i = 0; i < thing.stackCount; i++)
+						num3 += thing.def.ingestible.nutrition;
+						if (num3 >= num2)
 						{
-							num3 += thing.def.ingestible.nutrition;
-							if (num3 >= num2)
-							{
-								num++;
-								num3 = 0f;
-							}
-							if (num >= 2)
-								goto IL_00a1;
+							num++;
+							num3 = 0f;
+						}
+						if (num >= 2)
+						{
+							return true;
 						}
 					}
-					num4++;
-					continue;
 				}
-				result = false;
-				break;
-				IL_00a1:
-				result = true;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		protected Job TakeFoodForAnimalInteractJob(Pawn pawn, Pawn tamee)
@@ -98,18 +83,13 @@ namespace RimWorld
 			float num = (float)(JobDriver_InteractAnimal.RequiredNutritionPerFeed(tamee) * 2.0 * 4.0);
 			ThingDef thingDef = default(ThingDef);
 			Thing thing = FoodUtility.BestFoodSourceOnMap(pawn, tamee, false, out thingDef, FoodPreferability.RawTasty, false, false, false, false, false, false, false, false);
-			Job result;
 			if (thing == null)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				Job job = new Job(JobDefOf.TakeInventory, thing);
-				job.count = Mathf.CeilToInt(num / thingDef.ingestible.nutrition);
-				result = job;
-			}
-			return result;
+			Job job = new Job(JobDefOf.TakeInventory, thing);
+			job.count = Mathf.CeilToInt(num / thingDef.ingestible.nutrition);
+			return job;
 		}
 	}
 }

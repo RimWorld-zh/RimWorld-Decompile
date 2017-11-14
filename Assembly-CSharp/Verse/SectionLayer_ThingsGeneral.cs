@@ -4,7 +4,8 @@ namespace Verse
 {
 	public class SectionLayer_ThingsGeneral : SectionLayer_Things
 	{
-		public SectionLayer_ThingsGeneral(Section section) : base(section)
+		public SectionLayer_ThingsGeneral(Section section)
+			: base(section)
 		{
 			base.relevantChangeTypes = MapMeshFlag.Things;
 			base.requireAddToMapMesh = true;

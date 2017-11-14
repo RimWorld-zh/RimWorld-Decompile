@@ -72,7 +72,7 @@ namespace RimWorld
 					{
 						for (int j = 0; j < list.Count; j++)
 						{
-							list[j].mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.ManhunterPermanent, (string)null, false, false, null);
+							list[j].mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.ManhunterPermanent, null, false, false, null);
 						}
 					}
 					else
@@ -84,40 +84,36 @@ namespace RimWorld
 					{
 						for (int k = 0; k < list.Count; k++)
 						{
-							list[k].jobs.StartJob(new Job(JobDefOf.Wait, 120, false), JobCondition.None, null, false, true, null, default(JobTag?), false);
+							list[k].jobs.StartJob(new Job(JobDefOf.Wait, 120, false), JobCondition.None, null, false, true, null, null, false);
 							list[k].Rotation = Rot4.Random;
 						}
 					}
-					Find.LetterStack.ReceiveLetter("LetterLabelAmbushInExistingMap".Translate(), "LetterAmbushInExistingMap".Translate(Faction.OfPlayer.def.pawnsPlural).CapitalizeFirst(), LetterDefOf.ThreatBig, (Thing)list[0], (string)null);
+					Find.LetterStack.ReceiveLetter("LetterLabelAmbushInExistingMap".Translate(), "LetterAmbushInExistingMap".Translate(Faction.OfPlayer.def.pawnsPlural).CapitalizeFirst(), LetterDefOf.ThreatBig, list[0], null);
 				}
 			}
 		}
 
 		private IEnumerable<Pawn> GenerateAmbushPawns()
 		{
-			IEnumerable<Pawn> result;
 			if (this.manhunters)
 			{
 				PawnKindDef animalKind = default(PawnKindDef);
-				result = ((ManhunterPackIncidentUtility.TryFindManhunterAnimalKind(this.points, base.Map.Tile, out animalKind) || ManhunterPackIncidentUtility.TryFindManhunterAnimalKind(this.points, -1, out animalKind)) ? ManhunterPackIncidentUtility.GenerateAnimals(animalKind, base.Map.Tile, this.points) : Enumerable.Empty<Pawn>());
+				if (!ManhunterPackIncidentUtility.TryFindManhunterAnimalKind(this.points, base.Map.Tile, out animalKind) && !ManhunterPackIncidentUtility.TryFindManhunterAnimalKind(this.points, -1, out animalKind))
+				{
+					return Enumerable.Empty<Pawn>();
+				}
+				return ManhunterPackIncidentUtility.GenerateAnimals(animalKind, base.Map.Tile, this.points);
 			}
-			else
+			Faction faction = (!this.mechanoids) ? (base.Map.ParentFaction ?? Find.FactionManager.RandomEnemyFaction(false, false, false, TechLevel.Undefined)) : Faction.OfMechanoids;
+			if (faction == null)
 			{
-				Faction faction = (!this.mechanoids) ? (base.Map.ParentFaction ?? Find.FactionManager.RandomEnemyFaction(false, false, false, TechLevel.Undefined)) : Faction.OfMechanoids;
-				if (faction == null)
-				{
-					result = Enumerable.Empty<Pawn>();
-				}
-				else
-				{
-					PawnGroupMakerParms pawnGroupMakerParms = new PawnGroupMakerParms();
-					pawnGroupMakerParms.tile = base.Map.Tile;
-					pawnGroupMakerParms.faction = faction;
-					pawnGroupMakerParms.points = this.points;
-					result = PawnGroupMakerUtility.GeneratePawns(PawnGroupKindDefOf.Normal, pawnGroupMakerParms, true);
-				}
+				return Enumerable.Empty<Pawn>();
 			}
-			return result;
+			PawnGroupMakerParms pawnGroupMakerParms = new PawnGroupMakerParms();
+			pawnGroupMakerParms.tile = base.Map.Tile;
+			pawnGroupMakerParms.faction = faction;
+			pawnGroupMakerParms.points = this.points;
+			return PawnGroupMakerUtility.GeneratePawns(PawnGroupKindDefOf.Normal, pawnGroupMakerParms, true);
 		}
 	}
 }

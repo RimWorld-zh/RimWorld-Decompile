@@ -19,11 +19,10 @@ namespace Verse
 		private static void LoadAllDialog()
 		{
 			DialogDatabase.Nodes.Clear();
-			Object[] array;
-			Object[] array2 = array = Resources.LoadAll("Dialog", typeof(TextAsset));
-			for (int i = 0; i < array.Length; i++)
+			Object[] array = Resources.LoadAll("Dialog", typeof(TextAsset));
+			Object[] array2 = array;
+			foreach (Object @object in array2)
 			{
-				Object @object = array[i];
 				TextAsset ass = @object as TextAsset;
 				if (@object.name == "BaseEncounters" || @object.name == "GeneratedDialogs")
 				{

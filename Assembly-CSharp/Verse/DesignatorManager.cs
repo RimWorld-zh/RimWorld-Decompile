@@ -44,21 +44,16 @@ namespace Verse
 
 		private bool CheckSelectedDesignatorValid()
 		{
-			bool result;
 			if (this.selectedDesignator == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (!this.selectedDesignator.CanRemainSelected())
+			if (!this.selectedDesignator.CanRemainSelected())
 			{
 				this.Deselect();
-				result = false;
+				return false;
 			}
-			else
-			{
-				result = true;
-			}
-			return result;
+			return true;
 		}
 
 		public void ProcessInputEvents()
@@ -90,21 +85,21 @@ namespace Verse
 				}
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 1)
 				{
-					goto IL_00fb;
+					goto IL_00ec;
 				}
 				if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Escape)
-					goto IL_00fb;
-				goto IL_0132;
+					goto IL_00ec;
+				goto IL_0121;
 			}
 			return;
-			IL_00fb:
+			IL_00ec:
 			SoundDefOf.CancelMode.PlayOneShotOnCamera(null);
 			this.Deselect();
 			this.dragger.EndDrag();
 			Event.current.Use();
 			TutorSystem.Notify_Event("ClearDesignatorSelection");
-			goto IL_0132;
-			IL_0132:
+			goto IL_0121;
+			IL_0121:
 			if (Event.current.type == EventType.MouseUp && Event.current.button == 0 && this.dragger.Dragging)
 			{
 				this.selectedDesignator.DesignateMultiCell(this.dragger.DragCells);

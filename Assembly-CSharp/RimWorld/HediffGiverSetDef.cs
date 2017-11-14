@@ -5,6 +5,6 @@ namespace RimWorld
 {
 	public class HediffGiverSetDef : Def
 	{
-		public List<HediffGiver> hediffGivers = null;
+		public List<HediffGiver> hediffGivers;
 	}
 }

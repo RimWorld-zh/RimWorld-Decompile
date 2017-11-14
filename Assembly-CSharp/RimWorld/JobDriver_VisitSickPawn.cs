@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -29,13 +28,21 @@ namespace RimWorld
 
 		public override bool TryMakePreToilReservations()
 		{
-			return (byte)(base.pawn.Reserve((Thing)this.Patient, base.job, 1, -1, null) ? ((this.Chair == null || base.pawn.Reserve(this.Chair, base.job, 1, -1, null)) ? 1 : 0) : 0) != 0;
+			if (!base.pawn.Reserve(this.Patient, base.job, 1, -1, null))
+			{
+				return false;
+			}
+			if (this.Chair != null && !base.pawn.Reserve(this.Chair, base.job, 1, -1, null))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
-			this.FailOn((Func<bool>)(() => !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0041: stateMachine*/)._0024this.Patient.InBed() || !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0041: stateMachine*/)._0024this.Patient.Awake()));
+			this.FailOn(() => !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0040: stateMachine*/)._0024this.Patient.InBed() || !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0040: stateMachine*/)._0024this.Patient.Awake());
 			if (this.Chair != null)
 			{
 				this.FailOnDespawnedNullOrForbidden(TargetIndex.B);

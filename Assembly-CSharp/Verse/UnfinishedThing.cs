@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -86,18 +85,17 @@ namespace Verse
 		{
 			get
 			{
-				Thing result;
 				if (this.BoundBill == null)
 				{
-					result = null;
+					return null;
 				}
-				else
+				IBillGiver billGiver = this.BoundBill.billStack.billGiver;
+				Thing thing = billGiver as Thing;
+				if (thing.Destroyed)
 				{
-					IBillGiver billGiver = this.BoundBill.billStack.billGiver;
-					Thing thing = billGiver as Thing;
-					result = ((!thing.Destroyed) ? thing : null);
+					return null;
 				}
-				return result;
+				return thing;
 			}
 		}
 
@@ -105,7 +103,15 @@ namespace Verse
 		{
 			get
 			{
-				return (this.Recipe != null) ? ((base.Stuff != null) ? "UnfinishedItemWithStuff".Translate(base.Stuff.LabelAsStuff, this.Recipe.products[0].thingDef.label) : "UnfinishedItem".Translate(this.Recipe.products[0].thingDef.label)) : base.LabelNoCount;
+				if (this.Recipe == null)
+				{
+					return base.LabelNoCount;
+				}
+				if (base.Stuff == null)
+				{
+					return "UnfinishedItem".Translate(this.Recipe.products[0].thingDef.label);
+				}
+				return "UnfinishedItemWithStuff".Translate(base.Stuff.LabelAsStuff, this.Recipe.products[0].thingDef.label);
 			}
 		}
 
@@ -153,7 +159,7 @@ namespace Verse
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -168,36 +174,31 @@ namespace Verse
 				defaultDesc = "CommandCancelConstructionDesc".Translate(),
 				icon = ContentFinder<Texture2D>.Get("UI/Designators/Cancel", true),
 				hotKey = KeyBindingDefOf.DesignatorCancel,
-				action = (Action)delegate
+				action = delegate
 				{
-					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_0119: stateMachine*/)._0024this.Destroy(DestroyMode.Cancel);
+					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_0115: stateMachine*/)._0024this.Destroy(DestroyMode.Cancel);
 				}
 			};
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0153:
-			/*Error near IL_0154: Unexpected return in MoveNext()*/;
+			IL_014f:
+			/*Error near IL_0150: Unexpected return in MoveNext()*/;
 		}
 
 		public Bill_ProductionWithUft BillOnTableForMe(Thing workTable)
 		{
-			Bill_ProductionWithUft bill_ProductionWithUft;
 			if (this.Recipe.AllRecipeUsers.Contains(workTable.def))
 			{
 				IBillGiver billGiver = (IBillGiver)workTable;
 				for (int i = 0; i < billGiver.BillStack.Count; i++)
 				{
-					bill_ProductionWithUft = (billGiver.BillStack[i] as Bill_ProductionWithUft);
+					Bill_ProductionWithUft bill_ProductionWithUft = billGiver.BillStack[i] as Bill_ProductionWithUft;
 					if (bill_ProductionWithUft != null && bill_ProductionWithUft.ShouldDoNow() && bill_ProductionWithUft != null && bill_ProductionWithUft.recipe == this.Recipe)
-						goto IL_0070;
+					{
+						return bill_ProductionWithUft;
+					}
 				}
 			}
-			Bill_ProductionWithUft result = null;
-			goto IL_0095;
-			IL_0095:
-			return result;
-			IL_0070:
-			result = bill_ProductionWithUft;
-			goto IL_0095;
+			return null;
 		}
 
 		public override void DrawExtraSelectionOverlays()
@@ -216,8 +217,8 @@ namespace Verse
 			{
 				text += "\n";
 			}
-			string text2;
-			text = (text2 = text + "Author".Translate() + ": " + this.creatorName);
+			text = text + "Author".Translate() + ": " + this.creatorName;
+			string text2 = text;
 			return text2 + "\n" + "WorkLeft".Translate() + ": " + this.workLeft.ToStringWorkAmount();
 		}
 	}

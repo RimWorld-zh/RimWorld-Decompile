@@ -47,7 +47,7 @@ namespace Verse
 			foreach (DefPackage item in this.mod.GetDefPackagesInFolder(this.relFolder))
 			{
 				string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(item.fileName);
-				if (listing_Standard.ButtonText(fileNameWithoutExtension, (string)null))
+				if (listing_Standard.ButtonText(fileNameWithoutExtension, null))
 				{
 					this.setPackageCallback(item);
 					this.Close(true);

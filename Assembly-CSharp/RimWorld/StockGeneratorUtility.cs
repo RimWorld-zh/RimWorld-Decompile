@@ -37,28 +37,23 @@ namespace RimWorld
 
 		public static Thing TryMakeForStockSingle(ThingDef thingDef, int stackCount)
 		{
-			Thing result;
 			if (stackCount <= 0)
 			{
-				result = null;
+				return null;
 			}
-			else if (thingDef.tradeability != Tradeability.Stockable)
+			if (thingDef.tradeability != Tradeability.Stockable)
 			{
 				Log.Error("Tried to make non-Stockable thing for trader stock: " + thingDef);
-				result = null;
+				return null;
 			}
-			else
+			ThingDef stuff = null;
+			if (thingDef.MadeFromStuff)
 			{
-				ThingDef stuff = null;
-				if (thingDef.MadeFromStuff)
-				{
-					stuff = GenStuff.RandomStuffByCommonalityFor(thingDef, TechLevel.Undefined);
-				}
-				Thing thing = ThingMaker.MakeThing(thingDef, stuff);
-				thing.stackCount = stackCount;
-				result = thing;
+				stuff = GenStuff.RandomStuffByCommonalityFor(thingDef, TechLevel.Undefined);
 			}
-			return result;
+			Thing thing = ThingMaker.MakeThing(thingDef, stuff);
+			thing.stackCount = stackCount;
+			return thing;
 		}
 	}
 }

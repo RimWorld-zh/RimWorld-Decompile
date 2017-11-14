@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -34,7 +33,7 @@ namespace RimWorld
 				{
 					Map map = this.transComp.Map;
 					Command_LoadToTransporter.tmpFuelingPortGivers.Clear();
-					map.floodFiller.FloodFill(fuelingPortSource.Position, (Predicate<IntVec3>)((IntVec3 x) => FuelingPortUtility.AnyFuelingPortGiverAt(x, map)), (Action<IntVec3>)delegate(IntVec3 x)
+					map.floodFiller.FloodFill(fuelingPortSource.Position, (IntVec3 x) => FuelingPortUtility.AnyFuelingPortGiverAt(x, map), delegate(IntVec3 x)
 					{
 						Command_LoadToTransporter.tmpFuelingPortGivers.Add(FuelingPortUtility.FuelingPortGiverAt(x, map));
 					}, 2147483647, false, null);
@@ -43,7 +42,7 @@ namespace RimWorld
 						Building fuelingPortSource2 = this.transporters[i].Launchable.FuelingPortSource;
 						if (fuelingPortSource2 != null && !Command_LoadToTransporter.tmpFuelingPortGivers.Contains(fuelingPortSource2))
 						{
-							Messages.Message("MessageTransportersNotAdjacent".Translate(), (Thing)fuelingPortSource2, MessageTypeDefOf.RejectInput);
+							Messages.Message("MessageTransportersNotAdjacent".Translate(), fuelingPortSource2, MessageTypeDefOf.RejectInput);
 							return;
 						}
 					}
@@ -51,9 +50,9 @@ namespace RimWorld
 			}
 			for (int j = 0; j < this.transporters.Count; j++)
 			{
-				if (this.transporters[j] != this.transComp && !this.transComp.Map.reachability.CanReach(this.transComp.parent.Position, (Thing)this.transporters[j].parent, PathEndMode.Touch, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
+				if (this.transporters[j] != this.transComp && !this.transComp.Map.reachability.CanReach(this.transComp.parent.Position, this.transporters[j].parent, PathEndMode.Touch, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
 				{
-					Messages.Message("MessageTransporterUnreachable".Translate(), (Thing)this.transporters[j].parent, MessageTypeDefOf.RejectInput);
+					Messages.Message("MessageTransporterUnreachable".Translate(), this.transporters[j].parent, MessageTypeDefOf.RejectInput);
 					return;
 				}
 			}
@@ -63,21 +62,16 @@ namespace RimWorld
 		public override bool InheritInteractionsFrom(Gizmo other)
 		{
 			Command_LoadToTransporter command_LoadToTransporter = (Command_LoadToTransporter)other;
-			bool result;
 			if (command_LoadToTransporter.transComp.parent.def != this.transComp.parent.def)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (this.transporters == null)
 			{
-				if (this.transporters == null)
-				{
-					this.transporters = new List<CompTransporter>();
-				}
-				this.transporters.Add(command_LoadToTransporter.transComp);
-				result = false;
+				this.transporters = new List<CompTransporter>();
 			}
-			return result;
+			this.transporters.Add(command_LoadToTransporter.transComp);
+			return false;
 		}
 	}
 }

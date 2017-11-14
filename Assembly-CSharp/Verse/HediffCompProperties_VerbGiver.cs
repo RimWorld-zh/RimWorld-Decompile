@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,9 +5,9 @@ namespace Verse
 {
 	public class HediffCompProperties_VerbGiver : HediffCompProperties
 	{
-		public List<VerbProperties> verbs = null;
+		public List<VerbProperties> verbs;
 
-		public List<Tool> tools = null;
+		public List<Tool> tools;
 
 		public HediffCompProperties_VerbGiver()
 		{
@@ -17,7 +16,7 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors(HediffDef parentDef)
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0(parentDef).GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors(parentDef).GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -28,10 +27,10 @@ namespace Verse
 			}
 			if (this.tools == null)
 				yield break;
-			Tool dupeTool = this.tools.SelectMany((Func<Tool, IEnumerable<Tool>>)delegate(Tool lhs)
+			Tool dupeTool = this.tools.SelectMany(delegate(Tool lhs)
 			{
-				HediffCompProperties_VerbGiver _0024this = ((_003CConfigErrors_003Ec__Iterator0)/*Error near IL_00db: stateMachine*/)._0024this;
-				return from rhs in ((_003CConfigErrors_003Ec__Iterator0)/*Error near IL_00db: stateMachine*/)._0024this.tools
+				HediffCompProperties_VerbGiver _0024this = ((_003CConfigErrors_003Ec__Iterator0)/*Error near IL_00d6: stateMachine*/)._0024this;
+				return from rhs in ((_003CConfigErrors_003Ec__Iterator0)/*Error near IL_00d6: stateMachine*/)._0024this.tools
 				where lhs != rhs && lhs.label == rhs.label
 				select rhs;
 			}).FirstOrDefault();
@@ -39,8 +38,8 @@ namespace Verse
 				yield break;
 			yield return string.Format("duplicate hediff tool id {0}", dupeTool.Id);
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_013a:
-			/*Error near IL_013b: Unexpected return in MoveNext()*/;
+			IL_0134:
+			/*Error near IL_0135: Unexpected return in MoveNext()*/;
 		}
 	}
 }

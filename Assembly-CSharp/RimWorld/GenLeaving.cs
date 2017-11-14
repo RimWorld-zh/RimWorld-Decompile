@@ -29,8 +29,9 @@ namespace RimWorld
 				return;
 			switch (mode)
 			{
+			case DestroyMode.Vanish:
+				return;
 			case DestroyMode.KillFinalize:
-			{
 				if (diedThing.def.filthLeaving != null)
 				{
 					for (int i = leavingsRect.minZ; i <= leavingsRect.maxZ; i++)
@@ -43,9 +44,6 @@ namespace RimWorld
 					}
 				}
 				break;
-			}
-			case DestroyMode.Vanish:
-				return;
 			}
 			ThingOwner<Thing> thingOwner = new ThingOwner<Thing>();
 			if (mode == DestroyMode.KillFinalize && diedThing.def.killedLeavings != null)
@@ -81,9 +79,9 @@ namespace RimWorld
 						int num3 = GenLeaving.GetBuildingResourcesLeaveCalculator(diedThing, mode)(thingCountClass.count);
 						if (num3 > 0 && mode == DestroyMode.KillFinalize && thingCountClass.thingDef.slagDef != null)
 						{
-							int count = thingCountClass.thingDef.slagDef.smeltProducts.First((Func<ThingCountClass, bool>)((ThingCountClass pro) => pro.thingDef == ThingDefOf.Steel)).count;
+							int count = thingCountClass.thingDef.slagDef.smeltProducts.First((ThingCountClass pro) => pro.thingDef == ThingDefOf.Steel).count;
 							int num4 = num3 / 2 / 8;
-							for (int num5 = 0; num5 < num4; num5++)
+							for (int m = 0; m < num4; m++)
 							{
 								thingOwner.TryAdd(ThingMaker.MakeThing(thingCountClass.thingDef.slagDef, null), true);
 							}
@@ -99,22 +97,22 @@ namespace RimWorld
 				}
 			}
 			List<IntVec3> list2 = leavingsRect.Cells.InRandomOrder(null).ToList();
-			int num6 = 0;
+			int num5 = 0;
 			while (true)
 			{
 				if (thingOwner.Count > 0)
 				{
-					if (mode == DestroyMode.KillFinalize && !((Area)map.areaManager.Home)[list2[num6]])
+					if (mode == DestroyMode.KillFinalize && !((Area)map.areaManager.Home)[list2[num5]])
 					{
 						thingOwner[0].SetForbidden(true, false);
 					}
 					Thing thing3 = default(Thing);
-					if (thingOwner.TryDrop(thingOwner[0], list2[num6], map, ThingPlaceMode.Near, out thing3, (Action<Thing, int>)null))
+					if (thingOwner.TryDrop(thingOwner[0], list2[num5], map, ThingPlaceMode.Near, out thing3, (Action<Thing, int>)null))
 					{
-						num6++;
-						if (num6 >= list2.Count)
+						num5++;
+						if (num5 >= list2.Count)
 						{
-							num6 = 0;
+							num5 = 0;
 						}
 						continue;
 					}
@@ -159,106 +157,56 @@ namespace RimWorld
 
 		public static bool CanBuildingLeaveResources(Thing diedThing, DestroyMode mode)
 		{
-			bool result;
 			if (!(diedThing is Building))
 			{
-				result = false;
+				return false;
 			}
-			else if (mode == DestroyMode.KillFinalize && !diedThing.def.leaveResourcesWhenKilled)
+			if (mode == DestroyMode.KillFinalize && !diedThing.def.leaveResourcesWhenKilled)
 			{
-				result = false;
+				return false;
 			}
-			else
+			switch (mode)
 			{
-				switch (mode)
-				{
-				case DestroyMode.Vanish:
-				{
-					result = false;
-					break;
-				}
-				case DestroyMode.KillFinalize:
-				{
-					result = true;
-					break;
-				}
-				case DestroyMode.Deconstruct:
-				{
-					result = (diedThing.def.resourcesFractionWhenDeconstructed != 0.0);
-					break;
-				}
-				case DestroyMode.Cancel:
-				{
-					result = true;
-					break;
-				}
-				case DestroyMode.FailConstruction:
-				{
-					result = true;
-					break;
-				}
-				case DestroyMode.Refund:
-				{
-					result = true;
-					break;
-				}
-				default:
-				{
-					throw new ArgumentException("Unknown destroy mode " + mode);
-				}
-				}
+			case DestroyMode.Vanish:
+				return false;
+			case DestroyMode.KillFinalize:
+				return true;
+			case DestroyMode.Deconstruct:
+				return diedThing.def.resourcesFractionWhenDeconstructed != 0.0;
+			case DestroyMode.Cancel:
+				return true;
+			case DestroyMode.FailConstruction:
+				return true;
+			case DestroyMode.Refund:
+				return true;
+			default:
+				throw new ArgumentException("Unknown destroy mode " + mode);
 			}
-			return result;
 		}
 
 		public static Func<int, int> GetBuildingResourcesLeaveCalculator(Thing diedThing, DestroyMode mode)
 		{
-			Func<int, int> result;
 			if (!GenLeaving.CanBuildingLeaveResources(diedThing, mode))
 			{
-				result = (Func<int, int>)((int count) => 0);
+				return (int count) => 0;
 			}
-			else
+			switch (mode)
 			{
-				switch (mode)
-				{
-				case DestroyMode.Vanish:
-				{
-					result = (Func<int, int>)((int count) => 0);
-					break;
-				}
-				case DestroyMode.KillFinalize:
-				{
-					result = (Func<int, int>)((int count) => GenMath.RoundRandom((float)((float)count * 0.5)));
-					break;
-				}
-				case DestroyMode.Deconstruct:
-				{
-					result = (Func<int, int>)((int count) => GenMath.RoundRandom(Mathf.Min((float)count * diedThing.def.resourcesFractionWhenDeconstructed, (float)(count - 1))));
-					break;
-				}
-				case DestroyMode.Cancel:
-				{
-					result = (Func<int, int>)((int count) => GenMath.RoundRandom((float)((float)count * 1.0)));
-					break;
-				}
-				case DestroyMode.FailConstruction:
-				{
-					result = (Func<int, int>)((int count) => GenMath.RoundRandom((float)((float)count * 0.5)));
-					break;
-				}
-				case DestroyMode.Refund:
-				{
-					result = (Func<int, int>)((int count) => count);
-					break;
-				}
-				default:
-				{
-					throw new ArgumentException("Unknown destroy mode " + mode);
-				}
-				}
+			case DestroyMode.Vanish:
+				return (int count) => 0;
+			case DestroyMode.KillFinalize:
+				return (int count) => GenMath.RoundRandom((float)((float)count * 0.5));
+			case DestroyMode.Deconstruct:
+				return (int count) => GenMath.RoundRandom(Mathf.Min((float)count * diedThing.def.resourcesFractionWhenDeconstructed, (float)(count - 1)));
+			case DestroyMode.Cancel:
+				return (int count) => GenMath.RoundRandom((float)((float)count * 1.0));
+			case DestroyMode.FailConstruction:
+				return (int count) => GenMath.RoundRandom((float)((float)count * 0.5));
+			case DestroyMode.Refund:
+				return (int count) => count;
+			default:
+				throw new ArgumentException("Unknown destroy mode " + mode);
 			}
-			return result;
 		}
 
 		public static void DropFilthDueToDamage(Thing t, float damageDealt)
@@ -277,7 +225,7 @@ namespace RimWorld
 				if (GenLeaving.tmpCellsCandidates.Any())
 				{
 					int num = GenMath.RoundRandom(damageDealt * Mathf.Min(0.0166666675f, (float)(1.0 / ((float)t.MaxHitPoints / 10.0))));
-					for (int num2 = 0; num2 < num; num2++)
+					for (int i = 0; i < num; i++)
 					{
 						FilthMaker.MakeFilth(GenLeaving.tmpCellsCandidates.RandomElement(), t.Map, t.def.filthLeaving, 1);
 					}

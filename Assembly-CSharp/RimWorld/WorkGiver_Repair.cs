@@ -40,38 +40,45 @@ namespace RimWorld
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Building building = t as Building;
-			bool result;
 			if (building == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (!pawn.Map.listerBuildingsRepairable.Contains(pawn.Faction, building))
+			if (!pawn.Map.listerBuildingsRepairable.Contains(pawn.Faction, building))
 			{
-				result = false;
+				return false;
 			}
-			else if (!building.def.building.repairable)
+			if (!building.def.building.repairable)
 			{
-				result = false;
+				return false;
 			}
-			else if (t.Faction != pawn.Faction)
+			if (t.Faction != pawn.Faction)
 			{
-				result = false;
+				return false;
 			}
-			else if (pawn.Faction == Faction.OfPlayer && !((Area)pawn.Map.areaManager.Home)[t.Position])
+			if (pawn.Faction == Faction.OfPlayer && !((Area)pawn.Map.areaManager.Home)[t.Position])
 			{
 				JobFailReason.Is(WorkGiver_FixBrokenDownBuilding.NotInHomeAreaTrans);
-				result = false;
+				return false;
 			}
-			else if (!t.def.useHitPoints || t.HitPoints == t.MaxHitPoints)
+			if (t.def.useHitPoints && t.HitPoints != t.MaxHitPoints)
 			{
-				result = false;
+				LocalTargetInfo target = building;
+				if (!pawn.CanReserve(target, 1, -1, null, forced))
+				{
+					return false;
+				}
+				if (building.Map.designationManager.DesignationOn(building, DesignationDefOf.Deconstruct) != null)
+				{
+					return false;
+				}
+				if (building.IsBurning())
+				{
+					return false;
+				}
+				return true;
 			}
-			else
-			{
-				LocalTargetInfo target = (Thing)building;
-				result = ((byte)(pawn.CanReserve(target, 1, -1, null, forced) ? ((building.Map.designationManager.DesignationOn(building, DesignationDefOf.Deconstruct) == null) ? ((!building.IsBurning()) ? 1 : 0) : 0) : 0) != 0);
-			}
-			return result;
+			return false;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

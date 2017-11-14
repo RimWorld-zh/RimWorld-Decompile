@@ -45,22 +45,29 @@ namespace RimWorld
 
 		private int GetValueToCompare(Pawn pawn)
 		{
-			int result;
 			if (pawn.training == null)
 			{
-				result = -2147483648;
+				return -2147483648;
 			}
-			else if (pawn.training.IsCompleted(base.def.trainable))
+			if (pawn.training.IsCompleted(base.def.trainable))
 			{
-				result = 4;
+				return 4;
 			}
-			else
+			bool flag = default(bool);
+			AcceptanceReport acceptanceReport = pawn.training.CanAssignToTrain(base.def.trainable, out flag);
+			if (!flag)
 			{
-				bool flag = default(bool);
-				AcceptanceReport acceptanceReport = pawn.training.CanAssignToTrain(base.def.trainable, out flag);
-				result = (flag ? ((!acceptanceReport.Accepted) ? 1 : (pawn.training.GetWanted(base.def.trainable) ? 3 : 2)) : 0);
+				return 0;
 			}
-			return result;
+			if (!acceptanceReport.Accepted)
+			{
+				return 1;
+			}
+			if (!pawn.training.GetWanted(base.def.trainable))
+			{
+				return 2;
+			}
+			return 3;
 		}
 
 		protected override void HeaderClicked(Rect headerRect, PawnTable table)

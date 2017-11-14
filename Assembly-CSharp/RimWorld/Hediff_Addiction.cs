@@ -13,29 +13,19 @@ namespace RimWorld
 		{
 			get
 			{
-				Need_Chemical result;
-				List<Need> allNeeds;
-				int i;
 				if (base.pawn.Dead)
 				{
-					result = null;
+					return null;
 				}
-				else
+				List<Need> allNeeds = base.pawn.needs.AllNeeds;
+				for (int i = 0; i < allNeeds.Count; i++)
 				{
-					allNeeds = base.pawn.needs.AllNeeds;
-					for (i = 0; i < allNeeds.Count; i++)
+					if (allNeeds[i].def == base.def.causesNeed)
 					{
-						if (allNeeds[i].def == base.def.causesNeed)
-							goto IL_004d;
+						return (Need_Chemical)allNeeds[i];
 					}
-					result = null;
 				}
-				goto IL_0077;
-				IL_004d:
-				result = (Need_Chemical)allNeeds[i];
-				goto IL_0077;
-				IL_0077:
-				return result;
+				return null;
 			}
 		}
 
@@ -44,24 +34,14 @@ namespace RimWorld
 			get
 			{
 				List<ChemicalDef> allDefsListForReading = DefDatabase<ChemicalDef>.AllDefsListForReading;
-				int num = 0;
-				ChemicalDef result;
-				while (true)
+				for (int i = 0; i < allDefsListForReading.Count; i++)
 				{
-					if (num < allDefsListForReading.Count)
+					if (allDefsListForReading[i].addictionHediff == base.def)
 					{
-						if (allDefsListForReading[num].addictionHediff == base.def)
-						{
-							result = allDefsListForReading[num];
-							break;
-						}
-						num++;
-						continue;
+						return allDefsListForReading[i];
 					}
-					result = null;
-					break;
 				}
-				return result;
+				return null;
 			}
 		}
 
@@ -69,7 +49,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (this.CurStageIndex != 1 || base.def.CompProps<HediffCompProperties_SeverityPerDay>() == null) ? base.LabelInBrackets : (base.LabelInBrackets + " " + ((float)(1.0 - this.Severity)).ToStringPercent());
+				if (this.CurStageIndex == 1 && base.def.CompProps<HediffCompProperties_SeverityPerDay>() != null)
+				{
+					return base.LabelInBrackets + " " + ((float)(1.0 - this.Severity)).ToStringPercent();
+				}
+				return base.LabelInBrackets;
 			}
 		}
 
@@ -78,7 +62,11 @@ namespace RimWorld
 			get
 			{
 				Need_Chemical need = this.Need;
-				return (need != null && need.CurCategory == DrugDesireCategory.Withdrawal) ? 1 : 0;
+				if (need != null && need.CurCategory == DrugDesireCategory.Withdrawal)
+				{
+					return 1;
+				}
+				return 0;
 			}
 		}
 

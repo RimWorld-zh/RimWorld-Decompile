@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -63,7 +62,11 @@ namespace RimWorld
 			get
 			{
 				string text = base.def.entityDefToBuild.label + "FrameLabelExtra".Translate();
-				return (base.Stuff == null) ? text : (base.Stuff.label + " " + text);
+				if (base.Stuff != null)
+				{
+					return base.Stuff.label + " " + text;
+				}
+				return text;
 			}
 		}
 
@@ -71,8 +74,6 @@ namespace RimWorld
 		{
 			get
 			{
-				ThingDef thingDef;
-				Color result;
 				if (!base.def.MadeFromStuff)
 				{
 					List<ThingCountClass> costList = base.def.entityDefToBuild.costList;
@@ -80,23 +81,16 @@ namespace RimWorld
 					{
 						for (int i = 0; i < costList.Count; i++)
 						{
-							thingDef = costList[i].thingDef;
+							ThingDef thingDef = costList[i].thingDef;
 							if (thingDef.IsStuff && thingDef.stuffProps.color != Color.white)
-								goto IL_0064;
+							{
+								return thingDef.stuffProps.color;
+							}
 						}
 					}
-					result = new Color(0.6f, 0.6f, 0.6f);
+					return new Color(0.6f, 0.6f, 0.6f);
 				}
-				else
-				{
-					result = base.DrawColor;
-				}
-				goto IL_00ad;
-				IL_00ad:
-				return result;
-				IL_0064:
-				result = thingDef.stuffProps.color;
-				goto IL_00ad;
+				return base.DrawColor;
 			}
 		}
 
@@ -104,7 +98,15 @@ namespace RimWorld
 		{
 			get
 			{
-				return (base.Stuff == null || base.Stuff.stuffProps.constructEffect == null) ? ((base.def.entityDefToBuild.constructEffect == null) ? EffecterDefOf.ConstructMetal : base.def.entityDefToBuild.constructEffect) : base.Stuff.stuffProps.constructEffect;
+				if (base.Stuff != null && base.Stuff.stuffProps.constructEffect != null)
+				{
+					return base.Stuff.stuffProps.constructEffect;
+				}
+				if (base.def.entityDefToBuild.constructEffect != null)
+				{
+					return base.def.entityDefToBuild.constructEffect;
+				}
+				return EffecterDefOf.ConstructMetal;
 			}
 		}
 
@@ -112,7 +114,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if ((UnityEngine.Object)this.cachedCornerMat == (UnityEngine.Object)null)
+				if ((Object)this.cachedCornerMat == (Object)null)
 				{
 					this.cachedCornerMat = MaterialPool.MatFrom(Frame.CornerTex, ShaderDatabase.Cutout, this.DrawColor);
 				}
@@ -124,7 +126,7 @@ namespace RimWorld
 		{
 			get
 			{
-				if ((UnityEngine.Object)this.cachedTileMat == (UnityEngine.Object)null)
+				if ((Object)this.cachedTileMat == (Object)null)
 				{
 					this.cachedTileMat = MaterialPool.MatFrom(Frame.TileTex, ShaderDatabase.Cutout, this.DrawColor);
 				}
@@ -275,63 +277,53 @@ namespace RimWorld
 			matrix.SetTRS(this.DrawPos, base.Rotation.AsQuat, s);
 			Graphics.DrawMesh(MeshPool.plane10, matrix, Frame.UnderfieldMat, 0);
 			int num = 4;
-			for (int num2 = 0; num2 < num; num2++)
+			for (int i = 0; i < num; i++)
 			{
 				IntVec2 rotatedSize = base.RotatedSize;
 				int x = rotatedSize.x;
 				IntVec2 rotatedSize2 = base.RotatedSize;
-				float num3 = (float)Mathf.Min(x, rotatedSize2.z);
-				float num4 = (float)(num3 * 0.37999999523162842);
+				float num2 = (float)Mathf.Min(x, rotatedSize2.z);
+				float num3 = (float)(num2 * 0.37999999523162842);
 				IntVec3 intVec = default(IntVec3);
-				switch (num2)
+				switch (i)
 				{
 				case 0:
-				{
 					intVec = new IntVec3(-1, 0, -1);
 					break;
-				}
 				case 1:
-				{
 					intVec = new IntVec3(-1, 0, 1);
 					break;
-				}
 				case 2:
-				{
 					intVec = new IntVec3(1, 0, 1);
 					break;
-				}
 				case 3:
-				{
 					intVec = new IntVec3(1, 0, -1);
 					break;
 				}
-				}
 				Vector3 b = default(Vector3);
-				float num5 = (float)intVec.x;
+				float num4 = (float)intVec.x;
 				IntVec2 rotatedSize3 = base.RotatedSize;
-				b.x = (float)(num5 * ((float)rotatedSize3.x / 2.0 - num4 / 2.0));
-				float num6 = (float)intVec.z;
+				b.x = (float)(num4 * ((float)rotatedSize3.x / 2.0 - num3 / 2.0));
+				float num5 = (float)intVec.z;
 				IntVec2 rotatedSize4 = base.RotatedSize;
-				b.z = (float)(num6 * ((float)rotatedSize4.z / 2.0 - num4 / 2.0));
-				Vector3 s2 = new Vector3(num4, 1f, num4);
+				b.z = (float)(num5 * ((float)rotatedSize4.z / 2.0 - num3 / 2.0));
+				Vector3 s2 = new Vector3(num3, 1f, num3);
 				Matrix4x4 matrix2 = default(Matrix4x4);
-				matrix2.SetTRS(this.DrawPos + Vector3.up * 0.03f + b, new Rot4(num2).AsQuat, s2);
+				matrix2.SetTRS(this.DrawPos + Vector3.up * 0.03f + b, new Rot4(i).AsQuat, s2);
 				Graphics.DrawMesh(MeshPool.plane10, matrix2, this.CornerMat, 0);
 			}
-			float num7 = (float)(this.PercentComplete / 1.0);
-			float num8 = num7;
+			float num6 = (float)(this.PercentComplete / 1.0);
+			float num7 = num6;
 			IntVec2 rotatedSize5 = base.RotatedSize;
-			float num9 = num8 * (float)rotatedSize5.x;
+			float num8 = num7 * (float)rotatedSize5.x;
 			IntVec2 rotatedSize6 = base.RotatedSize;
-			int num10 = Mathf.CeilToInt((float)(num9 * (float)rotatedSize6.z * 4.0));
+			int num9 = Mathf.CeilToInt((float)(num8 * (float)rotatedSize6.z * 4.0));
 			IntVec2 intVec2 = base.RotatedSize * 2;
-			for (int num11 = 0; num11 < num10; num11++)
+			for (int j = 0; j < num9; j++)
 			{
-				IntVec2 intVec3 = new IntVec2
-				{
-					z = num11 / intVec2.x
-				};
-				intVec3.x = num11 - intVec3.z * intVec2.x;
+				IntVec2 intVec3 = default(IntVec2);
+				intVec3.z = j / intVec2.x;
+				intVec3.x = j - intVec3.z * intVec2.x;
 				Vector3 a = new Vector3((float)((float)intVec3.x * 0.5), 0f, (float)((float)intVec3.z * 0.5)) + this.DrawPos;
 				float x2 = a.x;
 				IntVec2 rotatedSize7 = base.RotatedSize;
@@ -349,7 +341,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -363,8 +355,8 @@ namespace RimWorld
 				yield break;
 			yield return (Gizmo)buildCopy;
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0112:
-			/*Error near IL_0113: Unexpected return in MoveNext()*/;
+			IL_010e:
+			/*Error near IL_010f: Unexpected return in MoveNext()*/;
 		}
 
 		public override string GetInspectString()

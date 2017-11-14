@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -21,7 +20,7 @@ namespace Verse
 			get
 			{
 				DiaOption diaOption = new DiaOption("RejectLetter".Translate());
-				diaOption.action = (Action)delegate
+				diaOption.action = delegate
 				{
 					Find.LetterStack.RemoveLetter(this);
 				};
@@ -38,7 +37,7 @@ namespace Verse
 				diaOption.resolveTree = true;
 				if (base.TimeoutActive && base.disappearAtTick <= Find.TickManager.TicksGame + 1)
 				{
-					diaOption.Disable((string)null);
+					diaOption.Disable(null);
 				}
 				return diaOption;
 			}
@@ -49,7 +48,7 @@ namespace Verse
 			get
 			{
 				DiaOption diaOption = new DiaOption("OK".Translate());
-				diaOption.action = (Action)delegate
+				diaOption.action = delegate
 				{
 					Find.LetterStack.RemoveLetter(this);
 				};
@@ -63,7 +62,7 @@ namespace Verse
 			get
 			{
 				DiaOption diaOption = new DiaOption("JumpToLocation".Translate());
-				diaOption.action = (Action)delegate
+				diaOption.action = delegate
 				{
 					CameraJumper.TryJumpAndSelect(base.lookTarget);
 					Find.LetterStack.RemoveLetter(this);
@@ -71,7 +70,7 @@ namespace Verse
 				diaOption.resolveTree = true;
 				if (!base.lookTarget.IsValid)
 				{
-					diaOption.Disable((string)null);
+					diaOption.Disable(null);
 				}
 				return diaOption;
 			}

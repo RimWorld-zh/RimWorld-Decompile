@@ -6,8 +6,8 @@ namespace Verse
 	{
 		public enum SourceCategory
 		{
-			ThingOrUnknown = 0,
-			Collapse = 1
+			ThingOrUnknown,
+			Collapse
 		}
 
 		private DamageDef defInt;
@@ -48,7 +48,11 @@ namespace Verse
 		{
 			get
 			{
-				return DebugSettings.enableDamage ? this.amountInt : 0;
+				if (!DebugSettings.enableDamage)
+				{
+					return 0;
+				}
+				return this.amountInt;
 			}
 		}
 
@@ -136,7 +140,11 @@ namespace Verse
 		{
 			get
 			{
-				return !this.InstantOldInjury && this.allowDamagePropagationInt;
+				if (this.InstantOldInjury)
+				{
+					return false;
+				}
+				return this.allowDamagePropagationInt;
 			}
 		}
 

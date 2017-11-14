@@ -10,9 +10,9 @@ namespace RimWorld.BaseGen
 			BaseGen.symbolStack.Push("chargeBatteries", rp);
 			ResolveParams resolveParams = rp;
 			resolveParams.singleThingDef = ThingDefOf.Battery;
-			resolveParams.thingRot = new Rot4?((!Rand.Bool) ? Rot4.East : Rot4.North);
+			resolveParams.thingRot = ((!Rand.Bool) ? Rot4.East : Rot4.North);
 			int? fillWithThingsPadding = rp.fillWithThingsPadding;
-			resolveParams.fillWithThingsPadding = new int?((!fillWithThingsPadding.HasValue) ? 1 : fillWithThingsPadding.Value);
+			resolveParams.fillWithThingsPadding = ((!fillWithThingsPadding.HasValue) ? 1 : fillWithThingsPadding.Value);
 			BaseGen.symbolStack.Push("fillWithThings", resolveParams);
 		}
 	}

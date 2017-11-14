@@ -12,77 +12,67 @@ namespace RimWorld
 		private IEnumerable<Pawn> PotentialVictimCandidates(IIncidentTarget target)
 		{
 			Map map = target as Map;
-			return (map == null) ? (from x in ((Caravan)target).PawnsListForReading
+			if (map != null)
+			{
+				return map.mapPawns.FreeColonistsAndPrisoners;
+			}
+			return from x in ((Caravan)target).PawnsListForReading
 			where x.IsFreeColonist || x.IsPrisonerOfColony
-			select x) : map.mapPawns.FreeColonistsAndPrisoners;
+			select x;
 		}
 
 		private IEnumerable<Pawn> PotentialVictims(IIncidentTarget target)
 		{
-			return this.PotentialVictimCandidates(target).Where((Func<Pawn, bool>)delegate(Pawn p)
+			return this.PotentialVictimCandidates(target).Where(delegate(Pawn p)
 			{
-				bool result;
 				if (p.ParentHolder is Building_CryptosleepCasket)
 				{
-					result = false;
+					return false;
 				}
-				else
+				if (!base.def.diseasePartsToAffect.NullOrEmpty())
 				{
-					if (!base.def.diseasePartsToAffect.NullOrEmpty())
+					bool flag = false;
+					int num = 0;
+					while (num < base.def.diseasePartsToAffect.Count)
 					{
-						bool flag = false;
-						int num = 0;
-						while (num < base.def.diseasePartsToAffect.Count)
+						if (!IncidentWorker_Disease.CanAddHediffToAnyPartOfDef(p, base.def.diseaseIncident, base.def.diseasePartsToAffect[num]))
 						{
-							if (!IncidentWorker_Disease.CanAddHediffToAnyPartOfDef(p, base.def.diseaseIncident, base.def.diseasePartsToAffect[num]))
-							{
-								num++;
-								continue;
-							}
-							flag = true;
-							break;
+							num++;
+							continue;
 						}
-						if (!flag)
-						{
-							result = false;
-							goto IL_00b9;
-						}
+						flag = true;
+						break;
 					}
-					result = (p.health.immunity.DiseaseContractChanceFactor(base.def.diseaseIncident, null) > 0.0);
+					if (!flag)
+					{
+						return false;
+					}
 				}
-				goto IL_00b9;
-				IL_00b9:
-				return result;
+				return p.health.immunity.DiseaseContractChanceFactor(base.def.diseaseIncident, null) > 0.0;
 			});
 		}
 
 		private static bool CanAddHediffToAnyPartOfDef(Pawn pawn, HediffDef hediffDef, BodyPartDef partDef)
 		{
 			List<BodyPartRecord> allParts = pawn.def.race.body.AllParts;
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < allParts.Count; i++)
 			{
-				if (num < allParts.Count)
+				BodyPartRecord bodyPartRecord = allParts[i];
+				if (bodyPartRecord.def == partDef && !pawn.health.hediffSet.PartIsMissing(bodyPartRecord) && !pawn.health.hediffSet.HasHediff(hediffDef, bodyPartRecord, false))
 				{
-					BodyPartRecord bodyPartRecord = allParts[num];
-					if (bodyPartRecord.def == partDef && !pawn.health.hediffSet.PartIsMissing(bodyPartRecord) && !pawn.health.hediffSet.HasHediff(hediffDef, bodyPartRecord, false))
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
-			return (byte)(this.PotentialVictims(target).Any() ? 1 : 0) != 0;
+			if (!this.PotentialVictims(target).Any())
+			{
+				return false;
+			}
+			return true;
 		}
 
 		protected override bool TryExecuteWorker(IncidentParms parms)

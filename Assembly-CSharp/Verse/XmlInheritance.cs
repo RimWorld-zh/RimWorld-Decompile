@@ -60,7 +60,7 @@ namespace Verse
 				for (int i = 0; i < list.Count; i++)
 				{
 					if (list[i].mod == mod)
-						goto IL_006e;
+						goto IL_0067;
 				}
 			}
 			XmlInheritanceNode xmlInheritanceNode = new XmlInheritanceNode();
@@ -81,7 +81,7 @@ namespace Verse
 				}
 			}
 			return;
-			IL_006e:
+			IL_0067:
 			if (mod == null)
 			{
 				Log.Error("XML error: Could not register node named \"" + xmlAttribute.Value + "\" because this name is already used.");
@@ -100,16 +100,14 @@ namespace Verse
 
 		public static XmlNode GetResolvedNodeFor(XmlNode originalNode)
 		{
-			XmlNode result;
 			if (originalNode.Attributes[XmlInheritance.ParentNameAttributeName] != null)
 			{
 				XmlInheritanceNode xmlInheritanceNode = default(XmlInheritanceNode);
 				if (XmlInheritance.resolvedNodes.TryGetValue(originalNode, out xmlInheritanceNode))
 				{
-					result = xmlInheritanceNode.resolvedXmlNode;
-					goto IL_00b7;
+					return xmlInheritanceNode.resolvedXmlNode;
 				}
-				if (XmlInheritance.unresolvedNodes.Any((Predicate<XmlInheritanceNode>)((XmlInheritanceNode x) => x.xmlNode == originalNode)))
+				if (XmlInheritance.unresolvedNodes.Any((XmlInheritanceNode x) => x.xmlNode == originalNode))
 				{
 					Log.Error("XML error: XML node \"" + originalNode.Name + "\" has not been resolved yet. There's probably a Resolve() call missing somewhere.");
 				}
@@ -118,10 +116,7 @@ namespace Verse
 					Log.Error("XML error: Tried to get resolved node for node \"" + originalNode.Name + "\" which uses a ParentName attribute, but it is not in a resolved nodes collection, which means that it was never registered or there was an error while resolving it.");
 				}
 			}
-			result = originalNode;
-			goto IL_00b7;
-			IL_00b7:
-			return result;
+			return originalNode;
 		}
 
 		public static void Clear()
@@ -241,17 +236,12 @@ namespace Verse
 					}
 				}
 			}
-			XmlInheritanceNode result;
 			if (xmlInheritanceNode == null)
 			{
 				Log.Error("XML error: Could not find parent node named \"" + parentName + "\" for node \"" + node.xmlNode.Name + "\". Full node: " + node.xmlNode.OuterXml);
-				result = null;
+				return null;
 			}
-			else
-			{
-				result = xmlInheritanceNode;
-			}
-			return result;
+			return xmlInheritanceNode;
 		}
 
 		private static void ResolveXmlNodeFor(XmlInheritanceNode node)

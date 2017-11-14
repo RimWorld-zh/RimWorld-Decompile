@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -60,7 +59,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.HasAnyThing ? this.AnyThing.GetDescription() : "";
+				if (!this.HasAnyThing)
+				{
+					return string.Empty;
+				}
+				return this.AnyThing.GetDescription();
 			}
 		}
 
@@ -96,13 +99,13 @@ namespace RimWorld
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
 			{
-				this.things.RemoveAll((Predicate<Thing>)((Thing x) => x.Destroyed));
+				this.things.RemoveAll((Thing x) => x.Destroyed);
 			}
 			Scribe_Collections.Look<Thing>(ref this.things, "things", LookMode.Reference, new object[0]);
 			int countToTransfer = base.CountToTransfer;
 			Scribe_Values.Look(ref countToTransfer, "countToTransfer", 0, false);
 			base.CountToTransfer = countToTransfer;
-			if (((Scribe.mode == LoadSaveMode.PostLoadInit) ? this.things.RemoveAll((Predicate<Thing>)((Thing x) => x == null)) : 0) != 0)
+			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.things.RemoveAll((Thing x) => x == null) != 0)
 			{
 				Log.Warning("Some of the things were null after loading.");
 			}

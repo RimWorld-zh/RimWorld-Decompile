@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -7,7 +6,7 @@ namespace RimWorld
 {
 	public class JobDriver_PlantSow : JobDriver
 	{
-		private float sowWorkDone = 0f;
+		private float sowWorkDone;
 
 		private Plant Plant
 		{
@@ -31,7 +30,7 @@ namespace RimWorld
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			_003CMakeNewToils_003Ec__Iterator0 _003CMakeNewToils_003Ec__Iterator = (_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_003a: stateMachine*/;
-			yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.Touch).FailOn((Func<bool>)(() => GenPlant.AdjacentSowBlocker(_003CMakeNewToils_003Ec__Iterator._0024this.job.plantDefToSow, _003CMakeNewToils_003Ec__Iterator._0024this.TargetA.Cell, _003CMakeNewToils_003Ec__Iterator._0024this.Map) != null)).FailOn((Func<bool>)(() => !_003CMakeNewToils_003Ec__Iterator._0024this.job.plantDefToSow.CanEverPlantAt(_003CMakeNewToils_003Ec__Iterator._0024this.TargetLocA, _003CMakeNewToils_003Ec__Iterator._0024this.Map)));
+			yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.Touch).FailOn(() => GenPlant.AdjacentSowBlocker(_003CMakeNewToils_003Ec__Iterator._0024this.job.plantDefToSow, _003CMakeNewToils_003Ec__Iterator._0024this.TargetA.Cell, _003CMakeNewToils_003Ec__Iterator._0024this.Map) != null).FailOn(() => !_003CMakeNewToils_003Ec__Iterator._0024this.job.plantDefToSow.CanEverPlantAt(_003CMakeNewToils_003Ec__Iterator._0024this.TargetLocA, _003CMakeNewToils_003Ec__Iterator._0024this.Map));
 			/*Error: Unable to find new state assignment for yield return*/;
 		}
 	}

@@ -10,43 +10,38 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
 			if (pawn.inventory == null)
 			{
-				result = null;
+				return null;
 			}
-			else if (!((Area)pawn.Map.areaManager.Home)[pawn.Position])
+			if (!((Area)pawn.Map.areaManager.Home)[pawn.Position])
 			{
-				result = null;
+				return null;
 			}
-			else if (pawn.Faction != Faction.OfPlayer)
+			if (pawn.Faction != Faction.OfPlayer)
 			{
-				result = null;
+				return null;
 			}
-			else
+			if (Find.TickManager.TicksGame > pawn.mindState.lastInventoryRawFoodUseTick + 150000)
 			{
-				if (Find.TickManager.TicksGame > pawn.mindState.lastInventoryRawFoodUseTick + 150000)
+				for (int num = pawn.inventory.innerContainer.Count - 1; num >= 0; num--)
 				{
-					for (int num = pawn.inventory.innerContainer.Count - 1; num >= 0; num--)
+					Thing thing = pawn.inventory.innerContainer[num];
+					if (thing.def.IsIngestible && !thing.def.IsDrug && (int)thing.def.ingestible.preferability <= 5)
 					{
-						Thing thing = pawn.inventory.innerContainer[num];
-						if (thing.def.IsIngestible && !thing.def.IsDrug && (int)thing.def.ingestible.preferability <= 5)
-						{
-							this.Drop(pawn, thing);
-						}
+						this.Drop(pawn, thing);
 					}
 				}
-				for (int num2 = pawn.inventory.innerContainer.Count - 1; num2 >= 0; num2--)
-				{
-					Thing thing2 = pawn.inventory.innerContainer[num2];
-					if (thing2.def.IsDrug && pawn.drugs != null && !pawn.drugs.AllowedToTakeScheduledEver(thing2.def) && pawn.drugs.HasEverTaken(thing2.def) && !AddictionUtility.IsAddicted(pawn, thing2))
-					{
-						this.Drop(pawn, thing2);
-					}
-				}
-				result = null;
 			}
-			return result;
+			for (int num2 = pawn.inventory.innerContainer.Count - 1; num2 >= 0; num2--)
+			{
+				Thing thing2 = pawn.inventory.innerContainer[num2];
+				if (thing2.def.IsDrug && pawn.drugs != null && !pawn.drugs.AllowedToTakeScheduledEver(thing2.def) && pawn.drugs.HasEverTaken(thing2.def) && !AddictionUtility.IsAddicted(pawn, thing2))
+				{
+					this.Drop(pawn, thing2);
+				}
+			}
+			return null;
 		}
 
 		private void Drop(Pawn pawn, Thing thing)

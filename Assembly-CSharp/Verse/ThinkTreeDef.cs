@@ -25,7 +25,7 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -36,72 +36,56 @@ namespace Verse
 			}
 			HashSet<int> usedKeys = new HashSet<int>();
 			HashSet<ThinkNode> instances = new HashSet<ThinkNode>();
-			using (IEnumerator<ThinkNode> enumerator2 = this.thinkRoot.ThisAndChildrenRecursive.GetEnumerator())
+			foreach (ThinkNode item in this.thinkRoot.ThisAndChildrenRecursive)
 			{
-				ThinkNode node;
-				int key;
-				while (true)
+				int key = item.UniqueSaveKey;
+				if (key == -1)
 				{
-					if (enumerator2.MoveNext())
-					{
-						node = enumerator2.Current;
-						key = node.UniqueSaveKey;
-						if (key == -1)
-						{
-							yield return "Thinknode " + node.GetType() + " has invalid save key " + key;
-							/*Error: Unable to find new state assignment for yield return*/;
-						}
-						if (instances.Contains(node))
-						{
-							yield return "There are two same ThinkNode instances in one think tree (their type is " + node.GetType() + ")";
-							/*Error: Unable to find new state assignment for yield return*/;
-						}
-						if (!usedKeys.Contains(key))
-						{
-							if (key != -1)
-							{
-								usedKeys.Add(key);
-							}
-							instances.Add(node);
-							continue;
-						}
-						break;
-					}
-					yield break;
+					yield return "Thinknode " + item.GetType() + " has invalid save key " + key;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
-				yield return "Two ThinkNodes have the same unique save key " + key + " (one of the nodes is " + node.GetType() + ")";
-				/*Error: Unable to find new state assignment for yield return*/;
+				if (instances.Contains(item))
+				{
+					yield return "There are two same ThinkNode instances in one think tree (their type is " + item.GetType() + ")";
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
+				if (usedKeys.Contains(key))
+				{
+					yield return "Two ThinkNodes have the same unique save key " + key + " (one of the nodes is " + item.GetType() + ")";
+					/*Error: Unable to find new state assignment for yield return*/;
+				}
+				if (key != -1)
+				{
+					usedKeys.Add(key);
+				}
+				instances.Add(item);
 			}
-			IL_02c1:
-			/*Error near IL_02c2: Unexpected return in MoveNext()*/;
+			yield break;
+			IL_02ba:
+			/*Error near IL_02bb: Unexpected return in MoveNext()*/;
 		}
 
 		public bool TryGetThinkNodeWithSaveKey(int key, out ThinkNode outNode)
 		{
 			outNode = null;
-			bool result;
 			if (key == -1)
 			{
-				result = false;
+				return false;
 			}
-			else if (key == this.thinkRoot.UniqueSaveKey)
+			if (key == this.thinkRoot.UniqueSaveKey)
 			{
 				outNode = this.thinkRoot;
-				result = true;
+				return true;
 			}
-			else
+			foreach (ThinkNode item in this.thinkRoot.ChildrenRecursive)
 			{
-				foreach (ThinkNode item in this.thinkRoot.ChildrenRecursive)
+				if (item.UniqueSaveKey == key)
 				{
-					if (item.UniqueSaveKey == key)
-					{
-						outNode = item;
-						return true;
-					}
+					outNode = item;
+					return true;
 				}
-				result = false;
 			}
-			return result;
+			return false;
 		}
 
 		private void ResolveParentNodes(ThinkNode node)

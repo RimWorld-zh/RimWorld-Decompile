@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -10,7 +9,7 @@ namespace RimWorld
 		public static Toil PickupMedicine(TargetIndex ind, Pawn injured)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.jobs.curJob;
@@ -39,7 +38,7 @@ namespace RimWorld
 		public static Toil FinalizeTend(Pawn patient)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Pawn actor = toil.actor;
 				Medicine medicine = (Medicine)actor.jobs.curJob.targetB.Thing;

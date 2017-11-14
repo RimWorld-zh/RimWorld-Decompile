@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -56,7 +55,7 @@ namespace RimWorld
 		{
 			base.DrawPageTitle(rect);
 			rect.yMin += 45f;
-			base.DoBottomButtons(rect, "Start".Translate(), (string)null, null, true);
+			base.DoBottomButtons(rect, "Start".Translate(), null, null, true);
 			rect.yMax -= 38f;
 			Rect rect2 = rect;
 			rect2.width = 140f;
@@ -77,7 +76,7 @@ namespace RimWorld
 			Rect rect2 = rect;
 			rect2.height = 60f;
 			rect2 = rect2.ContractedBy(4f);
-			int groupID = ReorderableWidget.NewGroup((Action<int, int>)delegate(int from, int to)
+			int groupID = ReorderableWidget.NewGroup(delegate(int from, int to)
 			{
 				if (TutorSystem.AllowAction("ReorderPawn"))
 				{
@@ -112,7 +111,9 @@ namespace RimWorld
 				GUI.DrawTexture(new Rect((float)x, (float)y, x2, pawnSelectorPortraitSize4.y), PortraitsCache.Get(pawn, Page_ConfigureStartingPawns.PawnSelectorPortraitSize, default(Vector3), 1f));
 				GUI.color = Color.white;
 				Rect rect4 = rect3.ContractedBy(4f).Rounded();
-				Widgets.Label(rect4.TopPart(0.5f).Rounded(), pawn.LabelShort);
+				NameTriple nameTriple = pawn.Name as NameTriple;
+				string label = (nameTriple == null) ? pawn.LabelShort : ((!string.IsNullOrEmpty(nameTriple.Nick)) ? nameTriple.Nick : nameTriple.First);
+				Widgets.Label(rect4.TopPart(0.5f).Rounded(), label);
 				Vector2 vector = Text.CalcSize(pawn.story.Title);
 				if (vector.x > rect4.width)
 				{
@@ -164,7 +165,7 @@ namespace RimWorld
 			GUI.DrawTexture(new Rect((float)x2, (float)y, x3, pawnPortraitSize3.y), PortraitsCache.Get(this.curPawn, Page_ConfigureStartingPawns.PawnPortraitSize, default(Vector3), 1f));
 			Rect rect2 = rect;
 			rect2.width = 500f;
-			CharacterCardUtility.DrawCharacterCard(rect2, this.curPawn, new Action(this.RandomizeCurPawn), rect);
+			CharacterCardUtility.DrawCharacterCard(rect2, this.curPawn, this.RandomizeCurPawn, rect);
 			Rect rect3 = rect;
 			rect3.yMin += 100f;
 			rect3.xMin = (float)(rect2.xMax + 5.0);
@@ -222,13 +223,14 @@ namespace RimWorld
 		private Pawn FindBestSkillOwner(SkillDef skill)
 		{
 			Pawn pawn = Find.GameInitData.startingPawns[0];
-			SkillRecord skill2 = pawn.skills.GetSkill(skill);
+			SkillRecord skillRecord = pawn.skills.GetSkill(skill);
 			for (int i = 1; i < Find.GameInitData.startingPawnCount; i++)
 			{
-				SkillRecord skill3 = Find.GameInitData.startingPawns[i].skills.GetSkill(skill);
-				if (skill3.Level > skill2.Level || (skill3.Level == skill2.Level && (int)skill3.passion > (int)skill2.passion))
+				SkillRecord skill2 = Find.GameInitData.startingPawns[i].skills.GetSkill(skill);
+				if (skillRecord.TotallyDisabled || skill2.Level > skillRecord.Level || (skill2.Level == skillRecord.Level && (int)skill2.passion > (int)skillRecord.passion))
 				{
 					pawn = Find.GameInitData.startingPawns[i];
+					skillRecord = skill2;
 				}
 			}
 			return pawn;
@@ -245,25 +247,33 @@ namespace RimWorld
 
 		protected override bool CanDoNext()
 		{
-			bool result;
 			if (!base.CanDoNext())
 			{
-				result = false;
+				return false;
 			}
-			else
+			foreach (Pawn startingPawn in Find.GameInitData.startingPawns)
 			{
-				foreach (Pawn startingPawn in Find.GameInitData.startingPawns)
+				if (!startingPawn.Name.IsValid)
 				{
-					if (!startingPawn.Name.IsValid)
-					{
-						Messages.Message("EveryoneNeedsValidName".Translate(), MessageTypeDefOf.RejectInput);
-						return false;
-					}
+					Messages.Message("EveryoneNeedsValidName".Translate(), MessageTypeDefOf.RejectInput);
+					return false;
 				}
-				PortraitsCache.Clear();
-				result = true;
 			}
-			return result;
+			PortraitsCache.Clear();
+			return true;
+		}
+
+		protected override void DoNext()
+		{
+			foreach (Pawn startingPawn in Find.GameInitData.startingPawns)
+			{
+				NameTriple nameTriple = startingPawn.Name as NameTriple;
+				if (nameTriple != null && string.IsNullOrEmpty(nameTriple.Nick))
+				{
+					startingPawn.Name = new NameTriple(nameTriple.First, nameTriple.First, nameTriple.Last);
+				}
+			}
+			base.DoNext();
 		}
 
 		public void SelectPawn(Pawn c)

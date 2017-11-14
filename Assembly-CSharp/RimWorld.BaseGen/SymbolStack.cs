@@ -30,10 +30,9 @@ namespace RimWorld.BaseGen
 
 		public void Push(string symbol, CellRect rect)
 		{
-			this.Push(symbol, new ResolveParams
-			{
-				rect = rect
-			});
+			ResolveParams resolveParams = default(ResolveParams);
+			resolveParams.rect = rect;
+			this.Push(symbol, resolveParams);
 		}
 
 		public void PushMany(ResolveParams resolveParams, params string[] symbols)

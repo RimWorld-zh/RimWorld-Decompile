@@ -6,11 +6,11 @@ namespace RimWorld
 {
 	public class JobDriver_CleanFilth : JobDriver
 	{
-		private float cleaningWorkDone = 0f;
+		private float cleaningWorkDone;
 
-		private float totalCleaningWorkDone = 0f;
+		private float totalCleaningWorkDone;
 
-		private float totalCleaningWorkRequired = 0f;
+		private float totalCleaningWorkRequired;
 
 		private const TargetIndex FilthInd = TargetIndex.A;
 

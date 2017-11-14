@@ -14,7 +14,7 @@ namespace Verse
 
 		public Vector2 drawSize = Vector2.one;
 
-		private Graphic_Shadow cachedShadowGraphicInt = null;
+		private Graphic_Shadow cachedShadowGraphicInt;
 
 		private Graphic cachedShadowlessGraphicInt;
 
@@ -23,7 +23,11 @@ namespace Verse
 			get
 			{
 				Material matSingle = this.MatSingle;
-				return (!((Object)matSingle != (Object)null)) ? ShaderDatabase.Cutout : matSingle.shader;
+				if ((Object)matSingle != (Object)null)
+				{
+					return matSingle.shader;
+				}
+				return ShaderDatabase.Cutout;
 			}
 		}
 
@@ -102,55 +106,37 @@ namespace Verse
 
 		public virtual Material MatAt(Rot4 rot, Thing thing = null)
 		{
-			Material result;
 			switch (rot.AsInt)
 			{
 			case 0:
-			{
-				result = this.MatBack;
-				break;
-			}
+				return this.MatBack;
 			case 1:
-			{
-				result = this.MatSide;
-				break;
-			}
+				return this.MatSide;
 			case 2:
-			{
-				result = this.MatFront;
-				break;
-			}
+				return this.MatFront;
 			case 3:
-			{
-				result = this.MatSide;
-				break;
-			}
+				return this.MatSide;
 			default:
-			{
-				result = BaseContent.BadMat;
-				break;
+				return BaseContent.BadMat;
 			}
-			}
-			return result;
 		}
 
 		public virtual Mesh MeshAt(Rot4 rot)
 		{
-			Mesh result;
 			if (this.ShouldDrawRotated)
 			{
-				result = MeshPool.GridPlane(this.drawSize);
+				return MeshPool.GridPlane(this.drawSize);
 			}
-			else
+			Vector2 vector = this.drawSize;
+			if (rot.IsHorizontal)
 			{
-				Vector2 vector = this.drawSize;
-				if (rot.IsHorizontal)
-				{
-					vector = vector.Rotated();
-				}
-				result = ((!(rot == Rot4.West) || (this.data != null && !this.data.allowFlip)) ? MeshPool.GridPlane(vector) : MeshPool.GridPlaneFlip(vector));
+				vector = vector.Rotated();
 			}
-			return result;
+			if (rot == Rot4.West && (this.data == null || this.data.allowFlip))
+			{
+				return MeshPool.GridPlaneFlip(vector);
+			}
+			return MeshPool.GridPlane(vector);
 		}
 
 		public virtual Material MatSingleFor(Thing thing)
@@ -231,12 +217,7 @@ namespace Verse
 
 		public virtual Graphic GetShadowlessGraphic()
 		{
-			Graphic result;
-			if (this.data == null || this.data.shadowData == null)
-			{
-				result = this;
-			}
-			else
+			if (this.data != null && this.data.shadowData != null)
 			{
 				if (this.cachedShadowlessGraphicInt == null)
 				{
@@ -245,14 +226,22 @@ namespace Verse
 					graphicData.shadowData = null;
 					this.cachedShadowlessGraphicInt = graphicData.Graphic;
 				}
-				result = this.cachedShadowlessGraphicInt;
+				return this.cachedShadowlessGraphicInt;
 			}
-			return result;
+			return this;
 		}
 
 		protected Quaternion QuatFromRot(Rot4 rot)
 		{
-			return (this.data == null || this.data.drawRotated) ? ((!this.ShouldDrawRotated) ? Quaternion.identity : rot.AsQuat) : Quaternion.identity;
+			if (this.data != null && !this.data.drawRotated)
+			{
+				return Quaternion.identity;
+			}
+			if (this.ShouldDrawRotated)
+			{
+				return rot.AsQuat;
+			}
+			return Quaternion.identity;
 		}
 	}
 }

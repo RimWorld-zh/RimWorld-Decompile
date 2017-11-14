@@ -53,6 +53,7 @@ namespace RimWorld
 				{
 					Scribe_Deep.Look(ref result, "externalHistory");
 					Scribe.loader.FinalizeLoading();
+					return result;
 				}
 				catch
 				{
@@ -65,7 +66,6 @@ namespace RimWorld
 				Log.Error("Could not load external history (" + path + "): " + ex.Message);
 				return null;
 			}
-			return result;
 		}
 
 		public static string GetRandomGameplayID()
@@ -81,12 +81,7 @@ namespace RimWorld
 
 		public static bool IsValidGameplayID(string ID)
 		{
-			bool result;
-			if (ID.NullOrEmpty() || ID.Length != ExternalHistoryUtility.gameplayIDLength)
-			{
-				result = false;
-			}
-			else
+			if (!ID.NullOrEmpty() && ID.Length == ExternalHistoryUtility.gameplayIDLength)
 			{
 				for (int i = 0; i < ID.Length; i++)
 				{
@@ -103,16 +98,13 @@ namespace RimWorld
 						break;
 					}
 					if (!flag)
-						goto IL_006f;
+					{
+						return false;
+					}
 				}
-				result = true;
+				return true;
 			}
-			goto IL_008e;
-			IL_008e:
-			return result;
-			IL_006f:
-			result = false;
-			goto IL_008e;
+			return false;
 		}
 
 		public static string GetCurrentUploadDate()

@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -31,18 +30,18 @@ namespace RimWorld
 			for (; i < 5; i++)
 			{
 				FactionDef facDef = (from fa in DefDatabase<FactionDef>.AllDefs
-				where fa.canMakeRandomly && Find.FactionManager.AllFactions.Count((Func<Faction, bool>)((Faction f) => f.def == fa)) < fa.maxCountAtGameStart
+				where fa.canMakeRandomly && Find.FactionManager.AllFactions.Count((Faction f) => f.def == fa) < fa.maxCountAtGameStart
 				select fa).RandomElement();
 				Faction faction2 = FactionGenerator.NewGeneratedFaction(facDef);
 				Find.World.factionManager.Add(faction2);
 			}
 			int num = GenMath.RoundRandom((float)((float)Find.WorldGrid.TilesCount / 100000.0 * FactionGenerator.FactionBasesPer100kTiles.RandomInRange));
 			num -= Find.WorldObjects.FactionBases.Count;
-			for (int num2 = 0; num2 < num; num2++)
+			for (int k = 0; k < num; k++)
 			{
 				Faction faction3 = (from x in Find.World.factionManager.AllFactionsListForReading
 				where !x.def.isPlayer && !x.def.hidden
-				select x).RandomElementByWeight((Func<Faction, float>)((Faction x) => x.def.baseSelectionWeight));
+				select x).RandomElementByWeight((Faction x) => x.def.baseSelectionWeight);
 				FactionBase factionBase = (FactionBase)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.FactionBase);
 				factionBase.SetFaction(faction3);
 				factionBase.Tile = TileFinder.RandomFactionBaseTileFor(faction3, false, null);
@@ -55,7 +54,7 @@ namespace RimWorld
 		{
 			foreach (FactionDef allDef in DefDatabase<FactionDef>.AllDefs)
 			{
-				if (allDef.mustStartOneEnemy && Find.World.factionManager.AllFactions.Any((Func<Faction, bool>)((Faction f) => f.def == allDef)) && !Find.World.factionManager.AllFactions.Any((Func<Faction, bool>)((Faction f) => f.def == allDef && f.HostileTo(player))))
+				if (allDef.mustStartOneEnemy && Find.World.factionManager.AllFactions.Any((Faction f) => f.def == allDef) && !Find.World.factionManager.AllFactions.Any((Faction f) => f.def == allDef && f.HostileTo(player)))
 				{
 					Faction faction = (from f in Find.World.factionManager.AllFactions
 					where f.def == allDef
@@ -87,7 +86,7 @@ namespace RimWorld
 				else
 				{
 					faction.Name = NameGenerator.GenerateName(facDef.factionNameMaker, from fac in Find.FactionManager.AllFactionsVisible
-					select fac.Name, false, (string)null);
+					select fac.Name, false, null);
 				}
 			}
 			faction.centralMelanin = Rand.Value;

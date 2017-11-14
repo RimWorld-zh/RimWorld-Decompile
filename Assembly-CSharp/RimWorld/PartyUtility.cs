@@ -15,129 +15,141 @@ namespace RimWorld
 
 		public static bool AcceptableGameConditionsToStartParty(Map map)
 		{
-			bool result;
 			if (!PartyUtility.AcceptableGameConditionsToContinueParty(map))
 			{
-				result = false;
+				return false;
 			}
-			else if (GenLocalDate.HourInteger(map) < 4 || GenLocalDate.HourInteger(map) > 21)
+			if (GenLocalDate.HourInteger(map) >= 4 && GenLocalDate.HourInteger(map) <= 21)
 			{
-				result = false;
-			}
-			else if (GatheringsUtility.AnyLordJobPreventsNewGatherings(map))
-			{
-				result = false;
-			}
-			else if (map.dangerWatcher.DangerRating != 0)
-			{
-				result = false;
-			}
-			else
-			{
+				if (GatheringsUtility.AnyLordJobPreventsNewGatherings(map))
+				{
+					return false;
+				}
+				if (map.dangerWatcher.DangerRating != 0)
+				{
+					return false;
+				}
 				int freeColonistsSpawnedCount = map.mapPawns.FreeColonistsSpawnedCount;
 				if (freeColonistsSpawnedCount < 4)
 				{
-					result = false;
+					return false;
 				}
-				else
+				int num = 0;
+				foreach (Pawn item in map.mapPawns.FreeColonistsSpawned)
 				{
-					int num = 0;
-					foreach (Pawn item in map.mapPawns.FreeColonistsSpawned)
+					if (item.health.hediffSet.BleedRateTotal > 0.0)
 					{
-						if (item.health.hediffSet.BleedRateTotal > 0.0)
-						{
-							return false;
-						}
-						if (item.Drafted)
-						{
-							num++;
-						}
+						return false;
 					}
-					if ((float)num / (float)freeColonistsSpawnedCount >= 0.5)
+					if (item.Drafted)
 					{
-						result = false;
-					}
-					else
-					{
-						int value = Mathf.RoundToInt((float)((float)map.mapPawns.FreeColonistsSpawnedCount * 0.64999997615814209));
-						value = Mathf.Clamp(value, 2, 10);
-						int num2 = 0;
-						foreach (Pawn item2 in map.mapPawns.FreeColonistsSpawned)
-						{
-							if (PartyUtility.ShouldPawnKeepPartying(item2))
-							{
-								num2++;
-							}
-						}
-						result = ((byte)((num2 >= value) ? 1 : 0) != 0);
+						num++;
 					}
 				}
+				if ((float)num / (float)freeColonistsSpawnedCount >= 0.5)
+				{
+					return false;
+				}
+				if (!PartyUtility.EnoughPotentialGuestsToStartParty(map, null))
+				{
+					return false;
+				}
+				return true;
 			}
-			return result;
+			return false;
 		}
 
 		public static bool AcceptableGameConditionsToContinueParty(Map map)
 		{
-			return (byte)((map.dangerWatcher.DangerRating != StoryDanger.High) ? 1 : 0) != 0;
+			if (map.dangerWatcher.DangerRating == StoryDanger.High)
+			{
+				return false;
+			}
+			return true;
+		}
+
+		public static bool EnoughPotentialGuestsToStartParty(Map map, IntVec3? partySpot = default(IntVec3?))
+		{
+			int value = Mathf.RoundToInt((float)((float)map.mapPawns.FreeColonistsSpawnedCount * 0.64999997615814209));
+			value = Mathf.Clamp(value, 2, 10);
+			int num = 0;
+			foreach (Pawn item in map.mapPawns.FreeColonistsSpawned)
+			{
+				if (PartyUtility.ShouldPawnKeepPartying(item) && (!partySpot.HasValue || !partySpot.Value.IsForbidden(item)) && (!partySpot.HasValue || item.CanReach(partySpot.Value, PathEndMode.Touch, Danger.Some, false, TraverseMode.ByPawn)))
+				{
+					num++;
+				}
+			}
+			return num >= value;
 		}
 
 		public static Pawn FindRandomPartyOrganizer(Faction faction, Map map)
 		{
-			Predicate<Pawn> validator = (Predicate<Pawn>)((Pawn x) => x.RaceProps.Humanlike && !x.InBed() && !x.InMentalState && x.GetLord() == null && PartyUtility.ShouldPawnKeepPartying(x));
-			Pawn pawn = default(Pawn);
-			return (!(from x in map.mapPawns.SpawnedPawnsInFaction(faction)
+			Predicate<Pawn> validator = (Pawn x) => x.RaceProps.Humanlike && !x.InBed() && !x.InMentalState && x.GetLord() == null && PartyUtility.ShouldPawnKeepPartying(x);
+			Pawn result = default(Pawn);
+			if ((from x in map.mapPawns.SpawnedPawnsInFaction(faction)
 			where validator(x)
-			select x).TryRandomElement<Pawn>(out pawn)) ? null : pawn;
+			select x).TryRandomElement<Pawn>(out result))
+			{
+				return result;
+			}
+			return null;
 		}
 
 		public static bool ShouldPawnKeepPartying(Pawn p)
 		{
-			return (byte)((p.timetable == null || p.timetable.CurrentAssignment.allowJoy) ? (GatheringsUtility.ShouldGuestKeepAttendingGathering(p) ? 1 : 0) : 0) != 0;
+			if (p.timetable != null && !p.timetable.CurrentAssignment.allowJoy)
+			{
+				return false;
+			}
+			if (!GatheringsUtility.ShouldGuestKeepAttendingGathering(p))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public static bool InPartyArea(IntVec3 cell, IntVec3 partySpot, Map map)
 		{
-			bool result;
 			if (PartyUtility.UseWholeRoomAsPartyArea(partySpot, map) && cell.GetRoom(map, RegionType.Set_Passable) == partySpot.GetRoom(map, RegionType.Set_Passable))
 			{
-				result = true;
+				return true;
 			}
-			else if (cell.InHorDistOf(partySpot, 10f))
+			if (cell.InHorDistOf(partySpot, 10f))
 			{
 				Building edifice = cell.GetEdifice(map);
 				TraverseParms traverseParams = TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.None, false);
-				result = ((edifice == null) ? map.reachability.CanReach(partySpot, cell, PathEndMode.ClosestTouch, traverseParams) : map.reachability.CanReach(partySpot, (Thing)edifice, PathEndMode.ClosestTouch, traverseParams));
+				if (edifice != null)
+				{
+					return map.reachability.CanReach(partySpot, edifice, PathEndMode.ClosestTouch, traverseParams);
+				}
+				return map.reachability.CanReach(partySpot, cell, PathEndMode.ClosestTouch, traverseParams);
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public static bool TryFindRandomCellInPartyArea(Pawn pawn, out IntVec3 result)
 		{
 			IntVec3 cell = pawn.mindState.duty.focus.Cell;
-			Predicate<IntVec3> validator = (Predicate<IntVec3>)((IntVec3 x) => x.Standable(pawn.Map) && !x.IsForbidden(pawn) && pawn.CanReserveAndReach(x, PathEndMode.OnCell, Danger.None, 1, -1, null, false));
-			bool result2;
+			Predicate<IntVec3> validator = (IntVec3 x) => x.Standable(pawn.Map) && !x.IsForbidden(pawn) && pawn.CanReserveAndReach(x, PathEndMode.OnCell, Danger.None, 1, -1, null, false);
 			if (PartyUtility.UseWholeRoomAsPartyArea(cell, pawn.Map))
 			{
 				Room room = cell.GetRoom(pawn.Map, RegionType.Set_Passable);
-				result2 = (from x in room.Cells
+				return (from x in room.Cells
 				where validator(x)
 				select x).TryRandomElement<IntVec3>(out result);
 			}
-			else
-			{
-				result2 = CellFinder.TryFindRandomReachableCellNear(cell, pawn.Map, 10f, TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Deadly, false), (Predicate<IntVec3>)((IntVec3 x) => validator(x)), (Predicate<Region>)null, out result, 10);
-			}
-			return result2;
+			return CellFinder.TryFindRandomReachableCellNear(cell, pawn.Map, 10f, TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Deadly, false), (Predicate<IntVec3>)((IntVec3 x) => validator(x)), (Predicate<Region>)null, out result, 10);
 		}
 
 		public static bool UseWholeRoomAsPartyArea(IntVec3 partySpot, Map map)
 		{
 			Room room = partySpot.GetRoom(map, RegionType.Set_Passable);
-			return (byte)((room != null && !room.IsHuge && !room.PsychologicallyOutdoors && room.CellCount <= 324) ? 1 : 0) != 0;
+			if (room != null && !room.IsHuge && !room.PsychologicallyOutdoors && room.CellCount <= 324)
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }

@@ -6,37 +6,23 @@ namespace RimWorld
 	{
 		protected override ThoughtState CurrentSocialStateInternal(Pawn pawn, Pawn other)
 		{
-			ThoughtState result;
-			if (!other.RaceProps.Humanlike || !RelationsUtility.PawnsKnowEachOther(pawn, other))
+			if (other.RaceProps.Humanlike && RelationsUtility.PawnsKnowEachOther(pawn, other))
 			{
-				result = false;
-			}
-			else if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Sight))
-			{
-				result = false;
-			}
-			else
-			{
+				if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Sight))
+				{
+					return false;
+				}
 				switch (other.story.traits.DegreeOfTrait(TraitDefOf.Beauty))
 				{
 				case -1:
-				{
-					result = ThoughtState.ActiveAtStage(0);
-					break;
-				}
+					return ThoughtState.ActiveAtStage(0);
 				case -2:
-				{
-					result = ThoughtState.ActiveAtStage(1);
-					break;
-				}
+					return ThoughtState.ActiveAtStage(1);
 				default:
-				{
-					result = false;
-					break;
-				}
+					return false;
 				}
 			}
-			return result;
+			return false;
 		}
 	}
 }

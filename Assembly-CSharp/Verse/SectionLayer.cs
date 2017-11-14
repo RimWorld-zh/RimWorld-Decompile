@@ -7,7 +7,7 @@ namespace Verse
 	{
 		protected Section section;
 
-		public MapMeshFlag relevantChangeTypes = MapMeshFlag.None;
+		public MapMeshFlag relevantChangeTypes;
 
 		public List<LayerSubMesh> subMeshes = new List<LayerSubMesh>();
 
@@ -34,34 +34,25 @@ namespace Verse
 
 		public LayerSubMesh GetSubMesh(Material material)
 		{
-			LayerSubMesh result;
-			int i;
 			if ((Object)material == (Object)null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			for (int i = 0; i < this.subMeshes.Count; i++)
 			{
-				for (i = 0; i < this.subMeshes.Count; i++)
+				if ((Object)this.subMeshes[i].material == (Object)material)
 				{
-					if ((Object)this.subMeshes[i].material == (Object)material)
-						goto IL_0038;
+					return this.subMeshes[i];
 				}
-				Mesh mesh = new Mesh();
-				if (UnityData.isEditor)
-				{
-					mesh.name = "SectionLayerSubMesh_" + base.GetType().Name + "_" + this.Map.Tile;
-				}
-				LayerSubMesh layerSubMesh = new LayerSubMesh(mesh, material);
-				this.subMeshes.Add(layerSubMesh);
-				result = layerSubMesh;
 			}
-			goto IL_00cd;
-			IL_00cd:
-			return result;
-			IL_0038:
-			result = this.subMeshes[i];
-			goto IL_00cd;
+			Mesh mesh = new Mesh();
+			if (UnityData.isEditor)
+			{
+				mesh.name = "SectionLayerSubMesh_" + base.GetType().Name + "_" + this.Map.Tile;
+			}
+			LayerSubMesh layerSubMesh = new LayerSubMesh(mesh, material);
+			this.subMeshes.Add(layerSubMesh);
+			return layerSubMesh;
 		}
 
 		protected void FinalizeMesh(MeshParts tags)
@@ -80,9 +71,9 @@ namespace Verse
 			if (this.Visible)
 			{
 				int count = this.subMeshes.Count;
-				for (int num = 0; num < count; num++)
+				for (int i = 0; i < count; i++)
 				{
-					LayerSubMesh layerSubMesh = this.subMeshes[num];
+					LayerSubMesh layerSubMesh = this.subMeshes[i];
 					if (layerSubMesh.finalized && !layerSubMesh.disabled)
 					{
 						Graphics.DrawMesh(layerSubMesh.mesh, Vector3.zero, Quaternion.identity, layerSubMesh.material, 0);

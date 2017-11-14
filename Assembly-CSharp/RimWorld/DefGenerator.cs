@@ -8,7 +8,8 @@ namespace RimWorld
 	{
 		public static void GenerateImpliedDefs_PreResolve()
 		{
-			IEnumerable<ThingDef> enumerable = ThingDefGenerator_Buildings.ImpliedBlueprintAndFrameDefs().Concat(ThingDefGenerator_Meat.ImpliedMeatDefs()).Concat(ThingDefGenerator_Corpses.ImpliedCorpseDefs()).Concat(ThingDefGenerator_Leather.ImpliedLeatherDefs());
+			IEnumerable<ThingDef> enumerable = ThingDefGenerator_Buildings.ImpliedBlueprintAndFrameDefs().Concat(ThingDefGenerator_Meat.ImpliedMeatDefs()).Concat(ThingDefGenerator_Corpses.ImpliedCorpseDefs())
+				.Concat(ThingDefGenerator_Leather.ImpliedLeatherDefs());
 			foreach (ThingDef item in enumerable)
 			{
 				item.PostLoad();

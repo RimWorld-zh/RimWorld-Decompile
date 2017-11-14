@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -15,7 +14,7 @@ namespace RimWorld
 
 		public override bool CanGenerateFrom(PawnGroupMakerParms parms, PawnGroupMaker groupMaker)
 		{
-			return base.CanGenerateFrom(parms, groupMaker) && groupMaker.traders.Any() && (parms.tile == -1 || groupMaker.carriers.Any((Predicate<PawnGenOption>)((PawnGenOption x) => Find.WorldGrid[parms.tile].biome.IsPackAnimalAllowed(x.kind.race))));
+			return base.CanGenerateFrom(parms, groupMaker) && groupMaker.traders.Any() && (parms.tile == -1 || groupMaker.carriers.Any((PawnGenOption x) => Find.WorldGrid[parms.tile].biome.IsPackAnimalAllowed(x.kind.race)));
 		}
 
 		protected override void GeneratePawns(PawnGroupMakerParms parms, PawnGroupMaker groupMaker, List<Pawn> outPawns, bool errorOnZeroResults = true)
@@ -33,29 +32,27 @@ namespace RimWorld
 			}
 			else
 			{
-				PawnGenOption pawnGenOption = groupMaker.traders.FirstOrDefault((Func<PawnGenOption, bool>)((PawnGenOption x) => !x.kind.trader));
+				PawnGenOption pawnGenOption = groupMaker.traders.FirstOrDefault((PawnGenOption x) => !x.kind.trader);
 				if (pawnGenOption != null)
 				{
 					Log.Error("Cannot generate arriving trader caravan for " + parms.faction + " because there is a pawn kind (" + pawnGenOption.kind.LabelCap + ") who is not a trader but is in a traders list.");
 				}
 				else
 				{
-					PawnGenOption pawnGenOption2 = groupMaker.carriers.FirstOrDefault((Func<PawnGenOption, bool>)((PawnGenOption x) => !x.kind.RaceProps.packAnimal));
+					PawnGenOption pawnGenOption2 = groupMaker.carriers.FirstOrDefault((PawnGenOption x) => !x.kind.RaceProps.packAnimal);
 					if (pawnGenOption2 != null)
 					{
 						Log.Error("Cannot generate arriving trader caravan for " + parms.faction + " because there is a pawn kind (" + pawnGenOption2.kind.LabelCap + ") who is not a carrier but is in a carriers list.");
 					}
 					else
 					{
-						TraderKindDef traderKindDef = (parms.traderKind == null) ? parms.faction.def.caravanTraderKinds.RandomElementByWeight((Func<TraderKindDef, float>)((TraderKindDef traderDef) => traderDef.commonality)) : parms.traderKind;
+						TraderKindDef traderKindDef = (parms.traderKind == null) ? parms.faction.def.caravanTraderKinds.RandomElementByWeight((TraderKindDef traderDef) => traderDef.commonality) : parms.traderKind;
 						Pawn pawn = this.GenerateTrader(parms, groupMaker, traderKindDef);
 						outPawns.Add(pawn);
-						ItemCollectionGeneratorParams parms2 = new ItemCollectionGeneratorParams
-						{
-							traderDef = traderKindDef,
-							tile = new int?(parms.tile),
-							traderFaction = parms.faction
-						};
+						ItemCollectionGeneratorParams parms2 = default(ItemCollectionGeneratorParams);
+						parms2.traderDef = traderKindDef;
+						parms2.tile = parms.tile;
+						parms2.traderFaction = parms.faction;
 						List<Thing> wares = ItemCollectionGeneratorDefOf.TraderStock.Worker.Generate(parms2).InRandomOrder(null).ToList();
 						foreach (Pawn slavesAndAnimalsFromWare in this.GetSlavesAndAnimalsFromWares(parms, pawn, wares))
 						{
@@ -70,10 +67,10 @@ namespace RimWorld
 
 		private Pawn GenerateTrader(PawnGroupMakerParms parms, PawnGroupMaker groupMaker, TraderKindDef traderKind)
 		{
-			PawnKindDef kind = groupMaker.traders.RandomElementByWeight((Func<PawnGenOption, float>)((PawnGenOption x) => x.selectionWeight)).kind;
+			PawnKindDef kind = groupMaker.traders.RandomElementByWeight((PawnGenOption x) => x.selectionWeight).kind;
 			Faction faction = parms.faction;
 			int tile = parms.tile;
-			PawnGenerationRequest request = new PawnGenerationRequest(kind, faction, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 1f, false, true, true, parms.inhabitants, false, false, false, null, default(float?), default(float?), default(float?), default(Gender?), default(float?), (string)null);
+			PawnGenerationRequest request = new PawnGenerationRequest(kind, faction, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 1f, false, true, true, parms.inhabitants, false, false, false, null, null, null, null, null, null, null);
 			Pawn pawn = PawnGenerator.GeneratePawn(request);
 			pawn.mindState.wantsToTradeWithColony = true;
 			PawnComponentsUtility.AddAndRemoveDynamicComponents(pawn, true);
@@ -91,14 +88,14 @@ namespace RimWorld
 			int num = Mathf.CeilToInt((float)((float)list.Count / 8.0));
 			PawnKindDef kind = (from x in groupMaker.carriers
 			where parms.tile == -1 || Find.WorldGrid[parms.tile].biome.IsPackAnimalAllowed(x.kind.race)
-			select x).RandomElementByWeight((Func<PawnGenOption, float>)((PawnGenOption x) => x.selectionWeight)).kind;
+			select x).RandomElementByWeight((PawnGenOption x) => x.selectionWeight).kind;
 			List<Pawn> list2 = new List<Pawn>();
-			for (int num2 = 0; num2 < num; num2++)
+			for (int j = 0; j < num; j++)
 			{
 				PawnKindDef kind2 = kind;
 				Faction faction = parms.faction;
 				int tile = parms.tile;
-				PawnGenerationRequest request = new PawnGenerationRequest(kind2, faction, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 1f, false, true, true, parms.inhabitants, false, false, false, null, default(float?), default(float?), default(float?), default(Gender?), default(float?), (string)null);
+				PawnGenerationRequest request = new PawnGenerationRequest(kind2, faction, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 1f, false, true, true, parms.inhabitants, false, false, false, null, null, null, null, null, null, null);
 				Pawn pawn = PawnGenerator.GeneratePawn(request);
 				if (i < list.Count)
 				{
@@ -149,7 +146,7 @@ namespace RimWorld
 					Faction faction = parms.faction;
 					int tile = parms.tile;
 					bool inhabitants = parms.inhabitants;
-					PawnGenerationRequest request = new PawnGenerationRequest(kind, faction, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, true, 1f, false, true, true, inhabitants, false, false, false, null, default(float?), default(float?), default(float?), default(Gender?), default(float?), (string)null);
+					PawnGenerationRequest request = new PawnGenerationRequest(kind, faction, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, true, 1f, false, true, true, inhabitants, false, false, false, null, null, null, null, null, null, null);
 					Pawn item = PawnGenerator.GeneratePawn(request);
 					outPawns.Add(item);
 				}

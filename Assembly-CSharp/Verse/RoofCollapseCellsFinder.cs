@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -87,7 +86,7 @@ namespace Verse
 				IntVec3 intVec = root + GenAdj.CardinalDirectionsAndInside[i];
 				if (intVec.InBounds(map) && intVec.Roofed(map) && !RoofCollapseCellsFinder.visitedCells.Contains(intVec) && !roofCollapseBuffer.IsMarkedToCollapse(intVec) && !RoofCollapseCellsFinder.ConnectsToRoofHolder(intVec, map, RoofCollapseCellsFinder.visitedCells))
 				{
-					map.floodFiller.FloodFill(intVec, (Predicate<IntVec3>)((IntVec3 x) => x.Roofed(map)), (Action<IntVec3>)delegate(IntVec3 x)
+					map.floodFiller.FloodFill(intVec, (IntVec3 x) => x.Roofed(map), delegate(IntVec3 x)
 					{
 						roofCollapseBuffer.MarkToCollapse(x);
 					}, 2147483647, false, null);
@@ -112,7 +111,7 @@ namespace Verse
 		public static bool ConnectsToRoofHolder(IntVec3 c, Map map, HashSet<IntVec3> visitedCells)
 		{
 			bool connected = false;
-			map.floodFiller.FloodFill(c, (Predicate<IntVec3>)((IntVec3 x) => x.Roofed(map) && !connected), (Action<IntVec3>)delegate(IntVec3 x)
+			map.floodFiller.FloodFill(c, (IntVec3 x) => x.Roofed(map) && !connected, delegate(IntVec3 x)
 			{
 				if (visitedCells.Contains(x))
 				{

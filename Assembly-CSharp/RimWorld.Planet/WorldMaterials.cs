@@ -164,9 +164,9 @@ namespace RimWorld.Planet
 		private static void GenerateMats(ref Material[] mats, Color[] colorSpectrum, int numMats)
 		{
 			mats = new Material[numMats];
-			for (int num = 0; num < numMats; num++)
+			for (int i = 0; i < numMats; i++)
 			{
-				mats[num] = MatsFromSpectrum.Get(colorSpectrum, (float)num / (float)numMats);
+				mats[i] = MatsFromSpectrum.Get(colorSpectrum, (float)i / (float)numMats);
 			}
 		}
 

@@ -29,7 +29,7 @@ namespace Verse
 			Rand.Seed = thing.Position.GetHashCode();
 			Filth filth = thing as Filth;
 			int num = (filth != null) ? filth.thickness : 3;
-			for (int num2 = 0; num2 < num; num2++)
+			for (int i = 0; i < num; i++)
 			{
 				Material matSingle = this.MatSingle;
 				Vector3 center = a + new Vector3(Rand.Range(-0.45f, 0.45f), 0f, Rand.Range(-0.45f, 0.45f));

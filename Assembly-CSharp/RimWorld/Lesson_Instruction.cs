@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -42,6 +41,14 @@ namespace RimWorld
 			get
 			{
 				return this.def.rejectInputMessage;
+			}
+		}
+
+		public override InstructionDef Instruction
+		{
+			get
+			{
+				return this.def;
 			}
 		}
 
@@ -108,7 +115,7 @@ namespace RimWorld
 				if (screenOverlayAlpha > 0.0)
 				{
 					Rect fullScreenRect = new Rect(0f, 0f, (float)UI.screenWidth, (float)UI.screenHeight);
-					Find.WindowStack.ImmediateWindow(972651, fullScreenRect, WindowLayer.SubSuper, (Action)delegate
+					Find.WindowStack.ImmediateWindow(972651, fullScreenRect, WindowLayer.SubSuper, delegate
 					{
 						GUI.color = new Color(1f, 1f, 1f, screenOverlayAlpha);
 						GUI.DrawTexture(fullScreenRect, BaseContent.BlackTex);
@@ -121,7 +128,7 @@ namespace RimWorld
 				}
 			}
 			Rect mainRect = new Rect((float)(b.x - 155.0), (float)(b.y - num2 / 2.0 - 10.0), 310f, num2);
-			Find.WindowStack.ImmediateWindow(177706, mainRect, WindowLayer.Super, (Action)delegate
+			Find.WindowStack.ImmediateWindow(177706, mainRect, WindowLayer.Super, delegate
 			{
 				Rect rect = mainRect.AtZero();
 				Widgets.DrawWindowBackgroundTutor(rect);

@@ -9,17 +9,16 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				int result;
 				if (!(InspectGizmoGrid.mouseoverGizmo is Command_Settle))
 				{
-					result = -1;
+					return -1;
 				}
-				else
+				Caravan caravan = Find.WorldSelector.SingleSelectedObject as Caravan;
+				if (caravan == null)
 				{
-					Caravan caravan = Find.WorldSelector.SingleSelectedObject as Caravan;
-					result = ((caravan != null) ? caravan.Tile : (-1));
+					return -1;
 				}
-				return result;
+				return caravan.Tile;
 			}
 		}
 

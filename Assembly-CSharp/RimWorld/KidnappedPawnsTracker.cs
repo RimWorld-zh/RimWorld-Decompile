@@ -1,6 +1,7 @@
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Verse;
 
@@ -15,6 +16,9 @@ namespace RimWorld
 		private const int TryRecruitInterval = 15051;
 
 		private const float RecruitMTBDays = 30f;
+
+		[CompilerGenerated]
+		private static Predicate<Pawn> _003C_003Ef__mg_0024cache0;
 
 		public List<Pawn> KidnappedPawnsListForReading
 		{
@@ -33,7 +37,7 @@ namespace RimWorld
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
 			{
-				this.kidnappedPawns.RemoveAll((Predicate<Pawn>)((Pawn x) => x.Destroyed));
+				this.kidnappedPawns.RemoveAll((Pawn x) => x.Destroyed);
 			}
 			Scribe_Collections.Look<Pawn>(ref this.kidnappedPawns, "kidnappedPawns", LookMode.Reference, new object[0]);
 		}
@@ -89,7 +93,7 @@ namespace RimWorld
 
 		public void KidnappedPawnsTrackerTick()
 		{
-			this.kidnappedPawns.RemoveAll((Predicate<Pawn>)((Pawn x) => x.DestroyedOrNull()));
+			this.kidnappedPawns.RemoveAll(ThingUtility.DestroyedOrNull);
 			if (Find.TickManager.TicksGame % 15051 == 0)
 			{
 				for (int num = this.kidnappedPawns.Count - 1; num >= 0; num--)

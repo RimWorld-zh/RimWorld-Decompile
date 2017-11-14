@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -42,7 +41,7 @@ namespace Verse
 				{
 					streamWriter.Write(value);
 				}
-				LongEventHandler.ExecuteWhenFinished((Action)delegate
+				LongEventHandler.ExecuteWhenFinished(delegate
 				{
 					Application.OpenURL(path);
 				});

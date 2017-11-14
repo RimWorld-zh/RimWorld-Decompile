@@ -12,16 +12,11 @@ namespace RimWorld
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			Job result;
 			if (!HaulAIUtility.PawnCanAutomaticallyHaul(pawn, t, forced))
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				Job job = result = HaulAIUtility.HaulToStorageJob(pawn, t);
-			}
-			return result;
+			return HaulAIUtility.HaulToStorageJob(pawn, t);
 		}
 	}
 }

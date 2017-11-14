@@ -8,19 +8,14 @@ namespace Verse.AI
 
 		public override bool StateCanOccur(Pawn pawn)
 		{
-			bool result;
 			if (!base.StateCanOccur(pawn))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				MentalStateWorker_TargetedTantrum.tmpThings.Clear();
-				TantrumMentalStateUtility.GetSmashableThingsNear(pawn, pawn.Position, MentalStateWorker_TargetedTantrum.tmpThings, null, 300, 40);
-				bool flag = MentalStateWorker_TargetedTantrum.tmpThings.Any();
-				MentalStateWorker_TargetedTantrum.tmpThings.Clear();
-				result = flag;
-			}
+			MentalStateWorker_TargetedTantrum.tmpThings.Clear();
+			TantrumMentalStateUtility.GetSmashableThingsNear(pawn, pawn.Position, MentalStateWorker_TargetedTantrum.tmpThings, null, 300, 40);
+			bool result = MentalStateWorker_TargetedTantrum.tmpThings.Any();
+			MentalStateWorker_TargetedTantrum.tmpThings.Clear();
 			return result;
 		}
 	}

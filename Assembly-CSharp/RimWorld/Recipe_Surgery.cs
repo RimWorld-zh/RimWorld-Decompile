@@ -45,7 +45,6 @@ namespace RimWorld
 				}
 				surgeon.mindState.inspirationHandler.EndInspiration(InspirationDefOf.InspiredSurgery);
 			}
-			bool result;
 			if (!Rand.Chance(num))
 			{
 				if (Rand.Chance(base.recipe.deathOnFailedSurgeryChance))
@@ -53,39 +52,35 @@ namespace RimWorld
 					HealthUtility.GiveInjuriesOperationFailureCatastrophic(patient, part);
 					if (!patient.Dead)
 					{
-						patient.Kill(default(DamageInfo?), null);
+						patient.Kill(null, null);
 					}
-					Messages.Message("MessageMedicalOperationFailureFatal".Translate(surgeon.LabelShort, patient.LabelShort, base.recipe.label), (Thing)patient, MessageTypeDefOf.NegativeHealthEvent);
+					Messages.Message("MessageMedicalOperationFailureFatal".Translate(surgeon.LabelShort, patient.LabelShort, base.recipe.label), patient, MessageTypeDefOf.NegativeHealthEvent);
 				}
 				else if (Rand.Chance(0.5f))
 				{
 					if (Rand.Chance(0.1f))
 					{
-						Messages.Message("MessageMedicalOperationFailureRidiculous".Translate(surgeon.LabelShort, patient.LabelShort), (Thing)patient, MessageTypeDefOf.NegativeHealthEvent);
+						Messages.Message("MessageMedicalOperationFailureRidiculous".Translate(surgeon.LabelShort, patient.LabelShort), patient, MessageTypeDefOf.NegativeHealthEvent);
 						HealthUtility.GiveInjuriesOperationFailureRidiculous(patient);
 					}
 					else
 					{
-						Messages.Message("MessageMedicalOperationFailureCatastrophic".Translate(surgeon.LabelShort, patient.LabelShort), (Thing)patient, MessageTypeDefOf.NegativeHealthEvent);
+						Messages.Message("MessageMedicalOperationFailureCatastrophic".Translate(surgeon.LabelShort, patient.LabelShort), patient, MessageTypeDefOf.NegativeHealthEvent);
 						HealthUtility.GiveInjuriesOperationFailureCatastrophic(patient, part);
 					}
 				}
 				else
 				{
-					Messages.Message("MessageMedicalOperationFailureMinor".Translate(surgeon.LabelShort, patient.LabelShort), (Thing)patient, MessageTypeDefOf.NegativeHealthEvent);
+					Messages.Message("MessageMedicalOperationFailureMinor".Translate(surgeon.LabelShort, patient.LabelShort), patient, MessageTypeDefOf.NegativeHealthEvent);
 					HealthUtility.GiveInjuriesOperationFailureMinor(patient, part);
 				}
 				if (!patient.Dead)
 				{
 					this.TryGainBotchedSurgeryThought(patient, surgeon);
 				}
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		private void TryGainBotchedSurgeryThought(Pawn patient, Pawn surgeon)
@@ -116,7 +111,11 @@ namespace RimWorld
 					num2 += medicine.GetStatValue(StatDefOf.MedicalPotency, true) * (float)medicine.stackCount;
 				}
 			}
-			return (float)((num != 0) ? (num2 / (float)num) : 1.0);
+			if (num == 0)
+			{
+				return 1f;
+			}
+			return num2 / (float)num;
 		}
 	}
 }

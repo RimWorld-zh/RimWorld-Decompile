@@ -36,7 +36,8 @@ namespace Verse.AI.Group
 			base.data = new LordToilData_DefendPoint();
 		}
 
-		public LordToil_DefendPoint(IntVec3 defendPoint, float defendRadius = 28f) : this(true)
+		public LordToil_DefendPoint(IntVec3 defendPoint, float defendRadius = 28f)
+			: this(true)
 		{
 			this.Data.defendPoint = defendPoint;
 			this.Data.defendRadius = defendRadius;

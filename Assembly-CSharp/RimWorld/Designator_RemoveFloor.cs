@@ -35,21 +35,24 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			AcceptanceReport result;
-			if (!c.InBounds(base.Map) || c.Fogged(base.Map))
+			if (c.InBounds(base.Map) && !c.Fogged(base.Map))
 			{
-				result = false;
-			}
-			else if (base.Map.designationManager.DesignationAt(c, DesignationDefOf.RemoveFloor) != null)
-			{
-				result = false;
-			}
-			else
-			{
+				if (base.Map.designationManager.DesignationAt(c, DesignationDefOf.RemoveFloor) != null)
+				{
+					return false;
+				}
 				Building edifice = c.GetEdifice(base.Map);
-				result = ((edifice == null || edifice.def.Fillage != FillCategory.Full || edifice.def.passability != Traversability.Impassable) ? (base.Map.terrainGrid.CanRemoveTopLayerAt(c) ? AcceptanceReport.WasAccepted : "TerrainMustBeRemovable".Translate()) : false);
+				if (edifice != null && edifice.def.Fillage == FillCategory.Full && edifice.def.passability == Traversability.Impassable)
+				{
+					return false;
+				}
+				if (!base.Map.terrainGrid.CanRemoveTopLayerAt(c))
+				{
+					return "TerrainMustBeRemovable".Translate();
+				}
+				return AcceptanceReport.WasAccepted;
 			}
-			return result;
+			return false;
 		}
 
 		public override void DesignateSingleCell(IntVec3 c)

@@ -8,7 +8,11 @@ namespace RimWorld
 		protected override IntVec3 GetFlagPosition(Pawn pawn)
 		{
 			Hive hive = pawn.mindState.duty.focus.Thing as Hive;
-			return (hive == null || !hive.Spawned) ? pawn.Position : hive.Position;
+			if (hive != null && hive.Spawned)
+			{
+				return hive.Position;
+			}
+			return pawn.Position;
 		}
 
 		protected override float GetFlagRadius(Pawn pawn)

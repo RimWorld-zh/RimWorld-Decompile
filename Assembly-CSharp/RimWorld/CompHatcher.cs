@@ -6,13 +6,13 @@ namespace RimWorld
 {
 	public class CompHatcher : ThingComp
 	{
-		private float gestateProgress = 0f;
+		private float gestateProgress;
 
-		public Pawn hatcheeParent = null;
+		public Pawn hatcheeParent;
 
-		public Pawn otherParent = null;
+		public Pawn otherParent;
 
-		public Faction hatcheeFaction = null;
+		public Faction hatcheeFaction;
 
 		public CompProperties_Hatcher Props
 		{
@@ -63,7 +63,7 @@ namespace RimWorld
 
 		public void Hatch()
 		{
-			PawnGenerationRequest request = new PawnGenerationRequest(this.Props.hatcherPawn, this.hatcheeFaction, PawnGenerationContext.NonPlayer, -1, false, true, false, false, true, false, 1f, false, true, true, false, false, false, false, null, default(float?), default(float?), default(float?), default(Gender?), default(float?), (string)null);
+			PawnGenerationRequest request = new PawnGenerationRequest(this.Props.hatcherPawn, this.hatcheeFaction, PawnGenerationContext.NonPlayer, -1, false, true, false, false, true, false, 1f, false, true, true, false, false, false, false, null, null, null, null, null, null, null);
 			for (int i = 0; i < base.parent.stackCount; i++)
 			{
 				Pawn pawn = PawnGenerator.GeneratePawn(request);
@@ -123,15 +123,11 @@ namespace RimWorld
 			switch (action)
 			{
 			case TradeAction.PlayerBuys:
-			{
 				this.hatcheeFaction = Faction.OfPlayer;
 				break;
-			}
 			case TradeAction.PlayerSells:
-			{
 				this.hatcheeFaction = trader.Faction;
 				break;
-			}
 			}
 		}
 
@@ -143,7 +139,11 @@ namespace RimWorld
 
 		public override string CompInspectStringExtra()
 		{
-			return this.TemperatureDamaged ? null : ("EggProgress".Translate() + ": " + this.gestateProgress.ToStringPercent());
+			if (!this.TemperatureDamaged)
+			{
+				return "EggProgress".Translate() + ": " + this.gestateProgress.ToStringPercent();
+			}
+			return null;
 		}
 	}
 }

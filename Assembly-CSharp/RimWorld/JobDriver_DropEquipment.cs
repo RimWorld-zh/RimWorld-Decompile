@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -27,9 +26,9 @@ namespace RimWorld
 			this.FailOnDestroyedOrNull(TargetIndex.A);
 			yield return new Toil
 			{
-				initAction = (Action)delegate
+				initAction = delegate
 				{
-					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0045: stateMachine*/)._0024this.pawn.pather.StopDead();
+					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0043: stateMachine*/)._0024this.pawn.pather.StopDead();
 				},
 				defaultCompleteMode = ToilCompleteMode.Delay,
 				defaultDuration = 30

@@ -9,9 +9,9 @@ namespace RimWorld
 
 		public float severity = -1f;
 
-		public ChemicalDef toleranceChemical = null;
+		public ChemicalDef toleranceChemical;
 
-		private bool divideByBodySize = false;
+		private bool divideByBodySize;
 
 		protected override void DoIngestionOutcomeSpecial(Pawn pawn, Thing ingested)
 		{
@@ -23,7 +23,7 @@ namespace RimWorld
 			}
 			AddictionUtility.ModifyChemicalEffectForToleranceAndBodySize(pawn, this.toleranceChemical, ref num);
 			hediff.Severity = num;
-			pawn.health.AddHediff(hediff, null, default(DamageInfo?));
+			pawn.health.AddHediff(hediff, null, null);
 		}
 
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
@@ -41,8 +41,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_00e9:
-			/*Error near IL_00ea: Unexpected return in MoveNext()*/;
+			IL_00e3:
+			/*Error near IL_00e4: Unexpected return in MoveNext()*/;
 		}
 	}
 }

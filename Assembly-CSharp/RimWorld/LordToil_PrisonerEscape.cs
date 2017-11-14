@@ -40,7 +40,8 @@ namespace RimWorld
 			}
 		}
 
-		public LordToil_PrisonerEscape(IntVec3 dest, int sapperThingID) : base(dest)
+		public LordToil_PrisonerEscape(IntVec3 dest, int sapperThingID)
+			: base(dest)
 		{
 			this.sapperThingID = sapperThingID;
 		}
@@ -62,7 +63,7 @@ namespace RimWorld
 				}
 				else
 				{
-					pawn.mindState.duty = new PawnDuty(DutyDefOf.PrisonerEscape, (Thing)leader, 10f);
+					pawn.mindState.duty = new PawnDuty(DutyDefOf.PrisonerEscape, leader, 10f);
 				}
 			}
 		}
@@ -79,33 +80,21 @@ namespace RimWorld
 
 		private Pawn GetLeader()
 		{
-			int num = 0;
-			Pawn result;
-			while (true)
+			for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 			{
-				if (num < base.lord.ownedPawns.Count)
+				if (!base.lord.ownedPawns[i].Downed && this.IsSapper(base.lord.ownedPawns[i]))
 				{
-					if (!base.lord.ownedPawns[num].Downed && this.IsSapper(base.lord.ownedPawns[num]))
-					{
-						result = base.lord.ownedPawns[num];
-						break;
-					}
-					num++;
-					continue;
+					return base.lord.ownedPawns[i];
 				}
-				int i;
-				for (i = 0; i < base.lord.ownedPawns.Count; i++)
-				{
-					if (!base.lord.ownedPawns[i].Downed)
-						goto IL_0095;
-				}
-				result = null;
-				break;
-				IL_0095:
-				result = base.lord.ownedPawns[i];
-				break;
 			}
-			return result;
+			for (int j = 0; j < base.lord.ownedPawns.Count; j++)
+			{
+				if (!base.lord.ownedPawns[j].Downed)
+				{
+					return base.lord.ownedPawns[j];
+				}
+			}
+			return null;
 		}
 
 		private bool IsSapper(Pawn p)

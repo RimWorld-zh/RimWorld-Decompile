@@ -15,9 +15,9 @@ namespace RimWorld
 
 		public IntVec2 centerLocation;
 
-		private int areaRadius = 0;
+		private int areaRadius;
 
-		private int nextLightningTicks = 0;
+		private int nextLightningTicks;
 
 		public override void ExposeData()
 		{
@@ -61,7 +61,7 @@ namespace RimWorld
 			{
 				IntVec3 size2 = base.Map.Size;
 				if (size2.z <= 16)
-					goto IL_0035;
+					goto IL_0034;
 				int num = 0;
 				while (num < 10)
 				{
@@ -78,8 +78,8 @@ namespace RimWorld
 				}
 				return;
 			}
-			goto IL_0035;
-			IL_0035:
+			goto IL_0034;
+			IL_0034:
 			throw new Exception("Map too small for flashstorm.");
 		}
 

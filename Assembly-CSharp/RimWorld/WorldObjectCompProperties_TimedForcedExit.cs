@@ -12,7 +12,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors(WorldObjectDef parentDef)
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0(parentDef).GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors(parentDef).GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -25,8 +25,8 @@ namespace RimWorld
 				yield break;
 			yield return parentDef.defName + " has WorldObjectCompProperties_EscapeShip but it's not MapParent.";
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0115:
-			/*Error near IL_0116: Unexpected return in MoveNext()*/;
+			IL_0111:
+			/*Error near IL_0112: Unexpected return in MoveNext()*/;
 		}
 	}
 }

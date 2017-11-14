@@ -10,16 +10,14 @@ namespace RimWorld.BaseGen
 
 		public override void Resolve(ResolveParams rp)
 		{
-			ItemCollectionGeneratorParams value = new ItemCollectionGeneratorParams
-			{
-				techLevel = new TechLevel?((rp.faction == null) ? TechLevel.Spacer : rp.faction.def.techLevel),
-				totalNutrition = new float?(SymbolResolver_Interior_PrisonCell.TotalNutritionRange.RandomInRange),
-				minPreferability = new FoodPreferability?(FoodPreferability.RawBad)
-			};
+			ItemCollectionGeneratorParams value = default(ItemCollectionGeneratorParams);
+			value.techLevel = ((rp.faction == null) ? TechLevel.Spacer : rp.faction.def.techLevel);
+			value.totalNutrition = SymbolResolver_Interior_PrisonCell.TotalNutritionRange.RandomInRange;
+			value.minPreferability = FoodPreferability.RawBad;
 			ResolveParams resolveParams = rp;
 			resolveParams.itemCollectionGeneratorDef = ItemCollectionGeneratorDefOf.Food;
-			resolveParams.itemCollectionGeneratorParams = new ItemCollectionGeneratorParams?(value);
-			resolveParams.innerStockpileSize = new int?(3);
+			resolveParams.itemCollectionGeneratorParams = value;
+			resolveParams.innerStockpileSize = 3;
 			BaseGen.symbolStack.Push("innerStockpile", resolveParams);
 			InteriorSymbolResolverUtility.PushBedroomHeatersCoolersAndLightSourcesSymbols(rp, false);
 			BaseGen.symbolStack.Push("prisonerBed", rp);

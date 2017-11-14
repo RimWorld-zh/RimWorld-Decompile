@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -59,37 +58,25 @@ namespace RimWorld
 				switch (Find.StoryWatcher.statsRecord.numThreatBigs)
 				{
 				case 0:
-				{
 					incidentParms.points = 35f;
 					incidentParms.raidForceOneIncap = true;
 					incidentParms.raidNeverFleeIndividual = true;
 					break;
-				}
 				case 1:
-				{
 					incidentParms.points *= 0.5f;
 					break;
-				}
 				case 2:
-				{
 					incidentParms.points *= 0.7f;
 					break;
-				}
 				case 3:
-				{
 					incidentParms.points *= 0.8f;
 					break;
-				}
 				case 4:
-				{
 					incidentParms.points *= 0.9f;
 					break;
-				}
 				default:
-				{
 					incidentParms.points *= 1f;
 					break;
-				}
 				}
 				if (incidentParms.points < 0.0)
 				{
@@ -126,17 +113,12 @@ namespace RimWorld
 					}
 				}
 			}
-			float result;
 			if (num == 0)
 			{
-				result = -1f;
+				return -1f;
 			}
-			else
-			{
-				float num3 = (float)num / Mathf.Max((float)num2, 1f);
-				result = (float)(1.0 / num3);
-			}
-			return result;
+			float num3 = (float)num / Mathf.Max((float)num2, 1f);
+			return (float)(1.0 / num3);
 		}
 
 		public static void DebugLogTestFutureIncidents(bool visibleMapOnly)
@@ -226,7 +208,7 @@ namespace RimWorld
 				{
 					stringBuilder.AppendLine("  " + item);
 				}
-				stringBuilder.AppendLine("");
+				stringBuilder.AppendLine(string.Empty);
 			}
 			Log.Message(stringBuilder.ToString());
 		}

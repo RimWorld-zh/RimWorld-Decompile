@@ -40,7 +40,7 @@ namespace Verse
 		{
 			get
 			{
-				return default(Vector2?);
+				return null;
 			}
 		}
 

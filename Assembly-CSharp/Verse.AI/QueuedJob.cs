@@ -19,7 +19,7 @@ namespace Verse.AI
 		public void ExposeData()
 		{
 			Scribe_Deep.Look<Job>(ref this.job, "job", new object[0]);
-			Scribe_Values.Look<JobTag?>(ref this.tag, "tag", default(JobTag?), false);
+			Scribe_Values.Look<JobTag?>(ref this.tag, "tag", (JobTag?)null, false);
 		}
 	}
 }

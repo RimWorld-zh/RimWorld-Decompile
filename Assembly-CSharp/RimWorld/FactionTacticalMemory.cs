@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -17,12 +16,12 @@ namespace RimWorld
 
 		public void Notify_MapRemoved(Map map)
 		{
-			this.traps.RemoveAll((Predicate<TrapMemory>)((TrapMemory x) => x.map == map));
+			this.traps.RemoveAll((TrapMemory x) => x.map == map);
 		}
 
 		public List<TrapMemory> TrapMemories()
 		{
-			this.traps.RemoveAll((Predicate<TrapMemory>)((TrapMemory tl) => tl.Expired));
+			this.traps.RemoveAll((TrapMemory tl) => tl.Expired);
 			return this.traps;
 		}
 

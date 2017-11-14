@@ -38,9 +38,9 @@ namespace Verse.Profile
 			}
 			else
 			{
-				CollectionsTracker.collections.RemoveAll((Predicate<KeyValuePair<WeakReference, int>>)((KeyValuePair<WeakReference, int> kvp) => !kvp.Key.IsAlive || ((ICollection)kvp.Key.Target).Count <= kvp.Value));
+				CollectionsTracker.collections.RemoveAll((KeyValuePair<WeakReference, int> kvp) => !kvp.Key.IsAlive || ((ICollection)kvp.Key.Target).Count <= kvp.Value);
 				MemoryTracker.LogObjectHoldPathsFor(from kvp in CollectionsTracker.collections
-				select kvp.Key, (Func<WeakReference, int>)delegate(WeakReference elem)
+				select kvp.Key, delegate(WeakReference elem)
 				{
 					ICollection collection = elem.Target as ICollection;
 					return collection.Count - CollectionsTracker.collections[elem];

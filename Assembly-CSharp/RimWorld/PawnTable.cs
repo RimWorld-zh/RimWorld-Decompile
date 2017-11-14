@@ -108,7 +108,8 @@ namespace RimWorld
 			}
 		}
 
-		public PawnTable(PawnTableDef table, Func<IEnumerable<Pawn>> pawnsGetter, int minTableWidth, int maxTableWidth, int minTableHeight, int maxTableHeight) : this(table.columns, pawnsGetter, minTableWidth, maxTableWidth, minTableHeight, maxTableHeight)
+		public PawnTable(PawnTableDef table, Func<IEnumerable<Pawn>> pawnsGetter, int minTableWidth, int maxTableWidth, int minTableHeight, int maxTableHeight)
+			: this(table.columns, pawnsGetter, minTableWidth, maxTableWidth, minTableHeight, maxTableHeight)
 		{
 		}
 
@@ -120,7 +121,8 @@ namespace RimWorld
 			this.SetDirty();
 		}
 
-		public PawnTable(PawnTableDef table, Func<IEnumerable<Pawn>> pawnsGetter, Vector2 size) : this(table.columns, pawnsGetter, size)
+		public PawnTable(PawnTableDef table, Func<IEnumerable<Pawn>> pawnsGetter, Vector2 size)
+			: this(table.columns, pawnsGetter, size)
 		{
 		}
 
@@ -235,18 +237,26 @@ namespace RimWorld
 			{
 				if (this.sortDescending)
 				{
-					this.cachedPawns.Sort((Comparison<Pawn>)delegate(Pawn a, Pawn b)
+					this.cachedPawns.Sort(delegate(Pawn a, Pawn b)
 					{
 						int num2 = this.sortByColumn.Worker.Compare(b, a);
-						return (num2 != 0) ? num2 : b.Label.CompareTo(a.Label);
+						if (num2 == 0)
+						{
+							return b.Label.CompareTo(a.Label);
+						}
+						return num2;
 					});
 				}
 				else
 				{
-					this.cachedPawns.Sort((Comparison<Pawn>)delegate(Pawn a, Pawn b)
+					this.cachedPawns.Sort(delegate(Pawn a, Pawn b)
 					{
 						int num = this.sortByColumn.Worker.Compare(a, b);
-						return (num != 0) ? num : a.Label.CompareTo(b.Label);
+						if (num == 0)
+						{
+							return a.Label.CompareTo(b.Label);
+						}
+						return num;
 					});
 				}
 			}

@@ -76,17 +76,12 @@ namespace RimWorld
 		{
 			get
 			{
-				int result;
 				if (this.Permanent)
 				{
 					Log.ErrorOnce("Trying to get ticks left of a permanent condition.", 384767654);
-					result = 360000000;
+					return 360000000;
 				}
-				else
-				{
-					result = this.Duration - this.TicksPassed;
-				}
-				return result;
+				return this.Duration - this.TicksPassed;
 			}
 			set
 			{
@@ -114,17 +109,12 @@ namespace RimWorld
 		{
 			get
 			{
-				int result;
 				if (this.Permanent)
 				{
 					Log.ErrorOnce("Trying to get duration of a permanent condition.", 100394867);
-					result = 360000000;
+					return 360000000;
 				}
-				else
-				{
-					result = this.duration;
-				}
-				return result;
+				return this.duration;
 			}
 			set
 			{
@@ -146,7 +136,8 @@ namespace RimWorld
 				{
 					Vector2 location = (this.Map == null) ? ((Find.VisibleMap == null) ? ((Find.AnyPlayerHomeMap == null) ? Vector2.zero : Find.WorldGrid.LongLatOf(Find.AnyPlayerHomeMap.Tile)) : Find.WorldGrid.LongLatOf(Find.VisibleMap.Tile)) : Find.WorldGrid.LongLatOf(this.Map.Tile);
 					string text = labelCap;
-					labelCap = (text = text + "\n" + "Started".Translate() + ": " + GenDate.DateFullStringAt(GenDate.TickGameToAbs(this.startTick), location));
+					labelCap = text + "\n" + "Started".Translate() + ": " + GenDate.DateFullStringAt(GenDate.TickGameToAbs(this.startTick), location);
+					text = labelCap;
 					labelCap = text + "\n" + "Lasted".Translate() + ": " + this.TicksPassed.ToStringTicksToPeriod(true, false, true);
 				}
 				labelCap += "\n";
@@ -199,7 +190,7 @@ namespace RimWorld
 
 		public virtual SkyTarget? SkyTarget()
 		{
-			return default(SkyTarget?);
+			return null;
 		}
 
 		public virtual float AnimalDensityFactor()

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -62,7 +61,7 @@ namespace RimWorld
 			int numLeathers = (from x in ItemCollectionGenerator_ResourcePod.PossiblePodContentsDefs()
 			where x.IsLeather
 			select x).Count();
-			return ItemCollectionGenerator_ResourcePod.PossiblePodContentsDefs().RandomElementByWeight((Func<ThingDef, float>)((ThingDef d) => ItemCollectionGeneratorUtility.AdjustedSelectionWeight(d, numMeats, numLeathers)));
+			return ItemCollectionGenerator_ResourcePod.PossiblePodContentsDefs().RandomElementByWeight((ThingDef d) => ItemCollectionGeneratorUtility.AdjustedSelectionWeight(d, numMeats, numLeathers));
 		}
 
 		public static void DebugLogPossiblePodContentsDefs()

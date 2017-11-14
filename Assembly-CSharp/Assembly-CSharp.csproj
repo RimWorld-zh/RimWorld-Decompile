@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ProjectGuid>{52E21EE9-17CD-4512-9517-70B054F59044}</ProjectGuid>
+    <ProjectGuid>{F1349FA4-53C4-4376-B660-B4B7881858AA}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Library</OutputType>
@@ -58,8 +58,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="-PrivateImplementationDetails-.cs" />
-    <Compile Include="D:\git\rw\RimWorld-Decompile\Assembly-CSharp\Properties\AssemblyInfo.cs" />
     <Compile Include="Ionic.Crc\CRC32.cs" />
     <Compile Include="Ionic.Crc\CrcCalculatorStream.cs" />
     <Compile Include="Ionic.Zlib\Adler.cs" />
@@ -90,6 +88,7 @@
     <Compile Include="Ionic.Zlib\ZlibStream.cs" />
     <Compile Include="Ionic.Zlib\ZlibStreamFlavor.cs" />
     <Compile Include="NVorbis.NAudioSupport\VorbisWaveReader.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RimWorld.BaseGen\BaseGen.cs" />
     <Compile Include="RimWorld.BaseGen\BaseGenUtility.cs" />
     <Compile Include="RimWorld.BaseGen\GlobalSettings.cs" />
@@ -769,6 +768,7 @@
     <Compile Include="RimWorld\DropPodUtility.cs" />
     <Compile Include="RimWorld\DrugAIUtility.cs" />
     <Compile Include="RimWorld\DrugCategory.cs" />
+    <Compile Include="RimWorld\DrugCategoryExtension.cs" />
     <Compile Include="RimWorld\DrugDesireCategory.cs" />
     <Compile Include="RimWorld\DrugPolicy.cs" />
     <Compile Include="RimWorld\DrugPolicyDatabase.cs" />
@@ -1656,6 +1656,7 @@
     <Compile Include="RimWorld\PlantPosIndices.cs" />
     <Compile Include="RimWorld\PlantProperties.cs" />
     <Compile Include="RimWorld\PlantToGrowSettableUtility.cs" />
+    <Compile Include="RimWorld\PlayerItemAccessibilityUtility.cs" />
     <Compile Include="RimWorld\PlayerKnowledgeDatabase.cs" />
     <Compile Include="RimWorld\PlayerPawnsArriveMethod.cs" />
     <Compile Include="RimWorld\PlayerPawnsArriveMethodExtension.cs" />
@@ -2829,6 +2830,7 @@
     <Compile Include="Verse\CameraSwooper.cs" />
     <Compile Include="Verse\CameraZoomRange.cs" />
     <Compile Include="Verse\CaseInsensitiveXMLParsing.cs" />
+    <Compile Include="Verse\Category.cs" />
     <Compile Include="Verse\CellBoolDrawer.cs" />
     <Compile Include="Verse\CellFinder.cs" />
     <Compile Include="Verse\CellFinderLoose.cs" />
@@ -3027,6 +3029,7 @@
     <Compile Include="Verse\EditWindow_PackageEditor.cs" />
     <Compile Include="Verse\Effecter.cs" />
     <Compile Include="Verse\EffecterDef.cs" />
+    <Compile Include="Verse\EloUtility.cs" />
     <Compile Include="Verse\Entity.cs" />
     <Compile Include="Verse\EnvironmentInspectDrawer.cs" />
     <Compile Include="Verse\EquipmentType.cs" />
@@ -3343,6 +3346,7 @@
     <Compile Include="Verse\ModContentHolder.cs" />
     <Compile Include="Verse\ModContentLoader.cs" />
     <Compile Include="Verse\ModContentPack.cs" />
+    <Compile Include="Verse\ModeRestrictionPlay.cs" />
     <Compile Include="Verse\ModLister.cs" />
     <Compile Include="Verse\ModMetaData.cs" />
     <Compile Include="Verse\ModsConfig.cs" />
@@ -3379,6 +3383,7 @@
     <Compile Include="Verse\PatchOperationAttributeRemove.cs" />
     <Compile Include="Verse\PatchOperationAttributeSet.cs" />
     <Compile Include="Verse\PatchOperationConditional.cs" />
+    <Compile Include="Verse\PatchOperationFindMod.cs" />
     <Compile Include="Verse\PatchOperationInsert.cs" />
     <Compile Include="Verse\PatchOperationPathed.cs" />
     <Compile Include="Verse\PatchOperationRemove.cs" />
@@ -3655,6 +3660,7 @@
     <Compile Include="Verse\ThingIDMaker.cs" />
     <Compile Include="Verse\ThingListGroupHelper.cs" />
     <Compile Include="Verse\ThingMaker.cs" />
+    <Compile Include="Verse\ThingOption.cs" />
     <Compile Include="Verse\ThingOverlays.cs" />
     <Compile Include="Verse\ThingOwner.cs" />
     <Compile Include="Verse\ThingOwnerUtility.cs" />
@@ -3705,6 +3711,7 @@
     <Compile Include="Verse\UIRoot_Entry.cs" />
     <Compile Include="Verse\UnfinishedThing.cs" />
     <Compile Include="Verse\UnityData.cs" />
+    <Compile Include="Verse\UnityGUIBugsFixer.cs" />
     <Compile Include="Verse\UnsavedAttribute.cs" />
     <Compile Include="Verse\Vector2Utility.cs" />
     <Compile Include="Verse\Vector3Utility.cs" />

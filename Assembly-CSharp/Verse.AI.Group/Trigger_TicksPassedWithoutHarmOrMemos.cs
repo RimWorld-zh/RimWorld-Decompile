@@ -7,7 +7,8 @@ namespace Verse.AI.Group
 	{
 		private List<string> memos;
 
-		public Trigger_TicksPassedWithoutHarmOrMemos(int tickLimit, params string[] memos) : base(tickLimit)
+		public Trigger_TicksPassedWithoutHarmOrMemos(int tickLimit, params string[] memos)
+			: base(tickLimit)
 		{
 			this.memos = memos.ToList();
 		}

@@ -26,23 +26,22 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_00d6:
-			/*Error near IL_00d7: Unexpected return in MoveNext()*/;
+			IL_00d2:
+			/*Error near IL_00d3: Unexpected return in MoveNext()*/;
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			bool result;
 			if (pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Open) == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			LocalTargetInfo target = t;
+			if (!pawn.CanReserve(target, 1, -1, null, forced))
 			{
-				LocalTargetInfo target = t;
-				result = ((byte)(pawn.CanReserve(target, 1, -1, null, forced) ? 1 : 0) != 0);
+				return false;
 			}
-			return result;
+			return true;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

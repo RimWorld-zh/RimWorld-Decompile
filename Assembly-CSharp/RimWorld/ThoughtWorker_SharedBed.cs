@@ -6,7 +6,11 @@ namespace RimWorld
 	{
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
-			return p.RaceProps.Humanlike ? (LovePartnerRelationUtility.GetMostDislikedNonPartnerBedOwner(p) != null) : false;
+			if (!p.RaceProps.Humanlike)
+			{
+				return false;
+			}
+			return LovePartnerRelationUtility.GetMostDislikedNonPartnerBedOwner(p) != null;
 		}
 	}
 }

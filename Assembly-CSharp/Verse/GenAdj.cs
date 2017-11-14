@@ -131,8 +131,8 @@ namespace Verse
 				}
 			}
 			yield break;
-			IL_0145:
-			/*Error near IL_0146: Unexpected return in MoveNext()*/;
+			IL_013d:
+			/*Error near IL_013e: Unexpected return in MoveNext()*/;
 		}
 
 		public static IEnumerable<IntVec3> CellsOccupiedBy(IntVec3 center, Rot4 rotation, IntVec2 size)
@@ -184,8 +184,8 @@ namespace Verse
 				}
 			}
 			yield break;
-			IL_0146:
-			/*Error near IL_0147: Unexpected return in MoveNext()*/;
+			IL_013c:
+			/*Error near IL_013d: Unexpected return in MoveNext()*/;
 		}
 
 		public static IEnumerable<IntVec3> CellsAdjacent8Way(Thing t)
@@ -197,9 +197,9 @@ namespace Verse
 		{
 			GenAdj.AdjustForRotation(ref thingCenter, ref thingSize, thingRot);
 			int minX = thingCenter.x - (thingSize.x - 1) / 2 - 1;
-			int maxX = minX + thingSize.x + 1;
+			int num = minX + thingSize.x + 1;
 			int minZ = thingCenter.z - (thingSize.z - 1) / 2 - 1;
-			int maxZ = minZ + thingSize.z + 1;
+			int num2 = minZ + thingSize.z + 1;
 			IntVec3 cur = new IntVec3(minX - 1, 0, minZ);
 			cur.x++;
 			yield return cur;
@@ -215,9 +215,9 @@ namespace Verse
 		{
 			GenAdj.AdjustForRotation(ref center, ref size, rot);
 			int minX = center.x - (size.x - 1) / 2 - 1;
-			int maxX = minX + size.x + 1;
+			int num = minX + size.x + 1;
 			int minZ = center.z - (size.z - 1) / 2 - 1;
-			int maxZ = minZ + size.z + 1;
+			int num2 = minZ + size.z + 1;
 			IntVec3 cur = new IntVec3(minX, 0, minZ);
 			cur.x++;
 			yield return cur;
@@ -388,31 +388,30 @@ namespace Verse
 
 		public static bool AdjacentTo8WayOrInside(this IntVec3 me, LocalTargetInfo other)
 		{
-			return (!other.HasThing) ? me.AdjacentTo8WayOrInside(other.Cell) : me.AdjacentTo8WayOrInside(other.Thing);
+			if (other.HasThing)
+			{
+				return me.AdjacentTo8WayOrInside(other.Thing);
+			}
+			return me.AdjacentTo8WayOrInside(other.Cell);
 		}
 
 		public static bool AdjacentTo8Way(this IntVec3 me, IntVec3 other)
 		{
 			int num = me.x - other.x;
 			int num2 = me.z - other.z;
-			bool result;
 			if (num == 0 && num2 == 0)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (num < 0)
 			{
-				if (num < 0)
-				{
-					num *= -1;
-				}
-				if (num2 < 0)
-				{
-					num2 *= -1;
-				}
-				result = (num <= 1 && num2 <= 1);
+				num *= -1;
 			}
-			return result;
+			if (num2 < 0)
+			{
+				num2 *= -1;
+			}
+			return num <= 1 && num2 <= 1;
 		}
 
 		public static bool AdjacentTo8WayOrInside(this IntVec3 me, IntVec3 other)
@@ -432,17 +431,12 @@ namespace Verse
 
 		public static bool IsAdjacentToCardinalOrInside(this IntVec3 me, CellRect other)
 		{
-			bool result;
 			if (other.IsEmpty)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				CellRect cellRect = other.ExpandedBy(1);
-				result = (cellRect.Contains(me) && !cellRect.IsCorner(me));
-			}
-			return result;
+			CellRect cellRect = other.ExpandedBy(1);
+			return cellRect.Contains(me) && !cellRect.IsCorner(me);
 		}
 
 		public static bool IsAdjacentToCardinalOrInside(this Thing t1, Thing t2)
@@ -452,69 +446,49 @@ namespace Verse
 
 		public static bool IsAdjacentToCardinalOrInside(CellRect rect1, CellRect rect2)
 		{
-			bool result;
-			if (rect1.IsEmpty || rect2.IsEmpty)
-			{
-				result = false;
-			}
-			else
+			if (!rect1.IsEmpty && !rect2.IsEmpty)
 			{
 				CellRect cellRect = rect1.ExpandedBy(1);
 				int minX = cellRect.minX;
 				int maxX = cellRect.maxX;
 				int minZ = cellRect.minZ;
 				int maxZ = cellRect.maxZ;
-				int num = minX;
-				int num2 = minZ;
-				while (num <= maxX)
+				int i = minX;
+				int num = minZ;
+				for (; i <= maxX; i++)
 				{
-					if (rect2.Contains(new IntVec3(num, 0, num2)) && (num != minX || num2 != minZ) && (num != minX || num2 != maxZ) && (num != maxX || num2 != minZ) && (num != maxX || num2 != maxZ))
+					if (rect2.Contains(new IntVec3(i, 0, num)) && (i != minX || num != minZ) && (i != minX || num != maxZ) && (i != maxX || num != minZ) && (i != maxX || num != maxZ))
 					{
-						goto IL_00b2;
+						return true;
 					}
-					num++;
+				}
+				i--;
+				for (num++; num <= maxZ; num++)
+				{
+					if (rect2.Contains(new IntVec3(i, 0, num)) && (i != minX || num != minZ) && (i != minX || num != maxZ) && (i != maxX || num != minZ) && (i != maxX || num != maxZ))
+					{
+						return true;
+					}
 				}
 				num--;
-				for (num2++; num2 <= maxZ; num2++)
+				for (i--; i >= minX; i--)
 				{
-					if (rect2.Contains(new IntVec3(num, 0, num2)) && (num != minX || num2 != minZ) && (num != minX || num2 != maxZ) && (num != maxX || num2 != minZ) && (num != maxX || num2 != maxZ))
+					if (rect2.Contains(new IntVec3(i, 0, num)) && (i != minX || num != minZ) && (i != minX || num != maxZ) && (i != maxX || num != minZ) && (i != maxX || num != maxZ))
 					{
-						goto IL_0135;
+						return true;
 					}
 				}
-				num2--;
-				for (num--; num >= minX; num--)
+				i++;
+				for (num--; num > minZ; num--)
 				{
-					if (rect2.Contains(new IntVec3(num, 0, num2)) && (num != minX || num2 != minZ) && (num != minX || num2 != maxZ) && (num != maxX || num2 != minZ) && (num != maxX || num2 != maxZ))
+					if (rect2.Contains(new IntVec3(i, 0, num)) && (i != minX || num != minZ) && (i != minX || num != maxZ) && (i != maxX || num != minZ) && (i != maxX || num != maxZ))
 					{
-						goto IL_01b9;
+						return true;
 					}
 				}
-				num++;
-				for (num2--; num2 > minZ; num2--)
-				{
-					if (rect2.Contains(new IntVec3(num, 0, num2)) && (num != minX || num2 != minZ) && (num != minX || num2 != maxZ) && (num != maxX || num2 != minZ) && (num != maxX || num2 != maxZ))
-					{
-						goto IL_023c;
-					}
-				}
-				result = false;
+				return false;
 			}
-			goto IL_025b;
-			IL_023c:
-			result = true;
-			goto IL_025b;
-			IL_00b2:
-			result = true;
-			goto IL_025b;
-			IL_01b9:
-			result = true;
-			goto IL_025b;
-			IL_0135:
-			result = true;
-			goto IL_025b;
-			IL_025b:
-			return result;
+			return false;
 		}
 
 		public static bool AdjacentTo8WayOrInside(this IntVec3 root, Thing t)
@@ -529,7 +503,11 @@ namespace Verse
 			int num2 = center.z - (size.z - 1) / 2 - 1;
 			int num3 = num + size.x + 1;
 			int num4 = num2 + size.z + 1;
-			return (byte)((root.x >= num && root.x <= num3 && root.z >= num2 && root.z <= num4) ? 1 : 0) != 0;
+			if (root.x >= num && root.x <= num3 && root.z >= num2 && root.z <= num4)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static bool AdjacentTo8WayOrInside(this Thing a, Thing b)
@@ -539,7 +517,11 @@ namespace Verse
 
 		public static bool AdjacentTo8WayOrInside(CellRect rect1, CellRect rect2)
 		{
-			return !rect1.IsEmpty && !rect2.IsEmpty && rect1.ExpandedBy(1).Overlaps(rect2);
+			if (!rect1.IsEmpty && !rect2.IsEmpty)
+			{
+				return rect1.ExpandedBy(1).Overlaps(rect2);
+			}
+			return false;
 		}
 
 		public static bool IsInside(this IntVec3 root, Thing t)
@@ -554,7 +536,11 @@ namespace Verse
 			int num2 = center.z - (size.z - 1) / 2;
 			int num3 = num + size.x - 1;
 			int num4 = num2 + size.z - 1;
-			return (byte)((root.x >= num && root.x <= num3 && root.z >= num2 && root.z <= num4) ? 1 : 0) != 0;
+			if (root.x >= num && root.x <= num3 && root.z >= num2 && root.z <= num4)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static CellRect OccupiedRect(this Thing t)
@@ -580,36 +566,30 @@ namespace Verse
 			}
 			switch (rot.AsInt)
 			{
-			case 1:
-			{
-				if (size.z % 2 == 0)
-				{
-					center.z--;
-				}
-				break;
-			}
-			case 2:
-			{
-				if (size.x % 2 == 0)
-				{
-					center.x--;
-				}
-				if (size.z % 2 == 0)
-				{
-					center.z--;
-				}
-				break;
-			}
-			case 3:
-			{
-				if (size.x % 2 == 0)
-				{
-					center.x--;
-				}
-				break;
-			}
 			case 0:
-				return;
+				break;
+			case 1:
+				if (size.z % 2 == 0)
+				{
+					center.z--;
+				}
+				break;
+			case 2:
+				if (size.x % 2 == 0)
+				{
+					center.x--;
+				}
+				if (size.z % 2 == 0)
+				{
+					center.z--;
+				}
+				break;
+			case 3:
+				if (size.x % 2 == 0)
+				{
+					center.x--;
+				}
+				break;
 			}
 		}
 	}

@@ -27,40 +27,21 @@ namespace RimWorld
 
 		private float Multiplier(DifficultyDef d)
 		{
-			float result;
 			switch (d.index)
 			{
-			case (ushort)0:
-			{
-				result = this.factorRelax;
-				break;
-			}
-			case (ushort)1:
-			{
-				result = this.factorBasebuilder;
-				break;
-			}
-			case (ushort)2:
-			{
-				result = this.factorRough;
-				break;
-			}
-			case (ushort)3:
-			{
-				result = this.factorChallenge;
-				break;
-			}
-			case (ushort)4:
-			{
-				result = this.factorExtreme;
-				break;
-			}
+			case 0:
+				return this.factorRelax;
+			case 1:
+				return this.factorBasebuilder;
+			case 2:
+				return this.factorRough;
+			case 3:
+				return this.factorChallenge;
+			case 4:
+				return this.factorExtreme;
 			default:
-			{
 				throw new ArgumentOutOfRangeException();
 			}
-			}
-			return result;
 		}
 	}
 }

@@ -36,65 +36,51 @@ namespace RimWorld
 		public override bool ShouldSkip(Pawn pawn)
 		{
 			List<Building> allBuildingsColonist = pawn.Map.listerBuildings.allBuildingsColonist;
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < allBuildingsColonist.Count; i++)
 			{
-				if (num < allBuildingsColonist.Count)
+				if (allBuildingsColonist[i].def == ThingDefOf.DeepDrill)
 				{
-					if (allBuildingsColonist[num].def == ThingDefOf.DeepDrill)
+					CompPowerTrader comp = allBuildingsColonist[i].GetComp<CompPowerTrader>();
+					if (comp != null && !comp.PowerOn)
 					{
-						CompPowerTrader comp = allBuildingsColonist[num].GetComp<CompPowerTrader>();
-						if (comp != null && !comp.PowerOn)
-						{
-							goto IL_0057;
-						}
-						result = false;
-						break;
+						continue;
 					}
-					goto IL_0057;
+					return false;
 				}
-				result = true;
-				break;
-				IL_0057:
-				num++;
 			}
-			return result;
+			return true;
 		}
 
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			bool result;
 			if (t.Faction != pawn.Faction)
 			{
-				result = false;
+				return false;
 			}
-			else
+			Building building = t as Building;
+			if (building == null)
 			{
-				Building building = t as Building;
-				if (building == null)
-				{
-					result = false;
-				}
-				else if (building.IsForbidden(pawn))
-				{
-					result = false;
-				}
-				else
-				{
-					LocalTargetInfo target = (Thing)building;
-					if (!pawn.CanReserve(target, 1, -1, null, forced))
-					{
-						result = false;
-					}
-					else
-					{
-						CompDeepDrill compDeepDrill = building.TryGetComp<CompDeepDrill>();
-						result = ((byte)(compDeepDrill.CanDrillNow() ? ((!building.IsBurning()) ? 1 : 0) : 0) != 0);
-					}
-				}
+				return false;
 			}
-			return result;
+			if (building.IsForbidden(pawn))
+			{
+				return false;
+			}
+			LocalTargetInfo target = building;
+			if (!pawn.CanReserve(target, 1, -1, null, forced))
+			{
+				return false;
+			}
+			CompDeepDrill compDeepDrill = building.TryGetComp<CompDeepDrill>();
+			if (!compDeepDrill.CanDrillNow())
+			{
+				return false;
+			}
+			if (building.IsBurning())
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

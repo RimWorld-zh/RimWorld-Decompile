@@ -55,24 +55,19 @@ namespace Verse.AI
 					}
 				}
 				yield break;
-				IL_0104:
-				/*Error near IL_0105: Unexpected return in MoveNext()*/;
+				IL_00fe:
+				/*Error near IL_00ff: Unexpected return in MoveNext()*/;
 			}
 		}
 
 		public virtual float GetPriority(Pawn pawn)
 		{
-			float result;
 			if (this.priority < 0.0)
 			{
 				Log.ErrorOnce("ThinkNode_PrioritySorter has child node which didn't give a priority: " + this, this.GetHashCode());
-				result = 0f;
+				return 0f;
 			}
-			else
-			{
-				result = this.priority;
-			}
-			return result;
+			return this.priority;
 		}
 
 		public abstract ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams);

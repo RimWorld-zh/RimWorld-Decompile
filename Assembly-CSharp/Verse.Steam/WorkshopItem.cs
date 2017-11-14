@@ -48,9 +48,8 @@ namespace Verse.Steam
 					Log.Error("Created WorkshopItem for " + pfid + " but there is no folder for it.");
 				}
 				FileInfo[] files = directoryInfo.GetFiles();
-				for (int i = 0; i < files.Length; i++)
+				foreach (FileInfo fileInfo in files)
 				{
-					FileInfo fileInfo = files[i];
 					if (fileInfo.Extension == ".rsc")
 					{
 						workshopItem = new WorkshopItem_Scenario();

@@ -13,32 +13,26 @@ namespace RimWorld
 		{
 			float num = 999f;
 			List<Apparel> wornApparel = p.apparel.WornApparel;
-			int num2 = 0;
-			ThoughtState result;
-			while (true)
+			for (int i = 0; i < wornApparel.Count; i++)
 			{
-				if (num2 < wornApparel.Count)
+				if (wornApparel[i].def.useHitPoints)
 				{
-					if (wornApparel[num2].def.useHitPoints)
+					float num2 = (float)wornApparel[i].HitPoints / (float)wornApparel[i].MaxHitPoints;
+					if (num2 < num)
 					{
-						float num3 = (float)wornApparel[num2].HitPoints / (float)wornApparel[num2].MaxHitPoints;
-						if (num3 < num)
-						{
-							num = num3;
-						}
-						if (num < 0.20000000298023224)
-						{
-							result = ThoughtState.ActiveAtStage(1);
-							break;
-						}
+						num = num2;
 					}
-					num2++;
-					continue;
+					if (num < 0.20000000298023224)
+					{
+						return ThoughtState.ActiveAtStage(1);
+					}
 				}
-				result = ((!(num < 0.5)) ? ThoughtState.Inactive : ThoughtState.ActiveAtStage(0));
-				break;
 			}
-			return result;
+			if (num < 0.5)
+			{
+				return ThoughtState.ActiveAtStage(0);
+			}
+			return ThoughtState.Inactive;
 		}
 	}
 }

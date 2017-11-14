@@ -8,53 +8,32 @@ namespace RimWorld
 		public static bool PlayerHasPoweredCommsConsole(Map map)
 		{
 			List<Thing> list = map.listerThings.ThingsMatching(ThingRequest.ForDef(ThingDefOf.CommsConsole));
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < list.Count; i++)
 			{
-				if (num < list.Count)
+				if (list[i].Faction == Faction.OfPlayer)
 				{
-					if (list[num].Faction == Faction.OfPlayer)
+					CompPowerTrader compPowerTrader = list[i].TryGetComp<CompPowerTrader>();
+					if (compPowerTrader != null && !compPowerTrader.PowerOn)
 					{
-						CompPowerTrader compPowerTrader = list[num].TryGetComp<CompPowerTrader>();
-						if (compPowerTrader != null && !compPowerTrader.PowerOn)
-						{
-							goto IL_0064;
-						}
-						result = true;
-						break;
+						continue;
 					}
-					goto IL_0064;
+					return true;
 				}
-				result = false;
-				break;
-				IL_0064:
-				num++;
 			}
-			return result;
+			return false;
 		}
 
 		public static bool PlayerHasPoweredCommsConsole()
 		{
 			List<Map> maps = Find.Maps;
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < maps.Count; i++)
 			{
-				if (num < maps.Count)
+				if (CommsConsoleUtility.PlayerHasPoweredCommsConsole(maps[i]))
 				{
-					if (CommsConsoleUtility.PlayerHasPoweredCommsConsole(maps[num]))
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 	}
 }

@@ -17,17 +17,16 @@ namespace RimWorld
 			get
 			{
 				Thing thing = base.SelObject as Thing;
-				IStoreSettingsParent result;
 				if (thing != null)
 				{
 					IStoreSettingsParent thingOrThingCompStoreSettingsParent = this.GetThingOrThingCompStoreSettingsParent(thing);
-					result = ((thingOrThingCompStoreSettingsParent == null) ? null : thingOrThingCompStoreSettingsParent);
+					if (thingOrThingCompStoreSettingsParent != null)
+					{
+						return thingOrThingCompStoreSettingsParent;
+					}
+					return null;
 				}
-				else
-				{
-					result = (base.SelObject as IStoreSettingsParent);
-				}
-				return result;
+				return base.SelObject as IStoreSettingsParent;
 			}
 		}
 
@@ -87,7 +86,7 @@ namespace RimWorld
 							if (storagePriority != 0)
 							{
 								StoragePriority localPr = storagePriority;
-								list.Add(new FloatMenuOption(localPr.Label().CapitalizeFirst(), (Action)delegate
+								list.Add(new FloatMenuOption(localPr.Label().CapitalizeFirst(), delegate
 								{
 									settings.Priority = localPr;
 								}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -120,32 +119,24 @@ namespace RimWorld
 		protected IStoreSettingsParent GetThingOrThingCompStoreSettingsParent(Thing t)
 		{
 			IStoreSettingsParent storeSettingsParent = t as IStoreSettingsParent;
-			IStoreSettingsParent result;
 			if (storeSettingsParent != null)
 			{
-				result = storeSettingsParent;
+				return storeSettingsParent;
 			}
-			else
+			ThingWithComps thingWithComps = t as ThingWithComps;
+			if (thingWithComps != null)
 			{
-				ThingWithComps thingWithComps = t as ThingWithComps;
-				if (thingWithComps != null)
+				List<ThingComp> allComps = thingWithComps.AllComps;
+				for (int i = 0; i < allComps.Count; i++)
 				{
-					List<ThingComp> allComps = thingWithComps.AllComps;
-					for (int i = 0; i < allComps.Count; i++)
+					storeSettingsParent = (allComps[i] as IStoreSettingsParent);
+					if (storeSettingsParent != null)
 					{
-						storeSettingsParent = (allComps[i] as IStoreSettingsParent);
-						if (storeSettingsParent != null)
-							goto IL_0047;
+						return storeSettingsParent;
 					}
 				}
-				result = null;
 			}
-			goto IL_006a;
-			IL_006a:
-			return result;
-			IL_0047:
-			result = storeSettingsParent;
-			goto IL_006a;
+			return null;
 		}
 	}
 }

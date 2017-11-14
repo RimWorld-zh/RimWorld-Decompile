@@ -10,7 +10,8 @@ namespace Ionic.Zlib
 		{
 		}
 
-		public ZlibException(string s) : base(s)
+		public ZlibException(string s)
+			: base(s)
 		{
 		}
 	}

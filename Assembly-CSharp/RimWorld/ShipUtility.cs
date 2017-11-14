@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -33,7 +32,7 @@ namespace RimWorld
 			List<Building> shipParts = ShipUtility.ShipBuildingsAttachedTo(rootBuilding).ToList();
 			foreach (KeyValuePair<ThingDef, int> item in ShipUtility.RequiredParts())
 			{
-				int shipPartCount = shipParts.Count((Func<Building, bool>)((Building pa) => pa.def == item.Key));
+				int shipPartCount = shipParts.Count((Building pa) => pa.def == item.Key);
 				if (shipPartCount < item.Value)
 				{
 					yield return string.Format("{0}: {1}x {2} ({3} {4})", "ShipReportMissingPart".Translate(), item.Value - shipPartCount, item.Key.label, "ShipReportMissingPartRequires".Translate(), item.Value);
@@ -71,8 +70,8 @@ namespace RimWorld
 				yield break;
 			yield return "ShipReportNoFullPods".Translate();
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_037c:
-			/*Error near IL_037d: Unexpected return in MoveNext()*/;
+			IL_036f:
+			/*Error near IL_0370: Unexpected return in MoveNext()*/;
 		}
 
 		public static bool HasHibernatingParts(Building rootBuilding)
@@ -104,12 +103,7 @@ namespace RimWorld
 
 		public static List<Building> ShipBuildingsAttachedTo(Building root)
 		{
-			List<Building> result;
-			if (root == null || root.Destroyed)
-			{
-				result = new List<Building>();
-			}
-			else
+			if (root != null && !root.Destroyed)
 			{
 				ShipUtility.closedSet.Clear();
 				ShipUtility.openSet.Clear();
@@ -128,9 +122,9 @@ namespace RimWorld
 						}
 					}
 				}
-				result = ShipUtility.closedSet;
+				return ShipUtility.closedSet;
 			}
-			return result;
+			return new List<Building>();
 		}
 	}
 }

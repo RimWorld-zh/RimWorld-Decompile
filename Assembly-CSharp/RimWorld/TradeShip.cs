@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -128,7 +127,7 @@ namespace RimWorld
 				TradeShip.tmpExtantNames.AddRange(from x in maps[i].passingShipManager.passingShips
 				select x.name);
 			}
-			base.name = NameGenerator.GenerateName(RulePackDefOf.NamerTraderGeneral, TradeShip.tmpExtantNames, false, (string)null);
+			base.name = NameGenerator.GenerateName(RulePackDefOf.NamerTraderGeneral, TradeShip.tmpExtantNames, false, null);
 			this.randomPriceFactorSeed = Rand.RangeInclusive(1, 10000000);
 			base.loadID = Find.UniqueIDsManager.GetNextPassingShipID();
 		}
@@ -154,17 +153,15 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_015b:
-			/*Error near IL_015c: Unexpected return in MoveNext()*/;
+			IL_0154:
+			/*Error near IL_0155: Unexpected return in MoveNext()*/;
 		}
 
 		public void GenerateThings()
 		{
-			ItemCollectionGeneratorParams parms = new ItemCollectionGeneratorParams
-			{
-				traderDef = this.def,
-				tile = new int?(base.Map.Tile)
-			};
+			ItemCollectionGeneratorParams parms = default(ItemCollectionGeneratorParams);
+			parms.traderDef = this.def;
+			parms.tile = base.Map.Tile;
 			this.things.TryAddRangeOrTransfer(ItemCollectionGeneratorDefOf.TraderStock.Worker.Generate(parms), true, false);
 		}
 
@@ -197,7 +194,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.randomPriceFactorSeed, "randomPriceFactorSeed", 0, false);
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
-				this.soldPrisoners.RemoveAll((Predicate<Pawn>)((Pawn x) => x == null));
+				this.soldPrisoners.RemoveAll((Pawn x) => x == null);
 			}
 		}
 
@@ -207,12 +204,12 @@ namespace RimWorld
 			{
 				Find.WindowStack.Add(new Dialog_Trade(negotiator, this));
 				LessonAutoActivator.TeachOpportunity(ConceptDefOf.BuildOrbitalTradeBeacon, OpportunityType.Critical);
-				string label = "";
-				string text = "";
-				PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter(this.Goods.OfType<Pawn>(), ref label, ref text, "LetterRelatedPawnsTradeShip".Translate(), false, true);
-				if (!text.NullOrEmpty())
+				string empty = string.Empty;
+				string empty2 = string.Empty;
+				PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter(this.Goods.OfType<Pawn>(), ref empty, ref empty2, "LetterRelatedPawnsTradeShip".Translate(), false, true);
+				if (!empty2.NullOrEmpty())
 				{
-					Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.PositiveEvent, (string)null);
+					Find.LetterStack.ReceiveLetter(empty, empty2, LetterDefOf.PositiveEvent, (string)null);
 				}
 				TutorUtility.DoModalDialogIfNotKnown(ConceptDefOf.TradeGoodsMustBeNearBeacon);
 			}
@@ -233,7 +230,11 @@ namespace RimWorld
 		public int CountHeldOf(ThingDef thingDef, ThingDef stuffDef = null)
 		{
 			Thing thing = this.HeldThingMatching(thingDef, stuffDef);
-			return (thing != null) ? thing.stackCount : 0;
+			if (thing != null)
+			{
+				return thing.stackCount;
+			}
+			return 0;
 		}
 
 		public void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
@@ -273,24 +274,14 @@ namespace RimWorld
 
 		private Thing HeldThingMatching(ThingDef thingDef, ThingDef stuffDef)
 		{
-			int num = 0;
-			Thing result;
-			while (true)
+			for (int i = 0; i < this.things.Count; i++)
 			{
-				if (num < this.things.Count)
+				if (this.things[i].def == thingDef && this.things[i].Stuff == stuffDef)
 				{
-					if (this.things[num].def == thingDef && this.things[num].Stuff == stuffDef)
-					{
-						result = this.things[num];
-						break;
-					}
-					num++;
-					continue;
+					return this.things[i];
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		public void ChangeCountHeldOf(ThingDef thingDef, ThingDef stuffDef, int count)

@@ -7,7 +7,7 @@ namespace RimWorld
 	{
 		public int maxNumToIngestAtOnce = 20;
 
-		public List<IngestionOutcomeDoer> outcomeDoers = null;
+		public List<IngestionOutcomeDoer> outcomeDoers;
 
 		public int baseIngestTicks = 500;
 
@@ -15,47 +15,47 @@ namespace RimWorld
 
 		public bool useEatingSpeedStat = true;
 
-		public ThoughtDef tasteThought = null;
+		public ThoughtDef tasteThought;
 
-		public ThoughtDef specialThoughtDirect = null;
+		public ThoughtDef specialThoughtDirect;
 
-		public ThoughtDef specialThoughtAsIngredient = null;
+		public ThoughtDef specialThoughtAsIngredient;
 
-		public EffecterDef ingestEffect = null;
+		public EffecterDef ingestEffect;
 
-		public EffecterDef ingestEffectEat = null;
+		public EffecterDef ingestEffectEat;
 
-		public SoundDef ingestSound = null;
+		public SoundDef ingestSound;
 
-		public string ingestCommandString = (string)null;
+		public string ingestCommandString;
 
-		public string ingestReportString = (string)null;
+		public string ingestReportString;
 
-		public string ingestReportStringEat = (string)null;
+		public string ingestReportStringEat;
 
-		public HoldOffsetSet ingestHoldOffsetStanding = null;
+		public HoldOffsetSet ingestHoldOffsetStanding;
 
 		public bool ingestHoldUsesTable = true;
 
-		public FoodTypeFlags foodType = FoodTypeFlags.None;
+		public FoodTypeFlags foodType;
 
-		public float nutrition = 0f;
+		public float nutrition;
 
-		public float joy = 0f;
+		public float joy;
 
-		public JoyKindDef joyKind = null;
+		public JoyKindDef joyKind;
 
 		public ThingDef sourceDef;
 
-		public FoodPreferability preferability = FoodPreferability.Undefined;
+		public FoodPreferability preferability;
 
-		public bool nurseable = false;
+		public bool nurseable;
 
-		public float optimalityOffsetHumanlikes = 0f;
+		public float optimalityOffsetHumanlikes;
 
-		public float optimalityOffsetFeedingAnimals = 0f;
+		public float optimalityOffsetFeedingAnimals;
 
-		public DrugCategory drugCategory = DrugCategory.None;
+		public DrugCategory drugCategory;
 
 		public JoyKindDef JoyKind
 		{
@@ -69,7 +69,7 @@ namespace RimWorld
 		{
 			get
 			{
-				return (3903 & (int)this.foodType) != 0;
+				return (FoodTypeFlags.OmnivoreHuman & this.foodType) != FoodTypeFlags.None;
 			}
 		}
 
@@ -115,12 +115,12 @@ namespace RimWorld
 		{
 			if (!parentDef.IsCorpse)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Nutrition".Translate(), this.nutrition.ToString("0.##"), 0, "");
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Nutrition".Translate(), this.nutrition.ToString("0.##"), 0, string.Empty);
 				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.joy > 0.0)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Joy".Translate(), this.joy.ToStringPercent("F2") + " (" + this.JoyKind.label + ")", 0, "");
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Joy".Translate(), this.joy.ToStringPercent("F2") + " (" + this.JoyKind.label + ")", 0, string.Empty);
 				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.outcomeDoers != null)
@@ -139,8 +139,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_01fa:
-			/*Error near IL_01fb: Unexpected return in MoveNext()*/;
+			IL_01f2:
+			/*Error near IL_01f3: Unexpected return in MoveNext()*/;
 		}
 	}
 }

@@ -11,7 +11,11 @@ namespace Verse
 
 		public static List<IntVec3> AdjacentCells8Way(LocalTargetInfo pack)
 		{
-			return (!pack.HasThing) ? GenAdjFast.AdjacentCells8Way((IntVec3)pack) : GenAdjFast.AdjacentCells8Way((Thing)pack);
+			if (pack.HasThing)
+			{
+				return GenAdjFast.AdjacentCells8Way((Thing)pack);
+			}
+			return GenAdjFast.AdjacentCells8Way((IntVec3)pack);
 		}
 
 		public static List<IntVec3> AdjacentCells8Way(IntVec3 root)
@@ -37,62 +41,61 @@ namespace Verse
 
 		public static List<IntVec3> AdjacentCells8Way(IntVec3 thingCenter, Rot4 thingRot, IntVec2 thingSize)
 		{
-			List<IntVec3> result;
 			if (thingSize.x == 1 && thingSize.z == 1)
 			{
-				result = GenAdjFast.AdjacentCells8Way(thingCenter);
+				return GenAdjFast.AdjacentCells8Way(thingCenter);
 			}
-			else
+			if (GenAdjFast.working)
 			{
-				if (GenAdjFast.working)
-				{
-					throw new InvalidOperationException("GenAdjFast is already working.");
-				}
-				GenAdjFast.resultList.Clear();
-				GenAdjFast.working = true;
-				GenAdj.AdjustForRotation(ref thingCenter, ref thingSize, thingRot);
-				int num = thingCenter.x - (thingSize.x - 1) / 2 - 1;
-				int num2 = num + thingSize.x + 1;
-				int num3 = thingCenter.z - (thingSize.z - 1) / 2 - 1;
-				int num4 = num3 + thingSize.z + 1;
-				IntVec3 item = new IntVec3(num - 1, 0, num3);
-				while (true)
-				{
-					item.x++;
-					GenAdjFast.resultList.Add(item);
-					if (item.x >= num2)
-						break;
-				}
-				while (true)
-				{
-					item.z++;
-					GenAdjFast.resultList.Add(item);
-					if (item.z >= num4)
-						break;
-				}
-				while (true)
-				{
-					item.x--;
-					GenAdjFast.resultList.Add(item);
-					if (item.x <= num)
-						break;
-				}
-				while (true)
-				{
-					item.z--;
-					GenAdjFast.resultList.Add(item);
-					if (item.z <= num3 + 1)
-						break;
-				}
-				GenAdjFast.working = false;
-				result = GenAdjFast.resultList;
+				throw new InvalidOperationException("GenAdjFast is already working.");
 			}
-			return result;
+			GenAdjFast.resultList.Clear();
+			GenAdjFast.working = true;
+			GenAdj.AdjustForRotation(ref thingCenter, ref thingSize, thingRot);
+			int num = thingCenter.x - (thingSize.x - 1) / 2 - 1;
+			int num2 = num + thingSize.x + 1;
+			int num3 = thingCenter.z - (thingSize.z - 1) / 2 - 1;
+			int num4 = num3 + thingSize.z + 1;
+			IntVec3 item = new IntVec3(num - 1, 0, num3);
+			while (true)
+			{
+				item.x++;
+				GenAdjFast.resultList.Add(item);
+				if (item.x >= num2)
+					break;
+			}
+			while (true)
+			{
+				item.z++;
+				GenAdjFast.resultList.Add(item);
+				if (item.z >= num4)
+					break;
+			}
+			while (true)
+			{
+				item.x--;
+				GenAdjFast.resultList.Add(item);
+				if (item.x <= num)
+					break;
+			}
+			while (true)
+			{
+				item.z--;
+				GenAdjFast.resultList.Add(item);
+				if (item.z <= num3 + 1)
+					break;
+			}
+			GenAdjFast.working = false;
+			return GenAdjFast.resultList;
 		}
 
 		public static List<IntVec3> AdjacentCellsCardinal(LocalTargetInfo pack)
 		{
-			return (!pack.HasThing) ? GenAdjFast.AdjacentCellsCardinal((IntVec3)pack) : GenAdjFast.AdjacentCellsCardinal((Thing)pack);
+			if (pack.HasThing)
+			{
+				return GenAdjFast.AdjacentCellsCardinal((Thing)pack);
+			}
+			return GenAdjFast.AdjacentCellsCardinal((IntVec3)pack);
 		}
 
 		public static List<IntVec3> AdjacentCellsCardinal(IntVec3 root)
@@ -118,60 +121,55 @@ namespace Verse
 
 		public static List<IntVec3> AdjacentCellsCardinal(IntVec3 thingCenter, Rot4 thingRot, IntVec2 thingSize)
 		{
-			List<IntVec3> result;
 			if (thingSize.x == 1 && thingSize.z == 1)
 			{
-				result = GenAdjFast.AdjacentCellsCardinal(thingCenter);
+				return GenAdjFast.AdjacentCellsCardinal(thingCenter);
 			}
-			else
+			if (GenAdjFast.working)
 			{
-				if (GenAdjFast.working)
-				{
-					throw new InvalidOperationException("GenAdjFast is already working.");
-				}
-				GenAdjFast.resultList.Clear();
-				GenAdjFast.working = true;
-				GenAdj.AdjustForRotation(ref thingCenter, ref thingSize, thingRot);
-				int num = thingCenter.x - (thingSize.x - 1) / 2 - 1;
-				int num2 = num + thingSize.x + 1;
-				int num3 = thingCenter.z - (thingSize.z - 1) / 2 - 1;
-				int num4 = num3 + thingSize.z + 1;
-				IntVec3 item = new IntVec3(num, 0, num3);
-				while (true)
-				{
-					item.x++;
-					GenAdjFast.resultList.Add(item);
-					if (item.x >= num2 - 1)
-						break;
-				}
-				item.x++;
-				while (true)
-				{
-					item.z++;
-					GenAdjFast.resultList.Add(item);
-					if (item.z >= num4 - 1)
-						break;
-				}
-				item.z++;
-				while (true)
-				{
-					item.x--;
-					GenAdjFast.resultList.Add(item);
-					if (item.x <= num + 1)
-						break;
-				}
-				item.x--;
-				while (true)
-				{
-					item.z--;
-					GenAdjFast.resultList.Add(item);
-					if (item.z <= num3 + 1)
-						break;
-				}
-				GenAdjFast.working = false;
-				result = GenAdjFast.resultList;
+				throw new InvalidOperationException("GenAdjFast is already working.");
 			}
-			return result;
+			GenAdjFast.resultList.Clear();
+			GenAdjFast.working = true;
+			GenAdj.AdjustForRotation(ref thingCenter, ref thingSize, thingRot);
+			int num = thingCenter.x - (thingSize.x - 1) / 2 - 1;
+			int num2 = num + thingSize.x + 1;
+			int num3 = thingCenter.z - (thingSize.z - 1) / 2 - 1;
+			int num4 = num3 + thingSize.z + 1;
+			IntVec3 item = new IntVec3(num, 0, num3);
+			while (true)
+			{
+				item.x++;
+				GenAdjFast.resultList.Add(item);
+				if (item.x >= num2 - 1)
+					break;
+			}
+			item.x++;
+			while (true)
+			{
+				item.z++;
+				GenAdjFast.resultList.Add(item);
+				if (item.z >= num4 - 1)
+					break;
+			}
+			item.z++;
+			while (true)
+			{
+				item.x--;
+				GenAdjFast.resultList.Add(item);
+				if (item.x <= num + 1)
+					break;
+			}
+			item.x--;
+			while (true)
+			{
+				item.z--;
+				GenAdjFast.resultList.Add(item);
+				if (item.z <= num3 + 1)
+					break;
+			}
+			GenAdjFast.working = false;
+			return GenAdjFast.resultList;
 		}
 
 		public static void AdjacentThings8Way(Thing thing, List<Thing> outThings)

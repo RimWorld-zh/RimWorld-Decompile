@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -10,15 +9,15 @@ namespace RimWorld
 	{
 		protected string interactButLabel = "Error";
 
-		protected float bottomAreaHeight = 0f;
+		protected float bottomAreaHeight;
 
 		protected List<SaveFileInfo> files = new List<SaveFileInfo>();
 
 		protected Vector2 scrollPosition = Vector2.zero;
 
-		protected string typingName = "";
+		protected string typingName = string.Empty;
 
-		private bool focusedNameArea = false;
+		private bool focusedNameArea;
 
 		protected const float BoxMargin = 20f;
 
@@ -112,11 +111,11 @@ namespace RimWorld
 				if (Widgets.ButtonImage(rect5, TexButton.DeleteX))
 				{
 					FileInfo localFile = file.FileInfo;
-					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmDelete".Translate(localFile.Name), (Action)delegate
+					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmDelete".Translate(localFile.Name), delegate
 					{
 						localFile.Delete();
 						this.ReloadFiles();
-					}, true, (string)null));
+					}, true, null));
 				}
 				TooltipHandler.TipRegion(rect5, "DeleteThisSavegame".Translate());
 				GUI.EndGroup();

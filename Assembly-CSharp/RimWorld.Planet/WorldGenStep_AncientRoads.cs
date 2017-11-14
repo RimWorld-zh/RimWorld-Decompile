@@ -24,11 +24,11 @@ namespace RimWorld.Planet
 		{
 			Find.WorldPathGrid.RecalculateAllPerceivedPathCosts(Season.Spring.GetMiddleYearPct(0f));
 			List<List<int>> list = this.GenerateProspectiveRoads();
-			list.Sort((Comparison<List<int>>)((List<int> lhs, List<int> rhs) => -lhs.Count.CompareTo(rhs.Count)));
+			list.Sort((List<int> lhs, List<int> rhs) => -lhs.Count.CompareTo(rhs.Count));
 			HashSet<int> used = new HashSet<int>();
 			for (int i = 0; i < list.Count; i++)
 			{
-				if (!list[i].Any((Predicate<int>)((int elem) => used.Contains(elem))))
+				if (!list[i].Any((int elem) => used.Contains(elem)))
 				{
 					if (list[i].Count < 4)
 					{
@@ -42,7 +42,7 @@ namespace RimWorld.Planet
 					{
 						float num = Find.WorldGrid.ApproxDistanceInTiles(list[i][j], list[i][j + 1]) * this.maximumSegmentCurviness;
 						float costCutoff = (float)(num * 12000.0);
-						using (WorldPath worldPath = Find.WorldPathFinder.FindPath(list[i][j], list[i][j + 1], null, (Func<float, bool>)((float cost) => cost > costCutoff)))
+						using (WorldPath worldPath = Find.WorldPathFinder.FindPath(list[i][j], list[i][j + 1], null, (float cost) => cost > costCutoff))
 						{
 							if (worldPath != null && worldPath != WorldPath.NotFound)
 							{
@@ -88,7 +88,7 @@ namespace RimWorld.Planet
 						select idx).ToList();
 						if (list3.Count != 0)
 						{
-							int num = list3.MinBy((Func<int, float>)((int idx) => Find.World.grid.ApproxDistanceInTiles(current, idx)));
+							int num = list3.MinBy((int idx) => Find.World.grid.ApproxDistanceInTiles(current, idx));
 							ang = Find.World.grid.GetHeadingFromTo(current, num);
 							current = num;
 							list2.Add(current);

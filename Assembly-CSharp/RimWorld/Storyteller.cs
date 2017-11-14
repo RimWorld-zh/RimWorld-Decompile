@@ -145,8 +145,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_0230:
-			/*Error near IL_0231: Unexpected return in MoveNext()*/;
+			IL_0226:
+			/*Error near IL_0227: Unexpected return in MoveNext()*/;
 		}
 
 		public void Notify_DefChanged()

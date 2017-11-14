@@ -6,17 +6,16 @@ namespace RimWorld
 	{
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
-			ThoughtState result;
 			if (!p.IsPrisoner)
 			{
-				result = ThoughtState.Inactive;
+				return ThoughtState.Inactive;
 			}
-			else
+			ThoughtState result = base.CurrentStateInternal(p);
+			if (result.Active && p.GetRoom(RegionType.Set_Passable).Role == RoomRoleDefOf.PrisonBarracks)
 			{
-				ThoughtState thoughtState = base.CurrentStateInternal(p);
-				result = ((!thoughtState.Active || p.GetRoom(RegionType.Set_Passable).Role != RoomRoleDefOf.PrisonBarracks) ? ThoughtState.Inactive : thoughtState);
+				return result;
 			}
-			return result;
+			return ThoughtState.Inactive;
 		}
 	}
 }

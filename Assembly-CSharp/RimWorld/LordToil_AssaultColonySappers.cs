@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -52,7 +51,7 @@ namespace RimWorld
 				for (int i = 0; i < base.lord.ownedPawns.Count; i++)
 				{
 					Pawn pawn = base.lord.ownedPawns[i];
-					if (pawn.equipment.Primary != null && pawn.equipment.Primary.GetComp<CompEquippable>().AllVerbs.Any((Predicate<Verb>)((Verb verb) => verb.verbProps.ai_IsBuildingDestroyer)))
+					if (pawn.equipment.Primary != null && pawn.equipment.Primary.GetComp<CompEquippable>().AllVerbs.Any((Verb verb) => verb.verbProps.ai_IsBuildingDestroyer))
 					{
 						list.Add(pawn);
 					}
@@ -72,7 +71,7 @@ namespace RimWorld
 				else if (!list.NullOrEmpty())
 				{
 					float radius = (pawn2.equipment == null || pawn2.equipment.Primary == null || !pawn2.equipment.Primary.def.IsRangedWeapon) ? LordToil_AssaultColonySappers.EscortRadiusMelee.RandomInRange : LordToil_AssaultColonySappers.EscortRadiusRanged.RandomInRange;
-					pawn2.mindState.duty = new PawnDuty(DutyDefOf.Escort, (Thing)list.RandomElement(), radius);
+					pawn2.mindState.duty = new PawnDuty(DutyDefOf.Escort, list.RandomElement(), radius);
 				}
 				else
 				{

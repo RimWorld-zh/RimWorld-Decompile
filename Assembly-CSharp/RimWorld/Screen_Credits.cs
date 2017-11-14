@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,13 +9,13 @@ namespace RimWorld
 	{
 		private List<CreditsEntry> creds;
 
-		public bool wonGame = false;
+		public bool wonGame;
 
 		private float timeUntilAutoScroll;
 
-		private float scrollPosition = 0f;
+		private float scrollPosition;
 
-		private bool playedMusic = false;
+		private bool playedMusic;
 
 		public float creationRealtime = -1f;
 
@@ -62,7 +61,7 @@ namespace RimWorld
 			{
 				GameFont font = Text.Font;
 				Text.Font = GameFont.Medium;
-				float result = (float)(this.creds.Sum((Func<CreditsEntry, float>)((CreditsEntry c) => c.DrawHeight(this.ViewWidth))) + 20.0);
+				float result = (float)(this.creds.Sum((CreditsEntry c) => c.DrawHeight(this.ViewWidth)) + 20.0);
 				Text.Font = font;
 				return result;
 			}
@@ -80,21 +79,17 @@ namespace RimWorld
 		{
 			get
 			{
-				float result;
 				if (this.wonGame)
 				{
 					float num = (float)(SongDefOf.EndCreditsSong.clip.length + 5.0 - 6.0);
-					result = this.MaxScrollPosition / num;
+					return this.MaxScrollPosition / num;
 				}
-				else
-				{
-					result = 30f;
-				}
-				return result;
+				return 30f;
 			}
 		}
 
-		public Screen_Credits() : this("")
+		public Screen_Credits()
+			: this(string.Empty)
 		{
 		}
 

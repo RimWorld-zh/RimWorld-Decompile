@@ -15,11 +15,11 @@ namespace RimWorld.Planet
 			WorldGrid worldGrid = Find.WorldGrid;
 			int tilesCount = worldGrid.TilesCount;
 			this.edgeTiles.Clear();
-			for (int num = 0; num < tilesCount; num++)
+			for (int i = 0; i < tilesCount; i++)
 			{
-				if (this.IsRoot(num))
+				if (this.IsRoot(i))
 				{
-					this.edgeTiles.Add(num);
+					this.edgeTiles.Add(i);
 				}
 			}
 			if (this.edgeTiles.Any())
@@ -27,15 +27,15 @@ namespace RimWorld.Planet
 				this.group.Clear();
 				WorldFloodFiller worldFloodFiller = Find.WorldFloodFiller;
 				int rootTile = -1;
-				Predicate<int> passCheck = (Predicate<int>)((int x) => this.CanTraverse(x));
-				Func<int, int, bool> processor = (Func<int, int, bool>)delegate(int tile, int traversalDist)
+				Predicate<int> passCheck = (int x) => this.CanTraverse(x);
+				Func<int, int, bool> processor = delegate(int tile, int traversalDist)
 				{
 					this.group.Add(tile);
 					return false;
 				};
 				List<int> extraRootTiles = this.edgeTiles;
 				worldFloodFiller.FloodFill(rootTile, passCheck, processor, 2147483647, extraRootTiles);
-				this.group.RemoveAll((Predicate<int>)((int x) => worldGrid[x].feature != null));
+				this.group.RemoveAll((int x) => worldGrid[x].feature != null);
 				if (this.group.Count >= base.def.minSize && this.group.Count <= base.def.maxSize)
 				{
 					base.AddFeature(this.group, this.group);

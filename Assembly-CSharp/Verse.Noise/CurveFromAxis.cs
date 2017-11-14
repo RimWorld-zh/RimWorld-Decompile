@@ -6,11 +6,13 @@ namespace Verse.Noise
 	{
 		public SimpleCurve curve;
 
-		public CurveFromAxis() : base(0)
+		public CurveFromAxis()
+			: base(0)
 		{
 		}
 
-		public CurveFromAxis(SimpleCurve curve) : base(0)
+		public CurveFromAxis(SimpleCurve curve)
+			: base(0)
 		{
 			this.curve = curve;
 		}

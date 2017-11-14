@@ -6,7 +6,7 @@ namespace Verse
 	{
 		private List<T> items = new List<T>();
 
-		private int readIndex = 0;
+		private int readIndex;
 
 		public T Get()
 		{
@@ -14,11 +14,7 @@ namespace Verse
 			{
 				this.items.Add(new T());
 			}
-			List<T> obj = this.items;
-			int num = this.readIndex;
-			int index = num;
-			this.readIndex = num + 1;
-			return obj[index];
+			return this.items[this.readIndex++];
 		}
 
 		public void Clear()

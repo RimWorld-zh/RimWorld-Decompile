@@ -1,7 +1,4 @@
-#define ENABLE_PROFILER
-using System;
 using System.Collections.Generic;
-using UnityEngine.Profiling;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -14,9 +11,9 @@ namespace RimWorld
 
 		private float targetKeepRadius = 65f;
 
-		private bool needLOSToAcquireNonPawnTargets = false;
+		private bool needLOSToAcquireNonPawnTargets;
 
-		private bool chaseTarget = false;
+		private bool chaseTarget;
 
 		public static readonly IntRange ExpiryInterval_ShooterSucceeded = new IntRange(450, 550);
 
@@ -57,59 +54,45 @@ namespace RimWorld
 		{
 			this.UpdateEnemyTarget(pawn);
 			Thing enemyTarget = pawn.mindState.enemyTarget;
-			Job result;
 			if (enemyTarget == null)
 			{
-				result = null;
+				return null;
 			}
-			else
+			bool allowManualCastWeapons = !pawn.IsColonist;
+			Verb verb = pawn.TryGetAttackVerb(allowManualCastWeapons);
+			if (verb == null)
 			{
-				bool allowManualCastWeapons = !pawn.IsColonist;
-				Verb verb = pawn.TryGetAttackVerb(allowManualCastWeapons);
-				if (verb == null)
-				{
-					result = null;
-				}
-				else if (verb.verbProps.MeleeRange)
-				{
-					result = this.MeleeAttackJob(enemyTarget);
-				}
-				else
-				{
-					bool flag = CoverUtility.CalculateOverallBlockChance(pawn.Position, enemyTarget.Position, pawn.Map) > 0.0099999997764825821;
-					bool flag2 = pawn.Position.Standable(pawn.Map);
-					bool flag3 = verb.CanHitTarget(enemyTarget);
-					bool flag4 = (pawn.Position - enemyTarget.Position).LengthHorizontalSquared < 25;
-					if (flag && flag2 && flag3)
-					{
-						goto IL_00e3;
-					}
-					if (flag4 && flag3)
-						goto IL_00e3;
-					IntVec3 intVec = default(IntVec3);
-					if (!this.TryFindShootingPosition(pawn, out intVec))
-					{
-						result = null;
-					}
-					else if (intVec == pawn.Position)
-					{
-						result = new Job(JobDefOf.WaitCombat, JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange, true);
-					}
-					else
-					{
-						Job job = new Job(JobDefOf.Goto, intVec);
-						job.expiryInterval = JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange;
-						job.checkOverrideOnExpire = true;
-						result = job;
-					}
-				}
+				return null;
 			}
-			goto IL_0185;
-			IL_00e3:
-			result = new Job(JobDefOf.WaitCombat, JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange, true);
-			goto IL_0185;
-			IL_0185:
-			return result;
+			if (verb.verbProps.MeleeRange)
+			{
+				return this.MeleeAttackJob(enemyTarget);
+			}
+			bool flag = CoverUtility.CalculateOverallBlockChance(pawn.Position, enemyTarget.Position, pawn.Map) > 0.0099999997764825821;
+			bool flag2 = pawn.Position.Standable(pawn.Map);
+			bool flag3 = verb.CanHitTarget(enemyTarget);
+			bool flag4 = (pawn.Position - enemyTarget.Position).LengthHorizontalSquared < 25;
+			if (flag && flag2 && flag3)
+			{
+				goto IL_00cf;
+			}
+			if (flag4 && flag3)
+				goto IL_00cf;
+			IntVec3 intVec = default(IntVec3);
+			if (!this.TryFindShootingPosition(pawn, out intVec))
+			{
+				return null;
+			}
+			if (intVec == pawn.Position)
+			{
+				return new Job(JobDefOf.WaitCombat, JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange, true);
+			}
+			Job job = new Job(JobDefOf.Goto, intVec);
+			job.expiryInterval = JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange;
+			job.checkOverrideOnExpire = true;
+			return job;
+			IL_00cf:
+			return new Job(JobDefOf.WaitCombat, JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange, true);
 		}
 
 		protected virtual Job MeleeAttackJob(Thing enemyTarget)
@@ -123,7 +106,6 @@ namespace RimWorld
 
 		protected virtual void UpdateEnemyTarget(Pawn pawn)
 		{
-			Profiler.BeginSample("UpdateEnemyTarget");
 			Thing thing = pawn.mindState.enemyTarget;
 			if (thing != null && (thing.Destroyed || Find.TickManager.TicksGame - pawn.mindState.lastEngageTargetTick > 400 || !pawn.CanReach(thing, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn) || (float)(pawn.Position - thing.Position).LengthHorizontalSquared > this.targetKeepRadius * this.targetKeepRadius || ((IAttackTarget)thing).ThreatDisabled()))
 			{
@@ -161,12 +143,15 @@ namespace RimWorld
 			{
 				Find.TickManager.slower.SignalForceNormalSpeed();
 			}
-			Profiler.EndSample();
 		}
 
 		private Thing FindAttackTargetIfPossible(Pawn pawn)
 		{
-			return (pawn.TryGetAttackVerb(!pawn.IsColonist) != null) ? this.FindAttackTarget(pawn) : null;
+			if (pawn.TryGetAttackVerb(!pawn.IsColonist) == null)
+			{
+				return null;
+			}
+			return this.FindAttackTarget(pawn);
 		}
 
 		protected virtual Thing FindAttackTarget(Pawn pawn)
@@ -174,35 +159,29 @@ namespace RimWorld
 			TargetScanFlags targetScanFlags = TargetScanFlags.NeedLOSToPawns | TargetScanFlags.NeedReachableIfCantHitFromMyPos | TargetScanFlags.NeedThreat;
 			if (this.needLOSToAcquireNonPawnTargets)
 			{
-				targetScanFlags = (TargetScanFlags)(byte)((int)targetScanFlags | 2);
+				targetScanFlags |= TargetScanFlags.NeedLOSToNonPawns;
 			}
 			if (this.PrimaryVerbIsIncendiary(pawn))
 			{
-				targetScanFlags = (TargetScanFlags)(byte)((int)targetScanFlags | 16);
+				targetScanFlags |= TargetScanFlags.NeedNonBurning;
 			}
-			return (Thing)AttackTargetFinder.BestAttackTarget(pawn, targetScanFlags, (Predicate<Thing>)((Thing x) => this.ExtraTargetValidator(pawn, x)), 0f, this.targetAcquireRadius, this.GetFlagPosition(pawn), this.GetFlagRadius(pawn), false);
+			return (Thing)AttackTargetFinder.BestAttackTarget(pawn, targetScanFlags, (Thing x) => this.ExtraTargetValidator(pawn, x), 0f, this.targetAcquireRadius, this.GetFlagPosition(pawn), this.GetFlagRadius(pawn), false);
 		}
 
 		private bool PrimaryVerbIsIncendiary(Pawn pawn)
 		{
-			List<Verb> allVerbs;
-			int i;
 			if (pawn.equipment != null && pawn.equipment.Primary != null)
 			{
-				allVerbs = pawn.equipment.Primary.GetComp<CompEquippable>().AllVerbs;
-				for (i = 0; i < allVerbs.Count; i++)
+				List<Verb> allVerbs = pawn.equipment.Primary.GetComp<CompEquippable>().AllVerbs;
+				for (int i = 0; i < allVerbs.Count; i++)
 				{
 					if (allVerbs[i].verbProps.isPrimary)
-						goto IL_0051;
+					{
+						return allVerbs[i].IsIncendiary();
+					}
 				}
 			}
-			bool result = false;
-			goto IL_007c;
-			IL_007c:
-			return result;
-			IL_0051:
-			result = allVerbs[i].IsIncendiary();
-			goto IL_007c;
+			return false;
 		}
 	}
 }

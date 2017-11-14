@@ -4,7 +4,8 @@ namespace Verse.Noise
 	{
 		private float factor;
 
-		public SqueezeHorizontally(ModuleBase input, float factor) : base(1)
+		public SqueezeHorizontally(ModuleBase input, float factor)
+			: base(1)
 		{
 			base.modules[0] = input;
 			this.factor = factor;

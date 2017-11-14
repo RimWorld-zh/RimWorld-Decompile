@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -19,54 +18,43 @@ namespace RimWorld
 		public override string GetExplanation()
 		{
 			Map map = this.MapWithLowFood();
-			string result;
 			if (map == null)
 			{
-				result = "";
+				return string.Empty;
 			}
-			else
-			{
-				float totalHumanEdibleNutrition = map.resourceCounter.TotalHumanEdibleNutrition;
-				int num = map.mapPawns.FreeColonistsSpawnedCount + (from pr in map.mapPawns.PrisonersOfColony
-				where pr.guest.GetsFood
-				select pr).Count();
-				int num2 = Mathf.FloorToInt(totalHumanEdibleNutrition / (float)num);
-				result = string.Format("LowFoodDesc".Translate(), totalHumanEdibleNutrition.ToString("F0"), num.ToStringCached(), num2.ToStringCached());
-			}
-			return result;
+			float totalHumanEdibleNutrition = map.resourceCounter.TotalHumanEdibleNutrition;
+			int num = map.mapPawns.FreeColonistsSpawnedCount + (from pr in map.mapPawns.PrisonersOfColony
+			where pr.guest.GetsFood
+			select pr).Count();
+			int num2 = Mathf.FloorToInt(totalHumanEdibleNutrition / (float)num);
+			return string.Format("LowFoodDesc".Translate(), totalHumanEdibleNutrition.ToString("F0"), num.ToStringCached(), num2.ToStringCached());
 		}
 
 		public override AlertReport GetReport()
 		{
-			return (Find.TickManager.TicksGame >= 150000) ? (this.MapWithLowFood() != null) : false;
+			if (Find.TickManager.TicksGame < 150000)
+			{
+				return false;
+			}
+			return this.MapWithLowFood() != null;
 		}
 
 		private Map MapWithLowFood()
 		{
 			List<Map> maps = Find.Maps;
-			int num = 0;
-			Map result;
-			while (true)
+			for (int i = 0; i < maps.Count; i++)
 			{
-				if (num < maps.Count)
+				Map map = maps[i];
+				if (map.IsPlayerHome && map.mapPawns.AnyColonistSpawned)
 				{
-					Map map = maps[num];
-					if (map.IsPlayerHome && map.mapPawns.AnyColonistSpawned)
+					int freeColonistsSpawnedCount = map.mapPawns.FreeColonistsSpawnedCount;
+					if (map.resourceCounter.TotalHumanEdibleNutrition < 4.0 * (float)freeColonistsSpawnedCount)
 					{
-						int freeColonistsSpawnedCount = map.mapPawns.FreeColonistsSpawnedCount;
-						if (map.resourceCounter.TotalHumanEdibleNutrition < 4.0 * (float)freeColonistsSpawnedCount)
-						{
-							result = map;
-							break;
-						}
+						return map;
 					}
-					num++;
-					continue;
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -43,7 +42,7 @@ namespace RimWorld
 					foreach (Outfit allOutfit in Current.Game.outfitDatabase.AllOutfits)
 					{
 						Outfit localOut = allOutfit;
-						list.Add(new FloatMenuOption(localOut.label, (Action)delegate()
+						list.Add(new FloatMenuOption(localOut.label, delegate
 						{
 							pawn.outfits.CurrentOutfit = localOut;
 						}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -59,7 +58,7 @@ namespace RimWorld
 					{
 						pawn.outfits.forcedHandler.Reset();
 					}
-					TooltipHandler.TipRegion(rect3, new TipSignal((Func<string>)delegate()
+					TooltipHandler.TipRegion(rect3, new TipSignal(delegate
 					{
 						string text = "ForcedApparel".Translate() + ":\n";
 						foreach (Apparel item in pawn.outfits.forcedHandler.ForcedApparel)

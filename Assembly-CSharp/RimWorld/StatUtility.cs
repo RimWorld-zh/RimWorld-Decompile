@@ -36,22 +36,17 @@ namespace RimWorld
 
 		public static float GetStatValueFromList(this List<StatModifier> modList, StatDef stat, float defaultValue)
 		{
-			int i;
 			if (modList != null)
 			{
-				for (i = 0; i < modList.Count; i++)
+				for (int i = 0; i < modList.Count; i++)
 				{
 					if (modList[i].stat == stat)
-						goto IL_0022;
+					{
+						return modList[i].value;
+					}
 				}
 			}
-			float result = defaultValue;
-			goto IL_004d;
-			IL_0022:
-			result = modList[i].value;
-			goto IL_004d;
-			IL_004d:
-			return result;
+			return defaultValue;
 		}
 
 		public static bool StatListContains(this List<StatModifier> modList, StatDef stat)
@@ -61,16 +56,12 @@ namespace RimWorld
 				for (int i = 0; i < modList.Count; i++)
 				{
 					if (modList[i].stat == stat)
-						goto IL_0022;
+					{
+						return true;
+					}
 				}
 			}
-			bool result = false;
-			goto IL_0042;
-			IL_0022:
-			result = true;
-			goto IL_0042;
-			IL_0042:
-			return result;
+			return false;
 		}
 	}
 }

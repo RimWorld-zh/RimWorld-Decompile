@@ -45,7 +45,7 @@ namespace RimWorld
 		public string baseInspectLine;
 
 		[Unsaved]
-		private InspirationWorker workerInt = null;
+		private InspirationWorker workerInt;
 
 		public InspirationWorker Worker
 		{

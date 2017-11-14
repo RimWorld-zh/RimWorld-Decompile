@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -21,7 +20,7 @@ namespace RimWorld
 		{
 			base.OnActivated();
 			this.allowedPlaceCells = this.RoomRect.EdgeCells.ToList();
-			this.allowedPlaceCells.RemoveAll((Predicate<IntVec3>)delegate(IntVec3 c)
+			this.allowedPlaceCells.RemoveAll(delegate(IntVec3 c)
 			{
 				int x = c.x;
 				CellRect roomRect = this.RoomRect;
@@ -93,7 +92,11 @@ namespace RimWorld
 
 		public override AcceptanceReport AllowAction(EventPack ep)
 		{
-			return (!(ep.Tag == "Designate-Door")) ? base.AllowAction(ep) : TutorUtility.EventCellsAreWithin(ep, this.allowedPlaceCells);
+			if (ep.Tag == "Designate-Door")
+			{
+				return TutorUtility.EventCellsAreWithin(ep, this.allowedPlaceCells);
+			}
+			return base.AllowAction(ep);
 		}
 
 		public override void Notify_Event(EventPack ep)

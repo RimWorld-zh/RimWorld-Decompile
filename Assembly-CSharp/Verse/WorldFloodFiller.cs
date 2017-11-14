@@ -16,7 +16,7 @@ namespace Verse
 
 		public void FloodFill(int rootTile, Predicate<int> passCheck, Action<int> processor, int maxTilesToProcess = 2147483647, IEnumerable<int> extraRootTiles = null)
 		{
-			this.FloodFill(rootTile, passCheck, (Func<int, int, bool>)delegate(int tile, int traversalDistance)
+			this.FloodFill(rootTile, passCheck, delegate(int tile, int traversalDistance)
 			{
 				processor(tile);
 				return false;
@@ -25,7 +25,7 @@ namespace Verse
 
 		public void FloodFill(int rootTile, Predicate<int> passCheck, Action<int, int> processor, int maxTilesToProcess = 2147483647, IEnumerable<int> extraRootTiles = null)
 		{
-			this.FloodFill(rootTile, passCheck, (Func<int, int, bool>)delegate(int tile, int traversalDistance)
+			this.FloodFill(rootTile, passCheck, delegate(int tile, int traversalDistance)
 			{
 				processor(tile, traversalDistance);
 				return false;
@@ -34,7 +34,7 @@ namespace Verse
 
 		public void FloodFill(int rootTile, Predicate<int> passCheck, Predicate<int> processor, int maxTilesToProcess = 2147483647, IEnumerable<int> extraRootTiles = null)
 		{
-			this.FloodFill(rootTile, passCheck, (Func<int, int, bool>)((int tile, int traversalDistance) => processor(tile)), maxTilesToProcess, extraRootTiles);
+			this.FloodFill(rootTile, passCheck, (int tile, int traversalDistance) => processor(tile), maxTilesToProcess, extraRootTiles);
 		}
 
 		public void FloodFill(int rootTile, Predicate<int> passCheck, Func<int, int, bool> processor, int maxTilesToProcess = 2147483647, IEnumerable<int> extraRootTiles = null)
@@ -51,12 +51,12 @@ namespace Verse
 			}
 			else
 			{
-				int tilesCount;
-				int num = tilesCount = Find.WorldGrid.TilesCount;
-				if (this.traversalDistance.Count != num)
+				int tilesCount = Find.WorldGrid.TilesCount;
+				int num = tilesCount;
+				if (this.traversalDistance.Count != tilesCount)
 				{
 					this.traversalDistance.Clear();
-					for (int num2 = 0; num2 < num; num2++)
+					for (int i = 0; i < tilesCount; i++)
 					{
 						this.traversalDistance.Add(-1);
 					}
@@ -64,7 +64,7 @@ namespace Verse
 				WorldGrid worldGrid = Find.WorldGrid;
 				List<int> tileIDToNeighbors_offsets = worldGrid.tileIDToNeighbors_offsets;
 				List<int> tileIDToNeighbors_values = worldGrid.tileIDToNeighbors_values;
-				int num3 = 0;
+				int num2 = 0;
 				this.openSet.Clear();
 				if (rootTile != -1)
 				{
@@ -78,45 +78,45 @@ namespace Verse
 					IList<int> list = extraRootTiles as IList<int>;
 					if (list != null)
 					{
-						for (int i = 0; i < list.Count; i++)
+						for (int j = 0; j < list.Count; j++)
 						{
-							int num4 = list[i];
-							this.traversalDistance[num4] = 0;
-							this.openSet.Enqueue(num4);
+							int num3 = list[j];
+							this.traversalDistance[num3] = 0;
+							this.openSet.Enqueue(num3);
 						}
 					}
 					else
 					{
-						foreach (int item in extraRootTiles)
+						foreach (int extraRootTile in extraRootTiles)
 						{
-							this.traversalDistance[item] = 0;
-							this.openSet.Enqueue(item);
+							this.traversalDistance[extraRootTile] = 0;
+							this.openSet.Enqueue(extraRootTile);
 						}
 					}
 				}
 				while (this.openSet.Count > 0)
 				{
-					int num5 = this.openSet.Dequeue();
-					int num6 = this.traversalDistance[num5];
-					if (!processor(num5, num6))
+					int num4 = this.openSet.Dequeue();
+					int num5 = this.traversalDistance[num4];
+					if (!processor(num4, num5))
 					{
-						num3++;
-						if (num3 != maxTilesToProcess)
+						num2++;
+						if (num2 != maxTilesToProcess)
 						{
-							int num7 = (num5 + 1 >= tileIDToNeighbors_offsets.Count) ? tileIDToNeighbors_values.Count : tileIDToNeighbors_offsets[num5 + 1];
-							for (int num8 = tileIDToNeighbors_offsets[num5]; num8 < num7; num8++)
+							int num6 = (num4 + 1 >= tileIDToNeighbors_offsets.Count) ? tileIDToNeighbors_values.Count : tileIDToNeighbors_offsets[num4 + 1];
+							for (int k = tileIDToNeighbors_offsets[num4]; k < num6; k++)
 							{
-								int num9 = tileIDToNeighbors_values[num8];
-								if (this.traversalDistance[num9] == -1 && passCheck(num9))
+								int num7 = tileIDToNeighbors_values[k];
+								if (this.traversalDistance[num7] == -1 && passCheck(num7))
 								{
-									this.visited.Add(num9);
-									this.openSet.Enqueue(num9);
-									this.traversalDistance[num9] = num6 + 1;
+									this.visited.Add(num7);
+									this.openSet.Enqueue(num7);
+									this.traversalDistance[num7] = num5 + 1;
 								}
 							}
-							if (this.openSet.Count > tilesCount)
+							if (this.openSet.Count > num)
 							{
-								Log.Error("Overflow on world flood fill (>" + tilesCount + " cells). Make sure we're not flooding over the same area after we check it.");
+								Log.Error("Overflow on world flood fill (>" + num + " cells). Make sure we're not flooding over the same area after we check it.");
 								this.working = false;
 								return;
 							}
@@ -131,12 +131,11 @@ namespace Verse
 
 		private void ClearVisited()
 		{
-			int num = 0;
+			int i = 0;
 			int count = this.visited.Count;
-			while (num < count)
+			for (; i < count; i++)
 			{
-				this.traversalDistance[this.visited[num]] = -1;
-				num++;
+				this.traversalDistance[this.visited[i]] = -1;
 			}
 			this.visited.Clear();
 			this.openSet.Clear();

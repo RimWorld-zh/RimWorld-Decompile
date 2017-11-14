@@ -35,21 +35,21 @@ namespace RimWorld
 		{
 			if (this.breakdownableComp != null && this.breakdownableComp.BrokenDown)
 			{
-				goto IL_005d;
+				goto IL_005c;
 			}
 			if (this.refuelableComp != null && !this.refuelableComp.HasFuel)
 			{
-				goto IL_005d;
+				goto IL_005c;
 			}
 			if (base.flickableComp != null && !base.flickableComp.SwitchIsOn)
 			{
-				goto IL_005d;
+				goto IL_005c;
 			}
 			if (!base.PowerOn)
-				goto IL_005d;
+				goto IL_005c;
 			base.PowerOutput = this.DesiredPowerOutput;
 			return;
-			IL_005d:
+			IL_005c:
 			base.PowerOutput = 0f;
 		}
 	}

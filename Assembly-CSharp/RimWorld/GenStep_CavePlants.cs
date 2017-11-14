@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -30,10 +29,10 @@ namespace RimWorld
 					{
 						ThingDef thingDef = source2.RandomElement();
 						int randomInRange = thingDef.plant.wildClusterSizeRange.RandomInRange;
-						for (int num = 0; num < randomInRange; num++)
+						for (int i = 0; i < randomInRange; i++)
 						{
 							IntVec3 loc = default(IntVec3);
-							if (num == 0)
+							if (i == 0)
 							{
 								loc = item;
 							}

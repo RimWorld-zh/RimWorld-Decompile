@@ -13,11 +13,10 @@ namespace RimWorld
 		{
 			get
 			{
-				return new AlertReport
-				{
-					active = true,
-					culprit = GlobalTargetInfo.Invalid
-				};
+				AlertReport result = default(AlertReport);
+				result.active = true;
+				result.culprit = GlobalTargetInfo.Invalid;
+				return result;
 			}
 		}
 
@@ -25,30 +24,27 @@ namespace RimWorld
 		{
 			get
 			{
-				return new AlertReport
-				{
-					active = false,
-					culprit = GlobalTargetInfo.Invalid
-				};
+				AlertReport result = default(AlertReport);
+				result.active = false;
+				result.culprit = GlobalTargetInfo.Invalid;
+				return result;
 			}
 		}
 
 		public static AlertReport CulpritIs(GlobalTargetInfo culp)
 		{
-			return new AlertReport
-			{
-				active = culp.IsValid,
-				culprit = culp
-			};
+			AlertReport result = default(AlertReport);
+			result.active = culp.IsValid;
+			result.culprit = culp;
+			return result;
 		}
 
 		public static implicit operator AlertReport(bool b)
 		{
-			return new AlertReport
-			{
-				active = b,
-				culprit = GlobalTargetInfo.Invalid
-			};
+			AlertReport result = default(AlertReport);
+			result.active = b;
+			result.culprit = GlobalTargetInfo.Invalid;
+			return result;
 		}
 
 		public static implicit operator AlertReport(Thing culprit)

@@ -82,5 +82,9 @@ namespace RimWorld
 		public static RulePackDef DamageEvent_Ceiling;
 
 		public static RulePackDef DamageEvent_Fire;
+
+		public static RulePackDef DamageEvent_PowerBeam;
+
+		public static RulePackDef DamageEvent_Tornado;
 	}
 }

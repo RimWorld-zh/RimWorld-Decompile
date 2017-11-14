@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -12,15 +13,15 @@ namespace RimWorld
 	{
 		private List<ConceptDef> activeConcepts = new List<ConceptDef>();
 
-		private ConceptDef selectedConcept = null;
+		private ConceptDef selectedConcept;
 
-		private bool showAllMode = false;
+		private bool showAllMode;
 
-		private float contentHeight = 0f;
+		private float contentHeight;
 
 		private Vector2 scrollPosition = Vector2.zero;
 
-		private string searchString = "";
+		private string searchString = string.Empty;
 
 		private float lastConceptActivateRealTime = -999f;
 
@@ -39,6 +40,9 @@ namespace RimWorld
 		public static readonly Texture2D ProgressBarFillTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.745098054f, 0.6039216f, 0.2f));
 
 		public static readonly Texture2D ProgressBarBGTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.509803951f, 0.407843143f, 0.13333334f));
+
+		[CompilerGenerated]
+		private static Predicate<ConceptDef> _003C_003Ef__mg_0024cache0;
 
 		public int ActiveConceptsCount
 		{
@@ -62,25 +66,20 @@ namespace RimWorld
 			Scribe_Defs.Look<ConceptDef>(ref this.selectedConcept, "selectedConcept");
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
-				this.activeConcepts.RemoveAll((Predicate<ConceptDef>)((ConceptDef c) => PlayerKnowledgeDatabase.IsComplete(c)));
+				this.activeConcepts.RemoveAll(PlayerKnowledgeDatabase.IsComplete);
 			}
 		}
 
 		public bool TryActivateConcept(ConceptDef conc)
 		{
-			bool result;
 			if (this.activeConcepts.Contains(conc))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				this.activeConcepts.Add(conc);
-				SoundDefOf.LessonActivated.PlayOneShotOnCamera(null);
-				this.lastConceptActivateRealTime = RealTime.LastRealTime;
-				result = true;
-			}
-			return result;
+			this.activeConcepts.Add(conc);
+			SoundDefOf.LessonActivated.PlayOneShotOnCamera(null);
+			this.lastConceptActivateRealTime = RealTime.LastRealTime;
+			return true;
 		}
 
 		public bool IsActive(ConceptDef conc)
@@ -111,37 +110,32 @@ namespace RimWorld
 
 		private string FilterSearchStringInput(string input)
 		{
-			string result;
 			if (input == this.searchString)
 			{
-				result = input;
+				return input;
 			}
-			else
+			if (input.Length > 20)
 			{
-				if (input.Length > 20)
-				{
-					input = input.Substring(0, 20);
-				}
-				result = input;
+				input = input.Substring(0, 20);
 			}
-			return result;
+			return input;
 		}
 
 		public void LearningReadoutOnGUI()
 		{
-			if (!TutorSystem.TutorialMode && (TutorSystem.AdaptiveTrainingEnabled ? (Find.PlaySettings.showLearningHelper ? 1 : this.activeConcepts.Count) : 0) != 0 && !Find.WindowStack.IsOpen<Screen_Credits>())
+			if (!TutorSystem.TutorialMode && TutorSystem.AdaptiveTrainingEnabled && (Find.PlaySettings.showLearningHelper || this.activeConcepts.Count != 0) && !Find.WindowStack.IsOpen<Screen_Credits>())
 			{
 				float b = (float)((float)UI.screenHeight / 2.0);
 				float a = (float)(this.contentHeight + 14.0);
 				Rect outRect = new Rect((float)((float)UI.screenWidth - 8.0 - 200.0), 8f, 200f, Mathf.Min(a, b));
 				Rect rect = outRect;
-				Find.WindowStack.ImmediateWindow(76136312, outRect, WindowLayer.Super, (Action)delegate()
+				Find.WindowStack.ImmediateWindow(76136312, outRect, WindowLayer.Super, delegate
 				{
-					Rect outRect2 = outRect.AtZero();
-					Rect rect2 = outRect2.ContractedBy(7f);
+					outRect = outRect.AtZero();
+					Rect rect2 = outRect.ContractedBy(7f);
 					Rect viewRect = rect2.AtZero();
 					bool flag = this.contentHeight > rect2.height;
-					Widgets.DrawWindowBackgroundTutor(outRect2);
+					Widgets.DrawWindowBackgroundTutor(outRect);
 					if (flag)
 					{
 						viewRect.height = (float)(this.contentHeight + 40.0);
@@ -174,7 +168,7 @@ namespace RimWorld
 					{
 						Rect rect4 = new Rect(0f, num2, (float)(viewRect.width - 20.0 - 2.0), 28f);
 						this.searchString = this.FilterSearchStringInput(Widgets.TextField(rect4, this.searchString));
-						if (this.searchString == "")
+						if (this.searchString == string.Empty)
 						{
 							GUI.color = new Color(0.6f, 0.6f, 0.6f, 1f);
 							Text.Anchor = TextAnchor.MiddleLeft;
@@ -187,7 +181,7 @@ namespace RimWorld
 						Rect butRect2 = new Rect((float)(viewRect.width - 20.0), (float)(num2 + 14.0 - 10.0), 20f, 20f);
 						if (Widgets.ButtonImage(butRect2, TexButton.CloseXSmall))
 						{
-							this.searchString = "";
+							this.searchString = string.Empty;
 							SoundDefOf.TickTiny.PlayOneShotOnCamera(null);
 						}
 						num2 = (float)(rect4.yMax + 4.0);
@@ -252,7 +246,7 @@ namespace RimWorld
 
 		private bool MatchesSearchString(ConceptDef conc)
 		{
-			return this.searchString != "" && conc.label.IndexOf(this.searchString, StringComparison.OrdinalIgnoreCase) >= 0;
+			return this.searchString != string.Empty && conc.label.IndexOf(this.searchString, StringComparison.OrdinalIgnoreCase) >= 0;
 		}
 
 		private Rect DrawConceptListRow(float x, float y, float width, ConceptDef conc)
@@ -326,7 +320,7 @@ namespace RimWorld
 			}
 			Rect outRect = new Rect((float)((float)UI.screenWidth - 8.0 - 200.0 - 8.0 - 310.0), 8f, 310f, num);
 			Rect result = outRect;
-			Find.WindowStack.ImmediateWindow(987612111, outRect, WindowLayer.Super, (Action)delegate()
+			Find.WindowStack.ImmediateWindow(987612111, outRect, WindowLayer.Super, delegate
 			{
 				outRect = outRect.AtZero();
 				Rect rect = outRect.ContractedBy(7f);

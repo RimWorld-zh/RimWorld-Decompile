@@ -28,17 +28,17 @@ namespace RimWorld.Planet
 			else
 			{
 				FactionBase newHome = SettleUtility.AddNewHome(caravan.Tile, faction);
-				LongEventHandler.QueueLongEvent((Action)delegate()
+				LongEventHandler.QueueLongEvent(delegate
 				{
 					GetOrGenerateMapUtility.GetOrGenerateMap(caravan.Tile, Find.World.info.initialMapSize, null);
-				}, "GeneratingMap", true, new Action<Exception>(GameAndMapInitExceptionHandlers.ErrorWhileGeneratingMap));
-				LongEventHandler.QueueLongEvent((Action)delegate()
+				}, "GeneratingMap", true, GameAndMapInitExceptionHandlers.ErrorWhileGeneratingMap);
+				LongEventHandler.QueueLongEvent(delegate
 				{
 					Map map = newHome.Map;
 					Pawn t = caravan.PawnsListForReading[0];
-					CaravanEnterMapUtility.Enter(caravan, map, CaravanEnterMode.Center, CaravanDropInventoryMode.DropInstantly, false, (Predicate<IntVec3>)((IntVec3 x) => x.GetRoom(map, RegionType.Set_Passable).CellCount >= 600));
-					CameraJumper.TryJump((Thing)t);
-				}, "SpawningColonists", true, new Action<Exception>(GameAndMapInitExceptionHandlers.ErrorWhileGeneratingMap));
+					CaravanEnterMapUtility.Enter(caravan, map, CaravanEnterMode.Center, CaravanDropInventoryMode.DropInstantly, false, (IntVec3 x) => x.GetRoom(map, RegionType.Set_Passable).CellCount >= 600);
+					CameraJumper.TryJump(t);
+				}, "SpawningColonists", true, GameAndMapInitExceptionHandlers.ErrorWhileGeneratingMap);
 			}
 		}
 
@@ -48,7 +48,7 @@ namespace RimWorld.Planet
 			command_Settle.defaultLabel = "CommandSettle".Translate();
 			command_Settle.defaultDesc = "CommandSettleDesc".Translate();
 			command_Settle.icon = SettleUtility.SettleCommandTex;
-			command_Settle.action = (Action)delegate()
+			command_Settle.action = delegate
 			{
 				SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
 				SettleInEmptyTileUtility.Settle(caravan);

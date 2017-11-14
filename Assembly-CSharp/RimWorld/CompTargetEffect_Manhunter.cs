@@ -9,7 +9,7 @@ namespace RimWorld
 			Pawn pawn = (Pawn)target;
 			if (!pawn.Dead)
 			{
-				pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, (string)null, false, false, null);
+				pawn.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, null, false, false, null);
 			}
 		}
 	}

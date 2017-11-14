@@ -14,9 +14,9 @@ namespace Verse
 {
 	public abstract class Root : MonoBehaviour
 	{
-		private static bool globalInitDone = false;
+		private static bool globalInitDone;
 
-		private static bool prefsApplied = false;
+		private static bool prefsApplied;
 
 		protected bool destroyed;
 
@@ -31,7 +31,7 @@ namespace Verse
 		{
 			Current.Notify_LoadedSceneChanged();
 			Root.CheckGlobalInit();
-			Action action = (Action)delegate
+			Action action = delegate
 			{
 				this.soundRoot = new SoundRoot();
 				if (GenScene.InPlayScene)
@@ -51,10 +51,10 @@ namespace Verse
 			};
 			if (!PlayDataLoader.Loaded)
 			{
-				LongEventHandler.QueueLongEvent((Action)delegate
+				LongEventHandler.QueueLongEvent(delegate
 				{
 					PlayDataLoader.LoadAllPlayData(false);
-				}, (string)null, true, null);
+				}, null, true, null);
 				LongEventHandler.QueueLongEvent(action, "InitializingInterface", false, null);
 			}
 			else
@@ -87,7 +87,7 @@ namespace Verse
 				{
 					StaticConstructorOnStartupUtility.ReportProbablyMissingAttributes();
 				}
-				LongEventHandler.QueueLongEvent(new Action(StaticConstructorOnStartupUtility.CallAll), (string)null, false, null);
+				LongEventHandler.QueueLongEvent(StaticConstructorOnStartupUtility.CallAll, null, false, null);
 				Root.globalInitDone = true;
 			}
 		}
@@ -157,15 +157,13 @@ namespace Verse
 			SteamManager.ShutdownSteam();
 			DirectoryInfo directoryInfo = new DirectoryInfo(GenFilePaths.TempFolderPath);
 			FileInfo[] files = directoryInfo.GetFiles();
-			for (int i = 0; i < files.Length; i++)
+			foreach (FileInfo fileInfo in files)
 			{
-				FileInfo fileInfo = files[i];
 				fileInfo.Delete();
 			}
 			DirectoryInfo[] directories = directoryInfo.GetDirectories();
-			for (int j = 0; j < directories.Length; j++)
+			foreach (DirectoryInfo directoryInfo2 in directories)
 			{
-				DirectoryInfo directoryInfo2 = directories[j];
 				directoryInfo2.Delete(true);
 			}
 			Application.Quit();

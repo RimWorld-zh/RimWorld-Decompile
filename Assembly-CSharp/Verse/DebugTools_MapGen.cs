@@ -11,7 +11,7 @@ namespace Verse
 			foreach (Type item in typeof(GenStep_Scatterer).AllLeafSubclasses())
 			{
 				Type localSt = item;
-				list.Add(new DebugMenuOption(localSt.ToString(), DebugMenuOptionMode.Tool, (Action)delegate
+				list.Add(new DebugMenuOption(localSt.ToString(), DebugMenuOptionMode.Tool, delegate
 				{
 					GenStep_Scatterer genStep_Scatterer = (GenStep_Scatterer)Activator.CreateInstance(localSt);
 					genStep_Scatterer.ForceScatterAt(UI.MouseCell(), Find.VisibleMap);

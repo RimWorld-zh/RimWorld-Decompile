@@ -106,17 +106,12 @@ namespace Verse
 
 		public List<Thing> ThingsListAt(IntVec3 c)
 		{
-			List<Thing> result;
 			if (!c.InBounds(this.map))
 			{
 				Log.ErrorOnce("Got ThingsListAt out of bounds: " + c, 495287);
-				result = ThingGrid.EmptyThingList;
+				return ThingGrid.EmptyThingList;
 			}
-			else
-			{
-				result = this.thingGrid[this.map.cellIndices.CellToIndex(c)];
-			}
-			return result;
+			return this.thingGrid[this.map.cellIndices.CellToIndex(c)];
 		}
 
 		public List<Thing> ThingsListAtFast(IntVec3 c)
@@ -136,29 +131,19 @@ namespace Verse
 
 		public Thing ThingAt(IntVec3 c, ThingCategory cat)
 		{
-			Thing result;
-			List<Thing> list;
-			int i;
 			if (!c.InBounds(this.map))
 			{
-				result = null;
+				return null;
 			}
-			else
+			List<Thing> list = this.thingGrid[this.map.cellIndices.CellToIndex(c)];
+			for (int i = 0; i < list.Count; i++)
 			{
-				list = this.thingGrid[this.map.cellIndices.CellToIndex(c)];
-				for (i = 0; i < list.Count; i++)
+				if (list[i].def.category == cat)
 				{
-					if (list[i].def.category == cat)
-						goto IL_0051;
+					return list[i];
 				}
-				result = null;
 			}
-			goto IL_0076;
-			IL_0051:
-			result = list[i];
-			goto IL_0076;
-			IL_0076:
-			return result;
+			return null;
 		}
 
 		public bool CellContains(IntVec3 c, ThingDef def)
@@ -168,56 +153,37 @@ namespace Verse
 
 		public Thing ThingAt(IntVec3 c, ThingDef def)
 		{
-			Thing result;
-			List<Thing> list;
-			int i;
 			if (!c.InBounds(this.map))
 			{
-				result = null;
+				return null;
 			}
-			else
+			List<Thing> list = this.thingGrid[this.map.cellIndices.CellToIndex(c)];
+			for (int i = 0; i < list.Count; i++)
 			{
-				list = this.thingGrid[this.map.cellIndices.CellToIndex(c)];
-				for (i = 0; i < list.Count; i++)
+				if (list[i].def == def)
 				{
-					if (list[i].def == def)
-						goto IL_004c;
+					return list[i];
 				}
-				result = null;
 			}
-			goto IL_0071;
-			IL_004c:
-			result = list[i];
-			goto IL_0071;
-			IL_0071:
-			return result;
+			return null;
 		}
 
 		public T ThingAt<T>(IntVec3 c) where T : Thing
 		{
-			T result;
-			T val;
 			if (!c.InBounds(this.map))
 			{
-				result = (T)null;
+				return (T)null;
 			}
-			else
+			List<Thing> list = this.thingGrid[this.map.cellIndices.CellToIndex(c)];
+			for (int i = 0; i < list.Count; i++)
 			{
-				List<Thing> list = this.thingGrid[this.map.cellIndices.CellToIndex(c)];
-				for (int i = 0; i < list.Count; i++)
+				T val = (T)(list[i] as T);
+				if (val != null)
 				{
-					val = (T)(list[i] as T);
-					if (val != null)
-						goto IL_005c;
+					return val;
 				}
-				result = (T)null;
 			}
-			goto IL_0080;
-			IL_005c:
-			result = val;
-			goto IL_0080;
-			IL_0080:
-			return result;
+			return (T)null;
 		}
 	}
 }

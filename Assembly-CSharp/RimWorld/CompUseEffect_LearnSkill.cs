@@ -15,7 +15,7 @@ namespace RimWorld
 			int level2 = user.skills.GetSkill(skill).Level;
 			if (PawnUtility.ShouldSendNotificationAbout(user))
 			{
-				Messages.Message("NeurotrainerUsed".Translate(user.LabelShort, skill.LabelCap, level, level2), (Thing)user, MessageTypeDefOf.PositiveEvent);
+				Messages.Message("NeurotrainerUsed".Translate(user.LabelShort, skill.LabelCap, level, level2), user, MessageTypeDefOf.PositiveEvent);
 			}
 		}
 	}

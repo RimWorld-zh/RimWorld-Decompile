@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -11,51 +10,51 @@ namespace RimWorld
 
 		public List<string> buildingTags = new List<string>();
 
-		public bool isInert = false;
+		public bool isInert;
 
 		private bool deconstructible = true;
 
-		public bool alwaysDeconstructible = false;
+		public bool alwaysDeconstructible;
 
 		public bool claimable = true;
 
-		public bool isSittable = false;
+		public bool isSittable;
 
 		public SoundDef soundAmbient;
 
-		public ConceptDef spawnedConceptLearnOpportunity = null;
+		public ConceptDef spawnedConceptLearnOpportunity;
 
-		public ConceptDef boughtConceptLearnOpportunity = null;
+		public ConceptDef boughtConceptLearnOpportunity;
 
 		public bool expandHomeArea = true;
 
-		public bool wantsHopperAdjacent = false;
+		public bool wantsHopperAdjacent;
 
 		public bool allowWireConnection = true;
 
-		public bool shipPart = false;
+		public bool shipPart;
 
 		public bool canPlaceOverImpassablePlant = true;
 
-		public float heatPerTickWhileWorking = 0f;
+		public float heatPerTickWhileWorking;
 
 		public bool canBuildNonEdificesUnder = true;
 
-		public bool canPlaceOverWall = false;
+		public bool canPlaceOverWall;
 
 		public bool allowAutoroof = true;
 
-		public bool preventDeteriorationOnTop = false;
+		public bool preventDeteriorationOnTop;
 
-		public bool preventDeteriorationInside = false;
+		public bool preventDeteriorationInside;
 
-		public bool isMealSource = false;
+		public bool isMealSource;
 
-		public bool isJoySource = false;
+		public bool isJoySource;
 
-		public bool isNaturalRock = false;
+		public bool isNaturalRock;
 
-		public bool isResourceRock = false;
+		public bool isResourceRock;
 
 		public bool repairable = true;
 
@@ -63,15 +62,15 @@ namespace RimWorld
 
 		public bool hasFuelingPort;
 
-		public bool isPlayerEjectable = false;
+		public bool isPlayerEjectable;
 
-		public GraphicData fullGraveGraphicData = null;
+		public GraphicData fullGraveGraphicData;
 
-		public float bed_healPerDay = 0f;
+		public float bed_healPerDay;
 
-		public bool bed_defaultMedical = false;
+		public bool bed_defaultMedical;
 
-		public bool bed_showSleeperBody = false;
+		public bool bed_showSleeperBody;
 
 		public bool bed_humanlike = true;
 
@@ -83,16 +82,16 @@ namespace RimWorld
 
 		public ThingDef turretGunDef;
 
-		public float turretBurstWarmupTime = 0f;
+		public float turretBurstWarmupTime;
 
 		public float turretBurstCooldownTime = -1f;
 
-		public string turretTopGraphicPath = (string)null;
+		public string turretTopGraphicPath;
 
 		[Unsaved]
 		public Material turretTopMat;
 
-		public bool ai_combatDangerous = false;
+		public bool ai_combatDangerous;
 
 		public bool ai_chillDestination = true;
 
@@ -104,11 +103,11 @@ namespace RimWorld
 
 		public SoundDef soundDoorCloseManual = SoundDefOf.DoorCloseManual;
 
-		public string sowTag = (string)null;
+		public string sowTag;
 
-		public ThingDef defaultPlantToGrow = null;
+		public ThingDef defaultPlantToGrow;
 
-		public ThingDef mineableThing = null;
+		public ThingDef mineableThing;
 
 		public int mineableYield = 1;
 
@@ -118,17 +117,17 @@ namespace RimWorld
 
 		public bool mineableYieldWasteable = true;
 
-		public float mineableScatterCommonality = 0f;
+		public float mineableScatterCommonality;
 
 		public IntRange mineableScatterLumpSizeRange = new IntRange(20, 40);
 
-		public StorageSettings fixedStorageSettings = null;
+		public StorageSettings fixedStorageSettings;
 
-		public StorageSettings defaultStorageSettings = null;
+		public StorageSettings defaultStorageSettings;
 
 		public bool ignoreStoredThingsBeauty;
 
-		public bool isTrap = false;
+		public bool isTrap;
 
 		public DamageArmorCategoryDef trapDamageCategory;
 
@@ -137,11 +136,11 @@ namespace RimWorld
 		[Unsaved]
 		public Graphic trapUnarmedGraphic;
 
-		public float unpoweredWorkTableWorkSpeedFactor = 0f;
+		public float unpoweredWorkTableWorkSpeedFactor;
 
-		public bool workSpeedPenaltyOutdoors = false;
+		public bool workSpeedPenaltyOutdoors;
 
-		public bool workSpeedPenaltyTemperature = false;
+		public bool workSpeedPenaltyTemperature;
 
 		public IntRange watchBuildingStandDistanceRange = IntRange.one;
 
@@ -207,7 +206,7 @@ namespace RimWorld
 		{
 			if (!this.turretTopGraphicPath.NullOrEmpty())
 			{
-				LongEventHandler.ExecuteWhenFinished((Action)delegate
+				LongEventHandler.ExecuteWhenFinished(delegate
 				{
 					this.turretTopMat = MaterialPool.MatFrom(this.turretTopGraphicPath);
 				});

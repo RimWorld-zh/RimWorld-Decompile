@@ -94,7 +94,7 @@ namespace RimWorld
 			int iD = 134706;
 			Rect rect = mainRect;
 			WindowLayer layer = WindowLayer.Super;
-			Action doWindowFunc = (Action)delegate
+			Action doWindowFunc = delegate
 			{
 				Rect rect2 = mainRect.AtZero();
 				Text.Font = GameFont.Small;

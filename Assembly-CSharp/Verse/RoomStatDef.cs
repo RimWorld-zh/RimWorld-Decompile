@@ -8,18 +8,18 @@ namespace Verse
 	{
 		public Type workerClass;
 
-		public float updatePriority = 0f;
+		public float updatePriority;
 
-		public bool displayRounded = false;
+		public bool displayRounded;
 
-		public bool isHidden = false;
+		public bool isHidden;
 
-		public float defaultScore = 0f;
+		public float defaultScore;
 
-		public List<RoomStatScoreStage> scoreStages = null;
+		public List<RoomStatScoreStage> scoreStages;
 
 		[Unsaved]
-		private RoomStatWorker workerInt = null;
+		private RoomStatWorker workerInt;
 
 		public RoomStatWorker Worker
 		{
@@ -35,7 +35,11 @@ namespace Verse
 
 		public RoomStatScoreStage GetScoreStage(float score)
 		{
-			return (!this.scoreStages.NullOrEmpty()) ? this.scoreStages[this.GetScoreStageIndex(score)] : null;
+			if (this.scoreStages.NullOrEmpty())
+			{
+				return null;
+			}
+			return this.scoreStages[this.GetScoreStageIndex(score)];
 		}
 
 		public int GetScoreStageIndex(float score)
@@ -56,7 +60,11 @@ namespace Verse
 
 		public string ScoreToString(float score)
 		{
-			return (!this.displayRounded) ? score.ToString("F2") : Mathf.RoundToInt(score).ToString();
+			if (this.displayRounded)
+			{
+				return Mathf.RoundToInt(score).ToString();
+			}
+			return score.ToString("F2");
 		}
 	}
 }

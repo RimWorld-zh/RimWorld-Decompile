@@ -8,9 +8,9 @@ namespace Verse
 
 		protected Rect listingRect;
 
-		protected float curY = 0f;
+		protected float curY;
 
-		protected float curX = 0f;
+		protected float curX;
 
 		private float columnWidthInt;
 

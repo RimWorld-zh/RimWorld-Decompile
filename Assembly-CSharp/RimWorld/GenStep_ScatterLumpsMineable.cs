@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -36,22 +35,32 @@ namespace RimWorld
 
 		protected ThingDef ChooseThingDef()
 		{
-			return (this.forcedDefToScatter == null) ? DefDatabase<ThingDef>.AllDefs.RandomElementByWeight((Func<ThingDef, float>)((ThingDef d) => (float)((d.building != null) ? d.building.mineableScatterCommonality : 0.0))) : this.forcedDefToScatter;
+			if (this.forcedDefToScatter != null)
+			{
+				return this.forcedDefToScatter;
+			}
+			return DefDatabase<ThingDef>.AllDefs.RandomElementByWeight(delegate(ThingDef d)
+			{
+				if (d.building == null)
+				{
+					return 0f;
+				}
+				return d.building.mineableScatterCommonality;
+			});
 		}
 
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
-			bool result;
 			if (base.NearUsedSpot(c, base.minSpacing))
 			{
-				result = false;
+				return false;
 			}
-			else
+			Building edifice = c.GetEdifice(map);
+			if (edifice != null && edifice.def.building.isNaturalRock)
 			{
-				Building edifice = c.GetEdifice(map);
-				result = ((byte)((edifice != null && edifice.def.building.isNaturalRock) ? 1 : 0) != 0);
+				return true;
 			}
-			return result;
+			return false;
 		}
 
 		protected override void ScatterAt(IntVec3 c, Map map, int stackCount = 1)

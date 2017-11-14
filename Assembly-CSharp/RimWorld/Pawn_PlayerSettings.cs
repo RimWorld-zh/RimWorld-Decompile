@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -11,29 +10,33 @@ namespace RimWorld
 	{
 		private Pawn pawn;
 
-		private Area areaAllowedInt = null;
+		private Area areaAllowedInt;
 
 		public int joinTick = -1;
 
-		public Pawn master = null;
+		public Pawn master;
 
 		public bool followDrafted = true;
 
 		public bool followFieldwork = true;
 
-		public bool animalsReleased = false;
+		public bool animalsReleased;
 
 		public MedicalCareCategory medCare = MedicalCareCategory.NoMeds;
 
 		public HostilityResponseMode hostilityResponse = HostilityResponseMode.Flee;
 
-		public bool selfTend = false;
+		public bool selfTend;
 
 		public Area EffectiveAreaRestrictionInPawnCurrentMap
 		{
 			get
 			{
-				return (this.areaAllowedInt == null || this.areaAllowedInt.Map == this.pawn.MapHeld) ? this.EffectiveAreaRestriction : null;
+				if (this.areaAllowedInt != null && this.areaAllowedInt.Map != this.pawn.MapHeld)
+				{
+					return null;
+				}
+				return this.EffectiveAreaRestriction;
 			}
 		}
 
@@ -41,7 +44,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.RespectsAllowedArea ? this.areaAllowedInt : null;
+				if (!this.RespectsAllowedArea)
+				{
+					return null;
+				}
+				return this.areaAllowedInt;
 			}
 		}
 
@@ -61,7 +68,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.pawn.GetLord() == null && this.pawn.Faction == Faction.OfPlayer && this.pawn.HostFaction == null;
+				if (this.pawn.GetLord() != null)
+				{
+					return false;
+				}
+				return this.pawn.Faction == Faction.OfPlayer && this.pawn.HostFaction == null;
 			}
 		}
 
@@ -69,7 +80,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.master != null && this.pawn.Faction == Faction.OfPlayer && this.master.Faction == this.pawn.Faction;
+				if (this.master == null)
+				{
+					return false;
+				}
+				return this.pawn.Faction == Faction.OfPlayer && this.master.Faction == this.pawn.Faction;
 			}
 		}
 
@@ -120,7 +135,7 @@ namespace RimWorld
 		{
 			if (!this.pawn.Drafted)
 				yield break;
-			if (!PawnUtility.SpawnedMasteredPawns(this.pawn).Any((Func<Pawn, bool>)((Pawn p) => p.training.IsCompleted(TrainableDefOf.Release))))
+			if (!PawnUtility.SpawnedMasteredPawns(this.pawn).Any((Pawn p) => p.training.IsCompleted(TrainableDefOf.Release)))
 				yield break;
 			yield return (Gizmo)new Command_Toggle
 			{
@@ -128,13 +143,13 @@ namespace RimWorld
 				defaultDesc = "CommandReleaseAnimalsDesc".Translate(),
 				icon = TexCommand.ReleaseAnimals,
 				hotKey = KeyBindingDefOf.Misc7,
-				isActive = (Func<bool>)(() => ((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00ca: stateMachine*/)._0024this.animalsReleased),
-				toggleAction = (Action)delegate
+				isActive = (() => ((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00c8: stateMachine*/)._0024this.animalsReleased),
+				toggleAction = delegate
 				{
-					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00e1: stateMachine*/)._0024this.animalsReleased = !((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00e1: stateMachine*/)._0024this.animalsReleased;
-					if (((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00e1: stateMachine*/)._0024this.animalsReleased)
+					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00df: stateMachine*/)._0024this.animalsReleased = !((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00df: stateMachine*/)._0024this.animalsReleased;
+					if (((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00df: stateMachine*/)._0024this.animalsReleased)
 					{
-						foreach (Pawn item in PawnUtility.SpawnedMasteredPawns(((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00e1: stateMachine*/)._0024this.pawn))
+						foreach (Pawn item in PawnUtility.SpawnedMasteredPawns(((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00df: stateMachine*/)._0024this.pawn))
 						{
 							if (item.caller != null)
 							{

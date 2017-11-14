@@ -1,7 +1,5 @@
-#define ENABLE_PROFILER
 using System;
 using System.Collections.Generic;
-using UnityEngine.Profiling;
 using Verse;
 
 namespace RimWorld
@@ -46,13 +44,11 @@ namespace RimWorld
 
 		public void MemoryThoughtInterval()
 		{
-			Profiler.BeginSample("MemoryThoughtInterval()");
 			for (int i = 0; i < this.memories.Count; i++)
 			{
 				this.memories[i].ThoughtInterval();
 			}
 			this.RemoveExpiredMemories();
-			Profiler.EndSample();
 		}
 
 		private void RemoveExpiredMemories()
@@ -196,7 +192,18 @@ namespace RimWorld
 		{
 			while (true)
 			{
-				Thought_Memory thought_Memory = this.memories.Find((Predicate<Thought_Memory>)((Thought_Memory x) => (byte)((x.def == def) ? ((x.otherPawn == otherPawn) ? 1 : 0) : 0) != 0));
+				Thought_Memory thought_Memory = this.memories.Find(delegate(Thought_Memory x)
+				{
+					if (x.def != def)
+					{
+						return false;
+					}
+					if (x.otherPawn == otherPawn)
+					{
+						return true;
+					}
+					return false;
+				});
 				if (thought_Memory != null)
 				{
 					this.RemoveMemory(thought_Memory);
@@ -210,7 +217,7 @@ namespace RimWorld
 		{
 			while (true)
 			{
-				Thought_Memory thought_Memory = this.memories.Find((Predicate<Thought_Memory>)((Thought_Memory x) => x.otherPawn == otherPawn));
+				Thought_Memory thought_Memory = this.memories.Find((Thought_Memory x) => x.otherPawn == otherPawn);
 				if (thought_Memory != null)
 				{
 					this.RemoveMemory(thought_Memory);
@@ -230,7 +237,7 @@ namespace RimWorld
 			{
 				while (true)
 				{
-					Thought_Memory thought_Memory = this.memories.Find((Predicate<Thought_Memory>)((Thought_Memory x) => x.def == def));
+					Thought_Memory thought_Memory = this.memories.Find((Thought_Memory x) => x.def == def);
 					if (thought_Memory != null)
 					{
 						this.RemoveMemory(thought_Memory);
@@ -251,7 +258,7 @@ namespace RimWorld
 			{
 				while (true)
 				{
-					Thought_Memory thought_Memory = this.memories.Find((Predicate<Thought_Memory>)((Thought_Memory x) => x.def == def && predicate(x)));
+					Thought_Memory thought_Memory = this.memories.Find((Thought_Memory x) => x.def == def && predicate(x));
 					if (thought_Memory != null)
 					{
 						this.RemoveMemory(thought_Memory);
@@ -264,24 +271,14 @@ namespace RimWorld
 
 		public bool AnyMemoryConcerns(Pawn otherPawn)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.memories.Count; i++)
 			{
-				if (num < this.memories.Count)
+				if (this.memories[i].otherPawn == otherPawn)
 				{
-					if (this.memories[num].otherPawn == otherPawn)
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public void Notify_PawnDiscarded(Pawn discarded)

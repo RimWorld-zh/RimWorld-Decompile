@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +18,7 @@ namespace RimWorld.Planet
 			command_Action.defaultLabel = "CommandAbandonHome".Translate();
 			command_Action.defaultDesc = "CommandAbandonHomeDesc".Translate();
 			command_Action.icon = SettlementAbandonUtility.AbandonCommandTex;
-			command_Action.action = (Action)delegate()
+			command_Action.action = delegate
 			{
 				SettlementAbandonUtility.TryAbandonViaInterface(settlement);
 			};
@@ -32,7 +31,7 @@ namespace RimWorld.Planet
 
 		public static bool AllColonistsThere(MapParent settlement)
 		{
-			return !CaravanUtility.PlayerHasAnyCaravan() && !Find.Maps.Any((Predicate<Map>)((Map x) => x.info.parent != settlement && x.mapPawns.FreeColonistsSpawned.Any()));
+			return !CaravanUtility.PlayerHasAnyCaravan() && !Find.Maps.Any((Map x) => x.info.parent != settlement && x.mapPawns.FreeColonistsSpawned.Any());
 		}
 
 		public static void TryAbandonViaInterface(MapParent settlement)
@@ -62,7 +61,7 @@ namespace RimWorld.Planet
 					}
 					stringBuilder.Append("ConfirmAbandonHomeWithColonyPawns".Translate(stringBuilder2));
 				}
-				PawnDiedOrDownedThoughtsUtility.BuildMoodThoughtsListString(map.mapPawns.AllPawns, PawnDiedOrDownedThoughtsKind.Banished, stringBuilder, (string)null, "\n\n" + "ConfirmAbandonHomeNegativeThoughts_Everyone".Translate(), "ConfirmAbandonHomeNegativeThoughts");
+				PawnDiedOrDownedThoughtsUtility.BuildMoodThoughtsListString(map.mapPawns.AllPawns, PawnDiedOrDownedThoughtsKind.Banished, stringBuilder, null, "\n\n" + "ConfirmAbandonHomeNegativeThoughts_Everyone".Translate(), "ConfirmAbandonHomeNegativeThoughts");
 				if (stringBuilder.Length == 0)
 				{
 					SettlementAbandonUtility.Abandon(settlement);
@@ -70,10 +69,10 @@ namespace RimWorld.Planet
 				}
 				else
 				{
-					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(stringBuilder.ToString(), (Action)delegate()
+					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(stringBuilder.ToString(), delegate
 					{
 						SettlementAbandonUtility.Abandon(settlement);
-					}, false, (string)null));
+					}, false, null));
 				}
 			}
 		}
@@ -86,7 +85,7 @@ namespace RimWorld.Planet
 			{
 				SettlementAbandonUtility.AddAbandonedBase(factionBase);
 			}
-			Find.GameEnder.CheckGameOver();
+			Find.GameEnder.CheckOrUpdateGameOver();
 		}
 
 		private static void AddAbandonedBase(FactionBase factionBase)

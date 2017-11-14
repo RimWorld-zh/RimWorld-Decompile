@@ -44,12 +44,12 @@ namespace RimWorld
 
 		public override string GetInspectStringLowPriority()
 		{
-			return (string)null;
+			return null;
 		}
 
 		public override string GetInspectString()
 		{
-			return "";
+			return string.Empty;
 		}
 
 		public override void CropBlighted()

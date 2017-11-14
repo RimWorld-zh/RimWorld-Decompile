@@ -7,35 +7,26 @@ namespace RimWorld
 	{
 		public static string ToStringHuman(this PawnGenerationContext context)
 		{
-			string result;
 			switch (context)
 			{
 			case PawnGenerationContext.All:
-			{
-				result = "PawnGenerationContext_All".Translate();
-				break;
-			}
+				return "PawnGenerationContext_All".Translate();
 			case PawnGenerationContext.PlayerStarter:
-			{
-				result = "PawnGenerationContext_PlayerStarter".Translate();
-				break;
-			}
+				return "PawnGenerationContext_PlayerStarter".Translate();
 			case PawnGenerationContext.NonPlayer:
-			{
-				result = "PawnGenerationContext_NonPlayer".Translate();
-				break;
-			}
+				return "PawnGenerationContext_NonPlayer".Translate();
 			default:
-			{
 				throw new NotImplementedException();
 			}
-			}
-			return result;
 		}
 
 		public static bool Includes(this PawnGenerationContext includer, PawnGenerationContext other)
 		{
-			return includer == PawnGenerationContext.All || includer == other;
+			if (includer == PawnGenerationContext.All)
+			{
+				return true;
+			}
+			return includer == other;
 		}
 
 		public static PawnGenerationContext GetRandom()
@@ -46,7 +37,15 @@ namespace RimWorld
 
 		public static bool OverlapsWith(this PawnGenerationContext a, PawnGenerationContext b)
 		{
-			return (byte)((a == PawnGenerationContext.All || b == PawnGenerationContext.All) ? 1 : ((a == b) ? 1 : 0)) != 0;
+			if (a != 0 && b != 0)
+			{
+				if (a == b)
+				{
+					return true;
+				}
+				return false;
+			}
+			return true;
 		}
 	}
 }

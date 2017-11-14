@@ -15,10 +15,10 @@ namespace RimWorld
 				if (brain != null)
 				{
 					int num = Rand.RangeInclusive(1, 5);
-					Pawn obj = pawn;
+					Pawn pawn2 = pawn;
 					DamageDef flame = DamageDefOf.Flame;
 					int amount = num;
-					obj.TakeDamage(new DamageInfo(flame, amount, -1f, user, brain, base.parent.def, DamageInfo.SourceCategory.ThingOrUnknown));
+					pawn2.TakeDamage(new DamageInfo(flame, amount, -1f, user, brain, base.parent.def, DamageInfo.SourceCategory.ThingOrUnknown));
 				}
 			}
 		}

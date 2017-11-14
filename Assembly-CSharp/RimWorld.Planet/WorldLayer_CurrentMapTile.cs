@@ -9,7 +9,15 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (Current.ProgramState == ProgramState.Playing) ? ((Find.VisibleMap != null) ? Find.VisibleMap.Tile : (-1)) : (-1);
+				if (Current.ProgramState != ProgramState.Playing)
+				{
+					return -1;
+				}
+				if (Find.VisibleMap == null)
+				{
+					return -1;
+				}
+				return Find.VisibleMap.Tile;
 			}
 		}
 

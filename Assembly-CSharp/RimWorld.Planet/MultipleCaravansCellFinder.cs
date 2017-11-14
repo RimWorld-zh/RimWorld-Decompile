@@ -79,30 +79,20 @@ namespace RimWorld.Planet
 			int num = Mathf.Min(x, size2.z);
 			CellRect cellRect = CellRect.CenteredOn(intVec, Mathf.Max(Mathf.RoundToInt((float)num * maxDistPctToOppositeSpots), 1)).ClipInsideMap(map);
 			CellRect cellRect2 = CellRect.CenteredOn(intVec2, Mathf.Max(Mathf.RoundToInt((float)num * maxDistPctToOppositeSpots), 1)).ClipInsideMap(map);
-			int num2 = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < 20; i++)
 			{
-				if (num2 < 20)
+				IntVec3 intVec3 = (i != 0) ? cellRect.RandomCell : intVec;
+				IntVec3 intVec4 = (i != 0) ? cellRect2.RandomCell : intVec2;
+				if (intVec3.Standable(map) && !intVec3.Fogged(map) && intVec4.Standable(map) && !intVec4.Fogged(map) && map.reachability.CanReach(intVec3, intVec4, PathEndMode.OnCell, TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Deadly, false)))
 				{
-					IntVec3 intVec3 = (num2 != 0) ? cellRect.RandomCell : intVec;
-					IntVec3 intVec4 = (num2 != 0) ? cellRect2.RandomCell : intVec2;
-					if (intVec3.Standable(map) && !intVec3.Fogged(map) && intVec4.Standable(map) && !intVec4.Fogged(map) && map.reachability.CanReach(intVec3, intVec4, PathEndMode.OnCell, TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Deadly, false)))
-					{
-						first = intVec3;
-						second = intVec4;
-						result = true;
-						break;
-					}
-					num2++;
-					continue;
+					first = intVec3;
+					second = intVec4;
+					return true;
 				}
-				first = IntVec3.Invalid;
-				second = IntVec3.Invalid;
-				result = false;
-				break;
 			}
-			return result;
+			first = IntVec3.Invalid;
+			second = IntVec3.Invalid;
+			return false;
 		}
 
 		private static IntVec3 RandomSpotNearEdge(Map map)

@@ -12,9 +12,9 @@ namespace Verse
 			float num = 0f;
 			GUI.BeginGroup(rect);
 			Text.Font = GameFont.Small;
-			foreach (ListableOption item in optList)
+			foreach (ListableOption opt in optList)
 			{
-				num = (float)(num + (item.DrawOption(new Vector2(0f, num), rect.width) + 7.0));
+				num = (float)(num + (opt.DrawOption(new Vector2(0f, num), rect.width) + 7.0));
 			}
 			GUI.EndGroup();
 			return num;

@@ -93,7 +93,7 @@ namespace RimWorld
 			transition.AddSource(lordToil_PrepareCaravan_Pause3);
 			transition.AddSource(lordToil_PrepareCaravan_Pause4);
 			transition.AddSource(lordToil_PrepareCaravan_Pause5);
-			transition.AddTrigger(new Trigger_Custom((Func<TriggerSignal, bool>)((TriggerSignal x) => x.type == TriggerSignalType.PawnLost && !this.caravanSent)));
+			transition.AddTrigger(new Trigger_Custom((TriggerSignal x) => x.type == TriggerSignalType.PawnLost && !this.caravanSent));
 			transition.AddPreAction(new TransitionAction_Message("MessageFailedToSendCaravanBecausePawnLost".Translate(), MessageTypeDefOf.NegativeEvent));
 			transition.AddPostAction(new TransitionAction_Custom((Action)delegate
 			{
@@ -115,7 +115,7 @@ namespace RimWorld
 			stateGraph.AddTransition(transition5);
 			Transition transition6 = new Transition(lordToil_PrepareCaravan_Leave, lordToil_End);
 			transition6.AddTrigger(new Trigger_Memo("ReadyToExitMap"));
-			transition6.AddPreAction(new TransitionAction_Custom(new Action(this.SendCaravan)));
+			transition6.AddPreAction(new TransitionAction_Custom(this.SendCaravan));
 			stateGraph.AddTransition(transition6);
 			Transition transition7 = this.PauseTransition(lordToil_PrepareCaravan_GatherAnimals, lordToil_PrepareCaravan_Pause);
 			stateGraph.AddTransition(transition7);

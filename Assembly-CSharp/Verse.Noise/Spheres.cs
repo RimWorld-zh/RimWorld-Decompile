@@ -18,11 +18,13 @@ namespace Verse.Noise
 			}
 		}
 
-		public Spheres() : base(0)
+		public Spheres()
+			: base(0)
 		{
 		}
 
-		public Spheres(double frequency) : base(0)
+		public Spheres(double frequency)
+			: base(0)
 		{
 			this.Frequency = frequency;
 		}

@@ -1,3 +1,5 @@
+using RimWorld;
+using System;
 using UnityEngine;
 using Verse.Grammar;
 
@@ -7,7 +9,9 @@ namespace Verse
 	{
 		private RulePackDef transitionDef;
 
-		private Pawn subject;
+		private Pawn subjectPawn;
+
+		private ThingDef subjectThing;
 
 		private Pawn initiator;
 
@@ -21,7 +25,7 @@ namespace Verse
 		{
 			get
 			{
-				return (this.subject == null) ? "null" : this.subject.NameStringShort;
+				return (this.subjectPawn == null) ? "null" : this.subjectPawn.NameStringShort;
 			}
 		}
 
@@ -29,9 +33,16 @@ namespace Verse
 		{
 		}
 
-		public BattleLogEntry_StateTransition(Pawn subject, RulePackDef transitionDef, Pawn initiator, Hediff culpritHediff, BodyPartDef culpritTargetDef)
+		public BattleLogEntry_StateTransition(Thing subject, RulePackDef transitionDef, Pawn initiator, Hediff culpritHediff, BodyPartDef culpritTargetDef)
 		{
-			this.subject = subject;
+			if (subject is Pawn)
+			{
+				this.subjectPawn = (subject as Pawn);
+			}
+			else if (subject != null)
+			{
+				this.subjectThing = subject.def;
+			}
 			this.transitionDef = transitionDef;
 			this.initiator = initiator;
 			if (culpritHediff != null)
@@ -47,49 +58,69 @@ namespace Verse
 
 		public override bool Concerns(Thing t)
 		{
-			return t == this.subject || t == this.initiator;
+			return t == this.subjectPawn || t == this.initiator;
+		}
+
+		public override void ClickedFromPOV(Thing pov)
+		{
+			if (pov == this.subjectPawn)
+			{
+				CameraJumper.TryJumpAndSelect(this.initiator);
+				return;
+			}
+			if (pov == this.initiator)
+			{
+				CameraJumper.TryJumpAndSelect(this.subjectPawn);
+				return;
+			}
+			throw new NotImplementedException();
 		}
 
 		public override Texture2D IconFromPOV(Thing pov)
 		{
-			return (pov == null || pov == this.subject) ? LogEntry.Skull : ((pov != this.initiator) ? null : LogEntry.SkullTarget);
+			if (pov != null && pov != this.subjectPawn)
+			{
+				if (pov == this.initiator)
+				{
+					return (this.transitionDef != RulePackDefOf.Transition_Downed) ? LogEntry.SkullTarget : LogEntry.DownedTarget;
+				}
+				return null;
+			}
+			return (this.transitionDef != RulePackDefOf.Transition_Downed) ? LogEntry.Skull : LogEntry.Downed;
 		}
 
 		public override string ToGameStringFromPOV(Thing pov)
 		{
-			string result;
-			if (this.subject == null)
+			Rand.PushState();
+			Rand.Seed = base.randSeed;
+			GrammarRequest request = default(GrammarRequest);
+			if (this.subjectPawn != null)
 			{
-				Log.ErrorOnce("BattleLogEntry_StateTransition has a null pawn reference.", 34422);
-				result = "[" + this.transitionDef.label + " error: null pawn reference]";
+				request.Rules.AddRange(GrammarUtility.RulesForPawn("subject", this.subjectPawn, request.Constants));
 			}
-			else
+			else if (this.subjectThing != null)
 			{
-				Rand.PushState();
-				Rand.Seed = base.randSeed;
-				GrammarRequest request = default(GrammarRequest);
-				request.Rules.AddRange(GrammarUtility.RulesForPawn("subject", this.subject));
-				request.Includes.Add(this.transitionDef);
-				if (this.initiator != null)
-				{
-					request.Rules.AddRange(GrammarUtility.RulesForPawn("initiator", this.initiator));
-				}
-				if (this.culpritHediffDef != null)
-				{
-					request.Rules.AddRange(GrammarUtility.RulesForDef("culpritHediff", this.culpritHediffDef));
-				}
-				if (this.culpritHediffTargetDef != null)
-				{
-					request.Rules.AddRange(GrammarUtility.RulesForDef("culpritHediff_target", this.culpritHediffTargetDef));
-				}
-				if (this.culpritTargetDef != null)
-				{
-					request.Rules.AddRange(GrammarUtility.RulesForDef("culpritHediff_originaltarget", this.culpritTargetDef));
-				}
-				string text = GrammarResolver.Resolve("logentry", request, "state transition");
-				Rand.PopState();
-				result = text;
+				request.Rules.AddRange(GrammarUtility.RulesForDef("subject", this.subjectThing));
 			}
+			request.Includes.Add(this.transitionDef);
+			if (this.initiator != null)
+			{
+				request.Rules.AddRange(GrammarUtility.RulesForPawn("initiator", this.initiator, request.Constants));
+			}
+			if (this.culpritHediffDef != null)
+			{
+				request.Rules.AddRange(GrammarUtility.RulesForDef("culpritHediff", this.culpritHediffDef));
+			}
+			if (this.culpritHediffTargetDef != null)
+			{
+				request.Rules.AddRange(GrammarUtility.RulesForDef("culpritHediff_target", this.culpritHediffTargetDef));
+			}
+			if (this.culpritTargetDef != null)
+			{
+				request.Rules.AddRange(GrammarUtility.RulesForDef("culpritHediff_originaltarget", this.culpritTargetDef));
+			}
+			string result = GrammarResolver.Resolve("logentry", request, "state transition", false);
+			Rand.PopState();
 			return result;
 		}
 
@@ -97,7 +128,8 @@ namespace Verse
 		{
 			base.ExposeData();
 			Scribe_Defs.Look<RulePackDef>(ref this.transitionDef, "transitionDef");
-			Scribe_References.Look<Pawn>(ref this.subject, "subject", true);
+			Scribe_References.Look<Pawn>(ref this.subjectPawn, "subjectPawn", true);
+			Scribe_Defs.Look<ThingDef>(ref this.subjectThing, "subjectThing");
 			Scribe_References.Look<Pawn>(ref this.initiator, "initiator", true);
 			Scribe_Defs.Look<HediffDef>(ref this.culpritHediffDef, "culpritHediffDef");
 			Scribe_Defs.Look<BodyPartDef>(ref this.culpritHediffTargetDef, "culpritHediffTargetDef");
@@ -106,7 +138,7 @@ namespace Verse
 
 		public override string ToString()
 		{
-			return this.transitionDef.defName + ": " + this.subject;
+			return this.transitionDef.defName + ": " + this.subjectPawn;
 		}
 	}
 }

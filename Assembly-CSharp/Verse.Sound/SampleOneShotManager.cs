@@ -31,41 +31,35 @@ namespace Verse.Sound
 
 		private float ImportanceOf(SoundDef def, SoundInfo info, float ageRealTime)
 		{
-			float result;
 			if (def.priorityMode == VoicePriorityMode.PrioritizeNearest)
 			{
-				result = (float)(1.0 / (this.CameraDistanceSquaredOf(info) + 1.0));
-				goto IL_004a;
+				return (float)(1.0 / (this.CameraDistanceSquaredOf(info) + 1.0));
 			}
 			if (def.priorityMode == VoicePriorityMode.PrioritizeNewest)
 			{
-				result = (float)(1.0 / (ageRealTime + 1.0));
-				goto IL_004a;
+				return (float)(1.0 / (ageRealTime + 1.0));
 			}
 			throw new NotImplementedException();
-			IL_004a:
-			return result;
 		}
 
 		public bool CanAddPlayingOneShot(SoundDef def, SoundInfo info)
 		{
-			bool result;
 			if (!SoundDefHelper.CorrectContextNow(def, info.Maker.Map))
 			{
-				result = false;
+				return false;
 			}
-			else if ((from s in this.samples
+			if ((from s in this.samples
 			where s.subDef.parentDef == def && s.AgeRealTime < 0.05000000074505806
 			select s).Count() >= def.MaxSimultaneousSamples)
 			{
-				result = false;
+				return false;
 			}
-			else
+			SampleOneShot sampleOneShot = this.LeastImportantOf(def);
+			if (sampleOneShot != null && this.ImportanceOf(def, info, 0f) < this.ImportanceOf(sampleOneShot))
 			{
-				SampleOneShot sampleOneShot = this.LeastImportantOf(def);
-				result = ((byte)((sampleOneShot == null || !(this.ImportanceOf(def, info, 0f) < this.ImportanceOf(sampleOneShot))) ? 1 : 0) != 0);
+				return false;
 			}
-			return result;
+			return true;
 		}
 
 		public void TryAddPlayingOneShot(SampleOneShot newSample)
@@ -118,7 +112,7 @@ namespace Verse.Sound
 			}
 			if (this.cleanupList.Count > 0)
 			{
-				this.samples.RemoveAll((Predicate<SampleOneShot>)((SampleOneShot s) => this.cleanupList.Contains(s)));
+				this.samples.RemoveAll((SampleOneShot s) => this.cleanupList.Contains(s));
 			}
 		}
 	}

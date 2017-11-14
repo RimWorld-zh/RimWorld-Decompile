@@ -6,17 +6,16 @@ namespace RimWorld
 	{
 		public static Thing MannedThing(this Pawn pawn)
 		{
-			Thing result;
 			if (pawn.Dead)
 			{
-				result = null;
+				return null;
 			}
-			else
+			Thing lastMannedThing = pawn.mindState.lastMannedThing;
+			if (lastMannedThing != null && lastMannedThing.TryGetComp<CompMannable>().ManningPawn == pawn)
 			{
-				Thing lastMannedThing = pawn.mindState.lastMannedThing;
-				result = ((lastMannedThing != null && lastMannedThing.TryGetComp<CompMannable>().ManningPawn == pawn) ? lastMannedThing : null);
+				return lastMannedThing;
 			}
-			return result;
+			return null;
 		}
 	}
 }

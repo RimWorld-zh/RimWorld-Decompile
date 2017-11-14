@@ -52,31 +52,47 @@ namespace RimWorld
 							}
 							else
 							{
-								BodyPartRecord bodyPartRecord = this.FindBiggestMissingBodyPart(usedBy);
+								BodyPartRecord bodyPartRecord = this.FindBiggestMissingBodyPart(usedBy, 0.01f);
 								if (bodyPartRecord != null)
 								{
 									this.Cure(bodyPartRecord, usedBy);
 								}
 								else
 								{
-									Hediff_Addiction hediff_Addiction = this.FindAddiction(usedBy);
-									if (hediff_Addiction != null)
+									Hediff_Injury hediff_Injury = this.FindInjury(usedBy, usedBy.health.hediffSet.GetBrain());
+									if (hediff_Injury != null)
 									{
-										this.Cure(hediff_Addiction);
+										this.Cure(hediff_Injury);
 									}
 									else
 									{
-										Hediff_Injury hediff_Injury = this.FindOldInjury(usedBy);
-										if (hediff_Injury != null)
+										BodyPartRecord bodyPartRecord2 = this.FindBiggestMissingBodyPart(usedBy, 0f);
+										if (bodyPartRecord2 != null)
 										{
-											this.Cure(hediff_Injury);
+											this.Cure(bodyPartRecord2, usedBy);
 										}
 										else
 										{
-											Hediff_Injury hediff_Injury2 = this.FindInjury(usedBy);
-											if (hediff_Injury2 != null)
+											Hediff_Addiction hediff_Addiction = this.FindAddiction(usedBy);
+											if (hediff_Addiction != null)
 											{
-												this.Cure(hediff_Injury2);
+												this.Cure(hediff_Addiction);
+											}
+											else
+											{
+												Hediff_Injury hediff_Injury2 = this.FindOldInjury(usedBy);
+												if (hediff_Injury2 != null)
+												{
+													this.Cure(hediff_Injury2);
+												}
+												else
+												{
+													Hediff_Injury hediff_Injury3 = this.FindInjury(usedBy, null);
+													if (hediff_Injury3 != null)
+													{
+														this.Cure(hediff_Injury3);
+													}
+												}
 											}
 										}
 									}
@@ -95,7 +111,7 @@ namespace RimWorld
 			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
 			for (int i = 0; i < hediffs.Count; i++)
 			{
-				if (hediffs[i].Visible)
+				if (hediffs[i].Visible && hediffs[i].def.everCurableByItem)
 				{
 					HediffStage curStage = hediffs[i].CurStage;
 					if (curStage != null && curStage.lifeThreatening)
@@ -139,7 +155,7 @@ namespace RimWorld
 			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
 			for (int i = 0; i < hediffs.Count; i++)
 			{
-				if (hediffs[i].Visible && hediffs[i].TryGetComp<HediffComp_Immunizable>() != null && this.CanKill(hediffs[i]))
+				if (hediffs[i].Visible && hediffs[i].def.everCurableByItem && hediffs[i].TryGetComp<HediffComp_Immunizable>() != null && this.CanKill(hediffs[i]))
 				{
 					float severity = hediffs[i].Severity;
 					if (hediff == null || severity > num)
@@ -179,7 +195,7 @@ namespace RimWorld
 			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
 			for (int i = 0; i < hediffs.Count; i++)
 			{
-				if (hediffs[i].Visible && hediffs[i].def.isBad && !(hediffs[i] is Hediff_Injury) && !(hediffs[i] is Hediff_MissingPart) && !(hediffs[i] is Hediff_Addiction) && !(hediffs[i] is Hediff_AddedPart) && (!onlyIfCanKill || this.CanKill(hediffs[i])))
+				if (hediffs[i].Visible && hediffs[i].def.isBad && hediffs[i].def.everCurableByItem && !(hediffs[i] is Hediff_Injury) && !(hediffs[i] is Hediff_MissingPart) && !(hediffs[i] is Hediff_Addiction) && !(hediffs[i] is Hediff_AddedPart) && (!onlyIfCanKill || this.CanKill(hediffs[i])))
 				{
 					float num2 = (float)((hediffs[i].Part == null) ? 999.0 : hediffs[i].Part.coverageAbsWithChildren);
 					if (hediff == null || num2 > num)
@@ -192,12 +208,12 @@ namespace RimWorld
 			return hediff;
 		}
 
-		private BodyPartRecord FindBiggestMissingBodyPart(Pawn pawn)
+		private BodyPartRecord FindBiggestMissingBodyPart(Pawn pawn, float minCoverage = 0f)
 		{
 			BodyPartRecord bodyPartRecord = null;
 			foreach (Hediff_MissingPart missingPartsCommonAncestor in pawn.health.hediffSet.GetMissingPartsCommonAncestors())
 			{
-				if (!pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(missingPartsCommonAncestor.Part) && (bodyPartRecord == null || missingPartsCommonAncestor.Part.coverageAbsWithChildren > bodyPartRecord.coverageAbsWithChildren))
+				if (!(missingPartsCommonAncestor.Part.coverageAbsWithChildren < minCoverage) && !pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(missingPartsCommonAncestor.Part) && (bodyPartRecord == null || missingPartsCommonAncestor.Part.coverageAbsWithChildren > bodyPartRecord.coverageAbsWithChildren))
 				{
 					bodyPartRecord = missingPartsCommonAncestor.Part;
 				}
@@ -208,25 +224,15 @@ namespace RimWorld
 		private Hediff_Addiction FindAddiction(Pawn pawn)
 		{
 			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
-			int num = 0;
-			Hediff_Addiction result;
-			while (true)
+			for (int i = 0; i < hediffs.Count; i++)
 			{
-				if (num < hediffs.Count)
+				Hediff_Addiction hediff_Addiction = hediffs[i] as Hediff_Addiction;
+				if (hediff_Addiction != null && hediff_Addiction.Visible && hediff_Addiction.def.everCurableByItem)
 				{
-					Hediff_Addiction hediff_Addiction = hediffs[num] as Hediff_Addiction;
-					if (hediff_Addiction != null && hediff_Addiction.Visible)
-					{
-						result = hediff_Addiction;
-						break;
-					}
-					num++;
-					continue;
+					return hediff_Addiction;
 				}
-				result = null;
-				break;
 			}
-			return result;
+			return null;
 		}
 
 		private Hediff_Injury FindOldInjury(Pawn pawn)
@@ -244,14 +250,14 @@ namespace RimWorld
 			return hediff_Injury;
 		}
 
-		private Hediff_Injury FindInjury(Pawn pawn)
+		private Hediff_Injury FindInjury(Pawn pawn, BodyPartRecord bodyPart = null)
 		{
 			Hediff_Injury hediff_Injury = null;
 			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
 			for (int i = 0; i < hediffs.Count; i++)
 			{
 				Hediff_Injury hediff_Injury2 = hediffs[i] as Hediff_Injury;
-				if (hediff_Injury2 != null && hediff_Injury2.Visible && (hediff_Injury == null || hediff_Injury2.Severity > hediff_Injury.Severity))
+				if (hediff_Injury2 != null && hediff_Injury2.Visible && (bodyPart == null || bodyPart == hediff_Injury2.Part) && (hediff_Injury == null || hediff_Injury2.Severity > hediff_Injury.Severity))
 				{
 					hediff_Injury = hediff_Injury2;
 				}
@@ -276,13 +282,13 @@ namespace RimWorld
 					break;
 				}
 			}
-			Messages.Message("MessageHediffCuredByItem".Translate(hediff.LabelBase), (Thing)pawn, MessageTypeDefOf.PositiveEvent);
+			Messages.Message("MessageHediffCuredByItem".Translate(hediff.LabelBase), pawn, MessageTypeDefOf.PositiveEvent);
 		}
 
 		private void Cure(BodyPartRecord part, Pawn pawn)
 		{
 			pawn.health.RestorePart(part, null, true);
-			Messages.Message("MessageBodyPartCuredByItem".Translate(part.def.label), (Thing)pawn, MessageTypeDefOf.PositiveEvent);
+			Messages.Message("MessageBodyPartCuredByItem".Translate(part.def.label), pawn, MessageTypeDefOf.PositiveEvent);
 		}
 
 		private bool CanKill(Hediff hediff)
@@ -292,16 +298,12 @@ namespace RimWorld
 				for (int i = 0; i < hediff.def.stages.Count; i++)
 				{
 					if (hediff.def.stages[i].lifeThreatening)
-						goto IL_0035;
+					{
+						return true;
+					}
 				}
 			}
-			bool result = hediff.def.lethalSeverity >= 0.0;
-			goto IL_0073;
-			IL_0035:
-			result = true;
-			goto IL_0073;
-			IL_0073:
-			return result;
+			return hediff.def.lethalSeverity >= 0.0;
 		}
 	}
 }

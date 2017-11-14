@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -45,28 +44,23 @@ namespace RimWorld
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
-			this.FailOn((Func<bool>)delegate
+			this.FailOn(delegate
 			{
-				ThingWithComps thingWithComps = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0051: stateMachine*/)._0024this.job.GetTarget(TargetIndex.A).Thing as ThingWithComps;
-				bool result;
+				ThingWithComps thingWithComps = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0050: stateMachine*/)._0024this.job.GetTarget(TargetIndex.A).Thing as ThingWithComps;
 				if (thingWithComps != null)
 				{
 					CompFlickable comp = thingWithComps.GetComp<CompFlickable>();
 					if (comp != null && !comp.SwitchIsOn)
 					{
-						result = true;
-						goto IL_004e;
+						return true;
 					}
 				}
-				result = false;
-				goto IL_004e;
-				IL_004e:
-				return result;
+				return false;
 			});
-			base.AddEndCondition((Func<JobCondition>)(() => (JobCondition)((!((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0069: stateMachine*/)._0024this.RefuelableComp.IsFull) ? 1 : 2)));
-			yield return Toils_General.DoAtomic((Action)delegate
+			base.AddEndCondition(() => (JobCondition)((!((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0068: stateMachine*/)._0024this.RefuelableComp.IsFull) ? 1 : 2));
+			yield return Toils_General.DoAtomic(delegate
 			{
-				((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_007b: stateMachine*/)._0024this.job.count = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_007b: stateMachine*/)._0024this.RefuelableComp.GetFuelCountToFullyRefuel();
+				((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_007a: stateMachine*/)._0024this.job.count = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_007a: stateMachine*/)._0024this.RefuelableComp.GetFuelCountToFullyRefuel();
 			});
 			/*Error: Unable to find new state assignment for yield return*/;
 		}

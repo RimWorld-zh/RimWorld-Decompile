@@ -47,7 +47,7 @@ namespace RimWorld
 								command_Action.icon = des.IconReverseDesignating(t, out iconAngle);
 								command_Action.iconAngle = iconAngle;
 								command_Action.defaultDesc = des.DescReverseDesignating(t);
-								command_Action.action = (Action)delegate
+								command_Action.action = delegate
 								{
 									if (TutorSystem.AllowAction(des.TutorTagDesignate))
 									{

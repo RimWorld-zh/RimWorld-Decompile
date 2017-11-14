@@ -6,9 +6,9 @@ namespace RimWorld
 {
 	public class ScenPartDef : Def
 	{
-		public ScenPartCategory category = ScenPartCategory.Undefined;
+		public ScenPartCategory category;
 
-		public Type scenPartClass = null;
+		public Type scenPartClass;
 
 		public float summaryPriority = -1f;
 
@@ -34,7 +34,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -47,8 +47,8 @@ namespace RimWorld
 				yield break;
 			yield return "scenPartClass is null";
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_00f0:
-			/*Error near IL_00f1: Unexpected return in MoveNext()*/;
+			IL_00ec:
+			/*Error near IL_00ed: Unexpected return in MoveNext()*/;
 		}
 	}
 }

@@ -46,16 +46,15 @@ namespace RimWorld.Planet
 			outVerts.Add(new Vector3((float)(0.0 - num), 0f, -1f).normalized * radius);
 			outVerts.Add(new Vector3((float)(0.0 - num), 0f, 1f).normalized * radius);
 			outTris.Clear();
-			int num2 = 0;
-			int num3 = IcosahedronGenerator.IcosahedronTris.Length;
-			while (num2 < num3)
+			int i = 0;
+			int num2 = IcosahedronGenerator.IcosahedronTris.Length;
+			for (; i < num2; i++)
 			{
-				TriangleIndices item = IcosahedronGenerator.IcosahedronTris[num2];
+				TriangleIndices item = IcosahedronGenerator.IcosahedronTris[i];
 				if (IcosahedronGenerator.IcosahedronFaceNeeded(item.v1, item.v2, item.v3, outVerts, radius, viewCenter, viewAngle))
 				{
 					outTris.Add(item);
 				}
-				num2++;
 			}
 			MeshUtility.RemoveUnusedVertices(outVerts, outTris);
 		}

@@ -5,9 +5,9 @@ namespace Verse
 {
 	public class LayerSubMesh
 	{
-		public bool finalized = false;
+		public bool finalized;
 
-		public bool disabled = false;
+		public bool disabled;
 
 		public Material material;
 
@@ -29,19 +29,19 @@ namespace Verse
 
 		public void Clear(MeshParts parts)
 		{
-			if ((byte)((int)parts & 1) != 0)
+			if ((parts & MeshParts.Verts) != 0)
 			{
 				this.verts.Clear();
 			}
-			if ((byte)((int)parts & 2) != 0)
+			if ((parts & MeshParts.Tris) != 0)
 			{
 				this.tris.Clear();
 			}
-			if ((byte)((int)parts & 4) != 0)
+			if ((parts & MeshParts.Colors) != 0)
 			{
 				this.colors.Clear();
 			}
-			if ((byte)((int)parts & 8) != 0)
+			if ((parts & MeshParts.UVs) != 0)
 			{
 				this.uvs.Clear();
 			}
@@ -54,11 +54,11 @@ namespace Verse
 			{
 				Log.Warning("Finalizing mesh which is already finalized. Did you forget to call Clear()?");
 			}
-			if ((((byte)((int)parts & 1) != 0) ? 1 : ((byte)((int)parts & 2))) != 0)
+			if ((parts & MeshParts.Verts) != 0 || (parts & MeshParts.Tris) != 0)
 			{
 				this.mesh.Clear();
 			}
-			if ((byte)((int)parts & 1) != 0)
+			if ((parts & MeshParts.Verts) != 0)
 			{
 				if (this.verts.Count > 0)
 				{
@@ -69,7 +69,7 @@ namespace Verse
 					Log.Error("Cannot cook Verts for " + this.material.ToString() + ": no ingredients data. If you want to not render this submesh, disable it.");
 				}
 			}
-			if ((byte)((int)parts & 2) != 0)
+			if ((parts & MeshParts.Tris) != 0)
 			{
 				if (this.tris.Count > 0)
 				{
@@ -80,11 +80,11 @@ namespace Verse
 					Log.Error("Cannot cook Tris for " + this.material.ToString() + ": no ingredients data.");
 				}
 			}
-			if ((byte)((int)parts & 4) != 0 && this.colors.Count > 0)
+			if ((parts & MeshParts.Colors) != 0 && this.colors.Count > 0)
 			{
 				this.mesh.SetColors(this.colors);
 			}
-			if ((byte)((int)parts & 8) != 0 && this.uvs.Count > 0)
+			if ((parts & MeshParts.UVs) != 0 && this.uvs.Count > 0)
 			{
 				this.mesh.SetUVs(0, this.uvs);
 			}

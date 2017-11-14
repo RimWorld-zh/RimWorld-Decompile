@@ -14,34 +14,27 @@ namespace Verse
 
 		public static TraverseParms For(Pawn pawn, Danger maxDanger = Danger.Deadly, TraverseMode mode = TraverseMode.ByPawn, bool canBash = false)
 		{
-			TraverseParms result;
 			if (pawn == null)
 			{
 				Log.Error("TraverseParms for null pawn.");
-				result = TraverseParms.For(TraverseMode.NoPassClosedDoors, maxDanger, canBash);
+				return TraverseParms.For(TraverseMode.NoPassClosedDoors, maxDanger, canBash);
 			}
-			else
-			{
-				result = new TraverseParms
-				{
-					pawn = pawn,
-					maxDanger = maxDanger,
-					mode = mode,
-					canBash = canBash
-				};
-			}
+			TraverseParms result = default(TraverseParms);
+			result.pawn = pawn;
+			result.maxDanger = maxDanger;
+			result.mode = mode;
+			result.canBash = canBash;
 			return result;
 		}
 
 		public static TraverseParms For(TraverseMode mode, Danger maxDanger = Danger.Deadly, bool canBash = false)
 		{
-			return new TraverseParms
-			{
-				pawn = null,
-				mode = mode,
-				maxDanger = maxDanger,
-				canBash = canBash
-			};
+			TraverseParms result = default(TraverseParms);
+			result.pawn = null;
+			result.mode = mode;
+			result.maxDanger = maxDanger;
+			result.canBash = canBash;
+			return result;
 		}
 
 		public void Validate()
@@ -73,7 +66,11 @@ namespace Verse
 
 		public override bool Equals(object obj)
 		{
-			return obj is TraverseParms && this.Equals((TraverseParms)obj);
+			if (!(obj is TraverseParms))
+			{
+				return false;
+			}
+			return this.Equals((TraverseParms)obj);
 		}
 
 		public bool Equals(TraverseParms other)
@@ -90,8 +87,12 @@ namespace Verse
 
 		public override string ToString()
 		{
-			string text = (!this.canBash) ? "" : " canBash";
-			return (this.mode != 0) ? ("(" + this.mode + " " + this.maxDanger + text + ")") : ("(" + this.mode + " " + this.maxDanger + " " + this.pawn + text + ")");
+			string text = (!this.canBash) ? string.Empty : " canBash";
+			if (this.mode == TraverseMode.ByPawn)
+			{
+				return "(" + this.mode + " " + this.maxDanger + " " + this.pawn + text + ")";
+			}
+			return "(" + this.mode + " " + this.maxDanger + text + ")";
 		}
 	}
 }

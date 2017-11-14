@@ -1,6 +1,4 @@
-#define ENABLE_PROFILER
 using RimWorld.Planet;
-using UnityEngine.Profiling;
 using Verse;
 
 namespace RimWorld
@@ -75,64 +73,38 @@ namespace RimWorld
 		{
 			if (WorldRendererUtility.WorldRenderedNow)
 			{
-				Profiler.BeginSample("TargeterUpdate()");
 				this.targeter.TargeterUpdate();
-				Profiler.EndSample();
-				Profiler.BeginSample("WorldSelectionDrawer.DrawSelectionOverlays()");
 				WorldSelectionDrawer.DrawSelectionOverlays();
-				Profiler.EndSample();
-				Profiler.BeginSample("WorldDebugDrawerUpdate()");
 				Find.WorldDebugDrawer.WorldDebugDrawerUpdate();
-				Profiler.EndSample();
 			}
 			else
 			{
 				this.targeter.StopTargeting();
 			}
-			Profiler.BeginSample("WorldRoutePlannerUpdate()");
 			this.routePlanner.WorldRoutePlannerUpdate();
-			Profiler.EndSample();
 		}
 
 		public void WorldInterfaceOnGUI()
 		{
 			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
-			Profiler.BeginSample("CheckOpenOrCloseInspectPane()");
 			this.CheckOpenOrCloseInspectPane();
-			Profiler.EndSample();
 			if (worldRenderedNow)
 			{
 				ScreenshotModeHandler screenshotMode = Find.UIRoot.screenshotMode;
-				Profiler.BeginSample("ExpandableWorldObjectsOnGUI()");
 				ExpandableWorldObjectsUtility.ExpandableWorldObjectsOnGUI();
-				Profiler.EndSample();
-				Profiler.BeginSample("WorldSelectionDrawer.SelectionOverlaysOnGUI()");
 				WorldSelectionDrawer.SelectionOverlaysOnGUI();
-				Profiler.EndSample();
-				Profiler.BeginSample("WorldRoutePlannerOnGUI()");
 				this.routePlanner.WorldRoutePlannerOnGUI();
-				Profiler.EndSample();
 				if (!screenshotMode.FiltersCurrentEvent && Current.ProgramState == ProgramState.Playing)
 				{
-					Profiler.BeginSample("ColonistBarOnGUI()");
 					Find.ColonistBar.ColonistBarOnGUI();
-					Profiler.EndSample();
 				}
-				Profiler.BeginSample("selector.dragBox.DragBoxOnGUI()");
 				this.selector.dragBox.DragBoxOnGUI();
-				Profiler.EndSample();
-				Profiler.BeginSample("TargeterOnGUI()");
 				this.targeter.TargeterOnGUI();
-				Profiler.EndSample();
 				if (!screenshotMode.FiltersCurrentEvent)
 				{
-					Profiler.BeginSample("globalControls.WorldGlobalControlsOnGUI()");
 					this.globalControls.WorldGlobalControlsOnGUI();
-					Profiler.EndSample();
 				}
-				Profiler.BeginSample("WorldDebugDrawerOnGUI()");
 				Find.WorldDebugDrawer.WorldDebugDrawerOnGUI();
-				Profiler.EndSample();
 			}
 		}
 
@@ -140,12 +112,8 @@ namespace RimWorld
 		{
 			if (WorldRendererUtility.WorldRenderedNow)
 			{
-				Profiler.BeginSample("targeter.ProcessInputEvents()");
 				this.targeter.ProcessInputEvents();
-				Profiler.EndSample();
-				Profiler.BeginSample("selector.WorldSelectorOnGUI()");
 				this.selector.WorldSelectorOnGUI();
-				Profiler.EndSample();
 			}
 		}
 

@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -10,7 +9,7 @@ namespace RimWorld
 {
 	public class Page_CreateWorldParams : Page
 	{
-		private bool initialized = false;
+		private bool initialized;
 
 		private string seedString;
 
@@ -90,15 +89,14 @@ namespace RimWorld
 			{
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
 				float[] array = (!Prefs.DevMode) ? Page_CreateWorldParams.PlanetCoverages : Page_CreateWorldParams.PlanetCoveragesDev;
-				for (int i = 0; i < array.Length; i++)
+				foreach (float coverage in array)
 				{
-					float coverage = array[i];
 					string text = coverage.ToStringPercent();
 					if (coverage <= 0.10000000149011612)
 					{
 						text += " (dev)";
 					}
-					FloatMenuOption item = new FloatMenuOption(text, (Action)delegate
+					FloatMenuOption item = new FloatMenuOption(text, delegate
 					{
 						if (this.planetCoverage != coverage)
 						{
@@ -123,36 +121,31 @@ namespace RimWorld
 			Rect rect6 = new Rect(200f, num, 200f, 30f);
 			this.temperature = (OverallTemperature)Mathf.RoundToInt(Widgets.HorizontalSlider(rect6, (float)this.temperature, 0f, (float)(OverallTemperatureUtility.EnumValuesCount - 1), true, "PlanetTemperature_Normal".Translate(), "PlanetTemperature_Low".Translate(), "PlanetTemperature_High".Translate(), 1f));
 			GUI.EndGroup();
-			base.DoBottomButtons(rect, "WorldGenerate".Translate(), "Reset".Translate(), new Action(this.Reset), true);
+			base.DoBottomButtons(rect, "WorldGenerate".Translate(), "Reset".Translate(), this.Reset, true);
 		}
 
 		protected override bool CanDoNext()
 		{
-			bool result;
 			if (!base.CanDoNext())
 			{
-				result = false;
+				return false;
 			}
-			else
+			LongEventHandler.QueueLongEvent(delegate
 			{
-				LongEventHandler.QueueLongEvent((Action)delegate
+				Find.GameInitData.ResetWorldRelatedMapInitData();
+				Current.Game.World = WorldGenerator.GenerateWorld(this.planetCoverage, this.seedString, this.rainfall, this.temperature);
+				LongEventHandler.ExecuteWhenFinished(delegate
 				{
-					Find.GameInitData.ResetWorldRelatedMapInitData();
-					Current.Game.World = WorldGenerator.GenerateWorld(this.planetCoverage, this.seedString, this.rainfall, this.temperature);
-					LongEventHandler.ExecuteWhenFinished((Action)delegate
+					if (base.next != null)
 					{
-						if (base.next != null)
-						{
-							Find.WindowStack.Add(base.next);
-						}
-						MemoryUtility.UnloadUnusedUnityAssets();
-						Find.World.renderer.RegenerateAllLayersNow();
-						this.Close(true);
-					});
-				}, "GeneratingWorld", true, null);
-				result = false;
-			}
-			return result;
+						Find.WindowStack.Add(base.next);
+					}
+					MemoryUtility.UnloadUnusedUnityAssets();
+					Find.World.renderer.RegenerateAllLayersNow();
+					this.Close(true);
+				});
+			}, "GeneratingWorld", true, null);
+			return false;
 		}
 	}
 }

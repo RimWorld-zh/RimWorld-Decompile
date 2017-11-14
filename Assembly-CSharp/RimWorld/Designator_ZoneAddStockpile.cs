@@ -27,36 +27,25 @@ namespace RimWorld
 
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
-			AcceptanceReport acceptanceReport = base.CanDesignateCell(c);
-			AcceptanceReport result;
-			if (!acceptanceReport.Accepted)
+			AcceptanceReport result = base.CanDesignateCell(c);
+			if (!result.Accepted)
 			{
-				result = acceptanceReport;
+				return result;
 			}
-			else
+			TerrainDef terrain = c.GetTerrain(base.Map);
+			if (terrain.passability == Traversability.Impassable)
 			{
-				TerrainDef terrain = c.GetTerrain(base.Map);
-				if (terrain.passability == Traversability.Impassable)
+				return false;
+			}
+			List<Thing> list = base.Map.thingGrid.ThingsListAt(c);
+			for (int i = 0; i < list.Count; i++)
+			{
+				if (!list[i].def.CanOverlapZones)
 				{
-					result = false;
-				}
-				else
-				{
-					List<Thing> list = base.Map.thingGrid.ThingsListAt(c);
-					for (int i = 0; i < list.Count; i++)
-					{
-						if (!list[i].def.CanOverlapZones)
-							goto IL_0073;
-					}
-					result = true;
+					return false;
 				}
 			}
-			goto IL_009f;
-			IL_009f:
-			return result;
-			IL_0073:
-			result = false;
-			goto IL_009f;
+			return true;
 		}
 
 		protected override void FinalizeDesignationSucceeded()

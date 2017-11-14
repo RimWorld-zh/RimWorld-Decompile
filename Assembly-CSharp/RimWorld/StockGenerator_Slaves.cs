@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -19,7 +18,7 @@ namespace RimWorld
 				select fac).TryRandomElement<Faction>(out slaveFaction))
 				{
 					PawnKindDef slave = PawnKindDefOf.Slave;
-					PawnGenerationRequest request = new PawnGenerationRequest(slave, slaveFaction, PawnGenerationContext.NonPlayer, forTile, false, false, false, false, true, false, 1f, !base.trader.orbital, true, true, false, false, false, false, null, default(float?), default(float?), default(float?), default(Gender?), default(float?), (string)null);
+					PawnGenerationRequest request = new PawnGenerationRequest(slave, slaveFaction, PawnGenerationContext.NonPlayer, forTile, false, false, false, false, true, false, 1f, !base.trader.orbital, true, true, false, false, false, false, null, null, null, null, null, null, null);
 					yield return (Thing)PawnGenerator.GeneratePawn(request);
 					/*Error: Unable to find new state assignment for yield return*/;
 				}

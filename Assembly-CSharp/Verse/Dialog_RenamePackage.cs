@@ -47,23 +47,18 @@ namespace Verse
 
 		private bool TrySave()
 		{
-			bool result;
 			if (string.IsNullOrEmpty(this.proposedName) || this.proposedName.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
 			{
 				Messages.Message("Invalid filename.", MessageTypeDefOf.RejectInput);
-				result = false;
+				return false;
 			}
-			else if (Path.GetExtension(this.proposedName) != ".xml")
+			if (Path.GetExtension(this.proposedName) != ".xml")
 			{
 				Messages.Message("Data package file names must end with .xml", MessageTypeDefOf.RejectInput);
-				result = false;
+				return false;
 			}
-			else
-			{
-				this.renamingPackage.fileName = this.proposedName;
-				result = true;
-			}
-			return result;
+			this.renamingPackage.fileName = this.proposedName;
+			return true;
 		}
 	}
 }

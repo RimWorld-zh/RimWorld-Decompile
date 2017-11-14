@@ -10,6 +10,6 @@ namespace Verse
 		Tris = 2,
 		Colors = 4,
 		UVs = 8,
-		All = 127
+		All = 0x7F
 	}
 }

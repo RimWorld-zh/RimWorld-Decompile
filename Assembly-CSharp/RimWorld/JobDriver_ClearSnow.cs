@@ -5,7 +5,7 @@ namespace RimWorld
 {
 	public class JobDriver_ClearSnow : JobDriver
 	{
-		private float workDone = 0f;
+		private float workDone;
 
 		private const float ClearWorkPerSnowDepth = 100f;
 

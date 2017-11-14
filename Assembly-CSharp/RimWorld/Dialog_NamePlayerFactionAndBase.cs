@@ -11,7 +11,7 @@ namespace RimWorld
 		public Dialog_NamePlayerFactionAndBase(FactionBase factionBase)
 		{
 			this.factionBase = factionBase;
-			if ((factionBase.HasMap ? factionBase.Map.mapPawns.FreeColonistsSpawnedCount : 0) != 0)
+			if (factionBase.HasMap && factionBase.Map.mapPawns.FreeColonistsSpawnedCount != 0)
 			{
 				base.suggestingPawn = factionBase.Map.mapPawns.FreeColonistsSpawned.RandomElement();
 			}

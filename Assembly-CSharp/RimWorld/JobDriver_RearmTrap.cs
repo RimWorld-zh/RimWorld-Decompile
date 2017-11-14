@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse.AI;
 
@@ -19,9 +18,9 @@ namespace RimWorld
 			this.FailOnThingMissingDesignation(TargetIndex.A, DesignationDefOf.RearmTrap);
 			Toil gotoThing = new Toil
 			{
-				initAction = (Action)delegate
+				initAction = delegate
 				{
-					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_005b: stateMachine*/)._0024this.pawn.pather.StartPath(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_005b: stateMachine*/)._0024this.TargetThingA, PathEndMode.Touch);
+					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0059: stateMachine*/)._0024this.pawn.pather.StartPath(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0059: stateMachine*/)._0024this.TargetThingA, PathEndMode.Touch);
 				},
 				defaultCompleteMode = ToilCompleteMode.PatherArrival
 			};

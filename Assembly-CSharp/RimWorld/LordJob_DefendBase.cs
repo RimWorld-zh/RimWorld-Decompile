@@ -22,8 +22,7 @@ namespace RimWorld
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
-			LordToil_DefendBase lordToil_DefendBase = new LordToil_DefendBase(this.baseCenter);
-			stateGraph.StartingToil = lordToil_DefendBase;
+			LordToil_DefendBase lordToil_DefendBase = (LordToil_DefendBase)(stateGraph.StartingToil = new LordToil_DefendBase(this.baseCenter));
 			LordToil_DefendBase lordToil_DefendBase2 = new LordToil_DefendBase(this.baseCenter);
 			stateGraph.AddToil(lordToil_DefendBase2);
 			LordToil_AssaultColony lordToil_AssaultColony = new LordToil_AssaultColony();

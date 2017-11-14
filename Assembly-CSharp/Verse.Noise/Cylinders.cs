@@ -18,11 +18,13 @@ namespace Verse.Noise
 			}
 		}
 
-		public Cylinders() : base(0)
+		public Cylinders()
+			: base(0)
 		{
 		}
 
-		public Cylinders(double frequency) : base(0)
+		public Cylinders(double frequency)
+			: base(0)
 		{
 			this.Frequency = frequency;
 		}

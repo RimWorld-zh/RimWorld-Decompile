@@ -87,7 +87,7 @@ namespace RimWorld.Planet
 			IntVec3 intVec = DropCellFinder.TradeDropSpot(map);
 			DropPodUtility.DropThingsNear(intVec, map, DefeatAllEnemiesQuestComp.tmpRewards, 110, false, false, true, false);
 			DefeatAllEnemiesQuestComp.tmpRewards.Clear();
-			Find.LetterStack.ReceiveLetter("LetterLabelDefeatAllEnemiesQuestCompleted".Translate(), "LetterDefeatAllEnemiesQuestCompleted".Translate(this.requestingFaction.Name, this.relationsImprovement.ToString("F0")), LetterDefOf.PositiveEvent, new GlobalTargetInfo(intVec, map, false), (string)null);
+			Find.LetterStack.ReceiveLetter("LetterLabelDefeatAllEnemiesQuestCompleted".Translate(), "LetterDefeatAllEnemiesQuestCompleted".Translate(this.requestingFaction.Name, this.relationsImprovement.ToString("F0")), LetterDefOf.PositiveEvent, new GlobalTargetInfo(intVec, map, false), null);
 		}
 
 		public void GetChildHolders(List<IThingHolder> outChildren)
@@ -108,7 +108,11 @@ namespace RimWorld.Planet
 
 		public override string CompInspectStringExtra()
 		{
-			return (!this.active) ? null : "QuestTargetDestroyInspectString".Translate(this.requestingFaction.Name, this.rewards[0].LabelCap).CapitalizeFirst();
+			if (this.active)
+			{
+				return "QuestTargetDestroyInspectString".Translate(this.requestingFaction.Name, this.rewards[0].LabelCap).CapitalizeFirst();
+			}
+			return null;
 		}
 	}
 }

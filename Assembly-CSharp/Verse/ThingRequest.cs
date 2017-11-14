@@ -16,34 +16,39 @@ namespace Verse
 
 		public static ThingRequest ForUndefined()
 		{
-			return new ThingRequest
-			{
-				singleDef = null,
-				group = ThingRequestGroup.Undefined
-			};
+			ThingRequest result = default(ThingRequest);
+			result.singleDef = null;
+			result.group = ThingRequestGroup.Undefined;
+			return result;
 		}
 
 		public static ThingRequest ForDef(ThingDef singleDef)
 		{
-			return new ThingRequest
-			{
-				singleDef = singleDef,
-				group = ThingRequestGroup.Undefined
-			};
+			ThingRequest result = default(ThingRequest);
+			result.singleDef = singleDef;
+			result.group = ThingRequestGroup.Undefined;
+			return result;
 		}
 
 		public static ThingRequest ForGroup(ThingRequestGroup group)
 		{
-			return new ThingRequest
-			{
-				singleDef = null,
-				group = group
-			};
+			ThingRequest result = default(ThingRequest);
+			result.singleDef = null;
+			result.group = group;
+			return result;
 		}
 
 		public bool Accepts(Thing t)
 		{
-			return (this.singleDef == null) ? (this.group == ThingRequestGroup.Everything || this.group.Includes(t.def)) : (t.def == this.singleDef);
+			if (this.singleDef != null)
+			{
+				return t.def == this.singleDef;
+			}
+			if (this.group != ThingRequestGroup.Everything)
+			{
+				return this.group.Includes(t.def);
+			}
+			return true;
 		}
 
 		public override string ToString()

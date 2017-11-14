@@ -51,17 +51,12 @@ namespace Verse
 		{
 			get
 			{
-				IntVec3 zero;
 				if (!MapGenerator.playerStartSpotInt.IsValid)
 				{
 					Log.Error("Accessing player start spot before setting it.");
-					zero = IntVec3.Zero;
+					return IntVec3.Zero;
 				}
-				else
-				{
-					zero = MapGenerator.playerStartSpotInt;
-				}
-				return zero;
+				return MapGenerator.playerStartSpotInt;
 			}
 			set
 			{
@@ -94,13 +89,13 @@ namespace Verse
 				map.ConstructComponents();
 				DeepProfiler.End();
 				Current.Game.AddMap(map);
-				if ((object)extraInitBeforeContentGen != null)
+				if (extraInitBeforeContentGen != null)
 				{
 					extraInitBeforeContentGen(map);
 				}
 				if (mapGenerator == null)
 				{
-					mapGenerator = DefDatabase<MapGeneratorDef>.AllDefsListForReading.RandomElementByWeight((Func<MapGeneratorDef, float>)((MapGeneratorDef x) => x.selectionWeight));
+					mapGenerator = DefDatabase<MapGeneratorDef>.AllDefsListForReading.RandomElementByWeight((MapGeneratorDef x) => x.selectionWeight);
 				}
 				IEnumerable<GenStepDef> enumerable = mapGenerator.GenSteps;
 				if (extraGenStepDefs != null)
@@ -164,24 +159,23 @@ namespace Verse
 		public static T GetVar<T>(string name)
 		{
 			object obj = default(object);
-			return (!MapGenerator.data.TryGetValue(name, out obj)) ? default(T) : ((T)obj);
+			if (MapGenerator.data.TryGetValue(name, out obj))
+			{
+				return (T)obj;
+			}
+			return default(T);
 		}
 
 		public static bool TryGetVar<T>(string name, out T var)
 		{
 			object obj = default(object);
-			bool result;
 			if (MapGenerator.data.TryGetValue(name, out obj))
 			{
 				var = (T)obj;
-				result = true;
+				return true;
 			}
-			else
-			{
-				var = default(T);
-				result = false;
-			}
-			return result;
+			var = default(T);
+			return false;
 		}
 
 		public static void SetVar<T>(string name, T var)
@@ -192,18 +186,13 @@ namespace Verse
 		public static MapGenFloatGrid FloatGridNamed(string name)
 		{
 			MapGenFloatGrid var = MapGenerator.GetVar<MapGenFloatGrid>(name);
-			MapGenFloatGrid result;
 			if (var != null)
 			{
-				result = var;
+				return var;
 			}
-			else
-			{
-				MapGenFloatGrid mapGenFloatGrid = new MapGenFloatGrid(MapGenerator.mapBeingGenerated);
-				MapGenerator.SetVar(name, mapGenFloatGrid);
-				result = mapGenFloatGrid;
-			}
-			return result;
+			MapGenFloatGrid mapGenFloatGrid = new MapGenFloatGrid(MapGenerator.mapBeingGenerated);
+			MapGenerator.SetVar(name, mapGenFloatGrid);
+			return mapGenFloatGrid;
 		}
 	}
 }

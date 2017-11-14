@@ -10,7 +10,7 @@ namespace RimWorld
 	{
 		private Pawn pawn;
 
-		private bool wantsRandomInteract = false;
+		private bool wantsRandomInteract;
 
 		private int lastInteractionTime = -9999;
 
@@ -34,35 +34,30 @@ namespace RimWorld
 		{
 			get
 			{
-				RandomSocialMode result;
 				if (!InteractionUtility.CanInitiateInteraction(this.pawn))
 				{
-					result = RandomSocialMode.Off;
+					return RandomSocialMode.Off;
 				}
-				else
+				RandomSocialMode randomSocialMode = RandomSocialMode.Normal;
+				JobDriver curDriver = this.pawn.jobs.curDriver;
+				if (curDriver != null)
 				{
-					RandomSocialMode randomSocialMode = RandomSocialMode.Normal;
-					JobDriver curDriver = this.pawn.jobs.curDriver;
-					if (curDriver != null)
-					{
-						randomSocialMode = curDriver.DesiredSocialMode();
-					}
-					PawnDuty duty = this.pawn.mindState.duty;
-					if (duty != null && duty.def.socialModeMax < randomSocialMode)
-					{
-						randomSocialMode = duty.def.socialModeMax;
-					}
-					if (this.pawn.Drafted && randomSocialMode > RandomSocialMode.Quiet)
-					{
-						randomSocialMode = RandomSocialMode.Quiet;
-					}
-					if (this.pawn.InMentalState && randomSocialMode > this.pawn.MentalState.SocialModeMax())
-					{
-						randomSocialMode = this.pawn.MentalState.SocialModeMax();
-					}
-					result = randomSocialMode;
+					randomSocialMode = curDriver.DesiredSocialMode();
 				}
-				return result;
+				PawnDuty duty = this.pawn.mindState.duty;
+				if (duty != null && duty.def.socialModeMax < randomSocialMode)
+				{
+					randomSocialMode = duty.def.socialModeMax;
+				}
+				if (this.pawn.Drafted && randomSocialMode > RandomSocialMode.Quiet)
+				{
+					randomSocialMode = RandomSocialMode.Quiet;
+				}
+				if (this.pawn.InMentalState && randomSocialMode > this.pawn.MentalState.SocialModeMax())
+				{
+					randomSocialMode = this.pawn.MentalState.SocialModeMax();
+				}
+				return randomSocialMode;
 			}
 		}
 
@@ -83,15 +78,11 @@ namespace RimWorld
 			switch (currentSocialMode)
 			{
 			case RandomSocialMode.Off:
-			{
 				this.wantsRandomInteract = false;
 				return;
-			}
 			case RandomSocialMode.Quiet:
-			{
 				this.wantsRandomInteract = false;
 				break;
-			}
 			}
 			if (!this.wantsRandomInteract)
 			{
@@ -101,20 +92,14 @@ namespace RimWorld
 					switch (currentSocialMode)
 					{
 					case RandomSocialMode.Quiet:
-					{
 						num = 22000;
 						break;
-					}
 					case RandomSocialMode.Normal:
-					{
 						num = 6600;
 						break;
-					}
 					case RandomSocialMode.SuperActive:
-					{
 						num = 550;
 						break;
-					}
 					}
 					if (Rand.MTBEventOccurs((float)num, 1f, 60f) && !this.TryInteractRandomly())
 					{
@@ -135,7 +120,19 @@ namespace RimWorld
 
 		public bool CanInteractNowWith(Pawn recipient)
 		{
-			return (byte)(recipient.Spawned ? (InteractionUtility.IsGoodPositionForInteraction(this.pawn, recipient) ? ((InteractionUtility.CanInitiateInteraction(this.pawn) && InteractionUtility.CanReceiveInteraction(recipient)) ? 1 : 0) : 0) : 0) != 0;
+			if (!recipient.Spawned)
+			{
+				return false;
+			}
+			if (!InteractionUtility.IsGoodPositionForInteraction(this.pawn, recipient))
+			{
+				return false;
+			}
+			if (InteractionUtility.CanInitiateInteraction(this.pawn) && InteractionUtility.CanReceiveInteraction(recipient))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public bool TryInteractWith(Pawn recipient, InteractionDef intDef)
@@ -144,59 +141,54 @@ namespace RimWorld
 			{
 				intDef = InteractionDefOf.Insult;
 			}
-			bool result;
 			if (this.pawn == recipient)
 			{
 				Log.Warning(this.pawn + " tried to interact with self, interaction=" + intDef.defName);
-				result = false;
+				return false;
 			}
-			else if (!this.CanInteractNowWith(recipient))
+			if (!this.CanInteractNowWith(recipient))
 			{
-				result = false;
+				return false;
 			}
-			else if (this.InteractedTooRecentlyToInteract())
+			if (this.InteractedTooRecentlyToInteract())
 			{
 				Log.Error(this.pawn + " tried to do interaction " + intDef + " to " + recipient + " only " + (Find.TickManager.TicksGame - this.lastInteractionTime) + " ticks since last interaction (min is " + 120 + ").");
-				result = false;
+				return false;
 			}
-			else
+			List<RulePackDef> list = new List<RulePackDef>();
+			if (intDef.initiatorThought != null)
 			{
-				List<RulePackDef> list = new List<RulePackDef>();
-				if (intDef.initiatorThought != null)
-				{
-					Pawn_InteractionsTracker.AddInteractionThought(this.pawn, recipient, intDef.initiatorThought);
-				}
-				if (intDef.recipientThought != null && recipient.needs.mood != null)
-				{
-					Pawn_InteractionsTracker.AddInteractionThought(recipient, this.pawn, intDef.recipientThought);
-				}
-				if (intDef.initiatorXpGainSkill != null)
-				{
-					this.pawn.skills.Learn(intDef.initiatorXpGainSkill, (float)intDef.initiatorXpGainAmount, false);
-				}
-				if (intDef.recipientXpGainSkill != null && recipient.RaceProps.Humanlike)
-				{
-					recipient.skills.Learn(intDef.recipientXpGainSkill, (float)intDef.recipientXpGainAmount, false);
-				}
-				bool flag = false;
-				if (recipient.RaceProps.Humanlike)
-				{
-					flag = recipient.interactions.CheckSocialFightStart(intDef, this.pawn);
-				}
-				if (!flag)
-				{
-					intDef.Worker.Interacted(this.pawn, recipient, list);
-				}
-				MoteMaker.MakeInteractionBubble(this.pawn, recipient, intDef.interactionMote, intDef.Symbol);
-				this.lastInteractionTime = Find.TickManager.TicksGame;
-				if (flag)
-				{
-					list.Add(RulePackDefOf.Sentence_SocialFightStarted);
-				}
-				Find.PlayLog.Add(new PlayLogEntry_Interaction(intDef, this.pawn, recipient, list));
-				result = true;
+				Pawn_InteractionsTracker.AddInteractionThought(this.pawn, recipient, intDef.initiatorThought);
 			}
-			return result;
+			if (intDef.recipientThought != null && recipient.needs.mood != null)
+			{
+				Pawn_InteractionsTracker.AddInteractionThought(recipient, this.pawn, intDef.recipientThought);
+			}
+			if (intDef.initiatorXpGainSkill != null)
+			{
+				this.pawn.skills.Learn(intDef.initiatorXpGainSkill, (float)intDef.initiatorXpGainAmount, false);
+			}
+			if (intDef.recipientXpGainSkill != null && recipient.RaceProps.Humanlike)
+			{
+				recipient.skills.Learn(intDef.recipientXpGainSkill, (float)intDef.recipientXpGainAmount, false);
+			}
+			bool flag = false;
+			if (recipient.RaceProps.Humanlike)
+			{
+				flag = recipient.interactions.CheckSocialFightStart(intDef, this.pawn);
+			}
+			if (!flag)
+			{
+				intDef.Worker.Interacted(this.pawn, recipient, list);
+			}
+			MoteMaker.MakeInteractionBubble(this.pawn, recipient, intDef.interactionMote, intDef.Symbol);
+			this.lastInteractionTime = Find.TickManager.TicksGame;
+			if (flag)
+			{
+				list.Add(RulePackDefOf.Sentence_SocialFightStarted);
+			}
+			Find.PlayLog.Add(new PlayLogEntry_Interaction(intDef, this.pawn, recipient, list));
+			return true;
 		}
 
 		private static void AddInteractionThought(Pawn pawn, Pawn otherPawn, ThoughtDef thoughtDef)
@@ -214,66 +206,51 @@ namespace RimWorld
 
 		private bool TryInteractRandomly()
 		{
-			bool result;
 			if (this.InteractedTooRecentlyToInteract())
 			{
-				result = false;
+				return false;
 			}
-			else if (!InteractionUtility.CanInitiateRandomInteraction(this.pawn))
+			if (!InteractionUtility.CanInitiateRandomInteraction(this.pawn))
 			{
-				result = false;
+				return false;
 			}
-			else
+			List<Pawn> collection = this.pawn.Map.mapPawns.SpawnedPawnsInFaction(this.pawn.Faction);
+			Pawn_InteractionsTracker.workingList.Clear();
+			Pawn_InteractionsTracker.workingList.AddRange(collection);
+			Pawn_InteractionsTracker.workingList.Shuffle();
+			List<InteractionDef> allDefsListForReading = DefDatabase<InteractionDef>.AllDefsListForReading;
+			for (int i = 0; i < Pawn_InteractionsTracker.workingList.Count; i++)
 			{
-				List<Pawn> collection = this.pawn.Map.mapPawns.SpawnedPawnsInFaction(this.pawn.Faction);
-				Pawn_InteractionsTracker.workingList.Clear();
-				Pawn_InteractionsTracker.workingList.AddRange(collection);
-				Pawn_InteractionsTracker.workingList.Shuffle();
-				List<InteractionDef> allDefsListForReading = DefDatabase<InteractionDef>.AllDefsListForReading;
-				for (int i = 0; i < Pawn_InteractionsTracker.workingList.Count; i++)
+				Pawn p = Pawn_InteractionsTracker.workingList[i];
+				InteractionDef intDef = default(InteractionDef);
+				if (p != this.pawn && this.CanInteractNowWith(p) && InteractionUtility.CanReceiveRandomInteraction(p) && !this.pawn.HostileTo(p) && ((IEnumerable<InteractionDef>)allDefsListForReading).TryRandomElementByWeight<InteractionDef>((Func<InteractionDef, float>)((InteractionDef x) => x.Worker.RandomSelectionWeight(this.pawn, p)), out intDef))
 				{
-					Pawn p = Pawn_InteractionsTracker.workingList[i];
-					InteractionDef intDef = default(InteractionDef);
-					if (p != this.pawn && this.CanInteractNowWith(p) && InteractionUtility.CanReceiveRandomInteraction(p) && !this.pawn.HostileTo(p) && ((IEnumerable<InteractionDef>)allDefsListForReading).TryRandomElementByWeight<InteractionDef>((Func<InteractionDef, float>)((InteractionDef x) => x.Worker.RandomSelectionWeight(this.pawn, p)), out intDef))
+					if (this.TryInteractWith(p, intDef))
 					{
-						if (this.TryInteractWith(p, intDef))
-						{
-							goto IL_013f;
-						}
-						Log.Error(this.pawn + " failed to interact with " + p);
+						return true;
 					}
+					Log.Error(this.pawn + " failed to interact with " + p);
 				}
-				result = false;
 			}
-			goto IL_0161;
-			IL_013f:
-			result = true;
-			goto IL_0161;
-			IL_0161:
-			return result;
+			return false;
 		}
 
 		public bool CheckSocialFightStart(InteractionDef interaction, Pawn initiator)
 		{
-			bool result;
-			if (this.pawn.needs.mood == null || TutorSystem.TutorialMode)
+			if (this.pawn.needs.mood != null && !TutorSystem.TutorialMode)
 			{
-				result = false;
-			}
-			else if (!InteractionUtility.HasAnySocialFightProvokingThought(this.pawn, initiator))
-			{
-				result = false;
-			}
-			else if (DebugSettings.alwaysSocialFight || Rand.Value < this.SocialFightChance(interaction, initiator))
-			{
+				if (!InteractionUtility.HasAnySocialFightProvokingThought(this.pawn, initiator))
+				{
+					return false;
+				}
+				if (!DebugSettings.alwaysSocialFight && !(Rand.Value < this.SocialFightChance(interaction, initiator)))
+				{
+					return false;
+				}
 				this.StartSocialFight(initiator);
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public void StartSocialFight(Pawn otherPawn)
@@ -287,73 +264,68 @@ namespace RimWorld
 				}
 				else
 				{
-					Messages.Message("MessageSocialFight".Translate(this.pawn.LabelShort, otherPawn.LabelShort, thought.LabelCapSocial), (Thing)this.pawn, MessageTypeDefOf.ThreatSmall);
+					Messages.Message("MessageSocialFight".Translate(this.pawn.LabelShort, otherPawn.LabelShort, thought.LabelCapSocial), this.pawn, MessageTypeDefOf.ThreatSmall);
 				}
 			}
 			MentalStateHandler mentalStateHandler = this.pawn.mindState.mentalStateHandler;
 			MentalStateDef socialFighting = MentalStateDefOf.SocialFighting;
-			mentalStateHandler.TryStartMentalState(socialFighting, (string)null, false, false, otherPawn);
+			mentalStateHandler.TryStartMentalState(socialFighting, null, false, false, otherPawn);
 			MentalStateHandler mentalStateHandler2 = otherPawn.mindState.mentalStateHandler;
 			socialFighting = MentalStateDefOf.SocialFighting;
 			Pawn otherPawn2 = this.pawn;
-			mentalStateHandler2.TryStartMentalState(socialFighting, (string)null, false, false, otherPawn2);
+			mentalStateHandler2.TryStartMentalState(socialFighting, null, false, false, otherPawn2);
 			TaleRecorder.RecordTale(TaleDefOf.SocialFight, this.pawn, otherPawn);
 		}
 
 		public float SocialFightChance(InteractionDef interaction, Pawn initiator)
 		{
-			float result;
-			if (!this.pawn.RaceProps.Humanlike || !initiator.RaceProps.Humanlike)
+			if (this.pawn.RaceProps.Humanlike && initiator.RaceProps.Humanlike)
 			{
-				result = 0f;
-			}
-			else if (!InteractionUtility.HasAnyVerbForSocialFight(this.pawn) || !InteractionUtility.HasAnyVerbForSocialFight(initiator))
-			{
-				result = 0f;
-			}
-			else if (this.pawn.story.WorkTagIsDisabled(WorkTags.Violent))
-			{
-				result = 0f;
-			}
-			else if (initiator.Downed || this.pawn.Downed)
-			{
-				result = 0f;
-			}
-			else
-			{
-				float socialFightBaseChance = interaction.socialFightBaseChance;
-				socialFightBaseChance *= Mathf.InverseLerp(0.3f, 1f, this.pawn.health.capacities.GetLevel(PawnCapacityDefOf.Manipulation));
-				socialFightBaseChance *= Mathf.InverseLerp(0.3f, 1f, this.pawn.health.capacities.GetLevel(PawnCapacityDefOf.Moving));
-				List<Hediff> hediffs = this.pawn.health.hediffSet.hediffs;
-				for (int i = 0; i < hediffs.Count; i++)
+				if (InteractionUtility.HasAnyVerbForSocialFight(this.pawn) && InteractionUtility.HasAnyVerbForSocialFight(initiator))
 				{
-					if (hediffs[i].CurStage != null)
+					if (this.pawn.story.WorkTagIsDisabled(WorkTags.Violent))
 					{
-						socialFightBaseChance *= hediffs[i].CurStage.socialFightChanceFactor;
+						return 0f;
 					}
-				}
-				float num = (float)this.pawn.relations.OpinionOf(initiator);
-				socialFightBaseChance = ((!(num < 0.0)) ? (socialFightBaseChance * GenMath.LerpDouble(0f, 100f, 1f, 0.6f, num)) : (socialFightBaseChance * GenMath.LerpDouble(-100f, 0f, 4f, 1f, num)));
-				if (this.pawn.RaceProps.Humanlike)
-				{
-					List<Trait> allTraits = this.pawn.story.traits.allTraits;
-					for (int j = 0; j < allTraits.Count; j++)
+					if (!initiator.Downed && !this.pawn.Downed)
 					{
-						socialFightBaseChance *= allTraits[j].CurrentData.socialFightChanceFactor;
+						float socialFightBaseChance = interaction.socialFightBaseChance;
+						socialFightBaseChance *= Mathf.InverseLerp(0.3f, 1f, this.pawn.health.capacities.GetLevel(PawnCapacityDefOf.Manipulation));
+						socialFightBaseChance *= Mathf.InverseLerp(0.3f, 1f, this.pawn.health.capacities.GetLevel(PawnCapacityDefOf.Moving));
+						List<Hediff> hediffs = this.pawn.health.hediffSet.hediffs;
+						for (int i = 0; i < hediffs.Count; i++)
+						{
+							if (hediffs[i].CurStage != null)
+							{
+								socialFightBaseChance *= hediffs[i].CurStage.socialFightChanceFactor;
+							}
+						}
+						float num = (float)this.pawn.relations.OpinionOf(initiator);
+						socialFightBaseChance = ((!(num < 0.0)) ? (socialFightBaseChance * GenMath.LerpDouble(0f, 100f, 1f, 0.6f, num)) : (socialFightBaseChance * GenMath.LerpDouble(-100f, 0f, 4f, 1f, num)));
+						if (this.pawn.RaceProps.Humanlike)
+						{
+							List<Trait> allTraits = this.pawn.story.traits.allTraits;
+							for (int j = 0; j < allTraits.Count; j++)
+							{
+								socialFightBaseChance *= allTraits[j].CurrentData.socialFightChanceFactor;
+							}
+						}
+						int num2 = Mathf.Abs(this.pawn.ageTracker.AgeBiologicalYears - initiator.ageTracker.AgeBiologicalYears);
+						if (num2 > 10)
+						{
+							if (num2 > 50)
+							{
+								num2 = 50;
+							}
+							socialFightBaseChance *= GenMath.LerpDouble(10f, 50f, 1f, 0.25f, (float)num2);
+						}
+						return Mathf.Clamp01(socialFightBaseChance);
 					}
+					return 0f;
 				}
-				int num2 = Mathf.Abs(this.pawn.ageTracker.AgeBiologicalYears - initiator.ageTracker.AgeBiologicalYears);
-				if (num2 > 10)
-				{
-					if (num2 > 50)
-					{
-						num2 = 50;
-					}
-					socialFightBaseChance *= GenMath.LerpDouble(10f, 50f, 1f, 0.25f, (float)num2);
-				}
-				result = Mathf.Clamp01(socialFightBaseChance);
+				return 0f;
 			}
-			return result;
+			return 0f;
 		}
 	}
 }

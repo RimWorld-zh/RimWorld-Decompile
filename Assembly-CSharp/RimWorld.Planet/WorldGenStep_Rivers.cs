@@ -62,7 +62,7 @@ namespace RimWorld.Planet
 			if (coastalWaterTiles.Any())
 			{
 				List<int> neighbors = new List<int>();
-				List<int>[] array = Find.WorldPathFinder.FloodPathsWithCostForTree(coastalWaterTiles, (Func<int, int, int>)delegate(int st, int ed)
+				List<int>[] array = Find.WorldPathFinder.FloodPathsWithCostForTree(coastalWaterTiles, delegate(int st, int ed)
 				{
 					Tile tile = Find.WorldGrid[ed];
 					Tile tile2 = Find.WorldGrid[st];
@@ -81,7 +81,7 @@ namespace RimWorld.Planet
 						num2 = 2f;
 					}
 					return Mathf.RoundToInt(num2 * WorldGenStep_Rivers.ElevationChangeCost.Evaluate(WorldGenStep_Rivers.GetImpliedElevation(tile2) - WorldGenStep_Rivers.GetImpliedElevation(tile)));
-				}, (Func<int, bool>)((int tid) => Find.WorldGrid[tid].WaterCovered), null);
+				}, (int tid) => Find.WorldGrid[tid].WaterCovered, null);
 				float[] flow = new float[array.Length];
 				for (int i = 0; i < coastalWaterTiles.Count; i++)
 				{
@@ -181,7 +181,7 @@ namespace RimWorld.Planet
 		{
 			if (riverPaths[index] != null)
 			{
-				int bestOutput = riverPaths[index].MaxBy((Func<int, float>)((int ni) => flow[ni]));
+				int bestOutput = riverPaths[index].MaxBy((int ni) => flow[ni]);
 				RiverDef riverDef = incomingRiver;
 				while (riverDef != null && (float)riverDef.degradeThreshold > flow[bestOutput])
 				{
@@ -198,7 +198,7 @@ namespace RimWorld.Planet
 					where ni != bestOutput
 					select ni)
 					{
-						RiverDef.Branch branch2 = incomingRiver.branches.Where((Func<RiverDef.Branch, bool>)((RiverDef.Branch branch) => (float)branch.minFlow <= flow[item])).MaxByWithFallback((Func<RiverDef.Branch, int>)((RiverDef.Branch branch) => branch.minFlow), (RiverDef.Branch)null);
+						RiverDef.Branch branch2 = incomingRiver.branches.Where((RiverDef.Branch branch) => (float)branch.minFlow <= flow[item]).MaxByWithFallback((Func<RiverDef.Branch, int>)((RiverDef.Branch branch) => branch.minFlow), (RiverDef.Branch)null);
 						if (branch2 != null && Rand.Value < branch2.chance)
 						{
 							Find.WorldGrid.OverlayRiver(index, item, branch2.child);

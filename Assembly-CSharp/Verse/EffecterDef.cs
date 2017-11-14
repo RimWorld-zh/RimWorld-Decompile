@@ -4,7 +4,7 @@ namespace Verse
 {
 	public class EffecterDef : Def
 	{
-		public List<SubEffecterDef> children = null;
+		public List<SubEffecterDef> children;
 
 		public Effecter Spawn()
 		{

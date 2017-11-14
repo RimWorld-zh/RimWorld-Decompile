@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 
@@ -61,10 +60,10 @@ namespace RimWorld
 				{
 					base.ProcessInput(ev);
 				}
-				AreaUtility.MakeAllowedAreaListFloatMenu((Action<Area>)delegate(Area a)
+				AreaUtility.MakeAllowedAreaListFloatMenu(delegate(Area a)
 				{
 					Designator_AreaAllowed.selectedArea = a;
-					this._003CProcessInput_003E__BaseCallProxy0(ev);
+					base.ProcessInput(ev);
 				}, AllowedAreaMode.Any, false, true, base.Map);
 			}
 		}

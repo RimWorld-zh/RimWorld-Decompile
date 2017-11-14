@@ -60,13 +60,13 @@ namespace Verse
 			}
 			if (!Widgets.ButtonText(new Rect((float)(inRect.width / 2.0 + 20.0), (float)(inRect.height - 35.0), (float)(inRect.width / 2.0 - 20.0), 35f), "OK", true, false, true) && !flag)
 				return;
-			if (this.curName.Length < 1)
+			if (string.IsNullOrEmpty(this.curName))
 			{
 				this.curName = ((NameTriple)this.pawn.Name).First;
 			}
 			this.pawn.Name = this.CurPawnName;
 			Find.WindowStack.TryRemove(this, true);
-			Messages.Message("PawnGainsName".Translate(this.curName), (Thing)this.pawn, MessageTypeDefOf.PositiveEvent);
+			Messages.Message("PawnGainsName".Translate(this.curName), this.pawn, MessageTypeDefOf.PositiveEvent);
 		}
 	}
 }

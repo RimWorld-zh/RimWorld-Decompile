@@ -26,7 +26,15 @@ namespace RimWorld
 		{
 			get
 			{
-				return (float)(base.pawn.Spawned ? ((this.lastComfortUseTick <= Find.TickManager.TicksGame - 10) ? 0.0 : Mathf.Clamp01(this.lastComfortUsed)) : 0.5);
+				if (!base.pawn.Spawned)
+				{
+					return 0.5f;
+				}
+				if (this.lastComfortUseTick > Find.TickManager.TicksGame - 10)
+				{
+					return Mathf.Clamp01(this.lastComfortUsed);
+				}
+				return 0f;
 			}
 		}
 
@@ -34,11 +42,32 @@ namespace RimWorld
 		{
 			get
 			{
-				return (ComfortCategory)((!(this.CurLevel < 0.10000000149011612)) ? ((this.CurLevel < 0.60000002384185791) ? 1 : ((!(this.CurLevel < 0.699999988079071)) ? ((!(this.CurLevel < 0.800000011920929)) ? ((!(this.CurLevel < 0.89999997615814209)) ? 5 : 4) : 3) : 2)) : 0);
+				if (this.CurLevel < 0.10000000149011612)
+				{
+					return ComfortCategory.Uncomfortable;
+				}
+				if (this.CurLevel < 0.60000002384185791)
+				{
+					return ComfortCategory.Normal;
+				}
+				if (this.CurLevel < 0.699999988079071)
+				{
+					return ComfortCategory.Comfortable;
+				}
+				if (this.CurLevel < 0.800000011920929)
+				{
+					return ComfortCategory.VeryComfortable;
+				}
+				if (this.CurLevel < 0.89999997615814209)
+				{
+					return ComfortCategory.ExtremelyComfortable;
+				}
+				return ComfortCategory.LuxuriantlyComfortable;
 			}
 		}
 
-		public Need_Comfort(Pawn pawn) : base(pawn)
+		public Need_Comfort(Pawn pawn)
+			: base(pawn)
 		{
 			base.threshPercents = new List<float>();
 			base.threshPercents.Add(0.1f);

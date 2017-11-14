@@ -32,17 +32,12 @@ namespace RimWorld
 		{
 			get
 			{
-				string result;
 				if (!this.HasAnyThing)
 				{
-					result = "";
+					return string.Empty;
 				}
-				else
-				{
-					string str = this.AnyPawn.MainDesc(true);
-					str = (result = str + "\n\n" + this.AnyPawn.def.description);
-				}
-				return result;
+				string str = this.AnyPawn.MainDesc(true);
+				return str + "\n\n" + this.AnyPawn.def.description;
 			}
 		}
 

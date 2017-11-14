@@ -64,34 +64,24 @@ namespace RimWorld.Planet
 
 		protected LayerSubMesh GetSubMesh(Material material, out int subMeshIndex)
 		{
-			int num = 0;
-			LayerSubMesh result;
-			while (true)
+			for (int i = 0; i < this.subMeshes.Count; i++)
 			{
-				if (num < this.subMeshes.Count)
+				LayerSubMesh layerSubMesh = this.subMeshes[i];
+				if ((Object)layerSubMesh.material == (Object)material && layerSubMesh.verts.Count < 40000)
 				{
-					LayerSubMesh layerSubMesh = this.subMeshes[num];
-					if ((Object)layerSubMesh.material == (Object)material && layerSubMesh.verts.Count < 40000)
-					{
-						subMeshIndex = num;
-						result = layerSubMesh;
-						break;
-					}
-					num++;
-					continue;
+					subMeshIndex = i;
+					return layerSubMesh;
 				}
-				Mesh mesh = new Mesh();
-				if (UnityData.isEditor)
-				{
-					mesh.name = "WorldLayerSubMesh_" + base.GetType().Name + "_" + Find.World.info.seedString;
-				}
-				LayerSubMesh layerSubMesh2 = new LayerSubMesh(mesh, material);
-				subMeshIndex = this.subMeshes.Count;
-				this.subMeshes.Add(layerSubMesh2);
-				result = layerSubMesh2;
-				break;
 			}
-			return result;
+			Mesh mesh = new Mesh();
+			if (UnityData.isEditor)
+			{
+				mesh.name = "WorldLayerSubMesh_" + base.GetType().Name + "_" + Find.World.info.seedString;
+			}
+			LayerSubMesh layerSubMesh2 = new LayerSubMesh(mesh, material);
+			subMeshIndex = this.subMeshes.Count;
+			this.subMeshes.Add(layerSubMesh2);
+			return layerSubMesh2;
 		}
 
 		protected void FinalizeMesh(MeshParts tags)

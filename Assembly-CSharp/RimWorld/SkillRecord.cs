@@ -10,9 +10,9 @@ namespace RimWorld
 
 		public SkillDef def;
 
-		public int levelInt = 0;
+		public int levelInt;
 
-		public Passion passion = Passion.None;
+		public Passion passion;
 
 		public float xpSinceLastLevel;
 
@@ -58,7 +58,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (!this.TotallyDisabled) ? this.levelInt : 0;
+				if (this.TotallyDisabled)
+				{
+					return 0;
+				}
+				return this.levelInt;
 			}
 			set
 			{
@@ -111,121 +115,53 @@ namespace RimWorld
 		{
 			get
 			{
-				string result;
 				switch (this.levelInt)
 				{
 				case 0:
-				{
-					result = "Skill0".Translate();
-					break;
-				}
+					return "Skill0".Translate();
 				case 1:
-				{
-					result = "Skill1".Translate();
-					break;
-				}
+					return "Skill1".Translate();
 				case 2:
-				{
-					result = "Skill2".Translate();
-					break;
-				}
+					return "Skill2".Translate();
 				case 3:
-				{
-					result = "Skill3".Translate();
-					break;
-				}
+					return "Skill3".Translate();
 				case 4:
-				{
-					result = "Skill4".Translate();
-					break;
-				}
+					return "Skill4".Translate();
 				case 5:
-				{
-					result = "Skill5".Translate();
-					break;
-				}
+					return "Skill5".Translate();
 				case 6:
-				{
-					result = "Skill6".Translate();
-					break;
-				}
+					return "Skill6".Translate();
 				case 7:
-				{
-					result = "Skill7".Translate();
-					break;
-				}
+					return "Skill7".Translate();
 				case 8:
-				{
-					result = "Skill8".Translate();
-					break;
-				}
+					return "Skill8".Translate();
 				case 9:
-				{
-					result = "Skill9".Translate();
-					break;
-				}
+					return "Skill9".Translate();
 				case 10:
-				{
-					result = "Skill10".Translate();
-					break;
-				}
+					return "Skill10".Translate();
 				case 11:
-				{
-					result = "Skill11".Translate();
-					break;
-				}
+					return "Skill11".Translate();
 				case 12:
-				{
-					result = "Skill12".Translate();
-					break;
-				}
+					return "Skill12".Translate();
 				case 13:
-				{
-					result = "Skill13".Translate();
-					break;
-				}
+					return "Skill13".Translate();
 				case 14:
-				{
-					result = "Skill14".Translate();
-					break;
-				}
+					return "Skill14".Translate();
 				case 15:
-				{
-					result = "Skill15".Translate();
-					break;
-				}
+					return "Skill15".Translate();
 				case 16:
-				{
-					result = "Skill16".Translate();
-					break;
-				}
+					return "Skill16".Translate();
 				case 17:
-				{
-					result = "Skill17".Translate();
-					break;
-				}
+					return "Skill17".Translate();
 				case 18:
-				{
-					result = "Skill18".Translate();
-					break;
-				}
+					return "Skill18".Translate();
 				case 19:
-				{
-					result = "Skill19".Translate();
-					break;
-				}
+					return "Skill19".Translate();
 				case 20:
-				{
-					result = "Skill20".Translate();
-					break;
-				}
+					return "Skill20".Translate();
 				default:
-				{
-					result = "Unknown";
-					break;
+					return "Unknown";
 				}
-				}
-				return result;
 			}
 		}
 
@@ -266,60 +202,38 @@ namespace RimWorld
 			switch (this.levelInt)
 			{
 			case 10:
-			{
 				this.Learn(-0.1f, false);
 				break;
-			}
 			case 11:
-			{
 				this.Learn(-0.2f, false);
 				break;
-			}
 			case 12:
-			{
 				this.Learn(-0.4f, false);
 				break;
-			}
 			case 13:
-			{
 				this.Learn(-0.6f, false);
 				break;
-			}
 			case 14:
-			{
 				this.Learn(-1f, false);
 				break;
-			}
 			case 15:
-			{
 				this.Learn(-1.8f, false);
 				break;
-			}
 			case 16:
-			{
 				this.Learn(-2.8f, false);
 				break;
-			}
 			case 17:
-			{
 				this.Learn(-4f, false);
 				break;
-			}
 			case 18:
-			{
 				this.Learn(-6f, false);
 				break;
-			}
 			case 19:
-			{
 				this.Learn(-8f, false);
 				break;
-			}
 			case 20:
-			{
 				this.Learn(-12f, false);
 				break;
-			}
 			}
 		}
 
@@ -330,7 +244,7 @@ namespace RimWorld
 
 		public void Learn(float xp, bool direct = false)
 		{
-			if (((!this.TotallyDisabled) ? ((!(xp < 0.0)) ? 1 : this.levelInt) : 0) != 0)
+			if (!this.TotallyDisabled && (!(xp < 0.0) || this.levelInt != 0))
 			{
 				if (xp > 0.0)
 				{
@@ -340,20 +254,14 @@ namespace RimWorld
 						switch (this.passion)
 						{
 						case Passion.Minor:
-						{
 							amount = (float)(1.9999999494757503E-05 * xp);
 							break;
-						}
 						case Passion.Major:
-						{
 							amount = (float)(3.9999998989515007E-05 * xp);
 							break;
-						}
 						case Passion.None:
-						{
 							amount = (float)(0.0 * xp);
 							break;
-						}
 						}
 						this.pawn.needs.joy.GainJoy(amount, JoyKindDefOf.Work);
 					}
@@ -409,47 +317,34 @@ namespace RimWorld
 
 		public float LearnRateFactor(bool direct = false)
 		{
-			float result;
 			if (DebugSettings.fastLearning)
 			{
-				result = 200f;
+				return 200f;
 			}
-			else
+			float num;
+			switch (this.passion)
 			{
-				float num;
-				switch (this.passion)
-				{
-				case Passion.None:
-				{
-					num = 0.35f;
-					break;
-				}
-				case Passion.Minor:
-				{
-					num = 1f;
-					break;
-				}
-				case Passion.Major:
-				{
-					num = 1.5f;
-					break;
-				}
-				default:
-				{
-					throw new NotImplementedException("Passion level " + this.passion);
-				}
-				}
-				if (!direct)
-				{
-					num *= this.pawn.GetStatValue(StatDefOf.GlobalLearningFactor, true);
-					if (this.LearningSaturatedToday)
-					{
-						num = (float)(num * 0.20000000298023224);
-					}
-				}
-				result = num;
+			case Passion.None:
+				num = 0.35f;
+				break;
+			case Passion.Minor:
+				num = 1f;
+				break;
+			case Passion.Major:
+				num = 1.5f;
+				break;
+			default:
+				throw new NotImplementedException("Passion level " + this.passion);
 			}
-			return result;
+			if (!direct)
+			{
+				num *= this.pawn.GetStatValue(StatDefOf.GlobalLearningFactor, true);
+				if (this.LearningSaturatedToday)
+				{
+					num = (float)(num * 0.20000000298023224);
+				}
+			}
+			return num;
 		}
 
 		public void Notify_SkillDisablesChanged()

@@ -205,31 +205,23 @@ namespace Verse
 		{
 			get
 			{
-				Scenario result;
 				if (Current.Game != null && Current.Game.Scenario != null)
 				{
-					result = Current.Game.Scenario;
+					return Current.Game.Scenario;
 				}
-				else if (ScenarioMaker.GeneratingScenario != null)
+				if (ScenarioMaker.GeneratingScenario != null)
 				{
-					result = ScenarioMaker.GeneratingScenario;
+					return ScenarioMaker.GeneratingScenario;
 				}
-				else
+				if (Find.UIRoot != null)
 				{
-					if (Find.UIRoot != null)
+					Page_ScenarioEditor page_ScenarioEditor = Find.WindowStack.WindowOfType<Page_ScenarioEditor>();
+					if (page_ScenarioEditor != null)
 					{
-						Page_ScenarioEditor page_ScenarioEditor = Find.WindowStack.WindowOfType<Page_ScenarioEditor>();
-						if (page_ScenarioEditor != null)
-						{
-							result = page_ScenarioEditor.EditingScenario;
-							goto IL_006f;
-						}
+						return page_ScenarioEditor.EditingScenario;
 					}
-					result = null;
 				}
-				goto IL_006f;
-				IL_006f:
-				return result;
+				return null;
 			}
 		}
 
@@ -253,6 +245,10 @@ namespace Verse
 		{
 			get
 			{
+				if (Current.Game == null)
+				{
+					return null;
+				}
 				return Current.Game.VisibleMap;
 			}
 		}
@@ -285,7 +281,11 @@ namespace Verse
 		{
 			get
 			{
-				return (Current.Game != null) ? Current.Game.storyteller : null;
+				if (Current.Game == null)
+				{
+					return null;
+				}
+				return Current.Game.storyteller;
 			}
 		}
 
@@ -357,7 +357,11 @@ namespace Verse
 		{
 			get
 			{
-				return (Current.Game != null) ? Current.Game.tutor : null;
+				if (Current.Game == null)
+				{
+					return null;
+				}
+				return Current.Game.tutor;
 			}
 		}
 
@@ -373,7 +377,11 @@ namespace Verse
 		{
 			get
 			{
-				return (Current.Game != null) ? Current.Game.tutor.activeLesson : null;
+				if (Current.Game == null)
+				{
+					return null;
+				}
+				return Current.Game.tutor.activeLesson;
 			}
 		}
 

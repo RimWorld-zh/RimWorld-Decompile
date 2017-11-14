@@ -16,7 +16,7 @@ namespace RimWorld
 
 		protected override Action GetWaitTickAction()
 		{
-			return (Action)delegate
+			return delegate
 			{
 				float num = this.Grave.GetStatValue(StatDefOf.EntertainmentStrengthFactor, true);
 				Room room = base.pawn.GetRoom(RegionType.Set_Passable);

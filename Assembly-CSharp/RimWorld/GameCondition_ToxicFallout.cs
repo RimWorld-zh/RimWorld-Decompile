@@ -72,7 +72,7 @@ namespace RimWorld
 					{
 						if (Rand.Value < 0.0065000001341104507)
 						{
-							thing.Kill(default(DamageInfo?), null);
+							thing.Kill(null, null);
 						}
 					}
 					else if (thing.def.category == ThingCategory.Item)
@@ -103,7 +103,7 @@ namespace RimWorld
 
 		public override SkyTarget? SkyTarget()
 		{
-			return new SkyTarget?(new SkyTarget(0.85f, this.ToxicFalloutColors, 1f, 1f));
+			return new SkyTarget(0.85f, this.ToxicFalloutColors, 1f, 1f);
 		}
 
 		public override float AnimalDensityFactor()

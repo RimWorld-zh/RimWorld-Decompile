@@ -36,8 +36,8 @@ namespace Verse
 					}
 				}
 				yield break;
-				IL_00c7:
-				/*Error near IL_00c8: Unexpected return in MoveNext()*/;
+				IL_00c3:
+				/*Error near IL_00c4: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -55,8 +55,8 @@ namespace Verse
 					}
 				}
 				yield break;
-				IL_00c2:
-				/*Error near IL_00c3: Unexpected return in MoveNext()*/;
+				IL_00be:
+				/*Error near IL_00bf: Unexpected return in MoveNext()*/;
 			}
 		}
 

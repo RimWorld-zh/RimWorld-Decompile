@@ -55,7 +55,11 @@ namespace Verse
 
 			public override bool Equals(object obj)
 			{
-				return obj is CachedEntry && this.Equals((CachedEntry)obj);
+				if (!(obj is CachedEntry))
+				{
+					return false;
+				}
+				return this.Equals((CachedEntry)obj);
 			}
 
 			public bool Equals(CachedEntry other)
@@ -83,7 +87,11 @@ namespace Verse
 		public BoolUnknown CachedResultFor(Room A, Room B, TraverseParms traverseParams)
 		{
 			bool flag = default(bool);
-			return (BoolUnknown)((!this.cacheDict.TryGetValue(new CachedEntry(A.ID, B.ID, traverseParams), out flag)) ? 2 : ((!flag) ? 1 : 0));
+			if (this.cacheDict.TryGetValue(new CachedEntry(A.ID, B.ID, traverseParams), out flag))
+			{
+				return (BoolUnknown)((!flag) ? 1 : 0);
+			}
+			return BoolUnknown.Unknown;
 		}
 
 		public void AddCachedResult(Room A, Room B, TraverseParms traverseParams, bool reachable)

@@ -1,12 +1,16 @@
 using RimWorld;
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Verse
 {
 	public class HediffComp_HealOldWounds : HediffComp
 	{
-		private int ticksToHeal = 0;
+		private int ticksToHeal;
+
+		[CompilerGenerated]
+		private static Func<Hediff, bool> _003C_003Ef__mg_0024cache0;
 
 		public HediffCompProperties_HealOldWounds Props
 		{
@@ -40,9 +44,7 @@ namespace Verse
 		private void TryHealRandomOldWound()
 		{
 			Hediff hediff = default(Hediff);
-			if ((from hd in base.Pawn.health.hediffSet.hediffs
-			where hd.IsOld()
-			select hd).TryRandomElement<Hediff>(out hediff))
+			if (base.Pawn.health.hediffSet.hediffs.Where(HediffUtility.IsOld).TryRandomElement<Hediff>(out hediff))
 			{
 				hediff.Severity = 0f;
 				if (PawnUtility.ShouldSendNotificationAbout(base.Pawn))

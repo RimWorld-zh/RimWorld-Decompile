@@ -25,19 +25,21 @@ namespace RimWorld
 
 		public override bool IsViolationOnPawn(Pawn pawn, BodyPartRecord part, Faction billDoerFaction)
 		{
-			return pawn.Faction != billDoerFaction && base.recipe.ingredients[0].filter.AllowedThingDefs.First().IsNonMedicalDrug;
+			if (pawn.Faction == billDoerFaction)
+			{
+				return false;
+			}
+			return base.recipe.ingredients[0].filter.AllowedThingDefs.First().IsNonMedicalDrug;
 		}
 
 		public override string GetLabelWhenUsedOn(Pawn pawn, BodyPartRecord part)
 		{
-			string result;
 			if (pawn.IsTeetotaler())
 			{
 				ThingRequest bestThingRequest = base.recipe.ingredients[0].filter.BestThingRequest;
 				if (bestThingRequest.singleDef.IsNonMedicalDrug)
 				{
-					result = base.GetLabelWhenUsedOn(pawn, part) + " (" + "TeetotalerUnhappy".Translate() + ")";
-					goto IL_00cf;
+					return base.GetLabelWhenUsedOn(pawn, part) + " (" + "TeetotalerUnhappy".Translate() + ")";
 				}
 			}
 			if (pawn.IsProsthophobe())
@@ -45,14 +47,10 @@ namespace RimWorld
 				ThingRequest bestThingRequest2 = base.recipe.ingredients[0].filter.BestThingRequest;
 				if (bestThingRequest2.singleDef == ThingDefOf.Luciferium)
 				{
-					result = base.GetLabelWhenUsedOn(pawn, part) + " (" + "ProsthophobeUnhappy".Translate() + ")";
-					goto IL_00cf;
+					return base.GetLabelWhenUsedOn(pawn, part) + " (" + "ProsthophobeUnhappy".Translate() + ")";
 				}
 			}
-			result = base.GetLabelWhenUsedOn(pawn, part);
-			goto IL_00cf;
-			IL_00cf:
-			return result;
+			return base.GetLabelWhenUsedOn(pawn, part);
 		}
 	}
 }

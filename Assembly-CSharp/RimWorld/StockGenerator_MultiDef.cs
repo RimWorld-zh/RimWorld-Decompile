@@ -20,8 +20,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_00e4:
-			/*Error near IL_00e5: Unexpected return in MoveNext()*/;
+			IL_00e0:
+			/*Error near IL_00e1: Unexpected return in MoveNext()*/;
 		}
 
 		public override bool HandlesThingDef(ThingDef thingDef)
@@ -31,7 +31,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors(TraderKindDef parentDef)
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0(parentDef).GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors(parentDef).GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -56,8 +56,8 @@ namespace RimWorld
 			}
 			yield return this.thingDefs[i] + " is not Stockable";
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0159:
-			/*Error near IL_015a: Unexpected return in MoveNext()*/;
+			IL_0153:
+			/*Error near IL_0154: Unexpected return in MoveNext()*/;
 		}
 	}
 }

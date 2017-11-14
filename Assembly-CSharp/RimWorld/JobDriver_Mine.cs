@@ -9,7 +9,7 @@ namespace RimWorld
 	{
 		private int ticksToPickHit = -1000;
 
-		private Effecter effecter = null;
+		private Effecter effecter;
 
 		public const int BaseTicksBetweenPickHits = 120;
 

@@ -8,100 +8,58 @@ namespace RimWorld
 	{
 		public static Quadrum GetQuadrum(this Twelfth twelfth)
 		{
-			Quadrum result;
 			switch (twelfth)
 			{
 			case Twelfth.First:
-			{
-				result = Quadrum.Aprimay;
-				break;
-			}
+				return Quadrum.Aprimay;
 			case Twelfth.Second:
-			{
-				result = Quadrum.Aprimay;
-				break;
-			}
+				return Quadrum.Aprimay;
 			case Twelfth.Third:
-			{
-				result = Quadrum.Aprimay;
-				break;
-			}
+				return Quadrum.Aprimay;
 			case Twelfth.Fourth:
-			{
-				result = Quadrum.Jugust;
-				break;
-			}
+				return Quadrum.Jugust;
 			case Twelfth.Fifth:
-			{
-				result = Quadrum.Jugust;
-				break;
-			}
+				return Quadrum.Jugust;
 			case Twelfth.Sixth:
-			{
-				result = Quadrum.Jugust;
-				break;
-			}
+				return Quadrum.Jugust;
 			case Twelfth.Seventh:
-			{
-				result = Quadrum.Septober;
-				break;
-			}
+				return Quadrum.Septober;
 			case Twelfth.Eighth:
-			{
-				result = Quadrum.Septober;
-				break;
-			}
+				return Quadrum.Septober;
 			case Twelfth.Ninth:
-			{
-				result = Quadrum.Septober;
-				break;
-			}
+				return Quadrum.Septober;
 			case Twelfth.Tenth:
-			{
-				result = Quadrum.Decembary;
-				break;
-			}
+				return Quadrum.Decembary;
 			case Twelfth.Eleventh:
-			{
-				result = Quadrum.Decembary;
-				break;
-			}
+				return Quadrum.Decembary;
 			case Twelfth.Twelfth:
-			{
-				result = Quadrum.Decembary;
-				break;
-			}
+				return Quadrum.Decembary;
 			default:
-			{
-				result = Quadrum.Undefined;
-				break;
+				return Quadrum.Undefined;
 			}
-			}
-			return result;
 		}
 
 		public static Twelfth PreviousTwelfth(this Twelfth twelfth)
 		{
-			Twelfth result;
 			if (twelfth == Twelfth.Undefined)
 			{
-				result = Twelfth.Undefined;
+				return Twelfth.Undefined;
 			}
-			else
+			int num = (int)(twelfth - 1);
+			if (num == -1)
 			{
-				int num = (int)(twelfth - 1);
-				if (num == -1)
-				{
-					num = 11;
-				}
-				result = (Twelfth)(byte)num;
+				num = 11;
 			}
-			return result;
+			return (Twelfth)(byte)num;
 		}
 
 		public static Twelfth NextTwelfth(this Twelfth twelfth)
 		{
-			return (Twelfth)((twelfth != Twelfth.Undefined) ? ((byte)((int)(twelfth + 1) % 12)) : 12);
+			if (twelfth == Twelfth.Undefined)
+			{
+				return Twelfth.Undefined;
+			}
+			return (Twelfth)(byte)((int)(twelfth + 1) % 12);
 		}
 
 		public static float GetMiddleYearPct(this Twelfth twelfth)
@@ -127,56 +85,54 @@ namespace RimWorld
 
 		public static Twelfth GetLeftMostTwelfth(List<Twelfth> twelfths, Twelfth rootTwelfth)
 		{
-			Twelfth result;
 			if (twelfths.Count >= 12)
 			{
-				result = Twelfth.Undefined;
+				return Twelfth.Undefined;
 			}
-			else
+			Twelfth result;
+			while (true)
 			{
-				Twelfth twelfth;
-				while (true)
-				{
-					twelfth = rootTwelfth;
-					rootTwelfth = TwelfthUtility.TwelfthBefore(rootTwelfth);
-					if (!twelfths.Contains(rootTwelfth))
-						break;
-				}
-				result = twelfth;
+				result = rootTwelfth;
+				rootTwelfth = TwelfthUtility.TwelfthBefore(rootTwelfth);
+				if (!twelfths.Contains(rootTwelfth))
+					break;
 			}
 			return result;
 		}
 
 		public static Twelfth GetRightMostTwelfth(List<Twelfth> twelfths, Twelfth rootTwelfth)
 		{
-			Twelfth result;
 			if (twelfths.Count >= 12)
 			{
-				result = Twelfth.Undefined;
+				return Twelfth.Undefined;
 			}
-			else
+			Twelfth m;
+			while (true)
 			{
-				Twelfth m;
-				while (true)
-				{
-					m = rootTwelfth;
-					rootTwelfth = TwelfthUtility.TwelfthAfter(rootTwelfth);
-					if (!twelfths.Contains(rootTwelfth))
-						break;
-				}
-				result = TwelfthUtility.TwelfthAfter(m);
+				m = rootTwelfth;
+				rootTwelfth = TwelfthUtility.TwelfthAfter(rootTwelfth);
+				if (!twelfths.Contains(rootTwelfth))
+					break;
 			}
-			return result;
+			return TwelfthUtility.TwelfthAfter(m);
 		}
 
 		public static Twelfth TwelfthBefore(Twelfth m)
 		{
-			return (m != 0) ? (m - 1) : Twelfth.Twelfth;
+			if (m == Twelfth.First)
+			{
+				return Twelfth.Twelfth;
+			}
+			return m - 1;
 		}
 
 		public static Twelfth TwelfthAfter(Twelfth m)
 		{
-			return (m != Twelfth.Twelfth) ? (m + 1) : Twelfth.First;
+			if (m == Twelfth.Twelfth)
+			{
+				return Twelfth.First;
+			}
+			return m + 1;
 		}
 	}
 }

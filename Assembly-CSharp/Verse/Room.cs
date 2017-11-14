@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,7 +7,7 @@ namespace Verse
 {
 	public sealed class Room
 	{
-		public sbyte mapIndex = (sbyte)(-1);
+		public sbyte mapIndex = -1;
 
 		private RoomGroup groupInt;
 
@@ -192,7 +191,15 @@ namespace Verse
 		{
 			get
 			{
-				return (byte)((this.OpenRoofCount > 300) ? 1 : ((this.Group.AnyRoomTouchesMapEdge && (float)this.OpenRoofCount / (float)this.CellCount >= 0.5) ? 1 : 0)) != 0;
+				if (this.OpenRoofCount > 300)
+				{
+					return true;
+				}
+				if (this.Group.AnyRoomTouchesMapEdge && (float)this.OpenRoofCount / (float)this.CellCount >= 0.5)
+				{
+					return true;
+				}
+				return false;
 			}
 		}
 
@@ -200,7 +207,11 @@ namespace Verse
 		{
 			get
 			{
-				return (byte)((this.OpenRoofCount > 100 || (float)this.OpenRoofCount > (float)this.CellCount * 0.25) ? 1 : 0) != 0;
+				if (this.OpenRoofCount <= 100 && !((float)this.OpenRoofCount > (float)this.CellCount * 0.25))
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -242,8 +253,8 @@ namespace Verse
 					}
 				}
 				yield break;
-				IL_0104:
-				/*Error near IL_0105: Unexpected return in MoveNext()*/;
+				IL_00fe:
+				/*Error near IL_00ff: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -268,8 +279,8 @@ namespace Verse
 					}
 				}
 				yield break;
-				IL_0163:
-				/*Error near IL_0164: Unexpected return in MoveNext()*/;
+				IL_015d:
+				/*Error near IL_015e: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -345,7 +356,11 @@ namespace Verse
 		{
 			get
 			{
-				return this.regions.Count != 0 && this.regions[0].AnyCell.Fogged(this.Map);
+				if (this.regions.Count == 0)
+				{
+					return false;
+				}
+				return this.regions[0].AnyCell.Fogged(this.Map);
 			}
 		}
 
@@ -442,7 +457,7 @@ namespace Verse
 
 		public void Notify_MyMapRemoved()
 		{
-			this.mapIndex = (sbyte)(-1);
+			this.mapIndex = -1;
 		}
 
 		public void Notify_ContainedThingSpawnedOrDespawned(Thing th)
@@ -521,7 +536,11 @@ namespace Verse
 			{
 				this.UpdateRoomStatsAndRole();
 			}
-			return (this.stats != null) ? this.stats[roomStat] : roomStat.defaultScore;
+			if (this.stats == null)
+			{
+				return roomStat.defaultScore;
+			}
+			return this.stats[roomStat];
 		}
 
 		public RoomStatScoreStage GetStatScoreStage(RoomStatDef stat)
@@ -554,7 +573,7 @@ namespace Verse
 				{
 					this.stats[item] = item.Worker.GetScore(this);
 				}
-				this.role = DefDatabase<RoomRoleDef>.AllDefs.MaxBy((Func<RoomRoleDef, float>)((RoomRoleDef x) => x.Worker.GetScore(this)));
+				this.role = DefDatabase<RoomRoleDef>.AllDefs.MaxBy((RoomRoleDef x) => x.Worker.GetScore(this));
 			}
 			else
 			{

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +16,19 @@ namespace RimWorld
 
 		protected virtual bool FactionCanBeGroupSource(Faction f, Map map, bool desperate = false)
 		{
-			return (byte)((!f.IsPlayer) ? ((!f.defeated) ? ((desperate || (f.def.allowedArrivalTemperatureRange.Includes(map.mapTemperature.OutdoorTemp) && f.def.allowedArrivalTemperatureRange.Includes(map.mapTemperature.SeasonalTemp))) ? 1 : 0) : 0) : 0) != 0;
+			if (f.IsPlayer)
+			{
+				return false;
+			}
+			if (f.defeated)
+			{
+				return false;
+			}
+			if (!desperate && (!f.def.allowedArrivalTemperatureRange.Includes(map.mapTemperature.OutdoorTemp) || !f.def.allowedArrivalTemperatureRange.Includes(map.mapTemperature.SeasonalTemp)))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		protected override bool CanFireNowSub(IIncidentTarget target)

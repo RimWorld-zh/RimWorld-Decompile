@@ -26,7 +26,7 @@ namespace RimWorld
 
 		public bool drawOutOfFuelOverlay = true;
 
-		public bool drawFuelGaugeInMap = false;
+		public bool drawFuelGaugeInMap;
 
 		public CompProperties_Refuelable()
 		{

@@ -33,7 +33,8 @@ namespace RimWorld
 		{
 		}
 
-		public Area_NoRoof(AreaManager areaManager) : base(areaManager)
+		public Area_NoRoof(AreaManager areaManager)
+			: base(areaManager)
 		{
 		}
 

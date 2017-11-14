@@ -141,45 +141,29 @@ namespace Verse
 			switch (color)
 			{
 			case SimpleColor.White:
-			{
 				mat = GenDraw.LineMatWhite;
 				break;
-			}
 			case SimpleColor.Red:
-			{
 				mat = GenDraw.LineMatRed;
 				break;
-			}
 			case SimpleColor.Green:
-			{
 				mat = GenDraw.LineMatGreen;
 				break;
-			}
 			case SimpleColor.Blue:
-			{
 				mat = GenDraw.LineMatBlue;
 				break;
-			}
 			case SimpleColor.Magenta:
-			{
 				mat = GenDraw.LineMatMagenta;
 				break;
-			}
 			case SimpleColor.Yellow:
-			{
 				mat = GenDraw.LineMatYellow;
 				break;
-			}
 			case SimpleColor.Cyan:
-			{
 				mat = GenDraw.LineMatCyan;
 				break;
-			}
 			default:
-			{
 				mat = GenDraw.LineMatWhite;
 				break;
-			}
 			}
 			GenDraw.DrawLineBetween(A, B, mat);
 		}
@@ -234,30 +218,33 @@ namespace Verse
 					GenDraw.cachedEdgeTilesForRadius = radius;
 					GenDraw.cachedEdgeTilesForWorldSeed = Find.World.info.Seed;
 					GenDraw.cachedEdgeTiles.Clear();
-					Find.WorldFloodFiller.FloodFill(center, (Predicate<int>)((int tile) => true), (Func<int, int, bool>)delegate(int tile, int dist)
+					Find.WorldFloodFiller.FloodFill(center, (int tile) => true, delegate(int tile, int dist)
 					{
-						bool result;
 						if (dist > radius + 1)
 						{
-							result = true;
+							return true;
 						}
-						else
+						if (dist == radius + 1)
 						{
-							if (dist == radius + 1)
-							{
-								GenDraw.cachedEdgeTiles.Add(tile);
-							}
-							result = false;
+							GenDraw.cachedEdgeTiles.Add(tile);
 						}
-						return result;
+						return false;
 					}, 2147483647, null);
 					WorldGrid worldGrid = Find.WorldGrid;
 					Vector3 c = worldGrid.GetTileCenter(center);
 					Vector3 i = c.normalized;
-					GenDraw.cachedEdgeTiles.Sort((Comparison<int>)delegate(int a, int b)
+					GenDraw.cachedEdgeTiles.Sort(delegate(int a, int b)
 					{
 						float num = Vector3.Dot(i, Vector3.Cross(worldGrid.GetTileCenter(a) - c, worldGrid.GetTileCenter(b) - c));
-						return (!(Mathf.Abs(num) < 9.9999997473787516E-05)) ? ((!(num < 0.0)) ? 1 : (-1)) : 0;
+						if (Mathf.Abs(num) < 9.9999997473787516E-05)
+						{
+							return 0;
+						}
+						if (num < 0.0)
+						{
+							return -1;
+						}
+						return 1;
 					});
 				}
 				GenDraw.DrawWorldLineStrip(GenDraw.cachedEdgeTiles, GenDraw.OneSidedWorldLineMatWhite, 5f);
@@ -338,9 +325,9 @@ namespace Verse
 			{
 				GenDraw.ringDrawCells.Clear();
 				int num = GenRadial.NumCellsInRadius(radius);
-				for (int num2 = 0; num2 < num; num2++)
+				for (int i = 0; i < num; i++)
 				{
-					GenDraw.ringDrawCells.Add(center + GenRadial.RadialPattern[num2]);
+					GenDraw.ringDrawCells.Add(center + GenRadial.RadialPattern[i]);
 				}
 				GenDraw.DrawFieldEdges(GenDraw.ringDrawCells);
 			}
@@ -354,12 +341,11 @@ namespace Verse
 		public static void DrawFieldEdges(List<IntVec3> cells, Color color)
 		{
 			Map visibleMap = Find.VisibleMap;
-			Material material = MaterialPool.MatFrom(new MaterialRequest
-			{
-				shader = ShaderDatabase.Transparent,
-				color = color,
-				BaseTexPath = "UI/Overlays/TargetHighlight_Side"
-			});
+			MaterialRequest req = default(MaterialRequest);
+			req.shader = ShaderDatabase.Transparent;
+			req.color = color;
+			req.BaseTexPath = "UI/Overlays/TargetHighlight_Side";
+			Material material = MaterialPool.MatFrom(req);
 			material.GetTexture("_MainTex").wrapMode = TextureWrapMode.Clamp;
 			if (GenDraw.fieldGrid == null)
 			{
@@ -374,31 +360,31 @@ namespace Verse
 			IntVec3 size2 = visibleMap.Size;
 			int z = size2.z;
 			int count = cells.Count;
-			for (int num = 0; num < count; num++)
+			for (int i = 0; i < count; i++)
 			{
-				if (cells[num].InBounds(visibleMap))
+				if (cells[i].InBounds(visibleMap))
 				{
-					BoolGrid obj = GenDraw.fieldGrid;
-					IntVec3 intVec = cells[num];
+					BoolGrid boolGrid = GenDraw.fieldGrid;
+					IntVec3 intVec = cells[i];
 					int x2 = intVec.x;
-					IntVec3 intVec2 = cells[num];
-					obj[x2, intVec2.z] = true;
+					IntVec3 intVec2 = cells[i];
+					boolGrid[x2, intVec2.z] = true;
 				}
 			}
-			for (int num2 = 0; num2 < count; num2++)
+			for (int j = 0; j < count; j++)
 			{
-				IntVec3 c = cells[num2];
+				IntVec3 c = cells[j];
 				if (c.InBounds(visibleMap))
 				{
 					GenDraw.rotNeeded[0] = (c.z < z - 1 && !GenDraw.fieldGrid[c.x, c.z + 1]);
 					GenDraw.rotNeeded[1] = (c.x < x - 1 && !GenDraw.fieldGrid[c.x + 1, c.z]);
 					GenDraw.rotNeeded[2] = (c.z > 0 && !GenDraw.fieldGrid[c.x, c.z - 1]);
 					GenDraw.rotNeeded[3] = (c.x > 0 && !GenDraw.fieldGrid[c.x - 1, c.z]);
-					for (int i = 0; i < 4; i++)
+					for (int k = 0; k < 4; k++)
 					{
-						if (GenDraw.rotNeeded[i])
+						if (GenDraw.rotNeeded[k])
 						{
-							Graphics.DrawMesh(MeshPool.plane10, c.ToVector3ShiftedWithAltitude(AltitudeLayer.MetaOverlays), new Rot4(i).AsQuat, material, 0);
+							Graphics.DrawMesh(MeshPool.plane10, c.ToVector3ShiftedWithAltitude(AltitudeLayer.MetaOverlays), new Rot4(k).AsQuat, material, 0);
 						}
 					}
 				}

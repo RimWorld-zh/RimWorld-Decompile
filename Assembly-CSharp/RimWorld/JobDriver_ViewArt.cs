@@ -16,7 +16,7 @@ namespace RimWorld
 
 		protected override Action GetWaitTickAction()
 		{
-			return (Action)delegate
+			return delegate
 			{
 				float statValue = this.ArtThing.GetStatValue(StatDefOf.EntertainmentStrengthFactor, true);
 				float num = this.ArtThing.GetStatValue(StatDefOf.Beauty, true) / this.ArtThing.def.GetStatValueAbstract(StatDefOf.Beauty, null);

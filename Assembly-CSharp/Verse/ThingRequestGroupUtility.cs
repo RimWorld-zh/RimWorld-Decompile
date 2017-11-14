@@ -6,205 +6,87 @@ namespace Verse
 	{
 		public static bool StoreInRegion(this ThingRequestGroup group)
 		{
-			bool result;
 			switch (group)
 			{
 			case ThingRequestGroup.Undefined:
-			{
-				result = false;
-				break;
-			}
+				return false;
 			case ThingRequestGroup.Nothing:
-			{
-				result = false;
-				break;
-			}
+				return false;
 			case ThingRequestGroup.Everything:
-			{
-				result = true;
-				break;
-			}
+				return true;
 			case ThingRequestGroup.HaulableEver:
-			{
-				result = true;
-				break;
-			}
+				return true;
 			case ThingRequestGroup.HaulableAlways:
-			{
-				result = true;
-				break;
-			}
+				return true;
 			case ThingRequestGroup.FoodSource:
-			{
-				result = true;
-				break;
-			}
+				return true;
 			case ThingRequestGroup.FoodSourceNotPlantOrTree:
-			{
-				result = true;
-				break;
-			}
+				return true;
 			case ThingRequestGroup.Corpse:
-			{
-				result = true;
-				break;
-			}
+				return true;
 			case ThingRequestGroup.Blueprint:
-			{
-				result = true;
-				break;
-			}
+				return true;
 			case ThingRequestGroup.BuildingArtificial:
-			{
-				result = true;
-				break;
-			}
+				return true;
 			case ThingRequestGroup.BuildingFrame:
-			{
-				result = true;
-				break;
-			}
+				return true;
 			case ThingRequestGroup.Pawn:
-			{
-				result = true;
-				break;
-			}
+				return true;
 			case ThingRequestGroup.PotentialBillGiver:
-			{
-				result = true;
-				break;
-			}
+				return true;
 			case ThingRequestGroup.Medicine:
-			{
-				result = true;
-				break;
-			}
+				return true;
 			case ThingRequestGroup.Filth:
-			{
-				result = true;
-				break;
-			}
+				return true;
 			case ThingRequestGroup.AttackTarget:
-			{
-				result = true;
-				break;
-			}
+				return true;
 			case ThingRequestGroup.Weapon:
-			{
-				result = true;
-				break;
-			}
+				return true;
 			case ThingRequestGroup.Refuelable:
-			{
-				result = true;
-				break;
-			}
+				return true;
 			case ThingRequestGroup.HaulableEverOrMinifiable:
-			{
-				result = true;
-				break;
-			}
+				return true;
 			case ThingRequestGroup.Drug:
-			{
-				result = true;
-				break;
-			}
+				return true;
 			case ThingRequestGroup.Shell:
-			{
-				result = true;
-				break;
-			}
+				return true;
 			case ThingRequestGroup.HarvestablePlant:
-			{
-				result = true;
-				break;
-			}
+				return true;
 			case ThingRequestGroup.Fire:
-			{
-				result = true;
-				break;
-			}
+				return true;
 			case ThingRequestGroup.Plant:
-			{
-				result = false;
-				break;
-			}
+				return false;
 			case ThingRequestGroup.Construction:
-			{
-				result = false;
-				break;
-			}
+				return false;
 			case ThingRequestGroup.HasGUIOverlay:
-			{
-				result = false;
-				break;
-			}
+				return false;
 			case ThingRequestGroup.Apparel:
-			{
-				result = false;
-				break;
-			}
+				return false;
 			case ThingRequestGroup.MinifiedThing:
-			{
-				result = false;
-				break;
-			}
+				return false;
 			case ThingRequestGroup.Grave:
-			{
-				result = false;
-				break;
-			}
+				return false;
 			case ThingRequestGroup.Art:
-			{
-				result = false;
-				break;
-			}
+				return false;
 			case ThingRequestGroup.ThingHolder:
-			{
-				result = false;
-				break;
-			}
+				return false;
 			case ThingRequestGroup.ActiveDropPod:
-			{
-				result = false;
-				break;
-			}
+				return false;
 			case ThingRequestGroup.Transporter:
-			{
-				result = false;
-				break;
-			}
+				return false;
 			case ThingRequestGroup.LongRangeMineralScanner:
-			{
-				result = false;
-				break;
-			}
+				return false;
 			case ThingRequestGroup.AffectsSky:
-			{
-				result = false;
-				break;
-			}
+				return false;
 			case ThingRequestGroup.PsychicDroneEmanator:
-			{
-				result = false;
-				break;
-			}
+				return false;
 			case ThingRequestGroup.WindSource:
-			{
-				result = false;
-				break;
-			}
+				return false;
 			case ThingRequestGroup.AlwaysFlee:
-			{
-				result = false;
-				break;
-			}
+				return false;
 			default:
-			{
 				throw new ArgumentException("group");
 			}
-			}
-			return result;
 		}
 	}
 }

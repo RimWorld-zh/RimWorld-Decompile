@@ -20,14 +20,18 @@ namespace RimWorld
 				if (!c.IsForbidden(pawn))
 				{
 					Building edifice = c.GetEdifice(pawn.Map);
-					if (edifice != null && edifice.def.building.isSittable && pawn.CanReserve((Thing)edifice, 1, -1, null, false))
+					if (edifice != null && edifice.def.building.isSittable && pawn.CanReserve(edifice, 1, -1, null, false))
 					{
 						thing = edifice;
 						break;
 					}
 				}
 			}
-			return (thing != null) ? new Job(base.def.jobDef, t, thing) : null;
+			if (thing == null)
+			{
+				return null;
+			}
+			return new Job(base.def.jobDef, t, thing);
 		}
 	}
 }

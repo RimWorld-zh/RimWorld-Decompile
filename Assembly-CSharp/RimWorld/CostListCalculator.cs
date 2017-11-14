@@ -28,7 +28,11 @@ namespace RimWorld
 
 			public override bool Equals(object obj)
 			{
-				return obj is CostListPair && this.Equals((CostListPair)obj);
+				if (!(obj is CostListPair))
+				{
+					return false;
+				}
+				return this.Equals((CostListPair)obj);
 			}
 
 			public bool Equals(CostListPair other)
@@ -78,7 +82,6 @@ namespace RimWorld
 		{
 			CostListPair key = new CostListPair(entDef, stuff);
 			List<ThingCountClass> list = default(List<ThingCountClass>);
-			List<ThingCountClass> result;
 			if (!CostListCalculator.cachedCosts.TryGetValue(key, out list))
 			{
 				list = new List<ThingCountClass>();
@@ -88,8 +91,7 @@ namespace RimWorld
 					if (errorOnNullStuff && stuff == null)
 					{
 						Log.Error("Cannot get AdjustedCostList for " + entDef + " with null Stuff.");
-						result = null;
-						goto IL_0173;
+						return null;
 					}
 					if (stuff != null)
 					{
@@ -131,10 +133,7 @@ namespace RimWorld
 				}
 				CostListCalculator.cachedCosts.Add(key, list);
 			}
-			result = list;
-			goto IL_0173;
-			IL_0173:
-			return result;
+			return list;
 		}
 	}
 }

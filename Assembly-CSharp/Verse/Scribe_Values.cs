@@ -1,5 +1,3 @@
-using System.Xml;
-
 namespace Verse
 {
 	public static class Scribe_Values
@@ -38,7 +36,7 @@ namespace Verse
 			}
 			else if (Scribe.mode == LoadSaveMode.LoadingVars)
 			{
-				value = ScribeExtractor.ValueFromNode<T>((XmlNode)Scribe.loader.curXmlParent[label], defaultValue);
+				value = ScribeExtractor.ValueFromNode(Scribe.loader.curXmlParent[label], defaultValue);
 			}
 		}
 	}

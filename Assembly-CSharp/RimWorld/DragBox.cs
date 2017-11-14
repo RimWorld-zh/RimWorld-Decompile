@@ -70,13 +70,12 @@ namespace RimWorld
 					mousePosition.y = vector.y;
 					vector.y = y;
 				}
-				return new Rect
-				{
-					xMin = vector.x,
-					xMax = mousePosition.x,
-					yMin = vector.y,
-					yMax = mousePosition.y
-				};
+				Rect result = default(Rect);
+				result.xMin = vector.x;
+				result.xMax = mousePosition.x;
+				result.yMin = vector.y;
+				result.yMax = mousePosition.y;
+				return result;
 			}
 		}
 
@@ -106,33 +105,29 @@ namespace RimWorld
 
 		public bool Contains(Thing t)
 		{
-			bool result;
 			if (t is Pawn)
 			{
-				result = this.Contains((t as Pawn).Drawer.DrawPos);
+				return this.Contains((t as Pawn).Drawer.DrawPos);
 			}
-			else
+			CellRect.CellRectIterator iterator = t.OccupiedRect().GetIterator();
+			while (!iterator.Done())
 			{
-				CellRect.CellRectIterator iterator = t.OccupiedRect().GetIterator();
-				while (!iterator.Done())
+				if (this.Contains(iterator.Current.ToVector3Shifted()))
 				{
-					if (this.Contains(iterator.Current.ToVector3Shifted()))
-						goto IL_0057;
-					iterator.MoveNext();
+					return true;
 				}
-				result = false;
+				iterator.MoveNext();
 			}
-			goto IL_0079;
-			IL_0057:
-			result = true;
-			goto IL_0079;
-			IL_0079:
-			return result;
+			return false;
 		}
 
 		public bool Contains(Vector3 v)
 		{
-			return (byte)((v.x + 0.5 > this.LeftX && v.x - 0.5 < this.RightX && v.z + 0.5 > this.BotZ && v.z - 0.5 < this.TopZ) ? 1 : 0) != 0;
+			if (v.x + 0.5 > this.LeftX && v.x - 0.5 < this.RightX && v.z + 0.5 > this.BotZ && v.z - 0.5 < this.TopZ)
+			{
+				return true;
+			}
+			return false;
 		}
 	}
 }

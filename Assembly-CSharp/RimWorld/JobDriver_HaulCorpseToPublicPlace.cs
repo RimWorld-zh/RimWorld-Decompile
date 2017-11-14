@@ -54,7 +54,11 @@ namespace RimWorld
 
 		public override string GetReport()
 		{
-			return (!this.InGrave || this.Grave.def != ThingDefOf.Grave) ? base.GetReport() : "ReportDiggingUpCorpse".Translate();
+			if (this.InGrave && this.Grave.def == ThingDefOf.Grave)
+			{
+				return "ReportDiggingUpCorpse".Translate();
+			}
+			return base.GetReport();
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -68,7 +72,7 @@ namespace RimWorld
 		private Toil FindCellToDropCorpseToil()
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				IntVec3 c = IntVec3.Invalid;
 				if (!Rand.Chance(0.8f) || !this.TryFindTableCell(out c))
@@ -81,7 +85,7 @@ namespace RimWorld
 					}
 					if (!flag)
 					{
-						c = CellFinder.RandomClosewalkCellNear(base.pawn.Position, base.pawn.Map, 10, (Predicate<IntVec3>)((IntVec3 x) => base.pawn.CanReserve(x, 1, -1, null, false) && x.GetFirstItem(base.pawn.Map) == null));
+						c = CellFinder.RandomClosewalkCellNear(base.pawn.Position, base.pawn.Map, 10, (IntVec3 x) => base.pawn.CanReserve(x, 1, -1, null, false) && x.GetFirstItem(base.pawn.Map) == null);
 					}
 				}
 				base.job.SetTarget(TargetIndex.C, c);
@@ -93,7 +97,7 @@ namespace RimWorld
 		private Toil ForbidAndNotifyMentalStateToil()
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate
+			toil.initAction = delegate
 			{
 				Corpse corpse = this.Corpse;
 				if (corpse != null)
@@ -131,18 +135,13 @@ namespace RimWorld
 					}
 				}
 			}
-			bool result;
 			if (!JobDriver_HaulCorpseToPublicPlace.tmpCells.Any())
 			{
 				cell = IntVec3.Invalid;
-				result = false;
+				return false;
 			}
-			else
-			{
-				cell = JobDriver_HaulCorpseToPublicPlace.tmpCells.RandomElement();
-				result = true;
-			}
-			return result;
+			cell = JobDriver_HaulCorpseToPublicPlace.tmpCells.RandomElement();
+			return true;
 		}
 	}
 }

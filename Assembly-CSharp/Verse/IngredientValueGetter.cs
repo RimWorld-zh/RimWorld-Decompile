@@ -8,7 +8,7 @@ namespace Verse
 
 		public virtual string ExtraDescriptionLine(RecipeDef r)
 		{
-			return (string)null;
+			return null;
 		}
 	}
 }

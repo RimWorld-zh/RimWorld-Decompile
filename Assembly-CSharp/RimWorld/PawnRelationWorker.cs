@@ -54,16 +54,16 @@ namespace RimWorld
 			}
 			if (techLevel.IsNeolithicOrWorse() && !techLevel2.IsNeolithicOrWorse())
 			{
-				goto IL_00e4;
+				goto IL_00e3;
 			}
 			if (!techLevel.IsNeolithicOrWorse() && techLevel2.IsNeolithicOrWorse())
-				goto IL_00e4;
-			goto IL_00ee;
-			IL_00ee:
+				goto IL_00e3;
+			goto IL_00eb;
+			IL_00eb:
 			return num;
-			IL_00e4:
+			IL_00e3:
 			num = (float)(num * 0.029999999329447746);
-			goto IL_00ee;
+			goto IL_00eb;
 		}
 	}
 }

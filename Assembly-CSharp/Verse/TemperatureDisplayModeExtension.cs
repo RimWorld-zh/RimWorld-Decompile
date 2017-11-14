@@ -6,30 +6,17 @@ namespace Verse
 	{
 		public static string ToStringHuman(this TemperatureDisplayMode mode)
 		{
-			string result;
 			switch (mode)
 			{
 			case TemperatureDisplayMode.Celsius:
-			{
-				result = "Celsius".Translate();
-				break;
-			}
+				return "Celsius".Translate();
 			case TemperatureDisplayMode.Fahrenheit:
-			{
-				result = "Fahrenheit".Translate();
-				break;
-			}
+				return "Fahrenheit".Translate();
 			case TemperatureDisplayMode.Kelvin:
-			{
-				result = "Kelvin".Translate();
-				break;
-			}
+				return "Kelvin".Translate();
 			default:
-			{
 				throw new NotImplementedException();
 			}
-			}
-			return result;
 		}
 	}
 }

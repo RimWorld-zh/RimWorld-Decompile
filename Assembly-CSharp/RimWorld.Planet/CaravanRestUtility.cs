@@ -28,18 +28,17 @@ namespace RimWorld.Planet
 
 		public static int LeftRestTicksAt(int tile, long ticksAbs)
 		{
-			int result;
 			if (!CaravanRestUtility.WouldBeRestingAt(tile, ticksAbs))
 			{
-				result = 0;
+				return 0;
 			}
-			else
+			Vector2 vector = Find.WorldGrid.LongLatOf(tile);
+			float num = GenDate.HourFloat(ticksAbs, vector.x);
+			if (num < 6.0)
 			{
-				Vector2 vector = Find.WorldGrid.LongLatOf(tile);
-				float num = GenDate.HourFloat(ticksAbs, vector.x);
-				result = ((!(num < 6.0)) ? Mathf.CeilToInt((float)((24.0 - num + 6.0) * 2500.0)) : Mathf.CeilToInt((float)((6.0 - num) * 2500.0)));
+				return Mathf.CeilToInt((float)((6.0 - num) * 2500.0));
 			}
-			return result;
+			return Mathf.CeilToInt((float)((24.0 - num + 6.0) * 2500.0));
 		}
 
 		public static int LeftNonRestTicksAt(int tile)
@@ -49,18 +48,13 @@ namespace RimWorld.Planet
 
 		public static int LeftNonRestTicksAt(int tile, long ticksAbs)
 		{
-			int result;
 			if (CaravanRestUtility.WouldBeRestingAt(tile, ticksAbs))
 			{
-				result = 0;
+				return 0;
 			}
-			else
-			{
-				Vector2 vector = Find.WorldGrid.LongLatOf(tile);
-				float num = GenDate.HourFloat(ticksAbs, vector.x);
-				result = Mathf.CeilToInt((float)((22.0 - num) * 2500.0));
-			}
-			return result;
+			Vector2 vector = Find.WorldGrid.LongLatOf(tile);
+			float num = GenDate.HourFloat(ticksAbs, vector.x);
+			return Mathf.CeilToInt((float)((22.0 - num) * 2500.0));
 		}
 
 		public static float DayPercentNotRestingAt(int tile)

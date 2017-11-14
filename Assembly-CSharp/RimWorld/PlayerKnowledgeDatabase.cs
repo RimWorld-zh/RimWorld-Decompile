@@ -104,49 +104,31 @@ namespace RimWorld
 			switch (know)
 			{
 			case KnowledgeAmount.FrameDisplayed:
-			{
 				num = 0.002f;
 				break;
-			}
 			case KnowledgeAmount.FrameInteraction:
-			{
 				num = 0.008f;
 				break;
-			}
 			case KnowledgeAmount.TinyInteraction:
-			{
 				num = 0.03f;
 				break;
-			}
 			case KnowledgeAmount.SmallInteraction:
-			{
 				num = 0.1f;
 				break;
-			}
 			case KnowledgeAmount.SpecificInteraction:
-			{
 				num = 0.4f;
 				break;
-			}
 			case KnowledgeAmount.Total:
-			{
 				num = 1f;
 				break;
-			}
 			case KnowledgeAmount.NoteClosed:
-			{
 				num = 0.5f;
 				break;
-			}
 			case KnowledgeAmount.NoteTaught:
-			{
 				num = 1f;
 				break;
-			}
 			default:
-			{
 				throw new NotImplementedException();
-			}
 			}
 			PlayerKnowledgeDatabase.SetKnowledge(conc, PlayerKnowledgeDatabase.GetKnowledge(conc) + num);
 			LessonAutoActivator.Notify_KnowledgeDemonstrated(conc);

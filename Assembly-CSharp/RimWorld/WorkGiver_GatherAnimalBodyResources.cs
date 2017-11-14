@@ -35,27 +35,21 @@ namespace RimWorld
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;
-			bool result;
 			if (pawn2 != null && pawn2.RaceProps.Animal)
 			{
 				CompHasGatherableBodyResource comp = this.GetComp(pawn2);
 				if (comp != null && comp.ActiveAndFull && !pawn2.Downed && pawn2.CanCasuallyInteractNow(false))
 				{
-					LocalTargetInfo target = (Thing)pawn2;
+					LocalTargetInfo target = pawn2;
 					if (!pawn.CanReserve(target, 1, -1, null, forced))
-						goto IL_0074;
-					result = true;
-					goto IL_0083;
+						goto IL_006c;
+					return true;
 				}
-				goto IL_0074;
+				goto IL_006c;
 			}
-			result = false;
-			goto IL_0083;
-			IL_0083:
-			return result;
-			IL_0074:
-			result = false;
-			goto IL_0083;
+			return false;
+			IL_006c:
+			return false;
 		}
 
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)

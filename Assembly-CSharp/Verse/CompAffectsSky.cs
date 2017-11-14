@@ -26,18 +26,13 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (this.HasAutoAnimation)
 				{
 					int ticksGame = Find.TickManager.TicksGame;
 					float num = (float)((ticksGame >= this.autoAnimationStartTick + this.fadeInDuration) ? ((ticksGame >= this.autoAnimationStartTick + this.fadeInDuration + this.holdDuration) ? (1.0 - (float)(ticksGame - this.autoAnimationStartTick - this.fadeInDuration - this.holdDuration) / (float)this.fadeOutDuration) : 1.0) : ((float)(ticksGame - this.autoAnimationStartTick) / (float)this.fadeInDuration));
-					result = Mathf.Clamp01(num * this.autoAnimationTarget);
+					return Mathf.Clamp01(num * this.autoAnimationTarget);
 				}
-				else
-				{
-					result = 0f;
-				}
-				return result;
+				return 0f;
 			}
 		}
 
@@ -61,7 +56,7 @@ namespace Verse
 		{
 			get
 			{
-				return default(Vector2?);
+				return null;
 			}
 		}
 

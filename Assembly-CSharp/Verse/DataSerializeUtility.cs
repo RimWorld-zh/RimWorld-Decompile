@@ -7,9 +7,9 @@ namespace Verse
 		public static byte[] SerializeByte(int elements, Func<int, byte> reader)
 		{
 			byte[] array = new byte[elements];
-			for (int num = 0; num < elements; num++)
+			for (int i = 0; i < elements; i++)
 			{
-				array[num] = reader(num);
+				array[i] = reader(i);
 			}
 			return array;
 		}
@@ -26,11 +26,11 @@ namespace Verse
 
 		public static void LoadByte(byte[] arr, int elements, Action<int, byte> writer)
 		{
-			if (((arr != null) ? arr.Length : 0) != 0)
+			if (arr != null && arr.Length != 0)
 			{
-				for (int num = 0; num < elements; num++)
+				for (int i = 0; i < elements; i++)
 				{
-					writer(num, arr[num]);
+					writer(i, arr[i]);
 				}
 			}
 		}
@@ -38,24 +38,24 @@ namespace Verse
 		public static byte[] SerializeUshort(int elements, Func<int, ushort> reader)
 		{
 			byte[] array = new byte[elements * 2];
-			for (int num = 0; num < elements; num++)
+			for (int i = 0; i < elements; i++)
 			{
-				ushort num2 = reader(num);
-				array[num * 2] = (byte)(num2 >> 0 & 255);
-				array[num * 2 + 1] = (byte)(num2 >> 8 & 255);
+				ushort num = reader(i);
+				array[i * 2] = (byte)(num >> 0 & 0xFF);
+				array[i * 2 + 1] = (byte)(num >> 8 & 0xFF);
 			}
 			return array;
 		}
 
 		public static byte[] SerializeUshort(ushort[] data)
 		{
-			return DataSerializeUtility.SerializeUshort(data.Length, (Func<int, ushort>)((int i) => data[i]));
+			return DataSerializeUtility.SerializeUshort(data.Length, (int i) => data[i]);
 		}
 
 		public static ushort[] DeserializeUshort(byte[] data)
 		{
 			ushort[] result = new ushort[data.Length / 2];
-			DataSerializeUtility.LoadUshort(data, result.Length, (Action<int, ushort>)delegate(int i, ushort dat)
+			DataSerializeUtility.LoadUshort(data, result.Length, delegate(int i, ushort dat)
 			{
 				result[i] = dat;
 			});
@@ -64,11 +64,11 @@ namespace Verse
 
 		public static void LoadUshort(byte[] arr, int elements, Action<int, ushort> writer)
 		{
-			if (((arr != null) ? arr.Length : 0) != 0)
+			if (arr != null && arr.Length != 0)
 			{
-				for (int num = 0; num < elements; num++)
+				for (int i = 0; i < elements; i++)
 				{
-					writer(num, (ushort)(arr[num * 2] << 0 | arr[num * 2 + 1] << 8));
+					writer(i, (ushort)(arr[i * 2] << 0 | arr[i * 2 + 1] << 8));
 				}
 			}
 		}
@@ -76,26 +76,26 @@ namespace Verse
 		public static byte[] SerializeInt(int elements, Func<int, int> reader)
 		{
 			byte[] array = new byte[elements * 4];
-			for (int num = 0; num < elements; num++)
+			for (int i = 0; i < elements; i++)
 			{
-				int num2 = reader(num);
-				array[num * 4] = (byte)(num2 >> 0 & 255);
-				array[num * 4 + 1] = (byte)(num2 >> 8 & 255);
-				array[num * 4 + 2] = (byte)(num2 >> 16 & 255);
-				array[num * 4 + 3] = (byte)(num2 >> 24 & 255);
+				int num = reader(i);
+				array[i * 4] = (byte)(num >> 0 & 0xFF);
+				array[i * 4 + 1] = (byte)(num >> 8 & 0xFF);
+				array[i * 4 + 2] = (byte)(num >> 16 & 0xFF);
+				array[i * 4 + 3] = (byte)(num >> 24 & 0xFF);
 			}
 			return array;
 		}
 
 		public static byte[] SerializeInt(int[] data)
 		{
-			return DataSerializeUtility.SerializeInt(data.Length, (Func<int, int>)((int i) => data[i]));
+			return DataSerializeUtility.SerializeInt(data.Length, (int i) => data[i]);
 		}
 
 		public static int[] DeserializeInt(byte[] data)
 		{
 			int[] result = new int[data.Length / 4];
-			DataSerializeUtility.LoadInt(data, result.Length, (Action<int, int>)delegate(int i, int dat)
+			DataSerializeUtility.LoadInt(data, result.Length, delegate(int i, int dat)
 			{
 				result[i] = dat;
 			});
@@ -104,11 +104,11 @@ namespace Verse
 
 		public static void LoadInt(byte[] arr, int elements, Action<int, int> writer)
 		{
-			if (((arr != null) ? arr.Length : 0) != 0)
+			if (arr != null && arr.Length != 0)
 			{
-				for (int num = 0; num < elements; num++)
+				for (int i = 0; i < elements; i++)
 				{
-					writer(num, arr[num * 4] << 0 | arr[num * 4 + 1] << 8 | arr[num * 4 + 2] << 16 | arr[num * 4 + 3] << 24);
+					writer(i, arr[i * 4] << 0 | arr[i * 4 + 1] << 8 | arr[i * 4 + 2] << 16 | arr[i * 4 + 3] << 24);
 				}
 			}
 		}

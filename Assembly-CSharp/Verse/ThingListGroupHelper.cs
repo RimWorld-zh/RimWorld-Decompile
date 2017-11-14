@@ -36,205 +36,87 @@ namespace Verse
 
 		public static bool Includes(this ThingRequestGroup group, ThingDef def)
 		{
-			bool result;
 			switch (group)
 			{
 			case ThingRequestGroup.Undefined:
-			{
-				result = false;
-				break;
-			}
+				return false;
 			case ThingRequestGroup.Nothing:
-			{
-				result = false;
-				break;
-			}
+				return false;
 			case ThingRequestGroup.Everything:
-			{
-				result = true;
-				break;
-			}
+				return true;
 			case ThingRequestGroup.HaulableEver:
-			{
-				result = def.EverHaulable;
-				break;
-			}
+				return def.EverHaulable;
 			case ThingRequestGroup.HaulableAlways:
-			{
-				result = def.alwaysHaulable;
-				break;
-			}
+				return def.alwaysHaulable;
 			case ThingRequestGroup.Plant:
-			{
-				result = (def.category == ThingCategory.Plant);
-				break;
-			}
+				return def.category == ThingCategory.Plant;
 			case ThingRequestGroup.HarvestablePlant:
-			{
-				result = (def.category == ThingCategory.Plant && def.plant.Harvestable);
-				break;
-			}
+				return def.category == ThingCategory.Plant && def.plant.Harvestable;
 			case ThingRequestGroup.FoodSource:
-			{
-				result = (def.IsNutritionGivingIngestible || def.thingClass == typeof(Building_NutrientPasteDispenser));
-				break;
-			}
+				return def.IsNutritionGivingIngestible || def.thingClass == typeof(Building_NutrientPasteDispenser);
 			case ThingRequestGroup.FoodSourceNotPlantOrTree:
-			{
-				result = ((def.IsNutritionGivingIngestible ? ((int)def.ingestible.foodType & -65 & -129) : 0) != 0 || def.thingClass == typeof(Building_NutrientPasteDispenser));
-				break;
-			}
+				return (def.IsNutritionGivingIngestible && (def.ingestible.foodType & ~FoodTypeFlags.Plant & ~FoodTypeFlags.Tree) != 0) || def.thingClass == typeof(Building_NutrientPasteDispenser);
 			case ThingRequestGroup.HasGUIOverlay:
-			{
-				result = def.drawGUIOverlay;
-				break;
-			}
+				return def.drawGUIOverlay;
 			case ThingRequestGroup.Corpse:
-			{
-				result = (def.thingClass == typeof(Corpse));
-				break;
-			}
+				return def.thingClass == typeof(Corpse);
 			case ThingRequestGroup.Blueprint:
-			{
-				result = def.IsBlueprint;
-				break;
-			}
+				return def.IsBlueprint;
 			case ThingRequestGroup.Construction:
-			{
-				result = (def.IsBlueprint || def.IsFrame);
-				break;
-			}
+				return def.IsBlueprint || def.IsFrame;
 			case ThingRequestGroup.BuildingArtificial:
-			{
-				result = def.IsBuildingArtificial;
-				break;
-			}
+				return def.IsBuildingArtificial;
 			case ThingRequestGroup.BuildingFrame:
-			{
-				result = def.IsFrame;
-				break;
-			}
+				return def.IsFrame;
 			case ThingRequestGroup.Pawn:
-			{
-				result = (def.category == ThingCategory.Pawn);
-				break;
-			}
+				return def.category == ThingCategory.Pawn;
 			case ThingRequestGroup.PotentialBillGiver:
-			{
-				result = !def.AllRecipes.NullOrEmpty();
-				break;
-			}
+				return !def.AllRecipes.NullOrEmpty();
 			case ThingRequestGroup.Medicine:
-			{
-				result = def.IsMedicine;
-				break;
-			}
+				return def.IsMedicine;
 			case ThingRequestGroup.Apparel:
-			{
-				result = def.IsApparel;
-				break;
-			}
+				return def.IsApparel;
 			case ThingRequestGroup.MinifiedThing:
-			{
-				result = typeof(MinifiedThing).IsAssignableFrom(def.thingClass);
-				break;
-			}
+				return typeof(MinifiedThing).IsAssignableFrom(def.thingClass);
 			case ThingRequestGroup.Filth:
-			{
-				result = (def.filth != null);
-				break;
-			}
+				return def.filth != null;
 			case ThingRequestGroup.AttackTarget:
-			{
-				result = typeof(IAttackTarget).IsAssignableFrom(def.thingClass);
-				break;
-			}
+				return typeof(IAttackTarget).IsAssignableFrom(def.thingClass);
 			case ThingRequestGroup.Weapon:
-			{
-				result = def.IsWeapon;
-				break;
-			}
+				return def.IsWeapon;
 			case ThingRequestGroup.Refuelable:
-			{
-				result = def.HasComp(typeof(CompRefuelable));
-				break;
-			}
+				return def.HasComp(typeof(CompRefuelable));
 			case ThingRequestGroup.HaulableEverOrMinifiable:
-			{
-				result = (def.EverHaulable || def.Minifiable);
-				break;
-			}
+				return def.EverHaulable || def.Minifiable;
 			case ThingRequestGroup.Drug:
-			{
-				result = def.IsDrug;
-				break;
-			}
+				return def.IsDrug;
 			case ThingRequestGroup.Shell:
-			{
-				result = def.IsShell;
-				break;
-			}
+				return def.IsShell;
 			case ThingRequestGroup.Grave:
-			{
-				result = typeof(Building_Grave).IsAssignableFrom(def.thingClass);
-				break;
-			}
+				return typeof(Building_Grave).IsAssignableFrom(def.thingClass);
 			case ThingRequestGroup.Art:
-			{
-				result = def.HasComp(typeof(CompArt));
-				break;
-			}
+				return def.HasComp(typeof(CompArt));
 			case ThingRequestGroup.ThingHolder:
-			{
-				result = def.ThisOrAnyCompIsThingHolder();
-				break;
-			}
+				return def.ThisOrAnyCompIsThingHolder();
 			case ThingRequestGroup.ActiveDropPod:
-			{
-				result = typeof(IActiveDropPod).IsAssignableFrom(def.thingClass);
-				break;
-			}
+				return typeof(IActiveDropPod).IsAssignableFrom(def.thingClass);
 			case ThingRequestGroup.Transporter:
-			{
-				result = def.HasComp(typeof(CompTransporter));
-				break;
-			}
+				return def.HasComp(typeof(CompTransporter));
 			case ThingRequestGroup.LongRangeMineralScanner:
-			{
-				result = def.HasComp(typeof(CompLongRangeMineralScanner));
-				break;
-			}
+				return def.HasComp(typeof(CompLongRangeMineralScanner));
 			case ThingRequestGroup.AffectsSky:
-			{
-				result = def.HasComp(typeof(CompAffectsSky));
-				break;
-			}
+				return def.HasComp(typeof(CompAffectsSky));
 			case ThingRequestGroup.PsychicDroneEmanator:
-			{
-				result = def.HasComp(typeof(CompPsychicDrone));
-				break;
-			}
+				return def.HasComp(typeof(CompPsychicDrone));
 			case ThingRequestGroup.WindSource:
-			{
-				result = def.HasComp(typeof(CompWindSource));
-				break;
-			}
+				return def.HasComp(typeof(CompWindSource));
 			case ThingRequestGroup.AlwaysFlee:
-			{
-				result = def.alwaysFlee;
-				break;
-			}
+				return def.alwaysFlee;
 			case ThingRequestGroup.Fire:
-			{
-				result = typeof(Fire).IsAssignableFrom(def.thingClass);
-				break;
-			}
+				return typeof(Fire).IsAssignableFrom(def.thingClass);
 			default:
-			{
 				throw new ArgumentException("group");
 			}
-			}
-			return result;
 		}
 	}
 }

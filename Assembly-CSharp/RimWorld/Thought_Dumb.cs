@@ -4,7 +4,7 @@ namespace RimWorld
 {
 	public class Thought_Dumb : Thought
 	{
-		private int forcedStage = 0;
+		private int forcedStage;
 
 		public override int CurStageIndex
 		{

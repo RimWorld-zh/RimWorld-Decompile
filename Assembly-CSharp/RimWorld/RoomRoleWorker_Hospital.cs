@@ -9,33 +9,23 @@ namespace RimWorld
 		{
 			int num = 0;
 			List<Thing> containedAndAdjacentThings = room.ContainedAndAdjacentThings;
-			int num2 = 0;
-			float result;
-			while (true)
+			for (int i = 0; i < containedAndAdjacentThings.Count; i++)
 			{
-				if (num2 < containedAndAdjacentThings.Count)
+				Thing thing = containedAndAdjacentThings[i];
+				Building_Bed building_Bed = thing as Building_Bed;
+				if (building_Bed != null && building_Bed.def.building.bed_humanlike)
 				{
-					Thing thing = containedAndAdjacentThings[num2];
-					Building_Bed building_Bed = thing as Building_Bed;
-					if (building_Bed != null && building_Bed.def.building.bed_humanlike)
+					if (building_Bed.ForPrisoners)
 					{
-						if (building_Bed.ForPrisoners)
-						{
-							result = 0f;
-							break;
-						}
-						if (building_Bed.Medical)
-						{
-							num++;
-						}
+						return 0f;
 					}
-					num2++;
-					continue;
+					if (building_Bed.Medical)
+					{
+						num++;
+					}
 				}
-				result = (float)((float)num * 100000.0);
-				break;
 			}
-			return result;
+			return (float)((float)num * 100000.0);
 		}
 	}
 }

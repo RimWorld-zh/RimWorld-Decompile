@@ -18,7 +18,16 @@ namespace RimWorld
 
 		public override bool TryMakePreToilReservations()
 		{
-			return (byte)((!base.job.GetTarget(TargetIndex.A).HasThing || base.pawn.Reserve((Thing)this.Bed, base.job, this.Bed.SleepingSlotsCount, 0, null)) ? 1 : 0) != 0;
+			if (base.job.GetTarget(TargetIndex.A).HasThing && !base.pawn.Reserve(this.Bed, base.job, this.Bed.SleepingSlotsCount, 0, null))
+			{
+				return false;
+			}
+			return true;
+		}
+
+		public override bool CanBeginNowWhileLyingDown()
+		{
+			return JobInBedUtility.InBedOrRestSpotNow(base.pawn, base.job.GetTarget(TargetIndex.A));
 		}
 
 		protected override IEnumerable<Toil> MakeNewToils()
@@ -34,7 +43,11 @@ namespace RimWorld
 
 		public override string GetReport()
 		{
-			return (!base.asleep) ? "ReportResting".Translate() : "ReportSleeping".Translate();
+			if (base.asleep)
+			{
+				return "ReportSleeping".Translate();
+			}
+			return "ReportResting".Translate();
 		}
 	}
 }

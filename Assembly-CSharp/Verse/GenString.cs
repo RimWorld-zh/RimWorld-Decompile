@@ -18,7 +18,15 @@ namespace Verse
 
 		public static string ToStringCached(this int num)
 		{
-			return (num >= -4999) ? ((num <= 4999) ? GenString.numberStrings[num + 5000] : num.ToString()) : num.ToString();
+			if (num < -4999)
+			{
+				return num.ToString();
+			}
+			if (num > 4999)
+			{
+				return num.ToString();
+			}
+			return GenString.numberStrings[num + 5000];
 		}
 
 		public static IEnumerable<string> SplitBy(this string str, int chunkLength)

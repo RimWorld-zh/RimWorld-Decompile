@@ -6,37 +6,33 @@ namespace RimWorld
 	{
 		public override bool Matches(Thing t)
 		{
-			return this.CanEverMatch(t.def) && !t.Smeltable;
+			if (!this.CanEverMatch(t.def))
+			{
+				return false;
+			}
+			return !t.Smeltable;
 		}
 
 		public override bool CanEverMatch(ThingDef def)
 		{
-			bool result;
 			if (!def.IsWeapon)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (!def.thingCategories.NullOrEmpty())
 			{
-				if (!def.thingCategories.NullOrEmpty())
+				for (int i = 0; i < def.thingCategories.Count; i++)
 				{
-					for (int i = 0; i < def.thingCategories.Count; i++)
+					for (ThingCategoryDef thingCategoryDef = def.thingCategories[i]; thingCategoryDef != null; thingCategoryDef = thingCategoryDef.parent)
 					{
-						for (ThingCategoryDef thingCategoryDef = def.thingCategories[i]; thingCategoryDef != null; thingCategoryDef = thingCategoryDef.parent)
+						if (thingCategoryDef == ThingCategoryDefOf.Weapons)
 						{
-							if (thingCategoryDef == ThingCategoryDefOf.Weapons)
-								goto IL_004a;
+							return true;
 						}
 					}
 				}
-				result = false;
 			}
-			goto IL_007d;
-			IL_007d:
-			return result;
-			IL_004a:
-			result = true;
-			goto IL_007d;
+			return false;
 		}
 
 		public override bool AlwaysMatches(ThingDef def)

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -34,7 +33,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (float)((this.specificSocialTabForPawn != null) ? 540.0 : 0.0);
+				if (this.specificSocialTabForPawn == null)
+				{
+					return 0f;
+				}
+				return 540f;
 			}
 		}
 
@@ -74,7 +77,7 @@ namespace RimWorld.Planet
 				Rect tabRect = base.TabRect;
 				float specificSocialTabWidth = this.SpecificSocialTabWidth;
 				Rect rect = new Rect((float)(tabRect.xMax - 1.0), tabRect.yMin, specificSocialTabWidth, tabRect.height);
-				Find.WindowStack.ImmediateWindow(1439870015, rect, WindowLayer.GameUI, (Action)delegate
+				Find.WindowStack.ImmediateWindow(1439870015, rect, WindowLayer.GameUI, delegate
 				{
 					if (!localSpecificSocialTabForPawn.DestroyedOrNull())
 					{

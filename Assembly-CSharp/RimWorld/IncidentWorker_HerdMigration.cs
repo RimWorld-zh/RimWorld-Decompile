@@ -24,82 +24,72 @@ namespace RimWorld
 		{
 			Map map = (Map)parms.target;
 			PawnKindDef pawnKindDef = default(PawnKindDef);
-			bool result;
-			IntVec3 intVec = default(IntVec3);
-			IntVec3 near = default(IntVec3);
 			if (!this.TryFindAnimalKind(map.Tile, out pawnKindDef))
 			{
-				result = false;
+				return false;
 			}
-			else if (!this.TryFindStartAndEndCells(map, out intVec, out near))
+			IntVec3 intVec = default(IntVec3);
+			IntVec3 near = default(IntVec3);
+			if (!this.TryFindStartAndEndCells(map, out intVec, out near))
 			{
-				result = false;
+				return false;
 			}
-			else
+			Rot4 rot = Rot4.FromAngleFlat((map.Center - intVec).AngleFlat);
+			List<Pawn> list = this.GenerateAnimals(pawnKindDef, map.Tile);
+			for (int i = 0; i < list.Count; i++)
 			{
-				Rot4 rot = Rot4.FromAngleFlat((map.Center - intVec).AngleFlat);
-				List<Pawn> list = this.GenerateAnimals(pawnKindDef, map.Tile);
-				for (int i = 0; i < list.Count; i++)
-				{
-					Pawn newThing = list[i];
-					IntVec3 loc = CellFinder.RandomClosewalkCellNear(intVec, map, 10, null);
-					GenSpawn.Spawn(newThing, loc, map, rot, false);
-				}
-				LordMaker.MakeNewLord(null, new LordJob_ExitMapNear(near, LocomotionUrgency.Walk, 12f, false, false), map, list);
-				string text = string.Format(base.def.letterText, pawnKindDef.GetLabelPlural(-1)).CapitalizeFirst();
-				string label = string.Format(base.def.letterLabel, pawnKindDef.GetLabelPlural(-1).CapitalizeFirst());
-				Find.LetterStack.ReceiveLetter(label, text, base.def.letterDef, (Thing)list[0], (string)null);
-				result = true;
+				Pawn newThing = list[i];
+				IntVec3 loc = CellFinder.RandomClosewalkCellNear(intVec, map, 10, null);
+				GenSpawn.Spawn(newThing, loc, map, rot, false);
 			}
-			return result;
+			LordMaker.MakeNewLord(null, new LordJob_ExitMapNear(near, LocomotionUrgency.Walk, 12f, false, false), map, list);
+			string text = string.Format(base.def.letterText, pawnKindDef.GetLabelPlural(-1)).CapitalizeFirst();
+			string label = string.Format(base.def.letterLabel, pawnKindDef.GetLabelPlural(-1).CapitalizeFirst());
+			Find.LetterStack.ReceiveLetter(label, text, base.def.letterDef, list[0], null);
+			return true;
 		}
 
 		private bool TryFindAnimalKind(int tile, out PawnKindDef animalKind)
 		{
 			return (from k in DefDatabase<PawnKindDef>.AllDefs
-			where k.RaceProps.Animal && k.RaceProps.herdAnimal && Find.World.tileTemperatures.SeasonAndOutdoorTemperatureAcceptableFor(tile, k.race)
+			where k.RaceProps.CanDoHerdMigration && Find.World.tileTemperatures.SeasonAndOutdoorTemperatureAcceptableFor(tile, k.race)
 			select k).TryRandomElementByWeight<PawnKindDef>((Func<PawnKindDef, float>)((PawnKindDef x) => x.RaceProps.wildness), out animalKind);
 		}
 
 		private bool TryFindStartAndEndCells(Map map, out IntVec3 start, out IntVec3 end)
 		{
-			bool result;
 			if (!RCellFinder.TryFindRandomPawnEntryCell(out start, map, CellFinder.EdgeRoadChance_Animal, (Predicate<IntVec3>)null))
 			{
 				end = IntVec3.Invalid;
-				result = false;
+				return false;
 			}
-			else
+			end = IntVec3.Invalid;
+			int num = 0;
+			while (num < 8)
 			{
-				end = IntVec3.Invalid;
-				int num = 0;
-				while (num < 8)
+				IntVec3 startLocal = start;
+				IntVec3 intVec = default(IntVec3);
+				if (CellFinder.TryFindRandomEdgeCellWith((Predicate<IntVec3>)((IntVec3 x) => map.reachability.CanReach(startLocal, x, PathEndMode.OnCell, TraverseMode.NoPassClosedDoors, Danger.Deadly)), map, CellFinder.EdgeRoadChance_Ignore, out intVec))
 				{
-					IntVec3 startLocal = start;
-					IntVec3 intVec = default(IntVec3);
-					if (CellFinder.TryFindRandomEdgeCellWith((Predicate<IntVec3>)((IntVec3 x) => map.reachability.CanReach(startLocal, x, PathEndMode.OnCell, TraverseMode.NoPassClosedDoors, Danger.Deadly)), map, CellFinder.EdgeRoadChance_Ignore, out intVec))
+					if (!end.IsValid || intVec.DistanceToSquared(start) > end.DistanceToSquared(start))
 					{
-						if (!end.IsValid || intVec.DistanceToSquared(start) > end.DistanceToSquared(start))
-						{
-							end = intVec;
-						}
-						num++;
-						continue;
+						end = intVec;
 					}
-					break;
+					num++;
+					continue;
 				}
-				result = end.IsValid;
+				break;
 			}
-			return result;
+			return end.IsValid;
 		}
 
 		private List<Pawn> GenerateAnimals(PawnKindDef animalKind, int tile)
 		{
 			int randomInRange = IncidentWorker_HerdMigration.AnimalsCount.RandomInRange;
 			List<Pawn> list = new List<Pawn>();
-			for (int num = 0; num < randomInRange; num++)
+			for (int i = 0; i < randomInRange; i++)
 			{
-				PawnGenerationRequest request = new PawnGenerationRequest(animalKind, null, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 1f, false, true, true, false, false, false, false, null, default(float?), default(float?), default(float?), default(Gender?), default(float?), (string)null);
+				PawnGenerationRequest request = new PawnGenerationRequest(animalKind, null, PawnGenerationContext.NonPlayer, tile, false, false, false, false, true, false, 1f, false, true, true, false, false, false, false, null, null, null, null, null, null, null);
 				Pawn item = PawnGenerator.GeneratePawn(request);
 				list.Add(item);
 			}

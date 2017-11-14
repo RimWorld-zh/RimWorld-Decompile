@@ -6,7 +6,11 @@ namespace RimWorld
 	{
 		public override bool InRelation(Pawn me, Pawn other)
 		{
-			return me != other && (other.GetMother() == me || other.GetFather() == me);
+			if (me == other)
+			{
+				return false;
+			}
+			return other.GetMother() == me || other.GetFather() == me;
 		}
 
 		public override float GenerationChance(Pawn generated, Pawn other, PawnGenerationRequest request)
@@ -14,11 +18,11 @@ namespace RimWorld
 			float num = 0f;
 			if (generated.gender == Gender.Male)
 			{
-				num = ChildRelationUtility.ChanceOfBecomingChildOf(other, generated, other.GetMother(), default(PawnGenerationRequest?), new PawnGenerationRequest?(request), default(PawnGenerationRequest?));
+				num = ChildRelationUtility.ChanceOfBecomingChildOf(other, generated, other.GetMother(), null, request, null);
 			}
 			else if (generated.gender == Gender.Female)
 			{
-				num = ChildRelationUtility.ChanceOfBecomingChildOf(other, other.GetFather(), generated, default(PawnGenerationRequest?), default(PawnGenerationRequest?), new PawnGenerationRequest?(request));
+				num = ChildRelationUtility.ChanceOfBecomingChildOf(other, other.GetFather(), generated, null, null, request);
 			}
 			return num * base.BaseGenerationChanceFactor(generated, other, request);
 		}
@@ -107,7 +111,7 @@ namespace RimWorld
 			{
 				if (otherParent != null)
 				{
-					request.SetFixedMelanin(ParentRelationUtility.GetRandomSecondParentSkinColor(otherParent.story.melanin, child.story.melanin, default(float?)));
+					request.SetFixedMelanin(ParentRelationUtility.GetRandomSecondParentSkinColor(otherParent.story.melanin, child.story.melanin, null));
 				}
 				else
 				{

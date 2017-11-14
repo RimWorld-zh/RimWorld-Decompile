@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,7 +7,7 @@ namespace RimWorld
 {
 	public class ScenPart_StartingAnimal : ScenPart
 	{
-		private PawnKindDef animalKind = null;
+		private PawnKindDef animalKind;
 
 		private int count = 1;
 
@@ -53,14 +52,14 @@ namespace RimWorld
 			if (Widgets.ButtonText(scenPartRect.BottomHalf(), this.CurrentAnimalLabel().CapitalizeFirst(), true, false, true))
 			{
 				List<FloatMenuOption> list = new List<FloatMenuOption>();
-				list.Add(new FloatMenuOption("RandomPet".Translate().CapitalizeFirst(), (Action)delegate
+				list.Add(new FloatMenuOption("RandomPet".Translate().CapitalizeFirst(), delegate
 				{
 					this.animalKind = null;
 				}, MenuOptionPriority.Default, null, null, 0f, null, null));
 				foreach (PawnKindDef item in this.PossibleAnimals())
 				{
 					PawnKindDef localKind = item;
-					list.Add(new FloatMenuOption(localKind.LabelCap, (Action)delegate
+					list.Add(new FloatMenuOption(localKind.LabelCap, delegate
 					{
 						this.animalKind = localKind;
 					}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -111,24 +110,19 @@ namespace RimWorld
 			{
 				this.animalKind = this.PossibleAnimals().RandomElement();
 			}
-			this.count = ScenPart_StartingAnimal.PetCountChances.RandomElementByWeight((Func<Pair<int, float>, float>)((Pair<int, float> pa) => pa.Second)).First;
+			this.count = ScenPart_StartingAnimal.PetCountChances.RandomElementByWeight((Pair<int, float> pa) => pa.Second).First;
 			this.bondToRandomPlayerPawnChance = 0f;
 		}
 
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_StartingAnimal scenPart_StartingAnimal = other as ScenPart_StartingAnimal;
-			bool result;
 			if (scenPart_StartingAnimal != null && scenPart_StartingAnimal.animalKind == this.animalKind)
 			{
 				this.count += scenPart_StartingAnimal.count;
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		public override IEnumerable<Thing> PlayerStartingThings()
@@ -136,11 +130,11 @@ namespace RimWorld
 			int i = 0;
 			if (i < this.count)
 			{
-				PawnKindDef kind = (this.animalKind == null) ? this.RandomPets().RandomElementByWeight((Func<PawnKindDef, float>)((PawnKindDef td) => td.RaceProps.petness)) : this.animalKind;
+				PawnKindDef kind = (this.animalKind == null) ? this.RandomPets().RandomElementByWeight((PawnKindDef td) => td.RaceProps.petness) : this.animalKind;
 				Pawn animal = PawnGenerator.GeneratePawn(kind, Faction.OfPlayer);
 				if (animal.Name == null || animal.Name.Numerical)
 				{
-					animal.Name = PawnBioAndNameGenerator.GeneratePawnName(animal, NameStyle.Full, (string)null);
+					animal.Name = PawnBioAndNameGenerator.GeneratePawnName(animal, NameStyle.Full, null);
 				}
 				if (Rand.Value < this.bondToRandomPlayerPawnChance)
 				{

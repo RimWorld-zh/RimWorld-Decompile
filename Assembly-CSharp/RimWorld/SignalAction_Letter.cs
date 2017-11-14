@@ -29,10 +29,10 @@ namespace RimWorld
 				}
 				if (!this.letter.lookTarget.IsValid)
 				{
-					this.letter.lookTarget = (Thing)pawn;
+					this.letter.lookTarget = pawn;
 				}
 			}
-			Find.LetterStack.ReceiveLetter(this.letter, (string)null);
+			Find.LetterStack.ReceiveLetter(this.letter, null);
 		}
 	}
 }

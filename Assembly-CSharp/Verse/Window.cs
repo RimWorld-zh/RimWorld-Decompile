@@ -1,8 +1,6 @@
-#define ENABLE_PROFILER
 using RimWorld;
 using System;
 using UnityEngine;
-using UnityEngine.Profiling;
 using Verse.Sound;
 
 namespace Verse
@@ -49,7 +47,7 @@ namespace Verse
 
 		public SoundDef soundAmbient;
 
-		public bool silenceAmbientSound = false;
+		public bool silenceAmbientSound;
 
 		protected const float StandardMargin = 18f;
 
@@ -165,9 +163,9 @@ namespace Verse
 			}
 			this.windowRect = this.windowRect.Rounded();
 			Rect winRect = this.windowRect.AtZero();
-			this.windowRect = GUI.Window(this.ID, this.windowRect, (GUI.WindowFunction)delegate(int x)
+			this.windowRect = GUI.Window(this.ID, this.windowRect, delegate(int x)
 			{
-				Profiler.BeginSample("WindowOnGUI: " + base.GetType().Name);
+				UnityGUIBugsFixer.OnGUI();
 				Find.WindowStack.currentlyDrawnWindow = this;
 				if (this.doWindowBackground)
 				{
@@ -252,8 +250,7 @@ namespace Verse
 				}
 				ScreenFader.OverlayOnGUI(winRect.size);
 				Find.WindowStack.currentlyDrawnWindow = null;
-				Profiler.EndSample();
-			}, "", Widgets.EmptyStyle);
+			}, string.Empty, Widgets.EmptyStyle);
 		}
 
 		public virtual void Close(bool doCloseSound = true)

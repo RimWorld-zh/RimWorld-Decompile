@@ -14,7 +14,7 @@ namespace RimWorld
 			string label = "LetterLabelRefugeePodCrash".Translate();
 			string text = "RefugeePodCrash".Translate();
 			PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref text, ref label, pawn);
-			Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.NeutralEvent, new TargetInfo(intVec, map, false), (string)null);
+			Find.LetterStack.ReceiveLetter(label, text, LetterDefOf.NeutralEvent, new TargetInfo(intVec, map, false), null);
 			ActiveDropPodInfo activeDropPodInfo = new ActiveDropPodInfo();
 			activeDropPodInfo.innerContainer.TryAddRangeOrTransfer(things, true, false);
 			activeDropPodInfo.openDelay = 180;
@@ -25,31 +25,20 @@ namespace RimWorld
 
 		private Pawn FindPawn(List<Thing> things)
 		{
-			int num = 0;
-			Pawn result;
-			while (true)
+			for (int i = 0; i < things.Count; i++)
 			{
-				if (num < things.Count)
+				Pawn pawn = things[i] as Pawn;
+				if (pawn != null)
 				{
-					Pawn pawn = things[num] as Pawn;
-					if (pawn != null)
-					{
-						result = pawn;
-						break;
-					}
-					Corpse corpse = things[num] as Corpse;
-					if (corpse != null)
-					{
-						result = corpse.InnerPawn;
-						break;
-					}
-					num++;
-					continue;
+					return pawn;
 				}
-				result = null;
-				break;
+				Corpse corpse = things[i] as Corpse;
+				if (corpse != null)
+				{
+					return corpse.InnerPawn;
+				}
 			}
-			return result;
+			return null;
 		}
 	}
 }

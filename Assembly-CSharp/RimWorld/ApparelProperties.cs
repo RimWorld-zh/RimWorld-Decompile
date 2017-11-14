@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,41 +11,36 @@ namespace RimWorld
 
 		public List<ApparelLayer> layers = new List<ApparelLayer>();
 
-		public string wornGraphicPath = "";
+		public string wornGraphicPath = string.Empty;
 
 		public List<string> tags = new List<string>();
 
-		public List<string> defaultOutfitTags = null;
+		public List<string> defaultOutfitTags;
 
 		public float wearPerDay = 0.4f;
 
 		public bool careIfWornByCorpse = true;
 
-		public bool hatRenderedFrontOfFace = false;
+		public bool hatRenderedFrontOfFace;
 
 		[Unsaved]
 		private float cachedHumanBodyCoverage = -1f;
 
 		[Unsaved]
-		private BodyPartGroupDef[][] interferingBodyPartGroups = null;
+		private BodyPartGroupDef[][] interferingBodyPartGroups;
 
-		private static BodyPartGroupDef[] apparelRelevantGroups = null;
+		private static BodyPartGroupDef[] apparelRelevantGroups;
 
 		public ApparelLayer LastLayer
 		{
 			get
 			{
-				ApparelLayer result;
 				if (this.layers.Count > 0)
 				{
-					result = this.layers[this.layers.Count - 1];
+					return this.layers[this.layers.Count - 1];
 				}
-				else
-				{
-					Log.ErrorOnce("Failed to get last layer on apparel item (see your config errors)", 31234937);
-					result = ApparelLayer.Belt;
-				}
-				return result;
+				Log.ErrorOnce("Failed to get last layer on apparel item (see your config errors)", 31234937);
+				return ApparelLayer.Belt;
 			}
 		}
 
@@ -70,6 +64,13 @@ namespace RimWorld
 			}
 		}
 
+		public static void Reset()
+		{
+			ApparelProperties.apparelRelevantGroups = (from td in DefDatabase<ThingDef>.AllDefs
+			where td.IsApparel
+			select td).SelectMany((ThingDef td) => td.apparel.bodyPartGroups).Distinct().ToArray();
+		}
+
 		public IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
 			if (!this.layers.NullOrEmpty())
@@ -80,30 +81,20 @@ namespace RimWorld
 
 		public bool CoversBodyPart(BodyPartRecord partRec)
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < partRec.groups.Count; i++)
 			{
-				if (num < partRec.groups.Count)
+				if (this.bodyPartGroups.Contains(partRec.groups[i]))
 				{
-					if (this.bodyPartGroups.Contains(partRec.groups[num]))
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		public string GetCoveredOuterPartsString(BodyDef body)
 		{
 			IEnumerable<BodyPartRecord> source = from x in body.AllParts
-			where x.depth == BodyPartDepth.Outside && x.groups.Any((Predicate<BodyPartGroupDef>)((BodyPartGroupDef y) => this.bodyPartGroups.Contains(y)))
+			where x.depth == BodyPartDepth.Outside && x.groups.Any((BodyPartGroupDef y) => this.bodyPartGroups.Contains(y))
 			select x;
 			StringBuilder stringBuilder = new StringBuilder();
 			bool flag = true;
@@ -127,19 +118,13 @@ namespace RimWorld
 			}
 			if (this.interferingBodyPartGroups[body.index] == null)
 			{
-				if (ApparelProperties.apparelRelevantGroups == null)
-				{
-					ApparelProperties.apparelRelevantGroups = (from td in DefDatabase<ThingDef>.AllDefs
-					where td.IsApparel
-					select td).SelectMany((Func<ThingDef, IEnumerable<BodyPartGroupDef>>)((ThingDef td) => td.apparel.bodyPartGroups)).Distinct().ToArray();
-				}
 				BodyPartRecord[] source = (from part in body.AllParts
-				where part.groups.Any((Predicate<BodyPartGroupDef>)((BodyPartGroupDef @group) => this.bodyPartGroups.Contains(@group)))
+				where part.groups.Any((BodyPartGroupDef @group) => this.bodyPartGroups.Contains(@group))
 				select part).ToArray();
-				IEnumerable<BodyPartGroupDef> source2 = source.SelectMany((Func<BodyPartRecord, IEnumerable<BodyPartGroupDef>>)((BodyPartRecord bpr) => bpr.groups)).Distinct();
-				BodyPartGroupDef[] array = this.interferingBodyPartGroups[body.index] = (from bpgd in source2
+				BodyPartGroupDef[] array = (from bpgd in source.SelectMany((BodyPartRecord bpr) => bpr.groups).Distinct()
 				where ApparelProperties.apparelRelevantGroups.Contains(bpgd)
 				select bpgd).ToArray();
+				this.interferingBodyPartGroups[body.index] = array;
 			}
 			return this.interferingBodyPartGroups[body.index];
 		}

@@ -20,21 +20,17 @@ namespace RimWorld.Planet
 			{
 				FactionBase factionBase = this.FactionBase;
 				List<TraderKindDef> baseTraderKinds = factionBase.Faction.def.baseTraderKinds;
-				TraderKindDef result;
 				if (baseTraderKinds.NullOrEmpty())
 				{
-					result = null;
+					return null;
 				}
-				else
-				{
-					int index = Mathf.Abs(factionBase.HashOffset()) % baseTraderKinds.Count;
-					result = baseTraderKinds[index];
-				}
-				return result;
+				int index = Mathf.Abs(factionBase.HashOffset()) % baseTraderKinds.Count;
+				return baseTraderKinds[index];
 			}
 		}
 
-		public FactionBase_TraderTracker(Settlement factionBase) : base(factionBase)
+		public FactionBase_TraderTracker(Settlement factionBase)
+			: base(factionBase)
 		{
 		}
 	}

@@ -36,25 +36,19 @@ namespace RimWorld.BaseGen
 		private bool TryFindPerfectPlaceThenBest(CellRect outerRect, int size, out CellRect rect)
 		{
 			int num = default(int);
-			bool result;
 			if (!this.TryFindRandomInnerRect(outerRect, size, out rect, size * size, out num))
 			{
 				if (num == 0)
 				{
-					result = false;
-					goto IL_0043;
+					return false;
 				}
 				int num2 = default(int);
 				if (!this.TryFindRandomInnerRect(outerRect, size, out rect, num, out num2))
 				{
-					result = false;
-					goto IL_0043;
+					return false;
 				}
 			}
-			result = true;
-			goto IL_0043;
-			IL_0043:
-			return result;
+			return true;
 		}
 
 		private bool TryFindRandomInnerRect(CellRect outerRect, int size, out CellRect rect, int minValidCells, out int maxValidCellsFound)

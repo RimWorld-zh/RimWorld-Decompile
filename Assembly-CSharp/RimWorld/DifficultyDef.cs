@@ -14,7 +14,7 @@ namespace RimWorld
 
 		public bool allowCaveHives = true;
 
-		public bool peacefulTemples = false;
+		public bool peacefulTemples;
 
 		public float colonistMoodOffset;
 

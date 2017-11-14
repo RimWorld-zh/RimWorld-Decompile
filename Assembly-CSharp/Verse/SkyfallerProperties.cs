@@ -22,7 +22,7 @@ namespace Verse
 
 		public float shrapnelDistanceFactor = 1f;
 
-		public SkyfallerMovementType movementType = SkyfallerMovementType.Accelerate;
+		public SkyfallerMovementType movementType;
 
 		public float speed = 1f;
 

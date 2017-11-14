@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -19,7 +18,7 @@ namespace RimWorld
 			TargetingParameters targetingParameters = new TargetingParameters();
 			targetingParameters.canTargetPawns = true;
 			targetingParameters.canTargetBuildings = false;
-			targetingParameters.validator = (Predicate<TargetInfo>)((TargetInfo x) => base.BaseTargetValidator(x.Thing));
+			targetingParameters.validator = ((TargetInfo x) => base.BaseTargetValidator(x.Thing));
 			return targetingParameters;
 		}
 

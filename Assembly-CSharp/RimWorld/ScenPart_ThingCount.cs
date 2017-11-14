@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -54,7 +53,7 @@ namespace RimWorld
 				select t)
 				{
 					ThingDef localTd = item;
-					list.Add(new FloatMenuOption(localTd.LabelCap, (Action)delegate
+					list.Add(new FloatMenuOption(localTd.LabelCap, delegate
 					{
 						this.thingDef = localTd;
 						this.stuff = GenStuff.DefaultStuffFor(localTd);
@@ -70,7 +69,7 @@ namespace RimWorld
 				select t)
 				{
 					ThingDef localSd = item2;
-					list2.Add(new FloatMenuOption(localSd.LabelCap, (Action)delegate
+					list2.Add(new FloatMenuOption(localSd.LabelCap, delegate
 					{
 						this.stuff = localSd;
 					}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -83,22 +82,17 @@ namespace RimWorld
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_ThingCount scenPart_ThingCount = other as ScenPart_ThingCount;
-			bool result;
 			if (scenPart_ThingCount != null && base.GetType() == scenPart_ThingCount.GetType() && this.thingDef == scenPart_ThingCount.thingDef && this.stuff == scenPart_ThingCount.stuff && this.count >= 0 && scenPart_ThingCount.count >= 0)
 			{
 				this.count += scenPart_ThingCount.count;
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		protected virtual IEnumerable<ThingDef> PossibleThingDefs()
 		{
-			return DefDatabase<ThingDef>.AllDefs.Where((Func<ThingDef, bool>)delegate(ThingDef d)
+			return DefDatabase<ThingDef>.AllDefs.Where(delegate(ThingDef d)
 			{
 				if (d.category == ThingCategory.Item && d.scatterableOnMapGen && !d.destroyOnDrop)
 				{

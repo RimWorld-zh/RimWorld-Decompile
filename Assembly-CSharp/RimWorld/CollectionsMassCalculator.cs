@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -70,7 +69,7 @@ namespace RimWorld
 			{
 				if (transferables[i].HasAnyThing && transferables[i].AnyThing is Pawn)
 				{
-					TransferableUtility.TransferNoSplit(transferables[i].things, transferables[i].CountToTransfer, (Action<Thing, int>)delegate(Thing originalThing, int toTake)
+					TransferableUtility.TransferNoSplit(transferables[i].things, transferables[i].CountToTransfer, delegate(Thing originalThing, int toTake)
 					{
 						CollectionsMassCalculator.tmpThingStackParts.Add(new ThingStackPart(originalThing, toTake));
 					}, false, false);
@@ -91,7 +90,7 @@ namespace RimWorld
 					CollectionsMassCalculator.thingsInReverse.Clear();
 					CollectionsMassCalculator.thingsInReverse.AddRange(transferables[i].things);
 					CollectionsMassCalculator.thingsInReverse.Reverse();
-					TransferableUtility.TransferNoSplit(CollectionsMassCalculator.thingsInReverse, transferables[i].MaxCount - transferables[i].CountToTransfer, (Action<Thing, int>)delegate(Thing originalThing, int toTake)
+					TransferableUtility.TransferNoSplit(CollectionsMassCalculator.thingsInReverse, transferables[i].MaxCount - transferables[i].CountToTransfer, delegate(Thing originalThing, int toTake)
 					{
 						CollectionsMassCalculator.tmpThingStackParts.Add(new ThingStackPart(originalThing, toTake));
 					}, false, false);
@@ -128,7 +127,7 @@ namespace RimWorld
 			CollectionsMassCalculator.tmpThingStackParts.Clear();
 			for (int i = 0; i < transferables.Count; i++)
 			{
-				TransferableUtility.TransferNoSplit(transferables[i].things, transferables[i].CountToTransfer, (Action<Thing, int>)delegate(Thing originalThing, int toTake)
+				TransferableUtility.TransferNoSplit(transferables[i].things, transferables[i].CountToTransfer, delegate(Thing originalThing, int toTake)
 				{
 					CollectionsMassCalculator.tmpThingStackParts.Add(new ThingStackPart(originalThing, toTake));
 				}, false, false);
@@ -146,7 +145,7 @@ namespace RimWorld
 				CollectionsMassCalculator.thingsInReverse.Clear();
 				CollectionsMassCalculator.thingsInReverse.AddRange(transferables[i].things);
 				CollectionsMassCalculator.thingsInReverse.Reverse();
-				TransferableUtility.TransferNoSplit(CollectionsMassCalculator.thingsInReverse, transferables[i].MaxCount - transferables[i].CountToTransfer, (Action<Thing, int>)delegate(Thing originalThing, int toTake)
+				TransferableUtility.TransferNoSplit(CollectionsMassCalculator.thingsInReverse, transferables[i].MaxCount - transferables[i].CountToTransfer, delegate(Thing originalThing, int toTake)
 				{
 					CollectionsMassCalculator.tmpThingStackParts.Add(new ThingStackPart(originalThing, toTake));
 				}, false, false);

@@ -4,7 +4,8 @@ namespace Verse
 {
 	public class SubEffecter_SoundTriggered : SubEffecter
 	{
-		public SubEffecter_SoundTriggered(SubEffecterDef def) : base(def)
+		public SubEffecter_SoundTriggered(SubEffecterDef def)
+			: base(def)
 		{
 		}
 

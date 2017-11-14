@@ -11,25 +11,17 @@ namespace RimWorld
 		{
 			get
 			{
-				using (IEnumerator<Pawn> enumerator = PawnsFinder.AllMaps_FreeColonistsSpawned.GetEnumerator())
+				foreach (Pawn item in PawnsFinder.AllMaps_FreeColonistsSpawned)
 				{
-					Pawn p;
-					while (true)
+					if (!item.Downed && item.mindState.mentalBreaker.BreakExtremeIsImminent)
 					{
-						if (enumerator.MoveNext())
-						{
-							p = enumerator.Current;
-							if (!p.Downed && p.mindState.mentalBreaker.BreakExtremeIsImminent)
-								break;
-							continue;
-						}
-						yield break;
+						yield return item;
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
-					yield return p;
-					/*Error: Unable to find new state assignment for yield return*/;
 				}
-				IL_00e1:
-				/*Error near IL_00e2: Unexpected return in MoveNext()*/;
+				yield break;
+				IL_00dd:
+				/*Error near IL_00de: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -37,25 +29,17 @@ namespace RimWorld
 		{
 			get
 			{
-				using (IEnumerator<Pawn> enumerator = PawnsFinder.AllMaps_FreeColonistsSpawned.GetEnumerator())
+				foreach (Pawn item in PawnsFinder.AllMaps_FreeColonistsSpawned)
 				{
-					Pawn p;
-					while (true)
+					if (!item.Downed && item.mindState.mentalBreaker.BreakMajorIsImminent)
 					{
-						if (enumerator.MoveNext())
-						{
-							p = enumerator.Current;
-							if (!p.Downed && p.mindState.mentalBreaker.BreakMajorIsImminent)
-								break;
-							continue;
-						}
-						yield break;
+						yield return item;
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
-					yield return p;
-					/*Error: Unable to find new state assignment for yield return*/;
 				}
-				IL_00e1:
-				/*Error near IL_00e2: Unexpected return in MoveNext()*/;
+				yield break;
+				IL_00dd:
+				/*Error near IL_00de: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -63,25 +47,17 @@ namespace RimWorld
 		{
 			get
 			{
-				using (IEnumerator<Pawn> enumerator = PawnsFinder.AllMaps_FreeColonistsSpawned.GetEnumerator())
+				foreach (Pawn item in PawnsFinder.AllMaps_FreeColonistsSpawned)
 				{
-					Pawn p;
-					while (true)
+					if (!item.Downed && item.mindState.mentalBreaker.BreakMinorIsImminent)
 					{
-						if (enumerator.MoveNext())
-						{
-							p = enumerator.Current;
-							if (!p.Downed && p.mindState.mentalBreaker.BreakMinorIsImminent)
-								break;
-							continue;
-						}
-						yield break;
+						yield return item;
+						/*Error: Unable to find new state assignment for yield return*/;
 					}
-					yield return p;
-					/*Error: Unable to find new state assignment for yield return*/;
 				}
-				IL_00e1:
-				/*Error near IL_00e2: Unexpected return in MoveNext()*/;
+				yield break;
+				IL_00dd:
+				/*Error near IL_00de: Unexpected return in MoveNext()*/;
 			}
 		}
 

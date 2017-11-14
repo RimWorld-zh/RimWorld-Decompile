@@ -28,7 +28,7 @@ namespace Verse
 		{
 			get
 			{
-				return (string)null;
+				return null;
 			}
 		}
 
@@ -36,7 +36,7 @@ namespace Verse
 		{
 			get
 			{
-				return (string)null;
+				return null;
 			}
 		}
 
@@ -103,7 +103,7 @@ namespace Verse
 
 		public virtual string CompDebugString()
 		{
-			return (string)null;
+			return null;
 		}
 	}
 }

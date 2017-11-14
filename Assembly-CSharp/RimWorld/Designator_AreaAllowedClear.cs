@@ -5,7 +5,8 @@ namespace RimWorld
 {
 	public class Designator_AreaAllowedClear : Designator_AreaAllowed
 	{
-		public Designator_AreaAllowedClear() : base(DesignateMode.Remove)
+		public Designator_AreaAllowedClear()
+			: base(DesignateMode.Remove)
 		{
 			base.defaultLabel = "DesignatorClearAreaAllowed".Translate();
 			base.defaultDesc = "DesignatorClearAreaAllowedDesc".Translate();

@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,15 +8,15 @@ namespace Verse
 {
 	public class FloatMenu : Window
 	{
-		public bool givesColonistOrders = false;
+		public bool givesColonistOrders;
 
 		public bool vanishIfMouseDistant = true;
 
 		protected List<FloatMenuOption> options;
 
-		private string title = (string)null;
+		private string title;
 
-		private bool needSelection = false;
+		private bool needSelection;
 
 		private Color baseColor = Color.white;
 
@@ -73,7 +72,6 @@ namespace Verse
 		{
 			get
 			{
-				float result;
 				if (this.UsingScrollbar)
 				{
 					float num = 0f;
@@ -89,13 +87,9 @@ namespace Verse
 					}
 					int columnCount = this.ColumnCount;
 					num2 += (float)columnCount * num;
-					result = num2 / (float)columnCount;
+					return num2 / (float)columnCount;
 				}
-				else
-				{
-					result = this.MaxWindowHeight;
-				}
-				return result;
+				return this.MaxWindowHeight;
 			}
 		}
 
@@ -144,29 +138,19 @@ namespace Verse
 			get
 			{
 				float num = 70f;
-				int num2 = 0;
-				float result;
-				while (true)
+				for (int i = 0; i < this.options.Count; i++)
 				{
-					if (num2 < this.options.Count)
+					float requiredWidth = this.options[i].RequiredWidth;
+					if (requiredWidth >= 300.0)
 					{
-						float requiredWidth = this.options[num2].RequiredWidth;
-						if (requiredWidth >= 300.0)
-						{
-							result = 300f;
-							break;
-						}
-						if (requiredWidth > num)
-						{
-							num = requiredWidth;
-						}
-						num2++;
-						continue;
+						return 300f;
 					}
-					result = Mathf.Round(num);
-					break;
+					if (requiredWidth > num)
+					{
+						num = requiredWidth;
+					}
 				}
-				return result;
+				return Mathf.Round(num);
 			}
 		}
 
@@ -198,33 +182,28 @@ namespace Verse
 		{
 			get
 			{
-				int result;
 				if (this.options == null)
 				{
-					result = 1;
+					return 1;
 				}
-				else
+				Text.Font = GameFont.Small;
+				int num = 1;
+				float num2 = 0f;
+				float maxWindowHeight = this.MaxWindowHeight;
+				for (int i = 0; i < this.options.Count; i++)
 				{
-					Text.Font = GameFont.Small;
-					int num = 1;
-					float num2 = 0f;
-					float maxWindowHeight = this.MaxWindowHeight;
-					for (int i = 0; i < this.options.Count; i++)
+					float requiredHeight = this.options[i].RequiredHeight;
+					if (num2 + requiredHeight + -1.0 > maxWindowHeight)
 					{
-						float requiredHeight = this.options[i].RequiredHeight;
-						if (num2 + requiredHeight + -1.0 > maxWindowHeight)
-						{
-							num2 = requiredHeight;
-							num++;
-						}
-						else
-						{
-							num2 = (float)(num2 + (requiredHeight + -1.0));
-						}
+						num2 = requiredHeight;
+						num++;
 					}
-					result = num;
+					else
+					{
+						num2 = (float)(num2 + (requiredHeight + -1.0));
+					}
 				}
-				return result;
+				return num;
 			}
 		}
 
@@ -232,7 +211,11 @@ namespace Verse
 		{
 			get
 			{
-				return (FloatMenuSizeMode)((this.options.Count <= 60) ? 1 : 2);
+				if (this.options.Count > 60)
+				{
+					return FloatMenuSizeMode.Tiny;
+				}
+				return FloatMenuSizeMode.Normal;
 			}
 		}
 
@@ -255,7 +238,8 @@ namespace Verse
 			SoundDefOf.FloatMenuOpen.PlayOneShotOnCamera(null);
 		}
 
-		public FloatMenu(List<FloatMenuOption> options, string title, bool needSelection = false) : this(options)
+		public FloatMenu(List<FloatMenuOption> options, string title, bool needSelection = false)
+			: this(options)
 		{
 			this.title = title;
 			this.needSelection = needSelection;
@@ -303,7 +287,7 @@ namespace Verse
 				float y = vector.y;
 				Vector2 titleOffset2 = FloatMenu.TitleOffset;
 				Rect titleRect = new Rect(x2, y + titleOffset2.y, width, 23f);
-				Find.WindowStack.ImmediateWindow(6830963, titleRect, WindowLayer.Super, (Action)delegate
+				Find.WindowStack.ImmediateWindow(6830963, titleRect, WindowLayer.Super, delegate
 				{
 					GUI.color = this.baseColor;
 					Text.Font = GameFont.Small;

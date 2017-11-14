@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -37,7 +36,7 @@ namespace Verse
 				Texture2D texture2D = (from x in ContentFinder<Texture2D>.GetAllInFolder(text)
 				where x.name.EndsWith(stuffAppearance.defName)
 				select x).FirstOrDefault();
-				if ((UnityEngine.Object)texture2D != (UnityEngine.Object)null)
+				if ((Object)texture2D != (Object)null)
 				{
 					this.subGraphics[i] = GraphicDatabase.Get<Graphic_Single>(text + "/" + texture2D.name, req.shader, base.drawSize, base.color);
 				}

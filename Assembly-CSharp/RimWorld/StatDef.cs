@@ -6,7 +6,7 @@ namespace RimWorld
 {
 	public class StatDef : Def
 	{
-		public StatCategoryDef category = null;
+		public StatCategoryDef category;
 
 		public Type workerClass = typeof(StatWorker);
 
@@ -26,53 +26,53 @@ namespace RimWorld
 
 		public bool showOnNonWorkTables = true;
 
-		public bool neverDisabled = false;
+		public bool neverDisabled;
 
-		public int displayPriorityInCategory = 0;
+		public int displayPriorityInCategory;
 
 		public ToStringNumberSense toStringNumberSense = ToStringNumberSense.Absolute;
 
-		public ToStringStyle toStringStyle = ToStringStyle.Integer;
+		public ToStringStyle toStringStyle;
 
 		public ToStringStyle? toStringStyleUnfinalized;
 
-		public string formatString = (string)null;
+		public string formatString;
 
 		public float defaultBaseValue = 1f;
 
-		public List<SkillNeed> skillNeedOffsets = null;
+		public List<SkillNeed> skillNeedOffsets;
 
-		public float noSkillOffset = 0f;
+		public float noSkillOffset;
 
-		public List<PawnCapacityOffset> capacityOffsets = null;
+		public List<PawnCapacityOffset> capacityOffsets;
 
-		public List<StatDef> statFactors = null;
+		public List<StatDef> statFactors;
 
 		public bool applyFactorsIfNegative = true;
 
-		public List<SkillNeed> skillNeedFactors = null;
+		public List<SkillNeed> skillNeedFactors;
 
 		public float noSkillFactor = 1f;
 
-		public List<PawnCapacityFactor> capacityFactors = null;
+		public List<PawnCapacityFactor> capacityFactors;
 
-		public SimpleCurve postProcessCurve = null;
+		public SimpleCurve postProcessCurve;
 
 		public float minValue = -9999999f;
 
 		public float maxValue = 9999999f;
 
-		public bool roundValue = false;
+		public bool roundValue;
 
 		public float roundToFiveOver = 3.40282347E+38f;
 
 		public bool minifiedThingInherits;
 
-		public bool scenarioRandomizable = false;
+		public bool scenarioRandomizable;
 
-		public List<StatPart> parts = null;
+		public List<StatPart> parts;
 
-		private StatWorker workerInt = null;
+		private StatWorker workerInt;
 
 		public StatWorker Worker
 		{
@@ -105,7 +105,7 @@ namespace RimWorld
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -141,8 +141,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_02b9:
-			/*Error near IL_02ba: Unexpected return in MoveNext()*/;
+			IL_02a9:
+			/*Error near IL_02aa: Unexpected return in MoveNext()*/;
 		}
 
 		public string ValueToString(float val, ToStringNumberSense numberSense = ToStringNumberSense.Absolute)

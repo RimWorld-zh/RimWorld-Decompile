@@ -52,12 +52,12 @@ namespace RimWorld.Planet
 
 		public virtual string CompInspectStringExtra()
 		{
-			return (string)null;
+			return null;
 		}
 
 		public virtual string GetDescriptionPart()
 		{
-			return (string)null;
+			return null;
 		}
 
 		public virtual void PostPostRemove()

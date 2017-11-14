@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -98,7 +97,7 @@ namespace RimWorld
 				data.blueprints.Add(item2);
 				foreach (ThingCountClass item3 in item2.MaterialsNeeded())
 				{
-					Thing thing = list.FirstOrDefault((Func<Thing, bool>)((Thing t) => t.def == item3.thingDef));
+					Thing thing = list.FirstOrDefault((Thing t) => t.def == item3.thingDef);
 					if (thing != null)
 					{
 						thing.stackCount += item3.count;
@@ -153,7 +152,7 @@ namespace RimWorld
 			}
 			List<Thing> list4 = new List<Thing>();
 			int num2 = Mathf.RoundToInt(LordToil_Siege.MealCountRangePerRaider.RandomInRange * (float)base.lord.ownedPawns.Count);
-			for (int num3 = 0; num3 < num2; num3++)
+			for (int l = 0; l < num2; l++)
 			{
 				Thing item = ThingMaker.MakeThing(ThingDefOf.MealSurvivalPack, null);
 				list4.Add(item);
@@ -200,7 +199,7 @@ namespace RimWorld
 					}
 				}
 				int num4 = num - num3;
-				for (int num5 = 0; num5 < num4; num5++)
+				for (int k = 0; k < num4; k++)
 				{
 					Pawn pawn2 = default(Pawn);
 					if ((from pa in base.lord.ownedPawns
@@ -212,9 +211,9 @@ namespace RimWorld
 						num3++;
 					}
 				}
-				for (int k = 0; k < base.lord.ownedPawns.Count; k++)
+				for (int l = 0; l < base.lord.ownedPawns.Count; l++)
 				{
-					Pawn pawn3 = base.lord.ownedPawns[k];
+					Pawn pawn3 = base.lord.ownedPawns[l];
 					if (!this.rememberedDuties.ContainsKey(pawn3))
 					{
 						this.SetAsDefender(pawn3);
@@ -245,7 +244,11 @@ namespace RimWorld
 
 		private bool CanBeBuilder(Pawn p)
 		{
-			return (byte)((!p.story.WorkTypeIsDisabled(WorkTypeDefOf.Construction) && !p.story.WorkTypeIsDisabled(WorkTypeDefOf.Firefighter)) ? 1 : 0) != 0;
+			if (!p.story.WorkTypeIsDisabled(WorkTypeDefOf.Construction) && !p.story.WorkTypeIsDisabled(WorkTypeDefOf.Firefighter))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		private void SetAsBuilder(Pawn p)
@@ -294,7 +297,7 @@ namespace RimWorld
 				where !frame.Destroyed
 				select frame).Any() && !(from blue in data.blueprints
 				where !blue.Destroyed
-				select blue).Any() && !base.Map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial).Any((Predicate<Thing>)((Thing b) => b.Faction == base.lord.faction && b.def.building.buildingTags.Contains("Artillery"))))
+				select blue).Any() && !base.Map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial).Any((Thing b) => b.Faction == base.lord.faction && b.def.building.buildingTags.Contains("Artillery")))
 				{
 					base.lord.ReceiveMemo("NoArtillery");
 				}
@@ -303,21 +306,21 @@ namespace RimWorld
 					int num = GenRadial.NumCellsInRadius(20f);
 					int num2 = 0;
 					int num3 = 0;
-					for (int num4 = 0; num4 < num; num4++)
+					for (int i = 0; i < num; i++)
 					{
-						IntVec3 c = data.siegeCenter + GenRadial.RadialPattern[num4];
+						IntVec3 c = data.siegeCenter + GenRadial.RadialPattern[i];
 						if (c.InBounds(base.Map))
 						{
 							List<Thing> thingList = c.GetThingList(base.Map);
-							for (int i = 0; i < thingList.Count; i++)
+							for (int j = 0; j < thingList.Count; j++)
 							{
-								if (thingList[i].def.IsShell)
+								if (thingList[j].def.IsShell)
 								{
-									num2 += thingList[i].stackCount;
+									num2 += thingList[j].stackCount;
 								}
-								if (thingList[i].def == ThingDefOf.MealSurvivalPack)
+								if (thingList[j].def == ThingDefOf.MealSurvivalPack)
 								{
-									num3 += thingList[i].stackCount;
+									num3 += thingList[j].stackCount;
 								}
 							}
 						}
@@ -353,7 +356,7 @@ namespace RimWorld
 		public override void Cleanup()
 		{
 			LordToilData_Siege data = this.Data;
-			data.blueprints.RemoveAll((Predicate<Blueprint>)((Blueprint blue) => blue.Destroyed));
+			data.blueprints.RemoveAll((Blueprint blue) => blue.Destroyed);
 			for (int i = 0; i < data.blueprints.Count; i++)
 			{
 				data.blueprints[i].Destroy(DestroyMode.Cancel);

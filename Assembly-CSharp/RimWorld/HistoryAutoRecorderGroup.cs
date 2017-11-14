@@ -6,7 +6,7 @@ namespace RimWorld
 {
 	public class HistoryAutoRecorderGroup : IExposable
 	{
-		public HistoryAutoRecorderGroupDef def = null;
+		public HistoryAutoRecorderGroupDef def;
 
 		public List<HistoryAutoRecorder> recorders;
 

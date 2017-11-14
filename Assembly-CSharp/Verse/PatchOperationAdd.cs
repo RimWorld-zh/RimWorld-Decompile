@@ -8,13 +8,13 @@ namespace Verse
 	{
 		private enum Order
 		{
-			Append = 0,
-			Prepend = 1
+			Append,
+			Prepend
 		}
 
 		private XmlContainer value;
 
-		private Order order = Order.Append;
+		private Order order;
 
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
@@ -43,6 +43,7 @@ namespace Verse
 						}
 					}
 				}
+				return result;
 			}
 			finally
 			{
@@ -52,7 +53,6 @@ namespace Verse
 					disposable.Dispose();
 				}
 			}
-			return result;
 		}
 	}
 }

@@ -6,7 +6,7 @@ namespace RimWorld
 {
 	public abstract class JobDriver_GatherAnimalBodyResources : JobDriver
 	{
-		private float gatherProgress = 0f;
+		private float gatherProgress;
 
 		protected const TargetIndex AnimalInd = TargetIndex.A;
 

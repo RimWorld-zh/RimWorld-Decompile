@@ -9,7 +9,7 @@ namespace Verse.Steam
 	{
 		private static SteamAPIWarningMessageHook_t steamAPIWarningMessageHook;
 
-		private static bool initializedInt = false;
+		private static bool initializedInt;
 
 		public static bool Initialized
 		{
@@ -60,9 +60,9 @@ namespace Verse.Steam
 				}
 				else
 				{
-					if ((object)SteamManager.steamAPIWarningMessageHook == null)
+					if (SteamManager.steamAPIWarningMessageHook == null)
 					{
-						SteamManager.steamAPIWarningMessageHook = new SteamAPIWarningMessageHook_t(SteamManager.SteamAPIDebugTextHook);
+						SteamManager.steamAPIWarningMessageHook = SteamManager.SteamAPIDebugTextHook;
 						SteamClient.SetWarningMessageHook(SteamManager.steamAPIWarningMessageHook);
 					}
 					Workshop.Init();

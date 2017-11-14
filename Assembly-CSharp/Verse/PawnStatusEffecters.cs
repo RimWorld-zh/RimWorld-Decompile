@@ -47,7 +47,7 @@ namespace Verse
 				{
 					this.effecter = this.def.Spawn();
 				}
-				this.effecter.EffectTick((Thing)pawn, (Thing)null);
+				this.effecter.EffectTick(pawn, null);
 			}
 		}
 

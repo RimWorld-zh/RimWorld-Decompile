@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -43,7 +42,7 @@ namespace Verse.Sound
 		{
 			this.parent = parent;
 			this.subDef = subSoundDef;
-			LongEventHandler.ExecuteWhenFinished((Action)delegate
+			LongEventHandler.ExecuteWhenFinished(delegate
 			{
 				this.creationFrame = Time.frameCount;
 				this.creationRealTime = Time.realtimeSinceStartup;

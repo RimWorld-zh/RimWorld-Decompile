@@ -21,7 +21,11 @@ namespace Verse
 
 			public override bool Equals(object obj)
 			{
-				return obj != null && obj is FadedMatRequest && this.Equals((FadedMatRequest)obj);
+				if (obj != null && obj is FadedMatRequest)
+				{
+					return this.Equals((FadedMatRequest)obj);
+				}
+				return false;
 			}
 
 			public bool Equals(FadedMatRequest other)
@@ -88,19 +92,12 @@ namespace Verse
 		public static Material FadedVersionOf(Material sourceMat, float alpha)
 		{
 			int num = FadedMaterialPool.IndexFromAlpha(alpha);
-			Material result;
 			switch (num)
 			{
 			case 0:
-			{
-				result = BaseContent.ClearMat;
-				break;
-			}
+				return BaseContent.ClearMat;
 			case 29:
-			{
-				result = sourceMat;
-				break;
-			}
+				return sourceMat;
 			default:
 			{
 				FadedMatRequest key = new FadedMatRequest(sourceMat, num);
@@ -111,11 +108,9 @@ namespace Verse
 					material.color = new Color(1f, 1f, 1f, (float)((float)FadedMaterialPool.IndexFromAlpha(alpha) / 30.0));
 					FadedMaterialPool.cachedMats.Add(key, material);
 				}
-				result = material;
-				break;
+				return material;
 			}
 			}
-			return result;
 		}
 
 		private static int IndexFromAlpha(float alpha)

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -18,7 +17,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -31,20 +30,20 @@ namespace RimWorld
 			{
 				yield return (Gizmo)new Command_Action
 				{
-					action = (Action)delegate
+					action = delegate
 					{
 						DiaNode diaNode = new DiaNode("HibernateWarning".Translate());
 						DiaOption diaOption = new DiaOption("Confirm".Translate());
-						diaOption.action = (Action)delegate
+						diaOption.action = delegate
 						{
-							ShipUtility.StartupHibernatingParts(((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00de: stateMachine*/)._0024this);
+							ShipUtility.StartupHibernatingParts(((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00d9: stateMachine*/)._0024this);
 						};
 						diaOption.resolveTree = true;
 						diaNode.options.Add(diaOption);
 						DiaOption diaOption2 = new DiaOption("GoBack".Translate());
 						diaOption2.resolveTree = true;
 						diaNode.options.Add(diaOption2);
-						Find.WindowStack.Add(new Dialog_NodeTree(diaNode, true, false, (string)null));
+						Find.WindowStack.Add(new Dialog_NodeTree(diaNode, true, false, null));
 					},
 					defaultLabel = "CommandShipStartup".Translate(),
 					defaultDesc = "CommandShipStartupDesc".Translate(),
@@ -55,7 +54,7 @@ namespace RimWorld
 			}
 			Command_Action launch = new Command_Action
 			{
-				action = new Action(this.TryLaunch),
+				action = this.TryLaunch,
 				defaultLabel = "CommandShipLaunch".Translate(),
 				defaultDesc = "CommandShipLaunchDesc".Translate()
 			};
@@ -65,14 +64,14 @@ namespace RimWorld
 			}
 			if (ShipCountdown.CountingDown)
 			{
-				launch.Disable((string)null);
+				launch.Disable(null);
 			}
 			launch.hotKey = KeyBindingDefOf.Misc1;
 			launch.icon = ContentFinder<Texture2D>.Get("UI/Commands/LaunchShip", true);
 			yield return (Gizmo)launch;
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0241:
-			/*Error near IL_0242: Unexpected return in MoveNext()*/;
+			IL_023b:
+			/*Error near IL_023c: Unexpected return in MoveNext()*/;
 		}
 
 		private void TryLaunch()

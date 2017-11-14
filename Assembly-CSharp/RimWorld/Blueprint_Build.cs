@@ -6,14 +6,18 @@ namespace RimWorld
 {
 	public class Blueprint_Build : Blueprint
 	{
-		public ThingDef stuffToUse = null;
+		public ThingDef stuffToUse;
 
 		public override string Label
 		{
 			get
 			{
 				string label = base.Label;
-				return (this.stuffToUse == null) ? label : "ThingMadeOfStuffLabel".Translate(this.stuffToUse.LabelAsStuff, label);
+				if (this.stuffToUse != null)
+				{
+					return "ThingMadeOfStuffLabel".Translate(this.stuffToUse.LabelAsStuff, label);
+				}
+				return label;
 			}
 		}
 
@@ -48,7 +52,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -62,8 +66,8 @@ namespace RimWorld
 				yield break;
 			yield return (Gizmo)buildCopy;
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0112:
-			/*Error near IL_0113: Unexpected return in MoveNext()*/;
+			IL_010e:
+			/*Error near IL_010f: Unexpected return in MoveNext()*/;
 		}
 
 		public override string GetInspectString()

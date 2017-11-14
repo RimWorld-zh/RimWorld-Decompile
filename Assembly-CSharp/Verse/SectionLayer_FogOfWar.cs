@@ -16,7 +16,8 @@ namespace Verse
 			}
 		}
 
-		public SectionLayer_FogOfWar(Section section) : base(section)
+		public SectionLayer_FogOfWar(Section section)
+			: base(section)
 		{
 			base.relevantChangeTypes = MapMeshFlag.FogOfWar;
 		}
@@ -100,14 +101,14 @@ namespace Verse
 						byte a;
 						if (this.vertsCovered[m])
 						{
-							a = (byte)255;
+							a = 255;
 							flag = true;
 						}
 						else
 						{
-							a = (byte)0;
+							a = 0;
 						}
-						subMesh.colors.Add(new Color32((byte)255, (byte)255, (byte)255, a));
+						subMesh.colors.Add(new Color32(255, 255, 255, a));
 					}
 				}
 			}

@@ -1,7 +1,4 @@
-#define ENABLE_PROFILER
-using System;
 using System.Collections.Generic;
-using UnityEngine.Profiling;
 using Verse;
 
 namespace RimWorld
@@ -10,9 +7,9 @@ namespace RimWorld
 	{
 		private Pawn pawn;
 
-		private Verb curMeleeVerb = null;
+		private Verb curMeleeVerb;
 
-		private int curMeleeVerbUpdateTick = 0;
+		private int curMeleeVerbUpdateTick;
 
 		private static List<VerbEntry> meleeVerbs = new List<VerbEntry>();
 
@@ -42,53 +39,40 @@ namespace RimWorld
 			}
 			else
 			{
-				VerbEntry verbEntry = updatedAvailableVerbsList.RandomElementByWeight((Func<VerbEntry, float>)((VerbEntry ve) => ve.SelectionWeight));
+				VerbEntry verbEntry = updatedAvailableVerbsList.RandomElementByWeight((VerbEntry ve) => ve.SelectionWeight);
 				this.SetCurMeleeVerb(verbEntry.verb);
 			}
 		}
 
 		public bool TryMeleeAttack(Thing target, Verb verbToUse = null, bool surpriseAttack = false)
 		{
-			bool result;
 			if (this.pawn.stances.FullBodyBusy)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (verbToUse != null)
 			{
-				if (verbToUse != null)
+				if (!verbToUse.IsStillUsableBy(this.pawn))
 				{
-					if (!verbToUse.IsStillUsableBy(this.pawn))
-					{
-						result = false;
-						goto IL_00c8;
-					}
-					if (!(verbToUse is Verb_MeleeAttack))
-					{
-						Log.Warning("Pawn " + this.pawn + " tried to melee attack " + target + " with non melee-attack verb " + verbToUse + ".");
-						result = false;
-						goto IL_00c8;
-					}
+					return false;
 				}
-				Verb verb = (verbToUse == null) ? this.TryGetMeleeVerb() : verbToUse;
-				if (verb == null)
+				if (!(verbToUse is Verb_MeleeAttack))
 				{
-					result = false;
-				}
-				else
-				{
-					verb.TryStartCastOn(target, surpriseAttack, true);
-					result = true;
+					Log.Warning("Pawn " + this.pawn + " tried to melee attack " + target + " with non melee-attack verb " + verbToUse + ".");
+					return false;
 				}
 			}
-			goto IL_00c8;
-			IL_00c8:
-			return result;
+			Verb verb = (verbToUse == null) ? this.TryGetMeleeVerb() : verbToUse;
+			if (verb == null)
+			{
+				return false;
+			}
+			verb.TryStartCastOn(target, surpriseAttack, true);
+			return true;
 		}
 
 		public List<VerbEntry> GetUpdatedAvailableVerbsList()
 		{
-			Profiler.BeginSample("GetUpdatedAvailableVerbsList");
 			Pawn_MeleeVerbs.meleeVerbs.Clear();
 			List<Verb> allVerbs = this.pawn.verbTracker.AllVerbs;
 			for (int i = 0; i < allVerbs.Count; i++)
@@ -145,7 +129,6 @@ namespace RimWorld
 					Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(hediffsVerb, this.pawn, null));
 				}
 			}
-			Profiler.EndSample();
 			return Pawn_MeleeVerbs.meleeVerbs;
 		}
 

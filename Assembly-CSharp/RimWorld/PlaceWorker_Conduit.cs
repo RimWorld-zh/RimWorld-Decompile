@@ -8,33 +8,22 @@ namespace RimWorld
 		public override AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 loc, Rot4 rot, Map map, Thing thingToIgnore = null)
 		{
 			List<Thing> thingList = loc.GetThingList(map);
-			int num = 0;
-			AcceptanceReport result;
-			while (true)
+			for (int i = 0; i < thingList.Count; i++)
 			{
-				if (num < thingList.Count)
+				if (thingList[i].def.EverTransmitsPower)
 				{
-					if (thingList[num].def.EverTransmitsPower)
-					{
-						result = false;
-						break;
-					}
-					if (thingList[num].def.entityDefToBuild != null)
-					{
-						ThingDef thingDef = thingList[num].def.entityDefToBuild as ThingDef;
-						if (thingDef != null && thingDef.EverTransmitsPower)
-						{
-							result = false;
-							break;
-						}
-					}
-					num++;
-					continue;
+					return false;
 				}
-				result = true;
-				break;
+				if (thingList[i].def.entityDefToBuild != null)
+				{
+					ThingDef thingDef = thingList[i].def.entityDefToBuild as ThingDef;
+					if (thingDef != null && thingDef.EverTransmitsPower)
+					{
+						return false;
+					}
+				}
 			}
-			return result;
+			return true;
 		}
 	}
 }

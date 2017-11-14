@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -9,7 +8,7 @@ namespace Verse
 
 		public override void Generate(Map map)
 		{
-			RandomGenStepSelectorOption randomGenStepSelectorOption = this.options.RandomElementByWeight((Func<RandomGenStepSelectorOption, float>)((RandomGenStepSelectorOption opt) => opt.weight));
+			RandomGenStepSelectorOption randomGenStepSelectorOption = this.options.RandomElementByWeight((RandomGenStepSelectorOption opt) => opt.weight);
 			if (randomGenStepSelectorOption.genStep != null)
 			{
 				randomGenStepSelectorOption.genStep.Generate(map);

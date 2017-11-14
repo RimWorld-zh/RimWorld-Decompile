@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -33,12 +32,16 @@ namespace RimWorld
 
 		protected ThingDef ChooseThingDef()
 		{
-			return DefDatabase<ThingDef>.AllDefs.RandomElementByWeight((Func<ThingDef, float>)((ThingDef def) => def.deepCommonality));
+			return DefDatabase<ThingDef>.AllDefs.RandomElementByWeight((ThingDef def) => def.deepCommonality);
 		}
 
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
-			return (byte)((!base.NearUsedSpot(c, base.minSpacing)) ? 1 : 0) != 0;
+			if (base.NearUsedSpot(c, base.minSpacing))
+			{
+				return false;
+			}
+			return true;
 		}
 
 		protected override void ScatterAt(IntVec3 c, Map map, int stackCount = 1)
@@ -54,24 +57,14 @@ namespace RimWorld
 		private IntRange GetScatterLumpSizeRange(ThingDef def)
 		{
 			List<ThingDef> allDefsListForReading = DefDatabase<ThingDef>.AllDefsListForReading;
-			int num = 0;
-			IntRange result;
-			while (true)
+			for (int i = 0; i < allDefsListForReading.Count; i++)
 			{
-				if (num < allDefsListForReading.Count)
+				if (allDefsListForReading[i].building != null && allDefsListForReading[i].building.mineableThing == def)
 				{
-					if (allDefsListForReading[num].building != null && allDefsListForReading[num].building.mineableThing == def)
-					{
-						result = allDefsListForReading[num].building.mineableScatterLumpSizeRange;
-						break;
-					}
-					num++;
-					continue;
+					return allDefsListForReading[i].building.mineableScatterLumpSizeRange;
 				}
-				result = new IntRange(2, 30);
-				break;
 			}
-			return result;
+			return new IntRange(2, 30);
 		}
 	}
 }

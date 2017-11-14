@@ -16,7 +16,11 @@ namespace RimWorld
 			get
 			{
 				CompPowerTrader compPowerTrader = base.parent.TryGetComp<CompPowerTrader>();
-				return (byte)((compPowerTrader == null || compPowerTrader.PowerOn) ? 1 : 0) != 0;
+				if (compPowerTrader != null && !compPowerTrader.PowerOn)
+				{
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -120,36 +124,31 @@ namespace RimWorld
 		public override string CompInspectStringExtra()
 		{
 			CompProperties_Facility props = this.Props;
-			string result;
 			if (props.statOffsets == null)
 			{
-				result = (string)null;
+				return null;
 			}
-			else
+			bool flag = this.AmIActiveForAnyone();
+			StringBuilder stringBuilder = new StringBuilder();
+			for (int i = 0; i < props.statOffsets.Count; i++)
 			{
-				bool flag = this.AmIActiveForAnyone();
-				StringBuilder stringBuilder = new StringBuilder();
-				for (int i = 0; i < props.statOffsets.Count; i++)
+				StatModifier statModifier = props.statOffsets[i];
+				StatDef stat = statModifier.stat;
+				stringBuilder.Append(stat.LabelCap);
+				stringBuilder.Append(": ");
+				stringBuilder.Append(statModifier.value.ToStringByStyle(stat.toStringStyle, ToStringNumberSense.Offset));
+				if (!flag)
 				{
-					StatModifier statModifier = props.statOffsets[i];
-					StatDef stat = statModifier.stat;
-					stringBuilder.Append(stat.LabelCap);
-					stringBuilder.Append(": ");
-					stringBuilder.Append(statModifier.value.ToStringByStyle(stat.toStringStyle, ToStringNumberSense.Offset));
-					if (!flag)
-					{
-						stringBuilder.Append(" (");
-						stringBuilder.Append("InactiveFacility".Translate());
-						stringBuilder.Append(")");
-					}
-					if (i < props.statOffsets.Count - 1)
-					{
-						stringBuilder.AppendLine();
-					}
+					stringBuilder.Append(" (");
+					stringBuilder.Append("InactiveFacility".Translate());
+					stringBuilder.Append(")");
 				}
-				result = stringBuilder.ToString();
+				if (i < props.statOffsets.Count - 1)
+				{
+					stringBuilder.AppendLine();
+				}
 			}
-			return result;
+			return stringBuilder.ToString();
 		}
 
 		private void RelinkAll()
@@ -180,25 +179,15 @@ namespace RimWorld
 
 		private bool AmIActiveForAnyone()
 		{
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < this.linkedBuildings.Count; i++)
 			{
-				if (num < this.linkedBuildings.Count)
+				CompAffectedByFacilities compAffectedByFacilities = this.linkedBuildings[i].TryGetComp<CompAffectedByFacilities>();
+				if (compAffectedByFacilities.IsFacilityActive(base.parent))
 				{
-					CompAffectedByFacilities compAffectedByFacilities = this.linkedBuildings[num].TryGetComp<CompAffectedByFacilities>();
-					if (compAffectedByFacilities.IsFacilityActive(base.parent))
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 
 		private void UnlinkAll()

@@ -7,17 +7,16 @@ namespace RimWorld
 		public override bool Matches(Thing t)
 		{
 			ThingWithComps thingWithComps = t as ThingWithComps;
-			bool result;
 			if (thingWithComps == null)
 			{
-				result = false;
+				return false;
 			}
-			else
+			CompRottable comp = thingWithComps.GetComp<CompRottable>();
+			if (comp != null && !((CompProperties_Rottable)comp.props).rotDestroys)
 			{
-				CompRottable comp = thingWithComps.GetComp<CompRottable>();
-				result = (comp != null && !((CompProperties_Rottable)comp.props).rotDestroys && comp.Stage != RotStage.Fresh);
+				return comp.Stage != RotStage.Fresh;
 			}
-			return result;
+			return false;
 		}
 
 		public override bool CanEverMatch(ThingDef def)

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -60,14 +59,21 @@ namespace RimWorld
 			this.snowRadius = Mathf.Min(this.snowRadius, this.Props.maxRadius);
 			CellRect occupiedRect = base.parent.OccupiedRect();
 			CompSnowExpand.reachableCells.Clear();
-			base.parent.Map.floodFiller.FloodFill(base.parent.Position, (Predicate<IntVec3>)((IntVec3 x) => !((float)x.DistanceToSquared(base.parent.Position) > this.snowRadius * this.snowRadius) && (occupiedRect.Contains(x) || !x.Filled(base.parent.Map))), (Action<IntVec3>)delegate(IntVec3 x)
+			base.parent.Map.floodFiller.FloodFill(base.parent.Position, delegate(IntVec3 x)
+			{
+				if ((float)x.DistanceToSquared(base.parent.Position) > this.snowRadius * this.snowRadius)
+				{
+					return false;
+				}
+				return occupiedRect.Contains(x) || !x.Filled(base.parent.Map);
+			}, delegate(IntVec3 x)
 			{
 				CompSnowExpand.reachableCells.Add(x);
 			}, 2147483647, false, null);
 			int num = GenRadial.NumCellsInRadius(this.snowRadius);
-			for (int num2 = 0; num2 < num; num2++)
+			for (int i = 0; i < num; i++)
 			{
-				IntVec3 intVec = base.parent.Position + GenRadial.RadialPattern[num2];
+				IntVec3 intVec = base.parent.Position + GenRadial.RadialPattern[i];
 				if (intVec.InBounds(base.parent.Map) && CompSnowExpand.reachableCells.Contains(intVec))
 				{
 					float value = this.snowNoise.GetValue(intVec);
@@ -80,8 +86,8 @@ namespace RimWorld
 					if (!(base.parent.Map.snowGrid.GetDepth(intVec) > value))
 					{
 						float lengthHorizontal = (intVec - base.parent.Position).LengthHorizontal;
-						float num3 = (float)(1.0 - lengthHorizontal / this.snowRadius);
-						base.parent.Map.snowGrid.AddDepth(intVec, num3 * this.Props.addAmount * value);
+						float num2 = (float)(1.0 - lengthHorizontal / this.snowRadius);
+						base.parent.Map.snowGrid.AddDepth(intVec, num2 * this.Props.addAmount * value);
 					}
 				}
 			}

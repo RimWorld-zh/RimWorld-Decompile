@@ -70,7 +70,7 @@ namespace RimWorld
 						IntVec3 intVec = cellRect.Cells.ElementAt(1);
 						Pawn p = (Pawn)GenSpawn.Spawn(PawnGenerator.GeneratePawn(item, null), intVec, Autotests_ColonyMaker.Map);
 						HealthUtility.DamageUntilDead(p);
-						Corpse thing = (Corpse)intVec.GetThingList(Find.VisibleMap).First((Func<Thing, bool>)((Thing t) => t is Corpse));
+						Corpse thing = (Corpse)intVec.GetThingList(Find.VisibleMap).First((Thing t) => t is Corpse);
 						CompRottable compRottable = thing.TryGetComp<CompRottable>();
 						if (compRottable != null)
 						{
@@ -94,16 +94,16 @@ namespace RimWorld
 				Designator_Build designator_Build = new Designator_Build(ThingDefOf.PowerConduit);
 				for (int i = Autotests_ColonyMaker.overRect.minX; i < Autotests_ColonyMaker.overRect.maxX; i++)
 				{
-					for (int num = Autotests_ColonyMaker.overRect.minZ; num < Autotests_ColonyMaker.overRect.maxZ; num += 7)
+					for (int j = Autotests_ColonyMaker.overRect.minZ; j < Autotests_ColonyMaker.overRect.maxZ; j += 7)
 					{
-						designator_Build.DesignateSingleCell(new IntVec3(i, 0, num));
+						designator_Build.DesignateSingleCell(new IntVec3(i, 0, j));
 					}
 				}
-				for (int j = Autotests_ColonyMaker.overRect.minZ; j < Autotests_ColonyMaker.overRect.maxZ; j++)
+				for (int l = Autotests_ColonyMaker.overRect.minZ; l < Autotests_ColonyMaker.overRect.maxZ; l++)
 				{
-					for (int num2 = Autotests_ColonyMaker.overRect.minX; num2 < Autotests_ColonyMaker.overRect.maxX; num2 += 7)
+					for (int m = Autotests_ColonyMaker.overRect.minX; m < Autotests_ColonyMaker.overRect.maxX; m += 7)
 					{
-						designator_Build.DesignateSingleCell(new IntVec3(num2, 0, j));
+						designator_Build.DesignateSingleCell(new IntVec3(m, 0, l));
 					}
 				}
 			}
@@ -113,12 +113,12 @@ namespace RimWorld
 				list.Add(ThingDefOf.SolarGenerator);
 				list.Add(ThingDefOf.WindTurbine);
 				List<ThingDef> list2 = list;
-				int num3 = 0;
-				while (num3 < 8)
+				int num = 0;
+				while (num < 8)
 				{
-					if (Autotests_ColonyMaker.TryMakeBuilding(list2[num3 % list2.Count]) != null)
+					if (Autotests_ColonyMaker.TryMakeBuilding(list2[num % list2.Count]) != null)
 					{
-						num3++;
+						num++;
 						continue;
 					}
 					Log.Message("Could not make solar generator.");
@@ -127,7 +127,7 @@ namespace RimWorld
 			}
 			if (flags.Contains(ColonyMakerFlag.Batteries))
 			{
-				for (int l = 0; l < 6; l++)
+				for (int n = 0; n < 6; n++)
 				{
 					Thing thing2 = Autotests_ColonyMaker.TryMakeBuilding(ThingDefOf.Battery);
 					if (thing2 == null)
@@ -246,21 +246,21 @@ namespace RimWorld
 			}
 			if (flags.Contains(ColonyMakerFlag.ColonistsHungry))
 			{
-				Autotests_ColonyMaker.DoToColonists(0.4f, (Action<Pawn>)delegate(Pawn col)
+				Autotests_ColonyMaker.DoToColonists(0.4f, delegate(Pawn col)
 				{
 					col.needs.food.CurLevel = Mathf.Max(0f, Rand.Range(-0.05f, 0.05f));
 				});
 			}
 			if (flags.Contains(ColonyMakerFlag.ColonistsTired))
 			{
-				Autotests_ColonyMaker.DoToColonists(0.4f, (Action<Pawn>)delegate(Pawn col)
+				Autotests_ColonyMaker.DoToColonists(0.4f, delegate(Pawn col)
 				{
 					col.needs.rest.CurLevel = Mathf.Max(0f, Rand.Range(-0.05f, 0.05f));
 				});
 			}
 			if (flags.Contains(ColonyMakerFlag.ColonistsInjured))
 			{
-				Autotests_ColonyMaker.DoToColonists(0.4f, (Action<Pawn>)delegate(Pawn col)
+				Autotests_ColonyMaker.DoToColonists(0.4f, delegate(Pawn col)
 				{
 					DamageDef def2 = (from d in DefDatabase<DamageDef>.AllDefs
 					where d.externalViolence
@@ -278,7 +278,7 @@ namespace RimWorld
 					CellRect cellRect4 = default(CellRect);
 					Autotests_ColonyMaker.TryGetFreeRect(1, 1, out cellRect4);
 					GenSpawn.Spawn(pawn, cellRect4.CenterCell, Autotests_ColonyMaker.Map);
-					pawn.health.AddHediff(item8, null, default(DamageInfo?));
+					pawn.health.AddHediff(item8, null, null);
 				}
 			}
 			if (flags.Contains(ColonyMakerFlag.Beds))
@@ -287,12 +287,12 @@ namespace RimWorld
 				where def.thingClass == typeof(Building_Bed)
 				select def;
 				int freeColonistsCount = Autotests_ColonyMaker.Map.mapPawns.FreeColonistsCount;
-				int num4 = 0;
-				while (num4 < freeColonistsCount)
+				int num2 = 0;
+				while (num2 < freeColonistsCount)
 				{
 					if (Autotests_ColonyMaker.TryMakeBuilding(source.RandomElement()) != null)
 					{
-						num4++;
+						num2++;
 						continue;
 					}
 					Log.Message("Could not make beds.");
@@ -361,7 +361,7 @@ namespace RimWorld
 			foreach (IntVec3 item in rect)
 			{
 				IntVec3 current = item;
-				if (((current.x % 6 != 0) ? (current.z % 6) : 0) != 0)
+				if (current.x % 6 != 0 && current.z % 6 != 0)
 				{
 					ThingDef def = itemDefs[num];
 					DebugThingPlaceHelper.DebugSpawn(def, current, -1, true);
@@ -377,85 +377,69 @@ namespace RimWorld
 		private static Thing TryMakeBuilding(ThingDef def)
 		{
 			CellRect cellRect = default(CellRect);
-			Thing result;
 			if (!Autotests_ColonyMaker.TryGetFreeRect(def.size.x + 2, def.size.z + 2, out cellRect))
 			{
-				result = null;
+				return null;
 			}
-			else
+			foreach (IntVec3 item in cellRect)
 			{
-				foreach (IntVec3 item in cellRect)
-				{
-					Autotests_ColonyMaker.Map.terrainGrid.SetTerrain(item, TerrainDefOf.Concrete);
-				}
-				Designator_Build designator_Build = new Designator_Build(def);
-				designator_Build.DesignateSingleCell(cellRect.CenterCell);
-				Thing thing = result = cellRect.CenterCell.GetEdifice(Find.VisibleMap);
+				Autotests_ColonyMaker.Map.terrainGrid.SetTerrain(item, TerrainDefOf.Concrete);
 			}
-			return result;
+			Designator_Build designator_Build = new Designator_Build(def);
+			designator_Build.DesignateSingleCell(cellRect.CenterCell);
+			return cellRect.CenterCell.GetEdifice(Find.VisibleMap);
 		}
 
 		private static bool TryGetFreeRect(int width, int height, out CellRect result)
 		{
-			int num = Autotests_ColonyMaker.overRect.minZ;
-			bool result2;
-			while (true)
+			for (int i = Autotests_ColonyMaker.overRect.minZ; i <= Autotests_ColonyMaker.overRect.maxZ - height; i++)
 			{
-				CellRect cellRect;
-				if (num <= Autotests_ColonyMaker.overRect.maxZ - height)
+				for (int j = Autotests_ColonyMaker.overRect.minX; j <= Autotests_ColonyMaker.overRect.maxX - width; j++)
 				{
-					for (int i = Autotests_ColonyMaker.overRect.minX; i <= Autotests_ColonyMaker.overRect.maxX - width; i++)
+					CellRect cellRect = new CellRect(j, i, width, height);
+					bool flag = true;
+					int num = cellRect.minZ;
+					while (num <= cellRect.maxZ)
 					{
-						cellRect = new CellRect(i, num, width, height);
-						bool flag = true;
-						int num2 = cellRect.minZ;
-						while (num2 <= cellRect.maxZ)
+						int num2 = cellRect.minX;
+						while (num2 <= cellRect.maxX)
 						{
-							int num3 = cellRect.minX;
-							while (num3 <= cellRect.maxX)
-							{
-								if (!Autotests_ColonyMaker.usedCells[num3, num2])
-								{
-									num3++;
-									continue;
-								}
-								flag = false;
-								break;
-							}
-							if (flag)
+							if (!Autotests_ColonyMaker.usedCells[num2, num])
 							{
 								num2++;
 								continue;
 							}
+							flag = false;
 							break;
 						}
 						if (flag)
-							goto IL_00a4;
-					}
-					num++;
-					continue;
-				}
-				result = new CellRect(0, 0, width, height);
-				result2 = false;
-				break;
-				IL_00a4:
-				result = cellRect;
-				for (int j = cellRect.minZ; j <= cellRect.maxZ; j++)
-				{
-					for (int k = cellRect.minX; k <= cellRect.maxX; k++)
-					{
-						IntVec3 c = new IntVec3(k, 0, j);
-						Autotests_ColonyMaker.usedCells.Set(c, true);
-						if (c.GetTerrain(Find.VisibleMap).passability == Traversability.Impassable)
 						{
-							Autotests_ColonyMaker.Map.terrainGrid.SetTerrain(c, TerrainDefOf.Concrete);
+							num++;
+							continue;
 						}
+						break;
+					}
+					if (flag)
+					{
+						result = cellRect;
+						for (int k = cellRect.minZ; k <= cellRect.maxZ; k++)
+						{
+							for (int l = cellRect.minX; l <= cellRect.maxX; l++)
+							{
+								IntVec3 c = new IntVec3(l, 0, k);
+								Autotests_ColonyMaker.usedCells.Set(c, true);
+								if (c.GetTerrain(Find.VisibleMap).passability == Traversability.Impassable)
+								{
+									Autotests_ColonyMaker.Map.terrainGrid.SetTerrain(c, TerrainDefOf.Concrete);
+								}
+							}
+						}
+						return true;
 					}
 				}
-				result2 = true;
-				break;
 			}
-			return result2;
+			result = new CellRect(0, 0, width, height);
+			return false;
 		}
 
 		private static void DoToColonists(float fraction, Action<Pawn> funcToDo)
@@ -473,7 +457,7 @@ namespace RimWorld
 
 		private static void MakeColonists(int count, IntVec3 center)
 		{
-			for (int num = 0; num < count; num++)
+			for (int i = 0; i < count; i++)
 			{
 				CellRect cellRect = default(CellRect);
 				Autotests_ColonyMaker.TryGetFreeRect(1, 1, out cellRect);

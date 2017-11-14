@@ -23,8 +23,8 @@ namespace RimWorld
 					}
 				}
 				yield break;
-				IL_0165:
-				/*Error near IL_0166: Unexpected return in MoveNext()*/;
+				IL_015d:
+				/*Error near IL_015e: Unexpected return in MoveNext()*/;
 			}
 		}
 
@@ -49,12 +49,16 @@ namespace RimWorld
 					}
 				}
 			}
-			return (!flag) ? string.Format("PawnsWithLifeThreateningDiseaseDesc".Translate(), stringBuilder.ToString()) : string.Format("PawnsWithLifeThreateningDiseaseAmputationDesc".Translate(), stringBuilder.ToString());
+			if (flag)
+			{
+				return string.Format("PawnsWithLifeThreateningDiseaseAmputationDesc".Translate(), stringBuilder.ToString());
+			}
+			return string.Format("PawnsWithLifeThreateningDiseaseDesc".Translate(), stringBuilder.ToString());
 		}
 
 		public override AlertReport GetReport()
 		{
-			return AlertReport.CulpritIs((Thing)this.SickPawns.FirstOrDefault());
+			return AlertReport.CulpritIs(this.SickPawns.FirstOrDefault());
 		}
 	}
 }

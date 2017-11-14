@@ -127,7 +127,15 @@ namespace Ionic.Zlib
 		{
 			get
 			{
-				return (this._baseStream._streamMode != 0) ? ((this._baseStream._streamMode != ZlibBaseStream.StreamMode.Reader) ? 0 : this._baseStream._z.TotalBytesIn) : this._baseStream._z.TotalBytesOut;
+				if (this._baseStream._streamMode == ZlibBaseStream.StreamMode.Writer)
+				{
+					return this._baseStream._z.TotalBytesOut;
+				}
+				if (this._baseStream._streamMode == ZlibBaseStream.StreamMode.Reader)
+				{
+					return this._baseStream._z.TotalBytesIn;
+				}
+				return 0L;
 			}
 			set
 			{
@@ -135,15 +143,18 @@ namespace Ionic.Zlib
 			}
 		}
 
-		public DeflateStream(Stream stream, CompressionMode mode) : this(stream, mode, CompressionLevel.Default, false)
+		public DeflateStream(Stream stream, CompressionMode mode)
+			: this(stream, mode, CompressionLevel.Default, false)
 		{
 		}
 
-		public DeflateStream(Stream stream, CompressionMode mode, CompressionLevel level) : this(stream, mode, level, false)
+		public DeflateStream(Stream stream, CompressionMode mode, CompressionLevel level)
+			: this(stream, mode, level, false)
 		{
 		}
 
-		public DeflateStream(Stream stream, CompressionMode mode, bool leaveOpen) : this(stream, mode, CompressionLevel.Default, leaveOpen)
+		public DeflateStream(Stream stream, CompressionMode mode, bool leaveOpen)
+			: this(stream, mode, CompressionLevel.Default, leaveOpen)
 		{
 		}
 

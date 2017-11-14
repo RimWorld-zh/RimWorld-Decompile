@@ -47,7 +47,11 @@ namespace RimWorld
 				}
 			}
 			RoomStatWorker_Beauty.countedThings.Clear();
-			return (float)((num2 != 0) ? (num / RoomStatWorker_Beauty.CellCountCurve.Evaluate((float)num2)) : 0.0);
+			if (num2 == 0)
+			{
+				return 0f;
+			}
+			return num / RoomStatWorker_Beauty.CellCountCurve.Evaluate((float)num2);
 		}
 	}
 }

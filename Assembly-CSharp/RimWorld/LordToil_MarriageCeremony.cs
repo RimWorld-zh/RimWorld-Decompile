@@ -1,4 +1,3 @@
-using System;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -49,7 +48,11 @@ namespace RimWorld
 
 		public override ThinkTreeDutyHook VoluntaryJoinDutyHookFor(Pawn p)
 		{
-			return (!this.IsFiance(p)) ? DutyDefOf.Spectate.hook : DutyDefOf.MarryPawn.hook;
+			if (this.IsFiance(p))
+			{
+				return DutyDefOf.MarryPawn.hook;
+			}
+			return DutyDefOf.Spectate.hook;
 		}
 
 		public override void UpdateAllDuties()
@@ -82,60 +85,51 @@ namespace RimWorld
 			if (this.firstPawn == pawn)
 			{
 				pawn2 = this.secondPawn;
-				goto IL_0049;
+				goto IL_0042;
 			}
 			if (this.secondPawn == pawn)
 			{
 				pawn2 = this.firstPawn;
-				goto IL_0049;
+				goto IL_0042;
 			}
 			Log.Warning("Called ExactStandingSpotFor but it's not this pawn's ceremony.");
-			IntVec3 result = IntVec3.Invalid;
-			goto IL_00a0;
-			IL_0049:
-			result = ((pawn.thingIDNumber >= pawn2.thingIDNumber) ? ((this.GetMarriageSpotAt(this.spot) == null) ? (this.spot + LordToil_MarriageCeremony.OtherFianceNoMarriageSpotCellOffset) : this.FindCellForOtherPawnAtMarriageSpot(this.spot)) : this.spot);
-			goto IL_00a0;
-			IL_00a0:
-			return result;
+			return IntVec3.Invalid;
+			IL_0042:
+			if (pawn.thingIDNumber < pawn2.thingIDNumber)
+			{
+				return this.spot;
+			}
+			if (this.GetMarriageSpotAt(this.spot) != null)
+			{
+				return this.FindCellForOtherPawnAtMarriageSpot(this.spot);
+			}
+			return this.spot + LordToil_MarriageCeremony.OtherFianceNoMarriageSpotCellOffset;
 		}
 
 		private Thing GetMarriageSpotAt(IntVec3 cell)
 		{
-			return cell.GetThingList(base.Map).Find((Predicate<Thing>)((Thing x) => x.def == ThingDefOf.MarriageSpot));
+			return cell.GetThingList(base.Map).Find((Thing x) => x.def == ThingDefOf.MarriageSpot);
 		}
 
 		private IntVec3 FindCellForOtherPawnAtMarriageSpot(IntVec3 cell)
 		{
 			Thing marriageSpotAt = this.GetMarriageSpotAt(cell);
 			CellRect cellRect = marriageSpotAt.OccupiedRect();
-			int num = cellRect.minX;
-			IntVec3 result;
-			while (true)
+			for (int i = cellRect.minX; i <= cellRect.maxX; i++)
 			{
-				int num2;
-				if (num <= cellRect.maxX)
+				int num = cellRect.minZ;
+				while (num <= cellRect.maxZ)
 				{
-					num2 = cellRect.minZ;
-					while (num2 <= cellRect.maxZ)
+					if (cell.x == i && cell.z == num)
 					{
-						if (cell.x == num && cell.z == num2)
-						{
-							num2++;
-							continue;
-						}
-						goto IL_0046;
+						num++;
+						continue;
 					}
-					num++;
-					continue;
+					return new IntVec3(i, 0, num);
 				}
-				Log.Warning("Marriage spot is 1x1. There's no place for 2 pawns.");
-				result = IntVec3.Invalid;
-				break;
-				IL_0046:
-				result = new IntVec3(num, 0, num2);
-				break;
 			}
-			return result;
+			Log.Warning("Marriage spot is 1x1. There's no place for 2 pawns.");
+			return IntVec3.Invalid;
 		}
 
 		private CellRect CalculateSpectateRect()

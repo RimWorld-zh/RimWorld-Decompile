@@ -5,7 +5,7 @@ namespace Verse.Sound
 {
 	public class AudioGrain_Clip : AudioGrain
 	{
-		public string clipPath = "";
+		public string clipPath = string.Empty;
 
 		public override IEnumerable<ResolvedGrain> GetResolvedGrains()
 		{

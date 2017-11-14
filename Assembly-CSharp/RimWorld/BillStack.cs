@@ -8,7 +8,7 @@ namespace RimWorld
 	public class BillStack : IExposable
 	{
 		[Unsaved]
-		public IBillGiver billGiver = null;
+		public IBillGiver billGiver;
 
 		private List<Bill> bills = new List<Bill>();
 
@@ -48,24 +48,14 @@ namespace RimWorld
 		{
 			get
 			{
-				int num = 0;
-				Bill result;
-				while (true)
+				for (int i = 0; i < this.Count; i++)
 				{
-					if (num < this.Count)
+					if (this.bills[i].ShouldDoNow())
 					{
-						if (this.bills[num].ShouldDoNow())
-						{
-							result = this.bills[num];
-							break;
-						}
-						num++;
-						continue;
+						return this.bills[i];
 					}
-					result = null;
-					break;
 				}
-				return result;
+				return null;
 			}
 		}
 
@@ -73,24 +63,14 @@ namespace RimWorld
 		{
 			get
 			{
-				int num = 0;
-				bool result;
-				while (true)
+				for (int i = 0; i < this.Count; i++)
 				{
-					if (num < this.Count)
+					if (this.bills[i].ShouldDoNow())
 					{
-						if (this.bills[num].ShouldDoNow())
-						{
-							result = true;
-							break;
-						}
-						num++;
-						continue;
+						return true;
 					}
-					result = false;
-					break;
 				}
-				return result;
+				return false;
 			}
 		}
 

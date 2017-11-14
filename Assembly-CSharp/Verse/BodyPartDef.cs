@@ -12,29 +12,29 @@ namespace Verse
 
 		public float oldInjuryBaseChance = 0.2f;
 
-		public float amputateIfGeneratedInjuredChance = 0f;
+		public float amputateIfGeneratedInjuredChance;
 
 		public float bleedingRateMultiplier = 1f;
 
-		private bool skinCovered = false;
+		private bool skinCovered;
 
-		public bool useDestroyedOutLabel = false;
+		public bool useDestroyedOutLabel;
 
-		public ThingDef spawnThingOnRemoved = null;
+		public ThingDef spawnThingOnRemoved;
 
-		private bool isSolid = false;
+		private bool isSolid;
 
-		public bool dontSuggestAmputation = false;
+		public bool dontSuggestAmputation;
 
-		public float frostbiteVulnerability = 0f;
+		public float frostbiteVulnerability;
 
-		public bool beautyRelated = false;
+		public bool beautyRelated;
 
 		public bool isAlive = true;
 
-		public bool isConceptual = false;
+		public bool isConceptual;
 
-		public Dictionary<DamageDef, float> hitChanceFactors = null;
+		public Dictionary<DamageDef, float> hitChanceFactors;
 
 		public bool IsDelicate
 		{
@@ -46,7 +46,7 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -59,39 +59,32 @@ namespace Verse
 				yield break;
 			yield return "frostbitePriority > max 10: " + this.frostbiteVulnerability;
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_010a:
-			/*Error near IL_010b: Unexpected return in MoveNext()*/;
+			IL_0106:
+			/*Error near IL_0107: Unexpected return in MoveNext()*/;
 		}
 
 		public bool IsSolid(BodyPartRecord part, List<Hediff> hediffs)
 		{
-			BodyPartRecord bodyPartRecord = part;
-			bool result;
-			while (true)
+			for (BodyPartRecord bodyPartRecord = part; bodyPartRecord != null; bodyPartRecord = bodyPartRecord.parent)
 			{
-				int i;
-				if (bodyPartRecord != null)
+				for (int i = 0; i < hediffs.Count; i++)
 				{
-					for (i = 0; i < hediffs.Count; i++)
+					if (hediffs[i].Part == bodyPartRecord && hediffs[i] is Hediff_AddedPart)
 					{
-						if (hediffs[i].Part == bodyPartRecord && hediffs[i] is Hediff_AddedPart)
-							goto IL_0034;
+						return hediffs[i].def.addedPartProps.isSolid;
 					}
-					bodyPartRecord = bodyPartRecord.parent;
-					continue;
 				}
-				result = this.isSolid;
-				break;
-				IL_0034:
-				result = hediffs[i].def.addedPartProps.isSolid;
-				break;
 			}
-			return result;
+			return this.isSolid;
 		}
 
 		public bool IsSkinCovered(BodyPartRecord part, HediffSet body)
 		{
-			return !body.PartOrAnyAncestorHasDirectlyAddedParts(part) && this.skinCovered;
+			if (body.PartOrAnyAncestorHasDirectlyAddedParts(part))
+			{
+				return false;
+			}
+			return this.skinCovered;
 		}
 
 		public float GetMaxHealth(Pawn pawn)
@@ -101,8 +94,20 @@ namespace Verse
 
 		public float GetHitChanceFactorFor(DamageDef damage)
 		{
-			float num = default(float);
-			return (float)((!this.isConceptual) ? ((this.hitChanceFactors != null) ? ((!this.hitChanceFactors.TryGetValue(damage, out num)) ? 1.0 : num) : 1.0) : 0.0);
+			if (this.isConceptual)
+			{
+				return 0f;
+			}
+			if (this.hitChanceFactors == null)
+			{
+				return 1f;
+			}
+			float result = default(float);
+			if (this.hitChanceFactors.TryGetValue(damage, out result))
+			{
+				return result;
+			}
+			return 1f;
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -21,7 +20,7 @@ namespace RimWorld
 			{
 				pawn = source.FirstOrDefault();
 			}
-			Find.LetterStack.ReceiveLetter("LetterLabelSleepingMechanoids".Translate(), "LetterSleepingMechanoids".Translate(), LetterDefOf.NegativeEvent, (Thing)pawn, (string)null);
+			Find.LetterStack.ReceiveLetter("LetterLabelSleepingMechanoids".Translate(), "LetterSleepingMechanoids".Translate(), LetterDefOf.NegativeEvent, pawn, null);
 		}
 	}
 }

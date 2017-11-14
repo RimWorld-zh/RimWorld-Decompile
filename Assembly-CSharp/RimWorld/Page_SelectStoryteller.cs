@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -35,35 +34,27 @@ namespace RimWorld
 			base.DrawPageTitle(rect);
 			Rect mainRect = base.GetMainRect(rect, 0f, false);
 			StorytellerUI.DrawStorytellerSelectionInterface(mainRect, ref this.storyteller, ref this.difficulty, this.selectedStorytellerInfoListing);
-			base.DoBottomButtons(rect, (string)null, (string)null, null, true);
+			base.DoBottomButtons(rect, null, null, null, true);
 		}
 
 		protected override bool CanDoNext()
 		{
-			bool result;
 			if (!base.CanDoNext())
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (this.difficulty == null)
 			{
-				if (this.difficulty == null)
+				if (!Prefs.DevMode)
 				{
-					if (!Prefs.DevMode)
-					{
-						Messages.Message("MustChooseDifficulty".Translate(), MessageTypeDefOf.RejectInput);
-						result = false;
-						goto IL_0089;
-					}
-					Messages.Message("Difficulty has been automatically selected (debug mode only)", MessageTypeDefOf.SilentInput);
-					this.difficulty = DifficultyDefOf.Hard;
+					Messages.Message("MustChooseDifficulty".Translate(), MessageTypeDefOf.RejectInput);
+					return false;
 				}
-				Current.Game.storyteller = new Storyteller(this.storyteller, this.difficulty);
-				result = true;
+				Messages.Message("Difficulty has been automatically selected (debug mode only)", MessageTypeDefOf.SilentInput);
+				this.difficulty = DifficultyDefOf.Hard;
 			}
-			goto IL_0089;
-			IL_0089:
-			return result;
+			Current.Game.storyteller = new Storyteller(this.storyteller, this.difficulty);
+			return true;
 		}
 	}
 }

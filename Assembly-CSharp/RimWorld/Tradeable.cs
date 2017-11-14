@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -11,7 +10,7 @@ namespace RimWorld
 
 		public List<Thing> thingsTrader = new List<Thing>();
 
-		public string editBuffer = (string)null;
+		public string editBuffer;
 
 		private const float MinimumBuyPrice = 0.5f;
 
@@ -39,7 +38,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (this.thingsColony.Count != 0) ? this.thingsColony[0] : null;
+				if (this.thingsColony.Count == 0)
+				{
+					return null;
+				}
+				return this.thingsColony[0];
 			}
 		}
 
@@ -47,7 +50,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (this.thingsTrader.Count != 0) ? this.thingsTrader[0] : null;
+				if (this.thingsTrader.Count == 0)
+				{
+					return null;
+				}
+				return this.thingsTrader[0];
 			}
 		}
 
@@ -95,21 +102,16 @@ namespace RimWorld
 		{
 			get
 			{
-				Thing result;
 				if (this.FirstThingColony != null)
 				{
-					result = this.FirstThingColony.GetInnerIfMinified();
+					return this.FirstThingColony.GetInnerIfMinified();
 				}
-				else if (this.FirstThingTrader != null)
+				if (this.FirstThingTrader != null)
 				{
-					result = this.FirstThingTrader.GetInnerIfMinified();
+					return this.FirstThingTrader.GetInnerIfMinified();
 				}
-				else
-				{
-					Log.Error(base.GetType() + " lacks AnyThing.");
-					result = null;
-				}
-				return result;
+				Log.Error(base.GetType() + " lacks AnyThing.");
+				return null;
 			}
 		}
 
@@ -117,7 +119,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.HasAnyThing ? this.AnyThing.def : null;
+				if (!this.HasAnyThing)
+				{
+					return null;
+				}
+				return this.AnyThing.def;
 			}
 		}
 
@@ -133,7 +139,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return this.HasAnyThing ? this.AnyThing.GetDescription() : "";
+				if (!this.HasAnyThing)
+				{
+					return string.Empty;
+				}
+				return this.AnyThing.GetDescription();
 			}
 		}
 
@@ -141,7 +151,15 @@ namespace RimWorld
 		{
 			get
 			{
-				return (TradeAction)((base.CountToTransfer != 0) ? ((base.CountToTransfer > 0) ? 1 : 2) : 0);
+				if (base.CountToTransfer == 0)
+				{
+					return TradeAction.None;
+				}
+				if (base.CountToTransfer > 0)
+				{
+					return TradeAction.PlayerBuys;
+				}
+				return TradeAction.PlayerSells;
 			}
 		}
 
@@ -149,7 +167,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return !this.Bugged && this.ThingDef == ThingDefOf.Silver;
+				if (this.Bugged)
+				{
+					return false;
+				}
+				return this.ThingDef == ThingDefOf.Silver;
 			}
 		}
 
@@ -165,7 +187,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (float)((this.ActionToDo != 0) ? ((float)base.CountToTransfer * this.GetPriceFor(this.ActionToDo)) : 0.0);
+				if (this.ActionToDo == TradeAction.None)
+				{
+					return 0f;
+				}
+				return (float)base.CountToTransfer * this.GetPriceFor(this.ActionToDo);
 			}
 		}
 
@@ -181,17 +207,12 @@ namespace RimWorld
 		{
 			get
 			{
-				bool result;
 				if (!this.HasAnyThing)
 				{
 					Log.ErrorOnce(this.ToString() + " is bugged. There will be no more logs about this.", 162112);
-					result = true;
+					return true;
 				}
-				else
-				{
-					result = false;
-				}
-				return result;
+				return false;
 			}
 		}
 
@@ -255,16 +276,14 @@ namespace RimWorld
 
 		public string GetPriceTooltip(TradeAction action)
 		{
-			string result;
 			if (!this.HasAnyThing)
 			{
-				result = "";
-				goto IL_04cd;
+				return string.Empty;
 			}
 			this.InitPriceDataIfNeeded();
 			string str = (action != TradeAction.PlayerBuys) ? "SellPriceDesc".Translate() : "BuyPriceDesc".Translate();
-			string text;
-			str = (text = str + "\n\n");
+			str += "\n\n";
+			string text = str;
 			str = text + StatDefOf.MarketValue.LabelCap + ": " + this.BaseMarketValue;
 			if (action == TradeAction.PlayerBuys)
 			{
@@ -280,7 +299,8 @@ namespace RimWorld
 					text = str;
 					str = text + "\n  x " + ((float)(1.0 + Find.Storyteller.difficulty.tradePriceFactorLoss)).ToString("F2") + " (" + "DifficultyLevel".Translate() + ")";
 				}
-				str = (text = str + "\n");
+				str += "\n";
+				text = str;
 				str = text + "\n" + "YourNegotiatorBonus".Translate() + ": -" + this.priceGain_PlayerNegotiator.ToStringPercent();
 				if (this.priceGain_FactionBase != 0.0)
 				{
@@ -307,7 +327,8 @@ namespace RimWorld
 					text = str;
 					str = text + "\n  x " + ((float)(1.0 - Find.Storyteller.difficulty.tradePriceFactorLoss)).ToString("F2") + " (" + "DifficultyLevel".Translate() + ")";
 				}
-				str = (text = str + "\n");
+				str += "\n";
+				text = str;
 				str = text + "\n" + "YourNegotiatorBonus".Translate() + ": " + this.priceGain_PlayerNegotiator.ToStringPercent();
 				if (this.priceGain_FactionBase != 0.0)
 				{
@@ -320,25 +341,26 @@ namespace RimWorld
 			str = str + "FinalPrice".Translate() + ": $" + priceFor.ToString("F2");
 			if (action == TradeAction.PlayerBuys && priceFor <= 0.5)
 			{
-				goto IL_04ab;
+				goto IL_04a0;
 			}
 			if (action == TradeAction.PlayerBuys && priceFor <= 0.0099999997764825821)
-				goto IL_04ab;
-			goto IL_04c6;
-			IL_04cd:
-			return result;
-			IL_04c6:
-			result = str;
-			goto IL_04cd;
-			IL_04ab:
+				goto IL_04a0;
+			goto IL_04bb;
+			IL_04a0:
 			str = str + " (" + "minimum".Translate() + ")";
-			goto IL_04c6;
+			goto IL_04bb;
+			IL_04bb:
+			return str;
 		}
 
 		public float GetPriceFor(TradeAction action)
 		{
 			this.InitPriceDataIfNeeded();
-			return (action != TradeAction.PlayerBuys) ? this.pricePlayerSell : this.pricePlayerBuy;
+			if (action == TradeAction.PlayerBuys)
+			{
+				return this.pricePlayerBuy;
+			}
+			return this.pricePlayerSell;
 		}
 
 		public override int GetMinimum()
@@ -363,7 +385,11 @@ namespace RimWorld
 
 		private List<Thing> TransactorThings(Transactor trans)
 		{
-			return (trans != 0) ? this.thingsTrader : this.thingsColony;
+			if (trans == Transactor.Colony)
+			{
+				return this.thingsColony;
+			}
+			return this.thingsTrader;
 		}
 
 		public int CountHeldBy(Transactor trans)
@@ -379,21 +405,25 @@ namespace RimWorld
 
 		public int CountPostDealFor(Transactor trans)
 		{
-			return (trans != 0) ? (this.CountHeldBy(trans) - base.CountToTransfer) : (this.CountHeldBy(trans) + base.CountToTransfer);
+			if (trans == Transactor.Colony)
+			{
+				return this.CountHeldBy(trans) + base.CountToTransfer;
+			}
+			return this.CountHeldBy(trans) - base.CountToTransfer;
 		}
 
 		public virtual void ResolveTrade()
 		{
 			if (this.ActionToDo == TradeAction.PlayerSells)
 			{
-				TransferableUtility.TransferNoSplit(this.thingsColony, -base.CountToTransfer, (Action<Thing, int>)delegate(Thing thing, int countToTransfer)
+				TransferableUtility.TransferNoSplit(this.thingsColony, -base.CountToTransfer, delegate(Thing thing, int countToTransfer)
 				{
 					TradeSession.trader.GiveSoldThingToTrader(thing, countToTransfer, TradeSession.playerNegotiator);
 				}, true, true);
 			}
 			else if (this.ActionToDo == TradeAction.PlayerBuys)
 			{
-				TransferableUtility.TransferNoSplit(this.thingsTrader, base.CountToTransfer, (Action<Thing, int>)delegate(Thing thing, int countToTransfer)
+				TransferableUtility.TransferNoSplit(this.thingsTrader, base.CountToTransfer, delegate(Thing thing, int countToTransfer)
 				{
 					this.CheckTeachOpportunity(thing, countToTransfer);
 					TradeSession.trader.GiveSoldThingToPlayer(thing, countToTransfer, TradeSession.playerNegotiator);

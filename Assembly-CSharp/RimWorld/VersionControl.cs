@@ -121,32 +121,23 @@ namespace RimWorld
 		public static bool IsWellFormattedVersionString(string str)
 		{
 			string[] array = str.Split('.');
-			bool result;
 			if (array.Length != 3)
 			{
-				result = false;
+				return false;
 			}
-			else
+			for (int i = 0; i < 3; i++)
 			{
-				for (int i = 0; i < 3; i++)
+				int num = default(int);
+				if (!int.TryParse(array[i], out num))
 				{
-					int num = default(int);
-					if (!int.TryParse(array[i], out num))
-						goto IL_003a;
-					if (num < 0)
-						goto IL_0048;
+					return false;
 				}
-				result = true;
+				if (num < 0)
+				{
+					return false;
+				}
 			}
-			goto IL_0062;
-			IL_0048:
-			result = false;
-			goto IL_0062;
-			IL_0062:
-			return result;
-			IL_003a:
-			result = false;
-			goto IL_0062;
+			return true;
 		}
 
 		public static int BuildFromVersionString(string str)
@@ -217,20 +208,14 @@ namespace RimWorld
 				switch (i)
 				{
 				case 0:
-				{
 					major = num;
 					break;
-				}
 				case 1:
-				{
 					minor = num;
 					break;
-				}
 				case 2:
-				{
 					build = num;
 					break;
-				}
 				}
 			}
 			return new Version(major, minor, build);

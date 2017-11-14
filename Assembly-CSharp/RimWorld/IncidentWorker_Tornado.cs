@@ -25,68 +25,45 @@ namespace RimWorld
 				cellRect = CellRect.WholeMap(map);
 			}
 			IntVec3 loc = default(IntVec3);
-			bool result;
 			if (!CellFinder.TryFindRandomCellInsideWith(cellRect, (Predicate<IntVec3>)((IntVec3 x) => this.CanSpawnTornadoAt(x, map)), out loc))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Tornado t = (Tornado)GenSpawn.Spawn(ThingDefOf.Tornado, loc, map);
-				base.SendStandardLetter((Thing)t);
-				result = true;
-			}
-			return result;
+			Tornado t = (Tornado)GenSpawn.Spawn(ThingDefOf.Tornado, loc, map);
+			base.SendStandardLetter(t);
+			return true;
 		}
 
 		private bool CanSpawnTornadoAt(IntVec3 c, Map map)
 		{
-			bool result;
 			if (c.Fogged(map))
 			{
-				result = false;
+				return false;
 			}
-			else
+			int num = GenRadial.NumCellsInRadius(7f);
+			for (int i = 0; i < num; i++)
 			{
-				int num = GenRadial.NumCellsInRadius(7f);
-				for (int num2 = 0; num2 < num; num2++)
+				IntVec3 c2 = c + GenRadial.RadialPattern[i];
+				if (c2.InBounds(map) && this.AnyPawnOfPlayerFactionAt(c2, map))
 				{
-					IntVec3 c2 = c + GenRadial.RadialPattern[num2];
-					if (c2.InBounds(map) && this.AnyPawnOfPlayerFactionAt(c2, map))
-						goto IL_005c;
+					return false;
 				}
-				result = true;
 			}
-			goto IL_0076;
-			IL_0076:
-			return result;
-			IL_005c:
-			result = false;
-			goto IL_0076;
+			return true;
 		}
 
 		private bool AnyPawnOfPlayerFactionAt(IntVec3 c, Map map)
 		{
 			List<Thing> thingList = c.GetThingList(map);
-			int num = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < thingList.Count; i++)
 			{
-				if (num < thingList.Count)
+				Pawn pawn = thingList[i] as Pawn;
+				if (pawn != null && pawn.Faction == Faction.OfPlayer)
 				{
-					Pawn pawn = thingList[num] as Pawn;
-					if (pawn != null && pawn.Faction == Faction.OfPlayer)
-					{
-						result = true;
-						break;
-					}
-					num++;
-					continue;
+					return true;
 				}
-				result = false;
-				break;
 			}
-			return result;
+			return false;
 		}
 	}
 }

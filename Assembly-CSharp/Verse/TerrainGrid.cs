@@ -127,15 +127,15 @@ namespace Verse
 			{
 				terrainDefsByShortHash.Add(allDef.shortHash, allDef);
 			}
-			Func<IntVec3, ushort> shortReader = (Func<IntVec3, ushort>)delegate(IntVec3 c)
+			Func<IntVec3, ushort> shortReader = delegate(IntVec3 c)
 			{
 				TerrainDef terrainDef2 = grid[this.map.cellIndices.CellToIndex(c)];
 				return (ushort)((terrainDef2 != null) ? terrainDef2.shortHash : 0);
 			};
-			Action<IntVec3, ushort> shortWriter = (Action<IntVec3, ushort>)delegate(IntVec3 c, ushort val)
+			Action<IntVec3, ushort> shortWriter = delegate(IntVec3 c, ushort val)
 			{
 				TerrainDef terrainDef = terrainDefsByShortHash.TryGetValue(val);
-				if (((terrainDef == null) ? val : 0) != 0)
+				if (terrainDef == null && val != 0)
 				{
 					Log.Error("Did not find terrain def with short hash " + val + " for cell " + c + ".");
 					terrainDef = TerrainDefOf.Sand;
@@ -148,18 +148,13 @@ namespace Verse
 
 		public string DebugStringAt(IntVec3 c)
 		{
-			string result;
 			if (c.InBounds(this.map))
 			{
 				TerrainDef terrain = c.GetTerrain(this.map);
 				TerrainDef terrainDef = this.underGrid[this.map.cellIndices.CellToIndex(c)];
-				result = "top: " + ((terrain == null) ? "null" : terrain.defName) + ", under=" + ((terrainDef == null) ? "null" : terrainDef.defName);
+				return "top: " + ((terrain == null) ? "null" : terrain.defName) + ", under=" + ((terrainDef == null) ? "null" : terrainDef.defName);
 			}
-			else
-			{
-				result = "out of bounds";
-			}
-			return result;
+			return "out of bounds";
 		}
 	}
 }

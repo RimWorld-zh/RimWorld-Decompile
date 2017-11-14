@@ -18,6 +18,7 @@ namespace RimWorld
 			{
 				this.Generate(parms, list);
 				this.PostProcess(list);
+				return list;
 			}
 			catch (Exception arg)
 			{
@@ -27,19 +28,19 @@ namespace RimWorld
 					list[i].Destroy(DestroyMode.Vanish);
 				}
 				list.Clear();
+				return list;
 			}
 			finally
 			{
 				ItemCollectionGenerator.thingsBeingGeneratedNow.Remove(list);
 			}
-			return list;
 		}
 
 		protected abstract void Generate(ItemCollectionGeneratorParams parms, List<Thing> outThings);
 
 		private void PostProcess(List<Thing> things)
 		{
-			if (things.RemoveAll((Predicate<Thing>)((Thing x) => x == null)) != 0)
+			if (things.RemoveAll((Thing x) => x == null) != 0)
 			{
 				Log.Error(this.def + " generated null things.");
 			}

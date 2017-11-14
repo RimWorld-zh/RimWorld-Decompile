@@ -14,30 +14,30 @@ namespace Verse
 
 		public static bool enableRandomDiseases = true;
 
-		public static bool godMode = false;
+		public static bool godMode;
 
-		public static bool noAnimals = false;
+		public static bool noAnimals;
 
-		public static bool unlimitedPower = false;
+		public static bool unlimitedPower;
 
-		public static bool pathThroughWalls = false;
+		public static bool pathThroughWalls;
 
-		public static bool instantRecruit = false;
+		public static bool instantRecruit;
 
-		public static bool alwaysSocialFight = false;
+		public static bool alwaysSocialFight;
 
-		public static bool alwaysDoLovin = false;
+		public static bool alwaysDoLovin;
 
-		public static bool detectRegionListersBugs = false;
+		public static bool detectRegionListersBugs;
 
-		public static bool fastResearch = false;
+		public static bool fastResearch;
 
-		public static bool fastLearning = false;
+		public static bool fastLearning;
 
-		public static bool fastEcology = false;
+		public static bool fastEcology;
 
-		public static bool fastCrafting = false;
+		public static bool fastCrafting;
 
-		public static bool fastCaravans = false;
+		public static bool fastCaravans;
 	}
 }

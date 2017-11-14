@@ -29,7 +29,15 @@ namespace Verse
 		{
 			get
 			{
-				return (this.initiatorPawn == null) ? ((this.initiatorThing == null) ? "null" : this.initiatorThing.defName) : this.initiatorPawn.NameStringShort;
+				if (this.initiatorPawn != null)
+				{
+					return this.initiatorPawn.NameStringShort;
+				}
+				if (this.initiatorThing != null)
+				{
+					return this.initiatorThing.defName;
+				}
+				return "null";
 			}
 		}
 
@@ -37,7 +45,15 @@ namespace Verse
 		{
 			get
 			{
-				return (this.recipientPawn == null) ? ((this.recipientThing == null) ? "null" : this.recipientThing.defName) : this.recipientPawn.NameStringShort;
+				if (this.recipientPawn != null)
+				{
+					return this.recipientPawn.NameStringShort;
+				}
+				if (this.recipientThing != null)
+				{
+					return this.recipientThing.defName;
+				}
+				return "null";
 			}
 		}
 
@@ -87,12 +103,12 @@ namespace Verse
 				{
 					if (pov == this.recipientPawn)
 					{
-						CameraJumper.TryJumpAndSelect((Thing)this.initiatorPawn);
+						CameraJumper.TryJumpAndSelect(this.initiatorPawn);
 						return;
 					}
 					throw new NotImplementedException();
 				}
-				CameraJumper.TryJumpAndSelect((Thing)this.recipientPawn);
+				CameraJumper.TryJumpAndSelect(this.recipientPawn);
 			}
 		}
 
@@ -100,16 +116,11 @@ namespace Verse
 		{
 			Rand.PushState();
 			Rand.Seed = base.randSeed;
-			GrammarRequest request = new GrammarRequest
-			{
-				Includes = 
-				{
-					RulePackDefOf.Combat_ExplosionImpact
-				}
-			};
+			GrammarRequest request = default(GrammarRequest);
+			request.Includes.Add(RulePackDefOf.Combat_ExplosionImpact);
 			if (this.initiatorPawn != null)
 			{
-				request.Rules.AddRange(GrammarUtility.RulesForPawn("initiator", this.initiatorPawn));
+				request.Rules.AddRange(GrammarUtility.RulesForPawn("initiator", this.initiatorPawn, request.Constants));
 			}
 			else if (this.initiatorThing != null)
 			{
@@ -121,7 +132,7 @@ namespace Verse
 			}
 			if (this.recipientPawn != null)
 			{
-				request.Rules.AddRange(GrammarUtility.RulesForPawn("recipient", this.recipientPawn));
+				request.Rules.AddRange(GrammarUtility.RulesForPawn("recipient", this.recipientPawn, request.Constants));
 			}
 			else if (this.recipientThing != null)
 			{
@@ -141,7 +152,7 @@ namespace Verse
 				request.Includes.Add(this.damageDef.combatLogRules);
 			}
 			request.Rules.AddRange(PlayLogEntryUtility.RulesForDamagedParts("recipient_part", this.damagedParts, this.damagedPartsDestroyed, request.Constants));
-			string result = GrammarResolver.Resolve("logentry", request, "ranged explosion");
+			string result = GrammarResolver.Resolve("logentry", request, "ranged explosion", false);
 			Rand.PopState();
 			return result;
 		}

@@ -6,6 +6,8 @@ namespace RimWorld
 
 		public bool fleshCorpsesOnly;
 
+		public bool nonDessicatedCorpsesOnly;
+
 		public CompProperties_Targetable()
 		{
 			base.compClass = typeof(CompTargetable);

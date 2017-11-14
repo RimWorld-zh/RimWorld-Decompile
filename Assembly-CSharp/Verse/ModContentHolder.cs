@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,14 +16,14 @@ namespace Verse
 
 		public void ClearDestroy()
 		{
-			if (typeof(UnityEngine.Object).IsAssignableFrom(typeof(T)))
+			if (typeof(Object).IsAssignableFrom(typeof(T)))
 			{
 				foreach (T value in this.contentList.Values)
 				{
 					T localObj = value;
-					LongEventHandler.ExecuteWhenFinished((Action)delegate
+					LongEventHandler.ExecuteWhenFinished(delegate
 					{
-						UnityEngine.Object.Destroy((UnityEngine.Object)(object)localObj);
+						Object.Destroy((Object)(object)localObj);
 					});
 				}
 			}
@@ -48,31 +47,27 @@ namespace Verse
 
 		public T Get(string path)
 		{
-			T val = default(T);
-			return (!this.contentList.TryGetValue(path, out val)) ? ((T)null) : val;
+			T result = default(T);
+			if (this.contentList.TryGetValue(path, out result))
+			{
+				return result;
+			}
+			return (T)null;
 		}
 
 		public IEnumerable<T> GetAllUnderPath(string pathRoot)
 		{
-			using (Dictionary<string, T>.Enumerator enumerator = this.contentList.GetEnumerator())
+			foreach (KeyValuePair<string, T> content in this.contentList)
 			{
-				KeyValuePair<string, T> kvp;
-				while (true)
+				if (content.Key.StartsWith(pathRoot))
 				{
-					if (enumerator.MoveNext())
-					{
-						kvp = enumerator.Current;
-						if (kvp.Key.StartsWith(pathRoot))
-							break;
-						continue;
-					}
-					yield break;
+					yield return content.Value;
+					/*Error: Unable to find new state assignment for yield return*/;
 				}
-				yield return kvp.Value;
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			IL_00da:
-			/*Error near IL_00db: Unexpected return in MoveNext()*/;
+			yield break;
+			IL_00d4:
+			/*Error near IL_00d5: Unexpected return in MoveNext()*/;
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -7,13 +6,13 @@ namespace RimWorld
 {
 	public class StockGenerator_Category : StockGenerator
 	{
-		private ThingCategoryDef categoryDef = null;
+		private ThingCategoryDef categoryDef;
 
 		private IntRange thingDefCountRange = IntRange.one;
 
-		private List<ThingDef> excludedThingDefs = null;
+		private List<ThingDef> excludedThingDefs;
 
-		private List<ThingCategoryDef> excludedCategories = null;
+		private List<ThingCategoryDef> excludedCategories;
 
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
@@ -21,12 +20,11 @@ namespace RimWorld
 			List<ThingDef> generatedDefs = new List<ThingDef>();
 			int numThingDefsToUse = this.thingDefCountRange.RandomInRange;
 			int i = 0;
-			_003CGenerateThings_003Ec__Iterator0 _003CGenerateThings_003Ec__Iterator2;
 			ThingDef chosenThingDef;
-			while (i < numThingDefsToUse && this.categoryDef.DescendantThingDefs.Where((Func<ThingDef, bool>)delegate(ThingDef t)
+			while (i < numThingDefsToUse && this.categoryDef.DescendantThingDefs.Where(delegate(ThingDef t)
 			{
-				_003CGenerateThings_003Ec__Iterator2 = _003CGenerateThings_003Ec__Iterator;
-				return t.tradeability == Tradeability.Stockable && (int)t.techLevel <= (int)_003CGenerateThings_003Ec__Iterator._0024this.maxTechLevelGenerate && !generatedDefs.Contains(t) && (_003CGenerateThings_003Ec__Iterator._0024this.excludedThingDefs == null || !_003CGenerateThings_003Ec__Iterator._0024this.excludedThingDefs.Contains(t)) && (_003CGenerateThings_003Ec__Iterator._0024this.excludedCategories == null || !_003CGenerateThings_003Ec__Iterator._0024this.excludedCategories.Any((Predicate<ThingCategoryDef>)((ThingCategoryDef c) => c.DescendantThingDefs.Contains(t))));
+				_003CGenerateThings_003Ec__Iterator0 _003CGenerateThings_003Ec__Iterator2 = _003CGenerateThings_003Ec__Iterator;
+				return t.tradeability == Tradeability.Stockable && (int)t.techLevel <= (int)_003CGenerateThings_003Ec__Iterator._0024this.maxTechLevelGenerate && !generatedDefs.Contains(t) && (_003CGenerateThings_003Ec__Iterator._0024this.excludedThingDefs == null || !_003CGenerateThings_003Ec__Iterator._0024this.excludedThingDefs.Contains(t)) && (_003CGenerateThings_003Ec__Iterator._0024this.excludedCategories == null || !_003CGenerateThings_003Ec__Iterator._0024this.excludedCategories.Any((ThingCategoryDef c) => c.DescendantThingDefs.Contains(t)));
 			}).TryRandomElement<ThingDef>(out chosenThingDef))
 			{
 				using (IEnumerator<Thing> enumerator = StockGeneratorUtility.TryMakeForStock(chosenThingDef, base.RandomCountOf(chosenThingDef)).GetEnumerator())
@@ -42,13 +40,13 @@ namespace RimWorld
 				i++;
 			}
 			yield break;
-			IL_018a:
-			/*Error near IL_018b: Unexpected return in MoveNext()*/;
+			IL_0183:
+			/*Error near IL_0184: Unexpected return in MoveNext()*/;
 		}
 
 		public override bool HandlesThingDef(ThingDef t)
 		{
-			return this.categoryDef.DescendantThingDefs.Contains(t) && t.tradeability != 0 && (int)t.techLevel <= (int)base.maxTechLevelBuy && (this.excludedThingDefs == null || !this.excludedThingDefs.Contains(t)) && (this.excludedCategories == null || !this.excludedCategories.Any((Predicate<ThingCategoryDef>)((ThingCategoryDef c) => c.DescendantThingDefs.Contains(t))));
+			return this.categoryDef.DescendantThingDefs.Contains(t) && t.tradeability != 0 && (int)t.techLevel <= (int)base.maxTechLevelBuy && (this.excludedThingDefs == null || !this.excludedThingDefs.Contains(t)) && (this.excludedCategories == null || !this.excludedCategories.Any((ThingCategoryDef c) => c.DescendantThingDefs.Contains(t)));
 		}
 	}
 }

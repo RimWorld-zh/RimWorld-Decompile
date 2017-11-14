@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -40,14 +39,25 @@ namespace RimWorld
 		{
 			IntVec3 c = (from x in GenRadial.RadialCellsAround(base.Position, 15f, true)
 			where x.InBounds(base.Map)
-			select x).RandomElementByWeight((Func<IntVec3, float>)((IntVec3 x) => (float)(1.0 - Mathf.Min((float)(x.DistanceTo(base.Position) / 15.0), 1f) + 0.05000000074505806)));
+			select x).RandomElementByWeight((IntVec3 x) => (float)(1.0 - Mathf.Min((float)(x.DistanceTo(base.Position) / 15.0), 1f) + 0.05000000074505806));
 			FireUtility.TryStartFireIn(c, base.Map, Rand.Range(0.1f, 0.925f));
 			PowerBeam.tmpThings.Clear();
 			PowerBeam.tmpThings.AddRange(c.GetThingList(base.Map));
 			for (int i = 0; i < PowerBeam.tmpThings.Count; i++)
 			{
-				int amount = (!(PowerBeam.tmpThings[i] is Corpse)) ? PowerBeam.FlameDamageAmountRange.RandomInRange : PowerBeam.CorpseFlameDamageAmountRange.RandomInRange;
-				PowerBeam.tmpThings[i].TakeDamage(new DamageInfo(DamageDefOf.Flame, amount, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
+				int num = (!(PowerBeam.tmpThings[i] is Corpse)) ? PowerBeam.FlameDamageAmountRange.RandomInRange : PowerBeam.CorpseFlameDamageAmountRange.RandomInRange;
+				Pawn pawn = PowerBeam.tmpThings[i] as Pawn;
+				BattleLogEntry_DamageTaken battleLogEntry_DamageTaken = null;
+				if (pawn != null)
+				{
+					battleLogEntry_DamageTaken = new BattleLogEntry_DamageTaken(pawn, RulePackDefOf.DamageEvent_PowerBeam, base.instigator as Pawn);
+					Find.BattleLog.Add(battleLogEntry_DamageTaken);
+				}
+				Thing thing = PowerBeam.tmpThings[i];
+				DamageDef flame = DamageDefOf.Flame;
+				int amount = num;
+				Thing instigator = base.instigator;
+				thing.TakeDamage(new DamageInfo(flame, amount, -1f, instigator, null, base.weaponDef, DamageInfo.SourceCategory.ThingOrUnknown)).InsertIntoLog(battleLogEntry_DamageTaken);
 			}
 			PowerBeam.tmpThings.Clear();
 		}

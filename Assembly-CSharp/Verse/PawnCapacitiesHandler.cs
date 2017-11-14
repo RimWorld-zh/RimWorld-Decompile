@@ -6,9 +6,9 @@ namespace Verse
 	{
 		private enum CacheStatus
 		{
-			Uncached = 0,
-			Caching = 1,
-			Cached = 2
+			Uncached,
+			Caching,
+			Cached
 		}
 
 		private class CacheElement
@@ -20,7 +20,7 @@ namespace Verse
 
 		private Pawn pawn;
 
-		private DefMap<PawnCapacityDef, CacheElement> cachedCapacityLevels = null;
+		private DefMap<PawnCapacityDef, CacheElement> cachedCapacityLevels;
 
 		public bool CanBeAwake
 		{
@@ -42,35 +42,27 @@ namespace Verse
 
 		public float GetLevel(PawnCapacityDef capacity)
 		{
-			float result;
 			if (this.pawn.health.Dead)
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			if (this.cachedCapacityLevels == null)
 			{
-				if (this.cachedCapacityLevels == null)
-				{
-					this.Notify_CapacityLevelsDirty();
-				}
-				CacheElement cacheElement = this.cachedCapacityLevels[capacity];
-				if (cacheElement.status == CacheStatus.Caching)
-				{
-					Log.Error(string.Format("Detected infinite stat recursion when evaluating {0}", capacity));
-					result = 0f;
-				}
-				else
-				{
-					if (cacheElement.status == CacheStatus.Uncached)
-					{
-						cacheElement.status = CacheStatus.Caching;
-						cacheElement.value = PawnCapacityUtility.CalculateCapacityLevel(this.pawn.health.hediffSet, capacity, null);
-						cacheElement.status = CacheStatus.Cached;
-					}
-					result = cacheElement.value;
-				}
+				this.Notify_CapacityLevelsDirty();
 			}
-			return result;
+			CacheElement cacheElement = this.cachedCapacityLevels[capacity];
+			if (cacheElement.status == CacheStatus.Caching)
+			{
+				Log.Error(string.Format("Detected infinite stat recursion when evaluating {0}", capacity));
+				return 0f;
+			}
+			if (cacheElement.status == CacheStatus.Uncached)
+			{
+				cacheElement.status = CacheStatus.Caching;
+				cacheElement.value = PawnCapacityUtility.CalculateCapacityLevel(this.pawn.health.hediffSet, capacity, null);
+				cacheElement.status = CacheStatus.Cached;
+			}
+			return cacheElement.value;
 		}
 
 		public bool CapableOf(PawnCapacityDef capacity)

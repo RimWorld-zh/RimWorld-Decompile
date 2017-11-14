@@ -19,36 +19,31 @@ namespace RimWorld
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			int rootTile = default(int);
-			bool result;
-			int tile = default(int);
 			if (!this.TryFindRootTile(out rootTile))
 			{
-				result = false;
+				return false;
 			}
-			else if (!this.TryFindDestinationTile(rootTile, out tile))
+			int tile = default(int);
+			if (!this.TryFindDestinationTile(rootTile, out tile))
 			{
-				result = false;
+				return false;
 			}
-			else
+			WorldObject journeyDestination = WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.EscapeShip);
+			journeyDestination.Tile = tile;
+			Find.WorldObjects.Add(journeyDestination);
+			DiaNode diaNode = new DiaNode("JourneyOffer".Translate());
+			DiaOption diaOption = new DiaOption("JumpToLocation".Translate());
+			diaOption.action = delegate
 			{
-				WorldObject journeyDestination = WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.EscapeShip);
-				journeyDestination.Tile = tile;
-				Find.WorldObjects.Add(journeyDestination);
-				DiaNode diaNode = new DiaNode("JourneyOffer".Translate());
-				DiaOption diaOption = new DiaOption("JumpToLocation".Translate());
-				diaOption.action = (Action)delegate
-				{
-					CameraJumper.TryJumpAndSelect(journeyDestination);
-				};
-				diaOption.resolveTree = true;
-				diaNode.options.Add(diaOption);
-				DiaOption diaOption2 = new DiaOption("OK".Translate());
-				diaOption2.resolveTree = true;
-				diaNode.options.Add(diaOption2);
-				Find.WindowStack.Add(new Dialog_NodeTree(diaNode, true, true, (string)null));
-				result = true;
-			}
-			return result;
+				CameraJumper.TryJumpAndSelect(journeyDestination);
+			};
+			diaOption.resolveTree = true;
+			diaNode.options.Add(diaOption);
+			DiaOption diaOption2 = new DiaOption("OK".Translate());
+			diaOption2.resolveTree = true;
+			diaNode.options.Add(diaOption2);
+			Find.WindowStack.Add(new Dialog_NodeTree(diaNode, true, true, null));
+			return true;
 		}
 
 		private bool TryFindRootTile(out int tile)
@@ -60,35 +55,24 @@ namespace RimWorld
 		private bool TryFindDestinationTile(int rootTile, out int tile)
 		{
 			int num = 800;
-			int num2 = 0;
-			bool result;
-			while (true)
+			for (int i = 0; i < 1000; i++)
 			{
-				if (num2 < 1000)
+				num = (int)((float)num * Rand.Range(0.5f, 0.75f));
+				if (num <= 200)
 				{
-					num = (int)((float)num * Rand.Range(0.5f, 0.75f));
-					if (num <= 200)
-					{
-						num = 200;
-					}
-					if (this.TryFindDestinationTileActual(rootTile, num, out tile))
-					{
-						result = true;
-						break;
-					}
-					if (num <= 200)
-					{
-						result = false;
-						break;
-					}
-					num2++;
-					continue;
+					num = 200;
 				}
-				tile = -1;
-				result = false;
-				break;
+				if (this.TryFindDestinationTileActual(rootTile, num, out tile))
+				{
+					return true;
+				}
+				if (num <= 200)
+				{
+					return false;
+				}
 			}
-			return result;
+			tile = -1;
+			return false;
 		}
 
 		private bool TryFindDestinationTileActual(int rootTile, int minDist, out int tile)

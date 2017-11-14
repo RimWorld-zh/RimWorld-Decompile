@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -9,7 +8,7 @@ namespace RimWorld
 {
 	public class Page_ScenarioEditor : Page
 	{
-		private Scenario curScen = null;
+		private Scenario curScen;
 
 		private Vector2 infoScrollPosition = Vector2.zero;
 
@@ -17,7 +16,7 @@ namespace RimWorld
 
 		private bool seedIsValid = true;
 
-		private bool editMode = false;
+		private bool editMode;
 
 		public override string PageTitle
 		{
@@ -71,7 +70,7 @@ namespace RimWorld
 				ScenarioUI.DrawScenarioEditInterface(rect3, this.curScen, ref this.infoScrollPosition);
 			}
 			GUI.EndGroup();
-			base.DoBottomButtons(rect, (string)null, (string)null, null, true);
+			base.DoBottomButtons(rect, null, null, null, true);
 		}
 
 		private void RandomizeSeedAndScenario()
@@ -85,19 +84,19 @@ namespace RimWorld
 			Listing_Standard listing_Standard = new Listing_Standard();
 			listing_Standard.ColumnWidth = 200f;
 			listing_Standard.Begin(rect);
-			if (listing_Standard.ButtonText("Load".Translate(), (string)null))
+			if (listing_Standard.ButtonText("Load".Translate(), null))
 			{
-				Find.WindowStack.Add(new Dialog_ScenarioList_Load((Action<Scenario>)delegate(Scenario loadedScen)
+				Find.WindowStack.Add(new Dialog_ScenarioList_Load(delegate(Scenario loadedScen)
 				{
 					this.curScen = loadedScen;
 					this.seedIsValid = false;
 				}));
 			}
-			if (listing_Standard.ButtonText("Save".Translate(), (string)null) && Page_ScenarioEditor.CheckAllPartsCompatible(this.curScen))
+			if (listing_Standard.ButtonText("Save".Translate(), null) && Page_ScenarioEditor.CheckAllPartsCompatible(this.curScen))
 			{
 				Find.WindowStack.Add(new Dialog_ScenarioList_Save(this.curScen));
 			}
-			if (listing_Standard.ButtonText("RandomizeSeed".Translate(), (string)null))
+			if (listing_Standard.ButtonText("RandomizeSeed".Translate(), null))
 			{
 				SoundDefOf.TickTiny.PlayOneShotOnCamera(null);
 				this.RandomizeSeedAndScenario();
@@ -121,11 +120,11 @@ namespace RimWorld
 			if (this.editMode)
 			{
 				this.seedIsValid = false;
-				if (listing_Standard.ButtonText("AddPart".Translate(), (string)null))
+				if (listing_Standard.ButtonText("AddPart".Translate(), null))
 				{
 					this.OpenAddScenPartMenu();
 				}
-				if (SteamManager.Initialized && (this.curScen.Category == ScenarioCategory.CustomLocal || this.curScen.Category == ScenarioCategory.SteamWorkshop) && listing_Standard.ButtonText(Workshop.UploadButtonLabel(this.curScen.GetPublishedFileId()), (string)null) && Page_ScenarioEditor.CheckAllPartsCompatible(this.curScen))
+				if (SteamManager.Initialized && (this.curScen.Category == ScenarioCategory.CustomLocal || this.curScen.Category == ScenarioCategory.SteamWorkshop) && listing_Standard.ButtonText(Workshop.UploadButtonLabel(this.curScen.GetPublishedFileId()), null) && Page_ScenarioEditor.CheckAllPartsCompatible(this.curScen))
 				{
 					AcceptanceReport acceptanceReport = this.curScen.TryUploadReport();
 					if (!acceptanceReport.Accepted)
@@ -135,15 +134,15 @@ namespace RimWorld
 					else
 					{
 						SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
-						Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmSteamWorkshopUpload".Translate(), (Action)delegate
+						Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmSteamWorkshopUpload".Translate(), delegate
 						{
 							SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
-							Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmContentAuthor".Translate(), (Action)delegate
+							Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmContentAuthor".Translate(), delegate
 							{
 								SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
 								Workshop.Upload(this.curScen);
-							}, true, (string)null));
-						}, true, (string)null));
+							}, true, null));
+						}, true, null));
 					}
 				}
 			}
@@ -181,10 +180,14 @@ namespace RimWorld
 			FloatMenuUtility.MakeMenu(from p in ScenarioMaker.AddableParts(this.curScen)
 			where p.category != ScenPartCategory.Fixed
 			orderby p.label
-			select p, (Func<ScenPartDef, string>)((ScenPartDef p) => p.LabelCap), (Func<ScenPartDef, Action>)((ScenPartDef p) => (Action)delegate()
+			select p, (ScenPartDef p) => p.LabelCap, delegate(ScenPartDef p)
 			{
-				this.AddScenPart(p);
-			}));
+				Page_ScenarioEditor page_ScenarioEditor = this;
+				return delegate
+				{
+					page_ScenarioEditor.AddScenPart(p);
+				};
+			});
 		}
 
 		private void AddScenPart(ScenPartDef def)
@@ -196,25 +199,20 @@ namespace RimWorld
 
 		protected override bool CanDoNext()
 		{
-			bool result;
 			if (!base.CanDoNext())
 			{
-				result = false;
+				return false;
 			}
-			else if (this.curScen == null)
+			if (this.curScen == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (!Page_ScenarioEditor.CheckAllPartsCompatible(this.curScen))
+			if (!Page_ScenarioEditor.CheckAllPartsCompatible(this.curScen))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Page_SelectScenario.BeginScenarioConfiguration(this.curScen, this);
-				result = true;
-			}
-			return result;
+			Page_SelectScenario.BeginScenarioConfiguration(this.curScen, this);
+			return true;
 		}
 	}
 }

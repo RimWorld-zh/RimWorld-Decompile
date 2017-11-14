@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -44,7 +43,7 @@ namespace RimWorld.BaseGen
 						{
 							bool found = false;
 							IntVec3 foundDest = IntVec3.Invalid;
-							map.floodFiller.FloodFill(intVec, (Predicate<IntVec3>)((IntVec3 x) => !found && this.CanTraverse(x, canPathThroughNonStandable)), (Action<IntVec3>)delegate(IntVec3 x)
+							map.floodFiller.FloodFill(intVec, (IntVec3 x) => !found && this.CanTraverse(x, canPathThroughNonStandable), delegate(IntVec3 x)
 							{
 								if (!found && map.reachability.CanReachMapEdge(x, traverseParms))
 								{
@@ -110,7 +109,19 @@ namespace RimWorld.BaseGen
 		{
 			Map map = BaseGen.globalSettings.map;
 			Building edifice = c.GetEdifice(map);
-			return (byte)(this.IsWallOrRock(edifice) ? 1 : ((canPathThroughNonStandable || c.Standable(map)) ? ((!c.Impassable(map)) ? 1 : 0) : 0)) != 0;
+			if (this.IsWallOrRock(edifice))
+			{
+				return true;
+			}
+			if (!canPathThroughNonStandable && !c.Standable(map))
+			{
+				return false;
+			}
+			if (!c.Impassable(map))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		private bool IsWallOrRock(Building b)

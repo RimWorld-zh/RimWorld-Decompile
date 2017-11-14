@@ -9,7 +9,19 @@ namespace RimWorld
 			float statValue = p.GetStatValue(StatDefOf.ComfyTemperatureMin, true);
 			float ambientTemperature = p.AmbientTemperature;
 			float num = statValue - ambientTemperature;
-			return (!(num <= 0.0)) ? ((!(num < 10.0)) ? ((!(num < 20.0)) ? ThoughtState.ActiveAtStage(2) : ThoughtState.ActiveAtStage(1)) : ThoughtState.ActiveAtStage(0)) : ThoughtState.Inactive;
+			if (num <= 0.0)
+			{
+				return ThoughtState.Inactive;
+			}
+			if (num < 10.0)
+			{
+				return ThoughtState.ActiveAtStage(0);
+			}
+			if (num < 20.0)
+			{
+				return ThoughtState.ActiveAtStage(1);
+			}
+			return ThoughtState.ActiveAtStage(2);
 		}
 	}
 }

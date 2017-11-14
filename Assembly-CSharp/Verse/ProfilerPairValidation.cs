@@ -1,8 +1,6 @@
-#define ENABLE_PROFILER
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
-using UnityEngine.Profiling;
 using Verse.AI;
 
 namespace Verse
@@ -13,7 +11,6 @@ namespace Verse
 
 		public static void BeginSample(string token)
 		{
-			Profiler.BeginSample(token);
 			ProfilerPairValidation.profilerSignatures.Push(new StackTrace(1, true));
 		}
 
@@ -28,18 +25,24 @@ namespace Verse
 			else
 			{
 				int num = 0;
-				while (num < stackTrace2.FrameCount)
+				while (true)
 				{
-					if (stackTrace2.GetFrame(num).GetMethod() == stackTrace.GetFrame(num).GetMethod() || (stackTrace.GetFrame(num).GetMethod().DeclaringType == typeof(ProfilerThreadCheck) && stackTrace2.GetFrame(num).GetMethod().DeclaringType == typeof(ProfilerThreadCheck)) || (stackTrace.GetFrame(num).GetMethod() == typeof(PathFinder).GetMethod("PfProfilerBeginSample", BindingFlags.Instance | BindingFlags.NonPublic) && stackTrace2.GetFrame(num).GetMethod() == typeof(PathFinder).GetMethod("PfProfilerEndSample", BindingFlags.Instance | BindingFlags.NonPublic)))
+					if (num < stackTrace2.FrameCount)
 					{
+						if (stackTrace2.GetFrame(num).GetMethod() != stackTrace.GetFrame(num).GetMethod() && (stackTrace.GetFrame(num).GetMethod().DeclaringType != typeof(ProfilerThreadCheck) || stackTrace2.GetFrame(num).GetMethod().DeclaringType != typeof(ProfilerThreadCheck)))
+						{
+							if (stackTrace.GetFrame(num).GetMethod() != typeof(PathFinder).GetMethod("PfProfilerBeginSample", BindingFlags.Instance | BindingFlags.NonPublic))
+								break;
+							if (stackTrace2.GetFrame(num).GetMethod() != typeof(PathFinder).GetMethod("PfProfilerEndSample", BindingFlags.Instance | BindingFlags.NonPublic))
+								break;
+						}
 						num++;
 						continue;
 					}
-					Log.Message(string.Format("Mismatch:\n{0}\n\n{1}", stackTrace.ToString(), stackTrace2.ToString()));
-					break;
+					return;
 				}
+				Log.Message(string.Format("Mismatch:\n{0}\n\n{1}", stackTrace.ToString(), stackTrace2.ToString()));
 			}
-			Profiler.EndSample();
 		}
 	}
 }

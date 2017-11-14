@@ -23,7 +23,7 @@ namespace RimWorld
 
 		private PublishedFileId_t publishedFileIdInt = PublishedFileId_t.Invalid;
 
-		private ScenarioCategory categoryInt = ScenarioCategory.Undefined;
+		private ScenarioCategory categoryInt;
 
 		public string fileName;
 
@@ -112,8 +112,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_01ce:
-			/*Error near IL_01cf: Unexpected return in MoveNext()*/;
+			IL_01c7:
+			/*Error near IL_01c8: Unexpected return in MoveNext()*/;
 		}
 
 		public string GetFullInformationText()
@@ -179,7 +179,7 @@ namespace RimWorld
 			list.Add(new Page_SelectStoryteller());
 			list.Add(new Page_CreateWorldParams());
 			list.Add(new Page_SelectLandingSite());
-			foreach (Page item in this.parts.SelectMany((Func<ScenPart, IEnumerable<Page>>)((ScenPart p) => p.GetConfigPages())))
+			foreach (Page item in this.parts.SelectMany((ScenPart p) => p.GetConfigPages()))
 			{
 				list.Add(item);
 			}
@@ -191,7 +191,7 @@ namespace RimWorld
 				{
 					page2 = page2.next;
 				}
-				page2.nextAct = (Action)delegate
+				page2.nextAct = delegate
 				{
 					PageUtility.InitGameStart();
 				};
@@ -300,33 +300,28 @@ namespace RimWorld
 
 		public bool CanReorder(ScenPart part, ReorderDirection dir)
 		{
-			bool result;
 			if (!part.def.PlayerAddRemovable)
 			{
-				result = false;
+				return false;
 			}
-			else
+			int num = this.parts.IndexOf(part);
+			switch (dir)
 			{
-				int num = this.parts.IndexOf(part);
-				switch (dir)
+			case ReorderDirection.Up:
+				if (num == 0)
 				{
-				case ReorderDirection.Up:
+					return false;
+				}
+				if (num > 0 && !this.parts[num - 1].def.PlayerAddRemovable)
 				{
-					result = ((byte)((num != 0) ? ((num <= 0 || this.parts[num - 1].def.PlayerAddRemovable) ? 1 : 0) : 0) != 0);
-					break;
+					return false;
 				}
-				case ReorderDirection.Down:
-				{
-					result = (num != this.parts.Count - 1);
-					break;
-				}
-				default:
-				{
-					throw new NotImplementedException();
-				}
-				}
+				return true;
+			case ReorderDirection.Down:
+				return num != this.parts.Count - 1;
+			default:
+				throw new NotImplementedException();
 			}
-			return result;
 		}
 
 		public void Reorder(ScenPart part, ReorderDirection dir)
@@ -345,7 +340,19 @@ namespace RimWorld
 
 		public bool CanToUploadToWorkshop()
 		{
-			return (byte)((this.Category != ScenarioCategory.FromDef) ? (this.TryUploadReport().Accepted ? ((!this.GetWorkshopItemHook().MayHaveAuthorNotCurrentUser) ? 1 : 0) : 0) : 0) != 0;
+			if (this.Category == ScenarioCategory.FromDef)
+			{
+				return false;
+			}
+			if (!this.TryUploadReport().Accepted)
+			{
+				return false;
+			}
+			if (this.GetWorkshopItemHook().MayHaveAuthorNotCurrentUser)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public void PrepareForWorkshopUpload()
@@ -365,7 +372,11 @@ namespace RimWorld
 
 		public AcceptanceReport TryUploadReport()
 		{
-			return (this.name != null && this.name.Length >= 3 && this.summary != null && this.summary.Length >= 3 && this.description != null && this.description.Length >= 3) ? AcceptanceReport.WasAccepted : "TextFieldsMustBeFilled".Translate();
+			if (this.name != null && this.name.Length >= 3 && this.summary != null && this.summary.Length >= 3 && this.description != null && this.description.Length >= 3)
+			{
+				return AcceptanceReport.WasAccepted;
+			}
+			return "TextFieldsMustBeFilled".Translate();
 		}
 
 		public PublishedFileId_t GetPublishedFileId()

@@ -21,17 +21,12 @@ namespace RimWorld
 
 			public override bool Equals(object rhs)
 			{
-				bool result;
 				if (!(rhs is LayerGroupPair))
 				{
-					result = false;
+					return false;
 				}
-				else
-				{
-					LayerGroupPair layerGroupPair = (LayerGroupPair)rhs;
-					result = (layerGroupPair.layer == this.layer && layerGroupPair.group == this.group);
-				}
-				return result;
+				LayerGroupPair layerGroupPair = (LayerGroupPair)rhs;
+				return layerGroupPair.layer == this.layer && layerGroupPair.group == this.group;
 			}
 
 			public override int GetHashCode()
@@ -69,28 +64,20 @@ namespace RimWorld
 				}
 				break;
 			}
-			bool result;
 			if (!flag)
 			{
-				result = true;
+				return true;
 			}
-			else
+			BodyPartGroupDef[] interferingBodyPartGroups = A.apparel.GetInterferingBodyPartGroups(body);
+			BodyPartGroupDef[] interferingBodyPartGroups2 = B.apparel.GetInterferingBodyPartGroups(body);
+			for (int i = 0; i < interferingBodyPartGroups.Length; i++)
 			{
-				BodyPartGroupDef[] interferingBodyPartGroups = A.apparel.GetInterferingBodyPartGroups(body);
-				BodyPartGroupDef[] interferingBodyPartGroups2 = B.apparel.GetInterferingBodyPartGroups(body);
-				for (int i = 0; i < interferingBodyPartGroups.Length; i++)
+				if (interferingBodyPartGroups2.Contains(interferingBodyPartGroups[i]))
 				{
-					if (interferingBodyPartGroups2.Contains(interferingBodyPartGroups[i]))
-						goto IL_00cb;
+					return false;
 				}
-				result = true;
 			}
-			goto IL_00eb;
-			IL_00eb:
-			return result;
-			IL_00cb:
-			result = false;
-			goto IL_00eb;
+			return true;
 		}
 
 		public static void GenerateLayerGroupPairs(BodyDef body, ThingDef td, Action<LayerGroupPair> callback)
@@ -121,29 +108,21 @@ namespace RimWorld
 				flag = true;
 				break;
 			}
-			bool result;
 			if (!flag)
 			{
-				result = true;
+				return true;
 			}
-			else
+			IEnumerable<BodyPartRecord> notMissingParts = p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined);
+			List<BodyPartGroupDef> groups = apparel.apparel.bodyPartGroups;
+			int i;
+			for (i = 0; i < groups.Count; i++)
 			{
-				IEnumerable<BodyPartRecord> notMissingParts = p.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined);
-				List<BodyPartGroupDef> groups = apparel.apparel.bodyPartGroups;
-				int i;
-				for (i = 0; i < groups.Count; i++)
+				if (notMissingParts.Any((BodyPartRecord x) => x.IsInGroup(groups[i])))
 				{
-					if (notMissingParts.Any((Func<BodyPartRecord, bool>)((BodyPartRecord x) => x.IsInGroup(groups[i]))))
-						goto IL_00b5;
+					return true;
 				}
-				result = false;
 			}
-			goto IL_00ed;
-			IL_00b5:
-			result = true;
-			goto IL_00ed;
-			IL_00ed:
-			return result;
+			return false;
 		}
 	}
 }

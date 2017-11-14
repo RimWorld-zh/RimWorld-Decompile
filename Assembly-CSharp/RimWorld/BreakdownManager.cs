@@ -11,7 +11,8 @@ namespace RimWorld
 
 		public const int CheckIntervalTicks = 1041;
 
-		public BreakdownManager(Map map) : base(map)
+		public BreakdownManager(Map map)
+			: base(map)
 		{
 		}
 

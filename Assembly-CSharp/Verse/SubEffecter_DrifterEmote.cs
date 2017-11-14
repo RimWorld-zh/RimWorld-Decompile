@@ -4,7 +4,8 @@ namespace Verse
 {
 	public abstract class SubEffecter_DrifterEmote : SubEffecter
 	{
-		public SubEffecter_DrifterEmote(SubEffecterDef def) : base(def)
+		public SubEffecter_DrifterEmote(SubEffecterDef def)
+			: base(def)
 		{
 		}
 
@@ -14,7 +15,7 @@ namespace Verse
 			if (vector.ShouldSpawnMotesAt(A.Map))
 			{
 				int randomInRange = base.def.burstCount.RandomInRange;
-				for (int num = 0; num < randomInRange; num++)
+				for (int i = 0; i < randomInRange; i++)
 				{
 					Mote mote = (Mote)ThingMaker.MakeThing(base.def.moteDef, null);
 					mote.Scale = base.def.scale.RandomInRange;

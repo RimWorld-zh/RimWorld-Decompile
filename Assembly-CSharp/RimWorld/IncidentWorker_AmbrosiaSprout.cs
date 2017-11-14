@@ -14,60 +14,51 @@ namespace RimWorld
 
 		protected override bool CanFireNowSub(IIncidentTarget target)
 		{
-			bool result;
 			if (!base.CanFireNowSub(target))
 			{
-				result = false;
+				return false;
 			}
-			else
+			Map map = (Map)target;
+			if (!map.weatherManager.growthSeasonMemory.GrowthSeasonOutdoorsNow)
 			{
-				Map map = (Map)target;
-				IntVec3 intVec = default(IntVec3);
-				result = (map.weatherManager.growthSeasonMemory.GrowthSeasonOutdoorsNow && this.TryFindRootCell(map, out intVec));
+				return false;
 			}
-			return result;
+			IntVec3 intVec = default(IntVec3);
+			return this.TryFindRootCell(map, out intVec);
 		}
 
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			IntVec3 root = default(IntVec3);
-			bool result;
 			if (!this.TryFindRootCell(map, out root))
 			{
-				result = false;
+				return false;
 			}
-			else
+			Thing thing = null;
+			int randomInRange = IncidentWorker_AmbrosiaSprout.CountRange.RandomInRange;
+			int num = 0;
+			IntVec3 intVec = default(IntVec3);
+			while (num < randomInRange && CellFinder.TryRandomClosewalkCellNear(root, map, 6, out intVec, (Predicate<IntVec3>)((IntVec3 x) => this.CanSpawnAt(x, map))))
 			{
-				Thing thing = null;
-				int randomInRange = IncidentWorker_AmbrosiaSprout.CountRange.RandomInRange;
-				int num = 0;
-				IntVec3 intVec = default(IntVec3);
-				while (num < randomInRange && CellFinder.TryRandomClosewalkCellNear(root, map, 6, out intVec, (Predicate<IntVec3>)((IntVec3 x) => this.CanSpawnAt(x, map))))
+				Plant plant = intVec.GetPlant(map);
+				if (plant != null)
 				{
-					Plant plant = intVec.GetPlant(map);
-					if (plant != null)
-					{
-						plant.Destroy(DestroyMode.Vanish);
-					}
-					Thing thing2 = GenSpawn.Spawn(ThingDefOf.PlantAmbrosia, intVec, map);
-					if (thing == null)
-					{
-						thing = thing2;
-					}
-					num++;
+					plant.Destroy(DestroyMode.Vanish);
 				}
+				Thing thing2 = GenSpawn.Spawn(ThingDefOf.PlantAmbrosia, intVec, map);
 				if (thing == null)
 				{
-					result = false;
+					thing = thing2;
 				}
-				else
-				{
-					base.SendStandardLetter(thing);
-					result = true;
-				}
+				num++;
 			}
-			return result;
+			if (thing == null)
+			{
+				return false;
+			}
+			base.SendStandardLetter(thing);
+			return true;
 		}
 
 		private bool TryFindRootCell(Map map, out IntVec3 cell)
@@ -77,35 +68,24 @@ namespace RimWorld
 
 		private bool CanSpawnAt(IntVec3 c, Map map)
 		{
-			bool result;
-			if (!c.Standable(map) || c.Fogged(map) || map.fertilityGrid.FertilityAt(c) < ThingDefOf.PlantAmbrosia.plant.fertilityMin || !c.GetRoom(map, RegionType.Set_Passable).PsychologicallyOutdoors || c.GetEdifice(map) != null || !GenPlant.GrowthSeasonNow(c, map))
-			{
-				result = false;
-			}
-			else
+			if (c.Standable(map) && !c.Fogged(map) && !(map.fertilityGrid.FertilityAt(c) < ThingDefOf.PlantAmbrosia.plant.fertilityMin) && c.GetRoom(map, RegionType.Set_Passable).PsychologicallyOutdoors && c.GetEdifice(map) == null && GenPlant.GrowthSeasonNow(c, map))
 			{
 				Plant plant = c.GetPlant(map);
 				if (plant != null && plant.def.plant.growDays > 10.0)
 				{
-					result = false;
+					return false;
 				}
-				else
+				List<Thing> thingList = c.GetThingList(map);
+				for (int i = 0; i < thingList.Count; i++)
 				{
-					List<Thing> thingList = c.GetThingList(map);
-					for (int i = 0; i < thingList.Count; i++)
+					if (thingList[i].def == ThingDefOf.PlantAmbrosia)
 					{
-						if (thingList[i].def == ThingDefOf.PlantAmbrosia)
-							goto IL_00c0;
+						return false;
 					}
-					result = true;
 				}
+				return true;
 			}
-			goto IL_00df;
-			IL_00c0:
-			result = false;
-			goto IL_00df;
-			IL_00df:
-			return result;
+			return false;
 		}
 	}
 }

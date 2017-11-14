@@ -13,9 +13,13 @@ namespace RimWorld
 
 		protected override Thing BestIngestTarget(Pawn pawn)
 		{
-			Thing thing = default(Thing);
+			Thing result = default(Thing);
 			ThingDef thingDef = default(ThingDef);
-			return (!FoodUtility.TryFindBestFoodSourceFor(pawn, pawn, true, out thing, out thingDef, false, true, true, true, true, false)) ? null : thing;
+			if (FoodUtility.TryFindBestFoodSourceFor(pawn, pawn, true, out result, out thingDef, false, true, true, true, true, false))
+			{
+				return result;
+			}
+			return null;
 		}
 	}
 }

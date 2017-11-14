@@ -84,7 +84,15 @@ namespace RimWorld.Planet
 			get
 			{
 				float altitudePercent = this.AltitudePercent;
-				return (WorldCameraZoomRange)((!(altitudePercent < 0.02500000037252903)) ? ((altitudePercent < 0.041999999433755875) ? 1 : 2) : 0);
+				if (altitudePercent < 0.02500000037252903)
+				{
+					return WorldCameraZoomRange.VeryClose;
+				}
+				if (altitudePercent < 0.041999999433755875)
+				{
+					return WorldCameraZoomRange.Close;
+				}
+				return WorldCameraZoomRange.Far;
 			}
 		}
 
@@ -92,7 +100,11 @@ namespace RimWorld.Planet
 		{
 			get
 			{
-				return (float)((!Screen.fullScreen) ? 20.0 : 6.0);
+				if (Screen.fullScreen)
+				{
+					return 6f;
+				}
+				return 20f;
 			}
 		}
 
@@ -139,6 +151,7 @@ namespace RimWorld.Planet
 			GUI.depth = 100;
 			if (!LongEventHandler.ShouldWaitForEvent)
 			{
+				UnityGUIBugsFixer.OnGUI();
 				this.mouseCoveredByUI = false;
 				if (Find.WindowStack.GetWindowAt(UI.MousePositionOnUIInverted) != null)
 				{

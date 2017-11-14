@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -8,7 +7,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public abstract class Alert
 	{
-		protected AlertPriority defaultPriority = AlertPriority.Medium;
+		protected AlertPriority defaultPriority;
 
 		protected string defaultLabel;
 
@@ -16,7 +15,7 @@ namespace RimWorld
 
 		protected float lastBellTime = -1000f;
 
-		private AlertBounce alertBounce = null;
+		private AlertBounce alertBounce;
 
 		public const float Width = 154f;
 
@@ -147,7 +146,7 @@ namespace RimWorld
 			{
 				infoRect.y = 0f;
 			}
-			Find.WindowStack.ImmediateWindow(138956, infoRect, WindowLayer.GameUI, (Action)delegate
+			Find.WindowStack.ImmediateWindow(138956, infoRect, WindowLayer.GameUI, delegate
 			{
 				Text.Font = GameFont.Small;
 				Rect rect = infoRect.AtZero();

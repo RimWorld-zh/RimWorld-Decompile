@@ -5,7 +5,8 @@ namespace RimWorld
 {
 	public class Designator_AreaSnowClearClear : Designator_AreaSnowClear
 	{
-		public Designator_AreaSnowClearClear() : base(DesignateMode.Remove)
+		public Designator_AreaSnowClearClear()
+			: base(DesignateMode.Remove)
 		{
 			base.defaultLabel = "DesignatorAreaSnowClearClear".Translate();
 			base.defaultDesc = "DesignatorAreaSnowClearClearDesc".Translate();

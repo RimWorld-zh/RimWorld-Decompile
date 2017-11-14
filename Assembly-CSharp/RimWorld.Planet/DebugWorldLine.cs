@@ -51,10 +51,10 @@ namespace RimWorld.Planet
 					float averageTileSize = Find.WorldGrid.averageTileSize;
 					int num2 = Mathf.Max(Mathf.RoundToInt(num / averageTileSize), 0);
 					float num3 = 0.05f;
-					for (int num4 = 0; num4 < num2; num4++)
+					for (int i = 0; i < num2; i++)
 					{
-						Vector3 vector = Vector3.Lerp(this.a, this.b, (float)num4 / (float)num2);
-						Vector3 vector2 = Vector3.Lerp(this.a, this.b, (float)(num4 + 1) / (float)num2);
+						Vector3 vector = Vector3.Lerp(this.a, this.b, (float)i / (float)num2);
+						Vector3 vector2 = Vector3.Lerp(this.a, this.b, (float)(i + 1) / (float)num2);
 						vector = vector.normalized * (float)(100.0 + num3);
 						vector2 = vector2.normalized * (float)(100.0 + num3);
 						GenDraw.DrawWorldLineBetween(vector, vector2);

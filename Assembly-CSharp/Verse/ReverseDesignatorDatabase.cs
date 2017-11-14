@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 
 namespace Verse
@@ -31,25 +30,15 @@ namespace Verse
 			{
 				this.InitDesignators();
 			}
-			int num = 0;
-			T result;
-			while (true)
+			for (int i = 0; i < this.desList.Count; i++)
 			{
-				if (num < this.desList.Count)
+				T val = (T)(this.desList[i] as T);
+				if (val != null)
 				{
-					T val = (T)(this.desList[num] as T);
-					if (val != null)
-					{
-						result = val;
-						break;
-					}
-					num++;
-					continue;
+					return val;
 				}
-				result = (T)null;
-				break;
 			}
-			return result;
+			return (T)null;
 		}
 
 		private void InitDesignators()
@@ -69,7 +58,7 @@ namespace Verse
 			this.desList.Add(new Designator_Strip());
 			this.desList.Add(new Designator_RearmTrap());
 			this.desList.Add(new Designator_Open());
-			this.desList.RemoveAll((Predicate<Designator>)((Designator des) => !Current.Game.Rules.DesignatorAllowed(des)));
+			this.desList.RemoveAll((Designator des) => !Current.Game.Rules.DesignatorAllowed(des));
 		}
 	}
 }

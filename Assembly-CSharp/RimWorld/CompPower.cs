@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -8,11 +7,11 @@ namespace RimWorld
 {
 	public abstract class CompPower : ThingComp
 	{
-		public PowerNet transNet = null;
+		public PowerNet transNet;
 
-		public CompPower connectParent = null;
+		public CompPower connectParent;
 
-		public List<CompPower> connectChildren = null;
+		public List<CompPower> connectChildren;
 
 		private static List<PowerNet> recentlyConnectedNets = new List<PowerNet>();
 
@@ -32,7 +31,15 @@ namespace RimWorld
 		{
 			get
 			{
-				return (this.transNet == null) ? ((this.connectParent == null) ? null : this.connectParent.transNet) : this.transNet;
+				if (this.transNet != null)
+				{
+					return this.transNet;
+				}
+				if (this.connectParent != null)
+				{
+					return this.connectParent.transNet;
+				}
+				return null;
 			}
 		}
 
@@ -151,7 +158,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CCompGetGizmosExtra_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.CompGetGizmosExtra().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -166,10 +173,10 @@ namespace RimWorld
 				yield break;
 			yield return (Gizmo)new Command_Action
 			{
-				action = (Action)delegate
+				action = delegate
 				{
 					SoundDefOf.TickTiny.PlayOneShotOnCamera(null);
-					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_00f4: stateMachine*/)._0024this.TryManualReconnect();
+					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_00ef: stateMachine*/)._0024this.TryManualReconnect();
 				},
 				hotKey = KeyBindingDefOf.Misc1,
 				defaultDesc = "CommandTryReconnectDesc".Translate(),
@@ -177,8 +184,8 @@ namespace RimWorld
 				defaultLabel = "CommandTryReconnectLabel".Translate()
 			};
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_017f:
-			/*Error near IL_0180: Unexpected return in MoveNext()*/;
+			IL_0179:
+			/*Error near IL_017a: Unexpected return in MoveNext()*/;
 		}
 
 		private void TryManualReconnect()
@@ -235,18 +242,13 @@ namespace RimWorld
 
 		public override string CompInspectStringExtra()
 		{
-			string result;
 			if (this.PowerNet == null)
 			{
-				result = "PowerNotConnected".Translate();
+				return "PowerNotConnected".Translate();
 			}
-			else
-			{
-				string text = (this.PowerNet.CurrentEnergyGainRate() / CompPower.WattsToWattDaysPerTick).ToString("F0");
-				string text2 = this.PowerNet.CurrentStoredEnergy().ToString("F0");
-				string text3 = result = "PowerConnectedRateStored".Translate(text, text2);
-			}
-			return result;
+			string text = (this.PowerNet.CurrentEnergyGainRate() / CompPower.WattsToWattDaysPerTick).ToString("F0");
+			string text2 = this.PowerNet.CurrentStoredEnergy().ToString("F0");
+			return "PowerConnectedRateStored".Translate(text, text2);
 		}
 	}
 }

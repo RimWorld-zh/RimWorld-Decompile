@@ -31,7 +31,7 @@ namespace RimWorld
 
 		private Toil InteractToil()
 		{
-			return Toils_General.Do((Action)delegate
+			return Toils_General.Do(delegate
 			{
 				if (base.pawn.interactions.TryInteractWith(this.Target, InteractionDefOf.Insult))
 				{
@@ -50,7 +50,7 @@ namespace RimWorld
 
 		private Toil InsultingSpreeDelayToil()
 		{
-			Action action = (Action)delegate
+			Action action = delegate
 			{
 				MentalState_InsultingSpree mentalState_InsultingSpree = base.pawn.MentalState as MentalState_InsultingSpree;
 				if (mentalState_InsultingSpree != null && Find.TickManager.TicksGame - mentalState_InsultingSpree.lastInsultTicks < 1200)

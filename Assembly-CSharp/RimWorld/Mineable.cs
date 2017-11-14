@@ -5,7 +5,7 @@ namespace RimWorld
 {
 	public class Mineable : Building
 	{
-		private float yieldPct = 0f;
+		private float yieldPct;
 
 		private const float YieldChanceOnNonMiningKill = 0.2f;
 

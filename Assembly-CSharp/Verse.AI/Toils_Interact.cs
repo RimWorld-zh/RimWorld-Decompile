@@ -1,5 +1,3 @@
-using System;
-
 namespace Verse.AI
 {
 	internal class Toils_Interact
@@ -7,7 +5,7 @@ namespace Verse.AI
 		public static Toil DestroyThing(TargetIndex ind)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				Pawn actor = toil.actor;
 				Thing thing = actor.jobs.curJob.GetTarget(ind).Thing;

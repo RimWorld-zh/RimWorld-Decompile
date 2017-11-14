@@ -8,7 +8,11 @@ namespace RimWorld
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			IntVec3 c = default(IntVec3);
-			return RCellFinder.TryFindRandomSpotJustOutsideColony(pawn, out c) ? new Job(JobDefOf.Goto, c) : null;
+			if (!RCellFinder.TryFindRandomSpotJustOutsideColony(pawn, out c))
+			{
+				return null;
+			}
+			return new Job(JobDefOf.Goto, c);
 		}
 	}
 }

@@ -38,8 +38,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_00f5:
-			/*Error near IL_00f6: Unexpected return in MoveNext()*/;
+			IL_00f1:
+			/*Error near IL_00f2: Unexpected return in MoveNext()*/;
 		}
 	}
 }

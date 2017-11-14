@@ -14,7 +14,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return !this.predator.Spawned || Find.TickManager.TicksGame >= this.lastAttackTicks + 600;
+				if (!this.predator.Spawned)
+				{
+					return true;
+				}
+				return Find.TickManager.TicksGame >= this.lastAttackTicks + 600;
 			}
 		}
 

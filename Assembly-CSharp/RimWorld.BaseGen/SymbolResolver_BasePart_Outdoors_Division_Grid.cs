@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -42,21 +41,16 @@ namespace RimWorld.BaseGen
 
 		public override bool CanResolve(ResolveParams rp)
 		{
-			bool result;
 			if (!base.CanResolve(rp))
 			{
-				result = false;
+				return false;
 			}
-			else if (rp.rect.Width < 13 && rp.rect.Height < 13)
+			if (rp.rect.Width < 13 && rp.rect.Height < 13)
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				this.FillOptions(rp.rect);
-				result = (this.optionsX.Any() && this.optionsZ.Any());
-			}
-			return result;
+			this.FillOptions(rp.rect);
+			return this.optionsX.Any() && this.optionsZ.Any();
 		}
 
 		public override void Resolve(ResolveParams rp)
@@ -72,13 +66,13 @@ namespace RimWorld.BaseGen
 		{
 			this.FillOptions(this.optionsX, rect.Width);
 			this.FillOptions(this.optionsZ, rect.Height);
-			if (this.optionsZ.Any((Predicate<Pair<int, int>>)((Pair<int, int> x) => x.First > 1)))
+			if (this.optionsZ.Any((Pair<int, int> x) => x.First > 1))
 			{
-				this.optionsX.RemoveAll((Predicate<Pair<int, int>>)((Pair<int, int> x) => x.First >= 3 && this.GetRoomSize(x.First, x.Second, rect.Width) <= 7));
+				this.optionsX.RemoveAll((Pair<int, int> x) => x.First >= 3 && this.GetRoomSize(x.First, x.Second, rect.Width) <= 7);
 			}
-			if (this.optionsX.Any((Predicate<Pair<int, int>>)((Pair<int, int> x) => x.First > 1)))
+			if (this.optionsX.Any((Pair<int, int> x) => x.First > 1))
 			{
-				this.optionsZ.RemoveAll((Predicate<Pair<int, int>>)((Pair<int, int> x) => x.First >= 3 && this.GetRoomSize(x.First, x.Second, rect.Height) <= 7));
+				this.optionsZ.RemoveAll((Pair<int, int> x) => x.First >= 3 && this.GetRoomSize(x.First, x.Second, rect.Height) <= 7);
 			}
 		}
 
@@ -101,7 +95,11 @@ namespace RimWorld.BaseGen
 		private int GetRoomSize(int roomsPerRow, int pathwayWidth, int totalLength)
 		{
 			int num = totalLength - (roomsPerRow - 1) * pathwayWidth;
-			return (num % roomsPerRow == 0) ? (num / roomsPerRow) : (-1);
+			if (num % roomsPerRow != 0)
+			{
+				return -1;
+			}
+			return num / roomsPerRow;
 		}
 
 		private bool TryResolveRandomOption(int maxWidthHeightDiff, int maxPathwayWidthDiff, ResolveParams rp)
@@ -123,18 +121,13 @@ namespace RimWorld.BaseGen
 					}
 				}
 			}
-			bool result;
 			if (SymbolResolver_BasePart_Outdoors_Division_Grid.options.Any())
 			{
 				Pair<Pair<int, int>, Pair<int, int>> pair = SymbolResolver_BasePart_Outdoors_Division_Grid.options.RandomElement();
 				this.ResolveOption(pair.First.First, pair.First.Second, pair.Second.First, pair.Second.Second, rp);
-				result = true;
+				return true;
 			}
-			else
-			{
-				result = false;
-			}
-			return result;
+			return false;
 		}
 
 		private void ResolveOption(int roomsPerRowX, int pathwayWidthX, int roomsPerRowZ, int pathwayWidthZ, ResolveParams rp)
@@ -155,7 +148,7 @@ namespace RimWorld.BaseGen
 				ResolveParams resolveParams = rp;
 				resolveParams.rect = rect;
 				resolveParams.floorDef = floorDef;
-				resolveParams.streetHorizontal = new bool?(false);
+				resolveParams.streetHorizontal = false;
 				BaseGen.symbolStack.Push("street", resolveParams);
 				num += roomSize + pathwayWidthX;
 			}
@@ -166,21 +159,21 @@ namespace RimWorld.BaseGen
 				ResolveParams resolveParams2 = rp;
 				resolveParams2.rect = rect2;
 				resolveParams2.floorDef = floorDef;
-				resolveParams2.streetHorizontal = new bool?(true);
+				resolveParams2.streetHorizontal = true;
 				BaseGen.symbolStack.Push("street", resolveParams2);
 				num2 += roomSize2 + pathwayWidthZ;
 			}
 			num = 0;
 			num2 = 0;
 			this.children.Clear();
-			for (int num3 = 0; num3 < roomsPerRowX; num3++)
+			for (int k = 0; k < roomsPerRowX; k++)
 			{
-				for (int num4 = 0; num4 < roomsPerRowZ; num4++)
+				for (int l = 0; l < roomsPerRowZ; l++)
 				{
 					Child child = new Child();
 					child.rect = new CellRect(rp.rect.minX + num, rp.rect.minZ + num2, roomSize, roomSize2);
-					child.gridX = num3;
-					child.gridY = num4;
+					child.gridX = k;
+					child.gridY = l;
 					this.children.Add(child);
 					num2 += roomSize2 + pathwayWidthZ;
 				}
@@ -189,11 +182,11 @@ namespace RimWorld.BaseGen
 			}
 			this.MergeRandomChildren();
 			this.children.Shuffle();
-			for (int k = 0; k < this.children.Count; k++)
+			for (int m = 0; m < this.children.Count; m++)
 			{
 				if (thingDef != null)
 				{
-					IntVec3 c = new IntVec3(this.children[k].rect.maxX + 1, 0, this.children[k].rect.maxZ);
+					IntVec3 c = new IntVec3(this.children[m].rect.maxX + 1, 0, this.children[m].rect.maxZ);
 					if (rp.rect.Contains(c) && c.Standable(map))
 					{
 						ResolveParams resolveParams3 = rp;
@@ -203,7 +196,7 @@ namespace RimWorld.BaseGen
 					}
 				}
 				ResolveParams resolveParams4 = rp;
-				resolveParams4.rect = this.children[k].rect;
+				resolveParams4.rect = this.children[m].rect;
 				BaseGen.symbolStack.Push("basePart_outdoors", resolveParams4);
 			}
 		}
@@ -216,10 +209,10 @@ namespace RimWorld.BaseGen
 				int num2 = 0;
 				while (num2 < num)
 				{
-					Child child = this.children.Find((Predicate<Child>)((Child x) => !x.merged));
+					Child child = this.children.Find((Child x) => !x.merged);
 					if (child != null)
 					{
-						Child child2 = this.children.Find((Predicate<Child>)((Child x) => x != child && ((Mathf.Abs(x.gridX - child.gridX) == 1 && x.gridY == child.gridY) || (Mathf.Abs(x.gridY - child.gridY) == 1 && x.gridX == child.gridX))));
+						Child child2 = this.children.Find((Child x) => x != child && ((Mathf.Abs(x.gridX - child.gridX) == 1 && x.gridY == child.gridY) || (Mathf.Abs(x.gridY - child.gridY) == 1 && x.gridX == child.gridX)));
 						if (child2 != null)
 						{
 							this.children.Remove(child);

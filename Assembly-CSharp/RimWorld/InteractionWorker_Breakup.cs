@@ -15,22 +15,17 @@ namespace RimWorld
 
 		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
 		{
-			float result;
 			if (!LovePartnerRelationUtility.LovePartnerRelationExists(initiator, recipient))
 			{
-				result = 0f;
+				return 0f;
 			}
-			else
+			float num = Mathf.InverseLerp(100f, -100f, (float)initiator.relations.OpinionOf(recipient));
+			float num2 = 1f;
+			if (initiator.relations.DirectRelationExists(PawnRelationDefOf.Spouse, recipient))
 			{
-				float num = Mathf.InverseLerp(100f, -100f, (float)initiator.relations.OpinionOf(recipient));
-				float num2 = 1f;
-				if (initiator.relations.DirectRelationExists(PawnRelationDefOf.Spouse, recipient))
-				{
-					num2 = 0.4f;
-				}
-				result = (float)(0.019999999552965164 * num * num2);
+				num2 = 0.4f;
 			}
-			return result;
+			return (float)(0.019999999552965164 * num * num2);
 		}
 
 		public Thought RandomBreakupReason(Pawn initiator, Pawn recipient)
@@ -38,20 +33,15 @@ namespace RimWorld
 			List<Thought_Memory> list = (from m in initiator.needs.mood.thoughts.memories.Memories
 			where m != null && m.otherPawn == recipient && m.CurStage != null && m.CurStage.baseOpinionOffset < 0.0
 			select m).ToList();
-			Thought result;
 			if (list.Count == 0)
 			{
-				result = null;
+				return null;
 			}
-			else
-			{
-				float worstMemoryOpinionOffset = list.Max((Func<Thought_Memory, float>)((Thought_Memory m) => (float)(0.0 - m.CurStage.baseOpinionOffset)));
-				Thought_Memory thought_Memory = null;
-				(from m in list
-				where 0.0 - m.CurStage.baseOpinionOffset >= worstMemoryOpinionOffset / 2.0
-				select m).TryRandomElementByWeight<Thought_Memory>((Func<Thought_Memory, float>)((Thought_Memory m) => (float)(0.0 - m.CurStage.baseOpinionOffset)), out thought_Memory);
-				result = thought_Memory;
-			}
+			float worstMemoryOpinionOffset = list.Max((Thought_Memory m) => (float)(0.0 - m.CurStage.baseOpinionOffset));
+			Thought_Memory result = null;
+			(from m in list
+			where 0.0 - m.CurStage.baseOpinionOffset >= worstMemoryOpinionOffset / 2.0
+			select m).TryRandomElementByWeight<Thought_Memory>((Func<Thought_Memory, float>)((Thought_Memory m) => (float)(0.0 - m.CurStage.baseOpinionOffset)), out result);
 			return result;
 		}
 
@@ -90,7 +80,7 @@ namespace RimWorld
 			}
 			if (!PawnUtility.ShouldSendNotificationAbout(initiator) && !PawnUtility.ShouldSendNotificationAbout(recipient))
 				return;
-			Find.LetterStack.ReceiveLetter("LetterLabelBreakup".Translate(), stringBuilder.ToString(), LetterDefOf.NegativeEvent, (Thing)initiator, (string)null);
+			Find.LetterStack.ReceiveLetter("LetterLabelBreakup".Translate(), stringBuilder.ToString(), LetterDefOf.NegativeEvent, initiator, null);
 		}
 	}
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -8,7 +7,7 @@ namespace RimWorld
 	{
 		public static void SortInDisplayOrder(List<Need> needs)
 		{
-			needs.Sort((Comparison<Need>)((Need a, Need b) => b.def.listPriority.CompareTo(a.def.listPriority)));
+			needs.Sort((Need a, Need b) => b.def.listPriority.CompareTo(a.def.listPriority));
 		}
 
 		public static Thought GetLeadingThoughtInGroup(List<Thought> thoughtsInGroup)
@@ -36,7 +35,7 @@ namespace RimWorld
 					outThoughtGroupsPresent.RemoveAt(num);
 				}
 			}
-			outThoughtGroupsPresent.SortByDescending((Func<Thought, float>)((Thought t) => mood.thoughts.MoodOffsetOfGroup(t)), (Func<Thought, int>)((Thought t) => t.GetHashCode()));
+			outThoughtGroupsPresent.SortByDescending((Thought t) => mood.thoughts.MoodOffsetOfGroup(t), (Thought t) => t.GetHashCode());
 		}
 	}
 }

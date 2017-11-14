@@ -9,11 +9,11 @@ namespace RimWorld
 			float num = 0f;
 			if (other.gender == Gender.Male)
 			{
-				num = ChildRelationUtility.ChanceOfBecomingChildOf(generated, other, other.GetSpouseOppositeGender(), new PawnGenerationRequest?(request), default(PawnGenerationRequest?), default(PawnGenerationRequest?));
+				num = ChildRelationUtility.ChanceOfBecomingChildOf(generated, other, other.GetSpouseOppositeGender(), request, null, null);
 			}
 			else if (other.gender == Gender.Female)
 			{
-				num = ChildRelationUtility.ChanceOfBecomingChildOf(generated, other.GetSpouseOppositeGender(), other, new PawnGenerationRequest?(request), default(PawnGenerationRequest?), default(PawnGenerationRequest?));
+				num = ChildRelationUtility.ChanceOfBecomingChildOf(generated, other.GetSpouseOppositeGender(), other, request, null, null);
 			}
 			return num * base.BaseGenerationChanceFactor(generated, other, request);
 		}

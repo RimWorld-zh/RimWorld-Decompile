@@ -16,8 +16,7 @@ namespace Verse.AI.Group
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
-			LordToil_Travel lordToil_Travel = new LordToil_Travel(this.travelDest);
-			stateGraph.StartingToil = lordToil_Travel;
+			LordToil_Travel lordToil_Travel = (LordToil_Travel)(stateGraph.StartingToil = new LordToil_Travel(this.travelDest));
 			LordToil_DefendPoint lordToil_DefendPoint = new LordToil_DefendPoint(false);
 			stateGraph.AddToil(lordToil_DefendPoint);
 			Transition transition = new Transition(lordToil_Travel, lordToil_DefendPoint);

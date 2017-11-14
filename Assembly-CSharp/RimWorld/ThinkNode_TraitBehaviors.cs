@@ -9,25 +9,15 @@ namespace RimWorld
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			List<Trait> allTraits = pawn.story.traits.allTraits;
-			int num = 0;
-			ThinkResult result;
-			while (true)
+			for (int i = 0; i < allTraits.Count; i++)
 			{
-				if (num < allTraits.Count)
+				ThinkTreeDef thinkTree = allTraits[i].CurrentData.thinkTree;
+				if (thinkTree != null)
 				{
-					ThinkTreeDef thinkTree = allTraits[num].CurrentData.thinkTree;
-					if (thinkTree != null)
-					{
-						result = thinkTree.thinkRoot.TryIssueJobPackage(pawn, jobParams);
-						break;
-					}
-					num++;
-					continue;
+					return thinkTree.thinkRoot.TryIssueJobPackage(pawn, jobParams);
 				}
-				result = ThinkResult.NoJob;
-				break;
 			}
-			return result;
+			return ThinkResult.NoJob;
 		}
 	}
 }

@@ -7,195 +7,136 @@ namespace Verse.AI
 	{
 		public static Thing FirstBlockingBuilding(this PawnPath path, out IntVec3 cellBefore, Pawn pawn = null)
 		{
-			Thing result;
-			List<IntVec3> nodesReversed;
-			Building building;
-			IntVec3 intVec;
-			int num;
-			Building edifice;
 			if (!path.Found)
 			{
 				cellBefore = IntVec3.Invalid;
-				result = null;
+				return null;
 			}
-			else
+			List<IntVec3> nodesReversed = path.NodesReversed;
+			if (nodesReversed.Count == 1)
 			{
-				nodesReversed = path.NodesReversed;
-				if (nodesReversed.Count == 1)
+				cellBefore = nodesReversed[0];
+				return null;
+			}
+			Building building = null;
+			IntVec3 intVec = IntVec3.Invalid;
+			for (int num = nodesReversed.Count - 2; num >= 0; num--)
+			{
+				Building edifice = nodesReversed[num].GetEdifice(pawn.Map);
+				if (edifice != null)
 				{
-					cellBefore = nodesReversed[0];
-					result = null;
+					Building_Door building_Door = edifice as Building_Door;
+					if ((building_Door == null || building_Door.FreePassage || (pawn != null && building_Door.PawnCanOpen(pawn))) && edifice.def.passability != Traversability.Impassable)
+					{
+						goto IL_00da;
+					}
+					if (building != null)
+					{
+						cellBefore = intVec;
+						return building;
+					}
+					cellBefore = nodesReversed[num + 1];
+					return edifice;
 				}
-				else
+				goto IL_00da;
+				IL_00da:
+				if (edifice != null && edifice.def.passability == Traversability.PassThroughOnly && edifice.def.Fillage == FillCategory.Full)
+				{
+					if (building == null)
+					{
+						building = edifice;
+						intVec = nodesReversed[num + 1];
+					}
+				}
+				else if (edifice == null || edifice.def.passability != Traversability.PassThroughOnly)
 				{
 					building = null;
-					intVec = IntVec3.Invalid;
-					for (num = nodesReversed.Count - 2; num >= 0; num--)
-					{
-						edifice = nodesReversed[num].GetEdifice(pawn.Map);
-						if (edifice != null)
-						{
-							Building_Door building_Door = edifice as Building_Door;
-							if ((building_Door == null || building_Door.FreePassage || (pawn != null && building_Door.PawnCanOpen(pawn))) && edifice.def.passability != Traversability.Impassable)
-							{
-								goto IL_00fa;
-							}
-							goto IL_00ca;
-						}
-						goto IL_00fa;
-						IL_00fa:
-						if (edifice != null && edifice.def.passability == Traversability.PassThroughOnly && edifice.def.Fillage == FillCategory.Full)
-						{
-							if (building == null)
-							{
-								building = edifice;
-								intVec = nodesReversed[num + 1];
-							}
-						}
-						else if (edifice == null || edifice.def.passability != Traversability.PassThroughOnly)
-						{
-							building = null;
-						}
-					}
-					cellBefore = nodesReversed[0];
-					result = null;
 				}
 			}
-			goto IL_0189;
-			IL_0189:
-			return result;
-			IL_00ca:
-			if (building != null)
-			{
-				cellBefore = intVec;
-				result = building;
-			}
-			else
-			{
-				cellBefore = nodesReversed[num + 1];
-				result = edifice;
-			}
-			goto IL_0189;
+			cellBefore = nodesReversed[0];
+			return null;
 		}
 
 		public static IntVec3 FinalWalkableNonDoorCell(this PawnPath path, Map map)
 		{
-			IntVec3 result;
-			List<IntVec3> nodesReversed;
-			int i;
 			if (path.NodesReversed.Count == 1)
 			{
-				result = path.NodesReversed[0];
+				return path.NodesReversed[0];
 			}
-			else
+			List<IntVec3> nodesReversed = path.NodesReversed;
+			for (int i = 0; i < nodesReversed.Count; i++)
 			{
-				nodesReversed = path.NodesReversed;
-				for (i = 0; i < nodesReversed.Count; i++)
+				Building edifice = nodesReversed[i].GetEdifice(map);
+				if (edifice != null && edifice.def.passability == Traversability.Impassable)
 				{
-					Building edifice = nodesReversed[i].GetEdifice(map);
-					if (edifice != null && edifice.def.passability == Traversability.Impassable)
-					{
-						continue;
-					}
-					Building_Door building_Door = edifice as Building_Door;
-					if (building_Door != null && !building_Door.FreePassage)
-					{
-						continue;
-					}
-					goto IL_0074;
+					continue;
 				}
-				result = nodesReversed[0];
+				Building_Door building_Door = edifice as Building_Door;
+				if (building_Door != null && !building_Door.FreePassage)
+				{
+					continue;
+				}
+				return nodesReversed[i];
 			}
-			goto IL_00a0;
-			IL_0074:
-			result = nodesReversed[i];
-			goto IL_00a0;
-			IL_00a0:
-			return result;
+			return nodesReversed[0];
 		}
 
 		public static IntVec3 LastCellBeforeBlockerOrFinalCell(this PawnPath path, Map map)
 		{
-			IntVec3 result;
-			List<IntVec3> nodesReversed;
-			int num;
 			if (path.NodesReversed.Count == 1)
 			{
-				result = path.NodesReversed[0];
+				return path.NodesReversed[0];
 			}
-			else
+			List<IntVec3> nodesReversed = path.NodesReversed;
+			for (int num = nodesReversed.Count - 2; num >= 1; num--)
 			{
-				nodesReversed = path.NodesReversed;
-				for (num = nodesReversed.Count - 2; num >= 1; num--)
+				Building edifice = nodesReversed[num].GetEdifice(map);
+				if (edifice != null)
 				{
-					Building edifice = nodesReversed[num].GetEdifice(map);
-					if (edifice != null)
+					if (edifice.def.passability == Traversability.Impassable)
 					{
-						if (edifice.def.passability == Traversability.Impassable)
-							goto IL_0060;
-						Building_Door building_Door = edifice as Building_Door;
-						if (building_Door != null && !building_Door.FreePassage)
-							goto IL_008a;
+						return nodesReversed[num + 1];
+					}
+					Building_Door building_Door = edifice as Building_Door;
+					if (building_Door != null && !building_Door.FreePassage)
+					{
+						return nodesReversed[num + 1];
 					}
 				}
-				result = nodesReversed[0];
 			}
-			goto IL_00b3;
-			IL_008a:
-			result = nodesReversed[num + 1];
-			goto IL_00b3;
-			IL_0060:
-			result = nodesReversed[num + 1];
-			goto IL_00b3;
-			IL_00b3:
-			return result;
+			return nodesReversed[0];
 		}
 
 		public static bool TryFindLastCellBeforeBlockingDoor(this PawnPath path, Pawn pawn, out IntVec3 result)
 		{
-			bool result2;
-			List<IntVec3> nodesReversed;
-			int num;
 			if (path.NodesReversed.Count == 1)
 			{
 				result = path.NodesReversed[0];
-				result2 = false;
+				return false;
 			}
-			else
+			List<IntVec3> nodesReversed = path.NodesReversed;
+			for (int num = nodesReversed.Count - 2; num >= 1; num--)
 			{
-				nodesReversed = path.NodesReversed;
-				for (num = nodesReversed.Count - 2; num >= 1; num--)
+				Building_Door building_Door = nodesReversed[num].GetEdifice(pawn.Map) as Building_Door;
+				if (building_Door != null && !building_Door.CanPhysicallyPass(pawn))
 				{
-					Building_Door building_Door = nodesReversed[num].GetEdifice(pawn.Map) as Building_Door;
-					if (building_Door != null && !building_Door.CanPhysicallyPass(pawn))
-						goto IL_006d;
+					result = nodesReversed[num + 1];
+					return true;
 				}
-				result = nodesReversed[0];
-				result2 = false;
 			}
-			goto IL_00a5;
-			IL_00a5:
-			return result2;
-			IL_006d:
-			result = nodesReversed[num + 1];
-			result2 = true;
-			goto IL_00a5;
+			result = nodesReversed[0];
+			return false;
 		}
 
 		public static bool TryFindCellAtIndex(PawnPath path, int index, out IntVec3 result)
 		{
-			bool result2;
-			if (path.NodesReversed.Count <= index || index < 0)
-			{
-				result = IntVec3.Invalid;
-				result2 = false;
-			}
-			else
+			if (path.NodesReversed.Count > index && index >= 0)
 			{
 				result = path.NodesReversed[path.NodesReversed.Count - 1 - index];
-				result2 = true;
+				return true;
 			}
-			return result2;
+			result = IntVec3.Invalid;
+			return false;
 		}
 	}
 }

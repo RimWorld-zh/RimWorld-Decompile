@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -13,11 +12,11 @@ namespace RimWorld
 			{
 				icon = ContentFinder<Texture2D>.Get("UI/Commands/Detonate", true),
 				defaultDesc = "CommandDetonateDesc".Translate(),
-				action = new Action(this.Command_Detonate)
+				action = this.Command_Detonate
 			};
 			if (base.GetComp<CompExplosive>().wickStarted)
 			{
-				com.Disable((string)null);
+				com.Disable(null);
 			}
 			com.defaultLabel = "CommandDetonateLabel".Translate();
 			yield return (Gizmo)com;

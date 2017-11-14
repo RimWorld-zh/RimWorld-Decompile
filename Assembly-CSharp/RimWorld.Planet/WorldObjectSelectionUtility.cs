@@ -49,21 +49,16 @@ namespace RimWorld.Planet
 
 		public static bool VisibleToCameraNow(this WorldObject o)
 		{
-			bool result;
 			if (!WorldRendererUtility.WorldRenderedNow)
 			{
-				result = false;
+				return false;
 			}
-			else if (o.HiddenBehindTerrainNow())
+			if (o.HiddenBehindTerrainNow())
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				Vector2 point = o.ScreenPos();
-				result = new Rect(0f, 0f, (float)UI.screenWidth, (float)UI.screenHeight).Contains(point);
-			}
-			return result;
+			Vector2 point = o.ScreenPos();
+			return new Rect(0f, 0f, (float)UI.screenWidth, (float)UI.screenHeight).Contains(point);
 		}
 
 		public static float DistanceToMouse(this WorldObject o, Vector2 mousePos)
@@ -71,7 +66,11 @@ namespace RimWorld.Planet
 			Ray ray = Find.WorldCamera.ScreenPointToRay(mousePos * Prefs.UIScale);
 			int worldLayerMask = WorldCameraManager.WorldLayerMask;
 			RaycastHit raycastHit = default(RaycastHit);
-			return (!Physics.Raycast(ray, out raycastHit, 1500f, worldLayerMask)) ? Vector3.Cross(ray.direction, o.DrawPos - ray.origin).magnitude : Vector3.Distance(raycastHit.point, o.DrawPos);
+			if (Physics.Raycast(ray, out raycastHit, 1500f, worldLayerMask))
+			{
+				return Vector3.Distance(raycastHit.point, o.DrawPos);
+			}
+			return Vector3.Cross(ray.direction, o.DrawPos - ray.origin).magnitude;
 		}
 	}
 }

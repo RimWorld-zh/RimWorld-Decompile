@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -19,8 +18,8 @@ namespace RimWorld
 
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			this.FailOn((Func<bool>)(() => !((Area)((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_002a: stateMachine*/)._0024this.Map.areaManager.NoRoof)[((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_002a: stateMachine*/)._0024this.Cell]));
-			using (IEnumerator<Toil> enumerator = this._003CMakeNewToils_003E__BaseCallProxy0().GetEnumerator())
+			this.FailOn(() => !((Area)((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0029: stateMachine*/)._0024this.Map.areaManager.NoRoof)[((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0029: stateMachine*/)._0024this.Cell]);
+			using (IEnumerator<Toil> enumerator = base.MakeNewToils().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -30,8 +29,8 @@ namespace RimWorld
 				}
 			}
 			yield break;
-			IL_00d5:
-			/*Error near IL_00d6: Unexpected return in MoveNext()*/;
+			IL_00d1:
+			/*Error near IL_00d2: Unexpected return in MoveNext()*/;
 		}
 
 		protected override void DoEffect()

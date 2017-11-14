@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -50,7 +49,7 @@ namespace RimWorld
 					foreach (DrugPolicy allPolicy in Current.Game.drugPolicyDatabase.AllPolicies)
 					{
 						DrugPolicy localAssignedDrugs = allPolicy;
-						list.Add(new FloatMenuOption(allPolicy.label, (Action)delegate()
+						list.Add(new FloatMenuOption(allPolicy.label, delegate
 						{
 							pawn.drugs.CurrentPolicy = localAssignedDrugs;
 						}, MenuOptionPriority.Default, null, null, 0f, null, null));

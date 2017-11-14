@@ -18,7 +18,11 @@ namespace Verse
 
 		public virtual bool IsViolationOnPawn(Pawn pawn, BodyPartRecord part, Faction billDoerFaction)
 		{
-			return pawn.Faction != billDoerFaction && this.recipe.isViolation;
+			if (pawn.Faction == billDoerFaction)
+			{
+				return false;
+			}
+			return this.recipe.isViolation;
 		}
 
 		public virtual string GetLabelWhenUsedOn(Pawn pawn, BodyPartRecord part)

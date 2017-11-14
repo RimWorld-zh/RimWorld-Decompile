@@ -1,5 +1,4 @@
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -61,8 +60,7 @@ namespace RimWorld
 			float entryRectAlpha = this.ColonistBar.GetEntryRectAlpha(rect);
 			this.ApplyEntryInAnotherMapAlphaFactor(pawnMap, ref entryRectAlpha);
 			bool flag = (!colonist.Dead) ? Find.Selector.SelectedObjects.Contains(colonist) : Find.Selector.SelectedObjects.Contains(colonist.Corpse);
-			Color color = new Color(1f, 1f, 1f, entryRectAlpha);
-			GUI.color = color;
+			Color color2 = GUI.color = new Color(1f, 1f, 1f, entryRectAlpha);
 			GUI.DrawTexture(rect, ColonistBar.BGTex);
 			if (colonist.needs != null && colonist.needs.mood != null)
 			{
@@ -84,7 +82,7 @@ namespace RimWorld
 			GUI.DrawTexture(this.GetPawnTextureRect(rect.x, rect.y), PortraitsCache.Get(colonist, ColonistBarColonistDrawer.PawnTextureSize, ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f));
 			GUI.color = new Color(1f, 1f, 1f, (float)(entryRectAlpha * 0.800000011920929));
 			this.DrawIcons(rect, colonist);
-			GUI.color = color;
+			GUI.color = color2;
 			if (colonist.Dead)
 			{
 				GUI.DrawTexture(rect, ColonistBarColonistDrawer.DeadColonistTex);
@@ -131,7 +129,7 @@ namespace RimWorld
 		{
 			Rect position = this.GroupFrameRect(group);
 			List<ColonistBar.Entry> entries = this.ColonistBar.Entries;
-			ColonistBar.Entry entry = entries.Find((Predicate<ColonistBar.Entry>)((ColonistBar.Entry x) => x.group == group));
+			ColonistBar.Entry entry = entries.Find((ColonistBar.Entry x) => x.group == group);
 			Map map = entry.map;
 			float num = (float)((map != null) ? ((map == Find.VisibleMap && !WorldRendererUtility.WorldRenderedNow) ? 1.0 : 0.75) : ((!WorldRendererUtility.WorldRenderedNow) ? 0.75 : 1.0));
 			Widgets.DrawRectFast(position, new Color(0.5f, 0.5f, 0.5f, (float)(0.40000000596046448 * num)), null);
@@ -159,11 +157,11 @@ namespace RimWorld
 			if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 2 && Mouse.IsOver(rect))
 			{
 				Event.current.Use();
-				CameraJumper.TryJump((Thing)colonist);
+				CameraJumper.TryJump(colonist);
 			}
 			if (Event.current.button == 1 && Widgets.ButtonInvisible(rect, false))
 			{
-				CameraJumper.TryJumpAndSelect(CameraJumper.GetWorldTarget((Thing)colonist));
+				CameraJumper.TryJumpAndSelect(CameraJumper.GetWorldTarget(colonist));
 			}
 		}
 
@@ -175,26 +173,26 @@ namespace RimWorld
 				bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
 				if (!worldRenderedNow && !Find.Selector.dragBox.IsValidAndActive)
 				{
-					goto IL_0095;
+					goto IL_0093;
 				}
 				if (worldRenderedNow && !Find.WorldSelector.dragBox.IsValidAndActive)
-					goto IL_0095;
+					goto IL_0093;
 			}
-			goto IL_0155;
-			IL_0095:
+			goto IL_014c;
+			IL_0093:
 			Find.Selector.dragBox.active = false;
 			Find.WorldSelector.dragBox.active = false;
-			ColonistBar.Entry entry = this.ColonistBar.Entries.Find((Predicate<ColonistBar.Entry>)((ColonistBar.Entry x) => x.group == group));
+			ColonistBar.Entry entry = this.ColonistBar.Entries.Find((ColonistBar.Entry x) => x.group == group);
 			Map map = entry.map;
 			if (map == null)
 			{
 				if (WorldRendererUtility.WorldRenderedNow)
 				{
-					CameraJumper.TrySelect((Thing)entry.pawn);
+					CameraJumper.TrySelect(entry.pawn);
 				}
 				else
 				{
-					CameraJumper.TryJumpAndSelect((Thing)entry.pawn);
+					CameraJumper.TryJumpAndSelect(entry.pawn);
 				}
 			}
 			else
@@ -205,18 +203,18 @@ namespace RimWorld
 				}
 				Current.Game.VisibleMap = map;
 			}
-			goto IL_0155;
-			IL_0155:
+			goto IL_014c;
+			IL_014c:
 			if (Event.current.button == 1 && Widgets.ButtonInvisible(rect, false))
 			{
-				ColonistBar.Entry entry2 = this.ColonistBar.Entries.Find((Predicate<ColonistBar.Entry>)((ColonistBar.Entry x) => x.group == group));
+				ColonistBar.Entry entry2 = this.ColonistBar.Entries.Find((ColonistBar.Entry x) => x.group == group);
 				if (entry2.map != null)
 				{
 					CameraJumper.TryJumpAndSelect(CameraJumper.GetWorldTargetOfMap(entry2.map));
 				}
 				else if (entry2.pawn != null)
 				{
-					CameraJumper.TryJumpAndSelect((Thing)entry2.pawn);
+					CameraJumper.TryJumpAndSelect(entry2.pawn);
 				}
 			}
 		}

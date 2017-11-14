@@ -2,7 +2,8 @@ namespace Verse.Noise
 {
 	public class AxisAsValueZ : ModuleBase
 	{
-		public AxisAsValueZ() : base(0)
+		public AxisAsValueZ()
+			: base(0)
 		{
 		}
 

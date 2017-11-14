@@ -12,7 +12,7 @@ namespace Verse
 
 		public StunHandler stunner;
 
-		public bool debugLog = false;
+		public bool debugLog;
 
 		public bool FullBodyBusy
 		{

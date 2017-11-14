@@ -2,7 +2,7 @@ namespace Verse.AI
 {
 	public abstract class ThinkNode_Conditional : ThinkNode_Priority
 	{
-		public bool invert = false;
+		public bool invert;
 
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
@@ -13,7 +13,11 @@ namespace Verse.AI
 
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
-			return (this.Satisfied(pawn) != !this.invert) ? ThinkResult.NoJob : base.TryIssueJobPackage(pawn, jobParams);
+			if (this.Satisfied(pawn) == !this.invert)
+			{
+				return base.TryIssueJobPackage(pawn, jobParams);
+			}
+			return ThinkResult.NoJob;
 		}
 
 		protected abstract bool Satisfied(Pawn pawn);

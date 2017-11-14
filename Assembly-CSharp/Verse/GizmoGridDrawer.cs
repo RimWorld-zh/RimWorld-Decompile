@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -23,32 +22,36 @@ namespace Verse
 		{
 			get
 			{
-				return (float)((Time.frameCount <= GizmoGridDrawer.heightDrawnFrame + 2) ? GizmoGridDrawer.heightDrawn : 0.0);
+				if (Time.frameCount > GizmoGridDrawer.heightDrawnFrame + 2)
+				{
+					return 0f;
+				}
+				return GizmoGridDrawer.heightDrawn;
 			}
 		}
 
 		public static void DrawGizmoGrid(IEnumerable<Gizmo> gizmos, float startX, out Gizmo mouseoverGizmo)
 		{
 			GizmoGridDrawer.gizmoGroups.Clear();
-			foreach (Gizmo item in gizmos)
+			foreach (Gizmo gizmo4 in gizmos)
 			{
 				bool flag = false;
 				int num = 0;
 				while (num < GizmoGridDrawer.gizmoGroups.Count)
 				{
-					if (!GizmoGridDrawer.gizmoGroups[num][0].GroupsWith(item))
+					if (!GizmoGridDrawer.gizmoGroups[num][0].GroupsWith(gizmo4))
 					{
 						num++;
 						continue;
 					}
 					flag = true;
-					GizmoGridDrawer.gizmoGroups[num].Add(item);
+					GizmoGridDrawer.gizmoGroups[num].Add(gizmo4);
 					break;
 				}
 				if (!flag)
 				{
 					List<Gizmo> list = new List<Gizmo>();
-					list.Add(item);
+					list.Add(gizmo4);
 					GizmoGridDrawer.gizmoGroups.Add(list);
 				}
 			}
@@ -56,7 +59,7 @@ namespace Verse
 			for (int i = 0; i < GizmoGridDrawer.gizmoGroups.Count; i++)
 			{
 				List<Gizmo> source = GizmoGridDrawer.gizmoGroups[i];
-				Gizmo gizmo = source.FirstOrDefault((Func<Gizmo, bool>)((Gizmo opt) => !opt.disabled));
+				Gizmo gizmo = source.FirstOrDefault((Gizmo opt) => !opt.disabled);
 				if (gizmo == null)
 				{
 					gizmo = source.FirstOrDefault();
@@ -113,7 +116,7 @@ namespace Verse
 			}
 			if (interactedGiz != null)
 			{
-				List<Gizmo> list2 = GizmoGridDrawer.gizmoGroups.First((Func<List<Gizmo>, bool>)((List<Gizmo> group) => group.Contains(interactedGiz)));
+				List<Gizmo> list2 = GizmoGridDrawer.gizmoGroups.First((List<Gizmo> group) => group.Contains(interactedGiz));
 				for (int k = 0; k < list2.Count; k++)
 				{
 					Gizmo gizmo3 = list2[k];

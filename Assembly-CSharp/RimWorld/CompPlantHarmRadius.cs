@@ -47,7 +47,7 @@ namespace RimWorld
 						this.ticksToPlantHarm = 1;
 						num5 = GenMath.RoundRandom((float)(1.0 / num4));
 					}
-					for (int num6 = 0; num6 < num5; num6++)
+					for (int i = 0; i < num5; i++)
 					{
 						this.HarmRandomPlantInRadius(num);
 					}
@@ -67,7 +67,7 @@ namespace RimWorld
 					{
 						if (Rand.Value < 0.20000000298023224)
 						{
-							plant.Kill(default(DamageInfo?), null);
+							plant.Kill(null, null);
 						}
 					}
 					else

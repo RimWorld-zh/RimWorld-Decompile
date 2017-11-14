@@ -12,21 +12,16 @@ namespace RimWorld
 		{
 			get
 			{
-				Pawn result;
 				if (base.SelPawn != null)
 				{
-					result = base.SelPawn;
-					goto IL_004e;
+					return base.SelPawn;
 				}
 				Corpse corpse = base.SelThing as Corpse;
 				if (corpse != null)
 				{
-					result = corpse.InnerPawn;
-					goto IL_004e;
+					return corpse.InnerPawn;
 				}
 				throw new InvalidOperationException("Social tab on non-pawn non-corpse " + base.SelThing);
-				IL_004e:
-				return result;
 			}
 		}
 
@@ -38,6 +33,7 @@ namespace RimWorld
 
 		protected override void FillTab()
 		{
+			Text.Font = GameFont.Small;
 			Rect rect = new Rect(0f, 0f, base.size.x, base.size.y);
 			rect = rect.ContractedBy(10f);
 			rect.yMin += 17f;

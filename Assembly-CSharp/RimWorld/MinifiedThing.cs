@@ -21,7 +21,11 @@ namespace RimWorld
 		{
 			get
 			{
-				return (this.innerContainer.Count != 0) ? this.innerContainer[0] : null;
+				if (this.innerContainer.Count == 0)
+				{
+					return null;
+				}
+				return this.innerContainer[0];
 			}
 			set
 			{
@@ -107,7 +111,11 @@ namespace RimWorld
 		public override bool CanStackWith(Thing other)
 		{
 			MinifiedThing minifiedThing = other as MinifiedThing;
-			return minifiedThing != null && base.CanStackWith(other) && this.InnerThing.CanStackWith(minifiedThing.InnerThing);
+			if (minifiedThing == null)
+			{
+				return false;
+			}
+			return base.CanStackWith(other) && this.InnerThing.CanStackWith(minifiedThing.InnerThing);
 		}
 
 		public override void ExposeData()
@@ -175,7 +183,7 @@ namespace RimWorld
 
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -186,21 +194,30 @@ namespace RimWorld
 			}
 			yield return (Gizmo)InstallationDesignatorDatabase.DesignatorFor(base.def);
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_00eb:
-			/*Error near IL_00ec: Unexpected return in MoveNext()*/;
+			IL_00e7:
+			/*Error near IL_00e8: Unexpected return in MoveNext()*/;
 		}
 
 		public override string GetInspectString()
 		{
-			string str = "NotInstalled".Translate();
-			str += "\n";
-			return str + this.InnerThing.GetInspectString();
+			string text = "NotInstalled".Translate();
+			string inspectString = this.InnerThing.GetInspectString();
+			if (!inspectString.NullOrEmpty())
+			{
+				text += "\n";
+				text += inspectString;
+			}
+			return text;
 		}
 
 		private Vector2 GetMinifiedDrawSize(Vector2 drawSize, float maxSideLength)
 		{
 			float num = maxSideLength / Mathf.Max(drawSize.x, drawSize.y);
-			return (!(num >= 1.0)) ? (drawSize * num) : drawSize;
+			if (num >= 1.0)
+			{
+				return drawSize;
+			}
+			return drawSize * num;
 		}
 	}
 }

@@ -7,25 +7,25 @@ namespace Verse
 {
 	public class ResearchProjectDef : Def
 	{
-		public TechLevel techLevel = TechLevel.Undefined;
+		public TechLevel techLevel;
 
 		[MustTranslate]
-		private string descriptionDiscovered = (string)null;
+		private string descriptionDiscovered;
 
 		public float baseCost = 100f;
 
-		public List<ResearchProjectDef> prerequisites = null;
+		public List<ResearchProjectDef> prerequisites;
 
-		public List<ResearchProjectDef> requiredByThis = null;
+		public List<ResearchProjectDef> requiredByThis;
 
-		private List<ResearchMod> researchMods = null;
+		private List<ResearchMod> researchMods;
 
-		public ThingDef requiredResearchBuilding = null;
+		public ThingDef requiredResearchBuilding;
 
-		public List<ThingDef> requiredResearchFacilities = null;
+		public List<ThingDef> requiredResearchFacilities;
 
 		[NoTranslate]
-		public List<string> tags = null;
+		public List<string> tags;
 
 		public ResearchTabDef tab;
 
@@ -110,16 +110,12 @@ namespace Verse
 					for (int i = 0; i < this.prerequisites.Count; i++)
 					{
 						if (!this.prerequisites[i].IsFinished)
-							goto IL_002b;
+						{
+							return false;
+						}
 					}
 				}
-				bool result = true;
-				goto IL_0050;
-				IL_002b:
-				result = false;
-				goto IL_0050;
-				IL_0050:
-				return result;
+				return true;
 			}
 		}
 
@@ -127,7 +123,11 @@ namespace Verse
 		{
 			get
 			{
-				return (this.descriptionDiscovered == null) ? base.description : this.descriptionDiscovered;
+				if (this.descriptionDiscovered != null)
+				{
+					return this.descriptionDiscovered;
+				}
+				return base.description;
 			}
 		}
 
@@ -136,29 +136,19 @@ namespace Verse
 			get
 			{
 				List<Map> maps = Find.Maps;
-				int num = 0;
-				bool result;
-				while (true)
+				for (int i = 0; i < maps.Count; i++)
 				{
-					if (num < maps.Count)
+					List<Building> allBuildingsColonist = maps[i].listerBuildings.allBuildingsColonist;
+					for (int j = 0; j < allBuildingsColonist.Count; j++)
 					{
-						List<Building> allBuildingsColonist = maps[num].listerBuildings.allBuildingsColonist;
-						for (int i = 0; i < allBuildingsColonist.Count; i++)
+						Building_ResearchBench building_ResearchBench = allBuildingsColonist[j] as Building_ResearchBench;
+						if (building_ResearchBench != null && this.CanBeResearchedAt(building_ResearchBench, true))
 						{
-							Building_ResearchBench building_ResearchBench = allBuildingsColonist[i] as Building_ResearchBench;
-							if (building_ResearchBench != null && this.CanBeResearchedAt(building_ResearchBench, true))
-								goto IL_004c;
+							return true;
 						}
-						num++;
-						continue;
 					}
-					result = false;
-					break;
-					IL_004c:
-					result = true;
-					break;
 				}
-				return result;
+				return false;
 			}
 		}
 
@@ -172,7 +162,7 @@ namespace Verse
 
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = this._003CConfigErrors_003E__BaseCallProxy0().GetEnumerator())
+			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
 			{
 				if (enumerator.MoveNext())
 				{
@@ -206,72 +196,61 @@ namespace Verse
 			}
 			yield return "researchViewX and/or researchViewY not set";
 			/*Error: Unable to find new state assignment for yield return*/;
-			IL_02a2:
-			/*Error near IL_02a3: Unexpected return in MoveNext()*/;
+			IL_029c:
+			/*Error near IL_029d: Unexpected return in MoveNext()*/;
 		}
 
 		public float CostFactor(TechLevel researcherTechLevel)
 		{
-			float result;
 			if ((int)researcherTechLevel >= (int)this.techLevel)
 			{
-				result = 1f;
+				return 1f;
 			}
-			else
-			{
-				int num = this.techLevel - researcherTechLevel;
-				result = (float)(1.0 + (float)num);
-			}
-			return result;
+			int num = this.techLevel - researcherTechLevel;
+			return (float)(1.0 + (float)num);
 		}
 
 		public bool HasTag(string tag)
 		{
-			return this.tags != null && this.tags.Contains(tag);
+			if (this.tags == null)
+			{
+				return false;
+			}
+			return this.tags.Contains(tag);
 		}
 
 		public bool CanBeResearchedAt(Building_ResearchBench bench, bool ignoreResearchBenchPowerStatus)
 		{
-			bool result;
 			if (this.requiredResearchBuilding != null && bench.def != this.requiredResearchBuilding)
 			{
-				result = false;
+				return false;
 			}
-			else
+			if (!ignoreResearchBenchPowerStatus)
 			{
-				if (!ignoreResearchBenchPowerStatus)
+				CompPowerTrader comp = bench.GetComp<CompPowerTrader>();
+				if (comp != null && !comp.PowerOn)
 				{
-					CompPowerTrader comp = bench.GetComp<CompPowerTrader>();
-					if (comp != null && !comp.PowerOn)
-					{
-						result = false;
-						goto IL_00ff;
-					}
+					return false;
 				}
-				if (!this.requiredResearchFacilities.NullOrEmpty())
-				{
-					CompAffectedByFacilities affectedByFacilities = bench.TryGetComp<CompAffectedByFacilities>();
-					if (affectedByFacilities == null)
-					{
-						result = false;
-						goto IL_00ff;
-					}
-					List<Thing> linkedFacilitiesListForReading = affectedByFacilities.LinkedFacilitiesListForReading;
-					int i;
-					for (i = 0; i < this.requiredResearchFacilities.Count; i++)
-					{
-						if (linkedFacilitiesListForReading.Find((Predicate<Thing>)((Thing x) => x.def == this.requiredResearchFacilities[i] && affectedByFacilities.IsFacilityActive(x))) == null)
-							goto IL_00c8;
-					}
-				}
-				result = true;
 			}
-			goto IL_00ff;
-			IL_00c8:
-			result = false;
-			goto IL_00ff;
-			IL_00ff:
-			return result;
+			if (!this.requiredResearchFacilities.NullOrEmpty())
+			{
+				CompAffectedByFacilities affectedByFacilities = bench.TryGetComp<CompAffectedByFacilities>();
+				if (affectedByFacilities == null)
+				{
+					return false;
+				}
+				List<Thing> linkedFacilitiesListForReading = affectedByFacilities.LinkedFacilitiesListForReading;
+				int i;
+				for (i = 0; i < this.requiredResearchFacilities.Count; i++)
+				{
+					if (linkedFacilitiesListForReading.Find((Thing x) => x.def == this.requiredResearchFacilities[i] && affectedByFacilities.IsFacilityActive(x)) == null)
+					{
+						return false;
+					}
+				}
+			}
+			return true;
 		}
 
 		public void ReapplyAllMods()

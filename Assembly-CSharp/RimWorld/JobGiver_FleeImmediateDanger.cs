@@ -20,41 +20,31 @@ namespace RimWorld
 
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			Job result;
-			Job job;
 			if (pawn.playerSettings != null && pawn.playerSettings.UsesConfigurableHostilityResponse)
 			{
-				result = null;
+				return null;
 			}
-			else
+			List<Thing> list = pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.AlwaysFlee);
+			for (int i = 0; i < list.Count; i++)
 			{
-				List<Thing> list = pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.AlwaysFlee);
-				for (int i = 0; i < list.Count; i++)
+				if (pawn.Position.InHorDistOf(list[i].Position, 18f))
 				{
-					if (pawn.Position.InHorDistOf(list[i].Position, 18f))
+					Job job = this.FleeJob(pawn, list[i]);
+					if (job != null)
 					{
-						job = this.FleeJob(pawn, list[i]);
-						if (job != null)
-							goto IL_007e;
+						return job;
 					}
 				}
-				if (pawn.RaceProps.Animal && pawn.Faction == null)
-				{
-					Job job2 = this.FleeLargeFireJob(pawn);
-					if (job2 != null)
-					{
-						result = job2;
-						goto IL_00d3;
-					}
-				}
-				result = null;
 			}
-			goto IL_00d3;
-			IL_00d3:
-			return result;
-			IL_007e:
-			result = job;
-			goto IL_00d3;
+			if (pawn.RaceProps.Animal && pawn.Faction == null)
+			{
+				Job job2 = this.FleeLargeFireJob(pawn);
+				if (job2 != null)
+				{
+					return job2;
+				}
+			}
+			return null;
 		}
 
 		private Job FleeJob(Pawn pawn, Thing danger)
@@ -63,55 +53,51 @@ namespace RimWorld
 			{
 				danger
 			}, 18f) : pawn.CurJob.targetA.Cell;
-			return (!(intVec != pawn.Position)) ? null : new Job(JobDefOf.Flee, intVec, danger);
+			if (intVec != pawn.Position)
+			{
+				return new Job(JobDefOf.Flee, intVec, danger);
+			}
+			return null;
 		}
 
 		private Job FleeLargeFireJob(Pawn pawn)
 		{
 			List<Thing> list = pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.Fire);
-			Job result;
 			if (list.Count < 60)
 			{
-				result = null;
+				return null;
 			}
-			else
+			TraverseParms tp = TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
+			Fire closestFire = null;
+			float closestDistSq = -1f;
+			int firesCount = 0;
+			RegionTraverser.BreadthFirstTraverse(pawn.Position, pawn.Map, (Region from, Region to) => to.Allows(tp, false), delegate(Region x)
 			{
-				TraverseParms tp = TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
-				Fire closestFire = null;
-				float closestDistSq = -1f;
-				int firesCount = 0;
-				RegionTraverser.BreadthFirstTraverse(pawn.Position, pawn.Map, (RegionEntryPredicate)((Region from, Region to) => to.Allows(tp, false)), (RegionProcessor)delegate(Region x)
+				List<Thing> list2 = x.ListerThings.ThingsInGroup(ThingRequestGroup.Fire);
+				for (int i = 0; i < list2.Count; i++)
 				{
-					List<Thing> list2 = x.ListerThings.ThingsInGroup(ThingRequestGroup.Fire);
-					for (int i = 0; i < list2.Count; i++)
+					float num = (float)pawn.Position.DistanceToSquared(list2[i].Position);
+					if (!(num > 400.0))
 					{
-						float num = (float)pawn.Position.DistanceToSquared(list2[i].Position);
-						if (!(num > 400.0))
+						if (closestFire == null || num < closestDistSq)
 						{
-							if (closestFire == null || num < closestDistSq)
-							{
-								closestDistSq = num;
-								closestFire = (Fire)list2[i];
-							}
-							firesCount++;
+							closestDistSq = num;
+							closestFire = (Fire)list2[i];
 						}
-					}
-					return closestDistSq <= 100.0 && firesCount >= 60;
-				}, 18, RegionType.Set_Passable);
-				if (closestDistSq <= 100.0 && firesCount >= 60)
-				{
-					Job job = this.FleeJob(pawn, closestFire);
-					if (job != null)
-					{
-						result = job;
-						goto IL_00e3;
+						firesCount++;
 					}
 				}
-				result = null;
+				return closestDistSq <= 100.0 && firesCount >= 60;
+			}, 18, RegionType.Set_Passable);
+			if (closestDistSq <= 100.0 && firesCount >= 60)
+			{
+				Job job = this.FleeJob(pawn, closestFire);
+				if (job != null)
+				{
+					return job;
+				}
 			}
-			goto IL_00e3;
-			IL_00e3:
-			return result;
+			return null;
 		}
 	}
 }

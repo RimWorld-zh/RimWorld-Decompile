@@ -91,17 +91,16 @@ namespace Verse.AI
 
 		public HashSet<IAttackTarget> TargetsHostileToFaction(Faction f)
 		{
-			HashSet<IAttackTarget> result;
 			if (f == null)
 			{
 				Log.Warning("Called TargetsHostileToFaction with null faction.");
-				result = AttackTargetsCache.emptySet;
+				return AttackTargetsCache.emptySet;
 			}
-			else
+			if (this.targetsHostileToFaction.ContainsKey(f))
 			{
-				result = ((!this.targetsHostileToFaction.ContainsKey(f)) ? AttackTargetsCache.emptySet : this.targetsHostileToFaction[f]);
+				return this.targetsHostileToFaction[f];
 			}
-			return result;
+			return AttackTargetsCache.emptySet;
 		}
 
 		public void Notify_ThingSpawned(Thing th)
@@ -206,12 +205,12 @@ namespace Verse.AI
 		private void Debug_AssertHostile(Faction f, HashSet<IAttackTarget> targets)
 		{
 			AttackTargetsCache.tmpToUpdate.Clear();
-			foreach (IAttackTarget item in targets)
+			foreach (IAttackTarget target in targets)
 			{
-				if (!item.Thing.HostileTo(f))
+				if (!target.Thing.HostileTo(f))
 				{
-					AttackTargetsCache.tmpToUpdate.Add(item);
-					Log.Error("Target " + ((item == null) ? "null" : item.ToString()) + " is not hostile to " + ((f == null) ? "null" : f.ToString()) + " (in " + base.GetType().Name + ") but it's in the list (forgot to update the target somewhere?). Trying to update the target...");
+					AttackTargetsCache.tmpToUpdate.Add(target);
+					Log.Error("Target " + ((target == null) ? "null" : target.ToString()) + " is not hostile to " + ((f == null) ? "null" : f.ToString()) + " (in " + base.GetType().Name + ") but it's in the list (forgot to update the target somewhere?). Trying to update the target...");
 				}
 			}
 			for (int i = 0; i < AttackTargetsCache.tmpToUpdate.Count; i++)

@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -76,7 +75,11 @@ namespace Verse
 		public static int CountParametersInString(string input)
 		{
 			MatchCollection matchCollection = Regex.Matches(input, "(?<!\\{)\\{([0-9]+).*?\\}(?!})");
-			return (matchCollection.Count != 0) ? (matchCollection.Cast<Match>().Max((Func<Match, int>)((Match m) => int.Parse(m.Groups[1].Value))) + 1) : 0;
+			if (matchCollection.Count == 0)
+			{
+				return 0;
+			}
+			return matchCollection.Cast<Match>().Max((Match m) => int.Parse(m.Groups[1].Value)) + 1;
 		}
 	}
 }

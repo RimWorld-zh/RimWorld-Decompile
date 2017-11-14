@@ -8,7 +8,7 @@ namespace RimWorld
 	{
 		private HibernatableStateDef state = HibernatableStateDefOf.Running;
 
-		private int endStartupTick = 0;
+		private int endStartupTick;
 
 		public const string HibernateStartingSignal = "HibernateStarting";
 
@@ -73,7 +73,15 @@ namespace RimWorld
 
 		public override string CompInspectStringExtra()
 		{
-			return (this.State != HibernatableStateDefOf.Hibernating) ? ((this.State != HibernatableStateDefOf.Starting) ? null : string.Format("{0}: {1}", "HibernatableStartingUp".Translate(), (this.endStartupTick - Find.TickManager.TicksGame).ToStringTicksToPeriod(true, false, true))) : "HibernatableHibernating".Translate();
+			if (this.State == HibernatableStateDefOf.Hibernating)
+			{
+				return "HibernatableHibernating".Translate();
+			}
+			if (this.State == HibernatableStateDefOf.Starting)
+			{
+				return string.Format("{0}: {1}", "HibernatableStartingUp".Translate(), (this.endStartupTick - Find.TickManager.TicksGame).ToStringTicksToPeriod(true, false, true));
+			}
+			return null;
 		}
 
 		public override void CompTick()
@@ -82,7 +90,7 @@ namespace RimWorld
 			{
 				this.State = HibernatableStateDefOf.Running;
 				this.endStartupTick = 0;
-				Find.LetterStack.ReceiveLetter("HibernateCompleteLabel".Translate(), "HibernateComplete".Translate(), LetterDefOf.PositiveEvent, new GlobalTargetInfo(base.parent), (string)null);
+				Find.LetterStack.ReceiveLetter("HibernateCompleteLabel".Translate(), "HibernateComplete".Translate(), LetterDefOf.PositiveEvent, new GlobalTargetInfo(base.parent), null);
 			}
 		}
 

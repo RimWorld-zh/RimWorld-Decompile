@@ -10,7 +10,6 @@ namespace RimWorld
 
 		static PlantPosIndices()
 		{
-			PlantPosIndices.rootList = null;
 			PlantPosIndices.rootList = new int[25][][];
 			for (int i = 0; i < 25; i++)
 			{
@@ -18,9 +17,9 @@ namespace RimWorld
 				for (int j = 0; j < 8; j++)
 				{
 					int[] array = new int[i + 1];
-					for (int num = 0; num < i; num++)
+					for (int k = 0; k < i; k++)
 					{
-						array[num] = num;
+						array[k] = k;
 					}
 					array.Shuffle();
 					PlantPosIndices.rootList[i][j] = array;

@@ -8,7 +8,7 @@ namespace Verse.AI
 		public static Toil Wait(int ticks)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate
+			toil.initAction = delegate
 			{
 				toil.actor.pather.StopDead();
 			};
@@ -20,7 +20,7 @@ namespace Verse.AI
 		public static Toil WaitWith(TargetIndex targetInd, int ticks, bool useProgressBar = false, bool maintainPosture = false)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				toil.actor.pather.StopDead();
 				Pawn pawn = toil.actor.CurJob.GetTarget(targetInd).Thing as Pawn;
@@ -53,7 +53,7 @@ namespace Verse.AI
 		public static Toil RemoveDesignationsOnThing(TargetIndex ind, DesignationDef def)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
 				toil.actor.Map.designationManager.RemoveAllDesignationsOn(toil.actor.jobs.curJob.GetTarget(ind).Thing, false);
 			};
@@ -63,9 +63,9 @@ namespace Verse.AI
 		public static Toil ClearTarget(TargetIndex ind)
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate()
+			toil.initAction = delegate
 			{
-				toil.GetActor().CurJob.SetTarget(ind, (Thing)null);
+				toil.GetActor().CurJob.SetTarget(ind, null);
 			};
 			return toil;
 		}
@@ -73,7 +73,7 @@ namespace Verse.AI
 		public static Toil PutCarriedThingInInventory()
 		{
 			Toil toil = new Toil();
-			toil.initAction = (Action)delegate
+			toil.initAction = delegate
 			{
 				Pawn actor = toil.GetActor();
 				if (actor.carryTracker.CarriedThing != null && !actor.carryTracker.innerContainer.TryTransferToContainer(actor.carryTracker.CarriedThing, actor.inventory.innerContainer, true))
@@ -103,7 +103,7 @@ namespace Verse.AI
 		public static Toil Open(TargetIndex openableInd)
 		{
 			Toil open = new Toil();
-			open.initAction = (Action)delegate()
+			open.initAction = delegate
 			{
 				Pawn actor = open.actor;
 				Thing thing = actor.CurJob.GetTarget(openableInd).Thing;

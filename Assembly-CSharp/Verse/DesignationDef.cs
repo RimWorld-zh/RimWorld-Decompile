@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Verse
@@ -10,7 +9,7 @@ namespace Verse
 
 		public TargetType targetType;
 
-		public bool removeIfBuildingDespawned = false;
+		public bool removeIfBuildingDespawned;
 
 		public bool designateCancelable = true;
 
@@ -20,7 +19,7 @@ namespace Verse
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
-			LongEventHandler.ExecuteWhenFinished((Action)delegate
+			LongEventHandler.ExecuteWhenFinished(delegate
 			{
 				this.iconMat = MaterialPool.MatFrom(this.texturePath, ShaderDatabase.MetaOverlay);
 			});

@@ -7,40 +7,52 @@ namespace Verse.AI
 		public static bool IsCornerTouchAllowed(int cornerX, int cornerZ, int adjCardinal1X, int adjCardinal1Z, int adjCardinal2X, int adjCardinal2Z, Map map)
 		{
 			Building building = map.edificeGrid[new IntVec3(cornerX, 0, cornerZ)];
-			bool result;
 			if (building != null && TouchPathEndModeUtility.MakesOccupiedCellsAlwaysReachableDiagonally(building.def))
 			{
-				result = true;
+				return true;
 			}
-			else
+			IntVec3 intVec = new IntVec3(adjCardinal1X, 0, adjCardinal1Z);
+			IntVec3 intVec2 = new IntVec3(adjCardinal2X, 0, adjCardinal2Z);
+			if (map.pathGrid.Walkable(intVec) && intVec.GetDoor(map) == null)
 			{
-				IntVec3 intVec = new IntVec3(adjCardinal1X, 0, adjCardinal1Z);
-				IntVec3 intVec2 = new IntVec3(adjCardinal2X, 0, adjCardinal2Z);
-				if (map.pathGrid.Walkable(intVec) && intVec.GetDoor(map) == null)
-				{
-					goto IL_0087;
-				}
-				if (map.pathGrid.Walkable(intVec2) && intVec2.GetDoor(map) == null)
-					goto IL_0087;
-				result = false;
+				goto IL_0081;
 			}
-			goto IL_0096;
-			IL_0087:
-			result = true;
-			goto IL_0096;
-			IL_0096:
-			return result;
+			if (map.pathGrid.Walkable(intVec2) && intVec2.GetDoor(map) == null)
+				goto IL_0081;
+			return false;
+			IL_0081:
+			return true;
 		}
 
 		public static bool MakesOccupiedCellsAlwaysReachableDiagonally(ThingDef def)
 		{
 			ThingDef thingDef = (!def.IsFrame) ? def : (def.entityDefToBuild as ThingDef);
-			return (byte)((thingDef != null && thingDef.category == ThingCategory.Building && thingDef.holdsRoof && !thingDef.building.isNaturalRock) ? 1 : 0) != 0;
+			if (thingDef != null && thingDef.category == ThingCategory.Building && thingDef.holdsRoof && !thingDef.building.isNaturalRock)
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static bool IsAdjacentCornerAndNotAllowed(IntVec3 cell, IntVec3 BL, IntVec3 TL, IntVec3 TR, IntVec3 BR, Map map)
 		{
-			return (byte)((cell == BL && !TouchPathEndModeUtility.IsCornerTouchAllowed(BL.x + 1, BL.z + 1, BL.x + 1, BL.z, BL.x, BL.z + 1, map)) ? 1 : ((cell == TL && !TouchPathEndModeUtility.IsCornerTouchAllowed(TL.x + 1, TL.z - 1, TL.x + 1, TL.z, TL.x, TL.z - 1, map)) ? 1 : ((cell == TR && !TouchPathEndModeUtility.IsCornerTouchAllowed(TR.x - 1, TR.z - 1, TR.x - 1, TR.z, TR.x, TR.z - 1, map)) ? 1 : ((cell == BR && !TouchPathEndModeUtility.IsCornerTouchAllowed(BR.x - 1, BR.z + 1, BR.x - 1, BR.z, BR.x, BR.z + 1, map)) ? 1 : 0)))) != 0;
+			if (cell == BL && !TouchPathEndModeUtility.IsCornerTouchAllowed(BL.x + 1, BL.z + 1, BL.x + 1, BL.z, BL.x, BL.z + 1, map))
+			{
+				return true;
+			}
+			if (cell == TL && !TouchPathEndModeUtility.IsCornerTouchAllowed(TL.x + 1, TL.z - 1, TL.x + 1, TL.z, TL.x, TL.z - 1, map))
+			{
+				return true;
+			}
+			if (cell == TR && !TouchPathEndModeUtility.IsCornerTouchAllowed(TR.x - 1, TR.z - 1, TR.x - 1, TR.z, TR.x, TR.z - 1, map))
+			{
+				return true;
+			}
+			if (cell == BR && !TouchPathEndModeUtility.IsCornerTouchAllowed(BR.x - 1, BR.z + 1, BR.x - 1, BR.z, BR.x, BR.z + 1, map))
+			{
+				return true;
+			}
+			return false;
 		}
 
 		public static void AddAllowedAdjacentRegions(LocalTargetInfo dest, TraverseParms traverseParams, Map map, List<Region> regions)

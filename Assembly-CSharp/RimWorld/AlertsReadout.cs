@@ -11,9 +11,9 @@ namespace RimWorld
 	{
 		private List<Alert> activeAlerts = new List<Alert>(16);
 
-		private int curAlertIndex = 0;
+		private int curAlertIndex;
 
-		private float lastFinalY = 0f;
+		private float lastFinalY;
 
 		private int mouseoverAlertIndex = -1;
 
@@ -25,7 +25,7 @@ namespace RimWorld
 
 		private static int AlertCycleLength = 20;
 
-		private readonly List<AlertPriority> PriosInDrawOrder = null;
+		private readonly List<AlertPriority> PriosInDrawOrder;
 
 		public AlertsReadout()
 		{
@@ -73,9 +73,9 @@ namespace RimWorld
 					{
 						this.curAlertIndex = 0;
 					}
-					for (int num = this.curAlertIndex; num < this.AllAlerts.Count; num += AlertsReadout.AlertCycleLength)
+					for (int i = this.curAlertIndex; i < this.AllAlerts.Count; i += AlertsReadout.AlertCycleLength)
 					{
-						Alert alert = this.AllAlerts[num];
+						Alert alert = this.AllAlerts[i];
 						try
 						{
 							if (alert.Active)
@@ -88,15 +88,15 @@ namespace RimWorld
 							}
 							else
 							{
-								int num2 = 0;
-								while (num2 < this.activeAlerts.Count)
+								int num = 0;
+								while (num < this.activeAlerts.Count)
 								{
-									if (this.activeAlerts[num2] != alert)
+									if (this.activeAlerts[num] != alert)
 									{
-										num2++;
+										num++;
 										continue;
 									}
-									this.activeAlerts.RemoveAt(num2);
+									this.activeAlerts.RemoveAt(num);
 									break;
 								}
 							}
@@ -110,17 +110,17 @@ namespace RimWorld
 							}
 						}
 					}
-					for (int num3 = this.activeAlerts.Count - 1; num3 >= 0; num3--)
+					for (int num2 = this.activeAlerts.Count - 1; num2 >= 0; num2--)
 					{
-						Alert alert2 = this.activeAlerts[num3];
+						Alert alert2 = this.activeAlerts[num2];
 						try
 						{
-							this.activeAlerts[num3].AlertActiveUpdate();
+							this.activeAlerts[num2].AlertActiveUpdate();
 						}
 						catch (Exception ex2)
 						{
 							Log.ErrorOnce("Exception updating alert " + alert2.ToString() + ": " + ex2.ToString(), 743575);
-							this.activeAlerts.RemoveAt(num3);
+							this.activeAlerts.RemoveAt(num2);
 						}
 					}
 					if (this.mouseoverAlertIndex >= 0 && this.mouseoverAlertIndex < this.activeAlerts.Count)
@@ -139,7 +139,7 @@ namespace RimWorld
 
 		public void AlertsReadoutOnGUI()
 		{
-			if (((Event.current.type != EventType.Layout) ? this.activeAlerts.Count : 0) != 0)
+			if (Event.current.type != EventType.Layout && this.activeAlerts.Count != 0)
 			{
 				Alert alert = null;
 				AlertPriority alertPriority = AlertPriority.Critical;

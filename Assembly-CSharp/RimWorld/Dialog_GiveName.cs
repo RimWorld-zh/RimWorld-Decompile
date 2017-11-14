@@ -41,7 +41,7 @@ namespace RimWorld
 
 		public Dialog_GiveName()
 		{
-			if (((Find.AnyPlayerHomeMap != null) ? Find.AnyPlayerHomeMap.mapPawns.FreeColonistsCount : 0) != 0)
+			if (Find.AnyPlayerHomeMap != null && Find.AnyPlayerHomeMap.mapPawns.FreeColonistsCount != 0)
 			{
 				if (Find.AnyPlayerHomeMap.mapPawns.FreeColonistsSpawnedCount != 0)
 				{

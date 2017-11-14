@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -45,12 +44,11 @@ namespace RimWorld.Planet
 
 		public override string CompInspectStringExtra()
 		{
-			string result;
 			if (this.contents.Any)
 			{
 				ItemStashContentsComp.tmpContents.Clear();
 				ItemStashContentsComp.tmpContents.AddRange(this.contents);
-				ItemStashContentsComp.tmpContents.SortByDescending((Func<Thing, float>)((Thing x) => x.MarketValue * (float)x.stackCount));
+				ItemStashContentsComp.tmpContents.SortByDescending((Thing x) => x.MarketValue * (float)x.stackCount);
 				ItemStashContentsComp.tmpContentsStr.Clear();
 				for (int i = 0; i < Mathf.Min(5, ItemStashContentsComp.tmpContents.Count); i++)
 				{
@@ -60,13 +58,13 @@ namespace RimWorld.Planet
 				int count = ItemStashContentsComp.tmpContents.Count;
 				ItemStashContentsComp.tmpContents.Clear();
 				ItemStashContentsComp.tmpContentsStr.Clear();
-				result = ((count <= 5) ? "ItemStashContents".Translate(text) : "SomeItemStashContents".Translate(text));
+				if (count > 5)
+				{
+					return "SomeItemStashContents".Translate(text);
+				}
+				return "ItemStashContents".Translate(text);
 			}
-			else
-			{
-				result = (string)null;
-			}
-			return result;
+			return null;
 		}
 	}
 }

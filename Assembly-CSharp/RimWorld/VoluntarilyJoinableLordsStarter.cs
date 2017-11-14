@@ -9,7 +9,7 @@ namespace RimWorld
 
 		private int lastLordStartTick = -999999;
 
-		private bool startPartyASAP = false;
+		private bool startPartyASAP;
 
 		private const int CheckStartPartyIntervalTicks = 5000;
 
@@ -23,43 +23,33 @@ namespace RimWorld
 		public bool TryStartMarriageCeremony(Pawn firstFiance, Pawn secondFiance)
 		{
 			IntVec3 intVec = default(IntVec3);
-			bool result;
 			if (!RCellFinder.TryFindMarriageSite(firstFiance, secondFiance, out intVec))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				LordMaker.MakeNewLord(firstFiance.Faction, new LordJob_Joinable_MarriageCeremony(firstFiance, secondFiance, intVec), this.map, null);
-				Messages.Message("MessageNewMarriageCeremony".Translate(firstFiance.LabelShort, secondFiance.LabelShort), new TargetInfo(intVec, this.map, false), MessageTypeDefOf.PositiveEvent);
-				this.lastLordStartTick = Find.TickManager.TicksGame;
-				result = true;
-			}
-			return result;
+			LordMaker.MakeNewLord(firstFiance.Faction, new LordJob_Joinable_MarriageCeremony(firstFiance, secondFiance, intVec), this.map, null);
+			Messages.Message("MessageNewMarriageCeremony".Translate(firstFiance.LabelShort, secondFiance.LabelShort), new TargetInfo(intVec, this.map, false), MessageTypeDefOf.PositiveEvent);
+			this.lastLordStartTick = Find.TickManager.TicksGame;
+			return true;
 		}
 
 		public bool TryStartParty()
 		{
 			Pawn pawn = PartyUtility.FindRandomPartyOrganizer(Faction.OfPlayer, this.map);
-			bool result;
-			IntVec3 intVec = default(IntVec3);
 			if (pawn == null)
 			{
-				result = false;
+				return false;
 			}
-			else if (!RCellFinder.TryFindPartySpot(pawn, out intVec))
+			IntVec3 intVec = default(IntVec3);
+			if (!RCellFinder.TryFindPartySpot(pawn, out intVec))
 			{
-				result = false;
+				return false;
 			}
-			else
-			{
-				LordMaker.MakeNewLord(pawn.Faction, new LordJob_Joinable_Party(intVec, pawn), this.map, null);
-				Find.LetterStack.ReceiveLetter("LetterLabelNewParty".Translate(), "LetterNewParty".Translate(pawn.LabelShort), LetterDefOf.PositiveEvent, new TargetInfo(intVec, this.map, false), (string)null);
-				this.lastLordStartTick = Find.TickManager.TicksGame;
-				this.startPartyASAP = false;
-				result = true;
-			}
-			return result;
+			LordMaker.MakeNewLord(pawn.Faction, new LordJob_Joinable_Party(intVec, pawn), this.map, null);
+			Find.LetterStack.ReceiveLetter("LetterLabelNewParty".Translate(), "LetterNewParty".Translate(pawn.LabelShort), LetterDefOf.PositiveEvent, new TargetInfo(intVec, this.map, false), null);
+			this.lastLordStartTick = Find.TickManager.TicksGame;
+			this.startPartyASAP = false;
+			return true;
 		}
 
 		public void VoluntarilyJoinableLordsStarterTick()

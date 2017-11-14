@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,7 +17,7 @@ namespace Verse
 		public float selectionWeight = 100f;
 
 		[NoTranslate]
-		public string scatterType = "";
+		public string scatterType = string.Empty;
 
 		public Material mat;
 
@@ -29,7 +28,7 @@ namespace Verse
 			{
 				base.defName = "Scatterable_" + this.texturePath;
 			}
-			LongEventHandler.ExecuteWhenFinished((Action)delegate
+			LongEventHandler.ExecuteWhenFinished(delegate
 			{
 				this.mat = MaterialPool.MatFrom(this.texturePath, ShaderDatabase.Transparent);
 			});
