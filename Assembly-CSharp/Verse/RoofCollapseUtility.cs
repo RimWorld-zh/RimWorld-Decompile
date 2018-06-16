@@ -1,55 +1,61 @@
+﻿using System;
+
 namespace Verse
 {
+	// Token: 0x02000CA1 RID: 3233
 	public static class RoofCollapseUtility
 	{
-		public const float RoofMaxSupportDistance = 6.9f;
-
-		public static readonly int RoofSupportRadialCellsCount = GenRadial.NumCellsInRadius(6.9f);
-
-		public static bool WithinRangeOfRoofHolder(IntVec3 c, Map map)
+		// Token: 0x06004721 RID: 18209 RVA: 0x00257918 File Offset: 0x00255D18
+		public static bool WithinRangeOfRoofHolder(IntVec3 c, Map map, bool assumeNonNoRoofCellsAreRoofed = false)
 		{
-			CellIndices cellIndices = map.cellIndices;
-			Building[] innerArray = map.edificeGrid.InnerArray;
-			for (int i = 0; i < RoofCollapseUtility.RoofSupportRadialCellsCount; i++)
+			bool connected = false;
+			map.floodFiller.FloodFill(c, (IntVec3 x) => (x.Roofed(map) || x == c || (assumeNonNoRoofCellsAreRoofed && !map.areaManager.NoRoof[x])) && x.InHorDistOf(c, 6.9f), delegate(IntVec3 x)
 			{
-				IntVec3 c2 = c + GenRadial.RadialPattern[i];
-				if (c2.InBounds(map))
+				for (int i = 0; i < 5; i++)
 				{
-					Building building = innerArray[cellIndices.CellToIndex(c2)];
-					if (building != null && building.def.holdsRoof)
+					IntVec3 c2 = x + GenAdj.CardinalDirectionsAndInside[i];
+					if (c2.InBounds(map) && c2.InHorDistOf(c, 6.9f))
 					{
-						return true;
+						Building edifice = c2.GetEdifice(map);
+						if (edifice != null && edifice.def.holdsRoof)
+						{
+							connected = true;
+							return true;
+						}
 					}
 				}
-			}
-			return false;
+				return false;
+			}, int.MaxValue, false, null);
+			return connected;
 		}
 
+		// Token: 0x06004722 RID: 18210 RVA: 0x0025798C File Offset: 0x00255D8C
 		public static bool ConnectedToRoofHolder(IntVec3 c, Map map, bool assumeRoofAtRoot)
 		{
 			bool connected = false;
 			map.floodFiller.FloodFill(c, (IntVec3 x) => (x.Roofed(map) || (x == c && assumeRoofAtRoot)) && !connected, delegate(IntVec3 x)
 			{
-				int num = 0;
-				while (true)
+				for (int i = 0; i < 5; i++)
 				{
-					if (num < 5)
+					IntVec3 c2 = x + GenAdj.CardinalDirectionsAndInside[i];
+					if (c2.InBounds(map))
 					{
-						IntVec3 c2 = x + GenAdj.CardinalDirectionsAndInside[num];
-						if (c2.InBounds(map))
+						Building edifice = c2.GetEdifice(map);
+						if (edifice != null && edifice.def.holdsRoof)
 						{
-							Building edifice = c2.GetEdifice(map);
-							if (edifice != null && edifice.def.holdsRoof)
-								break;
+							connected = true;
+							break;
 						}
-						num++;
-						continue;
 					}
-					return;
 				}
-				connected = true;
-			}, 2147483647, false, null);
+			}, int.MaxValue, false, null);
 			return connected;
 		}
+
+		// Token: 0x04003055 RID: 12373
+		public const float RoofMaxSupportDistance = 6.9f;
+
+		// Token: 0x04003056 RID: 12374
+		public static readonly int RoofSupportRadialCellsCount = GenRadial.NumCellsInRadius(6.9f);
 	}
 }

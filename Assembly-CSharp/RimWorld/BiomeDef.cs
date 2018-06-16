@@ -1,78 +1,17 @@
-using RimWorld.Planet;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200028D RID: 653
 	public class BiomeDef : Def
 	{
-		public Type workerClass = typeof(BiomeWorker);
-
-		public bool implemented = true;
-
-		public bool canBuildBase = true;
-
-		public bool canAutoChoose = true;
-
-		public bool allowRoads = true;
-
-		public bool allowRivers = true;
-
-		public float animalDensity;
-
-		public float plantDensity;
-
-		public float diseaseMtbDays = 60f;
-
-		public float factionBaseSelectionWeight = 1f;
-
-		public bool impassable;
-
-		public bool hasVirtualPlants = true;
-
-		public int pathCost_spring = 1650;
-
-		public int pathCost_summer = 1650;
-
-		public int pathCost_fall = 1650;
-
-		public int pathCost_winter = 27500;
-
-		public List<WeatherCommonalityRecord> baseWeatherCommonalities = new List<WeatherCommonalityRecord>();
-
-		public List<TerrainThreshold> terrainsByFertility = new List<TerrainThreshold>();
-
-		public List<SoundDef> soundsAmbient = new List<SoundDef>();
-
-		public List<TerrainPatchMaker> terrainPatchMakers = new List<TerrainPatchMaker>();
-
-		private List<BiomePlantRecord> wildPlants = new List<BiomePlantRecord>();
-
-		private List<BiomeAnimalRecord> wildAnimals = new List<BiomeAnimalRecord>();
-
-		private List<BiomeDiseaseRecord> diseases = new List<BiomeDiseaseRecord>();
-
-		private List<ThingDef> allowedPackAnimals = new List<ThingDef>();
-
-		public string texture;
-
-		[Unsaved]
-		private Dictionary<PawnKindDef, float> cachedAnimalCommonalities;
-
-		[Unsaved]
-		private Dictionary<ThingDef, float> cachedPlantCommonalities;
-
-		[Unsaved]
-		private Dictionary<IncidentDef, float> cachedDiseaseCommonalities;
-
-		[Unsaved]
-		private Material cachedMat;
-
-		[Unsaved]
-		private BiomeWorker workerInt;
-
+		// Token: 0x17000197 RID: 407
+		// (get) Token: 0x06000B04 RID: 2820 RVA: 0x00063D14 File Offset: 0x00062114
 		public BiomeWorker Worker
 		{
 			get
@@ -85,11 +24,13 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000198 RID: 408
+		// (get) Token: 0x06000B05 RID: 2821 RVA: 0x00063D50 File Offset: 0x00062150
 		public Material DrawMaterial
 		{
 			get
 			{
-				if ((UnityEngine.Object)this.cachedMat == (UnityEngine.Object)null)
+				if (this.cachedMat == null)
 				{
 					if (this.texture.NullOrEmpty())
 					{
@@ -97,15 +38,15 @@ namespace RimWorld
 					}
 					if (this == BiomeDefOf.Ocean || this == BiomeDefOf.Lake)
 					{
-						this.cachedMat = new Material(WorldMaterials.WorldOcean);
+						this.cachedMat = MaterialAllocator.Create(WorldMaterials.WorldOcean);
 					}
 					else if (!this.allowRoads && !this.allowRivers)
 					{
-						this.cachedMat = new Material(WorldMaterials.WorldIce);
+						this.cachedMat = MaterialAllocator.Create(WorldMaterials.WorldIce);
 					}
 					else
 					{
-						this.cachedMat = new Material(WorldMaterials.WorldTerrain);
+						this.cachedMat = MaterialAllocator.Create(WorldMaterials.WorldTerrain);
 					}
 					this.cachedMat.mainTexture = ContentFinder<Texture2D>.Get(this.texture, true);
 				}
@@ -113,42 +54,115 @@ namespace RimWorld
 			}
 		}
 
-		public IEnumerable<ThingDef> AllWildPlants
+		// Token: 0x17000199 RID: 409
+		// (get) Token: 0x06000B06 RID: 2822 RVA: 0x00063E14 File Offset: 0x00062214
+		public List<ThingDef> AllWildPlants
 		{
 			get
 			{
-				foreach (ThingDef allDef in DefDatabase<ThingDef>.AllDefs)
+				if (this.cachedWildPlants == null)
 				{
-					if (allDef.category == ThingCategory.Plant && this.CommonalityOfPlant(allDef) > 0.0)
+					this.cachedWildPlants = new List<ThingDef>();
+					foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefsListForReading)
 					{
-						yield return allDef;
-						/*Error: Unable to find new state assignment for yield return*/;
+						if (thingDef.category == ThingCategory.Plant && this.CommonalityOfPlant(thingDef) > 0f)
+						{
+							this.cachedWildPlants.Add(thingDef);
+						}
 					}
 				}
-				yield break;
-				IL_00df:
-				/*Error near IL_00e0: Unexpected return in MoveNext()*/;
+				return this.cachedWildPlants;
 			}
 		}
 
+		// Token: 0x1700019A RID: 410
+		// (get) Token: 0x06000B07 RID: 2823 RVA: 0x00063EBC File Offset: 0x000622BC
+		public int MaxWildAndCavePlantsClusterRadius
+		{
+			get
+			{
+				int? num = this.cachedMaxWildPlantsClusterRadius;
+				if (num == null)
+				{
+					this.cachedMaxWildPlantsClusterRadius = new int?(0);
+					List<ThingDef> allWildPlants = this.AllWildPlants;
+					for (int i = 0; i < allWildPlants.Count; i++)
+					{
+						if (allWildPlants[i].plant.GrowsInClusters)
+						{
+							this.cachedMaxWildPlantsClusterRadius = new int?(Mathf.Max(this.cachedMaxWildPlantsClusterRadius.Value, allWildPlants[i].plant.wildClusterRadius));
+						}
+					}
+					List<ThingDef> allDefsListForReading = DefDatabase<ThingDef>.AllDefsListForReading;
+					for (int j = 0; j < allDefsListForReading.Count; j++)
+					{
+						if (allDefsListForReading[j].category == ThingCategory.Plant && allDefsListForReading[j].plant.cavePlant)
+						{
+							this.cachedMaxWildPlantsClusterRadius = new int?(Mathf.Max(this.cachedMaxWildPlantsClusterRadius.Value, allDefsListForReading[j].plant.wildClusterRadius));
+						}
+					}
+				}
+				return this.cachedMaxWildPlantsClusterRadius.Value;
+			}
+		}
+
+		// Token: 0x1700019B RID: 411
+		// (get) Token: 0x06000B08 RID: 2824 RVA: 0x00063FE0 File Offset: 0x000623E0
+		public float LowestWildAndCavePlantOrder
+		{
+			get
+			{
+				float? num = this.cachedLowestWildPlantOrder;
+				if (num == null)
+				{
+					this.cachedLowestWildPlantOrder = new float?(2.14748365E+09f);
+					List<ThingDef> allWildPlants = this.AllWildPlants;
+					for (int i = 0; i < allWildPlants.Count; i++)
+					{
+						this.cachedLowestWildPlantOrder = new float?(Mathf.Min(this.cachedLowestWildPlantOrder.Value, allWildPlants[i].plant.wildOrder));
+					}
+					List<ThingDef> allDefsListForReading = DefDatabase<ThingDef>.AllDefsListForReading;
+					for (int j = 0; j < allDefsListForReading.Count; j++)
+					{
+						if (allDefsListForReading[j].category == ThingCategory.Plant && allDefsListForReading[j].plant.cavePlant)
+						{
+							this.cachedLowestWildPlantOrder = new float?(Mathf.Min(this.cachedLowestWildPlantOrder.Value, allDefsListForReading[j].plant.wildOrder));
+						}
+					}
+				}
+				return this.cachedLowestWildPlantOrder.Value;
+			}
+		}
+
+		// Token: 0x1700019C RID: 412
+		// (get) Token: 0x06000B09 RID: 2825 RVA: 0x000640F0 File Offset: 0x000624F0
 		public IEnumerable<PawnKindDef> AllWildAnimals
 		{
 			get
 			{
-				foreach (PawnKindDef allDef in DefDatabase<PawnKindDef>.AllDefs)
+				foreach (PawnKindDef kindDef in DefDatabase<PawnKindDef>.AllDefs)
 				{
-					if (this.CommonalityOfAnimal(allDef) > 0.0)
+					if (this.CommonalityOfAnimal(kindDef) > 0f)
 					{
-						yield return allDef;
-						/*Error: Unable to find new state assignment for yield return*/;
+						yield return kindDef;
 					}
 				}
 				yield break;
-				IL_00ce:
-				/*Error near IL_00cf: Unexpected return in MoveNext()*/;
 			}
 		}
 
+		// Token: 0x1700019D RID: 413
+		// (get) Token: 0x06000B0A RID: 2826 RVA: 0x0006411C File Offset: 0x0006251C
+		public float PlantCommonalitiesSum
+		{
+			get
+			{
+				this.CachePlantCommonalitiesIfShould();
+				return this.cachedPlantCommonalitiesSum;
+			}
+		}
+
+		// Token: 0x06000B0B RID: 2827 RVA: 0x00064140 File Offset: 0x00062540
 		public float CommonalityOfAnimal(PawnKindDef animalDef)
 		{
 			if (this.cachedAnimalCommonalities == null)
@@ -158,59 +172,57 @@ namespace RimWorld
 				{
 					this.cachedAnimalCommonalities.Add(this.wildAnimals[i].animal, this.wildAnimals[i].commonality);
 				}
-				foreach (PawnKindDef allDef in DefDatabase<PawnKindDef>.AllDefs)
+				foreach (PawnKindDef pawnKindDef in DefDatabase<PawnKindDef>.AllDefs)
 				{
-					if (allDef.RaceProps.wildBiomes != null)
+					if (pawnKindDef.RaceProps.wildBiomes != null)
 					{
-						for (int j = 0; j < allDef.RaceProps.wildBiomes.Count; j++)
+						for (int j = 0; j < pawnKindDef.RaceProps.wildBiomes.Count; j++)
 						{
-							if (allDef.RaceProps.wildBiomes[j].biome == this)
+							if (pawnKindDef.RaceProps.wildBiomes[j].biome == this)
 							{
-								this.cachedAnimalCommonalities.Add(allDef, allDef.RaceProps.wildBiomes[j].commonality);
+								this.cachedAnimalCommonalities.Add(pawnKindDef, pawnKindDef.RaceProps.wildBiomes[j].commonality);
 							}
 						}
 					}
 				}
 			}
-			float result = default(float);
-			if (this.cachedAnimalCommonalities.TryGetValue(animalDef, out result))
+			float num;
+			float result;
+			if (this.cachedAnimalCommonalities.TryGetValue(animalDef, out num))
 			{
-				return result;
+				result = num;
 			}
-			return 0f;
+			else
+			{
+				result = 0f;
+			}
+			return result;
 		}
 
+		// Token: 0x06000B0C RID: 2828 RVA: 0x00064298 File Offset: 0x00062698
 		public float CommonalityOfPlant(ThingDef plantDef)
 		{
-			if (this.cachedPlantCommonalities == null)
+			this.CachePlantCommonalitiesIfShould();
+			float num;
+			float result;
+			if (this.cachedPlantCommonalities.TryGetValue(plantDef, out num))
 			{
-				this.cachedPlantCommonalities = new Dictionary<ThingDef, float>();
-				for (int i = 0; i < this.wildPlants.Count; i++)
-				{
-					this.cachedPlantCommonalities.Add(this.wildPlants[i].plant, this.wildPlants[i].commonality);
-				}
-				foreach (ThingDef allDef in DefDatabase<ThingDef>.AllDefs)
-				{
-					if (allDef.plant != null && allDef.plant.wildBiomes != null)
-					{
-						for (int j = 0; j < allDef.plant.wildBiomes.Count; j++)
-						{
-							if (allDef.plant.wildBiomes[j].biome == this)
-							{
-								this.cachedPlantCommonalities.Add(allDef, allDef.plant.wildBiomes[j].commonality);
-							}
-						}
-					}
-				}
+				result = num;
 			}
-			float result = default(float);
-			if (this.cachedPlantCommonalities.TryGetValue(plantDef, out result))
+			else
 			{
-				return result;
+				result = 0f;
 			}
-			return 0f;
+			return result;
 		}
 
+		// Token: 0x06000B0D RID: 2829 RVA: 0x000642D4 File Offset: 0x000626D4
+		public float CommonalityPctOfPlant(ThingDef plantDef)
+		{
+			return this.CommonalityOfPlant(plantDef) / this.PlantCommonalitiesSum;
+		}
+
+		// Token: 0x06000B0E RID: 2830 RVA: 0x000642F8 File Offset: 0x000626F8
 		public float CommonalityOfDisease(IncidentDef diseaseInc)
 		{
 			if (this.cachedDiseaseCommonalities == null)
@@ -220,36 +232,212 @@ namespace RimWorld
 				{
 					this.cachedDiseaseCommonalities.Add(this.diseases[i].diseaseInc, this.diseases[i].commonality);
 				}
-				foreach (IncidentDef allDef in DefDatabase<IncidentDef>.AllDefs)
+				foreach (IncidentDef incidentDef in DefDatabase<IncidentDef>.AllDefs)
 				{
-					if (allDef.diseaseBiomeRecords != null)
+					if (incidentDef.diseaseBiomeRecords != null)
 					{
-						for (int j = 0; j < allDef.diseaseBiomeRecords.Count; j++)
+						for (int j = 0; j < incidentDef.diseaseBiomeRecords.Count; j++)
 						{
-							if (allDef.diseaseBiomeRecords[j].biome == this)
+							if (incidentDef.diseaseBiomeRecords[j].biome == this)
 							{
-								this.cachedDiseaseCommonalities.Add(allDef.diseaseBiomeRecords[j].diseaseInc, allDef.diseaseBiomeRecords[j].commonality);
+								this.cachedDiseaseCommonalities.Add(incidentDef.diseaseBiomeRecords[j].diseaseInc, incidentDef.diseaseBiomeRecords[j].commonality);
 							}
 						}
 					}
 				}
 			}
-			float result = default(float);
-			if (this.cachedDiseaseCommonalities.TryGetValue(diseaseInc, out result))
+			float num;
+			float result;
+			if (this.cachedDiseaseCommonalities.TryGetValue(diseaseInc, out num))
 			{
-				return result;
+				result = num;
 			}
-			return 0f;
+			else
+			{
+				result = 0f;
+			}
+			return result;
 		}
 
+		// Token: 0x06000B0F RID: 2831 RVA: 0x0006444C File Offset: 0x0006284C
 		public bool IsPackAnimalAllowed(ThingDef pawn)
 		{
 			return this.allowedPackAnimals.Contains(pawn);
 		}
 
+		// Token: 0x06000B10 RID: 2832 RVA: 0x00064470 File Offset: 0x00062870
 		public static BiomeDef Named(string defName)
 		{
 			return DefDatabase<BiomeDef>.GetNamed(defName, true);
 		}
+
+		// Token: 0x06000B11 RID: 2833 RVA: 0x0006448C File Offset: 0x0006288C
+		private void CachePlantCommonalitiesIfShould()
+		{
+			if (this.cachedPlantCommonalities == null)
+			{
+				this.cachedPlantCommonalities = new Dictionary<ThingDef, float>();
+				for (int i = 0; i < this.wildPlants.Count; i++)
+				{
+					this.cachedPlantCommonalities.Add(this.wildPlants[i].plant, this.wildPlants[i].commonality);
+				}
+				foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
+				{
+					if (thingDef.plant != null && thingDef.plant.wildBiomes != null)
+					{
+						for (int j = 0; j < thingDef.plant.wildBiomes.Count; j++)
+						{
+							if (thingDef.plant.wildBiomes[j].biome == this)
+							{
+								this.cachedPlantCommonalities.Add(thingDef, thingDef.plant.wildBiomes[j].commonality);
+							}
+						}
+					}
+				}
+				this.cachedPlantCommonalitiesSum = this.cachedPlantCommonalities.Sum((KeyValuePair<ThingDef, float> x) => x.Value);
+			}
+		}
+
+		// Token: 0x06000B12 RID: 2834 RVA: 0x000645F0 File Offset: 0x000629F0
+		public override IEnumerable<string> ConfigErrors()
+		{
+			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
+			{
+				yield return e;
+			}
+			if (Prefs.DevMode)
+			{
+				using (List<BiomeAnimalRecord>.Enumerator enumerator2 = this.wildAnimals.GetEnumerator())
+				{
+					while (enumerator2.MoveNext())
+					{
+						BiomeAnimalRecord wa = enumerator2.Current;
+						if (this.wildAnimals.Count((BiomeAnimalRecord a) => a.animal == wa.animal) > 1)
+						{
+							yield return "Duplicate animal record: " + wa.animal.defName;
+						}
+					}
+				}
+			}
+			yield break;
+		}
+
+		// Token: 0x0400056F RID: 1391
+		public Type workerClass = typeof(BiomeWorker);
+
+		// Token: 0x04000570 RID: 1392
+		public bool implemented = true;
+
+		// Token: 0x04000571 RID: 1393
+		public bool canBuildBase = true;
+
+		// Token: 0x04000572 RID: 1394
+		public bool canAutoChoose = true;
+
+		// Token: 0x04000573 RID: 1395
+		public bool allowRoads = true;
+
+		// Token: 0x04000574 RID: 1396
+		public bool allowRivers = true;
+
+		// Token: 0x04000575 RID: 1397
+		public float animalDensity = 0f;
+
+		// Token: 0x04000576 RID: 1398
+		public float plantDensity = 0f;
+
+		// Token: 0x04000577 RID: 1399
+		public float diseaseMtbDays = 60f;
+
+		// Token: 0x04000578 RID: 1400
+		public float factionBaseSelectionWeight = 1f;
+
+		// Token: 0x04000579 RID: 1401
+		public bool impassable;
+
+		// Token: 0x0400057A RID: 1402
+		public bool hasVirtualPlants = true;
+
+		// Token: 0x0400057B RID: 1403
+		public float forageability;
+
+		// Token: 0x0400057C RID: 1404
+		public ThingDef foragedFood;
+
+		// Token: 0x0400057D RID: 1405
+		public bool wildPlantsCareAboutLocalFertility = true;
+
+		// Token: 0x0400057E RID: 1406
+		public float wildPlantRegrowDays = 25f;
+
+		// Token: 0x0400057F RID: 1407
+		public float movementDifficulty = 1f;
+
+		// Token: 0x04000580 RID: 1408
+		public List<WeatherCommonalityRecord> baseWeatherCommonalities = new List<WeatherCommonalityRecord>();
+
+		// Token: 0x04000581 RID: 1409
+		public List<TerrainThreshold> terrainsByFertility = new List<TerrainThreshold>();
+
+		// Token: 0x04000582 RID: 1410
+		public List<SoundDef> soundsAmbient = new List<SoundDef>();
+
+		// Token: 0x04000583 RID: 1411
+		public List<TerrainPatchMaker> terrainPatchMakers = new List<TerrainPatchMaker>();
+
+		// Token: 0x04000584 RID: 1412
+		private List<BiomePlantRecord> wildPlants = new List<BiomePlantRecord>();
+
+		// Token: 0x04000585 RID: 1413
+		private List<BiomeAnimalRecord> wildAnimals = new List<BiomeAnimalRecord>();
+
+		// Token: 0x04000586 RID: 1414
+		private List<BiomeDiseaseRecord> diseases = new List<BiomeDiseaseRecord>();
+
+		// Token: 0x04000587 RID: 1415
+		private List<ThingDef> allowedPackAnimals = new List<ThingDef>();
+
+		// Token: 0x04000588 RID: 1416
+		public bool hasBedrock = true;
+
+		// Token: 0x04000589 RID: 1417
+		[NoTranslate]
+		public string texture;
+
+		// Token: 0x0400058A RID: 1418
+		[Unsaved]
+		private Dictionary<PawnKindDef, float> cachedAnimalCommonalities = null;
+
+		// Token: 0x0400058B RID: 1419
+		[Unsaved]
+		private Dictionary<ThingDef, float> cachedPlantCommonalities = null;
+
+		// Token: 0x0400058C RID: 1420
+		[Unsaved]
+		private Dictionary<IncidentDef, float> cachedDiseaseCommonalities = null;
+
+		// Token: 0x0400058D RID: 1421
+		[Unsaved]
+		private Material cachedMat;
+
+		// Token: 0x0400058E RID: 1422
+		[Unsaved]
+		private List<ThingDef> cachedWildPlants;
+
+		// Token: 0x0400058F RID: 1423
+		[Unsaved]
+		private int? cachedMaxWildPlantsClusterRadius;
+
+		// Token: 0x04000590 RID: 1424
+		[Unsaved]
+		private float cachedPlantCommonalitiesSum;
+
+		// Token: 0x04000591 RID: 1425
+		[Unsaved]
+		private float? cachedLowestWildPlantOrder;
+
+		// Token: 0x04000592 RID: 1426
+		[Unsaved]
+		private BiomeWorker workerInt;
 	}
 }

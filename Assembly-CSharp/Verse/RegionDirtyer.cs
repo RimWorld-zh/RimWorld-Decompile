@@ -1,15 +1,19 @@
+﻿using System;
 using System.Collections.Generic;
 
 namespace Verse
 {
+	// Token: 0x02000C8C RID: 3212
 	public class RegionDirtyer
 	{
-		private Map map;
+		// Token: 0x06004664 RID: 18020 RVA: 0x00251532 File Offset: 0x0024F932
+		public RegionDirtyer(Map map)
+		{
+			this.map = map;
+		}
 
-		private List<IntVec3> dirtyCells = new List<IntVec3>();
-
-		private List<Region> regionsToDirty = new List<Region>();
-
+		// Token: 0x17000B17 RID: 2839
+		// (get) Token: 0x06004665 RID: 18021 RVA: 0x00251558 File Offset: 0x0024F958
 		public bool AnyDirty
 		{
 			get
@@ -18,6 +22,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000B18 RID: 2840
+		// (get) Token: 0x06004666 RID: 18022 RVA: 0x0025157C File Offset: 0x0024F97C
 		public List<IntVec3> DirtyCells
 		{
 			get
@@ -26,11 +32,7 @@ namespace Verse
 			}
 		}
 
-		public RegionDirtyer(Map map)
-		{
-			this.map = map;
-		}
-
+		// Token: 0x06004667 RID: 18023 RVA: 0x00251598 File Offset: 0x0024F998
 		internal void Notify_WalkabilityChanged(IntVec3 c)
 		{
 			this.regionsToDirty.Clear();
@@ -58,18 +60,18 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004668 RID: 18024 RVA: 0x002516A0 File Offset: 0x0024FAA0
 		internal void Notify_ThingAffectingRegionsSpawned(Thing b)
 		{
 			this.regionsToDirty.Clear();
-			CellRect.CellRectIterator iterator = b.OccupiedRect().ExpandedBy(1).ClipInsideMap(b.Map)
-				.GetIterator();
+			CellRect.CellRectIterator iterator = b.OccupiedRect().ExpandedBy(1).ClipInsideMap(b.Map).GetIterator();
 			while (!iterator.Done())
 			{
-				IntVec3 current = iterator.Current;
-				Region validRegionAt_NoRebuild = b.Map.regionGrid.GetValidRegionAt_NoRebuild(current);
+				IntVec3 c = iterator.Current;
+				Region validRegionAt_NoRebuild = b.Map.regionGrid.GetValidRegionAt_NoRebuild(c);
 				if (validRegionAt_NoRebuild != null)
 				{
-					b.Map.temperatureCache.TryCacheRegionTempInfo(current, validRegionAt_NoRebuild);
+					b.Map.temperatureCache.TryCacheRegionTempInfo(c, validRegionAt_NoRebuild);
 					this.regionsToDirty.Add(validRegionAt_NoRebuild);
 				}
 				iterator.MoveNext();
@@ -81,6 +83,7 @@ namespace Verse
 			this.regionsToDirty.Clear();
 		}
 
+		// Token: 0x06004669 RID: 18025 RVA: 0x00251784 File Offset: 0x0024FB84
 		internal void Notify_ThingAffectingRegionsDespawned(Thing b)
 		{
 			this.regionsToDirty.Clear();
@@ -90,14 +93,14 @@ namespace Verse
 				this.map.temperatureCache.TryCacheRegionTempInfo(b.Position, validRegionAt_NoRebuild);
 				this.regionsToDirty.Add(validRegionAt_NoRebuild);
 			}
-			foreach (IntVec3 item2 in GenAdj.CellsAdjacent8Way(b))
+			foreach (IntVec3 c in GenAdj.CellsAdjacent8Way(b))
 			{
-				if (item2.InBounds(this.map))
+				if (c.InBounds(this.map))
 				{
-					Region validRegionAt_NoRebuild2 = this.map.regionGrid.GetValidRegionAt_NoRebuild(item2);
+					Region validRegionAt_NoRebuild2 = this.map.regionGrid.GetValidRegionAt_NoRebuild(c);
 					if (validRegionAt_NoRebuild2 != null)
 					{
-						this.map.temperatureCache.TryCacheRegionTempInfo(item2, validRegionAt_NoRebuild2);
+						this.map.temperatureCache.TryCacheRegionTempInfo(c, validRegionAt_NoRebuild2);
 						this.regionsToDirty.Add(validRegionAt_NoRebuild2);
 					}
 				}
@@ -125,6 +128,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x0600466A RID: 18026 RVA: 0x00251968 File Offset: 0x0024FD68
 		internal void SetAllClean()
 		{
 			for (int i = 0; i < this.dirtyCells.Count; i++)
@@ -134,6 +138,7 @@ namespace Verse
 			this.dirtyCells.Clear();
 		}
 
+		// Token: 0x0600466B RID: 18027 RVA: 0x002519BC File Offset: 0x0024FDBC
 		private void SetRegionDirty(Region reg, bool addCellsToDirtyCells = true)
 		{
 			if (reg.valid)
@@ -147,18 +152,19 @@ namespace Verse
 				reg.links.Clear();
 				if (addCellsToDirtyCells)
 				{
-					foreach (IntVec3 cell in reg.Cells)
+					foreach (IntVec3 intVec in reg.Cells)
 					{
-						this.dirtyCells.Add(cell);
+						this.dirtyCells.Add(intVec);
 						if (DebugViewSettings.drawRegionDirties)
 						{
-							this.map.debugDrawer.FlashCell(cell, 0f, null, 50);
+							this.map.debugDrawer.FlashCell(intVec, 0f, null, 50);
 						}
 					}
 				}
 			}
 		}
 
+		// Token: 0x0600466C RID: 18028 RVA: 0x00251AA4 File Offset: 0x0024FEA4
 		internal void SetAllDirty()
 		{
 			this.dirtyCells.Clear();
@@ -166,10 +172,19 @@ namespace Verse
 			{
 				this.dirtyCells.Add(item);
 			}
-			foreach (Region item2 in this.map.regionGrid.AllRegions_NoRebuild_InvalidAllowed)
+			foreach (Region reg in this.map.regionGrid.AllRegions_NoRebuild_InvalidAllowed)
 			{
-				this.SetRegionDirty(item2, false);
+				this.SetRegionDirty(reg, false);
 			}
 		}
+
+		// Token: 0x04002FF3 RID: 12275
+		private Map map;
+
+		// Token: 0x04002FF4 RID: 12276
+		private List<IntVec3> dirtyCells = new List<IntVec3>();
+
+		// Token: 0x04002FF5 RID: 12277
+		private List<Region> regionsToDirty = new List<Region>();
 	}
 }

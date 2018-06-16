@@ -1,32 +1,40 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200020A RID: 522
 	public class ThoughtWorker_Man : ThoughtWorker
 	{
+		// Token: 0x060009E2 RID: 2530 RVA: 0x0005878C File Offset: 0x00056B8C
 		protected override ThoughtState CurrentSocialStateInternal(Pawn p, Pawn other)
 		{
+			ThoughtState result;
 			if (!p.RaceProps.Humanlike)
 			{
-				return false;
+				result = false;
 			}
-			if (!p.story.traits.HasTrait(TraitDefOf.DislikesMen))
+			else if (!p.story.traits.HasTrait(TraitDefOf.DislikesMen))
 			{
-				return false;
+				result = false;
 			}
-			if (!RelationsUtility.PawnsKnowEachOther(p, other))
+			else if (!RelationsUtility.PawnsKnowEachOther(p, other))
 			{
-				return false;
+				result = false;
 			}
-			if (other.def != p.def)
+			else if (other.def != p.def)
 			{
-				return false;
+				result = false;
 			}
-			if (other.gender != Gender.Male)
+			else if (other.gender != Gender.Male)
 			{
-				return false;
+				result = false;
 			}
-			return true;
+			else
+			{
+				result = true;
+			}
+			return result;
 		}
 	}
 }

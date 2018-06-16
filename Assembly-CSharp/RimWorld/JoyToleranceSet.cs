@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -5,14 +6,10 @@ using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020004F1 RID: 1265
 	public class JoyToleranceSet : IExposable
 	{
-		private DefMap<JoyKindDef, float> tolerances = new DefMap<JoyKindDef, float>();
-
-		private const float ToleranceGainRate = 0.4f;
-
-		private const float ToleranceDropPerDay = 0.0833333358f;
-
+		// Token: 0x170002FC RID: 764
 		public float this[JoyKindDef d]
 		{
 			get
@@ -21,28 +18,32 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060016AC RID: 5804 RVA: 0x000C8E41 File Offset: 0x000C7241
 		public void ExposeData()
 		{
 			Scribe_Deep.Look<DefMap<JoyKindDef, float>>(ref this.tolerances, "tolerances", new object[0]);
 		}
 
+		// Token: 0x060016AD RID: 5805 RVA: 0x000C8E5A File Offset: 0x000C725A
 		public void Notify_JoyGained(float amount, JoyKindDef joyKind)
 		{
-			this.tolerances[joyKind] = Mathf.Min((float)(this.tolerances[joyKind] + amount * 0.40000000596046448), 1f);
+			this.tolerances[joyKind] = Mathf.Min(this.tolerances[joyKind] + amount * 0.65f, 1f);
 		}
 
+		// Token: 0x060016AE RID: 5806 RVA: 0x000C8E88 File Offset: 0x000C7288
 		public float JoyFactorFromTolerance(JoyKindDef joyKind)
 		{
-			return (float)(1.0 - this.tolerances[joyKind]);
+			return 1f - this.tolerances[joyKind];
 		}
 
+		// Token: 0x060016AF RID: 5807 RVA: 0x000C8EB0 File Offset: 0x000C72B0
 		public void NeedInterval()
 		{
 			for (int i = 0; i < this.tolerances.Count; i++)
 			{
 				float num = this.tolerances[i];
-				num = (float)(num - 0.00020833333837799728);
-				if (num < 0.0)
+				num -= 0.000208333338f;
+				if (num < 0f)
 				{
 					num = 0f;
 				}
@@ -50,21 +51,28 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060016B0 RID: 5808 RVA: 0x000C8F10 File Offset: 0x000C7310
 		public string TolerancesString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.AppendLine("\n" + "JoyTolerances".Translate() + ":");
 			List<JoyKindDef> allDefsListForReading = DefDatabase<JoyKindDef>.AllDefsListForReading;
 			for (int i = 0; i < allDefsListForReading.Count; i++)
 			{
 				JoyKindDef joyKindDef = allDefsListForReading[i];
 				float num = this.tolerances[joyKindDef];
-				if (num > 0.0099999997764825821)
+				if (num > 0.01f)
 				{
-					stringBuilder.AppendLine("   -" + joyKindDef.label + ": " + num.ToStringPercent());
+					if (stringBuilder.Length == 0)
+					{
+						stringBuilder.AppendLine("JoyTolerances".Translate() + ":");
+					}
+					stringBuilder.AppendLine("   -" + joyKindDef.LabelCap + ": " + num.ToStringPercent());
 				}
 			}
-			return stringBuilder.ToString();
+			return stringBuilder.ToString().TrimEndNewlines();
 		}
+
+		// Token: 0x04000D3B RID: 3387
+		private DefMap<JoyKindDef, float> tolerances = new DefMap<JoyKindDef, float>();
 	}
 }

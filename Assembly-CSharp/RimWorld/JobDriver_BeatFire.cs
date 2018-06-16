@@ -1,56 +1,81 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x0200004B RID: 75
 	public class JobDriver_BeatFire : JobDriver
 	{
+		// Token: 0x17000083 RID: 131
+		// (get) Token: 0x06000260 RID: 608 RVA: 0x00018FF8 File Offset: 0x000173F8
 		protected Fire TargetFire
 		{
 			get
 			{
-				return (Fire)base.job.targetA.Thing;
+				return (Fire)this.job.targetA.Thing;
 			}
 		}
 
+		// Token: 0x06000261 RID: 609 RVA: 0x00019024 File Offset: 0x00017424
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
+		// Token: 0x06000262 RID: 610 RVA: 0x0001903C File Offset: 0x0001743C
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			_003CMakeNewToils_003Ec__Iterator0 _003CMakeNewToils_003Ec__Iterator = (_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0036: stateMachine*/;
 			this.FailOnDespawnedOrNull(TargetIndex.A);
 			Toil beat = new Toil();
 			Toil approach = new Toil();
-			approach.initAction = delegate
+			approach.initAction = delegate()
 			{
-				if (_003CMakeNewToils_003Ec__Iterator._0024this.Map.reservationManager.CanReserve(_003CMakeNewToils_003Ec__Iterator._0024this.pawn, _003CMakeNewToils_003Ec__Iterator._0024this.TargetFire, 1, -1, null, false))
+				if (this.Map.reservationManager.CanReserve(this.pawn, this.TargetFire, 1, -1, null, false))
 				{
-					_003CMakeNewToils_003Ec__Iterator._0024this.pawn.Reserve(_003CMakeNewToils_003Ec__Iterator._0024this.TargetFire, _003CMakeNewToils_003Ec__Iterator._0024this.job, 1, -1, null);
+					this.pawn.Reserve(this.TargetFire, this.job, 1, -1, null);
 				}
-				_003CMakeNewToils_003Ec__Iterator._0024this.pawn.pather.StartPath(_003CMakeNewToils_003Ec__Iterator._0024this.TargetFire, PathEndMode.Touch);
+				this.pawn.pather.StartPath(this.TargetFire, PathEndMode.Touch);
 			};
-			approach.tickAction = delegate
+			approach.tickAction = delegate()
 			{
-				if (_003CMakeNewToils_003Ec__Iterator._0024this.pawn.pather.Moving && _003CMakeNewToils_003Ec__Iterator._0024this.pawn.pather.nextCell != _003CMakeNewToils_003Ec__Iterator._0024this.TargetFire.Position)
+				if (this.pawn.pather.Moving && this.pawn.pather.nextCell != this.TargetFire.Position)
 				{
-					_003CMakeNewToils_003Ec__Iterator._0024this.StartBeatingFireIfAnyAt(_003CMakeNewToils_003Ec__Iterator._0024this.pawn.pather.nextCell, beat);
+					this.StartBeatingFireIfAnyAt(this.pawn.pather.nextCell, beat);
 				}
-				if (_003CMakeNewToils_003Ec__Iterator._0024this.pawn.Position != _003CMakeNewToils_003Ec__Iterator._0024this.TargetFire.Position)
+				if (this.pawn.Position != this.TargetFire.Position)
 				{
-					_003CMakeNewToils_003Ec__Iterator._0024this.StartBeatingFireIfAnyAt(_003CMakeNewToils_003Ec__Iterator._0024this.pawn.Position, beat);
+					this.StartBeatingFireIfAnyAt(this.pawn.Position, beat);
 				}
 			};
 			approach.FailOnDespawnedOrNull(TargetIndex.A);
 			approach.defaultCompleteMode = ToilCompleteMode.PatherArrival;
 			approach.atomicWithPrevious = true;
 			yield return approach;
-			/*Error: Unable to find new state assignment for yield return*/;
+			beat.tickAction = delegate()
+			{
+				if (!this.pawn.CanReachImmediate(this.TargetFire, PathEndMode.Touch))
+				{
+					this.JumpToToil(approach);
+				}
+				else if (!(this.pawn.Position != this.TargetFire.Position) || !this.StartBeatingFireIfAnyAt(this.pawn.Position, beat))
+				{
+					this.pawn.natives.TryBeatFire(this.TargetFire);
+					if (this.TargetFire.Destroyed)
+					{
+						this.pawn.records.Increment(RecordDefOf.FiresExtinguished);
+						this.pawn.jobs.EndCurrentJob(JobCondition.Succeeded, true);
+					}
+				}
+			};
+			beat.FailOnDespawnedOrNull(TargetIndex.A);
+			beat.defaultCompleteMode = ToilCompleteMode.Never;
+			yield return beat;
+			yield break;
 		}
 
+		// Token: 0x06000263 RID: 611 RVA: 0x00019068 File Offset: 0x00017468
 		private bool StartBeatingFireIfAnyAt(IntVec3 cell, Toil nextToil)
 		{
 			List<Thing> thingList = cell.GetThingList(base.Map);
@@ -59,8 +84,8 @@ namespace RimWorld
 				Fire fire = thingList[i] as Fire;
 				if (fire != null && fire.parent == null)
 				{
-					base.job.targetA = fire;
-					base.pawn.pather.StopDead();
+					this.job.targetA = fire;
+					this.pawn.pather.StopDead();
 					base.JumpToToil(nextToil);
 					return true;
 				}

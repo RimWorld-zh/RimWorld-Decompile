@@ -1,13 +1,26 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020003F5 RID: 1013
 	public class GenStep_Snow : GenStep
 	{
+		// Token: 0x17000251 RID: 593
+		// (get) Token: 0x06001174 RID: 4468 RVA: 0x00097108 File Offset: 0x00095508
+		public override int SeedPart
+		{
+			get
+			{
+				return 306693816;
+			}
+		}
+
+		// Token: 0x06001175 RID: 4469 RVA: 0x00097124 File Offset: 0x00095524
 		public override void Generate(Map map)
 		{
 			int num = 0;
-			for (int i = (int)(GenLocalDate.Twelfth(map) - 2); i <= (int)GenLocalDate.Twelfth(map); i++)
+			for (int i = (int)(GenLocalDate.Twelfth(map) - Twelfth.Third); i <= (int)GenLocalDate.Twelfth(map); i++)
 			{
 				int num2 = i;
 				if (num2 < 0)
@@ -16,7 +29,7 @@ namespace RimWorld
 				}
 				Twelfth twelfth = (Twelfth)num2;
 				float num3 = GenTemperature.AverageTemperatureAtTileForTwelfth(map.Tile, twelfth);
-				if (num3 < 0.0)
+				if (num3 < 0f)
 				{
 					num++;
 				}
@@ -36,17 +49,17 @@ namespace RimWorld
 				num4 = 1f;
 				break;
 			}
-			if (map.mapTemperature.SeasonalTemp > 0.0)
+			if (map.mapTemperature.SeasonalTemp > 0f)
 			{
-				num4 = (float)(num4 * 0.40000000596046448);
+				num4 *= 0.4f;
 			}
-			if (!((double)num4 < 0.3))
+			if ((double)num4 >= 0.3)
 			{
-				foreach (IntVec3 allCell in map.AllCells)
+				foreach (IntVec3 c in map.AllCells)
 				{
-					if (!allCell.Roofed(map))
+					if (!c.Roofed(map))
 					{
-						map.steadyAtmosphereEffects.AddFallenSnowAt(allCell, num4);
+						map.steadyEnvironmentEffects.AddFallenSnowAt(c, num4);
 					}
 				}
 			}

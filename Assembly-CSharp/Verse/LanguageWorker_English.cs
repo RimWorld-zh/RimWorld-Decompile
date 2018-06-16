@@ -1,9 +1,11 @@
-using System;
+﻿using System;
 
 namespace Verse
 {
+	// Token: 0x02000BF9 RID: 3065
 	public class LanguageWorker_English : LanguageWorker
 	{
+		// Token: 0x060042D6 RID: 17110 RVA: 0x00235330 File Offset: 0x00233730
 		public override string WithIndefiniteArticle(string str)
 		{
 			if (str.NullOrEmpty())
@@ -13,6 +15,7 @@ namespace Verse
 			return "a " + str;
 		}
 
+		// Token: 0x060042D7 RID: 17111 RVA: 0x00235364 File Offset: 0x00233764
 		public override string WithDefiniteArticle(string str)
 		{
 			if (str.NullOrEmpty())
@@ -22,12 +25,16 @@ namespace Verse
 			return "the " + str;
 		}
 
+		// Token: 0x060042D8 RID: 17112 RVA: 0x00235398 File Offset: 0x00233798
 		public override string PostProcessed(string str)
 		{
 			str = base.PostProcessed(str);
-			if (str.StartsWith("a ", StringComparison.OrdinalIgnoreCase) && (str[2] == 'a' || str[2] == 'e' || str[2] == 'i' || str[2] == 'o' || str[2] == 'u'))
+			if (str.StartsWith("a ", StringComparison.OrdinalIgnoreCase) && str.Length >= 3)
 			{
-				str = str.Insert(1, "n");
+				if (str.Substring(2) == "hour" || str[2] == 'a' || str[2] == 'e' || str[2] == 'i' || str[2] == 'o' || str[2] == 'u')
+				{
+					str = str.Insert(1, "n");
+				}
 			}
 			str = str.Replace(" a a", " an a");
 			str = str.Replace(" a e", " an e");
@@ -44,6 +51,7 @@ namespace Verse
 			return str;
 		}
 
+		// Token: 0x060042D9 RID: 17113 RVA: 0x0023551C File Offset: 0x0023391C
 		public override string ToTitleCase(string str)
 		{
 			str = base.ToTitleCase(str);
@@ -56,40 +64,53 @@ namespace Verse
 			return str;
 		}
 
+		// Token: 0x060042DA RID: 17114 RVA: 0x002355A8 File Offset: 0x002339A8
 		public override string OrdinalNumber(int number)
 		{
 			int num = number % 10;
 			int num2 = number / 10 % 10;
 			if (num2 != 1)
 			{
-				switch (num)
+				if (num == 1)
 				{
-				case 1:
 					return number + "st";
-				case 2:
+				}
+				if (num == 2)
+				{
 					return number + "nd";
-				case 3:
+				}
+				if (num == 3)
+				{
 					return number + "rd";
 				}
 			}
 			return number + "th";
 		}
 
+		// Token: 0x060042DB RID: 17115 RVA: 0x0023563C File Offset: 0x00233A3C
 		public override string Pluralize(string str, int count = -1)
 		{
+			string result;
 			if (str.NullOrEmpty())
 			{
-				return str;
+				result = str;
 			}
-			char c = str[str.Length - 1];
-			char c2 = (str.Length != 1) ? str[str.Length - 2] : '\0';
-			bool flag = char.IsLetter(c2) && "oaieuyOAIEUY".IndexOf(c2) >= 0;
-			bool flag2 = char.IsLetter(c2) && !flag;
-			if (c == 'y' && flag2)
+			else
 			{
-				return str.Substring(0, str.Length - 1) + "ies";
+				char c = str[str.Length - 1];
+				char c2 = (str.Length != 1) ? str[str.Length - 2] : '\0';
+				bool flag = char.IsLetter(c2) && "oaieuyOAIEUY".IndexOf(c2) >= 0;
+				bool flag2 = char.IsLetter(c2) && !flag;
+				if (c == 'y' && flag2)
+				{
+					result = str.Substring(0, str.Length - 1) + "ies";
+				}
+				else
+				{
+					result = str + "s";
+				}
 			}
-			return str + "s";
+			return result;
 		}
 	}
 }

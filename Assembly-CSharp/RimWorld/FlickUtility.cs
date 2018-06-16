@@ -1,9 +1,12 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000386 RID: 902
 	public static class FlickUtility
 	{
+		// Token: 0x06000FA0 RID: 4000 RVA: 0x00083B48 File Offset: 0x00081F48
 		public static void UpdateFlickDesignation(Thing t)
 		{
 			bool flag = false;
@@ -32,19 +35,21 @@ namespace RimWorld
 			TutorUtility.DoModalDialogIfNotKnown(ConceptDefOf.SwitchFlickingDesignation);
 		}
 
+		// Token: 0x06000FA1 RID: 4001 RVA: 0x00083C18 File Offset: 0x00082018
 		public static bool WantsToBeOn(Thing t)
 		{
 			CompFlickable compFlickable = t.TryGetComp<CompFlickable>();
+			bool result;
 			if (compFlickable != null && !compFlickable.SwitchIsOn)
 			{
-				return false;
+				result = false;
 			}
-			CompSchedule compSchedule = t.TryGetComp<CompSchedule>();
-			if (compSchedule != null && !compSchedule.Allowed)
+			else
 			{
-				return false;
+				CompSchedule compSchedule = t.TryGetComp<CompSchedule>();
+				result = (compSchedule == null || compSchedule.Allowed);
 			}
-			return true;
+			return result;
 		}
 	}
 }

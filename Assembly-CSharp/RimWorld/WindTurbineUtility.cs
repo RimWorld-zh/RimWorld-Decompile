@@ -1,10 +1,13 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200041E RID: 1054
 	public static class WindTurbineUtility
 	{
+		// Token: 0x06001253 RID: 4691 RVA: 0x0009F228 File Offset: 0x0009D628
 		public static IEnumerable<IntVec3> CalculateWindCells(IntVec3 center, Rot4 rot, IntVec2 size)
 		{
 			CellRect rectA = default(CellRect);
@@ -29,8 +32,8 @@ namespace RimWorld
 				rectA.maxX = center.x + 2 + neDist + offset;
 				rectB.minX = center.x - 1 - swDist + offset;
 				rectB.maxX = center.x - 1 + offset;
-				rectB.minZ = (rectA.minZ = center.z - 2);
-				rectB.maxZ = (rectA.maxZ = center.z + 2);
+				rectB.minZ = (rectA.minZ = center.z - 3);
+				rectB.maxZ = (rectA.maxZ = center.z + 3);
 			}
 			else
 			{
@@ -38,34 +41,24 @@ namespace RimWorld
 				rectA.maxZ = center.z + 2 + neDist + offset;
 				rectB.minZ = center.z - 1 - swDist + offset;
 				rectB.maxZ = center.z - 1 + offset;
-				rectB.minX = (rectA.minX = center.x - 2);
-				rectB.maxX = (rectA.maxX = center.x + 2);
+				rectB.minX = (rectA.minX = center.x - 3);
+				rectB.maxX = (rectA.maxX = center.x + 3);
 			}
-			for (int z2 = rectA.minZ; z2 <= rectA.maxZ; z2++)
+			for (int z = rectA.minZ; z <= rectA.maxZ; z++)
 			{
-				int x = rectA.minX;
-				if (x <= rectA.maxX)
+				for (int x = rectA.minX; x <= rectA.maxX; x++)
 				{
-					yield return new IntVec3(x, 0, z2);
-					/*Error: Unable to find new state assignment for yield return*/;
+					yield return new IntVec3(x, 0, z);
 				}
 			}
-			int z = rectB.minZ;
-			int x2;
-			while (true)
+			for (int z2 = rectB.minZ; z2 <= rectB.maxZ; z2++)
 			{
-				if (z <= rectB.maxZ)
+				for (int x2 = rectB.minX; x2 <= rectB.maxX; x2++)
 				{
-					x2 = rectB.minX;
-					if (x2 <= rectB.maxX)
-						break;
-					z++;
-					continue;
+					yield return new IntVec3(x2, 0, z2);
 				}
-				yield break;
 			}
-			yield return new IntVec3(x2, 0, z);
-			/*Error: Unable to find new state assignment for yield return*/;
+			yield break;
 		}
 	}
 }

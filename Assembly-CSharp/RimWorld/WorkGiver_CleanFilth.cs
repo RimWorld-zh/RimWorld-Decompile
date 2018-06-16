@@ -1,13 +1,15 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x0200013A RID: 314
 	internal class WorkGiver_CleanFilth : WorkGiver_Scanner
 	{
-		private int MinTicksSinceThickened = 600;
-
+		// Token: 0x170000F2 RID: 242
+		// (get) Token: 0x06000665 RID: 1637 RVA: 0x00042AB4 File Offset: 0x00040EB4
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -16,6 +18,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170000F3 RID: 243
+		// (get) Token: 0x06000666 RID: 1638 RVA: 0x00042ACC File Offset: 0x00040ECC
 		public override ThingRequest PotentialWorkThingRequest
 		{
 			get
@@ -24,6 +28,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170000F4 RID: 244
+		// (get) Token: 0x06000667 RID: 1639 RVA: 0x00042AE8 File Offset: 0x00040EE8
 		public override int LocalRegionsToScanFirst
 		{
 			get
@@ -32,38 +38,41 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06000668 RID: 1640 RVA: 0x00042B00 File Offset: 0x00040F00
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
 			return pawn.Map.listerFilthInHomeArea.FilthInHomeArea;
 		}
 
+		// Token: 0x06000669 RID: 1641 RVA: 0x00042B28 File Offset: 0x00040F28
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
+			bool result;
 			if (pawn.Faction != Faction.OfPlayer)
 			{
-				return false;
+				result = false;
 			}
-			Filth filth = t as Filth;
-			if (filth == null)
+			else
 			{
-				return false;
+				Filth filth = t as Filth;
+				if (filth == null)
+				{
+					result = false;
+				}
+				else if (!filth.Map.areaManager.Home[filth.Position])
+				{
+					result = false;
+				}
+				else
+				{
+					LocalTargetInfo target = t;
+					result = (pawn.CanReserve(target, 1, -1, null, forced) && filth.TicksSinceThickened >= this.MinTicksSinceThickened);
+				}
 			}
-			if (!((Area)filth.Map.areaManager.Home)[filth.Position])
-			{
-				return false;
-			}
-			LocalTargetInfo target = t;
-			if (!pawn.CanReserve(target, 1, -1, null, forced))
-			{
-				return false;
-			}
-			if (filth.TicksSinceThickened < this.MinTicksSinceThickened)
-			{
-				return false;
-			}
-			return true;
+			return result;
 		}
 
+		// Token: 0x0600066A RID: 1642 RVA: 0x00042BCC File Offset: 0x00040FCC
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Job job = new Job(JobDefOf.Clean);
@@ -86,7 +95,9 @@ namespace RimWorld
 						}
 					}
 					if (job.GetTargetQueue(TargetIndex.A).Count >= num)
+					{
 						break;
+					}
 				}
 			}
 			if (job.targetQueueA != null && job.targetQueueA.Count >= 5)
@@ -95,5 +106,8 @@ namespace RimWorld
 			}
 			return job;
 		}
+
+		// Token: 0x04000313 RID: 787
+		private int MinTicksSinceThickened = 600;
 	}
 }

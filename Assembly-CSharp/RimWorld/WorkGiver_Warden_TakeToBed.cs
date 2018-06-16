@@ -1,65 +1,99 @@
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000139 RID: 313
 	public class WorkGiver_Warden_TakeToBed : WorkGiver_Warden
 	{
+		// Token: 0x06000661 RID: 1633 RVA: 0x00042914 File Offset: 0x00040D14
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
+			Job result;
 			if (!base.ShouldTakeCareOfPrisoner(pawn, t))
 			{
-				return null;
+				result = null;
 			}
-			Pawn prisoner = (Pawn)t;
-			Job job = this.TakeDownedToBedJob(prisoner, pawn);
-			if (job != null)
+			else
 			{
-				return job;
+				Pawn prisoner = (Pawn)t;
+				Job job = this.TakeDownedToBedJob(prisoner, pawn);
+				if (job != null)
+				{
+					result = job;
+				}
+				else
+				{
+					Job job2 = this.TakeToPreferredBedJob(prisoner, pawn);
+					if (job2 != null)
+					{
+						result = job2;
+					}
+					else
+					{
+						result = null;
+					}
+				}
 			}
-			Job job2 = this.TakeToPreferredBedJob(prisoner, pawn);
-			if (job2 != null)
-			{
-				return job2;
-			}
-			return null;
+			return result;
 		}
 
+		// Token: 0x06000662 RID: 1634 RVA: 0x00042974 File Offset: 0x00040D74
 		private Job TakeToPreferredBedJob(Pawn prisoner, Pawn warden)
 		{
-			if (!prisoner.Downed && warden.CanReserve(prisoner, 1, -1, null, false))
+			Job result;
+			if (prisoner.Downed || !warden.CanReserve(prisoner, 1, -1, null, false))
 			{
-				if (RestUtility.FindBedFor(prisoner, prisoner, true, true, false) != null)
-				{
-					return null;
-				}
+				result = null;
+			}
+			else if (RestUtility.FindBedFor(prisoner, prisoner, true, true, false) != null)
+			{
+				result = null;
+			}
+			else
+			{
 				Room room = prisoner.GetRoom(RegionType.Set_Passable);
 				Building_Bed building_Bed = RestUtility.FindBedFor(prisoner, warden, true, false, false);
 				if (building_Bed != null && building_Bed.GetRoom(RegionType.Set_Passable) != room)
 				{
-					Job job = new Job(JobDefOf.EscortPrisonerToBed, prisoner, building_Bed);
-					job.count = 1;
-					return job;
+					result = new Job(JobDefOf.EscortPrisonerToBed, prisoner, building_Bed)
+					{
+						count = 1
+					};
 				}
-				return null;
+				else
+				{
+					result = null;
+				}
 			}
-			return null;
+			return result;
 		}
 
+		// Token: 0x06000663 RID: 1635 RVA: 0x00042A14 File Offset: 0x00040E14
 		private Job TakeDownedToBedJob(Pawn prisoner, Pawn warden)
 		{
-			if (prisoner.Downed && HealthAIUtility.ShouldSeekMedicalRestUrgent(prisoner) && !prisoner.InBed() && warden.CanReserve(prisoner, 1, -1, null, false))
+			Job result;
+			if (!prisoner.Downed || !HealthAIUtility.ShouldSeekMedicalRestUrgent(prisoner) || prisoner.InBed() || !warden.CanReserve(prisoner, 1, -1, null, false))
+			{
+				result = null;
+			}
+			else
 			{
 				Building_Bed building_Bed = RestUtility.FindBedFor(prisoner, warden, true, true, false);
 				if (building_Bed != null)
 				{
-					Job job = new Job(JobDefOf.TakeWoundedPrisonerToBed, prisoner, building_Bed);
-					job.count = 1;
-					return job;
+					result = new Job(JobDefOf.TakeWoundedPrisonerToBed, prisoner, building_Bed)
+					{
+						count = 1
+					};
 				}
-				return null;
+				else
+				{
+					result = null;
+				}
 			}
-			return null;
+			return result;
 		}
 	}
 }

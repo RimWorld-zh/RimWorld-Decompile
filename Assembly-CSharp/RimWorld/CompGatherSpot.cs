@@ -1,12 +1,15 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000716 RID: 1814
 	public class CompGatherSpot : ThingComp
 	{
-		private bool active = true;
-
+		// Token: 0x170005FE RID: 1534
+		// (get) Token: 0x060027D1 RID: 10193 RVA: 0x00154BC0 File Offset: 0x00152FC0
+		// (set) Token: 0x060027D2 RID: 10194 RVA: 0x00154BDC File Offset: 0x00152FDC
 		public bool Active
 		{
 			get
@@ -18,35 +21,38 @@ namespace RimWorld
 				if (value != this.active)
 				{
 					this.active = value;
-					if (base.parent.Spawned)
+					if (this.parent.Spawned)
 					{
 						if (this.active)
 						{
-							base.parent.Map.gatherSpotLister.RegisterActivated(this);
+							this.parent.Map.gatherSpotLister.RegisterActivated(this);
 						}
 						else
 						{
-							base.parent.Map.gatherSpotLister.RegisterDeactivated(this);
+							this.parent.Map.gatherSpotLister.RegisterDeactivated(this);
 						}
 					}
 				}
 			}
 		}
 
+		// Token: 0x060027D3 RID: 10195 RVA: 0x00154C50 File Offset: 0x00153050
 		public override void PostExposeData()
 		{
 			Scribe_Values.Look<bool>(ref this.active, "active", false, false);
 		}
 
+		// Token: 0x060027D4 RID: 10196 RVA: 0x00154C65 File Offset: 0x00153065
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
 			if (this.Active)
 			{
-				base.parent.Map.gatherSpotLister.RegisterActivated(this);
+				this.parent.Map.gatherSpotLister.RegisterActivated(this);
 			}
 		}
 
+		// Token: 0x060027D5 RID: 10197 RVA: 0x00154C90 File Offset: 0x00153090
 		public override void PostDeSpawn(Map map)
 		{
 			base.PostDeSpawn(map);
@@ -56,18 +62,17 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060027D6 RID: 10198 RVA: 0x00154CB4 File Offset: 0x001530B4
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			Command_Toggle com = new Command_Toggle
+			Command_Toggle com = new Command_Toggle();
+			com.hotKey = KeyBindingDefOf.Command_TogglePower;
+			com.defaultLabel = "CommandGatherSpotToggleLabel".Translate();
+			com.icon = TexCommand.GatherSpotActive;
+			com.isActive = (() => this.Active);
+			com.toggleAction = delegate()
 			{
-				hotKey = KeyBindingDefOf.CommandTogglePower,
-				defaultLabel = "CommandGatherSpotToggleLabel".Translate(),
-				icon = TexCommand.GatherSpotActive,
-				isActive = this.get_Active,
-				toggleAction = delegate
-				{
-					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0083: stateMachine*/)._0024this.Active = !((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0083: stateMachine*/)._0024this.Active;
-				}
+				this.Active = !this.Active;
 			};
 			if (this.Active)
 			{
@@ -77,8 +82,11 @@ namespace RimWorld
 			{
 				com.defaultDesc = "CommandGatherSpotToggleDescInactive".Translate();
 			}
-			yield return (Gizmo)com;
-			/*Error: Unable to find new state assignment for yield return*/;
+			yield return com;
+			yield break;
 		}
+
+		// Token: 0x040015DF RID: 5599
+		private bool active = true;
 	}
 }

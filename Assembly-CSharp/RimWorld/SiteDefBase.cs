@@ -1,39 +1,35 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	public class SiteDefBase : Def
+	// Token: 0x020002D0 RID: 720
+	public abstract class SiteDefBase : Def
 	{
-		public string siteTexture;
+		// Token: 0x170001C4 RID: 452
+		// (get) Token: 0x06000BEB RID: 3051 RVA: 0x00069BBC File Offset: 0x00067FBC
+		public SiteWorkerBase Worker
+		{
+			get
+			{
+				if (this.workerInt == null)
+				{
+					this.workerInt = this.CreateWorker();
+					this.workerInt.def = this;
+				}
+				return this.workerInt;
+			}
+		}
 
-		public string expandingIconTexture;
-
-		public bool applyFactionColorToSiteTexture;
-
-		public bool showFactionInInspectString;
-
-		public bool knownDanger;
-
-		public bool requiresFaction;
-
-		public TechLevel minFactionTechLevel;
-
-		[NoTranslate]
-		public List<string> tags = new List<string>();
-
-		[Unsaved]
-		private Texture2D expandingIconTextureInt;
-
-		[Unsaved]
-		private List<GenStepDef> extraGenSteps;
-
+		// Token: 0x170001C5 RID: 453
+		// (get) Token: 0x06000BEC RID: 3052 RVA: 0x00069BFC File Offset: 0x00067FFC
 		public Texture2D ExpandingIconTexture
 		{
 			get
 			{
-				if ((Object)this.expandingIconTextureInt == (Object)null)
+				if (this.expandingIconTextureInt == null)
 				{
 					if (!this.expandingIconTexture.NullOrEmpty())
 					{
@@ -48,6 +44,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170001C6 RID: 454
+		// (get) Token: 0x06000BED RID: 3053 RVA: 0x00069C5C File Offset: 0x0006805C
 		public List<GenStepDef> ExtraGenSteps
 		{
 			get
@@ -68,21 +66,91 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06000BEE RID: 3054 RVA: 0x00069CD4 File Offset: 0x000680D4
 		public virtual bool FactionCanOwn(Faction faction)
 		{
+			bool result;
 			if (this.requiresFaction && faction == null)
 			{
-				return false;
+				result = false;
 			}
-			if (this.minFactionTechLevel != 0 && (faction == null || (int)faction.def.techLevel < (int)this.minFactionTechLevel))
+			else if (this.minFactionTechLevel != TechLevel.Undefined && (faction == null || faction.def.techLevel < this.minFactionTechLevel))
 			{
-				return false;
+				result = false;
 			}
-			if (faction != null && (faction.IsPlayer || faction.defeated || faction.def.hidden))
+			else
 			{
-				return false;
+				if (faction != null)
+				{
+					if (faction.IsPlayer || faction.defeated || faction.def.hidden)
+					{
+						return false;
+					}
+				}
+				result = true;
 			}
-			return true;
+			return result;
 		}
+
+		// Token: 0x06000BEF RID: 3055
+		protected abstract SiteWorkerBase CreateWorker();
+
+		// Token: 0x04000723 RID: 1827
+		public Type workerClass = typeof(SitePartWorker);
+
+		// Token: 0x04000724 RID: 1828
+		[NoTranslate]
+		public string siteTexture;
+
+		// Token: 0x04000725 RID: 1829
+		[NoTranslate]
+		public string expandingIconTexture;
+
+		// Token: 0x04000726 RID: 1830
+		public bool applyFactionColorToSiteTexture;
+
+		// Token: 0x04000727 RID: 1831
+		public bool showFactionInInspectString;
+
+		// Token: 0x04000728 RID: 1832
+		public bool requiresFaction;
+
+		// Token: 0x04000729 RID: 1833
+		public TechLevel minFactionTechLevel = TechLevel.Undefined;
+
+		// Token: 0x0400072A RID: 1834
+		[MustTranslate]
+		public string approachOrderString;
+
+		// Token: 0x0400072B RID: 1835
+		[MustTranslate]
+		public string approachingReportString;
+
+		// Token: 0x0400072C RID: 1836
+		[NoTranslate]
+		public List<string> tags = new List<string>();
+
+		// Token: 0x0400072D RID: 1837
+		[MustTranslate]
+		public string arrivedLetter;
+
+		// Token: 0x0400072E RID: 1838
+		[MustTranslate]
+		public string arrivedLetterLabel;
+
+		// Token: 0x0400072F RID: 1839
+		public LetterDef arrivedLetterDef;
+
+		// Token: 0x04000730 RID: 1840
+		[Unsaved]
+		private SiteWorkerBase workerInt;
+
+		// Token: 0x04000731 RID: 1841
+		[Unsaved]
+		private Texture2D expandingIconTextureInt;
+
+		// Token: 0x04000732 RID: 1842
+		[Unsaved]
+		private List<GenStepDef> extraGenSteps;
 	}
 }

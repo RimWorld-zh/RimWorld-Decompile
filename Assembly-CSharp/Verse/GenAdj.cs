@@ -1,46 +1,18 @@
+﻿using System;
 using System.Collections.Generic;
 
 namespace Verse
 {
+	// Token: 0x02000F2F RID: 3887
 	public static class GenAdj
 	{
-		public static IntVec3[] CardinalDirections;
-
-		public static IntVec3[] CardinalDirectionsAndInside;
-
-		public static IntVec3[] CardinalDirectionsAround;
-
-		public static IntVec3[] DiagonalDirections;
-
-		public static IntVec3[] DiagonalDirectionsAround;
-
-		public static IntVec3[] AdjacentCells;
-
-		public static IntVec3[] AdjacentCellsAndInside;
-
-		public static IntVec3[] AdjacentCellsAround;
-
-		public static IntVec3[] AdjacentCellsAroundBottom;
-
-		private static List<IntVec3> adjRandomOrderList;
-
-		private static List<IntVec3> validCells;
-
+		// Token: 0x06005D55 RID: 23893 RVA: 0x002F442C File Offset: 0x002F282C
 		static GenAdj()
 		{
-			GenAdj.CardinalDirections = new IntVec3[4];
-			GenAdj.CardinalDirectionsAndInside = new IntVec3[5];
-			GenAdj.CardinalDirectionsAround = new IntVec3[4];
-			GenAdj.DiagonalDirections = new IntVec3[4];
-			GenAdj.DiagonalDirectionsAround = new IntVec3[4];
-			GenAdj.AdjacentCells = new IntVec3[8];
-			GenAdj.AdjacentCellsAndInside = new IntVec3[9];
-			GenAdj.AdjacentCellsAround = new IntVec3[8];
-			GenAdj.AdjacentCellsAroundBottom = new IntVec3[9];
-			GenAdj.validCells = new List<IntVec3>();
 			GenAdj.SetupAdjacencyTables();
 		}
 
+		// Token: 0x06005D56 RID: 23894 RVA: 0x002F44B0 File Offset: 0x002F28B0
 		private static void SetupAdjacencyTables()
 		{
 			GenAdj.CardinalDirections[0] = new IntVec3(0, 0, 1);
@@ -100,6 +72,7 @@ namespace Verse
 			GenAdj.AdjacentCellsAroundBottom[8] = new IntVec3(0, 0, 0);
 		}
 
+		// Token: 0x06005D57 RID: 23895 RVA: 0x002F49E8 File Offset: 0x002F2DE8
 		public static List<IntVec3> AdjacentCells8WayRandomized()
 		{
 			if (GenAdj.adjRandomOrderList == null)
@@ -110,31 +83,28 @@ namespace Verse
 					GenAdj.adjRandomOrderList.Add(GenAdj.AdjacentCells[i]);
 				}
 			}
-			GenAdj.adjRandomOrderList.Shuffle();
+			GenAdj.adjRandomOrderList.Shuffle<IntVec3>();
 			return GenAdj.adjRandomOrderList;
 		}
 
+		// Token: 0x06005D58 RID: 23896 RVA: 0x002F4A50 File Offset: 0x002F2E50
 		public static IEnumerable<IntVec3> CellsOccupiedBy(Thing t)
 		{
 			if (t.def.size.x == 1 && t.def.size.z == 1)
 			{
 				yield return t.Position;
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			using (IEnumerator<IntVec3> enumerator = GenAdj.CellsOccupiedBy(t.Position, t.Rotation, t.def.size).GetEnumerator())
+			else
 			{
-				if (enumerator.MoveNext())
+				foreach (IntVec3 c in GenAdj.CellsOccupiedBy(t.Position, t.Rotation, t.def.size))
 				{
-					IntVec3 c = enumerator.Current;
 					yield return c;
-					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 			yield break;
-			IL_013d:
-			/*Error near IL_013e: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x06005D59 RID: 23897 RVA: 0x002F4A7C File Offset: 0x002F2E7C
 		public static IEnumerable<IntVec3> CellsOccupiedBy(IntVec3 center, Rot4 rotation, IntVec2 size)
 		{
 			GenAdj.AdjustForRotation(ref center, ref size, rotation);
@@ -142,88 +112,124 @@ namespace Verse
 			int minZ = center.z - (size.z - 1) / 2;
 			int maxX = minX + size.x - 1;
 			int maxZ = minZ + size.z - 1;
-			int j = minX;
-			int i;
-			while (true)
+			for (int i = minX; i <= maxX; i++)
 			{
-				if (j <= maxX)
+				for (int j = minZ; j <= maxZ; j++)
 				{
-					i = minZ;
-					if (i <= maxZ)
-						break;
-					j++;
-					continue;
+					yield return new IntVec3(i, 0, j);
 				}
-				yield break;
 			}
-			yield return new IntVec3(j, 0, i);
-			/*Error: Unable to find new state assignment for yield return*/;
+			yield break;
 		}
 
+		// Token: 0x06005D5A RID: 23898 RVA: 0x002F4AC4 File Offset: 0x002F2EC4
 		public static IEnumerable<IntVec3> CellsAdjacent8Way(TargetInfo pack)
 		{
 			if (pack.HasThing)
 			{
-				using (IEnumerator<IntVec3> enumerator = GenAdj.CellsAdjacent8Way(pack.Thing).GetEnumerator())
+				foreach (IntVec3 c in GenAdj.CellsAdjacent8Way(pack.Thing))
 				{
-					if (enumerator.MoveNext())
-					{
-						IntVec3 c = enumerator.Current;
-						yield return c;
-						/*Error: Unable to find new state assignment for yield return*/;
-					}
+					yield return c;
 				}
 			}
 			else
 			{
-				int i = 0;
-				if (i < 8)
+				for (int i = 0; i < 8; i++)
 				{
 					yield return pack.Cell + GenAdj.AdjacentCells[i];
-					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 			yield break;
-			IL_013c:
-			/*Error near IL_013d: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x06005D5B RID: 23899 RVA: 0x002F4AF0 File Offset: 0x002F2EF0
 		public static IEnumerable<IntVec3> CellsAdjacent8Way(Thing t)
 		{
 			return GenAdj.CellsAdjacent8Way(t.Position, t.Rotation, t.def.size);
 		}
 
+		// Token: 0x06005D5C RID: 23900 RVA: 0x002F4B24 File Offset: 0x002F2F24
 		public static IEnumerable<IntVec3> CellsAdjacent8Way(IntVec3 thingCenter, Rot4 thingRot, IntVec2 thingSize)
 		{
 			GenAdj.AdjustForRotation(ref thingCenter, ref thingSize, thingRot);
 			int minX = thingCenter.x - (thingSize.x - 1) / 2 - 1;
-			int num = minX + thingSize.x + 1;
+			int maxX = minX + thingSize.x + 1;
 			int minZ = thingCenter.z - (thingSize.z - 1) / 2 - 1;
-			int num2 = minZ + thingSize.z + 1;
+			int maxZ = minZ + thingSize.z + 1;
 			IntVec3 cur = new IntVec3(minX - 1, 0, minZ);
-			cur.x++;
-			yield return cur;
-			/*Error: Unable to find new state assignment for yield return*/;
+			do
+			{
+				cur.x++;
+				yield return cur;
+			}
+			while (cur.x < maxX);
+			do
+			{
+				cur.z++;
+				yield return cur;
+			}
+			while (cur.z < maxZ);
+			do
+			{
+				cur.x--;
+				yield return cur;
+			}
+			while (cur.x > minX);
+			do
+			{
+				cur.z--;
+				yield return cur;
+			}
+			while (cur.z > minZ + 1);
+			yield break;
 		}
 
+		// Token: 0x06005D5D RID: 23901 RVA: 0x002F4B6C File Offset: 0x002F2F6C
 		public static IEnumerable<IntVec3> CellsAdjacentCardinal(Thing t)
 		{
 			return GenAdj.CellsAdjacentCardinal(t.Position, t.Rotation, t.def.size);
 		}
 
+		// Token: 0x06005D5E RID: 23902 RVA: 0x002F4BA0 File Offset: 0x002F2FA0
 		public static IEnumerable<IntVec3> CellsAdjacentCardinal(IntVec3 center, Rot4 rot, IntVec2 size)
 		{
 			GenAdj.AdjustForRotation(ref center, ref size, rot);
 			int minX = center.x - (size.x - 1) / 2 - 1;
-			int num = minX + size.x + 1;
+			int maxX = minX + size.x + 1;
 			int minZ = center.z - (size.z - 1) / 2 - 1;
-			int num2 = minZ + size.z + 1;
+			int maxZ = minZ + size.z + 1;
 			IntVec3 cur = new IntVec3(minX, 0, minZ);
+			do
+			{
+				cur.x++;
+				yield return cur;
+			}
+			while (cur.x < maxX - 1);
 			cur.x++;
-			yield return cur;
-			/*Error: Unable to find new state assignment for yield return*/;
+			do
+			{
+				cur.z++;
+				yield return cur;
+			}
+			while (cur.z < maxZ - 1);
+			cur.z++;
+			do
+			{
+				cur.x--;
+				yield return cur;
+			}
+			while (cur.x > minX + 1);
+			cur.x--;
+			do
+			{
+				cur.z--;
+				yield return cur;
+			}
+			while (cur.z > minZ + 1);
+			yield break;
 		}
 
+		// Token: 0x06005D5F RID: 23903 RVA: 0x002F4BE8 File Offset: 0x002F2FE8
 		public static IEnumerable<IntVec3> CellsAdjacentAlongEdge(IntVec3 thingCent, Rot4 thingRot, IntVec2 thingSize, LinkDirections dir)
 		{
 			GenAdj.AdjustForRotation(ref thingCent, ref thingSize, thingRot);
@@ -233,42 +239,36 @@ namespace Verse
 			int maxZ = minZ + thingSize.z + 1;
 			if (dir == LinkDirections.Down)
 			{
-				int x2 = minX;
-				if (x2 <= maxX)
+				for (int x = minX; x <= maxX; x++)
 				{
-					yield return new IntVec3(x2, thingCent.y, minZ - 1);
-					/*Error: Unable to find new state assignment for yield return*/;
+					yield return new IntVec3(x, thingCent.y, minZ - 1);
 				}
 			}
 			if (dir == LinkDirections.Up)
 			{
-				int x = minX;
-				if (x <= maxX)
+				for (int x2 = minX; x2 <= maxX; x2++)
 				{
-					yield return new IntVec3(x, thingCent.y, maxZ + 1);
-					/*Error: Unable to find new state assignment for yield return*/;
+					yield return new IntVec3(x2, thingCent.y, maxZ + 1);
 				}
 			}
 			if (dir == LinkDirections.Left)
 			{
-				int z2 = minZ;
-				if (z2 <= maxZ)
+				for (int z = minZ; z <= maxZ; z++)
 				{
-					yield return new IntVec3(minX - 1, thingCent.y, z2);
-					/*Error: Unable to find new state assignment for yield return*/;
+					yield return new IntVec3(minX - 1, thingCent.y, z);
 				}
 			}
 			if (dir == LinkDirections.Right)
 			{
-				int z = minZ;
-				if (z <= maxZ)
+				for (int z2 = minZ; z2 <= maxZ; z2++)
 				{
-					yield return new IntVec3(maxX + 1, thingCent.y, z);
-					/*Error: Unable to find new state assignment for yield return*/;
+					yield return new IntVec3(maxX + 1, thingCent.y, z2);
 				}
 			}
+			yield break;
 		}
 
+		// Token: 0x06005D60 RID: 23904 RVA: 0x002F4C38 File Offset: 0x002F3038
 		public static IEnumerable<IntVec3> CellsAdjacent8WayAndInside(this Thing thing)
 		{
 			IntVec3 center = thing.Position;
@@ -279,24 +279,17 @@ namespace Verse
 			int minZ = center.z - (size.z - 1) / 2 - 1;
 			int maxX = minX + size.x + 1;
 			int maxZ = minZ + size.z + 1;
-			int j = minX;
-			int i;
-			while (true)
+			for (int i = minX; i <= maxX; i++)
 			{
-				if (j <= maxX)
+				for (int j = minZ; j <= maxZ; j++)
 				{
-					i = minZ;
-					if (i <= maxZ)
-						break;
-					j++;
-					continue;
+					yield return new IntVec3(i, 0, j);
 				}
-				yield break;
 			}
-			yield return new IntVec3(j, 0, i);
-			/*Error: Unable to find new state assignment for yield return*/;
+			yield break;
 		}
 
+		// Token: 0x06005D61 RID: 23905 RVA: 0x002F4C62 File Offset: 0x002F3062
 		public static void GetAdjacentCorners(LocalTargetInfo target, out IntVec3 BL, out IntVec3 TL, out IntVec3 TR, out IntVec3 BR)
 		{
 			if (target.HasThing)
@@ -309,6 +302,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06005D62 RID: 23906 RVA: 0x002F4CA4 File Offset: 0x002F30A4
 		private static void GetAdjacentCorners(CellRect rect, out IntVec3 BL, out IntVec3 TL, out IntVec3 TR, out IntVec3 BR)
 		{
 			BL = new IntVec3(rect.minX - 1, 0, rect.minZ - 1);
@@ -317,37 +311,40 @@ namespace Verse
 			BR = new IntVec3(rect.maxX + 1, 0, rect.minZ - 1);
 		}
 
+		// Token: 0x06005D63 RID: 23907 RVA: 0x002F4D18 File Offset: 0x002F3118
 		public static IntVec3 RandomAdjacentCell8Way(this IntVec3 root)
 		{
 			return root + GenAdj.AdjacentCells[Rand.RangeInclusive(0, 7)];
 		}
 
+		// Token: 0x06005D64 RID: 23908 RVA: 0x002F4D4C File Offset: 0x002F314C
 		public static IntVec3 RandomAdjacentCellCardinal(this IntVec3 root)
 		{
 			return root + GenAdj.CardinalDirections[Rand.RangeInclusive(0, 3)];
 		}
 
+		// Token: 0x06005D65 RID: 23909 RVA: 0x002F4D80 File Offset: 0x002F3180
 		public static IntVec3 RandomAdjacentCell8Way(this Thing t)
 		{
 			CellRect cellRect = t.OccupiedRect();
 			CellRect cellRect2 = cellRect.ExpandedBy(1);
 			IntVec3 randomCell;
-			while (true)
+			do
 			{
 				randomCell = cellRect2.RandomCell;
-				if (!cellRect.Contains(randomCell))
-					break;
 			}
+			while (cellRect.Contains(randomCell));
 			return randomCell;
 		}
 
+		// Token: 0x06005D66 RID: 23910 RVA: 0x002F4DC4 File Offset: 0x002F31C4
 		public static IntVec3 RandomAdjacentCellCardinal(this Thing t)
 		{
 			CellRect cellRect = t.OccupiedRect();
 			IntVec3 randomCell = cellRect.RandomCell;
-			if (Rand.Value < 0.5)
+			if (Rand.Value < 0.5f)
 			{
-				if (Rand.Value < 0.5)
+				if (Rand.Value < 0.5f)
 				{
 					randomCell.x = cellRect.minX - 1;
 				}
@@ -356,7 +353,7 @@ namespace Verse
 					randomCell.x = cellRect.maxX + 1;
 				}
 			}
-			else if (Rand.Value < 0.5)
+			else if (Rand.Value < 0.5f)
 			{
 				randomCell.z = cellRect.minZ - 1;
 			}
@@ -367,53 +364,68 @@ namespace Verse
 			return randomCell;
 		}
 
+		// Token: 0x06005D67 RID: 23911 RVA: 0x002F4E6C File Offset: 0x002F326C
 		public static bool TryFindRandomAdjacentCell8WayWithRoomGroup(Thing t, out IntVec3 result)
 		{
 			return GenAdj.TryFindRandomAdjacentCell8WayWithRoomGroup(t.Position, t.Rotation, t.def.size, t.Map, out result);
 		}
 
+		// Token: 0x06005D68 RID: 23912 RVA: 0x002F4EA4 File Offset: 0x002F32A4
 		public static bool TryFindRandomAdjacentCell8WayWithRoomGroup(IntVec3 center, Rot4 rot, IntVec2 size, Map map, out IntVec3 result)
 		{
 			GenAdj.AdjustForRotation(ref center, ref size, rot);
 			GenAdj.validCells.Clear();
-			foreach (IntVec3 item in GenAdj.CellsAdjacent8Way(center, rot, size))
+			foreach (IntVec3 intVec in GenAdj.CellsAdjacent8Way(center, rot, size))
 			{
-				if (item.InBounds(map) && item.GetRoomGroup(map) != null)
+				if (intVec.InBounds(map) && intVec.GetRoomGroup(map) != null)
 				{
-					GenAdj.validCells.Add(item);
+					GenAdj.validCells.Add(intVec);
 				}
 			}
-			return ((IEnumerable<IntVec3>)GenAdj.validCells).TryRandomElement<IntVec3>(out result);
+			return GenAdj.validCells.TryRandomElement(out result);
 		}
 
+		// Token: 0x06005D69 RID: 23913 RVA: 0x002F4F48 File Offset: 0x002F3348
 		public static bool AdjacentTo8WayOrInside(this IntVec3 me, LocalTargetInfo other)
 		{
+			bool result;
 			if (other.HasThing)
 			{
-				return me.AdjacentTo8WayOrInside(other.Thing);
+				result = me.AdjacentTo8WayOrInside(other.Thing);
 			}
-			return me.AdjacentTo8WayOrInside(other.Cell);
+			else
+			{
+				result = me.AdjacentTo8WayOrInside(other.Cell);
+			}
+			return result;
 		}
 
+		// Token: 0x06005D6A RID: 23914 RVA: 0x002F4F8C File Offset: 0x002F338C
 		public static bool AdjacentTo8Way(this IntVec3 me, IntVec3 other)
 		{
 			int num = me.x - other.x;
 			int num2 = me.z - other.z;
+			bool result;
 			if (num == 0 && num2 == 0)
 			{
-				return false;
+				result = false;
 			}
-			if (num < 0)
+			else
 			{
-				num *= -1;
+				if (num < 0)
+				{
+					num *= -1;
+				}
+				if (num2 < 0)
+				{
+					num2 *= -1;
+				}
+				result = (num <= 1 && num2 <= 1);
 			}
-			if (num2 < 0)
-			{
-				num2 *= -1;
-			}
-			return num <= 1 && num2 <= 1;
+			return result;
 		}
 
+		// Token: 0x06005D6B RID: 23915 RVA: 0x002F4FFC File Offset: 0x002F33FC
 		public static bool AdjacentTo8WayOrInside(this IntVec3 me, IntVec3 other)
 		{
 			int num = me.x - other.x;
@@ -429,24 +441,37 @@ namespace Verse
 			return num <= 1 && num2 <= 1;
 		}
 
+		// Token: 0x06005D6C RID: 23916 RVA: 0x002F5058 File Offset: 0x002F3458
 		public static bool IsAdjacentToCardinalOrInside(this IntVec3 me, CellRect other)
 		{
+			bool result;
 			if (other.IsEmpty)
 			{
-				return false;
+				result = false;
 			}
-			CellRect cellRect = other.ExpandedBy(1);
-			return cellRect.Contains(me) && !cellRect.IsCorner(me);
+			else
+			{
+				CellRect cellRect = other.ExpandedBy(1);
+				result = (cellRect.Contains(me) && !cellRect.IsCorner(me));
+			}
+			return result;
 		}
 
+		// Token: 0x06005D6D RID: 23917 RVA: 0x002F50A4 File Offset: 0x002F34A4
 		public static bool IsAdjacentToCardinalOrInside(this Thing t1, Thing t2)
 		{
 			return GenAdj.IsAdjacentToCardinalOrInside(t1.OccupiedRect(), t2.OccupiedRect());
 		}
 
+		// Token: 0x06005D6E RID: 23918 RVA: 0x002F50CC File Offset: 0x002F34CC
 		public static bool IsAdjacentToCardinalOrInside(CellRect rect1, CellRect rect2)
 		{
-			if (!rect1.IsEmpty && !rect2.IsEmpty)
+			bool result;
+			if (rect1.IsEmpty || rect2.IsEmpty)
+			{
+				result = false;
+			}
+			else
 			{
 				CellRect cellRect = rect1.ExpandedBy(1);
 				int minX = cellRect.minX;
@@ -454,48 +479,51 @@ namespace Verse
 				int minZ = cellRect.minZ;
 				int maxZ = cellRect.maxZ;
 				int i = minX;
-				int num = minZ;
-				for (; i <= maxX; i++)
+				int j = minZ;
+				while (i <= maxX)
 				{
-					if (rect2.Contains(new IntVec3(i, 0, num)) && (i != minX || num != minZ) && (i != minX || num != maxZ) && (i != maxX || num != minZ) && (i != maxX || num != maxZ))
+					if (rect2.Contains(new IntVec3(i, 0, j)) && (i != minX || j != minZ) && (i != minX || j != maxZ) && (i != maxX || j != minZ) && (i != maxX || j != maxZ))
 					{
 						return true;
 					}
+					i++;
 				}
 				i--;
-				for (num++; num <= maxZ; num++)
+				for (j++; j <= maxZ; j++)
 				{
-					if (rect2.Contains(new IntVec3(i, 0, num)) && (i != minX || num != minZ) && (i != minX || num != maxZ) && (i != maxX || num != minZ) && (i != maxX || num != maxZ))
+					if (rect2.Contains(new IntVec3(i, 0, j)) && (i != minX || j != minZ) && (i != minX || j != maxZ) && (i != maxX || j != minZ) && (i != maxX || j != maxZ))
 					{
 						return true;
 					}
 				}
-				num--;
+				j--;
 				for (i--; i >= minX; i--)
 				{
-					if (rect2.Contains(new IntVec3(i, 0, num)) && (i != minX || num != minZ) && (i != minX || num != maxZ) && (i != maxX || num != minZ) && (i != maxX || num != maxZ))
+					if (rect2.Contains(new IntVec3(i, 0, j)) && (i != minX || j != minZ) && (i != minX || j != maxZ) && (i != maxX || j != minZ) && (i != maxX || j != maxZ))
 					{
 						return true;
 					}
 				}
 				i++;
-				for (num--; num > minZ; num--)
+				for (j--; j > minZ; j--)
 				{
-					if (rect2.Contains(new IntVec3(i, 0, num)) && (i != minX || num != minZ) && (i != minX || num != maxZ) && (i != maxX || num != minZ) && (i != maxX || num != maxZ))
+					if (rect2.Contains(new IntVec3(i, 0, j)) && (i != minX || j != minZ) && (i != minX || j != maxZ) && (i != maxX || j != minZ) && (i != maxX || j != maxZ))
 					{
 						return true;
 					}
 				}
-				return false;
+				result = false;
 			}
-			return false;
+			return result;
 		}
 
+		// Token: 0x06005D6F RID: 23919 RVA: 0x002F5338 File Offset: 0x002F3738
 		public static bool AdjacentTo8WayOrInside(this IntVec3 root, Thing t)
 		{
 			return root.AdjacentTo8WayOrInside(t.Position, t.Rotation, t.def.size);
 		}
 
+		// Token: 0x06005D70 RID: 23920 RVA: 0x002F536C File Offset: 0x002F376C
 		public static bool AdjacentTo8WayOrInside(this IntVec3 root, IntVec3 center, Rot4 rot, IntVec2 size)
 		{
 			GenAdj.AdjustForRotation(ref center, ref size, rot);
@@ -503,32 +531,28 @@ namespace Verse
 			int num2 = center.z - (size.z - 1) / 2 - 1;
 			int num3 = num + size.x + 1;
 			int num4 = num2 + size.z + 1;
-			if (root.x >= num && root.x <= num3 && root.z >= num2 && root.z <= num4)
-			{
-				return true;
-			}
-			return false;
+			return root.x >= num && root.x <= num3 && root.z >= num2 && root.z <= num4;
 		}
 
+		// Token: 0x06005D71 RID: 23921 RVA: 0x002F5410 File Offset: 0x002F3810
 		public static bool AdjacentTo8WayOrInside(this Thing a, Thing b)
 		{
 			return GenAdj.AdjacentTo8WayOrInside(a.OccupiedRect(), b.OccupiedRect());
 		}
 
+		// Token: 0x06005D72 RID: 23922 RVA: 0x002F5438 File Offset: 0x002F3838
 		public static bool AdjacentTo8WayOrInside(CellRect rect1, CellRect rect2)
 		{
-			if (!rect1.IsEmpty && !rect2.IsEmpty)
-			{
-				return rect1.ExpandedBy(1).Overlaps(rect2);
-			}
-			return false;
+			return !rect1.IsEmpty && !rect2.IsEmpty && rect1.ExpandedBy(1).Overlaps(rect2);
 		}
 
+		// Token: 0x06005D73 RID: 23923 RVA: 0x002F5480 File Offset: 0x002F3880
 		public static bool IsInside(this IntVec3 root, Thing t)
 		{
 			return GenAdj.IsInside(root, t.Position, t.Rotation, t.def.size);
 		}
 
+		// Token: 0x06005D74 RID: 23924 RVA: 0x002F54B4 File Offset: 0x002F38B4
 		public static bool IsInside(IntVec3 root, IntVec3 center, Rot4 rot, IntVec2 size)
 		{
 			GenAdj.AdjustForRotation(ref center, ref size, rot);
@@ -536,61 +560,92 @@ namespace Verse
 			int num2 = center.z - (size.z - 1) / 2;
 			int num3 = num + size.x - 1;
 			int num4 = num2 + size.z - 1;
-			if (root.x >= num && root.x <= num3 && root.z >= num2 && root.z <= num4)
-			{
-				return true;
-			}
-			return false;
+			return root.x >= num && root.x <= num3 && root.z >= num2 && root.z <= num4;
 		}
 
+		// Token: 0x06005D75 RID: 23925 RVA: 0x002F5554 File Offset: 0x002F3954
 		public static CellRect OccupiedRect(this Thing t)
 		{
 			return GenAdj.OccupiedRect(t.Position, t.Rotation, t.def.size);
 		}
 
+		// Token: 0x06005D76 RID: 23926 RVA: 0x002F5588 File Offset: 0x002F3988
 		public static CellRect OccupiedRect(IntVec3 center, Rot4 rot, IntVec2 size)
 		{
 			GenAdj.AdjustForRotation(ref center, ref size, rot);
 			return new CellRect(center.x - (size.x - 1) / 2, center.z - (size.z - 1) / 2, size.x, size.z);
 		}
 
+		// Token: 0x06005D77 RID: 23927 RVA: 0x002F55E0 File Offset: 0x002F39E0
 		public static void AdjustForRotation(ref IntVec3 center, ref IntVec2 size, Rot4 rot)
 		{
-			if (size.x == 1 && size.z == 1)
-				return;
-			if (rot.IsHorizontal)
+			if (size.x != 1 || size.z != 1)
 			{
-				int x = size.x;
-				size.x = size.z;
-				size.z = x;
-			}
-			switch (rot.AsInt)
-			{
-			case 0:
-				break;
-			case 1:
-				if (size.z % 2 == 0)
+				if (rot.IsHorizontal)
 				{
-					center.z--;
+					int x = size.x;
+					size.x = size.z;
+					size.z = x;
 				}
-				break;
-			case 2:
-				if (size.x % 2 == 0)
+				switch (rot.AsInt)
 				{
-					center.x--;
+				case 1:
+					if (size.z % 2 == 0)
+					{
+						center.z--;
+					}
+					break;
+				case 2:
+					if (size.x % 2 == 0)
+					{
+						center.x--;
+					}
+					if (size.z % 2 == 0)
+					{
+						center.z--;
+					}
+					break;
+				case 3:
+					if (size.x % 2 == 0)
+					{
+						center.x--;
+					}
+					break;
 				}
-				if (size.z % 2 == 0)
-				{
-					center.z--;
-				}
-				break;
-			case 3:
-				if (size.x % 2 == 0)
-				{
-					center.x--;
-				}
-				break;
 			}
 		}
+
+		// Token: 0x04003DAE RID: 15790
+		public static IntVec3[] CardinalDirections = new IntVec3[4];
+
+		// Token: 0x04003DAF RID: 15791
+		public static IntVec3[] CardinalDirectionsAndInside = new IntVec3[5];
+
+		// Token: 0x04003DB0 RID: 15792
+		public static IntVec3[] CardinalDirectionsAround = new IntVec3[4];
+
+		// Token: 0x04003DB1 RID: 15793
+		public static IntVec3[] DiagonalDirections = new IntVec3[4];
+
+		// Token: 0x04003DB2 RID: 15794
+		public static IntVec3[] DiagonalDirectionsAround = new IntVec3[4];
+
+		// Token: 0x04003DB3 RID: 15795
+		public static IntVec3[] AdjacentCells = new IntVec3[8];
+
+		// Token: 0x04003DB4 RID: 15796
+		public static IntVec3[] AdjacentCellsAndInside = new IntVec3[9];
+
+		// Token: 0x04003DB5 RID: 15797
+		public static IntVec3[] AdjacentCellsAround = new IntVec3[8];
+
+		// Token: 0x04003DB6 RID: 15798
+		public static IntVec3[] AdjacentCellsAroundBottom = new IntVec3[9];
+
+		// Token: 0x04003DB7 RID: 15799
+		private static List<IntVec3> adjRandomOrderList;
+
+		// Token: 0x04003DB8 RID: 15800
+		private static List<IntVec3> validCells = new List<IntVec3>();
 	}
 }

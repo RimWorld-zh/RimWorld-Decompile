@@ -1,7 +1,7 @@
-using RimWorld.Planet;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -9,61 +9,41 @@ using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x0200084E RID: 2126
 	public class ITab_Pawn_Gear : ITab
 	{
-		private Vector2 scrollPosition = Vector2.zero;
+		// Token: 0x06003023 RID: 12323 RVA: 0x001A29B8 File Offset: 0x001A0DB8
+		public ITab_Pawn_Gear()
+		{
+			this.size = new Vector2(460f, 450f);
+			this.labelKey = "TabGear";
+			this.tutorTag = "Gear";
+		}
 
-		private float scrollViewHeight;
-
-		private const float TopPadding = 20f;
-
-		private static readonly Color ThingLabelColor = new Color(0.9f, 0.9f, 0.9f, 1f);
-
-		private static readonly Color HighlightColor = new Color(0.5f, 0.5f, 0.5f, 1f);
-
-		private const float ThingIconSize = 28f;
-
-		private const float ThingRowHeight = 28f;
-
-		private const float ThingLeftX = 36f;
-
-		private const float StandardLineHeight = 22f;
-
-		private static List<Thing> workingInvList = new List<Thing>();
-
+		// Token: 0x170007AB RID: 1963
+		// (get) Token: 0x06003024 RID: 12324 RVA: 0x001A2A10 File Offset: 0x001A0E10
 		public override bool IsVisible
 		{
 			get
 			{
-				return this.SelPawnForGear.RaceProps.ToolUser || this.SelPawnForGear.inventory.innerContainer.Count > 0;
+				Pawn selPawnForGear = this.SelPawnForGear;
+				return this.ShouldShowInventory(selPawnForGear) || this.ShouldShowApparel(selPawnForGear) || this.ShouldShowEquipment(selPawnForGear);
 			}
 		}
 
+		// Token: 0x170007AC RID: 1964
+		// (get) Token: 0x06003025 RID: 12325 RVA: 0x001A2A50 File Offset: 0x001A0E50
 		private bool CanControl
 		{
 			get
 			{
 				Pawn selPawnForGear = this.SelPawnForGear;
-				if (!selPawnForGear.Downed && !selPawnForGear.InMentalState)
-				{
-					if (selPawnForGear.Faction != Faction.OfPlayer && !selPawnForGear.IsPrisonerOfColony)
-					{
-						return false;
-					}
-					if (selPawnForGear.IsPrisonerOfColony && selPawnForGear.Spawned && !selPawnForGear.Map.mapPawns.AnyFreeColonistSpawned)
-					{
-						return false;
-					}
-					if (selPawnForGear.IsPrisonerOfColony && (PrisonBreakUtility.IsPrisonBreaking(selPawnForGear) || (selPawnForGear.CurJob != null && selPawnForGear.CurJob.exitMapOnArrival)))
-					{
-						return false;
-					}
-					return true;
-				}
-				return false;
+				return !selPawnForGear.Downed && !selPawnForGear.InMentalState && (selPawnForGear.Faction == Faction.OfPlayer || selPawnForGear.IsPrisonerOfColony) && (!selPawnForGear.IsPrisonerOfColony || !selPawnForGear.Spawned || selPawnForGear.Map.mapPawns.AnyFreeColonistSpawned) && (!selPawnForGear.IsPrisonerOfColony || (!PrisonBreakUtility.IsPrisonBreaking(selPawnForGear) && (selPawnForGear.CurJob == null || !selPawnForGear.CurJob.exitMapOnArrival)));
 			}
 		}
 
+		// Token: 0x170007AD RID: 1965
+		// (get) Token: 0x06003026 RID: 12326 RVA: 0x001A2B18 File Offset: 0x001A0F18
 		private bool CanControlColonist
 		{
 			get
@@ -72,72 +52,72 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170007AE RID: 1966
+		// (get) Token: 0x06003027 RID: 12327 RVA: 0x001A2B48 File Offset: 0x001A0F48
 		private Pawn SelPawnForGear
 		{
 			get
 			{
+				Pawn result;
 				if (base.SelPawn != null)
 				{
-					return base.SelPawn;
+					result = base.SelPawn;
 				}
-				Corpse corpse = base.SelThing as Corpse;
-				if (corpse != null)
+				else
 				{
-					return corpse.InnerPawn;
+					Corpse corpse = base.SelThing as Corpse;
+					if (corpse == null)
+					{
+						throw new InvalidOperationException("Gear tab on non-pawn non-corpse " + base.SelThing);
+					}
+					result = corpse.InnerPawn;
 				}
-				throw new InvalidOperationException("Gear tab on non-pawn non-corpse " + base.SelThing);
+				return result;
 			}
 		}
 
-		public ITab_Pawn_Gear()
-		{
-			base.size = new Vector2(460f, 450f);
-			base.labelKey = "TabGear";
-			base.tutorTag = "Gear";
-		}
-
+		// Token: 0x06003028 RID: 12328 RVA: 0x001A2BA4 File Offset: 0x001A0FA4
 		protected override void FillTab()
 		{
 			Text.Font = GameFont.Small;
-			Rect rect = new Rect(0f, 20f, base.size.x, (float)(base.size.y - 20.0));
+			Rect rect = new Rect(0f, 20f, this.size.x, this.size.y - 20f);
 			Rect rect2 = rect.ContractedBy(10f);
 			Rect position = new Rect(rect2.x, rect2.y, rect2.width, rect2.height);
 			GUI.BeginGroup(position);
 			Text.Font = GameFont.Small;
 			GUI.color = Color.white;
 			Rect outRect = new Rect(0f, 0f, position.width, position.height);
-			Rect viewRect = new Rect(0f, 0f, (float)(position.width - 16.0), this.scrollViewHeight);
+			Rect viewRect = new Rect(0f, 0f, position.width - 16f, this.scrollViewHeight);
 			Widgets.BeginScrollView(outRect, ref this.scrollPosition, viewRect, true);
 			float num = 0f;
 			this.TryDrawMassInfo(ref num, viewRect.width);
 			this.TryDrawComfyTemperatureRange(ref num, viewRect.width);
-			if (this.SelPawnForGear.apparel != null)
+			if (this.ShouldShowOverallArmor(this.SelPawnForGear))
 			{
-				bool flag = false;
-				this.TryDrawAverageArmor(ref num, viewRect.width, StatDefOf.ArmorRating_Blunt, "ArmorBlunt".Translate(), ref flag);
-				this.TryDrawAverageArmor(ref num, viewRect.width, StatDefOf.ArmorRating_Sharp, "ArmorSharp".Translate(), ref flag);
-				this.TryDrawAverageArmor(ref num, viewRect.width, StatDefOf.ArmorRating_Heat, "ArmorHeat".Translate(), ref flag);
-				this.TryDrawAverageArmor(ref num, viewRect.width, StatDefOf.ArmorRating_Electric, "ArmorElectric".Translate(), ref flag);
+				Widgets.ListSeparator(ref num, viewRect.width, "OverallArmor".Translate());
+				this.TryDrawOverallArmor(ref num, viewRect.width, StatDefOf.ArmorRating_Sharp, "ArmorSharp".Translate());
+				this.TryDrawOverallArmor(ref num, viewRect.width, StatDefOf.ArmorRating_Blunt, "ArmorBlunt".Translate());
+				this.TryDrawOverallArmor(ref num, viewRect.width, StatDefOf.ArmorRating_Heat, "ArmorHeat".Translate());
 			}
-			if (this.SelPawnForGear.equipment != null)
+			if (this.ShouldShowEquipment(this.SelPawnForGear))
 			{
 				Widgets.ListSeparator(ref num, viewRect.width, "Equipment".Translate());
-				foreach (ThingWithComps item in this.SelPawnForGear.equipment.AllEquipmentListForReading)
+				foreach (ThingWithComps thing in this.SelPawnForGear.equipment.AllEquipmentListForReading)
 				{
-					this.DrawThingRow(ref num, viewRect.width, item, false);
+					this.DrawThingRow(ref num, viewRect.width, thing, false);
 				}
 			}
-			if (this.SelPawnForGear.apparel != null)
+			if (this.ShouldShowApparel(this.SelPawnForGear))
 			{
 				Widgets.ListSeparator(ref num, viewRect.width, "Apparel".Translate());
-				foreach (Apparel item2 in from ap in this.SelPawnForGear.apparel.WornApparel
+				foreach (Apparel thing2 in from ap in this.SelPawnForGear.apparel.WornApparel
 				orderby ap.def.apparel.bodyPartGroups[0].listOrder descending
 				select ap)
 				{
-					this.DrawThingRow(ref num, viewRect.width, item2, false);
+					this.DrawThingRow(ref num, viewRect.width, thing2, false);
 				}
 			}
-			if (this.SelPawnForGear.inventory != null)
+			if (this.ShouldShowInventory(this.SelPawnForGear))
 			{
 				Widgets.ListSeparator(ref num, viewRect.width, "Inventory".Translate());
 				ITab_Pawn_Gear.workingInvList.Clear();
@@ -146,10 +126,11 @@ namespace RimWorld
 				{
 					this.DrawThingRow(ref num, viewRect.width, ITab_Pawn_Gear.workingInvList[i], true);
 				}
+				ITab_Pawn_Gear.workingInvList.Clear();
 			}
 			if (Event.current.type == EventType.Layout)
 			{
-				this.scrollViewHeight = (float)(num + 30.0);
+				this.scrollViewHeight = num + 30f;
 			}
 			Widgets.EndScrollView();
 			GUI.EndGroup();
@@ -157,52 +138,56 @@ namespace RimWorld
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
+		// Token: 0x06003029 RID: 12329 RVA: 0x001A2F40 File Offset: 0x001A1340
 		private void DrawThingRow(ref float y, float width, Thing thing, bool inventory = false)
 		{
 			Rect rect = new Rect(0f, y, width, 28f);
-			Widgets.InfoCardButton((float)(rect.width - 24.0), y, thing);
+			Widgets.InfoCardButton(rect.width - 24f, y, thing);
 			rect.width -= 24f;
 			if (this.CanControl && (inventory || this.CanControlColonist || (this.SelPawnForGear.Spawned && !this.SelPawnForGear.Map.IsPlayerHome)))
 			{
-				Rect rect2 = new Rect((float)(rect.width - 24.0), y, 24f, 24f);
+				Rect rect2 = new Rect(rect.width - 24f, y, 24f, 24f);
 				TooltipHandler.TipRegion(rect2, "DropThing".Translate());
 				if (Widgets.ButtonImage(rect2, TexButton.Drop))
 				{
-					SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
+					SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
 					this.InterfaceDrop(thing);
 				}
 				rect.width -= 24f;
 			}
 			if (this.CanControlColonist)
 			{
-				if (thing.def.IsNutritionGivingIngestible && thing.IngestibleNow && base.SelPawn.RaceProps.CanEverEat(thing))
+				if ((thing.def.IsNutritionGivingIngestible || thing.def.IsNonMedicalDrug) && thing.IngestibleNow && base.SelPawn.RaceProps.CanEverEat(thing))
 				{
-					Rect rect3 = new Rect((float)(rect.width - 24.0), y, 24f, 24f);
-					TooltipHandler.TipRegion(rect3, "ConsumeThing".Translate(thing.LabelNoCount));
+					Rect rect3 = new Rect(rect.width - 24f, y, 24f, 24f);
+					TooltipHandler.TipRegion(rect3, "ConsumeThing".Translate(new object[]
+					{
+						thing.LabelNoCount
+					}));
 					if (Widgets.ButtonImage(rect3, TexButton.Ingest))
 					{
-						SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
+						SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
 						this.InterfaceIngest(thing);
 					}
 				}
 				rect.width -= 24f;
 			}
 			Rect rect4 = rect;
-			rect4.xMin = (float)(rect4.xMax - 60.0);
-			CaravanPeopleAndItemsTabUtility.TryDrawMass(thing, rect4);
+			rect4.xMin = rect4.xMax - 60f;
+			CaravanThingsTabUtility.DrawMass(thing, rect4);
 			rect.width -= 60f;
 			if (Mouse.IsOver(rect))
 			{
 				GUI.color = ITab_Pawn_Gear.HighlightColor;
 				GUI.DrawTexture(rect, TexUI.HighlightTex);
 			}
-			if ((UnityEngine.Object)thing.def.DrawMatSingle != (UnityEngine.Object)null && (UnityEngine.Object)thing.def.DrawMatSingle.mainTexture != (UnityEngine.Object)null)
+			if (thing.def.DrawMatSingle != null && thing.def.DrawMatSingle.mainTexture != null)
 			{
 				Widgets.ThingIcon(new Rect(4f, y, 28f, 28f), thing, 1f);
 			}
 			Text.Anchor = TextAnchor.MiddleLeft;
 			GUI.color = ITab_Pawn_Gear.ThingLabelColor;
-			Rect rect5 = new Rect(36f, y, (float)(rect.width - 36.0), rect.height);
+			Rect rect5 = new Rect(36f, y, rect.width - 36f, rect.height);
 			string text = thing.LabelCap;
 			Apparel apparel = thing as Apparel;
 			if (apparel != null && this.SelPawnForGear.outfits != null && this.SelPawnForGear.outfits.forcedHandler.IsForced(apparel))
@@ -212,55 +197,72 @@ namespace RimWorld
 			Text.WordWrap = false;
 			Widgets.Label(rect5, text.Truncate(rect5.width, null));
 			Text.WordWrap = true;
-			string text2 = thing.LabelCap;
+			string text2 = thing.DescriptionDetailed;
 			if (thing.def.useHitPoints)
 			{
 				string text3 = text2;
-				text2 = text3 + "\n" + thing.HitPoints + " / " + thing.MaxHitPoints;
+				text2 = string.Concat(new object[]
+				{
+					text3,
+					"\n",
+					thing.HitPoints,
+					" / ",
+					thing.MaxHitPoints
+				});
 			}
 			TooltipHandler.TipRegion(rect, text2);
 			y += 28f;
 		}
 
-		private void TryDrawAverageArmor(ref float curY, float width, StatDef stat, string label, ref bool separatorDrawn)
+		// Token: 0x0600302A RID: 12330 RVA: 0x001A32CC File Offset: 0x001A16CC
+		private void TryDrawOverallArmor(ref float curY, float width, StatDef stat, string label)
 		{
-			if (this.SelPawnForGear.RaceProps.body == BodyDefOf.Human)
+			float num = 0f;
+			float num2 = Mathf.Clamp01(this.SelPawnForGear.GetStatValue(stat, true));
+			List<BodyPartRecord> allParts = this.SelPawnForGear.RaceProps.body.AllParts;
+			List<Apparel> list = (this.SelPawnForGear.apparel == null) ? null : this.SelPawnForGear.apparel.WornApparel;
+			for (int i = 0; i < allParts.Count; i++)
 			{
-				float num = 0f;
-				List<Apparel> wornApparel = this.SelPawnForGear.apparel.WornApparel;
-				for (int i = 0; i < wornApparel.Count; i++)
+				float num3 = 1f - num2;
+				if (list != null)
 				{
-					num += Mathf.Clamp01(wornApparel[i].GetStatValue(stat, true)) * wornApparel[i].def.apparel.HumanBodyCoverage;
-				}
-				num = Mathf.Clamp01(num);
-				if (num > 0.004999999888241291)
-				{
-					if (!separatorDrawn)
+					for (int j = 0; j < list.Count; j++)
 					{
-						separatorDrawn = true;
-						Widgets.ListSeparator(ref curY, width, "AverageArmor".Translate());
+						if (list[j].def.apparel.CoversBodyPart(allParts[i]))
+						{
+							float num4 = Mathf.Clamp01(list[j].GetStatValue(stat, true));
+							num3 *= 1f - num4;
+						}
 					}
-					Rect rect = new Rect(0f, curY, width, 100f);
-					Widgets.Label(rect, label.Truncate(120f, null));
-					rect.xMin += 120f;
-					Widgets.Label(rect, num.ToStringPercent());
-					curY += 22f;
 				}
+				num += allParts[i].coverageAbs * (1f - num3);
 			}
+			num = Mathf.Clamp01(num);
+			Rect rect = new Rect(0f, curY, width, 100f);
+			Widgets.Label(rect, label.Truncate(120f, null));
+			rect.xMin += 120f;
+			Widgets.Label(rect, num.ToStringPercent());
+			curY += 22f;
 		}
 
+		// Token: 0x0600302B RID: 12331 RVA: 0x001A343C File Offset: 0x001A183C
 		private void TryDrawMassInfo(ref float curY, float width)
 		{
-			if (!this.SelPawnForGear.Dead)
+			if (!this.SelPawnForGear.Dead && this.ShouldShowInventory(this.SelPawnForGear))
 			{
 				Rect rect = new Rect(0f, curY, width, 22f);
 				float num = MassUtility.GearAndInventoryMass(this.SelPawnForGear);
-				float num2 = MassUtility.Capacity(this.SelPawnForGear);
-				Widgets.Label(rect, "MassCarried".Translate(num.ToString("0.##"), num2.ToString("0.##")));
+				float num2 = MassUtility.Capacity(this.SelPawnForGear, null);
+				Widgets.Label(rect, "MassCarried".Translate(new object[]
+				{
+					num.ToString("0.##"),
+					num2.ToString("0.##")
+				}));
 				curY += 22f;
 			}
 		}
 
+		// Token: 0x0600302C RID: 12332 RVA: 0x001A34DC File Offset: 0x001A18DC
 		private void TryDrawComfyTemperatureRange(ref float curY, float width)
 		{
 			if (!this.SelPawnForGear.Dead)
@@ -268,11 +270,19 @@ namespace RimWorld
 				Rect rect = new Rect(0f, curY, width, 22f);
 				float statValue = this.SelPawnForGear.GetStatValue(StatDefOf.ComfyTemperatureMin, true);
 				float statValue2 = this.SelPawnForGear.GetStatValue(StatDefOf.ComfyTemperatureMax, true);
-				Widgets.Label(rect, "ComfyTemperatureRange".Translate() + ": " + statValue.ToStringTemperature("F0") + " ~ " + statValue2.ToStringTemperature("F0"));
+				Widgets.Label(rect, string.Concat(new string[]
+				{
+					"ComfyTemperatureRange".Translate(),
+					": ",
+					statValue.ToStringTemperature("F0"),
+					" ~ ",
+					statValue2.ToStringTemperature("F0")
+				}));
 				curY += 22f;
 			}
 		}
 
+		// Token: 0x0600302D RID: 12333 RVA: 0x001A358C File Offset: 0x001A198C
 		private void InterfaceDrop(Thing t)
 		{
 			ThingWithComps thingWithComps = t as ThingWithComps;
@@ -287,16 +297,72 @@ namespace RimWorld
 			}
 			else if (!t.def.destroyOnDrop)
 			{
-				Thing thing = default(Thing);
-				this.SelPawnForGear.inventory.innerContainer.TryDrop(t, this.SelPawnForGear.Position, this.SelPawnForGear.Map, ThingPlaceMode.Near, out thing, (Action<Thing, int>)null);
+				Thing thing;
+				this.SelPawnForGear.inventory.innerContainer.TryDrop(t, this.SelPawnForGear.Position, this.SelPawnForGear.Map, ThingPlaceMode.Near, out thing, null, null);
 			}
 		}
 
+		// Token: 0x0600302E RID: 12334 RVA: 0x001A369C File Offset: 0x001A1A9C
 		private void InterfaceIngest(Thing t)
 		{
 			Job job = new Job(JobDefOf.Ingest, t);
 			job.count = Mathf.Min(t.stackCount, t.def.ingestible.maxNumToIngestAtOnce);
+			job.count = Mathf.Min(job.count, FoodUtility.WillIngestStackCountOf(this.SelPawnForGear, t.def, t.GetStatValue(StatDefOf.Nutrition, true)));
 			this.SelPawnForGear.jobs.TryTakeOrderedJob(job, JobTag.Misc);
 		}
+
+		// Token: 0x0600302F RID: 12335 RVA: 0x001A3720 File Offset: 0x001A1B20
+		private bool ShouldShowInventory(Pawn p)
+		{
+			return p.RaceProps.Humanlike || p.inventory.innerContainer.Any;
+		}
+
+		// Token: 0x06003030 RID: 12336 RVA: 0x001A3758 File Offset: 0x001A1B58
+		private bool ShouldShowApparel(Pawn p)
+		{
+			return p.apparel != null && (p.RaceProps.Humanlike || p.apparel.WornApparel.Any<Apparel>());
+		}
+
+		// Token: 0x06003031 RID: 12337 RVA: 0x001A37A4 File Offset: 0x001A1BA4
+		private bool ShouldShowEquipment(Pawn p)
+		{
+			return p.equipment != null;
+		}
+
+		// Token: 0x06003032 RID: 12338 RVA: 0x001A37C8 File Offset: 0x001A1BC8
+		private bool ShouldShowOverallArmor(Pawn p)
+		{
+			return p.RaceProps.Humanlike || this.ShouldShowApparel(p) || p.GetStatValue(StatDefOf.ArmorRating_Sharp, true) > 0f || p.GetStatValue(StatDefOf.ArmorRating_Blunt, true) > 0f || p.GetStatValue(StatDefOf.ArmorRating_Heat, true) > 0f;
+		}
+
+		// Token: 0x04001A0C RID: 6668
+		private Vector2 scrollPosition = Vector2.zero;
+
+		// Token: 0x04001A0D RID: 6669
+		private float scrollViewHeight = 0f;
+
+		// Token: 0x04001A0E RID: 6670
+		private const float TopPadding = 20f;
+
+		// Token: 0x04001A0F RID: 6671
+		public static readonly Color ThingLabelColor = new Color(0.9f, 0.9f, 0.9f, 1f);
+
+		// Token: 0x04001A10 RID: 6672
+		public static readonly Color HighlightColor = new Color(0.5f, 0.5f, 0.5f, 1f);
+
+		// Token: 0x04001A11 RID: 6673
+		private const float ThingIconSize = 28f;
+
+		// Token: 0x04001A12 RID: 6674
+		private const float ThingRowHeight = 28f;
+
+		// Token: 0x04001A13 RID: 6675
+		private const float ThingLeftX = 36f;
+
+		// Token: 0x04001A14 RID: 6676
+		private const float StandardLineHeight = 22f;
+
+		// Token: 0x04001A15 RID: 6677
+		private static List<Thing> workingInvList = new List<Thing>();
 	}
 }

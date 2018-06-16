@@ -1,27 +1,15 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.Grammar;
 
 namespace RimWorld
 {
+	// Token: 0x0200065F RID: 1631
 	public class TaleData_Surroundings : TaleData
 	{
-		public int tile;
-
-		public float temperature;
-
-		public float snowDepth;
-
-		public WeatherDef weather;
-
-		public RoomRoleDef roomRole;
-
-		public float roomImpressiveness;
-
-		public float roomBeauty;
-
-		public float roomCleanliness;
-
+		// Token: 0x170004FF RID: 1279
+		// (get) Token: 0x06002206 RID: 8710 RVA: 0x0012059C File Offset: 0x0011E99C
 		public bool Outdoors
 		{
 			get
@@ -30,6 +18,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002207 RID: 8711 RVA: 0x001205C0 File Offset: 0x0011E9C0
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.tile, "tile", 0, false);
@@ -42,12 +31,29 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.roomCleanliness, "roomCleanliness", 0f, false);
 		}
 
+		// Token: 0x06002208 RID: 8712 RVA: 0x00120670 File Offset: 0x0011EA70
 		public override IEnumerable<Rule> GetRules()
 		{
-			yield return (Rule)new Rule_String("biome", Find.WorldGrid[this.tile].biome.label);
-			/*Error: Unable to find new state assignment for yield return*/;
+			yield return new Rule_String("BIOME", Find.WorldGrid[this.tile].biome.label);
+			if (this.roomRole != null && this.roomRole != RoomRoleDefOf.None)
+			{
+				yield return new Rule_String("ROOM_role", this.roomRole.label);
+				yield return new Rule_String("ROOM_roleDefinite", Find.ActiveLanguageWorker.WithDefiniteArticle(this.roomRole.label));
+				yield return new Rule_String("ROOM_roleIndefinite", Find.ActiveLanguageWorker.WithIndefiniteArticle(this.roomRole.label));
+				RoomStatScoreStage impressiveness = RoomStatDefOf.Impressiveness.GetScoreStage(this.roomImpressiveness);
+				RoomStatScoreStage beauty = RoomStatDefOf.Beauty.GetScoreStage(this.roomBeauty);
+				RoomStatScoreStage cleanliness = RoomStatDefOf.Cleanliness.GetScoreStage(this.roomCleanliness);
+				yield return new Rule_String("ROOM_impressiveness", impressiveness.label);
+				yield return new Rule_String("ROOM_impressivenessIndefinite", Find.ActiveLanguageWorker.WithIndefiniteArticle(impressiveness.label));
+				yield return new Rule_String("ROOM_beauty", beauty.label);
+				yield return new Rule_String("ROOM_beautyIndefinite", Find.ActiveLanguageWorker.WithIndefiniteArticle(beauty.label));
+				yield return new Rule_String("ROOM_cleanliness", cleanliness.label);
+				yield return new Rule_String("ROOM_cleanlinessIndefinite", Find.ActiveLanguageWorker.WithIndefiniteArticle(cleanliness.label));
+			}
+			yield break;
 		}
 
+		// Token: 0x06002209 RID: 8713 RVA: 0x0012069C File Offset: 0x0011EA9C
 		public static TaleData_Surroundings GenerateFrom(IntVec3 c, Map map)
 		{
 			TaleData_Surroundings taleData_Surroundings = new TaleData_Surroundings();
@@ -72,9 +78,34 @@ namespace RimWorld
 			return taleData_Surroundings;
 		}
 
+		// Token: 0x0600220A RID: 8714 RVA: 0x00120760 File Offset: 0x0011EB60
 		public static TaleData_Surroundings GenerateRandom(Map map)
 		{
 			return TaleData_Surroundings.GenerateFrom(CellFinder.RandomCell(map), map);
 		}
+
+		// Token: 0x04001352 RID: 4946
+		public int tile;
+
+		// Token: 0x04001353 RID: 4947
+		public float temperature;
+
+		// Token: 0x04001354 RID: 4948
+		public float snowDepth;
+
+		// Token: 0x04001355 RID: 4949
+		public WeatherDef weather;
+
+		// Token: 0x04001356 RID: 4950
+		public RoomRoleDef roomRole;
+
+		// Token: 0x04001357 RID: 4951
+		public float roomImpressiveness;
+
+		// Token: 0x04001358 RID: 4952
+		public float roomBeauty;
+
+		// Token: 0x04001359 RID: 4953
+		public float roomCleanliness;
 	}
 }

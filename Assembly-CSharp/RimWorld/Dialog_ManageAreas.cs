@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -5,60 +6,65 @@ using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000802 RID: 2050
 	public class Dialog_ManageAreas : Window
 	{
-		private Map map;
+		// Token: 0x06002DB4 RID: 11700 RVA: 0x00180776 File Offset: 0x0017EB76
+		public Dialog_ManageAreas(Map map)
+		{
+			this.map = map;
+			this.forcePause = true;
+			this.doCloseX = true;
+			this.doCloseButton = true;
+			this.closeOnClickedOutside = true;
+			this.absorbInputAroundWindow = true;
+		}
 
-		private static Regex validNameRegex = new Regex("^[a-zA-Z0-9 '\\-]*$");
-
+		// Token: 0x1700074C RID: 1868
+		// (get) Token: 0x06002DB5 RID: 11701 RVA: 0x001807AC File Offset: 0x0017EBAC
 		public override Vector2 InitialSize
 		{
 			get
 			{
-				return new Vector2(700f, 700f);
+				return new Vector2(450f, 400f);
 			}
 		}
 
-		public Dialog_ManageAreas(Map map)
-		{
-			this.map = map;
-			base.forcePause = true;
-			base.doCloseX = true;
-			base.closeOnEscapeKey = true;
-			base.doCloseButton = true;
-			base.closeOnClickedOutside = true;
-			base.absorbInputAroundWindow = true;
-		}
-
+		// Token: 0x06002DB6 RID: 11702 RVA: 0x001807D0 File Offset: 0x0017EBD0
 		public override void DoWindowContents(Rect inRect)
 		{
 			Listing_Standard listing_Standard = new Listing_Standard();
 			listing_Standard.ColumnWidth = inRect.width;
 			listing_Standard.Begin(inRect);
 			List<Area> allAreas = this.map.areaManager.AllAreas;
-			for (int i = 0; i < allAreas.Count; i++)
+			int i = 0;
+			for (int j = 0; j < allAreas.Count; j++)
 			{
-				if (allAreas[i].Mutable)
+				if (allAreas[j].Mutable)
 				{
 					Rect rect = listing_Standard.GetRect(24f);
-					Dialog_ManageAreas.DoAreaRow(rect, allAreas[i]);
+					Dialog_ManageAreas.DoAreaRow(rect, allAreas[j]);
 					listing_Standard.Gap(6f);
+					i++;
 				}
 			}
-			listing_Standard.ColumnWidth = (float)(inRect.width / 2.0);
-			if (this.map.areaManager.CanMakeNewAllowed(AllowedAreaMode.Humanlike) && listing_Standard.ButtonText("NewArea".Translate(), null))
+			if (this.map.areaManager.CanMakeNewAllowed())
 			{
-				Area_Allowed area_Allowed = default(Area_Allowed);
-				this.map.areaManager.TryMakeNewAllowed(AllowedAreaMode.Humanlike, out area_Allowed);
-			}
-			if (this.map.areaManager.CanMakeNewAllowed(AllowedAreaMode.Animal) && listing_Standard.ButtonText("NewAreaAnimal".Translate(), null))
-			{
-				Area_Allowed area_Allowed2 = default(Area_Allowed);
-				this.map.areaManager.TryMakeNewAllowed(AllowedAreaMode.Animal, out area_Allowed2);
+				while (i < 9)
+				{
+					listing_Standard.Gap(30f);
+					i++;
+				}
+				if (listing_Standard.ButtonText("NewArea".Translate(), null))
+				{
+					Area_Allowed area_Allowed;
+					this.map.areaManager.TryMakeNewAllowed(out area_Allowed);
+				}
 			}
 			listing_Standard.End();
 		}
 
+		// Token: 0x06002DB7 RID: 11703 RVA: 0x001808CC File Offset: 0x0017ECCC
 		private static void DoAreaRow(Rect rect, Area area)
 		{
 			if (Mouse.IsOver(rect))
@@ -81,13 +87,17 @@ namespace RimWorld
 			{
 				area.Invert();
 			}
-			if (widgetRow.ButtonIcon(TexButton.DeleteX, null))
+			WidgetRow widgetRow2 = widgetRow;
+			Texture2D deleteX = TexButton.DeleteX;
+			Color? mouseoverColor = new Color?(GenUI.SubtleMouseoverColor);
+			if (widgetRow2.ButtonIcon(deleteX, null, mouseoverColor))
 			{
 				area.Delete();
 			}
 			GUI.EndGroup();
 		}
 
+		// Token: 0x06002DB8 RID: 11704 RVA: 0x001809C8 File Offset: 0x0017EDC8
 		public static void DoNameInputRect(Rect rect, ref string name, int maxLength)
 		{
 			string text = Widgets.TextField(rect, name);
@@ -96,5 +106,11 @@ namespace RimWorld
 				name = text;
 			}
 		}
+
+		// Token: 0x04001837 RID: 6199
+		private Map map;
+
+		// Token: 0x04001838 RID: 6200
+		private static Regex validNameRegex = new Regex("^[a-zA-Z0-9 '\\-]*$");
 	}
 }

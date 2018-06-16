@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,17 +7,12 @@ using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000701 RID: 1793
 	[StaticConstructorOnStartup]
 	public class CompAffectedByFacilities : ThingComp
 	{
-		private List<Thing> linkedFacilities = new List<Thing>();
-
-		public static Material InactiveFacilityLineMat = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, new Color(1f, 0.5f, 0.5f));
-
-		private static Dictionary<ThingDef, int> alreadyReturnedCount = new Dictionary<ThingDef, int>();
-
-		private List<ThingDef> alreadyUsed = new List<ThingDef>();
-
+		// Token: 0x170005DC RID: 1500
+		// (get) Token: 0x06002714 RID: 10004 RVA: 0x0015033C File Offset: 0x0014E73C
 		public List<Thing> LinkedFacilitiesListForReading
 		{
 			get
@@ -25,97 +21,80 @@ namespace RimWorld
 			}
 		}
 
-		private IEnumerable<Thing> ThingsICanLinkTo
+		// Token: 0x06002715 RID: 10005 RVA: 0x00150358 File Offset: 0x0014E758
+		public bool CanLinkTo(Thing facility)
 		{
-			get
+			bool result;
+			if (!this.CanPotentiallyLinkTo(facility.def, facility.Position, facility.Rotation))
 			{
-				if (base.parent.Spawned)
+				result = false;
+			}
+			else if (!this.IsValidFacilityForMe(facility))
+			{
+				result = false;
+			}
+			else
+			{
+				for (int i = 0; i < this.linkedFacilities.Count; i++)
 				{
-					IEnumerable<Thing> potentialThings = CompAffectedByFacilities.PotentialThingsToLinkTo(base.parent.def, base.parent.Position, base.parent.Rotation, base.parent.Map);
-					foreach (Thing item in potentialThings)
+					if (this.linkedFacilities[i] == facility)
 					{
-						if (this.CanLinkTo(item))
+						return false;
+					}
+				}
+				result = true;
+			}
+			return result;
+		}
+
+		// Token: 0x06002716 RID: 10006 RVA: 0x001503DC File Offset: 0x0014E7DC
+		public static bool CanPotentiallyLinkTo_Static(Thing facility, ThingDef myDef, IntVec3 myPos, Rot4 myRot)
+		{
+			return CompAffectedByFacilities.CanPotentiallyLinkTo_Static(facility.def, facility.Position, facility.Rotation, myDef, myPos, myRot) && CompAffectedByFacilities.IsPotentiallyValidFacilityForMe_Static(facility, myDef, myPos, myRot);
+		}
+
+		// Token: 0x06002717 RID: 10007 RVA: 0x00150430 File Offset: 0x0014E830
+		public bool CanPotentiallyLinkTo(ThingDef facilityDef, IntVec3 facilityPos, Rot4 facilityRot)
+		{
+			bool result;
+			if (!CompAffectedByFacilities.CanPotentiallyLinkTo_Static(facilityDef, facilityPos, facilityRot, this.parent.def, this.parent.Position, this.parent.Rotation))
+			{
+				result = false;
+			}
+			else if (!this.IsPotentiallyValidFacilityForMe(facilityDef, facilityPos, facilityRot))
+			{
+				result = false;
+			}
+			else
+			{
+				int num = 0;
+				bool flag = false;
+				for (int i = 0; i < this.linkedFacilities.Count; i++)
+				{
+					if (this.linkedFacilities[i].def == facilityDef)
+					{
+						num++;
+						if (this.IsBetter(facilityDef, facilityPos, facilityRot, this.linkedFacilities[i]))
 						{
-							yield return item;
-							/*Error: Unable to find new state assignment for yield return*/;
+							flag = true;
+							break;
 						}
 					}
 				}
-				yield break;
-				IL_012f:
-				/*Error near IL_0130: Unexpected return in MoveNext()*/;
-			}
-		}
-
-		public bool CanLinkTo(Thing facility)
-		{
-			if (!this.CanPotentiallyLinkTo(facility.def, facility.Position, facility.Rotation))
-			{
-				return false;
-			}
-			if (!this.IsValidFacilityForMe(facility))
-			{
-				return false;
-			}
-			for (int i = 0; i < this.linkedFacilities.Count; i++)
-			{
-				if (this.linkedFacilities[i] == facility)
+				if (flag)
 				{
-					return false;
+					result = true;
+				}
+				else
+				{
+					CompProperties_Facility compProperties = facilityDef.GetCompProperties<CompProperties_Facility>();
+					result = (num + 1 <= compProperties.maxSimultaneous);
 				}
 			}
-			return true;
+			return result;
 		}
 
-		public static bool CanPotentiallyLinkTo_Static(Thing facility, ThingDef myDef, IntVec3 myPos, Rot4 myRot)
-		{
-			if (!CompAffectedByFacilities.CanPotentiallyLinkTo_Static(facility.def, facility.Position, facility.Rotation, myDef, myPos, myRot))
-			{
-				return false;
-			}
-			if (!CompAffectedByFacilities.IsPotentiallyValidFacilityForMe_Static(facility, myDef, myPos, myRot))
-			{
-				return false;
-			}
-			return true;
-		}
-
-		public bool CanPotentiallyLinkTo(ThingDef facilityDef, IntVec3 facilityPos, Rot4 facilityRot)
-		{
-			if (!CompAffectedByFacilities.CanPotentiallyLinkTo_Static(facilityDef, facilityPos, facilityRot, base.parent.def, base.parent.Position, base.parent.Rotation))
-			{
-				return false;
-			}
-			if (!this.IsPotentiallyValidFacilityForMe(facilityDef, facilityPos, facilityRot))
-			{
-				return false;
-			}
-			int num = 0;
-			bool flag = false;
-			for (int i = 0; i < this.linkedFacilities.Count; i++)
-			{
-				if (this.linkedFacilities[i].def == facilityDef)
-				{
-					num++;
-					if (this.IsBetter(facilityDef, facilityPos, facilityRot, this.linkedFacilities[i]))
-					{
-						flag = true;
-						break;
-					}
-				}
-			}
-			if (flag)
-			{
-				return true;
-			}
-			CompProperties_Facility compProperties = facilityDef.GetCompProperties<CompProperties_Facility>();
-			if (num + 1 > compProperties.maxSimultaneous)
-			{
-				return false;
-			}
-			return true;
-		}
-
+		// Token: 0x06002718 RID: 10008 RVA: 0x0015051C File Offset: 0x0014E91C
 		public static bool CanPotentiallyLinkTo_Static(ThingDef facilityDef, IntVec3 facilityPos, Rot4 facilityRot, ThingDef myDef, IntVec3 myPos, Rot4 myRot)
 		{
 			CompProperties_Facility compProperties = facilityDef.GetCompProperties<CompProperties_Facility>();
@@ -152,8 +131,8 @@ namespace RimWorld
 			}
 			if (!compProperties.mustBePlacedAdjacent && !compProperties.mustBePlacedAdjacentCardinalToBedHead)
 			{
-				Vector3 a = Gen.TrueCenter(myPos, myRot, myDef.size, myDef.Altitude);
-				Vector3 b = Gen.TrueCenter(facilityPos, facilityRot, facilityDef.size, facilityDef.Altitude);
+				Vector3 a = GenThing.TrueCenter(myPos, myRot, myDef.size, myDef.Altitude);
+				Vector3 b = GenThing.TrueCenter(facilityPos, facilityRot, facilityDef.size, facilityDef.Altitude);
 				if (Vector3.Distance(a, b) > compProperties.maxDistance)
 				{
 					return false;
@@ -162,46 +141,48 @@ namespace RimWorld
 			return true;
 		}
 
+		// Token: 0x06002719 RID: 10009 RVA: 0x00150660 File Offset: 0x0014EA60
 		public bool IsValidFacilityForMe(Thing facility)
 		{
-			if (!CompAffectedByFacilities.IsPotentiallyValidFacilityForMe_Static(facility, base.parent.def, base.parent.Position, base.parent.Rotation))
-			{
-				return false;
-			}
-			return true;
+			return CompAffectedByFacilities.IsPotentiallyValidFacilityForMe_Static(facility, this.parent.def, this.parent.Position, this.parent.Rotation);
 		}
 
+		// Token: 0x0600271A RID: 10010 RVA: 0x001506AC File Offset: 0x0014EAAC
 		private bool IsPotentiallyValidFacilityForMe(ThingDef facilityDef, IntVec3 facilityPos, Rot4 facilityRot)
 		{
-			if (!CompAffectedByFacilities.IsPotentiallyValidFacilityForMe_Static(facilityDef, facilityPos, facilityRot, base.parent.def, base.parent.Position, base.parent.Rotation, base.parent.Map))
+			bool result;
+			if (!CompAffectedByFacilities.IsPotentiallyValidFacilityForMe_Static(facilityDef, facilityPos, facilityRot, this.parent.def, this.parent.Position, this.parent.Rotation, this.parent.Map))
 			{
-				return false;
+				result = false;
 			}
-			CompProperties_Facility compProperties = facilityDef.GetCompProperties<CompProperties_Facility>();
-			if (compProperties.canLinkToMedBedsOnly)
+			else
 			{
-				Building_Bed building_Bed = base.parent as Building_Bed;
-				if (building_Bed != null && building_Bed.Medical)
+				CompProperties_Facility compProperties = facilityDef.GetCompProperties<CompProperties_Facility>();
+				if (compProperties.canLinkToMedBedsOnly)
 				{
-					goto IL_006c;
+					Building_Bed building_Bed = this.parent as Building_Bed;
+					if (building_Bed == null || !building_Bed.Medical)
+					{
+						return false;
+					}
 				}
-				return false;
+				result = true;
 			}
-			goto IL_006c;
-			IL_006c:
-			return true;
+			return result;
 		}
 
+		// Token: 0x0600271B RID: 10011 RVA: 0x0015073C File Offset: 0x0014EB3C
 		private static bool IsPotentiallyValidFacilityForMe_Static(Thing facility, ThingDef myDef, IntVec3 myPos, Rot4 myRot)
 		{
 			return CompAffectedByFacilities.IsPotentiallyValidFacilityForMe_Static(facility.def, facility.Position, facility.Rotation, myDef, myPos, myRot, facility.Map);
 		}
 
+		// Token: 0x0600271C RID: 10012 RVA: 0x00150774 File Offset: 0x0014EB74
 		private static bool IsPotentiallyValidFacilityForMe_Static(ThingDef facilityDef, IntVec3 facilityPos, Rot4 facilityRot, ThingDef myDef, IntVec3 myPos, Rot4 myRot, Map map)
 		{
 			CellRect startRect = GenAdj.OccupiedRect(myPos, myRot, myDef.size);
 			CellRect endRect = GenAdj.OccupiedRect(facilityPos, facilityRot, facilityDef.size);
-			bool flag = false;
+			bool result = false;
 			for (int i = startRect.minZ; i <= startRect.maxZ; i++)
 			{
 				for (int j = startRect.minX; j <= startRect.maxX; j++)
@@ -213,41 +194,37 @@ namespace RimWorld
 							IntVec3 start = new IntVec3(j, 0, i);
 							IntVec3 end = new IntVec3(l, 0, k);
 							if (GenSight.LineOfSight(start, end, map, startRect, endRect, null))
-								goto IL_0081;
+							{
+								return true;
+							}
 						}
 					}
 				}
-				continue;
-				IL_0081:
-				flag = true;
-				break;
 			}
-			if (!flag)
-			{
-				return false;
-			}
-			return true;
+			return result;
 		}
 
+		// Token: 0x0600271D RID: 10013 RVA: 0x00150878 File Offset: 0x0014EC78
 		public void Notify_NewLink(Thing facility)
 		{
 			for (int i = 0; i < this.linkedFacilities.Count; i++)
 			{
 				if (this.linkedFacilities[i] == facility)
 				{
-					Log.Error("Notify_NewLink was called but the link is already here.");
+					Log.Error("Notify_NewLink was called but the link is already here.", false);
 					return;
 				}
 			}
 			Thing potentiallySupplantedFacility = this.GetPotentiallySupplantedFacility(facility.def, facility.Position, facility.Rotation);
 			if (potentiallySupplantedFacility != null)
 			{
-				potentiallySupplantedFacility.TryGetComp<CompFacility>().Notify_LinkRemoved(base.parent);
+				potentiallySupplantedFacility.TryGetComp<CompFacility>().Notify_LinkRemoved(this.parent);
 				this.linkedFacilities.Remove(potentiallySupplantedFacility);
 			}
 			this.linkedFacilities.Add(facility);
 		}
 
+		// Token: 0x0600271E RID: 10014 RVA: 0x00150914 File Offset: 0x0014ED14
 		public void Notify_LinkRemoved(Thing thing)
 		{
 			for (int i = 0; i < this.linkedFacilities.Count; i++)
@@ -258,147 +235,172 @@ namespace RimWorld
 					return;
 				}
 			}
-			Log.Error("Notify_LinkRemoved was called but there is no such link here.");
+			Log.Error("Notify_LinkRemoved was called but there is no such link here.", false);
 		}
 
+		// Token: 0x0600271F RID: 10015 RVA: 0x0015096F File Offset: 0x0014ED6F
 		public void Notify_FacilityDespawned()
 		{
 			this.RelinkAll();
 		}
 
+		// Token: 0x06002720 RID: 10016 RVA: 0x00150978 File Offset: 0x0014ED78
 		public void Notify_LOSBlockerSpawnedOrDespawned()
 		{
 			this.RelinkAll();
 		}
 
+		// Token: 0x06002721 RID: 10017 RVA: 0x00150981 File Offset: 0x0014ED81
 		public void Notify_ThingChanged()
 		{
 			this.RelinkAll();
 		}
 
+		// Token: 0x06002722 RID: 10018 RVA: 0x0015098A File Offset: 0x0014ED8A
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			this.LinkToNearbyFacilities();
 		}
 
+		// Token: 0x06002723 RID: 10019 RVA: 0x00150993 File Offset: 0x0014ED93
 		public override void PostDeSpawn(Map map)
 		{
 			this.UnlinkAll();
 		}
 
+		// Token: 0x06002724 RID: 10020 RVA: 0x0015099C File Offset: 0x0014ED9C
 		public override void PostDrawExtraSelectionOverlays()
 		{
 			for (int i = 0; i < this.linkedFacilities.Count; i++)
 			{
 				if (this.IsFacilityActive(this.linkedFacilities[i]))
 				{
-					GenDraw.DrawLineBetween(base.parent.TrueCenter(), this.linkedFacilities[i].TrueCenter());
+					GenDraw.DrawLineBetween(this.parent.TrueCenter(), this.linkedFacilities[i].TrueCenter());
 				}
 				else
 				{
-					GenDraw.DrawLineBetween(base.parent.TrueCenter(), this.linkedFacilities[i].TrueCenter(), CompAffectedByFacilities.InactiveFacilityLineMat);
+					GenDraw.DrawLineBetween(this.parent.TrueCenter(), this.linkedFacilities[i].TrueCenter(), CompAffectedByFacilities.InactiveFacilityLineMat);
 				}
 			}
 		}
 
+		// Token: 0x06002725 RID: 10021 RVA: 0x00150A2C File Offset: 0x0014EE2C
 		private bool IsBetter(ThingDef facilityDef, IntVec3 facilityPos, Rot4 facilityRot, Thing thanThisFacility)
 		{
+			bool result;
 			if (facilityDef != thanThisFacility.def)
 			{
-				Log.Error("Comparing two different facility defs.");
-				return false;
+				Log.Error("Comparing two different facility defs.", false);
+				result = false;
 			}
-			Vector3 b = Gen.TrueCenter(facilityPos, facilityRot, facilityDef.size, facilityDef.Altitude);
-			Vector3 a = base.parent.TrueCenter();
-			float num = Vector3.Distance(a, b);
-			float num2 = Vector3.Distance(a, thanThisFacility.TrueCenter());
-			if (num != num2)
+			else
 			{
-				return num < num2;
+				Vector3 b = GenThing.TrueCenter(facilityPos, facilityRot, facilityDef.size, facilityDef.Altitude);
+				Vector3 a = this.parent.TrueCenter();
+				float num = Vector3.Distance(a, b);
+				float num2 = Vector3.Distance(a, thanThisFacility.TrueCenter());
+				if (num != num2)
+				{
+					result = (num < num2);
+				}
+				else if (facilityPos.x != thanThisFacility.Position.x)
+				{
+					result = (facilityPos.x < thanThisFacility.Position.x);
+				}
+				else
+				{
+					result = (facilityPos.z < thanThisFacility.Position.z);
+				}
 			}
-			int x = facilityPos.x;
-			IntVec3 position = thanThisFacility.Position;
-			if (x != position.x)
-			{
-				int x2 = facilityPos.x;
-				IntVec3 position2 = thanThisFacility.Position;
-				return x2 < position2.x;
-			}
-			int z = facilityPos.z;
-			IntVec3 position3 = thanThisFacility.Position;
-			return z < position3.z;
+			return result;
 		}
 
+		// Token: 0x170005DD RID: 1501
+		// (get) Token: 0x06002726 RID: 10022 RVA: 0x00150B00 File Offset: 0x0014EF00
+		private IEnumerable<Thing> ThingsICanLinkTo
+		{
+			get
+			{
+				if (!this.parent.Spawned)
+				{
+					yield break;
+				}
+				IEnumerable<Thing> potentialThings = CompAffectedByFacilities.PotentialThingsToLinkTo(this.parent.def, this.parent.Position, this.parent.Rotation, this.parent.Map);
+				foreach (Thing th in potentialThings)
+				{
+					if (this.CanLinkTo(th))
+					{
+						yield return th;
+					}
+				}
+				yield break;
+			}
+		}
+
+		// Token: 0x06002727 RID: 10023 RVA: 0x00150B2C File Offset: 0x0014EF2C
 		public static IEnumerable<Thing> PotentialThingsToLinkTo(ThingDef myDef, IntVec3 myPos, Rot4 myRot, Map map)
 		{
-			_003CPotentialThingsToLinkTo_003Ec__Iterator1 _003CPotentialThingsToLinkTo_003Ec__Iterator = (_003CPotentialThingsToLinkTo_003Ec__Iterator1)/*Error near IL_0034: stateMachine*/;
 			CompAffectedByFacilities.alreadyReturnedCount.Clear();
 			CompProperties_AffectedByFacilities myProps = myDef.GetCompProperties<CompProperties_AffectedByFacilities>();
-			if (myProps.linkableFacilities != null)
+			if (myProps.linkableFacilities == null)
 			{
-				IEnumerable<Thing> candidates = Enumerable.Empty<Thing>();
-				for (int i = 0; i < myProps.linkableFacilities.Count; i++)
+				yield break;
+			}
+			IEnumerable<Thing> candidates = Enumerable.Empty<Thing>();
+			for (int i = 0; i < myProps.linkableFacilities.Count; i++)
+			{
+				candidates = candidates.Concat(map.listerThings.ThingsOfDef(myProps.linkableFacilities[i]));
+			}
+			Vector3 myTrueCenter = GenThing.TrueCenter(myPos, myRot, myDef.size, myDef.Altitude);
+			IOrderedEnumerable<Thing> sortedCandidates = from x in candidates
+			orderby Vector3.Distance(myTrueCenter, x.TrueCenter()), x.Position.x, x.Position.z
+			select x;
+			foreach (Thing th in sortedCandidates)
+			{
+				if (CompAffectedByFacilities.CanPotentiallyLinkTo_Static(th, myDef, myPos, myRot))
 				{
-					candidates = candidates.Concat(map.listerThings.ThingsOfDef(myProps.linkableFacilities[i]));
-				}
-				Vector3 myTrueCenter = Gen.TrueCenter(myPos, myRot, myDef.size, myDef.Altitude);
-				IOrderedEnumerable<Thing> sortedCandidates = (from x in candidates
-				orderby Vector3.Distance(myTrueCenter, x.TrueCenter())
-				select x).ThenBy(delegate(Thing x)
-				{
-					IntVec3 position2 = x.Position;
-					return position2.x;
-				}).ThenBy(delegate(Thing x)
-				{
-					IntVec3 position = x.Position;
-					return position.z;
-				});
-				foreach (Thing item in sortedCandidates)
-				{
-					if (CompAffectedByFacilities.CanPotentiallyLinkTo_Static(item, myDef, myPos, myRot))
+					CompProperties_Facility facilityProps = th.def.GetCompProperties<CompProperties_Facility>();
+					if (CompAffectedByFacilities.alreadyReturnedCount.ContainsKey(th.def))
 					{
-						CompProperties_Facility facilityProps = item.def.GetCompProperties<CompProperties_Facility>();
-						if (CompAffectedByFacilities.alreadyReturnedCount.ContainsKey(item.def))
+						if (CompAffectedByFacilities.alreadyReturnedCount[th.def] >= facilityProps.maxSimultaneous)
 						{
-							if (CompAffectedByFacilities.alreadyReturnedCount[item.def] < facilityProps.maxSimultaneous)
-								goto IL_0232;
 							continue;
 						}
-						CompAffectedByFacilities.alreadyReturnedCount.Add(item.def, 0);
-						goto IL_0232;
 					}
-					continue;
-					IL_0232:
+					else
+					{
+						CompAffectedByFacilities.alreadyReturnedCount.Add(th.def, 0);
+					}
 					Dictionary<ThingDef, int> dictionary;
 					ThingDef def;
-					(dictionary = CompAffectedByFacilities.alreadyReturnedCount)[def = item.def] = dictionary[def] + 1;
-					yield return item;
-					/*Error: Unable to find new state assignment for yield return*/;
+					(dictionary = CompAffectedByFacilities.alreadyReturnedCount)[def = th.def] = dictionary[def] + 1;
+					yield return th;
 				}
 			}
 			yield break;
-			IL_02b1:
-			/*Error near IL_02b2: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x06002728 RID: 10024 RVA: 0x00150B6C File Offset: 0x0014EF6C
 		public static void DrawLinesToPotentialThingsToLinkTo(ThingDef myDef, IntVec3 myPos, Rot4 myRot, Map map)
 		{
-			Vector3 a = Gen.TrueCenter(myPos, myRot, myDef.size, myDef.Altitude);
-			foreach (Thing item in CompAffectedByFacilities.PotentialThingsToLinkTo(myDef, myPos, myRot, map))
+			Vector3 a = GenThing.TrueCenter(myPos, myRot, myDef.size, myDef.Altitude);
+			foreach (Thing t in CompAffectedByFacilities.PotentialThingsToLinkTo(myDef, myPos, myRot, map))
 			{
-				GenDraw.DrawLineBetween(a, item.TrueCenter());
+				GenDraw.DrawLineBetween(a, t.TrueCenter());
 			}
 		}
 
+		// Token: 0x06002729 RID: 10025 RVA: 0x00150BE8 File Offset: 0x0014EFE8
 		public void DrawRedLineToPotentiallySupplantedFacility(ThingDef facilityDef, IntVec3 facilityPos, Rot4 facilityRot)
 		{
 			Thing potentiallySupplantedFacility = this.GetPotentiallySupplantedFacility(facilityDef, facilityPos, facilityRot);
 			if (potentiallySupplantedFacility != null)
 			{
-				GenDraw.DrawLineBetween(base.parent.TrueCenter(), potentiallySupplantedFacility.TrueCenter(), CompAffectedByFacilities.InactiveFacilityLineMat);
+				GenDraw.DrawLineBetween(this.parent.TrueCenter(), potentiallySupplantedFacility.TrueCenter(), CompAffectedByFacilities.InactiveFacilityLineMat);
 			}
 		}
 
+		// Token: 0x0600272A RID: 10026 RVA: 0x00150C24 File Offset: 0x0014F024
 		private Thing GetPotentiallySupplantedFacility(ThingDef facilityDef, IntVec3 facilityPos, Rot4 facilityRot)
 		{
 			Thing thing = null;
@@ -414,26 +416,38 @@ namespace RimWorld
 					num++;
 				}
 			}
+			Thing result;
 			if (num == 0)
 			{
-				return null;
+				result = null;
 			}
-			CompProperties_Facility compProperties = facilityDef.GetCompProperties<CompProperties_Facility>();
-			if (num + 1 <= compProperties.maxSimultaneous)
+			else
 			{
-				return null;
-			}
-			Thing thing2 = thing;
-			for (int j = 0; j < this.linkedFacilities.Count; j++)
-			{
-				if (facilityDef == this.linkedFacilities[j].def && this.IsBetter(thing2.def, thing2.Position, thing2.Rotation, this.linkedFacilities[j]))
+				CompProperties_Facility compProperties = facilityDef.GetCompProperties<CompProperties_Facility>();
+				if (num + 1 <= compProperties.maxSimultaneous)
 				{
-					thing2 = this.linkedFacilities[j];
+					result = null;
+				}
+				else
+				{
+					Thing thing2 = thing;
+					for (int j = 0; j < this.linkedFacilities.Count; j++)
+					{
+						if (facilityDef == this.linkedFacilities[j].def)
+						{
+							if (this.IsBetter(thing2.def, thing2.Position, thing2.Rotation, this.linkedFacilities[j]))
+							{
+								thing2 = this.linkedFacilities[j];
+							}
+						}
+					}
+					result = thing2;
 				}
 			}
-			return thing2;
+			return result;
 		}
 
+		// Token: 0x0600272B RID: 10027 RVA: 0x00150D38 File Offset: 0x0014F138
 		public float GetStatOffset(StatDef stat)
 		{
 			float num = 0f;
@@ -451,6 +465,7 @@ namespace RimWorld
 			return num;
 		}
 
+		// Token: 0x0600272C RID: 10028 RVA: 0x00150DC4 File Offset: 0x0014F1C4
 		public void GetStatsExplanation(StatDef stat, StringBuilder sb)
 		{
 			this.alreadyUsed.Clear();
@@ -458,83 +473,99 @@ namespace RimWorld
 			for (int i = 0; i < this.linkedFacilities.Count; i++)
 			{
 				bool flag2 = false;
-				int num = 0;
-				while (num < this.alreadyUsed.Count)
+				for (int j = 0; j < this.alreadyUsed.Count; j++)
 				{
-					if (this.alreadyUsed[num] != this.linkedFacilities[i].def)
+					if (this.alreadyUsed[j] == this.linkedFacilities[i].def)
 					{
-						num++;
-						continue;
+						flag2 = true;
+						break;
 					}
-					flag2 = true;
-					break;
 				}
-				if (!flag2 && this.IsFacilityActive(this.linkedFacilities[i]))
+				if (!flag2)
 				{
-					CompProperties_Facility compProperties = this.linkedFacilities[i].def.GetCompProperties<CompProperties_Facility>();
-					if (compProperties.statOffsets != null)
+					if (this.IsFacilityActive(this.linkedFacilities[i]))
 					{
-						float statOffsetFromList = compProperties.statOffsets.GetStatOffsetFromList(stat);
-						if (statOffsetFromList != 0.0)
+						CompProperties_Facility compProperties = this.linkedFacilities[i].def.GetCompProperties<CompProperties_Facility>();
+						if (compProperties.statOffsets != null)
 						{
-							if (!flag)
+							float num = compProperties.statOffsets.GetStatOffsetFromList(stat);
+							if (num != 0f)
 							{
-								flag = true;
-								sb.AppendLine();
-								sb.AppendLine("StatsReport_Facilities".Translate() + ":");
-							}
-							int num2 = 0;
-							for (int j = 0; j < this.linkedFacilities.Count; j++)
-							{
-								if (this.IsFacilityActive(this.linkedFacilities[j]) && this.linkedFacilities[j].def == this.linkedFacilities[i].def)
+								if (!flag)
 								{
-									num2++;
+									flag = true;
+									sb.AppendLine();
+									sb.AppendLine("StatsReport_Facilities".Translate() + ":");
 								}
+								int num2 = 0;
+								for (int k = 0; k < this.linkedFacilities.Count; k++)
+								{
+									if (this.IsFacilityActive(this.linkedFacilities[k]) && this.linkedFacilities[k].def == this.linkedFacilities[i].def)
+									{
+										num2++;
+									}
+								}
+								num *= (float)num2;
+								sb.Append("    ");
+								if (num2 != 1)
+								{
+									sb.Append(num2.ToString() + "x ");
+								}
+								sb.AppendLine(this.linkedFacilities[i].LabelCap + ": " + num.ToStringByStyle(stat.toStringStyle, ToStringNumberSense.Offset));
+								this.alreadyUsed.Add(this.linkedFacilities[i].def);
 							}
-							statOffsetFromList *= (float)num2;
-							sb.Append("    ");
-							if (num2 != 1)
-							{
-								sb.Append(num2.ToString() + "x ");
-							}
-							sb.AppendLine(this.linkedFacilities[i].LabelCap + ": " + statOffsetFromList.ToStringByStyle(stat.toStringStyle, ToStringNumberSense.Offset));
-							this.alreadyUsed.Add(this.linkedFacilities[i].def);
 						}
 					}
 				}
 			}
 		}
 
+		// Token: 0x0600272D RID: 10029 RVA: 0x00150FD4 File Offset: 0x0014F3D4
 		private void RelinkAll()
 		{
 			this.LinkToNearbyFacilities();
 		}
 
+		// Token: 0x0600272E RID: 10030 RVA: 0x00150FE0 File Offset: 0x0014F3E0
 		public bool IsFacilityActive(Thing facility)
 		{
 			return facility.TryGetComp<CompFacility>().CanBeActive;
 		}
 
+		// Token: 0x0600272F RID: 10031 RVA: 0x00151000 File Offset: 0x0014F400
 		private void LinkToNearbyFacilities()
 		{
 			this.UnlinkAll();
-			if (base.parent.Spawned)
+			if (this.parent.Spawned)
 			{
-				foreach (Thing item in this.ThingsICanLinkTo)
+				foreach (Thing thing in this.ThingsICanLinkTo)
 				{
-					this.linkedFacilities.Add(item);
-					item.TryGetComp<CompFacility>().Notify_NewLink(base.parent);
+					this.linkedFacilities.Add(thing);
+					thing.TryGetComp<CompFacility>().Notify_NewLink(this.parent);
 				}
 			}
 		}
 
+		// Token: 0x06002730 RID: 10032 RVA: 0x0015108C File Offset: 0x0014F48C
 		private void UnlinkAll()
 		{
 			for (int i = 0; i < this.linkedFacilities.Count; i++)
 			{
-				this.linkedFacilities[i].TryGetComp<CompFacility>().Notify_LinkRemoved(base.parent);
+				this.linkedFacilities[i].TryGetComp<CompFacility>().Notify_LinkRemoved(this.parent);
 			}
 			this.linkedFacilities.Clear();
 		}
+
+		// Token: 0x040015B2 RID: 5554
+		private List<Thing> linkedFacilities = new List<Thing>();
+
+		// Token: 0x040015B3 RID: 5555
+		public static Material InactiveFacilityLineMat = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, new Color(1f, 0.5f, 0.5f));
+
+		// Token: 0x040015B4 RID: 5556
+		private static Dictionary<ThingDef, int> alreadyReturnedCount = new Dictionary<ThingDef, int>();
+
+		// Token: 0x040015B5 RID: 5557
+		private List<ThingDef> alreadyUsed = new List<ThingDef>();
 	}
 }

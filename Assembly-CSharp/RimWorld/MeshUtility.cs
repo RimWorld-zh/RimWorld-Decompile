@@ -1,100 +1,114 @@
-using RimWorld.Planet;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000990 RID: 2448
 	public static class MeshUtility
 	{
-		private static List<int> offsets = new List<int>();
-
-		private static List<bool> vertIsUsed = new List<bool>();
-
+		// Token: 0x06003702 RID: 14082 RVA: 0x001D5FF0 File Offset: 0x001D43F0
 		public static void RemoveVertices(List<Vector3> verts, List<TriangleIndices> tris, Predicate<Vector3> predicate)
 		{
 			int i = 0;
 			int count = tris.Count;
-			for (; i < count; i++)
+			while (i < count)
 			{
 				TriangleIndices triangleIndices = tris[i];
 				if (predicate(verts[triangleIndices.v1]) || predicate(verts[triangleIndices.v2]) || predicate(verts[triangleIndices.v3]))
 				{
 					tris[i] = new TriangleIndices(-1, -1, -1);
 				}
+				i++;
 			}
 			tris.RemoveAll((TriangleIndices x) => x.v1 == -1);
 			MeshUtility.RemoveUnusedVertices(verts, tris);
 		}
 
+		// Token: 0x06003703 RID: 14083 RVA: 0x001D60A4 File Offset: 0x001D44A4
 		public static void RemoveUnusedVertices(List<Vector3> verts, List<TriangleIndices> tris)
 		{
 			MeshUtility.vertIsUsed.Clear();
 			int i = 0;
 			int count = verts.Count;
-			for (; i < count; i++)
+			while (i < count)
 			{
 				MeshUtility.vertIsUsed.Add(false);
+				i++;
 			}
 			int j = 0;
 			int count2 = tris.Count;
-			for (; j < count2; j++)
+			while (j < count2)
 			{
 				TriangleIndices triangleIndices = tris[j];
 				MeshUtility.vertIsUsed[triangleIndices.v1] = true;
 				MeshUtility.vertIsUsed[triangleIndices.v2] = true;
 				MeshUtility.vertIsUsed[triangleIndices.v3] = true;
+				j++;
 			}
 			int num = 0;
 			MeshUtility.offsets.Clear();
 			int k = 0;
 			int count3 = verts.Count;
-			for (; k < count3; k++)
+			while (k < count3)
 			{
 				if (!MeshUtility.vertIsUsed[k])
 				{
 					num++;
 				}
 				MeshUtility.offsets.Add(num);
+				k++;
 			}
 			int l = 0;
 			int count4 = tris.Count;
-			for (; l < count4; l++)
+			while (l < count4)
 			{
 				TriangleIndices triangleIndices2 = tris[l];
 				tris[l] = new TriangleIndices(triangleIndices2.v1 - MeshUtility.offsets[triangleIndices2.v1], triangleIndices2.v2 - MeshUtility.offsets[triangleIndices2.v2], triangleIndices2.v3 - MeshUtility.offsets[triangleIndices2.v3]);
+				l++;
 			}
 			verts.RemoveAll((Vector3 elem, int index) => !MeshUtility.vertIsUsed[index]);
 		}
 
+		// Token: 0x06003704 RID: 14084 RVA: 0x001D6234 File Offset: 0x001D4634
 		public static bool Visible(Vector3 point, float radius, Vector3 viewCenter, float viewAngle)
 		{
-			if (viewAngle >= 180.0)
-			{
-				return true;
-			}
-			return Vector3.Angle(viewCenter * radius, point) <= viewAngle;
+			return viewAngle >= 180f || Vector3.Angle(viewCenter * radius, point) <= viewAngle;
 		}
 
+		// Token: 0x06003705 RID: 14085 RVA: 0x001D6270 File Offset: 0x001D4670
 		public static bool VisibleForWorldgen(Vector3 point, float radius, Vector3 viewCenter, float viewAngle)
 		{
-			if (viewAngle >= 180.0)
+			bool result;
+			if (viewAngle >= 180f)
 			{
-				return true;
+				result = true;
 			}
-			float num = (float)(Vector3.Angle(viewCenter * radius, point) + -9.9999997473787516E-06);
-			if (Mathf.Abs(num - viewAngle) < 9.9999999747524271E-07)
+			else
 			{
-				Log.Warning(string.Format("Angle difference {0} is within epsilon; recommend adjusting visibility tweak", num - viewAngle));
+				float num = Vector3.Angle(viewCenter * radius, point) + -1E-05f;
+				if (Mathf.Abs(num - viewAngle) < 1E-06f)
+				{
+					Log.Warning(string.Format("Angle difference {0} is within epsilon; recommend adjusting visibility tweak", num - viewAngle), false);
+				}
+				result = (num <= viewAngle);
 			}
-			return num <= viewAngle;
+			return result;
 		}
 
+		// Token: 0x06003706 RID: 14086 RVA: 0x001D62DC File Offset: 0x001D46DC
 		public static Color32 MutateAlpha(this Color32 input, byte newAlpha)
 		{
 			input.a = newAlpha;
 			return input;
 		}
+
+		// Token: 0x0400237E RID: 9086
+		private static List<int> offsets = new List<int>();
+
+		// Token: 0x0400237F RID: 9087
+		private static List<bool> vertIsUsed = new List<bool>();
 	}
 }

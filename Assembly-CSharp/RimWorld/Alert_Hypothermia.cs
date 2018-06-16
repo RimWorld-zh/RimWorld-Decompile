@@ -1,57 +1,58 @@
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200078E RID: 1934
 	public class Alert_Hypothermia : Alert_Critical
 	{
+		// Token: 0x06002AE0 RID: 10976 RVA: 0x0016A149 File Offset: 0x00168549
+		public Alert_Hypothermia()
+		{
+			this.defaultLabel = "AlertHypothermia".Translate();
+		}
+
+		// Token: 0x170006AB RID: 1707
+		// (get) Token: 0x06002AE1 RID: 10977 RVA: 0x0016A164 File Offset: 0x00168564
 		private IEnumerable<Pawn> HypothermiaDangerColonists
 		{
 			get
 			{
-				foreach (Pawn item in PawnsFinder.AllMaps_FreeColonistsSpawned)
+				foreach (Pawn p in PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists_NoCryptosleep)
 				{
-					if (!item.SafeTemperatureRange().Includes(item.AmbientTemperature))
+					if (!p.SafeTemperatureRange().Includes(p.AmbientTemperature))
 					{
-						Hediff hypo = item.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Hypothermia, false);
+						Hediff hypo = p.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Hypothermia, false);
 						if (hypo != null && hypo.CurStageIndex >= 3)
 						{
-							yield return item;
-							/*Error: Unable to find new state assignment for yield return*/;
+							yield return p;
 						}
 					}
 				}
 				yield break;
-				IL_0113:
-				/*Error near IL_0114: Unexpected return in MoveNext()*/;
 			}
 		}
 
-		public Alert_Hypothermia()
-		{
-			base.defaultLabel = "AlertHypothermia".Translate();
-		}
-
+		// Token: 0x06002AE2 RID: 10978 RVA: 0x0016A188 File Offset: 0x00168588
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (Pawn hypothermiaDangerColonist in this.HypothermiaDangerColonists)
+			foreach (Pawn pawn in this.HypothermiaDangerColonists)
 			{
-				stringBuilder.AppendLine("    " + hypothermiaDangerColonist.NameStringShort);
+				stringBuilder.AppendLine("    " + pawn.LabelShort);
 			}
-			return "AlertHypothermiaDesc".Translate(stringBuilder.ToString());
+			return "AlertHypothermiaDesc".Translate(new object[]
+			{
+				stringBuilder.ToString()
+			});
 		}
 
+		// Token: 0x06002AE3 RID: 10979 RVA: 0x0016A21C File Offset: 0x0016861C
 		public override AlertReport GetReport()
 		{
-			Pawn pawn = this.HypothermiaDangerColonists.FirstOrDefault();
-			if (pawn == null)
-			{
-				return false;
-			}
-			return AlertReport.CulpritIs(pawn);
+			return AlertReport.CulpritsAre(this.HypothermiaDangerColonists);
 		}
 	}
 }

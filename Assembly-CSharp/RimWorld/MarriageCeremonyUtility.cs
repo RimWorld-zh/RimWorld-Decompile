@@ -1,105 +1,87 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
+	// Token: 0x0200017B RID: 379
 	public static class MarriageCeremonyUtility
 	{
+		// Token: 0x060007DB RID: 2011 RVA: 0x0004CF08 File Offset: 0x0004B308
 		public static bool AcceptableGameConditionsToStartCeremony(Map map)
 		{
+			bool result;
 			if (!MarriageCeremonyUtility.AcceptableGameConditionsToContinueCeremony(map))
 			{
-				return false;
+				result = false;
 			}
-			if (GenLocalDate.HourInteger(map) >= 5 && GenLocalDate.HourInteger(map) <= 16)
+			else if (GenLocalDate.HourInteger(map) < 5 || GenLocalDate.HourInteger(map) > 16)
 			{
-				if (GatheringsUtility.AnyLordJobPreventsNewGatherings(map))
-				{
-					return false;
-				}
-				if (map.dangerWatcher.DangerRating != 0)
-				{
-					return false;
-				}
+				result = false;
+			}
+			else if (GatheringsUtility.AnyLordJobPreventsNewGatherings(map))
+			{
+				result = false;
+			}
+			else if (map.dangerWatcher.DangerRating != StoryDanger.None)
+			{
+				result = false;
+			}
+			else
+			{
 				int num = 0;
-				foreach (Pawn item in map.mapPawns.FreeColonistsSpawned)
+				foreach (Pawn pawn in map.mapPawns.FreeColonistsSpawned)
 				{
-					if (item.Drafted)
+					if (pawn.Drafted)
 					{
 						num++;
 					}
 				}
-				if ((float)num / (float)map.mapPawns.FreeColonistsSpawnedCount >= 0.5)
-				{
-					return false;
-				}
-				return true;
+				result = ((float)num / (float)map.mapPawns.FreeColonistsSpawnedCount < 0.5f);
 			}
-			return false;
+			return result;
 		}
 
+		// Token: 0x060007DC RID: 2012 RVA: 0x0004CFF8 File Offset: 0x0004B3F8
 		public static bool AcceptableGameConditionsToContinueCeremony(Map map)
 		{
-			if (map.dangerWatcher.DangerRating == StoryDanger.High)
-			{
-				return false;
-			}
-			return true;
+			return map.dangerWatcher.DangerRating != StoryDanger.High;
 		}
 
+		// Token: 0x060007DD RID: 2013 RVA: 0x0004D028 File Offset: 0x0004B428
 		public static bool FianceReadyToStartCeremony(Pawn pawn)
 		{
-			if (!MarriageCeremonyUtility.FianceCanContinueCeremony(pawn))
-			{
-				return false;
-			}
-			if (pawn.health.hediffSet.BleedRateTotal > 0.0)
-			{
-				return false;
-			}
-			if (HealthAIUtility.ShouldSeekMedicalRestUrgent(pawn))
-			{
-				return false;
-			}
-			if (PawnUtility.WillSoonHaveBasicNeed(pawn))
-			{
-				return false;
-			}
-			if (MarriageCeremonyUtility.IsCurrentlyMarryingSomeone(pawn))
-			{
-				return false;
-			}
-			if (pawn.GetLord() != null)
-			{
-				return false;
-			}
-			return !pawn.Drafted && !pawn.InMentalState && pawn.Awake() && !pawn.IsBurning() && !pawn.InBed();
+			return MarriageCeremonyUtility.FianceCanContinueCeremony(pawn) && pawn.health.hediffSet.BleedRateTotal <= 0f && !HealthAIUtility.ShouldSeekMedicalRestUrgent(pawn) && !PawnUtility.WillSoonHaveBasicNeed(pawn) && !MarriageCeremonyUtility.IsCurrentlyMarryingSomeone(pawn) && pawn.GetLord() == null && (!pawn.Drafted && !pawn.InMentalState && pawn.Awake() && !pawn.IsBurning()) && !pawn.InBed();
 		}
 
+		// Token: 0x060007DE RID: 2014 RVA: 0x0004D0F0 File Offset: 0x0004B4F0
 		public static bool FianceCanContinueCeremony(Pawn pawn)
 		{
-			if (pawn.health.hediffSet.BleedRateTotal > 0.30000001192092896)
+			bool result;
+			if (pawn.health.hediffSet.BleedRateTotal > 0.3f)
 			{
-				return false;
+				result = false;
 			}
-			if (pawn.IsPrisoner)
+			else if (pawn.IsPrisoner)
 			{
-				return false;
+				result = false;
 			}
-			Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.BloodLoss, false);
-			if (firstHediffOfDef != null && firstHediffOfDef.Severity > 0.20000000298023224)
+			else
 			{
-				return false;
+				Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.BloodLoss, false);
+				result = ((firstHediffOfDef == null || firstHediffOfDef.Severity <= 0.2f) && (pawn.Spawned && !pawn.Downed) && !pawn.InAggroMentalState);
 			}
-			return pawn.Spawned && !pawn.Downed && !pawn.InAggroMentalState;
+			return result;
 		}
 
+		// Token: 0x060007DF RID: 2015 RVA: 0x0004D190 File Offset: 0x0004B590
 		public static bool ShouldGuestKeepAttendingCeremony(Pawn p)
 		{
 			return GatheringsUtility.ShouldGuestKeepAttendingGathering(p);
 		}
 
+		// Token: 0x060007E0 RID: 2016 RVA: 0x0004D1AC File Offset: 0x0004B5AC
 		public static void Married(Pawn firstPawn, Pawn secondPawn)
 		{
 			LovePartnerRelationUtility.ChangeSpouseRelationsToExSpouse(firstPawn);
@@ -112,31 +94,42 @@ namespace RimWorld
 			firstPawn.needs.mood.thoughts.memories.RemoveMemoriesOfDefWhereOtherPawnIs(ThoughtDefOf.DivorcedMe, secondPawn);
 			secondPawn.needs.mood.thoughts.memories.RemoveMemoriesOfDefWhereOtherPawnIs(ThoughtDefOf.DivorcedMe, firstPawn);
 			LovePartnerRelationUtility.TryToShareBed(firstPawn, secondPawn);
-			TaleRecorder.RecordTale(TaleDefOf.Marriage, firstPawn, secondPawn);
+			TaleRecorder.RecordTale(TaleDefOf.Marriage, new object[]
+			{
+				firstPawn,
+				secondPawn
+			});
 		}
 
+		// Token: 0x060007E1 RID: 2017 RVA: 0x0004D268 File Offset: 0x0004B668
 		private static void AddNewlyMarriedThoughts(Pawn pawn, Pawn otherPawn)
 		{
 			pawn.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.GotMarried, otherPawn);
 			pawn.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.HoneymoonPhase, otherPawn);
 		}
 
+		// Token: 0x060007E2 RID: 2018 RVA: 0x0004D2B8 File Offset: 0x0004B6B8
 		private static bool IsCurrentlyMarryingSomeone(Pawn p)
 		{
+			bool result;
 			if (!p.Spawned)
 			{
-				return false;
+				result = false;
 			}
-			List<Lord> lords = p.Map.lordManager.lords;
-			for (int i = 0; i < lords.Count; i++)
+			else
 			{
-				LordJob_Joinable_MarriageCeremony lordJob_Joinable_MarriageCeremony = lords[i].LordJob as LordJob_Joinable_MarriageCeremony;
-				if (lordJob_Joinable_MarriageCeremony != null && (lordJob_Joinable_MarriageCeremony.firstPawn == p || lordJob_Joinable_MarriageCeremony.secondPawn == p))
+				List<Lord> lords = p.Map.lordManager.lords;
+				for (int i = 0; i < lords.Count; i++)
 				{
-					return true;
+					LordJob_Joinable_MarriageCeremony lordJob_Joinable_MarriageCeremony = lords[i].LordJob as LordJob_Joinable_MarriageCeremony;
+					if (lordJob_Joinable_MarriageCeremony != null && (lordJob_Joinable_MarriageCeremony.firstPawn == p || lordJob_Joinable_MarriageCeremony.secondPawn == p))
+					{
+						return true;
+					}
 				}
+				result = false;
 			}
-			return false;
+			return result;
 		}
 	}
 }

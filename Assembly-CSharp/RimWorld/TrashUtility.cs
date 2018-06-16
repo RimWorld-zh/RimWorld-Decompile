@@ -1,113 +1,121 @@
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x020000C1 RID: 193
 	internal static class TrashUtility
 	{
-		private const float ChanceHateInertBuilding = 0.008f;
-
-		private static readonly IntRange TrashJobCheckOverrideInterval = new IntRange(450, 500);
-
+		// Token: 0x06000481 RID: 1153 RVA: 0x00033740 File Offset: 0x00031B40
 		public static bool ShouldTrashPlant(Pawn pawn, Plant p)
 		{
-			if (p.sown && !p.def.plant.IsTree && p.FlammableNow && TrashUtility.CanTrash(pawn, p))
+			bool result;
+			if (!p.sown || p.def.plant.IsTree || !p.FlammableNow || !TrashUtility.CanTrash(pawn, p))
+			{
+				result = false;
+			}
+			else
 			{
 				CellRect.CellRectIterator iterator = CellRect.CenteredOn(p.Position, 2).ClipInsideMap(p.Map).GetIterator();
 				while (!iterator.Done())
 				{
-					IntVec3 current = iterator.Current;
-					if (current.InBounds(p.Map) && current.ContainsStaticFire(p.Map))
+					IntVec3 c = iterator.Current;
+					if (c.InBounds(p.Map) && c.ContainsStaticFire(p.Map))
 					{
 						return false;
 					}
 					iterator.MoveNext();
 				}
-				if (!p.Position.Roofed(p.Map) && p.Map.weatherManager.RainRate > 0.25)
-				{
-					return false;
-				}
-				return true;
+				result = (p.Position.Roofed(p.Map) || p.Map.weatherManager.RainRate <= 0.25f);
 			}
-			return false;
+			return result;
 		}
 
+		// Token: 0x06000482 RID: 1154 RVA: 0x0003383C File Offset: 0x00031C3C
 		public static bool ShouldTrashBuilding(Pawn pawn, Building b, bool attackAllInert = false)
 		{
+			bool result;
 			if (!b.def.useHitPoints)
 			{
-				return false;
+				result = false;
 			}
-			if (b.def.building.isInert && !attackAllInert)
+			else
 			{
-				goto IL_0042;
+				if ((b.def.building.isInert && !attackAllInert) || b.def.building.isTrap)
+				{
+					int num = GenLocalDate.HourOfDay(pawn) / 3;
+					int specialSeed = b.GetHashCode() * 612361 ^ pawn.GetHashCode() * 391 ^ num * 73427324;
+					if (!Rand.ChanceSeeded(0.008f, specialSeed))
+					{
+						return false;
+					}
+				}
+				result = ((!b.def.building.isTrap || !((Building_Trap)b).Armed) && TrashUtility.CanTrash(pawn, b) && pawn.HostileTo(b));
 			}
-			if (b.def.building.isTrap)
-				goto IL_0042;
-			goto IL_007f;
-			IL_0042:
-			int num = GenLocalDate.HourOfDay(pawn) / 3;
-			int specialSeed = b.GetHashCode() * 612361 ^ pawn.GetHashCode() * 391 ^ num * 734273247;
-			if (!Rand.ChanceSeeded(0.008f, specialSeed))
-			{
-				return false;
-			}
-			goto IL_007f;
-			IL_007f:
-			if (b.def.building.isTrap && ((Building_Trap)b).Armed)
-			{
-				return false;
-			}
-			if (TrashUtility.CanTrash(pawn, b) && pawn.HostileTo(b))
-			{
-				return true;
-			}
-			return false;
+			return result;
 		}
 
+		// Token: 0x06000483 RID: 1155 RVA: 0x00033928 File Offset: 0x00031D28
 		private static bool CanTrash(Pawn pawn, Thing t)
 		{
-			if (pawn.CanReach(t, PathEndMode.Touch, Danger.Some, false, TraverseMode.ByPawn) && !t.IsBurning())
-			{
-				return true;
-			}
-			return false;
+			return pawn.CanReach(t, PathEndMode.Touch, Danger.Some, false, TraverseMode.ByPawn) && !t.IsBurning();
 		}
 
+		// Token: 0x06000484 RID: 1156 RVA: 0x00033968 File Offset: 0x00031D68
 		public static Job TrashJob(Pawn pawn, Thing t)
 		{
 			Plant plant = t as Plant;
+			Job result;
 			if (plant != null)
 			{
 				Job job = new Job(JobDefOf.Ignite, t);
 				TrashUtility.FinalizeTrashJob(job);
-				return job;
+				result = job;
 			}
-			if (pawn.equipment != null && Rand.Value < 0.699999988079071)
+			else
 			{
-				foreach (Verb allEquipmentVerb in pawn.equipment.AllEquipmentVerbs)
+				if (pawn.equipment != null && Rand.Value < 0.7f)
 				{
-					if (allEquipmentVerb.verbProps.ai_IsBuildingDestroyer)
+					foreach (Verb verb in pawn.equipment.AllEquipmentVerbs)
 					{
-						Job job2 = new Job(JobDefOf.UseVerbOnThing, t);
-						job2.verbToUse = allEquipmentVerb;
-						TrashUtility.FinalizeTrashJob(job2);
-						return job2;
+						if (verb.verbProps.ai_IsBuildingDestroyer)
+						{
+							Job job2 = new Job(JobDefOf.UseVerbOnThing, t);
+							job2.verbToUse = verb;
+							TrashUtility.FinalizeTrashJob(job2);
+							return job2;
+						}
 					}
 				}
+				float value = Rand.Value;
+				Job job3;
+				if (value < 0.35f && pawn.natives.IgniteVerb != null && t.FlammableNow && !t.IsBurning() && !(t is Building_Door))
+				{
+					job3 = new Job(JobDefOf.Ignite, t);
+				}
+				else
+				{
+					job3 = new Job(JobDefOf.AttackMelee, t);
+				}
+				TrashUtility.FinalizeTrashJob(job3);
+				result = job3;
 			}
-			Job job3 = null;
-			float value = Rand.Value;
-			job3 = ((!(value < 0.34999999403953552) || pawn.natives.IgniteVerb == null || !t.FlammableNow || t.IsBurning() || t is Building_Door) ? new Job(JobDefOf.AttackMelee, t) : new Job(JobDefOf.Ignite, t));
-			TrashUtility.FinalizeTrashJob(job3);
-			return job3;
+			return result;
 		}
 
+		// Token: 0x06000485 RID: 1157 RVA: 0x00033ACC File Offset: 0x00031ECC
 		private static void FinalizeTrashJob(Job job)
 		{
 			job.expiryInterval = TrashUtility.TrashJobCheckOverrideInterval.RandomInRange;
 			job.checkOverrideOnExpire = true;
 			job.expireRequiresEnemiesNearby = true;
 		}
+
+		// Token: 0x04000297 RID: 663
+		private const float ChanceHateInertBuilding = 0.008f;
+
+		// Token: 0x04000298 RID: 664
+		private static readonly IntRange TrashJobCheckOverrideInterval = new IntRange(450, 500);
 	}
 }

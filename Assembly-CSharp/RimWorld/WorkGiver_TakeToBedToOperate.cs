@@ -1,10 +1,14 @@
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000160 RID: 352
 	public class WorkGiver_TakeToBedToOperate : WorkGiver_TakeToBed
 	{
+		// Token: 0x1700011F RID: 287
+		// (get) Token: 0x06000741 RID: 1857 RVA: 0x00048E18 File Offset: 0x00047218
 		public override ThingRequest PotentialWorkThingRequest
 		{
 			get
@@ -13,6 +17,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000120 RID: 288
+		// (get) Token: 0x06000742 RID: 1858 RVA: 0x00048E34 File Offset: 0x00047234
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -21,11 +27,13 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06000743 RID: 1859 RVA: 0x00048E4C File Offset: 0x0004724C
 		public override Danger MaxPathDanger(Pawn pawn)
 		{
 			return Danger.Deadly;
 		}
 
+		// Token: 0x06000744 RID: 1860 RVA: 0x00048E64 File Offset: 0x00047264
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;
@@ -50,23 +58,21 @@ namespace RimWorld
 						}
 					}
 					Building_Bed building_Bed = base.FindBed(pawn, pawn2);
-					if (building_Bed != null && pawn2.CanReserve(building_Bed, building_Bed.SleepingSlotsCount, -1, null, false))
-					{
-						return true;
-					}
-					return false;
+					return building_Bed != null && pawn2.CanReserve(building_Bed, building_Bed.SleepingSlotsCount, -1, null, false);
 				}
 			}
 			return false;
 		}
 
+		// Token: 0x06000745 RID: 1861 RVA: 0x00048F90 File Offset: 0x00047390
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;
 			Building_Bed t2 = base.FindBed(pawn, pawn2);
-			Job job = new Job(JobDefOf.TakeToBedToOperate, pawn2, t2);
-			job.count = 1;
-			return job;
+			return new Job(JobDefOf.TakeToBedToOperate, pawn2, t2)
+			{
+				count = 1
+			};
 		}
 	}
 }

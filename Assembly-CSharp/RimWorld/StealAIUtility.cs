@@ -1,6 +1,5 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -8,80 +7,58 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
+	// Token: 0x020000DA RID: 218
 	public static class StealAIUtility
 	{
-		private const float MinMarketValueToTake = 320f;
-
-		private static readonly FloatRange StealThresholdValuePerCombatPowerRange = new FloatRange(2f, 10f);
-
-		private const float MinCombatPowerPerPawn = 100f;
-
-		private static List<Thing> tmpToSteal = new List<Thing>();
-
-		[CompilerGenerated]
-		private static Func<Thing, float> _003C_003Ef__mg_0024cache0;
-
+		// Token: 0x060004CA RID: 1226 RVA: 0x0003598C File Offset: 0x00033D8C
 		public static bool TryFindBestItemToSteal(IntVec3 root, Map map, float maxDist, out Thing item, Pawn thief, List<Thing> disallowed = null)
 		{
+			bool result;
 			if (thief != null && !thief.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
 			{
 				item = null;
-				return false;
+				result = false;
 			}
-			if (thief != null && !map.reachability.CanReachMapEdge(thief.Position, TraverseParms.For(thief, Danger.Some, TraverseMode.ByPawn, false)))
-			{
-				goto IL_009d;
-			}
-			if (thief == null && !map.reachability.CanReachMapEdge(root, TraverseParms.For(TraverseMode.PassDoors, Danger.Some, false)))
-				goto IL_009d;
-			Predicate<Thing> validator = delegate(Thing t)
-			{
-				if (thief != null && !thief.CanReserve(t, 1, -1, null, false))
-				{
-					return false;
-				}
-				if (disallowed != null && disallowed.Contains(t))
-				{
-					return false;
-				}
-				if (!t.def.stealable)
-				{
-					return false;
-				}
-				if (t.IsBurning())
-				{
-					return false;
-				}
-				return true;
-			};
-			item = GenClosest.ClosestThing_Regionwise_ReachablePrioritized(root, map, ThingRequest.ForGroup(ThingRequestGroup.HaulableEverOrMinifiable), PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Some, false), maxDist, validator, StealAIUtility.GetValue, 15, 15);
-			if (item != null && StealAIUtility.GetValue(item) < 320.0)
+			else if ((thief != null && !map.reachability.CanReachMapEdge(thief.Position, TraverseParms.For(thief, Danger.Some, TraverseMode.ByPawn, false))) || (thief == null && !map.reachability.CanReachMapEdge(root, TraverseParms.For(TraverseMode.PassDoors, Danger.Some, false))))
 			{
 				item = null;
+				result = false;
 			}
-			return item != null;
-			IL_009d:
-			item = null;
-			return false;
+			else
+			{
+				Predicate<Thing> validator = (Thing t) => (thief == null || thief.CanReserve(t, 1, -1, null, false)) && (disallowed == null || !disallowed.Contains(t)) && t.def.stealable && !t.IsBurning();
+				item = GenClosest.ClosestThing_Regionwise_ReachablePrioritized(root, map, ThingRequest.ForGroup(ThingRequestGroup.HaulableEverOrMinifiable), PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Some, false), maxDist, validator, (Thing x) => StealAIUtility.GetValue(x), 15, 15);
+				if (item != null && StealAIUtility.GetValue(item) < 320f)
+				{
+					item = null;
+				}
+				result = (item != null);
+			}
+			return result;
 		}
 
+		// Token: 0x060004CB RID: 1227 RVA: 0x00035ABC File Offset: 0x00033EBC
 		public static float TotalMarketValueAround(List<Pawn> pawns)
 		{
 			float num = 0f;
 			StealAIUtility.tmpToSteal.Clear();
 			for (int i = 0; i < pawns.Count; i++)
 			{
-				Thing thing = default(Thing);
-				if (pawns[i].Spawned && StealAIUtility.TryFindBestItemToSteal(pawns[i].Position, pawns[i].Map, 7f, out thing, pawns[i], StealAIUtility.tmpToSteal))
+				if (pawns[i].Spawned)
 				{
-					num += StealAIUtility.GetValue(thing);
-					StealAIUtility.tmpToSteal.Add(thing);
+					Thing thing;
+					if (StealAIUtility.TryFindBestItemToSteal(pawns[i].Position, pawns[i].Map, 7f, out thing, pawns[i], StealAIUtility.tmpToSteal))
+					{
+						num += StealAIUtility.GetValue(thing);
+						StealAIUtility.tmpToSteal.Add(thing);
+					}
 				}
 			}
 			StealAIUtility.tmpToSteal.Clear();
 			return num;
 		}
 
+		// Token: 0x060004CC RID: 1228 RVA: 0x00035B68 File Offset: 0x00033F68
 		public static float StartStealingMarketValueThreshold(Lord lord)
 		{
 			Rand.PushState();
@@ -96,9 +73,22 @@ namespace RimWorld
 			return num * randomInRange;
 		}
 
+		// Token: 0x060004CD RID: 1229 RVA: 0x00035BF0 File Offset: 0x00033FF0
 		public static float GetValue(Thing thing)
 		{
 			return thing.MarketValue * (float)thing.stackCount;
 		}
+
+		// Token: 0x040002AA RID: 682
+		private const float MinMarketValueToTake = 320f;
+
+		// Token: 0x040002AB RID: 683
+		private static readonly FloatRange StealThresholdValuePerCombatPowerRange = new FloatRange(2f, 10f);
+
+		// Token: 0x040002AC RID: 684
+		private const float MinCombatPowerPerPawn = 100f;
+
+		// Token: 0x040002AD RID: 685
+		private static List<Thing> tmpToSteal = new List<Thing>();
 	}
 }

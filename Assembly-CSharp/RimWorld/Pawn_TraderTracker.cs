@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -6,14 +7,17 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
+	// Token: 0x0200051D RID: 1309
 	public class Pawn_TraderTracker : IExposable
 	{
-		private Pawn pawn;
+		// Token: 0x060017C0 RID: 6080 RVA: 0x000CF22D File Offset: 0x000CD62D
+		public Pawn_TraderTracker(Pawn pawn)
+		{
+			this.pawn = pawn;
+		}
 
-		public TraderKindDef traderKind;
-
-		private List<Pawn> soldPrisoners = new List<Pawn>();
-
+		// Token: 0x17000349 RID: 841
+		// (get) Token: 0x060017C1 RID: 6081 RVA: 0x000CF248 File Offset: 0x000CD648
 		public IEnumerable<Thing> Goods
 		{
 			get
@@ -21,13 +25,12 @@ namespace RimWorld
 				Lord lord = this.pawn.GetLord();
 				if (lord == null || !(lord.LordJob is LordJob_TradeWithColony))
 				{
-					for (int k = 0; k < this.pawn.inventory.innerContainer.Count; k++)
+					for (int i = 0; i < this.pawn.inventory.innerContainer.Count; i++)
 					{
-						Thing t = this.pawn.inventory.innerContainer[k];
+						Thing t = this.pawn.inventory.innerContainer[i];
 						if (!this.pawn.inventory.NotForSale(t))
 						{
 							yield return t;
-							/*Error: Unable to find new state assignment for yield return*/;
 						}
 					}
 				}
@@ -36,29 +39,29 @@ namespace RimWorld
 					for (int j = 0; j < lord.ownedPawns.Count; j++)
 					{
 						Pawn p = lord.ownedPawns[j];
-						switch (p.GetTraderCaravanRole())
+						TraderCaravanRole role = p.GetTraderCaravanRole();
+						if (role == TraderCaravanRole.Carrier)
 						{
-						case TraderCaravanRole.Carrier:
-						{
-							int i = 0;
-							if (i < p.inventory.innerContainer.Count)
+							for (int k = 0; k < p.inventory.innerContainer.Count; k++)
 							{
-								yield return p.inventory.innerContainer[i];
-								/*Error: Unable to find new state assignment for yield return*/;
+								yield return p.inventory.innerContainer[k];
 							}
-							break;
 						}
-						case TraderCaravanRole.Chattel:
-							if (this.soldPrisoners.Contains(p))
-								break;
-							yield return (Thing)p;
-							/*Error: Unable to find new state assignment for yield return*/;
+						else if (role == TraderCaravanRole.Chattel)
+						{
+							if (!this.soldPrisoners.Contains(p))
+							{
+								yield return p;
+							}
 						}
 					}
 				}
+				yield break;
 			}
 		}
 
+		// Token: 0x1700034A RID: 842
+		// (get) Token: 0x060017C2 RID: 6082 RVA: 0x000CF274 File Offset: 0x000CD674
 		public int RandomPriceFactorSeed
 		{
 			get
@@ -67,6 +70,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x1700034B RID: 843
+		// (get) Token: 0x060017C3 RID: 6083 RVA: 0x000CF2A0 File Offset: 0x000CD6A0
 		public string TraderName
 		{
 			get
@@ -75,6 +80,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x1700034C RID: 844
+		// (get) Token: 0x060017C4 RID: 6084 RVA: 0x000CF2C0 File Offset: 0x000CD6C0
 		public bool CanTradeNow
 		{
 			get
@@ -83,11 +90,7 @@ namespace RimWorld
 			}
 		}
 
-		public Pawn_TraderTracker(Pawn pawn)
-		{
-			this.pawn = pawn;
-		}
-
+		// Token: 0x060017C5 RID: 6085 RVA: 0x000CF394 File Offset: 0x000CD794
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<TraderKindDef>(ref this.traderKind, "traderKind");
@@ -98,44 +101,35 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060017C6 RID: 6086 RVA: 0x000CF400 File Offset: 0x000CD800
 		public IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
 			IEnumerable<Thing> items = from x in this.pawn.Map.listerThings.AllThings
-			where TradeUtility.EverTradeable(x.def) && x.def.category == ThingCategory.Item && !x.Position.Fogged(x.Map) && (((Area)((_003CColonyThingsWillingToBuy_003Ec__Iterator1)/*Error near IL_0042: stateMachine*/)._0024this.pawn.Map.areaManager.Home)[x.Position] || x.IsInAnyStorage()) && TradeUtility.TradeableNow(x) && ((_003CColonyThingsWillingToBuy_003Ec__Iterator1)/*Error near IL_0042: stateMachine*/)._0024this.ReachableForTrade(x)
+			where x.def.category == ThingCategory.Item && TradeUtility.PlayerSellableNow(x) && !x.Position.Fogged(x.Map) && (this.pawn.Map.areaManager.Home[x.Position] || x.IsInAnyStorage()) && this.ReachableForTrade(x)
 			select x;
-			using (IEnumerator<Thing> enumerator = items.GetEnumerator())
+			foreach (Thing t in items)
 			{
-				if (enumerator.MoveNext())
-				{
-					Thing t = enumerator.Current;
-					yield return t;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return t;
 			}
-			if (this.pawn.GetLord() != null)
+			bool hasLord = this.pawn.GetLord() != null;
+			if (hasLord)
 			{
-				using (IEnumerator<Pawn> enumerator2 = (from x in TradeUtility.AllSellableColonyPawns(this.pawn.Map)
-				where !x.Downed && ((_003CColonyThingsWillingToBuy_003Ec__Iterator1)/*Error near IL_011d: stateMachine*/)._0024this.ReachableForTrade(x)
-				select x).GetEnumerator())
+				foreach (Pawn p in from x in TradeUtility.AllSellableColonyPawns(this.pawn.Map)
+				where !x.Downed && this.ReachableForTrade(x)
+				select x)
 				{
-					if (enumerator2.MoveNext())
-					{
-						Pawn p = enumerator2.Current;
-						yield return (Thing)p;
-						/*Error: Unable to find new state assignment for yield return*/;
-					}
+					yield return p;
 				}
 			}
 			yield break;
-			IL_01b8:
-			/*Error near IL_01b9: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x060017C7 RID: 6087 RVA: 0x000CF42C File Offset: 0x000CD82C
 		public void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			if (this.Goods.Contains(toGive))
 			{
-				Log.Error("Tried to add " + toGive + " to stock (pawn's trader tracker), but it's already here.");
+				Log.Error("Tried to add " + toGive + " to stock (pawn's trader tracker), but it's already here.", false);
 			}
 			else
 			{
@@ -165,6 +159,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060017C8 RID: 6088 RVA: 0x000CF4E0 File Offset: 0x000CD8E0
 		public void GiveSoldThingToPlayer(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			Pawn pawn = toGive as Pawn;
@@ -187,7 +182,7 @@ namespace RimWorld
 				Map mapHeld = toGive.MapHeld;
 				Thing thing = toGive.SplitOff(countToGive);
 				thing.PreTraded(TradeAction.PlayerBuys, playerNegotiator, this.pawn);
-				if (GenPlace.TryPlaceThing(thing, positionHeld, mapHeld, ThingPlaceMode.Near, null))
+				if (GenPlace.TryPlaceThing(thing, positionHeld, mapHeld, ThingPlaceMode.Near, null, null))
 				{
 					Lord lord2 = this.pawn.GetLord();
 					if (lord2 != null)
@@ -197,17 +192,24 @@ namespace RimWorld
 				}
 				else
 				{
-					Log.Error("Could not place bought thing " + thing + " at " + positionHeld);
+					Log.Error(string.Concat(new object[]
+					{
+						"Could not place bought thing ",
+						thing,
+						" at ",
+						positionHeld
+					}), false);
 					thing.Destroy(DestroyMode.Vanish);
 				}
 			}
 		}
 
+		// Token: 0x060017C9 RID: 6089 RVA: 0x000CF5E0 File Offset: 0x000CD9E0
 		private void AddPawnToStock(Pawn newPawn)
 		{
 			if (!newPawn.Spawned)
 			{
-				GenSpawn.Spawn(newPawn, this.pawn.Position, this.pawn.Map);
+				GenSpawn.Spawn(newPawn, this.pawn.Position, this.pawn.Map, WipeMode.Vanish);
 			}
 			if (newPawn.Faction != this.pawn.Faction)
 			{
@@ -221,7 +223,16 @@ namespace RimWorld
 			if (lord == null)
 			{
 				newPawn.Destroy(DestroyMode.Vanish);
-				Log.Error("Tried to sell pawn " + newPawn + " to " + this.pawn + ", but " + this.pawn + " has no lord. Traders without lord can't buy pawns.");
+				Log.Error(string.Concat(new object[]
+				{
+					"Tried to sell pawn ",
+					newPawn,
+					" to ",
+					this.pawn,
+					", but ",
+					this.pawn,
+					" has no lord. Traders without lord can't buy pawns."
+				}), false);
 			}
 			else
 			{
@@ -233,6 +244,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060017CA RID: 6090 RVA: 0x000CF6E8 File Offset: 0x000CDAE8
 		private void AddThingToRandomInventory(Thing thing)
 		{
 			Lord lord = this.pawn.GetLord();
@@ -243,9 +255,9 @@ namespace RimWorld
 				where x.GetTraderCaravanRole() == TraderCaravanRole.Carrier
 				select x;
 			}
-			if (source.Any())
+			if (source.Any<Pawn>())
 			{
-				if (!source.RandomElement().inventory.innerContainer.TryAdd(thing, true))
+				if (!source.RandomElement<Pawn>().inventory.innerContainer.TryAdd(thing, true))
 				{
 					thing.Destroy(DestroyMode.Vanish);
 				}
@@ -256,13 +268,19 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060017CB RID: 6091 RVA: 0x000CF794 File Offset: 0x000CDB94
 		private bool ReachableForTrade(Thing thing)
 		{
-			if (this.pawn.Map != thing.Map)
-			{
-				return false;
-			}
-			return this.pawn.Map.reachability.CanReach(this.pawn.Position, thing, PathEndMode.Touch, TraverseMode.PassDoors, Danger.Some);
+			return this.pawn.Map == thing.Map && this.pawn.Map.reachability.CanReach(this.pawn.Position, thing, PathEndMode.Touch, TraverseMode.PassDoors, Danger.Some);
 		}
+
+		// Token: 0x04000DFE RID: 3582
+		private Pawn pawn;
+
+		// Token: 0x04000DFF RID: 3583
+		public TraderKindDef traderKind;
+
+		// Token: 0x04000E00 RID: 3584
+		private List<Pawn> soldPrisoners = new List<Pawn>();
 	}
 }

@@ -1,14 +1,17 @@
-using System;
+﻿using System;
 
 namespace Verse
 {
+	// Token: 0x02000BFA RID: 3066
 	public class LanguageWorker_Russian : LanguageWorker
 	{
+		// Token: 0x060042DD RID: 17117 RVA: 0x00235708 File Offset: 0x00233B08
 		public override string OrdinalNumber(int number)
 		{
 			return number + "-й";
 		}
 
+		// Token: 0x060042DE RID: 17118 RVA: 0x00235730 File Offset: 0x00233B30
 		public override string PostProcessed(string str)
 		{
 			str = base.PostProcessed(str);

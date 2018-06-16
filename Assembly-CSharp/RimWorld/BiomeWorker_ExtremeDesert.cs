@@ -1,20 +1,28 @@
+﻿using System;
 using RimWorld.Planet;
 
 namespace RimWorld
 {
+	// Token: 0x0200054D RID: 1357
 	public class BiomeWorker_ExtremeDesert : BiomeWorker
 	{
-		public override float GetScore(Tile tile)
+		// Token: 0x06001950 RID: 6480 RVA: 0x000DBB38 File Offset: 0x000D9F38
+		public override float GetScore(Tile tile, int tileID)
 		{
+			float result;
 			if (tile.WaterCovered)
 			{
-				return -100f;
+				result = -100f;
 			}
-			if (tile.rainfall >= 340.0)
+			else if (tile.rainfall >= 340f)
 			{
-				return 0f;
+				result = 0f;
 			}
-			return (float)(tile.temperature * 2.7000000476837158 - 13.0 - tile.rainfall * 0.14000000059604645);
+			else
+			{
+				result = tile.temperature * 2.7f - 13f - tile.rainfall * 0.14f;
+			}
+			return result;
 		}
 	}
 }

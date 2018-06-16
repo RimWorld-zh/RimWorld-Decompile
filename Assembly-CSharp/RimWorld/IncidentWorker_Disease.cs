@@ -1,57 +1,54 @@
-using RimWorld.Planet;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
-	public class IncidentWorker_Disease : IncidentWorker
+	// Token: 0x02000328 RID: 808
+	public abstract class IncidentWorker_Disease : IncidentWorker
 	{
-		private IEnumerable<Pawn> PotentialVictimCandidates(IIncidentTarget target)
-		{
-			Map map = target as Map;
-			if (map != null)
-			{
-				return map.mapPawns.FreeColonistsAndPrisoners;
-			}
-			return from x in ((Caravan)target).PawnsListForReading
-			where x.IsFreeColonist || x.IsPrisonerOfColony
-			select x;
-		}
+		// Token: 0x06000DCC RID: 3532
+		protected abstract IEnumerable<Pawn> PotentialVictimCandidates(IIncidentTarget target);
 
-		private IEnumerable<Pawn> PotentialVictims(IIncidentTarget target)
+		// Token: 0x06000DCD RID: 3533 RVA: 0x00076084 File Offset: 0x00074484
+		protected IEnumerable<Pawn> PotentialVictims(IIncidentTarget target)
 		{
 			return this.PotentialVictimCandidates(target).Where(delegate(Pawn p)
 			{
+				bool result;
 				if (p.ParentHolder is Building_CryptosleepCasket)
 				{
-					return false;
+					result = false;
 				}
-				if (!base.def.diseasePartsToAffect.NullOrEmpty())
+				else
 				{
-					bool flag = false;
-					int num = 0;
-					while (num < base.def.diseasePartsToAffect.Count)
+					if (!this.def.diseasePartsToAffect.NullOrEmpty<BodyPartDef>())
 					{
-						if (!IncidentWorker_Disease.CanAddHediffToAnyPartOfDef(p, base.def.diseaseIncident, base.def.diseasePartsToAffect[num]))
+						bool flag = false;
+						for (int i = 0; i < this.def.diseasePartsToAffect.Count; i++)
 						{
-							num++;
-							continue;
+							if (IncidentWorker_Disease.CanAddHediffToAnyPartOfDef(p, this.def.diseaseIncident, this.def.diseasePartsToAffect[i]))
+							{
+								flag = true;
+								break;
+							}
 						}
-						flag = true;
-						break;
+						if (!flag)
+						{
+							return false;
+						}
 					}
-					if (!flag)
-					{
-						return false;
-					}
+					result = p.RaceProps.IsFlesh;
 				}
-				return p.health.immunity.DiseaseContractChanceFactor(base.def.diseaseIncident, null) > 0.0;
+				return result;
 			});
 		}
 
+		// Token: 0x06000DCE RID: 3534
+		protected abstract IEnumerable<Pawn> ActualVictims(IncidentParms parms);
+
+		// Token: 0x06000DCF RID: 3535 RVA: 0x000760B4 File Offset: 0x000744B4
 		private static bool CanAddHediffToAnyPartOfDef(Pawn pawn, HediffDef hediffDef, BodyPartDef partDef)
 		{
 			List<BodyPartRecord> allParts = pawn.def.race.body.AllParts;
@@ -66,28 +63,52 @@ namespace RimWorld
 			return false;
 		}
 
-		protected override bool CanFireNowSub(IIncidentTarget target)
+		// Token: 0x06000DD0 RID: 3536 RVA: 0x00076144 File Offset: 0x00074544
+		protected override bool CanFireNowSub(IncidentParms parms)
 		{
-			if (!this.PotentialVictims(target).Any())
-			{
-				return false;
-			}
+			return this.PotentialVictims(parms.target).Any<Pawn>();
+		}
+
+		// Token: 0x06000DD1 RID: 3537 RVA: 0x00076178 File Offset: 0x00074578
+		protected override bool TryExecuteWorker(IncidentParms parms)
+		{
+			this.ApplyToPawns(this.ActualVictims(parms));
 			return true;
 		}
 
-		protected override bool TryExecuteWorker(IncidentParms parms)
+		// Token: 0x06000DD2 RID: 3538 RVA: 0x0007619C File Offset: 0x0007459C
+		public void ApplyToPawns(IEnumerable<Pawn> pawns)
 		{
-			int num = this.PotentialVictimCandidates(parms.target).Count();
-			int randomInRange = new IntRange(Mathf.RoundToInt((float)num * base.def.diseaseVictimFractionRange.min), Mathf.RoundToInt((float)num * base.def.diseaseVictimFractionRange.max)).RandomInRange;
-			randomInRange = Mathf.Clamp(randomInRange, 1, base.def.diseaseMaxVictims);
-			int num2 = 0;
-			Pawn pawn = default(Pawn);
-			while (num2 < randomInRange && this.PotentialVictims(parms.target).TryRandomElementByWeight<Pawn>((Func<Pawn, float>)((Pawn x) => x.health.immunity.DiseaseContractChanceFactor(base.def.diseaseIncident, null)), out pawn))
+			Dictionary<HediffDef, List<Pawn>> dictionary = new Dictionary<HediffDef, List<Pawn>>();
+			foreach (Pawn pawn in pawns)
 			{
-				HediffGiveUtility.TryApply(pawn, base.def.diseaseIncident, base.def.diseasePartsToAffect, false, 1, null);
-				num2++;
+				HediffDef hediffDef = null;
+				if (Rand.Chance(pawn.health.immunity.DiseaseContractChanceFactor(this.def.diseaseIncident, out hediffDef, null)))
+				{
+					HediffGiveUtility.TryApply(pawn, this.def.diseaseIncident, this.def.diseasePartsToAffect, false, 1, null);
+				}
+				else if (hediffDef != null)
+				{
+					if (!dictionary.ContainsKey(hediffDef))
+					{
+						dictionary[hediffDef] = new List<Pawn>();
+					}
+					dictionary[hediffDef].Add(pawn);
+				}
 			}
-			return true;
+			foreach (KeyValuePair<HediffDef, List<Pawn>> keyValuePair in dictionary)
+			{
+				if (keyValuePair.Key != this.def.diseaseIncident)
+				{
+					string key = "MessageBlockedHediff";
+					object[] array = new object[3];
+					array[0] = keyValuePair.Key.LabelCap;
+					array[1] = this.def.diseaseIncident.LabelCap;
+					array[2] = (from victim in keyValuePair.Value
+					select victim.LabelShort).ToCommaList(true);
+					Messages.Message(key.Translate(array), MessageTypeDefOf.NeutralEvent, true);
+				}
+			}
 		}
 	}
 }

@@ -1,41 +1,46 @@
-using RimWorld;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using RimWorld;
 using UnityEngine;
 using Verse.Sound;
 
 namespace Verse
 {
+	// Token: 0x02000E56 RID: 3670
 	public class FloatMenu : Window
 	{
-		public bool givesColonistOrders;
+		// Token: 0x06005654 RID: 22100 RVA: 0x002C7B30 File Offset: 0x002C5F30
+		public FloatMenu(List<FloatMenuOption> options)
+		{
+			if (options.NullOrEmpty<FloatMenuOption>())
+			{
+				Log.Error("Created FloatMenu with no options. Closing.", false);
+				this.Close(true);
+			}
+			this.options = (from op in options
+			orderby op.Priority descending
+			select op).ToList<FloatMenuOption>();
+			for (int i = 0; i < options.Count; i++)
+			{
+				options[i].SetSizeMode(this.SizeMode);
+			}
+			this.layer = WindowLayer.Super;
+			this.closeOnClickedOutside = true;
+			this.doWindowBackground = false;
+			this.drawShadow = false;
+			SoundDefOf.FloatMenu_Open.PlayOneShotOnCamera(null);
+		}
 
-		public bool vanishIfMouseDistant = true;
+		// Token: 0x06005655 RID: 22101 RVA: 0x002C7C11 File Offset: 0x002C6011
+		public FloatMenu(List<FloatMenuOption> options, string title, bool needSelection = false) : this(options)
+		{
+			this.title = title;
+			this.needSelection = needSelection;
+		}
 
-		protected List<FloatMenuOption> options;
-
-		private string title;
-
-		private bool needSelection;
-
-		private Color baseColor = Color.white;
-
-		private Vector2 scrollPosition;
-
-		private static readonly Vector2 TitleOffset = new Vector2(30f, -25f);
-
-		private const float OptionSpacing = -1f;
-
-		private const float MaxScreenHeightPercent = 0.9f;
-
-		private const float MinimumColumnWidth = 70f;
-
-		private static readonly Vector2 InitialPositionShift = new Vector2(4f, 0f);
-
-		private const float FadeStartMouseDist = 5f;
-
-		private const float FadeFinishMouseDist = 100f;
-
+		// Token: 0x17000D85 RID: 3461
+		// (get) Token: 0x06005656 RID: 22102 RVA: 0x002C7C2C File Offset: 0x002C602C
 		protected override float Margin
 		{
 			get
@@ -44,6 +49,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000D86 RID: 3462
+		// (get) Token: 0x06005657 RID: 22103 RVA: 0x002C7C48 File Offset: 0x002C6048
 		public override Vector2 InitialSize
 		{
 			get
@@ -52,26 +59,33 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000D87 RID: 3463
+		// (get) Token: 0x06005658 RID: 22104 RVA: 0x002C7C70 File Offset: 0x002C6070
 		private float MaxWindowHeight
 		{
 			get
 			{
-				return (float)((float)UI.screenHeight * 0.89999997615814209);
+				return (float)UI.screenHeight * 0.9f;
 			}
 		}
 
+		// Token: 0x17000D88 RID: 3464
+		// (get) Token: 0x06005659 RID: 22105 RVA: 0x002C7C94 File Offset: 0x002C6094
 		private float TotalWindowHeight
 		{
 			get
 			{
-				return (float)(Mathf.Min(this.TotalViewHeight, this.MaxWindowHeight) + 1.0);
+				return Mathf.Min(this.TotalViewHeight, this.MaxWindowHeight) + 1f;
 			}
 		}
 
+		// Token: 0x17000D89 RID: 3465
+		// (get) Token: 0x0600565A RID: 22106 RVA: 0x002C7CC0 File Offset: 0x002C60C0
 		private float MaxViewHeight
 		{
 			get
 			{
+				float result;
 				if (this.UsingScrollbar)
 				{
 					float num = 0f;
@@ -83,16 +97,22 @@ namespace Verse
 						{
 							num = requiredHeight;
 						}
-						num2 = (float)(num2 + (requiredHeight + -1.0));
+						num2 += requiredHeight + -1f;
 					}
 					int columnCount = this.ColumnCount;
 					num2 += (float)columnCount * num;
-					return num2 / (float)columnCount;
+					result = num2 / (float)columnCount;
 				}
-				return this.MaxWindowHeight;
+				else
+				{
+					result = this.MaxWindowHeight;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000D8A RID: 3466
+		// (get) Token: 0x0600565B RID: 22107 RVA: 0x002C7D54 File Offset: 0x002C6154
 		private float TotalViewHeight
 		{
 			get
@@ -103,7 +123,7 @@ namespace Verse
 				for (int i = 0; i < this.options.Count; i++)
 				{
 					float requiredHeight = this.options[i].RequiredHeight;
-					if (num2 + requiredHeight + -1.0 > maxViewHeight)
+					if (num2 + requiredHeight + -1f > maxViewHeight)
 					{
 						if (num2 > num)
 						{
@@ -113,13 +133,15 @@ namespace Verse
 					}
 					else
 					{
-						num2 = (float)(num2 + (requiredHeight + -1.0));
+						num2 += requiredHeight + -1f;
 					}
 				}
 				return Mathf.Max(num, num2);
 			}
 		}
 
+		// Token: 0x17000D8B RID: 3467
+		// (get) Token: 0x0600565C RID: 22108 RVA: 0x002C7DE4 File Offset: 0x002C61E4
 		private float TotalWidth
 		{
 			get
@@ -127,12 +149,14 @@ namespace Verse
 				float num = (float)this.ColumnCount * this.ColumnWidth;
 				if (this.UsingScrollbar)
 				{
-					num = (float)(num + 16.0);
+					num += 16f;
 				}
 				return num;
 			}
 		}
 
+		// Token: 0x17000D8C RID: 3468
+		// (get) Token: 0x0600565D RID: 22109 RVA: 0x002C7E1C File Offset: 0x002C621C
 		private float ColumnWidth
 		{
 			get
@@ -141,7 +165,7 @@ namespace Verse
 				for (int i = 0; i < this.options.Count; i++)
 				{
 					float requiredWidth = this.options[i].RequiredWidth;
-					if (requiredWidth >= 300.0)
+					if (requiredWidth >= 300f)
 					{
 						return 300f;
 					}
@@ -154,14 +178,18 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000D8D RID: 3469
+		// (get) Token: 0x0600565E RID: 22110 RVA: 0x002C7E8C File Offset: 0x002C628C
 		private int MaxColumns
 		{
 			get
 			{
-				return Mathf.FloorToInt((float)(((float)UI.screenWidth - 16.0) / this.ColumnWidth));
+				return Mathf.FloorToInt(((float)UI.screenWidth - 16f) / this.ColumnWidth);
 			}
 		}
 
+		// Token: 0x17000D8E RID: 3470
+		// (get) Token: 0x0600565F RID: 22111 RVA: 0x002C7EBC File Offset: 0x002C62BC
 		private bool UsingScrollbar
 		{
 			get
@@ -170,6 +198,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000D8F RID: 3471
+		// (get) Token: 0x06005660 RID: 22112 RVA: 0x002C7EE0 File Offset: 0x002C62E0
 		private int ColumnCount
 		{
 			get
@@ -178,115 +208,86 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000D90 RID: 3472
+		// (get) Token: 0x06005661 RID: 22113 RVA: 0x002C7F08 File Offset: 0x002C6308
 		private int ColumnCountIfNoScrollbar
 		{
 			get
 			{
+				int result;
 				if (this.options == null)
 				{
-					return 1;
+					result = 1;
 				}
-				Text.Font = GameFont.Small;
-				int num = 1;
-				float num2 = 0f;
-				float maxWindowHeight = this.MaxWindowHeight;
-				for (int i = 0; i < this.options.Count; i++)
+				else
 				{
-					float requiredHeight = this.options[i].RequiredHeight;
-					if (num2 + requiredHeight + -1.0 > maxWindowHeight)
+					Text.Font = GameFont.Small;
+					int num = 1;
+					float num2 = 0f;
+					float maxWindowHeight = this.MaxWindowHeight;
+					for (int i = 0; i < this.options.Count; i++)
 					{
-						num2 = requiredHeight;
-						num++;
+						float requiredHeight = this.options[i].RequiredHeight;
+						if (num2 + requiredHeight + -1f > maxWindowHeight)
+						{
+							num2 = requiredHeight;
+							num++;
+						}
+						else
+						{
+							num2 += requiredHeight + -1f;
+						}
 					}
-					else
-					{
-						num2 = (float)(num2 + (requiredHeight + -1.0));
-					}
+					result = num;
 				}
-				return num;
+				return result;
 			}
 		}
 
+		// Token: 0x17000D91 RID: 3473
+		// (get) Token: 0x06005662 RID: 22114 RVA: 0x002C7FA4 File Offset: 0x002C63A4
 		public FloatMenuSizeMode SizeMode
 		{
 			get
 			{
+				FloatMenuSizeMode result;
 				if (this.options.Count > 60)
 				{
-					return FloatMenuSizeMode.Tiny;
+					result = FloatMenuSizeMode.Tiny;
 				}
-				return FloatMenuSizeMode.Normal;
+				else
+				{
+					result = FloatMenuSizeMode.Normal;
+				}
+				return result;
 			}
 		}
 
-		public FloatMenu(List<FloatMenuOption> options)
-		{
-			if (options.NullOrEmpty())
-			{
-				Log.Error("Created FloatMenu with no options. Closing.");
-				this.Close(true);
-			}
-			this.options = options;
-			for (int i = 0; i < options.Count; i++)
-			{
-				options[i].SetSizeMode(this.SizeMode);
-			}
-			base.layer = WindowLayer.Super;
-			base.closeOnClickedOutside = true;
-			base.doWindowBackground = false;
-			base.drawShadow = false;
-			SoundDefOf.FloatMenuOpen.PlayOneShotOnCamera(null);
-		}
-
-		public FloatMenu(List<FloatMenuOption> options, string title, bool needSelection = false)
-			: this(options)
-		{
-			this.title = title;
-			this.needSelection = needSelection;
-		}
-
+		// Token: 0x06005663 RID: 22115 RVA: 0x002C7FD4 File Offset: 0x002C63D4
 		protected override void SetInitialSizeAndPosition()
 		{
 			Vector2 vector = UI.MousePositionOnUIInverted + FloatMenu.InitialPositionShift;
-			float x = vector.x;
-			Vector2 initialSize = this.InitialSize;
-			if (x + initialSize.x > (float)UI.screenWidth)
+			if (vector.x + this.InitialSize.x > (float)UI.screenWidth)
 			{
-				float num = (float)UI.screenWidth;
-				Vector2 initialSize2 = this.InitialSize;
-				vector.x = num - initialSize2.x;
+				vector.x = (float)UI.screenWidth - this.InitialSize.x;
 			}
-			float y = vector.y;
-			Vector2 initialSize3 = this.InitialSize;
-			if (y + initialSize3.y > (float)UI.screenHeight)
+			if (vector.y + this.InitialSize.y > (float)UI.screenHeight)
 			{
-				float num2 = (float)UI.screenHeight;
-				Vector2 initialSize4 = this.InitialSize;
-				vector.y = num2 - initialSize4.y;
+				vector.y = (float)UI.screenHeight - this.InitialSize.y;
 			}
-			float x2 = vector.x;
-			float y2 = vector.y;
-			Vector2 initialSize5 = this.InitialSize;
-			float x3 = initialSize5.x;
-			Vector2 initialSize6 = this.InitialSize;
-			base.windowRect = new Rect(x2, y2, x3, initialSize6.y);
+			this.windowRect = new Rect(vector.x, vector.y, this.InitialSize.x, this.InitialSize.y);
 		}
 
+		// Token: 0x06005664 RID: 22116 RVA: 0x002C80A4 File Offset: 0x002C64A4
 		public override void ExtraOnGUI()
 		{
 			base.ExtraOnGUI();
 			if (!this.title.NullOrEmpty())
 			{
-				Vector2 vector = new Vector2(base.windowRect.x, base.windowRect.y);
+				Vector2 vector = new Vector2(this.windowRect.x, this.windowRect.y);
 				Text.Font = GameFont.Small;
-				Vector2 vector2 = Text.CalcSize(this.title);
-				float width = Mathf.Max(150f, (float)(15.0 + vector2.x));
-				float x = vector.x;
-				Vector2 titleOffset = FloatMenu.TitleOffset;
-				float x2 = x + titleOffset.x;
-				float y = vector.y;
-				Vector2 titleOffset2 = FloatMenu.TitleOffset;
-				Rect titleRect = new Rect(x2, y + titleOffset2.y, width, 23f);
+				float width = Mathf.Max(150f, 15f + Text.CalcSize(this.title).x);
+				Rect titleRect = new Rect(vector.x + FloatMenu.TitleOffset.x, vector.y + FloatMenu.TitleOffset.y, width, 23f);
 				Find.WindowStack.ImmediateWindow(6830963, titleRect, WindowLayer.Super, delegate
 				{
 					GUI.color = this.baseColor;
@@ -303,6 +304,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06005665 RID: 22117 RVA: 0x002C8184 File Offset: 0x002C6584
 		public override void DoWindowContents(Rect rect)
 		{
 			if (this.needSelection && Find.Selector.SingleSelectedThing == null)
@@ -321,21 +323,20 @@ namespace Verse
 				if (usingScrollbar)
 				{
 					rect.width -= 10f;
-					Widgets.BeginScrollView(rect, ref this.scrollPosition, new Rect(0f, 0f, (float)(this.TotalWidth - 16.0), this.TotalViewHeight), true);
+					Widgets.BeginScrollView(rect, ref this.scrollPosition, new Rect(0f, 0f, this.TotalWidth - 16f, this.TotalViewHeight), true);
 				}
-				foreach (FloatMenuOption item in from op in this.options
-				orderby op.Priority descending
-				select op)
+				foreach (FloatMenuOption floatMenuOption in this.options)
 				{
-					float requiredHeight = item.RequiredHeight;
-					if (zero.y + requiredHeight + -1.0 > maxViewHeight)
+					float requiredHeight = floatMenuOption.RequiredHeight;
+					if (zero.y + requiredHeight + -1f > maxViewHeight)
 					{
 						zero.y = 0f;
-						zero.x += (float)(columnWidth + -1.0);
+						zero.x += columnWidth + -1f;
 					}
 					Rect rect2 = new Rect(zero.x, zero.y, columnWidth, requiredHeight);
-					zero.y += (float)(requiredHeight + -1.0);
-					if (item.DoGUI(rect2, this.givesColonistOrders))
+					zero.y += requiredHeight + -1f;
+					bool flag = floatMenuOption.DoGUI(rect2, this.givesColonistOrders);
+					if (flag)
 					{
 						Find.WindowStack.TryRemove(this, true);
 						break;
@@ -354,12 +355,24 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06005666 RID: 22118 RVA: 0x002C835C File Offset: 0x002C675C
+		public override void PostClose()
+		{
+			base.PostClose();
+			if (this.onCloseCallback != null)
+			{
+				this.onCloseCallback();
+			}
+		}
+
+		// Token: 0x06005667 RID: 22119 RVA: 0x002C837B File Offset: 0x002C677B
 		public void Cancel()
 		{
-			SoundDefOf.FloatMenuCancel.PlayOneShotOnCamera(null);
+			SoundDefOf.FloatMenu_Cancel.PlayOneShotOnCamera(null);
 			Find.WindowStack.TryRemove(this, true);
 		}
 
+		// Token: 0x06005668 RID: 22120 RVA: 0x002C8398 File Offset: 0x002C6798
 		private void UpdateBaseColor()
 		{
 			this.baseColor = Color.white;
@@ -369,8 +382,8 @@ namespace Verse
 				if (!r.Contains(Event.current.mousePosition))
 				{
 					float num = GenUI.DistFromRect(r, Event.current.mousePosition);
-					this.baseColor = new Color(1f, 1f, 1f, (float)(1.0 - num / 95.0));
-					if (num > 95.0)
+					this.baseColor = new Color(1f, 1f, 1f, 1f - num / 95f);
+					if (num > 95f)
 					{
 						this.Close(false);
 						this.Cancel();
@@ -378,5 +391,50 @@ namespace Verse
 				}
 			}
 		}
+
+		// Token: 0x0400391F RID: 14623
+		public bool givesColonistOrders = false;
+
+		// Token: 0x04003920 RID: 14624
+		public bool vanishIfMouseDistant = true;
+
+		// Token: 0x04003921 RID: 14625
+		public Action onCloseCallback = null;
+
+		// Token: 0x04003922 RID: 14626
+		protected List<FloatMenuOption> options;
+
+		// Token: 0x04003923 RID: 14627
+		private string title = null;
+
+		// Token: 0x04003924 RID: 14628
+		private bool needSelection = false;
+
+		// Token: 0x04003925 RID: 14629
+		private Color baseColor = Color.white;
+
+		// Token: 0x04003926 RID: 14630
+		private Vector2 scrollPosition;
+
+		// Token: 0x04003927 RID: 14631
+		private static readonly Vector2 TitleOffset = new Vector2(30f, -25f);
+
+		// Token: 0x04003928 RID: 14632
+		private const float OptionSpacing = -1f;
+
+		// Token: 0x04003929 RID: 14633
+		private const float MaxScreenHeightPercent = 0.9f;
+
+		// Token: 0x0400392A RID: 14634
+		private const float MinimumColumnWidth = 70f;
+
+		// Token: 0x0400392B RID: 14635
+		private static readonly Vector2 InitialPositionShift = new Vector2(4f, 0f);
+
+		// Token: 0x0400392C RID: 14636
+		private const float FadeStartMouseDist = 5f;
+
+		// Token: 0x0400392D RID: 14637
+		private const float FadeFinishMouseDist = 100f;
 	}
 }

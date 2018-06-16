@@ -1,11 +1,11 @@
+﻿using System;
+
 namespace Verse
 {
+	// Token: 0x02000C60 RID: 3168
 	public class ScattererValidator_Buildable : ScattererValidator
 	{
-		public int radius = 1;
-
-		public TerrainAffordance affordance = TerrainAffordance.Heavy;
-
+		// Token: 0x060045A0 RID: 17824 RVA: 0x0024B968 File Offset: 0x00249D68
 		public override bool Allows(IntVec3 c, Map map)
 		{
 			CellRect cellRect = CellRect.CenteredOn(c, this.radius);
@@ -22,7 +22,7 @@ namespace Verse
 					{
 						return false;
 					}
-					if (!c2.GetTerrain(map).affordances.Contains(this.affordance))
+					if (this.affordance != null && !c2.GetTerrain(map).affordances.Contains(this.affordance))
 					{
 						return false;
 					}
@@ -30,5 +30,11 @@ namespace Verse
 			}
 			return true;
 		}
+
+		// Token: 0x04002F97 RID: 12183
+		public int radius = 1;
+
+		// Token: 0x04002F98 RID: 12184
+		public TerrainAffordanceDef affordance;
 	}
 }

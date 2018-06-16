@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,22 +10,10 @@ using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x02000817 RID: 2071
 	public static class CharacterCardUtility
 	{
-		public const int MainRectsY = 100;
-
-		private const float MainRectsHeight = 450f;
-
-		private const int ConfigRectTitlesHeight = 40;
-
-		public static Vector2 PawnCardSize = new Vector2(570f, 470f);
-
-		private const int MaxNameLength = 12;
-
-		private const int MaxNickLength = 9;
-
-		private static Regex validNameRegex = new Regex("^[a-zA-Z0-9 '\\-]*$");
-
+		// Token: 0x06002E2A RID: 11818 RVA: 0x00184E08 File Offset: 0x00183208
 		public static void DrawCharacterCard(Rect rect, Pawn pawn, Action randomizeCallback = null, Rect creationRect = default(Rect))
 		{
 			bool flag = randomizeCallback != null;
@@ -41,7 +29,7 @@ namespace RimWorld
 				rect4.x += rect4.width;
 				Rect rect5 = new Rect(rect2);
 				rect5.width *= 0.333f;
-				rect5.x += (float)(rect4.width * 2.0);
+				rect5.x += rect4.width * 2f;
 				string first = nameTriple.First;
 				string nick = nameTriple.Nick;
 				string last = nameTriple.Last;
@@ -50,7 +38,7 @@ namespace RimWorld
 				{
 					GUI.color = new Color(1f, 1f, 1f, 0.5f);
 				}
-				CharacterCardUtility.DoNameInputRect(rect4, ref nick, 9);
+				CharacterCardUtility.DoNameInputRect(rect4, ref nick, 16);
 				GUI.color = Color.white;
 				CharacterCardUtility.DoNameInputRect(rect5, ref last, 12);
 				if (nameTriple.First != first || nameTriple.Nick != nick || nameTriple.Last != last)
@@ -70,21 +58,21 @@ namespace RimWorld
 			}
 			if (randomizeCallback != null)
 			{
-				Rect rect6 = new Rect((float)(creationRect.width - 24.0 - 100.0), 0f, 100f, rect2.height);
+				Rect rect6 = new Rect(creationRect.width - 24f - 100f, 0f, 100f, rect2.height);
 				if (Widgets.ButtonText(rect6, "Randomize".Translate(), true, false, true))
 				{
-					SoundDefOf.TickTiny.PlayOneShotOnCamera(null);
+					SoundDefOf.Tick_Tiny.PlayOneShotOnCamera(null);
 					randomizeCallback();
 				}
 				UIHighlighter.HighlightOpportunity(rect6, "RandomizePawn");
 			}
 			if (flag)
 			{
-				Widgets.InfoCardButton((float)(creationRect.width - 24.0), 0f, pawn);
+				Widgets.InfoCardButton(creationRect.width - 24f, 0f, pawn);
 			}
 			else if (!pawn.health.Dead)
 			{
-				float num = (float)(CharacterCardUtility.PawnCardSize.x - 85.0);
+				float num = CharacterCardUtility.PawnCardSize.x - 85f;
 				if ((pawn.Faction == Faction.OfPlayer || pawn.IsPrisonerOfColony) && pawn.Spawned)
 				{
 					Rect rect7 = new Rect(num, 0f, 30f, 30f);
@@ -93,14 +81,17 @@ namespace RimWorld
 					{
 						if (pawn.Downed)
 						{
-							Messages.Message("MessageCantBanishDownedPawn".Translate(pawn.LabelShort).AdjustedFor(pawn), pawn, MessageTypeDefOf.RejectInput);
+							Messages.Message("MessageCantBanishDownedPawn".Translate(new object[]
+							{
+								pawn.LabelShort
+							}).AdjustedFor(pawn), pawn, MessageTypeDefOf.RejectInput, false);
 						}
 						else
 						{
 							PawnBanishUtility.ShowBanishPawnConfirmationDialog(pawn);
 						}
 					}
-					num = (float)(num - 40.0);
+					num -= 40f;
 				}
 				if (pawn.IsColonist)
 				{
@@ -108,9 +99,9 @@ namespace RimWorld
 					TooltipHandler.TipRegion(rect8, "RenameColonist".Translate());
 					if (Widgets.ButtonImage(rect8, TexButton.Rename))
 					{
-						Find.WindowStack.Add(new Dialog_ChangeNameTriple(pawn));
+						Find.WindowStack.Add(new Dialog_NamePawn(pawn));
 					}
-					num = (float)(num - 40.0);
+					num -= 40f;
 				}
 			}
 			string label = pawn.MainDesc(true);
@@ -123,14 +114,15 @@ namespace RimWorld
 			float num2 = 0f;
 			Text.Font = GameFont.Medium;
 			Widgets.Label(new Rect(0f, 0f, 200f, 30f), "Backstory".Translate());
-			num2 = (float)(num2 + 30.0);
+			num2 += 30f;
 			Text.Font = GameFont.Small;
 			IEnumerator enumerator = Enum.GetValues(typeof(BackstorySlot)).GetEnumerator();
 			try
 			{
 				while (enumerator.MoveNext())
 				{
-					BackstorySlot backstorySlot = (BackstorySlot)enumerator.Current;
+					object obj = enumerator.Current;
+					BackstorySlot backstorySlot = (BackstorySlot)obj;
 					Backstory backstory = pawn.story.GetBackstory(backstorySlot);
 					if (backstory != null)
 					{
@@ -147,9 +139,9 @@ namespace RimWorld
 						Rect rect11 = new Rect(rect10);
 						rect11.x += 90f;
 						rect11.width -= 90f;
-						string title = backstory.Title;
-						Widgets.Label(rect11, title);
-						num2 = (float)(num2 + (rect10.height + 2.0));
+						string label2 = backstory.TitleCapFor(pawn.gender);
+						Widgets.Label(rect11, label2);
+						num2 += rect10.height + 2f;
 					}
 				}
 			}
@@ -161,10 +153,22 @@ namespace RimWorld
 					disposable.Dispose();
 				}
 			}
-			num2 = (float)(num2 + 25.0);
+			if (pawn.story != null && pawn.story.title != null)
+			{
+				Rect rect12 = new Rect(0f, num2, position.width, 24f);
+				Text.Anchor = TextAnchor.MiddleLeft;
+				Widgets.Label(rect12, "Current".Translate() + ":");
+				Text.Anchor = TextAnchor.UpperLeft;
+				Rect rect13 = new Rect(rect12);
+				rect13.x += 90f;
+				rect13.width -= 90f;
+				Widgets.Label(rect13, pawn.story.title);
+				num2 += rect12.height + 2f;
+			}
+			num2 += 25f;
 			Text.Font = GameFont.Medium;
 			Widgets.Label(new Rect(0f, num2, 200f, 30f), "IncapableOf".Translate());
-			num2 = (float)(num2 + 30.0);
+			num2 += 30f;
 			Text.Font = GameFont.Small;
 			StringBuilder stringBuilder = new StringBuilder();
 			WorkTags combinedDisabledWorkTags = pawn.story.CombinedDisabledWorkTags;
@@ -174,17 +178,17 @@ namespace RimWorld
 			}
 			else
 			{
-				List<WorkTags> list = CharacterCardUtility.WorkTagsFrom(combinedDisabledWorkTags).ToList();
+				List<WorkTags> list = CharacterCardUtility.WorkTagsFrom(combinedDisabledWorkTags).ToList<WorkTags>();
 				bool flag2 = true;
-				foreach (WorkTags item in list)
+				foreach (WorkTags tags in list)
 				{
 					if (flag2)
 					{
-						stringBuilder.Append(item.LabelTranslated().CapitalizeFirst());
+						stringBuilder.Append(tags.LabelTranslated().CapitalizeFirst());
 					}
 					else
 					{
-						stringBuilder.Append(item.LabelTranslated());
+						stringBuilder.Append(tags.LabelTranslated());
 					}
 					stringBuilder.Append(", ");
 					flag2 = false;
@@ -192,37 +196,46 @@ namespace RimWorld
 			}
 			string text = stringBuilder.ToString();
 			text = text.Substring(0, text.Length - 2);
-			Rect rect12 = new Rect(0f, num2, position.width, 999f);
-			Widgets.Label(rect12, text);
-			num2 = (float)(num2 + 100.0);
+			Rect rect14 = new Rect(0f, num2, position.width, 999f);
+			Widgets.Label(rect14, text);
+			num2 += 100f;
 			Text.Font = GameFont.Medium;
 			Widgets.Label(new Rect(0f, num2, 200f, 30f), "Traits".Translate());
-			num2 = (float)(num2 + 30.0);
+			num2 += 30f;
 			Text.Font = GameFont.Small;
 			for (int i = 0; i < pawn.story.traits.allTraits.Count; i++)
 			{
 				Trait trait = pawn.story.traits.allTraits[i];
-				Rect rect13 = new Rect(0f, num2, position.width, 24f);
-				if (Mouse.IsOver(rect13))
+				Rect rect15 = new Rect(0f, num2, position.width, 24f);
+				if (Mouse.IsOver(rect15))
 				{
-					Widgets.DrawHighlight(rect13);
+					Widgets.DrawHighlight(rect15);
 				}
-				Widgets.Label(rect13, trait.LabelCap);
-				num2 = (float)(num2 + (rect13.height + 2.0));
+				Widgets.Label(rect15, trait.LabelCap);
+				num2 += rect15.height + 2f;
 				Trait trLocal = trait;
 				TipSignal tip = new TipSignal(() => trLocal.TipString(pawn), (int)num2 * 37);
-				TooltipHandler.TipRegion(rect13, tip);
+				TooltipHandler.TipRegion(rect15, tip);
 			}
 			GUI.EndGroup();
 			GUI.BeginGroup(position2);
 			Text.Font = GameFont.Medium;
 			Widgets.Label(new Rect(0f, 0f, 200f, 30f), "Skills".Translate());
-			SkillUI.SkillDrawMode mode = (SkillUI.SkillDrawMode)((Current.ProgramState != ProgramState.Playing) ? 1 : 0);
+			SkillUI.SkillDrawMode mode;
+			if (Current.ProgramState == ProgramState.Playing)
+			{
+				mode = SkillUI.SkillDrawMode.Gameplay;
+			}
+			else
+			{
+				mode = SkillUI.SkillDrawMode.Menu;
+			}
 			SkillUI.DrawSkillsOf(pawn, new Vector2(0f, 35f), mode);
 			GUI.EndGroup();
 			GUI.EndGroup();
 		}
 
+		// Token: 0x06002E2B RID: 11819 RVA: 0x0018586C File Offset: 0x00183C6C
 		public static void DoNameInputRect(Rect rect, ref string name, int maxLength)
 		{
 			string text = Widgets.TextField(rect, name);
@@ -232,19 +245,41 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002E2C RID: 11820 RVA: 0x001858A4 File Offset: 0x00183CA4
 		private static IEnumerable<WorkTags> WorkTagsFrom(WorkTags tags)
 		{
-			foreach (WorkTags allSelectedItem in ((Enum)(object)tags).GetAllSelectedItems<WorkTags>())
+			foreach (WorkTags workTag in tags.GetAllSelectedItems<WorkTags>())
 			{
-				if (allSelectedItem != 0)
+				if (workTag != WorkTags.None)
 				{
-					yield return allSelectedItem;
-					/*Error: Unable to find new state assignment for yield return*/;
+					yield return workTag;
 				}
 			}
 			yield break;
-			IL_00ce:
-			/*Error near IL_00cf: Unexpected return in MoveNext()*/;
 		}
+
+		// Token: 0x04001888 RID: 6280
+		public const int MainRectsY = 100;
+
+		// Token: 0x04001889 RID: 6281
+		private const float MainRectsHeight = 450f;
+
+		// Token: 0x0400188A RID: 6282
+		private const int ConfigRectTitlesHeight = 40;
+
+		// Token: 0x0400188B RID: 6283
+		public static Vector2 PawnCardSize = new Vector2(570f, 470f);
+
+		// Token: 0x0400188C RID: 6284
+		private const int MaxNameLength = 12;
+
+		// Token: 0x0400188D RID: 6285
+		public const int MaxNickLength = 16;
+
+		// Token: 0x0400188E RID: 6286
+		public const int MaxTitleLength = 25;
+
+		// Token: 0x0400188F RID: 6287
+		private static Regex validNameRegex = new Regex("^[a-zA-Z0-9 '\\-]*$");
 	}
 }

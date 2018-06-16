@@ -1,17 +1,16 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using RimWorld.Planet;
+using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000751 RID: 1873
 	public static class ShipUtility
 	{
-		private static Dictionary<ThingDef, int> requiredParts;
-
-		private static List<Building> closedSet = new List<Building>();
-
-		private static List<Building> openSet = new List<Building>();
-
+		// Token: 0x0600297D RID: 10621 RVA: 0x0016063C File Offset: 0x0015EA3C
 		public static Dictionary<ThingDef, int> RequiredParts()
 		{
 			if (ShipUtility.requiredParts == null)
@@ -27,24 +26,35 @@ namespace RimWorld
 			return ShipUtility.requiredParts;
 		}
 
+		// Token: 0x0600297E RID: 10622 RVA: 0x001606CC File Offset: 0x0015EACC
 		public static IEnumerable<string> LaunchFailReasons(Building rootBuilding)
 		{
-			List<Building> shipParts = ShipUtility.ShipBuildingsAttachedTo(rootBuilding).ToList();
-			foreach (KeyValuePair<ThingDef, int> item in ShipUtility.RequiredParts())
+			List<Building> shipParts = ShipUtility.ShipBuildingsAttachedTo(rootBuilding).ToList<Building>();
+			using (Dictionary<ThingDef, int>.Enumerator enumerator = ShipUtility.RequiredParts().GetEnumerator())
 			{
-				int shipPartCount = shipParts.Count((Building pa) => pa.def == item.Key);
-				if (shipPartCount < item.Value)
+				while (enumerator.MoveNext())
 				{
-					yield return string.Format("{0}: {1}x {2} ({3} {4})", "ShipReportMissingPart".Translate(), item.Value - shipPartCount, item.Key.label, "ShipReportMissingPartRequires".Translate(), item.Value);
-					/*Error: Unable to find new state assignment for yield return*/;
+					KeyValuePair<ThingDef, int> partDef = enumerator.Current;
+					int shipPartCount = shipParts.Count((Building pa) => pa.def == partDef.Key);
+					if (shipPartCount < partDef.Value)
+					{
+						yield return string.Format("{0}: {1}x {2} ({3} {4})", new object[]
+						{
+							"ShipReportMissingPart".Translate(),
+							partDef.Value - shipPartCount,
+							partDef.Key.label,
+							"ShipReportMissingPartRequires".Translate(),
+							partDef.Value
+						});
+					}
 				}
 			}
 			bool fullPodFound = false;
-			foreach (Building item2 in shipParts)
+			foreach (Building building in shipParts)
 			{
-				if (item2.def == ThingDefOf.Ship_CryptosleepCasket)
+				if (building.def == ThingDefOf.Ship_CryptosleepCasket)
 				{
-					Building_CryptosleepCasket building_CryptosleepCasket = item2 as Building_CryptosleepCasket;
+					Building_CryptosleepCasket building_CryptosleepCasket = building as Building_CryptosleepCasket;
 					if (building_CryptosleepCasket != null && building_CryptosleepCasket.HasAnyContents)
 					{
 						fullPodFound = true;
@@ -52,34 +62,32 @@ namespace RimWorld
 					}
 				}
 			}
-			foreach (Building item3 in shipParts)
+			foreach (Building part in shipParts)
 			{
-				CompHibernatable hibernatable = item3.TryGetComp<CompHibernatable>();
+				CompHibernatable hibernatable = part.TryGetComp<CompHibernatable>();
 				if (hibernatable != null && hibernatable.State == HibernatableStateDefOf.Hibernating)
 				{
-					yield return string.Format("{0}: {1}", "ShipReportHibernating".Translate(), item3.Label);
-					/*Error: Unable to find new state assignment for yield return*/;
+					yield return string.Format("{0}: {1}", "ShipReportHibernating".Translate(), part.LabelCap);
 				}
-				if (hibernatable != null && !hibernatable.Running)
+				else if (hibernatable != null && !hibernatable.Running)
 				{
-					yield return string.Format("{0}: {1}", "ShipReportNotReady".Translate(), item3.Label);
-					/*Error: Unable to find new state assignment for yield return*/;
+					yield return string.Format("{0}: {1}", "ShipReportNotReady".Translate(), part.LabelCap);
 				}
 			}
-			if (fullPodFound)
-				yield break;
-			yield return "ShipReportNoFullPods".Translate();
-			/*Error: Unable to find new state assignment for yield return*/;
-			IL_036f:
-			/*Error near IL_0370: Unexpected return in MoveNext()*/;
+			if (!fullPodFound)
+			{
+				yield return "ShipReportNoFullPods".Translate();
+			}
+			yield break;
 		}
 
+		// Token: 0x0600297F RID: 10623 RVA: 0x001606F8 File Offset: 0x0015EAF8
 		public static bool HasHibernatingParts(Building rootBuilding)
 		{
-			List<Building> list = ShipUtility.ShipBuildingsAttachedTo(rootBuilding).ToList();
-			foreach (Building item in list)
+			List<Building> list = ShipUtility.ShipBuildingsAttachedTo(rootBuilding).ToList<Building>();
+			foreach (Building thing in list)
 			{
-				CompHibernatable compHibernatable = item.TryGetComp<CompHibernatable>();
+				CompHibernatable compHibernatable = thing.TryGetComp<CompHibernatable>();
 				if (compHibernatable != null && compHibernatable.State == HibernatableStateDefOf.Hibernating)
 				{
 					return true;
@@ -88,12 +96,13 @@ namespace RimWorld
 			return false;
 		}
 
+		// Token: 0x06002980 RID: 10624 RVA: 0x00160788 File Offset: 0x0015EB88
 		public static void StartupHibernatingParts(Building rootBuilding)
 		{
-			List<Building> list = ShipUtility.ShipBuildingsAttachedTo(rootBuilding).ToList();
-			foreach (Building item in list)
+			List<Building> list = ShipUtility.ShipBuildingsAttachedTo(rootBuilding).ToList<Building>();
+			foreach (Building thing in list)
 			{
-				CompHibernatable compHibernatable = item.TryGetComp<CompHibernatable>();
+				CompHibernatable compHibernatable = thing.TryGetComp<CompHibernatable>();
 				if (compHibernatable != null && compHibernatable.State == HibernatableStateDefOf.Hibernating)
 				{
 					compHibernatable.Startup();
@@ -101,11 +110,17 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002981 RID: 10625 RVA: 0x0016080C File Offset: 0x0015EC0C
 		public static List<Building> ShipBuildingsAttachedTo(Building root)
 		{
-			if (root != null && !root.Destroyed)
+			ShipUtility.closedSet.Clear();
+			List<Building> result;
+			if (root == null || root.Destroyed)
 			{
-				ShipUtility.closedSet.Clear();
+				result = ShipUtility.closedSet;
+			}
+			else
+			{
 				ShipUtility.openSet.Clear();
 				ShipUtility.openSet.Add(root);
 				while (ShipUtility.openSet.Count > 0)
@@ -113,18 +128,67 @@ namespace RimWorld
 					Building building = ShipUtility.openSet[ShipUtility.openSet.Count - 1];
 					ShipUtility.openSet.Remove(building);
 					ShipUtility.closedSet.Add(building);
-					foreach (IntVec3 item in GenAdj.CellsAdjacentCardinal(building))
+					foreach (IntVec3 c in GenAdj.CellsAdjacentCardinal(building))
 					{
-						Building edifice = item.GetEdifice(building.Map);
+						Building edifice = c.GetEdifice(building.Map);
 						if (edifice != null && edifice.def.building.shipPart && !ShipUtility.closedSet.Contains(edifice) && !ShipUtility.openSet.Contains(edifice))
 						{
 							ShipUtility.openSet.Add(edifice);
 						}
 					}
 				}
-				return ShipUtility.closedSet;
+				result = ShipUtility.closedSet;
 			}
-			return new List<Building>();
+			return result;
 		}
+
+		// Token: 0x06002982 RID: 10626 RVA: 0x0016094C File Offset: 0x0015ED4C
+		public static IEnumerable<Gizmo> ShipStartupGizmos(Building building)
+		{
+			if (ShipUtility.HasHibernatingParts(building))
+			{
+				yield return new Command_Action
+				{
+					action = delegate()
+					{
+						string text = "HibernateWarning";
+						if (building.Map.info.parent.GetComponent<EscapeShipComp>() == null)
+						{
+							text += "Standalone";
+						}
+						if (!Find.Storyteller.difficulty.allowBigThreats)
+						{
+							text += "Pacifist";
+						}
+						DiaNode diaNode = new DiaNode(text.Translate());
+						DiaOption diaOption = new DiaOption("Confirm".Translate());
+						diaOption.action = delegate()
+						{
+							ShipUtility.StartupHibernatingParts(building);
+						};
+						diaOption.resolveTree = true;
+						diaNode.options.Add(diaOption);
+						DiaOption diaOption2 = new DiaOption("GoBack".Translate());
+						diaOption2.resolveTree = true;
+						diaNode.options.Add(diaOption2);
+						Find.WindowStack.Add(new Dialog_NodeTree(diaNode, true, false, null));
+					},
+					defaultLabel = "CommandShipStartup".Translate(),
+					defaultDesc = "CommandShipStartupDesc".Translate(),
+					hotKey = KeyBindingDefOf.Misc1,
+					icon = ContentFinder<Texture2D>.Get("UI/Commands/DesirePower", true)
+				};
+			}
+			yield break;
+		}
+
+		// Token: 0x04001696 RID: 5782
+		private static Dictionary<ThingDef, int> requiredParts;
+
+		// Token: 0x04001697 RID: 5783
+		private static List<Building> closedSet = new List<Building>();
+
+		// Token: 0x04001698 RID: 5784
+		private static List<Building> openSet = new List<Building>();
 	}
 }

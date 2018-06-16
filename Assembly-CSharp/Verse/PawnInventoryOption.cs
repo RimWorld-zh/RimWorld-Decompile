@@ -1,64 +1,61 @@
+﻿using System;
 using System.Collections.Generic;
 
 namespace Verse
 {
+	// Token: 0x02000B5D RID: 2909
 	public class PawnInventoryOption
 	{
-		public ThingDef thingDef;
-
-		public IntRange countRange = IntRange.one;
-
-		public float choiceChance = 1f;
-
-		public float skipChance;
-
-		public List<PawnInventoryOption> subOptionsTakeAll;
-
-		public List<PawnInventoryOption> subOptionsChooseOne;
-
+		// Token: 0x06003F84 RID: 16260 RVA: 0x00216E34 File Offset: 0x00215234
 		public IEnumerable<Thing> GenerateThings()
 		{
-			if (!(Rand.Value < this.skipChance))
+			if (Rand.Value < this.skipChance)
 			{
-				if (this.thingDef != null && this.countRange.max > 0)
+				yield break;
+			}
+			if (this.thingDef != null && this.countRange.max > 0)
+			{
+				Thing thing = ThingMaker.MakeThing(this.thingDef, null);
+				thing.stackCount = this.countRange.RandomInRange;
+				yield return thing;
+			}
+			if (this.subOptionsTakeAll != null)
+			{
+				foreach (PawnInventoryOption opt in this.subOptionsTakeAll)
 				{
-					Thing thing = ThingMaker.MakeThing(this.thingDef, null);
-					thing.stackCount = this.countRange.RandomInRange;
-					yield return thing;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
-				if (this.subOptionsTakeAll != null)
-				{
-					foreach (PawnInventoryOption item in this.subOptionsTakeAll)
+					foreach (Thing subThing in opt.GenerateThings())
 					{
-						using (IEnumerator<Thing> enumerator2 = item.GenerateThings().GetEnumerator())
-						{
-							if (enumerator2.MoveNext())
-							{
-								Thing subThing2 = enumerator2.Current;
-								yield return subThing2;
-								/*Error: Unable to find new state assignment for yield return*/;
-							}
-						}
-					}
-				}
-				if (this.subOptionsChooseOne != null)
-				{
-					PawnInventoryOption chosen = this.subOptionsChooseOne.RandomElementByWeight((PawnInventoryOption o) => o.choiceChance);
-					using (IEnumerator<Thing> enumerator3 = chosen.GenerateThings().GetEnumerator())
-					{
-						if (enumerator3.MoveNext())
-						{
-							Thing subThing = enumerator3.Current;
-							yield return subThing;
-							/*Error: Unable to find new state assignment for yield return*/;
-						}
+						yield return subThing;
 					}
 				}
 			}
+			if (this.subOptionsChooseOne != null)
+			{
+				PawnInventoryOption chosen = this.subOptionsChooseOne.RandomElementByWeight((PawnInventoryOption o) => o.choiceChance);
+				foreach (Thing subThing2 in chosen.GenerateThings())
+				{
+					yield return subThing2;
+				}
+			}
 			yield break;
-			IL_0299:
-			/*Error near IL_029a: Unexpected return in MoveNext()*/;
 		}
+
+		// Token: 0x04002A34 RID: 10804
+		public ThingDef thingDef;
+
+		// Token: 0x04002A35 RID: 10805
+		public IntRange countRange = IntRange.one;
+
+		// Token: 0x04002A36 RID: 10806
+		public float choiceChance = 1f;
+
+		// Token: 0x04002A37 RID: 10807
+		public float skipChance;
+
+		// Token: 0x04002A38 RID: 10808
+		public List<PawnInventoryOption> subOptionsTakeAll = null;
+
+		// Token: 0x04002A39 RID: 10809
+		public List<PawnInventoryOption> subOptionsChooseOne = null;
 	}
 }

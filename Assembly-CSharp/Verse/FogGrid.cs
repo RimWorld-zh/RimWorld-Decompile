@@ -1,26 +1,25 @@
-using RimWorld;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld;
 
 namespace Verse
 {
+	// Token: 0x02000C13 RID: 3091
 	public sealed class FogGrid : IExposable
 	{
-		private Map map;
-
-		public bool[] fogGrid;
-
-		private const int AlwaysSendLetterIfUnfoggedMoreCellsThan = 600;
-
+		// Token: 0x06004381 RID: 17281 RVA: 0x00239E83 File Offset: 0x00238283
 		public FogGrid(Map map)
 		{
 			this.map = map;
 		}
 
+		// Token: 0x06004382 RID: 17282 RVA: 0x00239E93 File Offset: 0x00238293
 		public void ExposeData()
 		{
 			DataExposeUtility.BoolArray(ref this.fogGrid, this.map.Area, "fogGrid");
 		}
 
+		// Token: 0x06004383 RID: 17283 RVA: 0x00239EB4 File Offset: 0x002382B4
 		public void Unfog(IntVec3 c)
 		{
 			this.UnfogWorker(c);
@@ -30,14 +29,15 @@ namespace Verse
 				Thing thing = thingList[i];
 				if (thing.def.Fillage == FillCategory.Full)
 				{
-					foreach (IntVec3 cell in thing.OccupiedRect().Cells)
+					foreach (IntVec3 c2 in thing.OccupiedRect().Cells)
 					{
-						this.UnfogWorker(cell);
+						this.UnfogWorker(c2);
 					}
 				}
 			}
 		}
 
+		// Token: 0x06004384 RID: 17284 RVA: 0x00239F68 File Offset: 0x00238368
 		private void UnfogWorker(IntVec3 c)
 		{
 			int num = this.map.cellIndices.CellToIndex(c);
@@ -60,49 +60,31 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004385 RID: 17285 RVA: 0x0023A014 File Offset: 0x00238414
 		public bool IsFogged(IntVec3 c)
 		{
-			if (c.InBounds(this.map) && this.fogGrid != null)
-			{
-				return this.fogGrid[this.map.cellIndices.CellToIndex(c)];
-			}
-			return false;
+			return c.InBounds(this.map) && this.fogGrid != null && this.fogGrid[this.map.cellIndices.CellToIndex(c)];
 		}
 
+		// Token: 0x06004386 RID: 17286 RVA: 0x0023A064 File Offset: 0x00238464
 		public bool IsFogged(int index)
 		{
 			return this.fogGrid[index];
 		}
 
+		// Token: 0x06004387 RID: 17287 RVA: 0x0023A084 File Offset: 0x00238484
 		public void ClearAllFog()
 		{
-			int num = 0;
-			while (true)
+			for (int i = 0; i < this.map.Size.x; i++)
 			{
-				int num2 = num;
-				IntVec3 size = this.map.Size;
-				if (num2 < size.x)
+				for (int j = 0; j < this.map.Size.z; j++)
 				{
-					int num3 = 0;
-					while (true)
-					{
-						int num4 = num3;
-						IntVec3 size2 = this.map.Size;
-						if (num4 < size2.z)
-						{
-							this.Unfog(new IntVec3(num, 0, num3));
-							num3++;
-							continue;
-						}
-						break;
-					}
-					num++;
-					continue;
+					this.Unfog(new IntVec3(i, 0, j));
 				}
-				break;
 			}
 		}
 
+		// Token: 0x06004388 RID: 17288 RVA: 0x0023A0EC File Offset: 0x002384EC
 		public void Notify_FogBlockerRemoved(IntVec3 c)
 		{
 			if (Current.ProgramState == ProgramState.Playing)
@@ -124,13 +106,16 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004389 RID: 17289 RVA: 0x0023A16E File Offset: 0x0023856E
 		public void Notify_PawnEnteringDoor(Building_Door door, Pawn pawn)
 		{
-			if (pawn.Faction != Faction.OfPlayer && pawn.HostFaction != Faction.OfPlayer)
-				return;
-			this.FloodUnfogAdjacent(door.Position);
+			if (pawn.Faction == Faction.OfPlayer || pawn.HostFaction == Faction.OfPlayer)
+			{
+				this.FloodUnfogAdjacent(door.Position);
+			}
 		}
 
+		// Token: 0x0600438A RID: 17290 RVA: 0x0023A1A4 File Offset: 0x002385A4
 		internal void SetAllFogged()
 		{
 			CellIndices cellIndices = this.map.cellIndices;
@@ -138,9 +123,9 @@ namespace Verse
 			{
 				this.fogGrid = new bool[cellIndices.NumGridCells];
 			}
-			foreach (IntVec3 allCell in this.map.AllCells)
+			foreach (IntVec3 c in this.map.AllCells)
 			{
-				this.fogGrid[cellIndices.CellToIndex(allCell)] = true;
+				this.fogGrid[cellIndices.CellToIndex(c)] = true;
 			}
 			if (Current.ProgramState == ProgramState.Playing)
 			{
@@ -148,6 +133,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x0600438B RID: 17291 RVA: 0x0023A258 File Offset: 0x00238658
 		private void FloodUnfogAdjacent(IntVec3 c)
 		{
 			this.Unfog(c);
@@ -156,17 +142,20 @@ namespace Verse
 			for (int i = 0; i < 4; i++)
 			{
 				IntVec3 intVec = c + GenAdj.CardinalDirections[i];
-				if (intVec.InBounds(this.map) && intVec.Fogged(this.map))
+				if (intVec.InBounds(this.map))
 				{
-					Building edifice = intVec.GetEdifice(this.map);
-					if (edifice == null || !edifice.def.MakeFog)
+					if (intVec.Fogged(this.map))
 					{
-						flag = true;
-						floodUnfogResult = FloodFillerFog.FloodUnfog(intVec, this.map);
-					}
-					else
-					{
-						this.Unfog(intVec);
+						Building edifice = intVec.GetEdifice(this.map);
+						if (edifice == null || !edifice.def.MakeFog)
+						{
+							flag = true;
+							floodUnfogResult = FloodFillerFog.FloodUnfog(intVec, this.map);
+						}
+						else
+						{
+							this.Unfog(intVec);
+						}
 					}
 				}
 			}
@@ -186,15 +175,22 @@ namespace Verse
 			{
 				if (floodUnfogResult.mechanoidFound)
 				{
-					Find.LetterStack.ReceiveLetter("LetterLabelAreaRevealed".Translate(), "AreaRevealedWithMechanoids".Translate(), LetterDefOf.ThreatBig, new TargetInfo(c, this.map, false), null);
+					Find.LetterStack.ReceiveLetter("LetterLabelAreaRevealed".Translate(), "AreaRevealedWithMechanoids".Translate(), LetterDefOf.ThreatBig, new TargetInfo(c, this.map, false), null, null);
 				}
-				else
+				else if (!floodUnfogResult.allOnScreen || floodUnfogResult.cellsUnfogged >= 600)
 				{
-					if (floodUnfogResult.allOnScreen && floodUnfogResult.cellsUnfogged < 600)
-						return;
-					Find.LetterStack.ReceiveLetter("LetterLabelAreaRevealed".Translate(), "AreaRevealed".Translate(), LetterDefOf.NeutralEvent, new TargetInfo(c, this.map, false), null);
+					Find.LetterStack.ReceiveLetter("LetterLabelAreaRevealed".Translate(), "AreaRevealed".Translate(), LetterDefOf.NeutralEvent, new TargetInfo(c, this.map, false), null, null);
 				}
 			}
 		}
+
+		// Token: 0x04002E1E RID: 11806
+		private Map map;
+
+		// Token: 0x04002E1F RID: 11807
+		public bool[] fogGrid;
+
+		// Token: 0x04002E20 RID: 11808
+		private const int AlwaysSendLetterIfUnfoggedMoreCellsThan = 600;
 	}
 }

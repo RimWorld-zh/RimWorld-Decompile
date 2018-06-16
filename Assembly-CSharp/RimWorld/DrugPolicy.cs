@@ -1,17 +1,27 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020004EA RID: 1258
 	public class DrugPolicy : IExposable, ILoadReferenceable
 	{
-		public int uniqueId;
+		// Token: 0x0600166C RID: 5740 RVA: 0x000C6EA0 File Offset: 0x000C52A0
+		public DrugPolicy()
+		{
+		}
 
-		public string label;
+		// Token: 0x0600166D RID: 5741 RVA: 0x000C6EA9 File Offset: 0x000C52A9
+		public DrugPolicy(int uniqueId, string label)
+		{
+			this.uniqueId = uniqueId;
+			this.label = label;
+			this.InitializeIfNeeded();
+		}
 
-		private List<DrugPolicyEntry> entriesInt;
-
+		// Token: 0x170002EC RID: 748
+		// (get) Token: 0x0600166E RID: 5742 RVA: 0x000C6EC8 File Offset: 0x000C52C8
 		public int Count
 		{
 			get
@@ -20,6 +30,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170002ED RID: 749
 		public DrugPolicyEntry this[int index]
 		{
 			get
@@ -32,6 +43,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170002EE RID: 750
 		public DrugPolicyEntry this[ThingDef drugDef]
 		{
 			get
@@ -47,17 +59,7 @@ namespace RimWorld
 			}
 		}
 
-		public DrugPolicy()
-		{
-		}
-
-		public DrugPolicy(int uniqueId, string label)
-		{
-			this.uniqueId = uniqueId;
-			this.label = label;
-			this.InitializeIfNeeded();
-		}
-
+		// Token: 0x06001672 RID: 5746 RVA: 0x000C6F78 File Offset: 0x000C5378
 		public void InitializeIfNeeded()
 		{
 			if (this.entriesInt == null)
@@ -78,16 +80,27 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06001673 RID: 5747 RVA: 0x000C7036 File Offset: 0x000C5436
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.uniqueId, "uniqueId", 0, false);
-			Scribe_Values.Look<string>(ref this.label, "label", (string)null, false);
+			Scribe_Values.Look<string>(ref this.label, "label", null, false);
 			Scribe_Collections.Look<DrugPolicyEntry>(ref this.entriesInt, "drugs", LookMode.Deep, new object[0]);
 		}
 
+		// Token: 0x06001674 RID: 5748 RVA: 0x000C7074 File Offset: 0x000C5474
 		public string GetUniqueLoadID()
 		{
 			return "DrugPolicy_" + this.label + this.uniqueId.ToString();
 		}
+
+		// Token: 0x04000D19 RID: 3353
+		public int uniqueId;
+
+		// Token: 0x04000D1A RID: 3354
+		public string label;
+
+		// Token: 0x04000D1B RID: 3355
+		private List<DrugPolicyEntry> entriesInt;
 	}
 }

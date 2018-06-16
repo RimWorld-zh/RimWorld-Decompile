@@ -1,19 +1,18 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000898 RID: 2200
 	public class PawnColumnWorker_Outfit : PawnColumnWorker
 	{
-		private const int TopAreaHeight = 65;
-
-		private const int ManageOutfitsButtonHeight = 32;
-
+		// Token: 0x0600322E RID: 12846 RVA: 0x001AFE80 File Offset: 0x001AE280
 		public override void DoHeader(Rect rect, PawnTable table)
 		{
 			base.DoHeader(rect, table);
-			Rect rect2 = new Rect(rect.x, (float)(rect.y + (rect.height - 65.0)), Mathf.Min(rect.width, 360f), 32f);
+			Rect rect2 = new Rect(rect.x, rect.y + (rect.height - 65f), Mathf.Min(rect.width, 360f), 32f);
 			if (Widgets.ButtonText(rect2, "ManageOutfits".Translate(), true, false, true))
 			{
 				Find.WindowStack.Add(new Dialog_ManageOutfits(null));
@@ -22,86 +21,112 @@ namespace RimWorld
 			UIHighlighter.HighlightOpportunity(rect2, "ManageOutfits");
 		}
 
+		// Token: 0x0600322F RID: 12847 RVA: 0x001AFF10 File Offset: 0x001AE310
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
 			if (pawn.outfits != null)
 			{
-				int num = Mathf.FloorToInt((float)((rect.width - 4.0) * 0.71428573131561279));
-				int num2 = Mathf.FloorToInt((float)((rect.width - 4.0) * 0.28571429848670959));
-				float x = rect.x;
+				int num = Mathf.FloorToInt((rect.width - 4f) * 0.714285731f);
+				int num2 = Mathf.FloorToInt((rect.width - 4f) * 0.2857143f);
+				float num3 = rect.x;
 				bool somethingIsForced = pawn.outfits.forcedHandler.SomethingIsForced;
-				Rect rect2 = new Rect(x, (float)(rect.y + 2.0), (float)num, (float)(rect.height - 4.0));
+				Rect rect2 = new Rect(num3, rect.y + 2f, (float)num, rect.height - 4f);
 				if (somethingIsForced)
 				{
-					rect2.width -= (float)(4.0 + (float)num2);
+					rect2.width -= 4f + (float)num2;
 				}
-				string label = pawn.outfits.CurrentOutfit.label.Truncate(rect2.width, null);
-				if (Widgets.ButtonText(rect2, label, true, false, true))
-				{
-					List<FloatMenuOption> list = new List<FloatMenuOption>();
-					foreach (Outfit allOutfit in Current.Game.outfitDatabase.AllOutfits)
-					{
-						Outfit localOut = allOutfit;
-						list.Add(new FloatMenuOption(localOut.label, delegate
-						{
-							pawn.outfits.CurrentOutfit = localOut;
-						}, MenuOptionPriority.Default, null, null, 0f, null, null));
-					}
-					Find.WindowStack.Add(new FloatMenu(list));
-				}
-				x += rect2.width;
-				x = (float)(x + 4.0);
-				Rect rect3 = new Rect(x, (float)(rect.y + 2.0), (float)num2, (float)(rect.height - 4.0));
+				Rect rect3 = rect2;
+				Pawn pawn2 = pawn;
+				Func<Pawn, Outfit> getPayload = (Pawn p) => p.outfits.CurrentOutfit;
+				Func<Pawn, IEnumerable<Widgets.DropdownMenuElement<Outfit>>> menuGenerator = new Func<Pawn, IEnumerable<Widgets.DropdownMenuElement<Outfit>>>(this.Button_GenerateMenu);
+				string buttonLabel = pawn.outfits.CurrentOutfit.label.Truncate(rect2.width, null);
+				string label = pawn.outfits.CurrentOutfit.label;
+				Widgets.Dropdown<Pawn, Outfit>(rect3, pawn2, getPayload, menuGenerator, buttonLabel, null, label, null, null, true);
+				num3 += rect2.width;
+				num3 += 4f;
+				Rect rect4 = new Rect(num3, rect.y + 2f, (float)num2, rect.height - 4f);
 				if (somethingIsForced)
 				{
-					if (Widgets.ButtonText(rect3, "ClearForcedApparel".Translate(), true, false, true))
+					if (Widgets.ButtonText(rect4, "ClearForcedApparel".Translate(), true, false, true))
 					{
 						pawn.outfits.forcedHandler.Reset();
 					}
-					TooltipHandler.TipRegion(rect3, new TipSignal(delegate
+					TooltipHandler.TipRegion(rect4, new TipSignal(delegate()
 					{
 						string text = "ForcedApparel".Translate() + ":\n";
-						foreach (Apparel item in pawn.outfits.forcedHandler.ForcedApparel)
+						foreach (Apparel apparel in pawn.outfits.forcedHandler.ForcedApparel)
 						{
-							text = text + "\n   " + item.LabelCap;
+							text = text + "\n   " + apparel.LabelCap;
 						}
 						return text;
 					}, pawn.GetHashCode() * 612));
-					x += (float)num2;
-					x = (float)(x + 4.0);
+					num3 += (float)num2;
+					num3 += 4f;
 				}
-				Rect rect4 = new Rect(x, (float)(rect.y + 2.0), (float)num2, (float)(rect.height - 4.0));
-				if (Widgets.ButtonText(rect4, "AssignTabEdit".Translate(), true, false, true))
+				Rect rect5 = new Rect(num3, rect.y + 2f, (float)num2, rect.height - 4f);
+				if (Widgets.ButtonText(rect5, "AssignTabEdit".Translate(), true, false, true))
 				{
 					Find.WindowStack.Add(new Dialog_ManageOutfits(pawn.outfits.CurrentOutfit));
 				}
-				x += (float)num2;
+				num3 += (float)num2;
 			}
 		}
 
+		// Token: 0x06003230 RID: 12848 RVA: 0x001B0160 File Offset: 0x001AE560
+		private IEnumerable<Widgets.DropdownMenuElement<Outfit>> Button_GenerateMenu(Pawn pawn)
+		{
+			using (List<Outfit>.Enumerator enumerator = Current.Game.outfitDatabase.AllOutfits.GetEnumerator())
+			{
+				while (enumerator.MoveNext())
+				{
+					Outfit outfit = enumerator.Current;
+					yield return new Widgets.DropdownMenuElement<Outfit>
+					{
+						option = new FloatMenuOption(outfit.label, delegate()
+						{
+							pawn.outfits.CurrentOutfit = outfit;
+						}, MenuOptionPriority.Default, null, null, 0f, null, null),
+						payload = outfit
+					};
+				}
+			}
+			yield break;
+		}
+
+		// Token: 0x06003231 RID: 12849 RVA: 0x001B018C File Offset: 0x001AE58C
 		public override int GetMinWidth(PawnTable table)
 		{
 			return Mathf.Max(base.GetMinWidth(table), Mathf.CeilToInt(194f));
 		}
 
+		// Token: 0x06003232 RID: 12850 RVA: 0x001B01B8 File Offset: 0x001AE5B8
 		public override int GetOptimalWidth(PawnTable table)
 		{
 			return Mathf.Clamp(Mathf.CeilToInt(354f), this.GetMinWidth(table), this.GetMaxWidth(table));
 		}
 
+		// Token: 0x06003233 RID: 12851 RVA: 0x001B01EC File Offset: 0x001AE5EC
 		public override int GetMinHeaderHeight(PawnTable table)
 		{
 			return Mathf.Max(base.GetMinHeaderHeight(table), 65);
 		}
 
+		// Token: 0x06003234 RID: 12852 RVA: 0x001B0210 File Offset: 0x001AE610
 		public override int Compare(Pawn a, Pawn b)
 		{
 			return this.GetValueToCompare(a).CompareTo(this.GetValueToCompare(b));
 		}
 
+		// Token: 0x06003235 RID: 12853 RVA: 0x001B023C File Offset: 0x001AE63C
 		private int GetValueToCompare(Pawn pawn)
 		{
-			return (pawn.outfits != null && pawn.outfits.CurrentOutfit != null) ? pawn.outfits.CurrentOutfit.uniqueId : (-2147483648);
+			return (pawn.outfits != null && pawn.outfits.CurrentOutfit != null) ? pawn.outfits.CurrentOutfit.uniqueId : int.MinValue;
 		}
+
+		// Token: 0x04001AE1 RID: 6881
+		private const int TopAreaHeight = 65;
+
+		// Token: 0x04001AE2 RID: 6882
+		private const int ManageOutfitsButtonHeight = 32;
 	}
 }

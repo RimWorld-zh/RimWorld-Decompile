@@ -1,73 +1,90 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000CC4 RID: 3268
 	public class ModContentHolder<T> where T : class
 	{
-		private ModContentPack mod;
-
-		public Dictionary<string, T> contentList = new Dictionary<string, T>();
-
+		// Token: 0x06004802 RID: 18434 RVA: 0x0025DBC6 File Offset: 0x0025BFC6
 		public ModContentHolder(ModContentPack mod)
 		{
 			this.mod = mod;
 		}
 
+		// Token: 0x06004803 RID: 18435 RVA: 0x0025DBE4 File Offset: 0x0025BFE4
 		public void ClearDestroy()
 		{
-			if (typeof(Object).IsAssignableFrom(typeof(T)))
+			if (typeof(UnityEngine.Object).IsAssignableFrom(typeof(T)))
 			{
-				foreach (T value in this.contentList.Values)
+				foreach (T localObj2 in this.contentList.Values)
 				{
-					T localObj = value;
+					T localObj = localObj2;
 					LongEventHandler.ExecuteWhenFinished(delegate
 					{
-						Object.Destroy((Object)(object)localObj);
+						UnityEngine.Object.Destroy((UnityEngine.Object)((object)localObj));
 					});
 				}
 			}
 			this.contentList.Clear();
 		}
 
+		// Token: 0x06004804 RID: 18436 RVA: 0x0025DC8C File Offset: 0x0025C08C
 		public void ReloadAll()
 		{
-			foreach (LoadedContentItem<T> item in ModContentLoader<T>.LoadAllForMod(this.mod))
+			foreach (LoadedContentItem<T> loadedContentItem in ModContentLoader<T>.LoadAllForMod(this.mod))
 			{
-				if (this.contentList.ContainsKey(item.internalPath))
+				if (this.contentList.ContainsKey(loadedContentItem.internalPath))
 				{
-					Log.Warning("Tried to load duplicate " + typeof(T) + " with path: " + item.internalPath);
+					Log.Warning(string.Concat(new object[]
+					{
+						"Tried to load duplicate ",
+						typeof(T),
+						" with path: ",
+						loadedContentItem.internalPath
+					}), false);
 				}
 				else
 				{
-					this.contentList.Add(item.internalPath, item.contentItem);
+					this.contentList.Add(loadedContentItem.internalPath, loadedContentItem.contentItem);
 				}
 			}
 		}
 
+		// Token: 0x06004805 RID: 18437 RVA: 0x0025DD54 File Offset: 0x0025C154
 		public T Get(string path)
 		{
-			T result = default(T);
-			if (this.contentList.TryGetValue(path, out result))
+			T t;
+			T result;
+			if (this.contentList.TryGetValue(path, out t))
 			{
-				return result;
+				result = t;
 			}
-			return (T)null;
+			else
+			{
+				result = (T)((object)null);
+			}
+			return result;
 		}
 
+		// Token: 0x06004806 RID: 18438 RVA: 0x0025DD8C File Offset: 0x0025C18C
 		public IEnumerable<T> GetAllUnderPath(string pathRoot)
 		{
-			foreach (KeyValuePair<string, T> content in this.contentList)
+			foreach (KeyValuePair<string, T> kvp in this.contentList)
 			{
-				if (content.Key.StartsWith(pathRoot))
+				if (kvp.Key.StartsWith(pathRoot))
 				{
-					yield return content.Value;
-					/*Error: Unable to find new state assignment for yield return*/;
+					yield return kvp.Value;
 				}
 			}
 			yield break;
-			IL_00d4:
-			/*Error near IL_00d5: Unexpected return in MoveNext()*/;
 		}
+
+		// Token: 0x040030C6 RID: 12486
+		private ModContentPack mod;
+
+		// Token: 0x040030C7 RID: 12487
+		public Dictionary<string, T> contentList = new Dictionary<string, T>();
 	}
 }

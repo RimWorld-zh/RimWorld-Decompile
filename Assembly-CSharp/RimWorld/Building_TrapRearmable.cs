@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -5,18 +6,11 @@ using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x02000688 RID: 1672
 	public class Building_TrapRearmable : Building_Trap
 	{
-		private bool autoRearm;
-
-		private bool armedInt = true;
-
-		private Graphic graphicUnarmedInt;
-
-		private static readonly FloatRange TrapDamageFactor = new FloatRange(0.7f, 1.3f);
-
-		private static readonly IntRange DamageCount = new IntRange(1, 2);
-
+		// Token: 0x1700052B RID: 1323
+		// (get) Token: 0x06002331 RID: 9009 RVA: 0x0012E72C File Offset: 0x0012CB2C
 		public override bool Armed
 		{
 			get
@@ -25,22 +19,30 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x1700052C RID: 1324
+		// (get) Token: 0x06002332 RID: 9010 RVA: 0x0012E748 File Offset: 0x0012CB48
 		public override Graphic Graphic
 		{
 			get
 			{
+				Graphic graphic;
 				if (this.armedInt)
 				{
-					return base.Graphic;
+					graphic = base.Graphic;
 				}
-				if (this.graphicUnarmedInt == null)
+				else
 				{
-					this.graphicUnarmedInt = base.def.building.trapUnarmedGraphicData.GraphicColoredFor(this);
+					if (this.graphicUnarmedInt == null)
+					{
+						this.graphicUnarmedInt = this.def.building.trapUnarmedGraphicData.GraphicColoredFor(this);
+					}
+					graphic = this.graphicUnarmedInt;
 				}
-				return this.graphicUnarmedInt;
+				return graphic;
 			}
 		}
 
+		// Token: 0x06002333 RID: 9011 RVA: 0x0012E7A2 File Offset: 0x0012CBA2
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -48,6 +50,7 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.autoRearm, "autoRearm", false, false);
 		}
 
+		// Token: 0x06002334 RID: 9012 RVA: 0x0012E7D0 File Offset: 0x0012CBD0
 		protected override void SpringSub(Pawn p)
 		{
 			this.armedInt = false;
@@ -61,55 +64,68 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002335 RID: 9013 RVA: 0x0012E81D File Offset: 0x0012CC1D
 		public void Rearm()
 		{
 			this.armedInt = true;
-			SoundDef.Named("TrapArm").PlayOneShot(new TargetInfo(base.Position, base.Map, false));
+			SoundDefOf.TrapArm.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
 		}
 
+		// Token: 0x06002336 RID: 9014 RVA: 0x0012E848 File Offset: 0x0012CC48
 		private void DamagePawn(Pawn p)
 		{
-			BodyPartHeight height = (BodyPartHeight)((!(Rand.Value < 0.66600000858306885)) ? 2 : 3);
+			BodyPartHeight height = (Rand.Value >= 0.666f) ? BodyPartHeight.Middle : BodyPartHeight.Top;
 			int num = Mathf.RoundToInt(this.GetStatValue(StatDefOf.TrapMeleeDamage, true) * Building_TrapRearmable.TrapDamageFactor.RandomInRange);
 			int randomInRange = Building_TrapRearmable.DamageCount.RandomInRange;
-			int num2 = 0;
-			while (num2 < randomInRange && num > 0)
+			for (int i = 0; i < randomInRange; i++)
 			{
-				int num3 = Mathf.Max(1, Mathf.RoundToInt(Rand.Value * (float)num));
-				num -= num3;
-				DamageInfo dinfo = new DamageInfo(DamageDefOf.Stab, num3, -1f, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
+				if (num <= 0)
+				{
+					break;
+				}
+				int num2 = Mathf.Max(1, Mathf.RoundToInt(Rand.Value * (float)num));
+				num -= num2;
+				DamageInfo dinfo = new DamageInfo(DamageDefOf.Stab, (float)num2, -1f, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
 				dinfo.SetBodyRegion(height, BodyPartDepth.Outside);
 				p.TakeDamage(dinfo);
-				num2++;
 			}
 		}
 
+		// Token: 0x06002337 RID: 9015 RVA: 0x0012E908 File Offset: 0x0012CD08
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
+			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
 			{
-				if (enumerator.MoveNext())
-				{
-					Gizmo g = enumerator.Current;
-					yield return g;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return g;
 			}
-			yield return (Gizmo)new Command_Toggle
+			yield return new Command_Toggle
 			{
 				defaultLabel = "CommandAutoRearm".Translate(),
 				defaultDesc = "CommandAutoRearmDesc".Translate(),
 				hotKey = KeyBindingDefOf.Misc3,
 				icon = TexCommand.RearmTrap,
-				isActive = (() => ((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_010f: stateMachine*/)._0024this.autoRearm),
-				toggleAction = delegate
+				isActive = (() => this.autoRearm),
+				toggleAction = delegate()
 				{
-					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_0126: stateMachine*/)._0024this.autoRearm = !((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_0126: stateMachine*/)._0024this.autoRearm;
+					this.autoRearm = !this.autoRearm;
 				}
 			};
-			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0160:
-			/*Error near IL_0161: Unexpected return in MoveNext()*/;
+			yield break;
 		}
+
+		// Token: 0x040013C5 RID: 5061
+		private bool autoRearm = false;
+
+		// Token: 0x040013C6 RID: 5062
+		private bool armedInt = true;
+
+		// Token: 0x040013C7 RID: 5063
+		private Graphic graphicUnarmedInt;
+
+		// Token: 0x040013C8 RID: 5064
+		private static readonly FloatRange TrapDamageFactor = new FloatRange(0.7f, 1.3f);
+
+		// Token: 0x040013C9 RID: 5065
+		private static readonly IntRange DamageCount = new IntRange(1, 2);
 	}
 }

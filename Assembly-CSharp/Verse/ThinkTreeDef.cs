@@ -1,100 +1,116 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse.AI;
 
 namespace Verse
 {
+	// Token: 0x02000BB0 RID: 2992
 	public class ThinkTreeDef : Def
 	{
-		public ThinkNode thinkRoot;
-
-		[NoTranslate]
-		public string insertTag;
-
-		public float insertPriority;
-
+		// Token: 0x060040E0 RID: 16608 RVA: 0x00223B0C File Offset: 0x00221F0C
 		public override void ResolveReferences()
 		{
 			this.thinkRoot.ResolveSubnodesAndRecur();
-			foreach (ThinkNode item in this.thinkRoot.ThisAndChildrenRecursive)
+			foreach (ThinkNode thinkNode in this.thinkRoot.ThisAndChildrenRecursive)
 			{
-				item.ResolveReferences();
+				thinkNode.ResolveReferences();
 			}
-			ThinkTreeKeyAssigner.AssignKeys(this.thinkRoot, GenText.StableStringHash(base.defName));
+			ThinkTreeKeyAssigner.AssignKeys(this.thinkRoot, GenText.StableStringHash(this.defName));
 			this.ResolveParentNodes(this.thinkRoot);
 		}
 
+		// Token: 0x060040E1 RID: 16609 RVA: 0x00223B9C File Offset: 0x00221F9C
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
+			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
 			{
-				if (enumerator.MoveNext())
-				{
-					string e = enumerator.Current;
-					yield return e;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return e;
 			}
 			HashSet<int> usedKeys = new HashSet<int>();
 			HashSet<ThinkNode> instances = new HashSet<ThinkNode>();
-			foreach (ThinkNode item in this.thinkRoot.ThisAndChildrenRecursive)
+			foreach (ThinkNode node in this.thinkRoot.ThisAndChildrenRecursive)
 			{
-				int key = item.UniqueSaveKey;
+				int key = node.UniqueSaveKey;
 				if (key == -1)
 				{
-					yield return "Thinknode " + item.GetType() + " has invalid save key " + key;
-					/*Error: Unable to find new state assignment for yield return*/;
+					yield return string.Concat(new object[]
+					{
+						"Thinknode ",
+						node.GetType(),
+						" has invalid save key ",
+						key
+					});
 				}
-				if (instances.Contains(item))
+				else if (instances.Contains(node))
 				{
-					yield return "There are two same ThinkNode instances in one think tree (their type is " + item.GetType() + ")";
-					/*Error: Unable to find new state assignment for yield return*/;
+					yield return "There are two same ThinkNode instances in one think tree (their type is " + node.GetType() + ")";
 				}
-				if (usedKeys.Contains(key))
+				else if (usedKeys.Contains(key))
 				{
-					yield return "Two ThinkNodes have the same unique save key " + key + " (one of the nodes is " + item.GetType() + ")";
-					/*Error: Unable to find new state assignment for yield return*/;
+					yield return string.Concat(new object[]
+					{
+						"Two ThinkNodes have the same unique save key ",
+						key,
+						" (one of the nodes is ",
+						node.GetType(),
+						")"
+					});
 				}
 				if (key != -1)
 				{
 					usedKeys.Add(key);
 				}
-				instances.Add(item);
+				instances.Add(node);
 			}
 			yield break;
-			IL_02ba:
-			/*Error near IL_02bb: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x060040E2 RID: 16610 RVA: 0x00223BC8 File Offset: 0x00221FC8
 		public bool TryGetThinkNodeWithSaveKey(int key, out ThinkNode outNode)
 		{
 			outNode = null;
+			bool result;
 			if (key == -1)
 			{
-				return false;
+				result = false;
 			}
-			if (key == this.thinkRoot.UniqueSaveKey)
+			else if (key == this.thinkRoot.UniqueSaveKey)
 			{
 				outNode = this.thinkRoot;
-				return true;
+				result = true;
 			}
-			foreach (ThinkNode item in this.thinkRoot.ChildrenRecursive)
+			else
 			{
-				if (item.UniqueSaveKey == key)
+				foreach (ThinkNode thinkNode in this.thinkRoot.ChildrenRecursive)
 				{
-					outNode = item;
-					return true;
+					if (thinkNode.UniqueSaveKey == key)
+					{
+						outNode = thinkNode;
+						return true;
+					}
 				}
+				result = false;
 			}
-			return false;
+			return result;
 		}
 
+		// Token: 0x060040E3 RID: 16611 RVA: 0x00223C74 File Offset: 0x00222074
 		private void ResolveParentNodes(ThinkNode node)
 		{
 			for (int i = 0; i < node.subNodes.Count; i++)
 			{
 				if (node.subNodes[i].parent != null)
 				{
-					Log.Warning("Think node " + node.subNodes[i] + " from think tree " + base.defName + " already has a parent node (" + node.subNodes[i].parent + "). This means that it's referenced by more than one think tree (should have been copied instead).");
+					Log.Warning(string.Concat(new object[]
+					{
+						"Think node ",
+						node.subNodes[i],
+						" from think tree ",
+						this.defName,
+						" already has a parent node (",
+						node.subNodes[i].parent,
+						"). This means that it's referenced by more than one think tree (should have been copied instead)."
+					}), false);
 				}
 				else
 				{
@@ -103,5 +119,15 @@ namespace Verse
 				}
 			}
 		}
+
+		// Token: 0x04002C14 RID: 11284
+		public ThinkNode thinkRoot;
+
+		// Token: 0x04002C15 RID: 11285
+		[NoTranslate]
+		public string insertTag;
+
+		// Token: 0x04002C16 RID: 11286
+		public float insertPriority;
 	}
 }

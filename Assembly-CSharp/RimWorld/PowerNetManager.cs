@@ -1,44 +1,21 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000428 RID: 1064
 	public class PowerNetManager
 	{
-		private enum DelayedActionType
+		// Token: 0x06001294 RID: 4756 RVA: 0x000A140A File Offset: 0x0009F80A
+		public PowerNetManager(Map map)
 		{
-			RegisterTransmitter,
-			DeregisterTransmitter,
-			RegisterConnector,
-			DeregisterConnector
+			this.map = map;
 		}
 
-		private struct DelayedAction
-		{
-			public DelayedActionType type;
-
-			public CompPower compPower;
-
-			public IntVec3 position;
-
-			public Rot4 rotation;
-
-			public DelayedAction(DelayedActionType type, CompPower compPower)
-			{
-				this.type = type;
-				this.compPower = compPower;
-				this.position = compPower.parent.Position;
-				this.rotation = compPower.parent.Rotation;
-			}
-		}
-
-		public Map map;
-
-		private List<PowerNet> allNets = new List<PowerNet>();
-
-		private List<DelayedAction> delayedActions = new List<DelayedAction>();
-
+		// Token: 0x17000283 RID: 643
+		// (get) Token: 0x06001295 RID: 4757 RVA: 0x000A1430 File Offset: 0x0009F830
 		public List<PowerNet> AllNetsListForReading
 		{
 			get
@@ -47,54 +24,59 @@ namespace RimWorld
 			}
 		}
 
-		public PowerNetManager(Map map)
-		{
-			this.map = map;
-		}
-
+		// Token: 0x06001296 RID: 4758 RVA: 0x000A144B File Offset: 0x0009F84B
 		public void Notify_TransmitterSpawned(CompPower newTransmitter)
 		{
-			this.delayedActions.Add(new DelayedAction(DelayedActionType.RegisterTransmitter, newTransmitter));
+			this.delayedActions.Add(new PowerNetManager.DelayedAction(PowerNetManager.DelayedActionType.RegisterTransmitter, newTransmitter));
 			this.NotifyDrawersForWireUpdate(newTransmitter.parent.Position);
 		}
 
+		// Token: 0x06001297 RID: 4759 RVA: 0x000A1471 File Offset: 0x0009F871
 		public void Notify_TransmitterDespawned(CompPower oldTransmitter)
 		{
-			this.delayedActions.Add(new DelayedAction(DelayedActionType.DeregisterTransmitter, oldTransmitter));
+			this.delayedActions.Add(new PowerNetManager.DelayedAction(PowerNetManager.DelayedActionType.DeregisterTransmitter, oldTransmitter));
 			this.NotifyDrawersForWireUpdate(oldTransmitter.parent.Position);
 		}
 
+		// Token: 0x06001298 RID: 4760 RVA: 0x000A1498 File Offset: 0x0009F898
 		public void Notfiy_TransmitterTransmitsPowerNowChanged(CompPower transmitter)
 		{
 			if (transmitter.parent.Spawned)
 			{
-				this.delayedActions.Add(new DelayedAction(DelayedActionType.DeregisterTransmitter, transmitter));
-				this.delayedActions.Add(new DelayedAction(DelayedActionType.RegisterTransmitter, transmitter));
+				this.delayedActions.Add(new PowerNetManager.DelayedAction(PowerNetManager.DelayedActionType.DeregisterTransmitter, transmitter));
+				this.delayedActions.Add(new PowerNetManager.DelayedAction(PowerNetManager.DelayedActionType.RegisterTransmitter, transmitter));
 				this.NotifyDrawersForWireUpdate(transmitter.parent.Position);
 			}
 		}
 
+		// Token: 0x06001299 RID: 4761 RVA: 0x000A14F0 File Offset: 0x0009F8F0
 		public void Notify_ConnectorWantsConnect(CompPower wantingCon)
 		{
-			if (Scribe.mode == LoadSaveMode.Inactive && !this.HasRegisterConnectorDuplicate(wantingCon))
+			if (Scribe.mode == LoadSaveMode.Inactive)
 			{
-				this.delayedActions.Add(new DelayedAction(DelayedActionType.RegisterConnector, wantingCon));
+				if (!this.HasRegisterConnectorDuplicate(wantingCon))
+				{
+					this.delayedActions.Add(new PowerNetManager.DelayedAction(PowerNetManager.DelayedActionType.RegisterConnector, wantingCon));
+				}
 			}
 			this.NotifyDrawersForWireUpdate(wantingCon.parent.Position);
 		}
 
+		// Token: 0x0600129A RID: 4762 RVA: 0x000A152E File Offset: 0x0009F92E
 		public void Notify_ConnectorDespawned(CompPower oldCon)
 		{
-			this.delayedActions.Add(new DelayedAction(DelayedActionType.DeregisterConnector, oldCon));
+			this.delayedActions.Add(new PowerNetManager.DelayedAction(PowerNetManager.DelayedActionType.DeregisterConnector, oldCon));
 			this.NotifyDrawersForWireUpdate(oldCon.parent.Position);
 		}
 
+		// Token: 0x0600129B RID: 4763 RVA: 0x000A1554 File Offset: 0x0009F954
 		public void NotifyDrawersForWireUpdate(IntVec3 root)
 		{
 			this.map.mapDrawer.MapMeshDirty(root, MapMeshFlag.Things, true, false);
 			this.map.mapDrawer.MapMeshDirty(root, MapMeshFlag.PowerGrid, true, false);
 		}
 
+		// Token: 0x0600129C RID: 4764 RVA: 0x000A1583 File Offset: 0x0009F983
 		public void RegisterPowerNet(PowerNet newNet)
 		{
 			this.allNets.Add(newNet);
@@ -103,12 +85,14 @@ namespace RimWorld
 			PowerNetMaker.UpdateVisualLinkagesFor(newNet);
 		}
 
+		// Token: 0x0600129D RID: 4765 RVA: 0x000A15B0 File Offset: 0x0009F9B0
 		public void DeletePowerNet(PowerNet oldNet)
 		{
 			this.allNets.Remove(oldNet);
 			this.map.powerNetGrid.Notify_PowerNetDeleted(oldNet);
 		}
 
+		// Token: 0x0600129E RID: 4766 RVA: 0x000A15D4 File Offset: 0x0009F9D4
 		public void PowerNetsTick()
 		{
 			for (int i = 0; i < this.allNets.Count; i++)
@@ -117,71 +101,72 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x0600129F RID: 4767 RVA: 0x000A1614 File Offset: 0x0009FA14
 		public void UpdatePowerNetsAndConnections_First()
 		{
 			int count = this.delayedActions.Count;
 			for (int i = 0; i < count; i++)
 			{
-				DelayedAction delayedAction = this.delayedActions[i];
-				DelayedAction delayedAction2 = this.delayedActions[i];
-				switch (delayedAction2.type)
+				PowerNetManager.DelayedAction delayedAction = this.delayedActions[i];
+				PowerNetManager.DelayedActionType type = this.delayedActions[i].type;
+				if (type != PowerNetManager.DelayedActionType.RegisterTransmitter)
 				{
-				case DelayedActionType.RegisterTransmitter:
-					if (delayedAction.position == delayedAction.compPower.parent.Position)
+					if (type == PowerNetManager.DelayedActionType.DeregisterTransmitter)
 					{
-						ThingWithComps parent = delayedAction.compPower.parent;
-						if (this.map.powerNetGrid.TransmittedPowerNetAt(parent.Position) != null)
-						{
-							Log.Warning("Tried to register trasmitter " + parent + " at " + parent.Position + ", but there is already a power net here. There can't be two transmitters on the same cell.");
-						}
-						delayedAction.compPower.SetUpPowerVars();
-						foreach (IntVec3 item in GenAdj.CellsAdjacentCardinal(parent))
-						{
-							this.TryDestroyNetAt(item);
-						}
+						this.TryDestroyNetAt(delayedAction.position);
+						PowerConnectionMaker.DisconnectAllFromTransmitterAndSetWantConnect(delayedAction.compPower, this.map);
+						delayedAction.compPower.ResetPowerVars();
 					}
-					break;
-				case DelayedActionType.DeregisterTransmitter:
-					this.TryDestroyNetAt(delayedAction.position);
-					PowerConnectionMaker.DisconnectAllFromTransmitterAndSetWantConnect(delayedAction.compPower, this.map);
-					delayedAction.compPower.ResetPowerVars();
-					break;
+				}
+				else if (delayedAction.position == delayedAction.compPower.parent.Position)
+				{
+					ThingWithComps parent = delayedAction.compPower.parent;
+					if (this.map.powerNetGrid.TransmittedPowerNetAt(parent.Position) != null)
+					{
+						Log.Warning(string.Concat(new object[]
+						{
+							"Tried to register trasmitter ",
+							parent,
+							" at ",
+							parent.Position,
+							", but there is already a power net here. There can't be two transmitters on the same cell."
+						}), false);
+					}
+					delayedAction.compPower.SetUpPowerVars();
+					foreach (IntVec3 cell in GenAdj.CellsAdjacentCardinal(parent))
+					{
+						this.TryDestroyNetAt(cell);
+					}
 				}
 			}
 			for (int j = 0; j < count; j++)
 			{
-				DelayedAction delayedAction3 = this.delayedActions[j];
-				if (delayedAction3.type == DelayedActionType.RegisterTransmitter && delayedAction3.position == delayedAction3.compPower.parent.Position)
+				PowerNetManager.DelayedAction delayedAction2 = this.delayedActions[j];
+				if ((delayedAction2.type == PowerNetManager.DelayedActionType.RegisterTransmitter && delayedAction2.position == delayedAction2.compPower.parent.Position) || delayedAction2.type == PowerNetManager.DelayedActionType.DeregisterTransmitter)
 				{
-					goto IL_01b4;
-				}
-				if (delayedAction3.type == DelayedActionType.DeregisterTransmitter)
-					goto IL_01b4;
-				continue;
-				IL_01b4:
-				this.TryCreateNetAt(delayedAction3.position);
-				foreach (IntVec3 item2 in GenAdj.CellsAdjacentCardinal(delayedAction3.position, delayedAction3.rotation, delayedAction3.compPower.parent.def.size))
-				{
-					this.TryCreateNetAt(item2);
+					this.TryCreateNetAt(delayedAction2.position);
+					foreach (IntVec3 cell2 in GenAdj.CellsAdjacentCardinal(delayedAction2.position, delayedAction2.rotation, delayedAction2.compPower.parent.def.size))
+					{
+						this.TryCreateNetAt(cell2);
+					}
 				}
 			}
 			for (int k = 0; k < count; k++)
 			{
-				DelayedAction delayedAction4 = this.delayedActions[k];
-				DelayedAction delayedAction5 = this.delayedActions[k];
-				switch (delayedAction5.type)
+				PowerNetManager.DelayedAction delayedAction3 = this.delayedActions[k];
+				PowerNetManager.DelayedActionType type2 = this.delayedActions[k].type;
+				if (type2 != PowerNetManager.DelayedActionType.RegisterConnector)
 				{
-				case DelayedActionType.RegisterConnector:
-					if (delayedAction4.position == delayedAction4.compPower.parent.Position)
+					if (type2 == PowerNetManager.DelayedActionType.DeregisterConnector)
 					{
-						delayedAction4.compPower.SetUpPowerVars();
-						PowerConnectionMaker.TryConnectToAnyPowerNet(delayedAction4.compPower, null);
+						PowerConnectionMaker.DisconnectFromPowerNet(delayedAction3.compPower);
+						delayedAction3.compPower.ResetPowerVars();
 					}
-					break;
-				case DelayedActionType.DeregisterConnector:
-					PowerConnectionMaker.DisconnectFromPowerNet(delayedAction4.compPower);
-					delayedAction4.compPower.ResetPowerVars();
-					break;
+				}
+				else if (delayedAction3.position == delayedAction3.compPower.parent.Position)
+				{
+					delayedAction3.compPower.SetUpPowerVars();
+					PowerConnectionMaker.TryConnectToAnyPowerNet(delayedAction3.compPower, null);
 				}
 			}
 			this.delayedActions.RemoveRange(0, count);
@@ -191,45 +176,55 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060012A0 RID: 4768 RVA: 0x000A1954 File Offset: 0x0009FD54
 		private bool HasRegisterConnectorDuplicate(CompPower compPower)
 		{
-			for (int num = this.delayedActions.Count - 1; num >= 0; num--)
+			for (int i = this.delayedActions.Count - 1; i >= 0; i--)
 			{
-				DelayedAction delayedAction = this.delayedActions[num];
-				if (delayedAction.compPower == compPower)
+				if (this.delayedActions[i].compPower == compPower)
 				{
-					DelayedAction delayedAction2 = this.delayedActions[num];
-					if (delayedAction2.type == DelayedActionType.DeregisterConnector)
+					bool result;
+					if (this.delayedActions[i].type == PowerNetManager.DelayedActionType.DeregisterConnector)
 					{
-						return false;
+						result = false;
 					}
-					DelayedAction delayedAction3 = this.delayedActions[num];
-					if (delayedAction3.type == DelayedActionType.RegisterConnector)
+					else
 					{
-						return true;
+						if (this.delayedActions[i].type != PowerNetManager.DelayedActionType.RegisterConnector)
+						{
+							goto IL_78;
+						}
+						result = true;
 					}
+					return result;
 				}
+				IL_78:;
 			}
 			return false;
 		}
 
+		// Token: 0x060012A1 RID: 4769 RVA: 0x000A19EC File Offset: 0x0009FDEC
 		private void TryCreateNetAt(IntVec3 cell)
 		{
-			if (cell.InBounds(this.map) && this.map.powerNetGrid.TransmittedPowerNetAt(cell) == null)
+			if (cell.InBounds(this.map))
 			{
-				Building transmitter = cell.GetTransmitter(this.map);
-				if (transmitter != null && transmitter.TransmitsPowerNow)
+				if (this.map.powerNetGrid.TransmittedPowerNetAt(cell) == null)
 				{
-					PowerNet powerNet = PowerNetMaker.NewPowerNetStartingFrom(transmitter);
-					this.RegisterPowerNet(powerNet);
-					for (int i = 0; i < powerNet.transmitters.Count; i++)
+					Building transmitter = cell.GetTransmitter(this.map);
+					if (transmitter != null && transmitter.TransmitsPowerNow)
 					{
-						PowerConnectionMaker.ConnectAllConnectorsToTransmitter(powerNet.transmitters[i]);
+						PowerNet powerNet = PowerNetMaker.NewPowerNetStartingFrom(transmitter);
+						this.RegisterPowerNet(powerNet);
+						for (int i = 0; i < powerNet.transmitters.Count; i++)
+						{
+							PowerConnectionMaker.ConnectAllConnectorsToTransmitter(powerNet.transmitters[i]);
+						}
 					}
 				}
 			}
 		}
 
+		// Token: 0x060012A2 RID: 4770 RVA: 0x000A1A88 File Offset: 0x0009FE88
 		private void TryDestroyNetAt(IntVec3 cell)
 		{
 			if (cell.InBounds(this.map))
@@ -242,23 +237,74 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060012A3 RID: 4771 RVA: 0x000A1ACC File Offset: 0x0009FECC
 		private void DrawDebugPowerNets()
 		{
-			if (Current.ProgramState == ProgramState.Playing && Find.VisibleMap == this.map)
+			if (Current.ProgramState == ProgramState.Playing)
 			{
-				int num = 0;
-				foreach (PowerNet allNet in this.allNets)
+				if (Find.CurrentMap == this.map)
 				{
-					foreach (CompPower item in allNet.transmitters.Concat(allNet.connectors))
+					int num = 0;
+					foreach (PowerNet powerNet in this.allNets)
 					{
-						foreach (IntVec3 item2 in GenAdj.CellsOccupiedBy(item.parent))
+						foreach (CompPower compPower in powerNet.transmitters.Concat(powerNet.connectors))
 						{
-							CellRenderer.RenderCell(item2, (float)((float)num * 0.43999999761581421));
+							foreach (IntVec3 c in GenAdj.CellsOccupiedBy(compPower.parent))
+							{
+								CellRenderer.RenderCell(c, (float)num * 0.44f);
+							}
 						}
+						num++;
 					}
-					num++;
 				}
 			}
+		}
+
+		// Token: 0x04000B58 RID: 2904
+		public Map map;
+
+		// Token: 0x04000B59 RID: 2905
+		private List<PowerNet> allNets = new List<PowerNet>();
+
+		// Token: 0x04000B5A RID: 2906
+		private List<PowerNetManager.DelayedAction> delayedActions = new List<PowerNetManager.DelayedAction>();
+
+		// Token: 0x02000429 RID: 1065
+		private enum DelayedActionType
+		{
+			// Token: 0x04000B5C RID: 2908
+			RegisterTransmitter,
+			// Token: 0x04000B5D RID: 2909
+			DeregisterTransmitter,
+			// Token: 0x04000B5E RID: 2910
+			RegisterConnector,
+			// Token: 0x04000B5F RID: 2911
+			DeregisterConnector
+		}
+
+		// Token: 0x0200042A RID: 1066
+		private struct DelayedAction
+		{
+			// Token: 0x060012A4 RID: 4772 RVA: 0x000A1C04 File Offset: 0x000A0004
+			public DelayedAction(PowerNetManager.DelayedActionType type, CompPower compPower)
+			{
+				this.type = type;
+				this.compPower = compPower;
+				this.position = compPower.parent.Position;
+				this.rotation = compPower.parent.Rotation;
+			}
+
+			// Token: 0x04000B60 RID: 2912
+			public PowerNetManager.DelayedActionType type;
+
+			// Token: 0x04000B61 RID: 2913
+			public CompPower compPower;
+
+			// Token: 0x04000B62 RID: 2914
+			public IntVec3 position;
+
+			// Token: 0x04000B63 RID: 2915
+			public Rot4 rotation;
 		}
 	}
 }

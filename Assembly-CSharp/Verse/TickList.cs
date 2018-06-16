@@ -1,36 +1,13 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using UnityEngine.Profiling;
 
 namespace Verse
 {
+	// Token: 0x02000BD3 RID: 3027
 	public class TickList
 	{
-		private TickerType tickType;
-
-		private List<List<Thing>> thingLists = new List<List<Thing>>();
-
-		private List<Thing> thingsToRegister = new List<Thing>();
-
-		private List<Thing> thingsToDeregister = new List<Thing>();
-
-		private int TickInterval
-		{
-			get
-			{
-				switch (this.tickType)
-				{
-				case TickerType.Normal:
-					return 1;
-				case TickerType.Rare:
-					return 250;
-				case TickerType.Long:
-					return 2000;
-				default:
-					return -1;
-				}
-			}
-		}
-
+		// Token: 0x060041E7 RID: 16871 RVA: 0x0022B90C File Offset: 0x00229D0C
 		public TickList(TickerType tickType)
 		{
 			this.tickType = tickType;
@@ -40,6 +17,41 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000A4A RID: 2634
+		// (get) Token: 0x060041E8 RID: 16872 RVA: 0x0022B974 File Offset: 0x00229D74
+		private int TickInterval
+		{
+			get
+			{
+				TickerType tickerType = this.tickType;
+				int result;
+				if (tickerType != TickerType.Normal)
+				{
+					if (tickerType != TickerType.Rare)
+					{
+						if (tickerType != TickerType.Long)
+						{
+							result = -1;
+						}
+						else
+						{
+							result = 2000;
+						}
+					}
+					else
+					{
+						result = 250;
+					}
+				}
+				else
+				{
+					result = 1;
+				}
+				return result;
+			}
+		}
+
+		// Token: 0x060041E9 RID: 16873 RVA: 0x0022B9C8 File Offset: 0x00229DC8
 		public void Reset()
 		{
 			for (int i = 0; i < this.thingLists.Count; i++)
@@ -50,6 +62,7 @@ namespace Verse
 			this.thingsToDeregister.Clear();
 		}
 
+		// Token: 0x060041EA RID: 16874 RVA: 0x0022BA1C File Offset: 0x00229E1C
 		public void RemoveWhere(Predicate<Thing> predicate)
 		{
 			for (int i = 0; i < this.thingLists.Count; i++)
@@ -60,16 +73,19 @@ namespace Verse
 			this.thingsToDeregister.RemoveAll(predicate);
 		}
 
+		// Token: 0x060041EB RID: 16875 RVA: 0x0022BA75 File Offset: 0x00229E75
 		public void RegisterThing(Thing t)
 		{
 			this.thingsToRegister.Add(t);
 		}
 
+		// Token: 0x060041EC RID: 16876 RVA: 0x0022BA84 File Offset: 0x00229E84
 		public void DeregisterThing(Thing t)
 		{
 			this.thingsToDeregister.Add(t);
 		}
 
+		// Token: 0x060041ED RID: 16877 RVA: 0x0022BA94 File Offset: 0x00229E94
 		public void Tick()
 		{
 			for (int i = 0; i < this.thingsToRegister.Count; i++)
@@ -104,30 +120,56 @@ namespace Verse
 				{
 					try
 					{
-						switch (this.tickType)
+						Profiler.BeginSample(list2[m].def.defName);
+						TickerType tickerType = this.tickType;
+						if (tickerType != TickerType.Normal)
 						{
-						case TickerType.Normal:
-							list2[m].Tick();
-							break;
-						case TickerType.Rare:
-							list2[m].TickRare();
-							break;
-						case TickerType.Long:
-							list2[m].TickLong();
-							break;
+							if (tickerType != TickerType.Rare)
+							{
+								if (tickerType == TickerType.Long)
+								{
+									list2[m].TickLong();
+								}
+							}
+							else
+							{
+								list2[m].TickRare();
+							}
 						}
+						else
+						{
+							list2[m].Tick();
+						}
+						Profiler.EndSample();
 					}
 					catch (Exception ex)
 					{
 						if (Prefs.DevMode)
 						{
-							Log.Error("Exception ticking " + list2[m].ToString() + ": " + ex.ToString());
+							Log.Error(string.Concat(new object[]
+							{
+								"Exception ticking ",
+								list2[m].ToString(),
+								": ",
+								ex
+							}), false);
+						}
+						else
+						{
+							Log.ErrorOnce(string.Concat(new object[]
+							{
+								"Exception ticking ",
+								list2[m].ToString(),
+								". Suppressing further errors. Exception: ",
+								ex
+							}), list2[m].thingIDNumber ^ 576876901, false);
 						}
 					}
 				}
 			}
 		}
 
+		// Token: 0x060041EE RID: 16878 RVA: 0x0022BD48 File Offset: 0x0022A148
 		private List<Thing> BucketOf(Thing t)
 		{
 			int num = t.GetHashCode();
@@ -138,5 +180,17 @@ namespace Verse
 			int index = num % this.TickInterval;
 			return this.thingLists[index];
 		}
+
+		// Token: 0x04002D09 RID: 11529
+		private TickerType tickType;
+
+		// Token: 0x04002D0A RID: 11530
+		private List<List<Thing>> thingLists = new List<List<Thing>>();
+
+		// Token: 0x04002D0B RID: 11531
+		private List<Thing> thingsToRegister = new List<Thing>();
+
+		// Token: 0x04002D0C RID: 11532
+		private List<Thing> thingsToDeregister = new List<Thing>();
 	}
 }

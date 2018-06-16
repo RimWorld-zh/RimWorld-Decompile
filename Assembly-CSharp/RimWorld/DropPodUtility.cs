@@ -1,13 +1,14 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020006E7 RID: 1767
 	public static class DropPodUtility
 	{
-		private static List<List<Thing>> tempList = new List<List<Thing>>();
-
+		// Token: 0x0600266A RID: 9834 RVA: 0x00149954 File Offset: 0x00147D54
 		public static void MakeDropPodAt(IntVec3 c, Map map, ActiveDropPodInfo info, bool explode = false)
 		{
 			ActiveDropPod activeDropPod = (ActiveDropPod)ThingMaker.MakeThing(ThingDefOf.ActiveDropPod, null);
@@ -16,45 +17,55 @@ namespace RimWorld
 			SkyfallerMaker.SpawnSkyfaller(skyfaller, activeDropPod, c, map);
 		}
 
+		// Token: 0x0600266B RID: 9835 RVA: 0x0014999C File Offset: 0x00147D9C
 		public static void DropThingsNear(IntVec3 dropCenter, Map map, IEnumerable<Thing> things, int openDelay = 110, bool canInstaDropDuringInit = false, bool leaveSlag = false, bool canRoofPunch = true, bool explode = false)
 		{
-			foreach (Thing thing in things)
+			DropPodUtility.tempList.Clear();
+			foreach (Thing item in things)
 			{
 				List<Thing> list = new List<Thing>();
-				list.Add(thing);
+				list.Add(item);
 				DropPodUtility.tempList.Add(list);
 			}
 			DropPodUtility.DropThingGroupsNear(dropCenter, map, DropPodUtility.tempList, openDelay, canInstaDropDuringInit, leaveSlag, canRoofPunch, explode);
 			DropPodUtility.tempList.Clear();
 		}
 
+		// Token: 0x0600266C RID: 9836 RVA: 0x00149A30 File Offset: 0x00147E30
 		public static void DropThingGroupsNear(IntVec3 dropCenter, Map map, List<List<Thing>> thingsGroups, int openDelay = 110, bool instaDrop = false, bool leaveSlag = false, bool canRoofPunch = true, bool explode = false)
 		{
-			foreach (List<Thing> thingsGroup in thingsGroups)
+			foreach (List<Thing> list in thingsGroups)
 			{
-				IntVec3 intVec = default(IntVec3);
-				if (!DropCellFinder.TryFindDropSpotNear(dropCenter, map, out intVec, true, canRoofPunch))
+				IntVec3 intVec;
+				if (!DropCellFinder.TryFindDropSpotNear(dropCenter, map, out intVec, true, canRoofPunch, explode))
 				{
-					Log.Warning("DropThingsNear failed to find a place to drop " + thingsGroup.FirstOrDefault() + " near " + dropCenter + ". Dropping on random square instead.");
+					Log.Warning(string.Concat(new object[]
+					{
+						"DropThingsNear failed to find a place to drop ",
+						list.FirstOrDefault<Thing>(),
+						" near ",
+						dropCenter,
+						". Dropping on random square instead."
+					}), false);
 					intVec = CellFinderLoose.RandomCellWith((IntVec3 c) => c.Walkable(map), map, 1000);
 				}
-				for (int i = 0; i < thingsGroup.Count; i++)
+				for (int i = 0; i < list.Count; i++)
 				{
-					thingsGroup[i].SetForbidden(true, false);
+					list[i].SetForbidden(true, false);
 				}
 				if (instaDrop)
 				{
-					foreach (Thing item in thingsGroup)
+					foreach (Thing thing in list)
 					{
-						GenPlace.TryPlaceThing(item, intVec, map, ThingPlaceMode.Near, null);
+						GenPlace.TryPlaceThing(thing, intVec, map, ThingPlaceMode.Near, null, null);
 					}
 				}
 				else
 				{
 					ActiveDropPodInfo activeDropPodInfo = new ActiveDropPodInfo();
-					foreach (Thing item2 in thingsGroup)
+					foreach (Thing item in list)
 					{
-						activeDropPodInfo.innerContainer.TryAdd(item2, true);
+						activeDropPodInfo.innerContainer.TryAdd(item, true);
 					}
 					activeDropPodInfo.openDelay = openDelay;
 					activeDropPodInfo.leaveSlag = leaveSlag;
@@ -62,5 +73,8 @@ namespace RimWorld
 				}
 			}
 		}
+
+		// Token: 0x0400156A RID: 5482
+		private static List<List<Thing>> tempList = new List<List<Thing>>();
 	}
 }

@@ -1,51 +1,60 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x0200097F RID: 2431
 	public static class GenConstruct
 	{
-		private static string ConstructionSkillTooLowTrans;
-
+		// Token: 0x0600369E RID: 13982 RVA: 0x001D1855 File Offset: 0x001CFC55
 		public static void Reset()
 		{
 			GenConstruct.ConstructionSkillTooLowTrans = "ConstructionSkillTooLow".Translate();
+			GenConstruct.IncapableOfDeconstruction = "IncapableOfDeconstruction".Translate();
 		}
 
+		// Token: 0x0600369F RID: 13983 RVA: 0x001D1878 File Offset: 0x001CFC78
 		public static Blueprint_Build PlaceBlueprintForBuild(BuildableDef sourceDef, IntVec3 center, Map map, Rot4 rotation, Faction faction, ThingDef stuff)
 		{
 			Blueprint_Build blueprint_Build = (Blueprint_Build)ThingMaker.MakeThing(sourceDef.blueprintDef, null);
 			blueprint_Build.SetFactionDirect(faction);
 			blueprint_Build.stuffToUse = stuff;
-			GenSpawn.Spawn(blueprint_Build, center, map, rotation, false);
+			GenSpawn.Spawn(blueprint_Build, center, map, rotation, WipeMode.Vanish, false);
 			return blueprint_Build;
 		}
 
+		// Token: 0x060036A0 RID: 13984 RVA: 0x001D18BC File Offset: 0x001CFCBC
 		public static Blueprint_Install PlaceBlueprintForInstall(MinifiedThing itemToInstall, IntVec3 center, Map map, Rot4 rotation, Faction faction)
 		{
 			Blueprint_Install blueprint_Install = (Blueprint_Install)ThingMaker.MakeThing(itemToInstall.InnerThing.def.installBlueprintDef, null);
 			blueprint_Install.SetThingToInstallFromMinified(itemToInstall);
 			blueprint_Install.SetFactionDirect(faction);
-			GenSpawn.Spawn(blueprint_Install, center, map, rotation, false);
+			GenSpawn.Spawn(blueprint_Install, center, map, rotation, WipeMode.Vanish, false);
 			return blueprint_Install;
 		}
 
+		// Token: 0x060036A1 RID: 13985 RVA: 0x001D190C File Offset: 0x001CFD0C
 		public static Blueprint_Install PlaceBlueprintForReinstall(Building buildingToReinstall, IntVec3 center, Map map, Rot4 rotation, Faction faction)
 		{
 			Blueprint_Install blueprint_Install = (Blueprint_Install)ThingMaker.MakeThing(buildingToReinstall.def.installBlueprintDef, null);
 			blueprint_Install.SetBuildingToReinstall(buildingToReinstall);
 			blueprint_Install.SetFactionDirect(faction);
-			GenSpawn.Spawn(blueprint_Install, center, map, rotation, false);
+			GenSpawn.Spawn(blueprint_Install, center, map, rotation, WipeMode.Vanish, false);
 			return blueprint_Install;
 		}
 
+		// Token: 0x060036A2 RID: 13986 RVA: 0x001D1954 File Offset: 0x001CFD54
 		public static bool CanBuildOnTerrain(BuildableDef entDef, IntVec3 c, Map map, Rot4 rot, Thing thingToIgnore = null)
 		{
 			TerrainDef terrainDef = entDef as TerrainDef;
-			if (terrainDef != null && !c.GetTerrain(map).changeable)
+			if (terrainDef != null)
 			{
-				return false;
+				if (!c.GetTerrain(map).changeable)
+				{
+					return false;
+				}
 			}
 			CellRect cellRect = GenAdj.OccupiedRect(c, rot, entDef.Size);
 			cellRect.ClipInsideMap(map);
@@ -53,7 +62,7 @@ namespace RimWorld
 			while (!iterator.Done())
 			{
 				TerrainDef terrainDef2 = map.terrainGrid.TerrainAt(iterator.Current);
-				if (!terrainDef2.affordances.Contains(entDef.terrainAffordanceNeeded))
+				if (entDef.terrainAffordanceNeeded != null && !terrainDef2.affordances.Contains(entDef.terrainAffordanceNeeded))
 				{
 					return false;
 				}
@@ -74,69 +83,92 @@ namespace RimWorld
 			return true;
 		}
 
+		// Token: 0x060036A3 RID: 13987 RVA: 0x001D1A88 File Offset: 0x001CFE88
 		public static Thing MiniToInstallOrBuildingToReinstall(Blueprint b)
 		{
 			Blueprint_Install blueprint_Install = b as Blueprint_Install;
+			Thing result;
 			if (blueprint_Install != null)
 			{
-				return blueprint_Install.MiniToInstallOrBuildingToReinstall;
+				result = blueprint_Install.MiniToInstallOrBuildingToReinstall;
 			}
-			return null;
+			else
+			{
+				result = null;
+			}
+			return result;
 		}
 
-		public static bool CanConstruct(Thing t, Pawn p, bool forced = false)
+		// Token: 0x060036A4 RID: 13988 RVA: 0x001D1AB8 File Offset: 0x001CFEB8
+		public static bool CanConstruct(Thing t, Pawn p, bool checkConstructionSkill = true, bool forced = false)
 		{
+			bool result;
 			if (GenConstruct.FirstBlockingThing(t, p) != null)
 			{
-				return false;
+				result = false;
 			}
-			LocalTargetInfo target = t;
-			PathEndMode peMode = PathEndMode.Touch;
-			Danger maxDanger = (!forced) ? p.NormalMaxDanger() : Danger.Deadly;
-			if (!p.CanReserveAndReach(target, peMode, maxDanger, 1, -1, null, forced))
+			else
 			{
-				return false;
+				LocalTargetInfo target = t;
+				PathEndMode peMode = PathEndMode.Touch;
+				Danger maxDanger = (!forced) ? p.NormalMaxDanger() : Danger.Deadly;
+				if (!p.CanReserveAndReach(target, peMode, maxDanger, 1, -1, null, forced))
+				{
+					result = false;
+				}
+				else if (t.IsBurning())
+				{
+					result = false;
+				}
+				else if (checkConstructionSkill && p.skills.GetSkill(SkillDefOf.Construction).Level < t.def.constructionSkillPrerequisite)
+				{
+					JobFailReason.Is(GenConstruct.ConstructionSkillTooLowTrans, null);
+					result = false;
+				}
+				else
+				{
+					result = true;
+				}
 			}
-			if (t.IsBurning())
-			{
-				return false;
-			}
-			if (p.skills.GetSkill(SkillDefOf.Construction).Level < t.def.constructionSkillPrerequisite)
-			{
-				JobFailReason.Is(GenConstruct.ConstructionSkillTooLowTrans);
-				return false;
-			}
-			return true;
+			return result;
 		}
 
+		// Token: 0x060036A5 RID: 13989 RVA: 0x001D1B70 File Offset: 0x001CFF70
 		public static int AmountNeededByOf(IConstructible c, ThingDef resDef)
 		{
-			foreach (ThingCountClass item in c.MaterialsNeeded())
+			foreach (ThingDefCountClass thingDefCountClass in c.MaterialsNeeded())
 			{
-				if (item.thingDef == resDef)
+				if (thingDefCountClass.thingDef == resDef)
 				{
-					return item.count;
+					return thingDefCountClass.count;
 				}
 			}
 			return 0;
 		}
 
+		// Token: 0x060036A6 RID: 13990 RVA: 0x001D1BEC File Offset: 0x001CFFEC
 		public static AcceptanceReport CanPlaceBlueprintAt(BuildableDef entDef, IntVec3 center, Rot4 rot, Map map, bool godMode = false, Thing thingToIgnore = null)
 		{
 			CellRect cellRect = GenAdj.OccupiedRect(center, rot, entDef.Size);
 			CellRect.CellRectIterator iterator = cellRect.GetIterator();
 			while (!iterator.Done())
 			{
-				IntVec3 current = iterator.Current;
-				if (!current.InBounds(map))
+				IntVec3 c = iterator.Current;
+				AcceptanceReport result;
+				if (!c.InBounds(map))
 				{
-					return new AcceptanceReport("OutOfBounds".Translate());
+					result = new AcceptanceReport("OutOfBounds".Translate());
 				}
-				if (current.InNoBuildEdgeArea(map) && !DebugSettings.godMode)
+				else
 				{
-					return "TooCloseToMapEdge".Translate();
+					if (!c.InNoBuildEdgeArea(map) || DebugSettings.godMode)
+					{
+						iterator.MoveNext();
+						continue;
+					}
+					result = "TooCloseToMapEdge".Translate();
 				}
-				iterator.MoveNext();
+				return result;
 			}
 			if (center.Fogged(map))
 			{
@@ -146,81 +178,93 @@ namespace RimWorld
 			for (int i = 0; i < thingList.Count; i++)
 			{
 				Thing thing = thingList[i];
-				if (thing != thingToIgnore && thing.Position == center && thing.Rotation == rot)
+				if (thing != thingToIgnore)
 				{
-					if (thing.def == entDef)
+					if (thing.Position == center && thing.Rotation == rot)
 					{
-						return new AcceptanceReport("IdenticalThingExists".Translate());
-					}
-					if (thing.def.entityDefToBuild == entDef)
-					{
-						if (thing is Blueprint)
+						if (thing.def == entDef)
 						{
-							return new AcceptanceReport("IdenticalBlueprintExists".Translate());
+							return new AcceptanceReport("IdenticalThingExists".Translate());
 						}
-						return new AcceptanceReport("IdenticalThingExists".Translate());
+						if (thing.def.entityDefToBuild == entDef)
+						{
+							if (thing is Blueprint)
+							{
+								return new AcceptanceReport("IdenticalBlueprintExists".Translate());
+							}
+							return new AcceptanceReport("IdenticalThingExists".Translate());
+						}
 					}
 				}
 			}
 			ThingDef thingDef = entDef as ThingDef;
 			if (thingDef != null && thingDef.hasInteractionCell)
 			{
-				IntVec3 c = ThingUtility.InteractionCellWhenAt(thingDef, center, rot, map);
-				if (!c.InBounds(map))
+				IntVec3 c2 = ThingUtility.InteractionCellWhenAt(thingDef, center, rot, map);
+				if (!c2.InBounds(map))
 				{
 					return new AcceptanceReport("InteractionSpotOutOfBounds".Translate());
 				}
-				List<Thing> list = map.thingGrid.ThingsListAtFast(c);
+				List<Thing> list = map.thingGrid.ThingsListAtFast(c2);
 				for (int j = 0; j < list.Count; j++)
 				{
 					if (list[j] != thingToIgnore)
 					{
 						if (list[j].def.passability == Traversability.Impassable)
 						{
-							return new AcceptanceReport("InteractionSpotBlocked".Translate(list[j].LabelNoCount).CapitalizeFirst());
+							return new AcceptanceReport("InteractionSpotBlocked".Translate(new object[]
+							{
+								list[j].LabelNoCount
+							}).CapitalizeFirst());
 						}
 						Blueprint blueprint = list[j] as Blueprint;
 						if (blueprint != null && blueprint.def.entityDefToBuild.passability == Traversability.Impassable)
 						{
-							return new AcceptanceReport("InteractionSpotWillBeBlocked".Translate(blueprint.LabelNoCount).CapitalizeFirst());
+							return new AcceptanceReport("InteractionSpotWillBeBlocked".Translate(new object[]
+							{
+								blueprint.LabelNoCount
+							}).CapitalizeFirst());
 						}
 					}
 				}
 			}
-			if (entDef.passability != 0)
+			if (entDef.passability == Traversability.Impassable)
 			{
-				foreach (IntVec3 item in GenAdj.CellsAdjacentCardinal(center, rot, entDef.Size))
+				foreach (IntVec3 c3 in GenAdj.CellsAdjacentCardinal(center, rot, entDef.Size))
 				{
-					if (item.InBounds(map))
+					if (c3.InBounds(map))
 					{
-						thingList = item.GetThingList(map);
+						thingList = c3.GetThingList(map);
 						for (int k = 0; k < thingList.Count; k++)
 						{
 							Thing thing2 = thingList[k];
-							ThingDef thingDef2;
 							if (thing2 != thingToIgnore)
 							{
-								thingDef2 = null;
 								Blueprint blueprint2 = thing2 as Blueprint;
+								ThingDef thingDef3;
 								if (blueprint2 != null)
 								{
-									ThingDef thingDef3 = blueprint2.def.entityDefToBuild as ThingDef;
-									if (thingDef3 != null)
+									ThingDef thingDef2 = blueprint2.def.entityDefToBuild as ThingDef;
+									if (thingDef2 == null)
 									{
-										thingDef2 = thingDef3;
-										goto IL_0316;
+										goto IL_3C3;
 									}
-									continue;
+									thingDef3 = thingDef2;
 								}
-								thingDef2 = thing2.def;
-								goto IL_0316;
+								else
+								{
+									thingDef3 = thing2.def;
+								}
+								if (thingDef3.hasInteractionCell && cellRect.Contains(ThingUtility.InteractionCellWhenAt(thingDef3, thing2.Position, thing2.Rotation, thing2.Map)))
+								{
+									return new AcceptanceReport("WouldBlockInteractionSpot".Translate(new object[]
+									{
+										entDef.label,
+										thingDef3.label
+									}).CapitalizeFirst());
+								}
 							}
-							continue;
-							IL_0316:
-							if (thingDef2.hasInteractionCell && cellRect.Contains(ThingUtility.InteractionCellWhenAt(thingDef2, thing2.Position, thing2.Rotation, thing2.Map)))
-							{
-								return new AcceptanceReport("WouldBlockInteractionSpot".Translate(entDef.label, thingDef2.label).CapitalizeFirst());
-							}
+							IL_3C3:;
 						}
 					}
 				}
@@ -230,7 +274,10 @@ namespace RimWorld
 			{
 				if (map.terrainGrid.TerrainAt(center) == terrainDef)
 				{
-					return new AcceptanceReport("TerrainIsAlready".Translate(terrainDef.label));
+					return new AcceptanceReport("TerrainIsAlready".Translate(new object[]
+					{
+						terrainDef.label
+					}));
 				}
 				if (map.designationManager.DesignationAt(center, DesignationDefOf.SmoothFloor) != null)
 				{
@@ -250,9 +297,12 @@ namespace RimWorld
 					for (int l = 0; l < thingList.Count; l++)
 					{
 						Thing thing3 = thingList[l];
-						if (thing3 != thingToIgnore && !GenConstruct.CanPlaceBlueprintOver(entDef, thing3.def))
+						if (thing3 != thingToIgnore)
 						{
-							return new AcceptanceReport("SpaceAlreadyOccupied".Translate());
+							if (!GenConstruct.CanPlaceBlueprintOver(entDef, thing3.def))
+							{
+								return new AcceptanceReport("SpaceAlreadyOccupied".Translate());
+							}
 						}
 					}
 					iterator2.MoveNext();
@@ -262,100 +312,99 @@ namespace RimWorld
 			{
 				for (int m = 0; m < entDef.PlaceWorkers.Count; m++)
 				{
-					AcceptanceReport result = entDef.PlaceWorkers[m].AllowsPlacing(entDef, center, rot, map, thingToIgnore);
-					if (!result.Accepted)
+					AcceptanceReport result2 = entDef.PlaceWorkers[m].AllowsPlacing(entDef, center, rot, map, thingToIgnore);
+					if (!result2.Accepted)
 					{
-						return result;
+						return result2;
 					}
 				}
 			}
 			return AcceptanceReport.WasAccepted;
 		}
 
+		// Token: 0x060036A7 RID: 13991 RVA: 0x001D21AC File Offset: 0x001D05AC
 		public static BuildableDef BuiltDefOf(ThingDef def)
 		{
 			return (def.entityDefToBuild == null) ? def : def.entityDefToBuild;
 		}
 
+		// Token: 0x060036A8 RID: 13992 RVA: 0x001D21D8 File Offset: 0x001D05D8
 		public static bool CanPlaceBlueprintOver(BuildableDef newDef, ThingDef oldDef)
 		{
+			bool result;
 			if (oldDef.EverHaulable)
 			{
-				return true;
+				result = true;
 			}
-			TerrainDef terrainDef = newDef as TerrainDef;
-			if (terrainDef != null)
+			else
 			{
-				if (oldDef.category == ThingCategory.Building && !terrainDef.affordances.Contains(oldDef.terrainAffordanceNeeded))
+				TerrainDef terrainDef = newDef as TerrainDef;
+				if (terrainDef != null)
 				{
-					return false;
-				}
-				if ((oldDef.IsBlueprint || oldDef.IsFrame) && !terrainDef.affordances.Contains(oldDef.entityDefToBuild.terrainAffordanceNeeded))
-				{
-					return false;
-				}
-			}
-			ThingDef thingDef = newDef as ThingDef;
-			BuildableDef buildableDef = GenConstruct.BuiltDefOf(oldDef);
-			ThingDef thingDef2 = buildableDef as ThingDef;
-			if (oldDef == ThingDefOf.SteamGeyser && !newDef.ForceAllowPlaceOver(oldDef))
-			{
-				return false;
-			}
-			if (oldDef.category == ThingCategory.Plant && oldDef.passability == Traversability.Impassable && thingDef != null && thingDef.category == ThingCategory.Building && !thingDef.building.canPlaceOverImpassablePlant)
-			{
-				return false;
-			}
-			if (oldDef.category != ThingCategory.Building && !oldDef.IsBlueprint && !oldDef.IsFrame)
-			{
-				return true;
-			}
-			if (thingDef != null)
-			{
-				if (!thingDef.IsEdifice())
-				{
-					if (oldDef.building != null && !oldDef.building.canBuildNonEdificesUnder)
+					if (oldDef.category == ThingCategory.Building && !terrainDef.affordances.Contains(oldDef.terrainAffordanceNeeded))
 					{
 						return false;
 					}
-					if (thingDef.EverTransmitsPower && oldDef.EverTransmitsPower)
+					if ((oldDef.IsBlueprint || oldDef.IsFrame) && !terrainDef.affordances.Contains(oldDef.entityDefToBuild.terrainAffordanceNeeded))
 					{
 						return false;
 					}
-					return true;
 				}
-				if (thingDef.IsEdifice() && oldDef != null && oldDef.category == ThingCategory.Building && !oldDef.IsEdifice())
+				ThingDef thingDef = newDef as ThingDef;
+				BuildableDef buildableDef = GenConstruct.BuiltDefOf(oldDef);
+				ThingDef thingDef2 = buildableDef as ThingDef;
+				if (oldDef == ThingDefOf.SteamGeyser && !newDef.ForceAllowPlaceOver(oldDef))
 				{
-					if (thingDef.building != null && !thingDef.building.canBuildNonEdificesUnder)
+					result = false;
+				}
+				else if (oldDef.category == ThingCategory.Plant && oldDef.passability == Traversability.Impassable && thingDef != null && thingDef.category == ThingCategory.Building && !thingDef.building.canPlaceOverImpassablePlant)
+				{
+					result = false;
+				}
+				else if (oldDef.category == ThingCategory.Building || oldDef.IsBlueprint || oldDef.IsFrame)
+				{
+					if (thingDef != null)
 					{
-						return false;
+						if (!thingDef.IsEdifice())
+						{
+							return (oldDef.building == null || oldDef.building.canBuildNonEdificesUnder) && (!thingDef.EverTransmitsPower || !oldDef.EverTransmitsPower);
+						}
+						if (thingDef.IsEdifice() && oldDef != null && oldDef.category == ThingCategory.Building && !oldDef.IsEdifice())
+						{
+							return thingDef.building == null || thingDef.building.canBuildNonEdificesUnder;
+						}
+						if (thingDef2 != null && thingDef2 == ThingDefOf.Wall && thingDef.building != null && thingDef.building.canPlaceOverWall)
+						{
+							return true;
+						}
+						if (newDef != ThingDefOf.PowerConduit && buildableDef == ThingDefOf.PowerConduit)
+						{
+							return true;
+						}
 					}
-					return true;
+					result = ((newDef is TerrainDef && buildableDef is ThingDef && ((ThingDef)buildableDef).CoexistsWithFloors) || (buildableDef is TerrainDef && !(newDef is TerrainDef)));
 				}
-				if (thingDef2 != null && thingDef2 == ThingDefOf.Wall && thingDef.building != null && thingDef.building.canPlaceOverWall)
+				else
 				{
-					return true;
-				}
-				if (newDef != ThingDefOf.PowerConduit && buildableDef == ThingDefOf.PowerConduit)
-				{
-					return true;
+					result = true;
 				}
 			}
-			if (newDef is TerrainDef && buildableDef is ThingDef && ((ThingDef)buildableDef).CoexistsWithFloors)
-			{
-				return true;
-			}
-			if (buildableDef is TerrainDef && !(newDef is TerrainDef))
-			{
-				return true;
-			}
-			return false;
+			return result;
 		}
 
+		// Token: 0x060036A9 RID: 13993 RVA: 0x001D2460 File Offset: 0x001D0860
 		public static Thing FirstBlockingThing(Thing constructible, Pawn pawnToIgnore)
 		{
 			Blueprint blueprint = constructible as Blueprint;
-			Thing thing = (blueprint == null) ? null : GenConstruct.MiniToInstallOrBuildingToReinstall(blueprint);
+			Thing thing;
+			if (blueprint != null)
+			{
+				thing = GenConstruct.MiniToInstallOrBuildingToReinstall(blueprint);
+			}
+			else
+			{
+				thing = null;
+			}
 			CellRect.CellRectIterator iterator = constructible.OccupiedRect().GetIterator();
 			while (!iterator.Done())
 			{
@@ -373,100 +422,129 @@ namespace RimWorld
 			return null;
 		}
 
+		// Token: 0x060036AA RID: 13994 RVA: 0x001D2520 File Offset: 0x001D0920
 		public static Job HandleBlockingThingJob(Thing constructible, Pawn worker, bool forced = false)
 		{
 			Thing thing = GenConstruct.FirstBlockingThing(constructible, worker);
+			Job result;
 			if (thing == null)
 			{
-				return null;
+				result = null;
 			}
-			if (thing.def.category == ThingCategory.Plant)
+			else
 			{
-				LocalTargetInfo target = thing;
-				PathEndMode peMode = PathEndMode.ClosestTouch;
-				Danger maxDanger = worker.NormalMaxDanger();
-				if (worker.CanReserveAndReach(target, peMode, maxDanger, 1, -1, null, forced))
+				if (thing.def.category == ThingCategory.Plant)
 				{
-					return new Job(JobDefOf.CutPlant, thing);
+					LocalTargetInfo target = thing;
+					PathEndMode peMode = PathEndMode.ClosestTouch;
+					Danger maxDanger = worker.NormalMaxDanger();
+					if (worker.CanReserveAndReach(target, peMode, maxDanger, 1, -1, null, forced))
+					{
+						return new Job(JobDefOf.CutPlant, thing);
+					}
 				}
-			}
-			else if (thing.def.category == ThingCategory.Item)
-			{
-				if (thing.def.EverHaulable)
+				else if (thing.def.category == ThingCategory.Item)
 				{
-					return HaulAIUtility.HaulAsideJobFor(worker, thing);
+					if (thing.def.EverHaulable)
+					{
+						return HaulAIUtility.HaulAsideJobFor(worker, thing);
+					}
+					Log.ErrorOnce(string.Concat(new object[]
+					{
+						"Never haulable ",
+						thing,
+						" blocking ",
+						constructible.ToStringSafe<Thing>(),
+						" at ",
+						constructible.Position
+					}), 6429262, false);
 				}
-				Log.ErrorOnce("Never haulable " + thing + " blocking " + constructible.ToStringSafe() + " at " + constructible.Position, 6429262);
-			}
-			else if (thing.def.category == ThingCategory.Building)
-			{
-				LocalTargetInfo target = thing;
-				PathEndMode peMode = PathEndMode.Touch;
-				Danger maxDanger = worker.NormalMaxDanger();
-				if (worker.CanReserveAndReach(target, peMode, maxDanger, 1, -1, null, forced))
+				else if (thing.def.category == ThingCategory.Building)
 				{
-					Job job = new Job(JobDefOf.Deconstruct, thing);
-					job.ignoreDesignations = true;
-					return job;
+					if (worker.story != null && worker.story.WorkTypeIsDisabled(WorkTypeDefOf.Construction))
+					{
+						JobFailReason.Is(GenConstruct.IncapableOfDeconstruction, null);
+						return null;
+					}
+					LocalTargetInfo target = thing;
+					PathEndMode peMode = PathEndMode.Touch;
+					Danger maxDanger = worker.NormalMaxDanger();
+					if (worker.CanReserveAndReach(target, peMode, maxDanger, 1, -1, null, forced))
+					{
+						return new Job(JobDefOf.Deconstruct, thing)
+						{
+							ignoreDesignations = true
+						};
+					}
 				}
+				result = null;
 			}
-			return null;
+			return result;
 		}
 
+		// Token: 0x060036AB RID: 13995 RVA: 0x001D26B8 File Offset: 0x001D0AB8
 		public static bool BlocksConstruction(Thing constructible, Thing t)
 		{
+			bool result;
 			if (t == constructible)
 			{
-				return false;
+				result = false;
 			}
-			ThingDef thingDef = (!(constructible is Blueprint)) ? ((!(constructible is Frame)) ? constructible.def.blueprintDef : constructible.def.entityDefToBuild.blueprintDef) : constructible.def;
-			if (t.def.category == ThingCategory.Building && GenSpawn.SpawningWipes(thingDef.entityDefToBuild, t.def))
+			else
 			{
-				return true;
-			}
-			if (t.def.category == ThingCategory.Plant)
-			{
-				if (t.def.plant.harvestWork >= 200.0)
+				ThingDef thingDef;
+				if (constructible is Blueprint)
 				{
-					return true;
+					thingDef = constructible.def;
 				}
-				return false;
-			}
-			if (!thingDef.clearBuildingArea)
-			{
-				return false;
-			}
-			if (t.def == ThingDefOf.SteamGeyser && thingDef.entityDefToBuild.ForceAllowPlaceOver(t.def))
-			{
-				return false;
-			}
-			ThingDef thingDef2 = thingDef.entityDefToBuild as ThingDef;
-			if (thingDef2 != null)
-			{
-				if (thingDef2.EverTransmitsPower && t.def == ThingDefOf.PowerConduit && thingDef2 != ThingDefOf.PowerConduit)
+				else if (constructible is Frame)
 				{
-					return false;
+					thingDef = constructible.def.entityDefToBuild.blueprintDef;
 				}
-				if (t.def == ThingDefOf.Wall && thingDef2.building != null && thingDef2.building.canPlaceOverWall)
+				else
 				{
-					return false;
+					thingDef = constructible.def.blueprintDef;
 				}
-			}
-			if (t.def.IsEdifice() && thingDef2.IsEdifice())
-			{
-				return true;
-			}
-			if (t.def.category != ThingCategory.Pawn && (t.def.category != ThingCategory.Item || thingDef.entityDefToBuild.passability != Traversability.Impassable))
-			{
-				if ((int)t.def.Fillage >= 1)
+				if (t.def.category == ThingCategory.Building && GenSpawn.SpawningWipes(thingDef.entityDefToBuild, t.def))
 				{
-					return true;
+					result = true;
 				}
-				return false;
+				else if (t.def.category == ThingCategory.Plant)
+				{
+					result = (t.def.plant.harvestWork >= 200f);
+				}
+				else if (!thingDef.clearBuildingArea)
+				{
+					result = false;
+				}
+				else if (t.def == ThingDefOf.SteamGeyser && thingDef.entityDefToBuild.ForceAllowPlaceOver(t.def))
+				{
+					result = false;
+				}
+				else
+				{
+					ThingDef thingDef2 = thingDef.entityDefToBuild as ThingDef;
+					if (thingDef2 != null)
+					{
+						if (thingDef2.EverTransmitsPower)
+						{
+							if (t.def == ThingDefOf.PowerConduit && thingDef2 != ThingDefOf.PowerConduit)
+							{
+								return false;
+							}
+						}
+						if (t.def == ThingDefOf.Wall && thingDef2.building != null && thingDef2.building.canPlaceOverWall)
+						{
+							return false;
+						}
+					}
+					result = ((t.def.IsEdifice() && thingDef2.IsEdifice()) || (t.def.category == ThingCategory.Pawn || (t.def.category == ThingCategory.Item && thingDef.entityDefToBuild.passability == Traversability.Impassable)) || t.def.Fillage >= FillCategory.Partial);
+				}
 			}
-			return true;
+			return result;
 		}
 
+		// Token: 0x060036AC RID: 13996 RVA: 0x001D28B4 File Offset: 0x001D0CB4
 		public static bool TerrainCanSupport(CellRect rect, Map map, ThingDef thing)
 		{
 			CellRect.CellRectIterator iterator = rect.GetIterator();
@@ -480,5 +558,11 @@ namespace RimWorld
 			}
 			return true;
 		}
+
+		// Token: 0x04002341 RID: 9025
+		private static string ConstructionSkillTooLowTrans;
+
+		// Token: 0x04002342 RID: 9026
+		private static string IncapableOfDeconstruction;
 	}
 }

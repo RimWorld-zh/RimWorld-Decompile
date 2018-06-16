@@ -1,24 +1,32 @@
+﻿using System;
 using RimWorld.Planet;
 
 namespace RimWorld
 {
+	// Token: 0x0200054A RID: 1354
 	public class BiomeWorker_BorealForest : BiomeWorker
 	{
-		public override float GetScore(Tile tile)
+		// Token: 0x0600194A RID: 6474 RVA: 0x000DB9E8 File Offset: 0x000D9DE8
+		public override float GetScore(Tile tile, int tileID)
 		{
+			float result;
 			if (tile.WaterCovered)
 			{
-				return -100f;
+				result = -100f;
 			}
-			if (tile.temperature < -10.0)
+			else if (tile.temperature < -10f)
 			{
-				return 0f;
+				result = 0f;
 			}
-			if (tile.rainfall < 600.0)
+			else if (tile.rainfall < 600f)
 			{
-				return 0f;
+				result = 0f;
 			}
-			return 15f;
+			else
+			{
+				result = 15f;
+			}
+			return result;
 		}
 	}
 }

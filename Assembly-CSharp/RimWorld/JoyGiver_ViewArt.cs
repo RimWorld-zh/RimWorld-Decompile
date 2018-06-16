@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,59 +7,75 @@ using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000103 RID: 259
 	public class JoyGiver_ViewArt : JoyGiver
 	{
-		private static List<Thing> candidates = new List<Thing>();
-
+		// Token: 0x06000571 RID: 1393 RVA: 0x0003B248 File Offset: 0x00039648
 		public override Job TryGiveJob(Pawn pawn)
 		{
 			bool allowedOutside = JoyUtility.EnjoyableOutsideNow(pawn, null);
+			Job result;
 			try
 			{
 				JoyGiver_ViewArt.candidates.AddRange(pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.Art).Where(delegate(Thing thing)
 				{
-					if (thing.Faction == Faction.OfPlayer && !thing.IsForbidden(pawn) && (allowedOutside || thing.Position.Roofed(thing.Map)) && pawn.CanReserveAndReach(thing, PathEndMode.Touch, Danger.None, 1, -1, null, false) && thing.IsPoliticallyProper(pawn))
+					bool result2;
+					if (thing.Faction != Faction.OfPlayer || thing.IsForbidden(pawn) || (!allowedOutside && !thing.Position.Roofed(thing.Map)) || !pawn.CanReserveAndReach(thing, PathEndMode.Touch, Danger.None, 1, -1, null, false) || !thing.IsPoliticallyProper(pawn))
+					{
+						result2 = false;
+					}
+					else
 					{
 						CompArt compArt = thing.TryGetComp<CompArt>();
 						if (compArt == null)
 						{
-							Log.Error("No CompArt on thing being considered for viewing: " + thing);
-							return false;
+							Log.Error("No CompArt on thing being considered for viewing: " + thing, false);
+							result2 = false;
 						}
-						if (compArt.CanShowArt && compArt.Props.canBeEnjoyedAsArt)
+						else if (!compArt.CanShowArt || !compArt.Props.canBeEnjoyedAsArt)
+						{
+							result2 = false;
+						}
+						else
 						{
 							Room room = thing.GetRoom(RegionType.Set_Passable);
 							if (room == null)
 							{
-								return false;
+								result2 = false;
 							}
-							if (room.Role != RoomRoleDefOf.Bedroom && room.Role != RoomRoleDefOf.Barracks && room.Role != RoomRoleDefOf.PrisonCell && room.Role != RoomRoleDefOf.PrisonBarracks && room.Role != RoomRoleDefOf.Hospital)
+							else
 							{
-								goto IL_014a;
+								if (room.Role == RoomRoleDefOf.Bedroom || room.Role == RoomRoleDefOf.Barracks || room.Role == RoomRoleDefOf.PrisonCell || room.Role == RoomRoleDefOf.PrisonBarracks || room.Role == RoomRoleDefOf.Hospital)
+								{
+									if (pawn.ownership == null || pawn.ownership.OwnedRoom == null || pawn.ownership.OwnedRoom != room)
+									{
+										return false;
+									}
+								}
+								result2 = true;
 							}
-							if (pawn.ownership != null && pawn.ownership.OwnedRoom != null && pawn.ownership.OwnedRoom == room)
-							{
-								goto IL_014a;
-							}
-							return false;
 						}
-						return false;
 					}
-					return false;
-					IL_014a:
-					return true;
+					return result2;
 				}));
-				Thing t = default(Thing);
-				if (!((IEnumerable<Thing>)JoyGiver_ViewArt.candidates).TryRandomElementByWeight<Thing>((Func<Thing, float>)((Thing target) => Mathf.Max(target.GetStatValue(StatDefOf.Beauty, true), 0.5f)), out t))
+				Thing t;
+				if (!JoyGiver_ViewArt.candidates.TryRandomElementByWeight((Thing target) => Mathf.Max(target.GetStatValue(StatDefOf.Beauty, true), 0.5f), out t))
 				{
-					return null;
+					result = null;
 				}
-				return new Job(base.def.jobDef, t);
+				else
+				{
+					result = new Job(this.def.jobDef, t);
+				}
 			}
 			finally
 			{
 				JoyGiver_ViewArt.candidates.Clear();
 			}
+			return result;
 		}
+
+		// Token: 0x040002E3 RID: 739
+		private static List<Thing> candidates = new List<Thing>();
 	}
 }

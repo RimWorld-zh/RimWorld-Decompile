@@ -1,21 +1,34 @@
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000111 RID: 273
 	public class JobGiver_MurderousRage : ThinkNode_JobGiver
 	{
+		// Token: 0x0600059F RID: 1439 RVA: 0x0003C8EC File Offset: 0x0003ACEC
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			MentalState_MurderousRage mentalState_MurderousRage = pawn.MentalState as MentalState_MurderousRage;
-			if (mentalState_MurderousRage != null && mentalState_MurderousRage.target != null && pawn.CanReach(mentalState_MurderousRage.target, PathEndMode.Touch, Danger.Deadly, true, TraverseMode.ByPawn))
+			Job result;
+			if (mentalState_MurderousRage == null || !mentalState_MurderousRage.IsTargetStillValidAndReachable())
 			{
-				Job job = new Job(JobDefOf.AttackMelee, mentalState_MurderousRage.target);
+				result = null;
+			}
+			else
+			{
+				Thing spawnedParentOrMe = mentalState_MurderousRage.target.SpawnedParentOrMe;
+				Job job = new Job(JobDefOf.AttackMelee, spawnedParentOrMe);
 				job.canBash = true;
 				job.killIncappedTarget = true;
-				return job;
+				if (spawnedParentOrMe != mentalState_MurderousRage.target)
+				{
+					job.maxNumMeleeAttacks = 2;
+				}
+				result = job;
 			}
-			return null;
+			return result;
 		}
 	}
 }

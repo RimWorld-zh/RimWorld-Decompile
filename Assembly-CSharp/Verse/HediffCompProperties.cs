@@ -1,33 +1,29 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Verse
 {
+	// Token: 0x02000B1D RID: 2845
 	public class HediffCompProperties
 	{
-		public Type compClass;
-
+		// Token: 0x06003EBF RID: 16063 RVA: 0x0021082C File Offset: 0x0020EC2C
 		public virtual IEnumerable<string> ConfigErrors(HediffDef parentDef)
 		{
 			if (this.compClass == null)
 			{
 				yield return "compClass is null";
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			int i = 0;
-			while (true)
+			for (int i = 0; i < parentDef.comps.Count; i++)
 			{
-				if (i < parentDef.comps.Count)
+				if (parentDef.comps[i] != this && parentDef.comps[i].compClass == this.compClass)
 				{
-					if (parentDef.comps[i] != this && parentDef.comps[i].compClass == this.compClass)
-						break;
-					i++;
-					continue;
+					yield return "two comps with same compClass: " + this.compClass;
 				}
-				yield break;
 			}
-			yield return "two comps with same compClass: " + this.compClass;
-			/*Error: Unable to find new state assignment for yield return*/;
+			yield break;
 		}
+
+		// Token: 0x04002848 RID: 10312
+		public Type compClass = null;
 	}
 }

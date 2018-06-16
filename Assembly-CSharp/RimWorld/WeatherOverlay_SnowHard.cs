@@ -1,22 +1,26 @@
+﻿using System;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000451 RID: 1105
 	[StaticConstructorOnStartup]
 	public class WeatherOverlay_SnowHard : SkyOverlay
 	{
-		private static readonly Material SnowOverlayWorld = MatLoader.LoadMat("Weather/SnowOverlayWorld", -1);
-
+		// Token: 0x0600133C RID: 4924 RVA: 0x000A5558 File Offset: 0x000A3958
 		public WeatherOverlay_SnowHard()
 		{
-			base.worldOverlayMat = WeatherOverlay_SnowHard.SnowOverlayWorld;
-			base.worldOverlayPanSpeed1 = 0.008f;
-			base.worldPanDir1 = new Vector2(-0.5f, -1f);
-			base.worldPanDir1.Normalize();
-			base.worldOverlayPanSpeed2 = 0.009f;
-			base.worldPanDir2 = new Vector2(-0.48f, -1f);
-			base.worldPanDir2.Normalize();
+			this.worldOverlayMat = WeatherOverlay_SnowHard.SnowOverlayWorld;
+			this.worldOverlayPanSpeed1 = 0.008f;
+			this.worldPanDir1 = new Vector2(-0.5f, -1f);
+			this.worldPanDir1.Normalize();
+			this.worldOverlayPanSpeed2 = 0.009f;
+			this.worldPanDir2 = new Vector2(-0.48f, -1f);
+			this.worldPanDir2.Normalize();
 		}
+
+		// Token: 0x04000BB0 RID: 2992
+		private static readonly Material SnowOverlayWorld = MatLoader.LoadMat("Weather/SnowOverlayWorld", -1);
 	}
 }

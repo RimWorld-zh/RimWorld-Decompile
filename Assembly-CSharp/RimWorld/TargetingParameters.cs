@@ -1,81 +1,50 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x020009CD RID: 2509
 	public class TargetingParameters
 	{
-		public bool canTargetLocations;
-
-		public bool canTargetSelf;
-
-		public bool canTargetPawns = true;
-
-		public bool canTargetFires;
-
-		public bool canTargetBuildings = true;
-
-		public bool canTargetItems;
-
-		public List<Faction> onlyTargetFactions;
-
-		public Predicate<TargetInfo> validator;
-
-		public bool onlyTargetFlammables;
-
-		public Thing targetSpecificThing;
-
-		public bool mustBeSelectable;
-
-		public bool neverTargetDoors;
-
-		public bool neverTargetIncapacitated;
-
-		public bool onlyTargetThingsAffectingRegions;
-
-		public bool onlyTargetDamagedThings;
-
-		public bool mapObjectTargetsMustBeAutoAttackable = true;
-
-		public bool onlyTargetIncapacitatedPawns;
-
+		// Token: 0x0600382F RID: 14383 RVA: 0x001DF024 File Offset: 0x001DD424
 		public bool CanTarget(TargetInfo targ)
 		{
+			bool result;
 			if (this.validator != null && !this.validator(targ))
 			{
-				return false;
+				result = false;
 			}
-			if (targ.Thing == null)
+			else if (targ.Thing == null)
 			{
-				return this.canTargetLocations;
+				result = this.canTargetLocations;
 			}
-			if (this.neverTargetDoors && targ.Thing.def.IsDoor)
+			else if (this.neverTargetDoors && targ.Thing.def.IsDoor)
 			{
-				return false;
+				result = false;
 			}
-			if (this.onlyTargetDamagedThings && targ.Thing.HitPoints == targ.Thing.MaxHitPoints)
+			else if (this.onlyTargetDamagedThings && targ.Thing.HitPoints == targ.Thing.MaxHitPoints)
 			{
-				return false;
+				result = false;
 			}
-			if (this.onlyTargetFlammables && !targ.Thing.FlammableNow)
+			else if (this.onlyTargetFlammables && !targ.Thing.FlammableNow)
 			{
-				return false;
+				result = false;
 			}
-			if (this.mustBeSelectable && !ThingSelectionUtility.SelectableByMapClick(targ.Thing))
+			else if (this.mustBeSelectable && !ThingSelectionUtility.SelectableByMapClick(targ.Thing))
 			{
-				return false;
+				result = false;
 			}
-			if (this.targetSpecificThing != null && targ.Thing == this.targetSpecificThing)
+			else if (this.targetSpecificThing != null && targ.Thing == this.targetSpecificThing)
 			{
-				return true;
+				result = true;
 			}
-			if (this.canTargetFires && targ.Thing.def == ThingDefOf.Fire)
+			else if (this.canTargetFires && targ.Thing.def == ThingDefOf.Fire)
 			{
-				return true;
+				result = true;
 			}
-			if (this.canTargetPawns && targ.Thing.def.category == ThingCategory.Pawn)
+			else if (this.canTargetPawns && targ.Thing.def.category == ThingCategory.Pawn)
 			{
 				if (((Pawn)targ.Thing).Downed)
 				{
@@ -88,71 +57,57 @@ namespace RimWorld
 				{
 					return false;
 				}
-				if (this.onlyTargetFactions != null && !this.onlyTargetFactions.Contains(targ.Thing.Faction))
-				{
-					return false;
-				}
-				return true;
+				result = (this.onlyTargetFactions == null || this.onlyTargetFactions.Contains(targ.Thing.Faction));
 			}
-			if (this.canTargetBuildings && targ.Thing.def.category == ThingCategory.Building)
+			else if (this.canTargetBuildings && targ.Thing.def.category == ThingCategory.Building)
 			{
-				if (this.onlyTargetThingsAffectingRegions && !targ.Thing.def.AffectsRegions)
-				{
-					return false;
-				}
-				if (this.onlyTargetFactions != null && !this.onlyTargetFactions.Contains(targ.Thing.Faction))
-				{
-					return false;
-				}
-				return true;
+				result = ((!this.onlyTargetThingsAffectingRegions || targ.Thing.def.AffectsRegions) && (this.onlyTargetFactions == null || this.onlyTargetFactions.Contains(targ.Thing.Faction)));
 			}
-			if (this.canTargetItems)
+			else
 			{
-				if (this.mapObjectTargetsMustBeAutoAttackable && !targ.Thing.def.isAutoAttackableMapObject)
-				{
-					return false;
-				}
-				return true;
+				result = (this.canTargetItems && (!this.mapObjectTargetsMustBeAutoAttackable || targ.Thing.def.isAutoAttackableMapObject));
 			}
-			return false;
+			return result;
 		}
 
+		// Token: 0x06003830 RID: 14384 RVA: 0x001DF2B4 File Offset: 0x001DD6B4
 		public static TargetingParameters ForSelf(Pawn p)
 		{
-			TargetingParameters targetingParameters = new TargetingParameters();
-			targetingParameters.targetSpecificThing = p;
-			targetingParameters.canTargetPawns = false;
-			targetingParameters.canTargetBuildings = false;
-			targetingParameters.mapObjectTargetsMustBeAutoAttackable = false;
-			return targetingParameters;
+			return new TargetingParameters
+			{
+				targetSpecificThing = p,
+				canTargetPawns = false,
+				canTargetBuildings = false,
+				mapObjectTargetsMustBeAutoAttackable = false
+			};
 		}
 
+		// Token: 0x06003831 RID: 14385 RVA: 0x001DF2EC File Offset: 0x001DD6EC
 		public static TargetingParameters ForArrest(Pawn arrester)
 		{
-			TargetingParameters targetingParameters = new TargetingParameters();
-			targetingParameters.canTargetPawns = true;
-			targetingParameters.canTargetBuildings = false;
-			targetingParameters.mapObjectTargetsMustBeAutoAttackable = false;
-			targetingParameters.validator = delegate(TargetInfo targ)
+			return new TargetingParameters
 			{
-				if (!targ.HasThing)
+				canTargetPawns = true,
+				canTargetBuildings = false,
+				mapObjectTargetsMustBeAutoAttackable = false,
+				validator = delegate(TargetInfo targ)
 				{
-					return false;
-				}
-				Pawn pawn = targ.Thing as Pawn;
-				if (pawn != null && pawn != arrester && pawn.CanBeArrestedBy(arrester))
-				{
-					if (pawn.Downed)
+					bool result;
+					if (!targ.HasThing)
 					{
-						return false;
+						result = false;
 					}
-					return true;
+					else
+					{
+						Pawn pawn = targ.Thing as Pawn;
+						result = (pawn != null && pawn != arrester && pawn.CanBeArrestedBy(arrester) && !pawn.Downed);
+					}
+					return result;
 				}
-				return false;
 			};
-			return targetingParameters;
 		}
 
+		// Token: 0x06003832 RID: 14386 RVA: 0x001DF33C File Offset: 0x001DD73C
 		public static TargetingParameters ForAttackHostile()
 		{
 			TargetingParameters targetingParameters = new TargetingParameters();
@@ -162,61 +117,61 @@ namespace RimWorld
 			targetingParameters.mapObjectTargetsMustBeAutoAttackable = true;
 			targetingParameters.validator = delegate(TargetInfo targ)
 			{
+				bool result;
 				if (!targ.HasThing)
 				{
-					return false;
+					result = false;
 				}
-				if (targ.Thing.HostileTo(Faction.OfPlayer))
+				else if (targ.Thing.HostileTo(Faction.OfPlayer))
 				{
-					return true;
+					result = true;
 				}
-				Pawn pawn = targ.Thing as Pawn;
-				if (pawn != null && pawn.NonHumanlikeOrWildMan())
+				else
 				{
-					return true;
+					Pawn pawn = targ.Thing as Pawn;
+					result = (pawn != null && pawn.NonHumanlikeOrWildMan());
 				}
-				return false;
+				return result;
 			};
 			return targetingParameters;
 		}
 
+		// Token: 0x06003833 RID: 14387 RVA: 0x001DF398 File Offset: 0x001DD798
 		public static TargetingParameters ForAttackAny()
 		{
-			TargetingParameters targetingParameters = new TargetingParameters();
-			targetingParameters.canTargetPawns = true;
-			targetingParameters.canTargetBuildings = true;
-			targetingParameters.canTargetItems = true;
-			targetingParameters.mapObjectTargetsMustBeAutoAttackable = true;
-			return targetingParameters;
+			return new TargetingParameters
+			{
+				canTargetPawns = true,
+				canTargetBuildings = true,
+				canTargetItems = true,
+				mapObjectTargetsMustBeAutoAttackable = true
+			};
 		}
 
+		// Token: 0x06003834 RID: 14388 RVA: 0x001DF3D0 File Offset: 0x001DD7D0
 		public static TargetingParameters ForRescue(Pawn p)
 		{
-			TargetingParameters targetingParameters = new TargetingParameters();
-			targetingParameters.canTargetPawns = true;
-			targetingParameters.onlyTargetIncapacitatedPawns = true;
-			targetingParameters.canTargetBuildings = false;
-			targetingParameters.mapObjectTargetsMustBeAutoAttackable = false;
-			return targetingParameters;
+			return new TargetingParameters
+			{
+				canTargetPawns = true,
+				onlyTargetIncapacitatedPawns = true,
+				canTargetBuildings = false,
+				mapObjectTargetsMustBeAutoAttackable = false
+			};
 		}
 
+		// Token: 0x06003835 RID: 14389 RVA: 0x001DF408 File Offset: 0x001DD808
 		public static TargetingParameters ForStrip(Pawn p)
 		{
 			TargetingParameters targetingParameters = new TargetingParameters();
 			targetingParameters.canTargetPawns = true;
 			targetingParameters.canTargetItems = true;
 			targetingParameters.mapObjectTargetsMustBeAutoAttackable = false;
-			targetingParameters.validator = delegate(TargetInfo targ)
-			{
-				if (!targ.HasThing)
-				{
-					return false;
-				}
-				return StrippableUtility.CanBeStrippedByColony(targ.Thing);
-			};
+			targetingParameters.validator = ((TargetInfo targ) => targ.HasThing && StrippableUtility.CanBeStrippedByColony(targ.Thing));
 			return targetingParameters;
 		}
 
+		// Token: 0x06003836 RID: 14390 RVA: 0x001DF45C File Offset: 0x001DD85C
 		public static TargetingParameters ForTrade()
 		{
 			TargetingParameters targetingParameters = new TargetingParameters();
@@ -226,15 +181,12 @@ namespace RimWorld
 			targetingParameters.validator = delegate(TargetInfo x)
 			{
 				ITrader trader = x.Thing as ITrader;
-				if (trader == null)
-				{
-					return false;
-				}
-				return trader.CanTradeNow;
+				return trader != null && trader.CanTradeNow;
 			};
 			return targetingParameters;
 		}
 
+		// Token: 0x06003837 RID: 14391 RVA: 0x001DF4B0 File Offset: 0x001DD8B0
 		public static TargetingParameters ForDropPodsDestination()
 		{
 			TargetingParameters targetingParameters = new TargetingParameters();
@@ -247,5 +199,71 @@ namespace RimWorld
 			targetingParameters.validator = ((TargetInfo x) => DropCellFinder.IsGoodDropSpot(x.Cell, x.Map, false, true));
 			return targetingParameters;
 		}
+
+		// Token: 0x06003838 RID: 14392 RVA: 0x001DF51C File Offset: 0x001DD91C
+		public static TargetingParameters ForQuestPawnsWhoWillJoinColony(Pawn p)
+		{
+			TargetingParameters targetingParameters = new TargetingParameters();
+			targetingParameters.canTargetPawns = true;
+			targetingParameters.canTargetBuildings = false;
+			targetingParameters.mapObjectTargetsMustBeAutoAttackable = false;
+			targetingParameters.validator = delegate(TargetInfo x)
+			{
+				Pawn pawn = x.Thing as Pawn;
+				return pawn != null && !pawn.Dead && pawn.mindState.willJoinColonyIfRescued;
+			};
+			return targetingParameters;
+		}
+
+		// Token: 0x040023E2 RID: 9186
+		public bool canTargetLocations = false;
+
+		// Token: 0x040023E3 RID: 9187
+		public bool canTargetSelf = false;
+
+		// Token: 0x040023E4 RID: 9188
+		public bool canTargetPawns = true;
+
+		// Token: 0x040023E5 RID: 9189
+		public bool canTargetFires = false;
+
+		// Token: 0x040023E6 RID: 9190
+		public bool canTargetBuildings = true;
+
+		// Token: 0x040023E7 RID: 9191
+		public bool canTargetItems = false;
+
+		// Token: 0x040023E8 RID: 9192
+		public List<Faction> onlyTargetFactions = null;
+
+		// Token: 0x040023E9 RID: 9193
+		public Predicate<TargetInfo> validator = null;
+
+		// Token: 0x040023EA RID: 9194
+		public bool onlyTargetFlammables = false;
+
+		// Token: 0x040023EB RID: 9195
+		public Thing targetSpecificThing = null;
+
+		// Token: 0x040023EC RID: 9196
+		public bool mustBeSelectable = false;
+
+		// Token: 0x040023ED RID: 9197
+		public bool neverTargetDoors = false;
+
+		// Token: 0x040023EE RID: 9198
+		public bool neverTargetIncapacitated = false;
+
+		// Token: 0x040023EF RID: 9199
+		public bool onlyTargetThingsAffectingRegions = false;
+
+		// Token: 0x040023F0 RID: 9200
+		public bool onlyTargetDamagedThings = false;
+
+		// Token: 0x040023F1 RID: 9201
+		public bool mapObjectTargetsMustBeAutoAttackable = true;
+
+		// Token: 0x040023F2 RID: 9202
+		public bool onlyTargetIncapacitatedPawns = false;
 	}
 }

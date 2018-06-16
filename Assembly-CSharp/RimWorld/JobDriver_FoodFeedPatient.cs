@@ -1,71 +1,102 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000096 RID: 150
 	public class JobDriver_FoodFeedPatient : JobDriver
 	{
-		private const TargetIndex FoodSourceInd = TargetIndex.A;
-
-		private const TargetIndex DelivereeInd = TargetIndex.B;
-
-		private const float FeedDurationMultiplier = 1.5f;
-
+		// Token: 0x170000C0 RID: 192
+		// (get) Token: 0x060003C6 RID: 966 RVA: 0x0002AF20 File Offset: 0x00029320
 		protected Thing Food
 		{
 			get
 			{
-				return base.job.targetA.Thing;
+				return this.job.targetA.Thing;
 			}
 		}
 
+		// Token: 0x170000C1 RID: 193
+		// (get) Token: 0x060003C7 RID: 967 RVA: 0x0002AF48 File Offset: 0x00029348
 		protected Pawn Deliveree
 		{
 			get
 			{
-				return (Pawn)base.job.targetB.Thing;
+				return (Pawn)this.job.targetB.Thing;
 			}
 		}
 
+		// Token: 0x060003C8 RID: 968 RVA: 0x0002AF74 File Offset: 0x00029374
 		public override string GetReport()
 		{
-			if (base.job.GetTarget(TargetIndex.A).Thing is Building_NutrientPasteDispenser && this.Deliveree != null)
+			string result;
+			if (this.job.GetTarget(TargetIndex.A).Thing is Building_NutrientPasteDispenser && this.Deliveree != null)
 			{
-				return base.job.def.reportString.Replace("TargetA", ThingDefOf.MealNutrientPaste.label).Replace("TargetB", this.Deliveree.LabelShort);
+				result = this.job.def.reportString.Replace("TargetA", ThingDefOf.MealNutrientPaste.label).Replace("TargetB", this.Deliveree.LabelShort);
 			}
-			return base.GetReport();
+			else
+			{
+				result = base.GetReport();
+			}
+			return result;
 		}
 
+		// Token: 0x060003C9 RID: 969 RVA: 0x0002AFF8 File Offset: 0x000293F8
 		public override bool TryMakePreToilReservations()
 		{
-			if (!base.pawn.Reserve(this.Deliveree, base.job, 1, -1, null))
+			bool result;
+			if (!this.pawn.Reserve(this.Deliveree, this.job, 1, -1, null))
 			{
-				return false;
+				result = false;
 			}
-			if (!(base.TargetThingA is Building_NutrientPasteDispenser) && (base.pawn.inventory == null || !base.pawn.inventory.Contains(base.TargetThingA)) && !base.pawn.Reserve(this.Food, base.job, 1, -1, null))
+			else
 			{
-				return false;
+				if (!(base.TargetThingA is Building_NutrientPasteDispenser) && (this.pawn.inventory == null || !this.pawn.inventory.Contains(base.TargetThingA)))
+				{
+					if (!this.pawn.Reserve(this.Food, this.job, 1, -1, null))
+					{
+						return false;
+					}
+				}
+				result = true;
 			}
-			return true;
+			return result;
 		}
 
+		// Token: 0x060003CA RID: 970 RVA: 0x0002B0A4 File Offset: 0x000294A4
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.B);
-			this.FailOn(() => !FoodUtility.ShouldBeFedBySomeone(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0050: stateMachine*/)._0024this.Deliveree));
-			if (base.pawn.inventory != null && base.pawn.inventory.Contains(base.TargetThingA))
+			this.FailOn(() => !FoodUtility.ShouldBeFedBySomeone(this.Deliveree));
+			if (this.pawn.inventory != null && this.pawn.inventory.Contains(base.TargetThingA))
 			{
-				yield return Toils_Misc.TakeItemFromInventoryToCarrier(base.pawn, TargetIndex.A);
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield return Toils_Misc.TakeItemFromInventoryToCarrier(this.pawn, TargetIndex.A);
 			}
-			if (base.TargetThingA is Building_NutrientPasteDispenser)
+			else if (base.TargetThingA is Building_NutrientPasteDispenser)
 			{
 				yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.InteractionCell).FailOnForbidden(TargetIndex.A);
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield return Toils_Ingest.TakeMealFromDispenser(TargetIndex.A, this.pawn);
 			}
-			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOnForbidden(TargetIndex.A);
-			/*Error: Unable to find new state assignment for yield return*/;
+			else
+			{
+				yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOnForbidden(TargetIndex.A);
+				yield return Toils_Ingest.PickupIngestible(TargetIndex.A, this.Deliveree);
+			}
+			yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.Touch);
+			yield return Toils_Ingest.ChewIngestible(this.Deliveree, 1.5f, TargetIndex.A, TargetIndex.None).FailOnCannotTouch(TargetIndex.B, PathEndMode.Touch);
+			yield return Toils_Ingest.FinalizeIngest(this.Deliveree, TargetIndex.A);
+			yield break;
 		}
+
+		// Token: 0x04000258 RID: 600
+		private const TargetIndex FoodSourceInd = TargetIndex.A;
+
+		// Token: 0x04000259 RID: 601
+		private const TargetIndex DelivereeInd = TargetIndex.B;
+
+		// Token: 0x0400025A RID: 602
+		private const float FeedDurationMultiplier = 1.5f;
 	}
 }

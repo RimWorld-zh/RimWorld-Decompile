@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -5,22 +6,25 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
+	// Token: 0x0200060F RID: 1551
 	public class SitePartWorker_SleepingMechanoids : SitePartWorker
 	{
-		public override void PostMapGenerate(Map map)
+		// Token: 0x06001F33 RID: 7987 RVA: 0x0010EBA8 File Offset: 0x0010CFA8
+		public override string GetArrivedLetterPart(Map map, out string preferredLabel, out LetterDef preferredLetterDef, out LookTargets lookTargets)
 		{
-			base.PostMapGenerate(map);
+			string arrivedLetterPart = base.GetArrivedLetterPart(map, out preferredLabel, out preferredLetterDef, out lookTargets);
 			IEnumerable<Pawn> source = from x in map.mapPawns.AllPawnsSpawned
 			where x.RaceProps.IsMechanoid
 			select x;
 			Pawn pawn = (from x in source
 			where x.GetLord() != null && x.GetLord().LordJob is LordJob_SleepThenAssaultColony
-			select x).FirstOrDefault();
+			select x).FirstOrDefault<Pawn>();
 			if (pawn == null)
 			{
-				pawn = source.FirstOrDefault();
+				pawn = source.FirstOrDefault<Pawn>();
 			}
-			Find.LetterStack.ReceiveLetter("LetterLabelSleepingMechanoids".Translate(), "LetterSleepingMechanoids".Translate(), LetterDefOf.NegativeEvent, pawn, null);
+			lookTargets = pawn;
+			return arrivedLetterPart;
 		}
 	}
 }

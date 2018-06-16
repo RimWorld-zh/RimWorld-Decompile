@@ -1,25 +1,28 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200071B RID: 1819
 	public class CompIngredients : ThingComp
 	{
-		public List<ThingDef> ingredients = new List<ThingDef>();
-
-		private const int MaxNumIngredients = 3;
-
+		// Token: 0x060027F3 RID: 10227 RVA: 0x001555D8 File Offset: 0x001539D8
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
 			Scribe_Collections.Look<ThingDef>(ref this.ingredients, "ingredients", LookMode.Def, new object[0]);
-			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.ingredients == null)
+			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
-				this.ingredients = new List<ThingDef>();
+				if (this.ingredients == null)
+				{
+					this.ingredients = new List<ThingDef>();
+				}
 			}
 		}
 
+		// Token: 0x060027F4 RID: 10228 RVA: 0x00155626 File Offset: 0x00153A26
 		public void RegisterIngredient(ThingDef def)
 		{
 			if (!this.ingredients.Contains(def))
@@ -28,10 +31,11 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060027F5 RID: 10229 RVA: 0x00155648 File Offset: 0x00153A48
 		public override void PostSplitOff(Thing piece)
 		{
 			base.PostSplitOff(piece);
-			if (piece != base.parent)
+			if (piece != this.parent)
 			{
 				CompIngredients compIngredients = piece.TryGetComp<CompIngredients>();
 				for (int i = 0; i < this.ingredients.Count; i++)
@@ -41,6 +45,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060027F6 RID: 10230 RVA: 0x001556A8 File Offset: 0x00153AA8
 		public override void PreAbsorbStack(Thing otherStack, int count)
 		{
 			base.PreAbsorbStack(otherStack, count);
@@ -55,7 +60,7 @@ namespace RimWorld
 			}
 			if (this.ingredients.Count > 3)
 			{
-				this.ingredients.Shuffle();
+				this.ingredients.Shuffle<ThingDef>();
 				while (this.ingredients.Count > 3)
 				{
 					this.ingredients.Remove(this.ingredients[this.ingredients.Count - 1]);
@@ -63,6 +68,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060027F7 RID: 10231 RVA: 0x00155768 File Offset: 0x00153B68
 		public override string CompInspectStringExtra()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -80,5 +86,11 @@ namespace RimWorld
 			}
 			return stringBuilder.ToString();
 		}
+
+		// Token: 0x040015E8 RID: 5608
+		public List<ThingDef> ingredients = new List<ThingDef>();
+
+		// Token: 0x040015E9 RID: 5609
+		private const int MaxNumIngredients = 3;
 	}
 }

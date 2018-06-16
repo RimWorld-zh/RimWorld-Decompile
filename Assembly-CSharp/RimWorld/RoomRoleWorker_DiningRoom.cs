@@ -1,10 +1,13 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000430 RID: 1072
 	public class RoomRoleWorker_DiningRoom : RoomRoleWorker
 	{
+		// Token: 0x060012C1 RID: 4801 RVA: 0x000A25A4 File Offset: 0x000A09A4
 		public override float GetScore(Room room)
 		{
 			int num = 0;
@@ -17,7 +20,7 @@ namespace RimWorld
 					num++;
 				}
 			}
-			return (float)((float)num * 8.0);
+			return (float)num * 8f;
 		}
 	}
 }

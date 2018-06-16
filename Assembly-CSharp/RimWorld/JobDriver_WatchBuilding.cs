@@ -1,72 +1,102 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000061 RID: 97
 	public class JobDriver_WatchBuilding : JobDriver
 	{
+		// Token: 0x060002C6 RID: 710 RVA: 0x0001BF50 File Offset: 0x0001A350
 		public override bool TryMakePreToilReservations()
 		{
-			if (!base.pawn.Reserve(base.job.targetA, base.job, base.job.def.joyMaxParticipants, 0, null))
+			bool result;
+			if (!this.pawn.Reserve(this.job.targetA, this.job, this.job.def.joyMaxParticipants, 0, null))
 			{
-				return false;
+				result = false;
 			}
-			if (!base.pawn.Reserve(base.job.targetB, base.job, 1, -1, null))
+			else if (!this.pawn.Reserve(this.job.targetB, this.job, 1, -1, null))
 			{
-				return false;
+				result = false;
 			}
-			if (base.TargetC.HasThing)
+			else
 			{
-				if (base.TargetC.Thing is Building_Bed)
+				if (base.TargetC.HasThing)
 				{
-					if (!base.pawn.Reserve(base.job.targetC, base.job, ((Building_Bed)base.TargetC.Thing).SleepingSlotsCount, 0, null))
+					if (base.TargetC.Thing is Building_Bed)
+					{
+						if (!this.pawn.Reserve(this.job.targetC, this.job, ((Building_Bed)base.TargetC.Thing).SleepingSlotsCount, 0, null))
+						{
+							return false;
+						}
+					}
+					else if (!this.pawn.Reserve(this.job.targetC, this.job, 1, -1, null))
 					{
 						return false;
 					}
 				}
-				else if (!base.pawn.Reserve(base.job.targetC, base.job, 1, -1, null))
-				{
-					return false;
-				}
+				result = true;
 			}
-			return true;
+			return result;
 		}
 
+		// Token: 0x060002C7 RID: 711 RVA: 0x0001C070 File Offset: 0x0001A470
 		public override bool CanBeginNowWhileLyingDown()
 		{
-			return base.TargetC.HasThing && base.TargetC.Thing is Building_Bed && JobInBedUtility.InBedOrRestSpotNow(base.pawn, base.TargetC);
+			return base.TargetC.HasThing && base.TargetC.Thing is Building_Bed && JobInBedUtility.InBedOrRestSpotNow(this.pawn, base.TargetC);
 		}
 
+		// Token: 0x060002C8 RID: 712 RVA: 0x0001C0C4 File Offset: 0x0001A4C4
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			_003CMakeNewToils_003Ec__Iterator0 _003CMakeNewToils_003Ec__Iterator = (_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_003e: stateMachine*/;
 			this.EndOnDespawnedOrNull(TargetIndex.A, JobCondition.Incompletable);
-			if (base.TargetC.HasThing && base.TargetC.Thing is Building_Bed)
+			bool hasBed = base.TargetC.HasThing && base.TargetC.Thing is Building_Bed;
+			Toil watch;
+			if (hasBed)
 			{
 				this.KeepLyingDown(TargetIndex.C);
 				yield return Toils_Bed.ClaimBedIfNonMedical(TargetIndex.C, TargetIndex.None);
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield return Toils_Bed.GotoBed(TargetIndex.C);
+				watch = Toils_LayDown.LayDown(TargetIndex.C, true, false, true, true);
+				watch.AddFailCondition(() => !watch.actor.Awake());
 			}
-			yield return Toils_Goto.GotoCell(TargetIndex.B, PathEndMode.OnCell);
-			/*Error: Unable to find new state assignment for yield return*/;
+			else
+			{
+				yield return Toils_Goto.GotoCell(TargetIndex.B, PathEndMode.OnCell);
+				watch = new Toil();
+			}
+			watch.AddPreTickAction(delegate
+			{
+				this.WatchTickAction();
+			});
+			watch.AddFinishAction(delegate
+			{
+				JoyUtility.TryGainRecRoomThought(this.pawn);
+			});
+			watch.defaultCompleteMode = ToilCompleteMode.Delay;
+			watch.defaultDuration = this.job.def.joyDuration;
+			watch.handlingFacing = true;
+			yield return watch;
+			yield break;
 		}
 
+		// Token: 0x060002C9 RID: 713 RVA: 0x0001C0F0 File Offset: 0x0001A4F0
 		protected virtual void WatchTickAction()
 		{
-			base.pawn.rotationTracker.FaceCell(base.TargetA.Cell);
-			base.pawn.GainComfortFromCellIfPossible();
-			float statValue = base.TargetThingA.GetStatValue(StatDefOf.EntertainmentStrengthFactor, true);
-			Pawn pawn = base.pawn;
-			float extraJoyGainFactor = statValue;
-			JoyUtility.JoyTickCheckEnd(pawn, JoyTickFullJoyAction.EndJob, extraJoyGainFactor);
+			this.pawn.rotationTracker.FaceCell(base.TargetA.Cell);
+			this.pawn.GainComfortFromCellIfPossible();
+			Pawn pawn = this.pawn;
+			Building joySource = (Building)base.TargetThingA;
+			JoyUtility.JoyTickCheckEnd(pawn, JoyTickFullJoyAction.EndJob, 1f, joySource);
 		}
 
+		// Token: 0x060002CA RID: 714 RVA: 0x0001C148 File Offset: 0x0001A548
 		public override object[] TaleParameters()
 		{
-			return new object[2]
+			return new object[]
 			{
-				base.pawn,
+				this.pawn,
 				base.TargetA.Thing.def
 			};
 		}

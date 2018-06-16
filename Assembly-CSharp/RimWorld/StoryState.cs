@@ -1,46 +1,54 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000359 RID: 857
 	public class StoryState : IExposable
 	{
-		private IIncidentTarget target;
+		// Token: 0x06000EE1 RID: 3809 RVA: 0x0007D8A9 File Offset: 0x0007BCA9
+		public StoryState(IIncidentTarget target)
+		{
+			this.target = target;
+		}
 
-		private int lastThreatBigTick = -1;
-
-		public Dictionary<IncidentDef, int> lastFireTicks = new Dictionary<IncidentDef, int>();
-
+		// Token: 0x17000215 RID: 533
+		// (get) Token: 0x06000EE2 RID: 3810 RVA: 0x0007D8CC File Offset: 0x0007BCCC
 		public int LastThreatBigTick
 		{
 			get
 			{
 				if (this.lastThreatBigTick > Find.TickManager.TicksGame + 1000)
 				{
-					Log.Error("Latest big threat queue time was " + this.lastThreatBigTick + " at tick " + Find.TickManager.TicksGame + ". This is too far in the future. Resetting.");
+					Log.Error(string.Concat(new object[]
+					{
+						"Latest big threat queue time was ",
+						this.lastThreatBigTick,
+						" at tick ",
+						Find.TickManager.TicksGame,
+						". This is too far in the future. Resetting."
+					}), false);
 					this.lastThreatBigTick = Find.TickManager.TicksGame - 1;
 				}
 				return this.lastThreatBigTick;
 			}
 		}
 
-		public StoryState(IIncidentTarget target)
-		{
-			this.target = target;
-		}
-
+		// Token: 0x06000EE3 RID: 3811 RVA: 0x0007D95F File Offset: 0x0007BD5F
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.lastThreatBigTick, "lastThreatBigTick", 0, true);
 			Scribe_Collections.Look<IncidentDef, int>(ref this.lastFireTicks, "lastFireTicks", LookMode.Def, LookMode.Value);
 		}
 
+		// Token: 0x06000EE4 RID: 3812 RVA: 0x0007D988 File Offset: 0x0007BD88
 		public void Notify_IncidentFired(FiringIncident qi)
 		{
 			if (!qi.parms.forced && qi.parms.target == this.target)
 			{
 				int ticksGame = Find.TickManager.TicksGame;
-				if (qi.def.category == IncidentCategory.ThreatBig || qi.def.category == IncidentCategory.RaidBeacon)
+				if (qi.def.category == IncidentCategoryDefOf.ThreatBig || qi.def.category == IncidentCategoryDefOf.RaidBeacon)
 				{
 					if (this.lastThreatBigTick <= ticksGame)
 					{
@@ -48,7 +56,7 @@ namespace RimWorld
 					}
 					else
 					{
-						Log.Error("Queueing threats backwards in time (" + qi + ")");
+						Log.Error("Queueing threats backwards in time (" + qi + ")", false);
 					}
 					Find.StoryWatcher.statsRecord.numThreatBigs++;
 				}
@@ -63,14 +71,24 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06000EE5 RID: 3813 RVA: 0x0007DA7C File Offset: 0x0007BE7C
 		public void CopyTo(StoryState other)
 		{
 			other.lastThreatBigTick = this.lastThreatBigTick;
 			other.lastFireTicks.Clear();
-			foreach (KeyValuePair<IncidentDef, int> lastFireTick in this.lastFireTicks)
+			foreach (KeyValuePair<IncidentDef, int> keyValuePair in this.lastFireTicks)
 			{
-				other.lastFireTicks.Add(lastFireTick.Key, lastFireTick.Value);
+				other.lastFireTicks.Add(keyValuePair.Key, keyValuePair.Value);
 			}
 		}
+
+		// Token: 0x04000920 RID: 2336
+		private IIncidentTarget target;
+
+		// Token: 0x04000921 RID: 2337
+		private int lastThreatBigTick = -1;
+
+		// Token: 0x04000922 RID: 2338
+		public Dictionary<IncidentDef, int> lastFireTicks = new Dictionary<IncidentDef, int>();
 	}
 }

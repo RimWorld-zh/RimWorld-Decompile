@@ -1,104 +1,87 @@
-using RimWorld.Planet;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
+using RimWorld.Planet;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000351 RID: 849
 	public class IncidentWorker_QuestItemStash : IncidentWorker
 	{
-		private const float ChanceToRevealSitePart = 0.5f;
-
-		private static readonly IntRange TimeoutDaysRange = new IntRange(10, 30);
-
-		private static readonly IntRange FeeRange = new IntRange(50, 500);
-
-		private const int FeeDemandTimeoutTicks = 60000;
-
-		private const float NoSitePartChance = 0.15f;
-
-		private static readonly string ItemStashQuestThreatTag = "ItemStashQuestThreat";
-
-		protected override bool CanFireNowSub(IIncidentTarget target)
+		// Token: 0x06000EA8 RID: 3752 RVA: 0x0007BFF8 File Offset: 0x0007A3F8
+		protected override bool CanFireNowSub(IncidentParms parms)
 		{
-			if (!base.CanFireNowSub(target))
-			{
-				return false;
-			}
-			int num = default(int);
-			Faction faction = default(Faction);
-			return Find.FactionManager.RandomAlliedFaction(false, false, false, TechLevel.Undefined) != null && TileFinder.TryFindNewSiteTile(out num, 8, 30, false, true, -1) && SiteMakerHelper.TryFindRandomFactionFor(SiteCoreDefOf.ItemStash, (IEnumerable<SitePartDef>)null, out faction, true, (Predicate<Faction>)null);
+			int num;
+			Faction faction;
+			return base.CanFireNowSub(parms) && (Find.FactionManager.RandomNonHostileFaction(false, false, false, TechLevel.Undefined) != null && TileFinder.TryFindNewSiteTile(out num, 7, 27, false, true, -1)) && SiteMakerHelper.TryFindRandomFactionFor(SiteCoreDefOf.ItemStash, null, out faction, true, null);
 		}
 
+		// Token: 0x06000EA9 RID: 3753 RVA: 0x0007C058 File Offset: 0x0007A458
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
-			Faction faction = Find.FactionManager.RandomAlliedFaction(false, false, false, TechLevel.Undefined);
+			Faction faction = parms.faction;
 			if (faction == null)
 			{
-				return false;
+				faction = Find.FactionManager.RandomNonHostileFaction(false, false, false, TechLevel.Undefined);
 			}
-			int tile = default(int);
-			if (!TileFinder.TryFindNewSiteTile(out tile, 8, 30, false, true, -1))
+			bool result;
+			int tile;
+			SitePartDef sitePart;
+			Faction siteFaction;
+			if (faction == null)
 			{
-				return false;
+				result = false;
 			}
-			SitePartDef sitePart = default(SitePartDef);
-			Faction siteFaction = default(Faction);
-			if (!SiteMakerHelper.TryFindSiteParams_SingleSitePart(SiteCoreDefOf.ItemStash, (!Rand.Chance(0.15f)) ? IncidentWorker_QuestItemStash.ItemStashQuestThreatTag : null, out sitePart, out siteFaction, (Faction)null, true, (Predicate<Faction>)null))
+			else if (!TileFinder.TryFindNewSiteTile(out tile, 7, 27, false, true, -1))
 			{
-				return false;
+				result = false;
 			}
-			int randomInRange = IncidentWorker_QuestItemStash.TimeoutDaysRange.RandomInRange;
-			List<Thing> list = this.GenerateItems(siteFaction);
-			bool sitePartsKnown = Rand.Chance(0.5f);
-			int num = 0;
-			if (Rand.Chance(this.FeeDemandChance(faction)))
+			else if (!SiteMakerHelper.TryFindSiteParams_SingleSitePart(SiteCoreDefOf.ItemStash, (!Rand.Chance(0.15f)) ? IncidentWorker_QuestItemStash.ItemStashQuestThreatTag : null, out sitePart, out siteFaction, null, true, null))
 			{
-				num = IncidentWorker_QuestItemStash.FeeRange.RandomInRange;
-			}
-			string letterText = this.GetLetterText(faction, list, randomInRange, sitePart, sitePartsKnown, num);
-			if (num > 0)
-			{
-				Map map = TradeUtility.PlayerHomeMapWithMostLaunchableSilver();
-				ChoiceLetter_ItemStashFeeDemand choiceLetter_ItemStashFeeDemand = (ChoiceLetter_ItemStashFeeDemand)LetterMaker.MakeLetter(base.def.letterLabel, letterText, LetterDefOf.ItemStashFeeDemand);
-				choiceLetter_ItemStashFeeDemand.title = "ItemStashQuestTitle".Translate();
-				choiceLetter_ItemStashFeeDemand.radioMode = true;
-				choiceLetter_ItemStashFeeDemand.map = map;
-				choiceLetter_ItemStashFeeDemand.fee = num;
-				choiceLetter_ItemStashFeeDemand.siteDaysTimeout = randomInRange;
-				choiceLetter_ItemStashFeeDemand.items.TryAddRangeOrTransfer(list, false, false);
-				choiceLetter_ItemStashFeeDemand.siteFaction = siteFaction;
-				choiceLetter_ItemStashFeeDemand.sitePart = sitePart;
-				choiceLetter_ItemStashFeeDemand.alliedFaction = faction;
-				choiceLetter_ItemStashFeeDemand.sitePartsKnown = sitePartsKnown;
-				choiceLetter_ItemStashFeeDemand.StartTimeout(60000);
-				Find.LetterStack.ReceiveLetter(choiceLetter_ItemStashFeeDemand, null);
+				result = false;
 			}
 			else
 			{
-				Site o = IncidentWorker_QuestItemStash.CreateSite(tile, sitePart, randomInRange, siteFaction, list, sitePartsKnown);
-				Find.LetterStack.ReceiveLetter(base.def.letterLabel, letterText, base.def.letterDef, o, null);
+				int randomInRange = IncidentWorker_QuestItemStash.TimeoutDaysRange.RandomInRange;
+				List<Thing> items = this.GenerateItems(siteFaction);
+				bool sitePartsKnown = Rand.Chance(0.5f);
+				string letterText = this.GetLetterText(faction, items, randomInRange, sitePart, sitePartsKnown);
+				Site o = IncidentWorker_QuestItemStash.CreateSite(tile, sitePart, randomInRange, siteFaction, items, sitePartsKnown);
+				Find.LetterStack.ReceiveLetter(this.def.letterLabel, letterText, this.def.letterDef, o, faction, null);
+				result = true;
 			}
-			return true;
+			return result;
 		}
 
+		// Token: 0x06000EAA RID: 3754 RVA: 0x0007C15C File Offset: 0x0007A55C
 		private string GetSitePartInfo(SitePartDef sitePart, string leaderLabel)
 		{
+			string result;
 			if (sitePart == null)
 			{
-				return "ItemStashSitePart_Nothing".Translate(leaderLabel);
+				result = "ItemStashSitePart_Nothing".Translate(new object[]
+				{
+					leaderLabel
+				});
 			}
-			return "ItemStashSitePart_Part".Translate(leaderLabel, string.Format(sitePart.descriptionDialogue));
+			else
+			{
+				result = "ItemStashSitePart_Part".Translate(new object[]
+				{
+					leaderLabel,
+					string.Format(sitePart.descriptionDialogue, new object[0])
+				});
+			}
+			return result;
 		}
 
-		private List<Thing> GenerateItems(Faction siteFaction)
+		// Token: 0x06000EAB RID: 3755 RVA: 0x0007C1BC File Offset: 0x0007A5BC
+		protected virtual List<Thing> GenerateItems(Faction siteFaction)
 		{
-			ItemCollectionGeneratorParams parms = default(ItemCollectionGeneratorParams);
-			parms.techLevel = ((siteFaction == null) ? TechLevel.Spacer : siteFaction.def.techLevel);
-			return ItemCollectionGeneratorDefOf.ItemStashQuest.Worker.Generate(parms);
+			return ThingSetMakerDefOf.Reward_ItemStashQuestContents.root.Generate();
 		}
 
+		// Token: 0x06000EAC RID: 3756 RVA: 0x0007C1E0 File Offset: 0x0007A5E0
 		public static Site CreateSite(int tile, SitePartDef sitePart, int days, Faction siteFaction, IList<Thing> items, bool sitePartsKnown)
 		{
 			Site site = (Site)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.Site);
@@ -110,33 +93,61 @@ namespace RimWorld
 				site.parts.Add(sitePart);
 			}
 			site.SetFaction(siteFaction);
-			((WorldObject)site).GetComponent<TimeoutComp>().StartTimeout(days * 60000);
-			((WorldObject)site).GetComponent<ItemStashContentsComp>().contents.TryAddRangeOrTransfer(items, false, false);
+			site.GetComponent<TimeoutComp>().StartTimeout(days * 60000);
+			site.GetComponent<ItemStashContentsComp>().contents.TryAddRangeOrTransfer(items, false, false);
 			Find.WorldObjects.Add(site);
 			return site;
 		}
 
-		private string GetLetterText(Faction alliedFaction, List<Thing> items, int days, SitePartDef sitePart, bool sitePartsKnown, int fee)
+		// Token: 0x06000EAD RID: 3757 RVA: 0x0007C26C File Offset: 0x0007A66C
+		private string GetLetterText(Faction alliedFaction, List<Thing> items, int days, SitePartDef sitePart, bool sitePartsKnown)
 		{
-			string text = (!sitePartsKnown) ? "ItemStashSitePart_Unknown".Translate(alliedFaction.leader.LabelShort).CapitalizeFirst() : this.GetSitePartInfo(sitePart, alliedFaction.leader.LabelShort).CapitalizeFirst();
-			string text2 = string.Format(base.def.letterText, alliedFaction.leader.LabelShort, alliedFaction.def.leaderTitle, alliedFaction.Name, GenLabel.ThingsLabel(items).TrimEndNewlines(), days.ToString(), text).CapitalizeFirst();
-			if (fee > 0)
+			string text;
+			if (sitePartsKnown)
 			{
-				text2 = text2 + "\n\n" + "ItemStashQuestFeeDemand".Translate(alliedFaction.leader.LabelShort, fee).CapitalizeFirst();
+				text = this.GetSitePartInfo(sitePart, alliedFaction.leader.LabelShort).CapitalizeFirst();
 			}
+			else
+			{
+				text = "ItemStashSitePart_Unknown".Translate(new object[]
+				{
+					alliedFaction.leader.LabelShort
+				}).CapitalizeFirst();
+			}
+			string text2 = string.Format(this.def.letterText, new object[]
+			{
+				alliedFaction.leader.LabelShort,
+				alliedFaction.def.leaderTitle,
+				alliedFaction.Name,
+				GenLabel.ThingsLabel(items).TrimEndNewlines(),
+				days.ToString(),
+				text
+			}).CapitalizeFirst();
 			if (items.Count == 1)
 			{
 				string text3 = text2;
-				text2 = text3 + "\n\n---\n\n" + items[0].LabelCap + ": " + items[0].GetDescription();
+				text2 = string.Concat(new string[]
+				{
+					text3,
+					"\n\n---\n\n",
+					items[0].LabelCap,
+					": ",
+					items[0].DescriptionFlavor
+				});
 			}
 			return text2;
 		}
 
-		private float FeeDemandChance(Faction faction)
-		{
-			FactionRelation factionRelation = faction.RelationWith(Faction.OfPlayer, false);
-			float x = Mathf.Max(factionRelation.goodwill, 0f);
-			return GenMath.LerpDouble(0f, 100f, 0.5f, 0f, x);
-		}
+		// Token: 0x04000902 RID: 2306
+		private const float ChanceToRevealSitePart = 0.5f;
+
+		// Token: 0x04000903 RID: 2307
+		private static readonly IntRange TimeoutDaysRange = new IntRange(15, 45);
+
+		// Token: 0x04000904 RID: 2308
+		private const float NoSitePartChance = 0.15f;
+
+		// Token: 0x04000905 RID: 2309
+		private static readonly string ItemStashQuestThreatTag = "ItemStashQuestThreat";
 	}
 }

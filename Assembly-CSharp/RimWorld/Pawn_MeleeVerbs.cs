@@ -1,78 +1,134 @@
+﻿using System;
 using System.Collections.Generic;
+using UnityEngine.Profiling;
 using Verse;
+using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000515 RID: 1301
 	public class Pawn_MeleeVerbs : IExposable
 	{
-		private Pawn pawn;
-
-		private Verb curMeleeVerb;
-
-		private int curMeleeVerbUpdateTick;
-
-		private static List<VerbEntry> meleeVerbs = new List<VerbEntry>();
-
-		private const int BestMeleeVerbUpdateInterval = 60;
-
+		// Token: 0x0600177F RID: 6015 RVA: 0x000CDD1B File Offset: 0x000CC11B
 		public Pawn_MeleeVerbs(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		public Verb TryGetMeleeVerb()
+		// Token: 0x1700033B RID: 827
+		// (get) Token: 0x06001780 RID: 6016 RVA: 0x000CDD48 File Offset: 0x000CC148
+		public Pawn Pawn
 		{
-			if (this.curMeleeVerb == null || Find.TickManager.TicksGame >= this.curMeleeVerbUpdateTick + 60 || !this.curMeleeVerb.IsStillUsableBy(this.pawn))
+			get
 			{
-				this.ChooseMeleeVerb();
+				return this.pawn;
+			}
+		}
+
+		// Token: 0x06001781 RID: 6017 RVA: 0x000CDD63 File Offset: 0x000CC163
+		public static void PawnMeleeVerbsStaticUpdate()
+		{
+			Pawn_MeleeVerbs.meleeVerbs.Clear();
+		}
+
+		// Token: 0x06001782 RID: 6018 RVA: 0x000CDD70 File Offset: 0x000CC170
+		public Verb TryGetMeleeVerb(Thing target)
+		{
+			if (this.curMeleeVerb == null || this.curMeleeVerbTarget != target || Find.TickManager.TicksGame >= this.curMeleeVerbUpdateTick + 60 || !this.curMeleeVerb.IsStillUsableBy(this.pawn) || !this.curMeleeVerb.IsUsableOn(target))
+			{
+				this.ChooseMeleeVerb(target);
 			}
 			return this.curMeleeVerb;
 		}
 
-		private void ChooseMeleeVerb()
+		// Token: 0x06001783 RID: 6019 RVA: 0x000CDDEC File Offset: 0x000CC1EC
+		private void ChooseMeleeVerb(Thing target)
 		{
 			List<VerbEntry> updatedAvailableVerbsList = this.GetUpdatedAvailableVerbsList();
-			if (updatedAvailableVerbsList.Count == 0)
+			VerbEntry verbEntry;
+			if (updatedAvailableVerbsList.TryRandomElementByWeight((VerbEntry ve) => ve.GetSelectionWeight(target), out verbEntry))
 			{
-				Log.ErrorOnce(string.Format("{0} has no available melee attack", this.pawn), 1664289);
-				this.SetCurMeleeVerb(null);
+				this.SetCurMeleeVerb(verbEntry.verb, target);
 			}
 			else
 			{
-				VerbEntry verbEntry = updatedAvailableVerbsList.RandomElementByWeight((VerbEntry ve) => ve.SelectionWeight);
-				this.SetCurMeleeVerb(verbEntry.verb);
+				Log.ErrorOnce(string.Concat(new object[]
+				{
+					this.pawn.ToStringSafe<Pawn>(),
+					" has no available melee attack, spawned=",
+					this.pawn.Spawned,
+					" dead=",
+					this.pawn.Dead,
+					" downed=",
+					this.pawn.Downed,
+					" curJob=",
+					this.pawn.CurJob.ToStringSafe<Job>(),
+					" verbList=",
+					updatedAvailableVerbsList.ToStringSafeEnumerable(),
+					" bodyVerbs=",
+					this.pawn.verbTracker.AllVerbs.ToStringSafeEnumerable()
+				}), this.pawn.thingIDNumber ^ 195867354, false);
+				this.SetCurMeleeVerb(null, null);
 			}
 		}
 
+		// Token: 0x06001784 RID: 6020 RVA: 0x000CDF20 File Offset: 0x000CC320
 		public bool TryMeleeAttack(Thing target, Verb verbToUse = null, bool surpriseAttack = false)
 		{
+			bool result;
 			if (this.pawn.stances.FullBodyBusy)
 			{
-				return false;
+				result = false;
 			}
-			if (verbToUse != null)
+			else
 			{
-				if (!verbToUse.IsStillUsableBy(this.pawn))
+				if (verbToUse != null)
 				{
-					return false;
+					if (!verbToUse.IsStillUsableBy(this.pawn))
+					{
+						return false;
+					}
+					if (!verbToUse.IsMeleeAttack)
+					{
+						Log.Warning(string.Concat(new object[]
+						{
+							"Pawn ",
+							this.pawn,
+							" tried to melee attack ",
+							target,
+							" with non melee-attack verb ",
+							verbToUse,
+							"."
+						}), false);
+						return false;
+					}
 				}
-				if (!(verbToUse is Verb_MeleeAttack))
+				Verb verb;
+				if (verbToUse != null)
 				{
-					Log.Warning("Pawn " + this.pawn + " tried to melee attack " + target + " with non melee-attack verb " + verbToUse + ".");
-					return false;
+					verb = verbToUse;
+				}
+				else
+				{
+					verb = this.TryGetMeleeVerb(target);
+				}
+				if (verb == null)
+				{
+					result = false;
+				}
+				else
+				{
+					verb.TryStartCastOn(target, surpriseAttack, true);
+					result = true;
 				}
 			}
-			Verb verb = (verbToUse == null) ? this.TryGetMeleeVerb() : verbToUse;
-			if (verb == null)
-			{
-				return false;
-			}
-			verb.TryStartCastOn(target, surpriseAttack, true);
-			return true;
+			return result;
 		}
 
+		// Token: 0x06001785 RID: 6021 RVA: 0x000CDFF8 File Offset: 0x000CC3F8
 		public List<VerbEntry> GetUpdatedAvailableVerbsList()
 		{
+			Profiler.BeginSample("GetUpdatedAvailableVerbsList");
 			Pawn_MeleeVerbs.meleeVerbs.Clear();
 			List<Verb> allVerbs = this.pawn.verbTracker.AllVerbs;
 			for (int i = 0; i < allVerbs.Count; i++)
@@ -96,7 +152,10 @@ namespace RimWorld
 						{
 							for (int k = 0; k < allVerbs2.Count; k++)
 							{
-								Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(allVerbs2[k], this.pawn, thingWithComps));
+								if (allVerbs2[k].IsStillUsableBy(this.pawn))
+								{
+									Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(allVerbs2[k], this.pawn, thingWithComps));
+								}
 							}
 						}
 					}
@@ -116,30 +175,60 @@ namespace RimWorld
 						{
 							for (int m = 0; m < allVerbs3.Count; m++)
 							{
-								Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(allVerbs3[m], this.pawn, apparel));
+								if (allVerbs3[m].IsStillUsableBy(this.pawn))
+								{
+									Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(allVerbs3[m], this.pawn, apparel));
+								}
 							}
 						}
 					}
 				}
 			}
-			foreach (Verb hediffsVerb in this.pawn.health.hediffSet.GetHediffsVerbs())
+			foreach (Verb verb in this.pawn.health.hediffSet.GetHediffsVerbs())
 			{
-				if (hediffsVerb.IsStillUsableBy(this.pawn))
+				if (verb.IsStillUsableBy(this.pawn))
 				{
-					Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(hediffsVerb, this.pawn, null));
+					Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(verb, this.pawn, null));
 				}
 			}
+			if (this.pawn.Spawned)
+			{
+				TerrainDef terrainDef = this.pawn.Map.terrainGrid.TerrainAt(this.pawn.Position);
+				if (this.terrainVerbs == null || this.terrainVerbs.def != terrainDef)
+				{
+					this.terrainVerbs = Pawn_MeleeVerbs_TerrainSource.Create(this, terrainDef);
+				}
+				List<Verb> allVerbs4 = this.terrainVerbs.tracker.AllVerbs;
+				for (int n = 0; n < allVerbs4.Count; n++)
+				{
+					Verb verb2 = allVerbs4[n];
+					if (verb2.IsStillUsableBy(this.pawn))
+					{
+						Pawn_MeleeVerbs.meleeVerbs.Add(new VerbEntry(verb2, this.pawn, null));
+					}
+				}
+			}
+			Profiler.EndSample();
 			return Pawn_MeleeVerbs.meleeVerbs;
 		}
 
+		// Token: 0x06001786 RID: 6022 RVA: 0x000CE36C File Offset: 0x000CC76C
 		public void Notify_PawnKilled()
 		{
-			this.SetCurMeleeVerb(null);
+			this.SetCurMeleeVerb(null, null);
 		}
 
-		private void SetCurMeleeVerb(Verb v)
+		// Token: 0x06001787 RID: 6023 RVA: 0x000CE377 File Offset: 0x000CC777
+		public void Notify_PawnDespawned()
+		{
+			this.SetCurMeleeVerb(null, null);
+		}
+
+		// Token: 0x06001788 RID: 6024 RVA: 0x000CE382 File Offset: 0x000CC782
+		private void SetCurMeleeVerb(Verb v, Thing target)
 		{
 			this.curMeleeVerb = v;
+			this.curMeleeVerbTarget = target;
 			if (Current.ProgramState != ProgramState.Playing)
 			{
 				this.curMeleeVerbUpdateTick = 0;
@@ -150,14 +239,47 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06001789 RID: 6025 RVA: 0x000CE3BC File Offset: 0x000CC7BC
 		public void ExposeData()
 		{
-			if (Scribe.mode == LoadSaveMode.Saving && this.curMeleeVerb != null && !this.curMeleeVerb.IsStillUsableBy(this.pawn))
+			if (Scribe.mode == LoadSaveMode.Saving)
 			{
-				this.curMeleeVerb = null;
+				if (this.curMeleeVerb != null && !this.curMeleeVerb.IsStillUsableBy(this.pawn))
+				{
+					this.curMeleeVerb = null;
+				}
 			}
 			Scribe_References.Look<Verb>(ref this.curMeleeVerb, "curMeleeVerb", false);
 			Scribe_Values.Look<int>(ref this.curMeleeVerbUpdateTick, "curMeleeVerbUpdateTick", 0, false);
+			Scribe_Deep.Look<Pawn_MeleeVerbs_TerrainSource>(ref this.terrainVerbs, "terrainVerbs", new object[0]);
+			if (Scribe.mode == LoadSaveMode.LoadingVars)
+			{
+				if (this.terrainVerbs != null)
+				{
+					this.terrainVerbs.parent = this;
+				}
+			}
 		}
+
+		// Token: 0x04000DE1 RID: 3553
+		private Pawn pawn;
+
+		// Token: 0x04000DE2 RID: 3554
+		private Verb curMeleeVerb = null;
+
+		// Token: 0x04000DE3 RID: 3555
+		private Thing curMeleeVerbTarget = null;
+
+		// Token: 0x04000DE4 RID: 3556
+		private int curMeleeVerbUpdateTick = 0;
+
+		// Token: 0x04000DE5 RID: 3557
+		private Pawn_MeleeVerbs_TerrainSource terrainVerbs = null;
+
+		// Token: 0x04000DE6 RID: 3558
+		private static List<VerbEntry> meleeVerbs = new List<VerbEntry>();
+
+		// Token: 0x04000DE7 RID: 3559
+		private const int BestMeleeVerbUpdateInterval = 60;
 	}
 }

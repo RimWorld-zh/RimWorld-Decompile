@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -5,8 +6,23 @@ using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020007D4 RID: 2004
 	public class Designator_Open : Designator
 	{
+		// Token: 0x06002C66 RID: 11366 RVA: 0x00176438 File Offset: 0x00174838
+		public Designator_Open()
+		{
+			this.defaultLabel = "DesignatorOpen".Translate();
+			this.defaultDesc = "DesignatorOpenDesc".Translate();
+			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/Open", true);
+			this.soundDragSustain = SoundDefOf.Designate_DragStandard;
+			this.soundDragChanged = SoundDefOf.Designate_DragStandard_Changed;
+			this.useMouseIcon = true;
+			this.soundSucceeded = SoundDefOf.Designate_Claim;
+		}
+
+		// Token: 0x170006F7 RID: 1783
+		// (get) Token: 0x06002C67 RID: 11367 RVA: 0x001764A8 File Offset: 0x001748A8
 		public override int DraggableDimensions
 		{
 			get
@@ -15,81 +31,89 @@ namespace RimWorld
 			}
 		}
 
-		public Designator_Open()
+		// Token: 0x170006F8 RID: 1784
+		// (get) Token: 0x06002C68 RID: 11368 RVA: 0x001764C0 File Offset: 0x001748C0
+		protected override DesignationDef Designation
 		{
-			base.defaultLabel = "DesignatorOpen".Translate();
-			base.defaultDesc = "DesignatorOpenDesc".Translate();
-			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/Open", true);
-			base.soundDragSustain = SoundDefOf.DesignateDragStandard;
-			base.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
-			base.useMouseIcon = true;
-			base.soundSucceeded = SoundDefOf.DesignateClaim;
+			get
+			{
+				return DesignationDefOf.Open;
+			}
 		}
 
+		// Token: 0x06002C69 RID: 11369 RVA: 0x001764DA File Offset: 0x001748DA
 		protected override void FinalizeDesignationFailed()
 		{
 			base.FinalizeDesignationFailed();
-			Messages.Message("MessageMustDesignateOpenable".Translate(), MessageTypeDefOf.RejectInput);
+			Messages.Message("MessageMustDesignateOpenable".Translate(), MessageTypeDefOf.RejectInput, false);
 		}
 
+		// Token: 0x06002C6A RID: 11370 RVA: 0x001764F8 File Offset: 0x001748F8
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
+			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				return false;
+				result = false;
 			}
-			if (!this.OpenablesInCell(c).Any())
+			else if (!this.OpenablesInCell(c).Any<Thing>())
 			{
-				return false;
+				result = false;
 			}
-			return true;
+			else
+			{
+				result = true;
+			}
+			return result;
 		}
 
+		// Token: 0x06002C6B RID: 11371 RVA: 0x00176550 File Offset: 0x00174950
 		public override void DesignateSingleCell(IntVec3 c)
 		{
-			foreach (Thing item in this.OpenablesInCell(c))
+			foreach (Thing t in this.OpenablesInCell(c))
 			{
-				this.DesignateThing(item);
+				this.DesignateThing(t);
 			}
 		}
 
+		// Token: 0x06002C6C RID: 11372 RVA: 0x001765B0 File Offset: 0x001749B0
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			IOpenable openable = t as IOpenable;
-			if (openable != null && openable.CanOpen && base.Map.designationManager.DesignationOn(t, DesignationDefOf.Open) == null)
+			AcceptanceReport result;
+			if (openable == null || !openable.CanOpen || base.Map.designationManager.DesignationOn(t, this.Designation) != null)
 			{
-				return true;
+				result = false;
 			}
-			return false;
+			else
+			{
+				result = true;
+			}
+			return result;
 		}
 
+		// Token: 0x06002C6D RID: 11373 RVA: 0x0017660B File Offset: 0x00174A0B
 		public override void DesignateThing(Thing t)
 		{
-			base.Map.designationManager.AddDesignation(new Designation(t, DesignationDefOf.Open));
+			base.Map.designationManager.AddDesignation(new Designation(t, this.Designation));
 		}
 
+		// Token: 0x06002C6E RID: 11374 RVA: 0x00176630 File Offset: 0x00174A30
 		private IEnumerable<Thing> OpenablesInCell(IntVec3 c)
 		{
-			if (!c.Fogged(base.Map))
+			if (c.Fogged(base.Map))
 			{
-				List<Thing> thingList = c.GetThingList(base.Map);
-				int i = 0;
-				while (true)
-				{
-					if (i < thingList.Count)
-					{
-						if (!this.CanDesignateThing(thingList[i]).Accepted)
-						{
-							i++;
-							continue;
-						}
-						break;
-					}
-					yield break;
-				}
-				yield return thingList[i];
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield break;
 			}
+			List<Thing> thingList = c.GetThingList(base.Map);
+			for (int i = 0; i < thingList.Count; i++)
+			{
+				if (this.CanDesignateThing(thingList[i]).Accepted)
+				{
+					yield return thingList[i];
+				}
+			}
+			yield break;
 		}
 	}
 }

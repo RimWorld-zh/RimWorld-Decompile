@@ -1,49 +1,18 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x02000845 RID: 2117
 	[StaticConstructorOnStartup]
 	public class LearningReadout : IExposable
 	{
-		private List<ConceptDef> activeConcepts = new List<ConceptDef>();
-
-		private ConceptDef selectedConcept;
-
-		private bool showAllMode;
-
-		private float contentHeight;
-
-		private Vector2 scrollPosition = Vector2.zero;
-
-		private string searchString = string.Empty;
-
-		private float lastConceptActivateRealTime = -999f;
-
-		private ConceptDef mouseoverConcept;
-
-		private const float OuterMargin = 8f;
-
-		private const float InnerMargin = 7f;
-
-		private const float ReadoutWidth = 200f;
-
-		private const float InfoPaneWidth = 310f;
-
-		private const float OpenButtonSize = 24f;
-
-		public static readonly Texture2D ProgressBarFillTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.745098054f, 0.6039216f, 0.2f));
-
-		public static readonly Texture2D ProgressBarBGTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.509803951f, 0.407843143f, 0.13333334f));
-
-		[CompilerGenerated]
-		private static Predicate<ConceptDef> _003C_003Ef__mg_0024cache0;
-
+		// Token: 0x17000793 RID: 1939
+		// (get) Token: 0x06002FD8 RID: 12248 RVA: 0x0019EDB4 File Offset: 0x0019D1B4
 		public int ActiveConceptsCount
 		{
 			get
@@ -52,6 +21,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000794 RID: 1940
+		// (get) Token: 0x06002FD9 RID: 12249 RVA: 0x0019EDD4 File Offset: 0x0019D1D4
 		public bool ShowAllMode
 		{
 			get
@@ -60,42 +31,52 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002FDA RID: 12250 RVA: 0x0019EDF0 File Offset: 0x0019D1F0
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<ConceptDef>(ref this.activeConcepts, "activeConcepts", LookMode.Undefined, new object[0]);
 			Scribe_Defs.Look<ConceptDef>(ref this.selectedConcept, "selectedConcept");
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
-				this.activeConcepts.RemoveAll(PlayerKnowledgeDatabase.IsComplete);
+				this.activeConcepts.RemoveAll((ConceptDef c) => PlayerKnowledgeDatabase.IsComplete(c));
 			}
 		}
 
+		// Token: 0x06002FDB RID: 12251 RVA: 0x0019EE5C File Offset: 0x0019D25C
 		public bool TryActivateConcept(ConceptDef conc)
 		{
+			bool result;
 			if (this.activeConcepts.Contains(conc))
 			{
-				return false;
+				result = false;
 			}
-			this.activeConcepts.Add(conc);
-			SoundDefOf.LessonActivated.PlayOneShotOnCamera(null);
-			this.lastConceptActivateRealTime = RealTime.LastRealTime;
-			return true;
+			else
+			{
+				this.activeConcepts.Add(conc);
+				SoundDefOf.Lesson_Activated.PlayOneShotOnCamera(null);
+				this.lastConceptActivateRealTime = RealTime.LastRealTime;
+				result = true;
+			}
+			return result;
 		}
 
+		// Token: 0x06002FDC RID: 12252 RVA: 0x0019EEAC File Offset: 0x0019D2AC
 		public bool IsActive(ConceptDef conc)
 		{
 			return this.activeConcepts.Contains(conc);
 		}
 
+		// Token: 0x06002FDD RID: 12253 RVA: 0x0019EECD File Offset: 0x0019D2CD
 		public void LearningReadoutUpdate()
 		{
 		}
 
+		// Token: 0x06002FDE RID: 12254 RVA: 0x0019EED0 File Offset: 0x0019D2D0
 		public void Notify_ConceptNewlyLearned(ConceptDef conc)
 		{
 			if (this.activeConcepts.Contains(conc) || this.selectedConcept == conc)
 			{
-				SoundDefOf.LessonDeactivated.PlayOneShotOnCamera(null);
+				SoundDefOf.Lesson_Deactivated.PlayOneShotOnCamera(null);
 				SoundDefOf.CommsWindow_Close.PlayOneShotOnCamera(null);
 			}
 			if (this.activeConcepts.Contains(conc))
@@ -108,132 +89,144 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002FDF RID: 12255 RVA: 0x0019EF44 File Offset: 0x0019D344
 		private string FilterSearchStringInput(string input)
 		{
+			string result;
 			if (input == this.searchString)
 			{
-				return input;
+				result = input;
 			}
-			if (input.Length > 20)
+			else
 			{
-				input = input.Substring(0, 20);
+				if (input.Length > 20)
+				{
+					input = input.Substring(0, 20);
+				}
+				result = input;
 			}
-			return input;
+			return result;
 		}
 
+		// Token: 0x06002FE0 RID: 12256 RVA: 0x0019EF8C File Offset: 0x0019D38C
 		public void LearningReadoutOnGUI()
 		{
-			if (!TutorSystem.TutorialMode && TutorSystem.AdaptiveTrainingEnabled && (Find.PlaySettings.showLearningHelper || this.activeConcepts.Count != 0) && !Find.WindowStack.IsOpen<Screen_Credits>())
+			if (!TutorSystem.TutorialMode && TutorSystem.AdaptiveTrainingEnabled)
 			{
-				float b = (float)((float)UI.screenHeight / 2.0);
-				float a = (float)(this.contentHeight + 14.0);
-				Rect outRect = new Rect((float)((float)UI.screenWidth - 8.0 - 200.0), 8f, 200f, Mathf.Min(a, b));
-				Rect rect = outRect;
-				Find.WindowStack.ImmediateWindow(76136312, outRect, WindowLayer.Super, delegate
+				if (Find.PlaySettings.showLearningHelper || this.activeConcepts.Count != 0)
 				{
-					outRect = outRect.AtZero();
-					Rect rect2 = outRect.ContractedBy(7f);
-					Rect viewRect = rect2.AtZero();
-					bool flag = this.contentHeight > rect2.height;
-					Widgets.DrawWindowBackgroundTutor(outRect);
-					if (flag)
+					if (!Find.WindowStack.IsOpen<Screen_Credits>())
 					{
-						viewRect.height = (float)(this.contentHeight + 40.0);
-						viewRect.width -= 20f;
-						this.scrollPosition = GUI.BeginScrollView(rect2, this.scrollPosition, viewRect);
-					}
-					else
-					{
-						GUI.BeginGroup(rect2);
-					}
-					float num2 = 0f;
-					Text.Font = GameFont.Small;
-					Rect rect3 = new Rect(0f, 0f, (float)(viewRect.width - 24.0), 24f);
-					Widgets.Label(rect3, "LearningHelper".Translate());
-					num2 = rect3.yMax;
-					Rect butRect = new Rect(rect3.xMax, rect3.y, 24f, 24f);
-					if (Widgets.ButtonImage(butRect, this.showAllMode ? TexButton.Minus : TexButton.Plus))
-					{
-						this.showAllMode = !this.showAllMode;
-						if (this.showAllMode)
+						float b = (float)UI.screenHeight / 2f;
+						float a = this.contentHeight + 14f;
+						Rect outRect = new Rect((float)UI.screenWidth - 8f - 200f, 8f, 200f, Mathf.Min(a, b));
+						Rect outRect2 = outRect;
+						Find.WindowStack.ImmediateWindow(76136312, outRect, WindowLayer.Super, delegate
 						{
-							SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
-						}
-						else
+							outRect = outRect.AtZero();
+							Rect rect = outRect.ContractedBy(7f);
+							Rect viewRect = rect.AtZero();
+							bool flag = this.contentHeight > rect.height;
+							Widgets.DrawWindowBackgroundTutor(outRect);
+							if (flag)
+							{
+								viewRect.height = this.contentHeight + 40f;
+								viewRect.width -= 20f;
+								this.scrollPosition = GUI.BeginScrollView(rect, this.scrollPosition, viewRect);
+							}
+							else
+							{
+								GUI.BeginGroup(rect);
+							}
+							float num2 = 0f;
+							Text.Font = GameFont.Small;
+							Rect rect2 = new Rect(0f, 0f, viewRect.width - 24f, 24f);
+							Widgets.Label(rect2, "LearningHelper".Translate());
+							num2 = rect2.yMax;
+							Rect butRect = new Rect(rect2.xMax, rect2.y, 24f, 24f);
+							if (Widgets.ButtonImage(butRect, this.showAllMode ? TexButton.Minus : TexButton.Plus))
+							{
+								this.showAllMode = !this.showAllMode;
+								if (this.showAllMode)
+								{
+									SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
+								}
+								else
+								{
+									SoundDefOf.Tick_Low.PlayOneShotOnCamera(null);
+								}
+							}
+							if (this.showAllMode)
+							{
+								Rect rect3 = new Rect(0f, num2, viewRect.width - 20f - 2f, 28f);
+								this.searchString = this.FilterSearchStringInput(Widgets.TextField(rect3, this.searchString));
+								if (this.searchString == "")
+								{
+									GUI.color = new Color(0.6f, 0.6f, 0.6f, 1f);
+									Text.Anchor = TextAnchor.MiddleLeft;
+									Rect rect4 = rect3;
+									rect4.xMin += 7f;
+									Widgets.Label(rect4, "Filter".Translate() + "...");
+									Text.Anchor = TextAnchor.UpperLeft;
+									GUI.color = Color.white;
+								}
+								Rect butRect2 = new Rect(viewRect.width - 20f, num2 + 14f - 10f, 20f, 20f);
+								if (Widgets.ButtonImage(butRect2, TexButton.CloseXSmall))
+								{
+									this.searchString = "";
+									SoundDefOf.Tick_Tiny.PlayOneShotOnCamera(null);
+								}
+								num2 = rect3.yMax + 4f;
+							}
+							IEnumerable<ConceptDef> enumerable = this.showAllMode ? DefDatabase<ConceptDef>.AllDefs : this.activeConcepts;
+							if (enumerable.Any<ConceptDef>())
+							{
+								GUI.color = new Color(1f, 1f, 1f, 0.5f);
+								Widgets.DrawLineHorizontal(0f, num2, viewRect.width);
+								GUI.color = Color.white;
+								num2 += 4f;
+							}
+							if (this.showAllMode)
+							{
+								enumerable = from c in enumerable
+								orderby this.DisplayPriority(c) descending, c.label
+								select c;
+							}
+							foreach (ConceptDef conceptDef2 in enumerable)
+							{
+								if (!conceptDef2.TriggeredDirect)
+								{
+									num2 = this.DrawConceptListRow(0f, num2, viewRect.width, conceptDef2).yMax;
+								}
+							}
+							this.contentHeight = num2;
+							if (flag)
+							{
+								GUI.EndScrollView();
+							}
+							else
+							{
+								GUI.EndGroup();
+							}
+						}, false, false, 1f);
+						float num = Time.realtimeSinceStartup - this.lastConceptActivateRealTime;
+						if (num < 1f && num > 0f)
 						{
-							SoundDefOf.TickLow.PlayOneShotOnCamera(null);
+							GenUI.DrawFlash(outRect2.x, outRect2.center.y, (float)UI.screenWidth * 0.6f, Pulser.PulseBrightness(1f, 1f, num) * 0.85f, new Color(0.8f, 0.77f, 0.53f));
 						}
-					}
-					if (this.showAllMode)
-					{
-						Rect rect4 = new Rect(0f, num2, (float)(viewRect.width - 20.0 - 2.0), 28f);
-						this.searchString = this.FilterSearchStringInput(Widgets.TextField(rect4, this.searchString));
-						if (this.searchString == string.Empty)
+						ConceptDef conceptDef = (this.selectedConcept == null) ? this.mouseoverConcept : this.selectedConcept;
+						if (conceptDef != null)
 						{
-							GUI.color = new Color(0.6f, 0.6f, 0.6f, 1f);
-							Text.Anchor = TextAnchor.MiddleLeft;
-							Rect rect5 = rect4;
-							rect5.xMin += 7f;
-							Widgets.Label(rect5, "Filter".Translate() + "...");
-							Text.Anchor = TextAnchor.UpperLeft;
-							GUI.color = Color.white;
+							this.DrawInfoPane(conceptDef);
+							conceptDef.HighlightAllTags();
 						}
-						Rect butRect2 = new Rect((float)(viewRect.width - 20.0), (float)(num2 + 14.0 - 10.0), 20f, 20f);
-						if (Widgets.ButtonImage(butRect2, TexButton.CloseXSmall))
-						{
-							this.searchString = string.Empty;
-							SoundDefOf.TickTiny.PlayOneShotOnCamera(null);
-						}
-						num2 = (float)(rect4.yMax + 4.0);
+						this.mouseoverConcept = null;
 					}
-					IEnumerable<ConceptDef> enumerable = this.showAllMode ? DefDatabase<ConceptDef>.AllDefs : this.activeConcepts;
-					if (enumerable.Any())
-					{
-						GUI.color = new Color(1f, 1f, 1f, 0.5f);
-						Widgets.DrawLineHorizontal(0f, num2, viewRect.width);
-						GUI.color = Color.white;
-						num2 = (float)(num2 + 4.0);
-					}
-					if (this.showAllMode)
-					{
-						enumerable = from c in enumerable
-						orderby this.DisplayPriority(c) descending, c.label
-						select c;
-					}
-					foreach (ConceptDef item in enumerable)
-					{
-						if (!item.TriggeredDirect)
-						{
-							num2 = this.DrawConceptListRow(0f, num2, viewRect.width, item).yMax;
-						}
-					}
-					this.contentHeight = num2;
-					if (flag)
-					{
-						GUI.EndScrollView();
-					}
-					else
-					{
-						GUI.EndGroup();
-					}
-				}, false, false, 1f);
-				float num = Time.realtimeSinceStartup - this.lastConceptActivateRealTime;
-				if (num < 1.0 && num > 0.0)
-				{
-					float x = rect.x;
-					Vector2 center = rect.center;
-					GenUI.DrawFlash(x, center.y, (float)((float)UI.screenWidth * 0.60000002384185791), (float)(Pulser.PulseBrightness(1f, 1f, num) * 0.85000002384185791), new Color(0.8f, 0.77f, 0.53f));
 				}
-				ConceptDef conceptDef = (this.selectedConcept == null) ? this.mouseoverConcept : this.selectedConcept;
-				if (conceptDef != null)
-				{
-					this.DrawInfoPane(conceptDef);
-					conceptDef.HighlightAllTags();
-				}
-				this.mouseoverConcept = null;
 			}
 		}
 
+		// Token: 0x06002FE1 RID: 12257 RVA: 0x0019F128 File Offset: 0x0019D528
 		private int DisplayPriority(ConceptDef conc)
 		{
 			int num = 1;
@@ -244,16 +237,18 @@ namespace RimWorld
 			return num;
 		}
 
+		// Token: 0x06002FE2 RID: 12258 RVA: 0x0019F154 File Offset: 0x0019D554
 		private bool MatchesSearchString(ConceptDef conc)
 		{
-			return this.searchString != string.Empty && conc.label.IndexOf(this.searchString, StringComparison.OrdinalIgnoreCase) >= 0;
+			return this.searchString != "" && conc.label.IndexOf(this.searchString, StringComparison.OrdinalIgnoreCase) >= 0;
 		}
 
+		// Token: 0x06002FE3 RID: 12259 RVA: 0x0019F19C File Offset: 0x0019D59C
 		private Rect DrawConceptListRow(float x, float y, float width, ConceptDef conc)
 		{
 			float knowledge = PlayerKnowledgeDatabase.GetKnowledge(conc);
 			bool flag = PlayerKnowledgeDatabase.IsComplete(conc);
-			bool flag2 = !flag && knowledge > 0.0;
+			bool flag2 = !flag && knowledge > 0f;
 			float num = Text.CalcHeight(conc.LabelCap, width);
 			if (flag2)
 			{
@@ -300,26 +295,27 @@ namespace RimWorld
 			return rect;
 		}
 
+		// Token: 0x06002FE4 RID: 12260 RVA: 0x0019F2F8 File Offset: 0x0019D6F8
 		private Rect DrawInfoPane(ConceptDef conc)
 		{
 			float knowledge = PlayerKnowledgeDatabase.GetKnowledge(conc);
 			bool complete = PlayerKnowledgeDatabase.IsComplete(conc);
-			bool drawProgressBar = !complete && knowledge > 0.0;
+			bool drawProgressBar = !complete && knowledge > 0f;
 			Text.Font = GameFont.Medium;
 			float titleHeight = Text.CalcHeight(conc.LabelCap, 276f);
 			Text.Font = GameFont.Small;
 			float textHeight = Text.CalcHeight(conc.HelpTextAdjusted, 296f);
-			float num = (float)(titleHeight + textHeight + 14.0 + 5.0);
+			float num = titleHeight + textHeight + 14f + 5f;
 			if (this.selectedConcept == conc)
 			{
-				num = (float)(num + 40.0);
+				num += 40f;
 			}
 			if (drawProgressBar)
 			{
-				num = (float)(num + 30.0);
+				num += 30f;
 			}
-			Rect outRect = new Rect((float)((float)UI.screenWidth - 8.0 - 200.0 - 8.0 - 310.0), 8f, 310f, num);
-			Rect result = outRect;
+			Rect outRect = new Rect((float)UI.screenWidth - 8f - 200f - 8f - 310f, 8f, 310f, num);
+			Rect outRect2 = outRect;
 			Find.WindowStack.ImmediateWindow(987612111, outRect, WindowLayer.Super, delegate
 			{
 				outRect = outRect.AtZero();
@@ -328,7 +324,7 @@ namespace RimWorld
 				Widgets.DrawWindowBackgroundTutor(outRect);
 				Rect rect2 = rect;
 				rect2.width -= 20f;
-				rect2.height = (float)(titleHeight + 5.0);
+				rect2.height = titleHeight + 5f;
 				Text.Font = GameFont.Medium;
 				Widgets.Label(rect2, conc.LabelCap);
 				Text.Font = GameFont.Small;
@@ -350,8 +346,7 @@ namespace RimWorld
 						this.selectedConcept = null;
 						SoundDefOf.PageChange.PlayOneShotOnCamera(null);
 					}
-					Vector2 center = rect.center;
-					Rect rect5 = new Rect((float)(center.x - 70.0), (float)(rect.yMax - 30.0), 140f, 30f);
+					Rect rect5 = new Rect(rect.center.x - 70f, rect.yMax - 30f, 140f, 30f);
 					if (!complete)
 					{
 						if (Widgets.ButtonText(rect5, "MarkLearned".Translate(), true, false, true))
@@ -371,7 +366,52 @@ namespace RimWorld
 					}
 				}
 			}, false, false, 1f);
-			return result;
+			return outRect2;
 		}
+
+		// Token: 0x040019DA RID: 6618
+		private List<ConceptDef> activeConcepts = new List<ConceptDef>();
+
+		// Token: 0x040019DB RID: 6619
+		private ConceptDef selectedConcept = null;
+
+		// Token: 0x040019DC RID: 6620
+		private bool showAllMode = false;
+
+		// Token: 0x040019DD RID: 6621
+		private float contentHeight = 0f;
+
+		// Token: 0x040019DE RID: 6622
+		private Vector2 scrollPosition = Vector2.zero;
+
+		// Token: 0x040019DF RID: 6623
+		private string searchString = "";
+
+		// Token: 0x040019E0 RID: 6624
+		private float lastConceptActivateRealTime = -999f;
+
+		// Token: 0x040019E1 RID: 6625
+		private ConceptDef mouseoverConcept;
+
+		// Token: 0x040019E2 RID: 6626
+		private const float OuterMargin = 8f;
+
+		// Token: 0x040019E3 RID: 6627
+		private const float InnerMargin = 7f;
+
+		// Token: 0x040019E4 RID: 6628
+		private const float ReadoutWidth = 200f;
+
+		// Token: 0x040019E5 RID: 6629
+		private const float InfoPaneWidth = 310f;
+
+		// Token: 0x040019E6 RID: 6630
+		private const float OpenButtonSize = 24f;
+
+		// Token: 0x040019E7 RID: 6631
+		public static readonly Texture2D ProgressBarFillTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.745098054f, 0.6039216f, 0.2f));
+
+		// Token: 0x040019E8 RID: 6632
+		public static readonly Texture2D ProgressBarBGTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.509803951f, 0.407843143f, 0.13333334f));
 	}
 }

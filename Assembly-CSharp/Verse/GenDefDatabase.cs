@@ -1,55 +1,71 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Verse
 {
+	// Token: 0x02000AF6 RID: 2806
 	public static class GenDefDatabase
 	{
+		// Token: 0x06003E1E RID: 15902 RVA: 0x0020BAA8 File Offset: 0x00209EA8
 		public static Def GetDef(Type defType, string defName, bool errorOnFail = true)
 		{
-			return (Def)GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), defType, "GetNamed", defName, errorOnFail);
-		}
-
-		public static Def GetDefSilentFail(Type type, string targetDefName)
-		{
-			if (type == typeof(SoundDef))
+			return (Def)GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), defType, "GetNamed", new object[]
 			{
-				return SoundDef.Named(targetDefName);
-			}
-			return (Def)GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), type, "GetNamedSilentFail", targetDefName);
+				defName,
+				errorOnFail
+			});
 		}
 
+		// Token: 0x06003E1F RID: 15903 RVA: 0x0020BAEC File Offset: 0x00209EEC
+		public static Def GetDefSilentFail(Type type, string targetDefName, bool specialCaseForSoundDefs = true)
+		{
+			Def result;
+			if (specialCaseForSoundDefs && type == typeof(SoundDef))
+			{
+				result = SoundDef.Named(targetDefName);
+			}
+			else
+			{
+				result = (Def)GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), type, "GetNamedSilentFail", new object[]
+				{
+					targetDefName
+				});
+			}
+			return result;
+		}
+
+		// Token: 0x06003E20 RID: 15904 RVA: 0x0020BB48 File Offset: 0x00209F48
 		public static IEnumerable<Type> AllDefTypesWithDatabases()
 		{
-			foreach (Type item in typeof(Def).AllSubclasses())
+			foreach (Type defType in typeof(Def).AllSubclasses())
 			{
-				if (!item.IsAbstract && item != typeof(Def))
+				if (!defType.IsAbstract)
 				{
-					bool foundNonAbstractAncestor = false;
-					Type parent = item.BaseType;
-					while (parent != null && parent != typeof(Def))
+					if (defType != typeof(Def))
 					{
-						if (parent.IsAbstract)
+						bool foundNonAbstractAncestor = false;
+						Type parent = defType.BaseType;
+						while (parent != null && parent != typeof(Def))
 						{
+							if (!parent.IsAbstract)
+							{
+								foundNonAbstractAncestor = true;
+								break;
+							}
 							parent = parent.BaseType;
-							continue;
 						}
-						foundNonAbstractAncestor = true;
-						break;
-					}
-					if (!foundNonAbstractAncestor)
-					{
-						yield return item;
-						/*Error: Unable to find new state assignment for yield return*/;
+						if (!foundNonAbstractAncestor)
+						{
+							yield return defType;
+						}
 					}
 				}
 			}
 			yield break;
-			IL_0166:
-			/*Error near IL_0167: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x06003E21 RID: 15905 RVA: 0x0020BB6C File Offset: 0x00209F6C
 		public static IEnumerable<T> DefsToGoInDatabase<T>(ModContentPack mod)
 		{
 			return mod.AllDefs.OfType<T>();

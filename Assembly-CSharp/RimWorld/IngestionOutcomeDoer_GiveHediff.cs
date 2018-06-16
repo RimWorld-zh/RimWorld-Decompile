@@ -1,48 +1,57 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200026E RID: 622
 	public class IngestionOutcomeDoer_GiveHediff : IngestionOutcomeDoer
 	{
-		public HediffDef hediffDef;
-
-		public float severity = -1f;
-
-		public ChemicalDef toleranceChemical;
-
-		private bool divideByBodySize;
-
+		// Token: 0x06000AB7 RID: 2743 RVA: 0x00060E2C File Offset: 0x0005F22C
 		protected override void DoIngestionOutcomeSpecial(Pawn pawn, Thing ingested)
 		{
 			Hediff hediff = HediffMaker.MakeHediff(this.hediffDef, pawn, null);
-			float num = (!(this.severity > 0.0)) ? this.hediffDef.initialSeverity : this.severity;
+			float num;
+			if (this.severity > 0f)
+			{
+				num = this.severity;
+			}
+			else
+			{
+				num = this.hediffDef.initialSeverity;
+			}
 			if (this.divideByBodySize)
 			{
 				num /= pawn.BodySize;
 			}
 			AddictionUtility.ModifyChemicalEffectForToleranceAndBodySize(pawn, this.toleranceChemical, ref num);
 			hediff.Severity = num;
-			pawn.health.AddHediff(hediff, null, null);
+			pawn.health.AddHediff(hediff, null, null, null);
 		}
 
+		// Token: 0x06000AB8 RID: 2744 RVA: 0x00060EB0 File Offset: 0x0005F2B0
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
 		{
-			if (parentDef.IsDrug && base.chance >= 1.0)
+			if (parentDef.IsDrug && this.chance >= 1f)
 			{
-				using (IEnumerator<StatDrawEntry> enumerator = this.hediffDef.SpecialDisplayStats().GetEnumerator())
+				foreach (StatDrawEntry s in this.hediffDef.SpecialDisplayStats())
 				{
-					if (enumerator.MoveNext())
-					{
-						StatDrawEntry s = enumerator.Current;
-						yield return s;
-						/*Error: Unable to find new state assignment for yield return*/;
-					}
+					yield return s;
 				}
 			}
 			yield break;
-			IL_00e3:
-			/*Error near IL_00e4: Unexpected return in MoveNext()*/;
 		}
+
+		// Token: 0x0400051F RID: 1311
+		public HediffDef hediffDef;
+
+		// Token: 0x04000520 RID: 1312
+		public float severity = -1f;
+
+		// Token: 0x04000521 RID: 1313
+		public ChemicalDef toleranceChemical = null;
+
+		// Token: 0x04000522 RID: 1314
+		private bool divideByBodySize = false;
 	}
 }

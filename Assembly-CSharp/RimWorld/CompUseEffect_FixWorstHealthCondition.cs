@@ -1,10 +1,24 @@
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000765 RID: 1893
 	public class CompUseEffect_FixWorstHealthCondition : CompUseEffect
 	{
+		// Token: 0x17000673 RID: 1651
+		// (get) Token: 0x060029C3 RID: 10691 RVA: 0x00162234 File Offset: 0x00160634
+		private float HandCoverageAbsWithChildren
+		{
+			get
+			{
+				return ThingDefOf.Human.race.body.GetPartsWithDef(BodyPartDefOf.Hand).First<BodyPartRecord>().coverageAbsWithChildren;
+			}
+		}
+
+		// Token: 0x060029C4 RID: 10692 RVA: 0x0016226C File Offset: 0x0016066C
 		public override void DoEffect(Pawn usedBy)
 		{
 			base.DoEffect(usedBy);
@@ -15,7 +29,7 @@ namespace RimWorld
 			}
 			else
 			{
-				if (HealthUtility.TicksUntilDeathDueToBloodLoss(usedBy) < 5000)
+				if (HealthUtility.TicksUntilDeathDueToBloodLoss(usedBy) < 2500)
 				{
 					Hediff hediff2 = this.FindMostBleedingHediff(usedBy);
 					if (hediff2 != null)
@@ -24,74 +38,86 @@ namespace RimWorld
 						return;
 					}
 				}
-				Hediff hediff3 = this.FindImmunizableHediffWhichCanKill(usedBy);
-				if (hediff3 != null)
+				if (usedBy.health.hediffSet.GetBrain() != null)
 				{
-					this.Cure(hediff3);
+					Hediff_Injury hediff_Injury = this.FindPermanentInjury(usedBy, Gen.YieldSingle<BodyPartRecord>(usedBy.health.hediffSet.GetBrain()));
+					if (hediff_Injury != null)
+					{
+						this.Cure(hediff_Injury);
+						return;
+					}
+				}
+				BodyPartRecord bodyPartRecord = this.FindBiggestMissingBodyPart(usedBy, this.HandCoverageAbsWithChildren);
+				if (bodyPartRecord != null)
+				{
+					this.Cure(bodyPartRecord, usedBy);
 				}
 				else
 				{
-					Hediff hediff4 = this.FindCarcinoma(usedBy);
-					if (hediff4 != null)
+					Hediff_Injury hediff_Injury2 = this.FindPermanentInjury(usedBy, from x in usedBy.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null)
+					where x.def == BodyPartDefOf.Eye
+					select x);
+					if (hediff_Injury2 != null)
 					{
-						this.Cure(hediff4);
+						this.Cure(hediff_Injury2);
 					}
 					else
 					{
-						Hediff hediff5 = this.FindNonInjuryMiscBadHediff(usedBy, true);
-						if (hediff5 != null)
+						Hediff hediff3 = this.FindImmunizableHediffWhichCanKill(usedBy);
+						if (hediff3 != null)
 						{
-							this.Cure(hediff5);
+							this.Cure(hediff3);
 						}
 						else
 						{
-							Hediff hediff6 = this.FindNonInjuryMiscBadHediff(usedBy, false);
-							if (hediff6 != null)
+							Hediff hediff4 = this.FindNonInjuryMiscBadHediff(usedBy, true);
+							if (hediff4 != null)
 							{
-								this.Cure(hediff6);
+								this.Cure(hediff4);
 							}
 							else
 							{
-								BodyPartRecord bodyPartRecord = this.FindBiggestMissingBodyPart(usedBy, 0.01f);
-								if (bodyPartRecord != null)
+								Hediff hediff5 = this.FindNonInjuryMiscBadHediff(usedBy, false);
+								if (hediff5 != null)
 								{
-									this.Cure(bodyPartRecord, usedBy);
+									this.Cure(hediff5);
 								}
 								else
 								{
-									Hediff_Injury hediff_Injury = this.FindInjury(usedBy, usedBy.health.hediffSet.GetBrain());
-									if (hediff_Injury != null)
+									if (usedBy.health.hediffSet.GetBrain() != null)
 									{
-										this.Cure(hediff_Injury);
+										Hediff_Injury hediff_Injury3 = this.FindInjury(usedBy, Gen.YieldSingle<BodyPartRecord>(usedBy.health.hediffSet.GetBrain()));
+										if (hediff_Injury3 != null)
+										{
+											this.Cure(hediff_Injury3);
+											return;
+										}
+									}
+									BodyPartRecord bodyPartRecord2 = this.FindBiggestMissingBodyPart(usedBy, 0f);
+									if (bodyPartRecord2 != null)
+									{
+										this.Cure(bodyPartRecord2, usedBy);
 									}
 									else
 									{
-										BodyPartRecord bodyPartRecord2 = this.FindBiggestMissingBodyPart(usedBy, 0f);
-										if (bodyPartRecord2 != null)
+										Hediff_Addiction hediff_Addiction = this.FindAddiction(usedBy);
+										if (hediff_Addiction != null)
 										{
-											this.Cure(bodyPartRecord2, usedBy);
+											this.Cure(hediff_Addiction);
 										}
 										else
 										{
-											Hediff_Addiction hediff_Addiction = this.FindAddiction(usedBy);
-											if (hediff_Addiction != null)
+											Hediff_Injury hediff_Injury4 = this.FindPermanentInjury(usedBy, null);
+											if (hediff_Injury4 != null)
 											{
-												this.Cure(hediff_Addiction);
+												this.Cure(hediff_Injury4);
 											}
 											else
 											{
-												Hediff_Injury hediff_Injury2 = this.FindOldInjury(usedBy);
-												if (hediff_Injury2 != null)
+												Hediff_Injury hediff_Injury5 = this.FindInjury(usedBy, null);
+												if (hediff_Injury5 != null)
 												{
-													this.Cure(hediff_Injury2);
-												}
-												else
-												{
-													Hediff_Injury hediff_Injury3 = this.FindInjury(usedBy, null);
-													if (hediff_Injury3 != null)
-													{
-														this.Cure(hediff_Injury3);
-													}
+													this.Cure(hediff_Injury5);
 												}
 											}
 										}
@@ -104,6 +130,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060029C5 RID: 10693 RVA: 0x001624AC File Offset: 0x001608AC
 		private Hediff FindLifeThreateningHediff(Pawn pawn)
 		{
 			Hediff hediff = null;
@@ -113,14 +140,19 @@ namespace RimWorld
 			{
 				if (hediffs[i].Visible && hediffs[i].def.everCurableByItem)
 				{
-					HediffStage curStage = hediffs[i].CurStage;
-					if (curStage != null && curStage.lifeThreatening)
+					if (!hediffs[i].FullyImmune())
 					{
-						float num2 = (float)((hediffs[i].Part == null) ? 999.0 : hediffs[i].Part.coverageAbsWithChildren);
-						if (hediff == null || num2 > num)
+						HediffStage curStage = hediffs[i].CurStage;
+						bool flag = curStage != null && curStage.lifeThreatening;
+						bool flag2 = hediffs[i].def.lethalSeverity >= 0f && hediffs[i].Severity / hediffs[i].def.lethalSeverity >= 0.8f;
+						if (flag || flag2)
 						{
-							hediff = hediffs[i];
-							num = num2;
+							float num2 = (hediffs[i].Part == null) ? 999f : hediffs[i].Part.coverageAbsWithChildren;
+							if (hediff == null || num2 > num)
+							{
+								hediff = hediffs[i];
+								num = num2;
+							}
 						}
 					}
 				}
@@ -128,6 +160,7 @@ namespace RimWorld
 			return hediff;
 		}
 
+		// Token: 0x060029C6 RID: 10694 RVA: 0x00162600 File Offset: 0x00160A00
 		private Hediff FindMostBleedingHediff(Pawn pawn)
 		{
 			float num = 0f;
@@ -135,10 +168,10 @@ namespace RimWorld
 			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
 			for (int i = 0; i < hediffs.Count; i++)
 			{
-				if (hediffs[i].Visible)
+				if (hediffs[i].Visible && hediffs[i].def.everCurableByItem)
 				{
 					float bleedRate = hediffs[i].BleedRate;
-					if (bleedRate > 0.0 && (bleedRate > num || hediff == null))
+					if (bleedRate > 0f && (bleedRate > num || hediff == null))
 					{
 						num = bleedRate;
 						hediff = hediffs[i];
@@ -148,6 +181,7 @@ namespace RimWorld
 			return hediff;
 		}
 
+		// Token: 0x060029C7 RID: 10695 RVA: 0x001626AC File Offset: 0x00160AAC
 		private Hediff FindImmunizableHediffWhichCanKill(Pawn pawn)
 		{
 			Hediff hediff = null;
@@ -155,39 +189,29 @@ namespace RimWorld
 			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
 			for (int i = 0; i < hediffs.Count; i++)
 			{
-				if (hediffs[i].Visible && hediffs[i].def.everCurableByItem && hediffs[i].TryGetComp<HediffComp_Immunizable>() != null && this.CanKill(hediffs[i]))
+				if (hediffs[i].Visible && hediffs[i].def.everCurableByItem)
 				{
-					float severity = hediffs[i].Severity;
-					if (hediff == null || severity > num)
+					if (hediffs[i].TryGetComp<HediffComp_Immunizable>() != null)
 					{
-						hediff = hediffs[i];
-						num = severity;
+						if (!hediffs[i].FullyImmune())
+						{
+							if (this.CanEverKill(hediffs[i]))
+							{
+								float severity = hediffs[i].Severity;
+								if (hediff == null || severity > num)
+								{
+									hediff = hediffs[i];
+									num = severity;
+								}
+							}
+						}
 					}
 				}
 			}
 			return hediff;
 		}
 
-		private Hediff FindCarcinoma(Pawn pawn)
-		{
-			Hediff hediff = null;
-			float num = -1f;
-			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
-			for (int i = 0; i < hediffs.Count; i++)
-			{
-				if (hediffs[i].Visible && hediffs[i].def == HediffDefOf.Carcinoma)
-				{
-					float num2 = (float)((hediffs[i].Part == null) ? 999.0 : hediffs[i].Part.coverageAbsWithChildren);
-					if (hediff == null || num2 > num)
-					{
-						hediff = hediffs[i];
-						num = num2;
-					}
-				}
-			}
-			return hediff;
-		}
-
+		// Token: 0x060029C8 RID: 10696 RVA: 0x0016278C File Offset: 0x00160B8C
 		private Hediff FindNonInjuryMiscBadHediff(Pawn pawn, bool onlyIfCanKill)
 		{
 			Hediff hediff = null;
@@ -195,32 +219,46 @@ namespace RimWorld
 			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
 			for (int i = 0; i < hediffs.Count; i++)
 			{
-				if (hediffs[i].Visible && hediffs[i].def.isBad && hediffs[i].def.everCurableByItem && !(hediffs[i] is Hediff_Injury) && !(hediffs[i] is Hediff_MissingPart) && !(hediffs[i] is Hediff_Addiction) && !(hediffs[i] is Hediff_AddedPart) && (!onlyIfCanKill || this.CanKill(hediffs[i])))
+				if (hediffs[i].Visible && hediffs[i].def.isBad && hediffs[i].def.everCurableByItem)
 				{
-					float num2 = (float)((hediffs[i].Part == null) ? 999.0 : hediffs[i].Part.coverageAbsWithChildren);
-					if (hediff == null || num2 > num)
+					if (!(hediffs[i] is Hediff_Injury) && !(hediffs[i] is Hediff_MissingPart) && !(hediffs[i] is Hediff_Addiction) && !(hediffs[i] is Hediff_AddedPart))
 					{
-						hediff = hediffs[i];
-						num = num2;
+						if (!onlyIfCanKill || this.CanEverKill(hediffs[i]))
+						{
+							float num2 = (hediffs[i].Part == null) ? 999f : hediffs[i].Part.coverageAbsWithChildren;
+							if (hediff == null || num2 > num)
+							{
+								hediff = hediffs[i];
+								num = num2;
+							}
+						}
 					}
 				}
 			}
 			return hediff;
 		}
 
+		// Token: 0x060029C9 RID: 10697 RVA: 0x001628C8 File Offset: 0x00160CC8
 		private BodyPartRecord FindBiggestMissingBodyPart(Pawn pawn, float minCoverage = 0f)
 		{
 			BodyPartRecord bodyPartRecord = null;
-			foreach (Hediff_MissingPart missingPartsCommonAncestor in pawn.health.hediffSet.GetMissingPartsCommonAncestors())
+			foreach (Hediff_MissingPart hediff_MissingPart in pawn.health.hediffSet.GetMissingPartsCommonAncestors())
 			{
-				if (!(missingPartsCommonAncestor.Part.coverageAbsWithChildren < minCoverage) && !pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(missingPartsCommonAncestor.Part) && (bodyPartRecord == null || missingPartsCommonAncestor.Part.coverageAbsWithChildren > bodyPartRecord.coverageAbsWithChildren))
+				if (hediff_MissingPart.Part.coverageAbsWithChildren >= minCoverage)
 				{
-					bodyPartRecord = missingPartsCommonAncestor.Part;
+					if (!pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(hediff_MissingPart.Part))
+					{
+						if (bodyPartRecord == null || hediff_MissingPart.Part.coverageAbsWithChildren > bodyPartRecord.coverageAbsWithChildren)
+						{
+							bodyPartRecord = hediff_MissingPart.Part;
+						}
+					}
 				}
 			}
 			return bodyPartRecord;
 		}
 
+		// Token: 0x060029CA RID: 10698 RVA: 0x00162990 File Offset: 0x00160D90
 		private Hediff_Addiction FindAddiction(Pawn pawn)
 		{
 			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
@@ -235,63 +273,93 @@ namespace RimWorld
 			return null;
 		}
 
-		private Hediff_Injury FindOldInjury(Pawn pawn)
+		// Token: 0x060029CB RID: 10699 RVA: 0x00162A0C File Offset: 0x00160E0C
+		private Hediff_Injury FindPermanentInjury(Pawn pawn, IEnumerable<BodyPartRecord> allowedBodyParts = null)
 		{
 			Hediff_Injury hediff_Injury = null;
 			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
 			for (int i = 0; i < hediffs.Count; i++)
 			{
 				Hediff_Injury hediff_Injury2 = hediffs[i] as Hediff_Injury;
-				if (hediff_Injury2 != null && hediff_Injury2.Visible && hediff_Injury2.IsOld() && (hediff_Injury == null || hediff_Injury2.Severity > hediff_Injury.Severity))
+				if (hediff_Injury2 != null && hediff_Injury2.Visible && hediff_Injury2.IsPermanent() && hediff_Injury2.def.everCurableByItem)
 				{
-					hediff_Injury = hediff_Injury2;
+					if (allowedBodyParts == null || allowedBodyParts.Contains(hediff_Injury2.Part))
+					{
+						if (hediff_Injury == null || hediff_Injury2.Severity > hediff_Injury.Severity)
+						{
+							hediff_Injury = hediff_Injury2;
+						}
+					}
 				}
 			}
 			return hediff_Injury;
 		}
 
-		private Hediff_Injury FindInjury(Pawn pawn, BodyPartRecord bodyPart = null)
+		// Token: 0x060029CC RID: 10700 RVA: 0x00162AC4 File Offset: 0x00160EC4
+		private Hediff_Injury FindInjury(Pawn pawn, IEnumerable<BodyPartRecord> allowedBodyParts = null)
 		{
 			Hediff_Injury hediff_Injury = null;
 			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
 			for (int i = 0; i < hediffs.Count; i++)
 			{
 				Hediff_Injury hediff_Injury2 = hediffs[i] as Hediff_Injury;
-				if (hediff_Injury2 != null && hediff_Injury2.Visible && (bodyPart == null || bodyPart == hediff_Injury2.Part) && (hediff_Injury == null || hediff_Injury2.Severity > hediff_Injury.Severity))
+				if (hediff_Injury2 != null && hediff_Injury2.Visible && hediff_Injury2.def.everCurableByItem)
 				{
-					hediff_Injury = hediff_Injury2;
+					if (allowedBodyParts == null || allowedBodyParts.Contains(hediff_Injury2.Part))
+					{
+						if (hediff_Injury == null || hediff_Injury2.Severity > hediff_Injury.Severity)
+						{
+							hediff_Injury = hediff_Injury2;
+						}
+					}
 				}
 			}
 			return hediff_Injury;
 		}
 
+		// Token: 0x060029CD RID: 10701 RVA: 0x00162B70 File Offset: 0x00160F70
 		private void Cure(Hediff hediff)
 		{
 			Pawn pawn = hediff.pawn;
 			pawn.health.RemoveHediff(hediff);
 			if (hediff.def.cureAllAtOnceIfCuredByItem)
 			{
-				while (true)
+				int num = 0;
+				for (;;)
 				{
-					Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(hediff.def, false);
-					if (firstHediffOfDef != null)
+					num++;
+					if (num > 10000)
 					{
-						pawn.health.RemoveHediff(firstHediffOfDef);
-						continue;
+						break;
 					}
-					break;
+					Hediff firstHediffOfDef = pawn.health.hediffSet.GetFirstHediffOfDef(hediff.def, false);
+					if (firstHediffOfDef == null)
+					{
+						goto Block_3;
+					}
+					pawn.health.RemoveHediff(firstHediffOfDef);
 				}
+				Log.Error("Too many iterations.", false);
+				Block_3:;
 			}
-			Messages.Message("MessageHediffCuredByItem".Translate(hediff.LabelBase), pawn, MessageTypeDefOf.PositiveEvent);
+			Messages.Message("MessageHediffCuredByItem".Translate(new object[]
+			{
+				hediff.LabelBase.CapitalizeFirst()
+			}), pawn, MessageTypeDefOf.PositiveEvent, true);
 		}
 
+		// Token: 0x060029CE RID: 10702 RVA: 0x00162C2B File Offset: 0x0016102B
 		private void Cure(BodyPartRecord part, Pawn pawn)
 		{
 			pawn.health.RestorePart(part, null, true);
-			Messages.Message("MessageBodyPartCuredByItem".Translate(part.def.label), pawn, MessageTypeDefOf.PositiveEvent);
+			Messages.Message("MessageBodyPartCuredByItem".Translate(new object[]
+			{
+				part.LabelCap
+			}), pawn, MessageTypeDefOf.PositiveEvent, true);
 		}
 
-		private bool CanKill(Hediff hediff)
+		// Token: 0x060029CF RID: 10703 RVA: 0x00162C68 File Offset: 0x00161068
+		private bool CanEverKill(Hediff hediff)
 		{
 			if (hediff.def.stages != null)
 			{
@@ -303,7 +371,7 @@ namespace RimWorld
 					}
 				}
 			}
-			return hediff.def.lethalSeverity >= 0.0;
+			return hediff.def.lethalSeverity >= 0f;
 		}
 	}
 }

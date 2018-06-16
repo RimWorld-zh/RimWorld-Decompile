@@ -1,43 +1,14 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000485 RID: 1157
 	public class NameBank
 	{
-		public PawnNameCategory nameType;
-
-		private List<string>[,] names;
-
-		private static readonly int numGenders = Enum.GetValues(typeof(Gender)).Length;
-
-		private static readonly int numSlots = Enum.GetValues(typeof(PawnNameSlot)).Length;
-
-		private IEnumerable<List<string>> AllNameLists
-		{
-			get
-			{
-				int j = 0;
-				int i;
-				while (true)
-				{
-					if (j < NameBank.numGenders)
-					{
-						i = 0;
-						if (i < NameBank.numSlots)
-							break;
-						j++;
-						continue;
-					}
-					yield break;
-				}
-				yield return this.names[j, i];
-				/*Error: Unable to find new state assignment for yield return*/;
-			}
-		}
-
+		// Token: 0x0600146B RID: 5227 RVA: 0x000B2A7C File Offset: 0x000B0E7C
 		public NameBank(PawnNameCategory ID)
 		{
 			this.nameType = ID;
@@ -46,42 +17,58 @@ namespace RimWorld
 			{
 				for (int j = 0; j < NameBank.numSlots; j++)
 				{
-					List<string>[,] array = this.names;
-					int num = i;
-					int num2 = j;
-					List<string> list = new List<string>();
-					array[num, num2] = list;
+					this.names[i, j] = new List<string>();
 				}
 			}
 		}
 
+		// Token: 0x170002BF RID: 703
+		// (get) Token: 0x0600146C RID: 5228 RVA: 0x000B2AF0 File Offset: 0x000B0EF0
+		private IEnumerable<List<string>> AllNameLists
+		{
+			get
+			{
+				for (int i = 0; i < NameBank.numGenders; i++)
+				{
+					for (int j = 0; j < NameBank.numSlots; j++)
+					{
+						yield return this.names[i, j];
+					}
+				}
+				yield break;
+			}
+		}
+
+		// Token: 0x0600146D RID: 5229 RVA: 0x000B2B1C File Offset: 0x000B0F1C
 		public void ErrorCheck()
 		{
-			foreach (List<string> allNameList in this.AllNameLists)
+			foreach (List<string> list in this.AllNameLists)
 			{
-				List<string> list = (from x in allNameList
+				List<string> list2 = (from x in list
 				group x by x into g
-				where g.Count() > 1
-				select g.Key).ToList();
-				foreach (string item in list)
+				where g.Count<string>() > 1
+				select g.Key).ToList<string>();
+				foreach (string str in list2)
 				{
-					Log.Error("Duplicated name: " + item);
+					Log.Error("Duplicated name: " + str, false);
 				}
-				foreach (string item2 in allNameList)
+				foreach (string text in list)
 				{
-					if (item2.Trim() != item2)
+					if (text.Trim() != text)
 					{
-						Log.Error("Trimmable whitespace on name: [" + item2 + "]");
+						Log.Error("Trimmable whitespace on name: [" + text + "]", false);
 					}
 				}
 			}
 		}
 
+		// Token: 0x0600146E RID: 5230 RVA: 0x000B2CC8 File Offset: 0x000B10C8
 		private List<string> NamesFor(PawnNameSlot slot, Gender gender)
 		{
-			return this.names[(uint)gender, (uint)slot];
+			return this.names[(int)gender, (int)slot];
 		}
 
+		// Token: 0x0600146F RID: 5231 RVA: 0x000B2CEC File Offset: 0x000B10EC
 		public void AddNames(PawnNameSlot slot, Gender gender, IEnumerable<string> namesToAdd)
 		{
 			foreach (string item in namesToAdd)
@@ -90,33 +77,63 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06001470 RID: 5232 RVA: 0x000B2D4C File Offset: 0x000B114C
 		public void AddNamesFromFile(PawnNameSlot slot, Gender gender, string fileName)
 		{
 			this.AddNames(slot, gender, GenFile.LinesFromFile("Names/" + fileName));
 		}
 
+		// Token: 0x06001471 RID: 5233 RVA: 0x000B2D68 File Offset: 0x000B1168
 		public string GetName(PawnNameSlot slot, Gender gender = Gender.None)
 		{
 			List<string> list = this.NamesFor(slot, gender);
 			int num = 0;
+			string result;
 			if (list.Count == 0)
 			{
-				Log.Error("Name list for gender=" + gender + " slot=" + slot + " is empty.");
-				return "Errorname";
-			}
-			string text;
-			while (true)
-			{
-				text = list.RandomElement();
-				if (!NameUseChecker.NameWordIsUsed(text))
+				Log.Error(string.Concat(new object[]
 				{
-					return text;
-				}
-				num++;
-				if (num > 50)
-					break;
+					"Name list for gender=",
+					gender,
+					" slot=",
+					slot,
+					" is empty."
+				}), false);
+				result = "Errorname";
 			}
-			return text;
+			else
+			{
+				string text;
+				for (;;)
+				{
+					text = list.RandomElement<string>();
+					if (!NameUseChecker.NameWordIsUsed(text))
+					{
+						break;
+					}
+					num++;
+					if (num > 50)
+					{
+						goto Block_3;
+					}
+				}
+				return text;
+				Block_3:
+				result = text;
+			}
+			return result;
 		}
+
+		// Token: 0x04000C35 RID: 3125
+		public PawnNameCategory nameType;
+
+		// Token: 0x04000C36 RID: 3126
+		private List<string>[,] names;
+
+		// Token: 0x04000C37 RID: 3127
+		private static readonly int numGenders = Enum.GetValues(typeof(Gender)).Length;
+
+		// Token: 0x04000C38 RID: 3128
+		private static readonly int numSlots = Enum.GetValues(typeof(PawnNameSlot)).Length;
 	}
 }

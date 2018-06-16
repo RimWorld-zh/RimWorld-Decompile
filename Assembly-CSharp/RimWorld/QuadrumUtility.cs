@@ -1,10 +1,14 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200090F RID: 2319
 	public static class QuadrumUtility
 	{
+		// Token: 0x17000898 RID: 2200
+		// (get) Token: 0x060035FA RID: 13818 RVA: 0x001CF64C File Offset: 0x001CDA4C
 		public static Quadrum FirstQuadrum
 		{
 			get
@@ -13,109 +17,148 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060035FB RID: 13819 RVA: 0x001CF664 File Offset: 0x001CDA64
 		public static Twelfth GetFirstTwelfth(this Quadrum quadrum)
 		{
+			Twelfth result;
 			switch (quadrum)
 			{
 			case Quadrum.Aprimay:
-				return Twelfth.First;
+				result = Twelfth.First;
+				break;
 			case Quadrum.Jugust:
-				return Twelfth.Fourth;
+				result = Twelfth.Fourth;
+				break;
 			case Quadrum.Septober:
-				return Twelfth.Seventh;
+				result = Twelfth.Seventh;
+				break;
 			case Quadrum.Decembary:
-				return Twelfth.Tenth;
+				result = Twelfth.Tenth;
+				break;
 			default:
-				return Twelfth.Undefined;
+				result = Twelfth.Undefined;
+				break;
 			}
+			return result;
 		}
 
+		// Token: 0x060035FC RID: 13820 RVA: 0x001CF6B4 File Offset: 0x001CDAB4
 		public static Twelfth GetMiddleTwelfth(this Quadrum quadrum)
 		{
+			Twelfth result;
 			switch (quadrum)
 			{
 			case Quadrum.Aprimay:
-				return Twelfth.Second;
+				result = Twelfth.Second;
+				break;
 			case Quadrum.Jugust:
-				return Twelfth.Fifth;
+				result = Twelfth.Fifth;
+				break;
 			case Quadrum.Septober:
-				return Twelfth.Eighth;
+				result = Twelfth.Eighth;
+				break;
 			case Quadrum.Decembary:
-				return Twelfth.Eleventh;
+				result = Twelfth.Eleventh;
+				break;
 			default:
-				return Twelfth.Undefined;
+				result = Twelfth.Undefined;
+				break;
 			}
+			return result;
 		}
 
+		// Token: 0x060035FD RID: 13821 RVA: 0x001CF704 File Offset: 0x001CDB04
 		public static float GetMiddleYearPct(this Quadrum quadrum)
 		{
 			return quadrum.GetMiddleTwelfth().GetMiddleYearPct();
 		}
 
+		// Token: 0x060035FE RID: 13822 RVA: 0x001CF724 File Offset: 0x001CDB24
 		public static string Label(this Quadrum quadrum)
 		{
+			string result;
 			switch (quadrum)
 			{
 			case Quadrum.Aprimay:
-				return "QuadrumAprimay".Translate();
+				result = "QuadrumAprimay".Translate();
+				break;
 			case Quadrum.Jugust:
-				return "QuadrumJugust".Translate();
+				result = "QuadrumJugust".Translate();
+				break;
 			case Quadrum.Septober:
-				return "QuadrumSeptober".Translate();
+				result = "QuadrumSeptober".Translate();
+				break;
 			case Quadrum.Decembary:
-				return "QuadrumDecembary".Translate();
+				result = "QuadrumDecembary".Translate();
+				break;
 			default:
-				return "Unknown quadrum";
+				result = "Unknown quadrum";
+				break;
 			}
+			return result;
 		}
 
+		// Token: 0x060035FF RID: 13823 RVA: 0x001CF79C File Offset: 0x001CDB9C
 		public static Season GetSeason(this Quadrum q, float latitude)
 		{
 			float middleYearPct = q.GetMiddleYearPct();
 			return SeasonUtility.GetReportedSeason(middleYearPct, latitude);
 		}
 
+		// Token: 0x06003600 RID: 13824 RVA: 0x001CF7C0 File Offset: 0x001CDBC0
 		public static string QuadrumsRangeLabel(List<Twelfth> twelfths)
 		{
+			string result;
 			if (twelfths.Count == 0)
 			{
-				return string.Empty;
+				result = "";
 			}
-			if (twelfths.Count == 12)
+			else if (twelfths.Count == 12)
 			{
-				return "WholeYear".Translate();
+				result = "WholeYear".Translate();
 			}
-			string text = string.Empty;
-			for (int i = 0; i < 12; i++)
+			else
 			{
-				Twelfth twelfth = (Twelfth)i;
-				if (twelfths.Contains(twelfth))
+				string text = "";
+				for (int i = 0; i < 12; i++)
 				{
-					if (!text.NullOrEmpty())
+					Twelfth twelfth = (Twelfth)i;
+					if (twelfths.Contains(twelfth))
 					{
-						text += ", ";
+						if (!text.NullOrEmpty())
+						{
+							text += ", ";
+						}
+						text += QuadrumUtility.QuadrumsContinuousRangeLabel(twelfths, twelfth);
 					}
-					text += QuadrumUtility.QuadrumsContinuousRangeLabel(twelfths, twelfth);
 				}
+				result = text;
 			}
-			return text;
+			return result;
 		}
 
+		// Token: 0x06003601 RID: 13825 RVA: 0x001CF85C File Offset: 0x001CDC5C
 		private static string QuadrumsContinuousRangeLabel(List<Twelfth> twelfths, Twelfth rootTwelfth)
 		{
 			Twelfth leftMostTwelfth = TwelfthUtility.GetLeftMostTwelfth(twelfths, rootTwelfth);
 			Twelfth rightMostTwelfth = TwelfthUtility.GetRightMostTwelfth(twelfths, rootTwelfth);
-			Twelfth twelfth = leftMostTwelfth;
-			while (twelfth != rightMostTwelfth)
+			for (Twelfth twelfth = leftMostTwelfth; twelfth != rightMostTwelfth; twelfth = TwelfthUtility.TwelfthAfter(twelfth))
 			{
-				if (twelfths.Contains(twelfth))
+				if (!twelfths.Contains(twelfth))
 				{
-					twelfths.Remove(twelfth);
-					twelfth = TwelfthUtility.TwelfthAfter(twelfth);
-					continue;
+					Log.Error(string.Concat(new object[]
+					{
+						"Twelfths doesn't contain ",
+						twelfth,
+						" (",
+						leftMostTwelfth,
+						"..",
+						rightMostTwelfth,
+						")"
+					}), false);
+					break;
 				}
-				Log.Error("Twelfths doesn't contain " + twelfth + " (" + leftMostTwelfth + ".." + rightMostTwelfth + ")");
-				break;
+				twelfths.Remove(twelfth);
 			}
 			twelfths.Remove(rightMostTwelfth);
 			return GenDate.QuadrumDateStringAt(leftMostTwelfth) + " - " + GenDate.QuadrumDateStringAt(rightMostTwelfth);

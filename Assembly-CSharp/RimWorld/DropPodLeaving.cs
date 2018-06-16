@@ -1,49 +1,40 @@
-using RimWorld.Planet;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld.Planet;
 using Verse;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
+	// Token: 0x020006E5 RID: 1765
 	public class DropPodLeaving : Skyfaller, IActiveDropPod, IThingHolder
 	{
-		public int groupID = -1;
-
-		public int destinationTile = -1;
-
-		public IntVec3 destinationCell = IntVec3.Invalid;
-
-		public PawnsArriveMode arriveMode;
-
-		public bool attackOnArrival;
-
-		private bool alreadyLeft;
-
-		private static List<Thing> tmpActiveDropPods = new List<Thing>();
-
+		// Token: 0x170005D6 RID: 1494
+		// (get) Token: 0x0600265D RID: 9821 RVA: 0x00149444 File Offset: 0x00147844
+		// (set) Token: 0x0600265E RID: 9822 RVA: 0x0014946F File Offset: 0x0014786F
 		public ActiveDropPodInfo Contents
 		{
 			get
 			{
-				return ((ActiveDropPod)base.innerContainer[0]).Contents;
+				return ((ActiveDropPod)this.innerContainer[0]).Contents;
 			}
 			set
 			{
-				((ActiveDropPod)base.innerContainer[0]).Contents = value;
+				((ActiveDropPod)this.innerContainer[0]).Contents = value;
 			}
 		}
 
+		// Token: 0x0600265F RID: 9823 RVA: 0x0014948C File Offset: 0x0014788C
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.groupID, "groupID", 0, false);
 			Scribe_Values.Look<int>(ref this.destinationTile, "destinationTile", 0, false);
-			Scribe_Values.Look<IntVec3>(ref this.destinationCell, "destinationCell", default(IntVec3), false);
-			Scribe_Values.Look<PawnsArriveMode>(ref this.arriveMode, "arriveMode", PawnsArriveMode.Undecided, false);
-			Scribe_Values.Look<bool>(ref this.attackOnArrival, "attackOnArrival", false, false);
+			Scribe_Deep.Look<TransportPodsArrivalAction>(ref this.arrivalAction, "arrivalAction", new object[0]);
 			Scribe_Values.Look<bool>(ref this.alreadyLeft, "alreadyLeft", false, false);
 		}
 
+		// Token: 0x06002660 RID: 9824 RVA: 0x001494EC File Offset: 0x001478EC
 		protected override void LeaveMap()
 		{
 			if (this.alreadyLeft)
@@ -52,12 +43,12 @@ namespace RimWorld
 			}
 			else if (this.groupID < 0)
 			{
-				Log.Error("Drop pod left the map, but its group ID is " + this.groupID);
+				Log.Error("Drop pod left the map, but its group ID is " + this.groupID, false);
 				this.Destroy(DestroyMode.Vanish);
 			}
 			else if (this.destinationTile < 0)
 			{
-				Log.Error("Drop pod left the map, but its destination tile is " + this.destinationTile);
+				Log.Error("Drop pod left the map, but its destination tile is " + this.destinationTile, false);
 				this.Destroy(DestroyMode.Vanish);
 			}
 			else
@@ -71,9 +62,7 @@ namespace RimWorld
 				travelingTransportPods.Tile = base.Map.Tile;
 				travelingTransportPods.SetFaction(Faction.OfPlayer);
 				travelingTransportPods.destinationTile = this.destinationTile;
-				travelingTransportPods.destinationCell = this.destinationCell;
-				travelingTransportPods.arriveMode = this.arriveMode;
-				travelingTransportPods.attackOnArrival = this.attackOnArrival;
+				travelingTransportPods.arrivalAction = this.arrivalAction;
 				Find.WorldObjects.Add(travelingTransportPods);
 				DropPodLeaving.tmpActiveDropPods.Clear();
 				DropPodLeaving.tmpActiveDropPods.AddRange(base.Map.listerThings.ThingsInGroup(ThingRequestGroup.ActiveDropPod));
@@ -90,5 +79,20 @@ namespace RimWorld
 				}
 			}
 		}
+
+		// Token: 0x0400155D RID: 5469
+		public int groupID = -1;
+
+		// Token: 0x0400155E RID: 5470
+		public int destinationTile = -1;
+
+		// Token: 0x0400155F RID: 5471
+		public TransportPodsArrivalAction arrivalAction;
+
+		// Token: 0x04001560 RID: 5472
+		private bool alreadyLeft;
+
+		// Token: 0x04001561 RID: 5473
+		private static List<Thing> tmpActiveDropPods = new List<Thing>();
 	}
 }

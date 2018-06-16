@@ -1,50 +1,57 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200033A RID: 826
 	public class IncidentWorker_RansomDemand : IncidentWorker
 	{
-		private const int TimeoutTicks = 60000;
-
-		private static List<Pawn> candidates = new List<Pawn>();
-
-		protected override bool CanFireNowSub(IIncidentTarget target)
+		// Token: 0x06000E19 RID: 3609 RVA: 0x00078020 File Offset: 0x00076420
+		protected override bool CanFireNowSub(IncidentParms parms)
 		{
-			Map map = (Map)target;
-			if (!CommsConsoleUtility.PlayerHasPoweredCommsConsole(map))
-			{
-				return false;
-			}
-			if (this.RandomKidnappedColonist() == null)
-			{
-				return false;
-			}
-			return base.CanFireNowSub(target);
+			Map map = (Map)parms.target;
+			return CommsConsoleUtility.PlayerHasPoweredCommsConsole(map) && this.RandomKidnappedColonist() != null && base.CanFireNowSub(parms);
 		}
 
+		// Token: 0x06000E1A RID: 3610 RVA: 0x0007806C File Offset: 0x0007646C
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
 			Pawn pawn = this.RandomKidnappedColonist();
+			bool result;
 			if (pawn == null)
 			{
-				return false;
+				result = false;
 			}
-			Faction faction = this.FactionWhichKidnapped(pawn);
-			int num = this.RandomFee(pawn);
-			ChoiceLetter_RansomDemand choiceLetter_RansomDemand = (ChoiceLetter_RansomDemand)LetterMaker.MakeLetter(base.def.letterLabel, "RansomDemand".Translate(pawn.LabelShort, faction.Name, num).AdjustedFor(pawn), base.def.letterDef);
-			choiceLetter_RansomDemand.title = "RansomDemandTitle".Translate(map.info.parent.Label);
-			choiceLetter_RansomDemand.radioMode = true;
-			choiceLetter_RansomDemand.kidnapped = pawn;
-			choiceLetter_RansomDemand.faction = faction;
-			choiceLetter_RansomDemand.map = map;
-			choiceLetter_RansomDemand.fee = num;
-			choiceLetter_RansomDemand.StartTimeout(60000);
-			Find.LetterStack.ReceiveLetter(choiceLetter_RansomDemand, null);
-			return true;
+			else
+			{
+				Faction faction = this.FactionWhichKidnapped(pawn);
+				int num = this.RandomFee(pawn);
+				ChoiceLetter_RansomDemand choiceLetter_RansomDemand = (ChoiceLetter_RansomDemand)LetterMaker.MakeLetter(this.def.letterLabel, "RansomDemand".Translate(new object[]
+				{
+					pawn.LabelShort,
+					faction.Name,
+					num
+				}).AdjustedFor(pawn), this.def.letterDef);
+				choiceLetter_RansomDemand.title = "RansomDemandTitle".Translate(new object[]
+				{
+					map.Parent.Label
+				});
+				choiceLetter_RansomDemand.radioMode = true;
+				choiceLetter_RansomDemand.kidnapped = pawn;
+				choiceLetter_RansomDemand.faction = faction;
+				choiceLetter_RansomDemand.map = map;
+				choiceLetter_RansomDemand.fee = num;
+				choiceLetter_RansomDemand.relatedFaction = faction;
+				choiceLetter_RansomDemand.StartTimeout(60000);
+				Find.LetterStack.ReceiveLetter(choiceLetter_RansomDemand, null);
+				result = true;
+			}
+			return result;
 		}
 
+		// Token: 0x06000E1B RID: 3611 RVA: 0x00078178 File Offset: 0x00076578
 		private Pawn RandomKidnappedColonist()
 		{
 			IncidentWorker_RansomDemand.candidates.Clear();
@@ -69,23 +76,36 @@ namespace RimWorld
 					IncidentWorker_RansomDemand.candidates.Remove(choiceLetter_RansomDemand.kidnapped);
 				}
 			}
-			Pawn result = default(Pawn);
-			if (!((IEnumerable<Pawn>)IncidentWorker_RansomDemand.candidates).TryRandomElement<Pawn>(out result))
+			Pawn pawn;
+			Pawn result;
+			if (!IncidentWorker_RansomDemand.candidates.TryRandomElement(out pawn))
 			{
-				return null;
+				result = null;
 			}
-			IncidentWorker_RansomDemand.candidates.Clear();
+			else
+			{
+				IncidentWorker_RansomDemand.candidates.Clear();
+				result = pawn;
+			}
 			return result;
 		}
 
+		// Token: 0x06000E1C RID: 3612 RVA: 0x00078288 File Offset: 0x00076688
 		private Faction FactionWhichKidnapped(Pawn pawn)
 		{
 			return Find.FactionManager.AllFactionsListForReading.Find((Faction x) => x.kidnapped.KidnappedPawnsListForReading.Contains(pawn));
 		}
 
+		// Token: 0x06000E1D RID: 3613 RVA: 0x000782C8 File Offset: 0x000766C8
 		private int RandomFee(Pawn pawn)
 		{
-			return (int)(pawn.MarketValue * Rand.Range(1.2f, 3f));
+			return (int)(pawn.MarketValue * DiplomacyTuning.RansomFeeMarketValueFactorRange.RandomInRange);
 		}
+
+		// Token: 0x040008DF RID: 2271
+		private const int TimeoutTicks = 60000;
+
+		// Token: 0x040008E0 RID: 2272
+		private static List<Pawn> candidates = new List<Pawn>();
 	}
 }

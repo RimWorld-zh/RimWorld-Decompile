@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -5,50 +6,60 @@ using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000C76 RID: 3190
 	public class PlaceWorker_Vent : PlaceWorker
 	{
-		public override void DrawGhost(ThingDef def, IntVec3 center, Rot4 rot)
+		// Token: 0x060045E3 RID: 17891 RVA: 0x0024CC48 File Offset: 0x0024B048
+		public override void DrawGhost(ThingDef def, IntVec3 center, Rot4 rot, Color ghostCol)
 		{
-			Map visibleMap = Find.VisibleMap;
+			Map currentMap = Find.CurrentMap;
 			IntVec3 intVec = center + IntVec3.South.RotatedBy(rot);
 			IntVec3 intVec2 = center + IntVec3.North.RotatedBy(rot);
-			List<IntVec3> list = new List<IntVec3>();
-			list.Add(intVec);
-			GenDraw.DrawFieldEdges(list, Color.white);
-			list = new List<IntVec3>();
-			list.Add(intVec2);
-			GenDraw.DrawFieldEdges(list, Color.white);
-			RoomGroup roomGroup = intVec2.GetRoomGroup(visibleMap);
-			RoomGroup roomGroup2 = intVec.GetRoomGroup(visibleMap);
+			GenDraw.DrawFieldEdges(new List<IntVec3>
+			{
+				intVec
+			}, Color.white);
+			GenDraw.DrawFieldEdges(new List<IntVec3>
+			{
+				intVec2
+			}, Color.white);
+			RoomGroup roomGroup = intVec2.GetRoomGroup(currentMap);
+			RoomGroup roomGroup2 = intVec.GetRoomGroup(currentMap);
 			if (roomGroup != null && roomGroup2 != null)
 			{
 				if (roomGroup == roomGroup2 && !roomGroup.UsesOutdoorTemperature)
 				{
-					GenDraw.DrawFieldEdges(roomGroup.Cells.ToList(), Color.white);
+					GenDraw.DrawFieldEdges(roomGroup.Cells.ToList<IntVec3>(), Color.white);
 				}
 				else
 				{
 					if (!roomGroup.UsesOutdoorTemperature)
 					{
-						GenDraw.DrawFieldEdges(roomGroup.Cells.ToList(), Color.white);
+						GenDraw.DrawFieldEdges(roomGroup.Cells.ToList<IntVec3>(), Color.white);
 					}
 					if (!roomGroup2.UsesOutdoorTemperature)
 					{
-						GenDraw.DrawFieldEdges(roomGroup2.Cells.ToList(), Color.white);
+						GenDraw.DrawFieldEdges(roomGroup2.Cells.ToList<IntVec3>(), Color.white);
 					}
 				}
 			}
 		}
 
+		// Token: 0x060045E4 RID: 17892 RVA: 0x0024CD48 File Offset: 0x0024B148
 		public override AcceptanceReport AllowsPlacing(BuildableDef def, IntVec3 center, Rot4 rot, Map map, Thing thingToIgnore = null)
 		{
 			IntVec3 c = center + IntVec3.South.RotatedBy(rot);
 			IntVec3 c2 = center + IntVec3.North.RotatedBy(rot);
-			if (!c.Impassable(map) && !c2.Impassable(map))
+			AcceptanceReport result;
+			if (c.Impassable(map) || c2.Impassable(map))
 			{
-				return true;
+				result = "MustPlaceVentWithFreeSpaces".Translate();
 			}
-			return "MustPlaceVentWithFreeSpaces".Translate();
+			else
+			{
+				result = true;
+			}
+			return result;
 		}
 	}
 }

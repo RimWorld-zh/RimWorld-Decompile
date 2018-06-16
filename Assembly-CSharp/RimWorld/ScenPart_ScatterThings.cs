@@ -1,27 +1,30 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200064E RID: 1614
 	public abstract class ScenPart_ScatterThings : ScenPart_ThingCount
 	{
-		protected abstract bool NearPlayerStart
-		{
-			get;
-		}
+		// Token: 0x170004EC RID: 1260
+		// (get) Token: 0x0600217F RID: 8575
+		protected abstract bool NearPlayerStart { get; }
 
+		// Token: 0x06002180 RID: 8576 RVA: 0x0011C3C0 File Offset: 0x0011A7C0
 		public override void GenerateIntoMap(Map map)
 		{
 			if (Find.GameInitData != null)
 			{
-				GenStep_ScatterThings genStep_ScatterThings = new GenStep_ScatterThings();
-				genStep_ScatterThings.nearPlayerStart = this.NearPlayerStart;
-				genStep_ScatterThings.thingDef = base.thingDef;
-				genStep_ScatterThings.stuff = base.stuff;
-				genStep_ScatterThings.count = base.count;
-				genStep_ScatterThings.spotMustBeStandable = true;
-				genStep_ScatterThings.minSpacing = 5f;
-				genStep_ScatterThings.clusterSize = ((base.thingDef.category == ThingCategory.Building) ? 1 : 4);
-				genStep_ScatterThings.Generate(map);
+				new GenStep_ScatterThings
+				{
+					nearPlayerStart = this.NearPlayerStart,
+					thingDef = this.thingDef,
+					stuff = this.stuff,
+					count = this.count,
+					spotMustBeStandable = true,
+					minSpacing = 5f,
+					clusterSize = ((this.thingDef.category != ThingCategory.Building) ? 4 : 1)
+				}.Generate(map);
 			}
 		}
 	}

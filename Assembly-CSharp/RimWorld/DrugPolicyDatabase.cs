@@ -1,13 +1,21 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020002EF RID: 751
 	public class DrugPolicyDatabase : IExposable
 	{
-		private List<DrugPolicy> policies = new List<DrugPolicy>();
+		// Token: 0x06000C6B RID: 3179 RVA: 0x0006E66C File Offset: 0x0006CA6C
+		public DrugPolicyDatabase()
+		{
+			this.GenerateStartingDrugPolicies();
+		}
 
+		// Token: 0x170001DC RID: 476
+		// (get) Token: 0x06000C6C RID: 3180 RVA: 0x0006E688 File Offset: 0x0006CA88
 		public List<DrugPolicy> AllPolicies
 		{
 			get
@@ -16,16 +24,13 @@ namespace RimWorld
 			}
 		}
 
-		public DrugPolicyDatabase()
-		{
-			this.GenerateStartingDrugPolicies();
-		}
-
+		// Token: 0x06000C6D RID: 3181 RVA: 0x0006E6A3 File Offset: 0x0006CAA3
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<DrugPolicy>(ref this.policies, "policies", LookMode.Deep, new object[0]);
 		}
 
+		// Token: 0x06000C6E RID: 3182 RVA: 0x0006E6C0 File Offset: 0x0006CAC0
 		public DrugPolicy DefaultDrugPolicy()
 		{
 			if (this.policies.Count == 0)
@@ -35,34 +40,49 @@ namespace RimWorld
 			return this.policies[0];
 		}
 
+		// Token: 0x06000C6F RID: 3183 RVA: 0x0006E6F8 File Offset: 0x0006CAF8
 		public AcceptanceReport TryDelete(DrugPolicy policy)
 		{
-			foreach (Pawn allMapsCaravansAndTravelingTransportPod in PawnsFinder.AllMapsCaravansAndTravelingTransportPods)
+			foreach (Pawn pawn in PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive)
 			{
-				if (allMapsCaravansAndTravelingTransportPod.drugs != null && allMapsCaravansAndTravelingTransportPod.drugs.CurrentPolicy == policy)
+				if (pawn.drugs != null && pawn.drugs.CurrentPolicy == policy)
 				{
-					return new AcceptanceReport("DrugPolicyInUse".Translate(allMapsCaravansAndTravelingTransportPod));
+					return new AcceptanceReport("DrugPolicyInUse".Translate(new object[]
+					{
+						pawn
+					}));
 				}
 			}
-			foreach (Pawn item in PawnsFinder.AllMapsWorldAndTemporary_AliveOrDead)
+			foreach (Pawn pawn2 in PawnsFinder.AllMapsWorldAndTemporary_AliveOrDead)
 			{
-				if (item.drugs != null && item.drugs.CurrentPolicy == policy)
+				if (pawn2.drugs != null && pawn2.drugs.CurrentPolicy == policy)
 				{
-					item.drugs.CurrentPolicy = null;
+					pawn2.drugs.CurrentPolicy = null;
 				}
 			}
 			this.policies.Remove(policy);
 			return AcceptanceReport.WasAccepted;
 		}
 
+		// Token: 0x06000C70 RID: 3184 RVA: 0x0006E814 File Offset: 0x0006CC14
 		public DrugPolicy MakeNewDrugPolicy()
 		{
-			int uniqueId = (!this.policies.Any()) ? 1 : (this.policies.Max((DrugPolicy o) => o.uniqueId) + 1);
+			int num;
+			if (this.policies.Any<DrugPolicy>())
+			{
+				num = this.policies.Max((DrugPolicy o) => o.uniqueId) + 1;
+			}
+			else
+			{
+				num = 1;
+			}
+			int uniqueId = num;
 			DrugPolicy drugPolicy = new DrugPolicy(uniqueId, "DrugPolicy".Translate() + " " + uniqueId.ToString());
 			this.policies.Add(drugPolicy);
 			return drugPolicy;
 		}
 
+		// Token: 0x06000C71 RID: 3185 RVA: 0x0006E8A0 File Offset: 0x0006CCA0
 		private void GenerateStartingDrugPolicies()
 		{
 			DrugPolicy drugPolicy = this.MakeNewDrugPolicy();
@@ -88,5 +108,8 @@ namespace RimWorld
 			drugPolicy4[ThingDefOf.Beer].daysFrequency = 1f;
 			drugPolicy4[ThingDefOf.SmokeleafJoint].allowedForJoy = true;
 		}
+
+		// Token: 0x04000828 RID: 2088
+		private List<DrugPolicy> policies = new List<DrugPolicy>();
 	}
 }

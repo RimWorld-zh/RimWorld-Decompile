@@ -1,456 +1,506 @@
-using RimWorld.Planet;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using RimWorld.Planet;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020004A2 RID: 1186
 	public static class PawnsFinder
 	{
+		// Token: 0x170002C1 RID: 705
+		// (get) Token: 0x0600152B RID: 5419 RVA: 0x000B9AE4 File Offset: 0x000B7EE4
 		public static IEnumerable<Pawn> AllMapsWorldAndTemporary_AliveOrDead
 		{
 			get
 			{
-				using (IEnumerator<Pawn> enumerator = PawnsFinder.AllMapsWorldAndTemporary_Alive.GetEnumerator())
+				foreach (Pawn p in PawnsFinder.AllMapsWorldAndTemporary_Alive)
 				{
-					if (enumerator.MoveNext())
-					{
-						Pawn p3 = enumerator.Current;
-						yield return p3;
-						/*Error: Unable to find new state assignment for yield return*/;
-					}
+					yield return p;
 				}
 				if (Find.World != null)
 				{
-					using (IEnumerator<Pawn> enumerator2 = Find.WorldPawns.AllPawnsDead.GetEnumerator())
+					foreach (Pawn p2 in Find.WorldPawns.AllPawnsDead)
 					{
-						if (enumerator2.MoveNext())
-						{
-							Pawn p2 = enumerator2.Current;
-							yield return p2;
-							/*Error: Unable to find new state assignment for yield return*/;
-						}
+						yield return p2;
 					}
 				}
-				using (IEnumerator<Pawn> enumerator3 = PawnsFinder.Temporary_Dead.GetEnumerator())
+				foreach (Pawn p3 in PawnsFinder.Temporary_Dead)
 				{
-					if (enumerator3.MoveNext())
-					{
-						Pawn p = enumerator3.Current;
-						yield return p;
-						/*Error: Unable to find new state assignment for yield return*/;
-					}
+					yield return p3;
 				}
 				yield break;
-				IL_01d8:
-				/*Error near IL_01d9: Unexpected return in MoveNext()*/;
 			}
 		}
 
+		// Token: 0x170002C2 RID: 706
+		// (get) Token: 0x0600152C RID: 5420 RVA: 0x000B9B08 File Offset: 0x000B7F08
 		public static IEnumerable<Pawn> AllMapsWorldAndTemporary_Alive
 		{
 			get
 			{
-				using (IEnumerator<Pawn> enumerator = PawnsFinder.AllMaps.GetEnumerator())
+				foreach (Pawn p in PawnsFinder.AllMaps)
 				{
-					if (enumerator.MoveNext())
-					{
-						Pawn p3 = enumerator.Current;
-						yield return p3;
-						/*Error: Unable to find new state assignment for yield return*/;
-					}
+					yield return p;
 				}
 				if (Find.World != null)
 				{
-					using (IEnumerator<Pawn> enumerator2 = Find.WorldPawns.AllPawnsAlive.GetEnumerator())
+					foreach (Pawn p2 in Find.WorldPawns.AllPawnsAlive)
 					{
-						if (enumerator2.MoveNext())
-						{
-							Pawn p2 = enumerator2.Current;
-							yield return p2;
-							/*Error: Unable to find new state assignment for yield return*/;
-						}
+						yield return p2;
 					}
 				}
-				using (IEnumerator<Pawn> enumerator3 = PawnsFinder.Temporary_Alive.GetEnumerator())
+				foreach (Pawn p3 in PawnsFinder.Temporary_Alive)
 				{
-					if (enumerator3.MoveNext())
-					{
-						Pawn p = enumerator3.Current;
-						yield return p;
-						/*Error: Unable to find new state assignment for yield return*/;
-					}
+					yield return p3;
 				}
 				yield break;
-				IL_01d8:
-				/*Error near IL_01d9: Unexpected return in MoveNext()*/;
 			}
 		}
 
+		// Token: 0x170002C3 RID: 707
+		// (get) Token: 0x0600152D RID: 5421 RVA: 0x000B9B2C File Offset: 0x000B7F2C
 		public static IEnumerable<Pawn> AllMaps
 		{
 			get
 			{
-				List<Map> maps = Find.Maps;
-				for (int i = 0; i < maps.Count; i++)
+				if (Current.ProgramState != ProgramState.Entry)
 				{
-					using (IEnumerator<Pawn> enumerator = maps[i].mapPawns.AllPawns.GetEnumerator())
+					List<Map> maps = Find.Maps;
+					for (int i = 0; i < maps.Count; i++)
 					{
-						if (enumerator.MoveNext())
+						foreach (Pawn p in maps[i].mapPawns.AllPawns)
 						{
-							Pawn p = enumerator.Current;
 							yield return p;
-							/*Error: Unable to find new state assignment for yield return*/;
 						}
 					}
 				}
 				yield break;
-				IL_0104:
-				/*Error near IL_0105: Unexpected return in MoveNext()*/;
 			}
 		}
 
+		// Token: 0x170002C4 RID: 708
+		// (get) Token: 0x0600152E RID: 5422 RVA: 0x000B9B50 File Offset: 0x000B7F50
 		public static IEnumerable<Pawn> AllMaps_Spawned
 		{
 			get
 			{
-				List<Map> maps = Find.Maps;
-				int j = 0;
-				List<Pawn> spawned;
-				int i;
-				while (true)
+				if (Current.ProgramState != ProgramState.Entry)
 				{
-					if (j < maps.Count)
+					List<Map> maps = Find.Maps;
+					for (int i = 0; i < maps.Count; i++)
 					{
-						spawned = maps[j].mapPawns.AllPawnsSpawned;
-						i = 0;
-						if (i < spawned.Count)
-							break;
-						j++;
-						continue;
+						List<Pawn> spawned = maps[i].mapPawns.AllPawnsSpawned;
+						for (int j = 0; j < spawned.Count; j++)
+						{
+							yield return spawned[j];
+						}
 					}
-					yield break;
 				}
-				yield return spawned[i];
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield break;
 			}
 		}
 
+		// Token: 0x170002C5 RID: 709
+		// (get) Token: 0x0600152F RID: 5423 RVA: 0x000B9B74 File Offset: 0x000B7F74
+		public static IEnumerable<Pawn> All_AliveOrDead
+		{
+			get
+			{
+				foreach (Pawn p in PawnsFinder.AllMapsWorldAndTemporary_AliveOrDead)
+				{
+					yield return p;
+				}
+				foreach (Pawn p2 in PawnsFinder.AllCaravansAndTravelingTransportPods_AliveOrDead)
+				{
+					yield return p2;
+				}
+				yield break;
+			}
+		}
+
+		// Token: 0x170002C6 RID: 710
+		// (get) Token: 0x06001530 RID: 5424 RVA: 0x000B9B98 File Offset: 0x000B7F98
 		public static IEnumerable<Pawn> Temporary
 		{
 			get
 			{
 				List<List<Pawn>> makingPawnsList = PawnGroupKindWorker.pawnsBeingGeneratedNow;
-				for (int m = 0; m < makingPawnsList.Count; m++)
+				for (int i = 0; i < makingPawnsList.Count; i++)
 				{
-					List<Pawn> makingPawns = makingPawnsList[m];
-					int i = 0;
-					if (i < makingPawns.Count)
+					List<Pawn> makingPawns = makingPawnsList[i];
+					for (int j = 0; j < makingPawns.Count; j++)
 					{
-						yield return makingPawns[i];
-						/*Error: Unable to find new state assignment for yield return*/;
+						yield return makingPawns[j];
 					}
 				}
-				List<List<Thing>> makingThingsList = ItemCollectionGenerator.thingsBeingGeneratedNow;
-				for (int l = 0; l < makingThingsList.Count; l++)
+				List<List<Thing>> makingThingsList = ThingSetMaker.thingsBeingGeneratedNow;
+				for (int k = 0; k < makingThingsList.Count; k++)
 				{
-					List<Thing> makingThings = makingThingsList[l];
-					for (int j = 0; j < makingThings.Count; j++)
+					List<Thing> makingThings = makingThingsList[k];
+					for (int l = 0; l < makingThings.Count; l++)
 					{
-						Pawn p = makingThings[j] as Pawn;
+						Pawn p = makingThings[l] as Pawn;
 						if (p != null)
 						{
 							yield return p;
-							/*Error: Unable to find new state assignment for yield return*/;
 						}
 					}
 				}
-				if (Current.ProgramState == ProgramState.Playing)
-					yield break;
-				if (Find.GameInitData == null)
-					yield break;
-				List<Pawn> startingPawns = Find.GameInitData.startingPawns;
-				int k = 0;
-				while (true)
+				if (Current.ProgramState != ProgramState.Playing && Find.GameInitData != null)
 				{
-					if (k < startingPawns.Count)
+					List<Pawn> startingAndOptionalPawns = Find.GameInitData.startingAndOptionalPawns;
+					for (int m = 0; m < startingAndOptionalPawns.Count; m++)
 					{
-						if (startingPawns[k] == null)
+						if (startingAndOptionalPawns[m] != null)
 						{
-							k++;
-							continue;
+							yield return startingAndOptionalPawns[m];
 						}
-						break;
 					}
-					yield break;
 				}
-				yield return startingPawns[k];
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield break;
 			}
 		}
 
+		// Token: 0x170002C7 RID: 711
+		// (get) Token: 0x06001531 RID: 5425 RVA: 0x000B9BBC File Offset: 0x000B7FBC
 		public static IEnumerable<Pawn> Temporary_Alive
 		{
 			get
 			{
-				foreach (Pawn item in PawnsFinder.Temporary)
+				foreach (Pawn p in PawnsFinder.Temporary)
 				{
-					if (!item.Dead)
+					if (!p.Dead)
 					{
-						yield return item;
-						/*Error: Unable to find new state assignment for yield return*/;
+						yield return p;
 					}
 				}
 				yield break;
-				IL_00c3:
-				/*Error near IL_00c4: Unexpected return in MoveNext()*/;
 			}
 		}
 
+		// Token: 0x170002C8 RID: 712
+		// (get) Token: 0x06001532 RID: 5426 RVA: 0x000B9BE0 File Offset: 0x000B7FE0
 		public static IEnumerable<Pawn> Temporary_Dead
 		{
 			get
 			{
-				foreach (Pawn item in PawnsFinder.Temporary)
+				foreach (Pawn p in PawnsFinder.Temporary)
 				{
-					if (item.Dead)
+					if (p.Dead)
 					{
-						yield return item;
-						/*Error: Unable to find new state assignment for yield return*/;
+						yield return p;
 					}
 				}
 				yield break;
-				IL_00c3:
-				/*Error near IL_00c4: Unexpected return in MoveNext()*/;
 			}
 		}
 
-		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods
+		// Token: 0x170002C9 RID: 713
+		// (get) Token: 0x06001533 RID: 5427 RVA: 0x000B9C04 File Offset: 0x000B8004
+		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive
 		{
 			get
 			{
-				using (IEnumerator<Pawn> enumerator = PawnsFinder.AllMaps.GetEnumerator())
+				foreach (Pawn p in PawnsFinder.AllMaps)
 				{
-					if (enumerator.MoveNext())
+					yield return p;
+				}
+				foreach (Pawn p2 in PawnsFinder.AllCaravansAndTravelingTransportPods_Alive)
+				{
+					yield return p2;
+				}
+				yield break;
+			}
+		}
+
+		// Token: 0x170002CA RID: 714
+		// (get) Token: 0x06001534 RID: 5428 RVA: 0x000B9C28 File Offset: 0x000B8028
+		public static IEnumerable<Pawn> AllCaravansAndTravelingTransportPods_Alive
+		{
+			get
+			{
+				foreach (Pawn p in PawnsFinder.AllCaravansAndTravelingTransportPods_AliveOrDead)
+				{
+					if (!p.Dead)
 					{
-						Pawn p2 = enumerator.Current;
-						yield return p2;
-						/*Error: Unable to find new state assignment for yield return*/;
+						yield return p;
 					}
 				}
+				yield break;
+			}
+		}
+
+		// Token: 0x170002CB RID: 715
+		// (get) Token: 0x06001535 RID: 5429 RVA: 0x000B9C4C File Offset: 0x000B804C
+		public static IEnumerable<Pawn> AllCaravansAndTravelingTransportPods_AliveOrDead
+		{
+			get
+			{
 				if (Find.World != null)
 				{
 					List<Caravan> caravans = Find.WorldObjects.Caravans;
-					for (int k = 0; k < caravans.Count; k++)
+					for (int i = 0; i < caravans.Count; i++)
 					{
-						List<Pawn> pawns = caravans[k].PawnsListForReading;
-						int i = 0;
-						if (i < pawns.Count)
+						List<Pawn> pawns = caravans[i].PawnsListForReading;
+						for (int j = 0; j < pawns.Count; j++)
 						{
-							yield return pawns[i];
-							/*Error: Unable to find new state assignment for yield return*/;
+							yield return pawns[j];
 						}
 					}
 					List<TravelingTransportPods> travelingTransportPods = Find.WorldObjects.TravelingTransportPods;
-					for (int j = 0; j < travelingTransportPods.Count; j++)
+					for (int k = 0; k < travelingTransportPods.Count; k++)
 					{
-						using (IEnumerator<Pawn> enumerator2 = travelingTransportPods[j].Pawns.GetEnumerator())
+						foreach (Pawn p in travelingTransportPods[k].Pawns)
 						{
-							if (enumerator2.MoveNext())
-							{
-								Pawn p = enumerator2.Current;
-								yield return p;
-								/*Error: Unable to find new state assignment for yield return*/;
-							}
+							yield return p;
 						}
 					}
 				}
 				yield break;
-				IL_0254:
-				/*Error near IL_0255: Unexpected return in MoveNext()*/;
 			}
 		}
 
-		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Colonists
+		// Token: 0x170002CC RID: 716
+		// (get) Token: 0x06001536 RID: 5430 RVA: 0x000B9C70 File Offset: 0x000B8070
+		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive_Colonists
 		{
 			get
 			{
-				foreach (Pawn allMapsCaravansAndTravelingTransportPod in PawnsFinder.AllMapsCaravansAndTravelingTransportPods)
+				foreach (Pawn p in PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive)
 				{
-					if (allMapsCaravansAndTravelingTransportPod.IsColonist)
+					if (p.IsColonist)
 					{
-						yield return allMapsCaravansAndTravelingTransportPod;
-						/*Error: Unable to find new state assignment for yield return*/;
+						yield return p;
 					}
 				}
 				yield break;
-				IL_00c3:
-				/*Error near IL_00c4: Unexpected return in MoveNext()*/;
 			}
 		}
 
-		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_FreeColonists
+		// Token: 0x170002CD RID: 717
+		// (get) Token: 0x06001537 RID: 5431 RVA: 0x000B9C94 File Offset: 0x000B8094
+		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists
 		{
 			get
 			{
-				foreach (Pawn allMapsCaravansAndTravelingTransportPod in PawnsFinder.AllMapsCaravansAndTravelingTransportPods)
+				foreach (Pawn p in PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive)
 				{
-					if (allMapsCaravansAndTravelingTransportPod.IsFreeColonist)
+					if (p.IsFreeColonist)
 					{
-						yield return allMapsCaravansAndTravelingTransportPod;
-						/*Error: Unable to find new state assignment for yield return*/;
+						yield return p;
 					}
 				}
 				yield break;
-				IL_00c3:
-				/*Error near IL_00c4: Unexpected return in MoveNext()*/;
 			}
 		}
 
-		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_PrisonersOfColony
+		// Token: 0x170002CE RID: 718
+		// (get) Token: 0x06001538 RID: 5432 RVA: 0x000B9CB8 File Offset: 0x000B80B8
+		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists_NoCryptosleep
 		{
 			get
 			{
-				foreach (Pawn allMapsCaravansAndTravelingTransportPod in PawnsFinder.AllMapsCaravansAndTravelingTransportPods)
+				foreach (Pawn p in PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive)
 				{
-					if (allMapsCaravansAndTravelingTransportPod.IsPrisonerOfColony)
+					if (p.IsFreeColonist && !p.Suspended)
 					{
-						yield return allMapsCaravansAndTravelingTransportPod;
-						/*Error: Unable to find new state assignment for yield return*/;
+						yield return p;
 					}
 				}
 				yield break;
-				IL_00c3:
-				/*Error near IL_00c4: Unexpected return in MoveNext()*/;
 			}
 		}
 
-		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_FreeColonistsAndPrisoners
+		// Token: 0x170002CF RID: 719
+		// (get) Token: 0x06001539 RID: 5433 RVA: 0x000B9CDC File Offset: 0x000B80DC
+		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive_OfPlayerFaction
 		{
 			get
 			{
-				return PawnsFinder.AllMapsCaravansAndTravelingTransportPods_FreeColonists.Concat(PawnsFinder.AllMapsCaravansAndTravelingTransportPods_PrisonersOfColony);
+				Faction playerFaction = Faction.OfPlayer;
+				foreach (Pawn p in PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive)
+				{
+					if (p.Faction == playerFaction)
+					{
+						yield return p;
+					}
+				}
+				yield break;
 			}
 		}
 
+		// Token: 0x170002D0 RID: 720
+		// (get) Token: 0x0600153A RID: 5434 RVA: 0x000B9D00 File Offset: 0x000B8100
+		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive_OfPlayerFaction_NoCryptosleep
+		{
+			get
+			{
+				Faction playerFaction = Faction.OfPlayer;
+				foreach (Pawn p in PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive)
+				{
+					if (p.Faction == playerFaction && !p.Suspended)
+					{
+						yield return p;
+					}
+				}
+				yield break;
+			}
+		}
+
+		// Token: 0x170002D1 RID: 721
+		// (get) Token: 0x0600153B RID: 5435 RVA: 0x000B9D24 File Offset: 0x000B8124
+		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive_PrisonersOfColony
+		{
+			get
+			{
+				foreach (Pawn p in PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive)
+				{
+					if (p.IsPrisonerOfColony)
+					{
+						yield return p;
+					}
+				}
+				yield break;
+			}
+		}
+
+		// Token: 0x170002D2 RID: 722
+		// (get) Token: 0x0600153C RID: 5436 RVA: 0x000B9D48 File Offset: 0x000B8148
+		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonistsAndPrisoners
+		{
+			get
+			{
+				return PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists.Concat(PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_PrisonersOfColony);
+			}
+		}
+
+		// Token: 0x170002D3 RID: 723
+		// (get) Token: 0x0600153D RID: 5437 RVA: 0x000B9D6C File Offset: 0x000B816C
+		public static IEnumerable<Pawn> AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonistsAndPrisoners_NoCryptosleep
+		{
+			get
+			{
+				foreach (Pawn p in PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonistsAndPrisoners)
+				{
+					if (!p.Suspended)
+					{
+						yield return p;
+					}
+				}
+				yield break;
+			}
+		}
+
+		// Token: 0x170002D4 RID: 724
+		// (get) Token: 0x0600153E RID: 5438 RVA: 0x000B9D90 File Offset: 0x000B8190
 		public static IEnumerable<Pawn> AllMaps_PrisonersOfColonySpawned
 		{
 			get
 			{
-				List<Map> maps = Find.Maps;
-				int j = 0;
-				List<Pawn> prisonersOfColonySpawned;
-				int i;
-				while (true)
+				if (Current.ProgramState != ProgramState.Entry)
 				{
-					if (j < maps.Count)
+					List<Map> maps = Find.Maps;
+					for (int i = 0; i < maps.Count; i++)
 					{
-						prisonersOfColonySpawned = maps[j].mapPawns.PrisonersOfColonySpawned;
-						i = 0;
-						if (i < prisonersOfColonySpawned.Count)
-							break;
-						j++;
-						continue;
+						List<Pawn> prisonersOfColonySpawned = maps[i].mapPawns.PrisonersOfColonySpawned;
+						for (int j = 0; j < prisonersOfColonySpawned.Count; j++)
+						{
+							yield return prisonersOfColonySpawned[j];
+						}
 					}
-					yield break;
 				}
-				yield return prisonersOfColonySpawned[i];
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield break;
 			}
 		}
 
+		// Token: 0x170002D5 RID: 725
+		// (get) Token: 0x0600153F RID: 5439 RVA: 0x000B9DB4 File Offset: 0x000B81B4
 		public static IEnumerable<Pawn> AllMaps_PrisonersOfColony
 		{
 			get
 			{
-				List<Map> maps = Find.Maps;
-				for (int i = 0; i < maps.Count; i++)
+				if (Current.ProgramState != ProgramState.Entry)
 				{
-					using (IEnumerator<Pawn> enumerator = maps[i].mapPawns.PrisonersOfColony.GetEnumerator())
+					List<Map> maps = Find.Maps;
+					for (int i = 0; i < maps.Count; i++)
 					{
-						if (enumerator.MoveNext())
+						foreach (Pawn p in maps[i].mapPawns.PrisonersOfColony)
 						{
-							Pawn p = enumerator.Current;
 							yield return p;
-							/*Error: Unable to find new state assignment for yield return*/;
 						}
 					}
 				}
 				yield break;
-				IL_0104:
-				/*Error near IL_0105: Unexpected return in MoveNext()*/;
 			}
 		}
 
+		// Token: 0x170002D6 RID: 726
+		// (get) Token: 0x06001540 RID: 5440 RVA: 0x000B9DD8 File Offset: 0x000B81D8
 		public static IEnumerable<Pawn> AllMaps_FreeColonists
 		{
 			get
 			{
-				List<Map> maps = Find.Maps;
-				for (int i = 0; i < maps.Count; i++)
+				if (Current.ProgramState != ProgramState.Entry)
 				{
-					using (IEnumerator<Pawn> enumerator = maps[i].mapPawns.FreeColonists.GetEnumerator())
+					List<Map> maps = Find.Maps;
+					for (int i = 0; i < maps.Count; i++)
 					{
-						if (enumerator.MoveNext())
+						foreach (Pawn p in maps[i].mapPawns.FreeColonists)
 						{
-							Pawn p = enumerator.Current;
 							yield return p;
-							/*Error: Unable to find new state assignment for yield return*/;
 						}
 					}
 				}
 				yield break;
-				IL_0104:
-				/*Error near IL_0105: Unexpected return in MoveNext()*/;
 			}
 		}
 
+		// Token: 0x170002D7 RID: 727
+		// (get) Token: 0x06001541 RID: 5441 RVA: 0x000B9DFC File Offset: 0x000B81FC
 		public static IEnumerable<Pawn> AllMaps_FreeColonistsSpawned
 		{
 			get
 			{
-				List<Map> maps = Find.Maps;
-				for (int i = 0; i < maps.Count; i++)
+				if (Current.ProgramState != ProgramState.Entry)
 				{
-					using (IEnumerator<Pawn> enumerator = maps[i].mapPawns.FreeColonistsSpawned.GetEnumerator())
+					List<Map> maps = Find.Maps;
+					for (int i = 0; i < maps.Count; i++)
 					{
-						if (enumerator.MoveNext())
+						foreach (Pawn p in maps[i].mapPawns.FreeColonistsSpawned)
 						{
-							Pawn p = enumerator.Current;
 							yield return p;
-							/*Error: Unable to find new state assignment for yield return*/;
 						}
 					}
 				}
 				yield break;
-				IL_0104:
-				/*Error near IL_0105: Unexpected return in MoveNext()*/;
 			}
 		}
 
+		// Token: 0x170002D8 RID: 728
+		// (get) Token: 0x06001542 RID: 5442 RVA: 0x000B9E20 File Offset: 0x000B8220
 		public static IEnumerable<Pawn> AllMaps_FreeColonistsAndPrisonersSpawned
 		{
 			get
 			{
-				List<Map> maps = Find.Maps;
-				for (int i = 0; i < maps.Count; i++)
+				if (Current.ProgramState != ProgramState.Entry)
 				{
-					using (IEnumerator<Pawn> enumerator = maps[i].mapPawns.FreeColonistsAndPrisonersSpawned.GetEnumerator())
+					List<Map> maps = Find.Maps;
+					for (int i = 0; i < maps.Count; i++)
 					{
-						if (enumerator.MoveNext())
+						foreach (Pawn p in maps[i].mapPawns.FreeColonistsAndPrisonersSpawned)
 						{
-							Pawn p = enumerator.Current;
 							yield return p;
-							/*Error: Unable to find new state assignment for yield return*/;
 						}
 					}
 				}
 				yield break;
-				IL_0104:
-				/*Error near IL_0105: Unexpected return in MoveNext()*/;
 			}
 		}
 
+		// Token: 0x170002D9 RID: 729
+		// (get) Token: 0x06001543 RID: 5443 RVA: 0x000B9E44 File Offset: 0x000B8244
 		public static IEnumerable<Pawn> AllMaps_FreeColonistsAndPrisoners
 		{
 			get
@@ -458,43 +508,28 @@ namespace RimWorld
 				List<Map> maps = Find.Maps;
 				for (int i = 0; i < maps.Count; i++)
 				{
-					using (IEnumerator<Pawn> enumerator = maps[i].mapPawns.FreeColonistsAndPrisoners.GetEnumerator())
+					foreach (Pawn p in maps[i].mapPawns.FreeColonistsAndPrisoners)
 					{
-						if (enumerator.MoveNext())
-						{
-							Pawn p = enumerator.Current;
-							yield return p;
-							/*Error: Unable to find new state assignment for yield return*/;
-						}
+						yield return p;
 					}
 				}
 				yield break;
-				IL_0104:
-				/*Error near IL_0105: Unexpected return in MoveNext()*/;
 			}
 		}
 
+		// Token: 0x06001544 RID: 5444 RVA: 0x000B9E68 File Offset: 0x000B8268
 		public static IEnumerable<Pawn> AllMaps_SpawnedPawnsInFaction(Faction faction)
 		{
 			List<Map> maps = Find.Maps;
-			int j = 0;
-			List<Pawn> spawnedPawnsInFaction;
-			int i;
-			while (true)
+			for (int i = 0; i < maps.Count; i++)
 			{
-				if (j < maps.Count)
+				List<Pawn> spawnedPawnsInFaction = maps[i].mapPawns.SpawnedPawnsInFaction(faction);
+				for (int j = 0; j < spawnedPawnsInFaction.Count; j++)
 				{
-					spawnedPawnsInFaction = maps[j].mapPawns.SpawnedPawnsInFaction(faction);
-					i = 0;
-					if (i < spawnedPawnsInFaction.Count)
-						break;
-					j++;
-					continue;
+					yield return spawnedPawnsInFaction[j];
 				}
-				yield break;
 			}
-			yield return spawnedPawnsInFaction[i];
-			/*Error: Unable to find new state assignment for yield return*/;
+			yield break;
 		}
 	}
 }

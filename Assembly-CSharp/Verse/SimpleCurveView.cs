@@ -1,46 +1,38 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000EF8 RID: 3832
 	public class SimpleCurveView
 	{
-		public Rect rect;
-
-		private Dictionary<object, float> debugInputValues = new Dictionary<object, float>();
-
-		private const float ResetZoomBuffer = 0.1f;
-
-		private static Rect identityRect = new Rect(0f, 0f, 1f, 1f);
-
+		// Token: 0x17000E9F RID: 3743
+		// (get) Token: 0x06005B7D RID: 23421 RVA: 0x002E8F7C File Offset: 0x002E737C
 		public IEnumerable<float> DebugInputValues
 		{
 			get
 			{
-				if (this.debugInputValues != null)
+				if (this.debugInputValues == null)
 				{
-					using (Dictionary<object, float>.ValueCollection.Enumerator enumerator = this.debugInputValues.Values.GetEnumerator())
-					{
-						if (enumerator.MoveNext())
-						{
-							float val = enumerator.Current;
-							yield return val;
-							/*Error: Unable to find new state assignment for yield return*/;
-						}
-					}
+					yield break;
+				}
+				foreach (float val in this.debugInputValues.Values)
+				{
+					yield return val;
 				}
 				yield break;
-				IL_00ce:
-				/*Error near IL_00cf: Unexpected return in MoveNext()*/;
 			}
 		}
 
+		// Token: 0x06005B7E RID: 23422 RVA: 0x002E8FA6 File Offset: 0x002E73A6
 		public void SetDebugInput(object key, float value)
 		{
 			this.debugInputValues[key] = value;
 		}
 
+		// Token: 0x06005B7F RID: 23423 RVA: 0x002E8FB6 File Offset: 0x002E73B6
 		public void ClearDebugInputFrom(object key)
 		{
 			if (this.debugInputValues.ContainsKey(key))
@@ -49,41 +41,30 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06005B80 RID: 23424 RVA: 0x002E8FD8 File Offset: 0x002E73D8
 		public void SetViewRectAround(SimpleCurve curve)
 		{
-			if (!curve.AllPoints.Any())
+			if (curve.PointsCount == 0)
 			{
 				this.rect = SimpleCurveView.identityRect;
 			}
 			else
 			{
-				this.rect.xMin = curve.AllPoints.Select(delegate(CurvePoint pt)
-				{
-					Vector2 loc4 = pt.Loc;
-					return loc4.x;
-				}).Min();
-				this.rect.xMax = curve.AllPoints.Select(delegate(CurvePoint pt)
-				{
-					Vector2 loc3 = pt.Loc;
-					return loc3.x;
-				}).Max();
-				this.rect.yMin = curve.AllPoints.Select(delegate(CurvePoint pt)
-				{
-					Vector2 loc2 = pt.Loc;
-					return loc2.y;
-				}).Min();
-				this.rect.yMax = curve.AllPoints.Select(delegate(CurvePoint pt)
-				{
-					Vector2 loc = pt.Loc;
-					return loc.y;
-				}).Max();
+				this.rect.xMin = (from pt in curve.Points
+				select pt.Loc.x).Min();
+				this.rect.xMax = (from pt in curve.Points
+				select pt.Loc.x).Max();
+				this.rect.yMin = (from pt in curve.Points
+				select pt.Loc.y).Min();
+				this.rect.yMax = (from pt in curve.Points
+				select pt.Loc.y).Max();
 				if (Mathf.Approximately(this.rect.width, 0f))
 				{
-					this.rect.width = (float)(this.rect.xMin * 2.0);
+					this.rect.width = this.rect.xMin * 2f;
 				}
 				if (Mathf.Approximately(this.rect.height, 0f))
 				{
-					this.rect.height = (float)(this.rect.yMin * 2.0);
+					this.rect.height = this.rect.yMin * 2f;
 				}
 				if (Mathf.Approximately(this.rect.width, 0f))
 				{
@@ -95,11 +76,23 @@ namespace Verse
 				}
 				float width = this.rect.width;
 				float height = this.rect.height;
-				this.rect.xMin -= (float)(width * 0.10000000149011612);
-				this.rect.xMax += (float)(width * 0.10000000149011612);
-				this.rect.yMin -= (float)(height * 0.10000000149011612);
-				this.rect.yMax += (float)(height * 0.10000000149011612);
+				this.rect.xMin = this.rect.xMin - width * 0.1f;
+				this.rect.xMax = this.rect.xMax + width * 0.1f;
+				this.rect.yMin = this.rect.yMin - height * 0.1f;
+				this.rect.yMax = this.rect.yMax + height * 0.1f;
 			}
 		}
+
+		// Token: 0x04003C9E RID: 15518
+		public Rect rect;
+
+		// Token: 0x04003C9F RID: 15519
+		private Dictionary<object, float> debugInputValues = new Dictionary<object, float>();
+
+		// Token: 0x04003CA0 RID: 15520
+		private const float ResetZoomBuffer = 0.1f;
+
+		// Token: 0x04003CA1 RID: 15521
+		private static Rect identityRect = new Rect(0f, 0f, 1f, 1f);
 	}
 }

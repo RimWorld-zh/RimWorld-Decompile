@@ -1,142 +1,147 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Verse
 {
+	// Token: 0x02000E8B RID: 3723
 	public class MouseoverReadout
 	{
-		private TerrainDef cachedTerrain;
-
-		private string cachedTerrainString;
-
-		private string[] glowStrings;
-
-		private const float YInterval = 19f;
-
-		private static readonly Vector2 BotLeft = new Vector2(15f, 65f);
-
+		// Token: 0x060057C8 RID: 22472 RVA: 0x002CFC3B File Offset: 0x002CE03B
 		public MouseoverReadout()
 		{
 			this.MakePermaCache();
 		}
 
+		// Token: 0x060057C9 RID: 22473 RVA: 0x002CFC4C File Offset: 0x002CE04C
 		private void MakePermaCache()
 		{
 			this.glowStrings = new string[101];
 			for (int i = 0; i <= 100; i++)
 			{
-				this.glowStrings[i] = GlowGrid.PsychGlowAtGlow((float)((float)i / 100.0)).GetLabel() + " (" + ((float)((float)i / 100.0)).ToStringPercent() + ")";
+				this.glowStrings[i] = GlowGrid.PsychGlowAtGlow((float)i / 100f).GetLabel() + " (" + ((float)i / 100f).ToStringPercent() + ")";
 			}
 		}
 
+		// Token: 0x060057CA RID: 22474 RVA: 0x002CFCB4 File Offset: 0x002CE0B4
 		public void MouseoverReadoutOnGUI()
 		{
-			if (Event.current.type == EventType.Repaint && Find.MainTabsRoot.OpenTab == null)
+			if (Event.current.type == EventType.Repaint)
 			{
-				GenUI.DrawTextWinterShadow(new Rect(256f, (float)(UI.screenHeight - 256), -256f, 256f));
-				Text.Font = GameFont.Small;
-				GUI.color = new Color(1f, 1f, 1f, 0.8f);
-				IntVec3 c = UI.MouseCell();
-				if (c.InBounds(Find.VisibleMap))
+				if (Find.MainTabsRoot.OpenTab == null)
 				{
-					float num = 0f;
-					Rect rect = default(Rect);
-					if (c.Fogged(Find.VisibleMap))
+					GenUI.DrawTextWinterShadow(new Rect(256f, (float)(UI.screenHeight - 256), -256f, 256f));
+					Text.Font = GameFont.Small;
+					GUI.color = new Color(1f, 1f, 1f, 0.8f);
+					IntVec3 c = UI.MouseCell();
+					if (c.InBounds(Find.CurrentMap))
 					{
-						Vector2 botLeft = MouseoverReadout.BotLeft;
-						float x = botLeft.x;
-						float num2 = (float)UI.screenHeight;
-						Vector2 botLeft2 = MouseoverReadout.BotLeft;
-						rect = new Rect(x, num2 - botLeft2.y - num, 999f, 999f);
-						Widgets.Label(rect, "Undiscovered".Translate());
-						GUI.color = Color.white;
-					}
-					else
-					{
-						Vector2 botLeft3 = MouseoverReadout.BotLeft;
-						float x2 = botLeft3.x;
-						float num3 = (float)UI.screenHeight;
-						Vector2 botLeft4 = MouseoverReadout.BotLeft;
-						rect = new Rect(x2, num3 - botLeft4.y - num, 999f, 999f);
-						int num4 = Mathf.RoundToInt((float)(Find.VisibleMap.glowGrid.GameGlowAt(c, false) * 100.0));
-						Widgets.Label(rect, this.glowStrings[num4]);
-						num = (float)(num + 19.0);
-						Vector2 botLeft5 = MouseoverReadout.BotLeft;
-						float x3 = botLeft5.x;
-						float num5 = (float)UI.screenHeight;
-						Vector2 botLeft6 = MouseoverReadout.BotLeft;
-						rect = new Rect(x3, num5 - botLeft6.y - num, 999f, 999f);
-						TerrainDef terrain = c.GetTerrain(Find.VisibleMap);
-						if (terrain != this.cachedTerrain)
+						float num = 0f;
+						Profiler.BeginSample("fog");
+						if (c.Fogged(Find.CurrentMap))
 						{
-							string str = (!((double)terrain.fertility > 0.0001)) ? string.Empty : (" " + "FertShort".Translate() + " " + terrain.fertility.ToStringPercent());
-							this.cachedTerrainString = terrain.LabelCap + ((terrain.passability == Traversability.Impassable) ? null : (" (" + "WalkSpeed".Translate(this.SpeedPercentString((float)terrain.pathCost)) + str + ")"));
-							this.cachedTerrain = terrain;
+							Rect rect = new Rect(MouseoverReadout.BotLeft.x, (float)UI.screenHeight - MouseoverReadout.BotLeft.y - num, 999f, 999f);
+							Widgets.Label(rect, "Undiscovered".Translate());
+							GUI.color = Color.white;
+							Profiler.EndSample();
 						}
-						Widgets.Label(rect, this.cachedTerrainString);
-						num = (float)(num + 19.0);
-						Zone zone = c.GetZone(Find.VisibleMap);
-						if (zone != null)
+						else
 						{
-							Vector2 botLeft7 = MouseoverReadout.BotLeft;
-							float x4 = botLeft7.x;
-							float num6 = (float)UI.screenHeight;
-							Vector2 botLeft8 = MouseoverReadout.BotLeft;
-							rect = new Rect(x4, num6 - botLeft8.y - num, 999f, 999f);
-							string label = zone.label;
-							Widgets.Label(rect, label);
-							num = (float)(num + 19.0);
-						}
-						float depth = Find.VisibleMap.snowGrid.GetDepth(c);
-						if (depth > 0.029999999329447746)
-						{
-							Vector2 botLeft9 = MouseoverReadout.BotLeft;
-							float x5 = botLeft9.x;
-							float num7 = (float)UI.screenHeight;
-							Vector2 botLeft10 = MouseoverReadout.BotLeft;
-							rect = new Rect(x5, num7 - botLeft10.y - num, 999f, 999f);
-							SnowCategory snowCategory = SnowUtility.GetSnowCategory(depth);
-							string label2 = SnowUtility.GetDescription(snowCategory) + " (" + "WalkSpeed".Translate(this.SpeedPercentString((float)SnowUtility.MovementTicksAddOn(snowCategory))) + ")";
-							Widgets.Label(rect, label2);
-							num = (float)(num + 19.0);
-						}
-						List<Thing> thingList = c.GetThingList(Find.VisibleMap);
-						for (int i = 0; i < thingList.Count; i++)
-						{
-							Thing thing = thingList[i];
-							if (thing.def.category != ThingCategory.Mote)
+							Profiler.EndSample();
+							Profiler.BeginSample("light");
+							Rect rect = new Rect(MouseoverReadout.BotLeft.x, (float)UI.screenHeight - MouseoverReadout.BotLeft.y - num, 999f, 999f);
+							int num2 = Mathf.RoundToInt(Find.CurrentMap.glowGrid.GameGlowAt(c, false) * 100f);
+							Widgets.Label(rect, this.glowStrings[num2]);
+							num += 19f;
+							Profiler.EndSample();
+							Profiler.BeginSample("terrain");
+							rect = new Rect(MouseoverReadout.BotLeft.x, (float)UI.screenHeight - MouseoverReadout.BotLeft.y - num, 999f, 999f);
+							TerrainDef terrain = c.GetTerrain(Find.CurrentMap);
+							if (terrain != this.cachedTerrain)
 							{
-								Vector2 botLeft11 = MouseoverReadout.BotLeft;
-								float x6 = botLeft11.x;
-								float num8 = (float)UI.screenHeight;
-								Vector2 botLeft12 = MouseoverReadout.BotLeft;
-								rect = new Rect(x6, num8 - botLeft12.y - num, 999f, 999f);
-								string labelMouseover = thing.LabelMouseover;
-								Widgets.Label(rect, labelMouseover);
-								num = (float)(num + 19.0);
+								string str = ((double)terrain.fertility <= 0.0001) ? "" : (" " + "FertShort".Translate() + " " + terrain.fertility.ToStringPercent());
+								this.cachedTerrainString = terrain.LabelCap + ((terrain.passability == Traversability.Impassable) ? null : (" (" + "WalkSpeed".Translate(new object[]
+								{
+									this.SpeedPercentString((float)terrain.pathCost)
+								}) + str + ")"));
+								this.cachedTerrain = terrain;
 							}
+							Widgets.Label(rect, this.cachedTerrainString);
+							num += 19f;
+							Profiler.EndSample();
+							Profiler.BeginSample("zone");
+							Zone zone = c.GetZone(Find.CurrentMap);
+							if (zone != null)
+							{
+								rect = new Rect(MouseoverReadout.BotLeft.x, (float)UI.screenHeight - MouseoverReadout.BotLeft.y - num, 999f, 999f);
+								string label = zone.label;
+								Widgets.Label(rect, label);
+								num += 19f;
+							}
+							Profiler.EndSample();
+							float depth = Find.CurrentMap.snowGrid.GetDepth(c);
+							if (depth > 0.03f)
+							{
+								rect = new Rect(MouseoverReadout.BotLeft.x, (float)UI.screenHeight - MouseoverReadout.BotLeft.y - num, 999f, 999f);
+								SnowCategory snowCategory = SnowUtility.GetSnowCategory(depth);
+								string label2 = SnowUtility.GetDescription(snowCategory) + " (" + "WalkSpeed".Translate(new object[]
+								{
+									this.SpeedPercentString((float)SnowUtility.MovementTicksAddOn(snowCategory))
+								}) + ")";
+								Widgets.Label(rect, label2);
+								num += 19f;
+							}
+							Profiler.BeginSample("things");
+							List<Thing> thingList = c.GetThingList(Find.CurrentMap);
+							for (int i = 0; i < thingList.Count; i++)
+							{
+								Thing thing = thingList[i];
+								if (thing.def.category != ThingCategory.Mote)
+								{
+									rect = new Rect(MouseoverReadout.BotLeft.x, (float)UI.screenHeight - MouseoverReadout.BotLeft.y - num, 999f, 999f);
+									string labelMouseover = thing.LabelMouseover;
+									Widgets.Label(rect, labelMouseover);
+									num += 19f;
+								}
+							}
+							Profiler.EndSample();
+							Profiler.BeginSample("roof");
+							RoofDef roof = c.GetRoof(Find.CurrentMap);
+							if (roof != null)
+							{
+								rect = new Rect(MouseoverReadout.BotLeft.x, (float)UI.screenHeight - MouseoverReadout.BotLeft.y - num, 999f, 999f);
+								Widgets.Label(rect, roof.LabelCap);
+								num += 19f;
+							}
+							Profiler.EndSample();
+							GUI.color = Color.white;
 						}
-						RoofDef roof = c.GetRoof(Find.VisibleMap);
-						if (roof != null)
-						{
-							Vector2 botLeft13 = MouseoverReadout.BotLeft;
-							float x7 = botLeft13.x;
-							float num9 = (float)UI.screenHeight;
-							Vector2 botLeft14 = MouseoverReadout.BotLeft;
-							rect = new Rect(x7, num9 - botLeft14.y - num, 999f, 999f);
-							Widgets.Label(rect, roof.LabelCap);
-							num = (float)(num + 19.0);
-						}
-						GUI.color = Color.white;
 					}
 				}
 			}
 		}
 
+		// Token: 0x060057CB RID: 22475 RVA: 0x002D01A8 File Offset: 0x002CE5A8
 		private string SpeedPercentString(float extraPathTicks)
 		{
-			float f = (float)(13.0 / (float)(extraPathTicks + 13.0));
+			float f = 13f / (extraPathTicks + 13f);
 			return f.ToStringPercent();
 		}
+
+		// Token: 0x04003A0C RID: 14860
+		private TerrainDef cachedTerrain;
+
+		// Token: 0x04003A0D RID: 14861
+		private string cachedTerrainString;
+
+		// Token: 0x04003A0E RID: 14862
+		private string[] glowStrings;
+
+		// Token: 0x04003A0F RID: 14863
+		private const float YInterval = 19f;
+
+		// Token: 0x04003A10 RID: 14864
+		private static readonly Vector2 BotLeft = new Vector2(15f, 65f);
 	}
 }

@@ -1,13 +1,12 @@
+﻿using System;
 using System.Collections.Generic;
 
 namespace Verse
 {
+	// Token: 0x02000CA0 RID: 3232
 	public static class RoofCollapseCellsFinder
 	{
-		private static List<IntVec3> roofsCollapsingBecauseTooFar = new List<IntVec3>();
-
-		private static HashSet<IntVec3> visitedCells = new HashSet<IntVec3>();
-
+		// Token: 0x06004719 RID: 18201 RVA: 0x002573B0 File Offset: 0x002557B0
 		public static void Notify_RoofHolderDespawned(Thing t, Map map)
 		{
 			if (Current.ProgramState == ProgramState.Playing)
@@ -16,6 +15,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x0600471A RID: 18202 RVA: 0x002573D8 File Offset: 0x002557D8
 		public static void ProcessRoofHolderDespawned(CellRect rect, IntVec3 position, Map map, bool removalMode = false)
 		{
 			RoofCollapseCellsFinder.CheckCollapseFlyingRoofs(rect, map);
@@ -24,34 +24,42 @@ namespace Verse
 			for (int i = 0; i < RoofCollapseUtility.RoofSupportRadialCellsCount; i++)
 			{
 				IntVec3 intVec = position + GenRadial.RadialPattern[i];
-				if (intVec.InBounds(map) && roofGrid.Roofed(intVec.x, intVec.z) && !map.roofCollapseBuffer.IsMarkedToCollapse(intVec) && !RoofCollapseUtility.WithinRangeOfRoofHolder(intVec, map))
+				if (intVec.InBounds(map))
 				{
-					if (removalMode)
+					if (roofGrid.Roofed(intVec.x, intVec.z))
 					{
-						map.roofGrid.SetRoof(intVec, null);
+						if (!map.roofCollapseBuffer.IsMarkedToCollapse(intVec))
+						{
+							if (!RoofCollapseUtility.WithinRangeOfRoofHolder(intVec, map, false))
+							{
+								if (removalMode)
+								{
+									map.roofGrid.SetRoof(intVec, null);
+								}
+								else
+								{
+									map.roofCollapseBuffer.MarkToCollapse(intVec);
+								}
+								RoofCollapseCellsFinder.roofsCollapsingBecauseTooFar.Add(intVec);
+							}
+						}
 					}
-					else
-					{
-						map.roofCollapseBuffer.MarkToCollapse(intVec);
-					}
-					RoofCollapseCellsFinder.roofsCollapsingBecauseTooFar.Add(intVec);
 				}
 			}
 			RoofCollapseCellsFinder.CheckCollapseFlyingRoofs(RoofCollapseCellsFinder.roofsCollapsingBecauseTooFar, map, removalMode);
 			RoofCollapseCellsFinder.roofsCollapsingBecauseTooFar.Clear();
 		}
 
+		// Token: 0x0600471B RID: 18203 RVA: 0x002574CC File Offset: 0x002558CC
 		public static void RemoveBulkCollapsingRoofs(List<IntVec3> nearCells, Map map)
 		{
 			for (int i = 0; i < nearCells.Count; i++)
 			{
-				IntVec3 intVec = nearCells[i];
-				int x = intVec.x;
-				IntVec3 intVec2 = nearCells[i];
-				RoofCollapseCellsFinder.ProcessRoofHolderDespawned(new CellRect(x, intVec2.z, 1, 1), nearCells[i], map, true);
+				RoofCollapseCellsFinder.ProcessRoofHolderDespawned(new CellRect(nearCells[i].x, nearCells[i].z, 1, 1), nearCells[i], map, true);
 			}
 		}
 
+		// Token: 0x0600471C RID: 18204 RVA: 0x00257528 File Offset: 0x00255928
 		public static void CheckCollapseFlyingRoofs(List<IntVec3> nearCells, Map map, bool removalMode = false)
 		{
 			RoofCollapseCellsFinder.visitedCells.Clear();
@@ -62,6 +70,7 @@ namespace Verse
 			RoofCollapseCellsFinder.visitedCells.Clear();
 		}
 
+		// Token: 0x0600471D RID: 18205 RVA: 0x00257574 File Offset: 0x00255974
 		public static void CheckCollapseFlyingRoofs(CellRect nearRect, Map map)
 		{
 			RoofCollapseCellsFinder.visitedCells.Clear();
@@ -74,6 +83,7 @@ namespace Verse
 			RoofCollapseCellsFinder.visitedCells.Clear();
 		}
 
+		// Token: 0x0600471E RID: 18206 RVA: 0x002575C8 File Offset: 0x002559C8
 		private static bool CheckCollapseFlyingRoofAtAndAdjInternal(IntVec3 root, Map map, bool removalMode)
 		{
 			RoofCollapseBuffer roofCollapseBuffer = map.roofCollapseBuffer;
@@ -84,22 +94,34 @@ namespace Verse
 			for (int i = 0; i < 5; i++)
 			{
 				IntVec3 intVec = root + GenAdj.CardinalDirectionsAndInside[i];
-				if (intVec.InBounds(map) && intVec.Roofed(map) && !RoofCollapseCellsFinder.visitedCells.Contains(intVec) && !roofCollapseBuffer.IsMarkedToCollapse(intVec) && !RoofCollapseCellsFinder.ConnectsToRoofHolder(intVec, map, RoofCollapseCellsFinder.visitedCells))
+				if (intVec.InBounds(map))
 				{
-					map.floodFiller.FloodFill(intVec, (IntVec3 x) => x.Roofed(map), delegate(IntVec3 x)
+					if (intVec.Roofed(map))
 					{
-						roofCollapseBuffer.MarkToCollapse(x);
-					}, 2147483647, false, null);
-					if (removalMode)
-					{
-						List<IntVec3> cellsMarkedToCollapse = roofCollapseBuffer.CellsMarkedToCollapse;
-						for (int num = cellsMarkedToCollapse.Count - 1; num >= 0; num--)
+						if (!RoofCollapseCellsFinder.visitedCells.Contains(intVec))
 						{
-							RoofDef roofDef = map.roofGrid.RoofAt(cellsMarkedToCollapse[num]);
-							if (roofDef != null && roofDef.VanishOnCollapse)
+							if (!roofCollapseBuffer.IsMarkedToCollapse(intVec))
 							{
-								map.roofGrid.SetRoof(cellsMarkedToCollapse[num], null);
-								cellsMarkedToCollapse.RemoveAt(num);
+								if (!RoofCollapseCellsFinder.ConnectsToRoofHolder(intVec, map, RoofCollapseCellsFinder.visitedCells))
+								{
+									map.floodFiller.FloodFill(intVec, (IntVec3 x) => x.Roofed(map), delegate(IntVec3 x)
+									{
+										roofCollapseBuffer.MarkToCollapse(x);
+									}, int.MaxValue, false, null);
+									if (removalMode)
+									{
+										List<IntVec3> cellsMarkedToCollapse = roofCollapseBuffer.CellsMarkedToCollapse;
+										for (int j = cellsMarkedToCollapse.Count - 1; j >= 0; j--)
+										{
+											RoofDef roofDef = map.roofGrid.RoofAt(cellsMarkedToCollapse[j]);
+											if (roofDef != null && roofDef.VanishOnCollapse)
+											{
+												map.roofGrid.SetRoof(cellsMarkedToCollapse[j], null);
+												cellsMarkedToCollapse.RemoveAt(j);
+											}
+										}
+									}
+								}
 							}
 						}
 					}
@@ -108,6 +130,7 @@ namespace Verse
 			return false;
 		}
 
+		// Token: 0x0600471F RID: 18207 RVA: 0x0025777C File Offset: 0x00255B7C
 		public static bool ConnectsToRoofHolder(IntVec3 c, Map map, HashSet<IntVec3> visitedCells)
 		{
 			bool connected = false;
@@ -120,27 +143,28 @@ namespace Verse
 				else
 				{
 					visitedCells.Add(x);
-					int num = 0;
-					while (true)
+					for (int i = 0; i < 5; i++)
 					{
-						if (num < 5)
+						IntVec3 c2 = x + GenAdj.CardinalDirectionsAndInside[i];
+						if (c2.InBounds(map))
 						{
-							IntVec3 c2 = x + GenAdj.CardinalDirectionsAndInside[num];
-							if (c2.InBounds(map))
+							Building edifice = c2.GetEdifice(map);
+							if (edifice != null && edifice.def.holdsRoof)
 							{
-								Building edifice = c2.GetEdifice(map);
-								if (edifice != null && edifice.def.holdsRoof)
-									break;
+								connected = true;
+								break;
 							}
-							num++;
-							continue;
 						}
-						return;
 					}
-					connected = true;
 				}
-			}, 2147483647, false, null);
+			}, int.MaxValue, false, null);
 			return connected;
 		}
+
+		// Token: 0x04003053 RID: 12371
+		private static List<IntVec3> roofsCollapsingBecauseTooFar = new List<IntVec3>();
+
+		// Token: 0x04003054 RID: 12372
+		private static HashSet<IntVec3> visitedCells = new HashSet<IntVec3>();
 	}
 }

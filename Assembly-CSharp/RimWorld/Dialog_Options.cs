@@ -1,34 +1,28 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x0200080E RID: 2062
 	public class Dialog_Options : Window
 	{
-		private const float SubOptionTabWidth = 40f;
-
-		private static readonly float[] UIScales = new float[9]
+		// Token: 0x06002DF7 RID: 11767 RVA: 0x00182E6B File Offset: 0x0018126B
+		public Dialog_Options()
 		{
-			1f,
-			1.25f,
-			1.5f,
-			1.75f,
-			2f,
-			2.5f,
-			3f,
-			3.5f,
-			4f
-		};
+			this.doCloseButton = true;
+			this.doCloseX = true;
+			this.forcePause = true;
+			this.absorbInputAroundWindow = true;
+		}
 
-		[CompilerGenerated]
-		private static Predicate<string> _003C_003Ef__mg_0024cache0;
-
+		// Token: 0x17000754 RID: 1876
+		// (get) Token: 0x06002DF8 RID: 11768 RVA: 0x00182E90 File Offset: 0x00181290
 		public override Vector2 InitialSize
 		{
 			get
@@ -37,36 +31,74 @@ namespace RimWorld
 			}
 		}
 
-		public Dialog_Options()
-		{
-			base.closeOnEscapeKey = true;
-			base.doCloseButton = true;
-			base.doCloseX = true;
-			base.forcePause = true;
-			base.absorbInputAroundWindow = true;
-		}
-
+		// Token: 0x06002DF9 RID: 11769 RVA: 0x00182EB4 File Offset: 0x001812B4
 		public override void DoWindowContents(Rect inRect)
 		{
 			Rect rect = inRect.AtZero();
-			rect.yMax -= 45f;
+			rect.yMax -= 35f;
 			Listing_Standard listing_Standard = new Listing_Standard();
-			listing_Standard.ColumnWidth = (float)((rect.width - 34.0) / 3.0);
+			listing_Standard.ColumnWidth = (rect.width - 34f) / 3f;
 			listing_Standard.Begin(rect);
 			Text.Font = GameFont.Medium;
-			listing_Standard.Label("Audiovisuals".Translate(), -1f);
+			listing_Standard.Label("Audiovisuals".Translate(), -1f, null);
 			Text.Font = GameFont.Small;
 			listing_Standard.Gap(12f);
 			listing_Standard.Gap(12f);
-			listing_Standard.Label("GameVolume".Translate(), -1f);
+			listing_Standard.Label("GameVolume".Translate(), -1f, null);
 			Prefs.VolumeGame = listing_Standard.Slider(Prefs.VolumeGame, 0f, 1f);
-			listing_Standard.Label("MusicVolume".Translate(), -1f);
+			listing_Standard.Label("MusicVolume".Translate(), -1f, null);
 			Prefs.VolumeMusic = listing_Standard.Slider(Prefs.VolumeMusic, 0f, 1f);
-			listing_Standard.Label("AmbientVolume".Translate(), -1f);
+			listing_Standard.Label("AmbientVolume".Translate(), -1f, null);
 			Prefs.VolumeAmbient = listing_Standard.Slider(Prefs.VolumeAmbient, 0f, 1f);
 			if (listing_Standard.ButtonTextLabeled("Resolution".Translate(), Dialog_Options.ResToString(Screen.width, Screen.height)))
 			{
-				Find.WindowStack.Add(new Dialog_ResolutionPicker());
+				List<FloatMenuOption> list = new List<FloatMenuOption>();
+				using (IEnumerator<Resolution> enumerator = (from x in UnityGUIBugsFixer.ScreenResolutionsWithoutDuplicates
+				where x.width >= 1024 && x.height >= 768
+				orderby x.width, x.height
+				select x).GetEnumerator())
+				{
+					while (enumerator.MoveNext())
+					{
+						Resolution res = enumerator.Current;
+						list.Add(new FloatMenuOption(Dialog_Options.ResToString(res.width, res.height), delegate()
+						{
+							if (!ResolutionUtility.UIScaleSafeWithResolution(Prefs.UIScale, res.width, res.height))
+							{
+								Messages.Message("MessageScreenResTooSmallForUIScale".Translate(), MessageTypeDefOf.RejectInput, false);
+							}
+							else
+							{
+								ResolutionUtility.SafeSetResolution(res);
+							}
+						}, MenuOptionPriority.Default, null, null, 0f, null, null));
+					}
+				}
+				if (!list.Any<FloatMenuOption>())
+				{
+					list.Add(new FloatMenuOption("NoneBrackets".Translate(), null, MenuOptionPriority.Default, null, null, 0f, null, null));
+				}
+				Find.WindowStack.Add(new FloatMenu(list));
+			}
+			if (listing_Standard.ButtonTextLabeled("UIScale".Translate(), Prefs.UIScale.ToString() + "x"))
+			{
+				List<FloatMenuOption> list2 = new List<FloatMenuOption>();
+				for (int i = 0; i < Dialog_Options.UIScales.Length; i++)
+				{
+					float scale = Dialog_Options.UIScales[i];
+					list2.Add(new FloatMenuOption(Dialog_Options.UIScales[i].ToString() + "x", delegate()
+					{
+						if (scale != 1f && !ResolutionUtility.UIScaleSafeWithResolution(scale, Screen.width, Screen.height))
+						{
+							Messages.Message("MessageScreenResTooSmallForUIScale".Translate(), MessageTypeDefOf.RejectInput, false);
+						}
+						else
+						{
+							ResolutionUtility.SafeSetUIScale(scale);
+						}
+					}, MenuOptionPriority.Default, null, null, 0f, null, null));
+				}
+				Find.WindowStack.Add(new FloatMenu(list2));
 			}
 			bool customCursorEnabled = Prefs.CustomCursorEnabled;
 			listing_Standard.CheckboxLabeled("CustomCursor".Translate(), ref customCursorEnabled, null);
@@ -78,23 +110,6 @@ namespace RimWorld
 			{
 				ResolutionUtility.SafeSetFullscreen(fullScreen);
 			}
-			listing_Standard.Label("UIScale".Translate(), -1f);
-			float[] uIScales = Dialog_Options.UIScales;
-			for (int i = 0; i < uIScales.Length; i++)
-			{
-				float num = uIScales[i];
-				if (listing_Standard.RadioButton(num.ToString() + "x", Prefs.UIScale == num, 8f))
-				{
-					if (!ResolutionUtility.UIScaleSafeWithResolution(num, Screen.width, Screen.height))
-					{
-						Messages.Message("MessageScreenResTooSmallForUIScale".Translate(), MessageTypeDefOf.RejectInput);
-					}
-					else
-					{
-						ResolutionUtility.SafeSetUIScale(num);
-					}
-				}
-			}
 			listing_Standard.Gap(12f);
 			bool hatsOnlyOnMap = Prefs.HatsOnlyOnMap;
 			listing_Standard.CheckboxLabeled("HatsShownOnlyOnMap".Translate(), ref hatsOnlyOnMap, null);
@@ -103,9 +118,42 @@ namespace RimWorld
 				PortraitsCache.Clear();
 			}
 			Prefs.HatsOnlyOnMap = hatsOnlyOnMap;
+			bool plantWindSway = Prefs.PlantWindSway;
+			listing_Standard.CheckboxLabeled("PlantWindSway".Translate(), ref plantWindSway, null);
+			Prefs.PlantWindSway = plantWindSway;
+			bool showRealtimeClock = Prefs.ShowRealtimeClock;
+			listing_Standard.CheckboxLabeled("ShowRealtimeClock".Translate(), ref showRealtimeClock, null);
+			Prefs.ShowRealtimeClock = showRealtimeClock;
+			if (listing_Standard.ButtonTextLabeled("ShowAnimalNames".Translate(), Prefs.AnimalNameMode.ToStringHuman()))
+			{
+				List<FloatMenuOption> list3 = new List<FloatMenuOption>();
+				IEnumerator enumerator2 = Enum.GetValues(typeof(AnimalNameDisplayMode)).GetEnumerator();
+				try
+				{
+					while (enumerator2.MoveNext())
+					{
+						object obj = enumerator2.Current;
+						AnimalNameDisplayMode localMode2 = (AnimalNameDisplayMode)obj;
+						AnimalNameDisplayMode localMode = localMode2;
+						list3.Add(new FloatMenuOption(localMode.ToStringHuman(), delegate()
+						{
+							Prefs.AnimalNameMode = localMode;
+						}, MenuOptionPriority.Default, null, null, 0f, null, null));
+					}
+				}
+				finally
+				{
+					IDisposable disposable;
+					if ((disposable = (enumerator2 as IDisposable)) != null)
+					{
+						disposable.Dispose();
+					}
+				}
+				Find.WindowStack.Add(new FloatMenu(list3));
+			}
 			listing_Standard.NewColumn();
 			Text.Font = GameFont.Medium;
-			listing_Standard.Label("Gameplay".Translate(), -1f);
+			listing_Standard.Label("Gameplay".Translate(), -1f, null);
 			Text.Font = GameFont.Small;
 			listing_Standard.Gap(12f);
 			listing_Standard.Gap(12f);
@@ -117,34 +165,41 @@ namespace RimWorld
 			{
 				if (Current.ProgramState == ProgramState.Playing)
 				{
-					Messages.Message("ChangeLanguageFromMainMenu".Translate(), MessageTypeDefOf.RejectInput);
+					Messages.Message("ChangeLanguageFromMainMenu".Translate(), MessageTypeDefOf.RejectInput, false);
 				}
 				else
 				{
-					List<FloatMenuOption> list = new List<FloatMenuOption>();
-					foreach (LoadedLanguage allLoadedLanguage in LanguageDatabase.AllLoadedLanguages)
+					List<FloatMenuOption> list4 = new List<FloatMenuOption>();
+					foreach (LoadedLanguage localLang2 in LanguageDatabase.AllLoadedLanguages)
 					{
-						LoadedLanguage localLang = allLoadedLanguage;
-						list.Add(new FloatMenuOption(localLang.FriendlyNameNative, delegate
+						LoadedLanguage localLang = localLang2;
+						list4.Add(new FloatMenuOption(localLang.FriendlyNameNative, delegate()
 						{
 							LanguageDatabase.SelectLanguage(localLang);
 						}, MenuOptionPriority.Default, null, null, 0f, null, null));
 					}
-					Find.WindowStack.Add(new FloatMenu(list));
+					Find.WindowStack.Add(new FloatMenu(list4));
 				}
 			}
-			if ((Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor) && listing_Standard.ButtonText("OpenSaveGameDataFolder".Translate(), null))
+			if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
 			{
-				Application.OpenURL(GenFilePaths.SaveDataFolderPath);
+				if (listing_Standard.ButtonText("OpenSaveGameDataFolder".Translate(), null))
+				{
+					Application.OpenURL(GenFilePaths.SaveDataFolderPath);
+				}
+			}
+			else if (listing_Standard.ButtonText("ShowSaveGameDataLocation".Translate(), null))
+			{
+				Find.WindowStack.Add(new Dialog_MessageBox(Path.GetFullPath(GenFilePaths.SaveDataFolderPath), null, null, null, null, null, false, null, null));
+			}
+			if (listing_Standard.ButtonText("ResetAdaptiveTutor".Translate(), null))
+			{
+				Messages.Message("AdaptiveTutorIsReset".Translate(), MessageTypeDefOf.TaskCompletion, false);
+				PlayerKnowledgeDatabase.ResetPersistent();
 			}
 			bool adaptiveTrainingEnabled = Prefs.AdaptiveTrainingEnabled;
 			listing_Standard.CheckboxLabeled("LearningHelper".Translate(), ref adaptiveTrainingEnabled, null);
 			Prefs.AdaptiveTrainingEnabled = adaptiveTrainingEnabled;
-			if (listing_Standard.ButtonText("ResetAdaptiveTutor".Translate(), null))
-			{
-				Messages.Message("AdaptiveTutorIsReset".Translate(), MessageTypeDefOf.TaskCompletion);
-				PlayerKnowledgeDatabase.ResetPersistent();
-			}
 			bool runInBackground = Prefs.RunInBackground;
 			listing_Standard.CheckboxLabeled("RunInBackground".Translate(), ref runInBackground, null);
 			Prefs.RunInBackground = runInBackground;
@@ -157,30 +212,29 @@ namespace RimWorld
 			bool pauseOnUrgentLetter = Prefs.PauseOnUrgentLetter;
 			listing_Standard.CheckboxLabeled("PauseOnUrgentLetter".Translate(), ref pauseOnUrgentLetter, null);
 			Prefs.PauseOnUrgentLetter = pauseOnUrgentLetter;
-			bool showRealtimeClock = Prefs.ShowRealtimeClock;
-			listing_Standard.CheckboxLabeled("ShowRealtimeClock".Translate(), ref showRealtimeClock, null);
-			Prefs.ShowRealtimeClock = showRealtimeClock;
-			bool plantWindSway = Prefs.PlantWindSway;
-			listing_Standard.CheckboxLabeled("PlantWindSway".Translate(), ref plantWindSway, null);
-			Prefs.PlantWindSway = plantWindSway;
 			int maxNumberOfPlayerHomes = Prefs.MaxNumberOfPlayerHomes;
-			listing_Standard.Label("MaxNumberOfPlayerHomes".Translate(maxNumberOfPlayerHomes), -1f);
-			int num3 = Prefs.MaxNumberOfPlayerHomes = Mathf.RoundToInt(listing_Standard.Slider((float)maxNumberOfPlayerHomes, 1f, 5f));
-			if (maxNumberOfPlayerHomes != num3 && num3 > 1)
+			listing_Standard.Label("MaxNumberOfPlayerHomes".Translate(new object[]
+			{
+				maxNumberOfPlayerHomes
+			}), -1f, null);
+			int num = Mathf.RoundToInt(listing_Standard.Slider((float)maxNumberOfPlayerHomes, 1f, 5f));
+			Prefs.MaxNumberOfPlayerHomes = num;
+			if (maxNumberOfPlayerHomes != num && num > 1)
 			{
 				TutorUtility.DoModalDialogIfNotKnown(ConceptDefOf.MaxNumberOfPlayerHomes);
 			}
 			if (listing_Standard.ButtonTextLabeled("TemperatureMode".Translate(), Prefs.TemperatureMode.ToStringHuman()))
 			{
-				List<FloatMenuOption> list2 = new List<FloatMenuOption>();
-				IEnumerator enumerator2 = Enum.GetValues(typeof(TemperatureDisplayMode)).GetEnumerator();
+				List<FloatMenuOption> list5 = new List<FloatMenuOption>();
+				IEnumerator enumerator4 = Enum.GetValues(typeof(TemperatureDisplayMode)).GetEnumerator();
 				try
 				{
-					while (enumerator2.MoveNext())
+					while (enumerator4.MoveNext())
 					{
-						TemperatureDisplayMode temperatureDisplayMode = (TemperatureDisplayMode)enumerator2.Current;
-						TemperatureDisplayMode localTmode = temperatureDisplayMode;
-						list2.Add(new FloatMenuOption(localTmode.ToString(), delegate
+						object obj2 = enumerator4.Current;
+						TemperatureDisplayMode localTmode2 = (TemperatureDisplayMode)obj2;
+						TemperatureDisplayMode localTmode = localTmode2;
+						list5.Add(new FloatMenuOption(localTmode.ToString(), delegate()
 						{
 							Prefs.TemperatureMode = localTmode;
 						}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -188,92 +242,91 @@ namespace RimWorld
 				}
 				finally
 				{
-					IDisposable disposable;
-					if ((disposable = (enumerator2 as IDisposable)) != null)
-					{
-						disposable.Dispose();
-					}
-				}
-				Find.WindowStack.Add(new FloatMenu(list2));
-			}
-			float autosaveIntervalDays = Prefs.AutosaveIntervalDays;
-			string text = "Days".Translate();
-			string text2 = "Day".Translate().ToLower();
-			if (listing_Standard.ButtonTextLabeled("AutosaveInterval".Translate(), autosaveIntervalDays + " " + ((autosaveIntervalDays != 1.0) ? text : text2)))
-			{
-				List<FloatMenuOption> list3 = new List<FloatMenuOption>();
-				if (Prefs.DevMode)
-				{
-					list3.Add(new FloatMenuOption("0.125 " + text + "(debug)", delegate
-					{
-						Prefs.AutosaveIntervalDays = 0.125f;
-					}, MenuOptionPriority.Default, null, null, 0f, null, null));
-					list3.Add(new FloatMenuOption("0.25 " + text + "(debug)", delegate
-					{
-						Prefs.AutosaveIntervalDays = 0.25f;
-					}, MenuOptionPriority.Default, null, null, 0f, null, null));
-				}
-				list3.Add(new FloatMenuOption("0.5 " + text + string.Empty, delegate
-				{
-					Prefs.AutosaveIntervalDays = 0.5f;
-				}, MenuOptionPriority.Default, null, null, 0f, null, null));
-				list3.Add(new FloatMenuOption(1.ToString() + " " + text2, delegate
-				{
-					Prefs.AutosaveIntervalDays = 1f;
-				}, MenuOptionPriority.Default, null, null, 0f, null, null));
-				list3.Add(new FloatMenuOption(3.ToString() + " " + text, delegate
-				{
-					Prefs.AutosaveIntervalDays = 3f;
-				}, MenuOptionPriority.Default, null, null, 0f, null, null));
-				list3.Add(new FloatMenuOption(7.ToString() + " " + text, delegate
-				{
-					Prefs.AutosaveIntervalDays = 7f;
-				}, MenuOptionPriority.Default, null, null, 0f, null, null));
-				list3.Add(new FloatMenuOption(14.ToString() + " " + text, delegate
-				{
-					Prefs.AutosaveIntervalDays = 14f;
-				}, MenuOptionPriority.Default, null, null, 0f, null, null));
-				Find.WindowStack.Add(new FloatMenu(list3));
-			}
-			if (Current.ProgramState == ProgramState.Playing && Current.Game.Info.permadeathMode && Prefs.AutosaveIntervalDays > 1.0)
-			{
-				GUI.color = Color.red;
-				listing_Standard.Label("MaxPermadeathAutosaveIntervalInfo".Translate(1f), -1f);
-				GUI.color = Color.white;
-			}
-			if (Current.ProgramState == ProgramState.Playing && listing_Standard.ButtonText("ChangeStoryteller".Translate(), "OptionsButton-ChooseStoryteller") && TutorSystem.AllowAction("ChooseStoryteller"))
-			{
-				Find.WindowStack.Add(new Page_SelectStorytellerInGame());
-			}
-			if (listing_Standard.ButtonTextLabeled("ShowAnimalNames".Translate(), Prefs.AnimalNameMode.ToStringHuman()))
-			{
-				List<FloatMenuOption> list4 = new List<FloatMenuOption>();
-				IEnumerator enumerator3 = Enum.GetValues(typeof(AnimalNameDisplayMode)).GetEnumerator();
-				try
-				{
-					while (enumerator3.MoveNext())
-					{
-						AnimalNameDisplayMode animalNameDisplayMode = (AnimalNameDisplayMode)enumerator3.Current;
-						AnimalNameDisplayMode localMode = animalNameDisplayMode;
-						list4.Add(new FloatMenuOption(localMode.ToStringHuman(), delegate
-						{
-							Prefs.AnimalNameMode = localMode;
-						}, MenuOptionPriority.Default, null, null, 0f, null, null));
-					}
-				}
-				finally
-				{
 					IDisposable disposable2;
-					if ((disposable2 = (enumerator3 as IDisposable)) != null)
+					if ((disposable2 = (enumerator4 as IDisposable)) != null)
 					{
 						disposable2.Dispose();
 					}
 				}
-				Find.WindowStack.Add(new FloatMenu(list4));
+				Find.WindowStack.Add(new FloatMenu(list5));
 			}
-			bool devMode = Prefs.DevMode;
-			listing_Standard.CheckboxLabeled("DevelopmentMode".Translate(), ref devMode, null);
-			Prefs.DevMode = devMode;
+			float autosaveIntervalDays = Prefs.AutosaveIntervalDays;
+			string text = "Days".Translate();
+			string text2 = "Day".Translate().ToLower();
+			if (listing_Standard.ButtonTextLabeled("AutosaveInterval".Translate(), autosaveIntervalDays + " " + ((autosaveIntervalDays != 1f) ? text : text2)))
+			{
+				List<FloatMenuOption> list6 = new List<FloatMenuOption>();
+				if (Prefs.DevMode)
+				{
+					list6.Add(new FloatMenuOption("0.125 " + text + "(debug)", delegate()
+					{
+						Prefs.AutosaveIntervalDays = 0.125f;
+					}, MenuOptionPriority.Default, null, null, 0f, null, null));
+					list6.Add(new FloatMenuOption("0.25 " + text + "(debug)", delegate()
+					{
+						Prefs.AutosaveIntervalDays = 0.25f;
+					}, MenuOptionPriority.Default, null, null, 0f, null, null));
+				}
+				list6.Add(new FloatMenuOption("0.5 " + text + "", delegate()
+				{
+					Prefs.AutosaveIntervalDays = 0.5f;
+				}, MenuOptionPriority.Default, null, null, 0f, null, null));
+				list6.Add(new FloatMenuOption(1.ToString() + " " + text2, delegate()
+				{
+					Prefs.AutosaveIntervalDays = 1f;
+				}, MenuOptionPriority.Default, null, null, 0f, null, null));
+				list6.Add(new FloatMenuOption(3.ToString() + " " + text, delegate()
+				{
+					Prefs.AutosaveIntervalDays = 3f;
+				}, MenuOptionPriority.Default, null, null, 0f, null, null));
+				list6.Add(new FloatMenuOption(7.ToString() + " " + text, delegate()
+				{
+					Prefs.AutosaveIntervalDays = 7f;
+				}, MenuOptionPriority.Default, null, null, 0f, null, null));
+				list6.Add(new FloatMenuOption(14.ToString() + " " + text, delegate()
+				{
+					Prefs.AutosaveIntervalDays = 14f;
+				}, MenuOptionPriority.Default, null, null, 0f, null, null));
+				Find.WindowStack.Add(new FloatMenu(list6));
+			}
+			if (Current.ProgramState == ProgramState.Playing && Current.Game.Info.permadeathMode && Prefs.AutosaveIntervalDays > 1f)
+			{
+				GUI.color = Color.red;
+				listing_Standard.Label("MaxPermadeathAutosaveIntervalInfo".Translate(new object[]
+				{
+					1f
+				}), -1f, null);
+				GUI.color = Color.white;
+			}
+			if (Current.ProgramState == ProgramState.Playing)
+			{
+				if (listing_Standard.ButtonText("ChangeStoryteller".Translate(), "OptionsButton-ChooseStoryteller"))
+				{
+					if (TutorSystem.AllowAction("ChooseStoryteller"))
+					{
+						Find.WindowStack.Add(new Page_SelectStorytellerInGame());
+					}
+				}
+			}
+			if (!DevModePermanentlyDisabledUtility.Disabled)
+			{
+				if (listing_Standard.ButtonText("PermanentlyDisableDevMode".Translate(), null))
+				{
+					Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmPermanentlyDisableDevMode".Translate(), delegate
+					{
+						DevModePermanentlyDisabledUtility.Disable();
+					}, true, null));
+				}
+			}
+			if (!DevModePermanentlyDisabledUtility.Disabled || Prefs.DevMode)
+			{
+				bool devMode = Prefs.DevMode;
+				listing_Standard.CheckboxLabeled("DevelopmentMode".Translate(), ref devMode, null);
+				Prefs.DevMode = devMode;
+			}
+			bool testMapSizes = Prefs.TestMapSizes;
+			listing_Standard.CheckboxLabeled("EnableTestMapSizes".Translate(), ref testMapSizes, null);
+			Prefs.TestMapSizes = testMapSizes;
 			if (Prefs.DevMode)
 			{
 				bool resetModsConfigOnCrash = Prefs.ResetModsConfigOnCrash;
@@ -285,7 +338,7 @@ namespace RimWorld
 			}
 			listing_Standard.NewColumn();
 			Text.Font = GameFont.Medium;
-			listing_Standard.Label(string.Empty, -1f);
+			listing_Standard.Label("", -1f, null);
 			Text.Font = GameFont.Small;
 			listing_Standard.Gap(12f);
 			listing_Standard.Gap(12f);
@@ -293,53 +346,66 @@ namespace RimWorld
 			{
 				Find.WindowStack.Add(new Dialog_ModSettings());
 			}
-			listing_Standard.Label(string.Empty, -1f);
-			listing_Standard.Label("NamesYouWantToSee".Translate(), -1f);
-			Prefs.PreferredNames.RemoveAll(GenText.NullOrEmpty);
+			listing_Standard.Label("", -1f, null);
+			listing_Standard.Label("NamesYouWantToSee".Translate(), -1f, null);
+			Prefs.PreferredNames.RemoveAll((string n) => n.NullOrEmpty());
 			for (int j = 0; j < Prefs.PreferredNames.Count; j++)
 			{
 				string name = Prefs.PreferredNames[j];
 				PawnBio pawnBio = (from b in SolidBioDatabase.allBios
 				where b.name.ToString() == name
-				select b).FirstOrDefault();
+				select b).FirstOrDefault<PawnBio>();
 				if (pawnBio == null)
 				{
 					name += " [N]";
 				}
 				else
 				{
-					switch (pawnBio.BioType)
+					PawnBioType bioType = pawnBio.BioType;
+					if (bioType != PawnBioType.BackstoryInGame)
 					{
-					case PawnBioType.BackstoryInGame:
+						if (bioType == PawnBioType.PirateKing)
+						{
+							name += " [PK]";
+						}
+					}
+					else
+					{
 						name += " [B]";
-						break;
-					case PawnBioType.PirateKing:
-						name += " [PK]";
-						break;
 					}
 				}
 				Rect rect2 = listing_Standard.GetRect(24f);
 				Widgets.Label(rect2, name);
-				Rect butRect = new Rect((float)(rect2.xMax - 24.0), rect2.y, 24f, 24f);
-				if (Widgets.ButtonImage(butRect, TexButton.DeleteX))
+				Rect butRect = new Rect(rect2.xMax - 24f, rect2.y, 24f, 24f);
+				if (Widgets.ButtonImage(butRect, TexButton.DeleteX, Color.white, GenUI.SubtleMouseoverColor))
 				{
 					Prefs.PreferredNames.RemoveAt(j);
-					SoundDefOf.TickLow.PlayOneShotOnCamera(null);
+					SoundDefOf.Tick_Low.PlayOneShotOnCamera(null);
 				}
 			}
-			if (Prefs.PreferredNames.Count < 6 && listing_Standard.ButtonText("AddName".Translate() + "...", null))
+			if (Prefs.PreferredNames.Count < 6)
 			{
-				Find.WindowStack.Add(new Dialog_AddPreferredName());
+				if (listing_Standard.ButtonText("AddName".Translate() + "...", null))
+				{
+					Find.WindowStack.Add(new Dialog_AddPreferredName());
+				}
+			}
+			listing_Standard.Label("", -1f, null);
+			if (listing_Standard.ButtonText("RestoreToDefaultSettings".Translate(), null))
+			{
+				this.RestoreToDefaultSettings();
 			}
 			listing_Standard.End();
 		}
 
+		// Token: 0x06002DFA RID: 11770 RVA: 0x00183E40 File Offset: 0x00182240
 		public override void PreClose()
 		{
 			base.PreClose();
 			Prefs.Save();
 		}
 
+		// Token: 0x06002DFB RID: 11771 RVA: 0x00183E50 File Offset: 0x00182250
 		public static string ResToString(int width, int height)
 		{
 			string text = width + "x" + height;
@@ -353,5 +419,42 @@ namespace RimWorld
 			}
 			return text;
 		}
+
+		// Token: 0x06002DFC RID: 11772 RVA: 0x00183EC4 File Offset: 0x001822C4
+		public void RestoreToDefaultSettings()
+		{
+			DirectoryInfo directoryInfo = new DirectoryInfo(GenFilePaths.ConfigFolderPath);
+			foreach (FileInfo fileInfo in directoryInfo.GetFiles("*.xml"))
+			{
+				try
+				{
+					fileInfo.Delete();
+				}
+				catch (SystemException)
+				{
+				}
+			}
+			Find.WindowStack.Add(new Dialog_MessageBox("ResetAndRestart".Translate(), null, delegate()
+			{
+				GenCommandLine.Restart();
+			}, null, null, null, false, null, null));
+		}
+
+		// Token: 0x04001863 RID: 6243
+		private const float SubOptionTabWidth = 40f;
+
+		// Token: 0x04001864 RID: 6244
+		private static readonly float[] UIScales = new float[]
+		{
+			1f,
+			1.25f,
+			1.5f,
+			1.75f,
+			2f,
+			2.5f,
+			3f,
+			3.5f,
+			4f
+		};
 	}
 }

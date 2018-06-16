@@ -1,50 +1,54 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x0200006A RID: 106
 	public class JobDriver_FleeAndCower : JobDriver_Flee
 	{
-		private const int CowerTicks = 1200;
-
-		private const int CheckFleeAgainIntervalTicks = 35;
-
+		// Token: 0x060002EC RID: 748 RVA: 0x0001F8E4 File Offset: 0x0001DCE4
 		public override string GetReport()
 		{
-			if (base.pawn.CurJob == base.job && !(base.pawn.Position != base.job.GetTarget(TargetIndex.A).Cell))
+			string result;
+			if (this.pawn.CurJob != this.job || this.pawn.Position != this.job.GetTarget(TargetIndex.A).Cell)
 			{
-				return "ReportCowering".Translate();
+				result = base.GetReport();
 			}
-			return base.GetReport();
+			else
+			{
+				result = "ReportCowering".Translate();
+			}
+			return result;
 		}
 
+		// Token: 0x060002ED RID: 749 RVA: 0x0001F950 File Offset: 0x0001DD50
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			using (IEnumerator<Toil> enumerator = base.MakeNewToils().GetEnumerator())
+			foreach (Toil toil in this.<MakeNewToils>__BaseCallProxy0())
 			{
-				if (enumerator.MoveNext())
-				{
-					Toil toil = enumerator.Current;
-					yield return toil;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return toil;
 			}
 			yield return new Toil
 			{
 				defaultCompleteMode = ToilCompleteMode.Delay,
 				defaultDuration = 1200,
-				tickAction = delegate
+				tickAction = delegate()
 				{
-					if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_00e1: stateMachine*/)._0024this.pawn.IsHashIntervalTick(35) && SelfDefenseUtility.ShouldStartFleeing(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_00e1: stateMachine*/)._0024this.pawn))
+					if (this.pawn.IsHashIntervalTick(35) && SelfDefenseUtility.ShouldStartFleeing(this.pawn))
 					{
-						((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_00e1: stateMachine*/)._0024this.EndJobWith(JobCondition.InterruptForced);
+						base.EndJobWith(JobCondition.InterruptForced);
 					}
 				}
 			};
-			/*Error: Unable to find new state assignment for yield return*/;
-			IL_011b:
-			/*Error near IL_011c: Unexpected return in MoveNext()*/;
+			yield break;
 		}
+
+		// Token: 0x0400020D RID: 525
+		private const int CowerTicks = 1200;
+
+		// Token: 0x0400020E RID: 526
+		private const int CheckFleeAgainIntervalTicks = 35;
 	}
 }

@@ -1,21 +1,20 @@
-using RimWorld.Planet;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using RimWorld.Planet;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000471 RID: 1137
 	public static class PawnBanishUtility
 	{
-		private const float DeathChanceForCaravanPawnBanishedToDie = 0.8f;
-
-		private static List<Hediff> tmpHediffs = new List<Hediff>();
-
+		// Token: 0x060013F9 RID: 5113 RVA: 0x000AE014 File Offset: 0x000AC414
 		public static void Banish(Pawn pawn, int tile = -1)
 		{
 			if (pawn.Faction != Faction.OfPlayer && pawn.HostFaction != Faction.OfPlayer)
 			{
-				Log.Warning("Tried to banish " + pawn + " but he's neither a colonist, tame animal, nor prisoner.");
+				Log.Warning("Tried to banish " + pawn + " but he's neither a colonist, tame animal, nor prisoner.", false);
 			}
 			else
 			{
@@ -24,7 +23,7 @@ namespace RimWorld
 					tile = pawn.Tile;
 				}
 				bool flag = PawnBanishUtility.WouldBeLeftToDie(pawn, tile);
-				PawnDiedOrDownedThoughtsUtility.TryGiveThoughts(pawn, null, (PawnDiedOrDownedThoughtsKind)((!flag) ? 1 : 2));
+				PawnDiedOrDownedThoughtsUtility.TryGiveThoughts(pawn, null, (!flag) ? PawnDiedOrDownedThoughtsKind.Banished : PawnDiedOrDownedThoughtsKind.BanishedToDie);
 				Caravan caravan = pawn.GetCaravan();
 				if (caravan != null)
 				{
@@ -32,7 +31,7 @@ namespace RimWorld
 					caravan.RemovePawn(pawn);
 					if (flag)
 					{
-						if (Rand.Value < 0.800000011920929)
+						if (Rand.Value < 0.8f)
 						{
 							pawn.Kill(null, null);
 						}
@@ -41,86 +40,94 @@ namespace RimWorld
 							PawnBanishUtility.HealIfPossible(pawn);
 						}
 					}
-					if (pawn.guest != null)
-					{
-						pawn.guest.SetGuestStatus(null, false);
-					}
-					if (pawn.Faction == Faction.OfPlayer)
-					{
-						Faction newFaction = default(Faction);
-						if (Find.FactionManager.TryGetRandomNonColonyHumanlikeFaction(out newFaction, pawn.Faction != null && (int)pawn.Faction.def.techLevel >= 3, false, TechLevel.Undefined))
-						{
-							pawn.SetFaction(newFaction, null);
-						}
-						else
-						{
-							pawn.SetFaction(Faction.OfSpacer, null);
-						}
-					}
 				}
-				else
+				if (pawn.guest != null)
 				{
-					if (pawn.guest != null)
+					pawn.guest.SetGuestStatus(null, false);
+				}
+				if (pawn.Faction == Faction.OfPlayer)
+				{
+					Faction faction;
+					if (!pawn.Spawned && Find.FactionManager.TryGetRandomNonColonyHumanlikeFaction(out faction, pawn.Faction != null && pawn.Faction.def.techLevel >= TechLevel.Medieval, false, TechLevel.Undefined))
 					{
-						pawn.guest.SetGuestStatus(null, false);
+						if (pawn.Faction != faction)
+						{
+							pawn.SetFaction(faction, null);
+						}
 					}
-					if (pawn.Faction == Faction.OfPlayer)
+					else if (pawn.Faction != null)
 					{
-						pawn.SetFaction(Faction.OfSpacer, null);
+						pawn.SetFaction(null, null);
 					}
 				}
 			}
 		}
 
+		// Token: 0x060013FA RID: 5114 RVA: 0x000AE180 File Offset: 0x000AC580
 		public static bool WouldBeLeftToDie(Pawn p, int tile)
 		{
+			bool result;
 			if (p.Downed)
 			{
-				return true;
+				result = true;
 			}
-			if (p.health.hediffSet.BleedRateTotal > 0.40000000596046448)
+			else if (p.health.hediffSet.BleedRateTotal > 0.4f)
 			{
-				return true;
+				result = true;
 			}
-			if (tile != -1)
+			else
 			{
-				float f = GenTemperature.AverageTemperatureAtTileForTwelfth(tile, GenLocalDate.Twelfth(p));
-				if (!p.SafeTemperatureRange().Includes(f))
+				if (tile != -1)
 				{
-					return true;
+					float f = GenTemperature.AverageTemperatureAtTileForTwelfth(tile, GenLocalDate.Twelfth(p));
+					if (!p.SafeTemperatureRange().Includes(f))
+					{
+						return true;
+					}
 				}
-			}
-			List<Hediff> hediffs = p.health.hediffSet.hediffs;
-			for (int i = 0; i < hediffs.Count; i++)
-			{
-				HediffStage curStage = hediffs[i].CurStage;
-				if (curStage != null && curStage.lifeThreatening)
+				List<Hediff> hediffs = p.health.hediffSet.hediffs;
+				for (int i = 0; i < hediffs.Count; i++)
 				{
-					return true;
+					HediffStage curStage = hediffs[i].CurStage;
+					if (curStage != null && curStage.lifeThreatening)
+					{
+						return true;
+					}
 				}
+				result = false;
 			}
-			return false;
+			return result;
 		}
 
+		// Token: 0x060013FB RID: 5115 RVA: 0x000AE254 File Offset: 0x000AC654
 		public static string GetBanishPawnDialogText(Pawn banishedPawn)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			bool flag = PawnBanishUtility.WouldBeLeftToDie(banishedPawn, banishedPawn.Tile);
-			stringBuilder.Append("ConfirmBanishPawnDialog".Translate(banishedPawn.Label));
+			stringBuilder.Append("ConfirmBanishPawnDialog".Translate(new object[]
+			{
+				banishedPawn.Label
+			}));
 			if (flag)
 			{
 				stringBuilder.AppendLine();
 				stringBuilder.AppendLine();
-				stringBuilder.Append("ConfirmBanishPawnDialog_LeftToDie".Translate(banishedPawn.LabelShort).CapitalizeFirst());
+				stringBuilder.Append("ConfirmBanishPawnDialog_LeftToDie".Translate(new object[]
+				{
+					banishedPawn.LabelShort
+				}).CapitalizeFirst());
 			}
 			List<ThingWithComps> list = (banishedPawn.equipment == null) ? null : banishedPawn.equipment.AllEquipmentListForReading;
 			List<Apparel> list2 = (banishedPawn.apparel == null) ? null : banishedPawn.apparel.WornApparel;
 			ThingOwner<Thing> thingOwner = (banishedPawn.inventory == null || !PawnBanishUtility.WillTakeInventoryIfBanished(banishedPawn)) ? null : banishedPawn.inventory.innerContainer;
-			if (!list.NullOrEmpty() || !list2.NullOrEmpty() || !thingOwner.NullOrEmpty())
+			if (!list.NullOrEmpty<ThingWithComps>() || !list2.NullOrEmpty<Apparel>() || !thingOwner.NullOrEmpty<Thing>())
 			{
 				stringBuilder.AppendLine();
 				stringBuilder.AppendLine();
-				stringBuilder.Append("ConfirmBanishPawnDialog_Items".Translate(banishedPawn.LabelShort).CapitalizeFirst().AdjustedFor(banishedPawn));
+				stringBuilder.Append("ConfirmBanishPawnDialog_Items".Translate(new object[]
+				{
+					banishedPawn.LabelShort
+				}).CapitalizeFirst().AdjustedFor(banishedPawn));
 				stringBuilder.AppendLine();
 				if (list != null)
 				{
@@ -147,10 +154,14 @@ namespace RimWorld
 					}
 				}
 			}
-			PawnDiedOrDownedThoughtsUtility.BuildMoodThoughtsListString(banishedPawn, null, (PawnDiedOrDownedThoughtsKind)((!flag) ? 1 : 2), stringBuilder, "\n\n" + "ConfirmBanishPawnDialog_IndividualThoughts".Translate(banishedPawn.LabelShort), "\n\n" + "ConfirmBanishPawnDialog_AllColonistsThoughts".Translate());
+			PawnDiedOrDownedThoughtsUtility.BuildMoodThoughtsListString(banishedPawn, null, (!flag) ? PawnDiedOrDownedThoughtsKind.Banished : PawnDiedOrDownedThoughtsKind.BanishedToDie, stringBuilder, "\n\n" + "ConfirmBanishPawnDialog_IndividualThoughts".Translate(new object[]
+			{
+				banishedPawn.LabelShort
+			}), "\n\n" + "ConfirmBanishPawnDialog_AllColonistsThoughts".Translate());
 			return stringBuilder.ToString();
 		}
 
+		// Token: 0x060013FC RID: 5116 RVA: 0x000AE4DC File Offset: 0x000AC8DC
 		public static void ShowBanishPawnConfirmationDialog(Pawn pawn)
 		{
 			Dialog_MessageBox window = Dialog_MessageBox.CreateConfirmation(PawnBanishUtility.GetBanishPawnDialogText(pawn), delegate
@@ -160,15 +171,25 @@ namespace RimWorld
 			Find.WindowStack.Add(window);
 		}
 
+		// Token: 0x060013FD RID: 5117 RVA: 0x000AE524 File Offset: 0x000AC924
 		public static string GetBanishButtonTip(Pawn pawn)
 		{
+			string result;
 			if (PawnBanishUtility.WouldBeLeftToDie(pawn, pawn.Tile))
 			{
-				return "BanishTip".Translate() + "\n\n" + "BanishTipWillDie".Translate(pawn.LabelShort).CapitalizeFirst();
+				result = "BanishTip".Translate() + "\n\n" + "BanishTipWillDie".Translate(new object[]
+				{
+					pawn.LabelShort
+				}).CapitalizeFirst();
 			}
-			return "BanishTip".Translate();
+			else
+			{
+				result = "BanishTip".Translate();
+			}
+			return result;
 		}
 
+		// Token: 0x060013FE RID: 5118 RVA: 0x000AE58C File Offset: 0x000AC98C
 		private static void HealIfPossible(Pawn p)
 		{
 			PawnBanishUtility.tmpHediffs.Clear();
@@ -176,7 +197,7 @@ namespace RimWorld
 			for (int i = 0; i < PawnBanishUtility.tmpHediffs.Count; i++)
 			{
 				Hediff_Injury hediff_Injury = PawnBanishUtility.tmpHediffs[i] as Hediff_Injury;
-				if (hediff_Injury != null && !hediff_Injury.IsOld())
+				if (hediff_Injury != null && !hediff_Injury.IsPermanent())
 				{
 					p.health.RemoveHediff(hediff_Injury);
 				}
@@ -191,9 +212,16 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060013FF RID: 5119 RVA: 0x000AE644 File Offset: 0x000ACA44
 		private static bool WillTakeInventoryIfBanished(Pawn pawn)
 		{
 			return !pawn.IsCaravanMember();
 		}
+
+		// Token: 0x04000C00 RID: 3072
+		private const float DeathChanceForCaravanPawnBanishedToDie = 0.8f;
+
+		// Token: 0x04000C01 RID: 3073
+		private static List<Hediff> tmpHediffs = new List<Hediff>();
 	}
 }

@@ -1,19 +1,26 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000476 RID: 1142
 	public class PawnCapacityWorker_Eating : PawnCapacityWorker
 	{
+		// Token: 0x0600140E RID: 5134 RVA: 0x000AEA48 File Offset: 0x000ACE48
 		public override float CalculateCapacityLevel(HediffSet diffSet, List<PawnCapacityUtility.CapacityImpactor> impactors = null)
 		{
-			string tag = "EatingSource";
-			return PawnCapacityUtility.CalculateTagEfficiency(diffSet, tag, 3.40282347E+38f, impactors) * PawnCapacityUtility.CalculateTagEfficiency(diffSet, "EatingPathway", 1f, impactors) * base.CalculateCapacityAndRecord(diffSet, PawnCapacityDefOf.Consciousness, impactors);
+			BodyPartTagDef tag = BodyPartTagDefOf.EatingSource;
+			float num = PawnCapacityUtility.CalculateTagEfficiency(diffSet, tag, float.MaxValue, default(FloatRange), impactors);
+			tag = BodyPartTagDefOf.EatingPathway;
+			float maximum = 1f;
+			return num * PawnCapacityUtility.CalculateTagEfficiency(diffSet, tag, maximum, default(FloatRange), impactors) * base.CalculateCapacityAndRecord(diffSet, PawnCapacityDefOf.Consciousness, impactors);
 		}
 
+		// Token: 0x0600140F RID: 5135 RVA: 0x000AEAB4 File Offset: 0x000ACEB4
 		public override bool CanHaveCapacity(BodyDef body)
 		{
-			return body.HasPartWithTag("EatingSource");
+			return body.HasPartWithTag(BodyPartTagDefOf.EatingSource);
 		}
 	}
 }

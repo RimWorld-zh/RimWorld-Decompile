@@ -1,67 +1,13 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000B16 RID: 2838
 	public class DamageGraphicData
 	{
-		public bool enabled = true;
-
-		public Rect rectN;
-
-		public Rect rectE;
-
-		public Rect rectS;
-
-		public Rect rectW;
-
-		public Rect rect;
-
-		public List<string> scratches;
-
-		public string cornerTL;
-
-		public string cornerTR;
-
-		public string cornerBL;
-
-		public string cornerBR;
-
-		public string edgeLeft;
-
-		public string edgeRight;
-
-		public string edgeTop;
-
-		public string edgeBot;
-
-		[Unsaved]
-		public List<Material> scratchMats;
-
-		[Unsaved]
-		public Material cornerTLMat;
-
-		[Unsaved]
-		public Material cornerTRMat;
-
-		[Unsaved]
-		public Material cornerBLMat;
-
-		[Unsaved]
-		public Material cornerBRMat;
-
-		[Unsaved]
-		public Material edgeLeftMat;
-
-		[Unsaved]
-		public Material edgeRightMat;
-
-		[Unsaved]
-		public Material edgeTopMat;
-
-		[Unsaved]
-		public Material edgeBotMat;
-
+		// Token: 0x06003EA5 RID: 16037 RVA: 0x0020F584 File Offset: 0x0020D984
 		public void ResolveReferencesSpecial()
 		{
 			LongEventHandler.ExecuteWhenFinished(delegate
@@ -108,5 +54,95 @@ namespace Verse
 				}
 			});
 		}
+
+		// Token: 0x040027F6 RID: 10230
+		public bool enabled = true;
+
+		// Token: 0x040027F7 RID: 10231
+		public Rect rectN;
+
+		// Token: 0x040027F8 RID: 10232
+		public Rect rectE;
+
+		// Token: 0x040027F9 RID: 10233
+		public Rect rectS;
+
+		// Token: 0x040027FA RID: 10234
+		public Rect rectW;
+
+		// Token: 0x040027FB RID: 10235
+		public Rect rect;
+
+		// Token: 0x040027FC RID: 10236
+		[NoTranslate]
+		public List<string> scratches;
+
+		// Token: 0x040027FD RID: 10237
+		[NoTranslate]
+		public string cornerTL;
+
+		// Token: 0x040027FE RID: 10238
+		[NoTranslate]
+		public string cornerTR;
+
+		// Token: 0x040027FF RID: 10239
+		[NoTranslate]
+		public string cornerBL;
+
+		// Token: 0x04002800 RID: 10240
+		[NoTranslate]
+		public string cornerBR;
+
+		// Token: 0x04002801 RID: 10241
+		[NoTranslate]
+		public string edgeLeft;
+
+		// Token: 0x04002802 RID: 10242
+		[NoTranslate]
+		public string edgeRight;
+
+		// Token: 0x04002803 RID: 10243
+		[NoTranslate]
+		public string edgeTop;
+
+		// Token: 0x04002804 RID: 10244
+		[NoTranslate]
+		public string edgeBot;
+
+		// Token: 0x04002805 RID: 10245
+		[Unsaved]
+		public List<Material> scratchMats;
+
+		// Token: 0x04002806 RID: 10246
+		[Unsaved]
+		public Material cornerTLMat;
+
+		// Token: 0x04002807 RID: 10247
+		[Unsaved]
+		public Material cornerTRMat;
+
+		// Token: 0x04002808 RID: 10248
+		[Unsaved]
+		public Material cornerBLMat;
+
+		// Token: 0x04002809 RID: 10249
+		[Unsaved]
+		public Material cornerBRMat;
+
+		// Token: 0x0400280A RID: 10250
+		[Unsaved]
+		public Material edgeLeftMat;
+
+		// Token: 0x0400280B RID: 10251
+		[Unsaved]
+		public Material edgeRightMat;
+
+		// Token: 0x0400280C RID: 10252
+		[Unsaved]
+		public Material edgeTopMat;
+
+		// Token: 0x0400280D RID: 10253
+		[Unsaved]
+		public Material edgeBotMat;
 	}
 }

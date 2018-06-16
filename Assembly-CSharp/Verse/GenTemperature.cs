@@ -1,26 +1,16 @@
-using RimWorld;
-using RimWorld.Planet;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using RimWorld;
+using RimWorld.Planet;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000CA9 RID: 3241
 	public static class GenTemperature
 	{
-		public static readonly Color ColorSpotHot = new Color(1f, 0f, 0f, 0.6f);
-
-		public static readonly Color ColorSpotCold = new Color(0f, 0f, 1f, 0.6f);
-
-		public static readonly Color ColorRoomHot = new Color(1f, 0f, 0f, 0.3f);
-
-		public static readonly Color ColorRoomCold = new Color(0f, 0f, 1f, 0.3f);
-
-		private static List<RoomGroup> neighRoomGroups = new List<RoomGroup>();
-
-		private static RoomGroup[] beqRoomGroups = new RoomGroup[4];
-
+		// Token: 0x06004746 RID: 18246 RVA: 0x00258AA0 File Offset: 0x00256EA0
 		public static float AverageTemperatureAtTileForTwelfth(int tile, Twelfth twelfth)
 		{
 			int num = 30000;
@@ -28,28 +18,53 @@ namespace Verse
 			float num3 = 0f;
 			for (int i = 0; i < 120; i++)
 			{
-				int absTick = num2 + num + Mathf.RoundToInt((float)((float)i / 120.0 * 300000.0));
+				int absTick = num2 + num + Mathf.RoundToInt((float)i / 120f * 300000f);
 				num3 += GenTemperature.GetTemperatureFromSeasonAtTile(absTick, tile);
 			}
-			return (float)(num3 / 120.0);
+			return num3 / 120f;
 		}
 
+		// Token: 0x06004747 RID: 18247 RVA: 0x00258B0C File Offset: 0x00256F0C
+		public static float MinTemperatureAtTile(int tile)
+		{
+			float num = float.MaxValue;
+			for (int i = 0; i < 3600000; i += 26999)
+			{
+				num = Mathf.Min(num, GenTemperature.GetTemperatureFromSeasonAtTile(i, tile));
+			}
+			return num;
+		}
+
+		// Token: 0x06004748 RID: 18248 RVA: 0x00258B54 File Offset: 0x00256F54
+		public static float MaxTemperatureAtTile(int tile)
+		{
+			float num = float.MinValue;
+			for (int i = 0; i < 3600000; i += 26999)
+			{
+				num = Mathf.Max(num, GenTemperature.GetTemperatureFromSeasonAtTile(i, tile));
+			}
+			return num;
+		}
+
+		// Token: 0x06004749 RID: 18249 RVA: 0x00258B9C File Offset: 0x00256F9C
 		public static FloatRange ComfortableTemperatureRange(this Pawn p)
 		{
 			return new FloatRange(p.GetStatValue(StatDefOf.ComfyTemperatureMin, true), p.GetStatValue(StatDefOf.ComfyTemperatureMax, true));
 		}
 
+		// Token: 0x0600474A RID: 18250 RVA: 0x00258BD0 File Offset: 0x00256FD0
 		public static FloatRange ComfortableTemperatureRange(ThingDef raceDef, List<ThingStuffPair> apparel = null)
 		{
 			FloatRange result = new FloatRange(raceDef.GetStatValueAbstract(StatDefOf.ComfyTemperatureMin, null), raceDef.GetStatValueAbstract(StatDefOf.ComfyTemperatureMax, null));
 			if (apparel != null)
 			{
-				result.min += apparel.Sum((ThingStuffPair x) => x.InsulationCold);
+				result.min -= apparel.Sum((ThingStuffPair x) => x.InsulationCold);
 				result.max += apparel.Sum((ThingStuffPair x) => x.InsulationHeat);
 			}
 			return result;
 		}
 
+		// Token: 0x0600474B RID: 18251 RVA: 0x00258C70 File Offset: 0x00257070
 		public static FloatRange SafeTemperatureRange(this Pawn p)
 		{
 			FloatRange result = p.ComfortableTemperatureRange();
@@ -58,6 +73,7 @@ namespace Verse
 			return result;
 		}
 
+		// Token: 0x0600474C RID: 18252 RVA: 0x00258CB4 File Offset: 0x002570B4
 		public static FloatRange SafeTemperatureRange(ThingDef raceDef, List<ThingStuffPair> apparel = null)
 		{
 			FloatRange result = GenTemperature.ComfortableTemperatureRange(raceDef, apparel);
@@ -66,58 +82,75 @@ namespace Verse
 			return result;
 		}
 
+		// Token: 0x0600474D RID: 18253 RVA: 0x00258CF8 File Offset: 0x002570F8
 		public static float GetTemperatureForCell(IntVec3 c, Map map)
 		{
-			float result = default(float);
+			float result;
 			GenTemperature.TryGetTemperatureForCell(c, map, out result);
 			return result;
 		}
 
+		// Token: 0x0600474E RID: 18254 RVA: 0x00258D18 File Offset: 0x00257118
 		public static bool TryGetTemperatureForCell(IntVec3 c, Map map, out float tempResult)
 		{
+			bool result;
 			if (map == null)
 			{
-				Log.Error("Got temperature for null map.");
+				Log.Error("Got temperature for null map.", false);
 				tempResult = 21f;
-				return true;
+				result = true;
 			}
-			if (!c.InBounds(map))
+			else if (!c.InBounds(map))
 			{
 				tempResult = 21f;
-				return false;
+				result = false;
 			}
-			if (GenTemperature.TryGetDirectAirTemperatureForCell(c, map, out tempResult))
+			else if (GenTemperature.TryGetDirectAirTemperatureForCell(c, map, out tempResult))
 			{
-				return true;
+				result = true;
 			}
-			List<Thing> list = map.thingGrid.ThingsListAtFast(c);
-			for (int i = 0; i < list.Count; i++)
+			else
 			{
-				if (list[i].def.passability == Traversability.Impassable)
+				List<Thing> list = map.thingGrid.ThingsListAtFast(c);
+				for (int i = 0; i < list.Count; i++)
 				{
-					return GenTemperature.TryGetAirTemperatureAroundThing(list[i], out tempResult);
+					if (list[i].def.passability == Traversability.Impassable)
+					{
+						return GenTemperature.TryGetAirTemperatureAroundThing(list[i], out tempResult);
+					}
 				}
+				result = false;
 			}
-			return false;
+			return result;
 		}
 
+		// Token: 0x0600474F RID: 18255 RVA: 0x00258DD0 File Offset: 0x002571D0
 		public static bool TryGetDirectAirTemperatureForCell(IntVec3 c, Map map, out float temperature)
 		{
+			bool result;
 			if (!c.InBounds(map))
 			{
 				temperature = 21f;
-				return false;
+				result = false;
 			}
-			RoomGroup roomGroup = c.GetRoomGroup(map);
-			if (roomGroup == null)
+			else
 			{
-				temperature = 21f;
-				return false;
+				RoomGroup roomGroup = c.GetRoomGroup(map);
+				if (roomGroup == null)
+				{
+					temperature = 21f;
+					result = false;
+				}
+				else
+				{
+					temperature = roomGroup.Temperature;
+					result = true;
+				}
 			}
-			temperature = roomGroup.Temperature;
-			return true;
+			return result;
 		}
 
+		// Token: 0x06004750 RID: 18256 RVA: 0x00258E28 File Offset: 0x00257228
 		public static bool TryGetAirTemperatureAroundThing(Thing t, out float temperature)
 		{
 			float num = 0f;
@@ -125,38 +158,44 @@ namespace Verse
 			List<IntVec3> list = GenAdjFast.AdjacentCells8Way(t);
 			for (int i = 0; i < list.Count; i++)
 			{
-				float num3 = default(float);
+				float num3;
 				if (list[i].InBounds(t.Map) && GenTemperature.TryGetDirectAirTemperatureForCell(list[i], t.Map, out num3))
 				{
 					num += num3;
 					num2++;
 				}
 			}
+			bool result;
 			if (num2 > 0)
 			{
 				temperature = num / (float)num2;
-				return true;
+				result = true;
 			}
-			temperature = 21f;
-			return false;
+			else
+			{
+				temperature = 21f;
+				result = false;
+			}
+			return result;
 		}
 
+		// Token: 0x06004751 RID: 18257 RVA: 0x00258EC8 File Offset: 0x002572C8
 		public static float OffsetFromSunCycle(int absTick, int tile)
 		{
-			long absTicks = absTick;
-			Vector2 vector = Find.WorldGrid.LongLatOf(tile);
-			float num = GenDate.DayPercent(absTicks, vector.x);
-			float f = (float)(6.2831854820251465 * (num + 0.31999999284744263));
-			return (float)(Mathf.Cos(f) * 7.0);
+			float num = GenDate.DayPercent((long)absTick, Find.WorldGrid.LongLatOf(tile).x);
+			float f = 6.28318548f * (num + 0.32f);
+			return Mathf.Cos(f) * 7f;
 		}
 
+		// Token: 0x06004752 RID: 18258 RVA: 0x00258F14 File Offset: 0x00257314
 		public static float OffsetFromSeasonCycle(int absTick, int tile)
 		{
-			float num = (float)((float)(absTick / 60000 % 60) / 60.0);
-			float f = (float)(6.2831854820251465 * (num - Season.Winter.GetMiddleTwelfth(0f).GetBeginningYearPct()));
-			return (float)(Mathf.Cos(f) * (0.0 - GenTemperature.SeasonalShiftAmplitudeAt(tile)));
+			float num = (float)(absTick / 60000 % 60) / 60f;
+			float f = 6.28318548f * (num - Season.Winter.GetMiddleTwelfth(0f).GetBeginningYearPct());
+			return Mathf.Cos(f) * -GenTemperature.SeasonalShiftAmplitudeAt(tile);
 		}
 
+		// Token: 0x06004753 RID: 18259 RVA: 0x00258F64 File Offset: 0x00257364
 		public static float GetTemperatureFromSeasonAtTile(int absTick, int tile)
 		{
 			if (absTick == 0)
@@ -167,129 +206,163 @@ namespace Verse
 			return tile2.temperature + GenTemperature.OffsetFromSeasonCycle(absTick, tile);
 		}
 
+		// Token: 0x06004754 RID: 18260 RVA: 0x00258F9C File Offset: 0x0025739C
 		public static float GetTemperatureAtTile(int tile)
 		{
 			Map map = Current.Game.FindMap(tile);
+			float result;
 			if (map != null)
 			{
-				return map.mapTemperature.OutdoorTemp;
+				result = map.mapTemperature.OutdoorTemp;
 			}
-			return GenTemperature.GetTemperatureFromSeasonAtTile(GenTicks.TicksAbs, tile);
+			else
+			{
+				result = GenTemperature.GetTemperatureFromSeasonAtTile(GenTicks.TicksAbs, tile);
+			}
+			return result;
 		}
 
+		// Token: 0x06004755 RID: 18261 RVA: 0x00258FE0 File Offset: 0x002573E0
 		public static float SeasonalShiftAmplitudeAt(int tile)
 		{
-			Vector2 vector = Find.WorldGrid.LongLatOf(tile);
-			if (vector.y >= 0.0)
+			float result;
+			if (Find.WorldGrid.LongLatOf(tile).y >= 0f)
 			{
-				return TemperatureTuning.SeasonalTempVariationCurve.Evaluate(Find.WorldGrid.DistanceFromEquatorNormalized(tile));
+				result = TemperatureTuning.SeasonalTempVariationCurve.Evaluate(Find.WorldGrid.DistanceFromEquatorNormalized(tile));
 			}
-			return (float)(0.0 - TemperatureTuning.SeasonalTempVariationCurve.Evaluate(Find.WorldGrid.DistanceFromEquatorNormalized(tile)));
+			else
+			{
+				result = -TemperatureTuning.SeasonalTempVariationCurve.Evaluate(Find.WorldGrid.DistanceFromEquatorNormalized(tile));
+			}
+			return result;
 		}
 
+		// Token: 0x06004756 RID: 18262 RVA: 0x00259048 File Offset: 0x00257448
 		public static List<Twelfth> TwelfthsInAverageTemperatureRange(int tile, float minTemp, float maxTemp)
 		{
 			List<Twelfth> twelfths = new List<Twelfth>();
 			for (int i = 0; i < 12; i++)
 			{
-				float num = GenTemperature.AverageTemperatureAtTileForTwelfth(tile, (Twelfth)(byte)i);
+				float num = GenTemperature.AverageTemperatureAtTileForTwelfth(tile, (Twelfth)i);
 				if (num >= minTemp && num <= maxTemp)
 				{
-					twelfths.Add((Twelfth)(byte)i);
+					twelfths.Add((Twelfth)i);
 				}
 			}
-			if (twelfths.Count > 1 && twelfths.Count != 12)
+			List<Twelfth> twelfths2;
+			if (twelfths.Count <= 1 || twelfths.Count == 12)
+			{
+				twelfths2 = twelfths;
+			}
+			else
 			{
 				if (twelfths.Contains(Twelfth.Twelfth) && twelfths.Contains(Twelfth.First))
 				{
-					Twelfth twelfth = twelfths.First((Twelfth m) => !twelfths.Contains(m - 1));
+					Twelfth twelfth = twelfths.First((Twelfth m) => !twelfths.Contains((Twelfth)(m - Twelfth.Second)));
 					List<Twelfth> list = new List<Twelfth>();
-					int num2 = (int)twelfth;
-					while (num2 < 12 && twelfths.Contains((Twelfth)(byte)num2))
+					for (int j = (int)twelfth; j < 12; j++)
 					{
-						list.Add((Twelfth)(byte)num2);
-						num2++;
+						if (!twelfths.Contains((Twelfth)j))
+						{
+							break;
+						}
+						list.Add((Twelfth)j);
 					}
-					int num3 = 0;
-					while (num3 < 12 && twelfths.Contains((Twelfth)(byte)num3))
+					for (int k = 0; k < 12; k++)
 					{
-						list.Add((Twelfth)(byte)num3);
-						num3++;
+						if (!twelfths.Contains((Twelfth)k))
+						{
+							break;
+						}
+						list.Add((Twelfth)k);
 					}
 				}
-				return twelfths;
+				twelfths2 = twelfths;
 			}
-			return twelfths;
+			return twelfths2;
 		}
 
+		// Token: 0x06004757 RID: 18263 RVA: 0x00259198 File Offset: 0x00257598
 		public static Twelfth EarliestTwelfthInAverageTemperatureRange(int tile, float minTemp, float maxTemp)
 		{
 			for (int i = 0; i < 12; i++)
 			{
-				float num = GenTemperature.AverageTemperatureAtTileForTwelfth(tile, (Twelfth)(byte)i);
+				float num = GenTemperature.AverageTemperatureAtTileForTwelfth(tile, (Twelfth)i);
 				if (num >= minTemp && num <= maxTemp)
 				{
+					Twelfth result;
 					if (i != 0)
 					{
-						return (Twelfth)(byte)i;
+						result = (Twelfth)i;
 					}
-					Twelfth twelfth = (Twelfth)i;
-					int num2 = 0;
-					while (num2 < 12)
+					else
 					{
-						float num3 = GenTemperature.AverageTemperatureAtTileForTwelfth(tile, twelfth.PreviousTwelfth());
-						if (!(num3 < minTemp) && !(num3 > maxTemp))
+						Twelfth twelfth = (Twelfth)i;
+						for (int j = 0; j < 12; j++)
 						{
+							float num2 = GenTemperature.AverageTemperatureAtTileForTwelfth(tile, twelfth.PreviousTwelfth());
+							if (num2 < minTemp || num2 > maxTemp)
+							{
+								return twelfth;
+							}
 							twelfth = twelfth.PreviousTwelfth();
-							num2++;
-							continue;
 						}
-						return twelfth;
+						result = (Twelfth)i;
 					}
-					return (Twelfth)(byte)i;
+					return result;
 				}
 			}
 			return Twelfth.Undefined;
 		}
 
+		// Token: 0x06004758 RID: 18264 RVA: 0x0025923C File Offset: 0x0025763C
 		public static bool PushHeat(IntVec3 c, Map map, float energy)
 		{
+			bool result;
 			if (map == null)
 			{
-				Log.Error("Added heat to null map.");
-				return false;
+				Log.Error("Added heat to null map.", false);
+				result = false;
 			}
-			RoomGroup roomGroup = c.GetRoomGroup(map);
-			if (roomGroup != null)
+			else
 			{
-				return roomGroup.PushHeat(energy);
-			}
-			GenTemperature.neighRoomGroups.Clear();
-			for (int i = 0; i < 8; i++)
-			{
-				IntVec3 intVec = c + GenAdj.AdjacentCells[i];
-				if (intVec.InBounds(map))
+				RoomGroup roomGroup = c.GetRoomGroup(map);
+				if (roomGroup != null)
 				{
-					roomGroup = intVec.GetRoomGroup(map);
-					if (roomGroup != null)
+					result = roomGroup.PushHeat(energy);
+				}
+				else
+				{
+					GenTemperature.neighRoomGroups.Clear();
+					for (int i = 0; i < 8; i++)
 					{
-						GenTemperature.neighRoomGroups.Add(roomGroup);
+						IntVec3 intVec = c + GenAdj.AdjacentCells[i];
+						if (intVec.InBounds(map))
+						{
+							roomGroup = intVec.GetRoomGroup(map);
+							if (roomGroup != null)
+							{
+								GenTemperature.neighRoomGroups.Add(roomGroup);
+							}
+						}
 					}
+					float energy2 = energy / (float)GenTemperature.neighRoomGroups.Count;
+					for (int j = 0; j < GenTemperature.neighRoomGroups.Count; j++)
+					{
+						GenTemperature.neighRoomGroups[j].PushHeat(energy2);
+					}
+					bool flag = GenTemperature.neighRoomGroups.Count > 0;
+					GenTemperature.neighRoomGroups.Clear();
+					result = flag;
 				}
 			}
-			float energy2 = energy / (float)GenTemperature.neighRoomGroups.Count;
-			for (int j = 0; j < GenTemperature.neighRoomGroups.Count; j++)
-			{
-				GenTemperature.neighRoomGroups[j].PushHeat(energy2);
-			}
-			bool result = GenTemperature.neighRoomGroups.Count > 0;
-			GenTemperature.neighRoomGroups.Clear();
 			return result;
 		}
 
+		// Token: 0x06004759 RID: 18265 RVA: 0x00259344 File Offset: 0x00257744
 		public static void PushHeat(Thing t, float energy)
 		{
-			IntVec3 c = default(IntVec3);
+			IntVec3 c;
 			if (t.GetRoomGroup() != null)
 			{
 				GenTemperature.PushHeat(t.Position, t.Map, energy);
@@ -300,25 +373,36 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x0600475A RID: 18266 RVA: 0x00259394 File Offset: 0x00257794
 		public static float ControlTemperatureTempChange(IntVec3 cell, Map map, float energyLimit, float targetTemperature)
 		{
 			RoomGroup roomGroup = cell.GetRoomGroup(map);
-			if (roomGroup != null && !roomGroup.UsesOutdoorTemperature)
+			float result;
+			if (roomGroup == null || roomGroup.UsesOutdoorTemperature)
+			{
+				result = 0f;
+			}
+			else
 			{
 				float b = energyLimit / (float)roomGroup.CellCount;
 				float a = targetTemperature - roomGroup.Temperature;
-				float num = 0f;
-				if (energyLimit > 0.0)
+				float num;
+				if (energyLimit > 0f)
 				{
 					num = Mathf.Min(a, b);
-					return Mathf.Max(num, 0f);
+					num = Mathf.Max(num, 0f);
 				}
-				num = Mathf.Max(a, b);
-				return Mathf.Min(num, 0f);
+				else
+				{
+					num = Mathf.Max(a, b);
+					num = Mathf.Min(num, 0f);
+				}
+				result = num;
 			}
-			return 0f;
+			return result;
 		}
 
+		// Token: 0x0600475B RID: 18267 RVA: 0x0025942C File Offset: 0x0025782C
 		public static void EqualizeTemperaturesThroughBuilding(Building b, float rate, bool twoWay)
 		{
 			int num = 0;
@@ -377,11 +461,11 @@ namespace Verse
 							float num6 = num5 * rate;
 							float num7 = num6 / (float)GenTemperature.beqRoomGroups[k].CellCount;
 							float num8 = GenTemperature.beqRoomGroups[k].Temperature + num7;
-							if (num6 > 0.0 && num8 > num3)
+							if (num6 > 0f && num8 > num3)
 							{
 								num8 = num3;
 							}
-							else if (num6 < 0.0 && num8 < num3)
+							else if (num6 < 0f && num8 < num3)
 							{
 								num8 = num3;
 							}
@@ -411,21 +495,29 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x0600475C RID: 18268 RVA: 0x00259714 File Offset: 0x00257B14
 		public static float RotRateAtTemperature(float temperature)
 		{
-			if (temperature < 0.0)
+			float result;
+			if (temperature < 0f)
 			{
-				return 0f;
+				result = 0f;
 			}
-			if (temperature >= 10.0)
+			else if (temperature >= 10f)
 			{
-				return 1f;
+				result = 1f;
 			}
-			return (float)(temperature / 10.0);
+			else
+			{
+				result = temperature / 10f;
+			}
+			return result;
 		}
 
+		// Token: 0x0600475D RID: 18269 RVA: 0x0025975C File Offset: 0x00257B5C
 		public static bool FactionOwnsPassableRoomInTemperatureRange(Faction faction, FloatRange tempRange, Map map)
 		{
+			bool result;
 			if (faction == Faction.OfPlayer)
 			{
 				List<Room> allRooms = map.regionGrid.allRooms;
@@ -437,56 +529,121 @@ namespace Verse
 						return true;
 					}
 				}
-				return false;
+				result = false;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
+		// Token: 0x0600475E RID: 18270 RVA: 0x002597E8 File Offset: 0x00257BE8
+		public static string GetAverageTemperatureLabel(int tile)
+		{
+			return Find.WorldGrid[tile].temperature.ToStringTemperature("F1") + " " + string.Format("({0} {1} {2})", GenTemperature.MinTemperatureAtTile(tile).ToStringTemperature("F0"), "RangeTo".Translate(), GenTemperature.MaxTemperatureAtTile(tile).ToStringTemperature("F0"));
+		}
+
+		// Token: 0x0600475F RID: 18271 RVA: 0x00259858 File Offset: 0x00257C58
 		public static float CelsiusTo(float temp, TemperatureDisplayMode oldMode)
 		{
-			switch (oldMode)
+			float result;
+			if (oldMode != TemperatureDisplayMode.Celsius)
 			{
-			case TemperatureDisplayMode.Celsius:
-				return temp;
-			case TemperatureDisplayMode.Fahrenheit:
-				return (float)(temp * 1.7999999523162842 + 32.0);
-			case TemperatureDisplayMode.Kelvin:
-				return (float)(temp + 273.14999389648437);
-			default:
-				throw new InvalidOperationException();
+				if (oldMode != TemperatureDisplayMode.Fahrenheit)
+				{
+					if (oldMode != TemperatureDisplayMode.Kelvin)
+					{
+						throw new InvalidOperationException();
+					}
+					result = temp + 273.15f;
+				}
+				else
+				{
+					result = temp * 1.8f + 32f;
+				}
 			}
+			else
+			{
+				result = temp;
+			}
+			return result;
 		}
 
+		// Token: 0x06004760 RID: 18272 RVA: 0x002598B0 File Offset: 0x00257CB0
 		public static float CelsiusToOffset(float temp, TemperatureDisplayMode oldMode)
 		{
-			switch (oldMode)
+			float result;
+			if (oldMode != TemperatureDisplayMode.Celsius)
 			{
-			case TemperatureDisplayMode.Celsius:
-				return temp;
-			case TemperatureDisplayMode.Fahrenheit:
-				return (float)(temp * 1.7999999523162842);
-			case TemperatureDisplayMode.Kelvin:
-				return temp;
-			default:
-				throw new InvalidOperationException();
+				if (oldMode != TemperatureDisplayMode.Fahrenheit)
+				{
+					if (oldMode != TemperatureDisplayMode.Kelvin)
+					{
+						throw new InvalidOperationException();
+					}
+					result = temp;
+				}
+				else
+				{
+					result = temp * 1.8f;
+				}
 			}
+			else
+			{
+				result = temp;
+			}
+			return result;
 		}
 
+		// Token: 0x06004761 RID: 18273 RVA: 0x002598FC File Offset: 0x00257CFC
 		public static float ConvertTemperatureOffset(float temp, TemperatureDisplayMode oldMode, TemperatureDisplayMode newMode)
 		{
-			switch (oldMode)
+			if (oldMode != TemperatureDisplayMode.Celsius)
 			{
-			case TemperatureDisplayMode.Fahrenheit:
-				temp = (float)(temp / 1.7999999523162842);
-				break;
+				if (oldMode != TemperatureDisplayMode.Fahrenheit)
+				{
+					if (oldMode != TemperatureDisplayMode.Kelvin)
+					{
+					}
+				}
+				else
+				{
+					temp /= 1.8f;
+				}
 			}
-			switch (newMode)
+			if (newMode != TemperatureDisplayMode.Celsius)
 			{
-			case TemperatureDisplayMode.Fahrenheit:
-				temp = (float)(temp * 1.7999999523162842);
-				break;
+				if (newMode != TemperatureDisplayMode.Fahrenheit)
+				{
+					if (newMode != TemperatureDisplayMode.Kelvin)
+					{
+					}
+				}
+				else
+				{
+					temp *= 1.8f;
+				}
 			}
 			return temp;
 		}
+
+		// Token: 0x04003061 RID: 12385
+		public static readonly Color ColorSpotHot = new Color(1f, 0f, 0f, 0.6f);
+
+		// Token: 0x04003062 RID: 12386
+		public static readonly Color ColorSpotCold = new Color(0f, 0f, 1f, 0.6f);
+
+		// Token: 0x04003063 RID: 12387
+		public static readonly Color ColorRoomHot = new Color(1f, 0f, 0f, 0.3f);
+
+		// Token: 0x04003064 RID: 12388
+		public static readonly Color ColorRoomCold = new Color(0f, 0f, 1f, 0.3f);
+
+		// Token: 0x04003065 RID: 12389
+		private static List<RoomGroup> neighRoomGroups = new List<RoomGroup>();
+
+		// Token: 0x04003066 RID: 12390
+		private static RoomGroup[] beqRoomGroups = new RoomGroup[4];
 	}
 }

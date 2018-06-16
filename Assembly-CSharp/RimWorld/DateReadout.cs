@@ -1,53 +1,42 @@
-using RimWorld.Planet;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000841 RID: 2113
 	public static class DateReadout
 	{
-		private static string dateString;
+		// Token: 0x06002FC7 RID: 12231 RVA: 0x0019DE4F File Offset: 0x0019C24F
+		static DateReadout()
+		{
+			DateReadout.Reset();
+		}
 
-		private static int dateStringDay;
-
-		private static Season dateStringSeason;
-
-		private static Quadrum dateStringQuadrum;
-
-		private static int dateStringYear;
-
-		private static readonly List<string> fastHourStrings;
-
-		private const float DateRightPadding = 7f;
-
+		// Token: 0x17000791 RID: 1937
+		// (get) Token: 0x06002FC8 RID: 12232 RVA: 0x0019DE7C File Offset: 0x0019C27C
 		public static float Height
 		{
 			get
 			{
-				return (float)(48 + (DateReadout.SeasonLabelVisible ? 26 : 0));
+				return (float)(48 + ((!DateReadout.SeasonLabelVisible) ? 0 : 26));
 			}
 		}
 
+		// Token: 0x17000792 RID: 1938
+		// (get) Token: 0x06002FC9 RID: 12233 RVA: 0x0019DEA8 File Offset: 0x0019C2A8
 		private static bool SeasonLabelVisible
 		{
 			get
 			{
-				return !WorldRendererUtility.WorldRenderedNow && Find.VisibleMap != null;
+				return !WorldRendererUtility.WorldRenderedNow && Find.CurrentMap != null;
 			}
 		}
 
-		static DateReadout()
-		{
-			DateReadout.dateStringDay = -1;
-			DateReadout.dateStringSeason = Season.Undefined;
-			DateReadout.dateStringQuadrum = Quadrum.Undefined;
-			DateReadout.dateStringYear = -1;
-			DateReadout.fastHourStrings = new List<string>();
-			DateReadout.Reset();
-		}
-
+		// Token: 0x06002FCA RID: 12234 RVA: 0x0019DED8 File Offset: 0x0019C2D8
 		public static void Reset()
 		{
 			DateReadout.dateString = null;
@@ -62,6 +51,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002FCB RID: 12235 RVA: 0x0019DF44 File Offset: 0x0019C344
 		public static void DateOnGUI(Rect dateRect)
 		{
 			Vector2 location;
@@ -75,31 +65,28 @@ namespace RimWorld
 			}
 			else
 			{
-				if (Find.VisibleMap == null)
+				if (Find.CurrentMap == null)
+				{
 					return;
-				location = Find.WorldGrid.LongLatOf(Find.VisibleMap.Tile);
+				}
+				location = Find.WorldGrid.LongLatOf(Find.CurrentMap.Tile);
 			}
-			int index = GenDate.HourInteger(Find.TickManager.TicksAbs, location.x);
-			int num = GenDate.DayOfTwelfth(Find.TickManager.TicksAbs, location.x);
-			Season season = GenDate.Season(Find.TickManager.TicksAbs, location);
-			Quadrum quadrum = GenDate.Quadrum(Find.TickManager.TicksAbs, location.x);
-			int num2 = GenDate.Year(Find.TickManager.TicksAbs, location.x);
-			string text = (!DateReadout.SeasonLabelVisible) ? string.Empty : season.LabelCap();
+			int index = GenDate.HourInteger((long)Find.TickManager.TicksAbs, location.x);
+			int num = GenDate.DayOfTwelfth((long)Find.TickManager.TicksAbs, location.x);
+			Season season = GenDate.Season((long)Find.TickManager.TicksAbs, location);
+			Quadrum quadrum = GenDate.Quadrum((long)Find.TickManager.TicksAbs, location.x);
+			int num2 = GenDate.Year((long)Find.TickManager.TicksAbs, location.x);
+			string text = (!DateReadout.SeasonLabelVisible) ? "" : season.LabelCap();
 			if (num != DateReadout.dateStringDay || season != DateReadout.dateStringSeason || quadrum != DateReadout.dateStringQuadrum || num2 != DateReadout.dateStringYear)
 			{
-				DateReadout.dateString = GenDate.DateReadoutStringAt(Find.TickManager.TicksAbs, location);
+				DateReadout.dateString = GenDate.DateReadoutStringAt((long)Find.TickManager.TicksAbs, location);
 				DateReadout.dateStringDay = num;
 				DateReadout.dateStringSeason = season;
 				DateReadout.dateStringQuadrum = quadrum;
 				DateReadout.dateStringYear = num2;
 			}
 			Text.Font = GameFont.Small;
-			Vector2 vector = Text.CalcSize(DateReadout.fastHourStrings[index]);
-			float x = vector.x;
-			Vector2 vector2 = Text.CalcSize(DateReadout.dateString);
-			float a = Mathf.Max(x, (float)(vector2.x + 7.0));
-			Vector2 vector3 = Text.CalcSize(text);
-			float num3 = Mathf.Max(a, vector3.x);
+			float num3 = Mathf.Max(Mathf.Max(Text.CalcSize(DateReadout.fastHourStrings[index]).x, Text.CalcSize(DateReadout.dateString).x + 7f), Text.CalcSize(text).x);
 			dateRect.xMin = dateRect.xMax - num3;
 			if (Mouse.IsOver(dateRect))
 			{
@@ -120,7 +107,7 @@ namespace RimWorld
 			}
 			Text.Anchor = TextAnchor.UpperLeft;
 			GUI.EndGroup();
-			TooltipHandler.TipRegion(dateRect, new TipSignal(delegate
+			TooltipHandler.TipRegion(dateRect, new TipSignal(delegate()
 			{
 				StringBuilder stringBuilder = new StringBuilder();
 				for (int i = 0; i < 4; i++)
@@ -128,8 +115,37 @@ namespace RimWorld
 					Quadrum quadrum2 = (Quadrum)i;
 					stringBuilder.AppendLine(quadrum2.Label() + " - " + quadrum2.GetSeason(location.y).LabelCap());
 				}
-				return "DateReadoutTip".Translate(GenDate.DaysPassed, 15, season.LabelCap(), 15, GenDate.Quadrum(GenTicks.TicksAbs, location.x).Label(), stringBuilder.ToString());
+				return "DateReadoutTip".Translate(new object[]
+				{
+					GenDate.DaysPassed,
+					15,
+					season.LabelCap(),
+					15,
+					GenDate.Quadrum((long)GenTicks.TicksAbs, location.x).Label(),
+					stringBuilder.ToString()
+				});
 			}, 86423));
 		}
+
+		// Token: 0x040019CE RID: 6606
+		private static string dateString;
+
+		// Token: 0x040019CF RID: 6607
+		private static int dateStringDay = -1;
+
+		// Token: 0x040019D0 RID: 6608
+		private static Season dateStringSeason = Season.Undefined;
+
+		// Token: 0x040019D1 RID: 6609
+		private static Quadrum dateStringQuadrum = Quadrum.Undefined;
+
+		// Token: 0x040019D2 RID: 6610
+		private static int dateStringYear = -1;
+
+		// Token: 0x040019D3 RID: 6611
+		private static readonly List<string> fastHourStrings = new List<string>();
+
+		// Token: 0x040019D4 RID: 6612
+		private const float DateRightPadding = 7f;
 	}
 }

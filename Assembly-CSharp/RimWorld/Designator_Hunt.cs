@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -5,10 +6,24 @@ using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020007D1 RID: 2001
 	public class Designator_Hunt : Designator
 	{
-		private List<Pawn> justDesignated = new List<Pawn>();
+		// Token: 0x06002C50 RID: 11344 RVA: 0x00175C10 File Offset: 0x00174010
+		public Designator_Hunt()
+		{
+			this.defaultLabel = "DesignatorHunt".Translate();
+			this.defaultDesc = "DesignatorHuntDesc".Translate();
+			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/Hunt", true);
+			this.soundDragSustain = SoundDefOf.Designate_DragStandard;
+			this.soundDragChanged = SoundDefOf.Designate_DragStandard_Changed;
+			this.useMouseIcon = true;
+			this.soundSucceeded = SoundDefOf.Designate_Hunt;
+			this.hotKey = KeyBindingDefOf.Misc11;
+		}
 
+		// Token: 0x170006F2 RID: 1778
+		// (get) Token: 0x06002C51 RID: 11345 RVA: 0x00175C94 File Offset: 0x00174094
 		public override int DraggableDimensions
 		{
 			get
@@ -17,93 +32,103 @@ namespace RimWorld
 			}
 		}
 
-		public Designator_Hunt()
+		// Token: 0x170006F3 RID: 1779
+		// (get) Token: 0x06002C52 RID: 11346 RVA: 0x00175CAC File Offset: 0x001740AC
+		protected override DesignationDef Designation
 		{
-			base.defaultLabel = "DesignatorHunt".Translate();
-			base.defaultDesc = "DesignatorHuntDesc".Translate();
-			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/Hunt", true);
-			base.soundDragSustain = SoundDefOf.DesignateDragStandard;
-			base.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
-			base.useMouseIcon = true;
-			base.soundSucceeded = SoundDefOf.DesignateHunt;
-			base.hotKey = KeyBindingDefOf.Misc11;
+			get
+			{
+				return DesignationDefOf.Hunt;
+			}
 		}
 
+		// Token: 0x06002C53 RID: 11347 RVA: 0x00175CC8 File Offset: 0x001740C8
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
+			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				return false;
+				result = false;
 			}
-			if (!this.HuntablesInCell(c).Any())
+			else if (!this.HuntablesInCell(c).Any<Pawn>())
 			{
-				return "MessageMustDesignateHuntable".Translate();
+				result = "MessageMustDesignateHuntable".Translate();
 			}
-			return true;
+			else
+			{
+				result = true;
+			}
+			return result;
 		}
 
+		// Token: 0x06002C54 RID: 11348 RVA: 0x00175D28 File Offset: 0x00174128
 		public override void DesignateSingleCell(IntVec3 loc)
 		{
-			foreach (Pawn item in this.HuntablesInCell(loc))
+			foreach (Pawn t in this.HuntablesInCell(loc))
 			{
-				this.DesignateThing(item);
+				this.DesignateThing(t);
 			}
 		}
 
+		// Token: 0x06002C55 RID: 11349 RVA: 0x00175D88 File Offset: 0x00174188
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			Pawn pawn = t as Pawn;
-			if (pawn != null && pawn.AnimalOrWildMan() && pawn.Faction == null && base.Map.designationManager.DesignationOn(pawn, DesignationDefOf.Hunt) == null)
+			AcceptanceReport result;
+			if (pawn != null && pawn.AnimalOrWildMan() && pawn.Faction == null && base.Map.designationManager.DesignationOn(pawn, this.Designation) == null)
 			{
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
+		// Token: 0x06002C56 RID: 11350 RVA: 0x00175DF0 File Offset: 0x001741F0
 		public override void DesignateThing(Thing t)
 		{
 			base.Map.designationManager.RemoveAllDesignationsOn(t, false);
-			base.Map.designationManager.AddDesignation(new Designation(t, DesignationDefOf.Hunt));
+			base.Map.designationManager.AddDesignation(new Designation(t, this.Designation));
 			this.justDesignated.Add((Pawn)t);
 		}
 
+		// Token: 0x06002C57 RID: 11351 RVA: 0x00175E44 File Offset: 0x00174244
 		protected override void FinalizeDesignationSucceeded()
 		{
 			base.FinalizeDesignationSucceeded();
-			foreach (PawnKindDef item in (from p in this.justDesignated
-			select p.kindDef).Distinct())
+			using (IEnumerator<PawnKindDef> enumerator = (from p in this.justDesignated
+			select p.kindDef).Distinct<PawnKindDef>().GetEnumerator())
 			{
-				float num = (float)((item != PawnKindDefOf.WildMan) ? item.RaceProps.manhunterOnDamageChance : 0.5);
-				if (num > 0.20000000298023224)
+				while (enumerator.MoveNext())
 				{
-					Messages.Message("MessageAnimalsGoPsychoHunted".Translate(item.GetLabelPlural(-1)), this.justDesignated.First((Pawn x) => x.kindDef == item), MessageTypeDefOf.CautionInput);
+					PawnKindDef kind = enumerator.Current;
+					HuntUtility.ShowDesignationWarnings(this.justDesignated.First((Pawn x) => x.kindDef == kind));
 				}
 			}
 			this.justDesignated.Clear();
 		}
 
+		// Token: 0x06002C58 RID: 11352 RVA: 0x00175EFC File Offset: 0x001742FC
 		private IEnumerable<Pawn> HuntablesInCell(IntVec3 c)
 		{
-			if (!c.Fogged(base.Map))
+			if (c.Fogged(base.Map))
 			{
-				List<Thing> thingList = c.GetThingList(base.Map);
-				int i = 0;
-				while (true)
-				{
-					if (i < thingList.Count)
-					{
-						if (!this.CanDesignateThing(thingList[i]).Accepted)
-						{
-							i++;
-							continue;
-						}
-						break;
-					}
-					yield break;
-				}
-				yield return (Pawn)thingList[i];
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield break;
 			}
+			List<Thing> thingList = c.GetThingList(base.Map);
+			for (int i = 0; i < thingList.Count; i++)
+			{
+				if (this.CanDesignateThing(thingList[i]).Accepted)
+				{
+					yield return (Pawn)thingList[i];
+				}
+			}
+			yield break;
 		}
+
+		// Token: 0x040017A2 RID: 6050
+		private List<Pawn> justDesignated = new List<Pawn>();
 	}
 }

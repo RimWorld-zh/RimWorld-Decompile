@@ -1,130 +1,150 @@
-using RimWorld.Planet;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000481 RID: 1153
+	[HasDebugOutput]
 	internal static class AgeInjuryUtility
 	{
-		private const int MaxOldInjuryAge = 100;
-
-		private static List<Thing> emptyIngredientsList = new List<Thing>();
-
+		// Token: 0x06001439 RID: 5177 RVA: 0x000B04FC File Offset: 0x000AE8FC
 		public static IEnumerable<HediffGiver_Birthday> RandomHediffsToGainOnBirthday(Pawn pawn, int age)
 		{
 			return AgeInjuryUtility.RandomHediffsToGainOnBirthday(pawn.def, age);
 		}
 
+		// Token: 0x0600143A RID: 5178 RVA: 0x000B0520 File Offset: 0x000AE920
 		private static IEnumerable<HediffGiver_Birthday> RandomHediffsToGainOnBirthday(ThingDef raceDef, int age)
 		{
 			List<HediffGiverSetDef> sets = raceDef.race.hediffGiverSets;
-			if (sets != null)
+			if (sets == null)
 			{
-				for (int j = 0; j < sets.Count; j++)
+				yield break;
+			}
+			for (int i = 0; i < sets.Count; i++)
+			{
+				List<HediffGiver> givers = sets[i].hediffGivers;
+				for (int j = 0; j < givers.Count; j++)
 				{
-					List<HediffGiver> givers = sets[j].hediffGivers;
-					for (int i = 0; i < givers.Count; i++)
+					HediffGiver_Birthday agb = givers[j] as HediffGiver_Birthday;
+					if (agb != null)
 					{
-						HediffGiver_Birthday agb = givers[i] as HediffGiver_Birthday;
-						if (agb != null)
+						float ageFractionOfLifeExpectancy = (float)age / raceDef.race.lifeExpectancy;
+						if (Rand.Value < agb.ageFractionChanceCurve.Evaluate(ageFractionOfLifeExpectancy))
 						{
-							float ageFractionOfLifeExpectancy = (float)age / raceDef.race.lifeExpectancy;
-							if (Rand.Value < agb.ageFractionChanceCurve.Evaluate(ageFractionOfLifeExpectancy))
-							{
-								yield return agb;
-								/*Error: Unable to find new state assignment for yield return*/;
-							}
+							yield return agb;
 						}
 					}
 				}
 			}
+			yield break;
 		}
 
+		// Token: 0x0600143B RID: 5179 RVA: 0x000B0554 File Offset: 0x000AE954
 		public static void GenerateRandomOldAgeInjuries(Pawn pawn, bool tryNotToKillPawn)
 		{
-			int num = 0;
-			for (int i = 10; i < Mathf.Min(pawn.ageTracker.AgeBiologicalYears, 120); i += 10)
+			float num = (!pawn.RaceProps.IsMechanoid) ? pawn.RaceProps.lifeExpectancy : 2500f;
+			float num2 = num / 8f;
+			float b = num * 1.5f;
+			float chance = (!pawn.RaceProps.Humanlike) ? 0.03f : 0.15f;
+			int num3 = 0;
+			for (float num4 = num2; num4 < Mathf.Min((float)pawn.ageTracker.AgeBiologicalYears, b); num4 += num2)
 			{
-				if (Rand.Value < 0.15000000596046448)
+				if (Rand.Chance(chance))
 				{
-					num++;
+					num3++;
 				}
 			}
-			for (int j = 0; j < num; j++)
+			for (int i = 0; i < num3; i++)
 			{
-				IEnumerable<BodyPartRecord> source = from x in pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined)
-				where x.depth == BodyPartDepth.Outside && !Mathf.Approximately(x.def.oldInjuryBaseChance, 0f) && !pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(x)
+				IEnumerable<BodyPartRecord> source = from x in pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null)
+				where x.depth == BodyPartDepth.Outside && (x.def.permanentInjuryBaseChance != 0f || x.def.pawnGeneratorCanAmputate) && !pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(x)
 				select x;
-				if (source.Any())
+				if (source.Any<BodyPartRecord>())
 				{
 					BodyPartRecord bodyPartRecord = source.RandomElementByWeight((BodyPartRecord x) => x.coverageAbs);
-					DamageDef dam = AgeInjuryUtility.RandomOldInjuryDamageType(bodyPartRecord.def.frostbiteVulnerability > 0.0 && pawn.RaceProps.ToolUser);
+					DamageDef dam = AgeInjuryUtility.RandomPermanentInjuryDamageType(bodyPartRecord.def.frostbiteVulnerability > 0f && pawn.RaceProps.ToolUser);
 					HediffDef hediffDefFromDamage = HealthUtility.GetHediffDefFromDamage(dam, pawn, bodyPartRecord);
-					if (bodyPartRecord.def.oldInjuryBaseChance > 0.0 && hediffDefFromDamage.CompPropsFor(typeof(HediffComp_GetsOld)) != null)
+					if (bodyPartRecord.def.pawnGeneratorCanAmputate && Rand.Chance(0.3f))
 					{
-						if (Rand.Chance(bodyPartRecord.def.amputateIfGeneratedInjuredChance))
+						Hediff_MissingPart hediff_MissingPart = (Hediff_MissingPart)HediffMaker.MakeHediff(HediffDefOf.MissingBodyPart, pawn, null);
+						hediff_MissingPart.lastInjury = hediffDefFromDamage;
+						hediff_MissingPart.Part = bodyPartRecord;
+						hediff_MissingPart.IsFresh = false;
+						if (!tryNotToKillPawn || !pawn.health.WouldDieAfterAddingHediff(hediff_MissingPart))
 						{
-							Hediff_MissingPart hediff_MissingPart = (Hediff_MissingPart)HediffMaker.MakeHediff(HediffDefOf.MissingBodyPart, pawn, null);
-							hediff_MissingPart.lastInjury = hediffDefFromDamage;
-							hediff_MissingPart.TryGetComp<HediffComp_GetsOld>().IsOld = true;
-							pawn.health.AddHediff(hediff_MissingPart, bodyPartRecord, null);
-							if (pawn.RaceProps.Humanlike && (bodyPartRecord.def == BodyPartDefOf.LeftLeg || bodyPartRecord.def == BodyPartDefOf.RightLeg) && Rand.Chance(0.5f))
+							pawn.health.AddHediff(hediff_MissingPart, bodyPartRecord, null, null);
+							if (pawn.RaceProps.Humanlike && bodyPartRecord.def == BodyPartDefOf.Leg && Rand.Chance(0.5f))
 							{
 								RecipeDefOf.InstallPegLeg.Worker.ApplyOnPawn(pawn, bodyPartRecord, null, AgeInjuryUtility.emptyIngredientsList, null);
 							}
 						}
-						else
+					}
+					else if (bodyPartRecord.def.permanentInjuryBaseChance > 0f && hediffDefFromDamage.HasComp(typeof(HediffComp_GetsPermanent)))
+					{
+						Hediff_Injury hediff_Injury = (Hediff_Injury)HediffMaker.MakeHediff(hediffDefFromDamage, pawn, null);
+						hediff_Injury.Severity = (float)Rand.RangeInclusive(2, 6);
+						hediff_Injury.TryGetComp<HediffComp_GetsPermanent>().IsPermanent = true;
+						hediff_Injury.Part = bodyPartRecord;
+						if (!tryNotToKillPawn || !pawn.health.WouldDieAfterAddingHediff(hediff_Injury))
 						{
-							Hediff_Injury hediff_Injury = (Hediff_Injury)HediffMaker.MakeHediff(hediffDefFromDamage, pawn, null);
-							hediff_Injury.Severity = (float)Rand.RangeInclusive(2, 6);
-							hediff_Injury.TryGetComp<HediffComp_GetsOld>().IsOld = true;
-							pawn.health.AddHediff(hediff_Injury, bodyPartRecord, null);
+							pawn.health.AddHediff(hediff_Injury, bodyPartRecord, null, null);
 						}
 					}
 				}
 			}
-			int num2 = 1;
-			while (num2 < pawn.ageTracker.AgeBiologicalYears)
+			for (int j = 1; j < pawn.ageTracker.AgeBiologicalYears; j++)
 			{
-				foreach (HediffGiver_Birthday item in AgeInjuryUtility.RandomHediffsToGainOnBirthday(pawn, num2))
+				foreach (HediffGiver_Birthday hediffGiver_Birthday in AgeInjuryUtility.RandomHediffsToGainOnBirthday(pawn, j))
 				{
-					item.TryApplyAndSimulateSeverityChange(pawn, (float)num2, tryNotToKillPawn);
+					hediffGiver_Birthday.TryApplyAndSimulateSeverityChange(pawn, (float)j, tryNotToKillPawn);
 					if (pawn.Dead)
+					{
 						break;
+					}
 				}
-				if (!pawn.Dead)
+				if (pawn.Dead)
 				{
-					num2++;
-					continue;
+					break;
 				}
-				break;
 			}
 		}
 
-		private static DamageDef RandomOldInjuryDamageType(bool allowFrostbite)
+		// Token: 0x0600143C RID: 5180 RVA: 0x000B091C File Offset: 0x000AED1C
+		private static DamageDef RandomPermanentInjuryDamageType(bool allowFrostbite)
 		{
-			switch (Rand.RangeInclusive(0, 3 + (allowFrostbite ? 1 : 0)))
+			DamageDef result;
+			switch (Rand.RangeInclusive(0, 3 + ((!allowFrostbite) ? 0 : 1)))
 			{
 			case 0:
-				return DamageDefOf.Bullet;
+				result = DamageDefOf.Bullet;
+				break;
 			case 1:
-				return DamageDefOf.Scratch;
+				result = DamageDefOf.Scratch;
+				break;
 			case 2:
-				return DamageDefOf.Bite;
+				result = DamageDefOf.Bite;
+				break;
 			case 3:
-				return DamageDefOf.Stab;
+				result = DamageDefOf.Stab;
+				break;
 			case 4:
-				return DamageDefOf.Frostbite;
+				result = DamageDefOf.Frostbite;
+				break;
 			default:
 				throw new Exception();
 			}
+			return result;
 		}
 
-		public static void LogOldInjuryCalculations()
+		// Token: 0x0600143D RID: 5181 RVA: 0x000B09A0 File Offset: 0x000AEDA0
+		[DebugOutput]
+		public static void PermanentInjuryCalculations()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("=======Theoretical injuries=========");
@@ -134,17 +154,23 @@ namespace RimWorld
 				List<HediffDef> list = new List<HediffDef>();
 				for (int j = 0; j < 100; j++)
 				{
-					foreach (HediffGiver_Birthday item in AgeInjuryUtility.RandomHediffsToGainOnBirthday(ThingDefOf.Human, j))
+					foreach (HediffGiver_Birthday hediffGiver_Birthday in AgeInjuryUtility.RandomHediffsToGainOnBirthday(ThingDefOf.Human, j))
 					{
-						if (!list.Contains(item.hediff))
+						if (!list.Contains(hediffGiver_Birthday.hediff))
 						{
-							list.Add(item.hediff);
-							stringBuilder.AppendLine("  age " + j + " - " + item.hediff);
+							list.Add(hediffGiver_Birthday.hediff);
+							stringBuilder.AppendLine(string.Concat(new object[]
+							{
+								"  age ",
+								j,
+								" - ",
+								hediffGiver_Birthday.hediff
+							}));
 						}
 					}
 				}
 			}
-			Log.Message(stringBuilder.ToString());
+			Log.Message(stringBuilder.ToString(), false);
 			stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("=======Actual injuries=========");
 			for (int k = 0; k < 200; k++)
@@ -153,14 +179,20 @@ namespace RimWorld
 				if (pawn.ageTracker.AgeBiologicalYears >= 40)
 				{
 					stringBuilder.AppendLine(pawn.Name + " age " + pawn.ageTracker.AgeBiologicalYears);
-					foreach (Hediff hediff in pawn.health.hediffSet.hediffs)
+					foreach (Hediff arg in pawn.health.hediffSet.hediffs)
 					{
-						stringBuilder.AppendLine(" - " + hediff);
+						stringBuilder.AppendLine(" - " + arg);
 					}
 				}
 				Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Discard);
 			}
-			Log.Message(stringBuilder.ToString());
+			Log.Message(stringBuilder.ToString(), false);
 		}
+
+		// Token: 0x04000C0F RID: 3087
+		private const int MaxPermanentInjuryAge = 100;
+
+		// Token: 0x04000C10 RID: 3088
+		private static List<Thing> emptyIngredientsList = new List<Thing>();
 	}
 }

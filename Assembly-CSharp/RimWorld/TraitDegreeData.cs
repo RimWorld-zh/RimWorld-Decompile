@@ -1,65 +1,57 @@
+﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020002E8 RID: 744
 	public class TraitDegreeData
 	{
+		// Token: 0x040007DC RID: 2012
 		[MustTranslate]
 		public string label;
 
+		// Token: 0x040007DD RID: 2013
 		[MustTranslate]
 		public string description;
 
-		public int degree;
+		// Token: 0x040007DE RID: 2014
+		public int degree = 0;
 
+		// Token: 0x040007DF RID: 2015
+		public float commonality = 1f;
+
+		// Token: 0x040007E0 RID: 2016
 		public List<StatModifier> statOffsets;
 
+		// Token: 0x040007E1 RID: 2017
 		public List<StatModifier> statFactors;
 
-		public ThinkTreeDef thinkTree;
+		// Token: 0x040007E2 RID: 2018
+		public ThinkTreeDef thinkTree = null;
 
-		private float commonality = -1f;
+		// Token: 0x040007E3 RID: 2019
+		public MentalStateDef randomMentalState = null;
 
-		public MentalStateDef randomMentalState;
+		// Token: 0x040007E4 RID: 2020
+		public SimpleCurve randomMentalStateMtbDaysMoodCurve = null;
 
-		public SimpleCurve randomMentalStateMtbDaysMoodCurve;
+		// Token: 0x040007E5 RID: 2021
+		public List<MentalStateDef> disallowedMentalStates = null;
 
-		public List<MentalStateDef> disallowedMentalStates;
+		// Token: 0x040007E6 RID: 2022
+		public List<MentalBreakDef> theOnlyAllowedMentalBreaks = null;
 
-		public List<MentalBreakDef> theOnlyAllowedMentalBreaks;
-
+		// Token: 0x040007E7 RID: 2023
 		public Dictionary<SkillDef, int> skillGains = new Dictionary<SkillDef, int>();
 
+		// Token: 0x040007E8 RID: 2024
 		public float socialFightChanceFactor = 1f;
 
-		public float marketValueFactorOffset;
+		// Token: 0x040007E9 RID: 2025
+		public float marketValueFactorOffset = 0f;
 
-		public float Commonality
-		{
-			get
-			{
-				if (this.commonality >= 0.0)
-				{
-					return this.commonality;
-				}
-				switch (Mathf.Abs(this.degree))
-				{
-				case 0:
-					return 1f;
-				case 1:
-					return 1f;
-				case 2:
-					return 0.4f;
-				case 3:
-					return 0.2f;
-				case 4:
-					return 0.1f;
-				default:
-					return 0.05f;
-				}
-			}
-		}
+		// Token: 0x040007EA RID: 2026
+		public float randomDiseaseMtbDays = 0f;
 	}
 }

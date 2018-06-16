@@ -1,52 +1,76 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020004C0 RID: 1216
 	public static class ParentRelationUtility
 	{
+		// Token: 0x060015BA RID: 5562 RVA: 0x000C139C File Offset: 0x000BF79C
 		public static Pawn GetFather(this Pawn pawn)
 		{
+			Pawn result;
 			if (!pawn.RaceProps.IsFlesh)
 			{
-				return null;
+				result = null;
 			}
-			List<DirectPawnRelation> directRelations = pawn.relations.DirectRelations;
-			for (int i = 0; i < directRelations.Count; i++)
+			else
 			{
-				DirectPawnRelation directPawnRelation = directRelations[i];
-				if (directPawnRelation.def == PawnRelationDefOf.Parent && directPawnRelation.otherPawn.gender != Gender.Female)
+				List<DirectPawnRelation> directRelations = pawn.relations.DirectRelations;
+				for (int i = 0; i < directRelations.Count; i++)
 				{
-					return directPawnRelation.otherPawn;
+					DirectPawnRelation directPawnRelation = directRelations[i];
+					if (directPawnRelation.def == PawnRelationDefOf.Parent && directPawnRelation.otherPawn.gender != Gender.Female)
+					{
+						return directPawnRelation.otherPawn;
+					}
 				}
+				result = null;
 			}
-			return null;
+			return result;
 		}
 
+		// Token: 0x060015BB RID: 5563 RVA: 0x000C1424 File Offset: 0x000BF824
 		public static Pawn GetMother(this Pawn pawn)
 		{
+			Pawn result;
 			if (!pawn.RaceProps.IsFlesh)
 			{
-				return null;
+				result = null;
 			}
-			List<DirectPawnRelation> directRelations = pawn.relations.DirectRelations;
-			for (int i = 0; i < directRelations.Count; i++)
+			else
 			{
-				DirectPawnRelation directPawnRelation = directRelations[i];
-				if (directPawnRelation.def == PawnRelationDefOf.Parent && directPawnRelation.otherPawn.gender == Gender.Female)
+				List<DirectPawnRelation> directRelations = pawn.relations.DirectRelations;
+				for (int i = 0; i < directRelations.Count; i++)
 				{
-					return directPawnRelation.otherPawn;
+					DirectPawnRelation directPawnRelation = directRelations[i];
+					if (directPawnRelation.def == PawnRelationDefOf.Parent && directPawnRelation.otherPawn.gender == Gender.Female)
+					{
+						return directPawnRelation.otherPawn;
+					}
 				}
+				result = null;
 			}
-			return null;
+			return result;
 		}
 
+		// Token: 0x060015BC RID: 5564 RVA: 0x000C14AC File Offset: 0x000BF8AC
 		public static void SetFather(this Pawn pawn, Pawn newFather)
 		{
 			if (newFather != null && newFather.gender == Gender.Female)
 			{
-				Log.Warning("Tried to set " + newFather + " with gender " + newFather.gender + " as " + pawn + "'s father.");
+				Log.Warning(string.Concat(new object[]
+				{
+					"Tried to set ",
+					newFather,
+					" with gender ",
+					newFather.gender,
+					" as ",
+					pawn,
+					"'s father."
+				}), false);
 			}
 			else
 			{
@@ -65,11 +89,21 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060015BD RID: 5565 RVA: 0x000C1558 File Offset: 0x000BF958
 		public static void SetMother(this Pawn pawn, Pawn newMother)
 		{
 			if (newMother != null && newMother.gender != Gender.Female)
 			{
-				Log.Warning("Tried to set " + newMother + " with gender " + newMother.gender + " as " + pawn + "'s mother.");
+				Log.Warning(string.Concat(new object[]
+				{
+					"Tried to set ",
+					newMother,
+					" with gender ",
+					newMother.gender,
+					" as ",
+					pawn,
+					"'s mother."
+				}), false);
 			}
 			else
 			{
@@ -88,27 +122,35 @@ namespace RimWorld
 			}
 		}
 
-		public static float GetRandomSecondParentSkinColor(float otherParentSkin, float childSkin, float? secondChildSkin = default(float?))
+		// Token: 0x060015BE RID: 5566 RVA: 0x000C1604 File Offset: 0x000BFA04
+		public static float GetRandomSecondParentSkinColor(float otherParentSkin, float childSkin, float? secondChildSkin = null)
 		{
-			float num = 0f;
-			num = (float)((!secondChildSkin.HasValue) ? childSkin : ((childSkin + secondChildSkin.Value) / 2.0));
-			float reflectedSkin = ChildRelationUtility.GetReflectedSkin(otherParentSkin, num);
-			float num2 = childSkin;
-			float num3 = childSkin;
-			if (secondChildSkin.HasValue)
+			float mirror;
+			if (secondChildSkin != null)
 			{
-				num2 = Mathf.Min(num2, secondChildSkin.Value);
-				num3 = Mathf.Max(num3, secondChildSkin.Value);
-			}
-			float clampMin = 0f;
-			float clampMax = 1f;
-			if (reflectedSkin >= num3)
-			{
-				clampMin = num3;
+				mirror = (childSkin + secondChildSkin.Value) / 2f;
 			}
 			else
 			{
-				clampMax = num2;
+				mirror = childSkin;
+			}
+			float reflectedSkin = ChildRelationUtility.GetReflectedSkin(otherParentSkin, mirror);
+			float num = childSkin;
+			float num2 = childSkin;
+			if (secondChildSkin != null)
+			{
+				num = Mathf.Min(num, secondChildSkin.Value);
+				num2 = Mathf.Max(num2, secondChildSkin.Value);
+			}
+			float clampMin = 0f;
+			float clampMax = 1f;
+			if (reflectedSkin >= num2)
+			{
+				clampMin = num2;
+			}
+			else
+			{
+				clampMax = num;
 			}
 			return PawnSkinColors.GetRandomMelaninSimilarTo(reflectedSkin, clampMin, clampMax);
 		}

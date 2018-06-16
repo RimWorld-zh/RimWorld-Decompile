@@ -1,18 +1,14 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x0200010C RID: 268
 	internal class JobGiver_FireStartingSpree : ThinkNode_JobGiver
 	{
-		private IntRange waitTicks = new IntRange(80, 140);
-
-		private const float FireStartChance = 0.75f;
-
-		private static List<Thing> potentialTargets = new List<Thing>();
-
+		// Token: 0x0600058D RID: 1421 RVA: 0x0003C204 File Offset: 0x0003A604
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_FireStartingSpree jobGiver_FireStartingSpree = (JobGiver_FireStartingSpree)base.DeepCopy(resolve);
@@ -20,57 +16,82 @@ namespace RimWorld
 			return jobGiver_FireStartingSpree;
 		}
 
+		// Token: 0x0600058E RID: 1422 RVA: 0x0003C234 File Offset: 0x0003A634
 		protected override Job TryGiveJob(Pawn pawn)
 		{
+			Job result;
 			if (pawn.mindState.nextMoveOrderIsWait)
 			{
-				Job job = new Job(JobDefOf.WaitWander);
+				Job job = new Job(JobDefOf.Wait_Wander);
 				job.expiryInterval = this.waitTicks.RandomInRange;
 				pawn.mindState.nextMoveOrderIsWait = false;
-				return job;
+				result = job;
 			}
-			if (Rand.Value < 0.75)
+			else
 			{
-				Thing thing = this.TryFindRandomIgniteTarget(pawn);
-				if (thing != null)
+				if (Rand.Value < 0.75f)
+				{
+					Thing thing = this.TryFindRandomIgniteTarget(pawn);
+					if (thing != null)
+					{
+						pawn.mindState.nextMoveOrderIsWait = true;
+						return new Job(JobDefOf.Ignite, thing);
+					}
+				}
+				IntVec3 c = RCellFinder.RandomWanderDestFor(pawn, pawn.Position, 10f, null, Danger.Deadly);
+				if (c.IsValid)
 				{
 					pawn.mindState.nextMoveOrderIsWait = true;
-					return new Job(JobDefOf.Ignite, thing);
+					result = new Job(JobDefOf.GotoWander, c);
+				}
+				else
+				{
+					result = null;
 				}
 			}
-			IntVec3 intVec = RCellFinder.RandomWanderDestFor(pawn, pawn.Position, 10f, null, Danger.Deadly);
-			if (intVec.IsValid)
-			{
-				pawn.mindState.nextMoveOrderIsWait = true;
-				Job job2 = new Job(JobDefOf.GotoWander, intVec);
-				pawn.Map.pawnDestinationReservationManager.Reserve(pawn, job2, intVec);
-				return job2;
-			}
-			return null;
+			return result;
 		}
 
+		// Token: 0x0600058F RID: 1423 RVA: 0x0003C310 File Offset: 0x0003A710
 		private Thing TryFindRandomIgniteTarget(Pawn pawn)
 		{
-			Region region = default(Region);
-			if (!CellFinder.TryFindClosestRegionWith(pawn.GetRegion(RegionType.Set_Passable), TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), (Predicate<Region>)((Region candidateRegion) => !candidateRegion.IsForbiddenEntirely(pawn)), 100, out region, RegionType.Set_Passable))
+			Region region;
+			Thing result;
+			if (!CellFinder.TryFindClosestRegionWith(pawn.GetRegion(RegionType.Set_Passable), TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), (Region candidateRegion) => !candidateRegion.IsForbiddenEntirely(pawn), 100, out region, RegionType.Set_Passable))
 			{
-				return null;
+				result = null;
 			}
-			JobGiver_FireStartingSpree.potentialTargets.Clear();
-			List<Thing> allThings = region.ListerThings.AllThings;
-			for (int i = 0; i < allThings.Count; i++)
+			else
 			{
-				Thing thing = allThings[i];
-				if ((thing.def.category == ThingCategory.Building || thing.def.category == ThingCategory.Item || thing.def.category == ThingCategory.Plant) && thing.FlammableNow && !thing.IsBurning() && !thing.OccupiedRect().Contains(pawn.Position))
+				JobGiver_FireStartingSpree.potentialTargets.Clear();
+				List<Thing> allThings = region.ListerThings.AllThings;
+				for (int i = 0; i < allThings.Count; i++)
 				{
-					JobGiver_FireStartingSpree.potentialTargets.Add(thing);
+					Thing thing = allThings[i];
+					if ((thing.def.category == ThingCategory.Building || thing.def.category == ThingCategory.Item || thing.def.category == ThingCategory.Plant) && thing.FlammableNow && !thing.IsBurning() && !thing.OccupiedRect().Contains(pawn.Position))
+					{
+						JobGiver_FireStartingSpree.potentialTargets.Add(thing);
+					}
+				}
+				if (JobGiver_FireStartingSpree.potentialTargets.NullOrEmpty<Thing>())
+				{
+					result = null;
+				}
+				else
+				{
+					result = JobGiver_FireStartingSpree.potentialTargets.RandomElement<Thing>();
 				}
 			}
-			if (JobGiver_FireStartingSpree.potentialTargets.NullOrEmpty())
-			{
-				return null;
-			}
-			return JobGiver_FireStartingSpree.potentialTargets.RandomElement();
+			return result;
 		}
+
+		// Token: 0x040002EF RID: 751
+		private IntRange waitTicks = new IntRange(80, 140);
+
+		// Token: 0x040002F0 RID: 752
+		private const float FireStartChance = 0.75f;
+
+		// Token: 0x040002F1 RID: 753
+		private static List<Thing> potentialTargets = new List<Thing>();
 	}
 }

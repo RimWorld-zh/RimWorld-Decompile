@@ -1,21 +1,20 @@
+﻿using System;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x020008A7 RID: 2215
 	public static class TimeAssignmentSelector
 	{
-		public static TimeAssignmentDef selectedAssignment = TimeAssignmentDefOf.Work;
-
+		// Token: 0x0600329F RID: 12959 RVA: 0x001B4030 File Offset: 0x001B2430
 		public static void DrawTimeAssignmentSelectorGrid(Rect rect)
 		{
 			rect.yMax -= 2f;
 			Rect rect2 = rect;
-			Vector2 center = rect2.center;
-			rect2.xMax = center.x;
-			Vector2 center2 = rect2.center;
-			rect2.yMax = center2.y;
+			rect2.xMax = rect2.center.x;
+			rect2.yMax = rect2.center.y;
 			TimeAssignmentSelector.DrawTimeAssignmentSelectorFor(rect2, TimeAssignmentDefOf.Anything);
 			rect2.x += rect2.width;
 			TimeAssignmentSelector.DrawTimeAssignmentSelectorFor(rect2, TimeAssignmentDefOf.Work);
@@ -26,6 +25,7 @@ namespace RimWorld
 			TimeAssignmentSelector.DrawTimeAssignmentSelectorFor(rect2, TimeAssignmentDefOf.Sleep);
 		}
 
+		// Token: 0x060032A0 RID: 12960 RVA: 0x001B4100 File Offset: 0x001B2500
 		private static void DrawTimeAssignmentSelectorFor(Rect rect, TimeAssignmentDef ta)
 		{
 			rect = rect.ContractedBy(2f);
@@ -33,7 +33,7 @@ namespace RimWorld
 			if (Widgets.ButtonInvisible(rect, false))
 			{
 				TimeAssignmentSelector.selectedAssignment = ta;
-				SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
+				SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
 			}
 			GUI.color = Color.white;
 			if (Mouse.IsOver(rect))
@@ -50,5 +50,8 @@ namespace RimWorld
 				Widgets.DrawBox(rect, 2);
 			}
 		}
+
+		// Token: 0x04001B31 RID: 6961
+		public static TimeAssignmentDef selectedAssignment = TimeAssignmentDefOf.Work;
 	}
 }

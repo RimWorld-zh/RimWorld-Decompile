@@ -1,11 +1,37 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020004B8 RID: 1208
 	public static class NegativeInteractionUtility
 	{
+		// Token: 0x06001584 RID: 5508 RVA: 0x000BECF0 File Offset: 0x000BD0F0
+		public static float NegativeInteractionChanceFactor(Pawn initiator, Pawn recipient)
+		{
+			float result;
+			if (initiator.story.traits.HasTrait(TraitDefOf.Kind))
+			{
+				result = 0f;
+			}
+			else
+			{
+				float num = 1f;
+				num *= NegativeInteractionUtility.OpinionFactorCurve.Evaluate((float)initiator.relations.OpinionOf(recipient));
+				num *= NegativeInteractionUtility.CompatibilityFactorCurve.Evaluate(initiator.relations.CompatibilityWith(recipient));
+				if (initiator.story.traits.HasTrait(TraitDefOf.Abrasive))
+				{
+					num *= 2.3f;
+				}
+				result = num;
+			}
+			return result;
+		}
+
+		// Token: 0x04000CB2 RID: 3250
 		public const float AbrasiveSelectionChanceFactor = 2.3f;
 
+		// Token: 0x04000CB3 RID: 3251
 		private static readonly SimpleCurve CompatibilityFactorCurve = new SimpleCurve
 		{
 			{
@@ -38,6 +64,7 @@ namespace RimWorld
 			}
 		};
 
+		// Token: 0x04000CB4 RID: 3252
 		private static readonly SimpleCurve OpinionFactorCurve = new SimpleCurve
 		{
 			{
@@ -65,21 +92,5 @@ namespace RimWorld
 				true
 			}
 		};
-
-		public static float NegativeInteractionChanceFactor(Pawn initiator, Pawn recipient)
-		{
-			if (initiator.story.traits.HasTrait(TraitDefOf.Kind))
-			{
-				return 0f;
-			}
-			float num = 1f;
-			num *= NegativeInteractionUtility.OpinionFactorCurve.Evaluate((float)initiator.relations.OpinionOf(recipient));
-			num *= NegativeInteractionUtility.CompatibilityFactorCurve.Evaluate(initiator.relations.CompatibilityWith(recipient));
-			if (initiator.story.traits.HasTrait(TraitDefOf.Abrasive))
-			{
-				num = (float)(num * 2.2999999523162842);
-			}
-			return num;
-		}
 	}
 }

@@ -1,12 +1,14 @@
+﻿using System;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000DDD RID: 3549
 	[StaticConstructorOnStartup]
 	public class Graphic_Mote : Graphic_Single
 	{
-		protected static MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
-
+		// Token: 0x17000CD8 RID: 3288
+		// (get) Token: 0x06004F58 RID: 20312 RVA: 0x00294A1C File Offset: 0x00292E1C
 		protected virtual bool ForcePropertyBlock
 		{
 			get
@@ -15,22 +17,24 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004F59 RID: 20313 RVA: 0x00294A32 File Offset: 0x00292E32
 		public override void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing, float extraRotation)
 		{
 			this.DrawMoteInternal(loc, rot, thingDef, thing, 0);
 		}
 
+		// Token: 0x06004F5A RID: 20314 RVA: 0x00294A44 File Offset: 0x00292E44
 		public void DrawMoteInternal(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing, int layer)
 		{
 			Mote mote = (Mote)thing;
-			float num = Graphic_Mote.CalculateMoteAlpha(mote);
-			if (!(num <= 0.0))
+			float alpha = mote.Alpha;
+			if (alpha > 0f)
 			{
 				Color color = base.Color * mote.instanceColor;
-				color.a *= num;
+				color.a *= alpha;
 				Vector3 exactScale = mote.exactScale;
-				exactScale.x *= base.data.drawSize.x;
-				exactScale.z *= base.data.drawSize.y;
+				exactScale.x *= this.data.drawSize.x;
+				exactScale.z *= this.data.drawSize.y;
 				Matrix4x4 matrix = default(Matrix4x4);
 				matrix.SetTRS(mote.DrawPos, Quaternion.AngleAxis(mote.exactRotation, Vector3.up), exactScale);
 				Material matSingle = this.MatSingle;
@@ -46,32 +50,22 @@ namespace Verse
 			}
 		}
 
-		public static float CalculateMoteAlpha(Mote mote)
-		{
-			ThingDef def = mote.def;
-			float ageSecs = mote.AgeSecs;
-			if (ageSecs <= def.mote.fadeInTime)
-			{
-				if (def.mote.fadeInTime > 0.0)
-				{
-					return ageSecs / def.mote.fadeInTime;
-				}
-				return 1f;
-			}
-			if (ageSecs <= def.mote.fadeInTime + def.mote.solidTime)
-			{
-				return 1f;
-			}
-			if (def.mote.fadeOutTime > 0.0)
-			{
-				return (float)(1.0 - Mathf.InverseLerp(def.mote.fadeInTime + def.mote.solidTime, def.mote.fadeInTime + def.mote.solidTime + def.mote.fadeOutTime, ageSecs));
-			}
-			return 1f;
-		}
-
+		// Token: 0x06004F5B RID: 20315 RVA: 0x00294B60 File Offset: 0x00292F60
 		public override string ToString()
 		{
-			return "Mote(path=" + base.path + ", shader=" + base.Shader + ", color=" + base.color + ", colorTwo=unsupported)";
+			return string.Concat(new object[]
+			{
+				"Mote(path=",
+				this.path,
+				", shader=",
+				base.Shader,
+				", color=",
+				this.color,
+				", colorTwo=unsupported)"
+			});
 		}
+
+		// Token: 0x040034B9 RID: 13497
+		protected static MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
 	}
 }

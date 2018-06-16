@@ -1,31 +1,39 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200020F RID: 527
 	public class ThoughtWorker_Hot : ThoughtWorker
 	{
+		// Token: 0x060009EC RID: 2540 RVA: 0x00058AB0 File Offset: 0x00056EB0
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			float statValue = p.GetStatValue(StatDefOf.ComfyTemperatureMax, true);
 			float ambientTemperature = p.AmbientTemperature;
 			float num = ambientTemperature - statValue;
-			if (num <= 0.0)
+			ThoughtState result;
+			if (num <= 0f)
 			{
-				return ThoughtState.Inactive;
+				result = ThoughtState.Inactive;
 			}
-			if (num < 10.0)
+			else if (num < 10f)
 			{
-				return ThoughtState.ActiveAtStage(0);
+				result = ThoughtState.ActiveAtStage(0);
 			}
-			if (num < 20.0)
+			else if (num < 20f)
 			{
-				return ThoughtState.ActiveAtStage(1);
+				result = ThoughtState.ActiveAtStage(1);
 			}
-			if (num < 30.0)
+			else if (num < 30f)
 			{
-				return ThoughtState.ActiveAtStage(2);
+				result = ThoughtState.ActiveAtStage(2);
 			}
-			return ThoughtState.ActiveAtStage(3);
+			else
+			{
+				result = ThoughtState.ActiveAtStage(3);
+			}
+			return result;
 		}
 	}
 }

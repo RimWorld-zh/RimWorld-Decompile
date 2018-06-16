@@ -1,17 +1,15 @@
+﻿using System;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x0200011E RID: 286
 	public abstract class WorkGiver_InteractAnimal : WorkGiver_Scanner
 	{
-		protected static string NoUsableFoodTrans;
-
-		protected static string AnimalInteractedTooRecentlyTrans;
-
-		private static string AnimalsSkillTooLowTrans;
-
+		// Token: 0x170000D7 RID: 215
+		// (get) Token: 0x060005ED RID: 1517 RVA: 0x0003F6C8 File Offset: 0x0003DAC8
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -20,35 +18,60 @@ namespace RimWorld
 			}
 		}
 
-		public static void Reset()
+		// Token: 0x060005EE RID: 1518 RVA: 0x0003F6E0 File Offset: 0x0003DAE0
+		public static void ResetStaticData()
 		{
 			WorkGiver_InteractAnimal.NoUsableFoodTrans = "NoUsableFood".Translate();
 			WorkGiver_InteractAnimal.AnimalInteractedTooRecentlyTrans = "AnimalInteractedTooRecently".Translate();
-			WorkGiver_InteractAnimal.AnimalsSkillTooLowTrans = "AnimalsSkillTooLow".Translate();
+			WorkGiver_InteractAnimal.CantInteractAnimalDownedTrans = "CantInteractAnimalDowned".Translate();
+			WorkGiver_InteractAnimal.CantInteractAnimalAsleepTrans = "CantInteractAnimalAsleep".Translate();
+			WorkGiver_InteractAnimal.CantInteractAnimalBusyTrans = "CantInteractAnimalBusy".Translate();
 		}
 
-		protected virtual bool CanInteractWithAnimal(Pawn pawn, Pawn animal)
+		// Token: 0x060005EF RID: 1519 RVA: 0x0003F73C File Offset: 0x0003DB3C
+		protected virtual bool CanInteractWithAnimal(Pawn pawn, Pawn animal, bool forced)
 		{
-			if (!pawn.CanReserve(animal, 1, -1, null, false))
+			LocalTargetInfo target = animal;
+			bool result;
+			if (!pawn.CanReserve(target, 1, -1, null, forced))
 			{
-				return false;
+				result = false;
 			}
-			if (animal.Downed)
+			else if (animal.Downed)
 			{
-				return false;
+				JobFailReason.Is(WorkGiver_InteractAnimal.CantInteractAnimalDownedTrans, null);
+				result = false;
 			}
-			if (!animal.CanCasuallyInteractNow(false))
+			else if (!animal.Awake())
 			{
-				return false;
+				JobFailReason.Is(WorkGiver_InteractAnimal.CantInteractAnimalAsleepTrans, null);
+				result = false;
 			}
-			if (Mathf.RoundToInt(animal.GetStatValue(StatDefOf.MinimumHandlingSkill, true)) > pawn.skills.GetSkill(SkillDefOf.Animals).Level)
+			else if (!animal.CanCasuallyInteractNow(false))
 			{
-				JobFailReason.Is(WorkGiver_InteractAnimal.AnimalsSkillTooLowTrans);
-				return false;
+				JobFailReason.Is(WorkGiver_InteractAnimal.CantInteractAnimalBusyTrans, null);
+				result = false;
 			}
-			return true;
+			else
+			{
+				int num = TrainableUtility.MinimumHandlingSkill(animal);
+				if (num > pawn.skills.GetSkill(SkillDefOf.Animals).Level)
+				{
+					JobFailReason.Is("AnimalsSkillTooLow".Translate(new object[]
+					{
+						num
+					}), null);
+					result = false;
+				}
+				else
+				{
+					result = true;
+				}
+			}
+			return result;
 		}
 
+		// Token: 0x060005F0 RID: 1520 RVA: 0x0003F81C File Offset: 0x0003DC1C
 		protected bool HasFoodToInteractAnimal(Pawn pawn, Pawn tamee)
 		{
 			ThingOwner<Thing> innerContainer = pawn.inventory.innerContainer;
@@ -58,11 +81,11 @@ namespace RimWorld
 			for (int i = 0; i < innerContainer.Count; i++)
 			{
 				Thing thing = innerContainer[i];
-				if (tamee.RaceProps.CanEverEat(thing) && (int)thing.def.ingestible.preferability <= 5 && !thing.def.IsDrug)
+				if (tamee.RaceProps.CanEverEat(thing) && thing.def.ingestible.preferability <= FoodPreferability.RawTasty && !thing.def.IsDrug)
 				{
 					for (int j = 0; j < thing.stackCount; j++)
 					{
-						num3 += thing.def.ingestible.nutrition;
+						num3 += thing.GetStatValue(StatDefOf.Nutrition, true);
 						if (num3 >= num2)
 						{
 							num++;
@@ -78,18 +101,41 @@ namespace RimWorld
 			return false;
 		}
 
+		// Token: 0x060005F1 RID: 1521 RVA: 0x0003F904 File Offset: 0x0003DD04
 		protected Job TakeFoodForAnimalInteractJob(Pawn pawn, Pawn tamee)
 		{
-			float num = (float)(JobDriver_InteractAnimal.RequiredNutritionPerFeed(tamee) * 2.0 * 4.0);
-			ThingDef thingDef = default(ThingDef);
-			Thing thing = FoodUtility.BestFoodSourceOnMap(pawn, tamee, false, out thingDef, FoodPreferability.RawTasty, false, false, false, false, false, false, false, false);
+			float num = JobDriver_InteractAnimal.RequiredNutritionPerFeed(tamee) * 2f * 4f;
+			ThingDef foodDef;
+			Thing thing = FoodUtility.BestFoodSourceOnMap(pawn, tamee, false, out foodDef, FoodPreferability.RawTasty, false, false, false, false, false, false, false, false, false);
+			Job result;
 			if (thing == null)
 			{
-				return null;
+				result = null;
 			}
-			Job job = new Job(JobDefOf.TakeInventory, thing);
-			job.count = Mathf.CeilToInt(num / thingDef.ingestible.nutrition);
-			return job;
+			else
+			{
+				float nutrition = FoodUtility.GetNutrition(thing, foodDef);
+				result = new Job(JobDefOf.TakeInventory, thing)
+				{
+					count = Mathf.CeilToInt(num / nutrition)
+				};
+			}
+			return result;
 		}
+
+		// Token: 0x04000303 RID: 771
+		protected static string NoUsableFoodTrans;
+
+		// Token: 0x04000304 RID: 772
+		protected static string AnimalInteractedTooRecentlyTrans;
+
+		// Token: 0x04000305 RID: 773
+		private static string CantInteractAnimalDownedTrans;
+
+		// Token: 0x04000306 RID: 774
+		private static string CantInteractAnimalAsleepTrans;
+
+		// Token: 0x04000307 RID: 775
+		private static string CantInteractAnimalBusyTrans;
 	}
 }

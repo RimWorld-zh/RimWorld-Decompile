@@ -1,67 +1,55 @@
+﻿using System;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Profiling;
 using Verse;
 using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x020008DA RID: 2266
 	[StaticConstructorOnStartup]
 	public static class WidgetsWork
 	{
-		public const float WorkBoxSize = 25f;
-
-		public static readonly Texture2D WorkBoxBGTex_Awful = ContentFinder<Texture2D>.Get("UI/Widgets/WorkBoxBG_Awful", true);
-
-		public static readonly Texture2D WorkBoxBGTex_Bad = ContentFinder<Texture2D>.Get("UI/Widgets/WorkBoxBG_Bad", true);
-
-		private const int AwfulBGMax = 4;
-
-		public static readonly Texture2D WorkBoxBGTex_Mid = ContentFinder<Texture2D>.Get("UI/Widgets/WorkBoxBG_Mid", true);
-
-		private const int BadBGMax = 14;
-
-		public static readonly Texture2D WorkBoxBGTex_Excellent = ContentFinder<Texture2D>.Get("UI/Widgets/WorkBoxBG_Excellent", true);
-
-		public static readonly Texture2D WorkBoxCheckTex = ContentFinder<Texture2D>.Get("UI/Widgets/WorkBoxCheck", true);
-
-		public static readonly Texture2D PassionWorkboxMinorIcon = ContentFinder<Texture2D>.Get("UI/Icons/PassionMinorGray", true);
-
-		public static readonly Texture2D PassionWorkboxMajorIcon = ContentFinder<Texture2D>.Get("UI/Icons/PassionMajorGray", true);
-
-		public static readonly Texture2D WorkBoxOverlay_Warning = ContentFinder<Texture2D>.Get("UI/Widgets/WorkBoxOverlay_Warning", true);
-
-		private const int WarnIfSelectedMax = 2;
-
-		private const float PassionOpacity = 0.4f;
-
+		// Token: 0x060033D6 RID: 13270 RVA: 0x001BAE8C File Offset: 0x001B928C
 		private static Color ColorOfPriority(int prio)
 		{
+			Color result;
 			switch (prio)
 			{
 			case 1:
-				return new Color(0f, 1f, 0f);
+				result = new Color(0f, 1f, 0f);
+				break;
 			case 2:
-				return new Color(1f, 0.9f, 0.5f);
+				result = new Color(1f, 0.9f, 0.5f);
+				break;
 			case 3:
-				return new Color(0.8f, 0.7f, 0.5f);
+				result = new Color(0.8f, 0.7f, 0.5f);
+				break;
 			case 4:
-				return new Color(0.74f, 0.74f, 0.74f);
+				result = new Color(0.74f, 0.74f, 0.74f);
+				break;
 			default:
-				return Color.grey;
+				result = Color.grey;
+				break;
 			}
+			return result;
 		}
 
+		// Token: 0x060033D7 RID: 13271 RVA: 0x001BAF2C File Offset: 0x001B932C
 		public static void DrawWorkBoxFor(float x, float y, Pawn p, WorkTypeDef wType, bool incapableBecauseOfCapacities)
 		{
 			if (p.story != null && !p.story.WorkTypeIsDisabled(wType))
 			{
 				Rect rect = new Rect(x, y, 25f, 25f);
+				Profiler.BeginSample("DrawWorkBoxFor - Background");
 				if (incapableBecauseOfCapacities)
 				{
 					GUI.color = new Color(1f, 0.3f, 0.3f);
 				}
 				WidgetsWork.DrawWorkBoxBackground(rect, p, wType);
 				GUI.color = Color.white;
+				Profiler.EndSample();
 				if (Find.PlaySettings.useWorkPriorities)
 				{
 					int priority = p.workSettings.GetPriority(wType);
@@ -97,7 +85,7 @@ namespace RimWorld
 							p.workSettings.SetPriority(wType, num2);
 							SoundDefOf.AmountDecrement.PlayOneShotOnCamera(null);
 						}
-						if (!flag && p.workSettings.WorkIsActive(wType) && wType.relevantSkills.Any() && p.skills.AverageOfRelevantSkillsFor(wType) <= 2.0)
+						if (!flag && p.workSettings.WorkIsActive(wType) && wType.relevantSkills.Any<SkillDef>() && p.skills.AverageOfRelevantSkillsFor(wType) <= 2f)
 						{
 							SoundDefOf.Crunch.PlayOneShotOnCamera(null);
 						}
@@ -118,13 +106,13 @@ namespace RimWorld
 						if (p.workSettings.GetPriority(wType) > 0)
 						{
 							p.workSettings.SetPriority(wType, 0);
-							SoundDefOf.CheckboxTurnedOff.PlayOneShotOnCamera(null);
+							SoundDefOf.Checkbox_TurnedOff.PlayOneShotOnCamera(null);
 						}
 						else
 						{
 							p.workSettings.SetPriority(wType, 3);
-							SoundDefOf.CheckboxTurnedOn.PlayOneShotOnCamera(null);
-							if (wType.relevantSkills.Any() && p.skills.AverageOfRelevantSkillsFor(wType) <= 2.0)
+							SoundDefOf.Checkbox_TurnedOn.PlayOneShotOnCamera(null);
+							if (wType.relevantSkills.Any<SkillDef>() && p.skills.AverageOfRelevantSkillsFor(wType) <= 2f)
 							{
 								SoundDefOf.Crunch.PlayOneShotOnCamera(null);
 							}
@@ -135,26 +123,35 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060033D8 RID: 13272 RVA: 0x001BB1E8 File Offset: 0x001B95E8
 		public static string TipForPawnWorker(Pawn p, WorkTypeDef wDef, bool incapableBecauseOfCapacities)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine(wDef.gerundLabel.CapitalizeFirst());
 			if (p.story.WorkTypeIsDisabled(wDef))
 			{
-				stringBuilder.Append("CannotDoThisWork".Translate(p.NameStringShort));
+				stringBuilder.Append("CannotDoThisWork".Translate(new object[]
+				{
+					p.LabelShort
+				}));
 			}
 			else
 			{
 				float num = p.skills.AverageOfRelevantSkillsFor(wDef);
-				if (wDef.relevantSkills.Any())
+				if (wDef.relevantSkills.Any<SkillDef>())
 				{
-					string text = string.Empty;
-					foreach (SkillDef relevantSkill in wDef.relevantSkills)
+					string text = "";
+					foreach (SkillDef skillDef in wDef.relevantSkills)
 					{
-						text = text + relevantSkill.skillLabel.CapitalizeFirst() + ", ";
+						text = text + skillDef.skillLabel.CapitalizeFirst() + ", ";
 					}
 					text = text.Substring(0, text.Length - 2);
-					stringBuilder.AppendLine("RelevantSkills".Translate(text, num.ToString("0.#"), 20));
+					stringBuilder.AppendLine("RelevantSkills".Translate(new object[]
+					{
+						text,
+						num.ToString("0.#"),
+						20
+					}));
 				}
 				stringBuilder.AppendLine();
 				stringBuilder.Append(wDef.description);
@@ -164,7 +161,7 @@ namespace RimWorld
 					stringBuilder.AppendLine();
 					stringBuilder.Append("IncapableOfWorkTypeBecauseOfCapacities".Translate());
 				}
-				if (wDef.relevantSkills.Any() && num <= 2.0 && p.workSettings.WorkIsActive(wDef))
+				if (wDef.relevantSkills.Any<SkillDef>() && num <= 2f && p.workSettings.WorkIsActive(wDef))
 				{
 					stringBuilder.AppendLine();
 					stringBuilder.AppendLine();
@@ -174,63 +171,97 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
+		// Token: 0x060033D9 RID: 13273 RVA: 0x001BB3AC File Offset: 0x001B97AC
 		private static void DrawWorkBoxBackground(Rect rect, Pawn p, WorkTypeDef workDef)
 		{
+			Profiler.BeginSample("AverageOfRelevantSkillsFor");
 			float num = p.skills.AverageOfRelevantSkillsFor(workDef);
+			Profiler.EndSample();
 			Texture2D image;
 			Texture2D image2;
 			float a;
-			if (num < 4.0)
+			if (num < 4f)
 			{
 				image = WidgetsWork.WorkBoxBGTex_Awful;
 				image2 = WidgetsWork.WorkBoxBGTex_Bad;
-				a = (float)(num / 4.0);
+				a = num / 4f;
 			}
-			else if (num <= 14.0)
+			else if (num <= 14f)
 			{
 				image = WidgetsWork.WorkBoxBGTex_Bad;
 				image2 = WidgetsWork.WorkBoxBGTex_Mid;
-				a = (float)((num - 4.0) / 10.0);
+				a = (num - 4f) / 10f;
 			}
 			else
 			{
 				image = WidgetsWork.WorkBoxBGTex_Mid;
 				image2 = WidgetsWork.WorkBoxBGTex_Excellent;
-				a = (float)((num - 14.0) / 6.0);
+				a = (num - 14f) / 6f;
 			}
 			GUI.DrawTexture(rect, image);
-			Color color = GUI.color;
-			float r = color.r;
-			Color color2 = GUI.color;
-			float g = color2.g;
-			Color color3 = GUI.color;
-			GUI.color = new Color(r, g, color3.b, a);
+			GUI.color = new Color(GUI.color.r, GUI.color.g, GUI.color.b, a);
 			GUI.DrawTexture(rect, image2);
-			if (workDef.relevantSkills.Any() && num <= 2.0 && p.workSettings.WorkIsActive(workDef))
+			if (workDef.relevantSkills.Any<SkillDef>() && num <= 2f && p.workSettings.WorkIsActive(workDef))
 			{
 				GUI.color = Color.white;
 				GUI.DrawTexture(rect.ContractedBy(-2f), WidgetsWork.WorkBoxOverlay_Warning);
 			}
 			Passion passion = p.skills.MaxPassionOfRelevantSkillsFor(workDef);
-			if ((int)passion > 0)
+			if (passion > Passion.None)
 			{
 				GUI.color = new Color(1f, 1f, 1f, 0.4f);
 				Rect position = rect;
-				Vector2 center = rect.center;
-				position.xMin = center.x;
-				Vector2 center2 = rect.center;
-				position.yMin = center2.y;
-				switch (passion)
+				position.xMin = rect.center.x;
+				position.yMin = rect.center.y;
+				if (passion == Passion.Minor)
 				{
-				case Passion.Minor:
 					GUI.DrawTexture(position, WidgetsWork.PassionWorkboxMinorIcon);
-					break;
-				case Passion.Major:
+				}
+				else if (passion == Passion.Major)
+				{
 					GUI.DrawTexture(position, WidgetsWork.PassionWorkboxMajorIcon);
-					break;
 				}
 			}
 			GUI.color = Color.white;
 		}
+
+		// Token: 0x04001BD0 RID: 7120
+		public const float WorkBoxSize = 25f;
+
+		// Token: 0x04001BD1 RID: 7121
+		public static readonly Texture2D WorkBoxBGTex_Awful = ContentFinder<Texture2D>.Get("UI/Widgets/WorkBoxBG_Awful", true);
+
+		// Token: 0x04001BD2 RID: 7122
+		public static readonly Texture2D WorkBoxBGTex_Bad = ContentFinder<Texture2D>.Get("UI/Widgets/WorkBoxBG_Bad", true);
+
+		// Token: 0x04001BD3 RID: 7123
+		private const int AwfulBGMax = 4;
+
+		// Token: 0x04001BD4 RID: 7124
+		public static readonly Texture2D WorkBoxBGTex_Mid = ContentFinder<Texture2D>.Get("UI/Widgets/WorkBoxBG_Mid", true);
+
+		// Token: 0x04001BD5 RID: 7125
+		private const int BadBGMax = 14;
+
+		// Token: 0x04001BD6 RID: 7126
+		public static readonly Texture2D WorkBoxBGTex_Excellent = ContentFinder<Texture2D>.Get("UI/Widgets/WorkBoxBG_Excellent", true);
+
+		// Token: 0x04001BD7 RID: 7127
+		public static readonly Texture2D WorkBoxCheckTex = ContentFinder<Texture2D>.Get("UI/Widgets/WorkBoxCheck", true);
+
+		// Token: 0x04001BD8 RID: 7128
+		public static readonly Texture2D PassionWorkboxMinorIcon = ContentFinder<Texture2D>.Get("UI/Icons/PassionMinorGray", true);
+
+		// Token: 0x04001BD9 RID: 7129
+		public static readonly Texture2D PassionWorkboxMajorIcon = ContentFinder<Texture2D>.Get("UI/Icons/PassionMajorGray", true);
+
+		// Token: 0x04001BDA RID: 7130
+		public static readonly Texture2D WorkBoxOverlay_Warning = ContentFinder<Texture2D>.Get("UI/Widgets/WorkBoxOverlay_Warning", true);
+
+		// Token: 0x04001BDB RID: 7131
+		private const int WarnIfSelectedMax = 2;
+
+		// Token: 0x04001BDC RID: 7132
+		private const float PassionOpacity = 0.4f;
 	}
 }

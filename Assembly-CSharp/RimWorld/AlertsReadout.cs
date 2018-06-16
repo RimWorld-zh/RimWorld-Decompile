@@ -1,38 +1,22 @@
-using RimWorld.Planet;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020007B1 RID: 1969
 	public class AlertsReadout
 	{
-		private List<Alert> activeAlerts = new List<Alert>(16);
-
-		private int curAlertIndex;
-
-		private float lastFinalY;
-
-		private int mouseoverAlertIndex = -1;
-
-		private readonly List<Alert> AllAlerts = new List<Alert>();
-
-		private const int StartTickDelay = 600;
-
-		public const float AlertListWidth = 164f;
-
-		private static int AlertCycleLength = 20;
-
-		private readonly List<AlertPriority> PriosInDrawOrder;
-
+		// Token: 0x06002B75 RID: 11125 RVA: 0x0016F764 File Offset: 0x0016DB64
 		public AlertsReadout()
 		{
 			this.AllAlerts.Clear();
-			foreach (Type item2 in typeof(Alert).AllLeafSubclasses())
+			foreach (Type type in typeof(Alert).AllLeafSubclasses())
 			{
-				this.AllAlerts.Add((Alert)Activator.CreateInstance(item2));
+				this.AllAlerts.Add((Alert)Activator.CreateInstance(type));
 			}
 			if (this.PriosInDrawOrder == null)
 			{
@@ -42,7 +26,8 @@ namespace RimWorld
 				{
 					while (enumerator2.MoveNext())
 					{
-						AlertPriority item = (AlertPriority)enumerator2.Current;
+						object obj = enumerator2.Current;
+						AlertPriority item = (AlertPriority)obj;
 						this.PriosInDrawOrder.Add(item);
 					}
 				}
@@ -58,6 +43,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002B76 RID: 11126 RVA: 0x0016F8AC File Offset: 0x0016DCAC
 		public void AlertsReadoutUpdate()
 		{
 			if (Mathf.Max(Find.TickManager.TicksGame, Find.TutorialState.endTick) >= 600)
@@ -88,48 +74,47 @@ namespace RimWorld
 							}
 							else
 							{
-								int num = 0;
-								while (num < this.activeAlerts.Count)
+								for (int j = 0; j < this.activeAlerts.Count; j++)
 								{
-									if (this.activeAlerts[num] != alert)
+									if (this.activeAlerts[j] == alert)
 									{
-										num++;
-										continue;
+										this.activeAlerts.RemoveAt(j);
+										break;
 									}
-									this.activeAlerts.RemoveAt(num);
-									break;
 								}
 							}
 						}
 						catch (Exception ex)
 						{
-							Log.ErrorOnce("Exception processing alert " + alert.ToString() + ": " + ex.ToString(), 743575);
+							Log.ErrorOnce("Exception processing alert " + alert.ToString() + ": " + ex.ToString(), 743575, false);
 							if (this.activeAlerts.Contains(alert))
 							{
 								this.activeAlerts.Remove(alert);
 							}
 						}
 					}
-					for (int num2 = this.activeAlerts.Count - 1; num2 >= 0; num2--)
+					for (int k = this.activeAlerts.Count - 1; k >= 0; k--)
 					{
-						Alert alert2 = this.activeAlerts[num2];
+						Alert alert2 = this.activeAlerts[k];
 						try
 						{
-							this.activeAlerts[num2].AlertActiveUpdate();
+							this.activeAlerts[k].AlertActiveUpdate();
 						}
 						catch (Exception ex2)
 						{
-							Log.ErrorOnce("Exception updating alert " + alert2.ToString() + ": " + ex2.ToString(), 743575);
-							this.activeAlerts.RemoveAt(num2);
+							Log.ErrorOnce("Exception updating alert " + alert2.ToString() + ": " + ex2.ToString(), 743575, false);
+							this.activeAlerts.RemoveAt(k);
 						}
 					}
 					if (this.mouseoverAlertIndex >= 0 && this.mouseoverAlertIndex < this.activeAlerts.Count)
 					{
-						AlertReport report = this.activeAlerts[this.mouseoverAlertIndex].GetReport();
-						GlobalTargetInfo culprit = report.culprit;
-						if (culprit.IsValid && culprit.IsMapTarget && Find.VisibleMap != null && culprit.Map == Find.VisibleMap)
+						IEnumerable<GlobalTargetInfo> culprits = this.activeAlerts[this.mouseoverAlertIndex].GetReport().culprits;
+						if (culprits != null)
 						{
-							GenDraw.DrawArrowPointingAt(((TargetInfo)culprit).CenterVector3, false);
+							foreach (GlobalTargetInfo target in culprits)
+							{
+								TargetHighlighter.Highlight(target, true, true, false);
+							}
 						}
 					}
 					this.mouseoverAlertIndex = -1;
@@ -137,58 +122,89 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002B77 RID: 11127 RVA: 0x0016FB7C File Offset: 0x0016DF7C
 		public void AlertsReadoutOnGUI()
 		{
-			if (Event.current.type != EventType.Layout && this.activeAlerts.Count != 0)
+			if (Event.current.type != EventType.Layout && Event.current.type != EventType.MouseDrag)
 			{
-				Alert alert = null;
-				AlertPriority alertPriority = AlertPriority.Critical;
-				bool flag = false;
-				float num = (float)(Find.LetterStack.LastTopY - (float)this.activeAlerts.Count * 28.0);
-				Rect rect = new Rect((float)((float)UI.screenWidth - 154.0), num, 154f, this.lastFinalY - num);
-				float num2 = GenUI.BackgroundDarkAlphaForText();
-				if (num2 > 0.0010000000474974513)
+				if (this.activeAlerts.Count != 0)
 				{
-					GUI.color = new Color(1f, 1f, 1f, num2);
-					Widgets.DrawShadowAround(rect);
-					GUI.color = Color.white;
-				}
-				float num3 = num;
-				if (num3 < 0.0)
-				{
-					num3 = 0f;
-				}
-				for (int i = 0; i < this.PriosInDrawOrder.Count; i++)
-				{
-					AlertPriority alertPriority2 = this.PriosInDrawOrder[i];
-					for (int j = 0; j < this.activeAlerts.Count; j++)
+					Alert alert = null;
+					AlertPriority alertPriority = AlertPriority.Critical;
+					bool flag = false;
+					float num = Find.LetterStack.LastTopY - (float)this.activeAlerts.Count * 28f;
+					Rect rect = new Rect((float)UI.screenWidth - 154f, num, 154f, this.lastFinalY - num);
+					float num2 = GenUI.BackgroundDarkAlphaForText();
+					if (num2 > 0.001f)
 					{
-						Alert alert2 = this.activeAlerts[j];
-						if (alert2.Priority == alertPriority2)
+						GUI.color = new Color(1f, 1f, 1f, num2);
+						Widgets.DrawShadowAround(rect);
+						GUI.color = Color.white;
+					}
+					float num3 = num;
+					if (num3 < 0f)
+					{
+						num3 = 0f;
+					}
+					for (int i = 0; i < this.PriosInDrawOrder.Count; i++)
+					{
+						AlertPriority alertPriority2 = this.PriosInDrawOrder[i];
+						for (int j = 0; j < this.activeAlerts.Count; j++)
 						{
-							if (!flag)
+							Alert alert2 = this.activeAlerts[j];
+							if (alert2.Priority == alertPriority2)
 							{
-								alertPriority = alertPriority2;
-								flag = true;
+								if (!flag)
+								{
+									alertPriority = alertPriority2;
+									flag = true;
+								}
+								Rect rect2 = alert2.DrawAt(num3, alertPriority2 != alertPriority);
+								if (Mouse.IsOver(rect2))
+								{
+									alert = alert2;
+									this.mouseoverAlertIndex = j;
+								}
+								num3 += rect2.height;
 							}
-							Rect rect2 = alert2.DrawAt(num3, alertPriority2 != alertPriority);
-							if (Mouse.IsOver(rect2))
-							{
-								alert = alert2;
-								this.mouseoverAlertIndex = j;
-							}
-							num3 += rect2.height;
 						}
 					}
-				}
-				this.lastFinalY = num3;
-				UIHighlighter.HighlightOpportunity(rect, "Alerts");
-				if (alert != null)
-				{
-					alert.DrawInfoPane();
-					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.Alerts, KnowledgeAmount.FrameDisplayed);
+					this.lastFinalY = num3;
+					UIHighlighter.HighlightOpportunity(rect, "Alerts");
+					if (alert != null)
+					{
+						alert.DrawInfoPane();
+						PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.Alerts, KnowledgeAmount.FrameDisplayed);
+					}
 				}
 			}
 		}
+
+		// Token: 0x04001741 RID: 5953
+		private List<Alert> activeAlerts = new List<Alert>(16);
+
+		// Token: 0x04001742 RID: 5954
+		private int curAlertIndex = 0;
+
+		// Token: 0x04001743 RID: 5955
+		private float lastFinalY = 0f;
+
+		// Token: 0x04001744 RID: 5956
+		private int mouseoverAlertIndex = -1;
+
+		// Token: 0x04001745 RID: 5957
+		private readonly List<Alert> AllAlerts = new List<Alert>();
+
+		// Token: 0x04001746 RID: 5958
+		private const int StartTickDelay = 600;
+
+		// Token: 0x04001747 RID: 5959
+		public const float AlertListWidth = 164f;
+
+		// Token: 0x04001748 RID: 5960
+		private static int AlertCycleLength = 20;
+
+		// Token: 0x04001749 RID: 5961
+		private readonly List<AlertPriority> PriosInDrawOrder = null;
 	}
 }

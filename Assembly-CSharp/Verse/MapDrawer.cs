@@ -1,27 +1,35 @@
+﻿using System;
 using RimWorld;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Verse
 {
+	// Token: 0x02000C41 RID: 3137
 	public sealed class MapDrawer
 	{
-		private Map map;
+		// Token: 0x0600450A RID: 17674 RVA: 0x00244938 File Offset: 0x00242D38
+		public MapDrawer(Map map)
+		{
+			this.map = map;
+		}
 
-		private Section[,] sections;
-
+		// Token: 0x17000AE5 RID: 2789
+		// (get) Token: 0x0600450B RID: 17675 RVA: 0x00244948 File Offset: 0x00242D48
 		private IntVec2 SectionCount
 		{
 			get
 			{
-				IntVec2 result = default(IntVec2);
-				IntVec3 size = this.map.Size;
-				result.x = Mathf.CeilToInt((float)((float)size.x / 17.0));
-				IntVec3 size2 = this.map.Size;
-				result.z = Mathf.CeilToInt((float)((float)size2.z / 17.0));
-				return result;
+				return new IntVec2
+				{
+					x = Mathf.CeilToInt((float)this.map.Size.x / 17f),
+					z = Mathf.CeilToInt((float)this.map.Size.z / 17f)
+				};
 			}
 		}
 
+		// Token: 0x17000AE6 RID: 2790
+		// (get) Token: 0x0600450C RID: 17676 RVA: 0x002449B4 File Offset: 0x00242DB4
 		private CellRect VisibleSections
 		{
 			get
@@ -31,19 +39,20 @@ namespace Verse
 				sunShadowsViewRect.ClipInsideMap(this.map);
 				IntVec2 intVec = this.SectionCoordsAt(sunShadowsViewRect.BottomLeft);
 				IntVec2 intVec2 = this.SectionCoordsAt(sunShadowsViewRect.TopRight);
-				if (intVec2.x >= intVec.x && intVec2.z >= intVec.z)
+				CellRect result;
+				if (intVec2.x < intVec.x || intVec2.z < intVec.z)
 				{
-					return CellRect.FromLimits(intVec.x, intVec.z, intVec2.x, intVec2.z);
+					result = CellRect.Empty;
 				}
-				return CellRect.Empty;
+				else
+				{
+					result = CellRect.FromLimits(intVec.x, intVec.z, intVec2.x, intVec2.z);
+				}
+				return result;
 			}
 		}
 
-		public MapDrawer(Map map)
-		{
-			this.map = map;
-		}
-
+		// Token: 0x0600450D RID: 17677 RVA: 0x00244A5C File Offset: 0x00242E5C
 		public void MapMeshDirty(IntVec3 loc, MapMeshFlag dirtyFlags)
 		{
 			bool regenAdjacentCells = (dirtyFlags & (MapMeshFlag.FogOfWar | MapMeshFlag.Buildings)) != MapMeshFlag.None;
@@ -51,6 +60,7 @@ namespace Verse
 			this.MapMeshDirty(loc, dirtyFlags, regenAdjacentCells, regenAdjacentSections);
 		}
 
+		// Token: 0x0600450E RID: 17678 RVA: 0x00244A88 File Offset: 0x00242E88
 		public void MapMeshDirty(IntVec3 loc, MapMeshFlag dirtyFlags, bool regenAdjacentCells, bool regenAdjacentSections)
 		{
 			if (Current.ProgramState == ProgramState.Playing)
@@ -86,6 +96,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x0600450F RID: 17679 RVA: 0x00244BEC File Offset: 0x00242FEC
 		public void MapMeshDrawerUpdate_First()
 		{
 			CellRect visibleSections = this.VisibleSections;
@@ -93,8 +104,8 @@ namespace Verse
 			CellRect.CellRectIterator iterator = visibleSections.GetIterator();
 			while (!iterator.Done())
 			{
-				IntVec3 current = iterator.Current;
-				Section sect = this.sections[current.x, current.z];
+				IntVec3 intVec = iterator.Current;
+				Section sect = this.sections[intVec.x, intVec.z];
 				if (this.TryUpdateSection(sect))
 				{
 					flag = true;
@@ -103,158 +114,112 @@ namespace Verse
 			}
 			if (!flag)
 			{
-				int num = 0;
-				while (true)
+				for (int i = 0; i < this.SectionCount.x; i++)
 				{
-					int num2 = num;
-					IntVec2 sectionCount = this.SectionCount;
-					if (num2 < sectionCount.x)
+					for (int j = 0; j < this.SectionCount.z; j++)
 					{
-						int num3 = 0;
-						while (true)
+						if (this.TryUpdateSection(this.sections[i, j]))
 						{
-							int num4 = num3;
-							IntVec2 sectionCount2 = this.SectionCount;
-							if (num4 < sectionCount2.z)
-							{
-								if (!this.TryUpdateSection(this.sections[num, num3]))
-								{
-									num3++;
-									continue;
-								}
-								return;
-							}
-							break;
+							return;
 						}
-						num++;
-						continue;
 					}
-					break;
 				}
 			}
 		}
 
+		// Token: 0x06004510 RID: 17680 RVA: 0x00244CCC File Offset: 0x002430CC
 		private bool TryUpdateSection(Section sect)
 		{
+			bool result;
 			if (sect.dirtyFlags == MapMeshFlag.None)
 			{
-				return false;
+				result = false;
 			}
-			for (int i = 0; i < MapMeshFlagUtility.allFlags.Count; i++)
+			else
 			{
-				MapMeshFlag mapMeshFlag = MapMeshFlagUtility.allFlags[i];
-				if ((sect.dirtyFlags & mapMeshFlag) != 0)
+				for (int i = 0; i < MapMeshFlagUtility.allFlags.Count; i++)
 				{
-					sect.RegenerateLayers(mapMeshFlag);
+					MapMeshFlag mapMeshFlag = MapMeshFlagUtility.allFlags[i];
+					if ((sect.dirtyFlags & mapMeshFlag) != MapMeshFlag.None)
+					{
+						sect.RegenerateLayers(mapMeshFlag);
+					}
 				}
+				sect.dirtyFlags = MapMeshFlag.None;
+				result = true;
 			}
-			sect.dirtyFlags = MapMeshFlag.None;
-			return true;
+			return result;
 		}
 
+		// Token: 0x06004511 RID: 17681 RVA: 0x00244D38 File Offset: 0x00243138
 		public void DrawMapMesh()
 		{
 			CellRect currentViewRect = Find.CameraDriver.CurrentViewRect;
 			currentViewRect.minX -= 17;
 			currentViewRect.minZ -= 17;
-			CellRect.CellRectIterator iterator = this.VisibleSections.GetIterator();
+			CellRect visibleSections = this.VisibleSections;
+			Profiler.BeginSample("Draw sections");
+			CellRect.CellRectIterator iterator = visibleSections.GetIterator();
 			while (!iterator.Done())
 			{
-				IntVec3 current = iterator.Current;
-				Section section = this.sections[current.x, current.z];
+				IntVec3 intVec = iterator.Current;
+				Section section = this.sections[intVec.x, intVec.z];
 				section.DrawSection(!currentViewRect.Contains(section.botLeft));
 				iterator.MoveNext();
 			}
+			Profiler.EndSample();
 		}
 
+		// Token: 0x06004512 RID: 17682 RVA: 0x00244DE4 File Offset: 0x002431E4
 		private IntVec2 SectionCoordsAt(IntVec3 loc)
 		{
 			return new IntVec2(Mathf.FloorToInt((float)(loc.x / 17)), Mathf.FloorToInt((float)(loc.z / 17)));
 		}
 
+		// Token: 0x06004513 RID: 17683 RVA: 0x00244E20 File Offset: 0x00243220
 		public Section SectionAt(IntVec3 loc)
 		{
 			IntVec2 intVec = this.SectionCoordsAt(loc);
 			return this.sections[intVec.x, intVec.z];
 		}
 
+		// Token: 0x06004514 RID: 17684 RVA: 0x00244E58 File Offset: 0x00243258
 		public void RegenerateEverythingNow()
 		{
 			if (this.sections == null)
 			{
-				IntVec2 sectionCount = this.SectionCount;
-				int x = sectionCount.x;
-				IntVec2 sectionCount2 = this.SectionCount;
-				this.sections = new Section[x, sectionCount2.z];
+				this.sections = new Section[this.SectionCount.x, this.SectionCount.z];
 			}
-			int num = 0;
-			while (true)
+			for (int i = 0; i < this.SectionCount.x; i++)
 			{
-				int num2 = num;
-				IntVec2 sectionCount3 = this.SectionCount;
-				if (num2 < sectionCount3.x)
+				for (int j = 0; j < this.SectionCount.z; j++)
 				{
-					int num3 = 0;
-					while (true)
+					if (this.sections[i, j] == null)
 					{
-						int num4 = num3;
-						IntVec2 sectionCount4 = this.SectionCount;
-						if (num4 < sectionCount4.z)
-						{
-							if (this.sections[num, num3] == null)
-							{
-								Section[,] array = this.sections;
-								int num5 = num;
-								int num6 = num3;
-								Section section = new Section(new IntVec3(num, 0, num3), this.map);
-								array[num5, num6] = section;
-							}
-							this.sections[num, num3].RegenerateAllLayers();
-							num3++;
-							continue;
-						}
-						break;
+						this.sections[i, j] = new Section(new IntVec3(i, 0, j), this.map);
 					}
-					num++;
-					continue;
+					this.sections[i, j].RegenerateAllLayers();
 				}
-				break;
 			}
 		}
 
+		// Token: 0x06004515 RID: 17685 RVA: 0x00244F20 File Offset: 0x00243320
 		public void WholeMapChanged(MapMeshFlag change)
 		{
-			int num = 0;
-			while (true)
+			for (int i = 0; i < this.SectionCount.x; i++)
 			{
-				int num2 = num;
-				IntVec2 sectionCount = this.SectionCount;
-				if (num2 < sectionCount.x)
+				for (int j = 0; j < this.SectionCount.z; j++)
 				{
-					int num3 = 0;
-					while (true)
-					{
-						int num4 = num3;
-						IntVec2 sectionCount2 = this.SectionCount;
-						if (num4 < sectionCount2.z)
-						{
-							this.sections[num, num3].dirtyFlags |= change;
-							num3++;
-							continue;
-						}
-						break;
-					}
-					num++;
-					continue;
+					this.sections[i, j].dirtyFlags |= change;
 				}
-				break;
 			}
 		}
 
+		// Token: 0x06004516 RID: 17686 RVA: 0x00244F8C File Offset: 0x0024338C
 		private CellRect GetSunShadowsViewRect(CellRect rect)
 		{
 			GenCelestial.LightInfo lightSourceInfo = GenCelestial.GetLightSourceInfo(this.map, GenCelestial.LightType.Shadow);
-			if (lightSourceInfo.vector.x < 0.0)
+			if (lightSourceInfo.vector.x < 0f)
 			{
 				rect.maxX -= Mathf.FloorToInt(lightSourceInfo.vector.x);
 			}
@@ -262,7 +227,7 @@ namespace Verse
 			{
 				rect.minX -= Mathf.CeilToInt(lightSourceInfo.vector.x);
 			}
-			if (lightSourceInfo.vector.y < 0.0)
+			if (lightSourceInfo.vector.y < 0f)
 			{
 				rect.maxZ -= Mathf.FloorToInt(lightSourceInfo.vector.y);
 			}
@@ -272,5 +237,11 @@ namespace Verse
 			}
 			return rect;
 		}
+
+		// Token: 0x04002F38 RID: 12088
+		private Map map;
+
+		// Token: 0x04002F39 RID: 12089
+		private Section[,] sections;
 	}
 }

@@ -1,65 +1,26 @@
-using RimWorld;
-using RimWorld.Planet;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using RimWorld;
+using RimWorld.Planet;
+using UnityEngine.Profiling;
 using Verse.Profile;
 
 namespace Verse
 {
+	// Token: 0x02000BC5 RID: 3013
 	public class Game : IExposable
 	{
-		private GameInitData initData;
+		// Token: 0x06004172 RID: 16754 RVA: 0x002287A0 File Offset: 0x00226BA0
+		public Game()
+		{
+			this.FillComponents();
+		}
 
-		public sbyte visibleMapIndex = -1;
-
-		private GameInfo info = new GameInfo();
-
-		public List<GameComponent> components = new List<GameComponent>();
-
-		private GameRules rules = new GameRules();
-
-		private Scenario scenarioInt;
-
-		private World worldInt;
-
-		private List<Map> maps = new List<Map>();
-
-		public PlaySettings playSettings = new PlaySettings();
-
-		public StoryWatcher storyWatcher = new StoryWatcher();
-
-		public LetterStack letterStack = new LetterStack();
-
-		public ResearchManager researchManager = new ResearchManager();
-
-		public GameEnder gameEnder = new GameEnder();
-
-		public Storyteller storyteller = new Storyteller();
-
-		public History history = new History();
-
-		public TaleManager taleManager = new TaleManager();
-
-		public PlayLog playLog = new PlayLog();
-
-		public BattleLog battleLog = new BattleLog();
-
-		public OutfitDatabase outfitDatabase = new OutfitDatabase();
-
-		public DrugPolicyDatabase drugPolicyDatabase = new DrugPolicyDatabase();
-
-		public TickManager tickManager = new TickManager();
-
-		public Tutor tutor = new Tutor();
-
-		public Autosaver autosaver = new Autosaver();
-
-		public DateNotifier dateNotifier = new DateNotifier();
-
-		public SignalManager signalManager = new SignalManager();
-
+		// Token: 0x17000A38 RID: 2616
+		// (get) Token: 0x06004173 RID: 16755 RVA: 0x002288B4 File Offset: 0x00226CB4
+		// (set) Token: 0x06004174 RID: 16756 RVA: 0x002288CF File Offset: 0x00226CCF
 		public Scenario Scenario
 		{
 			get
@@ -72,6 +33,9 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000A39 RID: 2617
+		// (get) Token: 0x06004175 RID: 16757 RVA: 0x002288DC File Offset: 0x00226CDC
+		// (set) Token: 0x06004176 RID: 16758 RVA: 0x002288F7 File Offset: 0x00226CF7
 		public World World
 		{
 			get
@@ -87,15 +51,23 @@ namespace Verse
 			}
 		}
 
-		public Map VisibleMap
+		// Token: 0x17000A3A RID: 2618
+		// (get) Token: 0x06004177 RID: 16759 RVA: 0x00228914 File Offset: 0x00226D14
+		// (set) Token: 0x06004178 RID: 16760 RVA: 0x00228950 File Offset: 0x00226D50
+		public Map CurrentMap
 		{
 			get
 			{
-				if (this.visibleMapIndex < 0)
+				Map result;
+				if ((int)this.currentMapIndex < 0)
 				{
-					return null;
+					result = null;
 				}
-				return this.maps[this.visibleMapIndex];
+				else
+				{
+					result = this.maps[(int)this.currentMapIndex];
+				}
+				return result;
 			}
 			set
 			{
@@ -109,39 +81,48 @@ namespace Verse
 					num = this.maps.IndexOf(value);
 					if (num < 0)
 					{
-						Log.Error("Could not set visible map because it does not exist.");
+						Log.Error("Could not set current map because it does not exist.", false);
 						return;
 					}
 				}
-				if (this.visibleMapIndex != num)
+				if ((int)this.currentMapIndex != num)
 				{
-					this.visibleMapIndex = (sbyte)num;
+					this.currentMapIndex = (sbyte)num;
 					Find.MapUI.Notify_SwitchedMap();
 					AmbientSoundManager.Notify_SwitchedMap();
 				}
 			}
 		}
 
+		// Token: 0x17000A3B RID: 2619
+		// (get) Token: 0x06004179 RID: 16761 RVA: 0x002289B8 File Offset: 0x00226DB8
 		public Map AnyPlayerHomeMap
 		{
 			get
 			{
+				Map result;
 				if (Faction.OfPlayerSilentFail == null)
 				{
-					return null;
+					result = null;
 				}
-				for (int i = 0; i < this.maps.Count; i++)
+				else
 				{
-					Map map = this.maps[i];
-					if (map.IsPlayerHome)
+					for (int i = 0; i < this.maps.Count; i++)
 					{
-						return map;
+						Map map = this.maps[i];
+						if (map.IsPlayerHome)
+						{
+							return map;
+						}
 					}
+					result = null;
 				}
-				return null;
+				return result;
 			}
 		}
 
+		// Token: 0x17000A3C RID: 2620
+		// (get) Token: 0x0600417A RID: 16762 RVA: 0x00228A1C File Offset: 0x00226E1C
 		public List<Map> Maps
 		{
 			get
@@ -150,6 +131,9 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000A3D RID: 2621
+		// (get) Token: 0x0600417B RID: 16763 RVA: 0x00228A38 File Offset: 0x00226E38
+		// (set) Token: 0x0600417C RID: 16764 RVA: 0x00228A53 File Offset: 0x00226E53
 		public GameInitData InitData
 		{
 			get
@@ -162,6 +146,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000A3E RID: 2622
+		// (get) Token: 0x0600417D RID: 16765 RVA: 0x00228A60 File Offset: 0x00226E60
 		public GameInfo Info
 		{
 			get
@@ -170,6 +156,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000A3F RID: 2623
+		// (get) Token: 0x0600417E RID: 16766 RVA: 0x00228A7C File Offset: 0x00226E7C
 		public GameRules Rules
 		{
 			get
@@ -178,24 +166,20 @@ namespace Verse
 			}
 		}
 
-		public Game()
-		{
-			this.FillComponents();
-		}
-
+		// Token: 0x0600417F RID: 16767 RVA: 0x00228A98 File Offset: 0x00226E98
 		public void AddMap(Map map)
 		{
 			if (map == null)
 			{
-				Log.Error("Tried to add null map.");
+				Log.Error("Tried to add null map.", false);
 			}
 			else if (this.maps.Contains(map))
 			{
-				Log.Error("Tried to add map but it's already here.");
+				Log.Error("Tried to add map but it's already here.", false);
 			}
 			else if (this.maps.Count > 127)
 			{
-				Log.Error("Can't add map. Reached maps count limit (" + (sbyte)127 + ").");
+				Log.Error("Can't add map. Reached maps count limit (" + sbyte.MaxValue + ").", false);
 			}
 			else
 			{
@@ -204,6 +188,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004180 RID: 16768 RVA: 0x00228B2C File Offset: 0x00226F2C
 		public Map FindMap(MapParent mapParent)
 		{
 			for (int i = 0; i < this.maps.Count; i++)
@@ -216,6 +201,7 @@ namespace Verse
 			return null;
 		}
 
+		// Token: 0x06004181 RID: 16769 RVA: 0x00228B90 File Offset: 0x00226F90
 		public Map FindMap(int tile)
 		{
 			for (int i = 0; i < this.maps.Count; i++)
@@ -228,15 +214,16 @@ namespace Verse
 			return null;
 		}
 
+		// Token: 0x06004182 RID: 16770 RVA: 0x00228BF0 File Offset: 0x00226FF0
 		public void ExposeData()
 		{
 			if (Scribe.mode == LoadSaveMode.LoadingVars)
 			{
-				Log.Error("You must use special LoadData method to load Game.");
+				Log.Error("You must use special LoadData method to load Game.", false);
 			}
 			else
 			{
-				Scribe_Values.Look<sbyte>(ref this.visibleMapIndex, "visibleMapIndex", (sbyte)(-1), false);
+				Scribe_Values.Look<sbyte>(ref this.currentMapIndex, "currentMapIndex", -1, false);
 				this.ExposeSmallComponents();
 				Scribe_Deep.Look<World>(ref this.worldInt, "world", new object[0]);
 				Scribe_Collections.Look<Map>(ref this.maps, "maps", LookMode.Deep, new object[0]);
@@ -244,6 +231,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004183 RID: 16771 RVA: 0x00228C6C File Offset: 0x0022706C
 		private void ExposeSmallComponents()
 		{
 			Scribe_Deep.Look<GameInfo>(ref this.info, "info", new object[0]);
@@ -264,7 +252,8 @@ namespace Verse
 			Scribe_Deep.Look<DrugPolicyDatabase>(ref this.drugPolicyDatabase, "drugPolicyDatabase", new object[0]);
 			Scribe_Deep.Look<Tutor>(ref this.tutor, "tutor", new object[0]);
 			Scribe_Deep.Look<DateNotifier>(ref this.dateNotifier, "dateNotifier", new object[0]);
-			Scribe_Collections.Look<GameComponent>(ref this.components, "components", LookMode.Deep, new object[1]
+			Scribe_Deep.Look<UniqueIDsManager>(ref this.uniqueIDsManager, "uniqueIDsManager", new object[0]);
+			Scribe_Collections.Look<GameComponent>(ref this.components, "components", LookMode.Deep, new object[]
 			{
 				this
 			});
@@ -275,31 +264,36 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004184 RID: 16772 RVA: 0x00228E50 File Offset: 0x00227250
 		private void FillComponents()
 		{
 			this.components.RemoveAll((GameComponent component) => component == null);
-			foreach (Type item2 in typeof(GameComponent).AllSubclassesNonAbstract())
+			foreach (Type type in typeof(GameComponent).AllSubclassesNonAbstract())
 			{
-				if (this.GetComponent(item2) == null)
+				if (this.GetComponent(type) == null)
 				{
-					GameComponent item = (GameComponent)Activator.CreateInstance(item2, this);
+					GameComponent item = (GameComponent)Activator.CreateInstance(type, new object[]
+					{
+						this
+					});
 					this.components.Add(item);
 				}
 			}
 		}
 
+		// Token: 0x06004185 RID: 16773 RVA: 0x00228F08 File Offset: 0x00227308
 		public void InitNewGame()
 		{
-			string str = GenText.ToCommaList(from mod in LoadedModManager.RunningMods
-			select mod.ToString(), true);
-			Log.Message("Initializing new game with mods " + str);
-			if (this.maps.Any())
+			string str = (from mod in LoadedModManager.RunningMods
+			select mod.ToString()).ToCommaList(false);
+			Log.Message("Initializing new game with mods " + str, false);
+			if (this.maps.Any<Map>())
 			{
-				Log.Error("Called InitNewGame() but there already is a map. There should be 0 maps...");
+				Log.Error("Called InitNewGame() but there already is a map. There should be 0 maps...", false);
 			}
 			else if (this.initData == null)
 			{
-				Log.Error("Called InitNewGame() but init data is null. Create it first.");
+				Log.Error("Called InitNewGame() but init data is null. Create it first.", false);
 			}
 			else
 			{
@@ -311,23 +305,20 @@ namespace Verse
 					IntVec3 intVec = new IntVec3(this.initData.mapSize, 1, this.initData.mapSize);
 					FactionBase factionBase = null;
 					List<FactionBase> factionBases = Find.WorldObjects.FactionBases;
-					int num = 0;
-					while (num < factionBases.Count)
+					for (int i = 0; i < factionBases.Count; i++)
 					{
-						if (factionBases[num].Faction != Faction.OfPlayer)
+						if (factionBases[i].Faction == Faction.OfPlayer)
 						{
-							num++;
-							continue;
+							factionBase = factionBases[i];
+							break;
 						}
-						factionBase = factionBases[num];
-						break;
 					}
 					if (factionBase == null)
 					{
-						Log.Error("Could not generate starting map because there is no any player faction base.");
+						Log.Error("Could not generate starting map because there is no any player faction base.", false);
 					}
 					this.tickManager.gameStartAbsTick = GenTicks.ConfiguredTicksAbsAtGameStart;
-					Map visibleMap = MapGenerator.GenerateMap(intVec, factionBase, factionBase.MapGeneratorDef, factionBase.ExtraGenStepDefs, null);
+					Map currentMap = MapGenerator.GenerateMap(intVec, factionBase, factionBase.MapGeneratorDef, factionBase.ExtraGenStepDefs, null);
 					this.worldInt.info.initialMapSize = intVec;
 					if (this.initData.permadeath)
 					{
@@ -336,8 +327,8 @@ namespace Verse
 					}
 					PawnUtility.GiveAllStartingPlayerPawnsThought(ThoughtDefOf.NewColonyOptimism);
 					this.FinalizeInit();
-					Current.Game.VisibleMap = visibleMap;
-					Find.CameraDriver.JumpToVisibleMapLoc(MapGenerator.PlayerStartSpot);
+					Current.Game.CurrentMap = currentMap;
+					Find.CameraDriver.JumpToCurrentMapLoc(MapGenerator.PlayerStartSpot);
 					Find.CameraDriver.ResetSize();
 					if (Prefs.PauseOnLoad && this.initData.startedFromEntry)
 					{
@@ -350,13 +341,13 @@ namespace Verse
 					Find.Scenario.PostGameStart();
 					if (Faction.OfPlayer.def.startingResearchTags != null)
 					{
-						foreach (string startingResearchTag in Faction.OfPlayer.def.startingResearchTags)
+						foreach (ResearchProjectTagDef tag in Faction.OfPlayer.def.startingResearchTags)
 						{
-							foreach (ResearchProjectDef allDef in DefDatabase<ResearchProjectDef>.AllDefs)
+							foreach (ResearchProjectDef researchProjectDef in DefDatabase<ResearchProjectDef>.AllDefs)
 							{
-								if (allDef.HasTag(startingResearchTag))
+								if (researchProjectDef.HasTag(tag))
 								{
-									this.researchManager.InstantFinish(allDef, false);
+									this.researchManager.InstantFinish(researchProjectDef, false);
 								}
 							}
 						}
@@ -371,18 +362,18 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004186 RID: 16774 RVA: 0x00229214 File Offset: 0x00227614
 		public void LoadGame()
 		{
-			if (this.maps.Any())
+			if (this.maps.Any<Map>())
 			{
-				Log.Error("Called LoadGame() but there already is a map. There should be 0 maps...");
+				Log.Error("Called LoadGame() but there already is a map. There should be 0 maps...", false);
 			}
 			else
 			{
 				MemoryUtility.UnloadUnusedUnityAssets();
 				Current.ProgramState = ProgramState.MapInitializing;
 				this.ExposeSmallComponents();
-				BackCompatibility.AfterLoadingSmallGameClassComponents(this);
 				LongEventHandler.SetCurrentEventText("LoadingWorld".Translate());
 				if (Scribe.EnterNode("world"))
 				{
@@ -399,19 +390,26 @@ namespace Verse
 					LongEventHandler.SetCurrentEventText("LoadingMap".Translate());
 					Scribe_Collections.Look<Map>(ref this.maps, "maps", LookMode.Deep, new object[0]);
 					int num = -1;
-					Scribe_Values.Look(ref num, "visibleMapIndex", -1, false);
-					if (num < 0 && this.maps.Any())
+					Scribe_Values.Look<int>(ref num, "currentMapIndex", -1, false);
+					if (num < 0 && this.maps.Any<Map>())
 					{
-						Log.Error("Visible map is null after loading but there are maps available. Setting visible map to [0].");
+						Log.Error("Current map is null after loading but there are maps available. Setting current map to [0].", false);
 						num = 0;
 					}
 					if (num >= this.maps.Count)
 					{
-						Log.Error("Visible map index out of bounds after loading.");
-						num = ((!this.maps.Any()) ? (-1) : 0);
+						Log.Error("Current map index out of bounds after loading.", false);
+						if (this.maps.Any<Map>())
+						{
+							num = 0;
+						}
+						else
+						{
+							num = -1;
+						}
 					}
-					this.visibleMapIndex = -128;
-					this.VisibleMap = ((num < 0) ? null : this.maps[num]);
+					this.currentMapIndex = sbyte.MinValue;
+					this.CurrentMap = ((num < 0) ? null : this.maps[num]);
 					LongEventHandler.SetCurrentEventText("InitializingGame".Translate());
 					Find.CameraDriver.Expose();
 					DeepProfiler.Start("FinalizeLoading");
@@ -421,6 +419,7 @@ namespace Verse
 					for (int i = 0; i < this.maps.Count; i++)
 					{
 						this.maps[i].FinalizeLoading();
+						this.maps[i].Parent.FinalizeLoading();
 					}
 					this.FinalizeInit();
 					if (Prefs.PauseOnLoad)
@@ -435,42 +434,60 @@ namespace Verse
 				}
 				else
 				{
-					Log.Error("Could not find world XML node.");
+					Log.Error("Could not find world XML node.", false);
 				}
 			}
 		}
 
+		// Token: 0x06004187 RID: 16775 RVA: 0x00229448 File Offset: 0x00227848
 		public void UpdateEntry()
 		{
 			GameComponentUtility.GameComponentUpdate();
 		}
 
+		// Token: 0x06004188 RID: 16776 RVA: 0x00229450 File Offset: 0x00227850
 		public void UpdatePlay()
 		{
+			Profiler.BeginSample("tickManager.TickManagerUpdate()");
 			this.tickManager.TickManagerUpdate();
+			Profiler.EndSample();
+			Profiler.BeginSample("letterStack.LetterStackUpdate()");
 			this.letterStack.LetterStackUpdate();
+			Profiler.EndSample();
+			Profiler.BeginSample("World.WorldUpdate()");
 			this.World.WorldUpdate();
+			Profiler.EndSample();
+			Profiler.BeginSample("Map.MapUpdate()");
 			for (int i = 0; i < this.maps.Count; i++)
 			{
+				Profiler.BeginSample("Map " + i);
 				this.maps[i].MapUpdate();
+				Profiler.EndSample();
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("GameInfoUpdate()");
 			this.Info.GameInfoUpdate();
+			Profiler.EndSample();
+			Profiler.BeginSample("GameComponentUpdate()");
 			GameComponentUtility.GameComponentUpdate();
+			Profiler.EndSample();
 		}
 
+		// Token: 0x06004189 RID: 16777 RVA: 0x00229534 File Offset: 0x00227934
 		public T GetComponent<T>() where T : GameComponent
 		{
 			for (int i = 0; i < this.components.Count; i++)
 			{
-				T val = (T)(this.components[i] as T);
-				if (val != null)
+				T t = this.components[i] as T;
+				if (t != null)
 				{
-					return val;
+					return t;
 				}
 			}
-			return (T)null;
+			return (T)((object)null);
 		}
 
+		// Token: 0x0600418A RID: 16778 RVA: 0x00229598 File Offset: 0x00227998
 		public GameComponent GetComponent(Type type)
 		{
 			for (int i = 0; i < this.components.Count; i++)
@@ -483,6 +500,7 @@ namespace Verse
 			return null;
 		}
 
+		// Token: 0x0600418B RID: 16779 RVA: 0x002295FA File Offset: 0x002279FA
 		public void FinalizeInit()
 		{
 			LogSimple.FlushToFileAndOpen();
@@ -492,39 +510,40 @@ namespace Verse
 			Current.ProgramState = ProgramState.Playing;
 		}
 
+		// Token: 0x0600418C RID: 16780 RVA: 0x00229620 File Offset: 0x00227A20
 		public void DeinitAndRemoveMap(Map map)
 		{
 			if (map == null)
 			{
-				Log.Error("Tried to remove null map.");
+				Log.Error("Tried to remove null map.", false);
 			}
 			else if (!this.maps.Contains(map))
 			{
-				Log.Error("Tried to remove map " + map + " but it's not here.");
+				Log.Error("Tried to remove map " + map + " but it's not here.", false);
 			}
 			else
 			{
-				Map visibleMap = this.VisibleMap;
+				Map currentMap = this.CurrentMap;
 				MapDeiniter.Deinit(map);
 				this.maps.Remove(map);
-				if (visibleMap != null)
+				if (currentMap != null)
 				{
-					sbyte b = (sbyte)this.maps.IndexOf(visibleMap);
-					if (b < 0)
+					sbyte b = (sbyte)this.maps.IndexOf(currentMap);
+					if ((int)b < 0)
 					{
-						if (this.maps.Any())
+						if (this.maps.Any<Map>())
 						{
-							this.VisibleMap = this.maps[0];
+							this.CurrentMap = this.maps[0];
 						}
 						else
 						{
-							this.VisibleMap = null;
+							this.CurrentMap = null;
 						}
 						Find.World.renderer.wantedMode = WorldRenderMode.Planet;
 					}
 					else
 					{
-						this.visibleMapIndex = b;
+						this.currentMapIndex = b;
 					}
 				}
 				if (Current.ProgramState == ProgramState.Playing)
@@ -532,13 +551,14 @@ namespace Verse
 					Find.ColonistBar.MarkColonistsDirty();
 				}
 				MapComponentUtility.MapRemoved(map);
-				if (map.info.parent != null)
+				if (map.Parent != null)
 				{
-					map.info.parent.Notify_MyMapRemoved(map);
+					map.Parent.Notify_MyMapRemoved(map);
 				}
 			}
 		}
 
+		// Token: 0x0600418D RID: 16781 RVA: 0x00229728 File Offset: 0x00227B28
 		public string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -578,5 +598,83 @@ namespace Verse
 			}
 			return stringBuilder.ToString();
 		}
+
+		// Token: 0x04002CB2 RID: 11442
+		private GameInitData initData;
+
+		// Token: 0x04002CB3 RID: 11443
+		public sbyte currentMapIndex = -1;
+
+		// Token: 0x04002CB4 RID: 11444
+		private GameInfo info = new GameInfo();
+
+		// Token: 0x04002CB5 RID: 11445
+		public List<GameComponent> components = new List<GameComponent>();
+
+		// Token: 0x04002CB6 RID: 11446
+		private GameRules rules = new GameRules();
+
+		// Token: 0x04002CB7 RID: 11447
+		private Scenario scenarioInt;
+
+		// Token: 0x04002CB8 RID: 11448
+		private World worldInt;
+
+		// Token: 0x04002CB9 RID: 11449
+		private List<Map> maps = new List<Map>();
+
+		// Token: 0x04002CBA RID: 11450
+		public PlaySettings playSettings = new PlaySettings();
+
+		// Token: 0x04002CBB RID: 11451
+		public StoryWatcher storyWatcher = new StoryWatcher();
+
+		// Token: 0x04002CBC RID: 11452
+		public LetterStack letterStack = new LetterStack();
+
+		// Token: 0x04002CBD RID: 11453
+		public ResearchManager researchManager = new ResearchManager();
+
+		// Token: 0x04002CBE RID: 11454
+		public GameEnder gameEnder = new GameEnder();
+
+		// Token: 0x04002CBF RID: 11455
+		public Storyteller storyteller = new Storyteller();
+
+		// Token: 0x04002CC0 RID: 11456
+		public History history = new History();
+
+		// Token: 0x04002CC1 RID: 11457
+		public TaleManager taleManager = new TaleManager();
+
+		// Token: 0x04002CC2 RID: 11458
+		public PlayLog playLog = new PlayLog();
+
+		// Token: 0x04002CC3 RID: 11459
+		public BattleLog battleLog = new BattleLog();
+
+		// Token: 0x04002CC4 RID: 11460
+		public OutfitDatabase outfitDatabase = new OutfitDatabase();
+
+		// Token: 0x04002CC5 RID: 11461
+		public DrugPolicyDatabase drugPolicyDatabase = new DrugPolicyDatabase();
+
+		// Token: 0x04002CC6 RID: 11462
+		public TickManager tickManager = new TickManager();
+
+		// Token: 0x04002CC7 RID: 11463
+		public Tutor tutor = new Tutor();
+
+		// Token: 0x04002CC8 RID: 11464
+		public Autosaver autosaver = new Autosaver();
+
+		// Token: 0x04002CC9 RID: 11465
+		public DateNotifier dateNotifier = new DateNotifier();
+
+		// Token: 0x04002CCA RID: 11466
+		public SignalManager signalManager = new SignalManager();
+
+		// Token: 0x04002CCB RID: 11467
+		public UniqueIDsManager uniqueIDsManager = new UniqueIDsManager();
 	}
 }

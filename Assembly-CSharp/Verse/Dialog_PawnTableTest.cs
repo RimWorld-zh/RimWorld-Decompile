@@ -1,23 +1,23 @@
-using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000E39 RID: 3641
+	[HasDebugOutput]
 	public class Dialog_PawnTableTest : Window
 	{
-		private PawnColumnDef singleColumn;
+		// Token: 0x06005603 RID: 22019 RVA: 0x002C4894 File Offset: 0x002C2C94
+		public Dialog_PawnTableTest(PawnColumnDef singleColumn)
+		{
+			this.singleColumn = singleColumn;
+		}
 
-		private PawnTable pawnTableMin;
-
-		private PawnTable pawnTableOptimal;
-
-		private PawnTable pawnTableMax;
-
-		private const int TableTitleHeight = 30;
-
+		// Token: 0x17000D76 RID: 3446
+		// (get) Token: 0x06005604 RID: 22020 RVA: 0x002C48A4 File Offset: 0x002C2CA4
 		public override Vector2 InitialSize
 		{
 			get
@@ -26,35 +26,39 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000D77 RID: 3447
+		// (get) Token: 0x06005605 RID: 22021 RVA: 0x002C48CC File Offset: 0x002C2CCC
 		private List<Pawn> Pawns
 		{
 			get
 			{
-				return Find.VisibleMap.mapPawns.PawnsInFaction(Faction.OfPlayer).ToList();
+				return Find.CurrentMap.mapPawns.PawnsInFaction(Faction.OfPlayer).ToList<Pawn>();
 			}
 		}
 
-		public Dialog_PawnTableTest(PawnColumnDef singleColumn)
-		{
-			this.singleColumn = singleColumn;
-		}
-
+		// Token: 0x06005606 RID: 22022 RVA: 0x002C48FC File Offset: 0x002C2CFC
 		public override void DoWindowContents(Rect inRect)
 		{
 			int num = ((int)inRect.height - 90) / 3;
+			PawnTableDef pawnTableDef = new PawnTableDef();
+			pawnTableDef.columns = new List<PawnColumnDef>
+			{
+				this.singleColumn
+			};
+			pawnTableDef.minWidth = 0;
 			if (this.pawnTableMin == null)
 			{
-				this.pawnTableMin = new PawnTable(Gen.YieldSingle(this.singleColumn), (Func<IEnumerable<Pawn>>)this.get_Pawns, 0, 0, 0, 0);
+				this.pawnTableMin = new PawnTable(pawnTableDef, () => this.Pawns, 0, 0);
 				this.pawnTableMin.SetMinMaxSize(Mathf.Min(this.singleColumn.Worker.GetMinWidth(this.pawnTableMin) + 16, (int)inRect.width), Mathf.Min(this.singleColumn.Worker.GetMinWidth(this.pawnTableMin) + 16, (int)inRect.width), 0, num);
 			}
 			if (this.pawnTableOptimal == null)
 			{
-				this.pawnTableOptimal = new PawnTable(Gen.YieldSingle(this.singleColumn), (Func<IEnumerable<Pawn>>)this.get_Pawns, 0, 0, 0, 0);
+				this.pawnTableOptimal = new PawnTable(pawnTableDef, () => this.Pawns, 0, 0);
 				this.pawnTableOptimal.SetMinMaxSize(Mathf.Min(this.singleColumn.Worker.GetOptimalWidth(this.pawnTableOptimal) + 16, (int)inRect.width), Mathf.Min(this.singleColumn.Worker.GetOptimalWidth(this.pawnTableOptimal) + 16, (int)inRect.width), 0, num);
 			}
 			if (this.pawnTableMax == null)
 			{
-				this.pawnTableMax = new PawnTable(Gen.YieldSingle(this.singleColumn), (Func<IEnumerable<Pawn>>)this.get_Pawns, 0, 0, 0, 0);
+				this.pawnTableMax = new PawnTable(pawnTableDef, () => this.Pawns, 0, 0);
 				this.pawnTableMax.SetMinMaxSize(Mathf.Min(this.singleColumn.Worker.GetMaxWidth(this.pawnTableMax) + 16, (int)inRect.width), Mathf.Min(this.singleColumn.Worker.GetMaxWidth(this.pawnTableMax) + 16, (int)inRect.width), 0, num);
 			}
 			int num2 = 0;
@@ -78,5 +82,38 @@ namespace Verse
 			this.pawnTableMax.PawnTableOnGUI(new Vector2(0f, (float)num2));
 			num2 += num;
 		}
+
+		// Token: 0x06005607 RID: 22023 RVA: 0x002C4BC8 File Offset: 0x002C2FC8
+		[DebugOutput]
+		[Category("UI")]
+		private static void PawnColumnTest()
+		{
+			List<DebugMenuOption> list = new List<DebugMenuOption>();
+			List<PawnColumnDef> allDefsListForReading = DefDatabase<PawnColumnDef>.AllDefsListForReading;
+			for (int i = 0; i < allDefsListForReading.Count; i++)
+			{
+				PawnColumnDef localDef = allDefsListForReading[i];
+				list.Add(new DebugMenuOption(localDef.defName, DebugMenuOptionMode.Action, delegate()
+				{
+					Find.WindowStack.Add(new Dialog_PawnTableTest(localDef));
+				}));
+			}
+			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
+		}
+
+		// Token: 0x040038D6 RID: 14550
+		private PawnColumnDef singleColumn;
+
+		// Token: 0x040038D7 RID: 14551
+		private PawnTable pawnTableMin;
+
+		// Token: 0x040038D8 RID: 14552
+		private PawnTable pawnTableOptimal;
+
+		// Token: 0x040038D9 RID: 14553
+		private PawnTable pawnTableMax;
+
+		// Token: 0x040038DA RID: 14554
+		private const int TableTitleHeight = 30;
 	}
 }

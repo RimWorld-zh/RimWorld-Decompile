@@ -1,5 +1,7 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -7,14 +9,11 @@ using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x020006AD RID: 1709
 	public class Building_NutrientPasteDispenser : Building
 	{
-		public CompPowerTrader powerComp;
-
-		private List<IntVec3> cachedAdjCellsCardinal;
-
-		public static int CollectDuration = 50;
-
+		// Token: 0x17000584 RID: 1412
+		// (get) Token: 0x06002494 RID: 9364 RVA: 0x001390C4 File Offset: 0x001374C4
 		public bool CanDispenseNow
 		{
 			get
@@ -23,6 +22,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000585 RID: 1413
+		// (get) Token: 0x06002495 RID: 9365 RVA: 0x001390F4 File Offset: 0x001374F4
 		private List<IntVec3> AdjCellsCardinalInBounds
 		{
 			get
@@ -31,12 +32,14 @@ namespace RimWorld
 				{
 					this.cachedAdjCellsCardinal = (from c in GenAdj.CellsAdjacentCardinal(this)
 					where c.InBounds(base.Map)
-					select c).ToList();
+					select c).ToList<IntVec3>();
 				}
 				return this.cachedAdjCellsCardinal;
 			}
 		}
 
+		// Token: 0x17000586 RID: 1414
+		// (get) Token: 0x06002496 RID: 9366 RVA: 0x0013913C File Offset: 0x0013753C
 		public virtual ThingDef DispensableDef
 		{
 			get
@@ -45,12 +48,33 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000587 RID: 1415
+		// (get) Token: 0x06002497 RID: 9367 RVA: 0x00139158 File Offset: 0x00137558
+		public override Color DrawColor
+		{
+			get
+			{
+				Color result;
+				if (!this.IsSociallyProper(null, false, false))
+				{
+					result = Building_Bed.SheetColorForPrisoner;
+				}
+				else
+				{
+					result = base.DrawColor;
+				}
+				return result;
+			}
+		}
+
+		// Token: 0x06002498 RID: 9368 RVA: 0x0013918C File Offset: 0x0013758C
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
 			this.powerComp = base.GetComp<CompPowerTrader>();
 		}
 
+		// Token: 0x06002499 RID: 9369 RVA: 0x001391A4 File Offset: 0x001375A4
 		public virtual Building AdjacentReachableHopper(Pawn reacher)
 		{
 			for (int i = 0; i < this.AdjCellsCardinalInBounds.Count; i++)
@@ -59,45 +83,56 @@ namespace RimWorld
 				Building edifice = c.GetEdifice(base.Map);
 				if (edifice != null && edifice.def == ThingDefOf.Hopper && reacher.CanReach(edifice, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
 				{
-					return (Building_Storage)edifice;
+					return edifice;
 				}
 			}
 			return null;
 		}
 
+		// Token: 0x0600249A RID: 9370 RVA: 0x00139224 File Offset: 0x00137624
 		public virtual Thing TryDispenseFood()
 		{
+			Thing result;
 			if (!this.CanDispenseNow)
 			{
-				return null;
+				result = null;
 			}
-			float num = (float)(base.def.building.nutritionCostPerDispense - 9.9999997473787516E-05);
-			List<ThingDef> list = new List<ThingDef>();
-			while (true)
+			else
 			{
-				Thing thing = this.FindFeedInAnyHopper();
-				if (thing == null)
+				float num = this.def.building.nutritionCostPerDispense - 0.0001f;
+				List<ThingDef> list = new List<ThingDef>();
+				for (;;)
 				{
-					Log.Error("Did not find enough food in hoppers while trying to dispense.");
-					return null;
+					Thing thing = this.FindFeedInAnyHopper();
+					if (thing == null)
+					{
+						break;
+					}
+					int num2 = Mathf.Min(thing.stackCount, Mathf.CeilToInt(num / thing.GetStatValue(StatDefOf.Nutrition, true)));
+					num -= (float)num2 * thing.GetStatValue(StatDefOf.Nutrition, true);
+					list.Add(thing.def);
+					thing.SplitOff(num2);
+					if (num <= 0f)
+					{
+						goto Block_3;
+					}
 				}
-				int num2 = Mathf.Min(thing.stackCount, Mathf.CeilToInt(num / thing.def.ingestible.nutrition));
-				num -= (float)num2 * thing.def.ingestible.nutrition;
-				list.Add(thing.def);
-				thing.SplitOff(num2);
-				if (num <= 0.0)
-					break;
+				Log.Error("Did not find enough food in hoppers while trying to dispense.", false);
+				return null;
+				Block_3:
+				this.def.building.soundDispense.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
+				Thing thing2 = ThingMaker.MakeThing(ThingDefOf.MealNutrientPaste, null);
+				CompIngredients compIngredients = thing2.TryGetComp<CompIngredients>();
+				for (int i = 0; i < list.Count; i++)
+				{
+					compIngredients.RegisterIngredient(list[i]);
+				}
+				result = thing2;
 			}
-			base.def.building.soundDispense.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
-			Thing thing2 = ThingMaker.MakeThing(ThingDefOf.MealNutrientPaste, null);
-			CompIngredients compIngredients = thing2.TryGetComp<CompIngredients>();
-			for (int i = 0; i < list.Count; i++)
-			{
-				compIngredients.RegisterIngredient(list[i]);
-			}
-			return thing2;
+			return result;
 		}
 
+		// Token: 0x0600249B RID: 9371 RVA: 0x0013935C File Offset: 0x0013775C
 		public virtual Thing FindFeedInAnyHopper()
 		{
 			for (int i = 0; i < this.AdjCellsCardinalInBounds.Count; i++)
@@ -125,6 +160,7 @@ namespace RimWorld
 			return null;
 		}
 
+		// Token: 0x0600249C RID: 9372 RVA: 0x00139414 File Offset: 0x00137814
 		public virtual bool HasEnoughFeedstockInHoppers()
 		{
 			float num = 0f;
@@ -148,9 +184,9 @@ namespace RimWorld
 				}
 				if (thing != null && thing2 != null)
 				{
-					num += (float)thing.stackCount * thing.def.ingestible.nutrition;
+					num += (float)thing.stackCount * thing.GetStatValue(StatDefOf.Nutrition, true);
 				}
-				if (num >= base.def.building.nutritionCostPerDispense)
+				if (num >= this.def.building.nutritionCostPerDispense)
 				{
 					return true;
 				}
@@ -158,9 +194,31 @@ namespace RimWorld
 			return false;
 		}
 
+		// Token: 0x0600249D RID: 9373 RVA: 0x00139504 File Offset: 0x00137904
 		public static bool IsAcceptableFeedstock(ThingDef def)
 		{
-			return def.IsNutritionGivingIngestible && def.ingestible.preferability != 0 && (def.ingestible.foodType & FoodTypeFlags.Plant) != FoodTypeFlags.Plant && (def.ingestible.foodType & FoodTypeFlags.Tree) != FoodTypeFlags.Tree;
+			return def.IsNutritionGivingIngestible && def.ingestible.preferability != FoodPreferability.Undefined && (def.ingestible.foodType & FoodTypeFlags.Plant) != FoodTypeFlags.Plant && (def.ingestible.foodType & FoodTypeFlags.Tree) != FoodTypeFlags.Tree;
 		}
+
+		// Token: 0x0600249E RID: 9374 RVA: 0x00139568 File Offset: 0x00137968
+		public override string GetInspectString()
+		{
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.AppendLine(base.GetInspectString());
+			if (!this.IsSociallyProper(null, false, false))
+			{
+				stringBuilder.AppendLine("InPrisonCell".Translate());
+			}
+			return stringBuilder.ToString().Trim();
+		}
+
+		// Token: 0x04001439 RID: 5177
+		public CompPowerTrader powerComp;
+
+		// Token: 0x0400143A RID: 5178
+		private List<IntVec3> cachedAdjCellsCardinal;
+
+		// Token: 0x0400143B RID: 5179
+		public static int CollectDuration = 50;
 	}
 }

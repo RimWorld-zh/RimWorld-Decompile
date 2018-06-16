@@ -1,9 +1,19 @@
+﻿using System;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000C4A RID: 3146
 	internal class SectionLayer_IndoorMask : SectionLayer
 	{
+		// Token: 0x06004542 RID: 17730 RVA: 0x00247EF6 File Offset: 0x002462F6
+		public SectionLayer_IndoorMask(Section section) : base(section)
+		{
+			this.relevantChangeTypes = (MapMeshFlag.FogOfWar | MapMeshFlag.Roofs);
+		}
+
+		// Token: 0x17000AEC RID: 2796
+		// (get) Token: 0x06004543 RID: 17731 RVA: 0x00247F08 File Offset: 0x00246308
 		public override bool Visible
 		{
 			get
@@ -12,40 +22,38 @@ namespace Verse
 			}
 		}
 
-		public SectionLayer_IndoorMask(Section section)
-			: base(section)
-		{
-			base.relevantChangeTypes = (MapMeshFlag.FogOfWar | MapMeshFlag.Roofs);
-		}
-
+		// Token: 0x06004544 RID: 17732 RVA: 0x00247F24 File Offset: 0x00246324
 		private bool HideRainPrimary(IntVec3 c)
 		{
+			bool result;
 			if (base.Map.fogGrid.IsFogged(c))
 			{
-				return false;
+				result = false;
 			}
-			if (c.Roofed(base.Map))
+			else
 			{
-				Building edifice = c.GetEdifice(base.Map);
-				if (edifice == null)
+				if (c.Roofed(base.Map))
 				{
-					return true;
+					Building edifice = c.GetEdifice(base.Map);
+					if (edifice == null)
+					{
+						return true;
+					}
+					if (edifice.def.Fillage != FillCategory.Full)
+					{
+						return true;
+					}
+					if (edifice.def.size.x > 1 || edifice.def.size.z > 1)
+					{
+						return true;
+					}
 				}
-				if (edifice.def.Fillage != FillCategory.Full)
-				{
-					return true;
-				}
-				if (edifice.def.size.x <= 1 && edifice.def.size.z <= 1)
-				{
-					goto IL_007f;
-				}
-				return true;
+				result = false;
 			}
-			goto IL_007f;
-			IL_007f:
-			return false;
+			return result;
 		}
 
+		// Token: 0x06004545 RID: 17733 RVA: 0x00247FD0 File Offset: 0x002463D0
 		public override void Regenerate()
 		{
 			if (MatBases.SunShadow.shader.isSupported)
@@ -53,41 +61,57 @@ namespace Verse
 				LayerSubMesh subMesh = base.GetSubMesh(MatBases.IndoorMask);
 				subMesh.Clear(MeshParts.All);
 				Building[] innerArray = base.Map.edificeGrid.InnerArray;
-				CellRect cellRect = new CellRect(base.section.botLeft.x, base.section.botLeft.z, 17, 17);
+				CellRect cellRect = new CellRect(this.section.botLeft.x, this.section.botLeft.z, 17, 17);
 				cellRect.ClipInsideMap(base.Map);
 				subMesh.verts.Capacity = cellRect.Area * 2;
 				subMesh.tris.Capacity = cellRect.Area * 4;
-				float y = Altitudes.AltitudeFor(AltitudeLayer.MetaOverlays);
+				float y = AltitudeLayer.MetaOverlays.AltitudeFor();
 				CellIndices cellIndices = base.Map.cellIndices;
 				for (int i = cellRect.minX; i <= cellRect.maxX; i++)
 				{
-					for (int j = cellRect.minZ; j <= cellRect.maxZ; j++)
+					int j = cellRect.minZ;
+					while (j <= cellRect.maxZ)
 					{
 						IntVec3 intVec = new IntVec3(i, 0, j);
-						if (!this.HideRainPrimary(intVec))
+						if (this.HideRainPrimary(intVec))
 						{
-							bool flag = intVec.Roofed(base.Map);
-							bool flag2 = false;
-							if (flag)
+							goto IL_17C;
+						}
+						bool flag = intVec.Roofed(base.Map);
+						bool flag2 = false;
+						if (flag)
+						{
+							for (int k = 0; k < 8; k++)
 							{
-								for (int k = 0; k < 8; k++)
+								IntVec3 c = intVec + GenAdj.AdjacentCells[k];
+								if (c.InBounds(base.Map))
 								{
-									IntVec3 c = intVec + GenAdj.AdjacentCells[k];
-									if (c.InBounds(base.Map) && this.HideRainPrimary(c))
+									if (this.HideRainPrimary(c))
 									{
 										flag2 = true;
 										break;
 									}
 								}
 							}
-							if (flag && flag2)
-								goto IL_016e;
-							continue;
 						}
-						goto IL_016e;
-						IL_016e:
+						if (flag && flag2)
+						{
+							goto IL_17C;
+						}
+						IL_2AC:
+						j++;
+						continue;
+						IL_17C:
 						Thing thing = innerArray[cellIndices.CellToIndex(i, j)];
-						float num = (float)((thing == null || (thing.def.passability != Traversability.Impassable && !thing.def.IsDoor)) ? 0.15999999642372131 : 0.0);
+						float num;
+						if (thing != null && (thing.def.passability == Traversability.Impassable || thing.def.IsDoor))
+						{
+							num = 0f;
+						}
+						else
+						{
+							num = 0.16f;
+						}
 						subMesh.verts.Add(new Vector3((float)i - num, y, (float)j - num));
 						subMesh.verts.Add(new Vector3((float)i - num, y, (float)(j + 1) + num));
 						subMesh.verts.Add(new Vector3((float)(i + 1) + num, y, (float)(j + 1) + num));
@@ -99,6 +123,7 @@ namespace Verse
 						subMesh.tris.Add(count - 4);
 						subMesh.tris.Add(count - 2);
 						subMesh.tris.Add(count - 1);
+						goto IL_2AC;
 					}
 				}
 				if (subMesh.verts.Count > 0)

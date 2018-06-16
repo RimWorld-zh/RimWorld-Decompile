@@ -1,33 +1,40 @@
-using RimWorld.BaseGen;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld.BaseGen;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000400 RID: 1024
 	public class GenStep_ScatterShrines : GenStep_ScatterRuinsSimple
 	{
-		private static readonly IntRange ShrinesCountX = new IntRange(1, 4);
-
-		private static readonly IntRange ShrinesCountZ = new IntRange(1, 4);
-
-		private static readonly IntRange ExtraHeightRange = new IntRange(0, 8);
-
-		private const int MarginCells = 1;
-
-		protected override bool CanScatterAt(IntVec3 c, Map map)
+		// Token: 0x1700025A RID: 602
+		// (get) Token: 0x0600119C RID: 4508 RVA: 0x00098890 File Offset: 0x00096C90
+		public override int SeedPart
 		{
-			if (!base.CanScatterAt(c, map))
+			get
 			{
-				return false;
+				return 1801222485;
 			}
-			Building edifice = c.GetEdifice(map);
-			if (edifice != null && edifice.def.building.isNaturalRock)
-			{
-				return true;
-			}
-			return false;
 		}
 
+		// Token: 0x0600119D RID: 4509 RVA: 0x000988AC File Offset: 0x00096CAC
+		protected override bool CanScatterAt(IntVec3 c, Map map)
+		{
+			bool result;
+			if (!base.CanScatterAt(c, map))
+			{
+				result = false;
+			}
+			else
+			{
+				Building edifice = c.GetEdifice(map);
+				result = (edifice != null && edifice.def.building.isNaturalRock);
+			}
+			return result;
+		}
+
+		// Token: 0x0600119E RID: 4510 RVA: 0x00098900 File Offset: 0x00096D00
 		protected override void ScatterAt(IntVec3 loc, Map map, int stackCount = 1)
 		{
 			int randomInRange = GenStep_ScatterShrines.ShrinesCountX.RandomInRange;
@@ -43,43 +50,52 @@ namespace RimWorld
 			rect.ClipInsideMap(map);
 			if (rect.Width == num4 && rect.Height == num5)
 			{
-				foreach (IntVec3 cell in rect.Cells)
+				foreach (IntVec3 c in rect.Cells)
 				{
-					List<Thing> list = map.thingGrid.ThingsListAt(cell);
-					int num6 = 0;
-					while (num6 < list.Count)
+					List<Thing> list = map.thingGrid.ThingsListAt(c);
+					for (int i = 0; i < list.Count; i++)
 					{
-						if (list[num6].def != ThingDefOf.AncientCryptosleepCasket)
+						if (list[i].def == ThingDefOf.AncientCryptosleepCasket)
 						{
-							num6++;
-							continue;
+							return;
 						}
-						return;
 					}
 				}
 				if (base.CanPlaceAncientBuildingInRange(rect, map))
 				{
 					ResolveParams resolveParams = default(ResolveParams);
 					resolveParams.rect = rect;
-					resolveParams.disableSinglePawn = true;
-					resolveParams.disableHives = true;
-					resolveParams.ancientTempleEntranceHeight = randomInRange3;
-					RimWorld.BaseGen.BaseGen.globalSettings.map = map;
-					RimWorld.BaseGen.BaseGen.symbolStack.Push("ancientTemple", resolveParams);
-					RimWorld.BaseGen.BaseGen.Generate();
+					resolveParams.disableSinglePawn = new bool?(true);
+					resolveParams.disableHives = new bool?(true);
+					resolveParams.ancientTempleEntranceHeight = new int?(randomInRange3);
+					BaseGen.globalSettings.map = map;
+					BaseGen.symbolStack.Push("ancientTemple", resolveParams);
+					BaseGen.Generate();
 					int nextSignalTagID = Find.UniqueIDsManager.GetNextSignalTagID();
 					string signalTag = "ancientTempleApproached-" + nextSignalTagID;
 					SignalAction_Letter signalAction_Letter = (SignalAction_Letter)ThingMaker.MakeThing(ThingDefOf.SignalAction_Letter, null);
 					signalAction_Letter.signalTag = signalTag;
-					signalAction_Letter.letter = LetterMaker.MakeLetter("LetterLabelAncientShrineWarning".Translate(), "AncientShrineWarning".Translate(), LetterDefOf.NeutralEvent, new TargetInfo(rect.CenterCell, map, false));
-					GenSpawn.Spawn(signalAction_Letter, rect.CenterCell, map);
+					signalAction_Letter.letter = LetterMaker.MakeLetter("LetterLabelAncientShrineWarning".Translate(), "AncientShrineWarning".Translate(), LetterDefOf.NeutralEvent, new TargetInfo(rect.CenterCell, map, false), null);
+					GenSpawn.Spawn(signalAction_Letter, rect.CenterCell, map, WipeMode.Vanish);
 					RectTrigger rectTrigger = (RectTrigger)ThingMaker.MakeThing(ThingDefOf.RectTrigger, null);
 					rectTrigger.signalTag = signalTag;
 					rectTrigger.Rect = rect.ExpandedBy(1).ClipInsideMap(map);
 					rectTrigger.destroyIfUnfogged = true;
-					GenSpawn.Spawn(rectTrigger, rect.CenterCell, map);
+					GenSpawn.Spawn(rectTrigger, rect.CenterCell, map, WipeMode.Vanish);
 				}
 			}
 		}
+
+		// Token: 0x04000AAF RID: 2735
+		private static readonly IntRange ShrinesCountX = new IntRange(1, 4);
+
+		// Token: 0x04000AB0 RID: 2736
+		private static readonly IntRange ShrinesCountZ = new IntRange(1, 4);
+
+		// Token: 0x04000AB1 RID: 2737
+		private static readonly IntRange ExtraHeightRange = new IntRange(0, 8);
+
+		// Token: 0x04000AB2 RID: 2738
+		private const int MarginCells = 1;
 	}
 }

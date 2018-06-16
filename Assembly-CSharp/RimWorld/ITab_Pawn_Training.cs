@@ -1,10 +1,22 @@
+﻿using System;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200085C RID: 2140
 	public class ITab_Pawn_Training : ITab
 	{
+		// Token: 0x06003069 RID: 12393 RVA: 0x001A5148 File Offset: 0x001A3548
+		public ITab_Pawn_Training()
+		{
+			this.size = new Vector2(300f, 130f + 28f * (float)DefDatabase<TrainableDef>.DefCount);
+			this.labelKey = "TabTraining";
+			this.tutorTag = "Training";
+		}
+
+		// Token: 0x170007B6 RID: 1974
+		// (get) Token: 0x0600306A RID: 12394 RVA: 0x001A5194 File Offset: 0x001A3594
 		public override bool IsVisible
 		{
 			get
@@ -13,16 +25,10 @@ namespace RimWorld
 			}
 		}
 
-		public ITab_Pawn_Training()
-		{
-			base.size = new Vector2(300f, 450f);
-			base.labelKey = "TabTraining";
-			base.tutorTag = "Training";
-		}
-
+		// Token: 0x0600306B RID: 12395 RVA: 0x001A51D0 File Offset: 0x001A35D0
 		protected override void FillTab()
 		{
-			Rect rect = new Rect(0f, 0f, base.size.x, base.size.y).ContractedBy(17f);
+			Rect rect = new Rect(0f, 0f, this.size.x, this.size.y).ContractedBy(17f);
 			rect.yMin += 10f;
 			TrainingCardUtility.DrawTrainingCard(rect, base.SelPawn);
 		}

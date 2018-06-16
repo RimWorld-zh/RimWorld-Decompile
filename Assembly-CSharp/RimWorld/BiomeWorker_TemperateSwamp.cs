@@ -1,28 +1,36 @@
+﻿using System;
 using RimWorld.Planet;
 
 namespace RimWorld
 {
+	// Token: 0x02000552 RID: 1362
 	public class BiomeWorker_TemperateSwamp : BiomeWorker
 	{
-		public override float GetScore(Tile tile)
+		// Token: 0x0600195C RID: 6492 RVA: 0x000DBE5C File Offset: 0x000DA25C
+		public override float GetScore(Tile tile, int tileID)
 		{
+			float result;
 			if (tile.WaterCovered)
 			{
-				return -100f;
+				result = -100f;
 			}
-			if (tile.temperature < -10.0)
+			else if (tile.temperature < -10f)
 			{
-				return 0f;
+				result = 0f;
 			}
-			if (tile.rainfall < 600.0)
+			else if (tile.rainfall < 600f)
 			{
-				return 0f;
+				result = 0f;
 			}
-			if (tile.swampiness < 0.5)
+			else if (tile.swampiness < 0.5f)
 			{
-				return 0f;
+				result = 0f;
 			}
-			return (float)(15.0 + (tile.temperature - 7.0) + (tile.rainfall - 600.0) / 180.0 + tile.swampiness * 3.0);
+			else
+			{
+				result = 15f + (tile.temperature - 7f) + (tile.rainfall - 600f) / 180f + tile.swampiness * 3f;
+			}
+			return result;
 		}
 	}
 }

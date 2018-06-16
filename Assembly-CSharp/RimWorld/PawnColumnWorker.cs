@@ -1,3 +1,4 @@
+﻿using System;
 using System.Text;
 using UnityEngine;
 using Verse;
@@ -5,17 +6,12 @@ using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x020002B3 RID: 691
 	[StaticConstructorOnStartup]
 	public abstract class PawnColumnWorker
 	{
-		public PawnColumnDef def;
-
-		protected const int DefaultCellHeight = 30;
-
-		private static readonly Texture2D SortingIcon = ContentFinder<Texture2D>.Get("UI/Icons/Sorting", true);
-
-		private static readonly Texture2D SortingDescendingIcon = ContentFinder<Texture2D>.Get("UI/Icons/SortingDescending", true);
-
+		// Token: 0x170001BA RID: 442
+		// (get) Token: 0x06000B8E RID: 2958 RVA: 0x00068438 File Offset: 0x00066838
 		protected virtual Color DefaultHeaderColor
 		{
 			get
@@ -24,6 +20,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170001BB RID: 443
+		// (get) Token: 0x06000B8F RID: 2959 RVA: 0x00068454 File Offset: 0x00066854
 		protected virtual GameFont DefaultHeaderFont
 		{
 			get
@@ -32,6 +30,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06000B90 RID: 2960 RVA: 0x0006846C File Offset: 0x0006686C
 		public virtual void DoHeader(Rect rect, PawnTable table)
 		{
 			if (!this.def.label.NullOrEmpty())
@@ -46,17 +45,17 @@ namespace RimWorld
 				GUI.color = Color.white;
 				Text.Font = GameFont.Small;
 			}
-			else if ((Object)this.def.HeaderIcon != (Object)null)
+			else if (this.def.HeaderIcon != null)
 			{
 				Vector2 headerIconSize = this.def.HeaderIconSize;
-				int num = (int)((rect.width - headerIconSize.x) / 2.0);
+				int num = (int)((rect.width - headerIconSize.x) / 2f);
 				Rect position = new Rect(rect.x + (float)num, rect.yMax - headerIconSize.y, headerIconSize.x, headerIconSize.y);
 				GUI.DrawTexture(position, this.def.HeaderIcon);
 			}
 			if (table.SortingBy == this.def)
 			{
 				Texture2D texture2D = (!table.SortingDescending) ? PawnColumnWorker.SortingIcon : PawnColumnWorker.SortingDescendingIcon;
-				Rect position2 = new Rect((float)(rect.xMax - (float)texture2D.width - 1.0), (float)(rect.yMax - (float)texture2D.height - 1.0), (float)texture2D.width, (float)texture2D.height);
+				Rect position2 = new Rect(rect.xMax - (float)texture2D.width - 1f, rect.yMax - (float)texture2D.height - 1f, (float)texture2D.width, (float)texture2D.height);
 				GUI.DrawTexture(position2, texture2D);
 			}
 			if (this.def.HeaderInteractable)
@@ -78,70 +77,85 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06000B91 RID: 2961
 		public abstract void DoCell(Rect rect, Pawn pawn, PawnTable table);
 
+		// Token: 0x06000B92 RID: 2962 RVA: 0x00068664 File Offset: 0x00066A64
 		public virtual int GetMinWidth(PawnTable table)
 		{
+			int result;
 			if (!this.def.label.NullOrEmpty())
 			{
 				Text.Font = this.DefaultHeaderFont;
-				Vector2 vector = Text.CalcSize(this.def.LabelCap);
-				int result = Mathf.CeilToInt(vector.x);
+				int num = Mathf.CeilToInt(Text.CalcSize(this.def.LabelCap).x);
 				Text.Font = GameFont.Small;
-				return result;
+				result = num;
 			}
-			if ((Object)this.def.HeaderIcon != (Object)null)
+			else if (this.def.HeaderIcon != null)
 			{
-				Vector2 headerIconSize = this.def.HeaderIconSize;
-				return Mathf.CeilToInt(headerIconSize.x);
+				result = Mathf.CeilToInt(this.def.HeaderIconSize.x);
 			}
-			return 1;
+			else
+			{
+				result = 1;
+			}
+			return result;
 		}
 
+		// Token: 0x06000B93 RID: 2963 RVA: 0x000686FC File Offset: 0x00066AFC
 		public virtual int GetMaxWidth(PawnTable table)
 		{
 			return 1000000;
 		}
 
+		// Token: 0x06000B94 RID: 2964 RVA: 0x00068718 File Offset: 0x00066B18
 		public virtual int GetOptimalWidth(PawnTable table)
 		{
 			return this.GetMinWidth(table);
 		}
 
+		// Token: 0x06000B95 RID: 2965 RVA: 0x00068734 File Offset: 0x00066B34
 		public virtual int GetMinCellHeight(Pawn pawn)
 		{
 			return 30;
 		}
 
+		// Token: 0x06000B96 RID: 2966 RVA: 0x0006874C File Offset: 0x00066B4C
 		public virtual int GetMinHeaderHeight(PawnTable table)
 		{
+			int result;
 			if (!this.def.label.NullOrEmpty())
 			{
 				Text.Font = this.DefaultHeaderFont;
-				Vector2 vector = Text.CalcSize(this.def.LabelCap);
-				int result = Mathf.CeilToInt(vector.y);
+				int num = Mathf.CeilToInt(Text.CalcSize(this.def.LabelCap).y);
 				Text.Font = GameFont.Small;
-				return result;
+				result = num;
 			}
-			if ((Object)this.def.HeaderIcon != (Object)null)
+			else if (this.def.HeaderIcon != null)
 			{
-				Vector2 headerIconSize = this.def.HeaderIconSize;
-				return Mathf.CeilToInt(headerIconSize.y);
+				result = Mathf.CeilToInt(this.def.HeaderIconSize.y);
 			}
-			return 0;
+			else
+			{
+				result = 0;
+			}
+			return result;
 		}
 
+		// Token: 0x06000B97 RID: 2967 RVA: 0x000687E4 File Offset: 0x00066BE4
 		public virtual int Compare(Pawn a, Pawn b)
 		{
 			return 0;
 		}
 
+		// Token: 0x06000B98 RID: 2968 RVA: 0x000687FC File Offset: 0x00066BFC
 		protected virtual Rect GetInteractableHeaderRect(Rect headerRect, PawnTable table)
 		{
 			float num = Mathf.Min(25f, headerRect.height);
 			return new Rect(headerRect.x, headerRect.yMax - num, headerRect.width, num);
 		}
 
+		// Token: 0x06000B99 RID: 2969 RVA: 0x00068840 File Offset: 0x00066C40
 		protected virtual void HeaderClicked(Rect headerRect, PawnTable table)
 		{
 			if (this.def.sortable && !Event.current.shift)
@@ -151,17 +165,17 @@ namespace RimWorld
 					if (table.SortingBy != this.def)
 					{
 						table.SortBy(this.def, true);
-						SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
+						SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
 					}
 					else if (table.SortingDescending)
 					{
 						table.SortBy(this.def, false);
-						SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
+						SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
 					}
 					else
 					{
 						table.SortBy(null, false);
-						SoundDefOf.TickLow.PlayOneShotOnCamera(null);
+						SoundDefOf.Tick_Low.PlayOneShotOnCamera(null);
 					}
 				}
 				else if (Event.current.button == 1)
@@ -169,22 +183,23 @@ namespace RimWorld
 					if (table.SortingBy != this.def)
 					{
 						table.SortBy(this.def, false);
-						SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
+						SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
 					}
 					else if (table.SortingDescending)
 					{
 						table.SortBy(null, false);
-						SoundDefOf.TickLow.PlayOneShotOnCamera(null);
+						SoundDefOf.Tick_Low.PlayOneShotOnCamera(null);
 					}
 					else
 					{
 						table.SortBy(this.def, true);
-						SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
+						SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
 					}
 				}
 			}
 		}
 
+		// Token: 0x06000B9A RID: 2970 RVA: 0x00068978 File Offset: 0x00066D78
 		protected virtual string GetHeaderTip(PawnTable table)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -203,5 +218,17 @@ namespace RimWorld
 			}
 			return stringBuilder.ToString();
 		}
+
+		// Token: 0x040006AB RID: 1707
+		public PawnColumnDef def;
+
+		// Token: 0x040006AC RID: 1708
+		protected const int DefaultCellHeight = 30;
+
+		// Token: 0x040006AD RID: 1709
+		private static readonly Texture2D SortingIcon = ContentFinder<Texture2D>.Get("UI/Icons/Sorting", true);
+
+		// Token: 0x040006AE RID: 1710
+		private static readonly Texture2D SortingDescendingIcon = ContentFinder<Texture2D>.Get("UI/Icons/SortingDescending", true);
 	}
 }

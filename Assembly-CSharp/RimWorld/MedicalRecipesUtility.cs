@@ -1,35 +1,28 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000466 RID: 1126
 	internal class MedicalRecipesUtility
 	{
+		// Token: 0x060013C7 RID: 5063 RVA: 0x000ABA64 File Offset: 0x000A9E64
 		public static bool IsCleanAndDroppable(Pawn pawn, BodyPartRecord part)
 		{
-			if (pawn.Dead)
-			{
-				return false;
-			}
-			if (pawn.RaceProps.Animal)
-			{
-				return false;
-			}
-			return part.def.spawnThingOnRemoved != null && MedicalRecipesUtility.IsClean(pawn, part);
+			return !pawn.Dead && !pawn.RaceProps.Animal && part.def.spawnThingOnRemoved != null && MedicalRecipesUtility.IsClean(pawn, part);
 		}
 
+		// Token: 0x060013C8 RID: 5064 RVA: 0x000ABABC File Offset: 0x000A9EBC
 		public static bool IsClean(Pawn pawn, BodyPartRecord part)
 		{
-			if (pawn.Dead)
-			{
-				return false;
-			}
-			return !(from x in pawn.health.hediffSet.hediffs
+			return !pawn.Dead && !(from x in pawn.health.hediffSet.hediffs
 			where x.Part == part
-			select x).Any();
+			select x).Any<Hediff>();
 		}
 
+		// Token: 0x060013C9 RID: 5065 RVA: 0x000ABB19 File Offset: 0x000A9F19
 		public static void RestorePartAndSpawnAllPreviousParts(Pawn pawn, BodyPartRecord part, IntVec3 pos, Map map)
 		{
 			MedicalRecipesUtility.SpawnNaturalPartIfClean(pawn, part, pos, map);
@@ -37,27 +30,34 @@ namespace RimWorld
 			pawn.health.RestorePart(part, null, true);
 		}
 
+		// Token: 0x060013CA RID: 5066 RVA: 0x000ABB40 File Offset: 0x000A9F40
 		public static Thing SpawnNaturalPartIfClean(Pawn pawn, BodyPartRecord part, IntVec3 pos, Map map)
 		{
+			Thing result;
 			if (MedicalRecipesUtility.IsCleanAndDroppable(pawn, part))
 			{
-				return GenSpawn.Spawn(part.def.spawnThingOnRemoved, pos, map);
+				result = GenSpawn.Spawn(part.def.spawnThingOnRemoved, pos, map, WipeMode.Vanish);
 			}
-			return null;
+			else
+			{
+				result = null;
+			}
+			return result;
 		}
 
+		// Token: 0x060013CB RID: 5067 RVA: 0x000ABB7C File Offset: 0x000A9F7C
 		public static void SpawnThingsFromHediffs(Pawn pawn, BodyPartRecord part, IntVec3 pos, Map map)
 		{
-			if (pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined).Contains(part))
+			if (pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null).Contains(part))
 			{
 				IEnumerable<Hediff> enumerable = from x in pawn.health.hediffSet.hediffs
 				where x.Part == part
 				select x;
-				foreach (Hediff item in enumerable)
+				foreach (Hediff hediff in enumerable)
 				{
-					if (item.def.spawnThingOnRemoved != null)
+					if (hediff.def.spawnThingOnRemoved != null)
 					{
-						GenSpawn.Spawn(item.def.spawnThingOnRemoved, pos, map);
+						GenSpawn.Spawn(hediff.def.spawnThingOnRemoved, pos, map, WipeMode.Vanish);
 					}
 				}
 				for (int i = 0; i < part.parts.Count; i++)

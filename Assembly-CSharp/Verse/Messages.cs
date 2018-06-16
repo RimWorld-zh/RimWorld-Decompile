@@ -1,274 +1,166 @@
-using RimWorld;
-using RimWorld.Planet;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse.Sound;
 
 namespace Verse
 {
+	// Token: 0x02000E89 RID: 3721
 	[StaticConstructorOnStartup]
 	public static class Messages
 	{
-		private class LiveMessage
-		{
-			private int ID;
-
-			public string text;
-
-			private float startingTime;
-
-			public int startingFrame;
-
-			public GlobalTargetInfo lookTarget;
-
-			private Vector2 cachedSize = new Vector2(-1f, -1f);
-
-			public Rect lastDrawRect;
-
-			private static int uniqueID;
-
-			private const float DefaultMessageLifespan = 13f;
-
-			private const float FadeoutDuration = 0.6f;
-
-			protected float Age
-			{
-				get
-				{
-					return RealTime.LastRealTime - this.startingTime;
-				}
-			}
-
-			protected float TimeLeft
-			{
-				get
-				{
-					return (float)(13.0 - this.Age);
-				}
-			}
-
-			public bool Expired
-			{
-				get
-				{
-					return this.TimeLeft <= 0.0;
-				}
-			}
-
-			public float Alpha
-			{
-				get
-				{
-					if (this.TimeLeft < 0.60000002384185791)
-					{
-						return (float)(this.TimeLeft / 0.60000002384185791);
-					}
-					return 1f;
-				}
-			}
-
-			public LiveMessage(string text)
-			{
-				this.text = text;
-				this.lookTarget = GlobalTargetInfo.Invalid;
-				this.startingFrame = RealTime.frameCount;
-				this.startingTime = RealTime.LastRealTime;
-				this.ID = LiveMessage.uniqueID++;
-			}
-
-			public LiveMessage(string text, GlobalTargetInfo lookTarget)
-				: this(text)
-			{
-				this.lookTarget = lookTarget;
-			}
-
-			public Rect CalculateRect(float x, float y)
-			{
-				Text.Font = GameFont.Small;
-				if (this.cachedSize.x < 0.0)
-				{
-					this.cachedSize = Text.CalcSize(this.text);
-				}
-				this.lastDrawRect = new Rect(x, y, this.cachedSize.x, this.cachedSize.y);
-				this.lastDrawRect = this.lastDrawRect.ContractedBy(-2f);
-				return this.lastDrawRect;
-			}
-
-			public void Draw(int xOffset, int yOffset)
-			{
-				Rect rect = this.CalculateRect((float)xOffset, (float)yOffset);
-				Find.WindowStack.ImmediateWindow(Gen.HashCombineInt(this.ID, 45574281), rect, WindowLayer.Super, delegate
-				{
-					Text.Font = GameFont.Small;
-					Text.Anchor = TextAnchor.MiddleLeft;
-					Rect rect2 = rect.AtZero();
-					float alpha = this.Alpha;
-					GUI.color = new Color(1f, 1f, 1f, alpha);
-					if (Messages.ShouldDrawMessageBackground)
-					{
-						GUI.color = new Color(0.15f, 0.15f, 0.15f, (float)(0.800000011920929 * alpha));
-						GUI.DrawTexture(rect2, BaseContent.WhiteTex);
-						GUI.color = new Color(1f, 1f, 1f, alpha);
-					}
-					if (this.lookTarget.IsValid)
-					{
-						UIHighlighter.HighlightOpportunity(rect2, "Messages");
-						Widgets.DrawHighlightIfMouseover(rect2);
-					}
-					Rect rect3 = new Rect(2f, 0f, (float)(rect2.width - 2.0), rect2.height);
-					Widgets.Label(rect3, this.text);
-					if (Current.ProgramState == ProgramState.Playing && this.lookTarget.IsValid && Widgets.ButtonInvisible(rect2, false))
-					{
-						CameraJumper.TryJumpAndSelect(this.lookTarget);
-						PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.ClickingMessages, KnowledgeAmount.Total);
-					}
-					Text.Anchor = TextAnchor.UpperLeft;
-					GUI.color = Color.white;
-					if (Mouse.IsOver(rect2))
-					{
-						Messages.mouseoverMessageIndex = Messages.liveMessages.IndexOf(this);
-					}
-				}, false, false, 0f);
-			}
-		}
-
-		private static List<LiveMessage> liveMessages = new List<LiveMessage>();
-
-		private static int mouseoverMessageIndex = -1;
-
-		public static readonly Vector2 MessagesTopLeftStandard = new Vector2(140f, 16f);
-
-		private const int MessageYInterval = 26;
-
-		private const int MaxLiveMessages = 12;
-
-		private static bool ShouldDrawMessageBackground
-		{
-			get
-			{
-				if (Current.ProgramState != ProgramState.Playing)
-				{
-					return true;
-				}
-				WindowStack windowStack = Find.WindowStack;
-				for (int i = 0; i < windowStack.Count; i++)
-				{
-					if (windowStack[i].CausesMessageBackground())
-					{
-						return true;
-					}
-				}
-				return false;
-			}
-		}
-
+		// Token: 0x060057B8 RID: 22456 RVA: 0x002CF7EC File Offset: 0x002CDBEC
 		public static void Update()
 		{
-			if (Current.ProgramState == ProgramState.Playing && Messages.mouseoverMessageIndex >= 0 && Messages.liveMessages.Count >= Messages.mouseoverMessageIndex + 1)
+			if (Current.ProgramState == ProgramState.Playing)
 			{
-				GlobalTargetInfo lookTarget = Messages.liveMessages[Messages.mouseoverMessageIndex].lookTarget;
-				if (lookTarget.IsValid && lookTarget.IsMapTarget && lookTarget.Map == Find.VisibleMap)
+				if (Messages.mouseoverMessageIndex >= 0 && Messages.mouseoverMessageIndex < Messages.liveMessages.Count)
 				{
-					GenDraw.DrawArrowPointingAt(((TargetInfo)lookTarget).CenterVector3, false);
+					Messages.liveMessages[Messages.mouseoverMessageIndex].lookTargets.TryHighlight(true, true, false);
 				}
 			}
 			Messages.mouseoverMessageIndex = -1;
-			Messages.liveMessages.RemoveAll((LiveMessage m) => m.Expired);
+			Messages.liveMessages.RemoveAll((Message m) => m.Expired);
 		}
 
-		public static void Message(string text, GlobalTargetInfo lookTarget, MessageTypeDef type)
+		// Token: 0x060057B9 RID: 22457 RVA: 0x002CF870 File Offset: 0x002CDC70
+		public static void Message(string text, LookTargets lookTargets, MessageTypeDef def, bool historical = true)
 		{
-			if (Messages.AcceptsMessage(text, lookTarget))
+			if (Messages.AcceptsMessage(text, lookTargets))
 			{
-				LiveMessage msg = new LiveMessage(text, lookTarget);
-				Messages.Message(msg, type);
+				Message msg = new Message(text, def, lookTargets);
+				Messages.Message(msg, historical);
 			}
 		}
 
-		public static void Message(string text, MessageTypeDef type)
+		// Token: 0x060057BA RID: 22458 RVA: 0x002CF8A0 File Offset: 0x002CDCA0
+		public static void Message(string text, MessageTypeDef def, bool historical = true)
 		{
 			if (Messages.AcceptsMessage(text, TargetInfo.Invalid))
 			{
-				LiveMessage msg = new LiveMessage(text);
-				Messages.Message(msg, type);
+				Message msg = new Message(text, def);
+				Messages.Message(msg, historical);
 			}
 		}
 
+		// Token: 0x060057BB RID: 22459 RVA: 0x002CF8D8 File Offset: 0x002CDCD8
+		public static void Message(Message msg, bool historical = true)
+		{
+			if (Messages.AcceptsMessage(msg.text, msg.lookTargets))
+			{
+				if (historical && Find.Archive != null)
+				{
+					Find.Archive.Add(msg);
+				}
+				Messages.liveMessages.Add(msg);
+				while (Messages.liveMessages.Count > 12)
+				{
+					Messages.liveMessages.RemoveAt(0);
+				}
+				if (msg.def.sound != null)
+				{
+					msg.def.sound.PlayOneShotOnCamera(null);
+				}
+			}
+		}
+
+		// Token: 0x060057BC RID: 22460 RVA: 0x002CF96C File Offset: 0x002CDD6C
+		public static bool IsLive(Message msg)
+		{
+			return Messages.liveMessages.Contains(msg);
+		}
+
+		// Token: 0x060057BD RID: 22461 RVA: 0x002CF98C File Offset: 0x002CDD8C
 		public static void MessagesDoGUI()
 		{
 			Text.Font = GameFont.Small;
-			Vector2 messagesTopLeftStandard = Messages.MessagesTopLeftStandard;
-			int xOffset = (int)messagesTopLeftStandard.x;
-			Vector2 messagesTopLeftStandard2 = Messages.MessagesTopLeftStandard;
-			int num = (int)messagesTopLeftStandard2.y;
+			int xOffset = (int)Messages.MessagesTopLeftStandard.x;
+			int num = (int)Messages.MessagesTopLeftStandard.y;
 			if (Current.Game != null && Find.ActiveLesson.ActiveLessonVisible)
 			{
 				num += (int)Find.ActiveLesson.Current.MessagesYOffset;
 			}
-			for (int num2 = Messages.liveMessages.Count - 1; num2 >= 0; num2--)
+			for (int i = Messages.liveMessages.Count - 1; i >= 0; i--)
 			{
-				Messages.liveMessages[num2].Draw(xOffset, num);
+				Messages.liveMessages[i].Draw(xOffset, num);
 				num += 26;
 			}
 		}
 
+		// Token: 0x060057BE RID: 22462 RVA: 0x002CFA28 File Offset: 0x002CDE28
 		public static bool CollidesWithAnyMessage(Rect rect, out float messageAlpha)
 		{
 			bool result = false;
 			float num = 0f;
 			for (int i = 0; i < Messages.liveMessages.Count; i++)
 			{
-				LiveMessage liveMessage = Messages.liveMessages[i];
-				if (rect.Overlaps(liveMessage.lastDrawRect))
+				Message message = Messages.liveMessages[i];
+				if (rect.Overlaps(message.lastDrawRect))
 				{
 					result = true;
-					num = Mathf.Max(num, liveMessage.Alpha);
+					num = Mathf.Max(num, message.Alpha);
 				}
 			}
 			messageAlpha = num;
 			return result;
 		}
 
+		// Token: 0x060057BF RID: 22463 RVA: 0x002CFA97 File Offset: 0x002CDE97
 		public static void Clear()
 		{
 			Messages.liveMessages.Clear();
 		}
 
+		// Token: 0x060057C0 RID: 22464 RVA: 0x002CFAA4 File Offset: 0x002CDEA4
 		public static void Notify_LoadedLevelChanged()
 		{
 			for (int i = 0; i < Messages.liveMessages.Count; i++)
 			{
-				Messages.liveMessages[i].lookTarget = GlobalTargetInfo.Invalid;
+				Messages.liveMessages[i].lookTargets = null;
 			}
 		}
 
-		private static bool AcceptsMessage(string text, GlobalTargetInfo lookTarget)
+		// Token: 0x060057C1 RID: 22465 RVA: 0x002CFAE0 File Offset: 0x002CDEE0
+		private static bool AcceptsMessage(string text, LookTargets lookTargets)
 		{
+			bool result;
 			if (text.NullOrEmpty())
 			{
-				return false;
+				result = false;
 			}
-			for (int i = 0; i < Messages.liveMessages.Count; i++)
+			else
 			{
-				if (Messages.liveMessages[i].text == text && Messages.liveMessages[i].lookTarget == lookTarget && Messages.liveMessages[i].startingFrame == RealTime.frameCount)
+				for (int i = 0; i < Messages.liveMessages.Count; i++)
 				{
-					return false;
+					if (Messages.liveMessages[i].text == text && Messages.liveMessages[i].startingFrame == RealTime.frameCount && LookTargets.SameTargets(Messages.liveMessages[i].lookTargets, lookTargets))
+					{
+						return false;
+					}
 				}
+				result = true;
 			}
-			return true;
+			return result;
 		}
 
-		private static void Message(LiveMessage msg, MessageTypeDef type)
+		// Token: 0x060057C2 RID: 22466 RVA: 0x002CFB7D File Offset: 0x002CDF7D
+		public static void Notify_Mouseover(Message msg)
 		{
-			Messages.liveMessages.Add(msg);
-			while (Messages.liveMessages.Count > 12)
-			{
-				Messages.liveMessages.RemoveAt(0);
-			}
-			if (type.sound != null)
-			{
-				type.sound.PlayOneShotOnCamera(null);
-			}
+			Messages.mouseoverMessageIndex = Messages.liveMessages.IndexOf(msg);
 		}
+
+		// Token: 0x04003A05 RID: 14853
+		private static List<Message> liveMessages = new List<Message>();
+
+		// Token: 0x04003A06 RID: 14854
+		private static int mouseoverMessageIndex = -1;
+
+		// Token: 0x04003A07 RID: 14855
+		public static readonly Vector2 MessagesTopLeftStandard = new Vector2(140f, 16f);
+
+		// Token: 0x04003A08 RID: 14856
+		private const int MessageYInterval = 26;
+
+		// Token: 0x04003A09 RID: 14857
+		private const int MaxLiveMessages = 12;
 	}
 }

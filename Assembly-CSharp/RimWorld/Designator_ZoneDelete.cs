@@ -1,42 +1,50 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020007F0 RID: 2032
 	public class Designator_ZoneDelete : Designator_Zone
 	{
-		private List<Zone> justDesignated = new List<Zone>();
-
+		// Token: 0x06002D11 RID: 11537 RVA: 0x0017AB18 File Offset: 0x00178F18
 		public Designator_ZoneDelete()
 		{
-			base.defaultLabel = "DesignatorZoneDelete".Translate();
-			base.defaultDesc = "DesignatorZoneDeleteDesc".Translate();
-			base.soundDragSustain = SoundDefOf.DesignateDragAreaDelete;
-			base.soundDragChanged = SoundDefOf.DesignateDragAreaDeleteChanged;
-			base.soundSucceeded = SoundDefOf.DesignateZoneDelete;
-			base.useMouseIcon = true;
-			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/ZoneDelete", true);
-			base.hotKey = KeyBindingDefOf.Misc4;
+			this.defaultLabel = "DesignatorZoneDelete".Translate();
+			this.defaultDesc = "DesignatorZoneDeleteDesc".Translate();
+			this.soundDragSustain = SoundDefOf.Designate_DragAreaDelete;
+			this.soundDragChanged = null;
+			this.soundSucceeded = SoundDefOf.Designate_ZoneDelete;
+			this.useMouseIcon = true;
+			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/ZoneDelete", true);
+			this.hotKey = KeyBindingDefOf.Misc4;
 		}
 
+		// Token: 0x06002D12 RID: 11538 RVA: 0x0017AB98 File Offset: 0x00178F98
 		public override AcceptanceReport CanDesignateCell(IntVec3 sq)
 		{
+			AcceptanceReport result;
 			if (!sq.InBounds(base.Map))
 			{
-				return false;
+				result = false;
 			}
-			if (sq.Fogged(base.Map))
+			else if (sq.Fogged(base.Map))
 			{
-				return false;
+				result = false;
 			}
-			if (base.Map.zoneManager.ZoneAt(sq) == null)
+			else if (base.Map.zoneManager.ZoneAt(sq) == null)
 			{
-				return false;
+				result = false;
 			}
-			return true;
+			else
+			{
+				result = true;
+			}
+			return result;
 		}
 
+		// Token: 0x06002D13 RID: 11539 RVA: 0x0017AC10 File Offset: 0x00179010
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			Zone zone = base.Map.zoneManager.ZoneAt(c);
@@ -47,6 +55,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002D14 RID: 11540 RVA: 0x0017AC54 File Offset: 0x00179054
 		protected override void FinalizeDesignationSucceeded()
 		{
 			base.FinalizeDesignationSucceeded();
@@ -56,5 +65,8 @@ namespace RimWorld
 			}
 			this.justDesignated.Clear();
 		}
+
+		// Token: 0x040017B8 RID: 6072
+		private List<Zone> justDesignated = new List<Zone>();
 	}
 }

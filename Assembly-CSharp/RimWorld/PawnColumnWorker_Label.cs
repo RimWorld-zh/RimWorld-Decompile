@@ -1,21 +1,18 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000895 RID: 2197
 	public class PawnColumnWorker_Label : PawnColumnWorker
 	{
-		private const int LeftMargin = 3;
-
-		private static Dictionary<string, string> labelCache = new Dictionary<string, string>();
-
-		private static float labelCacheForWidth = -1f;
-
+		// Token: 0x0600321B RID: 12827 RVA: 0x001AF984 File Offset: 0x001ADD84
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
 			Rect rect2 = new Rect(rect.x, rect.y, rect.width, Mathf.Min(rect.height, 30f));
-			if (pawn.health.summaryHealth.SummaryHealthPercent < 0.99000000953674316)
+			if (pawn.health.summaryHealth.SummaryHealthPercent < 0.99f)
 			{
 				Rect rect3 = new Rect(rect2);
 				rect3.xMin -= 4f;
@@ -27,7 +24,15 @@ namespace RimWorld
 			{
 				GUI.DrawTexture(rect2, TexUI.HighlightTex);
 			}
-			string str = (pawn.RaceProps.Humanlike || pawn.Name == null || pawn.Name.Numerical) ? pawn.LabelCap : (pawn.Name.ToStringShort.CapitalizeFirst() + ", " + pawn.KindLabel);
+			string str;
+			if (!pawn.RaceProps.Humanlike && pawn.Name != null && !pawn.Name.Numerical)
+			{
+				str = pawn.Name.ToStringShort.CapitalizeFirst() + ", " + pawn.KindLabel;
+			}
+			else
+			{
+				str = pawn.LabelCap;
+			}
 			Rect rect4 = rect2;
 			rect4.xMin += 3f;
 			if (rect4.width != PawnColumnWorker_Label.labelCacheForWidth)
@@ -57,14 +62,25 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x0600321C RID: 12828 RVA: 0x001AFB94 File Offset: 0x001ADF94
 		public override int GetMinWidth(PawnTable table)
 		{
 			return Mathf.Max(base.GetMinWidth(table), 80);
 		}
 
+		// Token: 0x0600321D RID: 12829 RVA: 0x001AFBB8 File Offset: 0x001ADFB8
 		public override int GetOptimalWidth(PawnTable table)
 		{
 			return Mathf.Clamp(165, this.GetMinWidth(table), this.GetMaxWidth(table));
 		}
+
+		// Token: 0x04001ADE RID: 6878
+		private const int LeftMargin = 3;
+
+		// Token: 0x04001ADF RID: 6879
+		private static Dictionary<string, string> labelCache = new Dictionary<string, string>();
+
+		// Token: 0x04001AE0 RID: 6880
+		private static float labelCacheForWidth = -1f;
 	}
 }

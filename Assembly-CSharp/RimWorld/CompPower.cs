@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -5,52 +6,53 @@ using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x02000418 RID: 1048
 	public abstract class CompPower : ThingComp
 	{
-		public PowerNet transNet;
-
-		public CompPower connectParent;
-
-		public List<CompPower> connectChildren;
-
-		private static List<PowerNet> recentlyConnectedNets = new List<PowerNet>();
-
-		private static CompPower lastManualReconnector = null;
-
-		public static readonly float WattsToWattDaysPerTick = 1.66666669E-05f;
-
+		// Token: 0x17000272 RID: 626
+		// (get) Token: 0x06001220 RID: 4640 RVA: 0x0009C1E4 File Offset: 0x0009A5E4
 		public bool TransmitsPowerNow
 		{
 			get
 			{
-				return ((Building)base.parent).TransmitsPowerNow;
+				return ((Building)this.parent).TransmitsPowerNow;
 			}
 		}
 
+		// Token: 0x17000273 RID: 627
+		// (get) Token: 0x06001221 RID: 4641 RVA: 0x0009C20C File Offset: 0x0009A60C
 		public PowerNet PowerNet
 		{
 			get
 			{
+				PowerNet result;
 				if (this.transNet != null)
 				{
-					return this.transNet;
+					result = this.transNet;
 				}
-				if (this.connectParent != null)
+				else if (this.connectParent != null)
 				{
-					return this.connectParent.transNet;
+					result = this.connectParent.transNet;
 				}
-				return null;
+				else
+				{
+					result = null;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000274 RID: 628
+		// (get) Token: 0x06001222 RID: 4642 RVA: 0x0009C258 File Offset: 0x0009A658
 		public CompProperties_Power Props
 		{
 			get
 			{
-				return (CompProperties_Power)base.props;
+				return (CompProperties_Power)this.props;
 			}
 		}
 
+		// Token: 0x06001223 RID: 4643 RVA: 0x0009C278 File Offset: 0x0009A678
 		public virtual void ResetPowerVars()
 		{
 			this.transNet = null;
@@ -60,134 +62,143 @@ namespace RimWorld
 			CompPower.lastManualReconnector = null;
 		}
 
+		// Token: 0x06001224 RID: 4644 RVA: 0x0009C2A0 File Offset: 0x0009A6A0
 		public virtual void SetUpPowerVars()
 		{
 		}
 
+		// Token: 0x06001225 RID: 4645 RVA: 0x0009C2A4 File Offset: 0x0009A6A4
 		public override void PostExposeData()
 		{
 			Thing thing = null;
-			if (Scribe.mode == LoadSaveMode.Saving && this.connectParent != null)
+			if (Scribe.mode == LoadSaveMode.Saving)
 			{
-				thing = this.connectParent.parent;
+				if (this.connectParent != null)
+				{
+					thing = this.connectParent.parent;
+				}
 			}
-			Scribe_References.Look(ref thing, "parentThing", false);
+			Scribe_References.Look<Thing>(ref thing, "parentThing", false);
 			if (thing != null)
 			{
 				this.connectParent = ((ThingWithComps)thing).GetComp<CompPower>();
 			}
-			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.connectParent != null)
+			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
-				this.ConnectToTransmitter(this.connectParent, true);
+				if (this.connectParent != null)
+				{
+					this.ConnectToTransmitter(this.connectParent, true);
+				}
 			}
 		}
 
+		// Token: 0x06001226 RID: 4646 RVA: 0x0009C324 File Offset: 0x0009A724
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
-			if (!this.Props.transmitsPower && !base.parent.def.ConnectToPower)
-				return;
-			base.parent.Map.mapDrawer.MapMeshDirty(base.parent.Position, MapMeshFlag.PowerGrid, true, false);
-			if (this.Props.transmitsPower)
+			if (this.Props.transmitsPower || this.parent.def.ConnectToPower)
 			{
-				base.parent.Map.powerNetManager.Notify_TransmitterSpawned(this);
+				this.parent.Map.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.PowerGrid, true, false);
+				if (this.Props.transmitsPower)
+				{
+					this.parent.Map.powerNetManager.Notify_TransmitterSpawned(this);
+				}
+				if (this.parent.def.ConnectToPower)
+				{
+					this.parent.Map.powerNetManager.Notify_ConnectorWantsConnect(this);
+				}
+				this.SetUpPowerVars();
 			}
-			if (base.parent.def.ConnectToPower)
-			{
-				base.parent.Map.powerNetManager.Notify_ConnectorWantsConnect(this);
-			}
-			this.SetUpPowerVars();
 		}
 
+		// Token: 0x06001227 RID: 4647 RVA: 0x0009C3E0 File Offset: 0x0009A7E0
 		public override void PostDeSpawn(Map map)
 		{
 			base.PostDeSpawn(map);
-			if (!this.Props.transmitsPower && !base.parent.def.ConnectToPower)
-				return;
-			if (this.Props.transmitsPower)
+			if (this.Props.transmitsPower || this.parent.def.ConnectToPower)
 			{
-				if (this.connectChildren != null)
+				if (this.Props.transmitsPower)
 				{
-					for (int i = 0; i < this.connectChildren.Count; i++)
+					if (this.connectChildren != null)
 					{
-						this.connectChildren[i].LostConnectParent();
+						for (int i = 0; i < this.connectChildren.Count; i++)
+						{
+							this.connectChildren[i].LostConnectParent();
+						}
 					}
+					map.powerNetManager.Notify_TransmitterDespawned(this);
 				}
-				map.powerNetManager.Notify_TransmitterDespawned(this);
+				if (this.parent.def.ConnectToPower)
+				{
+					map.powerNetManager.Notify_ConnectorDespawned(this);
+				}
+				map.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.PowerGrid, true, false);
 			}
-			if (base.parent.def.ConnectToPower)
-			{
-				map.powerNetManager.Notify_ConnectorDespawned(this);
-			}
-			map.mapDrawer.MapMeshDirty(base.parent.Position, MapMeshFlag.PowerGrid, true, false);
 		}
 
+		// Token: 0x06001228 RID: 4648 RVA: 0x0009C4B4 File Offset: 0x0009A8B4
 		public virtual void LostConnectParent()
 		{
 			this.connectParent = null;
-			if (base.parent.Spawned)
+			if (this.parent.Spawned)
 			{
-				base.parent.Map.powerNetManager.Notify_ConnectorWantsConnect(this);
+				this.parent.Map.powerNetManager.Notify_ConnectorWantsConnect(this);
 			}
 		}
 
+		// Token: 0x06001229 RID: 4649 RVA: 0x0009C4E4 File Offset: 0x0009A8E4
 		public override void PostPrintOnto(SectionLayer layer)
 		{
 			base.PostPrintOnto(layer);
 			if (this.connectParent != null)
 			{
-				PowerNetGraphics.PrintWirePieceConnecting(layer, base.parent, this.connectParent.parent, false);
+				PowerNetGraphics.PrintWirePieceConnecting(layer, this.parent, this.connectParent.parent, false);
 			}
 		}
 
+		// Token: 0x0600122A RID: 4650 RVA: 0x0009C514 File Offset: 0x0009A914
 		public override void CompPrintForPowerGrid(SectionLayer layer)
 		{
 			if (this.TransmitsPowerNow)
 			{
-				PowerOverlayMats.LinkedOverlayGraphic.Print(layer, base.parent);
+				PowerOverlayMats.LinkedOverlayGraphic.Print(layer, this.parent);
 			}
-			if (base.parent.def.ConnectToPower)
+			if (this.parent.def.ConnectToPower)
 			{
-				PowerNetGraphics.PrintOverlayConnectorBaseFor(layer, base.parent);
+				PowerNetGraphics.PrintOverlayConnectorBaseFor(layer, this.parent);
 			}
 			if (this.connectParent != null)
 			{
-				PowerNetGraphics.PrintWirePieceConnecting(layer, base.parent, this.connectParent.parent, true);
+				PowerNetGraphics.PrintWirePieceConnecting(layer, this.parent, this.connectParent.parent, true);
 			}
 		}
 
+		// Token: 0x0600122B RID: 4651 RVA: 0x0009C584 File Offset: 0x0009A984
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			using (IEnumerator<Gizmo> enumerator = base.CompGetGizmosExtra().GetEnumerator())
+			foreach (Gizmo c in this.<CompGetGizmosExtra>__BaseCallProxy0())
 			{
-				if (enumerator.MoveNext())
-				{
-					Gizmo c = enumerator.Current;
-					yield return c;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return c;
 			}
-			if (this.connectParent == null)
-				yield break;
-			if (base.parent.Faction != Faction.OfPlayer)
-				yield break;
-			yield return (Gizmo)new Command_Action
+			if (this.connectParent != null && this.parent.Faction == Faction.OfPlayer)
 			{
-				action = delegate
+				yield return new Command_Action
 				{
-					SoundDefOf.TickTiny.PlayOneShotOnCamera(null);
-					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_00ef: stateMachine*/)._0024this.TryManualReconnect();
-				},
-				hotKey = KeyBindingDefOf.Misc1,
-				defaultDesc = "CommandTryReconnectDesc".Translate(),
-				icon = ContentFinder<Texture2D>.Get("UI/Commands/TryReconnect", true),
-				defaultLabel = "CommandTryReconnectLabel".Translate()
-			};
-			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0179:
-			/*Error near IL_017a: Unexpected return in MoveNext()*/;
+					action = delegate()
+					{
+						SoundDefOf.Tick_Tiny.PlayOneShotOnCamera(null);
+						this.TryManualReconnect();
+					},
+					hotKey = KeyBindingDefOf.Misc1,
+					defaultDesc = "CommandTryReconnectDesc".Translate(),
+					icon = ContentFinder<Texture2D>.Get("UI/Commands/TryReconnect", true),
+					defaultLabel = "CommandTryReconnectLabel".Translate()
+				};
+			}
+			yield break;
 		}
 
+		// Token: 0x0600122C RID: 4652 RVA: 0x0009C5B0 File Offset: 0x0009A9B0
 		private void TryManualReconnect()
 		{
 			if (CompPower.lastManualReconnector != this)
@@ -199,11 +210,11 @@ namespace RimWorld
 			{
 				CompPower.recentlyConnectedNets.Add(this.PowerNet);
 			}
-			CompPower compPower = PowerConnectionMaker.BestTransmitterForConnector(base.parent.Position, base.parent.Map, CompPower.recentlyConnectedNets);
+			CompPower compPower = PowerConnectionMaker.BestTransmitterForConnector(this.parent.Position, this.parent.Map, CompPower.recentlyConnectedNets);
 			if (compPower == null)
 			{
 				CompPower.recentlyConnectedNets.Clear();
-				compPower = PowerConnectionMaker.BestTransmitterForConnector(base.parent.Position, base.parent.Map, null);
+				compPower = PowerConnectionMaker.BestTransmitterForConnector(this.parent.Position, this.parent.Map, null);
 			}
 			if (compPower != null)
 			{
@@ -213,16 +224,26 @@ namespace RimWorld
 				{
 					MoteMaker.ThrowMetaPuff(compPower.parent.Position.ToVector3Shifted(), compPower.parent.Map);
 				}
-				base.parent.Map.mapDrawer.MapMeshDirty(base.parent.Position, MapMeshFlag.PowerGrid);
-				base.parent.Map.mapDrawer.MapMeshDirty(base.parent.Position, MapMeshFlag.Things);
+				this.parent.Map.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.PowerGrid);
+				this.parent.Map.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.Things);
 			}
 		}
 
+		// Token: 0x0600122D RID: 4653 RVA: 0x0009C6DC File Offset: 0x0009AADC
 		public void ConnectToTransmitter(CompPower transmitter, bool reconnectingAfterLoading = false)
 		{
 			if (this.connectParent != null && (!reconnectingAfterLoading || this.connectParent != transmitter))
 			{
-				Log.Error("Tried to connect " + this + " to transmitter " + transmitter + " but it's already connected to " + this.connectParent + ".");
+				Log.Error(string.Concat(new object[]
+				{
+					"Tried to connect ",
+					this,
+					" to transmitter ",
+					transmitter,
+					" but it's already connected to ",
+					this.connectParent,
+					"."
+				}), false);
 			}
 			else
 			{
@@ -240,15 +261,44 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x0600122E RID: 4654 RVA: 0x0009C798 File Offset: 0x0009AB98
 		public override string CompInspectStringExtra()
 		{
+			string result;
 			if (this.PowerNet == null)
 			{
-				return "PowerNotConnected".Translate();
+				result = "PowerNotConnected".Translate();
 			}
-			string text = (this.PowerNet.CurrentEnergyGainRate() / CompPower.WattsToWattDaysPerTick).ToString("F0");
-			string text2 = this.PowerNet.CurrentStoredEnergy().ToString("F0");
-			return "PowerConnectedRateStored".Translate(text, text2);
+			else
+			{
+				string text = (this.PowerNet.CurrentEnergyGainRate() / CompPower.WattsToWattDaysPerTick).ToString("F0");
+				string text2 = this.PowerNet.CurrentStoredEnergy().ToString("F0");
+				string text3 = "PowerConnectedRateStored".Translate(new object[]
+				{
+					text,
+					text2
+				});
+				result = text3;
+			}
+			return result;
 		}
+
+		// Token: 0x04000B00 RID: 2816
+		public PowerNet transNet = null;
+
+		// Token: 0x04000B01 RID: 2817
+		public CompPower connectParent = null;
+
+		// Token: 0x04000B02 RID: 2818
+		public List<CompPower> connectChildren = null;
+
+		// Token: 0x04000B03 RID: 2819
+		private static List<PowerNet> recentlyConnectedNets = new List<PowerNet>();
+
+		// Token: 0x04000B04 RID: 2820
+		private static CompPower lastManualReconnector = null;
+
+		// Token: 0x04000B05 RID: 2821
+		public static readonly float WattsToWattDaysPerTick = 1.66666669E-05f;
 	}
 }

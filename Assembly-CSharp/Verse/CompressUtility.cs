@@ -1,12 +1,14 @@
-using Ionic.Zlib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Ionic.Zlib;
 
 namespace Verse
 {
+	// Token: 0x02000ED6 RID: 3798
 	public static class CompressUtility
 	{
+		// Token: 0x060059DE RID: 23006 RVA: 0x002E19F4 File Offset: 0x002DFDF4
 		public static byte[] Compress(byte[] input)
 		{
 			MemoryStream memoryStream = new MemoryStream();
@@ -16,6 +18,7 @@ namespace Verse
 			return memoryStream.ToArray();
 		}
 
+		// Token: 0x060059DF RID: 23007 RVA: 0x002E1A30 File Offset: 0x002DFE30
 		public static byte[] Decompress(byte[] input)
 		{
 			MemoryStream stream = new MemoryStream(input);
@@ -23,27 +26,28 @@ namespace Verse
 			List<byte[]> list = null;
 			byte[] array;
 			int num;
-			while (true)
+			for (;;)
 			{
 				array = new byte[65536];
 				num = deflateStream.Read(array, 0, array.Length);
 				if (num < array.Length && list == null)
 				{
-					byte[] array2 = new byte[num];
-					Array.Copy(array, array2, num);
-					return array2;
+					break;
 				}
-				if (num >= array.Length)
+				if (num < array.Length)
 				{
-					if (list == null)
-					{
-						list = new List<byte[]>();
-					}
-					list.Add(array);
-					continue;
+					goto Block_3;
 				}
-				break;
+				if (list == null)
+				{
+					list = new List<byte[]>();
+				}
+				list.Add(array);
 			}
+			byte[] array2 = new byte[num];
+			Array.Copy(array, array2, num);
+			return array2;
+			Block_3:
 			byte[] array3 = new byte[num + list.Count * array.Length];
 			for (int i = 0; i < list.Count; i++)
 			{

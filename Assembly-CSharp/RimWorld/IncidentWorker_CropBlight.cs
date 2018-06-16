@@ -1,62 +1,79 @@
+﻿using System;
 using System.Linq;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000325 RID: 805
 	public class IncidentWorker_CropBlight : IncidentWorker
 	{
-		private const float Radius = 16f;
-
-		private const float BaseBlightChance = 0.1f;
-
-		protected override bool CanFireNowSub(IIncidentTarget target)
+		// Token: 0x06000DC1 RID: 3521 RVA: 0x00075BEC File Offset: 0x00073FEC
+		protected override bool CanFireNowSub(IncidentParms parms)
 		{
-			Plant plant = default(Plant);
-			return this.TryFindRandomBlightablePlant((Map)target, out plant);
+			Plant plant;
+			return this.TryFindRandomBlightablePlant((Map)parms.target, out plant);
 		}
 
+		// Token: 0x06000DC2 RID: 3522 RVA: 0x00075C14 File Offset: 0x00074014
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
-			Plant plant = default(Plant);
+			Plant plant;
+			bool result;
 			if (!this.TryFindRandomBlightablePlant(map, out plant))
 			{
-				return false;
+				result = false;
 			}
-			Room room = plant.GetRoom(RegionType.Set_Passable);
-			plant.CropBlighted();
-			int i = 0;
-			int num = GenRadial.NumCellsInRadius(16f);
-			for (; i < num; i++)
+			else
 			{
-				IntVec3 intVec = plant.Position + GenRadial.RadialPattern[i];
-				if (intVec.InBounds(map) && intVec.GetRoom(map, RegionType.Set_Passable) == room)
+				Room room = plant.GetRoom(RegionType.Set_Passable);
+				plant.CropBlighted();
+				int i = 0;
+				int num = GenRadial.NumCellsInRadius(16f);
+				while (i < num)
 				{
-					Plant firstBlightableNowPlant = BlightUtility.GetFirstBlightableNowPlant(intVec, map);
-					if (firstBlightableNowPlant != null && firstBlightableNowPlant != plant && Rand.Chance((float)(0.10000000149011612 * this.BlightChanceFactor(firstBlightableNowPlant.Position, plant.Position))))
+					IntVec3 intVec = plant.Position + GenRadial.RadialPattern[i];
+					if (intVec.InBounds(map) && intVec.GetRoom(map, RegionType.Set_Passable) == room)
 					{
-						firstBlightableNowPlant.CropBlighted();
+						Plant firstBlightableNowPlant = BlightUtility.GetFirstBlightableNowPlant(intVec, map);
+						if (firstBlightableNowPlant != null && firstBlightableNowPlant != plant)
+						{
+							if (Rand.Chance(0.1f * this.BlightChanceFactor(firstBlightableNowPlant.Position, plant.Position)))
+							{
+								firstBlightableNowPlant.CropBlighted();
+							}
+						}
 					}
+					i++;
 				}
+				Find.LetterStack.ReceiveLetter("LetterLabelCropBlight".Translate(), "LetterCropBlight".Translate(), LetterDefOf.NegativeEvent, new TargetInfo(plant.Position, map, false), null, null);
+				result = true;
 			}
-			Find.LetterStack.ReceiveLetter("LetterLabelCropBlight".Translate(), "LetterCropBlight".Translate(), LetterDefOf.NegativeEvent, new TargetInfo(plant.Position, map, false), null);
-			return true;
+			return result;
 		}
 
+		// Token: 0x06000DC3 RID: 3523 RVA: 0x00075D3C File Offset: 0x0007413C
 		private bool TryFindRandomBlightablePlant(Map map, out Plant plant)
 		{
-			Thing thing = default(Thing);
+			Thing thing;
 			bool result = (from x in map.listerThings.ThingsInGroup(ThingRequestGroup.Plant)
 			where ((Plant)x).BlightableNow
-			select x).TryRandomElement<Thing>(out thing);
+			select x).TryRandomElement(out thing);
 			plant = (Plant)thing;
 			return result;
 		}
 
+		// Token: 0x06000DC4 RID: 3524 RVA: 0x00075D94 File Offset: 0x00074194
 		private float BlightChanceFactor(IntVec3 c, IntVec3 root)
 		{
 			return Mathf.InverseLerp(16f, 8f, c.DistanceTo(root));
 		}
+
+		// Token: 0x040008C1 RID: 2241
+		private const float Radius = 16f;
+
+		// Token: 0x040008C2 RID: 2242
+		private const float BaseBlightChance = 0.1f;
 	}
 }

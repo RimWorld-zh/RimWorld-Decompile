@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -5,10 +6,11 @@ using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020007A2 RID: 1954
 	public class Alert_ColonistsIdle : Alert
 	{
-		public const int MinDaysPassed = 1;
-
+		// Token: 0x170006B7 RID: 1719
+		// (get) Token: 0x06002B3B RID: 11067 RVA: 0x0016D46C File Offset: 0x0016B86C
 		private IEnumerable<Pawn> IdleColonists
 		{
 			get
@@ -18,44 +20,52 @@ namespace RimWorld
 				{
 					if (maps[i].IsPlayerHome)
 					{
-						foreach (Pawn item in maps[i].mapPawns.FreeColonistsSpawned)
+						foreach (Pawn p in maps[i].mapPawns.FreeColonistsSpawned)
 						{
-							if (item.mindState.IsIdle)
+							if (p.mindState.IsIdle)
 							{
-								yield return item;
-								/*Error: Unable to find new state assignment for yield return*/;
+								yield return p;
 							}
 						}
 					}
 				}
 				yield break;
-				IL_0134:
-				/*Error near IL_0135: Unexpected return in MoveNext()*/;
 			}
 		}
 
+		// Token: 0x06002B3C RID: 11068 RVA: 0x0016D490 File Offset: 0x0016B890
 		public override string GetLabel()
 		{
-			return string.Format("ColonistsIdle".Translate(), this.IdleColonists.Count().ToStringCached());
+			return string.Format("ColonistsIdle".Translate(), this.IdleColonists.Count<Pawn>().ToStringCached());
 		}
 
+		// Token: 0x06002B3D RID: 11069 RVA: 0x0016D4C4 File Offset: 0x0016B8C4
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (Pawn idleColonist in this.IdleColonists)
+			foreach (Pawn pawn in this.IdleColonists)
 			{
-				stringBuilder.AppendLine("    " + idleColonist.NameStringShort);
+				stringBuilder.AppendLine("    " + pawn.LabelShort.CapitalizeFirst());
 			}
 			return string.Format("ColonistsIdleDesc".Translate(), stringBuilder.ToString());
 		}
 
+		// Token: 0x06002B3E RID: 11070 RVA: 0x0016D558 File Offset: 0x0016B958
 		public override AlertReport GetReport()
 		{
+			AlertReport result;
 			if (GenDate.DaysPassed < 1)
 			{
-				return AlertReport.Inactive;
+				result = false;
 			}
-			return this.IdleColonists.FirstOrDefault();
+			else
+			{
+				result = AlertReport.CulpritsAre(this.IdleColonists);
+			}
+			return result;
 		}
+
+		// Token: 0x04001737 RID: 5943
+		public const int MinDaysPassed = 1;
 	}
 }

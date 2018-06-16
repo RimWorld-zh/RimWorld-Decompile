@@ -1,80 +1,34 @@
-using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld;
 using UnityEngine;
 using Verse.AI;
 
 namespace Verse
 {
+	// Token: 0x02000B56 RID: 2902
 	public class MentalStateDef : Def
 	{
-		public Type stateClass = typeof(MentalState);
-
-		public Type workerClass = typeof(MentalStateWorker);
-
-		public MentalStateCategory category;
-
-		public bool prisonersCanDo = true;
-
-		public bool unspawnedCanDo;
-
-		public bool colonistsOnly;
-
-		public List<PawnCapacityDef> requiredCapacities = new List<PawnCapacityDef>();
-
-		public bool blockNormalThoughts;
-
-		public EffecterDef stateEffecter;
-
-		public TaleDef tale;
-
-		public bool allowBeatfire;
-
-		public DrugCategory drugCategory = DrugCategory.Any;
-
-		public bool ignoreDrugPolicy;
-
-		public float recoveryMtbDays = 1f;
-
-		public int minTicksBeforeRecovery = 500;
-
-		public int maxTicksBeforeRecovery = 99999999;
-
-		public bool recoverFromSleep;
-
-		public ThoughtDef moodRecoveryThought;
-
-		[MustTranslate]
-		public string beginLetter;
-
-		[MustTranslate]
-		public string beginLetterLabel;
-
-		public LetterDef beginLetterDef;
-
-		public Color nameColor = Color.green;
-
-		[MustTranslate]
-		public string recoveryMessage;
-
-		[MustTranslate]
-		public string baseInspectLine;
-
-		private MentalStateWorker workerInt;
-
+		// Token: 0x1700099F RID: 2463
+		// (get) Token: 0x06003F6A RID: 16234 RVA: 0x002166D8 File Offset: 0x00214AD8
 		public MentalStateWorker Worker
 		{
 			get
 			{
-				if (this.workerInt == null && this.workerClass != null)
+				if (this.workerInt == null)
 				{
-					this.workerInt = (MentalStateWorker)Activator.CreateInstance(this.workerClass);
-					this.workerInt.def = this;
+					if (this.workerClass != null)
+					{
+						this.workerInt = (MentalStateWorker)Activator.CreateInstance(this.workerClass);
+						this.workerInt.def = this;
+					}
 				}
 				return this.workerInt;
 			}
 		}
 
+		// Token: 0x170009A0 RID: 2464
+		// (get) Token: 0x06003F6B RID: 16235 RVA: 0x00216730 File Offset: 0x00214B30
 		public bool IsAggro
 		{
 			get
@@ -83,6 +37,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x170009A1 RID: 2465
+		// (get) Token: 0x06003F6C RID: 16236 RVA: 0x00216750 File Offset: 0x00214B50
 		public bool IsExtreme
 		{
 			get
@@ -99,6 +55,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06003F6D RID: 16237 RVA: 0x002167B1 File Offset: 0x00214BB1
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -108,25 +65,100 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06003F6E RID: 16238 RVA: 0x002167D0 File Offset: 0x00214BD0
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
+			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
 			{
-				if (enumerator.MoveNext())
-				{
-					string e = enumerator.Current;
-					yield return e;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return e;
 			}
-			if (this.beginLetter.NullOrEmpty())
-				yield break;
-			if (!this.beginLetterLabel.NullOrEmpty())
-				yield break;
-			yield return "no beginLetter or beginLetterLabel";
-			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0106:
-			/*Error near IL_0107: Unexpected return in MoveNext()*/;
+			if (!this.beginLetter.NullOrEmpty() && this.beginLetterLabel.NullOrEmpty())
+			{
+				yield return "no beginLetter or beginLetterLabel";
+			}
+			yield break;
 		}
+
+		// Token: 0x04002A03 RID: 10755
+		public Type stateClass = typeof(MentalState);
+
+		// Token: 0x04002A04 RID: 10756
+		public Type workerClass = typeof(MentalStateWorker);
+
+		// Token: 0x04002A05 RID: 10757
+		public MentalStateCategory category = MentalStateCategory.Undefined;
+
+		// Token: 0x04002A06 RID: 10758
+		public bool prisonersCanDo = true;
+
+		// Token: 0x04002A07 RID: 10759
+		public bool unspawnedCanDo = false;
+
+		// Token: 0x04002A08 RID: 10760
+		public bool colonistsOnly = false;
+
+		// Token: 0x04002A09 RID: 10761
+		public List<PawnCapacityDef> requiredCapacities = new List<PawnCapacityDef>();
+
+		// Token: 0x04002A0A RID: 10762
+		public bool blockNormalThoughts = false;
+
+		// Token: 0x04002A0B RID: 10763
+		public EffecterDef stateEffecter;
+
+		// Token: 0x04002A0C RID: 10764
+		public TaleDef tale;
+
+		// Token: 0x04002A0D RID: 10765
+		public bool allowBeatfire = false;
+
+		// Token: 0x04002A0E RID: 10766
+		public DrugCategory drugCategory = DrugCategory.Any;
+
+		// Token: 0x04002A0F RID: 10767
+		public bool ignoreDrugPolicy = false;
+
+		// Token: 0x04002A10 RID: 10768
+		public float recoveryMtbDays = 1f;
+
+		// Token: 0x04002A11 RID: 10769
+		public int minTicksBeforeRecovery = 500;
+
+		// Token: 0x04002A12 RID: 10770
+		public int maxTicksBeforeRecovery = 99999999;
+
+		// Token: 0x04002A13 RID: 10771
+		public bool recoverFromSleep = false;
+
+		// Token: 0x04002A14 RID: 10772
+		public ThoughtDef moodRecoveryThought;
+
+		// Token: 0x04002A15 RID: 10773
+		[MustTranslate]
+		public string beginLetter;
+
+		// Token: 0x04002A16 RID: 10774
+		[MustTranslate]
+		public string beginLetterLabel;
+
+		// Token: 0x04002A17 RID: 10775
+		public LetterDef beginLetterDef;
+
+		// Token: 0x04002A18 RID: 10776
+		public Color nameColor = Color.green;
+
+		// Token: 0x04002A19 RID: 10777
+		[MustTranslate]
+		public string recoveryMessage;
+
+		// Token: 0x04002A1A RID: 10778
+		[MustTranslate]
+		public string baseInspectLine;
+
+		// Token: 0x04002A1B RID: 10779
+		public bool escapingPrisonersIgnore = false;
+
+		// Token: 0x04002A1C RID: 10780
+		private MentalStateWorker workerInt = null;
 	}
 }

@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -5,30 +6,24 @@ using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x0200044E RID: 1102
 	public sealed class WeatherManager : IExposable
 	{
-		public Map map;
+		// Token: 0x06001327 RID: 4903 RVA: 0x000A4AF8 File Offset: 0x000A2EF8
+		public WeatherManager(Map map)
+		{
+			this.map = map;
+			this.growthSeasonMemory = new TemperatureMemory(map);
+		}
 
-		public WeatherEventHandler eventHandler = new WeatherEventHandler();
-
-		public WeatherDef curWeather = WeatherDefOf.Clear;
-
-		public WeatherDef lastWeather = WeatherDefOf.Clear;
-
-		public int curWeatherAge;
-
-		private List<Sustainer> ambienceSustainers = new List<Sustainer>();
-
-		public TemperatureMemory growthSeasonMemory;
-
-		public const float TransitionTicks = 4000f;
-
+		// Token: 0x17000296 RID: 662
+		// (get) Token: 0x06001328 RID: 4904 RVA: 0x000A4B54 File Offset: 0x000A2F54
 		public float TransitionLerpFactor
 		{
 			get
 			{
-				float num = (float)((float)this.curWeatherAge / 4000.0);
-				if (num > 1.0)
+				float num = (float)this.curWeatherAge / 4000f;
+				if (num > 1f)
 				{
 					num = 1f;
 				}
@@ -36,6 +31,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000297 RID: 663
+		// (get) Token: 0x06001329 RID: 4905 RVA: 0x000A4B8C File Offset: 0x000A2F8C
 		public float RainRate
 		{
 			get
@@ -44,6 +41,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000298 RID: 664
+		// (get) Token: 0x0600132A RID: 4906 RVA: 0x000A4BC4 File Offset: 0x000A2FC4
 		public float SnowRate
 		{
 			get
@@ -52,6 +51,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000299 RID: 665
+		// (get) Token: 0x0600132B RID: 4907 RVA: 0x000A4BFC File Offset: 0x000A2FFC
 		public float CurWindSpeedFactor
 		{
 			get
@@ -60,6 +61,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x1700029A RID: 666
+		// (get) Token: 0x0600132C RID: 4908 RVA: 0x000A4C34 File Offset: 0x000A3034
 		public float CurMoveSpeedMultiplier
 		{
 			get
@@ -68,6 +71,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x1700029B RID: 667
+		// (get) Token: 0x0600132D RID: 4909 RVA: 0x000A4C6C File Offset: 0x000A306C
 		public float CurWeatherAccuracyMultiplier
 		{
 			get
@@ -76,40 +81,56 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x1700029C RID: 668
+		// (get) Token: 0x0600132E RID: 4910 RVA: 0x000A4CA4 File Offset: 0x000A30A4
 		public WeatherDef CurPerceivedWeather
 		{
 			get
 			{
+				WeatherDef result;
 				if (this.curWeather == null)
 				{
-					return this.lastWeather;
+					result = this.lastWeather;
 				}
-				if (this.lastWeather == null)
+				else if (this.lastWeather == null)
 				{
-					return this.curWeather;
+					result = this.curWeather;
 				}
-				float num = 0f;
-				num = (float)((!(this.curWeather.perceivePriority > this.lastWeather.perceivePriority)) ? ((!(this.lastWeather.perceivePriority > this.curWeather.perceivePriority)) ? 0.5 : 0.81999999284744263) : 0.18000000715255737);
-				if (this.TransitionLerpFactor < num)
+				else
 				{
-					return this.lastWeather;
+					float num;
+					if (this.curWeather.perceivePriority > this.lastWeather.perceivePriority)
+					{
+						num = 0.18f;
+					}
+					else if (this.lastWeather.perceivePriority > this.curWeather.perceivePriority)
+					{
+						num = 0.82f;
+					}
+					else
+					{
+						num = 0.5f;
+					}
+					if (this.TransitionLerpFactor < num)
+					{
+						result = this.lastWeather;
+					}
+					else
+					{
+						result = this.curWeather;
+					}
 				}
-				return this.curWeather;
+				return result;
 			}
 		}
 
-		public WeatherManager(Map map)
-		{
-			this.map = map;
-			this.growthSeasonMemory = new TemperatureMemory(map);
-		}
-
+		// Token: 0x0600132F RID: 4911 RVA: 0x000A4D60 File Offset: 0x000A3160
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<WeatherDef>(ref this.curWeather, "curWeather");
 			Scribe_Defs.Look<WeatherDef>(ref this.lastWeather, "lastWeather");
 			Scribe_Values.Look<int>(ref this.curWeatherAge, "curWeatherAge", 0, true);
-			Scribe_Deep.Look<TemperatureMemory>(ref this.growthSeasonMemory, "growthSeasonMemory", new object[1]
+			Scribe_Deep.Look<TemperatureMemory>(ref this.growthSeasonMemory, "growthSeasonMemory", new object[]
 			{
 				this.map
 			});
@@ -119,6 +140,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06001330 RID: 4912 RVA: 0x000A4DD5 File Offset: 0x000A31D5
 		public void TransitionTo(WeatherDef newWeather)
 		{
 			this.lastWeather = this.curWeather;
@@ -126,6 +148,7 @@ namespace RimWorld
 			this.curWeatherAge = 0;
 		}
 
+		// Token: 0x06001331 RID: 4913 RVA: 0x000A4DF4 File Offset: 0x000A31F4
 		public void DoWeatherGUI(Rect rect)
 		{
 			WeatherDef curPerceivedWeather = this.CurPerceivedWeather;
@@ -141,28 +164,26 @@ namespace RimWorld
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
+		// Token: 0x06001332 RID: 4914 RVA: 0x000A4E64 File Offset: 0x000A3264
 		public void WeatherManagerTick()
 		{
 			this.eventHandler.WeatherEventHandlerTick();
 			this.curWeatherAge++;
 			this.curWeather.Worker.WeatherTick(this.map, this.TransitionLerpFactor);
-			this.lastWeather.Worker.WeatherTick(this.map, (float)(1.0 - this.TransitionLerpFactor));
+			this.lastWeather.Worker.WeatherTick(this.map, 1f - this.TransitionLerpFactor);
 			this.growthSeasonMemory.GrowthSeasonMemoryTick();
 			for (int i = 0; i < this.curWeather.ambientSounds.Count; i++)
 			{
 				bool flag = false;
-				int num = this.ambienceSustainers.Count - 1;
-				while (num >= 0)
+				for (int j = this.ambienceSustainers.Count - 1; j >= 0; j--)
 				{
-					if (this.ambienceSustainers[num].def != this.curWeather.ambientSounds[i])
+					if (this.ambienceSustainers[j].def == this.curWeather.ambientSounds[i])
 					{
-						num--;
-						continue;
+						flag = true;
+						break;
 					}
-					flag = true;
-					break;
 				}
-				if (!flag && this.VolumeOfAmbientSound(this.curWeather.ambientSounds[i]) > 9.9999997473787516E-05)
+				if (!flag && this.VolumeOfAmbientSound(this.curWeather.ambientSounds[i]) > 0.0001f)
 				{
 					SoundInfo info = SoundInfo.OnCamera(MaintenanceType.None);
 					Sustainer sustainer = this.curWeather.ambientSounds[i].TrySpawnSustainer(info);
@@ -174,11 +195,13 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06001333 RID: 4915 RVA: 0x000A4FA5 File Offset: 0x000A33A5
 		public void WeatherManagerUpdate()
 		{
 			this.SetAmbienceSustainersVolume();
 		}
 
+		// Token: 0x06001334 RID: 4916 RVA: 0x000A4FB0 File Offset: 0x000A33B0
 		public void EndAllSustainers()
 		{
 			for (int i = 0; i < this.ambienceSustainers.Count; i++)
@@ -188,59 +211,91 @@ namespace RimWorld
 			this.ambienceSustainers.Clear();
 		}
 
+		// Token: 0x06001335 RID: 4917 RVA: 0x000A4FF8 File Offset: 0x000A33F8
 		private void SetAmbienceSustainersVolume()
 		{
-			for (int num = this.ambienceSustainers.Count - 1; num >= 0; num--)
+			for (int i = this.ambienceSustainers.Count - 1; i >= 0; i--)
 			{
-				float num2 = this.VolumeOfAmbientSound(this.ambienceSustainers[num].def);
-				if (num2 > 9.9999997473787516E-05)
+				float num = this.VolumeOfAmbientSound(this.ambienceSustainers[i].def);
+				if (num > 0.0001f)
 				{
-					this.ambienceSustainers[num].externalParams["LerpFactor"] = num2;
+					this.ambienceSustainers[i].externalParams["LerpFactor"] = num;
 				}
 				else
 				{
-					this.ambienceSustainers[num].End();
-					this.ambienceSustainers.RemoveAt(num);
+					this.ambienceSustainers[i].End();
+					this.ambienceSustainers.RemoveAt(i);
 				}
 			}
 		}
 
+		// Token: 0x06001336 RID: 4918 RVA: 0x000A508C File Offset: 0x000A348C
 		private float VolumeOfAmbientSound(SoundDef soundDef)
 		{
-			if (this.map != Find.VisibleMap)
+			float result;
+			if (this.map != Find.CurrentMap)
 			{
-				return 0f;
+				result = 0f;
 			}
-			for (int i = 0; i < Find.WindowStack.Count; i++)
+			else
 			{
-				if (Find.WindowStack[i].silenceAmbientSound)
+				for (int i = 0; i < Find.WindowStack.Count; i++)
 				{
-					return 0f;
+					if (Find.WindowStack[i].silenceAmbientSound)
+					{
+						return 0f;
+					}
 				}
-			}
-			float num = 0f;
-			for (int j = 0; j < this.lastWeather.ambientSounds.Count; j++)
-			{
-				if (this.lastWeather.ambientSounds[j] == soundDef)
+				float num = 0f;
+				for (int j = 0; j < this.lastWeather.ambientSounds.Count; j++)
 				{
-					num = (float)(num + (1.0 - this.TransitionLerpFactor));
+					if (this.lastWeather.ambientSounds[j] == soundDef)
+					{
+						num += 1f - this.TransitionLerpFactor;
+					}
 				}
-			}
-			for (int k = 0; k < this.curWeather.ambientSounds.Count; k++)
-			{
-				if (this.curWeather.ambientSounds[k] == soundDef)
+				for (int k = 0; k < this.curWeather.ambientSounds.Count; k++)
 				{
-					num += this.TransitionLerpFactor;
+					if (this.curWeather.ambientSounds[k] == soundDef)
+					{
+						num += this.TransitionLerpFactor;
+					}
 				}
+				result = num;
 			}
-			return num;
+			return result;
 		}
 
+		// Token: 0x06001337 RID: 4919 RVA: 0x000A5191 File Offset: 0x000A3591
 		public void DrawAllWeather()
 		{
 			this.eventHandler.WeatherEventsDraw();
 			this.lastWeather.Worker.DrawWeather(this.map);
 			this.curWeather.Worker.DrawWeather(this.map);
 		}
+
+		// Token: 0x04000BA6 RID: 2982
+		public Map map;
+
+		// Token: 0x04000BA7 RID: 2983
+		public WeatherEventHandler eventHandler = new WeatherEventHandler();
+
+		// Token: 0x04000BA8 RID: 2984
+		public WeatherDef curWeather = WeatherDefOf.Clear;
+
+		// Token: 0x04000BA9 RID: 2985
+		public WeatherDef lastWeather = WeatherDefOf.Clear;
+
+		// Token: 0x04000BAA RID: 2986
+		public int curWeatherAge = 0;
+
+		// Token: 0x04000BAB RID: 2987
+		private List<Sustainer> ambienceSustainers = new List<Sustainer>();
+
+		// Token: 0x04000BAC RID: 2988
+		public TemperatureMemory growthSeasonMemory;
+
+		// Token: 0x04000BAD RID: 2989
+		public const float TransitionTicks = 4000f;
 	}
 }

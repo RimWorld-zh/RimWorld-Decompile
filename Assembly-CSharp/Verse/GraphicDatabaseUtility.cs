@@ -1,50 +1,54 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000DD3 RID: 3539
 	public static class GraphicDatabaseUtility
 	{
+		// Token: 0x06004F2F RID: 20271 RVA: 0x00293570 File Offset: 0x00291970
 		public static IEnumerable<string> GraphicNamesInFolder(string folderPath)
 		{
 			HashSet<string> loadedAssetNames = new HashSet<string>();
-			Texture2D[] array = Resources.LoadAll<Texture2D>("Textures/" + folderPath);
-			int num = 0;
-			string assetName;
-			while (true)
+			foreach (Texture2D tex in Resources.LoadAll<Texture2D>("Textures/" + folderPath))
 			{
-				if (num < array.Length)
+				string origAssetName = tex.name;
+				string[] pieces = origAssetName.Split(new char[]
 				{
-					Texture2D tex = array[num];
-					string origAssetName = tex.name;
-					string[] pieces = origAssetName.Split('_');
-					assetName = string.Empty;
-					if (pieces.Length <= 2)
-					{
-						assetName = pieces[0];
-					}
-					else if (pieces.Length == 3)
-					{
-						assetName = pieces[0] + "_" + pieces[1];
-					}
-					else if (pieces.Length == 4)
-					{
-						assetName = pieces[0] + "_" + pieces[1] + "_" + pieces[2];
-					}
-					else
-					{
-						Log.Error("Cannot load assets with >3 pieces.");
-					}
-					if (!loadedAssetNames.Contains(assetName))
-						break;
-					num++;
-					continue;
+					'_'
+				});
+				string assetName = "";
+				if (pieces.Length <= 2)
+				{
+					assetName = pieces[0];
 				}
-				yield break;
+				else if (pieces.Length == 3)
+				{
+					assetName = pieces[0] + "_" + pieces[1];
+				}
+				else if (pieces.Length == 4)
+				{
+					assetName = string.Concat(new string[]
+					{
+						pieces[0],
+						"_",
+						pieces[1],
+						"_",
+						pieces[2]
+					});
+				}
+				else
+				{
+					Log.Error("Cannot load assets with >3 pieces.", false);
+				}
+				if (!loadedAssetNames.Contains(assetName))
+				{
+					loadedAssetNames.Add(assetName);
+					yield return assetName;
+				}
 			}
-			loadedAssetNames.Add(assetName);
-			yield return assetName;
-			/*Error: Unable to find new state assignment for yield return*/;
+			yield break;
 		}
 	}
 }

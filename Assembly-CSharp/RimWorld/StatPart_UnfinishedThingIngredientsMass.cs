@@ -1,43 +1,58 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020009BB RID: 2491
 	public class StatPart_UnfinishedThingIngredientsMass : StatPart
 	{
+		// Token: 0x060037BB RID: 14267 RVA: 0x001DA8FC File Offset: 0x001D8CFC
 		public override void TransformValue(StatRequest req, ref float val)
 		{
-			float num = default(float);
+			float num;
 			if (this.TryGetValue(req, out num))
 			{
 				val += num;
 			}
 		}
 
+		// Token: 0x060037BC RID: 14268 RVA: 0x001DA920 File Offset: 0x001D8D20
 		public override string ExplanationPart(StatRequest req)
 		{
-			float mass = default(float);
+			float mass;
+			string result;
 			if (this.TryGetValue(req, out mass))
 			{
-				return "StatsReport_IngredientsMass".Translate() + ": " + mass.ToStringMassOffset();
+				result = "StatsReport_IngredientsMass".Translate() + ": " + mass.ToStringMassOffset();
 			}
-			return null;
+			else
+			{
+				result = null;
+			}
+			return result;
 		}
 
+		// Token: 0x060037BD RID: 14269 RVA: 0x001DA964 File Offset: 0x001D8D64
 		private bool TryGetValue(StatRequest req, out float value)
 		{
 			UnfinishedThing unfinishedThing = req.Thing as UnfinishedThing;
+			bool result;
 			if (unfinishedThing == null)
 			{
 				value = 0f;
-				return false;
+				result = false;
 			}
-			float num = 0f;
-			for (int i = 0; i < unfinishedThing.ingredients.Count; i++)
+			else
 			{
-				num += unfinishedThing.ingredients[i].GetStatValue(StatDefOf.Mass, true) * (float)unfinishedThing.ingredients[i].stackCount;
+				float num = 0f;
+				for (int i = 0; i < unfinishedThing.ingredients.Count; i++)
+				{
+					num += unfinishedThing.ingredients[i].GetStatValue(StatDefOf.Mass, true) * (float)unfinishedThing.ingredients[i].stackCount;
+				}
+				value = num;
+				result = true;
 			}
-			value = num;
-			return true;
+			return result;
 		}
 	}
 }

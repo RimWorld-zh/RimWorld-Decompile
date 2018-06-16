@@ -1,60 +1,57 @@
-using RimWorld.Planet;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200071D RID: 1821
 	public class CompLongRangeMineralScanner : ThingComp
 	{
-		private CompPowerTrader powerComp;
-
-		private List<Pair<Vector3, float>> otherActiveMineralScanners = new List<Pair<Vector3, float>>();
-
-		private float cachedEffectiveAreaPct;
-
-		private const float NoSitePartChance = 0.6f;
-
-		private static readonly string MineralScannerPreciousLumpThreatTag = "MineralScannerPreciousLumpThreat";
-
+		// Token: 0x1700061B RID: 1563
+		// (get) Token: 0x06002817 RID: 10263 RVA: 0x00156B30 File Offset: 0x00154F30
 		public CompProperties_LongRangeMineralScanner Props
 		{
 			get
 			{
-				return (CompProperties_LongRangeMineralScanner)base.props;
+				return (CompProperties_LongRangeMineralScanner)this.props;
 			}
 		}
 
+		// Token: 0x1700061C RID: 1564
+		// (get) Token: 0x06002818 RID: 10264 RVA: 0x00156B50 File Offset: 0x00154F50
 		public bool Active
 		{
 			get
 			{
-				if (!base.parent.Spawned)
-				{
-					return false;
-				}
-				if (this.powerComp != null && !this.powerComp.PowerOn)
-				{
-					return false;
-				}
-				return base.parent.Faction == Faction.OfPlayer;
+				return this.parent.Spawned && (this.powerComp == null || this.powerComp.PowerOn) && this.parent.Faction == Faction.OfPlayer;
 			}
 		}
 
+		// Token: 0x1700061D RID: 1565
+		// (get) Token: 0x06002819 RID: 10265 RVA: 0x00156BB0 File Offset: 0x00154FB0
 		private float EffectiveMtbDays
 		{
 			get
 			{
 				CompProperties_LongRangeMineralScanner props = this.Props;
 				float effectiveAreaPct = this.EffectiveAreaPct;
-				if (effectiveAreaPct <= 0.0010000000474974513)
+				float result;
+				if (effectiveAreaPct <= 0.001f)
 				{
-					return -1f;
+					result = -1f;
 				}
-				return props.mtbDays / effectiveAreaPct;
+				else
+				{
+					result = props.mtbDays / effectiveAreaPct;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x1700061E RID: 1566
+		// (get) Token: 0x0600281A RID: 10266 RVA: 0x00156BF4 File Offset: 0x00154FF4
 		private float EffectiveAreaPct
 		{
 			get
@@ -63,13 +60,15 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x0600281B RID: 10267 RVA: 0x00156C0F File Offset: 0x0015500F
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
-			this.powerComp = base.parent.GetComp<CompPowerTrader>();
+			this.powerComp = this.parent.GetComp<CompPowerTrader>();
 			this.RecacheEffectiveAreaPct();
 		}
 
+		// Token: 0x0600281C RID: 10268 RVA: 0x00156C30 File Offset: 0x00155030
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -79,6 +78,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x0600281D RID: 10269 RVA: 0x00156C4A File Offset: 0x0015504A
 		public override void CompTickRare()
 		{
 			base.CompTickRare();
@@ -86,6 +86,7 @@ namespace RimWorld
 			this.CheckTryFindMinerals(250);
 		}
 
+		// Token: 0x0600281E RID: 10270 RVA: 0x00156C64 File Offset: 0x00155064
 		private void RecacheEffectiveAreaPct()
 		{
 			if (!this.Active)
@@ -95,7 +96,7 @@ namespace RimWorld
 			else
 			{
 				this.CalculateOtherActiveMineralScanners();
-				if (!this.otherActiveMineralScanners.Any())
+				if (!this.otherActiveMineralScanners.Any<Pair<Vector3, float>>())
 				{
 					this.cachedEffectiveAreaPct = 1f;
 				}
@@ -103,11 +104,11 @@ namespace RimWorld
 				{
 					CompProperties_LongRangeMineralScanner props = this.Props;
 					WorldGrid worldGrid = Find.WorldGrid;
-					Vector3 tileCenter = worldGrid.GetTileCenter(base.parent.Tile);
+					Vector3 tileCenter = worldGrid.GetTileCenter(this.parent.Tile);
 					float angle = worldGrid.TileRadiusToAngle(props.radius);
 					int num = 0;
 					int count = this.otherActiveMineralScanners.Count;
-					Rand.PushState(base.parent.thingIDNumber);
+					Rand.PushState(this.parent.thingIDNumber);
 					for (int i = 0; i < 400; i++)
 					{
 						Vector3 point = Rand.PointOnSphereCap(tileCenter, angle);
@@ -127,39 +128,46 @@ namespace RimWorld
 						}
 					}
 					Rand.PopState();
-					this.cachedEffectiveAreaPct = (float)((float)num / 400.0);
+					this.cachedEffectiveAreaPct = (float)num / 400f;
 				}
 			}
 		}
 
+		// Token: 0x0600281F RID: 10271 RVA: 0x00156DA0 File Offset: 0x001551A0
 		private void CheckTryFindMinerals(int interval)
 		{
 			if (this.Active)
 			{
 				float effectiveMtbDays = this.EffectiveMtbDays;
-				if (!(effectiveMtbDays <= 0.0) && Rand.MTBEventOccurs(effectiveMtbDays, 60000f, (float)interval))
+				if (effectiveMtbDays > 0f)
 				{
-					this.FoundMinerals();
+					if (Rand.MTBEventOccurs(effectiveMtbDays, 60000f, (float)interval))
+					{
+						this.FoundMinerals();
+					}
 				}
 			}
 		}
 
+		// Token: 0x06002820 RID: 10272 RVA: 0x00156DF0 File Offset: 0x001551F0
 		private void FoundMinerals()
 		{
-			int tile = base.parent.Tile;
-			int tile2 = default(int);
-			if (TileFinder.TryFindNewSiteTile(out tile2, 8, 30, false, true, tile))
+			int tile2;
+			ref int tile = ref tile2;
+			int tile3 = this.parent.Tile;
+			if (TileFinder.TryFindNewSiteTile(out tile, 7, 27, false, true, tile3))
 			{
-				Site site = SiteMaker.TryMakeSite_SingleSitePart(SiteCoreDefOf.PreciousLump, (!Rand.Chance(0.6f)) ? CompLongRangeMineralScanner.MineralScannerPreciousLumpThreatTag : null, null, true, null);
+				Site site = SiteMaker.TryMakeSite_SingleSitePart(SiteCoreDefOf.PreciousLump, (!Rand.Chance(0.6f)) ? CompLongRangeMineralScanner.MineralScannerPreciousLumpThreatTag : null, null, true, null, true);
 				if (site != null)
 				{
 					site.Tile = tile2;
 					Find.WorldObjects.Add(site);
-					Find.LetterStack.ReceiveLetter("LetterLabelFoundPreciousLump".Translate(), "LetterFoundPreciousLump".Translate(), LetterDefOf.PositiveEvent, site, null);
+					Find.LetterStack.ReceiveLetter("LetterLabelFoundPreciousLump".Translate(), "LetterFoundPreciousLump".Translate(), LetterDefOf.PositiveEvent, site, null, null);
 				}
 			}
 		}
 
+		// Token: 0x06002821 RID: 10273 RVA: 0x00156E94 File Offset: 0x00155294
 		private void CalculateOtherActiveMineralScanners()
 		{
 			this.otherActiveMineralScanners.Clear();
@@ -181,46 +189,78 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002822 RID: 10274 RVA: 0x00156F60 File Offset: 0x00155360
 		private bool InterruptsMe(CompLongRangeMineralScanner otherScanner)
 		{
+			bool result;
 			if (otherScanner == this)
 			{
-				return false;
+				result = false;
 			}
-			if (!otherScanner.Active)
+			else if (!otherScanner.Active)
 			{
-				return false;
+				result = false;
 			}
-			if (this.Props.mtbDays != otherScanner.Props.mtbDays)
+			else if (this.Props.mtbDays != otherScanner.Props.mtbDays)
 			{
-				return otherScanner.Props.mtbDays < this.Props.mtbDays;
+				result = (otherScanner.Props.mtbDays < this.Props.mtbDays);
 			}
-			return otherScanner.parent.thingIDNumber < base.parent.thingIDNumber;
+			else
+			{
+				result = (otherScanner.parent.thingIDNumber < this.parent.thingIDNumber);
+			}
+			return result;
 		}
 
+		// Token: 0x06002823 RID: 10275 RVA: 0x00156FE8 File Offset: 0x001553E8
 		public override string CompInspectStringExtra()
 		{
+			string result;
 			if (this.Active)
 			{
 				this.RecacheEffectiveAreaPct();
-				return "LongRangeMineralScannerEfficiency".Translate(this.EffectiveAreaPct.ToStringPercent());
+				result = "LongRangeMineralScannerEfficiency".Translate(new object[]
+				{
+					this.EffectiveAreaPct.ToStringPercent()
+				});
 			}
-			return null;
+			else
+			{
+				result = null;
+			}
+			return result;
 		}
 
+		// Token: 0x06002824 RID: 10276 RVA: 0x00157034 File Offset: 0x00155434
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			if (!Prefs.DevMode)
-				yield break;
-			yield return (Gizmo)new Command_Action
+			if (Prefs.DevMode)
 			{
-				defaultLabel = "Dev: Find resources now",
-				action = delegate
+				yield return new Command_Action
 				{
-					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_004c: stateMachine*/)._0024this.FoundMinerals();
-				}
-			};
-			/*Error: Unable to find new state assignment for yield return*/;
+					defaultLabel = "Dev: Find resources now",
+					action = delegate()
+					{
+						this.FoundMinerals();
+					}
+				};
+			}
+			yield break;
 		}
+
+		// Token: 0x040015EE RID: 5614
+		private CompPowerTrader powerComp;
+
+		// Token: 0x040015EF RID: 5615
+		private List<Pair<Vector3, float>> otherActiveMineralScanners = new List<Pair<Vector3, float>>();
+
+		// Token: 0x040015F0 RID: 5616
+		private float cachedEffectiveAreaPct;
+
+		// Token: 0x040015F1 RID: 5617
+		private const float NoSitePartChance = 0.6f;
+
+		// Token: 0x040015F2 RID: 5618
+		private static readonly string MineralScannerPreciousLumpThreatTag = "MineralScannerPreciousLumpThreat";
 	}
 }

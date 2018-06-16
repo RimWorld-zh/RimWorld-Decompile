@@ -1,35 +1,32 @@
-using RimWorld.Planet;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200035D RID: 861
 	public class Storyteller : IExposable
 	{
-		public StorytellerDef def;
+		// Token: 0x06000EF2 RID: 3826 RVA: 0x0007DF30 File Offset: 0x0007C330
+		public Storyteller()
+		{
+		}
 
-		public DifficultyDef difficulty;
+		// Token: 0x06000EF3 RID: 3827 RVA: 0x0007DF4F File Offset: 0x0007C34F
+		public Storyteller(StorytellerDef def, DifficultyDef difficulty)
+		{
+			this.def = def;
+			this.difficulty = difficulty;
+			this.intenderPopulation = new StoryIntender_Population(this);
+			this.InitializeStorytellerComps();
+		}
 
-		public List<StorytellerComp> storytellerComps;
-
-		public IncidentQueue incidentQueue = new IncidentQueue();
-
-		public StoryIntender_Population intenderPopulation;
-
-		public static readonly Vector2 PortraitSizeTiny = new Vector2(116f, 124f);
-
-		public static readonly Vector2 PortraitSizeLarge = new Vector2(580f, 620f);
-
-		public const int IntervalsPerDay = 60;
-
-		public const int CheckInterval = 1000;
-
-		private static List<IIncidentTarget> tmpAllIncidentTargets = new List<IIncidentTarget>();
-
+		// Token: 0x17000219 RID: 537
+		// (get) Token: 0x06000EF4 RID: 3828 RVA: 0x0007DF90 File Offset: 0x0007C390
 		public List<IIncidentTarget> AllIncidentTargets
 		{
 			get
@@ -53,18 +50,13 @@ namespace RimWorld
 			}
 		}
 
-		public Storyteller()
+		// Token: 0x06000EF5 RID: 3829 RVA: 0x0007E03B File Offset: 0x0007C43B
+		public static void StorytellerStaticUpdate()
 		{
+			Storyteller.tmpAllIncidentTargets.Clear();
 		}
 
-		public Storyteller(StorytellerDef def, DifficultyDef difficulty)
-		{
-			this.def = def;
-			this.difficulty = difficulty;
-			this.intenderPopulation = new StoryIntender_Population(this);
-			this.InitializeStorytellerComps();
-		}
-
+		// Token: 0x06000EF6 RID: 3830 RVA: 0x0007E048 File Offset: 0x0007C448
 		private void InitializeStorytellerComps()
 		{
 			this.storytellerComps = new List<StorytellerComp>();
@@ -76,18 +68,19 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06000EF7 RID: 3831 RVA: 0x0007E0C8 File Offset: 0x0007C4C8
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<StorytellerDef>(ref this.def, "def");
 			Scribe_Defs.Look<DifficultyDef>(ref this.difficulty, "difficulty");
 			Scribe_Deep.Look<IncidentQueue>(ref this.incidentQueue, "incidentQueue", new object[0]);
-			Scribe_Deep.Look<StoryIntender_Population>(ref this.intenderPopulation, "intenderPopulation", new object[1]
+			Scribe_Deep.Look<StoryIntender_Population>(ref this.intenderPopulation, "intenderPopulation", new object[]
 			{
 				this
 			});
 			if (this.difficulty == null)
 			{
-				Log.Error("Loaded storyteller without difficulty");
+				Log.Error("Loaded storyteller without difficulty", false);
 				this.difficulty = DefDatabase<DifficultyDef>.AllDefsListForReading[3];
 			}
 			if (Scribe.mode == LoadSaveMode.ResolvingCrossRefs)
@@ -96,97 +89,169 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06000EF8 RID: 3832 RVA: 0x0007E160 File Offset: 0x0007C560
 		public void StorytellerTick()
 		{
 			this.incidentQueue.IncidentQueueTick();
-			if (Find.TickManager.TicksGame % 1000 == 0 && DebugSettings.enableStoryteller)
+			if (Find.TickManager.TicksGame % 1000 == 0)
 			{
-				foreach (FiringIncident item in this.MakeIncidentsForInterval())
+				if (DebugSettings.enableStoryteller)
 				{
-					this.TryFire(item);
+					foreach (FiringIncident fi in this.MakeIncidentsForInterval())
+					{
+						this.TryFire(fi);
+					}
 				}
 			}
 		}
 
+		// Token: 0x06000EF9 RID: 3833 RVA: 0x0007E1F0 File Offset: 0x0007C5F0
 		public void TryFire(FiringIncident fi)
 		{
-			if (!fi.parms.forced && !fi.def.Worker.CanFireNow(fi.parms.target))
-				return;
-			if (fi.def.Worker.TryExecute(fi.parms))
+			if (fi.parms.forced || fi.def.Worker.CanFireNow(fi.parms))
 			{
-				fi.parms.target.StoryState.Notify_IncidentFired(fi);
+				if (fi.def.Worker.TryExecute(fi.parms))
+				{
+					fi.parms.target.StoryState.Notify_IncidentFired(fi);
+				}
 			}
 		}
 
+		// Token: 0x06000EFA RID: 3834 RVA: 0x0007E25C File Offset: 0x0007C65C
 		public IEnumerable<FiringIncident> MakeIncidentsForInterval()
 		{
 			List<IIncidentTarget> targets = this.AllIncidentTargets;
-			for (int j = 0; j < this.storytellerComps.Count; j++)
+			for (int i = 0; i < this.storytellerComps.Count; i++)
 			{
-				StorytellerComp c = this.storytellerComps[j];
-				if (!(GenDate.DaysPassedFloat <= c.props.minDaysPassed))
+				foreach (FiringIncident incident in this.MakeIncidentsForInterval(this.storytellerComps[i], targets))
 				{
-					for (int i = 0; i < targets.Count; i++)
+					yield return incident;
+				}
+			}
+			yield break;
+		}
+
+		// Token: 0x06000EFB RID: 3835 RVA: 0x0007E288 File Offset: 0x0007C688
+		public IEnumerable<FiringIncident> MakeIncidentsForInterval(StorytellerComp comp, List<IIncidentTarget> targets)
+		{
+			if (GenDate.DaysPassedFloat <= comp.props.minDaysPassed)
+			{
+				yield break;
+			}
+			for (int i = 0; i < targets.Count; i++)
+			{
+				IIncidentTarget targ = targets[i];
+				if (comp.props.allowedTargetTypes == null || comp.props.allowedTargetTypes.Count == 0 || comp.props.allowedTargetTypes.Intersect(targ.AcceptedTypes()).Any<IncidentTargetTypeDef>())
+				{
+					foreach (FiringIncident fi in comp.MakeIntervalIncidents(targ))
 					{
-						IIncidentTarget targ = targets[i];
-						if (c.props.allowedTargetTypes == null || c.props.allowedTargetTypes.Count == 0 || c.props.allowedTargetTypes.Intersect(targ.AcceptedTypes()).Any())
+						if (Find.Storyteller.difficulty.allowBigThreats || (fi.def.category != IncidentCategoryDefOf.ThreatBig && fi.def.category != IncidentCategoryDefOf.RaidBeacon))
 						{
-							foreach (FiringIncident item in c.MakeIntervalIncidents(targ))
-							{
-								if (!Find.Storyteller.difficulty.allowBigThreats && (item.def.category == IncidentCategory.ThreatBig || item.def.category == IncidentCategory.RaidBeacon))
-								{
-									continue;
-								}
-								yield return item;
-								/*Error: Unable to find new state assignment for yield return*/;
-							}
+							yield return fi;
 						}
 					}
 				}
 			}
 			yield break;
-			IL_0226:
-			/*Error near IL_0227: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x06000EFC RID: 3836 RVA: 0x0007E2B9 File Offset: 0x0007C6B9
 		public void Notify_DefChanged()
 		{
 			this.InitializeStorytellerComps();
 		}
 
+		// Token: 0x06000EFD RID: 3837 RVA: 0x0007E2C4 File Offset: 0x0007C6C4
 		public string DebugString()
 		{
-			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.AppendLine("Storyteller : " + this.def.label);
-			stringBuilder.AppendLine();
-			stringBuilder.AppendLine(this.intenderPopulation.DebugReadout);
-			stringBuilder.AppendLine("Global stats:");
-			stringBuilder.AppendLine("   numRaidsEnemy: " + Find.StoryWatcher.statsRecord.numRaidsEnemy);
-			stringBuilder.AppendLine("   TotalThreatFactor: " + Find.StoryWatcher.watcherRampUp.TotalThreatPointsFactor.ToString("F5"));
-			stringBuilder.AppendLine("      ShortFactor: " + Find.StoryWatcher.watcherRampUp.ShortTermFactor.ToString("F5"));
-			stringBuilder.AppendLine("      LongFactor: " + Find.StoryWatcher.watcherRampUp.LongTermFactor.ToString("F5"));
-			stringBuilder.AppendLine("   Current default ThreatBig parms points:");
-			for (int i = 0; i < this.storytellerComps.Count; i++)
+			if (Time.frameCount % 60 == 0)
 			{
-				IncidentParms incidentParms = this.storytellerComps[i].GenerateParms(IncidentCategory.ThreatBig, Find.VisibleMap);
-				stringBuilder.AppendLine("      " + this.storytellerComps[i].GetType() + ": " + incidentParms.points);
-			}
-			if (Find.VisibleMap != null)
-			{
+				StringBuilder stringBuilder = new StringBuilder();
+				stringBuilder.AppendLine("Storyteller : " + this.def.label);
+				stringBuilder.AppendLine("------------- Global threats data ---------------");
+				stringBuilder.AppendLine("   NumRaidsEnemy: " + Find.StoryWatcher.statsRecord.numRaidsEnemy);
+				stringBuilder.AppendLine("   TotalThreatPointsFactor: " + Find.StoryWatcher.watcherRampUp.TotalThreatPointsFactor.ToString("F5"));
+				stringBuilder.AppendLine("      ShortTermFactor: " + Find.StoryWatcher.watcherRampUp.ShortTermFactor.ToString("F5"));
+				stringBuilder.AppendLine("      LongTermFactor: " + Find.StoryWatcher.watcherRampUp.LongTermFactor.ToString("F5"));
+				stringBuilder.AppendLine("   AllyAssistanceMTBMultiplier (ally): " + StorytellerUtility.AllyIncidentMTBMultiplier(false).ToString());
+				stringBuilder.AppendLine("   AllyAssistanceMTBMultiplier (non-hostile): " + StorytellerUtility.AllyIncidentMTBMultiplier(true).ToString());
 				stringBuilder.AppendLine();
-				stringBuilder.AppendLine("VisibleMap stats:");
-				stringBuilder.AppendLine("   Wealth: " + Find.VisibleMap.wealthWatcher.WealthTotal);
-				stringBuilder.AppendLine("   DaysSinceSeriousDamage: " + Find.VisibleMap.damageWatcher.DaysSinceSeriousDamage.ToString("F1"));
-				stringBuilder.AppendLine("   LastThreatBigQueueTick: " + Find.VisibleMap.storyState.LastThreatBigTick.ToStringTicksToPeriod(true, false, true));
-				stringBuilder.AppendLine("   FireDanger: " + Find.VisibleMap.fireWatcher.FireDanger.ToString("F2"));
+				stringBuilder.AppendLine("-------------- Global population data --------------");
+				stringBuilder.AppendLine(this.intenderPopulation.DebugReadout);
+				stringBuilder.AppendLine("------------- All incident targets --------------");
+				for (int i = 0; i < this.AllIncidentTargets.Count; i++)
+				{
+					stringBuilder.AppendLine("   " + this.AllIncidentTargets[i].ToString());
+				}
+				IIncidentTarget incidentTarget = Find.WorldSelector.SingleSelectedObject as IIncidentTarget;
+				if (incidentTarget == null)
+				{
+					incidentTarget = Find.CurrentMap;
+				}
+				if (incidentTarget != null)
+				{
+					stringBuilder.AppendLine();
+					stringBuilder.AppendLine("---------- Selected: " + incidentTarget + " --------");
+					stringBuilder.AppendLine("   Wealth: " + incidentTarget.PlayerWealthForStoryteller.ToString("F0"));
+					stringBuilder.AppendLine("   IncidentPointsRandomFactorRange: " + incidentTarget.IncidentPointsRandomFactorRange);
+					stringBuilder.AppendLine("   Pawns-Humanlikes: " + (from p in incidentTarget.PlayerPawnsForStoryteller
+					where p.def.race.Humanlike
+					select p).Count<Pawn>());
+					stringBuilder.AppendLine("   Pawns-Animals: " + (from p in incidentTarget.PlayerPawnsForStoryteller
+					where p.def.race.Animal
+					select p).Count<Pawn>());
+					Map map = incidentTarget as Map;
+					if (map != null)
+					{
+						stringBuilder.AppendLine("   StoryDanger: " + map.dangerWatcher.DangerRating);
+						stringBuilder.AppendLine("   FireDanger: " + map.fireWatcher.FireDanger.ToString("F2"));
+						stringBuilder.AppendLine("   DaysSinceSeriousDamage: " + map.damageWatcher.DaysSinceSeriousDamage.ToString("F1"));
+						stringBuilder.AppendLine("   LastThreatBigQueueTick: " + map.storyState.LastThreatBigTick.ToStringTicksToPeriod());
+					}
+					stringBuilder.AppendLine("   Current points (ignoring early raid factors): " + StorytellerUtility.DefaultThreatPointsNow(incidentTarget).ToString("F0"));
+					stringBuilder.AppendLine("   Current points for specific IncidentMakers:");
+					for (int j = 0; j < this.storytellerComps.Count; j++)
+					{
+						IncidentParms incidentParms = this.storytellerComps[j].GenerateParms(IncidentCategoryDefOf.ThreatBig, incidentTarget);
+						stringBuilder.AppendLine("      " + this.storytellerComps[j].GetType().ToString().Substring(23) + ": " + incidentParms.points.ToString("F0"));
+					}
+				}
+				this.debugStringCached = stringBuilder.ToString();
 			}
-			stringBuilder.AppendLine();
-			stringBuilder.AppendLine("Incident targets:");
-			for (int j = 0; j < this.AllIncidentTargets.Count; j++)
-			{
-				stringBuilder.AppendLine("   " + this.AllIncidentTargets[j].ToString());
-			}
-			return stringBuilder.ToString();
+			return this.debugStringCached;
 		}
+
+		// Token: 0x04000930 RID: 2352
+		public StorytellerDef def;
+
+		// Token: 0x04000931 RID: 2353
+		public DifficultyDef difficulty;
+
+		// Token: 0x04000932 RID: 2354
+		public List<StorytellerComp> storytellerComps;
+
+		// Token: 0x04000933 RID: 2355
+		public IncidentQueue incidentQueue = new IncidentQueue();
+
+		// Token: 0x04000934 RID: 2356
+		public StoryIntender_Population intenderPopulation;
+
+		// Token: 0x04000935 RID: 2357
+		public static readonly Vector2 PortraitSizeTiny = new Vector2(116f, 124f);
+
+		// Token: 0x04000936 RID: 2358
+		public static readonly Vector2 PortraitSizeLarge = new Vector2(580f, 620f);
+
+		// Token: 0x04000937 RID: 2359
+		public const int IntervalsPerDay = 60;
+
+		// Token: 0x04000938 RID: 2360
+		public const int CheckInterval = 1000;
+
+		// Token: 0x04000939 RID: 2361
+		private static List<IIncidentTarget> tmpAllIncidentTargets = new List<IIncidentTarget>();
+
+		// Token: 0x0400093A RID: 2362
+		private string debugStringCached = "Generating data...";
 	}
 }

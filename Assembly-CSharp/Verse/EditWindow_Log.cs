@@ -1,59 +1,32 @@
+﻿using System;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000E4D RID: 3661
 	[StaticConstructorOnStartup]
 	public class EditWindow_Log : EditWindow
 	{
-		private static LogMessage selectedMessage = null;
+		// Token: 0x0600562F RID: 22063 RVA: 0x002C6057 File Offset: 0x002C4457
+		public EditWindow_Log()
+		{
+			this.optionalTitle = "Debug log";
+		}
 
-		private static Vector2 messagesScrollPosition;
-
-		private static Vector2 detailsScrollPosition;
-
-		private float listingViewHeight;
-
-		private static float detailsPaneHeight = 100f;
-
-		private bool borderDragging;
-
-		private static bool canAutoOpen = true;
-
-		public static bool wantsToOpen = false;
-
-		private const float CountWidth = 28f;
-
-		private const float Yinc = 25f;
-
-		private const float DetailsPaneBorderHeight = 7f;
-
-		private const float DetailsPaneMinHeight = 20f;
-
-		private const float ListingMinHeight = 80f;
-
-		private const float TopAreaHeight = 26f;
-
-		private const float MessageMaxHeight = 30f;
-
-		private static readonly Texture2D AltMessageTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.17f, 0.17f, 0.17f, 0.85f));
-
-		private static readonly Texture2D SelectedMessageTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.25f, 0.25f, 0.17f, 0.85f));
-
-		private static readonly Texture2D StackTraceAreaTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.1f, 0.1f, 0.1f, 0.5f));
-
-		private static readonly Texture2D StackTraceBorderTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.3f, 0.3f, 0.3f, 1f));
-
-		private static readonly string MessageDetailsControlName = "MessageDetailsTextArea";
-
+		// Token: 0x17000D7F RID: 3455
+		// (get) Token: 0x06005630 RID: 22064 RVA: 0x002C6074 File Offset: 0x002C4474
 		public override Vector2 InitialSize
 		{
 			get
 			{
-				return new Vector2((float)((float)UI.screenWidth / 2.0), (float)((float)UI.screenHeight / 2.0));
+				return new Vector2((float)UI.screenWidth / 2f, (float)UI.screenHeight / 2f);
 			}
 		}
 
+		// Token: 0x17000D80 RID: 3456
+		// (get) Token: 0x06005631 RID: 22065 RVA: 0x002C60A8 File Offset: 0x002C44A8
 		public override bool IsDebug
 		{
 			get
@@ -62,6 +35,9 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000D81 RID: 3457
+		// (get) Token: 0x06005632 RID: 22066 RVA: 0x002C60C0 File Offset: 0x002C44C0
+		// (set) Token: 0x06005633 RID: 22067 RVA: 0x002C60DA File Offset: 0x002C44DA
 		private static LogMessage SelectedMessage
 		{
 			get
@@ -81,11 +57,7 @@ namespace Verse
 			}
 		}
 
-		public EditWindow_Log()
-		{
-			base.optionalTitle = "Debug log";
-		}
-
+		// Token: 0x06005634 RID: 22068 RVA: 0x002C6116 File Offset: 0x002C4516
 		public static void TryAutoOpen()
 		{
 			if (EditWindow_Log.canAutoOpen)
@@ -94,24 +66,40 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06005635 RID: 22069 RVA: 0x002C6129 File Offset: 0x002C4529
 		public static void ClearSelectedMessage()
 		{
 			EditWindow_Log.SelectedMessage = null;
 			EditWindow_Log.detailsScrollPosition = Vector2.zero;
 		}
 
+		// Token: 0x06005636 RID: 22070 RVA: 0x002C613C File Offset: 0x002C453C
+		public static void SelectLastMessage(bool expandDetailsPane = false)
+		{
+			EditWindow_Log.ClearSelectedMessage();
+			EditWindow_Log.SelectedMessage = Log.Messages.LastOrDefault<LogMessage>();
+			EditWindow_Log.messagesScrollPosition.y = (float)Log.Messages.Count<LogMessage>() * 30f;
+			if (expandDetailsPane)
+			{
+				EditWindow_Log.detailsPaneHeight = 9999f;
+			}
+		}
+
+		// Token: 0x06005637 RID: 22071 RVA: 0x002C6189 File Offset: 0x002C4589
 		public static void ClearAll()
 		{
 			EditWindow_Log.ClearSelectedMessage();
 			EditWindow_Log.messagesScrollPosition = Vector2.zero;
 		}
 
+		// Token: 0x06005638 RID: 22072 RVA: 0x002C619B File Offset: 0x002C459B
 		public override void PostClose()
 		{
 			base.PostClose();
 			EditWindow_Log.wantsToOpen = false;
 		}
 
+		// Token: 0x06005639 RID: 22073 RVA: 0x002C61AC File Offset: 0x002C45AC
 		public override void DoWindowContents(Rect inRect)
 		{
 			Text.Font = GameFont.Tiny;
@@ -135,12 +123,12 @@ namespace Verse
 			}
 			if (EditWindow_Log.canAutoOpen)
 			{
-				if (widgetRow.ButtonText("Auto-open is ON", string.Empty, true, false))
+				if (widgetRow.ButtonText("Auto-open is ON", "", true, false))
 				{
 					EditWindow_Log.canAutoOpen = false;
 				}
 			}
-			else if (widgetRow.ButtonText("Auto-open is OFF", string.Empty, true, false))
+			else if (widgetRow.ButtonText("Auto-open is OFF", "", true, false))
 			{
 				EditWindow_Log.canAutoOpen = true;
 			}
@@ -164,10 +152,11 @@ namespace Verse
 			{
 				EditWindow_Log.ClearSelectedMessage();
 			}
-			EditWindow_Log.detailsPaneHeight = Mathf.Max(EditWindow_Log.detailsPaneHeight, 20f);
-			EditWindow_Log.detailsPaneHeight = Mathf.Min(EditWindow_Log.detailsPaneHeight, (float)(inRect.height - 80.0));
+			EditWindow_Log.detailsPaneHeight = Mathf.Max(EditWindow_Log.detailsPaneHeight, 10f);
+			EditWindow_Log.detailsPaneHeight = Mathf.Min(EditWindow_Log.detailsPaneHeight, inRect.height - 80f);
 		}
 
+		// Token: 0x0600563A RID: 22074 RVA: 0x002C639C File Offset: 0x002C479C
 		public static void Notify_MessageDequeued(LogMessage oldMessage)
 		{
 			if (EditWindow_Log.SelectedMessage == oldMessage)
@@ -176,26 +165,27 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x0600563B RID: 22075 RVA: 0x002C63B0 File Offset: 0x002C47B0
 		private void DoMessagesListing(Rect listingRect)
 		{
-			Rect viewRect = new Rect(0f, 0f, (float)(listingRect.width - 16.0), (float)(this.listingViewHeight + 100.0));
+			Rect viewRect = new Rect(0f, 0f, listingRect.width - 16f, this.listingViewHeight + 100f);
 			Widgets.BeginScrollView(listingRect, ref EditWindow_Log.messagesScrollPosition, viewRect, true);
-			float width = (float)(viewRect.width - 28.0);
+			float width = viewRect.width - 28f;
 			Text.Font = GameFont.Tiny;
 			float num = 0f;
 			bool flag = false;
-			foreach (LogMessage message in Log.Messages)
+			foreach (LogMessage logMessage in Log.Messages)
 			{
-				float num2 = Text.CalcHeight(message.text, width);
-				if (num2 > 30.0)
+				float num2 = Text.CalcHeight(logMessage.text, width);
+				if (num2 > 30f)
 				{
 					num2 = 30f;
 				}
 				GUI.color = new Color(1f, 1f, 1f, 0.7f);
 				Rect rect = new Rect(4f, num, 28f, num2);
-				Widgets.Label(rect, message.repeats.ToStringCached());
+				Widgets.Label(rect, logMessage.repeats.ToStringCached());
 				Rect rect2 = new Rect(28f, num, width, num2);
-				if (EditWindow_Log.selectedMessage == message)
+				if (EditWindow_Log.selectedMessage == logMessage)
 				{
 					GUI.DrawTexture(rect2, EditWindow_Log.SelectedMessageTex);
 				}
@@ -206,10 +196,10 @@ namespace Verse
 				if (Widgets.ButtonInvisible(rect2, false))
 				{
 					EditWindow_Log.ClearSelectedMessage();
-					EditWindow_Log.SelectedMessage = message;
+					EditWindow_Log.SelectedMessage = logMessage;
 				}
-				GUI.color = message.Color;
-				Widgets.Label(rect2, message.text);
+				GUI.color = logMessage.Color;
+				Widgets.Label(rect2, logMessage.text);
 				num += num2;
 				flag = !flag;
 			}
@@ -221,6 +211,7 @@ namespace Verse
 			GUI.color = Color.white;
 		}
 
+		// Token: 0x0600563C RID: 22076 RVA: 0x002C6578 File Offset: 0x002C4978
 		private void DoMessageDetails(Rect detailsRect, Rect outRect)
 		{
 			if (EditWindow_Log.selectedMessage != null)
@@ -241,9 +232,7 @@ namespace Verse
 				}
 				if (this.borderDragging)
 				{
-					float num = outRect.height + Mathf.Round(3.5f);
-					Vector2 mousePosition = Event.current.mousePosition;
-					EditWindow_Log.detailsPaneHeight = num - mousePosition.y;
+					EditWindow_Log.detailsPaneHeight = outRect.height + Mathf.Round(3.5f) - Event.current.mousePosition.y;
 				}
 				if (Event.current.rawType == EventType.MouseUp)
 				{
@@ -256,17 +245,18 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x0600563D RID: 22077 RVA: 0x002C668C File Offset: 0x002C4A8C
 		private void CopyAllMessagesToClipboard()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (LogMessage message in Log.Messages)
+			foreach (LogMessage logMessage in Log.Messages)
 			{
 				if (stringBuilder.Length != 0)
 				{
 					stringBuilder.AppendLine();
 				}
-				stringBuilder.AppendLine(message.text);
-				stringBuilder.Append(message.StackTrace);
+				stringBuilder.AppendLine(logMessage.text);
+				stringBuilder.Append(logMessage.StackTrace);
 				if (stringBuilder[stringBuilder.Length - 1] != '\n')
 				{
 					stringBuilder.AppendLine();
@@ -274,5 +264,65 @@ namespace Verse
 			}
 			GUIUtility.systemCopyBuffer = stringBuilder.ToString();
 		}
+
+		// Token: 0x040038F0 RID: 14576
+		private static LogMessage selectedMessage = null;
+
+		// Token: 0x040038F1 RID: 14577
+		private static Vector2 messagesScrollPosition;
+
+		// Token: 0x040038F2 RID: 14578
+		private static Vector2 detailsScrollPosition;
+
+		// Token: 0x040038F3 RID: 14579
+		private static float detailsPaneHeight = 100f;
+
+		// Token: 0x040038F4 RID: 14580
+		private static bool canAutoOpen = true;
+
+		// Token: 0x040038F5 RID: 14581
+		public static bool wantsToOpen = false;
+
+		// Token: 0x040038F6 RID: 14582
+		private float listingViewHeight;
+
+		// Token: 0x040038F7 RID: 14583
+		private bool borderDragging = false;
+
+		// Token: 0x040038F8 RID: 14584
+		private const float CountWidth = 28f;
+
+		// Token: 0x040038F9 RID: 14585
+		private const float Yinc = 25f;
+
+		// Token: 0x040038FA RID: 14586
+		private const float DetailsPaneBorderHeight = 7f;
+
+		// Token: 0x040038FB RID: 14587
+		private const float DetailsPaneMinHeight = 10f;
+
+		// Token: 0x040038FC RID: 14588
+		private const float ListingMinHeight = 80f;
+
+		// Token: 0x040038FD RID: 14589
+		private const float TopAreaHeight = 26f;
+
+		// Token: 0x040038FE RID: 14590
+		private const float MessageMaxHeight = 30f;
+
+		// Token: 0x040038FF RID: 14591
+		private static readonly Texture2D AltMessageTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.17f, 0.17f, 0.17f, 0.85f));
+
+		// Token: 0x04003900 RID: 14592
+		private static readonly Texture2D SelectedMessageTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.25f, 0.25f, 0.17f, 0.85f));
+
+		// Token: 0x04003901 RID: 14593
+		private static readonly Texture2D StackTraceAreaTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.1f, 0.1f, 0.1f, 0.5f));
+
+		// Token: 0x04003902 RID: 14594
+		private static readonly Texture2D StackTraceBorderTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.3f, 0.3f, 0.3f, 1f));
+
+		// Token: 0x04003903 RID: 14595
+		private static readonly string MessageDetailsControlName = "MessageDetailsTextArea";
 	}
 }

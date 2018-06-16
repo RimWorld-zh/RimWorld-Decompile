@@ -1,16 +1,65 @@
+﻿using System;
 using RimWorld.Planet;
+using UnityEngine;
+using Verse;
+using Verse.Noise;
 
 namespace RimWorld
 {
+	// Token: 0x0200054F RID: 1359
 	public class BiomeWorker_SeaIce : BiomeWorker
 	{
-		public override float GetScore(Tile tile)
+		// Token: 0x06001955 RID: 6485 RVA: 0x000DBC0C File Offset: 0x000DA00C
+		public override float GetScore(Tile tile, int tileID)
 		{
+			float result;
 			if (!tile.WaterCovered)
 			{
-				return -100f;
+				result = -100f;
 			}
-			return (float)(BiomeWorker_IceSheet.PermaIceScore(tile) - 23.0);
+			else if (!this.AllowedAt(tileID))
+			{
+				result = -100f;
+			}
+			else
+			{
+				result = BiomeWorker_IceSheet.PermaIceScore(tile) - 23f;
+			}
+			return result;
 		}
+
+		// Token: 0x06001956 RID: 6486 RVA: 0x000DBC5C File Offset: 0x000DA05C
+		private bool AllowedAt(int tile)
+		{
+			Vector3 tileCenter = Find.WorldGrid.GetTileCenter(tile);
+			Vector3 viewCenter = Find.WorldGrid.viewCenter;
+			float value = Vector3.Angle(viewCenter, tileCenter);
+			float viewAngle = Find.WorldGrid.viewAngle;
+			float num = Mathf.Min(7.5f, viewAngle * 0.12f);
+			float num2 = Mathf.InverseLerp(viewAngle - num, viewAngle, value);
+			bool result;
+			if (num2 <= 0f)
+			{
+				result = true;
+			}
+			else
+			{
+				if (this.cachedSeaIceAllowedNoise == null || this.cachedSeaIceAllowedNoiseForSeed != Find.World.info.Seed)
+				{
+					this.cachedSeaIceAllowedNoise = new Perlin(0.017000000923871994, 2.0, 0.5, 6, Find.World.info.Seed, QualityMode.Medium);
+					this.cachedSeaIceAllowedNoiseForSeed = Find.World.info.Seed;
+				}
+				float headingFromTo = Find.WorldGrid.GetHeadingFromTo(viewCenter, tileCenter);
+				float num3 = (float)this.cachedSeaIceAllowedNoise.GetValue((double)headingFromTo, 0.0, 0.0) * 0.5f + 0.5f;
+				result = (num2 <= num3);
+			}
+			return result;
+		}
+
+		// Token: 0x04000ED5 RID: 3797
+		private ModuleBase cachedSeaIceAllowedNoise;
+
+		// Token: 0x04000ED6 RID: 3798
+		private int cachedSeaIceAllowedNoiseForSeed;
 	}
 }

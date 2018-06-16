@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,12 +6,11 @@ using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000663 RID: 1635
 	public sealed class TaleManager : IExposable
 	{
-		private List<Tale> tales = new List<Tale>();
-
-		private const int MaxUnusedVolatileTales = 350;
-
+		// Token: 0x17000501 RID: 1281
+		// (get) Token: 0x0600221E RID: 8734 RVA: 0x00121650 File Offset: 0x0011FA50
 		public List<Tale> AllTalesListForReading
 		{
 			get
@@ -20,27 +19,31 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x0600221F RID: 8735 RVA: 0x0012166B File Offset: 0x0011FA6B
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Tale>(ref this.tales, "tales", LookMode.Deep, new object[0]);
 		}
 
+		// Token: 0x06002220 RID: 8736 RVA: 0x00121685 File Offset: 0x0011FA85
 		public void TaleManagerTick()
 		{
 			this.RemoveExpiredTales();
 		}
 
+		// Token: 0x06002221 RID: 8737 RVA: 0x0012168E File Offset: 0x0011FA8E
 		public void Add(Tale tale)
 		{
 			this.tales.Add(tale);
 			this.CheckCullTales(tale);
 		}
 
+		// Token: 0x06002222 RID: 8738 RVA: 0x001216A4 File Offset: 0x0011FAA4
 		private void RemoveTale(Tale tale)
 		{
 			if (!tale.Unused)
 			{
-				Log.Warning("Tried to remove used tale " + tale);
+				Log.Warning("Tried to remove used tale " + tale, false);
 			}
 			else
 			{
@@ -48,122 +51,142 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002223 RID: 8739 RVA: 0x001216D6 File Offset: 0x0011FAD6
 		private void CheckCullTales(Tale addedTale)
 		{
 			this.CheckCullUnusedVolatileTales();
 			this.CheckCullUnusedTalesWithMaxPerPawnLimit(addedTale);
 		}
 
+		// Token: 0x06002224 RID: 8740 RVA: 0x001216E8 File Offset: 0x0011FAE8
 		private void CheckCullUnusedVolatileTales()
 		{
-			int num = 0;
-			for (int i = 0; i < this.tales.Count; i++)
+			int i = 0;
+			for (int j = 0; j < this.tales.Count; j++)
 			{
-				if (this.tales[i].def.type == TaleType.Volatile && this.tales[i].Unused)
+				if (this.tales[j].def.type == TaleType.Volatile && this.tales[j].Unused)
 				{
-					num++;
+					i++;
 				}
 			}
-			while (num > 350)
+			while (i > 350)
 			{
 				Tale tale = null;
-				float num2 = 3.40282347E+38f;
-				for (int j = 0; j < this.tales.Count; j++)
+				float num = float.MaxValue;
+				for (int k = 0; k < this.tales.Count; k++)
 				{
-					if (this.tales[j].def.type == TaleType.Volatile && this.tales[j].Unused && this.tales[j].InterestLevel < num2)
+					if (this.tales[k].def.type == TaleType.Volatile && this.tales[k].Unused && this.tales[k].InterestLevel < num)
 					{
-						tale = this.tales[j];
-						num2 = this.tales[j].InterestLevel;
+						tale = this.tales[k];
+						num = this.tales[k].InterestLevel;
 					}
 				}
 				this.RemoveTale(tale);
-				num--;
+				i--;
 			}
 		}
 
+		// Token: 0x06002225 RID: 8741 RVA: 0x00121800 File Offset: 0x0011FC00
 		private void CheckCullUnusedTalesWithMaxPerPawnLimit(Tale addedTale)
 		{
-			if (addedTale.def.maxPerPawn >= 0 && addedTale.DominantPawn != null)
+			if (addedTale.def.maxPerPawn >= 0)
 			{
-				int num = 0;
-				for (int i = 0; i < this.tales.Count; i++)
+				if (addedTale.DominantPawn != null)
 				{
-					if (this.tales[i].Unused && this.tales[i].def == addedTale.def && this.tales[i].DominantPawn == addedTale.DominantPawn)
-					{
-						num++;
-					}
-				}
-				while (num > addedTale.def.maxPerPawn)
-				{
-					Tale tale = null;
-					int num2 = -1;
+					int i = 0;
 					for (int j = 0; j < this.tales.Count; j++)
 					{
-						if (this.tales[j].Unused && this.tales[j].def == addedTale.def && this.tales[j].DominantPawn == addedTale.DominantPawn && this.tales[j].AgeTicks > num2)
+						if (this.tales[j].Unused && this.tales[j].def == addedTale.def && this.tales[j].DominantPawn == addedTale.DominantPawn)
 						{
-							tale = this.tales[j];
-							num2 = this.tales[j].AgeTicks;
+							i++;
 						}
 					}
-					this.RemoveTale(tale);
-					num--;
+					while (i > addedTale.def.maxPerPawn)
+					{
+						Tale tale = null;
+						int num = -1;
+						for (int k = 0; k < this.tales.Count; k++)
+						{
+							if (this.tales[k].Unused && this.tales[k].def == addedTale.def && this.tales[k].DominantPawn == addedTale.DominantPawn && this.tales[k].AgeTicks > num)
+							{
+								tale = this.tales[k];
+								num = this.tales[k].AgeTicks;
+							}
+						}
+						this.RemoveTale(tale);
+						i--;
+					}
 				}
 			}
 		}
 
+		// Token: 0x06002226 RID: 8742 RVA: 0x0012197C File Offset: 0x0011FD7C
 		private void RemoveExpiredTales()
 		{
-			for (int num = this.tales.Count - 1; num >= 0; num--)
+			for (int i = this.tales.Count - 1; i >= 0; i--)
 			{
-				if (this.tales[num].Expired)
+				if (this.tales[i].Expired)
 				{
-					this.RemoveTale(this.tales[num]);
+					this.RemoveTale(this.tales[i]);
 				}
 			}
 		}
 
+		// Token: 0x06002227 RID: 8743 RVA: 0x001219D4 File Offset: 0x0011FDD4
 		public TaleReference GetRandomTaleReferenceForArt(ArtGenerationContext source)
 		{
+			TaleReference result;
+			Tale tale;
 			if (source == ArtGenerationContext.Outsider)
 			{
-				return TaleReference.Taleless;
+				result = TaleReference.Taleless;
 			}
-			if (this.tales.Count == 0)
+			else if (this.tales.Count == 0)
 			{
-				return TaleReference.Taleless;
+				result = TaleReference.Taleless;
 			}
-			if (Rand.Value < 0.25)
+			else if (Rand.Value < 0.25f)
 			{
-				return TaleReference.Taleless;
+				result = TaleReference.Taleless;
 			}
-			Tale tale = default(Tale);
-			if (!(from x in this.tales
+			else if (!(from x in this.tales
 			where x.def.usableForArt
-			select x).TryRandomElementByWeight<Tale>((Func<Tale, float>)((Tale ta) => ta.InterestLevel), out tale))
+			select x).TryRandomElementByWeight((Tale ta) => ta.InterestLevel, out tale))
 			{
-				return TaleReference.Taleless;
+				result = TaleReference.Taleless;
 			}
-			tale.Notify_NewlyUsed();
-			return new TaleReference(tale);
+			else
+			{
+				tale.Notify_NewlyUsed();
+				result = new TaleReference(tale);
+			}
+			return result;
 		}
 
+		// Token: 0x06002228 RID: 8744 RVA: 0x00121A98 File Offset: 0x0011FE98
 		public TaleReference GetRandomTaleReferenceForArtConcerning(Thing th)
 		{
+			TaleReference result;
+			Tale tale;
 			if (this.tales.Count == 0)
 			{
-				return TaleReference.Taleless;
+				result = TaleReference.Taleless;
 			}
-			Tale tale = default(Tale);
-			if (!(from x in this.tales
+			else if (!(from x in this.tales
 			where x.def.usableForArt && x.Concerns(th)
-			select x).TryRandomElementByWeight<Tale>((Func<Tale, float>)((Tale x) => x.InterestLevel), out tale))
+			select x).TryRandomElementByWeight((Tale x) => x.InterestLevel, out tale))
 			{
-				return TaleReference.Taleless;
+				result = TaleReference.Taleless;
 			}
-			tale.Notify_NewlyUsed();
-			return new TaleReference(tale);
+			else
+			{
+				tale.Notify_NewlyUsed();
+				result = new TaleReference(tale);
+			}
+			return result;
 		}
 
+		// Token: 0x06002229 RID: 8745 RVA: 0x00121B2C File Offset: 0x0011FF2C
 		public Tale GetLatestTale(TaleDef def, Pawn pawn)
 		{
 			Tale tale = null;
@@ -179,36 +202,62 @@ namespace RimWorld
 			return tale;
 		}
 
+		// Token: 0x0600222A RID: 8746 RVA: 0x00121BD0 File Offset: 0x0011FFD0
 		public void Notify_PawnDestroyed(Pawn pawn)
 		{
-			for (int num = this.tales.Count - 1; num >= 0; num--)
+			for (int i = this.tales.Count - 1; i >= 0; i--)
 			{
-				if (this.tales[num].Unused && !this.tales[num].def.usableForArt && this.tales[num].def.type != TaleType.PermanentHistorical && this.tales[num].DominantPawn == pawn)
+				if (this.tales[i].Unused)
 				{
-					this.RemoveTale(this.tales[num]);
+					if (!this.tales[i].def.usableForArt)
+					{
+						if (this.tales[i].def.type != TaleType.PermanentHistorical)
+						{
+							if (this.tales[i].DominantPawn == pawn)
+							{
+								this.RemoveTale(this.tales[i]);
+							}
+						}
+					}
 				}
 			}
 		}
 
+		// Token: 0x0600222B RID: 8747 RVA: 0x00121C84 File Offset: 0x00120084
 		public void Notify_PawnDiscarded(Pawn p, bool silentlyRemoveReferences)
 		{
-			for (int num = this.tales.Count - 1; num >= 0; num--)
+			for (int i = this.tales.Count - 1; i >= 0; i--)
 			{
-				if (this.tales[num].Concerns(p))
+				if (this.tales[i].Concerns(p))
 				{
 					if (!silentlyRemoveReferences)
 					{
-						Log.Warning("Discarding pawn " + p + ", but he is referenced by a tale " + this.tales[num] + ".");
+						Log.Warning(string.Concat(new object[]
+						{
+							"Discarding pawn ",
+							p,
+							", but he is referenced by a tale ",
+							this.tales[i],
+							"."
+						}), false);
 					}
-					else if (!this.tales[num].Unused)
+					else if (!this.tales[i].Unused)
 					{
-						Log.Warning("Discarding pawn " + p + ", but he is referenced by an active tale " + this.tales[num] + ".");
+						Log.Warning(string.Concat(new object[]
+						{
+							"Discarding pawn ",
+							p,
+							", but he is referenced by an active tale ",
+							this.tales[i],
+							"."
+						}), false);
 					}
-					this.RemoveTale(this.tales[num]);
+					this.RemoveTale(this.tales[i]);
 				}
 			}
 		}
 
+		// Token: 0x0600222C RID: 8748 RVA: 0x00121D78 File Offset: 0x00120178
 		public bool AnyActiveTaleConcerns(Pawn p)
 		{
 			for (int i = 0; i < this.tales.Count; i++)
@@ -221,6 +270,7 @@ namespace RimWorld
 			return false;
 		}
 
+		// Token: 0x0600222D RID: 8749 RVA: 0x00121DE0 File Offset: 0x001201E0
 		public bool AnyTaleConcerns(Pawn p)
 		{
 			for (int i = 0; i < this.tales.Count; i++)
@@ -233,6 +283,7 @@ namespace RimWorld
 			return false;
 		}
 
+		// Token: 0x0600222E RID: 8750 RVA: 0x00121E34 File Offset: 0x00120234
 		public float GetMaxHistoricalTaleDay()
 		{
 			float num = 0f;
@@ -241,7 +292,7 @@ namespace RimWorld
 				Tale tale = this.tales[i];
 				if (tale.def.type == TaleType.PermanentHistorical)
 				{
-					float num2 = (float)((float)GenDate.TickAbsToGame(tale.date) / 60000.0);
+					float num2 = (float)GenDate.TickAbsToGame(tale.date) / 60000f;
 					if (num2 > num)
 					{
 						num = num2;
@@ -251,6 +302,7 @@ namespace RimWorld
 			return num;
 		}
 
+		// Token: 0x0600222F RID: 8751 RVA: 0x00121EB0 File Offset: 0x001202B0
 		public void LogTales()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -267,34 +319,42 @@ namespace RimWorld
 			where x.def.type == TaleType.Expirable && x.Unused
 			select x;
 			stringBuilder.AppendLine("All tales count: " + this.tales.Count);
-			stringBuilder.AppendLine("Used count: " + enumerable.Count());
-			stringBuilder.AppendLine("Unused volatile count: " + enumerable2.Count() + " (max: " + 350 + ")");
-			stringBuilder.AppendLine("Unused permanent count: " + enumerable3.Count());
-			stringBuilder.AppendLine("Unused expirable count: " + enumerable4.Count());
+			stringBuilder.AppendLine("Used count: " + enumerable.Count<Tale>());
+			stringBuilder.AppendLine(string.Concat(new object[]
+			{
+				"Unused volatile count: ",
+				enumerable2.Count<Tale>(),
+				" (max: ",
+				350,
+				")"
+			}));
+			stringBuilder.AppendLine("Unused permanent count: " + enumerable3.Count<Tale>());
+			stringBuilder.AppendLine("Unused expirable count: " + enumerable4.Count<Tale>());
 			stringBuilder.AppendLine();
 			stringBuilder.AppendLine("-------Used-------");
-			foreach (Tale item in enumerable)
+			foreach (Tale tale in enumerable)
 			{
-				stringBuilder.AppendLine(item.ToString());
+				stringBuilder.AppendLine(tale.ToString());
 			}
 			stringBuilder.AppendLine("-------Unused volatile-------");
-			foreach (Tale item2 in enumerable2)
+			foreach (Tale tale2 in enumerable2)
 			{
-				stringBuilder.AppendLine(item2.ToString());
+				stringBuilder.AppendLine(tale2.ToString());
 			}
 			stringBuilder.AppendLine("-------Unused permanent-------");
-			foreach (Tale item3 in enumerable3)
+			foreach (Tale tale3 in enumerable3)
 			{
-				stringBuilder.AppendLine(item3.ToString());
+				stringBuilder.AppendLine(tale3.ToString());
 			}
 			stringBuilder.AppendLine("-------Unused expirable-------");
-			foreach (Tale item4 in enumerable4)
+			foreach (Tale tale4 in enumerable4)
 			{
-				stringBuilder.AppendLine(item4.ToString());
+				stringBuilder.AppendLine(tale4.ToString());
 			}
-			Log.Message(stringBuilder.ToString());
+			Log.Message(stringBuilder.ToString(), false);
 		}
 
+		// Token: 0x06002230 RID: 8752 RVA: 0x001221B8 File Offset: 0x001205B8
 		public void LogTaleInterestSummary()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -304,14 +364,33 @@ namespace RimWorld
 			Func<TaleDef, float> defInterest = (TaleDef def) => (from t in this.tales
 			where t.def == def
 			select t).Sum((Tale t) => t.InterestLevel);
-			foreach (TaleDef item in from def in DefDatabase<TaleDef>.AllDefs
+			using (IEnumerator<TaleDef> enumerator = (from def in DefDatabase<TaleDef>.AllDefs
 			where def.usableForArt
 			orderby defInterest(def) descending
-			select def)
+			select def).GetEnumerator())
 			{
-				stringBuilder.AppendLine(item.defName + ":   [" + this.tales.Where((Tale t) => t.def == item).Count() + "]   " + (defInterest(item) / num).ToStringPercent("F2"));
+				while (enumerator.MoveNext())
+				{
+					TaleDef def = enumerator.Current;
+					stringBuilder.AppendLine(string.Concat(new object[]
+					{
+						def.defName,
+						":   [",
+						(from t in this.tales
+						where t.def == def
+						select t).Count<Tale>(),
+						"]   ",
+						(defInterest(def) / num).ToStringPercent("F2")
+					}));
+				}
 			}
-			Log.Message(stringBuilder.ToString());
+			Log.Message(stringBuilder.ToString(), false);
 		}
+
+		// Token: 0x04001367 RID: 4967
+		private List<Tale> tales = new List<Tale>();
+
+		// Token: 0x04001368 RID: 4968
+		private const int MaxUnusedVolatileTales = 350;
 	}
 }

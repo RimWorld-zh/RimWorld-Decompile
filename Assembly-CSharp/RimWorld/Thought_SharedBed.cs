@@ -1,20 +1,29 @@
+﻿using System;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200021D RID: 541
 	public class Thought_SharedBed : Thought_Situational
 	{
+		// Token: 0x1700017C RID: 380
+		// (get) Token: 0x06000A08 RID: 2568 RVA: 0x00059200 File Offset: 0x00057600
 		protected override float BaseMoodOffset
 		{
 			get
 			{
-				Pawn mostDislikedNonPartnerBedOwner = LovePartnerRelationUtility.GetMostDislikedNonPartnerBedOwner(base.pawn);
+				Pawn mostDislikedNonPartnerBedOwner = LovePartnerRelationUtility.GetMostDislikedNonPartnerBedOwner(this.pawn);
+				float result;
 				if (mostDislikedNonPartnerBedOwner == null)
 				{
-					return 0f;
+					result = 0f;
 				}
-				return Mathf.Min((float)(0.05000000074505806 * (float)base.pawn.relations.OpinionOf(mostDislikedNonPartnerBedOwner) - 5.0), 0f);
+				else
+				{
+					result = Mathf.Min(0.05f * (float)this.pawn.relations.OpinionOf(mostDislikedNonPartnerBedOwner) - 5f, 0f);
+				}
+				return result;
 			}
 		}
 	}

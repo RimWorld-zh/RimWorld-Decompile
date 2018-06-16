@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -5,41 +6,50 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
+	// Token: 0x0200003B RID: 59
 	public class JobDriver_PrepareCaravan_GatherPawns : JobDriver
 	{
-		private const TargetIndex AnimalOrSlaveInd = TargetIndex.A;
-
+		// Token: 0x17000067 RID: 103
+		// (get) Token: 0x06000204 RID: 516 RVA: 0x00015A74 File Offset: 0x00013E74
 		private Pawn AnimalOrSlave
 		{
 			get
 			{
-				return (Pawn)base.job.GetTarget(TargetIndex.A).Thing;
+				return (Pawn)this.job.GetTarget(TargetIndex.A).Thing;
 			}
 		}
 
+		// Token: 0x06000205 RID: 517 RVA: 0x00015AA4 File Offset: 0x00013EA4
 		public override bool TryMakePreToilReservations()
 		{
-			return base.pawn.Reserve(this.AnimalOrSlave, base.job, 1, -1, null);
+			return this.pawn.Reserve(this.AnimalOrSlave, this.job, 1, -1, null);
 		}
 
+		// Token: 0x06000206 RID: 518 RVA: 0x00015AD8 File Offset: 0x00013ED8
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			this.FailOn(() => !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_002b: stateMachine*/)._0024this.Map.lordManager.lords.Contains(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_002b: stateMachine*/)._0024this.job.lord));
-			this.FailOn(() => ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0043: stateMachine*/)._0024this.AnimalOrSlave == null || ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0043: stateMachine*/)._0024this.AnimalOrSlave.GetLord() != ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0043: stateMachine*/)._0024this.job.lord);
-			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch).FailOnDespawnedOrNull(TargetIndex.A).FailOn(() => GatherAnimalsAndSlavesForCaravanUtility.IsFollowingAnyone(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0063: stateMachine*/)._0024this.AnimalOrSlave));
-			/*Error: Unable to find new state assignment for yield return*/;
+			this.FailOn(() => !base.Map.lordManager.lords.Contains(this.job.lord));
+			this.FailOn(() => this.AnimalOrSlave == null || this.AnimalOrSlave.GetLord() != this.job.lord);
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch).FailOnDespawnedOrNull(TargetIndex.A).FailOn(() => GatherAnimalsAndSlavesForCaravanUtility.IsFollowingAnyone(this.AnimalOrSlave));
+			yield return this.SetFollowerToil();
+			yield break;
 		}
 
+		// Token: 0x06000207 RID: 519 RVA: 0x00015B04 File Offset: 0x00013F04
 		private Toil SetFollowerToil()
 		{
-			Toil toil = new Toil();
-			toil.initAction = delegate
+			return new Toil
 			{
-				GatherAnimalsAndSlavesForCaravanUtility.SetFollower(this.AnimalOrSlave, base.pawn);
-				RestUtility.WakeUp(base.pawn);
+				initAction = delegate()
+				{
+					GatherAnimalsAndSlavesForCaravanUtility.SetFollower(this.AnimalOrSlave, this.pawn);
+					RestUtility.WakeUp(this.pawn);
+				},
+				defaultCompleteMode = ToilCompleteMode.Instant
 			};
-			toil.defaultCompleteMode = ToilCompleteMode.Instant;
-			return toil;
 		}
+
+		// Token: 0x040001C9 RID: 457
+		private const TargetIndex AnimalOrSlaveInd = TargetIndex.A;
 	}
 }

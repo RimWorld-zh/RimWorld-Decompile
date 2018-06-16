@@ -1,17 +1,25 @@
-using RimWorld.Planet;
+﻿using System;
 using System.Text;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x02000836 RID: 2102
 	public class Page_SelectLandingSite : Page
 	{
-		private const float GapBetweenBottomButtons = 10f;
+		// Token: 0x06002F7D RID: 12157 RVA: 0x001966B8 File Offset: 0x00194AB8
+		public Page_SelectLandingSite()
+		{
+			this.absorbInputAroundWindow = false;
+			this.shadowAlpha = 0f;
+			this.preventCameraMotion = false;
+		}
 
-		private const float UseTwoRowsIfScreenWidthBelow = 1340f;
-
+		// Token: 0x17000785 RID: 1925
+		// (get) Token: 0x06002F7E RID: 12158 RVA: 0x001966DC File Offset: 0x00194ADC
 		public override string PageTitle
 		{
 			get
@@ -20,6 +28,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000786 RID: 1926
+		// (get) Token: 0x06002F7F RID: 12159 RVA: 0x001966FC File Offset: 0x00194AFC
 		public override Vector2 InitialSize
 		{
 			get
@@ -28,6 +38,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000787 RID: 1927
+		// (get) Token: 0x06002F80 RID: 12160 RVA: 0x00196718 File Offset: 0x00194B18
 		protected override float Margin
 		{
 			get
@@ -36,13 +48,7 @@ namespace RimWorld
 			}
 		}
 
-		public Page_SelectLandingSite()
-		{
-			base.absorbInputAroundWindow = false;
-			base.shadowAlpha = 0f;
-			base.preventCameraMotion = false;
-		}
-
+		// Token: 0x06002F81 RID: 12161 RVA: 0x00196732 File Offset: 0x00194B32
 		public override void PreOpen()
 		{
 			base.PreOpen();
@@ -51,6 +57,7 @@ namespace RimWorld
 			((MainButtonWorker_ToggleWorld)MainButtonDefOf.World.Worker).resetViewNextTime = true;
 		}
 
+		// Token: 0x06002F82 RID: 12162 RVA: 0x0019676A File Offset: 0x00194B6A
 		public override void PostOpen()
 		{
 			base.PostOpen();
@@ -59,12 +66,14 @@ namespace RimWorld
 			TutorSystem.Notify_Event("PageStart-SelectLandingSite");
 		}
 
+		// Token: 0x06002F83 RID: 12163 RVA: 0x00196797 File Offset: 0x00194B97
 		public override void PostClose()
 		{
 			base.PostClose();
 			Find.World.renderer.wantedMode = WorldRenderMode.None;
 		}
 
+		// Token: 0x06002F84 RID: 12164 RVA: 0x001967B0 File Offset: 0x00194BB0
 		public override void DoWindowContents(Rect rect)
 		{
 			if (Find.WorldInterface.SelectedTile >= 0)
@@ -75,9 +84,9 @@ namespace RimWorld
 			{
 				Find.GameInitData.startingTile = Find.WorldSelector.FirstSelectedObject.Tile;
 			}
-			base.closeOnEscapeKey = !Find.WorldRoutePlanner.Active;
 		}
 
+		// Token: 0x06002F85 RID: 12165 RVA: 0x0019680F File Offset: 0x00194C0F
 		public override void ExtraOnGUI()
 		{
 			base.ExtraOnGUI();
@@ -87,131 +96,125 @@ namespace RimWorld
 			this.DoCustomBottomButtons();
 		}
 
+		// Token: 0x06002F86 RID: 12166 RVA: 0x0019684C File Offset: 0x00194C4C
 		protected override bool CanDoNext()
 		{
+			bool result;
 			if (!base.CanDoNext())
 			{
-				return false;
+				result = false;
 			}
-			int selectedTile = Find.WorldInterface.SelectedTile;
-			if (selectedTile < 0)
+			else
 			{
-				Messages.Message("MustSelectLandingSite".Translate(), MessageTypeDefOf.RejectInput);
-				return false;
+				int selectedTile = Find.WorldInterface.SelectedTile;
+				if (selectedTile < 0)
+				{
+					Messages.Message("MustSelectLandingSite".Translate(), MessageTypeDefOf.RejectInput, false);
+					result = false;
+				}
+				else
+				{
+					StringBuilder stringBuilder = new StringBuilder();
+					if (!TileFinder.IsValidTileForNewSettlement(selectedTile, stringBuilder))
+					{
+						Messages.Message(stringBuilder.ToString(), MessageTypeDefOf.RejectInput, false);
+						result = false;
+					}
+					else
+					{
+						Tile tile = Find.WorldGrid[selectedTile];
+						result = TutorSystem.AllowAction("ChooseBiome-" + tile.biome.defName + "-" + tile.hilliness.ToString());
+					}
+				}
 			}
-			StringBuilder stringBuilder = new StringBuilder();
-			if (!TileFinder.IsValidTileForNewSettlement(selectedTile, stringBuilder))
-			{
-				Messages.Message(stringBuilder.ToString(), MessageTypeDefOf.RejectInput);
-				return false;
-			}
-			Tile tile = Find.WorldGrid[selectedTile];
-			if (!TutorSystem.AllowAction("ChooseBiome-" + tile.biome.defName + "-" + tile.hilliness.ToString()))
-			{
-				return false;
-			}
-			return true;
+			return result;
 		}
 
+		// Token: 0x06002F87 RID: 12167 RVA: 0x0019691C File Offset: 0x00194D1C
 		protected override void DoNext()
 		{
-			Find.GameInitData.startingTile = Find.WorldInterface.SelectedTile;
-			base.DoNext();
+			int selTile = Find.WorldInterface.SelectedTile;
+			FactionBaseProximityGoodwillUtility.CheckConfirmSettle(selTile, delegate
+			{
+				Find.GameInitData.startingTile = selTile;
+				this.<DoNext>__BaseCallProxy0();
+			});
 		}
 
+		// Token: 0x06002F88 RID: 12168 RVA: 0x00196960 File Offset: 0x00194D60
 		private void DoCustomBottomButtons()
 		{
 			int num = (!TutorSystem.TutorialMode) ? 5 : 4;
-			int num2 = (num < 4 || !((float)UI.screenWidth < 1340.0)) ? 1 : 2;
-			int num3 = Mathf.CeilToInt((float)num / (float)num2);
-			Vector2 bottomButSize = Page.BottomButSize;
-			float num4 = (float)(bottomButSize.x * (float)num3 + 10.0 * (float)(num3 + 1));
-			float num5 = (float)num2;
-			Vector2 bottomButSize2 = Page.BottomButSize;
-			float num6 = (float)(num5 * bottomButSize2.y + 10.0 * (float)(num2 + 1));
-			Rect rect = new Rect((float)(((float)UI.screenWidth - num4) / 2.0), (float)((float)UI.screenHeight - num6 - 4.0), num4, num6);
-			WorldInspectPane worldInspectPane = Find.WindowStack.WindowOfType<WorldInspectPane>();
-			if (worldInspectPane != null && rect.x < InspectPaneUtility.PaneWidthFor(worldInspectPane) + 4.0)
+			int num2;
+			if (num >= 4 && (float)UI.screenWidth < 1340f)
 			{
-				rect.x = (float)(InspectPaneUtility.PaneWidthFor(worldInspectPane) + 4.0);
+				num2 = 2;
+			}
+			else
+			{
+				num2 = 1;
+			}
+			int num3 = Mathf.CeilToInt((float)num / (float)num2);
+			float num4 = Page.BottomButSize.x * (float)num3 + 10f * (float)(num3 + 1);
+			float num5 = (float)num2 * Page.BottomButSize.y + 10f * (float)(num2 + 1);
+			Rect rect = new Rect(((float)UI.screenWidth - num4) / 2f, (float)UI.screenHeight - num5 - 4f, num4, num5);
+			WorldInspectPane worldInspectPane = Find.WindowStack.WindowOfType<WorldInspectPane>();
+			if (worldInspectPane != null && rect.x < InspectPaneUtility.PaneWidthFor(worldInspectPane) + 4f)
+			{
+				rect.x = InspectPaneUtility.PaneWidthFor(worldInspectPane) + 4f;
 			}
 			Widgets.DrawWindowBackground(rect);
-			float num7 = (float)(rect.xMin + 10.0);
-			float num8 = (float)(rect.yMin + 10.0);
+			float num6 = rect.xMin + 10f;
+			float num7 = rect.yMin + 10f;
 			Text.Font = GameFont.Small;
-			float x = num7;
-			float y = num8;
-			Vector2 bottomButSize3 = Page.BottomButSize;
-			float x2 = bottomButSize3.x;
-			Vector2 bottomButSize4 = Page.BottomButSize;
-			if (Widgets.ButtonText(new Rect(x, y, x2, bottomButSize4.y), "Back".Translate(), true, false, true) && this.CanDoBack())
+			if (Widgets.ButtonText(new Rect(num6, num7, Page.BottomButSize.x, Page.BottomButSize.y), "Back".Translate(), true, false, true))
 			{
-				this.DoBack();
+				if (this.CanDoBack())
+				{
+					this.DoBack();
+				}
 			}
-			float num9 = num7;
-			Vector2 bottomButSize5 = Page.BottomButSize;
-			num7 = (float)(num9 + (bottomButSize5.x + 10.0));
+			num6 += Page.BottomButSize.x + 10f;
 			if (!TutorSystem.TutorialMode)
 			{
-				float x3 = num7;
-				float y2 = num8;
-				Vector2 bottomButSize6 = Page.BottomButSize;
-				float x4 = bottomButSize6.x;
-				Vector2 bottomButSize7 = Page.BottomButSize;
-				if (Widgets.ButtonText(new Rect(x3, y2, x4, bottomButSize7.y), "Advanced".Translate(), true, false, true))
+				if (Widgets.ButtonText(new Rect(num6, num7, Page.BottomButSize.x, Page.BottomButSize.y), "Advanced".Translate(), true, false, true))
 				{
 					Find.WindowStack.Add(new Dialog_AdvancedGameConfig(Find.WorldInterface.SelectedTile));
 				}
-				float num10 = num7;
-				Vector2 bottomButSize8 = Page.BottomButSize;
-				num7 = (float)(num10 + (bottomButSize8.x + 10.0));
+				num6 += Page.BottomButSize.x + 10f;
 			}
-			float x5 = num7;
-			float y3 = num8;
-			Vector2 bottomButSize9 = Page.BottomButSize;
-			float x6 = bottomButSize9.x;
-			Vector2 bottomButSize10 = Page.BottomButSize;
-			if (Widgets.ButtonText(new Rect(x5, y3, x6, bottomButSize10.y), "SelectRandomSite".Translate(), true, false, true))
+			if (Widgets.ButtonText(new Rect(num6, num7, Page.BottomButSize.x, Page.BottomButSize.y), "SelectRandomSite".Translate(), true, false, true))
 			{
 				SoundDefOf.Click.PlayOneShotOnCamera(null);
 				Find.WorldInterface.SelectedTile = TileFinder.RandomStartingTile();
 				Find.WorldCameraDriver.JumpTo(Find.WorldGrid.GetTileCenter(Find.WorldInterface.SelectedTile));
 			}
-			float num11 = num7;
-			Vector2 bottomButSize11 = Page.BottomButSize;
-			num7 = (float)(num11 + (bottomButSize11.x + 10.0));
+			num6 += Page.BottomButSize.x + 10f;
 			if (num2 == 2)
 			{
-				num7 = (float)(rect.xMin + 10.0);
-				float num12 = num8;
-				Vector2 bottomButSize12 = Page.BottomButSize;
-				num8 = (float)(num12 + (bottomButSize12.y + 10.0));
+				num6 = rect.xMin + 10f;
+				num7 += Page.BottomButSize.y + 10f;
 			}
-			float x7 = num7;
-			float y4 = num8;
-			Vector2 bottomButSize13 = Page.BottomButSize;
-			float x8 = bottomButSize13.x;
-			Vector2 bottomButSize14 = Page.BottomButSize;
-			if (Widgets.ButtonText(new Rect(x7, y4, x8, bottomButSize14.y), "WorldFactionsTab".Translate(), true, false, true))
+			if (Widgets.ButtonText(new Rect(num6, num7, Page.BottomButSize.x, Page.BottomButSize.y), "WorldFactionsTab".Translate(), true, false, true))
 			{
 				Find.WindowStack.Add(new Dialog_FactionDuringLanding());
 			}
-			float num13 = num7;
-			Vector2 bottomButSize15 = Page.BottomButSize;
-			num7 = (float)(num13 + (bottomButSize15.x + 10.0));
-			float x9 = num7;
-			float y5 = num8;
-			Vector2 bottomButSize16 = Page.BottomButSize;
-			float x10 = bottomButSize16.x;
-			Vector2 bottomButSize17 = Page.BottomButSize;
-			if (Widgets.ButtonText(new Rect(x9, y5, x10, bottomButSize17.y), "Next".Translate(), true, false, true) && this.CanDoNext())
+			num6 += Page.BottomButSize.x + 10f;
+			if (Widgets.ButtonText(new Rect(num6, num7, Page.BottomButSize.x, Page.BottomButSize.y), "Next".Translate(), true, false, true))
 			{
-				this.DoNext();
+				if (this.CanDoNext())
+				{
+					this.DoNext();
+				}
 			}
-			float num14 = num7;
-			Vector2 bottomButSize18 = Page.BottomButSize;
-			num7 = (float)(num14 + (bottomButSize18.x + 10.0));
+			num6 += Page.BottomButSize.x + 10f;
 			GenUI.AbsorbClicksInRect(rect);
 		}
+
+		// Token: 0x040019AC RID: 6572
+		private const float GapBetweenBottomButtons = 10f;
+
+		// Token: 0x040019AD RID: 6573
+		private const float UseTwoRowsIfScreenWidthBelow = 1340f;
 	}
 }

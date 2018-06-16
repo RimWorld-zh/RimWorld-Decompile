@@ -1,18 +1,17 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200081A RID: 2074
 	public static class InteractionCardUtility
 	{
-		private static Vector2 logScrollPosition = Vector2.zero;
-
-		private static List<Pair<string, int>> logStrings = new List<Pair<string, int>>();
-
+		// Token: 0x06002E51 RID: 11857 RVA: 0x00189E88 File Offset: 0x00188288
 		public static void DrawInteractionsLog(Rect rect, Pawn pawn, List<LogEntry> entries, int maxEntries)
 		{
-			float width = (float)(rect.width - 26.0 - 3.0 - 16.0 - 10.0);
+			float width = rect.width - 29f - 16f - 10f;
 			InteractionCardUtility.logStrings.Clear();
 			float num = 0f;
 			int num2 = 0;
@@ -20,15 +19,17 @@ namespace RimWorld
 			{
 				if (entries[i].Concerns(pawn))
 				{
-					string text = entries[i].ToGameStringFromPOV(pawn);
+					string text = entries[i].ToGameStringFromPOV(pawn, false);
 					InteractionCardUtility.logStrings.Add(new Pair<string, int>(text, i));
 					num += Mathf.Max(26f, Text.CalcHeight(text, width));
 					num2++;
 					if (num2 >= maxEntries)
+					{
 						break;
+					}
 				}
 			}
-			Rect viewRect = new Rect(0f, 0f, (float)(rect.width - 16.0), num);
+			Rect viewRect = new Rect(0f, 0f, rect.width - 16f, num);
 			Widgets.BeginScrollView(rect, ref InteractionCardUtility.logScrollPosition, viewRect, true);
 			float num3 = 0f;
 			for (int j = 0; j < InteractionCardUtility.logStrings.Count; j++)
@@ -41,7 +42,7 @@ namespace RimWorld
 				}
 				float num4 = Mathf.Max(26f, Text.CalcHeight(first, width));
 				Texture2D texture2D = entry.IconFromPOV(pawn);
-				if ((Object)texture2D != (Object)null)
+				if (texture2D != null)
 				{
 					Rect position = new Rect(0f, num3, 26f, 26f);
 					GUI.DrawTexture(position, texture2D);
@@ -57,7 +58,22 @@ namespace RimWorld
 				GUI.color = Color.white;
 				num3 += num4;
 			}
-			GUI.EndScrollView();
+			Widgets.EndScrollView();
 		}
+
+		// Token: 0x040018BA RID: 6330
+		private static Vector2 logScrollPosition = Vector2.zero;
+
+		// Token: 0x040018BB RID: 6331
+		public const float ImageSize = 26f;
+
+		// Token: 0x040018BC RID: 6332
+		public const float ImagePadRight = 3f;
+
+		// Token: 0x040018BD RID: 6333
+		public const float TextOffset = 29f;
+
+		// Token: 0x040018BE RID: 6334
+		private static List<Pair<string, int>> logStrings = new List<Pair<string, int>>();
 	}
 }

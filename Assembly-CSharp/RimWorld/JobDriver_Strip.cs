@@ -1,44 +1,68 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x0200007F RID: 127
 	public class JobDriver_Strip : JobDriver
 	{
-		private const int StripTicks = 60;
-
+		// Token: 0x0600035C RID: 860 RVA: 0x00025494 File Offset: 0x00023894
 		public override bool TryMakePreToilReservations()
 		{
-			return base.pawn.Reserve(base.job.targetA, base.job, 1, -1, null);
+			return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null);
 		}
 
+		// Token: 0x0600035D RID: 861 RVA: 0x000254C8 File Offset: 0x000238C8
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.A);
 			this.FailOnAggroMentalState(TargetIndex.A);
-			this.FailOn(() => !StrippableUtility.CanBeStrippedByColony(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0049: stateMachine*/)._0024this.TargetThingA));
-			Toil gotoThing = new Toil
+			this.FailOn(() => !StrippableUtility.CanBeStrippedByColony(base.TargetThingA));
+			Toil gotoThing = new Toil();
+			gotoThing.initAction = delegate()
 			{
-				initAction = delegate
-				{
-					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006c: stateMachine*/)._0024this.pawn.pather.StartPath(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006c: stateMachine*/)._0024this.TargetThingA, PathEndMode.ClosestTouch);
-				},
-				defaultCompleteMode = ToilCompleteMode.PatherArrival
+				this.pawn.pather.StartPath(base.TargetThingA, PathEndMode.ClosestTouch);
 			};
+			gotoThing.defaultCompleteMode = ToilCompleteMode.PatherArrival;
 			gotoThing.FailOnDespawnedNullOrForbidden(TargetIndex.A);
 			yield return gotoThing;
-			/*Error: Unable to find new state assignment for yield return*/;
+			yield return Toils_General.Wait(60).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
+			yield return new Toil
+			{
+				initAction = delegate()
+				{
+					Thing thing = this.job.targetA.Thing;
+					Designation designation = base.Map.designationManager.DesignationOn(thing, DesignationDefOf.Strip);
+					if (designation != null)
+					{
+						designation.Delete();
+					}
+					IStrippable strippable = thing as IStrippable;
+					if (strippable != null)
+					{
+						strippable.Strip();
+					}
+					this.pawn.records.Increment(RecordDefOf.BodiesStripped);
+				},
+				defaultCompleteMode = ToilCompleteMode.Instant
+			};
+			yield break;
 		}
 
+		// Token: 0x0600035E RID: 862 RVA: 0x000254F4 File Offset: 0x000238F4
 		public override object[] TaleParameters()
 		{
 			Corpse corpse = base.TargetA.Thing as Corpse;
-			return new object[2]
+			return new object[]
 			{
-				base.pawn,
+				this.pawn,
 				(corpse == null) ? base.TargetA.Thing : corpse.InnerPawn
 			};
 		}
+
+		// Token: 0x04000237 RID: 567
+		private const int StripTicks = 60;
 	}
 }

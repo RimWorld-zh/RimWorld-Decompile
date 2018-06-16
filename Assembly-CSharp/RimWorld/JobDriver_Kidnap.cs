@@ -1,11 +1,15 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000071 RID: 113
 	public class JobDriver_Kidnap : JobDriver_TakeAndExitMap
 	{
+		// Token: 0x170000A0 RID: 160
+		// (get) Token: 0x06000317 RID: 791 RVA: 0x00021A3C File Offset: 0x0001FE3C
 		protected Pawn Takee
 		{
 			get
@@ -14,30 +18,30 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06000318 RID: 792 RVA: 0x00021A5C File Offset: 0x0001FE5C
 		public override string GetReport()
 		{
-			if (this.Takee != null && !base.pawn.HostileTo(this.Takee))
+			string result;
+			if (this.Takee == null || this.pawn.HostileTo(this.Takee))
 			{
-				return JobDefOf.Rescue.reportString.Replace("TargetA", this.Takee.LabelShort);
+				result = base.GetReport();
 			}
-			return base.GetReport();
+			else
+			{
+				result = JobDefOf.Rescue.reportString.Replace("TargetA", this.Takee.LabelShort);
+			}
+			return result;
 		}
 
+		// Token: 0x06000319 RID: 793 RVA: 0x00021AC0 File Offset: 0x0001FEC0
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			this.FailOn(() => ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0029: stateMachine*/)._0024this.Takee == null || (!((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0029: stateMachine*/)._0024this.Takee.Downed && ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0029: stateMachine*/)._0024this.Takee.Awake()));
-			using (IEnumerator<Toil> enumerator = base.MakeNewToils().GetEnumerator())
+			this.FailOn(() => this.Takee == null || (!this.Takee.Downed && this.Takee.Awake()));
+			foreach (Toil t in this.<MakeNewToils>__BaseCallProxy0())
 			{
-				if (enumerator.MoveNext())
-				{
-					Toil t = enumerator.Current;
-					yield return t;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return t;
 			}
 			yield break;
-			IL_00d1:
-			/*Error near IL_00d2: Unexpected return in MoveNext()*/;
 		}
 	}
 }

@@ -1,33 +1,47 @@
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x020000F6 RID: 246
 	public class JoyGiver_WatchBuilding : JoyGiver_InteractBuilding
 	{
+		// Token: 0x0600052D RID: 1325 RVA: 0x00038F54 File Offset: 0x00037354
 		protected override bool CanInteractWith(Pawn pawn, Thing t, bool inBed)
 		{
+			bool result;
 			if (!base.CanInteractWith(pawn, t, inBed))
 			{
-				return false;
+				result = false;
 			}
-			if (inBed)
+			else if (inBed)
 			{
 				Building_Bed bed = pawn.CurrentBed();
-				return WatchBuildingUtility.CanWatchFromBed(pawn, bed, t);
+				result = WatchBuildingUtility.CanWatchFromBed(pawn, bed, t);
 			}
-			return true;
+			else
+			{
+				result = true;
+			}
+			return result;
 		}
 
+		// Token: 0x0600052E RID: 1326 RVA: 0x00038F9C File Offset: 0x0003739C
 		protected override Job TryGivePlayJob(Pawn pawn, Thing t)
 		{
-			IntVec3 c = default(IntVec3);
-			Building t2 = default(Building);
-			if (!WatchBuildingUtility.TryFindBestWatchCell(t, pawn, base.def.desireSit, out c, out t2))
+			IntVec3 c;
+			Building t2;
+			Job result;
+			if (!WatchBuildingUtility.TryFindBestWatchCell(t, pawn, this.def.desireSit, out c, out t2))
 			{
-				return null;
+				result = null;
 			}
-			return new Job(base.def.jobDef, t, c, t2);
+			else
+			{
+				result = new Job(this.def.jobDef, t, c, t2);
+			}
+			return result;
 		}
 	}
 }

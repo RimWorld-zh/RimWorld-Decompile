@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -7,160 +7,258 @@ using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000F44 RID: 3908
+	[HasDebugOutput]
 	public static class GenMath
 	{
-		public struct BezierCubicControls
-		{
-			public Vector3 w0;
-
-			public Vector3 w1;
-
-			public Vector3 w2;
-
-			public Vector3 w3;
-		}
-
-		public const float BigEpsilon = 1E-07f;
-
-		public const float Sqrt2 = 1.41421354f;
-
-		private static List<float> tmpScores = new List<float>();
-
-		private static List<float> tmpCalcList = new List<float>();
-
+		// Token: 0x06005E3D RID: 24125 RVA: 0x002FDBA8 File Offset: 0x002FBFA8
 		public static float RoundedHundredth(float f)
 		{
-			return (float)(Mathf.Round((float)(f * 100.0)) / 100.0);
+			return Mathf.Round(f * 100f) / 100f;
 		}
 
+		// Token: 0x06005E3E RID: 24126 RVA: 0x002FDBD0 File Offset: 0x002FBFD0
 		public static int RoundTo(int value, int roundToNearest)
 		{
 			return (int)Math.Round((double)((float)value / (float)roundToNearest)) * roundToNearest;
 		}
 
-		public static float ChanceEitherHappens(float chanceA, float chanceB)
+		// Token: 0x06005E3F RID: 24127 RVA: 0x002FDBF4 File Offset: 0x002FBFF4
+		public static float RoundTo(float value, float roundToNearest)
 		{
-			return (float)(chanceA + (1.0 - chanceA) * chanceB);
+			return (float)((int)Math.Round((double)(value / roundToNearest))) * roundToNearest;
 		}
 
+		// Token: 0x06005E40 RID: 24128 RVA: 0x002FDC18 File Offset: 0x002FC018
+		public static float ChanceEitherHappens(float chanceA, float chanceB)
+		{
+			return chanceA + (1f - chanceA) * chanceB;
+		}
+
+		// Token: 0x06005E41 RID: 24129 RVA: 0x002FDC38 File Offset: 0x002FC038
 		public static float SmootherStep(float edge0, float edge1, float x)
 		{
 			x = Mathf.Clamp01((x - edge0) / (edge1 - edge0));
-			return (float)(x * x * x * (x * (x * 6.0 - 15.0) + 10.0));
+			return x * x * x * (x * (x * 6f - 15f) + 10f);
 		}
 
+		// Token: 0x06005E42 RID: 24130 RVA: 0x002FDC78 File Offset: 0x002FC078
 		public static int RoundRandom(float f)
 		{
-			return (int)f + ((Rand.Value < f % 1.0) ? 1 : 0);
+			return (int)f + ((Rand.Value >= f % 1f) ? 0 : 1);
 		}
 
+		// Token: 0x06005E43 RID: 24131 RVA: 0x002FDCA8 File Offset: 0x002FC0A8
 		public static float WeightedAverage(float A, float weightA, float B, float weightB)
 		{
 			return (A * weightA + B * weightB) / (weightA + weightB);
 		}
 
+		// Token: 0x06005E44 RID: 24132 RVA: 0x002FDCC8 File Offset: 0x002FC0C8
+		public static float Median<T>(IList<T> list, Func<T, float> orderBy, float noneValue = 0f, float center = 0.5f)
+		{
+			float result;
+			if (list.NullOrEmpty<T>())
+			{
+				result = noneValue;
+			}
+			else
+			{
+				GenMath.tmpElements.Clear();
+				for (int i = 0; i < list.Count; i++)
+				{
+					GenMath.tmpElements.Add(orderBy(list[i]));
+				}
+				GenMath.tmpElements.Sort();
+				result = GenMath.tmpElements[Mathf.Min(Mathf.FloorToInt((float)GenMath.tmpElements.Count * center), GenMath.tmpElements.Count - 1)];
+			}
+			return result;
+		}
+
+		// Token: 0x06005E45 RID: 24133 RVA: 0x002FDD60 File Offset: 0x002FC160
+		public static float WeightedMedian(IList<Pair<float, float>> list, float noneValue = 0f, float center = 0.5f)
+		{
+			GenMath.tmpPairs.Clear();
+			GenMath.tmpPairs.AddRange(list);
+			float num = 0f;
+			for (int i = 0; i < GenMath.tmpPairs.Count; i++)
+			{
+				float second = GenMath.tmpPairs[i].Second;
+				if (second < 0f)
+				{
+					Log.ErrorOnce("Negative weight in WeightedMedian: " + second, GenMath.tmpPairs.GetHashCode(), false);
+				}
+				else
+				{
+					num += second;
+				}
+			}
+			float result;
+			if (num <= 0f)
+			{
+				result = noneValue;
+			}
+			else
+			{
+				GenMath.tmpPairs.SortBy((Pair<float, float> x) => x.First);
+				float num2 = 0f;
+				for (int j = 0; j < GenMath.tmpPairs.Count; j++)
+				{
+					float first = GenMath.tmpPairs[j].First;
+					float second2 = GenMath.tmpPairs[j].Second;
+					num2 += second2 / num;
+					if (num2 >= center)
+					{
+						return first;
+					}
+				}
+				result = GenMath.tmpPairs.Last<Pair<float, float>>().First;
+			}
+			return result;
+		}
+
+		// Token: 0x06005E46 RID: 24134 RVA: 0x002FDEB8 File Offset: 0x002FC2B8
 		public static float Sqrt(float f)
 		{
 			return (float)Math.Sqrt((double)f);
 		}
 
+		// Token: 0x06005E47 RID: 24135 RVA: 0x002FDED8 File Offset: 0x002FC2D8
 		public static float LerpDouble(float inFrom, float inTo, float outFrom, float outTo, float x)
 		{
 			float num = (x - inFrom) / (inTo - inFrom);
 			return outFrom + (outTo - outFrom) * num;
 		}
 
+		// Token: 0x06005E48 RID: 24136 RVA: 0x002FDF00 File Offset: 0x002FC300
 		public static float LerpDoubleClamped(float inFrom, float inTo, float outFrom, float outTo, float x)
 		{
 			return GenMath.LerpDouble(inFrom, inTo, outFrom, outTo, Mathf.Clamp(x, Mathf.Min(inFrom, inTo), Mathf.Max(inFrom, inTo)));
 		}
 
+		// Token: 0x06005E49 RID: 24137 RVA: 0x002FDF34 File Offset: 0x002FC334
 		public static float Reflection(float value, float mirror)
 		{
 			return mirror - (value - mirror);
 		}
 
+		// Token: 0x06005E4A RID: 24138 RVA: 0x002FDF50 File Offset: 0x002FC350
 		public static Quaternion ToQuat(this float ang)
 		{
 			return Quaternion.AngleAxis(ang, Vector3.up);
 		}
 
+		// Token: 0x06005E4B RID: 24139 RVA: 0x002FDF70 File Offset: 0x002FC370
 		public static float GetFactorInInterval(float min, float mid, float max, float power, float x)
 		{
+			float result;
 			if (min > max)
 			{
-				return 0f;
+				result = 0f;
 			}
-			if (!(x <= min) && !(x >= max))
+			else if (x <= min || x >= max)
 			{
-				if (x == mid)
-				{
-					return 1f;
-				}
-				float num = 0f;
-				num = (float)((!(x < mid)) ? (1.0 - (x - mid) / (max - mid)) : (1.0 - (mid - x) / (mid - min)));
-				return Mathf.Pow(num, power);
+				result = 0f;
 			}
-			return 0f;
+			else if (x == mid)
+			{
+				result = 1f;
+			}
+			else
+			{
+				float f;
+				if (x < mid)
+				{
+					f = 1f - (mid - x) / (mid - min);
+				}
+				else
+				{
+					f = 1f - (x - mid) / (max - mid);
+				}
+				result = Mathf.Pow(f, power);
+			}
+			return result;
 		}
 
+		// Token: 0x06005E4C RID: 24140 RVA: 0x002FE000 File Offset: 0x002FC400
 		public static float FlatHill(float min, float lower, float upper, float max, float x)
 		{
+			float result;
 			if (x < min)
 			{
-				return 0f;
+				result = 0f;
 			}
-			if (x < lower)
+			else if (x < lower)
 			{
-				return Mathf.InverseLerp(min, lower, x);
+				result = Mathf.InverseLerp(min, lower, x);
 			}
-			if (x < upper)
+			else if (x < upper)
 			{
-				return 1f;
+				result = 1f;
 			}
-			if (x < max)
+			else if (x < max)
 			{
-				return Mathf.InverseLerp(max, upper, x);
+				result = Mathf.InverseLerp(max, upper, x);
 			}
-			return 0f;
+			else
+			{
+				result = 0f;
+			}
+			return result;
 		}
 
+		// Token: 0x06005E4D RID: 24141 RVA: 0x002FE070 File Offset: 0x002FC470
 		public static float FlatHill(float minY, float min, float lower, float upper, float max, float maxY, float x)
 		{
+			float result;
 			if (x < min)
 			{
-				return minY;
+				result = minY;
 			}
-			if (x < lower)
+			else if (x < lower)
 			{
-				return GenMath.LerpDouble(min, lower, minY, 1f, x);
+				result = GenMath.LerpDouble(min, lower, minY, 1f, x);
 			}
-			if (x < upper)
+			else if (x < upper)
 			{
-				return 1f;
+				result = 1f;
 			}
-			if (x < max)
+			else if (x < max)
 			{
-				return GenMath.LerpDouble(upper, max, 1f, maxY, x);
+				result = GenMath.LerpDouble(upper, max, 1f, maxY, x);
 			}
-			return maxY;
+			else
+			{
+				result = maxY;
+			}
+			return result;
 		}
 
+		// Token: 0x06005E4E RID: 24142 RVA: 0x002FE0E8 File Offset: 0x002FC4E8
 		public static int OctileDistance(int dx, int dz, int cardinal, int diagonal)
 		{
 			return cardinal * (dx + dz) + (diagonal - 2 * cardinal) * Mathf.Min(dx, dz);
 		}
 
+		// Token: 0x06005E4F RID: 24143 RVA: 0x002FE110 File Offset: 0x002FC510
 		public static float UnboundedValueToFactor(float val)
 		{
-			if (val > 0.0)
+			float result;
+			if (val > 0f)
 			{
-				return (float)(1.0 + val);
+				result = 1f + val;
 			}
-			return (float)(1.0 / (1.0 - val));
+			else
+			{
+				result = 1f / (1f - val);
+			}
+			return result;
 		}
 
-		public static void LogTestMathPerf()
+		// Token: 0x06005E50 RID: 24144 RVA: 0x002FE14C File Offset: 0x002FC54C
+		[DebugOutput]
+		[Category("System")]
+		public static void TestMathPerf()
 		{
 			IntVec3 intVec = new IntVec3(72, 0, 65);
 			StringBuilder stringBuilder = new StringBuilder();
@@ -168,31 +266,49 @@ namespace Verse
 			float num = 0f;
 			Stopwatch stopwatch = Stopwatch.StartNew();
 			int num2 = 0;
-			while ((float)num2 < 10000000.0)
+			while ((float)num2 < 1E+07f)
 			{
 				num += (float)Math.Sqrt(101.20999908447266);
 				num2++;
 			}
-			stringBuilder.AppendLine("(float)System.Math.Sqrt(" + 101.21f + "): " + stopwatch.ElapsedTicks);
+			stringBuilder.AppendLine(string.Concat(new object[]
+			{
+				"(float)System.Math.Sqrt(",
+				101.21f,
+				"): ",
+				stopwatch.ElapsedTicks
+			}));
 			Stopwatch stopwatch2 = Stopwatch.StartNew();
 			int num3 = 0;
-			while ((float)num3 < 10000000.0)
+			while ((float)num3 < 1E+07f)
 			{
 				num += Mathf.Sqrt(101.21f);
 				num3++;
 			}
-			stringBuilder.AppendLine("UnityEngine.Mathf.Sqrt(" + 101.21f + "): " + stopwatch2.ElapsedTicks);
+			stringBuilder.AppendLine(string.Concat(new object[]
+			{
+				"UnityEngine.Mathf.Sqrt(",
+				101.21f,
+				"): ",
+				stopwatch2.ElapsedTicks
+			}));
 			Stopwatch stopwatch3 = Stopwatch.StartNew();
 			int num4 = 0;
-			while ((float)num4 < 10000000.0)
+			while ((float)num4 < 1E+07f)
 			{
 				num += GenMath.Sqrt(101.21f);
 				num4++;
 			}
-			stringBuilder.AppendLine("Verse.GenMath.Sqrt(" + 101.21f + "): " + stopwatch3.ElapsedTicks);
+			stringBuilder.AppendLine(string.Concat(new object[]
+			{
+				"Verse.GenMath.Sqrt(",
+				101.21f,
+				"): ",
+				stopwatch3.ElapsedTicks
+			}));
 			Stopwatch stopwatch4 = Stopwatch.StartNew();
 			int num5 = 0;
-			while ((float)num5 < 10000000.0)
+			while ((float)num5 < 1E+07f)
 			{
 				num += (float)intVec.LengthManhattan;
 				num5++;
@@ -200,7 +316,7 @@ namespace Verse
 			stringBuilder.AppendLine("Verse.IntVec3.LengthManhattan: " + stopwatch4.ElapsedTicks);
 			Stopwatch stopwatch5 = Stopwatch.StartNew();
 			int num6 = 0;
-			while ((float)num6 < 10000000.0)
+			while ((float)num6 < 1E+07f)
 			{
 				num += intVec.LengthHorizontal;
 				num6++;
@@ -208,59 +324,84 @@ namespace Verse
 			stringBuilder.AppendLine("Verse.IntVec3.LengthHorizontal: " + stopwatch5.ElapsedTicks);
 			Stopwatch stopwatch6 = Stopwatch.StartNew();
 			int num7 = 0;
-			while ((float)num7 < 10000000.0)
+			while ((float)num7 < 1E+07f)
 			{
 				num += (float)intVec.LengthHorizontalSquared;
 				num7++;
 			}
 			stringBuilder.AppendLine("Verse.IntVec3.LengthHorizontalSquared: " + stopwatch6.ElapsedTicks);
 			stringBuilder.AppendLine("total: " + num);
-			Log.Message(stringBuilder.ToString());
+			Log.Message(stringBuilder.ToString(), false);
 		}
 
+		// Token: 0x06005E51 RID: 24145 RVA: 0x002FE3F4 File Offset: 0x002FC7F4
 		public static float Min(float a, float b, float c)
 		{
+			float result;
 			if (a < b)
 			{
 				if (a < c)
 				{
-					return a;
+					result = a;
 				}
-				return c;
+				else
+				{
+					result = c;
+				}
 			}
-			if (b < c)
+			else if (b < c)
 			{
-				return b;
+				result = b;
 			}
-			return c;
+			else
+			{
+				result = c;
+			}
+			return result;
 		}
 
+		// Token: 0x06005E52 RID: 24146 RVA: 0x002FE438 File Offset: 0x002FC838
 		public static int Max(int a, int b, int c)
 		{
+			int result;
 			if (a > b)
 			{
 				if (a > c)
 				{
-					return a;
+					result = a;
 				}
-				return c;
+				else
+				{
+					result = c;
+				}
 			}
-			if (b > c)
+			else if (b > c)
 			{
-				return b;
+				result = b;
 			}
-			return c;
+			else
+			{
+				result = c;
+			}
+			return result;
 		}
 
+		// Token: 0x06005E53 RID: 24147 RVA: 0x002FE47C File Offset: 0x002FC87C
 		public static float SphericalDistance(Vector3 normalizedA, Vector3 normalizedB)
 		{
+			float result;
 			if (normalizedA == normalizedB)
 			{
-				return 0f;
+				result = 0f;
 			}
-			return Mathf.Acos(Vector3.Dot(normalizedA, normalizedB));
+			else
+			{
+				result = Mathf.Acos(Vector3.Dot(normalizedA, normalizedB));
+			}
+			return result;
 		}
 
+		// Token: 0x06005E54 RID: 24148 RVA: 0x002FE4B4 File Offset: 0x002FC8B4
 		public static void DHondtDistribution(List<int> candidates, Func<int, float> scoreGetter, int numToDistribute)
 		{
 			GenMath.tmpScores.Clear();
@@ -275,41 +416,56 @@ namespace Verse
 			for (int j = 0; j < numToDistribute; j++)
 			{
 				int num = GenMath.tmpCalcList.IndexOf(GenMath.tmpCalcList.Max());
-				List<int> list;
 				int index;
-				(list = candidates)[index = num] = list[index] + 1;
-				GenMath.tmpCalcList[num] = (float)(GenMath.tmpScores[num] / ((float)candidates[num] + 1.0));
+				candidates[index = num] = candidates[index] + 1;
+				GenMath.tmpCalcList[num] = GenMath.tmpScores[num] / ((float)candidates[num] + 1f);
 			}
 		}
 
+		// Token: 0x06005E55 RID: 24149 RVA: 0x002FE57C File Offset: 0x002FC97C
 		public static int PositiveMod(int x, int m)
 		{
 			return (x % m + m) % m;
 		}
 
+		// Token: 0x06005E56 RID: 24150 RVA: 0x002FE598 File Offset: 0x002FC998
 		public static long PositiveMod(long x, long m)
 		{
 			return (x % m + m) % m;
 		}
 
+		// Token: 0x06005E57 RID: 24151 RVA: 0x002FE5B4 File Offset: 0x002FC9B4
 		public static float PositiveMod(float x, float m)
 		{
 			return (x % m + m) % m;
 		}
 
-		public static Vector3 BezierCubicEvaluate(float t, BezierCubicControls bcc)
+		// Token: 0x06005E58 RID: 24152 RVA: 0x002FE5D0 File Offset: 0x002FC9D0
+		public static int PositiveModRemap(long x, int d, int m)
+		{
+			if (x < 0L)
+			{
+				x -= (long)(d - 1);
+			}
+			return (int)((x / (long)d % (long)m + (long)m) % (long)m);
+		}
+
+		// Token: 0x06005E59 RID: 24153 RVA: 0x002FE604 File Offset: 0x002FCA04
+		public static Vector3 BezierCubicEvaluate(float t, GenMath.BezierCubicControls bcc)
 		{
 			return GenMath.BezierCubicEvaluate(t, bcc.w0, bcc.w1, bcc.w2, bcc.w3);
 		}
 
+		// Token: 0x06005E5A RID: 24154 RVA: 0x002FE63C File Offset: 0x002FCA3C
 		public static Vector3 BezierCubicEvaluate(float t, Vector3 w0, Vector3 w1, Vector3 w2, Vector3 w3)
 		{
 			float d = t * t;
-			float num = (float)(1.0 - t);
+			float num = 1f - t;
 			float d2 = num * num;
 			return w0 * d2 * num + 3f * w1 * d2 * t + 3f * w2 * num * d + w3 * d * t;
 		}
 
+		// Token: 0x06005E5B RID: 24155 RVA: 0x002FE6BC File Offset: 0x002FCABC
 		public static float CirclesOverlapArea(float x1, float y1, float r1, float x2, float y2, float r2)
 		{
 			float num = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
@@ -317,34 +473,41 @@ namespace Verse
 			float num3 = r1 * r1;
 			float num4 = r2 * r2;
 			float num5 = Mathf.Abs(r1 - r2);
+			float result;
 			if (num2 >= r1 + r2)
 			{
-				return 0f;
+				result = 0f;
 			}
-			if (num2 <= num5 && r1 >= r2)
+			else if (num2 <= num5 && r1 >= r2)
 			{
-				return (float)(3.1415927410125732 * num4);
+				result = 3.14159274f * num4;
 			}
-			if (num2 <= num5 && r2 >= r1)
+			else if (num2 <= num5 && r2 >= r1)
 			{
-				return (float)(3.1415927410125732 * num3);
+				result = 3.14159274f * num3;
 			}
-			float num6 = (float)(Mathf.Acos((float)((num3 - num4 + num) / (2.0 * r1 * num2))) * 2.0);
-			float num7 = (float)(Mathf.Acos((float)((num4 - num3 + num) / (2.0 * r2 * num2))) * 2.0);
-			float num8 = (float)((num7 * num4 - num4 * Mathf.Sin(num7)) * 0.5);
-			float num9 = (float)((num6 * num3 - num3 * Mathf.Sin(num6)) * 0.5);
-			return num8 + num9;
+			else
+			{
+				float num6 = Mathf.Acos((num3 - num4 + num) / (2f * r1 * num2)) * 2f;
+				float num7 = Mathf.Acos((num4 - num3 + num) / (2f * r2 * num2)) * 2f;
+				float num8 = (num7 * num4 - num4 * Mathf.Sin(num7)) * 0.5f;
+				float num9 = (num6 * num3 - num3 * Mathf.Sin(num6)) * 0.5f;
+				result = num8 + num9;
+			}
+			return result;
 		}
 
+		// Token: 0x06005E5C RID: 24156 RVA: 0x002FE7C4 File Offset: 0x002FCBC4
 		public static bool AnyIntegerInRange(float min, float max)
 		{
 			return Mathf.Ceil(min) <= max;
 		}
 
+		// Token: 0x06005E5D RID: 24157 RVA: 0x002FE7E8 File Offset: 0x002FCBE8
 		public static void NormalizeToSum1(ref float a, ref float b, ref float c)
 		{
 			float num = a + b + c;
-			if (num == 0.0)
+			if (num == 0f)
 			{
 				a = 1f;
 				b = 0f;
@@ -358,173 +521,287 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06005E5E RID: 24158 RVA: 0x002FE83C File Offset: 0x002FCC3C
 		public static float InverseLerp(float a, float b, float value)
 		{
+			float result;
 			if (a == b)
 			{
-				return (float)((!(value < a)) ? 1.0 : 0.0);
+				result = ((value >= a) ? 1f : 0f);
 			}
-			return Mathf.InverseLerp(a, b, value);
+			else
+			{
+				result = Mathf.InverseLerp(a, b, value);
+			}
+			return result;
 		}
 
+		// Token: 0x06005E5F RID: 24159 RVA: 0x002FE87C File Offset: 0x002FCC7C
 		public static T MaxBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3)
 		{
+			T result;
 			if (by1 >= by2 && by1 >= by3)
 			{
-				return elem1;
+				result = elem1;
 			}
-			if (by2 >= by1 && by2 >= by3)
+			else if (by2 >= by1 && by2 >= by3)
 			{
-				return elem2;
+				result = elem2;
 			}
-			return elem3;
+			else
+			{
+				result = elem3;
+			}
+			return result;
 		}
 
+		// Token: 0x06005E60 RID: 24160 RVA: 0x002FE8C0 File Offset: 0x002FCCC0
 		public static T MaxBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4)
 		{
+			T result;
 			if (by1 >= by2 && by1 >= by3 && by1 >= by4)
 			{
-				return elem1;
+				result = elem1;
 			}
-			if (by2 >= by1 && by2 >= by3 && by2 >= by4)
+			else if (by2 >= by1 && by2 >= by3 && by2 >= by4)
 			{
-				return elem2;
+				result = elem2;
 			}
-			if (by3 >= by1 && by3 >= by2 && by3 >= by4)
+			else if (by3 >= by1 && by3 >= by2 && by3 >= by4)
 			{
-				return elem3;
+				result = elem3;
 			}
-			return elem4;
+			else
+			{
+				result = elem4;
+			}
+			return result;
 		}
 
+		// Token: 0x06005E61 RID: 24161 RVA: 0x002FE934 File Offset: 0x002FCD34
 		public static T MaxBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4, T elem5, float by5)
 		{
+			T result;
 			if (by1 >= by2 && by1 >= by3 && by1 >= by4 && by1 >= by5)
 			{
-				return elem1;
+				result = elem1;
 			}
-			if (by2 >= by1 && by2 >= by3 && by2 >= by4 && by2 >= by5)
+			else if (by2 >= by1 && by2 >= by3 && by2 >= by4 && by2 >= by5)
 			{
-				return elem2;
+				result = elem2;
 			}
-			if (by3 >= by1 && by3 >= by2 && by3 >= by4 && by3 >= by5)
+			else if (by3 >= by1 && by3 >= by2 && by3 >= by4 && by3 >= by5)
 			{
-				return elem3;
+				result = elem3;
 			}
-			if (by4 >= by1 && by4 >= by2 && by4 >= by3 && by4 >= by5)
+			else if (by4 >= by1 && by4 >= by2 && by4 >= by3 && by4 >= by5)
 			{
-				return elem4;
+				result = elem4;
 			}
-			return elem5;
+			else
+			{
+				result = elem5;
+			}
+			return result;
 		}
 
+		// Token: 0x06005E62 RID: 24162 RVA: 0x002FE9EC File Offset: 0x002FCDEC
 		public static T MaxBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4, T elem5, float by5, T elem6, float by6)
 		{
+			T result;
 			if (by1 >= by2 && by1 >= by3 && by1 >= by4 && by1 >= by5 && by1 >= by6)
 			{
-				return elem1;
+				result = elem1;
 			}
-			if (by2 >= by1 && by2 >= by3 && by2 >= by4 && by2 >= by5 && by2 >= by6)
+			else if (by2 >= by1 && by2 >= by3 && by2 >= by4 && by2 >= by5 && by2 >= by6)
 			{
-				return elem2;
+				result = elem2;
 			}
-			if (by3 >= by1 && by3 >= by2 && by3 >= by4 && by3 >= by5 && by3 >= by6)
+			else if (by3 >= by1 && by3 >= by2 && by3 >= by4 && by3 >= by5 && by3 >= by6)
 			{
-				return elem3;
+				result = elem3;
 			}
-			if (by4 >= by1 && by4 >= by2 && by4 >= by3 && by4 >= by5 && by4 >= by6)
+			else if (by4 >= by1 && by4 >= by2 && by4 >= by3 && by4 >= by5 && by4 >= by6)
 			{
-				return elem4;
+				result = elem4;
 			}
-			if (by5 >= by1 && by5 >= by2 && by5 >= by3 && by5 >= by4 && by5 >= by6)
+			else if (by5 >= by1 && by5 >= by2 && by5 >= by3 && by5 >= by4 && by5 >= by6)
 			{
-				return elem5;
+				result = elem5;
 			}
-			return elem6;
+			else
+			{
+				result = elem6;
+			}
+			return result;
 		}
 
+		// Token: 0x06005E63 RID: 24163 RVA: 0x002FEAF8 File Offset: 0x002FCEF8
 		public static T MaxBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4, T elem5, float by5, T elem6, float by6, T elem7, float by7)
 		{
+			T result;
 			if (by1 >= by2 && by1 >= by3 && by1 >= by4 && by1 >= by5 && by1 >= by6 && by1 >= by7)
 			{
-				return elem1;
+				result = elem1;
 			}
-			if (by2 >= by1 && by2 >= by3 && by2 >= by4 && by2 >= by5 && by2 >= by6 && by2 >= by7)
+			else if (by2 >= by1 && by2 >= by3 && by2 >= by4 && by2 >= by5 && by2 >= by6 && by2 >= by7)
 			{
-				return elem2;
+				result = elem2;
 			}
-			if (by3 >= by1 && by3 >= by2 && by3 >= by4 && by3 >= by5 && by3 >= by6 && by3 >= by7)
+			else if (by3 >= by1 && by3 >= by2 && by3 >= by4 && by3 >= by5 && by3 >= by6 && by3 >= by7)
 			{
-				return elem3;
+				result = elem3;
 			}
-			if (by4 >= by1 && by4 >= by2 && by4 >= by3 && by4 >= by5 && by4 >= by6 && by4 >= by7)
+			else if (by4 >= by1 && by4 >= by2 && by4 >= by3 && by4 >= by5 && by4 >= by6 && by4 >= by7)
 			{
-				return elem4;
+				result = elem4;
 			}
-			if (by5 >= by1 && by5 >= by2 && by5 >= by3 && by5 >= by4 && by5 >= by6 && by5 >= by7)
+			else if (by5 >= by1 && by5 >= by2 && by5 >= by3 && by5 >= by4 && by5 >= by6 && by5 >= by7)
 			{
-				return elem5;
+				result = elem5;
 			}
-			if (by6 >= by1 && by6 >= by2 && by6 >= by3 && by6 >= by4 && by6 >= by5 && by6 >= by7)
+			else if (by6 >= by1 && by6 >= by2 && by6 >= by3 && by6 >= by4 && by6 >= by5 && by6 >= by7)
 			{
-				return elem6;
+				result = elem6;
 			}
-			return elem7;
+			else
+			{
+				result = elem7;
+			}
+			return result;
 		}
 
+		// Token: 0x06005E64 RID: 24164 RVA: 0x002FEC6C File Offset: 0x002FD06C
 		public static T MaxBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4, T elem5, float by5, T elem6, float by6, T elem7, float by7, T elem8, float by8)
 		{
+			T result;
 			if (by1 >= by2 && by1 >= by3 && by1 >= by4 && by1 >= by5 && by1 >= by6 && by1 >= by7 && by1 >= by8)
 			{
-				return elem1;
+				result = elem1;
 			}
-			if (by2 >= by1 && by2 >= by3 && by2 >= by4 && by2 >= by5 && by2 >= by6 && by2 >= by7 && by2 >= by8)
+			else if (by2 >= by1 && by2 >= by3 && by2 >= by4 && by2 >= by5 && by2 >= by6 && by2 >= by7 && by2 >= by8)
 			{
-				return elem2;
+				result = elem2;
 			}
-			if (by3 >= by1 && by3 >= by2 && by3 >= by4 && by3 >= by5 && by3 >= by6 && by3 >= by7 && by3 >= by8)
+			else if (by3 >= by1 && by3 >= by2 && by3 >= by4 && by3 >= by5 && by3 >= by6 && by3 >= by7 && by3 >= by8)
 			{
-				return elem3;
+				result = elem3;
 			}
-			if (by4 >= by1 && by4 >= by2 && by4 >= by3 && by4 >= by5 && by4 >= by6 && by4 >= by7 && by4 >= by8)
+			else if (by4 >= by1 && by4 >= by2 && by4 >= by3 && by4 >= by5 && by4 >= by6 && by4 >= by7 && by4 >= by8)
 			{
-				return elem4;
+				result = elem4;
 			}
-			if (by5 >= by1 && by5 >= by2 && by5 >= by3 && by5 >= by4 && by5 >= by6 && by5 >= by7 && by5 >= by8)
+			else if (by5 >= by1 && by5 >= by2 && by5 >= by3 && by5 >= by4 && by5 >= by6 && by5 >= by7 && by5 >= by8)
 			{
-				return elem5;
+				result = elem5;
 			}
-			if (by6 >= by1 && by6 >= by2 && by6 >= by3 && by6 >= by4 && by6 >= by5 && by6 >= by7 && by6 >= by8)
+			else if (by6 >= by1 && by6 >= by2 && by6 >= by3 && by6 >= by4 && by6 >= by5 && by6 >= by7 && by6 >= by8)
 			{
-				return elem6;
+				result = elem6;
 			}
-			if (by7 >= by1 && by7 >= by2 && by7 >= by3 && by7 >= by4 && by7 >= by5 && by7 >= by6 && by7 >= by8)
+			else if (by7 >= by1 && by7 >= by2 && by7 >= by3 && by7 >= by4 && by7 >= by5 && by7 >= by6 && by7 >= by8)
 			{
-				return elem7;
+				result = elem7;
 			}
-			return elem8;
+			else
+			{
+				result = elem8;
+			}
+			return result;
 		}
 
-		public static T MaxByRandomIfEqual<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4, T elem5, float by5, T elem6, float by6, T elem7, float by7, T elem8, float by8)
+		// Token: 0x06005E65 RID: 24165 RVA: 0x002FEE58 File Offset: 0x002FD258
+		public static T MinBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3)
 		{
-			return GenMath.MaxBy(elem1, by1 + Rand.Range(0f, 0.0001f), elem2, by2 + Rand.Range(0f, 0.0001f), elem3, by3 + Rand.Range(0f, 0.0001f), elem4, by4 + Rand.Range(0f, 0.0001f), elem5, by5 + Rand.Range(0f, 0.0001f), elem6, by6 + Rand.Range(0f, 0.0001f), elem7, by7 + Rand.Range(0f, 0.0001f), elem8, by8 + Rand.Range(0f, 0.0001f));
+			return GenMath.MaxBy<T>(elem1, -by1, elem2, -by2, elem3, -by3);
 		}
 
+		// Token: 0x06005E66 RID: 24166 RVA: 0x002FEE80 File Offset: 0x002FD280
+		public static T MinBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4)
+		{
+			return GenMath.MaxBy<T>(elem1, -by1, elem2, -by2, elem3, -by3, elem4, -by4);
+		}
+
+		// Token: 0x06005E67 RID: 24167 RVA: 0x002FEEAC File Offset: 0x002FD2AC
+		public static T MinBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4, T elem5, float by5)
+		{
+			return GenMath.MaxBy<T>(elem1, -by1, elem2, -by2, elem3, -by3, elem4, -by4, elem5, -by5);
+		}
+
+		// Token: 0x06005E68 RID: 24168 RVA: 0x002FEEDC File Offset: 0x002FD2DC
+		public static T MinBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4, T elem5, float by5, T elem6, float by6)
+		{
+			return GenMath.MaxBy<T>(elem1, -by1, elem2, -by2, elem3, -by3, elem4, -by4, elem5, -by5, elem6, -by6);
+		}
+
+		// Token: 0x06005E69 RID: 24169 RVA: 0x002FEF10 File Offset: 0x002FD310
+		public static T MinBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4, T elem5, float by5, T elem6, float by6, T elem7, float by7)
+		{
+			return GenMath.MaxBy<T>(elem1, -by1, elem2, -by2, elem3, -by3, elem4, -by4, elem5, -by5, elem6, -by6, elem7, -by7);
+		}
+
+		// Token: 0x06005E6A RID: 24170 RVA: 0x002FEF4C File Offset: 0x002FD34C
+		public static T MinBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4, T elem5, float by5, T elem6, float by6, T elem7, float by7, T elem8, float by8)
+		{
+			return GenMath.MaxBy<T>(elem1, -by1, elem2, -by2, elem3, -by3, elem4, -by4, elem5, -by5, elem6, -by6, elem7, -by7, elem8, -by8);
+		}
+
+		// Token: 0x06005E6B RID: 24171 RVA: 0x002FEF8C File Offset: 0x002FD38C
+		public static T MaxByRandomIfEqual<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4, T elem5, float by5, T elem6, float by6, T elem7, float by7, T elem8, float by8, float eps = 0.0001f)
+		{
+			return GenMath.MaxBy<T>(elem1, by1 + Rand.Range(0f, eps), elem2, by2 + Rand.Range(0f, eps), elem3, by3 + Rand.Range(0f, eps), elem4, by4 + Rand.Range(0f, eps), elem5, by5 + Rand.Range(0f, eps), elem6, by6 + Rand.Range(0f, eps), elem7, by7 + Rand.Range(0f, eps), elem8, by8 + Rand.Range(0f, eps));
+		}
+
+		// Token: 0x06005E6C RID: 24172 RVA: 0x002FF02C File Offset: 0x002FD42C
 		public static float Stddev(IEnumerable<float> data)
 		{
 			int num = 0;
 			double num2 = 0.0;
 			double num3 = 0.0;
-			foreach (float datum in data)
+			foreach (float num4 in data)
 			{
-				float num4 = datum;
+				float num5 = num4;
 				num++;
-				num2 += (double)num4;
-				num3 += (double)(num4 * num4);
+				num2 += (double)num5;
+				num3 += (double)(num5 * num5);
 			}
-			double num5 = num2 / (double)num;
-			double num6 = num3 / (double)num - num5 * num5;
-			return Mathf.Sqrt((float)num6);
+			double num6 = num2 / (double)num;
+			double num7 = num3 / (double)num - num6 * num6;
+			return Mathf.Sqrt((float)num7);
+		}
+
+		// Token: 0x04003E05 RID: 15877
+		public const float BigEpsilon = 1E-07f;
+
+		// Token: 0x04003E06 RID: 15878
+		public const float Sqrt2 = 1.41421354f;
+
+		// Token: 0x04003E07 RID: 15879
+		private static List<float> tmpElements = new List<float>();
+
+		// Token: 0x04003E08 RID: 15880
+		private static List<Pair<float, float>> tmpPairs = new List<Pair<float, float>>();
+
+		// Token: 0x04003E09 RID: 15881
+		private static List<float> tmpScores = new List<float>();
+
+		// Token: 0x04003E0A RID: 15882
+		private static List<float> tmpCalcList = new List<float>();
+
+		// Token: 0x02000F45 RID: 3909
+		public struct BezierCubicControls
+		{
+			// Token: 0x04003E0C RID: 15884
+			public Vector3 w0;
+
+			// Token: 0x04003E0D RID: 15885
+			public Vector3 w1;
+
+			// Token: 0x04003E0E RID: 15886
+			public Vector3 w2;
+
+			// Token: 0x04003E0F RID: 15887
+			public Vector3 w3;
 		}
 	}
 }

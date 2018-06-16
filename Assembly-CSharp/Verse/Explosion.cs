@@ -1,55 +1,15 @@
-using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld;
 using UnityEngine;
 using Verse.Sound;
 
 namespace Verse
 {
+	// Token: 0x02000DCB RID: 3531
 	public class Explosion : Thing
 	{
-		public float radius;
-
-		public DamageDef damType;
-
-		public int damAmount;
-
-		public Thing instigator;
-
-		public ThingDef weapon;
-
-		public ThingDef projectile;
-
-		public bool applyDamageToExplosionCellsNeighbors;
-
-		public ThingDef preExplosionSpawnThingDef;
-
-		public float preExplosionSpawnChance;
-
-		public int preExplosionSpawnThingCount = 1;
-
-		public ThingDef postExplosionSpawnThingDef;
-
-		public float postExplosionSpawnChance;
-
-		public int postExplosionSpawnThingCount = 1;
-
-		public float chanceToStartFire;
-
-		public bool dealMoreDamageAtCenter;
-
-		private int startTick;
-
-		private List<IntVec3> cellsToAffect;
-
-		private List<Thing> damagedThings;
-
-		private HashSet<IntVec3> addedCellsAffectedOnlyByDamage;
-
-		private const float DamageFactorAtEdge = 0.2f;
-
-		private static HashSet<IntVec3> tmpCells = new HashSet<IntVec3>();
-
+		// Token: 0x06004EE4 RID: 20196 RVA: 0x00291DA4 File Offset: 0x002901A4
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -64,9 +24,10 @@ namespace Verse
 			}
 		}
 
-		public override void DeSpawn()
+		// Token: 0x06004EE5 RID: 20197 RVA: 0x00291E04 File Offset: 0x00290204
+		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
 		{
-			base.DeSpawn();
+			base.DeSpawn(mode);
 			this.cellsToAffect.Clear();
 			SimplePool<List<IntVec3>>.Return(this.cellsToAffect);
 			this.cellsToAffect = null;
@@ -78,11 +39,12 @@ namespace Verse
 			this.addedCellsAffectedOnlyByDamage = null;
 		}
 
+		// Token: 0x06004EE6 RID: 20198 RVA: 0x00291E70 File Offset: 0x00290270
 		public virtual void StartExplosion(SoundDef explosionSound)
 		{
 			if (!base.Spawned)
 			{
-				Log.Error("Called StartExplosion() on unspawned thing.");
+				Log.Error("Called StartExplosion() on unspawned thing.", false);
 			}
 			else
 			{
@@ -97,55 +59,71 @@ namespace Verse
 				}
 				this.damType.Worker.ExplosionStart(this, this.cellsToAffect);
 				this.PlayExplosionSound(explosionSound);
-				MoteMaker.MakeWaterSplash(base.Position.ToVector3Shifted(), base.Map, (float)(this.radius * 6.0), 20f);
+				MoteMaker.MakeWaterSplash(base.Position.ToVector3Shifted(), base.Map, this.radius * 6f, 20f);
 				this.cellsToAffect.Sort((IntVec3 a, IntVec3 b) => this.GetCellAffectTick(b).CompareTo(this.GetCellAffectTick(a)));
 				RegionTraverser.BreadthFirstTraverse(base.Position, base.Map, (Region from, Region to) => true, delegate(Region x)
 				{
 					List<Thing> list = x.ListerThings.ThingsInGroup(ThingRequestGroup.Pawn);
-					for (int num = list.Count - 1; num >= 0; num--)
+					for (int i = list.Count - 1; i >= 0; i--)
 					{
-						((Pawn)list[num]).mindState.Notify_Explosion(this);
+						((Pawn)list[i]).mindState.Notify_Explosion(this);
 					}
 					return false;
 				}, 25, RegionType.Set_Passable);
 			}
 		}
 
+		// Token: 0x06004EE7 RID: 20199 RVA: 0x00291F9C File Offset: 0x0029039C
 		public override void Tick()
 		{
 			int ticksGame = Find.TickManager.TicksGame;
 			int count = this.cellsToAffect.Count;
-			int num = count - 1;
-			while (num >= 0 && ticksGame >= this.GetCellAffectTick(this.cellsToAffect[num]))
+			for (int i = count - 1; i >= 0; i--)
 			{
+				if (ticksGame < this.GetCellAffectTick(this.cellsToAffect[i]))
+				{
+					break;
+				}
 				try
 				{
-					this.AffectCell(this.cellsToAffect[num]);
+					this.AffectCell(this.cellsToAffect[i]);
 				}
 				catch (Exception ex)
 				{
-					Log.Error("Explosion could not affect cell " + this.cellsToAffect[num] + ": " + ex);
+					Log.Error(string.Concat(new object[]
+					{
+						"Explosion could not affect cell ",
+						this.cellsToAffect[i],
+						": ",
+						ex
+					}), false);
 				}
-				this.cellsToAffect.RemoveAt(num);
-				num--;
+				this.cellsToAffect.RemoveAt(i);
 			}
-			if (!this.cellsToAffect.Any())
+			if (!this.cellsToAffect.Any<IntVec3>())
 			{
 				this.Destroy(DestroyMode.Vanish);
 			}
 		}
 
+		// Token: 0x06004EE8 RID: 20200 RVA: 0x00292088 File Offset: 0x00290488
 		public int GetDamageAmountAt(IntVec3 c)
 		{
-			if (!this.dealMoreDamageAtCenter)
+			int result;
+			if (!this.damageFalloff)
 			{
-				return this.damAmount;
+				result = this.damAmount;
 			}
-			float t = c.DistanceTo(base.Position) / this.radius;
-			int a = GenMath.RoundRandom(Mathf.Lerp((float)this.damAmount, (float)((float)this.damAmount * 0.20000000298023224), t));
-			return Mathf.Max(a, 1);
+			else
+			{
+				float t = c.DistanceTo(base.Position) / this.radius;
+				int a = GenMath.RoundRandom(Mathf.Lerp((float)this.damAmount, (float)this.damAmount * 0.2f, t));
+				result = Mathf.Max(a, 1);
+			}
+			return result;
 		}
 
+		// Token: 0x06004EE9 RID: 20201 RVA: 0x002920F0 File Offset: 0x002904F0
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -155,6 +133,7 @@ namespace Verse
 			Scribe_References.Look<Thing>(ref this.instigator, "instigator", false);
 			Scribe_Defs.Look<ThingDef>(ref this.weapon, "weapon");
 			Scribe_Defs.Look<ThingDef>(ref this.projectile, "projectile");
+			Scribe_References.Look<Thing>(ref this.intendedTarget, "intendedTarget", false);
 			Scribe_Values.Look<bool>(ref this.applyDamageToExplosionCellsNeighbors, "applyDamageToExplosionCellsNeighbors", false, false);
 			Scribe_Defs.Look<ThingDef>(ref this.preExplosionSpawnThingDef, "preExplosionSpawnThingDef");
 			Scribe_Values.Look<float>(ref this.preExplosionSpawnChance, "preExplosionSpawnChance", 0f, false);
@@ -163,7 +142,7 @@ namespace Verse
 			Scribe_Values.Look<float>(ref this.postExplosionSpawnChance, "postExplosionSpawnChance", 0f, false);
 			Scribe_Values.Look<int>(ref this.postExplosionSpawnThingCount, "postExplosionSpawnThingCount", 1, false);
 			Scribe_Values.Look<float>(ref this.chanceToStartFire, "chanceToStartFire", 0f, false);
-			Scribe_Values.Look<bool>(ref this.dealMoreDamageAtCenter, "dealMoreDamageAtCenter", false, false);
+			Scribe_Values.Look<bool>(ref this.damageFalloff, "dealMoreDamageAtCenter", false, false);
 			Scribe_Values.Look<int>(ref this.startTick, "startTick", 0, false);
 			Scribe_Collections.Look<IntVec3>(ref this.cellsToAffect, "cellsToAffect", LookMode.Value, new object[0]);
 			Scribe_Collections.Look<Thing>(ref this.damagedThings, "damagedThings", LookMode.Reference, new object[0]);
@@ -174,34 +153,46 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004EEA RID: 20202 RVA: 0x002922B0 File Offset: 0x002906B0
 		private int GetCellAffectTick(IntVec3 cell)
 		{
-			return this.startTick + (int)((cell - base.Position).LengthHorizontal * 1.5);
+			return this.startTick + (int)((cell - base.Position).LengthHorizontal * 1.5f);
 		}
 
+		// Token: 0x06004EEB RID: 20203 RVA: 0x002922E8 File Offset: 0x002906E8
 		private void AffectCell(IntVec3 c)
 		{
-			bool flag = this.ShouldCellBeAffectedOnlyByDamage(c);
-			if (!flag && Rand.Chance(this.preExplosionSpawnChance) && c.Walkable(base.Map))
+			if (c.InBounds(base.Map))
 			{
-				this.TrySpawnExplosionThing(this.preExplosionSpawnThingDef, c, this.preExplosionSpawnThingCount);
-			}
-			this.damType.Worker.ExplosionAffectCell(this, c, this.damagedThings, !flag);
-			if (!flag && Rand.Chance(this.postExplosionSpawnChance) && c.Walkable(base.Map))
-			{
-				this.TrySpawnExplosionThing(this.postExplosionSpawnThingDef, c, this.postExplosionSpawnThingCount);
-			}
-			float num = this.chanceToStartFire;
-			if (this.dealMoreDamageAtCenter)
-			{
-				num *= Mathf.Lerp(1f, 0.2f, c.DistanceTo(base.Position) / this.radius);
-			}
-			if (Rand.Chance(num))
-			{
-				FireUtility.TryStartFireIn(c, base.Map, Rand.Range(0.1f, 0.925f));
+				bool flag = this.ShouldCellBeAffectedOnlyByDamage(c);
+				if (!flag)
+				{
+					if (Rand.Chance(this.preExplosionSpawnChance) && c.Walkable(base.Map))
+					{
+						this.TrySpawnExplosionThing(this.preExplosionSpawnThingDef, c, this.preExplosionSpawnThingCount);
+					}
+				}
+				this.damType.Worker.ExplosionAffectCell(this, c, this.damagedThings, !flag);
+				if (!flag)
+				{
+					if (Rand.Chance(this.postExplosionSpawnChance) && c.Walkable(base.Map))
+					{
+						this.TrySpawnExplosionThing(this.postExplosionSpawnThingDef, c, this.postExplosionSpawnThingCount);
+					}
+				}
+				float num = this.chanceToStartFire;
+				if (this.damageFalloff)
+				{
+					num *= Mathf.Lerp(1f, 0.2f, c.DistanceTo(base.Position) / this.radius);
+				}
+				if (Rand.Chance(num))
+				{
+					FireUtility.TryStartFireIn(c, base.Map, Rand.Range(0.1f, 0.925f));
+				}
 			}
 		}
 
+		// Token: 0x06004EEC RID: 20204 RVA: 0x00292408 File Offset: 0x00290808
 		private void TrySpawnExplosionThing(ThingDef thingDef, IntVec3 c, int count)
 		{
 			if (thingDef != null)
@@ -214,14 +205,24 @@ namespace Verse
 				{
 					Thing thing = ThingMaker.MakeThing(thingDef, null);
 					thing.stackCount = count;
-					GenSpawn.Spawn(thing, c, base.Map);
+					GenSpawn.Spawn(thing, c, base.Map, WipeMode.Vanish);
 				}
 			}
 		}
 
+		// Token: 0x06004EED RID: 20205 RVA: 0x00292460 File Offset: 0x00290860
 		private void PlayExplosionSound(SoundDef explosionSound)
 		{
-			if ((!Prefs.DevMode) ? (!explosionSound.NullOrUndefined()) : (explosionSound != null))
+			bool flag;
+			if (Prefs.DevMode)
+			{
+				flag = (explosionSound != null);
+			}
+			else
+			{
+				flag = !explosionSound.NullOrUndefined();
+			}
+			if (flag)
 			{
 				explosionSound.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
 			}
@@ -231,6 +232,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004EEE RID: 20206 RVA: 0x002924E0 File Offset: 0x002908E0
 		private void AddCellsNeighbors(List<IntVec3> cells)
 		{
 			Explosion.tmpCells.Clear();
@@ -246,28 +248,95 @@ namespace Verse
 					for (int k = 0; k < GenAdj.AdjacentCells.Length; k++)
 					{
 						IntVec3 intVec = cells[j] + GenAdj.AdjacentCells[k];
-						if (intVec.InBounds(base.Map) && Explosion.tmpCells.Add(intVec))
+						if (intVec.InBounds(base.Map))
 						{
-							this.addedCellsAffectedOnlyByDamage.Add(intVec);
+							bool flag = Explosion.tmpCells.Add(intVec);
+							if (flag)
+							{
+								this.addedCellsAffectedOnlyByDamage.Add(intVec);
+							}
 						}
 					}
 				}
 			}
 			cells.Clear();
-			foreach (IntVec3 tmpCell in Explosion.tmpCells)
+			foreach (IntVec3 item in Explosion.tmpCells)
 			{
-				cells.Add(tmpCell);
+				cells.Add(item);
 			}
 			Explosion.tmpCells.Clear();
 		}
 
+		// Token: 0x06004EEF RID: 20207 RVA: 0x00292634 File Offset: 0x00290A34
 		private bool ShouldCellBeAffectedOnlyByDamage(IntVec3 c)
 		{
-			if (!this.applyDamageToExplosionCellsNeighbors)
-			{
-				return false;
-			}
-			return this.addedCellsAffectedOnlyByDamage.Contains(c);
+			return this.applyDamageToExplosionCellsNeighbors && this.addedCellsAffectedOnlyByDamage.Contains(c);
 		}
+
+		// Token: 0x0400346B RID: 13419
+		public float radius;
+
+		// Token: 0x0400346C RID: 13420
+		public DamageDef damType;
+
+		// Token: 0x0400346D RID: 13421
+		public int damAmount;
+
+		// Token: 0x0400346E RID: 13422
+		public Thing instigator;
+
+		// Token: 0x0400346F RID: 13423
+		public ThingDef weapon;
+
+		// Token: 0x04003470 RID: 13424
+		public ThingDef projectile;
+
+		// Token: 0x04003471 RID: 13425
+		public Thing intendedTarget;
+
+		// Token: 0x04003472 RID: 13426
+		public bool applyDamageToExplosionCellsNeighbors;
+
+		// Token: 0x04003473 RID: 13427
+		public ThingDef preExplosionSpawnThingDef = null;
+
+		// Token: 0x04003474 RID: 13428
+		public float preExplosionSpawnChance = 0f;
+
+		// Token: 0x04003475 RID: 13429
+		public int preExplosionSpawnThingCount = 1;
+
+		// Token: 0x04003476 RID: 13430
+		public ThingDef postExplosionSpawnThingDef = null;
+
+		// Token: 0x04003477 RID: 13431
+		public float postExplosionSpawnChance = 0f;
+
+		// Token: 0x04003478 RID: 13432
+		public int postExplosionSpawnThingCount = 1;
+
+		// Token: 0x04003479 RID: 13433
+		public float chanceToStartFire;
+
+		// Token: 0x0400347A RID: 13434
+		public bool damageFalloff;
+
+		// Token: 0x0400347B RID: 13435
+		private int startTick;
+
+		// Token: 0x0400347C RID: 13436
+		private List<IntVec3> cellsToAffect;
+
+		// Token: 0x0400347D RID: 13437
+		private List<Thing> damagedThings;
+
+		// Token: 0x0400347E RID: 13438
+		private HashSet<IntVec3> addedCellsAffectedOnlyByDamage;
+
+		// Token: 0x0400347F RID: 13439
+		private const float DamageFactorAtEdge = 0.2f;
+
+		// Token: 0x04003480 RID: 13440
+		private static HashSet<IntVec3> tmpCells = new HashSet<IntVec3>();
 	}
 }

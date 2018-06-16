@@ -1,37 +1,30 @@
+﻿using System;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x02000336 RID: 822
 	public abstract class IncidentWorker_PsychicEmanation : IncidentWorker
 	{
-		protected override bool CanFireNowSub(IIncidentTarget target)
+		// Token: 0x06000E0F RID: 3599 RVA: 0x00077DD4 File Offset: 0x000761D4
+		protected override bool CanFireNowSub(IncidentParms parms)
 		{
-			Map map = (Map)target;
-			if (!map.gameConditionManager.ConditionIsActive(GameConditionDefOf.PsychicDrone) && !map.gameConditionManager.ConditionIsActive(GameConditionDefOf.PsychicSoothe))
-			{
-				if (map.listerThings.ThingsOfDef(ThingDefOf.CrashedPsychicEmanatorShipPart).Count > 0)
-				{
-					return false;
-				}
-				if (map.mapPawns.FreeColonistsCount == 0)
-				{
-					return false;
-				}
-				return true;
-			}
-			return false;
+			Map map = (Map)parms.target;
+			return !map.gameConditionManager.ConditionIsActive(GameConditionDefOf.PsychicDrone) && !map.gameConditionManager.ConditionIsActive(GameConditionDefOf.PsychicSoothe) && map.listerThings.ThingsOfDef(ThingDefOf.CrashedPsychicEmanatorShipPart).Count <= 0 && map.mapPawns.FreeColonistsCount != 0;
 		}
 
+		// Token: 0x06000E10 RID: 3600 RVA: 0x00077E60 File Offset: 0x00076260
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
-			this.DoConditionAndLetter(map, Mathf.RoundToInt((float)(base.def.durationDays.RandomInRange * 60000.0)), map.mapPawns.FreeColonists.RandomElement().gender);
+			this.DoConditionAndLetter(map, Mathf.RoundToInt(this.def.durationDays.RandomInRange * 60000f), map.mapPawns.FreeColonists.RandomElement<Pawn>().gender);
 			SoundDefOf.PsychicPulseGlobal.PlayOneShotOnCamera(map);
 			return true;
 		}
 
+		// Token: 0x06000E11 RID: 3601
 		protected abstract void DoConditionAndLetter(Map map, int duration, Gender gender);
 	}
 }

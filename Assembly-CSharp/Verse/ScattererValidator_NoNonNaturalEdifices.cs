@@ -1,9 +1,11 @@
+﻿using System;
+
 namespace Verse
 {
+	// Token: 0x02000C61 RID: 3169
 	public class ScattererValidator_NoNonNaturalEdifices : ScattererValidator
 	{
-		public int radius = 1;
-
+		// Token: 0x060045A2 RID: 17826 RVA: 0x0024BA40 File Offset: 0x00249E40
 		public override bool Allows(IntVec3 c, Map map)
 		{
 			CellRect cellRect = CellRect.CenteredOn(c, this.radius);
@@ -20,5 +22,8 @@ namespace Verse
 			}
 			return true;
 		}
+
+		// Token: 0x04002F99 RID: 12185
+		public int radius = 1;
 	}
 }

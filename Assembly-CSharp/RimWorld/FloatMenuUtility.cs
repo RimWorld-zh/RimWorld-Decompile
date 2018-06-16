@@ -1,151 +1,188 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000840 RID: 2112
 	public static class FloatMenuUtility
 	{
+		// Token: 0x06002FC2 RID: 12226 RVA: 0x0019D888 File Offset: 0x0019BC88
 		public static void MakeMenu<T>(IEnumerable<T> objects, Func<T, string> labelGetter, Func<T, Action> actionGetter)
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
-			foreach (T @object in objects)
+			foreach (T t in objects)
 			{
-				T arg = @object;
+				T arg = t;
 				list.Add(new FloatMenuOption(labelGetter(arg), actionGetter(arg), MenuOptionPriority.Default, null, null, 0f, null, null));
 			}
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
+		// Token: 0x06002FC3 RID: 12227 RVA: 0x0019D914 File Offset: 0x0019BD14
 		public static Action GetRangedAttackAction(Pawn pawn, LocalTargetInfo target, out string failStr)
 		{
-			failStr = string.Empty;
+			failStr = "";
+			Action result;
 			if (pawn.equipment.Primary == null)
 			{
-				return null;
+				result = null;
 			}
-			Verb primaryVerb = pawn.equipment.PrimaryEq.PrimaryVerb;
-			if (primaryVerb.verbProps.MeleeRange)
+			else
 			{
-				return null;
-			}
-			if (!pawn.Drafted)
-			{
-				failStr = "IsNotDraftedLower".Translate(pawn.NameStringShort);
-				goto IL_01a4;
-			}
-			if (!pawn.IsColonistPlayerControlled)
-			{
-				failStr = "CannotOrderNonControlledLower".Translate();
-				goto IL_01a4;
-			}
-			if (target.IsValid && !pawn.equipment.PrimaryEq.PrimaryVerb.CanHitTarget(target))
-			{
-				if (!pawn.Position.InHorDistOf(target.Cell, primaryVerb.verbProps.range))
+				Verb primaryVerb = pawn.equipment.PrimaryEq.PrimaryVerb;
+				if (primaryVerb.verbProps.IsMeleeAttack)
 				{
-					failStr = "OutOfRange".Translate();
+					result = null;
 				}
 				else
 				{
-					failStr = "CannotHitTarget".Translate();
+					if (!pawn.Drafted)
+					{
+						failStr = "IsNotDraftedLower".Translate(new object[]
+						{
+							pawn.LabelShort
+						});
+					}
+					else if (!pawn.IsColonistPlayerControlled)
+					{
+						failStr = "CannotOrderNonControlledLower".Translate();
+					}
+					else if (target.IsValid && !pawn.equipment.PrimaryEq.PrimaryVerb.CanHitTarget(target))
+					{
+						if (!pawn.Position.InHorDistOf(target.Cell, primaryVerb.verbProps.range))
+						{
+							failStr = "OutOfRange".Translate();
+						}
+						else
+						{
+							failStr = "CannotHitTarget".Translate();
+						}
+					}
+					else if (pawn.story.WorkTagIsDisabled(WorkTags.Violent))
+					{
+						failStr = "IsIncapableOfViolenceLower".Translate(new object[]
+						{
+							pawn.LabelShort
+						});
+					}
+					else
+					{
+						if (pawn != target.Thing)
+						{
+							return delegate()
+							{
+								Job job = new Job(JobDefOf.AttackStatic, target);
+								pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+							};
+						}
+						failStr = "CannotAttackSelf".Translate();
+					}
+					result = null;
 				}
-				goto IL_01a4;
 			}
-			if (pawn.story.WorkTagIsDisabled(WorkTags.Violent))
-			{
-				failStr = "IsIncapableOfViolenceLower".Translate(pawn.NameStringShort);
-				goto IL_01a4;
-			}
-			if (pawn == target.Thing)
-			{
-				failStr = "CannotAttackSelf".Translate();
-				goto IL_01a4;
-			}
-			return delegate
-			{
-				Job job = new Job(JobDefOf.AttackStatic, target);
-				pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
-			};
-			IL_01a4:
-			return null;
+			return result;
 		}
 
+		// Token: 0x06002FC4 RID: 12228 RVA: 0x0019DAE4 File Offset: 0x0019BEE4
 		public static Action GetMeleeAttackAction(Pawn pawn, LocalTargetInfo target, out string failStr)
 		{
-			failStr = string.Empty;
+			failStr = "";
 			if (!pawn.Drafted)
 			{
-				failStr = "IsNotDraftedLower".Translate(pawn.NameStringShort);
-				goto IL_0141;
+				failStr = "IsNotDraftedLower".Translate(new object[]
+				{
+					pawn.LabelShort
+				});
 			}
-			if (!pawn.IsColonistPlayerControlled)
+			else if (!pawn.IsColonistPlayerControlled)
 			{
 				failStr = "CannotOrderNonControlledLower".Translate();
-				goto IL_0141;
 			}
-			if (target.IsValid && !pawn.CanReach(target, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+			else if (target.IsValid && !pawn.CanReach(target, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
 			{
 				failStr = "NoPath".Translate();
-				goto IL_0141;
 			}
-			if (pawn.story.WorkTagIsDisabled(WorkTags.Violent))
+			else if (pawn.story.WorkTagIsDisabled(WorkTags.Violent))
 			{
-				failStr = "IsIncapableOfViolenceLower".Translate(pawn.NameStringShort);
-				goto IL_0141;
+				failStr = "IsIncapableOfViolenceLower".Translate(new object[]
+				{
+					pawn.LabelShort
+				});
 			}
-			if (pawn.meleeVerbs.TryGetMeleeVerb() == null)
+			else if (pawn.meleeVerbs.TryGetMeleeVerb(target.Thing) == null)
 			{
 				failStr = "Incapable".Translate();
-				goto IL_0141;
 			}
-			if (pawn == target.Thing)
+			else
 			{
-				failStr = "CannotAttackSelf".Translate();
-				goto IL_0141;
-			}
-			return delegate
-			{
-				Job job = new Job(JobDefOf.AttackMelee, target);
-				Pawn pawn2 = target.Thing as Pawn;
-				if (pawn2 != null)
+				if (pawn != target.Thing)
 				{
-					job.killIncappedTarget = pawn2.Downed;
+					return delegate()
+					{
+						Job job = new Job(JobDefOf.AttackMelee, target);
+						Pawn pawn2 = target.Thing as Pawn;
+						if (pawn2 != null)
+						{
+							job.killIncappedTarget = pawn2.Downed;
+						}
+						pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+					};
 				}
-				pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
-			};
-			IL_0141:
+				failStr = "CannotAttackSelf".Translate();
+			}
 			return null;
 		}
 
+		// Token: 0x06002FC5 RID: 12229 RVA: 0x0019DC54 File Offset: 0x0019C054
 		public static Action GetAttackAction(Pawn pawn, LocalTargetInfo target, out string failStr)
 		{
-			if (pawn.equipment.Primary != null && !pawn.equipment.PrimaryEq.PrimaryVerb.verbProps.MeleeRange)
+			Action result;
+			if (pawn.equipment.Primary != null && !pawn.equipment.PrimaryEq.PrimaryVerb.verbProps.IsMeleeAttack)
 			{
-				return FloatMenuUtility.GetRangedAttackAction(pawn, target, out failStr);
+				result = FloatMenuUtility.GetRangedAttackAction(pawn, target, out failStr);
 			}
-			return FloatMenuUtility.GetMeleeAttackAction(pawn, target, out failStr);
+			else
+			{
+				result = FloatMenuUtility.GetMeleeAttackAction(pawn, target, out failStr);
+			}
+			return result;
 		}
 
+		// Token: 0x06002FC6 RID: 12230 RVA: 0x0019DCB0 File Offset: 0x0019C0B0
 		public static FloatMenuOption DecoratePrioritizedTask(FloatMenuOption option, Pawn pawn, LocalTargetInfo target, string reservedText = "ReservedBy")
 		{
+			FloatMenuOption result;
 			if (option.action == null)
 			{
-				return option;
+				result = option;
 			}
-			if (pawn != null && !pawn.CanReserve(target, 1, -1, null, false) && pawn.CanReserve(target, 1, -1, null, true))
+			else
 			{
-				Pawn pawn2 = pawn.Map.reservationManager.FirstRespectedReserver(target, pawn);
-				if (pawn2 == null)
+				if (pawn != null && !pawn.CanReserve(target, 1, -1, null, false) && pawn.CanReserve(target, 1, -1, null, true))
 				{
-					pawn2 = pawn.Map.physicalInteractionReservationManager.FirstReserverOf(target);
+					Pawn pawn2 = pawn.Map.reservationManager.FirstRespectedReserver(target, pawn);
+					if (pawn2 == null)
+					{
+						pawn2 = pawn.Map.physicalInteractionReservationManager.FirstReserverOf(target);
+					}
+					if (pawn2 != null)
+					{
+						option.Label = option.Label + " (" + reservedText.Translate(new object[]
+						{
+							pawn2.LabelShort
+						}) + ")";
+					}
 				}
-				if (pawn2 != null)
+				if (option.revalidateClickTarget != null && option.revalidateClickTarget != target.Thing)
 				{
-					option.Label = option.Label + " (" + reservedText.Translate(pawn2.LabelShort) + ")";
+					Log.ErrorOnce(string.Format("Click target mismatch; {0} vs {1} in {2}", option.revalidateClickTarget, target.Thing, option.Label), 52753118, false);
 				}
+				option.revalidateClickTarget = target.Thing;
+				result = option;
 			}
-			return option;
+			return result;
 		}
 	}
 }

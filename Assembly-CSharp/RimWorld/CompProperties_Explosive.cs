@@ -1,76 +1,109 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000244 RID: 580
 	public class CompProperties_Explosive : CompProperties
 	{
-		public float explosiveRadius = 1.9f;
-
-		public DamageDef explosiveDamageType = DamageDefOf.Bomb;
-
-		public int damageAmountBase = -1;
-
-		public ThingDef postExplosionSpawnThingDef;
-
-		public float postExplosionSpawnChance;
-
-		public int postExplosionSpawnThingCount = 1;
-
-		public bool applyDamageToExplosionCellsNeighbors;
-
-		public ThingDef preExplosionSpawnThingDef;
-
-		public float preExplosionSpawnChance;
-
-		public int preExplosionSpawnThingCount = 1;
-
-		public float chanceToStartFire;
-
-		public bool dealMoreDamageAtCenter;
-
-		public float explosiveExpandPerStackcount;
-
-		public float explosiveExpandPerFuel;
-
-		public EffecterDef explosionEffect;
-
-		public SoundDef explosionSound;
-
-		public DamageDef startWickOnDamageTaken;
-
-		public float startWickHitPointsPercent = 0.2f;
-
-		public IntRange wickTicks = new IntRange(140, 150);
-
-		public float wickScale = 1f;
-
-		public float chanceNeverExplodeFromDamage;
-
-		public float destroyThingOnExplosionSize;
-
+		// Token: 0x06000A75 RID: 2677 RVA: 0x0005EDE4 File Offset: 0x0005D1E4
 		public CompProperties_Explosive()
 		{
-			base.compClass = typeof(CompExplosive);
+			this.compClass = typeof(CompExplosive);
 		}
 
+		// Token: 0x06000A76 RID: 2678 RVA: 0x0005EE77 File Offset: 0x0005D277
+		public override void ResolveReferences(ThingDef parentDef)
+		{
+			base.ResolveReferences(parentDef);
+			if (this.explosiveDamageType == null)
+			{
+				this.explosiveDamageType = DamageDefOf.Bomb;
+			}
+		}
+
+		// Token: 0x06000A77 RID: 2679 RVA: 0x0005EE98 File Offset: 0x0005D298
 		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
 		{
-			using (IEnumerator<string> enumerator = base.ConfigErrors(parentDef).GetEnumerator())
+			foreach (string e in this.<ConfigErrors>__BaseCallProxy0(parentDef))
 			{
-				if (enumerator.MoveNext())
-				{
-					string e = enumerator.Current;
-					yield return e;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return e;
 			}
-			if (parentDef.tickerType == TickerType.Normal)
-				yield break;
-			yield return "CompExplosive requires Normal ticker type";
-			/*Error: Unable to find new state assignment for yield return*/;
-			IL_00f3:
-			/*Error near IL_00f4: Unexpected return in MoveNext()*/;
+			if (parentDef.tickerType != TickerType.Normal)
+			{
+				yield return "CompExplosive requires Normal ticker type";
+			}
+			yield break;
 		}
+
+		// Token: 0x04000471 RID: 1137
+		public float explosiveRadius = 1.9f;
+
+		// Token: 0x04000472 RID: 1138
+		public DamageDef explosiveDamageType;
+
+		// Token: 0x04000473 RID: 1139
+		public int damageAmountBase = -1;
+
+		// Token: 0x04000474 RID: 1140
+		public ThingDef postExplosionSpawnThingDef;
+
+		// Token: 0x04000475 RID: 1141
+		public float postExplosionSpawnChance;
+
+		// Token: 0x04000476 RID: 1142
+		public int postExplosionSpawnThingCount = 1;
+
+		// Token: 0x04000477 RID: 1143
+		public bool applyDamageToExplosionCellsNeighbors;
+
+		// Token: 0x04000478 RID: 1144
+		public ThingDef preExplosionSpawnThingDef;
+
+		// Token: 0x04000479 RID: 1145
+		public float preExplosionSpawnChance;
+
+		// Token: 0x0400047A RID: 1146
+		public int preExplosionSpawnThingCount = 1;
+
+		// Token: 0x0400047B RID: 1147
+		public float chanceToStartFire;
+
+		// Token: 0x0400047C RID: 1148
+		public bool damageFalloff;
+
+		// Token: 0x0400047D RID: 1149
+		public float explosiveExpandPerStackcount;
+
+		// Token: 0x0400047E RID: 1150
+		public float explosiveExpandPerFuel;
+
+		// Token: 0x0400047F RID: 1151
+		public EffecterDef explosionEffect;
+
+		// Token: 0x04000480 RID: 1152
+		public SoundDef explosionSound;
+
+		// Token: 0x04000481 RID: 1153
+		public DamageDef startWickOnDamageTaken = null;
+
+		// Token: 0x04000482 RID: 1154
+		public float startWickHitPointsPercent = 0.2f;
+
+		// Token: 0x04000483 RID: 1155
+		public IntRange wickTicks = new IntRange(140, 150);
+
+		// Token: 0x04000484 RID: 1156
+		public float wickScale = 1f;
+
+		// Token: 0x04000485 RID: 1157
+		public float chanceNeverExplodeFromDamage = 0f;
+
+		// Token: 0x04000486 RID: 1158
+		public float destroyThingOnExplosionSize = 0f;
+
+		// Token: 0x04000487 RID: 1159
+		public DamageDef requiredDamageTypeToExplode = null;
 	}
 }

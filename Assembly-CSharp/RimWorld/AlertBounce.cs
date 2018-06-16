@@ -1,29 +1,12 @@
+﻿using System;
 using UnityEngine;
 
 namespace RimWorld
 {
+	// Token: 0x0200078A RID: 1930
 	internal class AlertBounce
 	{
-		private float position;
-
-		private float velocity;
-
-		private float lastTime = Time.time;
-
-		private bool idle;
-
-		private const float StartPosition = 300f;
-
-		private const float StartVelocity = -200f;
-
-		private const float Acceleration = 1200f;
-
-		private const float DampingRatio = 3f;
-
-		private const float DampingConstant = 1f;
-
-		private const float MaxDelta = 0.05f;
-
+		// Token: 0x06002AC3 RID: 10947 RVA: 0x00169B24 File Offset: 0x00167F24
 		public void DoAlertStartEffect()
 		{
 			this.position = 300f;
@@ -32,28 +15,64 @@ namespace RimWorld
 			this.idle = false;
 		}
 
+		// Token: 0x06002AC4 RID: 10948 RVA: 0x00169B50 File Offset: 0x00167F50
 		public float CalculateHorizontalOffset()
 		{
+			float result;
 			if (this.idle)
 			{
-				return this.position;
+				result = this.position;
 			}
-			float num = Mathf.Min(Time.time - this.lastTime, 0.05f);
-			this.lastTime = Time.time;
-			this.velocity -= (float)(1200.0 * num);
-			this.position += this.velocity * num;
-			if (this.position < 0.0)
+			else
 			{
-				this.position = 0f;
-				this.velocity = Mathf.Max((float)((0.0 - this.velocity) / 3.0 - 1.0), 0f);
+				float num = Mathf.Min(Time.time - this.lastTime, 0.05f);
+				this.lastTime = Time.time;
+				this.velocity -= 1200f * num;
+				this.position += this.velocity * num;
+				if (this.position < 0f)
+				{
+					this.position = 0f;
+					this.velocity = Mathf.Max(-this.velocity / 3f - 1f, 0f);
+				}
+				if (Mathf.Abs(this.velocity) < 0.0001f && this.position < 1f)
+				{
+					this.velocity = 0f;
+					this.position = 0f;
+					this.idle = true;
+				}
+				result = this.position;
 			}
-			if (Mathf.Abs(this.velocity) < 9.9999997473787516E-05 && this.position < 1.0)
-			{
-				this.velocity = 0f;
-				this.position = 0f;
-				this.idle = true;
-			}
-			return this.position;
+			return result;
 		}
+
+		// Token: 0x04001712 RID: 5906
+		private float position = 0f;
+
+		// Token: 0x04001713 RID: 5907
+		private float velocity = 0f;
+
+		// Token: 0x04001714 RID: 5908
+		private float lastTime = Time.time;
+
+		// Token: 0x04001715 RID: 5909
+		private bool idle;
+
+		// Token: 0x04001716 RID: 5910
+		private const float StartPosition = 300f;
+
+		// Token: 0x04001717 RID: 5911
+		private const float StartVelocity = -200f;
+
+		// Token: 0x04001718 RID: 5912
+		private const float Acceleration = 1200f;
+
+		// Token: 0x04001719 RID: 5913
+		private const float DampingRatio = 3f;
+
+		// Token: 0x0400171A RID: 5914
+		private const float DampingConstant = 1f;
+
+		// Token: 0x0400171B RID: 5915
+		private const float MaxDelta = 0.05f;
 	}
 }

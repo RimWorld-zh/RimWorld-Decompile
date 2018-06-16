@@ -1,3 +1,4 @@
+﻿using System;
 using System.Text;
 using Verse;
 using Verse.AI;
@@ -5,64 +6,84 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
+	// Token: 0x02000108 RID: 264
 	public static class JoyUtility
 	{
-		public const float BaseJoyGainPerHour = 0.36f;
-
+		// Token: 0x0600057D RID: 1405 RVA: 0x0003BB58 File Offset: 0x00039F58
 		public static bool EnjoyableOutsideNow(Map map, StringBuilder outFailReason = null)
 		{
-			if (map.weatherManager.RainRate >= 0.25)
+			bool result;
+			GameConditionDef gameConditionDef;
+			if (map.weatherManager.RainRate >= 0.25f)
 			{
 				if (outFailReason != null)
 				{
 					outFailReason.Append(map.weatherManager.curWeather.label);
 				}
-				return false;
+				result = false;
 			}
-			GameConditionDef gameConditionDef = default(GameConditionDef);
-			if (!map.gameConditionManager.AllowEnjoyableOutsideNow(out gameConditionDef))
+			else if (!map.gameConditionManager.AllowEnjoyableOutsideNow(map, out gameConditionDef))
 			{
 				if (outFailReason != null)
 				{
 					outFailReason.Append(gameConditionDef.label);
 				}
-				return false;
+				result = false;
 			}
-			return true;
+			else
+			{
+				result = true;
+			}
+			return result;
 		}
 
+		// Token: 0x0600057E RID: 1406 RVA: 0x0003BBD8 File Offset: 0x00039FD8
 		public static bool EnjoyableOutsideNow(Pawn pawn, StringBuilder outFailReason = null)
 		{
 			Map mapHeld = pawn.MapHeld;
+			bool result;
 			if (mapHeld == null)
 			{
-				return true;
+				result = true;
 			}
-			if (!JoyUtility.EnjoyableOutsideNow(mapHeld, outFailReason))
+			else if (!JoyUtility.EnjoyableOutsideNow(mapHeld, outFailReason))
 			{
-				return false;
+				result = false;
 			}
-			if (!pawn.ComfortableTemperatureRange().Includes(mapHeld.mapTemperature.OutdoorTemp))
+			else if (!pawn.ComfortableTemperatureRange().Includes(mapHeld.mapTemperature.OutdoorTemp))
 			{
 				if (outFailReason != null)
 				{
 					outFailReason.Append("NotEnjoyableOutsideTemperature".Translate());
 				}
-				return false;
+				result = false;
 			}
-			return true;
+			else
+			{
+				result = true;
+			}
+			return result;
 		}
 
-		public static void JoyTickCheckEnd(Pawn pawn, JoyTickFullJoyAction fullJoyAction = JoyTickFullJoyAction.EndJob, float extraJoyGainFactor = 1f)
+		// Token: 0x0600057F RID: 1407 RVA: 0x0003BC54 File Offset: 0x0003A054
+		public static void JoyTickCheckEnd(Pawn pawn, JoyTickFullJoyAction fullJoyAction = JoyTickFullJoyAction.EndJob, float extraJoyGainFactor = 1f, Building joySource = null)
 		{
 			Job curJob = pawn.CurJob;
 			if (curJob.def.joyKind == null)
 			{
-				Log.Warning("This method can only be called for jobs with joyKind.");
+				Log.Warning("This method can only be called for jobs with joyKind.", false);
 			}
 			else
 			{
-				pawn.needs.joy.GainJoy((float)(extraJoyGainFactor * curJob.def.joyGainRate * 0.00014400000509340316), curJob.def.joyKind);
+				if (joySource != null)
+				{
+					if (joySource.def.building.joyKind != null && pawn.CurJob.def.joyKind != joySource.def.building.joyKind)
+					{
+						Log.ErrorOnce("Joy source joyKind and jobDef.joyKind are not the same. building=" + joySource.ToStringSafe<Building>() + ", jobDef=" + pawn.CurJob.def.ToStringSafe<JobDef>(), joySource.thingIDNumber ^ 876598732, false);
+					}
+					extraJoyGainFactor *= joySource.GetStatValue(StatDefOf.JoyGainFactor, true);
+				}
+				pawn.needs.joy.GainJoy(extraJoyGainFactor * curJob.def.joyGainRate * 0.36f / 2500f, curJob.def.joyKind);
 				if (curJob.def.joySkill != null)
 				{
 					pawn.skills.GetSkill(curJob.def.joySkill).Learn(curJob.def.joyXpPerTick, false);
@@ -71,21 +92,21 @@ namespace RimWorld
 				{
 					pawn.jobs.curDriver.EndJobWith(JobCondition.InterruptForced);
 				}
-				if (pawn.needs.joy.CurLevel > 0.99989998340606689)
+				if (pawn.needs.joy.CurLevel > 0.9999f)
 				{
-					switch (fullJoyAction)
+					if (fullJoyAction == JoyTickFullJoyAction.EndJob)
 					{
-					case JoyTickFullJoyAction.EndJob:
 						pawn.jobs.curDriver.EndJobWith(JobCondition.Succeeded);
-						break;
-					case JoyTickFullJoyAction.GoToNextToil:
+					}
+					else if (fullJoyAction == JoyTickFullJoyAction.GoToNextToil)
+					{
 						pawn.jobs.curDriver.ReadyForNextToil();
-						break;
 					}
 				}
 			}
 		}
 
+		// Token: 0x06000580 RID: 1408 RVA: 0x0003BDFC File Offset: 0x0003A1FC
 		public static void TryGainRecRoomThought(Pawn pawn)
 		{
 			Room room = pawn.GetRoom(RegionType.Set_Passable);
@@ -99,24 +120,18 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06000581 RID: 1409 RVA: 0x0003BE6C File Offset: 0x0003A26C
 		public static bool LordPreventsGettingJoy(Pawn pawn)
 		{
 			Lord lord = pawn.GetLord();
-			if (lord != null && !lord.CurLordToil.AllowSatisfyLongNeeds)
-			{
-				return true;
-			}
-			return false;
+			return lord != null && !lord.CurLordToil.AllowSatisfyLongNeeds;
 		}
 
+		// Token: 0x06000582 RID: 1410 RVA: 0x0003BEA8 File Offset: 0x0003A2A8
 		public static bool TimetablePreventsGettingJoy(Pawn pawn)
 		{
 			TimeAssignmentDef timeAssignmentDef = (pawn.timetable != null) ? pawn.timetable.CurrentAssignment : TimeAssignmentDefOf.Anything;
-			if (!timeAssignmentDef.allowJoy)
-			{
-				return true;
-			}
-			return false;
+			return !timeAssignmentDef.allowJoy;
 		}
 	}
 }

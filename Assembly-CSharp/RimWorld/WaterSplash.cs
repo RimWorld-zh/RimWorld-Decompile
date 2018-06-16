@@ -1,24 +1,27 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020006DE RID: 1758
 	public class WaterSplash : Projectile
 	{
+		// Token: 0x06002636 RID: 9782 RVA: 0x001478B0 File Offset: 0x00145CB0
 		protected override void Impact(Thing hitThing)
 		{
 			base.Impact(hitThing);
 			List<Thing> list = new List<Thing>();
-			foreach (Thing item in base.Map.thingGrid.ThingsAt(base.Position))
+			foreach (Thing thing in base.Map.thingGrid.ThingsAt(base.Position))
 			{
-				if (item.def == ThingDefOf.Fire)
+				if (thing.def == ThingDefOf.Fire)
 				{
-					list.Add(item);
+					list.Add(thing);
 				}
 			}
-			foreach (Thing item2 in list)
+			foreach (Thing thing2 in list)
 			{
-				item2.Destroy(DestroyMode.Vanish);
+				thing2.Destroy(DestroyMode.Vanish);
 			}
 		}
 	}

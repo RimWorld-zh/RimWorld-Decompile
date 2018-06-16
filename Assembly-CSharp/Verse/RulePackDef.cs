@@ -1,16 +1,14 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse.Grammar;
 
 namespace Verse
 {
+	// Token: 0x02000B72 RID: 2930
 	public class RulePackDef : Def
 	{
-		public List<RulePackDef> include;
-
-		private RulePack rulePack;
-
-		private List<Rule> cachedRules;
-
+		// Token: 0x170009BC RID: 2492
+		// (get) Token: 0x06003FE8 RID: 16360 RVA: 0x0021A878 File Offset: 0x00218C78
 		public List<Rule> RulesPlusIncludes
 		{
 			get
@@ -34,6 +32,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x170009BD RID: 2493
+		// (get) Token: 0x06003FE9 RID: 16361 RVA: 0x0021A914 File Offset: 0x00218D14
 		public List<Rule> RulesImmediate
 		{
 			get
@@ -42,40 +42,40 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06003FEA RID: 16362 RVA: 0x0021A948 File Offset: 0x00218D48
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
+			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
 			{
-				if (enumerator.MoveNext())
-				{
-					string err = enumerator.Current;
-					yield return err;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return err;
 			}
-			if (this.include == null)
-				yield break;
-			int i = 0;
-			while (true)
+			if (this.include != null)
 			{
-				if (i < this.include.Count)
+				for (int i = 0; i < this.include.Count; i++)
 				{
 					if (this.include[i].include != null && this.include[i].include.Contains(this))
-						break;
-					i++;
-					continue;
+					{
+						yield return "includes other RulePackDef which includes it: " + this.include[i].defName;
+					}
 				}
-				yield break;
 			}
-			yield return "includes other RulePackDef which includes it: " + this.include[i].defName;
-			/*Error: Unable to find new state assignment for yield return*/;
-			IL_018c:
-			/*Error near IL_018d: Unexpected return in MoveNext()*/;
+			yield break;
 		}
 
+		// Token: 0x06003FEB RID: 16363 RVA: 0x0021A974 File Offset: 0x00218D74
 		public static RulePackDef Named(string defName)
 		{
 			return DefDatabase<RulePackDef>.GetNamed(defName, true);
 		}
+
+		// Token: 0x04002ACD RID: 10957
+		public List<RulePackDef> include = null;
+
+		// Token: 0x04002ACE RID: 10958
+		private RulePack rulePack = null;
+
+		// Token: 0x04002ACF RID: 10959
+		[Unsaved]
+		private List<Rule> cachedRules = null;
 	}
 }

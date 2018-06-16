@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -5,17 +6,18 @@ using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000116 RID: 278
 	public class JobGiver_WanderColony : JobGiver_Wander
 	{
-		private static List<IntVec3> gatherSpots = new List<IntVec3>();
-
+		// Token: 0x060005A8 RID: 1448 RVA: 0x0003CBCC File Offset: 0x0003AFCC
 		public JobGiver_WanderColony()
 		{
-			base.wanderRadius = 7f;
-			base.ticksBetweenWandersRange = new IntRange(125, 200);
-			base.wanderDestValidator = ((Pawn pawn, IntVec3 loc) => true);
+			this.wanderRadius = 7f;
+			this.ticksBetweenWandersRange = new IntRange(125, 200);
+			this.wanderDestValidator = ((Pawn pawn, IntVec3 loc, IntVec3 root) => true);
 		}
 
+		// Token: 0x060005A9 RID: 1449 RVA: 0x0003CC20 File Offset: 0x0003B020
 		protected override IntVec3 GetWanderRoot(Pawn pawn)
 		{
 			if (pawn.RaceProps.Humanlike)
@@ -31,47 +33,58 @@ namespace RimWorld
 				}
 				if (JobGiver_WanderColony.gatherSpots.Count > 0)
 				{
-					return JobGiver_WanderColony.gatherSpots.RandomElement();
+					return JobGiver_WanderColony.gatherSpots.RandomElement<IntVec3>();
 				}
 			}
 			List<Building> allBuildingsColonist = pawn.Map.listerBuildings.allBuildingsColonist;
+			IntVec3 result;
 			if (allBuildingsColonist.Count == 0)
 			{
-				Pawn pawn2 = default(Pawn);
+				Pawn pawn2;
 				if ((from c in pawn.Map.mapPawns.FreeColonistsSpawned
 				where !c.Position.IsForbidden(pawn) && pawn.CanReach(c.Position, PathEndMode.Touch, Danger.None, false, TraverseMode.ByPawn)
-				select c).TryRandomElement<Pawn>(out pawn2))
+				select c).TryRandomElement(out pawn2))
 				{
-					return pawn2.Position;
+					result = pawn2.Position;
 				}
-				return pawn.Position;
+				else
+				{
+					result = pawn.Position;
+				}
 			}
-			int num = 0;
-			goto IL_0138;
-			IL_0138:
-			IntVec3 intVec;
-			while (true)
+			else
 			{
-				num++;
-				if (num > 20)
+				int num = 0;
+				IntVec3 intVec;
+				for (;;)
 				{
-					return pawn.Position;
-				}
-				Building building = allBuildingsColonist.RandomElement();
-				if (!building.Position.IsForbidden(pawn) && ((Area)pawn.Map.areaManager.Home)[building.Position])
-				{
-					int num2 = 15 + num * 2;
-					if ((pawn.Position - building.Position).LengthHorizontalSquared <= num2 * num2)
+					num++;
+					if (num > 20)
 					{
-						intVec = GenAdjFast.AdjacentCells8Way(building).RandomElement();
-						if (intVec.Standable(building.Map) && !intVec.IsForbidden(pawn) && pawn.CanReach(intVec, PathEndMode.OnCell, Danger.None, false, TraverseMode.ByPawn) && !intVec.IsInPrisonCell(pawn.Map))
-							break;
+						break;
+					}
+					Building building = allBuildingsColonist.RandomElement<Building>();
+					if (!building.Position.IsForbidden(pawn) && pawn.Map.areaManager.Home[building.Position])
+					{
+						int num2 = 15 + num * 2;
+						if ((pawn.Position - building.Position).LengthHorizontalSquared <= num2 * num2)
+						{
+							intVec = GenAdjFast.AdjacentCells8Way(building).RandomElement<IntVec3>();
+							if (intVec.Standable(building.Map) && !intVec.IsForbidden(pawn) && pawn.CanReach(intVec, PathEndMode.OnCell, Danger.None, false, TraverseMode.ByPawn) && !intVec.IsInPrisonCell(pawn.Map))
+							{
+								goto IL_265;
+							}
+						}
 					}
 				}
+				return pawn.Position;
+				IL_265:
+				result = intVec;
 			}
-			return intVec;
-			IL_0247:
-			goto IL_0138;
+			return result;
 		}
+
+		// Token: 0x040002F9 RID: 761
+		private static List<IntVec3> gatherSpots = new List<IntVec3>();
 	}
 }

@@ -1,11 +1,21 @@
-using RimWorld;
+﻿using System;
 using System.Reflection;
+using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000E37 RID: 3639
 	public class Dialog_DebugSettingsMenu : Dialog_DebugOptionLister
 	{
+		// Token: 0x060055FB RID: 22011 RVA: 0x002C45D7 File Offset: 0x002C29D7
+		public Dialog_DebugSettingsMenu()
+		{
+			this.forcePause = true;
+		}
+
+		// Token: 0x17000D73 RID: 3443
+		// (get) Token: 0x060055FC RID: 22012 RVA: 0x002C45E8 File Offset: 0x002C29E8
 		public override bool IsDebug
 		{
 			get
@@ -14,35 +24,30 @@ namespace Verse
 			}
 		}
 
-		public Dialog_DebugSettingsMenu()
-		{
-			base.forcePause = true;
-		}
-
+		// Token: 0x060055FD RID: 22013 RVA: 0x002C4600 File Offset: 0x002C2A00
 		protected override void DoListingItems()
 		{
-			if (KeyBindingDefOf.ToggleDebugSettingsMenu.KeyDownEvent)
+			if (KeyBindingDefOf.Dev_ToggleDebugSettingsMenu.KeyDownEvent)
 			{
 				Event.current.Use();
 				this.Close(true);
 			}
 			Text.Font = GameFont.Small;
-			base.listing.Label("Gameplay", -1f);
-			FieldInfo[] fields = typeof(DebugSettings).GetFields();
-			foreach (FieldInfo fi in fields)
+			this.listing.Label("Gameplay", -1f, null);
+			foreach (FieldInfo fi in typeof(DebugSettings).GetFields())
 			{
 				this.DoField(fi);
 			}
-			base.listing.Gap(36f);
+			this.listing.Gap(36f);
 			Text.Font = GameFont.Small;
-			base.listing.Label("View", -1f);
-			FieldInfo[] fields2 = typeof(DebugViewSettings).GetFields();
-			foreach (FieldInfo fi2 in fields2)
+			this.listing.Label("View", -1f, null);
+			foreach (FieldInfo fi2 in typeof(DebugViewSettings).GetFields())
 			{
 				this.DoField(fi2);
 			}
 		}
 
+		// Token: 0x060055FE RID: 22014 RVA: 0x002C46E4 File Offset: 0x002C2AE4
 		private void DoField(FieldInfo fi)
 		{
 			if (!fi.IsLiteral)

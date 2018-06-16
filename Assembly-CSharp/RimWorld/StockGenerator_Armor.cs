@@ -1,11 +1,27 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000779 RID: 1913
 	public class StockGenerator_Armor : StockGenerator_MiscItems
 	{
+		// Token: 0x06002A32 RID: 10802 RVA: 0x00165CF0 File Offset: 0x001640F0
+		public override bool HandlesThingDef(ThingDef td)
+		{
+			return td == ThingDefOf.Apparel_ShieldBelt || td == ThingDefOf.Apparel_SmokepopBelt || (base.HandlesThingDef(td) && td.IsApparel && (td.GetStatValueAbstract(StatDefOf.ArmorRating_Blunt, null) > 0.15f || td.GetStatValueAbstract(StatDefOf.ArmorRating_Sharp, null) > 0.15f));
+		}
+
+		// Token: 0x06002A33 RID: 10803 RVA: 0x00165D70 File Offset: 0x00164170
+		protected override float SelectionWeight(ThingDef thingDef)
+		{
+			return StockGenerator_Armor.SelectionWeightMarketValueCurve.Evaluate(thingDef.BaseMarketValue);
+		}
+
+		// Token: 0x040016C3 RID: 5827
 		public const float MinArmor = 0.15f;
 
+		// Token: 0x040016C4 RID: 5828
 		private static readonly SimpleCurve SelectionWeightMarketValueCurve = new SimpleCurve
 		{
 			{
@@ -25,23 +41,5 @@ namespace RimWorld
 				true
 			}
 		};
-
-		public override bool HandlesThingDef(ThingDef td)
-		{
-			if (td == ThingDefOf.Apparel_ShieldBelt)
-			{
-				return true;
-			}
-			if (td == ThingDefOf.Apparel_SmokepopBelt)
-			{
-				return true;
-			}
-			return base.HandlesThingDef(td) && td.IsApparel && (td.GetStatValueAbstract(StatDefOf.ArmorRating_Blunt, null) > 0.15000000596046448 || td.GetStatValueAbstract(StatDefOf.ArmorRating_Sharp, null) > 0.15000000596046448);
-		}
-
-		protected override float SelectionWeight(ThingDef thingDef)
-		{
-			return StockGenerator_Armor.SelectionWeightMarketValueCurve.Evaluate(thingDef.BaseMarketValue);
-		}
 	}
 }

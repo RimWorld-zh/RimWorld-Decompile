@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -5,14 +6,11 @@ using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020007B6 RID: 1974
 	public class ColonistBarDrawLocsFinder
 	{
-		private List<int> entriesInGroup = new List<int>();
-
-		private List<int> horizontalSlotsPerGroup = new List<int>();
-
-		private const float MarginTop = 21f;
-
+		// Token: 0x170006CE RID: 1742
+		// (get) Token: 0x06002BAD RID: 11181 RVA: 0x00172064 File Offset: 0x00170464
 		private ColonistBar ColonistBar
 		{
 			get
@@ -21,14 +19,17 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170006CF RID: 1743
+		// (get) Token: 0x06002BAE RID: 11182 RVA: 0x00172080 File Offset: 0x00170480
 		private static float MaxColonistBarWidth
 		{
 			get
 			{
-				return (float)((float)UI.screenWidth - 520.0);
+				return (float)UI.screenWidth - 520f;
 			}
 		}
 
+		// Token: 0x06002BAF RID: 11183 RVA: 0x001720A4 File Offset: 0x001704A4
 		public void CalculateDrawLocs(List<Vector2> outDrawLocs, out float scale)
 		{
 			if (this.ColonistBar.Entries.Count == 0)
@@ -39,13 +40,14 @@ namespace RimWorld
 			else
 			{
 				this.CalculateColonistsInGroup();
-				bool onlyOneRow = default(bool);
-				int maxPerGlobalRow = default(int);
+				bool onlyOneRow;
+				int maxPerGlobalRow;
 				scale = this.FindBestScale(out onlyOneRow, out maxPerGlobalRow);
 				this.CalculateDrawLocs(outDrawLocs, scale, onlyOneRow, maxPerGlobalRow);
 			}
 		}
 
+		// Token: 0x06002BB0 RID: 11184 RVA: 0x001720F8 File Offset: 0x001704F8
 		private void CalculateColonistsInGroup()
 		{
 			this.entriesInGroup.Clear();
@@ -58,13 +60,12 @@ namespace RimWorld
 			for (int j = 0; j < entries.Count; j++)
 			{
 				List<int> list;
-				List<int> list2 = list = this.entriesInGroup;
-				ColonistBar.Entry entry = entries[j];
 				int group;
-				list2[group = entry.group] = list[group] + 1;
+				(list = this.entriesInGroup)[group = entries[j].group] = list[group] + 1;
 			}
 		}
 
+		// Token: 0x06002BB1 RID: 11185 RVA: 0x0017218C File Offset: 0x0017058C
 		private int CalculateGroupsCount()
 		{
 			List<ColonistBar.Entry> entries = this.ColonistBar.Entries;
@@ -72,28 +73,25 @@ namespace RimWorld
 			int num2 = 0;
 			for (int i = 0; i < entries.Count; i++)
 			{
-				int num3 = num;
-				ColonistBar.Entry entry = entries[i];
-				if (num3 != entry.group)
+				if (num != entries[i].group)
 				{
 					num2++;
-					ColonistBar.Entry entry2 = entries[i];
-					num = entry2.group;
+					num = entries[i].group;
 				}
 			}
 			return num2;
 		}
 
+		// Token: 0x06002BB2 RID: 11186 RVA: 0x001721FC File Offset: 0x001705FC
 		private float FindBestScale(out bool onlyOneRow, out int maxPerGlobalRow)
 		{
 			float num = 1f;
 			List<ColonistBar.Entry> entries = this.ColonistBar.Entries;
 			int num2 = this.CalculateGroupsCount();
-			while (true)
+			for (;;)
 			{
-				Vector2 baseSize = ColonistBar.BaseSize;
-				float num3 = (float)((baseSize.x + 24.0) * num);
-				float num4 = (float)(ColonistBarDrawLocsFinder.MaxColonistBarWidth - (float)(num2 - 1) * 25.0 * num);
+				float num3 = (ColonistBar.BaseSize.x + 24f) * num;
+				float num4 = ColonistBarDrawLocsFinder.MaxColonistBarWidth - (float)(num2 - 1) * 25f * num;
 				maxPerGlobalRow = Mathf.FloorToInt(num4 / num3);
 				onlyOneRow = true;
 				if (this.TryDistributeHorizontalSlotsBetweenGroups(maxPerGlobalRow))
@@ -103,23 +101,15 @@ namespace RimWorld
 					int num5 = -1;
 					for (int i = 0; i < entries.Count; i++)
 					{
-						int num6 = num5;
-						ColonistBar.Entry entry = entries[i];
-						if (num6 != entry.group)
+						if (num5 != entries[i].group)
 						{
-							ColonistBar.Entry entry2 = entries[i];
-							num5 = entry2.group;
-							List<int> list = this.entriesInGroup;
-							ColonistBar.Entry entry3 = entries[i];
-							float num7 = (float)list[entry3.group];
-							List<int> list2 = this.horizontalSlotsPerGroup;
-							ColonistBar.Entry entry4 = entries[i];
-							int num8 = Mathf.CeilToInt(num7 / (float)list2[entry4.group]);
-							if (num8 > 1)
+							num5 = entries[i].group;
+							int num6 = Mathf.CeilToInt((float)this.entriesInGroup[entries[i].group] / (float)this.horizontalSlotsPerGroup[entries[i].group]);
+							if (num6 > 1)
 							{
 								onlyOneRow = false;
 							}
-							if (num8 > allowedRowsCountForScale)
+							if (num6 > allowedRowsCountForScale)
 							{
 								flag = false;
 								break;
@@ -127,25 +117,28 @@ namespace RimWorld
 						}
 					}
 					if (flag)
+					{
 						break;
+					}
 				}
-				num = (float)(num * 0.949999988079071);
+				num *= 0.95f;
 			}
 			return num;
 		}
 
+		// Token: 0x06002BB3 RID: 11187 RVA: 0x00172348 File Offset: 0x00170748
 		private bool TryDistributeHorizontalSlotsBetweenGroups(int maxPerGlobalRow)
 		{
 			int num = this.CalculateGroupsCount();
 			this.horizontalSlotsPerGroup.Clear();
-			for (int j = 0; j < num; j++)
+			for (int k = 0; k < num; k++)
 			{
 				this.horizontalSlotsPerGroup.Add(0);
 			}
 			GenMath.DHondtDistribution(this.horizontalSlotsPerGroup, (int i) => (float)this.entriesInGroup[i], maxPerGlobalRow);
-			for (int k = 0; k < this.horizontalSlotsPerGroup.Count; k++)
+			for (int j = 0; j < this.horizontalSlotsPerGroup.Count; j++)
 			{
-				if (this.horizontalSlotsPerGroup[k] == 0)
+				if (this.horizontalSlotsPerGroup[j] == 0)
 				{
 					int num2 = this.horizontalSlotsPerGroup.Max();
 					if (num2 <= 1)
@@ -153,29 +146,36 @@ namespace RimWorld
 						return false;
 					}
 					int num3 = this.horizontalSlotsPerGroup.IndexOf(num2);
-					int index;
 					List<int> list;
+					int index;
 					(list = this.horizontalSlotsPerGroup)[index = num3] = list[index] - 1;
 					int index2;
-					(list = this.horizontalSlotsPerGroup)[index2 = k] = list[index2] + 1;
+					(list = this.horizontalSlotsPerGroup)[index2 = j] = list[index2] + 1;
 				}
 			}
 			return true;
 		}
 
+		// Token: 0x06002BB4 RID: 11188 RVA: 0x00172440 File Offset: 0x00170840
 		private static int GetAllowedRowsCountForScale(float scale)
 		{
-			if (scale > 0.57999998331069946)
+			int result;
+			if (scale > 0.58f)
 			{
-				return 1;
+				result = 1;
 			}
-			if (scale > 0.41999998688697815)
+			else if (scale > 0.42f)
 			{
-				return 2;
+				result = 2;
 			}
-			return 3;
+			else
+			{
+				result = 3;
+			}
+			return result;
 		}
 
+		// Token: 0x06002BB5 RID: 11189 RVA: 0x0017247C File Offset: 0x0017087C
 		private void CalculateDrawLocs(List<Vector2> outDrawLocs, float scale, bool onlyOneRow, int maxPerGlobalRow)
 		{
 			outDrawLocs.Clear();
@@ -189,59 +189,54 @@ namespace RimWorld
 				num = this.ColonistBar.Entries.Count;
 			}
 			int num2 = this.CalculateGroupsCount();
-			Vector2 baseSize = ColonistBar.BaseSize;
-			float num3 = (float)((baseSize.x + 24.0) * scale);
-			float num4 = (float)((float)num * num3 + (float)(num2 - 1) * 25.0 * scale);
+			float num3 = (ColonistBar.BaseSize.x + 24f) * scale;
+			float num4 = (float)num * num3 + (float)(num2 - 1) * 25f * scale;
 			List<ColonistBar.Entry> entries = this.ColonistBar.Entries;
 			int num5 = -1;
 			int num6 = -1;
-			float num7 = (float)(((float)UI.screenWidth - num4) / 2.0);
+			float num7 = ((float)UI.screenWidth - num4) / 2f;
 			for (int j = 0; j < entries.Count; j++)
 			{
-				int num8 = num5;
-				ColonistBar.Entry entry = entries[j];
-				if (num8 != entry.group)
+				if (num5 != entries[j].group)
 				{
 					if (num5 >= 0)
 					{
-						num7 = (float)(num7 + 25.0 * scale);
-						float num9 = num7;
-						float num10 = (float)this.horizontalSlotsPerGroup[num5] * scale;
-						Vector2 baseSize2 = ColonistBar.BaseSize;
-						num7 = (float)(num9 + num10 * (baseSize2.x + 24.0));
+						num7 += 25f * scale;
+						num7 += (float)this.horizontalSlotsPerGroup[num5] * scale * (ColonistBar.BaseSize.x + 24f);
 					}
 					num6 = 0;
-					ColonistBar.Entry entry2 = entries[j];
-					num5 = entry2.group;
+					num5 = entries[j].group;
 				}
 				else
 				{
 					num6++;
 				}
-				float groupStartX = num7;
-				ColonistBar.Entry entry3 = entries[j];
-				Vector2 drawLoc = this.GetDrawLoc(groupStartX, 21f, entry3.group, num6, scale);
+				Vector2 drawLoc = this.GetDrawLoc(num7, 21f, entries[j].group, num6, scale);
 				outDrawLocs.Add(drawLoc);
 			}
 		}
 
+		// Token: 0x06002BB6 RID: 11190 RVA: 0x00172610 File Offset: 0x00170A10
 		private Vector2 GetDrawLoc(float groupStartX, float groupStartY, int group, int numInGroup, float scale)
 		{
-			float num = (float)(numInGroup % this.horizontalSlotsPerGroup[group]) * scale;
-			Vector2 baseSize = ColonistBar.BaseSize;
-			float num2 = (float)(groupStartX + num * (baseSize.x + 24.0));
-			float num3 = (float)(numInGroup / this.horizontalSlotsPerGroup[group]) * scale;
-			Vector2 baseSize2 = ColonistBar.BaseSize;
-			float y = (float)(groupStartY + num3 * (baseSize2.y + 32.0));
-			if (numInGroup >= this.entriesInGroup[group] - this.entriesInGroup[group] % this.horizontalSlotsPerGroup[group])
+			float num = groupStartX + (float)(numInGroup % this.horizontalSlotsPerGroup[group]) * scale * (ColonistBar.BaseSize.x + 24f);
+			float y = groupStartY + (float)(numInGroup / this.horizontalSlotsPerGroup[group]) * scale * (ColonistBar.BaseSize.y + 32f);
+			bool flag = numInGroup >= this.entriesInGroup[group] - this.entriesInGroup[group] % this.horizontalSlotsPerGroup[group];
+			if (flag)
 			{
-				int num4 = this.horizontalSlotsPerGroup[group] - this.entriesInGroup[group] % this.horizontalSlotsPerGroup[group];
-				float num5 = num2;
-				float num6 = (float)num4 * scale;
-				Vector2 baseSize3 = ColonistBar.BaseSize;
-				num2 = (float)(num5 + num6 * (baseSize3.x + 24.0) * 0.5);
+				int num2 = this.horizontalSlotsPerGroup[group] - this.entriesInGroup[group] % this.horizontalSlotsPerGroup[group];
+				num += (float)num2 * scale * (ColonistBar.BaseSize.x + 24f) * 0.5f;
 			}
-			return new Vector2(num2, y);
+			return new Vector2(num, y);
 		}
+
+		// Token: 0x04001781 RID: 6017
+		private List<int> entriesInGroup = new List<int>();
+
+		// Token: 0x04001782 RID: 6018
+		private List<int> horizontalSlotsPerGroup = new List<int>();
+
+		// Token: 0x04001783 RID: 6019
+		private const float MarginTop = 21f;
 	}
 }

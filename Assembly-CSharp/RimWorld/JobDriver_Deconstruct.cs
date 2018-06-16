@@ -1,12 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Verse;
+using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000042 RID: 66
 	public class JobDriver_Deconstruct : JobDriver_RemoveBuilding
 	{
-		private const int MaxDeconstructWork = 3000;
-
+		// Token: 0x17000075 RID: 117
+		// (get) Token: 0x0600022F RID: 559 RVA: 0x00017664 File Offset: 0x00015A64
 		protected override DesignationDef Designation
 		{
 			get
@@ -15,6 +19,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000076 RID: 118
+		// (get) Token: 0x06000230 RID: 560 RVA: 0x00017680 File Offset: 0x00015A80
 		protected override int TotalNeededWork
 		{
 			get
@@ -25,18 +31,34 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06000231 RID: 561 RVA: 0x000176C0 File Offset: 0x00015AC0
+		protected override IEnumerable<Toil> MakeNewToils()
+		{
+			this.FailOn(() => base.Building == null || !base.Building.DeconstructibleBy(this.pawn.Faction));
+			foreach (Toil t in this.<MakeNewToils>__BaseCallProxy0())
+			{
+				yield return t;
+			}
+			yield break;
+		}
+
+		// Token: 0x06000232 RID: 562 RVA: 0x000176EA File Offset: 0x00015AEA
 		protected override void FinishedRemoving()
 		{
 			base.Target.Destroy(DestroyMode.Deconstruct);
-			base.pawn.records.Increment(RecordDefOf.ThingsDeconstructed);
+			this.pawn.records.Increment(RecordDefOf.ThingsDeconstructed);
 		}
 
+		// Token: 0x06000233 RID: 563 RVA: 0x00017710 File Offset: 0x00015B10
 		protected override void TickAction()
 		{
-			if (base.Target.def.CostListAdjusted(base.Target.Stuff, true).Count > 0)
+			if (base.Building.def.CostListAdjusted(base.Building.Stuff, true).Count > 0)
 			{
-				base.pawn.skills.Learn(SkillDefOf.Construction, 0.275f, false);
+				this.pawn.skills.Learn(SkillDefOf.Construction, 0.275f, false);
 			}
 		}
+
+		// Token: 0x040001D2 RID: 466
+		private const int MaxDeconstructWork = 3000;
 	}
 }

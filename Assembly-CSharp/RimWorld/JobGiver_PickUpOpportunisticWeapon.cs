@@ -1,34 +1,34 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x020000C8 RID: 200
 	public class JobGiver_PickUpOpportunisticWeapon : ThinkNode_JobGiver
 	{
-		private bool preferBuildingDestroyers;
-
+		// Token: 0x170000CB RID: 203
+		// (get) Token: 0x06000497 RID: 1175 RVA: 0x00034384 File Offset: 0x00032784
 		private float MinMeleeWeaponDPSThreshold
 		{
 			get
 			{
 				List<Tool> tools = ThingDefOf.Human.tools;
 				float num = 0f;
-				int num2 = 0;
-				while (num2 < tools.Count)
+				for (int i = 0; i < tools.Count; i++)
 				{
-					if (tools[num2].linkedBodyPartsGroup != BodyPartGroupDefOf.LeftHand && tools[num2].linkedBodyPartsGroup != BodyPartGroupDefOf.RightHand)
+					if (tools[i].linkedBodyPartsGroup == BodyPartGroupDefOf.LeftHand || tools[i].linkedBodyPartsGroup == BodyPartGroupDefOf.RightHand)
 					{
-						num2++;
-						continue;
+						num = tools[i].power / tools[i].cooldownTime;
+						break;
 					}
-					num = tools[num2].power / tools[num2].cooldownTime;
-					break;
 				}
-				return (float)(num + 2.0);
+				return num + 2f;
 			}
 		}
 
+		// Token: 0x06000498 RID: 1176 RVA: 0x00034418 File Offset: 0x00032818
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_PickUpOpportunisticWeapon jobGiver_PickUpOpportunisticWeapon = (JobGiver_PickUpOpportunisticWeapon)base.DeepCopy(resolve);
@@ -36,82 +36,106 @@ namespace RimWorld
 			return jobGiver_PickUpOpportunisticWeapon;
 		}
 
+		// Token: 0x06000499 RID: 1177 RVA: 0x00034448 File Offset: 0x00032848
 		protected override Job TryGiveJob(Pawn pawn)
 		{
+			Job result;
 			if (pawn.equipment == null)
 			{
-				return null;
+				result = null;
 			}
-			if (this.AlreadySatisfiedWithCurrentWeapon(pawn))
+			else if (this.AlreadySatisfiedWithCurrentWeapon(pawn))
 			{
-				return null;
+				result = null;
 			}
-			if (pawn.RaceProps.Humanlike && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
+			else if (pawn.RaceProps.Humanlike && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
 			{
-				return null;
+				result = null;
 			}
-			if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
+			else if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
 			{
-				return null;
+				result = null;
 			}
-			Region region = pawn.GetRegion(RegionType.Set_Passable);
-			if (region == null)
+			else if (pawn.GetRegion(RegionType.Set_Passable) == null)
 			{
-				return null;
+				result = null;
 			}
-			Thing thing = GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForGroup(ThingRequestGroup.Weapon), PathEndMode.OnCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 8f, (Thing x) => pawn.CanReserve(x, 1, -1, null, false) && this.ShouldEquip(x, pawn), null, 0, 15, false, RegionType.Set_Passable, false);
-			if (thing != null)
+			else
 			{
-				return new Job(JobDefOf.Equip, thing);
+				Thing thing = GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, ThingRequest.ForGroup(ThingRequestGroup.Weapon), PathEndMode.OnCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 8f, (Thing x) => pawn.CanReserve(x, 1, -1, null, false) && this.ShouldEquip(x, pawn), null, 0, 15, false, RegionType.Set_Passable, false);
+				if (thing != null)
+				{
+					result = new Job(JobDefOf.Equip, thing);
+				}
+				else
+				{
+					result = null;
+				}
 			}
-			return null;
+			return result;
 		}
 
+		// Token: 0x0600049A RID: 1178 RVA: 0x0003457C File Offset: 0x0003297C
 		private bool AlreadySatisfiedWithCurrentWeapon(Pawn pawn)
 		{
 			ThingWithComps primary = pawn.equipment.Primary;
+			bool result;
 			if (primary == null)
 			{
-				return false;
+				result = false;
 			}
-			if (this.preferBuildingDestroyers)
+			else
 			{
-				if (!pawn.equipment.PrimaryEq.PrimaryVerb.verbProps.ai_IsBuildingDestroyer)
+				if (this.preferBuildingDestroyers)
+				{
+					if (!pawn.equipment.PrimaryEq.PrimaryVerb.verbProps.ai_IsBuildingDestroyer)
+					{
+						return false;
+					}
+				}
+				else if (!primary.def.IsRangedWeapon)
 				{
 					return false;
 				}
+				result = true;
 			}
-			else if (!primary.def.IsRangedWeapon)
-			{
-				return false;
-			}
-			return true;
+			return result;
 		}
 
+		// Token: 0x0600049B RID: 1179 RVA: 0x000345FC File Offset: 0x000329FC
 		private bool ShouldEquip(Thing newWep, Pawn pawn)
 		{
 			return this.GetWeaponScore(newWep) > this.GetWeaponScore(pawn.equipment.Primary);
 		}
 
+		// Token: 0x0600049C RID: 1180 RVA: 0x0003462C File Offset: 0x00032A2C
 		private int GetWeaponScore(Thing wep)
 		{
+			int result;
 			if (wep == null)
 			{
-				return 0;
+				result = 0;
 			}
-			if (wep.def.IsMeleeWeapon && wep.GetStatValue(StatDefOf.MeleeWeapon_AverageDPS, true) < this.MinMeleeWeaponDPSThreshold)
+			else if (wep.def.IsMeleeWeapon && wep.GetStatValue(StatDefOf.MeleeWeapon_AverageDPS, true) < this.MinMeleeWeaponDPSThreshold)
 			{
-				return 0;
+				result = 0;
 			}
-			if (this.preferBuildingDestroyers && wep.TryGetComp<CompEquippable>().PrimaryVerb.verbProps.ai_IsBuildingDestroyer)
+			else if (this.preferBuildingDestroyers && wep.TryGetComp<CompEquippable>().PrimaryVerb.verbProps.ai_IsBuildingDestroyer)
 			{
-				return 3;
+				result = 3;
 			}
-			if (wep.def.IsRangedWeapon)
+			else if (wep.def.IsRangedWeapon)
 			{
-				return 2;
+				result = 2;
 			}
-			return 1;
+			else
+			{
+				result = 1;
+			}
+			return result;
 		}
+
+		// Token: 0x0400029B RID: 667
+		private bool preferBuildingDestroyers;
 	}
 }

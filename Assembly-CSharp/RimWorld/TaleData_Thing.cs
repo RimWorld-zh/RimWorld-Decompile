@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -5,33 +6,38 @@ using Verse.Grammar;
 
 namespace RimWorld
 {
+	// Token: 0x02000660 RID: 1632
 	public class TaleData_Thing : TaleData
 	{
-		public int thingID;
-
-		public ThingDef thingDef;
-
-		public ThingDef stuff;
-
-		public string title;
-
-		public QualityCategory quality;
-
+		// Token: 0x0600220C RID: 8716 RVA: 0x00120B38 File Offset: 0x0011EF38
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.thingID, "thingID", 0, false);
 			Scribe_Defs.Look<ThingDef>(ref this.thingDef, "thingDef");
 			Scribe_Defs.Look<ThingDef>(ref this.stuff, "stuff");
-			Scribe_Values.Look<string>(ref this.title, "title", (string)null, false);
+			Scribe_Values.Look<string>(ref this.title, "title", null, false);
 			Scribe_Values.Look<QualityCategory>(ref this.quality, "quality", QualityCategory.Awful, false);
 		}
 
+		// Token: 0x0600220D RID: 8717 RVA: 0x00120B9C File Offset: 0x0011EF9C
 		public override IEnumerable<Rule> GetRules(string prefix)
 		{
-			yield return (Rule)new Rule_String(prefix + "_label", this.thingDef.label);
-			/*Error: Unable to find new state assignment for yield return*/;
+			yield return new Rule_String(prefix + "_label", this.thingDef.label);
+			yield return new Rule_String(prefix + "_definite", Find.ActiveLanguageWorker.WithDefiniteArticle(this.thingDef.label));
+			yield return new Rule_String(prefix + "_indefinite", Find.ActiveLanguageWorker.WithIndefiniteArticle(this.thingDef.label));
+			if (this.stuff != null)
+			{
+				yield return new Rule_String(prefix + "_stuffLabel", this.stuff.label);
+			}
+			if (this.title != null)
+			{
+				yield return new Rule_String(prefix + "_title", this.title);
+			}
+			yield return new Rule_String(prefix + "_quality", this.quality.GetLabel());
+			yield break;
 		}
 
+		// Token: 0x0600220E RID: 8718 RVA: 0x00120BD0 File Offset: 0x0011EFD0
 		public static TaleData_Thing GenerateFrom(Thing t)
 		{
 			TaleData_Thing taleData_Thing = new TaleData_Thing();
@@ -47,21 +53,47 @@ namespace RimWorld
 			return taleData_Thing;
 		}
 
+		// Token: 0x0600220F RID: 8719 RVA: 0x00120C44 File Offset: 0x0011F044
 		public static TaleData_Thing GenerateRandom()
 		{
-			ThingDef thingDef = (from d in DefDatabase<ThingDef>.AllDefs
-			where d.comps != null && d.comps.Any((CompProperties cp) => cp.compClass == typeof(CompArt))
-			select d).RandomElement();
+			ThingDef thingDef = DefDatabase<ThingDef>.AllDefs.Where(delegate(ThingDef d)
+			{
+				bool result;
+				if (d.comps != null)
+				{
+					result = d.comps.Any((CompProperties cp) => cp.compClass == typeof(CompArt));
+				}
+				else
+				{
+					result = false;
+				}
+				return result;
+			}).RandomElement<ThingDef>();
 			ThingDef thingDef2 = GenStuff.RandomStuffFor(thingDef);
 			Thing thing = ThingMaker.MakeThing(thingDef, thingDef2);
-			ArtGenerationContext source = (ArtGenerationContext)((Rand.Value < 0.5) ? 1 : 0);
+			ArtGenerationContext source = (Rand.Value >= 0.5f) ? ArtGenerationContext.Outsider : ArtGenerationContext.Colony;
 			CompQuality compQuality = thing.TryGetComp<CompQuality>();
-			if (compQuality != null && (int)compQuality.Quality < (int)thing.TryGetComp<CompArt>().Props.minQualityForArtistic)
+			if (compQuality != null && compQuality.Quality < thing.TryGetComp<CompArt>().Props.minQualityForArtistic)
 			{
 				compQuality.SetQuality(thing.TryGetComp<CompArt>().Props.minQualityForArtistic, source);
 			}
 			thing.TryGetComp<CompArt>().InitializeArt(source);
 			return TaleData_Thing.GenerateFrom(thing);
 		}
+
+		// Token: 0x0400135A RID: 4954
+		public int thingID;
+
+		// Token: 0x0400135B RID: 4955
+		public ThingDef thingDef;
+
+		// Token: 0x0400135C RID: 4956
+		public ThingDef stuff;
+
+		// Token: 0x0400135D RID: 4957
+		public string title;
+
+		// Token: 0x0400135E RID: 4958
+		public QualityCategory quality;
 	}
 }

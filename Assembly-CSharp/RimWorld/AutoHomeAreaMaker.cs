@@ -1,40 +1,50 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020008F5 RID: 2293
 	public static class AutoHomeAreaMaker
 	{
-		private const int BorderWidth = 4;
-
+		// Token: 0x060034F9 RID: 13561 RVA: 0x001C4944 File Offset: 0x001C2D44
 		private static bool ShouldAdd()
 		{
 			return Find.PlaySettings.autoHomeArea && Current.ProgramState == ProgramState.Playing;
 		}
 
+		// Token: 0x060034FA RID: 13562 RVA: 0x001C4973 File Offset: 0x001C2D73
 		public static void Notify_BuildingSpawned(Thing b)
 		{
 			if (AutoHomeAreaMaker.ShouldAdd() && b.def.building.expandHomeArea && b.Faction == Faction.OfPlayer)
 			{
-				IntVec3 position = b.Position;
-				int x = position.x;
-				IntVec2 rotatedSize = b.RotatedSize;
-				int minX = x - rotatedSize.x / 2 - 4;
-				IntVec3 position2 = b.Position;
-				int z = position2.z;
-				IntVec2 rotatedSize2 = b.RotatedSize;
-				int minZ = z - rotatedSize2.z / 2 - 4;
-				IntVec2 rotatedSize3 = b.RotatedSize;
-				int width = rotatedSize3.x + 8;
-				IntVec2 rotatedSize4 = b.RotatedSize;
-				CellRect cellRect = new CellRect(minX, minZ, width, rotatedSize4.z + 8);
-				cellRect.ClipInsideMap(b.Map);
-				foreach (IntVec3 item in cellRect)
+				AutoHomeAreaMaker.MarkHomeAroundThing(b);
+			}
+		}
+
+		// Token: 0x060034FB RID: 13563 RVA: 0x001C49B0 File Offset: 0x001C2DB0
+		public static void Notify_BuildingClaimed(Thing b)
+		{
+			if (AutoHomeAreaMaker.ShouldAdd() && b.def.building.expandHomeArea && b.Faction == Faction.OfPlayer)
+			{
+				AutoHomeAreaMaker.MarkHomeAroundThing(b);
+			}
+		}
+
+		// Token: 0x060034FC RID: 13564 RVA: 0x001C49F0 File Offset: 0x001C2DF0
+		public static void MarkHomeAroundThing(Thing t)
+		{
+			if (AutoHomeAreaMaker.ShouldAdd())
+			{
+				CellRect cellRect = new CellRect(t.Position.x - t.RotatedSize.x / 2 - 4, t.Position.z - t.RotatedSize.z / 2 - 4, t.RotatedSize.x + 8, t.RotatedSize.z + 8);
+				cellRect.ClipInsideMap(t.Map);
+				foreach (IntVec3 c in cellRect)
 				{
-					((Area)b.Map.areaManager.Home)[item] = true;
+					t.Map.areaManager.Home[c] = true;
 				}
 			}
 		}
 
+		// Token: 0x060034FD RID: 13565 RVA: 0x001C4AEC File Offset: 0x001C2EEC
 		public static void Notify_ZoneCellAdded(IntVec3 c, Zone zone)
 		{
 			if (AutoHomeAreaMaker.ShouldAdd())
@@ -42,10 +52,13 @@ namespace RimWorld
 				CellRect.CellRectIterator iterator = CellRect.CenteredOn(c, 4).ClipInsideMap(zone.Map).GetIterator();
 				while (!iterator.Done())
 				{
-					((Area)zone.Map.areaManager.Home)[iterator.Current] = true;
+					zone.Map.areaManager.Home[iterator.Current] = true;
 					iterator.MoveNext();
 				}
 			}
 		}
+
+		// Token: 0x04001C9D RID: 7325
+		private const int BorderWidth = 4;
 	}
 }

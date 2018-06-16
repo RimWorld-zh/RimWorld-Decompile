@@ -1,56 +1,96 @@
-using RimWorld.Planet;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000988 RID: 2440
 	public static class GenWorld
 	{
-		private static int cachedTile = -1;
-
-		private static int cachedFrame = -1;
-
-		public const float MaxRayLength = 1500f;
-
-		private static List<WorldObject> tmpWorldObjectsUnderMouse = new List<WorldObject>();
-
+		// Token: 0x060036ED RID: 14061 RVA: 0x001D5934 File Offset: 0x001D3D34
 		public static int MouseTile(bool snapToExpandableWorldObjects = false)
 		{
-			if (GenWorld.cachedFrame == Time.frameCount)
+			int result;
+			if (snapToExpandableWorldObjects)
 			{
-				return GenWorld.cachedTile;
+				if (GenWorld.cachedFrame_snap == Time.frameCount)
+				{
+					result = GenWorld.cachedTile_snap;
+				}
+				else
+				{
+					GenWorld.cachedTile_snap = GenWorld.TileAt(UI.MousePositionOnUI, true);
+					GenWorld.cachedFrame_snap = Time.frameCount;
+					result = GenWorld.cachedTile_snap;
+				}
 			}
-			GenWorld.cachedTile = GenWorld.TileAt(UI.MousePositionOnUI, snapToExpandableWorldObjects);
-			GenWorld.cachedFrame = Time.frameCount;
-			return GenWorld.cachedTile;
+			else if (GenWorld.cachedFrame_noSnap == Time.frameCount)
+			{
+				result = GenWorld.cachedTile_noSnap;
+			}
+			else
+			{
+				GenWorld.cachedTile_noSnap = GenWorld.TileAt(UI.MousePositionOnUI, false);
+				GenWorld.cachedFrame_noSnap = Time.frameCount;
+				result = GenWorld.cachedTile_noSnap;
+			}
+			return result;
 		}
 
+		// Token: 0x060036EE RID: 14062 RVA: 0x001D59CC File Offset: 0x001D3DCC
 		public static int TileAt(Vector2 clickPos, bool snapToExpandableWorldObjects = false)
 		{
 			Camera worldCamera = Find.WorldCamera;
+			int result;
 			if (!worldCamera.gameObject.activeInHierarchy)
 			{
-				return -1;
+				result = -1;
 			}
-			if (snapToExpandableWorldObjects)
+			else
 			{
-				ExpandableWorldObjectsUtility.GetExpandedWorldObjectUnderMouse(UI.MousePositionOnUI, GenWorld.tmpWorldObjectsUnderMouse);
-				if (GenWorld.tmpWorldObjectsUnderMouse.Any())
+				if (snapToExpandableWorldObjects)
 				{
-					int tile = GenWorld.tmpWorldObjectsUnderMouse[0].Tile;
-					GenWorld.tmpWorldObjectsUnderMouse.Clear();
-					return tile;
+					ExpandableWorldObjectsUtility.GetExpandedWorldObjectUnderMouse(UI.MousePositionOnUI, GenWorld.tmpWorldObjectsUnderMouse);
+					if (GenWorld.tmpWorldObjectsUnderMouse.Any<WorldObject>())
+					{
+						int tile = GenWorld.tmpWorldObjectsUnderMouse[0].Tile;
+						GenWorld.tmpWorldObjectsUnderMouse.Clear();
+						return tile;
+					}
+				}
+				Ray ray = worldCamera.ScreenPointToRay(clickPos * Prefs.UIScale);
+				int worldLayerMask = WorldCameraManager.WorldLayerMask;
+				RaycastHit hit;
+				if (Physics.Raycast(ray, out hit, 1500f, worldLayerMask))
+				{
+					result = Find.World.renderer.GetTileIDFromRayHit(hit);
+				}
+				else
+				{
+					result = -1;
 				}
 			}
-			Ray ray = worldCamera.ScreenPointToRay(clickPos * Prefs.UIScale);
-			int worldLayerMask = WorldCameraManager.WorldLayerMask;
-			RaycastHit hit = default(RaycastHit);
-			if (Physics.Raycast(ray, out hit, 1500f, worldLayerMask))
-			{
-				return Find.World.renderer.GetTileIDFromRayHit(hit);
-			}
-			return -1;
+			return result;
 		}
+
+		// Token: 0x04002372 RID: 9074
+		private static int cachedTile_noSnap = -1;
+
+		// Token: 0x04002373 RID: 9075
+		private static int cachedFrame_noSnap = -1;
+
+		// Token: 0x04002374 RID: 9076
+		private static int cachedTile_snap = -1;
+
+		// Token: 0x04002375 RID: 9077
+		private static int cachedFrame_snap = -1;
+
+		// Token: 0x04002376 RID: 9078
+		public const float MaxRayLength = 1500f;
+
+		// Token: 0x04002377 RID: 9079
+		private static List<WorldObject> tmpWorldObjectsUnderMouse = new List<WorldObject>();
 	}
 }

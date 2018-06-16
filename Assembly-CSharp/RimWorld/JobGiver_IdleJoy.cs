@@ -1,27 +1,36 @@
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x020000FA RID: 250
 	public class JobGiver_IdleJoy : JobGiver_GetJoy
 	{
-		private const int GameStartNoIdleJoyTicks = 60000;
-
+		// Token: 0x06000543 RID: 1347 RVA: 0x00039A18 File Offset: 0x00037E18
 		protected override Job TryGiveJob(Pawn pawn)
 		{
+			Job result;
 			if (pawn.needs.joy == null)
 			{
-				return null;
+				result = null;
 			}
-			if (Find.TickManager.TicksGame < 60000)
+			else if (Find.TickManager.TicksGame < 60000)
 			{
-				return null;
+				result = null;
 			}
-			if (!JoyUtility.LordPreventsGettingJoy(pawn) && !JoyUtility.TimetablePreventsGettingJoy(pawn))
+			else if (JoyUtility.LordPreventsGettingJoy(pawn) || JoyUtility.TimetablePreventsGettingJoy(pawn))
 			{
-				return base.TryGiveJob(pawn);
+				result = null;
 			}
-			return null;
+			else
+			{
+				result = base.TryGiveJob(pawn);
+			}
+			return result;
 		}
+
+		// Token: 0x040002D1 RID: 721
+		private const int GameStartNoIdleJoyTicks = 60000;
 	}
 }

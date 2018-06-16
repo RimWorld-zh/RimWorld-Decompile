@@ -1,15 +1,22 @@
-using System;
+﻿using System;
 
 namespace Verse
 {
+	// Token: 0x02000C26 RID: 3110
 	public sealed class IntGrid
 	{
-		private int[] grid;
+		// Token: 0x06004420 RID: 17440 RVA: 0x0023D216 File Offset: 0x0023B616
+		public IntGrid()
+		{
+		}
 
-		private int mapSizeX;
+		// Token: 0x06004421 RID: 17441 RVA: 0x0023D21F File Offset: 0x0023B61F
+		public IntGrid(Map map)
+		{
+			this.ClearAndResizeTo(map);
+		}
 
-		private int mapSizeZ;
-
+		// Token: 0x17000AAE RID: 2734
 		public int this[IntVec3 c]
 		{
 			get
@@ -23,6 +30,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000AAF RID: 2735
 		public int this[int index]
 		{
 			get
@@ -35,6 +43,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000AB0 RID: 2736
 		public int this[int x, int z]
 		{
 			get
@@ -47,6 +56,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000AB1 RID: 2737
+		// (get) Token: 0x06004428 RID: 17448 RVA: 0x0023D2EC File Offset: 0x0023B6EC
 		public int CellsCount
 		{
 			get
@@ -55,33 +66,13 @@ namespace Verse
 			}
 		}
 
-		public IntGrid()
-		{
-		}
-
-		public IntGrid(Map map)
-		{
-			this.ClearAndResizeTo(map);
-		}
-
+		// Token: 0x06004429 RID: 17449 RVA: 0x0023D30C File Offset: 0x0023B70C
 		public bool MapSizeMatches(Map map)
 		{
-			int num = this.mapSizeX;
-			IntVec3 size = map.Size;
-			int result;
-			if (num == size.x)
-			{
-				int num2 = this.mapSizeZ;
-				IntVec3 size2 = map.Size;
-				result = ((num2 == size2.z) ? 1 : 0);
-			}
-			else
-			{
-				result = 0;
-			}
-			return (byte)result != 0;
+			return this.mapSizeX == map.Size.x && this.mapSizeZ == map.Size.z;
 		}
 
+		// Token: 0x0600442A RID: 17450 RVA: 0x0023D354 File Offset: 0x0023B754
 		public void ClearAndResizeTo(Map map)
 		{
 			if (this.MapSizeMatches(map) && this.grid != null)
@@ -90,14 +81,13 @@ namespace Verse
 			}
 			else
 			{
-				IntVec3 size = map.Size;
-				this.mapSizeX = size.x;
-				IntVec3 size2 = map.Size;
-				this.mapSizeZ = size2.z;
+				this.mapSizeX = map.Size.x;
+				this.mapSizeZ = map.Size.z;
 				this.grid = new int[this.mapSizeX * this.mapSizeZ];
 			}
 		}
 
+		// Token: 0x0600442B RID: 17451 RVA: 0x0023D3C8 File Offset: 0x0023B7C8
 		public void Clear(int value = 0)
 		{
 			if (value == 0)
@@ -113,6 +103,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x0600442C RID: 17452 RVA: 0x0023D41C File Offset: 0x0023B81C
 		public void DebugDraw()
 		{
 			for (int i = 0; i < this.grid.Length; i++)
@@ -121,9 +112,18 @@ namespace Verse
 				if (num > 0)
 				{
 					IntVec3 c = CellIndicesUtility.IndexToCell(i, this.mapSizeX);
-					CellRenderer.RenderCell(c, (float)((float)(num % 100) / 100.0 * 0.5));
+					CellRenderer.RenderCell(c, (float)(num % 100) / 100f * 0.5f);
 				}
 			}
 		}
+
+		// Token: 0x04002E5C RID: 11868
+		private int[] grid;
+
+		// Token: 0x04002E5D RID: 11869
+		private int mapSizeX;
+
+		// Token: 0x04002E5E RID: 11870
+		private int mapSizeZ;
 	}
 }

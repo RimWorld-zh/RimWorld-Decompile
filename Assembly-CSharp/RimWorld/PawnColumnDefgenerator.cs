@@ -1,61 +1,51 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000234 RID: 564
 	public class PawnColumnDefgenerator
 	{
+		// Token: 0x06000A39 RID: 2617 RVA: 0x0005A2C8 File Offset: 0x000586C8
 		public static IEnumerable<PawnColumnDef> ImpliedPawnColumnDefs()
 		{
 			PawnTableDef animalsTable = PawnTableDefOf.Animals;
-			using (IEnumerator<TrainableDef> enumerator = (from td in DefDatabase<TrainableDef>.AllDefsListForReading
+			foreach (TrainableDef sourceDef in from td in DefDatabase<TrainableDef>.AllDefsListForReading
 			orderby td.listPriority descending
-			select td).GetEnumerator())
+			select td)
 			{
-				if (enumerator.MoveNext())
-				{
-					TrainableDef sourceDef = enumerator.Current;
-					PawnColumnDef d3 = new PawnColumnDef
-					{
-						defName = "Trainable_" + sourceDef.defName,
-						trainable = sourceDef,
-						headerIcon = sourceDef.icon,
-						workerClass = typeof(PawnColumnWorker_Trainable),
-						sortable = true,
-						headerTip = sourceDef.LabelCap
-					};
-					animalsTable.columns.Insert(animalsTable.columns.FindIndex((PawnColumnDef x) => x.Worker is PawnColumnWorker_Checkbox) - 1, d3);
-					yield return d3;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				PawnColumnDef d3 = new PawnColumnDef();
+				d3.defName = "Trainable_" + sourceDef.defName;
+				d3.trainable = sourceDef;
+				d3.headerIcon = sourceDef.icon;
+				d3.workerClass = typeof(PawnColumnWorker_Trainable);
+				d3.sortable = true;
+				d3.headerTip = sourceDef.LabelCap;
+				d3.paintable = true;
+				d3.modContentPack = sourceDef.modContentPack;
+				animalsTable.columns.Insert(animalsTable.columns.FindIndex((PawnColumnDef x) => x.Worker is PawnColumnWorker_Checkbox) - 1, d3);
+				yield return d3;
 			}
 			PawnTableDef workTable = PawnTableDefOf.Work;
-			bool moveWorkTypeLabelDown2 = false;
-			using (IEnumerator<WorkTypeDef> enumerator2 = (from d in WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder
+			bool moveWorkTypeLabelDown = false;
+			foreach (WorkTypeDef def in (from d in WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder
 			where d.visible
-			select d).Reverse().GetEnumerator())
+			select d).Reverse<WorkTypeDef>())
 			{
-				if (enumerator2.MoveNext())
-				{
-					WorkTypeDef def = enumerator2.Current;
-					moveWorkTypeLabelDown2 = !moveWorkTypeLabelDown2;
-					PawnColumnDef d2 = new PawnColumnDef
-					{
-						defName = "WorkPriority_" + def.defName,
-						workType = def,
-						moveWorkTypeLabelDown = moveWorkTypeLabelDown2,
-						workerClass = typeof(PawnColumnWorker_WorkPriority),
-						sortable = true
-					};
-					workTable.columns.Insert(workTable.columns.FindIndex((PawnColumnDef x) => x.Worker is PawnColumnWorker_CopyPasteWorkPriorities) + 1, d2);
-					yield return d2;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				moveWorkTypeLabelDown = !moveWorkTypeLabelDown;
+				PawnColumnDef d2 = new PawnColumnDef();
+				d2.defName = "WorkPriority_" + def.defName;
+				d2.workType = def;
+				d2.moveWorkTypeLabelDown = moveWorkTypeLabelDown;
+				d2.workerClass = typeof(PawnColumnWorker_WorkPriority);
+				d2.sortable = true;
+				d2.modContentPack = def.modContentPack;
+				workTable.columns.Insert(workTable.columns.FindIndex((PawnColumnDef x) => x.Worker is PawnColumnWorker_CopyPasteWorkPriorities) + 1, d2);
+				yield return d2;
 			}
 			yield break;
-			IL_0334:
-			/*Error near IL_0335: Unexpected return in MoveNext()*/;
 		}
 	}
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,86 +6,87 @@ using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000237 RID: 567
 	public static class ThingDefGenerator_Buildings
 	{
-		public static readonly string BlueprintDefNameSuffix = "_Blueprint";
-
-		public static readonly string InstallBlueprintDefNameSuffix = "_Install";
-
-		public static readonly string BuildingFrameDefNameSuffix = "_Frame";
-
-		private static readonly string TerrainBlueprintGraphicPath = "Things/Special/TerrainBlueprint";
-
-		private static Color BlueprintColor = new Color(0.5f, 0.5f, 1f, 0.35f);
-
+		// Token: 0x06000A3E RID: 2622 RVA: 0x0005BBA4 File Offset: 0x00059FA4
 		public static IEnumerable<ThingDef> ImpliedBlueprintAndFrameDefs()
 		{
-			foreach (ThingDef item in DefDatabase<ThingDef>.AllDefs.ToList())
+			foreach (ThingDef def in DefDatabase<ThingDef>.AllDefs.ToList<ThingDef>())
 			{
-				ThingDef blueprint2 = null;
-				if (item.designationCategory != null)
+				ThingDef blueprint = null;
+				if (def.BuildableByPlayer)
 				{
-					blueprint2 = ThingDefGenerator_Buildings.NewBlueprintDef_Thing(item, false, null);
-					yield return blueprint2;
-					/*Error: Unable to find new state assignment for yield return*/;
+					blueprint = ThingDefGenerator_Buildings.NewBlueprintDef_Thing(def, false, null);
+					yield return blueprint;
+					yield return ThingDefGenerator_Buildings.NewFrameDef_Thing(def);
 				}
-				if (item.Minifiable)
+				if (def.Minifiable)
 				{
-					yield return ThingDefGenerator_Buildings.NewBlueprintDef_Thing(item, true, blueprint2);
-					/*Error: Unable to find new state assignment for yield return*/;
+					yield return ThingDefGenerator_Buildings.NewBlueprintDef_Thing(def, true, blueprint);
 				}
 			}
-			foreach (TerrainDef allDef in DefDatabase<TerrainDef>.AllDefs)
+			foreach (TerrainDef terrDef in DefDatabase<TerrainDef>.AllDefs)
 			{
-				if (allDef.designationCategory != null)
+				if (terrDef.BuildableByPlayer)
 				{
-					yield return ThingDefGenerator_Buildings.NewBlueprintDef_Terrain(allDef);
-					/*Error: Unable to find new state assignment for yield return*/;
+					yield return ThingDefGenerator_Buildings.NewBlueprintDef_Terrain(terrDef);
+					yield return ThingDefGenerator_Buildings.NewFrameDef_Terrain(terrDef);
 				}
 			}
 			yield break;
-			IL_0226:
-			/*Error near IL_0227: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x06000A3F RID: 2623 RVA: 0x0005BBC8 File Offset: 0x00059FC8
 		private static ThingDef BaseBlueprintDef()
 		{
-			ThingDef thingDef = new ThingDef();
-			thingDef.category = ThingCategory.Ethereal;
-			thingDef.label = "Unspecified blueprint";
-			thingDef.altitudeLayer = AltitudeLayer.Blueprint;
-			thingDef.useHitPoints = false;
-			thingDef.selectable = true;
-			thingDef.seeThroughFog = true;
-			thingDef.comps.Add(new CompProperties_Forbiddable());
-			thingDef.drawerType = DrawerType.MapMeshAndRealTime;
-			return thingDef;
+			return new ThingDef
+			{
+				category = ThingCategory.Ethereal,
+				label = "Unspecified blueprint",
+				altitudeLayer = AltitudeLayer.Blueprint,
+				useHitPoints = false,
+				selectable = true,
+				seeThroughFog = true,
+				comps = 
+				{
+					new CompProperties_Forbiddable()
+				},
+				drawerType = DrawerType.MapMeshAndRealTime
+			};
 		}
 
+		// Token: 0x06000A40 RID: 2624 RVA: 0x0005BC2C File Offset: 0x0005A02C
 		private static ThingDef BaseFrameDef()
 		{
-			ThingDef thingDef = new ThingDef();
-			thingDef.isFrame = true;
-			thingDef.category = ThingCategory.Building;
-			thingDef.label = "Unspecified building frame";
-			thingDef.thingClass = typeof(Frame);
-			thingDef.altitudeLayer = AltitudeLayer.Building;
-			thingDef.useHitPoints = true;
-			thingDef.selectable = true;
-			thingDef.building = new BuildingProperties();
-			thingDef.comps.Add(new CompProperties_Forbiddable());
-			thingDef.scatterableOnMapGen = false;
-			thingDef.leaveResourcesWhenKilled = true;
-			return thingDef;
+			return new ThingDef
+			{
+				isFrame = true,
+				category = ThingCategory.Building,
+				label = "Unspecified building frame",
+				thingClass = typeof(Frame),
+				altitudeLayer = AltitudeLayer.Building,
+				useHitPoints = true,
+				selectable = true,
+				building = new BuildingProperties(),
+				comps = 
+				{
+					new CompProperties_Forbiddable()
+				},
+				scatterableOnMapGen = false,
+				leaveResourcesWhenKilled = true
+			};
 		}
 
+		// Token: 0x06000A41 RID: 2625 RVA: 0x0005BCB0 File Offset: 0x0005A0B0
 		private static ThingDef NewBlueprintDef_Thing(ThingDef def, bool isInstallBlueprint, ThingDef normalBlueprint = null)
 		{
 			ThingDef thingDef = ThingDefGenerator_Buildings.BaseBlueprintDef();
-			thingDef.defName = def.defName + ThingDefGenerator_Buildings.BlueprintDefNameSuffix;
+			thingDef.defName = ThingDefGenerator_Buildings.BlueprintDefNamePrefix + def.defName;
 			thingDef.label = def.label + "BlueprintLabelExtra".Translate();
 			thingDef.size = def.size;
 			thingDef.clearBuildingArea = def.clearBuildingArea;
+			thingDef.modContentPack = def.modContentPack;
 			if (!isInstallBlueprint)
 			{
 				thingDef.constructionSkillPrerequisite = def.constructionSkillPrerequisite;
@@ -97,8 +98,7 @@ namespace RimWorld
 			}
 			if (isInstallBlueprint)
 			{
-				ThingDef thingDef2 = thingDef;
-				thingDef2.defName += ThingDefGenerator_Buildings.InstallBlueprintDefNameSuffix;
+				thingDef.defName = ThingDefGenerator_Buildings.BlueprintDefNamePrefix + ThingDefGenerator_Buildings.InstallBlueprintDefNamePrefix + def.defName;
 			}
 			if (isInstallBlueprint && normalBlueprint != null)
 			{
@@ -107,25 +107,26 @@ namespace RimWorld
 			else
 			{
 				thingDef.graphicData = new GraphicData();
-				if (def.blueprintGraphicData != null)
+				if (def.building.blueprintGraphicData != null)
 				{
-					thingDef.graphicData.CopyFrom(def.blueprintGraphicData);
+					thingDef.graphicData.CopyFrom(def.building.blueprintGraphicData);
 					if (thingDef.graphicData.graphicClass == null)
 					{
 						thingDef.graphicData.graphicClass = typeof(Graphic_Single);
 					}
-					if (thingDef.graphicData.shaderType == ShaderType.None)
+					if (thingDef.graphicData.shaderType == null)
 					{
-						thingDef.graphicData.shaderType = ShaderType.MetaOverlay;
+						thingDef.graphicData.shaderType = ShaderTypeDefOf.Transparent;
 					}
 					thingDef.graphicData.drawSize = def.graphicData.drawSize;
 					thingDef.graphicData.linkFlags = def.graphicData.linkFlags;
 					thingDef.graphicData.linkType = def.graphicData.linkType;
+					thingDef.graphicData.color = ThingDefGenerator_Buildings.BlueprintColor;
 				}
 				else
 				{
 					thingDef.graphicData.CopyFrom(def.graphicData);
-					thingDef.graphicData.shaderType = ShaderType.Transparent;
+					thingDef.graphicData.shaderType = ShaderTypeDefOf.EdgeDetect;
 					thingDef.graphicData.color = ThingDefGenerator_Buildings.BlueprintColor;
 					thingDef.graphicData.colorTwo = Color.white;
 					thingDef.graphicData.shadowData = null;
@@ -133,7 +134,7 @@ namespace RimWorld
 			}
 			if (thingDef.graphicData.shadowData != null)
 			{
-				Log.Error("Blueprint has shadow: " + def);
+				Log.Error("Blueprint has shadow: " + def, false);
 			}
 			if (isInstallBlueprint)
 			{
@@ -141,7 +142,7 @@ namespace RimWorld
 			}
 			else
 			{
-				thingDef.thingClass = def.blueprintClass;
+				thingDef.thingClass = def.building.blueprintClass;
 			}
 			if (def.thingClass == typeof(Building_Door))
 			{
@@ -163,19 +164,21 @@ namespace RimWorld
 			return thingDef;
 		}
 
+		// Token: 0x06000A42 RID: 2626 RVA: 0x0005BF50 File Offset: 0x0005A350
 		private static ThingDef NewFrameDef_Thing(ThingDef def)
 		{
 			ThingDef thingDef = ThingDefGenerator_Buildings.BaseFrameDef();
-			thingDef.defName = def.defName + ThingDefGenerator_Buildings.BuildingFrameDefNameSuffix;
+			thingDef.defName = ThingDefGenerator_Buildings.BuildingFrameDefNamePrefix + def.defName;
 			thingDef.label = def.label + "FrameLabelExtra".Translate();
 			thingDef.size = def.size;
-			thingDef.SetStatBaseValue(StatDefOf.MaxHitPoints, (float)((float)def.BaseMaxHitPoints * 0.25));
+			thingDef.SetStatBaseValue(StatDefOf.MaxHitPoints, (float)def.BaseMaxHitPoints * 0.25f);
 			thingDef.SetStatBaseValue(StatDefOf.Beauty, -8f);
+			thingDef.SetStatBaseValue(StatDefOf.Flammability, def.BaseFlammability);
 			thingDef.fillPercent = 0.2f;
 			thingDef.pathCost = 10;
 			thingDef.description = def.description;
 			thingDef.passability = def.passability;
-			if ((int)thingDef.passability > 1)
+			if (thingDef.passability > Traversability.PassThroughOnly)
 			{
 				thingDef.passability = Traversability.PassThroughOnly;
 			}
@@ -184,12 +187,13 @@ namespace RimWorld
 			thingDef.building.isEdifice = def.building.isEdifice;
 			thingDef.constructionSkillPrerequisite = def.constructionSkillPrerequisite;
 			thingDef.clearBuildingArea = def.clearBuildingArea;
+			thingDef.modContentPack = def.modContentPack;
 			thingDef.drawPlaceWorkersWhileSelected = def.drawPlaceWorkersWhileSelected;
 			if (def.placeWorkers != null)
 			{
 				thingDef.placeWorkers = new List<Type>(def.placeWorkers);
 			}
-			if (def.designationCategory != null)
+			if (def.BuildableByPlayer)
 			{
 				thingDef.stuffCategories = def.stuffCategories;
 			}
@@ -198,28 +202,31 @@ namespace RimWorld
 			return thingDef;
 		}
 
+		// Token: 0x06000A43 RID: 2627 RVA: 0x0005C0C0 File Offset: 0x0005A4C0
 		private static ThingDef NewBlueprintDef_Terrain(TerrainDef terrDef)
 		{
 			ThingDef thingDef = ThingDefGenerator_Buildings.BaseBlueprintDef();
 			thingDef.thingClass = typeof(Blueprint_Build);
-			thingDef.defName = terrDef.defName + ThingDefGenerator_Buildings.BlueprintDefNameSuffix;
+			thingDef.defName = ThingDefGenerator_Buildings.BlueprintDefNamePrefix + terrDef.defName;
 			thingDef.label = terrDef.label + "BlueprintLabelExtra".Translate();
 			thingDef.entityDefToBuild = terrDef;
 			thingDef.graphicData = new GraphicData();
-			thingDef.graphicData.shaderType = ShaderType.MetaOverlay;
+			thingDef.graphicData.shaderType = ShaderTypeDefOf.MetaOverlay;
 			thingDef.graphicData.texPath = ThingDefGenerator_Buildings.TerrainBlueprintGraphicPath;
 			thingDef.graphicData.graphicClass = typeof(Graphic_Single);
 			thingDef.constructionSkillPrerequisite = terrDef.constructionSkillPrerequisite;
 			thingDef.clearBuildingArea = false;
+			thingDef.modContentPack = terrDef.modContentPack;
 			thingDef.entityDefToBuild = terrDef;
 			terrDef.blueprintDef = thingDef;
 			return thingDef;
 		}
 
+		// Token: 0x06000A44 RID: 2628 RVA: 0x0005C194 File Offset: 0x0005A594
 		private static ThingDef NewFrameDef_Terrain(TerrainDef terrDef)
 		{
 			ThingDef thingDef = ThingDefGenerator_Buildings.BaseFrameDef();
-			thingDef.defName = terrDef.defName + ThingDefGenerator_Buildings.BuildingFrameDefNameSuffix;
+			thingDef.defName = ThingDefGenerator_Buildings.BuildingFrameDefNamePrefix + terrDef.defName;
 			thingDef.label = terrDef.label + "FrameLabelExtra".Translate();
 			thingDef.entityDefToBuild = terrDef;
 			thingDef.useHitPoints = false;
@@ -231,14 +238,30 @@ namespace RimWorld
 			thingDef.building.isEdifice = false;
 			thingDef.constructionSkillPrerequisite = terrDef.constructionSkillPrerequisite;
 			thingDef.clearBuildingArea = false;
+			thingDef.modContentPack = terrDef.modContentPack;
 			thingDef.category = ThingCategory.Ethereal;
 			thingDef.entityDefToBuild = terrDef;
 			terrDef.frameDef = thingDef;
 			if (!thingDef.IsFrame)
 			{
-				Log.Error("Framedef is not frame: " + thingDef);
+				Log.Error("Framedef is not frame: " + thingDef, false);
 			}
 			return thingDef;
 		}
+
+		// Token: 0x040003ED RID: 1005
+		public static readonly string BlueprintDefNamePrefix = "Blueprint_";
+
+		// Token: 0x040003EE RID: 1006
+		public static readonly string InstallBlueprintDefNamePrefix = "Install_";
+
+		// Token: 0x040003EF RID: 1007
+		public static readonly string BuildingFrameDefNamePrefix = "Frame_";
+
+		// Token: 0x040003F0 RID: 1008
+		private static readonly string TerrainBlueprintGraphicPath = "Things/Special/TerrainBlueprint";
+
+		// Token: 0x040003F1 RID: 1009
+		private static Color BlueprintColor = new Color(0.8235294f, 0.921568632f, 1f, 0.6f);
 	}
 }

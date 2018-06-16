@@ -1,19 +1,17 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000861 RID: 2145
 	internal static class InspectGizmoGrid
 	{
-		public static Gizmo mouseoverGizmo;
-
-		private static List<object> objList = new List<object>();
-
-		private static List<Gizmo> gizmoList = new List<Gizmo>();
-
-		public static void DrawInspectGizmoGridFor(IEnumerable<object> selectedObjects)
+		// Token: 0x06003090 RID: 12432 RVA: 0x001A5DD4 File Offset: 0x001A41D4
+		public static void DrawInspectGizmoGridFor(IEnumerable<object> selectedObjects, out Gizmo mouseoverGizmo)
 		{
+			mouseoverGizmo = null;
 			try
 			{
 				InspectGizmoGrid.objList.Clear();
@@ -24,10 +22,7 @@ namespace RimWorld
 					ISelectable selectable = InspectGizmoGrid.objList[i] as ISelectable;
 					if (selectable != null)
 					{
-						foreach (Gizmo gizmo in selectable.GetGizmos())
-						{
-							InspectGizmoGrid.gizmoList.Add(gizmo);
-						}
+						InspectGizmoGrid.gizmoList.AddRange(selectable.GetGizmos());
 					}
 				}
 				for (int j = 0; j < InspectGizmoGrid.objList.Count; j++)
@@ -43,11 +38,14 @@ namespace RimWorld
 							{
 								Command_Action command_Action = new Command_Action();
 								command_Action.defaultLabel = des.LabelCapReverseDesignating(t);
-								float iconAngle = default(float);
-								command_Action.icon = des.IconReverseDesignating(t, out iconAngle);
+								float iconAngle;
+								Vector2 iconOffset;
+								command_Action.icon = des.IconReverseDesignating(t, out iconAngle, out iconOffset);
 								command_Action.iconAngle = iconAngle;
+								command_Action.iconOffset = iconOffset;
 								command_Action.defaultDesc = des.DescReverseDesignating(t);
-								command_Action.action = delegate
+								command_Action.order = ((!(des is Designator_Uninstall)) ? -20f : -11f);
+								command_Action.action = delegate()
 								{
 									if (TutorSystem.AllowAction(des.TutorTagDesignate))
 									{
@@ -62,12 +60,19 @@ namespace RimWorld
 						}
 					}
 				}
-				GizmoGridDrawer.DrawGizmoGrid((IEnumerable<Gizmo>)InspectGizmoGrid.gizmoList, (float)(InspectPaneUtility.PaneWidthFor(Find.WindowStack.WindowOfType<IInspectPane>()) + 20.0), out InspectGizmoGrid.mouseoverGizmo);
+				InspectGizmoGrid.objList.Clear();
+				GizmoGridDrawer.DrawGizmoGrid(InspectGizmoGrid.gizmoList, InspectPaneUtility.PaneWidthFor(Find.WindowStack.WindowOfType<IInspectPane>()) + 20f, out mouseoverGizmo);
 			}
 			catch (Exception ex)
 			{
-				Log.ErrorOnce(ex.ToString(), 3427734);
+				Log.ErrorOnce(ex.ToString(), 3427734, false);
 			}
 		}
+
+		// Token: 0x04001A47 RID: 6727
+		private static List<object> objList = new List<object>();
+
+		// Token: 0x04001A48 RID: 6728
+		private static List<Gizmo> gizmoList = new List<Gizmo>();
 	}
 }

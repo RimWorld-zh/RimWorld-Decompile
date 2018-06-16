@@ -1,14 +1,22 @@
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x0200010D RID: 269
 	public class JobGiver_HaulCorpseToPublicPlace : ThinkNode_JobGiver
 	{
+		// Token: 0x06000592 RID: 1426 RVA: 0x0003C488 File Offset: 0x0003A888
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			MentalState_CorpseObsession mentalState_CorpseObsession = pawn.MentalState as MentalState_CorpseObsession;
-			if (mentalState_CorpseObsession != null && mentalState_CorpseObsession.corpse != null)
+			Job result;
+			if (mentalState_CorpseObsession == null || mentalState_CorpseObsession.corpse == null)
+			{
+				result = null;
+			}
+			else
 			{
 				Corpse corpse = mentalState_CorpseObsession.corpse;
 				Building_Grave building_Grave = mentalState_CorpseObsession.corpse.ParentHolder as Building_Grave;
@@ -23,11 +31,12 @@ namespace RimWorld
 				{
 					return null;
 				}
-				Job job = new Job(JobDefOf.HaulCorpseToPublicPlace, corpse, building_Grave);
-				job.count = 1;
-				return job;
+				result = new Job(JobDefOf.HaulCorpseToPublicPlace, corpse, building_Grave)
+				{
+					count = 1
+				};
 			}
-			return null;
+			return result;
 		}
 	}
 }

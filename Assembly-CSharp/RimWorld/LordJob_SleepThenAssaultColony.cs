@@ -1,37 +1,48 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
+	// Token: 0x02000175 RID: 373
 	public class LordJob_SleepThenAssaultColony : LordJob
 	{
-		private Faction faction;
-
-		private bool wakeUpIfColonistClose;
-
-		private const int AnyColonistCloseCheckIntervalTicks = 30;
-
-		private const float AnyColonistCloseCheckRadius = 6f;
-
+		// Token: 0x060007AD RID: 1965 RVA: 0x0004B683 File Offset: 0x00049A83
 		public LordJob_SleepThenAssaultColony()
 		{
 		}
 
+		// Token: 0x060007AE RID: 1966 RVA: 0x0004B68C File Offset: 0x00049A8C
 		public LordJob_SleepThenAssaultColony(Faction faction, bool wakeUpIfColonistClose)
 		{
 			this.faction = faction;
 			this.wakeUpIfColonistClose = wakeUpIfColonistClose;
 		}
 
+		// Token: 0x17000132 RID: 306
+		// (get) Token: 0x060007AF RID: 1967 RVA: 0x0004B6A4 File Offset: 0x00049AA4
+		public override bool GuiltyOnDowned
+		{
+			get
+			{
+				return true;
+			}
+		}
+
+		// Token: 0x060007B0 RID: 1968 RVA: 0x0004B6BC File Offset: 0x00049ABC
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
-			LordToil_Sleep firstSource = (LordToil_Sleep)(stateGraph.StartingToil = new LordToil_Sleep());
+			LordToil_Sleep lordToil_Sleep = new LordToil_Sleep();
+			stateGraph.StartingToil = lordToil_Sleep;
 			LordToil startingToil = stateGraph.AttachSubgraph(new LordJob_AssaultColony(this.faction, true, true, false, false, true).CreateGraph()).StartingToil;
-			Transition transition = new Transition(firstSource, startingToil);
-			transition.AddTrigger(new Trigger_PawnHarmed(1f, false));
-			transition.AddPreAction(new TransitionAction_Message("MessageSleepingPawnsWokenUp".Translate(this.faction.def.pawnsPlural).CapitalizeFirst(), MessageTypeDefOf.ThreatBig));
+			Transition transition = new Transition(lordToil_Sleep, startingToil, false, true);
+			transition.AddTrigger(new Trigger_PawnHarmed(1f, false, null));
+			transition.AddPreAction(new TransitionAction_Message("MessageSleepingPawnsWokenUp".Translate(new object[]
+			{
+				this.faction.def.pawnsPlural
+			}).CapitalizeFirst(), MessageTypeDefOf.ThreatBig, null, 1f));
 			transition.AddPostAction(new TransitionAction_WakeAll());
 			stateGraph.AddTransition(transition);
 			if (this.wakeUpIfColonistClose)
@@ -41,19 +52,21 @@ namespace RimWorld
 			return stateGraph;
 		}
 
+		// Token: 0x060007B1 RID: 1969 RVA: 0x0004B798 File Offset: 0x00049B98
 		public override void ExposeData()
 		{
 			Scribe_References.Look<Faction>(ref this.faction, "faction", false);
 			Scribe_Values.Look<bool>(ref this.wakeUpIfColonistClose, "wakeUpIfColonistClose", false, false);
 		}
 
+		// Token: 0x060007B2 RID: 1970 RVA: 0x0004B7C0 File Offset: 0x00049BC0
 		private bool AnyColonistClose()
 		{
 			int num = GenRadial.NumCellsInRadius(6f);
 			Map map = base.Map;
-			for (int i = 0; i < base.lord.ownedPawns.Count; i++)
+			for (int i = 0; i < this.lord.ownedPawns.Count; i++)
 			{
-				Pawn pawn = base.lord.ownedPawns[i];
+				Pawn pawn = this.lord.ownedPawns[i];
 				for (int j = 0; j < num; j++)
 				{
 					IntVec3 intVec = pawn.Position + GenRadial.RadialPattern[j];
@@ -66,6 +79,7 @@ namespace RimWorld
 			return false;
 		}
 
+		// Token: 0x060007B3 RID: 1971 RVA: 0x0004B890 File Offset: 0x00049C90
 		private bool AnyColonistAt(IntVec3 c)
 		{
 			List<Thing> thingList = c.GetThingList(base.Map);
@@ -79,5 +93,17 @@ namespace RimWorld
 			}
 			return false;
 		}
+
+		// Token: 0x0400035A RID: 858
+		private Faction faction;
+
+		// Token: 0x0400035B RID: 859
+		private bool wakeUpIfColonistClose;
+
+		// Token: 0x0400035C RID: 860
+		private const int AnyColonistCloseCheckIntervalTicks = 30;
+
+		// Token: 0x0400035D RID: 861
+		private const float AnyColonistCloseCheckRadius = 6f;
 	}
 }

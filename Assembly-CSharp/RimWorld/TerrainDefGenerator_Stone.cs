@@ -1,81 +1,108 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000236 RID: 566
 	internal static class TerrainDefGenerator_Stone
 	{
+		// Token: 0x06000A3D RID: 2621 RVA: 0x0005B3BC File Offset: 0x000597BC
 		public static IEnumerable<TerrainDef> ImpliedTerrainDefs()
 		{
 			int i = 0;
-			using (IEnumerator<ThingDef> enumerator = (from def in DefDatabase<ThingDef>.AllDefs
+			foreach (ThingDef rock in from def in DefDatabase<ThingDef>.AllDefs
 			where def.building != null && def.building.isNaturalRock && !def.building.isResourceRock
-			select def).GetEnumerator())
+			select def)
 			{
-				if (enumerator.MoveNext())
+				TerrainDef rough = new TerrainDef();
+				TerrainDef hewn = new TerrainDef();
+				TerrainDef smooth = new TerrainDef();
+				rough.texturePath = "Terrain/Surfaces/RoughStone";
+				rough.edgeType = TerrainDef.TerrainEdgeType.FadeRough;
+				rough.pathCost = 2;
+				StatUtility.SetStatValueInList(ref rough.statBases, StatDefOf.Beauty, -1f);
+				rough.scatterType = "Rocky";
+				rough.affordances = new List<TerrainAffordanceDef>();
+				rough.affordances.Add(TerrainAffordanceDefOf.Light);
+				rough.affordances.Add(TerrainAffordanceDefOf.Medium);
+				rough.affordances.Add(TerrainAffordanceDefOf.Heavy);
+				rough.affordances.Add(TerrainAffordanceDefOf.SmoothableStone);
+				rough.fertility = 0f;
+				rough.acceptFilth = false;
+				rough.acceptTerrainSourceFilth = false;
+				rough.modContentPack = rock.modContentPack;
+				rough.renderPrecedence = 190 + i;
+				rough.defName = rock.defName + "_Rough";
+				rough.label = "RoughStoneTerrainLabel".Translate(new object[]
 				{
-					ThingDef rock = enumerator.Current;
-					TerrainDef rough = new TerrainDef();
-					TerrainDef hewn = new TerrainDef();
-					TerrainDef smooth = new TerrainDef();
-					rough.texturePath = "Terrain/Surfaces/RoughStone";
-					rough.edgeType = TerrainDef.TerrainEdgeType.FadeRough;
-					rough.pathCost = 1;
-					StatUtility.SetStatValueInList(ref rough.statBases, StatDefOf.Beauty, -1f);
-					rough.scatterType = "Rocky";
-					rough.affordances = new List<TerrainAffordance>();
-					rough.affordances.Add(TerrainAffordance.Light);
-					rough.affordances.Add(TerrainAffordance.Heavy);
-					rough.affordances.Add(TerrainAffordance.SmoothableStone);
-					rough.fertility = 0f;
-					rough.renderPrecedence = 190 + i;
-					rough.defName = rock.defName + "_Rough";
-					rough.label = "RoughStoneTerrainLabel".Translate(rock.label);
-					rough.description = "RoughStoneTerrainDesc".Translate(rock.label);
-					rough.color = rock.graphicData.color;
-					rock.naturalTerrain = rough;
-					hewn.texturePath = "Terrain/Surfaces/RoughHewnRock";
-					hewn.edgeType = TerrainDef.TerrainEdgeType.FadeRough;
-					hewn.pathCost = 1;
-					StatUtility.SetStatValueInList(ref hewn.statBases, StatDefOf.Beauty, -1f);
-					hewn.scatterType = "Rocky";
-					hewn.affordances = new List<TerrainAffordance>();
-					hewn.affordances.Add(TerrainAffordance.Light);
-					hewn.affordances.Add(TerrainAffordance.Heavy);
-					hewn.affordances.Add(TerrainAffordance.SmoothableStone);
-					hewn.fertility = 0f;
-					hewn.renderPrecedence = 50 + i;
-					hewn.defName = rock.defName + "_RoughHewn";
-					hewn.label = "RoughHewnStoneTerrainLabel".Translate(rock.label);
-					hewn.description = "RoughHewnStoneTerrainDesc".Translate(rock.label);
-					hewn.color = rock.graphicData.color;
-					rock.leaveTerrain = hewn;
-					smooth.texturePath = "Terrain/Surfaces/SmoothStone";
-					smooth.edgeType = TerrainDef.TerrainEdgeType.FadeRough;
-					smooth.pathCost = 0;
-					StatUtility.SetStatValueInList(ref smooth.statBases, StatDefOf.Beauty, 2f);
-					smooth.scatterType = "Rocky";
-					smooth.affordances = new List<TerrainAffordance>();
-					smooth.affordances.Add(TerrainAffordance.Light);
-					smooth.affordances.Add(TerrainAffordance.Heavy);
-					smooth.affordances.Add(TerrainAffordance.SmoothHard);
-					smooth.fertility = 0f;
-					smooth.acceptTerrainSourceFilth = true;
-					smooth.renderPrecedence = 140 + i;
-					smooth.defName = rock.defName + "_Smooth";
-					smooth.label = "SmoothStoneTerrainLabel".Translate(rock.label);
-					smooth.description = "SmoothStoneTerrainDesc".Translate(rock.label);
-					smooth.color = rock.graphicData.color;
-					rough.smoothedTerrain = smooth;
-					hewn.smoothedTerrain = smooth;
-					yield return rough;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+					rock.label
+				});
+				rough.description = "RoughStoneTerrainDesc".Translate(new object[]
+				{
+					rock.label
+				});
+				rough.color = rock.graphicData.color;
+				rock.building.naturalTerrain = rough;
+				hewn.texturePath = "Terrain/Surfaces/RoughHewnRock";
+				hewn.edgeType = TerrainDef.TerrainEdgeType.FadeRough;
+				hewn.pathCost = 1;
+				StatUtility.SetStatValueInList(ref hewn.statBases, StatDefOf.Beauty, -1f);
+				hewn.scatterType = "Rocky";
+				hewn.affordances = new List<TerrainAffordanceDef>();
+				hewn.affordances.Add(TerrainAffordanceDefOf.Light);
+				hewn.affordances.Add(TerrainAffordanceDefOf.Medium);
+				hewn.affordances.Add(TerrainAffordanceDefOf.Heavy);
+				hewn.affordances.Add(TerrainAffordanceDefOf.SmoothableStone);
+				hewn.fertility = 0f;
+				hewn.acceptFilth = true;
+				hewn.acceptTerrainSourceFilth = true;
+				hewn.modContentPack = rock.modContentPack;
+				hewn.renderPrecedence = 50 + i;
+				hewn.defName = rock.defName + "_RoughHewn";
+				hewn.label = "RoughHewnStoneTerrainLabel".Translate(new object[]
+				{
+					rock.label
+				});
+				hewn.description = "RoughHewnStoneTerrainDesc".Translate(new object[]
+				{
+					rock.label
+				});
+				hewn.color = rock.graphicData.color;
+				rock.building.leaveTerrain = hewn;
+				smooth.texturePath = "Terrain/Surfaces/SmoothStone";
+				smooth.edgeType = TerrainDef.TerrainEdgeType.FadeRough;
+				smooth.pathCost = 0;
+				StatUtility.SetStatValueInList(ref smooth.statBases, StatDefOf.Beauty, 2f);
+				smooth.scatterType = "Rocky";
+				smooth.affordances = new List<TerrainAffordanceDef>();
+				smooth.affordances.Add(TerrainAffordanceDefOf.Light);
+				smooth.affordances.Add(TerrainAffordanceDefOf.Medium);
+				smooth.affordances.Add(TerrainAffordanceDefOf.Heavy);
+				smooth.fertility = 0f;
+				smooth.acceptFilth = true;
+				smooth.acceptTerrainSourceFilth = true;
+				smooth.modContentPack = rock.modContentPack;
+				smooth.renderPrecedence = 140 + i;
+				smooth.defName = rock.defName + "_Smooth";
+				smooth.label = "SmoothStoneTerrainLabel".Translate(new object[]
+				{
+					rock.label
+				});
+				smooth.description = "SmoothStoneTerrainDesc".Translate(new object[]
+				{
+					rock.label
+				});
+				smooth.color = rock.graphicData.color;
+				rough.smoothedTerrain = smooth;
+				hewn.smoothedTerrain = smooth;
+				yield return rough;
+				yield return hewn;
+				yield return smooth;
+				i++;
 			}
 			yield break;
-			IL_058c:
-			/*Error near IL_058d: Unexpected return in MoveNext()*/;
 		}
 	}
 }

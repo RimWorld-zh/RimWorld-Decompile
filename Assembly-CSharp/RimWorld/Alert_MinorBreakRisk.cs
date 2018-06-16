@@ -1,37 +1,43 @@
+﻿using System;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000794 RID: 1940
 	public class Alert_MinorBreakRisk : Alert
 	{
+		// Token: 0x06002AFB RID: 11003 RVA: 0x0016B062 File Offset: 0x00169462
 		public Alert_MinorBreakRisk()
 		{
-			base.defaultPriority = AlertPriority.High;
+			this.defaultPriority = AlertPriority.High;
 		}
 
+		// Token: 0x06002AFC RID: 11004 RVA: 0x0016B074 File Offset: 0x00169474
 		public override string GetLabel()
 		{
 			return BreakRiskAlertUtility.AlertLabel;
 		}
 
+		// Token: 0x06002AFD RID: 11005 RVA: 0x0016B090 File Offset: 0x00169490
 		public override string GetExplanation()
 		{
 			return BreakRiskAlertUtility.AlertExplanation;
 		}
 
+		// Token: 0x06002AFE RID: 11006 RVA: 0x0016B0AC File Offset: 0x001694AC
 		public override AlertReport GetReport()
 		{
-			if (!BreakRiskAlertUtility.PawnsAtRiskExtreme.Any() && !BreakRiskAlertUtility.PawnsAtRiskMajor.Any())
+			AlertReport result;
+			if (BreakRiskAlertUtility.PawnsAtRiskExtreme.Any<Pawn>() || BreakRiskAlertUtility.PawnsAtRiskMajor.Any<Pawn>())
 			{
-				Pawn pawn = BreakRiskAlertUtility.PawnsAtRiskMinor.FirstOrDefault();
-				if (pawn != null)
-				{
-					return pawn;
-				}
-				return false;
+				result = false;
 			}
-			return false;
+			else
+			{
+				result = AlertReport.CulpritsAre(BreakRiskAlertUtility.PawnsAtRiskMinor);
+			}
+			return result;
 		}
 	}
 }

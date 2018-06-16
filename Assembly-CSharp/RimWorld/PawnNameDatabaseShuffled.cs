@@ -1,25 +1,25 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000488 RID: 1160
 	[StaticConstructorOnStartup]
 	public static class PawnNameDatabaseShuffled
 	{
-		private static Dictionary<PawnNameCategory, NameBank> banks;
-
+		// Token: 0x06001476 RID: 5238 RVA: 0x000B3000 File Offset: 0x000B1400
 		static PawnNameDatabaseShuffled()
 		{
-			PawnNameDatabaseShuffled.banks = new Dictionary<PawnNameCategory, NameBank>();
 			IEnumerator enumerator = Enum.GetValues(typeof(PawnNameCategory)).GetEnumerator();
 			try
 			{
 				while (enumerator.MoveNext())
 				{
-					PawnNameCategory pawnNameCategory = (PawnNameCategory)enumerator.Current;
-					if (pawnNameCategory != 0)
+					object obj = enumerator.Current;
+					PawnNameCategory pawnNameCategory = (PawnNameCategory)obj;
+					if (pawnNameCategory != PawnNameCategory.NoName)
 					{
 						PawnNameDatabaseShuffled.banks.Add(pawnNameCategory, new NameBank(pawnNameCategory));
 					}
@@ -40,15 +40,19 @@ namespace RimWorld
 			nameBank.AddNamesFromFile(PawnNameSlot.Nick, Gender.Female, "Nick_Female");
 			nameBank.AddNamesFromFile(PawnNameSlot.Nick, Gender.None, "Nick_Unisex");
 			nameBank.AddNamesFromFile(PawnNameSlot.Last, Gender.None, "Last");
-			foreach (NameBank value in PawnNameDatabaseShuffled.banks.Values)
+			foreach (NameBank nameBank2 in PawnNameDatabaseShuffled.banks.Values)
 			{
-				value.ErrorCheck();
+				nameBank2.ErrorCheck();
 			}
 		}
 
+		// Token: 0x06001477 RID: 5239 RVA: 0x000B313C File Offset: 0x000B153C
 		public static NameBank BankOf(PawnNameCategory category)
 		{
 			return PawnNameDatabaseShuffled.banks[category];
 		}
+
+		// Token: 0x04000C44 RID: 3140
+		private static Dictionary<PawnNameCategory, NameBank> banks = new Dictionary<PawnNameCategory, NameBank>();
 	}
 }

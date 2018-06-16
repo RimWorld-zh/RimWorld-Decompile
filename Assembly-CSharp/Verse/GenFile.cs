@@ -1,56 +1,63 @@
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000F3D RID: 3901
 	public static class GenFile
 	{
+		// Token: 0x06005DEA RID: 24042 RVA: 0x002FB7C0 File Offset: 0x002F9BC0
 		public static string TextFromRawFile(string filePath)
 		{
 			return File.ReadAllText(filePath);
 		}
 
+		// Token: 0x06005DEB RID: 24043 RVA: 0x002FB7DC File Offset: 0x002F9BDC
 		public static string TextFromResourceFile(string filePath)
 		{
 			TextAsset textAsset = Resources.Load("Text/" + filePath) as TextAsset;
-			if ((Object)textAsset == (Object)null)
+			string result;
+			if (textAsset == null)
 			{
-				Log.Message("Found no text asset in resources at " + filePath);
-				return null;
+				Log.Message("Found no text asset in resources at " + filePath, false);
+				result = null;
 			}
-			return GenFile.GetTextWithoutBOM(textAsset);
+			else
+			{
+				result = GenFile.GetTextWithoutBOM(textAsset);
+			}
+			return result;
 		}
 
+		// Token: 0x06005DEC RID: 24044 RVA: 0x002FB834 File Offset: 0x002F9C34
 		public static string GetTextWithoutBOM(TextAsset textAsset)
 		{
-			string text = null;
-			using (MemoryStream stream = new MemoryStream(textAsset.bytes))
+			string result = null;
+			using (MemoryStream memoryStream = new MemoryStream(textAsset.bytes))
 			{
-				using (StreamReader streamReader = new StreamReader(stream, true))
+				using (StreamReader streamReader = new StreamReader(memoryStream, true))
 				{
-					return streamReader.ReadToEnd();
+					result = streamReader.ReadToEnd();
 				}
 			}
+			return result;
 		}
 
+		// Token: 0x06005DED RID: 24045 RVA: 0x002FB8AC File Offset: 0x002F9CAC
 		public static IEnumerable<string> LinesFromFile(string filePath)
 		{
 			string rawText = GenFile.TextFromResourceFile(filePath);
-			using (IEnumerator<string> enumerator = GenText.LinesFromString(rawText).GetEnumerator())
+			foreach (string line in GenText.LinesFromString(rawText))
 			{
-				if (enumerator.MoveNext())
-				{
-					string line = enumerator.Current;
-					yield return line;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return line;
 			}
 			yield break;
-			IL_00ca:
-			/*Error near IL_00cb: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x06005DEE RID: 24046 RVA: 0x002FB8D8 File Offset: 0x002F9CD8
 		public static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs, bool useLinuxLineEndings = false)
 		{
 			DirectoryInfo directoryInfo = new DirectoryInfo(sourceDirName);
@@ -64,8 +71,7 @@ namespace Verse
 				Directory.CreateDirectory(destDirName);
 			}
 			FileInfo[] files = directoryInfo.GetFiles();
-			FileInfo[] array = files;
-			foreach (FileInfo fileInfo in array)
+			foreach (FileInfo fileInfo in files)
 			{
 				string text = Path.Combine(destDirName, fileInfo.Name);
 				if (useLinuxLineEndings && (fileInfo.Extension == ".sh" || fileInfo.Extension == ".txt"))
@@ -82,13 +88,31 @@ namespace Verse
 			}
 			if (copySubDirs)
 			{
-				DirectoryInfo[] array2 = directories;
-				foreach (DirectoryInfo directoryInfo2 in array2)
+				foreach (DirectoryInfo directoryInfo2 in directories)
 				{
 					string destDirName2 = Path.Combine(destDirName, directoryInfo2.Name);
 					GenFile.DirectoryCopy(directoryInfo2.FullName, destDirName2, copySubDirs, useLinuxLineEndings);
 				}
 			}
+		}
+
+		// Token: 0x06005DEF RID: 24047 RVA: 0x002FBA2C File Offset: 0x002F9E2C
+		public static string SanitizedFileName(string fileName)
+		{
+			char[] invalidFileNameChars = Path.GetInvalidFileNameChars();
+			string text = "";
+			for (int i = 0; i < fileName.Length; i++)
+			{
+				if (!invalidFileNameChars.Contains(fileName[i]))
+				{
+					text += fileName[i];
+				}
+			}
+			if (text.Length == 0)
+			{
+				text = "unnamed";
+			}
+			return text;
 		}
 	}
 }

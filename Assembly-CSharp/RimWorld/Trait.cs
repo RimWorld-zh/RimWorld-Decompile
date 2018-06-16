@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -5,14 +6,24 @@ using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200053D RID: 1341
 	public class Trait : IExposable
 	{
-		public TraitDef def;
+		// Token: 0x060018E9 RID: 6377 RVA: 0x000D88CA File Offset: 0x000D6CCA
+		public Trait()
+		{
+		}
 
-		private int degree;
+		// Token: 0x060018EA RID: 6378 RVA: 0x000D88D3 File Offset: 0x000D6CD3
+		public Trait(TraitDef def, int degree = 0, bool forced = false)
+		{
+			this.def = def;
+			this.degree = degree;
+			this.scenForced = forced;
+		}
 
-		private bool scenForced;
-
+		// Token: 0x17000381 RID: 897
+		// (get) Token: 0x060018EB RID: 6379 RVA: 0x000D88F4 File Offset: 0x000D6CF4
 		public int Degree
 		{
 			get
@@ -21,6 +32,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000382 RID: 898
+		// (get) Token: 0x060018EC RID: 6380 RVA: 0x000D8910 File Offset: 0x000D6D10
 		public TraitDegreeData CurrentData
 		{
 			get
@@ -29,6 +42,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000383 RID: 899
+		// (get) Token: 0x060018ED RID: 6381 RVA: 0x000D8938 File Offset: 0x000D6D38
 		public string Label
 		{
 			get
@@ -37,6 +52,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000384 RID: 900
+		// (get) Token: 0x060018EE RID: 6382 RVA: 0x000D8958 File Offset: 0x000D6D58
 		public string LabelCap
 		{
 			get
@@ -45,6 +62,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000385 RID: 901
+		// (get) Token: 0x060018EF RID: 6383 RVA: 0x000D8978 File Offset: 0x000D6D78
 		public bool ScenForced
 		{
 			get
@@ -53,17 +72,7 @@ namespace RimWorld
 			}
 		}
 
-		public Trait()
-		{
-		}
-
-		public Trait(TraitDef def, int degree = 0, bool forced = false)
-		{
-			this.def = def;
-			this.degree = degree;
-			this.scenForced = forced;
-		}
-
+		// Token: 0x060018F0 RID: 6384 RVA: 0x000D8994 File Offset: 0x000D6D94
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<TraitDef>(ref this.def, "def");
@@ -76,6 +85,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060018F1 RID: 6385 RVA: 0x000D8A0C File Offset: 0x000D6E0C
 		public float OffsetOfStat(StatDef stat)
 		{
 			float num = 0f;
@@ -93,6 +103,7 @@ namespace RimWorld
 			return num;
 		}
 
+		// Token: 0x060018F2 RID: 6386 RVA: 0x000D8A88 File Offset: 0x000D6E88
 		public float MultiplierOfStat(StatDef stat)
 		{
 			float num = 1f;
@@ -110,6 +121,7 @@ namespace RimWorld
 			return num;
 		}
 
+		// Token: 0x060018F3 RID: 6387 RVA: 0x000D8B04 File Offset: 0x000D6F04
 		public string TipString(Pawn pawn)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -122,11 +134,11 @@ namespace RimWorld
 				stringBuilder.AppendLine();
 			}
 			int num = 0;
-			foreach (KeyValuePair<SkillDef, int> skillGain in this.CurrentData.skillGains)
+			foreach (KeyValuePair<SkillDef, int> keyValuePair in this.CurrentData.skillGains)
 			{
-				if (skillGain.Value != 0)
+				if (keyValuePair.Value != 0)
 				{
-					string value = "    " + skillGain.Key.skillLabel.CapitalizeFirst() + ":   " + skillGain.Value.ToString("+##;-##");
+					string value = "    " + keyValuePair.Key.skillLabel.CapitalizeFirst() + ":   " + keyValuePair.Value.ToString("+##;-##");
 					if (num < count - 1)
 					{
 						stringBuilder.AppendLine(value);
@@ -138,13 +150,13 @@ namespace RimWorld
 					num++;
 				}
 			}
-			if (this.GetPermaThoughts().Any())
+			if (this.GetPermaThoughts().Any<ThoughtDef>())
 			{
 				stringBuilder.AppendLine();
-				foreach (ThoughtDef permaThought in this.GetPermaThoughts())
+				foreach (ThoughtDef thoughtDef in this.GetPermaThoughts())
 				{
 					stringBuilder.AppendLine();
-					stringBuilder.Append("    " + "PermanentMoodEffect".Translate() + " " + permaThought.stages[0].baseMoodEffect.ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Offset));
+					stringBuilder.Append("    " + "PermanentMoodEffect".Translate() + " " + thoughtDef.stages[0].baseMoodEffect.ToStringByStyle(ToStringStyle.Integer, ToStringNumberSense.Offset));
 				}
 			}
 			if (currentData.statOffsets != null)
@@ -188,68 +200,75 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
+		// Token: 0x060018F4 RID: 6388 RVA: 0x000D8E0C File Offset: 0x000D720C
 		public override string ToString()
 		{
-			return "Trait(" + this.def.ToString() + "-" + this.degree + ")";
+			return string.Concat(new object[]
+			{
+				"Trait(",
+				this.def.ToString(),
+				"-",
+				this.degree,
+				")"
+			});
 		}
 
+		// Token: 0x060018F5 RID: 6389 RVA: 0x000D8E60 File Offset: 0x000D7260
 		private IEnumerable<ThoughtDef> GetPermaThoughts()
 		{
 			TraitDegreeData degree = this.CurrentData;
 			List<ThoughtDef> allThoughts = DefDatabase<ThoughtDef>.AllDefsListForReading;
-			int i = 0;
-			while (true)
+			for (int i = 0; i < allThoughts.Count; i++)
 			{
-				if (i < allThoughts.Count)
+				if (allThoughts[i].IsSituational)
 				{
-					if (allThoughts[i].IsSituational && allThoughts[i].Worker is ThoughtWorker_AlwaysActive && allThoughts[i].requiredTraits != null && allThoughts[i].requiredTraits.Contains(this.def))
+					if (allThoughts[i].Worker is ThoughtWorker_AlwaysActive)
 					{
-						if (!allThoughts[i].RequiresSpecificTraitsDegree)
-							break;
-						if (allThoughts[i].requiredTraitsDegree == degree.degree)
-							break;
+						if (allThoughts[i].requiredTraits != null && allThoughts[i].requiredTraits.Contains(this.def))
+						{
+							if (!allThoughts[i].RequiresSpecificTraitsDegree || allThoughts[i].requiredTraitsDegree == degree.degree)
+							{
+								yield return allThoughts[i];
+							}
+						}
 					}
-					i++;
-					continue;
 				}
-				yield break;
 			}
-			yield return allThoughts[i];
-			/*Error: Unable to find new state assignment for yield return*/;
+			yield break;
 		}
 
+		// Token: 0x060018F6 RID: 6390 RVA: 0x000D8E8C File Offset: 0x000D728C
 		private bool AllowsWorkType(WorkTypeDef workDef)
 		{
 			return (this.def.disabledWorkTags & workDef.workTags) == WorkTags.None;
 		}
 
+		// Token: 0x060018F7 RID: 6391 RVA: 0x000D8EB8 File Offset: 0x000D72B8
 		public IEnumerable<WorkTypeDef> GetDisabledWorkTypes()
 		{
-			int j = 0;
-			if (j < this.def.disabledWorkTypes.Count)
+			for (int i = 0; i < this.def.disabledWorkTypes.Count; i++)
 			{
-				yield return this.def.disabledWorkTypes[j];
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield return this.def.disabledWorkTypes[i];
 			}
 			List<WorkTypeDef> workTypeDefList = DefDatabase<WorkTypeDef>.AllDefsListForReading;
-			int i = 0;
-			WorkTypeDef w;
-			while (true)
+			for (int j = 0; j < workTypeDefList.Count; j++)
 			{
-				if (i < workTypeDefList.Count)
+				WorkTypeDef w = workTypeDefList[j];
+				if (!this.AllowsWorkType(w))
 				{
-					w = workTypeDefList[i];
-					if (this.AllowsWorkType(w))
-					{
-						i++;
-						continue;
-					}
-					break;
+					yield return w;
 				}
-				yield break;
 			}
-			yield return w;
-			/*Error: Unable to find new state assignment for yield return*/;
+			yield break;
 		}
+
+		// Token: 0x04000EAB RID: 3755
+		public TraitDef def;
+
+		// Token: 0x04000EAC RID: 3756
+		private int degree;
+
+		// Token: 0x04000EAD RID: 3757
+		private bool scenForced;
 	}
 }

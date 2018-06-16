@@ -1,24 +1,24 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Xml;
 
 namespace Verse
 {
+	// Token: 0x02000CD4 RID: 3284
 	public class PatchOperationAddModExtension : PatchOperationPathed
 	{
-		private XmlContainer value;
-
+		// Token: 0x06004873 RID: 18547 RVA: 0x00260298 File Offset: 0x0025E698
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
 			XmlNode node = this.value.node;
 			bool result = false;
-			IEnumerator enumerator = xml.SelectNodes(base.xpath).GetEnumerator();
+			IEnumerator enumerator = xml.SelectNodes(this.xpath).GetEnumerator();
 			try
 			{
 				while (enumerator.MoveNext())
 				{
-					object current = enumerator.Current;
-					XmlNode xmlNode = current as XmlNode;
+					object obj = enumerator.Current;
+					XmlNode xmlNode = obj as XmlNode;
 					XmlNode xmlNode2 = xmlNode["modExtensions"];
 					if (xmlNode2 == null)
 					{
@@ -31,7 +31,6 @@ namespace Verse
 					}
 					result = true;
 				}
-				return result;
 			}
 			finally
 			{
@@ -41,6 +40,10 @@ namespace Verse
 					disposable.Dispose();
 				}
 			}
+			return result;
 		}
+
+		// Token: 0x04003102 RID: 12546
+		private XmlContainer value;
 	}
 }

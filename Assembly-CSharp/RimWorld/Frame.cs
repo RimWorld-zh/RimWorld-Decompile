@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,39 +9,28 @@ using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x0200067C RID: 1660
 	[StaticConstructorOnStartup]
 	public class Frame : Building, IThingHolder, IConstructible
 	{
-		public ThingOwner resourceContainer;
+		// Token: 0x060022D9 RID: 8921 RVA: 0x0012BC12 File Offset: 0x0012A012
+		public Frame()
+		{
+			this.resourceContainer = new ThingOwner<Thing>(this, false, LookMode.Deep);
+		}
 
-		public float workDone;
-
-		private Material cachedCornerMat;
-
-		private Material cachedTileMat;
-
-		protected const float UnderfieldOverdrawFactor = 1.15f;
-
-		protected const float CenterOverdrawFactor = 0.5f;
-
-		private const int LongConstructionProjectThreshold = 10000;
-
-		private static readonly Material UnderfieldMat = MaterialPool.MatFrom("Things/Building/BuildingFrame/Underfield", ShaderDatabase.Transparent);
-
-		private static readonly Texture2D CornerTex = ContentFinder<Texture2D>.Get("Things/Building/BuildingFrame/Corner", true);
-
-		private static readonly Texture2D TileTex = ContentFinder<Texture2D>.Get("Things/Building/BuildingFrame/Tile", true);
-
-		private List<ThingCountClass> cachedMaterialsNeeded = new List<ThingCountClass>();
-
+		// Token: 0x1700051B RID: 1307
+		// (get) Token: 0x060022DA RID: 8922 RVA: 0x0012BC34 File Offset: 0x0012A034
 		public float WorkToMake
 		{
 			get
 			{
-				return base.def.entityDefToBuild.GetStatValueAbstract(StatDefOf.WorkToBuild, base.Stuff);
+				return this.def.entityDefToBuild.GetStatValueAbstract(StatDefOf.WorkToBuild, base.Stuff);
 			}
 		}
 
+		// Token: 0x1700051C RID: 1308
+		// (get) Token: 0x060022DB RID: 8923 RVA: 0x0012BC64 File Offset: 0x0012A064
 		public float WorkLeft
 		{
 			get
@@ -49,6 +39,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x1700051D RID: 1309
+		// (get) Token: 0x060022DC RID: 8924 RVA: 0x0012BC88 File Offset: 0x0012A088
 		public float PercentComplete
 		{
 			get
@@ -57,26 +49,46 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x1700051E RID: 1310
+		// (get) Token: 0x060022DD RID: 8925 RVA: 0x0012BCAC File Offset: 0x0012A0AC
 		public override string Label
 		{
 			get
 			{
-				string text = base.def.entityDefToBuild.label + "FrameLabelExtra".Translate();
-				if (base.Stuff != null)
-				{
-					return base.Stuff.label + " " + text;
-				}
-				return text;
+				return this.LabelEntityToBuild + "FrameLabelExtra".Translate();
 			}
 		}
 
+		// Token: 0x1700051F RID: 1311
+		// (get) Token: 0x060022DE RID: 8926 RVA: 0x0012BCD8 File Offset: 0x0012A0D8
+		public string LabelEntityToBuild
+		{
+			get
+			{
+				string label = this.def.entityDefToBuild.label;
+				string result;
+				if (base.Stuff != null)
+				{
+					result = base.Stuff.label + " " + label;
+				}
+				else
+				{
+					result = label;
+				}
+				return result;
+			}
+		}
+
+		// Token: 0x17000520 RID: 1312
+		// (get) Token: 0x060022DF RID: 8927 RVA: 0x0012BD28 File Offset: 0x0012A128
 		public override Color DrawColor
 		{
 			get
 			{
-				if (!base.def.MadeFromStuff)
+				Color result;
+				if (!this.def.MadeFromStuff)
 				{
-					List<ThingCountClass> costList = base.def.entityDefToBuild.costList;
+					List<ThingDefCountClass> costList = this.def.entityDefToBuild.costList;
 					if (costList != null)
 					{
 						for (int i = 0; i < costList.Count; i++)
@@ -88,33 +100,46 @@ namespace RimWorld
 							}
 						}
 					}
-					return new Color(0.6f, 0.6f, 0.6f);
+					result = new Color(0.6f, 0.6f, 0.6f);
 				}
-				return base.DrawColor;
+				else
+				{
+					result = base.DrawColor;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000521 RID: 1313
+		// (get) Token: 0x060022E0 RID: 8928 RVA: 0x0012BDE4 File Offset: 0x0012A1E4
 		public EffecterDef ConstructionEffect
 		{
 			get
 			{
+				EffecterDef result;
 				if (base.Stuff != null && base.Stuff.stuffProps.constructEffect != null)
 				{
-					return base.Stuff.stuffProps.constructEffect;
+					result = base.Stuff.stuffProps.constructEffect;
 				}
-				if (base.def.entityDefToBuild.constructEffect != null)
+				else if (this.def.entityDefToBuild.constructEffect != null)
 				{
-					return base.def.entityDefToBuild.constructEffect;
+					result = this.def.entityDefToBuild.constructEffect;
 				}
-				return EffecterDefOf.ConstructMetal;
+				else
+				{
+					result = EffecterDefOf.ConstructMetal;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000522 RID: 1314
+		// (get) Token: 0x060022E1 RID: 8929 RVA: 0x0012BE60 File Offset: 0x0012A260
 		private Material CornerMat
 		{
 			get
 			{
-				if ((Object)this.cachedCornerMat == (Object)null)
+				if (this.cachedCornerMat == null)
 				{
 					this.cachedCornerMat = MaterialPool.MatFrom(Frame.CornerTex, ShaderDatabase.Cutout, this.DrawColor);
 				}
@@ -122,11 +147,13 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000523 RID: 1315
+		// (get) Token: 0x060022E2 RID: 8930 RVA: 0x0012BEAC File Offset: 0x0012A2AC
 		private Material TileMat
 		{
 			get
 			{
-				if ((Object)this.cachedTileMat == (Object)null)
+				if (this.cachedTileMat == null)
 				{
 					this.cachedTileMat = MaterialPool.MatFrom(Frame.TileTex, ShaderDatabase.Cutout, this.DrawColor);
 				}
@@ -134,63 +161,64 @@ namespace RimWorld
 			}
 		}
 
-		public Frame()
-		{
-			this.resourceContainer = new ThingOwner<Thing>(this, false, LookMode.Deep);
-		}
-
+		// Token: 0x060022E3 RID: 8931 RVA: 0x0012BEF8 File Offset: 0x0012A2F8
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.resourceContainer;
 		}
 
+		// Token: 0x060022E4 RID: 8932 RVA: 0x0012BF13 File Offset: 0x0012A313
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
 
+		// Token: 0x060022E5 RID: 8933 RVA: 0x0012BF22 File Offset: 0x0012A322
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<float>(ref this.workDone, "workDone", 0f, false);
-			Scribe_Deep.Look<ThingOwner>(ref this.resourceContainer, "resourceContainer", new object[1]
+			Scribe_Deep.Look<ThingOwner>(ref this.resourceContainer, "resourceContainer", new object[]
 			{
 				this
 			});
 		}
 
+		// Token: 0x060022E6 RID: 8934 RVA: 0x0012BF5C File Offset: 0x0012A35C
 		public ThingDef UIStuff()
 		{
 			return base.Stuff;
 		}
 
-		public List<ThingCountClass> MaterialsNeeded()
+		// Token: 0x060022E7 RID: 8935 RVA: 0x0012BF78 File Offset: 0x0012A378
+		public List<ThingDefCountClass> MaterialsNeeded()
 		{
 			this.cachedMaterialsNeeded.Clear();
-			List<ThingCountClass> list = base.def.entityDefToBuild.CostListAdjusted(base.Stuff, true);
+			List<ThingDefCountClass> list = this.def.entityDefToBuild.CostListAdjusted(base.Stuff, true);
 			for (int i = 0; i < list.Count; i++)
 			{
-				ThingCountClass thingCountClass = list[i];
-				int num = this.resourceContainer.TotalStackCountOfDef(thingCountClass.thingDef);
-				int num2 = thingCountClass.count - num;
+				ThingDefCountClass thingDefCountClass = list[i];
+				int num = this.resourceContainer.TotalStackCountOfDef(thingDefCountClass.thingDef);
+				int num2 = thingDefCountClass.count - num;
 				if (num2 > 0)
 				{
-					this.cachedMaterialsNeeded.Add(new ThingCountClass(thingCountClass.thingDef, num2));
+					this.cachedMaterialsNeeded.Add(new ThingDefCountClass(thingDefCountClass.thingDef, num2));
 				}
 			}
 			return this.cachedMaterialsNeeded;
 		}
 
+		// Token: 0x060022E8 RID: 8936 RVA: 0x0012C018 File Offset: 0x0012A418
 		public void CompleteConstruction(Pawn worker)
 		{
 			this.resourceContainer.ClearAndDestroyContents(DestroyMode.Vanish);
 			Map map = base.Map;
 			this.Destroy(DestroyMode.Vanish);
-			if (this.GetStatValue(StatDefOf.WorkToBuild, true) > 150.0 && base.def.entityDefToBuild is ThingDef && ((ThingDef)base.def.entityDefToBuild).category == ThingCategory.Building)
+			if (this.GetStatValue(StatDefOf.WorkToBuild, true) > 150f && this.def.entityDefToBuild is ThingDef && ((ThingDef)this.def.entityDefToBuild).category == ThingCategory.Building)
 			{
-				SoundDefOf.BuildingComplete.PlayOneShot(new TargetInfo(base.Position, map, false));
+				SoundDefOf.Building_Complete.PlayOneShot(new TargetInfo(base.Position, map, false));
 			}
-			ThingDef thingDef = base.def.entityDefToBuild as ThingDef;
+			ThingDef thingDef = this.def.entityDefToBuild as ThingDef;
 			Thing thing = null;
 			if (thingDef != null)
 			{
@@ -199,8 +227,9 @@ namespace RimWorld
 				CompQuality compQuality = thing.TryGetComp<CompQuality>();
 				if (compQuality != null)
 				{
-					int level = worker.skills.GetSkill(SkillDefOf.Construction).Level;
-					compQuality.SetQuality(QualityUtility.RandomCreationQuality(level), ArtGenerationContext.Colony);
+					QualityCategory q = QualityUtility.GenerateQualityCreatedByPawn(worker, SkillDefOf.Construction);
+					compQuality.SetQuality(q, ArtGenerationContext.Colony);
+					QualityUtility.SendCraftNotification(thing, worker);
 				}
 				CompArt compArt = thing.TryGetComp<CompArt>();
 				if (compArt != null)
@@ -212,48 +241,36 @@ namespace RimWorld
 					compArt.JustCreatedBy(worker);
 				}
 				thing.HitPoints = Mathf.CeilToInt((float)this.HitPoints / (float)base.MaxHitPoints * (float)thing.MaxHitPoints);
-				GenSpawn.Spawn(thing, base.Position, map, base.Rotation, false);
+				GenSpawn.Spawn(thing, base.Position, map, base.Rotation, WipeMode.FullRefund, false);
 			}
 			else
 			{
-				map.terrainGrid.SetTerrain(base.Position, (TerrainDef)base.def.entityDefToBuild);
+				map.terrainGrid.SetTerrain(base.Position, (TerrainDef)this.def.entityDefToBuild);
 				FilthMaker.RemoveAllFilth(base.Position, map);
 			}
-			if (thingDef != null && (thingDef.passability == Traversability.Impassable || thingDef.Fillage == FillCategory.Full) && (thing == null || !(thing is Building_Door)))
-			{
-				foreach (IntVec3 item in GenAdj.CellsOccupiedBy(base.Position, base.Rotation, base.def.Size))
-				{
-					foreach (Thing item2 in map.thingGrid.ThingsAt(item).ToList())
-					{
-						if (item2 is Plant)
-						{
-							item2.Destroy(DestroyMode.KillFinalize);
-						}
-						else if (item2.def.category == ThingCategory.Item || item2 is Pawn)
-						{
-							GenPlace.TryMoveThing(item2, item2.Position, item2.Map);
-						}
-					}
-				}
-			}
 			worker.records.Increment(RecordDefOf.ThingsConstructed);
-			if (thing != null && thing.GetStatValue(StatDefOf.WorkToBuild, true) >= 10000.0)
+			if (thing != null && thing.GetStatValue(StatDefOf.WorkToBuild, true) >= 10000f)
 			{
-				TaleRecorder.RecordTale(TaleDefOf.CompletedLongConstructionProject, worker, thing.def);
+				TaleRecorder.RecordTale(TaleDefOf.CompletedLongConstructionProject, new object[]
+				{
+					worker,
+					thing.def
+				});
 			}
 		}
 
+		// Token: 0x060022E9 RID: 8937 RVA: 0x0012C1E0 File Offset: 0x0012A5E0
 		public void FailConstruction(Pawn worker)
 		{
 			Map map = base.Map;
 			this.Destroy(DestroyMode.FailConstruction);
 			Blueprint_Build blueprint_Build = null;
-			if (base.def.entityDefToBuild.blueprintDef != null)
+			if (this.def.entityDefToBuild.blueprintDef != null)
 			{
-				blueprint_Build = (Blueprint_Build)ThingMaker.MakeThing(base.def.entityDefToBuild.blueprintDef, null);
+				blueprint_Build = (Blueprint_Build)ThingMaker.MakeThing(this.def.entityDefToBuild.blueprintDef, null);
 				blueprint_Build.stuffToUse = base.Stuff;
 				blueprint_Build.SetFactionDirect(base.Faction);
-				GenSpawn.Spawn(blueprint_Build, base.Position, map, base.Rotation, false);
+				GenSpawn.Spawn(blueprint_Build, base.Position, map, base.Rotation, WipeMode.FullRefund, false);
 			}
 			Lord lord = worker.GetLord();
 			if (lord != null)
@@ -261,15 +278,20 @@ namespace RimWorld
 				lord.Notify_ConstructionFailed(worker, this, blueprint_Build);
 			}
 			MoteMaker.ThrowText(this.DrawPos, map, "TextMote_ConstructionFail".Translate(), 6f);
-			if (base.Faction == Faction.OfPlayer && this.WorkToMake > 1400.0)
+			if (base.Faction == Faction.OfPlayer && this.WorkToMake > 1400f)
 			{
-				Messages.Message("MessageConstructionFailed".Translate(this.Label, worker.LabelShort), new TargetInfo(base.Position, map, false), MessageTypeDefOf.NegativeEvent);
+				Messages.Message("MessageConstructionFailed".Translate(new object[]
+				{
+					this.LabelEntityToBuild,
+					worker.LabelShort
+				}), new TargetInfo(base.Position, map, false), MessageTypeDefOf.NegativeEvent, true);
 			}
 		}
 
+		// Token: 0x060022EA RID: 8938 RVA: 0x0012C2F4 File Offset: 0x0012A6F4
 		public override void Draw()
 		{
-			Vector2 vector = new Vector2((float)base.def.size.x, (float)base.def.size.z);
+			Vector2 vector = new Vector2((float)this.def.size.x, (float)this.def.size.z);
 			vector.x *= 1.15f;
 			vector.y *= 1.15f;
 			Vector3 s = new Vector3(vector.x, 1f, vector.y);
@@ -279,58 +301,46 @@ namespace RimWorld
 			int num = 4;
 			for (int i = 0; i < num; i++)
 			{
-				IntVec2 rotatedSize = base.RotatedSize;
-				int x = rotatedSize.x;
-				IntVec2 rotatedSize2 = base.RotatedSize;
-				float num2 = (float)Mathf.Min(x, rotatedSize2.z);
-				float num3 = (float)(num2 * 0.37999999523162842);
+				float num2 = (float)Mathf.Min(base.RotatedSize.x, base.RotatedSize.z);
+				float num3 = num2 * 0.38f;
 				IntVec3 intVec = default(IntVec3);
-				switch (i)
+				if (i == 0)
 				{
-				case 0:
 					intVec = new IntVec3(-1, 0, -1);
-					break;
-				case 1:
+				}
+				else if (i == 1)
+				{
 					intVec = new IntVec3(-1, 0, 1);
-					break;
-				case 2:
+				}
+				else if (i == 2)
+				{
 					intVec = new IntVec3(1, 0, 1);
-					break;
-				case 3:
+				}
+				else if (i == 3)
+				{
 					intVec = new IntVec3(1, 0, -1);
-					break;
 				}
 				Vector3 b = default(Vector3);
-				float num4 = (float)intVec.x;
-				IntVec2 rotatedSize3 = base.RotatedSize;
-				b.x = (float)(num4 * ((float)rotatedSize3.x / 2.0 - num3 / 2.0));
-				float num5 = (float)intVec.z;
-				IntVec2 rotatedSize4 = base.RotatedSize;
-				b.z = (float)(num5 * ((float)rotatedSize4.z / 2.0 - num3 / 2.0));
+				b.x = (float)intVec.x * ((float)base.RotatedSize.x / 2f - num3 / 2f);
+				b.z = (float)intVec.z * ((float)base.RotatedSize.z / 2f - num3 / 2f);
 				Vector3 s2 = new Vector3(num3, 1f, num3);
 				Matrix4x4 matrix2 = default(Matrix4x4);
-				matrix2.SetTRS(this.DrawPos + Vector3.up * 0.03f + b, new Rot4(i).AsQuat, s2);
+				Vector3 pos = this.DrawPos + Vector3.up * 0.03f + b;
+				Rot4 rot = new Rot4(i);
+				matrix2.SetTRS(pos, rot.AsQuat, s2);
 				Graphics.DrawMesh(MeshPool.plane10, matrix2, this.CornerMat, 0);
 			}
-			float num6 = (float)(this.PercentComplete / 1.0);
-			float num7 = num6;
-			IntVec2 rotatedSize5 = base.RotatedSize;
-			float num8 = num7 * (float)rotatedSize5.x;
-			IntVec2 rotatedSize6 = base.RotatedSize;
-			int num9 = Mathf.CeilToInt((float)(num8 * (float)rotatedSize6.z * 4.0));
+			float num4 = this.PercentComplete / 1f;
+			int num5 = Mathf.CeilToInt(num4 * (float)base.RotatedSize.x * (float)base.RotatedSize.z * 4f);
 			IntVec2 intVec2 = base.RotatedSize * 2;
-			for (int j = 0; j < num9; j++)
+			for (int j = 0; j < num5; j++)
 			{
 				IntVec2 intVec3 = default(IntVec2);
 				intVec3.z = j / intVec2.x;
 				intVec3.x = j - intVec3.z * intVec2.x;
-				Vector3 a = new Vector3((float)((float)intVec3.x * 0.5), 0f, (float)((float)intVec3.z * 0.5)) + this.DrawPos;
-				float x2 = a.x;
-				IntVec2 rotatedSize7 = base.RotatedSize;
-				a.x = (float)(x2 - ((float)rotatedSize7.x * 0.5 - 0.25));
-				float z = a.z;
-				IntVec2 rotatedSize8 = base.RotatedSize;
-				a.z = (float)(z - ((float)rotatedSize8.z * 0.5 - 0.25));
+				Vector3 a = new Vector3((float)intVec3.x * 0.5f, 0f, (float)intVec3.z * 0.5f) + this.DrawPos;
+				a.x -= (float)base.RotatedSize.x * 0.5f - 0.25f;
+				a.z -= (float)base.RotatedSize.z * 0.5f - 0.25f;
 				Vector3 s3 = new Vector3(0.5f, 1f, 0.5f);
 				Matrix4x4 matrix3 = default(Matrix4x4);
 				matrix3.SetTRS(a + Vector3.up * 0.02f, Quaternion.identity, s3);
@@ -339,46 +349,116 @@ namespace RimWorld
 			base.Comps_PostDraw();
 		}
 
+		// Token: 0x060022EB RID: 8939 RVA: 0x0012C694 File Offset: 0x0012AA94
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
+			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
 			{
-				if (enumerator.MoveNext())
+				yield return c;
+			}
+			Command buildCopy = BuildCopyCommandUtility.BuildCopyCommand(this.def.entityDefToBuild, base.Stuff);
+			if (buildCopy != null)
+			{
+				yield return buildCopy;
+			}
+			if (base.Faction == Faction.OfPlayer)
+			{
+				foreach (Command facility in BuildFacilityCommandUtility.BuildFacilityCommands(this.def.entityDefToBuild))
 				{
-					Gizmo c = enumerator.Current;
-					yield return c;
-					/*Error: Unable to find new state assignment for yield return*/;
+					yield return facility;
 				}
 			}
-			Command buildCopy = BuildCopyCommandUtility.BuildCopyCommand(base.def.entityDefToBuild, base.Stuff);
-			if (buildCopy == null)
-				yield break;
-			yield return (Gizmo)buildCopy;
-			/*Error: Unable to find new state assignment for yield return*/;
-			IL_010e:
-			/*Error near IL_010f: Unexpected return in MoveNext()*/;
+			yield break;
 		}
 
+		// Token: 0x060022EC RID: 8940 RVA: 0x0012C6C0 File Offset: 0x0012AAC0
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.Append(base.GetInspectString());
 			stringBuilder.AppendLine("ContainedResources".Translate() + ":");
-			List<ThingCountClass> list = base.def.entityDefToBuild.CostListAdjusted(base.Stuff, true);
+			List<ThingDefCountClass> list = this.def.entityDefToBuild.CostListAdjusted(base.Stuff, true);
 			for (int i = 0; i < list.Count; i++)
 			{
-				ThingCountClass need = list[i];
+				ThingDefCountClass need = list[i];
 				int num = need.count;
-				foreach (ThingCountClass item in from needed in this.MaterialsNeeded()
+				foreach (ThingDefCountClass thingDefCountClass in from needed in this.MaterialsNeeded()
 				where needed.thingDef == need.thingDef
 				select needed)
 				{
-					num -= item.count;
+					num -= thingDefCountClass.count;
 				}
-				stringBuilder.AppendLine(need.thingDef.LabelCap + ": " + num + " / " + need.count);
+				stringBuilder.AppendLine(string.Concat(new object[]
+				{
+					need.thingDef.LabelCap,
+					": ",
+					num,
+					" / ",
+					need.count
+				}));
 			}
 			stringBuilder.Append("WorkLeft".Translate() + ": " + this.WorkLeft.ToStringWorkAmount());
 			return stringBuilder.ToString();
 		}
+
+		// Token: 0x060022ED RID: 8941 RVA: 0x0012C840 File Offset: 0x0012AC40
+		public override ushort PathFindCostFor(Pawn p)
+		{
+			ushort result;
+			if (base.Faction == null)
+			{
+				result = 0;
+			}
+			else if (this.def.entityDefToBuild is TerrainDef)
+			{
+				result = 0;
+			}
+			else if (p.Faction == base.Faction || p.HostFaction == base.Faction)
+			{
+				result = Frame.AvoidUnderConstructionPathFindCost;
+			}
+			else
+			{
+				result = 0;
+			}
+			return result;
+		}
+
+		// Token: 0x04001395 RID: 5013
+		public ThingOwner resourceContainer;
+
+		// Token: 0x04001396 RID: 5014
+		public float workDone;
+
+		// Token: 0x04001397 RID: 5015
+		private Material cachedCornerMat;
+
+		// Token: 0x04001398 RID: 5016
+		private Material cachedTileMat;
+
+		// Token: 0x04001399 RID: 5017
+		protected const float UnderfieldOverdrawFactor = 1.15f;
+
+		// Token: 0x0400139A RID: 5018
+		protected const float CenterOverdrawFactor = 0.5f;
+
+		// Token: 0x0400139B RID: 5019
+		private const int LongConstructionProjectThreshold = 10000;
+
+		// Token: 0x0400139C RID: 5020
+		private static readonly Material UnderfieldMat = MaterialPool.MatFrom("Things/Building/BuildingFrame/Underfield", ShaderDatabase.Transparent);
+
+		// Token: 0x0400139D RID: 5021
+		private static readonly Texture2D CornerTex = ContentFinder<Texture2D>.Get("Things/Building/BuildingFrame/Corner", true);
+
+		// Token: 0x0400139E RID: 5022
+		private static readonly Texture2D TileTex = ContentFinder<Texture2D>.Get("Things/Building/BuildingFrame/Tile", true);
+
+		// Token: 0x0400139F RID: 5023
+		[TweakValue("Pathfinding", 0f, 1000f)]
+		public static ushort AvoidUnderConstructionPathFindCost = 800;
+
+		// Token: 0x040013A0 RID: 5024
+		private List<ThingDefCountClass> cachedMaterialsNeeded = new List<ThingDefCountClass>();
 	}
 }

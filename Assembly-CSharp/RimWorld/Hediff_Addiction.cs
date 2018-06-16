@@ -1,34 +1,41 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000464 RID: 1124
 	public class Hediff_Addiction : HediffWithComps
 	{
-		private const int DefaultStageIndex = 0;
-
-		private const int WithdrawalStageIndex = 1;
-
+		// Token: 0x170002B7 RID: 695
+		// (get) Token: 0x060013B8 RID: 5048 RVA: 0x000AB4B4 File Offset: 0x000A98B4
 		public Need_Chemical Need
 		{
 			get
 			{
-				if (base.pawn.Dead)
+				Need_Chemical result;
+				if (this.pawn.Dead)
 				{
-					return null;
+					result = null;
 				}
-				List<Need> allNeeds = base.pawn.needs.AllNeeds;
-				for (int i = 0; i < allNeeds.Count; i++)
+				else
 				{
-					if (allNeeds[i].def == base.def.causesNeed)
+					List<Need> allNeeds = this.pawn.needs.AllNeeds;
+					for (int i = 0; i < allNeeds.Count; i++)
 					{
-						return (Need_Chemical)allNeeds[i];
+						if (allNeeds[i].def == this.def.causesNeed)
+						{
+							return (Need_Chemical)allNeeds[i];
+						}
 					}
+					result = null;
 				}
-				return null;
+				return result;
 			}
 		}
 
+		// Token: 0x170002B8 RID: 696
+		// (get) Token: 0x060013B9 RID: 5049 RVA: 0x000AB53C File Offset: 0x000A993C
 		public ChemicalDef Chemical
 		{
 			get
@@ -36,7 +43,7 @@ namespace RimWorld
 				List<ChemicalDef> allDefsListForReading = DefDatabase<ChemicalDef>.AllDefsListForReading;
 				for (int i = 0; i < allDefsListForReading.Count; i++)
 				{
-					if (allDefsListForReading[i].addictionHediff == base.def)
+					if (allDefsListForReading[i].addictionHediff == this.def)
 					{
 						return allDefsListForReading[i];
 					}
@@ -45,34 +52,55 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170002B9 RID: 697
+		// (get) Token: 0x060013BA RID: 5050 RVA: 0x000AB598 File Offset: 0x000A9998
 		public override string LabelInBrackets
 		{
 			get
 			{
-				if (this.CurStageIndex == 1 && base.def.CompProps<HediffCompProperties_SeverityPerDay>() != null)
+				string result;
+				if (this.CurStageIndex == 1 && this.def.CompProps<HediffCompProperties_SeverityPerDay>() != null)
 				{
-					return base.LabelInBrackets + " " + ((float)(1.0 - this.Severity)).ToStringPercent();
+					result = base.LabelInBrackets + " " + (1f - this.Severity).ToStringPercent();
 				}
-				return base.LabelInBrackets;
+				else
+				{
+					result = base.LabelInBrackets;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x170002BA RID: 698
+		// (get) Token: 0x060013BB RID: 5051 RVA: 0x000AB5F8 File Offset: 0x000A99F8
 		public override int CurStageIndex
 		{
 			get
 			{
 				Need_Chemical need = this.Need;
-				if (need != null && need.CurCategory == DrugDesireCategory.Withdrawal)
+				int result;
+				if (need == null || need.CurCategory != DrugDesireCategory.Withdrawal)
 				{
-					return 1;
+					result = 0;
 				}
-				return 0;
+				else
+				{
+					result = 1;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x060013BC RID: 5052 RVA: 0x000AB62D File Offset: 0x000A9A2D
 		public void Notify_NeedCategoryChanged()
 		{
-			base.pawn.health.Notify_HediffChanged(this);
+			this.pawn.health.Notify_HediffChanged(this);
 		}
+
+		// Token: 0x04000BF6 RID: 3062
+		private const int DefaultStageIndex = 0;
+
+		// Token: 0x04000BF7 RID: 3063
+		private const int WithdrawalStageIndex = 1;
 	}
 }

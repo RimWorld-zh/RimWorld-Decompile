@@ -1,79 +1,44 @@
-using RimWorld.Planet;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020002EE RID: 750
 	public class WorldObjectDef : Def
 	{
-		public Type worldObjectClass = typeof(WorldObject);
-
-		public bool canHaveFaction = true;
-
-		public bool saved = true;
-
-		public List<WorldObjectCompProperties> comps = new List<WorldObjectCompProperties>();
-
-		public bool allowCaravanIncidentsWhichGenerateMap;
-
-		public bool isTempIncidentMapOwner;
-
-		public List<IncidentTargetTypeDef> incidentTargetTypes;
-
-		public bool selectable = true;
-
-		public bool neverMultiSelect;
-
-		public MapGeneratorDef mapGenerator;
-
-		public List<Type> inspectorTabs;
-
-		[Unsaved]
-		public List<InspectTabBase> inspectorTabsResolved;
-
-		public bool useDynamicDrawer;
-
-		public bool expandingIcon;
-
-		[NoTranslate]
-		public string expandingIconTexture;
-
-		public float expandingIconPriority;
-
-		[NoTranslate]
-		public string texture;
-
-		[Unsaved]
-		private Material material;
-
-		[Unsaved]
-		private Texture2D expandingIconTextureInt;
-
-		public bool blockExitGridUntilBattleIsWon;
-
+		// Token: 0x170001DA RID: 474
+		// (get) Token: 0x06000C65 RID: 3173 RVA: 0x0006E128 File Offset: 0x0006C528
 		public Material Material
 		{
 			get
 			{
+				Material result;
 				if (this.texture.NullOrEmpty())
 				{
-					return null;
+					result = null;
 				}
-				if ((UnityEngine.Object)this.material == (UnityEngine.Object)null)
+				else
 				{
-					this.material = MaterialPool.MatFrom(this.texture, ShaderDatabase.WorldOverlayTransparentLit, WorldMaterials.WorldObjectRenderQueue);
+					if (this.material == null)
+					{
+						this.material = MaterialPool.MatFrom(this.texture, ShaderDatabase.WorldOverlayTransparentLit, WorldMaterials.WorldObjectRenderQueue);
+					}
+					result = this.material;
 				}
-				return this.material;
+				return result;
 			}
 		}
 
+		// Token: 0x170001DB RID: 475
+		// (get) Token: 0x06000C66 RID: 3174 RVA: 0x0006E188 File Offset: 0x0006C588
 		public Texture2D ExpandingIconTexture
 		{
 			get
 			{
-				if ((UnityEngine.Object)this.expandingIconTextureInt == (UnityEngine.Object)null)
+				if (this.expandingIconTextureInt == null)
 				{
 					if (this.expandingIconTexture.NullOrEmpty())
 					{
@@ -85,6 +50,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06000C67 RID: 3175 RVA: 0x0006E1E0 File Offset: 0x0006C5E0
 		public override void PostLoad()
 		{
 			base.PostLoad();
@@ -102,12 +68,19 @@ namespace RimWorld
 					}
 					catch (Exception ex)
 					{
-						Log.Error("Could not instantiate inspector tab of type " + this.inspectorTabs[i] + ": " + ex);
+						Log.Error(string.Concat(new object[]
+						{
+							"Could not instantiate inspector tab of type ",
+							this.inspectorTabs[i],
+							": ",
+							ex
+						}), false);
 					}
 				}
 			}
 		}
 
+		// Token: 0x06000C68 RID: 3176 RVA: 0x0006E2A4 File Offset: 0x0006C6A4
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -117,32 +90,93 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06000C69 RID: 3177 RVA: 0x0006E2E8 File Offset: 0x0006C6E8
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
+			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
 			{
-				if (enumerator.MoveNext())
-				{
-					string e2 = enumerator.Current;
-					yield return e2;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return e;
 			}
 			for (int i = 0; i < this.comps.Count; i++)
 			{
-				using (IEnumerator<string> enumerator2 = this.comps[i].ConfigErrors(this).GetEnumerator())
+				foreach (string e2 in this.comps[i].ConfigErrors(this))
 				{
-					if (enumerator2.MoveNext())
-					{
-						string e = enumerator2.Current;
-						yield return e;
-						/*Error: Unable to find new state assignment for yield return*/;
-					}
+					yield return e2;
 				}
 			}
+			if (this.expandMore && !this.expandingIcon)
+			{
+				yield return "has expandMore but doesn't have any expanding icon";
+			}
 			yield break;
-			IL_0195:
-			/*Error near IL_0196: Unexpected return in MoveNext()*/;
 		}
+
+		// Token: 0x04000813 RID: 2067
+		public Type worldObjectClass = typeof(WorldObject);
+
+		// Token: 0x04000814 RID: 2068
+		public bool canHaveFaction = true;
+
+		// Token: 0x04000815 RID: 2069
+		public bool saved = true;
+
+		// Token: 0x04000816 RID: 2070
+		public List<WorldObjectCompProperties> comps = new List<WorldObjectCompProperties>();
+
+		// Token: 0x04000817 RID: 2071
+		public bool allowCaravanIncidentsWhichGenerateMap;
+
+		// Token: 0x04000818 RID: 2072
+		public bool isTempIncidentMapOwner;
+
+		// Token: 0x04000819 RID: 2073
+		public List<IncidentTargetTypeDef> incidentTargetTypes;
+
+		// Token: 0x0400081A RID: 2074
+		public bool selectable = true;
+
+		// Token: 0x0400081B RID: 2075
+		public bool neverMultiSelect;
+
+		// Token: 0x0400081C RID: 2076
+		public MapGeneratorDef mapGenerator = null;
+
+		// Token: 0x0400081D RID: 2077
+		public List<Type> inspectorTabs;
+
+		// Token: 0x0400081E RID: 2078
+		[Unsaved]
+		public List<InspectTabBase> inspectorTabsResolved;
+
+		// Token: 0x0400081F RID: 2079
+		public bool useDynamicDrawer;
+
+		// Token: 0x04000820 RID: 2080
+		public bool expandingIcon;
+
+		// Token: 0x04000821 RID: 2081
+		[NoTranslate]
+		public string expandingIconTexture;
+
+		// Token: 0x04000822 RID: 2082
+		public float expandingIconPriority;
+
+		// Token: 0x04000823 RID: 2083
+		[NoTranslate]
+		public string texture;
+
+		// Token: 0x04000824 RID: 2084
+		[Unsaved]
+		private Material material;
+
+		// Token: 0x04000825 RID: 2085
+		[Unsaved]
+		private Texture2D expandingIconTextureInt;
+
+		// Token: 0x04000826 RID: 2086
+		public bool expandMore;
+
+		// Token: 0x04000827 RID: 2087
+		public bool blockExitGridUntilBattleIsWon;
 	}
 }

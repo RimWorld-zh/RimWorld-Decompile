@@ -1,57 +1,60 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse.Grammar;
 
 namespace Verse
 {
+	// Token: 0x02000BD0 RID: 3024
 	public static class PlayLogEntryUtility
 	{
+		// Token: 0x060041D5 RID: 16853 RVA: 0x0022A56C File Offset: 0x0022896C
 		public static IEnumerable<Rule> RulesForOptionalWeapon(string prefix, ThingDef weaponDef, ThingDef projectileDef)
 		{
 			if (weaponDef != null)
 			{
-				using (IEnumerator<Rule> enumerator = GrammarUtility.RulesForDef(prefix, weaponDef).GetEnumerator())
+				foreach (Rule rule in GrammarUtility.RulesForDef(prefix, weaponDef))
 				{
-					if (enumerator.MoveNext())
-					{
-						Rule rule2 = enumerator.Current;
-						yield return rule2;
-						/*Error: Unable to find new state assignment for yield return*/;
-					}
+					yield return rule;
 				}
 				ThingDef projectile = projectileDef;
-				if (projectile == null && !weaponDef.Verbs.NullOrEmpty())
+				if (projectile == null && !weaponDef.Verbs.NullOrEmpty<VerbProperties>())
 				{
 					projectile = weaponDef.Verbs[0].defaultProjectile;
 				}
 				if (projectile != null)
 				{
-					using (IEnumerator<Rule> enumerator2 = GrammarUtility.RulesForDef(prefix + "_projectile", projectile).GetEnumerator())
+					foreach (Rule rule2 in GrammarUtility.RulesForDef(prefix + "_projectile", projectile))
 					{
-						if (enumerator2.MoveNext())
-						{
-							Rule rule = enumerator2.Current;
-							yield return rule;
-							/*Error: Unable to find new state assignment for yield return*/;
-						}
+						yield return rule2;
 					}
 				}
 			}
 			yield break;
-			IL_01be:
-			/*Error near IL_01bf: Unexpected return in MoveNext()*/;
 		}
 
-		public static IEnumerable<Rule> RulesForDamagedParts(string prefix, List<BodyPartDef> bodyParts, List<bool> bodyPartsDestroyed, Dictionary<string, string> constants)
+		// Token: 0x060041D6 RID: 16854 RVA: 0x0022A5A4 File Offset: 0x002289A4
+		public static IEnumerable<Rule> RulesForDamagedParts(string prefix, BodyDef body, List<BodyPartRecord> bodyParts, List<bool> bodyPartsDestroyed, Dictionary<string, string> constants)
 		{
 			if (bodyParts != null)
 			{
 				int destroyedIndex = 0;
 				int damagedIndex = 0;
-				int i = 0;
-				if (i < bodyParts.Count)
+				for (int i = 0; i < bodyParts.Count; i++)
 				{
-					yield return (Rule)new Rule_String(string.Format(prefix + "{0}_label", i), bodyParts[i].label);
-					/*Error: Unable to find new state assignment for yield return*/;
+					yield return new Rule_String(string.Format(prefix + "{0}_label", i), bodyParts[i].Label);
+					constants[string.Format(prefix + "{0}_destroyed", i)] = bodyPartsDestroyed[i].ToString();
+					if (bodyPartsDestroyed[i])
+					{
+						yield return new Rule_String(string.Format(prefix + "_destroyed{0}_label", destroyedIndex), bodyParts[i].Label);
+						constants[string.Format("{0}_destroyed{1}_outside", prefix, destroyedIndex)] = (bodyParts[i].depth == BodyPartDepth.Outside).ToString();
+						destroyedIndex++;
+					}
+					else
+					{
+						yield return new Rule_String(string.Format(prefix + "_damaged{0}_label", damagedIndex), bodyParts[i].Label);
+						constants[string.Format("{0}_damaged{1}_outside", prefix, damagedIndex)] = (bodyParts[i].depth == BodyPartDepth.Outside).ToString();
+						damagedIndex++;
+					}
 				}
 				constants[prefix + "_count"] = bodyParts.Count.ToString();
 				constants[prefix + "_destroyed_count"] = destroyedIndex.ToString();
@@ -63,6 +66,7 @@ namespace Verse
 				constants[prefix + "_destroyed_count"] = "0";
 				constants[prefix + "_damaged_count"] = "0";
 			}
+			yield break;
 		}
 	}
 }

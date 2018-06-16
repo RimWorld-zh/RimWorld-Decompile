@@ -1,14 +1,14 @@
-using RimWorld;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld;
 
 namespace Verse
 {
+	// Token: 0x02000E84 RID: 3716
 	public static class ThingCategoryNodeDatabase
 	{
-		public static bool initialized;
-
-		private static TreeNode_ThingCategory rootNode;
-
+		// Token: 0x17000DD2 RID: 3538
+		// (get) Token: 0x06005795 RID: 22421 RVA: 0x002CEB3C File Offset: 0x002CCF3C
 		public static IEnumerable<TreeNode_ThingCategory> AllThingCategoryNodes
 		{
 			get
@@ -17,6 +17,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000DD3 RID: 3539
+		// (get) Token: 0x06005796 RID: 22422 RVA: 0x002CEB5C File Offset: 0x002CCF5C
 		public static TreeNode_ThingCategory RootNode
 		{
 			get
@@ -25,48 +27,60 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06005797 RID: 22423 RVA: 0x002CEB76 File Offset: 0x002CCF76
 		public static void Clear()
 		{
 			ThingCategoryNodeDatabase.rootNode = null;
 			ThingCategoryNodeDatabase.initialized = false;
 		}
 
+		// Token: 0x06005798 RID: 22424 RVA: 0x002CEB88 File Offset: 0x002CCF88
 		public static void FinalizeInit()
 		{
 			ThingCategoryNodeDatabase.rootNode = ThingCategoryDefOf.Root.treeNode;
-			foreach (ThingCategoryDef allDef in DefDatabase<ThingCategoryDef>.AllDefs)
+			foreach (ThingCategoryDef thingCategoryDef in DefDatabase<ThingCategoryDef>.AllDefs)
 			{
-				if (allDef.parent != null)
+				if (thingCategoryDef.parent != null)
 				{
-					allDef.parent.childCategories.Add(allDef);
+					thingCategoryDef.parent.childCategories.Add(thingCategoryDef);
 				}
 			}
 			ThingCategoryNodeDatabase.SetNestLevelRecursive(ThingCategoryNodeDatabase.rootNode, 0);
-			foreach (ThingDef allDef2 in DefDatabase<ThingDef>.AllDefs)
+			foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
 			{
-				if (allDef2.thingCategories != null)
+				if (thingDef.thingCategories != null)
 				{
-					foreach (ThingCategoryDef thingCategory in allDef2.thingCategories)
+					foreach (ThingCategoryDef thingCategoryDef2 in thingDef.thingCategories)
 					{
-						thingCategory.childThingDefs.Add(allDef2);
+						thingCategoryDef2.childThingDefs.Add(thingDef);
 					}
 				}
 			}
-			foreach (SpecialThingFilterDef allDef3 in DefDatabase<SpecialThingFilterDef>.AllDefs)
+			foreach (SpecialThingFilterDef specialThingFilterDef in DefDatabase<SpecialThingFilterDef>.AllDefs)
 			{
-				allDef3.parentCategory.childSpecialFilters.Add(allDef3);
+				specialThingFilterDef.parentCategory.childSpecialFilters.Add(specialThingFilterDef);
 			}
-			ThingCategoryNodeDatabase.rootNode.catDef.childCategories[0].treeNode.SetOpen(-1, true);
+			if (ThingCategoryNodeDatabase.rootNode.catDef.childCategories.Any<ThingCategoryDef>())
+			{
+				ThingCategoryNodeDatabase.rootNode.catDef.childCategories[0].treeNode.SetOpen(-1, true);
+			}
 			ThingCategoryNodeDatabase.initialized = true;
 		}
 
+		// Token: 0x06005799 RID: 22425 RVA: 0x002CED58 File Offset: 0x002CD158
 		private static void SetNestLevelRecursive(TreeNode_ThingCategory node, int nestDepth)
 		{
-			foreach (ThingCategoryDef childCategory in node.catDef.childCategories)
+			foreach (ThingCategoryDef thingCategoryDef in node.catDef.childCategories)
 			{
-				childCategory.treeNode.nestDepth = nestDepth;
-				ThingCategoryNodeDatabase.SetNestLevelRecursive(childCategory.treeNode, nestDepth + 1);
+				thingCategoryDef.treeNode.nestDepth = nestDepth;
+				ThingCategoryNodeDatabase.SetNestLevelRecursive(thingCategoryDef.treeNode, nestDepth + 1);
 			}
 		}
+
+		// Token: 0x040039EB RID: 14827
+		public static bool initialized = false;
+
+		// Token: 0x040039EC RID: 14828
+		private static TreeNode_ThingCategory rootNode;
 	}
 }

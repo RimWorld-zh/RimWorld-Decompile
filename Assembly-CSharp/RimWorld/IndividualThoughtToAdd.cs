@@ -1,30 +1,13 @@
+﻿using System;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200047F RID: 1151
 	public struct IndividualThoughtToAdd
 	{
-		public Thought_Memory thought;
-
-		public Pawn addTo;
-
-		private Pawn otherPawn;
-
-		public string LabelCap
-		{
-			get
-			{
-				string text = this.thought.LabelCap;
-				float num = this.thought.MoodOffset();
-				if (num != 0.0)
-				{
-					text = text + " " + Mathf.RoundToInt(num).ToStringWithSign();
-				}
-				return text;
-			}
-		}
-
+		// Token: 0x06001429 RID: 5161 RVA: 0x000AF364 File Offset: 0x000AD764
 		public IndividualThoughtToAdd(ThoughtDef thoughtDef, Pawn addTo, Pawn otherPawn = null, float moodPowerFactor = 1f, float opinionOffsetFactor = 1f)
 		{
 			this.addTo = addTo;
@@ -39,6 +22,23 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170002BB RID: 699
+		// (get) Token: 0x0600142A RID: 5162 RVA: 0x000AF3CC File Offset: 0x000AD7CC
+		public string LabelCap
+		{
+			get
+			{
+				string text = this.thought.LabelCap;
+				float num = this.thought.MoodOffset();
+				if (num != 0f)
+				{
+					text = text + " " + Mathf.RoundToInt(num).ToStringWithSign();
+				}
+				return text;
+			}
+		}
+
+		// Token: 0x0600142B RID: 5163 RVA: 0x000AF41C File Offset: 0x000AD81C
 		public void Add()
 		{
 			if (this.addTo.needs != null && this.addTo.needs.mood != null)
@@ -46,5 +46,14 @@ namespace RimWorld
 				this.addTo.needs.mood.thoughts.memories.TryGainMemory(this.thought, this.otherPawn);
 			}
 		}
+
+		// Token: 0x04000C07 RID: 3079
+		public Thought_Memory thought;
+
+		// Token: 0x04000C08 RID: 3080
+		public Pawn addTo;
+
+		// Token: 0x04000C09 RID: 3081
+		private Pawn otherPawn;
 	}
 }

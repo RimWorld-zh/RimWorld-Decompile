@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,41 +7,37 @@ using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020002F7 RID: 759
 	public static class ExternalHistoryUtility
 	{
-		private static List<FileInfo> cachedFiles;
+		// Token: 0x06000CA7 RID: 3239 RVA: 0x0006F788 File Offset: 0x0006DB88
+		static ExternalHistoryUtility()
+		{
+			try
+			{
+				ExternalHistoryUtility.cachedFiles = GenFilePaths.AllExternalHistoryFiles.ToList<FileInfo>();
+			}
+			catch (Exception ex)
+			{
+				Log.Error("Could not get external history files: " + ex.Message, false);
+			}
+		}
 
-		private static int gameplayIDLength;
-
-		private static string gameplayIDAvailableChars;
-
+		// Token: 0x170001ED RID: 493
+		// (get) Token: 0x06000CA8 RID: 3240 RVA: 0x0006F7EC File Offset: 0x0006DBEC
 		public static IEnumerable<FileInfo> Files
 		{
 			get
 			{
-				int i = 0;
-				if (i < ExternalHistoryUtility.cachedFiles.Count)
+				for (int i = 0; i < ExternalHistoryUtility.cachedFiles.Count; i++)
 				{
 					yield return ExternalHistoryUtility.cachedFiles[i];
-					/*Error: Unable to find new state assignment for yield return*/;
 				}
+				yield break;
 			}
 		}
 
-		static ExternalHistoryUtility()
-		{
-			ExternalHistoryUtility.gameplayIDLength = 20;
-			ExternalHistoryUtility.gameplayIDAvailableChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-			try
-			{
-				ExternalHistoryUtility.cachedFiles = GenFilePaths.AllExternalHistoryFiles.ToList();
-			}
-			catch (Exception ex)
-			{
-				Log.Error("Could not get external history files: " + ex.Message);
-			}
-		}
-
+		// Token: 0x06000CA9 RID: 3241 RVA: 0x0006F810 File Offset: 0x0006DC10
 		public static ExternalHistory Load(string path)
 		{
 			ExternalHistory result = null;
@@ -51,9 +47,8 @@ namespace RimWorld
 				Scribe.loader.InitLoading(path);
 				try
 				{
-					Scribe_Deep.Look(ref result, "externalHistory");
+					Scribe_Deep.Look<ExternalHistory>(ref result, "externalHistory", new object[0]);
 					Scribe.loader.FinalizeLoading();
-					return result;
 				}
 				catch
 				{
@@ -63,11 +58,13 @@ namespace RimWorld
 			}
 			catch (Exception ex)
 			{
-				Log.Error("Could not load external history (" + path + "): " + ex.Message);
+				Log.Error("Could not load external history (" + path + "): " + ex.Message, false);
 				return null;
 			}
+			return result;
 		}
 
+		// Token: 0x06000CAA RID: 3242 RVA: 0x0006F8B0 File Offset: 0x0006DCB0
 		public static string GetRandomGameplayID()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -79,42 +76,56 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
+		// Token: 0x06000CAB RID: 3243 RVA: 0x0006F90C File Offset: 0x0006DD0C
 		public static bool IsValidGameplayID(string ID)
 		{
-			if (!ID.NullOrEmpty() && ID.Length == ExternalHistoryUtility.gameplayIDLength)
+			bool result;
+			if (ID.NullOrEmpty() || ID.Length != ExternalHistoryUtility.gameplayIDLength)
+			{
+				result = false;
+			}
+			else
 			{
 				for (int i = 0; i < ID.Length; i++)
 				{
 					bool flag = false;
-					int num = 0;
-					while (num < ExternalHistoryUtility.gameplayIDAvailableChars.Length)
+					for (int j = 0; j < ExternalHistoryUtility.gameplayIDAvailableChars.Length; j++)
 					{
-						if (ID[i] != ExternalHistoryUtility.gameplayIDAvailableChars[num])
+						if (ID[i] == ExternalHistoryUtility.gameplayIDAvailableChars[j])
 						{
-							num++;
-							continue;
+							flag = true;
+							break;
 						}
-						flag = true;
-						break;
 					}
 					if (!flag)
 					{
 						return false;
 					}
 				}
-				return true;
+				result = true;
 			}
-			return false;
+			return result;
 		}
 
+		// Token: 0x06000CAC RID: 3244 RVA: 0x0006F9A8 File Offset: 0x0006DDA8
 		public static string GetCurrentUploadDate()
 		{
 			return DateTime.UtcNow.ToString("yyMMdd");
 		}
 
+		// Token: 0x06000CAD RID: 3245 RVA: 0x0006F9D0 File Offset: 0x0006DDD0
 		public static int GetCurrentUploadTime()
 		{
 			return (int)(DateTime.UtcNow.TimeOfDay.TotalSeconds / 2.0);
 		}
+
+		// Token: 0x04000844 RID: 2116
+		private static List<FileInfo> cachedFiles;
+
+		// Token: 0x04000845 RID: 2117
+		private static int gameplayIDLength = 20;
+
+		// Token: 0x04000846 RID: 2118
+		private static string gameplayIDAvailableChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 	}
 }

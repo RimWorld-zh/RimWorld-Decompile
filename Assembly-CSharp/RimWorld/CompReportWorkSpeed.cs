@@ -1,43 +1,50 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000730 RID: 1840
 	public class CompReportWorkSpeed : ThingComp
 	{
+		// Token: 0x06002893 RID: 10387 RVA: 0x0015A7F4 File Offset: 0x00158BF4
 		public override string CompInspectStringExtra()
 		{
-			bool flag = StatPart_WorkTableOutdoors.Applies(base.parent.def, base.parent.Map, base.parent.Position);
-			bool flag2 = StatPart_WorkTableTemperature.Applies(base.parent);
-			bool flag3 = StatPart_WorkTableUnpowered.Applies(base.parent);
-			if (!flag && !flag2 && !flag3)
+			bool flag = StatPart_WorkTableOutdoors.Applies(this.parent.def, this.parent.Map, this.parent.Position);
+			bool flag2 = StatPart_WorkTableTemperature.Applies(this.parent);
+			bool flag3 = StatPart_WorkTableUnpowered.Applies(this.parent);
+			string result;
+			if (flag || flag2 || flag3)
 			{
-				return null;
-			}
-			string text = "WorkSpeedPenalty".Translate() + ": ";
-			bool flag4 = false;
-			if (flag)
-			{
-				text += "Outdoors".Translate().ToLower();
-				flag4 = true;
-			}
-			if (flag2)
-			{
-				if (flag4)
+				string text = "WorkSpeedPenalty".Translate() + ": ";
+				string text2 = "";
+				if (flag)
 				{
-					text += ", ";
+					text2 += "Outdoors".Translate().ToLower();
 				}
-				text += "BadTemperature".Translate().ToLower();
-				flag4 = true;
-			}
-			if (flag3)
-			{
-				if (flag4)
+				if (flag2)
 				{
-					text += ", ";
+					if (!text2.NullOrEmpty())
+					{
+						text2 += ", ";
+					}
+					text2 += "BadTemperature".Translate().ToLower();
 				}
-				text += "NoPower".Translate().ToLower();
+				if (flag3)
+				{
+					if (!text2.NullOrEmpty())
+					{
+						text2 += ", ";
+					}
+					text2 += "NoPower".Translate().ToLower();
+				}
+				text += text2.CapitalizeFirst();
+				result = text;
 			}
-			return text;
+			else
+			{
+				result = null;
+			}
+			return result;
 		}
 	}
 }

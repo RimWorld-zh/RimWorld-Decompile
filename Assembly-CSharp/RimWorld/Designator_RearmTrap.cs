@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -5,8 +6,26 @@ using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020007D8 RID: 2008
 	public class Designator_RearmTrap : Designator
 	{
+		// Token: 0x06002C79 RID: 11385 RVA: 0x00176AA0 File Offset: 0x00174EA0
+		public Designator_RearmTrap()
+		{
+			this.defaultLabel = "DesignatorRearmTrap".Translate();
+			this.defaultDesc = "DesignatorRearmTrapDesc".Translate();
+			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/RearmTrap", true);
+			this.soundDragSustain = SoundDefOf.Designate_DragStandard;
+			this.soundDragChanged = SoundDefOf.Designate_DragStandard_Changed;
+			this.useMouseIcon = true;
+			this.soundSucceeded = SoundDefOf.Designate_Claim;
+			this.hotKey = KeyBindingDefOf.Misc7;
+			this.hasDesignateAllFloatMenuOption = true;
+			this.designateAllLabel = "RearmAllTraps".Translate();
+		}
+
+		// Token: 0x170006FC RID: 1788
+		// (get) Token: 0x06002C7A RID: 11386 RVA: 0x00176B30 File Offset: 0x00174F30
 		public override int DraggableDimensions
 		{
 			get
@@ -15,72 +34,73 @@ namespace RimWorld
 			}
 		}
 
-		public Designator_RearmTrap()
+		// Token: 0x170006FD RID: 1789
+		// (get) Token: 0x06002C7B RID: 11387 RVA: 0x00176B48 File Offset: 0x00174F48
+		protected override DesignationDef Designation
 		{
-			base.defaultLabel = "DesignatorRearmTrap".Translate();
-			base.defaultDesc = "DesignatorRearmTrapDesc".Translate();
-			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/RearmTrap", true);
-			base.soundDragSustain = SoundDefOf.DesignateDragStandard;
-			base.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
-			base.useMouseIcon = true;
-			base.soundSucceeded = SoundDefOf.DesignateClaim;
-			base.hotKey = KeyBindingDefOf.Misc7;
+			get
+			{
+				return DesignationDefOf.RearmTrap;
+			}
 		}
 
+		// Token: 0x06002C7C RID: 11388 RVA: 0x00176B64 File Offset: 0x00174F64
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
+			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				return false;
+				result = false;
 			}
-			if (!this.RearmablesInCell(c).Any())
+			else if (!this.RearmablesInCell(c).Any<Thing>())
 			{
-				return false;
+				result = false;
 			}
-			return true;
+			else
+			{
+				result = true;
+			}
+			return result;
 		}
 
+		// Token: 0x06002C7D RID: 11389 RVA: 0x00176BBC File Offset: 0x00174FBC
 		public override void DesignateSingleCell(IntVec3 c)
 		{
-			foreach (Thing item in this.RearmablesInCell(c))
+			foreach (Thing t in this.RearmablesInCell(c))
 			{
-				this.DesignateThing(item);
+				this.DesignateThing(t);
 			}
 		}
 
+		// Token: 0x06002C7E RID: 11390 RVA: 0x00176C1C File Offset: 0x0017501C
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			Building_TrapRearmable building_TrapRearmable = t as Building_TrapRearmable;
-			return building_TrapRearmable != null && !building_TrapRearmable.Armed && base.Map.designationManager.DesignationOn(building_TrapRearmable, DesignationDefOf.RearmTrap) == null;
+			return building_TrapRearmable != null && !building_TrapRearmable.Armed && base.Map.designationManager.DesignationOn(building_TrapRearmable, this.Designation) == null;
 		}
 
+		// Token: 0x06002C7F RID: 11391 RVA: 0x00176C6B File Offset: 0x0017506B
 		public override void DesignateThing(Thing t)
 		{
-			base.Map.designationManager.AddDesignation(new Designation(t, DesignationDefOf.RearmTrap));
+			base.Map.designationManager.AddDesignation(new Designation(t, this.Designation));
 		}
 
+		// Token: 0x06002C80 RID: 11392 RVA: 0x00176C90 File Offset: 0x00175090
 		private IEnumerable<Thing> RearmablesInCell(IntVec3 c)
 		{
-			if (!c.Fogged(base.Map))
+			if (c.Fogged(base.Map))
 			{
-				List<Thing> thingList = c.GetThingList(base.Map);
-				int i = 0;
-				while (true)
-				{
-					if (i < thingList.Count)
-					{
-						if (!this.CanDesignateThing(thingList[i]).Accepted)
-						{
-							i++;
-							continue;
-						}
-						break;
-					}
-					yield break;
-				}
-				yield return thingList[i];
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield break;
 			}
+			List<Thing> thingList = c.GetThingList(base.Map);
+			for (int i = 0; i < thingList.Count; i++)
+			{
+				if (this.CanDesignateThing(thingList[i]).Accepted)
+				{
+					yield return thingList[i];
+				}
+			}
+			yield break;
 		}
 	}
 }

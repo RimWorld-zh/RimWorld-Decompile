@@ -1,98 +1,58 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Profiling;
 using Verse;
 using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x020006C5 RID: 1733
 	public class Fire : AttachableThing, ISizeReporter
 	{
-		private int ticksSinceSpawn;
-
-		public float fireSize = 0.1f;
-
-		private int ticksSinceSpread;
-
-		private float flammabilityMax = 0.5f;
-
-		private int ticksUntilSmoke;
-
-		private Sustainer sustainer;
-
-		private static List<Thing> flammableList = new List<Thing>();
-
-		private static int fireCount;
-
-		private static int lastFireCountUpdateTick;
-
-		public const float MinFireSize = 0.1f;
-
-		private const float MinSizeForSpark = 1f;
-
-		private const float TicksBetweenSparksBase = 150f;
-
-		private const float TicksBetweenSparksReductionPerFireSize = 40f;
-
-		private const float MinTicksBetweenSparks = 75f;
-
-		private const float MinFireSizeToEmitSpark = 1f;
-
-		public const float MaxFireSize = 1.75f;
-
-		private const int TicksToBurnFloor = 7500;
-
-		private const int ComplexCalcsInterval = 150;
-
-		private const float CellIgniteChancePerTickPerSize = 0.01f;
-
-		private const float MinSizeForIgniteMovables = 0.4f;
-
-		private const float FireBaseGrowthPerTick = 0.00055f;
-
-		private static readonly IntRange SmokeIntervalRange = new IntRange(130, 200);
-
-		private const int SmokeIntervalRandomAddon = 10;
-
-		private const float BaseSkyExtinguishChance = 0.04f;
-
-		private const int BaseSkyExtinguishDamage = 10;
-
-		private const float HeatPerFireSizePerInterval = 160f;
-
-		private const float HeatFactorWhenDoorPresent = 0.15f;
-
-		private const float SnowClearRadiusPerFireSize = 3f;
-
-		private const float SnowClearDepthFactor = 0.1f;
-
-		private const int FireCountParticlesOff = 15;
-
+		// Token: 0x170005A1 RID: 1441
+		// (get) Token: 0x0600255D RID: 9565 RVA: 0x0014042C File Offset: 0x0013E82C
 		public override string Label
 		{
 			get
 			{
-				if (base.parent != null)
+				string result;
+				if (this.parent != null)
 				{
-					return "FireOn".Translate(base.parent.LabelCap);
+					result = "FireOn".Translate(new object[]
+					{
+						this.parent.LabelCap
+					});
 				}
-				return "Fire".Translate();
+				else
+				{
+					result = "Fire".Translate();
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x170005A2 RID: 1442
+		// (get) Token: 0x0600255E RID: 9566 RVA: 0x0014047C File Offset: 0x0013E87C
 		public override string InspectStringAddon
 		{
 			get
 			{
-				return "Burning".Translate() + " (" + "FireSizeLower".Translate(((float)(this.fireSize * 100.0)).ToString("F0")) + ")";
+				return "Burning".Translate() + " (" + "FireSizeLower".Translate(new object[]
+				{
+					(this.fireSize * 100f).ToString("F0")
+				}) + ")";
 			}
 		}
 
+		// Token: 0x170005A3 RID: 1443
+		// (get) Token: 0x0600255F RID: 9567 RVA: 0x001404D8 File Offset: 0x0013E8D8
 		private float SpreadInterval
 		{
 			get
 			{
-				float num = (float)(150.0 - (this.fireSize - 1.0) * 40.0);
-				if (num < 75.0)
+				float num = 150f - (this.fireSize - 1f) * 40f;
+				if (num < 75f)
 				{
 					num = 75f;
 				}
@@ -100,43 +60,46 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002560 RID: 9568 RVA: 0x00140518 File Offset: 0x0013E918
 		public override void ExposeData()
 		{
 			base.ExposeData();
+			Scribe_Values.Look<int>(ref this.ticksSinceSpawn, "ticksSinceSpawn", 0, false);
 			Scribe_Values.Look<float>(ref this.fireSize, "fireSize", 0f, false);
 		}
 
+		// Token: 0x06002561 RID: 9569 RVA: 0x00140549 File Offset: 0x0013E949
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
 			this.RecalcPathsOnAndAroundMe(map);
 			LessonAutoActivator.TeachOpportunity(ConceptDefOf.HomeArea, this, OpportunityType.Important);
 			this.ticksSinceSpread = (int)(this.SpreadInterval * Rand.Value);
-			LongEventHandler.ExecuteWhenFinished(delegate
-			{
-				SoundDef def = SoundDef.Named("FireBurning");
-				SoundInfo info = SoundInfo.InMap(new TargetInfo(base.Position, map, false), MaintenanceType.PerTick);
-				this.sustainer = SustainerAggregatorUtility.AggregateOrSpawnSustainerFor(this, def, info);
-			});
 		}
 
+		// Token: 0x06002562 RID: 9570 RVA: 0x0014057C File Offset: 0x0013E97C
 		public float CurrentSize()
 		{
 			return this.fireSize;
 		}
 
-		public override void DeSpawn()
+		// Token: 0x06002563 RID: 9571 RVA: 0x00140598 File Offset: 0x0013E998
+		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
 		{
-			if (this.sustainer.externalParams.sizeAggregator == null)
+			if (this.sustainer != null)
 			{
-				this.sustainer.externalParams.sizeAggregator = new SoundSizeAggregator();
+				if (this.sustainer.externalParams.sizeAggregator == null)
+				{
+					this.sustainer.externalParams.sizeAggregator = new SoundSizeAggregator();
+				}
+				this.sustainer.externalParams.sizeAggregator.RemoveReporter(this);
 			}
-			this.sustainer.externalParams.sizeAggregator.RemoveReporter(this);
 			Map map = base.Map;
-			base.DeSpawn();
+			base.DeSpawn(mode);
 			this.RecalcPathsOnAndAroundMe(map);
 		}
 
+		// Token: 0x06002564 RID: 9572 RVA: 0x00140608 File Offset: 0x0013EA08
 		private void RecalcPathsOnAndAroundMe(Map map)
 		{
 			IntVec3[] adjacentCellsAndInside = GenAdj.AdjacentCellsAndInside;
@@ -150,42 +113,51 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002565 RID: 9573 RVA: 0x00140668 File Offset: 0x0013EA68
 		public override void AttachTo(Thing parent)
 		{
 			base.AttachTo(parent);
 			Pawn pawn = parent as Pawn;
 			if (pawn != null)
 			{
-				TaleRecorder.RecordTale(TaleDefOf.WasOnFire, pawn);
+				TaleRecorder.RecordTale(TaleDefOf.WasOnFire, new object[]
+				{
+					pawn
+				});
 			}
 		}
 
+		// Token: 0x06002566 RID: 9574 RVA: 0x001406A0 File Offset: 0x0013EAA0
 		public override void Tick()
 		{
 			this.ticksSinceSpawn++;
 			if (Fire.lastFireCountUpdateTick != Find.TickManager.TicksGame)
 			{
-				Fire.fireCount = base.Map.listerThings.ThingsOfDef(base.def).Count;
+				Fire.fireCount = base.Map.listerThings.ThingsOfDef(this.def).Count;
 				Fire.lastFireCountUpdateTick = Find.TickManager.TicksGame;
 			}
 			if (this.sustainer != null)
 			{
 				this.sustainer.Maintain();
 			}
-			else
+			else if (!base.Position.Fogged(base.Map))
 			{
-				Log.ErrorOnce("Fire sustainer was null at " + base.Position, 917321);
+				SoundInfo info = SoundInfo.InMap(new TargetInfo(base.Position, base.Map, false), MaintenanceType.PerTick);
+				this.sustainer = SustainerAggregatorUtility.AggregateOrSpawnSustainerFor(this, SoundDefOf.FireBurning, info);
 			}
+			Profiler.BeginSample("Spawn particles");
 			this.ticksUntilSmoke--;
 			if (this.ticksUntilSmoke <= 0)
 			{
 				this.SpawnSmokeParticles();
 			}
-			if (Fire.fireCount < 15 && this.fireSize > 0.699999988079071 && Rand.Value < this.fireSize * 0.0099999997764825821)
+			if (Fire.fireCount < 15 && this.fireSize > 0.7f && Rand.Value < this.fireSize * 0.01f)
 			{
 				MoteMaker.ThrowMicroSparks(this.DrawPos, base.Map);
 			}
-			if (this.fireSize > 1.0)
+			Profiler.EndSample();
+			Profiler.BeginSample("Spread");
+			if (this.fireSize > 1f)
 			{
 				this.ticksSinceSpread++;
 				if ((float)this.ticksSinceSpread >= this.SpreadInterval)
@@ -194,43 +166,47 @@ namespace RimWorld
 					this.ticksSinceSpread = 0;
 				}
 			}
+			Profiler.EndSample();
 			if (this.IsHashIntervalTick(150))
 			{
 				this.DoComplexCalcs();
 			}
 			if (this.ticksSinceSpawn >= 7500)
 			{
-				this.TryMakeFloorBurned();
+				this.TryBurnFloor();
 			}
 		}
 
+		// Token: 0x06002567 RID: 9575 RVA: 0x00140854 File Offset: 0x0013EC54
 		private void SpawnSmokeParticles()
 		{
 			if (Fire.fireCount < 15)
 			{
 				MoteMaker.ThrowSmoke(this.DrawPos, base.Map, this.fireSize);
 			}
-			if (this.fireSize > 0.5 && base.parent == null)
+			if (this.fireSize > 0.5f && this.parent == null)
 			{
 				MoteMaker.ThrowFireGlow(base.Position, base.Map, this.fireSize);
 			}
-			float num = (float)(this.fireSize / 2.0);
-			if (num > 1.0)
+			float num = this.fireSize / 2f;
+			if (num > 1f)
 			{
 				num = 1f;
 			}
-			num = (float)(1.0 - num);
-			this.ticksUntilSmoke = Fire.SmokeIntervalRange.Lerped(num) + (int)(10.0 * Rand.Value);
+			num = 1f - num;
+			this.ticksUntilSmoke = Fire.SmokeIntervalRange.Lerped(num) + (int)(10f * Rand.Value);
 		}
 
+		// Token: 0x06002568 RID: 9576 RVA: 0x00140900 File Offset: 0x0013ED00
 		private void DoComplexCalcs()
 		{
 			bool flag = false;
+			Profiler.BeginSample("Determine flammability");
 			Fire.flammableList.Clear();
 			this.flammabilityMax = 0f;
 			if (!base.Position.GetTerrain(base.Map).extinguishesFire)
 			{
-				if (base.parent == null)
+				if (this.parent == null)
 				{
 					if (base.Position.TerrainFlammableNow(base.Map))
 					{
@@ -245,157 +221,291 @@ namespace RimWorld
 							flag = true;
 						}
 						float statValue = thing.GetStatValue(StatDefOf.Flammability, true);
-						if (!(statValue < 0.0099999997764825821))
+						if (statValue >= 0.01f)
 						{
 							Fire.flammableList.Add(list[i]);
 							if (statValue > this.flammabilityMax)
 							{
 								this.flammabilityMax = statValue;
 							}
-							if (base.parent == null && this.fireSize > 0.40000000596046448 && list[i].def.category == ThingCategory.Pawn)
+							if (this.parent == null && this.fireSize > 0.4f && list[i].def.category == ThingCategory.Pawn)
 							{
-								list[i].TryAttachFire((float)(this.fireSize * 0.20000000298023224));
+								list[i].TryAttachFire(this.fireSize * 0.2f);
 							}
 						}
 					}
 				}
 				else
 				{
-					Fire.flammableList.Add(base.parent);
-					this.flammabilityMax = base.parent.GetStatValue(StatDefOf.Flammability, true);
+					Fire.flammableList.Add(this.parent);
+					this.flammabilityMax = this.parent.GetStatValue(StatDefOf.Flammability, true);
 				}
 			}
-			if (this.flammabilityMax < 0.0099999997764825821)
+			Profiler.EndSample();
+			if (this.flammabilityMax < 0.01f)
 			{
 				this.Destroy(DestroyMode.Vanish);
 			}
 			else
 			{
-				Thing thing2 = (base.parent == null) ? ((Fire.flammableList.Count <= 0) ? null : Fire.flammableList.RandomElement()) : base.parent;
-				if (thing2 != null && (!(this.fireSize < 0.40000000596046448) || thing2 == base.parent || thing2.def.category != ThingCategory.Pawn))
+				Profiler.BeginSample("Do damage");
+				Thing thing2;
+				if (this.parent != null)
 				{
-					this.DoFireDamage(thing2);
+					thing2 = this.parent;
 				}
+				else if (Fire.flammableList.Count > 0)
+				{
+					thing2 = Fire.flammableList.RandomElement<Thing>();
+				}
+				else
+				{
+					thing2 = null;
+				}
+				if (thing2 != null)
+				{
+					if (this.fireSize >= 0.4f || thing2 == this.parent || thing2.def.category != ThingCategory.Pawn)
+					{
+						this.DoFireDamage(thing2);
+					}
+				}
+				Profiler.EndSample();
 				if (base.Spawned)
 				{
-					float num = (float)(this.fireSize * 160.0);
+					Profiler.BeginSample("Room heat");
+					float num = this.fireSize * 160f;
 					if (flag)
 					{
-						num = (float)(num * 0.15000000596046448);
+						num *= 0.15f;
 					}
 					GenTemperature.PushHeat(base.Position, base.Map, num);
-					if (Rand.Value < 0.40000000596046448)
+					Profiler.EndSample();
+					Profiler.BeginSample("Snow clear");
+					if (Rand.Value < 0.4f)
 					{
-						float radius = (float)(this.fireSize * 3.0);
-						SnowUtility.AddSnowRadial(base.Position, base.Map, radius, (float)(0.0 - this.fireSize * 0.10000000149011612));
+						float radius = this.fireSize * 3f;
+						SnowUtility.AddSnowRadial(base.Position, base.Map, radius, -(this.fireSize * 0.1f));
 					}
-					this.fireSize += (float)(0.00054999999701976776 * this.flammabilityMax * 150.0);
-					if (this.fireSize > 1.75)
+					Profiler.EndSample();
+					Profiler.BeginSample("Grow/extinguish");
+					this.fireSize += 0.00055f * this.flammabilityMax * 150f;
+					if (this.fireSize > 1.75f)
 					{
 						this.fireSize = 1.75f;
 					}
-					if (base.Map.weatherManager.RainRate > 0.0099999997764825821 && this.VulnerableToRain() && Rand.Value < 6.0)
+					if (base.Map.weatherManager.RainRate > 0.01f)
 					{
-						base.TakeDamage(new DamageInfo(DamageDefOf.Extinguish, 10, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
+						if (this.VulnerableToRain())
+						{
+							if (Rand.Value < 6f)
+							{
+								base.TakeDamage(new DamageInfo(DamageDefOf.Extinguish, 10f, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+							}
+						}
 					}
+					Profiler.EndSample();
 				}
 			}
 		}
 
-		private void TryMakeFloorBurned()
+		// Token: 0x06002569 RID: 9577 RVA: 0x00140C84 File Offset: 0x0013F084
+		private void TryBurnFloor()
 		{
-			if (base.parent == null && base.Spawned)
+			if (this.parent == null && base.Spawned)
 			{
-				Map map = base.Map;
-				TerrainGrid terrainGrid = map.terrainGrid;
-				TerrainDef terrain = base.Position.GetTerrain(map);
-				if (terrain.burnedDef != null && base.Position.TerrainFlammableNow(map))
+				if (base.Position.TerrainFlammableNow(base.Map))
 				{
-					terrainGrid.RemoveTopLayer(base.Position, false);
-					terrainGrid.SetTerrain(base.Position, terrain.burnedDef);
+					base.Map.terrainGrid.Notify_TerrainBurned(base.Position);
 				}
 			}
 		}
 
+		// Token: 0x0600256A RID: 9578 RVA: 0x00140CDC File Offset: 0x0013F0DC
 		private bool VulnerableToRain()
 		{
+			bool result;
 			if (!base.Spawned)
 			{
-				return false;
+				result = false;
 			}
-			RoofDef roofDef = base.Map.roofGrid.RoofAt(base.Position);
-			if (roofDef == null)
+			else
 			{
-				return true;
+				RoofDef roofDef = base.Map.roofGrid.RoofAt(base.Position);
+				if (roofDef == null)
+				{
+					result = true;
+				}
+				else if (roofDef.isThickRoof)
+				{
+					result = false;
+				}
+				else
+				{
+					Thing edifice = base.Position.GetEdifice(base.Map);
+					result = (edifice != null && edifice.def.holdsRoof);
+				}
 			}
-			if (roofDef.isThickRoof)
-			{
-				return false;
-			}
-			Thing edifice = base.Position.GetEdifice(base.Map);
-			return edifice != null && edifice.def.holdsRoof;
+			return result;
 		}
 
+		// Token: 0x0600256B RID: 9579 RVA: 0x00140D60 File Offset: 0x0013F160
 		private void DoFireDamage(Thing targ)
 		{
-			float value = (float)(0.012500000186264515 + 0.003599999938160181 * this.fireSize);
-			value = Mathf.Clamp(value, 0.0125f, 0.05f);
-			int num = GenMath.RoundRandom((float)(value * 150.0));
-			if (num < 1)
+			float num = 0.0125f + 0.0036f * this.fireSize;
+			num = Mathf.Clamp(num, 0.0125f, 0.05f);
+			int num2 = GenMath.RoundRandom(num * 150f);
+			if (num2 < 1)
 			{
-				num = 1;
+				num2 = 1;
 			}
 			Pawn pawn = targ as Pawn;
 			if (pawn != null)
 			{
 				BattleLogEntry_DamageTaken battleLogEntry_DamageTaken = new BattleLogEntry_DamageTaken(pawn, RulePackDefOf.DamageEvent_Fire, null);
 				Find.BattleLog.Add(battleLogEntry_DamageTaken);
-				DamageInfo dinfo = new DamageInfo(DamageDefOf.Flame, num, -1f, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
+				DamageInfo dinfo = new DamageInfo(DamageDefOf.Flame, (float)num2, -1f, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
 				dinfo.SetBodyRegion(BodyPartHeight.Undefined, BodyPartDepth.Outside);
-				targ.TakeDamage(dinfo).InsertIntoLog(battleLogEntry_DamageTaken);
-				Apparel apparel = default(Apparel);
-				if (pawn.apparel != null && ((IEnumerable<Apparel>)pawn.apparel.WornApparel).TryRandomElement<Apparel>(out apparel))
+				targ.TakeDamage(dinfo).AssociateWithLog(battleLogEntry_DamageTaken);
+				if (pawn.apparel != null)
 				{
-					apparel.TakeDamage(new DamageInfo(DamageDefOf.Flame, num, -1f, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
+					Apparel apparel;
+					if (pawn.apparel.WornApparel.TryRandomElement(out apparel))
+					{
+						apparel.TakeDamage(new DamageInfo(DamageDefOf.Flame, (float)num2, -1f, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+					}
 				}
 			}
 			else
 			{
-				targ.TakeDamage(new DamageInfo(DamageDefOf.Flame, num, -1f, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
+				targ.TakeDamage(new DamageInfo(DamageDefOf.Flame, (float)num2, -1f, this, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 			}
 		}
 
+		// Token: 0x0600256C RID: 9580 RVA: 0x00140E64 File Offset: 0x0013F264
 		protected void TrySpread()
 		{
-			IntVec3 position = base.Position;
+			IntVec3 intVec = base.Position;
 			bool flag;
 			if (Rand.Chance(0.8f))
 			{
-				position = base.Position + GenRadial.ManualRadialPattern[Rand.RangeInclusive(1, 8)];
+				intVec = base.Position + GenRadial.ManualRadialPattern[Rand.RangeInclusive(1, 8)];
 				flag = true;
 			}
 			else
 			{
-				position = base.Position + GenRadial.ManualRadialPattern[Rand.RangeInclusive(10, 20)];
+				intVec = base.Position + GenRadial.ManualRadialPattern[Rand.RangeInclusive(10, 20)];
 				flag = false;
 			}
-			if (position.InBounds(base.Map) && Rand.Chance(FireUtility.ChanceToStartFireIn(position, base.Map)))
+			if (intVec.InBounds(base.Map))
 			{
-				if (!flag)
+				if (Rand.Chance(FireUtility.ChanceToStartFireIn(intVec, base.Map)))
 				{
-					CellRect startRect = CellRect.SingleCell(base.Position);
-					CellRect endRect = CellRect.SingleCell(position);
-					if (GenSight.LineOfSight(base.Position, position, base.Map, startRect, endRect, null))
+					if (!flag)
 					{
-						Spark spark = (Spark)GenSpawn.Spawn(ThingDefOf.Spark, base.Position, base.Map);
-						spark.Launch(this, position, null);
+						CellRect startRect = CellRect.SingleCell(base.Position);
+						CellRect endRect = CellRect.SingleCell(intVec);
+						if (GenSight.LineOfSight(base.Position, intVec, base.Map, startRect, endRect, null))
+						{
+							Spark spark = (Spark)GenSpawn.Spawn(ThingDefOf.Spark, base.Position, base.Map, WipeMode.Vanish);
+							spark.Launch(this, intVec, intVec, ProjectileHitFlags.All, null);
+						}
 					}
-				}
-				else
-				{
-					FireUtility.TryStartFireIn(position, base.Map, 0.1f);
+					else
+					{
+						FireUtility.TryStartFireIn(intVec, base.Map, 0.1f);
+					}
 				}
 			}
 		}
+
+		// Token: 0x040014C2 RID: 5314
+		private int ticksSinceSpawn;
+
+		// Token: 0x040014C3 RID: 5315
+		public float fireSize = 0.1f;
+
+		// Token: 0x040014C4 RID: 5316
+		private int ticksSinceSpread;
+
+		// Token: 0x040014C5 RID: 5317
+		private float flammabilityMax = 0.5f;
+
+		// Token: 0x040014C6 RID: 5318
+		private int ticksUntilSmoke = 0;
+
+		// Token: 0x040014C7 RID: 5319
+		private Sustainer sustainer = null;
+
+		// Token: 0x040014C8 RID: 5320
+		private static List<Thing> flammableList = new List<Thing>();
+
+		// Token: 0x040014C9 RID: 5321
+		private static int fireCount;
+
+		// Token: 0x040014CA RID: 5322
+		private static int lastFireCountUpdateTick;
+
+		// Token: 0x040014CB RID: 5323
+		public const float MinFireSize = 0.1f;
+
+		// Token: 0x040014CC RID: 5324
+		private const float MinSizeForSpark = 1f;
+
+		// Token: 0x040014CD RID: 5325
+		private const float TicksBetweenSparksBase = 150f;
+
+		// Token: 0x040014CE RID: 5326
+		private const float TicksBetweenSparksReductionPerFireSize = 40f;
+
+		// Token: 0x040014CF RID: 5327
+		private const float MinTicksBetweenSparks = 75f;
+
+		// Token: 0x040014D0 RID: 5328
+		private const float MinFireSizeToEmitSpark = 1f;
+
+		// Token: 0x040014D1 RID: 5329
+		public const float MaxFireSize = 1.75f;
+
+		// Token: 0x040014D2 RID: 5330
+		private const int TicksToBurnFloor = 7500;
+
+		// Token: 0x040014D3 RID: 5331
+		private const int ComplexCalcsInterval = 150;
+
+		// Token: 0x040014D4 RID: 5332
+		private const float CellIgniteChancePerTickPerSize = 0.01f;
+
+		// Token: 0x040014D5 RID: 5333
+		private const float MinSizeForIgniteMovables = 0.4f;
+
+		// Token: 0x040014D6 RID: 5334
+		private const float FireBaseGrowthPerTick = 0.00055f;
+
+		// Token: 0x040014D7 RID: 5335
+		private static readonly IntRange SmokeIntervalRange = new IntRange(130, 200);
+
+		// Token: 0x040014D8 RID: 5336
+		private const int SmokeIntervalRandomAddon = 10;
+
+		// Token: 0x040014D9 RID: 5337
+		private const float BaseSkyExtinguishChance = 0.04f;
+
+		// Token: 0x040014DA RID: 5338
+		private const int BaseSkyExtinguishDamage = 10;
+
+		// Token: 0x040014DB RID: 5339
+		private const float HeatPerFireSizePerInterval = 160f;
+
+		// Token: 0x040014DC RID: 5340
+		private const float HeatFactorWhenDoorPresent = 0.15f;
+
+		// Token: 0x040014DD RID: 5341
+		private const float SnowClearRadiusPerFireSize = 3f;
+
+		// Token: 0x040014DE RID: 5342
+		private const float SnowClearDepthFactor = 0.1f;
+
+		// Token: 0x040014DF RID: 5343
+		private const int FireCountParticlesOff = 15;
 	}
 }

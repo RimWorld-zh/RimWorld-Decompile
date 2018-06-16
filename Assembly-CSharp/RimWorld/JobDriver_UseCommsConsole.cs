@@ -1,25 +1,40 @@
+﻿using System;
 using System.Collections.Generic;
+using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000086 RID: 134
 	public class JobDriver_UseCommsConsole : JobDriver
 	{
+		// Token: 0x0600037C RID: 892 RVA: 0x00027200 File Offset: 0x00025600
 		public override bool TryMakePreToilReservations()
 		{
-			return base.pawn.Reserve(base.job.targetA, base.job, 1, -1, null);
+			return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null);
 		}
 
+		// Token: 0x0600037D RID: 893 RVA: 0x00027234 File Offset: 0x00025634
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			_003CMakeNewToils_003Ec__Iterator0 _003CMakeNewToils_003Ec__Iterator = (_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0036: stateMachine*/;
 			this.FailOnDespawnedOrNull(TargetIndex.A);
 			yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.InteractionCell).FailOn(delegate(Toil to)
 			{
 				Building_CommsConsole building_CommsConsole = (Building_CommsConsole)to.actor.jobs.curJob.GetTarget(TargetIndex.A).Thing;
 				return !building_CommsConsole.CanUseCommsNow;
 			});
-			/*Error: Unable to find new state assignment for yield return*/;
+			Toil openComms = new Toil();
+			openComms.initAction = delegate()
+			{
+				Pawn actor = openComms.actor;
+				Building_CommsConsole building_CommsConsole = (Building_CommsConsole)actor.jobs.curJob.GetTarget(TargetIndex.A).Thing;
+				if (building_CommsConsole.CanUseCommsNow)
+				{
+					actor.jobs.curJob.commTarget.TryOpenComms(actor);
+				}
+			};
+			yield return openComms;
+			yield break;
 		}
 	}
 }

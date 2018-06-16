@@ -1,54 +1,94 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.Noise;
 
 namespace RimWorld
 {
+	// Token: 0x02000403 RID: 1027
 	public class TerrainPatchMaker
 	{
-		private Map currentlyInitializedForMap;
-
-		public List<TerrainThreshold> thresholds = new List<TerrainThreshold>();
-
-		public float perlinFrequency = 0.01f;
-
-		public float perlinLacunarity = 2f;
-
-		public float perlinPersistence = 0.5f;
-
-		public int perlinOctaves = 6;
-
-		[Unsaved]
-		private ModuleBase noise;
-
+		// Token: 0x060011AC RID: 4524 RVA: 0x00099B10 File Offset: 0x00097F10
 		private void Init(Map map)
 		{
-			this.noise = new Perlin((double)this.perlinFrequency, (double)this.perlinLacunarity, (double)this.perlinPersistence, this.perlinOctaves, Rand.Range(0, 2147483647), QualityMode.Medium);
-			IntVec3 size = map.Size;
-			int x = size.x;
-			IntVec3 size2 = map.Size;
-			NoiseDebugUI.RenderSize = new IntVec2(x, size2.z);
+			this.noise = new Perlin((double)this.perlinFrequency, (double)this.perlinLacunarity, (double)this.perlinPersistence, this.perlinOctaves, Rand.Range(0, int.MaxValue), QualityMode.Medium);
+			NoiseDebugUI.RenderSize = new IntVec2(map.Size.x, map.Size.z);
 			NoiseDebugUI.StoreNoiseRender(this.noise, "TerrainPatchMaker " + this.thresholds[0].terrain.defName);
 			this.currentlyInitializedForMap = map;
 		}
 
+		// Token: 0x060011AD RID: 4525 RVA: 0x00099BA8 File Offset: 0x00097FA8
 		public void Cleanup()
 		{
 			this.noise = null;
 			this.currentlyInitializedForMap = null;
 		}
 
-		public TerrainDef TerrainAt(IntVec3 c, Map map)
+		// Token: 0x060011AE RID: 4526 RVA: 0x00099BBC File Offset: 0x00097FBC
+		public TerrainDef TerrainAt(IntVec3 c, Map map, float fertility)
 		{
-			if (this.noise != null && map != this.currentlyInitializedForMap)
+			TerrainDef result;
+			if (fertility < this.minFertility || fertility > this.maxFertility)
 			{
-				this.Cleanup();
+				result = null;
 			}
-			if (this.noise == null)
+			else
 			{
-				this.Init(map);
+				if (this.noise != null && map != this.currentlyInitializedForMap)
+				{
+					this.Cleanup();
+				}
+				if (this.noise == null)
+				{
+					this.Init(map);
+				}
+				if (this.minSize > 0)
+				{
+					int count = 0;
+					map.floodFiller.FloodFill(c, (IntVec3 x) => TerrainThreshold.TerrainAtValue(this.thresholds, this.noise.GetValue(x)) != null, delegate(IntVec3 x)
+					{
+						count++;
+						return count >= this.minSize;
+					}, int.MaxValue, false, null);
+					if (count < this.minSize)
+					{
+						return null;
+					}
+				}
+				result = TerrainThreshold.TerrainAtValue(this.thresholds, this.noise.GetValue(c));
 			}
-			return TerrainThreshold.TerrainAtValue(this.thresholds, this.noise.GetValue(c));
+			return result;
 		}
+
+		// Token: 0x04000AB9 RID: 2745
+		private Map currentlyInitializedForMap;
+
+		// Token: 0x04000ABA RID: 2746
+		public List<TerrainThreshold> thresholds = new List<TerrainThreshold>();
+
+		// Token: 0x04000ABB RID: 2747
+		public float perlinFrequency = 0.01f;
+
+		// Token: 0x04000ABC RID: 2748
+		public float perlinLacunarity = 2f;
+
+		// Token: 0x04000ABD RID: 2749
+		public float perlinPersistence = 0.5f;
+
+		// Token: 0x04000ABE RID: 2750
+		public int perlinOctaves = 6;
+
+		// Token: 0x04000ABF RID: 2751
+		public float minFertility = -999f;
+
+		// Token: 0x04000AC0 RID: 2752
+		public float maxFertility = 999f;
+
+		// Token: 0x04000AC1 RID: 2753
+		public int minSize;
+
+		// Token: 0x04000AC2 RID: 2754
+		[Unsaved]
+		private ModuleBase noise;
 	}
 }

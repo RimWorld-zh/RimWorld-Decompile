@@ -1,102 +1,135 @@
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000038 RID: 56
 	public class JobDriver_GiveToPackAnimal : JobDriver
 	{
-		private const TargetIndex ItemInd = TargetIndex.A;
-
-		private const TargetIndex AnimalInd = TargetIndex.B;
-
+		// Token: 0x17000061 RID: 97
+		// (get) Token: 0x060001E2 RID: 482 RVA: 0x00014958 File Offset: 0x00012D58
 		private Thing Item
 		{
 			get
 			{
-				return base.job.GetTarget(TargetIndex.A).Thing;
+				return this.job.GetTarget(TargetIndex.A).Thing;
 			}
 		}
 
+		// Token: 0x17000062 RID: 98
+		// (get) Token: 0x060001E3 RID: 483 RVA: 0x00014984 File Offset: 0x00012D84
 		private Pawn Animal
 		{
 			get
 			{
-				return (Pawn)base.job.GetTarget(TargetIndex.B).Thing;
+				return (Pawn)this.job.GetTarget(TargetIndex.B).Thing;
 			}
 		}
 
+		// Token: 0x060001E4 RID: 484 RVA: 0x000149B4 File Offset: 0x00012DB4
 		public override bool TryMakePreToilReservations()
 		{
-			return base.pawn.Reserve(this.Item, base.job, 1, -1, null);
+			return this.pawn.Reserve(this.Item, this.job, 1, -1, null);
 		}
 
+		// Token: 0x060001E5 RID: 485 RVA: 0x000149E8 File Offset: 0x00012DE8
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch);
-			/*Error: Unable to find new state assignment for yield return*/;
+			yield return Toils_Haul.StartCarryThing(TargetIndex.A, false, false, false);
+			Toil findNearestCarrier = this.FindCarrierToil();
+			yield return findNearestCarrier;
+			yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.Touch).FailOnDespawnedNullOrForbidden(TargetIndex.B).JumpIf(() => !this.CanCarryAtLeastOne(this.Animal), findNearestCarrier);
+			yield return this.GiveToCarrierAsMuchAsPossibleToil();
+			yield return Toils_Jump.JumpIf(findNearestCarrier, () => this.pawn.carryTracker.CarriedThing != null);
+			yield break;
 		}
 
-		private Toil FindNearestCarrierToil()
+		// Token: 0x060001E6 RID: 486 RVA: 0x00014A14 File Offset: 0x00012E14
+		private Toil FindCarrierToil()
 		{
-			Toil toil = new Toil();
-			toil.initAction = delegate
+			return new Toil
 			{
-				Pawn pawn = this.FindNearestCarrier();
-				if (pawn == null)
+				initAction = delegate()
 				{
-					base.pawn.jobs.EndCurrentJob(JobCondition.Incompletable, true);
-				}
-				else
-				{
-					base.job.SetTarget(TargetIndex.B, pawn);
-				}
-			};
-			return toil;
-		}
-
-		private Pawn FindNearestCarrier()
-		{
-			List<Pawn> list = base.Map.mapPawns.SpawnedPawnsInFaction(base.pawn.Faction);
-			Pawn pawn = null;
-			float num = -1f;
-			for (int i = 0; i < list.Count; i++)
-			{
-				if (list[i].RaceProps.packAnimal && this.CanCarryAtLeastOne(list[i]))
-				{
-					float num2 = (float)list[i].Position.DistanceToSquared(base.pawn.Position);
-					if (pawn == null || num2 < num)
+					Pawn pawn = this.FindCarrier();
+					if (pawn == null)
 					{
-						pawn = list[i];
-						num = num2;
+						this.pawn.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+					}
+					else
+					{
+						this.job.SetTarget(TargetIndex.B, pawn);
 					}
 				}
-			}
-			return pawn;
+			};
 		}
 
+		// Token: 0x060001E7 RID: 487 RVA: 0x00014A44 File Offset: 0x00012E44
+		private Pawn FindCarrier()
+		{
+			IEnumerable<Pawn> enumerable = GiveToPackAnimalUtility.CarrierCandidatesFor(this.pawn);
+			Pawn animal = this.Animal;
+			Pawn result;
+			if (animal != null && enumerable.Contains(animal) && animal.RaceProps.packAnimal && this.CanCarryAtLeastOne(animal))
+			{
+				result = animal;
+			}
+			else
+			{
+				Pawn pawn = null;
+				float num = -1f;
+				foreach (Pawn pawn2 in enumerable)
+				{
+					if (pawn2.RaceProps.packAnimal && this.CanCarryAtLeastOne(pawn2))
+					{
+						float num2 = (float)pawn2.Position.DistanceToSquared(this.pawn.Position);
+						if (pawn == null || num2 < num)
+						{
+							pawn = pawn2;
+							num = num2;
+						}
+					}
+				}
+				result = pawn;
+			}
+			return result;
+		}
+
+		// Token: 0x060001E8 RID: 488 RVA: 0x00014B48 File Offset: 0x00012F48
 		private bool CanCarryAtLeastOne(Pawn carrier)
 		{
 			return !MassUtility.WillBeOverEncumberedAfterPickingUp(carrier, this.Item, 1);
 		}
 
+		// Token: 0x060001E9 RID: 489 RVA: 0x00014B70 File Offset: 0x00012F70
 		private Toil GiveToCarrierAsMuchAsPossibleToil()
 		{
-			Toil toil = new Toil();
-			toil.initAction = delegate
+			return new Toil
 			{
-				if (this.Item == null)
+				initAction = delegate()
 				{
-					base.pawn.jobs.EndCurrentJob(JobCondition.Incompletable, true);
-				}
-				else
-				{
-					int count = Mathf.Min(MassUtility.CountToPickUpUntilOverEncumbered(this.Animal, this.Item), this.Item.stackCount);
-					base.pawn.carryTracker.innerContainer.TryTransferToContainer(this.Item, this.Animal.inventory.innerContainer, count, true);
+					if (this.Item == null)
+					{
+						this.pawn.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+					}
+					else
+					{
+						int count = Mathf.Min(MassUtility.CountToPickUpUntilOverEncumbered(this.Animal, this.Item), this.Item.stackCount);
+						this.pawn.carryTracker.innerContainer.TryTransferToContainer(this.Item, this.Animal.inventory.innerContainer, count, true);
+					}
 				}
 			};
-			return toil;
 		}
+
+		// Token: 0x040001C2 RID: 450
+		private const TargetIndex ItemInd = TargetIndex.A;
+
+		// Token: 0x040001C3 RID: 451
+		private const TargetIndex AnimalInd = TargetIndex.B;
 	}
 }

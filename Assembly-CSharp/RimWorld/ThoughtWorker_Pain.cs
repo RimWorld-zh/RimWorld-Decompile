@@ -1,29 +1,37 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200021F RID: 543
 	public class ThoughtWorker_Pain : ThoughtWorker
 	{
+		// Token: 0x06000A0C RID: 2572 RVA: 0x00059338 File Offset: 0x00057738
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			float painTotal = p.health.hediffSet.PainTotal;
-			if (painTotal < 9.9999997473787516E-05)
+			ThoughtState result;
+			if (painTotal < 0.0001f)
 			{
-				return ThoughtState.Inactive;
+				result = ThoughtState.Inactive;
 			}
-			if (painTotal < 0.15000000596046448)
+			else if (painTotal < 0.15f)
 			{
-				return ThoughtState.ActiveAtStage(0);
+				result = ThoughtState.ActiveAtStage(0);
 			}
-			if (painTotal < 0.40000000596046448)
+			else if (painTotal < 0.4f)
 			{
-				return ThoughtState.ActiveAtStage(1);
+				result = ThoughtState.ActiveAtStage(1);
 			}
-			if (painTotal < 0.800000011920929)
+			else if (painTotal < 0.8f)
 			{
-				return ThoughtState.ActiveAtStage(2);
+				result = ThoughtState.ActiveAtStage(2);
 			}
-			return ThoughtState.ActiveAtStage(3);
+			else
+			{
+				result = ThoughtState.ActiveAtStage(3);
+			}
+			return result;
 		}
 	}
 }

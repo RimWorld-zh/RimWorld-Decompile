@@ -1,16 +1,14 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000303 RID: 771
 	public sealed class ResearchManager : IExposable
 	{
-		public ResearchProjectDef currentProj;
-
-		private Dictionary<ResearchProjectDef, float> progress = new Dictionary<ResearchProjectDef, float>();
-
-		private float GlobalProgressFactor = 0.007f;
-
+		// Token: 0x170001EF RID: 495
+		// (get) Token: 0x06000CD3 RID: 3283 RVA: 0x00070998 File Offset: 0x0006ED98
 		public bool AnyProjectIsAvailable
 		{
 			get
@@ -19,28 +17,36 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06000CD4 RID: 3284 RVA: 0x000709DA File Offset: 0x0006EDDA
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<ResearchProjectDef>(ref this.currentProj, "currentProj");
 			Scribe_Collections.Look<ResearchProjectDef, float>(ref this.progress, "progress", LookMode.Def, LookMode.Value);
 		}
 
+		// Token: 0x06000CD5 RID: 3285 RVA: 0x00070A00 File Offset: 0x0006EE00
 		public float GetProgress(ResearchProjectDef proj)
 		{
-			float result = default(float);
-			if (this.progress.TryGetValue(proj, out result))
+			float num;
+			float result;
+			if (this.progress.TryGetValue(proj, out num))
 			{
-				return result;
+				result = num;
 			}
-			this.progress.Add(proj, 0f);
-			return 0f;
+			else
+			{
+				this.progress.Add(proj, 0f);
+				result = 0f;
+			}
+			return result;
 		}
 
+		// Token: 0x06000CD6 RID: 3286 RVA: 0x00070A48 File Offset: 0x0006EE48
 		public void ResearchPerformed(float amount, Pawn researcher)
 		{
 			if (this.currentProj == null)
 			{
-				Log.Error("Researched without having an active project.");
+				Log.Error("Researched without having an active project.", false);
 			}
 			else
 			{
@@ -51,7 +57,7 @@ namespace RimWorld
 				}
 				if (DebugSettings.fastResearch)
 				{
-					amount = (float)(amount * 500.0);
+					amount *= 500f;
 				}
 				if (researcher != null)
 				{
@@ -66,24 +72,30 @@ namespace RimWorld
 					this.DoCompletionDialog(this.currentProj, researcher);
 					if (researcher != null)
 					{
-						TaleRecorder.RecordTale(TaleDefOf.FinishedResearchProject, researcher, this.currentProj);
+						TaleRecorder.RecordTale(TaleDefOf.FinishedResearchProject, new object[]
+						{
+							researcher,
+							this.currentProj
+						});
 					}
 					this.currentProj = null;
 				}
 			}
 		}
 
+		// Token: 0x06000CD7 RID: 3287 RVA: 0x00070B48 File Offset: 0x0006EF48
 		public void ReapplyAllMods()
 		{
-			foreach (ResearchProjectDef allDef in DefDatabase<ResearchProjectDef>.AllDefs)
+			foreach (ResearchProjectDef researchProjectDef in DefDatabase<ResearchProjectDef>.AllDefs)
 			{
-				if (allDef.IsFinished)
+				if (researchProjectDef.IsFinished)
 				{
-					allDef.ReapplyAllMods();
+					researchProjectDef.ReapplyAllMods();
 				}
 			}
 		}
 
+		// Token: 0x06000CD8 RID: 3288 RVA: 0x00070BB0 File Offset: 0x0006EFB0
 		public void InstantFinish(ResearchProjectDef proj, bool doCompletionDialog = false)
 		{
 			if (proj.prerequisites != null)
@@ -108,14 +120,18 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06000CD9 RID: 3289 RVA: 0x00070C4C File Offset: 0x0006F04C
 		private void DoCompletionDialog(ResearchProjectDef proj, Pawn researcher)
 		{
-			string text = "ResearchFinished".Translate(this.currentProj.LabelCap) + "\n\n" + this.currentProj.DescriptionDiscovered;
+			string text = "ResearchFinished".Translate(new object[]
+			{
+				this.currentProj.LabelCap
+			}) + "\n\n" + this.currentProj.DescriptionDiscovered;
 			DiaNode diaNode = new DiaNode(text);
 			diaNode.options.Add(DiaOption.DefaultOK);
 			DiaOption diaOption = new DiaOption("ResearchScreen".Translate());
 			diaOption.resolveTree = true;
-			diaOption.action = delegate
+			diaOption.action = delegate()
 			{
 				Find.MainTabsRoot.SetCurrentTab(MainButtonDefOf.Research, true);
 			};
@@ -123,14 +139,24 @@ namespace RimWorld
 			Find.WindowStack.Add(new Dialog_NodeTree(diaNode, true, false, null));
 		}
 
+		// Token: 0x06000CDA RID: 3290 RVA: 0x00070D00 File Offset: 0x0006F100
 		public void DebugSetAllProjectsFinished()
 		{
 			this.progress.Clear();
-			foreach (ResearchProjectDef allDef in DefDatabase<ResearchProjectDef>.AllDefs)
+			foreach (ResearchProjectDef researchProjectDef in DefDatabase<ResearchProjectDef>.AllDefs)
 			{
-				this.progress.Add(allDef, allDef.baseCost);
+				this.progress.Add(researchProjectDef, researchProjectDef.baseCost);
 			}
 			this.ReapplyAllMods();
 		}
+
+		// Token: 0x04000853 RID: 2131
+		public ResearchProjectDef currentProj = null;
+
+		// Token: 0x04000854 RID: 2132
+		private Dictionary<ResearchProjectDef, float> progress = new Dictionary<ResearchProjectDef, float>();
+
+		// Token: 0x04000855 RID: 2133
+		private float GlobalProgressFactor = 0.007f;
 	}
 }

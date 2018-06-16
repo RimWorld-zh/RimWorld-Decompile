@@ -1,39 +1,37 @@
-using System.Collections.Generic;
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000100 RID: 256
 	public class JoyGiver_Skygaze : JoyGiver
 	{
+		// Token: 0x0600055F RID: 1375 RVA: 0x0003A764 File Offset: 0x00038B64
 		public override float GetChance(Pawn pawn)
 		{
-			float num = 1f;
-			List<GameCondition> activeConditions = pawn.Map.gameConditionManager.ActiveConditions;
-			for (int i = 0; i < activeConditions.Count; i++)
-			{
-				num *= activeConditions[i].SkyGazeChanceFactor;
-			}
-			activeConditions = Find.World.gameConditionManager.ActiveConditions;
-			for (int j = 0; j < activeConditions.Count; j++)
-			{
-				num *= activeConditions[j].SkyGazeChanceFactor;
-			}
+			float num = pawn.Map.gameConditionManager.AggregateSkyGazeChanceFactor(pawn.Map);
 			return base.GetChance(pawn) * num;
 		}
 
+		// Token: 0x06000560 RID: 1376 RVA: 0x0003A79C File Offset: 0x00038B9C
 		public override Job TryGiveJob(Pawn pawn)
 		{
-			if (JoyUtility.EnjoyableOutsideNow(pawn, null) && !(pawn.Map.weatherManager.curWeather.rainRate > 0.10000000149011612))
+			Job result;
+			IntVec3 c;
+			if (!JoyUtility.EnjoyableOutsideNow(pawn, null) || pawn.Map.weatherManager.curWeather.rainRate > 0.1f)
 			{
-				IntVec3 c = default(IntVec3);
-				if (!RCellFinder.TryFindSkygazeCell(pawn.Position, pawn, out c))
-				{
-					return null;
-				}
-				return new Job(base.def.jobDef, c);
+				result = null;
 			}
-			return null;
+			else if (!RCellFinder.TryFindSkygazeCell(pawn.Position, pawn, out c))
+			{
+				result = null;
+			}
+			else
+			{
+				result = new Job(this.def.jobDef, c);
+			}
+			return result;
 		}
 	}
 }

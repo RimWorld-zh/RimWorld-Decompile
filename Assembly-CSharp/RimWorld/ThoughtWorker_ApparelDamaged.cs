@@ -1,14 +1,13 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000214 RID: 532
 	public class ThoughtWorker_ApparelDamaged : ThoughtWorker
 	{
-		public const float MinForFrayed = 0.5f;
-
-		public const float MinForTattered = 0.2f;
-
+		// Token: 0x060009F6 RID: 2550 RVA: 0x00058DFC File Offset: 0x000571FC
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			float num = 999f;
@@ -22,17 +21,23 @@ namespace RimWorld
 					{
 						num = num2;
 					}
-					if (num < 0.20000000298023224)
+					if (num < 0.2f)
 					{
 						return ThoughtState.ActiveAtStage(1);
 					}
 				}
 			}
-			if (num < 0.5)
+			if (num < 0.5f)
 			{
 				return ThoughtState.ActiveAtStage(0);
 			}
 			return ThoughtState.Inactive;
 		}
+
+		// Token: 0x040003EA RID: 1002
+		public const float MinForFrayed = 0.5f;
+
+		// Token: 0x040003EB RID: 1003
+		public const float MinForTattered = 0.2f;
 	}
 }

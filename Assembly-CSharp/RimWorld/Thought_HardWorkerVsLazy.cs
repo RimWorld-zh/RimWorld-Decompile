@@ -1,23 +1,32 @@
+﻿using System;
+
 namespace RimWorld
 {
+	// Token: 0x020001FF RID: 511
 	public class Thought_HardWorkerVsLazy : Thought_SituationalSocial
 	{
+		// Token: 0x060009CC RID: 2508 RVA: 0x00058080 File Offset: 0x00056480
 		public override float OpinionOffset()
 		{
-			int num = base.otherPawn.story.traits.DegreeOfTrait(TraitDefOf.Industriousness);
+			int num = this.otherPawn.story.traits.DegreeOfTrait(TraitDefOf.Industriousness);
+			float result;
 			if (num > 0)
 			{
-				return 0f;
+				result = 0f;
 			}
-			switch (num)
+			else if (num == 0)
 			{
-			case 0:
-				return -5f;
-			case -1:
-				return -20f;
-			default:
-				return -30f;
+				result = -5f;
 			}
+			else if (num == -1)
+			{
+				result = -20f;
+			}
+			else
+			{
+				result = -30f;
+			}
+			return result;
 		}
 	}
 }

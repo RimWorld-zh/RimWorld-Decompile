@@ -1,23 +1,36 @@
+﻿using System;
 using System.Collections.Generic;
+using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x0200002D RID: 45
 	public class JobDriver_LayEgg : JobDriver
 	{
-		private const int LayEgg = 500;
-
-		private const TargetIndex LaySpotInd = TargetIndex.A;
-
+		// Token: 0x060001AE RID: 430 RVA: 0x000120B8 File Offset: 0x000104B8
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
+		// Token: 0x060001AF RID: 431 RVA: 0x000120D0 File Offset: 0x000104D0
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);
-			/*Error: Unable to find new state assignment for yield return*/;
+			yield return Toils_General.Wait(500);
+			yield return Toils_General.Do(delegate
+			{
+				Thing forbiddenIfOutsideHomeArea = GenSpawn.Spawn(this.pawn.GetComp<CompEggLayer>().ProduceEgg(), this.pawn.Position, base.Map, WipeMode.Vanish);
+				forbiddenIfOutsideHomeArea.SetForbiddenIfOutsideHomeArea();
+			});
+			yield break;
 		}
+
+		// Token: 0x040001AB RID: 427
+		private const int LayEgg = 500;
+
+		// Token: 0x040001AC RID: 428
+		private const TargetIndex LaySpotInd = TargetIndex.A;
 	}
 }

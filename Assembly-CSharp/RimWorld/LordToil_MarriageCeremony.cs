@@ -1,35 +1,33 @@
+﻿using System;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
+	// Token: 0x020001A1 RID: 417
 	public class LordToil_MarriageCeremony : LordToil
 	{
-		private Pawn firstPawn;
-
-		private Pawn secondPawn;
-
-		private IntVec3 spot;
-
-		public static readonly IntVec3 OtherFianceNoMarriageSpotCellOffset = new IntVec3(-1, 0, 0);
-
-		public LordToilData_MarriageCeremony Data
-		{
-			get
-			{
-				return (LordToilData_MarriageCeremony)base.data;
-			}
-		}
-
+		// Token: 0x060008A0 RID: 2208 RVA: 0x00051AB6 File Offset: 0x0004FEB6
 		public LordToil_MarriageCeremony(Pawn firstPawn, Pawn secondPawn, IntVec3 spot)
 		{
 			this.firstPawn = firstPawn;
 			this.secondPawn = secondPawn;
 			this.spot = spot;
-			base.data = new LordToilData_MarriageCeremony();
+			this.data = new LordToilData_MarriageCeremony();
 		}
 
+		// Token: 0x1700016A RID: 362
+		// (get) Token: 0x060008A1 RID: 2209 RVA: 0x00051AE0 File Offset: 0x0004FEE0
+		public LordToilData_MarriageCeremony Data
+		{
+			get
+			{
+				return (LordToilData_MarriageCeremony)this.data;
+			}
+		}
+
+		// Token: 0x060008A2 RID: 2210 RVA: 0x00051B00 File Offset: 0x0004FF00
 		public override void Init()
 		{
 			base.Init();
@@ -46,20 +44,27 @@ namespace RimWorld
 			this.Data.spectateRectAllowedSides = SpectatorCellFinder.FindSingleBestSide(this.Data.spectateRect, base.Map, allowedSides, 1);
 		}
 
+		// Token: 0x060008A3 RID: 2211 RVA: 0x00051BA0 File Offset: 0x0004FFA0
 		public override ThinkTreeDutyHook VoluntaryJoinDutyHookFor(Pawn p)
 		{
+			ThinkTreeDutyHook hook;
 			if (this.IsFiance(p))
 			{
-				return DutyDefOf.MarryPawn.hook;
+				hook = DutyDefOf.MarryPawn.hook;
 			}
-			return DutyDefOf.Spectate.hook;
+			else
+			{
+				hook = DutyDefOf.Spectate.hook;
+			}
+			return hook;
 		}
 
+		// Token: 0x060008A4 RID: 2212 RVA: 0x00051BDC File Offset: 0x0004FFDC
 		public override void UpdateAllDuties()
 		{
-			for (int i = 0; i < base.lord.ownedPawns.Count; i++)
+			for (int i = 0; i < this.lord.ownedPawns.Count; i++)
 			{
-				Pawn pawn = base.lord.ownedPawns[i];
+				Pawn pawn = this.lord.ownedPawns[i];
 				if (this.IsFiance(pawn))
 				{
 					pawn.mindState.duty = new PawnDuty(DutyDefOf.MarryPawn, this.FianceStandingSpotFor(pawn), -1f);
@@ -74,69 +79,88 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060008A5 RID: 2213 RVA: 0x00051C94 File Offset: 0x00050094
 		private bool IsFiance(Pawn p)
 		{
 			return p == this.firstPawn || p == this.secondPawn;
 		}
 
+		// Token: 0x060008A6 RID: 2214 RVA: 0x00051CC4 File Offset: 0x000500C4
 		public IntVec3 FianceStandingSpotFor(Pawn pawn)
 		{
-			Pawn pawn2 = null;
+			Pawn pawn2;
 			if (this.firstPawn == pawn)
 			{
 				pawn2 = this.secondPawn;
-				goto IL_0042;
 			}
-			if (this.secondPawn == pawn)
+			else
 			{
+				if (this.secondPawn != pawn)
+				{
+					Log.Warning("Called ExactStandingSpotFor but it's not this pawn's ceremony.", false);
+					return IntVec3.Invalid;
+				}
 				pawn2 = this.firstPawn;
-				goto IL_0042;
 			}
-			Log.Warning("Called ExactStandingSpotFor but it's not this pawn's ceremony.");
-			return IntVec3.Invalid;
-			IL_0042:
+			IntVec3 result;
 			if (pawn.thingIDNumber < pawn2.thingIDNumber)
 			{
-				return this.spot;
+				result = this.spot;
 			}
-			if (this.GetMarriageSpotAt(this.spot) != null)
+			else if (this.GetMarriageSpotAt(this.spot) != null)
 			{
-				return this.FindCellForOtherPawnAtMarriageSpot(this.spot);
+				result = this.FindCellForOtherPawnAtMarriageSpot(this.spot);
 			}
-			return this.spot + LordToil_MarriageCeremony.OtherFianceNoMarriageSpotCellOffset;
+			else
+			{
+				result = this.spot + LordToil_MarriageCeremony.OtherFianceNoMarriageSpotCellOffset;
+			}
+			return result;
 		}
 
+		// Token: 0x060008A7 RID: 2215 RVA: 0x00051D74 File Offset: 0x00050174
 		private Thing GetMarriageSpotAt(IntVec3 cell)
 		{
 			return cell.GetThingList(base.Map).Find((Thing x) => x.def == ThingDefOf.MarriageSpot);
 		}
 
+		// Token: 0x060008A8 RID: 2216 RVA: 0x00051DB8 File Offset: 0x000501B8
 		private IntVec3 FindCellForOtherPawnAtMarriageSpot(IntVec3 cell)
 		{
 			Thing marriageSpotAt = this.GetMarriageSpotAt(cell);
 			CellRect cellRect = marriageSpotAt.OccupiedRect();
 			for (int i = cellRect.minX; i <= cellRect.maxX; i++)
 			{
-				int num = cellRect.minZ;
-				while (num <= cellRect.maxZ)
+				for (int j = cellRect.minZ; j <= cellRect.maxZ; j++)
 				{
-					if (cell.x == i && cell.z == num)
+					if (cell.x != i || cell.z != j)
 					{
-						num++;
-						continue;
+						return new IntVec3(i, 0, j);
 					}
-					return new IntVec3(i, 0, num);
 				}
 			}
-			Log.Warning("Marriage spot is 1x1. There's no place for 2 pawns.");
+			Log.Warning("Marriage spot is 1x1. There's no place for 2 pawns.", false);
 			return IntVec3.Invalid;
 		}
 
+		// Token: 0x060008A9 RID: 2217 RVA: 0x00051E58 File Offset: 0x00050258
 		private CellRect CalculateSpectateRect()
 		{
 			IntVec3 first = this.FianceStandingSpotFor(this.firstPawn);
 			IntVec3 second = this.FianceStandingSpotFor(this.secondPawn);
 			return CellRect.FromLimits(first, second);
 		}
+
+		// Token: 0x040003A3 RID: 931
+		private Pawn firstPawn;
+
+		// Token: 0x040003A4 RID: 932
+		private Pawn secondPawn;
+
+		// Token: 0x040003A5 RID: 933
+		private IntVec3 spot;
+
+		// Token: 0x040003A6 RID: 934
+		public static readonly IntVec3 OtherFianceNoMarriageSpotCellOffset = new IntVec3(-1, 0, 0);
 	}
 }

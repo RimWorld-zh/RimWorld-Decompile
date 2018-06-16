@@ -1,92 +1,125 @@
-using RimWorld.BaseGen;
-using System;
+﻿using System;
 using System.Linq;
+using RimWorld.BaseGen;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000410 RID: 1040
 	public class GenStep_Turrets : GenStep
 	{
-		public IntRange widthRange = new IntRange(3, 4);
+		// Token: 0x17000265 RID: 613
+		// (get) Token: 0x060011E7 RID: 4583 RVA: 0x0009B440 File Offset: 0x00099840
+		public override int SeedPart
+		{
+			get
+			{
+				return 895502705;
+			}
+		}
 
-		public IntRange turretsCountRange = new IntRange(4, 5);
-
-		public IntRange mortarsCountRange = new IntRange(0, 1);
-
-		public IntRange guardsCountRange = IntRange.one;
-
-		private const int Padding = 7;
-
+		// Token: 0x060011E8 RID: 4584 RVA: 0x0009B45C File Offset: 0x0009985C
 		public override void Generate(Map map)
 		{
-			CellRect cellRect = default(CellRect);
+			CellRect cellRect;
 			if (!MapGenerator.TryGetVar<CellRect>("RectOfInterest", out cellRect))
 			{
 				cellRect = this.FindRandomRectToDefend(map);
 			}
-			Faction faction = (map.ParentFaction != null && map.ParentFaction != Faction.OfPlayer) ? map.ParentFaction : (from x in Find.FactionManager.AllFactions
-			where !x.defeated && x.HostileTo(Faction.OfPlayer) && !x.def.hidden && (int)x.def.techLevel >= 4
-			select x).RandomElementWithFallback(Find.FactionManager.RandomEnemyFaction(false, false, true, TechLevel.Undefined));
+			Faction faction;
+			if (map.ParentFaction == null || map.ParentFaction == Faction.OfPlayer)
+			{
+				faction = (from x in Find.FactionManager.AllFactions
+				where !x.defeated && x.HostileTo(Faction.OfPlayer) && !x.def.hidden && x.def.techLevel >= TechLevel.Industrial
+				select x).RandomElementWithFallback(Find.FactionManager.RandomEnemyFaction(false, false, true, TechLevel.Undefined));
+			}
+			else
+			{
+				faction = map.ParentFaction;
+			}
 			int randomInRange = this.widthRange.RandomInRange;
 			CellRect rect = cellRect.ExpandedBy(7 + randomInRange).ClipInsideMap(map);
 			ResolveParams resolveParams = default(ResolveParams);
 			resolveParams.rect = rect;
 			resolveParams.faction = faction;
-			resolveParams.edgeDefenseWidth = randomInRange;
-			resolveParams.edgeDefenseTurretsCount = this.turretsCountRange.RandomInRange;
-			resolveParams.edgeDefenseMortarsCount = this.mortarsCountRange.RandomInRange;
-			resolveParams.edgeDefenseGuardsCount = this.guardsCountRange.RandomInRange;
-			RimWorld.BaseGen.BaseGen.globalSettings.map = map;
-			RimWorld.BaseGen.BaseGen.symbolStack.Push("edgeDefense", resolveParams);
-			RimWorld.BaseGen.BaseGen.Generate();
+			resolveParams.edgeDefenseWidth = new int?(randomInRange);
+			resolveParams.edgeDefenseTurretsCount = new int?(this.turretsCountRange.RandomInRange);
+			resolveParams.edgeDefenseMortarsCount = new int?(this.mortarsCountRange.RandomInRange);
+			resolveParams.edgeDefenseGuardsCount = new int?(this.guardsCountRange.RandomInRange);
+			BaseGen.globalSettings.map = map;
+			BaseGen.symbolStack.Push("edgeDefense", resolveParams);
+			BaseGen.Generate();
 			ResolveParams resolveParams2 = default(ResolveParams);
 			resolveParams2.rect = rect;
 			resolveParams2.faction = faction;
-			RimWorld.BaseGen.BaseGen.globalSettings.map = map;
-			RimWorld.BaseGen.BaseGen.symbolStack.Push("outdoorLighting", resolveParams2);
-			RimWorld.BaseGen.BaseGen.Generate();
+			BaseGen.globalSettings.map = map;
+			BaseGen.symbolStack.Push("outdoorLighting", resolveParams2);
+			BaseGen.Generate();
 		}
 
+		// Token: 0x060011E9 RID: 4585 RVA: 0x0009B5D8 File Offset: 0x000999D8
 		private CellRect FindRandomRectToDefend(Map map)
 		{
-			IntVec3 size = map.Size;
-			int x2 = size.x;
-			IntVec3 size2 = map.Size;
-			int rectRadius = Mathf.Max(Mathf.RoundToInt((float)((float)Mathf.Min(x2, size2.z) * 0.070000000298023224)), 1);
+			int rectRadius = Mathf.Max(Mathf.RoundToInt((float)Mathf.Min(map.Size.x, map.Size.z) * 0.07f), 1);
 			TraverseParms traverseParams = TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false);
-			IntVec3 center = default(IntVec3);
-			if (RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith((Predicate<IntVec3>)delegate(IntVec3 x)
+			IntVec3 center;
+			CellRect result;
+			if (RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith(delegate(IntVec3 x)
 			{
+				bool result2;
 				if (!map.reachability.CanReachMapEdge(x, traverseParams))
 				{
-					return false;
+					result2 = false;
 				}
-				CellRect cellRect = CellRect.CenteredOn(x, rectRadius);
-				int num = 0;
-				CellRect.CellRectIterator iterator = cellRect.GetIterator();
-				while (!iterator.Done())
+				else
 				{
-					if (!iterator.Current.InBounds(map))
+					CellRect cellRect = CellRect.CenteredOn(x, rectRadius);
+					int num = 0;
+					CellRect.CellRectIterator iterator = cellRect.GetIterator();
+					while (!iterator.Done())
 					{
-						return false;
+						if (!iterator.Current.InBounds(map))
+						{
+							return false;
+						}
+						if (iterator.Current.Standable(map) || iterator.Current.GetPlant(map) != null)
+						{
+							num++;
+						}
+						iterator.MoveNext();
 					}
-					if (iterator.Current.Standable(map) || iterator.Current.GetPlant(map) != null)
-					{
-						num++;
-					}
-					iterator.MoveNext();
+					result2 = ((float)num / (float)cellRect.Area >= 0.6f);
 				}
-				return (float)num / (float)cellRect.Area >= 0.60000002384185791;
+				return result2;
 			}, map, out center))
 			{
-				return CellRect.CenteredOn(center, rectRadius);
+				result = CellRect.CenteredOn(center, rectRadius);
 			}
-			if (RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith((Predicate<IntVec3>)((IntVec3 x) => x.Standable(map)), map, out center))
+			else if (RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith((IntVec3 x) => x.Standable(map), map, out center))
 			{
-				return CellRect.CenteredOn(center, rectRadius);
+				result = CellRect.CenteredOn(center, rectRadius);
 			}
-			return CellRect.CenteredOn(CellFinder.RandomCell(map), rectRadius).ClipInsideMap(map);
+			else
+			{
+				result = CellRect.CenteredOn(CellFinder.RandomCell(map), rectRadius).ClipInsideMap(map);
+			}
+			return result;
 		}
+
+		// Token: 0x04000AE2 RID: 2786
+		public IntRange widthRange = new IntRange(3, 4);
+
+		// Token: 0x04000AE3 RID: 2787
+		public IntRange turretsCountRange = new IntRange(4, 5);
+
+		// Token: 0x04000AE4 RID: 2788
+		public IntRange mortarsCountRange = new IntRange(0, 1);
+
+		// Token: 0x04000AE5 RID: 2789
+		public IntRange guardsCountRange = IntRange.one;
+
+		// Token: 0x04000AE6 RID: 2790
+		private const int Padding = 7;
 	}
 }

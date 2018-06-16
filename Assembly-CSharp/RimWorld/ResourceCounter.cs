@@ -1,17 +1,22 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200042B RID: 1067
 	public sealed class ResourceCounter
 	{
-		private Map map;
+		// Token: 0x060012A5 RID: 4773 RVA: 0x000A1C37 File Offset: 0x000A0037
+		public ResourceCounter(Map map)
+		{
+			this.map = map;
+			this.ResetResourceCounts();
+		}
 
-		private Dictionary<ThingDef, int> countedAmounts = new Dictionary<ThingDef, int>();
-
-		private static List<ThingDef> resources = new List<ThingDef>();
-
+		// Token: 0x17000284 RID: 644
+		// (get) Token: 0x060012A6 RID: 4774 RVA: 0x000A1C58 File Offset: 0x000A0058
 		public int Silver
 		{
 			get
@@ -20,30 +25,26 @@ namespace RimWorld
 			}
 		}
 
-		public int Metal
-		{
-			get
-			{
-				return this.GetCount(ThingDefOf.Steel);
-			}
-		}
-
+		// Token: 0x17000285 RID: 645
+		// (get) Token: 0x060012A7 RID: 4775 RVA: 0x000A1C78 File Offset: 0x000A0078
 		public float TotalHumanEdibleNutrition
 		{
 			get
 			{
 				float num = 0f;
-				foreach (KeyValuePair<ThingDef, int> countedAmount in this.countedAmounts)
+				foreach (KeyValuePair<ThingDef, int> keyValuePair in this.countedAmounts)
 				{
-					if (countedAmount.Key.IsNutritionGivingIngestible && countedAmount.Key.ingestible.HumanEdible)
+					if (keyValuePair.Key.IsNutritionGivingIngestible && keyValuePair.Key.ingestible.HumanEdible)
 					{
-						num += countedAmount.Key.ingestible.nutrition * (float)countedAmount.Value;
+						num += keyValuePair.Key.GetStatValueAbstract(StatDefOf.Nutrition, null) * (float)keyValuePair.Value;
 					}
 				}
 				return num;
 			}
 		}
 
+		// Token: 0x17000286 RID: 646
+		// (get) Token: 0x060012A8 RID: 4776 RVA: 0x000A1D24 File Offset: 0x000A0124
 		public Dictionary<ThingDef, int> AllCountedAmounts
 		{
 			get
@@ -52,12 +53,7 @@ namespace RimWorld
 			}
 		}
 
-		public ResourceCounter(Map map)
-		{
-			this.map = map;
-			this.ResetResourceCounts();
-		}
-
+		// Token: 0x060012A9 RID: 4777 RVA: 0x000A1D40 File Offset: 0x000A0140
 		public static void ResetDefs()
 		{
 			ResourceCounter.resources.Clear();
@@ -67,6 +63,7 @@ namespace RimWorld
 			select def);
 		}
 
+		// Token: 0x060012AA RID: 4778 RVA: 0x000A1DAC File Offset: 0x000A01AC
 		public void ResetResourceCounts()
 		{
 			this.countedAmounts.Clear();
@@ -76,35 +73,43 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060012AB RID: 4779 RVA: 0x000A1DFC File Offset: 0x000A01FC
 		public int GetCount(ThingDef rDef)
 		{
+			int result;
+			int num;
 			if (rDef.resourceReadoutPriority == ResourceCountPriority.Uncounted)
 			{
-				return 0;
+				result = 0;
 			}
-			int result = default(int);
-			if (this.countedAmounts.TryGetValue(rDef, out result))
+			else if (this.countedAmounts.TryGetValue(rDef, out num))
 			{
-				return result;
+				result = num;
 			}
-			Log.Error("Looked for nonexistent key " + rDef + " in counted resources.");
-			this.countedAmounts.Add(rDef, 0);
-			return 0;
+			else
+			{
+				Log.Error("Looked for nonexistent key " + rDef + " in counted resources.", false);
+				this.countedAmounts.Add(rDef, 0);
+				result = 0;
+			}
+			return result;
 		}
 
+		// Token: 0x060012AC RID: 4780 RVA: 0x000A1E64 File Offset: 0x000A0264
 		public int GetCountIn(ThingRequestGroup group)
 		{
 			int num = 0;
-			foreach (KeyValuePair<ThingDef, int> countedAmount in this.countedAmounts)
+			foreach (KeyValuePair<ThingDef, int> keyValuePair in this.countedAmounts)
 			{
-				if (group.Includes(countedAmount.Key))
+				if (group.Includes(keyValuePair.Key))
 				{
-					num += countedAmount.Value;
+					num += keyValuePair.Value;
 				}
 			}
 			return num;
 		}
 
+		// Token: 0x060012AD RID: 4781 RVA: 0x000A1EE4 File Offset: 0x000A02E4
 		public int GetCountIn(ThingCategoryDef cat)
 		{
 			int num = 0;
@@ -122,6 +127,7 @@ namespace RimWorld
 			return num;
 		}
 
+		// Token: 0x060012AE RID: 4782 RVA: 0x000A1F78 File Offset: 0x000A0378
 		public void ResourceCounterTick()
 		{
 			if (Find.TickManager.TicksGame % 204 == 0)
@@ -130,32 +136,40 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060012AF RID: 4783 RVA: 0x000A1F98 File Offset: 0x000A0398
 		public void UpdateResourceCounts()
 		{
 			this.ResetResourceCounts();
-			List<SlotGroup> allGroupsListForReading = this.map.slotGroupManager.AllGroupsListForReading;
+			List<SlotGroup> allGroupsListForReading = this.map.haulDestinationManager.AllGroupsListForReading;
 			for (int i = 0; i < allGroupsListForReading.Count; i++)
 			{
 				SlotGroup slotGroup = allGroupsListForReading[i];
-				foreach (Thing heldThing in slotGroup.HeldThings)
+				foreach (Thing outerThing in slotGroup.HeldThings)
 				{
-					if (heldThing.def.CountAsResource && this.ShouldCount(heldThing))
+					Thing innerIfMinified = outerThing.GetInnerIfMinified();
+					if (innerIfMinified.def.CountAsResource && this.ShouldCount(innerIfMinified))
 					{
 						Dictionary<ThingDef, int> dictionary;
 						ThingDef def;
-						(dictionary = this.countedAmounts)[def = heldThing.def] = dictionary[def] + heldThing.stackCount;
+						(dictionary = this.countedAmounts)[def = innerIfMinified.def] = dictionary[def] + innerIfMinified.stackCount;
 					}
 				}
 			}
 		}
 
+		// Token: 0x060012B0 RID: 4784 RVA: 0x000A207C File Offset: 0x000A047C
 		private bool ShouldCount(Thing t)
 		{
-			if (t.IsNotFresh())
-			{
-				return false;
-			}
-			return true;
+			return !t.IsNotFresh();
 		}
+
+		// Token: 0x04000B64 RID: 2916
+		private Map map;
+
+		// Token: 0x04000B65 RID: 2917
+		private Dictionary<ThingDef, int> countedAmounts = new Dictionary<ThingDef, int>();
+
+		// Token: 0x04000B66 RID: 2918
+		private static List<ThingDef> resources = new List<ThingDef>();
 	}
 }

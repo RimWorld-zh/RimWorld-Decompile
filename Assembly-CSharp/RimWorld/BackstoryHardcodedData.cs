@@ -1,67 +1,79 @@
+﻿using System;
+using Verse;
+
 namespace RimWorld
 {
+	// Token: 0x020004E0 RID: 1248
 	internal static class BackstoryHardcodedData
 	{
+		// Token: 0x06001638 RID: 5688 RVA: 0x000C510C File Offset: 0x000C350C
 		public static void InjectHardcodedData(Backstory bs)
 		{
-			if (bs.Title == "Urbworld sex slave")
+			string a = bs.title.CapitalizeFirst();
+			if (a == "Urbworld sex slave")
 			{
 				bs.AddForcedTrait(TraitDefOf.Beauty, 2);
 			}
-			if (bs.Title == "Pop idol")
+			if (a == "Pop idol")
 			{
 				bs.AddForcedTrait(TraitDefOf.Beauty, 2);
 			}
-			if (bs.Title == "Amateur botanist")
-			{
-				bs.AddForcedTrait(TraitDefOf.GreenThumb, 0);
-			}
-			if (bs.Title == "Mechanoid nerd")
+			if (a == "Mechanoid nerd")
 			{
 				bs.AddDisallowedTrait(TraitDefOf.Gay, 0);
 			}
-			if (bs.Title == "Mad scientist")
+			if (a == "Mad scientist")
 			{
 				bs.AddForcedTrait(TraitDefOf.Psychopath, 0);
 			}
-			if (bs.Title == "Urbworld politican")
+			if (a == "Urbworld politican")
 			{
 				bs.AddForcedTrait(TraitDefOf.Greedy, 0);
 			}
-			if (bs.Title == "Criminal tinker")
+			if (a == "Criminal tinker")
 			{
 				bs.AddForcedTrait(TraitDefOf.Bloodlust, 0);
 			}
-			if (bs.Title == "Urbworld enforcer")
+			if (a == "Urbworld enforcer")
 			{
 				bs.AddForcedTrait(TraitDefOf.Nerves, 1);
 			}
-			if (bs.Title == "Pyro assistant")
+			if (a == "Pyro assistant")
 			{
 				bs.AddForcedTrait(TraitDefOf.Pyromaniac, 0);
 			}
-			if (bs.Title == "Stiletto assassin")
+			if (a == "Stiletto assassin")
 			{
 				bs.AddForcedTrait(TraitDefOf.Psychopath, 0);
 			}
-			if (bs.Title == "Discharged soldier")
+			if (a == "Discharged soldier")
 			{
 				bs.AddForcedTrait(TraitDefOf.TooSmart, 0);
 			}
-			if (bs.Title == "Bloody wanderer")
+			if (a == "Bloody wanderer")
 			{
 				bs.AddForcedTrait(TraitDefOf.Bloodlust, 0);
 			}
-			if (bs.Title == "New age duelist")
+			if (a == "New age duelist")
 			{
 				bs.AddForcedTrait(TraitDefOf.Industriousness, -1);
 			}
-			if (bs.Title == "Pirate doctor")
+			if (a == "Pirate doctor")
 			{
 				bs.AddForcedTrait(TraitDefOf.NaturalMood, 1);
 			}
+			if (a == "Cave child")
+			{
+				bs.AddForcedTrait(TraitDefOf.Tunneler, 0);
+			}
+			if (a == "Space marine medic")
+			{
+				bs.AddForcedTrait(TraitDefOf.SpeedOffset, 2);
+				bs.AddForcedTrait(TraitDefOf.ShootingAccuracy, -1);
+			}
 		}
 
+		// Token: 0x06001639 RID: 5689 RVA: 0x000C52D8 File Offset: 0x000C36D8
 		public static void InjectHardcodedData(PawnBio bio)
 		{
 			if (bio.name.First == "Xia" && bio.name.Last == "Xue")

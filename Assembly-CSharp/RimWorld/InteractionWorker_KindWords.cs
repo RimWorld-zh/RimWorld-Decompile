@@ -1,16 +1,24 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020004B5 RID: 1205
 	public class InteractionWorker_KindWords : InteractionWorker
 	{
+		// Token: 0x0600157F RID: 5503 RVA: 0x000BEBBC File Offset: 0x000BCFBC
 		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
 		{
+			float result;
 			if (initiator.story.traits.HasTrait(TraitDefOf.Kind))
 			{
-				return 0.01f;
+				result = 0.01f;
 			}
-			return 0f;
+			else
+			{
+				result = 0f;
+			}
+			return result;
 		}
 	}
 }

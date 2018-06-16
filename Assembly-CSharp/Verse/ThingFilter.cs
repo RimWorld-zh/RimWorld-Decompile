@@ -1,95 +1,111 @@
-using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000FCB RID: 4043
 	public class ThingFilter : IExposable
 	{
-		[Unsaved]
-		private Action settingsChangedCallback;
+		// Token: 0x06006199 RID: 24985 RVA: 0x003128C8 File Offset: 0x00310CC8
+		public ThingFilter()
+		{
+		}
 
-		[Unsaved]
-		private TreeNode_ThingCategory displayRootCategoryInt;
+		// Token: 0x0600619A RID: 24986 RVA: 0x003129A0 File Offset: 0x00310DA0
+		public ThingFilter(Action settingsChangedCallback)
+		{
+			this.settingsChangedCallback = settingsChangedCallback;
+		}
 
-		[Unsaved]
-		private HashSet<ThingDef> allowedDefs = new HashSet<ThingDef>();
-
-		[Unsaved]
-		private List<SpecialThingFilterDef> disallowedSpecialFilters = new List<SpecialThingFilterDef>();
-
-		private FloatRange allowedHitPointsPercents = FloatRange.ZeroToOne;
-
-		public bool allowedHitPointsConfigurable = true;
-
-		private QualityRange allowedQualities = QualityRange.All;
-
-		public bool allowedQualitiesConfigurable = true;
-
-		public string customSummary;
-
-		private List<ThingDef> thingDefs;
-
-		private List<string> categories;
-
-		private List<ThingDef> exceptedThingDefs;
-
-		private List<string> exceptedCategories;
-
-		private List<string> specialFiltersToAllow;
-
-		private List<string> specialFiltersToDisallow;
-
-		private List<StuffCategoryDef> stuffCategoriesToAllow;
-
-		private List<ThingDef> allowAllWhoCanMake;
-
+		// Token: 0x17000FD0 RID: 4048
+		// (get) Token: 0x0600619B RID: 24987 RVA: 0x00312A80 File Offset: 0x00310E80
 		public string Summary
 		{
 			get
 			{
+				string result;
 				if (!this.customSummary.NullOrEmpty())
 				{
-					return this.customSummary;
+					result = this.customSummary;
 				}
-				if (this.thingDefs != null && this.thingDefs.Count == 1 && this.categories.NullOrEmpty() && this.exceptedThingDefs.NullOrEmpty() && this.exceptedCategories.NullOrEmpty() && this.specialFiltersToAllow.NullOrEmpty() && this.specialFiltersToDisallow.NullOrEmpty() && this.stuffCategoriesToAllow.NullOrEmpty() && this.allowAllWhoCanMake.NullOrEmpty())
+				else if (this.thingDefs != null && this.thingDefs.Count == 1 && this.categories.NullOrEmpty<string>() && this.tradeTagsToAllow.NullOrEmpty<string>() && this.tradeTagsToDisallow.NullOrEmpty<string>() && this.thingSetMakerTagsToAllow.NullOrEmpty<string>() && this.thingSetMakerTagsToDisallow.NullOrEmpty<string>() && this.disallowedCategories.NullOrEmpty<string>() && this.specialFiltersToAllow.NullOrEmpty<string>() && this.specialFiltersToDisallow.NullOrEmpty<string>() && this.stuffCategoriesToAllow.NullOrEmpty<StuffCategoryDef>() && this.allowAllWhoCanMake.NullOrEmpty<ThingDef>() && this.disallowWorsePreferability == FoodPreferability.Undefined && !this.disallowInedibleByHuman && this.allowWithComp == null && this.disallowWithComp == null && this.disallowCheaperThan == -3.40282347E+38f && this.disallowedThingDefs.NullOrEmpty<ThingDef>())
 				{
-					return this.thingDefs[0].label;
+					result = this.thingDefs[0].label;
 				}
-				if (this.thingDefs.NullOrEmpty() && this.categories != null && this.categories.Count == 1 && this.exceptedThingDefs.NullOrEmpty() && this.exceptedCategories.NullOrEmpty() && this.specialFiltersToAllow.NullOrEmpty() && this.specialFiltersToDisallow.NullOrEmpty() && this.stuffCategoriesToAllow.NullOrEmpty() && this.allowAllWhoCanMake.NullOrEmpty())
+				else if (this.thingDefs.NullOrEmpty<ThingDef>() && this.categories != null && this.categories.Count == 1 && this.tradeTagsToAllow.NullOrEmpty<string>() && this.tradeTagsToDisallow.NullOrEmpty<string>() && this.thingSetMakerTagsToAllow.NullOrEmpty<string>() && this.thingSetMakerTagsToDisallow.NullOrEmpty<string>() && this.disallowedCategories.NullOrEmpty<string>() && this.specialFiltersToAllow.NullOrEmpty<string>() && this.specialFiltersToDisallow.NullOrEmpty<string>() && this.stuffCategoriesToAllow.NullOrEmpty<StuffCategoryDef>() && this.allowAllWhoCanMake.NullOrEmpty<ThingDef>() && this.disallowWorsePreferability == FoodPreferability.Undefined && !this.disallowInedibleByHuman && this.allowWithComp == null && this.disallowWithComp == null && this.disallowCheaperThan == -3.40282347E+38f && this.disallowedThingDefs.NullOrEmpty<ThingDef>())
 				{
-					return DefDatabase<ThingCategoryDef>.GetNamed(this.categories[0], true).label;
+					result = DefDatabase<ThingCategoryDef>.GetNamed(this.categories[0], true).label;
 				}
-				if (this.allowedDefs.Count == 1)
+				else if (this.allowedDefs.Count == 1)
 				{
-					return this.allowedDefs.First().label;
+					result = this.allowedDefs.First<ThingDef>().label;
 				}
-				return "UsableIngredients".Translate();
+				else
+				{
+					result = "UsableIngredients".Translate();
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000FD1 RID: 4049
+		// (get) Token: 0x0600619C RID: 24988 RVA: 0x00312D28 File Offset: 0x00311128
 		public ThingRequest BestThingRequest
 		{
 			get
 			{
+				ThingRequest result;
 				if (this.allowedDefs.Count == 1)
 				{
-					return ThingRequest.ForDef(this.allowedDefs.First());
+					result = ThingRequest.ForDef(this.allowedDefs.First<ThingDef>());
 				}
-				return ThingRequest.ForGroup(ThingRequestGroup.HaulableEver);
+				else
+				{
+					bool flag = true;
+					bool flag2 = true;
+					foreach (ThingDef thingDef in this.allowedDefs)
+					{
+						if (!thingDef.EverHaulable)
+						{
+							flag = false;
+						}
+						if (thingDef.category != ThingCategory.Pawn)
+						{
+							flag2 = false;
+						}
+					}
+					if (flag)
+					{
+						result = ThingRequest.ForGroup(ThingRequestGroup.HaulableEver);
+					}
+					else if (flag2)
+					{
+						result = ThingRequest.ForGroup(ThingRequestGroup.Pawn);
+					}
+					else
+					{
+						result = ThingRequest.ForGroup(ThingRequestGroup.Everything);
+					}
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000FD2 RID: 4050
+		// (get) Token: 0x0600619D RID: 24989 RVA: 0x00312DFC File Offset: 0x003111FC
 		public ThingDef AnyAllowedDef
 		{
 			get
 			{
-				return this.allowedDefs.FirstOrDefault();
+				return this.allowedDefs.FirstOrDefault<ThingDef>();
 			}
 		}
 
+		// Token: 0x17000FD3 RID: 4051
+		// (get) Token: 0x0600619E RID: 24990 RVA: 0x00312E1C File Offset: 0x0031121C
 		public IEnumerable<ThingDef> AllowedThingDefs
 		{
 			get
@@ -98,16 +114,20 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000FD4 RID: 4052
+		// (get) Token: 0x0600619F RID: 24991 RVA: 0x00312E38 File Offset: 0x00311238
 		private static IEnumerable<ThingDef> AllStorableThingDefs
 		{
 			get
 			{
 				return from def in DefDatabase<ThingDef>.AllDefs
-				where def.EverStoreable
+				where def.EverStorable(true)
 				select def;
 			}
 		}
 
+		// Token: 0x17000FD5 RID: 4053
+		// (get) Token: 0x060061A0 RID: 24992 RVA: 0x00312E74 File Offset: 0x00311274
 		public int AllowedDefCount
 		{
 			get
@@ -116,6 +136,9 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000FD6 RID: 4054
+		// (get) Token: 0x060061A1 RID: 24993 RVA: 0x00312E94 File Offset: 0x00311294
+		// (set) Token: 0x060061A2 RID: 24994 RVA: 0x00312EAF File Offset: 0x003112AF
 		public FloatRange AllowedHitPointsPercents
 		{
 			get
@@ -128,6 +151,9 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000FD7 RID: 4055
+		// (get) Token: 0x060061A3 RID: 24995 RVA: 0x00312EBC File Offset: 0x003112BC
+		// (set) Token: 0x060061A4 RID: 24996 RVA: 0x00312ED7 File Offset: 0x003112D7
 		public QualityRange AllowedQualityLevels
 		{
 			get
@@ -140,6 +166,9 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000FD8 RID: 4056
+		// (get) Token: 0x060061A5 RID: 24997 RVA: 0x00312EE4 File Offset: 0x003112E4
+		// (set) Token: 0x060061A6 RID: 24998 RVA: 0x00312F26 File Offset: 0x00311326
 		public TreeNode_ThingCategory DisplayRootCategory
 		{
 			get
@@ -148,11 +177,16 @@ namespace Verse
 				{
 					this.RecalculateDisplayRootCategory();
 				}
+				TreeNode_ThingCategory rootNode;
 				if (this.displayRootCategoryInt == null)
 				{
-					return ThingCategoryNodeDatabase.RootNode;
+					rootNode = ThingCategoryNodeDatabase.RootNode;
 				}
-				return this.displayRootCategoryInt;
+				else
+				{
+					rootNode = this.displayRootCategoryInt;
+				}
+				return rootNode;
 			}
 			set
 			{
@@ -164,15 +198,7 @@ namespace Verse
 			}
 		}
 
-		public ThingFilter()
-		{
-		}
-
-		public ThingFilter(Action settingsChangedCallback)
-		{
-			this.settingsChangedCallback = settingsChangedCallback;
-		}
-
+		// Token: 0x060061A7 RID: 24999 RVA: 0x00312F48 File Offset: 0x00311348
 		public virtual void ExposeData()
 		{
 			Scribe_Collections.Look<SpecialThingFilterDef>(ref this.disallowedSpecialFilters, "disallowedSpecialFilters", LookMode.Def, new object[0]);
@@ -181,6 +207,7 @@ namespace Verse
 			Scribe_Values.Look<QualityRange>(ref this.allowedQualities, "allowedQualityLevels", default(QualityRange), false);
 		}
 
+		// Token: 0x060061A8 RID: 25000 RVA: 0x00312FB4 File Offset: 0x003113B4
 		public void ResolveReferences()
 		{
 			for (int i = 0; i < DefDatabase<SpecialThingFilterDef>.AllDefsListForReading.Count; i++)
@@ -201,7 +228,7 @@ namespace Verse
 					}
 					else
 					{
-						Log.Error("ThingFilter could not find thing def named " + this.thingDefs[j]);
+						Log.Error("ThingFilter could not find thing def named " + this.thingDefs[j], false);
 					}
 				}
 			}
@@ -216,25 +243,71 @@ namespace Verse
 					}
 				}
 			}
-			if (this.exceptedThingDefs != null)
+			if (this.tradeTagsToAllow != null)
 			{
-				for (int l = 0; l < this.exceptedThingDefs.Count; l++)
+				for (int l = 0; l < this.tradeTagsToAllow.Count; l++)
 				{
-					if (this.exceptedThingDefs[l] != null)
+					List<ThingDef> allDefsListForReading = DefDatabase<ThingDef>.AllDefsListForReading;
+					for (int m = 0; m < allDefsListForReading.Count; m++)
 					{
-						this.SetAllow(this.exceptedThingDefs[l], false);
-					}
-					else
-					{
-						Log.Error("ThingFilter could not find excepted thing def named " + this.exceptedThingDefs[l]);
+						ThingDef thingDef = allDefsListForReading[m];
+						if (thingDef.tradeTags != null && thingDef.tradeTags.Contains(this.tradeTagsToAllow[l]))
+						{
+							this.SetAllow(thingDef, true);
+						}
 					}
 				}
 			}
-			if (this.exceptedCategories != null)
+			if (this.tradeTagsToDisallow != null)
 			{
-				for (int m = 0; m < this.exceptedCategories.Count; m++)
+				for (int n = 0; n < this.tradeTagsToDisallow.Count; n++)
 				{
-					ThingCategoryDef named2 = DefDatabase<ThingCategoryDef>.GetNamed(this.exceptedCategories[m], true);
+					List<ThingDef> allDefsListForReading2 = DefDatabase<ThingDef>.AllDefsListForReading;
+					for (int num = 0; num < allDefsListForReading2.Count; num++)
+					{
+						ThingDef thingDef2 = allDefsListForReading2[num];
+						if (thingDef2.tradeTags != null && thingDef2.tradeTags.Contains(this.tradeTagsToDisallow[n]))
+						{
+							this.SetAllow(thingDef2, false);
+						}
+					}
+				}
+			}
+			if (this.thingSetMakerTagsToAllow != null)
+			{
+				for (int num2 = 0; num2 < this.thingSetMakerTagsToAllow.Count; num2++)
+				{
+					List<ThingDef> allDefsListForReading3 = DefDatabase<ThingDef>.AllDefsListForReading;
+					for (int num3 = 0; num3 < allDefsListForReading3.Count; num3++)
+					{
+						ThingDef thingDef3 = allDefsListForReading3[num3];
+						if (thingDef3.thingSetMakerTags != null && thingDef3.thingSetMakerTags.Contains(this.thingSetMakerTagsToAllow[num2]))
+						{
+							this.SetAllow(thingDef3, true);
+						}
+					}
+				}
+			}
+			if (this.thingSetMakerTagsToDisallow != null)
+			{
+				for (int num4 = 0; num4 < this.thingSetMakerTagsToDisallow.Count; num4++)
+				{
+					List<ThingDef> allDefsListForReading4 = DefDatabase<ThingDef>.AllDefsListForReading;
+					for (int num5 = 0; num5 < allDefsListForReading4.Count; num5++)
+					{
+						ThingDef thingDef4 = allDefsListForReading4[num5];
+						if (thingDef4.thingSetMakerTags != null && thingDef4.thingSetMakerTags.Contains(this.thingSetMakerTagsToDisallow[num4]))
+						{
+							this.SetAllow(thingDef4, false);
+						}
+					}
+				}
+			}
+			if (this.disallowedCategories != null)
+			{
+				for (int num6 = 0; num6 < this.disallowedCategories.Count; num6++)
+				{
+					ThingCategoryDef named2 = DefDatabase<ThingCategoryDef>.GetNamed(this.disallowedCategories[num6], true);
 					if (named2 != null)
 					{
 						this.SetAllow(named2, false, null, null);
@@ -243,45 +316,123 @@ namespace Verse
 			}
 			if (this.specialFiltersToAllow != null)
 			{
-				for (int n = 0; n < this.specialFiltersToAllow.Count; n++)
+				for (int num7 = 0; num7 < this.specialFiltersToAllow.Count; num7++)
 				{
-					this.SetAllow(SpecialThingFilterDef.Named(this.specialFiltersToAllow[n]), true);
+					this.SetAllow(SpecialThingFilterDef.Named(this.specialFiltersToAllow[num7]), true);
 				}
 			}
 			if (this.specialFiltersToDisallow != null)
 			{
-				for (int num = 0; num < this.specialFiltersToDisallow.Count; num++)
+				for (int num8 = 0; num8 < this.specialFiltersToDisallow.Count; num8++)
 				{
-					this.SetAllow(SpecialThingFilterDef.Named(this.specialFiltersToDisallow[num]), false);
+					this.SetAllow(SpecialThingFilterDef.Named(this.specialFiltersToDisallow[num8]), false);
 				}
 			}
 			if (this.stuffCategoriesToAllow != null)
 			{
-				for (int num2 = 0; num2 < this.stuffCategoriesToAllow.Count; num2++)
+				for (int num9 = 0; num9 < this.stuffCategoriesToAllow.Count; num9++)
 				{
-					this.SetAllow(this.stuffCategoriesToAllow[num2], true);
+					this.SetAllow(this.stuffCategoriesToAllow[num9], true);
 				}
 			}
 			if (this.allowAllWhoCanMake != null)
 			{
-				for (int num3 = 0; num3 < this.allowAllWhoCanMake.Count; num3++)
+				for (int num10 = 0; num10 < this.allowAllWhoCanMake.Count; num10++)
 				{
-					this.SetAllowAllWhoCanMake(this.allowAllWhoCanMake[num3]);
+					this.SetAllowAllWhoCanMake(this.allowAllWhoCanMake[num10]);
+				}
+			}
+			if (this.disallowWorsePreferability != FoodPreferability.Undefined)
+			{
+				List<ThingDef> allDefsListForReading5 = DefDatabase<ThingDef>.AllDefsListForReading;
+				for (int num11 = 0; num11 < allDefsListForReading5.Count; num11++)
+				{
+					ThingDef thingDef5 = allDefsListForReading5[num11];
+					if (thingDef5.IsIngestible && thingDef5.ingestible.preferability != FoodPreferability.Undefined && thingDef5.ingestible.preferability < this.disallowWorsePreferability)
+					{
+						this.SetAllow(thingDef5, false);
+					}
+				}
+			}
+			if (this.disallowInedibleByHuman)
+			{
+				List<ThingDef> allDefsListForReading6 = DefDatabase<ThingDef>.AllDefsListForReading;
+				for (int num12 = 0; num12 < allDefsListForReading6.Count; num12++)
+				{
+					ThingDef thingDef6 = allDefsListForReading6[num12];
+					if (thingDef6.IsIngestible && !ThingDefOf.Human.race.CanEverEat(thingDef6))
+					{
+						this.SetAllow(thingDef6, false);
+					}
+				}
+			}
+			if (this.allowWithComp != null)
+			{
+				List<ThingDef> allDefsListForReading7 = DefDatabase<ThingDef>.AllDefsListForReading;
+				for (int num13 = 0; num13 < allDefsListForReading7.Count; num13++)
+				{
+					ThingDef thingDef7 = allDefsListForReading7[num13];
+					if (thingDef7.HasComp(this.allowWithComp))
+					{
+						this.SetAllow(thingDef7, true);
+					}
+				}
+			}
+			if (this.disallowWithComp != null)
+			{
+				List<ThingDef> allDefsListForReading8 = DefDatabase<ThingDef>.AllDefsListForReading;
+				for (int num14 = 0; num14 < allDefsListForReading8.Count; num14++)
+				{
+					ThingDef thingDef8 = allDefsListForReading8[num14];
+					if (thingDef8.HasComp(this.disallowWithComp))
+					{
+						this.SetAllow(thingDef8, false);
+					}
+				}
+			}
+			if (this.disallowCheaperThan != -3.40282347E+38f)
+			{
+				List<ThingDef> list = new List<ThingDef>();
+				foreach (ThingDef thingDef9 in this.allowedDefs)
+				{
+					if (thingDef9.BaseMarketValue < this.disallowCheaperThan)
+					{
+						list.Add(thingDef9);
+					}
+				}
+				for (int num15 = 0; num15 < list.Count; num15++)
+				{
+					this.SetAllow(list[num15], false);
+				}
+			}
+			if (this.disallowedThingDefs != null)
+			{
+				for (int num16 = 0; num16 < this.disallowedThingDefs.Count; num16++)
+				{
+					if (this.disallowedThingDefs[num16] != null)
+					{
+						this.SetAllow(this.disallowedThingDefs[num16], false);
+					}
+					else
+					{
+						Log.Error("ThingFilter could not find excepted thing def named " + this.disallowedThingDefs[num16], false);
+					}
 				}
 			}
 			this.RecalculateDisplayRootCategory();
 		}
 
+		// Token: 0x060061A9 RID: 25001 RVA: 0x00313734 File Offset: 0x00311B34
 		public void RecalculateDisplayRootCategory()
 		{
 			this.DisplayRootCategory = ThingCategoryNodeDatabase.RootNode;
-			foreach (TreeNode_ThingCategory allThingCategoryNode in ThingCategoryNodeDatabase.AllThingCategoryNodes)
+			foreach (TreeNode_ThingCategory treeNode_ThingCategory in ThingCategoryNodeDatabase.AllThingCategoryNodes)
 			{
 				bool flag = false;
 				bool flag2 = false;
-				foreach (ThingDef allowedDef in this.allowedDefs)
+				foreach (ThingDef value in this.allowedDefs)
 				{
-					if (allThingCategoryNode.catDef.DescendantThingDefs.Contains(allowedDef))
+					if (treeNode_ThingCategory.catDef.DescendantThingDefs.Contains(value))
 					{
 						flag2 = true;
 					}
@@ -292,11 +443,12 @@ namespace Verse
 				}
 				if (!flag && flag2)
 				{
-					this.DisplayRootCategory = allThingCategoryNode;
+					this.DisplayRootCategory = treeNode_ThingCategory;
 				}
 			}
 		}
 
+		// Token: 0x060061AA RID: 25002 RVA: 0x00313814 File Offset: 0x00311C14
 		private void RecalculateSpecialFilterConfigurability()
 		{
 			if (this.DisplayRootCategory == null)
@@ -308,22 +460,25 @@ namespace Verse
 			{
 				this.allowedHitPointsConfigurable = false;
 				this.allowedQualitiesConfigurable = false;
-				foreach (ThingDef descendantThingDef in this.DisplayRootCategory.catDef.DescendantThingDefs)
+				foreach (ThingDef thingDef in this.DisplayRootCategory.catDef.DescendantThingDefs)
 				{
-					if (descendantThingDef.useHitPoints)
+					if (thingDef.useHitPoints)
 					{
 						this.allowedHitPointsConfigurable = true;
 					}
-					if (descendantThingDef.HasComp(typeof(CompQuality)))
+					if (thingDef.HasComp(typeof(CompQuality)))
 					{
 						this.allowedQualitiesConfigurable = true;
 					}
 					if (this.allowedHitPointsConfigurable && this.allowedQualitiesConfigurable)
+					{
 						break;
+					}
 				}
 			}
 		}
 
+		// Token: 0x060061AB RID: 25003 RVA: 0x003138EC File Offset: 0x00311CEC
 		public bool IsAlwaysDisallowedDueToSpecialFilters(ThingDef def)
 		{
 			for (int i = 0; i < this.disallowedSpecialFilters.Count; i++)
@@ -336,32 +491,43 @@ namespace Verse
 			return false;
 		}
 
+		// Token: 0x060061AC RID: 25004 RVA: 0x00313944 File Offset: 0x00311D44
 		public virtual void CopyAllowancesFrom(ThingFilter other)
 		{
 			this.allowedDefs.Clear();
-			foreach (ThingDef allStorableThingDef in ThingFilter.AllStorableThingDefs)
+			foreach (ThingDef thingDef in ThingFilter.AllStorableThingDefs)
 			{
-				this.SetAllow(allStorableThingDef, other.Allows(allStorableThingDef));
+				this.SetAllow(thingDef, other.Allows(thingDef));
 			}
-			this.disallowedSpecialFilters = other.disallowedSpecialFilters.ListFullCopyOrNull();
+			this.disallowedSpecialFilters = other.disallowedSpecialFilters.ListFullCopyOrNull<SpecialThingFilterDef>();
 			this.allowedHitPointsPercents = other.allowedHitPointsPercents;
 			this.allowedHitPointsConfigurable = other.allowedHitPointsConfigurable;
 			this.allowedQualities = other.allowedQualities;
 			this.allowedQualitiesConfigurable = other.allowedQualitiesConfigurable;
-			this.thingDefs = other.thingDefs.ListFullCopyOrNull();
-			this.categories = other.categories.ListFullCopyOrNull();
-			this.exceptedThingDefs = other.exceptedThingDefs.ListFullCopyOrNull();
-			this.exceptedCategories = other.exceptedCategories.ListFullCopyOrNull();
-			this.specialFiltersToAllow = other.specialFiltersToAllow.ListFullCopyOrNull();
-			this.specialFiltersToDisallow = other.specialFiltersToDisallow.ListFullCopyOrNull();
-			this.stuffCategoriesToAllow = other.stuffCategoriesToAllow.ListFullCopyOrNull();
-			this.allowAllWhoCanMake = other.allowAllWhoCanMake.ListFullCopyOrNull();
+			this.thingDefs = other.thingDefs.ListFullCopyOrNull<ThingDef>();
+			this.categories = other.categories.ListFullCopyOrNull<string>();
+			this.tradeTagsToAllow = other.tradeTagsToAllow.ListFullCopyOrNull<string>();
+			this.tradeTagsToDisallow = other.tradeTagsToDisallow.ListFullCopyOrNull<string>();
+			this.thingSetMakerTagsToAllow = other.thingSetMakerTagsToAllow.ListFullCopyOrNull<string>();
+			this.thingSetMakerTagsToDisallow = other.thingSetMakerTagsToDisallow.ListFullCopyOrNull<string>();
+			this.disallowedCategories = other.disallowedCategories.ListFullCopyOrNull<string>();
+			this.specialFiltersToAllow = other.specialFiltersToAllow.ListFullCopyOrNull<string>();
+			this.specialFiltersToDisallow = other.specialFiltersToDisallow.ListFullCopyOrNull<string>();
+			this.stuffCategoriesToAllow = other.stuffCategoriesToAllow.ListFullCopyOrNull<StuffCategoryDef>();
+			this.allowAllWhoCanMake = other.allowAllWhoCanMake.ListFullCopyOrNull<ThingDef>();
+			this.disallowWorsePreferability = other.disallowWorsePreferability;
+			this.disallowInedibleByHuman = other.disallowInedibleByHuman;
+			this.allowWithComp = other.allowWithComp;
+			this.disallowWithComp = other.disallowWithComp;
+			this.disallowCheaperThan = other.disallowCheaperThan;
+			this.disallowedThingDefs = other.disallowedThingDefs.ListFullCopyOrNull<ThingDef>();
 			if (this.settingsChangedCallback != null)
 			{
 				this.settingsChangedCallback();
 			}
 		}
 
+		// Token: 0x060061AD RID: 25005 RVA: 0x00313B14 File Offset: 0x00311F14
 		public void SetAllow(ThingDef thingDef, bool allow)
 		{
 			if (allow != this.Allows(thingDef))
@@ -381,46 +547,51 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x060061AE RID: 25006 RVA: 0x00313B70 File Offset: 0x00311F70
 		public void SetAllow(SpecialThingFilterDef sfDef, bool allow)
 		{
-			if (sfDef.configurable && allow != this.Allows(sfDef))
+			if (sfDef.configurable)
 			{
-				if (allow)
+				if (allow != this.Allows(sfDef))
 				{
-					if (this.disallowedSpecialFilters.Contains(sfDef))
+					if (allow)
 					{
-						this.disallowedSpecialFilters.Remove(sfDef);
+						if (this.disallowedSpecialFilters.Contains(sfDef))
+						{
+							this.disallowedSpecialFilters.Remove(sfDef);
+						}
 					}
-				}
-				else if (!this.disallowedSpecialFilters.Contains(sfDef))
-				{
-					this.disallowedSpecialFilters.Add(sfDef);
-				}
-				if (this.settingsChangedCallback != null)
-				{
-					this.settingsChangedCallback();
+					else if (!this.disallowedSpecialFilters.Contains(sfDef))
+					{
+						this.disallowedSpecialFilters.Add(sfDef);
+					}
+					if (this.settingsChangedCallback != null)
+					{
+						this.settingsChangedCallback();
+					}
 				}
 			}
 		}
 
+		// Token: 0x060061AF RID: 25007 RVA: 0x00313C00 File Offset: 0x00312000
 		public void SetAllow(ThingCategoryDef categoryDef, bool allow, IEnumerable<ThingDef> exceptedDefs = null, IEnumerable<SpecialThingFilterDef> exceptedFilters = null)
 		{
 			if (!ThingCategoryNodeDatabase.initialized)
 			{
-				Log.Error("SetAllow categories won't work before ThingCategoryDatabase is initialized.");
+				Log.Error("SetAllow categories won't work before ThingCategoryDatabase is initialized.", false);
 			}
-			foreach (ThingDef descendantThingDef in categoryDef.DescendantThingDefs)
+			foreach (ThingDef thingDef in categoryDef.DescendantThingDefs)
 			{
-				if (exceptedDefs == null || !exceptedDefs.Contains(descendantThingDef))
+				if (exceptedDefs == null || !exceptedDefs.Contains(thingDef))
 				{
-					this.SetAllow(descendantThingDef, allow);
+					this.SetAllow(thingDef, allow);
 				}
 			}
-			foreach (SpecialThingFilterDef descendantSpecialThingFilterDef in categoryDef.DescendantSpecialThingFilterDefs)
+			foreach (SpecialThingFilterDef specialThingFilterDef in categoryDef.DescendantSpecialThingFilterDefs)
 			{
-				if (exceptedFilters == null || !exceptedFilters.Contains(descendantSpecialThingFilterDef))
+				if (exceptedFilters == null || !exceptedFilters.Contains(specialThingFilterDef))
 				{
-					this.SetAllow(descendantSpecialThingFilterDef, allow);
+					this.SetAllow(specialThingFilterDef, allow);
 				}
 			}
 			if (this.settingsChangedCallback != null)
@@ -429,6 +600,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x060061B0 RID: 25008 RVA: 0x00313CFC File Offset: 0x003120FC
 		public void SetAllow(StuffCategoryDef cat, bool allow)
 		{
 			for (int i = 0; i < DefDatabase<ThingDef>.AllDefsListForReading.Count; i++)
@@ -445,6 +617,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x060061B1 RID: 25009 RVA: 0x00313D70 File Offset: 0x00312170
 		public void SetAllowAllWhoCanMake(ThingDef thing)
 		{
 			for (int i = 0; i < DefDatabase<ThingDef>.AllDefsListForReading.Count; i++)
@@ -461,6 +634,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x060061B2 RID: 25010 RVA: 0x00313DE4 File Offset: 0x003121E4
 		public void SetFromPreset(StorageSettingsPreset preset)
 		{
 			if (preset == StorageSettingsPreset.DefaultStockpile)
@@ -469,7 +643,7 @@ namespace Verse
 				this.SetAllow(ThingCategoryDefOf.Manufactured, true, null, null);
 				this.SetAllow(ThingCategoryDefOf.ResourcesRaw, true, null, null);
 				this.SetAllow(ThingCategoryDefOf.Items, true, null, null);
-				this.SetAllow(ThingCategoryDefOf.Art, true, null, null);
+				this.SetAllow(ThingCategoryDefOf.Buildings, true, null, null);
 				this.SetAllow(ThingCategoryDefOf.Weapons, true, null, null);
 				this.SetAllow(ThingCategoryDefOf.Apparel, true, null, null);
 				this.SetAllow(ThingCategoryDefOf.BodyParts, true, null, null);
@@ -485,41 +659,33 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x060061B3 RID: 25011 RVA: 0x00313EA8 File Offset: 0x003122A8
 		public void SetDisallowAll(IEnumerable<ThingDef> exceptedDefs = null, IEnumerable<SpecialThingFilterDef> exceptedFilters = null)
 		{
 			this.allowedDefs.RemoveWhere((ThingDef d) => exceptedDefs == null || !exceptedDefs.Contains(d));
 			this.disallowedSpecialFilters.RemoveAll((SpecialThingFilterDef sf) => sf.configurable && (exceptedFilters == null || !exceptedFilters.Contains(sf)));
-			foreach (SpecialThingFilterDef allDef in DefDatabase<SpecialThingFilterDef>.AllDefs)
-			{
-				if (allDef.configurable && (exceptedFilters == null || !exceptedFilters.Contains(allDef)))
-				{
-					this.disallowedSpecialFilters.Add(allDef);
-				}
-			}
 			if (this.settingsChangedCallback != null)
 			{
 				this.settingsChangedCallback();
 			}
 		}
 
+		// Token: 0x060061B4 RID: 25012 RVA: 0x00313F10 File Offset: 0x00312310
 		public void SetAllowAll(ThingFilter parentFilter)
 		{
 			this.allowedDefs.Clear();
 			if (parentFilter != null)
 			{
-				foreach (ThingDef allowedDef in parentFilter.allowedDefs)
+				foreach (ThingDef item in parentFilter.allowedDefs)
 				{
-					this.allowedDefs.Add(allowedDef);
+					this.allowedDefs.Add(item);
 				}
 			}
 			else
 			{
-				foreach (ThingDef allDef in DefDatabase<ThingDef>.AllDefs)
+				foreach (ThingDef item2 in ThingFilter.AllStorableThingDefs)
 				{
-					if (!allDef.thingCategories.NullOrEmpty())
-					{
-						this.allowedDefs.Add(allDef);
-					}
+					this.allowedDefs.Add(item2);
 				}
 			}
 			this.disallowedSpecialFilters.RemoveAll((SpecialThingFilterDef sf) => sf.configurable);
@@ -529,65 +695,172 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x060061B5 RID: 25013 RVA: 0x00314020 File Offset: 0x00312420
 		public virtual bool Allows(Thing t)
 		{
+			t = t.GetInnerIfMinified();
+			bool result;
 			if (!this.Allows(t.def))
 			{
-				return false;
+				result = false;
 			}
-			if (t.def.useHitPoints)
+			else
 			{
-				float f = (float)t.HitPoints / (float)t.MaxHitPoints;
-				f = GenMath.RoundedHundredth(f);
-				if (!this.allowedHitPointsPercents.IncludesEpsilon(Mathf.Clamp01(f)))
+				if (t.def.useHitPoints)
 				{
-					return false;
+					float num = (float)t.HitPoints / (float)t.MaxHitPoints;
+					num = GenMath.RoundedHundredth(num);
+					if (!this.allowedHitPointsPercents.IncludesEpsilon(Mathf.Clamp01(num)))
+					{
+						return false;
+					}
 				}
+				if (this.allowedQualities != QualityRange.All && t.def.FollowQualityThingFilter())
+				{
+					QualityCategory p;
+					if (!t.TryGetQuality(out p))
+					{
+						p = QualityCategory.Normal;
+					}
+					if (!this.allowedQualities.Includes(p))
+					{
+						return false;
+					}
+				}
+				for (int i = 0; i < this.disallowedSpecialFilters.Count; i++)
+				{
+					if (this.disallowedSpecialFilters[i].Worker.Matches(t))
+					{
+						return false;
+					}
+				}
+				result = true;
 			}
-			if (this.allowedQualities != QualityRange.All && t.def.FollowQualityThingFilter())
-			{
-				QualityCategory p = default(QualityCategory);
-				if (!t.TryGetQuality(out p))
-				{
-					p = QualityCategory.Normal;
-				}
-				if (!this.allowedQualities.Includes(p))
-				{
-					return false;
-				}
-			}
-			for (int i = 0; i < this.disallowedSpecialFilters.Count; i++)
-			{
-				if (this.disallowedSpecialFilters[i].Worker.Matches(t))
-				{
-					return false;
-				}
-			}
-			return true;
+			return result;
 		}
 
+		// Token: 0x060061B6 RID: 25014 RVA: 0x00314130 File Offset: 0x00312530
 		public bool Allows(ThingDef def)
 		{
 			return this.allowedDefs.Contains(def);
 		}
 
+		// Token: 0x060061B7 RID: 25015 RVA: 0x00314154 File Offset: 0x00312554
 		public bool Allows(SpecialThingFilterDef sf)
 		{
 			return !this.disallowedSpecialFilters.Contains(sf);
 		}
 
+		// Token: 0x060061B8 RID: 25016 RVA: 0x00314178 File Offset: 0x00312578
 		public ThingRequest GetThingRequest()
 		{
+			ThingRequest result;
 			if (this.AllowedThingDefs.Any((ThingDef def) => !def.alwaysHaulable))
 			{
-				return ThingRequest.ForGroup(ThingRequestGroup.HaulableEver);
+				result = ThingRequest.ForGroup(ThingRequestGroup.HaulableEver);
 			}
-			return ThingRequest.ForGroup(ThingRequestGroup.HaulableAlways);
+			else
+			{
+				result = ThingRequest.ForGroup(ThingRequestGroup.HaulableAlways);
+			}
+			return result;
 		}
 
+		// Token: 0x060061B9 RID: 25017 RVA: 0x003141CC File Offset: 0x003125CC
 		public override string ToString()
 		{
 			return this.Summary;
 		}
+
+		// Token: 0x04003FC2 RID: 16322
+		[Unsaved]
+		private Action settingsChangedCallback;
+
+		// Token: 0x04003FC3 RID: 16323
+		[Unsaved]
+		private TreeNode_ThingCategory displayRootCategoryInt = null;
+
+		// Token: 0x04003FC4 RID: 16324
+		[Unsaved]
+		private HashSet<ThingDef> allowedDefs = new HashSet<ThingDef>();
+
+		// Token: 0x04003FC5 RID: 16325
+		[Unsaved]
+		private List<SpecialThingFilterDef> disallowedSpecialFilters = new List<SpecialThingFilterDef>();
+
+		// Token: 0x04003FC6 RID: 16326
+		private FloatRange allowedHitPointsPercents = FloatRange.ZeroToOne;
+
+		// Token: 0x04003FC7 RID: 16327
+		public bool allowedHitPointsConfigurable = true;
+
+		// Token: 0x04003FC8 RID: 16328
+		private QualityRange allowedQualities = QualityRange.All;
+
+		// Token: 0x04003FC9 RID: 16329
+		public bool allowedQualitiesConfigurable = true;
+
+		// Token: 0x04003FCA RID: 16330
+		[MustTranslate]
+		public string customSummary = null;
+
+		// Token: 0x04003FCB RID: 16331
+		private List<ThingDef> thingDefs = null;
+
+		// Token: 0x04003FCC RID: 16332
+		[NoTranslate]
+		private List<string> categories = null;
+
+		// Token: 0x04003FCD RID: 16333
+		[NoTranslate]
+		private List<string> tradeTagsToAllow = null;
+
+		// Token: 0x04003FCE RID: 16334
+		[NoTranslate]
+		private List<string> tradeTagsToDisallow = null;
+
+		// Token: 0x04003FCF RID: 16335
+		[NoTranslate]
+		private List<string> thingSetMakerTagsToAllow = null;
+
+		// Token: 0x04003FD0 RID: 16336
+		[NoTranslate]
+		private List<string> thingSetMakerTagsToDisallow = null;
+
+		// Token: 0x04003FD1 RID: 16337
+		[NoTranslate]
+		private List<string> disallowedCategories = null;
+
+		// Token: 0x04003FD2 RID: 16338
+		[NoTranslate]
+		private List<string> specialFiltersToAllow = null;
+
+		// Token: 0x04003FD3 RID: 16339
+		[NoTranslate]
+		private List<string> specialFiltersToDisallow = null;
+
+		// Token: 0x04003FD4 RID: 16340
+		private List<StuffCategoryDef> stuffCategoriesToAllow = null;
+
+		// Token: 0x04003FD5 RID: 16341
+		private List<ThingDef> allowAllWhoCanMake = null;
+
+		// Token: 0x04003FD6 RID: 16342
+		private FoodPreferability disallowWorsePreferability = FoodPreferability.Undefined;
+
+		// Token: 0x04003FD7 RID: 16343
+		private bool disallowInedibleByHuman = false;
+
+		// Token: 0x04003FD8 RID: 16344
+		private Type allowWithComp = null;
+
+		// Token: 0x04003FD9 RID: 16345
+		private Type disallowWithComp = null;
+
+		// Token: 0x04003FDA RID: 16346
+		private float disallowCheaperThan = float.MinValue;
+
+		// Token: 0x04003FDB RID: 16347
+		private List<ThingDef> disallowedThingDefs = null;
 	}
 }

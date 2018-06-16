@@ -1,16 +1,24 @@
+﻿using System;
 using RimWorld.Planet;
 
 namespace RimWorld
 {
+	// Token: 0x02000555 RID: 1365
 	public class BiomeWorker_Tundra : BiomeWorker
 	{
-		public override float GetScore(Tile tile)
+		// Token: 0x06001962 RID: 6498 RVA: 0x000DC064 File Offset: 0x000DA464
+		public override float GetScore(Tile tile, int tileID)
 		{
+			float result;
 			if (tile.WaterCovered)
 			{
-				return -100f;
+				result = -100f;
 			}
-			return (float)(0.0 - tile.temperature);
+			else
+			{
+				result = -tile.temperature;
+			}
+			return result;
 		}
 	}
 }

@@ -1,50 +1,43 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000771 RID: 1905
 	public class StockGenerator_SingleDef : StockGenerator
 	{
-		private ThingDef thingDef;
-
+		// Token: 0x06002A0E RID: 10766 RVA: 0x00163C64 File Offset: 0x00162064
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
-			using (IEnumerator<Thing> enumerator = StockGeneratorUtility.TryMakeForStock(this.thingDef, base.RandomCountOf(this.thingDef)).GetEnumerator())
+			foreach (Thing th in StockGeneratorUtility.TryMakeForStock(this.thingDef, base.RandomCountOf(this.thingDef)))
 			{
-				if (enumerator.MoveNext())
-				{
-					Thing th = enumerator.Current;
-					yield return th;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return th;
 			}
 			yield break;
-			IL_00d4:
-			/*Error near IL_00d5: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x06002A0F RID: 10767 RVA: 0x00163C90 File Offset: 0x00162090
 		public override bool HandlesThingDef(ThingDef thingDef)
 		{
 			return thingDef == this.thingDef;
 		}
 
+		// Token: 0x06002A10 RID: 10768 RVA: 0x00163CB0 File Offset: 0x001620B0
 		public override IEnumerable<string> ConfigErrors(TraderKindDef parentDef)
 		{
-			using (IEnumerator<string> enumerator = base.ConfigErrors(parentDef).GetEnumerator())
+			foreach (string e in this.<ConfigErrors>__BaseCallProxy0(parentDef))
 			{
-				if (enumerator.MoveNext())
-				{
-					string e = enumerator.Current;
-					yield return e;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return e;
 			}
-			if (this.thingDef.tradeability == Tradeability.Stockable)
-				yield break;
-			yield return this.thingDef + " is not Stockable";
-			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0108:
-			/*Error near IL_0109: Unexpected return in MoveNext()*/;
+			if (!this.thingDef.tradeability.TraderCanSell())
+			{
+				yield return this.thingDef + " tradeability doesn't allow traders to sell this thing";
+			}
+			yield break;
 		}
+
+		// Token: 0x040016B1 RID: 5809
+		private ThingDef thingDef = null;
 	}
 }

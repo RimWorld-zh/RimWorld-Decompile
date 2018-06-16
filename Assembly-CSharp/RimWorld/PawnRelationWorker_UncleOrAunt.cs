@@ -1,29 +1,29 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020004DA RID: 1242
 	public class PawnRelationWorker_UncleOrAunt : PawnRelationWorker
 	{
+		// Token: 0x06001615 RID: 5653 RVA: 0x000C3B14 File Offset: 0x000C1F14
 		public override bool InRelation(Pawn me, Pawn other)
 		{
+			bool result;
 			if (me == other)
 			{
-				return false;
+				result = false;
 			}
-			if (PawnRelationDefOf.Parent.Worker.InRelation(me, other))
+			else if (PawnRelationDefOf.Parent.Worker.InRelation(me, other))
 			{
-				return false;
+				result = false;
 			}
-			PawnRelationWorker worker = PawnRelationDefOf.Grandparent.Worker;
-			if (other.GetMother() != null && worker.InRelation(me, other.GetMother()))
+			else
 			{
-				goto IL_0066;
+				PawnRelationWorker worker = PawnRelationDefOf.Grandparent.Worker;
+				result = ((other.GetMother() != null && worker.InRelation(me, other.GetMother())) || (other.GetFather() != null && worker.InRelation(me, other.GetFather())));
 			}
-			if (other.GetFather() != null && worker.InRelation(me, other.GetFather()))
-				goto IL_0066;
-			return false;
-			IL_0066:
-			return true;
+			return result;
 		}
 	}
 }

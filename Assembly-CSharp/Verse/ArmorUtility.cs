@@ -1,72 +1,73 @@
-using RimWorld;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld;
 
 namespace Verse
 {
+	// Token: 0x02000CFC RID: 3324
 	public static class ArmorUtility
 	{
-		public static int GetPostArmorDamage(Pawn pawn, int amountInt, BodyPartRecord part, DamageDef damageDef)
+		// Token: 0x0600491F RID: 18719 RVA: 0x0026646C File Offset: 0x0026486C
+		public static float GetPostArmorDamage(Pawn pawn, float amount, BodyPartRecord part, DamageDef damageDef, out bool deflectedByMetalArmor)
 		{
-			float num = (float)amountInt;
+			deflectedByMetalArmor = false;
+			float result;
 			if (damageDef.armorCategory == null)
 			{
-				return amountInt;
-			}
-			StatDef deflectionStat = damageDef.armorCategory.deflectionStat;
-			if (pawn.apparel != null)
-			{
-				List<Apparel> wornApparel = pawn.apparel.WornApparel;
-				for (int i = 0; i < wornApparel.Count; i++)
-				{
-					Apparel apparel = wornApparel[i];
-					if (apparel.def.apparel.CoversBodyPart(part))
-					{
-						ArmorUtility.ApplyArmor(ref num, apparel.GetStatValue(deflectionStat, true), apparel, damageDef);
-						if (num < 0.0010000000474974513)
-						{
-							return 0;
-						}
-					}
-				}
-			}
-			ArmorUtility.ApplyArmor(ref num, pawn.GetStatValue(deflectionStat, true), null, damageDef);
-			return GenMath.RoundRandom(num);
-		}
-
-		private static void ApplyArmor(ref float damAmount, float armorRating, Thing armorThing, DamageDef damageDef)
-		{
-			float num;
-			float num2;
-			if ((double)armorRating <= 0.5)
-			{
-				num = armorRating;
-				num2 = 0f;
-			}
-			else if (armorRating < 1.0)
-			{
-				num = 0.5f;
-				num2 = (float)(armorRating - 0.5);
+				result = amount;
 			}
 			else
 			{
-				num = (float)(0.5 + (armorRating - 1.0) * 0.25);
-				num2 = (float)(0.5 + (armorRating - 1.0) * 0.25);
+				StatDef deflectionStat = damageDef.armorCategory.deflectionStat;
+				if (pawn.apparel != null)
+				{
+					List<Apparel> wornApparel = pawn.apparel.WornApparel;
+					for (int i = wornApparel.Count - 1; i >= 0; i--)
+					{
+						Apparel apparel = wornApparel[i];
+						if (apparel.def.apparel.CoversBodyPart(part))
+						{
+							ArmorUtility.ApplyArmor(ref amount, apparel.GetStatValue(deflectionStat, true), apparel, damageDef, pawn, ref deflectedByMetalArmor);
+							if (amount < 0.001f)
+							{
+								return 0f;
+							}
+						}
+					}
+				}
+				ArmorUtility.ApplyArmor(ref amount, pawn.GetStatValue(deflectionStat, true), null, damageDef, pawn, ref deflectedByMetalArmor);
+				if (amount < 0.001f)
+				{
+					result = 0f;
+				}
+				else
+				{
+					result = amount;
+				}
 			}
-			if (num > 0.89999997615814209)
-			{
-				num = 0.9f;
-			}
-			if (num2 > 0.89999997615814209)
-			{
-				num2 = 0.9f;
-			}
-			float num3 = (!(Rand.Value < num2)) ? (damAmount * num) : damAmount;
+			return result;
+		}
+
+		// Token: 0x06004920 RID: 18720 RVA: 0x00266550 File Offset: 0x00264950
+		private static void ApplyArmor(ref float damAmount, float armorRating, Thing armorThing, DamageDef damageDef, Pawn pawn, ref bool deflectedByMetalArmor)
+		{
 			if (armorThing != null)
 			{
-				float f = (float)(damAmount * 0.25);
-				armorThing.TakeDamage(new DamageInfo(damageDef, GenMath.RoundRandom(f), -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
+				float f = damAmount * 0.25f;
+				armorThing.TakeDamage(new DamageInfo(damageDef, (float)GenMath.RoundRandom(f), -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
 			}
-			damAmount -= num3;
+			if (Rand.Value < armorRating)
+			{
+				damAmount = 0f;
+				if (armorThing != null)
+				{
+					deflectedByMetalArmor = (armorThing.def.apparel.useDeflectMetalEffect || (armorThing.Stuff != null && armorThing.Stuff.IsMetal));
+				}
+				else
+				{
+					deflectedByMetalArmor = pawn.RaceProps.IsMechanoid;
+				}
+			}
 		}
 	}
 }

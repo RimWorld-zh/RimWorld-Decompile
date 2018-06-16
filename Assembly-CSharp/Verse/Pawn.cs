@@ -1,127 +1,22 @@
-using RimWorld;
-using RimWorld.Planet;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using RimWorld;
+using RimWorld.Planet;
 using UnityEngine;
+using UnityEngine.Profiling;
 using Verse.AI;
 using Verse.AI.Group;
 
 namespace Verse
 {
+	// Token: 0x02000D4D RID: 3405
 	public class Pawn : ThingWithComps, IStrippable, IBillGiver, IVerbOwner, ITrader, IAttackTarget, IAttackTargetSearcher, IThingHolder, ILoadReferenceable
 	{
-		public PawnKindDef kindDef;
-
-		private Name nameInt;
-
-		public Gender gender;
-
-		public Pawn_AgeTracker ageTracker;
-
-		public Pawn_HealthTracker health;
-
-		public Pawn_RecordsTracker records;
-
-		public Pawn_InventoryTracker inventory;
-
-		public Pawn_MeleeVerbs meleeVerbs;
-
-		public VerbTracker verbTracker;
-
-		public Pawn_CarryTracker carryTracker;
-
-		public Pawn_NeedsTracker needs;
-
-		public Pawn_MindState mindState;
-
-		public Pawn_RotationTracker rotationTracker;
-
-		public Pawn_PathFollower pather;
-
-		public Pawn_Thinker thinker;
-
-		public Pawn_JobTracker jobs;
-
-		public Pawn_StanceTracker stances;
-
-		public Pawn_NativeVerbs natives;
-
-		public Pawn_FilthTracker filth;
-
-		public Pawn_EquipmentTracker equipment;
-
-		public Pawn_ApparelTracker apparel;
-
-		public Pawn_Ownership ownership;
-
-		public Pawn_SkillTracker skills;
-
-		public Pawn_StoryTracker story;
-
-		public Pawn_GuestTracker guest;
-
-		public Pawn_GuiltTracker guilt;
-
-		public Pawn_WorkSettings workSettings;
-
-		public Pawn_TraderTracker trader;
-
-		public Pawn_TrainingTracker training;
-
-		public Pawn_CallTracker caller;
-
-		public Pawn_RelationsTracker relations;
-
-		public Pawn_InteractionsTracker interactions;
-
-		public Pawn_PlayerSettings playerSettings;
-
-		public Pawn_OutfitTracker outfits;
-
-		public Pawn_DrugPolicyTracker drugs;
-
-		public Pawn_TimetableTracker timetable;
-
-		public Pawn_DraftController drafter;
-
-		private Pawn_DrawTracker drawer;
-
-		private const float HumanSizedHeatOutput = 0.3f;
-
-		private const float KilledTaleLongRangeThreshold = 35f;
-
-		private const float KilledTaleMeleeRangeThreshold = 2f;
-
-		private const float MajorEnemyThreshold = 250f;
-
-		private static string NotSurgeryReadyTrans;
-
-		private static string CannotReachTrans;
-
-		public const int MaxMoveTicks = 450;
-
-		private int lastSleepDisturbedTick;
-
-		private const int SleepDisturbanceMinInterval = 300;
-
-		Thing IAttackTarget.Thing
-		{
-			get
-			{
-				return this;
-			}
-		}
-
-		Thing IAttackTargetSearcher.Thing
-		{
-			get
-			{
-				return this;
-			}
-		}
-
+		// Token: 0x17000C0A RID: 3082
+		// (get) Token: 0x06004B06 RID: 19206 RVA: 0x0027113C File Offset: 0x0026F53C
+		// (set) Token: 0x06004B07 RID: 19207 RVA: 0x00271157 File Offset: 0x0026F557
 		public Name Name
 		{
 			get
@@ -134,26 +29,18 @@ namespace Verse
 			}
 		}
 
-		public string NameStringShort
-		{
-			get
-			{
-				if (this.Name != null)
-				{
-					return this.Name.ToStringShort;
-				}
-				return this.KindLabel;
-			}
-		}
-
+		// Token: 0x17000C0B RID: 3083
+		// (get) Token: 0x06004B08 RID: 19208 RVA: 0x00271164 File Offset: 0x0026F564
 		public RaceProperties RaceProps
 		{
 			get
 			{
-				return base.def.race;
+				return this.def.race;
 			}
 		}
 
+		// Token: 0x17000C0C RID: 3084
+		// (get) Token: 0x06004B09 RID: 19209 RVA: 0x00271184 File Offset: 0x0026F584
 		public Job CurJob
 		{
 			get
@@ -162,6 +49,18 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C0D RID: 3085
+		// (get) Token: 0x06004B0A RID: 19210 RVA: 0x002711B8 File Offset: 0x0026F5B8
+		public JobDef CurJobDef
+		{
+			get
+			{
+				return (this.CurJob == null) ? null : this.CurJob.def;
+			}
+		}
+
+		// Token: 0x17000C0E RID: 3086
+		// (get) Token: 0x06004B0B RID: 19211 RVA: 0x002711EC File Offset: 0x0026F5EC
 		public bool Downed
 		{
 			get
@@ -170,6 +69,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C0F RID: 3087
+		// (get) Token: 0x06004B0C RID: 19212 RVA: 0x0027120C File Offset: 0x0026F60C
 		public bool Dead
 		{
 			get
@@ -178,6 +79,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C10 RID: 3088
+		// (get) Token: 0x06004B0D RID: 19213 RVA: 0x0027122C File Offset: 0x0026F62C
 		public string KindLabel
 		{
 			get
@@ -186,90 +89,114 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C11 RID: 3089
+		// (get) Token: 0x06004B0E RID: 19214 RVA: 0x0027124C File Offset: 0x0026F64C
 		public bool InMentalState
 		{
 			get
 			{
-				if (this.Dead)
-				{
-					return false;
-				}
-				return this.mindState.mentalStateHandler.InMentalState;
+				return !this.Dead && this.mindState.mentalStateHandler.InMentalState;
 			}
 		}
 
+		// Token: 0x17000C12 RID: 3090
+		// (get) Token: 0x06004B0F RID: 19215 RVA: 0x00271284 File Offset: 0x0026F684
 		public MentalState MentalState
 		{
 			get
 			{
+				MentalState result;
 				if (this.Dead)
 				{
-					return null;
+					result = null;
 				}
-				return this.mindState.mentalStateHandler.CurState;
+				else
+				{
+					result = this.mindState.mentalStateHandler.CurState;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000C13 RID: 3091
+		// (get) Token: 0x06004B10 RID: 19216 RVA: 0x002712BC File Offset: 0x0026F6BC
 		public MentalStateDef MentalStateDef
 		{
 			get
 			{
+				MentalStateDef result;
 				if (this.Dead)
 				{
-					return null;
+					result = null;
 				}
-				return this.mindState.mentalStateHandler.CurStateDef;
+				else
+				{
+					result = this.mindState.mentalStateHandler.CurStateDef;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000C14 RID: 3092
+		// (get) Token: 0x06004B11 RID: 19217 RVA: 0x002712F4 File Offset: 0x0026F6F4
 		public bool InAggroMentalState
 		{
 			get
 			{
-				if (this.Dead)
-				{
-					return false;
-				}
-				return this.mindState.mentalStateHandler.InMentalState && this.mindState.mentalStateHandler.CurStateDef.IsAggro;
+				return !this.Dead && this.mindState.mentalStateHandler.InMentalState && this.mindState.mentalStateHandler.CurStateDef.IsAggro;
 			}
 		}
 
+		// Token: 0x17000C15 RID: 3093
+		// (get) Token: 0x06004B12 RID: 19218 RVA: 0x00271348 File Offset: 0x0026F748
 		public bool Inspired
 		{
 			get
 			{
-				if (this.Dead)
-				{
-					return false;
-				}
-				return this.mindState.inspirationHandler.Inspired;
+				return !this.Dead && this.mindState.inspirationHandler.Inspired;
 			}
 		}
 
+		// Token: 0x17000C16 RID: 3094
+		// (get) Token: 0x06004B13 RID: 19219 RVA: 0x00271380 File Offset: 0x0026F780
 		public Inspiration Inspiration
 		{
 			get
 			{
+				Inspiration result;
 				if (this.Dead)
 				{
-					return null;
+					result = null;
 				}
-				return this.mindState.inspirationHandler.CurState;
+				else
+				{
+					result = this.mindState.inspirationHandler.CurState;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000C17 RID: 3095
+		// (get) Token: 0x06004B14 RID: 19220 RVA: 0x002713B8 File Offset: 0x0026F7B8
 		public InspirationDef InspirationDef
 		{
 			get
 			{
+				InspirationDef result;
 				if (this.Dead)
 				{
-					return null;
+					result = null;
 				}
-				return this.mindState.inspirationHandler.CurStateDef;
+				else
+				{
+					result = this.mindState.inspirationHandler.CurStateDef;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000C18 RID: 3096
+		// (get) Token: 0x06004B15 RID: 19221 RVA: 0x002713F0 File Offset: 0x0026F7F0
 		public override Vector3 DrawPos
 		{
 			get
@@ -278,6 +205,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C19 RID: 3097
+		// (get) Token: 0x06004B16 RID: 19222 RVA: 0x00271410 File Offset: 0x0026F810
 		public VerbTracker VerbTracker
 		{
 			get
@@ -286,14 +215,18 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C1A RID: 3098
+		// (get) Token: 0x06004B17 RID: 19223 RVA: 0x0027142C File Offset: 0x0026F82C
 		public List<VerbProperties> VerbProperties
 		{
 			get
 			{
-				return base.def.Verbs;
+				return this.def.Verbs;
 			}
 		}
 
+		// Token: 0x17000C1B RID: 3099
+		// (get) Token: 0x06004B18 RID: 19224 RVA: 0x0027144C File Offset: 0x0026F84C
 		public List<Tool> Tools
 		{
 			get
@@ -302,6 +235,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C1C RID: 3100
+		// (get) Token: 0x06004B19 RID: 19225 RVA: 0x00271464 File Offset: 0x0026F864
 		public bool IsColonist
 		{
 			get
@@ -310,6 +245,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C1D RID: 3101
+		// (get) Token: 0x06004B1A RID: 19226 RVA: 0x002714A4 File Offset: 0x0026F8A4
 		public bool IsFreeColonist
 		{
 			get
@@ -318,18 +255,27 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C1E RID: 3102
+		// (get) Token: 0x06004B1B RID: 19227 RVA: 0x002714D0 File Offset: 0x0026F8D0
 		public Faction HostFaction
 		{
 			get
 			{
+				Faction result;
 				if (this.guest == null)
 				{
-					return null;
+					result = null;
 				}
-				return this.guest.HostFaction;
+				else
+				{
+					result = this.guest.HostFaction;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000C1F RID: 3103
+		// (get) Token: 0x06004B1C RID: 19228 RVA: 0x00271504 File Offset: 0x0026F904
 		public bool Drafted
 		{
 			get
@@ -338,6 +284,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C20 RID: 3104
+		// (get) Token: 0x06004B1D RID: 19229 RVA: 0x00271534 File Offset: 0x0026F934
 		public bool IsPrisoner
 		{
 			get
@@ -346,6 +294,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C21 RID: 3105
+		// (get) Token: 0x06004B1E RID: 19230 RVA: 0x00271564 File Offset: 0x0026F964
 		public bool IsPrisonerOfColony
 		{
 			get
@@ -354,6 +304,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C22 RID: 3106
+		// (get) Token: 0x06004B1F RID: 19231 RVA: 0x002715A8 File Offset: 0x0026F9A8
 		public bool IsColonistPlayerControlled
 		{
 			get
@@ -362,15 +314,19 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C23 RID: 3107
+		// (get) Token: 0x06004B20 RID: 19232 RVA: 0x002715EC File Offset: 0x0026F9EC
 		public IEnumerable<IntVec3> IngredientStackCells
 		{
 			get
 			{
 				yield return this.InteractionCell;
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield break;
 			}
 		}
 
+		// Token: 0x17000C24 RID: 3108
+		// (get) Token: 0x06004B21 RID: 19233 RVA: 0x00271618 File Offset: 0x0026FA18
 		public bool InContainerEnclosed
 		{
 			get
@@ -379,6 +335,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C25 RID: 3109
+		// (get) Token: 0x06004B22 RID: 19234 RVA: 0x00271638 File Offset: 0x0026FA38
 		public Corpse Corpse
 		{
 			get
@@ -387,51 +345,80 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C26 RID: 3110
+		// (get) Token: 0x06004B23 RID: 19235 RVA: 0x00271658 File Offset: 0x0026FA58
 		public Pawn CarriedBy
 		{
 			get
 			{
+				Pawn result;
 				if (base.ParentHolder == null)
 				{
-					return null;
+					result = null;
 				}
-				Pawn_CarryTracker pawn_CarryTracker = base.ParentHolder as Pawn_CarryTracker;
-				if (pawn_CarryTracker != null)
+				else
 				{
-					return pawn_CarryTracker.pawn;
+					Pawn_CarryTracker pawn_CarryTracker = base.ParentHolder as Pawn_CarryTracker;
+					if (pawn_CarryTracker != null)
+					{
+						result = pawn_CarryTracker.pawn;
+					}
+					else
+					{
+						result = null;
+					}
 				}
-				return null;
+				return result;
 			}
 		}
 
+		// Token: 0x17000C27 RID: 3111
+		// (get) Token: 0x06004B24 RID: 19236 RVA: 0x002716A0 File Offset: 0x0026FAA0
 		public override string LabelNoCount
 		{
 			get
 			{
+				string result;
 				if (this.Name != null)
 				{
-					if (this.story != null && (this.story.adulthood != null || this.story.childhood != null))
+					if (this.story == null || this.story.TitleShortCap.NullOrEmpty())
 					{
-						return this.Name.ToStringShort + ", " + this.story.TitleShort;
+						result = this.Name.ToStringShort;
 					}
-					return this.Name.ToStringShort;
+					else
+					{
+						result = this.Name.ToStringShort + ", " + this.story.TitleShortCap;
+					}
 				}
-				return this.KindLabel;
+				else
+				{
+					result = this.KindLabel;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000C28 RID: 3112
+		// (get) Token: 0x06004B25 RID: 19237 RVA: 0x00271720 File Offset: 0x0026FB20
 		public override string LabelShort
 		{
 			get
 			{
+				string result;
 				if (this.Name != null)
 				{
-					return this.Name.ToStringShort;
+					result = this.Name.ToStringShort;
 				}
-				return this.LabelNoCount;
+				else
+				{
+					result = this.LabelNoCount;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000C29 RID: 3113
+		// (get) Token: 0x06004B26 RID: 19238 RVA: 0x00271758 File Offset: 0x0026FB58
 		public Pawn_DrawTracker Drawer
 		{
 			get
@@ -444,6 +431,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C2A RID: 3114
+		// (get) Token: 0x06004B27 RID: 19239 RVA: 0x0027178C File Offset: 0x0026FB8C
 		public BillStack BillStack
 		{
 			get
@@ -452,6 +441,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C2B RID: 3115
+		// (get) Token: 0x06004B28 RID: 19240 RVA: 0x002717AC File Offset: 0x0026FBAC
 		public override IntVec3 InteractionCell
 		{
 			get
@@ -477,37 +468,61 @@ namespace Verse
 						position3.z++;
 						position4.z--;
 					}
-					if (position.Standable(base.Map) && position.GetThingList(base.Map).Find((Thing x) => x.def.IsBed) == null && position.GetDoor(base.Map) == null)
+					if (position.Standable(base.Map))
 					{
-						return position;
+						if (position.GetThingList(base.Map).Find((Thing x) => x.def.IsBed) == null && position.GetDoor(base.Map) == null)
+						{
+							return position;
+						}
 					}
-					if (position2.Standable(base.Map) && position2.GetThingList(base.Map).Find((Thing x) => x.def.IsBed) == null && position2.GetDoor(base.Map) == null)
+					if (position2.Standable(base.Map))
 					{
-						return position2;
+						if (position2.GetThingList(base.Map).Find((Thing x) => x.def.IsBed) == null && position2.GetDoor(base.Map) == null)
+						{
+							return position2;
+						}
 					}
-					if (position3.Standable(base.Map) && position3.GetThingList(base.Map).Find((Thing x) => x.def.IsBed) == null && position3.GetDoor(base.Map) == null)
+					if (position3.Standable(base.Map))
 					{
-						return position3;
+						if (position3.GetThingList(base.Map).Find((Thing x) => x.def.IsBed) == null && position3.GetDoor(base.Map) == null)
+						{
+							return position3;
+						}
 					}
-					if (position4.Standable(base.Map) && position4.GetThingList(base.Map).Find((Thing x) => x.def.IsBed) == null && position4.GetDoor(base.Map) == null)
+					if (position4.Standable(base.Map))
 					{
-						return position4;
+						if (position4.GetThingList(base.Map).Find((Thing x) => x.def.IsBed) == null && position4.GetDoor(base.Map) == null)
+						{
+							return position4;
+						}
 					}
-					if (position.Standable(base.Map) && position.GetThingList(base.Map).Find((Thing x) => x.def.IsBed) == null)
+					if (position.Standable(base.Map))
 					{
-						return position;
+						if (position.GetThingList(base.Map).Find((Thing x) => x.def.IsBed) == null)
+						{
+							return position;
+						}
 					}
-					if (position2.Standable(base.Map) && position2.GetThingList(base.Map).Find((Thing x) => x.def.IsBed) == null)
+					if (position2.Standable(base.Map))
 					{
-						return position2;
+						if (position2.GetThingList(base.Map).Find((Thing x) => x.def.IsBed) == null)
+						{
+							return position2;
+						}
 					}
-					if (position3.Standable(base.Map) && position3.GetThingList(base.Map).Find((Thing x) => x.def.IsBed) == null)
+					if (position3.Standable(base.Map))
 					{
-						return position3;
+						if (position3.GetThingList(base.Map).Find((Thing x) => x.def.IsBed) == null)
+						{
+							return position3;
+						}
 					}
-					if (position4.Standable(base.Map) && position4.GetThingList(base.Map).Find((Thing x) => x.def.IsBed) == null)
+					if (position4.Standable(base.Map))
 					{
-						return position4;
+						if (position4.GetThingList(base.Map).Find((Thing x) => x.def.IsBed) == null)
+						{
+							return position4;
+						}
 					}
 					if (position.Standable(base.Map))
 					{
@@ -530,6 +545,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C2C RID: 3116
+		// (get) Token: 0x06004B29 RID: 19241 RVA: 0x00271B9C File Offset: 0x0026FF9C
 		public TraderKindDef TraderKind
 		{
 			get
@@ -538,6 +555,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C2D RID: 3117
+		// (get) Token: 0x06004B2A RID: 19242 RVA: 0x00271BD0 File Offset: 0x0026FFD0
 		public IEnumerable<Thing> Goods
 		{
 			get
@@ -546,6 +565,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C2E RID: 3118
+		// (get) Token: 0x06004B2B RID: 19243 RVA: 0x00271BF0 File Offset: 0x0026FFF0
 		public int RandomPriceFactorSeed
 		{
 			get
@@ -554,6 +575,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C2F RID: 3119
+		// (get) Token: 0x06004B2C RID: 19244 RVA: 0x00271C10 File Offset: 0x00270010
 		public string TraderName
 		{
 			get
@@ -562,6 +585,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C30 RID: 3120
+		// (get) Token: 0x06004B2D RID: 19245 RVA: 0x00271C30 File Offset: 0x00270030
 		public bool CanTradeNow
 		{
 			get
@@ -570,6 +595,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C31 RID: 3121
+		// (get) Token: 0x06004B2E RID: 19246 RVA: 0x00271C60 File Offset: 0x00270060
 		public float TradePriceImprovementOffsetForPlayer
 		{
 			get
@@ -578,6 +605,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C32 RID: 3122
+		// (get) Token: 0x06004B2F RID: 19247 RVA: 0x00271C7C File Offset: 0x0027007C
 		public float BodySize
 		{
 			get
@@ -586,6 +615,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C33 RID: 3123
+		// (get) Token: 0x06004B30 RID: 19248 RVA: 0x00271CB0 File Offset: 0x002700B0
 		public float HealthScale
 		{
 			get
@@ -594,23 +625,55 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C08 RID: 3080
+		// (get) Token: 0x06004B31 RID: 19249 RVA: 0x00271CE4 File Offset: 0x002700E4
+		Thing IAttackTarget.Thing
+		{
+			get
+			{
+				return this;
+			}
+		}
+
+		// Token: 0x17000C34 RID: 3124
+		// (get) Token: 0x06004B32 RID: 19250 RVA: 0x00271CFC File Offset: 0x002700FC
 		public LocalTargetInfo TargetCurrentlyAimingAt
 		{
 			get
 			{
+				LocalTargetInfo result;
 				if (!base.Spawned)
 				{
-					return LocalTargetInfo.Invalid;
+					result = LocalTargetInfo.Invalid;
 				}
-				Stance curStance = this.stances.curStance;
-				if (!(curStance is Stance_Warmup) && !(curStance is Stance_Cooldown))
+				else
 				{
-					return LocalTargetInfo.Invalid;
+					Stance curStance = this.stances.curStance;
+					if (curStance is Stance_Warmup || curStance is Stance_Cooldown)
+					{
+						result = ((Stance_Busy)curStance).focusTarg;
+					}
+					else
+					{
+						result = LocalTargetInfo.Invalid;
+					}
 				}
-				return ((Stance_Busy)curStance).focusTarg;
+				return result;
 			}
 		}
 
+		// Token: 0x17000C09 RID: 3081
+		// (get) Token: 0x06004B33 RID: 19251 RVA: 0x00271D60 File Offset: 0x00270160
+		Thing IAttackTargetSearcher.Thing
+		{
+			get
+			{
+				return this;
+			}
+		}
+
+		// Token: 0x17000C35 RID: 3125
+		// (get) Token: 0x06004B34 RID: 19252 RVA: 0x00271D78 File Offset: 0x00270178
 		public LocalTargetInfo LastAttackedTarget
 		{
 			get
@@ -619,6 +682,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C36 RID: 3126
+		// (get) Token: 0x06004B35 RID: 19253 RVA: 0x00271D98 File Offset: 0x00270198
 		public int LastAttackTargetTick
 		{
 			get
@@ -627,65 +692,39 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C37 RID: 3127
+		// (get) Token: 0x06004B36 RID: 19254 RVA: 0x00271DB8 File Offset: 0x002701B8
 		public Verb CurrentEffectiveVerb
 		{
 			get
 			{
 				Building_Turret building_Turret = this.MannedThing() as Building_Turret;
+				Verb result;
 				if (building_Turret != null)
 				{
-					return building_Turret.AttackVerb;
+					result = building_Turret.AttackVerb;
 				}
-				return this.TryGetAttackVerb(!this.IsColonist);
-			}
-		}
-
-		public int TicksPerMoveCardinal
-		{
-			get
-			{
-				return this.TicksPerMove(false);
-			}
-		}
-
-		public int TicksPerMoveDiagonal
-		{
-			get
-			{
-				return this.TicksPerMove(true);
-			}
-		}
-
-		public override IEnumerable<StatDrawEntry> SpecialDisplayStats
-		{
-			get
-			{
-				using (IEnumerator<StatDrawEntry> enumerator = base.SpecialDisplayStats.GetEnumerator())
+				else
 				{
-					if (enumerator.MoveNext())
-					{
-						StatDrawEntry s = enumerator.Current;
-						yield return s;
-						/*Error: Unable to find new state assignment for yield return*/;
-					}
+					result = this.TryGetAttackVerb(null, !this.IsColonist);
 				}
-				yield return new StatDrawEntry(StatCategoryDefOf.BasicsPawn, "BodySize".Translate(), this.BodySize.ToString("F2"), 0, string.Empty);
-				/*Error: Unable to find new state assignment for yield return*/;
-				IL_0109:
-				/*Error near IL_010a: Unexpected return in MoveNext()*/;
+				return result;
 			}
 		}
 
+		// Token: 0x06004B37 RID: 19255 RVA: 0x00271DFC File Offset: 0x002701FC
 		public int GetRootTile()
 		{
 			return base.Tile;
 		}
 
+		// Token: 0x06004B38 RID: 19256 RVA: 0x00271E18 File Offset: 0x00270218
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return null;
 		}
 
+		// Token: 0x06004B39 RID: 19257 RVA: 0x00271E30 File Offset: 0x00270230
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
@@ -707,145 +746,148 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004B3A RID: 19258 RVA: 0x00271EA8 File Offset: 0x002702A8
 		public string GetKindLabelPlural(int count = -1)
 		{
 			return GenLabel.BestKindLabel(this, false, false, true, count);
 		}
 
-		public static void Reset()
+		// Token: 0x06004B3B RID: 19259 RVA: 0x00271ECB File Offset: 0x002702CB
+		public static void ResetStaticData()
 		{
 			Pawn.NotSurgeryReadyTrans = "NotSurgeryReady".Translate();
 			Pawn.CannotReachTrans = "CannotReach".Translate();
 		}
 
+		// Token: 0x06004B3C RID: 19260 RVA: 0x00271EEC File Offset: 0x002702EC
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Defs.Look<PawnKindDef>(ref this.kindDef, "kindDef");
 			Scribe_Values.Look<Gender>(ref this.gender, "gender", Gender.Male, false);
 			Scribe_Deep.Look<Name>(ref this.nameInt, "name", new object[0]);
-			Scribe_Deep.Look<Pawn_MindState>(ref this.mindState, "mindState", new object[1]
+			Scribe_Deep.Look<Pawn_MindState>(ref this.mindState, "mindState", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_JobTracker>(ref this.jobs, "jobs", new object[1]
+			Scribe_Deep.Look<Pawn_JobTracker>(ref this.jobs, "jobs", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_StanceTracker>(ref this.stances, "stances", new object[1]
+			Scribe_Deep.Look<Pawn_StanceTracker>(ref this.stances, "stances", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<VerbTracker>(ref this.verbTracker, "verbTracker", new object[1]
+			Scribe_Deep.Look<VerbTracker>(ref this.verbTracker, "verbTracker", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_NativeVerbs>(ref this.natives, "natives", new object[1]
+			Scribe_Deep.Look<Pawn_NativeVerbs>(ref this.natives, "natives", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_MeleeVerbs>(ref this.meleeVerbs, "meleeVerbs", new object[1]
+			Scribe_Deep.Look<Pawn_MeleeVerbs>(ref this.meleeVerbs, "meleeVerbs", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_RotationTracker>(ref this.rotationTracker, "rotationTracker", new object[1]
+			Scribe_Deep.Look<Pawn_RotationTracker>(ref this.rotationTracker, "rotationTracker", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_PathFollower>(ref this.pather, "pather", new object[1]
+			Scribe_Deep.Look<Pawn_PathFollower>(ref this.pather, "pather", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_CarryTracker>(ref this.carryTracker, "carryTracker", new object[1]
+			Scribe_Deep.Look<Pawn_CarryTracker>(ref this.carryTracker, "carryTracker", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_ApparelTracker>(ref this.apparel, "apparel", new object[1]
+			Scribe_Deep.Look<Pawn_ApparelTracker>(ref this.apparel, "apparel", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_StoryTracker>(ref this.story, "story", new object[1]
+			Scribe_Deep.Look<Pawn_StoryTracker>(ref this.story, "story", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_EquipmentTracker>(ref this.equipment, "equipment", new object[1]
+			Scribe_Deep.Look<Pawn_EquipmentTracker>(ref this.equipment, "equipment", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_DraftController>(ref this.drafter, "drafter", new object[1]
+			Scribe_Deep.Look<Pawn_DraftController>(ref this.drafter, "drafter", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_AgeTracker>(ref this.ageTracker, "ageTracker", new object[1]
+			Scribe_Deep.Look<Pawn_AgeTracker>(ref this.ageTracker, "ageTracker", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_HealthTracker>(ref this.health, "healthTracker", new object[1]
+			Scribe_Deep.Look<Pawn_HealthTracker>(ref this.health, "healthTracker", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_RecordsTracker>(ref this.records, "records", new object[1]
+			Scribe_Deep.Look<Pawn_RecordsTracker>(ref this.records, "records", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_InventoryTracker>(ref this.inventory, "inventory", new object[1]
+			Scribe_Deep.Look<Pawn_InventoryTracker>(ref this.inventory, "inventory", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_FilthTracker>(ref this.filth, "filth", new object[1]
+			Scribe_Deep.Look<Pawn_FilthTracker>(ref this.filth, "filth", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_NeedsTracker>(ref this.needs, "needs", new object[1]
+			Scribe_Deep.Look<Pawn_NeedsTracker>(ref this.needs, "needs", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_GuestTracker>(ref this.guest, "guest", new object[1]
+			Scribe_Deep.Look<Pawn_GuestTracker>(ref this.guest, "guest", new object[]
 			{
 				this
 			});
 			Scribe_Deep.Look<Pawn_GuiltTracker>(ref this.guilt, "guilt", new object[0]);
-			Scribe_Deep.Look<Pawn_RelationsTracker>(ref this.relations, "social", new object[1]
+			Scribe_Deep.Look<Pawn_RelationsTracker>(ref this.relations, "social", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_Ownership>(ref this.ownership, "ownership", new object[1]
+			Scribe_Deep.Look<Pawn_Ownership>(ref this.ownership, "ownership", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_InteractionsTracker>(ref this.interactions, "interactions", new object[1]
+			Scribe_Deep.Look<Pawn_InteractionsTracker>(ref this.interactions, "interactions", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_SkillTracker>(ref this.skills, "skills", new object[1]
+			Scribe_Deep.Look<Pawn_SkillTracker>(ref this.skills, "skills", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_WorkSettings>(ref this.workSettings, "workSettings", new object[1]
+			Scribe_Deep.Look<Pawn_WorkSettings>(ref this.workSettings, "workSettings", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_TraderTracker>(ref this.trader, "trader", new object[1]
+			Scribe_Deep.Look<Pawn_TraderTracker>(ref this.trader, "trader", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_OutfitTracker>(ref this.outfits, "outfits", new object[1]
+			Scribe_Deep.Look<Pawn_OutfitTracker>(ref this.outfits, "outfits", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_DrugPolicyTracker>(ref this.drugs, "drugs", new object[1]
+			Scribe_Deep.Look<Pawn_DrugPolicyTracker>(ref this.drugs, "drugs", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_TimetableTracker>(ref this.timetable, "timetable", new object[1]
+			Scribe_Deep.Look<Pawn_TimetableTracker>(ref this.timetable, "timetable", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_PlayerSettings>(ref this.playerSettings, "playerSettings", new object[1]
+			Scribe_Deep.Look<Pawn_PlayerSettings>(ref this.playerSettings, "playerSettings", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<Pawn_TrainingTracker>(ref this.training, "training", new object[1]
+			Scribe_Deep.Look<Pawn_TrainingTracker>(ref this.training, "training", new object[]
 			{
 				this
 			});
@@ -855,35 +897,42 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004B3D RID: 19261 RVA: 0x00272288 File Offset: 0x00270688
 		public override string ToString()
 		{
+			string result;
 			if (this.story != null)
 			{
-				return this.NameStringShort;
+				result = this.LabelShort;
 			}
-			if (base.thingIDNumber > 0)
+			else if (this.thingIDNumber > 0)
 			{
-				return base.ThingID;
+				result = base.ThingID;
 			}
-			if (this.kindDef != null)
+			else if (this.kindDef != null)
 			{
-				return this.KindLabel + "_" + base.ThingID;
+				result = this.KindLabel + "_" + base.ThingID;
 			}
-			if (base.def != null)
+			else if (this.def != null)
 			{
-				return base.ThingID;
+				result = base.ThingID;
 			}
-			return base.GetType().ToString();
+			else
+			{
+				result = base.GetType().ToString();
+			}
+			return result;
 		}
 
+		// Token: 0x06004B3E RID: 19262 RVA: 0x00272318 File Offset: 0x00270718
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			if (this.Dead)
 			{
-				Log.Warning("Tried to spawn Dead Pawn " + this + ". Replacing with corpse.");
+				Log.Warning("Tried to spawn Dead Pawn " + this + ". Replacing with corpse.", false);
 				Corpse corpse = (Corpse)ThingMaker.MakeThing(this.RaceProps.corpseDef, null);
 				corpse.InnerPawn = this;
-				GenSpawn.Spawn(corpse, base.Position, map);
+				GenSpawn.Spawn(corpse, base.Position, map, WipeMode.Vanish);
 			}
 			else
 			{
@@ -895,8 +944,22 @@ namespace Verse
 				PawnComponentsUtility.AddComponentsForSpawn(this);
 				if (!PawnUtility.InValidState(this))
 				{
-					Log.Error("Pawn " + this.ToString() + " spawned in invalid state. Destroying...");
-					this.Destroy(DestroyMode.Vanish);
+					Log.Error("Pawn " + this.ToStringSafe<Pawn>() + " spawned in invalid state. Destroying...", false);
+					try
+					{
+						this.DeSpawn(DestroyMode.Vanish);
+					}
+					catch (Exception ex)
+					{
+						Log.Error(string.Concat(new object[]
+						{
+							"Tried to despawn ",
+							this.ToStringSafe<Pawn>(),
+							" because of the previous error but couldn't: ",
+							ex
+						}), false);
+					}
+					Find.WorldPawns.PassToWorld(this, PawnDiscardDecideMode.Discard);
 				}
 				else
 				{
@@ -917,27 +980,32 @@ namespace Verse
 					{
 						this.records.AccumulateStoryEvent(StoryEventDefOf.Seen);
 						Find.GameEnder.CheckOrUpdateGameOver();
+						PawnDiedOrDownedThoughtsUtility.RemoveDiedThoughts(this);
 					}
 				}
 			}
 		}
 
+		// Token: 0x06004B3F RID: 19263 RVA: 0x002724F4 File Offset: 0x002708F4
 		public override void PostMapInit()
 		{
 			base.PostMapInit();
 			this.pather.TryResumePathingAfterLoading();
 		}
 
+		// Token: 0x06004B40 RID: 19264 RVA: 0x00272508 File Offset: 0x00270908
 		public override void DrawAt(Vector3 drawLoc, bool flip = false)
 		{
 			this.Drawer.DrawAt(drawLoc);
 		}
 
+		// Token: 0x06004B41 RID: 19265 RVA: 0x00272517 File Offset: 0x00270917
 		public override void DrawGUIOverlay()
 		{
 			this.Drawer.ui.DrawPawnGUIOverlay();
 		}
 
+		// Token: 0x06004B42 RID: 19266 RVA: 0x0027252C File Offset: 0x0027092C
 		public override void DrawExtraSelectionOverlays()
 		{
 			base.DrawExtraSelectionOverlays();
@@ -951,10 +1019,11 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004B43 RID: 19267 RVA: 0x0027257C File Offset: 0x0027097C
 		public override void TickRare()
 		{
 			base.TickRare();
-			if (!ThingOwnerUtility.ContentsFrozen(base.ParentHolder))
+			if (!base.Suspended)
 			{
 				if (this.apparel != null)
 				{
@@ -962,12 +1031,17 @@ namespace Verse
 				}
 				this.inventory.InventoryTrackerTickRare();
 			}
+			if (this.training != null)
+			{
+				this.training.TrainingTrackerTickRare();
+			}
 			if (base.Spawned && this.RaceProps.IsFlesh)
 			{
-				GenTemperature.PushHeat(this, (float)(0.30000001192092896 * this.BodySize * 4.1666665077209473));
+				GenTemperature.PushHeat(this, 0.3f * this.BodySize * 4.16666651f * ((!this.def.race.Humanlike) ? 0.6f : 1f));
 			}
 		}
 
+		// Token: 0x06004B44 RID: 19268 RVA: 0x0027262C File Offset: 0x00270A2C
 		public override void Tick()
 		{
 			if (DebugSettings.noAnimals && base.Spawned && this.RaceProps.Animal)
@@ -981,7 +1055,8 @@ namespace Verse
 				{
 					this.TickRare();
 				}
-				if (!ThingOwnerUtility.ContentsFrozen(base.ParentHolder))
+				bool suspended = base.Suspended;
+				if (!suspended)
 				{
 					if (base.Spawned)
 					{
@@ -995,17 +1070,27 @@ namespace Verse
 					}
 					if (base.Spawned)
 					{
+						Profiler.BeginSample("jobs");
 						this.jobs.JobTrackerTick();
+						Profiler.EndSample();
 					}
 					if (base.Spawned)
 					{
+						Profiler.BeginSample("Drawer");
 						this.Drawer.DrawTrackerTick();
+						Profiler.EndSample();
+						Profiler.BeginSample("rotationTracker");
 						this.rotationTracker.RotationTrackerTick();
+						Profiler.EndSample();
 					}
+					Profiler.BeginSample("health");
 					this.health.HealthTick();
+					Profiler.EndSample();
 					if (!this.Dead)
 					{
+						Profiler.BeginSample("mindState");
 						this.mindState.MindStateTick();
+						Profiler.EndSample();
 						this.carryTracker.CarryHandsTick();
 					}
 				}
@@ -1013,11 +1098,13 @@ namespace Verse
 				{
 					this.needs.NeedsTrackerTick();
 				}
-				if (!ThingOwnerUtility.ContentsFrozen(base.ParentHolder))
+				if (!suspended)
 				{
 					if (this.equipment != null)
 					{
+						Profiler.BeginSample("equipment");
 						this.equipment.EquipmentTrackerTick();
+						Profiler.EndSample();
 					}
 					if (this.apparel != null)
 					{
@@ -1025,7 +1112,9 @@ namespace Verse
 					}
 					if (this.interactions != null && base.Spawned)
 					{
+						Profiler.BeginSample("interactions");
 						this.interactions.InteractionsTrackerTick();
+						Profiler.EndSample();
 					}
 					if (this.caller != null)
 					{
@@ -1045,7 +1134,7 @@ namespace Verse
 					}
 					if (this.relations != null)
 					{
-						this.relations.SocialTrackerTick();
+						this.relations.RelationsTrackerTick();
 					}
 					if (this.RaceProps.Humanlike)
 					{
@@ -1057,15 +1146,17 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004B45 RID: 19269 RVA: 0x002728C0 File Offset: 0x00270CC0
 		public void TickMothballed(int interval)
 		{
-			if (!ThingOwnerUtility.ContentsFrozen(base.ParentHolder))
+			if (!base.Suspended)
 			{
 				this.ageTracker.AgeTickMothballed(interval);
 				this.records.RecordsTickMothballed(interval);
 			}
 		}
 
+		// Token: 0x06004B46 RID: 19270 RVA: 0x002728E8 File Offset: 0x00270CE8
 		public void Notify_Teleported(bool endCurrentJob = true)
 		{
 			this.Drawer.tweener.ResetTweenedPosToRoot();
@@ -1076,31 +1167,32 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004B47 RID: 19271 RVA: 0x00272940 File Offset: 0x00270D40
 		public void Notify_PassedToWorld()
 		{
-			if (base.Faction == null && this.RaceProps.Humanlike)
+			if (((base.Faction == null && this.RaceProps.Humanlike) || (base.Faction != null && base.Faction.IsPlayer) || base.Faction == Faction.OfAncients || base.Faction == Faction.OfAncientsHostile) && !this.Dead && Find.WorldPawns.GetSituation(this) == WorldPawnSituation.Free)
 			{
-				goto IL_0036;
-			}
-			if (base.Faction != null && base.Faction.IsPlayer)
-				goto IL_0036;
-			goto IL_00a4;
-			IL_0036:
-			if (!this.Dead && Find.WorldPawns.GetSituation(this) == WorldPawnSituation.Free)
-			{
-				bool tryMedievalOrBetter = base.Faction != null && (int)base.Faction.def.techLevel >= 3;
-				Faction newFaction = default(Faction);
-				if (Find.FactionManager.TryGetRandomNonColonyHumanlikeFaction(out newFaction, tryMedievalOrBetter, false, TechLevel.Undefined))
+				bool tryMedievalOrBetter = base.Faction != null && base.Faction.def.techLevel >= TechLevel.Medieval;
+				Faction faction;
+				if (Find.FactionManager.TryGetRandomNonColonyHumanlikeFaction(out faction, tryMedievalOrBetter, false, TechLevel.Undefined))
 				{
-					this.SetFaction(newFaction, null);
+					if (base.Faction != faction)
+					{
+						this.SetFaction(faction, null);
+					}
 				}
-				else
+				else if (Find.FactionManager.TryGetRandomNonColonyHumanlikeFaction(out faction, tryMedievalOrBetter, true, TechLevel.Undefined))
 				{
-					this.SetFaction(Faction.OfSpacer, null);
+					if (base.Faction != faction)
+					{
+						this.SetFaction(faction, null);
+					}
+				}
+				else if (base.Faction != null)
+				{
+					this.SetFaction(null, null);
 				}
 			}
-			goto IL_00a4;
-			IL_00a4:
 			if (!this.IsCaravanMember() && !PawnUtility.IsTravelingInTransportPodWorldObject(this))
 			{
 				this.ClearMind(false);
@@ -1111,15 +1203,21 @@ namespace Verse
 			}
 		}
 
-		public override void PreApplyDamage(DamageInfo dinfo, out bool absorbed)
+		// Token: 0x06004B48 RID: 19272 RVA: 0x00272A8C File Offset: 0x00270E8C
+		public override void PreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
 		{
-			base.PreApplyDamage(dinfo, out absorbed);
+			base.PreApplyDamage(ref dinfo, out absorbed);
 			if (!absorbed)
 			{
+				if (this.story != null && this.story.traits.HasTrait(TraitDefOf.Tough) && dinfo.Def.externalViolence)
+				{
+					dinfo.SetAmount(dinfo.Amount * 0.6f);
+				}
 				this.health.PreApplyDamage(dinfo, out absorbed);
 			}
 		}
 
+		// Token: 0x06004B49 RID: 19273 RVA: 0x00272B08 File Offset: 0x00270F08
 		public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
 		{
 			base.PostApplyDamage(dinfo, totalDamageDealt);
@@ -1127,52 +1225,83 @@ namespace Verse
 			{
 				this.records.AddTo(RecordDefOf.DamageTaken, totalDamageDealt);
 			}
+			if (dinfo.Def.makesBlood && !dinfo.InstantPermanentInjury && totalDamageDealt > 0f && Rand.Chance(0.5f))
+			{
+				this.health.DropBloodFilth();
+			}
 			this.records.AccumulateStoryEvent(StoryEventDefOf.DamageTaken);
 			this.health.PostApplyDamage(dinfo, totalDamageDealt);
+			if (!this.Dead)
+			{
+				this.mindState.Notify_DamageTaken(dinfo);
+			}
 		}
 
+		// Token: 0x06004B4A RID: 19274 RVA: 0x00272BB8 File Offset: 0x00270FB8
 		public override Thing SplitOff(int count)
 		{
-			if (count > 0 && count < base.stackCount)
+			if (count <= 0 || count >= this.stackCount)
 			{
-				throw new NotImplementedException("Split off on Pawns is not supported (unless we're taking a full stack).");
+				return base.SplitOff(count);
 			}
-			return base.SplitOff(count);
+			throw new NotImplementedException("Split off on Pawns is not supported (unless we're taking a full stack).");
 		}
 
+		// Token: 0x17000C38 RID: 3128
+		// (get) Token: 0x06004B4B RID: 19275 RVA: 0x00272BF4 File Offset: 0x00270FF4
+		public int TicksPerMoveCardinal
+		{
+			get
+			{
+				return this.TicksPerMove(false);
+			}
+		}
+
+		// Token: 0x17000C39 RID: 3129
+		// (get) Token: 0x06004B4C RID: 19276 RVA: 0x00272C10 File Offset: 0x00271010
+		public int TicksPerMoveDiagonal
+		{
+			get
+			{
+				return this.TicksPerMove(true);
+			}
+		}
+
+		// Token: 0x06004B4D RID: 19277 RVA: 0x00272C2C File Offset: 0x0027102C
 		private int TicksPerMove(bool diagonal)
 		{
 			float num = this.GetStatValue(StatDefOf.MoveSpeed, true);
 			if (RestraintsUtility.InRestraints(this))
 			{
-				num = (float)(num * 0.34999999403953552);
+				num *= 0.35f;
 			}
 			if (this.carryTracker != null && this.carryTracker.CarriedThing != null && this.carryTracker.CarriedThing.def.category == ThingCategory.Pawn)
 			{
-				num = (float)(num * 0.60000002384185791);
+				num *= 0.6f;
 			}
-			float num2 = (float)(num / 60.0);
+			float num2 = num / 60f;
 			float num3;
-			if (num2 == 0.0)
+			if (num2 == 0f)
 			{
 				num3 = 450f;
 			}
 			else
 			{
-				num3 = (float)(1.0 / num2);
+				num3 = 1f / num2;
 				if (base.Spawned && !base.Map.roofGrid.Roofed(base.Position))
 				{
 					num3 /= base.Map.weatherManager.CurMoveSpeedMultiplier;
 				}
 				if (diagonal)
 				{
-					num3 = (float)(num3 * 1.4142099618911743);
+					num3 *= 1.41421f;
 				}
 			}
 			int value = Mathf.RoundToInt(num3);
 			return Mathf.Clamp(value, 1, 450);
 		}
 
+		// Token: 0x06004B4E RID: 19278 RVA: 0x00272D28 File Offset: 0x00271128
 		public override void Kill(DamageInfo? dinfo, Hediff exactCulprit = null)
 		{
 			IntVec3 positionHeld = base.PositionHeld;
@@ -1197,7 +1326,7 @@ namespace Verse
 			bool inContainerEnclosed = this.InContainerEnclosed;
 			if (inContainerEnclosed)
 			{
-				thingOwner = base.holdingOwner;
+				thingOwner = this.holdingOwner;
 				thingOwner.Remove(this);
 			}
 			bool flag3 = false;
@@ -1207,7 +1336,7 @@ namespace Verse
 				flag3 = (map.designationManager.DesignationOn(this, DesignationDefOf.Hunt) != null);
 				flag4 = (map.designationManager.DesignationOn(this, DesignationDefOf.Slaughter) != null);
 			}
-			bool flag5 = PawnUtility.ShouldSendNotificationAbout(this) && (!flag4 || !dinfo.HasValue || dinfo.Value.Def != DamageDefOf.ExecutionCut);
+			bool flag5 = PawnUtility.ShouldSendNotificationAbout(this) && (!flag4 || dinfo == null || dinfo.Value.Def != DamageDefOf.ExecutionCut);
 			float num = 0f;
 			Thing attachment = this.GetAttachment(ThingDefOf.Fire);
 			if (attachment != null)
@@ -1223,11 +1352,11 @@ namespace Verse
 			{
 				Find.StoryWatcher.statsRecord.colonistsKilled++;
 			}
-			if (flag && dinfo.HasValue && dinfo.Value.Def.externalViolence)
+			if (flag && dinfo != null && dinfo.Value.Def.externalViolence)
 			{
 				LifeStageUtility.PlayNearestLifestageSound(this, (LifeStageAge ls) => ls.soundDeath, 1f);
 			}
-			if (dinfo.HasValue && dinfo.Value.Instigator != null)
+			if (dinfo != null && dinfo.Value.Instigator != null)
 			{
 				Pawn pawn = dinfo.Value.Instigator as Pawn;
 				if (pawn != null)
@@ -1239,60 +1368,10 @@ namespace Verse
 					}
 				}
 			}
-			if (Current.ProgramState == ProgramState.Playing && dinfo.HasValue)
-			{
-				Pawn pawn2 = dinfo.Value.Instigator as Pawn;
-				if (pawn2 == null || pawn2.CurJob == null || !(pawn2.jobs.curDriver is JobDriver_Execute))
-				{
-					bool flag6 = !this.RaceProps.Humanlike && dinfo.Value.Instigator != null && dinfo.Value.Instigator.Spawned && dinfo.Value.Instigator is Pawn && ((Pawn)dinfo.Value.Instigator).jobs.curDriver is JobDriver_Slaughter;
-					if (pawn2 != null)
-					{
-						if (base.Faction != Faction.OfPlayer && this.kindDef.combatPower >= 250.0 && pawn2.Faction == Faction.OfPlayer)
-						{
-							TaleRecorder.RecordTale(TaleDefOf.KilledMajorColonyEnemy, pawn2, this);
-						}
-						else if (this.IsColonist)
-						{
-							TaleRecorder.RecordTale(TaleDefOf.KilledColonist, pawn2, this);
-						}
-						else if (base.Faction == Faction.OfPlayer && this.RaceProps.Animal && !flag6)
-						{
-							TaleRecorder.RecordTale(TaleDefOf.KilledColonyAnimal, pawn2, this);
-						}
-					}
-					if ((base.Faction == Faction.OfPlayer || (pawn2 != null && pawn2.Faction == Faction.OfPlayer)) && !flag6)
-					{
-						TaleRecorder.RecordTale(TaleDefOf.KilledBy, this, dinfo.Value);
-					}
-					if (pawn2 != null)
-					{
-						if (dinfo.Value.Weapon != null && dinfo.Value.Weapon.building != null && dinfo.Value.Weapon.building.IsMortar)
-						{
-							TaleRecorder.RecordTale(TaleDefOf.KilledMortar, pawn2, this, dinfo.Value.Weapon);
-						}
-						else if (pawn2 != null && pawn2.Position.DistanceTo(base.Position) >= 35.0)
-						{
-							TaleRecorder.RecordTale(TaleDefOf.KilledLongRange, pawn2, this, dinfo.Value.Weapon);
-						}
-						else if (dinfo.Value.Weapon != null && dinfo.Value.Weapon.IsMeleeWeapon)
-						{
-							TaleRecorder.RecordTale(TaleDefOf.KilledMelee, pawn2, this, dinfo.Value.Weapon);
-						}
-						if (this.kindDef.combatPower >= 250.0)
-						{
-							TaleRecorder.RecordTale(TaleDefOf.KilledMajorThreat, pawn2, this, dinfo.Value.Weapon);
-						}
-						PawnCapacityDef pawnCapacityDef = this.health.ShouldBeDeadFromRequiredCapacity();
-						if (pawnCapacityDef != null)
-						{
-							TaleRecorder.RecordTale(TaleDefOf.KilledCapacity, pawn2, this, pawnCapacityDef);
-						}
-					}
-				}
-			}
+			TaleUtility.Notify_PawnDied(this, dinfo);
 			if (flag)
 			{
-				Find.BattleLog.Add(new BattleLogEntry_StateTransition(this, this.RaceProps.DeathActionWorker.DeathRules, (!dinfo.HasValue) ? null : (dinfo.Value.Instigator as Pawn), exactCulprit, (!dinfo.HasValue) ? null : dinfo.Value.HitPart.def));
+				Find.BattleLog.Add(new BattleLogEntry_StateTransition(this, this.RaceProps.DeathActionWorker.DeathRules, (dinfo == null) ? null : (dinfo.Value.Instigator as Pawn), exactCulprit, (dinfo == null) ? null : dinfo.Value.HitPart));
 			}
 			this.health.surgeryBills.Clear();
 			if (this.apparel != null)
@@ -1305,13 +1384,21 @@ namespace Verse
 			}
 			this.meleeVerbs.Notify_PawnKilled();
 			Pawn_CarryTracker pawn_CarryTracker = base.ParentHolder as Pawn_CarryTracker;
-			Thing thing = default(Thing);
-			if (pawn_CarryTracker != null && base.holdingOwner.TryDrop((Thing)this, pawn_CarryTracker.pawn.Position, pawn_CarryTracker.pawn.Map, ThingPlaceMode.Near, out thing, (Action<Thing, int>)null))
+			if (pawn_CarryTracker != null)
 			{
-				map = pawn_CarryTracker.pawn.Map;
-				flag = true;
+				Thing thing;
+				if (this.holdingOwner.TryDrop(this, pawn_CarryTracker.pawn.Position, pawn_CarryTracker.pawn.Map, ThingPlaceMode.Near, out thing, null, null))
+				{
+					map = pawn_CarryTracker.pawn.Map;
+					flag = true;
+				}
 			}
 			this.health.SetDead();
+			if (this.health.deflectionEffecter != null)
+			{
+				this.health.deflectionEffecter.Cleanup();
+				this.health.deflectionEffecter = null;
+			}
 			if (caravan != null)
 			{
 				caravan.Notify_MemberDied(this);
@@ -1322,7 +1409,7 @@ namespace Verse
 			}
 			if (flag)
 			{
-				this.DeSpawn();
+				this.DeSpawn(DestroyMode.Vanish);
 			}
 			Corpse corpse = null;
 			if (!PawnGenerator.IsBeingGenerated(this))
@@ -1338,12 +1425,12 @@ namespace Verse
 				}
 				else if (spawnedOrAnyParentSpawned)
 				{
-					if (base.holdingOwner != null)
+					if (this.holdingOwner != null)
 					{
-						base.holdingOwner.Remove(this);
+						this.holdingOwner.Remove(this);
 					}
 					corpse = this.MakeCorpse(assignedGrave, flag2, bedRotation);
-					if (GenPlace.TryPlaceThing(corpse, positionHeld, mapHeld, ThingPlaceMode.Direct, null))
+					if (GenPlace.TryPlaceThing(corpse, positionHeld, mapHeld, ThingPlaceMode.Direct, null, null))
 					{
 						corpse.Rotation = base.Rotation;
 						if (HuntJobUtility.WasKilledByHunter(this, dinfo))
@@ -1354,7 +1441,7 @@ namespace Verse
 						{
 							corpse.SetForbiddenIfOutsideHomeArea();
 						}
-						if (num > 0.0)
+						if (num > 0f)
 						{
 							FireUtility.TryStartFireIn(corpse.Position, corpse.Map, num);
 						}
@@ -1365,13 +1452,27 @@ namespace Verse
 						corpse = null;
 					}
 				}
-				else if (base.holdingOwner != null || this.IsWorldPawn())
+				else if (caravan != null && caravan.Spawned)
+				{
+					corpse = this.MakeCorpse(assignedGrave, flag2, bedRotation);
+					caravan.AddPawnOrItem(corpse, true);
+				}
+				else if (this.holdingOwner != null || this.IsWorldPawn())
 				{
 					Corpse.PostCorpseDestroy(this);
 				}
 				else
 				{
 					corpse = this.MakeCorpse(assignedGrave, flag2, bedRotation);
+				}
+			}
+			if (corpse != null)
+			{
+				Hediff firstHediffOfDef = this.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.ToxicBuildup, false);
+				CompRottable comp = corpse.GetComp<CompRottable>();
+				if (firstHediffOfDef != null && Rand.Value < firstHediffOfDef.Severity && comp != null)
+				{
+					comp.RotImmediately();
 				}
 			}
 			if (!base.Destroyed)
@@ -1400,6 +1501,10 @@ namespace Verse
 					Find.Scenario.Notify_PawnDied(corpse);
 				}
 			}
+			if (base.Faction != null && base.Faction.IsPlayer)
+			{
+				BillUtility.Notify_ColonistUnavailable(this);
+			}
 			if (spawnedOrAnyParentSpawned)
 			{
 				GenHostility.Notify_PawnLostForTutor(this, mapHeld);
@@ -1414,11 +1519,19 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004B4F RID: 19279 RVA: 0x0027344C File Offset: 0x0027184C
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
 		{
-			if (mode != 0 && mode != DestroyMode.KillFinalize)
+			if (mode != DestroyMode.Vanish && mode != DestroyMode.KillFinalize)
 			{
-				Log.Error("Destroyed pawn " + this + " with unsupported mode " + mode + ".");
+				Log.Error(string.Concat(new object[]
+				{
+					"Destroyed pawn ",
+					this,
+					" with unsupported mode ",
+					mode,
+					"."
+				}), false);
 			}
 			base.Destroy(mode);
 			Find.WorldPawns.Notify_PawnDestroyed(this);
@@ -1432,17 +1545,17 @@ namespace Verse
 				Lord lord = this.GetLord();
 				if (lord != null)
 				{
-					PawnLostCondition cond = (PawnLostCondition)((mode != DestroyMode.KillFinalize) ? 1 : 2);
+					PawnLostCondition cond = (mode != DestroyMode.KillFinalize) ? PawnLostCondition.Vanished : PawnLostCondition.IncappedOrKilled;
 					lord.Notify_PawnLost(this, cond);
 				}
 				Find.GameEnder.CheckOrUpdateGameOver();
 				Find.TaleManager.Notify_PawnDestroyed(this);
 			}
-			foreach (Pawn item in from p in PawnsFinder.AllMapsWorldAndTemporary_Alive
-			where p.playerSettings != null && p.playerSettings.master == this
+			foreach (Pawn pawn in from p in PawnsFinder.AllMapsWorldAndTemporary_Alive
+			where p.playerSettings != null && p.playerSettings.Master == this
 			select p)
 			{
-				item.playerSettings.master = null;
+				pawn.playerSettings.Master = null;
 			}
 			if (mode != DestroyMode.KillFinalize)
 			{
@@ -1463,14 +1576,15 @@ namespace Verse
 			}
 		}
 
-		public override void DeSpawn()
+		// Token: 0x06004B50 RID: 19280 RVA: 0x002735E8 File Offset: 0x002719E8
+		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
 		{
 			Map map = base.Map;
 			if (this.jobs != null && this.jobs.curJob != null)
 			{
-				this.jobs.EndCurrentJob(JobCondition.InterruptForced, false);
+				this.jobs.StopAll(false);
 			}
-			base.DeSpawn();
+			base.DeSpawn(mode);
 			if (this.pather != null)
 			{
 				this.pather.StopDead();
@@ -1478,6 +1592,10 @@ namespace Verse
 			if (this.needs != null && this.needs.mood != null)
 			{
 				this.needs.mood.thoughts.situational.Notify_SituationalThoughtsDirty();
+			}
+			if (this.meleeVerbs != null)
+			{
+				this.meleeVerbs.Notify_PawnDespawned();
 			}
 			this.ClearAllReservations(false);
 			if (map != null)
@@ -1487,11 +1605,12 @@ namespace Verse
 			PawnComponentsUtility.RemoveComponentsOnDespawned(this);
 		}
 
+		// Token: 0x06004B51 RID: 19281 RVA: 0x002736AC File Offset: 0x00271AAC
 		public override void Discard(bool silentlyRemoveReferences = false)
 		{
 			if (Find.WorldPawns.Contains(this))
 			{
-				Log.Warning("Tried to discard a world pawn " + this + ".");
+				Log.Warning("Tried to discard a world pawn " + this + ".", false);
 			}
 			else
 			{
@@ -1506,46 +1625,53 @@ namespace Verse
 					Find.BattleLog.Notify_PawnDiscarded(this, silentlyRemoveReferences);
 					Find.TaleManager.Notify_PawnDiscarded(this, silentlyRemoveReferences);
 				}
-				foreach (Pawn item in PawnsFinder.AllMapsWorldAndTemporary_Alive)
+				foreach (Pawn pawn in PawnsFinder.AllMapsWorldAndTemporary_Alive)
 				{
-					if (item.needs.mood != null)
+					if (pawn.needs.mood != null)
 					{
-						item.needs.mood.thoughts.memories.Notify_PawnDiscarded(this);
+						pawn.needs.mood.thoughts.memories.Notify_PawnDiscarded(this);
 					}
 				}
 				Corpse.PostCorpseDestroy(this);
 			}
 		}
 
+		// Token: 0x06004B52 RID: 19282 RVA: 0x002737AC File Offset: 0x00271BAC
 		private Corpse MakeCorpse(Building_Grave assignedGrave, bool inBed, float bedRotation)
 		{
-			if (base.holdingOwner != null)
+			Corpse result;
+			if (this.holdingOwner != null)
 			{
-				Log.Warning("We can't make corpse because the pawn is in a ThingOwner. Remove him from the container first. This should have been already handled before calling this method. holder=" + base.ParentHolder);
-				return null;
+				Log.Warning("We can't make corpse because the pawn is in a ThingOwner. Remove him from the container first. This should have been already handled before calling this method. holder=" + base.ParentHolder, false);
+				result = null;
 			}
-			Corpse corpse = (Corpse)ThingMaker.MakeThing(this.RaceProps.corpseDef, null);
-			corpse.InnerPawn = this;
-			if (assignedGrave != null)
+			else
 			{
-				corpse.InnerPawn.ownership.ClaimGrave(assignedGrave);
+				Corpse corpse = (Corpse)ThingMaker.MakeThing(this.RaceProps.corpseDef, null);
+				corpse.InnerPawn = this;
+				if (assignedGrave != null)
+				{
+					corpse.InnerPawn.ownership.ClaimGrave(assignedGrave);
+				}
+				if (inBed)
+				{
+					corpse.InnerPawn.Drawer.renderer.wiggler.SetToCustomRotation(bedRotation + 180f);
+				}
+				result = corpse;
 			}
-			if (inBed)
-			{
-				corpse.InnerPawn.Drawer.renderer.wiggler.SetToCustomRotation((float)(bedRotation + 180.0));
-			}
-			return corpse;
+			return result;
 		}
 
-		public void ExitMap(bool allowedToJoinOrCreateCaravan)
+		// Token: 0x06004B53 RID: 19283 RVA: 0x00273848 File Offset: 0x00271C48
+		public void ExitMap(bool allowedToJoinOrCreateCaravan, Rot4 exitDir)
 		{
 			if (this.IsWorldPawn())
 			{
-				Log.Warning("Called ExitMap() on world pawn " + this);
+				Log.Warning("Called ExitMap() on world pawn " + this, false);
 			}
 			else if (allowedToJoinOrCreateCaravan && CaravanExitMapUtility.CanExitMapAndJoinOrCreateCaravanNow(this))
 			{
-				CaravanExitMapUtility.ExitMapAndJoinOrCreateCaravan(this);
+				CaravanExitMapUtility.ExitMapAndJoinOrCreateCaravan(this, exitDir);
 			}
 			else
 			{
@@ -1566,7 +1692,7 @@ namespace Verse
 						else
 						{
 							this.carryTracker.innerContainer.Remove(pawn);
-							pawn.ExitMap(false);
+							pawn.ExitMap(false, exitDir);
 						}
 					}
 					else
@@ -1576,15 +1702,9 @@ namespace Verse
 					this.carryTracker.innerContainer.Clear();
 				}
 				bool flag = !this.IsCaravanMember() && !PawnUtility.IsTravelingInTransportPodWorldObject(this);
-				if (flag && this.HostFaction != null && this.guest != null && (this.guest.Released || !this.IsPrisoner) && !this.InMentalState && this.health.hediffSet.BleedRateTotal < 0.0010000000474974513 && base.Faction.def.appreciative && !base.Faction.def.hidden)
+				if (base.Faction != null)
 				{
-					float num = 15f;
-					if (PawnUtility.IsFactionLeader(this))
-					{
-						num = (float)(num + 50.0);
-					}
-					Messages.Message("MessagePawnExitMapRelationsGain".Translate(this.LabelShort, base.Faction.Name, num.ToString("F0")), MessageTypeDefOf.PositiveEvent);
-					base.Faction.AffectGoodwillWith(this.HostFaction, num);
+					base.Faction.Notify_MemberExitedMap(this, flag);
 				}
 				if (this.ownership != null)
 				{
@@ -1600,7 +1720,7 @@ namespace Verse
 				}
 				if (base.Spawned)
 				{
-					this.DeSpawn();
+					this.DeSpawn(DestroyMode.Vanish);
 				}
 				this.inventory.UnloadEverything = false;
 				if (flag)
@@ -1615,6 +1735,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004B54 RID: 19284 RVA: 0x00273A18 File Offset: 0x00271E18
 		public override void PreTraded(TradeAction action, Pawn playerNegotiator, ITrader trader)
 		{
 			base.PreTraded(action, playerNegotiator, trader);
@@ -1630,15 +1751,20 @@ namespace Verse
 			{
 				this.guest.SetGuestStatus(null, false);
 			}
-			switch (action)
+			if (action == TradeAction.PlayerBuys)
 			{
-			case TradeAction.PlayerBuys:
 				this.SetFaction(Faction.OfPlayer, null);
-				break;
-			case TradeAction.PlayerSells:
+			}
+			else if (action == TradeAction.PlayerSells)
+			{
 				if (this.RaceProps.Humanlike)
 				{
-					TaleRecorder.RecordTale(TaleDefOf.SoldPrisoner, playerNegotiator, this, trader);
+					TaleRecorder.RecordTale(TaleDefOf.SoldPrisoner, new object[]
+					{
+						playerNegotiator,
+						this,
+						trader
+					});
 				}
 				if (base.Faction != null)
 				{
@@ -1650,23 +1776,25 @@ namespace Verse
 				}
 				if (this.RaceProps.Humanlike)
 				{
-					foreach (Pawn item in from x in PawnsFinder.AllMapsCaravansAndTravelingTransportPods
-					where x.IsColonist || x.IsPrisonerOfColony
-					select x)
+					foreach (Pawn pawn in PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonistsAndPrisoners)
 					{
-						item.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.KnowPrisonerSold, null);
+						pawn.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.KnowPrisonerSold, null);
 					}
 				}
-				break;
 			}
 			this.ClearMind(false);
 		}
 
+		// Token: 0x06004B55 RID: 19285 RVA: 0x00273B70 File Offset: 0x00271F70
 		public void PreKidnapped(Pawn kidnapper)
 		{
 			if (this.IsColonist && kidnapper != null)
 			{
-				TaleRecorder.RecordTale(TaleDefOf.KidnappedColonist, kidnapper, this);
+				TaleRecorder.RecordTale(TaleDefOf.KidnappedColonist, new object[]
+				{
+					kidnapper,
+					this
+				});
 			}
 			if (this.ownership != null)
 			{
@@ -1683,14 +1811,16 @@ namespace Verse
 			this.ClearMind(false);
 		}
 
+		// Token: 0x06004B56 RID: 19286 RVA: 0x00273BF8 File Offset: 0x00271FF8
 		public override void SetFaction(Faction newFaction, Pawn recruiter = null)
 		{
 			if (newFaction == base.Faction)
 			{
-				Log.Warning("Used SetFaction to change " + this + " to same faction " + newFaction);
+				Log.Warning("Used SetFaction to change " + this.ToStringSafe<Pawn>() + " to same faction " + newFaction.ToStringSafe<Faction>(), false);
 			}
 			else
 			{
+				Faction faction = base.Faction;
 				if (this.guest != null)
 				{
 					this.guest.SetGuestStatus(null, false);
@@ -1766,9 +1896,19 @@ namespace Verse
 				{
 					this.relations.Notify_ChangedFaction();
 				}
+				if (this.RaceProps.Animal && newFaction == Faction.OfPlayer)
+				{
+					this.training.SetWantedRecursive(TrainableDefOf.Tameness, true);
+					this.training.Train(TrainableDefOf.Tameness, recruiter, true);
+				}
+				if (faction == Faction.OfPlayer)
+				{
+					BillUtility.Notify_ColonistUnavailable(this);
+				}
 			}
 		}
 
+		// Token: 0x06004B57 RID: 19287 RVA: 0x00273EE4 File Offset: 0x002722E4
 		public void ClearMind(bool ifLayingKeepLaying = false)
 		{
 			if (this.pather != null)
@@ -1786,6 +1926,7 @@ namespace Verse
 			this.VerifyReservations();
 		}
 
+		// Token: 0x06004B58 RID: 19288 RVA: 0x00273F3C File Offset: 0x0027233C
 		public void ClearAllReservations(bool releaseDestinationsOnlyIfObsolete = true)
 		{
 			List<Map> maps = Find.Maps;
@@ -1805,6 +1946,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004B59 RID: 19289 RVA: 0x00273FD0 File Offset: 0x002723D0
 		public void ClearReservationsForJob(Job job)
 		{
 			List<Map> maps = Find.Maps;
@@ -1817,127 +1959,157 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004B5A RID: 19290 RVA: 0x0027404C File Offset: 0x0027244C
 		public void VerifyReservations()
 		{
-			if (this.jobs != null && this.CurJob == null && this.jobs.jobQueue.Count <= 0 && !this.jobs.startingNewJob)
+			if (this.jobs != null)
 			{
-				bool flag = false;
-				List<Map> maps = Find.Maps;
-				for (int i = 0; i < maps.Count; i++)
+				if (this.CurJob == null && this.jobs.jobQueue.Count <= 0 && !this.jobs.startingNewJob)
 				{
-					LocalTargetInfo obj = maps[i].reservationManager.FirstReservationFor(this);
-					if (obj.IsValid)
+					bool flag = false;
+					List<Map> maps = Find.Maps;
+					for (int i = 0; i < maps.Count; i++)
 					{
-						Log.ErrorOnce(string.Format("Reservation manager failed to clean up properly; {0} still reserving {1}", this.ToStringSafe(), obj.ToStringSafe()), 97771429 ^ base.thingIDNumber);
-						flag = true;
+						LocalTargetInfo obj = maps[i].reservationManager.FirstReservationFor(this);
+						if (obj.IsValid)
+						{
+							Log.ErrorOnce(string.Format("Reservation manager failed to clean up properly; {0} still reserving {1}", this.ToStringSafe<Pawn>(), obj.ToStringSafe<LocalTargetInfo>()), 97771429 ^ this.thingIDNumber, false);
+							flag = true;
+						}
+						LocalTargetInfo obj2 = maps[i].physicalInteractionReservationManager.FirstReservationFor(this);
+						if (obj2.IsValid)
+						{
+							Log.ErrorOnce(string.Format("Physical interaction reservation manager failed to clean up properly; {0} still reserving {1}", this.ToStringSafe<Pawn>(), obj2.ToStringSafe<LocalTargetInfo>()), 19586765 ^ this.thingIDNumber, false);
+							flag = true;
+						}
+						IAttackTarget attackTarget = maps[i].attackTargetReservationManager.FirstReservationFor(this);
+						if (attackTarget != null)
+						{
+							Log.ErrorOnce(string.Format("Attack target reservation manager failed to clean up properly; {0} still reserving {1}", this.ToStringSafe<Pawn>(), attackTarget.ToStringSafe<IAttackTarget>()), 100495878 ^ this.thingIDNumber, false);
+							flag = true;
+						}
+						IntVec3 obj3 = maps[i].pawnDestinationReservationManager.FirstObsoleteReservationFor(this);
+						if (obj3.IsValid)
+						{
+							Job job = maps[i].pawnDestinationReservationManager.FirstObsoleteReservationJobFor(this);
+							Log.ErrorOnce(string.Format("Pawn destination reservation manager failed to clean up properly; {0}/{1}/{2} still reserving {3}", new object[]
+							{
+								this.ToStringSafe<Pawn>(),
+								job.ToStringSafe<Job>(),
+								job.def.ToStringSafe<JobDef>(),
+								obj3.ToStringSafe<IntVec3>()
+							}), 1958674 ^ this.thingIDNumber, false);
+							flag = true;
+						}
 					}
-					LocalTargetInfo obj2 = maps[i].physicalInteractionReservationManager.FirstReservationFor(this);
-					if (obj2.IsValid)
+					if (flag)
 					{
-						Log.ErrorOnce(string.Format("Physical interaction reservation manager failed to clean up properly; {0} still reserving {1}", this.ToStringSafe(), obj2.ToStringSafe()), 19586765 ^ base.thingIDNumber);
-						flag = true;
+						this.ClearAllReservations(true);
 					}
-					IAttackTarget attackTarget = maps[i].attackTargetReservationManager.FirstReservationFor(this);
-					if (attackTarget != null)
-					{
-						Log.ErrorOnce(string.Format("Attack target reservation manager failed to clean up properly; {0} still reserving {1}", this.ToStringSafe(), attackTarget.ToStringSafe()), 100495878 ^ base.thingIDNumber);
-						flag = true;
-					}
-					IntVec3 obj3 = maps[i].pawnDestinationReservationManager.FirstObsoleteReservationFor(this);
-					if (obj3.IsValid)
-					{
-						Job job = maps[i].pawnDestinationReservationManager.FirstObsoleteReservationJobFor(this);
-						Log.ErrorOnce(string.Format("Pawn destination reservation manager failed to clean up properly; {0}/{1}/{2} still reserving {3}", this.ToStringSafe(), job.ToStringSafe(), job.def.ToStringSafe(), obj3.ToStringSafe()), 1958674 ^ base.thingIDNumber);
-						flag = true;
-					}
-				}
-				if (flag)
-				{
-					this.ClearAllReservations(true);
 				}
 			}
 		}
 
+		// Token: 0x06004B5B RID: 19291 RVA: 0x00274234 File Offset: 0x00272634
 		public void DropAndForbidEverything(bool keepInventoryAndEquipmentIfInBed = false)
 		{
+			if (this.kindDef.destroyGearOnDrop)
+			{
+				this.equipment.DestroyAllEquipment(DestroyMode.Vanish);
+				this.apparel.DestroyAll(DestroyMode.Vanish);
+			}
 			if (this.InContainerEnclosed)
 			{
 				if (this.carryTracker != null && this.carryTracker.CarriedThing != null)
 				{
-					this.carryTracker.innerContainer.TryTransferToContainer(this.carryTracker.CarriedThing, base.holdingOwner, true);
+					this.carryTracker.innerContainer.TryTransferToContainer(this.carryTracker.CarriedThing, this.holdingOwner, true);
 				}
 				if (this.equipment != null && this.equipment.Primary != null)
 				{
-					this.equipment.TryTransferEquipmentToContainer(this.equipment.Primary, base.holdingOwner);
+					this.equipment.TryTransferEquipmentToContainer(this.equipment.Primary, this.holdingOwner);
 				}
 				if (this.inventory != null)
 				{
-					this.inventory.innerContainer.TryTransferAllToContainer(base.holdingOwner, true);
+					this.inventory.innerContainer.TryTransferAllToContainer(this.holdingOwner, true);
 				}
 			}
 			else if (base.SpawnedOrAnyParentSpawned)
 			{
 				if (this.carryTracker != null && this.carryTracker.CarriedThing != null)
 				{
-					Thing thing = default(Thing);
-					this.carryTracker.TryDropCarriedThing(base.PositionHeld, ThingPlaceMode.Near, out thing, (Action<Thing, int>)null);
+					Thing thing;
+					this.carryTracker.TryDropCarriedThing(base.PositionHeld, ThingPlaceMode.Near, out thing, null);
 				}
-				if (keepInventoryAndEquipmentIfInBed && this.InBed())
-					return;
-				if (this.equipment != null)
+				if (!keepInventoryAndEquipmentIfInBed || !this.InBed())
 				{
-					this.equipment.DropAllEquipment(base.PositionHeld, true);
-				}
-				if (this.inventory != null && this.inventory.innerContainer.TotalStackCount > 0)
-				{
-					this.inventory.DropAllNearPawn(base.PositionHeld, true, false);
+					if (this.equipment != null)
+					{
+						this.equipment.DropAllEquipment(base.PositionHeld, true);
+					}
+					if (this.inventory != null && this.inventory.innerContainer.TotalStackCount > 0)
+					{
+						this.inventory.DropAllNearPawn(base.PositionHeld, true, false);
+					}
 				}
 			}
 		}
 
+		// Token: 0x06004B5C RID: 19292 RVA: 0x002743BC File Offset: 0x002727BC
 		public void GenerateNecessaryName()
 		{
-			if (base.Faction == Faction.OfPlayer && this.RaceProps.Animal && (this.Name == null || this.Name.Numerical))
+			if (base.Faction == Faction.OfPlayer && this.RaceProps.Animal)
 			{
-				if (Rand.Value < this.RaceProps.nameOnTameChance)
+				if (this.Name == null || this.Name.Numerical)
 				{
-					this.Name = PawnBioAndNameGenerator.GeneratePawnName(this, NameStyle.Full, null);
-				}
-				else
-				{
-					this.Name = PawnBioAndNameGenerator.GeneratePawnName(this, NameStyle.Numeric, null);
+					if (Rand.Value < this.RaceProps.nameOnTameChance)
+					{
+						this.Name = PawnBioAndNameGenerator.GeneratePawnName(this, NameStyle.Full, null);
+					}
+					else
+					{
+						this.Name = PawnBioAndNameGenerator.GeneratePawnName(this, NameStyle.Numeric, null);
+					}
 				}
 			}
 		}
 
-		public Verb TryGetAttackVerb(bool allowManualCastWeapons = false)
+		// Token: 0x06004B5D RID: 19293 RVA: 0x00274444 File Offset: 0x00272844
+		public Verb TryGetAttackVerb(Thing target, bool allowManualCastWeapons = false)
 		{
-			if (this.equipment != null && this.equipment.Primary != null && (!this.equipment.PrimaryEq.PrimaryVerb.verbProps.onlyManualCast || (this.CurJob != null && this.CurJob.def != JobDefOf.WaitCombat) || allowManualCastWeapons))
+			Verb result;
+			if (this.equipment != null && this.equipment.Primary != null && this.equipment.PrimaryEq.PrimaryVerb.Available() && (!this.equipment.PrimaryEq.PrimaryVerb.verbProps.onlyManualCast || (this.CurJob != null && this.CurJob.def != JobDefOf.Wait_Combat) || allowManualCastWeapons))
 			{
-				return this.equipment.PrimaryEq.PrimaryVerb;
+				result = this.equipment.PrimaryEq.PrimaryVerb;
 			}
-			return this.meleeVerbs.TryGetMeleeVerb();
+			else
+			{
+				result = this.meleeVerbs.TryGetMeleeVerb(target);
+			}
+			return result;
 		}
 
+		// Token: 0x06004B5E RID: 19294 RVA: 0x002744F8 File Offset: 0x002728F8
 		public bool TryStartAttack(LocalTargetInfo targ)
 		{
+			bool result;
 			if (this.stances.FullBodyBusy)
 			{
-				return false;
+				result = false;
 			}
-			if (this.story != null && this.story.WorkTagIsDisabled(WorkTags.Violent))
+			else if (this.story != null && this.story.WorkTagIsDisabled(WorkTags.Violent))
 			{
-				return false;
+				result = false;
 			}
-			bool allowManualCastWeapons = !this.IsColonist;
-			Verb verb = this.TryGetAttackVerb(allowManualCastWeapons);
-			if (verb == null)
+			else
 			{
-				return false;
+				bool allowManualCastWeapons = !this.IsColonist;
+				Verb verb = this.TryGetAttackVerb(targ.Thing, allowManualCastWeapons);
+				result = (verb != null && verb.TryStartCastOn(targ, false, true));
 			}
-			return verb.TryStartCastOn(targ, false, true);
+			return result;
 		}
 
+		// Token: 0x06004B5F RID: 19295 RVA: 0x00274578 File Offset: 0x00272978
 		public override IEnumerable<Thing> ButcherProducts(Pawn butcher, float efficiency)
 		{
 			if (this.RaceProps.meatDef != null)
@@ -1948,17 +2120,11 @@ namespace Verse
 					Thing meat = ThingMaker.MakeThing(this.RaceProps.meatDef, null);
 					meat.stackCount = meatCount;
 					yield return meat;
-					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
-			using (IEnumerator<Thing> enumerator = base.ButcherProducts(butcher, efficiency).GetEnumerator())
+			foreach (Thing t in this.<ButcherProducts>__BaseCallProxy0(butcher, efficiency))
 			{
-				if (enumerator.MoveNext())
-				{
-					Thing t = enumerator.Current;
-					yield return t;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return t;
 			}
 			if (this.RaceProps.leatherDef != null)
 			{
@@ -1968,53 +2134,65 @@ namespace Verse
 					Thing leather = ThingMaker.MakeThing(this.RaceProps.leatherDef, null);
 					leather.stackCount = leatherCount;
 					yield return leather;
-					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 			if (!this.RaceProps.Humanlike)
 			{
-				_003CButcherProducts_003Ec__Iterator1 _003CButcherProducts_003Ec__Iterator = (_003CButcherProducts_003Ec__Iterator1)/*Error near IL_0210: stateMachine*/;
 				PawnKindLifeStage lifeStage = this.ageTracker.CurKindLifeStage;
 				if (lifeStage.butcherBodyPart != null)
 				{
-					if (this.gender != 0 && (this.gender != Gender.Male || !lifeStage.butcherBodyPart.allowMale))
+					if (this.gender == Gender.None || (this.gender == Gender.Male && lifeStage.butcherBodyPart.allowMale) || (this.gender == Gender.Female && lifeStage.butcherBodyPart.allowFemale))
 					{
-						if (this.gender != Gender.Female)
-							yield break;
-						if (!lifeStage.butcherBodyPart.allowFemale)
-							yield break;
-					}
-					BodyPartRecord record = (from x in this.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined)
-					where x.IsInGroup(lifeStage.butcherBodyPart.bodyPartGroup)
-					select x).FirstOrDefault();
-					if (record != null)
-					{
-						this.health.AddHediff(HediffMaker.MakeHediff(HediffDefOf.MissingBodyPart, this, record), null, null);
-						Thing thing = (lifeStage.butcherBodyPart.thing == null) ? ThingMaker.MakeThing(record.def.spawnThingOnRemoved, null) : ThingMaker.MakeThing(lifeStage.butcherBodyPart.thing, null);
-						yield return thing;
-						/*Error: Unable to find new state assignment for yield return*/;
+						for (;;)
+						{
+							BodyPartRecord record = (from x in this.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null)
+							where x.IsInGroup(lifeStage.butcherBodyPart.bodyPartGroup)
+							select x).FirstOrDefault<BodyPartRecord>();
+							if (record == null)
+							{
+								break;
+							}
+							this.health.AddHediff(HediffMaker.MakeHediff(HediffDefOf.MissingBodyPart, this, record), null, null, null);
+							Thing thing;
+							if (lifeStage.butcherBodyPart.thing != null)
+							{
+								thing = ThingMaker.MakeThing(lifeStage.butcherBodyPart.thing, null);
+							}
+							else
+							{
+								thing = ThingMaker.MakeThing(record.def.spawnThingOnRemoved, null);
+							}
+							yield return thing;
+						}
 					}
 				}
 			}
 			yield break;
-			IL_03ae:
-			/*Error near IL_03af: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x06004B60 RID: 19296 RVA: 0x002745B0 File Offset: 0x002729B0
 		public string MainDesc(bool writeAge)
 		{
 			string text = GenLabel.BestKindLabel(this, true, true, false, -1);
 			if (base.Faction != null && !base.Faction.def.hidden)
 			{
-				text = "PawnMainDescFactionedWrap".Translate(text, base.Faction.Name);
+				text = "PawnMainDescFactionedWrap".Translate(new object[]
+				{
+					text,
+					base.Faction.Name
+				});
 			}
 			if (writeAge && this.ageTracker != null)
 			{
-				text = text + ", " + "AgeIndicator".Translate(this.ageTracker.AgeNumberString);
+				text = text + ", " + "AgeIndicator".Translate(new object[]
+				{
+					this.ageTracker.AgeNumberString
+				});
 			}
 			return text.CapitalizeFirst();
 		}
 
+		// Token: 0x06004B61 RID: 19297 RVA: 0x00274654 File Offset: 0x00272A54
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -2026,6 +2204,29 @@ namespace Verse
 			if (this.InMentalState)
 			{
 				stringBuilder.AppendLine(this.MentalState.InspectLine);
+			}
+			Pawn.states.Clear();
+			if (this.stances != null && this.stances.stunner != null && this.stances.stunner.Stunned)
+			{
+				Pawn.states.AddDistinct("StunLower".Translate());
+			}
+			if (this.health != null && this.health.hediffSet != null)
+			{
+				List<Hediff> hediffs = this.health.hediffSet.hediffs;
+				for (int i = 0; i < hediffs.Count; i++)
+				{
+					Hediff hediff = hediffs[i];
+					if (!hediff.def.battleStateLabel.NullOrEmpty())
+					{
+						Pawn.states.AddDistinct(hediff.def.battleStateLabel);
+					}
+				}
+			}
+			if (Pawn.states.Count > 0)
+			{
+				Pawn.states.Sort();
+				stringBuilder.AppendLine(string.Format("{0}: {1}", "State".Translate(), Pawn.states.ToCommaList(false).CapitalizeFirst()));
+				Pawn.states.Clear();
 			}
 			if (this.Inspired)
 			{
@@ -2051,11 +2252,18 @@ namespace Verse
 				try
 				{
 					string text2 = this.jobs.curDriver.GetReport().CapitalizeFirst();
-					text = (text.NullOrEmpty() ? text2 : (text + ": " + text2));
+					if (!text.NullOrEmpty())
+					{
+						text = text + ": " + text2;
+					}
+					else
+					{
+						text = text2;
+					}
 				}
 				catch (Exception arg)
 				{
-					stringBuilder.AppendLine("JobDriver.GetReport() exception: " + arg);
+					Log.Error("JobDriver.GetReport() exception: " + arg, false);
 				}
 			}
 			if (!text.NullOrEmpty())
@@ -2070,13 +2278,19 @@ namespace Verse
 					if (this.jobs.jobQueue.Count > 1)
 					{
 						string text4 = text3;
-						text3 = text4 + " (+" + (this.jobs.jobQueue.Count - 1) + ")";
+						text3 = string.Concat(new object[]
+						{
+							text4,
+							" (+",
+							this.jobs.jobQueue.Count - 1,
+							")"
+						});
 					}
 					stringBuilder.AppendLine("Queued".Translate() + ": " + text3);
 				}
 				catch (Exception arg2)
 				{
-					stringBuilder.AppendLine("JobDriver.GetReport() exception: " + arg2);
+					Log.Error("JobDriver.GetReport() exception: " + arg2, false);
 				}
 			}
 			if (RestraintsUtility.ShouldShowRestraintsInfo(this))
@@ -2087,114 +2301,83 @@ namespace Verse
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
+		// Token: 0x06004B62 RID: 19298 RVA: 0x00274A8C File Offset: 0x00272E8C
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			if (this.IsColonistPlayerControlled)
 			{
-				using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
+				foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy1())
 				{
-					if (enumerator.MoveNext())
-					{
-						Gizmo c2 = enumerator.Current;
-						yield return c2;
-						/*Error: Unable to find new state assignment for yield return*/;
-					}
+					yield return c;
 				}
 				if (this.drafter != null)
 				{
-					using (IEnumerator<Gizmo> enumerator2 = this.drafter.GetGizmos().GetEnumerator())
+					foreach (Gizmo c2 in this.drafter.GetGizmos())
 					{
-						if (enumerator2.MoveNext())
-						{
-							Gizmo c = enumerator2.Current;
-							yield return c;
-							/*Error: Unable to find new state assignment for yield return*/;
-						}
+						yield return c2;
 					}
 				}
-				using (IEnumerator<Gizmo> enumerator3 = PawnAttackGizmoUtility.GetAttackGizmos(this).GetEnumerator())
+				foreach (Gizmo attack in PawnAttackGizmoUtility.GetAttackGizmos(this))
 				{
-					if (enumerator3.MoveNext())
-					{
-						Gizmo attack = enumerator3.Current;
-						yield return attack;
-						/*Error: Unable to find new state assignment for yield return*/;
-					}
+					yield return attack;
 				}
-				if (this.equipment != null)
+			}
+			if (this.equipment != null)
+			{
+				foreach (Gizmo g in this.equipment.GetGizmos())
 				{
-					using (IEnumerator<Gizmo> enumerator4 = this.equipment.GetGizmos().GetEnumerator())
-					{
-						if (enumerator4.MoveNext())
-						{
-							Gizmo g4 = enumerator4.Current;
-							yield return g4;
-							/*Error: Unable to find new state assignment for yield return*/;
-						}
-					}
+					yield return g;
 				}
+			}
+			if (this.IsColonistPlayerControlled)
+			{
 				if (this.apparel != null)
 				{
-					using (IEnumerator<Gizmo> enumerator5 = this.apparel.GetGizmos().GetEnumerator())
+					foreach (Gizmo g2 in this.apparel.GetGizmos())
 					{
-						if (enumerator5.MoveNext())
-						{
-							Gizmo g3 = enumerator5.Current;
-							yield return g3;
-							/*Error: Unable to find new state assignment for yield return*/;
-						}
+						yield return g2;
 					}
 				}
 				if (this.playerSettings != null)
 				{
-					using (IEnumerator<Gizmo> enumerator6 = this.playerSettings.GetGizmos().GetEnumerator())
+					foreach (Gizmo g3 in this.playerSettings.GetGizmos())
 					{
-						if (enumerator6.MoveNext())
-						{
-							Gizmo g2 = enumerator6.Current;
-							yield return g2;
-							/*Error: Unable to find new state assignment for yield return*/;
-						}
-					}
-				}
-				using (IEnumerator<Gizmo> enumerator7 = this.mindState.GetGizmos().GetEnumerator())
-				{
-					if (enumerator7.MoveNext())
-					{
-						Gizmo g = enumerator7.Current;
-						yield return g;
-						/*Error: Unable to find new state assignment for yield return*/;
+						yield return g3;
 					}
 				}
 			}
+			foreach (Gizmo g4 in this.mindState.GetGizmos())
+			{
+				yield return g4;
+			}
 			yield break;
-			IL_048d:
-			/*Error near IL_048e: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x06004B63 RID: 19299 RVA: 0x00274AB8 File Offset: 0x00272EB8
 		public virtual IEnumerable<FloatMenuOption> GetExtraFloatMenuOptionsFor(IntVec3 sq)
 		{
 			yield break;
 		}
 
+		// Token: 0x06004B64 RID: 19300 RVA: 0x00274ADC File Offset: 0x00272EDC
 		public override TipSignal GetTooltip()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.Append(this.LabelCap);
-			string text = string.Empty;
-			if (this.gender != 0)
+			string text = "";
+			if (this.gender != Gender.None)
 			{
 				text = this.gender.GetLabel();
 			}
 			if (!this.LabelCap.EqualsIgnoreCase(this.KindLabel))
 			{
-				if (text != string.Empty)
+				if (text != "")
 				{
 					text += " ";
 				}
 				text += this.KindLabel;
 			}
-			if (text != string.Empty)
+			if (text != "")
 			{
 				stringBuilder.Append(" (" + text + ")");
 			}
@@ -2204,43 +2387,58 @@ namespace Verse
 				stringBuilder.AppendLine(this.equipment.Primary.LabelCap);
 			}
 			stringBuilder.AppendLine(HealthUtility.GetGeneralConditionLabel(this, false));
-			return new TipSignal(stringBuilder.ToString().TrimEndNewlines(), base.thingIDNumber * 152317, TooltipPriority.Pawn);
+			return new TipSignal(stringBuilder.ToString().TrimEndNewlines(), this.thingIDNumber * 152317, TooltipPriority.Pawn);
 		}
 
+		// Token: 0x17000C3A RID: 3130
+		// (get) Token: 0x06004B65 RID: 19301 RVA: 0x00274BF0 File Offset: 0x00272FF0
+		public override IEnumerable<StatDrawEntry> SpecialDisplayStats
+		{
+			get
+			{
+				foreach (StatDrawEntry s in this.<get_SpecialDisplayStats>__BaseCallProxy2())
+				{
+					yield return s;
+				}
+				yield return new StatDrawEntry(StatCategoryDefOf.BasicsPawn, "BodySize".Translate(), this.BodySize.ToString("F2"), 0, "");
+				yield break;
+			}
+		}
+
+		// Token: 0x06004B66 RID: 19302 RVA: 0x00274C1C File Offset: 0x0027301C
 		public bool CurrentlyUsableForBills()
 		{
+			bool result;
 			if (!this.InBed() && (this.RaceProps.FleshType.requiresBedForSurgery || !this.Downed))
 			{
-				JobFailReason.Is(Pawn.NotSurgeryReadyTrans);
-				return false;
+				JobFailReason.Is(Pawn.NotSurgeryReadyTrans, null);
+				result = false;
 			}
-			if (!this.InteractionCell.IsValid)
+			else if (!this.InteractionCell.IsValid)
 			{
-				JobFailReason.Is(Pawn.CannotReachTrans);
-				return false;
+				JobFailReason.Is(Pawn.CannotReachTrans, null);
+				result = false;
 			}
-			return true;
+			else
+			{
+				result = true;
+			}
+			return result;
 		}
 
+		// Token: 0x06004B67 RID: 19303 RVA: 0x00274C98 File Offset: 0x00273098
+		public bool UsableForBillsAfterFueling()
+		{
+			return this.CurrentlyUsableForBills();
+		}
+
+		// Token: 0x06004B68 RID: 19304 RVA: 0x00274CB4 File Offset: 0x002730B4
 		public bool AnythingToStrip()
 		{
-			if (this.equipment != null && this.equipment.HasAnything())
-			{
-				goto IL_005a;
-			}
-			if (this.apparel != null && this.apparel.WornApparelCount > 0)
-			{
-				goto IL_005a;
-			}
-			int result = (this.inventory != null && this.inventory.innerContainer.Count > 0) ? 1 : 0;
-			goto IL_005b;
-			IL_005a:
-			result = 1;
-			goto IL_005b;
-			IL_005b:
-			return (byte)result != 0;
+			return (this.equipment != null && this.equipment.HasAnything()) || (this.apparel != null && this.apparel.WornApparelCount > 0) || (this.inventory != null && this.inventory.innerContainer.Count > 0);
 		}
 
+		// Token: 0x06004B69 RID: 19305 RVA: 0x00274D24 File Offset: 0x00273124
 		public void Strip()
 		{
 			Caravan caravan = this.GetCaravan();
@@ -2274,42 +2472,63 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004B6A RID: 19306 RVA: 0x00274DF0 File Offset: 0x002731F0
 		public IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
 			return this.trader.ColonyThingsWillingToBuy(playerNegotiator);
 		}
 
+		// Token: 0x06004B6B RID: 19307 RVA: 0x00274E11 File Offset: 0x00273211
 		public void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			this.trader.GiveSoldThingToTrader(toGive, countToGive, playerNegotiator);
 		}
 
+		// Token: 0x06004B6C RID: 19308 RVA: 0x00274E22 File Offset: 0x00273222
 		public void GiveSoldThingToPlayer(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			this.trader.GiveSoldThingToPlayer(toGive, countToGive, playerNegotiator);
 		}
 
-		public void HearClamor(Pawn source, ClamorType type)
+		// Token: 0x06004B6D RID: 19309 RVA: 0x00274E34 File Offset: 0x00273234
+		public void HearClamor(Thing source, ClamorDef type)
 		{
 			if (!this.Dead && !this.Downed)
 			{
-				if (type == ClamorType.Movement && this.needs.mood != null && !this.Awake() && base.Faction == Faction.OfPlayer && Find.TickManager.TicksGame > this.lastSleepDisturbedTick + 300 && !LovePartnerRelationUtility.LovePartnerRelationExists(this, source))
+				if (type == ClamorDefOf.Movement)
 				{
-					this.lastSleepDisturbedTick = Find.TickManager.TicksGame;
-					this.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.SleepDisturbed, null);
-				}
-				if (type == ClamorType.Harm && base.Faction != Faction.OfPlayer && !this.Awake() && base.Faction == source.Faction && this.HostFaction == null)
-				{
-					this.mindState.canSleepTick = Find.TickManager.TicksGame + 1000;
-					if (this.CurJob != null)
+					Pawn pawn = source as Pawn;
+					if (pawn != null)
 					{
-						this.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+						this.CheckForDisturbedSleep(pawn);
 					}
 				}
-				if (type == ClamorType.Construction && base.Faction != Faction.OfPlayer && !this.Awake() && base.Faction != source.Faction && this.HostFaction == null)
+				if (type == ClamorDefOf.Harm)
+				{
+					if (base.Faction != Faction.OfPlayer && !this.Awake() && base.Faction == source.Faction && this.HostFaction == null)
+					{
+						this.mindState.canSleepTick = Find.TickManager.TicksGame + 1000;
+						if (this.CurJob != null)
+						{
+							this.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+						}
+					}
+				}
+				if (type == ClamorDefOf.Construction)
+				{
+					if (base.Faction != Faction.OfPlayer && !this.Awake() && base.Faction != source.Faction && this.HostFaction == null)
+					{
+						this.mindState.canSleepTick = Find.TickManager.TicksGame + 1000;
+						if (this.CurJob != null)
+						{
+							this.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+						}
+					}
+				}
+				if (type == ClamorDefOf.Impact)
 				{
 					this.mindState.canSleepTick = Find.TickManager.TicksGame + 1000;
-					if (this.CurJob != null)
+					if (this.CurJob != null && !this.Awake())
 					{
 						this.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
 					}
@@ -2317,60 +2536,139 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004B6E RID: 19310 RVA: 0x00274FBC File Offset: 0x002733BC
+		private void CheckForDisturbedSleep(Pawn source)
+		{
+			if (this.needs.mood != null)
+			{
+				if (!this.Awake())
+				{
+					if (base.Faction == Faction.OfPlayer)
+					{
+						if (Find.TickManager.TicksGame >= this.lastSleepDisturbedTick + 300)
+						{
+							if (source != null)
+							{
+								if (LovePartnerRelationUtility.LovePartnerRelationExists(this, source))
+								{
+									return;
+								}
+								if (source.RaceProps.petness > 0f)
+								{
+									return;
+								}
+								if (source.relations != null)
+								{
+									if (source.relations.DirectRelations.Any((DirectPawnRelation dr) => dr.def == PawnRelationDefOf.Bond))
+									{
+										return;
+									}
+								}
+							}
+							this.lastSleepDisturbedTick = Find.TickManager.TicksGame;
+							this.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.SleepDisturbed, null);
+						}
+					}
+				}
+			}
+		}
+
+		// Token: 0x06004B6F RID: 19311 RVA: 0x002750CC File Offset: 0x002734CC
 		public bool CheckAcceptArrest(Pawn arrester)
 		{
+			bool result;
 			if (this.health.Downed)
 			{
-				return true;
+				result = true;
 			}
-			if (this.story != null && this.story.WorkTagIsDisabled(WorkTags.Violent))
+			else if (this.story != null && this.story.WorkTagIsDisabled(WorkTags.Violent))
 			{
-				return true;
+				result = true;
 			}
-			if (base.Faction != null && base.Faction != arrester.factionInt)
+			else
 			{
-				base.Faction.Notify_MemberCaptured(this, arrester.Faction);
+				if (base.Faction != null && base.Faction != arrester.factionInt)
+				{
+					base.Faction.Notify_MemberCaptured(this, arrester.Faction);
+				}
+				float num = (!this.IsWildMan()) ? 0.5f : 0.2f;
+				if (Rand.Value < num)
+				{
+					result = true;
+				}
+				else
+				{
+					Messages.Message("MessageRefusedArrest".Translate(new object[]
+					{
+						this.LabelShort
+					}), this, MessageTypeDefOf.ThreatSmall, true);
+					if (base.Faction == null || !arrester.HostileTo(this))
+					{
+						this.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Berserk, null, false, false, null, false);
+					}
+					result = false;
+				}
 			}
-			if (Rand.Value < 0.5)
-			{
-				return true;
-			}
-			Messages.Message("MessageRefusedArrest".Translate(this.LabelShort), this, MessageTypeDefOf.ThreatSmall);
-			if (base.Faction == null || !arrester.HostileTo(this))
-			{
-				this.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Berserk, null, false, false, null);
-			}
-			return false;
+			return result;
 		}
 
-		public bool ThreatDisabled()
+		// Token: 0x06004B70 RID: 19312 RVA: 0x002751D4 File Offset: 0x002735D4
+		public bool ThreatDisabled(IAttackTargetSearcher disabledFor)
 		{
+			bool result;
 			if (!base.Spawned)
 			{
-				return true;
+				result = true;
 			}
-			if (!this.InMentalState && this.GetTraderCaravanRole() == TraderCaravanRole.Carrier && !(this.jobs.curDriver is JobDriver_AttackMelee))
+			else if (!this.InMentalState && this.GetTraderCaravanRole() == TraderCaravanRole.Carrier && !(this.jobs.curDriver is JobDriver_AttackMelee))
 			{
-				return true;
+				result = true;
 			}
-			if (this.Downed)
+			else if (this.mindState.duty != null && this.mindState.duty.def.threatDisabled)
 			{
-				return true;
+				result = true;
 			}
-			return false;
+			else if (!this.mindState.Active)
+			{
+				result = true;
+			}
+			else
+			{
+				if (this.Downed)
+				{
+					if (disabledFor == null)
+					{
+						return true;
+					}
+					Pawn pawn = disabledFor.Thing as Pawn;
+					if (pawn == null || pawn.mindState == null || pawn.mindState.duty == null || !pawn.mindState.duty.attackDownedIfStarving || !pawn.Starving())
+					{
+						return true;
+					}
+				}
+				result = false;
+			}
+			return result;
 		}
 
+		// Token: 0x06004B71 RID: 19313 RVA: 0x002752EC File Offset: 0x002736EC
 		public override bool PreventPlayerSellingThingsNearby(out string reason)
 		{
-			if (!this.InAggroMentalState && (!base.Faction.HostileTo(Faction.OfPlayer) || this.HostFaction != null || this.Downed || this.InMentalState))
+			bool result;
+			if (this.InAggroMentalState || (base.Faction.HostileTo(Faction.OfPlayer) && this.HostFaction == null && !this.Downed && !this.InMentalState))
+			{
+				reason = "Enemies".Translate();
+				result = true;
+			}
+			else
 			{
 				reason = null;
-				return false;
+				result = false;
 			}
-			reason = "Enemies".Translate();
-			return true;
+			return result;
 		}
 
+		// Token: 0x06004B72 RID: 19314 RVA: 0x0027535C File Offset: 0x0027375C
 		public void ChangeKind(PawnKindDef newKindDef)
 		{
 			if (this.kindDef != newKindDef)
@@ -2390,5 +2688,143 @@ namespace Verse
 				}
 			}
 		}
+
+		// Token: 0x0400327B RID: 12923
+		public PawnKindDef kindDef;
+
+		// Token: 0x0400327C RID: 12924
+		private Name nameInt;
+
+		// Token: 0x0400327D RID: 12925
+		public Gender gender = Gender.None;
+
+		// Token: 0x0400327E RID: 12926
+		public Pawn_AgeTracker ageTracker;
+
+		// Token: 0x0400327F RID: 12927
+		public Pawn_HealthTracker health;
+
+		// Token: 0x04003280 RID: 12928
+		public Pawn_RecordsTracker records;
+
+		// Token: 0x04003281 RID: 12929
+		public Pawn_InventoryTracker inventory;
+
+		// Token: 0x04003282 RID: 12930
+		public Pawn_MeleeVerbs meleeVerbs;
+
+		// Token: 0x04003283 RID: 12931
+		public VerbTracker verbTracker;
+
+		// Token: 0x04003284 RID: 12932
+		public Pawn_CarryTracker carryTracker;
+
+		// Token: 0x04003285 RID: 12933
+		public Pawn_NeedsTracker needs;
+
+		// Token: 0x04003286 RID: 12934
+		public Pawn_MindState mindState;
+
+		// Token: 0x04003287 RID: 12935
+		public Pawn_RotationTracker rotationTracker;
+
+		// Token: 0x04003288 RID: 12936
+		public Pawn_PathFollower pather;
+
+		// Token: 0x04003289 RID: 12937
+		public Pawn_Thinker thinker;
+
+		// Token: 0x0400328A RID: 12938
+		public Pawn_JobTracker jobs;
+
+		// Token: 0x0400328B RID: 12939
+		public Pawn_StanceTracker stances;
+
+		// Token: 0x0400328C RID: 12940
+		public Pawn_NativeVerbs natives;
+
+		// Token: 0x0400328D RID: 12941
+		public Pawn_FilthTracker filth;
+
+		// Token: 0x0400328E RID: 12942
+		public Pawn_EquipmentTracker equipment;
+
+		// Token: 0x0400328F RID: 12943
+		public Pawn_ApparelTracker apparel;
+
+		// Token: 0x04003290 RID: 12944
+		public Pawn_Ownership ownership;
+
+		// Token: 0x04003291 RID: 12945
+		public Pawn_SkillTracker skills;
+
+		// Token: 0x04003292 RID: 12946
+		public Pawn_StoryTracker story;
+
+		// Token: 0x04003293 RID: 12947
+		public Pawn_GuestTracker guest;
+
+		// Token: 0x04003294 RID: 12948
+		public Pawn_GuiltTracker guilt;
+
+		// Token: 0x04003295 RID: 12949
+		public Pawn_WorkSettings workSettings;
+
+		// Token: 0x04003296 RID: 12950
+		public Pawn_TraderTracker trader;
+
+		// Token: 0x04003297 RID: 12951
+		public Pawn_TrainingTracker training;
+
+		// Token: 0x04003298 RID: 12952
+		public Pawn_CallTracker caller;
+
+		// Token: 0x04003299 RID: 12953
+		public Pawn_RelationsTracker relations;
+
+		// Token: 0x0400329A RID: 12954
+		public Pawn_InteractionsTracker interactions;
+
+		// Token: 0x0400329B RID: 12955
+		public Pawn_PlayerSettings playerSettings;
+
+		// Token: 0x0400329C RID: 12956
+		public Pawn_OutfitTracker outfits;
+
+		// Token: 0x0400329D RID: 12957
+		public Pawn_DrugPolicyTracker drugs;
+
+		// Token: 0x0400329E RID: 12958
+		public Pawn_TimetableTracker timetable;
+
+		// Token: 0x0400329F RID: 12959
+		public Pawn_DraftController drafter;
+
+		// Token: 0x040032A0 RID: 12960
+		private Pawn_DrawTracker drawer;
+
+		// Token: 0x040032A1 RID: 12961
+		private const float HumanSizedHeatOutput = 0.3f;
+
+		// Token: 0x040032A2 RID: 12962
+		private const float AnimalHeatOutputFactor = 0.6f;
+
+		// Token: 0x040032A3 RID: 12963
+		private static string NotSurgeryReadyTrans;
+
+		// Token: 0x040032A4 RID: 12964
+		private static string CannotReachTrans;
+
+		// Token: 0x040032A5 RID: 12965
+		public const int MaxMoveTicks = 450;
+
+		// Token: 0x040032A6 RID: 12966
+		private static List<string> states = new List<string>();
+
+		// Token: 0x040032A7 RID: 12967
+		private int lastSleepDisturbedTick = 0;
+
+		// Token: 0x040032A8 RID: 12968
+		private const int SleepDisturbanceMinInterval = 300;
 	}
 }

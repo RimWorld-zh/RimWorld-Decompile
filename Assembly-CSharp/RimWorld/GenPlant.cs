@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,130 +7,165 @@ using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000982 RID: 2434
+	[HasDebugOutput]
 	public static class GenPlant
 	{
-		public static bool GrowthSeasonNow(IntVec3 c, Map map)
+		// Token: 0x060036BE RID: 14014 RVA: 0x001D3344 File Offset: 0x001D1744
+		public static bool GrowthSeasonNow(IntVec3 c, Map map, bool forSowing = false)
 		{
 			Room roomOrAdjacent = c.GetRoomOrAdjacent(map, RegionType.Set_All);
+			bool result;
 			if (roomOrAdjacent == null)
 			{
-				return false;
+				result = false;
 			}
-			if (roomOrAdjacent.UsesOutdoorTemperature)
+			else if (roomOrAdjacent.UsesOutdoorTemperature)
 			{
-				return map.weatherManager.growthSeasonMemory.GrowthSeasonOutdoorsNow;
+				if (forSowing)
+				{
+					result = map.weatherManager.growthSeasonMemory.GrowthSeasonOutdoorsNowForSowing;
+				}
+				else
+				{
+					result = map.weatherManager.growthSeasonMemory.GrowthSeasonOutdoorsNow;
+				}
 			}
-			float temperature = c.GetTemperature(map);
-			return temperature > 0.0 && temperature < 58.0;
+			else
+			{
+				float temperature = c.GetTemperature(map);
+				result = (temperature > 0f && temperature < 58f);
+			}
+			return result;
 		}
 
+		// Token: 0x060036BF RID: 14015 RVA: 0x001D33D0 File Offset: 0x001D17D0
 		public static bool SnowAllowsPlanting(IntVec3 c, Map map)
 		{
-			return c.GetSnowDepth(map) < 0.20000000298023224;
+			return c.GetSnowDepth(map) < 0.2f;
 		}
 
+		// Token: 0x060036C0 RID: 14016 RVA: 0x001D33F4 File Offset: 0x001D17F4
 		public static bool CanEverPlantAt(this ThingDef plantDef, IntVec3 c, Map map)
 		{
 			if (plantDef.category != ThingCategory.Plant)
 			{
-				Log.Error("Checking CanGrowAt with " + plantDef + " which is not a plant.");
+				Log.Error("Checking CanGrowAt with " + plantDef + " which is not a plant.", false);
 			}
+			bool result;
 			if (!c.InBounds(map))
 			{
-				return false;
+				result = false;
 			}
-			if (map.fertilityGrid.FertilityAt(c) < plantDef.plant.fertilityMin)
+			else if (map.fertilityGrid.FertilityAt(c) < plantDef.plant.fertilityMin)
 			{
-				return false;
+				result = false;
 			}
-			List<Thing> list = map.thingGrid.ThingsListAt(c);
-			for (int i = 0; i < list.Count; i++)
+			else
 			{
-				Thing thing = list[i];
-				if (thing.def.BlockPlanting)
+				List<Thing> list = map.thingGrid.ThingsListAt(c);
+				for (int i = 0; i < list.Count; i++)
 				{
-					return false;
-				}
-				if (plantDef.passability == Traversability.Impassable && (thing.def.category == ThingCategory.Pawn || thing.def.category == ThingCategory.Item || thing.def.category == ThingCategory.Building || thing.def.category == ThingCategory.Plant))
-				{
-					return false;
-				}
-			}
-			if (plantDef.passability == Traversability.Impassable)
-			{
-				for (int j = 0; j < 4; j++)
-				{
-					IntVec3 c2 = c + GenAdj.CardinalDirections[j];
-					if (c2.InBounds(map))
+					Thing thing = list[i];
+					if (thing.def.BlockPlanting)
 					{
-						Building edifice = c2.GetEdifice(map);
-						if (edifice != null && edifice.def.IsDoor)
+						return false;
+					}
+					if (plantDef.passability == Traversability.Impassable)
+					{
+						if (thing.def.category == ThingCategory.Pawn || thing.def.category == ThingCategory.Item || thing.def.category == ThingCategory.Building || thing.def.category == ThingCategory.Plant)
 						{
 							return false;
 						}
 					}
 				}
+				if (plantDef.passability == Traversability.Impassable)
+				{
+					for (int j = 0; j < 4; j++)
+					{
+						IntVec3 c2 = c + GenAdj.CardinalDirections[j];
+						if (c2.InBounds(map))
+						{
+							Building edifice = c2.GetEdifice(map);
+							if (edifice != null && edifice.def.IsDoor)
+							{
+								return false;
+							}
+						}
+					}
+				}
+				result = true;
 			}
-			return true;
+			return result;
 		}
 
+		// Token: 0x060036C1 RID: 14017 RVA: 0x001D3578 File Offset: 0x001D1978
 		public static void LogPlantProportions()
 		{
 			Dictionary<ThingDef, float> dictionary = new Dictionary<ThingDef, float>();
-			foreach (ThingDef allWildPlant in Find.VisibleMap.Biome.AllWildPlants)
+			foreach (ThingDef key in Find.CurrentMap.Biome.AllWildPlants)
 			{
-				dictionary.Add(allWildPlant, 0f);
+				dictionary.Add(key, 0f);
 			}
 			float num = 0f;
-			foreach (IntVec3 allCell in Find.VisibleMap.AllCells)
+			foreach (IntVec3 c in Find.CurrentMap.AllCells)
 			{
-				Plant plant = allCell.GetPlant(Find.VisibleMap);
+				Plant plant = c.GetPlant(Find.CurrentMap);
 				if (plant != null && dictionary.ContainsKey(plant.def))
 				{
 					Dictionary<ThingDef, float> dictionary2;
 					ThingDef def;
-					(dictionary2 = dictionary)[def = plant.def] = (float)(dictionary2[def] + 1.0);
-					num = (float)(num + 1.0);
+					(dictionary2 = dictionary)[def = plant.def] = dictionary2[def] + 1f;
+					num += 1f;
 				}
 			}
-			foreach (ThingDef allWildPlant2 in Find.VisibleMap.Biome.AllWildPlants)
+			foreach (ThingDef thingDef in Find.CurrentMap.Biome.AllWildPlants)
 			{
 				Dictionary<ThingDef, float> dictionary2;
-				ThingDef key;
-				(dictionary2 = dictionary)[key = allWildPlant2] = dictionary2[key] / num;
+				ThingDef key2;
+				(dictionary2 = dictionary)[key2 = thingDef] = dictionary2[key2] / num;
 			}
-			Dictionary<ThingDef, float> dictionary3 = GenPlant.CalculateDesiredPlantProportions(Find.VisibleMap.Biome);
+			Dictionary<ThingDef, float> dictionary3 = GenPlant.CalculateDesiredPlantProportions(Find.CurrentMap.Biome);
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("PLANT           EXPECTED             FOUND");
-			foreach (ThingDef allWildPlant3 in Find.VisibleMap.Biome.AllWildPlants)
+			foreach (ThingDef thingDef2 in Find.CurrentMap.Biome.AllWildPlants)
 			{
-				stringBuilder.AppendLine(allWildPlant3.LabelCap + "       " + dictionary3[allWildPlant3].ToStringPercent() + "        " + dictionary[allWildPlant3].ToStringPercent());
+				stringBuilder.AppendLine(string.Concat(new string[]
+				{
+					thingDef2.LabelCap,
+					"       ",
+					dictionary3[thingDef2].ToStringPercent(),
+					"        ",
+					dictionary[thingDef2].ToStringPercent()
+				}));
 			}
-			Log.Message(stringBuilder.ToString());
+			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		public static Dictionary<ThingDef, float> CalculateDesiredPlantProportions(BiomeDef biome)
+		// Token: 0x060036C2 RID: 14018 RVA: 0x001D37D0 File Offset: 0x001D1BD0
+		private static Dictionary<ThingDef, float> CalculateDesiredPlantProportions(BiomeDef biome)
 		{
 			Dictionary<ThingDef, float> dictionary = new Dictionary<ThingDef, float>();
 			float num = 0f;
-			foreach (ThingDef allDef in DefDatabase<ThingDef>.AllDefs)
+			foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
 			{
-				if (allDef.plant != null)
+				if (thingDef.plant != null)
 				{
-					float num2 = biome.CommonalityOfPlant(allDef);
-					dictionary.Add(allDef, num2);
+					float num2 = biome.CommonalityOfPlant(thingDef);
+					dictionary.Add(thingDef, num2);
 					num += num2;
 				}
 			}
-			foreach (ThingDef allWildPlant in biome.AllWildPlants)
+			foreach (ThingDef thingDef2 in biome.AllWildPlants)
 			{
 				Dictionary<ThingDef, float> dictionary2;
 				ThingDef key;
-				(dictionary2 = dictionary)[key = allWildPlant] = dictionary2[key] / num;
+				(dictionary2 = dictionary)[key = thingDef2] = dictionary2[key] / num;
 			}
 			return dictionary;
 		}
 
+		// Token: 0x060036C3 RID: 14019 RVA: 0x001D38C4 File Offset: 0x001D1CC4
 		public static IEnumerable<ThingDef> ValidPlantTypesForGrowers(List<IPlantToGrowSettable> sel)
 		{
 			using (IEnumerator<ThingDef> enumerator = (from def in DefDatabase<ThingDef>.AllDefs
@@ -138,34 +174,33 @@ namespace RimWorld
 			{
 				while (enumerator.MoveNext())
 				{
-					_003CValidPlantTypesForGrowers_003Ec__Iterator0 _003CValidPlantTypesForGrowers_003Ec__Iterator = (_003CValidPlantTypesForGrowers_003Ec__Iterator0)/*Error near IL_007a: stateMachine*/;
 					ThingDef plantDef = enumerator.Current;
 					if (sel.TrueForAll((IPlantToGrowSettable x) => GenPlant.CanSowOnGrower(plantDef, x)))
 					{
 						yield return plantDef;
-						/*Error: Unable to find new state assignment for yield return*/;
 					}
 				}
 			}
 			yield break;
-			IL_0117:
-			/*Error near IL_0118: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x060036C4 RID: 14020 RVA: 0x001D38F0 File Offset: 0x001D1CF0
 		public static bool CanSowOnGrower(ThingDef plantDef, object obj)
 		{
+			bool result;
 			if (obj is Zone)
 			{
-				return plantDef.plant.sowTags.Contains("Ground");
+				result = plantDef.plant.sowTags.Contains("Ground");
 			}
-			Thing thing = obj as Thing;
-			if (thing != null && thing.def.building != null)
+			else
 			{
-				return plantDef.plant.sowTags.Contains(thing.def.building.sowTag);
+				Thing thing = obj as Thing;
+				result = (thing != null && thing.def.building != null && plantDef.plant.sowTags.Contains(thing.def.building.sowTag));
 			}
-			return false;
+			return result;
 		}
 
+		// Token: 0x060036C5 RID: 14021 RVA: 0x001D3970 File Offset: 0x001D1D70
 		public static Thing AdjacentSowBlocker(ThingDef plantDef, IntVec3 c, Map map)
 		{
 			for (int i = 0; i < 8; i++)
@@ -183,44 +218,127 @@ namespace RimWorld
 			return null;
 		}
 
-		internal static void LogPlantData()
-		{
-			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.AppendLine("All plant data");
-			foreach (ThingDef allDef in DefDatabase<ThingDef>.AllDefs)
-			{
-				if (allDef.plant != null)
-				{
-					float num = (float)(allDef.plant.growDays * 2.0);
-					float num2 = (float)(allDef.plant.lifespanFraction / (allDef.plant.lifespanFraction - 1.0));
-					float num3 = num2 * num;
-					float num4 = (float)((num3 + num * 0.39999997615814209) / allDef.plant.reproduceMtbDays);
-					stringBuilder.AppendLine(allDef.defName);
-					stringBuilder.AppendLine("  lifeSpanDays:\t\t\t\t" + allDef.plant.LifespanDays.ToString("F2"));
-					stringBuilder.AppendLine("  daysToGrown:\t\t\t\t" + allDef.plant.growDays);
-					stringBuilder.AppendLine("  guess days to grown:\t\t" + num.ToString("F2"));
-					stringBuilder.AppendLine("  grown days before death:\t" + num3.ToString("F2"));
-					stringBuilder.AppendLine("  percent of life grown:\t" + num2.ToStringPercent());
-					if (allDef.plant.reproduces)
-					{
-						stringBuilder.AppendLine("  MTB seed emits (days):\t" + allDef.plant.reproduceMtbDays.ToString("F2"));
-						stringBuilder.AppendLine("  average seeds emitted:\t" + num4.ToString("F2"));
-					}
-					stringBuilder.AppendLine();
-				}
-			}
-			Log.Message(stringBuilder.ToString());
-		}
-
+		// Token: 0x060036C6 RID: 14022 RVA: 0x001D3A08 File Offset: 0x001D1E08
 		public static byte GetWindExposure(Plant plant)
 		{
-			return (byte)Mathf.Min((float)(255.0 * plant.def.plant.topWindExposure), 255f);
+			return (byte)Mathf.Min(255f * plant.def.plant.topWindExposure, 255f);
 		}
 
+		// Token: 0x060036C7 RID: 14023 RVA: 0x001D3A40 File Offset: 0x001D1E40
 		public static void SetWindExposureColors(Color32[] colors, Plant plant)
 		{
 			colors[1].a = (colors[2].a = GenPlant.GetWindExposure(plant));
 			colors[0].a = (colors[3].a = 0);
 		}
+
+		// Token: 0x060036C8 RID: 14024 RVA: 0x001D3A8C File Offset: 0x001D1E8C
+		public static float GetFallColorFactor(float latitude, int dayOfYear)
+		{
+			float a = GenCelestial.AverageGlow(latitude, dayOfYear);
+			float b = GenCelestial.AverageGlow(latitude, dayOfYear + 1);
+			float x = Mathf.LerpUnclamped(a, b, GenPlant.FallSlopeComponent);
+			return GenMath.LerpDoubleClamped(GenPlant.FallColorBegin, GenPlant.FallColorEnd, 0f, 1f, x);
+		}
+
+		// Token: 0x060036C9 RID: 14025 RVA: 0x001D3ADC File Offset: 0x001D1EDC
+		public static void SetFallShaderGlobals(Map map)
+		{
+			if (GenPlant.FallIntensityOverride)
+			{
+				Shader.SetGlobalFloat(ShaderPropertyIDs.FallIntensity, GenPlant.FallIntensity);
+			}
+			else
+			{
+				Vector2 vector = Find.WorldGrid.LongLatOf(map.Tile);
+				Shader.SetGlobalFloat(ShaderPropertyIDs.FallIntensity, GenPlant.GetFallColorFactor(vector.y, GenLocalDate.DayOfYear(map)));
+			}
+			Shader.SetGlobalInt("_FallGlobalControls", (!GenPlant.FallGlobalControls) ? 0 : 1);
+			if (GenPlant.FallGlobalControls)
+			{
+				Shader.SetGlobalVector("_FallSrc", new Vector3(GenPlant.FallSrcR, GenPlant.FallSrcG, GenPlant.FallSrcB));
+				Shader.SetGlobalVector("_FallDst", new Vector3(GenPlant.FallDstR, GenPlant.FallDstG, GenPlant.FallDstB));
+				Shader.SetGlobalVector("_FallRange", new Vector3(GenPlant.FallRangeBegin, GenPlant.FallRangeEnd));
+			}
+		}
+
+		// Token: 0x060036CA RID: 14026 RVA: 0x001D3BC4 File Offset: 0x001D1FC4
+		public static void LogFallColorForYear()
+		{
+			StringBuilder stringBuilder = new StringBuilder();
+			stringBuilder.AppendLine("Fall color amounts for each latitude and each day of the year");
+			stringBuilder.AppendLine("---------------------------------------");
+			stringBuilder.Append("Lat".PadRight(6));
+			for (int i = -90; i <= 90; i += 10)
+			{
+				stringBuilder.Append((i.ToString() + "d").PadRight(6));
+			}
+			stringBuilder.AppendLine();
+			for (int j = 0; j < 60; j += 5)
+			{
+				stringBuilder.Append(j.ToString().PadRight(6));
+				for (int k = -90; k <= 90; k += 10)
+				{
+					stringBuilder.Append(GenPlant.GetFallColorFactor((float)k, j).ToString("F3").PadRight(6));
+				}
+				stringBuilder.AppendLine();
+			}
+			Log.Message(stringBuilder.ToString(), false);
+		}
+
+		// Token: 0x04002350 RID: 9040
+		[TweakValue("Graphics", 0f, 1f)]
+		private static float FallColorBegin = 0.55f;
+
+		// Token: 0x04002351 RID: 9041
+		[TweakValue("Graphics", 0f, 1f)]
+		private static float FallColorEnd = 0.45f;
+
+		// Token: 0x04002352 RID: 9042
+		[TweakValue("Graphics", 0f, 30f)]
+		private static float FallSlopeComponent = 15f;
+
+		// Token: 0x04002353 RID: 9043
+		[TweakValue("Graphics", 0f, 100f)]
+		private static bool FallIntensityOverride = false;
+
+		// Token: 0x04002354 RID: 9044
+		[TweakValue("Graphics", 0f, 1f)]
+		private static float FallIntensity = 0f;
+
+		// Token: 0x04002355 RID: 9045
+		[TweakValue("Graphics", 0f, 100f)]
+		private static bool FallGlobalControls = false;
+
+		// Token: 0x04002356 RID: 9046
+		[TweakValue("Graphics", 0f, 1f)]
+		private static float FallSrcR = 0.3803f;
+
+		// Token: 0x04002357 RID: 9047
+		[TweakValue("Graphics", 0f, 1f)]
+		private static float FallSrcG = 0.4352f;
+
+		// Token: 0x04002358 RID: 9048
+		[TweakValue("Graphics", 0f, 1f)]
+		private static float FallSrcB = 0.1451f;
+
+		// Token: 0x04002359 RID: 9049
+		[TweakValue("Graphics", 0f, 1f)]
+		private static float FallDstR = 0.4392f;
+
+		// Token: 0x0400235A RID: 9050
+		[TweakValue("Graphics", 0f, 1f)]
+		private static float FallDstG = 0.3254f;
+
+		// Token: 0x0400235B RID: 9051
+		[TweakValue("Graphics", 0f, 1f)]
+		private static float FallDstB = 0.1765f;
+
+		// Token: 0x0400235C RID: 9052
+		[TweakValue("Graphics", 0f, 1f)]
+		private static float FallRangeBegin = 0.02f;
+
+		// Token: 0x0400235D RID: 9053
+		[TweakValue("Graphics", 0f, 1f)]
+		private static float FallRangeEnd = 0.1f;
 	}
 }

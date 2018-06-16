@@ -1,103 +1,168 @@
+﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000050 RID: 80
 	public class JobDriver_TendPatient : JobDriver
 	{
-		private bool usesMedicine;
-
-		private const int BaseTendDuration = 600;
-
+		// Token: 0x17000087 RID: 135
+		// (get) Token: 0x06000278 RID: 632 RVA: 0x0001A1E8 File Offset: 0x000185E8
 		protected Thing MedicineUsed
 		{
 			get
 			{
-				return base.job.targetB.Thing;
+				return this.job.targetB.Thing;
 			}
 		}
 
+		// Token: 0x17000088 RID: 136
+		// (get) Token: 0x06000279 RID: 633 RVA: 0x0001A210 File Offset: 0x00018610
 		protected Pawn Deliveree
 		{
 			get
 			{
-				return (Pawn)base.job.targetA.Thing;
+				return (Pawn)this.job.targetA.Thing;
 			}
 		}
 
+		// Token: 0x0600027A RID: 634 RVA: 0x0001A23A File Offset: 0x0001863A
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<bool>(ref this.usesMedicine, "usesMedicine", false, false);
 		}
 
+		// Token: 0x0600027B RID: 635 RVA: 0x0001A255 File Offset: 0x00018655
 		public override void Notify_Starting()
 		{
 			base.Notify_Starting();
 			this.usesMedicine = (this.MedicineUsed != null);
 		}
 
+		// Token: 0x0600027C RID: 636 RVA: 0x0001A270 File Offset: 0x00018670
 		public override bool TryMakePreToilReservations()
 		{
-			if (!base.pawn.Reserve(this.Deliveree, base.job, 1, -1, null))
+			bool result;
+			if (!this.pawn.Reserve(this.Deliveree, this.job, 1, -1, null))
 			{
-				return false;
+				result = false;
 			}
-			if (this.usesMedicine && !base.pawn.Reserve(this.MedicineUsed, base.job, 1, -1, null))
+			else
 			{
-				return false;
+				if (this.usesMedicine)
+				{
+					int num = this.pawn.Map.reservationManager.CanReserveStack(this.pawn, this.MedicineUsed, 10, null, false);
+					if (num <= 0 || !this.pawn.Reserve(this.MedicineUsed, this.job, 10, Mathf.Min(num, Medicine.GetMedicineCountToFullyHeal(this.Deliveree)), null))
+					{
+						return false;
+					}
+				}
+				result = true;
 			}
-			return true;
+			return result;
 		}
 
+		// Token: 0x0600027D RID: 637 RVA: 0x0001A32C File Offset: 0x0001872C
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			_003CMakeNewToils_003Ec__Iterator0 _003CMakeNewToils_003Ec__Iterator = (_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0052: stateMachine*/;
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
-			this.FailOn(delegate
+			this.FailOn(delegate()
 			{
-				if (!WorkGiver_Tend.GoodLayingStatusForTend(_003CMakeNewToils_003Ec__Iterator._0024this.Deliveree, _003CMakeNewToils_003Ec__Iterator._0024this.pawn))
+				bool result;
+				if (!WorkGiver_Tend.GoodLayingStatusForTend(this.Deliveree, this.pawn))
 				{
-					return true;
+					result = true;
 				}
-				if (_003CMakeNewToils_003Ec__Iterator._0024this.MedicineUsed != null)
+				else
 				{
-					if (_003CMakeNewToils_003Ec__Iterator._0024this.Deliveree.playerSettings == null)
+					if (this.MedicineUsed != null && this.pawn.Faction == Faction.OfPlayer)
 					{
-						return true;
+						if (this.Deliveree.playerSettings == null)
+						{
+							return true;
+						}
+						if (!this.Deliveree.playerSettings.medCare.AllowsMedicine(this.MedicineUsed.def))
+						{
+							return true;
+						}
 					}
-					if (!_003CMakeNewToils_003Ec__Iterator._0024this.Deliveree.playerSettings.medCare.AllowsMedicine(_003CMakeNewToils_003Ec__Iterator._0024this.MedicineUsed.def))
-					{
-						return true;
-					}
+					result = (this.pawn == this.Deliveree && this.pawn.Faction == Faction.OfPlayer && !this.pawn.playerSettings.selfTend);
 				}
-				if (_003CMakeNewToils_003Ec__Iterator._0024this.pawn == _003CMakeNewToils_003Ec__Iterator._0024this.Deliveree && (_003CMakeNewToils_003Ec__Iterator._0024this.pawn.playerSettings == null || !_003CMakeNewToils_003Ec__Iterator._0024this.pawn.playerSettings.selfTend))
-				{
-					return true;
-				}
-				return false;
+				return result;
 			});
 			base.AddEndCondition(delegate
 			{
-				if (HealthAIUtility.ShouldBeTendedNow(_003CMakeNewToils_003Ec__Iterator._0024this.Deliveree))
+				JobCondition result;
+				if (this.pawn.Faction == Faction.OfPlayer && HealthAIUtility.ShouldBeTendedNowByPlayer(this.Deliveree))
 				{
-					return JobCondition.Ongoing;
+					result = JobCondition.Ongoing;
 				}
-				return JobCondition.Succeeded;
+				else if (this.pawn.Faction != Faction.OfPlayer && this.Deliveree.health.HasHediffsNeedingTend(false))
+				{
+					result = JobCondition.Ongoing;
+				}
+				else
+				{
+					result = JobCondition.Succeeded;
+				}
+				return result;
 			});
 			this.FailOnAggroMentalState(TargetIndex.A);
 			Toil reserveMedicine = null;
 			if (this.usesMedicine)
 			{
-				reserveMedicine = Toils_Reserve.Reserve(TargetIndex.B, 1, -1, null).FailOnDespawnedNullOrForbidden(TargetIndex.B);
+				reserveMedicine = Toils_Tend.ReserveMedicine(TargetIndex.B, this.Deliveree).FailOnDespawnedNullOrForbidden(TargetIndex.B);
 				yield return reserveMedicine;
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.ClosestTouch).FailOnDespawnedNullOrForbidden(TargetIndex.B);
+				yield return Toils_Tend.PickupMedicine(TargetIndex.B, this.Deliveree).FailOnDestroyedOrNull(TargetIndex.B);
+				yield return Toils_Haul.CheckForGetOpportunityDuplicate(reserveMedicine, TargetIndex.B, TargetIndex.None, true, null);
 			}
-			PathEndMode interactionCell = (PathEndMode)((this.Deliveree == base.pawn) ? 1 : 4);
+			PathEndMode interactionCell = (this.Deliveree != this.pawn) ? PathEndMode.InteractionCell : PathEndMode.OnCell;
 			Toil gotoToil = Toils_Goto.GotoThing(TargetIndex.A, interactionCell);
 			yield return gotoToil;
-			/*Error: Unable to find new state assignment for yield return*/;
+			int duration = (int)(1f / this.pawn.GetStatValue(StatDefOf.MedicalTendSpeed, true) * 600f);
+			yield return Toils_General.Wait(duration).FailOnCannotTouch(TargetIndex.A, interactionCell).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f).PlaySustainerOrSound(SoundDefOf.Interact_Tend);
+			yield return Toils_Tend.FinalizeTend(this.Deliveree);
+			if (this.usesMedicine)
+			{
+				yield return new Toil
+				{
+					initAction = delegate()
+					{
+						if (this.MedicineUsed.DestroyedOrNull())
+						{
+							Thing thing = HealthAIUtility.FindBestMedicine(this.pawn, this.Deliveree);
+							if (thing != null)
+							{
+								this.job.targetB = thing;
+								this.JumpToToil(reserveMedicine);
+							}
+						}
+					}
+				};
+			}
+			yield return Toils_Jump.Jump(gotoToil);
+			yield break;
 		}
+
+		// Token: 0x0600027E RID: 638 RVA: 0x0001A358 File Offset: 0x00018758
+		public override void Notify_DamageTaken(DamageInfo dinfo)
+		{
+			base.Notify_DamageTaken(dinfo);
+			if (dinfo.Def.externalViolence && this.pawn.Faction != Faction.OfPlayer && this.pawn == this.Deliveree)
+			{
+				this.pawn.jobs.CheckForJobOverride();
+			}
+		}
+
+		// Token: 0x040001E4 RID: 484
+		private bool usesMedicine;
+
+		// Token: 0x040001E5 RID: 485
+		private const int BaseTendDuration = 600;
 	}
 }

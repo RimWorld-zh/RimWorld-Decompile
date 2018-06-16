@@ -1,21 +1,25 @@
+﻿using System;
 using System.Text;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000735 RID: 1845
 	public class CompRottable : ThingComp
 	{
-		private float rotProgressInt;
-
+		// Token: 0x17000641 RID: 1601
+		// (get) Token: 0x0600289C RID: 10396 RVA: 0x0015AAD8 File Offset: 0x00158ED8
 		public CompProperties_Rottable PropsRot
 		{
 			get
 			{
-				return (CompProperties_Rottable)base.props;
+				return (CompProperties_Rottable)this.props;
 			}
 		}
 
+		// Token: 0x17000642 RID: 1602
+		// (get) Token: 0x0600289D RID: 10397 RVA: 0x0015AAF8 File Offset: 0x00158EF8
 		public float RotProgressPct
 		{
 			get
@@ -24,6 +28,9 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000643 RID: 1603
+		// (get) Token: 0x0600289E RID: 10398 RVA: 0x0015AB20 File Offset: 0x00158F20
+		// (set) Token: 0x0600289F RID: 10399 RVA: 0x0015AB3C File Offset: 0x00158F3C
 		public float RotProgress
 		{
 			get
@@ -41,39 +48,50 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000644 RID: 1604
+		// (get) Token: 0x060028A0 RID: 10400 RVA: 0x0015AB6C File Offset: 0x00158F6C
 		public RotStage Stage
 		{
 			get
 			{
+				RotStage result;
 				if (this.RotProgress < (float)this.PropsRot.TicksToRotStart)
 				{
-					return RotStage.Fresh;
+					result = RotStage.Fresh;
 				}
-				if (this.RotProgress < (float)this.PropsRot.TicksToDessicated)
+				else if (this.RotProgress < (float)this.PropsRot.TicksToDessicated)
 				{
-					return RotStage.Rotting;
+					result = RotStage.Rotting;
 				}
-				return RotStage.Dessicated;
+				else
+				{
+					result = RotStage.Dessicated;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000645 RID: 1605
+		// (get) Token: 0x060028A1 RID: 10401 RVA: 0x0015ABC0 File Offset: 0x00158FC0
 		public int TicksUntilRotAtCurrentTemp
 		{
 			get
 			{
-				float ambientTemperature = base.parent.AmbientTemperature;
-				ambientTemperature = (float)Mathf.RoundToInt(ambientTemperature);
-				return this.TicksUntilRotAtTemp(ambientTemperature);
+				float num = this.parent.AmbientTemperature;
+				num = (float)Mathf.RoundToInt(num);
+				return this.TicksUntilRotAtTemp(num);
 			}
 		}
 
+		// Token: 0x17000646 RID: 1606
+		// (get) Token: 0x060028A2 RID: 10402 RVA: 0x0015ABF0 File Offset: 0x00158FF0
 		public bool Active
 		{
 			get
 			{
 				if (this.PropsRot.disableIfHatcher)
 				{
-					CompHatcher compHatcher = base.parent.TryGetComp<CompHatcher>();
+					CompHatcher compHatcher = this.parent.TryGetComp<CompHatcher>();
 					if (compHatcher != null && !compHatcher.TemperatureDamaged)
 					{
 						return false;
@@ -83,158 +101,214 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060028A3 RID: 10403 RVA: 0x0015AC3C File Offset: 0x0015903C
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
 			Scribe_Values.Look<float>(ref this.rotProgressInt, "rotProg", 0f, false);
 		}
 
+		// Token: 0x060028A4 RID: 10404 RVA: 0x0015AC5B File Offset: 0x0015905B
 		public override void CompTick()
 		{
 			this.Tick(1);
 		}
 
+		// Token: 0x060028A5 RID: 10405 RVA: 0x0015AC65 File Offset: 0x00159065
 		public override void CompTickRare()
 		{
 			this.Tick(250);
 		}
 
+		// Token: 0x060028A6 RID: 10406 RVA: 0x0015AC74 File Offset: 0x00159074
 		private void Tick(int interval)
 		{
 			if (this.Active)
 			{
 				float rotProgress = this.RotProgress;
-				float ambientTemperature = base.parent.AmbientTemperature;
+				float ambientTemperature = this.parent.AmbientTemperature;
 				float num = GenTemperature.RotRateAtTemperature(ambientTemperature);
 				this.RotProgress += num * (float)interval;
 				if (this.Stage == RotStage.Rotting && this.PropsRot.rotDestroys)
 				{
-					if (base.parent.Spawned && base.parent.Map.slotGroupManager.SlotGroupAt(base.parent.Position) != null)
+					if (this.parent.IsInAnyStorage() && this.parent.SpawnedOrAnyParentSpawned)
 					{
-						Messages.Message("MessageRottedAwayInStorage".Translate(base.parent.Label).CapitalizeFirst(), MessageTypeDefOf.NegativeEvent);
+						Messages.Message("MessageRottedAwayInStorage".Translate(new object[]
+						{
+							this.parent.Label
+						}).CapitalizeFirst(), new TargetInfo(this.parent.PositionHeld, this.parent.MapHeld, false), MessageTypeDefOf.NegativeEvent, true);
 						LessonAutoActivator.TeachOpportunity(ConceptDefOf.SpoilageAndFreezers, OpportunityType.GoodToKnow);
 					}
-					base.parent.Destroy(DestroyMode.Vanish);
+					this.parent.Destroy(DestroyMode.Vanish);
 				}
-				else if (Mathf.FloorToInt((float)(rotProgress / 60000.0)) != Mathf.FloorToInt((float)(this.RotProgress / 60000.0)) && this.ShouldTakeRotDamage())
+				else
 				{
-					if (this.Stage == RotStage.Rotting && this.PropsRot.rotDamagePerDay > 0.0)
+					bool flag = Mathf.FloorToInt(rotProgress / 60000f) != Mathf.FloorToInt(this.RotProgress / 60000f);
+					if (flag && this.ShouldTakeRotDamage())
 					{
-						base.parent.TakeDamage(new DamageInfo(DamageDefOf.Rotting, GenMath.RoundRandom(this.PropsRot.rotDamagePerDay), -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
-					}
-					else if (this.Stage == RotStage.Dessicated && this.PropsRot.dessicatedDamagePerDay > 0.0)
-					{
-						base.parent.TakeDamage(new DamageInfo(DamageDefOf.Rotting, GenMath.RoundRandom(this.PropsRot.dessicatedDamagePerDay), -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown));
+						if (this.Stage == RotStage.Rotting && this.PropsRot.rotDamagePerDay > 0f)
+						{
+							this.parent.TakeDamage(new DamageInfo(DamageDefOf.Rotting, (float)GenMath.RoundRandom(this.PropsRot.rotDamagePerDay), -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+						}
+						else if (this.Stage == RotStage.Dessicated && this.PropsRot.dessicatedDamagePerDay > 0f)
+						{
+							this.parent.TakeDamage(new DamageInfo(DamageDefOf.Rotting, (float)GenMath.RoundRandom(this.PropsRot.dessicatedDamagePerDay), -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null));
+						}
 					}
 				}
 			}
 		}
 
+		// Token: 0x060028A7 RID: 10407 RVA: 0x0015AE48 File Offset: 0x00159248
 		private bool ShouldTakeRotDamage()
 		{
-			Thing thing = base.parent.ParentHolder as Thing;
-			if (thing != null && thing.def.category == ThingCategory.Building && thing.def.building.preventDeteriorationInside)
-			{
-				return false;
-			}
-			return true;
+			Thing thing = this.parent.ParentHolder as Thing;
+			return thing == null || thing.def.category != ThingCategory.Building || !thing.def.building.preventDeteriorationInside;
 		}
 
+		// Token: 0x060028A8 RID: 10408 RVA: 0x0015AEA4 File Offset: 0x001592A4
 		public override void PreAbsorbStack(Thing otherStack, int count)
 		{
-			float t = (float)count / (float)(base.parent.stackCount + count);
+			float t = (float)count / (float)(this.parent.stackCount + count);
 			float rotProgress = ((ThingWithComps)otherStack).GetComp<CompRottable>().RotProgress;
 			this.RotProgress = Mathf.Lerp(this.RotProgress, rotProgress, t);
 		}
 
+		// Token: 0x060028A9 RID: 10409 RVA: 0x0015AEE8 File Offset: 0x001592E8
 		public override void PostSplitOff(Thing piece)
 		{
 			((ThingWithComps)piece).GetComp<CompRottable>().RotProgress = this.RotProgress;
 		}
 
+		// Token: 0x060028AA RID: 10410 RVA: 0x0015AF01 File Offset: 0x00159301
 		public override void PostIngested(Pawn ingester)
 		{
-			if (this.Stage != 0)
+			if (this.Stage != RotStage.Fresh)
 			{
-				FoodUtility.AddFoodPoisoningHediff(ingester, base.parent);
+				FoodUtility.AddFoodPoisoningHediff(ingester, this.parent);
 			}
 		}
 
+		// Token: 0x060028AB RID: 10411 RVA: 0x0015AF1C File Offset: 0x0015931C
 		public override string CompInspectStringExtra()
 		{
+			string result;
 			if (!this.Active)
 			{
-				return null;
+				result = null;
 			}
-			StringBuilder stringBuilder = new StringBuilder();
-			switch (this.Stage)
+			else
 			{
-			case RotStage.Fresh:
-				stringBuilder.Append("RotStateFresh".Translate() + ".");
-				break;
-			case RotStage.Rotting:
-				stringBuilder.Append("RotStateRotting".Translate() + ".");
-				break;
-			case RotStage.Dessicated:
-				stringBuilder.Append("RotStateDessicated".Translate() + ".");
-				break;
-			}
-			float num = (float)this.PropsRot.TicksToRotStart - this.RotProgress;
-			if (num > 0.0)
-			{
-				float ambientTemperature = base.parent.AmbientTemperature;
-				ambientTemperature = (float)Mathf.RoundToInt(ambientTemperature);
-				float num2 = GenTemperature.RotRateAtTemperature(ambientTemperature);
-				int ticksUntilRotAtCurrentTemp = this.TicksUntilRotAtCurrentTemp;
-				stringBuilder.AppendLine();
-				if (num2 < 0.0010000000474974513)
+				StringBuilder stringBuilder = new StringBuilder();
+				RotStage stage = this.Stage;
+				if (stage != RotStage.Fresh)
 				{
-					stringBuilder.Append("CurrentlyFrozen".Translate() + ".");
-				}
-				else if (num2 < 0.99900001287460327)
-				{
-					stringBuilder.Append("CurrentlyRefrigerated".Translate(ticksUntilRotAtCurrentTemp.ToStringTicksToPeriodVagueMax()) + ".");
+					if (stage != RotStage.Rotting)
+					{
+						if (stage == RotStage.Dessicated)
+						{
+							stringBuilder.Append("RotStateDessicated".Translate() + ".");
+						}
+					}
+					else
+					{
+						stringBuilder.Append("RotStateRotting".Translate() + ".");
+					}
 				}
 				else
 				{
-					stringBuilder.Append("NotRefrigerated".Translate(ticksUntilRotAtCurrentTemp.ToStringTicksToPeriodVagueMax()) + ".");
+					stringBuilder.Append("RotStateFresh".Translate() + ".");
 				}
+				float num = (float)this.PropsRot.TicksToRotStart - this.RotProgress;
+				if (num > 0f)
+				{
+					float num2 = this.parent.AmbientTemperature;
+					num2 = (float)Mathf.RoundToInt(num2);
+					float num3 = GenTemperature.RotRateAtTemperature(num2);
+					int ticksUntilRotAtCurrentTemp = this.TicksUntilRotAtCurrentTemp;
+					stringBuilder.AppendLine();
+					if (num3 < 0.001f)
+					{
+						stringBuilder.Append("CurrentlyFrozen".Translate() + ".");
+					}
+					else if (num3 < 0.999f)
+					{
+						stringBuilder.Append("CurrentlyRefrigerated".Translate(new object[]
+						{
+							ticksUntilRotAtCurrentTemp.ToStringTicksToPeriodVague(true, true)
+						}) + ".");
+					}
+					else
+					{
+						stringBuilder.Append("NotRefrigerated".Translate(new object[]
+						{
+							ticksUntilRotAtCurrentTemp.ToStringTicksToPeriodVague(true, true)
+						}) + ".");
+					}
+				}
+				result = stringBuilder.ToString();
 			}
-			return stringBuilder.ToString();
+			return result;
 		}
 
-		public int ApproxTicksUntilRotWhenAtTempOfTile(int tile)
+		// Token: 0x060028AC RID: 10412 RVA: 0x0015B0BC File Offset: 0x001594BC
+		public int ApproxTicksUntilRotWhenAtTempOfTile(int tile, int ticksAbs)
 		{
-			float temperatureFromSeasonAtTile = GenTemperature.GetTemperatureFromSeasonAtTile(Find.TickManager.TicksAbs, tile);
+			float temperatureFromSeasonAtTile = GenTemperature.GetTemperatureFromSeasonAtTile(ticksAbs, tile);
 			return this.TicksUntilRotAtTemp(temperatureFromSeasonAtTile);
 		}
 
+		// Token: 0x060028AD RID: 10413 RVA: 0x0015B0E0 File Offset: 0x001594E0
 		public int TicksUntilRotAtTemp(float temp)
 		{
+			int result;
 			if (!this.Active)
 			{
-				return 72000000;
+				result = 72000000;
 			}
-			float num = GenTemperature.RotRateAtTemperature(temp);
-			if (num <= 0.0)
+			else
 			{
-				return 72000000;
+				float num = GenTemperature.RotRateAtTemperature(temp);
+				if (num <= 0f)
+				{
+					result = 72000000;
+				}
+				else
+				{
+					float num2 = (float)this.PropsRot.TicksToRotStart - this.RotProgress;
+					if (num2 <= 0f)
+					{
+						result = 0;
+					}
+					else
+					{
+						result = Mathf.RoundToInt(num2 / num);
+					}
+				}
 			}
-			float num2 = (float)this.PropsRot.TicksToRotStart - this.RotProgress;
-			if (num2 <= 0.0)
-			{
-				return 0;
-			}
-			return Mathf.RoundToInt(num2 / num);
+			return result;
 		}
 
+		// Token: 0x060028AE RID: 10414 RVA: 0x0015B158 File Offset: 0x00159558
 		private void StageChanged()
 		{
-			Corpse corpse = base.parent as Corpse;
+			Corpse corpse = this.parent as Corpse;
 			if (corpse != null)
 			{
 				corpse.RotStageChanged();
 			}
 		}
+
+		// Token: 0x060028AF RID: 10415 RVA: 0x0015B17E File Offset: 0x0015957E
+		public void RotImmediately()
+		{
+			if (this.RotProgress < (float)this.PropsRot.TicksToRotStart)
+			{
+				this.RotProgress = (float)this.PropsRot.TicksToRotStart;
+			}
+		}
+
+		// Token: 0x04001644 RID: 5700
+		private float rotProgressInt = 0f;
 	}
 }

@@ -1,119 +1,173 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200048F RID: 1167
 	public static class PawnWeaponGenerator
 	{
-		private static List<ThingStuffPair> allWeaponPairs;
-
-		private static List<ThingStuffPair> workingWeapons = new List<ThingStuffPair>();
-
+		// Token: 0x06001492 RID: 5266 RVA: 0x000B4A30 File Offset: 0x000B2E30
 		public static void Reset()
 		{
-			Predicate<ThingDef> isWeapon = (ThingDef td) => td.equipmentType == EquipmentType.Primary && td.canBeSpawningInventory && !td.weaponTags.NullOrEmpty();
+			Predicate<ThingDef> isWeapon = (ThingDef td) => td.equipmentType == EquipmentType.Primary && !td.weaponTags.NullOrEmpty<string>();
 			PawnWeaponGenerator.allWeaponPairs = ThingStuffPair.AllWith(isWeapon);
-			foreach (ThingDef item in from td in DefDatabase<ThingDef>.AllDefs
+			using (IEnumerator<ThingDef> enumerator = (from td in DefDatabase<ThingDef>.AllDefs
 			where isWeapon(td)
-			select td)
+			select td).GetEnumerator())
 			{
-				float num = PawnWeaponGenerator.allWeaponPairs.Where((ThingStuffPair pa) => pa.thing == item).Sum((ThingStuffPair pa) => pa.Commonality);
-				float num2 = item.generateCommonality / num;
-				if (num2 != 1.0)
+				while (enumerator.MoveNext())
 				{
-					for (int i = 0; i < PawnWeaponGenerator.allWeaponPairs.Count; i++)
+					ThingDef thingDef = enumerator.Current;
+					float num = (from pa in PawnWeaponGenerator.allWeaponPairs
+					where pa.thing == thingDef
+					select pa).Sum((ThingStuffPair pa) => pa.Commonality);
+					float num2 = thingDef.generateCommonality / num;
+					if (num2 != 1f)
 					{
-						ThingStuffPair thingStuffPair = PawnWeaponGenerator.allWeaponPairs[i];
-						if (thingStuffPair.thing == item)
+						for (int i = 0; i < PawnWeaponGenerator.allWeaponPairs.Count; i++)
 						{
-							PawnWeaponGenerator.allWeaponPairs[i] = new ThingStuffPair(thingStuffPair.thing, thingStuffPair.stuff, thingStuffPair.commonalityMultiplier * num2);
+							ThingStuffPair thingStuffPair = PawnWeaponGenerator.allWeaponPairs[i];
+							if (thingStuffPair.thing == thingDef)
+							{
+								PawnWeaponGenerator.allWeaponPairs[i] = new ThingStuffPair(thingStuffPair.thing, thingStuffPair.stuff, thingStuffPair.commonalityMultiplier * num2);
+							}
 						}
 					}
 				}
 			}
 		}
 
+		// Token: 0x06001493 RID: 5267 RVA: 0x000B4BA0 File Offset: 0x000B2FA0
 		public static void TryGenerateWeaponFor(Pawn pawn)
 		{
 			PawnWeaponGenerator.workingWeapons.Clear();
-			if (pawn.kindDef.weaponTags != null && pawn.kindDef.weaponTags.Count != 0 && pawn.RaceProps.ToolUser && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) && (pawn.story == null || !pawn.story.WorkTagIsDisabled(WorkTags.Violent)))
+			if (pawn.kindDef.weaponTags != null && pawn.kindDef.weaponTags.Count != 0)
 			{
-				float randomInRange = pawn.kindDef.weaponMoney.RandomInRange;
-				for (int i = 0; i < PawnWeaponGenerator.allWeaponPairs.Count; i++)
+				if (pawn.RaceProps.ToolUser)
 				{
-					ThingStuffPair w2 = PawnWeaponGenerator.allWeaponPairs[i];
-					if (!(w2.Price > randomInRange) && pawn.kindDef.weaponTags.Any((string tag) => w2.thing.weaponTags.Contains(tag)) && (!(w2.thing.generateAllowChance < 1.0) || !(Rand.ValueSeeded(pawn.thingIDNumber ^ 28554824) > w2.thing.generateAllowChance)))
+					if (pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
 					{
-						PawnWeaponGenerator.workingWeapons.Add(w2);
+						if (pawn.story == null || !pawn.story.WorkTagIsDisabled(WorkTags.Violent))
+						{
+							float randomInRange = pawn.kindDef.weaponMoney.RandomInRange;
+							for (int i = 0; i < PawnWeaponGenerator.allWeaponPairs.Count; i++)
+							{
+								ThingStuffPair w = PawnWeaponGenerator.allWeaponPairs[i];
+								if (w.Price <= randomInRange)
+								{
+									if (pawn.kindDef.weaponTags == null || pawn.kindDef.weaponTags.Any((string tag) => w.thing.weaponTags.Contains(tag)))
+									{
+										if (w.thing.generateAllowChance < 1f)
+										{
+											if (!Rand.ChanceSeeded(w.thing.generateAllowChance, pawn.thingIDNumber ^ (int)w.thing.shortHash ^ 28554824))
+											{
+												goto IL_16F;
+											}
+										}
+										PawnWeaponGenerator.workingWeapons.Add(w);
+									}
+								}
+								IL_16F:;
+							}
+							if (PawnWeaponGenerator.workingWeapons.Count != 0)
+							{
+								pawn.equipment.DestroyAllEquipment(DestroyMode.Vanish);
+								ThingStuffPair thingStuffPair;
+								if (PawnWeaponGenerator.workingWeapons.TryRandomElementByWeight((ThingStuffPair w) => w.Commonality * w.Price, out thingStuffPair))
+								{
+									ThingWithComps thingWithComps = (ThingWithComps)ThingMaker.MakeThing(thingStuffPair.thing, thingStuffPair.stuff);
+									PawnGenerator.PostProcessGeneratedGear(thingWithComps, pawn);
+									pawn.equipment.AddEquipment(thingWithComps);
+								}
+								PawnWeaponGenerator.workingWeapons.Clear();
+							}
+						}
 					}
-				}
-				if (PawnWeaponGenerator.workingWeapons.Count != 0)
-				{
-					pawn.equipment.DestroyAllEquipment(DestroyMode.Vanish);
-					ThingStuffPair thingStuffPair = default(ThingStuffPair);
-					if (((IEnumerable<ThingStuffPair>)PawnWeaponGenerator.workingWeapons).TryRandomElementByWeight<ThingStuffPair>((Func<ThingStuffPair, float>)((ThingStuffPair w) => w.Commonality * w.Price), out thingStuffPair))
-					{
-						ThingWithComps thingWithComps = (ThingWithComps)ThingMaker.MakeThing(thingStuffPair.thing, thingStuffPair.stuff);
-						PawnGenerator.PostProcessGeneratedGear(thingWithComps, pawn);
-						pawn.equipment.AddEquipment(thingWithComps);
-					}
-					PawnWeaponGenerator.workingWeapons.Clear();
 				}
 			}
 		}
 
+		// Token: 0x06001494 RID: 5268 RVA: 0x000B4DBC File Offset: 0x000B31BC
 		public static bool IsDerpWeapon(ThingDef thing, ThingDef stuff)
 		{
+			bool result;
 			if (stuff == null)
 			{
-				return false;
+				result = false;
 			}
-			if (thing.IsMeleeWeapon)
+			else
 			{
-				if (thing.tools.NullOrEmpty())
+				if (thing.IsMeleeWeapon)
 				{
-					return false;
+					if (thing.tools.NullOrEmpty<Tool>())
+					{
+						return false;
+					}
+					DamageDef damageDef = ThingUtility.PrimaryMeleeWeaponDamageType(thing);
+					if (damageDef == null)
+					{
+						return false;
+					}
+					DamageArmorCategoryDef armorCategory = damageDef.armorCategory;
+					if (armorCategory != null && armorCategory.multStat != null && stuff.GetStatValueAbstract(armorCategory.multStat, null) < 0.7f)
+					{
+						return true;
+					}
 				}
-				DamageDef damageDef = ThingUtility.PrimaryMeleeWeaponDamageType(thing);
-				if (damageDef == null)
-				{
-					return false;
-				}
-				DamageArmorCategoryDef armorCategory = damageDef.armorCategory;
-				if (armorCategory != null && armorCategory.multStat != null && stuff.GetStatValueAbstract(armorCategory.multStat, null) < 0.699999988079071)
-				{
-					return true;
-				}
+				result = false;
 			}
-			return false;
+			return result;
 		}
 
+		// Token: 0x06001495 RID: 5269 RVA: 0x000B4E50 File Offset: 0x000B3250
 		public static float CheapestNonDerpPriceFor(ThingDef weaponDef)
 		{
 			float num = 9999999f;
 			for (int i = 0; i < PawnWeaponGenerator.allWeaponPairs.Count; i++)
 			{
 				ThingStuffPair thingStuffPair = PawnWeaponGenerator.allWeaponPairs[i];
-				if (thingStuffPair.thing == weaponDef && !PawnWeaponGenerator.IsDerpWeapon(thingStuffPair.thing, thingStuffPair.stuff) && thingStuffPair.Price < num)
+				if (thingStuffPair.thing == weaponDef && !PawnWeaponGenerator.IsDerpWeapon(thingStuffPair.thing, thingStuffPair.stuff))
 				{
-					num = thingStuffPair.Price;
+					if (thingStuffPair.Price < num)
+					{
+						num = thingStuffPair.Price;
+					}
 				}
 			}
 			return num;
 		}
 
-		internal static void MakeTableWeaponPairs()
+		// Token: 0x06001496 RID: 5270 RVA: 0x000B4ED4 File Offset: 0x000B32D4
+		[DebugOutput]
+		internal static void WeaponPairs()
 		{
-			DebugTables.MakeTablesDialog(from p in PawnWeaponGenerator.allWeaponPairs
+			IEnumerable<ThingStuffPair> dataSources = from p in PawnWeaponGenerator.allWeaponPairs
 			orderby p.thing.defName descending
-			select p, new TableDataGetter<ThingStuffPair>("thing", (ThingStuffPair p) => p.thing.defName), new TableDataGetter<ThingStuffPair>("stuff", (ThingStuffPair p) => (p.stuff == null) ? string.Empty : p.stuff.defName), new TableDataGetter<ThingStuffPair>("price", (ThingStuffPair p) => p.Price.ToString()), new TableDataGetter<ThingStuffPair>("commonality", (ThingStuffPair p) => p.Commonality.ToString("F5")), new TableDataGetter<ThingStuffPair>("commMult", (ThingStuffPair p) => p.commonalityMultiplier.ToString("F5")), new TableDataGetter<ThingStuffPair>("def-commonality", (ThingStuffPair p) => p.thing.generateCommonality.ToString("F2")), new TableDataGetter<ThingStuffPair>("derp", (ThingStuffPair p) => (!PawnWeaponGenerator.IsDerpWeapon(p.thing, p.stuff)) ? string.Empty : "D"));
+			select p;
+			TableDataGetter<ThingStuffPair>[] array = new TableDataGetter<ThingStuffPair>[7];
+			array[0] = new TableDataGetter<ThingStuffPair>("thing", (ThingStuffPair p) => p.thing.defName);
+			array[1] = new TableDataGetter<ThingStuffPair>("stuff", (ThingStuffPair p) => (p.stuff == null) ? "" : p.stuff.defName);
+			array[2] = new TableDataGetter<ThingStuffPair>("price", (ThingStuffPair p) => p.Price.ToString());
+			array[3] = new TableDataGetter<ThingStuffPair>("commonality", (ThingStuffPair p) => p.Commonality.ToString("F5"));
+			array[4] = new TableDataGetter<ThingStuffPair>("commMult", (ThingStuffPair p) => p.commonalityMultiplier.ToString("F5"));
+			array[5] = new TableDataGetter<ThingStuffPair>("generateCommonality", (ThingStuffPair p) => p.thing.generateCommonality.ToString("F2"));
+			array[6] = new TableDataGetter<ThingStuffPair>("derp", (ThingStuffPair p) => (!PawnWeaponGenerator.IsDerpWeapon(p.thing, p.stuff)) ? "" : "D");
+			DebugTables.MakeTablesDialog<ThingStuffPair>(dataSources, array);
 		}
 
-		internal static void MakeTableWeaponPairsByThing()
+		// Token: 0x06001497 RID: 5271 RVA: 0x000B503A File Offset: 0x000B343A
+		[DebugOutput]
+		internal static void WeaponPairsByThing()
 		{
-			PawnApparelGenerator.MakeTablePairsByThing(PawnWeaponGenerator.allWeaponPairs);
+			DebugOutputsGeneral.MakeTablePairsByThing(PawnWeaponGenerator.allWeaponPairs);
 		}
+
+		// Token: 0x04000C58 RID: 3160
+		private static List<ThingStuffPair> allWeaponPairs;
+
+		// Token: 0x04000C59 RID: 3161
+		private static List<ThingStuffPair> workingWeapons = new List<ThingStuffPair>();
 	}
 }

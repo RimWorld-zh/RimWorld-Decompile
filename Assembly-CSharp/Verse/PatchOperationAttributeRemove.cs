@@ -1,28 +1,29 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Xml;
 
 namespace Verse
 {
+	// Token: 0x02000CDC RID: 3292
 	public class PatchOperationAttributeRemove : PatchOperationAttribute
 	{
+		// Token: 0x06004881 RID: 18561 RVA: 0x00260820 File Offset: 0x0025EC20
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
 			bool result = false;
-			IEnumerator enumerator = xml.SelectNodes(base.xpath).GetEnumerator();
+			IEnumerator enumerator = xml.SelectNodes(this.xpath).GetEnumerator();
 			try
 			{
 				while (enumerator.MoveNext())
 				{
-					object current = enumerator.Current;
-					XmlNode xmlNode = current as XmlNode;
-					if (xmlNode.Attributes[base.attribute] != null)
+					object obj = enumerator.Current;
+					XmlNode xmlNode = obj as XmlNode;
+					if (xmlNode.Attributes[this.attribute] != null)
 					{
-						xmlNode.Attributes.Remove(xmlNode.Attributes[base.attribute]);
+						xmlNode.Attributes.Remove(xmlNode.Attributes[this.attribute]);
 						result = true;
 					}
 				}
-				return result;
 			}
 			finally
 			{
@@ -32,6 +33,7 @@ namespace Verse
 					disposable.Dispose();
 				}
 			}
+			return result;
 		}
 	}
 }

@@ -1,59 +1,67 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200036F RID: 879
 	public class StorytellerComp_RandomMain : StorytellerComp
 	{
+		// Token: 0x17000223 RID: 547
+		// (get) Token: 0x06000F3A RID: 3898 RVA: 0x00080E24 File Offset: 0x0007F224
 		protected StorytellerCompProperties_RandomMain Props
 		{
 			get
 			{
-				return (StorytellerCompProperties_RandomMain)base.props;
+				return (StorytellerCompProperties_RandomMain)this.props;
 			}
 		}
 
+		// Token: 0x06000F3B RID: 3899 RVA: 0x00080E44 File Offset: 0x0007F244
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
-			_003CMakeIntervalIncidents_003Ec__Iterator0 _003CMakeIntervalIncidents_003Ec__Iterator = (_003CMakeIntervalIncidents_003Ec__Iterator0)/*Error near IL_0032: stateMachine*/;
-			if (!Rand.MTBEventOccurs(this.Props.mtbDays, 60000f, 1000f))
-				yield break;
-			List<IncidentCategory> triedCategories = new List<IncidentCategory>();
-			IEnumerable<IncidentDef> options;
-			while (true)
+			if (Rand.MTBEventOccurs(this.Props.mtbDays, 60000f, 1000f))
 			{
-				_003CMakeIntervalIncidents_003Ec__Iterator0 _003CMakeIntervalIncidents_003Ec__Iterator2 = (_003CMakeIntervalIncidents_003Ec__Iterator0)/*Error near IL_007f: stateMachine*/;
-				if (triedCategories.Count < this.Props.categoryWeights.Count)
+				List<IncidentCategoryDef> triedCategories = new List<IncidentCategoryDef>();
+				IEnumerable<IncidentDef> options;
+				for (;;)
 				{
-					IncidentCategory category = this.DecideCategory(target, triedCategories);
-					triedCategories.Add(category);
-					IncidentParms parms = this.GenerateParms(category, target);
-					options = from d in DefDatabase<IncidentDef>.AllDefs
-					where d.category == category && d.Worker.CanFireNow(target) && (!d.NeedsParms || d.minThreatPoints <= parms.points)
-					select d;
-					if (options.Any())
+					if (triedCategories.Count >= this.Props.categoryWeights.Count)
+					{
 						break;
-					continue;
+					}
+					IncidentCategoryDef incidentCategoryDef = this.DecideCategory(target, triedCategories);
+					triedCategories.Add(incidentCategoryDef);
+					IncidentParms parms = this.GenerateParms(incidentCategoryDef, target);
+					options = from d in base.UsableIncidentsInCategory(incidentCategoryDef, target)
+					where !d.NeedsParmsPoints || d.minThreatPoints <= parms.points
+					select d;
+					if (options.Any<IncidentDef>())
+					{
+						goto Block_3;
+					}
 				}
 				yield break;
+				Block_3:
+				IncidentDef incDef;
+				if (options.TryRandomElementByWeight(new Func<IncidentDef, float>(base.IncidentChanceFinal), out incDef))
+				{
+					yield return new FiringIncident(incDef, this, this.GenerateParms(incDef.category, target));
+				}
 			}
-			IncidentDef incDef;
-			if (!options.TryRandomElementByWeight<IncidentDef>((Func<IncidentDef, float>)base.IncidentChanceFinal, out incDef))
-				yield break;
-			yield return new FiringIncident(incDef, this, this.GenerateParms(incDef.category, target));
-			/*Error: Unable to find new state assignment for yield return*/;
+			yield break;
 		}
 
-		private IncidentCategory DecideCategory(IIncidentTarget target, List<IncidentCategory> skipCategories)
+		// Token: 0x06000F3C RID: 3900 RVA: 0x00080E78 File Offset: 0x0007F278
+		private IncidentCategoryDef DecideCategory(IIncidentTarget target, List<IncidentCategoryDef> skipCategories)
 		{
-			if (!skipCategories.Contains(IncidentCategory.ThreatBig))
+			if (!skipCategories.Contains(IncidentCategoryDefOf.ThreatBig))
 			{
 				int num = Find.TickManager.TicksGame - target.StoryState.LastThreatBigTick;
-				if ((float)num > 60000.0 * this.Props.maxThreatBigIntervalDays)
+				if ((float)num > 60000f * this.Props.maxThreatBigIntervalDays)
 				{
-					return IncidentCategory.ThreatBig;
+					return IncidentCategoryDefOf.ThreatBig;
 				}
 			}
 			return (from cw in this.Props.categoryWeights
@@ -61,9 +69,10 @@ namespace RimWorld
 			select cw).RandomElementByWeight((IncidentCategoryEntry cw) => cw.weight).category;
 		}
 
-		public override IncidentParms GenerateParms(IncidentCategory incCat, IIncidentTarget target)
+		// Token: 0x06000F3D RID: 3901 RVA: 0x00080F30 File Offset: 0x0007F330
+		public override IncidentParms GenerateParms(IncidentCategoryDef incCat, IIncidentTarget target)
 		{
-			IncidentParms incidentParms = StorytellerUtility.DefaultParmsNow(Find.Storyteller.def, incCat, target);
+			IncidentParms incidentParms = StorytellerUtility.DefaultParmsNow(incCat, target);
 			incidentParms.points *= Rand.Range(0.5f, 1.5f);
 			return incidentParms;
 		}

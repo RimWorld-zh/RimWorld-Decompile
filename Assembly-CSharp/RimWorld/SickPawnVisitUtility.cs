@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,86 +7,107 @@ using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000106 RID: 262
 	public static class SickPawnVisitUtility
 	{
+		// Token: 0x06000578 RID: 1400 RVA: 0x0003B6DC File Offset: 0x00039ADC
 		public static Pawn FindRandomSickPawn(Pawn pawn, JoyCategory maxPatientJoy)
 		{
 			IEnumerable<Pawn> source = from x in pawn.Map.mapPawns.FreeColonistsSpawned
 			where SickPawnVisitUtility.CanVisit(pawn, x, maxPatientJoy)
 			select x;
-			Pawn result = default(Pawn);
-			if (!source.TryRandomElementByWeight<Pawn>((Func<Pawn, float>)((Pawn x) => SickPawnVisitUtility.VisitChanceScore(pawn, x)), out result))
+			Pawn pawn2;
+			Pawn result;
+			if (!source.TryRandomElementByWeight((Pawn x) => SickPawnVisitUtility.VisitChanceScore(pawn, x), out pawn2))
 			{
-				return null;
+				result = null;
+			}
+			else
+			{
+				result = pawn2;
 			}
 			return result;
 		}
 
+		// Token: 0x06000579 RID: 1401 RVA: 0x0003B750 File Offset: 0x00039B50
 		public static bool CanVisit(Pawn pawn, Pawn sick, JoyCategory maxPatientJoy)
 		{
-			return sick.IsColonist && !sick.Dead && pawn != sick && sick.InBed() && sick.Awake() && !sick.IsForbidden(pawn) && sick.needs.joy != null && (int)sick.needs.joy.CurCategory <= (int)maxPatientJoy && InteractionUtility.CanReceiveInteraction(sick) && !sick.needs.food.Starving && sick.needs.rest.CurLevel > 0.33000001311302185 && pawn.CanReserveAndReach(sick, PathEndMode.InteractionCell, Danger.None, 1, -1, null, false) && !SickPawnVisitUtility.AboutToRecover(sick);
+			return sick.IsColonist && !sick.Dead && pawn != sick && sick.InBed() && sick.Awake() && !sick.IsForbidden(pawn) && sick.needs.joy != null && sick.needs.joy.CurCategory <= maxPatientJoy && InteractionUtility.CanReceiveInteraction(sick) && !sick.needs.food.Starving && sick.needs.rest.CurLevel > 0.33f && pawn.CanReserveAndReach(sick, PathEndMode.InteractionCell, Danger.None, 1, -1, null, false) && !SickPawnVisitUtility.AboutToRecover(sick);
 		}
 
+		// Token: 0x0600057A RID: 1402 RVA: 0x0003B828 File Offset: 0x00039C28
 		public static Thing FindChair(Pawn forPawn, Pawn nearPawn)
 		{
 			Predicate<Thing> validator = delegate(Thing x)
 			{
+				bool result;
 				if (!x.def.building.isSittable)
 				{
-					return false;
+					result = false;
 				}
-				if (x.IsForbidden(forPawn))
+				else if (x.IsForbidden(forPawn))
 				{
-					return false;
+					result = false;
 				}
-				if (!GenSight.LineOfSight(x.Position, nearPawn.Position, nearPawn.Map, false, null, 0, 0))
+				else if (!GenSight.LineOfSight(x.Position, nearPawn.Position, nearPawn.Map, false, null, 0, 0))
 				{
-					return false;
+					result = false;
 				}
-				if (!forPawn.CanReserve(x, 1, -1, null, false))
+				else if (!forPawn.CanReserve(x, 1, -1, null, false))
 				{
-					return false;
+					result = false;
 				}
-				if (x.def.rotatable)
+				else
 				{
-					float num = GenGeo.AngleDifferenceBetween(x.Rotation.AsAngle, (nearPawn.Position - x.Position).AngleFlat);
-					if (num > 95.0)
+					if (x.def.rotatable)
 					{
-						return false;
+						float num = GenGeo.AngleDifferenceBetween(x.Rotation.AsAngle, (nearPawn.Position - x.Position).AngleFlat);
+						if (num > 95f)
+						{
+							return false;
+						}
 					}
+					result = true;
 				}
-				return true;
+				return result;
 			};
 			return GenClosest.ClosestThingReachable(nearPawn.Position, nearPawn.Map, ThingRequest.ForGroup(ThingRequestGroup.BuildingArtificial), PathEndMode.OnCell, TraverseParms.For(forPawn, Danger.Deadly, TraverseMode.ByPawn, false), 2.2f, validator, null, 0, 5, false, RegionType.Set_Passable, false);
 		}
 
+		// Token: 0x0600057B RID: 1403 RVA: 0x0003B89C File Offset: 0x00039C9C
 		private static bool AboutToRecover(Pawn pawn)
 		{
+			bool result;
 			if (pawn.Downed)
 			{
-				return false;
+				result = false;
 			}
-			if (!HealthAIUtility.ShouldSeekMedicalRestUrgent(pawn) && !HealthAIUtility.ShouldSeekMedicalRest(pawn))
+			else if (!HealthAIUtility.ShouldSeekMedicalRestUrgent(pawn) && !HealthAIUtility.ShouldSeekMedicalRest(pawn))
 			{
-				return true;
+				result = true;
 			}
-			if (pawn.health.hediffSet.HasTendedImmunizableNotImmuneHediff())
+			else if (pawn.health.hediffSet.HasTendedImmunizableNotImmuneHediff())
 			{
-				return false;
+				result = false;
 			}
-			float num = 0f;
-			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
-			for (int i = 0; i < hediffs.Count; i++)
+			else
 			{
-				Hediff_Injury hediff_Injury = hediffs[i] as Hediff_Injury;
-				if (hediff_Injury != null && (hediff_Injury.CanHealFromTending() || hediff_Injury.CanHealNaturally() || hediff_Injury.Bleeding))
+				float num = 0f;
+				List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
+				for (int i = 0; i < hediffs.Count; i++)
 				{
-					num += hediff_Injury.Severity;
+					Hediff_Injury hediff_Injury = hediffs[i] as Hediff_Injury;
+					if (hediff_Injury != null && (hediff_Injury.CanHealFromTending() || hediff_Injury.CanHealNaturally() || hediff_Injury.Bleeding))
+					{
+						num += hediff_Injury.Severity;
+					}
 				}
+				result = (num < 8f * pawn.RaceProps.baseHealthScale);
 			}
-			return num < 8.0 * pawn.RaceProps.baseHealthScale;
+			return result;
 		}
 
+		// Token: 0x0600057C RID: 1404 RVA: 0x0003B984 File Offset: 0x00039D84
 		private static float VisitChanceScore(Pawn pawn, Pawn sick)
 		{
 			float num = GenMath.LerpDouble(-100f, 100f, 0.05f, 2f, (float)pawn.relations.OpinionOf(sick));

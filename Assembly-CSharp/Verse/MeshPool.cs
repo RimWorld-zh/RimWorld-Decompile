@@ -1,75 +1,18 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000D7C RID: 3452
 	[StaticConstructorOnStartup]
+	[HasDebugOutput]
 	public static class MeshPool
 	{
-		private const int MaxGridMeshSize = 15;
-
-		private const float HumanlikeBodyWidth = 1.5f;
-
-		private const float HumanlikeHeadAverageWidth = 1.5f;
-
-		private const float HumanlikeHeadNarrowWidth = 1.3f;
-
-		public static readonly GraphicMeshSet humanlikeBodySet;
-
-		public static readonly GraphicMeshSet humanlikeHeadSet;
-
-		public static readonly GraphicMeshSet humanlikeHairSetAverage;
-
-		public static readonly GraphicMeshSet humanlikeHairSetNarrow;
-
-		public static readonly Mesh plane025;
-
-		public static readonly Mesh plane03;
-
-		public static readonly Mesh plane05;
-
-		public static readonly Mesh plane08;
-
-		public static readonly Mesh plane10;
-
-		public static readonly Mesh plane10Back;
-
-		public static readonly Mesh plane10Flip;
-
-		public static readonly Mesh plane14;
-
-		public static readonly Mesh plane20;
-
-		public static readonly Mesh wholeMapPlane;
-
-		private static Dictionary<Vector2, Mesh> planes;
-
-		private static Dictionary<Vector2, Mesh> planesFlip;
-
-		public static readonly Mesh circle;
-
-		public static readonly Mesh[] pies;
-
+		// Token: 0x06004D3D RID: 19773 RVA: 0x00283198 File Offset: 0x00281598
 		static MeshPool()
 		{
-			MeshPool.humanlikeBodySet = new GraphicMeshSet(1.5f);
-			MeshPool.humanlikeHeadSet = new GraphicMeshSet(1.5f);
-			MeshPool.humanlikeHairSetAverage = new GraphicMeshSet(1.5f);
-			MeshPool.humanlikeHairSetNarrow = new GraphicMeshSet(1.3f, 1.5f);
-			MeshPool.plane025 = MeshMakerPlanes.NewPlaneMesh(0.25f);
-			MeshPool.plane03 = MeshMakerPlanes.NewPlaneMesh(0.3f);
-			MeshPool.plane05 = MeshMakerPlanes.NewPlaneMesh(0.5f);
-			MeshPool.plane08 = MeshMakerPlanes.NewPlaneMesh(0.8f);
-			MeshPool.plane10 = MeshMakerPlanes.NewPlaneMesh(1f);
-			MeshPool.plane10Back = MeshMakerPlanes.NewPlaneMesh(1f, false, true);
-			MeshPool.plane10Flip = MeshMakerPlanes.NewPlaneMesh(1f, true);
-			MeshPool.plane14 = MeshMakerPlanes.NewPlaneMesh(1.4f);
-			MeshPool.plane20 = MeshMakerPlanes.NewPlaneMesh(2f);
-			MeshPool.planes = new Dictionary<Vector2, Mesh>(FastVector2Comparer.Instance);
-			MeshPool.planesFlip = new Dictionary<Vector2, Mesh>(FastVector2Comparer.Instance);
-			MeshPool.circle = MeshMakerCircles.MakeCircleMesh(1f);
-			MeshPool.pies = new Mesh[361];
 			for (int i = 0; i < 361; i++)
 			{
 				MeshPool.pies[i] = MeshMakerCircles.MakePieMesh(i);
@@ -77,9 +20,10 @@ namespace Verse
 			MeshPool.wholeMapPlane = MeshMakerPlanes.NewWholeMapPlane();
 		}
 
+		// Token: 0x06004D3E RID: 19774 RVA: 0x002832DC File Offset: 0x002816DC
 		public static Mesh GridPlane(Vector2 size)
 		{
-			Mesh mesh = default(Mesh);
+			Mesh mesh;
 			if (!MeshPool.planes.TryGetValue(size, out mesh))
 			{
 				mesh = MeshMakerPlanes.NewPlaneMesh(size, false, false, false);
@@ -88,9 +32,10 @@ namespace Verse
 			return mesh;
 		}
 
+		// Token: 0x06004D3F RID: 19775 RVA: 0x0028331C File Offset: 0x0028171C
 		public static Mesh GridPlaneFlip(Vector2 size)
 		{
-			Mesh mesh = default(Mesh);
+			Mesh mesh;
 			if (!MeshPool.planesFlip.TryGetValue(size, out mesh))
 			{
 				mesh = MeshMakerPlanes.NewPlaneMesh(size, true, false, false);
@@ -99,18 +44,88 @@ namespace Verse
 			return mesh;
 		}
 
+		// Token: 0x06004D40 RID: 19776 RVA: 0x0028335C File Offset: 0x0028175C
 		private static Vector2 RoundedToHundredths(this Vector2 v)
 		{
-			return new Vector2((float)((float)(int)(v.x * 100.0) / 100.0), (float)((float)(int)(v.y * 100.0) / 100.0));
+			return new Vector2((float)((int)(v.x * 100f)) / 100f, (float)((int)(v.y * 100f)) / 100f);
 		}
 
-		public static void LogStats()
+		// Token: 0x06004D41 RID: 19777 RVA: 0x002833A0 File Offset: 0x002817A0
+		[DebugOutput]
+		[Category("System")]
+		public static void MeshPoolStats()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("MeshPool stats:");
 			stringBuilder.AppendLine("Planes: " + MeshPool.planes.Count);
 			stringBuilder.AppendLine("PlanesFlip: " + MeshPool.planesFlip.Count);
-			Log.Message(stringBuilder.ToString());
+			Log.Message(stringBuilder.ToString(), false);
 		}
+
+		// Token: 0x0400337E RID: 13182
+		private const int MaxGridMeshSize = 15;
+
+		// Token: 0x0400337F RID: 13183
+		private const float HumanlikeBodyWidth = 1.5f;
+
+		// Token: 0x04003380 RID: 13184
+		private const float HumanlikeHeadAverageWidth = 1.5f;
+
+		// Token: 0x04003381 RID: 13185
+		private const float HumanlikeHeadNarrowWidth = 1.3f;
+
+		// Token: 0x04003382 RID: 13186
+		public static readonly GraphicMeshSet humanlikeBodySet = new GraphicMeshSet(1.5f);
+
+		// Token: 0x04003383 RID: 13187
+		public static readonly GraphicMeshSet humanlikeHeadSet = new GraphicMeshSet(1.5f);
+
+		// Token: 0x04003384 RID: 13188
+		public static readonly GraphicMeshSet humanlikeHairSetAverage = new GraphicMeshSet(1.5f);
+
+		// Token: 0x04003385 RID: 13189
+		public static readonly GraphicMeshSet humanlikeHairSetNarrow = new GraphicMeshSet(1.3f, 1.5f);
+
+		// Token: 0x04003386 RID: 13190
+		public static readonly Mesh plane025 = MeshMakerPlanes.NewPlaneMesh(0.25f);
+
+		// Token: 0x04003387 RID: 13191
+		public static readonly Mesh plane03 = MeshMakerPlanes.NewPlaneMesh(0.3f);
+
+		// Token: 0x04003388 RID: 13192
+		public static readonly Mesh plane05 = MeshMakerPlanes.NewPlaneMesh(0.5f);
+
+		// Token: 0x04003389 RID: 13193
+		public static readonly Mesh plane08 = MeshMakerPlanes.NewPlaneMesh(0.8f);
+
+		// Token: 0x0400338A RID: 13194
+		public static readonly Mesh plane10 = MeshMakerPlanes.NewPlaneMesh(1f);
+
+		// Token: 0x0400338B RID: 13195
+		public static readonly Mesh plane10Back = MeshMakerPlanes.NewPlaneMesh(1f, false, true);
+
+		// Token: 0x0400338C RID: 13196
+		public static readonly Mesh plane10Flip = MeshMakerPlanes.NewPlaneMesh(1f, true);
+
+		// Token: 0x0400338D RID: 13197
+		public static readonly Mesh plane14 = MeshMakerPlanes.NewPlaneMesh(1.4f);
+
+		// Token: 0x0400338E RID: 13198
+		public static readonly Mesh plane20 = MeshMakerPlanes.NewPlaneMesh(2f);
+
+		// Token: 0x0400338F RID: 13199
+		public static readonly Mesh wholeMapPlane;
+
+		// Token: 0x04003390 RID: 13200
+		private static Dictionary<Vector2, Mesh> planes = new Dictionary<Vector2, Mesh>(FastVector2Comparer.Instance);
+
+		// Token: 0x04003391 RID: 13201
+		private static Dictionary<Vector2, Mesh> planesFlip = new Dictionary<Vector2, Mesh>(FastVector2Comparer.Instance);
+
+		// Token: 0x04003392 RID: 13202
+		public static readonly Mesh circle = MeshMakerCircles.MakeCircleMesh(1f);
+
+		// Token: 0x04003393 RID: 13203
+		public static readonly Mesh[] pies = new Mesh[361];
 	}
 }

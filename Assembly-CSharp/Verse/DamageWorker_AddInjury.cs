@@ -1,165 +1,167 @@
-using RimWorld;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
+using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000CF4 RID: 3316
 	public class DamageWorker_AddInjury : DamageWorker
 	{
-		private const float SpreadDamageChance = 0.5f;
-
-		public override DamageResult Apply(DamageInfo dinfo, Thing thing)
+		// Token: 0x060048EF RID: 18671 RVA: 0x002644FC File Offset: 0x002628FC
+		public override DamageWorker.DamageResult Apply(DamageInfo dinfo, Thing thing)
 		{
 			Pawn pawn = thing as Pawn;
+			DamageWorker.DamageResult result;
 			if (pawn == null)
 			{
-				return base.Apply(dinfo, thing);
-			}
-			return this.ApplyToPawn(dinfo, pawn);
-		}
-
-		private DamageResult ApplyToPawn(DamageInfo dinfo, Pawn pawn)
-		{
-			DamageResult result = DamageResult.MakeNew();
-			if (dinfo.Amount <= 0)
-			{
-				return result;
-			}
-			if (!DebugSettings.enablePlayerDamage && pawn.Faction == Faction.OfPlayer)
-			{
-				return result;
-			}
-			Map mapHeld = pawn.MapHeld;
-			bool spawnedOrAnyParentSpawned = pawn.SpawnedOrAnyParentSpawned;
-			if (dinfo.Def.spreadOut)
-			{
-				if (pawn.apparel != null)
-				{
-					List<Apparel> wornApparel = pawn.apparel.WornApparel;
-					for (int num = wornApparel.Count - 1; num >= 0; num--)
-					{
-						this.CheckApplySpreadDamage(dinfo, wornApparel[num]);
-					}
-				}
-				if (pawn.equipment != null && pawn.equipment.Primary != null)
-				{
-					this.CheckApplySpreadDamage(dinfo, pawn.equipment.Primary);
-				}
-				if (pawn.inventory != null)
-				{
-					ThingOwner<Thing> innerContainer = pawn.inventory.innerContainer;
-					for (int num2 = innerContainer.Count - 1; num2 >= 0; num2--)
-					{
-						this.CheckApplySpreadDamage(dinfo, innerContainer[num2]);
-					}
-				}
-			}
-			if (this.ShouldFragmentDamageForDamageType(dinfo))
-			{
-				int num3 = Rand.RangeInclusive(3, 4);
-				for (int i = 0; i < num3; i++)
-				{
-					DamageInfo dinfo2 = dinfo;
-					dinfo2.SetAmount(dinfo.Amount / num3);
-					this.ApplyDamageToPart(dinfo2, pawn, ref result);
-				}
+				result = base.Apply(dinfo, thing);
 			}
 			else
 			{
-				this.ApplyDamageToPart(dinfo, pawn, ref result);
-				this.CheckDuplicateSmallPawnDamageToPartParent(dinfo, pawn, ref result);
-			}
-			if (result.wounded)
-			{
-				DamageWorker_AddInjury.PlayWoundedVoiceSound(dinfo, pawn);
-				pawn.Drawer.Notify_DamageApplied(dinfo);
-				DamageWorker_AddInjury.InformPsychology(dinfo, pawn);
-			}
-			if (result.headshot && pawn.Spawned)
-			{
-				IntVec3 position = pawn.Position;
-				double x = (float)position.x + 1.0;
-				IntVec3 position2 = pawn.Position;
-				float y = (float)position2.y;
-				IntVec3 position3 = pawn.Position;
-				MoteMaker.ThrowText(new Vector3((float)x, y, (float)((float)position3.z + 1.0)), pawn.Map, "Headshot".Translate(), Color.white, -1f);
-				if (dinfo.Instigator != null)
-				{
-					Pawn pawn2 = dinfo.Instigator as Pawn;
-					if (pawn2 != null)
-					{
-						pawn2.records.Increment(RecordDefOf.Headshots);
-					}
-				}
-			}
-			if (result.deflected)
-			{
-				if (pawn.health.deflectionEffecter == null)
-				{
-					pawn.health.deflectionEffecter = EffecterDefOf.ArmorDeflect.Spawn();
-				}
-				pawn.health.deflectionEffecter.Trigger(pawn, pawn);
-			}
-			else if (spawnedOrAnyParentSpawned)
-			{
-				ImpactSoundUtility.PlayImpactSound(pawn, dinfo.Def.impactSoundType, mapHeld);
+				result = this.ApplyToPawn(dinfo, pawn);
 			}
 			return result;
 		}
 
+		// Token: 0x060048F0 RID: 18672 RVA: 0x00264534 File Offset: 0x00262934
+		private DamageWorker.DamageResult ApplyToPawn(DamageInfo dinfo, Pawn pawn)
+		{
+			DamageWorker.DamageResult damageResult = new DamageWorker.DamageResult();
+			DamageWorker.DamageResult result;
+			if (dinfo.Amount <= 0f)
+			{
+				result = damageResult;
+			}
+			else if (!DebugSettings.enablePlayerDamage && pawn.Faction == Faction.OfPlayer)
+			{
+				result = damageResult;
+			}
+			else
+			{
+				Map mapHeld = pawn.MapHeld;
+				bool spawnedOrAnyParentSpawned = pawn.SpawnedOrAnyParentSpawned;
+				if (dinfo.AllowDamagePropagation && dinfo.Amount >= (float)dinfo.Def.minDamageToFragment)
+				{
+					int num = Rand.RangeInclusive(2, 4);
+					for (int i = 0; i < num; i++)
+					{
+						DamageInfo dinfo2 = dinfo;
+						dinfo2.SetAmount(dinfo.Amount / (float)num);
+						this.ApplyDamageToPart(dinfo2, pawn, damageResult);
+					}
+				}
+				else
+				{
+					this.ApplyDamageToPart(dinfo, pawn, damageResult);
+					this.ApplySmallPawnDamagePropagation(dinfo, pawn, damageResult);
+				}
+				if (damageResult.wounded)
+				{
+					DamageWorker_AddInjury.PlayWoundedVoiceSound(dinfo, pawn);
+					pawn.Drawer.Notify_DamageApplied(dinfo);
+				}
+				if (damageResult.headshot && pawn.Spawned)
+				{
+					MoteMaker.ThrowText(new Vector3((float)pawn.Position.x + 1f, (float)pawn.Position.y, (float)pawn.Position.z + 1f), pawn.Map, "Headshot".Translate(), Color.white, -1f);
+					if (dinfo.Instigator != null)
+					{
+						Pawn pawn2 = dinfo.Instigator as Pawn;
+						if (pawn2 != null)
+						{
+							pawn2.records.Increment(RecordDefOf.Headshots);
+						}
+					}
+				}
+				if (damageResult.deflected)
+				{
+					EffecterDef effecterDef;
+					if (damageResult.deflectedByMetalArmor && dinfo.Def.canUseDeflectMetalEffect)
+					{
+						if (dinfo.Def == DamageDefOf.Bullet)
+						{
+							effecterDef = EffecterDefOf.Deflect_Metal_Bullet;
+						}
+						else
+						{
+							effecterDef = EffecterDefOf.Deflect_Metal;
+						}
+					}
+					else if (dinfo.Def == DamageDefOf.Bullet)
+					{
+						effecterDef = EffecterDefOf.Deflect_General_Bullet;
+					}
+					else
+					{
+						effecterDef = EffecterDefOf.Deflect_General;
+					}
+					if (pawn.health.deflectionEffecter == null || pawn.health.deflectionEffecter.def != effecterDef)
+					{
+						if (pawn.health.deflectionEffecter != null)
+						{
+							pawn.health.deflectionEffecter.Cleanup();
+							pawn.health.deflectionEffecter = null;
+						}
+						pawn.health.deflectionEffecter = effecterDef.Spawn();
+					}
+					pawn.health.deflectionEffecter.Trigger(pawn, dinfo.Instigator ?? pawn);
+					pawn.Drawer.Notify_DamageDeflected(dinfo);
+				}
+				else if (spawnedOrAnyParentSpawned)
+				{
+					ImpactSoundUtility.PlayImpactSound(pawn, dinfo.Def.impactSoundType, mapHeld);
+				}
+				result = damageResult;
+			}
+			return result;
+		}
+
+		// Token: 0x060048F1 RID: 18673 RVA: 0x00264820 File Offset: 0x00262C20
 		private void CheckApplySpreadDamage(DamageInfo dinfo, Thing t)
 		{
-			if (dinfo.Def == DamageDefOf.Flame && !t.FlammableNow)
-				return;
-			if (Random.value < 0.5)
+			if (dinfo.Def != DamageDefOf.Flame || t.FlammableNow)
 			{
-				dinfo.SetAmount(Mathf.CeilToInt((float)dinfo.Amount * Rand.Range(0.35f, 0.7f)));
-				t.TakeDamage(dinfo);
+				if (Rand.Chance(0.5f))
+				{
+					dinfo.SetAmount((float)Mathf.CeilToInt(dinfo.Amount * Rand.Range(0.35f, 0.7f)));
+					t.TakeDamage(dinfo);
+				}
 			}
 		}
 
-		private bool ShouldFragmentDamageForDamageType(DamageInfo dinfo)
+		// Token: 0x060048F2 RID: 18674 RVA: 0x0026488C File Offset: 0x00262C8C
+		private void ApplySmallPawnDamagePropagation(DamageInfo dinfo, Pawn pawn, DamageWorker.DamageResult result)
 		{
-			if (!dinfo.AllowDamagePropagation)
+			if (dinfo.AllowDamagePropagation)
 			{
-				return false;
-			}
-			if (dinfo.Amount < 9)
-			{
-				return false;
-			}
-			if (!dinfo.Def.spreadOut)
-			{
-				return false;
-			}
-			return true;
-		}
-
-		private void CheckDuplicateSmallPawnDamageToPartParent(DamageInfo dinfo, Pawn pawn, ref DamageResult result)
-		{
-			if (dinfo.AllowDamagePropagation && result.LastHitPart != null && dinfo.Def.harmsHealth && result.LastHitPart != pawn.RaceProps.body.corePart && result.LastHitPart.parent != null && pawn.health.hediffSet.GetPartHealth(result.LastHitPart.parent) > 0.0 && dinfo.Amount >= 10 && pawn.HealthScale <= 0.50010001659393311)
-			{
-				DamageInfo dinfo2 = dinfo;
-				dinfo2.SetHitPart(result.LastHitPart.parent);
-				this.ApplyDamageToPart(dinfo2, pawn, ref result);
+				if (result.LastHitPart != null && dinfo.Def.harmsHealth && result.LastHitPart != pawn.RaceProps.body.corePart && result.LastHitPart.parent != null && pawn.health.hediffSet.GetPartHealth(result.LastHitPart.parent) > 0f && dinfo.Amount >= 10f && pawn.HealthScale <= 0.5001f)
+				{
+					DamageInfo dinfo2 = dinfo;
+					dinfo2.SetHitPart(result.LastHitPart.parent);
+					this.ApplyDamageToPart(dinfo2, pawn, result);
+				}
 			}
 		}
 
-		private void ApplyDamageToPart(DamageInfo dinfo, Pawn pawn, ref DamageResult result)
+		// Token: 0x060048F3 RID: 18675 RVA: 0x00264958 File Offset: 0x00262D58
+		private void ApplyDamageToPart(DamageInfo dinfo, Pawn pawn, DamageWorker.DamageResult result)
 		{
 			BodyPartRecord exactPartFromDamageInfo = this.GetExactPartFromDamageInfo(dinfo, pawn);
 			if (exactPartFromDamageInfo != null)
 			{
 				dinfo.SetHitPart(exactPartFromDamageInfo);
-				int num = dinfo.Amount;
-				if (!dinfo.InstantOldInjury)
+				float num = dinfo.Amount;
+				bool flag = !dinfo.InstantPermanentInjury;
+				bool deflectedByMetalArmor = false;
+				if (flag)
 				{
-					num = ArmorUtility.GetPostArmorDamage(pawn, dinfo.Amount, dinfo.HitPart, dinfo.Def);
+					num = ArmorUtility.GetPostArmorDamage(pawn, num, dinfo.HitPart, dinfo.Def, out deflectedByMetalArmor);
 				}
-				if (num <= 0)
+				if (num <= 0f)
 				{
+					result.AddPart(pawn, dinfo.HitPart);
 					result.deflected = true;
+					result.deflectedByMetalArmor = deflectedByMetalArmor;
 				}
 				else
 				{
@@ -167,188 +169,258 @@ namespace Verse
 					{
 						result.headshot = true;
 					}
-					if (dinfo.InstantOldInjury)
+					if (dinfo.InstantPermanentInjury)
 					{
 						HediffDef hediffDefFromDamage = HealthUtility.GetHediffDefFromDamage(dinfo.Def, pawn, dinfo.HitPart);
-						if (hediffDefFromDamage.CompPropsFor(typeof(HediffComp_GetsOld)) == null)
+						if (hediffDefFromDamage.CompPropsFor(typeof(HediffComp_GetsPermanent)) == null || dinfo.HitPart.def.permanentInjuryBaseChance == 0f || dinfo.HitPart.def.IsSolid(dinfo.HitPart, pawn.health.hediffSet.hediffs) || pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(dinfo.HitPart))
+						{
 							return;
-						if (dinfo.HitPart.def.oldInjuryBaseChance == 0.0)
-							return;
-						if (dinfo.HitPart.def.IsSolid(dinfo.HitPart, pawn.health.hediffSet.hediffs))
-							return;
-						if (pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(dinfo.HitPart))
-							return;
+						}
 					}
 					if (!dinfo.AllowDamagePropagation)
 					{
-						this.FinalizeAndAddInjury(pawn, (float)num, dinfo, ref result);
+						this.FinalizeAndAddInjury(pawn, num, dinfo, result);
 					}
 					else
 					{
-						this.ApplySpecialEffectsToPart(pawn, (float)num, dinfo, ref result);
+						this.ApplySpecialEffectsToPart(pawn, num, dinfo, result);
 					}
 				}
 			}
 		}
 
-		protected virtual void ApplySpecialEffectsToPart(Pawn pawn, float totalDamage, DamageInfo dinfo, ref DamageResult result)
+		// Token: 0x060048F4 RID: 18676 RVA: 0x00264AC1 File Offset: 0x00262EC1
+		protected virtual void ApplySpecialEffectsToPart(Pawn pawn, float totalDamage, DamageInfo dinfo, DamageWorker.DamageResult result)
 		{
 			totalDamage = this.ReduceDamageToPreserveOutsideParts(totalDamage, dinfo, pawn);
-			this.FinalizeAndAddInjury(pawn, totalDamage, dinfo, ref result);
-			this.CheckDuplicateDamageToOuterParts(dinfo, pawn, totalDamage, ref result);
+			this.FinalizeAndAddInjury(pawn, totalDamage, dinfo, result);
+			this.CheckDuplicateDamageToOuterParts(dinfo, pawn, totalDamage, result);
 		}
 
-		protected float FinalizeAndAddInjury(Pawn pawn, float totalDamage, DamageInfo dinfo, ref DamageResult result)
+		// Token: 0x060048F5 RID: 18677 RVA: 0x00264AE8 File Offset: 0x00262EE8
+		protected float FinalizeAndAddInjury(Pawn pawn, float totalDamage, DamageInfo dinfo, DamageWorker.DamageResult result)
 		{
+			float result2;
 			if (pawn.health.hediffSet.PartIsMissing(dinfo.HitPart))
 			{
-				return 0f;
+				result2 = 0f;
 			}
-			HediffDef hediffDefFromDamage = HealthUtility.GetHediffDefFromDamage(dinfo.Def, pawn, dinfo.HitPart);
-			Hediff_Injury hediff_Injury = (Hediff_Injury)HediffMaker.MakeHediff(hediffDefFromDamage, pawn, null);
-			hediff_Injury.Part = dinfo.HitPart;
-			hediff_Injury.source = dinfo.Weapon;
-			hediff_Injury.sourceBodyPartGroup = dinfo.WeaponBodyPartGroup;
-			hediff_Injury.sourceHediffDef = dinfo.WeaponLinkedHediff;
-			hediff_Injury.Severity = totalDamage;
-			if (dinfo.InstantOldInjury)
+			else
 			{
-				HediffComp_GetsOld hediffComp_GetsOld = hediff_Injury.TryGetComp<HediffComp_GetsOld>();
-				if (hediffComp_GetsOld != null)
+				HediffDef hediffDefFromDamage = HealthUtility.GetHediffDefFromDamage(dinfo.Def, pawn, dinfo.HitPart);
+				Hediff_Injury hediff_Injury = (Hediff_Injury)HediffMaker.MakeHediff(hediffDefFromDamage, pawn, null);
+				hediff_Injury.Part = dinfo.HitPart;
+				hediff_Injury.source = dinfo.Weapon;
+				hediff_Injury.sourceBodyPartGroup = dinfo.WeaponBodyPartGroup;
+				hediff_Injury.sourceHediffDef = dinfo.WeaponLinkedHediff;
+				hediff_Injury.Severity = totalDamage;
+				if (dinfo.InstantPermanentInjury)
 				{
-					hediffComp_GetsOld.IsOld = true;
+					HediffComp_GetsPermanent hediffComp_GetsPermanent = hediff_Injury.TryGetComp<HediffComp_GetsPermanent>();
+					if (hediffComp_GetsPermanent != null)
+					{
+						hediffComp_GetsPermanent.IsPermanent = true;
+					}
+					else
+					{
+						Log.Error(string.Concat(new object[]
+						{
+							"Tried to create instant permanent injury on Hediff without a GetsPermanent comp: ",
+							hediffDefFromDamage,
+							" on ",
+							pawn
+						}), false);
+					}
 				}
-				else
-				{
-					Log.Error("Tried to create instant old injury on Hediff without a GetsOld comp: " + hediffDefFromDamage + " on " + pawn);
-				}
+				result2 = this.FinalizeAndAddInjury(pawn, hediff_Injury, dinfo, result);
 			}
-			return this.FinalizeAndAddInjury(pawn, hediff_Injury, dinfo, ref result);
+			return result2;
 		}
 
-		protected float FinalizeAndAddInjury(Pawn pawn, Hediff_Injury injury, DamageInfo dinfo, ref DamageResult result)
+		// Token: 0x060048F6 RID: 18678 RVA: 0x00264BE0 File Offset: 0x00262FE0
+		protected float FinalizeAndAddInjury(Pawn pawn, Hediff_Injury injury, DamageInfo dinfo, DamageWorker.DamageResult result)
 		{
-			this.CalculateOldInjuryDamageThreshold(pawn, injury);
-			pawn.health.AddHediff(injury, null, dinfo);
+			this.CalculatePermanentInjuryDamageThreshold(pawn, injury);
+			pawn.health.AddHediff(injury, null, new DamageInfo?(dinfo), result);
 			float num = Mathf.Min(injury.Severity, pawn.health.hediffSet.GetPartHealth(injury.Part));
 			result.totalDamageDealt += num;
 			result.wounded = true;
 			result.AddPart(pawn, injury.Part);
+			result.AddHediff(injury);
 			return num;
 		}
 
-		private void CalculateOldInjuryDamageThreshold(Pawn pawn, Hediff_Injury injury)
+		// Token: 0x060048F7 RID: 18679 RVA: 0x00264C64 File Offset: 0x00263064
+		private void CalculatePermanentInjuryDamageThreshold(Pawn pawn, Hediff_Injury injury)
 		{
-			HediffCompProperties_GetsOld hediffCompProperties_GetsOld = injury.def.CompProps<HediffCompProperties_GetsOld>();
-			if (hediffCompProperties_GetsOld != null && !injury.Part.def.IsSolid(injury.Part, pawn.health.hediffSet.hediffs) && !pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(injury.Part) && !injury.IsOld() && !(injury.Part.def.oldInjuryBaseChance < 9.9999997473787516E-06))
+			HediffCompProperties_GetsPermanent hediffCompProperties_GetsPermanent = injury.def.CompProps<HediffCompProperties_GetsPermanent>();
+			if (hediffCompProperties_GetsPermanent != null)
 			{
-				bool isDelicate = injury.Part.def.IsDelicate;
-				if ((!(Rand.Value <= injury.Part.def.oldInjuryBaseChance * hediffCompProperties_GetsOld.becomeOldChance) || !(injury.Severity >= injury.Part.def.GetMaxHealth(pawn) * 0.25) || !(injury.Severity >= 7.0)) && !isDelicate)
-					return;
-				HediffComp_GetsOld hediffComp_GetsOld = injury.TryGetComp<HediffComp_GetsOld>();
-				float num = 1f;
-				float num2 = (float)(injury.Severity / 2.0);
-				if (num <= num2)
+				if (!injury.Part.def.IsSolid(injury.Part, pawn.health.hediffSet.hediffs) && !pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(injury.Part) && !injury.IsPermanent() && injury.Part.def.permanentInjuryBaseChance >= 1E-05f)
 				{
-					hediffComp_GetsOld.oldDamageThreshold = Rand.Range(num, num2);
-				}
-				if (isDelicate)
-				{
-					hediffComp_GetsOld.oldDamageThreshold = injury.Severity;
-					hediffComp_GetsOld.IsOld = true;
-				}
-			}
-		}
-
-		private void CheckDuplicateDamageToOuterParts(DamageInfo dinfo, Pawn pawn, float totalDamage, ref DamageResult result)
-		{
-			if (dinfo.AllowDamagePropagation && dinfo.Def.harmAllLayersUntilOutside && dinfo.HitPart.depth == BodyPartDepth.Inside)
-			{
-				BodyPartRecord parent = dinfo.HitPart.parent;
-				while (true)
-				{
-					if (pawn.health.hediffSet.GetPartHealth(parent) != 0.0)
+					bool isDelicate = injury.Part.def.IsDelicate;
+					if ((Rand.Value <= injury.Part.def.permanentInjuryBaseChance * hediffCompProperties_GetsPermanent.becomePermanentChance && injury.Severity >= injury.Part.def.GetMaxHealth(pawn) * 0.25f && injury.Severity >= 7f) || isDelicate)
 					{
-						HediffDef hediffDefFromDamage = HealthUtility.GetHediffDefFromDamage(dinfo.Def, pawn, parent);
-						Hediff_Injury hediff_Injury = (Hediff_Injury)HediffMaker.MakeHediff(hediffDefFromDamage, pawn, null);
-						hediff_Injury.Part = parent;
-						hediff_Injury.source = dinfo.Weapon;
-						hediff_Injury.sourceBodyPartGroup = dinfo.WeaponBodyPartGroup;
-						hediff_Injury.Severity = totalDamage;
-						if (hediff_Injury.Severity <= 0.0)
+						HediffComp_GetsPermanent hediffComp_GetsPermanent = injury.TryGetComp<HediffComp_GetsPermanent>();
+						float num = 1f;
+						float num2 = injury.Severity / 2f;
+						if (num <= num2)
 						{
-							hediff_Injury.Severity = 1f;
+							hediffComp_GetsPermanent.permanentDamageThreshold = Rand.Range(num, num2);
 						}
-						this.FinalizeAndAddInjury(pawn, hediff_Injury, dinfo, ref result);
+						if (isDelicate)
+						{
+							hediffComp_GetsPermanent.permanentDamageThreshold = injury.Severity;
+							hediffComp_GetsPermanent.IsPermanent = true;
+						}
 					}
-					if (parent.depth != BodyPartDepth.Outside)
-					{
-						parent = parent.parent;
-						if (parent == null)
-							break;
-						continue;
-					}
-					break;
 				}
 			}
 		}
 
-		private static void InformPsychology(DamageInfo dinfo, Pawn pawn)
+		// Token: 0x060048F8 RID: 18680 RVA: 0x00264DC0 File Offset: 0x002631C0
+		private void CheckDuplicateDamageToOuterParts(DamageInfo dinfo, Pawn pawn, float totalDamage, DamageWorker.DamageResult result)
 		{
+			if (dinfo.AllowDamagePropagation)
+			{
+				if (dinfo.Def.harmAllLayersUntilOutside && dinfo.HitPart.depth == BodyPartDepth.Inside)
+				{
+					BodyPartRecord parent = dinfo.HitPart.parent;
+					do
+					{
+						if (pawn.health.hediffSet.GetPartHealth(parent) != 0f)
+						{
+							HediffDef hediffDefFromDamage = HealthUtility.GetHediffDefFromDamage(dinfo.Def, pawn, parent);
+							Hediff_Injury hediff_Injury = (Hediff_Injury)HediffMaker.MakeHediff(hediffDefFromDamage, pawn, null);
+							hediff_Injury.Part = parent;
+							hediff_Injury.source = dinfo.Weapon;
+							hediff_Injury.sourceBodyPartGroup = dinfo.WeaponBodyPartGroup;
+							hediff_Injury.Severity = totalDamage;
+							if (hediff_Injury.Severity <= 0f)
+							{
+								hediff_Injury.Severity = 1f;
+							}
+							this.FinalizeAndAddInjury(pawn, hediff_Injury, dinfo, result);
+						}
+						if (parent.depth == BodyPartDepth.Outside)
+						{
+							break;
+						}
+						parent = parent.parent;
+					}
+					while (parent != null);
+				}
+			}
 		}
 
+		// Token: 0x060048F9 RID: 18681 RVA: 0x00264EC8 File Offset: 0x002632C8
 		private static bool IsHeadshot(DamageInfo dinfo, Pawn pawn)
 		{
-			if (dinfo.InstantOldInjury)
-			{
-				return false;
-			}
-			return dinfo.HitPart.groups.Contains(BodyPartGroupDefOf.FullHead) && dinfo.Def == DamageDefOf.Bullet;
+			return !dinfo.InstantPermanentInjury && dinfo.HitPart.groups.Contains(BodyPartGroupDefOf.FullHead) && dinfo.Def == DamageDefOf.Bullet;
 		}
 
+		// Token: 0x060048FA RID: 18682 RVA: 0x00264F1C File Offset: 0x0026331C
 		private BodyPartRecord GetExactPartFromDamageInfo(DamageInfo dinfo, Pawn pawn)
 		{
+			BodyPartRecord result;
 			if (dinfo.HitPart != null)
 			{
-				return (!pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined).Any((BodyPartRecord x) => x == dinfo.HitPart)) ? null : dinfo.HitPart;
+				result = ((!pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null).Any((BodyPartRecord x) => x == dinfo.HitPart)) ? null : dinfo.HitPart);
 			}
-			BodyPartRecord bodyPartRecord = this.ChooseHitPart(dinfo, pawn);
-			if (bodyPartRecord == null)
+			else
 			{
-				Log.Warning("GetRandomNotMissingPart returned null (any part).");
+				BodyPartRecord bodyPartRecord = this.ChooseHitPart(dinfo, pawn);
+				if (bodyPartRecord == null)
+				{
+					Log.Warning("ChooseHitPart returned null (any part).", false);
+				}
+				result = bodyPartRecord;
 			}
-			return bodyPartRecord;
+			return result;
 		}
 
+		// Token: 0x060048FB RID: 18683 RVA: 0x00264FB0 File Offset: 0x002633B0
 		protected virtual BodyPartRecord ChooseHitPart(DamageInfo dinfo, Pawn pawn)
 		{
 			return pawn.health.hediffSet.GetRandomNotMissingPart(dinfo.Def, dinfo.Height, dinfo.Depth);
 		}
 
+		// Token: 0x060048FC RID: 18684 RVA: 0x00264FEC File Offset: 0x002633EC
 		private static void PlayWoundedVoiceSound(DamageInfo dinfo, Pawn pawn)
 		{
-			if (!pawn.Dead && !dinfo.InstantOldInjury && pawn.SpawnedOrAnyParentSpawned && dinfo.Def.externalViolence)
+			if (!pawn.Dead)
 			{
-				LifeStageUtility.PlayNearestLifestageSound(pawn, (LifeStageAge ls) => ls.soundWounded, 1f);
-			}
-		}
-
-		protected float ReduceDamageToPreserveOutsideParts(float postArmorDamage, DamageInfo dinfo, Pawn pawn)
-		{
-			if (DamageWorker_AddInjury.ShouldReduceDamageToPreservePart(dinfo.HitPart))
-			{
-				int num = Mathf.FloorToInt(pawn.health.hediffSet.GetPartHealth(dinfo.HitPart));
-				if ((float)num >= 6.0 && postArmorDamage >= (float)num && postArmorDamage < (float)num * 1.8999999761581421)
+				if (!dinfo.InstantPermanentInjury)
 				{
-					postArmorDamage = (float)(num - 1);
+					if (pawn.SpawnedOrAnyParentSpawned)
+					{
+						if (dinfo.Def.externalViolence)
+						{
+							LifeStageUtility.PlayNearestLifestageSound(pawn, (LifeStageAge ls) => ls.soundWounded, 1f);
+						}
+					}
 				}
 			}
-			return postArmorDamage;
 		}
 
+		// Token: 0x060048FD RID: 18685 RVA: 0x00265064 File Offset: 0x00263464
+		protected float ReduceDamageToPreserveOutsideParts(float postArmorDamage, DamageInfo dinfo, Pawn pawn)
+		{
+			float result;
+			if (!DamageWorker_AddInjury.ShouldReduceDamageToPreservePart(dinfo.HitPart))
+			{
+				result = postArmorDamage;
+			}
+			else
+			{
+				float partHealth = pawn.health.hediffSet.GetPartHealth(dinfo.HitPart);
+				if (postArmorDamage < partHealth)
+				{
+					result = postArmorDamage;
+				}
+				else
+				{
+					float maxHealth = dinfo.HitPart.def.GetMaxHealth(pawn);
+					float num = postArmorDamage - partHealth;
+					float x = num / maxHealth;
+					float num2 = DamageWorker_AddInjury.PartBlowOffChancePerOverkillDamagePercent.Evaluate(x);
+					if (Rand.Value < num2)
+					{
+						result = postArmorDamage;
+					}
+					else
+					{
+						postArmorDamage = (result = partHealth - 1f);
+					}
+				}
+			}
+			return result;
+		}
+
+		// Token: 0x060048FE RID: 18686 RVA: 0x00265100 File Offset: 0x00263500
 		public static bool ShouldReduceDamageToPreservePart(BodyPartRecord bodyPart)
 		{
 			return bodyPart.depth == BodyPartDepth.Outside && !bodyPart.IsCorePart;
 		}
+
+		// Token: 0x04003181 RID: 12673
+		private const float SpreadDamageChance = 0.5f;
+
+		// Token: 0x04003182 RID: 12674
+		private static readonly SimpleCurve PartBlowOffChancePerOverkillDamagePercent = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 0f),
+				true
+			},
+			{
+				new CurvePoint(0.1f, 0f),
+				true
+			},
+			{
+				new CurvePoint(0.7f, 1f),
+				true
+			}
+		};
 	}
 }

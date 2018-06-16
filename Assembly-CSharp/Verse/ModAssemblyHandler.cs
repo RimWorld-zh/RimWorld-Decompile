@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -6,19 +6,16 @@ using System.Text;
 
 namespace Verse
 {
+	// Token: 0x02000CC3 RID: 3267
 	public class ModAssemblyHandler
 	{
-		private ModContentPack mod;
-
-		public List<Assembly> loadedAssemblies = new List<Assembly>();
-
-		private static bool globalResolverIsSet;
-
+		// Token: 0x060047FD RID: 18429 RVA: 0x0025D889 File Offset: 0x0025BC89
 		public ModAssemblyHandler(ModContentPack mod)
 		{
 			this.mod = mod;
 		}
 
+		// Token: 0x060047FE RID: 18430 RVA: 0x0025D8A4 File Offset: 0x0025BCA4
 		public void ReloadAll()
 		{
 			if (!ModAssemblyHandler.globalResolverIsSet)
@@ -33,8 +30,7 @@ namespace Verse
 			DirectoryInfo directoryInfo = new DirectoryInfo(path2);
 			if (directoryInfo.Exists)
 			{
-				FileInfo[] files = directoryInfo.GetFiles("*.*", SearchOption.AllDirectories);
-				foreach (FileInfo fileInfo in files)
+				foreach (FileInfo fileInfo in directoryInfo.GetFiles("*.*", SearchOption.AllDirectories))
 				{
 					if (!(fileInfo.Extension.ToLower() != ".dll"))
 					{
@@ -56,18 +52,22 @@ namespace Verse
 						}
 						catch (Exception ex)
 						{
-							Log.Error("Exception loading " + fileInfo.Name + ": " + ex.ToString());
-							return;
+							Log.Error("Exception loading " + fileInfo.Name + ": " + ex.ToString(), false);
+							break;
 						}
-						if (assembly != null && this.AssemblyIsUsable(assembly))
+						if (assembly != null)
 						{
-							this.loadedAssemblies.Add(assembly);
+							if (this.AssemblyIsUsable(assembly))
+							{
+								this.loadedAssemblies.Add(assembly);
+							}
 						}
 					}
 				}
 			}
 		}
 
+		// Token: 0x060047FF RID: 18431 RVA: 0x0025DA74 File Offset: 0x0025BE74
 		private bool AssemblyIsUsable(Assembly asm)
 		{
 			try
@@ -77,26 +77,46 @@ namespace Verse
 			catch (ReflectionTypeLoadException ex)
 			{
 				StringBuilder stringBuilder = new StringBuilder();
-				stringBuilder.AppendLine("ReflectionTypeLoadException getting types in assembly " + asm.GetName().Name + ": " + ex);
+				stringBuilder.AppendLine(string.Concat(new object[]
+				{
+					"ReflectionTypeLoadException getting types in assembly ",
+					asm.GetName().Name,
+					": ",
+					ex
+				}));
 				stringBuilder.AppendLine();
 				stringBuilder.AppendLine("Loader exceptions:");
 				if (ex.LoaderExceptions != null)
 				{
-					Exception[] loaderExceptions = ex.LoaderExceptions;
-					foreach (Exception ex2 in loaderExceptions)
+					foreach (Exception ex2 in ex.LoaderExceptions)
 					{
 						stringBuilder.AppendLine("   => " + ex2.ToString());
 					}
 				}
-				Log.Error(stringBuilder.ToString());
+				Log.Error(stringBuilder.ToString(), false);
 				return false;
 			}
 			catch (Exception ex3)
 			{
-				Log.Error("Exception getting types in assembly " + asm.GetName().Name + ": " + ex3);
+				Log.Error(string.Concat(new object[]
+				{
+					"Exception getting types in assembly ",
+					asm.GetName().Name,
+					": ",
+					ex3
+				}), false);
 				return false;
 			}
 			return true;
 		}
+
+		// Token: 0x040030C2 RID: 12482
+		private ModContentPack mod;
+
+		// Token: 0x040030C3 RID: 12483
+		public List<Assembly> loadedAssemblies = new List<Assembly>();
+
+		// Token: 0x040030C4 RID: 12484
+		private static bool globalResolverIsSet = false;
 	}
 }

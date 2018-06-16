@@ -1,16 +1,20 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020008B8 RID: 2232
 	public class Instruction_AddBill : Lesson_Instruction
 	{
+		// Token: 0x1700081B RID: 2075
+		// (get) Token: 0x06003303 RID: 13059 RVA: 0x001B7580 File Offset: 0x001B5980
 		protected override float ProgressPercent
 		{
 			get
 			{
-				int num = base.def.recipeTargetCount + 1;
+				int num = this.def.recipeTargetCount + 1;
 				int num2 = 0;
 				Bill_Production bill_Production = this.RelevantBill();
 				if (bill_Production != null)
@@ -25,42 +29,40 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06003304 RID: 13060 RVA: 0x001B75D8 File Offset: 0x001B59D8
 		private Bill_Production RelevantBill()
 		{
-			if (Find.Selector.SingleSelectedThing != null && Find.Selector.SingleSelectedThing.def == base.def.thingDef)
+			if (Find.Selector.SingleSelectedThing != null && Find.Selector.SingleSelectedThing.def == this.def.thingDef)
 			{
 				IBillGiver billGiver = Find.Selector.SingleSelectedThing as IBillGiver;
 				if (billGiver != null)
 				{
-					return (Bill_Production)billGiver.BillStack.Bills.FirstOrDefault((Bill b) => b.recipe == base.def.recipeDef);
+					return (Bill_Production)billGiver.BillStack.Bills.FirstOrDefault((Bill b) => b.recipe == this.def.recipeDef);
 				}
 			}
 			return null;
 		}
 
+		// Token: 0x06003305 RID: 13061 RVA: 0x001B765C File Offset: 0x001B5A5C
 		private IEnumerable<Thing> ThingsToSelect()
 		{
-			if (Find.Selector.SingleSelectedThing != null && Find.Selector.SingleSelectedThing.def == base.def.thingDef)
-				yield break;
-			using (IEnumerator<Building> enumerator = base.Map.listerBuildings.AllBuildingsColonistOfDef(base.def.thingDef).GetEnumerator())
+			if (Find.Selector.SingleSelectedThing == null || Find.Selector.SingleSelectedThing.def != this.def.thingDef)
 			{
-				if (enumerator.MoveNext())
+				foreach (Building billGiver in base.Map.listerBuildings.AllBuildingsColonistOfDef(this.def.thingDef))
 				{
-					Building billGiver = enumerator.Current;
-					yield return (Thing)billGiver;
-					/*Error: Unable to find new state assignment for yield return*/;
+					yield return billGiver;
 				}
+				yield break;
 			}
 			yield break;
-			IL_0110:
-			/*Error near IL_0111: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x06003306 RID: 13062 RVA: 0x001B7688 File Offset: 0x001B5A88
 		public override void LessonOnGUI()
 		{
-			foreach (Thing item in this.ThingsToSelect())
+			foreach (Thing t in this.ThingsToSelect())
 			{
-				TutorUtility.DrawLabelOnThingOnGUI(item, base.def.onMapInstruction);
+				TutorUtility.DrawLabelOnThingOnGUI(t, this.def.onMapInstruction);
 			}
 			if (this.RelevantBill() == null)
 			{
@@ -69,13 +71,14 @@ namespace RimWorld
 			base.LessonOnGUI();
 		}
 
+		// Token: 0x06003307 RID: 13063 RVA: 0x001B770C File Offset: 0x001B5B0C
 		public override void LessonUpdate()
 		{
-			foreach (Thing item in this.ThingsToSelect())
+			foreach (Thing thing in this.ThingsToSelect())
 			{
-				GenDraw.DrawArrowPointingAt(item.DrawPos, false);
+				GenDraw.DrawArrowPointingAt(thing.DrawPos, false);
 			}
-			if (this.ProgressPercent > 0.99900001287460327)
+			if (this.ProgressPercent > 0.999f)
 			{
 				Find.ActiveLesson.Deactivate();
 			}

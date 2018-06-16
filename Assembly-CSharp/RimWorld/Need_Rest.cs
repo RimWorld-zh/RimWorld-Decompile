@@ -1,95 +1,108 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000505 RID: 1285
 	public class Need_Rest : Need
 	{
-		private int lastRestTick = -999;
+		// Token: 0x06001710 RID: 5904 RVA: 0x000CB33C File Offset: 0x000C973C
+		public Need_Rest(Pawn pawn) : base(pawn)
+		{
+			this.threshPercents = new List<float>();
+			this.threshPercents.Add(0.28f);
+			this.threshPercents.Add(0.14f);
+		}
 
-		private float lastRestEffectiveness = 1f;
-
-		private int ticksAtZero;
-
-		private const float FullSleepHours = 10.5f;
-
-		public const float BaseRestGainPerTick = 3.8095237E-05f;
-
-		private const float BaseRestFallPerTick = 1.58333332E-05f;
-
-		public const float ThreshTired = 0.28f;
-
-		public const float ThreshVeryTired = 0.14f;
-
-		public const float DefaultFallAsleepMaxLevel = 0.75f;
-
-		public const float DefaultNaturalWakeThreshold = 1f;
-
-		public const float CanWakeThreshold = 0.2f;
-
-		private const float BaseInvoluntarySleepMTBDays = 0.25f;
-
+		// Token: 0x17000327 RID: 807
+		// (get) Token: 0x06001711 RID: 5905 RVA: 0x000CB39C File Offset: 0x000C979C
 		public RestCategory CurCategory
 		{
 			get
 			{
-				if (this.CurLevel < 0.0099999997764825821)
+				RestCategory result;
+				if (this.CurLevel < 0.01f)
 				{
-					return RestCategory.Exhausted;
+					result = RestCategory.Exhausted;
 				}
-				if (this.CurLevel < 0.14000000059604645)
+				else if (this.CurLevel < 0.14f)
 				{
-					return RestCategory.VeryTired;
+					result = RestCategory.VeryTired;
 				}
-				if (this.CurLevel < 0.2800000011920929)
+				else if (this.CurLevel < 0.28f)
 				{
-					return RestCategory.Tired;
+					result = RestCategory.Tired;
 				}
-				return RestCategory.Rested;
+				else
+				{
+					result = RestCategory.Rested;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000328 RID: 808
+		// (get) Token: 0x06001712 RID: 5906 RVA: 0x000CB3F8 File Offset: 0x000C97F8
 		public float RestFallPerTick
 		{
 			get
 			{
+				float result;
 				switch (this.CurCategory)
 				{
 				case RestCategory.Rested:
-					return (float)(1.5833333236514591E-05 * this.RestFallFactor);
+					result = 1.58333332E-05f * this.RestFallFactor;
+					break;
 				case RestCategory.Tired:
-					return (float)(1.5833333236514591E-05 * this.RestFallFactor * 0.699999988079071);
+					result = 1.58333332E-05f * this.RestFallFactor * 0.7f;
+					break;
 				case RestCategory.VeryTired:
-					return (float)(1.5833333236514591E-05 * this.RestFallFactor * 0.30000001192092896);
+					result = 1.58333332E-05f * this.RestFallFactor * 0.3f;
+					break;
 				case RestCategory.Exhausted:
-					return (float)(1.5833333236514591E-05 * this.RestFallFactor * 0.60000002384185791);
+					result = 1.58333332E-05f * this.RestFallFactor * 0.6f;
+					break;
 				default:
-					return 999f;
+					result = 999f;
+					break;
 				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000329 RID: 809
+		// (get) Token: 0x06001713 RID: 5907 RVA: 0x000CB490 File Offset: 0x000C9890
 		private float RestFallFactor
 		{
 			get
 			{
-				return base.pawn.health.hediffSet.RestFallFactor;
+				return this.pawn.health.hediffSet.RestFallFactor;
 			}
 		}
 
+		// Token: 0x1700032A RID: 810
+		// (get) Token: 0x06001714 RID: 5908 RVA: 0x000CB4BC File Offset: 0x000C98BC
 		public override int GUIChangeArrow
 		{
 			get
 			{
+				int result;
 				if (this.Resting)
 				{
-					return 1;
+					result = 1;
 				}
-				return -1;
+				else
+				{
+					result = -1;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x1700032B RID: 811
+		// (get) Token: 0x06001715 RID: 5909 RVA: 0x000CB4E4 File Offset: 0x000C98E4
 		public int TicksAtZero
 		{
 			get
@@ -98,6 +111,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x1700032C RID: 812
+		// (get) Token: 0x06001716 RID: 5910 RVA: 0x000CB500 File Offset: 0x000C9900
 		private bool Resting
 		{
 			get
@@ -106,39 +121,41 @@ namespace RimWorld
 			}
 		}
 
-		public Need_Rest(Pawn pawn)
-			: base(pawn)
-		{
-			base.threshPercents = new List<float>();
-			base.threshPercents.Add(0.28f);
-			base.threshPercents.Add(0.14f);
-		}
-
+		// Token: 0x06001717 RID: 5911 RVA: 0x000CB529 File Offset: 0x000C9929
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.ticksAtZero, "ticksAtZero", 0, false);
 		}
 
+		// Token: 0x06001718 RID: 5912 RVA: 0x000CB544 File Offset: 0x000C9944
 		public override void SetInitialLevel()
 		{
 			this.CurLevel = Rand.Range(0.9f, 1f);
 		}
 
+		// Token: 0x06001719 RID: 5913 RVA: 0x000CB55C File Offset: 0x000C995C
 		public override void NeedInterval()
 		{
 			if (!base.IsFrozen)
 			{
 				if (this.Resting)
 				{
-					this.CurLevel += (float)(0.0057142856530845165 * this.lastRestEffectiveness);
+					float num = this.lastRestEffectiveness;
+					float num2 = RestUtility.PawnHealthRestEffectivenessFactor(this.pawn);
+					num = 0.7f * num + 0.3f * num * num2;
+					num *= this.pawn.GetStatValue(StatDefOf.RestRateMultiplier, true);
+					if (num > 0f)
+					{
+						this.CurLevel += 0.00571428565f * num;
+					}
 				}
 				else
 				{
-					this.CurLevel -= (float)(this.RestFallPerTick * 150.0);
+					this.CurLevel -= this.RestFallPerTick * 150f;
 				}
 			}
-			if (this.CurLevel < 9.9999997473787516E-05)
+			if (this.CurLevel < 0.0001f)
 			{
 				this.ticksAtZero += 150;
 			}
@@ -146,31 +163,91 @@ namespace RimWorld
 			{
 				this.ticksAtZero = 0;
 			}
-			if (this.ticksAtZero > 1000 && base.pawn.Spawned)
+			if (this.ticksAtZero > 1000 && this.pawn.Spawned)
 			{
-				float mtb = (float)((this.ticksAtZero >= 15000) ? ((this.ticksAtZero >= 30000) ? ((this.ticksAtZero >= 45000) ? 0.0625 : 0.0833333358168602) : 0.125) : 0.25);
-				if (Rand.MTBEventOccurs(mtb, 60000f, 150f))
+				float mtb;
+				if (this.ticksAtZero < 15000)
 				{
-					if (base.pawn.CurJob != null && base.pawn.CurJob.def == JobDefOf.LayDown)
-						return;
-					base.pawn.jobs.StartJob(new Job(JobDefOf.LayDown, base.pawn.Position), JobCondition.InterruptForced, null, false, true, null, JobTag.SatisfyingNeeds, false);
-					if (base.pawn.InMentalState)
+					mtb = 0.25f;
+				}
+				else if (this.ticksAtZero < 30000)
+				{
+					mtb = 0.125f;
+				}
+				else if (this.ticksAtZero < 45000)
+				{
+					mtb = 0.0833333358f;
+				}
+				else
+				{
+					mtb = 0.0625f;
+				}
+				if (Rand.MTBEventOccurs(mtb, 60000f, 150f) && (this.pawn.CurJob == null || this.pawn.CurJob.def != JobDefOf.LayDown))
+				{
+					this.pawn.jobs.StartJob(new Job(JobDefOf.LayDown, this.pawn.Position), JobCondition.InterruptForced, null, false, true, null, new JobTag?(JobTag.SatisfyingNeeds), false);
+					if (this.pawn.InMentalState)
 					{
-						base.pawn.mindState.mentalStateHandler.CurState.RecoverFromState();
+						this.pawn.mindState.mentalStateHandler.CurState.RecoverFromState();
 					}
-					if (PawnUtility.ShouldSendNotificationAbout(base.pawn))
+					if (PawnUtility.ShouldSendNotificationAbout(this.pawn))
 					{
-						Messages.Message("MessageInvoluntarySleep".Translate(base.pawn.LabelShort), base.pawn, MessageTypeDefOf.NegativeEvent);
+						Messages.Message("MessageInvoluntarySleep".Translate(new object[]
+						{
+							this.pawn.LabelShort
+						}), this.pawn, MessageTypeDefOf.NegativeEvent, true);
 					}
-					TaleRecorder.RecordTale(TaleDefOf.Exhausted, base.pawn);
+					TaleRecorder.RecordTale(TaleDefOf.Exhausted, new object[]
+					{
+						this.pawn
+					});
 				}
 			}
 		}
 
+		// Token: 0x0600171A RID: 5914 RVA: 0x000CB79F File Offset: 0x000C9B9F
 		public void TickResting(float restEffectiveness)
 		{
-			this.lastRestTick = Find.TickManager.TicksGame;
-			this.lastRestEffectiveness = restEffectiveness;
+			if (restEffectiveness > 0f)
+			{
+				this.lastRestTick = Find.TickManager.TicksGame;
+				this.lastRestEffectiveness = restEffectiveness;
+			}
 		}
+
+		// Token: 0x04000DA0 RID: 3488
+		private int lastRestTick = -999;
+
+		// Token: 0x04000DA1 RID: 3489
+		private float lastRestEffectiveness = 1f;
+
+		// Token: 0x04000DA2 RID: 3490
+		private int ticksAtZero = 0;
+
+		// Token: 0x04000DA3 RID: 3491
+		private const float FullSleepHours = 10.5f;
+
+		// Token: 0x04000DA4 RID: 3492
+		public const float BaseRestGainPerTick = 3.8095237E-05f;
+
+		// Token: 0x04000DA5 RID: 3493
+		private const float BaseRestFallPerTick = 1.58333332E-05f;
+
+		// Token: 0x04000DA6 RID: 3494
+		public const float ThreshTired = 0.28f;
+
+		// Token: 0x04000DA7 RID: 3495
+		public const float ThreshVeryTired = 0.14f;
+
+		// Token: 0x04000DA8 RID: 3496
+		public const float DefaultFallAsleepMaxLevel = 0.75f;
+
+		// Token: 0x04000DA9 RID: 3497
+		public const float DefaultNaturalWakeThreshold = 1f;
+
+		// Token: 0x04000DAA RID: 3498
+		public const float CanWakeThreshold = 0.2f;
+
+		// Token: 0x04000DAB RID: 3499
+		private const float BaseInvoluntarySleepMTBDays = 0.25f;
 	}
 }

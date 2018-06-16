@@ -1,15 +1,76 @@
+﻿using System;
 using RimWorld;
 using UnityEngine;
 using Verse.AI.Group;
 
 namespace Verse
 {
+	// Token: 0x02000D37 RID: 3383
 	public class HediffGiver_Heat : HediffGiver
 	{
+		// Token: 0x06004A74 RID: 19060 RVA: 0x0026C80C File Offset: 0x0026AC0C
+		public override void OnIntervalPassed(Pawn pawn, Hediff cause)
+		{
+			float ambientTemperature = pawn.AmbientTemperature;
+			FloatRange floatRange = pawn.ComfortableTemperatureRange();
+			FloatRange floatRange2 = pawn.SafeTemperatureRange();
+			HediffSet hediffSet = pawn.health.hediffSet;
+			Hediff firstHediffOfDef = hediffSet.GetFirstHediffOfDef(this.hediff, false);
+			if (ambientTemperature > floatRange2.max)
+			{
+				float num = ambientTemperature - floatRange2.max;
+				num = HediffGiver_Heat.TemperatureOverageAdjustmentCurve.Evaluate(num);
+				float num2 = num * 6.45E-05f;
+				num2 = Mathf.Max(num2, 0.000375f);
+				HealthUtility.AdjustSeverity(pawn, this.hediff, num2);
+			}
+			else if (firstHediffOfDef != null && ambientTemperature < floatRange.max)
+			{
+				float num3 = firstHediffOfDef.Severity * 0.027f;
+				num3 = Mathf.Clamp(num3, 0.0015f, 0.015f);
+				firstHediffOfDef.Severity -= num3;
+			}
+			if (!pawn.Dead)
+			{
+				if (pawn.IsNestedHashIntervalTick(60, 420))
+				{
+					float num4 = floatRange.max + 150f;
+					if (ambientTemperature > num4)
+					{
+						float num5 = ambientTemperature - num4;
+						num5 = HediffGiver_Heat.TemperatureOverageAdjustmentCurve.Evaluate(num5);
+						int num6 = Mathf.Max(GenMath.RoundRandom(num5 * 0.06f), 3);
+						DamageInfo dinfo = new DamageInfo(DamageDefOf.Burn, (float)num6, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, null);
+						dinfo.SetBodyRegion(BodyPartHeight.Undefined, BodyPartDepth.Outside);
+						pawn.TakeDamage(dinfo);
+						if (pawn.Faction == Faction.OfPlayer)
+						{
+							Find.TickManager.slower.SignalForceNormalSpeed();
+							if (MessagesRepeatAvoider.MessageShowAllowed("PawnBeingBurned", 60f))
+							{
+								Messages.Message("MessagePawnBeingBurned".Translate(new object[]
+								{
+									pawn.LabelShort
+								}).CapitalizeFirst(), pawn, MessageTypeDefOf.ThreatSmall, true);
+							}
+						}
+						Lord lord = pawn.GetLord();
+						if (lord != null)
+						{
+							lord.ReceiveMemo(HediffGiver_Heat.MemoPawnBurnedByAir);
+						}
+					}
+				}
+			}
+		}
+
+		// Token: 0x04003249 RID: 12873
 		private const int BurnCheckInterval = 420;
 
+		// Token: 0x0400324A RID: 12874
 		public static readonly string MemoPawnBurnedByAir = "PawnBurnedByAir";
 
+		// Token: 0x0400324B RID: 12875
 		public static readonly SimpleCurve TemperatureOverageAdjustmentCurve = new SimpleCurve
 		{
 			{
@@ -41,54 +102,5 @@ namespace Verse
 				true
 			}
 		};
-
-		public override void OnIntervalPassed(Pawn pawn, Hediff cause)
-		{
-			float ambientTemperature = pawn.AmbientTemperature;
-			FloatRange floatRange = pawn.ComfortableTemperatureRange();
-			FloatRange floatRange2 = pawn.SafeTemperatureRange();
-			HediffSet hediffSet = pawn.health.hediffSet;
-			Hediff firstHediffOfDef = hediffSet.GetFirstHediffOfDef(base.hediff, false);
-			if (ambientTemperature > floatRange2.max)
-			{
-				float x = ambientTemperature - floatRange2.max;
-				x = HediffGiver_Heat.TemperatureOverageAdjustmentCurve.Evaluate(x);
-				float a = (float)(x * 6.44999963697046E-05);
-				a = Mathf.Max(a, 0.000375f);
-				HealthUtility.AdjustSeverity(pawn, base.hediff, a);
-			}
-			else if (firstHediffOfDef != null && ambientTemperature < floatRange.max)
-			{
-				float value = (float)(firstHediffOfDef.Severity * 0.027000000700354576);
-				value = Mathf.Clamp(value, 0.0015f, 0.015f);
-				firstHediffOfDef.Severity -= value;
-			}
-			if (!pawn.Dead && pawn.IsNestedHashIntervalTick(60, 420))
-			{
-				float num = (float)(floatRange.max + 150.0);
-				if (ambientTemperature > num)
-				{
-					float x2 = ambientTemperature - num;
-					x2 = HediffGiver_Heat.TemperatureOverageAdjustmentCurve.Evaluate(x2);
-					int amount = Mathf.Max(GenMath.RoundRandom((float)(x2 * 0.059999998658895493)), 3);
-					DamageInfo dinfo = new DamageInfo(DamageDefOf.Burn, amount, -1f, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
-					dinfo.SetBodyRegion(BodyPartHeight.Undefined, BodyPartDepth.Outside);
-					pawn.TakeDamage(dinfo);
-					if (pawn.Faction == Faction.OfPlayer)
-					{
-						Find.TickManager.slower.SignalForceNormalSpeed();
-						if (MessagesRepeatAvoider.MessageShowAllowed("PawnBeingBurned", 60f))
-						{
-							Messages.Message("MessagePawnBeingBurned".Translate(pawn.LabelShort).CapitalizeFirst(), pawn, MessageTypeDefOf.ThreatSmall);
-						}
-					}
-					Lord lord = pawn.GetLord();
-					if (lord != null)
-					{
-						lord.ReceiveMemo(HediffGiver_Heat.MemoPawnBurnedByAir);
-					}
-				}
-			}
-		}
 	}
 }

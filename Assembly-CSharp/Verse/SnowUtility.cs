@@ -1,66 +1,94 @@
+﻿using System;
+
 namespace Verse
 {
+	// Token: 0x02000CA8 RID: 3240
 	public static class SnowUtility
 	{
+		// Token: 0x06004742 RID: 18242 RVA: 0x002588D8 File Offset: 0x00256CD8
 		public static SnowCategory GetSnowCategory(float snowDepth)
 		{
-			if (snowDepth < 0.029999999329447746)
+			SnowCategory result;
+			if (snowDepth < 0.03f)
 			{
-				return SnowCategory.None;
+				result = SnowCategory.None;
 			}
-			if (snowDepth < 0.25)
+			else if (snowDepth < 0.25f)
 			{
-				return SnowCategory.Dusting;
+				result = SnowCategory.Dusting;
 			}
-			if (snowDepth < 0.5)
+			else if (snowDepth < 0.5f)
 			{
-				return SnowCategory.Thin;
+				result = SnowCategory.Thin;
 			}
-			if (snowDepth < 0.75)
+			else if (snowDepth < 0.75f)
 			{
-				return SnowCategory.Medium;
+				result = SnowCategory.Medium;
 			}
-			return SnowCategory.Thick;
+			else
+			{
+				result = SnowCategory.Thick;
+			}
+			return result;
 		}
 
+		// Token: 0x06004743 RID: 18243 RVA: 0x00258938 File Offset: 0x00256D38
 		public static string GetDescription(SnowCategory category)
 		{
+			string result;
 			switch (category)
 			{
 			case SnowCategory.None:
-				return "SnowNone".Translate();
+				result = "SnowNone".Translate();
+				break;
 			case SnowCategory.Dusting:
-				return "SnowDusting".Translate();
+				result = "SnowDusting".Translate();
+				break;
 			case SnowCategory.Thin:
-				return "SnowThin".Translate();
+				result = "SnowThin".Translate();
+				break;
 			case SnowCategory.Medium:
-				return "SnowMedium".Translate();
+				result = "SnowMedium".Translate();
+				break;
 			case SnowCategory.Thick:
-				return "SnowThick".Translate();
+				result = "SnowThick".Translate();
+				break;
 			default:
-				return "Unknown snow";
+				result = "Unknown snow";
+				break;
 			}
+			return result;
 		}
 
+		// Token: 0x06004744 RID: 18244 RVA: 0x002589C4 File Offset: 0x00256DC4
 		public static int MovementTicksAddOn(SnowCategory category)
 		{
+			int result;
 			switch (category)
 			{
 			case SnowCategory.None:
-				return 0;
+				result = 0;
+				break;
 			case SnowCategory.Dusting:
-				return 0;
+				result = 0;
+				break;
 			case SnowCategory.Thin:
-				return 4;
+				result = 4;
+				break;
 			case SnowCategory.Medium:
-				return 8;
+				result = 8;
+				break;
 			case SnowCategory.Thick:
-				return 12;
+				result = 12;
+				break;
 			default:
-				return 0;
+				result = 0;
+				break;
 			}
+			return result;
 		}
 
+		// Token: 0x06004745 RID: 18245 RVA: 0x00258A20 File Offset: 0x00256E20
 		public static void AddSnowRadial(IntVec3 center, Map map, float radius, float depth)
 		{
 			int num = GenRadial.NumCellsInRadius(radius);
@@ -70,7 +98,7 @@ namespace Verse
 				if (intVec.InBounds(map))
 				{
 					float lengthHorizontal = (center - intVec).LengthHorizontal;
-					float num2 = (float)(1.0 - lengthHorizontal / radius);
+					float num2 = 1f - lengthHorizontal / radius;
 					map.snowGrid.AddDepth(intVec, num2 * depth);
 				}
 			}

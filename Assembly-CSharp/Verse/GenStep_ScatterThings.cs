@@ -1,37 +1,25 @@
-using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000C5D RID: 3165
 	public class GenStep_ScatterThings : GenStep_Scatterer
 	{
-		public ThingDef thingDef;
+		// Token: 0x17000AFC RID: 2812
+		// (get) Token: 0x06004589 RID: 17801 RVA: 0x0024B1B4 File Offset: 0x002495B4
+		public override int SeedPart
+		{
+			get
+			{
+				return 1158116095;
+			}
+		}
 
-		public ThingDef stuff;
-
-		public int clearSpaceSize;
-
-		public int clusterSize = 1;
-
-		public float terrainValidationRadius;
-
-		[NoTranslate]
-		private List<string> terrainValidationDisallowed;
-
-		[Unsaved]
-		private IntVec3 clusterCenter;
-
-		[Unsaved]
-		private int leftInCluster;
-
-		private const int ClusterRadius = 4;
-
-		private List<Rot4> possibleRotationsInt;
-
-		private static List<Rot4> tmpRotations = new List<Rot4>();
-
+		// Token: 0x17000AFD RID: 2813
+		// (get) Token: 0x0600458A RID: 17802 RVA: 0x0024B1D0 File Offset: 0x002495D0
 		private List<Rot4> PossibleRotations
 		{
 			get
@@ -55,65 +43,86 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x0600458B RID: 17803 RVA: 0x0024B26C File Offset: 0x0024966C
 		public override void Generate(Map map)
 		{
-			if (!base.allowOnWater && map.TileInfo.WaterCovered)
-				return;
-			int count = base.CalculateFinalCount(map);
-			IntRange stackSizeRange = (this.thingDef.ingestible == null || !this.thingDef.ingestible.IsMeal || this.thingDef.stackLimit > 10) ? ((this.thingDef.stackLimit <= 5) ? new IntRange(this.thingDef.stackLimit, this.thingDef.stackLimit) : new IntRange(Mathf.RoundToInt((float)((float)this.thingDef.stackLimit * 0.5)), this.thingDef.stackLimit)) : IntRange.one;
-			List<int> list = GenStep_ScatterThings.CountDividedIntoStacks(count, stackSizeRange);
-			int num = 0;
-			while (num < list.Count)
+			if (this.allowInWaterBiome || !map.TileInfo.WaterCovered)
 			{
-				IntVec3 intVec = default(IntVec3);
-				if (((GenStep_Scatterer)this).TryFindScatterCell(map, out intVec))
+				int count = base.CalculateFinalCount(map);
+				IntRange one;
+				if (this.thingDef.ingestible != null && this.thingDef.ingestible.IsMeal && this.thingDef.stackLimit <= 10)
 				{
-					this.ScatterAt(intVec, map, list[num]);
-					base.usedSpots.Add(intVec);
-					num++;
-					continue;
+					one = IntRange.one;
 				}
-				return;
+				else if (this.thingDef.stackLimit > 5)
+				{
+					one = new IntRange(Mathf.RoundToInt((float)this.thingDef.stackLimit * 0.5f), this.thingDef.stackLimit);
+				}
+				else
+				{
+					one = new IntRange(this.thingDef.stackLimit, this.thingDef.stackLimit);
+				}
+				List<int> list = GenStep_ScatterThings.CountDividedIntoStacks(count, one);
+				for (int i = 0; i < list.Count; i++)
+				{
+					IntVec3 intVec;
+					if (!this.TryFindScatterCell(map, out intVec))
+					{
+						return;
+					}
+					this.ScatterAt(intVec, map, list[i]);
+					this.usedSpots.Add(intVec);
+				}
+				this.usedSpots.Clear();
+				this.clusterCenter = IntVec3.Invalid;
+				this.leftInCluster = 0;
 			}
-			base.usedSpots.Clear();
-			this.clusterCenter = IntVec3.Invalid;
-			this.leftInCluster = 0;
 		}
 
+		// Token: 0x0600458C RID: 17804 RVA: 0x0024B3B0 File Offset: 0x002497B0
 		protected override bool TryFindScatterCell(Map map, out IntVec3 result)
 		{
+			bool result2;
 			if (this.clusterSize > 1)
 			{
 				if (this.leftInCluster <= 0)
 				{
 					if (!base.TryFindScatterCell(map, out this.clusterCenter))
 					{
-						Log.Error("Could not find cluster center to scatter " + this.thingDef);
+						Log.Error("Could not find cluster center to scatter " + this.thingDef, false);
 					}
 					this.leftInCluster = this.clusterSize;
 				}
 				this.leftInCluster--;
-				Rot4 rot = default(Rot4);
-				result = CellFinder.RandomClosewalkCellNear(this.clusterCenter, map, 4, (IntVec3 x) => this.TryGetRandomValidRotation(x, map, out rot));
-				return result.IsValid;
+				result = CellFinder.RandomClosewalkCellNear(this.clusterCenter, map, 4, delegate(IntVec3 x)
+				{
+					Rot4 rot;
+					return this.TryGetRandomValidRotation(x, map, out rot);
+				});
+				result2 = result.IsValid;
 			}
-			return base.TryFindScatterCell(map, out result);
+			else
+			{
+				result2 = base.TryFindScatterCell(map, out result);
+			}
+			return result2;
 		}
 
+		// Token: 0x0600458D RID: 17805 RVA: 0x0024B47C File Offset: 0x0024987C
 		protected override void ScatterAt(IntVec3 loc, Map map, int stackCount = 1)
 		{
-			Rot4 rot = default(Rot4);
+			Rot4 rot;
 			if (!this.TryGetRandomValidRotation(loc, map, out rot))
 			{
-				Log.Warning("Could not find any valid rotation for " + this.thingDef);
+				Log.Warning("Could not find any valid rotation for " + this.thingDef, false);
 			}
 			else
 			{
 				if (this.clearSpaceSize > 0)
 				{
-					foreach (IntVec3 item in GridShapeMaker.IrregularLump(loc, map, this.clearSpaceSize))
+					foreach (IntVec3 c in GridShapeMaker.IrregularLump(loc, map, this.clearSpaceSize))
 					{
-						Building edifice = item.GetEdifice(map);
+						Building edifice = c.GetEdifice(map);
 						if (edifice != null)
 						{
 							edifice.Destroy(DestroyMode.Vanish);
@@ -129,51 +138,58 @@ namespace Verse
 				{
 					thing.stackCount = stackCount;
 					thing.SetForbidden(true, false);
-					Thing thing2 = default(Thing);
-					GenPlace.TryPlaceThing(thing, loc, map, ThingPlaceMode.Near, out thing2, (Action<Thing, int>)null);
-					if (base.nearPlayerStart && thing2 != null && thing2.def.category == ThingCategory.Item && TutorSystem.TutorialMode)
+					Thing thing2;
+					GenPlace.TryPlaceThing(thing, loc, map, ThingPlaceMode.Near, out thing2, null, null);
+					if (this.nearPlayerStart && thing2 != null && thing2.def.category == ThingCategory.Item && TutorSystem.TutorialMode)
 					{
 						Find.TutorialState.AddStartingItem(thing2);
 					}
 				}
 				else
 				{
-					GenSpawn.Spawn(thing, loc, map, rot, false);
+					GenSpawn.Spawn(thing, loc, map, rot, WipeMode.Vanish, false);
 				}
 			}
 		}
 
+		// Token: 0x0600458E RID: 17806 RVA: 0x0024B5D8 File Offset: 0x002499D8
 		protected override bool CanScatterAt(IntVec3 loc, Map map)
 		{
+			bool result;
+			Rot4 rot;
 			if (!base.CanScatterAt(loc, map))
 			{
-				return false;
+				result = false;
 			}
-			Rot4 rot = default(Rot4);
-			if (!this.TryGetRandomValidRotation(loc, map, out rot))
+			else if (!this.TryGetRandomValidRotation(loc, map, out rot))
 			{
-				return false;
+				result = false;
 			}
-			if (this.terrainValidationRadius > 0.0)
+			else
 			{
-				foreach (IntVec3 item in GenRadial.RadialCellsAround(loc, this.terrainValidationRadius, true))
+				if (this.terrainValidationRadius > 0f)
 				{
-					if (item.InBounds(map))
+					foreach (IntVec3 c in GenRadial.RadialCellsAround(loc, this.terrainValidationRadius, true))
 					{
-						TerrainDef terrain = item.GetTerrain(map);
-						for (int i = 0; i < this.terrainValidationDisallowed.Count; i++)
+						if (c.InBounds(map))
 						{
-							if (terrain.HasTag(this.terrainValidationDisallowed[i]))
+							TerrainDef terrain = c.GetTerrain(map);
+							for (int i = 0; i < this.terrainValidationDisallowed.Count; i++)
 							{
-								return false;
+								if (terrain.HasTag(this.terrainValidationDisallowed[i]))
+								{
+									return false;
+								}
 							}
 						}
 					}
 				}
+				result = true;
 			}
-			return true;
+			return result;
 		}
 
+		// Token: 0x0600458F RID: 17807 RVA: 0x0024B6D4 File Offset: 0x00249AD4
 		private bool TryGetRandomValidRotation(IntVec3 loc, Map map, out Rot4 rot)
 		{
 			List<Rot4> possibleRotations = this.PossibleRotations;
@@ -184,28 +200,27 @@ namespace Verse
 					GenStep_ScatterThings.tmpRotations.Add(possibleRotations[i]);
 				}
 			}
-			if (((IEnumerable<Rot4>)GenStep_ScatterThings.tmpRotations).TryRandomElement<Rot4>(out rot))
+			bool result;
+			if (GenStep_ScatterThings.tmpRotations.TryRandomElement(out rot))
 			{
 				GenStep_ScatterThings.tmpRotations.Clear();
-				return true;
+				result = true;
 			}
-			rot = Rot4.Invalid;
-			return false;
+			else
+			{
+				rot = Rot4.Invalid;
+				result = false;
+			}
+			return result;
 		}
 
+		// Token: 0x06004590 RID: 17808 RVA: 0x0024B760 File Offset: 0x00249B60
 		private bool IsRotationValid(IntVec3 loc, Rot4 rot, Map map)
 		{
-			if (!GenAdj.OccupiedRect(loc, rot, this.thingDef.size).InBounds(map))
-			{
-				return false;
-			}
-			if (GenSpawn.WouldWipeAnythingWith(loc, rot, this.thingDef, map, (Thing x) => x.def == this.thingDef || (x.def.category != ThingCategory.Plant && x.def.category != ThingCategory.Filth)))
-			{
-				return false;
-			}
-			return true;
+			return GenAdj.OccupiedRect(loc, rot, this.thingDef.size).InBounds(map) && !GenSpawn.WouldWipeAnythingWith(loc, rot, this.thingDef, map, (Thing x) => x.def == this.thingDef || (x.def.category != ThingCategory.Plant && x.def.category != ThingCategory.Filth));
 		}
 
+		// Token: 0x06004591 RID: 17809 RVA: 0x0024B7C4 File Offset: 0x00249BC4
 		public static List<int> CountDividedIntoStacks(int count, IntRange stackSizeRange)
 		{
 			List<int> list = new List<int>();
@@ -221,18 +236,57 @@ namespace Verse
 				{
 					int num2 = Rand.RangeInclusive(0, list.Count - 1);
 					int num3 = Rand.RangeInclusive(0, list.Count - 1);
-					if (num2 != num3 && list[num2] > list[num3])
+					if (num2 != num3)
 					{
-						int num4 = (int)((float)(list[num2] - list[num3]) * Rand.Value);
-						int index;
-						List<int> list2;
-						(list2 = list)[index = num2] = list2[index] - num4;
-						int index2;
-						(list2 = list)[index2 = num3] = list2[index2] + num4;
+						if (list[num2] > list[num3])
+						{
+							int num4 = (int)((float)(list[num2] - list[num3]) * Rand.Value);
+							List<int> list2;
+							int index;
+							(list2 = list)[index = num2] = list2[index] - num4;
+							int index2;
+							(list2 = list)[index2 = num3] = list2[index2] + num4;
+						}
 					}
 				}
 			}
 			return list;
 		}
+
+		// Token: 0x04002F7E RID: 12158
+		public ThingDef thingDef;
+
+		// Token: 0x04002F7F RID: 12159
+		public ThingDef stuff;
+
+		// Token: 0x04002F80 RID: 12160
+		public int clearSpaceSize;
+
+		// Token: 0x04002F81 RID: 12161
+		public int clusterSize = 1;
+
+		// Token: 0x04002F82 RID: 12162
+		public float terrainValidationRadius = 0f;
+
+		// Token: 0x04002F83 RID: 12163
+		[NoTranslate]
+		private List<string> terrainValidationDisallowed;
+
+		// Token: 0x04002F84 RID: 12164
+		[Unsaved]
+		private IntVec3 clusterCenter;
+
+		// Token: 0x04002F85 RID: 12165
+		[Unsaved]
+		private int leftInCluster = 0;
+
+		// Token: 0x04002F86 RID: 12166
+		private const int ClusterRadius = 4;
+
+		// Token: 0x04002F87 RID: 12167
+		private List<Rot4> possibleRotationsInt;
+
+		// Token: 0x04002F88 RID: 12168
+		private static List<Rot4> tmpRotations = new List<Rot4>();
 	}
 }

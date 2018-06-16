@@ -1,52 +1,73 @@
+﻿using System;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000DAE RID: 3502
 	public static class AudioSourceUtility
 	{
+		// Token: 0x06004E1A RID: 19994 RVA: 0x0028D4A0 File Offset: 0x0028B8A0
 		public static float GetSanitizedVolume(float volume, object debugInfo)
 		{
+			float result;
 			if (float.IsNegativeInfinity(volume))
 			{
-				Log.ErrorOnce("Volume was negative infinity (" + debugInfo + ")", 863653423);
-				return 0f;
+				Log.ErrorOnce("Volume was negative infinity (" + debugInfo + ")", 863653423, false);
+				result = 0f;
 			}
-			if (float.IsPositiveInfinity(volume))
+			else if (float.IsPositiveInfinity(volume))
 			{
-				Log.ErrorOnce("Volume was positive infinity (" + debugInfo + ")", 954354323);
-				return 1f;
+				Log.ErrorOnce("Volume was positive infinity (" + debugInfo + ")", 954354323, false);
+				result = 1f;
 			}
-			if (float.IsNaN(volume))
+			else if (float.IsNaN(volume))
 			{
-				Log.ErrorOnce("Volume was NaN (" + debugInfo + ")", 231846572);
-				return 1f;
+				Log.ErrorOnce("Volume was NaN (" + debugInfo + ")", 231846572, false);
+				result = 1f;
 			}
-			return Mathf.Clamp(volume, 0f, 1000f);
+			else
+			{
+				result = Mathf.Clamp(volume, 0f, 1000f);
+			}
+			return result;
 		}
 
+		// Token: 0x06004E1B RID: 19995 RVA: 0x0028D55C File Offset: 0x0028B95C
 		public static float GetSanitizedPitch(float pitch, object debugInfo)
 		{
+			float result;
 			if (float.IsNegativeInfinity(pitch))
 			{
-				Log.ErrorOnce("Pitch was negative infinity (" + debugInfo + ")", 546475990);
-				return 0.0001f;
+				Log.ErrorOnce("Pitch was negative infinity (" + debugInfo + ")", 546475990, false);
+				result = 0.0001f;
 			}
-			if (float.IsPositiveInfinity(pitch))
+			else if (float.IsPositiveInfinity(pitch))
 			{
-				Log.ErrorOnce("Pitch was positive infinity (" + debugInfo + ")", 309856435);
-				return 1f;
+				Log.ErrorOnce("Pitch was positive infinity (" + debugInfo + ")", 309856435, false);
+				result = 1f;
 			}
-			if (float.IsNaN(pitch))
+			else if (float.IsNaN(pitch))
 			{
-				Log.ErrorOnce("Pitch was NaN (" + debugInfo + ")", 800635427);
-				return 1f;
+				Log.ErrorOnce("Pitch was NaN (" + debugInfo + ")", 800635427, false);
+				result = 1f;
 			}
-			if (pitch < 0.0)
+			else if (pitch < 0f)
 			{
-				Log.ErrorOnce("Pitch was negative " + pitch + " (" + debugInfo + ")", 384765707);
-				return 0.0001f;
+				Log.ErrorOnce(string.Concat(new object[]
+				{
+					"Pitch was negative ",
+					pitch,
+					" (",
+					debugInfo,
+					")"
+				}), 384765707, false);
+				result = 0.0001f;
 			}
-			return Mathf.Clamp(pitch, 0.0001f, 1000f);
+			else
+			{
+				result = Mathf.Clamp(pitch, 0.0001f, 1000f);
+			}
+			return result;
 		}
 	}
 }

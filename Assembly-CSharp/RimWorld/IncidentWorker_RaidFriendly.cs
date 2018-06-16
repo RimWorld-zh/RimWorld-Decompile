@@ -1,57 +1,76 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using UnityEngine;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000345 RID: 837
 	public class IncidentWorker_RaidFriendly : IncidentWorker_Raid
 	{
-		[CompilerGenerated]
-		private static Func<IAttackTarget, bool> _003C_003Ef__mg_0024cache0;
-
+		// Token: 0x06000E4D RID: 3661 RVA: 0x0007A378 File Offset: 0x00078778
 		protected override bool FactionCanBeGroupSource(Faction f, Map map, bool desperate = false)
 		{
 			IEnumerable<Faction> source = (from p in map.attackTargetsCache.TargetsHostileToColony
-			select ((Thing)p).Faction).Distinct();
-			return base.FactionCanBeGroupSource(f, map, desperate) && !f.def.hidden && !f.HostileTo(Faction.OfPlayer) && (!source.Any() || source.Any((Faction hf) => hf.HostileTo(f)));
+			select ((Thing)p).Faction).Distinct<Faction>();
+			return base.FactionCanBeGroupSource(f, map, desperate) && !f.def.hidden && f.PlayerRelationKind == FactionRelationKind.Ally && (!source.Any<Faction>() || source.Any((Faction hf) => hf.HostileTo(f)));
 		}
 
-		protected override bool CanFireNowSub(IIncidentTarget target)
+		// Token: 0x06000E4E RID: 3662 RVA: 0x0007A42C File Offset: 0x0007882C
+		protected override bool CanFireNowSub(IncidentParms parms)
 		{
-			if (!base.CanFireNowSub(target))
+			bool result;
+			if (!base.CanFireNowSub(parms))
 			{
-				return false;
+				result = false;
 			}
-			Map map = (Map)target;
-			return map.attackTargetsCache.TargetsHostileToColony.Where(GenHostility.IsActiveThreatToPlayer).Sum(delegate(IAttackTarget p)
+			else
 			{
-				Pawn pawn = p as Pawn;
-				if (pawn != null)
+				Map map = (Map)parms.target;
+				result = ((from p in map.attackTargetsCache.TargetsHostileToColony
+				where GenHostility.IsActiveThreatToPlayer(p)
+				select p).Sum(delegate(IAttackTarget p)
 				{
-					return pawn.kindDef.combatPower;
-				}
-				return 0f;
-			}) > 120.0;
+					Pawn pawn = p as Pawn;
+					float result2;
+					if (pawn != null)
+					{
+						result2 = pawn.kindDef.combatPower;
+					}
+					else
+					{
+						result2 = 0f;
+					}
+					return result2;
+				}) > 120f);
+			}
+			return result;
 		}
 
+		// Token: 0x06000E4F RID: 3663 RVA: 0x0007A4B8 File Offset: 0x000788B8
 		protected override bool TryResolveRaidFaction(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
+			bool result;
 			if (parms.faction != null)
 			{
-				return true;
+				result = true;
 			}
-			if (!base.CandidateFactions(map, false).Any())
+			else if (!base.CandidateFactions(map, false).Any<Faction>())
 			{
-				return false;
+				result = false;
 			}
-			parms.faction = base.CandidateFactions(map, false).RandomElementByWeight((Faction fac) => (float)(fac.PlayerGoodwill + 120.00000762939453));
-			return true;
+			else
+			{
+				parms.faction = base.CandidateFactions(map, false).RandomElementByWeight((Faction fac) => (float)fac.PlayerGoodwill + 120.000008f);
+				result = true;
+			}
+			return result;
 		}
 
+		// Token: 0x06000E50 RID: 3664 RVA: 0x0007A535 File Offset: 0x00078935
 		protected override void ResolveRaidStrategy(IncidentParms parms)
 		{
 			if (parms.raidStrategy == null)
@@ -60,50 +79,54 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06000E51 RID: 3665 RVA: 0x0007A553 File Offset: 0x00078953
 		protected override void ResolveRaidPoints(IncidentParms parms)
 		{
-			parms.points = (float)Rand.Range(400, 800);
+			if (parms.points <= 0f)
+			{
+				parms.points = Mathf.Min(StorytellerUtility.DefaultThreatPointsNow(parms.target), 500f);
+			}
 		}
 
+		// Token: 0x06000E52 RID: 3666 RVA: 0x0007A584 File Offset: 0x00078984
 		protected override string GetLetterLabel(IncidentParms parms)
 		{
 			return parms.raidStrategy.letterLabelFriendly;
 		}
 
+		// Token: 0x06000E53 RID: 3667 RVA: 0x0007A5A4 File Offset: 0x000789A4
 		protected override string GetLetterText(IncidentParms parms, List<Pawn> pawns)
 		{
-			string str = null;
-			switch (parms.raidArrivalMode)
-			{
-			case PawnsArriveMode.EdgeWalkIn:
-				str = "FriendlyRaidWalkIn".Translate(parms.faction.def.pawnsPlural, parms.faction.Name);
-				break;
-			case PawnsArriveMode.EdgeDrop:
-				str = "FriendlyRaidEdgeDrop".Translate(parms.faction.def.pawnsPlural, parms.faction.Name);
-				break;
-			case PawnsArriveMode.CenterDrop:
-				str = "FriendlyRaidCenterDrop".Translate(parms.faction.def.pawnsPlural, parms.faction.Name);
-				break;
-			}
-			str += "\n\n";
-			str += parms.raidStrategy.arrivalTextFriendly;
+			string text = string.Format(parms.raidArrivalMode.textFriendly, parms.faction.def.pawnsPlural, parms.faction.Name);
+			text += "\n\n";
+			text += parms.raidStrategy.arrivalTextFriendly;
 			Pawn pawn = pawns.Find((Pawn x) => x.Faction.leader == x);
 			if (pawn != null)
 			{
-				str += "\n\n";
-				str += "FriendlyRaidLeaderPresent".Translate(pawn.Faction.def.pawnsPlural, pawn.LabelShort);
+				text += "\n\n";
+				text += "FriendlyRaidLeaderPresent".Translate(new object[]
+				{
+					pawn.Faction.def.pawnsPlural,
+					pawn.LabelShort
+				});
 			}
-			return str;
+			return text;
 		}
 
+		// Token: 0x06000E54 RID: 3668 RVA: 0x0007A670 File Offset: 0x00078A70
 		protected override LetterDef GetLetterDef()
 		{
 			return LetterDefOf.PositiveEvent;
 		}
 
+		// Token: 0x06000E55 RID: 3669 RVA: 0x0007A68C File Offset: 0x00078A8C
 		protected override string GetRelatedPawnsInfoLetterText(IncidentParms parms)
 		{
-			return "LetterRelatedPawnsRaidFriendly".Translate(parms.faction.def.pawnsPlural);
+			return "LetterRelatedPawnsRaidFriendly".Translate(new object[]
+			{
+				Faction.OfPlayer.def.pawnsPlural,
+				parms.faction.def.pawnsPlural
+			});
 		}
 	}
 }

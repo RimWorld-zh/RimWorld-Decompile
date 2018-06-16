@@ -1,16 +1,33 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x0200011D RID: 285
 	public abstract class WorkGiver_GatherAnimalBodyResources : WorkGiver_Scanner
 	{
-		protected abstract JobDef JobDef
+		// Token: 0x170000D5 RID: 213
+		// (get) Token: 0x060005E6 RID: 1510
+		protected abstract JobDef JobDef { get; }
+
+		// Token: 0x060005E7 RID: 1511
+		protected abstract CompHasGatherableBodyResource GetComp(Pawn animal);
+
+		// Token: 0x060005E8 RID: 1512 RVA: 0x0003F45C File Offset: 0x0003D85C
+		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
-			get;
+			List<Pawn> pawns = pawn.Map.mapPawns.SpawnedPawnsInFaction(pawn.Faction);
+			for (int i = 0; i < pawns.Count; i++)
+			{
+				yield return pawns[i];
+			}
+			yield break;
 		}
 
+		// Token: 0x170000D6 RID: 214
+		// (get) Token: 0x060005E9 RID: 1513 RVA: 0x0003F488 File Offset: 0x0003D888
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -19,39 +36,32 @@ namespace RimWorld
 			}
 		}
 
-		protected abstract CompHasGatherableBodyResource GetComp(Pawn animal);
-
-		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
-		{
-			List<Pawn> pawns = pawn.Map.mapPawns.SpawnedPawnsInFaction(pawn.Faction);
-			int i = 0;
-			if (i < pawns.Count)
-			{
-				yield return (Thing)pawns[i];
-				/*Error: Unable to find new state assignment for yield return*/;
-			}
-		}
-
+		// Token: 0x060005EA RID: 1514 RVA: 0x0003F4A0 File Offset: 0x0003D8A0
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;
-			if (pawn2 != null && pawn2.RaceProps.Animal)
+			bool result;
+			if (pawn2 == null || !pawn2.RaceProps.Animal)
+			{
+				result = false;
+			}
+			else
 			{
 				CompHasGatherableBodyResource comp = this.GetComp(pawn2);
 				if (comp != null && comp.ActiveAndFull && !pawn2.Downed && pawn2.CanCasuallyInteractNow(false))
 				{
 					LocalTargetInfo target = pawn2;
-					if (!pawn.CanReserve(target, 1, -1, null, forced))
-						goto IL_006c;
-					return true;
+					if (pawn.CanReserve(target, 1, -1, null, forced))
+					{
+						return true;
+					}
 				}
-				goto IL_006c;
+				result = false;
 			}
-			return false;
-			IL_006c:
-			return false;
+			return result;
 		}
 
+		// Token: 0x060005EB RID: 1515 RVA: 0x0003F534 File Offset: 0x0003D934
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			return new Job(this.JobDef, t);

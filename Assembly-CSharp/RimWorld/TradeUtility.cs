@@ -1,173 +1,181 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using Verse;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
+	// Token: 0x02000782 RID: 1922
 	public static class TradeUtility
 	{
-		public static bool EverTradeable(ThingDef def)
+		// Token: 0x06002A6D RID: 10861 RVA: 0x00167318 File Offset: 0x00165718
+		public static bool EverPlayerSellable(ThingDef def)
 		{
-			if (def.tradeability == Tradeability.Never)
-			{
-				return false;
-			}
-			if ((def.category == ThingCategory.Item || def.category == ThingCategory.Pawn) && def.GetStatValueAbstract(StatDefOf.MarketValue, null) > 0.0)
-			{
-				return true;
-			}
-			return false;
+			return def.tradeability.PlayerCanSell() && def.GetStatValueAbstract(StatDefOf.MarketValue, null) > 0f && (def.category == ThingCategory.Item || def.category == ThingCategory.Pawn || def.category == ThingCategory.Building) && (def.category != ThingCategory.Building || def.Minifiable);
 		}
 
+		// Token: 0x06002A6E RID: 10862 RVA: 0x001673AC File Offset: 0x001657AC
+		public static bool PlayerSellableNow(Thing t)
+		{
+			t = t.GetInnerIfMinified();
+			bool result;
+			if (!TradeUtility.EverPlayerSellable(t.def))
+			{
+				result = false;
+			}
+			else if (t.IsNotFresh())
+			{
+				result = false;
+			}
+			else
+			{
+				Apparel apparel = t as Apparel;
+				result = (apparel == null || !apparel.WornByCorpse);
+			}
+			return result;
+		}
+
+		// Token: 0x06002A6F RID: 10863 RVA: 0x00167414 File Offset: 0x00165814
 		public static void SpawnDropPod(IntVec3 dropSpot, Map map, Thing t)
 		{
-			ActiveDropPodInfo activeDropPodInfo = new ActiveDropPodInfo();
-			activeDropPodInfo.SingleContainedThing = t;
-			activeDropPodInfo.leaveSlag = false;
-			DropPodUtility.MakeDropPodAt(dropSpot, map, activeDropPodInfo, false);
+			DropPodUtility.MakeDropPodAt(dropSpot, map, new ActiveDropPodInfo
+			{
+				SingleContainedThing = t,
+				leaveSlag = false
+			}, false);
 		}
 
-		public static IEnumerable<Thing> AllLaunchableThings(Map map)
+		// Token: 0x06002A70 RID: 10864 RVA: 0x00167440 File Offset: 0x00165840
+		public static IEnumerable<Thing> AllLaunchableThingsForTrade(Map map)
 		{
 			HashSet<Thing> yieldedThings = new HashSet<Thing>();
-			foreach (Building_OrbitalTradeBeacon item in Building_OrbitalTradeBeacon.AllPowered(map))
+			foreach (Building_OrbitalTradeBeacon beacon in Building_OrbitalTradeBeacon.AllPowered(map))
 			{
-				foreach (IntVec3 tradeableCell in item.TradeableCells)
+				foreach (IntVec3 c in beacon.TradeableCells)
 				{
-					List<Thing> thingList = tradeableCell.GetThingList(map);
+					List<Thing> thingList = c.GetThingList(map);
 					for (int i = 0; i < thingList.Count; i++)
 					{
 						Thing t = thingList[i];
-						if (TradeUtility.EverTradeable(t.def) && t.def.category == ThingCategory.Item && !yieldedThings.Contains(t) && TradeUtility.TradeableNow(t))
+						if (t.def.category == ThingCategory.Item && TradeUtility.PlayerSellableNow(t) && !yieldedThings.Contains(t))
 						{
 							yieldedThings.Add(t);
 							yield return t;
-							/*Error: Unable to find new state assignment for yield return*/;
 						}
 					}
 				}
 			}
 			yield break;
-			IL_01f0:
-			/*Error near IL_01f1: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x06002A71 RID: 10865 RVA: 0x0016746C File Offset: 0x0016586C
 		public static IEnumerable<Pawn> AllSellableColonyPawns(Map map)
 		{
-			foreach (Pawn item in map.mapPawns.PrisonersOfColonySpawned)
+			foreach (Pawn p in map.mapPawns.PrisonersOfColonySpawned)
 			{
-				if (item.guest.PrisonerIsSecure)
+				if (p.guest.PrisonerIsSecure)
 				{
-					yield return item;
-					/*Error: Unable to find new state assignment for yield return*/;
+					yield return p;
 				}
 			}
-			foreach (Pawn item2 in map.mapPawns.SpawnedPawnsInFaction(Faction.OfPlayer))
+			foreach (Pawn p2 in map.mapPawns.SpawnedPawnsInFaction(Faction.OfPlayer))
 			{
-				if (item2.RaceProps.Animal && item2.HostFaction == null && !item2.InMentalState && !item2.Downed && map.mapTemperature.SeasonAndOutdoorTemperatureAcceptableFor(item2.def))
+				if (p2.RaceProps.Animal && p2.HostFaction == null && !p2.InMentalState && !p2.Downed && map.mapTemperature.SeasonAndOutdoorTemperatureAcceptableFor(p2.def))
 				{
-					yield return item2;
-					/*Error: Unable to find new state assignment for yield return*/;
+					yield return p2;
 				}
 			}
 			yield break;
-			IL_01c9:
-			/*Error near IL_01ca: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x06002A72 RID: 10866 RVA: 0x00167498 File Offset: 0x00165898
 		public static Thing ThingFromStockToMergeWith(ITrader trader, Thing thing)
 		{
+			Thing result;
 			if (thing is Pawn)
 			{
-				return null;
+				result = null;
 			}
-			foreach (Thing good in trader.Goods)
+			else
 			{
-				if (TransferableUtility.TransferAsOne(good, thing))
+				foreach (Thing thing2 in trader.Goods)
 				{
-					return good;
+					if (TransferableUtility.TransferAsOne(thing2, thing, TransferAsOneMode.Normal) && thing2.CanStackWith(thing) && thing2.def.stackLimit != 1)
+					{
+						return thing2;
+					}
 				}
+				result = null;
 			}
-			return null;
+			return result;
 		}
 
-		public static bool TradeableNow(Thing t)
-		{
-			if (t.IsNotFresh())
-			{
-				return false;
-			}
-			return true;
-		}
-
+		// Token: 0x06002A73 RID: 10867 RVA: 0x0016753C File Offset: 0x0016593C
 		public static void LaunchThingsOfType(ThingDef resDef, int debt, Map map, TradeShip trader)
 		{
-			while (true)
+			while (debt > 0)
 			{
-				Thing thing;
-				if (debt > 0)
+				Thing thing = null;
+				foreach (Building_OrbitalTradeBeacon building_OrbitalTradeBeacon in Building_OrbitalTradeBeacon.AllPowered(map))
 				{
-					thing = null;
-					foreach (Building_OrbitalTradeBeacon item in Building_OrbitalTradeBeacon.AllPowered(map))
+					foreach (IntVec3 c in building_OrbitalTradeBeacon.TradeableCells)
 					{
-						foreach (IntVec3 tradeableCell in item.TradeableCells)
+						foreach (Thing thing2 in map.thingGrid.ThingsAt(c))
 						{
-							foreach (Thing item2 in map.thingGrid.ThingsAt(tradeableCell))
+							if (thing2.def == resDef)
 							{
-								if (item2.def == resDef)
-								{
-									thing = item2;
-									goto IL_00cc;
-								}
+								thing = thing2;
+								goto IL_D8;
 							}
 						}
 					}
-					goto IL_00cc;
 				}
-				return;
-				IL_00cc:
-				if (thing != null)
+				IL_D8:
+				if (thing == null)
 				{
-					int num = Math.Min(debt, thing.stackCount);
-					if (trader != null)
-					{
-						trader.GiveSoldThingToTrader(thing, num, TradeSession.playerNegotiator);
-					}
-					else
-					{
-						thing.SplitOff(num).Destroy(DestroyMode.Vanish);
-					}
-					debt -= num;
-					continue;
+					Log.Error("Could not find any " + resDef + " to transfer to trader.", false);
+					break;
 				}
-				break;
+				int num = Math.Min(debt, thing.stackCount);
+				if (trader != null)
+				{
+					trader.GiveSoldThingToTrader(thing, num, TradeSession.playerNegotiator);
+				}
+				else
+				{
+					thing.SplitOff(num).Destroy(DestroyMode.Vanish);
+				}
+				debt -= num;
 			}
-			Log.Error("Could not find any " + resDef + " to transfer to trader.");
 		}
 
+		// Token: 0x06002A74 RID: 10868 RVA: 0x001676B0 File Offset: 0x00165AB0
 		public static void LaunchSilver(Map map, int fee)
 		{
 			TradeUtility.LaunchThingsOfType(ThingDefOf.Silver, fee, map, null);
 		}
 
+		// Token: 0x06002A75 RID: 10869 RVA: 0x001676C0 File Offset: 0x00165AC0
 		public static Map PlayerHomeMapWithMostLaunchableSilver()
 		{
 			return (from x in Find.Maps
 			where x.IsPlayerHome
-			select x).MaxBy((Map x) => (from t in TradeUtility.AllLaunchableThings(x)
+			select x).MaxBy((Map x) => (from t in TradeUtility.AllLaunchableThingsForTrade(x)
 			where t.def == ThingDefOf.Silver
 			select t).Sum((Thing t) => t.stackCount));
 		}
 
+		// Token: 0x06002A76 RID: 10870 RVA: 0x00167720 File Offset: 0x00165B20
 		public static bool ColonyHasEnoughSilver(Map map, int fee)
 		{
-			return (from t in TradeUtility.AllLaunchableThings(map)
+			return (from t in TradeUtility.AllLaunchableThingsForTrade(map)
 			where t.def == ThingDefOf.Silver
 			select t).Sum((Thing t) => t.stackCount) >= fee;
 		}
 
+		// Token: 0x06002A77 RID: 10871 RVA: 0x00167788 File Offset: 0x00165B88
 		public static void CheckInteractWithTradersTeachOpportunity(Pawn pawn)
 		{
 			if (!pawn.Dead)
@@ -179,5 +187,44 @@ namespace RimWorld
 				}
 			}
 		}
+
+		// Token: 0x06002A78 RID: 10872 RVA: 0x001677D4 File Offset: 0x00165BD4
+		public static float GetPricePlayerSell(Thing thing, float priceFactorSell_TraderPriceType, float priceGain_PlayerNegotiator, float priceGain_FactionBase)
+		{
+			float statValue = thing.GetStatValue(StatDefOf.SellPriceFactor, true);
+			float num = thing.MarketValue * 0.5f * priceFactorSell_TraderPriceType * statValue * (1f - Find.Storyteller.difficulty.tradePriceFactorLoss);
+			num *= 1f + priceGain_PlayerNegotiator + priceGain_FactionBase;
+			num = Mathf.Max(num, 0.01f);
+			if (num > 99.5f)
+			{
+				num = Mathf.Round(num);
+			}
+			return num;
+		}
+
+		// Token: 0x06002A79 RID: 10873 RVA: 0x00167848 File Offset: 0x00165C48
+		public static float GetPricePlayerBuy(Thing thing, float priceFactorBuy_TraderPriceType, float priceGain_PlayerNegotiator, float priceGain_FactionBase)
+		{
+			float num = thing.MarketValue * 1.5f * priceFactorBuy_TraderPriceType * (1f + Find.Storyteller.difficulty.tradePriceFactorLoss);
+			num *= 1f - priceGain_PlayerNegotiator - priceGain_FactionBase;
+			num = Mathf.Max(num, 0.5f);
+			if (num > 99.5f)
+			{
+				num = Mathf.Round(num);
+			}
+			return num;
+		}
+
+		// Token: 0x040016DD RID: 5853
+		public const float MinimumBuyPrice = 0.5f;
+
+		// Token: 0x040016DE RID: 5854
+		public const float MinimumSellPrice = 0.01f;
+
+		// Token: 0x040016DF RID: 5855
+		public const float PriceFactorBuy_Global = 1.5f;
+
+		// Token: 0x040016E0 RID: 5856
+		public const float PriceFactorSell_Global = 0.5f;
 	}
 }

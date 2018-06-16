@@ -1,70 +1,109 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020002A6 RID: 678
 	public class InspirationWorker
 	{
-		public InspirationDef def;
-
+		// Token: 0x06000B5F RID: 2911 RVA: 0x00066964 File Offset: 0x00064D64
 		public virtual float CommonalityFor(Pawn pawn)
 		{
 			return this.def.baseCommonality;
 		}
 
+		// Token: 0x06000B60 RID: 2912 RVA: 0x00066984 File Offset: 0x00064D84
 		public virtual bool InspirationCanOccur(Pawn pawn)
 		{
+			bool result;
 			if (!this.def.allowedOnAnimals && pawn.RaceProps.Animal)
 			{
-				return false;
+				result = false;
 			}
-			if (!this.def.allowedOnNonColonists && !pawn.IsColonist)
+			else if (!this.def.allowedOnNonColonists && !pawn.IsColonist)
 			{
-				return false;
+				result = false;
 			}
-			if (this.def.requiredNonDisabledStats != null)
+			else
 			{
-				for (int i = 0; i < this.def.requiredNonDisabledStats.Count; i++)
+				if (this.def.requiredNonDisabledStats != null)
 				{
-					if (this.def.requiredNonDisabledStats[i].Worker.IsDisabledFor(pawn))
+					for (int i = 0; i < this.def.requiredNonDisabledStats.Count; i++)
+					{
+						if (this.def.requiredNonDisabledStats[i].Worker.IsDisabledFor(pawn))
+						{
+							return false;
+						}
+					}
+				}
+				if (this.def.requiredSkills != null)
+				{
+					for (int j = 0; j < this.def.requiredSkills.Count; j++)
+					{
+						if (!this.def.requiredSkills[j].PawnSatisfies(pawn))
+						{
+							return false;
+						}
+					}
+				}
+				if (!this.def.requiredAnySkill.NullOrEmpty<SkillRequirement>())
+				{
+					bool flag = false;
+					for (int k = 0; k < this.def.requiredAnySkill.Count; k++)
+					{
+						if (this.def.requiredAnySkill[k].PawnSatisfies(pawn))
+						{
+							flag = true;
+							break;
+						}
+					}
+					if (!flag)
 					{
 						return false;
 					}
 				}
-			}
-			if (this.def.requiredSkills != null)
-			{
-				for (int j = 0; j < this.def.requiredSkills.Count; j++)
+				if (this.def.requiredNonDisabledWorkTypes != null)
 				{
-					if (!this.def.requiredSkills[j].PawnSatisfies(pawn))
+					for (int l = 0; l < this.def.requiredNonDisabledWorkTypes.Count; l++)
+					{
+						if (pawn.story == null || pawn.story.WorkTypeIsDisabled(this.def.requiredNonDisabledWorkTypes[l]))
+						{
+							return false;
+						}
+					}
+				}
+				if (!this.def.requiredAnyNonDisabledWorkType.NullOrEmpty<WorkTypeDef>())
+				{
+					bool flag2 = false;
+					for (int m = 0; m < this.def.requiredAnyNonDisabledWorkType.Count; m++)
+					{
+						if (pawn.story != null && !pawn.story.WorkTypeIsDisabled(this.def.requiredAnyNonDisabledWorkType[m]))
+						{
+							flag2 = true;
+							break;
+						}
+					}
+					if (!flag2)
 					{
 						return false;
 					}
 				}
-			}
-			if (this.def.requiredNonDisabledWorkTypes != null)
-			{
-				int num = 0;
-				while (num < this.def.requiredNonDisabledWorkTypes.Count)
+				if (this.def.requiredCapacities != null)
 				{
-					if (pawn.story != null && !pawn.story.WorkTypeIsDisabled(this.def.requiredNonDisabledWorkTypes[num]))
+					for (int n = 0; n < this.def.requiredCapacities.Count; n++)
 					{
-						num++;
-						continue;
-					}
-					return false;
-				}
-			}
-			if (this.def.requiredCapacities != null)
-			{
-				for (int k = 0; k < this.def.requiredCapacities.Count; k++)
-				{
-					if (!pawn.health.capacities.CapableOf(this.def.requiredCapacities[k]))
-					{
-						return false;
+						if (!pawn.health.capacities.CapableOf(this.def.requiredCapacities[n]))
+						{
+							return false;
+						}
 					}
 				}
+				result = true;
 			}
-			return true;
+			return result;
 		}
+
+		// Token: 0x0400064B RID: 1611
+		public InspirationDef def;
 	}
 }

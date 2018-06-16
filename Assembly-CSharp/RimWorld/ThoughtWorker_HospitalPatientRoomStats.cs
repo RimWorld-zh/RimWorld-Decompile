@@ -1,27 +1,41 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020001F3 RID: 499
 	public class ThoughtWorker_HospitalPatientRoomStats : ThoughtWorker
 	{
+		// Token: 0x060009B1 RID: 2481 RVA: 0x0005741C File Offset: 0x0005581C
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			Building_Bed building_Bed = p.CurrentBed();
-			if (building_Bed != null && building_Bed.Medical)
+			ThoughtState result;
+			if (building_Bed == null || !building_Bed.Medical)
+			{
+				result = ThoughtState.Inactive;
+			}
+			else
 			{
 				Room room = p.GetRoom(RegionType.Set_Passable);
-				if (room != null && room.Role == RoomRoleDefOf.Hospital)
+				if (room == null || room.Role != RoomRoleDefOf.Hospital)
+				{
+					result = ThoughtState.Inactive;
+				}
+				else
 				{
 					int scoreStageIndex = RoomStatDefOf.Impressiveness.GetScoreStageIndex(room.GetStat(RoomStatDefOf.Impressiveness));
-					if (base.def.stages[scoreStageIndex] != null)
+					if (this.def.stages[scoreStageIndex] != null)
 					{
-						return ThoughtState.ActiveAtStage(scoreStageIndex);
+						result = ThoughtState.ActiveAtStage(scoreStageIndex);
 					}
-					return ThoughtState.Inactive;
+					else
+					{
+						result = ThoughtState.Inactive;
+					}
 				}
-				return ThoughtState.Inactive;
 			}
-			return ThoughtState.Inactive;
+			return result;
 		}
 	}
 }

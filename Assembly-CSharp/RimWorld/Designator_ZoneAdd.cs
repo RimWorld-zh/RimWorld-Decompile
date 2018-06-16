@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,10 +6,21 @@ using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020007E9 RID: 2025
 	public abstract class Designator_ZoneAdd : Designator_Zone
 	{
-		protected Type zoneTypeToPlace;
+		// Token: 0x06002CF8 RID: 11512 RVA: 0x0017A20F File Offset: 0x0017860F
+		public Designator_ZoneAdd()
+		{
+			this.soundDragSustain = SoundDefOf.Designate_DragAreaAdd;
+			this.soundDragChanged = null;
+			this.soundSucceeded = SoundDefOf.Designate_ZoneAdd;
+			this.useMouseIcon = true;
+		}
 
+		// Token: 0x1700071F RID: 1823
+		// (get) Token: 0x06002CF9 RID: 11513 RVA: 0x0017A23C File Offset: 0x0017863C
+		// (set) Token: 0x06002CFA RID: 11514 RVA: 0x0017A25B File Offset: 0x0017865B
 		private Zone SelectedZone
 		{
 			get
@@ -26,21 +37,14 @@ namespace RimWorld
 			}
 		}
 
-		protected abstract string NewZoneLabel
-		{
-			get;
-		}
+		// Token: 0x17000720 RID: 1824
+		// (get) Token: 0x06002CFB RID: 11515
+		protected abstract string NewZoneLabel { get; }
 
-		public Designator_ZoneAdd()
-		{
-			base.soundDragSustain = SoundDefOf.DesignateDragAreaAdd;
-			base.soundDragChanged = SoundDefOf.DesignateDragAreaAddChanged;
-			base.soundSucceeded = SoundDefOf.DesignateZoneAdd;
-			base.useMouseIcon = true;
-		}
-
+		// Token: 0x06002CFC RID: 11516
 		protected abstract Zone MakeNewZone();
 
+		// Token: 0x06002CFD RID: 11517 RVA: 0x0017A27C File Offset: 0x0017867C
 		public override void SelectedUpdate()
 		{
 			base.SelectedUpdate();
@@ -50,53 +54,77 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002CFE RID: 11518 RVA: 0x0017A2D0 File Offset: 0x001786D0
 		public override void DrawMouseAttachments()
 		{
-			if (base.useMouseIcon)
+			if (this.useMouseIcon)
 			{
-				string text = string.Empty;
+				string text = "";
 				if (!Input.GetKey(KeyCode.Mouse0))
 				{
 					Zone selectedZone = Find.Selector.SelectedZone;
-					text = ((selectedZone == null) ? "CreateNewZone".Translate(this.NewZoneLabel) : "ExpandOrCreateZone".Translate(selectedZone.label, this.NewZoneLabel));
+					if (selectedZone != null)
+					{
+						text = "ExpandOrCreateZone".Translate(new object[]
+						{
+							selectedZone.label,
+							this.NewZoneLabel
+						});
+					}
+					else
+					{
+						text = "CreateNewZone".Translate(new object[]
+						{
+							this.NewZoneLabel
+						});
+					}
 				}
-				GenUI.DrawMouseAttachment(base.icon, text, 0f);
+				GenUI.DrawMouseAttachment(this.icon, text, 0f, default(Vector2), null);
 			}
 		}
 
+		// Token: 0x06002CFF RID: 11519 RVA: 0x0017A378 File Offset: 0x00178778
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
+			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				return false;
+				result = false;
 			}
-			if (c.Fogged(base.Map))
+			else if (c.Fogged(base.Map))
 			{
-				return false;
+				result = false;
 			}
-			if (c.InNoZoneEdgeArea(base.Map))
+			else if (c.InNoZoneEdgeArea(base.Map))
 			{
-				return "TooCloseToMapEdge".Translate();
+				result = "TooCloseToMapEdge".Translate();
 			}
-			Zone zone = base.Map.zoneManager.ZoneAt(c);
-			if (zone != null && zone.GetType() != this.zoneTypeToPlace)
+			else
 			{
-				return false;
-			}
-			foreach (Thing item in base.Map.thingGrid.ThingsAt(c))
-			{
-				if (!item.def.CanOverlapZones)
+				Zone zone = base.Map.zoneManager.ZoneAt(c);
+				if (zone != null && zone.GetType() != this.zoneTypeToPlace)
 				{
-					return false;
+					result = false;
+				}
+				else
+				{
+					foreach (Thing thing in base.Map.thingGrid.ThingsAt(c))
+					{
+						if (!thing.def.CanOverlapZones)
+						{
+							return false;
+						}
+					}
+					result = true;
 				}
 			}
-			return true;
+			return result;
 		}
 
+		// Token: 0x06002D00 RID: 11520 RVA: 0x0017A498 File Offset: 0x00178898
 		public override void DesignateMultiCell(IEnumerable<IntVec3> cells)
 		{
-			List<IntVec3> list = cells.ToList();
-			bool flag = false;
+			List<IntVec3> list = cells.ToList<IntVec3>();
 			if (list.Count == 1)
 			{
 				Zone zone = base.Map.zoneManager.ZoneAt(list[0]);
@@ -112,9 +140,9 @@ namespace RimWorld
 			if (this.SelectedZone == null)
 			{
 				Zone zone2 = null;
-				foreach (IntVec3 cell in cells)
+				foreach (IntVec3 c3 in cells)
 				{
-					Zone zone3 = base.Map.zoneManager.ZoneAt(cell);
+					Zone zone3 = base.Map.zoneManager.ZoneAt(c3);
 					if (zone3 != null && zone3.GetType() == this.zoneTypeToPlace)
 					{
 						if (zone2 == null)
@@ -131,52 +159,63 @@ namespace RimWorld
 				this.SelectedZone = zone2;
 			}
 			list.RemoveAll((IntVec3 c) => base.Map.zoneManager.ZoneAt(c) != null);
-			if (list.Count != 0 && (!TutorSystem.TutorialMode || TutorSystem.AllowAction(new EventPack(base.TutorTagDesignate, list))))
+			if (list.Count != 0)
 			{
-				if (this.SelectedZone == null)
+				if (!TutorSystem.TutorialMode || TutorSystem.AllowAction(new EventPack(base.TutorTagDesignate, list)))
 				{
-					this.SelectedZone = this.MakeNewZone();
-					this.SelectedZone.AddCell(list[0]);
-					list.RemoveAt(0);
-				}
-				while (true)
-				{
-					flag = true;
-					int count = list.Count;
-					for (int num = list.Count - 1; num >= 0; num--)
+					if (this.SelectedZone == null)
 					{
-						bool flag2 = false;
-						for (int i = 0; i < 4; i++)
+						this.SelectedZone = this.MakeNewZone();
+						base.Map.zoneManager.RegisterZone(this.SelectedZone);
+						this.SelectedZone.AddCell(list[0]);
+						list.RemoveAt(0);
+					}
+					bool somethingSucceeded;
+					for (;;)
+					{
+						somethingSucceeded = true;
+						int count = list.Count;
+						for (int i = list.Count - 1; i >= 0; i--)
 						{
-							IntVec3 c2 = list[num] + GenAdj.CardinalDirections[i];
-							if (c2.InBounds(base.Map) && base.Map.zoneManager.ZoneAt(c2) == this.SelectedZone)
+							bool flag = false;
+							for (int j = 0; j < 4; j++)
 							{
-								flag2 = true;
-								break;
+								IntVec3 c2 = list[i] + GenAdj.CardinalDirections[j];
+								if (c2.InBounds(base.Map))
+								{
+									if (base.Map.zoneManager.ZoneAt(c2) == this.SelectedZone)
+									{
+										flag = true;
+										break;
+									}
+								}
+							}
+							if (flag)
+							{
+								this.SelectedZone.AddCell(list[i]);
+								list.RemoveAt(i);
 							}
 						}
-						if (flag2)
+						if (list.Count == 0)
 						{
-							this.SelectedZone.AddCell(list[num]);
-							list.RemoveAt(num);
+							break;
 						}
-					}
-					if (list.Count != 0)
-					{
 						if (list.Count == count)
 						{
 							this.SelectedZone = this.MakeNewZone();
+							base.Map.zoneManager.RegisterZone(this.SelectedZone);
 							this.SelectedZone.AddCell(list[0]);
 							list.RemoveAt(0);
 						}
-						continue;
 					}
-					break;
+					this.SelectedZone.CheckContiguous();
+					base.Finalize(somethingSucceeded);
+					TutorSystem.Notify_Event(new EventPack(base.TutorTagDesignate, list));
 				}
-				this.SelectedZone.CheckContiguous();
-				base.Finalize(flag);
-				TutorSystem.Notify_Event(new EventPack(base.TutorTagDesignate, list));
 			}
 		}
+
+		// Token: 0x040017B6 RID: 6070
+		protected Type zoneTypeToPlace;
 	}
 }

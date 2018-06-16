@@ -1,23 +1,21 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000F47 RID: 3911
 	public static class GenRadial
 	{
-		public static IntVec3[] ManualRadialPattern;
+		// Token: 0x06005E76 RID: 24182 RVA: 0x002FF43C File Offset: 0x002FD83C
+		static GenRadial()
+		{
+			GenRadial.SetupManualRadialPattern();
+			GenRadial.SetupRadialPattern();
+		}
 
-		public static IntVec3[] RadialPattern;
-
-		private static float[] RadialPatternRadii;
-
-		private const int RadialPatternCount = 10000;
-
-		private static List<IntVec3> tmpCells;
-
-		private static bool working;
-
+		// Token: 0x17000F3B RID: 3899
+		// (get) Token: 0x06005E77 RID: 24183 RVA: 0x002FF490 File Offset: 0x002FD890
 		public static float MaxRadialPatternRadius
 		{
 			get
@@ -26,17 +24,7 @@ namespace Verse
 			}
 		}
 
-		static GenRadial()
-		{
-			GenRadial.ManualRadialPattern = new IntVec3[49];
-			GenRadial.RadialPattern = new IntVec3[10000];
-			GenRadial.RadialPatternRadii = new float[10000];
-			GenRadial.tmpCells = new List<IntVec3>();
-			GenRadial.working = false;
-			GenRadial.SetupManualRadialPattern();
-			GenRadial.SetupRadialPattern();
-		}
-
+		// Token: 0x06005E78 RID: 24184 RVA: 0x002FF4B4 File Offset: 0x002FD8B4
 		private static void SetupManualRadialPattern()
 		{
 			GenRadial.ManualRadialPattern[0] = new IntVec3(0, 0, 0);
@@ -90,6 +78,7 @@ namespace Verse
 			GenRadial.ManualRadialPattern[48] = new IntVec3(-3, 0, -3);
 		}
 
+		// Token: 0x06005E79 RID: 24185 RVA: 0x002FF9A0 File Offset: 0x002FDDA0
 		private static void SetupRadialPattern()
 		{
 			List<IntVec3> list = new List<IntVec3>();
@@ -104,15 +93,20 @@ namespace Verse
 			{
 				float num = (float)A.LengthHorizontalSquared;
 				float num2 = (float)B.LengthHorizontalSquared;
+				int result;
 				if (num < num2)
 				{
-					return -1;
+					result = -1;
 				}
-				if (num == num2)
+				else if (num == num2)
 				{
-					return 0;
+					result = 0;
 				}
-				return 1;
+				else
+				{
+					result = 1;
+				}
+				return result;
 			});
 			for (int k = 0; k < 10000; k++)
 			{
@@ -121,111 +115,138 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06005E7A RID: 24186 RVA: 0x002FFA58 File Offset: 0x002FDE58
 		public static int NumCellsToFillForRadius_ManualRadialPattern(int radius)
 		{
-			switch (radius)
+			int result;
+			if (radius == 0)
 			{
-			case 0:
-				return 1;
-			case 1:
-				return 9;
-			case 2:
-				return 21;
-			case 3:
-				return 37;
-			default:
-				Log.Error("NumSquares radius error");
-				return 0;
+				result = 1;
 			}
+			else if (radius == 1)
+			{
+				result = 9;
+			}
+			else if (radius == 2)
+			{
+				result = 21;
+			}
+			else if (radius == 3)
+			{
+				result = 37;
+			}
+			else
+			{
+				Log.Error("NumSquares radius error", false);
+				result = 0;
+			}
+			return result;
 		}
 
+		// Token: 0x06005E7B RID: 24187 RVA: 0x002FFAB4 File Offset: 0x002FDEB4
 		public static int NumCellsInRadius(float radius)
 		{
+			int result;
 			if (radius >= GenRadial.MaxRadialPatternRadius)
 			{
-				Log.Error("Not enough squares to get to radius " + radius + ". Max is " + GenRadial.MaxRadialPatternRadius);
-				return 10000;
-			}
-			float num = (float)(radius + 1.4012984643248171E-45);
-			for (int i = 0; i < 10000; i++)
-			{
-				if (GenRadial.RadialPatternRadii[i] > num)
+				Log.Error(string.Concat(new object[]
 				{
-					return i;
-				}
+					"Not enough squares to get to radius ",
+					radius,
+					". Max is ",
+					GenRadial.MaxRadialPatternRadius
+				}), false);
+				result = 10000;
 			}
-			return 10000;
+			else
+			{
+				float num = radius + float.Epsilon;
+				for (int i = 0; i < 10000; i++)
+				{
+					if (GenRadial.RadialPatternRadii[i] > num)
+					{
+						return i;
+					}
+				}
+				result = 10000;
+			}
+			return result;
 		}
 
+		// Token: 0x06005E7C RID: 24188 RVA: 0x002FFB50 File Offset: 0x002FDF50
 		public static float RadiusOfNumCells(int numCells)
 		{
 			return GenRadial.RadialPatternRadii[numCells];
 		}
 
+		// Token: 0x06005E7D RID: 24189 RVA: 0x002FFB6C File Offset: 0x002FDF6C
 		public static IEnumerable<IntVec3> RadialPatternInRadius(float radius)
 		{
 			int numSquares = GenRadial.NumCellsInRadius(radius);
-			int i = 0;
-			if (i < numSquares)
+			for (int i = 0; i < numSquares; i++)
 			{
 				yield return GenRadial.RadialPattern[i];
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
+			yield break;
 		}
 
+		// Token: 0x06005E7E RID: 24190 RVA: 0x002FFB98 File Offset: 0x002FDF98
 		public static IEnumerable<IntVec3> RadialCellsAround(IntVec3 center, float radius, bool useCenter)
 		{
 			int numSquares = GenRadial.NumCellsInRadius(radius);
-			int i = (!useCenter) ? 1 : 0;
-			if (i < numSquares)
+			for (int i = (!useCenter) ? 1 : 0; i < numSquares; i++)
 			{
 				yield return GenRadial.RadialPattern[i] + center;
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
+			yield break;
 		}
 
+		// Token: 0x06005E7F RID: 24191 RVA: 0x002FFBD0 File Offset: 0x002FDFD0
 		public static IEnumerable<Thing> RadialDistinctThingsAround(IntVec3 center, Map map, float radius, bool useCenter)
 		{
 			int numCells = GenRadial.NumCellsInRadius(radius);
 			HashSet<Thing> returnedThings = null;
-			for (int j = (!useCenter) ? 1 : 0; j < numCells; j++)
+			for (int i = (!useCenter) ? 1 : 0; i < numCells; i++)
 			{
-				IntVec3 cell = GenRadial.RadialPattern[j] + center;
+				IntVec3 cell = GenRadial.RadialPattern[i] + center;
 				if (cell.InBounds(map))
 				{
 					List<Thing> thingList = cell.GetThingList(map);
-					int i = 0;
-					while (i < thingList.Count)
+					int j = 0;
+					while (j < thingList.Count)
 					{
-						Thing t = thingList[i];
-						if (t.def.size.x > 1 && t.def.size.z > 1)
+						Thing t = thingList[j];
+						if (t.def.size.x <= 1 || t.def.size.z <= 1)
 						{
-							if (returnedThings == null)
-							{
-								returnedThings = new HashSet<Thing>();
-							}
-							if (!returnedThings.Contains(t))
-							{
-								returnedThings.Add(t);
-								goto IL_014a;
-							}
-							i++;
-							continue;
+							goto IL_14F;
 						}
-						goto IL_014a;
-						IL_014a:
+						if (returnedThings == null)
+						{
+							returnedThings = new HashSet<Thing>();
+						}
+						if (!returnedThings.Contains(t))
+						{
+							returnedThings.Add(t);
+							goto IL_14F;
+						}
+						IL_170:
+						j++;
+						continue;
+						IL_14F:
 						yield return t;
-						/*Error: Unable to find new state assignment for yield return*/;
+						goto IL_170;
 					}
 				}
 			}
+			yield break;
 		}
 
+		// Token: 0x06005E80 RID: 24192 RVA: 0x002FFC10 File Offset: 0x002FE010
 		public static void ProcessEquidistantCells(IntVec3 center, float radius, Func<List<IntVec3>, bool> processor, Map map = null)
 		{
 			if (GenRadial.working)
 			{
-				Log.Error("Nested calls to ProcessEquidistantCells() are not allowed.");
+				Log.Error("Nested calls to ProcessEquidistantCells() are not allowed.", false);
 			}
 			else
 			{
@@ -241,17 +262,19 @@ namespace Verse
 						if (map == null || intVec.InBounds(map))
 						{
 							float num3 = (float)intVec.DistanceToSquared(center);
-							if (Mathf.Abs(num3 - num) > 9.9999997473787516E-05)
+							if (Mathf.Abs(num3 - num) > 0.0001f)
 							{
-								if (GenRadial.tmpCells.Any() && processor(GenRadial.tmpCells))
+								if (GenRadial.tmpCells.Any<IntVec3>() && processor(GenRadial.tmpCells))
+								{
 									return;
+								}
 								num = num3;
 								GenRadial.tmpCells.Clear();
 							}
 							GenRadial.tmpCells.Add(intVec);
 						}
 					}
-					if (GenRadial.tmpCells.Any())
+					if (GenRadial.tmpCells.Any<IntVec3>())
 					{
 						processor(GenRadial.tmpCells);
 					}
@@ -263,5 +286,23 @@ namespace Verse
 				}
 			}
 		}
+
+		// Token: 0x04003E15 RID: 15893
+		public static IntVec3[] ManualRadialPattern = new IntVec3[49];
+
+		// Token: 0x04003E16 RID: 15894
+		public static IntVec3[] RadialPattern = new IntVec3[10000];
+
+		// Token: 0x04003E17 RID: 15895
+		private static float[] RadialPatternRadii = new float[10000];
+
+		// Token: 0x04003E18 RID: 15896
+		private const int RadialPatternCount = 10000;
+
+		// Token: 0x04003E19 RID: 15897
+		private static List<IntVec3> tmpCells = new List<IntVec3>();
+
+		// Token: 0x04003E1A RID: 15898
+		private static bool working = false;
 	}
 }

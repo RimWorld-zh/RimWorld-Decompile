@@ -1,34 +1,31 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000EBF RID: 3775
 	public abstract class Dialog_OptionLister : Window
 	{
-		protected Vector2 scrollPosition;
+		// Token: 0x06005936 RID: 22838 RVA: 0x002B9927 File Offset: 0x002B7D27
+		public Dialog_OptionLister()
+		{
+			this.doCloseX = true;
+			this.onlyOneOfTypeAllowed = true;
+			this.absorbInputAroundWindow = true;
+		}
 
-		protected string filter = string.Empty;
-
-		protected float totalOptionsHeight;
-
-		protected Listing_Standard listing;
-
-		protected static readonly Vector2 ButSize = new Vector2(230f, 27f);
-
-		protected const float ButSpacing = 0f;
-
-		protected readonly float ColumnSpacing = 20f;
-
-		protected readonly float SectSpacing = 8f;
-
+		// Token: 0x17000E0B RID: 3595
+		// (get) Token: 0x06005937 RID: 22839 RVA: 0x002B995C File Offset: 0x002B7D5C
 		public override Vector2 InitialSize
 		{
 			get
 			{
-				return new Vector2(1024f, 768f);
+				return new Vector2((float)UI.screenWidth, (float)UI.screenHeight);
 			}
 		}
 
+		// Token: 0x17000E0C RID: 3596
+		// (get) Token: 0x06005938 RID: 22840 RVA: 0x002B9984 File Offset: 0x002B7D84
 		public override bool IsDebug
 		{
 			get
@@ -37,14 +34,7 @@ namespace Verse
 			}
 		}
 
-		public Dialog_OptionLister()
-		{
-			base.closeOnEscapeKey = true;
-			base.doCloseX = true;
-			base.onlyOneOfTypeAllowed = true;
-			base.absorbInputAroundWindow = true;
-		}
-
+		// Token: 0x06005939 RID: 22841 RVA: 0x002B999C File Offset: 0x002B7D9C
 		public override void DoWindowContents(Rect inRect)
 		{
 			this.filter = Widgets.TextField(new Rect(0f, 0f, 200f, 30f), this.filter);
@@ -54,40 +44,48 @@ namespace Verse
 			}
 			Rect outRect = new Rect(inRect);
 			outRect.yMin += 35f;
-			float num = (float)((this.totalOptionsHeight + 72.0) / 4.0);
-			if (num < outRect.height)
+			int num = (int)(this.InitialSize.x / 200f);
+			float num2 = (this.totalOptionsHeight + 24f * (float)(num - 1)) / (float)num;
+			if (num2 < outRect.height)
 			{
-				num = outRect.height;
+				num2 = outRect.height;
 			}
-			Rect rect = new Rect(0f, 0f, (float)(outRect.width - 16.0), num);
+			Rect rect = new Rect(0f, 0f, outRect.width - 16f, num2);
 			Widgets.BeginScrollView(outRect, ref this.scrollPosition, rect, true);
 			this.listing = new Listing_Standard();
-			this.listing.ColumnWidth = (float)((rect.width - 51.0) / 4.0);
+			this.listing.ColumnWidth = (rect.width - 17f * (float)(num - 1)) / (float)num;
 			this.listing.Begin(rect);
 			this.DoListingItems();
 			this.listing.End();
 			Widgets.EndScrollView();
 		}
 
+		// Token: 0x0600593A RID: 22842 RVA: 0x002B9ACA File Offset: 0x002B7ECA
 		public override void PostClose()
 		{
 			base.PostClose();
 			UI.UnfocusCurrentControl();
 		}
 
+		// Token: 0x0600593B RID: 22843
 		protected abstract void DoListingItems();
 
+		// Token: 0x0600593C RID: 22844 RVA: 0x002B9AD8 File Offset: 0x002B7ED8
 		protected bool FilterAllows(string label)
 		{
-			if (this.filter.NullOrEmpty())
-			{
-				return true;
-			}
-			if (label.NullOrEmpty())
-			{
-				return true;
-			}
-			return label.IndexOf(this.filter, StringComparison.OrdinalIgnoreCase) >= 0;
+			return this.filter.NullOrEmpty() || label.NullOrEmpty() || label.IndexOf(this.filter, StringComparison.OrdinalIgnoreCase) >= 0;
 		}
+
+		// Token: 0x04003B86 RID: 15238
+		protected Vector2 scrollPosition;
+
+		// Token: 0x04003B87 RID: 15239
+		protected string filter = "";
+
+		// Token: 0x04003B88 RID: 15240
+		protected float totalOptionsHeight = 0f;
+
+		// Token: 0x04003B89 RID: 15241
+		protected Listing_Standard listing;
 	}
 }

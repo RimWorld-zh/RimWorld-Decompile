@@ -1,61 +1,76 @@
+﻿using System;
 using System.Collections.Generic;
 
 namespace Verse
 {
+	// Token: 0x02000C06 RID: 3078
 	public class MapFileCompressor : IExposable
 	{
-		private Map map;
-
-		private byte[] compressedData;
-
-		public CompressibilityDecider compressibilityDecider;
-
+		// Token: 0x0600433C RID: 17212 RVA: 0x00237CD2 File Offset: 0x002360D2
 		public MapFileCompressor(Map map)
 		{
 			this.map = map;
 		}
 
+		// Token: 0x0600433D RID: 17213 RVA: 0x00237CE2 File Offset: 0x002360E2
 		public void ExposeData()
 		{
 			DataExposeUtility.ByteArray(ref this.compressedData, "compressedThingMap");
 		}
 
+		// Token: 0x0600433E RID: 17214 RVA: 0x00237CF5 File Offset: 0x002360F5
 		public void BuildCompressedString()
 		{
 			this.compressibilityDecider = new CompressibilityDecider(this.map);
 			this.compressibilityDecider.DetermineReferences();
-			this.compressedData = MapSerializeUtility.SerializeUshort(this.map, this.HashValueForSquare);
+			this.compressedData = MapSerializeUtility.SerializeUshort(this.map, new Func<IntVec3, ushort>(this.HashValueForSquare));
 		}
 
+		// Token: 0x0600433F RID: 17215 RVA: 0x00237D34 File Offset: 0x00236134
 		private ushort HashValueForSquare(IntVec3 curSq)
 		{
 			ushort num = 0;
-			foreach (Thing item in this.map.thingGrid.ThingsAt(curSq))
+			foreach (Thing thing in this.map.thingGrid.ThingsAt(curSq))
 			{
-				if (item.IsSaveCompressible())
+				if (thing.IsSaveCompressible())
 				{
 					if (num != 0)
 					{
-						Log.Error("Found two compressible things in " + curSq + ". The last was " + item);
+						Log.Error(string.Concat(new object[]
+						{
+							"Found two compressible things in ",
+							curSq,
+							". The last was ",
+							thing
+						}), false);
 					}
-					num = item.def.shortHash;
+					num = thing.def.shortHash;
 				}
 			}
 			return num;
 		}
 
+		// Token: 0x06004340 RID: 17216 RVA: 0x00237DEC File Offset: 0x002361EC
 		public IEnumerable<Thing> ThingsToSpawnAfterLoad()
 		{
 			Dictionary<ushort, ThingDef> thingDefsByShortHash = new Dictionary<ushort, ThingDef>();
-			foreach (ThingDef allDef in DefDatabase<ThingDef>.AllDefs)
+			foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
 			{
-				if (thingDefsByShortHash.ContainsKey(allDef.shortHash))
+				if (thingDefsByShortHash.ContainsKey(thingDef.shortHash))
 				{
-					Log.Error("Hash collision between " + allDef + " and  " + thingDefsByShortHash[allDef.shortHash] + ": both have short hash " + allDef.shortHash);
+					Log.Error(string.Concat(new object[]
+					{
+						"Hash collision between ",
+						thingDef,
+						" and  ",
+						thingDefsByShortHash[thingDef.shortHash],
+						": both have short hash ",
+						thingDef.shortHash
+					}), false);
 				}
 				else
 				{
-					thingDefsByShortHash.Add(allDef.shortHash, allDef);
+					thingDefsByShortHash.Add(thingDef.shortHash, thingDef);
 				}
 			}
 			List<Thing> loadables = new List<Thing>();
@@ -63,22 +78,50 @@ namespace Verse
 			{
 				if (val != 0)
 				{
-					ThingDef def = null;
+					ThingDef thingDef2 = null;
 					try
 					{
-						def = thingDefsByShortHash[val];
+						thingDef2 = thingDefsByShortHash[val];
 					}
 					catch (KeyNotFoundException)
 					{
-						Log.Error("Map compressor decompression error: No thingDef with short hash " + val + ". Adding as null to dictionary.");
-						thingDefsByShortHash.Add(val, null);
+						ThingDef thingDef3 = BackCompatibility.BackCompatibleThingDefWithShortHash(val);
+						if (thingDef3 != null)
+						{
+							thingDef2 = thingDef3;
+							thingDefsByShortHash.Add(val, thingDef3);
+						}
+						else
+						{
+							Log.Error("Map compressor decompression error: No thingDef with short hash " + val + ". Adding as null to dictionary.", false);
+							thingDefsByShortHash.Add(val, null);
+						}
 					}
-					Thing thing = ThingMaker.MakeThing(def, null);
-					thing.SetPositionDirect(c);
-					loadables.Add(thing);
+					if (thingDef2 != null)
+					{
+						try
+						{
+							Thing thing = ThingMaker.MakeThing(thingDef2, null);
+							thing.SetPositionDirect(c);
+							loadables.Add(thing);
+						}
+						catch (Exception arg)
+						{
+							Log.Error("Could not instantiate compressed thing: " + arg, false);
+						}
+					}
 				}
 			});
 			return loadables;
 		}
+
+		// Token: 0x04002DF5 RID: 11765
+		private Map map;
+
+		// Token: 0x04002DF6 RID: 11766
+		private byte[] compressedData;
+
+		// Token: 0x04002DF7 RID: 11767
+		public CompressibilityDecider compressibilityDecider;
 	}
 }

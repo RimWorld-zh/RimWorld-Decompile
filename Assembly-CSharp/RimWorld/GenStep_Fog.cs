@@ -1,10 +1,23 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020003EA RID: 1002
 	public class GenStep_Fog : GenStep
 	{
+		// Token: 0x1700024C RID: 588
+		// (get) Token: 0x06001138 RID: 4408 RVA: 0x00093CE4 File Offset: 0x000920E4
+		public override int SeedPart
+		{
+			get
+			{
+				return 1568957891;
+			}
+		}
+
+		// Token: 0x06001139 RID: 4409 RVA: 0x00093D00 File Offset: 0x00092100
 		public override void Generate(Map map)
 		{
 			DeepProfiler.Start("GenerateInitialFogGrid");

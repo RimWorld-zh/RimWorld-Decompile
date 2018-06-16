@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,82 +7,82 @@ using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x020006E8 RID: 1768
 	[StaticConstructorOnStartup]
 	public class Skyfaller : Thing, IThingHolder
 	{
-		public ThingOwner innerContainer;
-
-		public int ticksToImpact;
-
-		public float angle;
-
-		public float shrapnelDirection;
-
-		private Material cachedShadowMaterial;
-
-		private bool anticipationSoundPlayed;
-
-		private static MaterialPropertyBlock shadowPropertyBlock = new MaterialPropertyBlock();
-
-		public const float DefaultAngle = -33.7f;
-
-		private const int RoofHitPreDelay = 15;
-
-		private const int LeaveMapAfterTicks = 220;
-
-		public override Graphic Graphic
-		{
-			get
-			{
-				Thing thingForGraphic = this.GetThingForGraphic();
-				if (thingForGraphic == this)
-				{
-					return base.Graphic;
-				}
-				return thingForGraphic.Graphic.ExtractInnerGraphicFor(thingForGraphic).GetShadowlessGraphic();
-			}
-		}
-
-		public override Vector3 DrawPos
-		{
-			get
-			{
-				switch (base.def.skyfaller.movementType)
-				{
-				case SkyfallerMovementType.Accelerate:
-					return SkyfallerDrawPosUtility.DrawPos_Accelerate(base.DrawPos, this.ticksToImpact, this.angle, base.def.skyfaller.speed);
-				case SkyfallerMovementType.ConstantSpeed:
-					return SkyfallerDrawPosUtility.DrawPos_ConstantSpeed(base.DrawPos, this.ticksToImpact, this.angle, base.def.skyfaller.speed);
-				case SkyfallerMovementType.Decelerate:
-					return SkyfallerDrawPosUtility.DrawPos_Decelerate(base.DrawPos, this.ticksToImpact, this.angle, base.def.skyfaller.speed);
-				default:
-					Log.ErrorOnce("SkyfallerMovementType not handled: " + base.def.skyfaller.movementType, base.thingIDNumber ^ 1948576711);
-					return SkyfallerDrawPosUtility.DrawPos_Accelerate(base.DrawPos, this.ticksToImpact, this.angle, base.def.skyfaller.speed);
-				}
-			}
-		}
-
-		private Material ShadowMaterial
-		{
-			get
-			{
-				if ((Object)this.cachedShadowMaterial == (Object)null && !base.def.skyfaller.shadow.NullOrEmpty())
-				{
-					this.cachedShadowMaterial = MaterialPool.MatFrom(base.def.skyfaller.shadow, ShaderDatabase.Transparent);
-				}
-				return this.cachedShadowMaterial;
-			}
-		}
-
+		// Token: 0x0600266E RID: 9838 RVA: 0x001487B6 File Offset: 0x00146BB6
 		public Skyfaller()
 		{
 			this.innerContainer = new ThingOwner<Thing>(this);
 		}
 
+		// Token: 0x170005D9 RID: 1497
+		// (get) Token: 0x0600266F RID: 9839 RVA: 0x001487CC File Offset: 0x00146BCC
+		public override Graphic Graphic
+		{
+			get
+			{
+				Thing thingForGraphic = this.GetThingForGraphic();
+				Graphic result;
+				if (thingForGraphic == this)
+				{
+					result = base.Graphic;
+				}
+				else
+				{
+					result = thingForGraphic.Graphic.ExtractInnerGraphicFor(thingForGraphic).GetShadowlessGraphic();
+				}
+				return result;
+			}
+		}
+
+		// Token: 0x170005DA RID: 1498
+		// (get) Token: 0x06002670 RID: 9840 RVA: 0x0014880C File Offset: 0x00146C0C
+		public override Vector3 DrawPos
+		{
+			get
+			{
+				Vector3 result;
+				switch (this.def.skyfaller.movementType)
+				{
+				case SkyfallerMovementType.Accelerate:
+					result = SkyfallerDrawPosUtility.DrawPos_Accelerate(base.DrawPos, this.ticksToImpact, this.angle, this.def.skyfaller.speed);
+					break;
+				case SkyfallerMovementType.ConstantSpeed:
+					result = SkyfallerDrawPosUtility.DrawPos_ConstantSpeed(base.DrawPos, this.ticksToImpact, this.angle, this.def.skyfaller.speed);
+					break;
+				case SkyfallerMovementType.Decelerate:
+					result = SkyfallerDrawPosUtility.DrawPos_Decelerate(base.DrawPos, this.ticksToImpact, this.angle, this.def.skyfaller.speed);
+					break;
+				default:
+					Log.ErrorOnce("SkyfallerMovementType not handled: " + this.def.skyfaller.movementType, this.thingIDNumber ^ 1948576711, false);
+					result = SkyfallerDrawPosUtility.DrawPos_Accelerate(base.DrawPos, this.ticksToImpact, this.angle, this.def.skyfaller.speed);
+					break;
+				}
+				return result;
+			}
+		}
+
+		// Token: 0x170005DB RID: 1499
+		// (get) Token: 0x06002671 RID: 9841 RVA: 0x00148928 File Offset: 0x00146D28
+		private Material ShadowMaterial
+		{
+			get
+			{
+				if (this.cachedShadowMaterial == null && !this.def.skyfaller.shadow.NullOrEmpty())
+				{
+					this.cachedShadowMaterial = MaterialPool.MatFrom(this.def.skyfaller.shadow, ShaderDatabase.Transparent);
+				}
+				return this.cachedShadowMaterial;
+			}
+		}
+
+		// Token: 0x06002672 RID: 9842 RVA: 0x00148990 File Offset: 0x00146D90
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			Scribe_Deep.Look<ThingOwner>(ref this.innerContainer, "innerContainer", new object[1]
+			Scribe_Deep.Look<ThingOwner>(ref this.innerContainer, "innerContainer", new object[]
 			{
 				this
 			});
@@ -90,25 +91,27 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.shrapnelDirection, "shrapnelDirection", 0f, false);
 		}
 
+		// Token: 0x06002673 RID: 9843 RVA: 0x001489FC File Offset: 0x00146DFC
 		public override void PostMake()
 		{
 			base.PostMake();
-			if (base.def.skyfaller.MakesShrapnel)
+			if (this.def.skyfaller.MakesShrapnel)
 			{
 				this.shrapnelDirection = Rand.Range(0f, 360f);
 			}
 		}
 
+		// Token: 0x06002674 RID: 9844 RVA: 0x00148A30 File Offset: 0x00146E30
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
 			if (!respawningAfterLoad)
 			{
-				this.ticksToImpact = base.def.skyfaller.ticksToImpactRange.RandomInRange;
-				if (base.def.skyfaller.MakesShrapnel)
+				this.ticksToImpact = this.def.skyfaller.ticksToImpactRange.RandomInRange;
+				if (this.def.skyfaller.MakesShrapnel)
 				{
 					float num = GenMath.PositiveMod(this.shrapnelDirection, 360f);
-					if (num < 270.0 && num >= 90.0)
+					if (num < 270f && num >= 90f)
 					{
 						this.angle = Rand.Range(0f, 33f);
 					}
@@ -121,37 +124,40 @@ namespace RimWorld
 				{
 					this.angle = -33.7f;
 				}
-				if (base.def.rotatable && this.innerContainer.Any)
+				if (this.def.rotatable && this.innerContainer.Any)
 				{
 					base.Rotation = this.innerContainer[0].Rotation;
 				}
 			}
 		}
 
+		// Token: 0x06002675 RID: 9845 RVA: 0x00148B1D File Offset: 0x00146F1D
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
 		{
 			base.Destroy(mode);
 			this.innerContainer.ClearAndDestroyContents(DestroyMode.Vanish);
 		}
 
+		// Token: 0x06002676 RID: 9846 RVA: 0x00148B34 File Offset: 0x00146F34
 		public override void DrawAt(Vector3 drawLoc, bool flip = false)
 		{
 			Thing thingForGraphic = this.GetThingForGraphic();
-			float extraRotation = (float)((!base.def.skyfaller.rotateGraphicTowardsDirection) ? 0.0 : this.angle);
+			float extraRotation = (!this.def.skyfaller.rotateGraphicTowardsDirection) ? 0f : this.angle;
 			this.Graphic.Draw(drawLoc, (!flip) ? thingForGraphic.Rotation : thingForGraphic.Rotation.Opposite, thingForGraphic, extraRotation);
 			this.DrawDropSpotShadow();
 		}
 
+		// Token: 0x06002677 RID: 9847 RVA: 0x00148BA4 File Offset: 0x00146FA4
 		public override void Tick()
 		{
 			this.innerContainer.ThingOwnerTick(true);
-			if (base.def.skyfaller.reversed)
+			if (this.def.skyfaller.reversed)
 			{
 				this.ticksToImpact++;
-				if (!this.anticipationSoundPlayed && base.def.skyfaller.anticipationSound != null && this.ticksToImpact > base.def.skyfaller.anticipationSoundTicks)
+				if (!this.anticipationSoundPlayed && this.def.skyfaller.anticipationSound != null && this.ticksToImpact > this.def.skyfaller.anticipationSoundTicks)
 				{
 					this.anticipationSoundPlayed = true;
-					base.def.skyfaller.anticipationSound.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
+					this.def.skyfaller.anticipationSound.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
 				}
 				if (this.ticksToImpact == 220)
 				{
@@ -159,7 +165,7 @@ namespace RimWorld
 				}
 				else if (this.ticksToImpact > 220)
 				{
-					Log.Error("ticksToImpact > LeaveMapAfterTicks. Was there an exception? Destroying skyfaller.");
+					Log.Error("ticksToImpact > LeaveMapAfterTicks. Was there an exception? Destroying skyfaller.", false);
 					this.Destroy(DestroyMode.Vanish);
 				}
 			}
@@ -170,10 +176,10 @@ namespace RimWorld
 				{
 					this.HitRoof();
 				}
-				if (!this.anticipationSoundPlayed && base.def.skyfaller.anticipationSound != null && this.ticksToImpact < base.def.skyfaller.anticipationSoundTicks)
+				if (!this.anticipationSoundPlayed && this.def.skyfaller.anticipationSound != null && this.ticksToImpact < this.def.skyfaller.anticipationSoundTicks)
 				{
 					this.anticipationSoundPlayed = true;
-					base.def.skyfaller.anticipationSound.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
+					this.def.skyfaller.anticipationSound.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
 				}
 				if (this.ticksToImpact == 0)
 				{
@@ -181,116 +187,130 @@ namespace RimWorld
 				}
 				else if (this.ticksToImpact < 0)
 				{
-					Log.Error("ticksToImpact < 0. Was there an exception? Destroying skyfaller.");
+					Log.Error("ticksToImpact < 0. Was there an exception? Destroying skyfaller.", false);
 					this.Destroy(DestroyMode.Vanish);
 				}
 			}
 		}
 
+		// Token: 0x06002678 RID: 9848 RVA: 0x00148D60 File Offset: 0x00147160
 		protected virtual void HitRoof()
 		{
-			if (base.def.skyfaller.hitRoof)
+			if (this.def.skyfaller.hitRoof)
 			{
 				CellRect cr = this.OccupiedRect();
-				if (cr.Cells.Any((IntVec3 x) => x.Roofed(base.Map)))
+				if (cr.Cells.Any((IntVec3 x) => x.Roofed(this.Map)))
 				{
-					RoofDef roof = cr.Cells.First((IntVec3 x) => x.Roofed(base.Map)).GetRoof(base.Map);
+					RoofDef roof = cr.Cells.First((IntVec3 x) => x.Roofed(this.Map)).GetRoof(base.Map);
 					if (!roof.soundPunchThrough.NullOrUndefined())
 					{
 						roof.soundPunchThrough.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
 					}
 					RoofCollapserImmediate.DropRoofInCells(cr.ExpandedBy(1).ClipInsideMap(base.Map).Cells.Where(delegate(IntVec3 c)
 					{
-						if (!c.InBounds(base.Map))
+						bool result;
+						if (!c.InBounds(this.Map))
 						{
-							return false;
+							result = false;
 						}
-						if (cr.Contains(c))
+						else if (cr.Contains(c))
 						{
-							return true;
+							result = true;
 						}
-						if (c.GetFirstPawn(base.Map) != null)
+						else if (c.GetFirstPawn(this.Map) != null)
 						{
-							return false;
+							result = false;
 						}
-						Building edifice = c.GetEdifice(base.Map);
-						if (edifice != null && edifice.def.holdsRoof)
+						else
 						{
-							return false;
+							Building edifice = c.GetEdifice(this.Map);
+							result = (edifice == null || !edifice.def.holdsRoof);
 						}
-						return true;
-					}), base.Map);
+						return result;
+					}), base.Map, null);
 				}
 			}
 		}
 
+		// Token: 0x06002679 RID: 9849 RVA: 0x00148E60 File Offset: 0x00147260
 		protected virtual void Impact()
 		{
-			if (base.def.skyfaller.explosionDamage != null)
+			if (this.def.skyfaller.CausesExplosion)
 			{
-				GenExplosion.DoExplosion(base.Position, base.Map, base.def.skyfaller.explosionRadius, base.def.skyfaller.explosionDamage, null, GenMath.RoundRandom((float)base.def.skyfaller.explosionDamage.explosionDamage * base.def.skyfaller.explosionDamageFactor), null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
+				GenExplosion.DoExplosion(base.Position, base.Map, this.def.skyfaller.explosionRadius, this.def.skyfaller.explosionDamage, null, GenMath.RoundRandom((float)this.def.skyfaller.explosionDamage.defaultDamage * this.def.skyfaller.explosionDamageFactor), null, null, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
 			}
-			for (int num = this.innerContainer.Count - 1; num >= 0; num--)
+			for (int i = this.innerContainer.Count - 1; i >= 0; i--)
 			{
-				GenPlace.TryPlaceThing(this.innerContainer[num], base.Position, base.Map, ThingPlaceMode.Near, delegate(Thing thing, int count)
+				GenPlace.TryPlaceThing(this.innerContainer[i], base.Position, base.Map, ThingPlaceMode.Near, delegate(Thing thing, int count)
 				{
 					PawnUtility.RecoverFromUnwalkablePositionOrKill(thing.Position, thing.Map);
-				});
+				}, null);
 			}
 			this.innerContainer.ClearAndDestroyContents(DestroyMode.Vanish);
 			CellRect cellRect = this.OccupiedRect();
-			for (int i = 0; i < cellRect.Area * base.def.skyfaller.motesPerCell; i++)
+			for (int j = 0; j < cellRect.Area * this.def.skyfaller.motesPerCell; j++)
 			{
 				MoteMaker.ThrowDustPuff(cellRect.RandomVector3, base.Map, 2f);
 			}
-			if (base.def.skyfaller.MakesShrapnel)
+			if (this.def.skyfaller.MakesShrapnel)
 			{
-				SkyfallerShrapnelUtility.MakeShrapnel(base.Position, base.Map, this.shrapnelDirection, base.def.skyfaller.shrapnelDistanceFactor, base.def.skyfaller.metalShrapnelCountRange.RandomInRange, base.def.skyfaller.rubbleShrapnelCountRange.RandomInRange, true);
+				SkyfallerShrapnelUtility.MakeShrapnel(base.Position, base.Map, this.shrapnelDirection, this.def.skyfaller.shrapnelDistanceFactor, this.def.skyfaller.metalShrapnelCountRange.RandomInRange, this.def.skyfaller.rubbleShrapnelCountRange.RandomInRange, true);
 			}
-			if (base.def.skyfaller.cameraShake > 0.0 && base.Map == Find.VisibleMap)
+			if (this.def.skyfaller.cameraShake > 0f && base.Map == Find.CurrentMap)
 			{
-				Find.CameraDriver.shaker.DoShake(base.def.skyfaller.cameraShake);
+				Find.CameraDriver.shaker.DoShake(this.def.skyfaller.cameraShake);
 			}
-			if (base.def.skyfaller.impactSound != null)
+			if (this.def.skyfaller.impactSound != null)
 			{
-				base.def.skyfaller.impactSound.PlayOneShot(SoundInfo.InMap(new TargetInfo(base.Position, base.Map, false), MaintenanceType.None));
+				this.def.skyfaller.impactSound.PlayOneShot(SoundInfo.InMap(new TargetInfo(base.Position, base.Map, false), MaintenanceType.None));
 			}
 			this.Destroy(DestroyMode.Vanish);
 		}
 
+		// Token: 0x0600267A RID: 9850 RVA: 0x001490A9 File Offset: 0x001474A9
 		protected virtual void LeaveMap()
 		{
 			this.Destroy(DestroyMode.Vanish);
 		}
 
+		// Token: 0x0600267B RID: 9851 RVA: 0x001490B4 File Offset: 0x001474B4
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.innerContainer;
 		}
 
+		// Token: 0x0600267C RID: 9852 RVA: 0x001490CF File Offset: 0x001474CF
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
 
+		// Token: 0x0600267D RID: 9853 RVA: 0x001490E0 File Offset: 0x001474E0
 		private Thing GetThingForGraphic()
 		{
-			if (base.def.graphicData == null && this.innerContainer.Any)
+			Thing result;
+			if (this.def.graphicData != null || !this.innerContainer.Any)
 			{
-				return this.innerContainer[0];
+				result = this;
 			}
-			return this;
+			else
+			{
+				result = this.innerContainer[0];
+			}
+			return result;
 		}
 
+		// Token: 0x0600267E RID: 9854 RVA: 0x00149128 File Offset: 0x00147528
 		private void DrawDropSpotShadow()
 		{
 			Material shadowMaterial = this.ShadowMaterial;
-			if (!((Object)shadowMaterial == (Object)null))
+			if (!(shadowMaterial == null))
 			{
-				Skyfaller.DrawDropSpotShadow(base.DrawPos, base.Rotation, shadowMaterial, base.def.skyfaller.shadowSize, this.ticksToImpact);
+				Skyfaller.DrawDropSpotShadow(base.DrawPos, base.Rotation, shadowMaterial, this.def.skyfaller.shadowSize, this.ticksToImpact);
 			}
 		}
 
+		// Token: 0x0600267F RID: 9855 RVA: 0x00149178 File Offset: 0x00147578
 		public static void DrawDropSpotShadow(Vector3 center, Rot4 rot, Material material, Vector2 shadowSize, int ticksToImpact)
 		{
 			if (rot.IsHorizontal)
@@ -299,8 +319,8 @@ namespace RimWorld
 			}
 			ticksToImpact = Mathf.Max(ticksToImpact, 0);
 			Vector3 pos = center;
-			pos.y = Altitudes.AltitudeFor(AltitudeLayer.Shadows);
-			float num = (float)(1.0 + (float)ticksToImpact / 100.0);
+			pos.y = AltitudeLayer.Shadows.AltitudeFor();
+			float num = 1f + (float)ticksToImpact / 100f;
 			Vector3 s = new Vector3(num * shadowSize.x, 1f, num * shadowSize.y);
 			Color white = Color.white;
 			if (ticksToImpact > 150)
@@ -312,5 +332,35 @@ namespace RimWorld
 			matrix.SetTRS(pos, rot.AsQuat, s);
 			Graphics.DrawMesh(MeshPool.plane10Back, matrix, material, 0, null, 0, Skyfaller.shadowPropertyBlock);
 		}
+
+		// Token: 0x0400156B RID: 5483
+		public ThingOwner innerContainer;
+
+		// Token: 0x0400156C RID: 5484
+		public int ticksToImpact;
+
+		// Token: 0x0400156D RID: 5485
+		public float angle;
+
+		// Token: 0x0400156E RID: 5486
+		public float shrapnelDirection;
+
+		// Token: 0x0400156F RID: 5487
+		private Material cachedShadowMaterial;
+
+		// Token: 0x04001570 RID: 5488
+		private bool anticipationSoundPlayed;
+
+		// Token: 0x04001571 RID: 5489
+		private static MaterialPropertyBlock shadowPropertyBlock = new MaterialPropertyBlock();
+
+		// Token: 0x04001572 RID: 5490
+		public const float DefaultAngle = -33.7f;
+
+		// Token: 0x04001573 RID: 5491
+		private const int RoofHitPreDelay = 15;
+
+		// Token: 0x04001574 RID: 5492
+		private const int LeaveMapAfterTicks = 220;
 	}
 }

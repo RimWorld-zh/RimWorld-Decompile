@@ -1,27 +1,24 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000EC6 RID: 3782
 	public static class DialogDatabase
 	{
-		private static List<DiaNodeMold> Nodes;
-
-		private static List<DiaNodeList> NodeLists;
-
+		// Token: 0x0600594F RID: 22863 RVA: 0x002DBA94 File Offset: 0x002D9E94
 		static DialogDatabase()
 		{
-			DialogDatabase.Nodes = new List<DiaNodeMold>();
-			DialogDatabase.NodeLists = new List<DiaNodeList>();
 			DialogDatabase.LoadAllDialog();
 		}
 
+		// Token: 0x06005950 RID: 22864 RVA: 0x002DBAB0 File Offset: 0x002D9EB0
 		private static void LoadAllDialog()
 		{
 			DialogDatabase.Nodes.Clear();
-			Object[] array = Resources.LoadAll("Dialog", typeof(TextAsset));
-			Object[] array2 = array;
-			foreach (Object @object in array2)
+			UnityEngine.Object[] array = Resources.LoadAll("Dialog", typeof(TextAsset));
+			foreach (UnityEngine.Object @object in array)
 			{
 				TextAsset ass = @object as TextAsset;
 				if (@object.name == "BaseEncounters" || @object.name == "GeneratedDialogs")
@@ -37,44 +34,52 @@ namespace Verse
 					LayerLoader.LoadFileIntoList(ass, DialogDatabase.Nodes, DialogDatabase.NodeLists, DiaNodeType.Special);
 				}
 			}
-			foreach (DiaNodeMold node in DialogDatabase.Nodes)
+			foreach (DiaNodeMold diaNodeMold in DialogDatabase.Nodes)
 			{
-				node.PostLoad();
+				diaNodeMold.PostLoad();
 			}
 			LayerLoader.MarkNonRootNodes(DialogDatabase.Nodes);
 		}
 
+		// Token: 0x06005951 RID: 22865 RVA: 0x002DBBE8 File Offset: 0x002D9FE8
 		public static DiaNodeMold GetRandomEncounterRootNode(DiaNodeType NType)
 		{
 			List<DiaNodeMold> list = new List<DiaNodeMold>();
-			foreach (DiaNodeMold node in DialogDatabase.Nodes)
+			foreach (DiaNodeMold diaNodeMold in DialogDatabase.Nodes)
 			{
-				if (node.isRoot && (!node.unique || !node.used) && node.nodeType == NType)
+				if (diaNodeMold.isRoot && (!diaNodeMold.unique || !diaNodeMold.used) && diaNodeMold.nodeType == NType)
 				{
-					list.Add(node);
+					list.Add(diaNodeMold);
 				}
 			}
-			return list.RandomElement();
+			return list.RandomElement<DiaNodeMold>();
 		}
 
+		// Token: 0x06005952 RID: 22866 RVA: 0x002DBC88 File Offset: 0x002DA088
 		public static DiaNodeMold GetNodeNamed(string NodeName)
 		{
-			foreach (DiaNodeMold node in DialogDatabase.Nodes)
+			foreach (DiaNodeMold diaNodeMold in DialogDatabase.Nodes)
 			{
-				if (node.name == NodeName)
+				if (diaNodeMold.name == NodeName)
 				{
-					return node;
+					return diaNodeMold;
 				}
 			}
-			foreach (DiaNodeList nodeList in DialogDatabase.NodeLists)
+			foreach (DiaNodeList diaNodeList in DialogDatabase.NodeLists)
 			{
-				if (nodeList.Name == NodeName)
+				if (diaNodeList.Name == NodeName)
 				{
-					return nodeList.RandomNodeFromList();
+					return diaNodeList.RandomNodeFromList();
 				}
 			}
-			Log.Error("Did not find node named '" + NodeName + "'.");
+			Log.Error("Did not find node named '" + NodeName + "'.", false);
 			return null;
 		}
+
+		// Token: 0x04003BA9 RID: 15273
+		private static List<DiaNodeMold> Nodes = new List<DiaNodeMold>();
+
+		// Token: 0x04003BAA RID: 15274
+		private static List<DiaNodeList> NodeLists = new List<DiaNodeList>();
 	}
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -6,42 +6,41 @@ using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x020000FF RID: 255
 	public class JoyGiver_Ingest : JoyGiver
 	{
+		// Token: 0x06000557 RID: 1367 RVA: 0x0003A350 File Offset: 0x00038750
 		public override Job TryGiveJob(Pawn pawn)
 		{
 			return this.TryGiveJobInternal(pawn, null);
 		}
 
+		// Token: 0x06000558 RID: 1368 RVA: 0x0003A370 File Offset: 0x00038770
 		public override Job TryGiveJobInPartyArea(Pawn pawn, IntVec3 partySpot)
 		{
 			return this.TryGiveJobInternal(pawn, (Thing x) => !x.Spawned || PartyUtility.InPartyArea(x.Position, partySpot, pawn.Map));
 		}
 
+		// Token: 0x06000559 RID: 1369 RVA: 0x0003A3B4 File Offset: 0x000387B4
 		private Job TryGiveJobInternal(Pawn pawn, Predicate<Thing> extraValidator)
 		{
 			Thing thing = this.BestIngestItem(pawn, extraValidator);
+			Job result;
 			if (thing != null)
 			{
-				return this.CreateIngestJob(thing, pawn);
+				result = this.CreateIngestJob(thing, pawn);
 			}
-			return null;
+			else
+			{
+				result = null;
+			}
+			return result;
 		}
 
+		// Token: 0x0600055A RID: 1370 RVA: 0x0003A3E8 File Offset: 0x000387E8
 		protected virtual Thing BestIngestItem(Pawn pawn, Predicate<Thing> extraValidator)
 		{
-			Predicate<Thing> predicate = delegate(Thing t)
-			{
-				if (!this.CanIngestForJoy(pawn, t))
-				{
-					return false;
-				}
-				if (extraValidator != null && !extraValidator(t))
-				{
-					return false;
-				}
-				return true;
-			};
+			Predicate<Thing> predicate = (Thing t) => this.CanIngestForJoy(pawn, t) && (extraValidator == null || extraValidator(t));
 			ThingOwner<Thing> innerContainer = pawn.inventory.innerContainer;
 			for (int i = 0; i < innerContainer.Count; i++)
 			{
@@ -64,9 +63,15 @@ namespace RimWorld
 			return GenClosest.ClosestThing_Global_Reachable(position, map, searchSet2, peMode, traverseParams, 9999f, validator, null);
 		}
 
+		// Token: 0x0600055B RID: 1371 RVA: 0x0003A4F0 File Offset: 0x000388F0
 		protected virtual bool CanIngestForJoy(Pawn pawn, Thing t)
 		{
-			if (t.def.IsIngestible && t.def.ingestible.joyKind != null && !(t.def.ingestible.joy <= 0.0))
+			bool result;
+			if (!t.def.IsIngestible || t.def.ingestible.joyKind == null || t.def.ingestible.joy <= 0f)
+			{
+				result = false;
+			}
+			else
 			{
 				if (t.Spawned)
 				{
@@ -95,25 +100,24 @@ namespace RimWorld
 						return false;
 					}
 				}
-				return true;
+				result = true;
 			}
-			return false;
+			return result;
 		}
 
+		// Token: 0x0600055C RID: 1372 RVA: 0x0003A628 File Offset: 0x00038A28
 		protected virtual bool SearchSetWouldInclude(Thing thing)
 		{
-			if (base.def.thingDefs == null)
-			{
-				return false;
-			}
-			return base.def.thingDefs.Contains(thing.def);
+			return this.def.thingDefs != null && this.def.thingDefs.Contains(thing.def);
 		}
 
+		// Token: 0x0600055D RID: 1373 RVA: 0x0003A66C File Offset: 0x00038A6C
 		protected virtual Job CreateIngestJob(Thing ingestible, Pawn pawn)
 		{
-			Job job = new Job(JobDefOf.Ingest, ingestible);
-			job.count = Mathf.Min(ingestible.stackCount, ingestible.def.ingestible.maxNumToIngestAtOnce);
-			return job;
+			return new Job(JobDefOf.Ingest, ingestible)
+			{
+				count = Mathf.Min(ingestible.stackCount, ingestible.def.ingestible.maxNumToIngestAtOnce)
+			};
 		}
 	}
 }

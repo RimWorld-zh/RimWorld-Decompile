@@ -1,28 +1,50 @@
+﻿using System;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020007E6 RID: 2022
 	public class Designator_Install : Designator_Place
 	{
+		// Token: 0x06002CDC RID: 11484 RVA: 0x00179D31 File Offset: 0x00178131
+		public Designator_Install()
+		{
+			this.icon = TexCommand.Install;
+			this.iconProportions = new Vector2(1f, 1f);
+			this.order = -10f;
+		}
+
+		// Token: 0x17000714 RID: 1812
+		// (get) Token: 0x06002CDD RID: 11485 RVA: 0x00179D68 File Offset: 0x00178168
 		private Thing MiniToInstallOrBuildingToReinstall
 		{
 			get
 			{
 				Thing singleSelectedThing = Find.Selector.SingleSelectedThing;
+				Thing result;
 				if (singleSelectedThing is MinifiedThing)
 				{
-					return singleSelectedThing;
+					result = singleSelectedThing;
 				}
-				Building building = singleSelectedThing as Building;
-				if (building != null && building.def.Minifiable)
+				else
 				{
-					return singleSelectedThing;
+					Building building = singleSelectedThing as Building;
+					if (building != null && building.def.Minifiable)
+					{
+						result = singleSelectedThing;
+					}
+					else
+					{
+						result = null;
+					}
 				}
-				return null;
+				return result;
 			}
 		}
 
+		// Token: 0x17000715 RID: 1813
+		// (get) Token: 0x06002CDE RID: 11486 RVA: 0x00179DC0 File Offset: 0x001781C0
 		private Thing ThingToInstall
 		{
 			get
@@ -31,6 +53,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000716 RID: 1814
+		// (get) Token: 0x06002CDF RID: 11487 RVA: 0x00179DE0 File Offset: 0x001781E0
 		protected override bool DoTooltip
 		{
 			get
@@ -39,6 +63,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000717 RID: 1815
+		// (get) Token: 0x06002CE0 RID: 11488 RVA: 0x00179DF8 File Offset: 0x001781F8
 		public override BuildableDef PlacingDef
 		{
 			get
@@ -47,30 +73,46 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000718 RID: 1816
+		// (get) Token: 0x06002CE1 RID: 11489 RVA: 0x00179E18 File Offset: 0x00178218
 		public override string Label
 		{
 			get
 			{
+				string result;
 				if (this.MiniToInstallOrBuildingToReinstall is MinifiedThing)
 				{
-					return "CommandInstall".Translate();
+					result = "CommandInstall".Translate();
 				}
-				return "CommandReinstall".Translate();
+				else
+				{
+					result = "CommandReinstall".Translate();
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000719 RID: 1817
+		// (get) Token: 0x06002CE2 RID: 11490 RVA: 0x00179E58 File Offset: 0x00178258
 		public override string Desc
 		{
 			get
 			{
+				string result;
 				if (this.MiniToInstallOrBuildingToReinstall is MinifiedThing)
 				{
-					return "CommandInstallDesc".Translate();
+					result = "CommandInstallDesc".Translate();
 				}
-				return "CommandReinstallDesc".Translate();
+				else
+				{
+					result = "CommandReinstallDesc".Translate();
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x1700071A RID: 1818
+		// (get) Token: 0x06002CE3 RID: 11491 RVA: 0x00179E98 File Offset: 0x00178298
 		public override Color IconDrawColor
 		{
 			get
@@ -79,29 +121,23 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x1700071B RID: 1819
+		// (get) Token: 0x06002CE4 RID: 11492 RVA: 0x00179EB4 File Offset: 0x001782B4
 		public override bool Visible
 		{
 			get
 			{
-				if (Find.Selector.SingleSelectedThing == null)
-				{
-					return false;
-				}
-				return base.Visible;
+				return Find.Selector.SingleSelectedThing != null && base.Visible;
 			}
 		}
 
-		public Designator_Install()
-		{
-			base.icon = TexCommand.Install;
-			base.iconProportions = new Vector2(1f, 1f);
-		}
-
+		// Token: 0x06002CE5 RID: 11493 RVA: 0x00179EE8 File Offset: 0x001782E8
 		public override bool CanRemainSelected()
 		{
 			return this.MiniToInstallOrBuildingToReinstall != null;
 		}
 
+		// Token: 0x06002CE6 RID: 11494 RVA: 0x00179F0C File Offset: 0x0017830C
 		public override void ProcessInput(Event ev)
 		{
 			Thing miniToInstallOrBuildingToReinstall = this.MiniToInstallOrBuildingToReinstall;
@@ -110,56 +146,65 @@ namespace RimWorld
 				InstallBlueprintUtility.CancelBlueprintsFor(miniToInstallOrBuildingToReinstall);
 				if (!((ThingDef)this.PlacingDef).rotatable)
 				{
-					base.placingRot = Rot4.North;
+					this.placingRot = Rot4.North;
 				}
 			}
 			base.ProcessInput(ev);
 		}
 
+		// Token: 0x06002CE7 RID: 11495 RVA: 0x00179F58 File Offset: 0x00178358
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
+			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				return false;
+				result = false;
 			}
-			if (!(this.MiniToInstallOrBuildingToReinstall is MinifiedThing) && c.GetThingList(base.Map).Find((Thing x) => x.Position == c && x.Rotation == base.placingRot && x.def == this.PlacingDef) != null)
+			else if (!(this.MiniToInstallOrBuildingToReinstall is MinifiedThing) && c.GetThingList(base.Map).Find((Thing x) => x.Position == c && x.Rotation == this.placingRot && x.def == this.PlacingDef) != null)
 			{
-				return new AcceptanceReport("IdenticalThingExists".Translate());
-			}
-			BuildableDef placingDef = this.PlacingDef;
-			IntVec3 center = c;
-			Rot4 placingRot = base.placingRot;
-			Map map = base.Map;
-			Thing miniToInstallOrBuildingToReinstall = this.MiniToInstallOrBuildingToReinstall;
-			return GenConstruct.CanPlaceBlueprintAt(placingDef, center, placingRot, map, false, miniToInstallOrBuildingToReinstall);
-		}
-
-		public override void DesignateSingleCell(IntVec3 c)
-		{
-			GenSpawn.WipeExistingThings(c, base.placingRot, this.PlacingDef.installBlueprintDef, base.Map, DestroyMode.Deconstruct);
-			MinifiedThing minifiedThing = this.MiniToInstallOrBuildingToReinstall as MinifiedThing;
-			if (minifiedThing != null)
-			{
-				GenConstruct.PlaceBlueprintForInstall(minifiedThing, c, base.Map, base.placingRot, Faction.OfPlayer);
+				result = new AcceptanceReport("IdenticalThingExists".Translate());
 			}
 			else
 			{
-				GenConstruct.PlaceBlueprintForReinstall((Building)this.MiniToInstallOrBuildingToReinstall, c, base.Map, base.placingRot, Faction.OfPlayer);
+				BuildableDef placingDef = this.PlacingDef;
+				IntVec3 c2 = c;
+				Rot4 placingRot = this.placingRot;
+				Map map = base.Map;
+				Thing miniToInstallOrBuildingToReinstall = this.MiniToInstallOrBuildingToReinstall;
+				result = GenConstruct.CanPlaceBlueprintAt(placingDef, c2, placingRot, map, false, miniToInstallOrBuildingToReinstall);
 			}
-			MoteMaker.ThrowMetaPuffs(GenAdj.OccupiedRect(c, base.placingRot, this.PlacingDef.Size), base.Map);
+			return result;
+		}
+
+		// Token: 0x06002CE8 RID: 11496 RVA: 0x0017A024 File Offset: 0x00178424
+		public override void DesignateSingleCell(IntVec3 c)
+		{
+			GenSpawn.WipeExistingThings(c, this.placingRot, this.PlacingDef.installBlueprintDef, base.Map, DestroyMode.Deconstruct);
+			MinifiedThing minifiedThing = this.MiniToInstallOrBuildingToReinstall as MinifiedThing;
+			if (minifiedThing != null)
+			{
+				GenConstruct.PlaceBlueprintForInstall(minifiedThing, c, base.Map, this.placingRot, Faction.OfPlayer);
+			}
+			else
+			{
+				GenConstruct.PlaceBlueprintForReinstall((Building)this.MiniToInstallOrBuildingToReinstall, c, base.Map, this.placingRot, Faction.OfPlayer);
+			}
+			MoteMaker.ThrowMetaPuffs(GenAdj.OccupiedRect(c, this.placingRot, this.PlacingDef.Size), base.Map);
 			Find.DesignatorManager.Deselect();
 		}
 
+		// Token: 0x06002CE9 RID: 11497 RVA: 0x0017A0D0 File Offset: 0x001784D0
 		protected override void DrawGhost(Color ghostCol)
 		{
 			Graphic baseGraphic = this.ThingToInstall.Graphic.ExtractInnerGraphicFor(this.ThingToInstall);
-			GhostDrawer.DrawGhostThing(UI.MouseCell(), base.placingRot, (ThingDef)this.PlacingDef, baseGraphic, ghostCol, AltitudeLayer.Blueprint);
+			GhostDrawer.DrawGhostThing(UI.MouseCell(), this.placingRot, (ThingDef)this.PlacingDef, baseGraphic, ghostCol, AltitudeLayer.Blueprint);
 		}
 
+		// Token: 0x06002CEA RID: 11498 RVA: 0x0017A114 File Offset: 0x00178514
 		public override void SelectedUpdate()
 		{
 			base.SelectedUpdate();
-			BuildDesignatorUtility.TryDrawPowerGridAndAnticipatedConnection(this.PlacingDef);
+			BuildDesignatorUtility.TryDrawPowerGridAndAnticipatedConnection(this.PlacingDef, this.placingRot);
 		}
 	}
 }

@@ -1,38 +1,16 @@
+﻿using System;
 using RimWorld;
 using UnityEngine;
 using Verse.Sound;
 
 namespace Verse
 {
+	// Token: 0x02000E65 RID: 3685
 	[StaticConstructorOnStartup]
 	public abstract class Command : Gizmo
 	{
-		public string defaultLabel;
-
-		public string defaultDesc = "No description.";
-
-		public Texture2D icon;
-
-		public float iconAngle;
-
-		public Vector2 iconProportions = Vector2.one;
-
-		public Rect iconTexCoords = new Rect(0f, 0f, 1f, 1f);
-
-		public float iconDrawScale = 1f;
-
-		public Color defaultIconColor = Color.white;
-
-		public KeyBindingDef hotKey;
-
-		public SoundDef activateSound;
-
-		public int groupKey;
-
-		public string tutorTag = "TutorTagNotSet";
-
-		public static readonly Texture2D BGTex = ContentFinder<Texture2D>.Get("UI/Widgets/DesButBG", true);
-
+		// Token: 0x17000D9C RID: 3484
+		// (get) Token: 0x060056AD RID: 22189 RVA: 0x00159F68 File Offset: 0x00158368
 		public virtual string Label
 		{
 			get
@@ -41,6 +19,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000D9D RID: 3485
+		// (get) Token: 0x060056AE RID: 22190 RVA: 0x00159F84 File Offset: 0x00158384
 		public virtual string LabelCap
 		{
 			get
@@ -49,6 +29,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000D9E RID: 3486
+		// (get) Token: 0x060056AF RID: 22191 RVA: 0x00159FA4 File Offset: 0x001583A4
 		public virtual string Desc
 		{
 			get
@@ -57,6 +39,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000D9F RID: 3487
+		// (get) Token: 0x060056B0 RID: 22192 RVA: 0x00159FC0 File Offset: 0x001583C0
 		public virtual Color IconDrawColor
 		{
 			get
@@ -65,6 +49,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000DA0 RID: 3488
+		// (get) Token: 0x060056B1 RID: 22193 RVA: 0x00159FDC File Offset: 0x001583DC
 		public virtual SoundDef CurActivateSound
 		{
 			get
@@ -73,6 +59,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000DA1 RID: 3489
+		// (get) Token: 0x060056B2 RID: 22194 RVA: 0x00159FF8 File Offset: 0x001583F8
 		protected virtual bool DoTooltip
 		{
 			get
@@ -81,14 +69,8 @@ namespace Verse
 			}
 		}
 
-		public override float Width
-		{
-			get
-			{
-				return 75f;
-			}
-		}
-
+		// Token: 0x17000DA2 RID: 3490
+		// (get) Token: 0x060056B3 RID: 22195 RVA: 0x0015A010 File Offset: 0x00158410
 		public virtual string HighlightTag
 		{
 			get
@@ -97,6 +79,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000DA3 RID: 3491
+		// (get) Token: 0x060056B4 RID: 22196 RVA: 0x0015A02C File Offset: 0x0015842C
 		public virtual string TutorTagSelect
 		{
 			get
@@ -105,9 +89,17 @@ namespace Verse
 			}
 		}
 
-		public override GizmoResult GizmoOnGUI(Vector2 topLeft)
+		// Token: 0x060056B5 RID: 22197 RVA: 0x0015A048 File Offset: 0x00158448
+		public override float GetWidth(float maxWidth)
 		{
-			Rect rect = new Rect(topLeft.x, topLeft.y, this.Width, 75f);
+			return 75f;
+		}
+
+		// Token: 0x060056B6 RID: 22198 RVA: 0x0015A064 File Offset: 0x00158464
+		public override GizmoResult GizmoOnGUI(Vector2 topLeft, float maxWidth)
+		{
+			Text.Font = GameFont.Tiny;
+			Rect rect = new Rect(topLeft.x, topLeft.y, this.GetWidth(maxWidth), 75f);
 			bool flag = false;
 			if (Mouse.IsOver(rect))
 			{
@@ -115,20 +107,22 @@ namespace Verse
 				GUI.color = GenUI.MouseoverColor;
 			}
 			Texture2D badTex = this.icon;
-			if ((Object)badTex == (Object)null)
+			if (badTex == null)
 			{
 				badTex = BaseContent.BadTex;
 			}
 			GUI.DrawTexture(rect, Command.BGTex);
-			MouseoverSounds.DoRegion(rect, SoundDefOf.MouseoverCommand);
+			MouseoverSounds.DoRegion(rect, SoundDefOf.Mouseover_Command);
+			Rect outerRect = rect;
+			outerRect.position += new Vector2(this.iconOffset.x * outerRect.size.x, this.iconOffset.y * outerRect.size.y);
 			GUI.color = this.IconDrawColor;
-			Widgets.DrawTextureFitted(rect, badTex, (float)(this.iconDrawScale * 0.85000002384185791), this.iconProportions, this.iconTexCoords, this.iconAngle);
+			Widgets.DrawTextureFitted(outerRect, badTex, this.iconDrawScale * 0.85f, this.iconProportions, this.iconTexCoords, this.iconAngle);
 			GUI.color = Color.white;
 			bool flag2 = false;
 			KeyCode keyCode = (this.hotKey != null) ? this.hotKey.MainKey : KeyCode.None;
-			if (keyCode != 0 && !GizmoGridDrawer.drawnHotKeys.Contains(keyCode))
+			if (keyCode != KeyCode.None && !GizmoGridDrawer.drawnHotKeys.Contains(keyCode))
 			{
-				Rect rect2 = new Rect((float)(rect.x + 5.0), (float)(rect.y + 5.0), (float)(rect.width - 10.0), 18f);
+				Rect rect2 = new Rect(rect.x + 5f, rect.y + 5f, rect.width - 10f, 18f);
 				Widgets.Label(rect2, keyCode.ToStringReadable());
 				GizmoGridDrawer.drawnHotKeys.Add(keyCode);
 				if (this.hotKey.KeyDownEvent)
@@ -145,7 +139,7 @@ namespace Verse
 			if (!labelCap.NullOrEmpty())
 			{
 				float num = Text.CalcHeight(labelCap, rect.width);
-				Rect rect3 = new Rect(rect.x, (float)(rect.yMax - num + 12.0), rect.width, num);
+				Rect rect3 = new Rect(rect.x, rect.yMax - num + 12f, rect.width, num);
 				GUI.DrawTexture(rect3, TexUI.GrayTextBG);
 				GUI.color = Color.white;
 				Text.Anchor = TextAnchor.UpperCenter;
@@ -157,10 +151,17 @@ namespace Verse
 			if (this.DoTooltip)
 			{
 				TipSignal tip = this.Desc;
-				if (base.disabled && !base.disabledReason.NullOrEmpty())
+				if (this.disabled && !this.disabledReason.NullOrEmpty())
 				{
 					string text = tip.text;
-					tip.text = text + "\n\n" + "DisabledCommand".Translate() + ": " + base.disabledReason;
+					tip.text = string.Concat(new string[]
+					{
+						text,
+						"\n\n",
+						"DisabledCommand".Translate(),
+						": ",
+						this.disabledReason
+					});
 				}
 				TooltipHandler.TipRegion(rect, tip);
 			}
@@ -168,53 +169,56 @@ namespace Verse
 			{
 				UIHighlighter.HighlightOpportunity(rect, this.HighlightTag);
 			}
+			Text.Font = GameFont.Small;
+			GizmoResult result;
 			if (flag2)
 			{
-				if (base.disabled)
+				if (this.disabled)
 				{
-					if (!base.disabledReason.NullOrEmpty())
+					if (!this.disabledReason.NullOrEmpty())
 					{
-						Messages.Message(base.disabledReason, MessageTypeDefOf.RejectInput);
+						Messages.Message(this.disabledReason, MessageTypeDefOf.RejectInput, false);
 					}
-					return new GizmoResult(GizmoState.Mouseover, null);
+					result = new GizmoResult(GizmoState.Mouseover, null);
 				}
-				if (!TutorSystem.AllowAction(this.TutorTagSelect))
+				else
 				{
-					return new GizmoResult(GizmoState.Mouseover, null);
+					GizmoResult gizmoResult;
+					if (Event.current.button == 1)
+					{
+						gizmoResult = new GizmoResult(GizmoState.OpenedFloatMenu, Event.current);
+					}
+					else
+					{
+						if (!TutorSystem.AllowAction(this.TutorTagSelect))
+						{
+							return new GizmoResult(GizmoState.Mouseover, null);
+						}
+						gizmoResult = new GizmoResult(GizmoState.Interacted, Event.current);
+						TutorSystem.Notify_Event(this.TutorTagSelect);
+					}
+					result = gizmoResult;
 				}
-				GizmoResult result = new GizmoResult(GizmoState.Interacted, Event.current);
-				TutorSystem.Notify_Event(this.TutorTagSelect);
-				return result;
 			}
-			if (flag)
+			else if (flag)
 			{
-				return new GizmoResult(GizmoState.Mouseover, null);
+				result = new GizmoResult(GizmoState.Mouseover, null);
 			}
-			return new GizmoResult(GizmoState.Clear, null);
+			else
+			{
+				result = new GizmoResult(GizmoState.Clear, null);
+			}
+			return result;
 		}
 
+		// Token: 0x060056B7 RID: 22199 RVA: 0x0015A454 File Offset: 0x00158854
 		public override bool GroupsWith(Gizmo other)
 		{
 			Command command = other as Command;
-			if (command == null)
-			{
-				return false;
-			}
-			if (this.hotKey == command.hotKey && this.Label == command.Label && (Object)this.icon == (Object)command.icon)
-			{
-				return true;
-			}
-			if (this.groupKey != 0 && command.groupKey != 0)
-			{
-				if (this.groupKey == command.groupKey)
-				{
-					return true;
-				}
-				return false;
-			}
-			return false;
+			return command != null && ((this.hotKey == command.hotKey && this.Label == command.Label && this.icon == command.icon) || (this.groupKey != 0 && command.groupKey != 0 && this.groupKey == command.groupKey));
 		}
 
+		// Token: 0x060056B8 RID: 22200 RVA: 0x0015A4F8 File Offset: 0x001588F8
 		public override void ProcessInput(Event ev)
 		{
 			if (this.CurActivateSound != null)
@@ -223,17 +227,59 @@ namespace Verse
 			}
 		}
 
-		public override int GetHashCode()
-		{
-			int seed = 0;
-			seed = Gen.HashCombine(seed, this.hotKey);
-			seed = Gen.HashCombine(seed, this.icon);
-			return Gen.HashCombine(seed, this.defaultDesc);
-		}
-
+		// Token: 0x060056B9 RID: 22201 RVA: 0x0015A514 File Offset: 0x00158914
 		public override string ToString()
 		{
-			return "Command(label=" + this.defaultLabel + ", defaultDesc=" + this.defaultDesc + ")";
+			return string.Concat(new string[]
+			{
+				"Command(label=",
+				this.defaultLabel,
+				", defaultDesc=",
+				this.defaultDesc,
+				")"
+			});
 		}
+
+		// Token: 0x0400396E RID: 14702
+		public string defaultLabel = null;
+
+		// Token: 0x0400396F RID: 14703
+		public string defaultDesc = "No description.";
+
+		// Token: 0x04003970 RID: 14704
+		public Texture2D icon = null;
+
+		// Token: 0x04003971 RID: 14705
+		public float iconAngle;
+
+		// Token: 0x04003972 RID: 14706
+		public Vector2 iconProportions = Vector2.one;
+
+		// Token: 0x04003973 RID: 14707
+		public Rect iconTexCoords = new Rect(0f, 0f, 1f, 1f);
+
+		// Token: 0x04003974 RID: 14708
+		public float iconDrawScale = 1f;
+
+		// Token: 0x04003975 RID: 14709
+		public Vector2 iconOffset;
+
+		// Token: 0x04003976 RID: 14710
+		public Color defaultIconColor = Color.white;
+
+		// Token: 0x04003977 RID: 14711
+		public KeyBindingDef hotKey;
+
+		// Token: 0x04003978 RID: 14712
+		public SoundDef activateSound = null;
+
+		// Token: 0x04003979 RID: 14713
+		public int groupKey = 0;
+
+		// Token: 0x0400397A RID: 14714
+		public string tutorTag = "TutorTagNotSet";
+
+		// Token: 0x0400397B RID: 14715
+		public static readonly Texture2D BGTex = ContentFinder<Texture2D>.Get("UI/Widgets/DesButBG", true);
 	}
 }

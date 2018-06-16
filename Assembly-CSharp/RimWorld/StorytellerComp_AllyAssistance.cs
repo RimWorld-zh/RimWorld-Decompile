@@ -1,43 +1,42 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200035F RID: 863
 	public class StorytellerComp_AllyAssistance : StorytellerComp
 	{
+		// Token: 0x1700021A RID: 538
+		// (get) Token: 0x06000F13 RID: 3859 RVA: 0x0007F3EC File Offset: 0x0007D7EC
 		private StorytellerCompProperties_AllyAssistance Props
 		{
 			get
 			{
-				return (StorytellerCompProperties_AllyAssistance)base.props;
+				return (StorytellerCompProperties_AllyAssistance)this.props;
 			}
 		}
 
-		private float IncidentMTBDays
-		{
-			get
-			{
-				return this.Props.baseMtb * StorytellerUtility.AllyIncidentMTBMultiplier();
-			}
-		}
-
+		// Token: 0x06000F14 RID: 3860 RVA: 0x0007F40C File Offset: 0x0007D80C
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
-			float mtb = this.IncidentMTBDays;
-			if (!(mtb < 0.0) && Rand.MTBEventOccurs(mtb, 60000f, 1000f))
+			Map map = target as Map;
+			if (map == null || map.dangerWatcher.DangerRating < StoryDanger.High)
 			{
-				Map map = target as Map;
-				if (map != null && (int)map.dangerWatcher.DangerRating >= 2)
-				{
-					IncidentDef incident = null;
-					if (this.UsableIncidentsInCategory(IncidentCategory.AllyAssistance, target).TryRandomElementByWeight<IncidentDef>((Func<IncidentDef, float>)((IncidentDef d) => d.baseChance), out incident))
-					{
-						yield return new FiringIncident(incident, this, this.GenerateParms(incident.category, target));
-						/*Error: Unable to find new state assignment for yield return*/;
-					}
-				}
+				yield break;
 			}
+			float mtb = this.Props.baseMtbDays * StorytellerUtility.AllyIncidentMTBMultiplier(false);
+			if (mtb <= 0f || !Rand.MTBEventOccurs(mtb, 60000f, 1000f))
+			{
+				yield break;
+			}
+			IncidentDef incident;
+			if (!base.UsableIncidentsInCategory(IncidentCategoryDefOf.AllyAssistance, target).TryRandomElementByWeight((IncidentDef d) => d.baseChance, out incident))
+			{
+				yield break;
+			}
+			yield return new FiringIncident(incident, this, this.GenerateParms(incident.category, target));
+			yield break;
 		}
 	}
 }

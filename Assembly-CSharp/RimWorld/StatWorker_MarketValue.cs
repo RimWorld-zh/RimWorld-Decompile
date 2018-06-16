@@ -1,43 +1,114 @@
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020009C4 RID: 2500
 	public class StatWorker_MarketValue : StatWorker
 	{
-		public const float ValuePerWork = 0.0036f;
-
-		private const float DefaultGuessStuffCost = 2f;
-
+		// Token: 0x06003803 RID: 14339 RVA: 0x001DD5E4 File Offset: 0x001DB9E4
 		public override float GetValueUnfinalized(StatRequest req, bool applyPostProcess = true)
 		{
+			float result;
 			if (req.HasThing && req.Thing is Pawn)
 			{
-				return base.GetValueUnfinalized(StatRequest.For(req.Def, req.StuffDef, QualityCategory.Normal), applyPostProcess) * PriceUtility.PawnQualityPriceFactor((Pawn)req.Thing);
+				result = base.GetValueUnfinalized(StatRequest.For(req.Def, req.StuffDef, QualityCategory.Normal), applyPostProcess) * PriceUtility.PawnQualityPriceFactor((Pawn)req.Thing);
 			}
-			if (req.Def.statBases.StatListContains(StatDefOf.MarketValue))
+			else if (req.Def.statBases.StatListContains(StatDefOf.MarketValue))
 			{
-				return base.GetValueUnfinalized(req, true);
+				result = base.GetValueUnfinalized(req, true);
 			}
-			float num = 0f;
-			if (req.Def.costList != null)
+			else
 			{
-				for (int i = 0; i < req.Def.costList.Count; i++)
-				{
-					num += (float)req.Def.costList[i].count * req.Def.costList[i].thingDef.BaseMarketValue;
-				}
+				result = StatWorker_MarketValue.CalculatedMarketValue(req.Def, req.StuffDef);
 			}
-			if (req.Def.costStuffCount > 0)
-			{
-				num = (float)((req.StuffDef == null) ? (num + (float)req.Def.costStuffCount * 2.0) : (num + (float)req.Def.costStuffCount / req.StuffDef.VolumePerUnit * req.StuffDef.GetStatValueAbstract(StatDefOf.MarketValue, null)));
-			}
-			float num2 = Mathf.Max(req.Def.GetStatValueAbstract(StatDefOf.WorkToMake, req.StuffDef), req.Def.GetStatValueAbstract(StatDefOf.WorkToBuild, req.StuffDef));
-			return (float)(num + num2 * 0.003599999938160181);
+			return result;
 		}
 
+		// Token: 0x06003804 RID: 14340 RVA: 0x001DD688 File Offset: 0x001DBA88
+		public static RecipeDef CalculableRecipe(BuildableDef def)
+		{
+			if (def.costList.NullOrEmpty<ThingDefCountClass>() && def.costStuffCount <= 0)
+			{
+				List<RecipeDef> allDefsListForReading = DefDatabase<RecipeDef>.AllDefsListForReading;
+				for (int i = 0; i < allDefsListForReading.Count; i++)
+				{
+					RecipeDef recipeDef = allDefsListForReading[i];
+					if (recipeDef.products != null && recipeDef.products.Count == 1 && recipeDef.products[0].thingDef == def)
+					{
+						for (int j = 0; j < recipeDef.ingredients.Count; j++)
+						{
+							if (!recipeDef.ingredients[j].IsFixedIngredient)
+							{
+								return null;
+							}
+						}
+						return recipeDef;
+					}
+				}
+			}
+			return null;
+		}
+
+		// Token: 0x06003805 RID: 14341 RVA: 0x001DD760 File Offset: 0x001DBB60
+		public static float CalculatedMarketValue(BuildableDef def, ThingDef stuffDef)
+		{
+			float num = 0f;
+			RecipeDef recipeDef = StatWorker_MarketValue.CalculableRecipe(def);
+			float num2;
+			int num3;
+			if (recipeDef != null)
+			{
+				num2 = recipeDef.workAmount;
+				num3 = recipeDef.products[0].count;
+				if (recipeDef.ingredients != null)
+				{
+					for (int i = 0; i < recipeDef.ingredients.Count; i++)
+					{
+						IngredientCount ingredientCount = recipeDef.ingredients[i];
+						int num4 = ingredientCount.CountRequiredOfFor(ingredientCount.FixedIngredient, recipeDef);
+						num += (float)num4 * ingredientCount.FixedIngredient.BaseMarketValue;
+					}
+				}
+			}
+			else
+			{
+				num2 = Mathf.Max(def.GetStatValueAbstract(StatDefOf.WorkToMake, stuffDef), def.GetStatValueAbstract(StatDefOf.WorkToBuild, stuffDef));
+				num3 = 1;
+				if (def.costList != null)
+				{
+					for (int j = 0; j < def.costList.Count; j++)
+					{
+						ThingDefCountClass thingDefCountClass = def.costList[j];
+						num += (float)thingDefCountClass.count * thingDefCountClass.thingDef.BaseMarketValue;
+					}
+				}
+				if (def.costStuffCount > 0)
+				{
+					if (stuffDef != null)
+					{
+						num += (float)def.costStuffCount / stuffDef.VolumePerUnit * stuffDef.GetStatValueAbstract(StatDefOf.MarketValue, null);
+					}
+					else
+					{
+						num += (float)def.costStuffCount * 2f;
+					}
+				}
+			}
+			if (num2 > 2f)
+			{
+				num += num2 * 0.0036f;
+			}
+			return num / (float)num3;
+		}
+
+		// Token: 0x06003806 RID: 14342 RVA: 0x001DD8E8 File Offset: 0x001DBCE8
 		public override string GetExplanationUnfinalized(StatRequest req, ToStringNumberSense numberSense)
 		{
+			string result;
 			if (req.HasThing && req.Thing is Pawn)
 			{
 				StringBuilder stringBuilder = new StringBuilder();
@@ -46,25 +117,32 @@ namespace RimWorld
 				stringBuilder.AppendLine();
 				Pawn pawn = req.Thing as Pawn;
 				stringBuilder.Append("StatsReport_CharacterQuality".Translate() + ": x" + PriceUtility.PawnQualityPriceFactor(pawn).ToStringPercent());
-				return stringBuilder.ToString();
+				result = stringBuilder.ToString();
 			}
-			if (req.Def.statBases.StatListContains(StatDefOf.MarketValue))
+			else if (req.Def.statBases.StatListContains(StatDefOf.MarketValue))
 			{
-				return base.GetExplanationUnfinalized(req, numberSense);
+				result = base.GetExplanationUnfinalized(req, numberSense);
 			}
-			StringBuilder stringBuilder2 = new StringBuilder();
-			stringBuilder2.AppendLine("StatsReport_MarketValueFromStuffsAndWork".Translate());
-			return stringBuilder2.ToString();
+			else
+			{
+				StringBuilder stringBuilder2 = new StringBuilder();
+				stringBuilder2.AppendLine("StatsReport_MarketValueFromStuffsAndWork".Translate());
+				result = stringBuilder2.ToString();
+			}
+			return result;
 		}
 
-		public override bool ShouldShowFor(BuildableDef def)
+		// Token: 0x06003807 RID: 14343 RVA: 0x001DD9C8 File Offset: 0x001DBDC8
+		public override bool ShouldShowFor(StatRequest req)
 		{
-			ThingDef thingDef = def as ThingDef;
-			if (thingDef == null)
-			{
-				return false;
-			}
-			return TradeUtility.EverTradeable(thingDef) || thingDef.category == ThingCategory.Building;
+			ThingDef thingDef = req.Def as ThingDef;
+			return thingDef != null && (thingDef.category == ThingCategory.Building || TradeUtility.EverPlayerSellable(thingDef) || (thingDef.tradeability.TraderCanSell() && (thingDef.category == ThingCategory.Item || thingDef.category == ThingCategory.Pawn)));
 		}
+
+		// Token: 0x040023D0 RID: 9168
+		public const float ValuePerWork = 0.0036f;
+
+		// Token: 0x040023D1 RID: 9169
+		private const float DefaultGuessStuffCost = 2f;
 	}
 }

@@ -1,48 +1,74 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000068 RID: 104
 	public class JobDriver_FillFermentingBarrel : JobDriver
 	{
-		private const TargetIndex BarrelInd = TargetIndex.A;
-
-		private const TargetIndex WortInd = TargetIndex.B;
-
-		private const int Duration = 200;
-
+		// Token: 0x17000097 RID: 151
+		// (get) Token: 0x060002E4 RID: 740 RVA: 0x0001F2B8 File Offset: 0x0001D6B8
 		protected Building_FermentingBarrel Barrel
 		{
 			get
 			{
-				return (Building_FermentingBarrel)base.job.GetTarget(TargetIndex.A).Thing;
+				return (Building_FermentingBarrel)this.job.GetTarget(TargetIndex.A).Thing;
 			}
 		}
 
+		// Token: 0x17000098 RID: 152
+		// (get) Token: 0x060002E5 RID: 741 RVA: 0x0001F2E8 File Offset: 0x0001D6E8
 		protected Thing Wort
 		{
 			get
 			{
-				return base.job.GetTarget(TargetIndex.B).Thing;
+				return this.job.GetTarget(TargetIndex.B).Thing;
 			}
 		}
 
+		// Token: 0x060002E6 RID: 742 RVA: 0x0001F314 File Offset: 0x0001D714
 		public override bool TryMakePreToilReservations()
 		{
-			return base.pawn.Reserve(this.Barrel, base.job, 1, -1, null) && base.pawn.Reserve(this.Wort, base.job, 1, -1, null);
+			return this.pawn.Reserve(this.Barrel, this.job, 1, -1, null) && this.pawn.Reserve(this.Wort, this.job, 1, -1, null);
 		}
 
+		// Token: 0x060002E7 RID: 743 RVA: 0x0001F370 File Offset: 0x0001D770
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
 			this.FailOnBurningImmobile(TargetIndex.A);
-			base.AddEndCondition(() => (JobCondition)((((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_005d: stateMachine*/)._0024this.Barrel.SpaceLeftForWort > 0) ? 1 : 2));
+			base.AddEndCondition(() => (this.Barrel.SpaceLeftForWort > 0) ? JobCondition.Ongoing : JobCondition.Succeeded);
 			yield return Toils_General.DoAtomic(delegate
 			{
-				((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006f: stateMachine*/)._0024this.job.count = ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006f: stateMachine*/)._0024this.Barrel.SpaceLeftForWort;
+				this.job.count = this.Barrel.SpaceLeftForWort;
 			});
-			/*Error: Unable to find new state assignment for yield return*/;
+			Toil reserveWort = Toils_Reserve.Reserve(TargetIndex.B, 1, -1, null);
+			yield return reserveWort;
+			yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.ClosestTouch).FailOnDespawnedNullOrForbidden(TargetIndex.B).FailOnSomeonePhysicallyInteracting(TargetIndex.B);
+			yield return Toils_Haul.StartCarryThing(TargetIndex.B, false, true, false).FailOnDestroyedNullOrForbidden(TargetIndex.B);
+			yield return Toils_Haul.CheckForGetOpportunityDuplicate(reserveWort, TargetIndex.B, TargetIndex.None, true, null);
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+			yield return Toils_General.Wait(200).FailOnDestroyedNullOrForbidden(TargetIndex.B).FailOnDestroyedNullOrForbidden(TargetIndex.A).FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch).WithProgressBarToilDelay(TargetIndex.A, false, -0.5f);
+			yield return new Toil
+			{
+				initAction = delegate()
+				{
+					this.Barrel.AddWort(this.Wort);
+				},
+				defaultCompleteMode = ToilCompleteMode.Instant
+			};
+			yield break;
 		}
+
+		// Token: 0x04000208 RID: 520
+		private const TargetIndex BarrelInd = TargetIndex.A;
+
+		// Token: 0x04000209 RID: 521
+		private const TargetIndex WortInd = TargetIndex.B;
+
+		// Token: 0x0400020A RID: 522
+		private const int Duration = 200;
 	}
 }

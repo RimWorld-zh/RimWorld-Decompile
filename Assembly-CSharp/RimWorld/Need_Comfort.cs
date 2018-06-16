@@ -1,86 +1,111 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020004F9 RID: 1273
 	public class Need_Comfort : Need_Seeker
 	{
-		public float lastComfortUsed;
+		// Token: 0x060016DE RID: 5854 RVA: 0x000CA174 File Offset: 0x000C8574
+		public Need_Comfort(Pawn pawn) : base(pawn)
+		{
+			this.threshPercents = new List<float>();
+			this.threshPercents.Add(0.1f);
+			this.threshPercents.Add(0.6f);
+			this.threshPercents.Add(0.7f);
+			this.threshPercents.Add(0.8f);
+			this.threshPercents.Add(0.9f);
+		}
 
-		public int lastComfortUseTick;
-
-		private const float MinNormal = 0.1f;
-
-		private const float MinComfortable = 0.6f;
-
-		private const float MinVeryComfortable = 0.7f;
-
-		private const float MinExtremelyComfortablee = 0.8f;
-
-		private const float MinLuxuriantlyComfortable = 0.9f;
-
-		public const int ComfortUseInterval = 10;
-
+		// Token: 0x1700030E RID: 782
+		// (get) Token: 0x060016DF RID: 5855 RVA: 0x000CA1E4 File Offset: 0x000C85E4
 		public override float CurInstantLevel
 		{
 			get
 			{
-				if (!base.pawn.Spawned)
+				float result;
+				if (!this.pawn.Spawned)
 				{
-					return 0.5f;
+					result = 0.5f;
 				}
-				if (this.lastComfortUseTick > Find.TickManager.TicksGame - 10)
+				else if (this.lastComfortUseTick > Find.TickManager.TicksGame - 10)
 				{
-					return Mathf.Clamp01(this.lastComfortUsed);
+					result = Mathf.Clamp01(this.lastComfortUsed);
 				}
-				return 0f;
+				else
+				{
+					result = 0f;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x1700030F RID: 783
+		// (get) Token: 0x060016E0 RID: 5856 RVA: 0x000CA244 File Offset: 0x000C8644
 		public ComfortCategory CurCategory
 		{
 			get
 			{
-				if (this.CurLevel < 0.10000000149011612)
+				ComfortCategory result;
+				if (this.CurLevel < 0.1f)
 				{
-					return ComfortCategory.Uncomfortable;
+					result = ComfortCategory.Uncomfortable;
 				}
-				if (this.CurLevel < 0.60000002384185791)
+				else if (this.CurLevel < 0.6f)
 				{
-					return ComfortCategory.Normal;
+					result = ComfortCategory.Normal;
 				}
-				if (this.CurLevel < 0.699999988079071)
+				else if (this.CurLevel < 0.7f)
 				{
-					return ComfortCategory.Comfortable;
+					result = ComfortCategory.Comfortable;
 				}
-				if (this.CurLevel < 0.800000011920929)
+				else if (this.CurLevel < 0.8f)
 				{
-					return ComfortCategory.VeryComfortable;
+					result = ComfortCategory.VeryComfortable;
 				}
-				if (this.CurLevel < 0.89999997615814209)
+				else if (this.CurLevel < 0.9f)
 				{
-					return ComfortCategory.ExtremelyComfortable;
+					result = ComfortCategory.ExtremelyComfortable;
 				}
-				return ComfortCategory.LuxuriantlyComfortable;
+				else
+				{
+					result = ComfortCategory.LuxuriantlyComfortable;
+				}
+				return result;
 			}
 		}
 
-		public Need_Comfort(Pawn pawn)
-			: base(pawn)
-		{
-			base.threshPercents = new List<float>();
-			base.threshPercents.Add(0.1f);
-			base.threshPercents.Add(0.6f);
-			base.threshPercents.Add(0.7f);
-			base.threshPercents.Add(0.8f);
-			base.threshPercents.Add(0.9f);
-		}
-
+		// Token: 0x060016E1 RID: 5857 RVA: 0x000CA2CD File Offset: 0x000C86CD
 		public void ComfortUsed(float comfort)
 		{
 			this.lastComfortUsed = comfort;
 			this.lastComfortUseTick = Find.TickManager.TicksGame;
 		}
+
+		// Token: 0x04000D64 RID: 3428
+		public float lastComfortUsed;
+
+		// Token: 0x04000D65 RID: 3429
+		public int lastComfortUseTick;
+
+		// Token: 0x04000D66 RID: 3430
+		private const float MinNormal = 0.1f;
+
+		// Token: 0x04000D67 RID: 3431
+		private const float MinComfortable = 0.6f;
+
+		// Token: 0x04000D68 RID: 3432
+		private const float MinVeryComfortable = 0.7f;
+
+		// Token: 0x04000D69 RID: 3433
+		private const float MinExtremelyComfortablee = 0.8f;
+
+		// Token: 0x04000D6A RID: 3434
+		private const float MinLuxuriantlyComfortable = 0.9f;
+
+		// Token: 0x04000D6B RID: 3435
+		public const int ComfortUseInterval = 10;
 	}
 }

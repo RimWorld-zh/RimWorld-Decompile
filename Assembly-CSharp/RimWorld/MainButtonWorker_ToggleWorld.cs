@@ -1,13 +1,14 @@
+﻿using System;
 using RimWorld.Planet;
 using Verse;
 using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x0200086C RID: 2156
 	public class MainButtonWorker_ToggleWorld : MainButtonWorker
 	{
-		public bool resetViewNextTime = true;
-
+		// Token: 0x060030FC RID: 12540 RVA: 0x001A99AC File Offset: 0x001A7DAC
 		public override void Activate()
 		{
 			if (Find.World.renderer.wantedMode == WorldRenderMode.None)
@@ -33,5 +34,8 @@ namespace RimWorld
 				SoundDefOf.TabClose.PlayOneShotOnCamera(null);
 			}
 		}
+
+		// Token: 0x04001A7A RID: 6778
+		public bool resetViewNextTime = true;
 	}
 }

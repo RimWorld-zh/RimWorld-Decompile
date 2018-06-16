@@ -1,40 +1,31 @@
-using System;
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x020000E3 RID: 227
 	public class JobGiver_Haul : ThinkNode_JobGiver
 	{
+		// Token: 0x060004EE RID: 1262 RVA: 0x00036DF8 File Offset: 0x000351F8
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Predicate<Thing> validator = delegate(Thing t)
 			{
-				if (t.IsForbidden(pawn))
-				{
-					return false;
-				}
-				if (!HaulAIUtility.PawnCanAutomaticallyHaulFast(pawn, t, false))
-				{
-					return false;
-				}
-				if (pawn.carryTracker.MaxStackSpaceEver(t.def) <= 0)
-				{
-					return false;
-				}
-				IntVec3 intVec = default(IntVec3);
-				if (!StoreUtility.TryFindBestBetterStoreCellFor(t, pawn, pawn.Map, HaulAIUtility.StoragePriorityAtFor(t.Position, t), pawn.Faction, out intVec, true))
-				{
-					return false;
-				}
-				return true;
+				IntVec3 intVec;
+				return !t.IsForbidden(pawn) && HaulAIUtility.PawnCanAutomaticallyHaulFast(pawn, t, false) && pawn.carryTracker.MaxStackSpaceEver(t.def) > 0 && StoreUtility.TryFindBestBetterStoreCellFor(t, pawn, pawn.Map, StoreUtility.CurrentStoragePriorityOf(t), pawn.Faction, out intVec, true);
 			};
 			Thing thing = GenClosest.ClosestThing_Global_Reachable(pawn.Position, pawn.Map, pawn.Map.listerHaulables.ThingsPotentiallyNeedingHauling(), PathEndMode.OnCell, TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false), 9999f, validator, null);
+			Job result;
 			if (thing != null)
 			{
-				return HaulAIUtility.HaulToStorageJob(pawn, thing);
+				result = HaulAIUtility.HaulToStorageJob(pawn, thing);
 			}
-			return null;
+			else
+			{
+				result = null;
+			}
+			return result;
 		}
 	}
 }

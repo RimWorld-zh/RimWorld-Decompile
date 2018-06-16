@@ -1,18 +1,22 @@
+﻿using System;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200084A RID: 2122
 	public class ITab_Art : ITab
 	{
-		private static string cachedImageDescription;
+		// Token: 0x06003002 RID: 12290 RVA: 0x001A1436 File Offset: 0x0019F836
+		public ITab_Art()
+		{
+			this.size = ITab_Art.WinSize;
+			this.labelKey = "TabArt";
+			this.tutorTag = "Art";
+		}
 
-		private static CompArt cachedImageSource;
-
-		private static TaleReference cachedTaleRef;
-
-		private static readonly Vector2 WinSize = new Vector2(400f, 300f);
-
+		// Token: 0x170007A5 RID: 1957
+		// (get) Token: 0x06003003 RID: 12291 RVA: 0x001A1460 File Offset: 0x0019F860
 		private CompArt SelectedCompArt
 		{
 			get
@@ -23,14 +27,21 @@ namespace RimWorld
 				{
 					thing = minifiedThing.InnerThing;
 				}
+				CompArt result;
 				if (thing == null)
 				{
-					return null;
+					result = null;
 				}
-				return thing.TryGetComp<CompArt>();
+				else
+				{
+					result = thing.TryGetComp<CompArt>();
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x170007A6 RID: 1958
+		// (get) Token: 0x06003004 RID: 12292 RVA: 0x001A14A8 File Offset: 0x0019F8A8
 		public override bool IsVisible
 		{
 			get
@@ -39,19 +50,10 @@ namespace RimWorld
 			}
 		}
 
-		public ITab_Art()
-		{
-			base.size = ITab_Art.WinSize;
-			base.labelKey = "TabArt";
-			base.tutorTag = "Art";
-		}
-
+		// Token: 0x06003005 RID: 12293 RVA: 0x001A14D8 File Offset: 0x0019F8D8
 		protected override void FillTab()
 		{
-			Vector2 winSize = ITab_Art.WinSize;
-			float x = winSize.x;
-			Vector2 winSize2 = ITab_Art.WinSize;
-			Rect rect = new Rect(0f, 0f, x, winSize2.y).ContractedBy(10f);
+			Rect rect = new Rect(0f, 0f, ITab_Art.WinSize.x, ITab_Art.WinSize.y).ContractedBy(10f);
 			Rect rect2 = rect;
 			Text.Font = GameFont.Medium;
 			Widgets.Label(rect2, this.SelectedCompArt.Title);
@@ -66,5 +68,17 @@ namespace RimWorld
 			Text.Font = GameFont.Small;
 			Widgets.Label(rect3, ITab_Art.cachedImageDescription);
 		}
+
+		// Token: 0x040019F3 RID: 6643
+		private static string cachedImageDescription;
+
+		// Token: 0x040019F4 RID: 6644
+		private static CompArt cachedImageSource;
+
+		// Token: 0x040019F5 RID: 6645
+		private static TaleReference cachedTaleRef;
+
+		// Token: 0x040019F6 RID: 6646
+		private static readonly Vector2 WinSize = new Vector2(400f, 300f);
 	}
 }

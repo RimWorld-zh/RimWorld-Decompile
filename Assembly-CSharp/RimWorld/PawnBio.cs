@@ -1,37 +1,37 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020004E4 RID: 1252
 	[CaseInsensitiveXMLParsing]
 	public class PawnBio
 	{
-		public GenderPossibility gender;
-
-		public NameTriple name;
-
-		public Backstory childhood;
-
-		public Backstory adulthood;
-
-		public bool pirateKing;
-
+		// Token: 0x170002E9 RID: 745
+		// (get) Token: 0x0600164E RID: 5710 RVA: 0x000C5C3C File Offset: 0x000C403C
 		public PawnBioType BioType
 		{
 			get
 			{
+				PawnBioType result;
 				if (this.pirateKing)
 				{
-					return PawnBioType.PirateKing;
+					result = PawnBioType.PirateKing;
 				}
-				if (this.adulthood != null)
+				else if (this.adulthood != null)
 				{
-					return PawnBioType.BackstoryInGame;
+					result = PawnBioType.BackstoryInGame;
 				}
-				return PawnBioType.Undefined;
+				else
+				{
+					result = PawnBioType.Undefined;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x0600164F RID: 5711 RVA: 0x000C5C76 File Offset: 0x000C4076
 		public void PostLoad()
 		{
 			if (this.childhood != null)
@@ -44,6 +44,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06001650 RID: 5712 RVA: 0x000C5CA8 File Offset: 0x000C40A8
 		public void ResolveReferences()
 		{
 			if (this.adulthood.spawnCategories.Count == 1 && this.adulthood.spawnCategories[0] == "Trader")
@@ -60,40 +61,59 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06001651 RID: 5713 RVA: 0x000C5D30 File Offset: 0x000C4130
 		public IEnumerable<string> ConfigErrors()
 		{
 			if (this.childhood != null)
 			{
-				using (IEnumerator<string> enumerator = this.childhood.ConfigErrors(true).GetEnumerator())
+				foreach (string error in this.childhood.ConfigErrors(true))
 				{
-					if (enumerator.MoveNext())
+					yield return string.Concat(new object[]
 					{
-						string error2 = enumerator.Current;
-						yield return this.name + ", " + this.childhood.Title + ": " + error2;
-						/*Error: Unable to find new state assignment for yield return*/;
-					}
+						this.name,
+						", ",
+						this.childhood.title,
+						": ",
+						error
+					});
 				}
 			}
 			if (this.adulthood != null)
 			{
-				using (IEnumerator<string> enumerator2 = this.adulthood.ConfigErrors(false).GetEnumerator())
+				foreach (string error2 in this.adulthood.ConfigErrors(false))
 				{
-					if (enumerator2.MoveNext())
+					yield return string.Concat(new object[]
 					{
-						string error = enumerator2.Current;
-						yield return this.name + ", " + this.adulthood.Title + ": " + error;
-						/*Error: Unable to find new state assignment for yield return*/;
-					}
+						this.name,
+						", ",
+						this.adulthood.title,
+						": ",
+						error2
+					});
 				}
 			}
 			yield break;
-			IL_01f4:
-			/*Error near IL_01f5: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x06001652 RID: 5714 RVA: 0x000C5D5C File Offset: 0x000C415C
 		public override string ToString()
 		{
 			return "PawnBio(" + this.name + ")";
 		}
+
+		// Token: 0x04000D01 RID: 3329
+		public GenderPossibility gender;
+
+		// Token: 0x04000D02 RID: 3330
+		public NameTriple name;
+
+		// Token: 0x04000D03 RID: 3331
+		public Backstory childhood;
+
+		// Token: 0x04000D04 RID: 3332
+		public Backstory adulthood;
+
+		// Token: 0x04000D05 RID: 3333
+		public bool pirateKing = false;
 	}
 }

@@ -1,122 +1,195 @@
-using RimWorld.Planet;
-using System;
+﻿using System;
 using System.Xml;
+using RimWorld.Planet;
 
 namespace Verse
 {
+	// Token: 0x02000D9E RID: 3486
 	public static class ScribeExtractor
 	{
+		// Token: 0x06004DC5 RID: 19909 RVA: 0x00289394 File Offset: 0x00287794
 		public static T ValueFromNode<T>(XmlNode subNode, T defaultValue)
 		{
+			T result;
 			if (subNode == null)
 			{
-				return defaultValue;
+				result = defaultValue;
 			}
-			try
+			else
 			{
 				try
 				{
-					return (T)ParseHelper.FromString(subNode.InnerText, typeof(T));
+					try
+					{
+						return (T)((object)ParseHelper.FromString(subNode.InnerText, typeof(T)));
+					}
+					catch (Exception ex)
+					{
+						Log.Error(string.Concat(new object[]
+						{
+							"Exception parsing node ",
+							subNode.OuterXml,
+							" into a ",
+							typeof(T),
+							":\n",
+							ex.ToString()
+						}), false);
+					}
+					result = default(T);
 				}
-				catch (Exception ex)
+				catch (Exception arg)
 				{
-					Log.Error("Exception parsing node " + subNode.OuterXml + " into a " + typeof(T) + ":\n" + ex.ToString());
+					Log.Error("Exception loading XML: " + arg, false);
+					result = defaultValue;
 				}
-				return default(T);
 			}
-			catch (Exception arg)
-			{
-				Log.Error("Exception loading XML: " + arg);
-				return defaultValue;
-			}
+			return result;
 		}
 
+		// Token: 0x06004DC6 RID: 19910 RVA: 0x00289468 File Offset: 0x00287868
 		public static T DefFromNode<T>(XmlNode subNode) where T : Def, new()
 		{
-			if (subNode != null && subNode.InnerText != null && !(subNode.InnerText == "null"))
+			T result;
+			if (subNode == null || subNode.InnerText == null || subNode.InnerText == "null")
 			{
-				string defName = BackCompatibility.BackCompatibleDefName(typeof(T), subNode.InnerText);
-				T namedSilentFail = DefDatabase<T>.GetNamedSilentFail(defName);
+				result = (T)((object)null);
+			}
+			else
+			{
+				string text = BackCompatibility.BackCompatibleDefName(typeof(T), subNode.InnerText, false);
+				T namedSilentFail = DefDatabase<T>.GetNamedSilentFail(text);
 				if (namedSilentFail == null)
 				{
-					Log.Error("Could not load reference to " + typeof(T) + " named " + subNode.InnerText);
+					if (text == subNode.InnerText)
+					{
+						Log.Error(string.Concat(new object[]
+						{
+							"Could not load reference to ",
+							typeof(T),
+							" named ",
+							subNode.InnerText
+						}), false);
+					}
+					else
+					{
+						Log.Error(string.Concat(new object[]
+						{
+							"Could not load reference to ",
+							typeof(T),
+							" named ",
+							subNode.InnerText,
+							" after compatibility-conversion to ",
+							text
+						}), false);
+					}
 				}
-				return namedSilentFail;
+				result = namedSilentFail;
 			}
-			return (T)null;
+			return result;
 		}
 
+		// Token: 0x06004DC7 RID: 19911 RVA: 0x0028956C File Offset: 0x0028796C
 		public static T DefFromNodeUnsafe<T>(XmlNode subNode)
 		{
-			return (T)GenGeneric.InvokeStaticGenericMethod(typeof(ScribeExtractor), typeof(T), "DefFromNode", subNode);
+			return (T)((object)GenGeneric.InvokeStaticGenericMethod(typeof(ScribeExtractor), typeof(T), "DefFromNode", new object[]
+			{
+				subNode
+			}));
 		}
 
+		// Token: 0x06004DC8 RID: 19912 RVA: 0x002895B0 File Offset: 0x002879B0
 		public static T SaveableFromNode<T>(XmlNode subNode, object[] ctorArgs)
 		{
+			T result;
 			if (Scribe.mode != LoadSaveMode.LoadingVars)
 			{
-				Log.Error("Called SaveableFromNode(), but mode is " + Scribe.mode);
-				return default(T);
+				Log.Error("Called SaveableFromNode(), but mode is " + Scribe.mode, false);
+				result = default(T);
 			}
-			if (subNode == null)
+			else if (subNode == null)
 			{
-				return default(T);
+				result = default(T);
 			}
-			XmlAttribute xmlAttribute = subNode.Attributes["IsNull"];
-			if (xmlAttribute != null && xmlAttribute.Value == "True")
+			else
 			{
-				return default(T);
+				XmlAttribute xmlAttribute = subNode.Attributes["IsNull"];
+				T t;
+				if (xmlAttribute != null && xmlAttribute.Value.ToLower() == "true")
+				{
+					t = default(T);
+				}
+				else
+				{
+					try
+					{
+						XmlAttribute xmlAttribute2 = subNode.Attributes["Class"];
+						string text = (xmlAttribute2 == null) ? typeof(T).FullName : xmlAttribute2.Value;
+						Type type = BackCompatibility.GetBackCompatibleType(typeof(T), text, subNode);
+						if (type == null)
+						{
+							Log.Error(string.Concat(new object[]
+							{
+								"Could not find class ",
+								text,
+								" while resolving node ",
+								subNode.Name,
+								". Trying to use ",
+								typeof(T),
+								" instead. Full node: ",
+								subNode.OuterXml
+							}), false);
+							type = typeof(T);
+						}
+						if (type.IsAbstract)
+						{
+							throw new ArgumentException("Can't load abstract class " + type);
+						}
+						IExposable exposable = (IExposable)Activator.CreateInstance(type, ctorArgs);
+						bool flag = typeof(T).IsValueType || typeof(Name).IsAssignableFrom(typeof(T));
+						if (!flag)
+						{
+							Scribe.loader.crossRefs.RegisterForCrossRefResolve(exposable);
+						}
+						XmlNode curXmlParent = Scribe.loader.curXmlParent;
+						IExposable curParent = Scribe.loader.curParent;
+						string curPathRelToParent = Scribe.loader.curPathRelToParent;
+						Scribe.loader.curXmlParent = subNode;
+						Scribe.loader.curParent = exposable;
+						Scribe.loader.curPathRelToParent = null;
+						try
+						{
+							exposable.ExposeData();
+						}
+						finally
+						{
+							Scribe.loader.curXmlParent = curXmlParent;
+							Scribe.loader.curParent = curParent;
+							Scribe.loader.curPathRelToParent = curPathRelToParent;
+						}
+						if (!flag)
+						{
+							Scribe.loader.initer.RegisterForPostLoadInit(exposable);
+						}
+						t = (T)((object)exposable);
+					}
+					catch (Exception ex)
+					{
+						t = default(T);
+						Log.Error(string.Concat(new object[]
+						{
+							"SaveableFromNode exception: ",
+							ex,
+							"\nSubnode:\n",
+							subNode.OuterXml
+						}), false);
+					}
+				}
+				result = t;
 			}
-			try
-			{
-				XmlAttribute xmlAttribute2 = subNode.Attributes["Class"];
-				string text = (xmlAttribute2 == null) ? typeof(T).FullName : xmlAttribute2.Value;
-				Type type = BackCompatibility.GetBackCompatibleType(typeof(T), text, subNode);
-				if (type == null)
-				{
-					Log.Error("Could not find class " + text + " while resolving node " + subNode.Name + ". Trying to use " + typeof(T) + " instead. Full node: " + subNode.OuterXml);
-					type = typeof(T);
-				}
-				if (type.IsAbstract)
-				{
-					throw new ArgumentException("Can't load abstract class " + type);
-				}
-				IExposable exposable = (IExposable)Activator.CreateInstance(type, ctorArgs);
-				bool flag = typeof(T).IsValueType || typeof(Name).IsAssignableFrom(typeof(T));
-				if (!flag)
-				{
-					Scribe.loader.crossRefs.RegisterForCrossRefResolve(exposable);
-				}
-				XmlNode curXmlParent = Scribe.loader.curXmlParent;
-				IExposable curParent = Scribe.loader.curParent;
-				string curPathRelToParent = Scribe.loader.curPathRelToParent;
-				Scribe.loader.curXmlParent = subNode;
-				Scribe.loader.curParent = exposable;
-				Scribe.loader.curPathRelToParent = null;
-				try
-				{
-					exposable.ExposeData();
-				}
-				finally
-				{
-					Scribe.loader.curXmlParent = curXmlParent;
-					Scribe.loader.curParent = curParent;
-					Scribe.loader.curPathRelToParent = curPathRelToParent;
-				}
-				if (!flag)
-				{
-					Scribe.loader.initer.RegisterForPostLoadInit(exposable);
-				}
-				return (T)exposable;
-			}
-			catch (Exception ex)
-			{
-				T result = default(T);
-				Log.Error("SaveableFromNode exception: " + ex + "\nSubnode:\n" + subNode.OuterXml);
-				return result;
-			}
+			return result;
 		}
 
+		// Token: 0x06004DC9 RID: 19913 RVA: 0x00289898 File Offset: 0x00287C98
 		public static LocalTargetInfo LocalTargetInfoFromNode(XmlNode node, string label, LocalTargetInfo defaultValue)
 		{
 			LoadIDsWantedBank loadIDs = Scribe.loader.crossRefs.loadIDs;
@@ -142,6 +215,7 @@ namespace Verse
 			return defaultValue;
 		}
 
+		// Token: 0x06004DCA RID: 19914 RVA: 0x00289970 File Offset: 0x00287D70
 		public static TargetInfo TargetInfoFromNode(XmlNode node, string label, TargetInfo defaultValue)
 		{
 			LoadIDsWantedBank loadIDs = Scribe.loader.crossRefs.loadIDs;
@@ -152,8 +226,8 @@ namespace Verse
 					string innerText = node.InnerText;
 					if (innerText.Length != 0 && innerText[0] == '(')
 					{
-						string str = default(string);
-						string targetLoadID = default(string);
+						string str;
+						string targetLoadID;
 						ScribeExtractor.ExtractCellAndMapPairFromTargetInfo(innerText, out str, out targetLoadID);
 						loadIDs.RegisterLoadIDReadFromXml(null, typeof(Thing), "thing");
 						loadIDs.RegisterLoadIDReadFromXml(targetLoadID, typeof(Map), "map");
@@ -173,6 +247,7 @@ namespace Verse
 			return defaultValue;
 		}
 
+		// Token: 0x06004DCB RID: 19915 RVA: 0x00289AA0 File Offset: 0x00287EA0
 		public static GlobalTargetInfo GlobalTargetInfoFromNode(XmlNode node, string label, GlobalTargetInfo defaultValue)
 		{
 			LoadIDsWantedBank loadIDs = Scribe.loader.crossRefs.loadIDs;
@@ -183,15 +258,15 @@ namespace Verse
 					string innerText = node.InnerText;
 					if (innerText.Length != 0 && innerText[0] == '(')
 					{
-						string str = default(string);
-						string targetLoadID = default(string);
+						string str;
+						string targetLoadID;
 						ScribeExtractor.ExtractCellAndMapPairFromTargetInfo(innerText, out str, out targetLoadID);
 						loadIDs.RegisterLoadIDReadFromXml(null, typeof(Thing), "thing");
 						loadIDs.RegisterLoadIDReadFromXml(targetLoadID, typeof(Map), "map");
 						loadIDs.RegisterLoadIDReadFromXml(null, typeof(WorldObject), "worldObject");
 						return new GlobalTargetInfo(IntVec3.FromString(str), null, true);
 					}
-					int tile = default(int);
+					int tile;
 					if (int.TryParse(innerText, out tile))
 					{
 						loadIDs.RegisterLoadIDReadFromXml(null, typeof(Thing), "thing");
@@ -222,6 +297,7 @@ namespace Verse
 			return defaultValue;
 		}
 
+		// Token: 0x06004DCC RID: 19916 RVA: 0x00289CF0 File Offset: 0x002880F0
 		public static LocalTargetInfo ResolveLocalTargetInfo(LocalTargetInfo loaded, string label)
 		{
 			if (Scribe.EnterNode(label))
@@ -244,6 +320,7 @@ namespace Verse
 			return loaded;
 		}
 
+		// Token: 0x06004DCD RID: 19917 RVA: 0x00289D68 File Offset: 0x00288168
 		public static TargetInfo ResolveTargetInfo(TargetInfo loaded, string label)
 		{
 			if (Scribe.EnterNode(label))
@@ -271,6 +348,7 @@ namespace Verse
 			return loaded;
 		}
 
+		// Token: 0x06004DCE RID: 19918 RVA: 0x00289E14 File Offset: 0x00288214
 		public static GlobalTargetInfo ResolveGlobalTargetInfo(GlobalTargetInfo loaded, string label)
 		{
 			if (Scribe.EnterNode(label))
@@ -298,11 +376,14 @@ namespace Verse
 						}
 						return GlobalTargetInfo.Invalid;
 					}
-					if (tile >= 0)
+					else
 					{
-						return new GlobalTargetInfo(tile);
+						if (tile >= 0)
+						{
+							return new GlobalTargetInfo(tile);
+						}
+						return GlobalTargetInfo.Invalid;
 					}
-					return GlobalTargetInfo.Invalid;
 				}
 				finally
 				{
@@ -312,13 +393,46 @@ namespace Verse
 			return loaded;
 		}
 
+		// Token: 0x06004DCF RID: 19919 RVA: 0x00289F18 File Offset: 0x00288318
+		public static BodyPartRecord BodyPartFromNode(XmlNode node, string label, BodyPartRecord defaultValue)
+		{
+			if (node != null && Scribe.EnterNode(label))
+			{
+				try
+				{
+					XmlAttribute xmlAttribute = node.Attributes["IsNull"];
+					if (xmlAttribute != null && xmlAttribute.Value.ToLower() == "true")
+					{
+						return null;
+					}
+					BodyDef bodyDef = ScribeExtractor.DefFromNode<BodyDef>(Scribe.loader.curXmlParent["body"]);
+					XmlElement xmlElement = Scribe.loader.curXmlParent["index"];
+					int index = (xmlElement == null) ? -1 : int.Parse(xmlElement.InnerText);
+					if (bodyDef == null)
+					{
+						return null;
+					}
+					return bodyDef.GetPartAtIndex(index);
+				}
+				finally
+				{
+					Scribe.ExitNode();
+				}
+			}
+			return defaultValue;
+		}
+
+		// Token: 0x06004DD0 RID: 19920 RVA: 0x00289FF4 File Offset: 0x002883F4
 		private static void ExtractCellAndMapPairFromTargetInfo(string str, out string cell, out string map)
 		{
 			int num = str.IndexOf(')');
 			cell = str.Substring(0, num + 1);
 			int num2 = str.IndexOf(',', num + 1);
 			map = str.Substring(num2 + 1);
-			map = map.TrimStart(' ');
+			map = map.TrimStart(new char[]
+			{
+				' '
+			});
 		}
 	}
 }

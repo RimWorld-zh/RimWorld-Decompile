@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -6,26 +6,10 @@ using Verse.Noise;
 
 namespace RimWorld
 {
+	// Token: 0x02000449 RID: 1097
 	public static class LightningBoltMeshMaker
 	{
-		private static List<Vector2> verts2D;
-
-		private static Vector2 lightningTop;
-
-		private const float LightningHeight = 200f;
-
-		private const float LightningRootXVar = 50f;
-
-		private const float VertexInterval = 0.25f;
-
-		private const float MeshWidth = 2f;
-
-		private const float UVIntervalY = 0.04f;
-
-		private const float PerturbAmp = 12f;
-
-		private const float PerturbFreq = 0.007f;
-
+		// Token: 0x06001302 RID: 4866 RVA: 0x000A3C68 File Offset: 0x000A2068
 		public static Mesh NewBoltMesh()
 		{
 			LightningBoltMeshMaker.lightningTop = new Vector2(Rand.Range(-50f, 50f), 200f);
@@ -35,9 +19,10 @@ namespace RimWorld
 			return LightningBoltMeshMaker.MeshFromVerts();
 		}
 
+		// Token: 0x06001303 RID: 4867 RVA: 0x000A3CB0 File Offset: 0x000A20B0
 		private static void MakeVerticesBase()
 		{
-			int num = (int)Math.Ceiling((Vector2.zero - LightningBoltMeshMaker.lightningTop).magnitude / 0.25);
+			int num = (int)Math.Ceiling((double)((Vector2.zero - LightningBoltMeshMaker.lightningTop).magnitude / 0.25f));
 			Vector2 b = LightningBoltMeshMaker.lightningTop / (float)num;
 			LightningBoltMeshMaker.verts2D = new List<Vector2>();
 			Vector2 vector = Vector2.zero;
@@ -48,22 +33,24 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06001304 RID: 4868 RVA: 0x000A3D2C File Offset: 0x000A212C
 		private static void PeturbVerticesRandomly()
 		{
-			Perlin perlin = new Perlin(0.0070000002160668373, 2.0, 0.5, 6, Rand.Range(0, 2147483647), QualityMode.High);
-			List<Vector2> list = LightningBoltMeshMaker.verts2D.ListFullCopy();
+			Perlin perlin = new Perlin(0.0070000002160668373, 2.0, 0.5, 6, Rand.Range(0, int.MaxValue), QualityMode.High);
+			List<Vector2> list = LightningBoltMeshMaker.verts2D.ListFullCopy<Vector2>();
 			LightningBoltMeshMaker.verts2D.Clear();
 			for (int i = 0; i < list.Count; i++)
 			{
-				float d = (float)(12.0 * (float)perlin.GetValue((double)i, 0.0, 0.0));
+				float d = 12f * (float)perlin.GetValue((double)i, 0.0, 0.0);
 				Vector2 item = list[i] + d * Vector2.right;
 				LightningBoltMeshMaker.verts2D.Add(item);
 			}
 		}
 
+		// Token: 0x06001305 RID: 4869 RVA: 0x000A3DE0 File Offset: 0x000A21E0
 		private static void DoubleVertices()
 		{
-			List<Vector2> list = LightningBoltMeshMaker.verts2D.ListFullCopy();
+			List<Vector2> list = LightningBoltMeshMaker.verts2D.ListFullCopy<Vector2>();
 			Vector3 vector = default(Vector3);
 			Vector2 a = default(Vector2);
 			LightningBoltMeshMaker.verts2D.Clear();
@@ -71,7 +58,7 @@ namespace RimWorld
 			{
 				if (i <= list.Count - 2)
 				{
-					vector = Quaternion.AngleAxis(90f, Vector3.up) * (Vector3)(list[i] - list[i + 1]);
+					vector = Quaternion.AngleAxis(90f, Vector3.up) * (list[i] - list[i + 1]);
 					a = new Vector2(vector.y, vector.z);
 					a.Normalize();
 				}
@@ -82,16 +69,13 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06001306 RID: 4870 RVA: 0x000A3ED4 File Offset: 0x000A22D4
 		private static Mesh MeshFromVerts()
 		{
 			Vector3[] array = new Vector3[LightningBoltMeshMaker.verts2D.Count];
 			for (int i = 0; i < array.Length; i++)
 			{
-				ref Vector3 val = ref array[i];
-				Vector2 vector = LightningBoltMeshMaker.verts2D[i];
-				float x = vector.x;
-				Vector2 vector2 = LightningBoltMeshMaker.verts2D[i];
-				val = new Vector3(x, 0f, vector2.y);
+				array[i] = new Vector3(LightningBoltMeshMaker.verts2D[i].x, 0f, LightningBoltMeshMaker.verts2D[i].y);
 			}
 			float num = 0f;
 			Vector2[] array2 = new Vector2[LightningBoltMeshMaker.verts2D.Count];
@@ -99,7 +83,7 @@ namespace RimWorld
 			{
 				array2[j] = new Vector2(0f, num);
 				array2[j + 1] = new Vector2(1f, num);
-				num = (float)(num + 0.039999999105930328);
+				num += 0.04f;
 			}
 			int[] array3 = new int[LightningBoltMeshMaker.verts2D.Count * 3];
 			for (int k = 0; k < LightningBoltMeshMaker.verts2D.Count - 2; k += 2)
@@ -112,12 +96,40 @@ namespace RimWorld
 				array3[num2 + 4] = k + 1;
 				array3[num2 + 5] = k + 3;
 			}
-			Mesh mesh = new Mesh();
-			mesh.vertices = array;
-			mesh.uv = array2;
-			mesh.triangles = array3;
-			mesh.name = "MeshFromVerts()";
-			return mesh;
+			return new Mesh
+			{
+				vertices = array,
+				uv = array2,
+				triangles = array3,
+				name = "MeshFromVerts()"
+			};
 		}
+
+		// Token: 0x04000B88 RID: 2952
+		private static List<Vector2> verts2D;
+
+		// Token: 0x04000B89 RID: 2953
+		private static Vector2 lightningTop;
+
+		// Token: 0x04000B8A RID: 2954
+		private const float LightningHeight = 200f;
+
+		// Token: 0x04000B8B RID: 2955
+		private const float LightningRootXVar = 50f;
+
+		// Token: 0x04000B8C RID: 2956
+		private const float VertexInterval = 0.25f;
+
+		// Token: 0x04000B8D RID: 2957
+		private const float MeshWidth = 2f;
+
+		// Token: 0x04000B8E RID: 2958
+		private const float UVIntervalY = 0.04f;
+
+		// Token: 0x04000B8F RID: 2959
+		private const float PerturbAmp = 12f;
+
+		// Token: 0x04000B90 RID: 2960
+		private const float PerturbFreq = 0.007f;
 	}
 }

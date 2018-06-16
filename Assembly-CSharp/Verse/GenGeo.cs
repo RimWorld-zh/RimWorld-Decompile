@@ -1,38 +1,39 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000F40 RID: 3904
 	public static class GenGeo
 	{
+		// Token: 0x06005E1C RID: 24092 RVA: 0x002FCDC8 File Offset: 0x002FB1C8
 		public static float AngleDifferenceBetween(float A, float B)
 		{
-			float num = (float)(A + 360.0);
-			float num2 = (float)(B + 360.0);
+			float num = A + 360f;
+			float num2 = B + 360f;
 			float num3 = 9999f;
-			float num4 = 0f;
-			num4 = A - B;
-			if (num4 < 0.0)
+			float num4 = A - B;
+			if (num4 < 0f)
 			{
-				num4 = (float)(num4 * -1.0);
+				num4 *= -1f;
 			}
 			if (num4 < num3)
 			{
 				num3 = num4;
 			}
 			num4 = num - B;
-			if (num4 < 0.0)
+			if (num4 < 0f)
 			{
-				num4 = (float)(num4 * -1.0);
+				num4 *= -1f;
 			}
 			if (num4 < num3)
 			{
 				num3 = num4;
 			}
 			num4 = A - num2;
-			if (num4 < 0.0)
+			if (num4 < 0f)
 			{
-				num4 = (float)(num4 * -1.0);
+				num4 *= -1f;
 			}
 			if (num4 < num3)
 			{
@@ -41,16 +42,19 @@ namespace Verse
 			return num3;
 		}
 
+		// Token: 0x06005E1D RID: 24093 RVA: 0x002FCE5C File Offset: 0x002FB25C
 		public static float MagnitudeHorizontal(this Vector3 v)
 		{
 			return (float)Math.Sqrt((double)(v.x * v.x + v.z * v.z));
 		}
 
+		// Token: 0x06005E1E RID: 24094 RVA: 0x002FCE98 File Offset: 0x002FB298
 		public static float MagnitudeHorizontalSquared(this Vector3 v)
 		{
 			return v.x * v.x + v.z * v.z;
 		}
 
+		// Token: 0x06005E1F RID: 24095 RVA: 0x002FCECC File Offset: 0x002FB2CC
 		public static bool LinesIntersect(Vector3 line1V1, Vector3 line1V2, Vector3 line2V1, Vector3 line2V2)
 		{
 			float num = line1V2.z - line1V1.z;
@@ -60,47 +64,21 @@ namespace Verse
 			float num5 = line2V1.x - line2V2.x;
 			float num6 = num4 * line2V1.x + num5 * line2V1.z;
 			float num7 = num * num5 - num4 * num2;
-			if (num7 == 0.0)
+			bool result;
+			if (num7 == 0f)
 			{
-				return false;
+				result = false;
 			}
-			float num8 = (num5 * num3 - num2 * num6) / num7;
-			float num9 = (num * num6 - num4 * num3) / num7;
-			if (num8 > line1V1.x && num8 > line1V2.x)
+			else
 			{
-				goto IL_017e;
+				float num8 = (num5 * num3 - num2 * num6) / num7;
+				float num9 = (num * num6 - num4 * num3) / num7;
+				result = ((num8 <= line1V1.x || num8 <= line1V2.x) && (num8 <= line2V1.x || num8 <= line2V2.x) && (num8 >= line1V1.x || num8 >= line1V2.x) && (num8 >= line2V1.x || num8 >= line2V2.x) && (num9 <= line1V1.z || num9 <= line1V2.z) && (num9 <= line2V1.z || num9 <= line2V2.z) && (num9 >= line1V1.z || num9 >= line1V2.z) && (num9 >= line2V1.z || num9 >= line2V2.z));
 			}
-			if (num8 > line2V1.x && num8 > line2V2.x)
-			{
-				goto IL_017e;
-			}
-			if (num8 < line1V1.x && num8 < line1V2.x)
-			{
-				goto IL_017e;
-			}
-			if (num8 < line2V1.x && num8 < line2V2.x)
-			{
-				goto IL_017e;
-			}
-			if (num9 > line1V1.z && num9 > line1V2.z)
-			{
-				goto IL_017e;
-			}
-			if (num9 > line2V1.z && num9 > line2V2.z)
-			{
-				goto IL_017e;
-			}
-			if (num9 < line1V1.z && num9 < line1V2.z)
-			{
-				goto IL_017e;
-			}
-			if (num9 < line2V1.z && num9 < line2V2.z)
-				goto IL_017e;
-			return true;
-			IL_017e:
-			return false;
+			return result;
 		}
 
+		// Token: 0x06005E20 RID: 24096 RVA: 0x002FD074 File Offset: 0x002FB474
 		public static bool IntersectLineCircle(Vector2 center, float radius, Vector2 lineA, Vector2 lineB)
 		{
 			Vector2 lhs = center - lineA;
@@ -108,11 +86,11 @@ namespace Verse
 			float num = Vector2.Dot(vector, vector);
 			float num2 = Vector2.Dot(lhs, vector);
 			float num3 = num2 / num;
-			if (num3 < 0.0)
+			if (num3 < 0f)
 			{
 				num3 = 0f;
 			}
-			else if (num3 > 1.0)
+			else if (num3 > 1f)
 			{
 				num3 = 1f;
 			}
@@ -121,63 +99,93 @@ namespace Verse
 			return num4 <= radius * radius;
 		}
 
+		// Token: 0x06005E21 RID: 24097 RVA: 0x002FD10C File Offset: 0x002FB50C
 		public static Vector3 RegularPolygonVertexPositionVec3(int polygonVertices, int vertexIndex)
 		{
 			Vector2 vector = GenGeo.RegularPolygonVertexPosition(polygonVertices, vertexIndex);
 			return new Vector3(vector.x, 0f, vector.y);
 		}
 
+		// Token: 0x06005E22 RID: 24098 RVA: 0x002FD144 File Offset: 0x002FB544
 		public static Vector2 RegularPolygonVertexPosition(int polygonVertices, int vertexIndex)
 		{
-			if (vertexIndex >= 0 && vertexIndex < polygonVertices)
+			Vector2 result;
+			if (vertexIndex < 0 || vertexIndex >= polygonVertices)
 			{
-				if (polygonVertices == 1)
+				Log.Warning(string.Concat(new object[]
 				{
-					return Vector2.zero;
-				}
-				return GenGeo.CalculatePolygonVertexPosition(polygonVertices, vertexIndex);
+					"Vertex index out of bounds. polygonVertices=",
+					polygonVertices,
+					" vertexIndex=",
+					vertexIndex
+				}), false);
+				result = Vector2.zero;
 			}
-			Log.Warning("Vertex index out of bounds. polygonVertices=" + polygonVertices + " vertexIndex=" + vertexIndex);
-			return Vector2.zero;
-		}
-
-		private static Vector2 CalculatePolygonVertexPosition(int polygonVertices, int vertexIndex)
-		{
-			float num = (float)(6.2831854820251465 / (float)polygonVertices);
-			float num2 = num * (float)vertexIndex;
-			num2 = (float)(num2 + 3.1415927410125732);
-			return new Vector3(Mathf.Cos(num2), Mathf.Sin(num2));
-		}
-
-		public static Vector2 InverseQuadBilinear(Vector2 p, Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3)
-		{
-			float num = (p0 - p).Cross(p0 - p2);
-			float num2 = (float)(((p0 - p).Cross(p1 - p3) + (p1 - p).Cross(p0 - p2)) / 2.0);
-			float num3 = (p1 - p).Cross(p1 - p3);
-			float num4 = num2 * num2 - num * num3;
-			if (num4 < 0.0)
+			else if (polygonVertices == 1)
 			{
-				return new Vector2(-1f, -1f);
-			}
-			num4 = Mathf.Sqrt(num4);
-			float num5;
-			if (Mathf.Abs((float)(num - 2.0 * num2 + num3)) < 9.9999997473787516E-05)
-			{
-				num5 = num / (num - num3);
+				result = Vector2.zero;
 			}
 			else
 			{
-				float num6 = (float)((num - num2 + num4) / (num - 2.0 * num2 + num3));
-				float num7 = (float)((num - num2 - num4) / (num - 2.0 * num2 + num3));
-				num5 = ((!(Mathf.Abs((float)(num6 - 0.5)) < Mathf.Abs((float)(num7 - 0.5)))) ? num7 : num6);
+				result = GenGeo.CalculatePolygonVertexPosition(polygonVertices, vertexIndex);
 			}
-			float num8 = (float)((1.0 - num5) * (p0.x - p2.x) + num5 * (p1.x - p3.x));
-			float num9 = (float)((1.0 - num5) * (p0.y - p2.y) + num5 * (p1.y - p3.y));
-			if (Mathf.Abs(num8) < Mathf.Abs(num9))
+			return result;
+		}
+
+		// Token: 0x06005E23 RID: 24099 RVA: 0x002FD1C0 File Offset: 0x002FB5C0
+		private static Vector2 CalculatePolygonVertexPosition(int polygonVertices, int vertexIndex)
+		{
+			float num = 6.28318548f / (float)polygonVertices;
+			float num2 = num * (float)vertexIndex;
+			num2 += 3.14159274f;
+			return new Vector3(Mathf.Cos(num2), Mathf.Sin(num2));
+		}
+
+		// Token: 0x06005E24 RID: 24100 RVA: 0x002FD204 File Offset: 0x002FB604
+		public static Vector2 InverseQuadBilinear(Vector2 p, Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3)
+		{
+			float num = (p0 - p).Cross(p0 - p2);
+			float num2 = ((p0 - p).Cross(p1 - p3) + (p1 - p).Cross(p0 - p2)) / 2f;
+			float num3 = (p1 - p).Cross(p1 - p3);
+			float num4 = num2 * num2 - num * num3;
+			Vector2 result;
+			if (num4 < 0f)
 			{
-				return new Vector2(num5, (float)(((1.0 - num5) * (p0.y - p.y) + num5 * (p1.y - p.y)) / num9));
+				result = new Vector2(-1f, -1f);
 			}
-			return new Vector2(num5, (float)(((1.0 - num5) * (p0.x - p.x) + num5 * (p1.x - p.x)) / num8));
+			else
+			{
+				num4 = Mathf.Sqrt(num4);
+				float num5;
+				if (Mathf.Abs(num - 2f * num2 + num3) < 0.0001f)
+				{
+					num5 = num / (num - num3);
+				}
+				else
+				{
+					float num6 = (num - num2 + num4) / (num - 2f * num2 + num3);
+					float num7 = (num - num2 - num4) / (num - 2f * num2 + num3);
+					if (Mathf.Abs(num6 - 0.5f) < Mathf.Abs(num7 - 0.5f))
+					{
+						num5 = num6;
+					}
+					else
+					{
+						num5 = num7;
+					}
+				}
+				float num8 = (1f - num5) * (p0.x - p2.x) + num5 * (p1.x - p3.x);
+				float num9 = (1f - num5) * (p0.y - p2.y) + num5 * (p1.y - p3.y);
+				if (Mathf.Abs(num8) < Mathf.Abs(num9))
+				{
+					result = new Vector2(num5, ((1f - num5) * (p0.y - p.y) + num5 * (p1.y - p.y)) / num9);
+				}
+				else
+				{
+					result = new Vector2(num5, ((1f - num5) * (p0.x - p.x) + num5 * (p1.x - p.x)) / num8);
+				}
+			}
+			return result;
 		}
 	}
 }

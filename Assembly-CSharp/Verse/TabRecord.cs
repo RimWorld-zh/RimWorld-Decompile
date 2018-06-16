@@ -1,23 +1,13 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000EA7 RID: 3751
 	[StaticConstructorOnStartup]
 	public class TabRecord
 	{
-		public string label = "Tab";
-
-		public Action clickedAction;
-
-		public bool selected;
-
-		private const float TabEndWidth = 30f;
-
-		private const float TabMiddleGraphicWidth = 4f;
-
-		private static readonly Texture2D TabAtlas = ContentFinder<Texture2D>.Get("UI/Widgets/TabAtlas", true);
-
+		// Token: 0x0600585A RID: 22618 RVA: 0x002D3F42 File Offset: 0x002D2342
 		public TabRecord(string label, Action clickedAction, bool selected)
 		{
 			this.label = label;
@@ -25,13 +15,32 @@ namespace Verse
 			this.selected = selected;
 		}
 
+		// Token: 0x0600585B RID: 22619 RVA: 0x002D3F79 File Offset: 0x002D2379
+		public TabRecord(string label, Action clickedAction, Func<bool> selected)
+		{
+			this.label = label;
+			this.clickedAction = clickedAction;
+			this.selectedGetter = selected;
+		}
+
+		// Token: 0x17000DF4 RID: 3572
+		// (get) Token: 0x0600585C RID: 22620 RVA: 0x002D3FB0 File Offset: 0x002D23B0
+		public bool Selected
+		{
+			get
+			{
+				return (this.selectedGetter == null) ? this.selected : this.selectedGetter();
+			}
+		}
+
+		// Token: 0x0600585D RID: 22621 RVA: 0x002D3FE8 File Offset: 0x002D23E8
 		public void Draw(Rect rect)
 		{
 			Rect drawRect = new Rect(rect);
 			drawRect.width = 30f;
 			Rect drawRect2 = new Rect(rect);
 			drawRect2.width = 30f;
-			drawRect2.x = (float)(rect.x + rect.width - 30.0);
+			drawRect2.x = rect.x + rect.width - 30f;
 			Rect uvRect = new Rect(0.53125f, 0f, 0.46875f, 1f);
 			Rect drawRect3 = new Rect(rect);
 			drawRect3.x += drawRect.width;
@@ -48,9 +57,11 @@ namespace Verse
 				rect2.x += 2f;
 				rect2.y -= 2f;
 			}
+			Text.WordWrap = false;
 			Widgets.Label(rect2, this.label);
+			Text.WordWrap = true;
 			GUI.color = Color.white;
-			if (!this.selected)
+			if (!this.Selected)
 			{
 				Rect drawRect4 = new Rect(rect);
 				drawRect4.y += rect.height;
@@ -60,5 +71,26 @@ namespace Verse
 				Widgets.DrawTexturePart(drawRect4, uvRect3, TabRecord.TabAtlas);
 			}
 		}
+
+		// Token: 0x04003A85 RID: 14981
+		public string label = "Tab";
+
+		// Token: 0x04003A86 RID: 14982
+		public Action clickedAction = null;
+
+		// Token: 0x04003A87 RID: 14983
+		public bool selected = false;
+
+		// Token: 0x04003A88 RID: 14984
+		public Func<bool> selectedGetter;
+
+		// Token: 0x04003A89 RID: 14985
+		private const float TabEndWidth = 30f;
+
+		// Token: 0x04003A8A RID: 14986
+		private const float TabMiddleGraphicWidth = 4f;
+
+		// Token: 0x04003A8B RID: 14987
+		private static readonly Texture2D TabAtlas = ContentFinder<Texture2D>.Get("UI/Widgets/TabAtlas", true);
 	}
 }

@@ -1,17 +1,25 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200032E RID: 814
 	public class IncidentWorker_ColdSnap : IncidentWorker_MakeGameCondition
 	{
-		protected override bool CanFireNowSub(IIncidentTarget target)
+		// Token: 0x06000DEA RID: 3562 RVA: 0x00076B9C File Offset: 0x00074F9C
+		protected override bool CanFireNowSub(IncidentParms parms)
 		{
-			if (!base.CanFireNowSub(target))
+			bool result;
+			if (!base.CanFireNowSub(parms))
 			{
-				return false;
+				result = false;
 			}
-			Map map = (Map)target;
-			return map.mapTemperature.SeasonalTemp > 0.0 && map.mapTemperature.SeasonalTemp < 15.0;
+			else
+			{
+				Map map = (Map)parms.target;
+				result = (map.mapTemperature.SeasonalTemp > 0f && map.mapTemperature.SeasonalTemp < 15f);
+			}
+			return result;
 		}
 	}
 }

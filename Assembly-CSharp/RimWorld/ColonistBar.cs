@@ -1,74 +1,18 @@
-using RimWorld.Planet;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020007B3 RID: 1971
 	[StaticConstructorOnStartup]
 	public class ColonistBar
 	{
-		public struct Entry
-		{
-			public Pawn pawn;
-
-			public Map map;
-
-			public int group;
-
-			public Entry(Pawn pawn, Map map, int group)
-			{
-				this.pawn = pawn;
-				this.map = map;
-				this.group = group;
-			}
-		}
-
-		public ColonistBarColonistDrawer drawer = new ColonistBarColonistDrawer();
-
-		private ColonistBarDrawLocsFinder drawLocsFinder = new ColonistBarDrawLocsFinder();
-
-		private List<Entry> cachedEntries = new List<Entry>();
-
-		private List<Vector2> cachedDrawLocs = new List<Vector2>();
-
-		private float cachedScale = 1f;
-
-		private bool entriesDirty = true;
-
-		public static readonly Texture2D BGTex = Command.BGTex;
-
-		public static readonly Vector2 BaseSize = new Vector2(48f, 48f);
-
-		public const float BaseSelectedTexJump = 20f;
-
-		public const float BaseSelectedTexScale = 0.4f;
-
-		public const float EntryInAnotherMapAlpha = 0.4f;
-
-		public const float BaseSpaceBetweenGroups = 25f;
-
-		public const float BaseSpaceBetweenColonistsHorizontal = 24f;
-
-		public const float BaseSpaceBetweenColonistsVertical = 32f;
-
-		private static List<Pawn> tmpPawns = new List<Pawn>();
-
-		private static List<Map> tmpMaps = new List<Map>();
-
-		private static List<Caravan> tmpCaravans = new List<Caravan>();
-
-		private static List<Pawn> tmpColonistsInOrder = new List<Pawn>();
-
-		private static List<Pair<Thing, Map>> tmpColonistsWithMap = new List<Pair<Thing, Map>>();
-
-		private static List<Thing> tmpColonists = new List<Thing>();
-
-		private static List<Thing> tmpMapColonistsOrCorpsesInScreenRect = new List<Thing>();
-
-		private static List<Pawn> tmpCaravanPawns = new List<Pawn>();
-
-		public List<Entry> Entries
+		// Token: 0x170006C6 RID: 1734
+		// (get) Token: 0x06002B7C RID: 11132 RVA: 0x00170024 File Offset: 0x0016E424
+		public List<ColonistBar.Entry> Entries
 		{
 			get
 			{
@@ -77,22 +21,24 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170006C7 RID: 1735
+		// (get) Token: 0x06002B7D RID: 11133 RVA: 0x00170048 File Offset: 0x0016E448
 		private bool ShowGroupFrames
 		{
 			get
 			{
-				List<Entry> entries = this.Entries;
+				List<ColonistBar.Entry> entries = this.Entries;
 				int num = -1;
 				for (int i = 0; i < entries.Count; i++)
 				{
-					int a = num;
-					Entry entry = entries[i];
-					num = Mathf.Max(a, entry.group);
+					num = Mathf.Max(num, entries[i].group);
 				}
 				return num >= 1;
 			}
 		}
 
+		// Token: 0x170006C8 RID: 1736
+		// (get) Token: 0x06002B7E RID: 11134 RVA: 0x001700A0 File Offset: 0x0016E4A0
 		public float Scale
 		{
 			get
@@ -101,6 +47,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170006C9 RID: 1737
+		// (get) Token: 0x06002B7F RID: 11135 RVA: 0x001700BC File Offset: 0x0016E4BC
 		public List<Vector2> DrawLocs
 		{
 			get
@@ -109,6 +57,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170006CA RID: 1738
+		// (get) Token: 0x06002B80 RID: 11136 RVA: 0x001700D8 File Offset: 0x0016E4D8
 		public Vector2 Size
 		{
 			get
@@ -117,84 +67,103 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170006CB RID: 1739
+		// (get) Token: 0x06002B81 RID: 11137 RVA: 0x00170100 File Offset: 0x0016E500
 		public float SpaceBetweenColonistsHorizontal
 		{
 			get
 			{
-				return (float)(24.0 * this.Scale);
+				return 24f * this.Scale;
 			}
 		}
 
+		// Token: 0x170006CC RID: 1740
+		// (get) Token: 0x06002B82 RID: 11138 RVA: 0x00170124 File Offset: 0x0016E524
 		private bool Visible
 		{
 			get
 			{
-				if (UI.screenWidth >= 800 && UI.screenHeight >= 500)
-				{
-					return true;
-				}
-				return false;
+				return UI.screenWidth >= 800 && UI.screenHeight >= 500;
 			}
 		}
 
+		// Token: 0x06002B83 RID: 11139 RVA: 0x0017015F File Offset: 0x0016E55F
 		public void MarkColonistsDirty()
 		{
 			this.entriesDirty = true;
 		}
 
+		// Token: 0x06002B84 RID: 11140 RVA: 0x0017016C File Offset: 0x0016E56C
 		public void ColonistBarOnGUI()
 		{
-			if (this.Visible && Event.current.type != EventType.Layout)
+			if (this.Visible)
 			{
-				List<Entry> entries = this.Entries;
-				int num = -1;
-				bool showGroupFrames = this.ShowGroupFrames;
-				for (int i = 0; i < this.cachedDrawLocs.Count; i++)
+				if (Event.current.type != EventType.Layout)
 				{
-					Vector2 vector = this.cachedDrawLocs[i];
-					float x = vector.x;
-					Vector2 vector2 = this.cachedDrawLocs[i];
-					float y = vector2.y;
-					Vector2 size = this.Size;
-					float x2 = size.x;
-					Vector2 size2 = this.Size;
-					Rect rect = new Rect(x, y, x2, size2.y);
-					Entry entry = entries[i];
-					bool flag = num != entry.group;
-					num = entry.group;
-					if (entry.pawn != null)
+					List<ColonistBar.Entry> entries = this.Entries;
+					int num = -1;
+					bool showGroupFrames = this.ShowGroupFrames;
+					int reorderableGroup = -1;
+					for (int i = 0; i < this.cachedDrawLocs.Count; i++)
 					{
-						this.drawer.HandleClicks(rect, entry.pawn);
-					}
-					if (Event.current.type == EventType.Repaint)
-					{
-						if (flag && showGroupFrames)
+						Rect rect = new Rect(this.cachedDrawLocs[i].x, this.cachedDrawLocs[i].y, this.Size.x, this.Size.y);
+						ColonistBar.Entry entry = entries[i];
+						bool flag = num != entry.group;
+						num = entry.group;
+						if (flag)
 						{
-							this.drawer.DrawGroupFrame(entry.group);
+							reorderableGroup = ReorderableWidget.NewGroup(delegate(int from, int to)
+							{
+								this.Reorder(from, to, entry.group);
+							}, ReorderableDirection.Horizontal, this.SpaceBetweenColonistsHorizontal, delegate(int index, Vector2 dragStartPos)
+							{
+								this.DrawColonistMouseAttachment(index, dragStartPos, entry.group);
+							});
 						}
+						bool reordering;
 						if (entry.pawn != null)
 						{
-							this.drawer.DrawColonist(rect, entry.pawn, entry.map);
+							this.drawer.HandleClicks(rect, entry.pawn, reorderableGroup, out reordering);
+						}
+						else
+						{
+							reordering = false;
+						}
+						if (Event.current.type == EventType.Repaint)
+						{
+							if (flag && showGroupFrames)
+							{
+								this.drawer.DrawGroupFrame(entry.group);
+							}
+							if (entry.pawn != null)
+							{
+								this.drawer.DrawColonist(rect, entry.pawn, entry.map, this.colonistsToHighlight.Contains(entry.pawn), reordering);
+							}
+						}
+					}
+					num = -1;
+					if (showGroupFrames)
+					{
+						for (int j = 0; j < this.cachedDrawLocs.Count; j++)
+						{
+							ColonistBar.Entry entry2 = entries[j];
+							bool flag2 = num != entry2.group;
+							num = entry2.group;
+							if (flag2)
+							{
+								this.drawer.HandleGroupFrameClicks(entry2.group);
+							}
 						}
 					}
 				}
-				num = -1;
-				if (showGroupFrames)
+				if (Event.current.type == EventType.Repaint)
 				{
-					for (int j = 0; j < this.cachedDrawLocs.Count; j++)
-					{
-						Entry entry2 = entries[j];
-						bool flag2 = num != entry2.group;
-						num = entry2.group;
-						if (flag2)
-						{
-							this.drawer.HandleGroupFrameClicks(entry2.group);
-						}
-					}
+					this.colonistsToHighlight.Clear();
 				}
 			}
 		}
 
+		// Token: 0x06002B85 RID: 11141 RVA: 0x001703CC File Offset: 0x0016E7CC
 		private void CheckRecacheEntries()
 		{
 			if (this.entriesDirty)
@@ -217,9 +186,12 @@ namespace RimWorld
 							if (!list[j].IsDessicated())
 							{
 								Pawn innerPawn = ((Corpse)list[j]).InnerPawn;
-								if (innerPawn != null && innerPawn.IsColonist)
+								if (innerPawn != null)
 								{
-									ColonistBar.tmpPawns.Add(innerPawn);
+									if (innerPawn.IsColonist)
+									{
+										ColonistBar.tmpPawns.Add(innerPawn);
+									}
 								}
 							}
 						}
@@ -232,14 +204,14 @@ namespace RimWorld
 								ColonistBar.tmpPawns.Add(corpse.InnerPawn);
 							}
 						}
-						ColonistBar.tmpPawns.SortBy((Pawn x) => x.thingIDNumber);
+						PlayerPawnsDisplayOrderUtility.Sort(ColonistBar.tmpPawns);
 						for (int l = 0; l < ColonistBar.tmpPawns.Count; l++)
 						{
-							this.cachedEntries.Add(new Entry(ColonistBar.tmpPawns[l], ColonistBar.tmpMaps[i], num));
+							this.cachedEntries.Add(new ColonistBar.Entry(ColonistBar.tmpPawns[l], ColonistBar.tmpMaps[i], num));
 						}
-						if (!ColonistBar.tmpPawns.Any())
+						if (!ColonistBar.tmpPawns.Any<Pawn>())
 						{
-							this.cachedEntries.Add(new Entry(null, ColonistBar.tmpMaps[i], num));
+							this.cachedEntries.Add(new ColonistBar.Entry(null, ColonistBar.tmpMaps[i], num));
 						}
 						num++;
 					}
@@ -252,12 +224,12 @@ namespace RimWorld
 						{
 							ColonistBar.tmpPawns.Clear();
 							ColonistBar.tmpPawns.AddRange(ColonistBar.tmpCaravans[m].PawnsListForReading);
-							ColonistBar.tmpPawns.SortBy((Pawn x) => x.thingIDNumber);
+							PlayerPawnsDisplayOrderUtility.Sort(ColonistBar.tmpPawns);
 							for (int n = 0; n < ColonistBar.tmpPawns.Count; n++)
 							{
 								if (ColonistBar.tmpPawns[n].IsColonist)
 								{
-									this.cachedEntries.Add(new Entry(ColonistBar.tmpPawns[n], null, num));
+									this.cachedEntries.Add(new ColonistBar.Entry(ColonistBar.tmpPawns[n], null, num));
 								}
 							}
 							num++;
@@ -272,97 +244,207 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002B86 RID: 11142 RVA: 0x00170780 File Offset: 0x0016EB80
 		public float GetEntryRectAlpha(Rect rect)
 		{
-			float t = default(float);
+			float t;
+			float result;
 			if (Messages.CollidesWithAnyMessage(rect, out t))
 			{
-				return Mathf.Lerp(1f, 0.2f, t);
+				result = Mathf.Lerp(1f, 0.2f, t);
 			}
-			return 1f;
+			else
+			{
+				result = 1f;
+			}
+			return result;
 		}
 
+		// Token: 0x06002B87 RID: 11143 RVA: 0x001707BD File Offset: 0x0016EBBD
+		public void Highlight(Pawn pawn)
+		{
+			if (this.Visible)
+			{
+				if (!this.colonistsToHighlight.Contains(pawn))
+				{
+					this.colonistsToHighlight.Add(pawn);
+				}
+			}
+		}
+
+		// Token: 0x06002B88 RID: 11144 RVA: 0x001707F0 File Offset: 0x0016EBF0
+		private void Reorder(int from, int to, int entryGroup)
+		{
+			int num = 0;
+			Pawn pawn = null;
+			Pawn pawn2 = null;
+			Pawn pawn3 = null;
+			for (int i = 0; i < this.cachedEntries.Count; i++)
+			{
+				if (this.cachedEntries[i].group == entryGroup && this.cachedEntries[i].pawn != null)
+				{
+					if (num == from)
+					{
+						pawn = this.cachedEntries[i].pawn;
+					}
+					if (num == to)
+					{
+						pawn2 = this.cachedEntries[i].pawn;
+					}
+					pawn3 = this.cachedEntries[i].pawn;
+					num++;
+				}
+			}
+			if (pawn != null)
+			{
+				int num2 = (pawn2 == null) ? (pawn3.playerSettings.displayOrder + 1) : pawn2.playerSettings.displayOrder;
+				for (int j = 0; j < this.cachedEntries.Count; j++)
+				{
+					Pawn pawn4 = this.cachedEntries[j].pawn;
+					if (pawn4 != null)
+					{
+						if (pawn4.playerSettings.displayOrder == num2)
+						{
+							if (pawn2 != null && this.cachedEntries[j].group == entryGroup)
+							{
+								if (pawn4.thingIDNumber < pawn2.thingIDNumber)
+								{
+									pawn4.playerSettings.displayOrder--;
+								}
+								else
+								{
+									pawn4.playerSettings.displayOrder++;
+								}
+							}
+						}
+						else if (pawn4.playerSettings.displayOrder > num2)
+						{
+							pawn4.playerSettings.displayOrder++;
+						}
+						else
+						{
+							pawn4.playerSettings.displayOrder--;
+						}
+					}
+				}
+				pawn.playerSettings.displayOrder = num2;
+				this.MarkColonistsDirty();
+				MainTabWindowUtility.NotifyAllPawnTables_PawnsChanged();
+			}
+		}
+
+		// Token: 0x06002B89 RID: 11145 RVA: 0x00170A08 File Offset: 0x0016EE08
+		private void DrawColonistMouseAttachment(int index, Vector2 dragStartPos, int entryGroup)
+		{
+			Pawn pawn = null;
+			Vector2 vector = default(Vector2);
+			int num = 0;
+			for (int i = 0; i < this.cachedEntries.Count; i++)
+			{
+				if (this.cachedEntries[i].group == entryGroup && this.cachedEntries[i].pawn != null)
+				{
+					if (num == index)
+					{
+						pawn = this.cachedEntries[i].pawn;
+						vector = this.cachedDrawLocs[i];
+						break;
+					}
+					num++;
+				}
+			}
+			if (pawn != null)
+			{
+				RenderTexture renderTexture = PortraitsCache.Get(pawn, ColonistBarColonistDrawer.PawnTextureSize, ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f);
+				Rect rect = new Rect(vector.x, vector.y, this.Size.x, this.Size.y);
+				Rect pawnTextureRect = this.drawer.GetPawnTextureRect(rect.position);
+				pawnTextureRect.position += Event.current.mousePosition - dragStartPos;
+				RenderTexture iconTex = renderTexture;
+				Rect? customRect = new Rect?(pawnTextureRect);
+				GenUI.DrawMouseAttachment(iconTex, "", 0f, default(Vector2), customRect);
+			}
+		}
+
+		// Token: 0x06002B8A RID: 11146 RVA: 0x00170B6C File Offset: 0x0016EF6C
 		public bool AnyColonistOrCorpseAt(Vector2 pos)
 		{
-			Entry entry = default(Entry);
-			if (!this.TryGetEntryAt(pos, out entry))
-			{
-				return false;
-			}
-			return entry.pawn != null;
+			ColonistBar.Entry entry;
+			return this.TryGetEntryAt(pos, out entry) && entry.pawn != null;
 		}
 
-		public bool TryGetEntryAt(Vector2 pos, out Entry entry)
+		// Token: 0x06002B8B RID: 11147 RVA: 0x00170BA4 File Offset: 0x0016EFA4
+		public bool TryGetEntryAt(Vector2 pos, out ColonistBar.Entry entry)
 		{
 			List<Vector2> drawLocs = this.DrawLocs;
-			List<Entry> entries = this.Entries;
+			List<ColonistBar.Entry> entries = this.Entries;
 			Vector2 size = this.Size;
 			for (int i = 0; i < drawLocs.Count; i++)
 			{
-				Vector2 vector = drawLocs[i];
-				float x = vector.x;
-				Vector2 vector2 = drawLocs[i];
-				Rect rect = new Rect(x, vector2.y, size.x, size.y);
+				Rect rect = new Rect(drawLocs[i].x, drawLocs[i].y, size.x, size.y);
 				if (rect.Contains(pos))
 				{
 					entry = entries[i];
 					return true;
 				}
 			}
-			entry = default(Entry);
+			entry = default(ColonistBar.Entry);
 			return false;
 		}
 
+		// Token: 0x06002B8C RID: 11148 RVA: 0x00170C54 File Offset: 0x0016F054
 		public List<Pawn> GetColonistsInOrder()
 		{
-			List<Entry> entries = this.Entries;
+			List<ColonistBar.Entry> entries = this.Entries;
 			ColonistBar.tmpColonistsInOrder.Clear();
 			for (int i = 0; i < entries.Count; i++)
 			{
-				Entry entry = entries[i];
-				if (entry.pawn != null)
+				if (entries[i].pawn != null)
 				{
-					List<Pawn> list = ColonistBar.tmpColonistsInOrder;
-					Entry entry2 = entries[i];
-					list.Add(entry2.pawn);
+					ColonistBar.tmpColonistsInOrder.Add(entries[i].pawn);
 				}
 			}
 			return ColonistBar.tmpColonistsInOrder;
 		}
 
+		// Token: 0x06002B8D RID: 11149 RVA: 0x00170CC8 File Offset: 0x0016F0C8
 		public List<Thing> ColonistsOrCorpsesInScreenRect(Rect rect)
 		{
 			List<Vector2> drawLocs = this.DrawLocs;
-			List<Entry> entries = this.Entries;
+			List<ColonistBar.Entry> entries = this.Entries;
 			Vector2 size = this.Size;
 			ColonistBar.tmpColonistsWithMap.Clear();
 			for (int i = 0; i < drawLocs.Count; i++)
 			{
-				Vector2 vector = drawLocs[i];
-				float x2 = vector.x;
-				Vector2 vector2 = drawLocs[i];
-				if (rect.Overlaps(new Rect(x2, vector2.y, size.x, size.y)))
+				if (rect.Overlaps(new Rect(drawLocs[i].x, drawLocs[i].y, size.x, size.y)))
 				{
-					Entry entry = entries[i];
-					Pawn pawn = entry.pawn;
+					Pawn pawn = entries[i].pawn;
 					if (pawn != null)
 					{
-						Thing thing = (Thing)((!pawn.Dead || pawn.Corpse == null || !pawn.Corpse.SpawnedOrAnyParentSpawned) ? ((object)pawn) : ((object)pawn.Corpse));
-						List<Pair<Thing, Map>> list = ColonistBar.tmpColonistsWithMap;
-						Thing first = thing;
-						Entry entry2 = entries[i];
-						list.Add(new Pair<Thing, Map>(first, entry2.map));
+						Thing first;
+						if (pawn.Dead && pawn.Corpse != null && pawn.Corpse.SpawnedOrAnyParentSpawned)
+						{
+							first = pawn.Corpse;
+						}
+						else
+						{
+							first = pawn;
+						}
+						ColonistBar.tmpColonistsWithMap.Add(new Pair<Thing, Map>(first, entries[i].map));
 					}
 				}
 			}
-			if (WorldRendererUtility.WorldRenderedNow && ColonistBar.tmpColonistsWithMap.Any((Pair<Thing, Map> x) => x.Second == null))
+			if (WorldRendererUtility.WorldRenderedNow)
 			{
-				ColonistBar.tmpColonistsWithMap.RemoveAll((Pair<Thing, Map> x) => x.Second != null);
+				if (ColonistBar.tmpColonistsWithMap.Any((Pair<Thing, Map> x) => x.Second == null))
+				{
+					ColonistBar.tmpColonistsWithMap.RemoveAll((Pair<Thing, Map> x) => x.Second != null);
+					goto IL_1A8;
+				}
 			}
-			else if (ColonistBar.tmpColonistsWithMap.Any((Pair<Thing, Map> x) => x.Second == Find.VisibleMap))
+			if (ColonistBar.tmpColonistsWithMap.Any((Pair<Thing, Map> x) => x.Second == Find.CurrentMap))
 			{
-				ColonistBar.tmpColonistsWithMap.RemoveAll((Pair<Thing, Map> x) => x.Second != Find.VisibleMap);
+				ColonistBar.tmpColonistsWithMap.RemoveAll((Pair<Thing, Map> x) => x.Second != Find.CurrentMap);
 			}
+			IL_1A8:
 			ColonistBar.tmpColonists.Clear();
 			for (int j = 0; j < ColonistBar.tmpColonistsWithMap.Count; j++)
 			{
@@ -372,89 +454,217 @@ namespace RimWorld
 			return ColonistBar.tmpColonists;
 		}
 
+		// Token: 0x06002B8E RID: 11150 RVA: 0x00170EE0 File Offset: 0x0016F2E0
 		public List<Thing> MapColonistsOrCorpsesInScreenRect(Rect rect)
 		{
 			ColonistBar.tmpMapColonistsOrCorpsesInScreenRect.Clear();
+			List<Thing> result;
 			if (!this.Visible)
 			{
-				return ColonistBar.tmpMapColonistsOrCorpsesInScreenRect;
+				result = ColonistBar.tmpMapColonistsOrCorpsesInScreenRect;
 			}
-			List<Thing> list = this.ColonistsOrCorpsesInScreenRect(rect);
-			for (int i = 0; i < list.Count; i++)
+			else
 			{
-				if (list[i].Spawned)
+				List<Thing> list = this.ColonistsOrCorpsesInScreenRect(rect);
+				for (int i = 0; i < list.Count; i++)
 				{
-					ColonistBar.tmpMapColonistsOrCorpsesInScreenRect.Add(list[i]);
+					if (list[i].Spawned)
+					{
+						ColonistBar.tmpMapColonistsOrCorpsesInScreenRect.Add(list[i]);
+					}
 				}
+				result = ColonistBar.tmpMapColonistsOrCorpsesInScreenRect;
 			}
-			return ColonistBar.tmpMapColonistsOrCorpsesInScreenRect;
+			return result;
 		}
 
+		// Token: 0x06002B8F RID: 11151 RVA: 0x00170F60 File Offset: 0x0016F360
 		public List<Pawn> CaravanMembersInScreenRect(Rect rect)
 		{
 			ColonistBar.tmpCaravanPawns.Clear();
+			List<Pawn> result;
 			if (!this.Visible)
 			{
-				return ColonistBar.tmpCaravanPawns;
+				result = ColonistBar.tmpCaravanPawns;
 			}
-			List<Thing> list = this.ColonistsOrCorpsesInScreenRect(rect);
-			for (int i = 0; i < list.Count; i++)
+			else
 			{
-				Pawn pawn = list[i] as Pawn;
-				if (pawn != null && pawn.IsCaravanMember())
+				List<Thing> list = this.ColonistsOrCorpsesInScreenRect(rect);
+				for (int i = 0; i < list.Count; i++)
 				{
-					ColonistBar.tmpCaravanPawns.Add(pawn);
+					Pawn pawn = list[i] as Pawn;
+					if (pawn != null && pawn.IsCaravanMember())
+					{
+						ColonistBar.tmpCaravanPawns.Add(pawn);
+					}
 				}
+				result = ColonistBar.tmpCaravanPawns;
 			}
-			return ColonistBar.tmpCaravanPawns;
+			return result;
 		}
 
+		// Token: 0x06002B90 RID: 11152 RVA: 0x00170FE4 File Offset: 0x0016F3E4
 		public List<Caravan> CaravanMembersCaravansInScreenRect(Rect rect)
 		{
 			ColonistBar.tmpCaravans.Clear();
+			List<Caravan> result;
 			if (!this.Visible)
 			{
-				return ColonistBar.tmpCaravans;
+				result = ColonistBar.tmpCaravans;
 			}
-			List<Pawn> list = this.CaravanMembersInScreenRect(rect);
-			for (int i = 0; i < list.Count; i++)
+			else
 			{
-				ColonistBar.tmpCaravans.Add(list[i].GetCaravan());
+				List<Pawn> list = this.CaravanMembersInScreenRect(rect);
+				for (int i = 0; i < list.Count; i++)
+				{
+					ColonistBar.tmpCaravans.Add(list[i].GetCaravan());
+				}
+				result = ColonistBar.tmpCaravans;
 			}
-			return ColonistBar.tmpCaravans;
+			return result;
 		}
 
+		// Token: 0x06002B91 RID: 11153 RVA: 0x00171058 File Offset: 0x0016F458
 		public Caravan CaravanMemberCaravanAt(Vector2 at)
 		{
+			Caravan result;
 			if (!this.Visible)
 			{
-				return null;
+				result = null;
 			}
-			Pawn pawn = this.ColonistOrCorpseAt(at) as Pawn;
-			if (pawn != null && pawn.IsCaravanMember())
+			else
 			{
-				return pawn.GetCaravan();
+				Pawn pawn = this.ColonistOrCorpseAt(at) as Pawn;
+				if (pawn != null && pawn.IsCaravanMember())
+				{
+					result = pawn.GetCaravan();
+				}
+				else
+				{
+					result = null;
+				}
 			}
-			return null;
+			return result;
 		}
 
+		// Token: 0x06002B92 RID: 11154 RVA: 0x001710AC File Offset: 0x0016F4AC
 		public Thing ColonistOrCorpseAt(Vector2 pos)
 		{
+			Thing result;
+			ColonistBar.Entry entry;
 			if (!this.Visible)
 			{
-				return null;
+				result = null;
 			}
-			Entry entry = default(Entry);
-			if (!this.TryGetEntryAt(pos, out entry))
+			else if (!this.TryGetEntryAt(pos, out entry))
 			{
-				return null;
+				result = null;
 			}
-			Pawn pawn = entry.pawn;
-			if (pawn != null && pawn.Dead && pawn.Corpse != null && pawn.Corpse.SpawnedOrAnyParentSpawned)
+			else
 			{
-				return pawn.Corpse;
+				Pawn pawn = entry.pawn;
+				Thing thing;
+				if (pawn != null && pawn.Dead && pawn.Corpse != null && pawn.Corpse.SpawnedOrAnyParentSpawned)
+				{
+					thing = pawn.Corpse;
+				}
+				else
+				{
+					thing = pawn;
+				}
+				result = thing;
 			}
-			return pawn;
+			return result;
+		}
+
+		// Token: 0x0400174B RID: 5963
+		public ColonistBarColonistDrawer drawer = new ColonistBarColonistDrawer();
+
+		// Token: 0x0400174C RID: 5964
+		private ColonistBarDrawLocsFinder drawLocsFinder = new ColonistBarDrawLocsFinder();
+
+		// Token: 0x0400174D RID: 5965
+		private List<ColonistBar.Entry> cachedEntries = new List<ColonistBar.Entry>();
+
+		// Token: 0x0400174E RID: 5966
+		private List<Vector2> cachedDrawLocs = new List<Vector2>();
+
+		// Token: 0x0400174F RID: 5967
+		private float cachedScale = 1f;
+
+		// Token: 0x04001750 RID: 5968
+		private bool entriesDirty = true;
+
+		// Token: 0x04001751 RID: 5969
+		private List<Pawn> colonistsToHighlight = new List<Pawn>();
+
+		// Token: 0x04001752 RID: 5970
+		public static readonly Texture2D BGTex = Command.BGTex;
+
+		// Token: 0x04001753 RID: 5971
+		public static readonly Vector2 BaseSize = new Vector2(48f, 48f);
+
+		// Token: 0x04001754 RID: 5972
+		public const float BaseSelectedTexJump = 20f;
+
+		// Token: 0x04001755 RID: 5973
+		public const float BaseSelectedTexScale = 0.4f;
+
+		// Token: 0x04001756 RID: 5974
+		public const float EntryInAnotherMapAlpha = 0.4f;
+
+		// Token: 0x04001757 RID: 5975
+		public const float BaseSpaceBetweenGroups = 25f;
+
+		// Token: 0x04001758 RID: 5976
+		public const float BaseSpaceBetweenColonistsHorizontal = 24f;
+
+		// Token: 0x04001759 RID: 5977
+		public const float BaseSpaceBetweenColonistsVertical = 32f;
+
+		// Token: 0x0400175A RID: 5978
+		private static List<Pawn> tmpPawns = new List<Pawn>();
+
+		// Token: 0x0400175B RID: 5979
+		private static List<Map> tmpMaps = new List<Map>();
+
+		// Token: 0x0400175C RID: 5980
+		private static List<Caravan> tmpCaravans = new List<Caravan>();
+
+		// Token: 0x0400175D RID: 5981
+		private static List<Pawn> tmpColonistsInOrder = new List<Pawn>();
+
+		// Token: 0x0400175E RID: 5982
+		private static List<Pair<Thing, Map>> tmpColonistsWithMap = new List<Pair<Thing, Map>>();
+
+		// Token: 0x0400175F RID: 5983
+		private static List<Thing> tmpColonists = new List<Thing>();
+
+		// Token: 0x04001760 RID: 5984
+		private static List<Thing> tmpMapColonistsOrCorpsesInScreenRect = new List<Thing>();
+
+		// Token: 0x04001761 RID: 5985
+		private static List<Pawn> tmpCaravanPawns = new List<Pawn>();
+
+		// Token: 0x020007B4 RID: 1972
+		public struct Entry
+		{
+			// Token: 0x06002B9B RID: 11163 RVA: 0x0017128D File Offset: 0x0016F68D
+			public Entry(Pawn pawn, Map map, int group)
+			{
+				this.pawn = pawn;
+				this.map = map;
+				this.group = group;
+			}
+
+			// Token: 0x04001769 RID: 5993
+			public Pawn pawn;
+
+			// Token: 0x0400176A RID: 5994
+			public Map map;
+
+			// Token: 0x0400176B RID: 5995
+			public int group;
 		}
 	}
 }

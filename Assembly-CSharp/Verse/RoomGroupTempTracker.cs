@@ -1,33 +1,22 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000C9C RID: 3228
 	public sealed class RoomGroupTempTracker
 	{
-		private RoomGroup roomGroup;
+		// Token: 0x060046FB RID: 18171 RVA: 0x0025611C File Offset: 0x0025451C
+		public RoomGroupTempTracker(RoomGroup roomGroup, Map map)
+		{
+			this.roomGroup = roomGroup;
+			this.Temperature = map.mapTemperature.OutdoorTemp;
+		}
 
-		private float temperatureInt;
-
-		private List<IntVec3> equalizeCells = new List<IntVec3>();
-
-		private float noRoofCoverage;
-
-		private float thickRoofCoverage;
-
-		private int cycleIndex;
-
-		private const float ThinRoofEqualizeRate = 5E-05f;
-
-		private const float NoRoofEqualizeRate = 0.0007f;
-
-		private const float DeepEqualizeFractionPerTick = 5E-05f;
-
-		private static int debugGetFrame = -999;
-
-		private static float debugWallEq;
-
+		// Token: 0x17000B42 RID: 2882
+		// (get) Token: 0x060046FC RID: 18172 RVA: 0x00256150 File Offset: 0x00254550
 		private Map Map
 		{
 			get
@@ -36,14 +25,19 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000B43 RID: 2883
+		// (get) Token: 0x060046FD RID: 18173 RVA: 0x00256170 File Offset: 0x00254570
 		private float ThinRoofCoverage
 		{
 			get
 			{
-				return (float)(1.0 - (this.thickRoofCoverage + this.noRoofCoverage));
+				return 1f - (this.thickRoofCoverage + this.noRoofCoverage);
 			}
 		}
 
+		// Token: 0x17000B44 RID: 2884
+		// (get) Token: 0x060046FE RID: 18174 RVA: 0x00256198 File Offset: 0x00254598
+		// (set) Token: 0x060046FF RID: 18175 RVA: 0x002561B3 File Offset: 0x002545B3
 		public float Temperature
 		{
 			get
@@ -52,21 +46,17 @@ namespace Verse
 			}
 			set
 			{
-				this.temperatureInt = Mathf.Clamp(value, -270f, 2000f);
+				this.temperatureInt = Mathf.Clamp(value, -273.15f, 2000f);
 			}
 		}
 
-		public RoomGroupTempTracker(RoomGroup roomGroup, Map map)
-		{
-			this.roomGroup = roomGroup;
-			this.Temperature = map.mapTemperature.OutdoorTemp;
-		}
-
+		// Token: 0x06004700 RID: 18176 RVA: 0x002561CC File Offset: 0x002545CC
 		public void RoofChanged()
 		{
 			this.RegenerateEqualizationData();
 		}
 
+		// Token: 0x06004701 RID: 18177 RVA: 0x002561D5 File Offset: 0x002545D5
 		public void RoomChanged()
 		{
 			if (this.Map != null)
@@ -76,6 +66,7 @@ namespace Verse
 			this.RegenerateEqualizationData();
 		}
 
+		// Token: 0x06004702 RID: 18178 RVA: 0x002561FC File Offset: 0x002545FC
 		private void RegenerateEqualizationData()
 		{
 			this.thickRoofCoverage = 0f;
@@ -87,9 +78,9 @@ namespace Verse
 				if (!this.roomGroup.UsesOutdoorTemperature)
 				{
 					int num = 0;
-					foreach (IntVec3 cell in this.roomGroup.Cells)
+					foreach (IntVec3 c in this.roomGroup.Cells)
 					{
-						RoofDef roof = cell.GetRoof(map);
+						RoofDef roof = c.GetRoof(map);
 						if (roof == null)
 						{
 							this.noRoofCoverage += 1f;
@@ -102,43 +93,50 @@ namespace Verse
 					}
 					this.thickRoofCoverage /= (float)num;
 					this.noRoofCoverage /= (float)num;
-					foreach (IntVec3 cell2 in this.roomGroup.Cells)
+					foreach (IntVec3 a in this.roomGroup.Cells)
 					{
-						for (int i = 0; i < 4; i++)
+						int i = 0;
+						while (i < 4)
 						{
-							IntVec3 intVec = cell2 + GenAdj.CardinalDirections[i];
-							IntVec3 intVec2 = cell2 + GenAdj.CardinalDirections[i] * 2;
+							IntVec3 intVec = a + GenAdj.CardinalDirections[i];
+							IntVec3 intVec2 = a + GenAdj.CardinalDirections[i] * 2;
 							if (intVec.InBounds(map))
 							{
 								Region region = intVec.GetRegion(map, RegionType.Set_Passable);
 								if (region != null)
 								{
-									if (region.type == RegionType.Portal)
+									if (region.type != RegionType.Portal)
 									{
-										bool flag = false;
-										for (int j = 0; j < region.links.Count; j++)
-										{
-											Region regionA = region.links[j].RegionA;
-											Region regionB = region.links[j].RegionB;
-											if (regionA.Room.Group != this.roomGroup && regionA.portal == null)
-											{
-												flag = true;
-												break;
-											}
-											if (regionB.Room.Group != this.roomGroup && regionB.portal == null)
-											{
-												flag = true;
-												break;
-											}
-										}
-										if (!flag)
-											goto IL_0234;
+										goto IL_2DD;
 									}
-									continue;
+									bool flag = false;
+									for (int j = 0; j < region.links.Count; j++)
+									{
+										Region regionA = region.links[j].RegionA;
+										Region regionB = region.links[j].RegionB;
+										if (regionA.Room.Group != this.roomGroup && regionA.portal == null)
+										{
+											flag = true;
+											break;
+										}
+										if (regionB.Room.Group != this.roomGroup && regionB.portal == null)
+										{
+											flag = true;
+											break;
+										}
+									}
+									if (flag)
+									{
+										goto IL_2DD;
+									}
 								}
+								goto IL_24F;
 							}
-							goto IL_0234;
-							IL_0234:
+							goto IL_24F;
+							IL_2DD:
+							i++;
+							continue;
+							IL_24F:
 							if (intVec2.InBounds(map))
 							{
 								RoomGroup roomGroup = intVec2.GetRoomGroup(map);
@@ -160,23 +158,23 @@ namespace Verse
 									}
 								}
 							}
+							goto IL_2DD;
 						}
 					}
-					this.equalizeCells.Shuffle();
+					this.equalizeCells.Shuffle<IntVec3>();
 				}
 			}
 		}
 
+		// Token: 0x06004703 RID: 18179 RVA: 0x00256558 File Offset: 0x00254958
 		public void EqualizeTemperature()
 		{
 			if (this.roomGroup.UsesOutdoorTemperature)
 			{
 				this.Temperature = this.Map.mapTemperature.OutdoorTemp;
 			}
-			else
+			else if (this.roomGroup.RoomCount == 0 || this.roomGroup.Rooms[0].RegionType != RegionType.Portal)
 			{
-				if (this.roomGroup.RoomCount != 0 && this.roomGroup.Rooms[0].RegionType == RegionType.Portal)
-					return;
 				float num = this.ThinRoofEqualizationTempChangePerInterval();
 				float num2 = this.NoRoofEqualizationTempChangePerInterval();
 				float num3 = this.WallEqualizationTempChangePerInterval();
@@ -185,98 +183,207 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004704 RID: 18180 RVA: 0x002565F4 File Offset: 0x002549F4
 		private float WallEqualizationTempChangePerInterval()
 		{
+			float result;
 			if (this.equalizeCells.Count == 0)
 			{
-				return 0f;
+				result = 0f;
 			}
-			float num = 0f;
-			int num2 = Mathf.CeilToInt((float)((float)this.equalizeCells.Count * 0.20000000298023224));
-			for (int i = 0; i < num2; i++)
+			else
 			{
-				this.cycleIndex++;
-				int index = this.cycleIndex % this.equalizeCells.Count;
-				float num3 = default(float);
-				num = ((!GenTemperature.TryGetDirectAirTemperatureForCell(this.equalizeCells[index], this.Map, out num3)) ? (num + (Mathf.Lerp(this.Temperature, this.Map.mapTemperature.OutdoorTemp, 0.5f) - this.Temperature)) : (num + (num3 - this.Temperature)));
+				float num = 0f;
+				int num2 = Mathf.CeilToInt((float)this.equalizeCells.Count * 0.2f);
+				for (int i = 0; i < num2; i++)
+				{
+					this.cycleIndex++;
+					int index = this.cycleIndex % this.equalizeCells.Count;
+					float num3;
+					if (GenTemperature.TryGetDirectAirTemperatureForCell(this.equalizeCells[index], this.Map, out num3))
+					{
+						num += num3 - this.Temperature;
+					}
+					else
+					{
+						num += Mathf.Lerp(this.Temperature, this.Map.mapTemperature.OutdoorTemp, 0.5f) - this.Temperature;
+					}
+				}
+				float num4 = num / (float)num2;
+				float num5 = num4 * (float)this.equalizeCells.Count;
+				result = num5 * 120f * 0.00017f / (float)this.roomGroup.CellCount;
 			}
-			float num4 = num / (float)num2;
-			float num5 = num4 * (float)this.equalizeCells.Count;
-			return (float)(num5 * 120.0 * 0.00016999999934341758 / (float)this.roomGroup.CellCount);
+			return result;
 		}
 
+		// Token: 0x06004705 RID: 18181 RVA: 0x00256708 File Offset: 0x00254B08
 		private float TempDiffFromOutdoorsAdjusted()
 		{
 			float num = this.Map.mapTemperature.OutdoorTemp - this.temperatureInt;
-			if (Mathf.Abs(num) < 100.0)
+			float result;
+			if (Mathf.Abs(num) < 100f)
 			{
-				return num;
+				result = num;
 			}
-			return (float)(Mathf.Sign(num) * 100.0 + 5.0 * (num - Mathf.Sign(num) * 100.0));
+			else
+			{
+				result = Mathf.Sign(num) * 100f + 5f * (num - Mathf.Sign(num) * 100f);
+			}
+			return result;
 		}
 
+		// Token: 0x06004706 RID: 18182 RVA: 0x00256770 File Offset: 0x00254B70
 		private float ThinRoofEqualizationTempChangePerInterval()
 		{
-			if (this.ThinRoofCoverage < 0.0010000000474974513)
+			float result;
+			if (this.ThinRoofCoverage < 0.001f)
 			{
-				return 0f;
+				result = 0f;
 			}
-			float num = this.TempDiffFromOutdoorsAdjusted();
-			float num2 = (float)(num * this.ThinRoofCoverage * 4.9999998736893758E-05);
-			return (float)(num2 * 120.0);
+			else
+			{
+				float num = this.TempDiffFromOutdoorsAdjusted();
+				float num2 = num * this.ThinRoofCoverage * 5E-05f;
+				num2 *= 120f;
+				result = num2;
+			}
+			return result;
 		}
 
+		// Token: 0x06004707 RID: 18183 RVA: 0x002567C0 File Offset: 0x00254BC0
 		private float NoRoofEqualizationTempChangePerInterval()
 		{
-			if (this.noRoofCoverage < 0.0010000000474974513)
+			float result;
+			if (this.noRoofCoverage < 0.001f)
 			{
-				return 0f;
+				result = 0f;
 			}
-			float num = this.TempDiffFromOutdoorsAdjusted();
-			float num2 = (float)(num * this.noRoofCoverage * 0.000699999975040555);
-			return (float)(num2 * 120.0);
+			else
+			{
+				float num = this.TempDiffFromOutdoorsAdjusted();
+				float num2 = num * this.noRoofCoverage * 0.0007f;
+				num2 *= 120f;
+				result = num2;
+			}
+			return result;
 		}
 
+		// Token: 0x06004708 RID: 18184 RVA: 0x00256810 File Offset: 0x00254C10
 		private float DeepEqualizationTempChangePerInterval()
 		{
-			if (this.thickRoofCoverage < 0.0010000000474974513)
+			float result;
+			if (this.thickRoofCoverage < 0.001f)
 			{
-				return 0f;
+				result = 0f;
 			}
-			float num = (float)(15.0 - this.temperatureInt);
-			if (num > 0.0)
+			else
 			{
-				return 0f;
+				float num = 15f - this.temperatureInt;
+				if (num > 0f)
+				{
+					result = 0f;
+				}
+				else
+				{
+					float num2 = num * this.thickRoofCoverage * 5E-05f;
+					num2 *= 120f;
+					result = num2;
+				}
 			}
-			float num2 = (float)(num * this.thickRoofCoverage * 4.9999998736893758E-05);
-			return (float)(num2 * 120.0);
+			return result;
 		}
 
+		// Token: 0x06004709 RID: 18185 RVA: 0x0025687C File Offset: 0x00254C7C
 		public void DebugDraw()
 		{
-			foreach (IntVec3 equalizeCell in this.equalizeCells)
+			foreach (IntVec3 c in this.equalizeCells)
 			{
-				CellRenderer.RenderCell(equalizeCell, 0.5f);
+				CellRenderer.RenderCell(c, 0.5f);
 			}
 		}
 
+		// Token: 0x0600470A RID: 18186 RVA: 0x002568E0 File Offset: 0x00254CE0
 		internal string DebugString()
 		{
+			string result;
 			if (this.roomGroup.UsesOutdoorTemperature)
 			{
-				return "uses outdoor temperature";
+				result = "uses outdoor temperature";
 			}
-			if (Time.frameCount > RoomGroupTempTracker.debugGetFrame + 120)
+			else
 			{
-				RoomGroupTempTracker.debugWallEq = 0f;
-				for (int i = 0; i < 40; i++)
+				if (Time.frameCount > RoomGroupTempTracker.debugGetFrame + 120)
 				{
-					RoomGroupTempTracker.debugWallEq += this.WallEqualizationTempChangePerInterval();
+					RoomGroupTempTracker.debugWallEq = 0f;
+					for (int i = 0; i < 40; i++)
+					{
+						RoomGroupTempTracker.debugWallEq += this.WallEqualizationTempChangePerInterval();
+					}
+					RoomGroupTempTracker.debugWallEq /= 40f;
+					RoomGroupTempTracker.debugGetFrame = Time.frameCount;
 				}
-				RoomGroupTempTracker.debugWallEq /= 40f;
-				RoomGroupTempTracker.debugGetFrame = Time.frameCount;
+				result = string.Concat(new object[]
+				{
+					"  thick roof coverage: ",
+					this.thickRoofCoverage.ToStringPercent("F0"),
+					"\n  thin roof coverage: ",
+					this.ThinRoofCoverage.ToStringPercent("F0"),
+					"\n  no roof coverage: ",
+					this.noRoofCoverage.ToStringPercent("F0"),
+					"\n\n  wall equalization: ",
+					RoomGroupTempTracker.debugWallEq.ToStringTemperatureOffset("F3"),
+					"\n  thin roof equalization: ",
+					this.ThinRoofEqualizationTempChangePerInterval().ToStringTemperatureOffset("F3"),
+					"\n  no roof equalization: ",
+					this.NoRoofEqualizationTempChangePerInterval().ToStringTemperatureOffset("F3"),
+					"\n  deep equalization: ",
+					this.DeepEqualizationTempChangePerInterval().ToStringTemperatureOffset("F3"),
+					"\n\n  temp diff from outdoors, adjusted: ",
+					this.TempDiffFromOutdoorsAdjusted().ToStringTemperatureOffset("F3"),
+					"\n  tempChange e=20 targ= 200C: ",
+					GenTemperature.ControlTemperatureTempChange(this.roomGroup.Cells.First<IntVec3>(), this.roomGroup.Map, 20f, 200f),
+					"\n  tempChange e=20 targ=-200C: ",
+					GenTemperature.ControlTemperatureTempChange(this.roomGroup.Cells.First<IntVec3>(), this.roomGroup.Map, 20f, -200f),
+					"\n  equalize interval ticks: ",
+					120,
+					"\n  equalize cells count:",
+					this.equalizeCells.Count
+				});
 			}
-			return "  thick roof coverage: " + this.thickRoofCoverage.ToStringPercent("F0") + "\n  thin roof coverage: " + this.ThinRoofCoverage.ToStringPercent("F0") + "\n  no roof coverage: " + this.noRoofCoverage.ToStringPercent("F0") + "\n\n  wall equalization: " + RoomGroupTempTracker.debugWallEq.ToStringTemperatureOffset("F3") + "\n  thin roof equalization: " + this.ThinRoofEqualizationTempChangePerInterval().ToStringTemperatureOffset("F3") + "\n  no roof equalization: " + this.NoRoofEqualizationTempChangePerInterval().ToStringTemperatureOffset("F3") + "\n  deep equalization: " + this.DeepEqualizationTempChangePerInterval().ToStringTemperatureOffset("F3") + "\n\n  temp diff from outdoors, adjusted: " + this.TempDiffFromOutdoorsAdjusted().ToStringTemperatureOffset("F3") + "\n  tempChange e=20 targ= 200C: " + GenTemperature.ControlTemperatureTempChange(this.roomGroup.Cells.First(), this.roomGroup.Map, 20f, 200f) + "\n  tempChange e=20 targ=-200C: " + GenTemperature.ControlTemperatureTempChange(this.roomGroup.Cells.First(), this.roomGroup.Map, 20f, -200f) + "\n  equalize interval ticks: " + 120 + "\n  equalize cells count:" + this.equalizeCells.Count;
+			return result;
 		}
+
+		// Token: 0x0400303F RID: 12351
+		private RoomGroup roomGroup;
+
+		// Token: 0x04003040 RID: 12352
+		private float temperatureInt;
+
+		// Token: 0x04003041 RID: 12353
+		private List<IntVec3> equalizeCells = new List<IntVec3>();
+
+		// Token: 0x04003042 RID: 12354
+		private float noRoofCoverage;
+
+		// Token: 0x04003043 RID: 12355
+		private float thickRoofCoverage;
+
+		// Token: 0x04003044 RID: 12356
+		private int cycleIndex = 0;
+
+		// Token: 0x04003045 RID: 12357
+		private const float ThinRoofEqualizeRate = 5E-05f;
+
+		// Token: 0x04003046 RID: 12358
+		private const float NoRoofEqualizeRate = 0.0007f;
+
+		// Token: 0x04003047 RID: 12359
+		private const float DeepEqualizeFractionPerTick = 5E-05f;
+
+		// Token: 0x04003048 RID: 12360
+		private static int debugGetFrame = -999;
+
+		// Token: 0x04003049 RID: 12361
+		private static float debugWallEq;
 	}
 }

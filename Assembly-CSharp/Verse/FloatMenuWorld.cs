@@ -1,19 +1,20 @@
-using RimWorld.Planet;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld.Planet;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000E5A RID: 3674
 	public class FloatMenuWorld : FloatMenu
 	{
-		private Vector2 clickPos;
-
-		public FloatMenuWorld(List<FloatMenuOption> options, string title, Vector2 clickPos)
-			: base(options, title, false)
+		// Token: 0x06005680 RID: 22144 RVA: 0x002C8DFF File Offset: 0x002C71FF
+		public FloatMenuWorld(List<FloatMenuOption> options, string title, Vector2 clickPos) : base(options, title, false)
 		{
 			this.clickPos = clickPos;
 		}
 
+		// Token: 0x06005681 RID: 22145 RVA: 0x002C8E14 File Offset: 0x002C7214
 		public override void DoWindowContents(Rect inRect)
 		{
 			Caravan caravan = Find.WorldSelector.SingleSelectedObject as Caravan;
@@ -24,17 +25,18 @@ namespace Verse
 			else
 			{
 				List<FloatMenuOption> curOpts = FloatMenuMakerWorld.ChoicesAtFor(this.clickPos, caravan);
-				for (int i = 0; i < base.options.Count; i++)
+				for (int i = 0; i < this.options.Count; i++)
 				{
-					if (!base.options[i].Disabled && !FloatMenuWorld.StillValid(base.options[i], curOpts))
+					if (!this.options[i].Disabled && !FloatMenuWorld.StillValid(this.options[i], curOpts))
 					{
-						base.options[i].Disabled = true;
+						this.options[i].Disabled = true;
 					}
 				}
 				base.DoWindowContents(inRect);
 			}
 		}
 
+		// Token: 0x06005682 RID: 22146 RVA: 0x002C8EBC File Offset: 0x002C72BC
 		private static bool StillValid(FloatMenuOption opt, List<FloatMenuOption> curOpts)
 		{
 			if (opt.revalidateWorldClickTarget == null)
@@ -67,13 +69,13 @@ namespace Verse
 			return false;
 		}
 
+		// Token: 0x06005683 RID: 22147 RVA: 0x002C8FA0 File Offset: 0x002C73A0
 		private static bool OptionsMatch(FloatMenuOption a, FloatMenuOption b)
 		{
-			if (a.Label == b.Label)
-			{
-				return true;
-			}
-			return false;
+			return a.Label == b.Label;
 		}
+
+		// Token: 0x04003954 RID: 14676
+		private Vector2 clickPos;
 	}
 }

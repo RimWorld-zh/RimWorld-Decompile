@@ -1,33 +1,14 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020002A9 RID: 681
 	public class JoyGiverDef : Def
 	{
-		public Type giverClass;
-
-		public float baseChance;
-
-		public List<ThingDef> thingDefs;
-
-		public JobDef jobDef;
-
-		public bool desireSit = true;
-
-		public float pctPawnsEverDo = 1f;
-
-		public bool unroofedOnly;
-
-		public JoyKindDef joyKind;
-
-		public List<PawnCapacityDef> requiredCapacities = new List<PawnCapacityDef>();
-
-		public bool canDoWhileInBed;
-
-		private JoyGiver workerInt;
-
+		// Token: 0x170001AB RID: 427
+		// (get) Token: 0x06000B69 RID: 2921 RVA: 0x00066DB0 File Offset: 0x000651B0
 		public JoyGiver Worker
 		{
 			get
@@ -41,25 +22,59 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06000B6A RID: 2922 RVA: 0x00066DFC File Offset: 0x000651FC
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
+			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
 			{
-				if (enumerator.MoveNext())
-				{
-					string e = enumerator.Current;
-					yield return e;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return e;
 			}
-			if (this.jobDef == null)
-				yield break;
-			if (this.jobDef.joyKind == this.joyKind)
-				yield break;
-			yield return "jobDef " + this.jobDef + " has joyKind " + this.jobDef.joyKind + " which does not match our joyKind " + this.joyKind;
-			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0159:
-			/*Error near IL_015a: Unexpected return in MoveNext()*/;
+			if (this.jobDef != null && this.jobDef.joyKind != this.joyKind)
+			{
+				yield return string.Concat(new object[]
+				{
+					"jobDef ",
+					this.jobDef,
+					" has joyKind ",
+					this.jobDef.joyKind,
+					" which does not match our joyKind ",
+					this.joyKind
+				});
+			}
+			yield break;
 		}
+
+		// Token: 0x0400065A RID: 1626
+		public Type giverClass = null;
+
+		// Token: 0x0400065B RID: 1627
+		public float baseChance = 0f;
+
+		// Token: 0x0400065C RID: 1628
+		public List<ThingDef> thingDefs = null;
+
+		// Token: 0x0400065D RID: 1629
+		public JobDef jobDef;
+
+		// Token: 0x0400065E RID: 1630
+		public bool desireSit = true;
+
+		// Token: 0x0400065F RID: 1631
+		public float pctPawnsEverDo = 1f;
+
+		// Token: 0x04000660 RID: 1632
+		public bool unroofedOnly = false;
+
+		// Token: 0x04000661 RID: 1633
+		public JoyKindDef joyKind;
+
+		// Token: 0x04000662 RID: 1634
+		public List<PawnCapacityDef> requiredCapacities = new List<PawnCapacityDef>();
+
+		// Token: 0x04000663 RID: 1635
+		public bool canDoWhileInBed;
+
+		// Token: 0x04000664 RID: 1636
+		private JoyGiver workerInt = null;
 	}
 }

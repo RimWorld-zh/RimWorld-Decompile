@@ -1,20 +1,23 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x020000BC RID: 188
 	public class JobGiver_AIGotoNearestHostile : ThinkNode_JobGiver
 	{
+		// Token: 0x06000474 RID: 1140 RVA: 0x00032EBC File Offset: 0x000312BC
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			float num = 3.40282347E+38f;
+			float num = float.MaxValue;
 			Thing thing = null;
 			List<IAttackTarget> potentialTargetsFor = pawn.Map.attackTargetsCache.GetPotentialTargetsFor(pawn);
 			for (int i = 0; i < potentialTargetsFor.Count; i++)
 			{
 				IAttackTarget attackTarget = potentialTargetsFor[i];
-				if (!attackTarget.ThreatDisabled())
+				if (!attackTarget.ThreatDisabled(pawn))
 				{
 					Thing thing2 = (Thing)attackTarget;
 					int num2 = thing2.Position.DistanceToSquared(pawn.Position);
@@ -25,15 +28,21 @@ namespace RimWorld
 					}
 				}
 			}
+			Job result;
 			if (thing != null)
 			{
-				Job job = new Job(JobDefOf.Goto, thing);
-				job.checkOverrideOnExpire = true;
-				job.expiryInterval = 500;
-				job.collideWithPawns = true;
-				return job;
+				result = new Job(JobDefOf.Goto, thing)
+				{
+					checkOverrideOnExpire = true,
+					expiryInterval = 500,
+					collideWithPawns = true
+				};
 			}
-			return null;
+			else
+			{
+				result = null;
+			}
+			return result;
 		}
 	}
 }

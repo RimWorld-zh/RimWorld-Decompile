@@ -1,14 +1,21 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020004F7 RID: 1271
 	public class Need_Chemical : Need
 	{
-		private const float ThreshDesire = 0.01f;
+		// Token: 0x060016D4 RID: 5844 RVA: 0x000C9FA0 File Offset: 0x000C83A0
+		public Need_Chemical(Pawn pawn) : base(pawn)
+		{
+			this.threshPercents = new List<float>();
+			this.threshPercents.Add(0.3f);
+		}
 
-		private const float ThreshSatisfied = 0.3f;
-
+		// Token: 0x17000309 RID: 777
+		// (get) Token: 0x060016D5 RID: 5845 RVA: 0x000C9FC8 File Offset: 0x000C83C8
 		public override int GUIChangeArrow
 		{
 			get
@@ -17,22 +24,32 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x1700030A RID: 778
+		// (get) Token: 0x060016D6 RID: 5846 RVA: 0x000C9FE0 File Offset: 0x000C83E0
 		public DrugDesireCategory CurCategory
 		{
 			get
 			{
-				if (this.CurLevel > 0.30000001192092896)
+				DrugDesireCategory result;
+				if (this.CurLevel > 0.3f)
 				{
-					return DrugDesireCategory.Satisfied;
+					result = DrugDesireCategory.Satisfied;
 				}
-				if (this.CurLevel > 0.0099999997764825821)
+				else if (this.CurLevel > 0.01f)
 				{
-					return DrugDesireCategory.Desire;
+					result = DrugDesireCategory.Desire;
 				}
-				return DrugDesireCategory.Withdrawal;
+				else
+				{
+					result = DrugDesireCategory.Withdrawal;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x1700030B RID: 779
+		// (get) Token: 0x060016D7 RID: 5847 RVA: 0x000CA024 File Offset: 0x000C8424
+		// (set) Token: 0x060016D8 RID: 5848 RVA: 0x000CA040 File Offset: 0x000C8440
 		public override float CurLevel
 		{
 			get
@@ -50,15 +67,17 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x1700030C RID: 780
+		// (get) Token: 0x060016D9 RID: 5849 RVA: 0x000CA070 File Offset: 0x000C8470
 		public Hediff_Addiction AddictionHediff
 		{
 			get
 			{
-				List<Hediff> hediffs = base.pawn.health.hediffSet.hediffs;
+				List<Hediff> hediffs = this.pawn.health.hediffSet.hediffs;
 				for (int i = 0; i < hediffs.Count; i++)
 				{
 					Hediff_Addiction hediff_Addiction = hediffs[i] as Hediff_Addiction;
-					if (hediff_Addiction != null && hediff_Addiction.def.causesNeed == base.def)
+					if (hediff_Addiction != null && hediff_Addiction.def.causesNeed == this.def)
 					{
 						return hediff_Addiction;
 					}
@@ -67,34 +86,32 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x1700030D RID: 781
+		// (get) Token: 0x060016DA RID: 5850 RVA: 0x000CA0E8 File Offset: 0x000C84E8
 		private float ChemicalFallPerTick
 		{
 			get
 			{
-				return (float)(base.def.fallPerDay / 60000.0);
+				return this.def.fallPerDay / 60000f;
 			}
 		}
 
-		public Need_Chemical(Pawn pawn)
-			: base(pawn)
-		{
-			base.threshPercents = new List<float>();
-			base.threshPercents.Add(0.3f);
-		}
-
+		// Token: 0x060016DB RID: 5851 RVA: 0x000CA10E File Offset: 0x000C850E
 		public override void SetInitialLevel()
 		{
 			base.CurLevelPercentage = Rand.Range(0.8f, 1f);
 		}
 
+		// Token: 0x060016DC RID: 5852 RVA: 0x000CA126 File Offset: 0x000C8526
 		public override void NeedInterval()
 		{
 			if (!base.IsFrozen)
 			{
-				this.CurLevel -= (float)(this.ChemicalFallPerTick * 150.0);
+				this.CurLevel -= this.ChemicalFallPerTick * 150f;
 			}
 		}
 
+		// Token: 0x060016DD RID: 5853 RVA: 0x000CA150 File Offset: 0x000C8550
 		private void CategoryChanged()
 		{
 			Hediff_Addiction addictionHediff = this.AddictionHediff;
@@ -103,5 +120,11 @@ namespace RimWorld
 				addictionHediff.Notify_NeedCategoryChanged();
 			}
 		}
+
+		// Token: 0x04000D5B RID: 3419
+		private const float ThreshDesire = 0.01f;
+
+		// Token: 0x04000D5C RID: 3420
+		private const float ThreshSatisfied = 0.3f;
 	}
 }

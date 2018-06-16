@@ -1,23 +1,21 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000447 RID: 1095
 	public class WealthWatcher
 	{
-		private Map map;
+		// Token: 0x060012F5 RID: 4853 RVA: 0x000A370D File Offset: 0x000A1B0D
+		public WealthWatcher(Map map)
+		{
+			this.map = map;
+		}
 
-		private float wealthItems;
-
-		private float wealthBuildings;
-
-		private int totalHealth;
-
-		private float lastCountTick = -99999f;
-
-		private const int MinCountInterval = 5000;
-
+		// Token: 0x17000289 RID: 649
+		// (get) Token: 0x060012F6 RID: 4854 RVA: 0x000A3734 File Offset: 0x000A1B34
 		public int HealthTotal
 		{
 			get
@@ -27,15 +25,19 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x1700028A RID: 650
+		// (get) Token: 0x060012F7 RID: 4855 RVA: 0x000A3758 File Offset: 0x000A1B58
 		public float WealthTotal
 		{
 			get
 			{
 				this.RecountIfNeeded();
-				return this.wealthItems + this.wealthBuildings;
+				return this.wealthItems + this.wealthBuildings + this.wealthTameAnimals;
 			}
 		}
 
+		// Token: 0x1700028B RID: 651
+		// (get) Token: 0x060012F8 RID: 4856 RVA: 0x000A3788 File Offset: 0x000A1B88
 		public float WealthItems
 		{
 			get
@@ -45,6 +47,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x1700028C RID: 652
+		// (get) Token: 0x060012F9 RID: 4857 RVA: 0x000A37AC File Offset: 0x000A1BAC
 		public float WealthBuildings
 		{
 			get
@@ -54,70 +58,65 @@ namespace RimWorld
 			}
 		}
 
-		public WealthWatcher(Map map)
+		// Token: 0x1700028D RID: 653
+		// (get) Token: 0x060012FA RID: 4858 RVA: 0x000A37D0 File Offset: 0x000A1BD0
+		public float WealthTameAnimals
 		{
-			this.map = map;
+			get
+			{
+				this.RecountIfNeeded();
+				return this.wealthTameAnimals;
+			}
 		}
 
+		// Token: 0x060012FB RID: 4859 RVA: 0x000A37F1 File Offset: 0x000A1BF1
 		private void RecountIfNeeded()
 		{
-			if ((float)Find.TickManager.TicksGame - this.lastCountTick > 5000.0)
+			if ((float)Find.TickManager.TicksGame - this.lastCountTick > 5000f)
 			{
 				this.ForceRecount(false);
 			}
 		}
 
+		// Token: 0x060012FC RID: 4860 RVA: 0x000A3818 File Offset: 0x000A1C18
 		public void ForceRecount(bool allowDuringInit = false)
 		{
 			if (!allowDuringInit && Current.ProgramState != ProgramState.Playing)
 			{
-				Log.Error("WealthWatcher recount in game mode " + Current.ProgramState);
+				Log.Error("WealthWatcher recount in game mode " + Current.ProgramState, false);
 			}
 			else
 			{
-				this.wealthItems = 0f;
+				this.wealthItems = this.CalculateWealthItems();
 				this.wealthBuildings = 0f;
+				this.wealthTameAnimals = 0f;
 				this.totalHealth = 0;
-				List<Thing> list = this.map.listerThings.ThingsInGroup(ThingRequestGroup.HaulableAlways);
+				List<Thing> list = this.map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial);
 				for (int i = 0; i < list.Count; i++)
 				{
 					Thing thing = list[i];
-					if (!thing.Position.Fogged(thing.Map))
+					if (thing.Faction == Faction.OfPlayer)
 					{
-						this.wealthItems += (float)thing.stackCount * thing.MarketValue;
+						this.wealthBuildings += thing.MarketValue;
+						this.totalHealth += thing.HitPoints;
 					}
 				}
-				foreach (Pawn freeColonist in this.map.mapPawns.FreeColonists)
+				foreach (Pawn pawn in this.map.mapPawns.PawnsInFaction(Faction.OfPlayer))
 				{
-					this.wealthItems += WealthWatcher.GetEquipmentApparelAndInventoryWealth(freeColonist);
-				}
-				List<Thing> list2 = this.map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingFrame);
-				for (int j = 0; j < list2.Count; j++)
-				{
-					ThingOwner resourceContainer = ((Frame)list2[j]).resourceContainer;
-					for (int k = 0; k < resourceContainer.Count; k++)
+					if (pawn.RaceProps.Animal)
 					{
-						this.wealthItems += (float)resourceContainer[k].stackCount * resourceContainer[k].MarketValue;
+						this.wealthTameAnimals += pawn.MarketValue;
 					}
-				}
-				List<Thing> list3 = this.map.listerThings.ThingsInGroup(ThingRequestGroup.BuildingArtificial);
-				for (int l = 0; l < list3.Count; l++)
-				{
-					Thing thing2 = list3[l];
-					if (thing2.Faction == Faction.OfPlayer)
+					if (pawn.IsFreeColonist)
 					{
-						this.wealthBuildings += thing2.MarketValue;
-						this.totalHealth += thing2.HitPoints;
+						this.totalHealth += Mathf.RoundToInt(pawn.health.summaryHealth.SummaryHealthPercent * 100f);
 					}
-				}
-				foreach (Pawn freeColonist2 in this.map.mapPawns.FreeColonists)
-				{
-					this.totalHealth += Mathf.RoundToInt((float)(freeColonist2.health.summaryHealth.SummaryHealthPercent * 100.0));
 				}
 				this.lastCountTick = (float)Find.TickManager.TicksGame;
 			}
 		}
 
+		// Token: 0x060012FD RID: 4861 RVA: 0x000A39B0 File Offset: 0x000A1DB0
 		public static float GetEquipmentApparelAndInventoryWealth(Pawn p)
 		{
 			float num = 0f;
@@ -147,5 +146,59 @@ namespace RimWorld
 			}
 			return num;
 		}
+
+		// Token: 0x060012FE RID: 4862 RVA: 0x000A3ACC File Offset: 0x000A1ECC
+		private float CalculateWealthItems()
+		{
+			this.tmpThings.Clear();
+			ThingOwnerUtility.GetAllThingsRecursively<Thing>(this.map, ThingRequest.ForGroup(ThingRequestGroup.HaulableEver), this.tmpThings, false, delegate(IThingHolder x)
+			{
+				bool result;
+				if (x is PassingShip || x is MapComponent)
+				{
+					result = false;
+				}
+				else
+				{
+					Pawn pawn = x as Pawn;
+					result = (pawn == null || pawn.Faction == Faction.OfPlayer);
+				}
+				return result;
+			}, true);
+			float num = 0f;
+			for (int i = 0; i < this.tmpThings.Count; i++)
+			{
+				if (this.tmpThings[i].SpawnedOrAnyParentSpawned && !this.tmpThings[i].PositionHeld.Fogged(this.map))
+				{
+					num += this.tmpThings[i].MarketValue * (float)this.tmpThings[i].stackCount;
+				}
+			}
+			this.tmpThings.Clear();
+			return num;
+		}
+
+		// Token: 0x04000B7D RID: 2941
+		private Map map;
+
+		// Token: 0x04000B7E RID: 2942
+		private float wealthItems;
+
+		// Token: 0x04000B7F RID: 2943
+		private float wealthBuildings;
+
+		// Token: 0x04000B80 RID: 2944
+		private float wealthTameAnimals;
+
+		// Token: 0x04000B81 RID: 2945
+		private int totalHealth;
+
+		// Token: 0x04000B82 RID: 2946
+		private float lastCountTick = -99999f;
+
+		// Token: 0x04000B83 RID: 2947
+		private const int MinCountInterval = 5000;
+
+		// Token: 0x04000B84 RID: 2948
+		private List<Thing> tmpThings = new List<Thing>();
 	}
 }

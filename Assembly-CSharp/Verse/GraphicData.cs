@@ -1,42 +1,15 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000B1C RID: 2844
 	public class GraphicData
 	{
-		public string texPath;
-
-		public Type graphicClass;
-
-		public ShaderType shaderType;
-
-		public Color color = Color.white;
-
-		public Color colorTwo = Color.white;
-
-		public Vector2 drawSize = Vector2.one;
-
-		public float onGroundRandomRotateAngle;
-
-		public bool drawRotated = true;
-
-		public bool allowFlip = true;
-
-		public float flipExtraRotation;
-
-		public ShadowData shadowData;
-
-		public DamageGraphicData damageData;
-
-		public LinkDrawerType linkType;
-
-		public LinkFlags linkFlags;
-
-		[Unsaved]
-		private Graphic cachedGraphic;
-
+		// Token: 0x17000973 RID: 2419
+		// (get) Token: 0x06003EB7 RID: 16055 RVA: 0x00210358 File Offset: 0x0020E758
 		public bool Linked
 		{
 			get
@@ -45,6 +18,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000974 RID: 2420
+		// (get) Token: 0x06003EB8 RID: 16056 RVA: 0x0021037C File Offset: 0x0020E77C
 		public Graphic Graphic
 		{
 			get
@@ -57,6 +32,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06003EB9 RID: 16057 RVA: 0x002103A8 File Offset: 0x0020E7A8
 		public void CopyFrom(GraphicData other)
 		{
 			this.texPath = other.texPath;
@@ -75,6 +51,7 @@ namespace Verse
 			this.linkFlags = other.linkFlags;
 		}
 
+		// Token: 0x06003EBA RID: 16058 RVA: 0x00210460 File Offset: 0x0020E860
 		private void Init()
 		{
 			if (this.graphicClass == null)
@@ -83,14 +60,14 @@ namespace Verse
 			}
 			else
 			{
-				ShaderType sType = this.shaderType;
-				if (this.shaderType == ShaderType.None)
+				ShaderTypeDef cutout = this.shaderType;
+				if (cutout == null)
 				{
-					sType = ShaderType.Cutout;
+					cutout = ShaderTypeDefOf.Cutout;
 				}
-				Shader shader = ShaderDatabase.ShaderFromType(sType);
-				this.cachedGraphic = GraphicDatabase.Get(this.graphicClass, this.texPath, shader, this.drawSize, this.color, this.colorTwo, this);
-				if (this.onGroundRandomRotateAngle > 0.0099999997764825821)
+				Shader shader = cutout.Shader;
+				this.cachedGraphic = GraphicDatabase.Get(this.graphicClass, this.texPath, shader, this.drawSize, this.color, this.colorTwo, this, this.shaderParameters);
+				if (this.onGroundRandomRotateAngle > 0.01f)
 				{
 					this.cachedGraphic = new Graphic_RandomRotated(this.cachedGraphic, this.onGroundRandomRotateAngle);
 				}
@@ -101,6 +78,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06003EBB RID: 16059 RVA: 0x0021051A File Offset: 0x0020E91A
 		public void ResolveReferencesSpecial()
 		{
 			if (this.damageData != null)
@@ -109,40 +87,94 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06003EBC RID: 16060 RVA: 0x00210534 File Offset: 0x0020E934
 		public Graphic GraphicColoredFor(Thing t)
 		{
+			Graphic result;
 			if (t.DrawColor.IndistinguishableFrom(this.Graphic.Color) && t.DrawColorTwo.IndistinguishableFrom(this.Graphic.ColorTwo))
 			{
-				return this.Graphic;
+				result = this.Graphic;
 			}
-			return this.Graphic.GetColoredVersion(this.Graphic.Shader, t.DrawColor, t.DrawColorTwo);
+			else
+			{
+				result = this.Graphic.GetColoredVersion(this.Graphic.Shader, t.DrawColor, t.DrawColorTwo);
+			}
+			return result;
 		}
 
+		// Token: 0x06003EBD RID: 16061 RVA: 0x002105B0 File Offset: 0x0020E9B0
 		internal IEnumerable<string> ConfigErrors(ThingDef thingDef)
 		{
 			if (this.graphicClass == null)
 			{
 				yield return "graphicClass is null";
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.texPath.NullOrEmpty())
 			{
 				yield return "texPath is null or empty";
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			if (thingDef != null && thingDef.drawerType == DrawerType.RealtimeOnly && this.Linked)
+			if (thingDef != null)
 			{
-				yield return "does not add to map mesh but has a link drawer. Link drawers can only work on the map mesh.";
-				/*Error: Unable to find new state assignment for yield return*/;
+				if (thingDef.drawerType == DrawerType.RealtimeOnly && this.Linked)
+				{
+					yield return "does not add to map mesh but has a link drawer. Link drawers can only work on the map mesh.";
+				}
 			}
-			if (this.shaderType != ShaderType.Cutout && this.shaderType != ShaderType.CutoutComplex)
-				yield break;
-			if (thingDef.mote == null)
-				yield break;
-			if (!(thingDef.mote.fadeInTime > 0.0) && !(thingDef.mote.fadeOutTime > 0.0))
-				yield break;
-			yield return "mote fades but uses cutout shader type. It will abruptly disappear when opacity falls under the cutout threshold.";
-			/*Error: Unable to find new state assignment for yield return*/;
+			if ((this.shaderType == ShaderTypeDefOf.Cutout || this.shaderType == ShaderTypeDefOf.CutoutComplex) && thingDef.mote != null && (thingDef.mote.fadeInTime > 0f || thingDef.mote.fadeOutTime > 0f))
+			{
+				yield return "mote fades but uses cutout shader type. It will abruptly disappear when opacity falls under the cutout threshold.";
+			}
+			yield break;
 		}
+
+		// Token: 0x04002838 RID: 10296
+		[NoTranslate]
+		public string texPath = null;
+
+		// Token: 0x04002839 RID: 10297
+		public Type graphicClass = null;
+
+		// Token: 0x0400283A RID: 10298
+		public ShaderTypeDef shaderType = null;
+
+		// Token: 0x0400283B RID: 10299
+		public List<ShaderParameter> shaderParameters = null;
+
+		// Token: 0x0400283C RID: 10300
+		public Color color = Color.white;
+
+		// Token: 0x0400283D RID: 10301
+		public Color colorTwo = Color.white;
+
+		// Token: 0x0400283E RID: 10302
+		public Vector2 drawSize = Vector2.one;
+
+		// Token: 0x0400283F RID: 10303
+		public float onGroundRandomRotateAngle = 0f;
+
+		// Token: 0x04002840 RID: 10304
+		public bool drawRotated = true;
+
+		// Token: 0x04002841 RID: 10305
+		public bool allowFlip = true;
+
+		// Token: 0x04002842 RID: 10306
+		public float flipExtraRotation = 0f;
+
+		// Token: 0x04002843 RID: 10307
+		public ShadowData shadowData = null;
+
+		// Token: 0x04002844 RID: 10308
+		public DamageGraphicData damageData = null;
+
+		// Token: 0x04002845 RID: 10309
+		public LinkDrawerType linkType = LinkDrawerType.None;
+
+		// Token: 0x04002846 RID: 10310
+		public LinkFlags linkFlags = LinkFlags.None;
+
+		// Token: 0x04002847 RID: 10311
+		[Unsaved]
+		private Graphic cachedGraphic = null;
 	}
 }

@@ -1,15 +1,14 @@
-using System;
+﻿using System;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000340 RID: 832
 	internal abstract class IncidentWorker_ShipPartCrash : IncidentWorker
 	{
-		private const float ShipPointsFactor = 0.9f;
-
-		private const int IncidentMinimumPoints = 300;
-
+		// Token: 0x1700020D RID: 525
+		// (get) Token: 0x06000E39 RID: 3641 RVA: 0x00077C24 File Offset: 0x00076024
 		protected virtual int CountToSpawn
 		{
 			get
@@ -18,16 +17,14 @@ namespace RimWorld
 			}
 		}
 
-		protected override bool CanFireNowSub(IIncidentTarget target)
+		// Token: 0x06000E3A RID: 3642 RVA: 0x00077C3C File Offset: 0x0007603C
+		protected override bool CanFireNowSub(IncidentParms parms)
 		{
-			Map map = (Map)target;
-			if (map.listerThings.ThingsOfDef(base.def.shipPart).Count > 0)
-			{
-				return false;
-			}
-			return true;
+			Map map = (Map)parms.target;
+			return map.listerThings.ThingsOfDef(this.def.shipPart).Count <= 0;
 		}
 
+		// Token: 0x06000E3B RID: 3643 RVA: 0x00077C88 File Offset: 0x00076088
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -35,25 +32,33 @@ namespace RimWorld
 			int countToSpawn = this.CountToSpawn;
 			IntVec3 cell = IntVec3.Invalid;
 			float shrapnelDirection = Rand.Range(0f, 360f);
-			int num2 = 0;
-			IntVec3 intVec = default(IntVec3);
-			while (num2 < countToSpawn && CellFinderLoose.TryFindSkyfallerCell(ThingDefOf.CrashedShipPartIncoming, map, out intVec, 14, default(IntVec3), -1, false, true, true, true, (Predicate<IntVec3>)null))
+			for (int i = 0; i < countToSpawn; i++)
 			{
-				Building_CrashedShipPart building_CrashedShipPart = (Building_CrashedShipPart)ThingMaker.MakeThing(base.def.shipPart, null);
+				IntVec3 intVec;
+				if (!CellFinderLoose.TryFindSkyfallerCell(ThingDefOf.CrashedShipPartIncoming, map, out intVec, 14, default(IntVec3), -1, false, true, true, true, true, false, null))
+				{
+					break;
+				}
+				Building_CrashedShipPart building_CrashedShipPart = (Building_CrashedShipPart)ThingMaker.MakeThing(this.def.shipPart, null);
 				building_CrashedShipPart.SetFaction(Faction.OfMechanoids, null);
-				building_CrashedShipPart.GetComp<CompSpawnerMechanoidsOnDamaged>().pointsLeft = Mathf.Max((float)(parms.points * 0.89999997615814209), 300f);
+				building_CrashedShipPart.GetComp<CompSpawnerMechanoidsOnDamaged>().pointsLeft = Mathf.Max(parms.points * 0.9f, 300f);
 				Skyfaller skyfaller = SkyfallerMaker.MakeSkyfaller(ThingDefOf.CrashedShipPartIncoming, building_CrashedShipPart);
 				skyfaller.shrapnelDirection = shrapnelDirection;
-				GenSpawn.Spawn(skyfaller, intVec, map);
+				GenSpawn.Spawn(skyfaller, intVec, map, WipeMode.Vanish);
 				num++;
 				cell = intVec;
-				num2++;
 			}
 			if (num > 0)
 			{
-				base.SendStandardLetter(new TargetInfo(cell, map, false));
+				base.SendStandardLetter(new TargetInfo(cell, map, false), null, new string[0]);
 			}
 			return num > 0;
 		}
+
+		// Token: 0x040008E7 RID: 2279
+		private const float ShipPointsFactor = 0.9f;
+
+		// Token: 0x040008E8 RID: 2280
+		private const int IncidentMinimumPoints = 300;
 	}
 }

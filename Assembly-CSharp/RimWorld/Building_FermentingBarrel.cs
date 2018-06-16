@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -5,29 +6,13 @@ using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020006A9 RID: 1705
 	[StaticConstructorOnStartup]
 	public class Building_FermentingBarrel : Building
 	{
-		private int wortCount;
-
-		private float progressInt;
-
-		private Material barFilledCachedMat;
-
-		public const int MaxCapacity = 25;
-
-		private const int BaseFermentationDuration = 600000;
-
-		public const float MinIdealTemperature = 7f;
-
-		private static readonly Vector2 BarSize = new Vector2(0.55f, 0.1f);
-
-		private static readonly Color BarZeroProgressColor = new Color(0.4f, 0.27f, 0.22f);
-
-		private static readonly Color BarFermentedColor = new Color(0.9f, 0.85f, 0.2f);
-
-		private static readonly Material BarUnfilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.3f, 0.3f, 0.3f), false);
-
+		// Token: 0x17000575 RID: 1397
+		// (get) Token: 0x0600245C RID: 9308 RVA: 0x001376AC File Offset: 0x00135AAC
+		// (set) Token: 0x0600245D RID: 9309 RVA: 0x001376C7 File Offset: 0x00135AC7
 		public float Progress
 		{
 			get
@@ -44,11 +29,13 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000576 RID: 1398
+		// (get) Token: 0x0600245E RID: 9310 RVA: 0x001376EC File Offset: 0x00135AEC
 		private Material BarFilledMat
 		{
 			get
 			{
-				if ((Object)this.barFilledCachedMat == (Object)null)
+				if (this.barFilledCachedMat == null)
 				{
 					this.barFilledCachedMat = SolidColorMaterials.SimpleSolidColorMaterial(Color.Lerp(Building_FermentingBarrel.BarZeroProgressColor, Building_FermentingBarrel.BarFermentedColor, this.Progress), false);
 				}
@@ -56,18 +43,27 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000577 RID: 1399
+		// (get) Token: 0x0600245F RID: 9311 RVA: 0x0013773C File Offset: 0x00135B3C
 		public int SpaceLeftForWort
 		{
 			get
 			{
+				int result;
 				if (this.Fermented)
 				{
-					return 0;
+					result = 0;
 				}
-				return 25 - this.wortCount;
+				else
+				{
+					result = 25 - this.wortCount;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000578 RID: 1400
+		// (get) Token: 0x06002460 RID: 9312 RVA: 0x0013776C File Offset: 0x00135B6C
 		private bool Empty
 		{
 			get
@@ -76,48 +72,62 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000579 RID: 1401
+		// (get) Token: 0x06002461 RID: 9313 RVA: 0x00137790 File Offset: 0x00135B90
 		public bool Fermented
 		{
 			get
 			{
-				return !this.Empty && this.Progress >= 1.0;
+				return !this.Empty && this.Progress >= 1f;
 			}
 		}
 
+		// Token: 0x1700057A RID: 1402
+		// (get) Token: 0x06002462 RID: 9314 RVA: 0x001377C4 File Offset: 0x00135BC4
 		private float CurrentTempProgressSpeedFactor
 		{
 			get
 			{
-				CompProperties_TemperatureRuinable compProperties = base.def.GetCompProperties<CompProperties_TemperatureRuinable>();
+				CompProperties_TemperatureRuinable compProperties = this.def.GetCompProperties<CompProperties_TemperatureRuinable>();
 				float ambientTemperature = base.AmbientTemperature;
+				float result;
 				if (ambientTemperature < compProperties.minSafeTemperature)
 				{
-					return 0.1f;
+					result = 0.1f;
 				}
-				if (ambientTemperature < 7.0)
+				else if (ambientTemperature < 7f)
 				{
-					return GenMath.LerpDouble(compProperties.minSafeTemperature, 7f, 0.1f, 1f, ambientTemperature);
+					result = GenMath.LerpDouble(compProperties.minSafeTemperature, 7f, 0.1f, 1f, ambientTemperature);
 				}
-				return 1f;
+				else
+				{
+					result = 1f;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x1700057B RID: 1403
+		// (get) Token: 0x06002463 RID: 9315 RVA: 0x00137834 File Offset: 0x00135C34
 		private float ProgressPerTickAtCurrentTemp
 		{
 			get
 			{
-				return (float)(1.6666666624587378E-06 * this.CurrentTempProgressSpeedFactor);
+				return 2.77777781E-06f * this.CurrentTempProgressSpeedFactor;
 			}
 		}
 
+		// Token: 0x1700057C RID: 1404
+		// (get) Token: 0x06002464 RID: 9316 RVA: 0x00137858 File Offset: 0x00135C58
 		private int EstimatedTicksLeft
 		{
 			get
 			{
-				return Mathf.Max(Mathf.RoundToInt((float)((1.0 - this.Progress) / this.ProgressPerTickAtCurrentTemp)), 0);
+				return Mathf.Max(Mathf.RoundToInt((1f - this.Progress) / this.ProgressPerTickAtCurrentTemp), 0);
 			}
 		}
 
+		// Token: 0x06002465 RID: 9317 RVA: 0x0013788B File Offset: 0x00135C8B
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -125,21 +135,23 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.progressInt, "progress", 0f, false);
 		}
 
+		// Token: 0x06002466 RID: 9318 RVA: 0x001378BC File Offset: 0x00135CBC
 		public override void TickRare()
 		{
 			base.TickRare();
 			if (!this.Empty)
 			{
-				this.Progress = Mathf.Min((float)(this.Progress + 250.0 * this.ProgressPerTickAtCurrentTemp), 1f);
+				this.Progress = Mathf.Min(this.Progress + 250f * this.ProgressPerTickAtCurrentTemp, 1f);
 			}
 		}
 
+		// Token: 0x06002467 RID: 9319 RVA: 0x001378F4 File Offset: 0x00135CF4
 		public void AddWort(int count)
 		{
 			base.GetComp<CompTemperatureRuinable>().Reset();
 			if (this.Fermented)
 			{
-				Log.Warning("Tried to add wort to a barrel full of beer. Colonists should take the beer first.");
+				Log.Warning("Tried to add wort to a barrel full of beer. Colonists should take the beer first.", false);
 			}
 			else
 			{
@@ -152,6 +164,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002468 RID: 9320 RVA: 0x00137972 File Offset: 0x00135D72
 		protected override void ReceiveCompSignal(string signal)
 		{
 			if (signal == "RuinedByTemperature")
@@ -160,12 +173,14 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002469 RID: 9321 RVA: 0x0013798B File Offset: 0x00135D8B
 		private void Reset()
 		{
 			this.wortCount = 0;
 			this.Progress = 0f;
 		}
 
+		// Token: 0x0600246A RID: 9322 RVA: 0x001379A0 File Offset: 0x00135DA0
 		public void AddWort(Thing wort)
 		{
 			int num = Mathf.Min(wort.stackCount, 25 - this.wortCount);
@@ -176,6 +191,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x0600246B RID: 9323 RVA: 0x001379E0 File Offset: 0x00135DE0
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -189,11 +205,19 @@ namespace RimWorld
 			{
 				if (this.Fermented)
 				{
-					stringBuilder.AppendLine("ContainsBeer".Translate(this.wortCount, 25));
+					stringBuilder.AppendLine("ContainsBeer".Translate(new object[]
+					{
+						this.wortCount,
+						25
+					}));
 				}
 				else
 				{
-					stringBuilder.AppendLine("ContainsWort".Translate(this.wortCount, 25));
+					stringBuilder.AppendLine("ContainsWort".Translate(new object[]
+					{
+						this.wortCount,
+						25
+					}));
 				}
 			}
 			if (!this.Empty)
@@ -204,31 +228,52 @@ namespace RimWorld
 				}
 				else
 				{
-					stringBuilder.AppendLine("FermentationProgress".Translate(this.Progress.ToStringPercent(), this.EstimatedTicksLeft.ToStringTicksToPeriod(true, false, true)));
-					if (this.CurrentTempProgressSpeedFactor != 1.0)
+					stringBuilder.AppendLine("FermentationProgress".Translate(new object[]
 					{
-						stringBuilder.AppendLine("FermentationBarrelOutOfIdealTemperature".Translate(this.CurrentTempProgressSpeedFactor.ToStringPercent()));
+						this.Progress.ToStringPercent(),
+						this.EstimatedTicksLeft.ToStringTicksToPeriod()
+					}));
+					if (this.CurrentTempProgressSpeedFactor != 1f)
+					{
+						stringBuilder.AppendLine("FermentationBarrelOutOfIdealTemperature".Translate(new object[]
+						{
+							this.CurrentTempProgressSpeedFactor.ToStringPercent()
+						}));
 					}
 				}
 			}
 			stringBuilder.AppendLine("Temperature".Translate() + ": " + base.AmbientTemperature.ToStringTemperature("F0"));
-			stringBuilder.AppendLine("IdealFermentingTemperature".Translate() + ": " + 7f.ToStringTemperature("F0") + " ~ " + comp.Props.maxSafeTemperature.ToStringTemperature("F0"));
+			stringBuilder.AppendLine(string.Concat(new string[]
+			{
+				"IdealFermentingTemperature".Translate(),
+				": ",
+				7f.ToStringTemperature("F0"),
+				" ~ ",
+				comp.Props.maxSafeTemperature.ToStringTemperature("F0")
+			}));
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
+		// Token: 0x0600246C RID: 9324 RVA: 0x00137BD0 File Offset: 0x00135FD0
 		public Thing TakeOutBeer()
 		{
+			Thing result;
 			if (!this.Fermented)
 			{
-				Log.Warning("Tried to get beer but it's not yet fermented.");
-				return null;
+				Log.Warning("Tried to get beer but it's not yet fermented.", false);
+				result = null;
 			}
-			Thing thing = ThingMaker.MakeThing(ThingDefOf.Beer, null);
-			thing.stackCount = this.wortCount;
-			this.Reset();
-			return thing;
+			else
+			{
+				Thing thing = ThingMaker.MakeThing(ThingDefOf.Beer, null);
+				thing.stackCount = this.wortCount;
+				this.Reset();
+				result = thing;
+			}
+			return result;
 		}
 
+		// Token: 0x0600246D RID: 9325 RVA: 0x00137C24 File Offset: 0x00136024
 		public override void Draw()
 		{
 			base.Draw();
@@ -237,44 +282,68 @@ namespace RimWorld
 				Vector3 drawPos = this.DrawPos;
 				drawPos.y += 0.046875f;
 				drawPos.z += 0.25f;
-				GenDraw.FillableBarRequest r = default(GenDraw.FillableBarRequest);
-				r.center = drawPos;
-				r.size = Building_FermentingBarrel.BarSize;
-				r.fillPercent = (float)((float)this.wortCount / 25.0);
-				r.filledMat = this.BarFilledMat;
-				r.unfilledMat = Building_FermentingBarrel.BarUnfilledMat;
-				r.margin = 0.1f;
-				r.rotation = Rot4.North;
-				GenDraw.DrawFillableBar(r);
+				GenDraw.DrawFillableBar(new GenDraw.FillableBarRequest
+				{
+					center = drawPos,
+					size = Building_FermentingBarrel.BarSize,
+					fillPercent = (float)this.wortCount / 25f,
+					filledMat = this.BarFilledMat,
+					unfilledMat = Building_FermentingBarrel.BarUnfilledMat,
+					margin = 0.1f,
+					rotation = Rot4.North
+				});
 			}
 		}
 
+		// Token: 0x0600246E RID: 9326 RVA: 0x00137CDC File Offset: 0x001360DC
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
+			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
 			{
-				if (enumerator.MoveNext())
-				{
-					Gizmo g = enumerator.Current;
-					yield return g;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return g;
 			}
-			if (!Prefs.DevMode)
-				yield break;
-			if (this.Empty)
-				yield break;
-			yield return (Gizmo)new Command_Action
+			if (Prefs.DevMode && !this.Empty)
 			{
-				defaultLabel = "Debug: Set progress to 1",
-				action = delegate
+				yield return new Command_Action
 				{
-					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00ef: stateMachine*/)._0024this.Progress = 1f;
-				}
-			};
-			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0129:
-			/*Error near IL_012a: Unexpected return in MoveNext()*/;
+					defaultLabel = "Debug: Set progress to 1",
+					action = delegate()
+					{
+						this.Progress = 1f;
+					}
+				};
+			}
+			yield break;
 		}
+
+		// Token: 0x04001428 RID: 5160
+		private int wortCount;
+
+		// Token: 0x04001429 RID: 5161
+		private float progressInt;
+
+		// Token: 0x0400142A RID: 5162
+		private Material barFilledCachedMat;
+
+		// Token: 0x0400142B RID: 5163
+		public const int MaxCapacity = 25;
+
+		// Token: 0x0400142C RID: 5164
+		private const int BaseFermentationDuration = 360000;
+
+		// Token: 0x0400142D RID: 5165
+		public const float MinIdealTemperature = 7f;
+
+		// Token: 0x0400142E RID: 5166
+		private static readonly Vector2 BarSize = new Vector2(0.55f, 0.1f);
+
+		// Token: 0x0400142F RID: 5167
+		private static readonly Color BarZeroProgressColor = new Color(0.4f, 0.27f, 0.22f);
+
+		// Token: 0x04001430 RID: 5168
+		private static readonly Color BarFermentedColor = new Color(0.9f, 0.85f, 0.2f);
+
+		// Token: 0x04001431 RID: 5169
+		private static readonly Material BarUnfilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.3f, 0.3f, 0.3f), false);
 	}
 }

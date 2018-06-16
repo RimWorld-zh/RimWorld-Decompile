@@ -1,165 +1,274 @@
-using RimWorld;
+﻿using System;
 using System.Text;
+using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000D1E RID: 3358
 	[StaticConstructorOnStartup]
 	public class HediffComp_TendDuration : HediffComp_SeverityPerDay
 	{
-		public int tendTick = -999999;
-
-		public float tendQuality;
-
-		private int tendedCount;
-
-		private const float TendQualityRandomVariance = 0.25f;
-
-		private static readonly Color UntendedColor = new ColorInt(116, 101, 72).ToColor;
-
-		private static readonly Texture2D TendedIcon_Need_General = ContentFinder<Texture2D>.Get("UI/Icons/Medical/TendedNeed", true);
-
-		private static readonly Texture2D TendedIcon_Well_General = ContentFinder<Texture2D>.Get("UI/Icons/Medical/TendedWell", true);
-
-		private static readonly Texture2D TendedIcon_Well_Injury = ContentFinder<Texture2D>.Get("UI/Icons/Medical/BandageWell", true);
-
+		// Token: 0x17000BB2 RID: 2994
+		// (get) Token: 0x060049DB RID: 18907 RVA: 0x00269668 File Offset: 0x00267A68
 		public HediffCompProperties_TendDuration TProps
 		{
 			get
 			{
-				return (HediffCompProperties_TendDuration)base.props;
+				return (HediffCompProperties_TendDuration)this.props;
 			}
 		}
 
+		// Token: 0x17000BB3 RID: 2995
+		// (get) Token: 0x060049DC RID: 18908 RVA: 0x00269688 File Offset: 0x00267A88
+		private int FullTendDurationTicks
+		{
+			get
+			{
+				return Mathf.RoundToInt((this.TProps.baseTendDurationHours + this.TProps.tendOverlapHours) * 2500f);
+			}
+		}
+
+		// Token: 0x17000BB4 RID: 2996
+		// (get) Token: 0x060049DD RID: 18909 RVA: 0x002696C0 File Offset: 0x00267AC0
+		private int BaseTendDurationTicks
+		{
+			get
+			{
+				return Mathf.RoundToInt(this.TProps.baseTendDurationHours * 2500f);
+			}
+		}
+
+		// Token: 0x17000BB5 RID: 2997
+		// (get) Token: 0x060049DE RID: 18910 RVA: 0x002696EC File Offset: 0x00267AEC
 		public override bool CompShouldRemove
 		{
 			get
 			{
-				if (base.CompShouldRemove)
-				{
-					return true;
-				}
-				return this.TProps.disappearsAtTendedCount >= 0 && this.tendedCount >= this.TProps.disappearsAtTendedCount;
+				return base.CompShouldRemove || (this.TProps.disappearsAtTotalTendQuality >= 0 && this.totalTendQuality >= (float)this.TProps.disappearsAtTotalTendQuality);
 			}
 		}
 
+		// Token: 0x17000BB6 RID: 2998
+		// (get) Token: 0x060049DF RID: 18911 RVA: 0x00269740 File Offset: 0x00267B40
 		public bool IsTended
 		{
 			get
 			{
+				bool result;
 				if (Current.ProgramState != ProgramState.Playing)
 				{
-					return false;
+					result = false;
 				}
-				if (this.TProps.tendDuration > 0)
+				else if (this.TProps.baseTendDurationHours > 0f)
 				{
-					return Find.TickManager.TicksGame <= this.tendTick + this.TProps.tendDuration;
+					result = (Find.TickManager.TicksGame <= this.tendTick + this.FullTendDurationTicks);
 				}
-				return this.tendTick > 0;
+				else
+				{
+					result = (this.tendTick > 0);
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000BB7 RID: 2999
+		// (get) Token: 0x060049E0 RID: 18912 RVA: 0x002697A8 File Offset: 0x00267BA8
+		public bool AllowTend
+		{
+			get
+			{
+				bool result;
+				if (this.TProps.baseTendDurationHours > 0f)
+				{
+					result = (Find.TickManager.TicksGame > this.tendTick + this.BaseTendDurationTicks);
+				}
+				else
+				{
+					result = !this.IsTended;
+				}
+				return result;
+			}
+		}
+
+		// Token: 0x17000BB8 RID: 3000
+		// (get) Token: 0x060049E1 RID: 18913 RVA: 0x002697FC File Offset: 0x00267BFC
 		public override string CompTipStringExtra
 		{
 			get
 			{
-				if (base.parent.IsOld())
+				string result;
+				if (this.parent.IsPermanent())
 				{
-					return null;
-				}
-				StringBuilder stringBuilder = new StringBuilder();
-				if (!this.IsTended)
-				{
-					if (!base.Pawn.Dead && base.parent.TendableNow)
-					{
-						stringBuilder.AppendLine("NeedsTendingNow".Translate());
-					}
+					result = null;
 				}
 				else
 				{
-					string text = null;
-					text = ((base.parent.Part == null || !base.parent.Part.def.IsSolid(base.parent.Part, base.Pawn.health.hediffSet.hediffs)) ? ((base.parent.Part == null || base.parent.Part.depth != BodyPartDepth.Inside) ? this.TProps.labelTendedWell : this.TProps.labelTendedWellInner) : this.TProps.labelSolidTendedWell);
-					if (text != null)
+					StringBuilder stringBuilder = new StringBuilder();
+					if (!this.IsTended)
 					{
-						stringBuilder.AppendLine(text.CapitalizeFirst() + " (" + "Quality".Translate().ToLower() + " " + this.tendQuality.ToStringPercent("F0") + ")");
+						if (!base.Pawn.Dead && this.parent.TendableNow(false))
+						{
+							stringBuilder.AppendLine("NeedsTendingNow".Translate());
+						}
 					}
-					if (!base.Pawn.Dead && this.TProps.tendDuration > 0)
+					else
 					{
-						int numTicks = this.tendTick + this.TProps.tendDuration - Find.TickManager.TicksGame;
-						string text2 = numTicks.ToStringTicksToPeriod(true, false, true);
-						text2 = ((!"NextTendIn".CanTranslate()) ? "NextTreatmentIn".Translate(text2) : "NextTendIn".Translate(text2));
-						stringBuilder.AppendLine(text2);
+						if (this.TProps.showTendQuality)
+						{
+							string text;
+							if (this.parent.Part != null && this.parent.Part.def.IsSolid(this.parent.Part, base.Pawn.health.hediffSet.hediffs))
+							{
+								text = this.TProps.labelSolidTendedWell;
+							}
+							else if (this.parent.Part != null && this.parent.Part.depth == BodyPartDepth.Inside)
+							{
+								text = this.TProps.labelTendedWellInner;
+							}
+							else
+							{
+								text = this.TProps.labelTendedWell;
+							}
+							if (text != null)
+							{
+								stringBuilder.AppendLine(string.Concat(new string[]
+								{
+									text.CapitalizeFirst(),
+									" (",
+									"Quality".Translate().ToLower(),
+									" ",
+									this.tendQuality.ToStringPercent("F0"),
+									")"
+								}));
+							}
+							else
+							{
+								stringBuilder.AppendLine(string.Format("{0}: {1}", "TendQuality".Translate(), this.tendQuality.ToStringPercent()));
+							}
+						}
+						if (!base.Pawn.Dead && this.TProps.baseTendDurationHours > 0f && this.parent.TendableNow(true))
+						{
+							int num = this.tendTick + this.BaseTendDurationTicks - Find.TickManager.TicksGame;
+							int numTicks = this.tendTick + this.FullTendDurationTicks - Find.TickManager.TicksGame;
+							if (num < 0)
+							{
+								stringBuilder.AppendLine("CanTendNow".Translate());
+							}
+							else if ("NextTendIn".CanTranslate())
+							{
+								stringBuilder.AppendLine("NextTendIn".Translate(new object[]
+								{
+									num.ToStringTicksToPeriod()
+								}));
+							}
+							else
+							{
+								stringBuilder.AppendLine("NextTreatmentIn".Translate(new object[]
+								{
+									num.ToStringTicksToPeriod()
+								}));
+							}
+							stringBuilder.AppendLine("TreatmentExpiresIn".Translate(new object[]
+							{
+								numTicks.ToStringTicksToPeriod()
+							}));
+						}
 					}
+					result = stringBuilder.ToString().TrimEndNewlines();
 				}
-				return stringBuilder.ToString().TrimEndNewlines();
+				return result;
 			}
 		}
 
+		// Token: 0x17000BB9 RID: 3001
+		// (get) Token: 0x060049E2 RID: 18914 RVA: 0x00269AB8 File Offset: 0x00267EB8
 		public override TextureAndColor CompStateIcon
 		{
 			get
 			{
-				if (base.parent is Hediff_Injury)
+				if (this.parent is Hediff_Injury)
 				{
-					if (this.IsTended && !base.parent.IsOld())
+					if (this.IsTended && !this.parent.IsPermanent())
 					{
 						Color color = Color.Lerp(HediffComp_TendDuration.UntendedColor, Color.white, Mathf.Clamp01(this.tendQuality));
 						return new TextureAndColor(HediffComp_TendDuration.TendedIcon_Well_Injury, color);
 					}
 				}
-				else if (!(base.parent is Hediff_MissingPart) && !base.parent.FullyImmune())
+				else if (!(this.parent is Hediff_MissingPart))
 				{
-					if (this.IsTended)
+					if (!this.parent.FullyImmune())
 					{
-						Color color2 = Color.Lerp(HediffComp_TendDuration.UntendedColor, Color.white, Mathf.Clamp01(this.tendQuality));
-						return new TextureAndColor(HediffComp_TendDuration.TendedIcon_Well_General, color2);
+						if (this.IsTended)
+						{
+							Color color2 = Color.Lerp(HediffComp_TendDuration.UntendedColor, Color.white, Mathf.Clamp01(this.tendQuality));
+							return new TextureAndColor(HediffComp_TendDuration.TendedIcon_Well_General, color2);
+						}
+						return HediffComp_TendDuration.TendedIcon_Need_General;
 					}
-					return HediffComp_TendDuration.TendedIcon_Need_General;
 				}
 				return TextureAndColor.None;
 			}
 		}
 
+		// Token: 0x060049E3 RID: 18915 RVA: 0x00269BA4 File Offset: 0x00267FA4
 		public override void CompExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.tendTick, "tendTick", -999999, false);
 			Scribe_Values.Look<float>(ref this.tendQuality, "tendQuality", 0f, false);
-			Scribe_Values.Look<int>(ref this.tendedCount, "tendedCount", 0, false);
+			Scribe_Values.Look<float>(ref this.totalTendQuality, "totalTendQuality", 0f, false);
 		}
 
+		// Token: 0x060049E4 RID: 18916 RVA: 0x00269BF4 File Offset: 0x00267FF4
 		protected override float SeverityChangePerDay()
 		{
+			float result;
 			if (this.IsTended)
 			{
-				return this.TProps.severityPerDayTended * this.tendQuality;
+				result = this.TProps.severityPerDayTended * this.tendQuality;
 			}
-			return 0f;
+			else
+			{
+				result = 0f;
+			}
+			return result;
 		}
 
+		// Token: 0x060049E5 RID: 18917 RVA: 0x00269C34 File Offset: 0x00268034
 		public override void CompTended(float quality, int batchPosition = 0)
 		{
 			this.tendQuality = Mathf.Clamp01(quality + Rand.Range(-0.25f, 0.25f));
 			this.tendTick = Find.TickManager.TicksGame;
-			this.tendedCount++;
+			this.totalTendQuality += this.tendQuality;
 			if (batchPosition == 0 && base.Pawn.Spawned)
 			{
-				string text = "TextMote_Tended".Translate(base.parent.Label).CapitalizeFirst() + "\n" + "Quality".Translate() + " " + this.tendQuality.ToStringPercent();
+				string text = string.Concat(new string[]
+				{
+					"TextMote_Tended".Translate(new object[]
+					{
+						this.parent.Label
+					}).CapitalizeFirst(),
+					"\n",
+					"Quality".Translate(),
+					" ",
+					this.tendQuality.ToStringPercent()
+				});
 				MoteMaker.ThrowText(base.Pawn.DrawPos, base.Pawn.Map, text, Color.white, 3.65f);
 			}
-			base.Pawn.health.Notify_HediffChanged(base.parent);
+			base.Pawn.health.Notify_HediffChanged(this.parent);
 		}
 
+		// Token: 0x060049E6 RID: 18918 RVA: 0x00269D34 File Offset: 0x00268134
 		public override string CompDebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
 			if (this.IsTended)
 			{
 				stringBuilder.AppendLine("tendQuality: " + this.tendQuality.ToStringPercent());
-				if (this.TProps.tendDuration > 0)
+				if (this.TProps.baseTendDurationHours > 0f)
 				{
 					int num = Find.TickManager.TicksGame - this.tendTick;
 					stringBuilder.AppendLine("ticks since tend: " + num);
-					stringBuilder.AppendLine("tend duration passed: " + ((float)num / (float)this.TProps.tendDuration).ToStringPercent());
+					stringBuilder.AppendLine("full tend duration passed: " + ((float)num / (float)this.FullTendDurationTicks).ToStringPercent());
 					stringBuilder.AppendLine("severity change per day: " + (this.TProps.severityPerDayTended * this.tendQuality).ToString());
 				}
 			}
@@ -167,11 +276,52 @@ namespace Verse
 			{
 				stringBuilder.AppendLine("untended");
 			}
-			if (this.TProps.disappearsAtTendedCount >= 0)
+			if (this.TProps.disappearsAtTotalTendQuality >= 0)
 			{
-				stringBuilder.AppendLine("tended count: " + this.tendedCount + " / " + this.TProps.disappearsAtTendedCount);
+				stringBuilder.AppendLine(string.Concat(new object[]
+				{
+					"total tend quality: ",
+					this.totalTendQuality.ToString("F2"),
+					" / ",
+					this.TProps.disappearsAtTotalTendQuality
+				}));
 			}
 			return stringBuilder.ToString().Trim();
 		}
+
+		// Token: 0x060049E7 RID: 18919 RVA: 0x00269E80 File Offset: 0x00268280
+		// Note: this type is marked as 'beforefieldinit'.
+		static HediffComp_TendDuration()
+		{
+			ColorInt colorInt = new ColorInt(116, 101, 72);
+			HediffComp_TendDuration.UntendedColor = colorInt.ToColor;
+			HediffComp_TendDuration.TendedIcon_Need_General = ContentFinder<Texture2D>.Get("UI/Icons/Medical/TendedNeed", true);
+			HediffComp_TendDuration.TendedIcon_Well_General = ContentFinder<Texture2D>.Get("UI/Icons/Medical/TendedWell", true);
+			HediffComp_TendDuration.TendedIcon_Well_Injury = ContentFinder<Texture2D>.Get("UI/Icons/Medical/BandageWell", true);
+		}
+
+		// Token: 0x04003219 RID: 12825
+		public int tendTick = -999999;
+
+		// Token: 0x0400321A RID: 12826
+		public float tendQuality = 0f;
+
+		// Token: 0x0400321B RID: 12827
+		private float totalTendQuality = 0f;
+
+		// Token: 0x0400321C RID: 12828
+		public const float TendQualityRandomVariance = 0.25f;
+
+		// Token: 0x0400321D RID: 12829
+		private static readonly Color UntendedColor;
+
+		// Token: 0x0400321E RID: 12830
+		private static readonly Texture2D TendedIcon_Need_General;
+
+		// Token: 0x0400321F RID: 12831
+		private static readonly Texture2D TendedIcon_Well_General;
+
+		// Token: 0x04003220 RID: 12832
+		private static readonly Texture2D TendedIcon_Well_Injury;
 	}
 }

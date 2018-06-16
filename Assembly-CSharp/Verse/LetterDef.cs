@@ -1,35 +1,19 @@
+﻿using System;
 using RimWorld;
-using System;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000B4F RID: 2895
 	public class LetterDef : Def
 	{
-		public Type letterClass = typeof(StandardLetter);
-
-		public Color color = Color.white;
-
-		public Color flashColor = Color.white;
-
-		public float flashInterval = 90f;
-
-		public bool bounce;
-
-		public SoundDef arriveSound;
-
-		public string icon = "UI/Letters/LetterUnopened";
-
-		public bool pauseIfPauseOnUrgentLetter;
-
-		[Unsaved]
-		private Texture2D iconTex;
-
+		// Token: 0x1700099D RID: 2461
+		// (get) Token: 0x06003F5E RID: 16222 RVA: 0x002161FC File Offset: 0x002145FC
 		public Texture2D Icon
 		{
 			get
 			{
-				if ((UnityEngine.Object)this.iconTex == (UnityEngine.Object)null && !this.icon.NullOrEmpty())
+				if (this.iconTex == null && !this.icon.NullOrEmpty())
 				{
 					this.iconTex = ContentFinder<Texture2D>.Get(this.icon, true);
 				}
@@ -37,6 +21,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06003F5F RID: 16223 RVA: 0x0021624A File Offset: 0x0021464A
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -45,5 +30,34 @@ namespace Verse
 				this.arriveSound = SoundDefOf.LetterArrive;
 			}
 		}
+
+		// Token: 0x040029DB RID: 10715
+		public Type letterClass = typeof(StandardLetter);
+
+		// Token: 0x040029DC RID: 10716
+		public Color color = Color.white;
+
+		// Token: 0x040029DD RID: 10717
+		public Color flashColor = Color.white;
+
+		// Token: 0x040029DE RID: 10718
+		public float flashInterval = 90f;
+
+		// Token: 0x040029DF RID: 10719
+		public bool bounce;
+
+		// Token: 0x040029E0 RID: 10720
+		public SoundDef arriveSound;
+
+		// Token: 0x040029E1 RID: 10721
+		[NoTranslate]
+		public string icon = "UI/Letters/LetterUnopened";
+
+		// Token: 0x040029E2 RID: 10722
+		public bool pauseIfPauseOnUrgentLetter;
+
+		// Token: 0x040029E3 RID: 10723
+		[Unsaved]
+		private Texture2D iconTex;
 	}
 }

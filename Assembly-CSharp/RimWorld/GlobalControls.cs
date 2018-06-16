@@ -1,132 +1,167 @@
+﻿using System;
 using RimWorld.Planet;
 using UnityEngine;
+using UnityEngine.Profiling;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000842 RID: 2114
 	public class GlobalControls
 	{
-		public const float Width = 200f;
-
-		private WidgetRow rowVisibility = new WidgetRow();
-
+		// Token: 0x06002FCD RID: 12237 RVA: 0x0019E320 File Offset: 0x0019C720
 		public void GlobalControlsOnGUI()
 		{
 			if (Event.current.type != EventType.Layout)
 			{
-				float num = (float)((float)UI.screenWidth - 200.0);
+				float num = (float)UI.screenWidth - 200f;
 				float num2 = (float)UI.screenHeight;
-				num2 = (float)(num2 - 35.0);
+				num2 -= 35f;
 				GenUI.DrawTextWinterShadow(new Rect((float)(UI.screenWidth - 270), (float)(UI.screenHeight - 450), 270f, 450f));
-				num2 = (float)(num2 - 4.0);
+				num2 -= 4f;
+				Profiler.BeginSample("Play settings");
 				GlobalControlsUtility.DoPlaySettings(this.rowVisibility, false, ref num2);
-				num2 = (float)(num2 - 4.0);
+				Profiler.EndSample();
+				num2 -= 4f;
+				Profiler.BeginSample("Timespeed controls");
 				GlobalControlsUtility.DoTimespeedControls(num, 200f, ref num2);
-				num2 = (float)(num2 - 4.0);
+				Profiler.EndSample();
+				num2 -= 4f;
+				Profiler.BeginSample("Date");
 				GlobalControlsUtility.DoDate(num, 200f, ref num2);
-				Rect rect = new Rect((float)(num - 30.0), (float)(num2 - 26.0), 230f, 26f);
-				Find.VisibleMap.weatherManager.DoWeatherGUI(rect);
+				Profiler.EndSample();
+				Profiler.BeginSample("Weather");
+				Rect rect = new Rect(num - 30f, num2 - 26f, 230f, 26f);
+				Find.CurrentMap.weatherManager.DoWeatherGUI(rect);
 				num2 -= rect.height;
-				Rect rect2 = new Rect((float)(num - 100.0), (float)(num2 - 26.0), 293f, 26f);
+				Profiler.EndSample();
+				Profiler.BeginSample("Temperature");
+				Rect rect2 = new Rect(num - 100f, num2 - 26f, 293f, 26f);
 				Text.Anchor = TextAnchor.MiddleRight;
 				Widgets.Label(rect2, GlobalControls.TemperatureString());
 				Text.Anchor = TextAnchor.UpperLeft;
-				num2 = (float)(num2 - 26.0);
+				num2 -= 26f;
+				Profiler.EndSample();
+				Profiler.BeginSample("Conditions");
 				float num3 = 230f;
-				float num4 = Find.VisibleMap.gameConditionManager.TotalHeightAt((float)(num3 - 15.0));
-				Rect rect3 = new Rect((float)(num - 30.0), num2 - num4, num3, num4);
-				Find.VisibleMap.gameConditionManager.DoConditionsUI(rect3);
+				float num4 = Find.CurrentMap.gameConditionManager.TotalHeightAt(num3 - 15f);
+				Rect rect3 = new Rect(num - 30f, num2 - num4, num3, num4);
+				Find.CurrentMap.gameConditionManager.DoConditionsUI(rect3);
 				num2 -= rect3.height;
+				Profiler.EndSample();
 				if (Prefs.ShowRealtimeClock)
 				{
+					Profiler.BeginSample("RealtimeClock");
 					GlobalControlsUtility.DoRealtimeClock(num, 200f, ref num2);
+					Profiler.EndSample();
 				}
-				TimedForcedExit component = ((WorldObject)Find.VisibleMap.info.parent).GetComponent<TimedForcedExit>();
+				TimedForcedExit component = Find.CurrentMap.Parent.GetComponent<TimedForcedExit>();
 				if (component != null && component.ForceExitAndRemoveMapCountdownActive)
 				{
-					Rect rect4 = new Rect(num, (float)(num2 - 26.0), 193f, 26f);
+					Profiler.BeginSample("ForceExitAndRemoveMapCountdown");
+					Rect rect4 = new Rect(num, num2 - 26f, 193f, 26f);
 					Text.Anchor = TextAnchor.MiddleRight;
 					GlobalControls.DoCountdownTimer(rect4, component);
 					Text.Anchor = TextAnchor.UpperLeft;
-					num2 = (float)(num2 - 26.0);
+					num2 -= 26f;
+					Profiler.EndSample();
 				}
-				num2 = (float)(num2 - 10.0);
+				Profiler.BeginSample("Letters");
+				num2 -= 10f;
 				Find.LetterStack.LettersOnGUI(num2);
+				Profiler.EndSample();
 			}
 		}
 
+		// Token: 0x06002FCE RID: 12238 RVA: 0x0019E5B0 File Offset: 0x0019C9B0
 		private static string TemperatureString()
 		{
 			IntVec3 intVec = UI.MouseCell();
 			IntVec3 c = intVec;
-			Room room = intVec.GetRoom(Find.VisibleMap, RegionType.Set_All);
+			Room room = intVec.GetRoom(Find.CurrentMap, RegionType.Set_All);
 			if (room == null)
 			{
 				for (int i = 0; i < 9; i++)
 				{
 					IntVec3 intVec2 = intVec + GenAdj.AdjacentCellsAndInside[i];
-					Room room2;
-					if (intVec2.InBounds(Find.VisibleMap))
+					if (intVec2.InBounds(Find.CurrentMap))
 					{
-						room2 = intVec2.GetRoom(Find.VisibleMap, RegionType.Set_All);
+						Room room2 = intVec2.GetRoom(Find.CurrentMap, RegionType.Set_All);
 						if (room2 != null)
 						{
-							if (!room2.PsychologicallyOutdoors && !room2.UsesOutdoorTemperature)
+							if ((!room2.PsychologicallyOutdoors && !room2.UsesOutdoorTemperature) || (!room2.PsychologicallyOutdoors && (room == null || room.PsychologicallyOutdoors)) || (room2.PsychologicallyOutdoors && room == null))
 							{
-								goto IL_00a8;
+								c = intVec2;
+								room = room2;
 							}
-							if (!room2.PsychologicallyOutdoors && (room == null || room.PsychologicallyOutdoors))
-							{
-								goto IL_00a8;
-							}
-							if (room2.PsychologicallyOutdoors && room == null)
-								goto IL_00a8;
 						}
 					}
-					continue;
-					IL_00a8:
-					c = intVec2;
-					room = room2;
 				}
 			}
-			if (room == null && intVec.InBounds(Find.VisibleMap))
+			if (room == null && intVec.InBounds(Find.CurrentMap))
 			{
-				Building edifice = intVec.GetEdifice(Find.VisibleMap);
+				Building edifice = intVec.GetEdifice(Find.CurrentMap);
 				if (edifice != null)
 				{
-					CellRect.CellRectIterator iterator = edifice.OccupiedRect().ExpandedBy(1).ClipInsideMap(Find.VisibleMap)
-						.GetIterator();
+					CellRect.CellRectIterator iterator = edifice.OccupiedRect().ExpandedBy(1).ClipInsideMap(Find.CurrentMap).GetIterator();
 					while (!iterator.Done())
 					{
-						IntVec3 current = iterator.Current;
-						room = current.GetRoom(Find.VisibleMap, RegionType.Set_All);
+						IntVec3 intVec3 = iterator.Current;
+						room = intVec3.GetRoom(Find.CurrentMap, RegionType.Set_All);
 						if (room != null && !room.PsychologicallyOutdoors)
 						{
-							c = current;
+							c = intVec3;
 							break;
 						}
 						iterator.MoveNext();
 					}
 				}
 			}
-			string str = (!c.InBounds(Find.VisibleMap) || c.Fogged(Find.VisibleMap) || room == null || room.PsychologicallyOutdoors) ? "Outdoors".Translate() : ((room.OpenRoofCount != 0) ? ("IndoorsUnroofed".Translate() + " (" + room.OpenRoofCount.ToStringCached() + ")") : "Indoors".Translate());
-			float celsiusTemp = (room != null && !c.Fogged(Find.VisibleMap)) ? room.Temperature : Find.VisibleMap.mapTemperature.OutdoorTemp;
+			string str;
+			if (c.InBounds(Find.CurrentMap) && !c.Fogged(Find.CurrentMap) && room != null && !room.PsychologicallyOutdoors)
+			{
+				if (room.OpenRoofCount == 0)
+				{
+					str = "Indoors".Translate();
+				}
+				else
+				{
+					str = "IndoorsUnroofed".Translate() + " (" + room.OpenRoofCount.ToStringCached() + ")";
+				}
+			}
+			else
+			{
+				str = "Outdoors".Translate();
+			}
+			float celsiusTemp = (room != null && !c.Fogged(Find.CurrentMap)) ? room.Temperature : Find.CurrentMap.mapTemperature.OutdoorTemp;
 			return str + " " + celsiusTemp.ToStringTemperature("F0");
 		}
 
+		// Token: 0x06002FCF RID: 12239 RVA: 0x0019E804 File Offset: 0x0019CC04
 		private static void DoCountdownTimer(Rect rect, TimedForcedExit timedForcedExit)
 		{
 			string forceExitAndRemoveMapCountdownTimeLeftString = timedForcedExit.ForceExitAndRemoveMapCountdownTimeLeftString;
-			string text = "ForceExitAndRemoveMapCountdown".Translate(forceExitAndRemoveMapCountdownTimeLeftString);
-			Vector2 vector = Text.CalcSize(text);
-			float x = vector.x;
+			string text = "ForceExitAndRemoveMapCountdown".Translate(new object[]
+			{
+				forceExitAndRemoveMapCountdownTimeLeftString
+			});
+			float x = Text.CalcSize(text).x;
 			Rect rect2 = new Rect(rect.xMax - x, rect.y, x, rect.height);
 			if (Mouse.IsOver(rect2))
 			{
 				Widgets.DrawHighlight(rect2);
 			}
-			TooltipHandler.TipRegion(rect2, "ForceExitAndRemoveMapCountdownTip".Translate(forceExitAndRemoveMapCountdownTimeLeftString));
+			TooltipHandler.TipRegion(rect2, "ForceExitAndRemoveMapCountdownTip".Translate(new object[]
+			{
+				forceExitAndRemoveMapCountdownTimeLeftString
+			}));
 			Widgets.Label(rect2, text);
 		}
+
+		// Token: 0x040019D5 RID: 6613
+		public const float Width = 200f;
+
+		// Token: 0x040019D6 RID: 6614
+		private WidgetRow rowVisibility = new WidgetRow();
 	}
 }

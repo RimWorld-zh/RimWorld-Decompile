@@ -1,38 +1,16 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld;
 using UnityEngine;
 using Verse.Sound;
 
 namespace Verse
 {
+	// Token: 0x02000ECE RID: 3790
 	public class WindowStack
 	{
-		public Window currentlyDrawnWindow;
-
-		private List<Window> windows = new List<Window>();
-
-		private List<int> immediateWindowsRequests = new List<int>();
-
-		private bool updateInternalWindowsOrderLater;
-
-		private Window focusedWindow;
-
-		private static int uniqueWindowID;
-
-		private bool gameStartDialogOpen;
-
-		private float timeGameStartDialogClosed = -1f;
-
-		private IntVec2 prevResolution = new IntVec2(UI.screenWidth, UI.screenHeight);
-
-		private List<Window> windowStackOnGUITmpList = new List<Window>();
-
-		private List<Window> updateImmediateWindowsListTmpList = new List<Window>();
-
-		private List<Window> removeWindowsOfTypeTmpList = new List<Window>();
-
-		private List<Window> closeWindowsTmpList = new List<Window>();
-
+		// Token: 0x17000E1A RID: 3610
+		// (get) Token: 0x0600597E RID: 22910 RVA: 0x002DC4E4 File Offset: 0x002DA8E4
 		public int Count
 		{
 			get
@@ -41,6 +19,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000E1B RID: 3611
 		public Window this[int index]
 		{
 			get
@@ -49,6 +28,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000E1C RID: 3612
+		// (get) Token: 0x06005980 RID: 22912 RVA: 0x002DC528 File Offset: 0x002DA928
 		public IList<Window> Windows
 		{
 			get
@@ -57,6 +38,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000E1D RID: 3613
+		// (get) Token: 0x06005981 RID: 22913 RVA: 0x002DC548 File Offset: 0x002DA948
 		public FloatMenu FloatMenu
 		{
 			get
@@ -65,6 +48,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000E1E RID: 3614
+		// (get) Token: 0x06005982 RID: 22914 RVA: 0x002DC564 File Offset: 0x002DA964
 		public bool WindowsForcePause
 		{
 			get
@@ -80,6 +65,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000E1F RID: 3615
+		// (get) Token: 0x06005983 RID: 22915 RVA: 0x002DC5B8 File Offset: 0x002DA9B8
 		public bool WindowsPreventCameraMotion
 		{
 			get
@@ -95,6 +82,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000E20 RID: 3616
+		// (get) Token: 0x06005984 RID: 22916 RVA: 0x002DC60C File Offset: 0x002DAA0C
 		public bool WindowsPreventDrawTutor
 		{
 			get
@@ -110,31 +99,41 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000E21 RID: 3617
+		// (get) Token: 0x06005985 RID: 22917 RVA: 0x002DC660 File Offset: 0x002DAA60
 		public float SecondsSinceClosedGameStartDialog
 		{
 			get
 			{
+				float result;
 				if (this.gameStartDialogOpen)
 				{
-					return 0f;
+					result = 0f;
 				}
-				if (this.timeGameStartDialogClosed < 0.0)
+				else if (this.timeGameStartDialogClosed < 0f)
 				{
-					return 9999999f;
+					result = 9999999f;
 				}
-				return Time.time - this.timeGameStartDialogClosed;
+				else
+				{
+					result = Time.time - this.timeGameStartDialogClosed;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000E22 RID: 3618
+		// (get) Token: 0x06005986 RID: 22918 RVA: 0x002DC6B4 File Offset: 0x002DAAB4
 		public bool MouseObscuredNow
 		{
 			get
 			{
-				Vector3 v = (Event.current == null) ? ((Vector3)UI.MousePositionOnUIInverted) : ((Vector3)UI.GUIToScreenPoint(Event.current.mousePosition));
-				return this.GetWindowAt(v) != this.currentlyDrawnWindow;
+				return this.GetWindowAt(UI.MousePosUIInvertedUseEventIfCan) != this.currentlyDrawnWindow;
 			}
 		}
 
+		// Token: 0x17000E23 RID: 3619
+		// (get) Token: 0x06005987 RID: 22919 RVA: 0x002DC6E0 File Offset: 0x002DAAE0
 		public bool CurrentWindowGetsInput
 		{
 			get
@@ -143,6 +142,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000E24 RID: 3620
+		// (get) Token: 0x06005988 RID: 22920 RVA: 0x002DC704 File Offset: 0x002DAB04
 		public bool NonImmediateDialogWindowOpen
 		{
 			get
@@ -158,6 +159,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06005989 RID: 22921 RVA: 0x002DC76C File Offset: 0x002DAB6C
 		public void WindowsUpdate()
 		{
 			this.AdjustWindowsIfResolutionChanged();
@@ -167,44 +169,55 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x0600598A RID: 22922 RVA: 0x002DC7B0 File Offset: 0x002DABB0
 		public void HandleEventsHighPriority()
 		{
-			if (Event.current.type == EventType.MouseDown && this.GetWindowAt(UI.GUIToScreenPoint(Event.current.mousePosition)) == null && this.CloseWindowsBecauseClicked(null))
+			if (Event.current.type == EventType.MouseDown && this.GetWindowAt(UI.GUIToScreenPoint(Event.current.mousePosition)) == null)
 			{
-				Event.current.Use();
+				bool flag = this.CloseWindowsBecauseClicked(null);
+				if (flag)
+				{
+					Event.current.Use();
+				}
 			}
-			if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Escape)
+			if (KeyBindingDefOf.Cancel.KeyDownEvent)
 			{
-				this.Notify_PressedEscape();
+				this.Notify_PressedCancel();
 			}
-			if (Event.current.type != 0 && Event.current.type != EventType.KeyDown)
-				return;
-			if (!this.GetsInput(null))
+			if (KeyBindingDefOf.Accept.KeyDownEvent)
 			{
-				Event.current.Use();
+				this.Notify_PressedAccept();
+			}
+			if (Event.current.type == EventType.MouseDown || Event.current.type == EventType.KeyDown)
+			{
+				if (!this.GetsInput(null))
+				{
+					Event.current.Use();
+				}
 			}
 		}
 
+		// Token: 0x0600598B RID: 22923 RVA: 0x002DC864 File Offset: 0x002DAC64
 		public void WindowStackOnGUI()
 		{
 			this.windowStackOnGUITmpList.Clear();
 			this.windowStackOnGUITmpList.AddRange(this.windows);
-			for (int num = this.windowStackOnGUITmpList.Count - 1; num >= 0; num--)
+			for (int i = this.windowStackOnGUITmpList.Count - 1; i >= 0; i--)
 			{
-				this.windowStackOnGUITmpList[num].ExtraOnGUI();
+				this.windowStackOnGUITmpList[i].ExtraOnGUI();
 			}
 			this.UpdateImmediateWindowsList();
 			this.windowStackOnGUITmpList.Clear();
 			this.windowStackOnGUITmpList.AddRange(this.windows);
-			for (int i = 0; i < this.windowStackOnGUITmpList.Count; i++)
+			for (int j = 0; j < this.windowStackOnGUITmpList.Count; j++)
 			{
-				if (this.windowStackOnGUITmpList[i].drawShadow)
+				if (this.windowStackOnGUITmpList[j].drawShadow)
 				{
-					GUI.color = new Color(1f, 1f, 1f, this.windowStackOnGUITmpList[i].shadowAlpha);
-					Widgets.DrawShadowAround(this.windowStackOnGUITmpList[i].windowRect);
+					GUI.color = new Color(1f, 1f, 1f, this.windowStackOnGUITmpList[j].shadowAlpha);
+					Widgets.DrawShadowAround(this.windowStackOnGUITmpList[j].windowRect);
 					GUI.color = Color.white;
 				}
-				this.windowStackOnGUITmpList[i].WindowOnGUI();
+				this.windowStackOnGUITmpList[j].WindowOnGUI();
 			}
 			if (this.updateInternalWindowsOrderLater)
 			{
@@ -213,6 +226,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x0600598C RID: 22924 RVA: 0x002DC98C File Offset: 0x002DAD8C
 		public void Notify_ClickedInsideWindow(Window window)
 		{
 			if (this.GetsInput(window))
@@ -229,41 +243,53 @@ namespace Verse
 			this.updateInternalWindowsOrderLater = true;
 		}
 
+		// Token: 0x0600598D RID: 22925 RVA: 0x002DC9E1 File Offset: 0x002DADE1
 		public void Notify_ManuallySetFocus(Window window)
 		{
 			this.focusedWindow = window;
 			this.updateInternalWindowsOrderLater = true;
 		}
 
-		public void Notify_PressedEscape()
+		// Token: 0x0600598E RID: 22926 RVA: 0x002DC9F4 File Offset: 0x002DADF4
+		public void Notify_PressedCancel()
 		{
-			int num = this.windows.Count - 1;
-			while (true)
+			for (int i = this.windows.Count - 1; i >= 0; i--)
 			{
-				if (num >= 0)
+				if ((this.windows[i].closeOnCancel || this.windows[i].forceCatchAcceptAndCancelEventEvenIfUnfocused) && this.GetsInput(this.windows[i]))
 				{
-					if (this.windows[num].closeOnEscapeKey && this.GetsInput(this.windows[num]))
-						break;
-					num--;
-					continue;
+					this.windows[i].OnCancelKeyPressed();
+					break;
 				}
-				return;
 			}
-			Event.current.Use();
-			this.TryRemove(this.windows[num], true);
 		}
 
+		// Token: 0x0600598F RID: 22927 RVA: 0x002DCA7C File Offset: 0x002DAE7C
+		public void Notify_PressedAccept()
+		{
+			for (int i = this.windows.Count - 1; i >= 0; i--)
+			{
+				if ((this.windows[i].closeOnAccept || this.windows[i].forceCatchAcceptAndCancelEventEvenIfUnfocused) && this.GetsInput(this.windows[i]))
+				{
+					this.windows[i].OnAcceptKeyPressed();
+					break;
+				}
+			}
+		}
+
+		// Token: 0x06005990 RID: 22928 RVA: 0x002DCB04 File Offset: 0x002DAF04
 		public void Notify_GameStartDialogOpened()
 		{
 			this.gameStartDialogOpen = true;
 		}
 
+		// Token: 0x06005991 RID: 22929 RVA: 0x002DCB0E File Offset: 0x002DAF0E
 		public void Notify_GameStartDialogClosed()
 		{
 			this.timeGameStartDialogClosed = Time.time;
 			this.gameStartDialogOpen = false;
 		}
 
+		// Token: 0x06005992 RID: 22930 RVA: 0x002DCB24 File Offset: 0x002DAF24
 		public bool IsOpen<WindowType>()
 		{
 			for (int i = 0; i < this.windows.Count; i++)
@@ -276,6 +302,7 @@ namespace Verse
 			return false;
 		}
 
+		// Token: 0x06005993 RID: 22931 RVA: 0x002DCB78 File Offset: 0x002DAF78
 		public bool IsOpen(Type type)
 		{
 			for (int i = 0; i < this.windows.Count; i++)
@@ -288,34 +315,51 @@ namespace Verse
 			return false;
 		}
 
+		// Token: 0x06005994 RID: 22932 RVA: 0x002DCBCC File Offset: 0x002DAFCC
+		public bool IsOpen(Window window)
+		{
+			return this.windows.Contains(window);
+		}
+
+		// Token: 0x06005995 RID: 22933 RVA: 0x002DCBF0 File Offset: 0x002DAFF0
 		public WindowType WindowOfType<WindowType>() where WindowType : class
 		{
 			for (int i = 0; i < this.windows.Count; i++)
 			{
 				if (this.windows[i] is WindowType)
 				{
-					return (WindowType)(((object)this.windows[i]) as WindowType);
+					return this.windows[i] as WindowType;
 				}
 			}
-			return (WindowType)null;
+			return (WindowType)((object)null);
 		}
 
+		// Token: 0x06005996 RID: 22934 RVA: 0x002DCC60 File Offset: 0x002DB060
 		public bool GetsInput(Window window)
 		{
-			for (int num = this.windows.Count - 1; num >= 0; num--)
+			int i = this.windows.Count - 1;
+			while (i >= 0)
 			{
-				if (this.windows[num] == window)
+				bool result;
+				if (this.windows[i] == window)
 				{
-					return true;
+					result = true;
 				}
-				if (this.windows[num].absorbInputAroundWindow)
+				else
 				{
-					return false;
+					if (!this.windows[i].absorbInputAroundWindow)
+					{
+						i--;
+						continue;
+					}
+					result = false;
 				}
+				return result;
 			}
 			return true;
 		}
 
+		// Token: 0x06005997 RID: 22935 RVA: 0x002DCCCC File Offset: 0x002DB0CC
 		public void Add(Window window)
 		{
 			this.RemoveWindowsOfType(window.GetType());
@@ -327,35 +371,33 @@ namespace Verse
 			window.PostOpen();
 		}
 
+		// Token: 0x06005998 RID: 22936 RVA: 0x002DCD1C File Offset: 0x002DB11C
 		public void ImmediateWindow(int ID, Rect rect, WindowLayer layer, Action doWindowFunc, bool doBackground = true, bool absorbInputAroundWindow = false, float shadowAlpha = 1f)
 		{
 			if (Event.current.type == EventType.Repaint)
 			{
 				if (ID == 0)
 				{
-					Log.Warning("Used 0 as immediate window ID.");
+					Log.Warning("Used 0 as immediate window ID.", false);
 				}
 				else
 				{
 					ID = -Math.Abs(ID);
 					bool flag = false;
-					int num = 0;
-					while (num < this.windows.Count)
+					for (int i = 0; i < this.windows.Count; i++)
 					{
-						if (this.windows[num].ID != ID)
+						if (this.windows[i].ID == ID)
 						{
-							num++;
-							continue;
+							ImmediateWindow immediateWindow = (ImmediateWindow)this.windows[i];
+							immediateWindow.windowRect = rect;
+							immediateWindow.doWindowFunc = doWindowFunc;
+							immediateWindow.layer = layer;
+							immediateWindow.doWindowBackground = doBackground;
+							immediateWindow.absorbInputAroundWindow = absorbInputAroundWindow;
+							immediateWindow.shadowAlpha = shadowAlpha;
+							flag = true;
+							break;
 						}
-						ImmediateWindow immediateWindow = (ImmediateWindow)this.windows[num];
-						immediateWindow.windowRect = rect;
-						immediateWindow.doWindowFunc = doWindowFunc;
-						immediateWindow.layer = layer;
-						immediateWindow.doWindowBackground = doBackground;
-						immediateWindow.absorbInputAroundWindow = absorbInputAroundWindow;
-						immediateWindow.shadowAlpha = shadowAlpha;
-						flag = true;
-						break;
 					}
 					if (!flag)
 					{
@@ -366,6 +408,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06005999 RID: 22937 RVA: 0x002DCE04 File Offset: 0x002DB204
 		public bool TryRemove(Type windowType, bool doCloseSound = true)
 		{
 			for (int i = 0; i < this.windows.Count; i++)
@@ -378,6 +421,7 @@ namespace Verse
 			return false;
 		}
 
+		// Token: 0x0600599A RID: 22938 RVA: 0x002DCE68 File Offset: 0x002DB268
 		public bool TryRemoveAssignableFromType(Type windowType, bool doCloseSound = true)
 		{
 			for (int i = 0; i < this.windows.Count; i++)
@@ -390,63 +434,68 @@ namespace Verse
 			return false;
 		}
 
+		// Token: 0x0600599B RID: 22939 RVA: 0x002DCED4 File Offset: 0x002DB2D4
 		public bool TryRemove(Window window, bool doCloseSound = true)
 		{
 			bool flag = false;
-			int num = 0;
-			while (num < this.windows.Count)
+			for (int i = 0; i < this.windows.Count; i++)
 			{
-				if (this.windows[num] != window)
+				if (this.windows[i] == window)
 				{
-					num++;
-					continue;
+					flag = true;
+					break;
 				}
-				flag = true;
-				break;
 			}
+			bool result;
 			if (!flag)
 			{
-				return false;
+				result = false;
 			}
-			if (doCloseSound && window.soundClose != null)
+			else
 			{
-				window.soundClose.PlayOneShotOnCamera(null);
-			}
-			window.PreClose();
-			this.windows.Remove(window);
-			window.PostClose();
-			if (this.focusedWindow == window)
-			{
-				if (this.windows.Count > 0)
+				if (doCloseSound && window.soundClose != null)
 				{
-					this.focusedWindow = this.windows[this.windows.Count - 1];
+					window.soundClose.PlayOneShotOnCamera(null);
 				}
-				else
+				window.PreClose();
+				this.windows.Remove(window);
+				window.PostClose();
+				if (this.focusedWindow == window)
 				{
-					this.focusedWindow = null;
+					if (this.windows.Count > 0)
+					{
+						this.focusedWindow = this.windows[this.windows.Count - 1];
+					}
+					else
+					{
+						this.focusedWindow = null;
+					}
+					this.updateInternalWindowsOrderLater = true;
 				}
-				this.updateInternalWindowsOrderLater = true;
+				result = true;
 			}
-			return true;
+			return result;
 		}
 
+		// Token: 0x0600599C RID: 22940 RVA: 0x002DCFB8 File Offset: 0x002DB3B8
 		public Window GetWindowAt(Vector2 pos)
 		{
-			for (int num = this.windows.Count - 1; num >= 0; num--)
+			for (int i = this.windows.Count - 1; i >= 0; i--)
 			{
-				if (this.windows[num].windowRect.Contains(pos))
+				if (this.windows[i].windowRect.Contains(pos))
 				{
-					return this.windows[num];
+					return this.windows[i];
 				}
 			}
 			return null;
 		}
 
+		// Token: 0x0600599D RID: 22941 RVA: 0x002DD01C File Offset: 0x002DB41C
 		private void AddNewImmediateWindow(int ID, Rect rect, WindowLayer layer, Action doWindowFunc, bool doBackground, bool absorbInputAroundWindow, float shadowAlpha)
 		{
 			if (ID >= 0)
 			{
-				Log.Error("Invalid immediate window ID.");
+				Log.Error("Invalid immediate window ID.", false);
 			}
 			else
 			{
@@ -466,6 +515,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x0600599E RID: 22942 RVA: 0x002DD0A0 File Offset: 0x002DB4A0
 		private void UpdateImmediateWindowsList()
 		{
 			if (Event.current.type == EventType.Repaint)
@@ -477,16 +527,13 @@ namespace Verse
 					if (this.IsImmediateWindow(this.updateImmediateWindowsListTmpList[i]))
 					{
 						bool flag = false;
-						int num = 0;
-						while (num < this.immediateWindowsRequests.Count)
+						for (int j = 0; j < this.immediateWindowsRequests.Count; j++)
 						{
-							if (this.immediateWindowsRequests[num] != this.updateImmediateWindowsListTmpList[i].ID)
+							if (this.immediateWindowsRequests[j] == this.updateImmediateWindowsListTmpList[i].ID)
 							{
-								num++;
-								continue;
+								flag = true;
+								break;
 							}
-							flag = true;
-							break;
 						}
 						if (!flag)
 						{
@@ -498,6 +545,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x0600599F RID: 22943 RVA: 0x002DD188 File Offset: 0x002DB588
 		private void InsertAtCorrectPositionInList(Window window)
 		{
 			int index = 0;
@@ -512,32 +560,28 @@ namespace Verse
 			this.updateInternalWindowsOrderLater = true;
 		}
 
+		// Token: 0x060059A0 RID: 22944 RVA: 0x002DD1EC File Offset: 0x002DB5EC
 		private void FocusAfterInsertIfShould(Window window)
 		{
 			if (window.focusWhenOpened)
 			{
-				int num = this.windows.Count - 1;
-				while (true)
+				for (int i = this.windows.Count - 1; i >= 0; i--)
 				{
-					if (num >= 0)
+					if (this.windows[i] == window)
 					{
-						if (this.windows[num] == window)
-						{
-							break;
-						}
-						if (this.windows[num] != this.focusedWindow)
-						{
-							num--;
-							continue;
-						}
+						this.focusedWindow = this.windows[i];
+						this.updateInternalWindowsOrderLater = true;
+						break;
 					}
-					return;
+					if (this.windows[i] == this.focusedWindow)
+					{
+						break;
+					}
 				}
-				this.focusedWindow = this.windows[num];
-				this.updateInternalWindowsOrderLater = true;
 			}
 		}
 
+		// Token: 0x060059A1 RID: 22945 RVA: 0x002DD278 File Offset: 0x002DB678
 		private void AdjustWindowsIfResolutionChanged()
 		{
 			IntVec2 a = new IntVec2(UI.screenWidth, UI.screenHeight);
@@ -555,6 +599,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x060059A2 RID: 22946 RVA: 0x002DD2F8 File Offset: 0x002DB6F8
 		private void RemoveWindowsOfType(Type type)
 		{
 			this.removeWindowsOfTypeTmpList.Clear();
@@ -568,29 +613,34 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x060059A3 RID: 22947 RVA: 0x002DD384 File Offset: 0x002DB784
 		private bool CloseWindowsBecauseClicked(Window clickedWindow)
 		{
 			this.closeWindowsTmpList.Clear();
 			this.closeWindowsTmpList.AddRange(this.windows);
 			bool result = false;
-			int num = this.closeWindowsTmpList.Count - 1;
-			while (num >= 0 && this.closeWindowsTmpList[num] != clickedWindow)
+			for (int i = this.closeWindowsTmpList.Count - 1; i >= 0; i--)
 			{
-				if (this.closeWindowsTmpList[num].closeOnClickedOutside)
+				if (this.closeWindowsTmpList[i] == clickedWindow)
+				{
+					break;
+				}
+				if (this.closeWindowsTmpList[i].closeOnClickedOutside)
 				{
 					result = true;
-					this.TryRemove(this.closeWindowsTmpList[num], true);
+					this.TryRemove(this.closeWindowsTmpList[i], true);
 				}
-				num--;
 			}
 			return result;
 		}
 
+		// Token: 0x060059A4 RID: 22948 RVA: 0x002DD420 File Offset: 0x002DB820
 		private bool IsImmediateWindow(Window window)
 		{
 			return window.ID < 0;
 		}
 
+		// Token: 0x060059A5 RID: 22949 RVA: 0x002DD440 File Offset: 0x002DB840
 		private void UpdateInternalWindowsOrder()
 		{
 			for (int i = 0; i < this.windows.Count; i++)
@@ -602,5 +652,44 @@ namespace Verse
 				GUI.FocusWindow(this.focusedWindow.ID);
 			}
 		}
+
+		// Token: 0x04003BE4 RID: 15332
+		public Window currentlyDrawnWindow;
+
+		// Token: 0x04003BE5 RID: 15333
+		private List<Window> windows = new List<Window>();
+
+		// Token: 0x04003BE6 RID: 15334
+		private List<int> immediateWindowsRequests = new List<int>();
+
+		// Token: 0x04003BE7 RID: 15335
+		private bool updateInternalWindowsOrderLater;
+
+		// Token: 0x04003BE8 RID: 15336
+		private Window focusedWindow;
+
+		// Token: 0x04003BE9 RID: 15337
+		private static int uniqueWindowID;
+
+		// Token: 0x04003BEA RID: 15338
+		private bool gameStartDialogOpen;
+
+		// Token: 0x04003BEB RID: 15339
+		private float timeGameStartDialogClosed = -1f;
+
+		// Token: 0x04003BEC RID: 15340
+		private IntVec2 prevResolution = new IntVec2(UI.screenWidth, UI.screenHeight);
+
+		// Token: 0x04003BED RID: 15341
+		private List<Window> windowStackOnGUITmpList = new List<Window>();
+
+		// Token: 0x04003BEE RID: 15342
+		private List<Window> updateImmediateWindowsListTmpList = new List<Window>();
+
+		// Token: 0x04003BEF RID: 15343
+		private List<Window> removeWindowsOfTypeTmpList = new List<Window>();
+
+		// Token: 0x04003BF0 RID: 15344
+		private List<Window> closeWindowsTmpList = new List<Window>();
 	}
 }

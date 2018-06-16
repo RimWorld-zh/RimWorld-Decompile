@@ -1,20 +1,29 @@
+﻿using System;
+
 namespace RimWorld
 {
+	// Token: 0x02000204 RID: 516
 	public class Thought_ChemicalInterestVsTeetotaler : Thought_SituationalSocial
 	{
+		// Token: 0x060009D6 RID: 2518 RVA: 0x000583A8 File Offset: 0x000567A8
 		public override float OpinionOffset()
 		{
-			int num = base.pawn.story.traits.DegreeOfTrait(TraitDefOf.DrugDesire);
-			int num2 = base.otherPawn.story.traits.DegreeOfTrait(TraitDefOf.DrugDesire);
+			int num = this.pawn.story.traits.DegreeOfTrait(TraitDefOf.DrugDesire);
+			int num2 = this.otherPawn.story.traits.DegreeOfTrait(TraitDefOf.DrugDesire);
+			float result;
 			if (num2 >= 0)
 			{
-				return 0f;
+				result = 0f;
 			}
-			if (num == 1)
+			else if (num == 1)
 			{
-				return -20f;
+				result = -20f;
 			}
-			return -30f;
+			else
+			{
+				result = -30f;
+			}
+			return result;
 		}
 	}
 }

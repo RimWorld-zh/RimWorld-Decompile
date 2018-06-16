@@ -1,30 +1,40 @@
-using System.Collections.Generic;
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x020000CC RID: 204
 	public class JobGiver_SpectateDutySpectateRect : ThinkNode_JobGiver
 	{
+		// Token: 0x060004A6 RID: 1190 RVA: 0x00034D84 File Offset: 0x00033184
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			PawnDuty duty = pawn.mindState.duty;
+			Job result;
+			IntVec3 c;
 			if (duty == null)
 			{
-				return null;
+				result = null;
 			}
-			IntVec3 c = default(IntVec3);
-			if (!SpectatorCellFinder.TryFindSpectatorCellFor(pawn, duty.spectateRect, pawn.Map, out c, duty.spectateRectAllowedSides, 1, (List<IntVec3>)null))
+			else if (!SpectatorCellFinder.TryFindSpectatorCellFor(pawn, duty.spectateRect, pawn.Map, out c, duty.spectateRectAllowedSides, 1, null))
 			{
-				return null;
+				result = null;
 			}
-			IntVec3 centerCell = duty.spectateRect.CenterCell;
-			Building edifice = c.GetEdifice(pawn.Map);
-			if (edifice != null && edifice.def.category == ThingCategory.Building && edifice.def.building.isSittable && pawn.CanReserve(edifice, 1, -1, null, false))
+			else
 			{
-				return new Job(JobDefOf.SpectateCeremony, edifice, centerCell);
+				IntVec3 centerCell = duty.spectateRect.CenterCell;
+				Building edifice = c.GetEdifice(pawn.Map);
+				if (edifice != null && edifice.def.category == ThingCategory.Building && edifice.def.building.isSittable && pawn.CanReserve(edifice, 1, -1, null, false))
+				{
+					result = new Job(JobDefOf.SpectateCeremony, edifice, centerCell);
+				}
+				else
+				{
+					result = new Job(JobDefOf.SpectateCeremony, c, centerCell);
+				}
 			}
-			return new Job(JobDefOf.SpectateCeremony, c, centerCell);
+			return result;
 		}
 	}
 }

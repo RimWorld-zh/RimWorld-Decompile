@@ -1,48 +1,59 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020007A4 RID: 1956
 	public class Alert_NeedJoySource : Alert
 	{
+		// Token: 0x06002B43 RID: 11075 RVA: 0x0016D904 File Offset: 0x0016BD04
 		public Alert_NeedJoySource()
 		{
-			base.defaultLabel = "NeedJoySource".Translate();
-			base.defaultExplanation = "NeedJoySourceDesc".Translate();
+			this.defaultLabel = "NeedJoySource".Translate();
+			this.defaultExplanation = "NeedJoySourceDesc".Translate();
 		}
 
+		// Token: 0x06002B44 RID: 11076 RVA: 0x0016D930 File Offset: 0x0016BD30
 		public override AlertReport GetReport()
 		{
-			if (GenDate.DaysPassedFloat < 6.5)
+			AlertReport result;
+			if (GenDate.DaysPassedFloat < 6.5f)
 			{
-				return false;
+				result = false;
 			}
-			List<Map> maps = Find.Maps;
-			for (int i = 0; i < maps.Count; i++)
+			else
 			{
-				if (this.NeedJoySource(maps[i]))
+				List<Map> maps = Find.Maps;
+				for (int i = 0; i < maps.Count; i++)
 				{
-					return true;
+					if (this.NeedJoySource(maps[i]))
+					{
+						return true;
+					}
 				}
+				result = false;
 			}
-			return false;
+			return result;
 		}
 
+		// Token: 0x06002B45 RID: 11077 RVA: 0x0016D9A4 File Offset: 0x0016BDA4
 		private bool NeedJoySource(Map map)
 		{
+			bool result;
 			if (!map.IsPlayerHome)
 			{
-				return false;
+				result = false;
 			}
-			if (!map.mapPawns.AnyColonistSpawned)
+			else if (!map.mapPawns.AnyColonistSpawned)
 			{
-				return false;
+				result = false;
 			}
-			if (map.listerBuildings.allBuildingsColonist.Any((Building b) => b.def.building.isJoySource))
+			else
 			{
-				return false;
+				result = !map.listerBuildings.allBuildingsColonist.Any((Building b) => b.def.building.joyKind != null);
 			}
-			return true;
+			return result;
 		}
 	}
 }

@@ -1,23 +1,24 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000421 RID: 1057
 	public class CompSchedule : ThingComp
 	{
-		public const string ScheduledOnSignal = "ScheduledOn";
-
-		public const string ScheduledOffSignal = "ScheduledOff";
-
-		private bool intAllowed;
-
+		// Token: 0x1700027F RID: 639
+		// (get) Token: 0x06001268 RID: 4712 RVA: 0x0009F6F4 File Offset: 0x0009DAF4
 		public CompProperties_Schedule Props
 		{
 			get
 			{
-				return (CompProperties_Schedule)base.props;
+				return (CompProperties_Schedule)this.props;
 			}
 		}
 
+		// Token: 0x17000280 RID: 640
+		// (get) Token: 0x06001269 RID: 4713 RVA: 0x0009F714 File Offset: 0x0009DB14
+		// (set) Token: 0x0600126A RID: 4714 RVA: 0x0009F72F File Offset: 0x0009DB2F
 		public bool Allowed
 		{
 			get
@@ -29,26 +30,29 @@ namespace RimWorld
 				if (this.intAllowed != value)
 				{
 					this.intAllowed = value;
-					base.parent.BroadcastCompSignal((!this.intAllowed) ? "ScheduledOff" : "ScheduledOn");
+					this.parent.BroadcastCompSignal((!this.intAllowed) ? "ScheduledOff" : "ScheduledOn");
 				}
 			}
 		}
 
+		// Token: 0x0600126B RID: 4715 RVA: 0x0009F76F File Offset: 0x0009DB6F
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
 			this.RecalculateAllowed();
 		}
 
+		// Token: 0x0600126C RID: 4716 RVA: 0x0009F77F File Offset: 0x0009DB7F
 		public override void CompTickRare()
 		{
 			base.CompTickRare();
 			this.RecalculateAllowed();
 		}
 
+		// Token: 0x0600126D RID: 4717 RVA: 0x0009F790 File Offset: 0x0009DB90
 		public void RecalculateAllowed()
 		{
-			float num = GenLocalDate.DayPercent(base.parent);
+			float num = GenLocalDate.DayPercent(this.parent);
 			if (this.Props.startTime <= this.Props.endTime)
 			{
 				this.Allowed = (num > this.Props.startTime && num < this.Props.endTime);
@@ -59,13 +63,28 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x0600126E RID: 4718 RVA: 0x0009F820 File Offset: 0x0009DC20
 		public override string CompInspectStringExtra()
 		{
+			string result;
 			if (!this.Allowed)
 			{
-				return this.Props.offMessage;
+				result = this.Props.offMessage;
 			}
-			return null;
+			else
+			{
+				result = null;
+			}
+			return result;
 		}
+
+		// Token: 0x04000B31 RID: 2865
+		public const string ScheduledOnSignal = "ScheduledOn";
+
+		// Token: 0x04000B32 RID: 2866
+		public const string ScheduledOffSignal = "ScheduledOff";
+
+		// Token: 0x04000B33 RID: 2867
+		private bool intAllowed = false;
 	}
 }

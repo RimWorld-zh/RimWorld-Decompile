@@ -1,12 +1,13 @@
+﻿using System;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000838 RID: 2104
 	public static class ScenarioUI
 	{
-		private static float editViewHeight;
-
+		// Token: 0x06002F99 RID: 12185 RVA: 0x0019758C File Offset: 0x0019598C
 		public static void DrawScenarioInfo(Rect rect, Scenario scen, ref Vector2 infoScrollPosition)
 		{
 			Widgets.DrawMenuSection(rect);
@@ -14,47 +15,51 @@ namespace RimWorld
 			if (scen != null)
 			{
 				string fullInformationText = scen.GetFullInformationText();
-				float width = (float)(rect.width - 16.0);
-				float height = (float)(30.0 + Text.CalcHeight(fullInformationText, width) + 100.0);
+				float width = rect.width - 16f;
+				float height = 30f + Text.CalcHeight(fullInformationText, width) + 100f;
 				Rect viewRect = new Rect(0f, 0f, width, height);
 				Widgets.BeginScrollView(rect, ref infoScrollPosition, viewRect, true);
 				Text.Font = GameFont.Medium;
 				Rect rect2 = new Rect(0f, 0f, viewRect.width, 30f);
 				Widgets.Label(rect2, scen.name);
 				Text.Font = GameFont.Small;
-				Rect rect3 = new Rect(0f, 30f, viewRect.width, (float)(viewRect.height - 30.0));
+				Rect rect3 = new Rect(0f, 30f, viewRect.width, viewRect.height - 30f);
 				Widgets.Label(rect3, fullInformationText);
 				Widgets.EndScrollView();
 			}
 		}
 
+		// Token: 0x06002F9A RID: 12186 RVA: 0x00197664 File Offset: 0x00195A64
 		public static void DrawScenarioEditInterface(Rect rect, Scenario scen, ref Vector2 infoScrollPosition)
 		{
 			Widgets.DrawMenuSection(rect);
 			rect = rect.GetInnerRect();
 			if (scen != null)
 			{
-				Rect viewRect = new Rect(0f, 0f, (float)(rect.width - 16.0), ScenarioUI.editViewHeight);
+				Rect viewRect = new Rect(0f, 0f, rect.width - 16f, ScenarioUI.editViewHeight);
 				Widgets.BeginScrollView(rect, ref infoScrollPosition, viewRect, true);
 				Rect rect2 = new Rect(0f, 0f, viewRect.width, 99999f);
 				Listing_ScenEdit listing_ScenEdit = new Listing_ScenEdit(scen);
 				listing_ScenEdit.ColumnWidth = rect2.width;
 				listing_ScenEdit.Begin(rect2);
-				listing_ScenEdit.Label("Title".Translate(), -1f);
+				listing_ScenEdit.Label("Title".Translate(), -1f, null);
 				scen.name = listing_ScenEdit.TextEntry(scen.name, 1).TrimmedToLength(55);
-				listing_ScenEdit.Label("Summary".Translate(), -1f);
+				listing_ScenEdit.Label("Summary".Translate(), -1f, null);
 				scen.summary = listing_ScenEdit.TextEntry(scen.summary, 2).TrimmedToLength(300);
-				listing_ScenEdit.Label("Description".Translate(), -1f);
+				listing_ScenEdit.Label("Description".Translate(), -1f, null);
 				scen.description = listing_ScenEdit.TextEntry(scen.description, 4).TrimmedToLength(1000);
 				listing_ScenEdit.Gap(12f);
-				foreach (ScenPart allPart in scen.AllParts)
+				foreach (ScenPart scenPart in scen.AllParts)
 				{
-					allPart.DoEditInterface(listing_ScenEdit);
+					scenPart.DoEditInterface(listing_ScenEdit);
 				}
 				listing_ScenEdit.End();
-				ScenarioUI.editViewHeight = (float)(listing_ScenEdit.CurHeight + 100.0);
+				ScenarioUI.editViewHeight = listing_ScenEdit.CurHeight + 100f;
 				Widgets.EndScrollView();
 			}
 		}
+
+		// Token: 0x040019B4 RID: 6580
+		private static float editViewHeight;
 	}
 }

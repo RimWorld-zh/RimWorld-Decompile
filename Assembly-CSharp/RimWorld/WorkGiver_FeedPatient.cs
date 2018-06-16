@@ -1,10 +1,14 @@
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000140 RID: 320
 	public class WorkGiver_FeedPatient : WorkGiver_Scanner
 	{
+		// Token: 0x170000FE RID: 254
+		// (get) Token: 0x0600069F RID: 1695 RVA: 0x000449A0 File Offset: 0x00042DA0
 		public override ThingRequest PotentialWorkThingRequest
 		{
 			get
@@ -13,6 +17,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170000FF RID: 255
+		// (get) Token: 0x060006A0 RID: 1696 RVA: 0x000449BC File Offset: 0x00042DBC
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -21,63 +27,81 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060006A1 RID: 1697 RVA: 0x000449D4 File Offset: 0x00042DD4
 		public override Danger MaxPathDanger(Pawn pawn)
 		{
 			return Danger.Deadly;
 		}
 
+		// Token: 0x060006A2 RID: 1698 RVA: 0x000449EC File Offset: 0x00042DEC
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = t as Pawn;
-			if (pawn2 != null && pawn2 != pawn)
+			bool result;
+			if (pawn2 == null || pawn2 == pawn)
 			{
-				if (base.def.feedHumanlikesOnly && !pawn2.RaceProps.Humanlike)
-				{
-					return false;
-				}
-				if (base.def.feedAnimalsOnly && !pawn2.RaceProps.Animal)
-				{
-					return false;
-				}
-				if (pawn2.needs.food != null && !(pawn2.needs.food.CurLevelPercentage > pawn2.needs.food.PercentageThreshHungry + 0.019999999552965164))
-				{
-					if (!FeedPatientUtility.ShouldBeFed(pawn2))
-					{
-						return false;
-					}
-					LocalTargetInfo target = t;
-					if (!pawn.CanReserve(target, 1, -1, null, forced))
-					{
-						return false;
-					}
-					Thing thing = default(Thing);
-					ThingDef thingDef = default(ThingDef);
-					if (!FoodUtility.TryFindBestFoodSourceFor(pawn, pawn2, pawn2.needs.food.CurCategory == HungerCategory.Starving, out thing, out thingDef, false, true, false, true, false, false))
-					{
-						JobFailReason.Is("NoFood".Translate());
-						return false;
-					}
-					return true;
-				}
-				return false;
+				result = false;
 			}
-			return false;
+			else if (this.def.feedHumanlikesOnly && !pawn2.RaceProps.Humanlike)
+			{
+				result = false;
+			}
+			else if (this.def.feedAnimalsOnly && !pawn2.RaceProps.Animal)
+			{
+				result = false;
+			}
+			else if (pawn2.needs.food == null || pawn2.needs.food.CurLevelPercentage > pawn2.needs.food.PercentageThreshHungry + 0.02f)
+			{
+				result = false;
+			}
+			else if (!FeedPatientUtility.ShouldBeFed(pawn2))
+			{
+				result = false;
+			}
+			else
+			{
+				LocalTargetInfo target = t;
+				Thing thing;
+				ThingDef thingDef;
+				if (!pawn.CanReserve(target, 1, -1, null, forced))
+				{
+					result = false;
+				}
+				else if (!FoodUtility.TryFindBestFoodSourceFor(pawn, pawn2, pawn2.needs.food.CurCategory == HungerCategory.Starving, out thing, out thingDef, false, true, false, true, false, false, false))
+				{
+					JobFailReason.Is("NoFood".Translate(), null);
+					result = false;
+				}
+				else
+				{
+					result = true;
+				}
+			}
+			return result;
 		}
 
+		// Token: 0x060006A3 RID: 1699 RVA: 0x00044B28 File Offset: 0x00042F28
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Pawn pawn2 = (Pawn)t;
-			Thing t2 = default(Thing);
-			ThingDef def = default(ThingDef);
-			if (FoodUtility.TryFindBestFoodSourceFor(pawn, pawn2, pawn2.needs.food.CurCategory == HungerCategory.Starving, out t2, out def, false, true, false, true, false, false))
+			Thing thing;
+			ThingDef thingDef;
+			Job result;
+			if (FoodUtility.TryFindBestFoodSourceFor(pawn, pawn2, pawn2.needs.food.CurCategory == HungerCategory.Starving, out thing, out thingDef, false, true, false, true, false, false, false))
 			{
-				Job job = new Job(JobDefOf.FeedPatient);
-				job.targetA = t2;
-				job.targetB = pawn2;
-				job.count = FoodUtility.WillIngestStackCountOf(pawn2, def);
-				return job;
+				float nutrition = FoodUtility.GetNutrition(thing, thingDef);
+				result = new Job(JobDefOf.FeedPatient)
+				{
+					targetA = thing,
+					targetB = pawn2,
+					count = FoodUtility.WillIngestStackCountOf(pawn2, thingDef, nutrition)
+				};
 			}
-			return null;
+			else
+			{
+				result = null;
+			}
+			return result;
 		}
 	}
 }

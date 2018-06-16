@@ -1,68 +1,81 @@
+﻿using System;
 using RimWorld.BaseGen;
 using RimWorld.Planet;
-using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200040A RID: 1034
 	public class GenStep_ItemStash : GenStep_Scatterer
 	{
-		public List<ItemCollectionGeneratorDef> itemCollectionGeneratorDefs;
-
-		public FloatRange totalValueRange = new FloatRange(1000f, 2000f);
-
-		private const int Size = 7;
-
-		protected override bool CanScatterAt(IntVec3 c, Map map)
+		// Token: 0x1700025F RID: 607
+		// (get) Token: 0x060011C8 RID: 4552 RVA: 0x0009A7E8 File Offset: 0x00098BE8
+		public override int SeedPart
 		{
-			if (!base.CanScatterAt(c, map))
+			get
 			{
-				return false;
+				return 913432591;
 			}
-			if (!c.SupportsStructureType(map, TerrainAffordance.Heavy))
-			{
-				return false;
-			}
-			if (!map.reachability.CanReachMapEdge(c, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
-			{
-				return false;
-			}
-			CellRect.CellRectIterator iterator = CellRect.CenteredOn(c, 7, 7).GetIterator();
-			while (!iterator.Done())
-			{
-				if (iterator.Current.InBounds(map) && iterator.Current.GetEdifice(map) == null)
-				{
-					iterator.MoveNext();
-					continue;
-				}
-				return false;
-			}
-			return true;
 		}
 
+		// Token: 0x060011C9 RID: 4553 RVA: 0x0009A804 File Offset: 0x00098C04
+		protected override bool CanScatterAt(IntVec3 c, Map map)
+		{
+			bool result;
+			if (!base.CanScatterAt(c, map))
+			{
+				result = false;
+			}
+			else if (!c.SupportsStructureType(map, TerrainAffordanceDefOf.Heavy))
+			{
+				result = false;
+			}
+			else if (!map.reachability.CanReachMapEdge(c, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)))
+			{
+				result = false;
+			}
+			else
+			{
+				CellRect.CellRectIterator iterator = CellRect.CenteredOn(c, 7, 7).GetIterator();
+				while (!iterator.Done())
+				{
+					if (!iterator.Current.InBounds(map) || iterator.Current.GetEdifice(map) != null)
+					{
+						return false;
+					}
+					iterator.MoveNext();
+				}
+				result = true;
+			}
+			return result;
+		}
+
+		// Token: 0x060011CA RID: 4554 RVA: 0x0009A8BC File Offset: 0x00098CBC
 		protected override void ScatterAt(IntVec3 loc, Map map, int count = 1)
 		{
 			CellRect cellRect = CellRect.CenteredOn(loc, 7, 7).ClipInsideMap(map);
 			ResolveParams resolveParams = default(ResolveParams);
 			resolveParams.rect = cellRect;
 			resolveParams.faction = map.ParentFaction;
-			ItemStashContentsComp component = ((WorldObject)map.info.parent).GetComponent<ItemStashContentsComp>();
+			ItemStashContentsComp component = map.Parent.GetComponent<ItemStashContentsComp>();
 			if (component != null && component.contents.Any)
 			{
 				resolveParams.stockpileConcreteContents = component.contents;
 			}
 			else
 			{
-				resolveParams.stockpileMarketValue = this.totalValueRange.RandomInRange;
-				if (this.itemCollectionGeneratorDefs != null)
-				{
-					resolveParams.itemCollectionGeneratorDef = this.itemCollectionGeneratorDefs.RandomElement();
-				}
+				resolveParams.thingSetMakerDef = (this.thingSetMakerDef ?? ThingSetMakerDefOf.MapGen_DefaultStockpile);
 			}
-			RimWorld.BaseGen.BaseGen.globalSettings.map = map;
-			RimWorld.BaseGen.BaseGen.symbolStack.Push("storage", resolveParams);
-			RimWorld.BaseGen.BaseGen.Generate();
-			MapGenerator.SetVar("RectOfInterest", cellRect);
+			BaseGen.globalSettings.map = map;
+			BaseGen.symbolStack.Push("storage", resolveParams);
+			BaseGen.Generate();
+			MapGenerator.SetVar<CellRect>("RectOfInterest", cellRect);
 		}
+
+		// Token: 0x04000AD2 RID: 2770
+		public ThingSetMakerDef thingSetMakerDef;
+
+		// Token: 0x04000AD3 RID: 2771
+		private const int Size = 7;
 	}
 }

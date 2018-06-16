@@ -1,48 +1,20 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
+	// Token: 0x02000168 RID: 360
 	public static class GatheringsUtility
 	{
+		// Token: 0x06000766 RID: 1894 RVA: 0x00049768 File Offset: 0x00047B68
 		public static bool ShouldGuestKeepAttendingGathering(Pawn p)
 		{
-			if (p.Downed)
-			{
-				return false;
-			}
-			if (p.needs != null && p.needs.food.Starving)
-			{
-				return false;
-			}
-			if (p.health.hediffSet.BleedRateTotal > 0.0)
-			{
-				return false;
-			}
-			if ((int)p.needs.rest.CurCategory >= 3)
-			{
-				return false;
-			}
-			if (p.health.hediffSet.HasTendableNonInjuryNonMissingPartHediff(false))
-			{
-				return false;
-			}
-			if (!p.Awake())
-			{
-				return false;
-			}
-			if (p.InAggroMentalState)
-			{
-				return false;
-			}
-			if (p.IsPrisoner)
-			{
-				return false;
-			}
-			return true;
+			return !p.Downed && (p.needs == null || !p.needs.food.Starving) && p.health.hediffSet.BleedRateTotal <= 0f && p.needs.rest.CurCategory < RestCategory.Exhausted && !p.health.hediffSet.HasTendableNonInjuryNonMissingPartHediff(false) && p.Awake() && !p.InAggroMentalState && !p.IsPrisoner;
 		}
 
+		// Token: 0x06000767 RID: 1895 RVA: 0x00049848 File Offset: 0x00047C48
 		public static bool AnyLordJobPreventsNewGatherings(Map map)
 		{
 			List<Lord> lords = map.lordManager.lords;

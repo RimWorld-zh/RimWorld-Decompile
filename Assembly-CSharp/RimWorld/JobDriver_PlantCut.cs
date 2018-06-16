@@ -1,21 +1,25 @@
+﻿using System;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x0200008E RID: 142
 	public class JobDriver_PlantCut : JobDriver_PlantWork
 	{
+		// Token: 0x060003A0 RID: 928 RVA: 0x0002912C File Offset: 0x0002752C
 		protected override void Init()
 		{
-			if (base.Plant.def.plant.harvestedThingDef != null && base.Plant.YieldNow() > 0)
+			if (base.Plant.def.plant.harvestedThingDef != null && base.Plant.CanYieldNow())
 			{
-				base.xpPerTick = 0.11f;
+				this.xpPerTick = 0.0935f;
 			}
 			else
 			{
-				base.xpPerTick = 0f;
+				this.xpPerTick = 0f;
 			}
 		}
 
+		// Token: 0x060003A1 RID: 929 RVA: 0x00029180 File Offset: 0x00027580
 		protected override Toil PlantWorkDoneToil()
 		{
 			return Toils_Interact.DestroyThing(TargetIndex.A);

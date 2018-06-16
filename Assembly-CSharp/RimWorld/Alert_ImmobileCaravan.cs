@@ -1,12 +1,23 @@
-using RimWorld.Planet;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld.Planet;
 using Verse;
 
 namespace RimWorld
 {
-	public class Alert_ImmobileCaravan : Alert
+	// Token: 0x02000792 RID: 1938
+	public class Alert_ImmobileCaravan : Alert_Critical
 	{
-		private Caravan FirstImmobileCaravan
+		// Token: 0x06002AF2 RID: 10994 RVA: 0x0016ACF4 File Offset: 0x001690F4
+		public Alert_ImmobileCaravan()
+		{
+			this.defaultLabel = "ImmobileCaravan".Translate();
+			this.defaultExplanation = "ImmobileCaravanDesc".Translate();
+		}
+
+		// Token: 0x170006AF RID: 1711
+		// (get) Token: 0x06002AF3 RID: 10995 RVA: 0x0016AD20 File Offset: 0x00169120
+		private IEnumerable<Caravan> ImmobileCaravans
 		{
 			get
 			{
@@ -15,23 +26,17 @@ namespace RimWorld
 				{
 					if (caravans[i].IsPlayerControlled && caravans[i].ImmobilizedByMass)
 					{
-						return caravans[i];
+						yield return caravans[i];
 					}
 				}
-				return null;
+				yield break;
 			}
 		}
 
-		public Alert_ImmobileCaravan()
-		{
-			base.defaultLabel = "ImmobileCaravan".Translate();
-			base.defaultExplanation = "ImmobileCaravanDesc".Translate();
-			base.defaultPriority = AlertPriority.High;
-		}
-
+		// Token: 0x06002AF4 RID: 10996 RVA: 0x0016AD44 File Offset: 0x00169144
 		public override AlertReport GetReport()
 		{
-			return this.FirstImmobileCaravan;
+			return AlertReport.CulpritsAre(this.ImmobileCaravans);
 		}
 	}
 }

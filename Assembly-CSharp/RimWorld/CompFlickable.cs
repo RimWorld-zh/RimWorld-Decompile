@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -5,35 +6,26 @@ using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x02000416 RID: 1046
 	public class CompFlickable : ThingComp
 	{
-		private bool switchOnInt = true;
-
-		private bool wantSwitchOn = true;
-
-		private Graphic offGraphic;
-
-		private Texture2D cachedCommandTex;
-
-		private const string OffGraphicSuffix = "_Off";
-
-		public const string FlickedOnSignal = "FlickedOn";
-
-		public const string FlickedOffSignal = "FlickedOff";
-
+		// Token: 0x1700026B RID: 619
+		// (get) Token: 0x06001209 RID: 4617 RVA: 0x0009D190 File Offset: 0x0009B590
 		private CompProperties_Flickable Props
 		{
 			get
 			{
-				return (CompProperties_Flickable)base.props;
+				return (CompProperties_Flickable)this.props;
 			}
 		}
 
+		// Token: 0x1700026C RID: 620
+		// (get) Token: 0x0600120A RID: 4618 RVA: 0x0009D1B0 File Offset: 0x0009B5B0
 		private Texture2D CommandTex
 		{
 			get
 			{
-				if ((Object)this.cachedCommandTex == (Object)null)
+				if (this.cachedCommandTex == null)
 				{
 					this.cachedCommandTex = ContentFinder<Texture2D>.Get(this.Props.commandTexture, true);
 				}
@@ -41,6 +33,9 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x1700026D RID: 621
+		// (get) Token: 0x0600120B RID: 4619 RVA: 0x0009D1F4 File Offset: 0x0009B5F4
+		// (set) Token: 0x0600120C RID: 4620 RVA: 0x0009D210 File Offset: 0x0009B610
 		public bool SwitchIsOn
 		{
 			get
@@ -54,36 +49,44 @@ namespace RimWorld
 					this.switchOnInt = value;
 					if (this.switchOnInt)
 					{
-						base.parent.BroadcastCompSignal("FlickedOn");
+						this.parent.BroadcastCompSignal("FlickedOn");
 					}
 					else
 					{
-						base.parent.BroadcastCompSignal("FlickedOff");
+						this.parent.BroadcastCompSignal("FlickedOff");
 					}
-					if (base.parent.Spawned)
+					if (this.parent.Spawned)
 					{
-						base.parent.Map.mapDrawer.MapMeshDirty(base.parent.Position, MapMeshFlag.Things | MapMeshFlag.Buildings);
+						this.parent.Map.mapDrawer.MapMeshDirty(this.parent.Position, MapMeshFlag.Things | MapMeshFlag.Buildings);
 					}
 				}
 			}
 		}
 
+		// Token: 0x1700026E RID: 622
+		// (get) Token: 0x0600120D RID: 4621 RVA: 0x0009D298 File Offset: 0x0009B698
 		public Graphic CurrentGraphic
 		{
 			get
 			{
+				Graphic defaultGraphic;
 				if (this.SwitchIsOn)
 				{
-					return base.parent.DefaultGraphic;
+					defaultGraphic = this.parent.DefaultGraphic;
 				}
-				if (this.offGraphic == null)
+				else
 				{
-					this.offGraphic = GraphicDatabase.Get(base.parent.def.graphicData.graphicClass, base.parent.def.graphicData.texPath + "_Off", ShaderDatabase.ShaderFromType(base.parent.def.graphicData.shaderType), base.parent.def.graphicData.drawSize, base.parent.DrawColor, base.parent.DrawColorTwo);
+					if (this.offGraphic == null)
+					{
+						this.offGraphic = GraphicDatabase.Get(this.parent.def.graphicData.graphicClass, this.parent.def.graphicData.texPath + "_Off", this.parent.def.graphicData.shaderType.Shader, this.parent.def.graphicData.drawSize, this.parent.DrawColor, this.parent.DrawColorTwo);
+					}
+					defaultGraphic = this.offGraphic;
 				}
-				return this.offGraphic;
+				return defaultGraphic;
 			}
 		}
 
+		// Token: 0x0600120E RID: 4622 RVA: 0x0009D361 File Offset: 0x0009B761
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -91,52 +94,71 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.wantSwitchOn, "wantSwitchOn", true, false);
 		}
 
+		// Token: 0x0600120F RID: 4623 RVA: 0x0009D390 File Offset: 0x0009B790
 		public bool WantsFlick()
 		{
 			return this.wantSwitchOn != this.switchOnInt;
 		}
 
+		// Token: 0x06001210 RID: 4624 RVA: 0x0009D3B6 File Offset: 0x0009B7B6
 		public void DoFlick()
 		{
 			this.SwitchIsOn = !this.SwitchIsOn;
-			SoundDefOf.FlickSwitch.PlayOneShot(new TargetInfo(base.parent.Position, base.parent.Map, false));
+			SoundDefOf.FlickSwitch.PlayOneShot(new TargetInfo(this.parent.Position, this.parent.Map, false));
 		}
 
+		// Token: 0x06001211 RID: 4625 RVA: 0x0009D3F3 File Offset: 0x0009B7F3
 		public void ResetToOn()
 		{
 			this.switchOnInt = true;
 			this.wantSwitchOn = true;
 		}
 
+		// Token: 0x06001212 RID: 4626 RVA: 0x0009D404 File Offset: 0x0009B804
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			using (IEnumerator<Gizmo> enumerator = base.CompGetGizmosExtra().GetEnumerator())
+			foreach (Gizmo c in this.<CompGetGizmosExtra>__BaseCallProxy0())
 			{
-				if (enumerator.MoveNext())
-				{
-					Gizmo c = enumerator.Current;
-					yield return c;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return c;
 			}
-			if (base.parent.Faction != Faction.OfPlayer)
-				yield break;
-			yield return (Gizmo)new Command_Toggle
+			if (this.parent.Faction == Faction.OfPlayer)
 			{
-				hotKey = KeyBindingDefOf.CommandTogglePower,
-				icon = this.CommandTex,
-				defaultLabel = this.Props.commandLabelKey.Translate(),
-				defaultDesc = this.Props.commandDescKey.Translate(),
-				isActive = (() => ((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0145: stateMachine*/)._0024this.wantSwitchOn),
-				toggleAction = delegate
+				yield return new Command_Toggle
 				{
-					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_015c: stateMachine*/)._0024this.wantSwitchOn = !((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_015c: stateMachine*/)._0024this.wantSwitchOn;
-					FlickUtility.UpdateFlickDesignation(((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_015c: stateMachine*/)._0024this.parent);
-				}
-			};
-			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0196:
-			/*Error near IL_0197: Unexpected return in MoveNext()*/;
+					hotKey = KeyBindingDefOf.Command_TogglePower,
+					icon = this.CommandTex,
+					defaultLabel = this.Props.commandLabelKey.Translate(),
+					defaultDesc = this.Props.commandDescKey.Translate(),
+					isActive = (() => this.wantSwitchOn),
+					toggleAction = delegate()
+					{
+						this.wantSwitchOn = !this.wantSwitchOn;
+						FlickUtility.UpdateFlickDesignation(this.parent);
+					}
+				};
+			}
+			yield break;
 		}
+
+		// Token: 0x04000AF7 RID: 2807
+		private bool switchOnInt = true;
+
+		// Token: 0x04000AF8 RID: 2808
+		private bool wantSwitchOn = true;
+
+		// Token: 0x04000AF9 RID: 2809
+		private Graphic offGraphic;
+
+		// Token: 0x04000AFA RID: 2810
+		private Texture2D cachedCommandTex;
+
+		// Token: 0x04000AFB RID: 2811
+		private const string OffGraphicSuffix = "_Off";
+
+		// Token: 0x04000AFC RID: 2812
+		public const string FlickedOnSignal = "FlickedOn";
+
+		// Token: 0x04000AFD RID: 2813
+		public const string FlickedOffSignal = "FlickedOff";
 	}
 }

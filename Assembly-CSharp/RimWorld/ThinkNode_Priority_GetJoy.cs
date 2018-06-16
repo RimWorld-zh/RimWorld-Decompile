@@ -1,58 +1,78 @@
-using System;
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x020001B8 RID: 440
 	public class ThinkNode_Priority_GetJoy : ThinkNode_Priority
 	{
-		private const int GameStartNoJoyTicks = 5000;
-
+		// Token: 0x06000927 RID: 2343 RVA: 0x00055C18 File Offset: 0x00054018
 		public override float GetPriority(Pawn pawn)
 		{
+			float result;
 			if (pawn.needs.joy == null)
 			{
-				return 0f;
+				result = 0f;
 			}
-			if (Find.TickManager.TicksGame < 5000)
+			else if (Find.TickManager.TicksGame < 5000)
 			{
-				return 0f;
+				result = 0f;
 			}
-			if (JoyUtility.LordPreventsGettingJoy(pawn))
+			else if (JoyUtility.LordPreventsGettingJoy(pawn))
 			{
-				return 0f;
+				result = 0f;
 			}
-			float curLevel = pawn.needs.joy.CurLevel;
-			TimeAssignmentDef timeAssignmentDef = (pawn.timetable != null) ? pawn.timetable.CurrentAssignment : TimeAssignmentDefOf.Anything;
-			if (!timeAssignmentDef.allowJoy)
+			else
 			{
-				return 0f;
-			}
-			if (timeAssignmentDef == TimeAssignmentDefOf.Anything)
-			{
-				if (curLevel < 0.34999999403953552)
+				float curLevel = pawn.needs.joy.CurLevel;
+				TimeAssignmentDef timeAssignmentDef = (pawn.timetable != null) ? pawn.timetable.CurrentAssignment : TimeAssignmentDefOf.Anything;
+				if (!timeAssignmentDef.allowJoy)
 				{
-					return 6f;
+					result = 0f;
 				}
-				return 0f;
-			}
-			if (timeAssignmentDef == TimeAssignmentDefOf.Joy)
-			{
-				if (curLevel < 0.949999988079071)
+				else if (timeAssignmentDef == TimeAssignmentDefOf.Anything)
 				{
-					return 7f;
+					if (curLevel < 0.35f)
+					{
+						result = 6f;
+					}
+					else
+					{
+						result = 0f;
+					}
 				}
-				return 0f;
-			}
-			if (timeAssignmentDef == TimeAssignmentDefOf.Sleep)
-			{
-				if (curLevel < 0.949999988079071)
+				else if (timeAssignmentDef == TimeAssignmentDefOf.Joy)
 				{
-					return 2f;
+					if (curLevel < 0.95f)
+					{
+						result = 7f;
+					}
+					else
+					{
+						result = 0f;
+					}
 				}
-				return 0f;
+				else
+				{
+					if (timeAssignmentDef != TimeAssignmentDefOf.Sleep)
+					{
+						throw new NotImplementedException();
+					}
+					if (curLevel < 0.95f)
+					{
+						result = 2f;
+					}
+					else
+					{
+						result = 0f;
+					}
+				}
 			}
-			throw new NotImplementedException();
+			return result;
 		}
+
+		// Token: 0x040003DC RID: 988
+		private const int GameStartNoJoyTicks = 5000;
 	}
 }

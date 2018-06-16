@@ -1,18 +1,23 @@
-using RimWorld;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using RimWorld;
 
 namespace Verse
 {
+	// Token: 0x02000B48 RID: 2888
 	public static class HediffStatsUtility
 	{
+		// Token: 0x06003F4C RID: 16204 RVA: 0x00214FEC File Offset: 0x002133EC
 		public static IEnumerable<StatDrawEntry> SpecialDisplayStats(HediffStage stage, Hediff instance)
 		{
-			if (instance != null && instance.Bleeding)
+			if (instance != null)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "BleedingRate".Translate(), instance.BleedRate.ToStringPercent() + "/" + "LetterDay".Translate(), 0, string.Empty);
-				/*Error: Unable to find new state assignment for yield return*/;
+				if (instance.Bleeding)
+				{
+					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "BleedingRate".Translate(), instance.BleedRate.ToStringPercent() + "/" + "LetterDay".Translate(), 0, "");
+				}
 			}
 			float painOffsetToDisplay = 0f;
 			if (instance != null)
@@ -23,18 +28,17 @@ namespace Verse
 			{
 				painOffsetToDisplay = stage.painOffset;
 			}
-			if (painOffsetToDisplay != 0.0)
+			if (painOffsetToDisplay != 0f)
 			{
-				if (painOffsetToDisplay > 0.0 && painOffsetToDisplay < 0.0099999997764825821)
+				if (painOffsetToDisplay > 0f && painOffsetToDisplay < 0.01f)
 				{
 					painOffsetToDisplay = 0.01f;
 				}
-				if (painOffsetToDisplay < 0.0 && painOffsetToDisplay > -0.0099999997764825821)
+				if (painOffsetToDisplay < 0f && painOffsetToDisplay > -0.01f)
 				{
 					painOffsetToDisplay = -0.01f;
 				}
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Pain".Translate(), ((float)(painOffsetToDisplay * 100.0)).ToString("+###0;-###0") + "%", 0, string.Empty);
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Pain".Translate(), (painOffsetToDisplay * 100f).ToString("+###0;-###0") + "%", 0, "");
 			}
 			float painFactorToDisplay = 1f;
 			if (instance != null)
@@ -45,15 +49,16 @@ namespace Verse
 			{
 				painFactorToDisplay = stage.painFactor;
 			}
-			if (painFactorToDisplay != 1.0)
+			if (painFactorToDisplay != 1f)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Pain".Translate(), "x" + painFactorToDisplay.ToStringPercent(), 0, string.Empty);
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Pain".Translate(), "x" + painFactorToDisplay.ToStringPercent(), 0, "");
 			}
-			if (stage != null && stage.partEfficiencyOffset != 0.0)
+			if (stage != null)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "PartEfficiency".Translate(), stage.partEfficiencyOffset.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Offset), 0, string.Empty);
-				/*Error: Unable to find new state assignment for yield return*/;
+				if (stage.partEfficiencyOffset != 0f)
+				{
+					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "PartEfficiency".Translate(), stage.partEfficiencyOffset.ToStringByStyle(ToStringStyle.PercentZero, ToStringNumberSense.Offset), 0, "");
+				}
 			}
 			List<PawnCapacityModifier> capModsToDisplay = null;
 			if (instance != null)
@@ -66,86 +71,76 @@ namespace Verse
 			}
 			if (capModsToDisplay != null)
 			{
-				for (int j = 0; j < capModsToDisplay.Count; j++)
+				for (int i = 0; i < capModsToDisplay.Count; i++)
 				{
-					if (capModsToDisplay[j].offset != 0.0)
+					if (capModsToDisplay[i].offset != 0f)
 					{
-						yield return new StatDrawEntry(StatCategoryDefOf.Basics, capModsToDisplay[j].capacity.GetLabelFor(true, true).CapitalizeFirst(), ((float)(capModsToDisplay[j].offset * 100.0)).ToString("+#;-#") + "%", 0, string.Empty);
-						/*Error: Unable to find new state assignment for yield return*/;
+						yield return new StatDrawEntry(StatCategoryDefOf.Basics, capModsToDisplay[i].capacity.GetLabelFor(true, true).CapitalizeFirst(), (capModsToDisplay[i].offset * 100f).ToString("+#;-#") + "%", 0, "");
 					}
-					if (capModsToDisplay[j].postFactor != 1.0)
+					if (capModsToDisplay[i].postFactor != 1f)
 					{
-						yield return new StatDrawEntry(StatCategoryDefOf.Basics, capModsToDisplay[j].capacity.GetLabelFor(true, true).CapitalizeFirst(), "x" + capModsToDisplay[j].postFactor.ToStringPercent(), 0, string.Empty);
-						/*Error: Unable to find new state assignment for yield return*/;
+						yield return new StatDrawEntry(StatCategoryDefOf.Basics, capModsToDisplay[i].capacity.GetLabelFor(true, true).CapitalizeFirst(), "x" + capModsToDisplay[i].postFactor.ToStringPercent(), 0, "");
 					}
-					if (capModsToDisplay[j].SetMaxDefined)
+					if (capModsToDisplay[i].SetMaxDefined)
 					{
-						yield return new StatDrawEntry(StatCategoryDefOf.Basics, capModsToDisplay[j].capacity.GetLabelFor(true, true).CapitalizeFirst(), "max".Translate() + " " + capModsToDisplay[j].setMax.ToStringPercent(), 0, string.Empty);
-						/*Error: Unable to find new state assignment for yield return*/;
+						yield return new StatDrawEntry(StatCategoryDefOf.Basics, capModsToDisplay[i].capacity.GetLabelFor(true, true).CapitalizeFirst(), "max".Translate() + " " + capModsToDisplay[i].setMax.ToStringPercent(), 0, "");
 					}
 				}
 			}
-			if (stage == null)
-				yield break;
-			if (!stage.AffectsMemory && !stage.AffectsSocialInteractions)
+			if (stage != null)
 			{
-				if (stage.hungerRateFactor != 1.0)
+				if (stage.AffectsMemory || stage.AffectsSocialInteractions)
 				{
-					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "HungerRate".Translate(), "x" + stage.hungerRateFactor.ToStringPercent(), 0, string.Empty);
-					/*Error: Unable to find new state assignment for yield return*/;
+					StringBuilder affectsSb = new StringBuilder();
+					if (stage.AffectsMemory)
+					{
+						if (affectsSb.Length != 0)
+						{
+							affectsSb.Append(", ");
+						}
+						affectsSb.Append("MemoryLower".Translate());
+					}
+					if (stage.AffectsSocialInteractions)
+					{
+						if (affectsSb.Length != 0)
+						{
+							affectsSb.Append(", ");
+						}
+						affectsSb.Append("SocialInteractionsLower".Translate());
+					}
+					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Affects".Translate(), affectsSb.ToString(), 0, "");
 				}
-				if (stage.hungerRateFactorOffset != 0.0)
+				if (stage.hungerRateFactor != 1f)
 				{
-					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "HungerRate".Translate(), stage.hungerRateFactorOffset.ToStringSign() + stage.hungerRateFactorOffset.ToStringPercent(), 0, string.Empty);
-					/*Error: Unable to find new state assignment for yield return*/;
+					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "HungerRate".Translate(), "x" + stage.hungerRateFactor.ToStringPercent(), 0, "");
 				}
-				if (stage.restFallFactor != 1.0)
+				if (stage.hungerRateFactorOffset != 0f)
 				{
-					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Tiredness".Translate(), "x" + stage.restFallFactor.ToStringPercent(), 0, string.Empty);
-					/*Error: Unable to find new state assignment for yield return*/;
+					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "HungerRate".Translate(), stage.hungerRateFactorOffset.ToStringSign() + stage.hungerRateFactorOffset.ToStringPercent(), 0, "");
 				}
-				if (stage.restFallFactorOffset != 0.0)
+				if (stage.restFallFactor != 1f)
 				{
-					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Tiredness".Translate(), stage.restFallFactorOffset.ToStringSign() + stage.restFallFactorOffset.ToStringPercent(), 0, string.Empty);
-					/*Error: Unable to find new state assignment for yield return*/;
+					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Tiredness".Translate(), "x" + stage.restFallFactor.ToStringPercent(), 0, "");
+				}
+				if (stage.restFallFactorOffset != 0f)
+				{
+					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Tiredness".Translate(), stage.restFallFactorOffset.ToStringSign() + stage.restFallFactorOffset.ToStringPercent(), 0, "");
 				}
 				if (stage.makeImmuneTo != null)
 				{
-					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "PreventsInfection".Translate(), GenText.ToCommaList(from im in stage.makeImmuneTo
-					select im.label, false).CapitalizeFirst(), 0, string.Empty);
-					/*Error: Unable to find new state assignment for yield return*/;
+					yield return new StatDrawEntry(StatCategoryDefOf.Basics, "PreventsInfection".Translate(), (from im in stage.makeImmuneTo
+					select im.label).ToCommaList(false).CapitalizeFirst(), 0, "");
 				}
 				if (stage.statOffsets != null)
 				{
-					int i = 0;
-					if (i < stage.statOffsets.Count)
+					for (int j = 0; j < stage.statOffsets.Count; j++)
 					{
-						StatModifier sm = stage.statOffsets[i];
-						yield return new StatDrawEntry(StatCategoryDefOf.Basics, sm.stat.LabelCap, sm.ValueToStringAsOffset, 0, string.Empty);
-						/*Error: Unable to find new state assignment for yield return*/;
+						StatModifier sm = stage.statOffsets[j];
+						yield return new StatDrawEntry(StatCategoryDefOf.Basics, sm.stat.LabelCap, sm.ValueToStringAsOffset, 0, "");
 					}
 				}
-				yield break;
 			}
-			StringBuilder affectsSb = new StringBuilder();
-			if (stage.AffectsMemory)
-			{
-				if (affectsSb.Length != 0)
-				{
-					affectsSb.Append(", ");
-				}
-				affectsSb.Append("MemoryLower".Translate());
-			}
-			if (stage.AffectsSocialInteractions)
-			{
-				if (affectsSb.Length != 0)
-				{
-					affectsSb.Append(", ");
-				}
-				affectsSb.Append("SocialInteractionsLower".Translate());
-			}
-			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Affects".Translate(), affectsSb.ToString(), 0, string.Empty);
-			/*Error: Unable to find new state assignment for yield return*/;
+			yield break;
 		}
 	}
 }

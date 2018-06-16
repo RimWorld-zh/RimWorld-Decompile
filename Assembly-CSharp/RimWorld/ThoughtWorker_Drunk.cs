@@ -1,33 +1,44 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000205 RID: 517
 	public class ThoughtWorker_Drunk : ThoughtWorker
 	{
+		// Token: 0x060009D8 RID: 2520 RVA: 0x00058428 File Offset: 0x00056828
 		protected override ThoughtState CurrentSocialStateInternal(Pawn p, Pawn other)
 		{
+			ThoughtState result;
 			if (!p.RaceProps.Humanlike)
 			{
-				return false;
+				result = false;
 			}
-			if (!p.IsTeetotaler())
+			else if (!p.IsTeetotaler())
 			{
-				return false;
+				result = false;
 			}
-			if (!other.RaceProps.Humanlike)
+			else if (!other.RaceProps.Humanlike)
 			{
-				return false;
+				result = false;
 			}
-			if (!RelationsUtility.PawnsKnowEachOther(p, other))
+			else if (!RelationsUtility.PawnsKnowEachOther(p, other))
 			{
-				return false;
+				result = false;
 			}
-			Hediff firstHediffOfDef = other.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.AlcoholHigh, false);
-			if (firstHediffOfDef != null && firstHediffOfDef.Visible)
+			else
 			{
-				return true;
+				Hediff firstHediffOfDef = other.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.AlcoholHigh, false);
+				if (firstHediffOfDef == null || !firstHediffOfDef.Visible)
+				{
+					result = false;
+				}
+				else
+				{
+					result = true;
+				}
 			}
-			return false;
+			return result;
 		}
 	}
 }

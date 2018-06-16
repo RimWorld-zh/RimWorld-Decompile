@@ -1,32 +1,29 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020006C7 RID: 1735
 	public class Gas : Thing
 	{
-		public int destroyTick;
-
-		public float graphicRotation;
-
-		public float graphicRotationSpeed;
-
+		// Token: 0x06002579 RID: 9593 RVA: 0x001414DC File Offset: 0x0013F8DC
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
-			while (true)
+			for (;;)
 			{
 				Thing gas = base.Position.GetGas(map);
-				if (gas != null)
+				if (gas == null)
 				{
-					gas.Destroy(DestroyMode.Vanish);
-					continue;
+					break;
 				}
-				break;
+				gas.Destroy(DestroyMode.Vanish);
 			}
 			base.SpawnSetup(map, respawningAfterLoad);
-			this.destroyTick = Find.TickManager.TicksGame + base.def.gas.expireSeconds.RandomInRange.SecondsToTicks();
-			this.graphicRotationSpeed = (float)(Rand.Range((float)(0.0 - base.def.gas.rotationSpeed), base.def.gas.rotationSpeed) / 60.0);
+			this.destroyTick = Find.TickManager.TicksGame + this.def.gas.expireSeconds.RandomInRange.SecondsToTicks();
+			this.graphicRotationSpeed = Rand.Range(-this.def.gas.rotationSpeed, this.def.gas.rotationSpeed) / 60f;
 		}
 
+		// Token: 0x0600257A RID: 9594 RVA: 0x00141576 File Offset: 0x0013F976
 		public override void Tick()
 		{
 			if (this.destroyTick <= Find.TickManager.TicksGame)
@@ -36,10 +33,20 @@ namespace RimWorld
 			this.graphicRotation += this.graphicRotationSpeed;
 		}
 
+		// Token: 0x0600257B RID: 9595 RVA: 0x001415A8 File Offset: 0x0013F9A8
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.destroyTick, "destroyTick", 0, false);
 		}
+
+		// Token: 0x040014E0 RID: 5344
+		public int destroyTick;
+
+		// Token: 0x040014E1 RID: 5345
+		public float graphicRotation = 0f;
+
+		// Token: 0x040014E2 RID: 5346
+		public float graphicRotationSpeed = 0f;
 	}
 }

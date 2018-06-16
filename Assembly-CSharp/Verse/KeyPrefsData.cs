@@ -1,98 +1,113 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000F5D RID: 3933
 	public class KeyPrefsData
 	{
-		public Dictionary<KeyBindingDef, KeyBindingData> keyPrefs = new Dictionary<KeyBindingDef, KeyBindingData>();
-
+		// Token: 0x06005F13 RID: 24339 RVA: 0x00306B7B File Offset: 0x00304F7B
 		public void ResetToDefaults()
 		{
 			this.keyPrefs.Clear();
 			this.AddMissingDefaultBindings();
 		}
 
+		// Token: 0x06005F14 RID: 24340 RVA: 0x00306B90 File Offset: 0x00304F90
 		public void AddMissingDefaultBindings()
 		{
-			foreach (KeyBindingDef allDef in DefDatabase<KeyBindingDef>.AllDefs)
+			foreach (KeyBindingDef keyBindingDef in DefDatabase<KeyBindingDef>.AllDefs)
 			{
-				if (!this.keyPrefs.ContainsKey(allDef))
+				if (!this.keyPrefs.ContainsKey(keyBindingDef))
 				{
-					this.keyPrefs.Add(allDef, new KeyBindingData(allDef.defaultKeyCodeA, allDef.defaultKeyCodeB));
+					this.keyPrefs.Add(keyBindingDef, new KeyBindingData(keyBindingDef.defaultKeyCodeA, keyBindingDef.defaultKeyCodeB));
 				}
 			}
 		}
 
+		// Token: 0x06005F15 RID: 24341 RVA: 0x00306C14 File Offset: 0x00305014
 		public bool SetBinding(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot, KeyCode keyCode)
 		{
-			KeyBindingData keyBindingData = default(KeyBindingData);
+			KeyBindingData keyBindingData;
+			bool result;
 			if (this.keyPrefs.TryGetValue(keyDef, out keyBindingData))
 			{
-				switch (slot)
+				if (slot != KeyPrefs.BindingSlot.A)
 				{
-				case KeyPrefs.BindingSlot.A:
-					keyBindingData.keyBindingA = keyCode;
-					break;
-				case KeyPrefs.BindingSlot.B:
+					if (slot != KeyPrefs.BindingSlot.B)
+					{
+						Log.Error("Tried to set a key binding for \"" + keyDef.LabelCap + "\" on a nonexistent slot: " + slot.ToString(), false);
+						return false;
+					}
 					keyBindingData.keyBindingB = keyCode;
-					break;
-				default:
-					Log.Error("Tried to set a key binding for \"" + keyDef.LabelCap + "\" on a nonexistent slot: " + slot.ToString());
-					return false;
 				}
-				return true;
+				else
+				{
+					keyBindingData.keyBindingA = keyCode;
+				}
+				result = true;
 			}
-			Log.Error("Key not found in keyprefs: \"" + keyDef.LabelCap + "\"");
-			return false;
+			else
+			{
+				Log.Error("Key not found in keyprefs: \"" + keyDef.LabelCap + "\"", false);
+				result = false;
+			}
+			return result;
 		}
 
+		// Token: 0x06005F16 RID: 24342 RVA: 0x00306CBC File Offset: 0x003050BC
 		public KeyCode GetBoundKeyCode(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot)
 		{
-			KeyBindingData keyBindingData = default(KeyBindingData);
+			KeyBindingData keyBindingData;
+			KeyCode result;
 			if (!this.keyPrefs.TryGetValue(keyDef, out keyBindingData))
 			{
-				Log.Error("Key not found in keyprefs: \"" + keyDef.LabelCap + "\"");
-				return KeyCode.None;
+				Log.Error("Key not found in keyprefs: \"" + keyDef.LabelCap + "\"", false);
+				result = KeyCode.None;
 			}
-			switch (slot)
+			else if (slot != KeyPrefs.BindingSlot.A)
 			{
-			case KeyPrefs.BindingSlot.A:
-				return keyBindingData.keyBindingA;
-			case KeyPrefs.BindingSlot.B:
-				return keyBindingData.keyBindingB;
-			default:
-				throw new InvalidOperationException();
+				if (slot != KeyPrefs.BindingSlot.B)
+				{
+					throw new InvalidOperationException();
+				}
+				result = keyBindingData.keyBindingB;
 			}
+			else
+			{
+				result = keyBindingData.keyBindingA;
+			}
+			return result;
 		}
 
+		// Token: 0x06005F17 RID: 24343 RVA: 0x00306D34 File Offset: 0x00305134
 		private IEnumerable<KeyBindingDef> ConflictingBindings(KeyBindingDef keyDef, KeyCode code)
 		{
 			using (IEnumerator<KeyBindingDef> enumerator = DefDatabase<KeyBindingDef>.AllDefs.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
 				{
-					_003CConflictingBindings_003Ec__Iterator0 _003CConflictingBindings_003Ec__Iterator = (_003CConflictingBindings_003Ec__Iterator0)/*Error near IL_0058: stateMachine*/;
 					KeyBindingDef def = enumerator.Current;
 					KeyBindingData prefData;
-					if (def != keyDef && ((def.category == keyDef.category && def.category.selfConflicting) || keyDef.category.checkForConflicts.Contains(def.category) || (keyDef.extraConflictTags != null && def.extraConflictTags != null && keyDef.extraConflictTags.Any((string tag) => def.extraConflictTags.Contains(tag)))) && this.keyPrefs.TryGetValue(def, out prefData) && (prefData.keyBindingA == code || prefData.keyBindingB == code))
+					if (def != keyDef && ((def.category == keyDef.category && def.category.selfConflicting) || keyDef.category.checkForConflicts.Contains(def.category) || (keyDef.extraConflictTags != null && def.extraConflictTags != null && keyDef.extraConflictTags.Any((string tag) => def.extraConflictTags.Contains(tag)))) && this.keyPrefs.TryGetValue(def, out prefData))
 					{
-						yield return def;
-						/*Error: Unable to find new state assignment for yield return*/;
+						if (prefData.keyBindingA == code || prefData.keyBindingB == code)
+						{
+							yield return def;
+						}
 					}
 				}
 			}
 			yield break;
-			IL_01eb:
-			/*Error near IL_01ec: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x06005F18 RID: 24344 RVA: 0x00306D6C File Offset: 0x0030516C
 		public void EraseConflictingBindingsForKeyCode(KeyBindingDef keyDef, KeyCode keyCode, Action<KeyBindingDef> callBackOnErase = null)
 		{
-			foreach (KeyBindingDef item in this.ConflictingBindings(keyDef, keyCode))
+			foreach (KeyBindingDef keyBindingDef in this.ConflictingBindings(keyDef, keyCode))
 			{
-				KeyBindingData keyBindingData = this.keyPrefs[item];
+				KeyBindingData keyBindingData = this.keyPrefs[keyBindingDef];
 				if (keyBindingData.keyBindingA == keyCode)
 				{
 					keyBindingData.keyBindingA = KeyCode.None;
@@ -103,49 +118,63 @@ namespace Verse
 				}
 				if (callBackOnErase != null)
 				{
-					callBackOnErase(item);
+					callBackOnErase(keyBindingDef);
 				}
 			}
 		}
 
+		// Token: 0x06005F19 RID: 24345 RVA: 0x00306E04 File Offset: 0x00305204
 		public void CheckConflictsFor(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot)
 		{
 			KeyCode boundKeyCode = this.GetBoundKeyCode(keyDef, slot);
-			if (boundKeyCode != 0)
+			if (boundKeyCode != KeyCode.None)
 			{
 				this.EraseConflictingBindingsForKeyCode(keyDef, boundKeyCode, null);
 				this.SetBinding(keyDef, slot, boundKeyCode);
 			}
 		}
 
+		// Token: 0x06005F1A RID: 24346 RVA: 0x00306E38 File Offset: 0x00305238
 		public KeyPrefsData Clone()
 		{
 			KeyPrefsData keyPrefsData = new KeyPrefsData();
-			foreach (KeyValuePair<KeyBindingDef, KeyBindingData> keyPref in this.keyPrefs)
+			foreach (KeyValuePair<KeyBindingDef, KeyBindingData> keyValuePair in this.keyPrefs)
 			{
-				keyPrefsData.keyPrefs[keyPref.Key] = new KeyBindingData(keyPref.Value.keyBindingA, keyPref.Value.keyBindingB);
+				keyPrefsData.keyPrefs[keyValuePair.Key] = new KeyBindingData(keyValuePair.Value.keyBindingA, keyValuePair.Value.keyBindingB);
 			}
 			return keyPrefsData;
 		}
 
+		// Token: 0x06005F1B RID: 24347 RVA: 0x00306ED0 File Offset: 0x003052D0
 		public void ErrorCheck()
 		{
-			foreach (KeyBindingDef allDef in DefDatabase<KeyBindingDef>.AllDefs)
+			foreach (KeyBindingDef keyDef in DefDatabase<KeyBindingDef>.AllDefs)
 			{
-				this.ErrorCheckOn(allDef, KeyPrefs.BindingSlot.A);
-				this.ErrorCheckOn(allDef, KeyPrefs.BindingSlot.B);
+				this.ErrorCheckOn(keyDef, KeyPrefs.BindingSlot.A);
+				this.ErrorCheckOn(keyDef, KeyPrefs.BindingSlot.B);
 			}
 		}
 
+		// Token: 0x06005F1C RID: 24348 RVA: 0x00306F38 File Offset: 0x00305338
 		private void ErrorCheckOn(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot)
 		{
 			KeyCode boundKeyCode = this.GetBoundKeyCode(keyDef, slot);
-			if (boundKeyCode != 0)
+			if (boundKeyCode != KeyCode.None)
 			{
-				foreach (KeyBindingDef item in this.ConflictingBindings(keyDef, boundKeyCode))
+				foreach (KeyBindingDef keyBindingDef in this.ConflictingBindings(keyDef, boundKeyCode))
 				{
 					bool flag = boundKeyCode != keyDef.GetDefaultKeyCode(slot);
-					Log.Error("Key binding conflict: " + item + " and " + keyDef + " are both bound to " + boundKeyCode + "." + ((!flag) ? string.Empty : " Fixed automatically."));
+					Log.Error(string.Concat(new object[]
+					{
+						"Key binding conflict: ",
+						keyBindingDef,
+						" and ",
+						keyDef,
+						" are both bound to ",
+						boundKeyCode,
+						".",
+						(!flag) ? "" : " Fixed automatically."
+					}), false);
 					if (flag)
 					{
 						if (slot == KeyPrefs.BindingSlot.A)
@@ -161,5 +190,8 @@ namespace Verse
 				}
 			}
 		}
+
+		// Token: 0x04003E5C RID: 15964
+		public Dictionary<KeyBindingDef, KeyBindingData> keyPrefs = new Dictionary<KeyBindingDef, KeyBindingData>();
 	}
 }

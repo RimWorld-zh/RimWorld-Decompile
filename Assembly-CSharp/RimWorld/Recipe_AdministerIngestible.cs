@@ -1,11 +1,14 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000467 RID: 1127
 	public class Recipe_AdministerIngestible : Recipe_Surgery
 	{
+		// Token: 0x060013CD RID: 5069 RVA: 0x000AC1D8 File Offset: 0x000AA5D8
 		public override void ApplyOnPawn(Pawn pawn, BodyPartRecord part, Pawn billDoer, List<Thing> ingredients, Bill bill)
 		{
 			ingredients[0].Ingested(pawn, 0f);
@@ -19,38 +22,34 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060013CE RID: 5070 RVA: 0x000AC287 File Offset: 0x000AA687
 		public override void ConsumeIngredient(Thing ingredient, RecipeDef recipe, Map map)
 		{
 		}
 
+		// Token: 0x060013CF RID: 5071 RVA: 0x000AC28C File Offset: 0x000AA68C
 		public override bool IsViolationOnPawn(Pawn pawn, BodyPartRecord part, Faction billDoerFaction)
 		{
-			if (pawn.Faction == billDoerFaction)
-			{
-				return false;
-			}
-			return base.recipe.ingredients[0].filter.AllowedThingDefs.First().IsNonMedicalDrug;
+			return pawn.Faction != billDoerFaction && this.recipe.ingredients[0].filter.AllowedThingDefs.First<ThingDef>().IsNonMedicalDrug;
 		}
 
+		// Token: 0x060013D0 RID: 5072 RVA: 0x000AC2DC File Offset: 0x000AA6DC
 		public override string GetLabelWhenUsedOn(Pawn pawn, BodyPartRecord part)
 		{
-			if (pawn.IsTeetotaler())
+			string result;
+			if (pawn.IsTeetotaler() && this.recipe.ingredients[0].filter.BestThingRequest.singleDef.IsNonMedicalDrug)
 			{
-				ThingRequest bestThingRequest = base.recipe.ingredients[0].filter.BestThingRequest;
-				if (bestThingRequest.singleDef.IsNonMedicalDrug)
-				{
-					return base.GetLabelWhenUsedOn(pawn, part) + " (" + "TeetotalerUnhappy".Translate() + ")";
-				}
+				result = base.GetLabelWhenUsedOn(pawn, part) + " (" + "TeetotalerUnhappy".Translate() + ")";
 			}
-			if (pawn.IsProsthophobe())
+			else if (pawn.IsProsthophobe() && this.recipe.ingredients[0].filter.BestThingRequest.singleDef == ThingDefOf.Luciferium)
 			{
-				ThingRequest bestThingRequest2 = base.recipe.ingredients[0].filter.BestThingRequest;
-				if (bestThingRequest2.singleDef == ThingDefOf.Luciferium)
-				{
-					return base.GetLabelWhenUsedOn(pawn, part) + " (" + "ProsthophobeUnhappy".Translate() + ")";
-				}
+				result = base.GetLabelWhenUsedOn(pawn, part) + " (" + "ProsthophobeUnhappy".Translate() + ")";
 			}
-			return base.GetLabelWhenUsedOn(pawn, part);
+			else
+			{
+				result = base.GetLabelWhenUsedOn(pawn, part);
+			}
+			return result;
 		}
 	}
 }

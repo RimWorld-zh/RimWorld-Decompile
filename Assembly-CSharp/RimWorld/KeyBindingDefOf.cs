@@ -1,98 +1,163 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200094A RID: 2378
 	[DefOf]
 	public static class KeyBindingDefOf
 	{
-		public static KeyBindingDef MapDollyUp;
+		// Token: 0x06003653 RID: 13907 RVA: 0x001D0989 File Offset: 0x001CED89
+		static KeyBindingDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(KeyBindingDefOf));
+		}
 
-		public static KeyBindingDef MapDollyDown;
+		// Token: 0x04002204 RID: 8708
+		public static KeyBindingDef MapDolly_Up;
 
-		public static KeyBindingDef MapDollyLeft;
+		// Token: 0x04002205 RID: 8709
+		public static KeyBindingDef MapDolly_Down;
 
-		public static KeyBindingDef MapDollyRight;
+		// Token: 0x04002206 RID: 8710
+		public static KeyBindingDef MapDolly_Left;
 
-		public static KeyBindingDef MapZoomIn;
+		// Token: 0x04002207 RID: 8711
+		public static KeyBindingDef MapDolly_Right;
 
-		public static KeyBindingDef MapZoomOut;
+		// Token: 0x04002208 RID: 8712
+		public static KeyBindingDef MapZoom_In;
 
+		// Token: 0x04002209 RID: 8713
+		public static KeyBindingDef MapZoom_Out;
+
+		// Token: 0x0400220A RID: 8714
+		public static KeyBindingDef Accept;
+
+		// Token: 0x0400220B RID: 8715
+		public static KeyBindingDef Cancel;
+
+		// Token: 0x0400220C RID: 8716
 		public static KeyBindingDef ToggleScreenshotMode;
 
+		// Token: 0x0400220D RID: 8717
 		public static KeyBindingDef TakeScreenshot;
 
+		// Token: 0x0400220E RID: 8718
 		public static KeyBindingDef SelectNextInCell;
 
+		// Token: 0x0400220F RID: 8719
 		public static KeyBindingDef TogglePause;
 
-		public static KeyBindingDef TimeSpeedNormal;
+		// Token: 0x04002210 RID: 8720
+		public static KeyBindingDef TimeSpeed_Normal;
 
-		public static KeyBindingDef TimeSpeedFast;
+		// Token: 0x04002211 RID: 8721
+		public static KeyBindingDef TimeSpeed_Fast;
 
-		public static KeyBindingDef TimeSpeedSuperfast;
+		// Token: 0x04002212 RID: 8722
+		public static KeyBindingDef TimeSpeed_Superfast;
 
-		public static KeyBindingDef TimeSpeedUltrafast;
+		// Token: 0x04002213 RID: 8723
+		public static KeyBindingDef TimeSpeed_Ultrafast;
 
+		// Token: 0x04002214 RID: 8724
 		public static KeyBindingDef PreviousColonist;
 
+		// Token: 0x04002215 RID: 8725
 		public static KeyBindingDef NextColonist;
 
+		// Token: 0x04002216 RID: 8726
+		public static KeyBindingDef ToggleBeautyDisplay;
+
+		// Token: 0x04002217 RID: 8727
+		public static KeyBindingDef ToggleRoomStatsDisplay;
+
+		// Token: 0x04002218 RID: 8728
 		public static KeyBindingDef QueueOrder;
 
+		// Token: 0x04002219 RID: 8729
 		public static KeyBindingDef Misc1;
 
+		// Token: 0x0400221A RID: 8730
 		public static KeyBindingDef Misc2;
 
+		// Token: 0x0400221B RID: 8731
 		public static KeyBindingDef Misc3;
 
+		// Token: 0x0400221C RID: 8732
 		public static KeyBindingDef Misc4;
 
+		// Token: 0x0400221D RID: 8733
 		public static KeyBindingDef Misc5;
 
+		// Token: 0x0400221E RID: 8734
 		public static KeyBindingDef Misc6;
 
+		// Token: 0x0400221F RID: 8735
 		public static KeyBindingDef Misc7;
 
+		// Token: 0x04002220 RID: 8736
 		public static KeyBindingDef Misc8;
 
+		// Token: 0x04002221 RID: 8737
 		public static KeyBindingDef Misc9;
 
+		// Token: 0x04002222 RID: 8738
 		public static KeyBindingDef Misc10;
 
+		// Token: 0x04002223 RID: 8739
 		public static KeyBindingDef Misc11;
 
+		// Token: 0x04002224 RID: 8740
 		public static KeyBindingDef Misc12;
 
-		public static KeyBindingDef CommandTogglePower;
+		// Token: 0x04002225 RID: 8741
+		public static KeyBindingDef Command_TogglePower;
 
-		public static KeyBindingDef CommandItemForbid;
+		// Token: 0x04002226 RID: 8742
+		public static KeyBindingDef Command_ItemForbid;
 
-		public static KeyBindingDef CommandColonistDraft;
+		// Token: 0x04002227 RID: 8743
+		public static KeyBindingDef Command_ColonistDraft;
 
-		public static KeyBindingDef ModifierIncrement10x;
+		// Token: 0x04002228 RID: 8744
+		public static KeyBindingDef ModifierIncrement_10x;
 
-		public static KeyBindingDef ModifierIncrement100x;
+		// Token: 0x04002229 RID: 8745
+		public static KeyBindingDef ModifierIncrement_100x;
 
-		public static KeyBindingDef DesignatorCancel;
+		// Token: 0x0400222A RID: 8746
+		public static KeyBindingDef Designator_Cancel;
 
-		public static KeyBindingDef DesignatorDeconstruct;
+		// Token: 0x0400222B RID: 8747
+		public static KeyBindingDef Designator_Deconstruct;
 
-		public static KeyBindingDef DesignatorRotateLeft;
+		// Token: 0x0400222C RID: 8748
+		public static KeyBindingDef Designator_RotateLeft;
 
-		public static KeyBindingDef DesignatorRotateRight;
+		// Token: 0x0400222D RID: 8749
+		public static KeyBindingDef Designator_RotateRight;
 
-		public static KeyBindingDef TickOnce;
+		// Token: 0x0400222E RID: 8750
+		public static KeyBindingDef Dev_TickOnce;
 
-		public static KeyBindingDef ToggleGodMode;
+		// Token: 0x0400222F RID: 8751
+		public static KeyBindingDef Dev_ToggleGodMode;
 
-		public static KeyBindingDef ToggleDebugLog;
+		// Token: 0x04002230 RID: 8752
+		public static KeyBindingDef Dev_ToggleDebugLog;
 
-		public static KeyBindingDef ToggleDebugActionsMenu;
+		// Token: 0x04002231 RID: 8753
+		public static KeyBindingDef Dev_ToggleDebugActionsMenu;
 
-		public static KeyBindingDef ToggleDebugLogMenu;
+		// Token: 0x04002232 RID: 8754
+		public static KeyBindingDef Dev_ToggleDebugLogMenu;
 
-		public static KeyBindingDef ToggleDebugInspector;
+		// Token: 0x04002233 RID: 8755
+		public static KeyBindingDef Dev_ToggleDebugInspector;
 
-		public static KeyBindingDef ToggleDebugSettingsMenu;
+		// Token: 0x04002234 RID: 8756
+		public static KeyBindingDef Dev_ToggleDebugSettingsMenu;
 	}
 }

@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -5,89 +6,106 @@ using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x02000324 RID: 804
 	public class IncidentWorker_AnimalInsanityMass : IncidentWorker
 	{
+		// Token: 0x06000DBD RID: 3517 RVA: 0x000757C4 File Offset: 0x00073BC4
 		public static bool AnimalUsable(Pawn p)
 		{
 			return p.Spawned && !p.Position.Fogged(p.Map) && (!p.InMentalState || !p.MentalStateDef.IsAggro) && !p.Downed && p.Faction == null;
 		}
 
+		// Token: 0x06000DBE RID: 3518 RVA: 0x0007582C File Offset: 0x00073C2C
 		public static void DriveInsane(Pawn p)
 		{
-			p.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, null, true, false, null);
+			p.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, null, true, false, null, false);
 		}
 
+		// Token: 0x06000DBF RID: 3519 RVA: 0x0007584C File Offset: 0x00073C4C
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
-			if (parms.points <= 0.0)
+			if (parms.points <= 0f)
 			{
-				Log.Error("AnimalInsanity running without points.");
-				parms.points = (float)(int)(map.strengthWatcher.StrengthRating * 50.0);
+				Log.Error("AnimalInsanity running without points.", false);
+				parms.points = (float)((int)(map.strengthWatcher.StrengthRating * 50f));
 			}
 			float adjustedPoints = parms.points;
-			if (adjustedPoints > 250.0)
+			if (adjustedPoints > 250f)
 			{
-				adjustedPoints = (float)(adjustedPoints - 250.0);
-				adjustedPoints = (float)(adjustedPoints * 0.5);
-				adjustedPoints = (float)(adjustedPoints + 250.0);
+				adjustedPoints -= 250f;
+				adjustedPoints *= 0.5f;
+				adjustedPoints += 250f;
 			}
 			IEnumerable<PawnKindDef> source = from def in DefDatabase<PawnKindDef>.AllDefs
 			where def.RaceProps.Animal && def.combatPower <= adjustedPoints && (from p in map.mapPawns.AllPawnsSpawned
 			where p.kindDef == def && IncidentWorker_AnimalInsanityMass.AnimalUsable(p)
-			select p).Count() >= 3
+			select p).Count<Pawn>() >= 3
 			select def;
 			PawnKindDef animalDef;
-			if (!source.TryRandomElement<PawnKindDef>(out animalDef))
+			bool result;
+			if (!source.TryRandomElement(out animalDef))
 			{
-				return false;
-			}
-			List<Pawn> list = (from p in map.mapPawns.AllPawnsSpawned
-			where p.kindDef == animalDef && IncidentWorker_AnimalInsanityMass.AnimalUsable(p)
-			select p).ToList();
-			float combatPower = animalDef.combatPower;
-			float num = 0f;
-			int num2 = 0;
-			Pawn pawn = null;
-			list.Shuffle();
-			foreach (Pawn item in list)
-			{
-				if (!(num + combatPower > adjustedPoints))
-				{
-					IncidentWorker_AnimalInsanityMass.DriveInsane(item);
-					num += combatPower;
-					num2++;
-					pawn = item;
-					continue;
-				}
-				break;
-			}
-			if (num == 0.0)
-			{
-				return false;
-			}
-			string label;
-			string text;
-			LetterDef textLetterDef;
-			if (num2 == 1)
-			{
-				label = "LetterLabelAnimalInsanitySingle".Translate() + ": " + pawn.LabelCap;
-				text = "AnimalInsanitySingle".Translate(pawn.LabelShort);
-				textLetterDef = LetterDefOf.ThreatSmall;
+				result = false;
 			}
 			else
 			{
-				label = "LetterLabelAnimalInsanityMultiple".Translate() + ": " + animalDef.LabelCap;
-				text = "AnimalInsanityMultiple".Translate(animalDef.GetLabelPlural(-1));
-				textLetterDef = LetterDefOf.ThreatBig;
+				List<Pawn> list = (from p in map.mapPawns.AllPawnsSpawned
+				where p.kindDef == animalDef && IncidentWorker_AnimalInsanityMass.AnimalUsable(p)
+				select p).ToList<Pawn>();
+				float combatPower = animalDef.combatPower;
+				float num = 0f;
+				int num2 = 0;
+				Pawn pawn = null;
+				list.Shuffle<Pawn>();
+				foreach (Pawn pawn2 in list)
+				{
+					if (num + combatPower > adjustedPoints)
+					{
+						break;
+					}
+					IncidentWorker_AnimalInsanityMass.DriveInsane(pawn2);
+					num += combatPower;
+					num2++;
+					pawn = pawn2;
+				}
+				if (num == 0f)
+				{
+					result = false;
+				}
+				else
+				{
+					string label;
+					string text;
+					LetterDef textLetterDef;
+					if (num2 == 1)
+					{
+						label = "LetterLabelAnimalInsanitySingle".Translate() + ": " + pawn.LabelCap;
+						text = "AnimalInsanitySingle".Translate(new object[]
+						{
+							pawn.LabelShort
+						});
+						textLetterDef = LetterDefOf.ThreatSmall;
+					}
+					else
+					{
+						label = "LetterLabelAnimalInsanityMultiple".Translate() + ": " + animalDef.LabelCap;
+						text = "AnimalInsanityMultiple".Translate(new object[]
+						{
+							animalDef.GetLabelPlural(-1)
+						});
+						textLetterDef = LetterDefOf.ThreatBig;
+					}
+					Find.LetterStack.ReceiveLetter(label, text, textLetterDef, pawn, null, null);
+					SoundDefOf.PsychicPulseGlobal.PlayOneShotOnCamera(map);
+					if (map == Find.CurrentMap)
+					{
+						Find.CameraDriver.shaker.DoShake(1f);
+					}
+					result = true;
+				}
 			}
-			Find.LetterStack.ReceiveLetter(label, text, textLetterDef, pawn, null);
-			SoundDefOf.PsychicPulseGlobal.PlayOneShotOnCamera(map);
-			if (map == Find.VisibleMap)
-			{
-				Find.CameraDriver.shaker.DoShake(1f);
-			}
-			return true;
+			return result;
 		}
 	}
 }

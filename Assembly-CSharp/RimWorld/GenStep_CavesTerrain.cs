@@ -1,18 +1,23 @@
+﻿using System;
 using Verse;
 using Verse.Noise;
 
 namespace RimWorld
 {
+	// Token: 0x020003E9 RID: 1001
 	public class GenStep_CavesTerrain : GenStep
 	{
-		private const float WaterFrequency = 0.08f;
+		// Token: 0x1700024B RID: 587
+		// (get) Token: 0x06001135 RID: 4405 RVA: 0x00093B40 File Offset: 0x00091F40
+		public override int SeedPart
+		{
+			get
+			{
+				return 1921024373;
+			}
+		}
 
-		private const float GravelFrequency = 0.16f;
-
-		private const float WaterThreshold = 0.93f;
-
-		private const float GravelThreshold = 0.55f;
-
+		// Token: 0x06001136 RID: 4406 RVA: 0x00093B5C File Offset: 0x00091F5C
 		public override void Generate(Map map)
 		{
 			if (Find.World.HasCaves(map.Tile))
@@ -20,28 +25,39 @@ namespace RimWorld
 				Perlin perlin = new Perlin(0.079999998211860657, 2.0, 0.5, 6, Rand.Int, QualityMode.Medium);
 				Perlin perlin2 = new Perlin(0.15999999642372131, 2.0, 0.5, 6, Rand.Int, QualityMode.Medium);
 				MapGenFloatGrid caves = MapGenerator.Caves;
-				foreach (IntVec3 allCell in map.AllCells)
+				foreach (IntVec3 c in map.AllCells)
 				{
-					IntVec3 current = allCell;
-					if (!(caves[current] <= 0.0))
+					if (caves[c] > 0f)
 					{
-						TerrainDef terrain = current.GetTerrain(map);
-						if (terrain != TerrainDefOf.WaterMovingShallow && terrain != TerrainDefOf.WaterMovingDeep)
+						TerrainDef terrain = c.GetTerrain(map);
+						if (!terrain.IsRiver)
 						{
-							float num = (float)perlin.GetValue((double)current.x, 0.0, (double)current.z);
-							float num2 = (float)perlin2.GetValue((double)current.x, 0.0, (double)current.z);
-							if (num > 0.93000000715255737)
+							float num = (float)perlin.GetValue((double)c.x, 0.0, (double)c.z);
+							float num2 = (float)perlin2.GetValue((double)c.x, 0.0, (double)c.z);
+							if (num > 0.93f)
 							{
-								map.terrainGrid.SetTerrain(current, TerrainDefOf.WaterShallow);
+								map.terrainGrid.SetTerrain(c, TerrainDefOf.WaterShallow);
 							}
-							else if (num2 > 0.550000011920929)
+							else if (num2 > 0.55f)
 							{
-								map.terrainGrid.SetTerrain(current, TerrainDefOf.Gravel);
+								map.terrainGrid.SetTerrain(c, TerrainDefOf.Gravel);
 							}
 						}
 					}
 				}
 			}
 		}
+
+		// Token: 0x04000A78 RID: 2680
+		private const float WaterFrequency = 0.08f;
+
+		// Token: 0x04000A79 RID: 2681
+		private const float GravelFrequency = 0.16f;
+
+		// Token: 0x04000A7A RID: 2682
+		private const float WaterThreshold = 0.93f;
+
+		// Token: 0x04000A7B RID: 2683
+		private const float GravelThreshold = 0.55f;
 	}
 }

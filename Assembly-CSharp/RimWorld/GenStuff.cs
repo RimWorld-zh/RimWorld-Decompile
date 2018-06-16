@@ -1,109 +1,213 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000983 RID: 2435
 	public static class GenStuff
 	{
-		public static ThingDef DefaultStuffFor(ThingDef td)
+		// Token: 0x060036CC RID: 14028 RVA: 0x001D3FD4 File Offset: 0x001D23D4
+		public static ThingDef DefaultStuffFor(BuildableDef bd)
 		{
-			if (!td.MadeFromStuff)
+			ThingDef result;
+			if (!bd.MadeFromStuff)
 			{
-				return null;
+				result = null;
 			}
-			if (ThingDefOf.WoodLog.stuffProps.CanMake(td))
+			else
 			{
-				return ThingDefOf.WoodLog;
-			}
-			if (ThingDefOf.Steel.stuffProps.CanMake(td))
-			{
-				return ThingDefOf.Steel;
-			}
-			if (ThingDefOf.Cloth.stuffProps.CanMake(td))
-			{
-				return ThingDefOf.Cloth;
-			}
-			ThingDef leatherDef = ThingDefOf.Cow.race.leatherDef;
-			if (leatherDef.stuffProps.CanMake(td))
-			{
-				return leatherDef;
-			}
-			if (ThingDefOf.BlocksGranite.stuffProps.CanMake(td))
-			{
-				return ThingDefOf.BlocksGranite;
-			}
-			if (ThingDefOf.Plasteel.stuffProps.CanMake(td))
-			{
-				return ThingDefOf.Plasteel;
-			}
-			return GenStuff.RandomStuffFor(td);
-		}
-
-		public static ThingDef RandomStuffFor(ThingDef td)
-		{
-			if (!td.MadeFromStuff)
-			{
-				return null;
-			}
-			return GenStuff.AllowedStuffsFor(td).RandomElement();
-		}
-
-		public static ThingDef RandomStuffByCommonalityFor(ThingDef td, TechLevel maxTechLevel = TechLevel.Undefined)
-		{
-			if (!td.MadeFromStuff)
-			{
-				return null;
-			}
-			ThingDef result = default(ThingDef);
-			if (!GenStuff.TryRandomStuffByCommonalityFor(td, out result, maxTechLevel))
-			{
-				result = GenStuff.DefaultStuffFor(td);
-				return result;
+				ThingDef thingDef = bd as ThingDef;
+				if (thingDef != null)
+				{
+					if (thingDef.IsMeleeWeapon)
+					{
+						if (ThingDefOf.Steel.stuffProps.CanMake(bd))
+						{
+							return ThingDefOf.Steel;
+						}
+						if (ThingDefOf.Plasteel.stuffProps.CanMake(bd))
+						{
+							return ThingDefOf.Plasteel;
+						}
+					}
+					if (thingDef.IsApparel)
+					{
+						if (ThingDefOf.Cloth.stuffProps.CanMake(bd))
+						{
+							return ThingDefOf.Cloth;
+						}
+						if (ThingDefOf.Leather_Plain.stuffProps.CanMake(bd))
+						{
+							return ThingDefOf.Leather_Plain;
+						}
+						if (ThingDefOf.Steel.stuffProps.CanMake(bd))
+						{
+							return ThingDefOf.Steel;
+						}
+					}
+				}
+				if (ThingDefOf.WoodLog.stuffProps.CanMake(bd))
+				{
+					result = ThingDefOf.WoodLog;
+				}
+				else if (ThingDefOf.Steel.stuffProps.CanMake(bd))
+				{
+					result = ThingDefOf.Steel;
+				}
+				else if (ThingDefOf.Plasteel.stuffProps.CanMake(bd))
+				{
+					result = ThingDefOf.Plasteel;
+				}
+				else if (ThingDefOf.BlocksGranite.stuffProps.CanMake(bd))
+				{
+					result = ThingDefOf.BlocksGranite;
+				}
+				else if (ThingDefOf.Cloth.stuffProps.CanMake(bd))
+				{
+					result = ThingDefOf.Cloth;
+				}
+				else if (ThingDefOf.Leather_Plain.stuffProps.CanMake(bd))
+				{
+					result = ThingDefOf.Leather_Plain;
+				}
+				else
+				{
+					result = GenStuff.AllowedStuffsFor(bd, TechLevel.Undefined).First<ThingDef>();
+				}
 			}
 			return result;
 		}
 
-		public static IEnumerable<ThingDef> AllowedStuffsFor(ThingDef td)
+		// Token: 0x060036CD RID: 14029 RVA: 0x001D4190 File Offset: 0x001D2590
+		public static ThingDef RandomStuffFor(ThingDef td)
 		{
-			if (td.MadeFromStuff)
+			ThingDef result;
+			if (!td.MadeFromStuff)
 			{
-				List<ThingDef> allDefs = DefDatabase<ThingDef>.AllDefsListForReading;
-				int i = 0;
-				ThingDef d;
-				while (true)
-				{
-					if (i < allDefs.Count)
-					{
-						d = allDefs[i];
-						if (d.IsStuff && d.stuffProps.CanMake(td))
-							break;
-						i++;
-						continue;
-					}
-					yield break;
-				}
-				yield return d;
-				/*Error: Unable to find new state assignment for yield return*/;
+				result = null;
 			}
+			else
+			{
+				result = GenStuff.AllowedStuffsFor(td, TechLevel.Undefined).RandomElement<ThingDef>();
+			}
+			return result;
 		}
 
-		public static bool TryRandomStuffByCommonalityFor(ThingDef td, out ThingDef stuff, TechLevel maxTechLevel = TechLevel.Undefined)
+		// Token: 0x060036CE RID: 14030 RVA: 0x001D41C4 File Offset: 0x001D25C4
+		public static ThingDef RandomStuffByCommonalityFor(ThingDef td, TechLevel maxTechLevel = TechLevel.Undefined)
+		{
+			ThingDef result;
+			if (!td.MadeFromStuff)
+			{
+				result = null;
+			}
+			else
+			{
+				ThingDef thingDef;
+				if (!GenStuff.TryRandomStuffByCommonalityFor(td, out thingDef, maxTechLevel))
+				{
+					thingDef = GenStuff.DefaultStuffFor(td);
+				}
+				result = thingDef;
+			}
+			return result;
+		}
+
+		// Token: 0x060036CF RID: 14031 RVA: 0x001D4204 File Offset: 0x001D2604
+		public static IEnumerable<ThingDef> AllowedStuffsFor(BuildableDef td, TechLevel maxTechLevel = TechLevel.Undefined)
 		{
 			if (!td.MadeFromStuff)
 			{
-				stuff = null;
-				return true;
+				yield break;
 			}
-			IEnumerable<ThingDef> source = GenStuff.AllowedStuffsFor(td);
-			if (maxTechLevel != 0)
+			List<ThingDef> allDefs = DefDatabase<ThingDef>.AllDefsListForReading;
+			for (int i = 0; i < allDefs.Count; i++)
 			{
-				source = from x in source
-				where (int)x.techLevel <= (int)maxTechLevel
-				select x;
+				ThingDef d = allDefs[i];
+				if (d.IsStuff && (maxTechLevel == TechLevel.Undefined || d.techLevel <= maxTechLevel) && d.stuffProps.CanMake(td))
+				{
+					yield return d;
+				}
 			}
-			return source.TryRandomElementByWeight<ThingDef>((Func<ThingDef, float>)((ThingDef x) => x.stuffProps.commonality), out stuff);
+			yield break;
+		}
+
+		// Token: 0x060036D0 RID: 14032 RVA: 0x001D4238 File Offset: 0x001D2638
+		public static bool TryRandomStuffByCommonalityFor(ThingDef td, out ThingDef stuff, TechLevel maxTechLevel = TechLevel.Undefined)
+		{
+			bool result;
+			if (!td.MadeFromStuff)
+			{
+				stuff = null;
+				result = true;
+			}
+			else
+			{
+				IEnumerable<ThingDef> source = GenStuff.AllowedStuffsFor(td, maxTechLevel);
+				result = source.TryRandomElementByWeight((ThingDef x) => x.stuffProps.commonality, out stuff);
+			}
+			return result;
+		}
+
+		// Token: 0x060036D1 RID: 14033 RVA: 0x001D4290 File Offset: 0x001D2690
+		public static bool TryRandomStuffFor(ThingDef td, out ThingDef stuff, TechLevel maxTechLevel = TechLevel.Undefined)
+		{
+			bool result;
+			if (!td.MadeFromStuff)
+			{
+				stuff = null;
+				result = true;
+			}
+			else
+			{
+				IEnumerable<ThingDef> source = GenStuff.AllowedStuffsFor(td, maxTechLevel);
+				result = source.TryRandomElement(out stuff);
+			}
+			return result;
+		}
+
+		// Token: 0x060036D2 RID: 14034 RVA: 0x001D42CC File Offset: 0x001D26CC
+		public static ThingDef RandomStuffInexpensiveFor(ThingDef thingDef, Faction faction)
+		{
+			return GenStuff.RandomStuffInexpensiveFor(thingDef, (faction == null) ? TechLevel.Undefined : faction.def.techLevel);
+		}
+
+		// Token: 0x060036D3 RID: 14035 RVA: 0x001D4300 File Offset: 0x001D2700
+		public static ThingDef RandomStuffInexpensiveFor(ThingDef thingDef, TechLevel maxTechLevel)
+		{
+			ThingDef result;
+			if (!thingDef.MadeFromStuff)
+			{
+				result = null;
+			}
+			else
+			{
+				IEnumerable<ThingDef> enumerable = GenStuff.AllowedStuffsFor(thingDef, maxTechLevel);
+				float cheapestPrice = -1f;
+				foreach (ThingDef thingDef2 in enumerable)
+				{
+					float num = thingDef2.BaseMarketValue / thingDef2.VolumePerUnit;
+					if (cheapestPrice == -1f || num < cheapestPrice)
+					{
+						cheapestPrice = num;
+					}
+				}
+				enumerable = from x in enumerable
+				where x.BaseMarketValue / x.VolumePerUnit <= cheapestPrice * 4f
+				select x;
+				ThingDef thingDef3;
+				if (enumerable.TryRandomElementByWeight((ThingDef x) => x.stuffProps.commonality, out thingDef3))
+				{
+					result = thingDef3;
+				}
+				else
+				{
+					result = null;
+				}
+			}
+			return result;
 		}
 	}
 }

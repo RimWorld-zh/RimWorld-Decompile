@@ -1,17 +1,13 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Verse
 {
+	// Token: 0x02000B6D RID: 2925
 	public class RoomRoleDef : Def
 	{
-		public Type workerClass;
-
-		private List<RoomStatDef> relatedStats;
-
-		[Unsaved]
-		private RoomRoleWorker workerInt;
-
+		// Token: 0x170009BA RID: 2490
+		// (get) Token: 0x06003FDB RID: 16347 RVA: 0x0021A630 File Offset: 0x00218A30
 		public RoomRoleWorker Worker
 		{
 			get
@@ -24,20 +20,36 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06003FDC RID: 16348 RVA: 0x0021A66C File Offset: 0x00218A6C
 		public bool IsStatRelated(RoomStatDef def)
 		{
+			bool result;
 			if (this.relatedStats == null)
 			{
-				return false;
+				result = false;
 			}
-			for (int i = 0; i < this.relatedStats.Count; i++)
+			else
 			{
-				if (this.relatedStats[i] == def)
+				for (int i = 0; i < this.relatedStats.Count; i++)
 				{
-					return true;
+					if (this.relatedStats[i] == def)
+					{
+						return true;
+					}
 				}
+				result = false;
 			}
-			return false;
+			return result;
 		}
+
+		// Token: 0x04002AC1 RID: 10945
+		public Type workerClass;
+
+		// Token: 0x04002AC2 RID: 10946
+		private List<RoomStatDef> relatedStats = null;
+
+		// Token: 0x04002AC3 RID: 10947
+		[Unsaved]
+		private RoomRoleWorker workerInt = null;
 	}
 }

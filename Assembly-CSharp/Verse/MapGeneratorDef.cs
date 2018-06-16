@@ -1,38 +1,12 @@
+﻿using System;
 using System.Collections.Generic;
 
 namespace Verse
 {
+	// Token: 0x02000B52 RID: 2898
 	public class MapGeneratorDef : Def
 	{
-		public MapGeneratorDef parent;
-
-		public float selectionWeight = 1f;
-
-		[Unsaved]
-		private List<GenStepDef> genSteps;
-
-		public List<GenStepDef> GenSteps
-		{
-			get
-			{
-				if (this.genSteps == null)
-				{
-					this.genSteps = new List<GenStepDef>();
-					if (this.parent != null)
-					{
-						this.genSteps.AddRange(this.parent.GenSteps);
-					}
-					List<GenStepDef> allDefsListForReading = DefDatabase<GenStepDef>.AllDefsListForReading;
-					for (int i = 0; i < allDefsListForReading.Count; i++)
-					{
-						if (allDefsListForReading[i].linkWithMapGenerator == this)
-						{
-							this.genSteps.Add(allDefsListForReading[i]);
-						}
-					}
-				}
-				return this.genSteps;
-			}
-		}
+		// Token: 0x040029F1 RID: 10737
+		public List<GenStepDef> genSteps;
 	}
 }

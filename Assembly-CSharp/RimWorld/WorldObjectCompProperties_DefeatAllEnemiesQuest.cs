@@ -1,32 +1,30 @@
-using RimWorld.Planet;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld.Planet;
 
 namespace RimWorld
 {
+	// Token: 0x0200027A RID: 634
 	public class WorldObjectCompProperties_DefeatAllEnemiesQuest : WorldObjectCompProperties
 	{
+		// Token: 0x06000AE2 RID: 2786 RVA: 0x00062719 File Offset: 0x00060B19
 		public WorldObjectCompProperties_DefeatAllEnemiesQuest()
 		{
-			base.compClass = typeof(DefeatAllEnemiesQuestComp);
+			this.compClass = typeof(DefeatAllEnemiesQuestComp);
 		}
 
+		// Token: 0x06000AE3 RID: 2787 RVA: 0x00062734 File Offset: 0x00060B34
 		public override IEnumerable<string> ConfigErrors(WorldObjectDef parentDef)
 		{
-			using (IEnumerator<string> enumerator = base.ConfigErrors(parentDef).GetEnumerator())
+			foreach (string e in this.<ConfigErrors>__BaseCallProxy0(parentDef))
 			{
-				if (enumerator.MoveNext())
-				{
-					string e = enumerator.Current;
-					yield return e;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return e;
 			}
-			if (typeof(MapParent).IsAssignableFrom(parentDef.worldObjectClass))
-				yield break;
-			yield return parentDef.defName + " has WorldObjectCompProperties_DefeatAllEnemiesQuest but it's not MapParent.";
-			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0111:
-			/*Error near IL_0112: Unexpected return in MoveNext()*/;
+			if (!typeof(MapParent).IsAssignableFrom(parentDef.worldObjectClass))
+			{
+				yield return parentDef.defName + " has WorldObjectCompProperties_DefeatAllEnemiesQuest but it's not MapParent.";
+			}
+			yield break;
 		}
 	}
 }

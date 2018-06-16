@@ -1,63 +1,136 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
+using Verse.AI.Group;
 
 namespace RimWorld
 {
+	// Token: 0x02000082 RID: 130
 	public class JobDriver_TakeToBed : JobDriver
 	{
-		private const TargetIndex TakeeIndex = TargetIndex.A;
-
-		private const TargetIndex BedIndex = TargetIndex.B;
-
+		// Token: 0x170000B4 RID: 180
+		// (get) Token: 0x06000369 RID: 873 RVA: 0x00025C98 File Offset: 0x00024098
 		protected Pawn Takee
 		{
 			get
 			{
-				return (Pawn)base.job.GetTarget(TargetIndex.A).Thing;
+				return (Pawn)this.job.GetTarget(TargetIndex.A).Thing;
 			}
 		}
 
+		// Token: 0x170000B5 RID: 181
+		// (get) Token: 0x0600036A RID: 874 RVA: 0x00025CC8 File Offset: 0x000240C8
 		protected Building_Bed DropBed
 		{
 			get
 			{
-				return (Building_Bed)base.job.GetTarget(TargetIndex.B).Thing;
+				return (Building_Bed)this.job.GetTarget(TargetIndex.B).Thing;
 			}
 		}
 
+		// Token: 0x0600036B RID: 875 RVA: 0x00025CF8 File Offset: 0x000240F8
 		public override bool TryMakePreToilReservations()
 		{
-			return base.pawn.Reserve(this.Takee, base.job, 1, -1, null) && base.pawn.Reserve(this.DropBed, base.job, this.DropBed.SleepingSlotsCount, 0, null);
+			return this.pawn.Reserve(this.Takee, this.job, 1, -1, null) && this.pawn.Reserve(this.DropBed, this.job, this.DropBed.SleepingSlotsCount, 0, null);
 		}
 
+		// Token: 0x0600036C RID: 876 RVA: 0x00025D60 File Offset: 0x00024160
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDestroyedOrNull(TargetIndex.A);
 			this.FailOnDestroyedOrNull(TargetIndex.B);
 			this.FailOnAggroMentalStateAndHostile(TargetIndex.A);
-			this.FailOn(delegate
+			this.FailOn(delegate()
 			{
-				if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006a: stateMachine*/)._0024this.job.def.makeTargetPrisoner)
+				if (this.job.def.makeTargetPrisoner)
 				{
-					if (!((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006a: stateMachine*/)._0024this.DropBed.ForPrisoners)
+					if (!this.DropBed.ForPrisoners)
 					{
 						return true;
 					}
 				}
-				else if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006a: stateMachine*/)._0024this.DropBed.ForPrisoners != ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_006a: stateMachine*/)._0024this.Takee.IsPrisoner)
+				else if (this.DropBed.ForPrisoners != this.Takee.IsPrisoner)
 				{
 					return true;
 				}
 				return false;
 			});
 			yield return Toils_Bed.ClaimBedIfNonMedical(TargetIndex.B, TargetIndex.A);
-			/*Error: Unable to find new state assignment for yield return*/;
+			base.AddFinishAction(delegate
+			{
+				if (this.job.def.makeTargetPrisoner && this.Takee.ownership.OwnedBed == this.DropBed && this.Takee.Position != RestUtility.GetBedSleepingSlotPosFor(this.Takee, this.DropBed))
+				{
+					this.Takee.ownership.UnclaimBed();
+				}
+			});
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.ClosestTouch).FailOnDespawnedNullOrForbidden(TargetIndex.A).FailOnDespawnedNullOrForbidden(TargetIndex.B).FailOn(() => this.job.def == JobDefOf.Arrest && !this.Takee.CanBeArrestedBy(this.pawn)).FailOn(() => !this.pawn.CanReach(this.DropBed, PathEndMode.OnCell, Danger.Deadly, false, TraverseMode.ByPawn)).FailOn(() => this.job.def == JobDefOf.Rescue && !this.Takee.Downed).FailOnSomeonePhysicallyInteracting(TargetIndex.A);
+			yield return new Toil
+			{
+				initAction = delegate()
+				{
+					if (this.job.def.makeTargetPrisoner)
+					{
+						Pawn pawn = (Pawn)this.job.targetA.Thing;
+						Lord lord = pawn.GetLord();
+						if (lord != null)
+						{
+							lord.Notify_PawnAttemptArrested(pawn);
+						}
+						GenClamor.DoClamor(pawn, 10f, ClamorDefOf.Harm);
+						if (this.job.def == JobDefOf.Arrest && !pawn.CheckAcceptArrest(this.pawn))
+						{
+							this.pawn.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+						}
+					}
+				}
+			};
+			Toil startCarrying = Toils_Haul.StartCarryThing(TargetIndex.A, false, false, false).FailOnNonMedicalBedNotOwned(TargetIndex.B, TargetIndex.A);
+			startCarrying.AddPreInitAction(new Action(this.CheckMakeTakeeGuest));
+			yield return startCarrying;
+			yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.Touch);
+			yield return new Toil
+			{
+				initAction = delegate()
+				{
+					this.CheckMakeTakeePrisoner();
+					if (this.Takee.playerSettings == null)
+					{
+						this.Takee.playerSettings = new Pawn_PlayerSettings(this.Takee);
+					}
+				}
+			};
+			yield return Toils_Reserve.Release(TargetIndex.B);
+			yield return new Toil
+			{
+				initAction = delegate()
+				{
+					IntVec3 position = this.DropBed.Position;
+					Thing thing;
+					this.pawn.carryTracker.TryDropCarriedThing(position, ThingPlaceMode.Direct, out thing, null);
+					if (!this.DropBed.Destroyed && (this.DropBed.owners.Contains(this.Takee) || (this.DropBed.Medical && this.DropBed.AnyUnoccupiedSleepingSlot) || this.Takee.ownership == null))
+					{
+						this.Takee.jobs.Notify_TuckedIntoBed(this.DropBed);
+						if (this.Takee.RaceProps.Humanlike && this.job.def != JobDefOf.Arrest && !this.Takee.IsPrisonerOfColony)
+						{
+							this.Takee.relations.Notify_RescuedBy(this.pawn);
+						}
+						this.Takee.mindState.Notify_TuckedIntoBed();
+					}
+					if (this.Takee.IsPrisonerOfColony)
+					{
+						LessonAutoActivator.TeachOpportunity(ConceptDefOf.PrisonerTab, this.Takee, OpportunityType.GoodToKnow);
+					}
+				},
+				defaultCompleteMode = ToilCompleteMode.Instant
+			};
+			yield break;
 		}
 
+		// Token: 0x0600036D RID: 877 RVA: 0x00025D8C File Offset: 0x0002418C
 		private void CheckMakeTakeePrisoner()
 		{
-			if (base.job.def.makeTargetPrisoner)
+			if (this.job.def.makeTargetPrisoner)
 			{
 				if (this.Takee.guest.Released)
 				{
@@ -66,26 +139,24 @@ namespace RimWorld
 				}
 				if (!this.Takee.IsPrisonerOfColony)
 				{
-					if (this.Takee.Faction != null)
-					{
-						this.Takee.Faction.Notify_MemberCaptured(this.Takee, base.pawn.Faction);
-					}
-					this.Takee.guest.SetGuestStatus(Faction.OfPlayer, true);
-					if (this.Takee.guest.IsPrisoner)
-					{
-						TaleRecorder.RecordTale(TaleDefOf.Captured, base.pawn, this.Takee);
-						base.pawn.records.Increment(RecordDefOf.PeopleCaptured);
-					}
+					this.Takee.guest.CapturedBy(Faction.OfPlayer, this.pawn);
 				}
 			}
 		}
 
+		// Token: 0x0600036E RID: 878 RVA: 0x00025E1C File Offset: 0x0002421C
 		private void CheckMakeTakeeGuest()
 		{
-			if (!base.job.def.makeTargetPrisoner && this.Takee.Faction != Faction.OfPlayer && this.Takee.HostFaction != Faction.OfPlayer && this.Takee.guest != null && !this.Takee.IsWildMan())
+			if (!this.job.def.makeTargetPrisoner && this.Takee.Faction != Faction.OfPlayer && this.Takee.HostFaction != Faction.OfPlayer && this.Takee.guest != null && !this.Takee.IsWildMan())
 			{
 				this.Takee.guest.SetGuestStatus(Faction.OfPlayer, false);
 			}
 		}
+
+		// Token: 0x0400023E RID: 574
+		private const TargetIndex TakeeIndex = TargetIndex.A;
+
+		// Token: 0x0400023F RID: 575
+		private const TargetIndex BedIndex = TargetIndex.B;
 	}
 }

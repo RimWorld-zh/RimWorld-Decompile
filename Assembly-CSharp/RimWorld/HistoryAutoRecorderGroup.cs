@@ -1,25 +1,21 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020002FA RID: 762
 	public class HistoryAutoRecorderGroup : IExposable
 	{
-		public HistoryAutoRecorderGroupDef def;
-
-		public List<HistoryAutoRecorder> recorders;
-
-		private List<SimpleCurveDrawInfo> curves;
-
-		private int cachedGraphTickCount = -1;
-
+		// Token: 0x06000CB5 RID: 3253 RVA: 0x0006FE87 File Offset: 0x0006E287
 		public HistoryAutoRecorderGroup()
 		{
 			this.recorders = new List<HistoryAutoRecorder>();
 			this.curves = new List<SimpleCurveDrawInfo>();
 		}
 
+		// Token: 0x06000CB6 RID: 3254 RVA: 0x0006FEB4 File Offset: 0x0006E2B4
 		public void CreateRecorders()
 		{
 			foreach (HistoryAutoRecorderDef historyAutoRecorderDef in this.def.historyAutoRecorderDefs)
@@ -30,15 +26,16 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06000CB7 RID: 3255 RVA: 0x0006FF2C File Offset: 0x0006E32C
 		public float GetMaxDay()
 		{
 			float num = 0f;
-			foreach (HistoryAutoRecorder recorder in this.recorders)
+			foreach (HistoryAutoRecorder historyAutoRecorder in this.recorders)
 			{
-				int count = recorder.records.Count;
+				int count = historyAutoRecorder.records.Count;
 				if (count != 0)
 				{
-					float num2 = (float)((float)((count - 1) * recorder.def.recordTicksFrequency) / 60000.0);
+					float num2 = (float)((count - 1) * historyAutoRecorder.def.recordTicksFrequency) / 60000f;
 					if (num2 > num)
 					{
 						num = num2;
@@ -48,6 +45,7 @@ namespace RimWorld
 			return num;
 		}
 
+		// Token: 0x06000CB8 RID: 3256 RVA: 0x0006FFD0 File Offset: 0x0006E3D0
 		public void Tick()
 		{
 			for (int i = 0; i < this.recorders.Count; i++)
@@ -56,6 +54,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06000CB9 RID: 3257 RVA: 0x00070010 File Offset: 0x0006E410
 		public void DrawGraph(Rect graphRect, Rect legendRect, FloatRange section, List<CurveMark> marks)
 		{
 			int ticksGame = Find.TickManager.TicksGame;
@@ -73,7 +72,7 @@ namespace RimWorld
 					simpleCurveDrawInfo.curve = new SimpleCurve();
 					for (int j = 0; j < historyAutoRecorder.records.Count; j++)
 					{
-						simpleCurveDrawInfo.curve.Add(new CurvePoint((float)((float)j * (float)historyAutoRecorder.def.recordTicksFrequency / 60000.0), historyAutoRecorder.records[j]), false);
+						simpleCurveDrawInfo.curve.Add(new CurvePoint((float)j * (float)historyAutoRecorder.def.recordTicksFrequency / 60000f, historyAutoRecorder.records[j]), false);
 					}
 					simpleCurveDrawInfo.curve.SortPoints();
 					if (historyAutoRecorder.records.Count == 1)
@@ -96,10 +95,23 @@ namespace RimWorld
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
+		// Token: 0x06000CBA RID: 3258 RVA: 0x000701E6 File Offset: 0x0006E5E6
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<HistoryAutoRecorderGroupDef>(ref this.def, "def");
 			Scribe_Collections.Look<HistoryAutoRecorder>(ref this.recorders, "recorders", LookMode.Deep, new object[0]);
 		}
+
+		// Token: 0x0400084C RID: 2124
+		public HistoryAutoRecorderGroupDef def = null;
+
+		// Token: 0x0400084D RID: 2125
+		public List<HistoryAutoRecorder> recorders;
+
+		// Token: 0x0400084E RID: 2126
+		private List<SimpleCurveDrawInfo> curves;
+
+		// Token: 0x0400084F RID: 2127
+		private int cachedGraphTickCount = -1;
 	}
 }

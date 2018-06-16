@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,8 +7,10 @@ using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000104 RID: 260
 	public class JoyGiver_VisitGrave : JoyGiver
 	{
+		// Token: 0x06000575 RID: 1397 RVA: 0x0003B4E0 File Offset: 0x000398E0
 		public override Job TryGiveJob(Pawn pawn)
 		{
 			bool allowedOutside = JoyUtility.EnjoyableOutsideNow(pawn, null);
@@ -17,16 +19,21 @@ namespace RimWorld
 				Building_Grave building_Grave = (Building_Grave)x;
 				return x.Faction == Faction.OfPlayer && building_Grave.HasCorpse && !building_Grave.IsForbidden(pawn) && building_Grave.Corpse.InnerPawn.Faction == Faction.OfPlayer && (allowedOutside || building_Grave.Position.Roofed(building_Grave.Map)) && pawn.CanReserveAndReach(x, PathEndMode.Touch, Danger.None, 1, -1, null, false) && building_Grave.IsPoliticallyProper(pawn);
 			});
-			Thing t = default(Thing);
-			if (!source.TryRandomElementByWeight<Thing>((Func<Thing, float>)delegate(Thing x)
+			Thing t;
+			Job result;
+			if (!source.TryRandomElementByWeight(delegate(Thing x)
 			{
 				float lengthHorizontal = (x.Position - pawn.Position).LengthHorizontal;
-				return Mathf.Max((float)(150.0 - lengthHorizontal), 5f);
+				return Mathf.Max(150f - lengthHorizontal, 5f);
 			}, out t))
 			{
-				return null;
+				result = null;
 			}
-			return new Job(base.def.jobDef, t);
+			else
+			{
+				result = new Job(this.def.jobDef, t);
+			}
+			return result;
 		}
 	}
 }

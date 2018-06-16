@@ -1,66 +1,62 @@
+﻿using System;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000330 RID: 816
 	public class IncidentWorker_Infestation : IncidentWorker
 	{
-		private const float HivePoints = 400f;
-
-		protected override bool CanFireNowSub(IIncidentTarget target)
+		// Token: 0x06000DF4 RID: 3572 RVA: 0x00077074 File Offset: 0x00075474
+		protected override bool CanFireNowSub(IncidentParms parms)
 		{
-			Map map = (Map)target;
-			IntVec3 intVec = default(IntVec3);
-			return base.CanFireNowSub(target) && HivesUtility.TotalSpawnedHivesCount(map) < 30 && InfestationCellFinder.TryFindCell(out intVec, map);
+			Map map = (Map)parms.target;
+			IntVec3 intVec;
+			return base.CanFireNowSub(parms) && HivesUtility.TotalSpawnedHivesCount(map) < 30 && InfestationCellFinder.TryFindCell(out intVec, map);
 		}
 
+		// Token: 0x06000DF5 RID: 3573 RVA: 0x000770BC File Offset: 0x000754BC
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
-			Hive t = null;
-			int num2;
-			for (int num = Mathf.Max(GenMath.RoundRandom((float)(parms.points / 400.0)), 1); num > 0; num -= num2)
+			Thing t = null;
+			int num;
+			for (int i = Mathf.Max(GenMath.RoundRandom(parms.points / 250f), 1); i > 0; i -= num)
 			{
-				num2 = Mathf.Min(3, num);
-				t = this.SpawnHiveCluster(num2, map);
+				num = Mathf.Min(3, i);
+				t = this.SpawnTunnel(num, map);
 			}
-			base.SendStandardLetter(t);
+			base.SendStandardLetter(t, null, new string[0]);
 			Find.TickManager.slower.SignalForceNormalSpeedShort();
 			return true;
 		}
 
-		private Hive SpawnHiveCluster(int hiveCount, Map map)
+		// Token: 0x06000DF6 RID: 3574 RVA: 0x00077140 File Offset: 0x00075540
+		private Thing SpawnTunnel(int hiveCount, Map map)
 		{
-			IntVec3 loc = default(IntVec3);
+			IntVec3 loc;
+			Thing result;
 			if (!InfestationCellFinder.TryFindCell(out loc, map))
 			{
-				return null;
+				result = null;
 			}
-			Hive hive = (Hive)GenSpawn.Spawn(ThingMaker.MakeThing(ThingDefOf.Hive, null), loc, map);
-			hive.SetFaction(Faction.OfInsects, null);
-			IncidentWorker_Infestation.SpawnInsectJellyInstantly(hive);
-			for (int i = 0; i < hiveCount - 1; i++)
+			else
 			{
-				Hive hive2 = default(Hive);
-				if (hive.GetComp<CompSpawnerHives>().TrySpawnChildHive(false, out hive2))
+				Thing thing = GenSpawn.Spawn(ThingMaker.MakeThing(ThingDefOf.TunnelHiveSpawner, null), loc, map, WipeMode.FullRefund);
+				for (int i = 0; i < hiveCount - 1; i++)
 				{
-					IncidentWorker_Infestation.SpawnInsectJellyInstantly(hive2);
-					hive = hive2;
+					loc = CompSpawnerHives.FindChildHiveLocation(thing.Position, map, ThingDefOf.Hive, ThingDefOf.Hive.GetCompProperties<CompProperties_SpawnerHives>(), false);
+					if (loc.IsValid)
+					{
+						thing = GenSpawn.Spawn(ThingMaker.MakeThing(ThingDefOf.TunnelHiveSpawner, null), loc, map, WipeMode.FullRefund);
+					}
 				}
+				result = thing;
 			}
-			return hive;
+			return result;
 		}
 
-		private static void SpawnInsectJellyInstantly(Hive hive)
-		{
-			foreach (CompSpawner comp in hive.GetComps<CompSpawner>())
-			{
-				if (comp.PropsSpawner.thingToSpawn == ThingDefOf.InsectJelly)
-				{
-					comp.TryDoSpawn();
-					break;
-				}
-			}
-		}
+		// Token: 0x040008D3 RID: 2259
+		private const float HivePoints = 250f;
 	}
 }

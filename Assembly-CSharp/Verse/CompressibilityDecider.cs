@@ -1,22 +1,22 @@
-using RimWorld;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using RimWorld;
 using Verse.AI;
 using Verse.AI.Group;
 
 namespace Verse
 {
+	// Token: 0x02000C04 RID: 3076
 	public class CompressibilityDecider
 	{
-		private Map map;
-
-		private HashSet<Thing> referencedThings = new HashSet<Thing>();
-
+		// Token: 0x06004337 RID: 17207 RVA: 0x00237844 File Offset: 0x00235C44
 		public CompressibilityDecider(Map map)
 		{
 			this.map = map;
 		}
 
+		// Token: 0x06004338 RID: 17208 RVA: 0x00237860 File Offset: 0x00235C60
 		public void DetermineReferences()
 		{
 			this.referencedThings.Clear();
@@ -84,9 +84,16 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004339 RID: 17209 RVA: 0x00237BA0 File Offset: 0x00235FA0
 		public bool IsReferenced(Thing th)
 		{
 			return this.referencedThings.Contains(th);
 		}
+
+		// Token: 0x04002DF2 RID: 11762
+		private Map map;
+
+		// Token: 0x04002DF3 RID: 11763
+		private HashSet<Thing> referencedThings = new HashSet<Thing>();
 	}
 }

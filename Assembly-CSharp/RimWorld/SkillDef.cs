@@ -1,55 +1,65 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020002D4 RID: 724
 	public class SkillDef : Def
 	{
-		public string skillLabel;
-
-		public bool usuallyDefinedInBackstories = true;
-
-		public bool pawnCreatorSummaryVisible;
-
-		public WorkTags disablingWorkTags;
-
+		// Token: 0x06000BFC RID: 3068 RVA: 0x0006A570 File Offset: 0x00068970
 		public override void PostLoad()
 		{
-			if (base.label == null)
+			if (this.label == null)
 			{
-				base.label = this.skillLabel;
+				this.label = this.skillLabel;
 			}
 		}
 
+		// Token: 0x06000BFD RID: 3069 RVA: 0x0006A58C File Offset: 0x0006898C
 		public bool IsDisabled(WorkTags combinedDisabledWorkTags, IEnumerable<WorkTypeDef> disabledWorkTypes)
 		{
-			if ((combinedDisabledWorkTags & this.disablingWorkTags) != 0)
+			bool result;
+			if ((combinedDisabledWorkTags & this.disablingWorkTags) != WorkTags.None)
 			{
-				return true;
+				result = true;
 			}
-			List<WorkTypeDef> allDefsListForReading = DefDatabase<WorkTypeDef>.AllDefsListForReading;
-			bool flag = false;
-			for (int i = 0; i < allDefsListForReading.Count; i++)
+			else
 			{
-				WorkTypeDef workTypeDef = allDefsListForReading[i];
-				for (int j = 0; j < workTypeDef.relevantSkills.Count; j++)
+				List<WorkTypeDef> allDefsListForReading = DefDatabase<WorkTypeDef>.AllDefsListForReading;
+				bool flag = false;
+				for (int i = 0; i < allDefsListForReading.Count; i++)
 				{
-					if (workTypeDef.relevantSkills[j] == this)
+					WorkTypeDef workTypeDef = allDefsListForReading[i];
+					for (int j = 0; j < workTypeDef.relevantSkills.Count; j++)
 					{
-						if (!disabledWorkTypes.Contains(workTypeDef))
+						if (workTypeDef.relevantSkills[j] == this)
 						{
-							return false;
+							if (!disabledWorkTypes.Contains(workTypeDef))
+							{
+								return false;
+							}
+							flag = true;
 						}
-						flag = true;
 					}
 				}
+				result = flag;
 			}
-			if (!flag)
-			{
-				return false;
-			}
-			return true;
+			return result;
 		}
+
+		// Token: 0x04000735 RID: 1845
+		[MustTranslate]
+		public string skillLabel;
+
+		// Token: 0x04000736 RID: 1846
+		public bool usuallyDefinedInBackstories = true;
+
+		// Token: 0x04000737 RID: 1847
+		public bool pawnCreatorSummaryVisible = false;
+
+		// Token: 0x04000738 RID: 1848
+		public WorkTags disablingWorkTags = WorkTags.None;
 	}
 }

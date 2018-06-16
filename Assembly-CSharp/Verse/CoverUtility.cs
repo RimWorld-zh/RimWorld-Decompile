@@ -1,108 +1,128 @@
+﻿using System;
 using System.Collections.Generic;
 
 namespace Verse
 {
+	// Token: 0x02000FB2 RID: 4018
 	public static class CoverUtility
 	{
-		public const float CoverPercent_Corner = 0.75f;
-
-		public static List<CoverInfo> CalculateCoverGiverSet(IntVec3 targetLoc, IntVec3 shooterLoc, Map map)
+		// Token: 0x06006112 RID: 24850 RVA: 0x0030F960 File Offset: 0x0030DD60
+		public static List<CoverInfo> CalculateCoverGiverSet(LocalTargetInfo target, IntVec3 shooterLoc, Map map)
 		{
+			IntVec3 cell = target.Cell;
 			List<CoverInfo> list = new List<CoverInfo>();
 			for (int i = 0; i < 8; i++)
 			{
-				IntVec3 intVec = targetLoc + GenAdj.AdjacentCells[i];
-				CoverInfo item = default(CoverInfo);
-				if (intVec.InBounds(map) && CoverUtility.TryFindAdjustedCoverInCell(shooterLoc, targetLoc, intVec, map, out item))
+				IntVec3 intVec = cell + GenAdj.AdjacentCells[i];
+				if (intVec.InBounds(map))
 				{
-					list.Add(item);
+					CoverInfo item;
+					if (CoverUtility.TryFindAdjustedCoverInCell(shooterLoc, target, intVec, map, out item))
+					{
+						list.Add(item);
+					}
 				}
 			}
 			return list;
 		}
 
-		public static float CalculateOverallBlockChance(IntVec3 targetLoc, IntVec3 shooterLoc, Map map)
+		// Token: 0x06006113 RID: 24851 RVA: 0x0030F9DC File Offset: 0x0030DDDC
+		public static float CalculateOverallBlockChance(LocalTargetInfo target, IntVec3 shooterLoc, Map map)
 		{
+			IntVec3 cell = target.Cell;
 			float num = 0f;
 			for (int i = 0; i < 8; i++)
 			{
-				IntVec3 intVec = targetLoc + GenAdj.AdjacentCells[i];
-				CoverInfo coverInfo = default(CoverInfo);
-				if (intVec.InBounds(map) && CoverUtility.TryFindAdjustedCoverInCell(shooterLoc, targetLoc, intVec, map, out coverInfo))
+				IntVec3 intVec = cell + GenAdj.AdjacentCells[i];
+				if (intVec.InBounds(map))
 				{
-					num = (float)(num + (1.0 - num) * coverInfo.BlockChance);
+					CoverInfo coverInfo;
+					if (CoverUtility.TryFindAdjustedCoverInCell(shooterLoc, target, intVec, map, out coverInfo))
+					{
+						num += (1f - num) * coverInfo.BlockChance;
+					}
 				}
 			}
 			return num;
 		}
 
-		private static bool TryFindAdjustedCoverInCell(IntVec3 shooterLoc, IntVec3 targetLoc, IntVec3 adjCell, Map map, out CoverInfo result)
+		// Token: 0x06006114 RID: 24852 RVA: 0x0030FA60 File Offset: 0x0030DE60
+		private static bool TryFindAdjustedCoverInCell(IntVec3 shooterLoc, LocalTargetInfo target, IntVec3 adjCell, Map map, out CoverInfo result)
 		{
+			IntVec3 cell = target.Cell;
 			Thing cover = adjCell.GetCover(map);
-			float num2;
-			if (cover != null && !(shooterLoc == targetLoc))
+			bool result2;
+			if (cover == null || cover == target.Thing || shooterLoc == cell)
 			{
-				float angleFlat = (shooterLoc - targetLoc).AngleFlat;
-				float angleFlat2 = (adjCell - targetLoc).AngleFlat;
-				float num = GenGeo.AngleDifferenceBetween(angleFlat2, angleFlat);
-				if (!targetLoc.AdjacentToCardinal(adjCell))
-				{
-					num = (float)(num * 1.75);
-				}
-				num2 = cover.def.BaseBlockChance();
-				if (num < 15.0)
-				{
-					num2 = (float)(num2 * 1.0);
-					goto IL_010b;
-				}
-				if (num < 27.0)
-				{
-					num2 = (float)(num2 * 0.800000011920929);
-					goto IL_010b;
-				}
-				if (num < 40.0)
-				{
-					num2 = (float)(num2 * 0.60000002384185791);
-					goto IL_010b;
-				}
-				if (num < 52.0)
-				{
-					num2 = (float)(num2 * 0.40000000596046448);
-					goto IL_010b;
-				}
-				if (num < 65.0)
-				{
-					num2 = (float)(num2 * 0.20000000298023224);
-					goto IL_010b;
-				}
 				result = CoverInfo.Invalid;
-				return false;
+				result2 = false;
 			}
-			result = CoverInfo.Invalid;
-			return false;
-			IL_010b:
-			float lengthHorizontal = (shooterLoc - adjCell).LengthHorizontal;
-			if (lengthHorizontal < 1.8999999761581421)
+			else
 			{
-				num2 = (float)(num2 * 0.33329999446868896);
+				float angleFlat = (shooterLoc - cell).AngleFlat;
+				float angleFlat2 = (adjCell - cell).AngleFlat;
+				float num = GenGeo.AngleDifferenceBetween(angleFlat2, angleFlat);
+				if (!cell.AdjacentToCardinal(adjCell))
+				{
+					num *= 1.75f;
+				}
+				float num2 = cover.def.BaseBlockChance();
+				if (num < 15f)
+				{
+					num2 *= 1f;
+				}
+				else if (num < 27f)
+				{
+					num2 *= 0.8f;
+				}
+				else if (num < 40f)
+				{
+					num2 *= 0.6f;
+				}
+				else if (num < 52f)
+				{
+					num2 *= 0.4f;
+				}
+				else
+				{
+					if (num >= 65f)
+					{
+						result = CoverInfo.Invalid;
+						return false;
+					}
+					num2 *= 0.2f;
+				}
+				float lengthHorizontal = (shooterLoc - adjCell).LengthHorizontal;
+				if (lengthHorizontal < 1.9f)
+				{
+					num2 *= 0.3333f;
+				}
+				else if (lengthHorizontal < 2.9f)
+				{
+					num2 *= 0.66666f;
+				}
+				result = new CoverInfo(cover, num2);
+				result2 = true;
 			}
-			else if (lengthHorizontal < 2.9000000953674316)
-			{
-				num2 = (float)(num2 * 0.66666001081466675);
-			}
-			result = new CoverInfo(cover, num2);
-			return true;
+			return result2;
 		}
 
+		// Token: 0x06006115 RID: 24853 RVA: 0x0030FBF4 File Offset: 0x0030DFF4
 		public static float BaseBlockChance(this ThingDef def)
 		{
+			float result;
 			if (def.Fillage == FillCategory.Full)
 			{
-				return 0.75f;
+				result = 0.75f;
 			}
-			return def.fillPercent;
+			else
+			{
+				result = def.fillPercent;
+			}
+			return result;
 		}
 
+		// Token: 0x06006116 RID: 24854 RVA: 0x0030FC28 File Offset: 0x0030E028
 		public static float TotalSurroundingCoverScore(IntVec3 c, Map map)
 		{
 			float num = 0f;
@@ -120,5 +140,8 @@ namespace Verse
 			}
 			return num;
 		}
+
+		// Token: 0x04003F7C RID: 16252
+		public const float CoverPercent_Corner = 0.75f;
 	}
 }

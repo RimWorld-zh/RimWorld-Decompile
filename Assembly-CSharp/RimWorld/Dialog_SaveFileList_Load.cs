@@ -1,29 +1,21 @@
-using System;
+﻿using System;
 using Verse;
-using Verse.Profile;
 
 namespace RimWorld
 {
+	// Token: 0x02000812 RID: 2066
 	public class Dialog_SaveFileList_Load : Dialog_SaveFileList
 	{
+		// Token: 0x06002E1E RID: 11806 RVA: 0x00184AA5 File Offset: 0x00182EA5
 		public Dialog_SaveFileList_Load()
 		{
-			base.interactButLabel = "LoadGameButton".Translate();
+			this.interactButLabel = "LoadGameButton".Translate();
 		}
 
+		// Token: 0x06002E1F RID: 11807 RVA: 0x00184ABE File Offset: 0x00182EBE
 		protected override void DoFileInteraction(string saveFileName)
 		{
-			PreLoadUtility.CheckVersionAndLoad(GenFilePaths.FilePathForSavedGame(saveFileName), ScribeMetaHeaderUtility.ScribeHeaderMode.Map, delegate
-			{
-				Action preLoadLevelAction = delegate
-				{
-					MemoryUtility.ClearAllMapsAndWorld();
-					Current.Game = new Game();
-					Current.Game.InitData = new GameInitData();
-					Current.Game.InitData.gameToLoad = saveFileName;
-				};
-				LongEventHandler.QueueLongEvent(preLoadLevelAction, "Play", "LoadingLongEvent", true, null);
-			});
+			GameDataSaveLoader.CheckVersionAndLoadGame(saveFileName);
 		}
 	}
 }

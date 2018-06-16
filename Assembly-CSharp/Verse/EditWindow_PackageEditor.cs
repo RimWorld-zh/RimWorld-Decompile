@@ -1,23 +1,25 @@
-using RimWorld;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using RimWorld;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Verse
 {
+	// Token: 0x02000E4E RID: 3662
 	public class EditWindow_PackageEditor<TNewDef> : EditWindow where TNewDef : Def, new()
 	{
-		public ModContentPack curMod = Enumerable.First<ModContentPack>(LoadedModManager.RunningMods);
+		// Token: 0x0600563F RID: 22079 RVA: 0x002C67FC File Offset: 0x002C4BFC
+		public EditWindow_PackageEditor(string relFolder)
+		{
+			this.relFolder = relFolder;
+			this.onlyOneOfTypeAllowed = true;
+			this.optionalTitle = "Package Editor: " + relFolder;
+		}
 
-		private DefPackage curPackage;
-
-		private Vector2 scrollPosition = default(Vector2);
-
-		private float viewHeight;
-
-		private string relFolder;
-
-		private const float EditButSize = 24f;
-
+		// Token: 0x17000D82 RID: 3458
+		// (get) Token: 0x06005640 RID: 22080 RVA: 0x002C6858 File Offset: 0x002C4C58
 		public override Vector2 InitialSize
 		{
 			get
@@ -26,6 +28,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000D83 RID: 3459
+		// (get) Token: 0x06005641 RID: 22081 RVA: 0x002C687C File Offset: 0x002C4C7C
 		public override bool IsDebug
 		{
 			get
@@ -34,25 +38,20 @@ namespace Verse
 			}
 		}
 
-		public EditWindow_PackageEditor(string relFolder)
-		{
-			this.relFolder = relFolder;
-			base.onlyOneOfTypeAllowed = true;
-			base.optionalTitle = "Package Editor: " + relFolder;
-		}
-
+		// Token: 0x06005642 RID: 22082 RVA: 0x002C6894 File Offset: 0x002C4C94
 		public override void DoWindowContents(Rect selectorInner)
 		{
+			Profiler.BeginSample("PackageEditorOnGUI");
 			Text.Font = GameFont.Tiny;
-			float width = (float)((selectorInner.width - 4.0) / 2.0);
+			float width = (selectorInner.width - 4f) / 2f;
 			Rect rect = new Rect(0f, 0f, width, 24f);
 			string str = this.curMod.ToString();
 			if (Widgets.ButtonText(rect, "Editing: " + str, true, false, true))
 			{
-				Messages.Message("Mod changing not implemented - it's always Core for now.", MessageTypeDefOf.RejectInput);
+				Messages.Message("Mod changing not implemented - it's always Core for now.", MessageTypeDefOf.RejectInput, false);
 			}
 			TooltipHandler.TipRegion(rect, "Change the mod being edited.");
-			Rect rect2 = new Rect((float)(rect.xMax + 4.0), 0f, width, 24f);
+			Rect rect2 = new Rect(rect.xMax + 4f, 0f, width, 24f);
 			string label = "No package loaded";
 			if (this.curPackage != null)
 			{
@@ -70,7 +69,7 @@ namespace Verse
 			}
 			TooltipHandler.TipRegion(rect2, "Open a Def package for editing.");
 			WidgetRow widgetRow = new WidgetRow(0f, 28f, UIDirection.RightThenUp, 99999f, 4f);
-			if (widgetRow.ButtonIcon(TexButton.NewFile, "Create a new Def package."))
+			if (widgetRow.ButtonIcon(TexButton.NewFile, "Create a new Def package.", null))
 			{
 				string name = DefPackage.UnusedPackageName(this.relFolder, this.curMod);
 				DefPackage defPackage = new DefPackage(name, this.relFolder);
@@ -79,18 +78,18 @@ namespace Verse
 			}
 			if (this.curPackage != null)
 			{
-				if (widgetRow.ButtonIcon(TexButton.Save, "Save the current Def package."))
+				if (widgetRow.ButtonIcon(TexButton.Save, "Save the current Def package.", null))
 				{
 					this.curPackage.SaveIn(this.curMod);
 				}
-				if (widgetRow.ButtonIcon(TexButton.RenameDev, "Rename the current Def package."))
+				if (widgetRow.ButtonIcon(TexButton.RenameDev, "Rename the current Def package.", null))
 				{
 					Find.WindowStack.Add(new Dialog_RenamePackage(this.curPackage));
 				}
 			}
 			float num = 56f;
 			Rect rect3 = new Rect(0f, num, selectorInner.width, selectorInner.height - num);
-			Rect rect4 = new Rect(0f, 0f, (float)(rect3.width - 16.0), this.viewHeight);
+			Rect rect4 = new Rect(0f, 0f, rect3.width - 16f, this.viewHeight);
 			Widgets.DrawMenuSection(rect3);
 			Widgets.BeginScrollView(rect3, ref this.scrollPosition, rect4, true);
 			Rect rect5 = rect4.ContractedBy(4f);
@@ -100,52 +99,55 @@ namespace Verse
 			Text.Font = GameFont.Tiny;
 			if (this.curPackage == null)
 			{
-				listing_Standard.Label("(no package open)", -1f);
+				listing_Standard.Label("(no package open)", -1f, null);
 			}
 			else
 			{
 				if (this.curPackage.defs.Count == 0)
 				{
-					listing_Standard.Label("(package is empty)", -1f);
+					listing_Standard.Label("(package is empty)", -1f, null);
 				}
 				else
 				{
-					Def deletingDef2 = null;
-					foreach (Def item in this.curPackage)
+					Def deletingDef = null;
+					using (List<Def>.Enumerator enumerator = this.curPackage.GetEnumerator())
 					{
-						Def deletingDef;
-						if (listing_Standard.SelectableDef(item.defName, false, delegate
+						while (enumerator.MoveNext())
 						{
-							deletingDef = item;
-						}))
-						{
-							bool flag = false;
-							WindowStack windowStack = Find.WindowStack;
-							for (int i = 0; i < windowStack.Count; i++)
+							Def def = enumerator.Current;
+							if (listing_Standard.SelectableDef(def.defName, false, delegate
 							{
-								EditWindow_DefEditor editWindow_DefEditor = windowStack[i] as EditWindow_DefEditor;
-								if (editWindow_DefEditor != null && editWindow_DefEditor.def == item)
+								deletingDef = def;
+							}))
+							{
+								bool flag = false;
+								WindowStack windowStack = Find.WindowStack;
+								for (int i = 0; i < windowStack.Count; i++)
 								{
-									flag = true;
+									EditWindow_DefEditor editWindow_DefEditor = windowStack[i] as EditWindow_DefEditor;
+									if (editWindow_DefEditor != null && editWindow_DefEditor.def == def)
+									{
+										flag = true;
+									}
 								}
-							}
-							if (!flag)
-							{
-								Find.WindowStack.Add(new EditWindow_DefEditor(item));
+								if (!flag)
+								{
+									Find.WindowStack.Add(new EditWindow_DefEditor(def));
+								}
 							}
 						}
 					}
-					if (deletingDef2 != null)
+					if (deletingDef != null)
 					{
-						Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("Really delete Def " + deletingDef2.defName + "?", delegate
+						Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("Really delete Def " + deletingDef.defName + "?", delegate
 						{
-							this.curPackage.RemoveDef(deletingDef2);
+							this.curPackage.RemoveDef(deletingDef);
 						}, true, null));
 					}
 				}
 				if (listing_Standard.ButtonImage(TexButton.Add, 24f, 24f))
 				{
-					Def def2 = (Def)(object)new TNewDef();
+					Def def2 = Activator.CreateInstance<TNewDef>();
 					def2.defName = "New" + typeof(TNewDef).Name;
 					this.curPackage.AddDef(def2);
 				}
@@ -156,6 +158,25 @@ namespace Verse
 			}
 			listing_Standard.End();
 			Widgets.EndScrollView();
+			Profiler.EndSample();
 		}
+
+		// Token: 0x04003904 RID: 14596
+		public ModContentPack curMod = LoadedModManager.RunningMods.First<ModContentPack>();
+
+		// Token: 0x04003905 RID: 14597
+		private DefPackage curPackage = null;
+
+		// Token: 0x04003906 RID: 14598
+		private Vector2 scrollPosition = default(Vector2);
+
+		// Token: 0x04003907 RID: 14599
+		private float viewHeight;
+
+		// Token: 0x04003908 RID: 14600
+		private string relFolder;
+
+		// Token: 0x04003909 RID: 14601
+		private const float EditButSize = 24f;
 	}
 }

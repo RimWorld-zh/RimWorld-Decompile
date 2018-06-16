@@ -1,7 +1,8 @@
-using RimWorld.Planet;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -9,69 +10,25 @@ using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x020007FB RID: 2043
 	public class Dialog_FormCaravan : Window
 	{
-		private enum Tab
+		// Token: 0x06002D3E RID: 11582 RVA: 0x0017C0C0 File Offset: 0x0017A4C0
+		public Dialog_FormCaravan(Map map, bool reform = false, Action onClosed = null, bool mapAboutToBeRemoved = false)
 		{
-			Pawns,
-			Items,
-			Config
+			this.map = map;
+			this.reform = reform;
+			this.onClosed = onClosed;
+			this.mapAboutToBeRemoved = mapAboutToBeRemoved;
+			this.canChooseRoute = (!reform || !map.retainedCaravanData.HasDestinationTile);
+			this.closeOnAccept = !reform;
+			this.closeOnCancel = !reform;
+			this.forcePause = true;
+			this.absorbInputAroundWindow = true;
 		}
 
-		private Map map;
-
-		private bool reform;
-
-		private Action onClosed;
-
-		private bool showEstTimeToDestinationButton;
-
-		private bool cancellingWillAbandon;
-
-		private bool thisWindowInstanceEverOpened;
-
-		public List<TransferableOneWay> transferables;
-
-		private TransferableOneWayWidget pawnsTransfer;
-
-		private TransferableOneWayWidget itemsTransfer;
-
-		private Tab tab;
-
-		private float lastMassFlashTime = -9999f;
-
-		private int startingTile = -1;
-
-		private bool massUsageDirty = true;
-
-		private float cachedMassUsage;
-
-		private bool massCapacityDirty = true;
-
-		private float cachedMassCapacity;
-
-		private bool daysWorthOfFoodDirty = true;
-
-		private Pair<float, float> cachedDaysWorthOfFood;
-
-		private const float TitleRectHeight = 40f;
-
-		private const float BottomAreaHeight = 55f;
-
-		private const float ExitDirectionTitleHeight = 30f;
-
-		private readonly Vector2 BottomButtonSize = new Vector2(160f, 40f);
-
-		private readonly Vector2 ExitDirectionRadioSize = new Vector2(250f, 30f);
-
-		private const float MaxDaysWorthOfFoodToShowWarningDialog = 5f;
-
-		public const float MassLabelYOffset = 32f;
-
-		private static List<TabRecord> tabsList = new List<TabRecord>();
-
-		private static List<Thing> tmpPackingSpots = new List<Thing>();
-
+		// Token: 0x1700072A RID: 1834
+		// (get) Token: 0x06002D3F RID: 11583 RVA: 0x0017C198 File Offset: 0x0017A598
 		public int CurrentTile
 		{
 			get
@@ -80,6 +37,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x1700072B RID: 1835
+		// (get) Token: 0x06002D40 RID: 11584 RVA: 0x0017C1B8 File Offset: 0x0017A5B8
 		public override Vector2 InitialSize
 		{
 			get
@@ -88,6 +47,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x1700072C RID: 1836
+		// (get) Token: 0x06002D41 RID: 11585 RVA: 0x0017C1E0 File Offset: 0x0017A5E0
 		protected override float Margin
 		{
 			get
@@ -96,7 +57,9 @@ namespace RimWorld
 			}
 		}
 
-		private bool AutoStripCorpses
+		// Token: 0x1700072D RID: 1837
+		// (get) Token: 0x06002D42 RID: 11586 RVA: 0x0017C1FC File Offset: 0x0017A5FC
+		private bool AutoStripSpawnedCorpses
 		{
 			get
 			{
@@ -104,15 +67,78 @@ namespace RimWorld
 			}
 		}
 
-		private bool EnvironmentAllowsEatingVirtualPlantsNow
+		// Token: 0x1700072E RID: 1838
+		// (get) Token: 0x06002D43 RID: 11587 RVA: 0x0017C218 File Offset: 0x0017A618
+		private bool ListPlayerPawnsInventorySeparately
 		{
 			get
 			{
-				return VirtualPlantsUtility.EnvironmentAllowsEatingVirtualPlantsNowAt(this.CurrentTile);
+				return this.reform;
 			}
 		}
 
-		private float MassUsage
+		// Token: 0x1700072F RID: 1839
+		// (get) Token: 0x06002D44 RID: 11588 RVA: 0x0017C234 File Offset: 0x0017A634
+		private BiomeDef Biome
+		{
+			get
+			{
+				return this.map.Biome;
+			}
+		}
+
+		// Token: 0x17000730 RID: 1840
+		// (get) Token: 0x06002D45 RID: 11589 RVA: 0x0017C254 File Offset: 0x0017A654
+		private bool MustChooseRoute
+		{
+			get
+			{
+				return this.canChooseRoute && (!this.reform || this.map.Parent is FactionBase);
+			}
+		}
+
+		// Token: 0x17000731 RID: 1841
+		// (get) Token: 0x06002D46 RID: 11590 RVA: 0x0017C298 File Offset: 0x0017A698
+		private bool ShowCancelButton
+		{
+			get
+			{
+				bool result;
+				if (!this.mapAboutToBeRemoved)
+				{
+					result = true;
+				}
+				else
+				{
+					bool flag = false;
+					for (int i = 0; i < this.transferables.Count; i++)
+					{
+						Pawn pawn = this.transferables[i].AnyThing as Pawn;
+						if (pawn != null && pawn.IsColonist && !pawn.Downed)
+						{
+							flag = true;
+							break;
+						}
+					}
+					result = !flag;
+				}
+				return result;
+			}
+		}
+
+		// Token: 0x17000732 RID: 1842
+		// (get) Token: 0x06002D47 RID: 11591 RVA: 0x0017C328 File Offset: 0x0017A728
+		private IgnorePawnsInventoryMode IgnoreInventoryMode
+		{
+			get
+			{
+				return (!this.ListPlayerPawnsInventorySeparately) ? IgnorePawnsInventoryMode.IgnoreIfAssignedToUnload : IgnorePawnsInventoryMode.IgnoreIfAssignedToUnloadOrPlayerPawn;
+			}
+		}
+
+		// Token: 0x17000733 RID: 1843
+		// (get) Token: 0x06002D48 RID: 11592 RVA: 0x0017C350 File Offset: 0x0017A750
+		public float MassUsage
 		{
 			get
 			{
@@ -120,27 +146,50 @@ namespace RimWorld
 				{
 					this.massUsageDirty = false;
 					List<TransferableOneWay> list = this.transferables;
-					IgnorePawnsInventoryMode ignoreInventory = IgnorePawnsInventoryMode.IgnoreIfAssignedToUnload;
-					bool autoStripCorpses = this.AutoStripCorpses;
-					this.cachedMassUsage = CollectionsMassCalculator.MassUsageTransferables(list, ignoreInventory, false, autoStripCorpses);
+					IgnorePawnsInventoryMode ignoreInventoryMode = this.IgnoreInventoryMode;
+					bool autoStripSpawnedCorpses = this.AutoStripSpawnedCorpses;
+					this.cachedMassUsage = CollectionsMassCalculator.MassUsageTransferables(list, ignoreInventoryMode, false, autoStripSpawnedCorpses);
 				}
 				return this.cachedMassUsage;
 			}
 		}
 
-		private float MassCapacity
+		// Token: 0x17000734 RID: 1844
+		// (get) Token: 0x06002D49 RID: 11593 RVA: 0x0017C3A4 File Offset: 0x0017A7A4
+		public float MassCapacity
 		{
 			get
 			{
 				if (this.massCapacityDirty)
 				{
 					this.massCapacityDirty = false;
-					this.cachedMassCapacity = CollectionsMassCalculator.CapacityTransferables(this.transferables);
+					StringBuilder stringBuilder = new StringBuilder();
+					this.cachedMassCapacity = CollectionsMassCalculator.CapacityTransferables(this.transferables, stringBuilder);
+					this.cachedMassCapacityExplanation = stringBuilder.ToString();
 				}
 				return this.cachedMassCapacity;
 			}
 		}
 
+		// Token: 0x17000735 RID: 1845
+		// (get) Token: 0x06002D4A RID: 11594 RVA: 0x0017C3F8 File Offset: 0x0017A7F8
+		private float TilesPerDay
+		{
+			get
+			{
+				if (this.tilesPerDayDirty)
+				{
+					this.tilesPerDayDirty = false;
+					StringBuilder stringBuilder = new StringBuilder();
+					this.cachedTilesPerDay = TilesPerDayCalculator.ApproxTilesPerDay(this.transferables, this.MassUsage, this.MassCapacity, this.CurrentTile, this.startingTile, stringBuilder);
+					this.cachedTilesPerDayExplanation = stringBuilder.ToString();
+				}
+				return this.cachedTilesPerDay;
+			}
+		}
+
+		// Token: 0x17000736 RID: 1846
+		// (get) Token: 0x06002D4B RID: 11595 RVA: 0x0017C464 File Offset: 0x0017A864
 		private Pair<float, float> DaysWorthOfFood
 		{
 			get
@@ -148,13 +197,91 @@ namespace RimWorld
 				if (this.daysWorthOfFoodDirty)
 				{
 					this.daysWorthOfFoodDirty = false;
-					float first = DaysWorthOfFoodCalculator.ApproxDaysWorthOfFood(this.transferables, this.EnvironmentAllowsEatingVirtualPlantsNow, IgnorePawnsInventoryMode.IgnoreIfAssignedToUnload);
-					this.cachedDaysWorthOfFood = new Pair<float, float>(first, DaysUntilRotCalculator.ApproxDaysUntilRot(this.transferables, this.CurrentTile, IgnorePawnsInventoryMode.IgnoreIfAssignedToUnload));
+					float first;
+					float second;
+					if (this.destinationTile != -1)
+					{
+						using (WorldPath worldPath = Find.WorldPathFinder.FindPath(this.CurrentTile, this.destinationTile, null, null))
+						{
+							int ticksPerMove = CaravanTicksPerMoveUtility.GetTicksPerMove(new CaravanTicksPerMoveUtility.CaravanInfo(this), null);
+							first = DaysWorthOfFoodCalculator.ApproxDaysWorthOfFood(this.transferables, this.CurrentTile, this.IgnoreInventoryMode, Faction.OfPlayer, worldPath, 0f, ticksPerMove);
+							second = DaysUntilRotCalculator.ApproxDaysUntilRot(this.transferables, this.CurrentTile, this.IgnoreInventoryMode, worldPath, 0f, ticksPerMove);
+						}
+					}
+					else
+					{
+						first = DaysWorthOfFoodCalculator.ApproxDaysWorthOfFood(this.transferables, this.CurrentTile, this.IgnoreInventoryMode, Faction.OfPlayer, null, 0f, 3500);
+						second = DaysUntilRotCalculator.ApproxDaysUntilRot(this.transferables, this.CurrentTile, this.IgnoreInventoryMode, null, 0f, 3500);
+					}
+					this.cachedDaysWorthOfFood = new Pair<float, float>(first, second);
 				}
 				return this.cachedDaysWorthOfFood;
 			}
 		}
 
+		// Token: 0x17000737 RID: 1847
+		// (get) Token: 0x06002D4C RID: 11596 RVA: 0x0017C590 File Offset: 0x0017A990
+		private Pair<ThingDef, float> ForagedFoodPerDay
+		{
+			get
+			{
+				if (this.foragedFoodPerDayDirty)
+				{
+					this.foragedFoodPerDayDirty = false;
+					StringBuilder stringBuilder = new StringBuilder();
+					this.cachedForagedFoodPerDay = ForagedFoodPerDayCalculator.ForagedFoodPerDay(this.transferables, this.Biome, Faction.OfPlayer, stringBuilder);
+					this.cachedForagedFoodPerDayExplanation = stringBuilder.ToString();
+				}
+				return this.cachedForagedFoodPerDay;
+			}
+		}
+
+		// Token: 0x17000738 RID: 1848
+		// (get) Token: 0x06002D4D RID: 11597 RVA: 0x0017C5F0 File Offset: 0x0017A9F0
+		private float Visibility
+		{
+			get
+			{
+				if (this.visibilityDirty)
+				{
+					this.visibilityDirty = false;
+					StringBuilder stringBuilder = new StringBuilder();
+					this.cachedVisibility = CaravanVisibilityCalculator.Visibility(this.transferables, stringBuilder);
+					this.cachedVisibilityExplanation = stringBuilder.ToString();
+				}
+				return this.cachedVisibility;
+			}
+		}
+
+		// Token: 0x17000739 RID: 1849
+		// (get) Token: 0x06002D4E RID: 11598 RVA: 0x0017C644 File Offset: 0x0017AA44
+		private int TicksToArrive
+		{
+			get
+			{
+				int result;
+				if (this.destinationTile == -1)
+				{
+					result = 0;
+				}
+				else
+				{
+					if (this.ticksToArriveDirty)
+					{
+						this.ticksToArriveDirty = false;
+						using (WorldPath worldPath = Find.WorldPathFinder.FindPath(this.CurrentTile, this.destinationTile, null, null))
+						{
+							this.cachedTicksToArrive = CaravanArrivalTimeEstimator.EstimatedTicksToArrive(this.CurrentTile, this.destinationTile, worldPath, 0f, CaravanTicksPerMoveUtility.GetTicksPerMove(new CaravanTicksPerMoveUtility.CaravanInfo(this), null), Find.TickManager.TicksAbs);
+						}
+					}
+					result = this.cachedTicksToArrive;
+				}
+				return result;
+			}
+		}
+
+		// Token: 0x1700073A RID: 1850
+		// (get) Token: 0x06002D4F RID: 11599 RVA: 0x0017C6F8 File Offset: 0x0017AAF8
 		private bool MostFoodWillRotSoon
 		{
 			get
@@ -164,16 +291,16 @@ namespace RimWorld
 				for (int i = 0; i < this.transferables.Count; i++)
 				{
 					TransferableOneWay transferableOneWay = this.transferables[i];
-					if (transferableOneWay.HasAnyThing && transferableOneWay.CountToTransfer > 0 && transferableOneWay.ThingDef.IsNutritionGivingIngestible)
+					if (transferableOneWay.HasAnyThing && transferableOneWay.CountToTransfer > 0 && transferableOneWay.ThingDef.IsNutritionGivingIngestible && !(transferableOneWay.AnyThing is Corpse))
 					{
-						float num3 = 1000f;
+						float num3 = 600f;
 						CompRottable compRottable = transferableOneWay.AnyThing.TryGetComp<CompRottable>();
 						if (compRottable != null)
 						{
-							num3 = (float)((float)compRottable.ApproxTicksUntilRotWhenAtTempOfTile(this.CurrentTile) / 60000.0);
+							num3 = (float)DaysUntilRotCalculator.ApproxTicksUntilRot_AssumeTimePassesBy(compRottable, this.CurrentTile, null) / 60000f;
 						}
-						float num4 = transferableOneWay.ThingDef.ingestible.nutrition * (float)transferableOneWay.CountToTransfer;
-						if (num3 < 5.0)
+						float num4 = transferableOneWay.ThingDef.GetStatValueAbstract(StatDefOf.Nutrition, null) * (float)transferableOneWay.CountToTransfer;
+						if (num3 < 5f)
 						{
 							num += num4;
 						}
@@ -183,100 +310,92 @@ namespace RimWorld
 						}
 					}
 				}
-				if (num == 0.0 && num2 == 0.0)
-				{
-					return false;
-				}
-				return num / (num + num2) >= 0.75;
+				return (num != 0f || num2 != 0f) && num / (num + num2) >= 0.75f;
 			}
 		}
 
-		public Dialog_FormCaravan(Map map, bool reform = false, Action onClosed = null, bool showEstTimeToDestinationButton = true, bool cancellingWillAbandon = false)
-		{
-			this.map = map;
-			this.reform = reform;
-			this.onClosed = onClosed;
-			this.showEstTimeToDestinationButton = showEstTimeToDestinationButton;
-			this.cancellingWillAbandon = cancellingWillAbandon;
-			base.closeOnEscapeKey = !reform;
-			base.forcePause = true;
-			base.absorbInputAroundWindow = true;
-		}
-
+		// Token: 0x06002D50 RID: 11600 RVA: 0x0017C818 File Offset: 0x0017AC18
 		public override void PostOpen()
 		{
 			base.PostOpen();
+			this.choosingRoute = false;
 			if (!this.thisWindowInstanceEverOpened)
 			{
 				this.thisWindowInstanceEverOpened = true;
 				this.CalculateAndRecacheTransferables();
-				this.startingTile = CaravanExitMapUtility.RandomBestExitTileFrom(this.map);
 				PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.FormCaravan, KnowledgeAmount.Total);
 			}
 		}
 
+		// Token: 0x06002D51 RID: 11601 RVA: 0x0017C84D File Offset: 0x0017AC4D
 		public override void PostClose()
 		{
 			base.PostClose();
-			if (this.onClosed != null)
+			if (this.onClosed != null && !this.choosingRoute)
 			{
 				this.onClosed();
 			}
 		}
 
+		// Token: 0x06002D52 RID: 11602 RVA: 0x0017C877 File Offset: 0x0017AC77
+		public void Notify_NoLongerChoosingRoute()
+		{
+			this.choosingRoute = false;
+			if (!Find.WindowStack.IsOpen(this) && this.onClosed != null)
+			{
+				this.onClosed();
+			}
+		}
+
+		// Token: 0x06002D53 RID: 11603 RVA: 0x0017C8A8 File Offset: 0x0017ACA8
 		public override void DoWindowContents(Rect inRect)
 		{
-			Rect rect = new Rect(0f, 0f, inRect.width, 40f);
+			Rect rect = new Rect(0f, 0f, inRect.width, 35f);
 			Text.Font = GameFont.Medium;
 			Text.Anchor = TextAnchor.MiddleCenter;
 			Widgets.Label(rect, ((!this.reform) ? "FormCaravan" : "ReformCaravan").Translate());
 			Text.Font = GameFont.Small;
 			Text.Anchor = TextAnchor.UpperLeft;
+			CaravanUIUtility.CaravanInfo info = new CaravanUIUtility.CaravanInfo(this.MassUsage, this.MassCapacity, this.cachedMassCapacityExplanation, this.TilesPerDay, this.cachedTilesPerDayExplanation, this.DaysWorthOfFood, this.ForagedFoodPerDay, this.cachedForagedFoodPerDayExplanation, this.Visibility, this.cachedVisibilityExplanation);
+			CaravanUIUtility.CaravanInfo? info2 = null;
+			int currentTile = this.CurrentTile;
+			int? ticksToArrive = (this.destinationTile != -1) ? new int?(this.TicksToArrive) : null;
+			float num = this.lastMassFlashTime;
+			Rect rect2 = new Rect(12f, 35f, inRect.width - 24f, 40f);
+			string extraDaysWorthOfFoodTipInfo = (this.destinationTile != -1) ? "DaysWorthOfFoodTooltip_OnlyFirstWaypoint".Translate() : null;
+			CaravanUIUtility.DrawCaravanInfo(info, info2, currentTile, ticksToArrive, num, rect2, true, extraDaysWorthOfFoodTipInfo, false);
 			Dialog_FormCaravan.tabsList.Clear();
-			Dialog_FormCaravan.tabsList.Add(new TabRecord("PawnsTab".Translate(), delegate
+			Dialog_FormCaravan.tabsList.Add(new TabRecord("PawnsTab".Translate(), delegate()
 			{
-				this.tab = Tab.Pawns;
-			}, this.tab == Tab.Pawns));
-			Dialog_FormCaravan.tabsList.Add(new TabRecord("ItemsTab".Translate(), delegate
+				this.tab = Dialog_FormCaravan.Tab.Pawns;
+			}, this.tab == Dialog_FormCaravan.Tab.Pawns));
+			Dialog_FormCaravan.tabsList.Add(new TabRecord("ItemsTab".Translate(), delegate()
 			{
-				this.tab = Tab.Items;
-			}, this.tab == Tab.Items));
-			if (!this.reform)
-			{
-				Dialog_FormCaravan.tabsList.Add(new TabRecord("CaravanConfigTab".Translate(), delegate
-				{
-					this.tab = Tab.Config;
-				}, this.tab == Tab.Config));
-			}
-			inRect.yMin += 72f;
+				this.tab = Dialog_FormCaravan.Tab.Items;
+			}, this.tab == Dialog_FormCaravan.Tab.Items));
+			inRect.yMin += 119f;
 			Widgets.DrawMenuSection(inRect);
-			TabDrawer.DrawTabs(inRect, Dialog_FormCaravan.tabsList);
+			TabDrawer.DrawTabs(inRect, Dialog_FormCaravan.tabsList, 200f);
+			Dialog_FormCaravan.tabsList.Clear();
 			inRect = inRect.ContractedBy(17f);
+			inRect.height += 17f;
 			GUI.BeginGroup(inRect);
-			Rect rect2 = inRect.AtZero();
-			if (this.tab != Tab.Config)
-			{
-				Rect rect3 = rect2;
-				rect3.xMin += (float)(rect2.width - 515.0);
-				rect3.y += 32f;
-				TransferableUIUtility.DrawMassInfo(rect3, this.MassUsage, this.MassCapacity, "CaravanMassUsageTooltip".Translate(), this.lastMassFlashTime, true);
-				CaravanUIUtility.DrawDaysWorthOfFoodInfo(new Rect(rect3.x, (float)(rect3.y + 19.0), rect3.width, rect3.height), this.DaysWorthOfFood.First, this.DaysWorthOfFood.Second, this.EnvironmentAllowsEatingVirtualPlantsNow, true, 3.40282347E+38f);
-			}
-			this.DoBottomButtons(rect2);
-			Rect inRect2 = rect2;
-			inRect2.yMax -= 59f;
+			Rect rect3 = inRect.AtZero();
+			this.DoBottomButtons(rect3);
+			Rect inRect2 = rect3;
+			inRect2.yMax -= 76f;
 			bool flag = false;
-			switch (this.tab)
+			Dialog_FormCaravan.Tab tab = this.tab;
+			if (tab != Dialog_FormCaravan.Tab.Pawns)
 			{
-			case Tab.Pawns:
+				if (tab == Dialog_FormCaravan.Tab.Items)
+				{
+					this.itemsTransfer.OnGUI(inRect2, out flag);
+				}
+			}
+			else
+			{
 				this.pawnsTransfer.OnGUI(inRect2, out flag);
-				break;
-			case Tab.Items:
-				this.itemsTransfer.OnGUI(inRect2, out flag);
-				break;
-			case Tab.Config:
-				this.DrawConfig(rect2);
-				break;
 			}
 			if (flag)
 			{
@@ -285,14 +404,26 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
+		// Token: 0x06002D54 RID: 11604 RVA: 0x0017CB28 File Offset: 0x0017AF28
 		public override bool CausesMessageBackground()
 		{
 			return true;
 		}
 
+		// Token: 0x06002D55 RID: 11605 RVA: 0x0017CB3E File Offset: 0x0017AF3E
+		public void Notify_ChoseRoute(int destinationTile)
+		{
+			this.destinationTile = destinationTile;
+			this.startingTile = CaravanExitMapUtility.BestExitTileToGoTo(destinationTile, this.map);
+			this.ticksToArriveDirty = true;
+			this.daysWorthOfFoodDirty = true;
+			Messages.Message("MessageChoseRoute".Translate(), MessageTypeDefOf.CautionInput, false);
+		}
+
+		// Token: 0x06002D56 RID: 11606 RVA: 0x0017CB80 File Offset: 0x0017AF80
 		private void AddToTransferables(Thing t, bool setToTransferMax = false)
 		{
-			TransferableOneWay transferableOneWay = TransferableUtility.TransferableMatching(t, this.transferables);
+			TransferableOneWay transferableOneWay = TransferableUtility.TransferableMatching<TransferableOneWay>(t, this.transferables, TransferAsOneMode.PodsOrCaravanPacking);
 			if (transferableOneWay == null)
 			{
 				transferableOneWay = new TransferableOneWay();
@@ -301,27 +432,21 @@ namespace RimWorld
 			transferableOneWay.things.Add(t);
 			if (setToTransferMax)
 			{
-				transferableOneWay.AdjustTo(transferableOneWay.MaxCount);
+				transferableOneWay.AdjustTo(transferableOneWay.CountToTransfer + t.stackCount);
 			}
 		}
 
+		// Token: 0x06002D57 RID: 11607 RVA: 0x0017CBDC File Offset: 0x0017AFDC
 		private void DoBottomButtons(Rect rect)
 		{
-			double num = rect.width / 2.0;
-			Vector2 bottomButtonSize = this.BottomButtonSize;
-			double x2 = num - bottomButtonSize.x / 2.0;
-			double y = rect.height - 55.0;
-			Vector2 bottomButtonSize2 = this.BottomButtonSize;
-			float x3 = bottomButtonSize2.x;
-			Vector2 bottomButtonSize3 = this.BottomButtonSize;
-			Rect rect2 = new Rect((float)x2, (float)y, x3, bottomButtonSize3.y);
+			Rect rect2 = new Rect(rect.width / 2f - this.BottomButtonSize.x / 2f, rect.height - 55f - 17f, this.BottomButtonSize.x, this.BottomButtonSize.y);
 			if (Widgets.ButtonText(rect2, "AcceptButton".Translate(), true, false, true))
 			{
 				if (this.reform)
 				{
 					if (this.TryReformCaravan())
 					{
-						SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
+						SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
 						this.Close(false);
 					}
 				}
@@ -329,9 +454,12 @@ namespace RimWorld
 				{
 					List<string> list = new List<string>();
 					Pair<float, float> daysWorthOfFood = this.DaysWorthOfFood;
-					if (daysWorthOfFood.First < 5.0)
+					if (daysWorthOfFood.First < 5f)
 					{
-						list.Add((!(daysWorthOfFood.First < 0.10000000149011612)) ? "DaysWorthOfFoodWarningDialog".Translate(daysWorthOfFood.First.ToString("0.#")) : "DaysWorthOfFoodWarningDialog_NoFood".Translate());
+						list.Add((daysWorthOfFood.First >= 0.1f) ? "DaysWorthOfFoodWarningDialog".Translate(new object[]
+						{
+							daysWorthOfFood.First.ToString("0.#")
+						}) : "DaysWorthOfFoodWarningDialog_NoFood".Translate());
 					}
 					else if (this.MostFoodWillRotSoon)
 					{
@@ -346,7 +474,7 @@ namespace RimWorld
 						if (this.CheckForErrors(TransferableUtility.GetPawnsFromTransferables(this.transferables)))
 						{
 							string text = string.Concat((from str in list
-							select str + "\n\n").ToArray()) + "CaravanAreYouSure".Translate();
+							select str + "\n\n").ToArray<string>()) + "CaravanAreYouSure".Translate();
 							Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(text, delegate
 							{
 								if (this.TryFormAndSendCaravan())
@@ -358,347 +486,406 @@ namespace RimWorld
 					}
 					else if (this.TryFormAndSendCaravan())
 					{
-						SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
+						SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
 						this.Close(false);
 					}
 				}
 			}
-			double num2 = rect2.x - 10.0;
-			Vector2 bottomButtonSize4 = this.BottomButtonSize;
-			double x4 = num2 - bottomButtonSize4.x;
-			float y2 = rect2.y;
-			Vector2 bottomButtonSize5 = this.BottomButtonSize;
-			float x5 = bottomButtonSize5.x;
-			Vector2 bottomButtonSize6 = this.BottomButtonSize;
-			Rect rect3 = new Rect((float)x4, y2, x5, bottomButtonSize6.y);
+			Rect rect3 = new Rect(rect2.x - 10f - this.BottomButtonSize.x, rect2.y, this.BottomButtonSize.x, this.BottomButtonSize.y);
 			if (Widgets.ButtonText(rect3, "ResetButton".Translate(), true, false, true))
 			{
-				SoundDefOf.TickLow.PlayOneShotOnCamera(null);
+				SoundDefOf.Tick_Low.PlayOneShotOnCamera(null);
 				this.CalculateAndRecacheTransferables();
 			}
-			double x6 = rect2.xMax + 10.0;
-			float y3 = rect2.y;
-			Vector2 bottomButtonSize7 = this.BottomButtonSize;
-			float x7 = bottomButtonSize7.x;
-			Vector2 bottomButtonSize8 = this.BottomButtonSize;
-			Rect rect4 = new Rect((float)x6, y3, x7, bottomButtonSize8.y);
-			if (Widgets.ButtonText(rect4, (!this.cancellingWillAbandon) ? "CancelButton".Translate() : "AbandonButton".Translate(), true, false, true))
+			if (this.ShowCancelButton)
 			{
-				this.Close(true);
+				Rect rect4 = new Rect(rect2.xMax + 10f, rect2.y, this.BottomButtonSize.x, this.BottomButtonSize.y);
+				if (Widgets.ButtonText(rect4, "CancelButton".Translate(), true, false, true))
+				{
+					this.Close(true);
+				}
 			}
-			if (this.showEstTimeToDestinationButton)
+			if (this.canChooseRoute)
 			{
-				float width = rect.width;
-				Vector2 bottomButtonSize9 = this.BottomButtonSize;
-				float x8 = width - bottomButtonSize9.x;
-				float y4 = rect2.y;
-				Vector2 bottomButtonSize10 = this.BottomButtonSize;
-				float x9 = bottomButtonSize10.x;
-				Vector2 bottomButtonSize11 = this.BottomButtonSize;
-				Rect rect5 = new Rect(x8, y4, x9, bottomButtonSize11.y);
-				if (Widgets.ButtonText(rect5, "EstimatedTimeToDestinationButton".Translate(), true, false, true))
+				Rect rect5 = new Rect(rect.width - this.BottomButtonSize.x, rect2.y, this.BottomButtonSize.x, this.BottomButtonSize.y);
+				if (Widgets.ButtonText(rect5, "ChooseRouteButton".Translate(), true, false, true))
 				{
 					List<Pawn> pawnsFromTransferables = TransferableUtility.GetPawnsFromTransferables(this.transferables);
 					if (!pawnsFromTransferables.Any((Pawn x) => CaravanUtility.IsOwner(x, Faction.OfPlayer) && !x.Downed))
 					{
-						Messages.Message("CaravanMustHaveAtLeastOneColonist".Translate(), MessageTypeDefOf.RejectInput);
+						Messages.Message("CaravanMustHaveAtLeastOneColonist".Translate(), MessageTypeDefOf.RejectInput, false);
 					}
 					else
 					{
 						Find.WorldRoutePlanner.Start(this);
 					}
 				}
+				if (this.destinationTile != -1)
+				{
+					Rect rect6 = rect5;
+					rect6.y += rect5.height + 4f;
+					rect6.height = 200f;
+					rect6.xMin -= 200f;
+					Text.Anchor = TextAnchor.UpperRight;
+					Widgets.Label(rect6, "CaravanEstimatedDaysToDestination".Translate(new object[]
+					{
+						((float)this.TicksToArrive / 60000f).ToString("0.#")
+					}));
+					Text.Anchor = TextAnchor.UpperLeft;
+				}
 			}
 			if (Prefs.DevMode)
 			{
-				float width2 = 200f;
-				Vector2 bottomButtonSize12 = this.BottomButtonSize;
-				float num3 = (float)(bottomButtonSize12.y / 2.0);
-				Rect rect6 = new Rect(0f, (float)(rect.height - 55.0), width2, num3);
-				if (Widgets.ButtonText(rect6, "Dev: Send instantly", true, false, true) && this.DebugTryFormCaravanInstantly())
+				float width = 200f;
+				float num = this.BottomButtonSize.y / 2f;
+				Rect rect7 = new Rect(0f, rect.height - 55f - 17f, width, num);
+				if (Widgets.ButtonText(rect7, "Dev: Send instantly", true, false, true))
 				{
-					SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
-					this.Close(false);
+					if (this.DebugTryFormCaravanInstantly())
+					{
+						SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
+						this.Close(false);
+					}
 				}
-				Rect rect7 = new Rect(0f, (float)(rect.height - 55.0 + num3), width2, num3);
-				if (Widgets.ButtonText(rect7, "Dev: Select everything", true, false, true))
+				Rect rect8 = new Rect(0f, rect.height - 55f - 17f + num, width, num);
+				if (Widgets.ButtonText(rect8, "Dev: Select everything", true, false, true))
 				{
-					SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
+					SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
 					this.SetToSendEverything();
 				}
 			}
 		}
 
+		// Token: 0x06002D58 RID: 11608 RVA: 0x0017D10C File Offset: 0x0017B50C
 		private void CalculateAndRecacheTransferables()
 		{
 			this.transferables = new List<TransferableOneWay>();
 			this.AddPawnsToTransferables();
 			this.AddItemsToTransferables();
-			string sourceLabel = (!this.reform) ? Faction.OfPlayer.Name : this.map.info.parent.LabelCap;
-			CaravanUIUtility.CreateCaravanTransferableWidgets(this.transferables, out this.pawnsTransfer, out this.itemsTransfer, sourceLabel, WorldObjectDefOf.Caravan.LabelCap, "FormCaravanColonyThingCountTip".Translate(), IgnorePawnsInventoryMode.IgnoreIfAssignedToUnload, (Func<float>)(() => this.MassCapacity - this.MassUsage), this.AutoStripCorpses, this.CurrentTile);
+			CaravanUIUtility.CreateCaravanTransferableWidgets(this.transferables, out this.pawnsTransfer, out this.itemsTransfer, "FormCaravanColonyThingCountTip".Translate(), this.IgnoreInventoryMode, () => this.MassCapacity - this.MassUsage, this.AutoStripSpawnedCorpses, this.CurrentTile, this.mapAboutToBeRemoved);
 			this.CountToTransferChanged();
 		}
 
-		private void DrawConfig(Rect rect)
-		{
-			Rect rect2 = new Rect(0f, rect.y, rect.width, 30f);
-			Text.Font = GameFont.Medium;
-			Widgets.Label(rect2, "ExitDirection".Translate());
-			Text.Font = GameFont.Small;
-			List<int> list = CaravanExitMapUtility.AvailableExitTilesAt(this.map);
-			if (list.Any())
-			{
-				for (int i = 0; i < list.Count; i++)
-				{
-					Direction8Way direction8WayFromTo = Find.WorldGrid.GetDirection8WayFromTo(this.CurrentTile, list[i]);
-					float y = rect.y;
-					float num = (float)i;
-					Vector2 exitDirectionRadioSize = this.ExitDirectionRadioSize;
-					float num2 = (float)(y + num * exitDirectionRadioSize.y + 30.0 + 4.0);
-					float x = rect.x;
-					float y2 = num2;
-					Vector2 exitDirectionRadioSize2 = this.ExitDirectionRadioSize;
-					float x2 = exitDirectionRadioSize2.x;
-					Vector2 exitDirectionRadioSize3 = this.ExitDirectionRadioSize;
-					Rect rect3 = new Rect(x, y2, x2, exitDirectionRadioSize3.y);
-					Vector2 vector = Find.WorldGrid.LongLatOf(list[i]);
-					string labelText = "ExitDirectionRadioButtonLabel".Translate(direction8WayFromTo.LabelShort(), vector.y.ToStringLatitude(), vector.x.ToStringLongitude());
-					if (Widgets.RadioButtonLabeled(rect3, labelText, this.startingTile == list[i]))
-					{
-						this.startingTile = list[i];
-					}
-				}
-			}
-			else
-			{
-				GUI.color = Color.gray;
-				Widgets.Label(new Rect(rect.x, (float)(rect.y + 30.0 + 4.0), rect.width, 100f), "NoCaravanExitDirectionAvailable".Translate());
-				GUI.color = Color.white;
-			}
-		}
-
+		// Token: 0x06002D59 RID: 11609 RVA: 0x0017D17C File Offset: 0x0017B57C
 		private bool DebugTryFormCaravanInstantly()
 		{
 			List<Pawn> pawnsFromTransferables = TransferableUtility.GetPawnsFromTransferables(this.transferables);
+			bool result;
 			if (!pawnsFromTransferables.Any((Pawn x) => CaravanUtility.IsOwner(x, Faction.OfPlayer)))
 			{
-				Messages.Message("CaravanMustHaveAtLeastOneColonist".Translate(), MessageTypeDefOf.RejectInput);
-				return false;
+				Messages.Message("CaravanMustHaveAtLeastOneColonist".Translate(), MessageTypeDefOf.RejectInput, false);
+				result = false;
 			}
-			this.AddItemsFromTransferablesToRandomInventories(pawnsFromTransferables);
-			int currentTile = this.startingTile;
-			if (currentTile < 0)
+			else
 			{
-				currentTile = this.CurrentTile;
+				this.AddItemsFromTransferablesToRandomInventories(pawnsFromTransferables);
+				int num = this.startingTile;
+				if (num < 0)
+				{
+					num = CaravanExitMapUtility.RandomBestExitTileFrom(this.map);
+				}
+				if (num < 0)
+				{
+					num = this.CurrentTile;
+				}
+				CaravanFormingUtility.FormAndCreateCaravan(pawnsFromTransferables, Faction.OfPlayer, this.CurrentTile, num, this.destinationTile);
+				result = true;
 			}
-			CaravanFormingUtility.FormAndCreateCaravan(pawnsFromTransferables, Faction.OfPlayer, this.CurrentTile, currentTile);
-			return true;
+			return result;
 		}
 
+		// Token: 0x06002D5A RID: 11610 RVA: 0x0017D22C File Offset: 0x0017B62C
 		private bool TryFormAndSendCaravan()
 		{
 			List<Pawn> pawnsFromTransferables = TransferableUtility.GetPawnsFromTransferables(this.transferables);
+			bool result;
 			if (!this.CheckForErrors(pawnsFromTransferables))
 			{
-				return false;
+				result = false;
 			}
-			Direction8Way direction8WayFromTo = Find.WorldGrid.GetDirection8WayFromTo(this.CurrentTile, this.startingTile);
-			IntVec3 intVec = default(IntVec3);
-			if (!this.TryFindExitSpot(pawnsFromTransferables, true, out intVec))
+			else
 			{
-				if (!this.TryFindExitSpot(pawnsFromTransferables, false, out intVec))
+				Direction8Way direction8WayFromTo = Find.WorldGrid.GetDirection8WayFromTo(this.CurrentTile, this.startingTile);
+				IntVec3 intVec;
+				if (!this.TryFindExitSpot(pawnsFromTransferables, true, out intVec))
 				{
-					Messages.Message("CaravanCouldNotFindExitSpot".Translate(direction8WayFromTo.LabelShort()), MessageTypeDefOf.RejectInput);
-					return false;
+					if (!this.TryFindExitSpot(pawnsFromTransferables, false, out intVec))
+					{
+						Messages.Message("CaravanCouldNotFindExitSpot".Translate(new object[]
+						{
+							direction8WayFromTo.LabelShort()
+						}), MessageTypeDefOf.RejectInput, false);
+						return false;
+					}
+					Messages.Message("CaravanCouldNotFindReachableExitSpot".Translate(new object[]
+					{
+						direction8WayFromTo.LabelShort()
+					}), new GlobalTargetInfo(intVec, this.map, false), MessageTypeDefOf.CautionInput, false);
 				}
-				Messages.Message("CaravanCouldNotFindReachableExitSpot".Translate(direction8WayFromTo.LabelShort()), new GlobalTargetInfo(intVec, this.map, false), MessageTypeDefOf.CautionInput);
+				IntVec3 meetingPoint;
+				if (!this.TryFindRandomPackingSpot(intVec, out meetingPoint))
+				{
+					Messages.Message("CaravanCouldNotFindPackingSpot".Translate(new object[]
+					{
+						direction8WayFromTo.LabelShort()
+					}), new GlobalTargetInfo(intVec, this.map, false), MessageTypeDefOf.RejectInput, false);
+					result = false;
+				}
+				else
+				{
+					CaravanFormingUtility.StartFormingCaravan(pawnsFromTransferables, Faction.OfPlayer, this.transferables, meetingPoint, intVec, this.startingTile, this.destinationTile);
+					Messages.Message("CaravanFormationProcessStarted".Translate(), pawnsFromTransferables[0], MessageTypeDefOf.PositiveEvent, false);
+					result = true;
+				}
 			}
-			IntVec3 meetingPoint = default(IntVec3);
-			if (!this.TryFindRandomPackingSpot(intVec, out meetingPoint))
-			{
-				Messages.Message("CaravanCouldNotFindPackingSpot".Translate(direction8WayFromTo.LabelShort()), new GlobalTargetInfo(intVec, this.map, false), MessageTypeDefOf.RejectInput);
-				return false;
-			}
-			CaravanFormingUtility.StartFormingCaravan(pawnsFromTransferables, Faction.OfPlayer, this.transferables, meetingPoint, intVec, this.startingTile);
-			Messages.Message("CaravanFormationProcessStarted".Translate(), pawnsFromTransferables[0], MessageTypeDefOf.PositiveEvent);
-			return true;
+			return result;
 		}
 
+		// Token: 0x06002D5B RID: 11611 RVA: 0x0017D38C File Offset: 0x0017B78C
 		private bool TryReformCaravan()
 		{
 			List<Pawn> pawnsFromTransferables = TransferableUtility.GetPawnsFromTransferables(this.transferables);
+			bool result;
 			if (!this.CheckForErrors(pawnsFromTransferables))
 			{
-				return false;
+				result = false;
 			}
-			this.AddItemsFromTransferablesToRandomInventories(pawnsFromTransferables);
-			Caravan o = CaravanExitMapUtility.ExitMapAndCreateCaravan(pawnsFromTransferables, Faction.OfPlayer, this.CurrentTile);
-			this.map.info.parent.CheckRemoveMapNow();
-			Messages.Message("MessageReformedCaravan".Translate(), o, MessageTypeDefOf.TaskCompletion);
-			return true;
+			else
+			{
+				this.AddItemsFromTransferablesToRandomInventories(pawnsFromTransferables);
+				Caravan caravan = CaravanExitMapUtility.ExitMapAndCreateCaravan(pawnsFromTransferables, Faction.OfPlayer, this.CurrentTile, this.CurrentTile, this.destinationTile, false);
+				this.map.Parent.CheckRemoveMapNow();
+				string text = "MessageReformedCaravan".Translate();
+				if (caravan.pather.Moving && caravan.pather.ArrivalAction != null)
+				{
+					string text2 = text;
+					text = string.Concat(new string[]
+					{
+						text2,
+						" ",
+						"MessageFormedCaravan_Orders".Translate(),
+						": ",
+						caravan.pather.ArrivalAction.Label,
+						"."
+					});
+				}
+				Messages.Message(text, caravan, MessageTypeDefOf.TaskCompletion, false);
+				result = true;
+			}
+			return result;
 		}
 
+		// Token: 0x06002D5C RID: 11612 RVA: 0x0017D480 File Offset: 0x0017B880
 		private void AddItemsFromTransferablesToRandomInventories(List<Pawn> pawns)
 		{
 			this.transferables.RemoveAll((TransferableOneWay x) => x.AnyThing is Pawn);
-			for (int i = 0; i < this.transferables.Count; i++)
+			if (this.ListPlayerPawnsInventorySeparately)
 			{
-				TransferableUtility.TransferNoSplit(this.transferables[i].things, this.transferables[i].CountToTransfer, delegate(Thing originalThing, int numToTake)
+				for (int i = 0; i < pawns.Count; i++)
 				{
-					Corpse corpse = originalThing as Corpse;
-					if (corpse != null && corpse.SpawnedOrAnyParentSpawned)
+					if (Dialog_FormCaravan.CanListInventorySeparately(pawns[i]))
 					{
-						corpse.Strip();
+						ThingOwner<Thing> innerContainer = pawns[i].inventory.innerContainer;
+						for (int j = innerContainer.Count - 1; j >= 0; j--)
+						{
+							this.RemoveCarriedItemFromTransferablesOrDrop(innerContainer[j], pawns[i], this.transferables);
+						}
 					}
-					Thing thing = originalThing.SplitOff(numToTake);
-					this.RemoveFromCorpseIfPossible(thing);
-					CaravanInventoryUtility.FindPawnToMoveInventoryTo(thing, pawns, null, null).inventory.innerContainer.TryAdd(thing, true);
-				}, true, true);
+				}
+				for (int k = 0; k < this.transferables.Count; k++)
+				{
+					if (this.transferables[k].things.Any((Thing x) => !x.Spawned))
+					{
+						this.transferables[k].things.SortBy((Thing x) => x.Spawned);
+					}
+				}
 			}
-		}
-
-		private void RemoveFromCorpseIfPossible(Thing thing)
-		{
-			for (int i = 0; i < this.transferables.Count; i++)
+			for (int l = 0; l < this.transferables.Count; l++)
 			{
-				for (int j = 0; j < this.transferables[i].things.Count; j++)
+				if (!(this.transferables[l].AnyThing is Corpse))
 				{
-					Corpse corpse = this.transferables[i].things[j] as Corpse;
-					if (corpse != null)
+					TransferableUtility.Transfer(this.transferables[l].things, this.transferables[l].CountToTransfer, delegate(Thing splitPiece, IThingHolder originalHolder)
 					{
-						Pawn innerPawn = corpse.InnerPawn;
-						Apparel apparel = thing as Apparel;
-						ThingWithComps thingWithComps = thing as ThingWithComps;
-						if (innerPawn.inventory.innerContainer.Contains(thing))
+						Thing item = splitPiece.TryMakeMinified();
+						CaravanInventoryUtility.FindPawnToMoveInventoryTo(item, pawns, null, null).inventory.innerContainer.TryAdd(item, true);
+					});
+				}
+			}
+			for (int m = 0; m < this.transferables.Count; m++)
+			{
+				if (this.transferables[m].AnyThing is Corpse)
+				{
+					TransferableUtility.TransferNoSplit(this.transferables[m].things, this.transferables[m].CountToTransfer, delegate(Thing originalThing, int numToTake)
+					{
+						if (this.AutoStripSpawnedCorpses)
 						{
-							innerPawn.inventory.innerContainer.Remove(thing);
+							Corpse corpse = originalThing as Corpse;
+							if (corpse != null && corpse.Spawned)
+							{
+								corpse.Strip();
+							}
 						}
-						if (apparel != null && innerPawn.apparel != null && innerPawn.apparel.WornApparel.Contains(apparel))
-						{
-							innerPawn.apparel.Remove(apparel);
-						}
-						if (thingWithComps != null && innerPawn.equipment != null && innerPawn.equipment.AllEquipmentListForReading.Contains(thingWithComps))
-						{
-							innerPawn.equipment.Remove(thingWithComps);
-						}
-					}
+						Thing item = originalThing.SplitOff(numToTake);
+						CaravanInventoryUtility.FindPawnToMoveInventoryTo(item, pawns, null, null).inventory.innerContainer.TryAdd(item, true);
+					}, true, true);
 				}
 			}
 		}
 
+		// Token: 0x06002D5D RID: 11613 RVA: 0x0017D6E4 File Offset: 0x0017BAE4
 		private bool CheckForErrors(List<Pawn> pawns)
 		{
-			if (!this.reform && this.startingTile < 0)
+			bool result;
+			if (this.MustChooseRoute && this.destinationTile < 0)
 			{
-				Messages.Message("NoExitDirectionForCaravanChosen".Translate(), MessageTypeDefOf.RejectInput);
-				return false;
+				Messages.Message("MessageMustChooseRouteFirst".Translate(), MessageTypeDefOf.RejectInput, false);
+				result = false;
 			}
-			if (!pawns.Any((Pawn x) => CaravanUtility.IsOwner(x, Faction.OfPlayer) && !x.Downed))
+			else if (!this.reform && this.startingTile < 0)
 			{
-				Messages.Message("CaravanMustHaveAtLeastOneColonist".Translate(), MessageTypeDefOf.RejectInput);
-				return false;
+				Messages.Message("MessageNoValidExitTile".Translate(), MessageTypeDefOf.RejectInput, false);
+				result = false;
 			}
-			if (!this.reform && this.MassUsage > this.MassCapacity)
+			else if (!pawns.Any((Pawn x) => CaravanUtility.IsOwner(x, Faction.OfPlayer) && !x.Downed))
+			{
+				Messages.Message("CaravanMustHaveAtLeastOneColonist".Translate(), MessageTypeDefOf.RejectInput, false);
+				result = false;
+			}
+			else if (!this.reform && this.MassUsage > this.MassCapacity)
 			{
 				this.FlashMass();
-				Messages.Message("TooBigCaravanMassUsage".Translate(), MessageTypeDefOf.RejectInput);
-				return false;
+				Messages.Message("TooBigCaravanMassUsage".Translate(), MessageTypeDefOf.RejectInput, false);
+				result = false;
 			}
-			Pawn pawn = pawns.Find((Pawn x) => !x.IsColonist && !pawns.Any((Pawn y) => y.IsColonist && y.CanReach(x, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn)));
-			if (pawn != null)
+			else
 			{
-				Messages.Message("CaravanPawnIsUnreachable".Translate(pawn.LabelShort).CapitalizeFirst(), pawn, MessageTypeDefOf.RejectInput);
-				return false;
-			}
-			for (int i = 0; i < this.transferables.Count; i++)
-			{
-				if (this.transferables[i].ThingDef.category == ThingCategory.Item)
+				Pawn pawn = pawns.Find((Pawn x) => !x.IsColonist && !pawns.Any((Pawn y) => y.IsColonist && y.CanReach(x, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn)));
+				if (pawn != null)
 				{
-					int countToTransfer = this.transferables[i].CountToTransfer;
-					int num = 0;
-					if (countToTransfer > 0)
+					Messages.Message("CaravanPawnIsUnreachable".Translate(new object[]
 					{
-						for (int j = 0; j < this.transferables[i].things.Count; j++)
+						pawn.LabelShort
+					}).CapitalizeFirst(), pawn, MessageTypeDefOf.RejectInput, false);
+					result = false;
+				}
+				else
+				{
+					for (int i = 0; i < this.transferables.Count; i++)
+					{
+						if (this.transferables[i].ThingDef.category == ThingCategory.Item)
 						{
-							Thing t = this.transferables[i].things[j];
-							if (!t.Spawned || pawns.Any((Pawn x) => x.IsColonist && x.CanReach(t, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn)))
+							int countToTransfer = this.transferables[i].CountToTransfer;
+							int num = 0;
+							if (countToTransfer > 0)
 							{
-								num += t.stackCount;
-								if (num >= countToTransfer)
-									break;
+								for (int j = 0; j < this.transferables[i].things.Count; j++)
+								{
+									Thing t = this.transferables[i].things[j];
+									if (!t.Spawned || pawns.Any((Pawn x) => x.IsColonist && x.CanReach(t, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn)))
+									{
+										num += t.stackCount;
+										if (num >= countToTransfer)
+										{
+											break;
+										}
+									}
+								}
+								if (num < countToTransfer)
+								{
+									if (countToTransfer == 1)
+									{
+										Messages.Message("CaravanItemIsUnreachableSingle".Translate(new object[]
+										{
+											this.transferables[i].ThingDef.label
+										}), MessageTypeDefOf.RejectInput, false);
+									}
+									else
+									{
+										Messages.Message("CaravanItemIsUnreachableMulti".Translate(new object[]
+										{
+											countToTransfer,
+											this.transferables[i].ThingDef.label
+										}), MessageTypeDefOf.RejectInput, false);
+									}
+									return false;
+								}
 							}
-						}
-						if (num < countToTransfer)
-						{
-							if (countToTransfer == 1)
-							{
-								Messages.Message("CaravanItemIsUnreachableSingle".Translate(this.transferables[i].ThingDef.label), MessageTypeDefOf.RejectInput);
-							}
-							else
-							{
-								Messages.Message("CaravanItemIsUnreachableMulti".Translate(countToTransfer, this.transferables[i].ThingDef.label), MessageTypeDefOf.RejectInput);
-							}
-							return false;
 						}
 					}
+					result = true;
 				}
 			}
-			return true;
+			return result;
 		}
 
+		// Token: 0x06002D5E RID: 11614 RVA: 0x0017D9E0 File Offset: 0x0017BDE0
 		private bool TryFindExitSpot(List<Pawn> pawns, bool reachableForEveryColonist, out IntVec3 spot)
 		{
+			bool result;
 			if (this.startingTile < 0)
 			{
-				Log.Error("Can't find exit spot because startingTile is not set.");
+				Log.Error("Can't find exit spot because startingTile is not set.", false);
 				spot = IntVec3.Invalid;
-				return false;
+				result = false;
 			}
-			Predicate<IntVec3> validator = (IntVec3 x) => !x.Fogged(this.map) && x.Standable(this.map);
-			Rot4 rotFromTo = Find.WorldGrid.GetRotFromTo(this.CurrentTile, this.startingTile);
-			if (reachableForEveryColonist)
+			else
 			{
-				return CellFinder.TryFindRandomEdgeCellWith((Predicate<IntVec3>)delegate(IntVec3 x)
+				Predicate<IntVec3> validator = (IntVec3 x) => !x.Fogged(this.map) && x.Standable(this.map);
+				Rot4 rotFromTo = Find.WorldGrid.GetRotFromTo(this.CurrentTile, this.startingTile);
+				if (reachableForEveryColonist)
 				{
-					if (!validator(x))
+					result = CellFinder.TryFindRandomEdgeCellWith(delegate(IntVec3 x)
 					{
-						return false;
-					}
-					for (int j = 0; j < pawns.Count; j++)
-					{
-						if (pawns[j].IsColonist && !pawns[j].CanReach(x, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+						bool result2;
+						if (!validator(x))
 						{
-							return false;
+							result2 = false;
+						}
+						else
+						{
+							for (int j = 0; j < pawns.Count; j++)
+							{
+								if (pawns[j].IsColonist && !pawns[j].CanReach(x, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+								{
+									return false;
+								}
+							}
+							result2 = true;
+						}
+						return result2;
+					}, this.map, rotFromTo, CellFinder.EdgeRoadChance_Always, out spot);
+				}
+				else
+				{
+					IntVec3 intVec = IntVec3.Invalid;
+					int num = -1;
+					foreach (IntVec3 intVec2 in CellRect.WholeMap(this.map).GetEdgeCells(rotFromTo).InRandomOrder(null))
+					{
+						if (validator(intVec2))
+						{
+							int num2 = 0;
+							for (int i = 0; i < pawns.Count; i++)
+							{
+								if (pawns[i].IsColonist && pawns[i].CanReach(intVec2, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+								{
+									num2++;
+								}
+							}
+							if (num2 > num)
+							{
+								num = num2;
+								intVec = intVec2;
+							}
 						}
 					}
-					return true;
-				}, this.map, rotFromTo, CellFinder.EdgeRoadChance_Always, out spot);
-			}
-			IntVec3 intVec = IntVec3.Invalid;
-			int num = -1;
-			foreach (IntVec3 item in CellRect.WholeMap(this.map).GetEdgeCells(rotFromTo).InRandomOrder(null))
-			{
-				if (validator(item))
-				{
-					int num2 = 0;
-					for (int i = 0; i < pawns.Count; i++)
-					{
-						if (pawns[i].IsColonist && pawns[i].CanReach(item, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
-						{
-							num2++;
-						}
-					}
-					if (num2 > num)
-					{
-						num = num2;
-						intVec = item;
-					}
+					spot = intVec;
+					result = intVec.IsValid;
 				}
 			}
-			spot = intVec;
-			return intVec.IsValid;
+			return result;
 		}
 
+		// Token: 0x06002D5F RID: 11615 RVA: 0x0017DB90 File Offset: 0x0017BF90
 		private bool TryFindRandomPackingSpot(IntVec3 exitSpot, out IntVec3 packingSpot)
 		{
 			Dialog_FormCaravan.tmpPackingSpots.Clear();
@@ -711,45 +898,82 @@ namespace RimWorld
 					Dialog_FormCaravan.tmpPackingSpots.Add(list[i]);
 				}
 			}
-			if (Dialog_FormCaravan.tmpPackingSpots.Any())
+			bool result;
+			if (Dialog_FormCaravan.tmpPackingSpots.Any<Thing>())
 			{
-				Thing thing = Dialog_FormCaravan.tmpPackingSpots.RandomElement();
+				Thing thing = Dialog_FormCaravan.tmpPackingSpots.RandomElement<Thing>();
 				Dialog_FormCaravan.tmpPackingSpots.Clear();
 				packingSpot = thing.Position;
-				return true;
+				result = true;
 			}
-			return RCellFinder.TryFindRandomSpotJustOutsideColony(exitSpot, this.map, out packingSpot);
+			else
+			{
+				result = RCellFinder.TryFindRandomSpotJustOutsideColony(exitSpot, this.map, out packingSpot);
+			}
+			return result;
 		}
 
+		// Token: 0x06002D60 RID: 11616 RVA: 0x0017DC64 File Offset: 0x0017C064
 		private void AddPawnsToTransferables()
 		{
 			List<Pawn> list = Dialog_FormCaravan.AllSendablePawns(this.map, this.reform);
 			for (int i = 0; i < list.Count; i++)
 			{
-				this.AddToTransferables(list[i], this.reform);
+				bool setToTransferMax = (this.reform || this.mapAboutToBeRemoved) && !CaravanUtility.ShouldAutoCapture(list[i], Faction.OfPlayer);
+				this.AddToTransferables(list[i], setToTransferMax);
 			}
 		}
 
+		// Token: 0x06002D61 RID: 11617 RVA: 0x0017DCDC File Offset: 0x0017C0DC
 		private void AddItemsToTransferables()
 		{
-			List<Thing> list = CaravanFormingUtility.AllReachableColonyItems(this.map, this.reform, this.reform);
+			List<Thing> list = CaravanFormingUtility.AllReachableColonyItems(this.map, this.reform, this.reform, this.reform);
 			for (int i = 0; i < list.Count; i++)
 			{
 				this.AddToTransferables(list[i], false);
 			}
-			if (this.AutoStripCorpses)
+			if (this.AutoStripSpawnedCorpses)
 			{
 				for (int j = 0; j < list.Count; j++)
 				{
-					Corpse corpse = list[j] as Corpse;
-					if (corpse != null)
+					if (list[j].Spawned)
 					{
-						this.AddCorpseInventoryAndGearToTransferables(corpse);
+						this.TryAddCorpseInventoryAndGearToTransferables(list[j]);
+					}
+				}
+			}
+			if (this.ListPlayerPawnsInventorySeparately)
+			{
+				List<Pawn> list2 = Dialog_FormCaravan.AllSendablePawns(this.map, this.reform);
+				for (int k = 0; k < list2.Count; k++)
+				{
+					if (Dialog_FormCaravan.CanListInventorySeparately(list2[k]))
+					{
+						ThingOwner<Thing> innerContainer = list2[k].inventory.innerContainer;
+						for (int l = 0; l < innerContainer.Count; l++)
+						{
+							this.AddToTransferables(innerContainer[l], true);
+							if (this.AutoStripSpawnedCorpses && innerContainer[l].Spawned)
+							{
+								this.TryAddCorpseInventoryAndGearToTransferables(innerContainer[l]);
+							}
+						}
 					}
 				}
 			}
 		}
 
+		// Token: 0x06002D62 RID: 11618 RVA: 0x0017DE38 File Offset: 0x0017C238
+		private void TryAddCorpseInventoryAndGearToTransferables(Thing potentiallyCorpse)
+		{
+			Corpse corpse = potentiallyCorpse as Corpse;
+			if (corpse != null)
+			{
+				this.AddCorpseInventoryAndGearToTransferables(corpse);
+			}
+		}
+
+		// Token: 0x06002D63 RID: 11619 RVA: 0x0017DE5C File Offset: 0x0017C25C
 		private void AddCorpseInventoryAndGearToTransferables(Corpse corpse)
 		{
 			Pawn_InventoryTracker inventory = corpse.InnerPawn.inventory;
@@ -777,30 +1001,201 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002D64 RID: 11620 RVA: 0x0017DF3C File Offset: 0x0017C33C
+		private void RemoveCarriedItemFromTransferablesOrDrop(Thing carried, Pawn carrier, List<TransferableOneWay> transferables)
+		{
+			TransferableOneWay transferableOneWay = TransferableUtility.TransferableMatchingDesperate(carried, transferables, TransferAsOneMode.PodsOrCaravanPacking);
+			int num;
+			if (transferableOneWay == null)
+			{
+				num = carried.stackCount;
+			}
+			else if (transferableOneWay.CountToTransfer >= carried.stackCount)
+			{
+				transferableOneWay.AdjustBy(-carried.stackCount);
+				transferableOneWay.things.Remove(carried);
+				num = 0;
+			}
+			else
+			{
+				num = carried.stackCount - transferableOneWay.CountToTransfer;
+				transferableOneWay.AdjustTo(0);
+			}
+			if (num > 0)
+			{
+				Thing thing = carried.SplitOff(num);
+				if (carrier.SpawnedOrAnyParentSpawned)
+				{
+					GenPlace.TryPlaceThing(thing, carrier.PositionHeld, carrier.MapHeld, ThingPlaceMode.Near, null, null);
+				}
+				else
+				{
+					thing.Destroy(DestroyMode.Vanish);
+				}
+			}
+		}
+
+		// Token: 0x06002D65 RID: 11621 RVA: 0x0017DFEE File Offset: 0x0017C3EE
 		private void FlashMass()
 		{
 			this.lastMassFlashTime = Time.time;
 		}
 
+		// Token: 0x06002D66 RID: 11622 RVA: 0x0017DFFC File Offset: 0x0017C3FC
+		public static bool CanListInventorySeparately(Pawn p)
+		{
+			return p.Faction == Faction.OfPlayer || p.HostFaction == Faction.OfPlayer;
+		}
+
+		// Token: 0x06002D67 RID: 11623 RVA: 0x0017E034 File Offset: 0x0017C434
 		private void SetToSendEverything()
 		{
 			for (int i = 0; i < this.transferables.Count; i++)
 			{
-				this.transferables[i].AdjustTo(this.transferables[i].GetMaximum());
+				this.transferables[i].AdjustTo(this.transferables[i].GetMaximumToTransfer());
 			}
 			this.CountToTransferChanged();
 		}
 
+		// Token: 0x06002D68 RID: 11624 RVA: 0x0017E088 File Offset: 0x0017C488
 		private void CountToTransferChanged()
 		{
 			this.massUsageDirty = true;
 			this.massCapacityDirty = true;
+			this.tilesPerDayDirty = true;
 			this.daysWorthOfFoodDirty = true;
+			this.foragedFoodPerDayDirty = true;
+			this.visibilityDirty = true;
+			this.ticksToArriveDirty = true;
 		}
 
+		// Token: 0x06002D69 RID: 11625 RVA: 0x0017E0BC File Offset: 0x0017C4BC
 		public static List<Pawn> AllSendablePawns(Map map, bool reform)
 		{
-			return CaravanFormingUtility.AllSendablePawns(map, reform, reform);
+			return CaravanFormingUtility.AllSendablePawns(map, reform, reform, reform);
+		}
+
+		// Token: 0x040017CE RID: 6094
+		private Map map;
+
+		// Token: 0x040017CF RID: 6095
+		private bool reform;
+
+		// Token: 0x040017D0 RID: 6096
+		private Action onClosed;
+
+		// Token: 0x040017D1 RID: 6097
+		private bool canChooseRoute;
+
+		// Token: 0x040017D2 RID: 6098
+		private bool mapAboutToBeRemoved;
+
+		// Token: 0x040017D3 RID: 6099
+		public bool choosingRoute;
+
+		// Token: 0x040017D4 RID: 6100
+		private bool thisWindowInstanceEverOpened;
+
+		// Token: 0x040017D5 RID: 6101
+		public List<TransferableOneWay> transferables;
+
+		// Token: 0x040017D6 RID: 6102
+		private TransferableOneWayWidget pawnsTransfer;
+
+		// Token: 0x040017D7 RID: 6103
+		private TransferableOneWayWidget itemsTransfer;
+
+		// Token: 0x040017D8 RID: 6104
+		private Dialog_FormCaravan.Tab tab = Dialog_FormCaravan.Tab.Pawns;
+
+		// Token: 0x040017D9 RID: 6105
+		private float lastMassFlashTime = -9999f;
+
+		// Token: 0x040017DA RID: 6106
+		private int startingTile = -1;
+
+		// Token: 0x040017DB RID: 6107
+		private int destinationTile = -1;
+
+		// Token: 0x040017DC RID: 6108
+		private bool massUsageDirty = true;
+
+		// Token: 0x040017DD RID: 6109
+		private float cachedMassUsage;
+
+		// Token: 0x040017DE RID: 6110
+		private bool massCapacityDirty = true;
+
+		// Token: 0x040017DF RID: 6111
+		private float cachedMassCapacity;
+
+		// Token: 0x040017E0 RID: 6112
+		private string cachedMassCapacityExplanation;
+
+		// Token: 0x040017E1 RID: 6113
+		private bool tilesPerDayDirty = true;
+
+		// Token: 0x040017E2 RID: 6114
+		private float cachedTilesPerDay;
+
+		// Token: 0x040017E3 RID: 6115
+		private string cachedTilesPerDayExplanation;
+
+		// Token: 0x040017E4 RID: 6116
+		private bool daysWorthOfFoodDirty = true;
+
+		// Token: 0x040017E5 RID: 6117
+		private Pair<float, float> cachedDaysWorthOfFood;
+
+		// Token: 0x040017E6 RID: 6118
+		private bool foragedFoodPerDayDirty = true;
+
+		// Token: 0x040017E7 RID: 6119
+		private Pair<ThingDef, float> cachedForagedFoodPerDay;
+
+		// Token: 0x040017E8 RID: 6120
+		private string cachedForagedFoodPerDayExplanation;
+
+		// Token: 0x040017E9 RID: 6121
+		private bool visibilityDirty = true;
+
+		// Token: 0x040017EA RID: 6122
+		private float cachedVisibility;
+
+		// Token: 0x040017EB RID: 6123
+		private string cachedVisibilityExplanation;
+
+		// Token: 0x040017EC RID: 6124
+		private bool ticksToArriveDirty = true;
+
+		// Token: 0x040017ED RID: 6125
+		private int cachedTicksToArrive;
+
+		// Token: 0x040017EE RID: 6126
+		private const float TitleRectHeight = 35f;
+
+		// Token: 0x040017EF RID: 6127
+		private const float BottomAreaHeight = 55f;
+
+		// Token: 0x040017F0 RID: 6128
+		private readonly Vector2 BottomButtonSize = new Vector2(160f, 40f);
+
+		// Token: 0x040017F1 RID: 6129
+		private const float MaxDaysWorthOfFoodToShowWarningDialog = 5f;
+
+		// Token: 0x040017F2 RID: 6130
+		private static List<TabRecord> tabsList = new List<TabRecord>();
+
+		// Token: 0x040017F3 RID: 6131
+		private static List<Thing> tmpPackingSpots = new List<Thing>();
+
+		// Token: 0x020007FC RID: 2044
+		private enum Tab
+		{
+			// Token: 0x040017FD RID: 6141
+			Pawns,
+			// Token: 0x040017FE RID: 6142
+			Items
 		}
 	}
 }

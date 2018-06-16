@@ -1,17 +1,25 @@
-using RimWorld.Planet;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200086D RID: 2157
 	public class MainButtonsRoot
 	{
-		public MainTabsRoot tabs = new MainTabsRoot();
+		// Token: 0x060030FD RID: 12541 RVA: 0x001A9A88 File Offset: 0x001A7E88
+		public MainButtonsRoot()
+		{
+			this.allButtonsInOrder = (from x in DefDatabase<MainButtonDef>.AllDefs
+			orderby x.order
+			select x).ToList<MainButtonDef>();
+		}
 
-		private List<MainButtonDef> allButtonsInOrder;
-
+		// Token: 0x170007D4 RID: 2004
+		// (get) Token: 0x060030FE RID: 12542 RVA: 0x001A9ADC File Offset: 0x001A7EDC
 		private int VisibleButtonsCount
 		{
 			get
@@ -28,45 +36,39 @@ namespace RimWorld
 			}
 		}
 
-		public MainButtonsRoot()
-		{
-			this.allButtonsInOrder = (from x in DefDatabase<MainButtonDef>.AllDefs
-			orderby x.order
-			select x).ToList();
-		}
-
+		// Token: 0x060030FF RID: 12543 RVA: 0x001A9B2C File Offset: 0x001A7F2C
 		public void MainButtonsOnGUI()
 		{
 			if (Event.current.type != EventType.Layout)
 			{
 				this.DoButtons();
-				int num = 0;
-				while (true)
+				for (int i = 0; i < this.allButtonsInOrder.Count; i++)
 				{
-					if (num < this.allButtonsInOrder.Count)
+					if ((this.allButtonsInOrder[i].validWithoutMap || Find.CurrentMap != null) && this.allButtonsInOrder[i].hotKey != null && this.allButtonsInOrder[i].hotKey.KeyDownEvent)
 					{
-						if ((this.allButtonsInOrder[num].validWithoutMap || Find.VisibleMap != null) && this.allButtonsInOrder[num].hotKey != null && this.allButtonsInOrder[num].hotKey.KeyDownEvent)
-							break;
-						num++;
-						continue;
+						Event.current.Use();
+						this.allButtonsInOrder[i].Worker.InterfaceTryActivate();
+						break;
 					}
-					return;
 				}
-				Event.current.Use();
-				this.allButtonsInOrder[num].Worker.InterfaceTryActivate();
 			}
 		}
 
+		// Token: 0x06003100 RID: 12544 RVA: 0x001A9BEC File Offset: 0x001A7FEC
 		public void HandleLowPriorityShortcuts()
 		{
 			this.tabs.HandleLowPriorityShortcuts();
-			if (WorldRendererUtility.WorldRenderedNow && Current.ProgramState == ProgramState.Playing && Find.VisibleMap != null && Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Escape)
+			if (WorldRendererUtility.WorldRenderedNow && Current.ProgramState == ProgramState.Playing && Find.CurrentMap != null)
 			{
-				Event.current.Use();
-				Find.World.renderer.wantedMode = WorldRenderMode.None;
+				if (KeyBindingDefOf.Cancel.KeyDownEvent)
+				{
+					Event.current.Use();
+					Find.World.renderer.wantedMode = WorldRenderMode.None;
+				}
 			}
 		}
 
+		// Token: 0x06003101 RID: 12545 RVA: 0x001A9C54 File Offset: 0x001A8054
 		private void DoButtons()
 		{
 			GUI.color = Color.white;
@@ -89,5 +91,11 @@ namespace RimWorld
 				}
 			}
 		}
+
+		// Token: 0x04001A7B RID: 6779
+		public MainTabsRoot tabs = new MainTabsRoot();
+
+		// Token: 0x04001A7C RID: 6780
+		private List<MainButtonDef> allButtonsInOrder;
 	}
 }

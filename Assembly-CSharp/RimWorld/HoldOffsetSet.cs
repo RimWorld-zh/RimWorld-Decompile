@@ -1,36 +1,48 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200026B RID: 619
 	public class HoldOffsetSet
 	{
-		public HoldOffset northDefault;
-
-		public HoldOffset east;
-
-		public HoldOffset south;
-
-		public HoldOffset west;
-
+		// Token: 0x06000AAA RID: 2730 RVA: 0x00060548 File Offset: 0x0005E948
 		public HoldOffset Pick(Rot4 rotation)
 		{
+			HoldOffset result;
 			if (rotation == Rot4.North)
 			{
-				return this.northDefault;
+				result = this.northDefault;
 			}
-			if (rotation == Rot4.East)
+			else if (rotation == Rot4.East)
 			{
-				return this.east;
+				result = this.east;
 			}
-			if (rotation == Rot4.South)
+			else if (rotation == Rot4.South)
 			{
-				return this.south;
+				result = this.south;
 			}
-			if (rotation == Rot4.West)
+			else if (rotation == Rot4.West)
 			{
-				return this.west;
+				result = this.west;
 			}
-			return null;
+			else
+			{
+				result = null;
+			}
+			return result;
 		}
+
+		// Token: 0x040004FE RID: 1278
+		public HoldOffset northDefault = null;
+
+		// Token: 0x040004FF RID: 1279
+		public HoldOffset east = null;
+
+		// Token: 0x04000500 RID: 1280
+		public HoldOffset south = null;
+
+		// Token: 0x04000501 RID: 1281
+		public HoldOffset west = null;
 	}
 }

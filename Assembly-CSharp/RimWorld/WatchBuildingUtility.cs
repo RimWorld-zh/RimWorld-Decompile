@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -5,29 +6,27 @@ using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x020000F7 RID: 247
 	public static class WatchBuildingUtility
 	{
-		private static List<int> allowedDirections = new List<int>();
-
+		// Token: 0x0600052F RID: 1327 RVA: 0x00038FF8 File Offset: 0x000373F8
 		public static IEnumerable<IntVec3> CalculateWatchCells(ThingDef def, IntVec3 center, Rot4 rot, Map map)
 		{
 			List<int> allowedDirections = WatchBuildingUtility.CalculateAllowedDirections(def, rot);
 			for (int i = 0; i < allowedDirections.Count; i++)
 			{
-				foreach (IntVec3 item in WatchBuildingUtility.GetWatchCellRect(def, center, rot, allowedDirections[i]))
+				foreach (IntVec3 c in WatchBuildingUtility.GetWatchCellRect(def, center, rot, allowedDirections[i]))
 				{
-					if (WatchBuildingUtility.EverPossibleToWatchFrom(item, center, map, true))
+					if (WatchBuildingUtility.EverPossibleToWatchFrom(c, center, map, true))
 					{
-						yield return item;
-						/*Error: Unable to find new state assignment for yield return*/;
+						yield return c;
 					}
 				}
 			}
 			yield break;
-			IL_013d:
-			/*Error near IL_013e: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x06000530 RID: 1328 RVA: 0x00039038 File Offset: 0x00037438
 		public static bool TryFindBestWatchCell(Thing toWatch, Pawn pawn, bool desireSit, out IntVec3 result, out Building chair)
 		{
 			List<int> list = WatchBuildingUtility.CalculateAllowedDirections(toWatch.def, toWatch.Rotation);
@@ -44,7 +43,7 @@ namespace RimWorld
 					{
 						bool flag = false;
 						Building building = null;
-						if (WatchBuildingUtility.EverPossibleToWatchFrom(intVec2, toWatch.Position, toWatch.Map, false) && !intVec2.IsForbidden(pawn) && pawn.CanReserve(intVec2, 1, -1, null, false) && pawn.Map.pawnDestinationReservationManager.CanReserve(intVec2, pawn))
+						if (WatchBuildingUtility.EverPossibleToWatchFrom(intVec2, toWatch.Position, toWatch.Map, false) && !intVec2.IsForbidden(pawn) && pawn.CanReserve(intVec2, 1, -1, null, false) && pawn.Map.pawnDestinationReservationManager.CanReserve(intVec2, pawn, false))
 						{
 							if (desireSit)
 							{
@@ -61,14 +60,21 @@ namespace RimWorld
 						}
 						if (flag)
 						{
-							if (!desireSit || !(building.Rotation != new Rot4(list[i]).Opposite))
+							if (desireSit)
 							{
-								result = intVec2;
-								chair = building;
-								return true;
+								Rot4 rotation = building.Rotation;
+								Rot4 rot = new Rot4(list[i]);
+								if (rotation != rot.Opposite)
+								{
+									intVec = intVec2;
+									goto IL_191;
+								}
 							}
-							intVec = intVec2;
+							result = intVec2;
+							chair = building;
+							return true;
 						}
+						IL_191:;
 					}
 				}
 			}
@@ -83,64 +89,51 @@ namespace RimWorld
 			return false;
 		}
 
+		// Token: 0x06000531 RID: 1329 RVA: 0x0003923C File Offset: 0x0003763C
 		public static bool CanWatchFromBed(Pawn pawn, Building_Bed bed, Thing toWatch)
 		{
+			bool result;
 			if (!WatchBuildingUtility.EverPossibleToWatchFrom(pawn.Position, toWatch.Position, pawn.Map, true))
 			{
-				return false;
+				result = false;
 			}
-			if (toWatch.def.rotatable)
+			else
 			{
-				Rot4 rotation = bed.Rotation;
-				CellRect cellRect = toWatch.OccupiedRect();
-				if (rotation == Rot4.North)
+				if (toWatch.def.rotatable)
 				{
-					int maxZ = cellRect.maxZ;
-					IntVec3 position = pawn.Position;
-					if (maxZ < position.z)
+					Rot4 rotation = bed.Rotation;
+					CellRect cellRect = toWatch.OccupiedRect();
+					if (rotation == Rot4.North && cellRect.maxZ < pawn.Position.z)
+					{
+						return false;
+					}
+					if (rotation == Rot4.South && cellRect.minZ > pawn.Position.z)
+					{
+						return false;
+					}
+					if (rotation == Rot4.East && cellRect.maxX < pawn.Position.x)
+					{
+						return false;
+					}
+					if (rotation == Rot4.West && cellRect.minX > pawn.Position.x)
 					{
 						return false;
 					}
 				}
-				if (rotation == Rot4.South)
+				List<int> list = WatchBuildingUtility.CalculateAllowedDirections(toWatch.def, toWatch.Rotation);
+				for (int i = 0; i < list.Count; i++)
 				{
-					int minZ = cellRect.minZ;
-					IntVec3 position2 = pawn.Position;
-					if (minZ > position2.z)
+					if (WatchBuildingUtility.GetWatchCellRect(toWatch.def, toWatch.Position, toWatch.Rotation, list[i]).Contains(pawn.Position))
 					{
-						return false;
+						return true;
 					}
 				}
-				if (rotation == Rot4.East)
-				{
-					int maxX = cellRect.maxX;
-					IntVec3 position3 = pawn.Position;
-					if (maxX < position3.x)
-					{
-						return false;
-					}
-				}
-				if (rotation == Rot4.West)
-				{
-					int minX = cellRect.minX;
-					IntVec3 position4 = pawn.Position;
-					if (minX > position4.x)
-					{
-						return false;
-					}
-				}
+				result = false;
 			}
-			List<int> list = WatchBuildingUtility.CalculateAllowedDirections(toWatch.def, toWatch.Rotation);
-			for (int i = 0; i < list.Count; i++)
-			{
-				if (WatchBuildingUtility.GetWatchCellRect(toWatch.def, toWatch.Position, toWatch.Rotation, list[i]).Contains(pawn.Position))
-				{
-					return true;
-				}
-			}
-			return false;
+			return result;
 		}
 
+		// Token: 0x06000532 RID: 1330 RVA: 0x000393CC File Offset: 0x000377CC
 		private static CellRect GetWatchCellRect(ThingDef def, IntVec3 center, Rot4 rot, int watchRot)
 		{
 			Rot4 a = new Rot4(watchRot);
@@ -190,11 +183,13 @@ namespace RimWorld
 			return result;
 		}
 
+		// Token: 0x06000533 RID: 1331 RVA: 0x000395D0 File Offset: 0x000379D0
 		private static bool EverPossibleToWatchFrom(IntVec3 watchCell, IntVec3 buildingCenter, Map map, bool bedAllowed)
 		{
 			return (watchCell.Standable(map) || (bedAllowed && watchCell.GetEdifice(map) is Building_Bed)) && GenSight.LineOfSight(buildingCenter, watchCell, map, true, null, 0, 0);
 		}
 
+		// Token: 0x06000534 RID: 1332 RVA: 0x00039618 File Offset: 0x00037A18
 		private static List<int> CalculateAllowedDirections(ThingDef toWatchDef, Rot4 toWatchRot)
 		{
 			WatchBuildingUtility.allowedDirections.Clear();
@@ -211,5 +206,8 @@ namespace RimWorld
 			}
 			return WatchBuildingUtility.allowedDirections;
 		}
+
+		// Token: 0x040002CE RID: 718
+		private static List<int> allowedDirections = new List<int>();
 	}
 }

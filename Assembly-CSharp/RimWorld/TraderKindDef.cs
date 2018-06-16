@@ -1,16 +1,28 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020002E6 RID: 742
 	public class TraderKindDef : Def
 	{
-		public List<StockGenerator> stockGenerators = new List<StockGenerator>();
+		// Token: 0x170001D5 RID: 469
+		// (get) Token: 0x06000C40 RID: 3136 RVA: 0x0006C9B8 File Offset: 0x0006ADB8
+		public float CalculatedCommonality
+		{
+			get
+			{
+				float num = this.commonality;
+				if (this.commonalityMultFromPopulationIntent != null)
+				{
+					num *= this.commonalityMultFromPopulationIntent.Evaluate(Find.Storyteller.intenderPopulation.PopulationIntent);
+				}
+				return num;
+			}
+		}
 
-		public float commonality = 1f;
-
-		public bool orbital;
-
+		// Token: 0x06000C41 RID: 3137 RVA: 0x0006CA00 File Offset: 0x0006AE00
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -20,34 +32,24 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06000C42 RID: 3138 RVA: 0x0006CA68 File Offset: 0x0006AE68
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
+			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
 			{
-				if (enumerator.MoveNext())
-				{
-					string err2 = enumerator.Current;
-					yield return err2;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return err;
 			}
-			foreach (StockGenerator stockGenerator in this.stockGenerators)
+			foreach (StockGenerator stock in this.stockGenerators)
 			{
-				using (IEnumerator<string> enumerator3 = stockGenerator.ConfigErrors(this).GetEnumerator())
+				foreach (string err2 in stock.ConfigErrors(this))
 				{
-					if (enumerator3.MoveNext())
-					{
-						string err = enumerator3.Current;
-						yield return err;
-						/*Error: Unable to find new state assignment for yield return*/;
-					}
+					yield return err2;
 				}
 			}
 			yield break;
-			IL_01b6:
-			/*Error near IL_01b7: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x06000C43 RID: 3139 RVA: 0x0006CA94 File Offset: 0x0006AE94
 		public bool WillTrade(ThingDef td)
 		{
 			for (int i = 0; i < this.stockGenerators.Count; i++)
@@ -60,24 +62,45 @@ namespace RimWorld
 			return false;
 		}
 
+		// Token: 0x06000C44 RID: 3140 RVA: 0x0006CAE8 File Offset: 0x0006AEE8
 		public PriceType PriceTypeFor(ThingDef thingDef, TradeAction action)
 		{
+			PriceType result;
 			if (thingDef == ThingDefOf.Silver)
 			{
-				return PriceType.Undefined;
+				result = PriceType.Undefined;
 			}
-			if (action == TradeAction.PlayerBuys)
+			else
 			{
-				for (int i = 0; i < this.stockGenerators.Count; i++)
+				if (action == TradeAction.PlayerBuys)
 				{
-					PriceType result = default(PriceType);
-					if (this.stockGenerators[i].TryGetPriceType(thingDef, action, out result))
+					for (int i = 0; i < this.stockGenerators.Count; i++)
 					{
-						return result;
+						PriceType result2;
+						if (this.stockGenerators[i].TryGetPriceType(thingDef, action, out result2))
+						{
+							return result2;
+						}
 					}
 				}
+				result = PriceType.Normal;
 			}
-			return PriceType.Normal;
+			return result;
 		}
+
+		// Token: 0x040007CC RID: 1996
+		public List<StockGenerator> stockGenerators = new List<StockGenerator>();
+
+		// Token: 0x040007CD RID: 1997
+		public float commonality = 1f;
+
+		// Token: 0x040007CE RID: 1998
+		public bool orbital;
+
+		// Token: 0x040007CF RID: 1999
+		public bool requestable = true;
+
+		// Token: 0x040007D0 RID: 2000
+		public SimpleCurve commonalityMultFromPopulationIntent;
 	}
 }

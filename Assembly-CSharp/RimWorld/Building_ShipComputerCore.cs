@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -5,62 +6,37 @@ using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200068D RID: 1677
 	internal class Building_ShipComputerCore : Building
 	{
+		// Token: 0x17000542 RID: 1346
+		// (get) Token: 0x06002376 RID: 9078 RVA: 0x00130874 File Offset: 0x0012EC74
 		private bool CanLaunchNow
 		{
 			get
 			{
-				return !ShipUtility.LaunchFailReasons(this).Any();
+				return !ShipUtility.LaunchFailReasons(this).Any<string>();
 			}
 		}
 
+		// Token: 0x06002377 RID: 9079 RVA: 0x00130898 File Offset: 0x0012EC98
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
+			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
 			{
-				if (enumerator.MoveNext())
-				{
-					Gizmo c = enumerator.Current;
-					yield return c;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return c;
 			}
-			if (ShipUtility.HasHibernatingParts(this))
+			foreach (Gizmo c2 in ShipUtility.ShipStartupGizmos(this))
 			{
-				yield return (Gizmo)new Command_Action
-				{
-					action = delegate
-					{
-						DiaNode diaNode = new DiaNode("HibernateWarning".Translate());
-						DiaOption diaOption = new DiaOption("Confirm".Translate());
-						diaOption.action = delegate
-						{
-							ShipUtility.StartupHibernatingParts(((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00d9: stateMachine*/)._0024this);
-						};
-						diaOption.resolveTree = true;
-						diaNode.options.Add(diaOption);
-						DiaOption diaOption2 = new DiaOption("GoBack".Translate());
-						diaOption2.resolveTree = true;
-						diaNode.options.Add(diaOption2);
-						Find.WindowStack.Add(new Dialog_NodeTree(diaNode, true, false, null));
-					},
-					defaultLabel = "CommandShipStartup".Translate(),
-					defaultDesc = "CommandShipStartupDesc".Translate(),
-					hotKey = KeyBindingDefOf.Misc1,
-					icon = ContentFinder<Texture2D>.Get("UI/Commands/DesirePower", true)
-				};
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield return c2;
 			}
-			Command_Action launch = new Command_Action
-			{
-				action = this.TryLaunch,
-				defaultLabel = "CommandShipLaunch".Translate(),
-				defaultDesc = "CommandShipLaunchDesc".Translate()
-			};
+			Command_Action launch = new Command_Action();
+			launch.action = new Action(this.TryLaunch);
+			launch.defaultLabel = "CommandShipLaunch".Translate();
+			launch.defaultDesc = "CommandShipLaunchDesc".Translate();
 			if (!this.CanLaunchNow)
 			{
-				launch.Disable(ShipUtility.LaunchFailReasons(this).First());
+				launch.Disable(ShipUtility.LaunchFailReasons(this).First<string>());
 			}
 			if (ShipCountdown.CountingDown)
 			{
@@ -68,12 +44,11 @@ namespace RimWorld
 			}
 			launch.hotKey = KeyBindingDefOf.Misc1;
 			launch.icon = ContentFinder<Texture2D>.Get("UI/Commands/LaunchShip", true);
-			yield return (Gizmo)launch;
-			/*Error: Unable to find new state assignment for yield return*/;
-			IL_023b:
-			/*Error near IL_023c: Unexpected return in MoveNext()*/;
+			yield return launch;
+			yield break;
 		}
 
+		// Token: 0x06002378 RID: 9080 RVA: 0x001308C2 File Offset: 0x0012ECC2
 		private void TryLaunch()
 		{
 			if (this.CanLaunchNow)

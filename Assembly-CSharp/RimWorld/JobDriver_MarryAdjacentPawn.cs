@@ -1,25 +1,25 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x0200004D RID: 77
 	public class JobDriver_MarryAdjacentPawn : JobDriver
 	{
-		private int ticksLeftToMarry = 2500;
-
-		private const TargetIndex OtherFianceInd = TargetIndex.A;
-
-		private const int Duration = 2500;
-
+		// Token: 0x17000085 RID: 133
+		// (get) Token: 0x0600026A RID: 618 RVA: 0x000198DC File Offset: 0x00017CDC
 		private Pawn OtherFiance
 		{
 			get
 			{
-				return (Pawn)base.job.GetTarget(TargetIndex.A).Thing;
+				return (Pawn)this.job.GetTarget(TargetIndex.A).Thing;
 			}
 		}
 
+		// Token: 0x17000086 RID: 134
+		// (get) Token: 0x0600026B RID: 619 RVA: 0x0001990C File Offset: 0x00017D0C
 		public int TicksLeftToMarry
 		{
 			get
@@ -28,41 +28,62 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x0600026C RID: 620 RVA: 0x00019928 File Offset: 0x00017D28
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
+		// Token: 0x0600026D RID: 621 RVA: 0x00019940 File Offset: 0x00017D40
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.A);
-			this.FailOn(() => ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0038: stateMachine*/)._0024this.OtherFiance.Drafted || !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0038: stateMachine*/)._0024this.pawn.Position.AdjacentTo8WayOrInside(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0038: stateMachine*/)._0024this.OtherFiance));
-			Toil marry = new Toil
+			this.FailOn(() => this.OtherFiance.Drafted || !this.pawn.Position.AdjacentTo8WayOrInside(this.OtherFiance));
+			Toil marry = new Toil();
+			marry.initAction = delegate()
 			{
-				initAction = delegate
-				{
-					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_005b: stateMachine*/)._0024this.ticksLeftToMarry = 2500;
-				},
-				tickAction = delegate
-				{
-					((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0072: stateMachine*/)._0024this.ticksLeftToMarry--;
-					if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0072: stateMachine*/)._0024this.ticksLeftToMarry <= 0)
-					{
-						((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0072: stateMachine*/)._0024this.ticksLeftToMarry = 0;
-						((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0072: stateMachine*/)._0024this.ReadyForNextToil();
-					}
-				},
-				defaultCompleteMode = ToilCompleteMode.Never
+				this.ticksLeftToMarry = 2500;
 			};
-			marry.FailOn(() => !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0095: stateMachine*/)._0024this.pawn.relations.DirectRelationExists(PawnRelationDefOf.Fiance, ((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0095: stateMachine*/)._0024this.OtherFiance));
+			marry.tickAction = delegate()
+			{
+				this.ticksLeftToMarry--;
+				if (this.ticksLeftToMarry <= 0)
+				{
+					this.ticksLeftToMarry = 0;
+					base.ReadyForNextToil();
+				}
+			};
+			marry.defaultCompleteMode = ToilCompleteMode.Never;
+			marry.FailOn(() => !this.pawn.relations.DirectRelationExists(PawnRelationDefOf.Fiance, this.OtherFiance));
 			yield return marry;
-			/*Error: Unable to find new state assignment for yield return*/;
+			yield return new Toil
+			{
+				defaultCompleteMode = ToilCompleteMode.Instant,
+				initAction = delegate()
+				{
+					if (this.pawn.thingIDNumber < this.OtherFiance.thingIDNumber)
+					{
+						MarriageCeremonyUtility.Married(this.pawn, this.OtherFiance);
+					}
+				}
+			};
+			yield break;
 		}
 
+		// Token: 0x0600026E RID: 622 RVA: 0x0001996A File Offset: 0x00017D6A
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.ticksLeftToMarry, "ticksLeftToMarry", 0, false);
 		}
+
+		// Token: 0x040001DE RID: 478
+		private int ticksLeftToMarry = 2500;
+
+		// Token: 0x040001DF RID: 479
+		private const TargetIndex OtherFianceInd = TargetIndex.A;
+
+		// Token: 0x040001E0 RID: 480
+		private const int Duration = 2500;
 	}
 }

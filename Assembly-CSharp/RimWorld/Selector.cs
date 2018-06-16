@@ -1,24 +1,19 @@
-using RimWorld.Planet;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x02000868 RID: 2152
 	public class Selector
 	{
-		public DragBox dragBox = new DragBox();
-
-		private List<object> selected = new List<object>();
-
-		private const float PawnSelectRadius = 1f;
-
-		private const int MaxNumSelected = 80;
-
+		// Token: 0x170007CA RID: 1994
+		// (get) Token: 0x060030C5 RID: 12485 RVA: 0x001A7888 File Offset: 0x001A5C88
 		private bool ShiftIsHeld
 		{
 			get
@@ -27,6 +22,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170007CB RID: 1995
+		// (get) Token: 0x060030C6 RID: 12486 RVA: 0x001A78BC File Offset: 0x001A5CBC
 		public List<object> SelectedObjects
 		{
 			get
@@ -35,6 +32,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170007CC RID: 1996
+		// (get) Token: 0x060030C7 RID: 12487 RVA: 0x001A78D8 File Offset: 0x001A5CD8
 		public List<object> SelectedObjectsListForReading
 		{
 			get
@@ -43,46 +42,69 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170007CD RID: 1997
+		// (get) Token: 0x060030C8 RID: 12488 RVA: 0x001A78F4 File Offset: 0x001A5CF4
 		public Thing SingleSelectedThing
 		{
 			get
 			{
+				Thing result;
 				if (this.selected.Count != 1)
 				{
-					return null;
+					result = null;
 				}
-				if (this.selected[0] is Thing)
+				else if (this.selected[0] is Thing)
 				{
-					return (Thing)this.selected[0];
+					result = (Thing)this.selected[0];
 				}
-				return null;
+				else
+				{
+					result = null;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x170007CE RID: 1998
+		// (get) Token: 0x060030C9 RID: 12489 RVA: 0x001A7950 File Offset: 0x001A5D50
 		public object FirstSelectedObject
 		{
 			get
 			{
+				object result;
 				if (this.selected.Count == 0)
 				{
-					return null;
+					result = null;
 				}
-				return this.selected[0];
+				else
+				{
+					result = this.selected[0];
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x170007CF RID: 1999
+		// (get) Token: 0x060030CA RID: 12490 RVA: 0x001A7988 File Offset: 0x001A5D88
 		public object SingleSelectedObject
 		{
 			get
 			{
+				object result;
 				if (this.selected.Count != 1)
 				{
-					return null;
+					result = null;
 				}
-				return this.selected[0];
+				else
+				{
+					result = this.selected[0];
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x170007D0 RID: 2000
+		// (get) Token: 0x060030CB RID: 12491 RVA: 0x001A79C4 File Offset: 0x001A5DC4
 		public int NumSelected
 		{
 			get
@@ -91,15 +113,23 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170007D1 RID: 2001
+		// (get) Token: 0x060030CC RID: 12492 RVA: 0x001A79E4 File Offset: 0x001A5DE4
+		// (set) Token: 0x060030CD RID: 12493 RVA: 0x001A7A21 File Offset: 0x001A5E21
 		public Zone SelectedZone
 		{
 			get
 			{
+				Zone result;
 				if (this.selected.Count == 0)
 				{
-					return null;
+					result = null;
 				}
-				return this.selected[0] as Zone;
+				else
+				{
+					result = (this.selected[0] as Zone);
+				}
+				return result;
 			}
 			set
 			{
@@ -111,13 +141,17 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060030CE RID: 12494 RVA: 0x001A7A3C File Offset: 0x001A5E3C
 		public void SelectorOnGUI()
 		{
 			this.HandleMapClicks();
-			if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Escape && this.selected.Count > 0)
+			if (KeyBindingDefOf.Cancel.KeyDownEvent)
 			{
-				this.ClearSelection();
-				Event.current.Use();
+				if (this.selected.Count > 0)
+				{
+					this.ClearSelection();
+					Event.current.Use();
+				}
 			}
 			if (this.NumSelected > 0 && Find.MainTabsRoot.OpenTab == null && !WorldRendererUtility.WorldRenderedNow)
 			{
@@ -125,6 +159,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060030CF RID: 12495 RVA: 0x001A7ABC File Offset: 0x001A5EBC
 		private void HandleMapClicks()
 		{
 			if (Event.current.type == EventType.MouseDown)
@@ -142,55 +177,64 @@ namespace RimWorld
 					}
 					Event.current.Use();
 				}
-				if (Event.current.button == 1 && this.selected.Count > 0)
+				if (Event.current.button == 1)
 				{
-					if (this.selected.Count == 1 && this.selected[0] is Pawn)
+					if (this.selected.Count > 0)
 					{
-						FloatMenuMakerMap.TryMakeFloatMenu((Pawn)this.selected[0]);
-					}
-					else
-					{
-						for (int i = 0; i < this.selected.Count; i++)
+						if (this.selected.Count == 1 && this.selected[0] is Pawn)
 						{
-							Pawn pawn = this.selected[i] as Pawn;
-							if (pawn != null)
+							FloatMenuMakerMap.TryMakeFloatMenu((Pawn)this.selected[0]);
+						}
+						else
+						{
+							for (int i = 0; i < this.selected.Count; i++)
 							{
-								Selector.AutoOrderToCell(pawn, UI.MouseCell());
+								Pawn pawn = this.selected[i] as Pawn;
+								if (pawn != null)
+								{
+									Selector.MassTakeFirstAutoTakeableOption(pawn, UI.MouseCell());
+								}
 							}
 						}
+						Event.current.Use();
 					}
-					Event.current.Use();
 				}
 			}
 			if (Event.current.rawType == EventType.MouseUp)
 			{
-				if (Event.current.button == 0 && this.dragBox.active)
+				if (Event.current.button == 0)
 				{
-					this.dragBox.active = false;
-					if (!this.dragBox.IsValid)
+					if (this.dragBox.active)
 					{
-						this.SelectUnderMouse();
-					}
-					else
-					{
-						this.SelectInsideDragBox();
+						this.dragBox.active = false;
+						if (!this.dragBox.IsValid)
+						{
+							this.SelectUnderMouse();
+						}
+						else
+						{
+							this.SelectInsideDragBox();
+						}
 					}
 				}
 				Event.current.Use();
 			}
 		}
 
+		// Token: 0x060030D0 RID: 12496 RVA: 0x001A7C68 File Offset: 0x001A6068
 		public bool IsSelected(object obj)
 		{
 			return this.selected.Contains(obj);
 		}
 
+		// Token: 0x060030D1 RID: 12497 RVA: 0x001A7C89 File Offset: 0x001A6089
 		public void ClearSelection()
 		{
 			SelectionDrawer.Clear();
 			this.selected.Clear();
 		}
 
+		// Token: 0x060030D2 RID: 12498 RVA: 0x001A7C9C File Offset: 0x001A609C
 		public void Deselect(object obj)
 		{
 			if (this.selected.Contains(obj))
@@ -199,29 +243,30 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060030D3 RID: 12499 RVA: 0x001A7CC0 File Offset: 0x001A60C0
 		public void Select(object obj, bool playSound = true, bool forceDesignatorDeselect = true)
 		{
 			if (obj == null)
 			{
-				Log.Error("Cannot select null.");
+				Log.Error("Cannot select null.", false);
 			}
 			else
 			{
 				Thing thing = obj as Thing;
 				if (thing == null && !(obj is Zone))
 				{
-					Log.Error("Tried to select " + obj + " which is neither a Thing nor a Zone.");
+					Log.Error("Tried to select " + obj + " which is neither a Thing nor a Zone.", false);
 				}
 				else if (thing != null && thing.Destroyed)
 				{
-					Log.Error("Cannot select destroyed thing.");
+					Log.Error("Cannot select destroyed thing.", false);
 				}
 				else
 				{
 					Pawn pawn = obj as Pawn;
 					if (pawn != null && pawn.IsWorldPawn())
 					{
-						Log.Error("Cannot select world pawns.");
+						Log.Error("Cannot select world pawns.", false);
 					}
 					else
 					{
@@ -238,41 +283,46 @@ namespace RimWorld
 							this.ClearSelection();
 						}
 						Map map = (thing == null) ? ((Zone)obj).Map : thing.Map;
-						for (int num = this.selected.Count - 1; num >= 0; num--)
+						for (int i = this.selected.Count - 1; i >= 0; i--)
 						{
-							Thing thing2 = this.selected[num] as Thing;
-							Map map2 = (thing2 == null) ? ((Zone)this.selected[num]).Map : thing2.Map;
+							Thing thing2 = this.selected[i] as Thing;
+							Map map2 = (thing2 == null) ? ((Zone)this.selected[i]).Map : thing2.Map;
 							if (map2 != map)
 							{
-								this.Deselect(this.selected[num]);
+								this.Deselect(this.selected[i]);
 							}
 						}
-						if (this.selected.Count < 80 && !this.IsSelected(obj))
+						if (this.selected.Count < 80)
 						{
-							if (map != Current.Game.VisibleMap)
+							if (!this.IsSelected(obj))
 							{
-								Current.Game.VisibleMap = map;
-								SoundDefOf.MapSelected.PlayOneShotOnCamera(null);
-								IntVec3 cell = (thing == null) ? ((Zone)obj).Cells[0] : thing.Position;
-								Find.CameraDriver.JumpToVisibleMapLoc(cell);
+								if (map != Find.CurrentMap)
+								{
+									Current.Game.CurrentMap = map;
+									SoundDefOf.MapSelected.PlayOneShotOnCamera(null);
+									IntVec3 cell = (thing == null) ? ((Zone)obj).Cells[0] : thing.Position;
+									Find.CameraDriver.JumpToCurrentMapLoc(cell);
+								}
+								if (playSound)
+								{
+									this.PlaySelectionSoundFor(obj);
+								}
+								this.selected.Add(obj);
+								SelectionDrawer.Notify_Selected(obj);
 							}
-							if (playSound)
-							{
-								this.PlaySelectionSoundFor(obj);
-							}
-							this.selected.Add(obj);
-							SelectionDrawer.Notify_Selected(obj);
 						}
 					}
 				}
 			}
 		}
 
+		// Token: 0x060030D4 RID: 12500 RVA: 0x001A7ED8 File Offset: 0x001A62D8
 		public void Notify_DialogOpened()
 		{
 			this.dragBox.active = false;
 		}
 
+		// Token: 0x060030D5 RID: 12501 RVA: 0x001A7EE8 File Offset: 0x001A62E8
 		private void PlaySelectionSoundFor(object obj)
 		{
 			if (obj is Pawn && ((Pawn)obj).Faction == Faction.OfPlayer && ((Pawn)obj).RaceProps.Humanlike)
@@ -289,10 +339,11 @@ namespace RimWorld
 			}
 			else
 			{
-				Log.Warning("Can't determine selection sound for " + obj);
+				Log.Warning("Can't determine selection sound for " + obj, false);
 			}
 		}
 
+		// Token: 0x060030D6 RID: 12502 RVA: 0x001A7F84 File Offset: 0x001A6384
 		private void SelectInsideDragBox()
 		{
 			if (!this.ShiftIsHeld)
@@ -323,14 +374,14 @@ namespace RimWorld
 				}
 				if (!selectedSomething)
 				{
-					List<Thing> boxThings = ThingSelectionUtility.MultiSelectableThingsInScreenRectDistinct(this.dragBox.ScreenRect).ToList();
+					List<Thing> boxThings = ThingSelectionUtility.MultiSelectableThingsInScreenRectDistinct(this.dragBox.ScreenRect).ToList<Thing>();
 					Func<Predicate<Thing>, bool> func = delegate(Predicate<Thing> predicate)
 					{
-						foreach (Thing item in from t in boxThings
+						foreach (Thing obj2 in from t in boxThings
 						where predicate(t)
 						select t)
 						{
-							this.Select(item, true, true);
+							this.Select(obj2, true, true);
 							selectedSomething = true;
 						}
 						return selectedSomething;
@@ -345,17 +396,20 @@ namespace RimWorld
 							if (!func(arg3))
 							{
 								Predicate<Thing> arg4 = (Thing t) => t.def.category == ThingCategory.Pawn;
-								if (!func(arg4) && !func((Thing t) => t.def.selectable))
+								if (!func(arg4))
 								{
-									List<Zone> list3 = ThingSelectionUtility.MultiSelectableZonesInScreenRectDistinct(this.dragBox.ScreenRect).ToList();
-									foreach (Zone item2 in list3)
+									if (!func((Thing t) => t.def.selectable))
 									{
-										selectedSomething = true;
-										this.Select(item2, true, true);
-									}
-									if (!selectedSomething)
-									{
-										this.SelectUnderMouse();
+										List<Zone> list3 = ThingSelectionUtility.MultiSelectableZonesInScreenRectDistinct(this.dragBox.ScreenRect).ToList<Zone>();
+										foreach (Zone obj in list3)
+										{
+											selectedSomething = true;
+											this.Select(obj, true, true);
+										}
+										if (!selectedSomething)
+										{
+											this.SelectUnderMouse();
+										}
 									}
 								}
 							}
@@ -365,51 +419,54 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060030D7 RID: 12503 RVA: 0x001A8234 File Offset: 0x001A6634
 		private IEnumerable<object> SelectableObjectsUnderMouse()
 		{
 			Vector2 mousePos = UI.MousePositionOnUIInverted;
 			Thing colonistOrCorpse = Find.ColonistBar.ColonistOrCorpseAt(mousePos);
 			if (colonistOrCorpse != null && colonistOrCorpse.Spawned)
 			{
-				yield return (object)colonistOrCorpse;
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield return colonistOrCorpse;
+				yield break;
 			}
-			if (UI.MouseCell().InBounds(Find.VisibleMap))
+			if (!UI.MouseCell().InBounds(Find.CurrentMap))
 			{
-				TargetingParameters selectParams = new TargetingParameters
+				yield break;
+			}
+			TargetingParameters selectParams = new TargetingParameters();
+			selectParams.mustBeSelectable = true;
+			selectParams.canTargetPawns = true;
+			selectParams.canTargetBuildings = true;
+			selectParams.canTargetItems = true;
+			selectParams.mapObjectTargetsMustBeAutoAttackable = false;
+			List<Thing> selectableList = GenUI.ThingsUnderMouse(UI.MouseMapPosition(), 1f, selectParams);
+			if (selectableList.Count > 0 && selectableList[0] is Pawn)
+			{
+				if ((selectableList[0].DrawPos - UI.MouseMapPosition()).MagnitudeHorizontal() < 0.4f)
 				{
-					mustBeSelectable = true,
-					canTargetPawns = true,
-					canTargetBuildings = true,
-					canTargetItems = true,
-					mapObjectTargetsMustBeAutoAttackable = false
-				};
-				List<Thing> selectableList = GenUI.ThingsUnderMouse(UI.MouseMapPosition(), 1f, selectParams);
-				if (selectableList.Count > 0 && selectableList[0] is Pawn && (selectableList[0].DrawPos - UI.MouseMapPosition()).MagnitudeHorizontal() < 0.40000000596046448)
-				{
-					for (int num = selectableList.Count - 1; num >= 0; num--)
+					for (int j = selectableList.Count - 1; j >= 0; j--)
 					{
-						Thing thing = selectableList[num];
-						if (thing.def.category == ThingCategory.Pawn && (thing.DrawPos - UI.MouseMapPosition()).MagnitudeHorizontal() > 0.40000000596046448)
+						Thing thing = selectableList[j];
+						if (thing.def.category == ThingCategory.Pawn && (thing.DrawPos - UI.MouseMapPosition()).MagnitudeHorizontal() > 0.4f)
 						{
 							selectableList.Remove(thing);
 						}
 					}
 				}
-				int i = 0;
-				if (i < selectableList.Count)
-				{
-					yield return (object)selectableList[i];
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
-				Zone z = Find.VisibleMap.zoneManager.ZoneAt(UI.MouseCell());
-				if (z == null)
-					yield break;
-				yield return (object)z;
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
+			for (int i = 0; i < selectableList.Count; i++)
+			{
+				yield return selectableList[i];
+			}
+			Zone z = Find.CurrentMap.zoneManager.ZoneAt(UI.MouseCell());
+			if (z != null)
+			{
+				yield return z;
+			}
+			yield break;
 		}
 
+		// Token: 0x060030D8 RID: 12504 RVA: 0x001A8258 File Offset: 0x001A6658
 		public static IEnumerable<object> SelectableObjectsAt(IntVec3 c, Map map)
 		{
 			List<Thing> thingList = c.GetThingList(map);
@@ -418,17 +475,18 @@ namespace RimWorld
 				Thing t = thingList[i];
 				if (ThingSelectionUtility.SelectableByMapClick(t))
 				{
-					yield return (object)t;
-					/*Error: Unable to find new state assignment for yield return*/;
+					yield return t;
 				}
 			}
 			Zone z = map.zoneManager.ZoneAt(c);
-			if (z == null)
-				yield break;
-			yield return (object)z;
-			/*Error: Unable to find new state assignment for yield return*/;
+			if (z != null)
+			{
+				yield return z;
+			}
+			yield break;
 		}
 
+		// Token: 0x060030D9 RID: 12505 RVA: 0x001A828C File Offset: 0x001A668C
 		private void SelectUnderMouse()
 		{
 			Caravan caravan = Find.ColonistBar.CaravanMemberCaravanAt(UI.MousePositionOnUIInverted);
@@ -445,7 +503,7 @@ namespace RimWorld
 				}
 				else
 				{
-					List<object> list = this.SelectableObjectsUnderMouse().ToList();
+					List<object> list = this.SelectableObjectsUnderMouse().ToList<object>();
 					if (list.Count == 0)
 					{
 						if (!this.ShiftIsHeld)
@@ -455,31 +513,31 @@ namespace RimWorld
 					}
 					else if (list.Count == 1)
 					{
-						object obj2 = list[0];
+						object obj4 = list[0];
 						if (!this.ShiftIsHeld)
 						{
 							this.ClearSelection();
-							this.Select(obj2, true, true);
+							this.Select(obj4, true, true);
 						}
-						else if (!this.selected.Contains(obj2))
+						else if (!this.selected.Contains(obj4))
 						{
-							this.Select(obj2, true, true);
+							this.Select(obj4, true, true);
 						}
 						else
 						{
-							this.Deselect(obj2);
+							this.Deselect(obj4);
 						}
 					}
 					else if (list.Count > 1)
 					{
-						object obj3 = (from obj in list
+						object obj2 = (from obj in list
 						where this.selected.Contains(obj)
-						select obj).FirstOrDefault();
-						if (obj3 != null)
+						select obj).FirstOrDefault<object>();
+						if (obj2 != null)
 						{
 							if (!this.ShiftIsHeld)
 							{
-								int num = list.IndexOf(obj3) + 1;
+								int num = list.IndexOf(obj2) + 1;
 								if (num >= list.Count)
 								{
 									num -= list.Count;
@@ -489,11 +547,11 @@ namespace RimWorld
 							}
 							else
 							{
-								foreach (object item in list)
+								foreach (object obj3 in list)
 								{
-									if (this.selected.Contains(item))
+									if (this.selected.Contains(obj3))
 									{
-										this.Deselect(item);
+										this.Deselect(obj3);
 									}
 								}
 							}
@@ -511,15 +569,16 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060030DA RID: 12506 RVA: 0x001A8490 File Offset: 0x001A6890
 		public void SelectNextAt(IntVec3 c, Map map)
 		{
-			if (this.SelectedObjects.Count() != 1)
+			if (this.SelectedObjects.Count<object>() != 1)
 			{
-				Log.Error("Cannot select next at with < or > 1 selected.");
+				Log.Error("Cannot select next at with < or > 1 selected.", false);
 			}
 			else
 			{
-				List<object> list = Selector.SelectableObjectsAt(c, map).ToList();
+				List<object> list = Selector.SelectableObjectsAt(c, map).ToList<object>();
 				int num = list.IndexOf(this.SingleSelectedThing) + 1;
 				if (num >= list.Count)
 				{
@@ -530,9 +589,10 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060030DB RID: 12507 RVA: 0x001A8508 File Offset: 0x001A6908
 		private void SelectAllMatchingObjectUnderMouseOnScreen()
 		{
-			List<object> list = this.SelectableObjectsUnderMouse().ToList();
+			List<object> list = this.SelectableObjectsUnderMouse().ToList<object>();
 			if (list.Count != 0)
 			{
 				Thing clickedThing = list.FirstOrDefault((object o) => o is Pawn && ((Pawn)o).Faction == Faction.OfPlayer && !((Pawn)o).IsPrisoner) as Thing;
@@ -541,20 +601,19 @@ namespace RimWorld
 				{
 					clickedThing = ((from o in list
 					where o is Thing && !((Thing)o).def.neverMultiSelect
-					select o).FirstOrDefault() as Thing);
+					select o).FirstOrDefault<object>() as Thing);
 				}
 				Rect rect = new Rect(0f, 0f, (float)UI.screenWidth, (float)UI.screenHeight);
 				if (clickedThing == null)
 				{
-					object obj = list.FirstOrDefault((object o) => o is Zone && ((Zone)o).IsMultiselectable);
-					if (obj != null)
+					if (list.FirstOrDefault((object o) => o is Zone && ((Zone)o).IsMultiselectable) != null)
 					{
 						IEnumerable<Zone> enumerable = ThingSelectionUtility.MultiSelectableZonesInScreenRectDistinct(rect);
-						foreach (Zone item in enumerable)
+						foreach (Zone obj in enumerable)
 						{
-							if (!this.IsSelected(item))
+							if (!this.IsSelected(obj))
 							{
-								this.Select(item, true, true);
+								this.Select(obj, true, true);
 							}
 						}
 					}
@@ -564,7 +623,12 @@ namespace RimWorld
 					IEnumerable enumerable2 = ThingSelectionUtility.MultiSelectableThingsInScreenRectDistinct(rect);
 					Predicate<Thing> predicate = delegate(Thing t)
 					{
-						if (t.def == clickedThing.def && t.Faction == clickedThing.Faction && !this.IsSelected(t))
+						bool result;
+						if (t.def != clickedThing.def || t.Faction != clickedThing.Faction || this.IsSelected(t))
+						{
+							result = false;
+						}
+						else
 						{
 							Pawn pawn = clickedThing as Pawn;
 							if (pawn != null)
@@ -579,19 +643,20 @@ namespace RimWorld
 									return false;
 								}
 							}
-							return true;
+							result = true;
 						}
-						return false;
+						return result;
 					};
 					IEnumerator enumerator2 = enumerable2.GetEnumerator();
 					try
 					{
 						while (enumerator2.MoveNext())
 						{
-							Thing obj2 = (Thing)enumerator2.Current;
-							if (predicate(obj2))
+							object obj2 = enumerator2.Current;
+							Thing obj3 = (Thing)obj2;
+							if (predicate(obj3))
 							{
-								this.Select(obj2, true, true);
+								this.Select(obj3, true, true);
 							}
 						}
 					}
@@ -607,16 +672,36 @@ namespace RimWorld
 			}
 		}
 
-		private static void AutoOrderToCell(Pawn pawn, IntVec3 dest)
+		// Token: 0x060030DC RID: 12508 RVA: 0x001A8728 File Offset: 0x001A6B28
+		private static void MassTakeFirstAutoTakeableOption(Pawn pawn, IntVec3 dest)
 		{
-			foreach (FloatMenuOption item in FloatMenuMakerMap.ChoicesAtFor(dest.ToVector3Shifted(), pawn))
+			FloatMenuOption floatMenuOption = null;
+			foreach (FloatMenuOption floatMenuOption2 in FloatMenuMakerMap.ChoicesAtFor(dest.ToVector3Shifted(), pawn))
 			{
-				if (item.autoTakeable)
+				if (!floatMenuOption2.Disabled && floatMenuOption2.autoTakeable)
 				{
-					item.Chosen(true);
-					break;
+					if (floatMenuOption == null || floatMenuOption2.autoTakeablePriority > floatMenuOption.autoTakeablePriority)
+					{
+						floatMenuOption = floatMenuOption2;
+					}
 				}
 			}
+			if (floatMenuOption != null)
+			{
+				floatMenuOption.Chosen(true);
+			}
 		}
+
+		// Token: 0x04001A65 RID: 6757
+		public DragBox dragBox = new DragBox();
+
+		// Token: 0x04001A66 RID: 6758
+		private List<object> selected = new List<object>();
+
+		// Token: 0x04001A67 RID: 6759
+		private const float PawnSelectRadius = 1f;
+
+		// Token: 0x04001A68 RID: 6760
+		private const int MaxNumSelected = 80;
 	}
 }

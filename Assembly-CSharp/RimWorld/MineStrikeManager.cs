@@ -1,22 +1,20 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000414 RID: 1044
 	public class MineStrikeManager : IExposable
 	{
-		private List<StrikeRecord> strikeRecords = new List<StrikeRecord>();
-
-		private const int RecentStrikeIgnoreRadius = 12;
-
-		private static readonly int RadialVisibleCells = GenRadial.NumCellsInRadius(5.9f);
-
+		// Token: 0x060011F2 RID: 4594 RVA: 0x0009BB04 File Offset: 0x00099F04
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<StrikeRecord>(ref this.strikeRecords, "strikeRecords", LookMode.Deep, new object[0]);
 		}
 
+		// Token: 0x060011F3 RID: 4595 RVA: 0x0009BB20 File Offset: 0x00099F20
 		public void CheckStruckOre(IntVec3 justMinedPos, ThingDef justMinedDef, Thing miner)
 		{
 			if (miner.Faction == Faction.OfPlayer)
@@ -34,14 +32,22 @@ namespace RimWorld
 							item.def = edifice.def;
 							item.ticksGame = Find.TickManager.TicksGame;
 							this.strikeRecords.Add(item);
-							Messages.Message("StruckMineable".Translate(edifice.def.label), edifice, MessageTypeDefOf.PositiveEvent);
-							TaleRecorder.RecordTale(TaleDefOf.StruckMineable, miner, edifice);
+							Messages.Message("StruckMineable".Translate(new object[]
+							{
+								edifice.def.label
+							}), edifice, MessageTypeDefOf.PositiveEvent, true);
+							TaleRecorder.RecordTale(TaleDefOf.StruckMineable, new object[]
+							{
+								miner,
+								edifice
+							});
 						}
 					}
 				}
 			}
 		}
 
+		// Token: 0x060011F4 RID: 4596 RVA: 0x0009BC60 File Offset: 0x0009A060
 		public bool AlreadyVisibleNearby(IntVec3 center, Map map, ThingDef mineableDef)
 		{
 			CellRect cellRect = CellRect.CenteredOn(center, 1);
@@ -60,48 +66,36 @@ namespace RimWorld
 			return false;
 		}
 
+		// Token: 0x060011F5 RID: 4597 RVA: 0x0009BCFC File Offset: 0x0009A0FC
 		private bool RecentlyStruck(IntVec3 cell, ThingDef def)
 		{
-			for (int num = this.strikeRecords.Count - 1; num >= 0; num--)
+			for (int i = this.strikeRecords.Count - 1; i >= 0; i--)
 			{
-				if (this.strikeRecords[num].Expired)
+				if (this.strikeRecords[i].Expired)
 				{
-					this.strikeRecords.RemoveAt(num);
+					this.strikeRecords.RemoveAt(i);
 				}
-				else
+				else if (this.strikeRecords[i].def == def && this.strikeRecords[i].cell.InHorDistOf(cell, 12f))
 				{
-					StrikeRecord strikeRecord = this.strikeRecords[num];
-					if (strikeRecord.def == def)
-					{
-						StrikeRecord strikeRecord2 = this.strikeRecords[num];
-						if (strikeRecord2.cell.InHorDistOf(cell, 12f))
-						{
-							return true;
-						}
-					}
+					return true;
 				}
 			}
 			return false;
 		}
 
+		// Token: 0x060011F6 RID: 4598 RVA: 0x0009BDA8 File Offset: 0x0009A1A8
 		public static bool MineableIsValuable(ThingDef mineableDef)
 		{
-			if (mineableDef.mineable && mineableDef.building.mineableThing != null)
-			{
-				return mineableDef.building.mineableThing.GetStatValueAbstract(StatDefOf.MarketValue, null) * (float)mineableDef.building.mineableYield > 10.0;
-			}
-			return false;
+			return mineableDef.mineable && mineableDef.building.mineableThing != null && mineableDef.building.mineableThing.GetStatValueAbstract(StatDefOf.MarketValue, null) * (float)mineableDef.building.mineableYield > 10f;
 		}
 
+		// Token: 0x060011F7 RID: 4599 RVA: 0x0009BE0C File Offset: 0x0009A20C
 		public static bool MineableIsVeryValuable(ThingDef mineableDef)
 		{
-			if (mineableDef.mineable && mineableDef.building.mineableThing != null)
-			{
-				return mineableDef.building.mineableThing.GetStatValueAbstract(StatDefOf.MarketValue, null) * (float)mineableDef.building.mineableYield > 100.0;
-			}
-			return false;
+			return mineableDef.mineable && mineableDef.building.mineableThing != null && mineableDef.building.mineableThing.GetStatValueAbstract(StatDefOf.MarketValue, null) * (float)mineableDef.building.mineableYield > 100f;
 		}
 
+		// Token: 0x060011F8 RID: 4600 RVA: 0x0009BE70 File Offset: 0x0009A270
 		public string DebugStrikeRecords()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -111,5 +105,14 @@ namespace RimWorld
 			}
 			return stringBuilder.ToString();
 		}
+
+		// Token: 0x04000AF2 RID: 2802
+		private List<StrikeRecord> strikeRecords = new List<StrikeRecord>();
+
+		// Token: 0x04000AF3 RID: 2803
+		private const int RecentStrikeIgnoreRadius = 12;
+
+		// Token: 0x04000AF4 RID: 2804
+		private static readonly int RadialVisibleCells = GenRadial.NumCellsInRadius(5.9f);
 	}
 }

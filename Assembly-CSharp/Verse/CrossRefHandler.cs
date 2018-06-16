@@ -1,21 +1,23 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Verse
 {
+	// Token: 0x02000D98 RID: 3480
 	public class CrossRefHandler
 	{
-		private LoadedObjectDirectory loadedObjectDirectory = new LoadedObjectDirectory();
-
-		public LoadIDsWantedBank loadIDs = new LoadIDsWantedBank();
-
-		private List<IExposable> crossReferencingExposables = new List<IExposable>();
-
+		// Token: 0x06004DAB RID: 19883 RVA: 0x002884B0 File Offset: 0x002868B0
 		public void RegisterForCrossRefResolve(IExposable s)
 		{
 			if (Scribe.mode != LoadSaveMode.LoadingVars)
 			{
-				Log.Error("Registered " + s + " for cross ref resolve, but current mode is " + Scribe.mode);
+				Log.Error(string.Concat(new object[]
+				{
+					"Registered ",
+					s,
+					" for cross ref resolve, but current mode is ",
+					Scribe.mode
+				}), false);
 			}
 			else if (s != null)
 			{
@@ -27,6 +29,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004DAC RID: 19884 RVA: 0x0028854C File Offset: 0x0028694C
 		public void ResolveAllCrossReferences()
 		{
 			Scribe.mode = LoadSaveMode.ResolvingCrossRefs;
@@ -34,9 +37,9 @@ namespace Verse
 			{
 				LogSimple.Message("==================Register the saveables all so we can find them later");
 			}
-			foreach (IExposable crossReferencingExposable in this.crossReferencingExposables)
+			foreach (IExposable exposable in this.crossReferencingExposables)
 			{
-				ILoadReferenceable loadReferenceable = crossReferencingExposable as ILoadReferenceable;
+				ILoadReferenceable loadReferenceable = exposable as ILoadReferenceable;
 				if (loadReferenceable != null)
 				{
 					if (DebugViewSettings.logMapLoad)
@@ -50,21 +53,21 @@ namespace Verse
 			{
 				LogSimple.Message("==================Fill all cross-references to the saveables");
 			}
-			foreach (IExposable crossReferencingExposable2 in this.crossReferencingExposables)
+			foreach (IExposable exposable2 in this.crossReferencingExposables)
 			{
 				if (DebugViewSettings.logMapLoad)
 				{
-					LogSimple.Message("ResolvingCrossRefs ExposeData " + crossReferencingExposable2.GetType());
+					LogSimple.Message("ResolvingCrossRefs ExposeData " + exposable2.GetType());
 				}
 				try
 				{
-					Scribe.loader.curParent = crossReferencingExposable2;
+					Scribe.loader.curParent = exposable2;
 					Scribe.loader.curPathRelToParent = null;
-					crossReferencingExposable2.ExposeData();
+					exposable2.ExposeData();
 				}
 				catch (Exception arg)
 				{
-					Log.Error("Could not resolve cross refs: " + arg);
+					Log.Error("Could not resolve cross refs: " + arg, false);
 				}
 			}
 			Scribe.loader.curParent = null;
@@ -73,12 +76,14 @@ namespace Verse
 			this.Clear(true);
 		}
 
+		// Token: 0x06004DAD RID: 19885 RVA: 0x002886E4 File Offset: 0x00286AE4
 		public T TakeResolvedRef<T>(string pathRelToParent, IExposable parent) where T : ILoadReferenceable
 		{
 			string loadID = this.loadIDs.Take<T>(pathRelToParent, parent);
 			return this.loadedObjectDirectory.ObjectWithLoadID<T>(loadID);
 		}
 
+		// Token: 0x06004DAE RID: 19886 RVA: 0x00288718 File Offset: 0x00286B18
 		public T TakeResolvedRef<T>(string toAppendToPathRelToParent) where T : ILoadReferenceable
 		{
 			string text = Scribe.loader.curPathRelToParent;
@@ -89,6 +94,7 @@ namespace Verse
 			return this.TakeResolvedRef<T>(text, Scribe.loader.curParent);
 		}
 
+		// Token: 0x06004DAF RID: 19887 RVA: 0x00288764 File Offset: 0x00286B64
 		public List<T> TakeResolvedRefList<T>(string pathRelToParent, IExposable parent)
 		{
 			List<string> list = this.loadIDs.TakeList(pathRelToParent, parent);
@@ -103,6 +109,7 @@ namespace Verse
 			return list2;
 		}
 
+		// Token: 0x06004DB0 RID: 19888 RVA: 0x002887C8 File Offset: 0x00286BC8
 		public List<T> TakeResolvedRefList<T>(string toAppendToPathRelToParent)
 		{
 			string text = Scribe.loader.curPathRelToParent;
@@ -113,6 +120,7 @@ namespace Verse
 			return this.TakeResolvedRefList<T>(text, Scribe.loader.curParent);
 		}
 
+		// Token: 0x06004DB1 RID: 19889 RVA: 0x00288813 File Offset: 0x00286C13
 		public void Clear(bool errorIfNotEmpty)
 		{
 			if (errorIfNotEmpty)
@@ -126,5 +134,14 @@ namespace Verse
 			this.crossReferencingExposables.Clear();
 			this.loadedObjectDirectory.Clear();
 		}
+
+		// Token: 0x040033DA RID: 13274
+		private LoadedObjectDirectory loadedObjectDirectory = new LoadedObjectDirectory();
+
+		// Token: 0x040033DB RID: 13275
+		public LoadIDsWantedBank loadIDs = new LoadIDsWantedBank();
+
+		// Token: 0x040033DC RID: 13276
+		private List<IExposable> crossReferencingExposables = new List<IExposable>();
 	}
 }

@@ -1,31 +1,40 @@
+﻿using System;
 using Verse;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
+	// Token: 0x02000787 RID: 1927
 	public static class TraderCaravanUtility
 	{
+		// Token: 0x06002AB3 RID: 10931 RVA: 0x001694D0 File Offset: 0x001678D0
 		public static TraderCaravanRole GetTraderCaravanRole(this Pawn p)
 		{
+			TraderCaravanRole result;
 			if (p.kindDef == PawnKindDefOf.Slave)
 			{
-				return TraderCaravanRole.Chattel;
+				result = TraderCaravanRole.Chattel;
 			}
-			if (p.kindDef.trader)
+			else if (p.kindDef.trader)
 			{
-				return TraderCaravanRole.Trader;
+				result = TraderCaravanRole.Trader;
 			}
-			if (p.kindDef.RaceProps.packAnimal)
+			else if (p.kindDef.RaceProps.packAnimal && p.inventory.innerContainer.Any)
 			{
-				return TraderCaravanRole.Carrier;
+				result = TraderCaravanRole.Carrier;
 			}
-			if (p.RaceProps.Animal)
+			else if (p.RaceProps.Animal)
 			{
-				return TraderCaravanRole.Chattel;
+				result = TraderCaravanRole.Chattel;
 			}
-			return TraderCaravanRole.Guard;
+			else
+			{
+				result = TraderCaravanRole.Guard;
+			}
+			return result;
 		}
 
+		// Token: 0x06002AB4 RID: 10932 RVA: 0x0016955C File Offset: 0x0016795C
 		public static Pawn FindTrader(Lord lord)
 		{
 			for (int i = 0; i < lord.ownedPawns.Count; i++)
@@ -38,6 +47,7 @@ namespace RimWorld
 			return null;
 		}
 
+		// Token: 0x06002AB5 RID: 10933 RVA: 0x001695BC File Offset: 0x001679BC
 		public static float GenerateGuardPoints()
 		{
 			return (float)Rand.Range(550, 1000);

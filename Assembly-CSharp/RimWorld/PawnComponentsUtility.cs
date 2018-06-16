@@ -1,10 +1,13 @@
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x0200047D RID: 1149
 	public class PawnComponentsUtility
 	{
+		// Token: 0x06001423 RID: 5155 RVA: 0x000AEE20 File Offset: 0x000AD220
 		public static void CreateInitialComponents(Pawn pawn)
 		{
 			if (pawn.ageTracker == null)
@@ -81,13 +84,17 @@ namespace RimWorld
 					pawn.workSettings = new Pawn_WorkSettings(pawn);
 				}
 			}
-			if (pawn.RaceProps.IsFlesh && pawn.relations == null)
+			if (pawn.RaceProps.IsFlesh)
 			{
-				pawn.relations = new Pawn_RelationsTracker(pawn);
+				if (pawn.relations == null)
+				{
+					pawn.relations = new Pawn_RelationsTracker(pawn);
+				}
 			}
 			PawnComponentsUtility.AddAndRemoveDynamicComponents(pawn, false);
 		}
 
+		// Token: 0x06001424 RID: 5156 RVA: 0x000AF008 File Offset: 0x000AD408
 		public static void AddComponentsForSpawn(Pawn pawn)
 		{
 			if (pawn.rotationTracker == null)
@@ -118,17 +125,24 @@ namespace RimWorld
 			{
 				pawn.filth = new Pawn_FilthTracker(pawn);
 			}
-			if ((int)pawn.RaceProps.intelligence <= 1 && pawn.caller == null)
+			if (pawn.RaceProps.intelligence <= Intelligence.ToolUser)
 			{
-				pawn.caller = new Pawn_CallTracker(pawn);
+				if (pawn.caller == null)
+				{
+					pawn.caller = new Pawn_CallTracker(pawn);
+				}
 			}
-			if (pawn.RaceProps.IsFlesh && pawn.interactions == null)
+			if (pawn.RaceProps.IsFlesh)
 			{
-				pawn.interactions = new Pawn_InteractionsTracker(pawn);
+				if (pawn.interactions == null)
+				{
+					pawn.interactions = new Pawn_InteractionsTracker(pawn);
+				}
 			}
 			PawnComponentsUtility.AddAndRemoveDynamicComponents(pawn, true);
 		}
 
+		// Token: 0x06001425 RID: 5157 RVA: 0x000AF111 File Offset: 0x000AD511
 		public static void RemoveComponentsOnKilled(Pawn pawn)
 		{
 			pawn.carryTracker = null;
@@ -138,6 +152,7 @@ namespace RimWorld
 			pawn.trader = null;
 		}
 
+		// Token: 0x06001426 RID: 5158 RVA: 0x000AF138 File Offset: 0x000AD538
 		public static void RemoveComponentsOnDespawned(Pawn pawn)
 		{
 			pawn.rotationTracker = null;
@@ -152,22 +167,26 @@ namespace RimWorld
 			pawn.drafter = null;
 		}
 
+		// Token: 0x06001427 RID: 5159 RVA: 0x000AF18C File Offset: 0x000AD58C
 		public static void AddAndRemoveDynamicComponents(Pawn pawn, bool actAsIfSpawned = false)
 		{
 			bool flag = pawn.Faction != null && pawn.Faction.IsPlayer;
 			bool flag2 = pawn.HostFaction != null && pawn.HostFaction.IsPlayer;
-			if (pawn.RaceProps.Humanlike && !pawn.Dead)
+			if (pawn.RaceProps.Humanlike)
 			{
-				if (pawn.mindState.wantsToTradeWithColony)
+				if (!pawn.Dead)
 				{
-					if (pawn.trader == null)
+					if (pawn.mindState.wantsToTradeWithColony)
 					{
-						pawn.trader = new Pawn_TraderTracker(pawn);
+						if (pawn.trader == null)
+						{
+							pawn.trader = new Pawn_TraderTracker(pawn);
+						}
 					}
-				}
-				else
-				{
-					pawn.trader = null;
+					else
+					{
+						pawn.trader = null;
+					}
 				}
 			}
 			if (pawn.RaceProps.Humanlike)
@@ -186,9 +205,12 @@ namespace RimWorld
 					{
 						pawn.timetable = new Pawn_TimetableTracker(pawn);
 					}
-					if ((pawn.Spawned || actAsIfSpawned) && pawn.drafter == null)
+					if (pawn.Spawned || actAsIfSpawned)
 					{
-						pawn.drafter = new Pawn_DraftController(pawn);
+						if (pawn.drafter == null)
+						{
+							pawn.drafter = new Pawn_DraftController(pawn);
+						}
 					}
 				}
 				else
@@ -196,18 +218,30 @@ namespace RimWorld
 					pawn.drafter = null;
 				}
 			}
-			if ((flag || flag2) && pawn.playerSettings == null)
+			if (flag || flag2)
 			{
-				pawn.playerSettings = new Pawn_PlayerSettings(pawn);
+				if (pawn.playerSettings == null)
+				{
+					pawn.playerSettings = new Pawn_PlayerSettings(pawn);
+				}
 			}
-			if ((int)pawn.RaceProps.intelligence <= 1 && pawn.Faction != null && !pawn.RaceProps.IsMechanoid && pawn.training == null)
+			if (pawn.RaceProps.intelligence <= Intelligence.ToolUser && pawn.Faction != null && !pawn.RaceProps.IsMechanoid)
 			{
-				pawn.training = new Pawn_TrainingTracker(pawn);
+				if (pawn.training == null)
+				{
+					pawn.training = new Pawn_TrainingTracker(pawn);
+				}
 			}
 			if (pawn.needs != null)
 			{
 				pawn.needs.AddOrRemoveNeedsAsAppropriate();
 			}
+		}
+
+		// Token: 0x06001428 RID: 5160 RVA: 0x000AF340 File Offset: 0x000AD740
+		public static bool HasSpawnedComponents(Pawn p)
+		{
+			return p.pather != null;
 		}
 	}
 }

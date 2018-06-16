@@ -1,48 +1,60 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000060 RID: 96
 	public class JobDriver_VisitSickPawn : JobDriver
 	{
-		private const TargetIndex PatientInd = TargetIndex.A;
-
-		private const TargetIndex ChairInd = TargetIndex.B;
-
+		// Token: 0x17000090 RID: 144
+		// (get) Token: 0x060002C1 RID: 705 RVA: 0x0001D998 File Offset: 0x0001BD98
 		private Pawn Patient
 		{
 			get
 			{
-				return (Pawn)base.job.GetTarget(TargetIndex.A).Thing;
+				return (Pawn)this.job.GetTarget(TargetIndex.A).Thing;
 			}
 		}
 
+		// Token: 0x17000091 RID: 145
+		// (get) Token: 0x060002C2 RID: 706 RVA: 0x0001D9C8 File Offset: 0x0001BDC8
 		private Thing Chair
 		{
 			get
 			{
-				return base.job.GetTarget(TargetIndex.B).Thing;
+				return this.job.GetTarget(TargetIndex.B).Thing;
 			}
 		}
 
+		// Token: 0x060002C3 RID: 707 RVA: 0x0001D9F4 File Offset: 0x0001BDF4
 		public override bool TryMakePreToilReservations()
 		{
-			if (!base.pawn.Reserve(this.Patient, base.job, 1, -1, null))
+			bool result;
+			if (!this.pawn.Reserve(this.Patient, this.job, 1, -1, null))
 			{
-				return false;
+				result = false;
 			}
-			if (this.Chair != null && !base.pawn.Reserve(this.Chair, base.job, 1, -1, null))
+			else
 			{
-				return false;
+				if (this.Chair != null)
+				{
+					if (!this.pawn.Reserve(this.Chair, this.job, 1, -1, null))
+					{
+						return false;
+					}
+				}
+				result = true;
 			}
-			return true;
+			return result;
 		}
 
+		// Token: 0x060002C4 RID: 708 RVA: 0x0001DA70 File Offset: 0x0001BE70
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
-			this.FailOn(() => !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0040: stateMachine*/)._0024this.Patient.InBed() || !((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_0040: stateMachine*/)._0024this.Patient.Awake());
+			this.FailOn(() => !this.Patient.InBed() || !this.Patient.Awake());
 			if (this.Chair != null)
 			{
 				this.FailOnDespawnedNullOrForbidden(TargetIndex.B);
@@ -50,10 +62,42 @@ namespace RimWorld
 			if (this.Chair != null)
 			{
 				yield return Toils_Goto.GotoThing(TargetIndex.B, PathEndMode.OnCell);
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.InteractionCell);
-			/*Error: Unable to find new state assignment for yield return*/;
+			else
+			{
+				yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.InteractionCell);
+			}
+			yield return Toils_Interpersonal.WaitToBeAbleToInteract(this.pawn);
+			yield return new Toil
+			{
+				tickAction = delegate()
+				{
+					this.Patient.needs.joy.GainJoy(this.job.def.joyGainRate * 0.000144f, this.job.def.joyKind);
+					if (this.pawn.IsHashIntervalTick(320))
+					{
+						InteractionDef intDef = (Rand.Value >= 0.8f) ? InteractionDefOf.DeepTalk : InteractionDefOf.Chitchat;
+						this.pawn.interactions.TryInteractWith(this.Patient, intDef);
+					}
+					this.pawn.rotationTracker.FaceCell(this.Patient.Position);
+					this.pawn.GainComfortFromCellIfPossible();
+					JoyUtility.JoyTickCheckEnd(this.pawn, JoyTickFullJoyAction.None, 1f, null);
+					if (this.pawn.needs.joy.CurLevelPercentage > 0.9999f && this.Patient.needs.joy.CurLevelPercentage > 0.9999f)
+					{
+						this.pawn.jobs.EndCurrentJob(JobCondition.Succeeded, true);
+					}
+				},
+				handlingFacing = true,
+				socialMode = RandomSocialMode.Off,
+				defaultCompleteMode = ToilCompleteMode.Delay,
+				defaultDuration = this.job.def.joyDuration
+			};
+			yield break;
 		}
+
+		// Token: 0x040001FD RID: 509
+		private const TargetIndex PatientInd = TargetIndex.A;
+
+		// Token: 0x040001FE RID: 510
+		private const TargetIndex ChairInd = TargetIndex.B;
 	}
 }

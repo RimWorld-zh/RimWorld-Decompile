@@ -1,28 +1,42 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000154 RID: 340
 	public class WorkGiver_PatientGoToBedTreatment : WorkGiver_PatientGoToBedRecuperate
 	{
+		// Token: 0x06000700 RID: 1792 RVA: 0x00047614 File Offset: 0x00045A14
 		public override Job NonScanJob(Pawn pawn)
 		{
+			Job result;
 			if (!HealthAIUtility.ShouldSeekMedicalRestUrgent(pawn))
 			{
-				return null;
+				result = null;
 			}
-			if (!this.AnyAvailableDoctorFor(pawn))
+			else if (!this.AnyAvailableDoctorFor(pawn))
 			{
-				return null;
+				result = null;
 			}
-			return base.NonScanJob(pawn);
+			else
+			{
+				result = base.NonScanJob(pawn);
+			}
+			return result;
 		}
 
+		// Token: 0x06000701 RID: 1793 RVA: 0x00047658 File Offset: 0x00045A58
 		private bool AnyAvailableDoctorFor(Pawn pawn)
 		{
 			Map mapHeld = pawn.MapHeld;
-			if (mapHeld != null && pawn.Faction != null)
+			bool result;
+			if (mapHeld == null || pawn.Faction == null)
+			{
+				result = false;
+			}
+			else
 			{
 				List<Pawn> list = mapHeld.mapPawns.SpawnedPawnsInFaction(pawn.Faction);
 				for (int i = 0; i < list.Count; i++)
@@ -33,9 +47,9 @@ namespace RimWorld
 						return true;
 					}
 				}
-				return false;
+				result = false;
 			}
-			return false;
+			return result;
 		}
 	}
 }

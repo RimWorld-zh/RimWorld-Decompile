@@ -1,10 +1,15 @@
+﻿using System;
 using System.Collections.Generic;
+using RimWorld;
+using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000F31 RID: 3889
 	public static class GenClamor
 	{
-		public static void DoClamor(Pawn source, float radius, ClamorType type)
+		// Token: 0x06005D82 RID: 23938 RVA: 0x002F6F34 File Offset: 0x002F5334
+		public static void DoClamor(Thing source, float radius, ClamorDef type)
 		{
 			IntVec3 root = source.Position;
 			Region region = source.GetRegion(RegionType.Set_Passable);
@@ -16,7 +21,8 @@ namespace Verse
 					for (int i = 0; i < list.Count; i++)
 					{
 						Pawn pawn = list[i] as Pawn;
-						if (pawn.Position.InHorDistOf(root, radius))
+						float num = Mathf.Clamp01(pawn.health.capacities.GetLevel(PawnCapacityDefOf.Hearing));
+						if (num > 0f && pawn.Position.InHorDistOf(root, radius * num))
 						{
 							pawn.HearClamor(source, type);
 						}

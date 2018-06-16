@@ -1,46 +1,38 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Xml;
 
 namespace Verse
 {
+	// Token: 0x02000D9F RID: 3487
 	public class ScribeLoader
 	{
-		public CrossRefHandler crossRefs = new CrossRefHandler();
-
-		public PostLoadIniter initer = new PostLoadIniter();
-
-		public IExposable curParent;
-
-		public XmlNode curXmlParent;
-
-		public string curPathRelToParent;
-
+		// Token: 0x06004DD2 RID: 19922 RVA: 0x0028A060 File Offset: 0x00288460
 		public void InitLoading(string filePath)
 		{
-			if (Scribe.mode != 0)
+			if (Scribe.mode != LoadSaveMode.Inactive)
 			{
-				Log.Error("Called InitLoading() but current mode is " + Scribe.mode);
+				Log.Error("Called InitLoading() but current mode is " + Scribe.mode, false);
 				Scribe.ForceStop();
 			}
 			if (this.curParent != null)
 			{
-				Log.Error("Current parent is not null in InitLoading");
+				Log.Error("Current parent is not null in InitLoading", false);
 				this.curParent = null;
 			}
 			if (this.curPathRelToParent != null)
 			{
-				Log.Error("Current path relative to parent is not null in InitLoading");
+				Log.Error("Current path relative to parent is not null in InitLoading", false);
 				this.curPathRelToParent = null;
 			}
 			try
 			{
-				using (StreamReader input = new StreamReader(filePath))
+				using (StreamReader streamReader = new StreamReader(filePath))
 				{
-					using (XmlTextReader reader = new XmlTextReader(input))
+					using (XmlTextReader xmlTextReader = new XmlTextReader(streamReader))
 					{
 						XmlDocument xmlDocument = new XmlDocument();
-						xmlDocument.Load(reader);
+						xmlDocument.Load(xmlTextReader);
 						this.curXmlParent = xmlDocument.DocumentElement;
 					}
 				}
@@ -48,31 +40,40 @@ namespace Verse
 			}
 			catch (Exception ex)
 			{
-				Log.Error("Exception while init loading file: " + filePath + "\n" + ex);
+				Log.Error(string.Concat(new object[]
+				{
+					"Exception while init loading file: ",
+					filePath,
+					"\n",
+					ex
+				}), false);
 				this.ForceStop();
 				throw;
 			}
 		}
 
+		// Token: 0x06004DD3 RID: 19923 RVA: 0x0028A190 File Offset: 0x00288590
 		public void InitLoadingMetaHeaderOnly(string filePath)
 		{
-			if (Scribe.mode != 0)
+			if (Scribe.mode != LoadSaveMode.Inactive)
 			{
-				Log.Error("Called InitLoadingMetaHeaderOnly() but current mode is " + Scribe.mode);
+				Log.Error("Called InitLoadingMetaHeaderOnly() but current mode is " + Scribe.mode, false);
 				Scribe.ForceStop();
 			}
 			try
 			{
-				using (StreamReader input = new StreamReader(filePath))
+				using (StreamReader streamReader = new StreamReader(filePath))
 				{
-					using (XmlTextReader xmlTextReader = new XmlTextReader(input))
+					using (XmlTextReader xmlTextReader = new XmlTextReader(streamReader))
 					{
 						if (!ScribeMetaHeaderUtility.ReadToMetaElement(xmlTextReader))
+						{
 							return;
-						using (XmlReader reader = xmlTextReader.ReadSubtree())
+						}
+						using (XmlReader xmlReader = xmlTextReader.ReadSubtree())
 						{
 							XmlDocument xmlDocument = new XmlDocument();
-							xmlDocument.Load(reader);
+							xmlDocument.Load(xmlReader);
 							XmlElement xmlElement = xmlDocument.CreateElement("root");
 							xmlElement.AppendChild(xmlDocument.DocumentElement);
 							this.curXmlParent = xmlElement;
@@ -83,17 +84,24 @@ namespace Verse
 			}
 			catch (Exception ex)
 			{
-				Log.Error("Exception while init loading meta header: " + filePath + "\n" + ex);
+				Log.Error(string.Concat(new object[]
+				{
+					"Exception while init loading meta header: ",
+					filePath,
+					"\n",
+					ex
+				}), false);
 				this.ForceStop();
 				throw;
 			}
 		}
 
+		// Token: 0x06004DD4 RID: 19924 RVA: 0x0028A2D8 File Offset: 0x002886D8
 		public void FinalizeLoading()
 		{
 			if (Scribe.mode != LoadSaveMode.LoadingVars)
 			{
-				Log.Error("Called FinalizeLoading() but current mode is " + Scribe.mode);
+				Log.Error("Called FinalizeLoading() but current mode is " + Scribe.mode, false);
 			}
 			else
 			{
@@ -109,13 +117,14 @@ namespace Verse
 				}
 				catch (Exception arg)
 				{
-					Log.Error("Exception in FinalizeLoading(): " + arg);
+					Log.Error("Exception in FinalizeLoading(): " + arg, false);
 					this.ForceStop();
 					throw;
 				}
 			}
 		}
 
+		// Token: 0x06004DD5 RID: 19925 RVA: 0x0028A37C File Offset: 0x0028877C
 		public bool EnterNode(string nodeName)
 		{
 			if (this.curXmlParent != null)
@@ -135,6 +144,7 @@ namespace Verse
 			return true;
 		}
 
+		// Token: 0x06004DD6 RID: 19926 RVA: 0x0028A408 File Offset: 0x00288808
 		public void ExitNode()
 		{
 			if (this.curXmlParent != null)
@@ -144,26 +154,37 @@ namespace Verse
 			if (this.curPathRelToParent != null)
 			{
 				int num = this.curPathRelToParent.LastIndexOf('/');
-				if (num > 0)
-				{
-					this.curPathRelToParent = this.curPathRelToParent.Substring(0, num);
-				}
-				else
-				{
-					this.curPathRelToParent = null;
-				}
+				this.curPathRelToParent = ((num <= 0) ? null : this.curPathRelToParent.Substring(0, num));
 			}
 		}
 
+		// Token: 0x06004DD7 RID: 19927 RVA: 0x0028A470 File Offset: 0x00288870
 		public void ForceStop()
 		{
 			this.curXmlParent = null;
 			this.curParent = null;
+			this.curPathRelToParent = null;
 			this.crossRefs.Clear(false);
 			this.initer.Clear();
-			if (Scribe.mode != LoadSaveMode.LoadingVars && Scribe.mode != LoadSaveMode.ResolvingCrossRefs && Scribe.mode != LoadSaveMode.PostLoadInit)
-				return;
-			Scribe.mode = LoadSaveMode.Inactive;
+			if (Scribe.mode == LoadSaveMode.LoadingVars || Scribe.mode == LoadSaveMode.ResolvingCrossRefs || Scribe.mode == LoadSaveMode.PostLoadInit)
+			{
+				Scribe.mode = LoadSaveMode.Inactive;
+			}
 		}
+
+		// Token: 0x040033E8 RID: 13288
+		public CrossRefHandler crossRefs = new CrossRefHandler();
+
+		// Token: 0x040033E9 RID: 13289
+		public PostLoadIniter initer = new PostLoadIniter();
+
+		// Token: 0x040033EA RID: 13290
+		public IExposable curParent;
+
+		// Token: 0x040033EB RID: 13291
+		public XmlNode curXmlParent;
+
+		// Token: 0x040033EC RID: 13292
+		public string curPathRelToParent;
 	}
 }

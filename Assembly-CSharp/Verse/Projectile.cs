@@ -1,144 +1,49 @@
-using RimWorld;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld;
 using UnityEngine;
 using Verse.Sound;
 
 namespace Verse
 {
+	// Token: 0x02000DF3 RID: 3571
 	public abstract class Projectile : ThingWithComps
 	{
-		protected Vector3 origin;
-
-		protected Vector3 destination;
-
-		protected Thing assignedTarget;
-
-		protected Thing intendedTarget;
-
-		private bool interceptWallsInt = true;
-
-		private bool freeInterceptInt = true;
-
-		protected ThingDef equipmentDef;
-
-		protected Thing launcher;
-
-		private Thing neverInterceptTargetInt;
-
-		protected bool landed;
-
-		protected int ticksToImpact;
-
-		private Sustainer ambientSustainer;
-
-		private const float BasePawnInterceptChance = 0.4f;
-
-		private const float PawnInterceptChanceFactor_LayingDown = 0.1f;
-
-		private const float PawnInterceptChanceFactor_NonWildNonEnemy = 0.4f;
-
-		private const float InterceptChanceOnRandomObjectPerFillPercent = 0.07f;
-
-		private const float InterceptDist_Possible = 4f;
-
-		private const float InterceptDist_Short = 7f;
-
-		private const float InterceptDist_Normal = 10f;
-
-		private const float InterceptChanceFactor_VeryShort = 0.5f;
-
-		private const float InterceptChanceFactor_Short = 0.75f;
-
-		private static List<IntVec3> checkedCells = new List<IntVec3>();
-
-		private static readonly List<Thing> cellThingsFiltered = new List<Thing>();
-
-		public bool InterceptWalls
+		// Token: 0x17000D01 RID: 3329
+		// (get) Token: 0x06004FE9 RID: 20457 RVA: 0x00146870 File Offset: 0x00144C70
+		// (set) Token: 0x06004FEA RID: 20458 RVA: 0x001468C3 File Offset: 0x00144CC3
+		public ProjectileHitFlags HitFlags
 		{
 			get
 			{
-				if (base.def.projectile.alwaysFreeIntercept)
+				ProjectileHitFlags result;
+				if (this.def.projectile.alwaysFreeIntercept)
 				{
-					return true;
+					result = ProjectileHitFlags.All;
 				}
-				if (base.def.projectile.flyOverhead)
+				else if (this.def.projectile.flyOverhead)
 				{
-					return false;
-				}
-				return this.interceptWallsInt;
-			}
-			set
-			{
-				if (!value && base.def.projectile.alwaysFreeIntercept)
-				{
-					Log.Error("Tried to set interceptWalls to false on projectile with alwaysFreeIntercept=true");
-				}
-				else if (value && base.def.projectile.flyOverhead)
-				{
-					Log.Error("Tried to set interceptWalls to true on a projectile with flyOverhead=true");
+					result = ProjectileHitFlags.None;
 				}
 				else
 				{
-					this.interceptWallsInt = value;
-					if (!this.interceptWallsInt && this is Projectile_Explosive)
-					{
-						Log.Message("Non interceptWallsInt explosive.");
-					}
+					result = this.desiredHitFlags;
 				}
-			}
-		}
-
-		public bool FreeIntercept
-		{
-			get
-			{
-				if (base.def.projectile.alwaysFreeIntercept)
-				{
-					return true;
-				}
-				if (base.def.projectile.flyOverhead)
-				{
-					return false;
-				}
-				return this.freeInterceptInt;
+				return result;
 			}
 			set
 			{
-				if (!value && base.def.projectile.alwaysFreeIntercept)
-				{
-					Log.Error("Tried to set FreeIntercept to false on projectile with alwaysFreeIntercept=true");
-				}
-				else if (value && base.def.projectile.flyOverhead)
-				{
-					Log.Error("Tried to set FreeIntercept to true on a projectile with flyOverhead=true");
-				}
-				else
-				{
-					this.freeInterceptInt = value;
-				}
+				this.desiredHitFlags = value;
 			}
 		}
 
-		public Thing ThingToNeverIntercept
-		{
-			get
-			{
-				return this.neverInterceptTargetInt;
-			}
-			set
-			{
-				if (value.def.Fillage != FillCategory.Full)
-				{
-					this.neverInterceptTargetInt = value;
-				}
-			}
-		}
-
+		// Token: 0x17000D02 RID: 3330
+		// (get) Token: 0x06004FEB RID: 20459 RVA: 0x001468D0 File Offset: 0x00144CD0
 		protected int StartingTicksToImpact
 		{
 			get
 			{
-				int num = Mathf.RoundToInt((float)((this.origin - this.destination).magnitude / (base.def.projectile.speed / 100.0)));
+				int num = Mathf.RoundToInt((this.origin - this.destination).magnitude / (this.def.projectile.speed / 100f));
 				if (num < 1)
 				{
 					num = 1;
@@ -147,6 +52,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000D03 RID: 3331
+		// (get) Token: 0x06004FEC RID: 20460 RVA: 0x00146928 File Offset: 0x00144D28
 		protected IntVec3 DestinationCell
 		{
 			get
@@ -155,15 +62,19 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000D04 RID: 3332
+		// (get) Token: 0x06004FED RID: 20461 RVA: 0x00146948 File Offset: 0x00144D48
 		public virtual Vector3 ExactPosition
 		{
 			get
 			{
-				Vector3 b = (this.destination - this.origin) * (float)(1.0 - (float)this.ticksToImpact / (float)this.StartingTicksToImpact);
-				return this.origin + b + Vector3.up * base.def.Altitude;
+				Vector3 b = (this.destination - this.origin) * (1f - (float)this.ticksToImpact / (float)this.StartingTicksToImpact);
+				return this.origin + b + Vector3.up * this.def.Altitude;
 			}
 		}
 
+		// Token: 0x17000D05 RID: 3333
+		// (get) Token: 0x06004FEE RID: 20462 RVA: 0x001469B0 File Offset: 0x00144DB0
 		public virtual Quaternion ExactRotation
 		{
 			get
@@ -172,6 +83,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000D06 RID: 3334
+		// (get) Token: 0x06004FEF RID: 20463 RVA: 0x001469DC File Offset: 0x00144DDC
 		public override Vector3 DrawPos
 		{
 			get
@@ -180,32 +93,37 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004FF0 RID: 20464 RVA: 0x001469F8 File Offset: 0x00144DF8
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<Vector3>(ref this.origin, "origin", default(Vector3), false);
 			Scribe_Values.Look<Vector3>(ref this.destination, "destination", default(Vector3), false);
 			Scribe_Values.Look<int>(ref this.ticksToImpact, "ticksToImpact", 0, false);
-			Scribe_References.Look<Thing>(ref this.assignedTarget, "assignedTarget", false);
-			Scribe_References.Look<Thing>(ref this.intendedTarget, "intendedTarget", false);
+			Scribe_TargetInfo.Look(ref this.usedTarget, "usedTarget");
+			Scribe_TargetInfo.Look(ref this.intendedTarget, "intendedTarget");
 			Scribe_References.Look<Thing>(ref this.launcher, "launcher", false);
 			Scribe_Defs.Look<ThingDef>(ref this.equipmentDef, "equipmentDef");
-			Scribe_Values.Look<bool>(ref this.interceptWallsInt, "interceptWalls", true, false);
-			Scribe_Values.Look<bool>(ref this.freeInterceptInt, "interceptRandomTargets", true, false);
+			Scribe_Defs.Look<ThingDef>(ref this.targetCoverDef, "targetCoverDef");
+			Scribe_Values.Look<ProjectileHitFlags>(ref this.desiredHitFlags, "desiredHitFlags", ProjectileHitFlags.All, false);
 			Scribe_Values.Look<bool>(ref this.landed, "landed", false, false);
-			Scribe_References.Look<Thing>(ref this.neverInterceptTargetInt, "neverInterceptTarget", false);
 		}
 
-		public void Launch(Thing launcher, LocalTargetInfo targ, Thing equipment = null)
+		// Token: 0x06004FF1 RID: 20465 RVA: 0x00146AC8 File Offset: 0x00144EC8
+		public void Launch(Thing launcher, LocalTargetInfo usedTarget, LocalTargetInfo intendedTarget, ProjectileHitFlags hitFlags, Thing equipment = null)
 		{
-			this.Launch(launcher, base.Position.ToVector3Shifted(), targ, equipment, null);
+			this.Launch(launcher, base.Position.ToVector3Shifted(), usedTarget, intendedTarget, hitFlags, equipment, null);
 		}
 
-		public void Launch(Thing launcher, Vector3 origin, LocalTargetInfo targ, Thing equipment = null, Thing intendedTarget = null)
+		// Token: 0x06004FF2 RID: 20466 RVA: 0x00146AF4 File Offset: 0x00144EF4
+		public void Launch(Thing launcher, Vector3 origin, LocalTargetInfo usedTarget, LocalTargetInfo intendedTarget, ProjectileHitFlags hitFlags, Thing equipment = null, ThingDef targetCoverDef = null)
 		{
 			this.launcher = launcher;
 			this.origin = origin;
+			this.usedTarget = usedTarget;
 			this.intendedTarget = intendedTarget;
+			this.targetCoverDef = targetCoverDef;
+			this.HitFlags = hitFlags;
 			if (equipment != null)
 			{
 				this.equipmentDef = equipment.def;
@@ -214,19 +132,16 @@ namespace Verse
 			{
 				this.equipmentDef = null;
 			}
-			if (targ.Thing != null)
-			{
-				this.assignedTarget = targ.Thing;
-			}
-			this.destination = targ.Cell.ToVector3Shifted() + new Vector3(Rand.Range(-0.3f, 0.3f), 0f, Rand.Range(-0.3f, 0.3f));
+			this.destination = usedTarget.Cell.ToVector3Shifted() + Gen.RandomHorizontalVector(0.3f);
 			this.ticksToImpact = this.StartingTicksToImpact;
-			if (!base.def.projectile.soundAmbient.NullOrUndefined())
+			if (!this.def.projectile.soundAmbient.NullOrUndefined())
 			{
 				SoundInfo info = SoundInfo.InMap(this, MaintenanceType.PerTick);
-				this.ambientSustainer = base.def.projectile.soundAmbient.TrySpawnSustainer(info);
+				this.ambientSustainer = this.def.projectile.soundAmbient.TrySpawnSustainer(info);
 			}
 		}
 
+		// Token: 0x06004FF3 RID: 20467 RVA: 0x00146BC4 File Offset: 0x00144FC4
 		public override void Tick()
 		{
 			base.Tick();
@@ -246,9 +161,9 @@ namespace Verse
 					if (!this.CheckForFreeInterceptBetween(exactPosition, exactPosition2))
 					{
 						base.Position = this.ExactPosition.ToIntVec3();
-						if (this.ticksToImpact == 60 && Find.TickManager.CurTimeSpeed == TimeSpeed.Normal && base.def.projectile.soundImpactAnticipate != null)
+						if (this.ticksToImpact == 60 && Find.TickManager.CurTimeSpeed == TimeSpeed.Normal && this.def.projectile.soundImpactAnticipate != null)
 						{
-							base.def.projectile.soundImpactAnticipate.PlayOneShot(this);
+							this.def.projectile.soundImpactAnticipate.PlayOneShot(this);
 						}
 						if (this.ticksToImpact <= 0)
 						{
@@ -267,129 +182,136 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004FF4 RID: 20468 RVA: 0x00146D08 File Offset: 0x00145108
 		private bool CheckForFreeInterceptBetween(Vector3 lastExactPos, Vector3 newExactPos)
 		{
 			IntVec3 intVec = lastExactPos.ToIntVec3();
 			IntVec3 intVec2 = newExactPos.ToIntVec3();
+			bool result;
 			if (intVec2 == intVec)
 			{
-				return false;
+				result = false;
 			}
-			if (intVec.InBounds(base.Map) && intVec2.InBounds(base.Map))
+			else if (!intVec.InBounds(base.Map) || !intVec2.InBounds(base.Map))
 			{
-				if (intVec2.AdjacentToCardinal(intVec))
+				result = false;
+			}
+			else if (intVec2.AdjacentToCardinal(intVec))
+			{
+				bool flag = this.CheckForFreeIntercept(intVec2);
+				if (DebugViewSettings.drawInterceptChecks)
 				{
-					bool flag = this.CheckForFreeIntercept(intVec2);
+					if (flag)
+					{
+						MoteMaker.ThrowText(intVec2.ToVector3Shifted(), base.Map, "x", -1f);
+					}
+					else
+					{
+						MoteMaker.ThrowText(intVec2.ToVector3Shifted(), base.Map, "o", -1f);
+					}
+				}
+				result = flag;
+			}
+			else if (VerbUtility.DistanceInterceptChance(this.origin, intVec2, this.intendedTarget.Cell) > 0f)
+			{
+				Vector3 vector = lastExactPos;
+				Vector3 v = newExactPos - lastExactPos;
+				Vector3 b = v.normalized * 0.2f;
+				int num = (int)(v.MagnitudeHorizontal() / 0.2f);
+				Projectile.checkedCells.Clear();
+				int num2 = 0;
+				for (;;)
+				{
+					vector += b;
+					IntVec3 intVec3 = vector.ToIntVec3();
+					if (!Projectile.checkedCells.Contains(intVec3))
+					{
+						if (this.CheckForFreeIntercept(intVec3))
+						{
+							break;
+						}
+						Projectile.checkedCells.Add(intVec3);
+					}
 					if (DebugViewSettings.drawInterceptChecks)
 					{
-						if (flag)
-						{
-							MoteMaker.ThrowText(intVec2.ToVector3Shifted(), base.Map, "x", -1f);
-						}
-						else
-						{
-							MoteMaker.ThrowText(intVec2.ToVector3Shifted(), base.Map, "o", -1f);
-						}
+						MoteMaker.ThrowText(vector, base.Map, "o", -1f);
 					}
-					return flag;
-				}
-				if ((float)this.origin.ToIntVec3().DistanceToSquared(intVec2) > 16.0)
-				{
-					Vector3 vector = lastExactPos;
-					Vector3 v = newExactPos - lastExactPos;
-					Vector3 b = v.normalized * 0.2f;
-					int num = (int)(v.MagnitudeHorizontal() / 0.20000000298023224);
-					Projectile.checkedCells.Clear();
-					int num2 = 0;
-					while (true)
+					num2++;
+					if (num2 > num)
 					{
-						vector += b;
-						IntVec3 intVec3 = vector.ToIntVec3();
-						if (!Projectile.checkedCells.Contains(intVec3))
-						{
-							if (this.CheckForFreeIntercept(intVec3))
-							{
-								if (DebugViewSettings.drawInterceptChecks)
-								{
-									MoteMaker.ThrowText(vector, base.Map, "x", -1f);
-								}
-								return true;
-							}
-							Projectile.checkedCells.Add(intVec3);
-						}
-						if (DebugViewSettings.drawInterceptChecks)
-						{
-							MoteMaker.ThrowText(vector, base.Map, "o", -1f);
-						}
-						num2++;
-						if (num2 > num)
-						{
-							return false;
-						}
-						if (intVec3 == intVec2)
-							break;
+						goto Block_11;
 					}
-					return false;
+					if (intVec3 == intVec2)
+					{
+						goto Block_12;
+					}
 				}
+				if (DebugViewSettings.drawInterceptChecks)
+				{
+					MoteMaker.ThrowText(vector, base.Map, "x", -1f);
+				}
+				return true;
+				Block_11:
 				return false;
+				Block_12:
+				result = false;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
+		// Token: 0x06004FF5 RID: 20469 RVA: 0x00146EF0 File Offset: 0x001452F0
 		private bool CheckForFreeIntercept(IntVec3 c)
 		{
-			float num = (c.ToVector3Shifted() - this.origin).MagnitudeHorizontalSquared();
-			if (num < 16.0)
+			float num = VerbUtility.DistanceInterceptChance(this.origin, c, this.intendedTarget.Cell);
+			bool result;
+			if (num <= 0f)
 			{
-				return false;
+				result = false;
 			}
-			List<Thing> list = base.Map.thingGrid.ThingsListAt(c);
-			for (int i = 0; i < list.Count; i++)
+			else
 			{
-				Thing thing = list[i];
-				if (thing != this.ThingToNeverIntercept && thing != this.launcher)
+				List<Thing> thingList = c.GetThingList(base.Map);
+				for (int i = 0; i < thingList.Count; i++)
 				{
-					if (thing.def.Fillage == FillCategory.Full && this.InterceptWalls)
+					Thing thing = thingList[i];
+					if (this.CanHit(thing))
 					{
-						this.Impact(thing);
-						return true;
-					}
-					if (this.FreeIntercept)
-					{
+						if (thing.def.Fillage == FillCategory.Full)
+						{
+							this.Impact(thing);
+							return true;
+						}
 						float num2 = 0f;
 						Pawn pawn = thing as Pawn;
 						if (pawn != null)
 						{
 							num2 = 0.4f;
-							if (pawn.GetPosture() != 0)
+							if (pawn.GetPosture() != PawnPosture.Standing)
 							{
-								num2 = (float)(num2 * 0.10000000149011612);
+								num2 *= 0.1f;
 							}
 							if (this.launcher != null && pawn.Faction != null && this.launcher.Faction != null && !pawn.Faction.HostileTo(this.launcher.Faction))
 							{
-								num2 = (float)(num2 * 0.40000000596046448);
+								num2 *= 0.4f;
 							}
 							num2 *= Mathf.Clamp(pawn.BodySize, 0.1f, 2f);
 						}
-						else if (thing.def.fillPercent > 0.20000000298023224)
+						else if (thing.def.fillPercent > 0.2f)
 						{
-							num2 = (float)(thing.def.fillPercent * 0.070000000298023224);
+							num2 = thing.def.fillPercent * 0.07f;
 						}
-						if (num2 > 9.9999997473787516E-06)
+						num2 *= num;
+						if (num2 > 1E-05f)
 						{
-							if (num < 49.0)
-							{
-								num2 = (float)(num2 * 0.5);
-							}
-							else if (num < 100.0)
-							{
-								num2 = (float)(num2 * 0.75);
-							}
 							if (DebugViewSettings.drawShooting)
 							{
 								MoteMaker.ThrowText(this.ExactPosition, base.Map, num2.ToStringPercent(), -1f);
 							}
-							if (Rand.Value < num2)
+							if (Rand.Chance(num2))
 							{
 								this.Impact(thing);
 								return true;
@@ -397,46 +319,87 @@ namespace Verse
 						}
 					}
 				}
+				result = false;
 			}
-			return false;
+			return result;
 		}
 
+		// Token: 0x06004FF6 RID: 20470 RVA: 0x001470BB File Offset: 0x001454BB
 		public override void Draw()
 		{
-			Graphics.DrawMesh(MeshPool.plane10, this.DrawPos, this.ExactRotation, base.def.DrawMatSingle, 0);
+			Graphics.DrawMesh(MeshPool.plane10, this.DrawPos, this.ExactRotation, this.def.DrawMatSingle, 0);
 			base.Comps_PostDraw();
 		}
 
+		// Token: 0x06004FF7 RID: 20471 RVA: 0x001470E8 File Offset: 0x001454E8
+		protected bool CanHit(Thing thing)
+		{
+			bool result;
+			if (thing == this.launcher)
+			{
+				result = false;
+			}
+			else
+			{
+				ProjectileHitFlags hitFlags = this.HitFlags;
+				if (thing == this.intendedTarget && (hitFlags & ProjectileHitFlags.IntendedTarget) != ProjectileHitFlags.None)
+				{
+					result = true;
+				}
+				else
+				{
+					if (thing != this.intendedTarget)
+					{
+						if (thing is Pawn)
+						{
+							if ((hitFlags & ProjectileHitFlags.NonTargetPawns) != ProjectileHitFlags.None)
+							{
+								return true;
+							}
+						}
+						else if ((hitFlags & ProjectileHitFlags.NonTargetWorld) != ProjectileHitFlags.None)
+						{
+							return true;
+						}
+					}
+					result = (thing == this.intendedTarget && thing.def.Fillage == FillCategory.Full);
+				}
+			}
+			return result;
+		}
+
+		// Token: 0x06004FF8 RID: 20472 RVA: 0x001471B8 File Offset: 0x001455B8
 		private void ImpactSomething()
 		{
-			if (base.def.projectile.flyOverhead)
+			if (this.def.projectile.flyOverhead)
 			{
 				RoofDef roofDef = base.Map.roofGrid.RoofAt(base.Position);
 				if (roofDef != null)
 				{
 					if (roofDef.isThickRoof)
 					{
-						base.def.projectile.soundHitThickRoof.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
+						this.def.projectile.soundHitThickRoof.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
 						this.Destroy(DestroyMode.Vanish);
 						return;
 					}
 					if (base.Position.GetEdifice(base.Map) == null || base.Position.GetEdifice(base.Map).def.Fillage != FillCategory.Full)
 					{
-						RoofCollapserImmediate.DropRoofInCells(base.Position, base.Map);
+						RoofCollapserImmediate.DropRoofInCells(base.Position, base.Map, null);
 					}
 				}
 			}
-			if (this.assignedTarget != null)
+			if (this.usedTarget.HasThing && this.CanHit(this.usedTarget.Thing))
 			{
-				Pawn pawn = this.assignedTarget as Pawn;
-				if (pawn != null && pawn.GetPosture() != 0 && (this.origin - this.destination).MagnitudeHorizontalSquared() >= 20.25 && Rand.Value > 0.20000000298023224)
+				Pawn pawn = this.usedTarget.Thing as Pawn;
+				if (pawn != null && pawn.GetPosture() != PawnPosture.Standing && (this.origin - this.destination).MagnitudeHorizontalSquared() >= 20.25f)
 				{
-					this.Impact(null);
+					if (!Rand.Chance(0.2f))
+					{
+						this.Impact(null);
+						return;
+					}
 				}
-				else
-				{
-					this.Impact(this.assignedTarget);
-				}
+				this.Impact(this.usedTarget.Thing);
 			}
 			else
 			{
@@ -447,16 +410,19 @@ namespace Verse
 					Thing thing = thingList[i];
 					if (thing.def.category == ThingCategory.Building || thing.def.category == ThingCategory.Pawn || thing.def.category == ThingCategory.Item || thing.def.category == ThingCategory.Plant)
 					{
-						Projectile.cellThingsFiltered.Add(thing);
+						if (this.CanHit(thing))
+						{
+							Projectile.cellThingsFiltered.Add(thing);
+						}
 					}
 				}
-				Projectile.cellThingsFiltered.Shuffle();
+				Projectile.cellThingsFiltered.Shuffle<Thing>();
 				for (int j = 0; j < Projectile.cellThingsFiltered.Count; j++)
 				{
 					Thing t = Projectile.cellThingsFiltered[j];
-					if (Rand.Value < Projectile.ImpactSomethingHitThingChance(t))
+					if (Rand.Chance(Projectile.ImpactSomethingHitThingChance(t)))
 					{
-						this.Impact(Projectile.cellThingsFiltered.RandomElement());
+						this.Impact(Projectile.cellThingsFiltered.RandomElement<Thing>());
 						return;
 					}
 				}
@@ -464,21 +430,30 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004FF9 RID: 20473 RVA: 0x00147430 File Offset: 0x00145830
 		private static float ImpactSomethingHitThingChance(Thing t)
 		{
 			Pawn pawn = t as Pawn;
+			float result;
 			if (pawn != null)
 			{
-				return (float)(pawn.BodySize * 0.5);
+				result = pawn.BodySize * 0.5f;
 			}
-			return (float)(t.def.fillPercent * 1.5);
+			else
+			{
+				result = t.def.fillPercent * 1.5f;
+			}
+			return result;
 		}
 
+		// Token: 0x06004FFA RID: 20474 RVA: 0x00147475 File Offset: 0x00145875
 		protected virtual void Impact(Thing hitThing)
 		{
+			GenClamor.DoClamor(this, 2.1f, ClamorDefOf.Impact);
 			this.Destroy(DestroyMode.Vanish);
 		}
 
+		// Token: 0x06004FFB RID: 20475 RVA: 0x0014748F File Offset: 0x0014588F
 		public void ForceInstantImpact()
 		{
 			if (!this.DestinationCell.InBounds(base.Map))
@@ -492,5 +467,56 @@ namespace Verse
 				this.ImpactSomething();
 			}
 		}
+
+		// Token: 0x040034F6 RID: 13558
+		protected Vector3 origin;
+
+		// Token: 0x040034F7 RID: 13559
+		protected Vector3 destination;
+
+		// Token: 0x040034F8 RID: 13560
+		protected LocalTargetInfo usedTarget;
+
+		// Token: 0x040034F9 RID: 13561
+		protected LocalTargetInfo intendedTarget;
+
+		// Token: 0x040034FA RID: 13562
+		protected ThingDef equipmentDef;
+
+		// Token: 0x040034FB RID: 13563
+		protected Thing launcher;
+
+		// Token: 0x040034FC RID: 13564
+		protected ThingDef targetCoverDef;
+
+		// Token: 0x040034FD RID: 13565
+		private ProjectileHitFlags desiredHitFlags = ProjectileHitFlags.All;
+
+		// Token: 0x040034FE RID: 13566
+		protected bool landed;
+
+		// Token: 0x040034FF RID: 13567
+		protected int ticksToImpact;
+
+		// Token: 0x04003500 RID: 13568
+		private Sustainer ambientSustainer = null;
+
+		// Token: 0x04003501 RID: 13569
+		private const float BasePawnInterceptChance = 0.4f;
+
+		// Token: 0x04003502 RID: 13570
+		private const float PawnInterceptChanceFactor_LayingDown = 0.1f;
+
+		// Token: 0x04003503 RID: 13571
+		private const float PawnInterceptChanceFactor_NonWildNonEnemy = 0.4f;
+
+		// Token: 0x04003504 RID: 13572
+		private const float InterceptChanceOnRandomObjectPerFillPercent = 0.07f;
+
+		// Token: 0x04003505 RID: 13573
+		private static List<IntVec3> checkedCells = new List<IntVec3>();
+
+		// Token: 0x04003506 RID: 13574
+		private static readonly List<Thing> cellThingsFiltered = new List<Thing>();
 	}
 }

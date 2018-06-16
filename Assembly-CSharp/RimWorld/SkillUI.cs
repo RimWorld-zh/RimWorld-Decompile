@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -5,45 +6,18 @@ using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020008A3 RID: 2211
 	[StaticConstructorOnStartup]
 	public static class SkillUI
 	{
-		public enum SkillDrawMode : byte
-		{
-			Gameplay,
-			Menu
-		}
-
-		private static float levelLabelWidth = -1f;
-
-		private const float SkillWidth = 240f;
-
-		public const float SkillHeight = 24f;
-
-		public const float SkillYSpacing = 3f;
-
-		private const float LeftEdgeMargin = 6f;
-
-		private const float IncButX = 205f;
-
-		private const float IncButSpacing = 10f;
-
-		private static readonly Color DisabledSkillColor = new Color(1f, 1f, 1f, 0.5f);
-
-		private static Texture2D PassionMinorIcon = ContentFinder<Texture2D>.Get("UI/Icons/PassionMinor", true);
-
-		private static Texture2D PassionMajorIcon = ContentFinder<Texture2D>.Get("UI/Icons/PassionMajor", true);
-
-		private static Texture2D SkillBarFillTex = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 1f, 1f, 0.1f));
-
-		public static void DrawSkillsOf(Pawn p, Vector2 offset, SkillDrawMode mode)
+		// Token: 0x06003296 RID: 12950 RVA: 0x001B3644 File Offset: 0x001B1A44
+		public static void DrawSkillsOf(Pawn p, Vector2 offset, SkillUI.SkillDrawMode mode)
 		{
 			Text.Font = GameFont.Small;
 			List<SkillDef> allDefsListForReading = DefDatabase<SkillDef>.AllDefsListForReading;
 			for (int i = 0; i < allDefsListForReading.Count; i++)
 			{
-				Vector2 vector = Text.CalcSize(allDefsListForReading[i].skillLabel.CapitalizeFirst());
-				float x = vector.x;
+				float x = Text.CalcSize(allDefsListForReading[i].skillLabel.CapitalizeFirst()).x;
 				if (x > SkillUI.levelLabelWidth)
 				{
 					SkillUI.levelLabelWidth = x;
@@ -51,17 +25,19 @@ namespace RimWorld
 			}
 			for (int j = 0; j < p.skills.skills.Count; j++)
 			{
-				float y = (float)((float)j * 27.0 + offset.y);
-				SkillUI.DrawSkill(p.skills.skills[j], new Vector2(offset.x, y), mode, string.Empty);
+				float y = (float)j * 27f + offset.y;
+				SkillUI.DrawSkill(p.skills.skills[j], new Vector2(offset.x, y), mode, "");
 			}
 		}
 
-		public static void DrawSkill(SkillRecord skill, Vector2 topLeft, SkillDrawMode mode, string tooltipPrefix = "")
+		// Token: 0x06003297 RID: 12951 RVA: 0x001B370C File Offset: 0x001B1B0C
+		public static void DrawSkill(SkillRecord skill, Vector2 topLeft, SkillUI.SkillDrawMode mode, string tooltipPrefix = "")
 		{
-			SkillUI.DrawSkill(skill, new Rect(topLeft.x, topLeft.y, 240f, 24f), mode, string.Empty);
+			SkillUI.DrawSkill(skill, new Rect(topLeft.x, topLeft.y, 240f, 24f), mode, "");
 		}
 
-		public static void DrawSkill(SkillRecord skill, Rect holdingRect, SkillDrawMode mode, string tooltipPrefix = "")
+		// Token: 0x06003298 RID: 12952 RVA: 0x001B3738 File Offset: 0x001B1B38
+		public static void DrawSkill(SkillRecord skill, Rect holdingRect, SkillUI.SkillDrawMode mode, string tooltipPrefix = "")
 		{
 			if (Mouse.IsOver(holdingRect))
 			{
@@ -69,10 +45,10 @@ namespace RimWorld
 			}
 			GUI.BeginGroup(holdingRect);
 			Text.Anchor = TextAnchor.MiddleLeft;
-			Rect rect = new Rect(6f, 0f, (float)(SkillUI.levelLabelWidth + 6.0), holdingRect.height);
+			Rect rect = new Rect(6f, 0f, SkillUI.levelLabelWidth + 6f, holdingRect.height);
 			Widgets.Label(rect, skill.def.skillLabel.CapitalizeFirst());
 			Rect position = new Rect(rect.xMax, 0f, 24f, 24f);
-			if ((int)skill.passion > 0)
+			if (skill.passion > Passion.None)
 			{
 				Texture2D image = (skill.passion != Passion.Major) ? SkillUI.PassionMinorIcon : SkillUI.PassionMajorIcon;
 				GUI.DrawTexture(position, image);
@@ -80,10 +56,10 @@ namespace RimWorld
 			if (!skill.TotallyDisabled)
 			{
 				Rect rect2 = new Rect(position.xMax, 0f, holdingRect.width - position.xMax, holdingRect.height);
-				float fillPercent = Mathf.Max(0.01f, (float)((float)skill.Level / 20.0));
+				float fillPercent = Mathf.Max(0.01f, (float)skill.Level / 20f);
 				Widgets.FillableBar(rect2, fillPercent, SkillUI.SkillBarFillTex, null, false);
 			}
-			Rect rect3 = new Rect((float)(position.xMax + 4.0), 0f, 999f, holdingRect.height);
+			Rect rect3 = new Rect(position.xMax + 4f, 0f, 999f, holdingRect.height);
 			rect3.yMin += 3f;
 			string label;
 			if (skill.TotallyDisabled)
@@ -101,13 +77,14 @@ namespace RimWorld
 			GUI.color = Color.white;
 			GUI.EndGroup();
 			string text = SkillUI.GetSkillDescription(skill);
-			if (tooltipPrefix != string.Empty)
+			if (tooltipPrefix != "")
 			{
 				text = tooltipPrefix + "\n\n" + text;
 			}
 			TooltipHandler.TipRegion(holdingRect, new TipSignal(text, skill.def.GetHashCode() * 397945));
 		}
 
+		// Token: 0x06003299 RID: 12953 RVA: 0x001B3920 File Offset: 0x001B1D20
 		private static string GetSkillDescription(SkillRecord sk)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -117,35 +94,112 @@ namespace RimWorld
 			}
 			else
 			{
-				stringBuilder.AppendLine("Level".Translate() + " " + sk.Level + ": " + sk.LevelDescriptor);
+				stringBuilder.AppendLine(string.Concat(new object[]
+				{
+					"Level".Translate(),
+					" ",
+					sk.Level,
+					": ",
+					sk.LevelDescriptor
+				}));
 				if (Current.ProgramState == ProgramState.Playing)
 				{
 					string text = (sk.Level != 20) ? "ProgressToNextLevel".Translate() : "Experience".Translate();
-					stringBuilder.AppendLine(text + ": " + sk.xpSinceLastLevel.ToString("F0") + " / " + sk.XpRequiredForLevelUp);
+					stringBuilder.AppendLine(string.Concat(new object[]
+					{
+						text,
+						": ",
+						sk.xpSinceLastLevel.ToString("F0"),
+						" / ",
+						sk.XpRequiredForLevelUp
+					}));
 				}
 				stringBuilder.Append("Passion".Translate() + ": ");
-				switch (sk.passion)
+				Passion passion = sk.passion;
+				if (passion != Passion.None)
 				{
-				case Passion.None:
-					stringBuilder.Append("PassionNone".Translate(0.35f.ToStringPercent("F0")));
-					break;
-				case Passion.Minor:
-					stringBuilder.Append("PassionMinor".Translate(1f.ToStringPercent("F0")));
-					break;
-				case Passion.Major:
-					stringBuilder.Append("PassionMajor".Translate(1.5f.ToStringPercent("F0")));
-					break;
+					if (passion != Passion.Minor)
+					{
+						if (passion == Passion.Major)
+						{
+							stringBuilder.Append("PassionMajor".Translate(new object[]
+							{
+								1.5f.ToStringPercent("F0")
+							}));
+						}
+					}
+					else
+					{
+						stringBuilder.Append("PassionMinor".Translate(new object[]
+						{
+							1f.ToStringPercent("F0")
+						}));
+					}
+				}
+				else
+				{
+					stringBuilder.Append("PassionNone".Translate(new object[]
+					{
+						0.35f.ToStringPercent("F0")
+					}));
 				}
 				if (sk.LearningSaturatedToday)
 				{
 					stringBuilder.AppendLine();
-					stringBuilder.Append("LearnedMaxToday".Translate(sk.xpSinceMidnight, 4000, 0.2f.ToStringPercent("F0")));
+					stringBuilder.Append("LearnedMaxToday".Translate(new object[]
+					{
+						sk.xpSinceMidnight,
+						4000,
+						0.2f.ToStringPercent("F0")
+					}));
 				}
 			}
 			stringBuilder.AppendLine();
 			stringBuilder.AppendLine();
 			stringBuilder.Append(sk.def.description);
 			return stringBuilder.ToString();
+		}
+
+		// Token: 0x04001B0F RID: 6927
+		private static float levelLabelWidth = -1f;
+
+		// Token: 0x04001B10 RID: 6928
+		private const float SkillWidth = 240f;
+
+		// Token: 0x04001B11 RID: 6929
+		public const float SkillHeight = 24f;
+
+		// Token: 0x04001B12 RID: 6930
+		public const float SkillYSpacing = 3f;
+
+		// Token: 0x04001B13 RID: 6931
+		private const float LeftEdgeMargin = 6f;
+
+		// Token: 0x04001B14 RID: 6932
+		private const float IncButX = 205f;
+
+		// Token: 0x04001B15 RID: 6933
+		private const float IncButSpacing = 10f;
+
+		// Token: 0x04001B16 RID: 6934
+		private static readonly Color DisabledSkillColor = new Color(1f, 1f, 1f, 0.5f);
+
+		// Token: 0x04001B17 RID: 6935
+		private static Texture2D PassionMinorIcon = ContentFinder<Texture2D>.Get("UI/Icons/PassionMinor", true);
+
+		// Token: 0x04001B18 RID: 6936
+		private static Texture2D PassionMajorIcon = ContentFinder<Texture2D>.Get("UI/Icons/PassionMajor", true);
+
+		// Token: 0x04001B19 RID: 6937
+		private static Texture2D SkillBarFillTex = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 1f, 1f, 0.1f));
+
+		// Token: 0x020008A4 RID: 2212
+		public enum SkillDrawMode : byte
+		{
+			// Token: 0x04001B1B RID: 6939
+			Gameplay,
+			// Token: 0x04001B1C RID: 6940
+			Menu
 		}
 	}
 }

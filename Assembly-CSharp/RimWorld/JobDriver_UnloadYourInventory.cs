@@ -1,34 +1,101 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000085 RID: 133
 	public class JobDriver_UnloadYourInventory : JobDriver
 	{
-		private int countToDrop = -1;
-
-		private const TargetIndex ItemToHaulInd = TargetIndex.A;
-
-		private const TargetIndex StoreCellInd = TargetIndex.B;
-
-		private const int UnloadDuration = 10;
-
+		// Token: 0x06000378 RID: 888 RVA: 0x00026D17 File Offset: 0x00025117
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.countToDrop, "countToDrop", -1, false);
 		}
 
+		// Token: 0x06000379 RID: 889 RVA: 0x00026D34 File Offset: 0x00025134
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
+		// Token: 0x0600037A RID: 890 RVA: 0x00026D4C File Offset: 0x0002514C
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			yield return Toils_General.Wait(10);
-			/*Error: Unable to find new state assignment for yield return*/;
+			yield return new Toil
+			{
+				initAction = delegate()
+				{
+					if (!this.pawn.inventory.UnloadEverything)
+					{
+						base.EndJobWith(JobCondition.Succeeded);
+					}
+					else
+					{
+						ThingCount firstUnloadableThing = this.pawn.inventory.FirstUnloadableThing;
+						IntVec3 c;
+						if (!StoreUtility.TryFindStoreCellNearColonyDesperate(firstUnloadableThing.Thing, this.pawn, out c))
+						{
+							Thing thing;
+							this.pawn.inventory.innerContainer.TryDrop(firstUnloadableThing.Thing, ThingPlaceMode.Near, firstUnloadableThing.Count, out thing, null, null);
+							base.EndJobWith(JobCondition.Succeeded);
+						}
+						else
+						{
+							this.job.SetTarget(TargetIndex.A, firstUnloadableThing.Thing);
+							this.job.SetTarget(TargetIndex.B, c);
+							this.countToDrop = firstUnloadableThing.Count;
+						}
+					}
+				}
+			};
+			yield return Toils_Reserve.Reserve(TargetIndex.B, 1, -1, null);
+			yield return Toils_Goto.GotoCell(TargetIndex.B, PathEndMode.Touch);
+			yield return new Toil
+			{
+				initAction = delegate()
+				{
+					Thing thing = this.job.GetTarget(TargetIndex.A).Thing;
+					if (thing == null || !this.pawn.inventory.innerContainer.Contains(thing))
+					{
+						base.EndJobWith(JobCondition.Incompletable);
+					}
+					else
+					{
+						if (!this.pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) || !thing.def.EverStorable(false))
+						{
+							this.pawn.inventory.innerContainer.TryDrop(thing, ThingPlaceMode.Near, this.countToDrop, out thing, null, null);
+							base.EndJobWith(JobCondition.Succeeded);
+						}
+						else
+						{
+							this.pawn.inventory.innerContainer.TryTransferToContainer(thing, this.pawn.carryTracker.innerContainer, this.countToDrop, out thing, true);
+							this.job.count = this.countToDrop;
+							this.job.SetTarget(TargetIndex.A, thing);
+						}
+						thing.SetForbidden(false, false);
+					}
+				}
+			};
+			Toil carryToCell = Toils_Haul.CarryHauledThingToCell(TargetIndex.B);
+			yield return carryToCell;
+			yield return Toils_Haul.PlaceHauledThingInCell(TargetIndex.B, carryToCell, true);
+			yield break;
 		}
+
+		// Token: 0x04000244 RID: 580
+		private int countToDrop = -1;
+
+		// Token: 0x04000245 RID: 581
+		private const TargetIndex ItemToHaulInd = TargetIndex.A;
+
+		// Token: 0x04000246 RID: 582
+		private const TargetIndex StoreCellInd = TargetIndex.B;
+
+		// Token: 0x04000247 RID: 583
+		private const int UnloadDuration = 10;
 	}
 }

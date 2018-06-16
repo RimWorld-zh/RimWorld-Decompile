@@ -1,19 +1,29 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000474 RID: 1140
 	public class PawnCapacityWorker_Breathing : PawnCapacityWorker
 	{
+		// Token: 0x06001408 RID: 5128 RVA: 0x000AE870 File Offset: 0x000ACC70
 		public override float CalculateCapacityLevel(HediffSet diffSet, List<PawnCapacityUtility.CapacityImpactor> impactors = null)
 		{
-			string tag = "BreathingSource";
-			return PawnCapacityUtility.CalculateTagEfficiency(diffSet, tag, 3.40282347E+38f, impactors) * PawnCapacityUtility.CalculateTagEfficiency(diffSet, "BreathingPathway", 1f, impactors);
+			BodyPartTagDef tag = BodyPartTagDefOf.BreathingSource;
+			float num = PawnCapacityUtility.CalculateTagEfficiency(diffSet, tag, float.MaxValue, default(FloatRange), impactors);
+			tag = BodyPartTagDefOf.BreathingPathway;
+			float maximum = 1f;
+			float num2 = num * PawnCapacityUtility.CalculateTagEfficiency(diffSet, tag, maximum, default(FloatRange), impactors);
+			tag = BodyPartTagDefOf.BreathingSourceCage;
+			maximum = 1f;
+			return num2 * PawnCapacityUtility.CalculateTagEfficiency(diffSet, tag, maximum, default(FloatRange), impactors);
 		}
 
+		// Token: 0x06001409 RID: 5129 RVA: 0x000AE8F4 File Offset: 0x000ACCF4
 		public override bool CanHaveCapacity(BodyDef body)
 		{
-			return body.HasPartWithTag("BreathingSource");
+			return body.HasPartWithTag(BodyPartTagDefOf.BreathingSource);
 		}
 	}
 }

@@ -1,60 +1,65 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Verse
 {
+	// Token: 0x02000D32 RID: 3378
 	public static class HediffGiveUtility
 	{
+		// Token: 0x06004A64 RID: 19044 RVA: 0x0026C188 File Offset: 0x0026A588
 		public static bool TryApply(Pawn pawn, HediffDef hediff, List<BodyPartDef> partsToAffect, bool canAffectAnyLivePart = false, int countToAffect = 1, List<Hediff> outAddedHediffs = null)
 		{
-			if (!canAffectAnyLivePart && partsToAffect == null)
+			bool result;
+			if (canAffectAnyLivePart || partsToAffect != null)
 			{
-				if (!pawn.health.hediffSet.HasHediff(hediff, false))
+				bool flag = false;
+				for (int i = 0; i < countToAffect; i++)
 				{
-					Hediff hediff2 = HediffMaker.MakeHediff(hediff, pawn, null);
-					pawn.health.AddHediff(hediff2, null, null);
+					IEnumerable<BodyPartRecord> source = pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null);
+					if (partsToAffect != null)
+					{
+						source = from p in source
+						where partsToAffect.Contains(p.def)
+						select p;
+					}
+					if (canAffectAnyLivePart)
+					{
+						source = from p in source
+						where p.def.alive
+						select p;
+					}
+					source = from p in source
+					where !pawn.health.hediffSet.HasHediff(hediff, p, false) && !pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(p)
+					select p;
+					if (!source.Any<BodyPartRecord>())
+					{
+						break;
+					}
+					BodyPartRecord partRecord = source.RandomElementByWeight((BodyPartRecord x) => x.coverageAbs);
+					Hediff hediff2 = HediffMaker.MakeHediff(hediff, pawn, partRecord);
+					pawn.health.AddHediff(hediff2, null, null, null);
 					if (outAddedHediffs != null)
 					{
 						outAddedHediffs.Add(hediff2);
 					}
-					return true;
+					flag = true;
 				}
-				return false;
+				result = flag;
 			}
-			bool result = false;
-			int num = 0;
-			while (num < countToAffect)
+			else if (!pawn.health.hediffSet.HasHediff(hediff, false))
 			{
-				IEnumerable<BodyPartRecord> source = pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined);
-				if (partsToAffect != null)
+				Hediff hediff3 = HediffMaker.MakeHediff(hediff, pawn, null);
+				pawn.health.AddHediff(hediff3, null, null, null);
+				if (outAddedHediffs != null)
 				{
-					source = from p in source
-					where partsToAffect.Contains(p.def)
-					select p;
+					outAddedHediffs.Add(hediff3);
 				}
-				if (canAffectAnyLivePart)
-				{
-					source = from p in source
-					where p.def.isAlive
-					select p;
-				}
-				source = from p in source
-				where !pawn.health.hediffSet.HasHediff(hediff, p, false) && !pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(p)
-				select p;
-				if (source.Any())
-				{
-					BodyPartRecord partRecord = source.RandomElementByWeight((BodyPartRecord x) => x.coverageAbs);
-					Hediff hediff3 = HediffMaker.MakeHediff(hediff, pawn, partRecord);
-					pawn.health.AddHediff(hediff3, null, null);
-					if (outAddedHediffs != null)
-					{
-						outAddedHediffs.Add(hediff3);
-					}
-					result = true;
-					num++;
-					continue;
-				}
-				break;
+				result = true;
+			}
+			else
+			{
+				result = false;
 			}
 			return result;
 		}

@@ -1,9 +1,18 @@
+﻿using System;
 using System.Collections.Generic;
 
 namespace Verse
 {
+	// Token: 0x02000F57 RID: 3927
 	public static class TitleCaseHelper
 	{
+		// Token: 0x06005F03 RID: 24323 RVA: 0x00305D40 File Offset: 0x00304140
+		public static bool IsUppercaseTitleWord(string word)
+		{
+			return word.Length > 1 && !TitleCaseHelper.NonUppercaseWords.Contains(word);
+		}
+
+		// Token: 0x04003E54 RID: 15956
 		private static HashSet<string> NonUppercaseWords = new HashSet<string>
 		{
 			"a",
@@ -100,14 +109,5 @@ namespace Verse
 			"worth",
 			"yet"
 		};
-
-		public static bool IsUppercaseTitleWord(string word)
-		{
-			if (word.Length <= 1)
-			{
-				return false;
-			}
-			return !TitleCaseHelper.NonUppercaseWords.Contains(word);
-		}
 	}
 }

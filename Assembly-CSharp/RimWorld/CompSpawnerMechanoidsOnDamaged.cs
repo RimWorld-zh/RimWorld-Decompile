@@ -1,6 +1,6 @@
-using RimWorld.Planet;
-using System;
+﻿using System;
 using System.Linq;
+using RimWorld.Planet;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
@@ -8,16 +8,10 @@ using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x0200073E RID: 1854
 	public class CompSpawnerMechanoidsOnDamaged : ThingComp
 	{
-		public float pointsLeft;
-
-		private Lord lord;
-
-		private const float MechanoidsDefendRadius = 21f;
-
-		public static readonly string MemoDamaged = "ShipPartDamaged";
-
+		// Token: 0x060028E7 RID: 10471 RVA: 0x0015CA87 File Offset: 0x0015AE87
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -25,6 +19,7 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.pointsLeft, "mechanoidPointsLeft", 0f, false);
 		}
 
+		// Token: 0x060028E8 RID: 10472 RVA: 0x0015CAB8 File Offset: 0x0015AEB8
 		public override void PostPreApplyDamage(DamageInfo dinfo, out bool absorbed)
 		{
 			base.PostPreApplyDamage(dinfo, out absorbed);
@@ -36,25 +31,17 @@ namespace RimWorld
 					{
 						this.lord.ReceiveMemo(CompSpawnerMechanoidsOnDamaged.MemoDamaged);
 					}
-					float num = (float)(base.parent.HitPoints - dinfo.Amount);
-					if (num < (float)base.parent.MaxHitPoints * 0.98000001907348633 && dinfo.Instigator != null && dinfo.Instigator.Faction != null)
+					float num = (float)this.parent.HitPoints - dinfo.Amount;
+					if ((num < (float)this.parent.MaxHitPoints * 0.98f && dinfo.Instigator != null && dinfo.Instigator.Faction != null) || num < (float)this.parent.MaxHitPoints * 0.9f)
 					{
-						goto IL_009e;
+						this.TrySpawnMechanoids();
 					}
-					if (num < (float)base.parent.MaxHitPoints * 0.89999997615814209)
-						goto IL_009e;
 				}
-				goto IL_00a4;
+				absorbed = false;
 			}
-			return;
-			IL_00a4:
-			absorbed = false;
-			return;
-			IL_009e:
-			this.TrySpawnMechanoids();
-			goto IL_00a4;
 		}
 
+		// Token: 0x060028E9 RID: 10473 RVA: 0x0015CB75 File Offset: 0x0015AF75
 		public void Notify_BlueprintReplacedWithSolidThingNearby(Pawn by)
 		{
 			if (by.Faction != Faction.OfMechanoids)
@@ -63,46 +50,70 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060028EA RID: 10474 RVA: 0x0015CB90 File Offset: 0x0015AF90
 		private void TrySpawnMechanoids()
 		{
-			if (!(this.pointsLeft <= 0.0) && base.parent.Spawned)
+			if (this.pointsLeft > 0f)
 			{
-				if (this.lord == null)
+				if (this.parent.Spawned)
 				{
-					IntVec3 invalid = default(IntVec3);
-					if (!CellFinder.TryFindRandomCellNear(base.parent.Position, base.parent.Map, 5, (Predicate<IntVec3>)((IntVec3 c) => c.Standable(base.parent.Map) && base.parent.Map.reachability.CanReach(c, base.parent, PathEndMode.Touch, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false))), out invalid))
+					if (this.lord == null)
 					{
-						Log.Error("Found no place for mechanoids to defend " + this);
-						invalid = IntVec3.Invalid;
+						IntVec3 invalid;
+						if (!CellFinder.TryFindRandomCellNear(this.parent.Position, this.parent.Map, 5, (IntVec3 c) => c.Standable(this.parent.Map) && this.parent.Map.reachability.CanReach(c, this.parent, PathEndMode.Touch, TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false)), out invalid, -1))
+						{
+							Log.Error("Found no place for mechanoids to defend " + this, false);
+							invalid = IntVec3.Invalid;
+						}
+						LordJob_MechanoidsDefendShip lordJob = new LordJob_MechanoidsDefendShip(this.parent, this.parent.Faction, 21f, invalid);
+						this.lord = LordMaker.MakeNewLord(Faction.OfMechanoids, lordJob, this.parent.Map, null);
 					}
-					LordJob_MechanoidsDefendShip lordJob = new LordJob_MechanoidsDefendShip(base.parent, base.parent.Faction, 21f, invalid);
-					this.lord = LordMaker.MakeNewLord(Faction.OfMechanoids, lordJob, base.parent.Map, null);
-				}
-				PawnKindDef kindDef = default(PawnKindDef);
-				IntVec3 center = default(IntVec3);
-				while ((from def in DefDatabase<PawnKindDef>.AllDefs
-				where def.RaceProps.IsMechanoid && def.isFighter && def.combatPower <= this.pointsLeft
-				select def).TryRandomElement<PawnKindDef>(out kindDef) && (from cell in GenAdj.CellsAdjacent8Way(base.parent)
-				where this.CanSpawnMechanoidAt(cell)
-				select cell).TryRandomElement<IntVec3>(out center))
-				{
-					Pawn pawn = PawnGenerator.GeneratePawn(kindDef, Faction.OfMechanoids);
-					if (!GenPlace.TryPlaceThing(pawn, center, base.parent.Map, ThingPlaceMode.Near, null))
+					PawnKindDef kind;
+					while ((from def in DefDatabase<PawnKindDef>.AllDefs
+					where def.RaceProps.IsMechanoid && def.isFighter && def.combatPower <= this.pointsLeft
+					select def).TryRandomElement(out kind))
 					{
-						Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Discard);
-						break;
+						IntVec3 center;
+						if ((from cell in GenAdj.CellsAdjacent8Way(this.parent)
+						where this.CanSpawnMechanoidAt(cell)
+						select cell).TryRandomElement(out center))
+						{
+							PawnGenerationRequest request = new PawnGenerationRequest(kind, Faction.OfMechanoids, PawnGenerationContext.NonPlayer, -1, true, false, false, false, true, false, 1f, false, true, true, false, false, false, false, null, null, null, null, null, null, null, null);
+							Pawn pawn = PawnGenerator.GeneratePawn(request);
+							if (GenPlace.TryPlaceThing(pawn, center, this.parent.Map, ThingPlaceMode.Near, null, null))
+							{
+								this.lord.AddPawn(pawn);
+								this.pointsLeft -= pawn.kindDef.combatPower;
+								continue;
+							}
+							Find.WorldPawns.PassToWorld(pawn, PawnDiscardDecideMode.Discard);
+						}
+						IL_1CA:
+						this.pointsLeft = 0f;
+						SoundDefOf.PsychicPulseGlobal.PlayOneShotOnCamera(this.parent.Map);
+						return;
 					}
-					this.lord.AddPawn(pawn);
-					this.pointsLeft -= pawn.kindDef.combatPower;
+					goto IL_1CA;
 				}
-				this.pointsLeft = 0f;
-				SoundDefOf.PsychicPulseGlobal.PlayOneShotOnCamera(base.parent.Map);
 			}
 		}
 
+		// Token: 0x060028EB RID: 10475 RVA: 0x0015CD88 File Offset: 0x0015B188
 		private bool CanSpawnMechanoidAt(IntVec3 c)
 		{
-			return c.Walkable(base.parent.Map);
+			return c.Walkable(this.parent.Map);
 		}
+
+		// Token: 0x04001663 RID: 5731
+		public float pointsLeft;
+
+		// Token: 0x04001664 RID: 5732
+		private Lord lord;
+
+		// Token: 0x04001665 RID: 5733
+		private const float MechanoidsDefendRadius = 21f;
+
+		// Token: 0x04001666 RID: 5734
+		public static readonly string MemoDamaged = "ShipPartDamaged";
 	}
 }

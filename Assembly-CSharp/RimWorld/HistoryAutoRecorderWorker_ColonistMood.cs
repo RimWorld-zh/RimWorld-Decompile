@@ -1,19 +1,27 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020002FB RID: 763
 	public class HistoryAutoRecorderWorker_ColonistMood : HistoryAutoRecorderWorker
 	{
+		// Token: 0x06000CBC RID: 3260 RVA: 0x00070218 File Offset: 0x0006E618
 		public override float PullRecord()
 		{
 			IEnumerable<Pawn> allMaps_FreeColonists = PawnsFinder.AllMaps_FreeColonists;
-			if (!allMaps_FreeColonists.Any())
+			float result;
+			if (!allMaps_FreeColonists.Any<Pawn>())
 			{
-				return 0f;
+				result = 0f;
 			}
-			return allMaps_FreeColonists.Average((Pawn x) => (float)(x.needs.mood.CurLevel * 100.0));
+			else
+			{
+				result = allMaps_FreeColonists.Average((Pawn x) => x.needs.mood.CurLevel * 100f);
+			}
+			return result;
 		}
 	}
 }

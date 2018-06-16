@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -5,52 +6,53 @@ using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020004B9 RID: 1209
 	public class InteractionWorker_MarriageProposal : InteractionWorker
 	{
-		private const float BaseSelectionWeight = 0.4f;
-
-		private const float BaseAcceptanceChance = 0.9f;
-
-		private const float BreakupChanceOnRejection = 0.4f;
-
+		// Token: 0x06001587 RID: 5511 RVA: 0x000BEED8 File Offset: 0x000BD2D8
 		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
 		{
 			DirectPawnRelation directRelation = initiator.relations.GetDirectRelation(PawnRelationDefOf.Lover, recipient);
+			float result;
 			if (directRelation == null)
 			{
-				return 0f;
+				result = 0f;
 			}
-			Pawn spouse = recipient.GetSpouse();
-			Pawn spouse2 = initiator.GetSpouse();
-			if (spouse != null && !spouse.Dead)
+			else
 			{
-				goto IL_004e;
+				Pawn spouse = recipient.GetSpouse();
+				Pawn spouse2 = initiator.GetSpouse();
+				if ((spouse != null && !spouse.Dead) || (spouse2 != null && !spouse2.Dead))
+				{
+					result = 0f;
+				}
+				else
+				{
+					float num = 0.4f;
+					int ticksGame = Find.TickManager.TicksGame;
+					float value = (float)(ticksGame - directRelation.startTicks) / 60000f;
+					num *= Mathf.InverseLerp(0f, 60f, value);
+					num *= Mathf.InverseLerp(0f, 60f, (float)initiator.relations.OpinionOf(recipient));
+					if (recipient.relations.OpinionOf(initiator) < 0)
+					{
+						num *= 0.3f;
+					}
+					if (initiator.gender == Gender.Female)
+					{
+						num *= 0.2f;
+					}
+					result = num;
+				}
 			}
-			if (spouse2 != null && !spouse2.Dead)
-				goto IL_004e;
-			float num = 0.4f;
-			int ticksGame = Find.TickManager.TicksGame;
-			float value = (float)((float)(ticksGame - directRelation.startTicks) / 60000.0);
-			num *= Mathf.InverseLerp(0f, 60f, value);
-			num *= Mathf.InverseLerp(0f, 60f, (float)initiator.relations.OpinionOf(recipient));
-			if (recipient.relations.OpinionOf(initiator) < 0)
-			{
-				num = (float)(num * 0.30000001192092896);
-			}
-			if (initiator.gender == Gender.Female)
-			{
-				num = (float)(num * 0.20000000298023224);
-			}
-			return num;
-			IL_004e:
-			return 0f;
+			return result;
 		}
 
-		public override void Interacted(Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks)
+		// Token: 0x06001588 RID: 5512 RVA: 0x000BEFDC File Offset: 0x000BD3DC
+		public override void Interacted(Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks, out string letterText, out string letterLabel, out LetterDef letterDef)
 		{
 			float num = this.AcceptanceChance(initiator, recipient);
 			bool flag = Rand.Value < num;
-			bool brokeUp = false;
+			bool flag2 = false;
 			if (flag)
 			{
 				initiator.relations.RemoveDirectRelation(PawnRelationDefOf.Lover, recipient);
@@ -68,19 +70,57 @@ namespace RimWorld
 				initiator.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.RejectedMyProposal, recipient);
 				recipient.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.IRejectedTheirProposal, initiator);
 				extraSentencePacks.Add(RulePackDefOf.Sentence_MarriageProposalRejected);
-				if (Rand.Value < 0.40000000596046448)
+				if (Rand.Value < 0.4f)
 				{
 					initiator.relations.RemoveDirectRelation(PawnRelationDefOf.Lover, recipient);
 					initiator.relations.AddDirectRelation(PawnRelationDefOf.ExLover, recipient);
-					brokeUp = true;
+					flag2 = true;
 					extraSentencePacks.Add(RulePackDefOf.Sentence_MarriageProposalRejectedBrokeUp);
 				}
 			}
-			if (!initiator.IsColonist && !recipient.IsColonist)
-				return;
-			this.SendLetter(initiator, recipient, flag, brokeUp);
+			if (PawnUtility.ShouldSendNotificationAbout(initiator) || PawnUtility.ShouldSendNotificationAbout(recipient))
+			{
+				StringBuilder stringBuilder = new StringBuilder();
+				if (flag)
+				{
+					letterLabel = "LetterLabelAcceptedProposal".Translate();
+					letterDef = LetterDefOf.PositiveEvent;
+					stringBuilder.AppendLine("LetterAcceptedProposal".Translate(new object[]
+					{
+						initiator,
+						recipient
+					}));
+				}
+				else
+				{
+					letterLabel = "LetterLabelRejectedProposal".Translate();
+					letterDef = LetterDefOf.NegativeEvent;
+					stringBuilder.AppendLine("LetterRejectedProposal".Translate(new object[]
+					{
+						initiator,
+						recipient
+					}));
+					if (flag2)
+					{
+						stringBuilder.AppendLine();
+						stringBuilder.AppendLine("LetterNoLongerLovers".Translate(new object[]
+						{
+							initiator,
+							recipient
+						}));
+					}
+				}
+				letterText = stringBuilder.ToString().TrimEndNewlines();
+			}
+			else
+			{
+				letterLabel = null;
+				letterText = null;
+				letterDef = null;
+			}
 		}
 
+		// Token: 0x06001589 RID: 5513 RVA: 0x000BF26C File Offset: 0x000BD66C
 		public float AcceptanceChance(Pawn initiator, Pawn recipient)
 		{
 			float num = 0.9f;
@@ -88,29 +128,13 @@ namespace RimWorld
 			return Mathf.Clamp01(num);
 		}
 
-		private void SendLetter(Pawn initiator, Pawn recipient, bool accepted, bool brokeUp)
-		{
-			StringBuilder stringBuilder = new StringBuilder();
-			string label;
-			LetterDef textLetterDef;
-			if (accepted)
-			{
-				label = "LetterLabelAcceptedProposal".Translate();
-				textLetterDef = LetterDefOf.PositiveEvent;
-				stringBuilder.AppendLine("LetterAcceptedProposal".Translate(initiator, recipient));
-			}
-			else
-			{
-				label = "LetterLabelRejectedProposal".Translate();
-				textLetterDef = LetterDefOf.NegativeEvent;
-				stringBuilder.AppendLine("LetterRejectedProposal".Translate(initiator, recipient));
-				if (brokeUp)
-				{
-					stringBuilder.AppendLine();
-					stringBuilder.AppendLine("LetterNoLongerLovers".Translate(initiator, recipient));
-				}
-			}
-			Find.LetterStack.ReceiveLetter(label, stringBuilder.ToString().TrimEndNewlines(), textLetterDef, initiator, null);
-		}
+		// Token: 0x04000CB5 RID: 3253
+		private const float BaseSelectionWeight = 0.4f;
+
+		// Token: 0x04000CB6 RID: 3254
+		private const float BaseAcceptanceChance = 0.9f;
+
+		// Token: 0x04000CB7 RID: 3255
+		private const float BreakupChanceOnRejection = 0.4f;
 	}
 }

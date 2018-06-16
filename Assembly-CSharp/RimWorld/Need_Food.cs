@@ -1,19 +1,20 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020004FC RID: 1276
 	public class Need_Food : Need
 	{
-		private int lastNonStarvingTick = -99999;
+		// Token: 0x060016E3 RID: 5859 RVA: 0x000CA358 File Offset: 0x000C8758
+		public Need_Food(Pawn pawn) : base(pawn)
+		{
+		}
 
-		private const float BaseFoodFallPerTick = 2.66666666E-05f;
-
-		private const float BaseMalnutritionSeverityPerDay = 0.17f;
-
-		private const float BaseMalnutritionSeverityPerInterval = 0.00113333331f;
-
+		// Token: 0x17000310 RID: 784
+		// (get) Token: 0x060016E4 RID: 5860 RVA: 0x000CA370 File Offset: 0x000C8770
 		public bool Starving
 		{
 			get
@@ -22,50 +23,65 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000311 RID: 785
+		// (get) Token: 0x060016E5 RID: 5861 RVA: 0x000CA390 File Offset: 0x000C8790
 		public float PercentageThreshUrgentlyHungry
 		{
 			get
 			{
-				return (float)(base.pawn.RaceProps.FoodLevelPercentageWantEat * 0.40000000596046448);
+				return this.pawn.RaceProps.FoodLevelPercentageWantEat * 0.4f;
 			}
 		}
 
+		// Token: 0x17000312 RID: 786
+		// (get) Token: 0x060016E6 RID: 5862 RVA: 0x000CA3BC File Offset: 0x000C87BC
 		public float PercentageThreshHungry
 		{
 			get
 			{
-				return (float)(base.pawn.RaceProps.FoodLevelPercentageWantEat * 0.800000011920929);
+				return this.pawn.RaceProps.FoodLevelPercentageWantEat * 0.8f;
 			}
 		}
 
+		// Token: 0x17000313 RID: 787
+		// (get) Token: 0x060016E7 RID: 5863 RVA: 0x000CA3E8 File Offset: 0x000C87E8
 		public float NutritionBetweenHungryAndFed
 		{
 			get
 			{
-				return (float)((1.0 - this.PercentageThreshHungry) * this.MaxLevel);
+				return (1f - this.PercentageThreshHungry) * this.MaxLevel;
 			}
 		}
 
+		// Token: 0x17000314 RID: 788
+		// (get) Token: 0x060016E8 RID: 5864 RVA: 0x000CA410 File Offset: 0x000C8810
 		public HungerCategory CurCategory
 		{
 			get
 			{
-				if (base.CurLevelPercentage <= 0.0)
+				HungerCategory result;
+				if (base.CurLevelPercentage <= 0f)
 				{
-					return HungerCategory.Starving;
+					result = HungerCategory.Starving;
 				}
-				if (base.CurLevelPercentage < this.PercentageThreshUrgentlyHungry)
+				else if (base.CurLevelPercentage < this.PercentageThreshUrgentlyHungry)
 				{
-					return HungerCategory.UrgentlyHungry;
+					result = HungerCategory.UrgentlyHungry;
 				}
-				if (base.CurLevelPercentage < this.PercentageThreshHungry)
+				else if (base.CurLevelPercentage < this.PercentageThreshHungry)
 				{
-					return HungerCategory.Hungry;
+					result = HungerCategory.Hungry;
 				}
-				return HungerCategory.Fed;
+				else
+				{
+					result = HungerCategory.Fed;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000315 RID: 789
+		// (get) Token: 0x060016E9 RID: 5865 RVA: 0x000CA470 File Offset: 0x000C8870
 		public float FoodFallPerTick
 		{
 			get
@@ -74,6 +90,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000316 RID: 790
+		// (get) Token: 0x060016EA RID: 5866 RVA: 0x000CA494 File Offset: 0x000C8894
 		public int TicksUntilHungryWhenFed
 		{
 			get
@@ -82,6 +100,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000317 RID: 791
+		// (get) Token: 0x060016EB RID: 5867 RVA: 0x000CA4BC File Offset: 0x000C88BC
 		public override int GUIChangeArrow
 		{
 			get
@@ -90,14 +110,18 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000318 RID: 792
+		// (get) Token: 0x060016EC RID: 5868 RVA: 0x000CA4D4 File Offset: 0x000C88D4
 		public override float MaxLevel
 		{
 			get
 			{
-				return base.pawn.BodySize * base.pawn.ageTracker.CurLifeStage.foodMaxFactor;
+				return this.pawn.BodySize * this.pawn.ageTracker.CurLifeStage.foodMaxFactor;
 			}
 		}
 
+		// Token: 0x17000319 RID: 793
+		// (get) Token: 0x060016ED RID: 5869 RVA: 0x000CA50C File Offset: 0x000C890C
 		public float NutritionWanted
 		{
 			get
@@ -106,14 +130,18 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x1700031A RID: 794
+		// (get) Token: 0x060016EE RID: 5870 RVA: 0x000CA530 File Offset: 0x000C8930
 		private float HungerRate
 		{
 			get
 			{
-				return base.pawn.ageTracker.CurLifeStage.hungerRateFactor * base.pawn.RaceProps.baseHungerRate * base.pawn.health.hediffSet.HungerRateFactor;
+				return this.pawn.ageTracker.CurLifeStage.hungerRateFactor * this.pawn.RaceProps.baseHungerRate * this.pawn.health.hediffSet.HungerRateFactor * this.pawn.GetStatValue(StatDefOf.HungerRateMultiplier, true);
 			}
 		}
 
+		// Token: 0x1700031B RID: 795
+		// (get) Token: 0x060016EF RID: 5871 RVA: 0x000CA594 File Offset: 0x000C8994
 		public int TicksStarving
 		{
 			get
@@ -122,47 +150,54 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x1700031C RID: 796
+		// (get) Token: 0x060016F0 RID: 5872 RVA: 0x000CA5C0 File Offset: 0x000C89C0
 		private float MalnutritionSeverityPerInterval
 		{
 			get
 			{
-				return (float)(0.0011333333095535636 * Mathf.Lerp(0.8f, 1.2f, Rand.ValueSeeded(base.pawn.thingIDNumber ^ 2551674)));
+				return 0.00113333331f * Mathf.Lerp(0.8f, 1.2f, Rand.ValueSeeded(this.pawn.thingIDNumber ^ 2551674));
 			}
 		}
 
-		public Need_Food(Pawn pawn)
-			: base(pawn)
-		{
-		}
-
+		// Token: 0x060016F1 RID: 5873 RVA: 0x000CA600 File Offset: 0x000C8A00
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.lastNonStarvingTick, "lastNonStarvingTick", -99999, false);
 		}
 
+		// Token: 0x060016F2 RID: 5874 RVA: 0x000CA620 File Offset: 0x000C8A20
 		private float FoodFallPerTickAssumingCategory(HungerCategory cat)
 		{
+			float result;
 			switch (cat)
 			{
 			case HungerCategory.Fed:
-				return (float)(2.6666666599339806E-05 * this.HungerRate);
+				result = 2.66666666E-05f * this.HungerRate;
+				break;
 			case HungerCategory.Hungry:
-				return (float)(2.6666666599339806E-05 * this.HungerRate * 0.5);
+				result = 2.66666666E-05f * this.HungerRate * 0.5f;
+				break;
 			case HungerCategory.UrgentlyHungry:
-				return (float)(2.6666666599339806E-05 * this.HungerRate * 0.25);
+				result = 2.66666666E-05f * this.HungerRate * 0.25f;
+				break;
 			case HungerCategory.Starving:
-				return (float)(2.6666666599339806E-05 * this.HungerRate * 0.15000000596046448);
+				result = 2.66666666E-05f * this.HungerRate * 0.15f;
+				break;
 			default:
-				return 999f;
+				result = 999f;
+				break;
 			}
+			return result;
 		}
 
+		// Token: 0x060016F3 RID: 5875 RVA: 0x000CA6B0 File Offset: 0x000C8AB0
 		public override void NeedInterval()
 		{
 			if (!base.IsFrozen)
 			{
-				this.CurLevel -= (float)(this.FoodFallPerTick * 150.0);
+				this.CurLevel -= this.FoodFallPerTick * 150f;
 			}
 			if (!this.Starving)
 			{
@@ -172,18 +207,19 @@ namespace RimWorld
 			{
 				if (this.Starving)
 				{
-					HealthUtility.AdjustSeverity(base.pawn, HediffDefOf.Malnutrition, this.MalnutritionSeverityPerInterval);
+					HealthUtility.AdjustSeverity(this.pawn, HediffDefOf.Malnutrition, this.MalnutritionSeverityPerInterval);
 				}
 				else
 				{
-					HealthUtility.AdjustSeverity(base.pawn, HediffDefOf.Malnutrition, (float)(0.0 - this.MalnutritionSeverityPerInterval));
+					HealthUtility.AdjustSeverity(this.pawn, HediffDefOf.Malnutrition, -this.MalnutritionSeverityPerInterval);
 				}
 			}
 		}
 
+		// Token: 0x060016F4 RID: 5876 RVA: 0x000CA748 File Offset: 0x000C8B48
 		public override void SetInitialLevel()
 		{
-			if (base.pawn.RaceProps.Humanlike)
+			if (this.pawn.RaceProps.Humanlike)
 			{
 				base.CurLevelPercentage = 0.8f;
 			}
@@ -197,21 +233,46 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060016F5 RID: 5877 RVA: 0x000CA7AC File Offset: 0x000C8BAC
 		public override string GetTipString()
 		{
-			return base.LabelCap + ": " + base.CurLevelPercentage.ToStringPercent() + " (" + this.CurLevel.ToString("0.##") + " / " + this.MaxLevel.ToString("0.##") + ")\n" + base.def.description;
+			return string.Concat(new string[]
+			{
+				base.LabelCap,
+				": ",
+				base.CurLevelPercentage.ToStringPercent(),
+				" (",
+				this.CurLevel.ToString("0.##"),
+				" / ",
+				this.MaxLevel.ToString("0.##"),
+				")\n",
+				this.def.description
+			});
 		}
 
+		// Token: 0x060016F6 RID: 5878 RVA: 0x000CA840 File Offset: 0x000C8C40
 		public override void DrawOnGUI(Rect rect, int maxThresholdMarkers = 2147483647, float customMargin = -1f, bool drawArrows = true, bool doTooltip = true)
 		{
-			if (base.threshPercents == null)
+			if (this.threshPercents == null)
 			{
-				base.threshPercents = new List<float>();
+				this.threshPercents = new List<float>();
 			}
-			base.threshPercents.Clear();
-			base.threshPercents.Add(this.PercentageThreshHungry);
-			base.threshPercents.Add(this.PercentageThreshUrgentlyHungry);
+			this.threshPercents.Clear();
+			this.threshPercents.Add(this.PercentageThreshHungry);
+			this.threshPercents.Add(this.PercentageThreshUrgentlyHungry);
 			base.DrawOnGUI(rect, maxThresholdMarkers, customMargin, drawArrows, doTooltip);
 		}
+
+		// Token: 0x04000D71 RID: 3441
+		private int lastNonStarvingTick = -99999;
+
+		// Token: 0x04000D72 RID: 3442
+		public const float BaseFoodFallPerTick = 2.66666666E-05f;
+
+		// Token: 0x04000D73 RID: 3443
+		private const float BaseMalnutritionSeverityPerDay = 0.17f;
+
+		// Token: 0x04000D74 RID: 3444
+		private const float BaseMalnutritionSeverityPerInterval = 0.00113333331f;
 	}
 }

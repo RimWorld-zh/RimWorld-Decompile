@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -5,10 +6,25 @@ using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020007E0 RID: 2016
 	public class Designator_Tame : Designator
 	{
-		private List<Pawn> justDesignated = new List<Pawn>();
+		// Token: 0x06002CA7 RID: 11431 RVA: 0x00177D98 File Offset: 0x00176198
+		public Designator_Tame()
+		{
+			this.defaultLabel = "DesignatorTame".Translate();
+			this.defaultDesc = "DesignatorTameDesc".Translate();
+			this.icon = ContentFinder<Texture2D>.Get("UI/Designators/Tame", true);
+			this.soundDragSustain = SoundDefOf.Designate_DragStandard;
+			this.soundDragChanged = SoundDefOf.Designate_DragStandard_Changed;
+			this.useMouseIcon = true;
+			this.soundSucceeded = SoundDefOf.Designate_Claim;
+			this.hotKey = KeyBindingDefOf.Misc4;
+			this.tutorTag = "Tame";
+		}
 
+		// Token: 0x17000706 RID: 1798
+		// (get) Token: 0x06002CA8 RID: 11432 RVA: 0x00177E28 File Offset: 0x00176228
 		public override int DraggableDimensions
 		{
 			get
@@ -17,115 +33,104 @@ namespace RimWorld
 			}
 		}
 
-		public Designator_Tame()
+		// Token: 0x17000707 RID: 1799
+		// (get) Token: 0x06002CA9 RID: 11433 RVA: 0x00177E40 File Offset: 0x00176240
+		protected override DesignationDef Designation
 		{
-			base.defaultLabel = "DesignatorTame".Translate();
-			base.defaultDesc = "DesignatorTameDesc".Translate();
-			base.icon = ContentFinder<Texture2D>.Get("UI/Designators/Tame", true);
-			base.soundDragSustain = SoundDefOf.DesignateDragStandard;
-			base.soundDragChanged = SoundDefOf.DesignateDragStandardChanged;
-			base.useMouseIcon = true;
-			base.soundSucceeded = SoundDefOf.DesignateClaim;
-			base.hotKey = KeyBindingDefOf.Misc4;
-			base.tutorTag = "Tame";
+			get
+			{
+				return DesignationDefOf.Tame;
+			}
 		}
 
+		// Token: 0x06002CAA RID: 11434 RVA: 0x00177E5C File Offset: 0x0017625C
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
+			AcceptanceReport result;
 			if (!c.InBounds(base.Map))
 			{
-				return false;
+				result = false;
 			}
-			if (!this.TameablesInCell(c).Any())
+			else if (!this.TameablesInCell(c).Any<Pawn>())
 			{
-				return "MessageMustDesignateTameable".Translate();
+				result = "MessageMustDesignateTameable".Translate();
 			}
-			return true;
+			else
+			{
+				result = true;
+			}
+			return result;
 		}
 
+		// Token: 0x06002CAB RID: 11435 RVA: 0x00177EBC File Offset: 0x001762BC
 		public override void DesignateSingleCell(IntVec3 loc)
 		{
-			foreach (Pawn item in this.TameablesInCell(loc))
+			foreach (Pawn t in this.TameablesInCell(loc))
 			{
-				this.DesignateThing(item);
+				this.DesignateThing(t);
 			}
 		}
 
+		// Token: 0x06002CAC RID: 11436 RVA: 0x00177F1C File Offset: 0x0017631C
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			Pawn pawn = t as Pawn;
-			if (pawn != null && pawn.AnimalOrWildMan() && pawn.Faction == null && pawn.RaceProps.wildness < 1.0 && !pawn.HostileTo(t) && base.Map.designationManager.DesignationOn(pawn, DesignationDefOf.Tame) == null)
+			AcceptanceReport result;
+			if (pawn != null && pawn.AnimalOrWildMan() && pawn.Faction == null && pawn.RaceProps.wildness < 1f && !pawn.HostileTo(t) && base.Map.designationManager.DesignationOn(pawn, this.Designation) == null)
 			{
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
+		// Token: 0x06002CAD RID: 11437 RVA: 0x00177FA4 File Offset: 0x001763A4
 		protected override void FinalizeDesignationSucceeded()
 		{
 			base.FinalizeDesignationSucceeded();
-			foreach (PawnKindDef item in (from p in this.justDesignated
-			select p.kindDef).Distinct())
+			using (IEnumerator<PawnKindDef> enumerator = (from p in this.justDesignated
+			select p.kindDef).Distinct<PawnKindDef>().GetEnumerator())
 			{
-				if (item.RaceProps.manhunterOnTameFailChance > 0.0)
+				while (enumerator.MoveNext())
 				{
-					Messages.Message("MessageAnimalManhuntsOnTameFailed".Translate(item.GetLabelPlural(-1), item.RaceProps.manhunterOnTameFailChance.ToStringPercent("F2")), this.justDesignated.First((Pawn x) => x.kindDef == item), MessageTypeDefOf.CautionInput);
-				}
-			}
-			IEnumerable<Pawn> source = from c in base.Map.mapPawns.FreeColonistsSpawned
-			where c.workSettings.WorkIsActive(WorkTypeDefOf.Handling)
-			select c;
-			if (!source.Any())
-			{
-				source = base.Map.mapPawns.FreeColonistsSpawned;
-			}
-			if (source.Any())
-			{
-				Pawn pawn = source.MaxBy((Pawn c) => c.skills.GetSkill(SkillDefOf.Animals).Level);
-				int level = pawn.skills.GetSkill(SkillDefOf.Animals).Level;
-				foreach (ThingDef item2 in (from t in this.justDesignated
-				select t.def).Distinct())
-				{
-					int num = Mathf.RoundToInt(item2.GetStatValueAbstract(StatDefOf.MinimumHandlingSkill, null));
-					if (num > level)
-					{
-						Messages.Message("MessageNoHandlerSkilledEnough".Translate(item2.label, num.ToStringCached(), SkillDefOf.Animals.LabelCap, pawn.LabelShort, level), this.justDesignated.First((Pawn x) => x.def == item2), MessageTypeDefOf.CautionInput);
-					}
+					PawnKindDef kind = enumerator.Current;
+					TameUtility.ShowDesignationWarnings(this.justDesignated.First((Pawn x) => x.kindDef == kind));
 				}
 			}
 			this.justDesignated.Clear();
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.AnimalTaming, KnowledgeAmount.Total);
 		}
 
+		// Token: 0x06002CAE RID: 11438 RVA: 0x00178064 File Offset: 0x00176464
 		public override void DesignateThing(Thing t)
 		{
 			base.Map.designationManager.RemoveAllDesignationsOn(t, false);
-			base.Map.designationManager.AddDesignation(new Designation(t, DesignationDefOf.Tame));
+			base.Map.designationManager.AddDesignation(new Designation(t, this.Designation));
 			this.justDesignated.Add((Pawn)t);
 		}
 
+		// Token: 0x06002CAF RID: 11439 RVA: 0x001780B8 File Offset: 0x001764B8
 		private IEnumerable<Pawn> TameablesInCell(IntVec3 c)
 		{
-			if (!c.Fogged(base.Map))
+			if (c.Fogged(base.Map))
 			{
-				List<Thing> thingList = c.GetThingList(base.Map);
-				int i = 0;
-				while (true)
-				{
-					if (i < thingList.Count)
-					{
-						if (!this.CanDesignateThing(thingList[i]).Accepted)
-						{
-							i++;
-							continue;
-						}
-						break;
-					}
-					yield break;
-				}
-				yield return (Pawn)thingList[i];
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield break;
 			}
+			List<Thing> thingList = c.GetThingList(base.Map);
+			for (int i = 0; i < thingList.Count; i++)
+			{
+				if (this.CanDesignateThing(thingList[i]).Accepted)
+				{
+					yield return (Pawn)thingList[i];
+				}
+			}
+			yield break;
 		}
+
+		// Token: 0x040017A7 RID: 6055
+		private List<Pawn> justDesignated = new List<Pawn>();
 	}
 }

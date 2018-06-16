@@ -1,82 +1,68 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Verse
 {
+	// Token: 0x02000E54 RID: 3668
 	public static class DebugTables
 	{
+		// Token: 0x06005652 RID: 22098 RVA: 0x002C7870 File Offset: 0x002C5C70
 		public static void MakeTablesDialog<T>(IEnumerable<T> dataSources, params TableDataGetter<T>[] getters)
 		{
-			List<TableDataGetter<T>> list = getters.ToList();
-			int num = dataSources.Count() + 1;
+			List<TableDataGetter<T>> list = getters.ToList<TableDataGetter<T>>();
+			int num = dataSources.Count<T>() + 1;
 			int count = list.Count;
 			string[,] array = new string[count, num];
 			int num2 = 0;
 			foreach (TableDataGetter<T> tableDataGetter in getters)
 			{
-				string[,] array2 = array;
-				int num3 = num2;
-				string label = tableDataGetter.label;
-				array2[num3, 0] = label;
+				array[num2, 0] = tableDataGetter.label;
 				num2++;
 			}
-			int num4 = 1;
-			foreach (T dataSource in dataSources)
+			int num3 = 1;
+			foreach (T arg in dataSources)
 			{
 				for (int j = 0; j < count; j++)
 				{
-					string[,] array3 = array;
-					int num5 = j;
-					int num6 = num4;
-					string text = list[j].getter(dataSource);
-					array3[num5, num6] = text;
+					array[j, num3] = list[j].getter(arg);
 				}
-				num4++;
+				num3++;
 			}
-			Find.WindowStack.Add(new Dialog_DebugTables(array));
+			Find.WindowStack.Add(new Window_DebugTable(array));
 		}
 
+		// Token: 0x06005653 RID: 22099 RVA: 0x002C7978 File Offset: 0x002C5D78
 		public static void MakeTablesDialog<TColumn, TRow>(IEnumerable<TColumn> colValues, Func<TColumn, string> colLabelFormatter, IEnumerable<TRow> rowValues, Func<TRow, string> rowLabelFormatter, Func<TColumn, TRow, string> func, string tlLabel = "")
 		{
-			int num = colValues.Count() + 1;
-			int num2 = rowValues.Count() + 1;
+			int num = colValues.Count<TColumn>() + 1;
+			int num2 = rowValues.Count<TRow>() + 1;
 			string[,] array = new string[num, num2];
 			array[0, 0] = tlLabel;
 			int num3 = 1;
-			foreach (TColumn colValue in colValues)
+			foreach (TColumn arg in colValues)
 			{
-				string[,] array2 = array;
-				int num4 = num3;
-				string text = colLabelFormatter(colValue);
-				array2[num4, 0] = text;
+				array[num3, 0] = colLabelFormatter(arg);
 				num3++;
 			}
-			int num5 = 1;
-			foreach (TRow rowValue in rowValues)
+			int num4 = 1;
+			foreach (TRow arg2 in rowValues)
 			{
-				string[,] array3 = array;
-				int num6 = num5;
-				string text2 = rowLabelFormatter(rowValue);
-				array3[0, num6] = text2;
+				array[0, num4] = rowLabelFormatter(arg2);
+				num4++;
+			}
+			int num5 = 1;
+			foreach (TRow arg3 in rowValues)
+			{
+				int num6 = 1;
+				foreach (TColumn arg4 in colValues)
+				{
+					array[num6, num5] = func(arg4, arg3);
+					num6++;
+				}
 				num5++;
 			}
-			int num7 = 1;
-			foreach (TRow rowValue2 in rowValues)
-			{
-				int num8 = 1;
-				foreach (TColumn colValue2 in colValues)
-				{
-					string[,] array4 = array;
-					int num9 = num8;
-					int num10 = num7;
-					string text3 = func(colValue2, rowValue2);
-					array4[num9, num10] = text3;
-					num8++;
-				}
-				num7++;
-			}
-			Find.WindowStack.Add(new Dialog_DebugTables(array));
+			Find.WindowStack.Add(new Window_DebugTable(array));
 		}
 	}
 }

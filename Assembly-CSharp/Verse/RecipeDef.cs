@@ -1,106 +1,16 @@
-using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using RimWorld;
 
 namespace Verse
 {
+	// Token: 0x02000B64 RID: 2916
 	public class RecipeDef : Def
 	{
-		public Type workerClass = typeof(RecipeWorker);
-
-		public Type workerCounterClass = typeof(RecipeWorkerCounter);
-
-		[MustTranslate]
-		public string jobString = "Doing an unknown recipe.";
-
-		public WorkTypeDef requiredGiverWorkType;
-
-		public float workAmount = -1f;
-
-		public StatDef workSpeedStat;
-
-		public StatDef efficiencyStat;
-
-		public List<IngredientCount> ingredients = new List<IngredientCount>();
-
-		public ThingFilter fixedIngredientFilter = new ThingFilter();
-
-		public ThingFilter defaultIngredientFilter;
-
-		public bool allowMixingIngredients;
-
-		private Type ingredientValueGetterClass = typeof(IngredientValueGetter_Volume);
-
-		public List<SpecialThingFilterDef> forceHiddenSpecialFilters;
-
-		public List<ThingCountClass> products = new List<ThingCountClass>();
-
-		public List<SpecialProductType> specialProducts;
-
-		public bool productHasIngredientStuff;
-
-		public int targetCountAdjustment = 1;
-
-		public ThingDef unfinishedThingDef;
-
-		public List<SkillRequirement> skillRequirements;
-
-		public SkillDef workSkill;
-
-		public float workSkillLearnFactor = 1f;
-
-		public EffecterDef effectWorking;
-
-		public SoundDef soundWorking;
-
-		public List<ThingDef> recipeUsers;
-
-		public List<BodyPartDef> appliedOnFixedBodyParts = new List<BodyPartDef>();
-
-		public HediffDef addsHediff;
-
-		public HediffDef removesHediff;
-
-		public bool hideBodyPartNames;
-
-		public bool isViolation;
-
-		[MustTranslate]
-		public string successfullyRemovedHediffMessage;
-
-		public float surgerySuccessChanceFactor = 1f;
-
-		public float deathOnFailedSurgeryChance;
-
-		public bool targetsBodyPart = true;
-
-		public bool anesthetize = true;
-
-		public bool requireBed = true;
-
-		public ResearchProjectDef researchPrerequisite;
-
-		[NoTranslate]
-		public List<string> factionPrerequisiteTags;
-
-		public ConceptDef conceptLearned;
-
-		public bool dontShowIfAnyIngredientMissing;
-
-		[Unsaved]
-		private RecipeWorker workerInt;
-
-		[Unsaved]
-		private RecipeWorkerCounter workerCounterInt;
-
-		[Unsaved]
-		private IngredientValueGetter ingredientValueGetterInt;
-
-		[Unsaved]
-		private List<ThingDef> premultipliedSmallIngredients;
-
+		// Token: 0x170009A5 RID: 2469
+		// (get) Token: 0x06003F98 RID: 16280 RVA: 0x00218058 File Offset: 0x00216458
 		public RecipeWorker Worker
 		{
 			get
@@ -114,6 +24,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x170009A6 RID: 2470
+		// (get) Token: 0x06003F99 RID: 16281 RVA: 0x002180A4 File Offset: 0x002164A4
 		public RecipeWorkerCounter WorkerCounter
 		{
 			get
@@ -127,6 +39,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x170009A7 RID: 2471
+		// (get) Token: 0x06003F9A RID: 16282 RVA: 0x002180F0 File Offset: 0x002164F0
 		public IngredientValueGetter IngredientValueGetter
 		{
 			get
@@ -139,22 +53,34 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x170009A8 RID: 2472
+		// (get) Token: 0x06003F9B RID: 16283 RVA: 0x0021812C File Offset: 0x0021652C
 		public bool AvailableNow
 		{
 			get
 			{
+				bool result;
 				if (this.researchPrerequisite != null && !this.researchPrerequisite.IsFinished)
 				{
-					return false;
+					result = false;
 				}
-				if (this.factionPrerequisiteTags != null && this.factionPrerequisiteTags.Any((string tag) => Faction.OfPlayer.def.recipePrerequisiteTags == null || !Faction.OfPlayer.def.recipePrerequisiteTags.Contains(tag)))
+				else
 				{
-					return false;
+					if (this.factionPrerequisiteTags != null)
+					{
+						if (this.factionPrerequisiteTags.Any((string tag) => Faction.OfPlayer.def.recipePrerequisiteTags == null || !Faction.OfPlayer.def.recipePrerequisiteTags.Contains(tag)))
+						{
+							return false;
+						}
+					}
+					result = true;
 				}
-				return true;
+				return result;
 			}
 		}
 
+		// Token: 0x170009A9 RID: 2473
+		// (get) Token: 0x06003F9C RID: 16284 RVA: 0x002181A4 File Offset: 0x002165A4
 		public string MinSkillString
 		{
 			get
@@ -166,7 +92,13 @@ namespace Verse
 					for (int i = 0; i < this.skillRequirements.Count; i++)
 					{
 						SkillRequirement skillRequirement = this.skillRequirements[i];
-						stringBuilder.AppendLine("   " + skillRequirement.skill.skillLabel.CapitalizeFirst() + ": " + skillRequirement.minLevel);
+						stringBuilder.AppendLine(string.Concat(new object[]
+						{
+							"   ",
+							skillRequirement.skill.skillLabel.CapitalizeFirst(),
+							": ",
+							skillRequirement.minLevel
+						}));
 						flag = true;
 					}
 				}
@@ -178,37 +110,36 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x170009AA RID: 2474
+		// (get) Token: 0x06003F9D RID: 16285 RVA: 0x0021826C File Offset: 0x0021666C
 		public IEnumerable<ThingDef> AllRecipeUsers
 		{
 			get
 			{
 				if (this.recipeUsers != null)
 				{
-					int j = 0;
-					if (j < this.recipeUsers.Count)
+					for (int i = 0; i < this.recipeUsers.Count; i++)
 					{
-						yield return this.recipeUsers[j];
-						/*Error: Unable to find new state assignment for yield return*/;
+						yield return this.recipeUsers[i];
 					}
 				}
 				List<ThingDef> thingDefs = DefDatabase<ThingDef>.AllDefsListForReading;
-				int i = 0;
-				while (true)
+				for (int j = 0; j < thingDefs.Count; j++)
 				{
-					if (i < thingDefs.Count)
+					if (thingDefs[j].recipes != null)
 					{
-						if (thingDefs[i].recipes != null && thingDefs[i].recipes.Contains(this))
-							break;
-						i++;
-						continue;
+						if (thingDefs[j].recipes.Contains(this))
+						{
+							yield return thingDefs[j];
+						}
 					}
-					yield break;
 				}
-				yield return thingDefs[i];
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield break;
 			}
 		}
 
+		// Token: 0x170009AB RID: 2475
+		// (get) Token: 0x06003F9E RID: 16286 RVA: 0x00218298 File Offset: 0x00216698
 		public bool UsesUnfinishedThing
 		{
 			get
@@ -217,13 +148,15 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x170009AC RID: 2476
+		// (get) Token: 0x06003F9F RID: 16287 RVA: 0x002182BC File Offset: 0x002166BC
 		public bool IsSurgery
 		{
 			get
 			{
-				foreach (ThingDef allRecipeUser in this.AllRecipeUsers)
+				foreach (ThingDef thingDef in this.AllRecipeUsers)
 				{
-					if (allRecipeUser.category == ThingCategory.Pawn)
+					if (thingDef.category == ThingCategory.Pawn)
 					{
 						return true;
 					}
@@ -232,57 +165,83 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x170009AD RID: 2477
+		// (get) Token: 0x06003FA0 RID: 16288 RVA: 0x00218330 File Offset: 0x00216730
+		public ThingDef ProducedThingDef
+		{
+			get
+			{
+				ThingDef result;
+				if (this.specialProducts != null)
+				{
+					result = null;
+				}
+				else if (this.products == null || this.products.Count != 1)
+				{
+					result = null;
+				}
+				else
+				{
+					result = this.products[0].thingDef;
+				}
+				return result;
+			}
+		}
+
+		// Token: 0x06003FA1 RID: 16289 RVA: 0x0021838C File Offset: 0x0021678C
 		public float WorkAmountTotal(ThingDef stuffDef)
 		{
-			if (this.workAmount >= 0.0)
+			float statValueAbstract;
+			if (this.workAmount >= 0f)
 			{
-				return this.workAmount;
+				statValueAbstract = this.workAmount;
 			}
-			return this.products[0].thingDef.GetStatValueAbstract(StatDefOf.WorkToMake, stuffDef);
+			else
+			{
+				statValueAbstract = this.products[0].thingDef.GetStatValueAbstract(StatDefOf.WorkToMake, stuffDef);
+			}
+			return statValueAbstract;
 		}
 
+		// Token: 0x06003FA2 RID: 16290 RVA: 0x002183DC File Offset: 0x002167DC
 		public IEnumerable<ThingDef> PotentiallyMissingIngredients(Pawn billDoer, Map map)
 		{
-			int i = 0;
-			ThingDef def;
-			while (true)
+			for (int i = 0; i < this.ingredients.Count; i++)
 			{
-				if (i < this.ingredients.Count)
+				IngredientCount ing = this.ingredients[i];
+				bool foundIng = false;
+				List<Thing> thingList = map.listerThings.ThingsInGroup(ThingRequestGroup.HaulableEver);
+				for (int j = 0; j < thingList.Count; j++)
 				{
-					IngredientCount ing = this.ingredients[i];
-					bool foundIng = false;
-					List<Thing> thingList = map.listerThings.ThingsInGroup(ThingRequestGroup.HaulableEver);
-					for (int j = 0; j < thingList.Count; j++)
+					Thing thing = thingList[j];
+					if ((billDoer == null || !thing.IsForbidden(billDoer)) && !thing.Position.Fogged(map) && (ing.IsFixedIngredient || this.fixedIngredientFilter.Allows(thing)) && ing.filter.Allows(thing))
 					{
-						Thing thing = thingList[j];
-						if ((billDoer == null || !thing.IsForbidden(billDoer)) && !thing.Position.Fogged(map) && (ing.IsFixedIngredient || this.fixedIngredientFilter.Allows(thing)) && ing.filter.Allows(thing))
-						{
-							foundIng = true;
-							break;
-						}
+						foundIng = true;
+						break;
 					}
-					if (!foundIng)
-					{
-						if (ing.IsFixedIngredient)
-						{
-							yield return ing.filter.AllowedThingDefs.First();
-							/*Error: Unable to find new state assignment for yield return*/;
-						}
-						def = (from x in ing.filter.AllowedThingDefs
-						orderby x.BaseMarketValue
-						select x).FirstOrDefault((ThingDef x) => ((_003CPotentiallyMissingIngredients_003Ec__Iterator1)/*Error near IL_0190: stateMachine*/)._0024this.fixedIngredientFilter.Allows(x));
-						if (def != null)
-							break;
-					}
-					i++;
-					continue;
 				}
-				yield break;
+				if (!foundIng)
+				{
+					if (ing.IsFixedIngredient)
+					{
+						yield return ing.filter.AllowedThingDefs.First<ThingDef>();
+					}
+					else
+					{
+						ThingDef def = (from x in ing.filter.AllowedThingDefs
+						orderby x.BaseMarketValue
+						select x).FirstOrDefault((ThingDef x) => this.fixedIngredientFilter.Allows(x));
+						if (def != null)
+						{
+							yield return def;
+						}
+					}
+				}
 			}
-			yield return def;
-			/*Error: Unable to find new state assignment for yield return*/;
+			yield break;
 		}
 
+		// Token: 0x06003FA3 RID: 16291 RVA: 0x00218414 File Offset: 0x00216814
 		public bool IsIngredient(ThingDef th)
 		{
 			for (int i = 0; i < this.ingredients.Count; i++)
@@ -295,35 +254,36 @@ namespace Verse
 			return false;
 		}
 
+		// Token: 0x06003FA4 RID: 16292 RVA: 0x00218494 File Offset: 0x00216894
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
+			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
 			{
-				if (enumerator.MoveNext())
-				{
-					string e = enumerator.Current;
-					yield return e;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return e;
 			}
 			if (this.workerClass == null)
 			{
 				yield return "workerClass is null.";
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			if (!(this.surgerySuccessChanceFactor < 99999.0))
-				yield break;
-			if (this.requireBed)
-				yield break;
-			yield return "failable surgery does not require bed";
-			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0134:
-			/*Error near IL_0135: Unexpected return in MoveNext()*/;
+			if (this.surgerySuccessChanceFactor < 99999f && !this.requireBed)
+			{
+				yield return "failable surgery does not require bed";
+			}
+			yield break;
 		}
 
+		// Token: 0x06003FA5 RID: 16293 RVA: 0x002184C0 File Offset: 0x002168C0
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
+			if (this.workTableSpeedStat == null)
+			{
+				this.workTableSpeedStat = StatDefOf.WorkTableWorkSpeedFactor;
+			}
+			if (this.workTableEfficiencyStat == null)
+			{
+				this.workTableEfficiencyStat = StatDefOf.WorkTableEfficiencyFactor;
+			}
 			for (int i = 0; i < this.ingredients.Count; i++)
 			{
 				this.ingredients[i].ResolveReferences();
@@ -343,82 +303,256 @@ namespace Verse
 			this.defaultIngredientFilter.ResolveReferences();
 		}
 
+		// Token: 0x06003FA6 RID: 16294 RVA: 0x00218584 File Offset: 0x00216984
 		public bool PawnSatisfiesSkillRequirements(Pawn pawn)
 		{
-			return this.skillRequirements == null || !this.skillRequirements.Any((SkillRequirement req) => !req.PawnSatisfies(pawn));
+			return this.FirstSkillRequirementPawnDoesntSatisfy(pawn) == null;
 		}
 
+		// Token: 0x06003FA7 RID: 16295 RVA: 0x002185A4 File Offset: 0x002169A4
+		public SkillRequirement FirstSkillRequirementPawnDoesntSatisfy(Pawn pawn)
+		{
+			SkillRequirement result;
+			if (this.skillRequirements == null)
+			{
+				result = null;
+			}
+			else
+			{
+				for (int i = 0; i < this.skillRequirements.Count; i++)
+				{
+					if (!this.skillRequirements[i].PawnSatisfies(pawn))
+					{
+						return this.skillRequirements[i];
+					}
+				}
+				result = null;
+			}
+			return result;
+		}
+
+		// Token: 0x06003FA8 RID: 16296 RVA: 0x00218614 File Offset: 0x00216A14
 		public List<ThingDef> GetPremultipliedSmallIngredients()
 		{
+			List<ThingDef> result;
 			if (this.premultipliedSmallIngredients != null)
 			{
-				return this.premultipliedSmallIngredients;
+				result = this.premultipliedSmallIngredients;
 			}
-			this.premultipliedSmallIngredients = (from td in this.ingredients.SelectMany((IngredientCount ingredient) => ingredient.filter.AllowedThingDefs)
-			where td.smallVolume
-			select td).Distinct().ToList();
-			bool flag = true;
-			while (flag)
+			else
 			{
-				flag = false;
-				for (int i = 0; i < this.ingredients.Count; i++)
+				this.premultipliedSmallIngredients = (from td in this.ingredients.SelectMany((IngredientCount ingredient) => ingredient.filter.AllowedThingDefs)
+				where td.smallVolume
+				select td).Distinct<ThingDef>().ToList<ThingDef>();
+				bool flag = true;
+				while (flag)
 				{
-					if (this.ingredients[i].filter.AllowedThingDefs.Any((ThingDef td) => !this.premultipliedSmallIngredients.Contains(td)))
+					flag = false;
+					for (int i = 0; i < this.ingredients.Count; i++)
 					{
-						foreach (ThingDef allowedThingDef in this.ingredients[i].filter.AllowedThingDefs)
+						bool flag2 = this.ingredients[i].filter.AllowedThingDefs.Any((ThingDef td) => !this.premultipliedSmallIngredients.Contains(td));
+						if (flag2)
 						{
-							flag |= this.premultipliedSmallIngredients.Remove(allowedThingDef);
+							foreach (ThingDef item in this.ingredients[i].filter.AllowedThingDefs)
+							{
+								flag |= this.premultipliedSmallIngredients.Remove(item);
+							}
 						}
 					}
 				}
+				result = this.premultipliedSmallIngredients;
 			}
-			return this.premultipliedSmallIngredients;
+			return result;
 		}
 
+		// Token: 0x06003FA9 RID: 16297 RVA: 0x00218770 File Offset: 0x00216B70
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
 			if (this.workSkill != null)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Skill".Translate(), this.workSkill.LabelCap, 0, string.Empty);
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Skill".Translate(), this.workSkill.LabelCap, 0, "");
 			}
 			if (this.ingredients != null && this.ingredients.Count > 0)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Ingredients".Translate(), GenText.ToCommaList(from ic in this.ingredients
-				select ic.Summary, true), 0, string.Empty);
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Ingredients".Translate(), (from ic in this.ingredients
+				select ic.Summary).ToCommaList(true), 0, "");
 			}
 			if (this.skillRequirements != null && this.skillRequirements.Count > 0)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "SkillRequirements".Translate(), GenText.ToCommaList(from sr in this.skillRequirements
-				select sr.Summary, true), 0, string.Empty);
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "SkillRequirements".Translate(), (from sr in this.skillRequirements
+				select sr.Summary).ToCommaList(true), 0, "");
 			}
 			if (this.products != null && this.products.Count > 0)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Products".Translate(), GenText.ToCommaList(from pr in this.products
-				select pr.Summary, true), 0, string.Empty);
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Products".Translate(), (from pr in this.products
+				select pr.Summary).ToCommaList(true), 0, "");
 			}
 			if (this.workSpeedStat != null)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "WorkSpeedStat".Translate(), this.workSpeedStat.LabelCap, 0, string.Empty);
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "WorkSpeedStat".Translate(), this.workSpeedStat.LabelCap, 0, "");
 			}
 			if (this.efficiencyStat != null)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "EfficiencyStat".Translate(), this.efficiencyStat.LabelCap, 0, string.Empty);
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield return new StatDrawEntry(StatCategoryDefOf.Basics, "EfficiencyStat".Translate(), this.efficiencyStat.LabelCap, 0, "");
 			}
-			if (!this.IsSurgery)
-				yield break;
-			if (this.surgerySuccessChanceFactor >= 99999.0)
+			if (this.IsSurgery)
 			{
-				yield return new StatDrawEntry(StatCategoryDefOf.Surgery, "SurgerySuccessChanceFactor".Translate(), "Always", 0, string.Empty);
-				/*Error: Unable to find new state assignment for yield return*/;
+				if (this.surgerySuccessChanceFactor >= 99999f)
+				{
+					yield return new StatDrawEntry(StatCategoryDefOf.Surgery, "SurgerySuccessChanceFactor".Translate(), "Always", 0, "");
+				}
+				else
+				{
+					yield return new StatDrawEntry(StatCategoryDefOf.Surgery, "SurgerySuccessChanceFactor".Translate(), this.surgerySuccessChanceFactor.ToStringPercent(), 0, "");
+				}
+				yield return new StatDrawEntry(StatCategoryDefOf.Surgery, "SurgeryRequireBed".Translate(), this.requireBed.ToStringYesNo(), 0, "");
 			}
-			yield return new StatDrawEntry(StatCategoryDefOf.Surgery, "SurgerySuccessChanceFactor".Translate(), this.surgerySuccessChanceFactor.ToStringPercent(), 0, string.Empty);
-			/*Error: Unable to find new state assignment for yield return*/;
+			yield break;
 		}
+
+		// Token: 0x04002A7B RID: 10875
+		public Type workerClass = typeof(RecipeWorker);
+
+		// Token: 0x04002A7C RID: 10876
+		public Type workerCounterClass = typeof(RecipeWorkerCounter);
+
+		// Token: 0x04002A7D RID: 10877
+		[MustTranslate]
+		public string jobString = "Doing an unknown recipe.";
+
+		// Token: 0x04002A7E RID: 10878
+		public WorkTypeDef requiredGiverWorkType = null;
+
+		// Token: 0x04002A7F RID: 10879
+		public float workAmount = -1f;
+
+		// Token: 0x04002A80 RID: 10880
+		public StatDef workSpeedStat = null;
+
+		// Token: 0x04002A81 RID: 10881
+		public StatDef efficiencyStat = null;
+
+		// Token: 0x04002A82 RID: 10882
+		public StatDef workTableEfficiencyStat = null;
+
+		// Token: 0x04002A83 RID: 10883
+		public StatDef workTableSpeedStat = null;
+
+		// Token: 0x04002A84 RID: 10884
+		public List<IngredientCount> ingredients = new List<IngredientCount>();
+
+		// Token: 0x04002A85 RID: 10885
+		public ThingFilter fixedIngredientFilter = new ThingFilter();
+
+		// Token: 0x04002A86 RID: 10886
+		public ThingFilter defaultIngredientFilter = null;
+
+		// Token: 0x04002A87 RID: 10887
+		public bool allowMixingIngredients = false;
+
+		// Token: 0x04002A88 RID: 10888
+		private Type ingredientValueGetterClass = typeof(IngredientValueGetter_Volume);
+
+		// Token: 0x04002A89 RID: 10889
+		public List<SpecialThingFilterDef> forceHiddenSpecialFilters = null;
+
+		// Token: 0x04002A8A RID: 10890
+		public bool autoStripCorpses = true;
+
+		// Token: 0x04002A8B RID: 10891
+		public List<ThingDefCountClass> products = new List<ThingDefCountClass>();
+
+		// Token: 0x04002A8C RID: 10892
+		public List<SpecialProductType> specialProducts = null;
+
+		// Token: 0x04002A8D RID: 10893
+		public bool productHasIngredientStuff = false;
+
+		// Token: 0x04002A8E RID: 10894
+		public int targetCountAdjustment = 1;
+
+		// Token: 0x04002A8F RID: 10895
+		public ThingDef unfinishedThingDef = null;
+
+		// Token: 0x04002A90 RID: 10896
+		public List<SkillRequirement> skillRequirements = null;
+
+		// Token: 0x04002A91 RID: 10897
+		public SkillDef workSkill = null;
+
+		// Token: 0x04002A92 RID: 10898
+		public float workSkillLearnFactor = 1f;
+
+		// Token: 0x04002A93 RID: 10899
+		public EffecterDef effectWorking = null;
+
+		// Token: 0x04002A94 RID: 10900
+		public SoundDef soundWorking = null;
+
+		// Token: 0x04002A95 RID: 10901
+		public List<ThingDef> recipeUsers = null;
+
+		// Token: 0x04002A96 RID: 10902
+		public List<BodyPartDef> appliedOnFixedBodyParts = new List<BodyPartDef>();
+
+		// Token: 0x04002A97 RID: 10903
+		public HediffDef addsHediff = null;
+
+		// Token: 0x04002A98 RID: 10904
+		public HediffDef removesHediff = null;
+
+		// Token: 0x04002A99 RID: 10905
+		public bool hideBodyPartNames = false;
+
+		// Token: 0x04002A9A RID: 10906
+		public bool isViolation = false;
+
+		// Token: 0x04002A9B RID: 10907
+		[MustTranslate]
+		public string successfullyRemovedHediffMessage = null;
+
+		// Token: 0x04002A9C RID: 10908
+		public float surgerySuccessChanceFactor = 1f;
+
+		// Token: 0x04002A9D RID: 10909
+		public float deathOnFailedSurgeryChance = 0f;
+
+		// Token: 0x04002A9E RID: 10910
+		public bool targetsBodyPart = true;
+
+		// Token: 0x04002A9F RID: 10911
+		public bool anesthetize = true;
+
+		// Token: 0x04002AA0 RID: 10912
+		public bool requireBed = true;
+
+		// Token: 0x04002AA1 RID: 10913
+		public ResearchProjectDef researchPrerequisite = null;
+
+		// Token: 0x04002AA2 RID: 10914
+		[NoTranslate]
+		public List<string> factionPrerequisiteTags = null;
+
+		// Token: 0x04002AA3 RID: 10915
+		public ConceptDef conceptLearned = null;
+
+		// Token: 0x04002AA4 RID: 10916
+		public bool dontShowIfAnyIngredientMissing;
+
+		// Token: 0x04002AA5 RID: 10917
+		[Unsaved]
+		private RecipeWorker workerInt = null;
+
+		// Token: 0x04002AA6 RID: 10918
+		[Unsaved]
+		private RecipeWorkerCounter workerCounterInt = null;
+
+		// Token: 0x04002AA7 RID: 10919
+		[Unsaved]
+		private IngredientValueGetter ingredientValueGetterInt = null;
+
+		// Token: 0x04002AA8 RID: 10920
+		[Unsaved]
+		private List<ThingDef> premultipliedSmallIngredients = null;
 	}
 }

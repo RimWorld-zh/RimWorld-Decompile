@@ -1,20 +1,24 @@
-using RimWorld.Planet;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld.Planet;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020003FB RID: 1019
 	public class GenStep_RocksFromGrid : GenStep
 	{
-		private class RoofThreshold
+		// Token: 0x17000257 RID: 599
+		// (get) Token: 0x06001187 RID: 4487 RVA: 0x00097BE0 File Offset: 0x00095FE0
+		public override int SeedPart
 		{
-			public RoofDef roofDef;
-
-			public float minGridVal;
+			get
+			{
+				return 1182952823;
+			}
 		}
 
-		private const int MinRoofedCellsPerGroup = 20;
-
+		// Token: 0x06001188 RID: 4488 RVA: 0x00097BFC File Offset: 0x00095FFC
 		public static ThingDef RockDefAt(IntVec3 c)
 		{
 			ThingDef thingDef = null;
@@ -30,102 +34,123 @@ namespace RimWorld
 			}
 			if (thingDef == null)
 			{
-				Log.ErrorOnce("Did not get rock def to generate at " + c, 50812);
+				Log.ErrorOnce("Did not get rock def to generate at " + c, 50812, false);
 				thingDef = ThingDefOf.Sandstone;
 			}
 			return thingDef;
 		}
 
+		// Token: 0x06001189 RID: 4489 RVA: 0x00097C98 File Offset: 0x00096098
 		public override void Generate(Map map)
 		{
 			if (!map.TileInfo.WaterCovered)
 			{
 				map.regionAndRoomUpdater.Enabled = false;
 				float num = 0.7f;
-				List<RoofThreshold> list = new List<RoofThreshold>();
-				RoofThreshold roofThreshold = new RoofThreshold();
-				roofThreshold.roofDef = RoofDefOf.RoofRockThick;
-				roofThreshold.minGridVal = (float)(num * 1.1399999856948853);
-				list.Add(roofThreshold);
-				RoofThreshold roofThreshold2 = new RoofThreshold();
-				roofThreshold2.roofDef = RoofDefOf.RoofRockThin;
-				roofThreshold2.minGridVal = (float)(num * 1.0399999618530273);
-				list.Add(roofThreshold2);
+				List<GenStep_RocksFromGrid.RoofThreshold> list = new List<GenStep_RocksFromGrid.RoofThreshold>();
+				list.Add(new GenStep_RocksFromGrid.RoofThreshold
+				{
+					roofDef = RoofDefOf.RoofRockThick,
+					minGridVal = num * 1.14f
+				});
+				list.Add(new GenStep_RocksFromGrid.RoofThreshold
+				{
+					roofDef = RoofDefOf.RoofRockThin,
+					minGridVal = num * 1.04f
+				});
 				MapGenFloatGrid elevation = MapGenerator.Elevation;
 				MapGenFloatGrid caves = MapGenerator.Caves;
-				foreach (IntVec3 allCell in map.AllCells)
+				foreach (IntVec3 intVec in map.AllCells)
 				{
-					float num2 = elevation[allCell];
+					float num2 = elevation[intVec];
 					if (num2 > num)
 					{
-						if (caves[allCell] <= 0.0)
+						if (caves[intVec] <= 0f)
 						{
-							ThingDef def = GenStep_RocksFromGrid.RockDefAt(allCell);
-							GenSpawn.Spawn(def, allCell, map);
+							ThingDef def = GenStep_RocksFromGrid.RockDefAt(intVec);
+							GenSpawn.Spawn(def, intVec, map, WipeMode.Vanish);
 						}
-						int num3 = 0;
-						while (num3 < list.Count)
+						for (int i = 0; i < list.Count; i++)
 						{
-							if (!(num2 > list[num3].minGridVal))
+							if (num2 > list[i].minGridVal)
 							{
-								num3++;
-								continue;
+								map.roofGrid.SetRoof(intVec, list[i].roofDef);
+								break;
 							}
-							map.roofGrid.SetRoof(allCell, list[num3].roofDef);
-							break;
 						}
 					}
 				}
 				BoolGrid visited = new BoolGrid(map);
 				List<IntVec3> toRemove = new List<IntVec3>();
-				foreach (IntVec3 allCell2 in map.AllCells)
+				foreach (IntVec3 intVec2 in map.AllCells)
 				{
-					if (!visited[allCell2] && this.IsNaturalRoofAt(allCell2, map))
+					if (!visited[intVec2])
 					{
-						toRemove.Clear();
-						map.floodFiller.FloodFill(allCell2, (IntVec3 x) => this.IsNaturalRoofAt(x, map), delegate(IntVec3 x)
+						if (this.IsNaturalRoofAt(intVec2, map))
 						{
-							visited[x] = true;
-							toRemove.Add(x);
-						}, 2147483647, false, null);
-						if (toRemove.Count < 20)
-						{
-							for (int i = 0; i < toRemove.Count; i++)
+							toRemove.Clear();
+							map.floodFiller.FloodFill(intVec2, (IntVec3 x) => this.IsNaturalRoofAt(x, map), delegate(IntVec3 x)
 							{
-								map.roofGrid.SetRoof(toRemove[i], null);
+								visited[x] = true;
+								toRemove.Add(x);
+							}, int.MaxValue, false, null);
+							if (toRemove.Count < 20)
+							{
+								for (int j = 0; j < toRemove.Count; j++)
+								{
+									map.roofGrid.SetRoof(toRemove[j], null);
+								}
 							}
 						}
 					}
 				}
 				GenStep_ScatterLumpsMineable genStep_ScatterLumpsMineable = new GenStep_ScatterLumpsMineable();
-				float num4 = 10f;
+				genStep_ScatterLumpsMineable.maxValue = this.maxMineableValue;
+				float num3 = 10f;
 				switch (Find.WorldGrid[map.Tile].hilliness)
 				{
 				case Hilliness.Flat:
-					num4 = 4f;
+					num3 = 4f;
 					break;
 				case Hilliness.SmallHills:
-					num4 = 8f;
+					num3 = 8f;
 					break;
 				case Hilliness.LargeHills:
-					num4 = 11f;
+					num3 = 11f;
 					break;
 				case Hilliness.Mountainous:
-					num4 = 15f;
+					num3 = 15f;
 					break;
 				case Hilliness.Impassable:
-					num4 = 16f;
+					num3 = 16f;
 					break;
 				}
-				genStep_ScatterLumpsMineable.countPer10kCellsRange = new FloatRange(num4, num4);
+				genStep_ScatterLumpsMineable.countPer10kCellsRange = new FloatRange(num3, num3);
 				genStep_ScatterLumpsMineable.Generate(map);
 				map.regionAndRoomUpdater.Enabled = true;
 			}
 		}
 
+		// Token: 0x0600118A RID: 4490 RVA: 0x00098030 File Offset: 0x00096430
 		private bool IsNaturalRoofAt(IntVec3 c, Map map)
 		{
 			return c.Roofed(map) && c.GetRoof(map).isNatural;
+		}
+
+		// Token: 0x04000AA5 RID: 2725
+		private float maxMineableValue = float.MaxValue;
+
+		// Token: 0x04000AA6 RID: 2726
+		private const int MinRoofedCellsPerGroup = 20;
+
+		// Token: 0x020003FC RID: 1020
+		private class RoofThreshold
+		{
+			// Token: 0x04000AA7 RID: 2727
+			public RoofDef roofDef;
+
+			// Token: 0x04000AA8 RID: 2728
+			public float minGridVal;
 		}
 	}
 }

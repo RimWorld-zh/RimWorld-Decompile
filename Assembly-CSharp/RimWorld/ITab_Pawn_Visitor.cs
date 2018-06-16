@@ -1,25 +1,25 @@
+﻿using System;
 using System.Linq;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200084F RID: 2127
 	public abstract class ITab_Pawn_Visitor : ITab
 	{
-		private const float CheckboxInterval = 30f;
-
-		private const float CheckboxMargin = 50f;
-
+		// Token: 0x06003035 RID: 12341 RVA: 0x001A38BF File Offset: 0x001A1CBF
 		public ITab_Pawn_Visitor()
 		{
-			base.size = new Vector2(280f, 450f);
+			this.size = new Vector2(280f, 450f);
 		}
 
+		// Token: 0x06003036 RID: 12342 RVA: 0x001A38E0 File Offset: 0x001A1CE0
 		protected override void FillTab()
 		{
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.PrisonerTab, KnowledgeAmount.FrameDisplayed);
 			Text.Font = GameFont.Small;
-			Rect rect = new Rect(0f, 0f, base.size.x, base.size.y);
+			Rect rect = new Rect(0f, 0f, this.size.x, this.size.y);
 			Rect rect2 = rect.ContractedBy(10f);
 			rect2.yMin += 24f;
 			bool isPrisonerOfColony = base.SelPawn.IsPrisonerOfColony;
@@ -28,7 +28,7 @@ namespace RimWorld
 			Rect rect3 = listing_Standard.GetRect(Text.LineHeight);
 			rect3.width *= 0.75f;
 			bool getsFood = base.SelPawn.guest.GetsFood;
-			Widgets.CheckboxLabeled(rect3, "GetsFood".Translate(), ref getsFood, false);
+			Widgets.CheckboxLabeled(rect3, "GetsFood".Translate(), ref getsFood, false, null, null, false);
 			base.SelPawn.guest.GetsFood = getsFood;
 			listing_Standard.Gap(12f);
 			Rect rect4 = listing_Standard.GetRect(28f);
@@ -37,30 +37,33 @@ namespace RimWorld
 			listing_Standard.Gap(4f);
 			if (isPrisonerOfColony)
 			{
-				listing_Standard.Label("RecruitmentDifficulty".Translate() + ": " + base.SelPawn.RecruitDifficulty(Faction.OfPlayer, false).ToStringPercent(), -1f);
+				listing_Standard.Label("RecruitmentDifficulty".Translate() + ": " + base.SelPawn.RecruitDifficulty(Faction.OfPlayer, false).ToStringPercent(), -1f, null);
 				if (base.SelPawn.guilt.IsGuilty)
 				{
-					listing_Standard.Label("ConsideredGuilty".Translate(base.SelPawn.guilt.TicksUntilInnocent.ToStringTicksToPeriod(true, false, true)), -1f);
+					listing_Standard.Label("ConsideredGuilty".Translate(new object[]
+					{
+						base.SelPawn.guilt.TicksUntilInnocent.ToStringTicksToPeriod()
+					}), -1f, null);
 				}
 				if (Prefs.DevMode)
 				{
-					listing_Standard.Label("Dev: Prison break MTB days: " + (int)PrisonBreakUtility.InitiatePrisonBreakMtbDays(base.SelPawn), -1f);
+					listing_Standard.Label("Dev: Prison break MTB days: " + (int)PrisonBreakUtility.InitiatePrisonBreakMtbDays(base.SelPawn), -1f, null);
 				}
 				Rect rect5 = listing_Standard.GetRect(200f).Rounded();
 				Widgets.DrawMenuSection(rect5);
 				Rect position = rect5.ContractedBy(10f);
 				GUI.BeginGroup(position);
 				Rect rect6 = new Rect(0f, 0f, position.width, 30f);
-				foreach (PrisonerInteractionModeDef item in from pim in DefDatabase<PrisonerInteractionModeDef>.AllDefs
+				foreach (PrisonerInteractionModeDef prisonerInteractionModeDef in from pim in DefDatabase<PrisonerInteractionModeDef>.AllDefs
 				orderby pim.listOrder
 				select pim)
 				{
-					if (Widgets.RadioButtonLabeled(rect6, item.LabelCap, base.SelPawn.guest.interactionMode == item))
+					if (Widgets.RadioButtonLabeled(rect6, prisonerInteractionModeDef.LabelCap, base.SelPawn.guest.interactionMode == prisonerInteractionModeDef))
 					{
-						base.SelPawn.guest.interactionMode = item;
-						if (item == PrisonerInteractionModeDefOf.Execution && base.SelPawn.MapHeld != null && !this.ColonyHasAnyWardenCapableOfViolence(base.SelPawn.MapHeld))
+						base.SelPawn.guest.interactionMode = prisonerInteractionModeDef;
+						if (prisonerInteractionModeDef == PrisonerInteractionModeDefOf.Execution && base.SelPawn.MapHeld != null && !this.ColonyHasAnyWardenCapableOfViolence(base.SelPawn.MapHeld))
 						{
-							Messages.Message("MessageCantDoExecutionBecauseNoWardenCapableOfViolence".Translate(), base.SelPawn, MessageTypeDefOf.CautionInput);
+							Messages.Message("MessageCantDoExecutionBecauseNoWardenCapableOfViolence".Translate(), base.SelPawn, MessageTypeDefOf.CautionInput, false);
 						}
 					}
 					rect6.y += 28f;
@@ -70,16 +73,23 @@ namespace RimWorld
 			listing_Standard.End();
 		}
 
+		// Token: 0x06003037 RID: 12343 RVA: 0x001A3C20 File Offset: 0x001A2020
 		private bool ColonyHasAnyWardenCapableOfViolence(Map map)
 		{
-			foreach (Pawn item in map.mapPawns.FreeColonistsSpawned)
+			foreach (Pawn pawn in map.mapPawns.FreeColonistsSpawned)
 			{
-				if (item.workSettings.WorkIsActive(WorkTypeDefOf.Warden) && (item.story == null || !item.story.WorkTagIsDisabled(WorkTags.Violent)))
+				if (pawn.workSettings.WorkIsActive(WorkTypeDefOf.Warden) && (pawn.story == null || !pawn.story.WorkTagIsDisabled(WorkTags.Violent)))
 				{
 					return true;
 				}
 			}
 			return false;
 		}
+
+		// Token: 0x04001A17 RID: 6679
+		private const float CheckboxInterval = 30f;
+
+		// Token: 0x04001A18 RID: 6680
+		private const float CheckboxMargin = 50f;
 	}
 }

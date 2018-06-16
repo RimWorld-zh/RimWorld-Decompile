@@ -1,76 +1,20 @@
+﻿using System;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000AE8 RID: 2792
 	public class CameraDriver : MonoBehaviour
 	{
-		public CameraShaker shaker = new CameraShaker();
-
-		private Camera cachedCamera;
-
-		private GameObject reverbDummy;
-
-		public CameraMapConfig config = new CameraMapConfig_Normal();
-
-		private Vector3 velocity;
-
-		private Vector3 rootPos;
-
-		private float rootSize;
-
-		private float desiredSize;
-
-		private Vector2 desiredDolly = Vector2.zero;
-
-		private Vector2 mouseDragVect = Vector2.zero;
-
-		private bool mouseCoveredByUI;
-
-		private float mouseTouchingScreenBottomEdgeStartTime = -1f;
-
-		private static int lastViewRectGetFrame = -1;
-
-		private static CellRect lastViewRect;
-
-		public const float MaxDeltaTime = 0.025f;
-
-		private const float ScreenDollyEdgeWidth = 20f;
-
-		private const float ScreenDollyEdgeWidth_BottomFullscreen = 6f;
-
-		private const float MinDurationForMouseToTouchScreenBottomEdgeToDolly = 0.28f;
-
-		private const float MapEdgeClampMarginCells = -2f;
-
-		public const float StartingSize = 24f;
-
-		private const float MinSize = 11f;
-
-		private const float MaxSize = 60f;
-
-		private const float ZoomSpeed = 2.6f;
-
-		private const float ZoomTightness = 0.4f;
-
-		private const float ZoomScaleFromAltDenominator = 35f;
-
-		private const float PageKeyZoomRate = 4f;
-
-		private const float ScrollWheelZoomRate = 0.35f;
-
-		public const float MinAltitude = 15f;
-
-		private const float MaxAltitude = 65f;
-
-		private const float ReverbDummyAltitude = 65f;
-
+		// Token: 0x17000948 RID: 2376
+		// (get) Token: 0x06003DD5 RID: 15829 RVA: 0x00209C4C File Offset: 0x0020804C
 		private Camera MyCamera
 		{
 			get
 			{
-				if ((Object)this.cachedCamera == (Object)null)
+				if (this.cachedCamera == null)
 				{
 					this.cachedCamera = base.GetComponent<Camera>();
 				}
@@ -78,42 +22,58 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000949 RID: 2377
+		// (get) Token: 0x06003DD6 RID: 15830 RVA: 0x00209C84 File Offset: 0x00208084
 		private float ScreenDollyEdgeWidthBottom
 		{
 			get
 			{
+				float result;
 				if (Screen.fullScreen)
 				{
-					return 6f;
+					result = 6f;
 				}
-				return 20f;
+				else
+				{
+					result = 20f;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x1700094A RID: 2378
+		// (get) Token: 0x06003DD7 RID: 15831 RVA: 0x00209CB4 File Offset: 0x002080B4
 		public CameraZoomRange CurrentZoom
 		{
 			get
 			{
-				if (this.rootSize < 12.0)
+				CameraZoomRange result;
+				if (this.rootSize < 12f)
 				{
-					return CameraZoomRange.Closest;
+					result = CameraZoomRange.Closest;
 				}
-				if (this.rootSize < 13.800000190734863)
+				else if (this.rootSize < 13.8f)
 				{
-					return CameraZoomRange.Close;
+					result = CameraZoomRange.Close;
 				}
-				if (this.rootSize < 42.0)
+				else if (this.rootSize < 42f)
 				{
-					return CameraZoomRange.Middle;
+					result = CameraZoomRange.Middle;
 				}
-				if (this.rootSize < 57.0)
+				else if (this.rootSize < 57f)
 				{
-					return CameraZoomRange.Far;
+					result = CameraZoomRange.Far;
 				}
-				return CameraZoomRange.Furthest;
+				else
+				{
+					result = CameraZoomRange.Furthest;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x1700094B RID: 2379
+		// (get) Token: 0x06003DD8 RID: 15832 RVA: 0x00209D28 File Offset: 0x00208128
 		private Vector3 CurrentRealPosition
 		{
 			get
@@ -122,6 +82,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x1700094C RID: 2380
+		// (get) Token: 0x06003DD9 RID: 15833 RVA: 0x00209D50 File Offset: 0x00208150
 		private bool AnythingPreventsCameraMotion
 		{
 			get
@@ -130,6 +92,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x1700094D RID: 2381
+		// (get) Token: 0x06003DDA RID: 15834 RVA: 0x00209D7C File Offset: 0x0020817C
 		public IntVec3 MapPosition
 		{
 			get
@@ -140,6 +104,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x1700094E RID: 2382
+		// (get) Token: 0x06003DDB RID: 15835 RVA: 0x00209DA8 File Offset: 0x002081A8
 		public CellRect CurrentViewRect
 		{
 			get
@@ -148,41 +114,42 @@ namespace Verse
 				{
 					CameraDriver.lastViewRect = default(CellRect);
 					float num = (float)UI.screenWidth / (float)UI.screenHeight;
-					Vector3 currentRealPosition = this.CurrentRealPosition;
-					CameraDriver.lastViewRect.minX = Mathf.FloorToInt((float)(currentRealPosition.x - this.rootSize * num - 1.0));
-					Vector3 currentRealPosition2 = this.CurrentRealPosition;
-					CameraDriver.lastViewRect.maxX = Mathf.CeilToInt(currentRealPosition2.x + this.rootSize * num);
-					Vector3 currentRealPosition3 = this.CurrentRealPosition;
-					CameraDriver.lastViewRect.minZ = Mathf.FloorToInt((float)(currentRealPosition3.z - this.rootSize - 1.0));
-					Vector3 currentRealPosition4 = this.CurrentRealPosition;
-					CameraDriver.lastViewRect.maxZ = Mathf.CeilToInt(currentRealPosition4.z + this.rootSize);
+					CameraDriver.lastViewRect.minX = Mathf.FloorToInt(this.CurrentRealPosition.x - this.rootSize * num - 1f);
+					CameraDriver.lastViewRect.maxX = Mathf.CeilToInt(this.CurrentRealPosition.x + this.rootSize * num);
+					CameraDriver.lastViewRect.minZ = Mathf.FloorToInt(this.CurrentRealPosition.z - this.rootSize - 1f);
+					CameraDriver.lastViewRect.maxZ = Mathf.CeilToInt(this.CurrentRealPosition.z + this.rootSize);
 					CameraDriver.lastViewRectGetFrame = Time.frameCount;
 				}
 				return CameraDriver.lastViewRect;
 			}
 		}
 
+		// Token: 0x1700094F RID: 2383
+		// (get) Token: 0x06003DDC RID: 15836 RVA: 0x00209EA0 File Offset: 0x002082A0
 		public static float HitchReduceFactor
 		{
 			get
 			{
 				float result = 1f;
-				if (Time.deltaTime > 0.02500000037252903)
+				if (Time.deltaTime > 0.1f)
 				{
-					result = (float)(0.02500000037252903 / Time.deltaTime);
+					result = 0.1f / Time.deltaTime;
 				}
 				return result;
 			}
 		}
 
+		// Token: 0x17000950 RID: 2384
+		// (get) Token: 0x06003DDD RID: 15837 RVA: 0x00209ED8 File Offset: 0x002082D8
 		public float CellSizePixels
 		{
 			get
 			{
-				return (float)((float)UI.screenHeight / (this.rootSize * 2.0));
+				return (float)UI.screenHeight / (this.rootSize * 2f);
 			}
 		}
 
+		// Token: 0x06003DDE RID: 15838 RVA: 0x00209F00 File Offset: 0x00208300
 		public void Awake()
 		{
 			this.ResetSize();
@@ -191,108 +158,117 @@ namespace Verse
 			this.MyCamera.farClipPlane = 71.5f;
 		}
 
+		// Token: 0x06003DDF RID: 15839 RVA: 0x00209F2F File Offset: 0x0020832F
 		public void OnPreRender()
 		{
-			if (LongEventHandler.ShouldWaitForEvent || Find.VisibleMap != null)
-				;
-		}
-
-		public void OnPreCull()
-		{
-			if (!LongEventHandler.ShouldWaitForEvent && Find.VisibleMap != null && !WorldRendererUtility.WorldRenderedNow)
+			if (!LongEventHandler.ShouldWaitForEvent)
 			{
-				Find.VisibleMap.weatherManager.DrawAllWeather();
+				if (Find.CurrentMap == null)
+				{
+				}
 			}
 		}
 
+		// Token: 0x06003DE0 RID: 15840 RVA: 0x00209F50 File Offset: 0x00208350
+		public void OnPreCull()
+		{
+			if (!LongEventHandler.ShouldWaitForEvent)
+			{
+				if (Find.CurrentMap != null)
+				{
+					if (!WorldRendererUtility.WorldRenderedNow)
+					{
+						Find.CurrentMap.weatherManager.DrawAllWeather();
+					}
+				}
+			}
+		}
+
+		// Token: 0x06003DE1 RID: 15841 RVA: 0x00209F8C File Offset: 0x0020838C
 		public void OnGUI()
 		{
 			GUI.depth = 100;
-			if (!LongEventHandler.ShouldWaitForEvent && Find.VisibleMap != null)
+			if (!LongEventHandler.ShouldWaitForEvent)
 			{
-				UnityGUIBugsFixer.OnGUI();
-				this.mouseCoveredByUI = false;
-				if (Find.WindowStack.GetWindowAt(UI.MousePositionOnUIInverted) != null)
+				if (Find.CurrentMap != null)
 				{
-					this.mouseCoveredByUI = true;
-				}
-				if (!this.AnythingPreventsCameraMotion)
-				{
-					if (Event.current.type == EventType.MouseDrag && Event.current.button == 2)
+					UnityGUIBugsFixer.OnGUI();
+					this.mouseCoveredByUI = false;
+					if (Find.WindowStack.GetWindowAt(UI.MousePositionOnUIInverted) != null)
 					{
-						this.mouseDragVect = Event.current.delta;
-						Event.current.Use();
+						this.mouseCoveredByUI = true;
 					}
-					float num = 0f;
-					if (Event.current.type == EventType.ScrollWheel)
+					if (!this.AnythingPreventsCameraMotion)
 					{
-						float num2 = num;
-						Vector2 delta = Event.current.delta;
-						num = (float)(num2 - delta.y * 0.34999999403953552);
-						PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.CameraZoom, KnowledgeAmount.TinyInteraction);
-					}
-					if (KeyBindingDefOf.MapZoomIn.KeyDownEvent)
-					{
-						num = (float)(num + 4.0);
-						PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.CameraZoom, KnowledgeAmount.SmallInteraction);
-					}
-					if (KeyBindingDefOf.MapZoomOut.KeyDownEvent)
-					{
-						num = (float)(num - 4.0);
-						PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.CameraZoom, KnowledgeAmount.SmallInteraction);
-					}
-					this.desiredSize -= (float)(num * 2.5999999046325684 * this.rootSize / 35.0);
-					if (this.desiredSize < 11.0)
-					{
-						this.desiredSize = 11f;
-					}
-					if (this.desiredSize > 60.0)
-					{
-						this.desiredSize = 60f;
-					}
-					this.desiredDolly = Vector3.zero;
-					if (KeyBindingDefOf.MapDollyLeft.IsDown)
-					{
-						this.desiredDolly.x = (float)(0.0 - this.config.dollyRateKeys);
-					}
-					if (KeyBindingDefOf.MapDollyRight.IsDown)
-					{
-						this.desiredDolly.x = this.config.dollyRateKeys;
-					}
-					if (KeyBindingDefOf.MapDollyUp.IsDown)
-					{
-						this.desiredDolly.y = this.config.dollyRateKeys;
-					}
-					if (KeyBindingDefOf.MapDollyDown.IsDown)
-					{
-						this.desiredDolly.y = (float)(0.0 - this.config.dollyRateKeys);
-					}
-					if (this.mouseDragVect != Vector2.zero)
-					{
-						this.mouseDragVect *= CameraDriver.HitchReduceFactor;
-						this.mouseDragVect.x *= -1f;
-						this.desiredDolly += this.mouseDragVect * this.config.dollyRateMouseDrag;
-						this.mouseDragVect = Vector2.zero;
+						if (Event.current.type == EventType.MouseDrag && Event.current.button == 2)
+						{
+							this.mouseDragVect = Event.current.delta;
+							Event.current.Use();
+						}
+						float num = 0f;
+						if (Event.current.type == EventType.ScrollWheel)
+						{
+							num -= Event.current.delta.y * 0.35f;
+							PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.CameraZoom, KnowledgeAmount.TinyInteraction);
+						}
+						if (KeyBindingDefOf.MapZoom_In.KeyDownEvent)
+						{
+							num += 4f;
+							PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.CameraZoom, KnowledgeAmount.SmallInteraction);
+						}
+						if (KeyBindingDefOf.MapZoom_Out.KeyDownEvent)
+						{
+							num -= 4f;
+							PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.CameraZoom, KnowledgeAmount.SmallInteraction);
+						}
+						this.desiredSize -= num * this.config.zoomSpeed * this.rootSize / 35f;
+						this.desiredSize = Mathf.Clamp(this.desiredSize, 11f, 60f);
+						this.desiredDolly = Vector3.zero;
+						if (KeyBindingDefOf.MapDolly_Left.IsDown)
+						{
+							this.desiredDolly.x = -this.config.dollyRateKeys;
+						}
+						if (KeyBindingDefOf.MapDolly_Right.IsDown)
+						{
+							this.desiredDolly.x = this.config.dollyRateKeys;
+						}
+						if (KeyBindingDefOf.MapDolly_Up.IsDown)
+						{
+							this.desiredDolly.y = this.config.dollyRateKeys;
+						}
+						if (KeyBindingDefOf.MapDolly_Down.IsDown)
+						{
+							this.desiredDolly.y = -this.config.dollyRateKeys;
+						}
+						if (this.mouseDragVect != Vector2.zero)
+						{
+							this.mouseDragVect *= CameraDriver.HitchReduceFactor;
+							this.mouseDragVect.x = this.mouseDragVect.x * -1f;
+							this.desiredDolly += this.mouseDragVect * this.config.dollyRateMouseDrag;
+							this.mouseDragVect = Vector2.zero;
+						}
+						this.config.ConfigOnGUI();
 					}
 				}
 			}
 		}
 
+		// Token: 0x06003DE2 RID: 15842 RVA: 0x0020A224 File Offset: 0x00208624
 		public void Update()
 		{
 			if (LongEventHandler.ShouldWaitForEvent)
 			{
-				if ((Object)Current.SubcameraDriver != (Object)null)
+				if (Current.SubcameraDriver != null)
 				{
 					Current.SubcameraDriver.UpdatePositions(this.MyCamera);
 				}
 			}
-			else if (Find.VisibleMap != null)
+			else if (Find.CurrentMap != null)
 			{
 				Vector2 lhs = this.CalculateCurInputDollyVect();
 				if (lhs != Vector2.zero)
 				{
-					float d = (float)((this.rootSize - 11.0) / 49.0 * 0.699999988079071 + 0.30000001192092896);
+					float d = (this.rootSize - 11f) / 49f * 0.7f + 0.3f;
 					this.velocity = new Vector3(lhs.x, 0f, lhs.y) * d;
 					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.CameraDolly, KnowledgeAmount.FrameInteraction);
 				}
@@ -300,56 +276,51 @@ namespace Verse
 				{
 					float d2 = Time.deltaTime * CameraDriver.HitchReduceFactor;
 					this.rootPos += this.velocity * d2 * this.config.moveSpeedScale;
-					float x = this.rootPos.x;
-					IntVec3 size = Find.VisibleMap.Size;
-					if (x > (float)size.x + -2.0)
-					{
-						ref Vector3 val = ref this.rootPos;
-						IntVec3 size2 = Find.VisibleMap.Size;
-						val.x = (float)((float)size2.x + -2.0);
-					}
-					float z = this.rootPos.z;
-					IntVec3 size3 = Find.VisibleMap.Size;
-					if (z > (float)size3.z + -2.0)
-					{
-						ref Vector3 val2 = ref this.rootPos;
-						IntVec3 size4 = Find.VisibleMap.Size;
-						val2.z = (float)((float)size4.z + -2.0);
-					}
-					if (this.rootPos.x < 2.0)
-					{
-						this.rootPos.x = 2f;
-					}
-					if (this.rootPos.z < 2.0)
-					{
-						this.rootPos.z = 2f;
-					}
+					this.rootPos.x = Mathf.Clamp(this.rootPos.x, 2f, (float)Find.CurrentMap.Size.x + -2f);
+					this.rootPos.z = Mathf.Clamp(this.rootPos.z, 2f, (float)Find.CurrentMap.Size.z + -2f);
 				}
-				if (this.velocity != Vector3.zero)
+				int num = Gen.FixedTimeStepUpdate(ref this.fixedTimeStepBuffer, 60f);
+				for (int i = 0; i < num; i++)
 				{
-					this.velocity *= this.config.camSpeedDecayFactor;
-					if (this.velocity.magnitude < 0.10000000149011612)
+					if (this.velocity != Vector3.zero)
 					{
-						this.velocity = Vector3.zero;
+						this.velocity *= this.config.camSpeedDecayFactor;
+						if (this.velocity.magnitude < 0.1f)
+						{
+							this.velocity = Vector3.zero;
+						}
 					}
+					if (this.config.smoothZoom)
+					{
+						float num2 = Mathf.Lerp(this.rootSize, this.desiredSize, 0.05f);
+						this.desiredSize += (num2 - this.rootSize) * this.config.zoomPreserveFactor;
+						this.rootSize = num2;
+					}
+					else
+					{
+						float num3 = this.desiredSize - this.rootSize;
+						float num4 = num3 * 0.4f;
+						this.desiredSize += this.config.zoomPreserveFactor * num4;
+						this.rootSize += num4;
+					}
+					this.config.ConfigFixedUpdate_60(ref this.velocity);
 				}
-				float num = this.desiredSize - this.rootSize;
-				this.rootSize += (float)(num * 0.40000000596046448);
 				this.shaker.Update();
 				this.ApplyPositionToGameObject();
 				Current.SubcameraDriver.UpdatePositions(this.MyCamera);
-				if (Find.VisibleMap != null)
+				if (Find.CurrentMap != null)
 				{
-					RememberedCameraPos rememberedCameraPos = Find.VisibleMap.rememberedCameraPos;
+					RememberedCameraPos rememberedCameraPos = Find.CurrentMap.rememberedCameraPos;
 					rememberedCameraPos.rootPos = this.rootPos;
 					rememberedCameraPos.rootSize = this.rootSize;
 				}
 			}
 		}
 
+		// Token: 0x06003DE3 RID: 15843 RVA: 0x0020A514 File Offset: 0x00208914
 		private void ApplyPositionToGameObject()
 		{
-			this.rootPos.y = (float)(15.0 + (this.rootSize - 11.0) / 49.0 * 50.0);
+			this.rootPos.y = 15f + (this.rootSize - 11f) / 49f * 50f;
 			this.MyCamera.orthographicSize = this.rootSize;
 			this.MyCamera.transform.position = this.rootPos + this.shaker.ShakeOffset;
 			Vector3 position = base.transform.position;
@@ -357,6 +328,7 @@ namespace Verse
 			this.reverbDummy.transform.position = position;
 		}
 
+		// Token: 0x06003DE4 RID: 15844 RVA: 0x0020A5AC File Offset: 0x002089AC
 		private Vector2 CalculateCurInputDollyVect()
 		{
 			Vector2 vector = this.desiredDolly;
@@ -378,25 +350,25 @@ namespace Verse
 				if (!rect.Contains(point) && !rect3.Contains(point) && !rect2.Contains(point) && !rect4.Contains(point))
 				{
 					Vector2 b = new Vector2(0f, 0f);
-					if (mousePositionOnUI.x >= 0.0 && mousePositionOnUI.x < 20.0)
+					if (mousePositionOnUI.x >= 0f && mousePositionOnUI.x < 20f)
 					{
 						b.x -= this.config.dollyRateScreenEdge;
 					}
-					if (mousePositionOnUI.x <= (float)UI.screenWidth && mousePositionOnUI.x > (float)UI.screenWidth - 20.0)
+					if (mousePositionOnUI.x <= (float)UI.screenWidth && mousePositionOnUI.x > (float)UI.screenWidth - 20f)
 					{
 						b.x += this.config.dollyRateScreenEdge;
 					}
-					if (mousePositionOnUI.y <= (float)UI.screenHeight && mousePositionOnUI.y > (float)UI.screenHeight - 20.0)
+					if (mousePositionOnUI.y <= (float)UI.screenHeight && mousePositionOnUI.y > (float)UI.screenHeight - 20f)
 					{
 						b.y += this.config.dollyRateScreenEdge;
 					}
-					if (mousePositionOnUI.y >= 0.0 && mousePositionOnUI.y < this.ScreenDollyEdgeWidthBottom)
+					if (mousePositionOnUI.y >= 0f && mousePositionOnUI.y < this.ScreenDollyEdgeWidthBottom)
 					{
-						if (this.mouseTouchingScreenBottomEdgeStartTime < 0.0)
+						if (this.mouseTouchingScreenBottomEdgeStartTime < 0f)
 						{
 							this.mouseTouchingScreenBottomEdgeStartTime = Time.realtimeSinceStartup;
 						}
-						if (Time.realtimeSinceStartup - this.mouseTouchingScreenBottomEdgeStartTime >= 0.2800000011920929)
+						if (Time.realtimeSinceStartup - this.mouseTouchingScreenBottomEdgeStartTime >= 0.28f)
 						{
 							b.y -= this.config.dollyRateScreenEdge;
 						}
@@ -416,6 +388,7 @@ namespace Verse
 			return vector;
 		}
 
+		// Token: 0x06003DE5 RID: 15845 RVA: 0x0020A8A0 File Offset: 0x00208CA0
 		public void Expose()
 		{
 			if (Scribe.EnterNode("cameraMap"))
@@ -433,29 +406,123 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06003DE6 RID: 15846 RVA: 0x0020A91C File Offset: 0x00208D1C
 		public void ResetSize()
 		{
 			this.desiredSize = 24f;
 			this.rootSize = this.desiredSize;
 		}
 
-		public void JumpToVisibleMapLoc(IntVec3 cell)
+		// Token: 0x06003DE7 RID: 15847 RVA: 0x0020A936 File Offset: 0x00208D36
+		public void JumpToCurrentMapLoc(IntVec3 cell)
 		{
-			this.JumpToVisibleMapLoc(cell.ToVector3Shifted());
+			this.JumpToCurrentMapLoc(cell.ToVector3Shifted());
 		}
 
-		public void JumpToVisibleMapLoc(Vector3 loc)
+		// Token: 0x06003DE8 RID: 15848 RVA: 0x0020A946 File Offset: 0x00208D46
+		public void JumpToCurrentMapLoc(Vector3 loc)
 		{
 			this.rootPos = new Vector3(loc.x, this.rootPos.y, loc.z);
 		}
 
+		// Token: 0x06003DE9 RID: 15849 RVA: 0x0020A96D File Offset: 0x00208D6D
 		public void SetRootPosAndSize(Vector3 rootPos, float rootSize)
 		{
 			this.rootPos = rootPos;
 			this.rootSize = rootSize;
 			this.desiredDolly = Vector2.zero;
 			this.desiredSize = rootSize;
-			LongEventHandler.ExecuteWhenFinished(this.ApplyPositionToGameObject);
+			LongEventHandler.ExecuteWhenFinished(new Action(this.ApplyPositionToGameObject));
 		}
+
+		// Token: 0x0400270B RID: 9995
+		public CameraShaker shaker = new CameraShaker();
+
+		// Token: 0x0400270C RID: 9996
+		private Camera cachedCamera = null;
+
+		// Token: 0x0400270D RID: 9997
+		private GameObject reverbDummy;
+
+		// Token: 0x0400270E RID: 9998
+		public CameraMapConfig config = new CameraMapConfig_Normal();
+
+		// Token: 0x0400270F RID: 9999
+		private Vector3 velocity;
+
+		// Token: 0x04002710 RID: 10000
+		private Vector3 rootPos;
+
+		// Token: 0x04002711 RID: 10001
+		private float rootSize;
+
+		// Token: 0x04002712 RID: 10002
+		private float desiredSize;
+
+		// Token: 0x04002713 RID: 10003
+		private Vector2 desiredDolly = Vector2.zero;
+
+		// Token: 0x04002714 RID: 10004
+		private Vector2 mouseDragVect = Vector2.zero;
+
+		// Token: 0x04002715 RID: 10005
+		private bool mouseCoveredByUI = false;
+
+		// Token: 0x04002716 RID: 10006
+		private float mouseTouchingScreenBottomEdgeStartTime = -1f;
+
+		// Token: 0x04002717 RID: 10007
+		private float fixedTimeStepBuffer;
+
+		// Token: 0x04002718 RID: 10008
+		private static int lastViewRectGetFrame = -1;
+
+		// Token: 0x04002719 RID: 10009
+		private static CellRect lastViewRect;
+
+		// Token: 0x0400271A RID: 10010
+		public const float MaxDeltaTime = 0.1f;
+
+		// Token: 0x0400271B RID: 10011
+		private const float ScreenDollyEdgeWidth = 20f;
+
+		// Token: 0x0400271C RID: 10012
+		private const float ScreenDollyEdgeWidth_BottomFullscreen = 6f;
+
+		// Token: 0x0400271D RID: 10013
+		private const float MinDurationForMouseToTouchScreenBottomEdgeToDolly = 0.28f;
+
+		// Token: 0x0400271E RID: 10014
+		private const float MapEdgeClampMarginCells = -2f;
+
+		// Token: 0x0400271F RID: 10015
+		public const float StartingSize = 24f;
+
+		// Token: 0x04002720 RID: 10016
+		private const float MinSize = 11f;
+
+		// Token: 0x04002721 RID: 10017
+		private const float MaxSize = 60f;
+
+		// Token: 0x04002722 RID: 10018
+		private const float ZoomTightness = 0.4f;
+
+		// Token: 0x04002723 RID: 10019
+		private const float ZoomScaleFromAltDenominator = 35f;
+
+		// Token: 0x04002724 RID: 10020
+		private const float PageKeyZoomRate = 4f;
+
+		// Token: 0x04002725 RID: 10021
+		private const float ScrollWheelZoomRate = 0.35f;
+
+		// Token: 0x04002726 RID: 10022
+		public const float MinAltitude = 15f;
+
+		// Token: 0x04002727 RID: 10023
+		private const float MaxAltitude = 65f;
+
+		// Token: 0x04002728 RID: 10024
+		private const float ReverbDummyAltitude = 65f;
 	}
 }

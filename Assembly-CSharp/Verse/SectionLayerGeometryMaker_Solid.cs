@@ -1,29 +1,32 @@
+﻿using System;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000C44 RID: 3140
 	internal static class SectionLayerGeometryMaker_Solid
 	{
+		// Token: 0x06004525 RID: 17701 RVA: 0x00245450 File Offset: 0x00243850
 		public static void MakeBaseGeometry(Section section, LayerSubMesh sm, AltitudeLayer altitudeLayer)
 		{
 			sm.Clear(MeshParts.Verts | MeshParts.Tris);
 			CellRect cellRect = new CellRect(section.botLeft.x, section.botLeft.z, 17, 17);
 			cellRect.ClipInsideMap(section.map);
-			float y = Altitudes.AltitudeFor(altitudeLayer);
+			float y = altitudeLayer.AltitudeFor();
 			sm.verts.Capacity = cellRect.Area * 9;
 			for (int i = cellRect.minX; i <= cellRect.maxX; i++)
 			{
 				for (int j = cellRect.minZ; j <= cellRect.maxZ; j++)
 				{
 					sm.verts.Add(new Vector3((float)i, y, (float)j));
-					sm.verts.Add(new Vector3((float)i, y, (float)((float)j + 0.5)));
+					sm.verts.Add(new Vector3((float)i, y, (float)j + 0.5f));
 					sm.verts.Add(new Vector3((float)i, y, (float)(j + 1)));
-					sm.verts.Add(new Vector3((float)((float)i + 0.5), y, (float)(j + 1)));
+					sm.verts.Add(new Vector3((float)i + 0.5f, y, (float)(j + 1)));
 					sm.verts.Add(new Vector3((float)(i + 1), y, (float)(j + 1)));
-					sm.verts.Add(new Vector3((float)(i + 1), y, (float)((float)j + 0.5)));
+					sm.verts.Add(new Vector3((float)(i + 1), y, (float)j + 0.5f));
 					sm.verts.Add(new Vector3((float)(i + 1), y, (float)j));
-					sm.verts.Add(new Vector3((float)((float)i + 0.5), y, (float)j));
-					sm.verts.Add(new Vector3((float)((float)i + 0.5), y, (float)((float)j + 0.5)));
+					sm.verts.Add(new Vector3((float)i + 0.5f, y, (float)j));
+					sm.verts.Add(new Vector3((float)i + 0.5f, y, (float)j + 0.5f));
 				}
 			}
 			int num = cellRect.Area * 8 * 3;

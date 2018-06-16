@@ -1,153 +1,154 @@
+﻿using System;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020004B2 RID: 1202
 	public static class ChildRelationUtility
 	{
-		public const float MinFemaleAgeToHaveChildren = 16f;
-
-		public const float MaxFemaleAgeToHaveChildren = 45f;
-
-		public const float UsualFemaleAgeToHaveChildren = 27f;
-
-		public const float MinMaleAgeToHaveChildren = 14f;
-
-		public const float MaxMaleAgeToHaveChildren = 50f;
-
-		public const float UsualMaleAgeToHaveChildren = 30f;
-
-		public const float ChanceForChildToHaveNameOfAnyParent = 0.99f;
-
+		// Token: 0x0600156A RID: 5482 RVA: 0x000BDE98 File Offset: 0x000BC298
 		public static float ChanceOfBecomingChildOf(Pawn child, Pawn father, Pawn mother, PawnGenerationRequest? childGenerationRequest, PawnGenerationRequest? fatherGenerationRequest, PawnGenerationRequest? motherGenerationRequest)
 		{
-			try
-			{
-				return ChildRelationUtility.ChanceOfBecomingChildOfInternal(child, father, mother, childGenerationRequest, fatherGenerationRequest, motherGenerationRequest);
-			}
-			finally
-			{
-			}
-		}
-
-		private static float ChanceOfBecomingChildOfInternal(Pawn child, Pawn father, Pawn mother, PawnGenerationRequest? childGenerationRequest, PawnGenerationRequest? fatherGenerationRequest, PawnGenerationRequest? motherGenerationRequest)
-		{
+			float result;
 			if (father != null && father.gender != Gender.Male)
 			{
-				Log.Warning("Tried to calculate chance for father with gender \"" + father.gender + "\".");
-				return 0f;
+				Log.Warning("Tried to calculate chance for father with gender \"" + father.gender + "\".", false);
+				result = 0f;
 			}
-			if (mother != null && mother.gender != Gender.Female)
+			else if (mother != null && mother.gender != Gender.Female)
 			{
-				Log.Warning("Tried to calculate chance for mother with gender \"" + mother.gender + "\".");
-				return 0f;
+				Log.Warning("Tried to calculate chance for mother with gender \"" + mother.gender + "\".", false);
+				result = 0f;
 			}
-			if (father != null && child.GetFather() != null && child.GetFather() != father)
+			else if (father != null && child.GetFather() != null && child.GetFather() != father)
 			{
-				return 0f;
+				result = 0f;
 			}
-			if (mother != null && child.GetMother() != null && child.GetMother() != mother)
+			else if (mother != null && child.GetMother() != null && child.GetMother() != mother)
 			{
-				return 0f;
+				result = 0f;
 			}
-			if (mother != null && father != null && !LovePartnerRelationUtility.LovePartnerRelationExists(mother, father) && !LovePartnerRelationUtility.ExLovePartnerRelationExists(mother, father))
+			else if (mother != null && father != null && !LovePartnerRelationUtility.LovePartnerRelationExists(mother, father) && !LovePartnerRelationUtility.ExLovePartnerRelationExists(mother, father))
 			{
-				return 0f;
+				result = 0f;
 			}
-			float? melanin = ChildRelationUtility.GetMelanin(child, childGenerationRequest);
-			float? melanin2 = ChildRelationUtility.GetMelanin(father, fatherGenerationRequest);
-			float? melanin3 = ChildRelationUtility.GetMelanin(mother, motherGenerationRequest);
-			bool fatherIsNew = father != null && child.GetFather() != father;
-			bool motherIsNew = mother != null && child.GetMother() != mother;
-			float skinColorFactor = ChildRelationUtility.GetSkinColorFactor(melanin, melanin2, melanin3, fatherIsNew, motherIsNew);
-			if (skinColorFactor <= 0.0)
+			else
 			{
-				return 0f;
-			}
-			float num = 1f;
-			float num2 = 1f;
-			float num3 = 1f;
-			float num4 = 1f;
-			if (father != null && child.GetFather() == null)
-			{
-				num = ChildRelationUtility.GetParentAgeFactor(father, child, 14f, 30f, 50f);
-				if (num == 0.0)
+				float? melanin = ChildRelationUtility.GetMelanin(child, childGenerationRequest);
+				float? melanin2 = ChildRelationUtility.GetMelanin(father, fatherGenerationRequest);
+				float? melanin3 = ChildRelationUtility.GetMelanin(mother, motherGenerationRequest);
+				bool fatherIsNew = father != null && child.GetFather() != father;
+				bool motherIsNew = mother != null && child.GetMother() != mother;
+				float skinColorFactor = ChildRelationUtility.GetSkinColorFactor(melanin, melanin2, melanin3, fatherIsNew, motherIsNew);
+				if (skinColorFactor <= 0f)
 				{
-					return 0f;
+					result = 0f;
 				}
-				if (father.story.traits.HasTrait(TraitDefOf.Gay))
+				else
 				{
-					num4 = 0.1f;
+					float num = 1f;
+					float num2 = 1f;
+					float num3 = 1f;
+					float num4 = 1f;
+					if (father != null && child.GetFather() == null)
+					{
+						num = ChildRelationUtility.GetParentAgeFactor(father, child, 14f, 30f, 50f);
+						if (num == 0f)
+						{
+							return 0f;
+						}
+						if (father.story.traits.HasTrait(TraitDefOf.Gay))
+						{
+							num4 = 0.1f;
+						}
+					}
+					if (mother != null && child.GetMother() == null)
+					{
+						num2 = ChildRelationUtility.GetParentAgeFactor(mother, child, 16f, 27f, 45f);
+						if (num2 == 0f)
+						{
+							return 0f;
+						}
+						int num5 = ChildRelationUtility.NumberOfChildrenFemaleWantsEver(mother);
+						if (mother.relations.ChildrenCount >= num5)
+						{
+							return 0f;
+						}
+						num3 = 1f - (float)mother.relations.ChildrenCount / (float)num5;
+						if (mother.story.traits.HasTrait(TraitDefOf.Gay))
+						{
+							num4 = 0.1f;
+						}
+					}
+					float num6 = 1f;
+					if (mother != null)
+					{
+						Pawn firstDirectRelationPawn = mother.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Spouse, null);
+						if (firstDirectRelationPawn != null && firstDirectRelationPawn != father)
+						{
+							num6 *= 0.15f;
+						}
+					}
+					if (father != null)
+					{
+						Pawn firstDirectRelationPawn2 = father.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Spouse, null);
+						if (firstDirectRelationPawn2 != null && firstDirectRelationPawn2 != mother)
+						{
+							num6 *= 0.15f;
+						}
+					}
+					result = skinColorFactor * num * num2 * num3 * num6 * num4;
 				}
 			}
-			if (mother != null && child.GetMother() == null)
-			{
-				num2 = ChildRelationUtility.GetParentAgeFactor(mother, child, 16f, 27f, 45f);
-				if (num2 == 0.0)
-				{
-					return 0f;
-				}
-				int num5 = ChildRelationUtility.NumberOfChildrenFemaleWantsEver(mother);
-				if (mother.relations.ChildrenCount >= num5)
-				{
-					return 0f;
-				}
-				num3 = (float)(1.0 - (float)mother.relations.ChildrenCount / (float)num5);
-				if (mother.story.traits.HasTrait(TraitDefOf.Gay))
-				{
-					num4 = 0.1f;
-				}
-			}
-			float num6 = 1f;
-			if (mother != null)
-			{
-				Pawn firstDirectRelationPawn = mother.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Spouse, null);
-				if (firstDirectRelationPawn != null && firstDirectRelationPawn != father)
-				{
-					num6 = (float)(num6 * 0.15000000596046448);
-				}
-			}
-			if (father != null)
-			{
-				Pawn firstDirectRelationPawn2 = father.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Spouse, null);
-				if (firstDirectRelationPawn2 != null && firstDirectRelationPawn2 != mother)
-				{
-					num6 = (float)(num6 * 0.15000000596046448);
-				}
-			}
-			return skinColorFactor * num * num2 * num3 * num6 * num4;
+			return result;
 		}
 
+		// Token: 0x0600156B RID: 5483 RVA: 0x000BE1B8 File Offset: 0x000BC5B8
 		private static float GetParentAgeFactor(Pawn parent, Pawn child, float minAgeToHaveChildren, float usualAgeToHaveChildren, float maxAgeToHaveChildren)
 		{
 			float num = PawnRelationUtility.MaxPossibleBioAgeAt(parent.ageTracker.AgeBiologicalYearsFloat, parent.ageTracker.AgeChronologicalYearsFloat, child.ageTracker.AgeChronologicalYearsFloat);
 			float num2 = PawnRelationUtility.MinPossibleBioAgeAt(parent.ageTracker.AgeBiologicalYearsFloat, child.ageTracker.AgeChronologicalYearsFloat);
-			if (num <= 0.0)
+			float result;
+			if (num <= 0f)
 			{
-				return 0f;
+				result = 0f;
 			}
-			if (num2 > num)
+			else if (num2 > num)
 			{
-				if (num2 > num + 0.10000000149011612)
+				if (num2 > num + 0.1f)
 				{
-					Log.Warning("Min possible bio age (" + num2 + ") is greater than max possible bio age (" + num + ").");
+					Log.Warning(string.Concat(new object[]
+					{
+						"Min possible bio age (",
+						num2,
+						") is greater than max possible bio age (",
+						num,
+						")."
+					}), false);
 				}
-				return 0f;
+				result = 0f;
 			}
-			if (num2 <= usualAgeToHaveChildren && num >= usualAgeToHaveChildren)
+			else if (num2 <= usualAgeToHaveChildren && num >= usualAgeToHaveChildren)
 			{
-				return 1f;
+				result = 1f;
 			}
-			float ageFactor = ChildRelationUtility.GetAgeFactor(num2, minAgeToHaveChildren, maxAgeToHaveChildren, usualAgeToHaveChildren);
-			float ageFactor2 = ChildRelationUtility.GetAgeFactor(num, minAgeToHaveChildren, maxAgeToHaveChildren, usualAgeToHaveChildren);
-			return Mathf.Max(ageFactor, ageFactor2);
+			else
+			{
+				float ageFactor = ChildRelationUtility.GetAgeFactor(num2, minAgeToHaveChildren, maxAgeToHaveChildren, usualAgeToHaveChildren);
+				float ageFactor2 = ChildRelationUtility.GetAgeFactor(num, minAgeToHaveChildren, maxAgeToHaveChildren, usualAgeToHaveChildren);
+				result = Mathf.Max(ageFactor, ageFactor2);
+			}
+			return result;
 		}
 
+		// Token: 0x0600156C RID: 5484 RVA: 0x000BE2BC File Offset: 0x000BC6BC
 		public static bool ChildWantsNameOfAnyParent(Pawn child)
 		{
-			return Rand.ValueSeeded(child.thingIDNumber ^ 88271612) < 0.99000000953674316;
+			return Rand.ValueSeeded(child.thingIDNumber ^ 88271612) < 0.99f;
 		}
 
+		// Token: 0x0600156D RID: 5485 RVA: 0x000BE2EC File Offset: 0x000BC6EC
 		private static int NumberOfChildrenFemaleWantsEver(Pawn female)
 		{
 			Rand.PushState();
@@ -157,35 +158,43 @@ namespace RimWorld
 			return result;
 		}
 
+		// Token: 0x0600156E RID: 5486 RVA: 0x000BE324 File Offset: 0x000BC724
 		private static float? GetMelanin(Pawn pawn, PawnGenerationRequest? request)
 		{
-			if (request.HasValue)
+			float? result;
+			if (request != null)
 			{
-				return request.Value.FixedMelanin;
+				result = request.Value.FixedMelanin;
 			}
-			if (pawn != null)
+			else if (pawn != null)
 			{
-				return pawn.story.melanin;
+				result = new float?(pawn.story.melanin);
 			}
-			return null;
+			else
+			{
+				result = null;
+			}
+			return result;
 		}
 
+		// Token: 0x0600156F RID: 5487 RVA: 0x000BE380 File Offset: 0x000BC780
 		private static float GetAgeFactor(float ageAtBirth, float min, float max, float mid)
 		{
 			return GenMath.GetFactorInInterval(min, mid, max, 1.6f, ageAtBirth);
 		}
 
+		// Token: 0x06001570 RID: 5488 RVA: 0x000BE3A4 File Offset: 0x000BC7A4
 		private static float GetSkinColorFactor(float? childMelanin, float? fatherMelanin, float? motherMelanin, bool fatherIsNew, bool motherIsNew)
 		{
-			if (childMelanin.HasValue && fatherMelanin.HasValue && motherMelanin.HasValue)
+			if (childMelanin != null && fatherMelanin != null && motherMelanin != null)
 			{
 				float num = Mathf.Min(fatherMelanin.Value, motherMelanin.Value);
 				float num2 = Mathf.Max(fatherMelanin.Value, motherMelanin.Value);
-				if (childMelanin.HasValue && childMelanin.GetValueOrDefault() < num - 0.05000000074505806)
+				if (childMelanin < num - 0.05f)
 				{
 					return 0f;
 				}
-				if (childMelanin.HasValue && childMelanin.GetValueOrDefault() > num2 + 0.05000000074505806)
+				if (childMelanin > num2 + 0.05f)
 				{
 					return 0f;
 				}
@@ -202,83 +211,116 @@ namespace RimWorld
 			return num3;
 		}
 
+		// Token: 0x06001571 RID: 5489 RVA: 0x000BE490 File Offset: 0x000BC890
 		private static float GetNewParentSkinColorFactor(float? newParentMelanin, float? otherParentMelanin, float? childMelanin)
 		{
-			if (newParentMelanin.HasValue)
+			float result;
+			if (newParentMelanin != null)
 			{
-				if (!otherParentMelanin.HasValue)
+				if (otherParentMelanin == null)
 				{
-					if (childMelanin.HasValue)
+					if (childMelanin != null)
 					{
-						return ChildRelationUtility.GetMelaninSimilarityFactor(newParentMelanin.Value, childMelanin.Value);
+						result = ChildRelationUtility.GetMelaninSimilarityFactor(newParentMelanin.Value, childMelanin.Value);
 					}
-					return PawnSkinColors.GetMelaninCommonalityFactor(newParentMelanin.Value);
+					else
+					{
+						result = PawnSkinColors.GetMelaninCommonalityFactor(newParentMelanin.Value);
+					}
 				}
-				if (childMelanin.HasValue)
+				else if (childMelanin != null)
 				{
 					float reflectedSkin = ChildRelationUtility.GetReflectedSkin(otherParentMelanin.Value, childMelanin.Value);
-					return ChildRelationUtility.GetMelaninSimilarityFactor(newParentMelanin.Value, reflectedSkin);
+					result = ChildRelationUtility.GetMelaninSimilarityFactor(newParentMelanin.Value, reflectedSkin);
 				}
-				float melanin = (float)((newParentMelanin.Value + otherParentMelanin.Value) / 2.0);
-				return PawnSkinColors.GetMelaninCommonalityFactor(melanin);
-			}
-			if (!otherParentMelanin.HasValue)
-			{
-				if (childMelanin.HasValue)
+				else
 				{
-					return PawnSkinColors.GetMelaninCommonalityFactor(childMelanin.Value);
+					float melanin = (newParentMelanin.Value + otherParentMelanin.Value) / 2f;
+					result = PawnSkinColors.GetMelaninCommonalityFactor(melanin);
 				}
-				return 1f;
 			}
-			if (childMelanin.HasValue)
+			else if (otherParentMelanin == null)
+			{
+				if (childMelanin != null)
+				{
+					result = PawnSkinColors.GetMelaninCommonalityFactor(childMelanin.Value);
+				}
+				else
+				{
+					result = 1f;
+				}
+			}
+			else if (childMelanin != null)
 			{
 				float reflectedSkin2 = ChildRelationUtility.GetReflectedSkin(otherParentMelanin.Value, childMelanin.Value);
-				return PawnSkinColors.GetMelaninCommonalityFactor(reflectedSkin2);
+				result = PawnSkinColors.GetMelaninCommonalityFactor(reflectedSkin2);
 			}
-			return PawnSkinColors.GetMelaninCommonalityFactor(otherParentMelanin.Value);
+			else
+			{
+				result = PawnSkinColors.GetMelaninCommonalityFactor(otherParentMelanin.Value);
+			}
+			return result;
 		}
 
+		// Token: 0x06001572 RID: 5490 RVA: 0x000BE5C8 File Offset: 0x000BC9C8
 		public static float GetReflectedSkin(float value, float mirror)
 		{
 			return Mathf.Clamp01(GenMath.Reflection(value, mirror));
 		}
 
+		// Token: 0x06001573 RID: 5491 RVA: 0x000BE5EC File Offset: 0x000BC9EC
 		public static float GetMelaninSimilarityFactor(float melanin1, float melanin2)
 		{
-			float min = Mathf.Clamp01((float)(melanin1 - 0.15000000596046448));
-			float max = Mathf.Clamp01((float)(melanin1 + 0.15000000596046448));
+			float min = Mathf.Clamp01(melanin1 - 0.15f);
+			float max = Mathf.Clamp01(melanin1 + 0.15f);
 			return GenMath.GetFactorInInterval(min, melanin1, max, 2.5f, melanin2);
 		}
 
+		// Token: 0x06001574 RID: 5492 RVA: 0x000BE62C File Offset: 0x000BCA2C
 		public static float GetRandomChildSkinColor(float fatherMelanin, float motherMelanin)
 		{
 			float clampMin = Mathf.Min(fatherMelanin, motherMelanin);
 			float clampMax = Mathf.Max(fatherMelanin, motherMelanin);
-			float value = (float)((fatherMelanin + motherMelanin) / 2.0);
+			float value = (fatherMelanin + motherMelanin) / 2f;
 			return PawnSkinColors.GetRandomMelaninSimilarTo(value, clampMin, clampMax);
 		}
 
+		// Token: 0x06001575 RID: 5493 RVA: 0x000BE664 File Offset: 0x000BCA64
 		public static bool DefinitelyHasNotBirthName(Pawn pawn)
 		{
 			Pawn spouse = pawn.GetSpouse();
+			bool result;
 			if (spouse == null)
 			{
-				return false;
+				result = false;
 			}
-			string last = ((NameTriple)spouse.Name).Last;
-			if (((NameTriple)pawn.Name).Last != last)
+			else
 			{
-				return false;
+				string last = ((NameTriple)spouse.Name).Last;
+				result = (!(((NameTriple)pawn.Name).Last != last) && ((spouse.GetMother() != null && ((NameTriple)spouse.GetMother().Name).Last == last) || (spouse.GetFather() != null && ((NameTriple)spouse.GetFather().Name).Last == last)));
 			}
-			if (spouse.GetMother() != null && ((NameTriple)spouse.GetMother().Name).Last == last)
-			{
-				goto IL_0093;
-			}
-			if (spouse.GetFather() != null && ((NameTriple)spouse.GetFather().Name).Last == last)
-				goto IL_0093;
-			return false;
-			IL_0093:
-			return true;
+			return result;
 		}
+
+		// Token: 0x04000CA4 RID: 3236
+		public const float MinFemaleAgeToHaveChildren = 16f;
+
+		// Token: 0x04000CA5 RID: 3237
+		public const float MaxFemaleAgeToHaveChildren = 45f;
+
+		// Token: 0x04000CA6 RID: 3238
+		public const float UsualFemaleAgeToHaveChildren = 27f;
+
+		// Token: 0x04000CA7 RID: 3239
+		public const float MinMaleAgeToHaveChildren = 14f;
+
+		// Token: 0x04000CA8 RID: 3240
+		public const float MaxMaleAgeToHaveChildren = 50f;
+
+		// Token: 0x04000CA9 RID: 3241
+		public const float UsualMaleAgeToHaveChildren = 30f;
+
+		// Token: 0x04000CAA RID: 3242
+		public const float ChanceForChildToHaveNameOfAnyParent = 0.99f;
 	}
 }

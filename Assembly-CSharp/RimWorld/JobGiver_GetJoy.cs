@@ -1,14 +1,17 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Profiling;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x020000F8 RID: 248
 	public class JobGiver_GetJoy : ThinkNode_JobGiver
 	{
-		private DefMap<JoyGiverDef, float> joyGiverChances;
-
+		// Token: 0x170000CE RID: 206
+		// (get) Token: 0x06000537 RID: 1335 RVA: 0x00034958 File Offset: 0x00032D58
 		protected virtual bool CanDoDuringMedicalRest
 		{
 			get
@@ -17,64 +20,85 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06000538 RID: 1336 RVA: 0x00034970 File Offset: 0x00032D70
 		protected virtual bool JoyGiverAllowed(JoyGiverDef def)
 		{
 			return true;
 		}
 
+		// Token: 0x06000539 RID: 1337 RVA: 0x00034988 File Offset: 0x00032D88
 		protected virtual Job TryGiveJobFromJoyGiverDefDirect(JoyGiverDef def, Pawn pawn)
 		{
 			return def.Worker.TryGiveJob(pawn);
 		}
 
+		// Token: 0x0600053A RID: 1338 RVA: 0x000349A9 File Offset: 0x00032DA9
 		public override void ResolveReferences()
 		{
 			this.joyGiverChances = new DefMap<JoyGiverDef, float>();
 		}
 
+		// Token: 0x0600053B RID: 1339 RVA: 0x000349B8 File Offset: 0x00032DB8
 		protected override Job TryGiveJob(Pawn pawn)
 		{
+			Job result;
 			if (!this.CanDoDuringMedicalRest && pawn.InBed() && HealthAIUtility.ShouldSeekMedicalRest(pawn))
 			{
-				return null;
+				result = null;
 			}
-			List<JoyGiverDef> allDefsListForReading = DefDatabase<JoyGiverDef>.AllDefsListForReading;
-			JoyToleranceSet tolerances = pawn.needs.joy.tolerances;
-			for (int i = 0; i < allDefsListForReading.Count; i++)
+			else
 			{
-				JoyGiverDef joyGiverDef = allDefsListForReading[i];
-				this.joyGiverChances[joyGiverDef] = 0f;
-				if (this.JoyGiverAllowed(joyGiverDef) && joyGiverDef.Worker.MissingRequiredCapacity(pawn) == null)
+				Profiler.BeginSample("GetJoy");
+				List<JoyGiverDef> allDefsListForReading = DefDatabase<JoyGiverDef>.AllDefsListForReading;
+				JoyToleranceSet tolerances = pawn.needs.joy.tolerances;
+				for (int i = 0; i < allDefsListForReading.Count; i++)
 				{
-					if (joyGiverDef.pctPawnsEverDo < 1.0)
+					JoyGiverDef joyGiverDef = allDefsListForReading[i];
+					this.joyGiverChances[joyGiverDef] = 0f;
+					if (this.JoyGiverAllowed(joyGiverDef))
 					{
-						Rand.PushState(pawn.thingIDNumber ^ 63216713);
-						if (Rand.Value >= joyGiverDef.pctPawnsEverDo)
+						if (joyGiverDef.Worker.MissingRequiredCapacity(pawn) == null)
 						{
-							Rand.PopState();
-							continue;
+							if (joyGiverDef.pctPawnsEverDo < 1f)
+							{
+								Rand.PushState(pawn.thingIDNumber ^ 63216713);
+								if (Rand.Value >= joyGiverDef.pctPawnsEverDo)
+								{
+									Rand.PopState();
+									goto IL_11C;
+								}
+								Rand.PopState();
+							}
+							float num = tolerances[joyGiverDef.joyKind];
+							float num2 = Mathf.Pow(1f - num, 2.5f);
+							this.joyGiverChances[joyGiverDef] = joyGiverDef.Worker.GetChance(pawn) * num2;
 						}
-						Rand.PopState();
 					}
-					float chance = joyGiverDef.Worker.GetChance(pawn);
-					float num = (float)(1.0 - tolerances[joyGiverDef.joyKind]);
-					chance *= num * num;
-					this.joyGiverChances[joyGiverDef] = chance;
+					IL_11C:;
 				}
-			}
-			int num2 = 0;
-			JoyGiverDef def = default(JoyGiverDef);
-			while (num2 < this.joyGiverChances.Count && ((IEnumerable<JoyGiverDef>)allDefsListForReading).TryRandomElementByWeight<JoyGiverDef>((Func<JoyGiverDef, float>)((JoyGiverDef d) => this.joyGiverChances[d]), out def))
-			{
-				Job job = this.TryGiveJobFromJoyGiverDefDirect(def, pawn);
-				if (job != null)
+				for (int j = 0; j < this.joyGiverChances.Count; j++)
 				{
-					return job;
+					JoyGiverDef def;
+					if (!allDefsListForReading.TryRandomElementByWeight((JoyGiverDef d) => this.joyGiverChances[d], out def))
+					{
+						break;
+					}
+					Job job = this.TryGiveJobFromJoyGiverDefDirect(def, pawn);
+					if (job != null)
+					{
+						Profiler.EndSample();
+						return job;
+					}
+					this.joyGiverChances[def] = 0f;
 				}
-				this.joyGiverChances[def] = 0f;
-				num2++;
+				Profiler.EndSample();
+				result = null;
 			}
-			return null;
+			return result;
 		}
+
+		// Token: 0x040002CF RID: 719
+		[Unsaved]
+		private DefMap<JoyGiverDef, float> joyGiverChances;
 	}
 }

@@ -1,29 +1,37 @@
+﻿using System;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000442 RID: 1090
 	public class RoomStatWorker_Space : RoomStatWorker
 	{
+		// Token: 0x060012E8 RID: 4840 RVA: 0x000A3198 File Offset: 0x000A1598
 		public override float GetScore(Room room)
 		{
+			float result;
 			if (room.PsychologicallyOutdoors)
 			{
-				return 350f;
+				result = 350f;
 			}
-			float num = 0f;
-			foreach (IntVec3 cell in room.Cells)
+			else
 			{
-				if (cell.Standable(room.Map))
+				float num = 0f;
+				foreach (IntVec3 c in room.Cells)
 				{
-					num = (float)(num + 1.3999999761581421);
+					if (c.Standable(room.Map))
+					{
+						num += 1.4f;
+					}
+					else if (c.Walkable(room.Map))
+					{
+						num += 0.5f;
+					}
 				}
-				else if (cell.Walkable(room.Map))
-				{
-					num = (float)(num + 0.5);
-				}
+				result = Mathf.Min(num, 350f);
 			}
-			return Mathf.Min(num, 350f);
+			return result;
 		}
 	}
 }

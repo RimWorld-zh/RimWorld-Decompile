@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,17 +6,15 @@ using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020003E6 RID: 998
 	public static class RoomOutlinesGenerator
 	{
-		private const int MinFreeRoomCellsToDivide = 32;
-
-		private const int MinAllowedRoomWidthAndHeight = 2;
-
+		// Token: 0x06001116 RID: 4374 RVA: 0x00092374 File Offset: 0x00090774
 		public static List<RoomOutline> GenerateRoomOutlines(CellRect initialRect, Map map, int divisionsCount, int finalRoomsCount, int maxRoomCells, int minTotalRoomsNonWallCellsCount)
 		{
 			int num = 0;
 			List<RoomOutline> list;
-			while (true)
+			for (;;)
 			{
 				list = RoomOutlinesGenerator.GenerateRoomOutlines(initialRect, map, divisionsCount, finalRoomsCount, maxRoomCells);
 				int num2 = 0;
@@ -26,64 +24,79 @@ namespace RimWorld
 				}
 				if (num2 >= minTotalRoomsNonWallCellsCount)
 				{
-					return list;
+					break;
 				}
 				num++;
 				if (num > 15)
-					break;
+				{
+					goto Block_3;
+				}
 			}
+			return list;
+			Block_3:
 			return list;
 		}
 
+		// Token: 0x06001117 RID: 4375 RVA: 0x000923E8 File Offset: 0x000907E8
 		public static List<RoomOutline> GenerateRoomOutlines(CellRect initialRect, Map map, int divisionsCount, int finalRoomsCount, int maxRoomCells)
 		{
 			List<RoomOutline> list = new List<RoomOutline>();
 			list.Add(new RoomOutline(initialRect));
-			int num = 0;
-			RoomOutline roomOutline = default(RoomOutline);
-			while (num < divisionsCount && (from x in list
-			where x.CellsCountIgnoringWalls >= 32
-			select x).TryRandomElementByWeight<RoomOutline>((Func<RoomOutline, float>)((RoomOutline x) => (float)Mathf.Max(x.rect.Width, x.rect.Height)), out roomOutline))
+			for (int i = 0; i < divisionsCount; i++)
 			{
-				bool flag = roomOutline.rect.Height > roomOutline.rect.Width;
-				if ((!flag || roomOutline.rect.Height > 6) && (flag || roomOutline.rect.Width > 6))
+				RoomOutline roomOutline;
+				if (!(from x in list
+				where x.CellsCountIgnoringWalls >= 32
+				select x).TryRandomElementByWeight((RoomOutline x) => (float)Mathf.Max(x.rect.Width, x.rect.Height), out roomOutline))
 				{
-					RoomOutlinesGenerator.Split(roomOutline, list, flag);
+					break;
 				}
-				num++;
+				bool flag = roomOutline.rect.Height > roomOutline.rect.Width;
+				if (!flag || roomOutline.rect.Height > 6)
+				{
+					if (flag || roomOutline.rect.Width > 6)
+					{
+						RoomOutlinesGenerator.Split(roomOutline, list, flag);
+					}
+				}
 			}
 			while (list.Any((RoomOutline x) => x.CellsCountIgnoringWalls > maxRoomCells))
 			{
 				RoomOutline roomOutline2 = (from x in list
 				where x.CellsCountIgnoringWalls > maxRoomCells
-				select x).RandomElement();
+				select x).RandomElement<RoomOutline>();
 				bool horizontalWall = roomOutline2.rect.Height > roomOutline2.rect.Width;
 				RoomOutlinesGenerator.Split(roomOutline2, list, horizontalWall);
 			}
 			while (list.Count > finalRoomsCount)
 			{
-				list.Remove(list.RandomElement());
+				list.Remove(list.RandomElement<RoomOutline>());
 			}
 			return list;
 		}
 
+		// Token: 0x06001118 RID: 4376 RVA: 0x00092560 File Offset: 0x00090960
 		private static void Split(RoomOutline room, List<RoomOutline> allRooms, bool horizontalWall)
 		{
 			allRooms.Remove(room);
 			if (horizontalWall)
 			{
-				IntVec3 centerCell = room.rect.CenterCell;
-				int z = centerCell.z;
+				int z = room.rect.CenterCell.z;
 				allRooms.Add(new RoomOutline(new CellRect(room.rect.minX, room.rect.minZ, room.rect.Width, z - room.rect.minZ + 1)));
 				allRooms.Add(new RoomOutline(new CellRect(room.rect.minX, z, room.rect.Width, room.rect.maxZ - z + 1)));
 			}
 			else
 			{
-				IntVec3 centerCell2 = room.rect.CenterCell;
-				int x = centerCell2.x;
+				int x = room.rect.CenterCell.x;
 				allRooms.Add(new RoomOutline(new CellRect(room.rect.minX, room.rect.minZ, x - room.rect.minX + 1, room.rect.Height)));
 				allRooms.Add(new RoomOutline(new CellRect(x, room.rect.minZ, room.rect.maxX - x + 1, room.rect.Height)));
 			}
 		}
+
+		// Token: 0x04000A58 RID: 2648
+		private const int MinFreeRoomCellsToDivide = 32;
+
+		// Token: 0x04000A59 RID: 2649
+		private const int MinAllowedRoomWidthAndHeight = 2;
 	}
 }

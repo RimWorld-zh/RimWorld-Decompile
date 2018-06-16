@@ -1,32 +1,25 @@
-using System.Collections.Generic;
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x0200014A RID: 330
 	public class WorkGiver_HaulCorpses : WorkGiver_Haul
 	{
-		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
-		{
-			return pawn.Map.listerHaulables.ThingsPotentiallyNeedingHauling();
-		}
-
-		public override bool ShouldSkip(Pawn pawn)
-		{
-			return pawn.Map.listerHaulables.ThingsPotentiallyNeedingHauling().Count == 0;
-		}
-
+		// Token: 0x060006D4 RID: 1748 RVA: 0x000461C0 File Offset: 0x000445C0
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
+			Job result;
 			if (!(t is Corpse))
 			{
-				return null;
+				result = null;
 			}
-			if (!HaulAIUtility.PawnCanAutomaticallyHaulFast(pawn, t, forced))
+			else
 			{
-				return null;
+				result = base.JobOnThing(pawn, t, forced);
 			}
-			return HaulAIUtility.HaulToStorageJob(pawn, t);
+			return result;
 		}
 	}
 }

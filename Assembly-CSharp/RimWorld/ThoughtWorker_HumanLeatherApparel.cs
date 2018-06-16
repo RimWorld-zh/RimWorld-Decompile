@@ -1,10 +1,13 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000213 RID: 531
 	public class ThoughtWorker_HumanLeatherApparel : ThoughtWorker
 	{
+		// Token: 0x060009F4 RID: 2548 RVA: 0x00058D44 File Offset: 0x00057144
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
 			string text = null;
@@ -21,15 +24,20 @@ namespace RimWorld
 					num++;
 				}
 			}
+			ThoughtState result;
 			if (num == 0)
 			{
-				return ThoughtState.Inactive;
+				result = ThoughtState.Inactive;
 			}
-			if (num >= 5)
+			else if (num >= 5)
 			{
-				return ThoughtState.ActiveAtStage(4, text);
+				result = ThoughtState.ActiveAtStage(4, text);
 			}
-			return ThoughtState.ActiveAtStage(num - 1, text);
+			else
+			{
+				result = ThoughtState.ActiveAtStage(num - 1, text);
+			}
+			return result;
 		}
 	}
 }

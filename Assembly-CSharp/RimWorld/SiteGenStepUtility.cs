@@ -1,17 +1,19 @@
-using System;
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000411 RID: 1041
 	public static class SiteGenStepUtility
 	{
+		// Token: 0x060011EB RID: 4587 RVA: 0x0009B824 File Offset: 0x00099C24
 		public static bool TryFindRootToSpawnAroundRectOfInterest(out CellRect rectToDefend, out IntVec3 singleCellToSpawnNear, Map map)
 		{
 			singleCellToSpawnNear = IntVec3.Invalid;
 			if (!MapGenerator.TryGetVar<CellRect>("RectOfInterest", out rectToDefend))
 			{
 				rectToDefend = CellRect.Empty;
-				if (!RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith((Predicate<IntVec3>)((IntVec3 x) => x.Standable(map) && !x.Fogged(map) && x.GetRoom(map, RegionType.Set_Passable).CellCount >= 225), map, out singleCellToSpawnNear))
+				if (!RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith((IntVec3 x) => x.Standable(map) && !x.Fogged(map) && x.GetRoom(map, RegionType.Set_Passable).CellCount >= 225, map, out singleCellToSpawnNear))
 				{
 					return false;
 				}
@@ -19,6 +21,7 @@ namespace RimWorld
 			return true;
 		}
 
+		// Token: 0x060011EC RID: 4588 RVA: 0x0009B894 File Offset: 0x00099C94
 		public static bool TryFindSpawnCellAroundOrNear(CellRect around, IntVec3 near, Map map, out IntVec3 spawnCell)
 		{
 			if (near.IsValid)
@@ -28,7 +31,7 @@ namespace RimWorld
 					return false;
 				}
 			}
-			else if (!CellFinder.TryFindRandomCellInsideWith(around.ExpandedBy(8), (Predicate<IntVec3>)((IntVec3 x) => !around.Contains(x) && x.InBounds(map) && x.Standable(map) && !x.Fogged(map)), out spawnCell))
+			else if (!CellFinder.TryFindRandomCellInsideWith(around.ExpandedBy(8), (IntVec3 x) => !around.Contains(x) && x.InBounds(map) && x.Standable(map) && !x.Fogged(map), out spawnCell))
 			{
 				return false;
 			}

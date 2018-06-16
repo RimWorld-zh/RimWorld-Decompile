@@ -1,14 +1,14 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000CEF RID: 3311
 	internal static class DamagedMatPool
 	{
-		private static Dictionary<Material, Material> damagedMats = new Dictionary<Material, Material>();
-
-		private static readonly Color DamagedMatStartingColor = Color.red;
-
+		// Token: 0x17000B81 RID: 2945
+		// (get) Token: 0x060048CD RID: 18637 RVA: 0x00262800 File Offset: 0x00260C00
 		public static int MatCount
 		{
 			get
@@ -17,20 +17,33 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x060048CE RID: 18638 RVA: 0x00262820 File Offset: 0x00260C20
 		public static Material GetDamageFlashMat(Material baseMat, float damPct)
 		{
-			if (damPct < 0.0099999997764825821)
+			Material result;
+			if (damPct < 0.01f)
 			{
-				return baseMat;
+				result = baseMat;
 			}
-			Material material = default(Material);
-			if (!DamagedMatPool.damagedMats.TryGetValue(baseMat, out material))
+			else
 			{
-				material = new Material(baseMat);
-				DamagedMatPool.damagedMats.Add(baseMat, material);
+				Material material;
+				if (!DamagedMatPool.damagedMats.TryGetValue(baseMat, out material))
+				{
+					material = MaterialAllocator.Create(baseMat);
+					DamagedMatPool.damagedMats.Add(baseMat, material);
+				}
+				Color color = Color.Lerp(baseMat.color, DamagedMatPool.DamagedMatStartingColor, damPct);
+				material.color = color;
+				result = material;
 			}
-			Color color2 = material.color = Color.Lerp(baseMat.color, DamagedMatPool.DamagedMatStartingColor, damPct);
-			return material;
+			return result;
 		}
+
+		// Token: 0x0400314C RID: 12620
+		private static Dictionary<Material, Material> damagedMats = new Dictionary<Material, Material>();
+
+		// Token: 0x0400314D RID: 12621
+		private static readonly Color DamagedMatStartingColor = Color.red;
 	}
 }

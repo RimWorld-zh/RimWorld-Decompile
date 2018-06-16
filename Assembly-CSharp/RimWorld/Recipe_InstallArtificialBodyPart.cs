@@ -1,58 +1,61 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000469 RID: 1129
 	public class Recipe_InstallArtificialBodyPart : Recipe_Surgery
 	{
+		// Token: 0x060013D5 RID: 5077 RVA: 0x000AC3E4 File Offset: 0x000AA7E4
 		public override IEnumerable<BodyPartRecord> GetPartsToApplyOn(Pawn pawn, RecipeDef recipe)
 		{
-			for (int j = 0; j < recipe.appliedOnFixedBodyParts.Count; j++)
+			for (int i = 0; i < recipe.appliedOnFixedBodyParts.Count; i++)
 			{
-				BodyPartDef part = recipe.appliedOnFixedBodyParts[j];
+				BodyPartDef part = recipe.appliedOnFixedBodyParts[i];
 				List<BodyPartRecord> bpList = pawn.RaceProps.body.AllParts;
-				for (int i = 0; i < bpList.Count; i++)
+				for (int j = 0; j < bpList.Count; j++)
 				{
-					_003CGetPartsToApplyOn_003Ec__Iterator0 _003CGetPartsToApplyOn_003Ec__Iterator = (_003CGetPartsToApplyOn_003Ec__Iterator0)/*Error near IL_0081: stateMachine*/;
-					BodyPartRecord record = bpList[i];
+					BodyPartRecord record = bpList[j];
 					if (record.def == part)
 					{
 						IEnumerable<Hediff> diffs = from x in pawn.health.hediffSet.hediffs
 						where x.Part == record
 						select x;
-						if (diffs.Count() == 1 && diffs.First().def == recipe.addsHediff)
+						if (diffs.Count<Hediff>() != 1 || diffs.First<Hediff>().def != recipe.addsHediff)
 						{
-							continue;
+							if (record.parent == null || pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null).Contains(record.parent))
+							{
+								if (!pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(record) || pawn.health.hediffSet.HasDirectlyAddedPartFor(record))
+								{
+									yield return record;
+								}
+							}
 						}
-						if (record.parent != null && !pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined).Contains(record.parent))
-						{
-							continue;
-						}
-						if (pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(record) && !pawn.health.hediffSet.HasDirectlyAddedPartFor(record))
-						{
-							continue;
-						}
-						yield return record;
-						/*Error: Unable to find new state assignment for yield return*/;
 					}
 				}
 			}
+			yield break;
 		}
 
+		// Token: 0x060013D6 RID: 5078 RVA: 0x000AC418 File Offset: 0x000AA818
 		public override void ApplyOnPawn(Pawn pawn, BodyPartRecord part, Pawn billDoer, List<Thing> ingredients, Bill bill)
 		{
 			if (billDoer != null)
 			{
-				if (!base.CheckSurgeryFail(billDoer, pawn, ingredients, part, bill))
+				if (base.CheckSurgeryFail(billDoer, pawn, ingredients, part, bill))
 				{
-					TaleRecorder.RecordTale(TaleDefOf.DidSurgery, billDoer, pawn);
-					MedicalRecipesUtility.RestorePartAndSpawnAllPreviousParts(pawn, part, billDoer.Position, billDoer.Map);
-					goto IL_007a;
+					return;
 				}
-				return;
+				TaleRecorder.RecordTale(TaleDefOf.DidSurgery, new object[]
+				{
+					billDoer,
+					pawn
+				});
+				MedicalRecipesUtility.RestorePartAndSpawnAllPreviousParts(pawn, part, billDoer.Position, billDoer.Map);
 			}
-			if (pawn.Map != null)
+			else if (pawn.Map != null)
 			{
 				MedicalRecipesUtility.RestorePartAndSpawnAllPreviousParts(pawn, part, pawn.Position, pawn.Map);
 			}
@@ -60,9 +63,7 @@ namespace RimWorld
 			{
 				pawn.health.RestorePart(part, null, true);
 			}
-			goto IL_007a;
-			IL_007a:
-			pawn.health.AddHediff(base.recipe.addsHediff, part, null);
+			pawn.health.AddHediff(this.recipe.addsHediff, part, null, null);
 		}
 	}
 }

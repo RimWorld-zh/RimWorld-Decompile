@@ -1,35 +1,42 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000069 RID: 105
 	public class JobDriver_Flee : JobDriver
 	{
-		protected const TargetIndex DestInd = TargetIndex.A;
-
-		protected const TargetIndex DangerInd = TargetIndex.B;
-
+		// Token: 0x060002E9 RID: 745 RVA: 0x0001F6D0 File Offset: 0x0001DAD0
 		public override bool TryMakePreToilReservations()
 		{
-			base.pawn.Map.pawnDestinationReservationManager.Reserve(base.pawn, base.job, base.job.GetTarget(TargetIndex.A).Cell);
+			this.pawn.Map.pawnDestinationReservationManager.Reserve(this.pawn, this.job, this.job.GetTarget(TargetIndex.A).Cell);
 			return true;
 		}
 
+		// Token: 0x060002EA RID: 746 RVA: 0x0001F71C File Offset: 0x0001DB1C
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			yield return new Toil
 			{
 				atomicWithPrevious = true,
 				defaultCompleteMode = ToilCompleteMode.Instant,
-				initAction = delegate
+				initAction = delegate()
 				{
-					if (((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004e: stateMachine*/)._0024this.pawn.IsColonist)
+					if (this.pawn.IsColonist)
 					{
-						MoteMaker.MakeColonistActionOverlay(((_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004e: stateMachine*/)._0024this.pawn, ThingDefOf.Mote_ColonistFleeing);
+						MoteMaker.MakeColonistActionOverlay(this.pawn, ThingDefOf.Mote_ColonistFleeing);
 					}
 				}
 			};
-			/*Error: Unable to find new state assignment for yield return*/;
+			yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);
+			yield break;
 		}
+
+		// Token: 0x0400020B RID: 523
+		protected const TargetIndex DestInd = TargetIndex.A;
+
+		// Token: 0x0400020C RID: 524
+		protected const TargetIndex DangerInd = TargetIndex.B;
 	}
 }

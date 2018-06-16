@@ -1,40 +1,48 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000333 RID: 819
 	public class IncidentWorker_MeteoriteImpact : IncidentWorker
 	{
-		protected override bool CanFireNowSub(IIncidentTarget target)
+		// Token: 0x06000E03 RID: 3587 RVA: 0x00077828 File Offset: 0x00075C28
+		protected override bool CanFireNowSub(IncidentParms parms)
 		{
-			Map map = (Map)target;
-			IntVec3 intVec = default(IntVec3);
+			Map map = (Map)parms.target;
+			IntVec3 intVec;
 			return this.TryFindCell(out intVec, map);
 		}
 
+		// Token: 0x06000E04 RID: 3588 RVA: 0x00077854 File Offset: 0x00075C54
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
-			IntVec3 intVec = default(IntVec3);
+			IntVec3 intVec;
+			bool result;
 			if (!this.TryFindCell(out intVec, map))
 			{
-				return false;
+				result = false;
 			}
-			List<Thing> list = ItemCollectionGeneratorDefOf.Meteorite.Worker.Generate(default(ItemCollectionGeneratorParams));
-			SkyfallerMaker.SpawnSkyfaller(ThingDefOf.MeteoriteIncoming, list, intVec, map);
-			LetterDef textLetterDef = (!list[0].def.building.isResourceRock) ? LetterDefOf.NeutralEvent : LetterDefOf.PositiveEvent;
-			string text = string.Format(base.def.letterText, list[0].def.label).CapitalizeFirst();
-			Find.LetterStack.ReceiveLetter(base.def.letterLabel, text, textLetterDef, new TargetInfo(intVec, map, false), null);
-			return true;
+			else
+			{
+				List<Thing> list = ThingSetMakerDefOf.Meteorite.root.Generate();
+				SkyfallerMaker.SpawnSkyfaller(ThingDefOf.MeteoriteIncoming, list, intVec, map);
+				LetterDef textLetterDef = (!list[0].def.building.isResourceRock) ? LetterDefOf.NeutralEvent : LetterDefOf.PositiveEvent;
+				string text = string.Format(this.def.letterText, list[0].def.label).CapitalizeFirst();
+				Find.LetterStack.ReceiveLetter(this.def.letterLabel, text, textLetterDef, new TargetInfo(intVec, map, false), null, null);
+				result = true;
+			}
+			return result;
 		}
 
+		// Token: 0x06000E05 RID: 3589 RVA: 0x00077928 File Offset: 0x00075D28
 		private bool TryFindCell(out IntVec3 cell, Map map)
 		{
-			IntRange mineablesCountRange = ItemCollectionGenerator_Meteorite.MineablesCountRange;
-			int maxMineables = mineablesCountRange.max;
-			return CellFinderLoose.TryFindSkyfallerCell(ThingDefOf.MeteoriteIncoming, map, out cell, 10, default(IntVec3), -1, true, false, false, false, (Predicate<IntVec3>)delegate(IntVec3 x)
+			int maxMineables = ThingSetMaker_Meteorite.MineablesCountRange.max;
+			return CellFinderLoose.TryFindSkyfallerCell(ThingDefOf.MeteoriteIncoming, map, out cell, 10, default(IntVec3), -1, true, false, false, false, true, true, delegate(IntVec3 x)
 			{
 				int num = Mathf.CeilToInt(Mathf.Sqrt((float)maxMineables)) + 2;
 				CellRect cellRect = CellRect.CenteredOn(x, num, num);

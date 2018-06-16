@@ -1,17 +1,22 @@
-using RimWorld;
+﻿using System;
 using System.IO;
+using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000D92 RID: 3474
 	public struct SaveFileInfo
 	{
-		private FileInfo fileInfo;
+		// Token: 0x06004D9B RID: 19867 RVA: 0x002880A6 File Offset: 0x002864A6
+		public SaveFileInfo(FileInfo fileInfo)
+		{
+			this.fileInfo = fileInfo;
+			this.gameVersion = ScribeMetaHeaderUtility.GameVersionOf(fileInfo);
+		}
 
-		private string gameVersion;
-
-		public static readonly Color UnimportantTextColor = new Color(1f, 1f, 1f, 0.5f);
-
+		// Token: 0x17000C88 RID: 3208
+		// (get) Token: 0x06004D9C RID: 19868 RVA: 0x002880BC File Offset: 0x002864BC
 		public bool Valid
 		{
 			get
@@ -20,6 +25,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C89 RID: 3209
+		// (get) Token: 0x06004D9D RID: 19869 RVA: 0x002880E0 File Offset: 0x002864E0
 		public FileInfo FileInfo
 		{
 			get
@@ -28,66 +35,101 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000C8A RID: 3210
+		// (get) Token: 0x06004D9E RID: 19870 RVA: 0x002880FC File Offset: 0x002864FC
 		public string GameVersion
 		{
 			get
 			{
+				string result;
 				if (!this.Valid)
 				{
-					return "???";
+					result = "???";
 				}
-				return this.gameVersion;
+				else
+				{
+					result = this.gameVersion;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000C8B RID: 3211
+		// (get) Token: 0x06004D9F RID: 19871 RVA: 0x00288130 File Offset: 0x00286530
 		public Color VersionColor
 		{
 			get
 			{
+				Color result;
 				if (!this.Valid)
 				{
-					return Color.red;
+					result = Color.red;
 				}
-				if (VersionControl.MajorFromVersionString(this.gameVersion) == VersionControl.CurrentMajor && VersionControl.MinorFromVersionString(this.gameVersion) == VersionControl.CurrentMinor)
+				else if (VersionControl.MajorFromVersionString(this.gameVersion) != VersionControl.CurrentMajor || VersionControl.MinorFromVersionString(this.gameVersion) != VersionControl.CurrentMinor)
 				{
-					if (VersionControl.BuildFromVersionString(this.gameVersion) != VersionControl.CurrentBuild)
+					if (BackCompatibility.IsSaveCompatibleWith(this.gameVersion))
 					{
-						return Color.yellow;
+						result = Color.yellow;
 					}
-					return SaveFileInfo.UnimportantTextColor;
+					else
+					{
+						result = Color.red;
+					}
 				}
-				if (BackCompatibility.IsSaveCompatibleWith(this.gameVersion))
+				else if (VersionControl.BuildFromVersionString(this.gameVersion) != VersionControl.CurrentBuild)
 				{
-					return Color.yellow;
+					result = Color.yellow;
 				}
-				return Color.red;
+				else
+				{
+					result = SaveFileInfo.UnimportantTextColor;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000C8C RID: 3212
+		// (get) Token: 0x06004DA0 RID: 19872 RVA: 0x002881D4 File Offset: 0x002865D4
 		public TipSignal CompatibilityTip
 		{
 			get
 			{
+				TipSignal result;
 				if (!this.Valid)
 				{
-					return "SaveIsUnknownFormat".Translate();
+					result = "SaveIsUnknownFormat".Translate();
 				}
-				if (VersionControl.MajorFromVersionString(this.gameVersion) == VersionControl.CurrentMajor && VersionControl.MinorFromVersionString(this.gameVersion) == VersionControl.CurrentMinor)
+				else if (VersionControl.MajorFromVersionString(this.gameVersion) != VersionControl.CurrentMajor || VersionControl.MinorFromVersionString(this.gameVersion) != VersionControl.CurrentMinor)
 				{
-					if (VersionControl.BuildFromVersionString(this.gameVersion) != VersionControl.CurrentBuild)
+					result = "SaveIsFromDifferentGameVersion".Translate(new object[]
 					{
-						return "SaveIsFromDifferentGameBuild".Translate(VersionControl.CurrentVersionString, this.gameVersion);
-					}
-					return "SaveIsFromThisGameBuild".Translate();
+						VersionControl.CurrentVersionString,
+						this.gameVersion
+					});
 				}
-				return "SaveIsFromDifferentGameVersion".Translate(VersionControl.CurrentVersionString, this.gameVersion);
+				else if (VersionControl.BuildFromVersionString(this.gameVersion) != VersionControl.CurrentBuild)
+				{
+					result = "SaveIsFromDifferentGameBuild".Translate(new object[]
+					{
+						VersionControl.CurrentVersionString,
+						this.gameVersion
+					});
+				}
+				else
+				{
+					result = "SaveIsFromThisGameBuild".Translate();
+				}
+				return result;
 			}
 		}
 
-		public SaveFileInfo(FileInfo fileInfo)
-		{
-			this.fileInfo = fileInfo;
-			this.gameVersion = ScribeMetaHeaderUtility.GameVersionOf(fileInfo);
-		}
+		// Token: 0x040033CB RID: 13259
+		private FileInfo fileInfo;
+
+		// Token: 0x040033CC RID: 13260
+		private string gameVersion;
+
+		// Token: 0x040033CD RID: 13261
+		public static readonly Color UnimportantTextColor = new Color(1f, 1f, 1f, 0.5f);
 	}
 }

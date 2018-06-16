@@ -1,24 +1,32 @@
+﻿using System;
 using RimWorld.Planet;
 
 namespace RimWorld
 {
+	// Token: 0x0200054B RID: 1355
 	public class BiomeWorker_ColdBog : BiomeWorker
 	{
-		public override float GetScore(Tile tile)
+		// Token: 0x0600194C RID: 6476 RVA: 0x000DBA58 File Offset: 0x000D9E58
+		public override float GetScore(Tile tile, int tileID)
 		{
+			float result;
 			if (tile.WaterCovered)
 			{
-				return -100f;
+				result = -100f;
 			}
-			if (tile.temperature < -10.0)
+			else if (tile.temperature < -10f)
 			{
-				return 0f;
+				result = 0f;
 			}
-			if (tile.swampiness < 0.5)
+			else if (tile.swampiness < 0.5f)
 			{
-				return 0f;
+				result = 0f;
 			}
-			return (float)(0.0 - tile.temperature + 13.0 + tile.swampiness * 8.0);
+			else
+			{
+				result = -tile.temperature + 13f + tile.swampiness * 8f;
+			}
+			return result;
 		}
 	}
 }

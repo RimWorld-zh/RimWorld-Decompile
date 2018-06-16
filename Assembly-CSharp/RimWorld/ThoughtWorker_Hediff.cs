@@ -1,19 +1,32 @@
+﻿using System;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000216 RID: 534
 	public class ThoughtWorker_Hediff : ThoughtWorker
 	{
+		// Token: 0x060009FA RID: 2554 RVA: 0x00058EF0 File Offset: 0x000572F0
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
-			Hediff firstHediffOfDef = p.health.hediffSet.GetFirstHediffOfDef(base.def.hediff, false);
-			if (firstHediffOfDef != null && firstHediffOfDef.def.stages != null)
+			Hediff firstHediffOfDef = p.health.hediffSet.GetFirstHediffOfDef(this.def.hediff, false);
+			ThoughtState result;
+			if (firstHediffOfDef == null || firstHediffOfDef.def.stages == null)
 			{
-				int stageIndex = Mathf.Min(firstHediffOfDef.CurStageIndex, firstHediffOfDef.def.stages.Count - 1, base.def.stages.Count - 1);
-				return ThoughtState.ActiveAtStage(stageIndex);
+				result = ThoughtState.Inactive;
 			}
-			return ThoughtState.Inactive;
+			else
+			{
+				int stageIndex = Mathf.Min(new int[]
+				{
+					firstHediffOfDef.CurStageIndex,
+					firstHediffOfDef.def.stages.Count - 1,
+					this.def.stages.Count - 1
+				});
+				result = ThoughtState.ActiveAtStage(stageIndex);
+			}
+			return result;
 		}
 	}
 }

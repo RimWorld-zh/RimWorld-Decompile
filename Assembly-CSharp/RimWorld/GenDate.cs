@@ -1,41 +1,14 @@
-using System;
+﻿using System;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200090A RID: 2314
 	public static class GenDate
 	{
-		public const int TicksPerDay = 60000;
-
-		public const int HoursPerDay = 24;
-
-		public const int DaysPerTwelfth = 5;
-
-		public const int TwelfthsPerYear = 12;
-
-		public const int GameStartHourOfDay = 6;
-
-		public const int TicksPerTwelfth = 300000;
-
-		public const int TicksPerSeason = 900000;
-
-		public const int TicksPerQuadrum = 900000;
-
-		public const int TicksPerYear = 3600000;
-
-		public const int DaysPerYear = 60;
-
-		public const int DaysPerSeason = 15;
-
-		public const int DaysPerQuadrum = 15;
-
-		public const int TicksPerHour = 2500;
-
-		public const float TimeZoneWidth = 15f;
-
-		public const int DefaultStartingYear = 5500;
-
+		// Token: 0x17000890 RID: 2192
+		// (get) Token: 0x060035A3 RID: 13731 RVA: 0x001CDDE8 File Offset: 0x001CC1E8
 		private static int TicksGame
 		{
 			get
@@ -44,6 +17,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000891 RID: 2193
+		// (get) Token: 0x060035A4 RID: 13732 RVA: 0x001CDE08 File Offset: 0x001CC208
 		public static int DaysPassed
 		{
 			get
@@ -52,14 +27,18 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000892 RID: 2194
+		// (get) Token: 0x060035A5 RID: 13733 RVA: 0x001CDE28 File Offset: 0x001CC228
 		public static float DaysPassedFloat
 		{
 			get
 			{
-				return (float)((float)GenDate.TicksGame / 60000.0);
+				return (float)GenDate.TicksGame / 60000f;
 			}
 		}
 
+		// Token: 0x17000893 RID: 2195
+		// (get) Token: 0x060035A6 RID: 13734 RVA: 0x001CDE4C File Offset: 0x001CC24C
 		public static int TwelfthsPassed
 		{
 			get
@@ -68,14 +47,18 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000894 RID: 2196
+		// (get) Token: 0x060035A7 RID: 13735 RVA: 0x001CDE6C File Offset: 0x001CC26C
 		public static float TwelfthsPassedFloat
 		{
 			get
 			{
-				return (float)((float)GenDate.TicksGame / 300000.0);
+				return (float)GenDate.TicksGame / 300000f;
 			}
 		}
 
+		// Token: 0x17000895 RID: 2197
+		// (get) Token: 0x060035A8 RID: 13736 RVA: 0x001CDE90 File Offset: 0x001CC290
 		public static int YearsPassed
 		{
 			get
@@ -84,123 +67,122 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000896 RID: 2198
+		// (get) Token: 0x060035A9 RID: 13737 RVA: 0x001CDEB0 File Offset: 0x001CC2B0
 		public static float YearsPassedFloat
 		{
 			get
 			{
-				return (float)((float)GenDate.TicksGame / 3600000.0);
+				return (float)GenDate.TicksGame / 3600000f;
 			}
 		}
 
+		// Token: 0x060035AA RID: 13738 RVA: 0x001CDED4 File Offset: 0x001CC2D4
 		public static int TickAbsToGame(int absTick)
 		{
 			return absTick - Find.TickManager.gameStartAbsTick;
 		}
 
+		// Token: 0x060035AB RID: 13739 RVA: 0x001CDEF8 File Offset: 0x001CC2F8
 		public static int TickGameToAbs(int gameTick)
 		{
 			return gameTick + Find.TickManager.gameStartAbsTick;
 		}
 
-		public static int DaysPassedAt(int gameticks)
+		// Token: 0x060035AC RID: 13740 RVA: 0x001CDF1C File Offset: 0x001CC31C
+		public static int DaysPassedAt(int gameTicks)
 		{
-			return gameticks / 60000;
+			return Mathf.FloorToInt((float)gameTicks / 60000f);
 		}
 
-		public static int TwelfthsPassedAt(int gameticks)
+		// Token: 0x060035AD RID: 13741 RVA: 0x001CDF40 File Offset: 0x001CC340
+		public static int TwelfthsPassedAt(int gameTicks)
 		{
-			return gameticks / 300000;
+			return Mathf.FloorToInt((float)gameTicks / 300000f);
 		}
 
+		// Token: 0x060035AE RID: 13742 RVA: 0x001CDF64 File Offset: 0x001CC364
 		public static int YearsPassedAt(int gameTicks)
 		{
-			return gameTicks / 3600000;
+			return Mathf.FloorToInt((float)gameTicks / 3600000f);
 		}
 
+		// Token: 0x060035AF RID: 13743 RVA: 0x001CDF88 File Offset: 0x001CC388
 		private static long LocalTicksOffsetFromLongitude(float longitude)
 		{
 			return (long)GenDate.TimeZoneAt(longitude) * 2500L;
 		}
 
+		// Token: 0x060035B0 RID: 13744 RVA: 0x001CDFAC File Offset: 0x001CC3AC
 		public static int HourOfDay(long absTicks, float longitude)
 		{
-			long num = absTicks + GenDate.LocalTicksOffsetFromLongitude(longitude);
-			return (int)(num % 60000 / 2500);
+			long x = absTicks + GenDate.LocalTicksOffsetFromLongitude(longitude);
+			return GenMath.PositiveModRemap(x, 2500, 24);
 		}
 
+		// Token: 0x060035B1 RID: 13745 RVA: 0x001CDFD8 File Offset: 0x001CC3D8
 		public static int DayOfTwelfth(long absTicks, float longitude)
 		{
-			long num = absTicks + GenDate.LocalTicksOffsetFromLongitude(longitude);
-			int num2 = (int)(num / 60000 % 5);
-			if (num2 < 0)
-			{
-				num2 += 5;
-			}
-			return num2;
+			long x = absTicks + GenDate.LocalTicksOffsetFromLongitude(longitude);
+			return GenMath.PositiveModRemap(x, 60000, 5);
 		}
 
+		// Token: 0x060035B2 RID: 13746 RVA: 0x001CE004 File Offset: 0x001CC404
 		public static int DayOfYear(long absTicks, float longitude)
 		{
-			long num = absTicks + GenDate.LocalTicksOffsetFromLongitude(longitude);
-			int num2 = (int)(num / 60000) % 60;
-			if (num2 < 0)
-			{
-				num2 += 60;
-			}
-			return num2;
+			long x = absTicks + GenDate.LocalTicksOffsetFromLongitude(longitude);
+			return GenMath.PositiveModRemap(x, 60000, 60);
 		}
 
+		// Token: 0x060035B3 RID: 13747 RVA: 0x001CE030 File Offset: 0x001CC430
 		public static Twelfth Twelfth(long absTicks, float longitude)
 		{
-			long num = absTicks + GenDate.LocalTicksOffsetFromLongitude(longitude);
-			int num2 = (int)(num / 300000 % 12);
-			if (num2 < 0)
-			{
-				num2 += 12;
-			}
-			return (Twelfth)(byte)num2;
+			long x = absTicks + GenDate.LocalTicksOffsetFromLongitude(longitude);
+			return (Twelfth)GenMath.PositiveModRemap(x, 300000, 12);
 		}
 
+		// Token: 0x060035B4 RID: 13748 RVA: 0x001CE05C File Offset: 0x001CC45C
 		public static Season Season(long absTicks, Vector2 longLat)
 		{
 			return GenDate.Season(absTicks, longLat.y, longLat.x);
 		}
 
+		// Token: 0x060035B5 RID: 13749 RVA: 0x001CE088 File Offset: 0x001CC488
 		public static Season Season(long absTicks, float latitude, float longitude)
 		{
 			float yearPct = GenDate.YearPercent(absTicks, longitude);
 			return SeasonUtility.GetReportedSeason(yearPct, latitude);
 		}
 
+		// Token: 0x060035B6 RID: 13750 RVA: 0x001CE0AC File Offset: 0x001CC4AC
 		public static Quadrum Quadrum(long absTicks, float longitude)
 		{
 			Twelfth twelfth = GenDate.Twelfth(absTicks, longitude);
 			return twelfth.GetQuadrum();
 		}
 
+		// Token: 0x060035B7 RID: 13751 RVA: 0x001CE0D0 File Offset: 0x001CC4D0
 		public static int Year(long absTicks, float longitude)
 		{
 			long num = absTicks + GenDate.LocalTicksOffsetFromLongitude(longitude);
-			int num2 = (int)(num / 3600000);
-			if (num < 0)
-			{
-				num2--;
-			}
-			return 5500 + num2;
+			return 5500 + Mathf.FloorToInt((float)num / 3600000f);
 		}
 
+		// Token: 0x060035B8 RID: 13752 RVA: 0x001CE104 File Offset: 0x001CC504
 		public static int DayOfSeason(long absTicks, float longitude)
 		{
 			int num = GenDate.DayOfYear(absTicks, longitude);
-			return (num - (int)SeasonUtility.FirstSeason.GetFirstTwelfth(0f) * 5) % 15;
+			return (num - (int)(SeasonUtility.FirstSeason.GetFirstTwelfth(0f) * RimWorld.Twelfth.Sixth)) % 15;
 		}
 
+		// Token: 0x060035B9 RID: 13753 RVA: 0x001CE138 File Offset: 0x001CC538
 		public static int DayOfQuadrum(long absTicks, float longitude)
 		{
 			int num = GenDate.DayOfYear(absTicks, longitude);
-			return (num - (int)QuadrumUtility.FirstQuadrum.GetFirstTwelfth() * 5) % 15;
+			return (num - (int)(QuadrumUtility.FirstQuadrum.GetFirstTwelfth() * RimWorld.Twelfth.Sixth)) % 15;
 		}
 
+		// Token: 0x060035BA RID: 13754 RVA: 0x001CE168 File Offset: 0x001CC568
 		public static float DayPercent(long absTicks, float longitude)
 		{
 			long x = absTicks + GenDate.LocalTicksOffsetFromLongitude(longitude);
@@ -209,234 +191,537 @@ namespace RimWorld
 			{
 				num = 1;
 			}
-			return (float)((float)num / 60000.0);
+			return (float)num / 60000f;
 		}
 
+		// Token: 0x060035BB RID: 13755 RVA: 0x001CE1A4 File Offset: 0x001CC5A4
 		public static float YearPercent(long absTicks, float longitude)
 		{
 			long x = absTicks + GenDate.LocalTicksOffsetFromLongitude(longitude);
 			int num = (int)GenMath.PositiveMod(x, 3600000L);
-			return (float)((float)num / 3600000.0);
+			return (float)num / 3600000f;
 		}
 
+		// Token: 0x060035BC RID: 13756 RVA: 0x001CE1D8 File Offset: 0x001CC5D8
 		public static int HourInteger(long absTicks, float longitude)
 		{
 			long x = absTicks + GenDate.LocalTicksOffsetFromLongitude(longitude);
-			int num = (int)GenMath.PositiveMod(x, 60000L);
-			return num / 2500;
+			return GenMath.PositiveModRemap(x, 2500, 24);
 		}
 
+		// Token: 0x060035BD RID: 13757 RVA: 0x001CE204 File Offset: 0x001CC604
 		public static float HourFloat(long absTicks, float longitude)
 		{
-			return (float)(GenDate.DayPercent(absTicks, longitude) * 24.0);
+			return GenDate.DayPercent(absTicks, longitude) * 24f;
 		}
 
+		// Token: 0x060035BE RID: 13758 RVA: 0x001CE228 File Offset: 0x001CC628
 		public static string DateFullStringAt(long absTicks, Vector2 location)
 		{
 			int num = GenDate.DayOfSeason(absTicks, location.x) + 1;
 			string text = Find.ActiveLanguageWorker.OrdinalNumber(num);
-			return "FullDate".Translate(text, GenDate.Quadrum(absTicks, location.x).Label(), GenDate.Year(absTicks, location.x), num);
+			return "FullDate".Translate(new object[]
+			{
+				text,
+				GenDate.Quadrum(absTicks, location.x).Label(),
+				GenDate.Year(absTicks, location.x),
+				num
+			});
 		}
 
+		// Token: 0x060035BF RID: 13759 RVA: 0x001CE2A0 File Offset: 0x001CC6A0
 		public static string DateReadoutStringAt(long absTicks, Vector2 location)
 		{
 			int num = GenDate.DayOfSeason(absTicks, location.x) + 1;
 			string text = Find.ActiveLanguageWorker.OrdinalNumber(num);
-			return "DateReadout".Translate(text, GenDate.Quadrum(absTicks, location.x).Label(), GenDate.Year(absTicks, location.x), num);
+			return "DateReadout".Translate(new object[]
+			{
+				text,
+				GenDate.Quadrum(absTicks, location.x).Label(),
+				GenDate.Year(absTicks, location.x),
+				num
+			});
 		}
 
+		// Token: 0x060035C0 RID: 13760 RVA: 0x001CE318 File Offset: 0x001CC718
 		public static string SeasonDateStringAt(long absTicks, Vector2 longLat)
 		{
 			int num = GenDate.DayOfSeason(absTicks, longLat.x) + 1;
 			string text = Find.ActiveLanguageWorker.OrdinalNumber(num);
-			return "SeasonFullDate".Translate(text, GenDate.Season(absTicks, longLat).Label(), num);
+			return "SeasonFullDate".Translate(new object[]
+			{
+				text,
+				GenDate.Season(absTicks, longLat).Label(),
+				num
+			});
 		}
 
+		// Token: 0x060035C1 RID: 13761 RVA: 0x001CE378 File Offset: 0x001CC778
 		public static string SeasonDateStringAt(Twelfth twelfth, Vector2 longLat)
 		{
-			return GenDate.SeasonDateStringAt((int)twelfth * 300000 + 1, longLat);
+			return GenDate.SeasonDateStringAt((long)((int)twelfth * 300000 + 1), longLat);
 		}
 
+		// Token: 0x060035C2 RID: 13762 RVA: 0x001CE3A0 File Offset: 0x001CC7A0
 		public static string QuadrumDateStringAt(long absTicks, float longitude)
 		{
 			int num = GenDate.DayOfQuadrum(absTicks, longitude) + 1;
 			string text = Find.ActiveLanguageWorker.OrdinalNumber(num);
-			return "SeasonFullDate".Translate(text, GenDate.Quadrum(absTicks, longitude).Label(), num);
+			return "SeasonFullDate".Translate(new object[]
+			{
+				text,
+				GenDate.Quadrum(absTicks, longitude).Label(),
+				num
+			});
 		}
 
+		// Token: 0x060035C3 RID: 13763 RVA: 0x001CE3F8 File Offset: 0x001CC7F8
 		public static string QuadrumDateStringAt(Quadrum quadrum)
 		{
-			return GenDate.QuadrumDateStringAt((int)quadrum * 900000 + 1, 0f);
+			return GenDate.QuadrumDateStringAt((long)((int)quadrum * 900000 + 1), 0f);
 		}
 
+		// Token: 0x060035C4 RID: 13764 RVA: 0x001CE424 File Offset: 0x001CC824
 		public static string QuadrumDateStringAt(Twelfth twelfth)
 		{
-			return GenDate.QuadrumDateStringAt((int)twelfth * 300000 + 1, 0f);
+			return GenDate.QuadrumDateStringAt((long)((int)twelfth * 300000 + 1), 0f);
 		}
 
+		// Token: 0x060035C5 RID: 13765 RVA: 0x001CE450 File Offset: 0x001CC850
 		public static float TicksToDays(this int numTicks)
 		{
-			return (float)((float)numTicks / 60000.0);
+			return (float)numTicks / 60000f;
 		}
 
+		// Token: 0x060035C6 RID: 13766 RVA: 0x001CE470 File Offset: 0x001CC870
 		public static string ToStringTicksToDays(this int numTicks, string format = "F1")
 		{
-			return numTicks.TicksToDays().ToString(format) + " " + "DaysLower".Translate();
+			string text = numTicks.TicksToDays().ToString(format);
+			string result;
+			if (text == "1")
+			{
+				result = "Period1Day".Translate();
+			}
+			else
+			{
+				result = text + " " + "DaysLower".Translate();
+			}
+			return result;
 		}
 
-		public static string ToStringTicksToPeriod(this int numTicks, bool allowHours = true, bool hoursMax1DecimalPlace = false, bool allowQuadrums = true)
+		// Token: 0x060035C7 RID: 13767 RVA: 0x001CE4CC File Offset: 0x001CC8CC
+		public static string ToStringTicksToPeriod(this int numTicks)
 		{
+			string result;
+			if (numTicks < 2500 && (numTicks < 600 || Math.Round((double)((float)numTicks / 2500f), 1) == 0.0))
+			{
+				int num = Mathf.RoundToInt((float)numTicks / 60f);
+				if (num == 1)
+				{
+					result = "Period1Second".Translate();
+				}
+				else
+				{
+					result = "PeriodSeconds".Translate(new object[]
+					{
+						num
+					});
+				}
+			}
+			else if (numTicks < 60000)
+			{
+				if (numTicks < 2500)
+				{
+					string text = ((float)numTicks / 2500f).ToString("0.#");
+					if (text == "1")
+					{
+						result = "Period1Hour".Translate();
+					}
+					else
+					{
+						result = "PeriodHours".Translate(new object[]
+						{
+							text
+						});
+					}
+				}
+				else
+				{
+					int num2 = Mathf.RoundToInt((float)numTicks / 2500f);
+					if (num2 == 1)
+					{
+						result = "Period1Hour".Translate();
+					}
+					else
+					{
+						result = "PeriodHours".Translate(new object[]
+						{
+							num2
+						});
+					}
+				}
+			}
+			else if (numTicks < 3600000)
+			{
+				string text2 = ((float)numTicks / 60000f).ToStringDecimalIfSmall();
+				if (text2 == "1")
+				{
+					result = "Period1Day".Translate();
+				}
+				else
+				{
+					result = "PeriodDays".Translate(new object[]
+					{
+						text2
+					});
+				}
+			}
+			else
+			{
+				string text3 = ((float)numTicks / 3600000f).ToStringDecimalIfSmall();
+				if (text3 == "1")
+				{
+					result = "Period1Year".Translate();
+				}
+				else
+				{
+					result = "PeriodYears".Translate(new object[]
+					{
+						text3
+					});
+				}
+			}
+			return result;
+		}
+
+		// Token: 0x060035C8 RID: 13768 RVA: 0x001CE6A8 File Offset: 0x001CCAA8
+		public static string ToStringTicksToPeriodVerbose(this int numTicks, bool allowHours = true, bool allowQuadrums = true)
+		{
+			string result;
 			if (numTicks < 0)
 			{
-				return "0";
+				result = "0";
 			}
-			int num = default(int);
-			int num2 = default(int);
-			int num3 = default(int);
-			float num4 = default(float);
-			numTicks.TicksToPeriod(out num, out num2, out num3, out num4);
-			if (!allowQuadrums)
+			else
 			{
-				num3 += 15 * num2;
-				num2 = 0;
-			}
-			if (num > 0)
-			{
-				string text = (num != 1) ? "PeriodYears".Translate(num) : "Period1Year".Translate();
-				if (num2 > 0)
+				int num;
+				int num2;
+				int num3;
+				float num4;
+				numTicks.TicksToPeriod(out num, out num2, out num3, out num4);
+				if (!allowQuadrums)
 				{
-					text += ", ";
-					text = ((num2 != 1) ? (text + "PeriodQuadrums".Translate(num2)) : (text + "Period1Quadrum".Translate()));
+					num3 += 15 * num2;
+					num2 = 0;
 				}
-				return text;
-			}
-			if (num2 > 0)
-			{
-				string text2 = (num2 != 1) ? "PeriodQuadrums".Translate(num2) : "Period1Quadrum".Translate();
-				if (num3 > 0)
+				if (num > 0)
 				{
-					text2 += ", ";
-					text2 = ((num3 != 1) ? (text2 + "PeriodDays".Translate(num3)) : (text2 + "Period1Day".Translate()));
+					string text;
+					if (num == 1)
+					{
+						text = "Period1Year".Translate();
+					}
+					else
+					{
+						text = "PeriodYears".Translate(new object[]
+						{
+							num
+						});
+					}
+					if (num2 > 0)
+					{
+						text += ", ";
+						if (num2 == 1)
+						{
+							text += "Period1Quadrum".Translate();
+						}
+						else
+						{
+							text += "PeriodQuadrums".Translate(new object[]
+							{
+								num2
+							});
+						}
+					}
+					result = text;
 				}
-				return text2;
-			}
-			if (num3 > 0)
-			{
-				string text3 = (num3 != 1) ? "PeriodDays".Translate(num3) : "Period1Day".Translate();
-				int num5 = (int)num4;
-				if (allowHours && num5 > 0)
+				else if (num2 > 0)
 				{
-					text3 += ", ";
-					text3 = ((num5 != 1) ? (text3 + "PeriodHours".Translate(num5)) : (text3 + "Period1Hour".Translate()));
+					string text2;
+					if (num2 == 1)
+					{
+						text2 = "Period1Quadrum".Translate();
+					}
+					else
+					{
+						text2 = "PeriodQuadrums".Translate(new object[]
+						{
+							num2
+						});
+					}
+					if (num3 > 0)
+					{
+						text2 += ", ";
+						if (num3 == 1)
+						{
+							text2 += "Period1Day".Translate();
+						}
+						else
+						{
+							text2 += "PeriodDays".Translate(new object[]
+							{
+								num3
+							});
+						}
+					}
+					result = text2;
 				}
-				return text3;
-			}
-			if (allowHours)
-			{
-				if (hoursMax1DecimalPlace)
+				else if (num3 > 0)
 				{
-					if (num4 > 1.0)
+					string text3;
+					if (num3 == 1)
+					{
+						text3 = "Period1Day".Translate();
+					}
+					else
+					{
+						text3 = "PeriodDays".Translate(new object[]
+						{
+							num3
+						});
+					}
+					int num5 = (int)num4;
+					if (allowHours && num5 > 0)
+					{
+						text3 += ", ";
+						if (num5 == 1)
+						{
+							text3 += "Period1Hour".Translate();
+						}
+						else
+						{
+							text3 += "PeriodHours".Translate(new object[]
+							{
+								num5
+							});
+						}
+					}
+					result = text3;
+				}
+				else if (allowHours)
+				{
+					if (num4 > 1f)
 					{
 						int num6 = Mathf.RoundToInt(num4);
 						if (num6 == 1)
 						{
-							return "Period1Hour".Translate();
+							result = "Period1Hour".Translate();
 						}
-						return "PeriodHours".Translate(num6);
+						else
+						{
+							result = "PeriodHours".Translate(new object[]
+							{
+								num6
+							});
+						}
 					}
-					if (Math.Round((double)num4, 1) == 1.0)
+					else if (Math.Round((double)num4, 1) == 1.0)
 					{
-						return "Period1Hour".Translate();
+						result = "Period1Hour".Translate();
 					}
-					return "PeriodHours".Translate(num4.ToString("0.#"));
+					else
+					{
+						result = "PeriodHours".Translate(new object[]
+						{
+							num4.ToString("0.#")
+						});
+					}
 				}
-				if (Math.Round((double)num4, 2) == 1.0)
+				else
 				{
-					return "Period1Hour".Translate();
+					result = "PeriodDays".Translate(new object[]
+					{
+						0
+					});
 				}
-				return "PeriodHours".Translate(num4.ToStringDecimalIfSmall());
 			}
-			return "LessThanADay".Translate();
+			return result;
 		}
 
-		public static string ToStringTicksToPeriodVagueMax(this int numTicks)
+		// Token: 0x060035C9 RID: 13769 RVA: 0x001CE988 File Offset: 0x001CCD88
+		public static string ToStringTicksToPeriodVague(this int numTicks, bool vagueMin = true, bool vagueMax = true)
 		{
-			if (numTicks > 36000000)
+			string result;
+			if (vagueMax && numTicks > 36000000)
 			{
-				return "OverADecade".Translate();
+				result = "OverADecade".Translate();
 			}
-			return numTicks.ToStringTicksToPeriod(false, false, true);
+			else if (vagueMin && numTicks < 60000)
+			{
+				result = "LessThanADay".Translate();
+			}
+			else
+			{
+				result = numTicks.ToStringTicksToPeriod();
+			}
+			return result;
 		}
 
+		// Token: 0x060035CA RID: 13770 RVA: 0x001CE9E5 File Offset: 0x001CCDE5
 		public static void TicksToPeriod(this int numTicks, out int years, out int quadrums, out int days, out float hoursFloat)
 		{
 			((long)numTicks).TicksToPeriod(out years, out quadrums, out days, out hoursFloat);
 		}
 
+		// Token: 0x060035CB RID: 13771 RVA: 0x001CE9F4 File Offset: 0x001CCDF4
 		public static void TicksToPeriod(this long numTicks, out int years, out int quadrums, out int days, out float hoursFloat)
 		{
-			years = (int)(numTicks / 3600000);
+			if (numTicks < 0L)
+			{
+				Log.ErrorOnce("Tried to calculate period for negative ticks", 12841103, false);
+			}
+			years = (int)(numTicks / 3600000L);
 			long num = numTicks - (long)years * 3600000L;
-			quadrums = (int)(num / 900000);
+			quadrums = (int)(num / 900000L);
 			num -= (long)quadrums * 900000L;
-			days = (int)(num / 60000);
+			days = (int)(num / 60000L);
 			num -= (long)days * 60000L;
-			hoursFloat = (float)((float)num / 2500.0);
+			hoursFloat = (float)num / 2500f;
 		}
 
+		// Token: 0x060035CC RID: 13772 RVA: 0x001CEA70 File Offset: 0x001CCE70
 		public static string ToStringApproxAge(this float yearsFloat)
 		{
-			if (yearsFloat >= 1.0)
+			string result;
+			if (yearsFloat >= 1f)
 			{
-				return ((int)yearsFloat).ToStringCached();
+				result = ((int)yearsFloat).ToStringCached();
 			}
-			int a = (int)(yearsFloat * 3600000.0);
-			a = Mathf.Min(a, 3599999);
-			int num = default(int);
-			int num2 = default(int);
-			int num3 = default(int);
-			float num4 = default(float);
-			a.TicksToPeriod(out num, out num2, out num3, out num4);
-			if (num > 0)
+			else
 			{
-				if (num == 1)
+				int num = (int)(yearsFloat * 3600000f);
+				num = Mathf.Min(num, 3599999);
+				int num2;
+				int num3;
+				int num4;
+				float num5;
+				num.TicksToPeriod(out num2, out num3, out num4, out num5);
+				if (num2 > 0)
 				{
-					return "Period1Year".Translate();
+					if (num2 == 1)
+					{
+						result = "Period1Year".Translate();
+					}
+					else
+					{
+						result = "PeriodYears".Translate(new object[]
+						{
+							num2
+						});
+					}
 				}
-				return "PeriodYears".Translate(num);
-			}
-			if (num2 > 0)
-			{
-				if (num2 == 1)
+				else if (num3 > 0)
 				{
-					return "Period1Quadrum".Translate();
+					if (num3 == 1)
+					{
+						result = "Period1Quadrum".Translate();
+					}
+					else
+					{
+						result = "PeriodQuadrums".Translate(new object[]
+						{
+							num3
+						});
+					}
 				}
-				return "PeriodQuadrums".Translate(num2);
-			}
-			if (num3 > 0)
-			{
-				if (num3 == 1)
+				else if (num4 > 0)
 				{
-					return "Period1Day".Translate();
+					if (num4 == 1)
+					{
+						result = "Period1Day".Translate();
+					}
+					else
+					{
+						result = "PeriodDays".Translate(new object[]
+						{
+							num4
+						});
+					}
 				}
-				return "PeriodDays".Translate(num3);
+				else
+				{
+					int num6 = (int)num5;
+					if (num6 == 1)
+					{
+						result = "Period1Hour".Translate();
+					}
+					else
+					{
+						result = "PeriodHours".Translate(new object[]
+						{
+							num6
+						});
+					}
+				}
 			}
-			int num5 = (int)num4;
-			if (num5 == 1)
-			{
-				return "Period1Hour".Translate();
-			}
-			return "PeriodHours".Translate(num5);
+			return result;
 		}
 
+		// Token: 0x060035CD RID: 13773 RVA: 0x001CEBB4 File Offset: 0x001CCFB4
 		public static int TimeZoneAt(float longitude)
 		{
 			return Mathf.RoundToInt(GenDate.TimeZoneFloatAt(longitude));
 		}
 
+		// Token: 0x060035CE RID: 13774 RVA: 0x001CEBD4 File Offset: 0x001CCFD4
 		public static float TimeZoneFloatAt(float longitude)
 		{
-			return (float)(longitude / 15.0);
+			return longitude / 15f;
 		}
+
+		// Token: 0x04001D0D RID: 7437
+		public const int TicksPerDay = 60000;
+
+		// Token: 0x04001D0E RID: 7438
+		public const int HoursPerDay = 24;
+
+		// Token: 0x04001D0F RID: 7439
+		public const int DaysPerTwelfth = 5;
+
+		// Token: 0x04001D10 RID: 7440
+		public const int TwelfthsPerYear = 12;
+
+		// Token: 0x04001D11 RID: 7441
+		public const int GameStartHourOfDay = 6;
+
+		// Token: 0x04001D12 RID: 7442
+		public const int TicksPerTwelfth = 300000;
+
+		// Token: 0x04001D13 RID: 7443
+		public const int TicksPerSeason = 900000;
+
+		// Token: 0x04001D14 RID: 7444
+		public const int TicksPerQuadrum = 900000;
+
+		// Token: 0x04001D15 RID: 7445
+		public const int TicksPerYear = 3600000;
+
+		// Token: 0x04001D16 RID: 7446
+		public const int DaysPerYear = 60;
+
+		// Token: 0x04001D17 RID: 7447
+		public const int DaysPerSeason = 15;
+
+		// Token: 0x04001D18 RID: 7448
+		public const int DaysPerQuadrum = 15;
+
+		// Token: 0x04001D19 RID: 7449
+		public const int TicksPerHour = 2500;
+
+		// Token: 0x04001D1A RID: 7450
+		public const float TimeZoneWidth = 15f;
+
+		// Token: 0x04001D1B RID: 7451
+		public const int DefaultStartingYear = 5500;
 	}
 }

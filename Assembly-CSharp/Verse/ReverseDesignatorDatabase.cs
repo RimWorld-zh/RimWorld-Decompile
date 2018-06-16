@@ -1,12 +1,14 @@
-using RimWorld;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld;
 
 namespace Verse
 {
+	// Token: 0x02000E18 RID: 3608
 	public class ReverseDesignatorDatabase
 	{
-		private List<Designator> desList;
-
+		// Token: 0x17000D70 RID: 3440
+		// (get) Token: 0x060051CC RID: 20940 RVA: 0x0029DD64 File Offset: 0x0029C164
 		public List<Designator> AllDesignators
 		{
 			get
@@ -19,11 +21,13 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x060051CD RID: 20941 RVA: 0x0029DD90 File Offset: 0x0029C190
 		public void Reinit()
 		{
 			this.desList = null;
 		}
 
+		// Token: 0x060051CE RID: 20942 RVA: 0x0029DD9C File Offset: 0x0029C19C
 		public T Get<T>() where T : Designator
 		{
 			if (this.desList == null)
@@ -32,15 +36,16 @@ namespace Verse
 			}
 			for (int i = 0; i < this.desList.Count; i++)
 			{
-				T val = (T)(this.desList[i] as T);
-				if (val != null)
+				T t = this.desList[i] as T;
+				if (t != null)
 				{
-					return val;
+					return t;
 				}
 			}
-			return (T)null;
+			return (T)((object)null);
 		}
 
+		// Token: 0x060051CF RID: 20943 RVA: 0x0029DE10 File Offset: 0x0029C210
 		private void InitDesignators()
 		{
 			this.desList = new List<Designator>();
@@ -60,5 +65,8 @@ namespace Verse
 			this.desList.Add(new Designator_Open());
 			this.desList.RemoveAll((Designator des) => !Current.Game.Rules.DesignatorAllowed(des));
 		}
+
+		// Token: 0x0400358C RID: 13708
+		private List<Designator> desList;
 	}
 }

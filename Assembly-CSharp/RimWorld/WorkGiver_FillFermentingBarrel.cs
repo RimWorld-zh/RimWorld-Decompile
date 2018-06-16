@@ -1,15 +1,14 @@
-using System;
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000143 RID: 323
 	public class WorkGiver_FillFermentingBarrel : WorkGiver_Scanner
 	{
-		private static string TemperatureTrans;
-
-		private static string NoWortTrans;
-
+		// Token: 0x17000102 RID: 258
+		// (get) Token: 0x060006AD RID: 1709 RVA: 0x00044F40 File Offset: 0x00043340
 		public override ThingRequest PotentialWorkThingRequest
 		{
 			get
@@ -18,6 +17,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000103 RID: 259
+		// (get) Token: 0x060006AE RID: 1710 RVA: 0x00044F60 File Offset: 0x00043360
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -26,52 +27,57 @@ namespace RimWorld
 			}
 		}
 
-		public static void Reset()
+		// Token: 0x060006AF RID: 1711 RVA: 0x00044F76 File Offset: 0x00043376
+		public static void ResetStaticData()
 		{
 			WorkGiver_FillFermentingBarrel.TemperatureTrans = "BadTemperature".Translate().ToLower();
 			WorkGiver_FillFermentingBarrel.NoWortTrans = "NoWort".Translate();
 		}
 
+		// Token: 0x060006B0 RID: 1712 RVA: 0x00044F9C File Offset: 0x0004339C
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Building_FermentingBarrel building_FermentingBarrel = t as Building_FermentingBarrel;
-			if (building_FermentingBarrel != null && !building_FermentingBarrel.Fermented && building_FermentingBarrel.SpaceLeftForWort > 0)
+			bool result;
+			if (building_FermentingBarrel == null || building_FermentingBarrel.Fermented || building_FermentingBarrel.SpaceLeftForWort <= 0)
+			{
+				result = false;
+			}
+			else
 			{
 				float ambientTemperature = building_FermentingBarrel.AmbientTemperature;
 				CompProperties_TemperatureRuinable compProperties = building_FermentingBarrel.def.GetCompProperties<CompProperties_TemperatureRuinable>();
-				if (!(ambientTemperature < compProperties.minSafeTemperature + 2.0) && !(ambientTemperature > compProperties.maxSafeTemperature - 2.0))
+				if (ambientTemperature < compProperties.minSafeTemperature + 2f || ambientTemperature > compProperties.maxSafeTemperature - 2f)
+				{
+					JobFailReason.Is(WorkGiver_FillFermentingBarrel.TemperatureTrans, null);
+					result = false;
+				}
+				else
 				{
 					if (!t.IsForbidden(pawn))
 					{
 						LocalTargetInfo target = t;
-						if (!pawn.CanReserve(target, 1, -1, null, forced))
-							goto IL_0094;
-						if (pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Deconstruct) != null)
+						if (pawn.CanReserve(target, 1, -1, null, forced))
 						{
-							return false;
+							if (pawn.Map.designationManager.DesignationOn(t, DesignationDefOf.Deconstruct) != null)
+							{
+								return false;
+							}
+							if (this.FindWort(pawn, building_FermentingBarrel) == null)
+							{
+								JobFailReason.Is(WorkGiver_FillFermentingBarrel.NoWortTrans, null);
+								return false;
+							}
+							return !t.IsBurning();
 						}
-						Thing thing = this.FindWort(pawn, building_FermentingBarrel);
-						if (thing == null)
-						{
-							JobFailReason.Is(WorkGiver_FillFermentingBarrel.NoWortTrans);
-							return false;
-						}
-						if (t.IsBurning())
-						{
-							return false;
-						}
-						return true;
 					}
-					goto IL_0094;
+					result = false;
 				}
-				JobFailReason.Is(WorkGiver_FillFermentingBarrel.TemperatureTrans);
-				return false;
 			}
-			return false;
-			IL_0094:
-			return false;
+			return result;
 		}
 
+		// Token: 0x060006B1 RID: 1713 RVA: 0x000450B4 File Offset: 0x000434B4
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Building_FermentingBarrel barrel = (Building_FermentingBarrel)t;
@@ -79,16 +85,10 @@ namespace RimWorld
 			return new Job(JobDefOf.FillFermentingBarrel, t, t2);
 		}
 
+		// Token: 0x060006B2 RID: 1714 RVA: 0x000450F0 File Offset: 0x000434F0
 		private Thing FindWort(Pawn pawn, Building_FermentingBarrel barrel)
 		{
-			Predicate<Thing> predicate = delegate(Thing x)
-			{
-				if (!x.IsForbidden(pawn) && pawn.CanReserve(x, 1, -1, null, false))
-				{
-					return true;
-				}
-				return false;
-			};
+			Predicate<Thing> predicate = (Thing x) => !x.IsForbidden(pawn) && pawn.CanReserve(x, 1, -1, null, false);
 			IntVec3 position = pawn.Position;
 			Map map = pawn.Map;
 			ThingRequest thingReq = ThingRequest.ForDef(ThingDefOf.Wort);
@@ -97,5 +97,11 @@ namespace RimWorld
 			Predicate<Thing> validator = predicate;
 			return GenClosest.ClosestThingReachable(position, map, thingReq, peMode, traverseParams, 9999f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
 		}
+
+		// Token: 0x04000325 RID: 805
+		private static string TemperatureTrans;
+
+		// Token: 0x04000326 RID: 806
+		private static string NoWortTrans;
 	}
 }

@@ -1,16 +1,13 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000C07 RID: 3079
 	public sealed class DebugCellDrawer
 	{
-		private List<DebugCell> debugCells = new List<DebugCell>();
-
-		private List<DebugLine> debugLines = new List<DebugLine>();
-
-		private const int DefaultLifespanTicks = 50;
-
+		// Token: 0x06004342 RID: 17218 RVA: 0x00238010 File Offset: 0x00236410
 		public void FlashCell(IntVec3 c, float colorPct = 0f, string text = null, int duration = 50)
 		{
 			DebugCell debugCell = new DebugCell();
@@ -21,6 +18,7 @@ namespace Verse
 			this.debugCells.Add(debugCell);
 		}
 
+		// Token: 0x06004343 RID: 17219 RVA: 0x00238050 File Offset: 0x00236450
 		public void FlashCell(IntVec3 c, Material mat, string text = null, int duration = 50)
 		{
 			DebugCell debugCell = new DebugCell();
@@ -31,13 +29,13 @@ namespace Verse
 			this.debugCells.Add(debugCell);
 		}
 
-		public void FlashLine(IntVec3 a, IntVec3 b, int duration = 50)
+		// Token: 0x06004344 RID: 17220 RVA: 0x0023808D File Offset: 0x0023648D
+		public void FlashLine(IntVec3 a, IntVec3 b, int duration = 50, SimpleColor color = SimpleColor.White)
 		{
-			DebugLine item = new DebugLine(a.ToVector3Shifted(), b.ToVector3Shifted());
-			item.TicksLeft = duration;
-			this.debugLines.Add(item);
+			this.debugLines.Add(new DebugLine(a.ToVector3Shifted(), b.ToVector3Shifted(), duration, color));
 		}
 
+		// Token: 0x06004345 RID: 17221 RVA: 0x002380B4 File Offset: 0x002364B4
 		public void DebugDrawerUpdate()
 		{
 			for (int i = 0; i < this.debugCells.Count; i++)
@@ -50,32 +48,22 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004346 RID: 17222 RVA: 0x00238124 File Offset: 0x00236524
 		public void DebugDrawerTick()
 		{
-			for (int num = this.debugCells.Count - 1; num >= 0; num--)
+			for (int i = this.debugCells.Count - 1; i >= 0; i--)
 			{
-				DebugCell debugCell = this.debugCells[num];
+				DebugCell debugCell = this.debugCells[i];
 				debugCell.ticksLeft--;
 				if (debugCell.ticksLeft <= 0)
 				{
-					this.debugCells.RemoveAt(num);
+					this.debugCells.RemoveAt(i);
 				}
 			}
-			for (int num2 = this.debugLines.Count - 1; num2 >= 0; num2--)
-			{
-				List<DebugLine> list = this.debugLines;
-				int index = num2;
-				DebugLine debugLine = this.debugLines[num2];
-				Vector3 a = debugLine.a;
-				DebugLine debugLine2 = this.debugLines[num2];
-				list[index] = new DebugLine(a, debugLine2.b, this.debugLines[num2].TicksLeft - 1);
-				if (this.debugLines[num2].TicksLeft <= 0)
-				{
-					this.debugLines.RemoveAt(num2);
-				}
-			}
+			this.debugLines.RemoveAll((DebugLine dl) => dl.Done);
 		}
 
+		// Token: 0x06004347 RID: 17223 RVA: 0x002381B0 File Offset: 0x002365B0
 		public void DebugDrawerOnGUI()
 		{
 			if (Find.CameraDriver.CurrentZoom == CameraZoomRange.Closest)
@@ -91,5 +79,14 @@ namespace Verse
 				Text.Anchor = TextAnchor.UpperLeft;
 			}
 		}
+
+		// Token: 0x04002DF8 RID: 11768
+		private List<DebugCell> debugCells = new List<DebugCell>();
+
+		// Token: 0x04002DF9 RID: 11769
+		private List<DebugLine> debugLines = new List<DebugLine>();
+
+		// Token: 0x04002DFA RID: 11770
+		private const int DefaultLifespanTicks = 50;
 	}
 }

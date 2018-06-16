@@ -1,104 +1,73 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000656 RID: 1622
 	public static class ScenarioLister
 	{
-		private static bool dirty = true;
-
+		// Token: 0x060021CA RID: 8650 RVA: 0x0011E070 File Offset: 0x0011C470
 		public static IEnumerable<Scenario> AllScenarios()
 		{
 			ScenarioLister.RecacheIfDirty();
-			using (IEnumerator<ScenarioDef> enumerator = DefDatabase<ScenarioDef>.AllDefs.GetEnumerator())
+			foreach (ScenarioDef scenDef in DefDatabase<ScenarioDef>.AllDefs)
 			{
-				if (enumerator.MoveNext())
-				{
-					ScenarioDef scenDef = enumerator.Current;
-					yield return scenDef.scenario;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return scenDef.scenario;
 			}
-			using (IEnumerator<Scenario> enumerator2 = ScenarioFiles.AllScenariosLocal.GetEnumerator())
+			foreach (Scenario scen in ScenarioFiles.AllScenariosLocal)
 			{
-				if (enumerator2.MoveNext())
-				{
-					Scenario scen2 = enumerator2.Current;
-					yield return scen2;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return scen;
 			}
-			using (IEnumerator<Scenario> enumerator3 = ScenarioFiles.AllScenariosWorkshop.GetEnumerator())
+			foreach (Scenario scen2 in ScenarioFiles.AllScenariosWorkshop)
 			{
-				if (enumerator3.MoveNext())
-				{
-					Scenario scen = enumerator3.Current;
-					yield return scen;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return scen2;
 			}
 			yield break;
-			IL_01d3:
-			/*Error near IL_01d4: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x060021CB RID: 8651 RVA: 0x0011E094 File Offset: 0x0011C494
 		public static IEnumerable<Scenario> ScenariosInCategory(ScenarioCategory cat)
 		{
 			ScenarioLister.RecacheIfDirty();
-			switch (cat)
+			if (cat == ScenarioCategory.FromDef)
 			{
-			case ScenarioCategory.FromDef:
-				using (IEnumerator<ScenarioDef> enumerator3 = DefDatabase<ScenarioDef>.AllDefs.GetEnumerator())
+				foreach (ScenarioDef scenDef in DefDatabase<ScenarioDef>.AllDefs)
 				{
-					if (enumerator3.MoveNext())
-					{
-						ScenarioDef scenDef = enumerator3.Current;
-						yield return scenDef.scenario;
-						/*Error: Unable to find new state assignment for yield return*/;
-					}
+					yield return scenDef.scenario;
 				}
-				break;
-			case ScenarioCategory.CustomLocal:
-				using (IEnumerator<Scenario> enumerator2 = ScenarioFiles.AllScenariosLocal.GetEnumerator())
+			}
+			else if (cat == ScenarioCategory.CustomLocal)
+			{
+				foreach (Scenario scen in ScenarioFiles.AllScenariosLocal)
 				{
-					if (enumerator2.MoveNext())
-					{
-						Scenario scen2 = enumerator2.Current;
-						yield return scen2;
-						/*Error: Unable to find new state assignment for yield return*/;
-					}
+					yield return scen;
 				}
-				break;
-			case ScenarioCategory.SteamWorkshop:
-				using (IEnumerator<Scenario> enumerator = ScenarioFiles.AllScenariosWorkshop.GetEnumerator())
+			}
+			else if (cat == ScenarioCategory.SteamWorkshop)
+			{
+				foreach (Scenario scen2 in ScenarioFiles.AllScenariosWorkshop)
 				{
-					if (enumerator.MoveNext())
-					{
-						Scenario scen = enumerator.Current;
-						yield return scen;
-						/*Error: Unable to find new state assignment for yield return*/;
-					}
+					yield return scen2;
 				}
-				break;
 			}
 			yield break;
-			IL_0201:
-			/*Error near IL_0202: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x060021CC RID: 8652 RVA: 0x0011E0C0 File Offset: 0x0011C4C0
 		public static bool ScenarioIsListedAnywhere(Scenario scen)
 		{
 			ScenarioLister.RecacheIfDirty();
-			foreach (ScenarioDef allDef in DefDatabase<ScenarioDef>.AllDefs)
+			foreach (ScenarioDef scenarioDef in DefDatabase<ScenarioDef>.AllDefs)
 			{
-				if (allDef.scenario == scen)
+				if (scenarioDef.scenario == scen)
 				{
 					return true;
 				}
 			}
-			foreach (Scenario item in ScenarioFiles.AllScenariosLocal)
+			foreach (Scenario scenario in ScenarioFiles.AllScenariosLocal)
 			{
-				if (scen == item)
+				if (scen == scenario)
 				{
 					return true;
 				}
@@ -106,11 +75,13 @@ namespace RimWorld
 			return false;
 		}
 
+		// Token: 0x060021CD RID: 8653 RVA: 0x0011E18C File Offset: 0x0011C58C
 		public static void MarkDirty()
 		{
 			ScenarioLister.dirty = true;
 		}
 
+		// Token: 0x060021CE RID: 8654 RVA: 0x0011E195 File Offset: 0x0011C595
 		private static void RecacheIfDirty()
 		{
 			if (ScenarioLister.dirty)
@@ -119,6 +90,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060021CF RID: 8655 RVA: 0x0011E1A8 File Offset: 0x0011C5A8
 		private static void RecacheData()
 		{
 			ScenarioLister.dirty = false;
@@ -134,14 +106,18 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060021D0 RID: 8656 RVA: 0x0011E1F8 File Offset: 0x0011C5F8
 		public static int ScenarioListHash()
 		{
 			int num = 9826121;
-			foreach (Scenario item in ScenarioLister.AllScenarios())
+			foreach (Scenario scenario in ScenarioLister.AllScenarios())
 			{
-				num ^= 791 * item.GetHashCode() * 6121;
+				num ^= 791 * scenario.GetHashCode() * 6121;
 			}
 			return num;
 		}
+
+		// Token: 0x0400132D RID: 4909
+		private static bool dirty = true;
 	}
 }

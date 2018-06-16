@@ -1,28 +1,40 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000696 RID: 1686
 	public static class StoragePriorityHelper
 	{
+		// Token: 0x060023B5 RID: 9141 RVA: 0x001321C4 File Offset: 0x001305C4
 		public static string Label(this StoragePriority p)
 		{
+			string result;
 			switch (p)
 			{
 			case StoragePriority.Unstored:
-				return "StoragePriorityUnstored".Translate();
+				result = "StoragePriorityUnstored".Translate();
+				break;
 			case StoragePriority.Low:
-				return "StoragePriorityLow".Translate();
+				result = "StoragePriorityLow".Translate();
+				break;
 			case StoragePriority.Normal:
-				return "StoragePriorityNormal".Translate();
+				result = "StoragePriorityNormal".Translate();
+				break;
 			case StoragePriority.Preferred:
-				return "StoragePriorityPreferred".Translate();
+				result = "StoragePriorityPreferred".Translate();
+				break;
 			case StoragePriority.Important:
-				return "StoragePriorityImportant".Translate();
+				result = "StoragePriorityImportant".Translate();
+				break;
 			case StoragePriority.Critical:
-				return "StoragePriorityCritical".Translate();
+				result = "StoragePriorityCritical".Translate();
+				break;
 			default:
-				return "Unknown";
+				result = "Unknown";
+				break;
 			}
+			return result;
 		}
 	}
 }

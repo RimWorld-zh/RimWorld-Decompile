@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -5,28 +6,40 @@ using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x020000A7 RID: 167
 	public class JobGiver_Nuzzle : ThinkNode_JobGiver
 	{
-		private const float MaxNuzzleDistance = 15f;
-
+		// Token: 0x06000416 RID: 1046 RVA: 0x00030DC4 File Offset: 0x0002F1C4
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			if (pawn.RaceProps.nuzzleMtbHours <= 0.0)
+			Job result;
+			if (pawn.RaceProps.nuzzleMtbHours <= 0f)
 			{
-				return null;
+				result = null;
 			}
-			List<Pawn> source = pawn.Map.mapPawns.SpawnedPawnsInFaction(pawn.Faction);
-			Pawn t = default(Pawn);
-			if (!(from p in source
-			where !p.NonHumanlikeOrWildMan() && p != pawn && p.Position.InHorDistOf(pawn.Position, 15f) && pawn.GetRoom(RegionType.Set_Passable) == p.GetRoom(RegionType.Set_Passable) && !p.Position.IsForbidden(pawn) && p.CanCasuallyInteractNow(false)
-			select p).TryRandomElement<Pawn>(out t))
+			else
 			{
-				return null;
+				List<Pawn> source = pawn.Map.mapPawns.SpawnedPawnsInFaction(pawn.Faction);
+				Pawn t;
+				if (!(from p in source
+				where !p.NonHumanlikeOrWildMan() && p != pawn && p.Position.InHorDistOf(pawn.Position, 40f) && pawn.GetRoom(RegionType.Set_Passable) == p.GetRoom(RegionType.Set_Passable) && !p.Position.IsForbidden(pawn) && p.CanCasuallyInteractNow(false)
+				select p).TryRandomElement(out t))
+				{
+					result = null;
+				}
+				else
+				{
+					result = new Job(JobDefOf.Nuzzle, t)
+					{
+						locomotionUrgency = LocomotionUrgency.Walk,
+						expiryInterval = 3000
+					};
+				}
 			}
-			Job job = new Job(JobDefOf.Nuzzle, t);
-			job.locomotionUrgency = LocomotionUrgency.Walk;
-			job.expiryInterval = 3000;
-			return job;
+			return result;
 		}
+
+		// Token: 0x04000270 RID: 624
+		private const float MaxNuzzleDistance = 40f;
 	}
 }

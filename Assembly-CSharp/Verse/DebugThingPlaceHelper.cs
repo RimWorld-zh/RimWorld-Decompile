@@ -1,36 +1,20 @@
-using RimWorld;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using RimWorld;
 
 namespace Verse
 {
+	// Token: 0x02000E29 RID: 3625
 	public static class DebugThingPlaceHelper
 	{
-		public static bool IsDebugSpawnable(ThingDef def)
+		// Token: 0x060054F0 RID: 21744 RVA: 0x002B89F4 File Offset: 0x002B6DF4
+		public static bool IsDebugSpawnable(ThingDef def, bool allowPlayerBuildable = false)
 		{
-			if (def.forceDebugSpawnable)
-			{
-				return true;
-			}
-			if (def.thingClass != typeof(Corpse) && !def.IsBlueprint && !def.IsFrame && def != ThingDefOf.ActiveDropPod && def.thingClass != typeof(MinifiedThing) && def.thingClass != typeof(UnfinishedThing) && !def.destroyOnDrop)
-			{
-				if (def.category != ThingCategory.Filth && def.category != ThingCategory.Item && def.category != ThingCategory.Plant && def.category != ThingCategory.Ethereal)
-				{
-					if (def.category == ThingCategory.Building && def.building.isNaturalRock)
-					{
-						return true;
-					}
-					if (def.category == ThingCategory.Building && def.designationCategory == null)
-					{
-						return true;
-					}
-					return false;
-				}
-				return true;
-			}
-			return false;
+			return def.forceDebugSpawnable || (def.thingClass != typeof(Corpse) && !def.IsBlueprint && !def.IsFrame && def != ThingDefOf.ActiveDropPod && def.thingClass != typeof(MinifiedThing) && def.thingClass != typeof(UnfinishedThing) && !def.destroyOnDrop && (def.category == ThingCategory.Filth || def.category == ThingCategory.Item || def.category == ThingCategory.Plant || def.category == ThingCategory.Ethereal || (def.category == ThingCategory.Building && def.building.isNaturalRock) || (def.category == ThingCategory.Building && !def.BuildableByPlayer) || (def.category == ThingCategory.Building && def.BuildableByPlayer && allowPlayerBuildable)));
 		}
 
+		// Token: 0x060054F1 RID: 21745 RVA: 0x002B8B2C File Offset: 0x002B6F2C
 		public static void DebugSpawn(ThingDef def, IntVec3 c, int stackCount = -1, bool direct = false)
 		{
 			if (stackCount <= 0)
@@ -42,7 +26,7 @@ namespace Verse
 			CompQuality compQuality = thing.TryGetComp<CompQuality>();
 			if (compQuality != null)
 			{
-				compQuality.SetQuality(QualityUtility.RandomQuality(), ArtGenerationContext.Colony);
+				compQuality.SetQuality(QualityUtility.GenerateQualityRandomEqualChance(), ArtGenerationContext.Colony);
 			}
 			if (thing.def.Minifiable)
 			{
@@ -51,43 +35,65 @@ namespace Verse
 			thing.stackCount = stackCount;
 			if (direct)
 			{
-				GenPlace.TryPlaceThing(thing, c, Find.VisibleMap, ThingPlaceMode.Direct, null);
+				GenPlace.TryPlaceThing(thing, c, Find.CurrentMap, ThingPlaceMode.Direct, null, null);
 			}
 			else
 			{
-				GenPlace.TryPlaceThing(thing, c, Find.VisibleMap, ThingPlaceMode.Near, null);
+				GenPlace.TryPlaceThing(thing, c, Find.CurrentMap, ThingPlaceMode.Near, null, null);
 			}
 		}
 
+		// Token: 0x060054F2 RID: 21746 RVA: 0x002B8BBC File Offset: 0x002B6FBC
 		public static List<DebugMenuOption> TryPlaceOptionsForStackCount(int stackCount, bool direct)
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
 			IEnumerable<ThingDef> enumerable = from def in DefDatabase<ThingDef>.AllDefs
-			where DebugThingPlaceHelper.IsDebugSpawnable(def) && def.stackLimit >= stackCount
+			where DebugThingPlaceHelper.IsDebugSpawnable(def, false) && def.stackLimit >= stackCount
 			select def;
-			foreach (ThingDef item in enumerable)
+			foreach (ThingDef localDef3 in enumerable)
 			{
-				ThingDef localDef = item;
-				list.Add(new DebugMenuOption(localDef.LabelCap, DebugMenuOptionMode.Tool, delegate
+				ThingDef localDef = localDef3;
+				list.Add(new DebugMenuOption(localDef.LabelCap, DebugMenuOptionMode.Tool, delegate()
 				{
 					DebugThingPlaceHelper.DebugSpawn(localDef, UI.MouseCell(), stackCount, direct);
 				}));
 			}
 			if (stackCount == 1)
 			{
+				foreach (ThingDef localDef2 in from def in DefDatabase<ThingDef>.AllDefs
+				where def.Minifiable
+				select def)
 				{
-					foreach (ThingDef item2 in from def in DefDatabase<ThingDef>.AllDefs
-					where def.Minifiable
-					select def)
+					ThingDef localDef = localDef2;
+					list.Add(new DebugMenuOption(localDef.LabelCap + " (minified)", DebugMenuOptionMode.Tool, delegate()
 					{
-						ThingDef localDef2 = item2;
-						list.Add(new DebugMenuOption(localDef2.LabelCap + " (minified)", DebugMenuOptionMode.Tool, delegate
-						{
-							DebugThingPlaceHelper.DebugSpawn(localDef2, UI.MouseCell(), stackCount, direct);
-						}));
-					}
-					return list;
+						DebugThingPlaceHelper.DebugSpawn(localDef, UI.MouseCell(), stackCount, direct);
+					}));
 				}
+			}
+			return list;
+		}
+
+		// Token: 0x060054F3 RID: 21747 RVA: 0x002B8D4C File Offset: 0x002B714C
+		public static List<DebugMenuOption> SpawnOptions(WipeMode wipeMode)
+		{
+			List<DebugMenuOption> list = new List<DebugMenuOption>();
+			IEnumerable<ThingDef> enumerable = from def in DefDatabase<ThingDef>.AllDefs
+			where DebugThingPlaceHelper.IsDebugSpawnable(def, true)
+			select def;
+			foreach (ThingDef localDef2 in enumerable)
+			{
+				ThingDef localDef = localDef2;
+				list.Add(new DebugMenuOption(localDef.LabelCap, DebugMenuOptionMode.Tool, delegate()
+				{
+					Thing thing = ThingMaker.MakeThing(localDef, GenStuff.RandomStuffFor(localDef));
+					CompQuality compQuality = thing.TryGetComp<CompQuality>();
+					if (compQuality != null)
+					{
+						compQuality.SetQuality(QualityUtility.GenerateQualityRandomEqualChance(), ArtGenerationContext.Colony);
+					}
+					GenSpawn.Spawn(thing, UI.MouseCell(), Find.CurrentMap, wipeMode);
+				}));
 			}
 			return list;
 		}

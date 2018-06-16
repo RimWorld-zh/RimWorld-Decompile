@@ -1,11 +1,14 @@
+﻿using System;
 using RimWorld;
 using RimWorld.Planet;
 using Verse.Sound;
 
 namespace Verse
 {
+	// Token: 0x02000AE6 RID: 2790
 	public static class CameraJumper
 	{
+		// Token: 0x06003DC3 RID: 15811 RVA: 0x00209313 File Offset: 0x00207713
 		public static void TryJumpAndSelect(GlobalTargetInfo target)
 		{
 			if (target.IsValid)
@@ -15,6 +18,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06003DC4 RID: 15812 RVA: 0x00209334 File Offset: 0x00207734
 		public static void TrySelect(GlobalTargetInfo target)
 		{
 			if (target.IsValid)
@@ -31,40 +35,49 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06003DC5 RID: 15813 RVA: 0x00209390 File Offset: 0x00207790
 		private static void TrySelectInternal(Thing thing)
 		{
-			if (Current.ProgramState == ProgramState.Playing && thing.Spawned && thing.def.selectable)
+			if (Current.ProgramState == ProgramState.Playing)
 			{
-				bool flag = CameraJumper.TryHideWorld();
-				bool flag2 = false;
-				if (thing.Map != Current.Game.VisibleMap)
+				if (thing.Spawned && thing.def.selectable)
 				{
-					Current.Game.VisibleMap = thing.Map;
-					flag2 = true;
-					if (!flag)
+					bool flag = CameraJumper.TryHideWorld();
+					bool flag2 = false;
+					if (thing.Map != Find.CurrentMap)
 					{
-						SoundDefOf.MapSelected.PlayOneShotOnCamera(null);
+						Current.Game.CurrentMap = thing.Map;
+						flag2 = true;
+						if (!flag)
+						{
+							SoundDefOf.MapSelected.PlayOneShotOnCamera(null);
+						}
 					}
+					if (flag || flag2)
+					{
+						Find.CameraDriver.JumpToCurrentMapLoc(thing.Position);
+					}
+					Find.Selector.ClearSelection();
+					Find.Selector.Select(thing, true, true);
 				}
-				if (flag || flag2)
-				{
-					Find.CameraDriver.JumpToVisibleMapLoc(thing.Position);
-				}
-				Find.Selector.ClearSelection();
-				Find.Selector.Select(thing, true, true);
 			}
 		}
 
+		// Token: 0x06003DC6 RID: 15814 RVA: 0x00209440 File Offset: 0x00207840
 		private static void TrySelectInternal(WorldObject worldObject)
 		{
-			if (Find.World != null && worldObject.Spawned && worldObject.SelectableNow)
+			if (Find.World != null)
 			{
-				CameraJumper.TryShowWorld();
-				Find.WorldSelector.ClearSelection();
-				Find.WorldSelector.Select(worldObject, true);
+				if (worldObject.Spawned && worldObject.SelectableNow)
+				{
+					CameraJumper.TryShowWorld();
+					Find.WorldSelector.ClearSelection();
+					Find.WorldSelector.Select(worldObject, true);
+				}
 			}
 		}
 
+		// Token: 0x06003DC7 RID: 15815 RVA: 0x00209494 File Offset: 0x00207894
 		public static void TryJump(GlobalTargetInfo target)
 		{
 			if (target.IsValid)
@@ -89,72 +102,125 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06003DC8 RID: 15816 RVA: 0x0020952D File Offset: 0x0020792D
 		public static void TryJump(IntVec3 cell, Map map)
 		{
 			CameraJumper.TryJump(new GlobalTargetInfo(cell, map, false));
 		}
 
+		// Token: 0x06003DC9 RID: 15817 RVA: 0x0020953D File Offset: 0x0020793D
 		public static void TryJump(int tile)
 		{
 			CameraJumper.TryJump(new GlobalTargetInfo(tile));
 		}
 
+		// Token: 0x06003DCA RID: 15818 RVA: 0x0020954C File Offset: 0x0020794C
 		private static void TryJumpInternal(Thing thing)
 		{
 			if (Current.ProgramState == ProgramState.Playing)
 			{
 				Map mapHeld = thing.MapHeld;
-				if (mapHeld != null && thing.PositionHeld.IsValid && thing.PositionHeld.InBounds(mapHeld))
+				if (mapHeld != null && Find.Maps.Contains(mapHeld) && thing.PositionHeld.IsValid && thing.PositionHeld.InBounds(mapHeld))
 				{
 					bool flag = CameraJumper.TryHideWorld();
-					if (Current.Game.VisibleMap != mapHeld)
+					if (Find.CurrentMap != mapHeld)
 					{
-						Current.Game.VisibleMap = mapHeld;
+						Current.Game.CurrentMap = mapHeld;
 						if (!flag)
 						{
 							SoundDefOf.MapSelected.PlayOneShotOnCamera(null);
 						}
 					}
-					Find.CameraDriver.JumpToVisibleMapLoc(thing.PositionHeld);
+					Find.CameraDriver.JumpToCurrentMapLoc(thing.PositionHeld);
 				}
 			}
 		}
 
+		// Token: 0x06003DCB RID: 15819 RVA: 0x002095EC File Offset: 0x002079EC
 		private static void TryJumpInternal(IntVec3 cell, Map map)
 		{
-			if (Current.ProgramState == ProgramState.Playing && cell.IsValid && map != null && Find.Maps.Contains(map))
+			if (Current.ProgramState == ProgramState.Playing)
 			{
-				bool flag = CameraJumper.TryHideWorld();
-				if (Current.Game.VisibleMap != map)
+				if (cell.IsValid)
 				{
-					Current.Game.VisibleMap = map;
-					if (!flag)
+					if (map != null && Find.Maps.Contains(map))
 					{
-						SoundDefOf.MapSelected.PlayOneShotOnCamera(null);
+						if (cell.InBounds(map))
+						{
+							bool flag = CameraJumper.TryHideWorld();
+							if (Find.CurrentMap != map)
+							{
+								Current.Game.CurrentMap = map;
+								if (!flag)
+								{
+									SoundDefOf.MapSelected.PlayOneShotOnCamera(null);
+								}
+							}
+							Find.CameraDriver.JumpToCurrentMapLoc(cell);
+						}
 					}
 				}
-				Find.CameraDriver.JumpToVisibleMapLoc(cell);
 			}
 		}
 
+		// Token: 0x06003DCC RID: 15820 RVA: 0x00209681 File Offset: 0x00207A81
 		private static void TryJumpInternal(WorldObject worldObject)
 		{
-			if (Find.World != null && worldObject.Tile >= 0)
+			if (Find.World != null)
 			{
-				CameraJumper.TryShowWorld();
-				Find.WorldCameraDriver.JumpTo(worldObject.Tile);
+				if (worldObject.Tile >= 0)
+				{
+					CameraJumper.TryShowWorld();
+					Find.WorldCameraDriver.JumpTo(worldObject.Tile);
+				}
 			}
 		}
 
+		// Token: 0x06003DCD RID: 15821 RVA: 0x002096BA File Offset: 0x00207ABA
 		private static void TryJumpInternal(int tile)
 		{
-			if (Find.World != null && tile >= 0)
+			if (Find.World != null)
 			{
-				CameraJumper.TryShowWorld();
-				Find.WorldCameraDriver.JumpTo(tile);
+				if (tile >= 0)
+				{
+					CameraJumper.TryShowWorld();
+					Find.WorldCameraDriver.JumpTo(tile);
+				}
 			}
 		}
 
+		// Token: 0x06003DCE RID: 15822 RVA: 0x002096EC File Offset: 0x00207AEC
+		public static bool CanJump(GlobalTargetInfo target)
+		{
+			bool result;
+			if (!target.IsValid)
+			{
+				result = false;
+			}
+			else
+			{
+				target = CameraJumper.GetAdjustedTarget(target);
+				if (target.HasThing)
+				{
+					result = (target.Thing.MapHeld != null && Find.Maps.Contains(target.Thing.MapHeld) && target.Thing.PositionHeld.IsValid && target.Thing.PositionHeld.InBounds(target.Thing.MapHeld));
+				}
+				else if (target.HasWorldObject)
+				{
+					result = (target.WorldObject.Tile >= 0);
+				}
+				else if (target.Cell.IsValid)
+				{
+					result = (target.Map != null && Find.Maps.Contains(target.Map) && target.Cell.IsValid && target.Cell.InBounds(target.Map));
+				}
+				else
+				{
+					result = (target.Tile >= 0);
+				}
+			}
+			return result;
+		}
+
+		// Token: 0x06003DCF RID: 15823 RVA: 0x0020982C File Offset: 0x00207C2C
 		public static GlobalTargetInfo GetAdjustedTarget(GlobalTargetInfo target)
 		{
 			if (target.HasThing)
@@ -195,96 +261,120 @@ namespace Verse
 					return new GlobalTargetInfo(thing.Tile);
 				}
 			}
-			else
+			else if (target.Cell.IsValid && target.Tile >= 0 && target.Map != null && !Find.Maps.Contains(target.Map))
 			{
-				if (target.Cell.IsValid && target.Tile >= 0 && target.Map != null && !Find.Maps.Contains(target.Map))
+				MapParent parent = target.Map.Parent;
+				if (parent != null && parent.Spawned)
 				{
-					MapParent parent = target.Map.info.parent;
-					if (parent != null && parent.Spawned)
-					{
-						return parent;
-					}
-					if (parent != null && parent.Tile >= 0)
-					{
-						return new GlobalTargetInfo(target.Map.Tile);
-					}
-					return GlobalTargetInfo.Invalid;
+					return parent;
 				}
-				if (target.HasWorldObject && !target.WorldObject.Spawned && target.WorldObject.Tile >= 0)
+				if (parent != null && parent.Tile >= 0)
 				{
-					return new GlobalTargetInfo(target.WorldObject.Tile);
+					return new GlobalTargetInfo(target.Map.Tile);
 				}
+				return GlobalTargetInfo.Invalid;
+			}
+			else if (target.HasWorldObject && !target.WorldObject.Spawned && target.WorldObject.Tile >= 0)
+			{
+				return new GlobalTargetInfo(target.WorldObject.Tile);
 			}
 			return target;
 		}
 
+		// Token: 0x06003DD0 RID: 15824 RVA: 0x00209A3C File Offset: 0x00207E3C
 		public static GlobalTargetInfo GetWorldTarget(GlobalTargetInfo target)
 		{
 			GlobalTargetInfo adjustedTarget = CameraJumper.GetAdjustedTarget(target);
+			GlobalTargetInfo result;
 			if (adjustedTarget.IsValid)
 			{
 				if (adjustedTarget.IsWorldTarget)
 				{
-					return adjustedTarget;
+					result = adjustedTarget;
 				}
-				return CameraJumper.GetWorldTargetOfMap(adjustedTarget.Map);
+				else
+				{
+					result = CameraJumper.GetWorldTargetOfMap(adjustedTarget.Map);
+				}
 			}
-			return GlobalTargetInfo.Invalid;
+			else
+			{
+				result = GlobalTargetInfo.Invalid;
+			}
+			return result;
 		}
 
+		// Token: 0x06003DD1 RID: 15825 RVA: 0x00209A90 File Offset: 0x00207E90
 		public static GlobalTargetInfo GetWorldTargetOfMap(Map map)
 		{
+			GlobalTargetInfo result;
 			if (map == null)
 			{
-				return GlobalTargetInfo.Invalid;
+				result = GlobalTargetInfo.Invalid;
 			}
-			if (map.info.parent != null && map.info.parent.Spawned)
+			else if (map.Parent != null && map.Parent.Spawned)
 			{
-				return map.info.parent;
+				result = map.Parent;
 			}
-			if (map.info.parent != null && map.info.parent.Tile >= 0)
+			else if (map.Parent != null && map.Parent.Tile >= 0)
 			{
-				return new GlobalTargetInfo(map.Tile);
+				result = new GlobalTargetInfo(map.Tile);
 			}
-			return GlobalTargetInfo.Invalid;
+			else
+			{
+				result = GlobalTargetInfo.Invalid;
+			}
+			return result;
 		}
 
+		// Token: 0x06003DD2 RID: 15826 RVA: 0x00209B14 File Offset: 0x00207F14
 		public static bool TryHideWorld()
 		{
+			bool result;
 			if (!WorldRendererUtility.WorldRenderedNow)
 			{
-				return true;
+				result = true;
 			}
-			if (Current.ProgramState != ProgramState.Playing)
+			else if (Current.ProgramState != ProgramState.Playing)
 			{
-				return false;
+				result = false;
 			}
-			if (Find.World.renderer.wantedMode != 0)
+			else if (Find.World.renderer.wantedMode != WorldRenderMode.None)
 			{
 				Find.World.renderer.wantedMode = WorldRenderMode.None;
 				SoundDefOf.TabClose.PlayOneShotOnCamera(null);
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 
+		// Token: 0x06003DD3 RID: 15827 RVA: 0x00209B84 File Offset: 0x00207F84
 		public static bool TryShowWorld()
 		{
+			bool result;
 			if (WorldRendererUtility.WorldRenderedNow)
 			{
-				return true;
+				result = true;
 			}
-			if (Current.ProgramState != ProgramState.Playing)
+			else if (Current.ProgramState != ProgramState.Playing)
 			{
-				return false;
+				result = false;
 			}
-			if (Find.World.renderer.wantedMode == WorldRenderMode.None)
+			else if (Find.World.renderer.wantedMode == WorldRenderMode.None)
 			{
 				Find.World.renderer.wantedMode = WorldRenderMode.Planet;
 				SoundDefOf.TabOpen.PlayOneShotOnCamera(null);
-				return true;
+				result = true;
 			}
-			return false;
+			else
+			{
+				result = false;
+			}
+			return result;
 		}
 	}
 }

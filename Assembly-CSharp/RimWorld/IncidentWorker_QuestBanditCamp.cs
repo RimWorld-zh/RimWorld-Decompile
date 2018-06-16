@@ -1,71 +1,90 @@
-using RimWorld.Planet;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using RimWorld.Planet;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200034E RID: 846
 	public class IncidentWorker_QuestBanditCamp : IncidentWorker
 	{
-		private const float RelationsImprovement = 8f;
-
-		protected override bool CanFireNowSub(IIncidentTarget target)
+		// Token: 0x06000E98 RID: 3736 RVA: 0x0007B95C File Offset: 0x00079D5C
+		protected override bool CanFireNowSub(IncidentParms parms)
 		{
-			Faction faction = default(Faction);
-			Faction faction2 = default(Faction);
-			int num = default(int);
-			return base.CanFireNowSub(target) && this.TryFindFactions(out faction, out faction2) && TileFinder.TryFindNewSiteTile(out num, 8, 30, false, true, -1);
+			Faction faction;
+			Faction faction2;
+			int num;
+			return base.CanFireNowSub(parms) && this.TryFindFactions(out faction, out faction2) && TileFinder.TryFindNewSiteTile(out num, 7, 27, false, true, -1);
 		}
 
+		// Token: 0x06000E99 RID: 3737 RVA: 0x0007B99C File Offset: 0x00079D9C
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
-			Faction faction = default(Faction);
-			Faction faction2 = default(Faction);
+			Faction faction;
+			Faction faction2;
+			bool result;
+			int tile;
 			if (!this.TryFindFactions(out faction, out faction2))
 			{
-				return false;
+				result = false;
 			}
-			int tile = default(int);
-			if (!TileFinder.TryFindNewSiteTile(out tile, 8, 30, false, true, -1))
+			else if (!TileFinder.TryFindNewSiteTile(out tile, 7, 27, false, true, -1))
 			{
-				return false;
+				result = false;
 			}
-			Site site = SiteMaker.MakeSite(SiteCoreDefOf.Nothing, SitePartDefOf.Outpost, faction2);
-			site.Tile = tile;
-			List<Thing> list = this.GenerateRewards(faction);
-			((WorldObject)site).GetComponent<DefeatAllEnemiesQuestComp>().StartQuest(faction, 8f, list);
-			Find.WorldObjects.Add(site);
-			base.SendStandardLetter(site, faction.leader.LabelShort, faction.def.leaderTitle, faction.Name, list[0].LabelCap);
-			return true;
+			else
+			{
+				Site site = SiteMaker.MakeSite(SiteCoreDefOf.Nothing, SitePartDefOf.Outpost, faction2, true);
+				site.Tile = tile;
+				List<Thing> list = this.GenerateRewards(faction);
+				site.GetComponent<DefeatAllEnemiesQuestComp>().StartQuest(faction, 10, list);
+				Find.WorldObjects.Add(site);
+				base.SendStandardLetter(site, faction, new string[]
+				{
+					faction.leader.LabelShort,
+					faction.def.leaderTitle,
+					faction.Name,
+					list[0].LabelCap
+				});
+				result = true;
+			}
+			return result;
 		}
 
+		// Token: 0x06000E9A RID: 3738 RVA: 0x0007BA6C File Offset: 0x00079E6C
 		private List<Thing> GenerateRewards(Faction alliedFaction)
 		{
-			ItemCollectionGeneratorParams parms = default(ItemCollectionGeneratorParams);
-			parms.techLevel = alliedFaction.def.techLevel;
-			return ItemCollectionGeneratorDefOf.BanditCampQuestRewards.Worker.Generate(parms);
+			return ThingSetMakerDefOf.Reward_StandardByDropPod.root.Generate();
 		}
 
+		// Token: 0x06000E9B RID: 3739 RVA: 0x0007BA90 File Offset: 0x00079E90
 		private bool TryFindFactions(out Faction alliedFaction, out Faction enemyFaction)
 		{
+			bool result;
 			if ((from x in Find.FactionManager.AllFactions
 			where !x.def.hidden && !x.defeated && !x.IsPlayer && !x.HostileTo(Faction.OfPlayer) && this.CommonHumanlikeEnemyFactionExists(Faction.OfPlayer, x) && !this.AnyQuestExistsFrom(x)
-			select x).TryRandomElement<Faction>(out alliedFaction))
+			select x).TryRandomElement(out alliedFaction))
 			{
 				enemyFaction = this.CommonHumanlikeEnemyFaction(Faction.OfPlayer, alliedFaction);
-				return true;
+				result = true;
 			}
-			alliedFaction = null;
-			enemyFaction = null;
-			return false;
+			else
+			{
+				alliedFaction = null;
+				enemyFaction = null;
+				result = false;
+			}
+			return result;
 		}
 
+		// Token: 0x06000E9C RID: 3740 RVA: 0x0007BAEC File Offset: 0x00079EEC
 		private bool AnyQuestExistsFrom(Faction faction)
 		{
 			List<Site> sites = Find.WorldObjects.Sites;
 			for (int i = 0; i < sites.Count; i++)
 			{
-				DefeatAllEnemiesQuestComp component = ((WorldObject)sites[i]).GetComponent<DefeatAllEnemiesQuestComp>();
+				DefeatAllEnemiesQuestComp component = sites[i].GetComponent<DefeatAllEnemiesQuestComp>();
 				if (component != null && component.Active && component.requestingFaction == faction)
 				{
 					return true;
@@ -74,21 +93,28 @@ namespace RimWorld
 			return false;
 		}
 
+		// Token: 0x06000E9D RID: 3741 RVA: 0x0007BB58 File Offset: 0x00079F58
 		private bool CommonHumanlikeEnemyFactionExists(Faction f1, Faction f2)
 		{
 			return this.CommonHumanlikeEnemyFaction(f1, f2) != null;
 		}
 
+		// Token: 0x06000E9E RID: 3742 RVA: 0x0007BB7C File Offset: 0x00079F7C
 		private Faction CommonHumanlikeEnemyFaction(Faction f1, Faction f2)
 		{
-			Faction result = default(Faction);
+			Faction faction;
+			Faction result;
 			if ((from x in Find.FactionManager.AllFactions
 			where x != f1 && x != f2 && !x.def.hidden && x.def.humanlikeFaction && !x.defeated && x.HostileTo(f1) && x.HostileTo(f2)
-			select x).TryRandomElement<Faction>(out result))
+			select x).TryRandomElement(out faction))
 			{
-				return result;
+				result = faction;
 			}
-			return null;
+			else
+			{
+				result = null;
+			}
+			return result;
 		}
 	}
 }

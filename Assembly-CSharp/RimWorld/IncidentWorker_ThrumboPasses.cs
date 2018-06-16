@@ -1,54 +1,71 @@
-using System;
+﻿using System;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000342 RID: 834
 	public class IncidentWorker_ThrumboPasses : IncidentWorker
 	{
-		protected override bool CanFireNowSub(IIncidentTarget target)
+		// Token: 0x06000E40 RID: 3648 RVA: 0x00078F20 File Offset: 0x00077320
+		protected override bool CanFireNowSub(IncidentParms parms)
 		{
-			Map map = (Map)target;
-			if (map.gameConditionManager.ConditionIsActive(GameConditionDefOf.ToxicFallout))
-			{
-				return false;
-			}
-			return true;
+			Map map = (Map)parms.target;
+			IntVec3 intVec;
+			return !map.gameConditionManager.ConditionIsActive(GameConditionDefOf.ToxicFallout) && map.mapTemperature.SeasonAndOutdoorTemperatureAcceptableFor(ThingDefOf.Thrumbo) && this.TryFindEntryCell(map, out intVec);
 		}
 
+		// Token: 0x06000E41 RID: 3649 RVA: 0x00078F84 File Offset: 0x00077384
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
-			IntVec3 intVec = default(IntVec3);
-			if (!RCellFinder.TryFindRandomPawnEntryCell(out intVec, map, (float)(CellFinder.EdgeRoadChance_Animal + 0.20000000298023224), (Predicate<IntVec3>)null))
+			IntVec3 intVec;
+			bool result;
+			if (!this.TryFindEntryCell(map, out intVec))
 			{
-				return false;
+				result = false;
 			}
-			PawnKindDef thrumbo = PawnKindDefOf.Thrumbo;
-			float points = StorytellerUtility.DefaultParmsNow(Find.Storyteller.def, IncidentCategory.ThreatBig, map).points;
-			int value = GenMath.RoundRandom(points / thrumbo.combatPower);
-			int max = Rand.RangeInclusive(2, 4);
-			value = Mathf.Clamp(value, 1, max);
-			int num = Rand.RangeInclusive(90000, 150000);
-			IntVec3 invalid = IntVec3.Invalid;
-			if (!RCellFinder.TryFindRandomCellOutsideColonyNearTheCenterOfTheMap(intVec, map, 10f, out invalid))
+			else
 			{
-				invalid = IntVec3.Invalid;
-			}
-			Pawn pawn = null;
-			for (int i = 0; i < value; i++)
-			{
-				IntVec3 loc = CellFinder.RandomClosewalkCellNear(intVec, map, 10, null);
-				pawn = PawnGenerator.GeneratePawn(thrumbo, null);
-				GenSpawn.Spawn(pawn, loc, map, Rot4.Random, false);
-				pawn.mindState.exitMapAfterTick = Find.TickManager.TicksGame + num;
-				if (invalid.IsValid)
+				PawnKindDef thrumbo = PawnKindDefOf.Thrumbo;
+				float num = StorytellerUtility.DefaultThreatPointsNow(map);
+				int num2 = GenMath.RoundRandom(num / thrumbo.combatPower);
+				int max = Rand.RangeInclusive(2, 4);
+				num2 = Mathf.Clamp(num2, 1, max);
+				int num3 = Rand.RangeInclusive(90000, 150000);
+				IntVec3 invalid = IntVec3.Invalid;
+				if (!RCellFinder.TryFindRandomCellOutsideColonyNearTheCenterOfTheMap(intVec, map, 10f, out invalid))
 				{
-					pawn.mindState.forcedGotoPosition = CellFinder.RandomClosewalkCellNear(invalid, map, 10, null);
+					invalid = IntVec3.Invalid;
 				}
+				Pawn pawn = null;
+				for (int i = 0; i < num2; i++)
+				{
+					IntVec3 loc = CellFinder.RandomClosewalkCellNear(intVec, map, 10, null);
+					pawn = PawnGenerator.GeneratePawn(thrumbo, null);
+					GenSpawn.Spawn(pawn, loc, map, Rot4.Random, WipeMode.Vanish, false);
+					pawn.mindState.exitMapAfterTick = Find.TickManager.TicksGame + num3;
+					if (invalid.IsValid)
+					{
+						pawn.mindState.forcedGotoPosition = CellFinder.RandomClosewalkCellNear(invalid, map, 10, null);
+					}
+				}
+				Find.LetterStack.ReceiveLetter("LetterLabelThrumboPasses".Translate(new object[]
+				{
+					thrumbo.label
+				}).CapitalizeFirst(), "LetterThrumboPasses".Translate(new object[]
+				{
+					thrumbo.label
+				}), LetterDefOf.PositiveEvent, pawn, null, null);
+				result = true;
 			}
-			Find.LetterStack.ReceiveLetter("LetterLabelThrumboPasses".Translate(thrumbo.label).CapitalizeFirst(), "LetterThrumboPasses".Translate(thrumbo.label), LetterDefOf.PositiveEvent, pawn, null);
-			return true;
+			return result;
+		}
+
+		// Token: 0x06000E42 RID: 3650 RVA: 0x000790F0 File Offset: 0x000774F0
+		private bool TryFindEntryCell(Map map, out IntVec3 cell)
+		{
+			return RCellFinder.TryFindRandomPawnEntryCell(out cell, map, CellFinder.EdgeRoadChance_Animal + 0.2f, null);
 		}
 	}
 }

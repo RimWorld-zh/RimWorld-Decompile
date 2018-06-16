@@ -1,14 +1,22 @@
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000115 RID: 277
 	public class JobGiver_Tantrum : ThinkNode_JobGiver
 	{
+		// Token: 0x060005A7 RID: 1447 RVA: 0x0003CB10 File Offset: 0x0003AF10
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			MentalState_Tantrum mentalState_Tantrum = pawn.MentalState as MentalState_Tantrum;
-			if (mentalState_Tantrum != null && mentalState_Tantrum.target != null && pawn.CanReach(mentalState_Tantrum.target, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+			Job result;
+			if (mentalState_Tantrum == null || mentalState_Tantrum.target == null || !pawn.CanReach(mentalState_Tantrum.target, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+			{
+				result = null;
+			}
+			else
 			{
 				Verb verbToUse = null;
 				Pawn pawn2 = mentalState_Tantrum.target as Pawn;
@@ -23,12 +31,13 @@ namespace RimWorld
 						return null;
 					}
 				}
-				Job job = new Job(JobDefOf.AttackMelee, mentalState_Tantrum.target);
-				job.maxNumMeleeAttacks = 1;
-				job.verbToUse = verbToUse;
-				return job;
+				result = new Job(JobDefOf.AttackMelee, mentalState_Tantrum.target)
+				{
+					maxNumMeleeAttacks = 1,
+					verbToUse = verbToUse
+				};
 			}
-			return null;
+			return result;
 		}
 	}
 }

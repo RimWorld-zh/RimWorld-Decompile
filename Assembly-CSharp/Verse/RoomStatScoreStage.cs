@@ -1,9 +1,14 @@
+﻿using System;
+
 namespace Verse
 {
+	// Token: 0x02000B70 RID: 2928
 	public class RoomStatScoreStage
 	{
-		public float minScore = -3.40282347E+38f;
+		// Token: 0x04002ACB RID: 10955
+		public float minScore = float.MinValue;
 
-		public string label;
+		// Token: 0x04002ACC RID: 10956
+		public string label = null;
 	}
 }

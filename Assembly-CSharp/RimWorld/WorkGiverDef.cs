@@ -1,67 +1,15 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000BB5 RID: 2997
 	public class WorkGiverDef : Def
 	{
-		public Type giverClass;
-
-		public WorkTypeDef workType;
-
-		public WorkTags workTags;
-
-		public int priorityInType;
-
-		[MustTranslate]
-		public string verb;
-
-		[MustTranslate]
-		public string gerund;
-
-		public bool scanThings = true;
-
-		public bool scanCells;
-
-		public bool emergency;
-
-		public List<PawnCapacityDef> requiredCapacities = new List<PawnCapacityDef>();
-
-		public bool directOrderable = true;
-
-		public bool prioritizeSustains;
-
-		public bool canBeDoneByNonColonists;
-
-		public JobTag tagToGive = JobTag.MiscWork;
-
-		public List<ThingDef> fixedBillGiverDefs;
-
-		public bool billGiversAllHumanlikes;
-
-		public bool billGiversAllHumanlikesCorpses;
-
-		public bool billGiversAllMechanoids;
-
-		public bool billGiversAllMechanoidsCorpses;
-
-		public bool billGiversAllAnimals;
-
-		public bool billGiversAllAnimalsCorpses;
-
-		public bool tendToHumanlikesOnly;
-
-		public bool tendToAnimalsOnly;
-
-		public bool feedHumanlikesOnly;
-
-		public bool feedAnimalsOnly;
-
-		[Unsaved]
-		private WorkGiver workerInt;
-
+		// Token: 0x17000A23 RID: 2595
+		// (get) Token: 0x060040ED RID: 16621 RVA: 0x0022452C File Offset: 0x0022292C
 		public WorkGiver Worker
 		{
 			get
@@ -75,28 +23,115 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060040EE RID: 16622 RVA: 0x00224578 File Offset: 0x00222978
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
+			foreach (string error in this.<ConfigErrors>__BaseCallProxy0())
 			{
-				if (enumerator.MoveNext())
-				{
-					string error = enumerator.Current;
-					yield return error;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return error;
 			}
 			if (this.verb.NullOrEmpty())
 			{
-				yield return base.defName + " lacks a verb.";
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield return this.defName + " lacks a verb.";
 			}
-			if (!this.gerund.NullOrEmpty())
-				yield break;
-			yield return base.defName + " lacks a gerund.";
-			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0149:
-			/*Error near IL_014a: Unexpected return in MoveNext()*/;
+			if (this.gerund.NullOrEmpty())
+			{
+				yield return this.defName + " lacks a gerund.";
+			}
+			yield break;
 		}
+
+		// Token: 0x04002C31 RID: 11313
+		public Type giverClass = null;
+
+		// Token: 0x04002C32 RID: 11314
+		public WorkTypeDef workType = null;
+
+		// Token: 0x04002C33 RID: 11315
+		public WorkTags workTags = WorkTags.None;
+
+		// Token: 0x04002C34 RID: 11316
+		public int priorityInType = 0;
+
+		// Token: 0x04002C35 RID: 11317
+		[MustTranslate]
+		public string verb;
+
+		// Token: 0x04002C36 RID: 11318
+		[MustTranslate]
+		public string gerund;
+
+		// Token: 0x04002C37 RID: 11319
+		public bool scanThings = true;
+
+		// Token: 0x04002C38 RID: 11320
+		public bool scanCells = false;
+
+		// Token: 0x04002C39 RID: 11321
+		public bool emergency = false;
+
+		// Token: 0x04002C3A RID: 11322
+		public List<PawnCapacityDef> requiredCapacities = new List<PawnCapacityDef>();
+
+		// Token: 0x04002C3B RID: 11323
+		public bool directOrderable = true;
+
+		// Token: 0x04002C3C RID: 11324
+		public bool prioritizeSustains = false;
+
+		// Token: 0x04002C3D RID: 11325
+		public bool canBeDoneByNonColonists = false;
+
+		// Token: 0x04002C3E RID: 11326
+		public JobTag tagToGive = JobTag.MiscWork;
+
+		// Token: 0x04002C3F RID: 11327
+		public WorkGiverEquivalenceGroupDef equivalenceGroup = null;
+
+		// Token: 0x04002C40 RID: 11328
+		public bool canBeDoneWhileDrafted = false;
+
+		// Token: 0x04002C41 RID: 11329
+		public int autoTakeablePriorityDrafted = -1;
+
+		// Token: 0x04002C42 RID: 11330
+		public ThingDef forceMote = null;
+
+		// Token: 0x04002C43 RID: 11331
+		public List<ThingDef> fixedBillGiverDefs = null;
+
+		// Token: 0x04002C44 RID: 11332
+		public bool billGiversAllHumanlikes = false;
+
+		// Token: 0x04002C45 RID: 11333
+		public bool billGiversAllHumanlikesCorpses = false;
+
+		// Token: 0x04002C46 RID: 11334
+		public bool billGiversAllMechanoids = false;
+
+		// Token: 0x04002C47 RID: 11335
+		public bool billGiversAllMechanoidsCorpses = false;
+
+		// Token: 0x04002C48 RID: 11336
+		public bool billGiversAllAnimals = false;
+
+		// Token: 0x04002C49 RID: 11337
+		public bool billGiversAllAnimalsCorpses = false;
+
+		// Token: 0x04002C4A RID: 11338
+		public bool tendToHumanlikesOnly = false;
+
+		// Token: 0x04002C4B RID: 11339
+		public bool tendToAnimalsOnly = false;
+
+		// Token: 0x04002C4C RID: 11340
+		public bool feedHumanlikesOnly = false;
+
+		// Token: 0x04002C4D RID: 11341
+		public bool feedAnimalsOnly = false;
+
+		// Token: 0x04002C4E RID: 11342
+		[Unsaved]
+		private WorkGiver workerInt = null;
 	}
 }

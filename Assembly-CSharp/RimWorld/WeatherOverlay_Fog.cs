@@ -1,20 +1,24 @@
+﻿using System;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200044F RID: 1103
 	[StaticConstructorOnStartup]
 	public class WeatherOverlay_Fog : SkyOverlay
 	{
-		private static readonly Material FogOverlayWorld = MatLoader.LoadMat("Weather/FogOverlayWorld", -1);
-
+		// Token: 0x06001338 RID: 4920 RVA: 0x000A545C File Offset: 0x000A385C
 		public WeatherOverlay_Fog()
 		{
-			base.worldOverlayMat = WeatherOverlay_Fog.FogOverlayWorld;
-			base.worldOverlayPanSpeed1 = 0.0005f;
-			base.worldOverlayPanSpeed2 = 0.0004f;
-			base.worldPanDir1 = new Vector2(1f, 1f);
-			base.worldPanDir2 = new Vector2(1f, -1f);
+			this.worldOverlayMat = WeatherOverlay_Fog.FogOverlayWorld;
+			this.worldOverlayPanSpeed1 = 0.0005f;
+			this.worldOverlayPanSpeed2 = 0.0004f;
+			this.worldPanDir1 = new Vector2(1f, 1f);
+			this.worldPanDir2 = new Vector2(1f, -1f);
 		}
+
+		// Token: 0x04000BAE RID: 2990
+		private static readonly Material FogOverlayWorld = MatLoader.LoadMat("Weather/FogOverlayWorld", -1);
 	}
 }

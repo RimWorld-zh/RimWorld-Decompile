@@ -1,30 +1,34 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000739 RID: 1849
 	public class CompSpawner : ThingComp
 	{
-		private int ticksUntilSpawn;
-
+		// Token: 0x1700064E RID: 1614
+		// (get) Token: 0x060028C1 RID: 10433 RVA: 0x0015B700 File Offset: 0x00159B00
 		public CompProperties_Spawner PropsSpawner
 		{
 			get
 			{
-				return (CompProperties_Spawner)base.props;
+				return (CompProperties_Spawner)this.props;
 			}
 		}
 
+		// Token: 0x1700064F RID: 1615
+		// (get) Token: 0x060028C2 RID: 10434 RVA: 0x0015B720 File Offset: 0x00159B20
 		private bool PowerOn
 		{
 			get
 			{
-				CompPowerTrader comp = base.parent.GetComp<CompPowerTrader>();
+				CompPowerTrader comp = this.parent.GetComp<CompPowerTrader>();
 				return comp != null && comp.PowerOn;
 			}
 		}
 
+		// Token: 0x060028C3 RID: 10435 RVA: 0x0015B750 File Offset: 0x00159B50
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			if (!respawningAfterLoad)
@@ -33,35 +37,44 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060028C4 RID: 10436 RVA: 0x0015B75F File Offset: 0x00159B5F
 		public override void CompTick()
 		{
 			this.TickInterval(1);
 		}
 
+		// Token: 0x060028C5 RID: 10437 RVA: 0x0015B769 File Offset: 0x00159B69
 		public override void CompTickRare()
 		{
 			this.TickInterval(250);
 		}
 
+		// Token: 0x060028C6 RID: 10438 RVA: 0x0015B778 File Offset: 0x00159B78
 		private void TickInterval(int interval)
 		{
-			if (base.parent.Spawned)
+			if (this.parent.Spawned)
 			{
-				Hive hive = base.parent as Hive;
+				Hive hive = this.parent as Hive;
 				if (hive != null)
 				{
 					if (!hive.active)
+					{
 						return;
+					}
 				}
-				else if (base.parent.Position.Fogged(base.parent.Map))
+				else if (this.parent.Position.Fogged(this.parent.Map))
+				{
 					return;
-				if (this.PropsSpawner.requiresPower && !this.PowerOn)
-					return;
-				this.ticksUntilSpawn -= interval;
-				this.CheckShouldSpawn();
+				}
+				if (!this.PropsSpawner.requiresPower || this.PowerOn)
+				{
+					this.ticksUntilSpawn -= interval;
+					this.CheckShouldSpawn();
+				}
 			}
 		}
 
+		// Token: 0x060028C7 RID: 10439 RVA: 0x0015B81D File Offset: 0x00159C1D
 		private void CheckShouldSpawn()
 		{
 			if (this.ticksUntilSpawn <= 0)
@@ -71,74 +84,98 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060028C8 RID: 10440 RVA: 0x0015B83C File Offset: 0x00159C3C
 		public bool TryDoSpawn()
 		{
-			if (this.PropsSpawner.spawnMaxAdjacent >= 0)
+			bool result;
+			if (!this.parent.Spawned)
 			{
-				int num = 0;
-				for (int i = 0; i < 9; i++)
+				result = false;
+			}
+			else
+			{
+				if (this.PropsSpawner.spawnMaxAdjacent >= 0)
 				{
-					List<Thing> thingList = (base.parent.Position + GenAdj.AdjacentCellsAndInside[i]).GetThingList(base.parent.Map);
-					for (int j = 0; j < thingList.Count; j++)
+					int num = 0;
+					for (int i = 0; i < 9; i++)
 					{
-						if (thingList[j].def == this.PropsSpawner.thingToSpawn)
+						IntVec3 c = this.parent.Position + GenAdj.AdjacentCellsAndInside[i];
+						if (c.InBounds(this.parent.Map))
 						{
-							num += thingList[j].stackCount;
-							if (num >= this.PropsSpawner.spawnMaxAdjacent)
+							List<Thing> thingList = c.GetThingList(this.parent.Map);
+							for (int j = 0; j < thingList.Count; j++)
 							{
-								return false;
+								if (thingList[j].def == this.PropsSpawner.thingToSpawn)
+								{
+									num += thingList[j].stackCount;
+									if (num >= this.PropsSpawner.spawnMaxAdjacent)
+									{
+										return false;
+									}
+								}
 							}
 						}
 					}
 				}
-			}
-			IntVec3 center = default(IntVec3);
-			if (this.TryFindSpawnCell(out center))
-			{
-				Thing thing = ThingMaker.MakeThing(this.PropsSpawner.thingToSpawn, null);
-				thing.stackCount = this.PropsSpawner.spawnCount;
-				Thing t = default(Thing);
-				GenPlace.TryPlaceThing(thing, center, base.parent.Map, ThingPlaceMode.Direct, out t, (Action<Thing, int>)null);
-				if (this.PropsSpawner.spawnForbidden)
+				IntVec3 center;
+				if (this.TryFindSpawnCell(out center))
 				{
-					t.SetForbidden(true, true);
+					Thing thing = ThingMaker.MakeThing(this.PropsSpawner.thingToSpawn, null);
+					thing.stackCount = this.PropsSpawner.spawnCount;
+					Thing t;
+					GenPlace.TryPlaceThing(thing, center, this.parent.Map, ThingPlaceMode.Direct, out t, null, null);
+					if (this.PropsSpawner.spawnForbidden)
+					{
+						t.SetForbidden(true, true);
+					}
+					if (this.PropsSpawner.showMessageIfOwned && this.parent.Faction == Faction.OfPlayer)
+					{
+						Messages.Message("MessageCompSpawnerSpawnedItem".Translate(new object[]
+						{
+							this.PropsSpawner.thingToSpawn.LabelCap
+						}).CapitalizeFirst(), thing, MessageTypeDefOf.PositiveEvent, true);
+					}
+					result = true;
 				}
-				if (this.PropsSpawner.showMessageIfOwned && base.parent.Faction == Faction.OfPlayer)
+				else
 				{
-					Messages.Message("MessageCompSpawnerSpawnedItem".Translate(this.PropsSpawner.thingToSpawn.label).CapitalizeFirst(), thing, MessageTypeDefOf.PositiveEvent);
+					result = false;
 				}
-				return true;
 			}
-			return false;
+			return result;
 		}
 
+		// Token: 0x060028C9 RID: 10441 RVA: 0x0015BA14 File Offset: 0x00159E14
 		private bool TryFindSpawnCell(out IntVec3 result)
 		{
-			foreach (IntVec3 item in GenAdj.CellsAdjacent8Way(base.parent).InRandomOrder(null))
+			foreach (IntVec3 intVec in GenAdj.CellsAdjacent8Way(this.parent).InRandomOrder(null))
 			{
-				if (item.Walkable(base.parent.Map))
+				if (intVec.Walkable(this.parent.Map))
 				{
-					Building edifice = item.GetEdifice(base.parent.Map);
+					Building edifice = intVec.GetEdifice(this.parent.Map);
 					if (edifice == null || !this.PropsSpawner.thingToSpawn.IsEdifice())
 					{
 						Building_Door building_Door = edifice as Building_Door;
-						if ((building_Door == null || building_Door.FreePassage) && (base.parent.def.passability == Traversability.Impassable || GenSight.LineOfSight(base.parent.Position, item, base.parent.Map, false, null, 0, 0)))
+						if (building_Door == null || building_Door.FreePassage)
 						{
-							bool flag = false;
-							List<Thing> thingList = item.GetThingList(base.parent.Map);
-							for (int i = 0; i < thingList.Count; i++)
+							if (this.parent.def.passability == Traversability.Impassable || GenSight.LineOfSight(this.parent.Position, intVec, this.parent.Map, false, null, 0, 0))
 							{
-								Thing thing = thingList[i];
-								if (thing.def.category == ThingCategory.Item && (thing.def != this.PropsSpawner.thingToSpawn || thing.stackCount > this.PropsSpawner.thingToSpawn.stackLimit - this.PropsSpawner.spawnCount))
+								bool flag = false;
+								List<Thing> thingList = intVec.GetThingList(this.parent.Map);
+								for (int i = 0; i < thingList.Count; i++)
 								{
-									flag = true;
-									break;
+									Thing thing = thingList[i];
+									if (thing.def.category == ThingCategory.Item && (thing.def != this.PropsSpawner.thingToSpawn || thing.stackCount > this.PropsSpawner.thingToSpawn.stackLimit - this.PropsSpawner.spawnCount))
+									{
+										flag = true;
+										break;
+									}
 								}
-							}
-							if (!flag)
-							{
-								result = item;
-								return true;
+								if (!flag)
+								{
+									result = intVec;
+									return true;
+								}
 							}
 						}
 					}
@@ -148,40 +185,57 @@ namespace RimWorld
 			return false;
 		}
 
+		// Token: 0x060028CA RID: 10442 RVA: 0x0015BBF4 File Offset: 0x00159FF4
 		private void ResetCountdown()
 		{
 			this.ticksUntilSpawn = this.PropsSpawner.spawnIntervalRange.RandomInRange;
 		}
 
+		// Token: 0x060028CB RID: 10443 RVA: 0x0015BC10 File Offset: 0x0015A010
 		public override void PostExposeData()
 		{
-			Scribe_Values.Look<int>(ref this.ticksUntilSpawn, "ticksUntilSpawn", 0, false);
+			string str = (!this.PropsSpawner.saveKeysPrefix.NullOrEmpty()) ? (this.PropsSpawner.saveKeysPrefix + "_") : null;
+			Scribe_Values.Look<int>(ref this.ticksUntilSpawn, str + "ticksUntilSpawn", 0, false);
 		}
 
+		// Token: 0x060028CC RID: 10444 RVA: 0x0015BC68 File Offset: 0x0015A068
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			if (!Prefs.DevMode)
-				yield break;
-			yield return (Gizmo)new Command_Action
+			if (Prefs.DevMode)
 			{
-				defaultLabel = "DEBUG: Spawn " + this.PropsSpawner.thingToSpawn.label,
-				icon = TexCommand.DesirePower,
-				action = delegate
+				yield return new Command_Action
 				{
-					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0076: stateMachine*/)._0024this.TryDoSpawn();
-					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0076: stateMachine*/)._0024this.ResetCountdown();
-				}
-			};
-			/*Error: Unable to find new state assignment for yield return*/;
+					defaultLabel = "DEBUG: Spawn " + this.PropsSpawner.thingToSpawn.label,
+					icon = TexCommand.DesirePower,
+					action = delegate()
+					{
+						this.TryDoSpawn();
+						this.ResetCountdown();
+					}
+				};
+			}
+			yield break;
 		}
 
+		// Token: 0x060028CD RID: 10445 RVA: 0x0015BC94 File Offset: 0x0015A094
 		public override string CompInspectStringExtra()
 		{
+			string result;
 			if (this.PropsSpawner.writeTimeLeftToSpawn && (!this.PropsSpawner.requiresPower || this.PowerOn))
 			{
-				return "NextSpawnedItemIn".Translate(GenLabel.ThingLabel(this.PropsSpawner.thingToSpawn, null, this.PropsSpawner.spawnCount)) + ": " + this.ticksUntilSpawn.ToStringTicksToPeriod(true, false, true);
+				result = "NextSpawnedItemIn".Translate(new object[]
+				{
+					GenLabel.ThingLabel(this.PropsSpawner.thingToSpawn, null, this.PropsSpawner.spawnCount)
+				}) + ": " + this.ticksUntilSpawn.ToStringTicksToPeriod();
 			}
-			return null;
+			else
+			{
+				result = null;
+			}
+			return result;
 		}
+
+		// Token: 0x04001653 RID: 5715
+		private int ticksUntilSpawn;
 	}
 }

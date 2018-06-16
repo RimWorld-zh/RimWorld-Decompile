@@ -1,52 +1,58 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000932 RID: 2354
 	[DefOf]
 	public static class BodyPartDefOf
 	{
+		// Token: 0x0600363B RID: 13883 RVA: 0x001D07D9 File Offset: 0x001CEBD9
+		static BodyPartDefOf()
+		{
+			DefOfHelper.EnsureInitializedInCtor(typeof(BodyPartDefOf));
+		}
+
+		// Token: 0x0400202F RID: 8239
 		public static BodyPartDef Heart;
 
-		public static BodyPartDef LeftLeg;
+		// Token: 0x04002030 RID: 8240
+		public static BodyPartDef Leg;
 
-		public static BodyPartDef RightLeg;
-
+		// Token: 0x04002031 RID: 8241
 		public static BodyPartDef Liver;
 
-		public static BodyPartDef LeftLung;
-
-		public static BodyPartDef RightLung;
-
-		public static BodyPartDef LeftKidney;
-
-		public static BodyPartDef RightKidney;
-
+		// Token: 0x04002032 RID: 8242
 		public static BodyPartDef Brain;
 
-		public static BodyPartDef LeftEye;
+		// Token: 0x04002033 RID: 8243
+		public static BodyPartDef Eye;
 
-		public static BodyPartDef RightEye;
+		// Token: 0x04002034 RID: 8244
+		public static BodyPartDef Arm;
 
-		public static BodyPartDef LeftArm;
-
-		public static BodyPartDef RightArm;
-
+		// Token: 0x04002035 RID: 8245
 		public static BodyPartDef Jaw;
 
-		public static BodyPartDef LeftHand;
+		// Token: 0x04002036 RID: 8246
+		public static BodyPartDef Hand;
 
-		public static BodyPartDef RightHand;
-
+		// Token: 0x04002037 RID: 8247
 		public static BodyPartDef Neck;
 
+		// Token: 0x04002038 RID: 8248
 		public static BodyPartDef Head;
 
+		// Token: 0x04002039 RID: 8249
 		public static BodyPartDef Body;
 
+		// Token: 0x0400203A RID: 8250
 		public static BodyPartDef Torso;
 
+		// Token: 0x0400203B RID: 8251
 		public static BodyPartDef InsectHead;
 
+		// Token: 0x0400203C RID: 8252
 		public static BodyPartDef Stomach;
 	}
 }

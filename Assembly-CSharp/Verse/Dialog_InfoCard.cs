@@ -1,46 +1,69 @@
+﻿using System;
+using System.Collections.Generic;
 using RimWorld;
 using RimWorld.Planet;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000EBC RID: 3772
 	public class Dialog_InfoCard : Window
 	{
-		private enum InfoCardTab : byte
+		// Token: 0x0600591C RID: 22812 RVA: 0x002DA96F File Offset: 0x002D8D6F
+		public Dialog_InfoCard(Thing thing)
 		{
-			Stats,
-			Character,
-			Health,
-			Records
+			this.thing = thing;
+			this.tab = Dialog_InfoCard.InfoCardTab.Stats;
+			this.Setup();
 		}
 
-		private Thing thing;
+		// Token: 0x0600591D RID: 22813 RVA: 0x002DA98C File Offset: 0x002D8D8C
+		public Dialog_InfoCard(Def onlyDef)
+		{
+			this.def = onlyDef;
+			this.Setup();
+		}
 
-		private ThingDef stuff;
+		// Token: 0x0600591E RID: 22814 RVA: 0x002DA9A2 File Offset: 0x002D8DA2
+		public Dialog_InfoCard(ThingDef thingDef, ThingDef stuff)
+		{
+			this.def = thingDef;
+			this.stuff = stuff;
+			this.Setup();
+		}
 
-		private Def def;
+		// Token: 0x0600591F RID: 22815 RVA: 0x002DA9BF File Offset: 0x002D8DBF
+		public Dialog_InfoCard(WorldObject worldObject)
+		{
+			this.worldObject = worldObject;
+			this.Setup();
+		}
 
-		private WorldObject worldObject;
-
-		private InfoCardTab tab;
-
+		// Token: 0x17000E04 RID: 3588
+		// (get) Token: 0x06005920 RID: 22816 RVA: 0x002DA9D8 File Offset: 0x002D8DD8
 		private Def Def
 		{
 			get
 			{
+				Def result;
 				if (this.thing != null)
 				{
-					return this.thing.def;
+					result = this.thing.def;
 				}
-				if (this.worldObject != null)
+				else if (this.worldObject != null)
 				{
-					return this.worldObject.def;
+					result = this.worldObject.def;
 				}
-				return this.def;
+				else
+				{
+					result = this.def;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000E05 RID: 3589
+		// (get) Token: 0x06005921 RID: 22817 RVA: 0x002DAA2C File Offset: 0x002D8E2C
 		private Pawn ThingPawn
 		{
 			get
@@ -49,6 +72,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000E06 RID: 3590
+		// (get) Token: 0x06005922 RID: 22818 RVA: 0x002DAA4C File Offset: 0x002D8E4C
 		public override Vector2 InitialSize
 		{
 			get
@@ -57,6 +82,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000E07 RID: 3591
+		// (get) Token: 0x06005923 RID: 22819 RVA: 0x002DAA70 File Offset: 0x002D8E70
 		protected override float Margin
 		{
 			get
@@ -65,50 +92,26 @@ namespace Verse
 			}
 		}
 
-		public Dialog_InfoCard(Thing thing)
-		{
-			this.thing = thing;
-			this.tab = InfoCardTab.Stats;
-			this.Setup();
-		}
-
-		public Dialog_InfoCard(Def onlyDef)
-		{
-			this.def = onlyDef;
-			this.Setup();
-		}
-
-		public Dialog_InfoCard(ThingDef thingDef, ThingDef stuff)
-		{
-			this.def = thingDef;
-			this.stuff = stuff;
-			this.Setup();
-		}
-
-		public Dialog_InfoCard(WorldObject worldObject)
-		{
-			this.worldObject = worldObject;
-			this.Setup();
-		}
-
+		// Token: 0x06005924 RID: 22820 RVA: 0x002DAA8C File Offset: 0x002D8E8C
 		private void Setup()
 		{
-			base.forcePause = true;
-			base.closeOnEscapeKey = true;
-			base.doCloseButton = true;
-			base.doCloseX = true;
-			base.absorbInputAroundWindow = true;
-			base.soundAppear = SoundDef.Named("InfoCard_Open");
-			base.soundClose = SoundDef.Named("InfoCard_Close");
+			this.forcePause = true;
+			this.doCloseButton = true;
+			this.doCloseX = true;
+			this.absorbInputAroundWindow = true;
+			this.soundAppear = SoundDefOf.InfoCard_Open;
+			this.soundClose = SoundDefOf.InfoCard_Close;
 			StatsReportUtility.Reset();
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.InfoCard, KnowledgeAmount.Total);
 		}
 
+		// Token: 0x06005925 RID: 22821 RVA: 0x002DAADC File Offset: 0x002D8EDC
 		public override void WindowUpdate()
 		{
 			base.WindowUpdate();
 		}
 
+		// Token: 0x06005926 RID: 22822 RVA: 0x002DAAE8 File Offset: 0x002D8EE8
 		public override void DoWindowContents(Rect inRect)
 		{
 			Rect rect = new Rect(inRect);
@@ -122,39 +125,40 @@ namespace Verse
 			Rect rect3 = rect2;
 			rect3.yMin += 45f;
 			List<TabRecord> list = new List<TabRecord>();
-			TabRecord item = new TabRecord("TabStats".Translate(), delegate
+			TabRecord item = new TabRecord("TabStats".Translate(), delegate()
 			{
-				this.tab = InfoCardTab.Stats;
-			}, this.tab == InfoCardTab.Stats);
+				this.tab = Dialog_InfoCard.InfoCardTab.Stats;
+			}, this.tab == Dialog_InfoCard.InfoCardTab.Stats);
 			list.Add(item);
 			if (this.ThingPawn != null)
 			{
 				if (this.ThingPawn.RaceProps.Humanlike)
 				{
-					TabRecord item2 = new TabRecord("TabCharacter".Translate(), delegate
+					TabRecord item2 = new TabRecord("TabCharacter".Translate(), delegate()
 					{
-						this.tab = InfoCardTab.Character;
-					}, this.tab == InfoCardTab.Character);
+						this.tab = Dialog_InfoCard.InfoCardTab.Character;
+					}, this.tab == Dialog_InfoCard.InfoCardTab.Character);
 					list.Add(item2);
 				}
-				TabRecord item3 = new TabRecord("TabHealth".Translate(), delegate
+				TabRecord item3 = new TabRecord("TabHealth".Translate(), delegate()
 				{
-					this.tab = InfoCardTab.Health;
-				}, this.tab == InfoCardTab.Health);
+					this.tab = Dialog_InfoCard.InfoCardTab.Health;
+				}, this.tab == Dialog_InfoCard.InfoCardTab.Health);
 				list.Add(item3);
-				TabRecord item4 = new TabRecord("TabRecords".Translate(), delegate
+				TabRecord item4 = new TabRecord("TabRecords".Translate(), delegate()
 				{
-					this.tab = InfoCardTab.Records;
-				}, this.tab == InfoCardTab.Records);
+					this.tab = Dialog_InfoCard.InfoCardTab.Records;
+				}, this.tab == Dialog_InfoCard.InfoCardTab.Records);
 				list.Add(item4);
 			}
-			TabDrawer.DrawTabs(rect3, list);
+			TabDrawer.DrawTabs(rect3, list, 200f);
 			this.FillCard(rect3.ContractedBy(18f));
 		}
 
+		// Token: 0x06005927 RID: 22823 RVA: 0x002DAC68 File Offset: 0x002D9068
 		protected void FillCard(Rect cardRect)
 		{
-			if (this.tab == InfoCardTab.Stats)
+			if (this.tab == Dialog_InfoCard.InfoCardTab.Stats)
 			{
 				if (this.thing != null)
 				{
@@ -175,37 +179,74 @@ namespace Verse
 					StatsReportUtility.DrawStatsReport(cardRect, this.def, this.stuff);
 				}
 			}
-			else if (this.tab == InfoCardTab.Character)
+			else if (this.tab == Dialog_InfoCard.InfoCardTab.Character)
 			{
 				CharacterCardUtility.DrawCharacterCard(cardRect, (Pawn)this.thing, null, default(Rect));
 			}
-			else if (this.tab == InfoCardTab.Health)
+			else if (this.tab == Dialog_InfoCard.InfoCardTab.Health)
 			{
 				cardRect.yMin += 8f;
 				HealthCardUtility.DrawPawnHealthCard(cardRect, (Pawn)this.thing, false, false, null);
 			}
-			else if (this.tab == InfoCardTab.Records)
+			else if (this.tab == Dialog_InfoCard.InfoCardTab.Records)
 			{
 				RecordsCardUtility.DrawRecordsCard(cardRect, (Pawn)this.thing);
 			}
 		}
 
+		// Token: 0x06005928 RID: 22824 RVA: 0x002DAD78 File Offset: 0x002D9178
 		private string GetTitle()
 		{
+			string result;
 			if (this.thing != null)
 			{
-				return this.thing.LabelCapNoCount;
+				result = this.thing.LabelCapNoCount;
 			}
-			if (this.worldObject != null)
+			else if (this.worldObject != null)
 			{
-				return this.worldObject.LabelCap;
+				result = this.worldObject.LabelCap;
 			}
-			ThingDef thingDef = this.Def as ThingDef;
-			if (thingDef != null)
+			else
 			{
-				return GenLabel.ThingLabel(thingDef, this.stuff, 1).CapitalizeFirst();
+				ThingDef thingDef = this.Def as ThingDef;
+				if (thingDef != null)
+				{
+					result = GenLabel.ThingLabel(thingDef, this.stuff, 1).CapitalizeFirst();
+				}
+				else
+				{
+					result = this.Def.LabelCap;
+				}
 			}
-			return this.Def.LabelCap;
+			return result;
+		}
+
+		// Token: 0x04003B6A RID: 15210
+		private Thing thing;
+
+		// Token: 0x04003B6B RID: 15211
+		private ThingDef stuff;
+
+		// Token: 0x04003B6C RID: 15212
+		private Def def;
+
+		// Token: 0x04003B6D RID: 15213
+		private WorldObject worldObject;
+
+		// Token: 0x04003B6E RID: 15214
+		private Dialog_InfoCard.InfoCardTab tab;
+
+		// Token: 0x02000EBD RID: 3773
+		private enum InfoCardTab : byte
+		{
+			// Token: 0x04003B70 RID: 15216
+			Stats,
+			// Token: 0x04003B71 RID: 15217
+			Character,
+			// Token: 0x04003B72 RID: 15218
+			Health,
+			// Token: 0x04003B73 RID: 15219
+			Records
 		}
 	}
 }

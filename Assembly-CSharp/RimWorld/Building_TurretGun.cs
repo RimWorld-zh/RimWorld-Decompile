@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,29 +9,18 @@ using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x0200068A RID: 1674
 	[StaticConstructorOnStartup]
 	public class Building_TurretGun : Building_Turret
 	{
-		protected int burstCooldownTicksLeft;
+		// Token: 0x06002349 RID: 9033 RVA: 0x0012EE62 File Offset: 0x0012D262
+		public Building_TurretGun()
+		{
+			this.top = new TurretTop(this);
+		}
 
-		protected int burstWarmupTicksLeft;
-
-		protected LocalTargetInfo currentTargetInt = LocalTargetInfo.Invalid;
-
-		private bool holdFire;
-
-		public Thing gun;
-
-		protected TurretTop top;
-
-		protected CompPowerTrader powerComp;
-
-		protected CompMannable mannableComp;
-
-		private const int TryStartShootSomethingIntervalTicks = 10;
-
-		public static Material ForcedTargetLineMat = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, new Color(1f, 0.5f, 0.5f));
-
+		// Token: 0x17000535 RID: 1333
+		// (get) Token: 0x0600234A RID: 9034 RVA: 0x0012EE90 File Offset: 0x0012D290
 		public CompEquippable GunCompEq
 		{
 			get
@@ -39,6 +29,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000536 RID: 1334
+		// (get) Token: 0x0600234B RID: 9035 RVA: 0x0012EEB0 File Offset: 0x0012D2B0
 		public override LocalTargetInfo CurrentTarget
 		{
 			get
@@ -47,6 +39,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000537 RID: 1335
+		// (get) Token: 0x0600234C RID: 9036 RVA: 0x0012EECC File Offset: 0x0012D2CC
 		private bool WarmingUp
 		{
 			get
@@ -55,6 +49,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000538 RID: 1336
+		// (get) Token: 0x0600234D RID: 9037 RVA: 0x0012EEEC File Offset: 0x0012D2EC
 		public override Verb AttackVerb
 		{
 			get
@@ -63,15 +59,9 @@ namespace RimWorld
 			}
 		}
 
-		private bool CanSetForcedTarget
-		{
-			get
-			{
-				return this.mannableComp != null && (base.Faction == Faction.OfPlayer || this.MannedByColonist) && !this.MannedByNonColonist;
-			}
-		}
-
-		private bool CanToggleHoldFire
+		// Token: 0x17000539 RID: 1337
+		// (get) Token: 0x0600234E RID: 9038 RVA: 0x0012EF14 File Offset: 0x0012D314
+		private bool PlayerControlled
 		{
 			get
 			{
@@ -79,6 +69,68 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x1700053A RID: 1338
+		// (get) Token: 0x0600234F RID: 9039 RVA: 0x0012EF50 File Offset: 0x0012D350
+		private bool CanSetForcedTarget
+		{
+			get
+			{
+				return this.mannableComp != null && this.PlayerControlled;
+			}
+		}
+
+		// Token: 0x1700053B RID: 1339
+		// (get) Token: 0x06002350 RID: 9040 RVA: 0x0012EF7C File Offset: 0x0012D37C
+		private bool CanToggleHoldFire
+		{
+			get
+			{
+				return this.PlayerControlled;
+			}
+		}
+
+		// Token: 0x1700053C RID: 1340
+		// (get) Token: 0x06002351 RID: 9041 RVA: 0x0012EF98 File Offset: 0x0012D398
+		private bool IsMortar
+		{
+			get
+			{
+				return this.def.building.IsMortar;
+			}
+		}
+
+		// Token: 0x1700053D RID: 1341
+		// (get) Token: 0x06002352 RID: 9042 RVA: 0x0012EFC0 File Offset: 0x0012D3C0
+		private bool IsMortarOrProjectileFliesOverhead
+		{
+			get
+			{
+				return this.GunCompEq.PrimaryVerb.ProjectileFliesOverhead() || this.IsMortar;
+			}
+		}
+
+		// Token: 0x1700053E RID: 1342
+		// (get) Token: 0x06002353 RID: 9043 RVA: 0x0012EFF4 File Offset: 0x0012D3F4
+		private bool CanExtractShell
+		{
+			get
+			{
+				bool result;
+				if (!this.PlayerControlled)
+				{
+					result = false;
+				}
+				else
+				{
+					CompChangeableProjectile compChangeableProjectile = this.gun.TryGetComp<CompChangeableProjectile>();
+					result = (compChangeableProjectile != null && compChangeableProjectile.Loaded);
+				}
+				return result;
+			}
+		}
+
+		// Token: 0x1700053F RID: 1343
+		// (get) Token: 0x06002354 RID: 9044 RVA: 0x0012F038 File Offset: 0x0012D438
 		private bool MannedByColonist
 		{
 			get
@@ -87,6 +139,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000540 RID: 1344
+		// (get) Token: 0x06002355 RID: 9045 RVA: 0x0012F084 File Offset: 0x0012D484
 		private bool MannedByNonColonist
 		{
 			get
@@ -95,11 +149,7 @@ namespace RimWorld
 			}
 		}
 
-		public Building_TurretGun()
-		{
-			this.top = new TurretTop(this);
-		}
-
+		// Token: 0x06002356 RID: 9046 RVA: 0x0012F0D1 File Offset: 0x0012D4D1
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -107,18 +157,21 @@ namespace RimWorld
 			this.mannableComp = base.GetComp<CompMannable>();
 		}
 
+		// Token: 0x06002357 RID: 9047 RVA: 0x0012F0F4 File Offset: 0x0012D4F4
 		public override void PostMake()
 		{
 			base.PostMake();
 			this.MakeGun();
 		}
 
-		public override void DeSpawn()
+		// Token: 0x06002358 RID: 9048 RVA: 0x0012F103 File Offset: 0x0012D503
+		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
 		{
-			base.DeSpawn();
+			base.DeSpawn(mode);
 			this.ResetCurrentTarget();
 		}
 
+		// Token: 0x06002359 RID: 9049 RVA: 0x0012F114 File Offset: 0x0012D514
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -134,45 +187,35 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x0600235A RID: 9050 RVA: 0x0012F1A0 File Offset: 0x0012D5A0
 		public override bool ClaimableBy(Faction by)
 		{
-			if (!base.ClaimableBy(by))
-			{
-				return false;
-			}
-			if (this.mannableComp != null && this.mannableComp.ManningPawn != null)
-			{
-				return false;
-			}
-			if (this.powerComp != null && this.powerComp.PowerOn)
-			{
-				return false;
-			}
-			return true;
+			return base.ClaimableBy(by) && (this.mannableComp == null || this.mannableComp.ManningPawn == null) && (this.powerComp == null || !this.powerComp.PowerOn);
 		}
 
+		// Token: 0x0600235B RID: 9051 RVA: 0x0012F210 File Offset: 0x0012D610
 		public override void OrderAttack(LocalTargetInfo targ)
 		{
 			if (!targ.IsValid)
 			{
-				if (base.forcedTarget.IsValid)
+				if (this.forcedTarget.IsValid)
 				{
 					this.ResetForcedTarget();
 				}
 			}
 			else if ((targ.Cell - base.Position).LengthHorizontal < this.GunCompEq.PrimaryVerb.verbProps.minRange)
 			{
-				Messages.Message("MessageTargetBelowMinimumRange".Translate(), this, MessageTypeDefOf.RejectInput);
+				Messages.Message("MessageTargetBelowMinimumRange".Translate(), this, MessageTypeDefOf.RejectInput, false);
 			}
 			else if ((targ.Cell - base.Position).LengthHorizontal > this.GunCompEq.PrimaryVerb.verbProps.range)
 			{
-				Messages.Message("MessageTargetBeyondMaximumRange".Translate(), this, MessageTypeDefOf.RejectInput);
+				Messages.Message("MessageTargetBeyondMaximumRange".Translate(), this, MessageTypeDefOf.RejectInput, false);
 			}
 			else
 			{
-				if (base.forcedTarget != targ)
+				if (this.forcedTarget != targ)
 				{
-					base.forcedTarget = targ;
+					this.forcedTarget = targ;
 					if (this.burstCooldownTicksLeft <= 0)
 					{
 						this.TryStartShootSomething(false);
@@ -180,15 +223,19 @@ namespace RimWorld
 				}
 				if (this.holdFire)
 				{
-					Messages.Message("MessageTurretWontFireBecauseHoldFire".Translate(base.def.label), this, MessageTypeDefOf.RejectInput);
+					Messages.Message("MessageTurretWontFireBecauseHoldFire".Translate(new object[]
+					{
+						this.def.label
+					}), this, MessageTypeDefOf.RejectInput, false);
 				}
 			}
 		}
 
+		// Token: 0x0600235C RID: 9052 RVA: 0x0012F35C File Offset: 0x0012D75C
 		public override void Tick()
 		{
 			base.Tick();
-			if (base.forcedTarget.IsValid && !this.CanSetForcedTarget)
+			if (this.forcedTarget.IsValid && !this.CanSetForcedTarget)
 			{
 				this.ResetForcedTarget();
 			}
@@ -196,14 +243,15 @@ namespace RimWorld
 			{
 				this.holdFire = false;
 			}
-			if (base.forcedTarget.ThingDestroyed)
+			if (this.forcedTarget.ThingDestroyed)
 			{
 				this.ResetForcedTarget();
 			}
-			if ((this.powerComp == null || this.powerComp.PowerOn) && (this.mannableComp == null || this.mannableComp.MannedNow) && base.Spawned)
+			bool flag = (this.powerComp == null || this.powerComp.PowerOn) && (this.mannableComp == null || this.mannableComp.MannedNow);
+			if (flag && base.Spawned)
 			{
 				this.GunCompEq.verbTracker.VerbsTick();
-				if (!base.stunner.Stunned && this.GunCompEq.PrimaryVerb.state != VerbState.Bursting)
+				if (!this.stunner.Stunned && this.GunCompEq.PrimaryVerb.state != VerbState.Bursting)
 				{
 					if (this.WarmingUp)
 					{
@@ -233,18 +281,19 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x0600235D RID: 9053 RVA: 0x0012F4C0 File Offset: 0x0012D8C0
 		protected void TryStartShootSomething(bool canBeginBurstImmediately)
 		{
-			if (!base.Spawned || (this.holdFire && this.CanToggleHoldFire) || (this.GunCompEq.PrimaryVerb.ProjectileFliesOverhead() && base.Map.roofGrid.Roofed(base.Position)))
+			if (!base.Spawned || (this.holdFire && this.CanToggleHoldFire) || (this.GunCompEq.PrimaryVerb.ProjectileFliesOverhead() && base.Map.roofGrid.Roofed(base.Position)) || !this.GunCompEq.PrimaryVerb.Available())
 			{
 				this.ResetCurrentTarget();
 			}
 			else
 			{
 				bool isValid = this.currentTargetInt.IsValid;
-				if (base.forcedTarget.IsValid)
+				if (this.forcedTarget.IsValid)
 				{
-					this.currentTargetInt = base.forcedTarget;
+					this.currentTargetInt = this.forcedTarget;
 				}
 				else
 				{
@@ -256,9 +305,9 @@ namespace RimWorld
 				}
 				if (this.currentTargetInt.IsValid)
 				{
-					if (base.def.building.turretBurstWarmupTime > 0.0)
+					if (this.def.building.turretBurstWarmupTime > 0f)
 					{
-						this.burstWarmupTicksLeft = base.def.building.turretBurstWarmupTime.SecondsToTicks();
+						this.burstWarmupTicksLeft = this.def.building.turretBurstWarmupTime.SecondsToTicks();
 					}
 					else if (canBeginBurstImmediately)
 					{
@@ -276,20 +325,24 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x0600235E RID: 9054 RVA: 0x0012F620 File Offset: 0x0012DA20
 		protected LocalTargetInfo TryFindNewTarget()
 		{
 			IAttackTargetSearcher attackTargetSearcher = this.TargSearcher();
 			Faction faction = attackTargetSearcher.Thing.Faction;
 			float range = this.GunCompEq.PrimaryVerb.verbProps.range;
 			float minRange = this.GunCompEq.PrimaryVerb.verbProps.minRange;
-			Building t = default(Building);
-			if (Rand.Value < 0.5 && this.GunCompEq.PrimaryVerb.ProjectileFliesOverhead() && faction.HostileTo(Faction.OfPlayer) && base.Map.listerBuildings.allBuildingsColonist.Where(delegate(Building x)
+			if (Rand.Value < 0.5f && this.GunCompEq.PrimaryVerb.ProjectileFliesOverhead() && faction.HostileTo(Faction.OfPlayer))
 			{
-				float num = (float)x.Position.DistanceToSquared(base.Position);
-				return num > minRange * minRange && num < range * range;
-			}).TryRandomElement<Building>(out t))
-			{
-				return t;
+				Building t;
+				if (base.Map.listerBuildings.allBuildingsColonist.Where(delegate(Building x)
+				{
+					float num = (float)x.Position.DistanceToSquared(this.Position);
+					return num > minRange * minRange && num < range * range;
+				}).TryRandomElement(out t))
+				{
+					return t;
+				}
 			}
 			TargetScanFlags targetScanFlags = TargetScanFlags.NeedThreat;
 			if (!this.GunCompEq.PrimaryVerb.ProjectileFliesOverhead())
@@ -301,18 +354,25 @@ namespace RimWorld
 			{
 				targetScanFlags |= TargetScanFlags.NeedNonBurning;
 			}
-			return (Thing)AttackTargetFinder.BestShootTargetFromCurrentPosition(attackTargetSearcher, this.IsValidTarget, range, minRange, targetScanFlags);
+			return (Thing)AttackTargetFinder.BestShootTargetFromCurrentPosition(attackTargetSearcher, new Predicate<Thing>(this.IsValidTarget), range, minRange, targetScanFlags);
 		}
 
+		// Token: 0x0600235F RID: 9055 RVA: 0x0012F770 File Offset: 0x0012DB70
 		private IAttackTargetSearcher TargSearcher()
 		{
+			IAttackTargetSearcher result;
 			if (this.mannableComp != null && this.mannableComp.MannedNow)
 			{
-				return this.mannableComp.ManningPawn;
+				result = this.mannableComp.ManningPawn;
 			}
-			return this;
+			else
+			{
+				result = this;
+			}
+			return result;
 		}
 
+		// Token: 0x06002360 RID: 9056 RVA: 0x0012F7B4 File Offset: 0x0012DBB4
 		private bool IsValidTarget(Thing t)
 		{
 			Pawn pawn = t as Pawn;
@@ -338,24 +398,35 @@ namespace RimWorld
 			return true;
 		}
 
+		// Token: 0x06002361 RID: 9057 RVA: 0x0012F866 File Offset: 0x0012DC66
 		protected void BeginBurst()
 		{
 			this.GunCompEq.PrimaryVerb.TryStartCastOn(this.CurrentTarget, false, true);
 			base.OnAttackedTarget(this.CurrentTarget);
 		}
 
+		// Token: 0x06002362 RID: 9058 RVA: 0x0012F88E File Offset: 0x0012DC8E
 		protected void BurstComplete()
 		{
-			if (base.def.building.turretBurstCooldownTime >= 0.0)
+			this.burstCooldownTicksLeft = this.BurstCooldownTime().SecondsToTicks();
+		}
+
+		// Token: 0x06002363 RID: 9059 RVA: 0x0012F8A4 File Offset: 0x0012DCA4
+		protected float BurstCooldownTime()
+		{
+			float result;
+			if (this.def.building.turretBurstCooldownTime >= 0f)
 			{
-				this.burstCooldownTicksLeft = base.def.building.turretBurstCooldownTime.SecondsToTicks();
+				result = this.def.building.turretBurstCooldownTime;
 			}
 			else
 			{
-				this.burstCooldownTicksLeft = this.GunCompEq.PrimaryVerb.verbProps.defaultCooldownTime.SecondsToTicks();
+				result = this.GunCompEq.PrimaryVerb.verbProps.defaultCooldownTime;
 			}
+			return result;
 		}
 
+		// Token: 0x06002364 RID: 9060 RVA: 0x0012F900 File Offset: 0x0012DD00
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -364,12 +435,15 @@ namespace RimWorld
 			{
 				stringBuilder.AppendLine(inspectString);
 			}
-			stringBuilder.AppendLine("GunInstalled".Translate() + ": " + this.gun.Label);
-			if (this.GunCompEq.PrimaryVerb.verbProps.minRange > 0.0)
+			if (this.GunCompEq.PrimaryVerb.verbProps.minRange > 0f)
 			{
 				stringBuilder.AppendLine("MinimumRange".Translate() + ": " + this.GunCompEq.PrimaryVerb.verbProps.minRange.ToString("F0"));
 			}
-			if (base.Spawned && this.burstCooldownTicksLeft > 0)
+			if (base.Spawned && this.IsMortarOrProjectileFliesOverhead && base.Position.Roofed(base.Map))
+			{
+				stringBuilder.AppendLine("CannotFire".Translate() + ": " + "Roofed".Translate().CapitalizeFirst());
+			}
+			else if (base.Spawned && this.burstCooldownTicksLeft > 0 && this.BurstCooldownTime() > 5f)
 			{
 				stringBuilder.AppendLine("CanFireIn".Translate() + ": " + this.burstCooldownTicksLeft.TicksToSecondsString());
 			}
@@ -378,7 +452,10 @@ namespace RimWorld
 			{
 				if (compChangeableProjectile.Loaded)
 				{
-					stringBuilder.AppendLine("ShellLoaded".Translate(compChangeableProjectile.LoadedShell.LabelCap));
+					stringBuilder.AppendLine("ShellLoaded".Translate(new object[]
+					{
+						compChangeableProjectile.LoadedShell.LabelCap
+					}));
 				}
 				else
 				{
@@ -388,133 +465,132 @@ namespace RimWorld
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
+		// Token: 0x06002365 RID: 9061 RVA: 0x0012FA9B File Offset: 0x0012DE9B
 		public override void Draw()
 		{
 			this.top.DrawTurret();
 			base.Draw();
 		}
 
+		// Token: 0x06002366 RID: 9062 RVA: 0x0012FAB0 File Offset: 0x0012DEB0
 		public override void DrawExtraSelectionOverlays()
 		{
 			float range = this.GunCompEq.PrimaryVerb.verbProps.range;
-			if (range < 90.0)
+			if (range < 90f)
 			{
 				GenDraw.DrawRadiusRing(base.Position, range);
 			}
 			float minRange = this.GunCompEq.PrimaryVerb.verbProps.minRange;
-			if (minRange < 90.0 && minRange > 0.10000000149011612)
+			if (minRange < 90f && minRange > 0.1f)
 			{
 				GenDraw.DrawRadiusRing(base.Position, minRange);
 			}
 			if (this.WarmingUp)
 			{
-				int degreesWide = (int)((float)this.burstWarmupTicksLeft * 0.5);
-				GenDraw.DrawAimPie(this, this.CurrentTarget, degreesWide, (float)((float)base.def.size.x * 0.5));
+				int degreesWide = (int)((float)this.burstWarmupTicksLeft * 0.5f);
+				GenDraw.DrawAimPie(this, this.CurrentTarget, degreesWide, (float)this.def.size.x * 0.5f);
 			}
-			if (base.forcedTarget.IsValid)
+			if (this.forcedTarget.IsValid && (!this.forcedTarget.HasThing || this.forcedTarget.Thing.Spawned))
 			{
-				if (base.forcedTarget.HasThing && !base.forcedTarget.Thing.Spawned)
-					return;
-				Vector3 b = (!base.forcedTarget.HasThing) ? base.forcedTarget.Cell.ToVector3Shifted() : base.forcedTarget.Thing.TrueCenter();
+				Vector3 b;
+				if (this.forcedTarget.HasThing)
+				{
+					b = this.forcedTarget.Thing.TrueCenter();
+				}
+				else
+				{
+					b = this.forcedTarget.Cell.ToVector3Shifted();
+				}
 				Vector3 a = this.TrueCenter();
-				b.y = Altitudes.AltitudeFor(AltitudeLayer.MetaOverlays);
+				b.y = AltitudeLayer.MetaOverlays.AltitudeFor();
 				a.y = b.y;
 				GenDraw.DrawLineBetween(a, b, Building_TurretGun.ForcedTargetLineMat);
 			}
 		}
 
+		// Token: 0x06002367 RID: 9063 RVA: 0x0012FC08 File Offset: 0x0012E008
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			_003CGetGizmos_003Ec__Iterator0 _003CGetGizmos_003Ec__Iterator = (_003CGetGizmos_003Ec__Iterator0)/*Error near IL_0044: stateMachine*/;
-			using (IEnumerator<Gizmo> enumerator = this._003CGetGizmos_003E__BaseCallProxy0().GetEnumerator())
+			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
 			{
-				if (enumerator.MoveNext())
-				{
-					Gizmo c = enumerator.Current;
-					yield return c;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return c;
 			}
-			CompChangeableProjectile changeableProjectile = this.gun.TryGetComp<CompChangeableProjectile>();
-			if (changeableProjectile != null)
+			if (this.CanExtractShell)
 			{
-				Command_Action extract = new Command_Action
+				CompChangeableProjectile changeableProjectile = this.gun.TryGetComp<CompChangeableProjectile>();
+				yield return new Command_Action
 				{
 					defaultLabel = "CommandExtractShell".Translate(),
 					defaultDesc = "CommandExtractShellDesc".Translate(),
-					icon = ContentFinder<Texture2D>.Get("Things/Item/Resource/Shell/Shell_HighExplosive", true),
+					icon = changeableProjectile.LoadedShell.uiIcon,
+					iconAngle = changeableProjectile.LoadedShell.uiIconAngle,
+					iconOffset = changeableProjectile.LoadedShell.uiIconOffset,
+					iconDrawScale = GenUI.IconDrawScale(changeableProjectile.LoadedShell),
 					alsoClickIfOtherInGroupClicked = false,
-					action = delegate
+					action = delegate()
 					{
-						GenPlace.TryPlaceThing(changeableProjectile.RemoveShell(), _003CGetGizmos_003Ec__Iterator._0024this.Position, _003CGetGizmos_003Ec__Iterator._0024this.Map, ThingPlaceMode.Near, null);
+						GenPlace.TryPlaceThing(changeableProjectile.RemoveShell(), this.Position, this.Map, ThingPlaceMode.Near, null, null);
 					}
 				};
-				if (changeableProjectile.Projectile == null)
-				{
-					extract.Disable("CommandExtractShellFailNoShell".Translate());
-				}
-				yield return (Gizmo)extract;
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
 			if (this.CanSetForcedTarget)
 			{
-				yield return (Gizmo)new Command_VerbTarget
+				Command_VerbTarget attack = new Command_VerbTarget();
+				attack.defaultLabel = "CommandSetForceAttackTarget".Translate();
+				attack.defaultDesc = "CommandSetForceAttackTargetDesc".Translate();
+				attack.icon = ContentFinder<Texture2D>.Get("UI/Commands/Attack", true);
+				attack.verb = this.GunCompEq.PrimaryVerb;
+				attack.hotKey = KeyBindingDefOf.Misc4;
+				if (base.Spawned && this.IsMortarOrProjectileFliesOverhead && base.Position.Roofed(base.Map))
 				{
-					defaultLabel = "CommandSetForceAttackTarget".Translate(),
-					defaultDesc = "CommandSetForceAttackTargetDesc".Translate(),
-					icon = ContentFinder<Texture2D>.Get("UI/Commands/Attack", true),
-					verb = this.GunCompEq.PrimaryVerb,
-					hotKey = KeyBindingDefOf.Misc4
-				};
-				/*Error: Unable to find new state assignment for yield return*/;
+					attack.Disable("CannotFire".Translate() + ": " + "Roofed".Translate().CapitalizeFirst());
+				}
+				yield return attack;
 			}
-			if (base.forcedTarget.IsValid)
+			if (this.forcedTarget.IsValid)
 			{
-				Command_Action stop = new Command_Action
+				Command_Action stop = new Command_Action();
+				stop.defaultLabel = "CommandStopForceAttack".Translate();
+				stop.defaultDesc = "CommandStopForceAttackDesc".Translate();
+				stop.icon = ContentFinder<Texture2D>.Get("UI/Commands/Halt", true);
+				stop.action = delegate()
 				{
-					defaultLabel = "CommandStopForceAttack".Translate(),
-					defaultDesc = "CommandStopForceAttackDesc".Translate(),
-					icon = ContentFinder<Texture2D>.Get("UI/Commands/Halt", true),
-					action = delegate
-					{
-						_003CGetGizmos_003Ec__Iterator._0024this.ResetForcedTarget();
-						SoundDefOf.TickLow.PlayOneShotOnCamera(null);
-					}
+					this.ResetForcedTarget();
+					SoundDefOf.Tick_Low.PlayOneShotOnCamera(null);
 				};
-				if (!base.forcedTarget.IsValid)
+				if (!this.forcedTarget.IsValid)
 				{
 					stop.Disable("CommandStopAttackFailNotForceAttacking".Translate());
 				}
 				stop.hotKey = KeyBindingDefOf.Misc5;
-				yield return (Gizmo)stop;
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield return stop;
 			}
-			if (!this.CanToggleHoldFire)
-				yield break;
-			yield return (Gizmo)new Command_Toggle
+			if (this.CanToggleHoldFire)
 			{
-				defaultLabel = "CommandHoldFire".Translate(),
-				defaultDesc = "CommandHoldFireDesc".Translate(),
-				icon = ContentFinder<Texture2D>.Get("UI/Commands/HoldFire", true),
-				hotKey = KeyBindingDefOf.Misc6,
-				toggleAction = delegate
+				yield return new Command_Toggle
 				{
-					_003CGetGizmos_003Ec__Iterator._0024this.holdFire = !_003CGetGizmos_003Ec__Iterator._0024this.holdFire;
-					if (_003CGetGizmos_003Ec__Iterator._0024this.holdFire)
+					defaultLabel = "CommandHoldFire".Translate(),
+					defaultDesc = "CommandHoldFireDesc".Translate(),
+					icon = ContentFinder<Texture2D>.Get("UI/Commands/HoldFire", true),
+					hotKey = KeyBindingDefOf.Misc6,
+					toggleAction = delegate()
 					{
-						_003CGetGizmos_003Ec__Iterator._0024this.ResetForcedTarget();
-					}
-				},
-				isActive = (() => _003CGetGizmos_003Ec__Iterator._0024this.holdFire)
-			};
-			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0407:
-			/*Error near IL_0408: Unexpected return in MoveNext()*/;
+						this.holdFire = !this.holdFire;
+						if (this.holdFire)
+						{
+							this.ResetForcedTarget();
+						}
+					},
+					isActive = (() => this.holdFire)
+				};
+			}
+			yield break;
 		}
 
+		// Token: 0x06002368 RID: 9064 RVA: 0x0012FC32 File Offset: 0x0012E032
 		private void ResetForcedTarget()
 		{
-			base.forcedTarget = LocalTargetInfo.Invalid;
+			this.forcedTarget = LocalTargetInfo.Invalid;
 			this.burstWarmupTicksLeft = 0;
 			if (this.burstCooldownTicksLeft <= 0)
 			{
@@ -522,18 +598,21 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002369 RID: 9065 RVA: 0x0012FC5A File Offset: 0x0012E05A
 		private void ResetCurrentTarget()
 		{
 			this.currentTargetInt = LocalTargetInfo.Invalid;
 			this.burstWarmupTicksLeft = 0;
 		}
 
+		// Token: 0x0600236A RID: 9066 RVA: 0x0012FC6F File Offset: 0x0012E06F
 		public void MakeGun()
 		{
-			this.gun = ThingMaker.MakeThing(base.def.building.turretGunDef, null);
+			this.gun = ThingMaker.MakeThing(this.def.building.turretGunDef, null);
 			this.UpdateGunVerbs();
 		}
 
+		// Token: 0x0600236B RID: 9067 RVA: 0x0012FC94 File Offset: 0x0012E094
 		private void UpdateGunVerbs()
 		{
 			List<Verb> allVerbs = this.gun.TryGetComp<CompEquippable>().AllVerbs;
@@ -541,8 +620,38 @@ namespace RimWorld
 			{
 				Verb verb = allVerbs[i];
 				verb.caster = this;
-				verb.castCompleteCallback = this.BurstComplete;
+				verb.castCompleteCallback = new Action(this.BurstComplete);
 			}
 		}
+
+		// Token: 0x040013CF RID: 5071
+		protected int burstCooldownTicksLeft = 0;
+
+		// Token: 0x040013D0 RID: 5072
+		protected int burstWarmupTicksLeft = 0;
+
+		// Token: 0x040013D1 RID: 5073
+		protected LocalTargetInfo currentTargetInt = LocalTargetInfo.Invalid;
+
+		// Token: 0x040013D2 RID: 5074
+		private bool holdFire;
+
+		// Token: 0x040013D3 RID: 5075
+		public Thing gun;
+
+		// Token: 0x040013D4 RID: 5076
+		protected TurretTop top;
+
+		// Token: 0x040013D5 RID: 5077
+		protected CompPowerTrader powerComp;
+
+		// Token: 0x040013D6 RID: 5078
+		protected CompMannable mannableComp;
+
+		// Token: 0x040013D7 RID: 5079
+		private const int TryStartShootSomethingIntervalTicks = 10;
+
+		// Token: 0x040013D8 RID: 5080
+		public static Material ForcedTargetLineMat = MaterialPool.MatFrom(GenDraw.LineTexPath, ShaderDatabase.Transparent, new Color(1f, 0.5f, 0.5f));
 	}
 }

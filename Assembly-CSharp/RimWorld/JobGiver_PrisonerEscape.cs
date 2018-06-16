@@ -1,61 +1,75 @@
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x020000E9 RID: 233
 	public class JobGiver_PrisonerEscape : ThinkNode_JobGiver
 	{
-		private const int MaxRegionsToCheckWhenEscapingThroughOpenDoors = 25;
-
+		// Token: 0x06000500 RID: 1280 RVA: 0x00037B30 File Offset: 0x00035F30
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			IntVec3 c = default(IntVec3);
-			if (this.ShouldStartEscaping(pawn) && RCellFinder.TryFindBestExitSpot(pawn, out c, TraverseMode.ByPawn))
+			if (this.ShouldStartEscaping(pawn))
 			{
-				if (!pawn.guest.Released)
+				IntVec3 c;
+				if (RCellFinder.TryFindBestExitSpot(pawn, out c, TraverseMode.ByPawn))
 				{
-					Messages.Message("MessagePrisonerIsEscaping".Translate(pawn.NameStringShort), pawn, MessageTypeDefOf.ThreatSmall);
+					if (!pawn.guest.Released)
+					{
+						Messages.Message("MessagePrisonerIsEscaping".Translate(new object[]
+						{
+							pawn.LabelShort
+						}), pawn, MessageTypeDefOf.ThreatSmall, true);
+					}
+					return new Job(JobDefOf.Goto, c)
+					{
+						exitMapOnArrival = true
+					};
 				}
-				Job job = new Job(JobDefOf.Goto, c);
-				job.exitMapOnArrival = true;
-				return job;
 			}
 			return null;
 		}
 
+		// Token: 0x06000501 RID: 1281 RVA: 0x00037BBC File Offset: 0x00035FBC
 		private bool ShouldStartEscaping(Pawn pawn)
 		{
-			if (pawn.guest.IsPrisoner && pawn.guest.HostFaction == Faction.OfPlayer && pawn.guest.PrisonerIsSecure)
+			bool result;
+			if (!pawn.guest.IsPrisoner || pawn.guest.HostFaction != Faction.OfPlayer || !pawn.guest.PrisonerIsSecure)
+			{
+				result = false;
+			}
+			else
 			{
 				Room room = pawn.GetRoom(RegionType.Set_Passable);
 				if (room.TouchesMapEdge)
 				{
-					return true;
+					result = true;
 				}
-				bool found = false;
-				RegionTraverser.BreadthFirstTraverse(room.Regions[0], delegate(Region from, Region reg)
+				else
 				{
-					if (reg.portal != null && !reg.portal.FreePassage)
+					bool found = false;
+					RegionTraverser.BreadthFirstTraverse(room.Regions[0], (Region from, Region reg) => reg.portal == null || reg.portal.FreePassage, delegate(Region reg)
 					{
-						return false;
-					}
-					return true;
-				}, delegate(Region reg)
-				{
-					if (reg.Room.TouchesMapEdge)
-					{
-						found = true;
-						return true;
-					}
-					return false;
-				}, 25, RegionType.Set_Passable);
-				if (found)
-				{
-					return true;
+						bool result2;
+						if (reg.Room.TouchesMapEdge)
+						{
+							found = true;
+							result2 = true;
+						}
+						else
+						{
+							result2 = false;
+						}
+						return result2;
+					}, 25, RegionType.Set_Passable);
+					result = found;
 				}
-				return false;
 			}
-			return false;
+			return result;
 		}
+
+		// Token: 0x040002C8 RID: 712
+		private const int MaxRegionsToCheckWhenEscapingThroughOpenDoors = 25;
 	}
 }

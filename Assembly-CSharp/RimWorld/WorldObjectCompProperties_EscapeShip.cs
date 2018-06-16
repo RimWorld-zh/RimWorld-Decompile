@@ -1,32 +1,30 @@
-using RimWorld.Planet;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld.Planet;
 
 namespace RimWorld
 {
+	// Token: 0x0200027D RID: 637
 	public class WorldObjectCompProperties_EscapeShip : WorldObjectCompProperties
 	{
+		// Token: 0x06000AE7 RID: 2791 RVA: 0x00062A08 File Offset: 0x00060E08
 		public WorldObjectCompProperties_EscapeShip()
 		{
-			base.compClass = typeof(EscapeShipComp);
+			this.compClass = typeof(EscapeShipComp);
 		}
 
+		// Token: 0x06000AE8 RID: 2792 RVA: 0x00062A24 File Offset: 0x00060E24
 		public override IEnumerable<string> ConfigErrors(WorldObjectDef parentDef)
 		{
-			using (IEnumerator<string> enumerator = base.ConfigErrors(parentDef).GetEnumerator())
+			foreach (string e in this.<ConfigErrors>__BaseCallProxy0(parentDef))
 			{
-				if (enumerator.MoveNext())
-				{
-					string e = enumerator.Current;
-					yield return e;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return e;
 			}
-			if (typeof(MapParent).IsAssignableFrom(parentDef.worldObjectClass))
-				yield break;
-			yield return parentDef.defName + " has WorldObjectCompProperties_EscapeShip but it's not MapParent.";
-			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0111:
-			/*Error near IL_0112: Unexpected return in MoveNext()*/;
+			if (!typeof(MapParent).IsAssignableFrom(parentDef.worldObjectClass))
+			{
+				yield return parentDef.defName + " has WorldObjectCompProperties_EscapeShip but it's not MapParent.";
+			}
+			yield break;
 		}
 	}
 }

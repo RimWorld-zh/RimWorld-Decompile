@@ -1,19 +1,26 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200047C RID: 1148
 	public class PawnCapacityWorker_Talking : PawnCapacityWorker
 	{
+		// Token: 0x06001420 RID: 5152 RVA: 0x000AED8C File Offset: 0x000AD18C
 		public override float CalculateCapacityLevel(HediffSet diffSet, List<PawnCapacityUtility.CapacityImpactor> impactors = null)
 		{
-			string tag = "TalkingSource";
-			return PawnCapacityUtility.CalculateTagEfficiency(diffSet, tag, 3.40282347E+38f, impactors) * PawnCapacityUtility.CalculateTagEfficiency(diffSet, "TalkingPathway", 1f, impactors) * base.CalculateCapacityAndRecord(diffSet, PawnCapacityDefOf.Consciousness, impactors);
+			BodyPartTagDef tag = BodyPartTagDefOf.TalkingSource;
+			float num = PawnCapacityUtility.CalculateTagEfficiency(diffSet, tag, float.MaxValue, default(FloatRange), impactors);
+			tag = BodyPartTagDefOf.TalkingPathway;
+			float maximum = 1f;
+			return num * PawnCapacityUtility.CalculateTagEfficiency(diffSet, tag, maximum, default(FloatRange), impactors) * base.CalculateCapacityAndRecord(diffSet, PawnCapacityDefOf.Consciousness, impactors);
 		}
 
+		// Token: 0x06001421 RID: 5153 RVA: 0x000AEDF8 File Offset: 0x000AD1F8
 		public override bool CanHaveCapacity(BodyDef body)
 		{
-			return body.HasPartWithTag("TalkingSource");
+			return body.HasPartWithTag(BodyPartTagDefOf.TalkingSource);
 		}
 	}
 }

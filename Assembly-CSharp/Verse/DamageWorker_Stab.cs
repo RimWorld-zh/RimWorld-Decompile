@@ -1,35 +1,36 @@
+﻿using System;
 using System.Collections.Generic;
 
 namespace Verse
 {
+	// Token: 0x02000CFB RID: 3323
 	public class DamageWorker_Stab : DamageWorker_AddInjury
 	{
+		// Token: 0x0600491D RID: 18717 RVA: 0x00266360 File Offset: 0x00264760
 		protected override BodyPartRecord ChooseHitPart(DamageInfo dinfo, Pawn pawn)
 		{
-			return pawn.health.hediffSet.GetRandomNotMissingPart(dinfo.Def, dinfo.Height, (Rand.Value < base.def.stabChanceOfForcedInternal) ? BodyPartDepth.Inside : dinfo.Depth);
+			return pawn.health.hediffSet.GetRandomNotMissingPart(dinfo.Def, dinfo.Height, (Rand.Value >= this.def.stabChanceOfForcedInternal) ? dinfo.Depth : BodyPartDepth.Inside);
 		}
 
-		protected override void ApplySpecialEffectsToPart(Pawn pawn, float totalDamage, DamageInfo dinfo, ref DamageResult result)
+		// Token: 0x0600491E RID: 18718 RVA: 0x002663B8 File Offset: 0x002647B8
+		protected override void ApplySpecialEffectsToPart(Pawn pawn, float totalDamage, DamageInfo dinfo, DamageWorker.DamageResult result)
 		{
 			totalDamage = base.ReduceDamageToPreserveOutsideParts(totalDamage, dinfo, pawn);
 			List<BodyPartRecord> list = new List<BodyPartRecord>();
-			BodyPartRecord bodyPartRecord = dinfo.HitPart;
-			while (bodyPartRecord != null)
+			for (BodyPartRecord bodyPartRecord = dinfo.HitPart; bodyPartRecord != null; bodyPartRecord = bodyPartRecord.parent)
 			{
 				list.Add(bodyPartRecord);
-				if (bodyPartRecord.depth != BodyPartDepth.Outside)
+				if (bodyPartRecord.depth == BodyPartDepth.Outside)
 				{
-					bodyPartRecord = bodyPartRecord.parent;
-					continue;
+					break;
 				}
-				break;
 			}
-			float totalDamage2 = (float)(totalDamage * (1.0 + base.def.stabPierceBonus) / ((float)list.Count + base.def.stabPierceBonus));
+			float totalDamage2 = totalDamage * (1f + this.def.stabPierceBonus) / ((float)list.Count + this.def.stabPierceBonus);
 			for (int i = 0; i < list.Count; i++)
 			{
 				DamageInfo dinfo2 = dinfo;
 				dinfo2.SetHitPart(list[i]);
-				base.FinalizeAndAddInjury(pawn, totalDamage2, dinfo2, ref result);
+				base.FinalizeAndAddInjury(pawn, totalDamage2, dinfo2, result);
 			}
 		}
 	}

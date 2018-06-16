@@ -1,92 +1,146 @@
-using System;
+﻿using System;
 
 namespace Verse
 {
+	// Token: 0x02000C33 RID: 3123
 	public static class ThingRequestGroupUtility
 	{
+		// Token: 0x06004490 RID: 17552 RVA: 0x0023FBAC File Offset: 0x0023DFAC
 		public static bool StoreInRegion(this ThingRequestGroup group)
 		{
+			bool result;
 			switch (group)
 			{
 			case ThingRequestGroup.Undefined:
-				return false;
+				result = false;
+				break;
 			case ThingRequestGroup.Nothing:
-				return false;
+				result = false;
+				break;
 			case ThingRequestGroup.Everything:
-				return true;
+				result = true;
+				break;
 			case ThingRequestGroup.HaulableEver:
-				return true;
+				result = true;
+				break;
 			case ThingRequestGroup.HaulableAlways:
-				return true;
+				result = true;
+				break;
 			case ThingRequestGroup.FoodSource:
-				return true;
+				result = true;
+				break;
 			case ThingRequestGroup.FoodSourceNotPlantOrTree:
-				return true;
+				result = true;
+				break;
 			case ThingRequestGroup.Corpse:
-				return true;
+				result = true;
+				break;
 			case ThingRequestGroup.Blueprint:
-				return true;
+				result = true;
+				break;
 			case ThingRequestGroup.BuildingArtificial:
-				return true;
+				result = true;
+				break;
 			case ThingRequestGroup.BuildingFrame:
-				return true;
+				result = true;
+				break;
 			case ThingRequestGroup.Pawn:
-				return true;
+				result = true;
+				break;
 			case ThingRequestGroup.PotentialBillGiver:
-				return true;
+				result = true;
+				break;
 			case ThingRequestGroup.Medicine:
-				return true;
+				result = true;
+				break;
 			case ThingRequestGroup.Filth:
-				return true;
+				result = true;
+				break;
 			case ThingRequestGroup.AttackTarget:
-				return true;
+				result = true;
+				break;
 			case ThingRequestGroup.Weapon:
-				return true;
+				result = true;
+				break;
 			case ThingRequestGroup.Refuelable:
-				return true;
+				result = true;
+				break;
 			case ThingRequestGroup.HaulableEverOrMinifiable:
-				return true;
+				result = true;
+				break;
 			case ThingRequestGroup.Drug:
-				return true;
+				result = true;
+				break;
 			case ThingRequestGroup.Shell:
-				return true;
+				result = true;
+				break;
 			case ThingRequestGroup.HarvestablePlant:
-				return true;
+				result = true;
+				break;
 			case ThingRequestGroup.Fire:
-				return true;
+				result = true;
+				break;
 			case ThingRequestGroup.Plant:
-				return false;
+				result = true;
+				break;
 			case ThingRequestGroup.Construction:
-				return false;
+				result = false;
+				break;
 			case ThingRequestGroup.HasGUIOverlay:
-				return false;
+				result = false;
+				break;
 			case ThingRequestGroup.Apparel:
-				return false;
+				result = false;
+				break;
 			case ThingRequestGroup.MinifiedThing:
-				return false;
+				result = false;
+				break;
 			case ThingRequestGroup.Grave:
-				return false;
+				result = false;
+				break;
 			case ThingRequestGroup.Art:
-				return false;
+				result = false;
+				break;
 			case ThingRequestGroup.ThingHolder:
-				return false;
+				result = false;
+				break;
 			case ThingRequestGroup.ActiveDropPod:
-				return false;
+				result = false;
+				break;
 			case ThingRequestGroup.Transporter:
-				return false;
+				result = false;
+				break;
 			case ThingRequestGroup.LongRangeMineralScanner:
-				return false;
+				result = false;
+				break;
 			case ThingRequestGroup.AffectsSky:
-				return false;
+				result = false;
+				break;
 			case ThingRequestGroup.PsychicDroneEmanator:
-				return false;
+				result = false;
+				break;
 			case ThingRequestGroup.WindSource:
-				return false;
+				result = false;
+				break;
 			case ThingRequestGroup.AlwaysFlee:
-				return false;
+				result = false;
+				break;
+			case ThingRequestGroup.ResearchBench:
+				result = false;
+				break;
+			case ThingRequestGroup.Facility:
+				result = false;
+				break;
+			case ThingRequestGroup.AffectedByFacilities:
+				result = false;
+				break;
+			case ThingRequestGroup.CreatesInfestations:
+				result = false;
+				break;
 			default:
 				throw new ArgumentException("group");
 			}
+			return result;
 		}
 	}
 }

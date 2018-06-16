@@ -1,42 +1,16 @@
-using RimWorld;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000FB5 RID: 4021
 	public struct ShotReport
 	{
-		private TargetInfo target;
-
-		private float distance;
-
-		private List<CoverInfo> covers;
-
-		private float coversOverallBlockChance;
-
-		private ThingDef coveringGas;
-
-		private float factorFromShooterAndDist;
-
-		private float factorFromEquipment;
-
-		private float factorFromTargetSize;
-
-		private float factorFromWeather;
-
-		private float forcedMissRadius;
-
-		public const float LayingDownHitChanceFactorMinDistance = 4.5f;
-
-		public const float HitChanceFactorIfLayingDown = 0.2f;
-
-		private const float NonPawnShooterHitFactorPerDistance = 0.96f;
-
-		private const float ExecutionMaxDistance = 3.9f;
-
-		private const float ExecutionFactor = 7.5f;
-
+		// Token: 0x17000FB7 RID: 4023
+		// (get) Token: 0x06006122 RID: 24866 RVA: 0x00310214 File Offset: 0x0030E614
 		private float FactorFromPosture
 		{
 			get
@@ -44,15 +18,20 @@ namespace Verse
 				if (this.target.HasThing)
 				{
 					Pawn pawn = this.target.Thing as Pawn;
-					if (pawn != null && this.distance >= 4.5 && pawn.GetPosture() != 0)
+					if (pawn != null)
 					{
-						return 0.2f;
+						if (this.distance >= 4.5f && pawn.GetPosture() != PawnPosture.Standing)
+						{
+							return 0.2f;
+						}
 					}
 				}
 				return 1f;
 			}
 		}
 
+		// Token: 0x17000FB8 RID: 4024
+		// (get) Token: 0x06006123 RID: 24867 RVA: 0x00310280 File Offset: 0x0030E680
 		private float FactorFromExecution
 		{
 			get
@@ -60,35 +39,49 @@ namespace Verse
 				if (this.target.HasThing)
 				{
 					Pawn pawn = this.target.Thing as Pawn;
-					if (pawn != null && this.distance <= 3.9000000953674316 && pawn.GetPosture() != 0)
+					if (pawn != null)
 					{
-						return 7.5f;
+						if (this.distance <= 3.9f && pawn.GetPosture() != PawnPosture.Standing)
+						{
+							return 7.5f;
+						}
 					}
 				}
 				return 1f;
 			}
 		}
 
+		// Token: 0x17000FB9 RID: 4025
+		// (get) Token: 0x06006124 RID: 24868 RVA: 0x003102EC File Offset: 0x0030E6EC
 		private float FactorFromCoveringGas
 		{
 			get
 			{
+				float result;
 				if (this.coveringGas != null)
 				{
-					return (float)(1.0 - this.coveringGas.gas.accuracyPenalty);
+					result = 1f - this.coveringGas.gas.accuracyPenalty;
 				}
-				return 1f;
+				else
+				{
+					result = 1f;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000FBA RID: 4026
+		// (get) Token: 0x06006125 RID: 24869 RVA: 0x00310330 File Offset: 0x0030E730
 		public float ChanceToNotHitCover
 		{
 			get
 			{
-				return (float)(1.0 - this.coversOverallBlockChance);
+				return 1f - this.coversOverallBlockChance;
 			}
 		}
 
+		// Token: 0x17000FBB RID: 4027
+		// (get) Token: 0x06006126 RID: 24870 RVA: 0x00310354 File Offset: 0x0030E754
 		public float ChanceToNotGoWild_IgnoringPosture
 		{
 			get
@@ -97,6 +90,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000FBC RID: 4028
+		// (get) Token: 0x06006127 RID: 24871 RVA: 0x00310394 File Offset: 0x0030E794
 		public float TotalEstimatedHitChance
 		{
 			get
@@ -106,36 +101,58 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000FBD RID: 4029
+		// (get) Token: 0x06006128 RID: 24872 RVA: 0x003103C8 File Offset: 0x0030E7C8
+		public ShootLine ShootLine
+		{
+			get
+			{
+				return this.shootLine;
+			}
+		}
+
+		// Token: 0x06006129 RID: 24873 RVA: 0x003103E4 File Offset: 0x0030E7E4
 		public static ShotReport HitReportFor(Thing caster, Verb verb, LocalTargetInfo target)
 		{
 			Pawn pawn = caster as Pawn;
 			IntVec3 cell = target.Cell;
-			ShotReport result = default(ShotReport);
+			ShotReport result;
 			result.distance = (cell - caster.Position).LengthHorizontal;
 			result.target = target.ToTargetInfo(caster.Map);
-			float f = (float)((pawn == null) ? 0.95999997854232788 : pawn.GetStatValue(StatDefOf.ShootingAccuracy, true));
+			float f;
+			if (pawn != null)
+			{
+				f = pawn.GetStatValue(StatDefOf.ShootingAccuracy, true);
+			}
+			else
+			{
+				f = 0.96f;
+			}
 			result.factorFromShooterAndDist = Mathf.Pow(f, result.distance);
-			if (result.factorFromShooterAndDist < 0.020099999383091927)
+			if (result.factorFromShooterAndDist < 0.0201f)
 			{
 				result.factorFromShooterAndDist = 0.0201f;
 			}
 			result.factorFromEquipment = verb.verbProps.GetHitChanceFactor(verb.ownerEquipment, result.distance);
-			result.covers = CoverUtility.CalculateCoverGiverSet(cell, caster.Position, caster.Map);
-			result.coversOverallBlockChance = CoverUtility.CalculateOverallBlockChance(cell, caster.Position, caster.Map);
+			result.covers = CoverUtility.CalculateCoverGiverSet(target, caster.Position, caster.Map);
+			result.coversOverallBlockChance = CoverUtility.CalculateOverallBlockChance(target, caster.Position, caster.Map);
 			result.coveringGas = null;
-			ShootLine shootLine = default(ShootLine);
-			if (verb.TryFindShootLineFromTo(verb.caster.Position, target, out shootLine))
+			if (verb.TryFindShootLineFromTo(verb.caster.Position, target, out result.shootLine))
 			{
-				foreach (IntVec3 item in shootLine.Points())
+				foreach (IntVec3 c in result.shootLine.Points())
 				{
-					Thing gas = item.GetGas(caster.Map);
+					Thing gas = c.GetGas(caster.Map);
 					if (gas != null && (result.coveringGas == null || result.coveringGas.gas.accuracyPenalty < gas.def.gas.accuracyPenalty))
 					{
 						result.coveringGas = gas.def;
 					}
 				}
 			}
-			if (!caster.Position.Roofed(caster.Map) && !target.Cell.Roofed(caster.Map))
+			else
+			{
+				result.shootLine = new ShootLine(IntVec3.Invalid, IntVec3.Invalid);
+			}
+			if (!caster.Position.Roofed(caster.Map) || !target.Cell.Roofed(caster.Map))
 			{
 				result.factorFromWeather = caster.Map.weatherManager.CurWeatherAccuracyMultiplier;
 			}
@@ -143,7 +160,6 @@ namespace Verse
 			{
 				result.factorFromWeather = 1f;
 			}
-			result.factorFromTargetSize = 1f;
 			if (target.HasThing)
 			{
 				Pawn pawn2 = target.Thing as Pawn;
@@ -153,18 +169,23 @@ namespace Verse
 				}
 				else
 				{
-					result.factorFromTargetSize = (float)(target.Thing.def.fillPercent * 1.7000000476837158);
+					result.factorFromTargetSize = target.Thing.def.fillPercent * (float)target.Thing.def.size.x * (float)target.Thing.def.size.z * 1.7f;
 				}
 				result.factorFromTargetSize = Mathf.Clamp(result.factorFromTargetSize, 0.5f, 2f);
+			}
+			else
+			{
+				result.factorFromTargetSize = 1f;
 			}
 			result.forcedMissRadius = verb.verbProps.forcedMissRadius;
 			return result;
 		}
 
+		// Token: 0x0600612A RID: 24874 RVA: 0x003106E4 File Offset: 0x0030EAE4
 		public string GetTextReadout()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			if (this.forcedMissRadius > 0.5)
+			if (this.forcedMissRadius > 0.5f)
 			{
 				stringBuilder.AppendLine();
 				stringBuilder.AppendLine("WeaponMissRadius".Translate() + "   " + this.forcedMissRadius.ToString("F1"));
@@ -173,37 +194,41 @@ namespace Verse
 			{
 				stringBuilder.AppendLine(" " + this.TotalEstimatedHitChance.ToStringPercent());
 				stringBuilder.AppendLine("   " + "ShootReportShooterAbility".Translate() + "  " + this.factorFromShooterAndDist.ToStringPercent());
-				if (this.factorFromEquipment < 0.99000000953674316)
+				stringBuilder.AppendLine("   " + "ShootReportWeapon".Translate() + "        " + this.factorFromEquipment.ToStringPercent());
+				if (this.target.HasThing)
 				{
-					stringBuilder.AppendLine("   " + "ShootReportWeapon".Translate() + "        " + this.factorFromEquipment.ToStringPercent());
+					if (this.factorFromTargetSize != 1f)
+					{
+						stringBuilder.AppendLine("   " + "TargetSize".Translate() + "       " + this.factorFromTargetSize.ToStringPercent());
+					}
 				}
-				if (this.target.HasThing && this.factorFromTargetSize != 1.0)
-				{
-					stringBuilder.AppendLine("   " + "TargetSize".Translate() + "       " + this.factorFromTargetSize.ToStringPercent());
-				}
-				if (this.factorFromWeather < 0.99000000953674316)
+				if (this.factorFromWeather < 0.99f)
 				{
 					stringBuilder.AppendLine("   " + "Weather".Translate() + "         " + this.factorFromWeather.ToStringPercent());
 				}
-				if (this.FactorFromCoveringGas < 0.99000000953674316)
+				if (this.FactorFromCoveringGas < 0.99f)
 				{
 					stringBuilder.AppendLine("   " + this.coveringGas.label.CapitalizeFirst() + "         " + this.FactorFromCoveringGas.ToStringPercent());
 				}
-				if (this.FactorFromPosture < 0.99989998340606689)
+				if (this.FactorFromPosture < 0.9999f)
 				{
 					stringBuilder.AppendLine("   " + "TargetProne".Translate() + "  " + this.FactorFromPosture.ToStringPercent());
 				}
-				if (this.FactorFromExecution != 1.0)
+				if (this.FactorFromExecution != 1f)
 				{
 					stringBuilder.AppendLine("   " + "Execution".Translate() + "   " + this.FactorFromExecution.ToStringPercent());
 				}
-				if (this.ChanceToNotHitCover < 1.0)
+				if (this.ChanceToNotHitCover < 1f)
 				{
 					stringBuilder.AppendLine("   " + "ShootingCover".Translate() + "        " + this.ChanceToNotHitCover.ToStringPercent());
 					for (int i = 0; i < this.covers.Count; i++)
 					{
 						CoverInfo coverInfo = this.covers[i];
-						stringBuilder.AppendLine("     " + "CoverThingBlocksPercentOfShots".Translate(coverInfo.Thing.LabelCap, coverInfo.BlockChance.ToStringPercent()));
+						stringBuilder.AppendLine("     " + "CoverThingBlocksPercentOfShots".Translate(new object[]
+						{
+							coverInfo.Thing.LabelCap,
+							coverInfo.BlockChance.ToStringPercent()
+						}));
 					}
 				}
 				else
@@ -214,9 +239,77 @@ namespace Verse
 			return stringBuilder.ToString();
 		}
 
+		// Token: 0x0600612B RID: 24875 RVA: 0x003109D0 File Offset: 0x0030EDD0
 		public Thing GetRandomCoverToMissInto()
 		{
-			return this.covers.RandomElementByWeight((CoverInfo c) => c.BlockChance).Thing;
+			CoverInfo coverInfo;
+			Thing result;
+			if (this.covers.TryRandomElementByWeight((CoverInfo c) => c.BlockChance, out coverInfo))
+			{
+				result = coverInfo.Thing;
+			}
+			else
+			{
+				result = null;
+			}
+			return result;
 		}
+
+		// Token: 0x04003F80 RID: 16256
+		private TargetInfo target;
+
+		// Token: 0x04003F81 RID: 16257
+		private float distance;
+
+		// Token: 0x04003F82 RID: 16258
+		private List<CoverInfo> covers;
+
+		// Token: 0x04003F83 RID: 16259
+		private float coversOverallBlockChance;
+
+		// Token: 0x04003F84 RID: 16260
+		private ThingDef coveringGas;
+
+		// Token: 0x04003F85 RID: 16261
+		private float factorFromShooterAndDist;
+
+		// Token: 0x04003F86 RID: 16262
+		private float factorFromEquipment;
+
+		// Token: 0x04003F87 RID: 16263
+		private float factorFromTargetSize;
+
+		// Token: 0x04003F88 RID: 16264
+		private float factorFromWeather;
+
+		// Token: 0x04003F89 RID: 16265
+		private float forcedMissRadius;
+
+		// Token: 0x04003F8A RID: 16266
+		private ShootLine shootLine;
+
+		// Token: 0x04003F8B RID: 16267
+		public const float LayingDownHitChanceFactorMinDistance = 4.5f;
+
+		// Token: 0x04003F8C RID: 16268
+		public const float HitChanceFactorIfLayingDown = 0.2f;
+
+		// Token: 0x04003F8D RID: 16269
+		private const float NonPawnShooterHitFactorPerDistance = 0.96f;
+
+		// Token: 0x04003F8E RID: 16270
+		private const float ExecutionMaxDistance = 3.9f;
+
+		// Token: 0x04003F8F RID: 16271
+		private const float ExecutionFactor = 7.5f;
+
+		// Token: 0x04003F90 RID: 16272
+		private const float TargetSizeFactorFromFillPercentFactor = 1.7f;
+
+		// Token: 0x04003F91 RID: 16273
+		private const float TargetSizeFactorMin = 0.5f;
+
+		// Token: 0x04003F92 RID: 16274
+		private const float TargetSizeFactorMax = 2f;
 	}
 }

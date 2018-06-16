@@ -1,29 +1,29 @@
-using RimWorld.Planet;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020004F2 RID: 1266
 	[StaticConstructorOnStartup]
 	public abstract class Need : IExposable
 	{
-		public NeedDef def;
+		// Token: 0x060016B1 RID: 5809 RVA: 0x000C8FC4 File Offset: 0x000C73C4
+		public Need()
+		{
+		}
 
-		protected Pawn pawn;
+		// Token: 0x060016B2 RID: 5810 RVA: 0x000C8FD4 File Offset: 0x000C73D4
+		public Need(Pawn newPawn)
+		{
+			this.pawn = newPawn;
+			this.SetInitialLevel();
+		}
 
-		protected float curLevelInt;
-
-		protected List<float> threshPercents;
-
-		public const float MaxDrawHeight = 70f;
-
-		private static readonly Texture2D BarInstantMarkerTex = ContentFinder<Texture2D>.Get("UI/Misc/BarInstantMarker", true);
-
-		private static readonly Texture2D NeedUnitDividerTex = ContentFinder<Texture2D>.Get("UI/Misc/NeedUnitDivider", true);
-
-		private const float BarInstantMarkerSize = 12f;
-
+		// Token: 0x170002FD RID: 765
+		// (get) Token: 0x060016B3 RID: 5811 RVA: 0x000C8FF4 File Offset: 0x000C73F4
 		public string LabelCap
 		{
 			get
@@ -32,6 +32,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170002FE RID: 766
+		// (get) Token: 0x060016B4 RID: 5812 RVA: 0x000C9014 File Offset: 0x000C7414
 		public float CurInstantLevelPercentage
 		{
 			get
@@ -40,6 +42,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170002FF RID: 767
+		// (get) Token: 0x060016B5 RID: 5813 RVA: 0x000C9038 File Offset: 0x000C7438
 		public virtual int GUIChangeArrow
 		{
 			get
@@ -48,6 +52,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000300 RID: 768
+		// (get) Token: 0x060016B6 RID: 5814 RVA: 0x000C9050 File Offset: 0x000C7450
 		public virtual float CurInstantLevel
 		{
 			get
@@ -56,6 +62,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000301 RID: 769
+		// (get) Token: 0x060016B7 RID: 5815 RVA: 0x000C906C File Offset: 0x000C746C
 		public virtual float MaxLevel
 		{
 			get
@@ -64,6 +72,9 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000302 RID: 770
+		// (get) Token: 0x060016B8 RID: 5816 RVA: 0x000C9088 File Offset: 0x000C7488
+		// (set) Token: 0x060016B9 RID: 5817 RVA: 0x000C90A3 File Offset: 0x000C74A3
 		public virtual float CurLevel
 		{
 			get
@@ -76,6 +87,9 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000303 RID: 771
+		// (get) Token: 0x060016BA RID: 5818 RVA: 0x000C90C0 File Offset: 0x000C74C0
+		// (set) Token: 0x060016BB RID: 5819 RVA: 0x000C90E2 File Offset: 0x000C74E2
 		public float CurLevelPercentage
 		{
 			get
@@ -88,80 +102,77 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000304 RID: 772
+		// (get) Token: 0x060016BC RID: 5820 RVA: 0x000C90F4 File Offset: 0x000C74F4
 		protected bool IsFrozen
 		{
 			get
 			{
-				if (ThingOwnerUtility.ContentsFrozen(this.pawn.ParentHolder))
-				{
-					return true;
-				}
-				if (this.def.freezeWhileSleeping && !this.pawn.Awake())
-				{
-					return true;
-				}
-				return !this.IsPawnInteractableOrVisible;
+				return this.pawn.Suspended || (this.def.freezeWhileSleeping && !this.pawn.Awake()) || !this.IsPawnInteractableOrVisible;
 			}
 		}
 
+		// Token: 0x17000305 RID: 773
+		// (get) Token: 0x060016BD RID: 5821 RVA: 0x000C9150 File Offset: 0x000C7550
 		private bool IsPawnInteractableOrVisible
 		{
 			get
 			{
-				if (this.pawn.SpawnedOrAnyParentSpawned)
-				{
-					return true;
-				}
-				if (this.pawn.IsCaravanMember())
-				{
-					return true;
-				}
-				if (PawnUtility.IsTravelingInTransportPodWorldObject(this.pawn))
-				{
-					return true;
-				}
-				return false;
+				return this.pawn.SpawnedOrAnyParentSpawned || this.pawn.IsCaravanMember() || PawnUtility.IsTravelingInTransportPodWorldObject(this.pawn);
 			}
 		}
 
-		public Need()
+		// Token: 0x17000306 RID: 774
+		// (get) Token: 0x060016BE RID: 5822 RVA: 0x000C91AC File Offset: 0x000C75AC
+		public virtual bool ShowOnNeedList
 		{
+			get
+			{
+				return this.def.showOnNeedList;
+			}
 		}
 
-		public Need(Pawn newPawn)
-		{
-			this.pawn = newPawn;
-			this.SetInitialLevel();
-		}
-
+		// Token: 0x060016BF RID: 5823 RVA: 0x000C91CC File Offset: 0x000C75CC
 		public virtual void ExposeData()
 		{
 			Scribe_Defs.Look<NeedDef>(ref this.def, "def");
 			Scribe_Values.Look<float>(ref this.curLevelInt, "curLevel", 0f, false);
 		}
 
+		// Token: 0x060016C0 RID: 5824
 		public abstract void NeedInterval();
 
+		// Token: 0x060016C1 RID: 5825 RVA: 0x000C91F8 File Offset: 0x000C75F8
 		public virtual string GetTipString()
 		{
-			return this.LabelCap + ": " + this.CurLevelPercentage.ToStringPercent() + "\n" + this.def.description;
+			return string.Concat(new string[]
+			{
+				this.LabelCap,
+				": ",
+				this.CurLevelPercentage.ToStringPercent(),
+				"\n",
+				this.def.description
+			});
 		}
 
+		// Token: 0x060016C2 RID: 5826 RVA: 0x000C924D File Offset: 0x000C764D
 		public virtual void SetInitialLevel()
 		{
 			this.CurLevelPercentage = 0.5f;
 		}
 
+		// Token: 0x060016C3 RID: 5827 RVA: 0x000C925B File Offset: 0x000C765B
 		public void ForceSetLevel(float levelPercent)
 		{
 			this.CurLevelPercentage = levelPercent;
 		}
 
+		// Token: 0x060016C4 RID: 5828 RVA: 0x000C9268 File Offset: 0x000C7668
 		public virtual void DrawOnGUI(Rect rect, int maxThresholdMarkers = 2147483647, float customMargin = -1f, bool drawArrows = true, bool doTooltip = true)
 		{
-			if (rect.height > 70.0)
+			if (rect.height > 70f)
 			{
-				float num = (float)((rect.height - 70.0) / 2.0);
+				float num = (rect.height - 70f) / 2f;
 				rect.height = 70f;
 				rect.y += num;
 			}
@@ -174,21 +185,21 @@ namespace RimWorld
 				TooltipHandler.TipRegion(rect, new TipSignal(() => this.GetTipString(), rect.GetHashCode()));
 			}
 			float num2 = 14f;
-			float num3 = (float)((!(customMargin >= 0.0)) ? (num2 + 15.0) : customMargin);
-			if (rect.height < 50.0)
+			float num3 = (customMargin < 0f) ? (num2 + 15f) : customMargin;
+			if (rect.height < 50f)
 			{
 				num2 *= Mathf.InverseLerp(0f, 50f, rect.height);
 			}
-			Text.Font = (GameFont)((rect.height > 55.0) ? 1 : 0);
+			Text.Font = ((rect.height <= 55f) ? GameFont.Tiny : GameFont.Small);
 			Text.Anchor = TextAnchor.LowerLeft;
-			Rect rect2 = new Rect((float)(rect.x + num3 + rect.width * 0.10000000149011612), rect.y, (float)(rect.width - num3 - rect.width * 0.10000000149011612), (float)(rect.height / 2.0));
+			Rect rect2 = new Rect(rect.x + num3 + rect.width * 0.1f, rect.y, rect.width - num3 - rect.width * 0.1f, rect.height / 2f);
 			Widgets.Label(rect2, this.LabelCap);
 			Text.Anchor = TextAnchor.UpperLeft;
-			Rect rect3 = new Rect(rect.x, (float)(rect.y + rect.height / 2.0), rect.width, (float)(rect.height / 2.0));
-			rect3 = new Rect(rect3.x + num3, rect3.y, (float)(rect3.width - num3 * 2.0), rect3.height - num2);
+			Rect rect3 = new Rect(rect.x, rect.y + rect.height / 2f, rect.width, rect.height / 2f);
+			rect3 = new Rect(rect3.x + num3, rect3.y, rect3.width - num3 * 2f, rect3.height - num2);
 			Rect rect4 = rect3;
 			float num4 = 1f;
-			if (this.def.scaleBar && this.MaxLevel < 1.0)
+			if (this.def.scaleBar && this.MaxLevel < 1f)
 			{
 				num4 = this.MaxLevel;
 			}
@@ -215,7 +226,7 @@ namespace RimWorld
 				}
 			}
 			float curInstantLevelPercentage = this.CurInstantLevelPercentage;
-			if (curInstantLevelPercentage >= 0.0)
+			if (curInstantLevelPercentage >= 0f)
 			{
 				this.DrawBarInstantMarkerAt(rect3, curInstantLevelPercentage * num4);
 			}
@@ -226,26 +237,28 @@ namespace RimWorld
 			Text.Font = GameFont.Small;
 		}
 
+		// Token: 0x060016C5 RID: 5829 RVA: 0x000C9568 File Offset: 0x000C7968
 		protected void DrawBarInstantMarkerAt(Rect barRect, float pct)
 		{
-			if (pct > 1.0)
+			if (pct > 1f)
 			{
-				Log.ErrorOnce(this.def + " drawing bar percent > 1 : " + pct, 6932178);
+				Log.ErrorOnce(this.def + " drawing bar percent > 1 : " + pct, 6932178, false);
 			}
 			float num = 12f;
-			if (barRect.width < 150.0)
+			if (barRect.width < 150f)
 			{
-				num = (float)(num / 2.0);
+				num /= 2f;
 			}
 			Vector2 vector = new Vector2(barRect.x + barRect.width * pct, barRect.y + barRect.height);
-			Rect position = new Rect((float)(vector.x - num / 2.0), vector.y, num, num);
+			Rect position = new Rect(vector.x - num / 2f, vector.y, num, num);
 			GUI.DrawTexture(position, Need.BarInstantMarkerTex);
 		}
 
+		// Token: 0x060016C6 RID: 5830 RVA: 0x000C9614 File Offset: 0x000C7A14
 		private void DrawBarThreshold(Rect barRect, float threshPct)
 		{
-			float num = (float)((!(barRect.width > 60.0)) ? 1 : 2);
-			Rect position = new Rect((float)(barRect.x + barRect.width * threshPct - (num - 1.0)), (float)(barRect.y + barRect.height / 2.0), num, (float)(barRect.height / 2.0));
+			float num = (float)((barRect.width <= 60f) ? 1 : 2);
+			Rect position = new Rect(barRect.x + barRect.width * threshPct - (num - 1f), barRect.y + barRect.height / 2f, num, barRect.height / 2f);
 			Texture2D image;
 			if (threshPct < this.CurLevelPercentage)
 			{
@@ -261,10 +274,11 @@ namespace RimWorld
 			GUI.color = Color.white;
 		}
 
+		// Token: 0x060016C7 RID: 5831 RVA: 0x000C96F0 File Offset: 0x000C7AF0
 		private void DrawBarDivision(Rect barRect, float threshPct)
 		{
 			float num = 5f;
-			Rect rect = new Rect((float)(barRect.x + barRect.width * threshPct - (num - 1.0)), barRect.y, num, barRect.height);
+			Rect rect = new Rect(barRect.x + barRect.width * threshPct - (num - 1f), barRect.y, num, barRect.height);
 			if (threshPct < this.CurLevelPercentage)
 			{
 				GUI.color = new Color(0f, 0f, 0f, 0.9f);
@@ -274,19 +288,43 @@ namespace RimWorld
 				GUI.color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
 			}
 			Rect position = rect;
-			position.yMax = (float)(position.yMin + 4.0);
+			position.yMax = position.yMin + 4f;
 			GUI.DrawTextureWithTexCoords(position, Need.NeedUnitDividerTex, new Rect(0f, 0.5f, 1f, 0.5f));
 			Rect position2 = rect;
-			position2.yMin = (float)(position2.yMax - 4.0);
+			position2.yMin = position2.yMax - 4f;
 			GUI.DrawTextureWithTexCoords(position2, Need.NeedUnitDividerTex, new Rect(0f, 0f, 1f, 0.5f));
 			Rect position3 = rect;
 			position3.yMin = position.yMax;
 			position3.yMax = position2.yMin;
-			if (position3.height > 0.0)
+			if (position3.height > 0f)
 			{
 				GUI.DrawTextureWithTexCoords(position3, Need.NeedUnitDividerTex, new Rect(0f, 0.4f, 1f, 0.2f));
 			}
 			GUI.color = Color.white;
 		}
+
+		// Token: 0x04000D3C RID: 3388
+		public NeedDef def;
+
+		// Token: 0x04000D3D RID: 3389
+		protected Pawn pawn;
+
+		// Token: 0x04000D3E RID: 3390
+		protected float curLevelInt;
+
+		// Token: 0x04000D3F RID: 3391
+		protected List<float> threshPercents = null;
+
+		// Token: 0x04000D40 RID: 3392
+		public const float MaxDrawHeight = 70f;
+
+		// Token: 0x04000D41 RID: 3393
+		private static readonly Texture2D BarInstantMarkerTex = ContentFinder<Texture2D>.Get("UI/Misc/BarInstantMarker", true);
+
+		// Token: 0x04000D42 RID: 3394
+		private static readonly Texture2D NeedUnitDividerTex = ContentFinder<Texture2D>.Get("UI/Misc/NeedUnitDivider", true);
+
+		// Token: 0x04000D43 RID: 3395
+		private const float BarInstantMarkerSize = 12f;
 	}
 }

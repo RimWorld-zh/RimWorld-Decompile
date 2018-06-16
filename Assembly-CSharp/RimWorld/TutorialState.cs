@@ -1,20 +1,13 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020008D8 RID: 2264
 	public class TutorialState : IExposable
 	{
-		public List<Thing> startingItems = new List<Thing>();
-
-		public CellRect roomRect;
-
-		public CellRect sandbagsRect;
-
-		public int endTick = -1;
-
-		public bool introDone;
-
+		// Token: 0x060033CC RID: 13260 RVA: 0x001BA7F8 File Offset: 0x001B8BF8
 		public void ExposeData()
 		{
 			if (Scribe.mode == LoadSaveMode.Saving && this.startingItems != null)
@@ -32,6 +25,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060033CD RID: 13261 RVA: 0x001BA8E8 File Offset: 0x001B8CE8
 		public void Notify_TutorialEnding()
 		{
 			this.startingItems.Clear();
@@ -40,6 +34,7 @@ namespace RimWorld
 			this.endTick = Find.TickManager.TicksGame;
 		}
 
+		// Token: 0x060033CE RID: 13262 RVA: 0x001BA92F File Offset: 0x001B8D2F
 		public void AddStartingItem(Thing t)
 		{
 			if (!this.startingItems.Contains(t))
@@ -47,5 +42,20 @@ namespace RimWorld
 				this.startingItems.Add(t);
 			}
 		}
+
+		// Token: 0x04001BC6 RID: 7110
+		public List<Thing> startingItems = new List<Thing>();
+
+		// Token: 0x04001BC7 RID: 7111
+		public CellRect roomRect;
+
+		// Token: 0x04001BC8 RID: 7112
+		public CellRect sandbagsRect;
+
+		// Token: 0x04001BC9 RID: 7113
+		public int endTick = -1;
+
+		// Token: 0x04001BCA RID: 7114
+		public bool introDone = false;
 	}
 }

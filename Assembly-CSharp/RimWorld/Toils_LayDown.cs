@@ -1,120 +1,118 @@
+﻿using System;
 using System.Linq;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x0200009C RID: 156
 	public static class Toils_LayDown
 	{
-		private const int TicksBetweenSleepZs = 100;
-
-		private const float GroundRestEffectiveness = 0.8f;
-
-		private const int GetUpOrStartJobWhileInBedCheckInterval = 211;
-
+		// Token: 0x060003F1 RID: 1009 RVA: 0x0002E4D0 File Offset: 0x0002C8D0
 		public static Toil LayDown(TargetIndex bedOrRestSpotIndex, bool hasBed, bool lookForOtherJobs, bool canSleep = true, bool gainRestAndHealth = true)
 		{
 			Toil layDown = new Toil();
-			layDown.initAction = delegate
+			layDown.initAction = delegate()
 			{
-				Pawn actor3 = layDown.actor;
-				actor3.pather.StopDead();
-				JobDriver curDriver3 = actor3.jobs.curDriver;
+				Pawn actor = layDown.actor;
+				actor.pather.StopDead();
+				JobDriver curDriver = actor.jobs.curDriver;
 				if (hasBed)
 				{
-					Building_Bed t = (Building_Bed)actor3.CurJob.GetTarget(bedOrRestSpotIndex).Thing;
-					if (!t.OccupiedRect().Contains(actor3.Position))
+					Building_Bed t = (Building_Bed)actor.CurJob.GetTarget(bedOrRestSpotIndex).Thing;
+					if (!t.OccupiedRect().Contains(actor.Position))
 					{
-						Log.Error("Can't start LayDown toil because pawn is not in the bed. pawn=" + actor3);
-						actor3.jobs.EndCurrentJob(JobCondition.Errored, true);
+						Log.Error("Can't start LayDown toil because pawn is not in the bed. pawn=" + actor, false);
+						actor.jobs.EndCurrentJob(JobCondition.Errored, true);
 						return;
 					}
-					curDriver3.layingDown = LayingDownState.LayingInBed;
+					actor.jobs.posture = PawnPosture.LayingInBed;
 				}
 				else
 				{
-					curDriver3.layingDown = LayingDownState.LayingSurface;
+					actor.jobs.posture = PawnPosture.LayingOnGroundNormal;
 				}
-				curDriver3.asleep = false;
-				if (actor3.mindState.applyBedThoughtsTick == 0)
+				curDriver.asleep = false;
+				if (actor.mindState.applyBedThoughtsTick == 0)
 				{
-					actor3.mindState.applyBedThoughtsTick = Find.TickManager.TicksGame + Rand.Range(2500, 10000);
-					actor3.mindState.applyBedThoughtsOnLeave = false;
+					actor.mindState.applyBedThoughtsTick = Find.TickManager.TicksGame + Rand.Range(2500, 10000);
+					actor.mindState.applyBedThoughtsOnLeave = false;
 				}
-				if (actor3.ownership != null && actor3.CurrentBed() != actor3.ownership.OwnedBed)
+				if (actor.ownership != null && actor.CurrentBed() != actor.ownership.OwnedBed)
 				{
-					ThoughtUtility.RemovePositiveBedroomThoughts(actor3);
+					ThoughtUtility.RemovePositiveBedroomThoughts(actor);
 				}
 			};
-			layDown.tickAction = delegate
+			layDown.tickAction = delegate()
 			{
-				Pawn actor2 = layDown.actor;
-				Job curJob = actor2.CurJob;
-				JobDriver curDriver2 = actor2.jobs.curDriver;
+				Pawn actor = layDown.actor;
+				Job curJob = actor.CurJob;
+				JobDriver curDriver = actor.jobs.curDriver;
 				Building_Bed building_Bed = (Building_Bed)curJob.GetTarget(bedOrRestSpotIndex).Thing;
-				actor2.GainComfortFromCellIfPossible();
-				if (!curDriver2.asleep)
+				actor.GainComfortFromCellIfPossible();
+				if (!curDriver.asleep)
 				{
 					if (canSleep)
 					{
-						if (actor2.needs.rest != null && actor2.needs.rest.CurLevel < RestUtility.FallAsleepMaxLevel(actor2))
+						if ((actor.needs.rest != null && actor.needs.rest.CurLevel < RestUtility.FallAsleepMaxLevel(actor)) || curJob.forceSleep)
 						{
-							goto IL_008c;
+							curDriver.asleep = true;
 						}
-						if (curJob.forceSleep)
-							goto IL_008c;
 					}
 				}
 				else if (!canSleep)
 				{
-					curDriver2.asleep = false;
+					curDriver.asleep = false;
 				}
-				else if ((actor2.needs.rest == null || actor2.needs.rest.CurLevel >= RestUtility.WakeThreshold(actor2)) && !curJob.forceSleep)
+				else if ((actor.needs.rest == null || actor.needs.rest.CurLevel >= RestUtility.WakeThreshold(actor)) && !curJob.forceSleep)
 				{
-					curDriver2.asleep = false;
+					curDriver.asleep = false;
 				}
-				goto IL_00ec;
-				IL_00ec:
-				if (curDriver2.asleep && gainRestAndHealth && actor2.needs.rest != null)
+				if (curDriver.asleep)
 				{
-					float num = (float)((building_Bed == null || !building_Bed.def.statBases.StatListContains(StatDefOf.BedRestEffectiveness)) ? 0.800000011920929 : building_Bed.GetStatValue(StatDefOf.BedRestEffectiveness, true));
-					float num2 = RestUtility.PawnHealthRestEffectivenessFactor(actor2);
-					num = (float)(0.699999988079071 * num + 0.30000001192092896 * num * num2);
-					actor2.needs.rest.TickResting(num);
-				}
-				if (actor2.mindState.applyBedThoughtsTick != 0 && actor2.mindState.applyBedThoughtsTick <= Find.TickManager.TicksGame)
-				{
-					Toils_LayDown.ApplyBedThoughts(actor2);
-					actor2.mindState.applyBedThoughtsTick += 60000;
-					actor2.mindState.applyBedThoughtsOnLeave = true;
-				}
-				if (actor2.IsHashIntervalTick(100) && !actor2.Position.Fogged(actor2.Map))
-				{
-					if (curDriver2.asleep)
+					if (gainRestAndHealth && actor.needs.rest != null)
 					{
-						MoteMaker.ThrowMetaIcon(actor2.Position, actor2.Map, ThingDefOf.Mote_SleepZ);
-					}
-					if (gainRestAndHealth && actor2.health.hediffSet.GetNaturallyHealingInjuredParts().Any())
-					{
-						MoteMaker.ThrowMetaIcon(actor2.Position, actor2.Map, ThingDefOf.Mote_HealingCross);
+						float restEffectiveness;
+						if (building_Bed != null && building_Bed.def.statBases.StatListContains(StatDefOf.BedRestEffectiveness))
+						{
+							restEffectiveness = building_Bed.GetStatValue(StatDefOf.BedRestEffectiveness, true);
+						}
+						else
+						{
+							restEffectiveness = 0.8f;
+						}
+						actor.needs.rest.TickResting(restEffectiveness);
 					}
 				}
-				if (actor2.ownership != null && building_Bed != null && !building_Bed.Medical && !building_Bed.owners.Contains(actor2))
+				if (actor.mindState.applyBedThoughtsTick != 0 && actor.mindState.applyBedThoughtsTick <= Find.TickManager.TicksGame)
 				{
-					if (actor2.Downed)
+					Toils_LayDown.ApplyBedThoughts(actor);
+					actor.mindState.applyBedThoughtsTick += 60000;
+					actor.mindState.applyBedThoughtsOnLeave = true;
+				}
+				if (actor.IsHashIntervalTick(100) && !actor.Position.Fogged(actor.Map))
+				{
+					if (curDriver.asleep)
 					{
-						actor2.Position = CellFinder.RandomClosewalkCellNear(actor2.Position, actor2.Map, 1, null);
+						MoteMaker.ThrowMetaIcon(actor.Position, actor.Map, ThingDefOf.Mote_SleepZ);
 					}
-					actor2.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+					if (gainRestAndHealth && actor.health.hediffSet.GetNaturallyHealingInjuredParts().Any<BodyPartRecord>())
+					{
+						MoteMaker.ThrowMetaIcon(actor.Position, actor.Map, ThingDefOf.Mote_HealingCross);
+					}
 				}
-				else if (lookForOtherJobs && actor2.IsHashIntervalTick(211))
+				if (actor.ownership != null && building_Bed != null && !building_Bed.Medical && !building_Bed.owners.Contains(actor))
 				{
-					actor2.jobs.CheckForJobOverride();
+					if (actor.Downed)
+					{
+						actor.Position = CellFinder.RandomClosewalkCellNear(actor.Position, actor.Map, 1, null);
+					}
+					actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
 				}
-				return;
-				IL_008c:
-				curDriver2.asleep = true;
-				goto IL_00ec;
+				else if (lookForOtherJobs && actor.IsHashIntervalTick(211))
+				{
+					actor.jobs.CheckForJobOverride();
+				}
 			};
 			layDown.defaultCompleteMode = ToilCompleteMode.Never;
 			if (hasBed)
@@ -129,12 +127,12 @@ namespace RimWorld
 				{
 					Toils_LayDown.ApplyBedThoughts(actor);
 				}
-				curDriver.layingDown = LayingDownState.NotLaying;
 				curDriver.asleep = false;
 			});
 			return layDown;
 		}
 
+		// Token: 0x060003F2 RID: 1010 RVA: 0x0002E590 File Offset: 0x0002C990
 		private static void ApplyBedThoughts(Pawn actor)
 		{
 			if (actor.needs.mood != null)
@@ -184,5 +182,14 @@ namespace RimWorld
 				}
 			}
 		}
+
+		// Token: 0x04000265 RID: 613
+		private const int TicksBetweenSleepZs = 100;
+
+		// Token: 0x04000266 RID: 614
+		private const float GroundRestEffectiveness = 0.8f;
+
+		// Token: 0x04000267 RID: 615
+		private const int GetUpOrStartJobWhileInBedCheckInterval = 211;
 	}
 }

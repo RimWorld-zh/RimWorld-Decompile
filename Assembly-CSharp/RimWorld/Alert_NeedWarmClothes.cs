@@ -1,41 +1,34 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200079B RID: 1947
 	public class Alert_NeedWarmClothes : Alert
 	{
-		private static List<Thing> jackets = new List<Thing>();
-
-		private static List<Thing> shirts = new List<Thing>();
-
-		private static List<Thing> pants = new List<Thing>();
-
-		private const float MedicinePerColonistThreshold = 2f;
-
-		private const int CheckNextTwelfthsCount = 3;
-
-		private const float CanShowAlertOnlyIfTempBelow = 5f;
-
+		// Token: 0x06002B16 RID: 11030 RVA: 0x0016BD12 File Offset: 0x0016A112
 		public Alert_NeedWarmClothes()
 		{
-			base.defaultLabel = "NeedWarmClothes".Translate();
-			base.defaultPriority = AlertPriority.High;
+			this.defaultLabel = "NeedWarmClothes".Translate();
+			this.defaultPriority = AlertPriority.High;
 		}
 
+		// Token: 0x06002B17 RID: 11031 RVA: 0x0016BD34 File Offset: 0x0016A134
 		private int NeededWarmClothesCount(Map map)
 		{
 			return map.mapPawns.FreeColonistsSpawnedCount;
 		}
 
+		// Token: 0x06002B18 RID: 11032 RVA: 0x0016BD54 File Offset: 0x0016A154
 		private int ColonistsWithWarmClothesCount(Map map)
 		{
 			float num = this.LowestTemperatureComing(map);
 			int num2 = 0;
-			foreach (Pawn item in map.mapPawns.FreeColonistsSpawned)
+			foreach (Pawn thing in map.mapPawns.FreeColonistsSpawned)
 			{
-				if (item.GetStatValue(StatDefOf.ComfyTemperatureMin, true) <= num)
+				if (thing.GetStatValue(StatDefOf.ComfyTemperatureMin, true) <= num)
 				{
 					num2++;
 				}
@@ -43,6 +36,7 @@ namespace RimWorld
 			return num2;
 		}
 
+		// Token: 0x06002B19 RID: 11033 RVA: 0x0016BDDC File Offset: 0x0016A1DC
 		private int FreeWarmClothesSetsCount(Map map)
 		{
 			Alert_NeedWarmClothes.jackets.Clear();
@@ -51,82 +45,98 @@ namespace RimWorld
 			List<Thing> list = map.listerThings.ThingsInGroup(ThingRequestGroup.Apparel);
 			for (int i = 0; i < list.Count; i++)
 			{
-				if (list[i].IsInAnyStorage() && !(list[i].GetStatValue(StatDefOf.Insulation_Cold, true) >= 0.0))
+				if (list[i].IsInAnyStorage())
 				{
-					if (list[i].def.apparel.bodyPartGroups.Contains(BodyPartGroupDefOf.Torso))
+					if (list[i].GetStatValue(StatDefOf.Insulation_Cold, true) > 0f)
 					{
-						if (list[i].def.apparel.layers.Contains(ApparelLayer.OnSkin))
+						if (list[i].def.apparel.bodyPartGroups.Contains(BodyPartGroupDefOf.Torso))
 						{
-							Alert_NeedWarmClothes.shirts.Add(list[i]);
+							if (list[i].def.apparel.layers.Contains(ApparelLayerDefOf.OnSkin))
+							{
+								Alert_NeedWarmClothes.shirts.Add(list[i]);
+							}
+							else
+							{
+								Alert_NeedWarmClothes.jackets.Add(list[i]);
+							}
 						}
-						else
+						if (list[i].def.apparel.bodyPartGroups.Contains(BodyPartGroupDefOf.Legs))
 						{
-							Alert_NeedWarmClothes.jackets.Add(list[i]);
+							Alert_NeedWarmClothes.pants.Add(list[i]);
 						}
-					}
-					if (list[i].def.apparel.bodyPartGroups.Contains(BodyPartGroupDefOf.Legs))
-					{
-						Alert_NeedWarmClothes.pants.Add(list[i]);
 					}
 				}
 			}
-			Alert_NeedWarmClothes.jackets.SortByDescending((Thing x) => x.GetStatValue(StatDefOf.Insulation_Cold, true));
-			Alert_NeedWarmClothes.shirts.SortByDescending((Thing x) => x.GetStatValue(StatDefOf.Insulation_Cold, true));
-			Alert_NeedWarmClothes.pants.SortByDescending((Thing x) => x.GetStatValue(StatDefOf.Insulation_Cold, true));
+			Alert_NeedWarmClothes.jackets.SortBy((Thing x) => x.GetStatValue(StatDefOf.Insulation_Cold, true));
+			Alert_NeedWarmClothes.shirts.SortBy((Thing x) => x.GetStatValue(StatDefOf.Insulation_Cold, true));
+			Alert_NeedWarmClothes.pants.SortBy((Thing x) => x.GetStatValue(StatDefOf.Insulation_Cold, true));
 			float num = ThingDefOf.Human.GetStatValueAbstract(StatDefOf.ComfyTemperatureMin, null) - this.LowestTemperatureComing(map);
-			if (num <= 0.0)
+			int result;
+			if (num <= 0f)
 			{
-				return GenMath.Max(Alert_NeedWarmClothes.jackets.Count, Alert_NeedWarmClothes.shirts.Count, Alert_NeedWarmClothes.pants.Count);
+				result = GenMath.Max(Alert_NeedWarmClothes.jackets.Count, Alert_NeedWarmClothes.shirts.Count, Alert_NeedWarmClothes.pants.Count);
 			}
-			int num2 = 0;
-			while (true)
+			else
 			{
-				if (!Alert_NeedWarmClothes.jackets.Any() && !Alert_NeedWarmClothes.shirts.Any() && !Alert_NeedWarmClothes.pants.Any())
-					break;
-				float num3 = 0f;
-				if (Alert_NeedWarmClothes.jackets.Any())
+				int num2 = 0;
+				while (Alert_NeedWarmClothes.jackets.Any<Thing>() || Alert_NeedWarmClothes.shirts.Any<Thing>() || Alert_NeedWarmClothes.pants.Any<Thing>())
 				{
-					Thing thing = Alert_NeedWarmClothes.jackets[Alert_NeedWarmClothes.jackets.Count - 1];
-					Alert_NeedWarmClothes.jackets.RemoveLast();
-					float num4 = (float)(0.0 - thing.GetStatValue(StatDefOf.Insulation_Cold, true));
-					num3 += num4;
-				}
-				if (num3 < num && Alert_NeedWarmClothes.shirts.Any())
-				{
-					Thing thing2 = Alert_NeedWarmClothes.shirts[Alert_NeedWarmClothes.shirts.Count - 1];
-					Alert_NeedWarmClothes.shirts.RemoveLast();
-					float num5 = (float)(0.0 - thing2.GetStatValue(StatDefOf.Insulation_Cold, true));
-					num3 += num5;
-				}
-				if (num3 < num && Alert_NeedWarmClothes.pants.Any())
-				{
-					for (int j = 0; j < Alert_NeedWarmClothes.pants.Count; j++)
+					float num3 = 0f;
+					if (Alert_NeedWarmClothes.jackets.Any<Thing>())
 					{
-						float num6 = (float)(0.0 - Alert_NeedWarmClothes.pants[j].GetStatValue(StatDefOf.Insulation_Cold, true));
-						if (num6 + num3 >= num)
+						Thing thing = Alert_NeedWarmClothes.jackets[Alert_NeedWarmClothes.jackets.Count - 1];
+						Alert_NeedWarmClothes.jackets.RemoveLast<Thing>();
+						num3 += thing.GetStatValue(StatDefOf.Insulation_Cold, true);
+					}
+					if (num3 < num && Alert_NeedWarmClothes.shirts.Any<Thing>())
+					{
+						Thing thing2 = Alert_NeedWarmClothes.shirts[Alert_NeedWarmClothes.shirts.Count - 1];
+						Alert_NeedWarmClothes.shirts.RemoveLast<Thing>();
+						num3 += thing2.GetStatValue(StatDefOf.Insulation_Cold, true);
+					}
+					if (num3 < num && Alert_NeedWarmClothes.pants.Any<Thing>())
+					{
+						for (int j = 0; j < Alert_NeedWarmClothes.pants.Count; j++)
 						{
-							num3 += num6;
-							Alert_NeedWarmClothes.pants.RemoveAt(j);
-							break;
+							float statValue = Alert_NeedWarmClothes.pants[j].GetStatValue(StatDefOf.Insulation_Cold, true);
+							if (statValue + num3 >= num)
+							{
+								num3 += statValue;
+								Alert_NeedWarmClothes.pants.RemoveAt(j);
+								break;
+							}
 						}
 					}
+					if (num3 < num)
+					{
+						break;
+					}
+					num2++;
 				}
-				if (!(num3 >= num))
-					break;
-				num2++;
+				Alert_NeedWarmClothes.jackets.Clear();
+				Alert_NeedWarmClothes.shirts.Clear();
+				Alert_NeedWarmClothes.pants.Clear();
+				result = num2;
 			}
-			return num2;
+			return result;
 		}
 
+		// Token: 0x06002B1A RID: 11034 RVA: 0x0016C158 File Offset: 0x0016A558
 		private int MissingWarmClothesCount(Map map)
 		{
+			int result;
 			if (this.LowestTemperatureComing(map) >= ThingDefOf.Human.GetStatValueAbstract(StatDefOf.ComfyTemperatureMin, null))
 			{
-				return 0;
+				result = 0;
 			}
-			return Mathf.Max(this.NeededWarmClothesCount(map) - this.ColonistsWithWarmClothesCount(map) - this.FreeWarmClothesSetsCount(map), 0);
+			else
+			{
+				result = Mathf.Max(this.NeededWarmClothesCount(map) - this.ColonistsWithWarmClothesCount(map) - this.FreeWarmClothesSetsCount(map), 0);
+			}
+			return result;
 		}
 
+		// Token: 0x06002B1B RID: 11035 RVA: 0x0016C1B0 File Offset: 0x0016A5B0
 		private float LowestTemperatureComing(Map map)
 		{
 			Twelfth twelfth = GenLocalDate.Twelfth(map);
@@ -139,56 +149,106 @@ namespace RimWorld
 			return Mathf.Min(a, map.mapTemperature.OutdoorTemp);
 		}
 
+		// Token: 0x06002B1C RID: 11036 RVA: 0x0016C210 File Offset: 0x0016A610
 		public override string GetExplanation()
 		{
 			Map map = this.MapWithMissingWarmClothes();
+			string result;
 			if (map == null)
 			{
-				return string.Empty;
+				result = "";
 			}
-			int num = this.MissingWarmClothesCount(map);
-			if (num == this.NeededWarmClothesCount(map))
+			else
 			{
-				return "NeedWarmClothesDesc1All".Translate() + "\n\n" + "NeedWarmClothesDesc2".Translate(this.LowestTemperatureComing(map).ToStringTemperature("F0"));
+				int num = this.MissingWarmClothesCount(map);
+				if (num == this.NeededWarmClothesCount(map))
+				{
+					result = "NeedWarmClothesDesc1All".Translate() + "\n\n" + "NeedWarmClothesDesc2".Translate(new object[]
+					{
+						this.LowestTemperatureComing(map).ToStringTemperature("F0")
+					});
+				}
+				else
+				{
+					result = "NeedWarmClothesDesc1".Translate(new object[]
+					{
+						num
+					}) + "\n\n" + "NeedWarmClothesDesc2".Translate(new object[]
+					{
+						this.LowestTemperatureComing(map).ToStringTemperature("F0")
+					});
+				}
 			}
-			return "NeedWarmClothesDesc1".Translate(num) + "\n\n" + "NeedWarmClothesDesc2".Translate(this.LowestTemperatureComing(map).ToStringTemperature("F0"));
+			return result;
 		}
 
+		// Token: 0x06002B1D RID: 11037 RVA: 0x0016C2D8 File Offset: 0x0016A6D8
 		public override AlertReport GetReport()
 		{
 			Map map = this.MapWithMissingWarmClothes();
+			AlertReport result;
 			if (map == null)
 			{
-				return false;
+				result = false;
 			}
-			float num = this.LowestTemperatureComing(map);
-			foreach (Pawn item in map.mapPawns.FreeColonistsSpawned)
+			else
 			{
-				if (item.GetStatValue(StatDefOf.ComfyTemperatureMin, true) > num)
+				float num = this.LowestTemperatureComing(map);
+				foreach (Pawn pawn in map.mapPawns.FreeColonistsSpawned)
 				{
-					return item;
+					if (pawn.GetStatValue(StatDefOf.ComfyTemperatureMin, true) > num)
+					{
+						return pawn;
+					}
 				}
+				result = true;
 			}
-			return true;
+			return result;
 		}
 
+		// Token: 0x06002B1E RID: 11038 RVA: 0x0016C384 File Offset: 0x0016A784
 		private Map MapWithMissingWarmClothes()
 		{
 			List<Map> maps = Find.Maps;
 			for (int i = 0; i < maps.Count; i++)
 			{
 				Map map = maps[i];
-				if (map.IsPlayerHome && !(this.LowestTemperatureComing(map) >= 5.0) && this.MissingWarmClothesCount(map) > 0)
+				if (map.IsPlayerHome)
 				{
-					return map;
+					if (this.LowestTemperatureComing(map) < 5f)
+					{
+						if (this.MissingWarmClothesCount(map) > 0)
+						{
+							return map;
+						}
+					}
 				}
 			}
 			return null;
 		}
 
+		// Token: 0x06002B1F RID: 11039 RVA: 0x0016C400 File Offset: 0x0016A800
 		private float GetTemperature(Twelfth twelfth, Map map)
 		{
 			return GenTemperature.AverageTemperatureAtTileForTwelfth(map.Tile, twelfth);
 		}
+
+		// Token: 0x0400172D RID: 5933
+		private static List<Thing> jackets = new List<Thing>();
+
+		// Token: 0x0400172E RID: 5934
+		private static List<Thing> shirts = new List<Thing>();
+
+		// Token: 0x0400172F RID: 5935
+		private static List<Thing> pants = new List<Thing>();
+
+		// Token: 0x04001730 RID: 5936
+		private const float MedicinePerColonistThreshold = 2f;
+
+		// Token: 0x04001731 RID: 5937
+		private const int CheckNextTwelfthsCount = 3;
+
+		// Token: 0x04001732 RID: 5938
+		private const float CanShowAlertOnlyIfTempBelow = 5f;
 	}
 }

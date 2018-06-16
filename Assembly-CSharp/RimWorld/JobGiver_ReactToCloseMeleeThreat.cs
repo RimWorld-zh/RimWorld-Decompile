@@ -1,63 +1,78 @@
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x020000EC RID: 236
 	public class JobGiver_ReactToCloseMeleeThreat : ThinkNode_JobGiver
 	{
-		private const int MaxMeleeChaseTicks = 200;
-
+		// Token: 0x0600050A RID: 1290 RVA: 0x00037FB4 File Offset: 0x000363B4
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Pawn meleeThreat = pawn.mindState.meleeThreat;
+			Job result;
 			if (meleeThreat == null)
 			{
-				return null;
+				result = null;
 			}
-			if (this.IsHunting(pawn, meleeThreat))
+			else if (this.IsHunting(pawn, meleeThreat))
 			{
-				return null;
+				result = null;
 			}
-			if (PawnUtility.PlayerForcedJobNowOrSoon(pawn))
+			else if (PawnUtility.PlayerForcedJobNowOrSoon(pawn))
 			{
-				return null;
+				result = null;
 			}
-			if (pawn.playerSettings != null && pawn.playerSettings.UsesConfigurableHostilityResponse && pawn.playerSettings.hostilityResponse != HostilityResponseMode.Attack)
+			else if (pawn.playerSettings != null && pawn.playerSettings.UsesConfigurableHostilityResponse && pawn.playerSettings.hostilityResponse != HostilityResponseMode.Attack)
 			{
-				return null;
+				result = null;
 			}
-			if (!pawn.mindState.MeleeThreatStillThreat)
+			else if (!pawn.mindState.MeleeThreatStillThreat)
 			{
 				pawn.mindState.meleeThreat = null;
-				return null;
+				result = null;
 			}
-			if (pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
+			else if (pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
 			{
-				return null;
+				result = null;
 			}
-			Job job = new Job(JobDefOf.AttackMelee, meleeThreat);
-			job.maxNumMeleeAttacks = 1;
-			job.expiryInterval = 200;
-			return job;
+			else
+			{
+				result = new Job(JobDefOf.AttackMelee, meleeThreat)
+				{
+					maxNumMeleeAttacks = 1,
+					expiryInterval = 200
+				};
+			}
+			return result;
 		}
 
+		// Token: 0x0600050B RID: 1291 RVA: 0x000380A8 File Offset: 0x000364A8
 		private bool IsHunting(Pawn pawn, Pawn prey)
 		{
+			bool result;
 			if (pawn.CurJob == null)
 			{
-				return false;
+				result = false;
 			}
-			JobDriver_Hunt jobDriver_Hunt = pawn.jobs.curDriver as JobDriver_Hunt;
-			if (jobDriver_Hunt != null)
+			else
 			{
-				return jobDriver_Hunt.Victim == prey;
+				JobDriver_Hunt jobDriver_Hunt = pawn.jobs.curDriver as JobDriver_Hunt;
+				if (jobDriver_Hunt != null)
+				{
+					result = (jobDriver_Hunt.Victim == prey);
+				}
+				else
+				{
+					JobDriver_PredatorHunt jobDriver_PredatorHunt = pawn.jobs.curDriver as JobDriver_PredatorHunt;
+					result = (jobDriver_PredatorHunt != null && jobDriver_PredatorHunt.Prey == prey);
+				}
 			}
-			JobDriver_PredatorHunt jobDriver_PredatorHunt = pawn.jobs.curDriver as JobDriver_PredatorHunt;
-			if (jobDriver_PredatorHunt != null)
-			{
-				return jobDriver_PredatorHunt.Prey == prey;
-			}
-			return false;
+			return result;
 		}
+
+		// Token: 0x040002CA RID: 714
+		private const int MaxMeleeChaseTicks = 200;
 	}
 }

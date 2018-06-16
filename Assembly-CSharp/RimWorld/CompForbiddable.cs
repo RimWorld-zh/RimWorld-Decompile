@@ -1,12 +1,15 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000714 RID: 1812
 	public class CompForbiddable : ThingComp
 	{
-		private bool forbiddenInt;
-
+		// Token: 0x170005FD RID: 1533
+		// (get) Token: 0x060027C1 RID: 10177 RVA: 0x00154274 File Offset: 0x00152674
+		// (set) Token: 0x060027C2 RID: 10178 RVA: 0x00154290 File Offset: 0x00152690
 		public bool Forbidden
 		{
 			get
@@ -18,72 +21,78 @@ namespace RimWorld
 				if (value != this.forbiddenInt)
 				{
 					this.forbiddenInt = value;
-					if (base.parent.Spawned)
+					if (this.parent.Spawned)
 					{
 						if (this.forbiddenInt)
 						{
-							base.parent.Map.listerHaulables.Notify_Forbidden(base.parent);
+							this.parent.Map.listerHaulables.Notify_Forbidden(this.parent);
+							this.parent.Map.listerMergeables.Notify_Forbidden(this.parent);
 						}
 						else
 						{
-							base.parent.Map.listerHaulables.Notify_Unforbidden(base.parent);
+							this.parent.Map.listerHaulables.Notify_Unforbidden(this.parent);
+							this.parent.Map.listerMergeables.Notify_Unforbidden(this.parent);
 						}
-						if (base.parent is Building_Door)
+						if (this.parent is Building_Door)
 						{
-							base.parent.Map.reachability.ClearCache();
+							this.parent.Map.reachability.ClearCache();
 						}
 					}
 				}
 			}
 		}
 
+		// Token: 0x060027C3 RID: 10179 RVA: 0x0015436D File Offset: 0x0015276D
 		public override void PostExposeData()
 		{
 			Scribe_Values.Look<bool>(ref this.forbiddenInt, "forbidden", false, false);
 		}
 
+		// Token: 0x060027C4 RID: 10180 RVA: 0x00154384 File Offset: 0x00152784
 		public override void PostDraw()
 		{
 			if (this.forbiddenInt)
 			{
-				if (base.parent is Blueprint || base.parent is Frame)
+				if (this.parent is Blueprint || this.parent is Frame)
 				{
-					if (base.parent.def.size.x > 1 || base.parent.def.size.z > 1)
+					if (this.parent.def.size.x > 1 || this.parent.def.size.z > 1)
 					{
-						base.parent.Map.overlayDrawer.DrawOverlay(base.parent, OverlayTypes.ForbiddenBig);
+						this.parent.Map.overlayDrawer.DrawOverlay(this.parent, OverlayTypes.ForbiddenBig);
 					}
 					else
 					{
-						base.parent.Map.overlayDrawer.DrawOverlay(base.parent, OverlayTypes.Forbidden);
+						this.parent.Map.overlayDrawer.DrawOverlay(this.parent, OverlayTypes.Forbidden);
 					}
 				}
-				else if (base.parent.def.category == ThingCategory.Building)
+				else if (this.parent.def.category == ThingCategory.Building)
 				{
-					base.parent.Map.overlayDrawer.DrawOverlay(base.parent, OverlayTypes.ForbiddenBig);
+					this.parent.Map.overlayDrawer.DrawOverlay(this.parent, OverlayTypes.ForbiddenBig);
 				}
 				else
 				{
-					base.parent.Map.overlayDrawer.DrawOverlay(base.parent, OverlayTypes.Forbidden);
+					this.parent.Map.overlayDrawer.DrawOverlay(this.parent, OverlayTypes.Forbidden);
 				}
 			}
 		}
 
+		// Token: 0x060027C5 RID: 10181 RVA: 0x0015448E File Offset: 0x0015288E
 		public override void PostSplitOff(Thing piece)
 		{
 			piece.SetForbidden(this.forbiddenInt, true);
 		}
 
+		// Token: 0x060027C6 RID: 10182 RVA: 0x001544A0 File Offset: 0x001528A0
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
-			if (base.parent is Building && base.parent.Faction != Faction.OfPlayer)
-				yield break;
-			Command_Toggle com = new Command_Toggle
+			if (this.parent is Building && this.parent.Faction != Faction.OfPlayer)
 			{
-				hotKey = KeyBindingDefOf.CommandItemForbid,
-				icon = TexCommand.Forbidden,
-				isActive = (() => !((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0086: stateMachine*/)._0024this.forbiddenInt),
-				defaultLabel = "CommandForbid".Translate()
-			};
+				yield break;
+			}
+			Command_Toggle com = new Command_Toggle();
+			com.hotKey = KeyBindingDefOf.Command_ItemForbid;
+			com.icon = TexCommand.Forbidden;
+			com.isActive = (() => !this.forbiddenInt);
+			com.defaultLabel = "CommandForbid".Translate();
 			if (this.forbiddenInt)
 			{
 				com.defaultDesc = "CommandForbiddenDesc".Translate();
@@ -92,26 +101,29 @@ namespace RimWorld
 			{
 				com.defaultDesc = "CommandNotForbiddenDesc".Translate();
 			}
-			if (base.parent.def.IsDoor)
+			if (this.parent.def.IsDoor)
 			{
 				com.tutorTag = "ToggleForbidden-Door";
-				com.toggleAction = delegate
+				com.toggleAction = delegate()
 				{
-					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_011b: stateMachine*/)._0024this.Forbidden = !((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_011b: stateMachine*/)._0024this.Forbidden;
+					this.Forbidden = !this.Forbidden;
 					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.ForbiddingDoors, KnowledgeAmount.SpecificInteraction);
 				};
 			}
 			else
 			{
 				com.tutorTag = "ToggleForbidden";
-				com.toggleAction = delegate
+				com.toggleAction = delegate()
 				{
-					((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0147: stateMachine*/)._0024this.Forbidden = !((_003CCompGetGizmosExtra_003Ec__Iterator0)/*Error near IL_0147: stateMachine*/)._0024this.Forbidden;
+					this.Forbidden = !this.Forbidden;
 					PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.Forbidding, KnowledgeAmount.SpecificInteraction);
 				};
 			}
-			yield return (Gizmo)com;
-			/*Error: Unable to find new state assignment for yield return*/;
+			yield return com;
+			yield break;
 		}
+
+		// Token: 0x040015DE RID: 5598
+		private bool forbiddenInt = false;
 	}
 }

@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
@@ -5,10 +6,10 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
+	// Token: 0x020001B7 RID: 439
 	public class ThinkNode_JoinVoluntarilyJoinableLord : ThinkNode_Priority
 	{
-		public ThinkTreeDutyHook dutyHook;
-
+		// Token: 0x06000922 RID: 2338 RVA: 0x000559FC File Offset: 0x00053DFC
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			ThinkNode_JoinVoluntarilyJoinableLord thinkNode_JoinVoluntarilyJoinableLord = (ThinkNode_JoinVoluntarilyJoinableLord)base.DeepCopy(resolve);
@@ -16,30 +17,39 @@ namespace RimWorld
 			return thinkNode_JoinVoluntarilyJoinableLord;
 		}
 
+		// Token: 0x06000923 RID: 2339 RVA: 0x00055A2C File Offset: 0x00053E2C
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			this.CheckLeaveCurrentVoluntarilyJoinableLord(pawn);
 			this.JoinVoluntarilyJoinableLord(pawn);
-			if (pawn.GetLord() != null && (pawn.mindState.duty == null || pawn.mindState.duty.def.hook == this.dutyHook))
+			if (pawn.GetLord() != null)
 			{
-				return base.TryIssueJobPackage(pawn, jobParams);
+				if (pawn.mindState.duty == null || pawn.mindState.duty.def.hook == this.dutyHook)
+				{
+					return base.TryIssueJobPackage(pawn, jobParams);
+				}
 			}
 			return ThinkResult.NoJob;
 		}
 
+		// Token: 0x06000924 RID: 2340 RVA: 0x00055AA0 File Offset: 0x00053EA0
 		private void CheckLeaveCurrentVoluntarilyJoinableLord(Pawn pawn)
 		{
 			Lord lord = pawn.GetLord();
 			if (lord != null)
 			{
 				LordJob_VoluntarilyJoinable lordJob_VoluntarilyJoinable = lord.LordJob as LordJob_VoluntarilyJoinable;
-				if (lordJob_VoluntarilyJoinable != null && lordJob_VoluntarilyJoinable.VoluntaryJoinPriorityFor(pawn) <= 0.0)
+				if (lordJob_VoluntarilyJoinable != null)
 				{
-					lord.Notify_PawnLost(pawn, PawnLostCondition.LeftVoluntarily);
+					if (lordJob_VoluntarilyJoinable.VoluntaryJoinPriorityFor(pawn) <= 0f)
+					{
+						lord.Notify_PawnLost(pawn, PawnLostCondition.LeftVoluntarily);
+					}
 				}
 			}
 		}
 
+		// Token: 0x06000925 RID: 2341 RVA: 0x00055AF0 File Offset: 0x00053EF0
 		private void JoinVoluntarilyJoinableLord(Pawn pawn)
 		{
 			Lord lord = pawn.GetLord();
@@ -49,7 +59,9 @@ namespace RimWorld
 			{
 				LordJob_VoluntarilyJoinable lordJob_VoluntarilyJoinable = lord.LordJob as LordJob_VoluntarilyJoinable;
 				if (lordJob_VoluntarilyJoinable == null)
+				{
 					return;
+				}
 				lord2 = lord;
 				num = lordJob_VoluntarilyJoinable.VoluntaryJoinPriorityFor(pawn);
 			}
@@ -57,13 +69,19 @@ namespace RimWorld
 			for (int i = 0; i < lords.Count; i++)
 			{
 				LordJob_VoluntarilyJoinable lordJob_VoluntarilyJoinable2 = lords[i].LordJob as LordJob_VoluntarilyJoinable;
-				if (lordJob_VoluntarilyJoinable2 != null && lords[i].CurLordToil.VoluntaryJoinDutyHookFor(pawn) == this.dutyHook)
+				if (lordJob_VoluntarilyJoinable2 != null)
 				{
-					float num2 = lordJob_VoluntarilyJoinable2.VoluntaryJoinPriorityFor(pawn);
-					if (!(num2 <= 0.0) && (lord2 == null || num2 > num))
+					if (lords[i].CurLordToil.VoluntaryJoinDutyHookFor(pawn) == this.dutyHook)
 					{
-						lord2 = lords[i];
-						num = num2;
+						float num2 = lordJob_VoluntarilyJoinable2.VoluntaryJoinPriorityFor(pawn);
+						if (num2 > 0f)
+						{
+							if (lord2 == null || num2 > num)
+							{
+								lord2 = lords[i];
+								num = num2;
+							}
+						}
 					}
 				}
 			}
@@ -76,5 +94,8 @@ namespace RimWorld
 				lord2.AddPawn(pawn);
 			}
 		}
+
+		// Token: 0x040003DB RID: 987
+		public ThinkTreeDutyHook dutyHook;
 	}
 }

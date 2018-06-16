@@ -1,179 +1,26 @@
-using RimWorld;
-using RimWorld.Planet;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using RimWorld;
+using RimWorld.Planet;
+using UnityEngine.Profiling;
 using Verse.AI;
 using Verse.AI.Group;
+using Verse.Profile;
 
 namespace Verse
 {
+	// Token: 0x02000C37 RID: 3127
 	public sealed class Map : IIncidentTarget, IThingHolder, IExposable, ILoadReferenceable
 	{
-		public MapFileCompressor compressor;
-
-		private List<Thing> loadedFullThings;
-
-		public int uniqueID = -1;
-
-		public MapInfo info = new MapInfo();
-
-		public List<MapComponent> components = new List<MapComponent>();
-
-		public ThingOwner spawnedThings;
-
-		public CellIndices cellIndices;
-
-		public ListerThings listerThings;
-
-		public ListerBuildings listerBuildings;
-
-		public MapPawns mapPawns;
-
-		public DynamicDrawManager dynamicDrawManager;
-
-		public MapDrawer mapDrawer;
-
-		public PawnDestinationReservationManager pawnDestinationReservationManager;
-
-		public TooltipGiverList tooltipGiverList;
-
-		public ReservationManager reservationManager;
-
-		public PhysicalInteractionReservationManager physicalInteractionReservationManager;
-
-		public DesignationManager designationManager;
-
-		public LordManager lordManager;
-
-		public PassingShipManager passingShipManager;
-
-		public SlotGroupManager slotGroupManager;
-
-		public DebugCellDrawer debugDrawer;
-
-		public GameConditionManager gameConditionManager;
-
-		public WeatherManager weatherManager;
-
-		public ZoneManager zoneManager;
-
-		public ResourceCounter resourceCounter;
-
-		public MapTemperature mapTemperature;
-
-		public TemperatureCache temperatureCache;
-
-		public AreaManager areaManager;
-
-		public AttackTargetsCache attackTargetsCache;
-
-		public AttackTargetReservationManager attackTargetReservationManager;
-
-		public VoluntarilyJoinableLordsStarter lordsStarter;
-
-		public ThingGrid thingGrid;
-
-		public CoverGrid coverGrid;
-
-		public EdificeGrid edificeGrid;
-
-		public FogGrid fogGrid;
-
-		public RegionGrid regionGrid;
-
-		public GlowGrid glowGrid;
-
-		public TerrainGrid terrainGrid;
-
-		public PathGrid pathGrid;
-
-		public RoofGrid roofGrid;
-
-		public FertilityGrid fertilityGrid;
-
-		public SnowGrid snowGrid;
-
-		public DeepResourceGrid deepResourceGrid;
-
-		public ExitMapGrid exitMapGrid;
-
-		public LinkGrid linkGrid;
-
-		public GlowFlooder glowFlooder;
-
-		public PowerNetManager powerNetManager;
-
-		public PowerNetGrid powerNetGrid;
-
-		public RegionMaker regionMaker;
-
-		public PathFinder pathFinder;
-
-		public PawnPathPool pawnPathPool;
-
-		public RegionAndRoomUpdater regionAndRoomUpdater;
-
-		public RegionLinkDatabase regionLinkDatabase;
-
-		public MoteCounter moteCounter;
-
-		public GatherSpotLister gatherSpotLister;
-
-		public WindManager windManager;
-
-		public ListerBuildingsRepairable listerBuildingsRepairable;
-
-		public ListerHaulables listerHaulables;
-
-		public ListerFilthInHomeArea listerFilthInHomeArea;
-
-		public Reachability reachability;
-
-		public ItemAvailability itemAvailability;
-
-		public AutoBuildRoofAreaSetter autoBuildRoofAreaSetter;
-
-		public RoofCollapseBufferResolver roofCollapseBufferResolver;
-
-		public RoofCollapseBuffer roofCollapseBuffer;
-
-		public WildSpawner wildSpawner;
-
-		public SteadyAtmosphereEffects steadyAtmosphereEffects;
-
-		public SkyManager skyManager;
-
-		public OverlayDrawer overlayDrawer;
-
-		public FloodFiller floodFiller;
-
-		public WeatherDecider weatherDecider;
-
-		public FireWatcher fireWatcher;
-
-		public DangerWatcher dangerWatcher;
-
-		public DamageWatcher damageWatcher;
-
-		public StrengthWatcher strengthWatcher;
-
-		public WealthWatcher wealthWatcher;
-
-		public RegionDirtyer regionDirtyer;
-
-		public MapCellsInRandomOrder cellsInRandomOrder;
-
-		public RememberedCameraPos rememberedCameraPos;
-
-		public MineStrikeManager mineStrikeManager;
-
-		public StoryState storyState;
-
-		public RoadInfo roadInfo;
-
-		public WaterInfo waterInfo;
-
+		// Token: 0x060044BE RID: 17598 RVA: 0x002418F1 File Offset: 0x0023FCF1
+		public Map()
+		{
+			MapLeakTracker.AddReference(this);
+		}
+
+		// Token: 0x17000AD3 RID: 2771
+		// (get) Token: 0x060044BF RID: 17599 RVA: 0x00241920 File Offset: 0x0023FD20
 		public int Index
 		{
 			get
@@ -182,6 +29,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000AD4 RID: 2772
+		// (get) Token: 0x060044C0 RID: 17600 RVA: 0x00241940 File Offset: 0x0023FD40
 		public IntVec3 Size
 		{
 			get
@@ -190,17 +39,18 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000AD5 RID: 2773
+		// (get) Token: 0x060044C1 RID: 17601 RVA: 0x00241960 File Offset: 0x0023FD60
 		public IntVec3 Center
 		{
 			get
 			{
-				IntVec3 size = this.Size;
-				int newX = size.x / 2;
-				IntVec3 size2 = this.Size;
-				return new IntVec3(newX, 0, size2.z / 2);
+				return new IntVec3(this.Size.x / 2, 0, this.Size.z / 2);
 			}
 		}
 
+		// Token: 0x17000AD6 RID: 2774
+		// (get) Token: 0x060044C2 RID: 17602 RVA: 0x0024199C File Offset: 0x0023FD9C
 		public Faction ParentFaction
 		{
 			get
@@ -209,17 +59,18 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000AD7 RID: 2775
+		// (get) Token: 0x060044C3 RID: 17603 RVA: 0x002419C4 File Offset: 0x0023FDC4
 		public int Area
 		{
 			get
 			{
-				IntVec3 size = this.Size;
-				int x = size.x;
-				IntVec3 size2 = this.Size;
-				return x * size2.z;
+				return this.Size.x * this.Size.z;
 			}
 		}
 
+		// Token: 0x17000AD8 RID: 2776
+		// (get) Token: 0x060044C4 RID: 17604 RVA: 0x002419F8 File Offset: 0x0023FDF8
 		public IThingHolder ParentHolder
 		{
 			get
@@ -228,53 +79,38 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000AD9 RID: 2777
+		// (get) Token: 0x060044C5 RID: 17605 RVA: 0x00241A18 File Offset: 0x0023FE18
 		public IEnumerable<IntVec3> AllCells
 		{
 			get
 			{
-				int z = 0;
-				while (true)
+				for (int z = 0; z < this.Size.z; z++)
 				{
-					int num = z;
-					IntVec3 size = this.Size;
-					if (num < size.z)
+					for (int y = 0; y < this.Size.y; y++)
 					{
-						int y = 0;
-						while (true)
+						for (int x = 0; x < this.Size.x; x++)
 						{
-							int num2 = y;
-							IntVec3 size2 = this.Size;
-							if (num2 < size2.y)
-							{
-								int x = 0;
-								int num3 = x;
-								IntVec3 size3 = this.Size;
-								if (num3 < size3.x)
-								{
-									yield return new IntVec3(x, y, z);
-									/*Error: Unable to find new state assignment for yield return*/;
-								}
-								y++;
-								continue;
-							}
-							break;
+							yield return new IntVec3(x, y, z);
 						}
-						z++;
-						continue;
 					}
-					break;
 				}
+				yield break;
 			}
 		}
 
+		// Token: 0x17000ADA RID: 2778
+		// (get) Token: 0x060044C6 RID: 17606 RVA: 0x00241A44 File Offset: 0x0023FE44
 		public bool IsPlayerHome
 		{
 			get
 			{
-				return this.info.parent is FactionBase && this.info.parent.Faction == Faction.OfPlayer;
+				return this.info != null && this.info.parent is FactionBase && this.info.parent.Faction == Faction.OfPlayer;
 			}
 		}
 
+		// Token: 0x17000ADB RID: 2779
+		// (get) Token: 0x060044C7 RID: 17607 RVA: 0x00241A94 File Offset: 0x0023FE94
 		public bool IsTempIncidentMap
 		{
 			get
@@ -283,6 +119,18 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x060044C8 RID: 17608 RVA: 0x00241AC0 File Offset: 0x0023FEC0
+		public IEnumerator<IntVec3> GetEnumerator()
+		{
+			foreach (IntVec3 c in this.AllCells)
+			{
+				yield return c;
+			}
+			yield break;
+		}
+
+		// Token: 0x17000ADC RID: 2780
+		// (get) Token: 0x060044C9 RID: 17609 RVA: 0x00241AE4 File Offset: 0x0023FEE4
 		public int Tile
 		{
 			get
@@ -291,6 +139,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000ADD RID: 2781
+		// (get) Token: 0x060044CA RID: 17610 RVA: 0x00241B04 File Offset: 0x0023FF04
 		public Tile TileInfo
 		{
 			get
@@ -299,6 +149,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000ADE RID: 2782
+		// (get) Token: 0x060044CB RID: 17611 RVA: 0x00241B2C File Offset: 0x0023FF2C
 		public BiomeDef Biome
 		{
 			get
@@ -307,6 +159,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000ADF RID: 2783
+		// (get) Token: 0x060044CC RID: 17612 RVA: 0x00241B4C File Offset: 0x0023FF4C
 		public StoryState StoryState
 		{
 			get
@@ -315,6 +169,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000AE0 RID: 2784
+		// (get) Token: 0x060044CD RID: 17613 RVA: 0x00241B68 File Offset: 0x0023FF68
 		public GameConditionManager GameConditionManager
 		{
 			get
@@ -323,31 +179,49 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000AE1 RID: 2785
+		// (get) Token: 0x060044CE RID: 17614 RVA: 0x00241B84 File Offset: 0x0023FF84
 		public float PlayerWealthForStoryteller
 		{
 			get
 			{
+				float result;
 				if (this.IsPlayerHome)
 				{
-					return (float)(this.wealthWatcher.WealthItems + this.wealthWatcher.WealthBuildings * 0.5);
+					result = this.wealthWatcher.WealthItems + this.wealthWatcher.WealthBuildings * 0.5f + this.wealthWatcher.WealthTameAnimals;
 				}
-				float num = 0f;
-				foreach (Pawn freeColonist in this.mapPawns.FreeColonists)
+				else
 				{
-					num += WealthWatcher.GetEquipmentApparelAndInventoryWealth(freeColonist);
+					float num = 0f;
+					foreach (Pawn pawn in this.mapPawns.PawnsInFaction(Faction.OfPlayer))
+					{
+						if (pawn.IsFreeColonist)
+						{
+							num += WealthWatcher.GetEquipmentApparelAndInventoryWealth(pawn);
+						}
+						if (pawn.RaceProps.Animal)
+						{
+							num += pawn.MarketValue;
+						}
+					}
+					result = num;
 				}
-				return num;
+				return result;
 			}
 		}
 
-		public IEnumerable<Pawn> FreeColonistsForStoryteller
+		// Token: 0x17000AE2 RID: 2786
+		// (get) Token: 0x060044CF RID: 17615 RVA: 0x00241C5C File Offset: 0x0024005C
+		public IEnumerable<Pawn> PlayerPawnsForStoryteller
 		{
 			get
 			{
-				return this.mapPawns.FreeColonists;
+				return this.mapPawns.PawnsInFaction(Faction.OfPlayer);
 			}
 		}
 
+		// Token: 0x17000AE3 RID: 2787
+		// (get) Token: 0x060044D0 RID: 17616 RVA: 0x00241C84 File Offset: 0x00240084
 		public FloatRange IncidentPointsRandomFactorRange
 		{
 			get
@@ -356,27 +230,23 @@ namespace Verse
 			}
 		}
 
-		public IEnumerator<IntVec3> GetEnumerator()
+		// Token: 0x17000AE4 RID: 2788
+		// (get) Token: 0x060044D1 RID: 17617 RVA: 0x00241CA0 File Offset: 0x002400A0
+		public MapParent Parent
 		{
-			using (IEnumerator<IntVec3> enumerator = this.AllCells.GetEnumerator())
+			get
 			{
-				if (enumerator.MoveNext())
-				{
-					IntVec3 c = enumerator.Current;
-					yield return c;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				return this.info.parent;
 			}
-			yield break;
-			IL_00b9:
-			/*Error near IL_00ba: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x060044D2 RID: 17618 RVA: 0x00241CC0 File Offset: 0x002400C0
 		public IEnumerable<IncidentTargetTypeDef> AcceptedTypes()
 		{
 			return this.info.parent.AcceptedTypes();
 		}
 
+		// Token: 0x060044D3 RID: 17619 RVA: 0x00241CE8 File Offset: 0x002400E8
 		public void ConstructComponents()
 		{
 			this.spawnedThings = new ThingOwner<Thing>(this);
@@ -394,7 +264,7 @@ namespace Verse
 			this.lordManager = new LordManager(this);
 			this.debugDrawer = new DebugCellDrawer();
 			this.passingShipManager = new PassingShipManager(this);
-			this.slotGroupManager = new SlotGroupManager(this);
+			this.haulDestinationManager = new HaulDestinationManager(this);
 			this.gameConditionManager = new GameConditionManager(this);
 			this.weatherManager = new WeatherManager(this);
 			this.zoneManager = new ZoneManager(this);
@@ -408,6 +278,7 @@ namespace Verse
 			this.thingGrid = new ThingGrid(this);
 			this.coverGrid = new CoverGrid(this);
 			this.edificeGrid = new EdificeGrid(this);
+			this.blueprintGrid = new BlueprintGrid(this);
 			this.fogGrid = new FogGrid(this);
 			this.glowGrid = new GlowGrid(this);
 			this.regionGrid = new RegionGrid(this);
@@ -432,14 +303,16 @@ namespace Verse
 			this.windManager = new WindManager(this);
 			this.listerBuildingsRepairable = new ListerBuildingsRepairable();
 			this.listerHaulables = new ListerHaulables(this);
+			this.listerMergeables = new ListerMergeables(this);
 			this.listerFilthInHomeArea = new ListerFilthInHomeArea(this);
 			this.reachability = new Reachability(this);
 			this.itemAvailability = new ItemAvailability(this);
 			this.autoBuildRoofAreaSetter = new AutoBuildRoofAreaSetter(this);
 			this.roofCollapseBufferResolver = new RoofCollapseBufferResolver(this);
 			this.roofCollapseBuffer = new RoofCollapseBuffer();
-			this.wildSpawner = new WildSpawner(this);
-			this.steadyAtmosphereEffects = new SteadyAtmosphereEffects(this);
+			this.wildAnimalSpawner = new WildAnimalSpawner(this);
+			this.wildPlantSpawner = new WildPlantSpawner(this);
+			this.steadyEnvironmentEffects = new SteadyEnvironmentEffects(this);
 			this.skyManager = new SkyManager(this);
 			this.overlayDrawer = new OverlayDrawer();
 			this.floodFiller = new FloodFiller(this);
@@ -454,10 +327,12 @@ namespace Verse
 			this.rememberedCameraPos = new RememberedCameraPos(this);
 			this.mineStrikeManager = new MineStrikeManager();
 			this.storyState = new StoryState(this);
+			this.retainedCaravanData = new RetainedCaravanData(this);
 			this.components.Clear();
 			this.FillComponents();
 		}
 
+		// Token: 0x060044D4 RID: 17620 RVA: 0x002420B0 File Offset: 0x002404B0
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.uniqueID, "uniqueID", -1, false);
@@ -473,27 +348,33 @@ namespace Verse
 				{
 					try
 					{
-						foreach (Thing allThing in this.listerThings.AllThings)
+						foreach (Thing thing in this.listerThings.AllThings)
 						{
 							try
 							{
-								if (allThing.def.isSaveable && !allThing.IsSaveCompressible())
+								if (thing.def.isSaveable && !thing.IsSaveCompressible())
 								{
-									if (hashSet.Contains(allThing.ThingID))
+									if (hashSet.Contains(thing.ThingID))
 									{
-										Log.Error("Saving Thing with already-used ID " + allThing.ThingID);
+										Log.Error("Saving Thing with already-used ID " + thing.ThingID, false);
 									}
 									else
 									{
-										hashSet.Add(allThing.ThingID);
+										hashSet.Add(thing.ThingID);
 									}
-									Thing thing = allThing;
-									Scribe_Deep.Look(ref thing, "thing");
+									Thing thing2 = thing;
+									Scribe_Deep.Look<Thing>(ref thing2, "thing", new object[0]);
 								}
 							}
 							catch (Exception ex)
 							{
-								Log.Error("Exception saving " + allThing + ": " + ex);
+								Log.Error(string.Concat(new object[]
+								{
+									"Exception saving ",
+									thing,
+									": ",
+									ex
+								}), false);
 							}
 						}
 					}
@@ -504,7 +385,7 @@ namespace Verse
 				}
 				else
 				{
-					Log.Error("Could not enter the things node while saving.");
+					Log.Error("Could not enter the things node while saving.", false);
 				}
 				this.compressor = null;
 			}
@@ -526,14 +407,18 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x060044D5 RID: 17621 RVA: 0x002422DC File Offset: 0x002406DC
 		private void FillComponents()
 		{
 			this.components.RemoveAll((MapComponent component) => component == null);
-			foreach (Type item2 in typeof(MapComponent).AllSubclassesNonAbstract())
+			foreach (Type type in typeof(MapComponent).AllSubclassesNonAbstract())
 			{
-				if (this.GetComponent(item2) == null)
+				if (this.GetComponent(type) == null)
 				{
-					MapComponent item = (MapComponent)Activator.CreateInstance(item2, this);
+					MapComponent item = (MapComponent)Activator.CreateInstance(type, new object[]
+					{
+						this
+					});
 					this.components.Add(item);
 				}
 			}
@@ -541,9 +426,10 @@ namespace Verse
 			this.waterInfo = this.GetComponent<WaterInfo>();
 		}
 
+		// Token: 0x060044D6 RID: 17622 RVA: 0x002423AC File Offset: 0x002407AC
 		public void FinalizeLoading()
 		{
-			List<Thing> list = this.compressor.ThingsToSpawnAfterLoad().ToList();
+			List<Thing> list = this.compressor.ThingsToSpawnAfterLoad().ToList<Thing>();
 			this.compressor = null;
 			DeepProfiler.Start("Merge compressed and non-compressed thing lists");
 			List<Thing> list2 = new List<Thing>(this.loadedFullThings.Count + list.Count);
@@ -554,37 +440,50 @@ namespace Verse
 			this.loadedFullThings.Clear();
 			DeepProfiler.End();
 			DeepProfiler.Start("Spawn everything into the map");
-			foreach (Thing item2 in list2)
+			foreach (Thing thing in list2)
 			{
-				if (!(item2 is Building))
+				if (!(thing is Building))
 				{
 					try
 					{
-						GenSpawn.Spawn(item2, item2.Position, this, item2.Rotation, true);
+						GenSpawn.Spawn(thing, thing.Position, this, thing.Rotation, WipeMode.FullRefund, true);
 					}
 					catch (Exception ex)
 					{
-						Log.Error("Exception spawning loaded thing " + item2 + ": " + ex);
+						Log.Error(string.Concat(new object[]
+						{
+							"Exception spawning loaded thing ",
+							thing,
+							": ",
+							ex
+						}), false);
 					}
 				}
 			}
-			foreach (Building item3 in from t in list2.OfType<Building>()
+			foreach (Building building in from t in list2.OfType<Building>()
 			orderby t.def.size.Magnitude
 			select t)
 			{
 				try
 				{
-					GenSpawn.SpawnBuildingAsPossible(item3, this, true);
+					GenSpawn.SpawnBuildingAsPossible(building, this, true);
 				}
 				catch (Exception ex2)
 				{
-					Log.Error("Exception spawning loaded thing " + item3 + ": " + ex2);
+					Log.Error(string.Concat(new object[]
+					{
+						"Exception spawning loaded thing ",
+						building,
+						": ",
+						ex2
+					}), false);
 				}
 			}
 			DeepProfiler.End();
 			this.FinalizeInit();
 		}
 
+		// Token: 0x060044D7 RID: 17623 RVA: 0x002425E4 File Offset: 0x002409E4
 		public void FinalizeInit()
 		{
 			this.pathGrid.RecalculateAllPerceivedPathCosts();
@@ -592,15 +491,21 @@ namespace Verse
 			this.regionAndRoomUpdater.RebuildAllRegionsAndRooms();
 			this.powerNetManager.UpdatePowerNetsAndConnections_First();
 			this.temperatureCache.temperatureSaveLoad.ApplyLoadedDataToRegions();
-			foreach (Thing item in this.listerThings.AllThings.ToList())
+			foreach (Thing thing in this.listerThings.AllThings.ToList<Thing>())
 			{
 				try
 				{
-					item.PostMapInit();
+					thing.PostMapInit();
 				}
 				catch (Exception ex)
 				{
-					Log.Error("Exception PostMapInit in " + item + ": " + ex);
+					Log.Error(string.Concat(new object[]
+					{
+						"Exception PostMapInit in ",
+						thing,
+						": ",
+						ex
+					}), false);
 				}
 			}
 			this.listerFilthInHomeArea.RebuildAll();
@@ -613,89 +518,98 @@ namespace Verse
 			MapComponentUtility.FinalizeInit(this);
 		}
 
+		// Token: 0x060044D8 RID: 17624 RVA: 0x00242708 File Offset: 0x00240B08
 		private void ExposeComponents()
 		{
-			Scribe_Deep.Look<WeatherManager>(ref this.weatherManager, "weatherManager", new object[1]
+			Scribe_Deep.Look<WeatherManager>(ref this.weatherManager, "weatherManager", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<ReservationManager>(ref this.reservationManager, "reservationManager", new object[1]
+			Scribe_Deep.Look<ReservationManager>(ref this.reservationManager, "reservationManager", new object[]
 			{
 				this
 			});
 			Scribe_Deep.Look<PhysicalInteractionReservationManager>(ref this.physicalInteractionReservationManager, "physicalInteractionReservationManager", new object[0]);
-			Scribe_Deep.Look<DesignationManager>(ref this.designationManager, "designationManager", new object[1]
+			Scribe_Deep.Look<DesignationManager>(ref this.designationManager, "designationManager", new object[]
 			{
 				this
 			});
 			Scribe_Deep.Look<PawnDestinationReservationManager>(ref this.pawnDestinationReservationManager, "pawnDestinationReservationManager", new object[0]);
-			Scribe_Deep.Look<LordManager>(ref this.lordManager, "lordManager", new object[1]
+			Scribe_Deep.Look<LordManager>(ref this.lordManager, "lordManager", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<PassingShipManager>(ref this.passingShipManager, "visitorManager", new object[1]
+			Scribe_Deep.Look<PassingShipManager>(ref this.passingShipManager, "visitorManager", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<GameConditionManager>(ref this.gameConditionManager, "gameConditionManager", new object[1]
+			Scribe_Deep.Look<GameConditionManager>(ref this.gameConditionManager, "gameConditionManager", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<FogGrid>(ref this.fogGrid, "fogGrid", new object[1]
+			Scribe_Deep.Look<FogGrid>(ref this.fogGrid, "fogGrid", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<RoofGrid>(ref this.roofGrid, "roofGrid", new object[1]
+			Scribe_Deep.Look<RoofGrid>(ref this.roofGrid, "roofGrid", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<TerrainGrid>(ref this.terrainGrid, "terrainGrid", new object[1]
+			Scribe_Deep.Look<TerrainGrid>(ref this.terrainGrid, "terrainGrid", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<ZoneManager>(ref this.zoneManager, "zoneManager", new object[1]
+			Scribe_Deep.Look<ZoneManager>(ref this.zoneManager, "zoneManager", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<TemperatureCache>(ref this.temperatureCache, "temperatureCache", new object[1]
+			Scribe_Deep.Look<TemperatureCache>(ref this.temperatureCache, "temperatureCache", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<SnowGrid>(ref this.snowGrid, "snowGrid", new object[1]
+			Scribe_Deep.Look<SnowGrid>(ref this.snowGrid, "snowGrid", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<AreaManager>(ref this.areaManager, "areaManager", new object[1]
+			Scribe_Deep.Look<AreaManager>(ref this.areaManager, "areaManager", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<VoluntarilyJoinableLordsStarter>(ref this.lordsStarter, "lordsStarter", new object[1]
+			Scribe_Deep.Look<VoluntarilyJoinableLordsStarter>(ref this.lordsStarter, "lordsStarter", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<AttackTargetReservationManager>(ref this.attackTargetReservationManager, "attackTargetReservationManager", new object[1]
+			Scribe_Deep.Look<AttackTargetReservationManager>(ref this.attackTargetReservationManager, "attackTargetReservationManager", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<DeepResourceGrid>(ref this.deepResourceGrid, "deepResourceGrid", new object[1]
+			Scribe_Deep.Look<DeepResourceGrid>(ref this.deepResourceGrid, "deepResourceGrid", new object[]
 			{
 				this
 			});
-			Scribe_Deep.Look<WeatherDecider>(ref this.weatherDecider, "weatherDecider", new object[1]
+			Scribe_Deep.Look<WeatherDecider>(ref this.weatherDecider, "weatherDecider", new object[]
 			{
 				this
 			});
 			Scribe_Deep.Look<DamageWatcher>(ref this.damageWatcher, "damageWatcher", new object[0]);
-			Scribe_Deep.Look<RememberedCameraPos>(ref this.rememberedCameraPos, "rememberedCameraPos", new object[1]
+			Scribe_Deep.Look<RememberedCameraPos>(ref this.rememberedCameraPos, "rememberedCameraPos", new object[]
 			{
 				this
 			});
 			Scribe_Deep.Look<MineStrikeManager>(ref this.mineStrikeManager, "mineStrikeManager", new object[0]);
-			Scribe_Deep.Look<StoryState>(ref this.storyState, "storyState", new object[1]
+			Scribe_Deep.Look<RetainedCaravanData>(ref this.retainedCaravanData, "retainedCaravanData", new object[]
 			{
 				this
 			});
-			Scribe_Collections.Look<MapComponent>(ref this.components, "components", LookMode.Deep, new object[1]
+			Scribe_Deep.Look<StoryState>(ref this.storyState, "storyState", new object[]
+			{
+				this
+			});
+			Scribe_Deep.Look<WildPlantSpawner>(ref this.wildPlantSpawner, "wildPlantSpawner", new object[]
+			{
+				this
+			});
+			Scribe_Collections.Look<MapComponent>(ref this.components, "components", LookMode.Deep, new object[]
 			{
 				this
 			});
@@ -706,187 +620,289 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x060044D9 RID: 17625 RVA: 0x002429C4 File Offset: 0x00240DC4
 		public void MapPreTick()
 		{
+			Profiler.BeginSample("ItemAvailabilityUtility.Tick()");
 			this.itemAvailability.Tick();
+			Profiler.EndSample();
+			Profiler.BeginSample("ListerHaulables.ListerHaulablesTick");
 			this.listerHaulables.ListerHaulablesTick();
+			Profiler.EndSample();
+			Profiler.BeginSample("AutoBuildRoofAreaSetter.AutoBuildRoofAreaSetterTick()");
 			try
 			{
 				this.autoBuildRoofAreaSetter.AutoBuildRoofAreaSetterTick_First();
 			}
 			catch (Exception ex)
 			{
-				Log.Error(ex.ToString());
+				Log.Error(ex.ToString(), false);
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("RoofCollapseChecker.RoofCollapseCheckerTick_First()");
 			this.roofCollapseBufferResolver.CollapseRoofsMarkedToCollapse();
+			Profiler.EndSample();
+			Profiler.BeginSample("WindManager.WindManagerTick()");
 			this.windManager.WindManagerTick();
+			Profiler.EndSample();
+			Profiler.BeginSample("MapTemperature.MapTemperatureTick()");
 			try
 			{
 				this.mapTemperature.MapTemperatureTick();
 			}
 			catch (Exception ex2)
 			{
-				Log.Error(ex2.ToString());
+				Log.Error(ex2.ToString(), false);
 			}
+			Profiler.EndSample();
 		}
 
+		// Token: 0x060044DA RID: 17626 RVA: 0x00242AC0 File Offset: 0x00240EC0
 		public void MapPostTick()
 		{
+			Profiler.BeginSample("WildAnimalSpawnerTick()");
 			try
 			{
-				this.wildSpawner.WildSpawnerTick();
+				this.wildAnimalSpawner.WildAnimalSpawnerTick();
 			}
 			catch (Exception ex)
 			{
-				Log.Error(ex.ToString());
+				Log.Error(ex.ToString(), false);
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("WildPlantSpawnerTick()");
+			try
+			{
+				this.wildPlantSpawner.WildPlantSpawnerTick();
+			}
+			catch (Exception ex2)
+			{
+				Log.Error(ex2.ToString(), false);
+			}
+			Profiler.EndSample();
+			Profiler.BeginSample("PowerNetManager.PowerNetsTick()");
 			try
 			{
 				this.powerNetManager.PowerNetsTick();
 			}
-			catch (Exception ex2)
-			{
-				Log.Error(ex2.ToString());
-			}
-			try
-			{
-				this.steadyAtmosphereEffects.SteadyAtmosphereEffectsTick();
-			}
 			catch (Exception ex3)
 			{
-				Log.Error(ex3.ToString());
+				Log.Error(ex3.ToString(), false);
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("SteadyEnvironmentEffects.SteadyEnvironmentEffectsTick()");
+			try
+			{
+				this.steadyEnvironmentEffects.SteadyEnvironmentEffectsTick();
+			}
+			catch (Exception ex4)
+			{
+				Log.Error(ex4.ToString(), false);
+			}
+			Profiler.EndSample();
+			Profiler.BeginSample("LordManagerTick()");
 			try
 			{
 				this.lordManager.LordManagerTick();
 			}
-			catch (Exception ex4)
+			catch (Exception ex5)
 			{
-				Log.Error(ex4.ToString());
+				Log.Error(ex5.ToString(), false);
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("PassingShipManagerTick()");
 			try
 			{
 				this.passingShipManager.PassingShipManagerTick();
 			}
-			catch (Exception ex5)
+			catch (Exception ex6)
 			{
-				Log.Error(ex5.ToString());
+				Log.Error(ex6.ToString(), false);
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("DebugDrawer.DebugDrawerTick()");
 			try
 			{
 				this.debugDrawer.DebugDrawerTick();
 			}
-			catch (Exception ex6)
+			catch (Exception ex7)
 			{
-				Log.Error(ex6.ToString());
+				Log.Error(ex7.ToString(), false);
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("VoluntarilyJoinableLordsStarterTick()");
 			try
 			{
 				this.lordsStarter.VoluntarilyJoinableLordsStarterTick();
 			}
-			catch (Exception ex7)
+			catch (Exception ex8)
 			{
-				Log.Error(ex7.ToString());
+				Log.Error(ex8.ToString(), false);
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("GameConditionManager.GameConditionManagerTick()");
 			try
 			{
 				this.gameConditionManager.GameConditionManagerTick();
 			}
-			catch (Exception ex8)
+			catch (Exception ex9)
 			{
-				Log.Error(ex8.ToString());
+				Log.Error(ex9.ToString(), false);
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("WeatherManager.WeatherManagerTick()");
 			try
 			{
 				this.weatherManager.WeatherManagerTick();
 			}
-			catch (Exception ex9)
+			catch (Exception ex10)
 			{
-				Log.Error(ex9.ToString());
+				Log.Error(ex10.ToString(), false);
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("ResourceCounter.ResourceCounterTick()");
 			try
 			{
 				this.resourceCounter.ResourceCounterTick();
 			}
-			catch (Exception ex10)
+			catch (Exception ex11)
 			{
-				Log.Error(ex10.ToString());
+				Log.Error(ex11.ToString(), false);
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("WeatherDecided.WeatherDeciderTick()");
 			try
 			{
 				this.weatherDecider.WeatherDeciderTick();
 			}
-			catch (Exception ex11)
+			catch (Exception ex12)
 			{
-				Log.Error(ex11.ToString());
+				Log.Error(ex12.ToString(), false);
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("FireWatcher.FireWatcherTick()");
 			try
 			{
 				this.fireWatcher.FireWatcherTick();
 			}
-			catch (Exception ex12)
+			catch (Exception ex13)
 			{
-				Log.Error(ex12.ToString());
+				Log.Error(ex13.ToString(), false);
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("DamageWatcher.DamageWatcherTick()");
 			try
 			{
 				this.damageWatcher.DamageWatcherTick();
 			}
-			catch (Exception ex13)
+			catch (Exception ex14)
 			{
-				Log.Error(ex13.ToString());
+				Log.Error(ex14.ToString(), false);
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("MapComponentTick()");
 			MapComponentUtility.MapComponentTick(this);
+			Profiler.EndSample();
 		}
 
+		// Token: 0x060044DB RID: 17627 RVA: 0x00242E8C File Offset: 0x0024128C
 		public void MapUpdate()
 		{
 			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
+			Profiler.BeginSample("SkyManagerUpdate()");
 			this.skyManager.SkyManagerUpdate();
+			Profiler.EndSample();
+			Profiler.BeginSample("PowerNetManager.UpdatePowerNetsAndConnections_First()");
 			this.powerNetManager.UpdatePowerNetsAndConnections_First();
+			Profiler.EndSample();
+			Profiler.BeginSample("regionGrid.UpdateClean()");
 			this.regionGrid.UpdateClean();
+			Profiler.EndSample();
+			Profiler.BeginSample("RegionAndRoomUpdater.TryRebuildDirtyRegionsAndRooms()");
 			this.regionAndRoomUpdater.TryRebuildDirtyRegionsAndRooms();
+			Profiler.EndSample();
+			Profiler.BeginSample("glowGrid.GlowGridUpdate_First()");
 			this.glowGrid.GlowGridUpdate_First();
+			Profiler.EndSample();
+			Profiler.BeginSample("LordManagerUpdate()");
 			this.lordManager.LordManagerUpdate();
-			if (!worldRenderedNow && Find.VisibleMap == this)
+			Profiler.EndSample();
+			if (!worldRenderedNow && Find.CurrentMap == this)
 			{
+				if (Map.AlwaysRedrawShadows)
+				{
+					this.mapDrawer.WholeMapChanged(MapMeshFlag.Things);
+				}
+				Profiler.BeginSample("FallIntensityUpdate");
+				GenPlant.SetFallShaderGlobals(this);
+				Profiler.EndSample();
+				Profiler.BeginSample("waterInfo.SetTextures()");
 				this.waterInfo.SetTextures();
+				Profiler.EndSample();
+				Profiler.BeginSample("FactionsDebugDrawOnMap()");
 				Find.FactionManager.FactionsDebugDrawOnMap();
+				Profiler.EndSample();
+				Profiler.BeginSample("mapDrawer.MapMeshDrawerUpdate_First");
 				this.mapDrawer.MapMeshDrawerUpdate_First();
+				Profiler.EndSample();
+				Profiler.BeginSample("PowerNetGrid.DrawDebugPowerNetGrid()");
 				this.powerNetGrid.DrawDebugPowerNetGrid();
+				Profiler.EndSample();
+				Profiler.BeginSample("DoorsDebugDrawer.DrawDebug()");
 				DoorsDebugDrawer.DrawDebug();
+				Profiler.EndSample();
+				Profiler.BeginSample("mapDrawer.DrawMapMesh");
 				this.mapDrawer.DrawMapMesh();
+				Profiler.EndSample();
+				Profiler.BeginSample("drawManager.DrawDynamicThings");
 				this.dynamicDrawManager.DrawDynamicThings();
-				this.gameConditionManager.GameConditionManagerDraw();
+				Profiler.EndSample();
+				Profiler.BeginSample("GameConditionManagerDraw");
+				this.gameConditionManager.GameConditionManagerDraw(this);
+				Profiler.EndSample();
+				Profiler.BeginSample("DrawClippers");
 				MapEdgeClipDrawer.DrawClippers(this);
+				Profiler.EndSample();
+				Profiler.BeginSample("designationManager.DrawDesignations()");
 				this.designationManager.DrawDesignations();
+				Profiler.EndSample();
+				Profiler.BeginSample("OverlayDrawer.DrawAllOverlays()");
 				this.overlayDrawer.DrawAllOverlays();
+				Profiler.EndSample();
 			}
+			Profiler.BeginSample("AreaManagerUpdate()");
 			try
 			{
 				this.areaManager.AreaManagerUpdate();
 			}
 			catch (Exception ex)
 			{
-				Log.Error(ex.ToString());
+				Log.Error(ex.ToString(), false);
 			}
+			Profiler.EndSample();
+			Profiler.BeginSample("WeatherManagerUpdate()");
 			this.weatherManager.WeatherManagerUpdate();
+			Profiler.EndSample();
+			Profiler.BeginSample("MapComponentUpdate()");
 			MapComponentUtility.MapComponentUpdate(this);
+			Profiler.EndSample();
 		}
 
+		// Token: 0x060044DC RID: 17628 RVA: 0x00243104 File Offset: 0x00241504
 		public T GetComponent<T>() where T : MapComponent
 		{
 			for (int i = 0; i < this.components.Count; i++)
 			{
-				T val = (T)(this.components[i] as T);
-				if (val != null)
+				T t = this.components[i] as T;
+				if (t != null)
 				{
-					return val;
+					return t;
 				}
 			}
-			return (T)null;
+			return (T)((object)null);
 		}
 
+		// Token: 0x060044DD RID: 17629 RVA: 0x00243168 File Offset: 0x00241568
 		public MapComponent GetComponent(Type type)
 		{
 			for (int i = 0; i < this.components.Count; i++)
@@ -899,11 +915,13 @@ namespace Verse
 			return null;
 		}
 
+		// Token: 0x060044DE RID: 17630 RVA: 0x002431CC File Offset: 0x002415CC
 		public string GetUniqueLoadID()
 		{
 			return "Map_" + this.uniqueID;
 		}
 
+		// Token: 0x060044DF RID: 17631 RVA: 0x002431F8 File Offset: 0x002415F8
 		public override string ToString()
 		{
 			string str = "(Map-" + this.uniqueID;
@@ -914,19 +932,16 @@ namespace Verse
 			return str + ")";
 		}
 
+		// Token: 0x060044E0 RID: 17632 RVA: 0x00243248 File Offset: 0x00241648
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.spawnedThings;
 		}
 
+		// Token: 0x060044E1 RID: 17633 RVA: 0x00243264 File Offset: 0x00241664
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
-			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
-			this.GetNonThingChildHolders(outChildren);
-		}
-
-		public void GetNonThingChildHolders(List<IThingHolder> outChildren)
-		{
+			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.listerThings.ThingsInGroup(ThingRequestGroup.ThingHolder));
 			List<PassingShip> passingShips = this.passingShipManager.passingShips;
 			for (int i = 0; i < passingShips.Count; i++)
 			{
@@ -945,5 +960,270 @@ namespace Verse
 				}
 			}
 		}
+
+		// Token: 0x04002EB7 RID: 11959
+		public MapFileCompressor compressor;
+
+		// Token: 0x04002EB8 RID: 11960
+		private List<Thing> loadedFullThings;
+
+		// Token: 0x04002EB9 RID: 11961
+		public int uniqueID = -1;
+
+		// Token: 0x04002EBA RID: 11962
+		public MapInfo info = new MapInfo();
+
+		// Token: 0x04002EBB RID: 11963
+		public List<MapComponent> components = new List<MapComponent>();
+
+		// Token: 0x04002EBC RID: 11964
+		public ThingOwner spawnedThings;
+
+		// Token: 0x04002EBD RID: 11965
+		public CellIndices cellIndices;
+
+		// Token: 0x04002EBE RID: 11966
+		public ListerThings listerThings;
+
+		// Token: 0x04002EBF RID: 11967
+		public ListerBuildings listerBuildings;
+
+		// Token: 0x04002EC0 RID: 11968
+		public MapPawns mapPawns;
+
+		// Token: 0x04002EC1 RID: 11969
+		public DynamicDrawManager dynamicDrawManager;
+
+		// Token: 0x04002EC2 RID: 11970
+		public MapDrawer mapDrawer;
+
+		// Token: 0x04002EC3 RID: 11971
+		public PawnDestinationReservationManager pawnDestinationReservationManager;
+
+		// Token: 0x04002EC4 RID: 11972
+		public TooltipGiverList tooltipGiverList;
+
+		// Token: 0x04002EC5 RID: 11973
+		public ReservationManager reservationManager;
+
+		// Token: 0x04002EC6 RID: 11974
+		public PhysicalInteractionReservationManager physicalInteractionReservationManager;
+
+		// Token: 0x04002EC7 RID: 11975
+		public DesignationManager designationManager;
+
+		// Token: 0x04002EC8 RID: 11976
+		public LordManager lordManager;
+
+		// Token: 0x04002EC9 RID: 11977
+		public PassingShipManager passingShipManager;
+
+		// Token: 0x04002ECA RID: 11978
+		public HaulDestinationManager haulDestinationManager;
+
+		// Token: 0x04002ECB RID: 11979
+		public DebugCellDrawer debugDrawer;
+
+		// Token: 0x04002ECC RID: 11980
+		public GameConditionManager gameConditionManager;
+
+		// Token: 0x04002ECD RID: 11981
+		public WeatherManager weatherManager;
+
+		// Token: 0x04002ECE RID: 11982
+		public ZoneManager zoneManager;
+
+		// Token: 0x04002ECF RID: 11983
+		public ResourceCounter resourceCounter;
+
+		// Token: 0x04002ED0 RID: 11984
+		public MapTemperature mapTemperature;
+
+		// Token: 0x04002ED1 RID: 11985
+		public TemperatureCache temperatureCache;
+
+		// Token: 0x04002ED2 RID: 11986
+		public AreaManager areaManager;
+
+		// Token: 0x04002ED3 RID: 11987
+		public AttackTargetsCache attackTargetsCache;
+
+		// Token: 0x04002ED4 RID: 11988
+		public AttackTargetReservationManager attackTargetReservationManager;
+
+		// Token: 0x04002ED5 RID: 11989
+		public VoluntarilyJoinableLordsStarter lordsStarter;
+
+		// Token: 0x04002ED6 RID: 11990
+		public ThingGrid thingGrid;
+
+		// Token: 0x04002ED7 RID: 11991
+		public CoverGrid coverGrid;
+
+		// Token: 0x04002ED8 RID: 11992
+		public EdificeGrid edificeGrid;
+
+		// Token: 0x04002ED9 RID: 11993
+		public BlueprintGrid blueprintGrid;
+
+		// Token: 0x04002EDA RID: 11994
+		public FogGrid fogGrid;
+
+		// Token: 0x04002EDB RID: 11995
+		public RegionGrid regionGrid;
+
+		// Token: 0x04002EDC RID: 11996
+		public GlowGrid glowGrid;
+
+		// Token: 0x04002EDD RID: 11997
+		public TerrainGrid terrainGrid;
+
+		// Token: 0x04002EDE RID: 11998
+		public PathGrid pathGrid;
+
+		// Token: 0x04002EDF RID: 11999
+		public RoofGrid roofGrid;
+
+		// Token: 0x04002EE0 RID: 12000
+		public FertilityGrid fertilityGrid;
+
+		// Token: 0x04002EE1 RID: 12001
+		public SnowGrid snowGrid;
+
+		// Token: 0x04002EE2 RID: 12002
+		public DeepResourceGrid deepResourceGrid;
+
+		// Token: 0x04002EE3 RID: 12003
+		public ExitMapGrid exitMapGrid;
+
+		// Token: 0x04002EE4 RID: 12004
+		public LinkGrid linkGrid;
+
+		// Token: 0x04002EE5 RID: 12005
+		public GlowFlooder glowFlooder;
+
+		// Token: 0x04002EE6 RID: 12006
+		public PowerNetManager powerNetManager;
+
+		// Token: 0x04002EE7 RID: 12007
+		public PowerNetGrid powerNetGrid;
+
+		// Token: 0x04002EE8 RID: 12008
+		public RegionMaker regionMaker;
+
+		// Token: 0x04002EE9 RID: 12009
+		public PathFinder pathFinder;
+
+		// Token: 0x04002EEA RID: 12010
+		public PawnPathPool pawnPathPool;
+
+		// Token: 0x04002EEB RID: 12011
+		public RegionAndRoomUpdater regionAndRoomUpdater;
+
+		// Token: 0x04002EEC RID: 12012
+		public RegionLinkDatabase regionLinkDatabase;
+
+		// Token: 0x04002EED RID: 12013
+		public MoteCounter moteCounter;
+
+		// Token: 0x04002EEE RID: 12014
+		public GatherSpotLister gatherSpotLister;
+
+		// Token: 0x04002EEF RID: 12015
+		public WindManager windManager;
+
+		// Token: 0x04002EF0 RID: 12016
+		public ListerBuildingsRepairable listerBuildingsRepairable;
+
+		// Token: 0x04002EF1 RID: 12017
+		public ListerHaulables listerHaulables;
+
+		// Token: 0x04002EF2 RID: 12018
+		public ListerMergeables listerMergeables;
+
+		// Token: 0x04002EF3 RID: 12019
+		public ListerFilthInHomeArea listerFilthInHomeArea;
+
+		// Token: 0x04002EF4 RID: 12020
+		public Reachability reachability;
+
+		// Token: 0x04002EF5 RID: 12021
+		public ItemAvailability itemAvailability;
+
+		// Token: 0x04002EF6 RID: 12022
+		public AutoBuildRoofAreaSetter autoBuildRoofAreaSetter;
+
+		// Token: 0x04002EF7 RID: 12023
+		public RoofCollapseBufferResolver roofCollapseBufferResolver;
+
+		// Token: 0x04002EF8 RID: 12024
+		public RoofCollapseBuffer roofCollapseBuffer;
+
+		// Token: 0x04002EF9 RID: 12025
+		public WildAnimalSpawner wildAnimalSpawner;
+
+		// Token: 0x04002EFA RID: 12026
+		public WildPlantSpawner wildPlantSpawner;
+
+		// Token: 0x04002EFB RID: 12027
+		public SteadyEnvironmentEffects steadyEnvironmentEffects;
+
+		// Token: 0x04002EFC RID: 12028
+		public SkyManager skyManager;
+
+		// Token: 0x04002EFD RID: 12029
+		public OverlayDrawer overlayDrawer;
+
+		// Token: 0x04002EFE RID: 12030
+		public FloodFiller floodFiller;
+
+		// Token: 0x04002EFF RID: 12031
+		public WeatherDecider weatherDecider;
+
+		// Token: 0x04002F00 RID: 12032
+		public FireWatcher fireWatcher;
+
+		// Token: 0x04002F01 RID: 12033
+		public DangerWatcher dangerWatcher;
+
+		// Token: 0x04002F02 RID: 12034
+		public DamageWatcher damageWatcher;
+
+		// Token: 0x04002F03 RID: 12035
+		public StrengthWatcher strengthWatcher;
+
+		// Token: 0x04002F04 RID: 12036
+		public WealthWatcher wealthWatcher;
+
+		// Token: 0x04002F05 RID: 12037
+		public RegionDirtyer regionDirtyer;
+
+		// Token: 0x04002F06 RID: 12038
+		public MapCellsInRandomOrder cellsInRandomOrder;
+
+		// Token: 0x04002F07 RID: 12039
+		public RememberedCameraPos rememberedCameraPos;
+
+		// Token: 0x04002F08 RID: 12040
+		public MineStrikeManager mineStrikeManager;
+
+		// Token: 0x04002F09 RID: 12041
+		public StoryState storyState;
+
+		// Token: 0x04002F0A RID: 12042
+		public RoadInfo roadInfo;
+
+		// Token: 0x04002F0B RID: 12043
+		public WaterInfo waterInfo;
+
+		// Token: 0x04002F0C RID: 12044
+		public RetainedCaravanData retainedCaravanData;
+
+		// Token: 0x04002F0D RID: 12045
+		public const string ThingSaveKey = "thing";
+
+		// Token: 0x04002F0E RID: 12046
+		[TweakValue("Graphics_Shadow", 0f, 100f)]
+		private static bool AlwaysRedrawShadows = false;
 	}
 }

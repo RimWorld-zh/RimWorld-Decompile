@@ -1,36 +1,55 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200046B RID: 1131
 	public class Recipe_InstallNaturalBodyPart : Recipe_Surgery
 	{
+		// Token: 0x060013DB RID: 5083 RVA: 0x000ACBD8 File Offset: 0x000AAFD8
 		public override IEnumerable<BodyPartRecord> GetPartsToApplyOn(Pawn pawn, RecipeDef recipe)
 		{
-			for (int j = 0; j < recipe.appliedOnFixedBodyParts.Count; j++)
+			for (int i = 0; i < recipe.appliedOnFixedBodyParts.Count; i++)
 			{
-				BodyPartDef recipePart = recipe.appliedOnFixedBodyParts[j];
+				BodyPartDef recipePart = recipe.appliedOnFixedBodyParts[i];
 				List<BodyPartRecord> bpList = pawn.RaceProps.body.AllParts;
-				for (int i = 0; i < bpList.Count; i++)
+				for (int j = 0; j < bpList.Count; j++)
 				{
-					_003CGetPartsToApplyOn_003Ec__Iterator0 _003CGetPartsToApplyOn_003Ec__Iterator = (_003CGetPartsToApplyOn_003Ec__Iterator0)/*Error near IL_0081: stateMachine*/;
-					BodyPartRecord record = bpList[i];
-					if (record.def == recipePart && pawn.health.hediffSet.hediffs.Any((Hediff x) => x.Part == record) && (record.parent == null || pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined).Contains(record.parent)) && (!pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(record) || pawn.health.hediffSet.HasDirectlyAddedPartFor(record)))
+					BodyPartRecord record = bpList[j];
+					if (record.def == recipePart)
 					{
-						yield return record;
-						/*Error: Unable to find new state assignment for yield return*/;
+						if (pawn.health.hediffSet.hediffs.Any((Hediff x) => x.Part == record))
+						{
+							if (record.parent == null || pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null).Contains(record.parent))
+							{
+								if (!pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(record) || pawn.health.hediffSet.HasDirectlyAddedPartFor(record))
+								{
+									yield return record;
+								}
+							}
+						}
 					}
 				}
 			}
+			yield break;
 		}
 
+		// Token: 0x060013DC RID: 5084 RVA: 0x000ACC0C File Offset: 0x000AB00C
 		public override void ApplyOnPawn(Pawn pawn, BodyPartRecord part, Pawn billDoer, List<Thing> ingredients, Bill bill)
 		{
-			if (billDoer != null && !base.CheckSurgeryFail(billDoer, pawn, ingredients, part, bill))
+			if (billDoer != null)
 			{
-				TaleRecorder.RecordTale(TaleDefOf.DidSurgery, billDoer, pawn);
-				MedicalRecipesUtility.RestorePartAndSpawnAllPreviousParts(pawn, part, billDoer.Position, billDoer.Map);
+				if (!base.CheckSurgeryFail(billDoer, pawn, ingredients, part, bill))
+				{
+					TaleRecorder.RecordTale(TaleDefOf.DidSurgery, new object[]
+					{
+						billDoer,
+						pawn
+					});
+					MedicalRecipesUtility.RestorePartAndSpawnAllPreviousParts(pawn, part, billDoer.Position, billDoer.Map);
+				}
 			}
 		}
 	}

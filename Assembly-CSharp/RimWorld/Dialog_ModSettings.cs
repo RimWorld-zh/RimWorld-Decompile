@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -5,16 +6,21 @@ using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000806 RID: 2054
 	public class Dialog_ModSettings : Window
 	{
-		private Mod selMod;
+		// Token: 0x06002DD4 RID: 11732 RVA: 0x00181E9A File Offset: 0x0018029A
+		public Dialog_ModSettings()
+		{
+			this.forcePause = true;
+			this.doCloseX = true;
+			this.doCloseButton = true;
+			this.closeOnClickedOutside = true;
+			this.absorbInputAroundWindow = true;
+		}
 
-		private const float TopAreaHeight = 40f;
-
-		private const float TopButtonHeight = 35f;
-
-		private const float TopButtonWidth = 150f;
-
+		// Token: 0x17000752 RID: 1874
+		// (get) Token: 0x06002DD5 RID: 11733 RVA: 0x00181ED0 File Offset: 0x001802D0
 		public override Vector2 InitialSize
 		{
 			get
@@ -23,16 +29,7 @@ namespace RimWorld
 			}
 		}
 
-		public Dialog_ModSettings()
-		{
-			base.forcePause = true;
-			base.doCloseX = true;
-			base.closeOnEscapeKey = true;
-			base.doCloseButton = true;
-			base.closeOnClickedOutside = true;
-			base.absorbInputAroundWindow = true;
-		}
-
+		// Token: 0x06002DD6 RID: 11734 RVA: 0x00181EF4 File Offset: 0x001802F4
 		public override void PreClose()
 		{
 			base.PreClose();
@@ -42,6 +39,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002DD7 RID: 11735 RVA: 0x00181F14 File Offset: 0x00180314
 		public override void DoWindowContents(Rect inRect)
 		{
 			Rect rect = new Rect(0f, 0f, 150f, 35f);
@@ -50,13 +48,13 @@ namespace RimWorld
 				if (Dialog_ModSettings.HasSettings())
 				{
 					List<FloatMenuOption> list = new List<FloatMenuOption>();
-					foreach (Mod item in from mod in LoadedModManager.ModHandles
+					foreach (Mod mod2 in from mod in LoadedModManager.ModHandles
 					where !mod.SettingsCategory().NullOrEmpty()
 					orderby mod.SettingsCategory()
 					select mod)
 					{
-						Mod localMod = item;
-						list.Add(new FloatMenuOption(item.SettingsCategory(), delegate
+						Mod localMod = mod2;
+						list.Add(new FloatMenuOption(mod2.SettingsCategory(), delegate()
 						{
 							if (this.selMod != null)
 							{
@@ -77,19 +75,29 @@ namespace RimWorld
 			if (this.selMod != null)
 			{
 				Text.Font = GameFont.Medium;
-				Widgets.Label(new Rect(167f, 0f, (float)(inRect.width - 150.0 - 17.0), 35f), this.selMod.SettingsCategory());
+				Widgets.Label(new Rect(167f, 0f, inRect.width - 150f - 17f, 35f), this.selMod.SettingsCategory());
 				Text.Font = GameFont.Small;
-				float width = inRect.width;
-				double num = inRect.height - 40.0;
-				Vector2 closeButSize = base.CloseButSize;
-				Rect inRect2 = new Rect(0f, 40f, width, (float)(num - closeButSize.y));
+				Rect inRect2 = new Rect(0f, 40f, inRect.width, inRect.height - 40f - this.CloseButSize.y);
 				this.selMod.DoSettingsWindowContents(inRect2);
 			}
 		}
 
+		// Token: 0x06002DD8 RID: 11736 RVA: 0x00182118 File Offset: 0x00180518
 		public static bool HasSettings()
 		{
 			return LoadedModManager.ModHandles.Any((Mod mod) => !mod.SettingsCategory().NullOrEmpty());
 		}
+
+		// Token: 0x04001851 RID: 6225
+		private Mod selMod = null;
+
+		// Token: 0x04001852 RID: 6226
+		private const float TopAreaHeight = 40f;
+
+		// Token: 0x04001853 RID: 6227
+		private const float TopButtonHeight = 35f;
+
+		// Token: 0x04001854 RID: 6228
+		private const float TopButtonWidth = 150f;
 	}
 }

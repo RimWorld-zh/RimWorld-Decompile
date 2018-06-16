@@ -1,58 +1,36 @@
-using RuntimeAudioClipLoader;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using RuntimeAudioClipLoader;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000CC6 RID: 3270
 	public static class ModContentLoader<T> where T : class
 	{
-		private static string[] AcceptableExtensionsAudio = new string[7]
-		{
-			".wav",
-			".mp3",
-			".ogg",
-			".xm",
-			".it",
-			".mod",
-			".s3m"
-		};
-
-		private static string[] AcceptableExtensionsTexture = new string[2]
-		{
-			".png",
-			".jpg"
-		};
-
-		private static string[] AcceptableExtensionsString = new string[1]
-		{
-			".txt"
-		};
-
+		// Token: 0x06004808 RID: 18440 RVA: 0x0025DFF0 File Offset: 0x0025C3F0
 		private static bool IsAcceptableExtension(string extension)
 		{
 			string[] array;
 			if (typeof(T) == typeof(AudioClip))
 			{
 				array = ModContentLoader<T>.AcceptableExtensionsAudio;
-				goto IL_0087;
 			}
-			if (typeof(T) == typeof(Texture2D))
+			else if (typeof(T) == typeof(Texture2D))
 			{
 				array = ModContentLoader<T>.AcceptableExtensionsTexture;
-				goto IL_0087;
 			}
-			if (typeof(T) == typeof(string))
+			else
 			{
+				if (typeof(T) != typeof(string))
+				{
+					Log.Error("Unknown content type " + typeof(T), false);
+					return false;
+				}
 				array = ModContentLoader<T>.AcceptableExtensionsString;
-				goto IL_0087;
 			}
-			Log.Error("Unknown content type " + typeof(T));
-			return false;
-			IL_0087:
-			string[] array2 = array;
-			foreach (string b in array2)
+			foreach (string b in array)
 			{
 				if (extension.ToLower() == b)
 				{
@@ -62,30 +40,38 @@ namespace Verse
 			return false;
 		}
 
+		// Token: 0x06004809 RID: 18441 RVA: 0x0025E0D0 File Offset: 0x0025C4D0
 		public static IEnumerable<LoadedContentItem<T>> LoadAllForMod(ModContentPack mod)
 		{
 			string contentDirPath = Path.Combine(mod.RootDir, GenFilePaths.ContentPath<T>());
 			DirectoryInfo contentDir = new DirectoryInfo(contentDirPath);
-			if (contentDir.Exists)
+			if (!contentDir.Exists)
 			{
-				DeepProfiler.Start("Loading assets of type " + typeof(T) + " for mod " + mod);
-				FileInfo[] files = contentDir.GetFiles("*.*", SearchOption.AllDirectories);
-				foreach (FileInfo file in files)
+				yield break;
+			}
+			DeepProfiler.Start(string.Concat(new object[]
+			{
+				"Loading assets of type ",
+				typeof(T),
+				" for mod ",
+				mod
+			}));
+			foreach (FileInfo file in contentDir.GetFiles("*.*", SearchOption.AllDirectories))
+			{
+				if (ModContentLoader<T>.IsAcceptableExtension(file.Extension))
 				{
-					if (ModContentLoader<T>.IsAcceptableExtension(file.Extension))
+					LoadedContentItem<T> loadedItem = ModContentLoader<T>.LoadItem(file.FullName, contentDirPath);
+					if (loadedItem != null)
 					{
-						LoadedContentItem<T> loadedItem = ModContentLoader<T>.LoadItem(file.FullName, contentDirPath);
-						if (loadedItem != null)
-						{
-							yield return loadedItem;
-							/*Error: Unable to find new state assignment for yield return*/;
-						}
+						yield return loadedItem;
 					}
 				}
-				DeepProfiler.End();
 			}
+			DeepProfiler.End();
+			yield break;
 		}
 
+		// Token: 0x0600480A RID: 18442 RVA: 0x0025E0FC File Offset: 0x0025C4FC
 		public static LoadedContentItem<T> LoadItem(string absFilePath, string contentDirPath = null)
 		{
 			string text = absFilePath;
@@ -99,11 +85,11 @@ namespace Verse
 			{
 				if (typeof(T) == typeof(string))
 				{
-					return new LoadedContentItem<T>(text, (T)(object)GenFile.TextFromRawFile(absFilePath));
+					return new LoadedContentItem<T>(text, (T)((object)GenFile.TextFromRawFile(absFilePath)));
 				}
 				if (typeof(T) == typeof(Texture2D))
 				{
-					return new LoadedContentItem<T>(text, (T)(object)ModContentLoader<T>.LoadPNG(absFilePath));
+					return new LoadedContentItem<T>(text, (T)((object)ModContentLoader<T>.LoadPNG(absFilePath)));
 				}
 				if (typeof(T) == typeof(AudioClip))
 				{
@@ -111,11 +97,11 @@ namespace Verse
 					{
 						DeepProfiler.Start("Loading file " + text);
 					}
-					T val = default(T);
+					T t;
 					try
 					{
 						bool doStream = ModContentLoader<T>.ShouldStreamAudioClipFromPath(absFilePath);
-						val = (T)(object)Manager.Load(absFilePath, doStream, true, true);
+						t = (T)((object)Manager.Load(absFilePath, doStream, true, true));
 					}
 					finally
 					{
@@ -124,35 +110,57 @@ namespace Verse
 							DeepProfiler.End();
 						}
 					}
-					UnityEngine.Object @object = ((object)val) as UnityEngine.Object;
-					if (@object != (UnityEngine.Object)null)
+					UnityEngine.Object @object = t as UnityEngine.Object;
+					if (@object != null)
 					{
 						@object.name = Path.GetFileNameWithoutExtension(new FileInfo(absFilePath).Name);
 					}
-					return new LoadedContentItem<T>(text, val);
+					return new LoadedContentItem<T>(text, t);
 				}
 			}
 			catch (Exception ex)
 			{
-				Log.Error("Exception loading " + typeof(T) + " from file.\nabsFilePath: " + absFilePath + "\ncontentDirPath: " + contentDirPath + "\nException: " + ex.ToString());
+				Log.Error(string.Concat(new object[]
+				{
+					"Exception loading ",
+					typeof(T),
+					" from file.\nabsFilePath: ",
+					absFilePath,
+					"\ncontentDirPath: ",
+					contentDirPath,
+					"\nException: ",
+					ex.ToString()
+				}), false);
 			}
+			LoadedContentItem<T> result;
 			if (typeof(T) == typeof(Texture2D))
 			{
-				return (LoadedContentItem<T>)new LoadedContentItem<Texture2D>(absFilePath, BaseContent.BadTex);
+				result = (LoadedContentItem<T>)new LoadedContentItem<Texture2D>(absFilePath, BaseContent.BadTex);
 			}
-			return null;
+			else
+			{
+				result = null;
+			}
+			return result;
 		}
 
+		// Token: 0x0600480B RID: 18443 RVA: 0x0025E31C File Offset: 0x0025C71C
 		private static bool ShouldStreamAudioClipFromPath(string absPath)
 		{
+			bool result;
 			if (!File.Exists(absPath))
 			{
-				return false;
+				result = false;
 			}
-			FileInfo fileInfo = new FileInfo(absPath);
-			return fileInfo.Length > 307200;
+			else
+			{
+				FileInfo fileInfo = new FileInfo(absPath);
+				result = (fileInfo.Length > 307200L);
+			}
+			return result;
 		}
 
+		// Token: 0x0600480C RID: 18444 RVA: 0x0025E358 File Offset: 0x0025C758
 		private static Texture2D LoadPNG(string filePath)
 		{
 			Texture2D texture2D = null;
@@ -169,5 +177,30 @@ namespace Verse
 			}
 			return texture2D;
 		}
+
+		// Token: 0x040030CA RID: 12490
+		private static string[] AcceptableExtensionsAudio = new string[]
+		{
+			".wav",
+			".mp3",
+			".ogg",
+			".xm",
+			".it",
+			".mod",
+			".s3m"
+		};
+
+		// Token: 0x040030CB RID: 12491
+		private static string[] AcceptableExtensionsTexture = new string[]
+		{
+			".png",
+			".jpg"
+		};
+
+		// Token: 0x040030CC RID: 12492
+		private static string[] AcceptableExtensionsString = new string[]
+		{
+			".txt"
+		};
 	}
 }

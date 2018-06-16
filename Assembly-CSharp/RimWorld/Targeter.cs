@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,22 +8,11 @@ using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x02000869 RID: 2153
 	public class Targeter
 	{
-		public Verb targetingVerb;
-
-		public List<Pawn> targetingVerbAdditionalPawns;
-
-		private Action<LocalTargetInfo> action;
-
-		private Pawn caster;
-
-		private TargetingParameters targetParams;
-
-		private Action actionWhenFinished;
-
-		private Texture2D mouseAttachment;
-
+		// Token: 0x170007D2 RID: 2002
+		// (get) Token: 0x060030E8 RID: 12520 RVA: 0x001A9004 File Offset: 0x001A7404
 		public bool IsTargeting
 		{
 			get
@@ -32,6 +21,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060030E9 RID: 12521 RVA: 0x001A9034 File Offset: 0x001A7434
 		public void BeginTargeting(Verb verb)
 		{
 			if (verb.verbProps.targetable)
@@ -52,6 +42,7 @@ namespace RimWorld
 			this.mouseAttachment = null;
 		}
 
+		// Token: 0x060030EA RID: 12522 RVA: 0x001A90C2 File Offset: 0x001A74C2
 		public void BeginTargeting(TargetingParameters targetParams, Action<LocalTargetInfo> action, Pawn caster = null, Action actionWhenFinished = null, Texture2D mouseAttachment = null)
 		{
 			this.targetingVerb = null;
@@ -63,17 +54,20 @@ namespace RimWorld
 			this.mouseAttachment = mouseAttachment;
 		}
 
+		// Token: 0x060030EB RID: 12523 RVA: 0x001A90F8 File Offset: 0x001A74F8
 		public void StopTargeting()
 		{
 			if (this.actionWhenFinished != null)
 			{
-				this.actionWhenFinished();
+				Action action = this.actionWhenFinished;
 				this.actionWhenFinished = null;
+				action();
 			}
 			this.targetingVerb = null;
 			this.action = null;
 		}
 
+		// Token: 0x060030EC RID: 12524 RVA: 0x001A9138 File Offset: 0x001A7538
 		public void ProcessInputEvents()
 		{
 			this.ConfirmStillValid();
@@ -93,28 +87,40 @@ namespace RimWorld
 							this.action(obj);
 						}
 					}
-					SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
+					SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
 					this.StopTargeting();
 					Event.current.Use();
 				}
-				if (Event.current.type != 0 || Event.current.button != 1)
+				if ((Event.current.type == EventType.MouseDown && Event.current.button == 1) || KeyBindingDefOf.Cancel.KeyDownEvent)
 				{
-					if (Event.current.type != EventType.KeyDown)
-						return;
-					if (Event.current.keyCode != KeyCode.Escape)
-						return;
+					SoundDefOf.CancelMode.PlayOneShotOnCamera(null);
+					this.StopTargeting();
+					Event.current.Use();
 				}
-				SoundDefOf.CancelMode.PlayOneShotOnCamera(null);
-				this.StopTargeting();
-				Event.current.Use();
 			}
 		}
 
+		// Token: 0x060030ED RID: 12525 RVA: 0x001A9220 File Offset: 0x001A7620
 		public void TargeterOnGUI()
 		{
 			if (this.targetingVerb != null)
 			{
-				Texture2D icon = (!this.CurrentTargetUnderMouse(true).IsValid) ? TexCommand.CannotShoot : ((!((UnityEngine.Object)this.targetingVerb.UIIcon != (UnityEngine.Object)BaseContent.BadTex)) ? TexCommand.Attack : this.targetingVerb.UIIcon);
+				Texture2D icon;
+				if (this.CurrentTargetUnderMouse(true).IsValid)
+				{
+					if (this.targetingVerb.UIIcon != BaseContent.BadTex)
+					{
+						icon = this.targetingVerb.UIIcon;
+					}
+					else
+					{
+						icon = TexCommand.Attack;
+					}
+				}
+				else
+				{
+					icon = TexCommand.CannotShoot;
+				}
 				GenUI.DrawMouseAttachment(icon);
 			}
 			if (this.action != null)
@@ -124,43 +130,33 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060030EE RID: 12526 RVA: 0x001A92BC File Offset: 0x001A76BC
 		public void TargeterUpdate()
 		{
 			if (this.targetingVerb != null)
 			{
-				if (!this.targetingVerb.verbProps.MeleeRange)
-				{
-					if (this.targetingVerb.verbProps.minRange > 0.0 && this.targetingVerb.verbProps.minRange < GenRadial.MaxRadialPatternRadius)
-					{
-						GenDraw.DrawRadiusRing(this.targetingVerb.caster.Position, this.targetingVerb.verbProps.minRange);
-					}
-					float range = this.targetingVerb.verbProps.range;
-					IntVec3 size = Find.VisibleMap.Size;
-					int x2 = size.x;
-					IntVec3 size2 = Find.VisibleMap.Size;
-					if (range < (float)(x2 + size2.z) && this.targetingVerb.verbProps.range < GenRadial.MaxRadialPatternRadius)
-					{
-						GenDraw.DrawRadiusRing(this.targetingVerb.caster.Position, this.targetingVerb.verbProps.range);
-					}
-				}
+				this.targetingVerb.verbProps.DrawRadiusRing(this.targetingVerb.caster.Position);
 				LocalTargetInfo targ = this.CurrentTargetUnderMouse(true);
 				if (targ.IsValid)
 				{
 					GenDraw.DrawTargetHighlight(targ);
-					bool flag = default(bool);
+					bool flag;
 					float num = this.targetingVerb.HighlightFieldRadiusAroundTarget(out flag);
-					ShootLine shootLine = default(ShootLine);
-					if (num > 0.20000000298023224 && this.targetingVerb.TryFindShootLineFromTo(this.targetingVerb.caster.Position, targ, out shootLine))
+					if (num > 0.2f)
 					{
-						if (flag)
+						ShootLine shootLine;
+						if (this.targetingVerb.TryFindShootLineFromTo(this.targetingVerb.caster.Position, targ, out shootLine))
 						{
-							GenExplosion.RenderPredictedAreaOfEffect(shootLine.Dest, num);
-						}
-						else
-						{
-							GenDraw.DrawFieldEdges((from x in GenRadial.RadialCellsAround(shootLine.Dest, num, true)
-							where x.InBounds(Find.VisibleMap)
-							select x).ToList());
+							if (flag)
+							{
+								GenExplosion.RenderPredictedAreaOfEffect(shootLine.Dest, num);
+							}
+							else
+							{
+								GenDraw.DrawFieldEdges((from x in GenRadial.RadialCellsAround(shootLine.Dest, num, true)
+								where x.InBounds(Find.CurrentMap)
+								select x).ToList<IntVec3>());
+							}
 						}
 					}
 				}
@@ -175,63 +171,70 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060030EF RID: 12527 RVA: 0x001A93D0 File Offset: 0x001A77D0
 		public bool IsPawnTargeting(Pawn p)
 		{
+			bool result;
 			if (this.caster == p)
 			{
-				return true;
+				result = true;
 			}
-			if (this.targetingVerb != null && this.targetingVerb.CasterIsPawn)
+			else
 			{
-				if (this.targetingVerb.CasterPawn == p)
+				if (this.targetingVerb != null)
 				{
-					return true;
-				}
-				for (int i = 0; i < this.targetingVerbAdditionalPawns.Count; i++)
-				{
-					if (this.targetingVerbAdditionalPawns[i] == p)
+					if (this.targetingVerb.CasterIsPawn)
 					{
-						return true;
+						if (this.targetingVerb.CasterPawn == p)
+						{
+							return true;
+						}
+						for (int i = 0; i < this.targetingVerbAdditionalPawns.Count; i++)
+						{
+							if (this.targetingVerbAdditionalPawns[i] == p)
+							{
+								return true;
+							}
+						}
 					}
 				}
+				result = false;
 			}
-			return false;
+			return result;
 		}
 
+		// Token: 0x060030F0 RID: 12528 RVA: 0x001A9468 File Offset: 0x001A7868
 		private void ConfirmStillValid()
 		{
-			if (this.caster != null && (this.caster.Map != Find.VisibleMap || this.caster.Destroyed || !Find.Selector.IsSelected(this.caster)))
+			if (this.caster != null)
 			{
-				this.StopTargeting();
+				if (this.caster.Map != Find.CurrentMap || this.caster.Destroyed || !Find.Selector.IsSelected(this.caster))
+				{
+					this.StopTargeting();
+				}
 			}
 			if (this.targetingVerb != null)
 			{
 				Selector selector = Find.Selector;
-				if (this.targetingVerb.caster.Map != Find.VisibleMap || this.targetingVerb.caster.Destroyed || !selector.IsSelected(this.targetingVerb.caster))
+				if (this.targetingVerb.caster.Map != Find.CurrentMap || this.targetingVerb.caster.Destroyed || !selector.IsSelected(this.targetingVerb.caster))
 				{
 					this.StopTargeting();
 				}
 				else
 				{
-					int num = 0;
-					while (true)
+					for (int i = 0; i < this.targetingVerbAdditionalPawns.Count; i++)
 					{
-						if (num < this.targetingVerbAdditionalPawns.Count)
+						if (this.targetingVerbAdditionalPawns[i].Destroyed || !selector.IsSelected(this.targetingVerbAdditionalPawns[i]))
 						{
-							if (!this.targetingVerbAdditionalPawns[num].Destroyed && selector.IsSelected(this.targetingVerbAdditionalPawns[num]))
-							{
-								num++;
-								continue;
-							}
+							this.StopTargeting();
 							break;
 						}
-						return;
 					}
-					this.StopTargeting();
 				}
 			}
 		}
 
+		// Token: 0x060030F1 RID: 12529 RVA: 0x001A9580 File Offset: 0x001A7980
 		private void OrderVerbForceTarget()
 		{
 			if (this.targetingVerb.CasterIsPawn)
@@ -253,7 +256,7 @@ namespace RimWorld
 				for (int j = 0; j < numSelected; j++)
 				{
 					Building_Turret building_Turret = selectedObjects[j] as Building_Turret;
-					if (building_Turret != null && building_Turret.Map == Find.VisibleMap)
+					if (building_Turret != null && building_Turret.Map == Find.CurrentMap)
 					{
 						LocalTargetInfo targ = this.CurrentTargetUnderMouse(true);
 						building_Turret.OrderAttack(targ);
@@ -262,12 +265,13 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060030F2 RID: 12530 RVA: 0x001A965C File Offset: 0x001A7A5C
 		private void OrderPawnForceTarget(Verb verb)
 		{
 			LocalTargetInfo targetA = this.CurrentTargetUnderMouse(true);
 			if (targetA.IsValid)
 			{
-				if (verb.verbProps.MeleeRange)
+				if (verb.verbProps.IsMeleeAttack)
 				{
 					Job job = new Job(JobDefOf.AttackMelee, targetA);
 					job.playerForced = true;
@@ -289,52 +293,80 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060030F3 RID: 12531 RVA: 0x001A9730 File Offset: 0x001A7B30
 		private LocalTargetInfo CurrentTargetUnderMouse(bool mustBeHittableNowIfNotMelee)
 		{
+			LocalTargetInfo result;
 			if (!this.IsTargeting)
 			{
-				return LocalTargetInfo.Invalid;
+				result = LocalTargetInfo.Invalid;
 			}
-			TargetingParameters clickParams = (this.targetingVerb == null) ? this.targetParams : this.targetingVerb.verbProps.targetParams;
-			LocalTargetInfo localTargetInfo = LocalTargetInfo.Invalid;
-			using (IEnumerator<LocalTargetInfo> enumerator = GenUI.TargetsAtMouse(clickParams, false).GetEnumerator())
+			else
 			{
-				if (enumerator.MoveNext())
+				TargetingParameters clickParams = (this.targetingVerb == null) ? this.targetParams : this.targetingVerb.verbProps.targetParams;
+				LocalTargetInfo localTargetInfo = LocalTargetInfo.Invalid;
+				using (IEnumerator<LocalTargetInfo> enumerator = GenUI.TargetsAtMouse(clickParams, false).GetEnumerator())
 				{
-					LocalTargetInfo current = enumerator.Current;
-					localTargetInfo = current;
-				}
-			}
-			if (localTargetInfo.IsValid && mustBeHittableNowIfNotMelee && !(localTargetInfo.Thing is Pawn) && this.targetingVerb != null && !this.targetingVerb.verbProps.MeleeRange)
-			{
-				if (this.targetingVerbAdditionalPawns != null && this.targetingVerbAdditionalPawns.Any())
-				{
-					bool flag = false;
-					for (int i = 0; i < this.targetingVerbAdditionalPawns.Count; i++)
+					if (enumerator.MoveNext())
 					{
-						Verb verb = this.GetTargetingVerb(this.targetingVerbAdditionalPawns[i]);
-						if (verb != null && verb.CanHitTarget(localTargetInfo))
+						LocalTargetInfo localTargetInfo2 = enumerator.Current;
+						localTargetInfo = localTargetInfo2;
+					}
+				}
+				if (localTargetInfo.IsValid && mustBeHittableNowIfNotMelee && !(localTargetInfo.Thing is Pawn) && this.targetingVerb != null && !this.targetingVerb.verbProps.IsMeleeAttack)
+				{
+					if (this.targetingVerbAdditionalPawns != null && this.targetingVerbAdditionalPawns.Any<Pawn>())
+					{
+						bool flag = false;
+						for (int i = 0; i < this.targetingVerbAdditionalPawns.Count; i++)
 						{
-							flag = true;
-							break;
+							Verb verb = this.GetTargetingVerb(this.targetingVerbAdditionalPawns[i]);
+							if (verb != null && verb.CanHitTarget(localTargetInfo))
+							{
+								flag = true;
+								break;
+							}
+						}
+						if (!flag)
+						{
+							localTargetInfo = LocalTargetInfo.Invalid;
 						}
 					}
-					if (!flag)
+					else if (!this.targetingVerb.CanHitTarget(localTargetInfo))
 					{
 						localTargetInfo = LocalTargetInfo.Invalid;
 					}
 				}
-				else if (!this.targetingVerb.CanHitTarget(localTargetInfo))
-				{
-					localTargetInfo = LocalTargetInfo.Invalid;
-				}
+				result = localTargetInfo;
 			}
-			return localTargetInfo;
+			return result;
 		}
 
+		// Token: 0x060030F4 RID: 12532 RVA: 0x001A98C4 File Offset: 0x001A7CC4
 		private Verb GetTargetingVerb(Pawn pawn)
 		{
 			return pawn.equipment.AllEquipmentVerbs.FirstOrDefault((Verb x) => x.verbProps == this.targetingVerb.verbProps);
 		}
+
+		// Token: 0x04001A72 RID: 6770
+		public Verb targetingVerb;
+
+		// Token: 0x04001A73 RID: 6771
+		public List<Pawn> targetingVerbAdditionalPawns;
+
+		// Token: 0x04001A74 RID: 6772
+		private Action<LocalTargetInfo> action;
+
+		// Token: 0x04001A75 RID: 6773
+		private Pawn caster;
+
+		// Token: 0x04001A76 RID: 6774
+		private TargetingParameters targetParams;
+
+		// Token: 0x04001A77 RID: 6775
+		private Action actionWhenFinished;
+
+		// Token: 0x04001A78 RID: 6776
+		private Texture2D mouseAttachment;
 	}
 }

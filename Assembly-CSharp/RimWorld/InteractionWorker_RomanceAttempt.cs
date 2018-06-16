@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -5,50 +6,75 @@ using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020004BC RID: 1212
 	public class InteractionWorker_RomanceAttempt : InteractionWorker
 	{
-		private const float MinAttractionForRomanceAttempt = 0.25f;
-
-		private const int MinOpinionForRomanceAttempt = 5;
-
-		private const float BaseSelectionWeight = 1.15f;
-
-		private const float BaseSuccessChance = 0.6f;
-
+		// Token: 0x06001593 RID: 5523 RVA: 0x000BFA38 File Offset: 0x000BDE38
 		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
 		{
+			float result;
 			if (LovePartnerRelationUtility.LovePartnerRelationExists(initiator, recipient))
 			{
-				return 0f;
+				result = 0f;
 			}
-			float num = initiator.relations.SecondaryRomanceChanceFactor(recipient);
-			if (num < 0.25)
+			else
 			{
-				return 0f;
+				float num = initiator.relations.SecondaryRomanceChanceFactor(recipient);
+				if (num < 0.25f)
+				{
+					result = 0f;
+				}
+				else
+				{
+					int num2 = initiator.relations.OpinionOf(recipient);
+					if (num2 < 5)
+					{
+						result = 0f;
+					}
+					else if (recipient.relations.OpinionOf(initiator) < 5)
+					{
+						result = 0f;
+					}
+					else
+					{
+						float num3 = 1f;
+						Pawn pawn = LovePartnerRelationUtility.ExistingMostLikedLovePartner(initiator, false);
+						if (pawn != null)
+						{
+							float value = (float)initiator.relations.OpinionOf(pawn);
+							num3 = Mathf.InverseLerp(50f, -50f, value);
+						}
+						float num4 = (!initiator.story.traits.HasTrait(TraitDefOf.Gay)) ? ((initiator.gender != Gender.Female) ? 1f : 0.15f) : 1f;
+						float num5 = Mathf.InverseLerp(0.25f, 1f, num);
+						float num6 = Mathf.InverseLerp(5f, 100f, (float)num2);
+						float num7;
+						if (initiator.gender == recipient.gender)
+						{
+							if (initiator.story.traits.HasTrait(TraitDefOf.Gay) && recipient.story.traits.HasTrait(TraitDefOf.Gay))
+							{
+								num7 = 1f;
+							}
+							else
+							{
+								num7 = 0.15f;
+							}
+						}
+						else if (!initiator.story.traits.HasTrait(TraitDefOf.Gay) && !recipient.story.traits.HasTrait(TraitDefOf.Gay))
+						{
+							num7 = 1f;
+						}
+						else
+						{
+							num7 = 0.15f;
+						}
+						result = 1.15f * num4 * num5 * num6 * num3 * num7;
+					}
+				}
 			}
-			int num2 = initiator.relations.OpinionOf(recipient);
-			if (num2 < 5)
-			{
-				return 0f;
-			}
-			if (recipient.relations.OpinionOf(initiator) < 5)
-			{
-				return 0f;
-			}
-			float num3 = 1f;
-			Pawn pawn = LovePartnerRelationUtility.ExistingMostLikedLovePartner(initiator, false);
-			if (pawn != null)
-			{
-				float value = (float)initiator.relations.OpinionOf(pawn);
-				num3 = Mathf.InverseLerp(50f, -50f, value);
-			}
-			float num4 = (float)((!initiator.story.traits.HasTrait(TraitDefOf.Gay)) ? ((initiator.gender != Gender.Female) ? 1.0 : 0.15000000596046448) : 1.0);
-			float num5 = Mathf.InverseLerp(0.25f, 1f, num);
-			float num6 = Mathf.InverseLerp(5f, 100f, (float)num2);
-			float num7 = (float)((initiator.gender != recipient.gender) ? ((initiator.story.traits.HasTrait(TraitDefOf.Gay) || recipient.story.traits.HasTrait(TraitDefOf.Gay)) ? 0.15000000596046448 : 1.0) : ((!initiator.story.traits.HasTrait(TraitDefOf.Gay) || !recipient.story.traits.HasTrait(TraitDefOf.Gay)) ? 0.15000000596046448 : 1.0));
-			return (float)(1.1499999761581421 * num4 * num5 * num6 * num3 * num7);
+			return result;
 		}
 
+		// Token: 0x06001594 RID: 5524 RVA: 0x000BFC20 File Offset: 0x000BE020
 		public float SuccessChance(Pawn initiator, Pawn recipient)
 		{
 			float num = 0.6f;
@@ -74,19 +100,20 @@ namespace RimWorld
 			if (pawn != null)
 			{
 				num2 *= Mathf.InverseLerp(100f, 0f, (float)recipient.relations.OpinionOf(pawn));
-				num2 *= Mathf.Clamp01((float)(1.0 - recipient.relations.SecondaryRomanceChanceFactor(pawn)));
+				num2 *= Mathf.Clamp01(1f - recipient.relations.SecondaryRomanceChanceFactor(pawn));
 			}
 			num *= num2;
 			return Mathf.Clamp01(num);
 		}
 
-		public override void Interacted(Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks)
+		// Token: 0x06001595 RID: 5525 RVA: 0x000BFD88 File Offset: 0x000BE188
+		public override void Interacted(Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks, out string letterText, out string letterLabel, out LetterDef letterDef)
 		{
 			if (Rand.Value < this.SuccessChance(initiator, recipient))
 			{
-				List<Pawn> list = default(List<Pawn>);
+				List<Pawn> list;
 				this.BreakLoverAndFianceRelations(initiator, out list);
-				List<Pawn> list2 = default(List<Pawn>);
+				List<Pawn> list2;
 				this.BreakLoverAndFianceRelations(recipient, out list2);
 				for (int i = 0; i < list.Count; i++)
 				{
@@ -98,16 +125,26 @@ namespace RimWorld
 				}
 				initiator.relations.TryRemoveDirectRelation(PawnRelationDefOf.ExLover, recipient);
 				initiator.relations.AddDirectRelation(PawnRelationDefOf.Lover, recipient);
-				TaleRecorder.RecordTale(TaleDefOf.BecameLover, initiator, recipient);
+				TaleRecorder.RecordTale(TaleDefOf.BecameLover, new object[]
+				{
+					initiator,
+					recipient
+				});
 				initiator.needs.mood.thoughts.memories.RemoveMemoriesOfDefWhereOtherPawnIs(ThoughtDefOf.BrokeUpWithMe, recipient);
 				recipient.needs.mood.thoughts.memories.RemoveMemoriesOfDefWhereOtherPawnIs(ThoughtDefOf.BrokeUpWithMe, initiator);
 				initiator.needs.mood.thoughts.memories.RemoveMemoriesOfDefWhereOtherPawnIs(ThoughtDefOf.FailedRomanceAttemptOnMe, recipient);
 				initiator.needs.mood.thoughts.memories.RemoveMemoriesOfDefWhereOtherPawnIs(ThoughtDefOf.FailedRomanceAttemptOnMeLowOpinionMood, recipient);
 				recipient.needs.mood.thoughts.memories.RemoveMemoriesOfDefWhereOtherPawnIs(ThoughtDefOf.FailedRomanceAttemptOnMe, initiator);
 				recipient.needs.mood.thoughts.memories.RemoveMemoriesOfDefWhereOtherPawnIs(ThoughtDefOf.FailedRomanceAttemptOnMeLowOpinionMood, initiator);
-				if (initiator.IsColonist || recipient.IsColonist)
+				if (PawnUtility.ShouldSendNotificationAbout(initiator) || PawnUtility.ShouldSendNotificationAbout(recipient))
 				{
-					this.SendNewLoversLetter(initiator, recipient, list, list2);
+					this.GetNewLoversLetter(initiator, recipient, list, list2, out letterText, out letterLabel, out letterDef);
+				}
+				else
+				{
+					letterText = null;
+					letterLabel = null;
+					letterDef = null;
 				}
 				extraSentencePacks.Add(RulePackDefOf.Sentence_RomanceAttemptAccepted);
 				LovePartnerRelationUtility.TryToShareBed(initiator, recipient);
@@ -121,15 +158,17 @@ namespace RimWorld
 					recipient.needs.mood.thoughts.memories.TryGainMemory(ThoughtDefOf.FailedRomanceAttemptOnMeLowOpinionMood, initiator);
 				}
 				extraSentencePacks.Add(RulePackDefOf.Sentence_RomanceAttemptRejected);
+				letterText = null;
+				letterLabel = null;
+				letterDef = null;
 			}
 		}
 
+		// Token: 0x06001596 RID: 5526 RVA: 0x000BFFE4 File Offset: 0x000BE3E4
 		private void BreakLoverAndFianceRelations(Pawn pawn, out List<Pawn> oldLoversAndFiances)
 		{
 			oldLoversAndFiances = new List<Pawn>();
-			goto IL_0007;
-			IL_0007:
-			while (true)
+			for (;;)
 			{
 				Pawn firstDirectRelationPawn = pawn.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Lover, null);
 				if (firstDirectRelationPawn != null)
@@ -142,17 +181,17 @@ namespace RimWorld
 				{
 					Pawn firstDirectRelationPawn2 = pawn.relations.GetFirstDirectRelationPawn(PawnRelationDefOf.Fiance, null);
 					if (firstDirectRelationPawn2 == null)
+					{
 						break;
+					}
 					pawn.relations.RemoveDirectRelation(PawnRelationDefOf.Fiance, firstDirectRelationPawn2);
 					pawn.relations.AddDirectRelation(PawnRelationDefOf.ExLover, firstDirectRelationPawn2);
 					oldLoversAndFiances.Add(firstDirectRelationPawn2);
 				}
 			}
-			return;
-			IL_009a:
-			goto IL_0007;
 		}
 
+		// Token: 0x06001597 RID: 5527 RVA: 0x000C0095 File Offset: 0x000BE495
 		private void TryAddCheaterThought(Pawn pawn, Pawn cheater)
 		{
 			if (!pawn.Dead)
@@ -161,32 +200,32 @@ namespace RimWorld
 			}
 		}
 
-		private void SendNewLoversLetter(Pawn initiator, Pawn recipient, List<Pawn> initiatorOldLoversAndFiances, List<Pawn> recipientOldLoversAndFiances)
+		// Token: 0x06001598 RID: 5528 RVA: 0x000C00C8 File Offset: 0x000BE4C8
+		private void GetNewLoversLetter(Pawn initiator, Pawn recipient, List<Pawn> initiatorOldLoversAndFiances, List<Pawn> recipientOldLoversAndFiances, out string letterText, out string letterLabel, out LetterDef letterDef)
 		{
 			bool flag = false;
-			if (initiator.GetSpouse() != null && !initiator.GetSpouse().Dead)
+			if ((initiator.GetSpouse() != null && !initiator.GetSpouse().Dead) || (recipient.GetSpouse() != null && !recipient.GetSpouse().Dead))
 			{
-				goto IL_0038;
+				letterLabel = "LetterLabelAffair".Translate();
+				letterDef = LetterDefOf.NegativeEvent;
+				flag = true;
 			}
-			if (recipient.GetSpouse() != null && !recipient.GetSpouse().Dead)
-				goto IL_0038;
-			string label = "LetterLabelNewLovers".Translate();
-			LetterDef textLetterDef = LetterDefOf.PositiveEvent;
-			Pawn t = initiator;
-			goto IL_0087;
-			IL_0038:
-			label = "LetterLabelAffair".Translate();
-			textLetterDef = LetterDefOf.NegativeEvent;
-			t = ((initiator.GetSpouse() == null || initiator.GetSpouse().Dead) ? recipient : initiator);
-			flag = true;
-			goto IL_0087;
-			IL_0087:
+			else
+			{
+				letterLabel = "LetterLabelNewLovers".Translate();
+				letterDef = LetterDefOf.PositiveEvent;
+			}
 			StringBuilder stringBuilder = new StringBuilder();
 			if (flag)
 			{
 				if (initiator.GetSpouse() != null)
 				{
-					stringBuilder.AppendLine("LetterAffair".Translate(initiator.LabelShort, initiator.GetSpouse().LabelShort, recipient.LabelShort));
+					stringBuilder.AppendLine("LetterAffair".Translate(new object[]
+					{
+						initiator.LabelShort,
+						initiator.GetSpouse().LabelShort,
+						recipient.LabelShort
+					}));
 				}
 				if (recipient.GetSpouse() != null)
 				{
@@ -194,19 +233,32 @@ namespace RimWorld
 					{
 						stringBuilder.AppendLine();
 					}
-					stringBuilder.AppendLine("LetterAffair".Translate(recipient.LabelShort, recipient.GetSpouse().LabelShort, initiator.LabelShort));
+					stringBuilder.AppendLine("LetterAffair".Translate(new object[]
+					{
+						recipient.LabelShort,
+						recipient.GetSpouse().LabelShort,
+						initiator.LabelShort
+					}));
 				}
 			}
 			else
 			{
-				stringBuilder.AppendLine("LetterNewLovers".Translate(initiator.LabelShort, recipient.LabelShort));
+				stringBuilder.AppendLine("LetterNewLovers".Translate(new object[]
+				{
+					initiator.LabelShort,
+					recipient.LabelShort
+				}));
 			}
 			for (int i = 0; i < initiatorOldLoversAndFiances.Count; i++)
 			{
 				if (!initiatorOldLoversAndFiances[i].Dead)
 				{
 					stringBuilder.AppendLine();
-					stringBuilder.AppendLine("LetterNoLongerLovers".Translate(initiator.LabelShort, initiatorOldLoversAndFiances[i].LabelShort));
+					stringBuilder.AppendLine("LetterNoLongerLovers".Translate(new object[]
+					{
+						initiator.LabelShort,
+						initiatorOldLoversAndFiances[i].LabelShort
+					}));
 				}
 			}
 			for (int j = 0; j < recipientOldLoversAndFiances.Count; j++)
@@ -214,10 +266,26 @@ namespace RimWorld
 				if (!recipientOldLoversAndFiances[j].Dead)
 				{
 					stringBuilder.AppendLine();
-					stringBuilder.AppendLine("LetterNoLongerLovers".Translate(recipient.LabelShort, recipientOldLoversAndFiances[j].LabelShort));
+					stringBuilder.AppendLine("LetterNoLongerLovers".Translate(new object[]
+					{
+						recipient.LabelShort,
+						recipientOldLoversAndFiances[j].LabelShort
+					}));
 				}
 			}
-			Find.LetterStack.ReceiveLetter(label, stringBuilder.ToString().TrimEndNewlines(), textLetterDef, t, null);
+			letterText = stringBuilder.ToString().TrimEndNewlines();
 		}
+
+		// Token: 0x04000CBF RID: 3263
+		private const float MinAttractionForRomanceAttempt = 0.25f;
+
+		// Token: 0x04000CC0 RID: 3264
+		private const int MinOpinionForRomanceAttempt = 5;
+
+		// Token: 0x04000CC1 RID: 3265
+		private const float BaseSelectionWeight = 1.15f;
+
+		// Token: 0x04000CC2 RID: 3266
+		private const float BaseSuccessChance = 0.6f;
 	}
 }

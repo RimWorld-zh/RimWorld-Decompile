@@ -1,16 +1,28 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200030A RID: 778
 	public sealed class GameConditionManager : IExposable
 	{
-		public Map map;
+		// Token: 0x06000D06 RID: 3334 RVA: 0x00071603 File Offset: 0x0006FA03
+		public GameConditionManager(Map map)
+		{
+			this.ownerMap = map;
+		}
 
-		private List<GameCondition> activeConditions = new List<GameCondition>();
+		// Token: 0x06000D07 RID: 3335 RVA: 0x0007161E File Offset: 0x0006FA1E
+		public GameConditionManager(World world)
+		{
+		}
 
+		// Token: 0x170001FA RID: 506
+		// (get) Token: 0x06000D08 RID: 3336 RVA: 0x00071634 File Offset: 0x0006FA34
 		public List<GameCondition> ActiveConditions
 		{
 			get
@@ -19,23 +31,17 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170001FB RID: 507
+		// (get) Token: 0x06000D09 RID: 3337 RVA: 0x00071650 File Offset: 0x0006FA50
 		public GameConditionManager Parent
 		{
 			get
 			{
-				if (this.map == null)
-				{
-					return null;
-				}
-				return Find.World.gameConditionManager;
+				return (this.ownerMap != null) ? Find.World.gameConditionManager : null;
 			}
 		}
 
-		public GameConditionManager(Map map)
-		{
-			this.map = map;
-		}
-
+		// Token: 0x06000D0A RID: 3338 RVA: 0x00071680 File Offset: 0x0006FA80
 		public void RegisterCondition(GameCondition cond)
 		{
 			this.activeConditions.Add(cond);
@@ -43,6 +49,7 @@ namespace RimWorld
 			cond.Init();
 		}
 
+		// Token: 0x06000D0B RID: 3339 RVA: 0x0007169C File Offset: 0x0006FA9C
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<GameCondition>(ref this.activeConditions, "activeConditions", LookMode.Deep, new object[0]);
@@ -55,11 +62,12 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06000D0C RID: 3340 RVA: 0x00071700 File Offset: 0x0006FB00
 		public void GameConditionManagerTick()
 		{
-			for (int num = this.activeConditions.Count - 1; num >= 0; num--)
+			for (int i = this.activeConditions.Count - 1; i >= 0; i--)
 			{
-				GameCondition gameCondition = this.activeConditions[num];
+				GameCondition gameCondition = this.activeConditions[i];
 				if (gameCondition.Expired)
 				{
 					gameCondition.End();
@@ -71,23 +79,39 @@ namespace RimWorld
 			}
 		}
 
-		public void GameConditionManagerDraw()
+		// Token: 0x06000D0D RID: 3341 RVA: 0x00071758 File Offset: 0x0006FB58
+		public void GameConditionManagerDraw(Map map)
 		{
-			for (int num = this.activeConditions.Count - 1; num >= 0; num--)
+			for (int i = this.activeConditions.Count - 1; i >= 0; i--)
 			{
-				this.activeConditions[num].GameConditionDraw();
+				this.activeConditions[i].GameConditionDraw(map);
 			}
 			if (this.Parent != null)
 			{
-				this.Parent.GameConditionManagerDraw();
+				this.Parent.GameConditionManagerDraw(map);
 			}
 		}
 
+		// Token: 0x06000D0E RID: 3342 RVA: 0x000717B0 File Offset: 0x0006FBB0
+		public void DoSteadyEffects(IntVec3 c, Map map)
+		{
+			for (int i = 0; i < this.activeConditions.Count; i++)
+			{
+				this.activeConditions[i].DoCellSteadyEffects(c, map);
+			}
+			if (this.Parent != null)
+			{
+				this.Parent.DoSteadyEffects(c, map);
+			}
+		}
+
+		// Token: 0x06000D0F RID: 3343 RVA: 0x00071808 File Offset: 0x0006FC08
 		public bool ConditionIsActive(GameConditionDef def)
 		{
 			return this.GetActiveCondition(def) != null;
 		}
 
+		// Token: 0x06000D10 RID: 3344 RVA: 0x0007182C File Offset: 0x0006FC2C
 		public GameCondition GetActiveCondition(GameConditionDef def)
 		{
 			for (int i = 0; i < this.activeConditions.Count; i++)
@@ -104,23 +128,38 @@ namespace RimWorld
 			return null;
 		}
 
+		// Token: 0x06000D11 RID: 3345 RVA: 0x000718A8 File Offset: 0x0006FCA8
 		public T GetActiveCondition<T>() where T : GameCondition
 		{
 			for (int i = 0; i < this.activeConditions.Count; i++)
 			{
-				T val = (T)(this.activeConditions[i] as T);
-				if (val != null)
+				T t = this.activeConditions[i] as T;
+				if (t != null)
 				{
-					return val;
+					return t;
 				}
 			}
 			if (this.Parent != null)
 			{
 				return this.Parent.GetActiveCondition<T>();
 			}
-			return (T)null;
+			return (T)((object)null);
 		}
 
+		// Token: 0x06000D12 RID: 3346 RVA: 0x00071928 File Offset: 0x0006FD28
+		public void GetChildren(List<GameConditionManager> outChildren)
+		{
+			if (this == Find.World.gameConditionManager)
+			{
+				List<Map> maps = Find.Maps;
+				for (int i = 0; i < maps.Count; i++)
+				{
+					outChildren.Add(maps[i].gameConditionManager);
+				}
+			}
+		}
+
+		// Token: 0x06000D13 RID: 3347 RVA: 0x0007197C File Offset: 0x0006FD7C
 		public float TotalHeightAt(float width)
 		{
 			float num = 0f;
@@ -135,13 +174,14 @@ namespace RimWorld
 			return num;
 		}
 
+		// Token: 0x06000D14 RID: 3348 RVA: 0x000719EC File Offset: 0x0006FDEC
 		public void DoConditionsUI(Rect rect)
 		{
 			GUI.BeginGroup(rect);
 			float num = 0f;
 			for (int i = 0; i < this.activeConditions.Count; i++)
 			{
-				float width = (float)(rect.width - 15.0);
+				float width = rect.width - 15f;
 				Rect rect2 = new Rect(0f, num, width, Text.CalcHeight(this.activeConditions[i].LabelCap, width));
 				Text.Font = GameFont.Small;
 				Text.Anchor = TextAnchor.MiddleRight;
@@ -159,58 +199,67 @@ namespace RimWorld
 			}
 		}
 
-		internal float AggregateSkyTargetLerpFactor()
+		// Token: 0x06000D15 RID: 3349 RVA: 0x00071AEC File Offset: 0x0006FEEC
+		internal float AggregateSkyTargetLerpFactor(Map map)
 		{
 			float num = 0f;
 			for (int i = 0; i < this.activeConditions.Count; i++)
 			{
-				num = (float)(num + (1.0 - num) * this.activeConditions[i].SkyTargetLerpFactor());
+				num += (1f - num) * this.activeConditions[i].SkyTargetLerpFactor(map);
 			}
 			if (this.Parent != null)
 			{
-				num += this.Parent.AggregateSkyTargetLerpFactor();
+				num += this.Parent.AggregateSkyTargetLerpFactor(map);
 			}
 			return Mathf.Clamp01(num);
 		}
 
-		internal SkyTarget? AggregateSkyTarget()
+		// Token: 0x06000D16 RID: 3350 RVA: 0x00071B64 File Offset: 0x0006FF64
+		internal SkyTarget? AggregateSkyTarget(Map map)
 		{
 			SkyTarget value = default(SkyTarget);
 			float num = 0f;
-			this.AggregateSkyTargetWorker(ref value, ref num);
-			if (num == 0.0)
+			this.AggregateSkyTargetWorker(ref value, ref num, map);
+			SkyTarget? result;
+			if (num == 0f)
 			{
-				return null;
+				result = null;
 			}
-			return value;
+			else
+			{
+				result = new SkyTarget?(value);
+			}
+			return result;
 		}
 
-		private void AggregateSkyTargetWorker(ref SkyTarget total, ref float lfTotal)
+		// Token: 0x06000D17 RID: 3351 RVA: 0x00071BB4 File Offset: 0x0006FFB4
+		private void AggregateSkyTargetWorker(ref SkyTarget total, ref float lfTotal, Map map)
 		{
 			for (int i = 0; i < this.activeConditions.Count; i++)
 			{
 				GameCondition gameCondition = this.activeConditions[i];
-				float num = gameCondition.SkyTargetLerpFactor();
-				if (num > 0.0)
+				float num = gameCondition.SkyTargetLerpFactor(map);
+				if (num > 0f)
 				{
-					if (lfTotal == 0.0)
+					if (lfTotal == 0f)
 					{
-						total = gameCondition.SkyTarget().Value;
+						total = gameCondition.SkyTarget(map).Value;
 						lfTotal = num;
 					}
 					else
 					{
 						lfTotal += num;
-						total = SkyTarget.LerpDarken(total, gameCondition.SkyTarget().Value, num / lfTotal);
+						total = SkyTarget.LerpDarken(total, gameCondition.SkyTarget(map).Value, num / lfTotal);
 					}
 				}
 			}
 			if (this.Parent != null)
 			{
-				this.Parent.AggregateSkyTargetWorker(ref total, ref lfTotal);
+				this.Parent.AggregateSkyTargetWorker(ref total, ref lfTotal, map);
 			}
 		}
 
+		// Token: 0x06000D18 RID: 3352 RVA: 0x00071C74 File Offset: 0x00070074
 		internal float AggregateTemperatureOffset()
 		{
 			float num = 0f;
@@ -225,67 +274,104 @@ namespace RimWorld
 			return num;
 		}
 
-		internal float AggregateAnimalDensityFactor()
+		// Token: 0x06000D19 RID: 3353 RVA: 0x00071CDC File Offset: 0x000700DC
+		internal float AggregateAnimalDensityFactor(Map map)
 		{
 			float num = 1f;
 			for (int i = 0; i < this.activeConditions.Count; i++)
 			{
-				num *= this.activeConditions[i].AnimalDensityFactor();
+				num *= this.activeConditions[i].AnimalDensityFactor(map);
 			}
 			if (this.Parent != null)
 			{
-				num += this.Parent.AggregateAnimalDensityFactor();
+				num *= this.Parent.AggregateAnimalDensityFactor(map);
 			}
 			return num;
 		}
 
-		internal float AggregatePlantDensityFactor()
+		// Token: 0x06000D1A RID: 3354 RVA: 0x00071D48 File Offset: 0x00070148
+		internal float AggregatePlantDensityFactor(Map map)
 		{
 			float num = 1f;
 			for (int i = 0; i < this.activeConditions.Count; i++)
 			{
-				num *= this.activeConditions[i].PlantDensityFactor();
+				num *= this.activeConditions[i].PlantDensityFactor(map);
 			}
 			if (this.Parent != null)
 			{
-				num += this.Parent.AggregatePlantDensityFactor();
+				num *= this.Parent.AggregatePlantDensityFactor(map);
 			}
 			return num;
 		}
 
-		internal bool AllowEnjoyableOutsideNow()
+		// Token: 0x06000D1B RID: 3355 RVA: 0x00071DB4 File Offset: 0x000701B4
+		internal float AggregateSkyGazeJoyGainFactor(Map map)
 		{
-			GameConditionDef gameConditionDef = default(GameConditionDef);
-			return this.AllowEnjoyableOutsideNow(out gameConditionDef);
+			float num = 1f;
+			for (int i = 0; i < this.activeConditions.Count; i++)
+			{
+				num *= this.activeConditions[i].SkyGazeJoyGainFactor(map);
+			}
+			if (this.Parent != null)
+			{
+				num *= this.Parent.AggregateSkyGazeJoyGainFactor(map);
+			}
+			return num;
 		}
 
-		internal bool AllowEnjoyableOutsideNow(out GameConditionDef reason)
+		// Token: 0x06000D1C RID: 3356 RVA: 0x00071E20 File Offset: 0x00070220
+		internal float AggregateSkyGazeChanceFactor(Map map)
+		{
+			float num = 1f;
+			for (int i = 0; i < this.activeConditions.Count; i++)
+			{
+				num *= this.activeConditions[i].SkyGazeChanceFactor(map);
+			}
+			if (this.Parent != null)
+			{
+				num *= this.Parent.AggregateSkyGazeChanceFactor(map);
+			}
+			return num;
+		}
+
+		// Token: 0x06000D1D RID: 3357 RVA: 0x00071E8C File Offset: 0x0007028C
+		internal bool AllowEnjoyableOutsideNow(Map map)
+		{
+			GameConditionDef gameConditionDef;
+			return this.AllowEnjoyableOutsideNow(map, out gameConditionDef);
+		}
+
+		// Token: 0x06000D1E RID: 3358 RVA: 0x00071EAC File Offset: 0x000702AC
+		internal bool AllowEnjoyableOutsideNow(Map map, out GameConditionDef reason)
 		{
 			for (int i = 0; i < this.activeConditions.Count; i++)
 			{
 				GameCondition gameCondition = this.activeConditions[i];
-				if (!gameCondition.AllowEnjoyableOutsideNow())
+				if (!gameCondition.AllowEnjoyableOutsideNow(map))
 				{
 					reason = gameCondition.def;
 					return false;
 				}
 			}
 			reason = null;
-			if (this.Parent != null)
-			{
-				return this.Parent.AllowEnjoyableOutsideNow(out reason);
-			}
-			return true;
+			return this.Parent == null || this.Parent.AllowEnjoyableOutsideNow(map, out reason);
 		}
 
+		// Token: 0x06000D1F RID: 3359 RVA: 0x00071F2C File Offset: 0x0007032C
 		public string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (GameCondition activeCondition in this.activeConditions)
+			foreach (GameCondition saveable in this.activeConditions)
 			{
-				stringBuilder.AppendLine(Scribe.saver.DebugOutputFor(activeCondition));
+				stringBuilder.AppendLine(Scribe.saver.DebugOutputFor(saveable));
 			}
 			return stringBuilder.ToString();
 		}
+
+		// Token: 0x04000863 RID: 2147
+		public Map ownerMap;
+
+		// Token: 0x04000864 RID: 2148
+		private List<GameCondition> activeConditions = new List<GameCondition>();
 	}
 }

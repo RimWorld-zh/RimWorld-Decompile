@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,16 +6,17 @@ using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000648 RID: 1608
 	public class ScenPart_PlayerPawnsArriveMethod : ScenPart
 	{
-		private PlayerPawnsArriveMethod method;
-
+		// Token: 0x0600214C RID: 8524 RVA: 0x0011A86A File Offset: 0x00118C6A
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<PlayerPawnsArriveMethod>(ref this.method, "method", PlayerPawnsArriveMethod.Standing, false);
 		}
 
+		// Token: 0x0600214D RID: 8525 RVA: 0x0011A888 File Offset: 0x00118C88
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight);
@@ -27,9 +28,10 @@ namespace RimWorld
 				{
 					while (enumerator.MoveNext())
 					{
-						PlayerPawnsArriveMethod playerPawnsArriveMethod = (PlayerPawnsArriveMethod)enumerator.Current;
-						PlayerPawnsArriveMethod localM = playerPawnsArriveMethod;
-						list.Add(new FloatMenuOption(localM.ToStringHuman(), delegate
+						object obj = enumerator.Current;
+						PlayerPawnsArriveMethod localM2 = (PlayerPawnsArriveMethod)obj;
+						PlayerPawnsArriveMethod localM = localM2;
+						list.Add(new FloatMenuOption(localM.ToStringHuman(), delegate()
 						{
 							this.method = localM;
 						}, MenuOptionPriority.Default, null, null, 0f, null, null));
@@ -47,44 +49,53 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x0600214E RID: 8526 RVA: 0x0011A978 File Offset: 0x00118D78
 		public override string Summary(Scenario scen)
 		{
+			string result;
 			if (this.method == PlayerPawnsArriveMethod.DropPods)
 			{
-				return "ScenPart_ArriveInDropPods".Translate();
+				result = "ScenPart_ArriveInDropPods".Translate();
 			}
-			return null;
+			else
+			{
+				result = null;
+			}
+			return result;
 		}
 
+		// Token: 0x0600214F RID: 8527 RVA: 0x0011A9AA File Offset: 0x00118DAA
 		public override void Randomize()
 		{
-			this.method = (PlayerPawnsArriveMethod)((Rand.Value < 0.5) ? 1 : 0);
+			this.method = ((Rand.Value >= 0.5f) ? PlayerPawnsArriveMethod.Standing : PlayerPawnsArriveMethod.DropPods);
 		}
 
+		// Token: 0x06002150 RID: 8528 RVA: 0x0011A9CC File Offset: 0x00118DCC
 		public override void GenerateIntoMap(Map map)
 		{
 			if (Find.GameInitData != null)
 			{
 				List<List<Thing>> list = new List<List<Thing>>();
-				foreach (Pawn startingPawn in Find.GameInitData.startingPawns)
+				foreach (Pawn item in Find.GameInitData.startingAndOptionalPawns)
 				{
-					List<Thing> list2 = new List<Thing>();
-					list2.Add(startingPawn);
-					list.Add(list2);
+					list.Add(new List<Thing>
+					{
+						item
+					});
 				}
-				List<Thing> list3 = new List<Thing>();
-				foreach (ScenPart allPart in Find.Scenario.AllParts)
+				List<Thing> list2 = new List<Thing>();
+				foreach (ScenPart scenPart in Find.Scenario.AllParts)
 				{
-					list3.AddRange(allPart.PlayerStartingThings());
+					list2.AddRange(scenPart.PlayerStartingThings());
 				}
 				int num = 0;
-				foreach (Thing item in list3)
+				foreach (Thing thing in list2)
 				{
-					if (item.def.CanHaveFaction)
+					if (thing.def.CanHaveFaction)
 					{
-						item.SetFactionDirect(Faction.OfPlayer);
+						thing.SetFactionDirect(Faction.OfPlayer);
 					}
-					list[num].Add(item);
+					list[num].Add(thing);
 					num++;
 					if (num >= list.Count)
 					{
@@ -98,12 +109,19 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002151 RID: 8529 RVA: 0x0011AB80 File Offset: 0x00118F80
 		public override void PostMapGenerate(Map map)
 		{
-			if (Find.GameInitData != null && this.method == PlayerPawnsArriveMethod.DropPods)
+			if (Find.GameInitData != null)
 			{
-				PawnUtility.GiveAllStartingPlayerPawnsThought(ThoughtDefOf.CrashedTogether);
+				if (this.method == PlayerPawnsArriveMethod.DropPods)
+				{
+					PawnUtility.GiveAllStartingPlayerPawnsThought(ThoughtDefOf.CrashedTogether);
+				}
 			}
 		}
+
+		// Token: 0x040012F7 RID: 4855
+		private PlayerPawnsArriveMethod method = PlayerPawnsArriveMethod.Standing;
 	}
 }

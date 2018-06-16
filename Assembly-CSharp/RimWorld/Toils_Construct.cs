@@ -1,23 +1,26 @@
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x0200004A RID: 74
 	public static class Toils_Construct
 	{
+		// Token: 0x0600025D RID: 605 RVA: 0x00018CB4 File Offset: 0x000170B4
 		public static Toil MakeSolidThingFromBlueprintIfNecessary(TargetIndex blueTarget, TargetIndex targetToUpdate = TargetIndex.None)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = delegate()
 			{
 				Pawn actor = toil.actor;
 				Job curJob = actor.jobs.curJob;
 				Blueprint blueprint = curJob.GetTarget(blueTarget).Thing as Blueprint;
 				if (blueprint != null)
 				{
-					bool flag = targetToUpdate != 0 && curJob.GetTarget(targetToUpdate).Thing == blueprint;
-					Thing thing = default(Thing);
-					bool flag2 = default(bool);
+					bool flag = targetToUpdate != TargetIndex.None && curJob.GetTarget(targetToUpdate).Thing == blueprint;
+					Thing thing;
+					bool flag2;
 					if (blueprint.TryReplaceWithSolidThing(actor, out thing, out flag2))
 					{
 						curJob.SetTarget(blueTarget, thing);
@@ -30,47 +33,49 @@ namespace RimWorld
 							actor.Reserve(thing, curJob, 1, -1, null);
 						}
 					}
-					if (!flag2)
-						return;
+					if (flag2)
+					{
+					}
 				}
 			};
 			return toil;
 		}
 
+		// Token: 0x0600025E RID: 606 RVA: 0x00018D08 File Offset: 0x00017108
 		public static Toil UninstallIfMinifiable(TargetIndex thingInd)
 		{
 			Toil uninstallIfMinifiable = new Toil().FailOnDestroyedNullOrForbidden(thingInd);
-			uninstallIfMinifiable.initAction = delegate
+			uninstallIfMinifiable.initAction = delegate()
 			{
-				Pawn actor2 = uninstallIfMinifiable.actor;
-				JobDriver curDriver2 = actor2.jobs.curDriver;
-				Thing thing2 = actor2.CurJob.GetTarget(thingInd).Thing;
-				if (thing2.def.Minifiable)
+				Pawn actor = uninstallIfMinifiable.actor;
+				JobDriver curDriver = actor.jobs.curDriver;
+				Thing thing = actor.CurJob.GetTarget(thingInd).Thing;
+				if (thing.def.Minifiable)
 				{
-					curDriver2.uninstallWorkLeft = 90f;
+					curDriver.uninstallWorkLeft = 90f;
 				}
 				else
 				{
-					curDriver2.ReadyForNextToil();
+					curDriver.ReadyForNextToil();
 				}
 			};
-			uninstallIfMinifiable.tickAction = delegate
+			uninstallIfMinifiable.tickAction = delegate()
 			{
 				Pawn actor = uninstallIfMinifiable.actor;
 				JobDriver curDriver = actor.jobs.curDriver;
 				Job curJob = actor.CurJob;
 				curDriver.uninstallWorkLeft -= actor.GetStatValue(StatDefOf.ConstructionSpeed, true);
-				if (curDriver.uninstallWorkLeft <= 0.0)
+				if (curDriver.uninstallWorkLeft <= 0f)
 				{
 					Thing thing = curJob.GetTarget(thingInd).Thing;
 					MinifiedThing minifiedThing = thing.MakeMinified();
-					GenSpawn.Spawn(minifiedThing, thing.Position, uninstallIfMinifiable.actor.Map);
+					GenSpawn.Spawn(minifiedThing, thing.Position, uninstallIfMinifiable.actor.Map, WipeMode.Vanish);
 					curJob.SetTarget(thingInd, minifiedThing);
 					actor.jobs.curDriver.ReadyForNextToil();
 				}
 			};
 			uninstallIfMinifiable.defaultCompleteMode = ToilCompleteMode.Never;
-			uninstallIfMinifiable.WithProgressBar(thingInd, () => (float)(1.0 - uninstallIfMinifiable.actor.jobs.curDriver.uninstallWorkLeft / 90.0), false, -0.5f);
+			uninstallIfMinifiable.WithProgressBar(thingInd, () => 1f - uninstallIfMinifiable.actor.jobs.curDriver.uninstallWorkLeft / 90f, false, -0.5f);
 			return uninstallIfMinifiable;
 		}
 	}

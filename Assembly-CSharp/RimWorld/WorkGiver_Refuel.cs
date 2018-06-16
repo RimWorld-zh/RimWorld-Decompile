@@ -1,11 +1,14 @@
-using System;
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000157 RID: 343
 	public class WorkGiver_Refuel : WorkGiver_Scanner
 	{
+		// Token: 0x17000110 RID: 272
+		// (get) Token: 0x0600070E RID: 1806 RVA: 0x00047E9C File Offset: 0x0004629C
 		public override ThingRequest PotentialWorkThingRequest
 		{
 			get
@@ -14,6 +17,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000111 RID: 273
+		// (get) Token: 0x0600070F RID: 1807 RVA: 0x00047EB8 File Offset: 0x000462B8
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -22,77 +27,42 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000112 RID: 274
+		// (get) Token: 0x06000710 RID: 1808 RVA: 0x00047ED0 File Offset: 0x000462D0
+		public virtual JobDef JobStandard
+		{
+			get
+			{
+				return JobDefOf.Refuel;
+			}
+		}
+
+		// Token: 0x17000113 RID: 275
+		// (get) Token: 0x06000711 RID: 1809 RVA: 0x00047EEC File Offset: 0x000462EC
+		public virtual JobDef JobAtomic
+		{
+			get
+			{
+				return JobDefOf.RefuelAtomic;
+			}
+		}
+
+		// Token: 0x06000712 RID: 1810 RVA: 0x00047F08 File Offset: 0x00046308
+		public virtual bool CanRefuelThing(Thing t)
+		{
+			return !(t is Building_Turret);
+		}
+
+		// Token: 0x06000713 RID: 1811 RVA: 0x00047F2C File Offset: 0x0004632C
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			CompRefuelable compRefuelable = t.TryGetComp<CompRefuelable>();
-			if (compRefuelable != null && !compRefuelable.IsFull)
-			{
-				if (!forced && !compRefuelable.ShouldAutoRefuelNow)
-				{
-					return false;
-				}
-				if (!t.IsForbidden(pawn))
-				{
-					LocalTargetInfo target = t;
-					if (!pawn.CanReserve(target, 1, -1, null, forced))
-						goto IL_005b;
-					if (t.Faction != pawn.Faction)
-					{
-						return false;
-					}
-					ThingWithComps thingWithComps = t as ThingWithComps;
-					if (thingWithComps != null)
-					{
-						CompFlickable comp = thingWithComps.GetComp<CompFlickable>();
-						if (comp != null && !comp.SwitchIsOn)
-						{
-							return false;
-						}
-					}
-					Thing thing = this.FindBestFuel(pawn, t);
-					if (thing == null)
-					{
-						ThingFilter fuelFilter = t.TryGetComp<CompRefuelable>().Props.fuelFilter;
-						JobFailReason.Is("NoFuelToRefuel".Translate(fuelFilter.Summary));
-						return false;
-					}
-					return true;
-				}
-				goto IL_005b;
-			}
-			return false;
-			IL_005b:
-			return false;
+			return this.CanRefuelThing(t) && RefuelWorkGiverUtility.CanRefuel(pawn, t, forced);
 		}
 
+		// Token: 0x06000714 RID: 1812 RVA: 0x00047F58 File Offset: 0x00046358
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
-			Thing t2 = this.FindBestFuel(pawn, t);
-			return new Job(JobDefOf.Refuel, t, t2);
-		}
-
-		private Thing FindBestFuel(Pawn pawn, Thing refuelable)
-		{
-			ThingFilter filter = refuelable.TryGetComp<CompRefuelable>().Props.fuelFilter;
-			Predicate<Thing> predicate = delegate(Thing x)
-			{
-				if (!x.IsForbidden(pawn) && pawn.CanReserve(x, 1, -1, null, false))
-				{
-					if (!filter.Allows(x))
-					{
-						return false;
-					}
-					return true;
-				}
-				return false;
-			};
-			IntVec3 position = pawn.Position;
-			Map map = pawn.Map;
-			ThingRequest bestThingRequest = filter.BestThingRequest;
-			PathEndMode peMode = PathEndMode.ClosestTouch;
-			TraverseParms traverseParams = TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
-			Predicate<Thing> validator = predicate;
-			return GenClosest.ClosestThingReachable(position, map, bestThingRequest, peMode, traverseParams, 9999f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
+			return RefuelWorkGiverUtility.RefuelJob(pawn, t, forced, this.JobStandard, this.JobAtomic);
 		}
 	}
 }

@@ -1,35 +1,40 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000470 RID: 1136
 	public static class PawnAttackGizmoUtility
 	{
+		// Token: 0x060013EC RID: 5100 RVA: 0x000AD910 File Offset: 0x000ABD10
 		public static IEnumerable<Gizmo> GetAttackGizmos(Pawn pawn)
 		{
 			if (PawnAttackGizmoUtility.ShouldUseMeleeAttackGizmo(pawn))
 			{
 				yield return PawnAttackGizmoUtility.GetMeleeAttackGizmo(pawn);
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			if (!PawnAttackGizmoUtility.ShouldUseSquadAttackGizmo())
-				yield break;
-			yield return PawnAttackGizmoUtility.GetSquadAttackGizmo(pawn);
-			/*Error: Unable to find new state assignment for yield return*/;
+			if (PawnAttackGizmoUtility.ShouldUseSquadAttackGizmo())
+			{
+				yield return PawnAttackGizmoUtility.GetSquadAttackGizmo(pawn);
+			}
+			yield break;
 		}
 
+		// Token: 0x060013ED RID: 5101 RVA: 0x000AD93C File Offset: 0x000ABD3C
 		public static bool CanShowEquipmentGizmos()
 		{
 			return !PawnAttackGizmoUtility.AtLeastTwoSelectedColonistsHaveDifferentWeapons();
 		}
 
+		// Token: 0x060013EE RID: 5102 RVA: 0x000AD95C File Offset: 0x000ABD5C
 		private static bool ShouldUseSquadAttackGizmo()
 		{
 			return PawnAttackGizmoUtility.AtLeastOneSelectedColonistHasRangedWeapon() && PawnAttackGizmoUtility.AtLeastTwoSelectedColonistsHaveDifferentWeapons();
 		}
 
+		// Token: 0x060013EF RID: 5103 RVA: 0x000AD984 File Offset: 0x000ABD84
 		private static Gizmo GetSquadAttackGizmo(Pawn pawn)
 		{
 			Command_Target command_Target = new Command_Target();
@@ -38,7 +43,7 @@ namespace RimWorld
 			command_Target.targetingParams = TargetingParameters.ForAttackAny();
 			command_Target.hotKey = KeyBindingDefOf.Misc1;
 			command_Target.icon = TexCommand.SquadAttack;
-			string str = default(string);
+			string str;
 			if (FloatMenuUtility.GetAttackAction(pawn, LocalTargetInfo.Invalid, out str) == null)
 			{
 				command_Target.Disable(str.CapitalizeFirst() + ".");
@@ -47,13 +52,13 @@ namespace RimWorld
 			{
 				IEnumerable<Pawn> enumerable = Find.Selector.SelectedObjects.Where(delegate(object x)
 				{
-					Pawn pawn2 = x as Pawn;
-					return pawn2 != null && pawn2.IsColonistPlayerControlled && pawn2.Drafted;
+					Pawn pawn3 = x as Pawn;
+					return pawn3 != null && pawn3.IsColonistPlayerControlled && pawn3.Drafted;
 				}).Cast<Pawn>();
-				foreach (Pawn item in enumerable)
+				foreach (Pawn pawn2 in enumerable)
 				{
-					string text = default(string);
-					Action attackAction = FloatMenuUtility.GetAttackAction(item, (LocalTargetInfo)target, out text);
+					string text;
+					Action attackAction = FloatMenuUtility.GetAttackAction(pawn2, target, out text);
 					if (attackAction != null)
 					{
 						attackAction();
@@ -63,15 +68,13 @@ namespace RimWorld
 			return command_Target;
 		}
 
+		// Token: 0x060013F0 RID: 5104 RVA: 0x000ADA2C File Offset: 0x000ABE2C
 		private static bool ShouldUseMeleeAttackGizmo(Pawn pawn)
 		{
-			if (!pawn.Drafted)
-			{
-				return false;
-			}
-			return PawnAttackGizmoUtility.AtLeastOneSelectedColonistHasRangedWeapon() || PawnAttackGizmoUtility.AtLeastOneSelectedColonistHasNoWeapon() || PawnAttackGizmoUtility.AtLeastTwoSelectedColonistsHaveDifferentWeapons();
+			return pawn.Drafted && (PawnAttackGizmoUtility.AtLeastOneSelectedColonistHasRangedWeapon() || PawnAttackGizmoUtility.AtLeastOneSelectedColonistHasNoWeapon() || PawnAttackGizmoUtility.AtLeastTwoSelectedColonistsHaveDifferentWeapons());
 		}
 
+		// Token: 0x060013F1 RID: 5105 RVA: 0x000ADA70 File Offset: 0x000ABE70
 		private static Gizmo GetMeleeAttackGizmo(Pawn pawn)
 		{
 			Command_Target command_Target = new Command_Target();
@@ -80,7 +83,7 @@ namespace RimWorld
 			command_Target.targetingParams = TargetingParameters.ForAttackAny();
 			command_Target.hotKey = KeyBindingDefOf.Misc2;
 			command_Target.icon = TexCommand.AttackMelee;
-			string str = default(string);
+			string str;
 			if (FloatMenuUtility.GetMeleeAttackAction(pawn, LocalTargetInfo.Invalid, out str) == null)
 			{
 				command_Target.Disable(str.CapitalizeFirst() + ".");
@@ -89,13 +92,13 @@ namespace RimWorld
 			{
 				IEnumerable<Pawn> enumerable = Find.Selector.SelectedObjects.Where(delegate(object x)
 				{
-					Pawn pawn2 = x as Pawn;
-					return pawn2 != null && pawn2.IsColonistPlayerControlled && pawn2.Drafted;
+					Pawn pawn3 = x as Pawn;
+					return pawn3 != null && pawn3.IsColonistPlayerControlled && pawn3.Drafted;
 				}).Cast<Pawn>();
-				foreach (Pawn item in enumerable)
+				foreach (Pawn pawn2 in enumerable)
 				{
-					string text = default(string);
-					Action meleeAttackAction = FloatMenuUtility.GetMeleeAttackAction(item, (LocalTargetInfo)target, out text);
+					string text;
+					Action meleeAttackAction = FloatMenuUtility.GetMeleeAttackAction(pawn2, target, out text);
 					if (meleeAttackAction != null)
 					{
 						meleeAttackAction();
@@ -105,61 +108,83 @@ namespace RimWorld
 			return command_Target;
 		}
 
+		// Token: 0x060013F2 RID: 5106 RVA: 0x000ADB18 File Offset: 0x000ABF18
 		private static bool AtLeastOneSelectedColonistHasRangedWeapon()
 		{
 			List<object> selectedObjectsListForReading = Find.Selector.SelectedObjectsListForReading;
 			for (int i = 0; i < selectedObjectsListForReading.Count; i++)
 			{
 				Pawn pawn = selectedObjectsListForReading[i] as Pawn;
-				if (pawn != null && pawn.IsColonistPlayerControlled && pawn.equipment != null && pawn.equipment.Primary != null && pawn.equipment.Primary.def.IsRangedWeapon)
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-
-		private static bool AtLeastOneSelectedColonistHasNoWeapon()
-		{
-			List<object> selectedObjectsListForReading = Find.Selector.SelectedObjectsListForReading;
-			for (int i = 0; i < selectedObjectsListForReading.Count; i++)
-			{
-				Pawn pawn = selectedObjectsListForReading[i] as Pawn;
-				if (pawn != null && pawn.IsColonistPlayerControlled && (pawn.equipment == null || pawn.equipment.Primary == null))
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-
-		private static bool AtLeastTwoSelectedColonistsHaveDifferentWeapons()
-		{
-			if (Find.Selector.NumSelected <= 1)
-			{
-				return false;
-			}
-			ThingDef thingDef = null;
-			bool flag = false;
-			List<object> selectedObjectsListForReading = Find.Selector.SelectedObjectsListForReading;
-			for (int i = 0; i < selectedObjectsListForReading.Count; i++)
-			{
-				Pawn pawn = selectedObjectsListForReading[i] as Pawn;
 				if (pawn != null && pawn.IsColonistPlayerControlled)
 				{
-					ThingDef thingDef2 = (pawn.equipment != null && pawn.equipment.Primary != null) ? pawn.equipment.Primary.def : null;
-					if (!flag)
-					{
-						thingDef = thingDef2;
-						flag = true;
-					}
-					else if (thingDef2 != thingDef)
+					if (pawn.equipment != null && pawn.equipment.Primary != null && pawn.equipment.Primary.def.IsRangedWeapon)
 					{
 						return true;
 					}
 				}
 			}
 			return false;
+		}
+
+		// Token: 0x060013F3 RID: 5107 RVA: 0x000ADBB4 File Offset: 0x000ABFB4
+		private static bool AtLeastOneSelectedColonistHasNoWeapon()
+		{
+			List<object> selectedObjectsListForReading = Find.Selector.SelectedObjectsListForReading;
+			for (int i = 0; i < selectedObjectsListForReading.Count; i++)
+			{
+				Pawn pawn = selectedObjectsListForReading[i] as Pawn;
+				if (pawn != null && pawn.IsColonistPlayerControlled)
+				{
+					if (pawn.equipment == null || pawn.equipment.Primary == null)
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
+		// Token: 0x060013F4 RID: 5108 RVA: 0x000ADC34 File Offset: 0x000AC034
+		private static bool AtLeastTwoSelectedColonistsHaveDifferentWeapons()
+		{
+			bool result;
+			if (Find.Selector.NumSelected <= 1)
+			{
+				result = false;
+			}
+			else
+			{
+				ThingDef thingDef = null;
+				bool flag = false;
+				List<object> selectedObjectsListForReading = Find.Selector.SelectedObjectsListForReading;
+				for (int i = 0; i < selectedObjectsListForReading.Count; i++)
+				{
+					Pawn pawn = selectedObjectsListForReading[i] as Pawn;
+					if (pawn != null && pawn.IsColonistPlayerControlled)
+					{
+						ThingDef thingDef2;
+						if (pawn.equipment == null || pawn.equipment.Primary == null)
+						{
+							thingDef2 = null;
+						}
+						else
+						{
+							thingDef2 = pawn.equipment.Primary.def;
+						}
+						if (!flag)
+						{
+							thingDef = thingDef2;
+							flag = true;
+						}
+						else if (thingDef2 != thingDef)
+						{
+							return true;
+						}
+					}
+				}
+				result = false;
+			}
+			return result;
 		}
 	}
 }

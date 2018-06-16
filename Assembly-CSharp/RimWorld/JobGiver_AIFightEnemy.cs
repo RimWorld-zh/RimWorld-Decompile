@@ -1,45 +1,37 @@
+﻿using System;
 using System.Collections.Generic;
+using UnityEngine.Profiling;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
+	// Token: 0x020000B8 RID: 184
 	public abstract class JobGiver_AIFightEnemy : ThinkNode_JobGiver
 	{
-		private float targetAcquireRadius = 56f;
-
-		private float targetKeepRadius = 65f;
-
-		private bool needLOSToAcquireNonPawnTargets;
-
-		private bool chaseTarget;
-
-		public static readonly IntRange ExpiryInterval_ShooterSucceeded = new IntRange(450, 550);
-
-		private static readonly IntRange ExpiryInterval_Melee = new IntRange(360, 480);
-
-		private const int MinTargetDistanceToMove = 5;
-
-		private const int TicksSinceEngageToLoseTarget = 400;
-
+		// Token: 0x0600045A RID: 1114
 		protected abstract bool TryFindShootingPosition(Pawn pawn, out IntVec3 dest);
 
+		// Token: 0x0600045B RID: 1115 RVA: 0x0002FF30 File Offset: 0x0002E330
 		protected virtual float GetFlagRadius(Pawn pawn)
 		{
 			return 999999f;
 		}
 
+		// Token: 0x0600045C RID: 1116 RVA: 0x0002FF4C File Offset: 0x0002E34C
 		protected virtual IntVec3 GetFlagPosition(Pawn pawn)
 		{
 			return IntVec3.Invalid;
 		}
 
+		// Token: 0x0600045D RID: 1117 RVA: 0x0002FF68 File Offset: 0x0002E368
 		protected virtual bool ExtraTargetValidator(Pawn pawn, Thing target)
 		{
 			return true;
 		}
 
+		// Token: 0x0600045E RID: 1118 RVA: 0x0002FF80 File Offset: 0x0002E380
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_AIFightEnemy jobGiver_AIFightEnemy = (JobGiver_AIFightEnemy)base.DeepCopy(resolve);
@@ -50,66 +42,82 @@ namespace RimWorld
 			return jobGiver_AIFightEnemy;
 		}
 
+		// Token: 0x0600045F RID: 1119 RVA: 0x0002FFD4 File Offset: 0x0002E3D4
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			this.UpdateEnemyTarget(pawn);
 			Thing enemyTarget = pawn.mindState.enemyTarget;
+			Job result;
 			if (enemyTarget == null)
 			{
-				return null;
+				result = null;
 			}
-			bool allowManualCastWeapons = !pawn.IsColonist;
-			Verb verb = pawn.TryGetAttackVerb(allowManualCastWeapons);
-			if (verb == null)
+			else
 			{
-				return null;
+				bool allowManualCastWeapons = !pawn.IsColonist;
+				Verb verb = pawn.TryGetAttackVerb(enemyTarget, allowManualCastWeapons);
+				if (verb == null)
+				{
+					result = null;
+				}
+				else if (verb.verbProps.IsMeleeAttack)
+				{
+					result = this.MeleeAttackJob(enemyTarget);
+				}
+				else
+				{
+					bool flag = CoverUtility.CalculateOverallBlockChance(pawn, enemyTarget.Position, pawn.Map) > 0.01f;
+					bool flag2 = pawn.Position.Standable(pawn.Map);
+					bool flag3 = verb.CanHitTarget(enemyTarget);
+					bool flag4 = (pawn.Position - enemyTarget.Position).LengthHorizontalSquared < 25;
+					IntVec3 intVec;
+					if ((flag && flag2 && flag3) || (flag4 && flag3))
+					{
+						result = new Job(JobDefOf.Wait_Combat, JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange, true);
+					}
+					else if (!this.TryFindShootingPosition(pawn, out intVec))
+					{
+						result = null;
+					}
+					else if (intVec == pawn.Position)
+					{
+						result = new Job(JobDefOf.Wait_Combat, JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange, true);
+					}
+					else
+					{
+						result = new Job(JobDefOf.Goto, intVec)
+						{
+							expiryInterval = JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange,
+							checkOverrideOnExpire = true
+						};
+					}
+				}
 			}
-			if (verb.verbProps.MeleeRange)
-			{
-				return this.MeleeAttackJob(enemyTarget);
-			}
-			bool flag = CoverUtility.CalculateOverallBlockChance(pawn.Position, enemyTarget.Position, pawn.Map) > 0.0099999997764825821;
-			bool flag2 = pawn.Position.Standable(pawn.Map);
-			bool flag3 = verb.CanHitTarget(enemyTarget);
-			bool flag4 = (pawn.Position - enemyTarget.Position).LengthHorizontalSquared < 25;
-			if (flag && flag2 && flag3)
-			{
-				goto IL_00cf;
-			}
-			if (flag4 && flag3)
-				goto IL_00cf;
-			IntVec3 intVec = default(IntVec3);
-			if (!this.TryFindShootingPosition(pawn, out intVec))
-			{
-				return null;
-			}
-			if (intVec == pawn.Position)
-			{
-				return new Job(JobDefOf.WaitCombat, JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange, true);
-			}
-			Job job = new Job(JobDefOf.Goto, intVec);
-			job.expiryInterval = JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange;
-			job.checkOverrideOnExpire = true;
-			return job;
-			IL_00cf:
-			return new Job(JobDefOf.WaitCombat, JobGiver_AIFightEnemy.ExpiryInterval_ShooterSucceeded.RandomInRange, true);
+			return result;
 		}
 
+		// Token: 0x06000460 RID: 1120 RVA: 0x00030168 File Offset: 0x0002E568
 		protected virtual Job MeleeAttackJob(Thing enemyTarget)
 		{
-			Job job = new Job(JobDefOf.AttackMelee, enemyTarget);
-			job.expiryInterval = JobGiver_AIFightEnemy.ExpiryInterval_Melee.RandomInRange;
-			job.checkOverrideOnExpire = true;
-			job.expireRequiresEnemiesNearby = true;
-			return job;
+			return new Job(JobDefOf.AttackMelee, enemyTarget)
+			{
+				expiryInterval = JobGiver_AIFightEnemy.ExpiryInterval_Melee.RandomInRange,
+				checkOverrideOnExpire = true,
+				expireRequiresEnemiesNearby = true
+			};
 		}
 
+		// Token: 0x06000461 RID: 1121 RVA: 0x000301B0 File Offset: 0x0002E5B0
 		protected virtual void UpdateEnemyTarget(Pawn pawn)
 		{
+			Profiler.BeginSample("UpdateEnemyTarget");
 			Thing thing = pawn.mindState.enemyTarget;
-			if (thing != null && (thing.Destroyed || Find.TickManager.TicksGame - pawn.mindState.lastEngageTargetTick > 400 || !pawn.CanReach(thing, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn) || (float)(pawn.Position - thing.Position).LengthHorizontalSquared > this.targetKeepRadius * this.targetKeepRadius || ((IAttackTarget)thing).ThreatDisabled()))
+			if (thing != null)
 			{
-				thing = null;
+				if (thing.Destroyed || Find.TickManager.TicksGame - pawn.mindState.lastEngageTargetTick > 400 || !pawn.CanReach(thing, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn) || (float)(pawn.Position - thing.Position).LengthHorizontalSquared > this.targetKeepRadius * this.targetKeepRadius || ((IAttackTarget)thing).ThreatDisabled(pawn))
+				{
+					thing = null;
+				}
 			}
 			if (thing == null)
 			{
@@ -143,17 +151,25 @@ namespace RimWorld
 			{
 				Find.TickManager.slower.SignalForceNormalSpeed();
 			}
+			Profiler.EndSample();
 		}
 
+		// Token: 0x06000462 RID: 1122 RVA: 0x00030338 File Offset: 0x0002E738
 		private Thing FindAttackTargetIfPossible(Pawn pawn)
 		{
-			if (pawn.TryGetAttackVerb(!pawn.IsColonist) == null)
+			Thing result;
+			if (pawn.TryGetAttackVerb(null, !pawn.IsColonist) == null)
 			{
-				return null;
+				result = null;
 			}
-			return this.FindAttackTarget(pawn);
+			else
+			{
+				result = this.FindAttackTarget(pawn);
+			}
+			return result;
 		}
 
+		// Token: 0x06000463 RID: 1123 RVA: 0x00030370 File Offset: 0x0002E770
 		protected virtual Thing FindAttackTarget(Pawn pawn)
 		{
 			TargetScanFlags targetScanFlags = TargetScanFlags.NeedLOSToPawns | TargetScanFlags.NeedReachableIfCantHitFromMyPos | TargetScanFlags.NeedThreat;
@@ -168,6 +184,7 @@ namespace RimWorld
 			return (Thing)AttackTargetFinder.BestAttackTarget(pawn, targetScanFlags, (Thing x) => this.ExtraTargetValidator(pawn, x), 0f, this.targetAcquireRadius, this.GetFlagPosition(pawn), this.GetFlagRadius(pawn), false);
 		}
 
+		// Token: 0x06000464 RID: 1124 RVA: 0x00030404 File Offset: 0x0002E804
 		private bool PrimaryVerbIsIncendiary(Pawn pawn)
 		{
 			if (pawn.equipment != null && pawn.equipment.Primary != null)
@@ -183,5 +200,29 @@ namespace RimWorld
 			}
 			return false;
 		}
+
+		// Token: 0x04000286 RID: 646
+		private float targetAcquireRadius = 56f;
+
+		// Token: 0x04000287 RID: 647
+		private float targetKeepRadius = 65f;
+
+		// Token: 0x04000288 RID: 648
+		private bool needLOSToAcquireNonPawnTargets = false;
+
+		// Token: 0x04000289 RID: 649
+		private bool chaseTarget = false;
+
+		// Token: 0x0400028A RID: 650
+		public static readonly IntRange ExpiryInterval_ShooterSucceeded = new IntRange(450, 550);
+
+		// Token: 0x0400028B RID: 651
+		private static readonly IntRange ExpiryInterval_Melee = new IntRange(360, 480);
+
+		// Token: 0x0400028C RID: 652
+		private const int MinTargetDistanceToMove = 5;
+
+		// Token: 0x0400028D RID: 653
+		private const int TicksSinceEngageToLoseTarget = 400;
 	}
 }

@@ -1,61 +1,15 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000F67 RID: 3943
 	[StaticConstructorOnStartup]
 	public static class ShaderDatabase
 	{
-		public static readonly Shader Cutout = ShaderDatabase.LoadShader("Map/Cutout");
-
-		public static readonly Shader CutoutPlant = ShaderDatabase.LoadShader("Map/CutoutPlant");
-
-		public static readonly Shader CutoutComplex = ShaderDatabase.LoadShader("Map/CutoutComplex");
-
-		public static readonly Shader CutoutSkin = ShaderDatabase.LoadShader("Map/CutoutSkin");
-
-		public static readonly Shader CutoutFlying = ShaderDatabase.LoadShader("Map/CutoutFlying");
-
-		public static readonly Shader Transparent = ShaderDatabase.LoadShader("Map/Transparent");
-
-		public static readonly Shader TransparentPostLight = ShaderDatabase.LoadShader("Map/TransparentPostLight");
-
-		public static readonly Shader TransparentPlant = ShaderDatabase.LoadShader("Map/TransparentPlant");
-
-		public static readonly Shader Mote = ShaderDatabase.LoadShader("Map/Mote");
-
-		public static readonly Shader MoteGlow = ShaderDatabase.LoadShader("Map/MoteGlow");
-
-		public static readonly Shader MoteWater = ShaderDatabase.LoadShader("Map/MoteWater");
-
-		public static readonly Shader TerrainHard = ShaderDatabase.LoadShader("Map/TerrainHard");
-
-		public static readonly Shader TerrainFade = ShaderDatabase.LoadShader("Map/TerrainFade");
-
-		public static readonly Shader TerrainFadeRough = ShaderDatabase.LoadShader("Map/TerrainFadeRough");
-
-		public static readonly Shader TerrainWater = ShaderDatabase.LoadShader("Map/TerrainWater");
-
-		public static readonly Shader WorldTerrain = ShaderDatabase.LoadShader("World/WorldTerrain");
-
-		public static readonly Shader WorldOcean = ShaderDatabase.LoadShader("World/WorldOcean");
-
-		public static readonly Shader WorldOverlayCutout = ShaderDatabase.LoadShader("World/WorldOverlayCutout");
-
-		public static readonly Shader WorldOverlayTransparent = ShaderDatabase.LoadShader("World/WorldOverlayTransparent");
-
-		public static readonly Shader WorldOverlayTransparentLit = ShaderDatabase.LoadShader("World/WorldOverlayTransparentLit");
-
-		public static readonly Shader WorldOverlayAdditive = ShaderDatabase.LoadShader("World/WorldOverlayAdditive");
-
-		public static readonly Shader MetaOverlay = ShaderDatabase.LoadShader("Map/MetaOverlay");
-
-		public static readonly Shader SolidColor = ShaderDatabase.LoadShader("Map/SolidColor");
-
-		public static readonly Shader VertexColor = ShaderDatabase.LoadShader("Map/VertexColor");
-
-		private static Dictionary<string, Shader> lookup;
-
+		// Token: 0x17000F44 RID: 3908
+		// (get) Token: 0x06005F32 RID: 24370 RVA: 0x003079E0 File Offset: 0x00305DE0
 		public static Shader DefaultShader
 		{
 			get
@@ -64,40 +18,7 @@ namespace Verse
 			}
 		}
 
-		public static Shader ShaderFromType(ShaderType sType)
-		{
-			switch (sType)
-			{
-			case ShaderType.Cutout:
-				return ShaderDatabase.Cutout;
-			case ShaderType.CutoutPlant:
-				return ShaderDatabase.CutoutPlant;
-			case ShaderType.CutoutComplex:
-				return ShaderDatabase.CutoutComplex;
-			case ShaderType.CutoutSkin:
-				return ShaderDatabase.CutoutSkin;
-			case ShaderType.CutoutFlying:
-				return ShaderDatabase.CutoutFlying;
-			case ShaderType.Transparent:
-				return ShaderDatabase.Transparent;
-			case ShaderType.MetaOverlay:
-				return ShaderDatabase.MetaOverlay;
-			case ShaderType.Mote:
-				return ShaderDatabase.Mote;
-			case ShaderType.MoteGlow:
-				return ShaderDatabase.MoteGlow;
-			case ShaderType.TransparentPostLight:
-				return ShaderDatabase.TransparentPostLight;
-			case ShaderType.TransparentPlant:
-				return ShaderDatabase.TransparentPlant;
-			case ShaderType.MoteWater:
-				return ShaderDatabase.MoteWater;
-			default:
-				Log.ErrorOnce("Unknown ShaderType " + sType, 2766893);
-				return ShaderDatabase.DefaultShader;
-			}
-		}
-
+		// Token: 0x06005F33 RID: 24371 RVA: 0x003079FC File Offset: 0x00305DFC
 		public static Shader LoadShader(string shaderPath)
 		{
 			if (ShaderDatabase.lookup == null)
@@ -109,12 +30,92 @@ namespace Verse
 				ShaderDatabase.lookup[shaderPath] = (Shader)Resources.Load("Materials/" + shaderPath, typeof(Shader));
 			}
 			Shader shader = ShaderDatabase.lookup[shaderPath];
-			if ((Object)shader == (Object)null)
+			Shader result;
+			if (shader == null)
 			{
-				Log.Warning("Could not load shader " + shaderPath);
-				return ShaderDatabase.DefaultShader;
+				Log.Warning("Could not load shader " + shaderPath, false);
+				result = ShaderDatabase.DefaultShader;
 			}
-			return shader;
+			else
+			{
+				result = shader;
+			}
+			return result;
 		}
+
+		// Token: 0x04003E6B RID: 15979
+		public static readonly Shader Cutout = ShaderDatabase.LoadShader("Map/Cutout");
+
+		// Token: 0x04003E6C RID: 15980
+		public static readonly Shader CutoutPlant = ShaderDatabase.LoadShader("Map/CutoutPlant");
+
+		// Token: 0x04003E6D RID: 15981
+		public static readonly Shader CutoutComplex = ShaderDatabase.LoadShader("Map/CutoutComplex");
+
+		// Token: 0x04003E6E RID: 15982
+		public static readonly Shader CutoutSkin = ShaderDatabase.LoadShader("Map/CutoutSkin");
+
+		// Token: 0x04003E6F RID: 15983
+		public static readonly Shader CutoutFlying = ShaderDatabase.LoadShader("Map/CutoutFlying");
+
+		// Token: 0x04003E70 RID: 15984
+		public static readonly Shader Transparent = ShaderDatabase.LoadShader("Map/Transparent");
+
+		// Token: 0x04003E71 RID: 15985
+		public static readonly Shader TransparentPostLight = ShaderDatabase.LoadShader("Map/TransparentPostLight");
+
+		// Token: 0x04003E72 RID: 15986
+		public static readonly Shader TransparentPlant = ShaderDatabase.LoadShader("Map/TransparentPlant");
+
+		// Token: 0x04003E73 RID: 15987
+		public static readonly Shader Mote = ShaderDatabase.LoadShader("Map/Mote");
+
+		// Token: 0x04003E74 RID: 15988
+		public static readonly Shader MoteGlow = ShaderDatabase.LoadShader("Map/MoteGlow");
+
+		// Token: 0x04003E75 RID: 15989
+		public static readonly Shader MoteWater = ShaderDatabase.LoadShader("Map/MoteWater");
+
+		// Token: 0x04003E76 RID: 15990
+		public static readonly Shader TerrainHard = ShaderDatabase.LoadShader("Map/TerrainHard");
+
+		// Token: 0x04003E77 RID: 15991
+		public static readonly Shader TerrainFade = ShaderDatabase.LoadShader("Map/TerrainFade");
+
+		// Token: 0x04003E78 RID: 15992
+		public static readonly Shader TerrainFadeRough = ShaderDatabase.LoadShader("Map/TerrainFadeRough");
+
+		// Token: 0x04003E79 RID: 15993
+		public static readonly Shader TerrainWater = ShaderDatabase.LoadShader("Map/TerrainWater");
+
+		// Token: 0x04003E7A RID: 15994
+		public static readonly Shader WorldTerrain = ShaderDatabase.LoadShader("World/WorldTerrain");
+
+		// Token: 0x04003E7B RID: 15995
+		public static readonly Shader WorldOcean = ShaderDatabase.LoadShader("World/WorldOcean");
+
+		// Token: 0x04003E7C RID: 15996
+		public static readonly Shader WorldOverlayCutout = ShaderDatabase.LoadShader("World/WorldOverlayCutout");
+
+		// Token: 0x04003E7D RID: 15997
+		public static readonly Shader WorldOverlayTransparent = ShaderDatabase.LoadShader("World/WorldOverlayTransparent");
+
+		// Token: 0x04003E7E RID: 15998
+		public static readonly Shader WorldOverlayTransparentLit = ShaderDatabase.LoadShader("World/WorldOverlayTransparentLit");
+
+		// Token: 0x04003E7F RID: 15999
+		public static readonly Shader WorldOverlayAdditive = ShaderDatabase.LoadShader("World/WorldOverlayAdditive");
+
+		// Token: 0x04003E80 RID: 16000
+		public static readonly Shader MetaOverlay = ShaderDatabase.LoadShader("Map/MetaOverlay");
+
+		// Token: 0x04003E81 RID: 16001
+		public static readonly Shader SolidColor = ShaderDatabase.LoadShader("Map/SolidColor");
+
+		// Token: 0x04003E82 RID: 16002
+		public static readonly Shader VertexColor = ShaderDatabase.LoadShader("Map/VertexColor");
+
+		// Token: 0x04003E83 RID: 16003
+		private static Dictionary<string, Shader> lookup;
 	}
 }

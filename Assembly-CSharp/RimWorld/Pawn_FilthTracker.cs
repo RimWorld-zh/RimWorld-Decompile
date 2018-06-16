@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -5,18 +6,17 @@ using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000514 RID: 1300
 	public class Pawn_FilthTracker : IExposable
 	{
-		private Pawn pawn;
+		// Token: 0x06001775 RID: 6005 RVA: 0x000CD7AC File Offset: 0x000CBBAC
+		public Pawn_FilthTracker(Pawn pawn)
+		{
+			this.pawn = pawn;
+		}
 
-		private List<Filth> carriedFilth = new List<Filth>();
-
-		private const float FilthPickupChance = 0.25f;
-
-		private const float FilthDropChance = 0.05f;
-
-		private const int MaxCarriedTerrainFilthThickness = 1;
-
+		// Token: 0x1700033A RID: 826
+		// (get) Token: 0x06001776 RID: 6006 RVA: 0x000CD7C8 File Offset: 0x000CBBC8
 		public string FilthReport
 		{
 			get
@@ -38,56 +38,70 @@ namespace RimWorld
 			}
 		}
 
-		public Pawn_FilthTracker(Pawn pawn)
-		{
-			this.pawn = pawn;
-		}
-
+		// Token: 0x06001777 RID: 6007 RVA: 0x000CD869 File Offset: 0x000CBC69
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Filth>(ref this.carriedFilth, "carriedFilth", LookMode.Deep, new object[0]);
 		}
 
+		// Token: 0x06001778 RID: 6008 RVA: 0x000CD884 File Offset: 0x000CBC84
 		public void Notify_EnteredNewCell()
 		{
-			if (Rand.Value < 0.05000000074505806)
+			if (Rand.Value < 0.05f)
 			{
 				this.TryDropFilth();
 			}
-			if (Rand.Value < 0.25)
+			if (Rand.Value < 0.1f)
 			{
 				this.TryPickupFilth();
 			}
-			if (!this.pawn.RaceProps.Humanlike && Rand.Value < PawnUtility.AnimalFilthChancePerCell(this.pawn.def, this.pawn.BodySize) && this.pawn.Position.GetTerrain(this.pawn.Map).acceptTerrainSourceFilth)
+			if (!this.pawn.RaceProps.Humanlike)
 			{
-				FilthMaker.MakeFilth(this.pawn.Position, this.pawn.Map, ThingDefOf.FilthAnimalFilth, 1);
+				if (Rand.Value < PawnUtility.AnimalFilthChancePerCell(this.pawn.def, this.pawn.BodySize))
+				{
+					if (this.pawn.Position.GetTerrain(this.pawn.Map).acceptTerrainSourceFilth)
+					{
+						FilthMaker.MakeFilth(this.pawn.Position, this.pawn.Map, ThingDefOf.Filth_AnimalFilth, 1);
+						FilthMonitor.Notify_FilthAnimalGenerated(ThingDefOf.Filth_AnimalFilth);
+					}
+				}
+			}
+			else if (Rand.Value < PawnUtility.HumanFilthChancePerCell(this.pawn.def, this.pawn.BodySize))
+			{
+				if (this.pawn.Position.GetTerrain(this.pawn.Map).acceptTerrainSourceFilth)
+				{
+					FilthMaker.MakeFilth(this.pawn.Position, this.pawn.Map, ThingDefOf.Filth_HumanFilth, 1);
+					FilthMonitor.Notify_FilthHumanGenerated(ThingDefOf.Filth_HumanFilth);
+				}
 			}
 		}
 
+		// Token: 0x06001779 RID: 6009 RVA: 0x000CD9CC File Offset: 0x000CBDCC
 		private void TryPickupFilth()
 		{
 			TerrainDef terrDef = this.pawn.Map.terrainGrid.TerrainAt(this.pawn.Position);
-			if (terrDef.terrainFilthDef != null)
+			if (terrDef.generatedFilth != null)
 			{
-				for (int num = this.carriedFilth.Count - 1; num >= 0; num--)
+				for (int i = this.carriedFilth.Count - 1; i >= 0; i--)
 				{
-					if (this.carriedFilth[num].def.filth.terrainSourced && this.carriedFilth[num].def != terrDef.terrainFilthDef)
+					if (this.carriedFilth[i].def.filth.terrainSourced && this.carriedFilth[i].def != terrDef.generatedFilth)
 					{
-						this.ThinCarriedFilth(this.carriedFilth[num]);
+						this.ThinCarriedFilth(this.carriedFilth[i]);
 					}
 				}
 				Filth filth = (from f in this.carriedFilth
-				where f.def == terrDef.terrainFilthDef
-				select f).FirstOrDefault();
+				where f.def == terrDef.generatedFilth
+				select f).FirstOrDefault<Filth>();
 				if (filth == null || filth.thickness < 1)
 				{
-					this.GainFilth(terrDef.terrainFilthDef);
+					this.GainFilth(terrDef.generatedFilth);
+					FilthMonitor.Notify_FilthAccumulated(terrDef.generatedFilth);
 				}
 			}
 			List<Thing> thingList = this.pawn.Position.GetThingList(this.pawn.Map);
-			for (int num2 = thingList.Count - 1; num2 >= 0; num2--)
+			for (int j = thingList.Count - 1; j >= 0; j--)
 			{
-				Filth filth2 = thingList[num2] as Filth;
+				Filth filth2 = thingList[j] as Filth;
 				if (filth2 != null && filth2.CanFilthAttachNow)
 				{
 					this.GainFilth(filth2.def, filth2.sources);
@@ -96,26 +110,31 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x0600177A RID: 6010 RVA: 0x000CDB58 File Offset: 0x000CBF58
 		private void TryDropFilth()
 		{
 			if (this.carriedFilth.Count != 0)
 			{
-				for (int num = this.carriedFilth.Count - 1; num >= 0; num--)
+				for (int i = this.carriedFilth.Count - 1; i >= 0; i--)
 				{
-					if (this.carriedFilth[num].CanDropAt(this.pawn.Position, this.pawn.Map))
+					Filth filth = this.carriedFilth[i];
+					if (filth.CanDropAt(this.pawn.Position, this.pawn.Map))
 					{
-						this.DropCarriedFilth(this.carriedFilth[num]);
+						FilthMonitor.Notify_FilthDropped(filth.def);
+						this.DropCarriedFilth(this.carriedFilth[i]);
 					}
 				}
 			}
 		}
 
+		// Token: 0x0600177B RID: 6011 RVA: 0x000CDBE8 File Offset: 0x000CBFE8
 		private void DropCarriedFilth(Filth f)
 		{
 			this.ThinCarriedFilth(f);
 			FilthMaker.MakeFilth(this.pawn.Position, this.pawn.Map, f.def, f.sources);
 		}
 
+		// Token: 0x0600177C RID: 6012 RVA: 0x000CDC19 File Offset: 0x000CC019
 		private void ThinCarriedFilth(Filth f)
 		{
 			f.ThinFilth();
@@ -125,24 +144,23 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x0600177D RID: 6013 RVA: 0x000CDC3B File Offset: 0x000CC03B
 		public void GainFilth(ThingDef filthDef)
 		{
 			this.GainFilth(filthDef, null);
 		}
 
+		// Token: 0x0600177E RID: 6014 RVA: 0x000CDC48 File Offset: 0x000CC048
 		public void GainFilth(ThingDef filthDef, IEnumerable<string> sources)
 		{
 			Filth filth = null;
-			int num = 0;
-			while (num < this.carriedFilth.Count)
+			for (int i = 0; i < this.carriedFilth.Count; i++)
 			{
-				if (this.carriedFilth[num].def != filthDef)
+				if (this.carriedFilth[i].def == filthDef)
 				{
-					num++;
-					continue;
+					filth = this.carriedFilth[i];
+					break;
 				}
-				filth = this.carriedFilth[num];
-				break;
 			}
 			if (filth != null)
 			{
@@ -159,5 +177,20 @@ namespace RimWorld
 				this.carriedFilth.Add(filth2);
 			}
 		}
+
+		// Token: 0x04000DDC RID: 3548
+		private Pawn pawn;
+
+		// Token: 0x04000DDD RID: 3549
+		private List<Filth> carriedFilth = new List<Filth>();
+
+		// Token: 0x04000DDE RID: 3550
+		private const float FilthPickupChance = 0.1f;
+
+		// Token: 0x04000DDF RID: 3551
+		private const float FilthDropChance = 0.05f;
+
+		// Token: 0x04000DE0 RID: 3552
+		private const int MaxCarriedTerrainFilthThickness = 1;
 	}
 }

@@ -1,29 +1,44 @@
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace Verse
 {
+	// Token: 0x02000D83 RID: 3459
 	public static class DirectXmlLoaderSimple
 	{
-		public static IEnumerable<KeyValuePair<string, string>> ValuesFromXmlFile(FileInfo file)
+		// Token: 0x06004D5A RID: 19802 RVA: 0x002845DC File Offset: 0x002829DC
+		public static IEnumerable<DirectXmlLoaderSimple.XmlKeyValuePair> ValuesFromXmlFile(FileInfo file)
 		{
-			XDocument doc = XDocument.Load(file.FullName);
-			using (IEnumerator<XElement> enumerator = doc.Root.Elements().GetEnumerator())
+			XDocument doc = XDocument.Load(file.FullName, LoadOptions.SetLineInfo);
+			foreach (XElement element in doc.Root.Elements())
 			{
-				if (enumerator.MoveNext())
+				string key = element.Name.ToString();
+				string value = element.Value;
+				value = value.Replace("\\n", "\n");
+				yield return new DirectXmlLoaderSimple.XmlKeyValuePair
 				{
-					XElement element = enumerator.Current;
-					string key = element.Name.ToString();
-					string value2 = element.Value;
-					value2 = value2.Replace("\\n", "\n");
-					yield return new KeyValuePair<string, string>(key, value2);
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+					key = key,
+					value = value,
+					lineNumber = ((IXmlLineInfo)element).LineNumber
+				};
 			}
 			yield break;
-			IL_0121:
-			/*Error near IL_0122: Unexpected return in MoveNext()*/;
+		}
+
+		// Token: 0x02000D84 RID: 3460
+		public struct XmlKeyValuePair
+		{
+			// Token: 0x0400339C RID: 13212
+			public string key;
+
+			// Token: 0x0400339D RID: 13213
+			public string value;
+
+			// Token: 0x0400339E RID: 13214
+			public int lineNumber;
 		}
 	}
 }

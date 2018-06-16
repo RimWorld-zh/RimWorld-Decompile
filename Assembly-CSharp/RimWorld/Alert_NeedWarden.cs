@@ -1,42 +1,49 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000798 RID: 1944
 	public class Alert_NeedWarden : Alert
 	{
+		// Token: 0x06002B0A RID: 11018 RVA: 0x0016B875 File Offset: 0x00169C75
 		public Alert_NeedWarden()
 		{
-			base.defaultLabel = "NeedWarden".Translate();
-			base.defaultExplanation = "NeedWardenDesc".Translate();
-			base.defaultPriority = AlertPriority.High;
+			this.defaultLabel = "NeedWarden".Translate();
+			this.defaultExplanation = "NeedWardenDesc".Translate();
+			this.defaultPriority = AlertPriority.High;
 		}
 
+		// Token: 0x06002B0B RID: 11019 RVA: 0x0016B8A8 File Offset: 0x00169CA8
 		public override AlertReport GetReport()
 		{
 			List<Map> maps = Find.Maps;
 			for (int i = 0; i < maps.Count; i++)
 			{
 				Map map = maps[i];
-				if (map.IsPlayerHome && map.mapPawns.PrisonersOfColonySpawned.Any())
+				if (map.IsPlayerHome)
 				{
-					bool flag = false;
-					foreach (Pawn item in map.mapPawns.FreeColonistsSpawned)
+					if (map.mapPawns.PrisonersOfColonySpawned.Any<Pawn>())
 					{
-						if (!item.Downed && item.workSettings != null && item.workSettings.GetPriority(WorkTypeDefOf.Warden) > 0)
+						bool flag = false;
+						foreach (Pawn pawn in map.mapPawns.FreeColonistsSpawned)
 						{
-							flag = true;
-							break;
+							if (!pawn.Downed && pawn.workSettings != null && pawn.workSettings.GetPriority(WorkTypeDefOf.Warden) > 0)
+							{
+								flag = true;
+								break;
+							}
 						}
-					}
-					if (!flag)
-					{
-						return AlertReport.CulpritIs(map.mapPawns.PrisonersOfColonySpawned.First());
+						if (!flag)
+						{
+							return AlertReport.CulpritIs(map.mapPawns.PrisonersOfColonySpawned.First<Pawn>());
+						}
 					}
 				}
 			}
-			return AlertReport.Inactive;
+			return false;
 		}
 	}
 }

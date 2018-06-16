@@ -1,33 +1,18 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x02000832 RID: 2098
 	public class Page_ConfigureStartingPawns : Page
 	{
-		private Pawn curPawn;
-
-		private const float TabAreaWidth = 140f;
-
-		private const float RightRectLeftPadding = 5f;
-
-		private const float PawnEntryHeight = 60f;
-
-		private const float SkillSummaryHeight = 141f;
-
-		private const int SkillSummaryColumns = 4;
-
-		private const int TeamSkillExtraInset = 10;
-
-		private static readonly Vector2 PawnPortraitSize = new Vector2(100f, 140f);
-
-		private static readonly Vector2 PawnSelectorPortraitSize = new Vector2(70f, 110f);
-
-		private int SkillsPerColumn = -1;
-
+		// Token: 0x17000781 RID: 1921
+		// (get) Token: 0x06002F40 RID: 12096 RVA: 0x00193C34 File Offset: 0x00192034
 		public override string PageTitle
 		{
 			get
@@ -36,21 +21,24 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002F41 RID: 12097 RVA: 0x00193C53 File Offset: 0x00192053
 		public override void PreOpen()
 		{
 			base.PreOpen();
-			if (Find.GameInitData.startingPawns.Count > 0)
+			if (Find.GameInitData.startingAndOptionalPawns.Count > 0)
 			{
-				this.curPawn = Find.GameInitData.startingPawns[0];
+				this.curPawn = Find.GameInitData.startingAndOptionalPawns[0];
 			}
 		}
 
+		// Token: 0x06002F42 RID: 12098 RVA: 0x00193C87 File Offset: 0x00192087
 		public override void PostOpen()
 		{
 			base.PostOpen();
 			TutorSystem.Notify_Event("PageStart-ConfigureStartingPawns");
 		}
 
+		// Token: 0x06002F43 RID: 12099 RVA: 0x00193CA0 File Offset: 0x001920A0
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DrawPageTitle(rect);
@@ -71,6 +59,7 @@ namespace RimWorld
 			this.DrawSkillSummaries(rect4);
 		}
 
+		// Token: 0x06002F44 RID: 12100 RVA: 0x00193D64 File Offset: 0x00192164
 		private void DrawPawnList(Rect rect)
 		{
 			Rect rect2 = rect;
@@ -80,56 +69,56 @@ namespace RimWorld
 			{
 				if (TutorSystem.AllowAction("ReorderPawn"))
 				{
-					Pawn item = Find.GameInitData.startingPawns[from];
-					Find.GameInitData.startingPawns.RemoveAt(from);
-					Find.GameInitData.startingPawns.Insert(to, item);
+					Pawn item = Find.GameInitData.startingAndOptionalPawns[from];
+					Find.GameInitData.startingAndOptionalPawns.Insert(to, item);
+					Find.GameInitData.startingAndOptionalPawns.RemoveAt((from >= to) ? (from + 1) : from);
 					TutorSystem.Notify_Event("ReorderPawn");
 				}
-			});
+			}, ReorderableDirection.Vertical, -1f, null);
 			rect2.y += 15f;
 			this.DrawPawnListLabelAbove(rect2, "StartingPawnsSelected".Translate());
-			for (int i = 0; i < Find.GameInitData.startingPawns.Count; i++)
+			for (int i = 0; i < Find.GameInitData.startingAndOptionalPawns.Count; i++)
 			{
 				if (i == Find.GameInitData.startingPawnCount)
 				{
 					rect2.y += 30f;
 					this.DrawPawnListLabelAbove(rect2, "StartingPawnsLeftBehind".Translate());
 				}
-				Pawn pawn = Find.GameInitData.startingPawns[i];
+				Pawn pawn = Find.GameInitData.startingAndOptionalPawns[i];
 				GUI.BeginGroup(rect2);
 				Rect rect3 = new Rect(Vector2.zero, rect2.size);
 				Widgets.DrawOptionBackground(rect3, this.curPawn == pawn);
 				MouseoverSounds.DoRegion(rect3);
 				GUI.color = new Color(1f, 1f, 1f, 0.2f);
-				Vector2 pawnSelectorPortraitSize = Page_ConfigureStartingPawns.PawnSelectorPortraitSize;
-				double x = 110.0 - pawnSelectorPortraitSize.x / 2.0;
-				Vector2 pawnSelectorPortraitSize2 = Page_ConfigureStartingPawns.PawnSelectorPortraitSize;
-				double y = 40.0 - pawnSelectorPortraitSize2.y / 2.0;
-				Vector2 pawnSelectorPortraitSize3 = Page_ConfigureStartingPawns.PawnSelectorPortraitSize;
-				float x2 = pawnSelectorPortraitSize3.x;
-				Vector2 pawnSelectorPortraitSize4 = Page_ConfigureStartingPawns.PawnSelectorPortraitSize;
-				GUI.DrawTexture(new Rect((float)x, (float)y, x2, pawnSelectorPortraitSize4.y), PortraitsCache.Get(pawn, Page_ConfigureStartingPawns.PawnSelectorPortraitSize, default(Vector3), 1f));
+				GUI.DrawTexture(new Rect(110f - Page_ConfigureStartingPawns.PawnSelectorPortraitSize.x / 2f, 40f - Page_ConfigureStartingPawns.PawnSelectorPortraitSize.y / 2f, Page_ConfigureStartingPawns.PawnSelectorPortraitSize.x, Page_ConfigureStartingPawns.PawnSelectorPortraitSize.y), PortraitsCache.Get(pawn, Page_ConfigureStartingPawns.PawnSelectorPortraitSize, default(Vector3), 1f));
 				GUI.color = Color.white;
 				Rect rect4 = rect3.ContractedBy(4f).Rounded();
 				NameTriple nameTriple = pawn.Name as NameTriple;
-				string label = (nameTriple == null) ? pawn.LabelShort : ((!string.IsNullOrEmpty(nameTriple.Nick)) ? nameTriple.Nick : nameTriple.First);
-				Widgets.Label(rect4.TopPart(0.5f).Rounded(), label);
-				Vector2 vector = Text.CalcSize(pawn.story.Title);
-				if (vector.x > rect4.width)
+				string label;
+				if (nameTriple != null)
 				{
-					Widgets.Label(rect4.BottomPart(0.5f).Rounded(), pawn.story.TitleShort);
+					label = ((!string.IsNullOrEmpty(nameTriple.Nick)) ? nameTriple.Nick : nameTriple.First);
 				}
 				else
 				{
-					Widgets.Label(rect4.BottomPart(0.5f).Rounded(), pawn.story.Title);
+					label = pawn.LabelShort;
+				}
+				Widgets.Label(rect4.TopPart(0.5f).Rounded(), label);
+				if (Text.CalcSize(pawn.story.TitleCap).x > rect4.width)
+				{
+					Widgets.Label(rect4.BottomPart(0.5f).Rounded(), pawn.story.TitleShortCap);
+				}
+				else
+				{
+					Widgets.Label(rect4.BottomPart(0.5f).Rounded(), pawn.story.TitleCap);
 				}
 				if (Event.current.type == EventType.MouseDown && Mouse.IsOver(rect3))
 				{
 					this.curPawn = pawn;
-					SoundDefOf.TickTiny.PlayOneShotOnCamera(null);
+					SoundDefOf.Tick_Tiny.PlayOneShotOnCamera(null);
 				}
 				GUI.EndGroup();
-				if (ReorderableWidget.Reorderable(groupID, rect2.ExpandedBy(4f)))
+				if (ReorderableWidget.Reorderable(groupID, rect2.ExpandedBy(4f), false))
 				{
 					Widgets.DrawRectFast(rect2, Widgets.WindowBGFillColor * new Color(1f, 1f, 1f, 0.5f), null);
 				}
@@ -138,6 +127,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002F45 RID: 12101 RVA: 0x00194098 File Offset: 0x00192498
 		private void DrawPawnListLabelAbove(Rect rect, string label)
 		{
 			rect.yMax = rect.yMin;
@@ -150,25 +140,18 @@ namespace RimWorld
 			Text.Font = GameFont.Small;
 		}
 
+		// Token: 0x06002F46 RID: 12102 RVA: 0x001940FC File Offset: 0x001924FC
 		private void DrawPortraitArea(Rect rect)
 		{
 			Widgets.DrawMenuSection(rect);
 			rect = rect.ContractedBy(17f);
-			Vector2 center = rect.center;
-			float x = center.x;
-			Vector2 pawnPortraitSize = Page_ConfigureStartingPawns.PawnPortraitSize;
-			double x2 = x - pawnPortraitSize.x / 2.0;
-			double y = rect.yMin - 20.0;
-			Vector2 pawnPortraitSize2 = Page_ConfigureStartingPawns.PawnPortraitSize;
-			float x3 = pawnPortraitSize2.x;
-			Vector2 pawnPortraitSize3 = Page_ConfigureStartingPawns.PawnPortraitSize;
-			GUI.DrawTexture(new Rect((float)x2, (float)y, x3, pawnPortraitSize3.y), PortraitsCache.Get(this.curPawn, Page_ConfigureStartingPawns.PawnPortraitSize, default(Vector3), 1f));
+			GUI.DrawTexture(new Rect(rect.center.x - Page_ConfigureStartingPawns.PawnPortraitSize.x / 2f, rect.yMin - 20f, Page_ConfigureStartingPawns.PawnPortraitSize.x, Page_ConfigureStartingPawns.PawnPortraitSize.y), PortraitsCache.Get(this.curPawn, Page_ConfigureStartingPawns.PawnPortraitSize, default(Vector3), 1f));
 			Rect rect2 = rect;
 			rect2.width = 500f;
-			CharacterCardUtility.DrawCharacterCard(rect2, this.curPawn, this.RandomizeCurPawn, rect);
+			CharacterCardUtility.DrawCharacterCard(rect2, this.curPawn, new Action(this.RandomizeCurPawn), rect);
 			Rect rect3 = rect;
 			rect3.yMin += 100f;
-			rect3.xMin = (float)(rect2.xMax + 5.0);
+			rect3.xMin = rect2.xMax + 5f;
 			rect3.height = 200f;
 			Text.Font = GameFont.Medium;
 			Widgets.Label(rect3, "Health".Translate());
@@ -183,6 +166,7 @@ namespace RimWorld
 			SocialCardUtility.DrawRelationsAndOpinions(rect4, this.curPawn);
 		}
 
+		// Token: 0x06002F47 RID: 12103 RVA: 0x0019428C File Offset: 0x0019268C
 		private void DrawSkillSummaries(Rect rect)
 		{
 			rect.xMin += 10f;
@@ -198,9 +182,9 @@ namespace RimWorld
 			List<SkillDef> allDefsListForReading = DefDatabase<SkillDef>.AllDefsListForReading;
 			if (this.SkillsPerColumn < 0)
 			{
-				this.SkillsPerColumn = Mathf.CeilToInt((float)((float)(from sd in allDefsListForReading
+				this.SkillsPerColumn = Mathf.CeilToInt((float)(from sd in allDefsListForReading
 				where sd.pawnCreatorSummaryVisible
-				select sd).Count() / 4.0));
+				select sd).Count<SkillDef>() / 4f);
 			}
 			int num = 0;
 			for (int i = 0; i < allDefsListForReading.Count; i++)
@@ -220,62 +204,121 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002F48 RID: 12104 RVA: 0x0019444C File Offset: 0x0019284C
 		private Pawn FindBestSkillOwner(SkillDef skill)
 		{
-			Pawn pawn = Find.GameInitData.startingPawns[0];
+			Pawn pawn = Find.GameInitData.startingAndOptionalPawns[0];
 			SkillRecord skillRecord = pawn.skills.GetSkill(skill);
 			for (int i = 1; i < Find.GameInitData.startingPawnCount; i++)
 			{
-				SkillRecord skill2 = Find.GameInitData.startingPawns[i].skills.GetSkill(skill);
-				if (skillRecord.TotallyDisabled || skill2.Level > skillRecord.Level || (skill2.Level == skillRecord.Level && (int)skill2.passion > (int)skillRecord.passion))
+				SkillRecord skill2 = Find.GameInitData.startingAndOptionalPawns[i].skills.GetSkill(skill);
+				if (skillRecord.TotallyDisabled || skill2.Level > skillRecord.Level || (skill2.Level == skillRecord.Level && skill2.passion > skillRecord.passion))
 				{
-					pawn = Find.GameInitData.startingPawns[i];
+					pawn = Find.GameInitData.startingAndOptionalPawns[i];
 					skillRecord = skill2;
 				}
 			}
 			return pawn;
 		}
 
+		// Token: 0x06002F49 RID: 12105 RVA: 0x00194510 File Offset: 0x00192910
 		private void RandomizeCurPawn()
 		{
 			if (TutorSystem.AllowAction("RandomizePawn"))
 			{
-				this.curPawn = StartingPawnUtility.RandomizeInPlace(this.curPawn);
+				int num = 0;
+				do
+				{
+					this.curPawn = StartingPawnUtility.RandomizeInPlace(this.curPawn);
+					num++;
+					if (num > 20)
+					{
+						break;
+					}
+				}
+				while (!StartingPawnUtility.WorkTypeRequirementsSatisfied());
 				TutorSystem.Notify_Event("RandomizePawn");
 			}
 		}
 
+		// Token: 0x06002F4A RID: 12106 RVA: 0x00194578 File Offset: 0x00192978
 		protected override bool CanDoNext()
 		{
+			bool result;
 			if (!base.CanDoNext())
 			{
-				return false;
+				result = false;
 			}
-			foreach (Pawn startingPawn in Find.GameInitData.startingPawns)
+			else
 			{
-				if (!startingPawn.Name.IsValid)
+				if (TutorSystem.TutorialMode)
 				{
-					Messages.Message("EveryoneNeedsValidName".Translate(), MessageTypeDefOf.RejectInput);
-					return false;
+					WorkTypeDef workTypeDef = StartingPawnUtility.RequiredWorkTypesDisabledForEveryone().FirstOrDefault<WorkTypeDef>();
+					if (workTypeDef != null)
+					{
+						Messages.Message("RequiredWorkTypeDisabledForEveryone".Translate() + ": " + workTypeDef.gerundLabel.CapitalizeFirst() + ".", MessageTypeDefOf.RejectInput, false);
+						return false;
+					}
 				}
+				foreach (Pawn pawn in Find.GameInitData.startingAndOptionalPawns)
+				{
+					if (!pawn.Name.IsValid)
+					{
+						Messages.Message("EveryoneNeedsValidName".Translate(), MessageTypeDefOf.RejectInput, false);
+						return false;
+					}
+				}
+				PortraitsCache.Clear();
+				result = true;
 			}
-			PortraitsCache.Clear();
-			return true;
+			return result;
 		}
 
+		// Token: 0x06002F4B RID: 12107 RVA: 0x00194678 File Offset: 0x00192A78
 		protected override void DoNext()
 		{
-			foreach (Pawn startingPawn in Find.GameInitData.startingPawns)
+			this.CheckWarnRequiredWorkTypesDisabledForEveryone(delegate
 			{
-				NameTriple nameTriple = startingPawn.Name as NameTriple;
-				if (nameTriple != null && string.IsNullOrEmpty(nameTriple.Nick))
+				foreach (Pawn pawn in Find.GameInitData.startingAndOptionalPawns)
 				{
-					startingPawn.Name = new NameTriple(nameTriple.First, nameTriple.First, nameTriple.Last);
+					NameTriple nameTriple = pawn.Name as NameTriple;
+					if (nameTriple != null && string.IsNullOrEmpty(nameTriple.Nick))
+					{
+						pawn.Name = new NameTriple(nameTriple.First, nameTriple.First, nameTriple.Last);
+					}
 				}
-			}
-			base.DoNext();
+				this.<DoNext>__BaseCallProxy0();
+			});
 		}
 
+		// Token: 0x06002F4C RID: 12108 RVA: 0x00194690 File Offset: 0x00192A90
+		private void CheckWarnRequiredWorkTypesDisabledForEveryone(Action nextAction)
+		{
+			IEnumerable<WorkTypeDef> enumerable = StartingPawnUtility.RequiredWorkTypesDisabledForEveryone();
+			if (enumerable.Any<WorkTypeDef>())
+			{
+				StringBuilder stringBuilder = new StringBuilder();
+				foreach (WorkTypeDef workTypeDef in enumerable)
+				{
+					if (stringBuilder.Length > 0)
+					{
+						stringBuilder.AppendLine();
+					}
+					stringBuilder.Append("  - " + workTypeDef.gerundLabel.CapitalizeFirst());
+				}
+				string text = "ConfirmRequiredWorkTypeDisabledForEveryone".Translate(new object[]
+				{
+					stringBuilder.ToString()
+				});
+				Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation(text, nextAction, false, null));
+			}
+			else
+			{
+				nextAction();
+			}
+		}
+
+		// Token: 0x06002F4D RID: 12109 RVA: 0x00194764 File Offset: 0x00192B64
 		public void SelectPawn(Pawn c)
 		{
 			if (c != this.curPawn)
@@ -283,5 +326,35 @@ namespace RimWorld
 				this.curPawn = c;
 			}
 		}
+
+		// Token: 0x04001982 RID: 6530
+		private Pawn curPawn;
+
+		// Token: 0x04001983 RID: 6531
+		private const float TabAreaWidth = 140f;
+
+		// Token: 0x04001984 RID: 6532
+		private const float RightRectLeftPadding = 5f;
+
+		// Token: 0x04001985 RID: 6533
+		private const float PawnEntryHeight = 60f;
+
+		// Token: 0x04001986 RID: 6534
+		private const float SkillSummaryHeight = 141f;
+
+		// Token: 0x04001987 RID: 6535
+		private const int SkillSummaryColumns = 4;
+
+		// Token: 0x04001988 RID: 6536
+		private const int TeamSkillExtraInset = 10;
+
+		// Token: 0x04001989 RID: 6537
+		private static readonly Vector2 PawnPortraitSize = new Vector2(100f, 140f);
+
+		// Token: 0x0400198A RID: 6538
+		private static readonly Vector2 PawnSelectorPortraitSize = new Vector2(70f, 110f);
+
+		// Token: 0x0400198B RID: 6539
+		private int SkillsPerColumn = -1;
 	}
 }

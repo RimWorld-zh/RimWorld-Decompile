@@ -1,41 +1,41 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020004D5 RID: 1237
 	public class PawnRelationWorker_SecondCousin : PawnRelationWorker
 	{
+		// Token: 0x06001602 RID: 5634 RVA: 0x000C2FBC File Offset: 0x000C13BC
 		public override bool InRelation(Pawn me, Pawn other)
 		{
+			bool result;
 			if (me == other)
 			{
-				return false;
+				result = false;
 			}
-			PawnRelationWorker worker = PawnRelationDefOf.GranduncleOrGrandaunt.Worker;
-			Pawn mother = other.GetMother();
-			if (mother != null)
+			else
 			{
-				if (mother.GetMother() != null && worker.InRelation(me, mother.GetMother()))
+				PawnRelationWorker worker = PawnRelationDefOf.GranduncleOrGrandaunt.Worker;
+				Pawn mother = other.GetMother();
+				if (mother != null)
 				{
-					goto IL_005b;
+					if ((mother.GetMother() != null && worker.InRelation(me, mother.GetMother())) || (mother.GetFather() != null && worker.InRelation(me, mother.GetFather())))
+					{
+						return true;
+					}
 				}
-				if (mother.GetFather() != null && worker.InRelation(me, mother.GetFather()))
-					goto IL_005b;
-			}
-			Pawn father = other.GetFather();
-			if (father != null)
-			{
-				if (father.GetMother() != null && worker.InRelation(me, father.GetMother()))
+				Pawn father = other.GetFather();
+				if (father != null)
 				{
-					goto IL_00a4;
+					if ((father.GetMother() != null && worker.InRelation(me, father.GetMother())) || (father.GetFather() != null && worker.InRelation(me, father.GetFather())))
+					{
+						return true;
+					}
 				}
-				if (father.GetFather() != null && worker.InRelation(me, father.GetFather()))
-					goto IL_00a4;
+				result = false;
 			}
-			return false;
-			IL_005b:
-			return true;
-			IL_00a4:
-			return true;
+			return result;
 		}
 	}
 }

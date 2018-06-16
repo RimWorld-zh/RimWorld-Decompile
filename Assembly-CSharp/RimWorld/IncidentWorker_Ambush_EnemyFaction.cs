@@ -1,32 +1,52 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using RimWorld.Planet;
 using Verse;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
+	// Token: 0x0200031C RID: 796
 	public class IncidentWorker_Ambush_EnemyFaction : IncidentWorker_Ambush
 	{
-		protected override List<Pawn> GeneratePawns(IncidentParms parms)
+		// Token: 0x06000D8D RID: 3469 RVA: 0x00073FE0 File Offset: 0x000723E0
+		protected override bool CanFireNowSub(IncidentParms parms)
 		{
-			if (!PawnGroupMakerUtility.TryGetRandomFactionForNormalPawnGroup(parms.points, out parms.faction, (Predicate<Faction>)null, false, false, false, true))
-			{
-				return new List<Pawn>();
-			}
-			PawnGroupMakerParms defaultPawnGroupMakerParms = IncidentParmsUtility.GetDefaultPawnGroupMakerParms(parms, false);
-			defaultPawnGroupMakerParms.generateFightersOnly = true;
-			return PawnGroupMakerUtility.GeneratePawns(PawnGroupKindDefOf.Normal, defaultPawnGroupMakerParms, true).ToList();
+			Faction faction;
+			return base.CanFireNowSub(parms) && PawnGroupMakerUtility.TryGetRandomFactionForCombatPawnGroup(parms.points, out faction, null, false, false, false, true);
 		}
 
+		// Token: 0x06000D8E RID: 3470 RVA: 0x0007401C File Offset: 0x0007241C
+		protected override List<Pawn> GeneratePawns(IncidentParms parms)
+		{
+			List<Pawn> result;
+			if (!PawnGroupMakerUtility.TryGetRandomFactionForCombatPawnGroup(parms.points, out parms.faction, null, false, false, false, true))
+			{
+				Log.Error("Could not find any valid faction for " + this.def + " incident.", false);
+				result = new List<Pawn>();
+			}
+			else
+			{
+				PawnGroupMakerParms defaultPawnGroupMakerParms = IncidentParmsUtility.GetDefaultPawnGroupMakerParms(PawnGroupKindDefOf.Combat, parms, false);
+				defaultPawnGroupMakerParms.generateFightersOnly = true;
+				defaultPawnGroupMakerParms.dontUseSingleUseRocketLaunchers = true;
+				result = PawnGroupMakerUtility.GeneratePawns(defaultPawnGroupMakerParms, true).ToList<Pawn>();
+			}
+			return result;
+		}
+
+		// Token: 0x06000D8F RID: 3471 RVA: 0x0007409C File Offset: 0x0007249C
 		protected override LordJob CreateLordJob(List<Pawn> generatedPawns, IncidentParms parms)
 		{
 			return new LordJob_AssaultColony(parms.faction, true, false, false, false, true);
 		}
 
-		protected override void SendAmbushLetter(Pawn anyPawn, IncidentParms parms)
+		// Token: 0x06000D90 RID: 3472 RVA: 0x000740C4 File Offset: 0x000724C4
+		protected override string GetLetterText(Pawn anyPawn, IncidentParms parms)
 		{
-			base.SendStandardLetter(anyPawn, parms.faction.def.pawnsPlural, parms.faction.Name);
+			Caravan caravan = parms.target as Caravan;
+			return string.Format(this.def.letterText, (caravan == null) ? "yourCaravan".Translate() : caravan.Name, parms.faction.def.pawnsPlural, parms.faction.Name).CapitalizeFirst();
 		}
 	}
 }

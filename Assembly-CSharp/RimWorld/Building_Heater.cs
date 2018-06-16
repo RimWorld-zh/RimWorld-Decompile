@@ -1,33 +1,49 @@
+﻿using System;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200069A RID: 1690
 	public class Building_Heater : Building_TempControl
 	{
-		private const float EfficiencyFalloffSpan = 100f;
-
+		// Token: 0x060023CA RID: 9162 RVA: 0x00132A38 File Offset: 0x00130E38
 		public override void TickRare()
 		{
-			if (base.compPowerTrader.PowerOn)
+			if (this.compPowerTrader.PowerOn)
 			{
 				float ambientTemperature = base.AmbientTemperature;
-				float num = (float)((!(ambientTemperature < 20.0)) ? ((!(ambientTemperature > 120.0)) ? Mathf.InverseLerp(120f, 20f, ambientTemperature) : 0.0) : 1.0);
-				float energyLimit = (float)(base.compTempControl.Props.energyPerSecond * num * 4.1666665077209473);
-				float num2 = GenTemperature.ControlTemperatureTempChange(base.Position, base.Map, energyLimit, base.compTempControl.targetTemperature);
-				bool flag = !Mathf.Approximately(num2, 0f);
-				CompProperties_Power props = base.compPowerTrader.Props;
-				if (flag)
+				float num;
+				if (ambientTemperature < 20f)
 				{
-					this.GetRoomGroup().Temperature += num2;
-					base.compPowerTrader.PowerOutput = (float)(0.0 - props.basePowerConsumption);
+					num = 1f;
+				}
+				else if (ambientTemperature > 120f)
+				{
+					num = 0f;
 				}
 				else
 				{
-					base.compPowerTrader.PowerOutput = (float)((0.0 - props.basePowerConsumption) * base.compTempControl.Props.lowPowerConsumptionFactor);
+					num = Mathf.InverseLerp(120f, 20f, ambientTemperature);
 				}
-				base.compTempControl.operatingAtHighPower = flag;
+				float energyLimit = this.compTempControl.Props.energyPerSecond * num * 4.16666651f;
+				float num2 = GenTemperature.ControlTemperatureTempChange(base.Position, base.Map, energyLimit, this.compTempControl.targetTemperature);
+				bool flag = !Mathf.Approximately(num2, 0f);
+				CompProperties_Power props = this.compPowerTrader.Props;
+				if (flag)
+				{
+					this.GetRoomGroup().Temperature += num2;
+					this.compPowerTrader.PowerOutput = -props.basePowerConsumption;
+				}
+				else
+				{
+					this.compPowerTrader.PowerOutput = -props.basePowerConsumption * this.compTempControl.Props.lowPowerConsumptionFactor;
+				}
+				this.compTempControl.operatingAtHighPower = flag;
 			}
 		}
+
+		// Token: 0x040013FC RID: 5116
+		private const float EfficiencyFalloffSpan = 100f;
 	}
 }

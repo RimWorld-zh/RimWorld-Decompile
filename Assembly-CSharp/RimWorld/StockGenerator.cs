@@ -1,72 +1,115 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200076B RID: 1899
 	public abstract class StockGenerator
 	{
-		[Unsaved]
-		public TraderKindDef trader;
-
-		public IntRange countRange = IntRange.zero;
-
-		public FloatRange totalPriceRange = FloatRange.Zero;
-
-		public TechLevel maxTechLevelGenerate = TechLevel.Transcendent;
-
-		public TechLevel maxTechLevelBuy = TechLevel.Transcendent;
-
-		public PriceType price = PriceType.Normal;
-
+		// Token: 0x060029F7 RID: 10743 RVA: 0x001632F0 File Offset: 0x001616F0
 		public virtual void ResolveReferences(TraderKindDef trader)
 		{
 			this.trader = trader;
 		}
 
+		// Token: 0x060029F8 RID: 10744 RVA: 0x001632FC File Offset: 0x001616FC
 		public virtual IEnumerable<string> ConfigErrors(TraderKindDef parentDef)
 		{
 			yield break;
 		}
 
+		// Token: 0x060029F9 RID: 10745
 		public abstract IEnumerable<Thing> GenerateThings(int forTile);
 
+		// Token: 0x060029FA RID: 10746
 		public abstract bool HandlesThingDef(ThingDef thingDef);
 
+		// Token: 0x060029FB RID: 10747 RVA: 0x00163320 File Offset: 0x00161720
 		public bool TryGetPriceType(ThingDef thingDef, TradeAction action, out PriceType priceType)
 		{
+			bool result;
 			if (!this.HandlesThingDef(thingDef))
 			{
 				priceType = PriceType.Undefined;
-				return false;
+				result = false;
 			}
-			priceType = this.price;
-			return true;
+			else
+			{
+				priceType = this.price;
+				result = true;
+			}
+			return result;
 		}
 
+		// Token: 0x060029FC RID: 10748 RVA: 0x00163358 File Offset: 0x00161758
 		protected int RandomCountOf(ThingDef def)
 		{
-			if (this.countRange.max > 0 && this.totalPriceRange.max <= 0.0)
+			IntRange intRange = this.countRange;
+			if (this.customCountRanges != null)
 			{
-				return this.countRange.RandomInRange;
-			}
-			if (this.countRange.max <= 0 && this.totalPriceRange.max > 0.0)
-			{
-				return Mathf.RoundToInt(this.totalPriceRange.RandomInRange / def.BaseMarketValue);
-			}
-			int num = 0;
-			int randomInRange;
-			while (true)
-			{
-				randomInRange = this.countRange.RandomInRange;
-				num++;
-				if (num <= 100 && !this.totalPriceRange.Includes((float)randomInRange * def.BaseMarketValue))
+				for (int i = 0; i < this.customCountRanges.Count; i++)
 				{
-					continue;
+					if (this.customCountRanges[i].thingDef == def)
+					{
+						intRange = this.customCountRanges[i].countRange;
+						break;
+					}
 				}
-				break;
 			}
-			return randomInRange;
+			int result;
+			if (intRange.max <= 0 && this.totalPriceRange.max <= 0f)
+			{
+				result = 0;
+			}
+			else if (intRange.max > 0 && this.totalPriceRange.max <= 0f)
+			{
+				result = intRange.RandomInRange;
+			}
+			else if (intRange.max <= 0 && this.totalPriceRange.max > 0f)
+			{
+				result = Mathf.RoundToInt(this.totalPriceRange.RandomInRange / def.BaseMarketValue);
+			}
+			else
+			{
+				int num = 0;
+				int randomInRange;
+				do
+				{
+					randomInRange = intRange.RandomInRange;
+					num++;
+					if (num > 100)
+					{
+						break;
+					}
+				}
+				while (!this.totalPriceRange.Includes((float)randomInRange * def.BaseMarketValue));
+				result = randomInRange;
+			}
+			return result;
 		}
+
+		// Token: 0x040016A7 RID: 5799
+		[Unsaved]
+		public TraderKindDef trader;
+
+		// Token: 0x040016A8 RID: 5800
+		public IntRange countRange = IntRange.zero;
+
+		// Token: 0x040016A9 RID: 5801
+		public List<ThingDefCountRangeClass> customCountRanges;
+
+		// Token: 0x040016AA RID: 5802
+		public FloatRange totalPriceRange = FloatRange.Zero;
+
+		// Token: 0x040016AB RID: 5803
+		public TechLevel maxTechLevelGenerate = TechLevel.Archotech;
+
+		// Token: 0x040016AC RID: 5804
+		public TechLevel maxTechLevelBuy = TechLevel.Archotech;
+
+		// Token: 0x040016AD RID: 5805
+		public PriceType price = PriceType.Normal;
 	}
 }

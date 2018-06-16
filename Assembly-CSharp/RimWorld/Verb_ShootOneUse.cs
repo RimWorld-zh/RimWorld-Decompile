@@ -1,40 +1,50 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020009DB RID: 2523
 	public class Verb_ShootOneUse : Verb_Shoot
 	{
+		// Token: 0x0600387F RID: 14463 RVA: 0x001E3290 File Offset: 0x001E1690
 		protected override bool TryCastShot()
 		{
+			bool result;
 			if (base.TryCastShot())
 			{
-				if (base.burstShotsLeft <= 1)
+				if (this.burstShotsLeft <= 1)
 				{
 					this.SelfConsume();
 				}
-				return true;
+				result = true;
 			}
-			if (base.burstShotsLeft < base.verbProps.burstShotCount)
+			else
 			{
-				this.SelfConsume();
+				if (this.burstShotsLeft < this.verbProps.burstShotCount)
+				{
+					this.SelfConsume();
+				}
+				result = false;
 			}
-			return false;
+			return result;
 		}
 
+		// Token: 0x06003880 RID: 14464 RVA: 0x001E32E8 File Offset: 0x001E16E8
 		public override void Notify_EquipmentLost()
 		{
 			base.Notify_EquipmentLost();
-			if (base.state == VerbState.Bursting && base.burstShotsLeft < base.verbProps.burstShotCount)
+			if (this.state == VerbState.Bursting && this.burstShotsLeft < this.verbProps.burstShotCount)
 			{
 				this.SelfConsume();
 			}
 		}
 
+		// Token: 0x06003881 RID: 14465 RVA: 0x001E3319 File Offset: 0x001E1719
 		private void SelfConsume()
 		{
-			if (base.ownerEquipment != null && !base.ownerEquipment.Destroyed)
+			if (this.ownerEquipment != null && !this.ownerEquipment.Destroyed)
 			{
-				base.ownerEquipment.Destroy(DestroyMode.Vanish);
+				this.ownerEquipment.Destroy(DestroyMode.Vanish);
 			}
 		}
 	}

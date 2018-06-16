@@ -1,25 +1,37 @@
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000113 RID: 275
 	public class JobGiver_SlaughterRandomAnimal : ThinkNode_JobGiver
 	{
+		// Token: 0x060005A3 RID: 1443 RVA: 0x0003C9FC File Offset: 0x0003ADFC
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			MentalState_Slaughterer mentalState_Slaughterer = pawn.MentalState as MentalState_Slaughterer;
+			Job result;
 			if (mentalState_Slaughterer != null && mentalState_Slaughterer.SlaughteredRecently)
 			{
-				return null;
+				result = null;
 			}
-			Pawn pawn2 = SlaughtererMentalStateUtility.FindAnimal(pawn);
-			if (pawn2 != null && pawn.CanReserveAndReach(pawn2, PathEndMode.Touch, Danger.Deadly, 1, -1, null, false))
+			else
 			{
-				Job job = new Job(JobDefOf.Slaughter, pawn2);
-				job.ignoreDesignations = true;
-				return job;
+				Pawn pawn2 = SlaughtererMentalStateUtility.FindAnimal(pawn);
+				if (pawn2 == null || !pawn.CanReserveAndReach(pawn2, PathEndMode.Touch, Danger.Deadly, 1, -1, null, false))
+				{
+					result = null;
+				}
+				else
+				{
+					result = new Job(JobDefOf.Slaughter, pawn2)
+					{
+						ignoreDesignations = true
+					};
+				}
 			}
-			return null;
+			return result;
 		}
 	}
 }

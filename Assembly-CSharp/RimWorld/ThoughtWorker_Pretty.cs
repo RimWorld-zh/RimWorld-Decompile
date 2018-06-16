@@ -1,32 +1,44 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000206 RID: 518
 	public class ThoughtWorker_Pretty : ThoughtWorker
 	{
+		// Token: 0x060009DA RID: 2522 RVA: 0x000584E8 File Offset: 0x000568E8
 		protected override ThoughtState CurrentSocialStateInternal(Pawn pawn, Pawn other)
 		{
-			if (other.RaceProps.Humanlike && RelationsUtility.PawnsKnowEachOther(pawn, other))
+			ThoughtState result;
+			if (!other.RaceProps.Humanlike || !RelationsUtility.PawnsKnowEachOther(pawn, other))
 			{
-				if (RelationsUtility.IsDisfigured(other))
+				result = false;
+			}
+			else if (RelationsUtility.IsDisfigured(other))
+			{
+				result = false;
+			}
+			else if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Sight))
+			{
+				result = false;
+			}
+			else
+			{
+				int num = other.story.traits.DegreeOfTrait(TraitDefOf.Beauty);
+				if (num == 1)
 				{
-					return false;
+					result = ThoughtState.ActiveAtStage(0);
 				}
-				if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Sight))
+				else if (num == 2)
 				{
-					return false;
+					result = ThoughtState.ActiveAtStage(1);
 				}
-				switch (other.story.traits.DegreeOfTrait(TraitDefOf.Beauty))
+				else
 				{
-				case 1:
-					return ThoughtState.ActiveAtStage(0);
-				case 2:
-					return ThoughtState.ActiveAtStage(1);
-				default:
-					return false;
+					result = false;
 				}
 			}
-			return false;
+			return result;
 		}
 	}
 }

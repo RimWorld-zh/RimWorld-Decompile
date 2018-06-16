@@ -1,13 +1,15 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000150 RID: 336
 	public class WorkGiver_Miner : WorkGiver_Scanner
 	{
-		private static string NoPathTrans;
-
+		// Token: 0x1700010C RID: 268
+		// (get) Token: 0x060006F0 RID: 1776 RVA: 0x00046D40 File Offset: 0x00045140
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -16,24 +18,27 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060006F1 RID: 1777 RVA: 0x00046D58 File Offset: 0x00045158
 		public override Danger MaxPathDanger(Pawn pawn)
 		{
 			return Danger.Deadly;
 		}
 
-		public static void Reset()
+		// Token: 0x060006F2 RID: 1778 RVA: 0x00046D6E File Offset: 0x0004516E
+		public static void ResetStaticData()
 		{
 			WorkGiver_Miner.NoPathTrans = "NoPath".Translate();
 		}
 
+		// Token: 0x060006F3 RID: 1779 RVA: 0x00046D80 File Offset: 0x00045180
 		public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
 		{
-			foreach (Designation item in pawn.Map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.Mine))
+			foreach (Designation des in pawn.Map.designationManager.SpawnedDesignationsOfDef(DesignationDefOf.Mine))
 			{
 				bool mayBeAccessible = false;
 				for (int j = 0; j < 8; j++)
 				{
-					IntVec3 c = item.target.Cell + GenAdj.AdjacentCells[j];
+					IntVec3 c = des.target.Cell + GenAdj.AdjacentCells[j];
 					if (c.InBounds(pawn.Map) && c.Walkable(pawn.Map))
 					{
 						mayBeAccessible = true;
@@ -42,79 +47,91 @@ namespace RimWorld
 				}
 				if (mayBeAccessible)
 				{
-					Mineable i = item.target.Cell.GetFirstMineable(pawn.Map);
+					Mineable i = des.target.Cell.GetFirstMineable(pawn.Map);
 					if (i != null)
 					{
-						yield return (Thing)i;
-						/*Error: Unable to find new state assignment for yield return*/;
+						yield return i;
 					}
 				}
 			}
 			yield break;
-			IL_0180:
-			/*Error near IL_0181: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x060006F4 RID: 1780 RVA: 0x00046DAC File Offset: 0x000451AC
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
+			Job result;
 			if (!t.def.mineable)
 			{
-				return null;
+				result = null;
 			}
-			if (pawn.Map.designationManager.DesignationAt(t.Position, DesignationDefOf.Mine) == null)
+			else if (pawn.Map.designationManager.DesignationAt(t.Position, DesignationDefOf.Mine) == null)
 			{
-				return null;
+				result = null;
 			}
-			if (!pawn.CanReserve(t, 1, -1, null, false))
+			else if (!pawn.CanReserve(t, 1, -1, null, false))
 			{
-				return null;
+				result = null;
 			}
-			bool flag = false;
-			for (int i = 0; i < 8; i++)
+			else
 			{
-				IntVec3 intVec = t.Position + GenAdj.AdjacentCells[i];
-				if (intVec.InBounds(pawn.Map) && intVec.Standable(pawn.Map) && ReachabilityImmediate.CanReachImmediate(intVec, t, pawn.Map, PathEndMode.Touch, pawn))
+				bool flag = false;
+				for (int i = 0; i < 8; i++)
 				{
-					flag = true;
-					break;
-				}
-			}
-			if (!flag)
-			{
-				for (int j = 0; j < 8; j++)
-				{
-					IntVec3 intVec2 = t.Position + GenAdj.AdjacentCells[j];
-					if (intVec2.InBounds(t.Map) && ReachabilityImmediate.CanReachImmediate(intVec2, t, pawn.Map, PathEndMode.Touch, pawn) && intVec2.Walkable(t.Map) && !intVec2.Standable(t.Map))
+					IntVec3 intVec = t.Position + GenAdj.AdjacentCells[i];
+					if (intVec.InBounds(pawn.Map) && intVec.Standable(pawn.Map) && ReachabilityImmediate.CanReachImmediate(intVec, t, pawn.Map, PathEndMode.Touch, pawn))
 					{
-						Thing thing = null;
-						List<Thing> thingList = intVec2.GetThingList(t.Map);
-						int num = 0;
-						while (num < thingList.Count)
-						{
-							if (!thingList[num].def.designateHaulable || thingList[num].def.passability != Traversability.PassThroughOnly)
-							{
-								num++;
-								continue;
-							}
-							thing = thingList[num];
-							break;
-						}
-						if (thing != null)
-						{
-							Job job = HaulAIUtility.HaulAsideJobFor(pawn, thing);
-							if (job != null)
-							{
-								return job;
-							}
-							JobFailReason.Is(WorkGiver_Miner.NoPathTrans);
-							return null;
-						}
+						flag = true;
+						break;
 					}
 				}
-				JobFailReason.Is(WorkGiver_Miner.NoPathTrans);
-				return null;
+				if (!flag)
+				{
+					for (int j = 0; j < 8; j++)
+					{
+						IntVec3 intVec2 = t.Position + GenAdj.AdjacentCells[j];
+						if (intVec2.InBounds(t.Map))
+						{
+							if (ReachabilityImmediate.CanReachImmediate(intVec2, t, pawn.Map, PathEndMode.Touch, pawn))
+							{
+								if (intVec2.Walkable(t.Map) && !intVec2.Standable(t.Map))
+								{
+									Thing thing = null;
+									List<Thing> thingList = intVec2.GetThingList(t.Map);
+									for (int k = 0; k < thingList.Count; k++)
+									{
+										if (thingList[k].def.designateHaulable && thingList[k].def.passability == Traversability.PassThroughOnly)
+										{
+											thing = thingList[k];
+											break;
+										}
+									}
+									if (thing != null)
+									{
+										Job job = HaulAIUtility.HaulAsideJobFor(pawn, thing);
+										if (job != null)
+										{
+											return job;
+										}
+										JobFailReason.Is(WorkGiver_Miner.NoPathTrans, null);
+										return null;
+									}
+								}
+							}
+						}
+					}
+					JobFailReason.Is(WorkGiver_Miner.NoPathTrans, null);
+					result = null;
+				}
+				else
+				{
+					result = new Job(JobDefOf.Mine, t, 1500, true);
+				}
 			}
-			return new Job(JobDefOf.Mine, t, 1500, true);
+			return result;
 		}
+
+		// Token: 0x0400032D RID: 813
+		private static string NoPathTrans;
 	}
 }

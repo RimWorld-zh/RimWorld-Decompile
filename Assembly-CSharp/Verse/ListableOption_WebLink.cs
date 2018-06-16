@@ -1,53 +1,41 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000E9F RID: 3743
 	public class ListableOption_WebLink : ListableOption
 	{
-		public Texture2D image;
-
-		public string url;
-
-		private static readonly Vector2 Imagesize = new Vector2(24f, 18f);
-
-		public ListableOption_WebLink(string label, Texture2D image)
-			: base(label, null, null)
+		// Token: 0x06005846 RID: 22598 RVA: 0x002D3315 File Offset: 0x002D1715
+		public ListableOption_WebLink(string label, Texture2D image) : base(label, null, null)
 		{
-			base.minHeight = 24f;
+			this.minHeight = 24f;
 			this.image = image;
 		}
 
-		public ListableOption_WebLink(string label, string url, Texture2D image)
-			: this(label, image)
+		// Token: 0x06005847 RID: 22599 RVA: 0x002D3333 File Offset: 0x002D1733
+		public ListableOption_WebLink(string label, string url, Texture2D image) : this(label, image)
 		{
 			this.url = url;
 		}
 
-		public ListableOption_WebLink(string label, Action action, Texture2D image)
-			: this(label, image)
+		// Token: 0x06005848 RID: 22600 RVA: 0x002D3345 File Offset: 0x002D1745
+		public ListableOption_WebLink(string label, Action action, Texture2D image) : this(label, image)
 		{
-			base.action = action;
+			this.action = action;
 		}
 
+		// Token: 0x06005849 RID: 22601 RVA: 0x002D3358 File Offset: 0x002D1758
 		public override float DrawOption(Vector2 pos, float width)
 		{
-			Vector2 imagesize = ListableOption_WebLink.Imagesize;
-			float num = (float)(width - imagesize.x - 3.0);
-			float num2 = Text.CalcHeight(base.label, num);
-			float num3 = Mathf.Max(base.minHeight, num2);
+			float num = width - ListableOption_WebLink.Imagesize.x - 3f;
+			float num2 = Text.CalcHeight(this.label, num);
+			float num3 = Mathf.Max(this.minHeight, num2);
 			Rect rect = new Rect(pos.x, pos.y, width, num3);
 			GUI.color = Color.white;
-			if ((UnityEngine.Object)this.image != (UnityEngine.Object)null)
+			if (this.image != null)
 			{
-				float x = pos.x;
-				double num4 = pos.y + num3 / 2.0;
-				Vector2 imagesize2 = ListableOption_WebLink.Imagesize;
-				double y = num4 - imagesize2.y / 2.0;
-				Vector2 imagesize3 = ListableOption_WebLink.Imagesize;
-				float x2 = imagesize3.x;
-				Vector2 imagesize4 = ListableOption_WebLink.Imagesize;
-				Rect position = new Rect(x, (float)y, x2, imagesize4.y);
+				Rect position = new Rect(pos.x, pos.y + num3 / 2f - ListableOption_WebLink.Imagesize.y / 2f, ListableOption_WebLink.Imagesize.x, ListableOption_WebLink.Imagesize.y);
 				if (Mouse.IsOver(rect))
 				{
 					GUI.color = Widgets.MouseoverOptionColor;
@@ -55,13 +43,13 @@ namespace Verse
 				GUI.DrawTexture(position, this.image);
 			}
 			Rect rect2 = new Rect(rect.xMax - num, pos.y, num, num2);
-			Widgets.Label(rect2, base.label);
+			Widgets.Label(rect2, this.label);
 			GUI.color = Color.white;
 			if (Widgets.ButtonInvisible(rect, true))
 			{
-				if (base.action != null)
+				if (this.action != null)
 				{
-					base.action();
+					this.action();
 				}
 				else
 				{
@@ -70,5 +58,14 @@ namespace Verse
 			}
 			return num3;
 		}
+
+		// Token: 0x04003A67 RID: 14951
+		public Texture2D image;
+
+		// Token: 0x04003A68 RID: 14952
+		public string url;
+
+		// Token: 0x04003A69 RID: 14953
+		private static readonly Vector2 Imagesize = new Vector2(24f, 18f);
 	}
 }

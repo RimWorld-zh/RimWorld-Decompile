@@ -1,32 +1,33 @@
+﻿using System;
 using Verse;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
+	// Token: 0x020004F0 RID: 1264
 	public static class RestraintsUtility
 	{
+		// Token: 0x060016A8 RID: 5800 RVA: 0x000C8D58 File Offset: 0x000C7158
 		public static bool InRestraints(Pawn pawn)
 		{
+			bool result;
 			if (!pawn.Spawned)
 			{
-				return false;
+				result = false;
 			}
-			if (pawn.HostFaction == null)
+			else if (pawn.HostFaction == null)
 			{
-				return false;
+				result = false;
 			}
-			Lord lord = pawn.GetLord();
-			if (lord != null && lord.LordJob != null && lord.LordJob.NeverInRestraints)
+			else
 			{
-				return false;
+				Lord lord = pawn.GetLord();
+				result = ((lord == null || lord.LordJob == null || !lord.LordJob.NeverInRestraints) && (pawn.guest == null || !pawn.guest.Released));
 			}
-			if (pawn.guest != null && pawn.guest.Released)
-			{
-				return false;
-			}
-			return true;
+			return result;
 		}
 
+		// Token: 0x060016A9 RID: 5801 RVA: 0x000C8DE4 File Offset: 0x000C71E4
 		public static bool ShouldShowRestraintsInfo(Pawn pawn)
 		{
 			return pawn.IsPrisonerOfColony && RestraintsUtility.InRestraints(pawn);

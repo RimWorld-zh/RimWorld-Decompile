@@ -1,12 +1,22 @@
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000796 RID: 1942
 	public class Alert_NeedDoctor : Alert
 	{
+		// Token: 0x06002B03 RID: 11011 RVA: 0x0016B292 File Offset: 0x00169692
+		public Alert_NeedDoctor()
+		{
+			this.defaultLabel = "NeedDoctor".Translate();
+			this.defaultPriority = AlertPriority.High;
+		}
+
+		// Token: 0x170006B1 RID: 1713
+		// (get) Token: 0x06002B04 RID: 11012 RVA: 0x0016B2B4 File Offset: 0x001696B4
 		private IEnumerable<Pawn> Patients
 		{
 			get
@@ -17,9 +27,9 @@ namespace RimWorld
 					if (maps[i].IsPlayerHome)
 					{
 						bool healthyDoc = false;
-						foreach (Pawn item in maps[i].mapPawns.FreeColonistsSpawned)
+						foreach (Pawn pawn in maps[i].mapPawns.FreeColonistsSpawned)
 						{
-							if (!item.Downed && item.workSettings != null && item.workSettings.WorkIsActive(WorkTypeDefOf.Doctor))
+							if (!pawn.Downed && pawn.workSettings != null && pawn.workSettings.WorkIsActive(WorkTypeDefOf.Doctor))
 							{
 								healthyDoc = true;
 								break;
@@ -27,56 +37,44 @@ namespace RimWorld
 						}
 						if (!healthyDoc)
 						{
-							foreach (Pawn item2 in maps[i].mapPawns.FreeColonistsSpawned)
+							foreach (Pawn p in maps[i].mapPawns.FreeColonistsSpawned)
 							{
-								if (item2.Downed && (int)item2.needs.food.CurCategory < 0 && item2.InBed())
+								if ((p.Downed && p.needs.food.CurCategory < HungerCategory.Fed && p.InBed()) || HealthAIUtility.ShouldBeTendedNowByPlayer(p))
 								{
-									goto IL_01a1;
+									yield return p;
 								}
-								if (HealthAIUtility.ShouldBeTendedNow(item2))
-									goto IL_01a1;
-								continue;
-								IL_01a1:
-								yield return item2;
-								/*Error: Unable to find new state assignment for yield return*/;
 							}
 						}
 					}
 				}
 				yield break;
-				IL_0220:
-				/*Error near IL_0221: Unexpected return in MoveNext()*/;
 			}
 		}
 
-		public Alert_NeedDoctor()
-		{
-			base.defaultLabel = "NeedDoctor".Translate();
-			base.defaultPriority = AlertPriority.High;
-		}
-
+		// Token: 0x06002B05 RID: 11013 RVA: 0x0016B2D8 File Offset: 0x001696D8
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (Pawn patient in this.Patients)
+			foreach (Pawn pawn in this.Patients)
 			{
-				stringBuilder.AppendLine("    " + patient.NameStringShort);
+				stringBuilder.AppendLine("    " + pawn.LabelShort);
 			}
 			return string.Format("NeedDoctorDesc".Translate(), stringBuilder.ToString());
 		}
 
+		// Token: 0x06002B06 RID: 11014 RVA: 0x0016B368 File Offset: 0x00169768
 		public override AlertReport GetReport()
 		{
+			AlertReport result;
 			if (Find.AnyPlayerHomeMap == null)
 			{
-				return false;
+				result = false;
 			}
-			Pawn pawn = this.Patients.FirstOrDefault();
-			if (pawn == null)
+			else
 			{
-				return false;
+				result = AlertReport.CulpritsAre(this.Patients);
 			}
-			return AlertReport.CulpritIs(pawn);
+			return result;
 		}
 	}
 }

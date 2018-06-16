@@ -1,39 +1,13 @@
-using System;
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x020000AD RID: 173
 	public class JobGiver_BingeDrug : JobGiver_Binge
 	{
-		private const int BaseIngestInterval = 600;
-
-		private const float OverdoseSeverityToAvoid = 0.786f;
-
-		private static readonly SimpleCurve IngestIntervalFactorCurve_Drunkness = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 1f),
-				true
-			},
-			{
-				new CurvePoint(1f, 4f),
-				true
-			}
-		};
-
-		private static readonly SimpleCurve IngestIntervalFactorCurve_DrugOverdose = new SimpleCurve
-		{
-			{
-				new CurvePoint(0f, 1f),
-				true
-			},
-			{
-				new CurvePoint(1f, 5f),
-				true
-			}
-		};
-
+		// Token: 0x0600042E RID: 1070 RVA: 0x00031C84 File Offset: 0x00030084
 		protected override int IngestInterval(Pawn pawn)
 		{
 			ChemicalDef chemical = this.GetChemical(pawn);
@@ -57,62 +31,91 @@ namespace RimWorld
 			return num;
 		}
 
+		// Token: 0x0600042F RID: 1071 RVA: 0x00031D24 File Offset: 0x00030124
 		protected override Thing BestIngestTarget(Pawn pawn)
 		{
 			ChemicalDef chemical = this.GetChemical(pawn);
 			DrugCategory drugCategory = this.GetDrugCategory(pawn);
+			Thing result;
 			if (chemical == null)
 			{
-				Log.ErrorOnce("Tried to binge on null chemical.", 1393746152);
-				return null;
+				Log.ErrorOnce("Tried to binge on null chemical.", 1393746152, false);
+				result = null;
 			}
-			Hediff overdose = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.DrugOverdose, false);
-			Predicate<Thing> predicate = delegate(Thing t)
+			else
 			{
-				if (!base.IgnoreForbid(pawn) && t.IsForbidden(pawn))
+				Hediff overdose = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.DrugOverdose, false);
+				Predicate<Thing> predicate = delegate(Thing t)
 				{
-					return false;
-				}
-				if (!pawn.CanReserve(t, 1, -1, null, false))
-				{
-					return false;
-				}
-				CompDrug compDrug = t.TryGetComp<CompDrug>();
-				if (compDrug.Props.chemical != chemical)
-				{
-					return false;
-				}
-				if (overdose != null && compDrug.Props.CanCauseOverdose && overdose.Severity + compDrug.Props.overdoseSeverityOffset.max >= 0.78600001335144043)
-				{
-					return false;
-				}
-				if (!pawn.Position.InHorDistOf(t.Position, 60f) && !t.Position.Roofed(t.Map) && !((Area)pawn.Map.areaManager.Home)[t.Position] && t.GetSlotGroup() == null)
-				{
-					return false;
-				}
-				if (!t.def.ingestible.drugCategory.IncludedIn(drugCategory))
-				{
-					return false;
-				}
-				return true;
-			};
-			IntVec3 position = pawn.Position;
-			Map map = pawn.Map;
-			ThingRequest thingReq = ThingRequest.ForGroup(ThingRequestGroup.Drug);
-			PathEndMode peMode = PathEndMode.OnCell;
-			TraverseParms traverseParams = TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
-			Predicate<Thing> validator = predicate;
-			return GenClosest.ClosestThingReachable(position, map, thingReq, peMode, traverseParams, 9999f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
+					bool result2;
+					if (!this.IgnoreForbid(pawn) && t.IsForbidden(pawn))
+					{
+						result2 = false;
+					}
+					else if (!pawn.CanReserve(t, 1, -1, null, false))
+					{
+						result2 = false;
+					}
+					else
+					{
+						CompDrug compDrug = t.TryGetComp<CompDrug>();
+						result2 = (compDrug.Props.chemical == chemical && (overdose == null || !compDrug.Props.CanCauseOverdose || overdose.Severity + compDrug.Props.overdoseSeverityOffset.max < 0.786f) && (pawn.Position.InHorDistOf(t.Position, 60f) || t.Position.Roofed(t.Map) || pawn.Map.areaManager.Home[t.Position] || t.GetSlotGroup() != null) && t.def.ingestible.drugCategory.IncludedIn(drugCategory));
+					}
+					return result2;
+				};
+				IntVec3 position = pawn.Position;
+				Map map = pawn.Map;
+				ThingRequest thingReq = ThingRequest.ForGroup(ThingRequestGroup.Drug);
+				PathEndMode peMode = PathEndMode.OnCell;
+				TraverseParms traverseParams = TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
+				Predicate<Thing> validator = predicate;
+				result = GenClosest.ClosestThingReachable(position, map, thingReq, peMode, traverseParams, 9999f, validator, null, 0, -1, false, RegionType.Set_Passable, false);
+			}
+			return result;
 		}
 
+		// Token: 0x06000430 RID: 1072 RVA: 0x00031E18 File Offset: 0x00030218
 		private ChemicalDef GetChemical(Pawn pawn)
 		{
 			return ((MentalState_BingingDrug)pawn.MentalState).chemical;
 		}
 
+		// Token: 0x06000431 RID: 1073 RVA: 0x00031E40 File Offset: 0x00030240
 		private DrugCategory GetDrugCategory(Pawn pawn)
 		{
 			return ((MentalState_BingingDrug)pawn.MentalState).drugCategory;
 		}
+
+		// Token: 0x0400027D RID: 637
+		private const int BaseIngestInterval = 600;
+
+		// Token: 0x0400027E RID: 638
+		private const float OverdoseSeverityToAvoid = 0.786f;
+
+		// Token: 0x0400027F RID: 639
+		private static readonly SimpleCurve IngestIntervalFactorCurve_Drunkness = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 1f),
+				true
+			},
+			{
+				new CurvePoint(1f, 4f),
+				true
+			}
+		};
+
+		// Token: 0x04000280 RID: 640
+		private static readonly SimpleCurve IngestIntervalFactorCurve_DrugOverdose = new SimpleCurve
+		{
+			{
+				new CurvePoint(0f, 1f),
+				true
+			},
+			{
+				new CurvePoint(1f, 5f),
+				true
+			}
+		};
 	}
 }

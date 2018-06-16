@@ -1,33 +1,46 @@
-using System;
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200022F RID: 559
 	public class ThoughtWorker_NeedComfort : ThoughtWorker
 	{
+		// Token: 0x06000A2E RID: 2606 RVA: 0x00059D28 File Offset: 0x00058128
 		protected override ThoughtState CurrentStateInternal(Pawn p)
 		{
+			ThoughtState result;
 			if (p.needs.comfort == null)
 			{
-				return ThoughtState.Inactive;
+				result = ThoughtState.Inactive;
 			}
-			switch (p.needs.comfort.CurCategory)
+			else
 			{
-			case ComfortCategory.Uncomfortable:
-				return ThoughtState.ActiveAtStage(0);
-			case ComfortCategory.Normal:
-				return ThoughtState.Inactive;
-			case ComfortCategory.Comfortable:
-				return ThoughtState.ActiveAtStage(1);
-			case ComfortCategory.VeryComfortable:
-				return ThoughtState.ActiveAtStage(2);
-			case ComfortCategory.ExtremelyComfortable:
-				return ThoughtState.ActiveAtStage(3);
-			case ComfortCategory.LuxuriantlyComfortable:
-				return ThoughtState.ActiveAtStage(4);
-			default:
-				throw new NotImplementedException();
+				switch (p.needs.comfort.CurCategory)
+				{
+				case ComfortCategory.Uncomfortable:
+					result = ThoughtState.ActiveAtStage(0);
+					break;
+				case ComfortCategory.Normal:
+					result = ThoughtState.Inactive;
+					break;
+				case ComfortCategory.Comfortable:
+					result = ThoughtState.ActiveAtStage(1);
+					break;
+				case ComfortCategory.VeryComfortable:
+					result = ThoughtState.ActiveAtStage(2);
+					break;
+				case ComfortCategory.ExtremelyComfortable:
+					result = ThoughtState.ActiveAtStage(3);
+					break;
+				case ComfortCategory.LuxuriantlyComfortable:
+					result = ThoughtState.ActiveAtStage(4);
+					break;
+				default:
+					throw new NotImplementedException();
+				}
 			}
+			return result;
 		}
 	}
 }

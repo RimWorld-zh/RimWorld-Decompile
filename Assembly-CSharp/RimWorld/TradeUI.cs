@@ -1,36 +1,27 @@
+﻿using System;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020008AD RID: 2221
 	[StaticConstructorOnStartup]
 	public static class TradeUI
 	{
-		public const float CountColumnWidth = 75f;
-
-		public const float PriceColumnWidth = 100f;
-
-		public const float AdjustColumnWidth = 240f;
-
-		public const float TotalNumbersColumnsWidths = 590f;
-
-		public static readonly Texture2D TradeAlternativeBGTex = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 1f, 1f, 0.04f));
-
-		public static readonly Color NoTradeColor = new Color(0.5f, 0.5f, 0.5f);
-
+		// Token: 0x060032D1 RID: 13009 RVA: 0x001B5CB8 File Offset: 0x001B40B8
 		public static void DrawTradeableRow(Rect rect, Tradeable trad, int index)
 		{
 			if (index % 2 == 1)
 			{
-				GUI.DrawTexture(rect, TradeUI.TradeAlternativeBGTex);
+				Widgets.DrawLightHighlight(rect);
 			}
 			Text.Font = GameFont.Small;
 			GUI.BeginGroup(rect);
-			float width = rect.width;
-			int num = trad.CountHeldBy(Transactor.Trader);
-			if (num != 0)
+			float num = rect.width;
+			int num2 = trad.CountHeldBy(Transactor.Trader);
+			if (num2 != 0)
 			{
-				Rect rect2 = new Rect((float)(width - 75.0), 0f, 75f, rect.height);
+				Rect rect2 = new Rect(num - 75f, 0f, 75f, rect.height);
 				if (Mouse.IsOver(rect2))
 				{
 					Widgets.DrawHighlight(rect2);
@@ -39,31 +30,31 @@ namespace RimWorld
 				Rect rect3 = rect2;
 				rect3.xMin += 5f;
 				rect3.xMax -= 5f;
-				Widgets.Label(rect3, num.ToStringCached());
+				Widgets.Label(rect3, num2.ToStringCached());
 				TooltipHandler.TipRegion(rect2, "TraderCount".Translate());
-				Rect rect4 = new Rect((float)(rect2.x - 100.0), 0f, 100f, rect.height);
+				Rect rect4 = new Rect(rect2.x - 100f, 0f, 100f, rect.height);
 				Text.Anchor = TextAnchor.MiddleRight;
 				TradeUI.DrawPrice(rect4, trad, TradeAction.PlayerBuys);
 			}
-			width = (float)(width - 175.0);
-			Rect rect5 = new Rect((float)(width - 240.0), 0f, 240f, rect.height);
+			num -= 175f;
+			Rect rect5 = new Rect(num - 240f, 0f, 240f, rect.height);
 			if (trad.TraderWillTrade)
 			{
-				bool flash = Time.time - Dialog_Trade.lastCurrencyFlashTime < 1.0 && trad.IsCurrency;
-				TransferableUIUtility.DoCountAdjustInterface(rect5, trad, index, -trad.CountHeldBy(Transactor.Colony), trad.CountHeldBy(Transactor.Trader), flash, null);
+				bool flash = Time.time - Dialog_Trade.lastCurrencyFlashTime < 1f && trad.IsCurrency;
+				TransferableUIUtility.DoCountAdjustInterface(rect5, trad, index, trad.GetMinimumToTransfer(), trad.GetMaximumToTransfer(), flash, null, false);
 			}
 			else
 			{
-				TradeUI.DrawWillNotTradeIndication(rect, trad);
+				TradeUI.DrawWillNotTradeIndication(rect5, trad);
 			}
-			width = (float)(width - 240.0);
-			int num2 = trad.CountHeldBy(Transactor.Colony);
-			if (num2 != 0)
+			num -= 240f;
+			int num3 = trad.CountHeldBy(Transactor.Colony);
+			if (num3 != 0)
 			{
-				Rect rect6 = new Rect((float)(width - 100.0), 0f, 100f, rect.height);
+				Rect rect6 = new Rect(num - 100f, 0f, 100f, rect.height);
 				Text.Anchor = TextAnchor.MiddleLeft;
 				TradeUI.DrawPrice(rect6, trad, TradeAction.PlayerSells);
-				Rect rect7 = new Rect((float)(rect6.x - 75.0), 0f, 75f, rect.height);
+				Rect rect7 = new Rect(rect6.x - 75f, 0f, 75f, rect.height);
 				if (Mouse.IsOver(rect7))
 				{
 					Widgets.DrawHighlight(rect7);
@@ -72,16 +63,17 @@ namespace RimWorld
 				Rect rect8 = rect7;
 				rect8.xMin += 5f;
 				rect8.xMax -= 5f;
-				Widgets.Label(rect8, num2.ToStringCached());
+				Widgets.Label(rect8, num3.ToStringCached());
 				TooltipHandler.TipRegion(rect7, "ColonyCount".Translate());
 			}
-			width = (float)(width - 175.0);
-			Rect idRect = new Rect(0f, 0f, width, rect.height);
+			num -= 175f;
+			Rect idRect = new Rect(0f, 0f, num, rect.height);
 			TransferableUIUtility.DrawTransferableInfo(trad, idRect, (!trad.TraderWillTrade) ? TradeUI.NoTradeColor : Color.white);
 			GenUI.ResetLabelAlign();
 			GUI.EndGroup();
 		}
 
+		// Token: 0x060032D2 RID: 13010 RVA: 0x001B5F4C File Offset: 0x001B434C
 		private static void DrawPrice(Rect rect, Tradeable trad, TradeAction action)
 		{
 			if (!trad.IsCurrency && trad.TraderWillTrade)
@@ -152,6 +144,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060032D3 RID: 13011 RVA: 0x001B61F4 File Offset: 0x001B45F4
 		private static void DrawWillNotTradeIndication(Rect rect, Tradeable trad)
 		{
 			rect = rect.Rounded();
@@ -163,5 +156,20 @@ namespace RimWorld
 			Text.Font = GameFont.Small;
 			GUI.color = Color.white;
 		}
+
+		// Token: 0x04001B7A RID: 7034
+		public const float CountColumnWidth = 75f;
+
+		// Token: 0x04001B7B RID: 7035
+		public const float PriceColumnWidth = 100f;
+
+		// Token: 0x04001B7C RID: 7036
+		public const float AdjustColumnWidth = 240f;
+
+		// Token: 0x04001B7D RID: 7037
+		public const float TotalNumbersColumnsWidths = 590f;
+
+		// Token: 0x04001B7E RID: 7038
+		public static readonly Color NoTradeColor = new Color(0.5f, 0.5f, 0.5f);
 	}
 }

@@ -1,29 +1,26 @@
+﻿using System;
 using RimWorld;
 using UnityEngine;
 using Verse.Sound;
 
 namespace Verse
 {
+	// Token: 0x02000EAE RID: 3758
 	public class WidgetRow
 	{
-		private float startX;
+		// Token: 0x06005878 RID: 22648 RVA: 0x002D5121 File Offset: 0x002D3521
+		public WidgetRow()
+		{
+		}
 
-		private float curX;
+		// Token: 0x06005879 RID: 22649 RVA: 0x002D513C File Offset: 0x002D353C
+		public WidgetRow(float x, float y, UIDirection growDirection = UIDirection.RightThenUp, float maxWidth = 99999f, float gap = 4f)
+		{
+			this.Init(x, y, growDirection, maxWidth, gap);
+		}
 
-		private float curY;
-
-		private float maxWidth = 99999f;
-
-		private float gap;
-
-		private UIDirection growDirection = UIDirection.RightThenUp;
-
-		public const float IconSize = 24f;
-
-		public const float DefaultGap = 4f;
-
-		private const float DefaultMaxWidth = 99999f;
-
+		// Token: 0x17000DF9 RID: 3577
+		// (get) Token: 0x0600587A RID: 22650 RVA: 0x002D5164 File Offset: 0x002D3564
 		public float FinalX
 		{
 			get
@@ -32,6 +29,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000DFA RID: 3578
+		// (get) Token: 0x0600587B RID: 22651 RVA: 0x002D5180 File Offset: 0x002D3580
 		public float FinalY
 		{
 			get
@@ -40,15 +39,7 @@ namespace Verse
 			}
 		}
 
-		public WidgetRow()
-		{
-		}
-
-		public WidgetRow(float x, float y, UIDirection growDirection = UIDirection.RightThenUp, float maxWidth = 99999f, float gap = 4f)
-		{
-			this.Init(x, y, growDirection, maxWidth, gap);
-		}
-
+		// Token: 0x0600587C RID: 22652 RVA: 0x002D519B File Offset: 0x002D359B
 		public void Init(float x, float y, UIDirection growDirection = UIDirection.RightThenUp, float maxWidth = 99999f, float gap = 4f)
 		{
 			this.growDirection = growDirection;
@@ -59,15 +50,22 @@ namespace Verse
 			this.gap = gap;
 		}
 
+		// Token: 0x0600587D RID: 22653 RVA: 0x002D51CC File Offset: 0x002D35CC
 		private float LeftX(float elementWidth)
 		{
-			if (this.growDirection != UIDirection.RightThenUp && this.growDirection != UIDirection.RightThenDown)
+			float result;
+			if (this.growDirection == UIDirection.RightThenUp || this.growDirection == UIDirection.RightThenDown)
 			{
-				return this.curX - elementWidth;
+				result = this.curX;
 			}
-			return this.curX;
+			else
+			{
+				result = this.curX - elementWidth;
+			}
+			return result;
 		}
 
+		// Token: 0x0600587E RID: 22654 RVA: 0x002D5210 File Offset: 0x002D3610
 		private void IncrementPosition(float amount)
 		{
 			if (this.growDirection == UIDirection.RightThenUp || this.growDirection == UIDirection.RightThenDown)
@@ -84,19 +82,21 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x0600587F RID: 22655 RVA: 0x002D527C File Offset: 0x002D367C
 		private void IncrementY()
 		{
 			if (this.growDirection == UIDirection.RightThenUp || this.growDirection == UIDirection.LeftThenUp)
 			{
-				this.curY -= (float)(24.0 + this.gap);
+				this.curY -= 24f + this.gap;
 			}
 			else
 			{
-				this.curY += (float)(24.0 + this.gap);
+				this.curY += 24f + this.gap;
 			}
 			this.curX = this.startX;
 		}
 
+		// Token: 0x06005880 RID: 22656 RVA: 0x002D52E4 File Offset: 0x002D36E4
 		private void IncrementYIfWillExceedMaxWidth(float width)
 		{
 			if (Mathf.Abs(this.curX - this.startX) + Mathf.Abs(width) > this.maxWidth)
@@ -105,6 +105,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06005881 RID: 22657 RVA: 0x002D5311 File Offset: 0x002D3711
 		public void Gap(float width)
 		{
 			if (this.curX != this.startX)
@@ -113,12 +114,13 @@ namespace Verse
 			}
 		}
 
-		public bool ButtonIcon(Texture2D tex, string tooltip = null)
+		// Token: 0x06005882 RID: 22658 RVA: 0x002D532C File Offset: 0x002D372C
+		public bool ButtonIcon(Texture2D tex, string tooltip = null, Color? mouseoverColor = null)
 		{
 			this.IncrementYIfWillExceedMaxWidth(24f);
 			Rect rect = new Rect(this.LeftX(24f), this.curY, 24f, 24f);
-			bool result = Widgets.ButtonImage(rect, tex);
-			this.IncrementPosition((float)(24.0 + this.gap));
+			bool result = Widgets.ButtonImage(rect, tex, Color.white, (mouseoverColor == null) ? GenUI.MouseoverColor : mouseoverColor.Value);
+			this.IncrementPosition(24f + this.gap);
 			if (!tooltip.NullOrEmpty())
 			{
 				TooltipHandler.TipRegion(rect, tooltip);
@@ -126,25 +128,27 @@ namespace Verse
 			return result;
 		}
 
+		// Token: 0x06005883 RID: 22659 RVA: 0x002D53C2 File Offset: 0x002D37C2
 		public void GapButtonIcon()
 		{
 			if (this.curY != this.startX)
 			{
-				this.IncrementPosition((float)(24.0 + this.gap));
+				this.IncrementPosition(24f + this.gap);
 			}
 		}
 
+		// Token: 0x06005884 RID: 22660 RVA: 0x002D53E8 File Offset: 0x002D37E8
 		public void ToggleableIcon(ref bool toggleable, Texture2D tex, string tooltip, SoundDef mouseoverSound = null, string tutorTag = null)
 		{
 			this.IncrementYIfWillExceedMaxWidth(24f);
 			Rect rect = new Rect(this.LeftX(24f), this.curY, 24f, 24f);
 			bool flag = Widgets.ButtonImage(rect, tex);
-			this.IncrementPosition((float)(24.0 + this.gap));
+			this.IncrementPosition(24f + this.gap);
 			if (!tooltip.NullOrEmpty())
 			{
 				TooltipHandler.TipRegion(rect, tooltip);
 			}
-			Rect position = new Rect((float)(rect.x + rect.width / 2.0), rect.y, (float)(rect.height / 2.0), (float)(rect.height / 2.0));
+			Rect position = new Rect(rect.x + rect.width / 2f, rect.y, rect.height / 2f, rect.height / 2f);
 			Texture2D image = (!toggleable) ? Widgets.CheckboxOffTex : Widgets.CheckboxOnTex;
 			GUI.DrawTexture(position, image);
 			if (mouseoverSound != null)
@@ -156,11 +160,11 @@ namespace Verse
 				toggleable = !toggleable;
 				if (toggleable)
 				{
-					SoundDefOf.TickHigh.PlayOneShotOnCamera(null);
+					SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
 				}
 				else
 				{
-					SoundDefOf.TickLow.PlayOneShotOnCamera(null);
+					SoundDefOf.Tick_Low.PlayOneShotOnCamera(null);
 				}
 			}
 			if (tutorTag != null)
@@ -169,6 +173,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06005885 RID: 22661 RVA: 0x002D5500 File Offset: 0x002D3900
 		public Rect Icon(Texture2D tex, string tooltip = null)
 		{
 			this.IncrementYIfWillExceedMaxWidth(24f);
@@ -178,10 +183,11 @@ namespace Verse
 			{
 				TooltipHandler.TipRegion(rect, tooltip);
 			}
-			this.IncrementPosition((float)(24.0 + this.gap));
+			this.IncrementPosition(24f + this.gap);
 			return rect;
 		}
 
+		// Token: 0x06005886 RID: 22662 RVA: 0x002D5574 File Offset: 0x002D3974
 		public bool ButtonText(string label, string tooltip = null, bool drawBackground = true, bool doMouseoverSound = false)
 		{
 			Vector2 vector = Text.CalcSize(label);
@@ -198,12 +204,12 @@ namespace Verse
 			return result;
 		}
 
+		// Token: 0x06005887 RID: 22663 RVA: 0x002D5624 File Offset: 0x002D3A24
 		public Rect Label(string text, float width = -1f)
 		{
-			if (width < 0.0)
+			if (width < 0f)
 			{
-				Vector2 vector = Text.CalcSize(text);
-				width = vector.x;
+				width = Text.CalcSize(text).x;
 			}
 			this.IncrementYIfWillExceedMaxWidth(width);
 			Rect rect = new Rect(this.LeftX(width), this.curY, width, 24f);
@@ -214,6 +220,7 @@ namespace Verse
 			return rect;
 		}
 
+		// Token: 0x06005888 RID: 22664 RVA: 0x002D56A0 File Offset: 0x002D3AA0
 		public Rect FillableBar(float width, float height, float fillPct, string label, Texture2D fillTex, Texture2D bgTex = null)
 		{
 			this.IncrementYIfWillExceedMaxWidth(width);
@@ -236,5 +243,32 @@ namespace Verse
 			this.IncrementPosition(width);
 			return rect;
 		}
+
+		// Token: 0x04003AF6 RID: 15094
+		private float startX;
+
+		// Token: 0x04003AF7 RID: 15095
+		private float curX;
+
+		// Token: 0x04003AF8 RID: 15096
+		private float curY;
+
+		// Token: 0x04003AF9 RID: 15097
+		private float maxWidth = 99999f;
+
+		// Token: 0x04003AFA RID: 15098
+		private float gap;
+
+		// Token: 0x04003AFB RID: 15099
+		private UIDirection growDirection = UIDirection.RightThenUp;
+
+		// Token: 0x04003AFC RID: 15100
+		public const float IconSize = 24f;
+
+		// Token: 0x04003AFD RID: 15101
+		public const float DefaultGap = 4f;
+
+		// Token: 0x04003AFE RID: 15102
+		private const float DefaultMaxWidth = 99999f;
 	}
 }

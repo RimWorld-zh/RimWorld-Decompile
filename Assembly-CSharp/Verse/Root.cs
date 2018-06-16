@@ -1,85 +1,77 @@
-using RimWorld;
-using System;
-using System.Globalization;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
+using RimWorld;
+using RimWorld.Planet;
 using UnityEngine;
+using Verse.AI;
 using Verse.Profile;
 using Verse.Sound;
 using Verse.Steam;
 
 namespace Verse
 {
+	// Token: 0x02000BDE RID: 3038
 	public abstract class Root : MonoBehaviour
 	{
-		private static bool globalInitDone;
-
-		private static bool prefsApplied;
-
-		protected bool destroyed;
-
-		public SoundRoot soundRoot;
-
-		public UIRoot uiRoot;
-
-		[CompilerGenerated]
-		private static Action _003C_003Ef__mg_0024cache0;
-
+		// Token: 0x06004243 RID: 16963 RVA: 0x0022D928 File Offset: 0x0022BD28
 		public virtual void Start()
 		{
-			Current.Notify_LoadedSceneChanged();
-			Root.CheckGlobalInit();
-			Action action = delegate
+			try
 			{
-				this.soundRoot = new SoundRoot();
-				if (GenScene.InPlayScene)
+				CultureInfoUtility.EnsureEnglish();
+				Current.Notify_LoadedSceneChanged();
+				Root.CheckGlobalInit();
+				Action action = delegate()
 				{
-					this.uiRoot = new UIRoot_Play();
+					this.soundRoot = new SoundRoot();
+					if (GenScene.InPlayScene)
+					{
+						this.uiRoot = new UIRoot_Play();
+					}
+					else if (GenScene.InEntryScene)
+					{
+						this.uiRoot = new UIRoot_Entry();
+					}
+					this.uiRoot.Init();
+					Messages.Notify_LoadedLevelChanged();
+					if (Current.SubcameraDriver != null)
+					{
+						Current.SubcameraDriver.Init();
+					}
+				};
+				if (!PlayDataLoader.Loaded)
+				{
+					LongEventHandler.QueueLongEvent(delegate()
+					{
+						PlayDataLoader.LoadAllPlayData(false);
+					}, null, true, null);
+					LongEventHandler.QueueLongEvent(action, "InitializingInterface", false, null);
 				}
-				else if (GenScene.InEntryScene)
+				else
 				{
-					this.uiRoot = new UIRoot_Entry();
+					action();
 				}
-				this.uiRoot.Init();
-				Messages.Notify_LoadedLevelChanged();
-				if ((UnityEngine.Object)Current.SubcameraDriver != (UnityEngine.Object)null)
-				{
-					Current.SubcameraDriver.Init();
-				}
-			};
-			if (!PlayDataLoader.Loaded)
-			{
-				LongEventHandler.QueueLongEvent(delegate
-				{
-					PlayDataLoader.LoadAllPlayData(false);
-				}, null, true, null);
-				LongEventHandler.QueueLongEvent(action, "InitializingInterface", false, null);
 			}
-			else
+			catch (Exception arg)
 			{
-				action();
+				Log.Error("Critical error in root Start(): " + arg, false);
 			}
 		}
 
+		// Token: 0x06004244 RID: 16964 RVA: 0x0022D9CC File Offset: 0x0022BDCC
 		private static void CheckGlobalInit()
 		{
 			if (!Root.globalInitDone)
 			{
-				CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
-				if (currentCulture.Name != "en-US")
-				{
-					Log.Warning("Unexpected culture: " + currentCulture + ". Resetting to en-US.");
-					Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
-				}
+				UnityDataInitializer.CopyUnityData();
 				SteamManager.InitIfNeeded();
 				string[] commandLineArgs = Environment.GetCommandLineArgs();
 				if (commandLineArgs != null && commandLineArgs.Length > 1)
 				{
-					Log.Message("Command line arguments: " + GenText.ToSpaceList(commandLineArgs.Skip(1)));
+					Log.Message("Command line arguments: " + GenText.ToSpaceList(commandLineArgs.Skip(1)), false);
 				}
-				UnityData.CopyUnityData();
 				VersionControl.LogVersionNumber();
 				Application.targetFrameRate = 60;
 				Prefs.Init();
@@ -87,17 +79,22 @@ namespace Verse
 				{
 					StaticConstructorOnStartupUtility.ReportProbablyMissingAttributes();
 				}
-				LongEventHandler.QueueLongEvent(StaticConstructorOnStartupUtility.CallAll, null, false, null);
+				if (Root.<>f__mg$cache0 == null)
+				{
+					Root.<>f__mg$cache0 = new Action(StaticConstructorOnStartupUtility.CallAll);
+				}
+				LongEventHandler.QueueLongEvent(Root.<>f__mg$cache0, null, false, null);
 				Root.globalInitDone = true;
 			}
 		}
 
+		// Token: 0x06004245 RID: 16965 RVA: 0x0022DA70 File Offset: 0x0022BE70
 		public virtual void Update()
 		{
 			try
 			{
 				RealTime.Update();
-				bool flag = default(bool);
+				bool flag;
 				LongEventHandler.LongEventsUpdate(out flag);
 				if (flag)
 				{
@@ -106,8 +103,13 @@ namespace Verse
 				else if (!LongEventHandler.ShouldWaitForEvent)
 				{
 					Rand.EnsureStateStackEmpty();
+					Widgets.EnsureMousePositionStackEmpty();
 					SteamManager.Update();
 					PortraitsCache.PortraitsCacheUpdate();
+					AttackTargetsCache.AttackTargetsCacheStaticUpdate();
+					Pawn_MeleeVerbs.PawnMeleeVerbsStaticUpdate();
+					Storyteller.StorytellerStaticUpdate();
+					CaravanInventoryUtility.CaravanInventoryUtilityStaticUpdate();
 					this.uiRoot.UIRootUpdate();
 					if (Time.frameCount > 3 && !Root.prefsApplied)
 					{
@@ -115,16 +117,31 @@ namespace Verse
 						Prefs.Apply();
 					}
 					this.soundRoot.Update();
-					MemoryTracker.Update();
+					try
+					{
+						MemoryTracker.Update();
+					}
+					catch (Exception arg)
+					{
+						Log.Error("Error in MemoryTracker: " + arg, false);
+					}
+					try
+					{
+						MapLeakTracker.Update();
+					}
+					catch (Exception arg2)
+					{
+						Log.Error("Error in MapLeakTracker: " + arg2, false);
+					}
 				}
 			}
-			catch (Exception e)
+			catch (Exception arg3)
 			{
-				Log.Notify_Exception(e);
-				throw;
+				Log.Error("Root level exception in Update(): " + arg3, false);
 			}
 		}
 
+		// Token: 0x06004246 RID: 16966 RVA: 0x0022DBA0 File Offset: 0x0022BFA0
 		public void OnGUI()
 		{
 			try
@@ -145,28 +162,48 @@ namespace Verse
 					}
 				}
 			}
-			catch (Exception e)
+			catch (Exception arg)
 			{
-				Log.Notify_Exception(e);
-				throw;
+				Log.Error("Root level exception in OnGUI(): " + arg, false);
 			}
 		}
 
+		// Token: 0x06004247 RID: 16967 RVA: 0x0022DC48 File Offset: 0x0022C048
 		public static void Shutdown()
 		{
 			SteamManager.ShutdownSteam();
 			DirectoryInfo directoryInfo = new DirectoryInfo(GenFilePaths.TempFolderPath);
-			FileInfo[] files = directoryInfo.GetFiles();
-			foreach (FileInfo fileInfo in files)
+			foreach (FileInfo fileInfo in directoryInfo.GetFiles())
 			{
 				fileInfo.Delete();
 			}
-			DirectoryInfo[] directories = directoryInfo.GetDirectories();
-			foreach (DirectoryInfo directoryInfo2 in directories)
+			foreach (DirectoryInfo directoryInfo2 in directoryInfo.GetDirectories())
 			{
 				directoryInfo2.Delete(true);
 			}
 			Application.Quit();
 		}
+
+		// Token: 0x04002D4A RID: 11594
+		private static bool globalInitDone;
+
+		// Token: 0x04002D4B RID: 11595
+		private static bool prefsApplied;
+
+		// Token: 0x04002D4C RID: 11596
+		protected static bool checkedAutostartSaveFile;
+
+		// Token: 0x04002D4D RID: 11597
+		protected bool destroyed;
+
+		// Token: 0x04002D4E RID: 11598
+		public SoundRoot soundRoot;
+
+		// Token: 0x04002D4F RID: 11599
+		public UIRoot uiRoot;
+
+		// Token: 0x04002D51 RID: 11601
+		[CompilerGenerated]
+		private static Action <>f__mg$cache0;
 	}
 }

@@ -1,25 +1,15 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000C46 RID: 3142
 	[StaticConstructorOnStartup]
 	public static class BuildingsDamageSectionLayerUtility
 	{
-		private static readonly Material[] DefaultScratchMats = new Material[3]
-		{
-			MaterialPool.MatFrom("Damage/Scratch1"),
-			MaterialPool.MatFrom("Damage/Scratch2"),
-			MaterialPool.MatFrom("Damage/Scratch3")
-		};
-
-		private static List<DamageOverlay> availableOverlays = new List<DamageOverlay>();
-
-		private static List<DamageOverlay> overlaysWorkingList = new List<DamageOverlay>();
-
-		private static List<DamageOverlay> overlays = new List<DamageOverlay>();
-
+		// Token: 0x06004526 RID: 17702 RVA: 0x00245788 File Offset: 0x00243B88
 		public static void Notify_BuildingHitPointsChanged(Building b, int oldHitPoints)
 		{
 			if (b.Spawned && b.def.useHitPoints && b.HitPoints != oldHitPoints && b.def.drawDamagedOverlay && BuildingsDamageSectionLayerUtility.GetDamageOverlaysCount(b, b.HitPoints) != BuildingsDamageSectionLayerUtility.GetDamageOverlaysCount(b, oldHitPoints))
@@ -28,11 +18,13 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004527 RID: 17703 RVA: 0x00245808 File Offset: 0x00243C08
 		public static bool UsesLinkableCornersAndEdges(Building b)
 		{
 			return b.def.size.x == 1 && b.def.size.z == 1 && b.def.Fillage == FillCategory.Full;
 		}
 
+		// Token: 0x06004528 RID: 17704 RVA: 0x0024585C File Offset: 0x00243C5C
 		public static IList<Material> GetScratchMats(Building b)
 		{
 			IList<Material> result = BuildingsDamageSectionLayerUtility.DefaultScratchMats;
@@ -43,17 +35,18 @@ namespace Verse
 			return result;
 		}
 
+		// Token: 0x06004529 RID: 17705 RVA: 0x002458D0 File Offset: 0x00243CD0
 		public static List<DamageOverlay> GetAvailableOverlays(Building b)
 		{
 			BuildingsDamageSectionLayerUtility.availableOverlays.Clear();
-			if (BuildingsDamageSectionLayerUtility.GetScratchMats(b).Any())
+			if (BuildingsDamageSectionLayerUtility.GetScratchMats(b).Any<Material>())
 			{
 				int num = 3;
 				Rect damageRect = BuildingsDamageSectionLayerUtility.GetDamageRect(b);
 				float num2 = damageRect.width * damageRect.height;
-				if (num2 > 4.0)
+				if (num2 > 4f)
 				{
-					num += Mathf.RoundToInt((float)((num2 - 4.0) * 0.54000002145767212));
+					num += Mathf.RoundToInt((num2 - 4f) * 0.54f);
 				}
 				for (int i = 0; i < num; i++)
 				{
@@ -66,35 +59,35 @@ namespace Verse
 				{
 					IntVec3 position = b.Position;
 					DamageGraphicData damageData = b.def.graphicData.damageData;
-					if ((Object)damageData.edgeTopMat != (Object)null && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x, position.z + 1) && BuildingsDamageSectionLayerUtility.SameAndDamagedAt(b, position.x + 1, position.z) && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x + 1, position.z + 1))
+					if (damageData.edgeTopMat != null && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x, position.z + 1) && BuildingsDamageSectionLayerUtility.SameAndDamagedAt(b, position.x + 1, position.z) && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x + 1, position.z + 1))
 					{
 						BuildingsDamageSectionLayerUtility.availableOverlays.Add(DamageOverlay.TopEdge);
 					}
-					if ((Object)damageData.edgeRightMat != (Object)null && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x + 1, position.z) && BuildingsDamageSectionLayerUtility.SameAndDamagedAt(b, position.x, position.z + 1) && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x + 1, position.z + 1))
+					if (damageData.edgeRightMat != null && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x + 1, position.z) && BuildingsDamageSectionLayerUtility.SameAndDamagedAt(b, position.x, position.z + 1) && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x + 1, position.z + 1))
 					{
 						BuildingsDamageSectionLayerUtility.availableOverlays.Add(DamageOverlay.RightEdge);
 					}
-					if ((Object)damageData.edgeBotMat != (Object)null && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x, position.z - 1) && BuildingsDamageSectionLayerUtility.SameAndDamagedAt(b, position.x + 1, position.z) && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x + 1, position.z - 1))
+					if (damageData.edgeBotMat != null && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x, position.z - 1) && BuildingsDamageSectionLayerUtility.SameAndDamagedAt(b, position.x + 1, position.z) && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x + 1, position.z - 1))
 					{
 						BuildingsDamageSectionLayerUtility.availableOverlays.Add(DamageOverlay.BotEdge);
 					}
-					if ((Object)damageData.edgeLeftMat != (Object)null && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x - 1, position.z) && BuildingsDamageSectionLayerUtility.SameAndDamagedAt(b, position.x, position.z + 1) && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x - 1, position.z + 1))
+					if (damageData.edgeLeftMat != null && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x - 1, position.z) && BuildingsDamageSectionLayerUtility.SameAndDamagedAt(b, position.x, position.z + 1) && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x - 1, position.z + 1))
 					{
 						BuildingsDamageSectionLayerUtility.availableOverlays.Add(DamageOverlay.LeftEdge);
 					}
-					if ((Object)damageData.cornerTLMat != (Object)null && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x - 1, position.z) && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x, position.z + 1))
+					if (damageData.cornerTLMat != null && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x - 1, position.z) && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x, position.z + 1))
 					{
 						BuildingsDamageSectionLayerUtility.availableOverlays.Add(DamageOverlay.TopLeftCorner);
 					}
-					if ((Object)damageData.cornerTRMat != (Object)null && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x + 1, position.z) && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x, position.z + 1))
+					if (damageData.cornerTRMat != null && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x + 1, position.z) && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x, position.z + 1))
 					{
 						BuildingsDamageSectionLayerUtility.availableOverlays.Add(DamageOverlay.TopRightCorner);
 					}
-					if ((Object)damageData.cornerBRMat != (Object)null && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x + 1, position.z) && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x, position.z - 1))
+					if (damageData.cornerBRMat != null && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x + 1, position.z) && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x, position.z - 1))
 					{
 						BuildingsDamageSectionLayerUtility.availableOverlays.Add(DamageOverlay.BotRightCorner);
 					}
-					if ((Object)damageData.cornerBLMat != (Object)null && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x - 1, position.z) && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x, position.z - 1))
+					if (damageData.cornerBLMat != null && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x - 1, position.z) && BuildingsDamageSectionLayerUtility.DifferentAt(b, position.x, position.z - 1))
 					{
 						BuildingsDamageSectionLayerUtility.availableOverlays.Add(DamageOverlay.BotLeftCorner);
 					}
@@ -102,24 +95,24 @@ namespace Verse
 			}
 			else
 			{
-				Material x = default(Material);
-				Material x2 = default(Material);
-				Material x3 = default(Material);
-				Material x4 = default(Material);
+				Material x;
+				Material x2;
+				Material x3;
+				Material x4;
 				BuildingsDamageSectionLayerUtility.GetCornerMats(out x, out x2, out x3, out x4, b);
-				if ((Object)x != (Object)null)
+				if (x != null)
 				{
 					BuildingsDamageSectionLayerUtility.availableOverlays.Add(DamageOverlay.TopLeftCorner);
 				}
-				if ((Object)x2 != (Object)null)
+				if (x2 != null)
 				{
 					BuildingsDamageSectionLayerUtility.availableOverlays.Add(DamageOverlay.TopRightCorner);
 				}
-				if ((Object)x4 != (Object)null)
+				if (x4 != null)
 				{
 					BuildingsDamageSectionLayerUtility.availableOverlays.Add(DamageOverlay.BotLeftCorner);
 				}
-				if ((Object)x3 != (Object)null)
+				if (x3 != null)
 				{
 					BuildingsDamageSectionLayerUtility.availableOverlays.Add(DamageOverlay.BotRightCorner);
 				}
@@ -127,6 +120,7 @@ namespace Verse
 			return BuildingsDamageSectionLayerUtility.availableOverlays;
 		}
 
+		// Token: 0x0600452A RID: 17706 RVA: 0x00245D40 File Offset: 0x00244140
 		public static void GetCornerMats(out Material topLeft, out Material topRight, out Material botRight, out Material botLeft, Building b)
 		{
 			if (b.def.graphicData == null || b.def.graphicData.damageData == null)
@@ -170,30 +164,39 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x0600452B RID: 17707 RVA: 0x00245E74 File Offset: 0x00244274
 		public static List<DamageOverlay> GetOverlays(Building b)
 		{
 			BuildingsDamageSectionLayerUtility.overlays.Clear();
 			BuildingsDamageSectionLayerUtility.overlaysWorkingList.Clear();
 			BuildingsDamageSectionLayerUtility.overlaysWorkingList.AddRange(BuildingsDamageSectionLayerUtility.GetAvailableOverlays(b));
-			if (!BuildingsDamageSectionLayerUtility.overlaysWorkingList.Any())
+			List<DamageOverlay> result;
+			if (!BuildingsDamageSectionLayerUtility.overlaysWorkingList.Any<DamageOverlay>())
 			{
-				return BuildingsDamageSectionLayerUtility.overlays;
+				result = BuildingsDamageSectionLayerUtility.overlays;
 			}
-			Rand.PushState();
-			Rand.Seed = Gen.HashCombineInt(b.thingIDNumber, 1958376471);
-			int damageOverlaysCount = BuildingsDamageSectionLayerUtility.GetDamageOverlaysCount(b, b.HitPoints);
-			int num = 0;
-			while (num < damageOverlaysCount && BuildingsDamageSectionLayerUtility.overlaysWorkingList.Any())
+			else
 			{
-				DamageOverlay item = BuildingsDamageSectionLayerUtility.overlaysWorkingList.RandomElement();
-				BuildingsDamageSectionLayerUtility.overlaysWorkingList.Remove(item);
-				BuildingsDamageSectionLayerUtility.overlays.Add(item);
-				num++;
+				Rand.PushState();
+				Rand.Seed = Gen.HashCombineInt(b.thingIDNumber, 1958376471);
+				int damageOverlaysCount = BuildingsDamageSectionLayerUtility.GetDamageOverlaysCount(b, b.HitPoints);
+				for (int i = 0; i < damageOverlaysCount; i++)
+				{
+					if (!BuildingsDamageSectionLayerUtility.overlaysWorkingList.Any<DamageOverlay>())
+					{
+						break;
+					}
+					DamageOverlay item = BuildingsDamageSectionLayerUtility.overlaysWorkingList.RandomElement<DamageOverlay>();
+					BuildingsDamageSectionLayerUtility.overlaysWorkingList.Remove(item);
+					BuildingsDamageSectionLayerUtility.overlays.Add(item);
+				}
+				Rand.PopState();
+				result = BuildingsDamageSectionLayerUtility.overlays;
 			}
-			Rand.PopState();
-			return BuildingsDamageSectionLayerUtility.overlays;
+			return result;
 		}
 
+		// Token: 0x0600452C RID: 17708 RVA: 0x00245F44 File Offset: 0x00244344
 		public static Rect GetDamageRect(Building b)
 		{
 			DamageGraphicData damageGraphicData = null;
@@ -261,6 +264,7 @@ namespace Verse
 			return result;
 		}
 
+		// Token: 0x0600452D RID: 17709 RVA: 0x00246330 File Offset: 0x00244730
 		private static int GetDamageOverlaysCount(Building b, int hp)
 		{
 			float num = (float)hp / (float)b.MaxHitPoints;
@@ -268,40 +272,69 @@ namespace Verse
 			return count - Mathf.FloorToInt((float)count * num);
 		}
 
+		// Token: 0x0600452E RID: 17710 RVA: 0x00246368 File Offset: 0x00244768
 		private static bool DifferentAt(Building b, int x, int z)
 		{
 			IntVec3 c = new IntVec3(x, 0, z);
+			bool result;
 			if (!c.InBounds(b.Map))
 			{
-				return true;
+				result = true;
 			}
-			List<Thing> thingList = c.GetThingList(b.Map);
-			for (int i = 0; i < thingList.Count; i++)
+			else
 			{
-				if (thingList[i].def == b.def)
+				List<Thing> thingList = c.GetThingList(b.Map);
+				for (int i = 0; i < thingList.Count; i++)
 				{
-					return false;
+					if (thingList[i].def == b.def)
+					{
+						return false;
+					}
 				}
+				result = true;
 			}
-			return true;
+			return result;
 		}
 
+		// Token: 0x0600452F RID: 17711 RVA: 0x002463E4 File Offset: 0x002447E4
 		private static bool SameAndDamagedAt(Building b, int x, int z)
 		{
 			IntVec3 c = new IntVec3(x, 0, z);
+			bool result;
 			if (!c.InBounds(b.Map))
 			{
-				return false;
+				result = false;
 			}
-			List<Thing> thingList = c.GetThingList(b.Map);
-			for (int i = 0; i < thingList.Count; i++)
+			else
 			{
-				if (thingList[i].def == b.def && thingList[i].HitPoints < thingList[i].MaxHitPoints)
+				List<Thing> thingList = c.GetThingList(b.Map);
+				for (int i = 0; i < thingList.Count; i++)
 				{
-					return true;
+					if (thingList[i].def == b.def && thingList[i].HitPoints < thingList[i].MaxHitPoints)
+					{
+						return true;
+					}
 				}
+				result = false;
 			}
-			return false;
+			return result;
 		}
+
+		// Token: 0x04002F4E RID: 12110
+		private static readonly Material[] DefaultScratchMats = new Material[]
+		{
+			MaterialPool.MatFrom("Damage/Scratch1"),
+			MaterialPool.MatFrom("Damage/Scratch2"),
+			MaterialPool.MatFrom("Damage/Scratch3")
+		};
+
+		// Token: 0x04002F4F RID: 12111
+		private static List<DamageOverlay> availableOverlays = new List<DamageOverlay>();
+
+		// Token: 0x04002F50 RID: 12112
+		private static List<DamageOverlay> overlaysWorkingList = new List<DamageOverlay>();
+
+		// Token: 0x04002F51 RID: 12113
+		private static List<DamageOverlay> overlays = new List<DamageOverlay>();
 	}
 }

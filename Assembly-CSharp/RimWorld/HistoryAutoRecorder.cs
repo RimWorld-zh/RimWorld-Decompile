@@ -1,29 +1,30 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020002F9 RID: 761
 	public class HistoryAutoRecorder : IExposable
 	{
-		public HistoryAutoRecorderDef def;
-
-		public List<float> records;
-
+		// Token: 0x06000CB2 RID: 3250 RVA: 0x0006FD24 File Offset: 0x0006E124
 		public HistoryAutoRecorder()
 		{
 			this.records = new List<float>();
 		}
 
+		// Token: 0x06000CB3 RID: 3251 RVA: 0x0006FD40 File Offset: 0x0006E140
 		public void Tick()
 		{
 			int ticksGame = Find.TickManager.TicksGame;
-			if (ticksGame % this.def.recordTicksFrequency != 0 && this.records.Any())
-				return;
-			float item = this.def.Worker.PullRecord();
-			this.records.Add(item);
+			if (ticksGame % this.def.recordTicksFrequency == 0 || !this.records.Any<float>())
+			{
+				float item = this.def.Worker.PullRecord();
+				this.records.Add(item);
+			}
 		}
 
+		// Token: 0x06000CB4 RID: 3252 RVA: 0x0006FD9C File Offset: 0x0006E19C
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<HistoryAutoRecorderDef>(ref this.def, "def");
@@ -52,5 +53,11 @@ namespace RimWorld
 				}
 			}
 		}
+
+		// Token: 0x0400084A RID: 2122
+		public HistoryAutoRecorderDef def = null;
+
+		// Token: 0x0400084B RID: 2123
+		public List<float> records;
 	}
 }

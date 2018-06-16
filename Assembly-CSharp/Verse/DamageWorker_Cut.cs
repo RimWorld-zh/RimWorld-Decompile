@@ -1,60 +1,63 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Verse
 {
+	// Token: 0x02000CF7 RID: 3319
 	public class DamageWorker_Cut : DamageWorker_AddInjury
 	{
+		// Token: 0x06004912 RID: 18706 RVA: 0x00265C74 File Offset: 0x00264074
 		protected override BodyPartRecord ChooseHitPart(DamageInfo dinfo, Pawn pawn)
 		{
 			return pawn.health.hediffSet.GetRandomNotMissingPart(dinfo.Def, dinfo.Height, BodyPartDepth.Outside);
 		}
 
-		protected override void ApplySpecialEffectsToPart(Pawn pawn, float totalDamage, DamageInfo dinfo, ref DamageResult result)
+		// Token: 0x06004913 RID: 18707 RVA: 0x00265CA8 File Offset: 0x002640A8
+		protected override void ApplySpecialEffectsToPart(Pawn pawn, float totalDamage, DamageInfo dinfo, DamageWorker.DamageResult result)
 		{
 			if (dinfo.HitPart.depth == BodyPartDepth.Inside)
 			{
 				List<BodyPartRecord> list = new List<BodyPartRecord>();
-				BodyPartRecord bodyPartRecord = dinfo.HitPart;
-				while (bodyPartRecord != null)
+				for (BodyPartRecord bodyPartRecord = dinfo.HitPart; bodyPartRecord != null; bodyPartRecord = bodyPartRecord.parent)
 				{
 					list.Add(bodyPartRecord);
-					if (bodyPartRecord.depth != BodyPartDepth.Outside)
+					if (bodyPartRecord.depth == BodyPartDepth.Outside)
 					{
-						bodyPartRecord = bodyPartRecord.parent;
-						continue;
+						break;
 					}
-					break;
 				}
-				float num = (float)((float)(list.Count - 1) + 0.5);
+				float num = (float)(list.Count - 1) + 0.5f;
 				for (int i = 0; i < list.Count; i++)
 				{
 					DamageInfo dinfo2 = dinfo;
 					dinfo2.SetHitPart(list[i]);
-					base.FinalizeAndAddInjury(pawn, (float)(totalDamage / num * ((i != 0) ? 1.0 : 0.5)), dinfo2, ref result);
+					base.FinalizeAndAddInjury(pawn, totalDamage / num * ((i != 0) ? 1f : 0.5f), dinfo2, result);
 				}
 			}
 			else
 			{
-				int num2 = (base.def.cutExtraTargetsCurve != null) ? GenMath.RoundRandom(base.def.cutExtraTargetsCurve.Evaluate(Rand.Value)) : 0;
-				List<BodyPartRecord> list2 = null;
+				int num2 = (this.def.cutExtraTargetsCurve == null) ? 0 : GenMath.RoundRandom(this.def.cutExtraTargetsCurve.Evaluate(Rand.Value));
+				List<BodyPartRecord> list2;
 				if (num2 != 0)
 				{
-					IEnumerable<BodyPartRecord> lhs = dinfo.HitPart.GetDirectChildParts();
+					IEnumerable<BodyPartRecord> enumerable = dinfo.HitPart.GetDirectChildParts();
 					if (dinfo.HitPart.parent != null)
 					{
-						lhs = lhs.Concat(dinfo.HitPart.parent);
-						lhs = lhs.Concat(dinfo.HitPart.parent.GetDirectChildParts());
+						enumerable = enumerable.Concat(dinfo.HitPart.parent);
+						if (dinfo.HitPart.parent.parent != null)
+						{
+							enumerable = enumerable.Concat(dinfo.HitPart.parent.GetDirectChildParts());
+						}
 					}
-					list2 = lhs.Except(dinfo.HitPart).InRandomOrder(null).Take(num2)
-						.ToList();
+					list2 = enumerable.Except(dinfo.HitPart).InRandomOrder(null).Take(num2).ToList<BodyPartRecord>();
 				}
 				else
 				{
 					list2 = new List<BodyPartRecord>();
 				}
 				list2.Add(dinfo.HitPart);
-				float num3 = (float)(totalDamage * (1.0 + base.def.cutCleaveBonus) / ((float)list2.Count + base.def.cutCleaveBonus));
+				float num3 = totalDamage * (1f + this.def.cutCleaveBonus) / ((float)list2.Count + this.def.cutCleaveBonus);
 				if (num2 == 0)
 				{
 					num3 = base.ReduceDamageToPreserveOutsideParts(num3, dinfo, pawn);
@@ -63,7 +66,7 @@ namespace Verse
 				{
 					DamageInfo dinfo3 = dinfo;
 					dinfo3.SetHitPart(list2[j]);
-					base.FinalizeAndAddInjury(pawn, num3, dinfo3, ref result);
+					base.FinalizeAndAddInjury(pawn, num3, dinfo3, result);
 				}
 			}
 		}

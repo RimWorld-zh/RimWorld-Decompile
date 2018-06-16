@@ -1,16 +1,12 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000E26 RID: 3622
 	public class DebugTool
 	{
-		private string label;
-
-		private Action clickAction;
-
-		private Action onGUIAction;
-
+		// Token: 0x060054DA RID: 21722 RVA: 0x002B80CB File Offset: 0x002B64CB
 		public DebugTool(string label, Action clickAction, Action onGUIAction = null)
 		{
 			this.label = label;
@@ -18,11 +14,12 @@ namespace Verse
 			this.onGUIAction = onGUIAction;
 		}
 
+		// Token: 0x060054DB RID: 21723 RVA: 0x002B80F8 File Offset: 0x002B64F8
 		public DebugTool(string label, Action clickAction, IntVec3 firstRectCorner)
 		{
 			this.label = label;
 			this.clickAction = clickAction;
-			this.onGUIAction = delegate
+			this.onGUIAction = delegate()
 			{
 				IntVec3 intVec = UI.MouseCell();
 				Vector3 v = firstRectCorner.ToVector3Shifted();
@@ -53,6 +50,7 @@ namespace Verse
 			};
 		}
 
+		// Token: 0x060054DC RID: 21724 RVA: 0x002B8148 File Offset: 0x002B6548
 		public void DebugToolOnGUI()
 		{
 			if (Event.current.type == EventType.MouseDown)
@@ -76,5 +74,14 @@ namespace Verse
 				this.onGUIAction();
 			}
 		}
+
+		// Token: 0x04003800 RID: 14336
+		private string label;
+
+		// Token: 0x04003801 RID: 14337
+		private Action clickAction = null;
+
+		// Token: 0x04003802 RID: 14338
+		private Action onGUIAction = null;
 	}
 }

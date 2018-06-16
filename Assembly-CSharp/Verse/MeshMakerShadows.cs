@@ -1,30 +1,25 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000D79 RID: 3449
 	internal static class MeshMakerShadows
 	{
-		private static List<Vector3> vertsList = new List<Vector3>();
-
-		private static List<Color32> colorsList = new List<Color32>();
-
-		private static List<int> trianglesList = new List<int>();
-
-		private static readonly Color32 LowVertexColor = new Color32(0, 0, 0, 0);
-
+		// Token: 0x06004D33 RID: 19763 RVA: 0x00282CA0 File Offset: 0x002810A0
 		public static Mesh NewShadowMesh(float baseWidth, float baseHeight, float tallness)
 		{
-			Color32 item = new Color32(255, 0, 0, (byte)(255.0 * tallness));
-			float num = (float)(baseWidth / 2.0);
-			float num2 = (float)(baseHeight / 2.0);
+			Color32 item = new Color32(byte.MaxValue, 0, 0, (byte)(255f * tallness));
+			float num = baseWidth / 2f;
+			float num2 = baseHeight / 2f;
 			MeshMakerShadows.vertsList.Clear();
 			MeshMakerShadows.colorsList.Clear();
 			MeshMakerShadows.trianglesList.Clear();
-			MeshMakerShadows.vertsList.Add(new Vector3((float)(0.0 - num), 0f, (float)(0.0 - num2)));
-			MeshMakerShadows.vertsList.Add(new Vector3((float)(0.0 - num), 0f, num2));
+			MeshMakerShadows.vertsList.Add(new Vector3(-num, 0f, -num2));
+			MeshMakerShadows.vertsList.Add(new Vector3(-num, 0f, num2));
 			MeshMakerShadows.vertsList.Add(new Vector3(num, 0f, num2));
-			MeshMakerShadows.vertsList.Add(new Vector3(num, 0f, (float)(0.0 - num2)));
+			MeshMakerShadows.vertsList.Add(new Vector3(num, 0f, -num2));
 			MeshMakerShadows.colorsList.Add(MeshMakerShadows.LowVertexColor);
 			MeshMakerShadows.colorsList.Add(MeshMakerShadows.LowVertexColor);
 			MeshMakerShadows.colorsList.Add(MeshMakerShadows.LowVertexColor);
@@ -36,9 +31,9 @@ namespace Verse
 			MeshMakerShadows.trianglesList.Add(2);
 			MeshMakerShadows.trianglesList.Add(3);
 			int count = MeshMakerShadows.vertsList.Count;
-			MeshMakerShadows.vertsList.Add(new Vector3((float)(0.0 - num), 0f, (float)(0.0 - num2)));
+			MeshMakerShadows.vertsList.Add(new Vector3(-num, 0f, -num2));
 			MeshMakerShadows.colorsList.Add(item);
-			MeshMakerShadows.vertsList.Add(new Vector3((float)(0.0 - num), 0f, num2));
+			MeshMakerShadows.vertsList.Add(new Vector3(-num, 0f, num2));
 			MeshMakerShadows.colorsList.Add(item);
 			MeshMakerShadows.trianglesList.Add(0);
 			MeshMakerShadows.trianglesList.Add(count);
@@ -49,7 +44,7 @@ namespace Verse
 			int count2 = MeshMakerShadows.vertsList.Count;
 			MeshMakerShadows.vertsList.Add(new Vector3(num, 0f, num2));
 			MeshMakerShadows.colorsList.Add(item);
-			MeshMakerShadows.vertsList.Add(new Vector3(num, 0f, (float)(0.0 - num2)));
+			MeshMakerShadows.vertsList.Add(new Vector3(num, 0f, -num2));
 			MeshMakerShadows.colorsList.Add(item);
 			MeshMakerShadows.trianglesList.Add(2);
 			MeshMakerShadows.trianglesList.Add(count2);
@@ -58,9 +53,9 @@ namespace Verse
 			MeshMakerShadows.trianglesList.Add(3);
 			MeshMakerShadows.trianglesList.Add(2);
 			int count3 = MeshMakerShadows.vertsList.Count;
-			MeshMakerShadows.vertsList.Add(new Vector3((float)(0.0 - num), 0f, (float)(0.0 - num2)));
+			MeshMakerShadows.vertsList.Add(new Vector3(-num, 0f, -num2));
 			MeshMakerShadows.colorsList.Add(item);
-			MeshMakerShadows.vertsList.Add(new Vector3(num, 0f, (float)(0.0 - num2)));
+			MeshMakerShadows.vertsList.Add(new Vector3(num, 0f, -num2));
 			MeshMakerShadows.colorsList.Add(item);
 			MeshMakerShadows.trianglesList.Add(0);
 			MeshMakerShadows.trianglesList.Add(3);
@@ -68,12 +63,25 @@ namespace Verse
 			MeshMakerShadows.trianglesList.Add(3);
 			MeshMakerShadows.trianglesList.Add(count3 + 1);
 			MeshMakerShadows.trianglesList.Add(count3);
-			Mesh mesh = new Mesh();
-			mesh.name = "NewShadowMesh()";
-			mesh.vertices = MeshMakerShadows.vertsList.ToArray();
-			mesh.colors32 = MeshMakerShadows.colorsList.ToArray();
-			mesh.triangles = MeshMakerShadows.trianglesList.ToArray();
-			return mesh;
+			return new Mesh
+			{
+				name = "NewShadowMesh()",
+				vertices = MeshMakerShadows.vertsList.ToArray(),
+				colors32 = MeshMakerShadows.colorsList.ToArray(),
+				triangles = MeshMakerShadows.trianglesList.ToArray()
+			};
 		}
+
+		// Token: 0x04003378 RID: 13176
+		private static List<Vector3> vertsList = new List<Vector3>();
+
+		// Token: 0x04003379 RID: 13177
+		private static List<Color32> colorsList = new List<Color32>();
+
+		// Token: 0x0400337A RID: 13178
+		private static List<int> trianglesList = new List<int>();
+
+		// Token: 0x0400337B RID: 13179
+		private static readonly Color32 LowVertexColor = new Color32(0, 0, 0, 0);
 	}
 }

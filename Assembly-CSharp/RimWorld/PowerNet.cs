@@ -1,50 +1,45 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Profiling;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000423 RID: 1059
 	public class PowerNet
 	{
-		public PowerNetManager powerNetManager;
+		// Token: 0x06001275 RID: 4725 RVA: 0x0009FE24 File Offset: 0x0009E224
+		public PowerNet(IEnumerable<CompPower> newTransmitters)
+		{
+			foreach (CompPower compPower in newTransmitters)
+			{
+				this.transmitters.Add(compPower);
+				compPower.transNet = this;
+				this.RegisterAllComponentsOf(compPower.parent);
+				if (compPower.connectChildren != null)
+				{
+					List<CompPower> connectChildren = compPower.connectChildren;
+					for (int i = 0; i < connectChildren.Count; i++)
+					{
+						this.RegisterConnector(connectChildren[i]);
+					}
+				}
+			}
+			this.hasPowerSource = false;
+			for (int j = 0; j < this.transmitters.Count; j++)
+			{
+				if (this.IsPowerSource(this.transmitters[j]))
+				{
+					this.hasPowerSource = true;
+					break;
+				}
+			}
+		}
 
-		public bool hasPowerSource;
-
-		public List<CompPower> connectors = new List<CompPower>();
-
-		public List<CompPower> transmitters = new List<CompPower>();
-
-		public List<CompPowerTrader> powerComps = new List<CompPowerTrader>();
-
-		public List<CompPowerBattery> batteryComps = new List<CompPowerBattery>();
-
-		private float debugLastCreatedEnergy;
-
-		private float debugLastRawStoredEnergy;
-
-		private float debugLastApparentStoredEnergy;
-
-		private const int MaxRestartTryInterval = 200;
-
-		private const int MinRestartTryInterval = 30;
-
-		private const float RestartMinFraction = 0.05f;
-
-		private const int ShutdownInterval = 20;
-
-		private const float ShutdownMinFraction = 0.05f;
-
-		private const float MinStoredEnergyToTurnOn = 5f;
-
-		private static List<CompPowerTrader> partsWantingPowerOn = new List<CompPowerTrader>();
-
-		private static List<CompPowerTrader> potentialShutdownParts = new List<CompPowerTrader>();
-
-		private List<CompPowerBattery> givingBats = new List<CompPowerBattery>();
-
-		private static List<CompPowerBattery> batteriesShuffled = new List<CompPowerBattery>();
-
+		// Token: 0x17000281 RID: 641
+		// (get) Token: 0x06001276 RID: 4726 RVA: 0x0009FF5C File Offset: 0x0009E35C
 		public Map Map
 		{
 			get
@@ -53,92 +48,61 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x17000282 RID: 642
+		// (get) Token: 0x06001277 RID: 4727 RVA: 0x0009FF7C File Offset: 0x0009E37C
 		public bool HasActivePowerSource
 		{
 			get
 			{
+				bool result;
 				if (!this.hasPowerSource)
 				{
-					return false;
+					result = false;
 				}
-				for (int i = 0; i < this.transmitters.Count; i++)
+				else
 				{
-					if (this.IsActivePowerSource(this.transmitters[i]))
+					for (int i = 0; i < this.transmitters.Count; i++)
 					{
-						return true;
+						if (this.IsActivePowerSource(this.transmitters[i]))
+						{
+							return true;
+						}
 					}
+					result = false;
 				}
-				return false;
+				return result;
 			}
 		}
 
-		public PowerNet(IEnumerable<CompPower> newTransmitters)
-		{
-			foreach (CompPower newTransmitter in newTransmitters)
-			{
-				this.transmitters.Add(newTransmitter);
-				newTransmitter.transNet = this;
-				this.RegisterAllComponentsOf(newTransmitter.parent);
-				if (newTransmitter.connectChildren != null)
-				{
-					List<CompPower> connectChildren = newTransmitter.connectChildren;
-					for (int i = 0; i < connectChildren.Count; i++)
-					{
-						this.RegisterConnector(connectChildren[i]);
-					}
-				}
-			}
-			this.hasPowerSource = false;
-			int num = 0;
-			while (true)
-			{
-				if (num < this.transmitters.Count)
-				{
-					if (!this.IsPowerSource(this.transmitters[num]))
-					{
-						num++;
-						continue;
-					}
-					break;
-				}
-				return;
-			}
-			this.hasPowerSource = true;
-		}
-
+		// Token: 0x06001278 RID: 4728 RVA: 0x0009FFE0 File Offset: 0x0009E3E0
 		private bool IsPowerSource(CompPower cp)
 		{
-			if (cp is CompPowerBattery)
-			{
-				return true;
-			}
-			if (cp is CompPowerTrader && cp.Props.basePowerConsumption < 0.0)
-			{
-				return true;
-			}
-			return false;
+			return cp is CompPowerBattery || (cp is CompPowerTrader && cp.Props.basePowerConsumption < 0f);
 		}
 
+		// Token: 0x06001279 RID: 4729 RVA: 0x000A0030 File Offset: 0x0009E430
 		private bool IsActivePowerSource(CompPower cp)
 		{
 			CompPowerBattery compPowerBattery = cp as CompPowerBattery;
-			if (compPowerBattery != null && compPowerBattery.StoredEnergy > 0.0)
+			bool result;
+			if (compPowerBattery != null && compPowerBattery.StoredEnergy > 0f)
 			{
-				return true;
+				result = true;
 			}
-			CompPowerTrader compPowerTrader = cp as CompPowerTrader;
-			if (compPowerTrader != null && compPowerTrader.PowerOutput > 0.0)
+			else
 			{
-				return true;
+				CompPowerTrader compPowerTrader = cp as CompPowerTrader;
+				result = (compPowerTrader != null && compPowerTrader.PowerOutput > 0f);
 			}
-			return false;
+			return result;
 		}
 
+		// Token: 0x0600127A RID: 4730 RVA: 0x000A0090 File Offset: 0x0009E490
 		public void RegisterConnector(CompPower b)
 		{
 			if (this.connectors.Contains(b))
 			{
-				Log.Error("PowerNet registered connector it already had: " + b);
+				Log.Error("PowerNet registered connector it already had: " + b, false);
 			}
 			else
 			{
@@ -147,12 +111,14 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x0600127B RID: 4731 RVA: 0x000A00DE File Offset: 0x0009E4DE
 		public void DeregisterConnector(CompPower b)
 		{
 			this.connectors.Remove(b);
 			this.DeregisterAllComponentsOf(b.parent);
 		}
 
+		// Token: 0x0600127C RID: 4732 RVA: 0x000A00FC File Offset: 0x0009E4FC
 		private void RegisterAllComponentsOf(ThingWithComps parentThing)
 		{
 			CompPowerTrader comp = parentThing.GetComp<CompPowerTrader>();
@@ -160,7 +126,7 @@ namespace RimWorld
 			{
 				if (this.powerComps.Contains(comp))
 				{
-					Log.Error("PowerNet adding powerComp " + comp + " which it already has.");
+					Log.Error("PowerNet adding powerComp " + comp + " which it already has.", false);
 				}
 				else
 				{
@@ -172,7 +138,7 @@ namespace RimWorld
 			{
 				if (this.batteryComps.Contains(comp2))
 				{
-					Log.Error("PowerNet adding batteryComp " + comp2 + " which it already has.");
+					Log.Error("PowerNet adding batteryComp " + comp2 + " which it already has.", false);
 				}
 				else
 				{
@@ -181,6 +147,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x0600127D RID: 4733 RVA: 0x000A0198 File Offset: 0x0009E598
 		private void DeregisterAllComponentsOf(ThingWithComps parentThing)
 		{
 			CompPowerTrader comp = parentThing.GetComp<CompPowerTrader>();
@@ -195,23 +162,30 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x0600127E RID: 4734 RVA: 0x000A01DC File Offset: 0x0009E5DC
 		public float CurrentEnergyGainRate()
 		{
+			float result;
 			if (DebugSettings.unlimitedPower)
 			{
-				return 100000f;
+				result = 100000f;
 			}
-			float num = 0f;
-			for (int i = 0; i < this.powerComps.Count; i++)
+			else
 			{
-				if (this.powerComps[i].PowerOn)
+				float num = 0f;
+				for (int i = 0; i < this.powerComps.Count; i++)
 				{
-					num += this.powerComps[i].EnergyOutputPerTick;
+					if (this.powerComps[i].PowerOn)
+					{
+						num += this.powerComps[i].EnergyOutputPerTick;
+					}
 				}
+				result = num;
 			}
-			return num;
+			return result;
 		}
 
+		// Token: 0x0600127F RID: 4735 RVA: 0x000A0258 File Offset: 0x0009E658
 		public float CurrentStoredEnergy()
 		{
 			float num = 0f;
@@ -222,20 +196,30 @@ namespace RimWorld
 			return num;
 		}
 
+		// Token: 0x06001280 RID: 4736 RVA: 0x000A02A8 File Offset: 0x0009E6A8
 		public void PowerNetTick()
 		{
 			float num = this.CurrentEnergyGainRate();
 			float num2 = this.CurrentStoredEnergy();
-			if (num2 + num >= -1.0000000116860974E-07 && !this.Map.gameConditionManager.ConditionIsActive(GameConditionDefOf.SolarFlare))
+			if (num2 + num >= -1E-07f && !this.Map.gameConditionManager.ConditionIsActive(GameConditionDefOf.SolarFlare))
 			{
-				float num3 = (float)((this.batteryComps.Count <= 0 || !(num2 >= 0.10000000149011612)) ? num2 : (num2 - 5.0));
+				Profiler.BeginSample("PowerNetTick Excess Energy");
+				float num3;
+				if (this.batteryComps.Count > 0 && num2 >= 0.1f)
+				{
+					num3 = num2 - 5f;
+				}
+				else
+				{
+					num3 = num2;
+				}
 				if (UnityData.isDebugBuild)
 				{
 					this.debugLastApparentStoredEnergy = num3;
 					this.debugLastCreatedEnergy = num;
 					this.debugLastRawStoredEnergy = num2;
 				}
-				if (num3 + num >= 0.0)
+				if (num3 + num >= 0f)
 				{
 					PowerNet.partsWantingPowerOn.Clear();
 					for (int i = 0; i < this.powerComps.Count; i++)
@@ -254,144 +238,156 @@ namespace RimWorld
 						}
 						if (Find.TickManager.TicksGame % num4 == 0)
 						{
-							int num5 = Mathf.Max(1, Mathf.RoundToInt((float)((float)PowerNet.partsWantingPowerOn.Count * 0.05000000074505806)));
+							int num5 = Mathf.Max(1, Mathf.RoundToInt((float)PowerNet.partsWantingPowerOn.Count * 0.05f));
 							for (int j = 0; j < num5; j++)
 							{
-								CompPowerTrader compPowerTrader = PowerNet.partsWantingPowerOn.RandomElement();
-								if (!compPowerTrader.PowerOn && num + num2 >= 0.0 - (compPowerTrader.EnergyOutputPerTick + 1.0000000116860974E-07))
+								CompPowerTrader compPowerTrader = PowerNet.partsWantingPowerOn.RandomElement<CompPowerTrader>();
+								if (!compPowerTrader.PowerOn)
 								{
-									compPowerTrader.PowerOn = true;
-									num += compPowerTrader.EnergyOutputPerTick;
+									if (num + num2 >= -(compPowerTrader.EnergyOutputPerTick + 1E-07f))
+									{
+										compPowerTrader.PowerOn = true;
+										num += compPowerTrader.EnergyOutputPerTick;
+									}
 								}
 							}
 						}
 					}
 				}
 				this.ChangeStoredEnergy(num);
+				Profiler.EndSample();
 			}
-			else if (Find.TickManager.TicksGame % 20 == 0)
+			else
 			{
-				PowerNet.potentialShutdownParts.Clear();
-				for (int k = 0; k < this.powerComps.Count; k++)
+				Profiler.BeginSample("PowerNetTick Shutdown");
+				if (Find.TickManager.TicksGame % 20 == 0)
 				{
-					if (this.powerComps[k].PowerOn && this.powerComps[k].EnergyOutputPerTick < 0.0)
+					PowerNet.potentialShutdownParts.Clear();
+					for (int k = 0; k < this.powerComps.Count; k++)
 					{
-						PowerNet.potentialShutdownParts.Add(this.powerComps[k]);
+						if (this.powerComps[k].PowerOn && this.powerComps[k].EnergyOutputPerTick < 0f)
+						{
+							PowerNet.potentialShutdownParts.Add(this.powerComps[k]);
+						}
+					}
+					if (PowerNet.potentialShutdownParts.Count > 0)
+					{
+						int num6 = Mathf.Max(1, Mathf.RoundToInt((float)PowerNet.potentialShutdownParts.Count * 0.05f));
+						for (int l = 0; l < num6; l++)
+						{
+							PowerNet.potentialShutdownParts.RandomElement<CompPowerTrader>().PowerOn = false;
+						}
 					}
 				}
-				if (PowerNet.potentialShutdownParts.Count > 0)
-				{
-					int num6 = Mathf.Max(1, Mathf.RoundToInt((float)((float)PowerNet.potentialShutdownParts.Count * 0.05000000074505806)));
-					for (int l = 0; l < num6; l++)
-					{
-						PowerNet.potentialShutdownParts.RandomElement().PowerOn = false;
-					}
-				}
+				Profiler.EndSample();
 			}
 		}
 
+		// Token: 0x06001281 RID: 4737 RVA: 0x000A05A4 File Offset: 0x0009E9A4
 		private void ChangeStoredEnergy(float extra)
 		{
-			if (extra > 0.0)
+			if (extra > 0f)
 			{
 				this.DistributeEnergyAmongBatteries(extra);
 			}
 			else
 			{
-				float num = (float)(0.0 - extra);
+				float num = -extra;
 				this.givingBats.Clear();
 				for (int i = 0; i < this.batteryComps.Count; i++)
 				{
-					if (this.batteryComps[i].StoredEnergy > 1.0000000116860974E-07)
+					if (this.batteryComps[i].StoredEnergy > 1E-07f)
 					{
 						this.givingBats.Add(this.batteryComps[i]);
 					}
 				}
 				float a = num / (float)this.givingBats.Count;
 				int num2 = 0;
-				while (num > 1.0000000116860974E-07)
+				while (num > 1E-07f)
 				{
-					int num3 = 0;
-					while (num3 < this.givingBats.Count)
+					for (int j = 0; j < this.givingBats.Count; j++)
 					{
-						float num4 = Mathf.Min(a, this.givingBats[num3].StoredEnergy);
-						this.givingBats[num3].DrawPower(num4);
-						num -= num4;
-						if (!(num < 1.0000000116860974E-07))
+						float num3 = Mathf.Min(a, this.givingBats[j].StoredEnergy);
+						this.givingBats[j].DrawPower(num3);
+						num -= num3;
+						if (num < 1E-07f)
 						{
-							num3++;
-							continue;
+							return;
 						}
-						return;
 					}
 					num2++;
 					if (num2 > 10)
+					{
 						break;
+					}
 				}
-				if (num > 1.0000000116860974E-07)
+				if (num > 1E-07f)
 				{
-					Log.Warning("Drew energy from a PowerNet that didn't have it.");
+					Log.Warning("Drew energy from a PowerNet that didn't have it.", false);
 				}
 			}
 		}
 
+		// Token: 0x06001282 RID: 4738 RVA: 0x000A06D8 File Offset: 0x0009EAD8
 		private void DistributeEnergyAmongBatteries(float energy)
 		{
-			if (!(energy <= 0.0) && this.batteryComps.Any())
+			if (energy > 0f && this.batteryComps.Any<CompPowerBattery>())
 			{
 				PowerNet.batteriesShuffled.Clear();
 				PowerNet.batteriesShuffled.AddRange(this.batteryComps);
-				PowerNet.batteriesShuffled.Shuffle();
+				PowerNet.batteriesShuffled.Shuffle<CompPowerBattery>();
 				int num = 0;
-				while (true)
+				for (;;)
 				{
 					num++;
 					if (num > 10000)
 					{
-						Log.Error("Too many iterations.");
+						break;
 					}
-					else
+					float num2 = float.MaxValue;
+					for (int i = 0; i < PowerNet.batteriesShuffled.Count; i++)
 					{
-						float num2 = 3.40282347E+38f;
-						for (int i = 0; i < PowerNet.batteriesShuffled.Count; i++)
-						{
-							num2 = Mathf.Min(num2, PowerNet.batteriesShuffled[i].AmountCanAccept);
-						}
-						if (energy >= num2 * (float)PowerNet.batteriesShuffled.Count)
-						{
-							for (int num3 = PowerNet.batteriesShuffled.Count - 1; num3 >= 0; num3--)
-							{
-								float amountCanAccept = PowerNet.batteriesShuffled[num3].AmountCanAccept;
-								bool flag = amountCanAccept <= 0.0 || amountCanAccept == num2;
-								if (num2 > 0.0)
-								{
-									PowerNet.batteriesShuffled[num3].AddEnergy(num2);
-									energy -= num2;
-								}
-								if (flag)
-								{
-									PowerNet.batteriesShuffled.RemoveAt(num3);
-								}
-							}
-							if (energy < 0.00050000002374872565)
-								break;
-							if (!PowerNet.batteriesShuffled.Any())
-								break;
-							continue;
-						}
-						float amount = energy / (float)PowerNet.batteriesShuffled.Count;
-						for (int j = 0; j < PowerNet.batteriesShuffled.Count; j++)
-						{
-							PowerNet.batteriesShuffled[j].AddEnergy(amount);
-						}
-						energy = 0f;
+						num2 = Mathf.Min(num2, PowerNet.batteriesShuffled[i].AmountCanAccept);
 					}
-					break;
+					if (energy < num2 * (float)PowerNet.batteriesShuffled.Count)
+					{
+						goto IL_139;
+					}
+					for (int j = PowerNet.batteriesShuffled.Count - 1; j >= 0; j--)
+					{
+						float amountCanAccept = PowerNet.batteriesShuffled[j].AmountCanAccept;
+						bool flag = amountCanAccept <= 0f || amountCanAccept == num2;
+						if (num2 > 0f)
+						{
+							PowerNet.batteriesShuffled[j].AddEnergy(num2);
+							energy -= num2;
+						}
+						if (flag)
+						{
+							PowerNet.batteriesShuffled.RemoveAt(j);
+						}
+					}
+					if (energy < 0.0005f || !PowerNet.batteriesShuffled.Any<CompPowerBattery>())
+					{
+						goto IL_1A3;
+					}
 				}
+				Log.Error("Too many iterations.", false);
+				goto IL_1AE;
+				IL_139:
+				float amount = energy / (float)PowerNet.batteriesShuffled.Count;
+				for (int k = 0; k < PowerNet.batteriesShuffled.Count; k++)
+				{
+					PowerNet.batteriesShuffled[k].AddEnergy(amount);
+				}
+				energy = 0f;
+				IL_1A3:
+				IL_1AE:
 				PowerNet.batteriesShuffled.Clear();
 			}
 		}
 
+		// Token: 0x06001283 RID: 4739 RVA: 0x000A08A0 File Offset: 0x0009ECA0
 		public string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -401,26 +397,83 @@ namespace RimWorld
 			stringBuilder.AppendLine("  Apparent stored energy: " + this.debugLastApparentStoredEnergy);
 			stringBuilder.AppendLine("  hasPowerSource: " + this.hasPowerSource);
 			stringBuilder.AppendLine("  Connectors: ");
-			foreach (CompPower connector in this.connectors)
+			foreach (CompPower compPower in this.connectors)
 			{
-				stringBuilder.AppendLine("      " + connector.parent);
+				stringBuilder.AppendLine("      " + compPower.parent);
 			}
 			stringBuilder.AppendLine("  Transmitters: ");
-			foreach (CompPower transmitter in this.transmitters)
+			foreach (CompPower compPower2 in this.transmitters)
 			{
-				stringBuilder.AppendLine("      " + transmitter.parent);
+				stringBuilder.AppendLine("      " + compPower2.parent);
 			}
 			stringBuilder.AppendLine("  powerComps: ");
-			foreach (CompPowerTrader powerComp in this.powerComps)
+			foreach (CompPowerTrader compPowerTrader in this.powerComps)
 			{
-				stringBuilder.AppendLine("      " + powerComp.parent);
+				stringBuilder.AppendLine("      " + compPowerTrader.parent);
 			}
 			stringBuilder.AppendLine("  batteryComps: ");
-			foreach (CompPowerBattery batteryComp in this.batteryComps)
+			foreach (CompPowerBattery compPowerBattery in this.batteryComps)
 			{
-				stringBuilder.AppendLine("      " + batteryComp.parent);
+				stringBuilder.AppendLine("      " + compPowerBattery.parent);
 			}
 			return stringBuilder.ToString();
 		}
+
+		// Token: 0x04000B35 RID: 2869
+		public PowerNetManager powerNetManager;
+
+		// Token: 0x04000B36 RID: 2870
+		public bool hasPowerSource;
+
+		// Token: 0x04000B37 RID: 2871
+		public List<CompPower> connectors = new List<CompPower>();
+
+		// Token: 0x04000B38 RID: 2872
+		public List<CompPower> transmitters = new List<CompPower>();
+
+		// Token: 0x04000B39 RID: 2873
+		public List<CompPowerTrader> powerComps = new List<CompPowerTrader>();
+
+		// Token: 0x04000B3A RID: 2874
+		public List<CompPowerBattery> batteryComps = new List<CompPowerBattery>();
+
+		// Token: 0x04000B3B RID: 2875
+		private float debugLastCreatedEnergy;
+
+		// Token: 0x04000B3C RID: 2876
+		private float debugLastRawStoredEnergy;
+
+		// Token: 0x04000B3D RID: 2877
+		private float debugLastApparentStoredEnergy;
+
+		// Token: 0x04000B3E RID: 2878
+		private const int MaxRestartTryInterval = 200;
+
+		// Token: 0x04000B3F RID: 2879
+		private const int MinRestartTryInterval = 30;
+
+		// Token: 0x04000B40 RID: 2880
+		private const float RestartMinFraction = 0.05f;
+
+		// Token: 0x04000B41 RID: 2881
+		private const int ShutdownInterval = 20;
+
+		// Token: 0x04000B42 RID: 2882
+		private const float ShutdownMinFraction = 0.05f;
+
+		// Token: 0x04000B43 RID: 2883
+		private const float MinStoredEnergyToTurnOn = 5f;
+
+		// Token: 0x04000B44 RID: 2884
+		private static List<CompPowerTrader> partsWantingPowerOn = new List<CompPowerTrader>();
+
+		// Token: 0x04000B45 RID: 2885
+		private static List<CompPowerTrader> potentialShutdownParts = new List<CompPowerTrader>();
+
+		// Token: 0x04000B46 RID: 2886
+		private List<CompPowerBattery> givingBats = new List<CompPowerBattery>();
+
+		// Token: 0x04000B47 RID: 2887
+		private static List<CompPowerBattery> batteriesShuffled = new List<CompPowerBattery>();
 	}
 }

@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -5,81 +6,104 @@ using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000032 RID: 50
 	public abstract class JobDriver_InteractAnimal : JobDriver
 	{
-		protected const TargetIndex AnimalInd = TargetIndex.A;
-
-		private const TargetIndex FoodHandInd = TargetIndex.B;
-
-		private const int FeedDuration = 270;
-
-		private const int TalkDuration = 270;
-
-		private const float NutritionPercentagePerFeed = 0.15f;
-
-		private const float MaxMinNutritionPerFeed = 0.3f;
-
-		public const int FeedCount = 2;
-
-		public const FoodPreferability MaxFoodPreferability = FoodPreferability.RawTasty;
-
-		private float feedNutritionLeft;
-
+		// Token: 0x1700005D RID: 93
+		// (get) Token: 0x060001C6 RID: 454 RVA: 0x00013530 File Offset: 0x00011930
 		protected Pawn Animal
 		{
 			get
 			{
-				return (Pawn)base.job.targetA.Thing;
+				return (Pawn)this.job.targetA.Thing;
 			}
 		}
 
+		// Token: 0x060001C7 RID: 455 RVA: 0x0001355A File Offset: 0x0001195A
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<float>(ref this.feedNutritionLeft, "feedNutritionLeft", 0f, false);
 		}
 
+		// Token: 0x060001C8 RID: 456
 		protected abstract Toil FinalInteractToil();
 
+		// Token: 0x060001C9 RID: 457 RVA: 0x0001357C File Offset: 0x0001197C
 		public override bool TryMakePreToilReservations()
 		{
-			return base.pawn.Reserve(this.Animal, base.job, 1, -1, null);
+			return this.pawn.Reserve(this.Animal, this.job, 1, -1, null);
 		}
 
+		// Token: 0x060001CA RID: 458 RVA: 0x000135B0 File Offset: 0x000119B0
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedNullOrForbidden(TargetIndex.A);
 			this.FailOnDowned(TargetIndex.A);
 			this.FailOnNotCasualInterruptible(TargetIndex.A);
 			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
-			/*Error: Unable to find new state assignment for yield return*/;
+			yield return Toils_Interpersonal.WaitToBeAbleToInteract(this.pawn);
+			yield return Toils_Interpersonal.GotoInteractablePosition(TargetIndex.A);
+			yield return JobDriver_InteractAnimal.TalkToAnimal(TargetIndex.A);
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+			yield return Toils_Interpersonal.WaitToBeAbleToInteract(this.pawn);
+			yield return Toils_Interpersonal.GotoInteractablePosition(TargetIndex.A);
+			yield return JobDriver_InteractAnimal.TalkToAnimal(TargetIndex.A);
+			foreach (Toil t in this.FeedToils())
+			{
+				yield return t;
+			}
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+			yield return Toils_Interpersonal.WaitToBeAbleToInteract(this.pawn);
+			yield return Toils_Interpersonal.GotoInteractablePosition(TargetIndex.A);
+			yield return JobDriver_InteractAnimal.TalkToAnimal(TargetIndex.A);
+			foreach (Toil t2 in this.FeedToils())
+			{
+				yield return t2;
+			}
+			yield return Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+			yield return Toils_Interpersonal.SetLastInteractTime(TargetIndex.A);
+			yield return Toils_Interpersonal.WaitToBeAbleToInteract(this.pawn);
+			yield return Toils_Interpersonal.GotoInteractablePosition(TargetIndex.A);
+			yield return this.FinalInteractToil();
+			yield break;
 		}
 
+		// Token: 0x060001CB RID: 459 RVA: 0x000135DC File Offset: 0x000119DC
 		public static float RequiredNutritionPerFeed(Pawn animal)
 		{
-			return Mathf.Min((float)(animal.needs.food.MaxLevel * 0.15000000596046448), 0.3f);
+			return Mathf.Min(animal.needs.food.MaxLevel * 0.15f, 0.3f);
 		}
 
+		// Token: 0x060001CC RID: 460 RVA: 0x00013614 File Offset: 0x00011A14
 		private IEnumerable<Toil> FeedToils()
 		{
 			yield return new Toil
 			{
-				initAction = delegate
+				initAction = delegate()
 				{
-					((_003CFeedToils_003Ec__Iterator1)/*Error near IL_004a: stateMachine*/)._0024this.feedNutritionLeft = JobDriver_InteractAnimal.RequiredNutritionPerFeed(((_003CFeedToils_003Ec__Iterator1)/*Error near IL_004a: stateMachine*/)._0024this.Animal);
+					this.feedNutritionLeft = JobDriver_InteractAnimal.RequiredNutritionPerFeed(this.Animal);
 				},
 				defaultCompleteMode = ToilCompleteMode.Instant
 			};
-			/*Error: Unable to find new state assignment for yield return*/;
+			Toil gotoAnimal = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+			yield return gotoAnimal;
+			yield return this.StartFeedAnimal(TargetIndex.A);
+			yield return Toils_Ingest.FinalizeIngest(this.Animal, TargetIndex.B);
+			yield return Toils_General.PutCarriedThingInInventory();
+			yield return Toils_General.ClearTarget(TargetIndex.B);
+			yield return Toils_Jump.JumpIf(gotoAnimal, () => this.feedNutritionLeft > 0f);
+			yield break;
 		}
 
+		// Token: 0x060001CD RID: 461 RVA: 0x00013640 File Offset: 0x00011A40
 		private static Toil TalkToAnimal(TargetIndex tameeInd)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = delegate()
 			{
 				Pawn actor = toil.GetActor();
-				Pawn recipient = (Pawn)(Thing)actor.CurJob.GetTarget(tameeInd);
+				Pawn recipient = (Pawn)((Thing)actor.CurJob.GetTarget(tameeInd));
 				actor.interactions.TryInteractWith(recipient, InteractionDefOf.AnimalChat);
 			};
 			toil.defaultCompleteMode = ToilCompleteMode.Delay;
@@ -87,13 +111,14 @@ namespace RimWorld
 			return toil;
 		}
 
+		// Token: 0x060001CE RID: 462 RVA: 0x000136A8 File Offset: 0x00011AA8
 		private Toil StartFeedAnimal(TargetIndex tameeInd)
 		{
 			Toil toil = new Toil();
-			toil.initAction = delegate
+			toil.initAction = delegate()
 			{
 				Pawn actor = toil.GetActor();
-				Pawn pawn = (Pawn)(Thing)actor.CurJob.GetTarget(tameeInd);
+				Pawn pawn = (Pawn)((Thing)actor.CurJob.GetTarget(tameeInd));
 				PawnUtility.ForceWait(pawn, 270, actor, false);
 				Thing thing = FoodUtility.BestFoodInInventory(actor, pawn, FoodPreferability.NeverForNutrition, FoodPreferability.RawTasty, 0f, false);
 				if (thing == null)
@@ -103,13 +128,13 @@ namespace RimWorld
 				else
 				{
 					actor.mindState.lastInventoryRawFoodUseTick = Find.TickManager.TicksGame;
-					int num = FoodUtility.StackCountForNutrition(thing.def, this.feedNutritionLeft);
+					int num = FoodUtility.StackCountForNutrition(this.feedNutritionLeft, thing.GetStatValue(StatDefOf.Nutrition, true));
 					int stackCount = thing.stackCount;
 					Thing thing2 = actor.inventory.innerContainer.Take(thing, Mathf.Min(num, stackCount));
 					actor.carryTracker.TryStartCarry(thing2);
 					actor.CurJob.SetTarget(TargetIndex.B, thing2);
-					float num2 = (float)thing2.stackCount * thing2.def.ingestible.nutrition;
-					base.ticksLeftThisToil = Mathf.CeilToInt((float)(270.0 * (num2 / JobDriver_InteractAnimal.RequiredNutritionPerFeed(pawn))));
+					float num2 = (float)thing2.stackCount * thing2.GetStatValue(StatDefOf.Nutrition, true);
+					this.ticksLeftThisToil = Mathf.CeilToInt(270f * (num2 / JobDriver_InteractAnimal.RequiredNutritionPerFeed(pawn)));
 					if (num <= stackCount)
 					{
 						this.feedNutritionLeft = 0f;
@@ -117,7 +142,7 @@ namespace RimWorld
 					else
 					{
 						this.feedNutritionLeft -= num2;
-						if (this.feedNutritionLeft < 0.0010000000474974513)
+						if (this.feedNutritionLeft < 0.001f)
 						{
 							this.feedNutritionLeft = 0f;
 						}
@@ -127,5 +152,32 @@ namespace RimWorld
 			toil.defaultCompleteMode = ToilCompleteMode.Delay;
 			return toil;
 		}
+
+		// Token: 0x040001B8 RID: 440
+		protected const TargetIndex AnimalInd = TargetIndex.A;
+
+		// Token: 0x040001B9 RID: 441
+		private const TargetIndex FoodHandInd = TargetIndex.B;
+
+		// Token: 0x040001BA RID: 442
+		private const int FeedDuration = 270;
+
+		// Token: 0x040001BB RID: 443
+		private const int TalkDuration = 270;
+
+		// Token: 0x040001BC RID: 444
+		private const float NutritionPercentagePerFeed = 0.15f;
+
+		// Token: 0x040001BD RID: 445
+		private const float MaxMinNutritionPerFeed = 0.3f;
+
+		// Token: 0x040001BE RID: 446
+		public const int FeedCount = 2;
+
+		// Token: 0x040001BF RID: 447
+		public const FoodPreferability MaxFoodPreferability = FoodPreferability.RawTasty;
+
+		// Token: 0x040001C0 RID: 448
+		private float feedNutritionLeft;
 	}
 }

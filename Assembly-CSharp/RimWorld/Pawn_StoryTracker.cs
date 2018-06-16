@@ -1,57 +1,130 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020004E1 RID: 1249
 	public class Pawn_StoryTracker : IExposable
 	{
-		private Pawn pawn;
+		// Token: 0x0600163A RID: 5690 RVA: 0x000C5384 File Offset: 0x000C3784
+		public Pawn_StoryTracker(Pawn pawn)
+		{
+			this.pawn = pawn;
+			this.traits = new TraitSet(pawn);
+		}
 
-		public Backstory childhood;
-
-		public Backstory adulthood;
-
-		public float melanin;
-
-		public Color hairColor = Color.white;
-
-		public CrownType crownType;
-
-		public BodyType bodyType;
-
-		private string headGraphicPath;
-
-		public HairDef hairDef;
-
-		public TraitSet traits;
-
-		private List<WorkTypeDef> cachedDisabledWorkTypes;
-
+		// Token: 0x170002DE RID: 734
+		// (get) Token: 0x0600163B RID: 5691 RVA: 0x000C53E0 File Offset: 0x000C37E0
+		// (set) Token: 0x0600163C RID: 5692 RVA: 0x000C5412 File Offset: 0x000C3812
 		public string Title
 		{
 			get
 			{
-				if (this.adulthood != null)
+				string titleDefault;
+				if (this.title != null)
 				{
-					return this.adulthood.Title;
+					titleDefault = this.title;
 				}
-				return this.childhood.Title;
+				else
+				{
+					titleDefault = this.TitleDefault;
+				}
+				return titleDefault;
+			}
+			set
+			{
+				this.title = null;
+				if (value != this.Title && !value.NullOrEmpty())
+				{
+					this.title = value;
+				}
 			}
 		}
 
+		// Token: 0x170002DF RID: 735
+		// (get) Token: 0x0600163D RID: 5693 RVA: 0x000C5440 File Offset: 0x000C3840
+		public string TitleCap
+		{
+			get
+			{
+				return this.Title.CapitalizeFirst();
+			}
+		}
+
+		// Token: 0x170002E0 RID: 736
+		// (get) Token: 0x0600163E RID: 5694 RVA: 0x000C5460 File Offset: 0x000C3860
+		public string TitleDefault
+		{
+			get
+			{
+				string result;
+				if (this.adulthood != null)
+				{
+					result = this.adulthood.TitleFor(this.pawn.gender);
+				}
+				else if (this.childhood != null)
+				{
+					result = this.childhood.TitleFor(this.pawn.gender);
+				}
+				else
+				{
+					result = "";
+				}
+				return result;
+			}
+		}
+
+		// Token: 0x170002E1 RID: 737
+		// (get) Token: 0x0600163F RID: 5695 RVA: 0x000C54C8 File Offset: 0x000C38C8
+		public string TitleDefaultCap
+		{
+			get
+			{
+				return this.TitleDefault.CapitalizeFirst();
+			}
+		}
+
+		// Token: 0x170002E2 RID: 738
+		// (get) Token: 0x06001640 RID: 5696 RVA: 0x000C54E8 File Offset: 0x000C38E8
 		public string TitleShort
 		{
 			get
 			{
-				if (this.adulthood != null)
+				string result;
+				if (this.title != null)
 				{
-					return this.adulthood.TitleShort;
+					result = this.title;
 				}
-				return this.childhood.TitleShort;
+				else if (this.adulthood != null)
+				{
+					result = this.adulthood.TitleShortFor(this.pawn.gender);
+				}
+				else if (this.childhood != null)
+				{
+					result = this.childhood.TitleShortFor(this.pawn.gender);
+				}
+				else
+				{
+					result = "";
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x170002E3 RID: 739
+		// (get) Token: 0x06001641 RID: 5697 RVA: 0x000C5568 File Offset: 0x000C3968
+		public string TitleShortCap
+		{
+			get
+			{
+				return this.TitleShort.CapitalizeFirst();
+			}
+		}
+
+		// Token: 0x170002E4 RID: 740
+		// (get) Token: 0x06001642 RID: 5698 RVA: 0x000C5588 File Offset: 0x000C3988
 		public Color SkinColor
 		{
 			get
@@ -60,6 +133,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170002E5 RID: 741
+		// (get) Token: 0x06001643 RID: 5699 RVA: 0x000C55A8 File Offset: 0x000C39A8
 		public IEnumerable<Backstory> AllBackstories
 		{
 			get
@@ -67,15 +142,17 @@ namespace RimWorld
 				if (this.childhood != null)
 				{
 					yield return this.childhood;
-					/*Error: Unable to find new state assignment for yield return*/;
 				}
-				if (this.adulthood == null)
-					yield break;
-				yield return this.adulthood;
-				/*Error: Unable to find new state assignment for yield return*/;
+				if (this.adulthood != null)
+				{
+					yield return this.adulthood;
+				}
+				yield break;
 			}
 		}
 
+		// Token: 0x170002E6 RID: 742
+		// (get) Token: 0x06001644 RID: 5700 RVA: 0x000C55D4 File Offset: 0x000C39D4
 		public string HeadGraphicPath
 		{
 			get
@@ -88,6 +165,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170002E7 RID: 743
+		// (get) Token: 0x06001645 RID: 5701 RVA: 0x000C5638 File Offset: 0x000C3A38
 		public List<WorkTypeDef> DisabledWorkTypes
 		{
 			get
@@ -95,23 +174,23 @@ namespace RimWorld
 				if (this.cachedDisabledWorkTypes == null)
 				{
 					this.cachedDisabledWorkTypes = new List<WorkTypeDef>();
-					foreach (Backstory allBackstory in this.AllBackstories)
+					foreach (Backstory backstory in this.AllBackstories)
 					{
-						foreach (WorkTypeDef disabledWorkType in allBackstory.DisabledWorkTypes)
+						foreach (WorkTypeDef item in backstory.DisabledWorkTypes)
 						{
-							if (!this.cachedDisabledWorkTypes.Contains(disabledWorkType))
+							if (!this.cachedDisabledWorkTypes.Contains(item))
 							{
-								this.cachedDisabledWorkTypes.Add(disabledWorkType);
+								this.cachedDisabledWorkTypes.Add(item);
 							}
 						}
 					}
 					for (int i = 0; i < this.traits.allTraits.Count; i++)
 					{
-						foreach (WorkTypeDef disabledWorkType2 in this.traits.allTraits[i].GetDisabledWorkTypes())
+						foreach (WorkTypeDef item2 in this.traits.allTraits[i].GetDisabledWorkTypes())
 						{
-							if (!this.cachedDisabledWorkTypes.Contains(disabledWorkType2))
+							if (!this.cachedDisabledWorkTypes.Contains(item2))
 							{
-								this.cachedDisabledWorkTypes.Add(disabledWorkType2);
+								this.cachedDisabledWorkTypes.Add(item2);
 							}
 						}
 					}
@@ -120,6 +199,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170002E8 RID: 744
+		// (get) Token: 0x06001646 RID: 5702 RVA: 0x000C57B8 File Offset: 0x000C3BB8
 		public WorkTags CombinedDisabledWorkTags
 		{
 			get
@@ -141,58 +222,71 @@ namespace RimWorld
 			}
 		}
 
-		public Pawn_StoryTracker(Pawn pawn)
-		{
-			this.pawn = pawn;
-			this.traits = new TraitSet(pawn);
-		}
-
+		// Token: 0x06001647 RID: 5703 RVA: 0x000C5844 File Offset: 0x000C3C44
 		public void ExposeData()
 		{
 			string text = (this.childhood == null) ? null : this.childhood.identifier;
-			Scribe_Values.Look(ref text, "childhood", null, false);
-			if (Scribe.mode == LoadSaveMode.LoadingVars && !text.NullOrEmpty() && !BackstoryDatabase.TryGetWithIdentifier(text, out this.childhood))
+			Scribe_Values.Look<string>(ref text, "childhood", null, false);
+			if (Scribe.mode == LoadSaveMode.LoadingVars && !text.NullOrEmpty())
 			{
-				Log.Error("Couldn't load child backstory with identifier " + text + ". Giving random.");
-				this.childhood = BackstoryDatabase.RandomBackstory(BackstorySlot.Childhood);
+				if (!BackstoryDatabase.TryGetWithIdentifier(text, out this.childhood))
+				{
+					Log.Error("Couldn't load child backstory with identifier " + text + ". Giving random.", false);
+					this.childhood = BackstoryDatabase.RandomBackstory(BackstorySlot.Childhood);
+				}
 			}
 			string text2 = (this.adulthood == null) ? null : this.adulthood.identifier;
-			Scribe_Values.Look(ref text2, "adulthood", null, false);
-			if (Scribe.mode == LoadSaveMode.LoadingVars && !text2.NullOrEmpty() && !BackstoryDatabase.TryGetWithIdentifier(text2, out this.adulthood))
+			Scribe_Values.Look<string>(ref text2, "adulthood", null, false);
+			if (Scribe.mode == LoadSaveMode.LoadingVars && !text2.NullOrEmpty())
 			{
-				Log.Error("Couldn't load adult backstory with identifier " + text2 + ". Giving random.");
-				this.adulthood = BackstoryDatabase.RandomBackstory(BackstorySlot.Adulthood);
+				if (!BackstoryDatabase.TryGetWithIdentifier(text2, out this.adulthood))
+				{
+					Log.Error("Couldn't load adult backstory with identifier " + text2 + ". Giving random.", false);
+					this.adulthood = BackstoryDatabase.RandomBackstory(BackstorySlot.Adulthood);
+				}
 			}
-			Scribe_Values.Look<BodyType>(ref this.bodyType, "bodyType", BodyType.Undefined, false);
+			Scribe_Defs.Look<BodyTypeDef>(ref this.bodyType, "bodyType");
 			Scribe_Values.Look<CrownType>(ref this.crownType, "crownType", CrownType.Undefined, false);
-			Scribe_Values.Look<string>(ref this.headGraphicPath, "headGraphicPath", (string)null, false);
+			Scribe_Values.Look<string>(ref this.headGraphicPath, "headGraphicPath", null, false);
 			Scribe_Defs.Look<HairDef>(ref this.hairDef, "hairDef");
 			Scribe_Values.Look<Color>(ref this.hairColor, "hairColor", default(Color), false);
 			Scribe_Values.Look<float>(ref this.melanin, "melanin", 0f, false);
-			Scribe_Deep.Look<TraitSet>(ref this.traits, "traits", new object[1]
+			Scribe_Deep.Look<TraitSet>(ref this.traits, "traits", new object[]
 			{
 				this.pawn
 			});
-			if (Scribe.mode == LoadSaveMode.PostLoadInit && this.hairDef == null)
+			Scribe_Values.Look<string>(ref this.title, "title", null, false);
+			if (Scribe.mode == LoadSaveMode.PostLoadInit)
 			{
-				this.hairDef = DefDatabase<HairDef>.AllDefs.RandomElement();
+				if (this.hairDef == null)
+				{
+					this.hairDef = DefDatabase<HairDef>.AllDefs.RandomElement<HairDef>();
+				}
 			}
 		}
 
+		// Token: 0x06001648 RID: 5704 RVA: 0x000C5A10 File Offset: 0x000C3E10
 		public Backstory GetBackstory(BackstorySlot slot)
 		{
+			Backstory result;
 			if (slot == BackstorySlot.Childhood)
 			{
-				return this.childhood;
+				result = this.childhood;
 			}
-			return this.adulthood;
+			else
+			{
+				result = this.adulthood;
+			}
+			return result;
 		}
 
+		// Token: 0x06001649 RID: 5705 RVA: 0x000C5A40 File Offset: 0x000C3E40
 		public bool WorkTypeIsDisabled(WorkTypeDef w)
 		{
 			return this.DisabledWorkTypes.Contains(w);
 		}
 
+		// Token: 0x0600164A RID: 5706 RVA: 0x000C5A64 File Offset: 0x000C3E64
 		public bool OneOfWorkTypesIsDisabled(List<WorkTypeDef> wts)
 		{
 			for (int i = 0; i < wts.Count; i++)
@@ -205,14 +299,52 @@ namespace RimWorld
 			return false;
 		}
 
+		// Token: 0x0600164B RID: 5707 RVA: 0x000C5AAC File Offset: 0x000C3EAC
 		public bool WorkTagIsDisabled(WorkTags w)
 		{
 			return (this.CombinedDisabledWorkTags & w) != WorkTags.None;
 		}
 
+		// Token: 0x0600164C RID: 5708 RVA: 0x000C5ACF File Offset: 0x000C3ECF
 		internal void Notify_TraitChanged()
 		{
 			this.cachedDisabledWorkTypes = null;
 		}
+
+		// Token: 0x04000CED RID: 3309
+		private Pawn pawn;
+
+		// Token: 0x04000CEE RID: 3310
+		public Backstory childhood;
+
+		// Token: 0x04000CEF RID: 3311
+		public Backstory adulthood;
+
+		// Token: 0x04000CF0 RID: 3312
+		public float melanin;
+
+		// Token: 0x04000CF1 RID: 3313
+		public Color hairColor = Color.white;
+
+		// Token: 0x04000CF2 RID: 3314
+		public CrownType crownType = CrownType.Undefined;
+
+		// Token: 0x04000CF3 RID: 3315
+		public BodyTypeDef bodyType = null;
+
+		// Token: 0x04000CF4 RID: 3316
+		private string headGraphicPath = null;
+
+		// Token: 0x04000CF5 RID: 3317
+		public HairDef hairDef = null;
+
+		// Token: 0x04000CF6 RID: 3318
+		public TraitSet traits;
+
+		// Token: 0x04000CF7 RID: 3319
+		public string title = null;
+
+		// Token: 0x04000CF8 RID: 3320
+		private List<WorkTypeDef> cachedDisabledWorkTypes = null;
 	}
 }

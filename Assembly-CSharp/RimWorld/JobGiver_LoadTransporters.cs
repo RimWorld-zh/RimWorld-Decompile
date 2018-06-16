@@ -1,13 +1,14 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x020000D5 RID: 213
 	public class JobGiver_LoadTransporters : ThinkNode_JobGiver
 	{
-		private static List<CompTransporter> tmpTransporters = new List<CompTransporter>();
-
+		// Token: 0x060004BE RID: 1214 RVA: 0x00035680 File Offset: 0x00033A80
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			int transportersGroup = pawn.mindState.duty.transportersGroup;
@@ -22,5 +23,8 @@ namespace RimWorld
 			}
 			return null;
 		}
+
+		// Token: 0x040002A6 RID: 678
+		private static List<CompTransporter> tmpTransporters = new List<CompTransporter>();
 	}
 }

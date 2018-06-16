@@ -1,34 +1,45 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020004F5 RID: 1269
 	public static class BeautyUtility
 	{
-		public static List<IntVec3> beautyRelevantCells = new List<IntVec3>();
-
-		private static List<Room> visibleRooms = new List<Room>();
-
-		public static readonly int SampleNumCells_Beauty = GenRadial.NumCellsInRadius(8.9f);
-
-		private static List<Thing> tempCountedThings = new List<Thing>();
-
+		// Token: 0x060016CF RID: 5839 RVA: 0x000C9B88 File Offset: 0x000C7F88
 		public static float AverageBeautyPerceptible(IntVec3 root, Map map)
 		{
-			BeautyUtility.tempCountedThings.Clear();
-			float num = 0f;
-			int num2 = 0;
-			BeautyUtility.FillBeautyRelevantCells(root, map);
-			for (int i = 0; i < BeautyUtility.beautyRelevantCells.Count; i++)
+			float result;
+			if (!root.IsValid || !root.InBounds(map))
 			{
-				num += BeautyUtility.CellBeauty(BeautyUtility.beautyRelevantCells[i], map, BeautyUtility.tempCountedThings);
-				num2++;
+				result = 0f;
 			}
-			num /= (float)num2;
-			BeautyUtility.tempCountedThings.Clear();
-			return num;
+			else
+			{
+				BeautyUtility.tempCountedThings.Clear();
+				float num = 0f;
+				int num2 = 0;
+				BeautyUtility.FillBeautyRelevantCells(root, map);
+				for (int i = 0; i < BeautyUtility.beautyRelevantCells.Count; i++)
+				{
+					num += BeautyUtility.CellBeauty(BeautyUtility.beautyRelevantCells[i], map, BeautyUtility.tempCountedThings);
+					num2++;
+				}
+				BeautyUtility.tempCountedThings.Clear();
+				if (num2 == 0)
+				{
+					result = 0f;
+				}
+				else
+				{
+					result = num / (float)num2;
+				}
+			}
+			return result;
 		}
 
+		// Token: 0x060016D0 RID: 5840 RVA: 0x000C9C34 File Offset: 0x000C8034
 		public static void FillBeautyRelevantCells(IntVec3 root, Map map)
 		{
 			BeautyUtility.beautyRelevantCells.Clear();
@@ -39,11 +50,11 @@ namespace RimWorld
 				BeautyUtility.visibleRooms.Add(room);
 				if (room.Regions.Count == 1 && room.Regions[0].type == RegionType.Portal)
 				{
-					foreach (Region neighbor in room.Regions[0].Neighbors)
+					foreach (Region region in room.Regions[0].Neighbors)
 					{
-						if (!BeautyUtility.visibleRooms.Contains(neighbor.Room))
+						if (!BeautyUtility.visibleRooms.Contains(region.Room))
 						{
-							BeautyUtility.visibleRooms.Add(neighbor.Room);
+							BeautyUtility.visibleRooms.Add(region.Room);
 						}
 					}
 				}
@@ -65,20 +76,20 @@ namespace RimWorld
 									break;
 								}
 							}
-							if (flag)
-								goto IL_0175;
-							continue;
+							if (!flag)
+							{
+								goto IL_192;
+							}
 						}
-						goto IL_0175;
+						BeautyUtility.beautyRelevantCells.Add(intVec);
 					}
-					continue;
-					IL_0175:
-					BeautyUtility.beautyRelevantCells.Add(intVec);
+					IL_192:;
 				}
 				BeautyUtility.visibleRooms.Clear();
 			}
 		}
 
+		// Token: 0x060016D1 RID: 5841 RVA: 0x000C9DFC File Offset: 0x000C81FC
 		public static float CellBeauty(IntVec3 c, Map map, List<Thing> countedThings = null)
 		{
 			float num = 0f;
@@ -88,38 +99,66 @@ namespace RimWorld
 			for (int i = 0; i < list.Count; i++)
 			{
 				Thing thing = list[i];
-				if (countedThings != null)
+				if (BeautyUtility.BeautyRelevant(thing.def.category))
 				{
-					if (countedThings.Contains(thing))
+					if (countedThings != null)
 					{
-						continue;
+						if (countedThings.Contains(thing))
+						{
+							goto IL_EE;
+						}
+						countedThings.Add(thing);
 					}
-					countedThings.Add(thing);
+					SlotGroup slotGroup = thing.GetSlotGroup();
+					if (slotGroup == null || !slotGroup.parent.IgnoreStoredThingsBeauty)
+					{
+						float num3 = thing.GetStatValue(StatDefOf.Beauty, true);
+						if (thing is Filth && !map.roofGrid.Roofed(c))
+						{
+							num3 *= 0.3f;
+						}
+						if (thing.def.Fillage == FillCategory.Full)
+						{
+							flag = true;
+							num2 += num3;
+						}
+						else
+						{
+							num += num3;
+						}
+					}
 				}
-				SlotGroup slotGroup = thing.GetSlotGroup();
-				if (slotGroup == null || !slotGroup.parent.IgnoreStoredThingsBeauty)
-				{
-					float num3 = thing.GetStatValue(StatDefOf.Beauty, true);
-					if (thing is Filth && !map.roofGrid.Roofed(c))
-					{
-						num3 = (float)(num3 * 0.30000001192092896);
-					}
-					if (thing.def.Fillage == FillCategory.Full)
-					{
-						flag = true;
-						num2 += num3;
-					}
-					else
-					{
-						num += num3;
-					}
-				}
+				IL_EE:;
 			}
+			float result;
 			if (flag)
 			{
-				return num2;
+				result = num2;
 			}
-			return num + map.terrainGrid.TerrainAt(c).GetStatValueAbstract(StatDefOf.Beauty, null);
+			else
+			{
+				num += map.terrainGrid.TerrainAt(c).GetStatValueAbstract(StatDefOf.Beauty, null);
+				result = num;
+			}
+			return result;
 		}
+
+		// Token: 0x060016D2 RID: 5842 RVA: 0x000C9F40 File Offset: 0x000C8340
+		public static bool BeautyRelevant(ThingCategory cat)
+		{
+			return cat == ThingCategory.Building || cat == ThingCategory.Item || cat == ThingCategory.Plant || cat == ThingCategory.Filth;
+		}
+
+		// Token: 0x04000D53 RID: 3411
+		public static List<IntVec3> beautyRelevantCells = new List<IntVec3>();
+
+		// Token: 0x04000D54 RID: 3412
+		private static List<Room> visibleRooms = new List<Room>();
+
+		// Token: 0x04000D55 RID: 3413
+		public static readonly int SampleNumCells_Beauty = GenRadial.NumCellsInRadius(8.9f);
+
+		// Token: 0x04000D56 RID: 3414
+		private static List<Thing> tempCountedThings = new List<Thing>();
 	}
 }

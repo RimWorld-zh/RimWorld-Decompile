@@ -1,78 +1,115 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020003FD RID: 1021
 	public class GenStep_ScatterLumpsMineable : GenStep_Scatterer
 	{
-		public ThingDef forcedDefToScatter;
+		// Token: 0x17000258 RID: 600
+		// (get) Token: 0x0600118D RID: 4493 RVA: 0x000980D0 File Offset: 0x000964D0
+		public override int SeedPart
+		{
+			get
+			{
+				return 920906419;
+			}
+		}
 
-		public int forcedLumpSize;
-
-		[Unsaved]
-		protected List<IntVec3> recentLumpCells = new List<IntVec3>();
-
+		// Token: 0x0600118E RID: 4494 RVA: 0x000980EC File Offset: 0x000964EC
 		public override void Generate(Map map)
 		{
-			base.minSpacing = 5f;
-			base.warnOnFail = false;
+			this.minSpacing = 5f;
+			this.warnOnFail = false;
 			int num = base.CalculateFinalCount(map);
-			int num2 = 0;
-			while (num2 < num)
+			for (int i = 0; i < num; i++)
 			{
-				IntVec3 intVec = default(IntVec3);
-				if (((GenStep_Scatterer)this).TryFindScatterCell(map, out intVec))
+				IntVec3 intVec;
+				if (!this.TryFindScatterCell(map, out intVec))
 				{
-					this.ScatterAt(intVec, map, 1);
-					base.usedSpots.Add(intVec);
-					num2++;
-					continue;
+					return;
 				}
-				return;
+				this.ScatterAt(intVec, map, 1);
+				this.usedSpots.Add(intVec);
 			}
-			base.usedSpots.Clear();
+			this.usedSpots.Clear();
 		}
 
+		// Token: 0x0600118F RID: 4495 RVA: 0x0009815C File Offset: 0x0009655C
 		protected ThingDef ChooseThingDef()
 		{
+			ThingDef result;
 			if (this.forcedDefToScatter != null)
 			{
-				return this.forcedDefToScatter;
+				result = this.forcedDefToScatter;
 			}
-			return DefDatabase<ThingDef>.AllDefs.RandomElementByWeight(delegate(ThingDef d)
+			else
 			{
-				if (d.building == null)
+				result = DefDatabase<ThingDef>.AllDefs.RandomElementByWeightWithFallback(delegate(ThingDef d)
 				{
-					return 0f;
-				}
-				return d.building.mineableScatterCommonality;
-			});
+					float result2;
+					if (d.building == null)
+					{
+						result2 = 0f;
+					}
+					else if (d.building.mineableThing != null && d.building.mineableThing.BaseMarketValue > this.maxValue)
+					{
+						result2 = 0f;
+					}
+					else
+					{
+						result2 = d.building.mineableScatterCommonality;
+					}
+					return result2;
+				}, null);
+			}
+			return result;
 		}
 
+		// Token: 0x06001190 RID: 4496 RVA: 0x000981A0 File Offset: 0x000965A0
 		protected override bool CanScatterAt(IntVec3 c, Map map)
 		{
-			if (base.NearUsedSpot(c, base.minSpacing))
+			bool result;
+			if (base.NearUsedSpot(c, this.minSpacing))
 			{
-				return false;
+				result = false;
 			}
-			Building edifice = c.GetEdifice(map);
-			if (edifice != null && edifice.def.building.isNaturalRock)
+			else
 			{
-				return true;
+				Building edifice = c.GetEdifice(map);
+				result = (edifice != null && edifice.def.building.isNaturalRock);
 			}
-			return false;
+			return result;
 		}
 
+		// Token: 0x06001191 RID: 4497 RVA: 0x000981FC File Offset: 0x000965FC
 		protected override void ScatterAt(IntVec3 c, Map map, int stackCount = 1)
 		{
 			ThingDef thingDef = this.ChooseThingDef();
-			int numCells = (this.forcedLumpSize <= 0) ? thingDef.building.mineableScatterLumpSizeRange.RandomInRange : this.forcedLumpSize;
-			this.recentLumpCells.Clear();
-			foreach (IntVec3 item in GridShapeMaker.IrregularLump(c, map, numCells))
+			if (thingDef != null)
 			{
-				GenSpawn.Spawn(thingDef, item, map);
-				this.recentLumpCells.Add(item);
+				int numCells = (this.forcedLumpSize <= 0) ? thingDef.building.mineableScatterLumpSizeRange.RandomInRange : this.forcedLumpSize;
+				this.recentLumpCells.Clear();
+				foreach (IntVec3 intVec in GridShapeMaker.IrregularLump(c, map, numCells))
+				{
+					GenSpawn.Spawn(thingDef, intVec, map, WipeMode.Vanish);
+					this.recentLumpCells.Add(intVec);
+				}
 			}
 		}
+
+		// Token: 0x04000AA9 RID: 2729
+		public ThingDef forcedDefToScatter;
+
+		// Token: 0x04000AAA RID: 2730
+		public int forcedLumpSize;
+
+		// Token: 0x04000AAB RID: 2731
+		public float maxValue = float.MaxValue;
+
+		// Token: 0x04000AAC RID: 2732
+		[Unsaved]
+		protected List<IntVec3> recentLumpCells = new List<IntVec3>();
 	}
 }

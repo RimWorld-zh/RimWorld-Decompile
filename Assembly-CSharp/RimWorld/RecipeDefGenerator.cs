@@ -1,125 +1,117 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000235 RID: 565
 	internal static class RecipeDefGenerator
 	{
+		// Token: 0x06000A3A RID: 2618 RVA: 0x0005A838 File Offset: 0x00058C38
 		public static IEnumerable<RecipeDef> ImpliedRecipeDefs()
 		{
-			using (IEnumerator<RecipeDef> enumerator = RecipeDefGenerator.DefsFromRecipeMakers().Concat(RecipeDefGenerator.DrugAdministerDefs()).GetEnumerator())
+			foreach (RecipeDef r in RecipeDefGenerator.DefsFromRecipeMakers().Concat(RecipeDefGenerator.DrugAdministerDefs()))
 			{
-				if (enumerator.MoveNext())
-				{
-					RecipeDef r = enumerator.Current;
-					yield return r;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return r;
 			}
 			yield break;
-			IL_00bd:
-			/*Error near IL_00be: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x06000A3B RID: 2619 RVA: 0x0005A85C File Offset: 0x00058C5C
 		private static IEnumerable<RecipeDef> DefsFromRecipeMakers()
 		{
-			using (IEnumerator<ThingDef> enumerator = (from d in DefDatabase<ThingDef>.AllDefs
+			foreach (ThingDef def in from d in DefDatabase<ThingDef>.AllDefs
 			where d.recipeMaker != null
-			select d).GetEnumerator())
+			select d)
 			{
-				if (enumerator.MoveNext())
+				RecipeMakerProperties rm = def.recipeMaker;
+				RecipeDef r = new RecipeDef();
+				r.defName = "Make_" + def.defName;
+				r.label = "RecipeMake".Translate(new object[]
 				{
-					ThingDef def = enumerator.Current;
-					RecipeMakerProperties rm = def.recipeMaker;
-					RecipeDef r = new RecipeDef
-					{
-						defName = "Make_" + def.defName,
-						label = "RecipeMake".Translate(def.label),
-						jobString = "RecipeMakeJobString".Translate(def.label),
-						workAmount = (float)rm.workAmount,
-						workSpeedStat = rm.workSpeedStat,
-						efficiencyStat = rm.efficiencyStat
-					};
-					if (def.MadeFromStuff)
-					{
-						IngredientCount ingredientCount = new IngredientCount();
-						ingredientCount.SetBaseCount((float)def.costStuffCount);
-						ingredientCount.filter.SetAllowAllWhoCanMake(def);
-						r.ingredients.Add(ingredientCount);
-						r.fixedIngredientFilter.SetAllowAllWhoCanMake(def);
-						r.productHasIngredientStuff = true;
-					}
-					if (def.costList != null)
-					{
-						foreach (ThingCountClass cost in def.costList)
-						{
-							IngredientCount ingredientCount2 = new IngredientCount();
-							ingredientCount2.SetBaseCount((float)cost.count);
-							ingredientCount2.filter.SetAllow(cost.thingDef, true);
-							r.ingredients.Add(ingredientCount2);
-						}
-					}
-					r.defaultIngredientFilter = rm.defaultIngredientFilter;
-					r.products.Add(new ThingCountClass(def, rm.productCount));
-					r.targetCountAdjustment = rm.targetCountAdjustment;
-					r.skillRequirements = rm.skillRequirements.ListFullCopyOrNull();
-					r.workSkill = rm.workSkill;
-					r.workSkillLearnFactor = rm.workSkillLearnPerTick;
-					r.unfinishedThingDef = rm.unfinishedThingDef;
-					r.recipeUsers = rm.recipeUsers.ListFullCopyOrNull();
-					r.effectWorking = rm.effectWorking;
-					r.soundWorking = rm.soundWorking;
-					r.researchPrerequisite = rm.researchPrerequisite;
-					r.factionPrerequisiteTags = rm.factionPrerequisiteTags;
-					yield return r;
-					/*Error: Unable to find new state assignment for yield return*/;
+					def.label
+				});
+				r.jobString = "RecipeMakeJobString".Translate(new object[]
+				{
+					def.label
+				});
+				r.modContentPack = def.modContentPack;
+				r.workAmount = (float)rm.workAmount;
+				r.workSpeedStat = rm.workSpeedStat;
+				r.efficiencyStat = rm.efficiencyStat;
+				if (def.MadeFromStuff)
+				{
+					IngredientCount ingredientCount = new IngredientCount();
+					ingredientCount.SetBaseCount((float)def.costStuffCount);
+					ingredientCount.filter.SetAllowAllWhoCanMake(def);
+					r.ingredients.Add(ingredientCount);
+					r.fixedIngredientFilter.SetAllowAllWhoCanMake(def);
+					r.productHasIngredientStuff = true;
 				}
+				if (def.costList != null)
+				{
+					foreach (ThingDefCountClass thingDefCountClass in def.costList)
+					{
+						IngredientCount ingredientCount2 = new IngredientCount();
+						ingredientCount2.SetBaseCount((float)thingDefCountClass.count);
+						ingredientCount2.filter.SetAllow(thingDefCountClass.thingDef, true);
+						r.ingredients.Add(ingredientCount2);
+					}
+				}
+				r.defaultIngredientFilter = rm.defaultIngredientFilter;
+				r.products.Add(new ThingDefCountClass(def, rm.productCount));
+				r.targetCountAdjustment = rm.targetCountAdjustment;
+				r.skillRequirements = rm.skillRequirements.ListFullCopyOrNull<SkillRequirement>();
+				r.workSkill = rm.workSkill;
+				r.workSkillLearnFactor = rm.workSkillLearnPerTick;
+				r.unfinishedThingDef = rm.unfinishedThingDef;
+				r.recipeUsers = rm.recipeUsers.ListFullCopyOrNull<ThingDef>();
+				r.effectWorking = rm.effectWorking;
+				r.soundWorking = rm.soundWorking;
+				r.researchPrerequisite = rm.researchPrerequisite;
+				r.factionPrerequisiteTags = rm.factionPrerequisiteTags;
+				yield return r;
 			}
 			yield break;
-			IL_03bc:
-			/*Error near IL_03bd: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x06000A3C RID: 2620 RVA: 0x0005A880 File Offset: 0x00058C80
 		private static IEnumerable<RecipeDef> DrugAdministerDefs()
 		{
-			using (IEnumerator<ThingDef> enumerator = (from d in DefDatabase<ThingDef>.AllDefs
+			foreach (ThingDef def in from d in DefDatabase<ThingDef>.AllDefs
 			where d.IsDrug
-			select d).GetEnumerator())
+			select d)
 			{
-				if (enumerator.MoveNext())
+				RecipeDef r = new RecipeDef();
+				r.defName = "Administer_" + def.defName;
+				r.label = "RecipeAdminister".Translate(new object[]
 				{
-					ThingDef def = enumerator.Current;
-					RecipeDef r = new RecipeDef
-					{
-						defName = "Administer_" + def.defName,
-						label = "RecipeAdminister".Translate(def.label),
-						jobString = "RecipeAdministerJobString".Translate(def.label),
-						workerClass = typeof(Recipe_AdministerIngestible),
-						targetsBodyPart = false,
-						anesthetize = false,
-						surgerySuccessChanceFactor = 99999f,
-						workAmount = (float)def.ingestible.baseIngestTicks
-					};
-					IngredientCount ic = new IngredientCount();
-					ic.SetBaseCount(1f);
-					ic.filter.SetAllow(def, true);
-					r.ingredients.Add(ic);
-					r.fixedIngredientFilter.SetAllow(def, true);
-					r.recipeUsers = new List<ThingDef>();
-					foreach (ThingDef item in from d in DefDatabase<ThingDef>.AllDefs
-					where d.category == ThingCategory.Pawn && d.race.IsFlesh
-					select d)
-					{
-						r.recipeUsers.Add(item);
-					}
-					yield return r;
-					/*Error: Unable to find new state assignment for yield return*/;
+					def.label
+				});
+				r.jobString = "RecipeAdministerJobString".Translate(new object[]
+				{
+					def.label
+				});
+				r.workerClass = typeof(Recipe_AdministerIngestible);
+				r.targetsBodyPart = false;
+				r.anesthetize = false;
+				r.surgerySuccessChanceFactor = 99999f;
+				r.modContentPack = def.modContentPack;
+				r.workAmount = (float)def.ingestible.baseIngestTicks;
+				IngredientCount ic = new IngredientCount();
+				ic.SetBaseCount(1f);
+				ic.filter.SetAllow(def, true);
+				r.ingredients.Add(ic);
+				r.fixedIngredientFilter.SetAllow(def, true);
+				r.recipeUsers = new List<ThingDef>();
+				foreach (ThingDef item in DefDatabase<ThingDef>.AllDefs.Where((ThingDef d) => d.category == ThingCategory.Pawn && d.race.IsFlesh))
+				{
+					r.recipeUsers.Add(item);
 				}
+				yield return r;
 			}
 			yield break;
-			IL_029a:
-			/*Error near IL_029b: Unexpected return in MoveNext()*/;
 		}
 	}
 }

@@ -1,18 +1,26 @@
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x0200010F RID: 271
 	public class JobGiver_InsultingSpree : ThinkNode_JobGiver
 	{
+		// Token: 0x06000596 RID: 1430 RVA: 0x0003C5B0 File Offset: 0x0003A9B0
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			MentalState_InsultingSpree mentalState_InsultingSpree = pawn.MentalState as MentalState_InsultingSpree;
-			if (mentalState_InsultingSpree != null && mentalState_InsultingSpree.target != null && pawn.CanReach(mentalState_InsultingSpree.target, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
+			Job result;
+			if (mentalState_InsultingSpree == null || mentalState_InsultingSpree.target == null || !pawn.CanReach(mentalState_InsultingSpree.target, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn))
 			{
-				return new Job(JobDefOf.Insult, mentalState_InsultingSpree.target);
+				result = null;
 			}
-			return null;
+			else
+			{
+				result = new Job(JobDefOf.Insult, mentalState_InsultingSpree.target);
+			}
+			return result;
 		}
 	}
 }

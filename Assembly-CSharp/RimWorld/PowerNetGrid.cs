@@ -1,32 +1,31 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000426 RID: 1062
 	public class PowerNetGrid
 	{
-		private Map map;
-
-		private PowerNet[] netGrid;
-
-		private Dictionary<PowerNet, List<IntVec3>> powerNetCells = new Dictionary<PowerNet, List<IntVec3>>();
-
+		// Token: 0x0600128A RID: 4746 RVA: 0x000A0D71 File Offset: 0x0009F171
 		public PowerNetGrid(Map map)
 		{
 			this.map = map;
 			this.netGrid = new PowerNet[map.cellIndices.NumGridCells];
 		}
 
+		// Token: 0x0600128B RID: 4747 RVA: 0x000A0DA4 File Offset: 0x0009F1A4
 		public PowerNet TransmittedPowerNetAt(IntVec3 c)
 		{
 			return this.netGrid[this.map.cellIndices.CellToIndex(c)];
 		}
 
+		// Token: 0x0600128C RID: 4748 RVA: 0x000A0DD4 File Offset: 0x0009F1D4
 		public void Notify_PowerNetCreated(PowerNet newNet)
 		{
 			if (this.powerNetCells.ContainsKey(newNet))
 			{
-				Log.Warning("Net " + newNet + " is already registered in PowerNetGrid.");
+				Log.Warning("Net " + newNet + " is already registered in PowerNetGrid.", false);
 				this.powerNetCells.Remove(newNet);
 			}
 			List<IntVec3> list = new List<IntVec3>();
@@ -41,7 +40,18 @@ namespace RimWorld
 						int num = this.map.cellIndices.CellToIndex(k, j);
 						if (this.netGrid[num] != null)
 						{
-							Log.Warning("Two power nets on the same cell (" + k + ", " + j + "). First transmitters: " + newNet.transmitters[0].parent.LabelCap + " and " + ((!this.netGrid[num].transmitters.NullOrEmpty()) ? this.netGrid[num].transmitters[0].parent.LabelCap : "[none]") + ".");
+							Log.Warning(string.Concat(new object[]
+							{
+								"Two power nets on the same cell (",
+								k,
+								", ",
+								j,
+								"). First transmitters: ",
+								newNet.transmitters[0].parent.LabelCap,
+								" and ",
+								(!this.netGrid[num].transmitters.NullOrEmpty<CompPower>()) ? this.netGrid[num].transmitters[0].parent.LabelCap : "[none]",
+								"."
+							}), false);
 						}
 						this.netGrid[num] = newNet;
 						list.Add(new IntVec3(k, 0, j));
@@ -50,12 +60,13 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x0600128D RID: 4749 RVA: 0x000A0F8C File Offset: 0x0009F38C
 		public void Notify_PowerNetDeleted(PowerNet deadNet)
 		{
-			List<IntVec3> list = default(List<IntVec3>);
+			List<IntVec3> list;
 			if (!this.powerNetCells.TryGetValue(deadNet, out list))
 			{
-				Log.Warning("Net " + deadNet + " does not exist in PowerNetGrid's dictionary.");
+				Log.Warning("Net " + deadNet + " does not exist in PowerNetGrid's dictionary.", false);
 			}
 			else
 			{
@@ -68,29 +79,45 @@ namespace RimWorld
 					}
 					else
 					{
-						Log.Warning("Multiple nets on the same cell " + list[i] + ". This is probably a result of an earlier error.");
+						Log.Warning("Multiple nets on the same cell " + list[i] + ". This is probably a result of an earlier error.", false);
 					}
 				}
 				this.powerNetCells.Remove(deadNet);
 			}
 		}
 
+		// Token: 0x0600128E RID: 4750 RVA: 0x000A1044 File Offset: 0x0009F444
 		public void DrawDebugPowerNetGrid()
 		{
-			if (DebugViewSettings.drawPowerNetGrid && Current.ProgramState == ProgramState.Playing && this.map == Find.VisibleMap)
+			if (DebugViewSettings.drawPowerNetGrid)
 			{
-				Rand.PushState();
-				foreach (IntVec3 item in Find.CameraDriver.CurrentViewRect.ClipInsideMap(this.map))
+				if (Current.ProgramState == ProgramState.Playing)
 				{
-					PowerNet powerNet = this.netGrid[this.map.cellIndices.CellToIndex(item)];
-					if (powerNet != null)
+					if (this.map == Find.CurrentMap)
 					{
-						Rand.Seed = powerNet.GetHashCode();
-						CellRenderer.RenderCell(item, Rand.Value);
+						Rand.PushState();
+						foreach (IntVec3 c in Find.CameraDriver.CurrentViewRect.ClipInsideMap(this.map))
+						{
+							PowerNet powerNet = this.netGrid[this.map.cellIndices.CellToIndex(c)];
+							if (powerNet != null)
+							{
+								Rand.Seed = powerNet.GetHashCode();
+								CellRenderer.RenderCell(c, Rand.Value);
+							}
+						}
+						Rand.PopState();
 					}
 				}
-				Rand.PopState();
 			}
 		}
+
+		// Token: 0x04000B51 RID: 2897
+		private Map map;
+
+		// Token: 0x04000B52 RID: 2898
+		private PowerNet[] netGrid;
+
+		// Token: 0x04000B53 RID: 2899
+		private Dictionary<PowerNet, List<IntVec3>> powerNetCells = new Dictionary<PowerNet, List<IntVec3>>();
 	}
 }

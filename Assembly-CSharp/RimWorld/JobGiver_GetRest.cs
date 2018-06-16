@@ -1,14 +1,14 @@
-using System;
+﻿using System;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
+	// Token: 0x020000E2 RID: 226
 	public class JobGiver_GetRest : ThinkNode_JobGiver
 	{
-		private RestCategory minCategory;
-
+		// Token: 0x060004E9 RID: 1257 RVA: 0x00036A5C File Offset: 0x00034E5C
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_GetRest jobGiver_GetRest = (JobGiver_GetRest)base.DeepCopy(resolve);
@@ -16,113 +16,151 @@ namespace RimWorld
 			return jobGiver_GetRest;
 		}
 
+		// Token: 0x060004EA RID: 1258 RVA: 0x00036A8C File Offset: 0x00034E8C
 		public override float GetPriority(Pawn pawn)
 		{
 			Need_Rest rest = pawn.needs.rest;
+			float result;
 			if (rest == null)
 			{
-				return 0f;
+				result = 0f;
 			}
-			if ((int)rest.CurCategory < (int)this.minCategory)
+			else if (rest.CurCategory < this.minCategory)
 			{
-				return 0f;
+				result = 0f;
 			}
-			if (Find.TickManager.TicksGame < pawn.mindState.canSleepTick)
+			else if (Find.TickManager.TicksGame < pawn.mindState.canSleepTick)
 			{
-				return 0f;
-			}
-			Lord lord = pawn.GetLord();
-			if (lord != null && !lord.CurLordToil.AllowSatisfyLongNeeds)
-			{
-				return 0f;
-			}
-			TimeAssignmentDef timeAssignmentDef;
-			if (pawn.RaceProps.Humanlike)
-			{
-				timeAssignmentDef = ((pawn.timetable != null) ? pawn.timetable.CurrentAssignment : TimeAssignmentDefOf.Anything);
+				result = 0f;
 			}
 			else
 			{
-				int num = GenLocalDate.HourOfDay(pawn);
-				timeAssignmentDef = ((num >= 7 && num <= 21) ? TimeAssignmentDefOf.Anything : TimeAssignmentDefOf.Sleep);
-			}
-			float curLevel = rest.CurLevel;
-			if (timeAssignmentDef == TimeAssignmentDefOf.Anything)
-			{
-				if (curLevel < 0.30000001192092896)
+				Lord lord = pawn.GetLord();
+				if (lord != null && !lord.CurLordToil.AllowSatisfyLongNeeds)
 				{
-					return 8f;
+					result = 0f;
 				}
-				return 0f;
-			}
-			if (timeAssignmentDef == TimeAssignmentDefOf.Work)
-			{
-				return 0f;
-			}
-			if (timeAssignmentDef == TimeAssignmentDefOf.Joy)
-			{
-				if (curLevel < 0.30000001192092896)
+				else
 				{
-					return 8f;
+					TimeAssignmentDef timeAssignmentDef;
+					if (pawn.RaceProps.Humanlike)
+					{
+						timeAssignmentDef = ((pawn.timetable != null) ? pawn.timetable.CurrentAssignment : TimeAssignmentDefOf.Anything);
+					}
+					else
+					{
+						int num = GenLocalDate.HourOfDay(pawn);
+						if (num < 7 || num > 21)
+						{
+							timeAssignmentDef = TimeAssignmentDefOf.Sleep;
+						}
+						else
+						{
+							timeAssignmentDef = TimeAssignmentDefOf.Anything;
+						}
+					}
+					float curLevel = rest.CurLevel;
+					if (timeAssignmentDef == TimeAssignmentDefOf.Anything)
+					{
+						if (curLevel < 0.3f)
+						{
+							result = 8f;
+						}
+						else
+						{
+							result = 0f;
+						}
+					}
+					else if (timeAssignmentDef == TimeAssignmentDefOf.Work)
+					{
+						result = 0f;
+					}
+					else if (timeAssignmentDef == TimeAssignmentDefOf.Joy)
+					{
+						if (curLevel < 0.3f)
+						{
+							result = 8f;
+						}
+						else
+						{
+							result = 0f;
+						}
+					}
+					else
+					{
+						if (timeAssignmentDef != TimeAssignmentDefOf.Sleep)
+						{
+							throw new NotImplementedException();
+						}
+						if (curLevel < RestUtility.FallAsleepMaxLevel(pawn))
+						{
+							result = 8f;
+						}
+						else
+						{
+							result = 0f;
+						}
+					}
 				}
-				return 0f;
 			}
-			if (timeAssignmentDef == TimeAssignmentDefOf.Sleep)
-			{
-				if (curLevel < RestUtility.FallAsleepMaxLevel(pawn))
-				{
-					return 8f;
-				}
-				return 0f;
-			}
-			throw new NotImplementedException();
+			return result;
 		}
 
+		// Token: 0x060004EB RID: 1259 RVA: 0x00036C38 File Offset: 0x00035038
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Need_Rest rest = pawn.needs.rest;
-			Building_Bed building_Bed;
-			if (rest != null && (int)rest.CurCategory >= (int)this.minCategory)
+			Job result;
+			if (rest == null || rest.CurCategory < this.minCategory)
 			{
-				if (RestUtility.DisturbancePreventsLyingDown(pawn))
-				{
-					return null;
-				}
+				result = null;
+			}
+			else if (RestUtility.DisturbancePreventsLyingDown(pawn))
+			{
+				result = null;
+			}
+			else
+			{
 				Lord lord = pawn.GetLord();
-				if (lord != null && lord.CurLordToil != null && !lord.CurLordToil.AllowRestingInBed)
+				Building_Bed building_Bed;
+				if ((lord != null && lord.CurLordToil != null && !lord.CurLordToil.AllowRestingInBed) || pawn.IsWildMan())
 				{
-					goto IL_0065;
+					building_Bed = null;
 				}
-				if (pawn.IsWildMan())
-					goto IL_0065;
-				building_Bed = RestUtility.FindBedFor(pawn);
-				goto IL_0073;
+				else
+				{
+					building_Bed = RestUtility.FindBedFor(pawn);
+				}
+				if (building_Bed != null)
+				{
+					Job job = new Job(JobDefOf.LayDown, building_Bed);
+					result = job;
+				}
+				else
+				{
+					result = new Job(JobDefOf.LayDown, this.FindGroundSleepSpotFor(pawn));
+				}
 			}
-			return null;
-			IL_0073:
-			if (building_Bed != null)
-			{
-				return new Job(JobDefOf.LayDown, building_Bed);
-			}
-			return new Job(JobDefOf.LayDown, this.FindGroundSleepSpotFor(pawn));
-			IL_0065:
-			building_Bed = null;
-			goto IL_0073;
+			return result;
 		}
 
+		// Token: 0x060004EC RID: 1260 RVA: 0x00036D04 File Offset: 0x00035104
 		private IntVec3 FindGroundSleepSpotFor(Pawn pawn)
 		{
 			Map map = pawn.Map;
 			for (int i = 0; i < 2; i++)
 			{
 				int radius = (i != 0) ? 12 : 4;
-				IntVec3 result = default(IntVec3);
-				if (CellFinder.TryRandomClosewalkCellNear(pawn.Position, map, radius, out result, (Predicate<IntVec3>)((IntVec3 x) => !x.IsForbidden(pawn) && !x.GetTerrain(map).avoidWander)))
+				IntVec3 result;
+				if (CellFinder.TryRandomClosewalkCellNear(pawn.Position, map, radius, out result, (IntVec3 x) => !x.IsForbidden(pawn) && !x.GetTerrain(map).avoidWander))
 				{
 					return result;
 				}
 			}
 			return CellFinder.RandomClosewalkCellNearNotForbidden(pawn.Position, map, 4, pawn);
 		}
+
+		// Token: 0x040002B8 RID: 696
+		private RestCategory minCategory = RestCategory.Rested;
 	}
 }

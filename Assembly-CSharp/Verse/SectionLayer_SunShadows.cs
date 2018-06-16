@@ -1,13 +1,19 @@
+﻿using System;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000C4D RID: 3149
 	internal class SectionLayer_SunShadows : SectionLayer
 	{
-		private static Building[] edificeGrid;
+		// Token: 0x06004552 RID: 17746 RVA: 0x0024909B File Offset: 0x0024749B
+		public SectionLayer_SunShadows(Section section) : base(section)
+		{
+			this.relevantChangeTypes = MapMeshFlag.Buildings;
+		}
 
-		private static readonly Color32 LowVertexColor = new Color32(0, 0, 0, 0);
-
+		// Token: 0x17000AEF RID: 2799
+		// (get) Token: 0x06004553 RID: 17747 RVA: 0x002490AC File Offset: 0x002474AC
 		public override bool Visible
 		{
 			get
@@ -16,19 +22,14 @@ namespace Verse
 			}
 		}
 
-		public SectionLayer_SunShadows(Section section)
-			: base(section)
-		{
-			base.relevantChangeTypes = MapMeshFlag.Buildings;
-		}
-
+		// Token: 0x06004554 RID: 17748 RVA: 0x002490C8 File Offset: 0x002474C8
 		public override void Regenerate()
 		{
 			if (MatBases.SunShadow.shader.isSupported)
 			{
-				SectionLayer_SunShadows.edificeGrid = base.Map.edificeGrid.InnerArray;
-				float y = Altitudes.AltitudeFor(AltitudeLayer.Shadows);
-				CellRect cellRect = new CellRect(base.section.botLeft.x, base.section.botLeft.z, 17, 17);
+				Building[] innerArray = base.Map.edificeGrid.InnerArray;
+				float y = AltitudeLayer.Shadows.AltitudeFor();
+				CellRect cellRect = new CellRect(this.section.botLeft.x, this.section.botLeft.z, 17, 17);
 				cellRect.ClipInsideMap(base.Map);
 				LayerSubMesh subMesh = base.GetSubMesh(MatBases.SunShadow);
 				subMesh.Clear(MeshParts.All);
@@ -40,11 +41,11 @@ namespace Verse
 				{
 					for (int j = cellRect.minZ; j <= cellRect.maxZ; j++)
 					{
-						Thing thing = SectionLayer_SunShadows.edificeGrid[cellIndices.CellToIndex(i, j)];
-						if (thing != null && thing.def.staticSunShadowHeight > 0.0)
+						Thing thing = innerArray[cellIndices.CellToIndex(i, j)];
+						if (thing != null && thing.def.staticSunShadowHeight > 0f)
 						{
 							float staticSunShadowHeight = thing.def.staticSunShadowHeight;
-							Color32 item = new Color32(0, 0, 0, (byte)(255.0 * staticSunShadowHeight));
+							Color32 item = new Color32(0, 0, 0, (byte)(255f * staticSunShadowHeight));
 							int count = subMesh.verts.Count;
 							subMesh.verts.Add(new Vector3((float)i, y, (float)j));
 							subMesh.verts.Add(new Vector3((float)i, y, (float)(j + 1)));
@@ -63,7 +64,7 @@ namespace Verse
 							subMesh.tris.Add(count2 - 1);
 							if (i > 0)
 							{
-								thing = SectionLayer_SunShadows.edificeGrid[cellIndices.CellToIndex(i - 1, j)];
+								thing = innerArray[cellIndices.CellToIndex(i - 1, j)];
 								if (thing == null || thing.def.staticSunShadowHeight < staticSunShadowHeight)
 								{
 									int count3 = subMesh.verts.Count;
@@ -79,11 +80,9 @@ namespace Verse
 									subMesh.tris.Add(count + 1);
 								}
 							}
-							int num = i;
-							IntVec3 size = base.Map.Size;
-							if (num < size.x - 1)
+							if (i < base.Map.Size.x - 1)
 							{
-								thing = SectionLayer_SunShadows.edificeGrid[cellIndices.CellToIndex(i + 1, j)];
+								thing = innerArray[cellIndices.CellToIndex(i + 1, j)];
 								if (thing == null || thing.def.staticSunShadowHeight < staticSunShadowHeight)
 								{
 									int count4 = subMesh.verts.Count;
@@ -101,7 +100,7 @@ namespace Verse
 							}
 							if (j > 0)
 							{
-								thing = SectionLayer_SunShadows.edificeGrid[cellIndices.CellToIndex(i, j - 1)];
+								thing = innerArray[cellIndices.CellToIndex(i, j - 1)];
 								if (thing == null || thing.def.staticSunShadowHeight < staticSunShadowHeight)
 								{
 									int count5 = subMesh.verts.Count;
@@ -123,13 +122,16 @@ namespace Verse
 				if (subMesh.verts.Count > 0)
 				{
 					subMesh.FinalizeMesh(MeshParts.Verts | MeshParts.Tris | MeshParts.Colors);
-					float num2 = Mathf.Max(15f, 15f);
-					Vector3 size2 = subMesh.mesh.bounds.size;
-					size2.x += (float)(2.0 * num2 + 2.0);
-					size2.z += (float)(2.0 * num2 + 2.0);
-					subMesh.mesh.bounds = new Bounds(subMesh.mesh.bounds.center, size2);
+					float num = Mathf.Max(15f, 15f);
+					Vector3 size = subMesh.mesh.bounds.size;
+					size.x += 2f * num + 2f;
+					size.z += 2f * num + 2f;
+					subMesh.mesh.bounds = new Bounds(subMesh.mesh.bounds.center, size);
 				}
 			}
 		}
+
+		// Token: 0x04002F60 RID: 12128
+		private static readonly Color32 LowVertexColor = new Color32(0, 0, 0, 0);
 	}
 }

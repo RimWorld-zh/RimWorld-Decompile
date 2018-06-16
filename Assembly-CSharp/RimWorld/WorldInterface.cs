@@ -1,22 +1,16 @@
+﻿using System;
 using RimWorld.Planet;
+using UnityEngine.Profiling;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020008EF RID: 2287
 	public class WorldInterface
 	{
-		public WorldSelector selector = new WorldSelector();
-
-		public WorldTargeter targeter = new WorldTargeter();
-
-		public WorldInspectPane inspectPane = new WorldInspectPane();
-
-		public WorldGlobalControls globalControls = new WorldGlobalControls();
-
-		public WorldRoutePlanner routePlanner = new WorldRoutePlanner();
-
-		public bool everReset;
-
+		// Token: 0x1700087E RID: 2174
+		// (get) Token: 0x060034A7 RID: 13479 RVA: 0x001C1A38 File Offset: 0x001BFE38
+		// (set) Token: 0x060034A8 RID: 13480 RVA: 0x001C1A58 File Offset: 0x001BFE58
 		public int SelectedTile
 		{
 			get
@@ -29,15 +23,16 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060034A9 RID: 13481 RVA: 0x001C1A68 File Offset: 0x001BFE68
 		public void Reset()
 		{
 			this.everReset = true;
 			this.inspectPane.Reset();
 			if (Current.ProgramState == ProgramState.Playing)
 			{
-				if (Find.VisibleMap != null)
+				if (Find.CurrentMap != null)
 				{
-					this.SelectedTile = Find.VisibleMap.Tile;
+					this.SelectedTile = Find.CurrentMap.Tile;
 				}
 				else
 				{
@@ -48,7 +43,7 @@ namespace RimWorld
 			{
 				if (Find.GameInitData.startingTile >= 0 && Find.World != null && !Find.WorldGrid.InBounds(Find.GameInitData.startingTile))
 				{
-					Log.Error("Map world tile was out of bounds.");
+					Log.Error("Map world tile was out of bounds.", false);
 					Find.GameInitData.startingTile = -1;
 				}
 				this.SelectedTile = Find.GameInitData.startingTile;
@@ -69,54 +64,90 @@ namespace RimWorld
 			Find.WorldCameraDriver.ResetAltitude();
 		}
 
+		// Token: 0x060034AA RID: 13482 RVA: 0x001C1B88 File Offset: 0x001BFF88
 		public void WorldInterfaceUpdate()
 		{
-			if (WorldRendererUtility.WorldRenderedNow)
+			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
+			if (worldRenderedNow)
 			{
+				Profiler.BeginSample("TargeterUpdate()");
 				this.targeter.TargeterUpdate();
+				Profiler.EndSample();
+				Profiler.BeginSample("WorldSelectionDrawer.DrawSelectionOverlays()");
 				WorldSelectionDrawer.DrawSelectionOverlays();
+				Profiler.EndSample();
+				Profiler.BeginSample("WorldDebugDrawerUpdate()");
 				Find.WorldDebugDrawer.WorldDebugDrawerUpdate();
+				Profiler.EndSample();
 			}
 			else
 			{
 				this.targeter.StopTargeting();
 			}
+			Profiler.BeginSample("WorldRoutePlannerUpdate()");
 			this.routePlanner.WorldRoutePlannerUpdate();
+			Profiler.EndSample();
 		}
 
+		// Token: 0x060034AB RID: 13483 RVA: 0x001C1C18 File Offset: 0x001C0018
 		public void WorldInterfaceOnGUI()
 		{
 			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
+			Profiler.BeginSample("CheckOpenOrCloseInspectPane()");
 			this.CheckOpenOrCloseInspectPane();
+			Profiler.EndSample();
 			if (worldRenderedNow)
 			{
 				ScreenshotModeHandler screenshotMode = Find.UIRoot.screenshotMode;
+				Profiler.BeginSample("ExpandableWorldObjectsOnGUI()");
 				ExpandableWorldObjectsUtility.ExpandableWorldObjectsOnGUI();
+				Profiler.EndSample();
+				Profiler.BeginSample("WorldSelectionDrawer.SelectionOverlaysOnGUI()");
 				WorldSelectionDrawer.SelectionOverlaysOnGUI();
+				Profiler.EndSample();
+				Profiler.BeginSample("WorldRoutePlannerOnGUI()");
 				this.routePlanner.WorldRoutePlannerOnGUI();
+				Profiler.EndSample();
 				if (!screenshotMode.FiltersCurrentEvent && Current.ProgramState == ProgramState.Playing)
 				{
+					Profiler.BeginSample("ColonistBarOnGUI()");
 					Find.ColonistBar.ColonistBarOnGUI();
+					Profiler.EndSample();
 				}
+				Profiler.BeginSample("selector.dragBox.DragBoxOnGUI()");
 				this.selector.dragBox.DragBoxOnGUI();
+				Profiler.EndSample();
+				Profiler.BeginSample("TargeterOnGUI()");
 				this.targeter.TargeterOnGUI();
+				Profiler.EndSample();
 				if (!screenshotMode.FiltersCurrentEvent)
 				{
+					Profiler.BeginSample("globalControls.WorldGlobalControlsOnGUI()");
 					this.globalControls.WorldGlobalControlsOnGUI();
+					Profiler.EndSample();
 				}
+				Profiler.BeginSample("WorldDebugDrawerOnGUI()");
 				Find.WorldDebugDrawer.WorldDebugDrawerOnGUI();
+				Profiler.EndSample();
 			}
 		}
 
+		// Token: 0x060034AC RID: 13484 RVA: 0x001C1D40 File Offset: 0x001C0140
 		public void HandleLowPriorityInput()
 		{
-			if (WorldRendererUtility.WorldRenderedNow)
+			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
+			if (worldRenderedNow)
 			{
+				Profiler.BeginSample("targeter.ProcessInputEvents()");
 				this.targeter.ProcessInputEvents();
+				Profiler.EndSample();
+				Profiler.BeginSample("selector.WorldSelectorOnGUI()");
 				this.selector.WorldSelectorOnGUI();
+				Profiler.EndSample();
 			}
 		}
 
+		// Token: 0x060034AD RID: 13485 RVA: 0x001C1D90 File Offset: 0x001C0190
 		private void CheckOpenOrCloseInspectPane()
 		{
 			if (this.selector.AnyObjectOrTileSelected && WorldRendererUtility.WorldRenderedNow && (Current.ProgramState != ProgramState.Playing || Find.MainTabsRoot.OpenTab == null))
@@ -131,5 +162,23 @@ namespace RimWorld
 				Find.WindowStack.TryRemove(this.inspectPane, false);
 			}
 		}
+
+		// Token: 0x04001C73 RID: 7283
+		public WorldSelector selector = new WorldSelector();
+
+		// Token: 0x04001C74 RID: 7284
+		public WorldTargeter targeter = new WorldTargeter();
+
+		// Token: 0x04001C75 RID: 7285
+		public WorldInspectPane inspectPane = new WorldInspectPane();
+
+		// Token: 0x04001C76 RID: 7286
+		public WorldGlobalControls globalControls = new WorldGlobalControls();
+
+		// Token: 0x04001C77 RID: 7287
+		public WorldRoutePlanner routePlanner = new WorldRoutePlanner();
+
+		// Token: 0x04001C78 RID: 7288
+		public bool everReset;
 	}
 }

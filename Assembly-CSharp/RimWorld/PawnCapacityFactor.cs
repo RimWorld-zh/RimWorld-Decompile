@@ -1,28 +1,19 @@
+﻿using System;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020002D7 RID: 727
 	public class PawnCapacityFactor
 	{
-		public PawnCapacityDef capacity;
-
-		public float weight = 1f;
-
-		public float max = 9999f;
-
-		public bool useReciprocal;
-
-		public float allowedDefect;
-
-		private const float MaxReciprocalFactor = 5f;
-
+		// Token: 0x06000C0A RID: 3082 RVA: 0x0006AE0C File Offset: 0x0006920C
 		public float GetFactor(float capacityEfficiency)
 		{
 			float num = capacityEfficiency;
-			if (this.allowedDefect != 0.0 && num < 1.0)
+			if (this.allowedDefect != 0f && num < 1f)
 			{
-				num = Mathf.InverseLerp(0f, (float)(1.0 - this.allowedDefect), num);
+				num = Mathf.InverseLerp(0f, 1f - this.allowedDefect, num);
 			}
 			if (num > this.max)
 			{
@@ -30,9 +21,34 @@ namespace RimWorld
 			}
 			if (this.useReciprocal)
 			{
-				num = (float)((!(Mathf.Abs(num) < 0.0010000000474974513)) ? Mathf.Min((float)(1.0 / num), 5f) : 5.0);
+				if (Mathf.Abs(num) < 0.001f)
+				{
+					num = 5f;
+				}
+				else
+				{
+					num = Mathf.Min(1f / num, 5f);
+				}
 			}
 			return num;
 		}
+
+		// Token: 0x04000760 RID: 1888
+		public PawnCapacityDef capacity;
+
+		// Token: 0x04000761 RID: 1889
+		public float weight = 1f;
+
+		// Token: 0x04000762 RID: 1890
+		public float max = 9999f;
+
+		// Token: 0x04000763 RID: 1891
+		public bool useReciprocal = false;
+
+		// Token: 0x04000764 RID: 1892
+		public float allowedDefect;
+
+		// Token: 0x04000765 RID: 1893
+		private const float MaxReciprocalFactor = 5f;
 	}
 }

@@ -1,12 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000318 RID: 792
 	public static class IncidentParmsUtility
 	{
-		public static PawnGroupMakerParms GetDefaultPawnGroupMakerParms(IncidentParms parms, bool ensureCanGenerateAtLeastOnePawn = false)
+		// Token: 0x06000D6D RID: 3437 RVA: 0x0007362C File Offset: 0x00071A2C
+		public static PawnGroupMakerParms GetDefaultPawnGroupMakerParms(PawnGroupKindDef groupKind, IncidentParms parms, bool ensureCanGenerateAtLeastOnePawn = false)
 		{
 			PawnGroupMakerParms pawnGroupMakerParms = new PawnGroupMakerParms();
+			pawnGroupMakerParms.groupKind = groupKind;
 			pawnGroupMakerParms.tile = parms.target.Tile;
 			pawnGroupMakerParms.points = parms.points;
 			pawnGroupMakerParms.faction = parms.faction;
@@ -16,33 +23,49 @@ namespace RimWorld
 			pawnGroupMakerParms.forceOneIncap = parms.raidForceOneIncap;
 			if (ensureCanGenerateAtLeastOnePawn && parms.faction != null)
 			{
-				pawnGroupMakerParms.points = Mathf.Max(pawnGroupMakerParms.points, parms.faction.def.MinPointsToGenerateNormalPawnGroup());
+				pawnGroupMakerParms.points = Mathf.Max(pawnGroupMakerParms.points, parms.faction.def.MinPointsToGeneratePawnGroup(groupKind));
 			}
 			return pawnGroupMakerParms;
 		}
 
-		public static void AdjustPointsForGroupArrivalParams(IncidentParms parms)
+		// Token: 0x06000D6E RID: 3438 RVA: 0x000736DC File Offset: 0x00071ADC
+		public static List<List<Pawn>> SplitIntoGroups(List<Pawn> pawns, Dictionary<Pawn, int> groups)
 		{
-			if (parms.raidStrategy != null)
+			List<List<Pawn>> list = new List<List<Pawn>>();
+			List<Pawn> list2 = pawns.ToList<Pawn>();
+			while (list2.Any<Pawn>())
 			{
-				parms.points *= parms.raidStrategy.pointsFactor;
+				List<Pawn> list3 = new List<Pawn>();
+				Pawn pawn = list2.Last<Pawn>();
+				list2.RemoveLast<Pawn>();
+				list3.Add(pawn);
+				for (int i = list2.Count - 1; i >= 0; i--)
+				{
+					if (IncidentParmsUtility.GetGroup(pawn, groups) == IncidentParmsUtility.GetGroup(list2[i], groups))
+					{
+						list3.Add(list2[i]);
+						list2.RemoveAt(i);
+					}
+				}
+				list.Add(list3);
 			}
-			switch (parms.raidArrivalMode)
+			return list;
+		}
+
+		// Token: 0x06000D6F RID: 3439 RVA: 0x00073788 File Offset: 0x00071B88
+		private static int GetGroup(Pawn pawn, Dictionary<Pawn, int> groups)
+		{
+			int num;
+			int result;
+			if (groups == null || !groups.TryGetValue(pawn, out num))
 			{
-			case PawnsArriveMode.EdgeWalkIn:
-				parms.points *= 1f;
-				break;
-			case PawnsArriveMode.EdgeDrop:
-				parms.points *= 1f;
-				break;
-			case PawnsArriveMode.CenterDrop:
-				parms.points *= 0.45f;
-				break;
+				result = -1;
 			}
-			if (parms.raidStrategy != null)
+			else
 			{
-				parms.points = Mathf.Max(parms.points, (float)(parms.raidStrategy.Worker.MinimumPoints(parms.faction) * 1.0499999523162842));
+				result = num;
 			}
+			return result;
 		}
 	}
 }

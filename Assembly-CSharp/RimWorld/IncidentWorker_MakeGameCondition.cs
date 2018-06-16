@@ -1,39 +1,48 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000320 RID: 800
 	public class IncidentWorker_MakeGameCondition : IncidentWorker
 	{
-		protected override bool CanFireNowSub(IIncidentTarget target)
+		// Token: 0x06000DAC RID: 3500 RVA: 0x000750D8 File Offset: 0x000734D8
+		protected override bool CanFireNowSub(IncidentParms parms)
 		{
-			GameConditionManager gameConditionManager = target.GameConditionManager;
+			GameConditionManager gameConditionManager = parms.target.GameConditionManager;
+			bool result;
 			if (gameConditionManager == null)
 			{
-				Log.ErrorOnce(string.Format("Couldn't find condition manager for incident target {0}", target), 70849667);
-				return false;
+				Log.ErrorOnce(string.Format("Couldn't find condition manager for incident target {0}", parms.target), 70849667, false);
+				result = false;
 			}
-			if (gameConditionManager.ConditionIsActive(base.def.gameCondition))
+			else if (gameConditionManager.ConditionIsActive(this.def.gameCondition))
 			{
-				return false;
+				result = false;
 			}
-			List<GameCondition> activeConditions = gameConditionManager.ActiveConditions;
-			for (int i = 0; i < activeConditions.Count; i++)
+			else
 			{
-				if (!base.def.gameCondition.CanCoexistWith(activeConditions[i].def))
+				List<GameCondition> activeConditions = gameConditionManager.ActiveConditions;
+				for (int i = 0; i < activeConditions.Count; i++)
 				{
-					return false;
+					if (!this.def.gameCondition.CanCoexistWith(activeConditions[i].def))
+					{
+						return false;
+					}
 				}
+				result = true;
 			}
-			return true;
+			return result;
 		}
 
+		// Token: 0x06000DAD RID: 3501 RVA: 0x00075188 File Offset: 0x00073588
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			GameConditionManager gameConditionManager = parms.target.GameConditionManager;
-			int duration = Mathf.RoundToInt((float)(base.def.durationDays.RandomInRange * 60000.0));
-			GameCondition cond = GameConditionMaker.MakeCondition(base.def.gameCondition, duration, 0);
+			int duration = Mathf.RoundToInt(this.def.durationDays.RandomInRange * 60000f);
+			GameCondition cond = GameConditionMaker.MakeCondition(this.def.gameCondition, duration, 0);
 			gameConditionManager.RegisterCondition(cond);
 			base.SendStandardLetter();
 			return true;

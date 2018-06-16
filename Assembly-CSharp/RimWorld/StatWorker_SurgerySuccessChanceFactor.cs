@@ -1,25 +1,33 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020009CB RID: 2507
 	public class StatWorker_SurgerySuccessChanceFactor : StatWorker
 	{
-		public override bool ShouldShowFor(BuildableDef eDef)
+		// Token: 0x06003822 RID: 14370 RVA: 0x001DE710 File Offset: 0x001DCB10
+		public override bool ShouldShowFor(StatRequest req)
 		{
-			if (!base.ShouldShowFor(eDef))
+			bool result;
+			if (!base.ShouldShowFor(req))
 			{
-				return false;
+				result = false;
 			}
-			if (!(eDef is ThingDef))
+			else
 			{
-				return false;
+				BuildableDef def = req.Def;
+				if (!(def is ThingDef))
+				{
+					result = false;
+				}
+				else
+				{
+					ThingDef thingDef = def as ThingDef;
+					result = typeof(Building_Bed).IsAssignableFrom(thingDef.thingClass);
+				}
 			}
-			ThingDef thingDef = eDef as ThingDef;
-			if (typeof(Building_Bed).IsAssignableFrom(thingDef.thingClass))
-			{
-				return true;
-			}
-			return false;
+			return result;
 		}
 	}
 }

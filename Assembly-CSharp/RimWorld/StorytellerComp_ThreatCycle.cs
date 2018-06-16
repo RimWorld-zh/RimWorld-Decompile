@@ -1,20 +1,25 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000377 RID: 887
 	public class StorytellerComp_ThreatCycle : StorytellerComp
 	{
+		// Token: 0x17000227 RID: 551
+		// (get) Token: 0x06000F50 RID: 3920 RVA: 0x00081824 File Offset: 0x0007FC24
 		protected StorytellerCompProperties_ThreatCycle Props
 		{
 			get
 			{
-				return (StorytellerCompProperties_ThreatCycle)base.props;
+				return (StorytellerCompProperties_ThreatCycle)this.props;
 			}
 		}
 
+		// Token: 0x17000228 RID: 552
+		// (get) Token: 0x06000F51 RID: 3921 RVA: 0x00081844 File Offset: 0x0007FC44
 		protected int QueueIntervalsPassed
 		{
 			get
@@ -23,66 +28,78 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06000F52 RID: 3922 RVA: 0x0008186C File Offset: 0x0007FC6C
 		public override IEnumerable<FiringIncident> MakeIntervalIncidents(IIncidentTarget target)
 		{
 			float curCycleDays = (GenDate.DaysPassedFloat - this.Props.minDaysPassed) % this.Props.ThreatCycleTotalDays;
-			if (!(curCycleDays > this.Props.threatOffDays))
-				yield break;
-			float daysSinceThreatBig = (float)((float)(Find.TickManager.TicksGame - target.StoryState.LastThreatBigTick) / 60000.0);
-			if (daysSinceThreatBig > this.Props.minDaysBetweenThreatBigs && ((daysSinceThreatBig > this.Props.ThreatCycleTotalDays * 0.89999997615814209 && curCycleDays > this.Props.ThreatCycleTotalDays * 0.949999988079071) || Rand.MTBEventOccurs(this.Props.mtbDaysThreatBig, 60000f, 1000f)))
+			if (curCycleDays > this.Props.threatOffDays)
 			{
-				FiringIncident bt = this.GenerateQueuedThreatBig(target);
-				if (bt != null)
+				float daysSinceThreatBig = (float)(Find.TickManager.TicksGame - target.StoryState.LastThreatBigTick) / 60000f;
+				if (daysSinceThreatBig > this.Props.minDaysBetweenThreatBigs)
 				{
-					yield return bt;
-					/*Error: Unable to find new state assignment for yield return*/;
+					if ((daysSinceThreatBig > this.Props.ThreatCycleTotalDays * 0.9f && curCycleDays > this.Props.ThreatCycleTotalDays * 0.95f) || Rand.MTBEventOccurs(this.Props.mtbDaysThreatBig, 60000f, 1000f))
+					{
+						FiringIncident bt = this.GenerateQueuedThreatBig(target);
+						if (bt != null)
+						{
+							yield return bt;
+						}
+					}
+				}
+				if (Rand.MTBEventOccurs(this.Props.mtbDaysThreatSmall, 60000f, 1000f))
+				{
+					FiringIncident st = this.GenerateQueuedThreatSmall(target);
+					if (st != null)
+					{
+						yield return st;
+					}
 				}
 			}
-			if (!Rand.MTBEventOccurs(this.Props.mtbDaysThreatSmall, 60000f, 1000f))
-				yield break;
-			FiringIncident st = this.GenerateQueuedThreatSmall(target);
-			if (st == null)
-				yield break;
-			yield return st;
-			/*Error: Unable to find new state assignment for yield return*/;
+			yield break;
 		}
 
+		// Token: 0x06000F53 RID: 3923 RVA: 0x000818A0 File Offset: 0x0007FCA0
 		private FiringIncident GenerateQueuedThreatSmall(IIncidentTarget target)
 		{
-			IncidentDef incidentDef = default(IncidentDef);
-			if (!this.UsableIncidentsInCategory(this.Props.threatSmallCategory, target).TryRandomElementByWeight<IncidentDef>((Func<IncidentDef, float>)base.IncidentChanceFinal, out incidentDef))
+			IncidentDef incidentDef;
+			FiringIncident result;
+			if (!base.UsableIncidentsInCategory(this.Props.threatSmallCategory, target).TryRandomElementByWeight(new Func<IncidentDef, float>(base.IncidentChanceFinal), out incidentDef))
 			{
-				return null;
+				result = null;
 			}
-			FiringIncident firingIncident = new FiringIncident(incidentDef, this, null);
-			firingIncident.parms = this.GenerateParms(incidentDef.category, target);
-			return firingIncident;
+			else
+			{
+				result = new FiringIncident(incidentDef, this, null)
+				{
+					parms = this.GenerateParms(incidentDef.category, target)
+				};
+			}
+			return result;
 		}
 
+		// Token: 0x06000F54 RID: 3924 RVA: 0x00081904 File Offset: 0x0007FD04
 		private FiringIncident GenerateQueuedThreatBig(IIncidentTarget target)
 		{
 			IncidentParms parms = this.GenerateParms(this.Props.threatBigCategory, target);
-			IncidentDef raidEnemy = default(IncidentDef);
+			IncidentDef raidEnemy;
 			if ((float)GenDate.DaysPassed < this.Props.minDaysBeforeNonRaidThreatBig)
 			{
-				if (IncidentDefOf.RaidEnemy.Worker.CanFireNow(target))
+				if (!IncidentDefOf.RaidEnemy.Worker.CanFireNow(parms))
 				{
-					raidEnemy = IncidentDefOf.RaidEnemy;
-					goto IL_00a3;
+					return null;
 				}
-				return null;
+				raidEnemy = IncidentDefOf.RaidEnemy;
 			}
-			if (!(from def in DefDatabase<IncidentDef>.AllDefs
-			where def.category == this.Props.threatBigCategory && parms.points >= def.minThreatPoints && def.Worker.CanFireNow(target)
-			select def).TryRandomElementByWeight<IncidentDef>((Func<IncidentDef, float>)base.IncidentChanceFinal, out raidEnemy))
+			else if (!(from def in base.UsableIncidentsInCategory(this.Props.threatBigCategory, parms)
+			where parms.points >= def.minThreatPoints
+			select def).TryRandomElementByWeight(new Func<IncidentDef, float>(base.IncidentChanceFinal), out raidEnemy))
 			{
 				return null;
 			}
-			goto IL_00a3;
-			IL_00a3:
-			FiringIncident firingIncident = new FiringIncident(raidEnemy, this, null);
-			firingIncident.parms = parms;
-			return firingIncident;
+			return new FiringIncident(raidEnemy, this, null)
+			{
+				parms = parms
+			};
 		}
 	}
 }

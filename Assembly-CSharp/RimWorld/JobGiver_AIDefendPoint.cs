@@ -1,27 +1,37 @@
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x020000B7 RID: 183
 	public class JobGiver_AIDefendPoint : JobGiver_AIFightEnemy
 	{
+		// Token: 0x06000458 RID: 1112 RVA: 0x00032BE8 File Offset: 0x00030FE8
 		protected override bool TryFindShootingPosition(Pawn pawn, out IntVec3 dest)
 		{
-			Verb verb = pawn.TryGetAttackVerb(!pawn.IsColonist);
+			Thing enemyTarget = pawn.mindState.enemyTarget;
+			Verb verb = pawn.TryGetAttackVerb(enemyTarget, !pawn.IsColonist);
+			bool result;
 			if (verb == null)
 			{
 				dest = IntVec3.Invalid;
-				return false;
+				result = false;
 			}
-			CastPositionRequest newReq = default(CastPositionRequest);
-			newReq.caster = pawn;
-			newReq.target = pawn.mindState.enemyTarget;
-			newReq.verb = verb;
-			newReq.maxRangeFromTarget = 9999f;
-			newReq.locus = (IntVec3)pawn.mindState.duty.focus;
-			newReq.maxRangeFromLocus = pawn.mindState.duty.radius;
-			newReq.wantCoverFromTarget = (verb.verbProps.range > 7.0);
-			return CastPositionFinder.TryFindCastPosition(newReq, out dest);
+			else
+			{
+				result = CastPositionFinder.TryFindCastPosition(new CastPositionRequest
+				{
+					caster = pawn,
+					target = enemyTarget,
+					verb = verb,
+					maxRangeFromTarget = 9999f,
+					locus = (IntVec3)pawn.mindState.duty.focus,
+					maxRangeFromLocus = pawn.mindState.duty.radius,
+					wantCoverFromTarget = (verb.verbProps.range > 7f)
+				}, out dest);
+			}
+			return result;
 		}
 	}
 }

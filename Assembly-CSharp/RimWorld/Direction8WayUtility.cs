@@ -1,32 +1,46 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000976 RID: 2422
 	public static class Direction8WayUtility
 	{
+		// Token: 0x0600367F RID: 13951 RVA: 0x001D0D14 File Offset: 0x001CF114
 		public static string LabelShort(this Direction8Way dir)
 		{
+			string result;
 			switch (dir)
 			{
 			case Direction8Way.North:
-				return "Direction8Way_North_Short".Translate();
+				result = "Direction8Way_North_Short".Translate();
+				break;
 			case Direction8Way.NorthEast:
-				return "Direction8Way_NorthEast_Short".Translate();
+				result = "Direction8Way_NorthEast_Short".Translate();
+				break;
 			case Direction8Way.East:
-				return "Direction8Way_East_Short".Translate();
+				result = "Direction8Way_East_Short".Translate();
+				break;
 			case Direction8Way.SouthEast:
-				return "Direction8Way_SouthEast_Short".Translate();
+				result = "Direction8Way_SouthEast_Short".Translate();
+				break;
 			case Direction8Way.South:
-				return "Direction8Way_South_Short".Translate();
+				result = "Direction8Way_South_Short".Translate();
+				break;
 			case Direction8Way.SouthWest:
-				return "Direction8Way_SouthWest_Short".Translate();
+				result = "Direction8Way_SouthWest_Short".Translate();
+				break;
 			case Direction8Way.West:
-				return "Direction8Way_West_Short".Translate();
+				result = "Direction8Way_West_Short".Translate();
+				break;
 			case Direction8Way.NorthWest:
-				return "Direction8Way_NorthWest_Short".Translate();
+				result = "Direction8Way_NorthWest_Short".Translate();
+				break;
 			default:
-				return "Unknown Direction8Way";
+				result = "Unknown Direction8Way";
+				break;
 			}
+			return result;
 		}
 	}
 }

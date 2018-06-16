@@ -1,10 +1,14 @@
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x0200015E RID: 350
 	public class WorkGiver_TakeBeerOutOfFermentingBarrel : WorkGiver_Scanner
 	{
+		// Token: 0x1700011D RID: 285
+		// (get) Token: 0x0600073A RID: 1850 RVA: 0x00048D38 File Offset: 0x00047138
 		public override ThingRequest PotentialWorkThingRequest
 		{
 			get
@@ -13,6 +17,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x1700011E RID: 286
+		// (get) Token: 0x0600073B RID: 1851 RVA: 0x00048D58 File Offset: 0x00047158
 		public override PathEndMode PathEndMode
 		{
 			get
@@ -21,29 +27,35 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x0600073C RID: 1852 RVA: 0x00048D70 File Offset: 0x00047170
 		public override bool HasJobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			Building_FermentingBarrel building_FermentingBarrel = t as Building_FermentingBarrel;
-			if (building_FermentingBarrel != null && building_FermentingBarrel.Fermented)
+			bool result;
+			if (building_FermentingBarrel == null || !building_FermentingBarrel.Fermented)
 			{
-				if (t.IsBurning())
-				{
-					return false;
-				}
+				result = false;
+			}
+			else if (t.IsBurning())
+			{
+				result = false;
+			}
+			else
+			{
 				if (!t.IsForbidden(pawn))
 				{
 					LocalTargetInfo target = t;
-					if (!pawn.CanReserve(target, 1, -1, null, forced))
-						goto IL_004e;
-					return true;
+					if (pawn.CanReserve(target, 1, -1, null, forced))
+					{
+						return true;
+					}
 				}
-				goto IL_004e;
+				result = false;
 			}
-			return false;
-			IL_004e:
-			return false;
+			return result;
 		}
 
+		// Token: 0x0600073D RID: 1853 RVA: 0x00048DE8 File Offset: 0x000471E8
 		public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
 		{
 			return new Job(JobDefOf.TakeBeerOutOfFermentingBarrel, t);

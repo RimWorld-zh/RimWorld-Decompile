@@ -1,14 +1,14 @@
+﻿using System;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020004A3 RID: 1187
 	public static class PortraitCameraManager
 	{
-		private static Camera portraitCameraInt;
-
-		private static PortraitRenderer portraitRendererInt;
-
+		// Token: 0x170002DA RID: 730
+		// (get) Token: 0x06001546 RID: 5446 RVA: 0x000BD3C0 File Offset: 0x000BB7C0
 		public static Camera PortraitCamera
 		{
 			get
@@ -17,6 +17,8 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170002DB RID: 731
+		// (get) Token: 0x06001547 RID: 5447 RVA: 0x000BD3DC File Offset: 0x000BB7DC
 		public static PortraitRenderer PortraitRenderer
 		{
 			get
@@ -25,18 +27,16 @@ namespace RimWorld
 			}
 		}
 
-		static PortraitCameraManager()
-		{
-			PortraitCameraManager.portraitCameraInt = PortraitCameraManager.CreatePortraitCamera();
-			PortraitCameraManager.portraitRendererInt = ((Component)PortraitCameraManager.portraitCameraInt).GetComponent<PortraitRenderer>();
-		}
-
+		// Token: 0x06001548 RID: 5448 RVA: 0x000BD3F8 File Offset: 0x000BB7F8
 		private static Camera CreatePortraitCamera()
 		{
-			GameObject gameObject = new GameObject("PortraitCamera", typeof(Camera));
+			GameObject gameObject = new GameObject("PortraitCamera", new Type[]
+			{
+				typeof(Camera)
+			});
 			gameObject.SetActive(false);
 			gameObject.AddComponent<PortraitRenderer>();
-			Object.DontDestroyOnLoad(gameObject);
+			UnityEngine.Object.DontDestroyOnLoad(gameObject);
 			Camera component = gameObject.GetComponent<Camera>();
 			component.transform.position = new Vector3(0f, 15f, 0f);
 			component.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
@@ -52,5 +52,11 @@ namespace RimWorld
 			component.farClipPlane = camera.farClipPlane;
 			return component;
 		}
+
+		// Token: 0x04000C9D RID: 3229
+		private static Camera portraitCameraInt = PortraitCameraManager.CreatePortraitCamera();
+
+		// Token: 0x04000C9E RID: 3230
+		private static PortraitRenderer portraitRendererInt = PortraitCameraManager.portraitCameraInt.GetComponent<PortraitRenderer>();
 	}
 }

@@ -1,46 +1,50 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000774 RID: 1908
 	public class StockGenerator_Tag : StockGenerator
 	{
-		private string tradeTag;
-
-		private IntRange thingDefCountRange = IntRange.one;
-
+		// Token: 0x06002A1B RID: 10779 RVA: 0x00164B90 File Offset: 0x00162F90
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
-			_003CGenerateThings_003Ec__Iterator0 _003CGenerateThings_003Ec__Iterator = (_003CGenerateThings_003Ec__Iterator0)/*Error near IL_0034: stateMachine*/;
 			List<ThingDef> generatedDefs = new List<ThingDef>();
 			int numThingDefsToUse = this.thingDefCountRange.RandomInRange;
-			int i = 0;
-			ThingDef chosenThingDef;
-			while (i < numThingDefsToUse && (from d in DefDatabase<ThingDef>.AllDefs
-			where _003CGenerateThings_003Ec__Iterator._0024this.HandlesThingDef(d) && d.tradeability == Tradeability.Stockable && !generatedDefs.Contains(d)
-			select d).TryRandomElement<ThingDef>(out chosenThingDef))
+			for (int i = 0; i < numThingDefsToUse; i++)
 			{
-				using (IEnumerator<Thing> enumerator = StockGeneratorUtility.TryMakeForStock(chosenThingDef, base.RandomCountOf(chosenThingDef)).GetEnumerator())
+				ThingDef chosenThingDef;
+				if (!(from d in DefDatabase<ThingDef>.AllDefs
+				where this.HandlesThingDef(d) && d.tradeability.TraderCanSell() && (this.excludedThingDefs == null || !this.excludedThingDefs.Contains(d)) && !generatedDefs.Contains(d)
+				select d).TryRandomElement(out chosenThingDef))
 				{
-					if (enumerator.MoveNext())
-					{
-						Thing th = enumerator.Current;
-						yield return th;
-						/*Error: Unable to find new state assignment for yield return*/;
-					}
+					yield break;
+				}
+				foreach (Thing th in StockGeneratorUtility.TryMakeForStock(chosenThingDef, base.RandomCountOf(chosenThingDef)))
+				{
+					yield return th;
 				}
 				generatedDefs.Add(chosenThingDef);
-				i++;
 			}
 			yield break;
-			IL_0178:
-			/*Error near IL_0179: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x06002A1C RID: 10780 RVA: 0x00164BBC File Offset: 0x00162FBC
 		public override bool HandlesThingDef(ThingDef thingDef)
 		{
-			return thingDef.tradeTags != null && thingDef.tradeability != 0 && (int)thingDef.techLevel <= (int)base.maxTechLevelBuy && thingDef.tradeTags.Contains(this.tradeTag);
+			return thingDef.tradeTags != null && thingDef.tradeability != Tradeability.None && thingDef.techLevel <= this.maxTechLevelBuy && thingDef.tradeTags.Contains(this.tradeTag);
 		}
+
+		// Token: 0x040016B7 RID: 5815
+		[NoTranslate]
+		private string tradeTag = null;
+
+		// Token: 0x040016B8 RID: 5816
+		private IntRange thingDefCountRange = IntRange.one;
+
+		// Token: 0x040016B9 RID: 5817
+		private List<ThingDef> excludedThingDefs = null;
 	}
 }

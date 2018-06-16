@@ -1,88 +1,105 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020004FF RID: 1279
 	public class Need_Joy : Need
 	{
-		public JoyToleranceSet tolerances = new JoyToleranceSet();
+		// Token: 0x060016F7 RID: 5879 RVA: 0x000CA8A0 File Offset: 0x000C8CA0
+		public Need_Joy(Pawn pawn) : base(pawn)
+		{
+			this.threshPercents = new List<float>();
+			this.threshPercents.Add(0.15f);
+			this.threshPercents.Add(0.3f);
+			this.threshPercents.Add(0.7f);
+			this.threshPercents.Add(0.85f);
+		}
 
-		private int lastGainTick = -999;
-
-		private const float BaseFallPerTick = 1.00000007E-05f;
-
-		private const float ThreshLow = 0.15f;
-
-		private const float ThreshSatisfied = 0.3f;
-
-		private const float ThreshHigh = 0.7f;
-
-		private const float ThreshVeryHigh = 0.85f;
-
-		private const float MinDownedJoy = 0.25f;
-
+		// Token: 0x1700031D RID: 797
+		// (get) Token: 0x060016F8 RID: 5880 RVA: 0x000CA918 File Offset: 0x000C8D18
 		public JoyCategory CurCategory
 		{
 			get
 			{
-				if (this.CurLevel < 0.0099999997764825821)
+				JoyCategory result;
+				if (this.CurLevel < 0.01f)
 				{
-					return JoyCategory.Empty;
+					result = JoyCategory.Empty;
 				}
-				if (this.CurLevel < 0.15000000596046448)
+				else if (this.CurLevel < 0.15f)
 				{
-					return JoyCategory.VeryLow;
+					result = JoyCategory.VeryLow;
 				}
-				if (this.CurLevel < 0.30000001192092896)
+				else if (this.CurLevel < 0.3f)
 				{
-					return JoyCategory.Low;
+					result = JoyCategory.Low;
 				}
-				if (this.CurLevel < 0.699999988079071)
+				else if (this.CurLevel < 0.7f)
 				{
-					return JoyCategory.Satisfied;
+					result = JoyCategory.Satisfied;
 				}
-				if (this.CurLevel < 0.85000002384185791)
+				else if (this.CurLevel < 0.85f)
 				{
-					return JoyCategory.High;
+					result = JoyCategory.High;
 				}
-				return JoyCategory.Extreme;
+				else
+				{
+					result = JoyCategory.Extreme;
+				}
+				return result;
 			}
 		}
 
-		private float FallPerTick
+		// Token: 0x1700031E RID: 798
+		// (get) Token: 0x060016F9 RID: 5881 RVA: 0x000CA9A4 File Offset: 0x000C8DA4
+		private float FallPerInterval
 		{
 			get
 			{
+				float result;
 				switch (this.CurCategory)
 				{
 				case JoyCategory.Empty:
-					return 1.00000007E-05f;
+					result = 0.0015f;
+					break;
 				case JoyCategory.VeryLow:
-					return 4.00000044E-06f;
+					result = 0.0006f;
+					break;
 				case JoyCategory.Low:
-					return 7.00000055E-06f;
+					result = 0.00105f;
+					break;
 				case JoyCategory.Satisfied:
-					return 1.00000007E-05f;
+					result = 0.0015f;
+					break;
 				case JoyCategory.High:
-					return 1.00000007E-05f;
+					result = 0.0015f;
+					break;
 				case JoyCategory.Extreme:
-					return 1.00000007E-05f;
+					result = 0.0015f;
+					break;
 				default:
 					throw new InvalidOperationException();
 				}
+				return result;
 			}
 		}
 
+		// Token: 0x1700031F RID: 799
+		// (get) Token: 0x060016FA RID: 5882 RVA: 0x000CAA28 File Offset: 0x000C8E28
 		public override int GUIChangeArrow
 		{
 			get
 			{
-				return this.GainingJoy ? 1 : (-1);
+				return (!this.GainingJoy) ? -1 : 1;
 			}
 		}
 
+		// Token: 0x17000320 RID: 800
+		// (get) Token: 0x060016FB RID: 5883 RVA: 0x000CAA50 File Offset: 0x000C8E50
 		private bool GainingJoy
 		{
 			get
@@ -91,46 +108,36 @@ namespace RimWorld
 			}
 		}
 
-		public Need_Joy(Pawn pawn)
-			: base(pawn)
-		{
-			base.threshPercents = new List<float>();
-			base.threshPercents.Add(0.15f);
-			base.threshPercents.Add(0.3f);
-			base.threshPercents.Add(0.7f);
-			base.threshPercents.Add(0.85f);
-		}
-
+		// Token: 0x060016FC RID: 5884 RVA: 0x000CAA7A File Offset: 0x000C8E7A
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			this.tolerances.ExposeData();
 		}
 
+		// Token: 0x060016FD RID: 5885 RVA: 0x000CAA8E File Offset: 0x000C8E8E
 		public override void SetInitialLevel()
 		{
-			this.CurLevel = Rand.Range(0.5f, 0.8f);
+			this.CurLevel = Rand.Range(0.5f, 0.6f);
 		}
 
+		// Token: 0x060016FE RID: 5886 RVA: 0x000CAAA8 File Offset: 0x000C8EA8
 		public void GainJoy(float amount, JoyKindDef joyKind)
 		{
-			if (joyKind == null)
-			{
-				Log.Error("No joyKind!");
-			}
-			else
+			if (amount > 0f)
 			{
 				amount *= this.tolerances.JoyFactorFromTolerance(joyKind);
+				amount = Mathf.Min(amount, 1f - this.CurLevel);
+				this.curLevelInt += amount;
+				if (joyKind != null)
+				{
+					this.tolerances.Notify_JoyGained(amount, joyKind);
+				}
+				this.lastGainTick = Find.TickManager.TicksGame;
 			}
-			amount = Mathf.Min(amount, (float)(1.0 - this.CurLevel));
-			base.curLevelInt += amount;
-			if (joyKind != null)
-			{
-				this.tolerances.Notify_JoyGained(amount, joyKind);
-			}
-			this.lastGainTick = Find.TickManager.TicksGame;
 		}
 
+		// Token: 0x060016FF RID: 5887 RVA: 0x000CAB1B File Offset: 0x000C8F1B
 		public override void NeedInterval()
 		{
 			if (!base.IsFrozen)
@@ -138,18 +145,46 @@ namespace RimWorld
 				this.tolerances.NeedInterval();
 				if (!this.GainingJoy)
 				{
-					this.CurLevel -= (float)(this.FallPerTick * 150.0);
-				}
-				if (base.pawn.Downed && this.CurLevel < 0.25)
-				{
-					this.CurLevel = 0.25f;
+					this.CurLevel -= this.FallPerInterval;
 				}
 			}
 		}
 
+		// Token: 0x06001700 RID: 5888 RVA: 0x000CAB54 File Offset: 0x000C8F54
 		public override string GetTipString()
 		{
-			return base.GetTipString() + "\n" + this.tolerances.TolerancesString();
+			string text = base.GetTipString();
+			string text2 = this.tolerances.TolerancesString();
+			if (!string.IsNullOrEmpty(text2))
+			{
+				text = text + "\n\n" + text2;
+			}
+			Caravan caravan = this.pawn.GetCaravan();
+			if (caravan != null)
+			{
+				float num = CaravanPawnsNeedsUtility.GetCaravanNotMovingJoyGainPerTick(this.pawn, caravan) * 2500f;
+				if (num > 0f)
+				{
+					string text3 = text;
+					text = string.Concat(new string[]
+					{
+						text3,
+						"\n\n",
+						"GainingJoyBecauseCaravanNotMoving".Translate(),
+						": +",
+						num.ToStringPercent(),
+						"/",
+						"LetterHour".Translate()
+					});
+				}
+			}
+			return text;
 		}
+
+		// Token: 0x04000D86 RID: 3462
+		public JoyToleranceSet tolerances = new JoyToleranceSet();
+
+		// Token: 0x04000D87 RID: 3463
+		private int lastGainTick = -999;
 	}
 }

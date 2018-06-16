@@ -1,9 +1,24 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000778 RID: 1912
 	public class StockGenerator_WeaponsRanged : StockGenerator_MiscItems
 	{
+		// Token: 0x06002A2E RID: 10798 RVA: 0x00165C20 File Offset: 0x00164020
+		public override bool HandlesThingDef(ThingDef td)
+		{
+			return base.HandlesThingDef(td) && td.IsRangedWeapon;
+		}
+
+		// Token: 0x06002A2F RID: 10799 RVA: 0x00165C4C File Offset: 0x0016404C
+		protected override float SelectionWeight(ThingDef thingDef)
+		{
+			return StockGenerator_WeaponsRanged.SelectionWeightMarketValueCurve.Evaluate(thingDef.BaseMarketValue);
+		}
+
+		// Token: 0x040016C2 RID: 5826
 		private static readonly SimpleCurve SelectionWeightMarketValueCurve = new SimpleCurve
 		{
 			{
@@ -23,15 +38,5 @@ namespace RimWorld
 				true
 			}
 		};
-
-		public override bool HandlesThingDef(ThingDef td)
-		{
-			return base.HandlesThingDef(td) && td.IsRangedWeapon;
-		}
-
-		protected override float SelectionWeight(ThingDef thingDef)
-		{
-			return StockGenerator_WeaponsRanged.SelectionWeightMarketValueCurve.Evaluate(thingDef.BaseMarketValue);
-		}
 	}
 }

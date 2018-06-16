@@ -1,21 +1,24 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020003E7 RID: 999
 	public class GenStep_CaveHives : GenStep
 	{
-		private List<IntVec3> rockCells = new List<IntVec3>();
+		// Token: 0x17000249 RID: 585
+		// (get) Token: 0x0600111C RID: 4380 RVA: 0x00092768 File Offset: 0x00090B68
+		public override int SeedPart
+		{
+			get
+			{
+				return 349641510;
+			}
+		}
 
-		private List<IntVec3> possibleSpawnCells = new List<IntVec3>();
-
-		private List<Hive> spawnedHives = new List<Hive>();
-
-		private const int MinDistToOpenSpace = 10;
-
-		private const float CaveCellsPerHive = 1000f;
-
+		// Token: 0x0600111D RID: 4381 RVA: 0x00092784 File Offset: 0x00090B84
 		public override void Generate(Map map)
 		{
 			if (Find.Storyteller.difficulty.allowCaveHives)
@@ -28,23 +31,28 @@ namespace RimWorld
 					float num = 0.7f;
 					int num2 = 0;
 					this.rockCells.Clear();
-					foreach (IntVec3 allCell in map.AllCells)
+					foreach (IntVec3 intVec in map.AllCells)
 					{
-						if (elevation[allCell] > num)
+						if (elevation[intVec] > num)
 						{
-							this.rockCells.Add(allCell);
+							this.rockCells.Add(intVec);
 						}
-						if (caves[allCell] > 0.0)
+						if (caves[intVec] > 0f)
 						{
 							num2++;
 						}
 					}
-					int num3 = GenMath.RoundRandom((float)((float)num2 / 1000.0));
+					List<IntVec3> list = (from c in map.AllCells
+					where map.thingGrid.ThingsAt(c).Any((Thing thing) => thing.Faction != null)
+					select c).ToList<IntVec3>();
+					GenMorphology.Dilate(list, 50, map, null);
+					HashSet<IntVec3> hashSet = new HashSet<IntVec3>(list);
+					int num3 = GenMath.RoundRandom((float)num2 / 1000f);
 					GenMorphology.Erode(this.rockCells, 10, map, null);
 					this.possibleSpawnCells.Clear();
 					for (int i = 0; i < this.rockCells.Count; i++)
 					{
-						if (caves[this.rockCells[i]] > 0.0)
+						if (caves[this.rockCells[i]] > 0f && !hashSet.Contains(this.rockCells[i]))
 						{
 							this.possibleSpawnCells.Add(this.rockCells[i]);
 						}
@@ -59,17 +67,19 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x0600111E RID: 4382 RVA: 0x000929A8 File Offset: 0x00090DA8
 		private void TrySpawnHive(Map map)
 		{
-			IntVec3 intVec = default(IntVec3);
+			IntVec3 intVec;
 			if (this.TryFindHiveSpawnCell(map, out intVec))
 			{
 				this.possibleSpawnCells.Remove(intVec);
-				Hive hive = (Hive)GenSpawn.Spawn(ThingMaker.MakeThing(ThingDefOf.Hive, null), intVec, map);
+				Hive hive = (Hive)GenSpawn.Spawn(ThingMaker.MakeThing(ThingDefOf.Hive, null), intVec, map, WipeMode.Vanish);
 				hive.SetFaction(Faction.OfInsects, null);
+				hive.caveColony = true;
 				(from x in hive.GetComps<CompSpawner>()
 				where x.PropsSpawner.thingToSpawn == ThingDefOf.GlowPod
-				select x).First().TryDoSpawn();
+				select x).First<CompSpawner>().TryDoSpawn();
 				hive.SpawnPawnsUntilPoints(Rand.Range(200f, 500f));
 				hive.canSpawnPawns = false;
 				hive.GetComp<CompSpawnerHives>().canSpawnHives = false;
@@ -77,34 +87,55 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x0600111F RID: 4383 RVA: 0x00092A6C File Offset: 0x00090E6C
 		private bool TryFindHiveSpawnCell(Map map, out IntVec3 spawnCell)
 		{
 			float num = -1f;
 			IntVec3 intVec = IntVec3.Invalid;
-			int num2 = 0;
-			IntVec3 intVec2 = default(IntVec3);
-			while (num2 < 3 && (from x in this.possibleSpawnCells
-			where x.Standable(map) && x.GetFirstItem(map) == null && x.GetFirstBuilding(map) == null && x.GetFirstPawn(map) == null
-			select x).TryRandomElement<IntVec3>(out intVec2))
+			for (int i = 0; i < 3; i++)
 			{
-				float num3 = -1f;
-				for (int i = 0; i < this.spawnedHives.Count; i++)
+				IntVec3 intVec2;
+				if (!(from x in this.possibleSpawnCells
+				where x.Standable(map) && x.GetFirstItem(map) == null && x.GetFirstBuilding(map) == null && x.GetFirstPawn(map) == null
+				select x).TryRandomElement(out intVec2))
 				{
-					float num4 = (float)intVec2.DistanceToSquared(this.spawnedHives[i].Position);
-					if (num3 < 0.0 || num4 < num3)
+					break;
+				}
+				float num2 = -1f;
+				for (int j = 0; j < this.spawnedHives.Count; j++)
+				{
+					float num3 = (float)intVec2.DistanceToSquared(this.spawnedHives[j].Position);
+					if (num2 < 0f || num3 < num2)
 					{
-						num3 = num4;
+						num2 = num3;
 					}
 				}
-				if (!intVec.IsValid || num3 > num)
+				if (!intVec.IsValid || num2 > num)
 				{
 					intVec = intVec2;
-					num = num3;
+					num = num2;
 				}
-				num2++;
 			}
 			spawnCell = intVec;
 			return spawnCell.IsValid;
 		}
+
+		// Token: 0x04000A5C RID: 2652
+		private List<IntVec3> rockCells = new List<IntVec3>();
+
+		// Token: 0x04000A5D RID: 2653
+		private List<IntVec3> possibleSpawnCells = new List<IntVec3>();
+
+		// Token: 0x04000A5E RID: 2654
+		private List<Hive> spawnedHives = new List<Hive>();
+
+		// Token: 0x04000A5F RID: 2655
+		private const int MinDistToOpenSpace = 10;
+
+		// Token: 0x04000A60 RID: 2656
+		private const int MinDistFromFactionBase = 50;
+
+		// Token: 0x04000A61 RID: 2657
+		private const float CaveCellsPerHive = 1000f;
 	}
 }

@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -6,67 +7,69 @@ using Verse.Sound;
 
 namespace RimWorld
 {
+	// Token: 0x0200089B RID: 2203
 	public class PawnColumnWorker_WorkPriority : PawnColumnWorker
 	{
-		private const int LabelRowHeight = 50;
-
-		private Vector2 cachedWorkLabelSize;
-
+		// Token: 0x0600324C RID: 12876 RVA: 0x001B0C60 File Offset: 0x001AF060
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
 			if (!pawn.Dead && pawn.workSettings != null && pawn.workSettings.EverWork)
 			{
 				Text.Font = GameFont.Medium;
-				float x = (float)(rect.x + (rect.width - 25.0) / 2.0);
-				float y = (float)(rect.y + 2.5);
-				bool incapable = this.IsIncapableOfWholeWorkType(pawn, base.def.workType);
-				WidgetsWork.DrawWorkBoxFor(x, y, pawn, base.def.workType, incapable);
+				float x = rect.x + (rect.width - 25f) / 2f;
+				float y = rect.y + 2.5f;
+				bool incapable = this.IsIncapableOfWholeWorkType(pawn, this.def.workType);
+				WidgetsWork.DrawWorkBoxFor(x, y, pawn, this.def.workType, incapable);
 				Rect rect2 = new Rect(x, y, 25f, 25f);
-				TooltipHandler.TipRegion(rect2, () => WidgetsWork.TipForPawnWorker(pawn, base.def.workType, incapable), pawn.thingIDNumber ^ base.def.workType.GetHashCode());
+				TooltipHandler.TipRegion(rect2, () => WidgetsWork.TipForPawnWorker(pawn, this.def.workType, incapable), pawn.thingIDNumber ^ this.def.workType.GetHashCode());
 				Text.Font = GameFont.Small;
 			}
 		}
 
+		// Token: 0x0600324D RID: 12877 RVA: 0x001B0D70 File Offset: 0x001AF170
 		public override void DoHeader(Rect rect, PawnTable table)
 		{
 			base.DoHeader(rect, table);
 			Text.Font = GameFont.Small;
 			if (this.cachedWorkLabelSize == default(Vector2))
 			{
-				this.cachedWorkLabelSize = Text.CalcSize(base.def.workType.labelShort);
+				this.cachedWorkLabelSize = Text.CalcSize(this.def.workType.labelShort);
 			}
 			Rect labelRect = this.GetLabelRect(rect);
 			Text.Anchor = TextAnchor.MiddleCenter;
-			Widgets.Label(labelRect, base.def.workType.labelShort);
+			Widgets.Label(labelRect, this.def.workType.labelShort);
 			GUI.color = new Color(1f, 1f, 1f, 0.3f);
-			Vector2 center = labelRect.center;
-			Widgets.DrawLineVertical(center.x, (float)(labelRect.yMax - 3.0), (float)(rect.y + 50.0 - labelRect.yMax + 3.0));
-			Vector2 center2 = labelRect.center;
-			Widgets.DrawLineVertical((float)(center2.x + 1.0), (float)(labelRect.yMax - 3.0), (float)(rect.y + 50.0 - labelRect.yMax + 3.0));
+			Widgets.DrawLineVertical(labelRect.center.x, labelRect.yMax - 3f, rect.y + 50f - labelRect.yMax + 3f);
+			Widgets.DrawLineVertical(labelRect.center.x + 1f, labelRect.yMax - 3f, rect.y + 50f - labelRect.yMax + 3f);
 			GUI.color = Color.white;
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
+		// Token: 0x0600324E RID: 12878 RVA: 0x001B0E94 File Offset: 0x001AF294
 		public override int GetMinHeaderHeight(PawnTable table)
 		{
 			return 50;
 		}
 
+		// Token: 0x0600324F RID: 12879 RVA: 0x001B0EAC File Offset: 0x001AF2AC
 		public override int GetMinWidth(PawnTable table)
 		{
 			return Mathf.Max(base.GetMinWidth(table), 32);
 		}
 
+		// Token: 0x06003250 RID: 12880 RVA: 0x001B0ED0 File Offset: 0x001AF2D0
 		public override int GetOptimalWidth(PawnTable table)
 		{
 			return Mathf.Clamp(39, this.GetMinWidth(table), this.GetMaxWidth(table));
 		}
 
+		// Token: 0x06003251 RID: 12881 RVA: 0x001B0EFC File Offset: 0x001AF2FC
 		public override int GetMaxWidth(PawnTable table)
 		{
 			return Mathf.Min(base.GetMaxWidth(table), 80);
 		}
 
+		// Token: 0x06003252 RID: 12882 RVA: 0x001B0F20 File Offset: 0x001AF320
 		private bool IsIncapableOfWholeWorkType(Pawn p, WorkTypeDef work)
 		{
 			for (int i = 0; i < work.workGiversByPriority.Count; i++)
@@ -89,56 +92,77 @@ namespace RimWorld
 			return true;
 		}
 
+		// Token: 0x06003253 RID: 12883 RVA: 0x001B0FC8 File Offset: 0x001AF3C8
 		protected override Rect GetInteractableHeaderRect(Rect headerRect, PawnTable table)
 		{
 			return this.GetLabelRect(headerRect);
 		}
 
+		// Token: 0x06003254 RID: 12884 RVA: 0x001B0FE4 File Offset: 0x001AF3E4
 		public override int Compare(Pawn a, Pawn b)
 		{
 			return this.GetValueToCompare(a).CompareTo(this.GetValueToCompare(b));
 		}
 
+		// Token: 0x06003255 RID: 12885 RVA: 0x001B1010 File Offset: 0x001AF410
 		private float GetValueToCompare(Pawn pawn)
 		{
-			if (pawn.workSettings != null && pawn.workSettings.EverWork)
+			float result;
+			if (pawn.workSettings == null || !pawn.workSettings.EverWork)
 			{
-				if (pawn.story != null && pawn.story.WorkTypeIsDisabled(base.def.workType))
-				{
-					return -1f;
-				}
-				return pawn.skills.AverageOfRelevantSkillsFor(base.def.workType);
+				result = -2f;
 			}
-			return -2f;
+			else if (pawn.story != null && pawn.story.WorkTypeIsDisabled(this.def.workType))
+			{
+				result = -1f;
+			}
+			else
+			{
+				result = pawn.skills.AverageOfRelevantSkillsFor(this.def.workType);
+			}
+			return result;
 		}
 
+		// Token: 0x06003256 RID: 12886 RVA: 0x001B1094 File Offset: 0x001AF494
 		private Rect GetLabelRect(Rect headerRect)
 		{
-			Vector2 center = headerRect.center;
-			float x = center.x;
-			Rect result = new Rect((float)(x - this.cachedWorkLabelSize.x / 2.0), headerRect.y, this.cachedWorkLabelSize.x, this.cachedWorkLabelSize.y);
-			if (base.def.moveWorkTypeLabelDown)
+			float x = headerRect.center.x;
+			Rect result = new Rect(x - this.cachedWorkLabelSize.x / 2f, headerRect.y, this.cachedWorkLabelSize.x, this.cachedWorkLabelSize.y);
+			if (this.def.moveWorkTypeLabelDown)
 			{
 				result.y += 20f;
 			}
 			return result;
 		}
 
+		// Token: 0x06003257 RID: 12887 RVA: 0x001B1114 File Offset: 0x001AF514
 		protected override string GetHeaderTip(PawnTable table)
 		{
-			string str = base.def.workType.gerundLabel.CapitalizeFirst() + "\n\n" + base.def.workType.description + "\n\n" + PawnColumnWorker_WorkPriority.SpecificWorkListString(base.def.workType);
-			str += "\n";
-			if (base.def.sortable)
+			string text = string.Concat(new string[]
 			{
-				str = str + "\n" + "ClickToSortByThisColumn".Translate();
+				this.def.workType.gerundLabel.CapitalizeFirst(),
+				"\n\n",
+				this.def.workType.description,
+				"\n\n",
+				PawnColumnWorker_WorkPriority.SpecificWorkListString(this.def.workType)
+			});
+			text += "\n";
+			if (this.def.sortable)
+			{
+				text = text + "\n" + "ClickToSortByThisColumn".Translate();
 			}
 			if (Find.PlaySettings.useWorkPriorities)
 			{
-				return str + "\n" + "WorkPriorityShiftClickTip".Translate();
+				text = text + "\n" + "WorkPriorityShiftClickTip".Translate();
 			}
-			return str + "\n" + "WorkPriorityShiftClickEnableDisableTip".Translate();
+			else
+			{
+				text = text + "\n" + "WorkPriorityShiftClickEnableDisableTip".Translate();
+			}
+			return text;
 		}
 
+		// Token: 0x06003258 RID: 12888 RVA: 0x001B11F8 File Offset: 0x001AF5F8
 		private static string SpecificWorkListString(WorkTypeDef def)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -157,6 +181,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
+		// Token: 0x06003259 RID: 12889 RVA: 0x001B12A0 File Offset: 0x001AF6A0
 		protected override void HeaderClicked(Rect headerRect, PawnTable table)
 		{
 			base.HeaderClicked(headerRect, table);
@@ -166,40 +191,43 @@ namespace RimWorld
 				for (int i = 0; i < pawnsListForReading.Count; i++)
 				{
 					Pawn pawn = pawnsListForReading[i];
-					if (pawn.workSettings != null && pawn.workSettings.EverWork && (pawn.story == null || !pawn.story.WorkTypeIsDisabled(base.def.workType)))
+					if (pawn.workSettings != null && pawn.workSettings.EverWork)
 					{
-						if (Find.PlaySettings.useWorkPriorities)
+						if (pawn.story == null || !pawn.story.WorkTypeIsDisabled(this.def.workType))
 						{
-							int priority = pawn.workSettings.GetPriority(base.def.workType);
-							if (Event.current.button == 0 && priority != 1)
+							if (Find.PlaySettings.useWorkPriorities)
 							{
-								int num = priority - 1;
-								if (num < 0)
+								int priority = pawn.workSettings.GetPriority(this.def.workType);
+								if (Event.current.button == 0 && priority != 1)
 								{
-									num = 4;
+									int num = priority - 1;
+									if (num < 0)
+									{
+										num = 4;
+									}
+									pawn.workSettings.SetPriority(this.def.workType, num);
 								}
-								pawn.workSettings.SetPriority(base.def.workType, num);
-							}
-							if (Event.current.button == 1 && priority != 0)
-							{
-								int num2 = priority + 1;
-								if (num2 > 4)
+								if (Event.current.button == 1 && priority != 0)
 								{
-									num2 = 0;
+									int num2 = priority + 1;
+									if (num2 > 4)
+									{
+										num2 = 0;
+									}
+									pawn.workSettings.SetPriority(this.def.workType, num2);
 								}
-								pawn.workSettings.SetPriority(base.def.workType, num2);
 							}
-						}
-						else if (pawn.workSettings.GetPriority(base.def.workType) > 0)
-						{
-							if (Event.current.button == 1)
+							else if (pawn.workSettings.GetPriority(this.def.workType) > 0)
 							{
-								pawn.workSettings.SetPriority(base.def.workType, 0);
+								if (Event.current.button == 1)
+								{
+									pawn.workSettings.SetPriority(this.def.workType, 0);
+								}
 							}
-						}
-						else if (Event.current.button == 0)
-						{
-							pawn.workSettings.SetPriority(base.def.workType, 3);
+							else if (Event.current.button == 0)
+							{
+								pawn.workSettings.SetPriority(this.def.workType, 3);
+							}
 						}
 					}
 				}
@@ -216,13 +244,19 @@ namespace RimWorld
 				}
 				else if (Event.current.button == 0)
 				{
-					SoundDefOf.CheckboxTurnedOn.PlayOneShotOnCamera(null);
+					SoundDefOf.Checkbox_TurnedOn.PlayOneShotOnCamera(null);
 				}
 				else if (Event.current.button == 1)
 				{
-					SoundDefOf.CheckboxTurnedOff.PlayOneShotOnCamera(null);
+					SoundDefOf.Checkbox_TurnedOff.PlayOneShotOnCamera(null);
 				}
 			}
 		}
+
+		// Token: 0x04001AE5 RID: 6885
+		private const int LabelRowHeight = 50;
+
+		// Token: 0x04001AE6 RID: 6886
+		private Vector2 cachedWorkLabelSize;
 	}
 }

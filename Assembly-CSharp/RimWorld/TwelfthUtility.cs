@@ -1,138 +1,191 @@
+﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000913 RID: 2323
 	public static class TwelfthUtility
 	{
+		// Token: 0x06003610 RID: 13840 RVA: 0x001D0128 File Offset: 0x001CE528
 		public static Quadrum GetQuadrum(this Twelfth twelfth)
 		{
+			Quadrum result;
 			switch (twelfth)
 			{
 			case Twelfth.First:
-				return Quadrum.Aprimay;
+				result = Quadrum.Aprimay;
+				break;
 			case Twelfth.Second:
-				return Quadrum.Aprimay;
+				result = Quadrum.Aprimay;
+				break;
 			case Twelfth.Third:
-				return Quadrum.Aprimay;
+				result = Quadrum.Aprimay;
+				break;
 			case Twelfth.Fourth:
-				return Quadrum.Jugust;
+				result = Quadrum.Jugust;
+				break;
 			case Twelfth.Fifth:
-				return Quadrum.Jugust;
+				result = Quadrum.Jugust;
+				break;
 			case Twelfth.Sixth:
-				return Quadrum.Jugust;
+				result = Quadrum.Jugust;
+				break;
 			case Twelfth.Seventh:
-				return Quadrum.Septober;
+				result = Quadrum.Septober;
+				break;
 			case Twelfth.Eighth:
-				return Quadrum.Septober;
+				result = Quadrum.Septober;
+				break;
 			case Twelfth.Ninth:
-				return Quadrum.Septober;
+				result = Quadrum.Septober;
+				break;
 			case Twelfth.Tenth:
-				return Quadrum.Decembary;
+				result = Quadrum.Decembary;
+				break;
 			case Twelfth.Eleventh:
-				return Quadrum.Decembary;
+				result = Quadrum.Decembary;
+				break;
 			case Twelfth.Twelfth:
-				return Quadrum.Decembary;
+				result = Quadrum.Decembary;
+				break;
 			default:
-				return Quadrum.Undefined;
+				result = Quadrum.Undefined;
+				break;
 			}
+			return result;
 		}
 
+		// Token: 0x06003611 RID: 13841 RVA: 0x001D01D0 File Offset: 0x001CE5D0
 		public static Twelfth PreviousTwelfth(this Twelfth twelfth)
 		{
+			Twelfth result;
 			if (twelfth == Twelfth.Undefined)
 			{
-				return Twelfth.Undefined;
+				result = Twelfth.Undefined;
 			}
-			int num = (int)(twelfth - 1);
-			if (num == -1)
+			else
 			{
-				num = 11;
+				int num = (int)(twelfth - Twelfth.Second);
+				if (num == -1)
+				{
+					num = 11;
+				}
+				result = (Twelfth)num;
 			}
-			return (Twelfth)(byte)num;
+			return result;
 		}
 
+		// Token: 0x06003612 RID: 13842 RVA: 0x001D0208 File Offset: 0x001CE608
 		public static Twelfth NextTwelfth(this Twelfth twelfth)
 		{
+			Twelfth result;
 			if (twelfth == Twelfth.Undefined)
 			{
-				return Twelfth.Undefined;
+				result = Twelfth.Undefined;
 			}
-			return (Twelfth)(byte)((int)(twelfth + 1) % 12);
+			else
+			{
+				result = (twelfth + 1) % Twelfth.Undefined;
+			}
+			return result;
 		}
 
+		// Token: 0x06003613 RID: 13843 RVA: 0x001D0234 File Offset: 0x001CE634
 		public static float GetMiddleYearPct(this Twelfth twelfth)
 		{
-			return (float)(((float)(int)twelfth + 0.5) / 12.0);
+			return ((float)twelfth + 0.5f) / 12f;
 		}
 
+		// Token: 0x06003614 RID: 13844 RVA: 0x001D0258 File Offset: 0x001CE658
 		public static float GetBeginningYearPct(this Twelfth twelfth)
 		{
-			return (float)((float)(int)twelfth / 12.0);
+			return (float)twelfth / 12f;
 		}
 
+		// Token: 0x06003615 RID: 13845 RVA: 0x001D0278 File Offset: 0x001CE678
 		public static Twelfth FindStartingWarmTwelfth(int tile)
 		{
 			Twelfth twelfth = GenTemperature.EarliestTwelfthInAverageTemperatureRange(tile, 16f, 9999f);
 			if (twelfth == Twelfth.Undefined)
 			{
-				Vector2 vector = Find.WorldGrid.LongLatOf(tile);
-				twelfth = Season.Summer.GetFirstTwelfth(vector.y);
+				twelfth = Season.Summer.GetFirstTwelfth(Find.WorldGrid.LongLatOf(tile).y);
 			}
 			return twelfth;
 		}
 
+		// Token: 0x06003616 RID: 13846 RVA: 0x001D02C4 File Offset: 0x001CE6C4
 		public static Twelfth GetLeftMostTwelfth(List<Twelfth> twelfths, Twelfth rootTwelfth)
 		{
+			Twelfth result;
 			if (twelfths.Count >= 12)
 			{
-				return Twelfth.Undefined;
+				result = Twelfth.Undefined;
 			}
-			Twelfth result;
-			while (true)
+			else
 			{
-				result = rootTwelfth;
-				rootTwelfth = TwelfthUtility.TwelfthBefore(rootTwelfth);
-				if (!twelfths.Contains(rootTwelfth))
-					break;
+				Twelfth twelfth;
+				do
+				{
+					twelfth = rootTwelfth;
+					rootTwelfth = TwelfthUtility.TwelfthBefore(rootTwelfth);
+				}
+				while (twelfths.Contains(rootTwelfth));
+				result = twelfth;
 			}
 			return result;
 		}
 
+		// Token: 0x06003617 RID: 13847 RVA: 0x001D0310 File Offset: 0x001CE710
 		public static Twelfth GetRightMostTwelfth(List<Twelfth> twelfths, Twelfth rootTwelfth)
 		{
+			Twelfth result;
 			if (twelfths.Count >= 12)
 			{
-				return Twelfth.Undefined;
+				result = Twelfth.Undefined;
 			}
-			Twelfth m;
-			while (true)
+			else
 			{
-				m = rootTwelfth;
-				rootTwelfth = TwelfthUtility.TwelfthAfter(rootTwelfth);
-				if (!twelfths.Contains(rootTwelfth))
-					break;
+				Twelfth m;
+				do
+				{
+					m = rootTwelfth;
+					rootTwelfth = TwelfthUtility.TwelfthAfter(rootTwelfth);
+				}
+				while (twelfths.Contains(rootTwelfth));
+				result = TwelfthUtility.TwelfthAfter(m);
 			}
-			return TwelfthUtility.TwelfthAfter(m);
+			return result;
 		}
 
+		// Token: 0x06003618 RID: 13848 RVA: 0x001D0360 File Offset: 0x001CE760
 		public static Twelfth TwelfthBefore(Twelfth m)
 		{
+			Twelfth result;
 			if (m == Twelfth.First)
 			{
-				return Twelfth.Twelfth;
+				result = Twelfth.Twelfth;
 			}
-			return m - 1;
+			else
+			{
+				result = (Twelfth)(m - Twelfth.Second);
+			}
+			return result;
 		}
 
+		// Token: 0x06003619 RID: 13849 RVA: 0x001D0388 File Offset: 0x001CE788
 		public static Twelfth TwelfthAfter(Twelfth m)
 		{
+			Twelfth result;
 			if (m == Twelfth.Twelfth)
 			{
-				return Twelfth.First;
+				result = Twelfth.First;
 			}
-			return m + 1;
+			else
+			{
+				result = m + 1;
+			}
+			return result;
 		}
 	}
 }

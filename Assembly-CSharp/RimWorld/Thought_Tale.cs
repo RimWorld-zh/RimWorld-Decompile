@@ -1,24 +1,32 @@
+﻿using System;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200020D RID: 525
 	public class Thought_Tale : Thought_SituationalSocial
 	{
+		// Token: 0x060009E8 RID: 2536 RVA: 0x00058974 File Offset: 0x00056D74
 		public override float OpinionOffset()
 		{
-			Tale latestTale = Find.TaleManager.GetLatestTale(base.def.taleDef, base.otherPawn);
+			Tale latestTale = Find.TaleManager.GetLatestTale(this.def.taleDef, this.otherPawn);
+			float result;
 			if (latestTale != null)
 			{
 				float num = 1f;
 				if (latestTale.def.type == TaleType.Expirable)
 				{
-					float value = (float)((float)latestTale.AgeTicks / (latestTale.def.expireDays * 60000.0));
-					num = Mathf.InverseLerp(1f, base.def.lerpOpinionToZeroAfterDurationPct, value);
+					float value = (float)latestTale.AgeTicks / (latestTale.def.expireDays * 60000f);
+					num = Mathf.InverseLerp(1f, this.def.lerpOpinionToZeroAfterDurationPct, value);
 				}
-				return base.CurStage.baseOpinionOffset * num;
+				result = base.CurStage.baseOpinionOffset * num;
 			}
-			return 0f;
+			else
+			{
+				result = 0f;
+			}
+			return result;
 		}
 	}
 }

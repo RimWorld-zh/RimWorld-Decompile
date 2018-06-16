@@ -1,10 +1,13 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020003F0 RID: 1008
 	public class RoadDefGenStep_Bulldoze : RoadDefGenStep
 	{
-		public override void Place(Map map, IntVec3 tile, TerrainDef rockDef)
+		// Token: 0x06001163 RID: 4451 RVA: 0x00096A28 File Offset: 0x00094E28
+		public override void Place(Map map, IntVec3 tile, TerrainDef rockDef, IntVec3 origin, GenStep_Roads.DistanceElement[,] distance)
 		{
 			while (tile.Impassable(map))
 			{

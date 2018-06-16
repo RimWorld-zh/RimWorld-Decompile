@@ -1,32 +1,30 @@
-using RimWorld.Planet;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld.Planet;
 
 namespace RimWorld
 {
+	// Token: 0x02000281 RID: 641
 	public class WorldObjectCompProperties_TimedForcedExit : WorldObjectCompProperties
 	{
+		// Token: 0x06000AEF RID: 2799 RVA: 0x00062F92 File Offset: 0x00061392
 		public WorldObjectCompProperties_TimedForcedExit()
 		{
-			base.compClass = typeof(TimedForcedExit);
+			this.compClass = typeof(TimedForcedExit);
 		}
 
+		// Token: 0x06000AF0 RID: 2800 RVA: 0x00062FAC File Offset: 0x000613AC
 		public override IEnumerable<string> ConfigErrors(WorldObjectDef parentDef)
 		{
-			using (IEnumerator<string> enumerator = base.ConfigErrors(parentDef).GetEnumerator())
+			foreach (string e in this.<ConfigErrors>__BaseCallProxy0(parentDef))
 			{
-				if (enumerator.MoveNext())
-				{
-					string e = enumerator.Current;
-					yield return e;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return e;
 			}
-			if (typeof(MapParent).IsAssignableFrom(parentDef.worldObjectClass))
-				yield break;
-			yield return parentDef.defName + " has WorldObjectCompProperties_EscapeShip but it's not MapParent.";
-			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0111:
-			/*Error near IL_0112: Unexpected return in MoveNext()*/;
+			if (!typeof(MapParent).IsAssignableFrom(parentDef.worldObjectClass))
+			{
+				yield return parentDef.defName + " has WorldObjectCompProperties_TimedForcedExit but it's not MapParent.";
+			}
+			yield break;
 		}
 	}
 }

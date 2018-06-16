@@ -1,18 +1,22 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000056 RID: 86
 	public class JobDriver_PlayHoopstone : JobDriver_WatchBuilding
 	{
-		private const int StoneThrowInterval = 400;
-
+		// Token: 0x06000297 RID: 663 RVA: 0x0001C4A8 File Offset: 0x0001A8A8
 		protected override void WatchTickAction()
 		{
-			if (base.pawn.IsHashIntervalTick(400))
+			if (this.pawn.IsHashIntervalTick(400))
 			{
-				MoteMaker.ThrowStone(base.pawn, base.TargetA.Cell);
+				MoteMaker.ThrowStone(this.pawn, base.TargetA.Cell);
 			}
 			base.WatchTickAction();
 		}
+
+		// Token: 0x040001F4 RID: 500
+		private const int StoneThrowInterval = 400;
 	}
 }

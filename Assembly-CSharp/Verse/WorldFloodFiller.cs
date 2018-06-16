@@ -1,19 +1,13 @@
-using RimWorld.Planet;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld.Planet;
 
 namespace Verse
 {
+	// Token: 0x020005B1 RID: 1457
 	public class WorldFloodFiller
 	{
-		private bool working;
-
-		private Queue<int> openSet = new Queue<int>();
-
-		private List<int> traversalDistance = new List<int>();
-
-		private List<int> visited = new List<int>();
-
+		// Token: 0x06001BDA RID: 7130 RVA: 0x000EFA20 File Offset: 0x000EDE20
 		public void FloodFill(int rootTile, Predicate<int> passCheck, Action<int> processor, int maxTilesToProcess = 2147483647, IEnumerable<int> extraRootTiles = null)
 		{
 			this.FloodFill(rootTile, passCheck, delegate(int tile, int traversalDistance)
@@ -23,6 +17,7 @@ namespace Verse
 			}, maxTilesToProcess, extraRootTiles);
 		}
 
+		// Token: 0x06001BDB RID: 7131 RVA: 0x000EFA54 File Offset: 0x000EDE54
 		public void FloodFill(int rootTile, Predicate<int> passCheck, Action<int, int> processor, int maxTilesToProcess = 2147483647, IEnumerable<int> extraRootTiles = null)
 		{
 			this.FloodFill(rootTile, passCheck, delegate(int tile, int traversalDistance)
@@ -32,16 +27,18 @@ namespace Verse
 			}, maxTilesToProcess, extraRootTiles);
 		}
 
+		// Token: 0x06001BDC RID: 7132 RVA: 0x000EFA88 File Offset: 0x000EDE88
 		public void FloodFill(int rootTile, Predicate<int> passCheck, Predicate<int> processor, int maxTilesToProcess = 2147483647, IEnumerable<int> extraRootTiles = null)
 		{
 			this.FloodFill(rootTile, passCheck, (int tile, int traversalDistance) => processor(tile), maxTilesToProcess, extraRootTiles);
 		}
 
+		// Token: 0x06001BDD RID: 7133 RVA: 0x000EFABC File Offset: 0x000EDEBC
 		public void FloodFill(int rootTile, Predicate<int> passCheck, Func<int, int, bool> processor, int maxTilesToProcess = 2147483647, IEnumerable<int> extraRootTiles = null)
 		{
 			if (this.working)
 			{
-				Log.Error("Nested FloodFill calls are not allowed. This will cause bugs.");
+				Log.Error("Nested FloodFill calls are not allowed. This will cause bugs.", false);
 			}
 			this.working = true;
 			this.ClearVisited();
@@ -87,58 +84,72 @@ namespace Verse
 					}
 					else
 					{
-						foreach (int extraRootTile in extraRootTiles)
+						foreach (int num4 in extraRootTiles)
 						{
-							this.traversalDistance[extraRootTile] = 0;
-							this.openSet.Enqueue(extraRootTile);
+							this.traversalDistance[num4] = 0;
+							this.openSet.Enqueue(num4);
 						}
 					}
 				}
 				while (this.openSet.Count > 0)
 				{
-					int num4 = this.openSet.Dequeue();
-					int num5 = this.traversalDistance[num4];
-					if (!processor(num4, num5))
+					int num5 = this.openSet.Dequeue();
+					int num6 = this.traversalDistance[num5];
+					if (processor(num5, num6))
 					{
-						num2++;
-						if (num2 != maxTilesToProcess)
+						break;
+					}
+					num2++;
+					if (num2 == maxTilesToProcess)
+					{
+						break;
+					}
+					int num7 = (num5 + 1 >= tileIDToNeighbors_offsets.Count) ? tileIDToNeighbors_values.Count : tileIDToNeighbors_offsets[num5 + 1];
+					for (int k = tileIDToNeighbors_offsets[num5]; k < num7; k++)
+					{
+						int num8 = tileIDToNeighbors_values[k];
+						if (this.traversalDistance[num8] == -1 && passCheck(num8))
 						{
-							int num6 = (num4 + 1 >= tileIDToNeighbors_offsets.Count) ? tileIDToNeighbors_values.Count : tileIDToNeighbors_offsets[num4 + 1];
-							for (int k = tileIDToNeighbors_offsets[num4]; k < num6; k++)
-							{
-								int num7 = tileIDToNeighbors_values[k];
-								if (this.traversalDistance[num7] == -1 && passCheck(num7))
-								{
-									this.visited.Add(num7);
-									this.openSet.Enqueue(num7);
-									this.traversalDistance[num7] = num5 + 1;
-								}
-							}
-							if (this.openSet.Count > num)
-							{
-								Log.Error("Overflow on world flood fill (>" + num + " cells). Make sure we're not flooding over the same area after we check it.");
-								this.working = false;
-								return;
-							}
-							continue;
+							this.visited.Add(num8);
+							this.openSet.Enqueue(num8);
+							this.traversalDistance[num8] = num6 + 1;
 						}
 					}
-					break;
+					if (this.openSet.Count > num)
+					{
+						Log.Error("Overflow on world flood fill (>" + num + " cells). Make sure we're not flooding over the same area after we check it.", false);
+						this.working = false;
+						return;
+					}
 				}
 				this.working = false;
 			}
 		}
 
+		// Token: 0x06001BDE RID: 7134 RVA: 0x000EFDC8 File Offset: 0x000EE1C8
 		private void ClearVisited()
 		{
 			int i = 0;
 			int count = this.visited.Count;
-			for (; i < count; i++)
+			while (i < count)
 			{
 				this.traversalDistance[this.visited[i]] = -1;
+				i++;
 			}
 			this.visited.Clear();
 			this.openSet.Clear();
 		}
+
+		// Token: 0x04001096 RID: 4246
+		private bool working;
+
+		// Token: 0x04001097 RID: 4247
+		private Queue<int> openSet = new Queue<int>();
+
+		// Token: 0x04001098 RID: 4248
+		private List<int> traversalDistance = new List<int>();
+
+		// Token: 0x04001099 RID: 4249
+		private List<int> visited = new List<int>();
 	}
 }

@@ -1,31 +1,45 @@
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x020000E8 RID: 232
 	public class JobGiver_PatientGoToBed : ThinkNode
 	{
+		// Token: 0x060004FE RID: 1278 RVA: 0x00037A74 File Offset: 0x00035E74
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
+			ThinkResult result;
 			if (!HealthAIUtility.ShouldSeekMedicalRest(pawn))
 			{
-				return ThinkResult.NoJob;
+				result = ThinkResult.NoJob;
 			}
-			if (RestUtility.TimetablePreventsLayDown(pawn) && !HealthAIUtility.ShouldHaveSurgeryDoneNow(pawn) && !HealthAIUtility.ShouldBeTendedNow(pawn))
+			else if (this.respectTimetable && RestUtility.TimetablePreventsLayDown(pawn) && !HealthAIUtility.ShouldHaveSurgeryDoneNow(pawn) && !HealthAIUtility.ShouldBeTendedNowByPlayer(pawn))
 			{
-				return ThinkResult.NoJob;
+				result = ThinkResult.NoJob;
 			}
-			if (RestUtility.DisturbancePreventsLyingDown(pawn))
+			else if (RestUtility.DisturbancePreventsLyingDown(pawn))
 			{
-				return ThinkResult.NoJob;
+				result = ThinkResult.NoJob;
 			}
-			Thing thing = RestUtility.FindPatientBedFor(pawn);
-			if (thing == null)
+			else
 			{
-				return ThinkResult.NoJob;
+				Thing thing = RestUtility.FindPatientBedFor(pawn);
+				if (thing == null)
+				{
+					result = ThinkResult.NoJob;
+				}
+				else
+				{
+					Job job = new Job(JobDefOf.LayDown, thing);
+					result = new ThinkResult(job, this, null, false);
+				}
 			}
-			Job job = new Job(JobDefOf.LayDown, thing);
-			return new ThinkResult(job, this, null, false);
+			return result;
 		}
+
+		// Token: 0x040002C7 RID: 711
+		public bool respectTimetable = true;
 	}
 }

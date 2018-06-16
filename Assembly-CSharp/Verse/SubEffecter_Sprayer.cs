@@ -1,54 +1,89 @@
+﻿using System;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000F22 RID: 3874
 	public abstract class SubEffecter_Sprayer : SubEffecter
 	{
-		public SubEffecter_Sprayer(SubEffecterDef def)
-			: base(def)
+		// Token: 0x06005CB3 RID: 23731 RVA: 0x002EF3C1 File Offset: 0x002ED7C1
+		public SubEffecter_Sprayer(SubEffecterDef def, Effecter parent) : base(def, parent)
 		{
 		}
 
+		// Token: 0x06005CB4 RID: 23732 RVA: 0x002EF3CC File Offset: 0x002ED7CC
 		protected void MakeMote(TargetInfo A, TargetInfo B)
 		{
 			Vector3 vector = Vector3.zero;
-			switch (base.def.spawnLocType)
+			switch (this.def.spawnLocType)
 			{
 			case MoteSpawnLocType.OnSource:
-				vector = A.Cell.ToVector3Shifted();
+				vector = A.CenterVector3;
 				break;
 			case MoteSpawnLocType.BetweenPositions:
 			{
 				Vector3 vector2 = (!A.HasThing) ? A.Cell.ToVector3Shifted() : A.Thing.DrawPos;
 				Vector3 vector3 = (!B.HasThing) ? B.Cell.ToVector3Shifted() : B.Thing.DrawPos;
-				vector = ((!A.HasThing || A.Thing.Spawned) ? ((!B.HasThing || B.Thing.Spawned) ? (vector2 * base.def.positionLerpFactor + vector3 * (float)(1.0 - base.def.positionLerpFactor)) : vector2) : vector3);
+				if (A.HasThing && !A.Thing.Spawned)
+				{
+					vector = vector3;
+				}
+				else if (B.HasThing && !B.Thing.Spawned)
+				{
+					vector = vector2;
+				}
+				else
+				{
+					vector = vector2 * this.def.positionLerpFactor + vector3 * (1f - this.def.positionLerpFactor);
+				}
 				break;
 			}
-			case MoteSpawnLocType.RandomCellOnTarget:
-				vector = ((!B.HasThing) ? CellRect.CenteredOn(B.Cell, 0) : B.Thing.OccupiedRect()).RandomCell.ToVector3Shifted();
-				break;
 			case MoteSpawnLocType.BetweenTouchingCells:
 				vector = A.Cell.ToVector3Shifted() + (B.Cell - A.Cell).ToVector3().normalized * 0.5f;
 				break;
+			case MoteSpawnLocType.RandomCellOnTarget:
+			{
+				CellRect cellRect;
+				if (B.HasThing)
+				{
+					cellRect = B.Thing.OccupiedRect();
+				}
+				else
+				{
+					cellRect = CellRect.CenteredOn(B.Cell, 0);
+				}
+				vector = cellRect.RandomCell.ToVector3Shifted();
+				break;
+			}
+			}
+			if (this.parent != null)
+			{
+				Rand.PushState(this.parent.GetHashCode());
+				if (A.CenterVector3 != B.CenterVector3)
+				{
+					vector += (B.CenterVector3 - A.CenterVector3).normalized * this.parent.def.offsetTowardsTarget.RandomInRange;
+				}
+				vector += Gen.RandomHorizontalVector(this.parent.def.positionRadius);
+				Rand.PopState();
 			}
 			Map map = A.Map ?? B.Map;
+			float num = (!this.def.absoluteAngle) ? (B.Cell - A.Cell).AngleFlat : 0f;
 			if (map != null && vector.ShouldSpawnMotesAt(map))
 			{
-				int randomInRange = base.def.burstCount.RandomInRange;
+				int randomInRange = this.def.burstCount.RandomInRange;
 				for (int i = 0; i < randomInRange; i++)
 				{
-					Mote mote = (Mote)ThingMaker.MakeThing(base.def.moteDef, null);
-					GenSpawn.Spawn(mote, vector.ToIntVec3(), map);
-					mote.Scale = base.def.scale.RandomInRange;
-					mote.exactPosition = vector + Gen.RandomHorizontalVector(base.def.positionRadius);
-					mote.rotationRate = base.def.rotationRate.RandomInRange;
-					float num = (float)((!base.def.absoluteAngle) ? (B.Cell - A.Cell).AngleFlat : 0.0);
-					mote.exactRotation = base.def.rotation.RandomInRange + num;
+					Mote mote = (Mote)ThingMaker.MakeThing(this.def.moteDef, null);
+					GenSpawn.Spawn(mote, vector.ToIntVec3(), map, WipeMode.Vanish);
+					mote.Scale = this.def.scale.RandomInRange;
+					mote.exactPosition = vector + Gen.RandomHorizontalVector(this.def.positionRadius);
+					mote.rotationRate = this.def.rotationRate.RandomInRange;
+					mote.exactRotation = this.def.rotation.RandomInRange + num;
 					MoteThrown moteThrown = mote as MoteThrown;
 					if (moteThrown != null)
 					{
-						moteThrown.airTimeLeft = base.def.airTime.RandomInRange;
-						moteThrown.SetVelocity(base.def.angle.RandomInRange + num, base.def.speed.RandomInRange);
+						moteThrown.airTimeLeft = this.def.airTime.RandomInRange;
+						moteThrown.SetVelocity(this.def.angle.RandomInRange + num, this.def.speed.RandomInRange);
 					}
 				}
 			}

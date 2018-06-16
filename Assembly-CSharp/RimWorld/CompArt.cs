@@ -1,40 +1,47 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000704 RID: 1796
 	public class CompArt : ThingComp
 	{
-		private string authorNameInt;
-
-		private string titleInt;
-
-		private TaleReference taleRef;
-
+		// Token: 0x170005DF RID: 1503
+		// (get) Token: 0x0600273A RID: 10042 RVA: 0x00151A1C File Offset: 0x0014FE1C
 		public string AuthorName
 		{
 			get
 			{
+				string result;
 				if (this.authorNameInt.NullOrEmpty())
 				{
-					return "UnknownLower".Translate();
+					result = "UnknownLower".Translate().CapitalizeFirst();
 				}
-				return this.authorNameInt;
+				else
+				{
+					result = this.authorNameInt;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x170005E0 RID: 1504
+		// (get) Token: 0x0600273B RID: 10043 RVA: 0x00151A5C File Offset: 0x0014FE5C
 		public string Title
 		{
 			get
 			{
 				if (this.titleInt.NullOrEmpty())
 				{
-					Log.Error("CompArt got title but it wasn't configured.");
+					Log.Error("CompArt got title but it wasn't configured.", false);
 					this.titleInt = "Error";
 				}
 				return this.titleInt;
 			}
 		}
 
+		// Token: 0x170005E1 RID: 1505
+		// (get) Token: 0x0600273C RID: 10044 RVA: 0x00151AA0 File Offset: 0x0014FEA0
 		public TaleReference TaleRef
 		{
 			get
@@ -43,30 +50,27 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170005E2 RID: 1506
+		// (get) Token: 0x0600273D RID: 10045 RVA: 0x00151ABC File Offset: 0x0014FEBC
 		public bool CanShowArt
 		{
 			get
 			{
 				if (this.Props.mustBeFullGrave)
 				{
-					Building_Grave building_Grave = base.parent as Building_Grave;
-					if (building_Grave != null && building_Grave.HasCorpse)
+					Building_Grave building_Grave = this.parent as Building_Grave;
+					if (building_Grave == null || !building_Grave.HasCorpse)
 					{
-						goto IL_002f;
+						return false;
 					}
-					return false;
 				}
-				goto IL_002f;
-				IL_002f:
-				QualityCategory qualityCategory = default(QualityCategory);
-				if (!((Thing)base.parent).TryGetQuality(out qualityCategory))
-				{
-					return true;
-				}
-				return (int)qualityCategory >= (int)this.Props.minQualityForArtistic;
+				QualityCategory qualityCategory;
+				return !this.parent.TryGetQuality(out qualityCategory) || qualityCategory >= this.Props.minQualityForArtistic;
 			}
 		}
 
+		// Token: 0x170005E3 RID: 1507
+		// (get) Token: 0x0600273E RID: 10046 RVA: 0x00151B34 File Offset: 0x0014FF34
 		public bool Active
 		{
 			get
@@ -75,24 +79,29 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x170005E4 RID: 1508
+		// (get) Token: 0x0600273F RID: 10047 RVA: 0x00151B58 File Offset: 0x0014FF58
 		public CompProperties_Art Props
 		{
 			get
 			{
-				return (CompProperties_Art)base.props;
+				return (CompProperties_Art)this.props;
 			}
 		}
 
+		// Token: 0x06002740 RID: 10048 RVA: 0x00151B78 File Offset: 0x0014FF78
 		public void InitializeArt(ArtGenerationContext source)
 		{
 			this.InitializeArt(null, source);
 		}
 
+		// Token: 0x06002741 RID: 10049 RVA: 0x00151B83 File Offset: 0x0014FF83
 		public void InitializeArt(Thing relatedThing)
 		{
 			this.InitializeArt(relatedThing, ArtGenerationContext.Colony);
 		}
 
+		// Token: 0x06002742 RID: 10050 RVA: 0x00151B90 File Offset: 0x0014FF90
 		private void InitializeArt(Thing relatedThing, ArtGenerationContext source)
 		{
 			if (this.taleRef != null)
@@ -126,6 +135,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002743 RID: 10051 RVA: 0x00151C35 File Offset: 0x00150035
 		public void JustCreatedBy(Pawn pawn)
 		{
 			if (this.CanShowArt)
@@ -134,6 +144,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002744 RID: 10052 RVA: 0x00151C54 File Offset: 0x00150054
 		public void Clear()
 		{
 			this.authorNameInt = null;
@@ -145,25 +156,41 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002745 RID: 10053 RVA: 0x00151C84 File Offset: 0x00150084
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
-			Scribe_Values.Look<string>(ref this.authorNameInt, "authorName", (string)null, false);
-			Scribe_Values.Look<string>(ref this.titleInt, "title", (string)null, false);
+			Scribe_Values.Look<string>(ref this.authorNameInt, "authorName", null, false);
+			Scribe_Values.Look<string>(ref this.titleInt, "title", null, false);
 			Scribe_Deep.Look<TaleReference>(ref this.taleRef, "taleRef", new object[0]);
 		}
 
+		// Token: 0x06002746 RID: 10054 RVA: 0x00151CD4 File Offset: 0x001500D4
 		public override string CompInspectStringExtra()
 		{
+			string result;
 			if (!this.Active)
 			{
-				return null;
+				result = null;
 			}
-			string text = "Author".Translate() + ": " + this.AuthorName;
-			string text2 = text;
-			return text2 + "\n" + "Title".Translate() + ": " + this.Title;
+			else
+			{
+				string text = "Author".Translate() + ": " + this.AuthorName;
+				string text2 = text;
+				text = string.Concat(new string[]
+				{
+					text2,
+					"\n",
+					"Title".Translate(),
+					": ",
+					this.Title
+				});
+				result = text;
+			}
+			return result;
 		}
 
+		// Token: 0x06002747 RID: 10055 RVA: 0x00151D4F File Offset: 0x0015014F
 		public override void PostDestroy(DestroyMode mode, Map previousMap)
 		{
 			base.PostDestroy(mode, previousMap);
@@ -174,47 +201,62 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002748 RID: 10056 RVA: 0x00151D7C File Offset: 0x0015017C
 		public override string GetDescriptionPart()
 		{
+			string result;
 			if (!this.Active)
 			{
-				return null;
+				result = null;
 			}
-			string empty = string.Empty;
-			empty += this.Title;
-			empty += "\n\n";
-			empty += this.GenerateImageDescription();
-			empty += "\n\n";
-			return empty + "Author".Translate() + ": " + this.AuthorName;
+			else
+			{
+				string text = "";
+				text += this.Title;
+				text += "\n\n";
+				text += this.GenerateImageDescription();
+				text += "\n\n";
+				text = text + "Author".Translate() + ": " + this.AuthorName;
+				result = text;
+			}
+			return result;
 		}
 
+		// Token: 0x06002749 RID: 10057 RVA: 0x00151DF8 File Offset: 0x001501F8
 		public override bool AllowStackWith(Thing other)
 		{
-			if (this.Active)
-			{
-				return false;
-			}
-			return true;
+			return !this.Active;
 		}
 
+		// Token: 0x0600274A RID: 10058 RVA: 0x00151E20 File Offset: 0x00150220
 		public string GenerateImageDescription()
 		{
 			if (this.taleRef == null)
 			{
-				Log.Error("Did CompArt.GenerateImageDescription without initializing art: " + base.parent);
+				Log.Error("Did CompArt.GenerateImageDescription without initializing art: " + this.parent, false);
 				this.InitializeArt(ArtGenerationContext.Outsider);
 			}
-			return this.taleRef.GenerateText(TextGenerationPurpose.ArtDescription, this.Props.descriptionMaker.RulesPlusIncludes);
+			return this.taleRef.GenerateText(TextGenerationPurpose.ArtDescription, this.Props.descriptionMaker);
 		}
 
+		// Token: 0x0600274B RID: 10059 RVA: 0x00151E78 File Offset: 0x00150278
 		private string GenerateTitle()
 		{
 			if (this.taleRef == null)
 			{
-				Log.Error("Did CompArt.GenerateTitle without initializing art: " + base.parent);
+				Log.Error("Did CompArt.GenerateTitle without initializing art: " + this.parent, false);
 				this.InitializeArt(ArtGenerationContext.Outsider);
 			}
-			return GenText.CapitalizeAsTitle(this.taleRef.GenerateText(TextGenerationPurpose.ArtName, this.Props.nameMaker.RulesPlusIncludes));
+			return GenText.CapitalizeAsTitle(this.taleRef.GenerateText(TextGenerationPurpose.ArtName, this.Props.nameMaker));
 		}
+
+		// Token: 0x040015BA RID: 5562
+		private string authorNameInt = null;
+
+		// Token: 0x040015BB RID: 5563
+		private string titleInt = null;
+
+		// Token: 0x040015BC RID: 5564
+		private TaleReference taleRef = null;
 	}
 }

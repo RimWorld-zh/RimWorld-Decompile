@@ -1,52 +1,36 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x020000D4 RID: 212
 	public static class KidnapAIUtility
 	{
+		// Token: 0x060004BB RID: 1211 RVA: 0x00035444 File Offset: 0x00033844
 		public static bool TryFindGoodKidnapVictim(Pawn kidnapper, float maxDist, out Pawn victim, List<Thing> disallowed = null)
 		{
-			if (kidnapper.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) && kidnapper.Map.reachability.CanReachMapEdge(kidnapper.Position, TraverseParms.For(kidnapper, Danger.Some, TraverseMode.ByPawn, false)))
+			bool result;
+			if (!kidnapper.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) || !kidnapper.Map.reachability.CanReachMapEdge(kidnapper.Position, TraverseParms.For(kidnapper, Danger.Some, TraverseMode.ByPawn, false)))
+			{
+				victim = null;
+				result = false;
+			}
+			else
 			{
 				Predicate<Thing> validator = delegate(Thing t)
 				{
 					Pawn pawn = t as Pawn;
-					if (!pawn.RaceProps.Humanlike)
-					{
-						return false;
-					}
-					if (!pawn.Downed)
-					{
-						return false;
-					}
-					if (pawn.Faction != Faction.OfPlayer)
-					{
-						return false;
-					}
-					if (!pawn.Faction.HostileTo(kidnapper.Faction))
-					{
-						return false;
-					}
-					if (!kidnapper.CanReserve(pawn, 1, -1, null, false))
-					{
-						return false;
-					}
-					if (disallowed != null && disallowed.Contains(pawn))
-					{
-						return false;
-					}
-					return true;
+					return pawn.RaceProps.Humanlike && pawn.Downed && pawn.Faction == Faction.OfPlayer && pawn.Faction.HostileTo(kidnapper.Faction) && kidnapper.CanReserve(pawn, 1, -1, null, false) && (disallowed == null || !disallowed.Contains(pawn));
 				};
 				victim = (Pawn)GenClosest.ClosestThingReachable(kidnapper.Position, kidnapper.Map, ThingRequest.ForGroup(ThingRequestGroup.Pawn), PathEndMode.OnCell, TraverseParms.For(TraverseMode.NoPassClosedDoors, Danger.Some, false), maxDist, validator, null, 0, -1, false, RegionType.Set_Passable, false);
-				return victim != null;
+				result = (victim != null);
 			}
-			victim = null;
-			return false;
+			return result;
 		}
 
+		// Token: 0x060004BC RID: 1212 RVA: 0x0003551C File Offset: 0x0003391C
 		public static Pawn ReachableWoundedGuest(Pawn searcher)
 		{
 			List<Pawn> list = searcher.Map.mapPawns.SpawnedPawnsInFaction(searcher.Faction);

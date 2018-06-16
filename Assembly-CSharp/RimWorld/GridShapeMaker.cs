@@ -1,12 +1,14 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020003FE RID: 1022
 	public static class GridShapeMaker
 	{
+		// Token: 0x06001193 RID: 4499 RVA: 0x0009831C File Offset: 0x0009671C
 		public static IEnumerable<IntVec3> IrregularLump(IntVec3 center, Map map, int numCells)
 		{
 			List<IntVec3> lumpCells = new List<IntVec3>();
@@ -45,8 +47,8 @@ namespace RimWorld
 				}
 				List<IntVec3> source = (from sq in lumpCells
 				where NumNeighbors(sq) == fewestNeighbors
-				select sq).ToList();
-				lumpCells.Remove(source.RandomElement());
+				select sq).ToList<IntVec3>();
+				lumpCells.Remove(source.RandomElement<IntVec3>());
 			}
 			return lumpCells;
 		}

@@ -1,94 +1,98 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x02000030 RID: 48
 	public class JobDriver_PredatorHunt : JobDriver
 	{
-		private bool notifiedPlayer;
-
-		private bool firstHit = true;
-
-		public const TargetIndex PreyInd = TargetIndex.A;
-
-		private const TargetIndex CorpseInd = TargetIndex.A;
-
-		private const int MaxHuntTicks = 5000;
-
+		// Token: 0x1700005A RID: 90
+		// (get) Token: 0x060001B8 RID: 440 RVA: 0x000127D0 File Offset: 0x00010BD0
 		public Pawn Prey
 		{
 			get
 			{
 				Corpse corpse = this.Corpse;
+				Pawn result;
 				if (corpse != null)
 				{
-					return corpse.InnerPawn;
+					result = corpse.InnerPawn;
 				}
-				return (Pawn)base.job.GetTarget(TargetIndex.A).Thing;
+				else
+				{
+					result = (Pawn)this.job.GetTarget(TargetIndex.A).Thing;
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x1700005B RID: 91
+		// (get) Token: 0x060001B9 RID: 441 RVA: 0x00012818 File Offset: 0x00010C18
 		private Corpse Corpse
 		{
 			get
 			{
-				return base.job.GetTarget(TargetIndex.A).Thing as Corpse;
+				return this.job.GetTarget(TargetIndex.A).Thing as Corpse;
 			}
 		}
 
+		// Token: 0x060001BA RID: 442 RVA: 0x00012846 File Offset: 0x00010C46
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<bool>(ref this.firstHit, "firstHit", false, false);
 		}
 
+		// Token: 0x060001BB RID: 443 RVA: 0x00012864 File Offset: 0x00010C64
 		public override string GetReport()
 		{
+			string result;
 			if (this.Corpse != null)
 			{
-				return base.ReportStringProcessed(JobDefOf.Ingest.reportString);
+				result = base.ReportStringProcessed(JobDefOf.Ingest.reportString);
 			}
-			return base.GetReport();
+			else
+			{
+				result = base.GetReport();
+			}
+			return result;
 		}
 
+		// Token: 0x060001BC RID: 444 RVA: 0x000128A0 File Offset: 0x00010CA0
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
+		// Token: 0x060001BD RID: 445 RVA: 0x000128B8 File Offset: 0x00010CB8
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
-			_003CMakeNewToils_003Ec__Iterator0 _003CMakeNewToils_003Ec__Iterator = (_003CMakeNewToils_003Ec__Iterator0)/*Error near IL_004a: stateMachine*/;
 			base.AddFinishAction(delegate
 			{
-				_003CMakeNewToils_003Ec__Iterator._0024this.Map.attackTargetsCache.UpdateTarget(_003CMakeNewToils_003Ec__Iterator._0024this.pawn);
+				this.Map.attackTargetsCache.UpdateTarget(this.pawn);
 			});
 			Toil prepareToEatCorpse = new Toil();
-			prepareToEatCorpse.initAction = delegate
+			prepareToEatCorpse.initAction = delegate()
 			{
 				Pawn actor = prepareToEatCorpse.actor;
-				Corpse corpse = _003CMakeNewToils_003Ec__Iterator._0024this.Corpse;
+				Corpse corpse = this.Corpse;
 				if (corpse == null)
 				{
-					Pawn prey = _003CMakeNewToils_003Ec__Iterator._0024this.Prey;
+					Pawn prey = this.Prey;
 					if (prey == null)
 					{
 						actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+						return;
 					}
-					else
+					corpse = prey.Corpse;
+					if (corpse == null || !corpse.Spawned)
 					{
-						corpse = prey.Corpse;
-						if (corpse != null && corpse.Spawned)
-						{
-							goto IL_006e;
-						}
 						actor.jobs.EndCurrentJob(JobCondition.Incompletable, true);
+						return;
 					}
-					return;
 				}
-				goto IL_006e;
-				IL_006e:
 				if (actor.Faction == Faction.OfPlayer)
 				{
 					corpse.SetForbidden(false, false);
@@ -101,9 +105,61 @@ namespace RimWorld
 			};
 			yield return Toils_General.DoAtomic(delegate
 			{
-				_003CMakeNewToils_003Ec__Iterator._0024this.Map.attackTargetsCache.UpdateTarget(_003CMakeNewToils_003Ec__Iterator._0024this.pawn);
+				this.Map.attackTargetsCache.UpdateTarget(this.pawn);
 			});
-			/*Error: Unable to find new state assignment for yield return*/;
+			Action onHitAction = delegate()
+			{
+				Pawn prey = this.Prey;
+				bool surpriseAttack = this.firstHit && !prey.IsColonist;
+				if (this.pawn.meleeVerbs.TryMeleeAttack(prey, this.job.verbToUse, surpriseAttack))
+				{
+					if (!this.notifiedPlayer && PawnUtility.ShouldSendNotificationAbout(prey))
+					{
+						this.notifiedPlayer = true;
+						Messages.Message("MessageAttackedByPredator".Translate(new object[]
+						{
+							prey.LabelShort,
+							this.pawn.LabelIndefinite()
+						}).CapitalizeFirst(), prey, MessageTypeDefOf.ThreatSmall, true);
+					}
+					this.Map.attackTargetsCache.UpdateTarget(this.pawn);
+				}
+				this.firstHit = false;
+			};
+			yield return Toils_Combat.FollowAndMeleeAttack(TargetIndex.A, onHitAction).JumpIfDespawnedOrNull(TargetIndex.A, prepareToEatCorpse).JumpIf(() => this.Corpse != null, prepareToEatCorpse).FailOn(() => Find.TickManager.TicksGame > this.startTick + 5000 && (float)(this.job.GetTarget(TargetIndex.A).Cell - this.pawn.Position).LengthHorizontalSquared > 4f);
+			yield return prepareToEatCorpse;
+			Toil gotoCorpse = Toils_Goto.GotoThing(TargetIndex.A, PathEndMode.Touch);
+			yield return gotoCorpse;
+			float durationMultiplier = 1f / this.pawn.GetStatValue(StatDefOf.EatingSpeed, true);
+			yield return Toils_Ingest.ChewIngestible(this.pawn, durationMultiplier, TargetIndex.A, TargetIndex.None).FailOnDespawnedOrNull(TargetIndex.A).FailOnCannotTouch(TargetIndex.A, PathEndMode.Touch);
+			yield return Toils_Ingest.FinalizeIngest(this.pawn, TargetIndex.A);
+			yield return Toils_Jump.JumpIf(gotoCorpse, () => this.pawn.needs.food.CurLevelPercentage < 0.9f);
+			yield break;
 		}
+
+		// Token: 0x060001BE RID: 446 RVA: 0x000128E4 File Offset: 0x00010CE4
+		public override void Notify_DamageTaken(DamageInfo dinfo)
+		{
+			base.Notify_DamageTaken(dinfo);
+			if (dinfo.Def.externalViolence && dinfo.Def.isRanged && dinfo.Instigator != null && dinfo.Instigator != this.Prey && !this.pawn.InMentalState && !this.pawn.Downed)
+			{
+				this.pawn.mindState.StartFleeingBecauseOfPawnAction(dinfo.Instigator);
+			}
+		}
+
+		// Token: 0x040001B1 RID: 433
+		private bool notifiedPlayer;
+
+		// Token: 0x040001B2 RID: 434
+		private bool firstHit = true;
+
+		// Token: 0x040001B3 RID: 435
+		public const TargetIndex PreyInd = TargetIndex.A;
+
+		// Token: 0x040001B4 RID: 436
+		private const TargetIndex CorpseInd = TargetIndex.A;
+
+		// Token: 0x040001B5 RID: 437
+		private const int MaxHuntTicks = 5000;
 	}
 }

@@ -1,32 +1,30 @@
-using RimWorld.Planet;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld.Planet;
 
 namespace RimWorld
 {
+	// Token: 0x02000278 RID: 632
 	public class WorldObjectCompProperties_Abandon : WorldObjectCompProperties
 	{
+		// Token: 0x06000ADE RID: 2782 RVA: 0x00062454 File Offset: 0x00060854
 		public WorldObjectCompProperties_Abandon()
 		{
-			base.compClass = typeof(AbandonComp);
+			this.compClass = typeof(AbandonComp);
 		}
 
+		// Token: 0x06000ADF RID: 2783 RVA: 0x00062470 File Offset: 0x00060870
 		public override IEnumerable<string> ConfigErrors(WorldObjectDef parentDef)
 		{
-			using (IEnumerator<string> enumerator = base.ConfigErrors(parentDef).GetEnumerator())
+			foreach (string e in this.<ConfigErrors>__BaseCallProxy0(parentDef))
 			{
-				if (enumerator.MoveNext())
-				{
-					string e = enumerator.Current;
-					yield return e;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return e;
 			}
-			if (typeof(MapParent).IsAssignableFrom(parentDef.worldObjectClass))
-				yield break;
-			yield return parentDef.defName + " has WorldObjectCompProperties_Abandon but it's not MapParent.";
-			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0111:
-			/*Error near IL_0112: Unexpected return in MoveNext()*/;
+			if (!typeof(MapParent).IsAssignableFrom(parentDef.worldObjectClass))
+			{
+				yield return parentDef.defName + " has WorldObjectCompProperties_Abandon but it's not MapParent.";
+			}
+			yield break;
 		}
 	}
 }

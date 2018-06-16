@@ -1,30 +1,41 @@
-using System;
+﻿using System;
 using System.Collections;
 using UnityEngine;
 
 namespace RimWorld
 {
+	// Token: 0x020008AC RID: 2220
 	public static class PriceTypeUtlity
 	{
+		// Token: 0x060032CF RID: 13007 RVA: 0x001B5B9C File Offset: 0x001B3F9C
 		public static float PriceMultiplier(this PriceType pType)
 		{
+			float result;
 			switch (pType)
 			{
 			case PriceType.VeryCheap:
-				return 0.4f;
+				result = 0.4f;
+				break;
 			case PriceType.Cheap:
-				return 0.7f;
+				result = 0.7f;
+				break;
 			case PriceType.Normal:
-				return 1f;
+				result = 1f;
+				break;
 			case PriceType.Expensive:
-				return 2f;
+				result = 2f;
+				break;
 			case PriceType.Exorbitant:
-				return 5f;
+				result = 5f;
+				break;
 			default:
-				return -1f;
+				result = -1f;
+				break;
 			}
+			return result;
 		}
 
+		// Token: 0x060032D0 RID: 13008 RVA: 0x001B5C10 File Offset: 0x001B4010
 		public static PriceType ClosestPriceType(float priceFactor)
 		{
 			float num = 99999f;
@@ -34,7 +45,8 @@ namespace RimWorld
 			{
 				while (enumerator.MoveNext())
 				{
-					PriceType priceType2 = (PriceType)enumerator.Current;
+					object obj = enumerator.Current;
+					PriceType priceType2 = (PriceType)obj;
 					float num2 = Mathf.Abs(priceFactor - priceType2.PriceMultiplier());
 					if (num2 < num)
 					{

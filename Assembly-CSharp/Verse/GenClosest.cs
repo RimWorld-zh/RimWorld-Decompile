@@ -1,253 +1,329 @@
-using RimWorld;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using RimWorld;
 using Verse.AI;
 
 namespace Verse
 {
+	// Token: 0x02000F32 RID: 3890
 	public static class GenClosest
 	{
-		private const int DefaultLocalTraverseRegionsBeforeGlobal = 30;
-
-		private static bool EarlyOutSearch(IntVec3 start, Map map, ThingRequest thingReq, IEnumerable<Thing> customGlobalSearchSet)
+		// Token: 0x06005D84 RID: 23940 RVA: 0x002F7098 File Offset: 0x002F5498
+		private static bool EarlyOutSearch(IntVec3 start, Map map, ThingRequest thingReq, IEnumerable<Thing> customGlobalSearchSet, Predicate<Thing> validator)
 		{
+			bool result;
 			if (thingReq.group == ThingRequestGroup.Everything)
 			{
-				Log.Error("Cannot do ClosestThingReachable searching everything without restriction.");
-				return true;
+				Log.Error("Cannot do ClosestThingReachable searching everything without restriction.", false);
+				result = true;
 			}
-			if (!start.InBounds(map))
+			else if (!start.InBounds(map))
 			{
-				Log.Error("Did FindClosestThing with start out of bounds (" + start + "), thingReq=" + thingReq);
-				return true;
+				Log.Error(string.Concat(new object[]
+				{
+					"Did FindClosestThing with start out of bounds (",
+					start,
+					"), thingReq=",
+					thingReq
+				}), false);
+				result = true;
 			}
-			if (thingReq.group == ThingRequestGroup.Nothing)
+			else
 			{
-				return true;
+				result = (thingReq.group == ThingRequestGroup.Nothing || (customGlobalSearchSet == null && !thingReq.IsUndefined && map.listerThings.ThingsMatching(thingReq).Count == 0));
 			}
-			if (customGlobalSearchSet == null && !thingReq.IsUndefined && map.listerThings.ThingsMatching(thingReq).Count == 0)
-			{
-				return true;
-			}
-			return false;
+			return result;
 		}
 
+		// Token: 0x06005D85 RID: 23941 RVA: 0x002F7158 File Offset: 0x002F5558
 		public static Thing ClosestThingReachable(IntVec3 root, Map map, ThingRequest thingReq, PathEndMode peMode, TraverseParms traverseParams, float maxDistance = 9999f, Predicate<Thing> validator = null, IEnumerable<Thing> customGlobalSearchSet = null, int searchRegionsMin = 0, int searchRegionsMax = -1, bool forceGlobalSearch = false, RegionType traversableRegionTypes = RegionType.Set_Passable, bool ignoreEntirelyForbiddenRegions = false)
 		{
-			if (searchRegionsMax > 0 && customGlobalSearchSet != null && !forceGlobalSearch)
+			bool flag = searchRegionsMax < 0 || forceGlobalSearch;
+			if (!flag && customGlobalSearchSet != null)
 			{
-				Log.ErrorOnce("searchRegionsMax > 0 && customGlobalSearchSet != null && !forceGlobalSearch. customGlobalSearchSet will never be used.", 634984);
+				Log.ErrorOnce("searchRegionsMax >= 0 && customGlobalSearchSet != null && !forceGlobalSearch. customGlobalSearchSet will never be used.", 634984, false);
 			}
-			if (GenClosest.EarlyOutSearch(root, map, thingReq, customGlobalSearchSet))
+			Thing result;
+			if (!flag && !thingReq.IsUndefined && !thingReq.CanBeFoundInRegion)
 			{
-				return null;
+				Log.ErrorOnce("ClosestThingReachable with thing request group " + thingReq.group + " and global search not allowed. This will never find anything because this group is never stored in regions. Either allow global search or don't call this method at all.", 518498981, false);
+				result = null;
 			}
-			Thing thing = null;
-			if (!thingReq.IsUndefined)
+			else if (GenClosest.EarlyOutSearch(root, map, thingReq, customGlobalSearchSet, validator))
 			{
-				int maxRegions = (searchRegionsMax <= 0) ? 30 : searchRegionsMax;
-				thing = GenClosest.RegionwiseBFSWorker(root, map, thingReq, peMode, traverseParams, validator, null, searchRegionsMin, maxRegions, maxDistance, traversableRegionTypes, ignoreEntirelyForbiddenRegions);
+				result = null;
 			}
-			if (thing == null && (searchRegionsMax < 0 || forceGlobalSearch))
+			else
 			{
-				if (traversableRegionTypes != RegionType.Set_Passable)
+				Thing thing = null;
+				bool flag2 = false;
+				if (!thingReq.IsUndefined && thingReq.CanBeFoundInRegion)
 				{
-					Log.ErrorOnce("ClosestThingReachable had to do a global search, but traversableRegionTypes is not set to passable only. It's not supported, because Reachability is based on passable regions only.", 14384767);
+					int num = (searchRegionsMax <= 0) ? 30 : searchRegionsMax;
+					int num2;
+					thing = GenClosest.RegionwiseBFSWorker(root, map, thingReq, peMode, traverseParams, validator, null, searchRegionsMin, num, maxDistance, out num2, traversableRegionTypes, ignoreEntirelyForbiddenRegions);
+					flag2 = (thing == null && num2 < num);
 				}
-				Predicate<Thing> validator2 = delegate(Thing t)
+				if (thing == null && flag && !flag2)
 				{
-					if (!map.reachability.CanReach(root, t, peMode, traverseParams))
+					if (traversableRegionTypes != RegionType.Set_Passable)
 					{
-						return false;
+						Log.ErrorOnce("ClosestThingReachable had to do a global search, but traversableRegionTypes is not set to passable only. It's not supported, because Reachability is based on passable regions only.", 14384767, false);
 					}
-					if (validator != null && !validator(t))
-					{
-						return false;
-					}
-					return true;
-				};
-				IEnumerable<Thing> searchSet = customGlobalSearchSet ?? map.listerThings.ThingsMatching(thingReq);
-				thing = GenClosest.ClosestThing_Global(root, searchSet, maxDistance, validator2, null);
+					Predicate<Thing> validator2 = (Thing t) => map.reachability.CanReach(root, t, peMode, traverseParams) && (validator == null || validator(t));
+					IEnumerable<Thing> searchSet = customGlobalSearchSet ?? map.listerThings.ThingsMatching(thingReq);
+					thing = GenClosest.ClosestThing_Global(root, searchSet, maxDistance, validator2, null);
+				}
+				result = thing;
 			}
-			return thing;
+			return result;
 		}
 
+		// Token: 0x06005D86 RID: 23942 RVA: 0x002F7318 File Offset: 0x002F5718
 		public static Thing ClosestThing_Regionwise_ReachablePrioritized(IntVec3 root, Map map, ThingRequest thingReq, PathEndMode peMode, TraverseParms traverseParams, float maxDistance = 9999f, Predicate<Thing> validator = null, Func<Thing, float> priorityGetter = null, int minRegions = 24, int maxRegions = 30)
 		{
-			if (GenClosest.EarlyOutSearch(root, map, thingReq, null))
+			Thing result;
+			if (!thingReq.IsUndefined && !thingReq.CanBeFoundInRegion)
 			{
-				return null;
+				Log.ErrorOnce("ClosestThing_Regionwise_ReachablePrioritized with thing request group " + thingReq.group + ". This will never find anything because this group is never stored in regions. Most likely a global search should have been used.", 738476712, false);
+				result = null;
 			}
-			if (maxRegions < minRegions)
+			else if (GenClosest.EarlyOutSearch(root, map, thingReq, null, validator))
 			{
-				Log.ErrorOnce("maxRegions < minRegions", 754343);
+				result = null;
 			}
-			Thing result = null;
-			if (!thingReq.IsUndefined)
+			else
 			{
-				result = GenClosest.RegionwiseBFSWorker(root, map, thingReq, peMode, traverseParams, validator, priorityGetter, minRegions, maxRegions, maxDistance, RegionType.Set_Passable, false);
+				if (maxRegions < minRegions)
+				{
+					Log.ErrorOnce("maxRegions < minRegions", 754343, false);
+				}
+				Thing thing = null;
+				if (!thingReq.IsUndefined)
+				{
+					int num;
+					thing = GenClosest.RegionwiseBFSWorker(root, map, thingReq, peMode, traverseParams, validator, priorityGetter, minRegions, maxRegions, maxDistance, out num, RegionType.Set_Passable, false);
+				}
+				result = thing;
 			}
 			return result;
 		}
 
-		public static Thing RegionwiseBFSWorker(IntVec3 root, Map map, ThingRequest req, PathEndMode peMode, TraverseParms traverseParams, Predicate<Thing> validator, Func<Thing, float> priorityGetter, int minRegions, int maxRegions, float maxDistance, RegionType traversableRegionTypes = RegionType.Set_Passable, bool ignoreEntirelyForbiddenRegions = false)
+		// Token: 0x06005D87 RID: 23943 RVA: 0x002F73D0 File Offset: 0x002F57D0
+		public static Thing RegionwiseBFSWorker(IntVec3 root, Map map, ThingRequest req, PathEndMode peMode, TraverseParms traverseParams, Predicate<Thing> validator, Func<Thing, float> priorityGetter, int minRegions, int maxRegions, float maxDistance, out int regionsSeen, RegionType traversableRegionTypes = RegionType.Set_Passable, bool ignoreEntirelyForbiddenRegions = false)
 		{
+			regionsSeen = 0;
+			Thing result;
 			if (traverseParams.mode == TraverseMode.PassAllDestroyableThings)
 			{
-				Log.Error("RegionwiseBFSWorker with traverseParams.mode PassAllDestroyableThings. Use ClosestThingGlobal.");
-				return null;
+				Log.Error("RegionwiseBFSWorker with traverseParams.mode PassAllDestroyableThings. Use ClosestThingGlobal.", false);
+				result = null;
 			}
-			Region region = root.GetRegion(map, traversableRegionTypes);
-			if (region == null)
+			else if (traverseParams.mode == TraverseMode.PassAllDestroyableThingsNotWater)
 			{
-				return null;
+				Log.Error("RegionwiseBFSWorker with traverseParams.mode PassAllDestroyableThingsNotWater. Use ClosestThingGlobal.", false);
+				result = null;
 			}
-			float maxDistSquared = maxDistance * maxDistance;
-			RegionEntryPredicate entryCondition = delegate(Region from, Region to)
+			else if (!req.IsUndefined && !req.CanBeFoundInRegion)
 			{
-				if (!to.Allows(traverseParams, false))
-				{
-					return false;
-				}
-				return maxDistance > 5000.0 || to.extentsClose.ClosestDistSquaredTo(root) < maxDistSquared;
-			};
-			Thing closestThing = null;
-			float closestDistSquared = 9999999f;
-			float bestPrio = -3.40282347E+38f;
-			int regionsSeen = 0;
-			RegionProcessor regionProcessor = delegate(Region r)
+				Log.ErrorOnce("RegionwiseBFSWorker with thing request group " + req.group + ". This group is never stored in regions. Most likely a global search should have been used.", 385766189, false);
+				result = null;
+			}
+			else
 			{
-				if (r.portal == null && !r.Allows(traverseParams, true))
+				Region region = root.GetRegion(map, traversableRegionTypes);
+				if (region == null)
 				{
-					return false;
+					result = null;
 				}
-				if (!ignoreEntirelyForbiddenRegions || !r.IsForbiddenEntirely(traverseParams.pawn))
+				else
 				{
-					List<Thing> list = r.ListerThings.ThingsMatching(req);
-					for (int i = 0; i < list.Count; i++)
+					float maxDistSquared = maxDistance * maxDistance;
+					RegionEntryPredicate entryCondition = (Region from, Region to) => to.Allows(traverseParams, false) && (maxDistance > 5000f || to.extentsClose.ClosestDistSquaredTo(root) < maxDistSquared);
+					Thing closestThing = null;
+					float closestDistSquared = 9999999f;
+					float bestPrio = float.MinValue;
+					int regionsSeenScan = 0;
+					RegionProcessor regionProcessor = delegate(Region r)
 					{
-						Thing thing = list[i];
-						if (ReachabilityWithinRegion.ThingFromRegionListerReachable(thing, r, peMode, traverseParams.pawn))
+						regionsSeenScan++;
+						bool result2;
+						if (r.portal == null && !r.Allows(traverseParams, true))
 						{
-							float num = (float)((priorityGetter == null) ? 0.0 : priorityGetter(thing));
-							if (!(num < bestPrio))
+							result2 = false;
+						}
+						else
+						{
+							if (!ignoreEntirelyForbiddenRegions || !r.IsForbiddenEntirely(traverseParams.pawn))
 							{
-								float num2 = (float)(thing.Position - root).LengthHorizontalSquared;
-								if ((num > bestPrio || num2 < closestDistSquared) && num2 < maxDistSquared && (validator == null || validator(thing)))
+								List<Thing> list = r.ListerThings.ThingsMatching(req);
+								for (int i = 0; i < list.Count; i++)
 								{
-									closestThing = thing;
-									closestDistSquared = num2;
-									bestPrio = num;
+									Thing thing = list[i];
+									if (ReachabilityWithinRegion.ThingFromRegionListerReachable(thing, r, peMode, traverseParams.pawn))
+									{
+										float num = (priorityGetter == null) ? 0f : priorityGetter(thing);
+										if (num >= bestPrio)
+										{
+											float num2 = (float)(thing.Position - root).LengthHorizontalSquared;
+											if ((num > bestPrio || num2 < closestDistSquared) && num2 < maxDistSquared)
+											{
+												if (validator == null || validator(thing))
+												{
+													closestThing = thing;
+													closestDistSquared = num2;
+													bestPrio = num;
+												}
+											}
+										}
+									}
 								}
 							}
+							result2 = (regionsSeenScan >= minRegions && closestThing != null);
 						}
-					}
+						return result2;
+					};
+					RegionTraverser.BreadthFirstTraverse(region, entryCondition, regionProcessor, maxRegions, traversableRegionTypes);
+					regionsSeen = regionsSeenScan;
+					result = closestThing;
 				}
-				regionsSeen++;
-				return regionsSeen >= minRegions && closestThing != null;
-			};
-			RegionTraverser.BreadthFirstTraverse(region, entryCondition, regionProcessor, maxRegions, traversableRegionTypes);
-			return closestThing;
-		}
-
-		public static Thing ClosestThing_Global(IntVec3 center, IEnumerable searchSet, float maxDistance = 99999f, Predicate<Thing> validator = null, Func<Thing, float> priorityGetter = null)
-		{
-			if (searchSet == null)
-			{
-				return null;
-			}
-			float num = 2.14748365E+09f;
-			Thing result = null;
-			float num2 = -3.40282347E+38f;
-			float num3 = maxDistance * maxDistance;
-			IEnumerator enumerator = searchSet.GetEnumerator();
-			try
-			{
-				while (enumerator.MoveNext())
-				{
-					Thing thing = (Thing)enumerator.Current;
-					float num4;
-					float num5;
-					if (thing.Spawned)
-					{
-						num4 = (float)(center - thing.Position).LengthHorizontalSquared;
-						if (!(num4 > num3) && (priorityGetter != null || num4 < num) && (validator == null || validator(thing)))
-						{
-							num5 = 0f;
-							if (priorityGetter != null)
-							{
-								num5 = priorityGetter(thing);
-								if (!(num5 < num2) && (num5 != num2 || !(num4 >= num)))
-								{
-									goto IL_00d2;
-								}
-								continue;
-							}
-							goto IL_00d2;
-						}
-					}
-					continue;
-					IL_00d2:
-					result = thing;
-					num = num4;
-					num2 = num5;
-				}
-				return result;
-			}
-			finally
-			{
-				IDisposable disposable;
-				if ((disposable = (enumerator as IDisposable)) != null)
-				{
-					disposable.Dispose();
-				}
-			}
-		}
-
-		public static Thing ClosestThing_Global_Reachable(IntVec3 center, Map map, IEnumerable<Thing> searchSet, PathEndMode peMode, TraverseParms traverseParams, float maxDistance = 9999f, Predicate<Thing> validator = null, Func<Thing, float> priorityGetter = null)
-		{
-			if (searchSet == null)
-			{
-				return null;
-			}
-			int num = 0;
-			int num2 = 0;
-			Thing result = null;
-			float num3 = -3.40282347E+38f;
-			float num4 = maxDistance * maxDistance;
-			float num5 = 2.14748365E+09f;
-			foreach (Thing item in searchSet)
-			{
-				float num6;
-				float num7;
-				if (item.Spawned)
-				{
-					num2++;
-					num6 = (float)(center - item.Position).LengthHorizontalSquared;
-					if (!(num6 > num4) && (priorityGetter != null || num6 < num5) && map.reachability.CanReach(center, item, peMode, traverseParams) && (validator == null || validator(item)))
-					{
-						num7 = 0f;
-						if (priorityGetter != null)
-						{
-							num7 = priorityGetter(item);
-							if (!(num7 < num3) && (num7 != num3 || !(num6 >= num5)))
-							{
-								goto IL_00fe;
-							}
-							continue;
-						}
-						goto IL_00fe;
-					}
-				}
-				continue;
-				IL_00fe:
-				result = item;
-				num5 = num6;
-				num3 = num7;
-				num++;
 			}
 			return result;
 		}
+
+		// Token: 0x06005D88 RID: 23944 RVA: 0x002F755C File Offset: 0x002F595C
+		public static Thing ClosestThing_Global(IntVec3 center, IEnumerable searchSet, float maxDistance = 99999f, Predicate<Thing> validator = null, Func<Thing, float> priorityGetter = null)
+		{
+			Thing result;
+			if (searchSet == null)
+			{
+				result = null;
+			}
+			else
+			{
+				float num = 2.14748365E+09f;
+				Thing thing = null;
+				float num2 = float.MinValue;
+				float num3 = maxDistance * maxDistance;
+				IEnumerator enumerator = searchSet.GetEnumerator();
+				try
+				{
+					while (enumerator.MoveNext())
+					{
+						object obj = enumerator.Current;
+						Thing thing2 = (Thing)obj;
+						if (thing2.Spawned)
+						{
+							float num4 = (float)(center - thing2.Position).LengthHorizontalSquared;
+							if (num4 <= num3)
+							{
+								if (priorityGetter != null || num4 < num)
+								{
+									if (validator != null)
+									{
+										if (!validator(thing2))
+										{
+											continue;
+										}
+									}
+									float num5 = 0f;
+									if (priorityGetter != null)
+									{
+										num5 = priorityGetter(thing2);
+										if (num5 < num2)
+										{
+											continue;
+										}
+										if (num5 == num2 && num4 >= num)
+										{
+											continue;
+										}
+									}
+									thing = thing2;
+									num = num4;
+									num2 = num5;
+								}
+							}
+						}
+					}
+				}
+				finally
+				{
+					IDisposable disposable;
+					if ((disposable = (enumerator as IDisposable)) != null)
+					{
+						disposable.Dispose();
+					}
+				}
+				result = thing;
+			}
+			return result;
+		}
+
+		// Token: 0x06005D89 RID: 23945 RVA: 0x002F7698 File Offset: 0x002F5A98
+		public static Thing ClosestThing_Global_Reachable(IntVec3 center, Map map, IEnumerable<Thing> searchSet, PathEndMode peMode, TraverseParms traverseParams, float maxDistance = 9999f, Predicate<Thing> validator = null, Func<Thing, float> priorityGetter = null)
+		{
+			Thing result;
+			if (searchSet == null)
+			{
+				result = null;
+			}
+			else
+			{
+				int num = 0;
+				int num2 = 0;
+				Thing thing = null;
+				float num3 = float.MinValue;
+				float num4 = maxDistance * maxDistance;
+				float num5 = 2.14748365E+09f;
+				foreach (Thing thing2 in searchSet)
+				{
+					if (thing2.Spawned)
+					{
+						num2++;
+						float num6 = (float)(center - thing2.Position).LengthHorizontalSquared;
+						if (num6 <= num4)
+						{
+							if (priorityGetter != null || num6 < num5)
+							{
+								if (map.reachability.CanReach(center, thing2, peMode, traverseParams))
+								{
+									if (validator != null)
+									{
+										if (!validator(thing2))
+										{
+											continue;
+										}
+									}
+									float num7 = 0f;
+									if (priorityGetter != null)
+									{
+										num7 = priorityGetter(thing2);
+										if (num7 < num3)
+										{
+											continue;
+										}
+										if (num7 == num3 && num6 >= num5)
+										{
+											continue;
+										}
+									}
+									thing = thing2;
+									num5 = num6;
+									num3 = num7;
+									num++;
+								}
+							}
+						}
+					}
+				}
+				result = thing;
+			}
+			return result;
+		}
+
+		// Token: 0x04003DBC RID: 15804
+		private const int DefaultLocalTraverseRegionsBeforeGlobal = 30;
 	}
 }

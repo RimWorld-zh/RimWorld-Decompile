@@ -1,70 +1,32 @@
-using RimWorld;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000C89 RID: 3209
 	public sealed class Region
 	{
-		public RegionType type = RegionType.Normal;
+		// Token: 0x0600462F RID: 17967 RVA: 0x0024F050 File Offset: 0x0024D450
+		private Region()
+		{
+		}
 
-		public int id = -1;
-
-		public sbyte mapIndex = -1;
-
-		private Room roomInt;
-
-		public List<RegionLink> links = new List<RegionLink>();
-
-		public CellRect extentsClose;
-
-		public CellRect extentsLimit;
-
-		public Building_Door portal;
-
-		private int precalculatedHashCode;
-
-		public bool touchesMapEdge;
-
-		private int cachedCellCount = -1;
-
-		public bool valid = true;
-
-		private ListerThings listerThings = new ListerThings(ListerThingsUse.Region);
-
-		public uint[] closedIndex = new uint[RegionTraverser.NumWorkers];
-
-		public uint reachedIndex;
-
-		public int newRegionGroupIndex = -1;
-
-		private Dictionary<Area, AreaOverlap> cachedAreaOverlaps;
-
-		public int mark;
-
-		private List<KeyValuePair<Pawn, Danger>> cachedDangers = new List<KeyValuePair<Pawn, Danger>>();
-
-		private int cachedDangersForFrame;
-
-		private int debug_makeTick = -1000;
-
-		private int debug_lastTraverseTick = -1000;
-
-		private static int nextId = 1;
-
-		public const int GridSize = 12;
-
+		// Token: 0x17000B0A RID: 2826
+		// (get) Token: 0x06004630 RID: 17968 RVA: 0x0024F0F8 File Offset: 0x0024D4F8
 		public Map Map
 		{
 			get
 			{
-				return (this.mapIndex >= 0) ? Find.Maps[this.mapIndex] : null;
+				return ((int)this.mapIndex >= 0) ? Find.Maps[(int)this.mapIndex] : null;
 			}
 		}
 
+		// Token: 0x17000B0B RID: 2827
+		// (get) Token: 0x06004631 RID: 17969 RVA: 0x0024F134 File Offset: 0x0024D534
 		public IEnumerable<IntVec3> Cells
 		{
 			get
@@ -78,25 +40,29 @@ namespace Verse
 						if (regions.GetRegionAt_NoRebuild_InvalidAllowed(c) == this)
 						{
 							yield return c;
-							/*Error: Unable to find new state assignment for yield return*/;
 						}
 					}
 				}
+				yield break;
 			}
 		}
 
+		// Token: 0x17000B0C RID: 2828
+		// (get) Token: 0x06004632 RID: 17970 RVA: 0x0024F160 File Offset: 0x0024D560
 		public int CellCount
 		{
 			get
 			{
 				if (this.cachedCellCount == -1)
 				{
-					this.cachedCellCount = this.Cells.Count();
+					this.cachedCellCount = this.Cells.Count<IntVec3>();
 				}
 				return this.cachedCellCount;
 			}
 		}
 
+		// Token: 0x17000B0D RID: 2829
+		// (get) Token: 0x06004633 RID: 17971 RVA: 0x0024F19C File Offset: 0x0024D59C
 		public IEnumerable<Region> Neighbors
 		{
 			get
@@ -109,13 +75,15 @@ namespace Verse
 						if (link.regions[ri] != null && link.regions[ri] != this && link.regions[ri].valid)
 						{
 							yield return link.regions[ri];
-							/*Error: Unable to find new state assignment for yield return*/;
 						}
 					}
 				}
+				yield break;
 			}
 		}
 
+		// Token: 0x17000B0E RID: 2830
+		// (get) Token: 0x06004634 RID: 17972 RVA: 0x0024F1C8 File Offset: 0x0024D5C8
 		public IEnumerable<Region> NeighborsOfSameType
 		{
 			get
@@ -128,13 +96,16 @@ namespace Verse
 						if (link.regions[ri] != null && link.regions[ri] != this && link.regions[ri].type == this.type && link.regions[ri].valid)
 						{
 							yield return link.regions[ri];
-							/*Error: Unable to find new state assignment for yield return*/;
 						}
 					}
 				}
+				yield break;
 			}
 		}
 
+		// Token: 0x17000B0F RID: 2831
+		// (get) Token: 0x06004635 RID: 17973 RVA: 0x0024F1F4 File Offset: 0x0024D5F4
+		// (set) Token: 0x06004636 RID: 17974 RVA: 0x0024F210 File Offset: 0x0024D610
 		public Room Room
 		{
 			get
@@ -158,6 +129,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000B10 RID: 2832
+		// (get) Token: 0x06004637 RID: 17975 RVA: 0x0024F264 File Offset: 0x0024D664
 		public IntVec3 RandomCell
 		{
 			get
@@ -177,6 +150,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000B11 RID: 2833
+		// (get) Token: 0x06004638 RID: 17976 RVA: 0x0024F2DC File Offset: 0x0024D6DC
 		public IntVec3 AnyCell
 		{
 			get
@@ -187,18 +162,20 @@ namespace Verse
 				CellRect.CellRectIterator iterator = this.extentsClose.GetIterator();
 				while (!iterator.Done())
 				{
-					IntVec3 current = iterator.Current;
-					if (directGrid[cellIndices.CellToIndex(current)] == this)
+					IntVec3 intVec = iterator.Current;
+					if (directGrid[cellIndices.CellToIndex(intVec)] == this)
 					{
-						return current;
+						return intVec;
 					}
 					iterator.MoveNext();
 				}
-				Log.Error("Couldn't find any cell in region " + this.ToString());
+				Log.Error("Couldn't find any cell in region " + this.ToString(), false);
 				return this.extentsClose.RandomCell;
 			}
 		}
 
+		// Token: 0x17000B12 RID: 2834
+		// (get) Token: 0x06004639 RID: 17977 RVA: 0x0024F378 File Offset: 0x0024D778
 		public string DebugString
 		{
 			get
@@ -207,9 +184,9 @@ namespace Verse
 				stringBuilder.AppendLine("id: " + this.id);
 				stringBuilder.AppendLine("mapIndex: " + this.mapIndex);
 				stringBuilder.AppendLine("links count: " + this.links.Count);
-				foreach (RegionLink link in this.links)
+				foreach (RegionLink regionLink in this.links)
 				{
-					stringBuilder.AppendLine("  --" + link.ToString());
+					stringBuilder.AppendLine("  --" + regionLink.ToString());
 				}
 				stringBuilder.AppendLine("valid: " + this.valid.ToString());
 				stringBuilder.AppendLine("makeTick: " + this.debug_makeTick);
@@ -228,6 +205,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000B13 RID: 2835
+		// (get) Token: 0x0600463A RID: 17978 RVA: 0x0024F56C File Offset: 0x0024D96C
 		public bool DebugIsNew
 		{
 			get
@@ -236,6 +215,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000B14 RID: 2836
+		// (get) Token: 0x0600463B RID: 17979 RVA: 0x0024F598 File Offset: 0x0024D998
 		public ListerThings ListerThings
 		{
 			get
@@ -244,10 +225,7 @@ namespace Verse
 			}
 		}
 
-		private Region()
-		{
-		}
-
+		// Token: 0x0600463C RID: 17980 RVA: 0x0024F5B4 File Offset: 0x0024D9B4
 		public static Region MakeNewUnfilled(IntVec3 root, Map map)
 		{
 			Region region = new Region();
@@ -268,52 +246,75 @@ namespace Verse
 			return region;
 		}
 
+		// Token: 0x0600463D RID: 17981 RVA: 0x0024F6F4 File Offset: 0x0024DAF4
 		public bool Allows(TraverseParms tp, bool isDestination)
 		{
-			if (tp.mode != TraverseMode.PassAllDestroyableThings && !this.type.Passable())
+			bool result;
+			if (tp.mode != TraverseMode.PassAllDestroyableThings && tp.mode != TraverseMode.PassAllDestroyableThingsNotWater && !this.type.Passable())
 			{
-				return false;
+				result = false;
 			}
-			if ((int)tp.maxDanger < 3 && tp.pawn != null)
+			else
 			{
-				Danger danger = this.DangerFor(tp.pawn);
-				if (isDestination || danger == Danger.Deadly)
+				if (tp.maxDanger < Danger.Deadly && tp.pawn != null)
 				{
-					Region region = tp.pawn.GetRegion(RegionType.Set_All);
-					if ((region == null || (int)danger > (int)region.DangerFor(tp.pawn)) && (int)danger > (int)tp.maxDanger)
+					Danger danger = this.DangerFor(tp.pawn);
+					if (isDestination || danger == Danger.Deadly)
 					{
-						return false;
+						Region region = tp.pawn.GetRegion(RegionType.Set_All);
+						if ((region == null || danger > region.DangerFor(tp.pawn)) && danger > tp.maxDanger)
+						{
+							return false;
+						}
 					}
 				}
-			}
-			switch (tp.mode)
-			{
-			case TraverseMode.ByPawn:
-				if (this.portal != null)
+				switch (tp.mode)
 				{
-					ByteGrid avoidGrid = tp.pawn.GetAvoidGrid();
-					if (avoidGrid != null && avoidGrid[this.portal.Position] == 255)
+				case TraverseMode.ByPawn:
+					if (this.portal != null)
 					{
-						return false;
+						ByteGrid avoidGrid = tp.pawn.GetAvoidGrid();
+						if (avoidGrid != null && avoidGrid[this.portal.Position] == 255)
+						{
+							result = false;
+						}
+						else if (tp.pawn.HostileTo(this.portal))
+						{
+							result = (this.portal.CanPhysicallyPass(tp.pawn) || tp.canBash);
+						}
+						else
+						{
+							result = (this.portal.CanPhysicallyPass(tp.pawn) && !this.portal.IsForbiddenToPass(tp.pawn));
+						}
 					}
-					if (tp.pawn.HostileTo(this.portal))
+					else
 					{
-						return this.portal.CanPhysicallyPass(tp.pawn) || tp.canBash;
+						result = true;
 					}
-					return this.portal.CanPhysicallyPass(tp.pawn) && !this.portal.IsForbiddenToPass(tp.pawn);
+					break;
+				case TraverseMode.PassDoors:
+					result = true;
+					break;
+				case TraverseMode.NoPassClosedDoors:
+					result = (this.portal == null || this.portal.FreePassage);
+					break;
+				case TraverseMode.PassAllDestroyableThings:
+					result = true;
+					break;
+				case TraverseMode.NoPassClosedDoorsOrWater:
+					result = (this.portal == null || this.portal.FreePassage);
+					break;
+				case TraverseMode.PassAllDestroyableThingsNotWater:
+					result = true;
+					break;
+				default:
+					throw new NotImplementedException();
 				}
-				return true;
-			case TraverseMode.NoPassClosedDoors:
-				return this.portal == null || this.portal.FreePassage;
-			case TraverseMode.PassDoors:
-				return true;
-			case TraverseMode.PassAllDestroyableThings:
-				return true;
-			default:
-				throw new NotImplementedException();
 			}
+			return result;
 		}
 
+		// Token: 0x0600463E RID: 17982 RVA: 0x0024F8EC File Offset: 0x0024DCEC
 		public Danger DangerFor(Pawn p)
 		{
 			if (Current.ProgramState == ProgramState.Playing)
@@ -337,7 +338,19 @@ namespace Verse
 			Room room = this.Room;
 			float temperature = room.Temperature;
 			FloatRange floatRange = p.SafeTemperatureRange();
-			Danger danger = (Danger)(floatRange.Includes(temperature) ? 1 : ((!floatRange.ExpandedBy(80f).Includes(temperature)) ? 3 : 2));
+			Danger danger;
+			if (floatRange.Includes(temperature))
+			{
+				danger = Danger.None;
+			}
+			else if (floatRange.ExpandedBy(80f).Includes(temperature))
+			{
+				danger = Danger.Some;
+			}
+			else
+			{
+				danger = Danger.Deadly;
+			}
 			if (Current.ProgramState == ProgramState.Playing)
 			{
 				this.cachedDangers.Add(new KeyValuePair<Pawn, Danger>(p, danger));
@@ -345,135 +358,310 @@ namespace Verse
 			return danger;
 		}
 
-		public AreaOverlap OverlapWith(Area a)
+		// Token: 0x0600463F RID: 17983 RVA: 0x0024FA08 File Offset: 0x0024DE08
+		public float GetBaseDesiredPlantsCount(bool allowCache = true)
 		{
-			if (a.TrueCount == 0)
+			int ticksGame = Find.TickManager.TicksGame;
+			float result;
+			if (allowCache && ticksGame - this.cachedBaseDesiredPlantsCountForTick < 2500)
 			{
-				return AreaOverlap.None;
-			}
-			if (this.Map != a.Map)
-			{
-				return AreaOverlap.None;
-			}
-			if (this.cachedAreaOverlaps == null)
-			{
-				this.cachedAreaOverlaps = new Dictionary<Area, AreaOverlap>();
-			}
-			AreaOverlap areaOverlap = default(AreaOverlap);
-			if (!this.cachedAreaOverlaps.TryGetValue(a, out areaOverlap))
-			{
-				int num = 0;
-				int num2 = 0;
-				foreach (IntVec3 cell in this.Cells)
-				{
-					num2++;
-					if (a[cell])
-					{
-						num++;
-					}
-				}
-				areaOverlap = (AreaOverlap)((num != 0) ? ((num == num2) ? 1 : 2) : 0);
-				this.cachedAreaOverlaps.Add(a, areaOverlap);
-			}
-			return areaOverlap;
-		}
-
-		public void Notify_AreaChanged(Area a)
-		{
-			if (this.cachedAreaOverlaps != null && this.cachedAreaOverlaps.ContainsKey(a))
-			{
-				this.cachedAreaOverlaps.Remove(a);
-			}
-		}
-
-		public void DecrementMapIndex()
-		{
-			if (this.mapIndex <= 0)
-			{
-				Log.Warning("Tried to decrement map index for region " + this.id + ", but mapIndex=" + this.mapIndex);
+				result = this.cachedBaseDesiredPlantsCount;
 			}
 			else
 			{
-				this.mapIndex = (sbyte)(this.mapIndex - 1);
+				this.cachedBaseDesiredPlantsCount = 0f;
+				Map map = this.Map;
+				foreach (IntVec3 c in this.Cells)
+				{
+					this.cachedBaseDesiredPlantsCount += map.wildPlantSpawner.GetBaseDesiredPlantsCountAt(c);
+				}
+				this.cachedBaseDesiredPlantsCountForTick = ticksGame;
+				result = this.cachedBaseDesiredPlantsCount;
+			}
+			return result;
+		}
+
+		// Token: 0x06004640 RID: 17984 RVA: 0x0024FAD4 File Offset: 0x0024DED4
+		public AreaOverlap OverlapWith(Area a)
+		{
+			AreaOverlap result;
+			if (a.TrueCount == 0)
+			{
+				result = AreaOverlap.None;
+			}
+			else if (this.Map != a.Map)
+			{
+				result = AreaOverlap.None;
+			}
+			else
+			{
+				if (this.cachedAreaOverlaps == null)
+				{
+					this.cachedAreaOverlaps = new Dictionary<Area, AreaOverlap>();
+				}
+				AreaOverlap areaOverlap;
+				if (!this.cachedAreaOverlaps.TryGetValue(a, out areaOverlap))
+				{
+					int num = 0;
+					int num2 = 0;
+					foreach (IntVec3 c in this.Cells)
+					{
+						num2++;
+						if (a[c])
+						{
+							num++;
+						}
+					}
+					if (num == 0)
+					{
+						areaOverlap = AreaOverlap.None;
+					}
+					else if (num == num2)
+					{
+						areaOverlap = AreaOverlap.Entire;
+					}
+					else
+					{
+						areaOverlap = AreaOverlap.Partial;
+					}
+					this.cachedAreaOverlaps.Add(a, areaOverlap);
+				}
+				result = areaOverlap;
+			}
+			return result;
+		}
+
+		// Token: 0x06004641 RID: 17985 RVA: 0x0024FBD0 File Offset: 0x0024DFD0
+		public void Notify_AreaChanged(Area a)
+		{
+			if (this.cachedAreaOverlaps != null)
+			{
+				if (this.cachedAreaOverlaps.ContainsKey(a))
+				{
+					this.cachedAreaOverlaps.Remove(a);
+				}
 			}
 		}
 
+		// Token: 0x06004642 RID: 17986 RVA: 0x0024FC04 File Offset: 0x0024E004
+		public void DecrementMapIndex()
+		{
+			if ((int)this.mapIndex <= 0)
+			{
+				Log.Warning(string.Concat(new object[]
+				{
+					"Tried to decrement map index for region ",
+					this.id,
+					", but mapIndex=",
+					this.mapIndex
+				}), false);
+			}
+			else
+			{
+				this.mapIndex = (sbyte)((int)this.mapIndex - 1);
+			}
+		}
+
+		// Token: 0x06004643 RID: 17987 RVA: 0x0024FC72 File Offset: 0x0024E072
 		public void Notify_MyMapRemoved()
 		{
+			this.listerThings.Clear();
 			this.mapIndex = -1;
 		}
 
+		// Token: 0x06004644 RID: 17988 RVA: 0x0024FC88 File Offset: 0x0024E088
 		public override string ToString()
 		{
-			string str = (this.portal == null) ? "null" : this.portal.ToString();
-			return "Region(id=" + this.id + ", mapIndex=" + this.mapIndex + ", center=" + this.extentsClose.CenterCell + ", links=" + this.links.Count + ", cells=" + this.CellCount + ((this.portal == null) ? null : (", portal=" + str)) + ")";
+			string str;
+			if (this.portal != null)
+			{
+				str = this.portal.ToString();
+			}
+			else
+			{
+				str = "null";
+			}
+			return string.Concat(new object[]
+			{
+				"Region(id=",
+				this.id,
+				", mapIndex=",
+				this.mapIndex,
+				", center=",
+				this.extentsClose.CenterCell,
+				", links=",
+				this.links.Count,
+				", cells=",
+				this.CellCount,
+				(this.portal == null) ? null : (", portal=" + str),
+				")"
+			});
 		}
 
+		// Token: 0x06004645 RID: 17989 RVA: 0x0024FD70 File Offset: 0x0024E170
 		public void DebugDraw()
 		{
-			if (DebugViewSettings.drawRegionTraversal && Find.TickManager.TicksGame < this.debug_lastTraverseTick + 60)
+			if (DebugViewSettings.drawRegionTraversal)
 			{
-				float a = (float)(1.0 - (float)(Find.TickManager.TicksGame - this.debug_lastTraverseTick) / 60.0);
-				GenDraw.DrawFieldEdges(this.Cells.ToList(), new Color(0f, 0f, 1f, a));
+				if (Find.TickManager.TicksGame < this.debug_lastTraverseTick + 60)
+				{
+					float a = 1f - (float)(Find.TickManager.TicksGame - this.debug_lastTraverseTick) / 60f;
+					GenDraw.DrawFieldEdges(this.Cells.ToList<IntVec3>(), new Color(0f, 0f, 1f, a));
+				}
 			}
 		}
 
+		// Token: 0x06004646 RID: 17990 RVA: 0x0024FDE8 File Offset: 0x0024E1E8
 		public void DebugDrawMouseover()
 		{
-			int num = Mathf.RoundToInt((float)(Time.realtimeSinceStartup * 2.0)) % 2;
+			int num = Mathf.RoundToInt(Time.realtimeSinceStartup * 2f) % 2;
 			if (DebugViewSettings.drawRegions)
 			{
-				Color color = this.valid ? ((!this.DebugIsNew) ? Color.green : Color.yellow) : Color.red;
-				GenDraw.DrawFieldEdges(this.Cells.ToList(), color);
-				foreach (Region neighbor in this.Neighbors)
+				Color color;
+				if (!this.valid)
 				{
-					GenDraw.DrawFieldEdges(neighbor.Cells.ToList(), Color.grey);
+					color = Color.red;
+				}
+				else if (this.DebugIsNew)
+				{
+					color = Color.yellow;
+				}
+				else
+				{
+					color = Color.green;
+				}
+				GenDraw.DrawFieldEdges(this.Cells.ToList<IntVec3>(), color);
+				foreach (Region region in this.Neighbors)
+				{
+					GenDraw.DrawFieldEdges(region.Cells.ToList<IntVec3>(), Color.grey);
 				}
 			}
 			if (DebugViewSettings.drawRegionLinks)
 			{
-				foreach (RegionLink link in this.links)
+				foreach (RegionLink regionLink in this.links)
 				{
 					if (num == 1)
 					{
-						foreach (IntVec3 cell in link.span.Cells)
+						foreach (IntVec3 c in regionLink.span.Cells)
 						{
-							CellRenderer.RenderCell(cell, DebugSolidColorMats.MaterialOf(Color.magenta));
+							CellRenderer.RenderCell(c, DebugSolidColorMats.MaterialOf(Color.magenta));
 						}
 					}
 				}
 			}
 			if (DebugViewSettings.drawRegionThings)
 			{
-				foreach (Thing allThing in this.listerThings.AllThings)
+				foreach (Thing thing in this.listerThings.AllThings)
 				{
-					CellRenderer.RenderSpot(allThing.TrueCenter(), (float)((float)(allThing.thingIDNumber % 256) / 256.0));
+					CellRenderer.RenderSpot(thing.TrueCenter(), (float)(thing.thingIDNumber % 256) / 256f);
 				}
 			}
 		}
 
+		// Token: 0x06004647 RID: 17991 RVA: 0x0024FFF0 File Offset: 0x0024E3F0
 		public void Debug_Notify_Traversed()
 		{
 			this.debug_lastTraverseTick = Find.TickManager.TicksGame;
 		}
 
+		// Token: 0x06004648 RID: 17992 RVA: 0x00250004 File Offset: 0x0024E404
 		public override int GetHashCode()
 		{
 			return this.precalculatedHashCode;
 		}
 
+		// Token: 0x06004649 RID: 17993 RVA: 0x00250020 File Offset: 0x0024E420
 		public override bool Equals(object obj)
 		{
+			bool result;
 			if (obj == null)
 			{
-				return false;
+				result = false;
 			}
-			Region region = obj as Region;
-			if (region == null)
+			else
 			{
-				return false;
+				Region region = obj as Region;
+				result = (region != null && region.id == this.id);
 			}
-			return region.id == this.id;
+			return result;
 		}
+
+		// Token: 0x04002FCC RID: 12236
+		public RegionType type = RegionType.Normal;
+
+		// Token: 0x04002FCD RID: 12237
+		public int id = -1;
+
+		// Token: 0x04002FCE RID: 12238
+		public sbyte mapIndex = -1;
+
+		// Token: 0x04002FCF RID: 12239
+		private Room roomInt;
+
+		// Token: 0x04002FD0 RID: 12240
+		public List<RegionLink> links = new List<RegionLink>();
+
+		// Token: 0x04002FD1 RID: 12241
+		public CellRect extentsClose;
+
+		// Token: 0x04002FD2 RID: 12242
+		public CellRect extentsLimit;
+
+		// Token: 0x04002FD3 RID: 12243
+		public Building_Door portal;
+
+		// Token: 0x04002FD4 RID: 12244
+		private int precalculatedHashCode;
+
+		// Token: 0x04002FD5 RID: 12245
+		public bool touchesMapEdge = false;
+
+		// Token: 0x04002FD6 RID: 12246
+		private int cachedCellCount = -1;
+
+		// Token: 0x04002FD7 RID: 12247
+		public bool valid = true;
+
+		// Token: 0x04002FD8 RID: 12248
+		private ListerThings listerThings = new ListerThings(ListerThingsUse.Region);
+
+		// Token: 0x04002FD9 RID: 12249
+		public uint[] closedIndex = new uint[RegionTraverser.NumWorkers];
+
+		// Token: 0x04002FDA RID: 12250
+		public uint reachedIndex = 0u;
+
+		// Token: 0x04002FDB RID: 12251
+		public int newRegionGroupIndex = -1;
+
+		// Token: 0x04002FDC RID: 12252
+		private Dictionary<Area, AreaOverlap> cachedAreaOverlaps = null;
+
+		// Token: 0x04002FDD RID: 12253
+		public int mark;
+
+		// Token: 0x04002FDE RID: 12254
+		private List<KeyValuePair<Pawn, Danger>> cachedDangers = new List<KeyValuePair<Pawn, Danger>>();
+
+		// Token: 0x04002FDF RID: 12255
+		private int cachedDangersForFrame;
+
+		// Token: 0x04002FE0 RID: 12256
+		private float cachedBaseDesiredPlantsCount;
+
+		// Token: 0x04002FE1 RID: 12257
+		private int cachedBaseDesiredPlantsCountForTick = -999999;
+
+		// Token: 0x04002FE2 RID: 12258
+		private int debug_makeTick = -1000;
+
+		// Token: 0x04002FE3 RID: 12259
+		private int debug_lastTraverseTick = -1000;
+
+		// Token: 0x04002FE4 RID: 12260
+		private static int nextId = 1;
+
+		// Token: 0x04002FE5 RID: 12261
+		public const int GridSize = 12;
 	}
 }

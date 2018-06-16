@@ -1,63 +1,59 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.Grammar;
 
 namespace RimWorld
 {
+	// Token: 0x0200066C RID: 1644
 	public class Tale_DoublePawnAndTrader : Tale_DoublePawn
 	{
-		public TaleData_Trader traderData;
-
+		// Token: 0x06002268 RID: 8808 RVA: 0x001241F0 File Offset: 0x001225F0
 		public Tale_DoublePawnAndTrader()
 		{
 		}
 
-		public Tale_DoublePawnAndTrader(Pawn firstPawn, Pawn secondPawn, ITrader trader)
-			: base(firstPawn, secondPawn)
+		// Token: 0x06002269 RID: 8809 RVA: 0x001241F9 File Offset: 0x001225F9
+		public Tale_DoublePawnAndTrader(Pawn firstPawn, Pawn secondPawn, ITrader trader) : base(firstPawn, secondPawn)
 		{
 			this.traderData = TaleData_Trader.GenerateFrom(trader);
 		}
 
+		// Token: 0x0600226A RID: 8810 RVA: 0x00124210 File Offset: 0x00122610
 		public override bool Concerns(Thing th)
 		{
 			return base.Concerns(th) || this.traderData.pawnID == th.thingIDNumber;
 		}
 
+		// Token: 0x0600226B RID: 8811 RVA: 0x00124247 File Offset: 0x00122647
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Deep.Look<TaleData_Trader>(ref this.traderData, "traderData", new object[0]);
 		}
 
+		// Token: 0x0600226C RID: 8812 RVA: 0x00124268 File Offset: 0x00122668
 		protected override IEnumerable<Rule> SpecialTextGenerationRules()
 		{
-			using (IEnumerator<Rule> enumerator = base.SpecialTextGenerationRules().GetEnumerator())
+			foreach (Rule r in this.<SpecialTextGenerationRules>__BaseCallProxy0())
 			{
-				if (enumerator.MoveNext())
-				{
-					Rule r2 = enumerator.Current;
-					yield return r2;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return r;
 			}
-			using (IEnumerator<Rule> enumerator2 = this.traderData.GetRules("trader").GetEnumerator())
+			foreach (Rule r2 in this.traderData.GetRules("TRADER"))
 			{
-				if (enumerator2.MoveNext())
-				{
-					Rule r = enumerator2.Current;
-					yield return r;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return r2;
 			}
 			yield break;
-			IL_0154:
-			/*Error near IL_0155: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x0600226D RID: 8813 RVA: 0x00124292 File Offset: 0x00122692
 		public override void GenerateTestData()
 		{
 			base.GenerateTestData();
 			this.traderData = TaleData_Trader.GenerateRandom();
 		}
+
+		// Token: 0x04001386 RID: 4998
+		public TaleData_Trader traderData;
 	}
 }

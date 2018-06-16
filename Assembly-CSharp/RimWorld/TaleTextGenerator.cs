@@ -1,27 +1,27 @@
-using System.Collections.Generic;
+﻿using System;
 using Verse;
 using Verse.Grammar;
 
 namespace RimWorld
 {
+	// Token: 0x02000667 RID: 1639
 	public static class TaleTextGenerator
 	{
-		private const float TalelessChanceWithTales = 0.2f;
-
-		public static string GenerateTextFromTale(TextGenerationPurpose purpose, Tale tale, int seed, List<Rule> extraRules)
+		// Token: 0x06002244 RID: 8772 RVA: 0x001228D8 File Offset: 0x00120CD8
+		public static string GenerateTextFromTale(TextGenerationPurpose purpose, Tale tale, int seed, RulePackDef extraInclude)
 		{
 			Rand.PushState();
 			Rand.Seed = seed;
 			string rootKeyword = null;
 			GrammarRequest request = default(GrammarRequest);
-			request.Rules.AddRange(extraRules);
-			switch (purpose)
+			request.Includes.Add(extraInclude);
+			if (purpose == TextGenerationPurpose.ArtDescription)
 			{
-			case TextGenerationPurpose.ArtDescription:
-				rootKeyword = "art_description_root";
-				if (tale != null && Rand.Value > 0.20000000298023224)
+				rootKeyword = "r_art_description";
+				if (tale != null && !Rand.Chance(0.2f))
 				{
 					request.Includes.Add(RulePackDefOf.ArtDescriptionRoot_HasTale);
+					request.IncludesBare.AddRange(tale.GetTextGenerationIncludes());
 					request.Rules.AddRange(tale.GetTextGenerationRules());
 				}
 				else
@@ -30,18 +30,22 @@ namespace RimWorld
 					request.Includes.Add(RulePackDefOf.TalelessImages);
 				}
 				request.Includes.Add(RulePackDefOf.ArtDescriptionUtility_Global);
-				break;
-			case TextGenerationPurpose.ArtName:
-				rootKeyword = "art_name";
+			}
+			else if (purpose == TextGenerationPurpose.ArtName)
+			{
+				rootKeyword = "r_art_name";
 				if (tale != null)
 				{
+					request.IncludesBare.AddRange(tale.GetTextGenerationIncludes());
 					request.Rules.AddRange(tale.GetTextGenerationRules());
 				}
-				break;
 			}
 			string result = GrammarResolver.Resolve(rootKeyword, request, (tale == null) ? "null_tale" : tale.def.defName, false);
 			Rand.PopState();
 			return result;
 		}
+
+		// Token: 0x04001379 RID: 4985
+		private const float TalelessChanceWithTales = 0.2f;
 	}
 }

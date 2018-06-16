@@ -1,76 +1,98 @@
-using System;
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020009B6 RID: 2486
 	public class StatPart_Quality : StatPart
 	{
-		private float factorAwful = 1f;
-
-		private float factorShoddy = 1f;
-
-		private float factorPoor = 1f;
-
-		private float factorNormal = 1f;
-
-		private float factorGood = 1f;
-
-		private float factorSuperior = 1f;
-
-		private float factorExcellent = 1f;
-
-		private float factorMasterwork = 1f;
-
-		private float factorLegendary = 1f;
-
-		private bool alsoAppliesToNegativeValues;
-
+		// Token: 0x060037A8 RID: 14248 RVA: 0x001DA293 File Offset: 0x001D8693
 		public override void TransformValue(StatRequest req, ref float val)
 		{
-			if (val <= 0.0 && !this.alsoAppliesToNegativeValues)
-				return;
-			val *= this.QualityMultiplier(req.QualityCategory);
+			if (val > 0f || this.alsoAppliesToNegativeValues)
+			{
+				val *= this.QualityMultiplier(req.QualityCategory);
+			}
 		}
 
+		// Token: 0x060037A9 RID: 14249 RVA: 0x001DA2C4 File Offset: 0x001D86C4
 		public override string ExplanationPart(StatRequest req)
 		{
-			if (req.HasThing && !this.alsoAppliesToNegativeValues && req.Thing.GetStatValue(base.parentStat, true) <= 0.0)
+			string result;
+			if (req.HasThing && !this.alsoAppliesToNegativeValues && req.Thing.GetStatValue(this.parentStat, true) <= 0f)
 			{
-				return null;
+				result = null;
 			}
-			QualityCategory qc = default(QualityCategory);
-			if (req.HasThing && req.Thing.TryGetQuality(out qc))
+			else
 			{
-				return "StatsReport_QualityMultiplier".Translate() + ": x" + this.QualityMultiplier(qc).ToStringPercent();
+				if (req.HasThing)
+				{
+					QualityCategory qc;
+					if (req.Thing.TryGetQuality(out qc))
+					{
+						return "StatsReport_QualityMultiplier".Translate() + ": x" + this.QualityMultiplier(qc).ToStringPercent();
+					}
+				}
+				result = null;
 			}
-			return null;
+			return result;
 		}
 
+		// Token: 0x060037AA RID: 14250 RVA: 0x001DA360 File Offset: 0x001D8760
 		private float QualityMultiplier(QualityCategory qc)
 		{
+			float result;
 			switch (qc)
 			{
 			case QualityCategory.Awful:
-				return this.factorAwful;
-			case QualityCategory.Shoddy:
-				return this.factorShoddy;
+				result = this.factorAwful;
+				break;
 			case QualityCategory.Poor:
-				return this.factorPoor;
+				result = this.factorPoor;
+				break;
 			case QualityCategory.Normal:
-				return this.factorNormal;
+				result = this.factorNormal;
+				break;
 			case QualityCategory.Good:
-				return this.factorGood;
-			case QualityCategory.Superior:
-				return this.factorSuperior;
+				result = this.factorGood;
+				break;
 			case QualityCategory.Excellent:
-				return this.factorExcellent;
+				result = this.factorExcellent;
+				break;
 			case QualityCategory.Masterwork:
-				return this.factorMasterwork;
+				result = this.factorMasterwork;
+				break;
 			case QualityCategory.Legendary:
-				return this.factorLegendary;
+				result = this.factorLegendary;
+				break;
 			default:
 				throw new ArgumentOutOfRangeException();
 			}
+			return result;
 		}
+
+		// Token: 0x040023B2 RID: 9138
+		private float factorAwful = 1f;
+
+		// Token: 0x040023B3 RID: 9139
+		private float factorPoor = 1f;
+
+		// Token: 0x040023B4 RID: 9140
+		private float factorNormal = 1f;
+
+		// Token: 0x040023B5 RID: 9141
+		private float factorGood = 1f;
+
+		// Token: 0x040023B6 RID: 9142
+		private float factorExcellent = 1f;
+
+		// Token: 0x040023B7 RID: 9143
+		private float factorMasterwork = 1f;
+
+		// Token: 0x040023B8 RID: 9144
+		private float factorLegendary = 1f;
+
+		// Token: 0x040023B9 RID: 9145
+		private bool alsoAppliesToNegativeValues = false;
 	}
 }

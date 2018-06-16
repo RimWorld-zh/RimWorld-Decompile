@@ -1,38 +1,27 @@
-using System.Collections.Generic;
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200024D RID: 589
 	public class CompProperties_Power : CompProperties
 	{
-		public bool transmitsPower;
+		// Token: 0x0400049E RID: 1182
+		public bool transmitsPower = false;
 
-		public float basePowerConsumption;
+		// Token: 0x0400049F RID: 1183
+		public float basePowerConsumption = 0f;
 
-		public bool startElectricalFires;
+		// Token: 0x040004A0 RID: 1184
+		public bool shortCircuitInRain = false;
 
-		public bool shortCircuitInRain = true;
+		// Token: 0x040004A1 RID: 1185
+		public SoundDef soundPowerOn = null;
 
-		public SoundDef soundPowerOn;
+		// Token: 0x040004A2 RID: 1186
+		public SoundDef soundPowerOff = null;
 
-		public SoundDef soundPowerOff;
-
-		public SoundDef soundAmbientPowered;
-
-		public override IEnumerable<string> ConfigErrors(ThingDef parentDef)
-		{
-			using (IEnumerator<string> enumerator = base.ConfigErrors(parentDef).GetEnumerator())
-			{
-				if (enumerator.MoveNext())
-				{
-					string err = enumerator.Current;
-					yield return err;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
-			}
-			yield break;
-			IL_00bf:
-			/*Error near IL_00c0: Unexpected return in MoveNext()*/;
-		}
+		// Token: 0x040004A3 RID: 1187
+		public SoundDef soundAmbientPowered = null;
 	}
 }

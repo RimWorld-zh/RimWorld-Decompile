@@ -1,16 +1,15 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020004CE RID: 1230
 	public class PawnRelationWorker_GreatGrandparent : PawnRelationWorker
 	{
+		// Token: 0x060015EF RID: 5615 RVA: 0x000C2A60 File Offset: 0x000C0E60
 		public override bool InRelation(Pawn me, Pawn other)
 		{
-			if (me == other)
-			{
-				return false;
-			}
-			return PawnRelationDefOf.GreatGrandchild.Worker.InRelation(other, me);
+			return me != other && PawnRelationDefOf.GreatGrandchild.Worker.InRelation(other, me);
 		}
 	}
 }

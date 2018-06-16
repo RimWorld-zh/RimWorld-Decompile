@@ -1,32 +1,33 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020004C2 RID: 1218
 	public class PawnRelationWorker_Child : PawnRelationWorker
 	{
+		// Token: 0x060015CC RID: 5580 RVA: 0x000C200C File Offset: 0x000C040C
 		public override bool InRelation(Pawn me, Pawn other)
 		{
-			if (me == other)
-			{
-				return false;
-			}
-			return other.GetMother() == me || other.GetFather() == me;
+			return me != other && (other.GetMother() == me || other.GetFather() == me);
 		}
 
+		// Token: 0x060015CD RID: 5581 RVA: 0x000C2048 File Offset: 0x000C0448
 		public override float GenerationChance(Pawn generated, Pawn other, PawnGenerationRequest request)
 		{
 			float num = 0f;
 			if (generated.gender == Gender.Male)
 			{
-				num = ChildRelationUtility.ChanceOfBecomingChildOf(other, generated, other.GetMother(), null, request, null);
+				num = ChildRelationUtility.ChanceOfBecomingChildOf(other, generated, other.GetMother(), null, new PawnGenerationRequest?(request), null);
 			}
 			else if (generated.gender == Gender.Female)
 			{
-				num = ChildRelationUtility.ChanceOfBecomingChildOf(other, other.GetFather(), generated, null, null, request);
+				num = ChildRelationUtility.ChanceOfBecomingChildOf(other, other.GetFather(), generated, null, null, new PawnGenerationRequest?(request));
 			}
 			return num * base.BaseGenerationChanceFactor(generated, other, request);
 		}
 
+		// Token: 0x060015CE RID: 5582 RVA: 0x000C20D8 File Offset: 0x000C04D8
 		public override void CreateRelation(Pawn generated, Pawn other, ref PawnGenerationRequest request)
 		{
 			if (generated.gender == Gender.Male)
@@ -40,10 +41,10 @@ namespace RimWorld
 					{
 						generated.relations.AddDirectRelation(PawnRelationDefOf.ExLover, other.GetMother());
 					}
-					else if (Rand.Value < 0.85000002384185791 && !LovePartnerRelationUtility.HasAnyLovePartner(other.GetMother()))
+					else if (Rand.Value < 0.85f && !LovePartnerRelationUtility.HasAnyLovePartner(other.GetMother()))
 					{
 						generated.relations.AddDirectRelation(PawnRelationDefOf.Spouse, other.GetMother());
-						if (request.FixedLastName == null && Rand.Value < 0.800000011920929)
+						if (request.FixedLastName == null && Rand.Value < 0.8f)
 						{
 							request.SetFixedLastName(((NameTriple)other.GetMother().Name).Last);
 						}
@@ -65,10 +66,10 @@ namespace RimWorld
 					{
 						generated.relations.AddDirectRelation(PawnRelationDefOf.ExLover, other.GetFather());
 					}
-					else if (Rand.Value < 0.85000002384185791 && !LovePartnerRelationUtility.HasAnyLovePartner(other.GetFather()))
+					else if (Rand.Value < 0.85f && !LovePartnerRelationUtility.HasAnyLovePartner(other.GetFather()))
 					{
 						generated.relations.AddDirectRelation(PawnRelationDefOf.Spouse, other.GetFather());
-						if (request.FixedLastName == null && Rand.Value < 0.800000011920929)
+						if (request.FixedLastName == null && Rand.Value < 0.8f)
 						{
 							request.SetFixedLastName(((NameTriple)other.GetFather().Name).Last);
 						}
@@ -81,33 +82,41 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060015CF RID: 5583 RVA: 0x000C22D8 File Offset: 0x000C06D8
 		private static void ResolveMyName(ref PawnGenerationRequest request, Pawn child, Pawn otherParent)
 		{
-			if (request.FixedLastName == null && !ChildRelationUtility.DefinitelyHasNotBirthName(child) && ChildRelationUtility.ChildWantsNameOfAnyParent(child))
+			if (request.FixedLastName == null)
 			{
-				if (otherParent == null)
+				if (!ChildRelationUtility.DefinitelyHasNotBirthName(child))
 				{
-					float num = 0.9f;
-					if (Rand.Value < num)
+					if (ChildRelationUtility.ChildWantsNameOfAnyParent(child))
 					{
-						request.SetFixedLastName(((NameTriple)child.Name).Last);
-					}
-				}
-				else
-				{
-					string last = ((NameTriple)child.Name).Last;
-					string last2 = ((NameTriple)otherParent.Name).Last;
-					if (last != last2)
-					{
-						request.SetFixedLastName(last);
+						if (otherParent == null)
+						{
+							float num = 0.9f;
+							if (Rand.Value < num)
+							{
+								request.SetFixedLastName(((NameTriple)child.Name).Last);
+							}
+						}
+						else
+						{
+							string last = ((NameTriple)child.Name).Last;
+							string last2 = ((NameTriple)otherParent.Name).Last;
+							if (last != last2)
+							{
+								request.SetFixedLastName(last);
+							}
+						}
 					}
 				}
 			}
 		}
 
+		// Token: 0x060015D0 RID: 5584 RVA: 0x000C2380 File Offset: 0x000C0780
 		private static void ResolveMySkinColor(ref PawnGenerationRequest request, Pawn child, Pawn otherParent)
 		{
-			if (!request.FixedMelanin.HasValue)
+			if (request.FixedMelanin == null)
 			{
 				if (otherParent != null)
 				{

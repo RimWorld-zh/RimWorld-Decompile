@@ -1,59 +1,70 @@
-using RimWorld.Planet;
+﻿using System;
 using System.Collections.Generic;
+using RimWorld.Planet;
+using UnityEngine.Profiling;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x0200087C RID: 2172
 	public class MapInterface
 	{
-		public ThingOverlays thingOverlays = new ThingOverlays();
-
-		public Selector selector = new Selector();
-
-		public Targeter targeter = new Targeter();
-
-		public DesignatorManager designatorManager = new DesignatorManager();
-
-		public ReverseDesignatorDatabase reverseDesignatorDatabase = new ReverseDesignatorDatabase();
-
-		private MouseoverReadout mouseoverReadout = new MouseoverReadout();
-
-		public GlobalControls globalControls = new GlobalControls();
-
-		protected ResourceReadout resourceReadout = new ResourceReadout();
-
-		public ColonistBar colonistBar = new ColonistBar();
-
+		// Token: 0x06003182 RID: 12674 RVA: 0x001AD73C File Offset: 0x001ABB3C
 		public void MapInterfaceOnGUI_BeforeMainTabs()
 		{
-			if (Find.VisibleMap != null)
+			if (Find.CurrentMap != null)
 			{
 				if (!WorldRendererUtility.WorldRenderedNow)
 				{
 					ScreenshotModeHandler screenshotMode = Find.UIRoot.screenshotMode;
+					Profiler.BeginSample("ThingOverlaysOnGUI()");
 					this.thingOverlays.ThingOverlaysOnGUI();
-					MapComponentUtility.MapComponentOnGUI(Find.VisibleMap);
+					Profiler.EndSample();
+					Profiler.BeginSample("MapComponentOnGUI()");
+					MapComponentUtility.MapComponentOnGUI(Find.CurrentMap);
+					Profiler.EndSample();
+					Profiler.BeginSample("BeautyDrawerOnGUI()");
+					BeautyDrawer.BeautyDrawerOnGUI();
+					Profiler.EndSample();
 					if (!screenshotMode.FiltersCurrentEvent)
 					{
+						Profiler.BeginSample("ColonistBarOnGUI()");
 						this.colonistBar.ColonistBarOnGUI();
+						Profiler.EndSample();
 					}
+					Profiler.BeginSample("DragBoxOnGUI()");
 					this.selector.dragBox.DragBoxOnGUI();
+					Profiler.EndSample();
+					Profiler.BeginSample("DesignationManagerOnGUI()");
 					this.designatorManager.DesignationManagerOnGUI();
+					Profiler.EndSample();
+					Profiler.BeginSample("TargeterOnGUI()");
 					this.targeter.TargeterOnGUI();
-					Find.VisibleMap.tooltipGiverList.DispenseAllThingTooltips();
+					Profiler.EndSample();
+					Profiler.BeginSample("DispenseAllThingTooltips()");
+					Find.CurrentMap.tooltipGiverList.DispenseAllThingTooltips();
+					Profiler.EndSample();
 					if (DebugViewSettings.drawFoodSearchFromMouse)
 					{
+						Profiler.BeginSample("FoodUtility.DebugFoodSearchFromMouse_OnGUI()");
 						FoodUtility.DebugFoodSearchFromMouse_OnGUI();
+						Profiler.EndSample();
 					}
 					if (DebugViewSettings.drawAttackTargetScores)
 					{
+						Profiler.BeginSample("AttackTargetFinder.DebugDrawAttackTargetScores_OnGUI()");
 						AttackTargetFinder.DebugDrawAttackTargetScores_OnGUI();
+						Profiler.EndSample();
 					}
 					if (!screenshotMode.FiltersCurrentEvent)
 					{
+						Profiler.BeginSample("GlobalControlsOnGUI()");
 						this.globalControls.GlobalControlsOnGUI();
+						Profiler.EndSample();
+						Profiler.BeginSample("ResourceReadoutOnGUI()");
 						this.resourceReadout.ResourceReadoutOnGUI();
+						Profiler.EndSample();
 					}
 				}
 				else
@@ -63,78 +74,125 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06003183 RID: 12675 RVA: 0x001AD8E4 File Offset: 0x001ABCE4
 		public void MapInterfaceOnGUI_AfterMainTabs()
 		{
-			if (Find.VisibleMap != null && !WorldRendererUtility.WorldRenderedNow)
+			if (Find.CurrentMap != null)
 			{
-				ScreenshotModeHandler screenshotMode = Find.UIRoot.screenshotMode;
-				if (!screenshotMode.FiltersCurrentEvent)
+				if (!WorldRendererUtility.WorldRenderedNow)
 				{
-					this.mouseoverReadout.MouseoverReadoutOnGUI();
-					EnvironmentInspectDrawer.EnvironmentInspectOnGUI();
-					Find.VisibleMap.debugDrawer.DebugDrawerOnGUI();
+					ScreenshotModeHandler screenshotMode = Find.UIRoot.screenshotMode;
+					if (!screenshotMode.FiltersCurrentEvent)
+					{
+						Profiler.BeginSample("MouseoverReadoutOnGUI()");
+						this.mouseoverReadout.MouseoverReadoutOnGUI();
+						Profiler.EndSample();
+						Profiler.BeginSample("EnvironmentStatsOnGUI()");
+						EnvironmentStatsDrawer.EnvironmentStatsOnGUI();
+						Profiler.EndSample();
+						Profiler.BeginSample("DebugDrawerOnGUI()");
+						Find.CurrentMap.debugDrawer.DebugDrawerOnGUI();
+						Profiler.EndSample();
+					}
 				}
 			}
 		}
 
+		// Token: 0x06003184 RID: 12676 RVA: 0x001AD974 File Offset: 0x001ABD74
 		public void HandleMapClicks()
 		{
-			if (Find.VisibleMap != null && !WorldRendererUtility.WorldRenderedNow)
+			if (Find.CurrentMap != null)
 			{
-				this.designatorManager.ProcessInputEvents();
-				this.targeter.ProcessInputEvents();
+				if (!WorldRendererUtility.WorldRenderedNow)
+				{
+					Profiler.BeginSample("DesignatorManager.ProcessInputEvents()");
+					this.designatorManager.ProcessInputEvents();
+					Profiler.EndSample();
+					Profiler.BeginSample("targeter.ProcessInputEvents()");
+					this.targeter.ProcessInputEvents();
+					Profiler.EndSample();
+				}
 			}
 		}
 
+		// Token: 0x06003185 RID: 12677 RVA: 0x001AD9D4 File Offset: 0x001ABDD4
 		public void HandleLowPriorityInput()
 		{
-			if (Find.VisibleMap != null && !WorldRendererUtility.WorldRenderedNow)
+			if (Find.CurrentMap != null)
 			{
-				this.selector.SelectorOnGUI();
-				Find.VisibleMap.lordManager.LordManagerOnGUI();
+				if (!WorldRendererUtility.WorldRenderedNow)
+				{
+					Profiler.BeginSample("SelectorOnGUI()");
+					this.selector.SelectorOnGUI();
+					Profiler.EndSample();
+					Profiler.BeginSample("LordManagerOnGUI()");
+					Find.CurrentMap.lordManager.LordManagerOnGUI();
+					Profiler.EndSample();
+				}
 			}
 		}
 
+		// Token: 0x06003186 RID: 12678 RVA: 0x001ADA38 File Offset: 0x001ABE38
 		public void MapInterfaceUpdate()
 		{
-			if (Find.VisibleMap != null && !WorldRendererUtility.WorldRenderedNow)
+			if (Find.CurrentMap != null)
 			{
-				this.targeter.TargeterUpdate();
-				SelectionDrawer.DrawSelectionOverlays();
-				EnvironmentInspectDrawer.DrawRoomOverlays();
-				this.designatorManager.DesignatorManagerUpdate();
-				Find.VisibleMap.roofGrid.RoofGridUpdate();
-				Find.VisibleMap.exitMapGrid.ExitMapGridUpdate();
-				Find.VisibleMap.deepResourceGrid.DeepResourceGridUpdate();
-				if (DebugViewSettings.drawPawnDebug)
+				if (!WorldRendererUtility.WorldRenderedNow)
 				{
-					Find.VisibleMap.pawnDestinationReservationManager.DebugDrawDestinations();
-					Find.VisibleMap.reservationManager.DebugDrawReservations();
-				}
-				if (DebugViewSettings.drawFoodSearchFromMouse)
-				{
-					FoodUtility.DebugFoodSearchFromMouse_Update();
-				}
-				if (DebugViewSettings.drawPreyInfo)
-				{
-					FoodUtility.DebugDrawPredatorFoodSource();
-				}
-				if (DebugViewSettings.drawAttackTargetScores)
-				{
-					AttackTargetFinder.DebugDrawAttackTargetScores_Update();
-				}
-				MiscDebugDrawer.DebugDrawInteractionCells();
-				Find.VisibleMap.debugDrawer.DebugDrawerUpdate();
-				Find.VisibleMap.regionGrid.DebugDraw();
-				InfestationCellFinder.DebugDraw();
-				StealAIDebugDrawer.DebugDraw();
-				if (DebugViewSettings.drawRiverDebug)
-				{
-					Find.VisibleMap.waterInfo.DebugDrawRiver();
+					Profiler.BeginSample("TargeterUpdate()");
+					this.targeter.TargeterUpdate();
+					Profiler.EndSample();
+					Profiler.BeginSample("DrawSelectionOverlays()");
+					SelectionDrawer.DrawSelectionOverlays();
+					Profiler.EndSample();
+					Profiler.BeginSample("EnvironmentStatsDrawer.DrawRoomOverlays()");
+					EnvironmentStatsDrawer.DrawRoomOverlays();
+					Profiler.EndSample();
+					Profiler.BeginSample("DesignatorManagerUpdate()");
+					this.designatorManager.DesignatorManagerUpdate();
+					Profiler.EndSample();
+					Profiler.BeginSample("RoofGridUpdate()");
+					Find.CurrentMap.roofGrid.RoofGridUpdate();
+					Profiler.EndSample();
+					Profiler.BeginSample("ExitMapGridUpdate()");
+					Find.CurrentMap.exitMapGrid.ExitMapGridUpdate();
+					Profiler.EndSample();
+					Profiler.BeginSample("DeepResourceGridUpdate()");
+					Find.CurrentMap.deepResourceGrid.DeepResourceGridUpdate();
+					Profiler.EndSample();
+					Profiler.BeginSample("Debug drawing");
+					if (DebugViewSettings.drawPawnDebug)
+					{
+						Find.CurrentMap.pawnDestinationReservationManager.DebugDrawDestinations();
+						Find.CurrentMap.reservationManager.DebugDrawReservations();
+					}
+					if (DebugViewSettings.drawFoodSearchFromMouse)
+					{
+						FoodUtility.DebugFoodSearchFromMouse_Update();
+					}
+					if (DebugViewSettings.drawPreyInfo)
+					{
+						FoodUtility.DebugDrawPredatorFoodSource();
+					}
+					if (DebugViewSettings.drawAttackTargetScores)
+					{
+						AttackTargetFinder.DebugDrawAttackTargetScores_Update();
+					}
+					MiscDebugDrawer.DebugDrawInteractionCells();
+					Find.CurrentMap.debugDrawer.DebugDrawerUpdate();
+					Find.CurrentMap.regionGrid.DebugDraw();
+					InfestationCellFinder.DebugDraw();
+					StealAIDebugDrawer.DebugDraw();
+					if (DebugViewSettings.drawRiverDebug)
+					{
+						Find.CurrentMap.waterInfo.DebugDrawRiver();
+					}
+					Profiler.EndSample();
 				}
 			}
 		}
 
+		// Token: 0x06003187 RID: 12679 RVA: 0x001ADBC8 File Offset: 0x001ABFC8
 		public void Notify_SwitchedMap()
 		{
 			this.designatorManager.Deselect();
@@ -152,11 +210,38 @@ namespace RimWorld
 			{
 				Find.MainTabsRoot.SetCurrentTab(openTab, false);
 			}
-			if (Find.VisibleMap != null)
+			if (Find.CurrentMap != null)
 			{
-				RememberedCameraPos rememberedCameraPos = Find.VisibleMap.rememberedCameraPos;
+				RememberedCameraPos rememberedCameraPos = Find.CurrentMap.rememberedCameraPos;
 				Find.CameraDriver.SetRootPosAndSize(rememberedCameraPos.rootPos, rememberedCameraPos.rootSize);
 			}
 		}
+
+		// Token: 0x04001AC4 RID: 6852
+		public ThingOverlays thingOverlays = new ThingOverlays();
+
+		// Token: 0x04001AC5 RID: 6853
+		public Selector selector = new Selector();
+
+		// Token: 0x04001AC6 RID: 6854
+		public Targeter targeter = new Targeter();
+
+		// Token: 0x04001AC7 RID: 6855
+		public DesignatorManager designatorManager = new DesignatorManager();
+
+		// Token: 0x04001AC8 RID: 6856
+		public ReverseDesignatorDatabase reverseDesignatorDatabase = new ReverseDesignatorDatabase();
+
+		// Token: 0x04001AC9 RID: 6857
+		private MouseoverReadout mouseoverReadout = new MouseoverReadout();
+
+		// Token: 0x04001ACA RID: 6858
+		public GlobalControls globalControls = new GlobalControls();
+
+		// Token: 0x04001ACB RID: 6859
+		protected ResourceReadout resourceReadout = new ResourceReadout();
+
+		// Token: 0x04001ACC RID: 6860
+		public ColonistBar colonistBar = new ColonistBar();
 	}
 }

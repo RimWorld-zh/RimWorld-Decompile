@@ -1,19 +1,22 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200048D RID: 1165
 	public static class PawnInventoryGenerator
 	{
+		// Token: 0x0600148B RID: 5259 RVA: 0x000B4280 File Offset: 0x000B2680
 		public static void GenerateInventoryFor(Pawn p, PawnGenerationRequest request)
 		{
 			p.inventory.DestroyAll(DestroyMode.Vanish);
 			for (int i = 0; i < p.kindDef.fixedInventory.Count; i++)
 			{
-				ThingCountClass thingCountClass = p.kindDef.fixedInventory[i];
-				Thing thing = ThingMaker.MakeThing(thingCountClass.thingDef, null);
-				thing.stackCount = thingCountClass.count;
+				ThingDefCountClass thingDefCountClass = p.kindDef.fixedInventory[i];
+				Thing thing = ThingMaker.MakeThing(thingDefCountClass.thingDef, null);
+				thing.stackCount = thingDefCountClass.count;
 				p.inventory.innerContainer.TryAdd(thing, true);
 			}
 			if (p.kindDef.inventoryOptions != null)
@@ -31,94 +34,125 @@ namespace RimWorld
 			PawnInventoryGenerator.GiveCombatEnhancingDrugs(p);
 		}
 
+		// Token: 0x0600148C RID: 5260 RVA: 0x000B4398 File Offset: 0x000B2798
 		public static void GiveRandomFood(Pawn p)
 		{
-			if (p.kindDef.invNutrition > 0.0010000000474974513)
+			if (p.kindDef.invNutrition > 0.001f)
 			{
-				ThingDef thingDef;
+				ThingDef def;
 				if (p.kindDef.invFoodDef != null)
 				{
-					thingDef = p.kindDef.invFoodDef;
+					def = p.kindDef.invFoodDef;
 				}
 				else
 				{
 					float value = Rand.Value;
-					thingDef = ((!(value < 0.5)) ? ((!((double)value < 0.75)) ? ThingDefOf.MealSurvivalPack : ThingDefOf.MealFine) : ThingDefOf.MealSimple);
+					if (value < 0.5f)
+					{
+						def = ThingDefOf.MealSimple;
+					}
+					else if ((double)value < 0.75)
+					{
+						def = ThingDefOf.MealFine;
+					}
+					else
+					{
+						def = ThingDefOf.MealSurvivalPack;
+					}
 				}
-				Thing thing = ThingMaker.MakeThing(thingDef, null);
-				thing.stackCount = GenMath.RoundRandom(p.kindDef.invNutrition / thingDef.ingestible.nutrition);
+				Thing thing = ThingMaker.MakeThing(def, null);
+				thing.stackCount = GenMath.RoundRandom(p.kindDef.invNutrition / thing.GetStatValue(StatDefOf.Nutrition, true));
 				p.inventory.TryAddItemNotForSale(thing);
 			}
 		}
 
+		// Token: 0x0600148D RID: 5261 RVA: 0x000B4454 File Offset: 0x000B2854
 		private static void GiveDrugsIfAddicted(Pawn p)
 		{
 			if (p.RaceProps.Humanlike)
 			{
 				IEnumerable<Hediff_Addiction> hediffs = p.health.hediffSet.GetHediffs<Hediff_Addiction>();
-				foreach (Hediff_Addiction item in hediffs)
+				using (IEnumerator<Hediff_Addiction> enumerator = hediffs.GetEnumerator())
 				{
-					IEnumerable<ThingDef> source = DefDatabase<ThingDef>.AllDefsListForReading.Where(delegate(ThingDef x)
+					while (enumerator.MoveNext())
 					{
-						if (x.category != ThingCategory.Item)
+						Hediff_Addiction addiction = enumerator.Current;
+						IEnumerable<ThingDef> source = DefDatabase<ThingDef>.AllDefsListForReading.Where(delegate(ThingDef x)
 						{
-							return false;
-						}
-						if (p.Faction != null && (int)x.techLevel > (int)p.Faction.def.techLevel)
+							bool result;
+							if (x.category != ThingCategory.Item)
+							{
+								result = false;
+							}
+							else if (p.Faction != null && x.techLevel > p.Faction.def.techLevel)
+							{
+								result = false;
+							}
+							else
+							{
+								CompProperties_Drug compProperties = x.GetCompProperties<CompProperties_Drug>();
+								result = (compProperties != null && compProperties.chemical != null && compProperties.chemical.addictionHediff == addiction.def);
+							}
+							return result;
+						});
+						ThingDef def;
+						if (source.TryRandomElement(out def))
 						{
-							return false;
+							int stackCount = Rand.RangeInclusive(2, 5);
+							Thing thing = ThingMaker.MakeThing(def, null);
+							thing.stackCount = stackCount;
+							p.inventory.TryAddItemNotForSale(thing);
 						}
-						CompProperties_Drug compProperties = x.GetCompProperties<CompProperties_Drug>();
-						return compProperties != null && compProperties.chemical != null && compProperties.chemical.addictionHediff == item.def;
-					});
-					ThingDef def = default(ThingDef);
-					if (source.TryRandomElement<ThingDef>(out def))
-					{
-						int stackCount = Rand.RangeInclusive(2, 5);
-						Thing thing = ThingMaker.MakeThing(def, null);
-						thing.stackCount = stackCount;
-						p.inventory.TryAddItemNotForSale(thing);
 					}
 				}
 			}
 		}
 
+		// Token: 0x0600148E RID: 5262 RVA: 0x000B4550 File Offset: 0x000B2950
 		private static void GiveCombatEnhancingDrugs(Pawn pawn)
 		{
-			if (!(Rand.Value >= pawn.kindDef.combatEnhancingDrugsChance) && !pawn.IsTeetotaler())
+			if (Rand.Value < pawn.kindDef.combatEnhancingDrugsChance)
 			{
-				for (int i = 0; i < pawn.inventory.innerContainer.Count; i++)
+				if (!pawn.IsTeetotaler())
 				{
-					CompDrug compDrug = pawn.inventory.innerContainer[i].TryGetComp<CompDrug>();
-					if (compDrug != null && compDrug.Props.isCombatEnhancingDrug)
-						return;
-				}
-				int randomInRange = pawn.kindDef.combatEnhancingDrugsCount.RandomInRange;
-				if (randomInRange > 0)
-				{
-					IEnumerable<ThingDef> source = DefDatabase<ThingDef>.AllDefsListForReading.Where(delegate(ThingDef x)
+					for (int i = 0; i < pawn.inventory.innerContainer.Count; i++)
 					{
-						if (x.category != ThingCategory.Item)
+						CompDrug compDrug = pawn.inventory.innerContainer[i].TryGetComp<CompDrug>();
+						if (compDrug != null && compDrug.Props.isCombatEnhancingDrug)
 						{
-							return false;
+							return;
 						}
-						if (pawn.Faction != null && (int)x.techLevel > (int)pawn.Faction.def.techLevel)
-						{
-							return false;
-						}
-						CompProperties_Drug compProperties = x.GetCompProperties<CompProperties_Drug>();
-						if (compProperties != null && compProperties.isCombatEnhancingDrug)
-						{
-							return true;
-						}
-						return false;
-					});
-					int num = 0;
-					ThingDef def = default(ThingDef);
-					while (num < randomInRange && source.TryRandomElement<ThingDef>(out def))
+					}
+					int randomInRange = pawn.kindDef.combatEnhancingDrugsCount.RandomInRange;
+					if (randomInRange > 0)
 					{
-						pawn.inventory.innerContainer.TryAdd(ThingMaker.MakeThing(def, null), true);
-						num++;
+						IEnumerable<ThingDef> source = DefDatabase<ThingDef>.AllDefsListForReading.Where(delegate(ThingDef x)
+						{
+							bool result;
+							if (x.category != ThingCategory.Item)
+							{
+								result = false;
+							}
+							else if (pawn.Faction != null && x.techLevel > pawn.Faction.def.techLevel)
+							{
+								result = false;
+							}
+							else
+							{
+								CompProperties_Drug compProperties = x.GetCompProperties<CompProperties_Drug>();
+								result = (compProperties != null && compProperties.isCombatEnhancingDrug);
+							}
+							return result;
+						});
+						for (int j = 0; j < randomInRange; j++)
+						{
+							ThingDef def;
+							if (!source.TryRandomElement(out def))
+							{
+								break;
+							}
+							pawn.inventory.innerContainer.TryAdd(ThingMaker.MakeThing(def, null), true);
+						}
 					}
 				}
 			}

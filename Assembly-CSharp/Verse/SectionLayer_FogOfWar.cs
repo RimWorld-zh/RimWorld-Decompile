@@ -1,13 +1,19 @@
+﻿using System;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000C49 RID: 3145
 	public class SectionLayer_FogOfWar : SectionLayer
 	{
-		private bool[] vertsCovered = new bool[9];
+		// Token: 0x0600453F RID: 17727 RVA: 0x00247B53 File Offset: 0x00245F53
+		public SectionLayer_FogOfWar(Section section) : base(section)
+		{
+			this.relevantChangeTypes = MapMeshFlag.FogOfWar;
+		}
 
-		private const byte FogBrightness = 35;
-
+		// Token: 0x17000AEB RID: 2795
+		// (get) Token: 0x06004540 RID: 17728 RVA: 0x00247B74 File Offset: 0x00245F74
 		public override bool Visible
 		{
 			get
@@ -16,26 +22,19 @@ namespace Verse
 			}
 		}
 
-		public SectionLayer_FogOfWar(Section section)
-			: base(section)
-		{
-			base.relevantChangeTypes = MapMeshFlag.FogOfWar;
-		}
-
+		// Token: 0x06004541 RID: 17729 RVA: 0x00247B90 File Offset: 0x00245F90
 		public override void Regenerate()
 		{
 			LayerSubMesh subMesh = base.GetSubMesh(MatBases.FogOfWar);
 			if (subMesh.mesh.vertexCount == 0)
 			{
-				SectionLayerGeometryMaker_Solid.MakeBaseGeometry(base.section, subMesh, AltitudeLayer.FogOfWar);
+				SectionLayerGeometryMaker_Solid.MakeBaseGeometry(this.section, subMesh, AltitudeLayer.FogOfWar);
 			}
 			subMesh.Clear(MeshParts.Colors);
 			bool[] fogGrid = base.Map.fogGrid.fogGrid;
-			CellRect cellRect = base.section.CellRect;
-			IntVec3 size = base.Map.Size;
-			int num = size.z - 1;
-			IntVec3 size2 = base.Map.Size;
-			int num2 = size2.x - 1;
+			CellRect cellRect = this.section.CellRect;
+			int num = base.Map.Size.z - 1;
+			int num2 = base.Map.Size.x - 1;
 			bool flag = false;
 			CellIndices cellIndices = base.Map.cellIndices;
 			for (int i = cellRect.minX; i <= cellRect.maxX; i++)
@@ -101,14 +100,14 @@ namespace Verse
 						byte a;
 						if (this.vertsCovered[m])
 						{
-							a = 255;
+							a = byte.MaxValue;
 							flag = true;
 						}
 						else
 						{
 							a = 0;
 						}
-						subMesh.colors.Add(new Color32(255, 255, 255, a));
+						subMesh.colors.Add(new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, a));
 					}
 				}
 			}
@@ -122,5 +121,11 @@ namespace Verse
 				subMesh.disabled = true;
 			}
 		}
+
+		// Token: 0x04002F57 RID: 12119
+		private bool[] vertsCovered = new bool[9];
+
+		// Token: 0x04002F58 RID: 12120
+		private const byte FogBrightness = 35;
 	}
 }

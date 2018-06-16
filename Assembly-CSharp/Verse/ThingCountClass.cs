@@ -1,57 +1,94 @@
-using System.Xml;
+﻿using System;
 
 namespace Verse
 {
-	public sealed class ThingCountClass
+	// Token: 0x02000F01 RID: 3841
+	public sealed class ThingCountClass : IExposable
 	{
-		public ThingDef thingDef;
-
-		public int count;
-
-		public string Summary
-		{
-			get
-			{
-				return this.count + "x " + ((this.thingDef == null) ? "null" : this.thingDef.label);
-			}
-		}
-
+		// Token: 0x06005BFC RID: 23548 RVA: 0x002EBDDA File Offset: 0x002EA1DA
 		public ThingCountClass()
 		{
 		}
 
-		public ThingCountClass(ThingDef thingDef, int count)
+		// Token: 0x06005BFD RID: 23549 RVA: 0x002EBDE3 File Offset: 0x002EA1E3
+		public ThingCountClass(Thing thing, int count)
 		{
-			this.thingDef = thingDef;
-			this.count = count;
+			this.thing = thing;
+			this.Count = count;
 		}
 
-		public void LoadDataFromXmlCustom(XmlNode xmlRoot)
+		// Token: 0x17000EC5 RID: 3781
+		// (get) Token: 0x06005BFE RID: 23550 RVA: 0x002EBDFC File Offset: 0x002EA1FC
+		// (set) Token: 0x06005BFF RID: 23551 RVA: 0x002EBE18 File Offset: 0x002EA218
+		public int Count
 		{
-			if (xmlRoot.ChildNodes.Count != 1)
+			get
 			{
-				Log.Error("Misconfigured ThingCount: " + xmlRoot.OuterXml);
+				return this.countInt;
 			}
-			else
+			set
 			{
-				DirectXmlCrossRefLoader.RegisterObjectWantsCrossRef(this, "thingDef", xmlRoot.Name);
-				this.count = (int)ParseHelper.FromString(xmlRoot.FirstChild.Value, typeof(int));
+				if (value < 0)
+				{
+					Log.Warning(string.Concat(new object[]
+					{
+						"Tried to set ThingCountClass stack count to ",
+						value,
+						". thing=",
+						this.thing
+					}), false);
+					this.countInt = 0;
+				}
+				else if (this.thing != null && value > this.thing.stackCount)
+				{
+					Log.Warning(string.Concat(new object[]
+					{
+						"Tried to set ThingCountClass stack count to ",
+						value,
+						", but thing's stack count is only ",
+						this.thing.stackCount,
+						". thing=",
+						this.thing
+					}), false);
+					this.countInt = this.thing.stackCount;
+				}
+				else
+				{
+					this.countInt = value;
+				}
 			}
 		}
 
+		// Token: 0x06005C00 RID: 23552 RVA: 0x002EBEF5 File Offset: 0x002EA2F5
+		public void ExposeData()
+		{
+			Scribe_References.Look<Thing>(ref this.thing, "thing", false);
+			Scribe_Values.Look<int>(ref this.countInt, "count", 1, false);
+		}
+
+		// Token: 0x06005C01 RID: 23553 RVA: 0x002EBF1C File Offset: 0x002EA31C
 		public override string ToString()
 		{
-			return "(" + this.count + "x " + ((this.thingDef == null) ? "null" : this.thingDef.defName) + ")";
+			return string.Concat(new object[]
+			{
+				"(",
+				this.Count,
+				"x ",
+				(this.thing == null) ? "null" : this.thing.LabelShort,
+				")"
+			});
 		}
 
-		public override int GetHashCode()
-		{
-			return this.thingDef.shortHash + this.count << 16;
-		}
-
+		// Token: 0x06005C02 RID: 23554 RVA: 0x002EBF88 File Offset: 0x002EA388
 		public static implicit operator ThingCountClass(ThingCount t)
 		{
-			return new ThingCountClass(t.ThingDef, t.Count);
+			return new ThingCountClass(t.Thing, t.Count);
 		}
+
+		// Token: 0x04003CD0 RID: 15568
+		public Thing thing;
+
+		// Token: 0x04003CD1 RID: 15569
+		private int countInt;
 	}
 }

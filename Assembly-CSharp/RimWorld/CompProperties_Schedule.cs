@@ -1,18 +1,25 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200025F RID: 607
 	public class CompProperties_Schedule : CompProperties
 	{
-		public float startTime;
-
-		public float endTime = 1f;
-
-		public string offMessage;
-
+		// Token: 0x06000A9E RID: 2718 RVA: 0x0005FEE3 File Offset: 0x0005E2E3
 		public CompProperties_Schedule()
 		{
-			base.compClass = typeof(CompSchedule);
+			this.compClass = typeof(CompSchedule);
 		}
+
+		// Token: 0x040004C4 RID: 1220
+		public float startTime = 0f;
+
+		// Token: 0x040004C5 RID: 1221
+		public float endTime = 1f;
+
+		// Token: 0x040004C6 RID: 1222
+		[MustTranslate]
+		public string offMessage = null;
 	}
 }

@@ -1,28 +1,21 @@
+﻿using System;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200068C RID: 1676
 	public class TurretTop
 	{
-		private Building_Turret parentTurret;
+		// Token: 0x06002370 RID: 9072 RVA: 0x001305DC File Offset: 0x0012E9DC
+		public TurretTop(Building_Turret ParentTurret)
+		{
+			this.parentTurret = ParentTurret;
+		}
 
-		private float curRotationInt;
-
-		private int ticksUntilIdleTurn;
-
-		private int idleTurnTicksLeft;
-
-		private bool idleTurnClockwise;
-
-		private const float IdleTurnDegreesPerTick = 0.26f;
-
-		private const int IdleTurnDuration = 140;
-
-		private const int IdleTurnIntervalMin = 150;
-
-		private const int IdleTurnIntervalMax = 350;
-
+		// Token: 0x17000541 RID: 1345
+		// (get) Token: 0x06002371 RID: 9073 RVA: 0x001305F8 File Offset: 0x0012E9F8
+		// (set) Token: 0x06002372 RID: 9074 RVA: 0x00130614 File Offset: 0x0012EA14
 		private float CurRotation
 		{
 			get
@@ -32,29 +25,25 @@ namespace RimWorld
 			set
 			{
 				this.curRotationInt = value;
-				if (this.curRotationInt > 360.0)
+				if (this.curRotationInt > 360f)
 				{
 					this.curRotationInt -= 360f;
 				}
-				if (this.curRotationInt < 0.0)
+				if (this.curRotationInt < 0f)
 				{
 					this.curRotationInt += 360f;
 				}
 			}
 		}
 
-		public TurretTop(Building_Turret ParentTurret)
-		{
-			this.parentTurret = ParentTurret;
-		}
-
+		// Token: 0x06002373 RID: 9075 RVA: 0x00130670 File Offset: 0x0012EA70
 		public void TurretTopTick()
 		{
 			LocalTargetInfo currentTarget = this.parentTurret.CurrentTarget;
 			if (currentTarget.IsValid)
 			{
-				IntVec3 cell = currentTarget.Cell;
-				float num2 = this.CurRotation = (cell.ToVector3Shifted() - this.parentTurret.DrawPos).AngleFlat();
+				float curRotation = (currentTarget.Cell.ToVector3Shifted() - this.parentTurret.DrawPos).AngleFlat();
+				this.CurRotation = curRotation;
 				this.ticksUntilIdleTurn = Rand.RangeInclusive(150, 350);
 			}
 			else if (this.ticksUntilIdleTurn > 0)
@@ -62,7 +51,7 @@ namespace RimWorld
 				this.ticksUntilIdleTurn--;
 				if (this.ticksUntilIdleTurn == 0)
 				{
-					if (Rand.Value < 0.5)
+					if (Rand.Value < 0.5f)
 					{
 						this.idleTurnClockwise = true;
 					}
@@ -91,11 +80,41 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002374 RID: 9076 RVA: 0x001307A4 File Offset: 0x0012EBA4
 		public void DrawTurret()
 		{
+			Vector3 b = new Vector3(this.parentTurret.def.building.turretTopOffset.x, 0f, this.parentTurret.def.building.turretTopOffset.y);
+			float turretTopDrawSize = this.parentTurret.def.building.turretTopDrawSize;
 			Matrix4x4 matrix = default(Matrix4x4);
-			matrix.SetTRS(this.parentTurret.DrawPos + Altitudes.AltIncVect, this.CurRotation.ToQuat(), Vector3.one);
-			Graphics.DrawMesh(MeshPool.plane20, matrix, this.parentTurret.def.building.turretTopMat, 0);
+			matrix.SetTRS(this.parentTurret.DrawPos + Altitudes.AltIncVect + b, this.CurRotation.ToQuat(), new Vector3(turretTopDrawSize, 1f, turretTopDrawSize));
+			Graphics.DrawMesh(MeshPool.plane10, matrix, this.parentTurret.def.building.turretTopMat, 0);
 		}
+
+		// Token: 0x040013D9 RID: 5081
+		private Building_Turret parentTurret;
+
+		// Token: 0x040013DA RID: 5082
+		private float curRotationInt = 0f;
+
+		// Token: 0x040013DB RID: 5083
+		private int ticksUntilIdleTurn;
+
+		// Token: 0x040013DC RID: 5084
+		private int idleTurnTicksLeft;
+
+		// Token: 0x040013DD RID: 5085
+		private bool idleTurnClockwise;
+
+		// Token: 0x040013DE RID: 5086
+		private const float IdleTurnDegreesPerTick = 0.26f;
+
+		// Token: 0x040013DF RID: 5087
+		private const int IdleTurnDuration = 140;
+
+		// Token: 0x040013E0 RID: 5088
+		private const int IdleTurnIntervalMin = 150;
+
+		// Token: 0x040013E1 RID: 5089
+		private const int IdleTurnIntervalMax = 350;
 	}
 }

@@ -1,57 +1,54 @@
-using System;
+﻿using System;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000848 RID: 2120
 	public class DragBox
 	{
-		public bool active;
-
-		public Vector3 start;
-
-		private const float DragBoxMinDiagonal = 0.5f;
-
+		// Token: 0x17000798 RID: 1944
+		// (get) Token: 0x06002FF0 RID: 12272 RVA: 0x001A0E04 File Offset: 0x0019F204
 		public float LeftX
 		{
 			get
 			{
-				float x = this.start.x;
-				Vector3 vector = UI.MouseMapPosition();
-				return Math.Min(x, vector.x);
+				return Math.Min(this.start.x, UI.MouseMapPosition().x);
 			}
 		}
 
+		// Token: 0x17000799 RID: 1945
+		// (get) Token: 0x06002FF1 RID: 12273 RVA: 0x001A0E38 File Offset: 0x0019F238
 		public float RightX
 		{
 			get
 			{
-				float x = this.start.x;
-				Vector3 vector = UI.MouseMapPosition();
-				return Math.Max(x, vector.x);
+				return Math.Max(this.start.x, UI.MouseMapPosition().x);
 			}
 		}
 
+		// Token: 0x1700079A RID: 1946
+		// (get) Token: 0x06002FF2 RID: 12274 RVA: 0x001A0E6C File Offset: 0x0019F26C
 		public float BotZ
 		{
 			get
 			{
-				float z = this.start.z;
-				Vector3 vector = UI.MouseMapPosition();
-				return Math.Min(z, vector.z);
+				return Math.Min(this.start.z, UI.MouseMapPosition().z);
 			}
 		}
 
+		// Token: 0x1700079B RID: 1947
+		// (get) Token: 0x06002FF3 RID: 12275 RVA: 0x001A0EA0 File Offset: 0x0019F2A0
 		public float TopZ
 		{
 			get
 			{
-				float z = this.start.z;
-				Vector3 vector = UI.MouseMapPosition();
-				return Math.Max(z, vector.z);
+				return Math.Max(this.start.z, UI.MouseMapPosition().z);
 			}
 		}
 
+		// Token: 0x1700079C RID: 1948
+		// (get) Token: 0x06002FF4 RID: 12276 RVA: 0x001A0ED4 File Offset: 0x0019F2D4
 		public Rect ScreenRect
 		{
 			get
@@ -70,23 +67,28 @@ namespace RimWorld
 					mousePosition.y = vector.y;
 					vector.y = y;
 				}
-				Rect result = default(Rect);
-				result.xMin = vector.x;
-				result.xMax = mousePosition.x;
-				result.yMin = vector.y;
-				result.yMax = mousePosition.y;
-				return result;
+				return new Rect
+				{
+					xMin = vector.x,
+					xMax = mousePosition.x,
+					yMin = vector.y,
+					yMax = mousePosition.y
+				};
 			}
 		}
 
+		// Token: 0x1700079D RID: 1949
+		// (get) Token: 0x06002FF5 RID: 12277 RVA: 0x001A0FAC File Offset: 0x0019F3AC
 		public bool IsValid
 		{
 			get
 			{
-				return (this.start - UI.MouseMapPosition()).magnitude > 0.5;
+				return (this.start - UI.MouseMapPosition()).magnitude > 0.5f;
 			}
 		}
 
+		// Token: 0x1700079E RID: 1950
+		// (get) Token: 0x06002FF6 RID: 12278 RVA: 0x001A0FE0 File Offset: 0x0019F3E0
 		public bool IsValidAndActive
 		{
 			get
@@ -95,6 +97,7 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002FF7 RID: 12279 RVA: 0x001A1009 File Offset: 0x0019F409
 		public void DragBoxOnGUI()
 		{
 			if (this.IsValidAndActive)
@@ -103,31 +106,44 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x06002FF8 RID: 12280 RVA: 0x001A1024 File Offset: 0x0019F424
 		public bool Contains(Thing t)
 		{
+			bool result;
 			if (t is Pawn)
 			{
-				return this.Contains((t as Pawn).Drawer.DrawPos);
+				result = this.Contains((t as Pawn).Drawer.DrawPos);
 			}
-			CellRect.CellRectIterator iterator = t.OccupiedRect().GetIterator();
-			while (!iterator.Done())
+			else
 			{
-				if (this.Contains(iterator.Current.ToVector3Shifted()))
+				CellRect.CellRectIterator iterator = t.OccupiedRect().GetIterator();
+				while (!iterator.Done())
 				{
-					return true;
+					IntVec3 intVec = iterator.Current;
+					if (this.Contains(intVec.ToVector3Shifted()))
+					{
+						return true;
+					}
+					iterator.MoveNext();
 				}
-				iterator.MoveNext();
+				result = false;
 			}
-			return false;
+			return result;
 		}
 
+		// Token: 0x06002FF9 RID: 12281 RVA: 0x001A10AC File Offset: 0x0019F4AC
 		public bool Contains(Vector3 v)
 		{
-			if (v.x + 0.5 > this.LeftX && v.x - 0.5 < this.RightX && v.z + 0.5 > this.BotZ && v.z - 0.5 < this.TopZ)
-			{
-				return true;
-			}
-			return false;
+			return v.x + 0.5f > this.LeftX && v.x - 0.5f < this.RightX && v.z + 0.5f > this.BotZ && v.z - 0.5f < this.TopZ;
 		}
+
+		// Token: 0x040019F0 RID: 6640
+		public bool active;
+
+		// Token: 0x040019F1 RID: 6641
+		public Vector3 start;
+
+		// Token: 0x040019F2 RID: 6642
+		private const float DragBoxMinDiagonal = 0.5f;
 	}
 }

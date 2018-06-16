@@ -1,47 +1,60 @@
+﻿using System;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x0200090D RID: 2317
 	public static class LatitudeSectionUtility
 	{
-		private const float LerpDistance = 5f;
-
+		// Token: 0x060035F6 RID: 13814 RVA: 0x001CF29C File Offset: 0x001CD69C
 		public static LatitudeSection GetReportedLatitudeSection(float latitude)
 		{
-			float num = default(float);
-			float num2 = default(float);
-			float num3 = default(float);
+			float num;
+			float num2;
+			float num3;
 			LatitudeSectionUtility.GetLatitudeSection(latitude, out num, out num2, out num3);
-			if (num == 0.0 && num2 == 0.0 && num3 == 0.0)
+			LatitudeSection result;
+			if (num == 0f && num2 == 0f && num3 == 0f)
 			{
-				return LatitudeSection.Undefined;
+				result = LatitudeSection.Undefined;
 			}
-			if (num == 1.0)
+			else if (num == 1f)
 			{
-				return LatitudeSection.Equatorial;
+				result = LatitudeSection.Equatorial;
 			}
-			if (num3 == 1.0)
+			else if (num3 == 1f)
 			{
-				return LatitudeSection.Polar;
+				result = LatitudeSection.Polar;
 			}
-			return LatitudeSection.Seasonal;
+			else
+			{
+				result = LatitudeSection.Seasonal;
+			}
+			return result;
 		}
 
+		// Token: 0x060035F7 RID: 13815 RVA: 0x001CF30C File Offset: 0x001CD70C
 		public static LatitudeSection GetDominantLatitudeSection(float latitude)
 		{
-			float num = default(float);
-			float num2 = default(float);
-			float num3 = default(float);
+			float num;
+			float num2;
+			float num3;
 			LatitudeSectionUtility.GetLatitudeSection(latitude, out num, out num2, out num3);
-			if (num == 0.0 && num2 == 0.0 && num3 == 0.0)
+			LatitudeSection result;
+			if (num == 0f && num2 == 0f && num3 == 0f)
 			{
-				return LatitudeSection.Undefined;
+				result = LatitudeSection.Undefined;
 			}
-			return GenMath.MaxBy(LatitudeSection.Equatorial, num, LatitudeSection.Seasonal, num2, LatitudeSection.Polar, num3);
+			else
+			{
+				result = GenMath.MaxBy<LatitudeSection>(LatitudeSection.Equatorial, num, LatitudeSection.Seasonal, num2, LatitudeSection.Polar, num3);
+			}
+			return result;
 		}
 
+		// Token: 0x060035F8 RID: 13816 RVA: 0x001CF360 File Offset: 0x001CD760
 		public static void GetLatitudeSection(float latitude, out float equatorial, out float seasonal, out float polar)
 		{
 			float num = Mathf.Abs(latitude);
@@ -56,10 +69,10 @@ namespace RimWorld
 			}
 			else if (num <= maxLatitude2)
 			{
-				equatorial = Mathf.InverseLerp((float)(maxLatitude + 5.0), maxLatitude, num);
-				float a = (float)(1.0 - equatorial);
-				polar = Mathf.InverseLerp((float)(maxLatitude2 - 5.0), maxLatitude2, num);
-				float b = (float)(1.0 - polar);
+				equatorial = Mathf.InverseLerp(maxLatitude + 5f, maxLatitude, num);
+				float a = 1f - equatorial;
+				polar = Mathf.InverseLerp(maxLatitude2 - 5f, maxLatitude2, num);
+				float b = 1f - polar;
 				seasonal = Mathf.Min(a, b);
 				GenMath.NormalizeToSum1(ref equatorial, ref seasonal, ref polar);
 			}
@@ -77,89 +90,114 @@ namespace RimWorld
 			}
 		}
 
+		// Token: 0x060035F9 RID: 13817 RVA: 0x001CF438 File Offset: 0x001CD838
 		public static float GetMaxLatitude(this LatitudeSection latitudeSection)
 		{
 			switch (Find.World.info.overallTemperature)
 			{
 			case OverallTemperature.VeryCold:
-				switch (latitudeSection)
+				if (latitudeSection == LatitudeSection.Equatorial)
 				{
-				case LatitudeSection.Equatorial:
 					return -999f;
-				case LatitudeSection.Seasonal:
+				}
+				if (latitudeSection == LatitudeSection.Seasonal)
+				{
 					return -999f;
-				case LatitudeSection.Polar:
+				}
+				if (latitudeSection == LatitudeSection.Polar)
+				{
 					return 999f;
 				}
 				break;
 			case OverallTemperature.Cold:
-				switch (latitudeSection)
+				if (latitudeSection == LatitudeSection.Equatorial)
 				{
-				case LatitudeSection.Equatorial:
 					return -999f;
-				case LatitudeSection.Seasonal:
+				}
+				if (latitudeSection == LatitudeSection.Seasonal)
+				{
 					return 15f;
-				case LatitudeSection.Polar:
+				}
+				if (latitudeSection == LatitudeSection.Polar)
+				{
 					return 999f;
 				}
 				break;
 			case OverallTemperature.LittleBitColder:
-				switch (latitudeSection)
+				if (latitudeSection == LatitudeSection.Equatorial)
 				{
-				case LatitudeSection.Equatorial:
 					return -999f;
-				case LatitudeSection.Seasonal:
+				}
+				if (latitudeSection == LatitudeSection.Seasonal)
+				{
 					return 40f;
-				case LatitudeSection.Polar:
+				}
+				if (latitudeSection == LatitudeSection.Polar)
+				{
 					return 999f;
 				}
 				break;
 			case OverallTemperature.Normal:
-				switch (latitudeSection)
+				if (latitudeSection == LatitudeSection.Equatorial)
 				{
-				case LatitudeSection.Equatorial:
 					return 15f;
-				case LatitudeSection.Seasonal:
+				}
+				if (latitudeSection == LatitudeSection.Seasonal)
+				{
 					return 75f;
-				case LatitudeSection.Polar:
+				}
+				if (latitudeSection == LatitudeSection.Polar)
+				{
 					return 999f;
 				}
 				break;
 			case OverallTemperature.LittleBitWarmer:
-				switch (latitudeSection)
+				if (latitudeSection == LatitudeSection.Equatorial)
 				{
-				case LatitudeSection.Equatorial:
 					return 35f;
-				case LatitudeSection.Seasonal:
+				}
+				if (latitudeSection == LatitudeSection.Seasonal)
+				{
 					return 999f;
-				case LatitudeSection.Polar:
+				}
+				if (latitudeSection == LatitudeSection.Polar)
+				{
 					return 999f;
 				}
 				break;
 			case OverallTemperature.Hot:
-				switch (latitudeSection)
+				if (latitudeSection == LatitudeSection.Equatorial)
 				{
-				case LatitudeSection.Equatorial:
 					return 65f;
-				case LatitudeSection.Seasonal:
+				}
+				if (latitudeSection == LatitudeSection.Seasonal)
+				{
 					return 999f;
-				case LatitudeSection.Polar:
+				}
+				if (latitudeSection == LatitudeSection.Polar)
+				{
 					return 999f;
 				}
 				break;
 			case OverallTemperature.VeryHot:
-				switch (latitudeSection)
+				if (latitudeSection == LatitudeSection.Equatorial)
 				{
-				case LatitudeSection.Equatorial:
 					return 999f;
-				case LatitudeSection.Seasonal:
+				}
+				if (latitudeSection == LatitudeSection.Seasonal)
+				{
 					return 999f;
-				case LatitudeSection.Polar:
+				}
+				if (latitudeSection == LatitudeSection.Polar)
+				{
 					return 999f;
 				}
 				break;
 			}
 			return -1f;
 		}
+
+		// Token: 0x04001D21 RID: 7457
+		private const float LerpDistance = 5f;
 	}
 }

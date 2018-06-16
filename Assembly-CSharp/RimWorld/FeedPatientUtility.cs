@@ -1,54 +1,65 @@
+﻿using System;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x02000141 RID: 321
 	public static class FeedPatientUtility
 	{
+		// Token: 0x060006A4 RID: 1700 RVA: 0x00044BB8 File Offset: 0x00042FB8
 		public static bool ShouldBeFed(Pawn p)
 		{
+			bool result;
 			if (p.GetPosture() == PawnPosture.Standing)
 			{
-				return false;
+				result = false;
 			}
-			if (p.NonHumanlikeOrWildMan())
+			else
 			{
-				Building_Bed building_Bed = p.CurrentBed();
-				if (building_Bed != null && building_Bed.Faction == Faction.OfPlayer)
+				if (p.NonHumanlikeOrWildMan())
 				{
-					goto IL_006b;
+					Building_Bed building_Bed = p.CurrentBed();
+					if (building_Bed == null || building_Bed.Faction != Faction.OfPlayer)
+					{
+						return false;
+					}
 				}
-				return false;
-			}
-			if (p.Faction != Faction.OfPlayer && p.HostFaction != Faction.OfPlayer)
-			{
-				return false;
-			}
-			if (!p.InBed())
-			{
-				return false;
-			}
-			goto IL_006b;
-			IL_006b:
-			if (!p.RaceProps.EatsFood)
-			{
-				return false;
-			}
-			if (!HealthAIUtility.ShouldSeekMedicalRest(p))
-			{
-				return false;
-			}
-			if (p.HostFaction != null)
-			{
-				if (p.HostFaction != Faction.OfPlayer)
+				else
 				{
-					return false;
+					if (p.Faction != Faction.OfPlayer && p.HostFaction != Faction.OfPlayer)
+					{
+						return false;
+					}
+					if (!p.InBed())
+					{
+						return false;
+					}
 				}
-				if (p.guest != null && !p.guest.CanBeBroughtFood)
+				if (!p.RaceProps.EatsFood)
 				{
-					return false;
+					result = false;
+				}
+				else if (!HealthAIUtility.ShouldSeekMedicalRest(p))
+				{
+					result = false;
+				}
+				else
+				{
+					if (p.HostFaction != null)
+					{
+						if (p.HostFaction != Faction.OfPlayer)
+						{
+							return false;
+						}
+						if (p.guest != null && !p.guest.CanBeBroughtFood)
+						{
+							return false;
+						}
+					}
+					result = true;
 				}
 			}
-			return true;
+			return result;
 		}
 	}
 }

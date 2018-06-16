@@ -1,45 +1,42 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Verse
 {
+	// Token: 0x02000D1F RID: 3359
 	public class HediffCompProperties_VerbGiver : HediffCompProperties
 	{
-		public List<VerbProperties> verbs;
-
-		public List<Tool> tools;
-
+		// Token: 0x060049E8 RID: 18920 RVA: 0x00269ED6 File Offset: 0x002682D6
 		public HediffCompProperties_VerbGiver()
 		{
-			base.compClass = typeof(HediffComp_VerbGiver);
+			this.compClass = typeof(HediffComp_VerbGiver);
 		}
 
+		// Token: 0x060049E9 RID: 18921 RVA: 0x00269F00 File Offset: 0x00268300
 		public override IEnumerable<string> ConfigErrors(HediffDef parentDef)
 		{
-			using (IEnumerator<string> enumerator = base.ConfigErrors(parentDef).GetEnumerator())
+			foreach (string err in this.<ConfigErrors>__BaseCallProxy0(parentDef))
 			{
-				if (enumerator.MoveNext())
+				yield return err;
+			}
+			if (this.tools != null)
+			{
+				Tool dupeTool = this.tools.SelectMany((Tool lhs) => from rhs in this.tools
+				where lhs != rhs && lhs.label == rhs.label
+				select rhs).FirstOrDefault<Tool>();
+				if (dupeTool != null)
 				{
-					string err = enumerator.Current;
-					yield return err;
-					/*Error: Unable to find new state assignment for yield return*/;
+					yield return string.Format("duplicate hediff tool id {0}", dupeTool.Id);
 				}
 			}
-			if (this.tools == null)
-				yield break;
-			Tool dupeTool = this.tools.SelectMany(delegate(Tool lhs)
-			{
-				HediffCompProperties_VerbGiver _0024this = ((_003CConfigErrors_003Ec__Iterator0)/*Error near IL_00d6: stateMachine*/)._0024this;
-				return from rhs in ((_003CConfigErrors_003Ec__Iterator0)/*Error near IL_00d6: stateMachine*/)._0024this.tools
-				where lhs != rhs && lhs.label == rhs.label
-				select rhs;
-			}).FirstOrDefault();
-			if (dupeTool == null)
-				yield break;
-			yield return string.Format("duplicate hediff tool id {0}", dupeTool.Id);
-			/*Error: Unable to find new state assignment for yield return*/;
-			IL_0134:
-			/*Error near IL_0135: Unexpected return in MoveNext()*/;
+			yield break;
 		}
+
+		// Token: 0x04003221 RID: 12833
+		public List<VerbProperties> verbs = null;
+
+		// Token: 0x04003222 RID: 12834
+		public List<Tool> tools = null;
 	}
 }

@@ -1,50 +1,104 @@
+﻿using System;
 using System.Collections.Generic;
 using Verse;
 using Verse.AI.Group;
 
 namespace RimWorld
 {
+	// Token: 0x0200034B RID: 843
 	public class IncidentWorker_TravelerGroup : IncidentWorker_NeutralGroup
 	{
+		// Token: 0x06000E8B RID: 3723 RVA: 0x0007B114 File Offset: 0x00079514
 		protected override bool TryExecuteWorker(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
+			bool result;
+			IntVec3 travelDest;
 			if (!base.TryResolveParms(parms))
 			{
-				return false;
+				result = false;
 			}
-			IntVec3 travelDest = default(IntVec3);
-			if (!RCellFinder.TryFindTravelDestFrom(parms.spawnCenter, map, out travelDest))
+			else if (!RCellFinder.TryFindTravelDestFrom(parms.spawnCenter, map, out travelDest))
 			{
-				Log.Warning("Failed to do traveler incident from " + parms.spawnCenter + ": couldn't find anywhere for the traveler to go.");
-				return false;
-			}
-			List<Pawn> list = base.SpawnPawns(parms);
-			if (list.Count == 0)
-			{
-				return false;
-			}
-			string text;
-			if (list.Count == 1)
-			{
-				text = "SingleTravelerPassing".Translate(list[0].story.Title.ToLower(), parms.faction.Name, list[0].Name);
-				text = text.AdjustedFor(list[0]);
+				Log.Warning("Failed to do traveler incident from " + parms.spawnCenter + ": Couldn't find anywhere for the traveler to go.", false);
+				result = false;
 			}
 			else
 			{
-				text = "GroupTravelersPassing".Translate(parms.faction.Name);
+				List<Pawn> list = base.SpawnPawns(parms);
+				if (list.Count == 0)
+				{
+					result = false;
+				}
+				else
+				{
+					string text;
+					if (list.Count == 1)
+					{
+						text = "SingleTravelerPassing".Translate(new object[]
+						{
+							list[0].story.Title,
+							parms.faction.Name,
+							list[0].Name
+						});
+						text = text.AdjustedFor(list[0]);
+					}
+					else
+					{
+						text = "GroupTravelersPassing".Translate(new object[]
+						{
+							parms.faction.Name
+						});
+					}
+					Messages.Message(text, list[0], MessageTypeDefOf.NeutralEvent, true);
+					LordJob_TravelAndExit lordJob = new LordJob_TravelAndExit(travelDest);
+					LordMaker.MakeNewLord(parms.faction, lordJob, map, list);
+					PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter_Send(list, "LetterRelatedPawnsNeutralGroup".Translate(new object[]
+					{
+						Faction.OfPlayer.def.pawnsPlural
+					}), LetterDefOf.NeutralEvent, true, true);
+					result = true;
+				}
 			}
-			Messages.Message(text, list[0], MessageTypeDefOf.NeutralEvent);
-			LordJob_TravelAndExit lordJob = new LordJob_TravelAndExit(travelDest);
-			LordMaker.MakeNewLord(parms.faction, lordJob, map, list);
-			string empty = string.Empty;
-			string empty2 = string.Empty;
-			PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter(list, ref empty, ref empty2, "LetterRelatedPawnsNeutralGroup".Translate(), true, true);
-			if (!empty2.NullOrEmpty())
-			{
-				Find.LetterStack.ReceiveLetter(empty, empty2, LetterDefOf.NeutralEvent, list[0], null);
-			}
-			return true;
+			return result;
 		}
+
+		// Token: 0x06000E8C RID: 3724 RVA: 0x0007B286 File Offset: 0x00079686
+		protected override void ResolveParmsPoints(IncidentParms parms)
+		{
+			if (parms.points < 0f)
+			{
+				parms.points = Rand.ByCurve(IncidentWorker_TravelerGroup.PointsCurve);
+			}
+		}
+
+		// Token: 0x040008F6 RID: 2294
+		private static readonly SimpleCurve PointsCurve = new SimpleCurve
+		{
+			{
+				new CurvePoint(40f, 0f),
+				true
+			},
+			{
+				new CurvePoint(50f, 1f),
+				true
+			},
+			{
+				new CurvePoint(100f, 1f),
+				true
+			},
+			{
+				new CurvePoint(200f, 0.5f),
+				true
+			},
+			{
+				new CurvePoint(300f, 0.1f),
+				true
+			},
+			{
+				new CurvePoint(500f, 0f),
+				true
+			}
+		};
 	}
 }

@@ -1,32 +1,29 @@
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Verse;
 
 namespace RimWorld
 {
+	// Token: 0x020007AD RID: 1965
 	public abstract class Alert_Thought : Alert
 	{
-		protected string explanationKey;
+		// Token: 0x170006BE RID: 1726
+		// (get) Token: 0x06002B67 RID: 11111
+		protected abstract ThoughtDef Thought { get; }
 
-		private static List<Thought> tmpThoughts = new List<Thought>();
-
-		protected abstract ThoughtDef Thought
-		{
-			get;
-		}
-
+		// Token: 0x06002B68 RID: 11112 RVA: 0x0016EA40 File Offset: 0x0016CE40
 		private IEnumerable<Pawn> AffectedPawns()
 		{
-			foreach (Pawn allMaps_FreeColonist in PawnsFinder.AllMaps_FreeColonists)
+			foreach (Pawn p in PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists_NoCryptosleep)
 			{
-				if (allMaps_FreeColonist.Dead)
+				if (p.Dead)
 				{
-					Log.Error("Dead pawn in PawnsFinder.AllMaps_FreeColonists:" + allMaps_FreeColonist);
+					Log.Error("Dead pawn in PawnsFinder.AllMapsCaravansAndTravelingTransportPods_Alive_FreeColonists:" + p, false);
 				}
-				else if (!ThingOwnerUtility.ContentsFrozen(allMaps_FreeColonist.ParentHolder))
+				else
 				{
-					allMaps_FreeColonist.needs.mood.thoughts.GetAllMoodThoughts(Alert_Thought.tmpThoughts);
+					p.needs.mood.thoughts.GetAllMoodThoughts(Alert_Thought.tmpThoughts);
 					try
 					{
 						ThoughtDef requiredDef = this.Thought;
@@ -34,40 +31,44 @@ namespace RimWorld
 						{
 							if (Alert_Thought.tmpThoughts[i].def == requiredDef)
 							{
-								yield return allMaps_FreeColonist;
-								/*Error: Unable to find new state assignment for yield return*/;
+								yield return p;
+								break;
 							}
 						}
 					}
 					finally
 					{
-						((_003CAffectedPawns_003Ec__Iterator0)/*Error near IL_015a: stateMachine*/)._003C_003E__Finally0();
+						Alert_Thought.tmpThoughts.Clear();
 					}
 				}
 			}
 			yield break;
-			IL_019a:
-			/*Error near IL_019b: Unexpected return in MoveNext()*/;
 		}
 
+		// Token: 0x06002B69 RID: 11113 RVA: 0x0016EA6C File Offset: 0x0016CE6C
 		public override AlertReport GetReport()
 		{
-			Pawn pawn = this.AffectedPawns().FirstOrDefault();
-			if (pawn != null)
-			{
-				return AlertReport.CulpritIs(pawn);
-			}
-			return AlertReport.Inactive;
+			return AlertReport.CulpritsAre(this.AffectedPawns());
 		}
 
+		// Token: 0x06002B6A RID: 11114 RVA: 0x0016EA8C File Offset: 0x0016CE8C
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			foreach (Pawn item in this.AffectedPawns())
+			foreach (Pawn pawn in this.AffectedPawns())
 			{
-				stringBuilder.AppendLine("    " + item.NameStringShort);
+				stringBuilder.AppendLine("    " + pawn.LabelShort);
 			}
-			return this.explanationKey.Translate(stringBuilder.ToString());
+			return this.explanationKey.Translate(new object[]
+			{
+				stringBuilder.ToString()
+			});
 		}
+
+		// Token: 0x0400173F RID: 5951
+		protected string explanationKey;
+
+		// Token: 0x04001740 RID: 5952
+		private static List<Thought> tmpThoughts = new List<Thought>();
 	}
 }

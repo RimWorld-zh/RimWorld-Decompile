@@ -1,29 +1,23 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Xml;
 
 namespace Verse
 {
+	// Token: 0x02000CE1 RID: 3297
 	public class PatchOperationFindMod : PatchOperation
 	{
-		private List<string> mods;
-
-		private PatchOperation match;
-
-		private PatchOperation nomatch;
-
+		// Token: 0x0600488D RID: 18573 RVA: 0x00260B74 File Offset: 0x0025EF74
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
 			bool flag = false;
-			int num = 0;
-			while (num < this.mods.Count)
+			for (int i = 0; i < this.mods.Count; i++)
 			{
-				if (ModLister.GetModWithIdentifier(this.mods[num]) == null)
+				if (ModLister.HasActiveModWithName(this.mods[i]))
 				{
-					num++;
-					continue;
+					flag = true;
+					break;
 				}
-				flag = true;
-				break;
 			}
 			if (flag)
 			{
@@ -39,9 +33,19 @@ namespace Verse
 			return false;
 		}
 
+		// Token: 0x0600488E RID: 18574 RVA: 0x00260C14 File Offset: 0x0025F014
 		public override string ToString()
 		{
-			return string.Format("{0}({1})", base.ToString(), GenText.ToCommaList(this.mods, false));
+			return string.Format("{0}({1})", base.ToString(), this.mods.ToCommaList(false));
 		}
+
+		// Token: 0x04003111 RID: 12561
+		private List<string> mods;
+
+		// Token: 0x04003112 RID: 12562
+		private PatchOperation match;
+
+		// Token: 0x04003113 RID: 12563
+		private PatchOperation nomatch;
 	}
 }

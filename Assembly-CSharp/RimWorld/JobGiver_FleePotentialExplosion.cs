@@ -1,44 +1,57 @@
+﻿using System;
 using Verse;
 using Verse.AI;
 
 namespace RimWorld
 {
+	// Token: 0x020000AB RID: 171
 	public class JobGiver_FleePotentialExplosion : ThinkNode_JobGiver
 	{
-		public const float FleeDist = 9f;
-
+		// Token: 0x06000426 RID: 1062 RVA: 0x00031AA4 File Offset: 0x0002FEA4
 		protected override Job TryGiveJob(Pawn pawn)
 		{
-			if ((int)pawn.RaceProps.intelligence < 2)
+			Job result;
+			if (pawn.RaceProps.intelligence < Intelligence.Humanlike)
 			{
-				return null;
+				result = null;
 			}
-			if (pawn.mindState.knownExploder == null)
+			else if (pawn.mindState.knownExploder == null)
 			{
-				return null;
+				result = null;
 			}
-			if (!pawn.mindState.knownExploder.Spawned)
+			else if (!pawn.mindState.knownExploder.Spawned)
 			{
 				pawn.mindState.knownExploder = null;
-				return null;
+				result = null;
 			}
-			if (PawnUtility.PlayerForcedJobNowOrSoon(pawn))
+			else if (PawnUtility.PlayerForcedJobNowOrSoon(pawn))
 			{
-				return null;
+				result = null;
 			}
-			Thing knownExploder = pawn.mindState.knownExploder;
-			if ((float)(pawn.Position - knownExploder.Position).LengthHorizontalSquared > 81.0)
+			else
 			{
-				return null;
+				Thing knownExploder = pawn.mindState.knownExploder;
+				IntVec3 c;
+				if ((float)(pawn.Position - knownExploder.Position).LengthHorizontalSquared > 81f)
+				{
+					result = null;
+				}
+				else if (!RCellFinder.TryFindDirectFleeDestination(knownExploder.Position, 9f, pawn, out c))
+				{
+					result = null;
+				}
+				else
+				{
+					result = new Job(JobDefOf.Goto, c)
+					{
+						locomotionUrgency = LocomotionUrgency.Sprint
+					};
+				}
 			}
-			IntVec3 c = default(IntVec3);
-			if (!RCellFinder.TryFindDirectFleeDestination(knownExploder.Position, 9f, pawn, out c))
-			{
-				return null;
-			}
-			Job job = new Job(JobDefOf.Goto, c);
-			job.locomotionUrgency = LocomotionUrgency.Sprint;
-			return job;
+			return result;
 		}
+
+		// Token: 0x0400027C RID: 636
+		public const float FleeDist = 9f;
 	}
 }

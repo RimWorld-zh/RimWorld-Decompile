@@ -1,16 +1,20 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000C43 RID: 3139
 	public abstract class SectionLayer
 	{
-		protected Section section;
+		// Token: 0x0600451D RID: 17693 RVA: 0x00084A78 File Offset: 0x00082E78
+		public SectionLayer(Section section)
+		{
+			this.section = section;
+		}
 
-		public MapMeshFlag relevantChangeTypes;
-
-		public List<LayerSubMesh> subMeshes = new List<LayerSubMesh>();
-
+		// Token: 0x17000AE8 RID: 2792
+		// (get) Token: 0x0600451E RID: 17694 RVA: 0x00084A9C File Offset: 0x00082E9C
 		protected Map Map
 		{
 			get
@@ -19,6 +23,8 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000AE9 RID: 2793
+		// (get) Token: 0x0600451F RID: 17695 RVA: 0x00084ABC File Offset: 0x00082EBC
 		public virtual bool Visible
 		{
 			get
@@ -27,34 +33,42 @@ namespace Verse
 			}
 		}
 
-		public SectionLayer(Section section)
-		{
-			this.section = section;
-		}
-
+		// Token: 0x06004520 RID: 17696 RVA: 0x00084AD4 File Offset: 0x00082ED4
 		public LayerSubMesh GetSubMesh(Material material)
 		{
-			if ((Object)material == (Object)null)
+			LayerSubMesh result;
+			if (material == null)
 			{
-				return null;
+				result = null;
 			}
-			for (int i = 0; i < this.subMeshes.Count; i++)
+			else
 			{
-				if ((Object)this.subMeshes[i].material == (Object)material)
+				for (int i = 0; i < this.subMeshes.Count; i++)
 				{
-					return this.subMeshes[i];
+					if (this.subMeshes[i].material == material)
+					{
+						return this.subMeshes[i];
+					}
 				}
+				Mesh mesh = new Mesh();
+				if (UnityData.isEditor)
+				{
+					mesh.name = string.Concat(new object[]
+					{
+						"SectionLayerSubMesh_",
+						base.GetType().Name,
+						"_",
+						this.Map.Tile
+					});
+				}
+				LayerSubMesh layerSubMesh = new LayerSubMesh(mesh, material);
+				this.subMeshes.Add(layerSubMesh);
+				result = layerSubMesh;
 			}
-			Mesh mesh = new Mesh();
-			if (UnityData.isEditor)
-			{
-				mesh.name = "SectionLayerSubMesh_" + base.GetType().Name + "_" + this.Map.Tile;
-			}
-			LayerSubMesh layerSubMesh = new LayerSubMesh(mesh, material);
-			this.subMeshes.Add(layerSubMesh);
-			return layerSubMesh;
+			return result;
 		}
 
+		// Token: 0x06004521 RID: 17697 RVA: 0x00084BB0 File Offset: 0x00082FB0
 		protected void FinalizeMesh(MeshParts tags)
 		{
 			for (int i = 0; i < this.subMeshes.Count; i++)
@@ -66,6 +80,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004522 RID: 17698 RVA: 0x00084C0C File Offset: 0x0008300C
 		public virtual void DrawLayer()
 		{
 			if (this.Visible)
@@ -82,14 +97,25 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06004523 RID: 17699
 		public abstract void Regenerate();
 
+		// Token: 0x06004524 RID: 17700 RVA: 0x00084C8C File Offset: 0x0008308C
 		protected void ClearSubMeshes(MeshParts parts)
 		{
-			foreach (LayerSubMesh subMesh in this.subMeshes)
+			foreach (LayerSubMesh layerSubMesh in this.subMeshes)
 			{
-				subMesh.Clear(parts);
+				layerSubMesh.Clear(parts);
 			}
 		}
+
+		// Token: 0x04002F41 RID: 12097
+		protected Section section;
+
+		// Token: 0x04002F42 RID: 12098
+		public MapMeshFlag relevantChangeTypes = MapMeshFlag.None;
+
+		// Token: 0x04002F43 RID: 12099
+		public List<LayerSubMesh> subMeshes = new List<LayerSubMesh>();
 	}
 }

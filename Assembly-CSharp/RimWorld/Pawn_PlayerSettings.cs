@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -6,104 +7,10 @@ using Verse.AI.Group;
 
 namespace RimWorld
 {
+	// Token: 0x02000523 RID: 1315
 	public class Pawn_PlayerSettings : IExposable
 	{
-		private Pawn pawn;
-
-		private Area areaAllowedInt;
-
-		public int joinTick = -1;
-
-		public Pawn master;
-
-		public bool followDrafted = true;
-
-		public bool followFieldwork = true;
-
-		public bool animalsReleased;
-
-		public MedicalCareCategory medCare = MedicalCareCategory.NoMeds;
-
-		public HostilityResponseMode hostilityResponse = HostilityResponseMode.Flee;
-
-		public bool selfTend;
-
-		public Area EffectiveAreaRestrictionInPawnCurrentMap
-		{
-			get
-			{
-				if (this.areaAllowedInt != null && this.areaAllowedInt.Map != this.pawn.MapHeld)
-				{
-					return null;
-				}
-				return this.EffectiveAreaRestriction;
-			}
-		}
-
-		public Area EffectiveAreaRestriction
-		{
-			get
-			{
-				if (!this.RespectsAllowedArea)
-				{
-					return null;
-				}
-				return this.areaAllowedInt;
-			}
-		}
-
-		public Area AreaRestriction
-		{
-			get
-			{
-				return this.areaAllowedInt;
-			}
-			set
-			{
-				this.areaAllowedInt = value;
-			}
-		}
-
-		public bool RespectsAllowedArea
-		{
-			get
-			{
-				if (this.pawn.GetLord() != null)
-				{
-					return false;
-				}
-				return this.pawn.Faction == Faction.OfPlayer && this.pawn.HostFaction == null;
-			}
-		}
-
-		public bool RespectsMaster
-		{
-			get
-			{
-				if (this.master == null)
-				{
-					return false;
-				}
-				return this.pawn.Faction == Faction.OfPlayer && this.master.Faction == this.pawn.Faction;
-			}
-		}
-
-		public Pawn RespectedMaster
-		{
-			get
-			{
-				return (!this.RespectsMaster) ? null : this.master;
-			}
-		}
-
-		public bool UsesConfigurableHostilityResponse
-		{
-			get
-			{
-				return this.pawn.IsColonist && this.pawn.HostFaction == null;
-			}
-		}
-
+		// Token: 0x060017F2 RID: 6130 RVA: 0x000D12EC File Offset: 0x000CF6EC
 		public Pawn_PlayerSettings(Pawn pawn)
 		{
 			this.pawn = pawn;
@@ -118,6 +25,130 @@ namespace RimWorld
 			this.Notify_FactionChanged();
 		}
 
+		// Token: 0x1700034D RID: 845
+		// (get) Token: 0x060017F3 RID: 6131 RVA: 0x000D1374 File Offset: 0x000CF774
+		// (set) Token: 0x060017F4 RID: 6132 RVA: 0x000D1390 File Offset: 0x000CF790
+		public Pawn Master
+		{
+			get
+			{
+				return this.master;
+			}
+			set
+			{
+				if (this.master != value)
+				{
+					if (value != null && !this.pawn.training.HasLearned(TrainableDefOf.Obedience))
+					{
+						Log.ErrorOnce("Attempted to set master for non-obedient pawn", 73908573, false);
+					}
+					else
+					{
+						bool flag = ThinkNode_ConditionalShouldFollowMaster.ShouldFollowMaster(this.pawn);
+						this.master = value;
+						if (this.pawn.Spawned && (flag || ThinkNode_ConditionalShouldFollowMaster.ShouldFollowMaster(this.pawn)))
+						{
+							this.pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+						}
+					}
+				}
+			}
+		}
+
+		// Token: 0x1700034E RID: 846
+		// (get) Token: 0x060017F5 RID: 6133 RVA: 0x000D1430 File Offset: 0x000CF830
+		public Area EffectiveAreaRestrictionInPawnCurrentMap
+		{
+			get
+			{
+				Area result;
+				if (this.areaAllowedInt != null && this.areaAllowedInt.Map != this.pawn.MapHeld)
+				{
+					result = null;
+				}
+				else
+				{
+					result = this.EffectiveAreaRestriction;
+				}
+				return result;
+			}
+		}
+
+		// Token: 0x1700034F RID: 847
+		// (get) Token: 0x060017F6 RID: 6134 RVA: 0x000D1478 File Offset: 0x000CF878
+		public Area EffectiveAreaRestriction
+		{
+			get
+			{
+				Area result;
+				if (!this.RespectsAllowedArea)
+				{
+					result = null;
+				}
+				else
+				{
+					result = this.areaAllowedInt;
+				}
+				return result;
+			}
+		}
+
+		// Token: 0x17000350 RID: 848
+		// (get) Token: 0x060017F7 RID: 6135 RVA: 0x000D14A8 File Offset: 0x000CF8A8
+		// (set) Token: 0x060017F8 RID: 6136 RVA: 0x000D14C3 File Offset: 0x000CF8C3
+		public Area AreaRestriction
+		{
+			get
+			{
+				return this.areaAllowedInt;
+			}
+			set
+			{
+				this.areaAllowedInt = value;
+			}
+		}
+
+		// Token: 0x17000351 RID: 849
+		// (get) Token: 0x060017F9 RID: 6137 RVA: 0x000D14D0 File Offset: 0x000CF8D0
+		public bool RespectsAllowedArea
+		{
+			get
+			{
+				return this.pawn.GetLord() == null && this.pawn.Faction == Faction.OfPlayer && this.pawn.HostFaction == null;
+			}
+		}
+
+		// Token: 0x17000352 RID: 850
+		// (get) Token: 0x060017FA RID: 6138 RVA: 0x000D1524 File Offset: 0x000CF924
+		public bool RespectsMaster
+		{
+			get
+			{
+				return this.Master != null && this.pawn.Faction == Faction.OfPlayer && this.Master.Faction == this.pawn.Faction;
+			}
+		}
+
+		// Token: 0x17000353 RID: 851
+		// (get) Token: 0x060017FB RID: 6139 RVA: 0x000D157C File Offset: 0x000CF97C
+		public Pawn RespectedMaster
+		{
+			get
+			{
+				return (!this.RespectsMaster) ? null : this.Master;
+			}
+		}
+
+		// Token: 0x17000354 RID: 852
+		// (get) Token: 0x060017FC RID: 6140 RVA: 0x000D15A8 File Offset: 0x000CF9A8
+		public bool UsesConfigurableHostilityResponse
+		{
+			get
+			{
+				return this.pawn.IsColonist && this.pawn.HostFaction == null;
+			}
+		}
+
+		// Token: 0x060017FD RID: 6141 RVA: 0x000D15E0 File Offset: 0x000CF9E0
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.joinTick, "joinTick", 0, false);
@@ -129,50 +160,57 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.followFieldwork, "followFieldwork", false, false);
 			Scribe_Values.Look<HostilityResponseMode>(ref this.hostilityResponse, "hostilityResponse", HostilityResponseMode.Flee, false);
 			Scribe_Values.Look<bool>(ref this.selfTend, "selfTend", false, false);
+			Scribe_Values.Look<int>(ref this.displayOrder, "displayOrder", 0, false);
 		}
 
+		// Token: 0x060017FE RID: 6142 RVA: 0x000D16A0 File Offset: 0x000CFAA0
 		public IEnumerable<Gizmo> GetGizmos()
 		{
-			if (!this.pawn.Drafted)
-				yield break;
-			if (!PawnUtility.SpawnedMasteredPawns(this.pawn).Any((Pawn p) => p.training.IsCompleted(TrainableDefOf.Release)))
-				yield break;
-			yield return (Gizmo)new Command_Toggle
+			if (this.pawn.Drafted)
 			{
-				defaultLabel = "CommandReleaseAnimalsLabel".Translate(),
-				defaultDesc = "CommandReleaseAnimalsDesc".Translate(),
-				icon = TexCommand.ReleaseAnimals,
-				hotKey = KeyBindingDefOf.Misc7,
-				isActive = (() => ((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00c8: stateMachine*/)._0024this.animalsReleased),
-				toggleAction = delegate
+				if (PawnUtility.SpawnedMasteredPawns(this.pawn).Any((Pawn p) => p.training.HasLearned(TrainableDefOf.Release)))
 				{
-					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00df: stateMachine*/)._0024this.animalsReleased = !((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00df: stateMachine*/)._0024this.animalsReleased;
-					if (((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00df: stateMachine*/)._0024this.animalsReleased)
+					yield return new Command_Toggle
 					{
-						foreach (Pawn item in PawnUtility.SpawnedMasteredPawns(((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_00df: stateMachine*/)._0024this.pawn))
+						defaultLabel = "CommandReleaseAnimalsLabel".Translate(),
+						defaultDesc = "CommandReleaseAnimalsDesc".Translate(),
+						icon = TexCommand.ReleaseAnimals,
+						hotKey = KeyBindingDefOf.Misc7,
+						isActive = (() => this.animalsReleased),
+						toggleAction = delegate()
 						{
-							if (item.caller != null)
+							this.animalsReleased = !this.animalsReleased;
+							if (this.animalsReleased)
 							{
-								item.caller.Notify_Released();
+								foreach (Pawn pawn in PawnUtility.SpawnedMasteredPawns(this.pawn))
+								{
+									if (pawn.caller != null)
+									{
+										pawn.caller.Notify_Released();
+									}
+									pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
+								}
 							}
-							item.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
 						}
-					}
+					};
 				}
-			};
-			/*Error: Unable to find new state assignment for yield return*/;
+			}
+			yield break;
 		}
 
+		// Token: 0x060017FF RID: 6143 RVA: 0x000D16CA File Offset: 0x000CFACA
 		public void Notify_FactionChanged()
 		{
 			this.ResetMedicalCare();
 		}
 
+		// Token: 0x06001800 RID: 6144 RVA: 0x000D16D3 File Offset: 0x000CFAD3
 		public void Notify_MadePrisoner()
 		{
 			this.ResetMedicalCare();
 		}
 
+		// Token: 0x06001801 RID: 6145 RVA: 0x000D16DC File Offset: 0x000CFADC
 		public void ResetMedicalCare()
 		{
 			if (Scribe.mode != LoadSaveMode.LoadingVars)
@@ -183,33 +221,34 @@ namespace RimWorld
 					{
 						if (!this.pawn.IsPrisoner)
 						{
-							this.medCare = Find.World.settings.defaultCareForColonyHumanlike;
+							this.medCare = Find.PlaySettings.defaultCareForColonyHumanlike;
 						}
 						else
 						{
-							this.medCare = Find.World.settings.defaultCareForColonyPrisoner;
+							this.medCare = Find.PlaySettings.defaultCareForColonyPrisoner;
 						}
 					}
 					else
 					{
-						this.medCare = Find.World.settings.defaultCareForColonyAnimal;
+						this.medCare = Find.PlaySettings.defaultCareForColonyAnimal;
 					}
 				}
 				else if (this.pawn.Faction == null && this.pawn.RaceProps.Animal)
 				{
-					this.medCare = Find.World.settings.defaultCareForNeutralAnimal;
+					this.medCare = Find.PlaySettings.defaultCareForNeutralAnimal;
 				}
 				else if (this.pawn.Faction == null || !this.pawn.Faction.HostileTo(Faction.OfPlayer))
 				{
-					this.medCare = Find.World.settings.defaultCareForNeutralFaction;
+					this.medCare = Find.PlaySettings.defaultCareForNeutralFaction;
 				}
 				else
 				{
-					this.medCare = Find.World.settings.defaultCareForHostileFaction;
+					this.medCare = Find.PlaySettings.defaultCareForHostileFaction;
 				}
 			}
 		}
 
+		// Token: 0x06001802 RID: 6146 RVA: 0x000D1803 File Offset: 0x000CFC03
 		public void Notify_AreaRemoved(Area area)
 		{
 			if (this.areaAllowedInt == area)
@@ -217,5 +256,38 @@ namespace RimWorld
 				this.areaAllowedInt = null;
 			}
 		}
+
+		// Token: 0x04000E23 RID: 3619
+		private Pawn pawn;
+
+		// Token: 0x04000E24 RID: 3620
+		private Area areaAllowedInt = null;
+
+		// Token: 0x04000E25 RID: 3621
+		public int joinTick = -1;
+
+		// Token: 0x04000E26 RID: 3622
+		private Pawn master = null;
+
+		// Token: 0x04000E27 RID: 3623
+		public bool followDrafted = true;
+
+		// Token: 0x04000E28 RID: 3624
+		public bool followFieldwork = true;
+
+		// Token: 0x04000E29 RID: 3625
+		public bool animalsReleased = false;
+
+		// Token: 0x04000E2A RID: 3626
+		public MedicalCareCategory medCare = MedicalCareCategory.NoMeds;
+
+		// Token: 0x04000E2B RID: 3627
+		public HostilityResponseMode hostilityResponse = HostilityResponseMode.Flee;
+
+		// Token: 0x04000E2C RID: 3628
+		public bool selfTend = false;
+
+		// Token: 0x04000E2D RID: 3629
+		public int displayOrder;
 	}
 }

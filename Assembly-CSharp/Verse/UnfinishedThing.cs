@@ -1,26 +1,17 @@
-using RimWorld;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using RimWorld;
 using UnityEngine;
 
 namespace Verse
 {
+	// Token: 0x02000DFF RID: 3583
 	public class UnfinishedThing : ThingWithComps
 	{
-		private Pawn creatorInt;
-
-		private string creatorName = "ErrorCreatorName";
-
-		private RecipeDef recipeInt;
-
-		public List<Thing> ingredients = new List<Thing>();
-
-		private Bill_ProductionWithUft boundBillInt;
-
-		public float workLeft = -10000f;
-
-		private const float CancelIngredientRecoveryFraction = 0.75f;
-
+		// Token: 0x17000D40 RID: 3392
+		// (get) Token: 0x06005106 RID: 20742 RVA: 0x0029980C File Offset: 0x00297C0C
+		// (set) Token: 0x06005107 RID: 20743 RVA: 0x00299827 File Offset: 0x00297C27
 		public Pawn Creator
 		{
 			get
@@ -31,16 +22,18 @@ namespace Verse
 			{
 				if (value == null)
 				{
-					Log.Error("Cannot set creator to null.");
+					Log.Error("Cannot set creator to null.", false);
 				}
 				else
 				{
 					this.creatorInt = value;
-					this.creatorName = value.NameStringShort;
+					this.creatorName = value.LabelShort;
 				}
 			}
 		}
 
+		// Token: 0x17000D41 RID: 3393
+		// (get) Token: 0x06005108 RID: 20744 RVA: 0x00299854 File Offset: 0x00297C54
 		public RecipeDef Recipe
 		{
 			get
@@ -49,13 +42,19 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000D42 RID: 3394
+		// (get) Token: 0x06005109 RID: 20745 RVA: 0x00299870 File Offset: 0x00297C70
+		// (set) Token: 0x0600510A RID: 20746 RVA: 0x002998C0 File Offset: 0x00297CC0
 		public Bill_ProductionWithUft BoundBill
 		{
 			get
 			{
-				if (this.boundBillInt != null && (this.boundBillInt.DeletedOrDereferenced || this.boundBillInt.BoundUft != this))
+				if (this.boundBillInt != null)
 				{
-					this.boundBillInt = null;
+					if (this.boundBillInt.DeletedOrDereferenced || this.boundBillInt.BoundUft != this)
+					{
+						this.boundBillInt = null;
+					}
 				}
 				return this.boundBillInt;
 			}
@@ -81,74 +80,143 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x17000D43 RID: 3395
+		// (get) Token: 0x0600510B RID: 20747 RVA: 0x00299930 File Offset: 0x00297D30
 		public Thing BoundWorkTable
 		{
 			get
 			{
+				Thing result;
 				if (this.BoundBill == null)
 				{
-					return null;
+					result = null;
 				}
-				IBillGiver billGiver = this.BoundBill.billStack.billGiver;
-				Thing thing = billGiver as Thing;
-				if (thing.Destroyed)
+				else
 				{
-					return null;
+					IBillGiver billGiver = this.BoundBill.billStack.billGiver;
+					Thing thing = billGiver as Thing;
+					if (thing.Destroyed)
+					{
+						result = null;
+					}
+					else
+					{
+						result = thing;
+					}
 				}
-				return thing;
+				return result;
 			}
 		}
 
+		// Token: 0x17000D44 RID: 3396
+		// (get) Token: 0x0600510C RID: 20748 RVA: 0x00299984 File Offset: 0x00297D84
 		public override string LabelNoCount
 		{
 			get
 			{
+				string result;
 				if (this.Recipe == null)
 				{
-					return base.LabelNoCount;
+					result = base.LabelNoCount;
 				}
-				if (base.Stuff == null)
+				else if (base.Stuff == null)
 				{
-					return "UnfinishedItem".Translate(this.Recipe.products[0].thingDef.label);
+					result = "UnfinishedItem".Translate(new object[]
+					{
+						this.Recipe.products[0].thingDef.label
+					});
 				}
-				return "UnfinishedItemWithStuff".Translate(base.Stuff.LabelAsStuff, this.Recipe.products[0].thingDef.label);
+				else
+				{
+					result = "UnfinishedItemWithStuff".Translate(new object[]
+					{
+						base.Stuff.LabelAsStuff,
+						this.Recipe.products[0].thingDef.label
+					});
+				}
+				return result;
 			}
 		}
 
+		// Token: 0x17000D45 RID: 3397
+		// (get) Token: 0x0600510D RID: 20749 RVA: 0x00299A2C File Offset: 0x00297E2C
+		public override string DescriptionDetailed
+		{
+			get
+			{
+				string result;
+				if (this.Recipe == null)
+				{
+					result = base.LabelNoCount;
+				}
+				else
+				{
+					result = this.Recipe.ProducedThingDef.DescriptionDetailed;
+				}
+				return result;
+			}
+		}
+
+		// Token: 0x17000D46 RID: 3398
+		// (get) Token: 0x0600510E RID: 20750 RVA: 0x00299A68 File Offset: 0x00297E68
+		public override string DescriptionFlavor
+		{
+			get
+			{
+				string result;
+				if (this.Recipe == null)
+				{
+					result = base.LabelNoCount;
+				}
+				else
+				{
+					result = this.Recipe.ProducedThingDef.description;
+				}
+				return result;
+			}
+		}
+
+		// Token: 0x17000D47 RID: 3399
+		// (get) Token: 0x0600510F RID: 20751 RVA: 0x00299AA4 File Offset: 0x00297EA4
 		public bool Initialized
 		{
 			get
 			{
-				return this.workLeft > -5000.0;
+				return this.workLeft > -5000f;
 			}
 		}
 
+		// Token: 0x06005110 RID: 20752 RVA: 0x00299AC8 File Offset: 0x00297EC8
 		public override void ExposeData()
 		{
 			base.ExposeData();
-			if (Scribe.mode == LoadSaveMode.Saving && this.boundBillInt != null && this.boundBillInt.DeletedOrDereferenced)
+			if (Scribe.mode == LoadSaveMode.Saving)
 			{
-				this.boundBillInt = null;
+				if (this.boundBillInt != null && this.boundBillInt.DeletedOrDereferenced)
+				{
+					this.boundBillInt = null;
+				}
 			}
 			Scribe_References.Look<Pawn>(ref this.creatorInt, "creator", false);
-			Scribe_Values.Look<string>(ref this.creatorName, "creatorName", (string)null, false);
+			Scribe_Values.Look<string>(ref this.creatorName, "creatorName", null, false);
 			Scribe_References.Look<Bill_ProductionWithUft>(ref this.boundBillInt, "bill", false);
 			Scribe_Defs.Look<RecipeDef>(ref this.recipeInt, "recipe");
 			Scribe_Values.Look<float>(ref this.workLeft, "workLeft", 0f, false);
 			Scribe_Collections.Look<Thing>(ref this.ingredients, "ingredients", LookMode.Deep, new object[0]);
 		}
 
+		// Token: 0x06005111 RID: 20753 RVA: 0x00299B7C File Offset: 0x00297F7C
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
 		{
 			if (mode == DestroyMode.Cancel)
 			{
 				for (int i = 0; i < this.ingredients.Count; i++)
 				{
-					int num = GenMath.RoundRandom((float)((float)this.ingredients[i].stackCount * 0.75));
+					int num = GenMath.RoundRandom((float)this.ingredients[i].stackCount * 0.75f);
 					if (num > 0)
 					{
 						this.ingredients[i].stackCount = num;
-						GenPlace.TryPlaceThing(this.ingredients[i], base.Position, base.Map, ThingPlaceMode.Near, null);
+						GenPlace.TryPlaceThing(this.ingredients[i], base.Position, base.Map, ThingPlaceMode.Near, null, null);
 					}
 				}
 				this.ingredients.Clear();
@@ -157,33 +225,28 @@ namespace Verse
 			this.BoundBill = null;
 		}
 
+		// Token: 0x06005112 RID: 20754 RVA: 0x00299C24 File Offset: 0x00298024
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
-			using (IEnumerator<Gizmo> enumerator = base.GetGizmos().GetEnumerator())
+			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
 			{
-				if (enumerator.MoveNext())
-				{
-					Gizmo c = enumerator.Current;
-					yield return c;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return c;
 			}
-			yield return (Gizmo)new Command_Action
+			yield return new Command_Action
 			{
 				defaultLabel = "CommandCancelConstructionLabel".Translate(),
 				defaultDesc = "CommandCancelConstructionDesc".Translate(),
 				icon = ContentFinder<Texture2D>.Get("UI/Designators/Cancel", true),
-				hotKey = KeyBindingDefOf.DesignatorCancel,
-				action = delegate
+				hotKey = KeyBindingDefOf.Designator_Cancel,
+				action = delegate()
 				{
-					((_003CGetGizmos_003Ec__Iterator0)/*Error near IL_0115: stateMachine*/)._0024this.Destroy(DestroyMode.Cancel);
+					this.Destroy(DestroyMode.Cancel);
 				}
 			};
-			/*Error: Unable to find new state assignment for yield return*/;
-			IL_014f:
-			/*Error near IL_0150: Unexpected return in MoveNext()*/;
+			yield break;
 		}
 
+		// Token: 0x06005113 RID: 20755 RVA: 0x00299C50 File Offset: 0x00298050
 		public Bill_ProductionWithUft BillOnTableForMe(Thing workTable)
 		{
 			if (this.Recipe.AllRecipeUsers.Contains(workTable.def))
@@ -192,15 +255,22 @@ namespace Verse
 				for (int i = 0; i < billGiver.BillStack.Count; i++)
 				{
 					Bill_ProductionWithUft bill_ProductionWithUft = billGiver.BillStack[i] as Bill_ProductionWithUft;
-					if (bill_ProductionWithUft != null && bill_ProductionWithUft.ShouldDoNow() && bill_ProductionWithUft != null && bill_ProductionWithUft.recipe == this.Recipe)
+					if (bill_ProductionWithUft != null)
 					{
-						return bill_ProductionWithUft;
+						if (bill_ProductionWithUft.ShouldDoNow())
+						{
+							if (bill_ProductionWithUft != null && bill_ProductionWithUft.recipe == this.Recipe)
+							{
+								return bill_ProductionWithUft;
+							}
+						}
 					}
 				}
 			}
 			return null;
 		}
 
+		// Token: 0x06005114 RID: 20756 RVA: 0x00299CF3 File Offset: 0x002980F3
 		public override void DrawExtraSelectionOverlays()
 		{
 			base.DrawExtraSelectionOverlays();
@@ -210,6 +280,7 @@ namespace Verse
 			}
 		}
 
+		// Token: 0x06005115 RID: 20757 RVA: 0x00299D20 File Offset: 0x00298120
 		public override string GetInspectString()
 		{
 			string text = base.GetInspectString();
@@ -219,7 +290,35 @@ namespace Verse
 			}
 			text = text + "Author".Translate() + ": " + this.creatorName;
 			string text2 = text;
-			return text2 + "\n" + "WorkLeft".Translate() + ": " + this.workLeft.ToStringWorkAmount();
+			return string.Concat(new string[]
+			{
+				text2,
+				"\n",
+				"WorkLeft".Translate(),
+				": ",
+				this.workLeft.ToStringWorkAmount()
+			});
 		}
+
+		// Token: 0x0400353A RID: 13626
+		private Pawn creatorInt;
+
+		// Token: 0x0400353B RID: 13627
+		private string creatorName = "ErrorCreatorName";
+
+		// Token: 0x0400353C RID: 13628
+		private RecipeDef recipeInt;
+
+		// Token: 0x0400353D RID: 13629
+		public List<Thing> ingredients = new List<Thing>();
+
+		// Token: 0x0400353E RID: 13630
+		private Bill_ProductionWithUft boundBillInt;
+
+		// Token: 0x0400353F RID: 13631
+		public float workLeft = -10000f;
+
+		// Token: 0x04003540 RID: 13632
+		private const float CancelIngredientRecoveryFraction = 0.75f;
 	}
 }

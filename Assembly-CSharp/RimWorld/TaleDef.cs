@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Verse;
@@ -6,81 +6,91 @@ using Verse.Grammar;
 
 namespace RimWorld
 {
+	// Token: 0x020002DE RID: 734
 	public class TaleDef : Def
 	{
-		public TaleType type;
-
-		public Type taleClass;
-
-		public bool usableForArt = true;
-
-		public bool colonistOnly = true;
-
-		public int maxPerPawn = -1;
-
-		public float ignoreChance;
-
-		public float expireDays = -1f;
-
-		public RulePack rulePack;
-
-		[NoTranslate]
-		public string firstPawnSymbol = "firstPawn";
-
-		[NoTranslate]
-		public string secondPawnSymbol = "secondPawn";
-
-		[NoTranslate]
-		public string defSymbol = "def";
-
-		public Type defType = typeof(ThingDef);
-
-		public float baseInterest;
-
-		public Color historyGraphColor = Color.white;
-
+		// Token: 0x06000C19 RID: 3097 RVA: 0x0006B580 File Offset: 0x00069980
 		public override IEnumerable<string> ConfigErrors()
 		{
-			using (IEnumerator<string> enumerator = base.ConfigErrors().GetEnumerator())
+			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
 			{
-				if (enumerator.MoveNext())
-				{
-					string err = enumerator.Current;
-					yield return err;
-					/*Error: Unable to find new state assignment for yield return*/;
-				}
+				yield return err;
 			}
 			if (this.taleClass == null)
 			{
-				yield return base.defName + " taleClass is null.";
-				/*Error: Unable to find new state assignment for yield return*/;
+				yield return this.defName + " taleClass is null.";
 			}
-			if (this.expireDays < 0.0)
+			if (this.expireDays < 0f)
 			{
 				if (this.type == TaleType.Expirable)
 				{
 					yield return "Expirable tale type is used but expireDays<0";
-					/*Error: Unable to find new state assignment for yield return*/;
 				}
 			}
 			else if (this.type != TaleType.Expirable)
 			{
 				yield return "Non expirable tale type is used but expireDays>=0";
-				/*Error: Unable to find new state assignment for yield return*/;
 			}
-			if (!(this.baseInterest > 9.9999999747524271E-07))
-				yield break;
-			if (this.usableForArt)
-				yield break;
-			yield return "Non-zero baseInterest but not usable for art";
-			/*Error: Unable to find new state assignment for yield return*/;
-			IL_01c6:
-			/*Error near IL_01c7: Unexpected return in MoveNext()*/;
+			if (this.baseInterest > 1E-06f && !this.usableForArt)
+			{
+				yield return "Non-zero baseInterest but not usable for art";
+			}
+			if (this.firstPawnSymbol == "pawn" || this.secondPawnSymbol == "pawn")
+			{
+				yield return "pawn symbols should not be 'pawn', this is the default and only choice for SinglePawn tales so using it here is confusing.";
+			}
+			yield break;
 		}
 
+		// Token: 0x06000C1A RID: 3098 RVA: 0x0006B5AC File Offset: 0x000699AC
 		public static TaleDef Named(string str)
 		{
 			return DefDatabase<TaleDef>.GetNamed(str, true);
 		}
+
+		// Token: 0x04000783 RID: 1923
+		public TaleType type = TaleType.Volatile;
+
+		// Token: 0x04000784 RID: 1924
+		public Type taleClass = null;
+
+		// Token: 0x04000785 RID: 1925
+		public bool usableForArt = true;
+
+		// Token: 0x04000786 RID: 1926
+		public bool colonistOnly = true;
+
+		// Token: 0x04000787 RID: 1927
+		public int maxPerPawn = -1;
+
+		// Token: 0x04000788 RID: 1928
+		public float ignoreChance = 0f;
+
+		// Token: 0x04000789 RID: 1929
+		public float expireDays = -1f;
+
+		// Token: 0x0400078A RID: 1930
+		public RulePack rulePack;
+
+		// Token: 0x0400078B RID: 1931
+		[NoTranslate]
+		public string firstPawnSymbol = null;
+
+		// Token: 0x0400078C RID: 1932
+		[NoTranslate]
+		public string secondPawnSymbol = null;
+
+		// Token: 0x0400078D RID: 1933
+		[NoTranslate]
+		public string defSymbol = null;
+
+		// Token: 0x0400078E RID: 1934
+		public Type defType = typeof(ThingDef);
+
+		// Token: 0x0400078F RID: 1935
+		public float baseInterest = 0f;
+
+		// Token: 0x04000790 RID: 1936
+		public Color historyGraphColor = Color.white;
 	}
 }
