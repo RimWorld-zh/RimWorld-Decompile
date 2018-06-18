@@ -1,0 +1,426 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F4C6938A-CCFD-46AB-B3E7-2AEB908376CF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Assembly-CSharp-firstpass</RootNamespace>
+    <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System">
+      <HintPath>D:\Games\SteamLibrary\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\System.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>D:\Games\SteamLibrary\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Steamworks\AccountID_t.cs" />
+    <Compile Include="Steamworks\AppId_t.cs" />
+    <Compile Include="Steamworks\AppProofOfPurchaseKeyResponse_t.cs" />
+    <Compile Include="Steamworks\AssociateWithClanResult_t.cs" />
+    <Compile Include="Steamworks\AudioPlayback_Status.cs" />
+    <Compile Include="Steamworks\AvatarImageLoaded_t.cs" />
+    <Compile Include="Steamworks\BroadcastUploadStart_t.cs" />
+    <Compile Include="Steamworks\BroadcastUploadStop_t.cs" />
+    <Compile Include="Steamworks\Callback.cs" />
+    <Compile Include="Steamworks\CallbackDispatcher.cs" />
+    <Compile Include="Steamworks\CallbackIdentities.cs" />
+    <Compile Include="Steamworks\CallbackIdentityAttribute.cs" />
+    <Compile Include="Steamworks\CallbackMsg_t.cs" />
+    <Compile Include="Steamworks\CallResult.cs" />
+    <Compile Include="Steamworks\CCallbackBase.cs" />
+    <Compile Include="Steamworks\CCallbackBaseVTable.cs" />
+    <Compile Include="Steamworks\CGameID.cs" />
+    <Compile Include="Steamworks\CheckFileSignature_t.cs" />
+    <Compile Include="Steamworks\ClanOfficerListResponse_t.cs" />
+    <Compile Include="Steamworks\ClientGameServerDeny_t.cs" />
+    <Compile Include="Steamworks\ClientUnifiedMessageHandle.cs" />
+    <Compile Include="Steamworks\ComputeNewPlayerCompatibilityResult_t.cs" />
+    <Compile Include="Steamworks\Constants.cs" />
+    <Compile Include="Steamworks\CreateItemResult_t.cs" />
+    <Compile Include="Steamworks\CSteamID.cs" />
+    <Compile Include="Steamworks\DepotId_t.cs" />
+    <Compile Include="Steamworks\DlcInstalled_t.cs" />
+    <Compile Include="Steamworks\DllCheck.cs" />
+    <Compile Include="Steamworks\DownloadClanActivityCountsResult_t.cs" />
+    <Compile Include="Steamworks\DownloadItemResult_t.cs" />
+    <Compile Include="Steamworks\EAccountType.cs" />
+    <Compile Include="Steamworks\EAppOwnershipFlags.cs" />
+    <Compile Include="Steamworks\EAppReleaseState.cs" />
+    <Compile Include="Steamworks\EAppType.cs" />
+    <Compile Include="Steamworks\EAuthSessionResponse.cs" />
+    <Compile Include="Steamworks\EBeginAuthSessionResult.cs" />
+    <Compile Include="Steamworks\EBroadcastUploadResult.cs" />
+    <Compile Include="Steamworks\EChatEntryType.cs" />
+    <Compile Include="Steamworks\EChatMemberStateChange.cs" />
+    <Compile Include="Steamworks\EChatRoomEnterResponse.cs" />
+    <Compile Include="Steamworks\EChatSteamIDInstanceFlags.cs" />
+    <Compile Include="Steamworks\ECheckFileSignature.cs" />
+    <Compile Include="Steamworks\EDenyReason.cs" />
+    <Compile Include="Steamworks\EFailureType.cs" />
+    <Compile Include="Steamworks\EFriendFlags.cs" />
+    <Compile Include="Steamworks\EFriendRelationship.cs" />
+    <Compile Include="Steamworks\EGamepadTextInputLineMode.cs" />
+    <Compile Include="Steamworks\EGamepadTextInputMode.cs" />
+    <Compile Include="Steamworks\EGCResults.cs" />
+    <Compile Include="Steamworks\EHTMLKeyModifiers.cs" />
+    <Compile Include="Steamworks\EHTMLMouseButton.cs" />
+    <Compile Include="Steamworks\EHTTPMethod.cs" />
+    <Compile Include="Steamworks\EHTTPStatusCode.cs" />
+    <Compile Include="Steamworks\EItemState.cs" />
+    <Compile Include="Steamworks\EItemStatistic.cs" />
+    <Compile Include="Steamworks\EItemUpdateStatus.cs" />
+    <Compile Include="Steamworks\ELeaderboardDataRequest.cs" />
+    <Compile Include="Steamworks\ELeaderboardDisplayType.cs" />
+    <Compile Include="Steamworks\ELeaderboardSortMethod.cs" />
+    <Compile Include="Steamworks\ELeaderboardUploadScoreMethod.cs" />
+    <Compile Include="Steamworks\ELobbyComparison.cs" />
+    <Compile Include="Steamworks\ELobbyDistanceFilter.cs" />
+    <Compile Include="Steamworks\ELobbyType.cs" />
+    <Compile Include="Steamworks\EMarketingMessageFlags.cs" />
+    <Compile Include="Steamworks\EMatchMakingServerResponse.cs" />
+    <Compile Include="Steamworks\EMouseCursor.cs" />
+    <Compile Include="Steamworks\EncryptedAppTicketResponse_t.cs" />
+    <Compile Include="Steamworks\ENotificationPosition.cs" />
+    <Compile Include="Steamworks\EOverlayToStoreFlag.cs" />
+    <Compile Include="Steamworks\EP2PSend.cs" />
+    <Compile Include="Steamworks\EP2PSessionError.cs" />
+    <Compile Include="Steamworks\EPersonaChange.cs" />
+    <Compile Include="Steamworks\EPersonaState.cs" />
+    <Compile Include="Steamworks\ERegisterActivationCodeResult.cs" />
+    <Compile Include="Steamworks\ERemoteStoragePlatform.cs" />
+    <Compile Include="Steamworks\ERemoteStoragePublishedFileVisibility.cs" />
+    <Compile Include="Steamworks\EResolveConflict.cs" />
+    <Compile Include="Steamworks\EResult.cs" />
+    <Compile Include="Steamworks\EServerMode.cs" />
+    <Compile Include="Steamworks\ESNetSocketConnectionType.cs" />
+    <Compile Include="Steamworks\ESNetSocketState.cs" />
+    <Compile Include="Steamworks\ESteamAPICallFailure.cs" />
+    <Compile Include="Steamworks\ESteamControllerPad.cs" />
+    <Compile Include="Steamworks\ESteamItemFlags.cs" />
+    <Compile Include="Steamworks\ESteamUserStatType.cs" />
+    <Compile Include="Steamworks\EUGCMatchingUGCType.cs" />
+    <Compile Include="Steamworks\EUGCQuery.cs" />
+    <Compile Include="Steamworks\EUGCReadAction.cs" />
+    <Compile Include="Steamworks\EUniverse.cs" />
+    <Compile Include="Steamworks\EUserHasLicenseForAppResult.cs" />
+    <Compile Include="Steamworks\EUserRestriction.cs" />
+    <Compile Include="Steamworks\EUserUGCList.cs" />
+    <Compile Include="Steamworks\EUserUGCListSortOrder.cs" />
+    <Compile Include="Steamworks\EVoiceResult.cs" />
+    <Compile Include="Steamworks\EWorkshopEnumerationType.cs" />
+    <Compile Include="Steamworks\EWorkshopFileAction.cs" />
+    <Compile Include="Steamworks\EWorkshopFileType.cs" />
+    <Compile Include="Steamworks\EWorkshopVideoProvider.cs" />
+    <Compile Include="Steamworks\EWorkshopVote.cs" />
+    <Compile Include="Steamworks\FavoritesListAccountsUpdated_t.cs" />
+    <Compile Include="Steamworks\FavoritesListChanged_t.cs" />
+    <Compile Include="Steamworks\FriendGameInfo_t.cs" />
+    <Compile Include="Steamworks\FriendRichPresenceUpdate_t.cs" />
+    <Compile Include="Steamworks\FriendsEnumerateFollowingList_t.cs" />
+    <Compile Include="Steamworks\FriendSessionStateInfo_t.cs" />
+    <Compile Include="Steamworks\FriendsGetFollowerCount_t.cs" />
+    <Compile Include="Steamworks\FriendsGroupID_t.cs" />
+    <Compile Include="Steamworks\FriendsIsFollowing_t.cs" />
+    <Compile Include="Steamworks\GameConnectedChatJoin_t.cs" />
+    <Compile Include="Steamworks\GameConnectedChatLeave_t.cs" />
+    <Compile Include="Steamworks\GameConnectedClanChatMsg_t.cs" />
+    <Compile Include="Steamworks\GameConnectedFriendChatMsg_t.cs" />
+    <Compile Include="Steamworks\GameLobbyJoinRequested_t.cs" />
+    <Compile Include="Steamworks\GameOverlayActivated_t.cs" />
+    <Compile Include="Steamworks\GamepadTextInputDismissed_t.cs" />
+    <Compile Include="Steamworks\GameRichPresenceJoinRequested_t.cs" />
+    <Compile Include="Steamworks\GameServer.cs" />
+    <Compile Include="Steamworks\GameServerChangeRequested_t.cs" />
+    <Compile Include="Steamworks\gameserveritem_t.cs" />
+    <Compile Include="Steamworks\GameWebCallback_t.cs" />
+    <Compile Include="Steamworks\GCMessageAvailable_t.cs" />
+    <Compile Include="Steamworks\GCMessageFailed_t.cs" />
+    <Compile Include="Steamworks\GetAuthSessionTicketResponse_t.cs" />
+    <Compile Include="Steamworks\GetUserItemVoteResult_t.cs" />
+    <Compile Include="Steamworks\GetVideoURLResult_t.cs" />
+    <Compile Include="Steamworks\GlobalAchievementPercentagesReady_t.cs" />
+    <Compile Include="Steamworks\GlobalStatsReceived_t.cs" />
+    <Compile Include="Steamworks\GSClientAchievementStatus_t.cs" />
+    <Compile Include="Steamworks\GSClientApprove_t.cs" />
+    <Compile Include="Steamworks\GSClientDeny_t.cs" />
+    <Compile Include="Steamworks\GSClientGroupStatus_t.cs" />
+    <Compile Include="Steamworks\GSClientKick_t.cs" />
+    <Compile Include="Steamworks\GSGameplayStats_t.cs" />
+    <Compile Include="Steamworks\GSPolicyResponse_t.cs" />
+    <Compile Include="Steamworks\GSReputation_t.cs" />
+    <Compile Include="Steamworks\GSStatsReceived_t.cs" />
+    <Compile Include="Steamworks\GSStatsStored_t.cs" />
+    <Compile Include="Steamworks\GSStatsUnloaded_t.cs" />
+    <Compile Include="Steamworks\HAuthTicket.cs" />
+    <Compile Include="Steamworks\HHTMLBrowser.cs" />
+    <Compile Include="Steamworks\HServerListRequest.cs" />
+    <Compile Include="Steamworks\HServerQuery.cs" />
+    <Compile Include="Steamworks\HSteamPipe.cs" />
+    <Compile Include="Steamworks\HSteamUser.cs" />
+    <Compile Include="Steamworks\HTML_BrowserReady_t.cs" />
+    <Compile Include="Steamworks\HTML_CanGoBackAndForward_t.cs" />
+    <Compile Include="Steamworks\HTML_ChangedTitle_t.cs" />
+    <Compile Include="Steamworks\HTML_CloseBrowser_t.cs" />
+    <Compile Include="Steamworks\HTML_FileOpenDialog_t.cs" />
+    <Compile Include="Steamworks\HTML_FinishedRequest_t.cs" />
+    <Compile Include="Steamworks\HTML_HideToolTip_t.cs" />
+    <Compile Include="Steamworks\HTML_HorizontalScroll_t.cs" />
+    <Compile Include="Steamworks\HTML_JSAlert_t.cs" />
+    <Compile Include="Steamworks\HTML_JSConfirm_t.cs" />
+    <Compile Include="Steamworks\HTML_LinkAtPosition_t.cs" />
+    <Compile Include="Steamworks\HTML_NeedsPaint_t.cs" />
+    <Compile Include="Steamworks\HTML_NewWindow_t.cs" />
+    <Compile Include="Steamworks\HTML_OpenLinkInNewTab_t.cs" />
+    <Compile Include="Steamworks\HTML_SearchResults_t.cs" />
+    <Compile Include="Steamworks\HTML_SetCursor_t.cs" />
+    <Compile Include="Steamworks\HTML_ShowToolTip_t.cs" />
+    <Compile Include="Steamworks\HTML_StartRequest_t.cs" />
+    <Compile Include="Steamworks\HTML_StatusText_t.cs" />
+    <Compile Include="Steamworks\HTML_UpdateToolTip_t.cs" />
+    <Compile Include="Steamworks\HTML_URLChanged_t.cs" />
+    <Compile Include="Steamworks\HTML_VerticalScroll_t.cs" />
+    <Compile Include="Steamworks\HTTPCookieContainerHandle.cs" />
+    <Compile Include="Steamworks\HTTPRequestCompleted_t.cs" />
+    <Compile Include="Steamworks\HTTPRequestDataReceived_t.cs" />
+    <Compile Include="Steamworks\HTTPRequestHandle.cs" />
+    <Compile Include="Steamworks\HTTPRequestHeadersReceived_t.cs" />
+    <Compile Include="Steamworks\InteropHelp.cs" />
+    <Compile Include="Steamworks\IPCFailure_t.cs" />
+    <Compile Include="Steamworks\IPCountry_t.cs" />
+    <Compile Include="Steamworks\ISteamMatchmakingPingResponse.cs" />
+    <Compile Include="Steamworks\ISteamMatchmakingPlayersResponse.cs" />
+    <Compile Include="Steamworks\ISteamMatchmakingRulesResponse.cs" />
+    <Compile Include="Steamworks\ISteamMatchmakingServerListResponse.cs" />
+    <Compile Include="Steamworks\ItemInstalled_t.cs" />
+    <Compile Include="Steamworks\JoinClanChatRoomCompletionResult_t.cs" />
+    <Compile Include="Steamworks\LeaderboardEntry_t.cs" />
+    <Compile Include="Steamworks\LeaderboardFindResult_t.cs" />
+    <Compile Include="Steamworks\LeaderboardScoresDownloaded_t.cs" />
+    <Compile Include="Steamworks\LeaderboardScoreUploaded_t.cs" />
+    <Compile Include="Steamworks\LeaderboardUGCSet_t.cs" />
+    <Compile Include="Steamworks\LicensesUpdated_t.cs" />
+    <Compile Include="Steamworks\LobbyChatMsg_t.cs" />
+    <Compile Include="Steamworks\LobbyChatUpdate_t.cs" />
+    <Compile Include="Steamworks\LobbyCreated_t.cs" />
+    <Compile Include="Steamworks\LobbyDataUpdate_t.cs" />
+    <Compile Include="Steamworks\LobbyEnter_t.cs" />
+    <Compile Include="Steamworks\LobbyGameCreated_t.cs" />
+    <Compile Include="Steamworks\LobbyInvite_t.cs" />
+    <Compile Include="Steamworks\LobbyKicked_t.cs" />
+    <Compile Include="Steamworks\LobbyMatchList_t.cs" />
+    <Compile Include="Steamworks\LowBatteryPower_t.cs" />
+    <Compile Include="Steamworks\ManifestId_t.cs" />
+    <Compile Include="Steamworks\MatchMakingKeyValuePair_t.cs" />
+    <Compile Include="Steamworks\MicroTxnAuthorizationResponse_t.cs" />
+    <Compile Include="Steamworks\MMKVPMarshaller.cs" />
+    <Compile Include="Steamworks\MusicPlayerRemoteToFront_t.cs" />
+    <Compile Include="Steamworks\MusicPlayerRemoteWillActivate_t.cs" />
+    <Compile Include="Steamworks\MusicPlayerRemoteWillDeactivate_t.cs" />
+    <Compile Include="Steamworks\MusicPlayerSelectsPlaylistEntry_t.cs" />
+    <Compile Include="Steamworks\MusicPlayerSelectsQueueEntry_t.cs" />
+    <Compile Include="Steamworks\MusicPlayerWantsLooped_t.cs" />
+    <Compile Include="Steamworks\MusicPlayerWantsPause_t.cs" />
+    <Compile Include="Steamworks\MusicPlayerWantsPlayingRepeatStatus_t.cs" />
+    <Compile Include="Steamworks\MusicPlayerWantsPlayNext_t.cs" />
+    <Compile Include="Steamworks\MusicPlayerWantsPlayPrevious_t.cs" />
+    <Compile Include="Steamworks\MusicPlayerWantsPlay_t.cs" />
+    <Compile Include="Steamworks\MusicPlayerWantsShuffled_t.cs" />
+    <Compile Include="Steamworks\MusicPlayerWantsVolume_t.cs" />
+    <Compile Include="Steamworks\MusicPlayerWillQuit_t.cs" />
+    <Compile Include="Steamworks\NativeMethods.cs" />
+    <Compile Include="Steamworks\NewLaunchQueryParameters_t.cs" />
+    <Compile Include="Steamworks\NumberOfCurrentPlayers_t.cs" />
+    <Compile Include="Steamworks\P2PSessionConnectFail_t.cs" />
+    <Compile Include="Steamworks\P2PSessionRequest_t.cs" />
+    <Compile Include="Steamworks\P2PSessionState_t.cs" />
+    <Compile Include="Steamworks\Packsize.cs" />
+    <Compile Include="Steamworks\PersonaStateChange_t.cs" />
+    <Compile Include="Steamworks\PlaybackStatusHasChanged_t.cs" />
+    <Compile Include="Steamworks\PublishedFileId_t.cs" />
+    <Compile Include="Steamworks\PublishedFileUpdateHandle_t.cs" />
+    <Compile Include="Steamworks\RegisterActivationCodeResponse_t.cs" />
+    <Compile Include="Steamworks\RemoteStorageAppSyncedClient_t.cs" />
+    <Compile Include="Steamworks\RemoteStorageAppSyncedServer_t.cs" />
+    <Compile Include="Steamworks\RemoteStorageAppSyncProgress_t.cs" />
+    <Compile Include="Steamworks\RemoteStorageAppSyncStatusCheck_t.cs" />
+    <Compile Include="Steamworks\RemoteStorageConflictResolution_t.cs" />
+    <Compile Include="Steamworks\RemoteStorageDeletePublishedFileResult_t.cs" />
+    <Compile Include="Steamworks\RemoteStorageDownloadUGCResult_t.cs" />
+    <Compile Include="Steamworks\RemoteStorageEnumeratePublishedFilesByUserActionResult_t.cs" />
+    <Compile Include="Steamworks\RemoteStorageEnumerateUserPublishedFilesResult_t.cs" />
+    <Compile Include="Steamworks\RemoteStorageEnumerateUserSharedWorkshopFilesResult_t.cs" />
+    <Compile Include="Steamworks\RemoteStorageEnumerateUserSubscribedFilesResult_t.cs" />
+    <Compile Include="Steamworks\RemoteStorageEnumerateWorkshopFilesResult_t.cs" />
+    <Compile Include="Steamworks\RemoteStorageFileShareResult_t.cs" />
+    <Compile Include="Steamworks\RemoteStorageGetPublishedFileDetailsResult_t.cs" />
+    <Compile Include="Steamworks\RemoteStorageGetPublishedItemVoteDetailsResult_t.cs" />
+    <Compile Include="Steamworks\RemoteStoragePublishedFileDeleted_t.cs" />
+    <Compile Include="Steamworks\RemoteStoragePublishedFileSubscribed_t.cs" />
+    <Compile Include="Steamworks\RemoteStoragePublishedFileUnsubscribed_t.cs" />
+    <Compile Include="Steamworks\RemoteStoragePublishedFileUpdated_t.cs" />
+    <Compile Include="Steamworks\RemoteStoragePublishFileProgress_t.cs" />
+    <Compile Include="Steamworks\RemoteStoragePublishFileResult_t.cs" />
+    <Compile Include="Steamworks\RemoteStorageSetUserPublishedFileActionResult_t.cs" />
+    <Compile Include="Steamworks\RemoteStorageSubscribePublishedFileResult_t.cs" />
+    <Compile Include="Steamworks\RemoteStorageUnsubscribePublishedFileResult_t.cs" />
+    <Compile Include="Steamworks\RemoteStorageUpdatePublishedFileResult_t.cs" />
+    <Compile Include="Steamworks\RemoteStorageUpdateUserPublishedItemVoteResult_t.cs" />
+    <Compile Include="Steamworks\RemoteStorageUserVoteDetails_t.cs" />
+    <Compile Include="Steamworks\ScreenshotHandle.cs" />
+    <Compile Include="Steamworks\ScreenshotReady_t.cs" />
+    <Compile Include="Steamworks\ScreenshotRequested_t.cs" />
+    <Compile Include="Steamworks\servernetadr_t.cs" />
+    <Compile Include="Steamworks\SetPersonaNameResponse_t.cs" />
+    <Compile Include="Steamworks\SetUserItemVoteResult_t.cs" />
+    <Compile Include="Steamworks\SNetListenSocket_t.cs" />
+    <Compile Include="Steamworks\SNetSocket_t.cs" />
+    <Compile Include="Steamworks\SocketStatusCallback_t.cs" />
+    <Compile Include="Steamworks\SteamAPI.cs" />
+    <Compile Include="Steamworks\SteamAPICallCompleted_t.cs" />
+    <Compile Include="Steamworks\SteamAPICall_t.cs" />
+    <Compile Include="Steamworks\SteamAPIWarningMessageHook_t.cs" />
+    <Compile Include="Steamworks\SteamAPI_CheckCallbackRegistered_t.cs" />
+    <Compile Include="Steamworks\SteamAPI_PostAPIResultInProcess_t.cs" />
+    <Compile Include="Steamworks\SteamAppInstalled_t.cs" />
+    <Compile Include="Steamworks\SteamAppList.cs" />
+    <Compile Include="Steamworks\SteamApps.cs" />
+    <Compile Include="Steamworks\SteamAppUninstalled_t.cs" />
+    <Compile Include="Steamworks\SteamClient.cs" />
+    <Compile Include="Steamworks\SteamController.cs" />
+    <Compile Include="Steamworks\SteamControllerState_t.cs" />
+    <Compile Include="Steamworks\SteamEncryptedAppTicket.cs" />
+    <Compile Include="Steamworks\SteamFriends.cs" />
+    <Compile Include="Steamworks\SteamGameServer.cs" />
+    <Compile Include="Steamworks\SteamGameServerHTTP.cs" />
+    <Compile Include="Steamworks\SteamGameServerInventory.cs" />
+    <Compile Include="Steamworks\SteamGameServerNetworking.cs" />
+    <Compile Include="Steamworks\SteamGameServerStats.cs" />
+    <Compile Include="Steamworks\SteamGameServerUGC.cs" />
+    <Compile Include="Steamworks\SteamGameServerUtils.cs" />
+    <Compile Include="Steamworks\SteamHTMLSurface.cs" />
+    <Compile Include="Steamworks\SteamHTTP.cs" />
+    <Compile Include="Steamworks\SteamInventory.cs" />
+    <Compile Include="Steamworks\SteamInventoryDefinitionUpdate_t.cs" />
+    <Compile Include="Steamworks\SteamInventoryFullUpdate_t.cs" />
+    <Compile Include="Steamworks\SteamInventoryResultReady_t.cs" />
+    <Compile Include="Steamworks\SteamInventoryResult_t.cs" />
+    <Compile Include="Steamworks\SteamItemDef_t.cs" />
+    <Compile Include="Steamworks\SteamItemDetails_t.cs" />
+    <Compile Include="Steamworks\SteamItemInstanceID_t.cs" />
+    <Compile Include="Steamworks\SteamLeaderboardEntries_t.cs" />
+    <Compile Include="Steamworks\SteamLeaderboard_t.cs" />
+    <Compile Include="Steamworks\SteamMatchmaking.cs" />
+    <Compile Include="Steamworks\SteamMatchmakingServers.cs" />
+    <Compile Include="Steamworks\SteamMusic.cs" />
+    <Compile Include="Steamworks\SteamMusicRemote.cs" />
+    <Compile Include="Steamworks\SteamNetworking.cs" />
+    <Compile Include="Steamworks\SteamParamStringArray_t.cs" />
+    <Compile Include="Steamworks\SteamRemoteStorage.cs" />
+    <Compile Include="Steamworks\SteamScreenshots.cs" />
+    <Compile Include="Steamworks\SteamServerConnectFailure_t.cs" />
+    <Compile Include="Steamworks\SteamServersConnected_t.cs" />
+    <Compile Include="Steamworks\SteamServersDisconnected_t.cs" />
+    <Compile Include="Steamworks\SteamShutdown_t.cs" />
+    <Compile Include="Steamworks\SteamUGC.cs" />
+    <Compile Include="Steamworks\SteamUGCDetails_t.cs" />
+    <Compile Include="Steamworks\SteamUGCQueryCompleted_t.cs" />
+    <Compile Include="Steamworks\SteamUGCRequestUGCDetailsResult_t.cs" />
+    <Compile Include="Steamworks\SteamUnifiedMessages.cs" />
+    <Compile Include="Steamworks\SteamUnifiedMessagesSendMethodResult_t.cs" />
+    <Compile Include="Steamworks\SteamUser.cs" />
+    <Compile Include="Steamworks\SteamUserStats.cs" />
+    <Compile Include="Steamworks\SteamUtils.cs" />
+    <Compile Include="Steamworks\SteamVideo.cs" />
+    <Compile Include="Steamworks\StoreAuthURLResponse_t.cs" />
+    <Compile Include="Steamworks\SubmitItemUpdateResult_t.cs" />
+    <Compile Include="Steamworks\UGCFileWriteStreamHandle_t.cs" />
+    <Compile Include="Steamworks\UGCHandle_t.cs" />
+    <Compile Include="Steamworks\UGCQueryHandle_t.cs" />
+    <Compile Include="Steamworks\UGCUpdateHandle_t.cs" />
+    <Compile Include="Steamworks\UserAchievementIconFetched_t.cs" />
+    <Compile Include="Steamworks\UserAchievementStored_t.cs" />
+    <Compile Include="Steamworks\UserFavoriteItemsListChanged_t.cs" />
+    <Compile Include="Steamworks\UserStatsReceived_t.cs" />
+    <Compile Include="Steamworks\UserStatsStored_t.cs" />
+    <Compile Include="Steamworks\UserStatsUnloaded_t.cs" />
+    <Compile Include="Steamworks\ValidateAuthTicketResponse_t.cs" />
+    <Compile Include="Steamworks\Version.cs" />
+    <Compile Include="Steamworks\VolumeHasChanged_t.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\AAMode.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\Antialiasing.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\Bloom.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\BloomAndFlares.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\BloomOptimized.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\BloomScreenBlendMode.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\Blur.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\BlurOptimized.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\CameraMotionBlur.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\ColorCorrectionCurves.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\ColorCorrectionLookup.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\ColorCorrectionRamp.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\ContrastEnhance.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\ContrastStretch.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\CreaseShading.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\DepthOfField.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\DepthOfFieldDeprecated.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\EdgeDetection.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\Fisheye.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\GlobalFog.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\Grayscale.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\HDRBloomMode.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\ImageEffectBase.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\ImageEffects.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\LensflareStyle34.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\MotionBlur.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\NoiseAndGrain.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\NoiseAndScratches.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\PostEffectsBase.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\PostEffectsHelper.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\Quads.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\ScreenOverlay.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\ScreenSpaceAmbientObscurance.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\ScreenSpaceAmbientOcclusion.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\SepiaTone.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\SunShafts.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\TiltShift.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\Tonemapping.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\Triangles.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\TweakMode34.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\Twirl.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\VignetteAndChromaticAberration.cs" />
+    <Compile Include="UnityStandardAssets\ImageEffects\Vortex.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
