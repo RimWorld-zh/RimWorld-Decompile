@@ -8,10 +8,10 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000E50 RID: 3664
+	// Token: 0x02000E4F RID: 3663
 	public class Window_DebugTable : Window
 	{
-		// Token: 0x06005645 RID: 22085 RVA: 0x002C6DE0 File Offset: 0x002C51E0
+		// Token: 0x06005643 RID: 22083 RVA: 0x002C6DE0 File Offset: 0x002C51E0
 		public Window_DebugTable(string[,] tables)
 		{
 			this.tableRaw = tables;
@@ -26,8 +26,8 @@ namespace Verse
 			this.BuildTableSorted();
 		}
 
-		// Token: 0x17000D84 RID: 3460
-		// (get) Token: 0x06005646 RID: 22086 RVA: 0x002C6E80 File Offset: 0x002C5280
+		// Token: 0x17000D83 RID: 3459
+		// (get) Token: 0x06005644 RID: 22084 RVA: 0x002C6E80 File Offset: 0x002C5280
 		public override Vector2 InitialSize
 		{
 			get
@@ -36,7 +36,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005647 RID: 22087 RVA: 0x002C6EA8 File Offset: 0x002C52A8
+		// Token: 0x06005645 RID: 22085 RVA: 0x002C6EA8 File Offset: 0x002C52A8
 		private void BuildTableSorted()
 		{
 			if (this.sortMode == Window_DebugTable.SortMode.Off)
@@ -131,7 +131,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005648 RID: 22088 RVA: 0x002C71BC File Offset: 0x002C55BC
+		// Token: 0x06005646 RID: 22086 RVA: 0x002C71BC File Offset: 0x002C55BC
 		public override void DoWindowContents(Rect inRect)
 		{
 			Text.Font = GameFont.Tiny;
@@ -233,54 +233,54 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0400390A RID: 14602
+		// Token: 0x04003908 RID: 14600
 		private string[,] tableRaw;
 
-		// Token: 0x0400390B RID: 14603
+		// Token: 0x04003909 RID: 14601
 		private Vector2 scrollPosition = Vector2.zero;
 
-		// Token: 0x0400390C RID: 14604
+		// Token: 0x0400390A RID: 14602
 		private string[,] tableSorted;
 
-		// Token: 0x0400390D RID: 14605
+		// Token: 0x0400390B RID: 14603
 		private List<float> colWidths = new List<float>();
 
-		// Token: 0x0400390E RID: 14606
+		// Token: 0x0400390C RID: 14604
 		private List<float> rowHeights = new List<float>();
 
-		// Token: 0x0400390F RID: 14607
+		// Token: 0x0400390D RID: 14605
 		private int sortColumn = -1;
 
-		// Token: 0x04003910 RID: 14608
+		// Token: 0x0400390E RID: 14606
 		private Window_DebugTable.SortMode sortMode = Window_DebugTable.SortMode.Off;
 
-		// Token: 0x04003911 RID: 14609
+		// Token: 0x0400390F RID: 14607
 		private bool[] colVisible;
 
-		// Token: 0x04003912 RID: 14610
+		// Token: 0x04003910 RID: 14608
 		private const float ColExtraWidth = 2f;
 
-		// Token: 0x04003913 RID: 14611
+		// Token: 0x04003911 RID: 14609
 		private const float RowExtraHeight = 2f;
 
-		// Token: 0x04003914 RID: 14612
+		// Token: 0x04003912 RID: 14610
 		private const float HiddenColumnWidth = 10f;
 
-		// Token: 0x02000E51 RID: 3665
+		// Token: 0x02000E50 RID: 3664
 		private enum SortMode
 		{
-			// Token: 0x04003916 RID: 14614
+			// Token: 0x04003914 RID: 14612
 			Off,
-			// Token: 0x04003917 RID: 14615
+			// Token: 0x04003915 RID: 14613
 			Ascending,
-			// Token: 0x04003918 RID: 14616
+			// Token: 0x04003916 RID: 14614
 			Descending
 		}
 
-		// Token: 0x02000E52 RID: 3666
+		// Token: 0x02000E51 RID: 3665
 		public class NumericStringComparer : IComparer<string>
 		{
-			// Token: 0x0600564C RID: 22092 RVA: 0x002C7594 File Offset: 0x002C5994
+			// Token: 0x0600564A RID: 22090 RVA: 0x002C7594 File Offset: 0x002C5994
 			public int Compare(string x, string y)
 			{
 				if (x.Contains("~"))

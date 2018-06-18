@@ -8,14 +8,14 @@ namespace RimWorld
 	// Token: 0x0200051E RID: 1310
 	public class Pawn_TrainingTracker : IExposable
 	{
-		// Token: 0x060017CF RID: 6095 RVA: 0x000CFF3C File Offset: 0x000CE33C
+		// Token: 0x060017D0 RID: 6096 RVA: 0x000CFF90 File Offset: 0x000CE390
 		public Pawn_TrainingTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
 			this.countDecayFrom = Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x060017D0 RID: 6096 RVA: 0x000CFF90 File Offset: 0x000CE390
+		// Token: 0x060017D1 RID: 6097 RVA: 0x000CFFE4 File Offset: 0x000CE3E4
 		public void ExposeData()
 		{
 			Scribe_Deep.Look<DefMap<TrainableDef, bool>>(ref this.wantedTrainables, "wantedTrainables", new object[0]);
@@ -28,25 +28,25 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017D1 RID: 6097 RVA: 0x000D0018 File Offset: 0x000CE418
+		// Token: 0x060017D2 RID: 6098 RVA: 0x000D006C File Offset: 0x000CE46C
 		public bool GetWanted(TrainableDef td)
 		{
 			return this.wantedTrainables[td];
 		}
 
-		// Token: 0x060017D2 RID: 6098 RVA: 0x000D0039 File Offset: 0x000CE439
+		// Token: 0x060017D3 RID: 6099 RVA: 0x000D008D File Offset: 0x000CE48D
 		private void SetWanted(TrainableDef td, bool wanted)
 		{
 			this.wantedTrainables[td] = wanted;
 		}
 
-		// Token: 0x060017D3 RID: 6099 RVA: 0x000D004C File Offset: 0x000CE44C
+		// Token: 0x060017D4 RID: 6100 RVA: 0x000D00A0 File Offset: 0x000CE4A0
 		internal int GetSteps(TrainableDef td)
 		{
 			return this.steps[td];
 		}
 
-		// Token: 0x060017D4 RID: 6100 RVA: 0x000D0070 File Offset: 0x000CE470
+		// Token: 0x060017D5 RID: 6101 RVA: 0x000D00C4 File Offset: 0x000CE4C4
 		public bool CanBeTrained(TrainableDef td)
 		{
 			bool result;
@@ -72,20 +72,20 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060017D5 RID: 6101 RVA: 0x000D00FC File Offset: 0x000CE4FC
+		// Token: 0x060017D6 RID: 6102 RVA: 0x000D0150 File Offset: 0x000CE550
 		public bool HasLearned(TrainableDef td)
 		{
 			return this.learned[td];
 		}
 
-		// Token: 0x060017D6 RID: 6102 RVA: 0x000D0120 File Offset: 0x000CE520
+		// Token: 0x060017D7 RID: 6103 RVA: 0x000D0174 File Offset: 0x000CE574
 		public AcceptanceReport CanAssignToTrain(TrainableDef td)
 		{
 			bool flag;
 			return this.CanAssignToTrain(td, out flag);
 		}
 
-		// Token: 0x060017D7 RID: 6103 RVA: 0x000D0140 File Offset: 0x000CE540
+		// Token: 0x060017D8 RID: 6104 RVA: 0x000D0194 File Offset: 0x000CE594
 		public AcceptanceReport CanAssignToTrain(TrainableDef td, out bool visible)
 		{
 			if (this.pawn.RaceProps.untrainableTags != null)
@@ -153,7 +153,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060017D8 RID: 6104 RVA: 0x000D032C File Offset: 0x000CE72C
+		// Token: 0x060017D9 RID: 6105 RVA: 0x000D0380 File Offset: 0x000CE780
 		public TrainableDef NextTrainableToTrain()
 		{
 			List<TrainableDef> trainableDefsInListOrder = TrainableUtility.TrainableDefsInListOrder;
@@ -167,7 +167,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x060017D9 RID: 6105 RVA: 0x000D0394 File Offset: 0x000CE794
+		// Token: 0x060017DA RID: 6106 RVA: 0x000D03E8 File Offset: 0x000CE7E8
 		public void Train(TrainableDef td, Pawn trainer, bool complete = false)
 		{
 			if (complete)
@@ -185,7 +185,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017DA RID: 6106 RVA: 0x000D03FC File Offset: 0x000CE7FC
+		// Token: 0x060017DB RID: 6107 RVA: 0x000D0450 File Offset: 0x000CE850
 		public void SetWantedRecursive(TrainableDef td, bool checkOn)
 		{
 			this.SetWanted(td, checkOn);
@@ -211,7 +211,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017DB RID: 6107 RVA: 0x000D04E8 File Offset: 0x000CE8E8
+		// Token: 0x060017DC RID: 6108 RVA: 0x000D053C File Offset: 0x000CE93C
 		public void TrainingTrackerTickRare()
 		{
 			if (this.pawn.Suspended)
@@ -270,7 +270,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017DC RID: 6108 RVA: 0x000D0776 File Offset: 0x000CEB76
+		// Token: 0x060017DD RID: 6109 RVA: 0x000D07CA File Offset: 0x000CEBCA
 		public void Debug_MakeDegradeHappenSoon()
 		{
 			this.countDecayFrom = Find.TickManager.TicksGame - TrainableUtility.DegradationPeriodTicks(this.pawn.def) - 500;

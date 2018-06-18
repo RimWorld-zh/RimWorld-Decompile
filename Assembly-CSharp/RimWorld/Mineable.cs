@@ -7,14 +7,14 @@ namespace RimWorld
 	// Token: 0x02000681 RID: 1665
 	public class Mineable : Building
 	{
-		// Token: 0x06002300 RID: 8960 RVA: 0x0012D64C File Offset: 0x0012BA4C
+		// Token: 0x06002302 RID: 8962 RVA: 0x0012D6C4 File Offset: 0x0012BAC4
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<float>(ref this.yieldPct, "yieldPct", 0f, false);
 		}
 
-		// Token: 0x06002301 RID: 8961 RVA: 0x0012D66C File Offset: 0x0012BA6C
+		// Token: 0x06002303 RID: 8963 RVA: 0x0012D6E4 File Offset: 0x0012BAE4
 		public override void PreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
 		{
 			base.PreApplyDamage(ref dinfo, out absorbed);
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002302 RID: 8962 RVA: 0x0012D704 File Offset: 0x0012BB04
+		// Token: 0x06002304 RID: 8964 RVA: 0x0012D77C File Offset: 0x0012BB7C
 		public void DestroyMined(Pawn pawn)
 		{
 			Map map = base.Map;
@@ -39,7 +39,7 @@ namespace RimWorld
 			this.TrySpawnYield(map, this.yieldPct, true, pawn);
 		}
 
-		// Token: 0x06002303 RID: 8963 RVA: 0x0012D730 File Offset: 0x0012BB30
+		// Token: 0x06002305 RID: 8965 RVA: 0x0012D7A8 File Offset: 0x0012BBA8
 		public override void Destroy(DestroyMode mode)
 		{
 			Map map = base.Map;
@@ -50,7 +50,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002304 RID: 8964 RVA: 0x0012D764 File Offset: 0x0012BB64
+		// Token: 0x06002306 RID: 8966 RVA: 0x0012D7DC File Offset: 0x0012BBDC
 		private void TrySpawnYield(Map map, float yieldChance, bool moteOnWaste, Pawn pawn)
 		{
 			if (this.def.building.mineableThing != null)
@@ -76,7 +76,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002305 RID: 8965 RVA: 0x0012D854 File Offset: 0x0012BC54
+		// Token: 0x06002307 RID: 8967 RVA: 0x0012D8CC File Offset: 0x0012BCCC
 		public void Notify_TookMiningDamage(int amount, Pawn miner)
 		{
 			int num = Mathf.Min(amount, this.HitPoints);

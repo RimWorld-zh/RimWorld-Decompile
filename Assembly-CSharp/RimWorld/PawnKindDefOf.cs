@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class PawnKindDefOf
 	{
-		// Token: 0x0600362D RID: 13869 RVA: 0x001D06DD File Offset: 0x001CEADD
+		// Token: 0x0600362F RID: 13871 RVA: 0x001D07A5 File Offset: 0x001CEBA5
 		static PawnKindDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(PawnKindDefOf));

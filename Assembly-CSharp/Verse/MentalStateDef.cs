@@ -10,7 +10,7 @@ namespace Verse
 	public class MentalStateDef : Def
 	{
 		// Token: 0x1700099F RID: 2463
-		// (get) Token: 0x06003F6A RID: 16234 RVA: 0x002166D8 File Offset: 0x00214AD8
+		// (get) Token: 0x06003F6C RID: 16236 RVA: 0x002167AC File Offset: 0x00214BAC
 		public MentalStateWorker Worker
 		{
 			get
@@ -28,7 +28,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009A0 RID: 2464
-		// (get) Token: 0x06003F6B RID: 16235 RVA: 0x00216730 File Offset: 0x00214B30
+		// (get) Token: 0x06003F6D RID: 16237 RVA: 0x00216804 File Offset: 0x00214C04
 		public bool IsAggro
 		{
 			get
@@ -38,7 +38,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009A1 RID: 2465
-		// (get) Token: 0x06003F6C RID: 16236 RVA: 0x00216750 File Offset: 0x00214B50
+		// (get) Token: 0x06003F6E RID: 16238 RVA: 0x00216824 File Offset: 0x00214C24
 		public bool IsExtreme
 		{
 			get
@@ -55,7 +55,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F6D RID: 16237 RVA: 0x002167B1 File Offset: 0x00214BB1
+		// Token: 0x06003F6F RID: 16239 RVA: 0x00216885 File Offset: 0x00214C85
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -65,7 +65,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F6E RID: 16238 RVA: 0x002167D0 File Offset: 0x00214BD0
+		// Token: 0x06003F70 RID: 16240 RVA: 0x002168A4 File Offset: 0x00214CA4
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())

@@ -12,7 +12,7 @@ namespace RimWorld
 	public class Page_ConfigureStartingPawns : Page
 	{
 		// Token: 0x17000781 RID: 1921
-		// (get) Token: 0x06002F40 RID: 12096 RVA: 0x00193C34 File Offset: 0x00192034
+		// (get) Token: 0x06002F42 RID: 12098 RVA: 0x00193CC8 File Offset: 0x001920C8
 		public override string PageTitle
 		{
 			get
@@ -21,7 +21,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F41 RID: 12097 RVA: 0x00193C53 File Offset: 0x00192053
+		// Token: 0x06002F43 RID: 12099 RVA: 0x00193CE7 File Offset: 0x001920E7
 		public override void PreOpen()
 		{
 			base.PreOpen();
@@ -31,14 +31,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F42 RID: 12098 RVA: 0x00193C87 File Offset: 0x00192087
+		// Token: 0x06002F44 RID: 12100 RVA: 0x00193D1B File Offset: 0x0019211B
 		public override void PostOpen()
 		{
 			base.PostOpen();
 			TutorSystem.Notify_Event("PageStart-ConfigureStartingPawns");
 		}
 
-		// Token: 0x06002F43 RID: 12099 RVA: 0x00193CA0 File Offset: 0x001920A0
+		// Token: 0x06002F45 RID: 12101 RVA: 0x00193D34 File Offset: 0x00192134
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DrawPageTitle(rect);
@@ -59,7 +59,7 @@ namespace RimWorld
 			this.DrawSkillSummaries(rect4);
 		}
 
-		// Token: 0x06002F44 RID: 12100 RVA: 0x00193D64 File Offset: 0x00192164
+		// Token: 0x06002F46 RID: 12102 RVA: 0x00193DF8 File Offset: 0x001921F8
 		private void DrawPawnList(Rect rect)
 		{
 			Rect rect2 = rect;
@@ -127,7 +127,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F45 RID: 12101 RVA: 0x00194098 File Offset: 0x00192498
+		// Token: 0x06002F47 RID: 12103 RVA: 0x0019412C File Offset: 0x0019252C
 		private void DrawPawnListLabelAbove(Rect rect, string label)
 		{
 			rect.yMax = rect.yMin;
@@ -140,7 +140,7 @@ namespace RimWorld
 			Text.Font = GameFont.Small;
 		}
 
-		// Token: 0x06002F46 RID: 12102 RVA: 0x001940FC File Offset: 0x001924FC
+		// Token: 0x06002F48 RID: 12104 RVA: 0x00194190 File Offset: 0x00192590
 		private void DrawPortraitArea(Rect rect)
 		{
 			Widgets.DrawMenuSection(rect);
@@ -166,7 +166,7 @@ namespace RimWorld
 			SocialCardUtility.DrawRelationsAndOpinions(rect4, this.curPawn);
 		}
 
-		// Token: 0x06002F47 RID: 12103 RVA: 0x0019428C File Offset: 0x0019268C
+		// Token: 0x06002F49 RID: 12105 RVA: 0x00194320 File Offset: 0x00192720
 		private void DrawSkillSummaries(Rect rect)
 		{
 			rect.xMin += 10f;
@@ -204,7 +204,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F48 RID: 12104 RVA: 0x0019444C File Offset: 0x0019284C
+		// Token: 0x06002F4A RID: 12106 RVA: 0x001944E0 File Offset: 0x001928E0
 		private Pawn FindBestSkillOwner(SkillDef skill)
 		{
 			Pawn pawn = Find.GameInitData.startingAndOptionalPawns[0];
@@ -221,7 +221,7 @@ namespace RimWorld
 			return pawn;
 		}
 
-		// Token: 0x06002F49 RID: 12105 RVA: 0x00194510 File Offset: 0x00192910
+		// Token: 0x06002F4B RID: 12107 RVA: 0x001945A4 File Offset: 0x001929A4
 		private void RandomizeCurPawn()
 		{
 			if (TutorSystem.AllowAction("RandomizePawn"))
@@ -241,7 +241,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F4A RID: 12106 RVA: 0x00194578 File Offset: 0x00192978
+		// Token: 0x06002F4C RID: 12108 RVA: 0x0019460C File Offset: 0x00192A0C
 		protected override bool CanDoNext()
 		{
 			bool result;
@@ -274,7 +274,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002F4B RID: 12107 RVA: 0x00194678 File Offset: 0x00192A78
+		// Token: 0x06002F4D RID: 12109 RVA: 0x0019470C File Offset: 0x00192B0C
 		protected override void DoNext()
 		{
 			this.CheckWarnRequiredWorkTypesDisabledForEveryone(delegate
@@ -291,7 +291,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06002F4C RID: 12108 RVA: 0x00194690 File Offset: 0x00192A90
+		// Token: 0x06002F4E RID: 12110 RVA: 0x00194724 File Offset: 0x00192B24
 		private void CheckWarnRequiredWorkTypesDisabledForEveryone(Action nextAction)
 		{
 			IEnumerable<WorkTypeDef> enumerable = StartingPawnUtility.RequiredWorkTypesDisabledForEveryone();
@@ -318,7 +318,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F4D RID: 12109 RVA: 0x00194764 File Offset: 0x00192B64
+		// Token: 0x06002F4F RID: 12111 RVA: 0x001947F8 File Offset: 0x00192BF8
 		public void SelectPawn(Pawn c)
 		{
 			if (c != this.curPawn)

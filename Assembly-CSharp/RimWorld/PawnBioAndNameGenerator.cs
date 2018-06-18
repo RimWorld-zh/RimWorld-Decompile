@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x0200048B RID: 1163
 	public static class PawnBioAndNameGenerator
 	{
-		// Token: 0x0600147D RID: 5245 RVA: 0x000B3574 File Offset: 0x000B1974
+		// Token: 0x0600147D RID: 5245 RVA: 0x000B3588 File Offset: 0x000B1988
 		public static void GiveAppropriateBioAndNameTo(Pawn pawn, string requiredLastName, FactionDef factionType)
 		{
 			if (Rand.Value < 0.25f || pawn.kindDef.factionLeader)
@@ -23,7 +23,7 @@ namespace RimWorld
 			PawnBioAndNameGenerator.GiveShuffledBioTo(pawn, factionType, requiredLastName);
 		}
 
-		// Token: 0x0600147E RID: 5246 RVA: 0x000B35C0 File Offset: 0x000B19C0
+		// Token: 0x0600147E RID: 5246 RVA: 0x000B35D4 File Offset: 0x000B19D4
 		private static void GiveShuffledBioTo(Pawn pawn, FactionDef factionType, string requiredLastName)
 		{
 			pawn.Name = PawnBioAndNameGenerator.GeneratePawnName(pawn, NameStyle.Full, requiredLastName);
@@ -34,7 +34,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600147F RID: 5247 RVA: 0x000B3618 File Offset: 0x000B1A18
+		// Token: 0x0600147F RID: 5247 RVA: 0x000B362C File Offset: 0x000B1A2C
 		private static void FillBackstorySlotShuffled(Pawn pawn, BackstorySlot slot, ref Backstory backstory, FactionDef factionType)
 		{
 			IEnumerable<Backstory> source = from bs in BackstoryDatabase.ShuffleableBackstoryList(slot, factionType.backstoryCategory).TakeRandom(20)
@@ -62,7 +62,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001480 RID: 5248 RVA: 0x000B370C File Offset: 0x000B1B0C
+		// Token: 0x06001480 RID: 5248 RVA: 0x000B3720 File Offset: 0x000B1B20
 		private static bool TryGiveSolidBioTo(Pawn pawn, string requiredLastName, FactionDef factionType)
 		{
 			PawnBio pawnBio = PawnBioAndNameGenerator.TryGetRandomUnusedSolidBioFor(factionType.backstoryCategory, pawn.kindDef, pawn.gender, requiredLastName);
@@ -98,7 +98,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001481 RID: 5249 RVA: 0x000B37F8 File Offset: 0x000B1BF8
+		// Token: 0x06001481 RID: 5249 RVA: 0x000B380C File Offset: 0x000B1C0C
 		private static PawnBio TryGetRandomUnusedSolidBioFor(string backstoryCategory, PawnKindDef kind, Gender gender, string requiredLastName)
 		{
 			NameTriple prefName = null;
@@ -142,7 +142,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001482 RID: 5250 RVA: 0x000B3900 File Offset: 0x000B1D00
+		// Token: 0x06001482 RID: 5250 RVA: 0x000B3914 File Offset: 0x000B1D14
 		public static NameTriple TryGetRandomUnusedSolidName(Gender gender, string requiredLastName = null)
 		{
 			NameTriple nameTriple = null;
@@ -187,7 +187,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001483 RID: 5251 RVA: 0x000B3A3C File Offset: 0x000B1E3C
+		// Token: 0x06001483 RID: 5251 RVA: 0x000B3A50 File Offset: 0x000B1E50
 		public static Name GeneratePawnName(Pawn pawn, NameStyle style = NameStyle.Full, string forcedLastName = null)
 		{
 			Name result;
@@ -196,7 +196,7 @@ namespace RimWorld
 				RulePackDef nameGenerator = pawn.RaceProps.GetNameGenerator(pawn.gender);
 				if (nameGenerator != null)
 				{
-					string name = NameGenerator.GenerateName(nameGenerator, (string x) => !new NameSingle(x, false).UsedThisGame, false, null);
+					string name = NameGenerator.GenerateName(nameGenerator, (string x) => !new NameSingle(x, false).UsedThisGame, false, null, null);
 					result = new NameSingle(name, false);
 				}
 				else if (pawn.Faction != null && pawn.Faction.def.pawnNameMaker != null)
@@ -206,7 +206,7 @@ namespace RimWorld
 						NameTriple nameTriple4 = NameTriple.FromString(x);
 						nameTriple4.ResolveMissingPieces(forcedLastName);
 						return !nameTriple4.UsedThisGame;
-					}, false, null);
+					}, false, null, null);
 					NameTriple nameTriple = NameTriple.FromString(rawName);
 					nameTriple.CapitalizeNick();
 					nameTriple.ResolveMissingPieces(forcedLastName);
@@ -254,7 +254,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001484 RID: 5252 RVA: 0x000B3C00 File Offset: 0x000B2000
+		// Token: 0x06001484 RID: 5252 RVA: 0x000B3C18 File Offset: 0x000B2018
 		private static NameTriple GeneratePawnName_Shuffled(Pawn pawn, string forcedLastName = null)
 		{
 			PawnNameCategory pawnNameCategory = pawn.RaceProps.nameCategory;
@@ -264,7 +264,7 @@ namespace RimWorld
 				pawnNameCategory = PawnNameCategory.HumanStandard;
 			}
 			NameBank nameBank = PawnNameDatabaseShuffled.BankOf(pawnNameCategory);
-			string name = nameBank.GetName(PawnNameSlot.First, pawn.gender);
+			string name = nameBank.GetName(PawnNameSlot.First, pawn.gender, true);
 			string text;
 			if (forcedLastName != null)
 			{
@@ -272,7 +272,7 @@ namespace RimWorld
 			}
 			else
 			{
-				text = nameBank.GetName(PawnNameSlot.Last, Gender.None);
+				text = nameBank.GetName(PawnNameSlot.Last, Gender.None, true);
 			}
 			int num = 0;
 			string nick;
@@ -286,7 +286,7 @@ namespace RimWorld
 					{
 						gender = Gender.None;
 					}
-					nick = nameBank.GetName(PawnNameSlot.Nick, gender);
+					nick = nameBank.GetName(PawnNameSlot.Nick, gender, true);
 				}
 				else if (Rand.Value < 0.5f)
 				{
@@ -305,19 +305,19 @@ namespace RimWorld
 			return new NameTriple(name, nick, text);
 		}
 
-		// Token: 0x06001485 RID: 5253 RVA: 0x000B3D0C File Offset: 0x000B210C
+		// Token: 0x06001485 RID: 5253 RVA: 0x000B3D28 File Offset: 0x000B2128
 		private static float BackstorySelectionWeight(Backstory bs)
 		{
 			return PawnBioAndNameGenerator.SelectionWeightFactorFromWorkTags(bs.workDisables);
 		}
 
-		// Token: 0x06001486 RID: 5254 RVA: 0x000B3D2C File Offset: 0x000B212C
+		// Token: 0x06001486 RID: 5254 RVA: 0x000B3D48 File Offset: 0x000B2148
 		private static float BioSelectionWeight(PawnBio bio)
 		{
 			return PawnBioAndNameGenerator.SelectionWeightFactorFromWorkTags(bio.adulthood.workDisables | bio.childhood.workDisables);
 		}
 
-		// Token: 0x06001487 RID: 5255 RVA: 0x000B3D60 File Offset: 0x000B2160
+		// Token: 0x06001487 RID: 5255 RVA: 0x000B3D7C File Offset: 0x000B217C
 		private static float SelectionWeightFactorFromWorkTags(WorkTags wt)
 		{
 			float result;

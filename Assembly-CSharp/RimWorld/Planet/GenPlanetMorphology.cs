@@ -7,7 +7,7 @@ namespace RimWorld.Planet
 	// Token: 0x020005AF RID: 1455
 	public static class GenPlanetMorphology
 	{
-		// Token: 0x06001BCF RID: 7119 RVA: 0x000EF590 File Offset: 0x000ED990
+		// Token: 0x06001BD0 RID: 7120 RVA: 0x000EF5FC File Offset: 0x000ED9FC
 		public static void Erode(List<int> tiles, int count, Predicate<int> extraPredicate = null)
 		{
 			if (count > 0)
@@ -59,7 +59,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001BD0 RID: 7120 RVA: 0x000EF700 File Offset: 0x000EDB00
+		// Token: 0x06001BD1 RID: 7121 RVA: 0x000EF76C File Offset: 0x000EDB6C
 		public static void Dilate(List<int> tiles, int count, Predicate<int> extraPredicate = null)
 		{
 			if (count > 0)
@@ -94,14 +94,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001BD1 RID: 7121 RVA: 0x000EF784 File Offset: 0x000EDB84
+		// Token: 0x06001BD2 RID: 7122 RVA: 0x000EF7F0 File Offset: 0x000EDBF0
 		public static void Open(List<int> tiles, int count)
 		{
 			GenPlanetMorphology.Erode(tiles, count, null);
 			GenPlanetMorphology.Dilate(tiles, count, null);
 		}
 
-		// Token: 0x06001BD2 RID: 7122 RVA: 0x000EF797 File Offset: 0x000EDB97
+		// Token: 0x06001BD3 RID: 7123 RVA: 0x000EF803 File Offset: 0x000EDC03
 		public static void Close(List<int> tiles, int count)
 		{
 			GenPlanetMorphology.Dilate(tiles, count, null);

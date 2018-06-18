@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020006D9 RID: 1753
 	internal static class PlantPosIndices
 	{
-		// Token: 0x06002626 RID: 9766 RVA: 0x00146790 File Offset: 0x00144B90
+		// Token: 0x06002628 RID: 9768 RVA: 0x00146808 File Offset: 0x00144C08
 		static PlantPosIndices()
 		{
 			PlantPosIndices.rootList = new int[25][][];
@@ -26,7 +26,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002627 RID: 9767 RVA: 0x00146818 File Offset: 0x00144C18
+		// Token: 0x06002629 RID: 9769 RVA: 0x00146890 File Offset: 0x00144C90
 		public static int[] GetPositionIndices(Plant p)
 		{
 			int maxMeshCount = p.def.plant.maxMeshCount;

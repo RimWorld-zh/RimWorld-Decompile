@@ -7,13 +7,13 @@ namespace RimWorld
 	// Token: 0x020009A2 RID: 2466
 	public abstract class StatPart
 	{
-		// Token: 0x06003746 RID: 14150
+		// Token: 0x06003748 RID: 14152
 		public abstract void TransformValue(StatRequest req, ref float val);
 
-		// Token: 0x06003747 RID: 14151
+		// Token: 0x06003749 RID: 14153
 		public abstract string ExplanationPart(StatRequest req);
 
-		// Token: 0x06003748 RID: 14152 RVA: 0x001D879C File Offset: 0x001D6B9C
+		// Token: 0x0600374A RID: 14154 RVA: 0x001D8870 File Offset: 0x001D6C70
 		public virtual IEnumerable<string> ConfigErrors()
 		{
 			yield break;

@@ -7,7 +7,7 @@ namespace RimWorld
 	public class DeathActionWorker_BigExplosion : DeathActionWorker
 	{
 		// Token: 0x170002AD RID: 685
-		// (get) Token: 0x06001395 RID: 5013 RVA: 0x000A9080 File Offset: 0x000A7480
+		// (get) Token: 0x06001395 RID: 5013 RVA: 0x000A908C File Offset: 0x000A748C
 		public override RulePackDef DeathRules
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002AE RID: 686
-		// (get) Token: 0x06001396 RID: 5014 RVA: 0x000A909C File Offset: 0x000A749C
+		// (get) Token: 0x06001396 RID: 5014 RVA: 0x000A90A8 File Offset: 0x000A74A8
 		public override bool DangerousInMelee
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001397 RID: 5015 RVA: 0x000A90B4 File Offset: 0x000A74B4
+		// Token: 0x06001397 RID: 5015 RVA: 0x000A90C0 File Offset: 0x000A74C0
 		public override void PawnDied(Corpse corpse)
 		{
 			float radius;

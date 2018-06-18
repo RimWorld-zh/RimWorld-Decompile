@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class SoundDefOf
 	{
-		// Token: 0x06003620 RID: 13856 RVA: 0x001D05F3 File Offset: 0x001CE9F3
+		// Token: 0x06003622 RID: 13858 RVA: 0x001D06BB File Offset: 0x001CEABB
 		static SoundDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(SoundDefOf));

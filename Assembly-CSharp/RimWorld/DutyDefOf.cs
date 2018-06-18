@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class DutyDefOf
 	{
-		// Token: 0x06003638 RID: 13880 RVA: 0x001D07A3 File Offset: 0x001CEBA3
+		// Token: 0x0600363A RID: 13882 RVA: 0x001D086B File Offset: 0x001CEC6B
 		static DutyDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(DutyDefOf));

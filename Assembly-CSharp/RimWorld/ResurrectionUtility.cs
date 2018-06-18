@@ -10,7 +10,7 @@ namespace RimWorld
 	// Token: 0x020004B1 RID: 1201
 	public static class ResurrectionUtility
 	{
-		// Token: 0x06001566 RID: 5478 RVA: 0x000BD9B0 File Offset: 0x000BBDB0
+		// Token: 0x06001566 RID: 5478 RVA: 0x000BD9CC File Offset: 0x000BBDCC
 		public static void Resurrect(Pawn pawn)
 		{
 			if (!pawn.Dead)
@@ -74,7 +74,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001567 RID: 5479 RVA: 0x000BDB94 File Offset: 0x000BBF94
+		// Token: 0x06001567 RID: 5479 RVA: 0x000BDBB0 File Offset: 0x000BBFB0
 		public static void ResurrectWithSideEffects(Pawn pawn)
 		{
 			Corpse corpse = pawn.Corpse;

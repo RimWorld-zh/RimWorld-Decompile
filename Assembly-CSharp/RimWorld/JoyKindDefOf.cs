@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class JoyKindDefOf
 	{
-		// Token: 0x0600362F RID: 13871 RVA: 0x001D0701 File Offset: 0x001CEB01
+		// Token: 0x06003631 RID: 13873 RVA: 0x001D07C9 File Offset: 0x001CEBC9
 		static JoyKindDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(JoyKindDefOf));

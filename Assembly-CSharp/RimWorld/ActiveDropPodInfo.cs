@@ -7,13 +7,13 @@ namespace RimWorld
 	// Token: 0x020006E6 RID: 1766
 	public class ActiveDropPodInfo : IThingHolder, IExposable
 	{
-		// Token: 0x06002662 RID: 9826 RVA: 0x0014968F File Offset: 0x00147A8F
+		// Token: 0x06002664 RID: 9828 RVA: 0x00149707 File Offset: 0x00147B07
 		public ActiveDropPodInfo()
 		{
 			this.innerContainer = new ThingOwner<Thing>(this);
 		}
 
-		// Token: 0x06002663 RID: 9827 RVA: 0x001496CC File Offset: 0x00147ACC
+		// Token: 0x06002665 RID: 9829 RVA: 0x00149744 File Offset: 0x00147B44
 		public ActiveDropPodInfo(IThingHolder parent)
 		{
 			this.innerContainer = new ThingOwner<Thing>(this);
@@ -21,8 +21,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005D7 RID: 1495
-		// (get) Token: 0x06002664 RID: 9828 RVA: 0x00149718 File Offset: 0x00147B18
-		// (set) Token: 0x06002665 RID: 9829 RVA: 0x0014976C File Offset: 0x00147B6C
+		// (get) Token: 0x06002666 RID: 9830 RVA: 0x00149790 File Offset: 0x00147B90
+		// (set) Token: 0x06002667 RID: 9831 RVA: 0x001497E4 File Offset: 0x00147BE4
 		public Thing SingleContainedThing
 		{
 			get
@@ -50,7 +50,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005D8 RID: 1496
-		// (get) Token: 0x06002666 RID: 9830 RVA: 0x00149788 File Offset: 0x00147B88
+		// (get) Token: 0x06002668 RID: 9832 RVA: 0x00149800 File Offset: 0x00147C00
 		public IThingHolder ParentHolder
 		{
 			get
@@ -59,7 +59,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002667 RID: 9831 RVA: 0x001497A4 File Offset: 0x00147BA4
+		// Token: 0x06002669 RID: 9833 RVA: 0x0014981C File Offset: 0x00147C1C
 		public void ExposeData()
 		{
 			if (this.savePawnsWithReferenceMode && Scribe.mode == LoadSaveMode.Saving)
@@ -99,13 +99,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002668 RID: 9832 RVA: 0x00149928 File Offset: 0x00147D28
+		// Token: 0x0600266A RID: 9834 RVA: 0x001499A0 File Offset: 0x00147DA0
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.innerContainer;
 		}
 
-		// Token: 0x06002669 RID: 9833 RVA: 0x00149943 File Offset: 0x00147D43
+		// Token: 0x0600266B RID: 9835 RVA: 0x001499BB File Offset: 0x00147DBB
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());

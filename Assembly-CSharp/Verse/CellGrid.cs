@@ -2,21 +2,21 @@
 
 namespace Verse
 {
-	// Token: 0x02000C1F RID: 3103
+	// Token: 0x02000C1E RID: 3102
 	public class CellGrid
 	{
-		// Token: 0x060043CB RID: 17355 RVA: 0x0023BB18 File Offset: 0x00239F18
+		// Token: 0x060043C9 RID: 17353 RVA: 0x0023BAF0 File Offset: 0x00239EF0
 		public CellGrid()
 		{
 		}
 
-		// Token: 0x060043CC RID: 17356 RVA: 0x0023BB21 File Offset: 0x00239F21
+		// Token: 0x060043CA RID: 17354 RVA: 0x0023BAF9 File Offset: 0x00239EF9
 		public CellGrid(Map map)
 		{
 			this.ClearAndResizeTo(map);
 		}
 
-		// Token: 0x17000AA0 RID: 2720
+		// Token: 0x17000A9F RID: 2719
 		public IntVec3 this[IntVec3 c]
 		{
 			get
@@ -31,7 +31,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AA1 RID: 2721
+		// Token: 0x17000AA0 RID: 2720
 		public IntVec3 this[int index]
 		{
 			get
@@ -44,7 +44,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AA2 RID: 2722
+		// Token: 0x17000AA1 RID: 2721
 		public IntVec3 this[int x, int z]
 		{
 			get
@@ -59,8 +59,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AA3 RID: 2723
-		// (get) Token: 0x060043D3 RID: 17363 RVA: 0x0023BC48 File Offset: 0x0023A048
+		// Token: 0x17000AA2 RID: 2722
+		// (get) Token: 0x060043D1 RID: 17361 RVA: 0x0023BC20 File Offset: 0x0023A020
 		public int CellsCount
 		{
 			get
@@ -69,13 +69,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043D4 RID: 17364 RVA: 0x0023BC68 File Offset: 0x0023A068
+		// Token: 0x060043D2 RID: 17362 RVA: 0x0023BC40 File Offset: 0x0023A040
 		public bool MapSizeMatches(Map map)
 		{
 			return this.mapSizeX == map.Size.x && this.mapSizeZ == map.Size.z;
 		}
 
-		// Token: 0x060043D5 RID: 17365 RVA: 0x0023BCB0 File Offset: 0x0023A0B0
+		// Token: 0x060043D3 RID: 17363 RVA: 0x0023BC88 File Offset: 0x0023A088
 		public void ClearAndResizeTo(Map map)
 		{
 			if (this.MapSizeMatches(map) && this.grid != null)
@@ -91,7 +91,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043D6 RID: 17366 RVA: 0x0023BD28 File Offset: 0x0023A128
+		// Token: 0x060043D4 RID: 17364 RVA: 0x0023BD00 File Offset: 0x0023A100
 		public void Clear()
 		{
 			int num = CellIndicesUtility.CellToIndex(IntVec3.Invalid, this.mapSizeX);
@@ -101,13 +101,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002E4C RID: 11852
+		// Token: 0x04002E4A RID: 11850
 		private int[] grid;
 
-		// Token: 0x04002E4D RID: 11853
+		// Token: 0x04002E4B RID: 11851
 		private int mapSizeX;
 
-		// Token: 0x04002E4E RID: 11854
+		// Token: 0x04002E4C RID: 11852
 		private int mapSizeZ;
 	}
 }

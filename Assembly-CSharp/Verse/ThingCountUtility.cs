@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000F00 RID: 3840
+	// Token: 0x02000EFF RID: 3839
 	public static class ThingCountUtility
 	{
-		// Token: 0x06005BFA RID: 23546 RVA: 0x002EBD08 File Offset: 0x002EA108
+		// Token: 0x06005BF8 RID: 23544 RVA: 0x002EBDE4 File Offset: 0x002EA1E4
 		public static int CountOf(List<ThingCount> list, Thing thing)
 		{
 			int num = 0;
@@ -20,7 +20,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06005BFB RID: 23547 RVA: 0x002EBD64 File Offset: 0x002EA164
+		// Token: 0x06005BF9 RID: 23545 RVA: 0x002EBE40 File Offset: 0x002EA240
 		public static void AddToList(List<ThingCount> list, Thing thing, int countToAdd)
 		{
 			for (int i = 0; i < list.Count; i++)

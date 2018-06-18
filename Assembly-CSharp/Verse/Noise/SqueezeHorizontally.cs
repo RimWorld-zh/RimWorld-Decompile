@@ -2,23 +2,23 @@
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F9B RID: 3995
+	// Token: 0x02000F9A RID: 3994
 	public class SqueezeHorizontally : ModuleBase
 	{
-		// Token: 0x06006057 RID: 24663 RVA: 0x0030CADB File Offset: 0x0030AEDB
+		// Token: 0x06006055 RID: 24661 RVA: 0x0030CBB7 File Offset: 0x0030AFB7
 		public SqueezeHorizontally(ModuleBase input, float factor) : base(1)
 		{
 			this.modules[0] = input;
 			this.factor = factor;
 		}
 
-		// Token: 0x06006058 RID: 24664 RVA: 0x0030CAF8 File Offset: 0x0030AEF8
+		// Token: 0x06006056 RID: 24662 RVA: 0x0030CBD4 File Offset: 0x0030AFD4
 		public override double GetValue(double x, double y, double z)
 		{
 			return this.modules[0].GetValue(x * (double)this.factor, y, z * (double)this.factor);
 		}
 
-		// Token: 0x04003F21 RID: 16161
+		// Token: 0x04003F20 RID: 16160
 		private float factor;
 	}
 }

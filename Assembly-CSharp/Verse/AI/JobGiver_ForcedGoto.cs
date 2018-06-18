@@ -6,7 +6,7 @@ namespace Verse.AI
 	// Token: 0x02000AC7 RID: 2759
 	public class JobGiver_ForcedGoto : ThinkNode_JobGiver
 	{
-		// Token: 0x06003D50 RID: 15696 RVA: 0x002054E4 File Offset: 0x002038E4
+		// Token: 0x06003D52 RID: 15698 RVA: 0x002055B8 File Offset: 0x002039B8
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			IntVec3 forcedGotoPosition = pawn.mindState.forcedGotoPosition;

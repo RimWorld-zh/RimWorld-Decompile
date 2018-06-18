@@ -8,7 +8,7 @@ namespace Verse.AI
 	// Token: 0x02000A50 RID: 2640
 	public static class Toils_JobTransforms
 	{
-		// Token: 0x06003AC0 RID: 15040 RVA: 0x001F2690 File Offset: 0x001F0A90
+		// Token: 0x06003AC2 RID: 15042 RVA: 0x001F2764 File Offset: 0x001F0B64
 		public static Toil ExtractNextTargetFromQueue(TargetIndex ind, bool failIfCountFromQueueTooBig = true)
 		{
 			Toil toil = new Toil();
@@ -38,7 +38,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AC1 RID: 15041 RVA: 0x001F26E4 File Offset: 0x001F0AE4
+		// Token: 0x06003AC3 RID: 15043 RVA: 0x001F27B8 File Offset: 0x001F0BB8
 		public static Toil ClearQueue(TargetIndex ind)
 		{
 			Toil toil = new Toil();
@@ -55,7 +55,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AC2 RID: 15042 RVA: 0x001F2730 File Offset: 0x001F0B30
+		// Token: 0x06003AC4 RID: 15044 RVA: 0x001F2804 File Offset: 0x001F0C04
 		public static Toil ClearDespawnedNullOrForbiddenQueuedTargets(TargetIndex ind, Func<Thing, bool> validator = null)
 		{
 			Toil toil = new Toil();
@@ -69,7 +69,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AC3 RID: 15043 RVA: 0x001F2784 File Offset: 0x001F0B84
+		// Token: 0x06003AC5 RID: 15045 RVA: 0x001F2858 File Offset: 0x001F0C58
 		private static IEnumerable<IntVec3> IngredientPlaceCellsInOrder(Thing destination)
 		{
 			Toils_JobTransforms.yieldedIngPlaceCells.Clear();
@@ -101,7 +101,7 @@ namespace Verse.AI
 			yield break;
 		}
 
-		// Token: 0x06003AC4 RID: 15044 RVA: 0x001F27B0 File Offset: 0x001F0BB0
+		// Token: 0x06003AC6 RID: 15046 RVA: 0x001F2884 File Offset: 0x001F0C84
 		public static Toil SetTargetToIngredientPlaceCell(TargetIndex facilityInd, TargetIndex carryItemInd, TargetIndex cellTargetInd)
 		{
 			Toil toil = new Toil();
@@ -138,7 +138,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AC5 RID: 15045 RVA: 0x001F2808 File Offset: 0x001F0C08
+		// Token: 0x06003AC7 RID: 15047 RVA: 0x001F28DC File Offset: 0x001F0CDC
 		public static Toil MoveCurrentTargetIntoQueue(TargetIndex ind)
 		{
 			Toil toil = new Toil();
@@ -163,7 +163,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AC6 RID: 15046 RVA: 0x001F2854 File Offset: 0x001F0C54
+		// Token: 0x06003AC8 RID: 15048 RVA: 0x001F2928 File Offset: 0x001F0D28
 		public static Toil SucceedOnNoTargetInQueue(TargetIndex ind)
 		{
 			Toil toil = new Toil();

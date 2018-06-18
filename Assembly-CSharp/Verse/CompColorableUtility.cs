@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E04 RID: 3588
+	// Token: 0x02000E03 RID: 3587
 	public static class CompColorableUtility
 	{
-		// Token: 0x06005130 RID: 20784 RVA: 0x0029A65C File Offset: 0x00298A5C
+		// Token: 0x0600512E RID: 20782 RVA: 0x0029A63C File Offset: 0x00298A3C
 		public static void SetColor(this Thing t, Color newColor, bool reportFailure = true)
 		{
 			ThingWithComps thingWithComps = t as ThingWithComps;

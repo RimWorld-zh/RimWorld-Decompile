@@ -8,13 +8,13 @@ namespace RimWorld
 	// Token: 0x02000531 RID: 1329
 	public sealed class SituationalThoughtHandler
 	{
-		// Token: 0x0600188A RID: 6282 RVA: 0x000D73BC File Offset: 0x000D57BC
+		// Token: 0x0600188B RID: 6283 RVA: 0x000D7410 File Offset: 0x000D5810
 		public SituationalThoughtHandler(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x0600188B RID: 6283 RVA: 0x000D740E File Offset: 0x000D580E
+		// Token: 0x0600188C RID: 6284 RVA: 0x000D7462 File Offset: 0x000D5862
 		public void SituationalThoughtInterval()
 		{
 			Profiler.BeginSample("SituationalThoughtInterval()");
@@ -22,7 +22,7 @@ namespace RimWorld
 			Profiler.EndSample();
 		}
 
-		// Token: 0x0600188C RID: 6284 RVA: 0x000D7428 File Offset: 0x000D5828
+		// Token: 0x0600188D RID: 6285 RVA: 0x000D747C File Offset: 0x000D587C
 		public void AppendMoodThoughts(List<Thought> outThoughts)
 		{
 			this.CheckRecalculateMoodThoughts();
@@ -36,7 +36,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600188D RID: 6285 RVA: 0x000D747C File Offset: 0x000D587C
+		// Token: 0x0600188E RID: 6286 RVA: 0x000D74D0 File Offset: 0x000D58D0
 		public void AppendSocialThoughts(Pawn otherPawn, List<ISocialThought> outThoughts)
 		{
 			this.CheckRecalculateSocialThoughts(otherPawn);
@@ -49,7 +49,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600188E RID: 6286 RVA: 0x000D74DC File Offset: 0x000D58DC
+		// Token: 0x0600188F RID: 6287 RVA: 0x000D7530 File Offset: 0x000D5930
 		private void CheckRecalculateMoodThoughts()
 		{
 			int ticksGame = Find.TickManager.TicksGame;
@@ -86,7 +86,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600188F RID: 6287 RVA: 0x000D75E4 File Offset: 0x000D59E4
+		// Token: 0x06001890 RID: 6288 RVA: 0x000D7638 File Offset: 0x000D5A38
 		private void CheckRecalculateSocialThoughts(Pawn otherPawn)
 		{
 			try
@@ -138,7 +138,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001890 RID: 6288 RVA: 0x000D776C File Offset: 0x000D5B6C
+		// Token: 0x06001891 RID: 6289 RVA: 0x000D77C0 File Offset: 0x000D5BC0
 		private Thought_Situational TryCreateThought(ThoughtDef def)
 		{
 			Thought_Situational thought_Situational = null;
@@ -171,7 +171,7 @@ namespace RimWorld
 			return thought_Situational;
 		}
 
-		// Token: 0x06001891 RID: 6289 RVA: 0x000D783C File Offset: 0x000D5C3C
+		// Token: 0x06001892 RID: 6290 RVA: 0x000D7890 File Offset: 0x000D5C90
 		private Thought_SituationalSocial TryCreateSocialThought(ThoughtDef def, Pawn otherPawn)
 		{
 			Thought_SituationalSocial thought_SituationalSocial = null;
@@ -205,14 +205,14 @@ namespace RimWorld
 			return thought_SituationalSocial;
 		}
 
-		// Token: 0x06001892 RID: 6290 RVA: 0x000D7914 File Offset: 0x000D5D14
+		// Token: 0x06001893 RID: 6291 RVA: 0x000D7968 File Offset: 0x000D5D68
 		public void Notify_SituationalThoughtsDirty()
 		{
 			this.cachedThoughts.Clear();
 			this.cachedSocialThoughts.Clear();
 		}
 
-		// Token: 0x06001893 RID: 6291 RVA: 0x000D792D File Offset: 0x000D5D2D
+		// Token: 0x06001894 RID: 6292 RVA: 0x000D7981 File Offset: 0x000D5D81
 		private void RemoveExpiredThoughtsFromCache()
 		{
 			this.cachedSocialThoughts.RemoveAll((KeyValuePair<Pawn, SituationalThoughtHandler.CachedSocialThoughts> x) => x.Value.Expired || x.Key.Discarded);
@@ -243,7 +243,7 @@ namespace RimWorld
 		private class CachedSocialThoughts
 		{
 			// Token: 0x17000368 RID: 872
-			// (get) Token: 0x06001896 RID: 6294 RVA: 0x000D79C4 File Offset: 0x000D5DC4
+			// (get) Token: 0x06001897 RID: 6295 RVA: 0x000D7A18 File Offset: 0x000D5E18
 			public bool Expired
 			{
 				get
@@ -253,7 +253,7 @@ namespace RimWorld
 			}
 
 			// Token: 0x17000369 RID: 873
-			// (get) Token: 0x06001897 RID: 6295 RVA: 0x000D79F4 File Offset: 0x000D5DF4
+			// (get) Token: 0x06001898 RID: 6296 RVA: 0x000D7A48 File Offset: 0x000D5E48
 			public bool ShouldRecalculateState
 			{
 				get

@@ -7,7 +7,7 @@ namespace Verse.Sound
 	public class SoundParamTarget_PropertyLowPass : SoundParamTarget
 	{
 		// Token: 0x170009D0 RID: 2512
-		// (get) Token: 0x0600404E RID: 16462 RVA: 0x0021C938 File Offset: 0x0021AD38
+		// (get) Token: 0x06004050 RID: 16464 RVA: 0x0021CA0C File Offset: 0x0021AE0C
 		public override string Label
 		{
 			get
@@ -17,7 +17,7 @@ namespace Verse.Sound
 		}
 
 		// Token: 0x170009D1 RID: 2513
-		// (get) Token: 0x0600404F RID: 16463 RVA: 0x0021C964 File Offset: 0x0021AD64
+		// (get) Token: 0x06004051 RID: 16465 RVA: 0x0021CA38 File Offset: 0x0021AE38
 		public override Type NeededFilterType
 		{
 			get
@@ -26,7 +26,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004050 RID: 16464 RVA: 0x0021C984 File Offset: 0x0021AD84
+		// Token: 0x06004052 RID: 16466 RVA: 0x0021CA58 File Offset: 0x0021AE58
 		public override void SetOn(Sample sample, float value)
 		{
 			AudioLowPassFilter audioLowPassFilter = sample.source.GetComponent<AudioLowPassFilter>();

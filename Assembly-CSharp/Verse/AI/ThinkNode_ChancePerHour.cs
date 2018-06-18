@@ -5,7 +5,7 @@ namespace Verse.AI
 	// Token: 0x02000AAD RID: 2733
 	public abstract class ThinkNode_ChancePerHour : ThinkNode_Priority
 	{
-		// Token: 0x06003D07 RID: 15623 RVA: 0x002045E0 File Offset: 0x002029E0
+		// Token: 0x06003D09 RID: 15625 RVA: 0x002046B4 File Offset: 0x00202AB4
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			ThinkResult result;
@@ -41,10 +41,10 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003D08 RID: 15624
+		// Token: 0x06003D0A RID: 15626
 		protected abstract float MtbHours(Pawn pawn);
 
-		// Token: 0x06003D09 RID: 15625 RVA: 0x0020469C File Offset: 0x00202A9C
+		// Token: 0x06003D0B RID: 15627 RVA: 0x00204770 File Offset: 0x00202B70
 		private int GetLastTryTick(Pawn pawn)
 		{
 			int num;
@@ -60,7 +60,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003D0A RID: 15626 RVA: 0x002046DA File Offset: 0x00202ADA
+		// Token: 0x06003D0C RID: 15628 RVA: 0x002047AE File Offset: 0x00202BAE
 		private void SetLastTryTick(Pawn pawn, int val)
 		{
 			pawn.mindState.thinkData[base.UniqueSaveKey] = val;

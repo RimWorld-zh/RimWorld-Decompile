@@ -9,18 +9,18 @@ namespace RimWorld
 	// Token: 0x02000463 RID: 1123
 	public class Bill_Medical : Bill
 	{
-		// Token: 0x060013A9 RID: 5033 RVA: 0x000A987F File Offset: 0x000A7C7F
+		// Token: 0x060013A9 RID: 5033 RVA: 0x000A988B File Offset: 0x000A7C8B
 		public Bill_Medical()
 		{
 		}
 
-		// Token: 0x060013AA RID: 5034 RVA: 0x000A9888 File Offset: 0x000A7C88
+		// Token: 0x060013AA RID: 5034 RVA: 0x000A9894 File Offset: 0x000A7C94
 		public Bill_Medical(RecipeDef recipe) : base(recipe)
 		{
 		}
 
 		// Token: 0x170002B1 RID: 689
-		// (get) Token: 0x060013AB RID: 5035 RVA: 0x000A9894 File Offset: 0x000A7C94
+		// (get) Token: 0x060013AB RID: 5035 RVA: 0x000A98A0 File Offset: 0x000A7CA0
 		public override bool CheckIngredientsIfSociallyProper
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002B2 RID: 690
-		// (get) Token: 0x060013AC RID: 5036 RVA: 0x000A98AC File Offset: 0x000A7CAC
+		// (get) Token: 0x060013AC RID: 5036 RVA: 0x000A98B8 File Offset: 0x000A7CB8
 		protected override bool CanCopy
 		{
 			get
@@ -40,7 +40,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002B3 RID: 691
-		// (get) Token: 0x060013AD RID: 5037 RVA: 0x000A98C4 File Offset: 0x000A7CC4
+		// (get) Token: 0x060013AD RID: 5037 RVA: 0x000A98D0 File Offset: 0x000A7CD0
 		public override bool CompletableEver
 		{
 			get
@@ -50,8 +50,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002B4 RID: 692
-		// (get) Token: 0x060013AE RID: 5038 RVA: 0x000A9920 File Offset: 0x000A7D20
-		// (set) Token: 0x060013AF RID: 5039 RVA: 0x000A993C File Offset: 0x000A7D3C
+		// (get) Token: 0x060013AE RID: 5038 RVA: 0x000A992C File Offset: 0x000A7D2C
+		// (set) Token: 0x060013AF RID: 5039 RVA: 0x000A9948 File Offset: 0x000A7D48
 		public BodyPartRecord Part
 		{
 			get
@@ -76,7 +76,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002B5 RID: 693
-		// (get) Token: 0x060013B0 RID: 5040 RVA: 0x000A99D4 File Offset: 0x000A7DD4
+		// (get) Token: 0x060013B0 RID: 5040 RVA: 0x000A99E0 File Offset: 0x000A7DE0
 		public Pawn GiverPawn
 		{
 			get
@@ -96,7 +96,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002B6 RID: 694
-		// (get) Token: 0x060013B1 RID: 5041 RVA: 0x000A9A2C File Offset: 0x000A7E2C
+		// (get) Token: 0x060013B1 RID: 5041 RVA: 0x000A9A38 File Offset: 0x000A7E38
 		public override string Label
 		{
 			get
@@ -111,13 +111,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060013B2 RID: 5042 RVA: 0x000A9AAC File Offset: 0x000A7EAC
+		// Token: 0x060013B2 RID: 5042 RVA: 0x000A9AB8 File Offset: 0x000A7EB8
 		public override bool ShouldDoNow()
 		{
 			return !this.suspended;
 		}
 
-		// Token: 0x060013B3 RID: 5043 RVA: 0x000A9AD4 File Offset: 0x000A7ED4
+		// Token: 0x060013B3 RID: 5043 RVA: 0x000A9AE0 File Offset: 0x000A7EE0
 		public override void Notify_IterationCompleted(Pawn billDoer, List<Thing> ingredients)
 		{
 			base.Notify_IterationCompleted(billDoer, ingredients);
@@ -134,7 +134,7 @@ namespace RimWorld
 			this.billStack.Delete(this);
 		}
 
-		// Token: 0x060013B4 RID: 5044 RVA: 0x000A9B58 File Offset: 0x000A7F58
+		// Token: 0x060013B4 RID: 5044 RVA: 0x000A9B64 File Offset: 0x000A7F64
 		public override void Notify_DoBillStarted(Pawn billDoer)
 		{
 			base.Notify_DoBillStarted(billDoer);
@@ -162,7 +162,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060013B5 RID: 5045 RVA: 0x000A9C74 File Offset: 0x000A8074
+		// Token: 0x060013B5 RID: 5045 RVA: 0x000A9C80 File Offset: 0x000A8080
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -178,7 +178,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060013B6 RID: 5046 RVA: 0x000A9CCC File Offset: 0x000A80CC
+		// Token: 0x060013B6 RID: 5046 RVA: 0x000A9CD8 File Offset: 0x000A80D8
 		public override Bill Clone()
 		{
 			Bill_Medical bill_Medical = (Bill_Medical)base.Clone();

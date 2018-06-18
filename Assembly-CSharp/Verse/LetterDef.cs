@@ -8,7 +8,7 @@ namespace Verse
 	public class LetterDef : Def
 	{
 		// Token: 0x1700099D RID: 2461
-		// (get) Token: 0x06003F5E RID: 16222 RVA: 0x002161FC File Offset: 0x002145FC
+		// (get) Token: 0x06003F60 RID: 16224 RVA: 0x002162D0 File Offset: 0x002146D0
 		public Texture2D Icon
 		{
 			get
@@ -21,7 +21,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F5F RID: 16223 RVA: 0x0021624A File Offset: 0x0021464A
+		// Token: 0x06003F61 RID: 16225 RVA: 0x0021631E File Offset: 0x0021471E
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();

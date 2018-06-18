@@ -10,7 +10,7 @@ namespace RimWorld
 	public class CompLongRangeMineralScanner : ThingComp
 	{
 		// Token: 0x1700061B RID: 1563
-		// (get) Token: 0x06002817 RID: 10263 RVA: 0x00156B30 File Offset: 0x00154F30
+		// (get) Token: 0x06002819 RID: 10265 RVA: 0x00156BA8 File Offset: 0x00154FA8
 		public CompProperties_LongRangeMineralScanner Props
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700061C RID: 1564
-		// (get) Token: 0x06002818 RID: 10264 RVA: 0x00156B50 File Offset: 0x00154F50
+		// (get) Token: 0x0600281A RID: 10266 RVA: 0x00156BC8 File Offset: 0x00154FC8
 		public bool Active
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700061D RID: 1565
-		// (get) Token: 0x06002819 RID: 10265 RVA: 0x00156BB0 File Offset: 0x00154FB0
+		// (get) Token: 0x0600281B RID: 10267 RVA: 0x00156C28 File Offset: 0x00155028
 		private float EffectiveMtbDays
 		{
 			get
@@ -51,7 +51,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700061E RID: 1566
-		// (get) Token: 0x0600281A RID: 10266 RVA: 0x00156BF4 File Offset: 0x00154FF4
+		// (get) Token: 0x0600281C RID: 10268 RVA: 0x00156C6C File Offset: 0x0015506C
 		private float EffectiveAreaPct
 		{
 			get
@@ -60,7 +60,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600281B RID: 10267 RVA: 0x00156C0F File Offset: 0x0015500F
+		// Token: 0x0600281D RID: 10269 RVA: 0x00156C87 File Offset: 0x00155087
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
@@ -68,7 +68,7 @@ namespace RimWorld
 			this.RecacheEffectiveAreaPct();
 		}
 
-		// Token: 0x0600281C RID: 10268 RVA: 0x00156C30 File Offset: 0x00155030
+		// Token: 0x0600281E RID: 10270 RVA: 0x00156CA8 File Offset: 0x001550A8
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -78,7 +78,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600281D RID: 10269 RVA: 0x00156C4A File Offset: 0x0015504A
+		// Token: 0x0600281F RID: 10271 RVA: 0x00156CC2 File Offset: 0x001550C2
 		public override void CompTickRare()
 		{
 			base.CompTickRare();
@@ -86,7 +86,7 @@ namespace RimWorld
 			this.CheckTryFindMinerals(250);
 		}
 
-		// Token: 0x0600281E RID: 10270 RVA: 0x00156C64 File Offset: 0x00155064
+		// Token: 0x06002820 RID: 10272 RVA: 0x00156CDC File Offset: 0x001550DC
 		private void RecacheEffectiveAreaPct()
 		{
 			if (!this.Active)
@@ -133,7 +133,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600281F RID: 10271 RVA: 0x00156DA0 File Offset: 0x001551A0
+		// Token: 0x06002821 RID: 10273 RVA: 0x00156E18 File Offset: 0x00155218
 		private void CheckTryFindMinerals(int interval)
 		{
 			if (this.Active)
@@ -149,7 +149,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002820 RID: 10272 RVA: 0x00156DF0 File Offset: 0x001551F0
+		// Token: 0x06002822 RID: 10274 RVA: 0x00156E68 File Offset: 0x00155268
 		private void FoundMinerals()
 		{
 			int tile2;
@@ -167,7 +167,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002821 RID: 10273 RVA: 0x00156E94 File Offset: 0x00155294
+		// Token: 0x06002823 RID: 10275 RVA: 0x00156F0C File Offset: 0x0015530C
 		private void CalculateOtherActiveMineralScanners()
 		{
 			this.otherActiveMineralScanners.Clear();
@@ -189,7 +189,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002822 RID: 10274 RVA: 0x00156F60 File Offset: 0x00155360
+		// Token: 0x06002824 RID: 10276 RVA: 0x00156FD8 File Offset: 0x001553D8
 		private bool InterruptsMe(CompLongRangeMineralScanner otherScanner)
 		{
 			bool result;
@@ -212,7 +212,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002823 RID: 10275 RVA: 0x00156FE8 File Offset: 0x001553E8
+		// Token: 0x06002825 RID: 10277 RVA: 0x00157060 File Offset: 0x00155460
 		public override string CompInspectStringExtra()
 		{
 			string result;
@@ -231,7 +231,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002824 RID: 10276 RVA: 0x00157034 File Offset: 0x00155434
+		// Token: 0x06002826 RID: 10278 RVA: 0x001570AC File Offset: 0x001554AC
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			if (Prefs.DevMode)

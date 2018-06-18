@@ -7,13 +7,13 @@ namespace RimWorld
 	// Token: 0x020004E5 RID: 1253
 	public class SolidBioDatabase
 	{
-		// Token: 0x06001654 RID: 5716 RVA: 0x000C60E8 File Offset: 0x000C44E8
+		// Token: 0x06001655 RID: 5717 RVA: 0x000C613C File Offset: 0x000C453C
 		public static void Clear()
 		{
 			SolidBioDatabase.allBios.Clear();
 		}
 
-		// Token: 0x06001655 RID: 5717 RVA: 0x000C60F8 File Offset: 0x000C44F8
+		// Token: 0x06001656 RID: 5718 RVA: 0x000C614C File Offset: 0x000C454C
 		public static void LoadAllBios()
 		{
 			foreach (PawnBio pawnBio in DirectXmlLoader.LoadXmlDataInResourcesFolder<PawnBio>("Backstories/Solid"))

@@ -2,21 +2,21 @@
 
 namespace Verse
 {
-	// Token: 0x02000C1E RID: 3102
+	// Token: 0x02000C1D RID: 3101
 	public sealed class ByteGrid : IExposable
 	{
-		// Token: 0x060043BD RID: 17341 RVA: 0x0023B87C File Offset: 0x00239C7C
+		// Token: 0x060043BB RID: 17339 RVA: 0x0023B854 File Offset: 0x00239C54
 		public ByteGrid()
 		{
 		}
 
-		// Token: 0x060043BE RID: 17342 RVA: 0x0023B885 File Offset: 0x00239C85
+		// Token: 0x060043BC RID: 17340 RVA: 0x0023B85D File Offset: 0x00239C5D
 		public ByteGrid(Map map)
 		{
 			this.ClearAndResizeTo(map);
 		}
 
-		// Token: 0x17000A9C RID: 2716
+		// Token: 0x17000A9B RID: 2715
 		public byte this[IntVec3 c]
 		{
 			get
@@ -30,7 +30,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A9D RID: 2717
+		// Token: 0x17000A9C RID: 2716
 		public byte this[int index]
 		{
 			get
@@ -43,7 +43,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A9E RID: 2718
+		// Token: 0x17000A9D RID: 2717
 		public byte this[int x, int z]
 		{
 			get
@@ -56,8 +56,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A9F RID: 2719
-		// (get) Token: 0x060043C5 RID: 17349 RVA: 0x0023B954 File Offset: 0x00239D54
+		// Token: 0x17000A9E RID: 2718
+		// (get) Token: 0x060043C3 RID: 17347 RVA: 0x0023B92C File Offset: 0x00239D2C
 		public int CellsCount
 		{
 			get
@@ -66,13 +66,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043C6 RID: 17350 RVA: 0x0023B974 File Offset: 0x00239D74
+		// Token: 0x060043C4 RID: 17348 RVA: 0x0023B94C File Offset: 0x00239D4C
 		public bool MapSizeMatches(Map map)
 		{
 			return this.mapSizeX == map.Size.x && this.mapSizeZ == map.Size.z;
 		}
 
-		// Token: 0x060043C7 RID: 17351 RVA: 0x0023B9BC File Offset: 0x00239DBC
+		// Token: 0x060043C5 RID: 17349 RVA: 0x0023B994 File Offset: 0x00239D94
 		public void ClearAndResizeTo(Map map)
 		{
 			if (this.MapSizeMatches(map) && this.grid != null)
@@ -87,7 +87,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043C8 RID: 17352 RVA: 0x0023BA2E File Offset: 0x00239E2E
+		// Token: 0x060043C6 RID: 17350 RVA: 0x0023BA06 File Offset: 0x00239E06
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.mapSizeX, "mapSizeX", 0, false);
@@ -95,7 +95,7 @@ namespace Verse
 			DataExposeUtility.ByteArray(ref this.grid, "grid");
 		}
 
-		// Token: 0x060043C9 RID: 17353 RVA: 0x0023BA68 File Offset: 0x00239E68
+		// Token: 0x060043C7 RID: 17351 RVA: 0x0023BA40 File Offset: 0x00239E40
 		public void Clear(byte value = 0)
 		{
 			if (value == 0)
@@ -111,7 +111,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043CA RID: 17354 RVA: 0x0023BABC File Offset: 0x00239EBC
+		// Token: 0x060043C8 RID: 17352 RVA: 0x0023BA94 File Offset: 0x00239E94
 		public void DebugDraw()
 		{
 			for (int i = 0; i < this.grid.Length; i++)
@@ -125,13 +125,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002E49 RID: 11849
+		// Token: 0x04002E47 RID: 11847
 		private byte[] grid;
 
-		// Token: 0x04002E4A RID: 11850
+		// Token: 0x04002E48 RID: 11848
 		private int mapSizeX;
 
-		// Token: 0x04002E4B RID: 11851
+		// Token: 0x04002E49 RID: 11849
 		private int mapSizeZ;
 	}
 }

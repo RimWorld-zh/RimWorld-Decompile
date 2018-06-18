@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000831 RID: 2097
 	public static class PageUtility
 	{
-		// Token: 0x06002F3C RID: 12092 RVA: 0x00193B34 File Offset: 0x00191F34
+		// Token: 0x06002F3E RID: 12094 RVA: 0x00193BC8 File Offset: 0x00191FC8
 		public static Page StitchedPages(IEnumerable<Page> pages)
 		{
 			List<Page> list = pages.ToList<Page>();
@@ -35,7 +35,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002F3D RID: 12093 RVA: 0x00193BC4 File Offset: 0x00191FC4
+		// Token: 0x06002F3F RID: 12095 RVA: 0x00193C58 File Offset: 0x00192058
 		public static void InitGameStart()
 		{
 			Action preLoadLevelAction = delegate()

@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020004ED RID: 1261
 	public static class GenGuest
 	{
-		// Token: 0x06001689 RID: 5769 RVA: 0x000C7A90 File Offset: 0x000C5E90
+		// Token: 0x0600168A RID: 5770 RVA: 0x000C7AE4 File Offset: 0x000C5EE4
 		public static void PrisonerRelease(Pawn p)
 		{
 			if (p.ownership != null)

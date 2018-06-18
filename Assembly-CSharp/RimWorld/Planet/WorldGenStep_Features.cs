@@ -8,7 +8,7 @@ namespace RimWorld.Planet
 	public class WorldGenStep_Features : WorldGenStep
 	{
 		// Token: 0x1700041F RID: 1055
-		// (get) Token: 0x06001C40 RID: 7232 RVA: 0x000F2B50 File Offset: 0x000F0F50
+		// (get) Token: 0x06001C42 RID: 7234 RVA: 0x000F2BC8 File Offset: 0x000F0FC8
 		public override int SeedPart
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C41 RID: 7233 RVA: 0x000F2B6C File Offset: 0x000F0F6C
+		// Token: 0x06001C43 RID: 7235 RVA: 0x000F2BE4 File Offset: 0x000F0FE4
 		public override void GenerateFresh(string seed)
 		{
 			Find.World.features = new WorldFeatures();

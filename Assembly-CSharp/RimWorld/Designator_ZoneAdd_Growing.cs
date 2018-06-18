@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020007EE RID: 2030
 	public class Designator_ZoneAdd_Growing : Designator_ZoneAdd
 	{
-		// Token: 0x06002D0C RID: 11532 RVA: 0x0017A9D8 File Offset: 0x00178DD8
+		// Token: 0x06002D0E RID: 11534 RVA: 0x0017AA6C File Offset: 0x00178E6C
 		public Designator_ZoneAdd_Growing()
 		{
 			this.zoneTypeToPlace = typeof(Zone_Growing);
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000722 RID: 1826
-		// (get) Token: 0x06002D0D RID: 11533 RVA: 0x0017AA44 File Offset: 0x00178E44
+		// (get) Token: 0x06002D0F RID: 11535 RVA: 0x0017AAD8 File Offset: 0x00178ED8
 		protected override string NewZoneLabel
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D0E RID: 11534 RVA: 0x0017AA64 File Offset: 0x00178E64
+		// Token: 0x06002D10 RID: 11536 RVA: 0x0017AAF8 File Offset: 0x00178EF8
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -47,7 +47,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002D0F RID: 11535 RVA: 0x0017AAD0 File Offset: 0x00178ED0
+		// Token: 0x06002D11 RID: 11537 RVA: 0x0017AB64 File Offset: 0x00178F64
 		protected override Zone MakeNewZone()
 		{
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.GrowingFood, KnowledgeAmount.Total);

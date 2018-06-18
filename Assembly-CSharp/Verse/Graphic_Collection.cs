@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DD8 RID: 3544
+	// Token: 0x02000DD7 RID: 3543
 	public abstract class Graphic_Collection : Graphic
 	{
-		// Token: 0x06004F40 RID: 20288 RVA: 0x00293C74 File Offset: 0x00292074
+		// Token: 0x06004F3E RID: 20286 RVA: 0x00293C54 File Offset: 0x00292054
 		public override void Init(GraphicRequest req)
 		{
 			this.data = req.graphicData;
@@ -46,7 +46,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x040034AA RID: 13482
+		// Token: 0x040034A8 RID: 13480
 		protected Graphic[] subGraphics;
 	}
 }

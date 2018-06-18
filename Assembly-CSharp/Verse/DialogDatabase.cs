@@ -4,16 +4,16 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EC6 RID: 3782
+	// Token: 0x02000EC5 RID: 3781
 	public static class DialogDatabase
 	{
-		// Token: 0x0600594F RID: 22863 RVA: 0x002DBA94 File Offset: 0x002D9E94
+		// Token: 0x0600594D RID: 22861 RVA: 0x002DBACC File Offset: 0x002D9ECC
 		static DialogDatabase()
 		{
 			DialogDatabase.LoadAllDialog();
 		}
 
-		// Token: 0x06005950 RID: 22864 RVA: 0x002DBAB0 File Offset: 0x002D9EB0
+		// Token: 0x0600594E RID: 22862 RVA: 0x002DBAE8 File Offset: 0x002D9EE8
 		private static void LoadAllDialog()
 		{
 			DialogDatabase.Nodes.Clear();
@@ -41,7 +41,7 @@ namespace Verse
 			LayerLoader.MarkNonRootNodes(DialogDatabase.Nodes);
 		}
 
-		// Token: 0x06005951 RID: 22865 RVA: 0x002DBBE8 File Offset: 0x002D9FE8
+		// Token: 0x0600594F RID: 22863 RVA: 0x002DBC20 File Offset: 0x002DA020
 		public static DiaNodeMold GetRandomEncounterRootNode(DiaNodeType NType)
 		{
 			List<DiaNodeMold> list = new List<DiaNodeMold>();
@@ -55,7 +55,7 @@ namespace Verse
 			return list.RandomElement<DiaNodeMold>();
 		}
 
-		// Token: 0x06005952 RID: 22866 RVA: 0x002DBC88 File Offset: 0x002DA088
+		// Token: 0x06005950 RID: 22864 RVA: 0x002DBCC0 File Offset: 0x002DA0C0
 		public static DiaNodeMold GetNodeNamed(string NodeName)
 		{
 			foreach (DiaNodeMold diaNodeMold in DialogDatabase.Nodes)
@@ -76,10 +76,10 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x04003BA9 RID: 15273
+		// Token: 0x04003BA8 RID: 15272
 		private static List<DiaNodeMold> Nodes = new List<DiaNodeMold>();
 
-		// Token: 0x04003BAA RID: 15274
+		// Token: 0x04003BA9 RID: 15273
 		private static List<DiaNodeList> NodeLists = new List<DiaNodeList>();
 	}
 }

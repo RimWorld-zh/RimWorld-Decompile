@@ -9,7 +9,7 @@ namespace RimWorld
 	public class MainTabWindow_Restrict : MainTabWindow_PawnTable
 	{
 		// Token: 0x170007F3 RID: 2035
-		// (get) Token: 0x0600316D RID: 12653 RVA: 0x001AD0D8 File Offset: 0x001AB4D8
+		// (get) Token: 0x0600316F RID: 12655 RVA: 0x001AD1A0 File Offset: 0x001AB5A0
 		protected override PawnTableDef PawnTableDef
 		{
 			get
@@ -18,14 +18,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600316E RID: 12654 RVA: 0x001AD0F2 File Offset: 0x001AB4F2
+		// Token: 0x06003170 RID: 12656 RVA: 0x001AD1BA File Offset: 0x001AB5BA
 		public override void PostOpen()
 		{
 			base.PostOpen();
 			Find.World.renderer.wantedMode = WorldRenderMode.None;
 		}
 
-		// Token: 0x0600316F RID: 12655 RVA: 0x001AD10C File Offset: 0x001AB50C
+		// Token: 0x06003171 RID: 12657 RVA: 0x001AD1D4 File Offset: 0x001AB5D4
 		public override void DoWindowContents(Rect fillRect)
 		{
 			base.DoWindowContents(fillRect);

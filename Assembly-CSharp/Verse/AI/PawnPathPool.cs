@@ -6,14 +6,14 @@ namespace Verse.AI
 	// Token: 0x02000A97 RID: 2711
 	public class PawnPathPool
 	{
-		// Token: 0x06003C39 RID: 15417 RVA: 0x001FCC38 File Offset: 0x001FB038
+		// Token: 0x06003C3B RID: 15419 RVA: 0x001FCD0C File Offset: 0x001FB10C
 		public PawnPathPool(Map map)
 		{
 			this.map = map;
 		}
 
 		// Token: 0x17000923 RID: 2339
-		// (get) Token: 0x06003C3B RID: 15419 RVA: 0x001FCC64 File Offset: 0x001FB064
+		// (get) Token: 0x06003C3D RID: 15421 RVA: 0x001FCD38 File Offset: 0x001FB138
 		public static PawnPath NotFoundPath
 		{
 			get
@@ -22,7 +22,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003C3C RID: 15420 RVA: 0x001FCC80 File Offset: 0x001FB080
+		// Token: 0x06003C3E RID: 15422 RVA: 0x001FCD54 File Offset: 0x001FB154
 		public PawnPath GetEmptyPawnPath()
 		{
 			for (int i = 0; i < this.paths.Count; i++)

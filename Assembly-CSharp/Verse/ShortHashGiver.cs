@@ -8,7 +8,7 @@ namespace Verse
 	// Token: 0x02000AF8 RID: 2808
 	public static class ShortHashGiver
 	{
-		// Token: 0x06003E2A RID: 15914 RVA: 0x0020C5D8 File Offset: 0x0020A9D8
+		// Token: 0x06003E2C RID: 15916 RVA: 0x0020C6AC File Offset: 0x0020AAAC
 		public static void GiveAllShortHashes()
 		{
 			ShortHashGiver.takenHashesPerDeftype.Clear();
@@ -49,7 +49,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E2B RID: 15915 RVA: 0x0020C744 File Offset: 0x0020AB44
+		// Token: 0x06003E2D RID: 15917 RVA: 0x0020C818 File Offset: 0x0020AC18
 		private static void GiveShortHash(Def def, Type defType)
 		{
 			if (def.shortHash != 0)

@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200097C RID: 2428
 	public static class FacilitiesUtility
 	{
-		// Token: 0x0600368B RID: 13963 RVA: 0x001D10A0 File Offset: 0x001CF4A0
+		// Token: 0x0600368D RID: 13965 RVA: 0x001D1168 File Offset: 0x001CF568
 		public static void NotifyFacilitiesAboutChangedLOSBlockers(List<Region> affectedRegions)
 		{
 			if (affectedRegions.Any<Region>())

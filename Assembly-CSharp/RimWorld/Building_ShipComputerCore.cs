@@ -10,7 +10,7 @@ namespace RimWorld
 	internal class Building_ShipComputerCore : Building
 	{
 		// Token: 0x17000542 RID: 1346
-		// (get) Token: 0x06002376 RID: 9078 RVA: 0x00130874 File Offset: 0x0012EC74
+		// (get) Token: 0x06002378 RID: 9080 RVA: 0x001308EC File Offset: 0x0012ECEC
 		private bool CanLaunchNow
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002377 RID: 9079 RVA: 0x00130898 File Offset: 0x0012EC98
+		// Token: 0x06002379 RID: 9081 RVA: 0x00130910 File Offset: 0x0012ED10
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
@@ -48,7 +48,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002378 RID: 9080 RVA: 0x001308C2 File Offset: 0x0012ECC2
+		// Token: 0x0600237A RID: 9082 RVA: 0x0013093A File Offset: 0x0012ED3A
 		private void TryLaunch()
 		{
 			if (this.CanLaunchNow)

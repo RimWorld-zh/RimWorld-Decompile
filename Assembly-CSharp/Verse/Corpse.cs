@@ -7,19 +7,19 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DCA RID: 3530
+	// Token: 0x02000DC9 RID: 3529
 	public class Corpse : ThingWithComps, IThingHolder, IThoughtGiver, IStrippable, IBillGiver
 	{
-		// Token: 0x06004EC0 RID: 20160 RVA: 0x00290BA2 File Offset: 0x0028EFA2
+		// Token: 0x06004EBE RID: 20158 RVA: 0x00290B82 File Offset: 0x0028EF82
 		public Corpse()
 		{
 			this.operationsBillStack = new BillStack(this);
 			this.innerContainer = new ThingOwner<Pawn>(this, true, LookMode.Reference);
 		}
 
-		// Token: 0x17000CBC RID: 3260
-		// (get) Token: 0x06004EC1 RID: 20161 RVA: 0x00290BDC File Offset: 0x0028EFDC
-		// (set) Token: 0x06004EC2 RID: 20162 RVA: 0x00290C18 File Offset: 0x0028F018
+		// Token: 0x17000CBB RID: 3259
+		// (get) Token: 0x06004EBF RID: 20159 RVA: 0x00290BBC File Offset: 0x0028EFBC
+		// (set) Token: 0x06004EC0 RID: 20160 RVA: 0x00290BF8 File Offset: 0x0028EFF8
 		public Pawn InnerPawn
 		{
 			get
@@ -53,9 +53,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CBD RID: 3261
-		// (get) Token: 0x06004EC3 RID: 20163 RVA: 0x00290C78 File Offset: 0x0028F078
-		// (set) Token: 0x06004EC4 RID: 20164 RVA: 0x00290C9E File Offset: 0x0028F09E
+		// Token: 0x17000CBC RID: 3260
+		// (get) Token: 0x06004EC1 RID: 20161 RVA: 0x00290C58 File Offset: 0x0028F058
+		// (set) Token: 0x06004EC2 RID: 20162 RVA: 0x00290C7E File Offset: 0x0028F07E
 		public int Age
 		{
 			get
@@ -68,8 +68,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CBE RID: 3262
-		// (get) Token: 0x06004EC5 RID: 20165 RVA: 0x00290CB4 File Offset: 0x0028F0B4
+		// Token: 0x17000CBD RID: 3261
+		// (get) Token: 0x06004EC3 RID: 20163 RVA: 0x00290C94 File Offset: 0x0028F094
 		public override string Label
 		{
 			get
@@ -91,8 +91,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CBF RID: 3263
-		// (get) Token: 0x06004EC6 RID: 20166 RVA: 0x00290D10 File Offset: 0x0028F110
+		// Token: 0x17000CBE RID: 3262
+		// (get) Token: 0x06004EC4 RID: 20164 RVA: 0x00290CF0 File Offset: 0x0028F0F0
 		public override bool IngestibleNow
 		{
 			get
@@ -111,8 +111,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CC0 RID: 3264
-		// (get) Token: 0x06004EC7 RID: 20167 RVA: 0x00290D84 File Offset: 0x0028F184
+		// Token: 0x17000CBF RID: 3263
+		// (get) Token: 0x06004EC5 RID: 20165 RVA: 0x00290D64 File Offset: 0x0028F164
 		public RotDrawMode CurRotDrawMode
 		{
 			get
@@ -133,8 +133,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CC1 RID: 3265
-		// (get) Token: 0x06004EC8 RID: 20168 RVA: 0x00290DD0 File Offset: 0x0028F1D0
+		// Token: 0x17000CC0 RID: 3264
+		// (get) Token: 0x06004EC6 RID: 20166 RVA: 0x00290DB0 File Offset: 0x0028F1B0
 		private bool ShouldVanish
 		{
 			get
@@ -143,8 +143,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CC2 RID: 3266
-		// (get) Token: 0x06004EC9 RID: 20169 RVA: 0x00290E5C File Offset: 0x0028F25C
+		// Token: 0x17000CC1 RID: 3265
+		// (get) Token: 0x06004EC7 RID: 20167 RVA: 0x00290E3C File Offset: 0x0028F23C
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats
 		{
 			get
@@ -164,8 +164,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CC3 RID: 3267
-		// (get) Token: 0x06004ECA RID: 20170 RVA: 0x00290E88 File Offset: 0x0028F288
+		// Token: 0x17000CC2 RID: 3266
+		// (get) Token: 0x06004EC8 RID: 20168 RVA: 0x00290E68 File Offset: 0x0028F268
 		public BillStack BillStack
 		{
 			get
@@ -174,8 +174,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CC4 RID: 3268
-		// (get) Token: 0x06004ECB RID: 20171 RVA: 0x00290EA4 File Offset: 0x0028F2A4
+		// Token: 0x17000CC3 RID: 3267
+		// (get) Token: 0x06004EC9 RID: 20169 RVA: 0x00290E84 File Offset: 0x0028F284
 		public IEnumerable<IntVec3> IngredientStackCells
 		{
 			get
@@ -185,8 +185,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CC5 RID: 3269
-		// (get) Token: 0x06004ECC RID: 20172 RVA: 0x00290ED0 File Offset: 0x0028F2D0
+		// Token: 0x17000CC4 RID: 3268
+		// (get) Token: 0x06004ECA RID: 20170 RVA: 0x00290EB0 File Offset: 0x0028F2B0
 		public bool Bugged
 		{
 			get
@@ -195,44 +195,44 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004ECD RID: 20173 RVA: 0x00290F08 File Offset: 0x0028F308
+		// Token: 0x06004ECB RID: 20171 RVA: 0x00290EE8 File Offset: 0x0028F2E8
 		public bool CurrentlyUsableForBills()
 		{
 			return this.InteractionCell.IsValid;
 		}
 
-		// Token: 0x06004ECE RID: 20174 RVA: 0x00290F2C File Offset: 0x0028F32C
+		// Token: 0x06004ECC RID: 20172 RVA: 0x00290F0C File Offset: 0x0028F30C
 		public bool UsableForBillsAfterFueling()
 		{
 			return this.CurrentlyUsableForBills();
 		}
 
-		// Token: 0x06004ECF RID: 20175 RVA: 0x00290F48 File Offset: 0x0028F348
+		// Token: 0x06004ECD RID: 20173 RVA: 0x00290F28 File Offset: 0x0028F328
 		public bool AnythingToStrip()
 		{
 			return this.InnerPawn.AnythingToStrip();
 		}
 
-		// Token: 0x06004ED0 RID: 20176 RVA: 0x00290F68 File Offset: 0x0028F368
+		// Token: 0x06004ECE RID: 20174 RVA: 0x00290F48 File Offset: 0x0028F348
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.innerContainer;
 		}
 
-		// Token: 0x06004ED1 RID: 20177 RVA: 0x00290F83 File Offset: 0x0028F383
+		// Token: 0x06004ECF RID: 20175 RVA: 0x00290F63 File Offset: 0x0028F363
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
 
-		// Token: 0x06004ED2 RID: 20178 RVA: 0x00290F92 File Offset: 0x0028F392
+		// Token: 0x06004ED0 RID: 20176 RVA: 0x00290F72 File Offset: 0x0028F372
 		public override void PostMake()
 		{
 			base.PostMake();
 			this.timeOfDeath = Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x06004ED3 RID: 20179 RVA: 0x00290FAC File Offset: 0x0028F3AC
+		// Token: 0x06004ED1 RID: 20177 RVA: 0x00290F8C File Offset: 0x0028F38C
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			if (this.Bugged)
@@ -247,7 +247,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004ED4 RID: 20180 RVA: 0x00290FFA File Offset: 0x0028F3FA
+		// Token: 0x06004ED2 RID: 20178 RVA: 0x00290FDA File Offset: 0x0028F3DA
 		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
 		{
 			base.DeSpawn(mode);
@@ -257,7 +257,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004ED5 RID: 20181 RVA: 0x00291018 File Offset: 0x0028F418
+		// Token: 0x06004ED3 RID: 20179 RVA: 0x00290FF8 File Offset: 0x0028F3F8
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
 		{
 			Pawn pawn = null;
@@ -274,7 +274,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004ED6 RID: 20182 RVA: 0x00291060 File Offset: 0x0028F460
+		// Token: 0x06004ED4 RID: 20180 RVA: 0x00291040 File Offset: 0x0028F440
 		public static void PostCorpseDestroy(Pawn pawn)
 		{
 			if (pawn.ownership != null)
@@ -292,7 +292,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004ED7 RID: 20183 RVA: 0x002910C0 File Offset: 0x0028F4C0
+		// Token: 0x06004ED5 RID: 20181 RVA: 0x002910A0 File Offset: 0x0028F4A0
 		public override void TickRare()
 		{
 			base.TickRare();
@@ -318,7 +318,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004ED8 RID: 20184 RVA: 0x00291154 File Offset: 0x0028F554
+		// Token: 0x06004ED6 RID: 20182 RVA: 0x00291134 File Offset: 0x0028F534
 		protected override void IngestedCalculateAmounts(Pawn ingester, float nutritionWanted, out int numTaken, out float nutritionIngested)
 		{
 			BodyPartRecord bodyPartRecord = this.GetBestBodyPartToEat(ingester, nutritionWanted);
@@ -357,7 +357,7 @@ namespace Verse
 			nutritionIngested = bodyPartNutrition;
 		}
 
-		// Token: 0x06004ED9 RID: 20185 RVA: 0x00291290 File Offset: 0x0028F690
+		// Token: 0x06004ED7 RID: 20183 RVA: 0x00291270 File Offset: 0x0028F670
 		public override IEnumerable<Thing> ButcherProducts(Pawn butcher, float efficiency)
 		{
 			foreach (Thing t in this.InnerPawn.ButcherProducts(butcher, efficiency))
@@ -386,7 +386,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004EDA RID: 20186 RVA: 0x002912C8 File Offset: 0x0028F6C8
+		// Token: 0x06004ED8 RID: 20184 RVA: 0x002912A8 File Offset: 0x0028F6A8
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -403,19 +403,19 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06004EDB RID: 20187 RVA: 0x00291346 File Offset: 0x0028F746
+		// Token: 0x06004ED9 RID: 20185 RVA: 0x00291326 File Offset: 0x0028F726
 		public void Strip()
 		{
 			this.InnerPawn.Strip();
 		}
 
-		// Token: 0x06004EDC RID: 20188 RVA: 0x00291354 File Offset: 0x0028F754
+		// Token: 0x06004EDA RID: 20186 RVA: 0x00291334 File Offset: 0x0028F734
 		public override void DrawAt(Vector3 drawLoc, bool flip = false)
 		{
 			this.InnerPawn.Drawer.renderer.RenderPawnAt(drawLoc);
 		}
 
-		// Token: 0x06004EDD RID: 20189 RVA: 0x00291370 File Offset: 0x0028F770
+		// Token: 0x06004EDB RID: 20187 RVA: 0x00291350 File Offset: 0x0028F750
 		public Thought_Memory GiveObservedThought()
 		{
 			Thought_Memory result;
@@ -444,7 +444,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004EDE RID: 20190 RVA: 0x002913F0 File Offset: 0x0028F7F0
+		// Token: 0x06004EDC RID: 20188 RVA: 0x002913D0 File Offset: 0x0028F7D0
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -465,14 +465,14 @@ namespace Verse
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
-		// Token: 0x06004EDF RID: 20191 RVA: 0x002914E4 File Offset: 0x0028F8E4
+		// Token: 0x06004EDD RID: 20189 RVA: 0x002914C4 File Offset: 0x0028F8C4
 		public void RotStageChanged()
 		{
 			PortraitsCache.SetDirty(this.InnerPawn);
 			this.NotifyColonistBar();
 		}
 
-		// Token: 0x06004EE0 RID: 20192 RVA: 0x002914F8 File Offset: 0x0028F8F8
+		// Token: 0x06004EDE RID: 20190 RVA: 0x002914D8 File Offset: 0x0028F8D8
 		private BodyPartRecord GetBestBodyPartToEat(Pawn ingester, float nutritionWanted)
 		{
 			IEnumerable<BodyPartRecord> source = from x in this.InnerPawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null)
@@ -490,7 +490,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004EE1 RID: 20193 RVA: 0x0029156F File Offset: 0x0028F96F
+		// Token: 0x06004EDF RID: 20191 RVA: 0x0029154F File Offset: 0x0028F94F
 		private void NotifyColonistBar()
 		{
 			if (this.InnerPawn.Faction == Faction.OfPlayer && Current.ProgramState == ProgramState.Playing)
@@ -499,22 +499,22 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003465 RID: 13413
+		// Token: 0x04003463 RID: 13411
 		private ThingOwner<Pawn> innerContainer;
 
-		// Token: 0x04003466 RID: 13414
+		// Token: 0x04003464 RID: 13412
 		public int timeOfDeath = -1;
 
-		// Token: 0x04003467 RID: 13415
+		// Token: 0x04003465 RID: 13413
 		private int vanishAfterTimestamp = -1;
 
-		// Token: 0x04003468 RID: 13416
+		// Token: 0x04003466 RID: 13414
 		private BillStack operationsBillStack = null;
 
-		// Token: 0x04003469 RID: 13417
+		// Token: 0x04003467 RID: 13415
 		public bool everBuriedInSarcophagus;
 
-		// Token: 0x0400346A RID: 13418
+		// Token: 0x04003468 RID: 13416
 		private const int VanishAfterTicksSinceDessicated = 6000000;
 	}
 }

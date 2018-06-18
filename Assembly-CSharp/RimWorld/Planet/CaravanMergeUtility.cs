@@ -11,7 +11,7 @@ namespace RimWorld.Planet
 	public static class CaravanMergeUtility
 	{
 		// Token: 0x17000463 RID: 1123
-		// (get) Token: 0x06001DB2 RID: 7602 RVA: 0x000FFEB8 File Offset: 0x000FE2B8
+		// (get) Token: 0x06001DB4 RID: 7604 RVA: 0x000FFF30 File Offset: 0x000FE330
 		public static bool ShouldShowMergeCommand
 		{
 			get
@@ -21,7 +21,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000464 RID: 1124
-		// (get) Token: 0x06001DB3 RID: 7603 RVA: 0x000FFEE0 File Offset: 0x000FE2E0
+		// (get) Token: 0x06001DB5 RID: 7605 RVA: 0x000FFF58 File Offset: 0x000FE358
 		public static bool CanMergeAnySelectedCaravans
 		{
 			get
@@ -47,7 +47,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000465 RID: 1125
-		// (get) Token: 0x06001DB4 RID: 7604 RVA: 0x000FFF90 File Offset: 0x000FE390
+		// (get) Token: 0x06001DB6 RID: 7606 RVA: 0x00100008 File Offset: 0x000FE408
 		public static bool AnySelectedCaravanCloseToAnyOtherMergeableCaravan
 		{
 			get
@@ -76,7 +76,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DB5 RID: 7605 RVA: 0x0010004C File Offset: 0x000FE44C
+		// Token: 0x06001DB7 RID: 7607 RVA: 0x001000C4 File Offset: 0x000FE4C4
 		public static Command MergeCommand(Caravan caravan)
 		{
 			Command_Action command_Action = new Command_Action();
@@ -95,7 +95,7 @@ namespace RimWorld.Planet
 			return command_Action;
 		}
 
-		// Token: 0x06001DB6 RID: 7606 RVA: 0x001000D0 File Offset: 0x000FE4D0
+		// Token: 0x06001DB8 RID: 7608 RVA: 0x00100148 File Offset: 0x000FE548
 		public static void TryMergeSelectedCaravans()
 		{
 			CaravanMergeUtility.tmpSelectedPlayerCaravans.Clear();
@@ -129,7 +129,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DB7 RID: 7607 RVA: 0x001001F0 File Offset: 0x000FE5F0
+		// Token: 0x06001DB9 RID: 7609 RVA: 0x00100268 File Offset: 0x000FE668
 		private static bool CloseToEachOther(Caravan c1, Caravan c2)
 		{
 			bool result;
@@ -147,7 +147,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DB8 RID: 7608 RVA: 0x0010025C File Offset: 0x000FE65C
+		// Token: 0x06001DBA RID: 7610 RVA: 0x001002D4 File Offset: 0x000FE6D4
 		private static void MergeCaravans(List<Caravan> caravans)
 		{
 			Caravan caravan = caravans.MaxBy((Caravan x) => x.PawnsListForReading.Count);

@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200081D RID: 2077
 	public static class RecordsCardUtility
 	{
-		// Token: 0x06002E60 RID: 11872 RVA: 0x0018AB64 File Offset: 0x00188F64
+		// Token: 0x06002E62 RID: 11874 RVA: 0x0018ABF8 File Offset: 0x00188FF8
 		public static void DrawRecordsCard(Rect rect, Pawn pawn)
 		{
 			Text.Font = GameFont.Small;
@@ -27,7 +27,7 @@ namespace RimWorld
 			Widgets.EndScrollView();
 		}
 
-		// Token: 0x06002E61 RID: 11873 RVA: 0x0018AC34 File Offset: 0x00189034
+		// Token: 0x06002E63 RID: 11875 RVA: 0x0018ACC8 File Offset: 0x001890C8
 		private static float DrawTimeRecords(Rect leftRect, Pawn pawn)
 		{
 			List<RecordDef> allDefsListForReading = DefDatabase<RecordDef>.AllDefsListForReading;
@@ -45,7 +45,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06002E62 RID: 11874 RVA: 0x0018ACD0 File Offset: 0x001890D0
+		// Token: 0x06002E64 RID: 11876 RVA: 0x0018AD64 File Offset: 0x00189164
 		private static float DrawMiscRecords(Rect rightRect, Pawn pawn)
 		{
 			List<RecordDef> allDefsListForReading = DefDatabase<RecordDef>.AllDefsListForReading;
@@ -63,7 +63,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06002E63 RID: 11875 RVA: 0x0018AD7C File Offset: 0x0018917C
+		// Token: 0x06002E65 RID: 11877 RVA: 0x0018AE10 File Offset: 0x00189210
 		private static float DrawRecord(float x, float y, float width, RecordDef record, Pawn pawn)
 		{
 			float num = width * 0.45f;

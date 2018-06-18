@@ -7,25 +7,25 @@ namespace RimWorld.Planet
 	// Token: 0x02000618 RID: 1560
 	public class TransportPodsArrivalAction_VisitSettlement : TransportPodsArrivalAction_FormCaravan
 	{
-		// Token: 0x06001F67 RID: 8039 RVA: 0x0011028E File Offset: 0x0010E68E
+		// Token: 0x06001F69 RID: 8041 RVA: 0x00110306 File Offset: 0x0010E706
 		public TransportPodsArrivalAction_VisitSettlement()
 		{
 		}
 
-		// Token: 0x06001F68 RID: 8040 RVA: 0x00110297 File Offset: 0x0010E697
+		// Token: 0x06001F6A RID: 8042 RVA: 0x0011030F File Offset: 0x0010E70F
 		public TransportPodsArrivalAction_VisitSettlement(Settlement settlement)
 		{
 			this.settlement = settlement;
 		}
 
-		// Token: 0x06001F69 RID: 8041 RVA: 0x001102A7 File Offset: 0x0010E6A7
+		// Token: 0x06001F6B RID: 8043 RVA: 0x0011031F File Offset: 0x0010E71F
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_References.Look<Settlement>(ref this.settlement, "settlement", false);
 		}
 
-		// Token: 0x06001F6A RID: 8042 RVA: 0x001102C4 File Offset: 0x0010E6C4
+		// Token: 0x06001F6C RID: 8044 RVA: 0x0011033C File Offset: 0x0010E73C
 		public override FloatMenuAcceptanceReport StillValid(IEnumerable<IThingHolder> pods, int destinationTile)
 		{
 			FloatMenuAcceptanceReport floatMenuAcceptanceReport = base.StillValid(pods, destinationTile);
@@ -45,7 +45,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001F6B RID: 8043 RVA: 0x00110328 File Offset: 0x0010E728
+		// Token: 0x06001F6D RID: 8045 RVA: 0x001103A0 File Offset: 0x0010E7A0
 		public static FloatMenuAcceptanceReport CanVisit(IEnumerable<IThingHolder> pods, Settlement settlement)
 		{
 			FloatMenuAcceptanceReport result;
@@ -64,7 +64,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001F6C RID: 8044 RVA: 0x00110388 File Offset: 0x0010E788
+		// Token: 0x06001F6E RID: 8046 RVA: 0x00110400 File Offset: 0x0010E800
 		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(CompLaunchable representative, IEnumerable<IThingHolder> pods, Settlement settlement)
 		{
 			return TransportPodsArrivalActionUtility.GetFloatMenuOptions<TransportPodsArrivalAction_VisitSettlement>(() => TransportPodsArrivalAction_VisitSettlement.CanVisit(pods, settlement), () => new TransportPodsArrivalAction_VisitSettlement(settlement), "VisitSettlement".Translate(new object[]

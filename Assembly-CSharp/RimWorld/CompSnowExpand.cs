@@ -10,7 +10,7 @@ namespace RimWorld
 	public class CompSnowExpand : ThingComp
 	{
 		// Token: 0x1700064D RID: 1613
-		// (get) Token: 0x060028B9 RID: 10425 RVA: 0x0015B2F8 File Offset: 0x001596F8
+		// (get) Token: 0x060028BB RID: 10427 RVA: 0x0015B38C File Offset: 0x0015978C
 		public CompProperties_SnowExpand Props
 		{
 			get
@@ -19,13 +19,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028BA RID: 10426 RVA: 0x0015B318 File Offset: 0x00159718
+		// Token: 0x060028BC RID: 10428 RVA: 0x0015B3AC File Offset: 0x001597AC
 		public override void PostExposeData()
 		{
 			Scribe_Values.Look<float>(ref this.snowRadius, "snowRadius", 0f, false);
 		}
 
-		// Token: 0x060028BB RID: 10427 RVA: 0x0015B331 File Offset: 0x00159731
+		// Token: 0x060028BD RID: 10429 RVA: 0x0015B3C5 File Offset: 0x001597C5
 		public override void CompTick()
 		{
 			if (this.parent.Spawned)
@@ -37,7 +37,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028BC RID: 10428 RVA: 0x0015B36C File Offset: 0x0015976C
+		// Token: 0x060028BE RID: 10430 RVA: 0x0015B400 File Offset: 0x00159800
 		private void TryExpandSnow()
 		{
 			if (this.parent.Map.mapTemperature.OutdoorTemp > 10f)

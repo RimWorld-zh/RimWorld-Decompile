@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x0200064A RID: 1610
 	public class ScenPart_StartingResearch : ScenPart
 	{
-		// Token: 0x06002163 RID: 8547 RVA: 0x0011B5E4 File Offset: 0x001199E4
+		// Token: 0x06002165 RID: 8549 RVA: 0x0011B65C File Offset: 0x00119A5C
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight);
@@ -22,13 +22,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002164 RID: 8548 RVA: 0x0011B64E File Offset: 0x00119A4E
+		// Token: 0x06002166 RID: 8550 RVA: 0x0011B6C6 File Offset: 0x00119AC6
 		public override void Randomize()
 		{
 			this.project = this.NonRedundantResearchProjects().RandomElement<ResearchProjectDef>();
 		}
 
-		// Token: 0x06002165 RID: 8549 RVA: 0x0011B664 File Offset: 0x00119A64
+		// Token: 0x06002167 RID: 8551 RVA: 0x0011B6DC File Offset: 0x00119ADC
 		private IEnumerable<ResearchProjectDef> NonRedundantResearchProjects()
 		{
 			return DefDatabase<ResearchProjectDef>.AllDefs.Where(delegate(ResearchProjectDef d)
@@ -46,14 +46,14 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06002166 RID: 8550 RVA: 0x0011B6A0 File Offset: 0x00119AA0
+		// Token: 0x06002168 RID: 8552 RVA: 0x0011B718 File Offset: 0x00119B18
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Defs.Look<ResearchProjectDef>(ref this.project, "project");
 		}
 
-		// Token: 0x06002167 RID: 8551 RVA: 0x0011B6BC File Offset: 0x00119ABC
+		// Token: 0x06002169 RID: 8553 RVA: 0x0011B734 File Offset: 0x00119B34
 		public override string Summary(Scenario scen)
 		{
 			return "ScenPart_StartingResearchFinished".Translate(new object[]
@@ -62,7 +62,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06002168 RID: 8552 RVA: 0x0011B6EF File Offset: 0x00119AEF
+		// Token: 0x0600216A RID: 8554 RVA: 0x0011B767 File Offset: 0x00119B67
 		public override void PostGameStart()
 		{
 			Find.ResearchManager.InstantFinish(this.project, false);

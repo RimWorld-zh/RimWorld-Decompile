@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class ChemicalDefOf
 	{
-		// Token: 0x06003652 RID: 13906 RVA: 0x001D0977 File Offset: 0x001CED77
+		// Token: 0x06003654 RID: 13908 RVA: 0x001D0A3F File Offset: 0x001CEE3F
 		static ChemicalDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ChemicalDefOf));

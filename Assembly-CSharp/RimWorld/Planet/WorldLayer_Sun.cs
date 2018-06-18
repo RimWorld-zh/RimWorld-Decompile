@@ -9,7 +9,7 @@ namespace RimWorld.Planet
 	public class WorldLayer_Sun : WorldLayer
 	{
 		// Token: 0x17000406 RID: 1030
-		// (get) Token: 0x06001B57 RID: 6999 RVA: 0x000EB158 File Offset: 0x000E9558
+		// (get) Token: 0x06001B58 RID: 7000 RVA: 0x000EB1C4 File Offset: 0x000E95C4
 		protected override int Layer
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000407 RID: 1031
-		// (get) Token: 0x06001B58 RID: 7000 RVA: 0x000EB174 File Offset: 0x000E9574
+		// (get) Token: 0x06001B59 RID: 7001 RVA: 0x000EB1E0 File Offset: 0x000E95E0
 		protected override Quaternion Rotation
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B59 RID: 7001 RVA: 0x000EB194 File Offset: 0x000E9594
+		// Token: 0x06001B5A RID: 7002 RVA: 0x000EB200 File Offset: 0x000E9600
 		public override IEnumerable Regenerate()
 		{
 			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();

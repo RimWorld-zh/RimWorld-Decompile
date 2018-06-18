@@ -9,18 +9,18 @@ namespace RimWorld
 	// Token: 0x02000458 RID: 1112
 	public class Zone_Growing : Zone, IPlantToGrowSettable
 	{
-		// Token: 0x0600136D RID: 4973 RVA: 0x000A80A2 File Offset: 0x000A64A2
+		// Token: 0x0600136D RID: 4973 RVA: 0x000A80AE File Offset: 0x000A64AE
 		public Zone_Growing()
 		{
 		}
 
-		// Token: 0x0600136E RID: 4974 RVA: 0x000A80BD File Offset: 0x000A64BD
+		// Token: 0x0600136E RID: 4974 RVA: 0x000A80C9 File Offset: 0x000A64C9
 		public Zone_Growing(ZoneManager zoneManager) : base("GrowingZone".Translate(), zoneManager)
 		{
 		}
 
 		// Token: 0x170002A8 RID: 680
-		// (get) Token: 0x0600136F RID: 4975 RVA: 0x000A80E4 File Offset: 0x000A64E4
+		// (get) Token: 0x0600136F RID: 4975 RVA: 0x000A80F0 File Offset: 0x000A64F0
 		public override bool IsMultiselectable
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002A9 RID: 681
-		// (get) Token: 0x06001370 RID: 4976 RVA: 0x000A80FC File Offset: 0x000A64FC
+		// (get) Token: 0x06001370 RID: 4976 RVA: 0x000A8108 File Offset: 0x000A6508
 		protected override Color NextZoneColor
 		{
 			get
@@ -40,7 +40,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002A7 RID: 679
-		// (get) Token: 0x06001371 RID: 4977 RVA: 0x000A8118 File Offset: 0x000A6518
+		// (get) Token: 0x06001371 RID: 4977 RVA: 0x000A8124 File Offset: 0x000A6524
 		IEnumerable<IntVec3> IPlantToGrowSettable.Cells
 		{
 			get
@@ -49,7 +49,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001372 RID: 4978 RVA: 0x000A8133 File Offset: 0x000A6533
+		// Token: 0x06001372 RID: 4978 RVA: 0x000A813F File Offset: 0x000A653F
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -57,7 +57,7 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.allowSow, "allowSow", true, false);
 		}
 
-		// Token: 0x06001373 RID: 4979 RVA: 0x000A8160 File Offset: 0x000A6560
+		// Token: 0x06001373 RID: 4979 RVA: 0x000A816C File Offset: 0x000A656C
 		public override string GetInspectString()
 		{
 			string text = "";
@@ -88,7 +88,7 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x06001374 RID: 4980 RVA: 0x000A8228 File Offset: 0x000A6628
+		// Token: 0x06001374 RID: 4980 RVA: 0x000A8234 File Offset: 0x000A6634
 		public static string GrowingQuadrumsDescription(int tile)
 		{
 			List<Twelfth> list = GenTemperature.TwelfthsInAverageTemperatureRange(tile, 10f, 42f);
@@ -111,7 +111,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001375 RID: 4981 RVA: 0x000A82CC File Offset: 0x000A66CC
+		// Token: 0x06001375 RID: 4981 RVA: 0x000A82D8 File Offset: 0x000A66D8
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
@@ -134,26 +134,26 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06001376 RID: 4982 RVA: 0x000A82F8 File Offset: 0x000A66F8
+		// Token: 0x06001376 RID: 4982 RVA: 0x000A8304 File Offset: 0x000A6704
 		public override IEnumerable<Gizmo> GetZoneAddGizmos()
 		{
 			yield return DesignatorUtility.FindAllowedDesignator<Designator_ZoneAdd_Growing_Expand>();
 			yield break;
 		}
 
-		// Token: 0x06001377 RID: 4983 RVA: 0x000A831C File Offset: 0x000A671C
+		// Token: 0x06001377 RID: 4983 RVA: 0x000A8328 File Offset: 0x000A6728
 		public ThingDef GetPlantDefToGrow()
 		{
 			return this.plantDefToGrow;
 		}
 
-		// Token: 0x06001378 RID: 4984 RVA: 0x000A8337 File Offset: 0x000A6737
+		// Token: 0x06001378 RID: 4984 RVA: 0x000A8343 File Offset: 0x000A6743
 		public void SetPlantDefToGrow(ThingDef plantDef)
 		{
 			this.plantDefToGrow = plantDef;
 		}
 
-		// Token: 0x06001379 RID: 4985 RVA: 0x000A8344 File Offset: 0x000A6744
+		// Token: 0x06001379 RID: 4985 RVA: 0x000A8350 File Offset: 0x000A6750
 		public bool CanAcceptSowNow()
 		{
 			return true;

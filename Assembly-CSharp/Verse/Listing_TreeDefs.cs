@@ -7,17 +7,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E7A RID: 3706
+	// Token: 0x02000E79 RID: 3705
 	public class Listing_TreeDefs : Listing_Tree
 	{
-		// Token: 0x06005730 RID: 22320 RVA: 0x002CC184 File Offset: 0x002CA584
+		// Token: 0x0600572E RID: 22318 RVA: 0x002CC184 File Offset: 0x002CA584
 		public Listing_TreeDefs(float labelColumnWidth)
 		{
 			this.labelWidthInt = labelColumnWidth;
 		}
 
-		// Token: 0x17000DC2 RID: 3522
-		// (get) Token: 0x06005731 RID: 22321 RVA: 0x002CC194 File Offset: 0x002CA594
+		// Token: 0x17000DC1 RID: 3521
+		// (get) Token: 0x0600572F RID: 22319 RVA: 0x002CC194 File Offset: 0x002CA594
 		protected override float LabelWidth
 		{
 			get
@@ -26,7 +26,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005732 RID: 22322 RVA: 0x002CC1B0 File Offset: 0x002CA5B0
+		// Token: 0x06005730 RID: 22320 RVA: 0x002CC1B0 File Offset: 0x002CA5B0
 		public void ContentLines(TreeNode_Editor node, int indentLevel)
 		{
 			node.DoSpecialPreElements(this);
@@ -43,7 +43,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005733 RID: 22323 RVA: 0x002CC220 File Offset: 0x002CA620
+		// Token: 0x06005731 RID: 22321 RVA: 0x002CC220 File Offset: 0x002CA620
 		private void Node(TreeNode_Editor node, int indentLevel, int openMask)
 		{
 			if (node.nodeType == EditTreeNodeType.TerminalValue)
@@ -75,7 +75,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005734 RID: 22324 RVA: 0x002CC304 File Offset: 0x002CA704
+		// Token: 0x06005732 RID: 22322 RVA: 0x002CC304 File Offset: 0x002CA704
 		private void ControlButtonsRight(TreeNode_Editor node, WidgetRow widgetRow)
 		{
 			if (node.HasNewButton)
@@ -116,7 +116,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005735 RID: 22325 RVA: 0x002CC430 File Offset: 0x002CA830
+		// Token: 0x06005733 RID: 22323 RVA: 0x002CC430 File Offset: 0x002CA830
 		private void ExtraInfoText(TreeNode_Editor node, WidgetRow widgetRow)
 		{
 			string extraInfoText = node.ExtraInfoText;
@@ -135,7 +135,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005736 RID: 22326 RVA: 0x002CC4C0 File Offset: 0x002CA8C0
+		// Token: 0x06005734 RID: 22324 RVA: 0x002CC4C0 File Offset: 0x002CA8C0
 		protected void NodeLabelLeft(TreeNode_Editor node, int indentLevel)
 		{
 			string tipText = "";
@@ -150,7 +150,7 @@ namespace Verse
 			base.LabelLeft(node.LabelText, tipText, indentLevel);
 		}
 
-		// Token: 0x06005737 RID: 22327 RVA: 0x002CC520 File Offset: 0x002CA920
+		// Token: 0x06005735 RID: 22325 RVA: 0x002CC520 File Offset: 0x002CA920
 		protected void MakeCreateNewObjectMenu(TreeNode_Editor owningNode, FieldInfo owningField, Type baseType, Action<object> addAction)
 		{
 			List<Type> list = baseType.InstantiableDescendantsAndSelf().ToList<Type>();
@@ -181,7 +181,7 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list2));
 		}
 
-		// Token: 0x06005738 RID: 22328 RVA: 0x002CC5F0 File Offset: 0x002CA9F0
+		// Token: 0x06005736 RID: 22326 RVA: 0x002CC5F0 File Offset: 0x002CA9F0
 		protected void ValueEditWidgetRight(TreeNode_Editor node, float leftX)
 		{
 			if (node.nodeType != EditTreeNodeType.TerminalValue)
@@ -294,7 +294,7 @@ namespace Verse
 			node.Value = obj;
 		}
 
-		// Token: 0x040039C6 RID: 14790
+		// Token: 0x040039C4 RID: 14788
 		private float labelWidthInt;
 	}
 }

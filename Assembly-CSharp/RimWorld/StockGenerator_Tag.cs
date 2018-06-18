@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000774 RID: 1908
 	public class StockGenerator_Tag : StockGenerator
 	{
-		// Token: 0x06002A1B RID: 10779 RVA: 0x00164B90 File Offset: 0x00162F90
+		// Token: 0x06002A1D RID: 10781 RVA: 0x00164C24 File Offset: 0x00163024
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
 			List<ThingDef> generatedDefs = new List<ThingDef>();
@@ -31,7 +31,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002A1C RID: 10780 RVA: 0x00164BBC File Offset: 0x00162FBC
+		// Token: 0x06002A1E RID: 10782 RVA: 0x00164C50 File Offset: 0x00163050
 		public override bool HandlesThingDef(ThingDef thingDef)
 		{
 			return thingDef.tradeTags != null && thingDef.tradeability != Tradeability.None && thingDef.techLevel <= this.maxTechLevelBuy && thingDef.tradeTags.Contains(this.tradeTag);

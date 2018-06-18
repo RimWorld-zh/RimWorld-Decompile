@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200081A RID: 2074
 	public static class InteractionCardUtility
 	{
-		// Token: 0x06002E51 RID: 11857 RVA: 0x00189E88 File Offset: 0x00188288
+		// Token: 0x06002E53 RID: 11859 RVA: 0x00189F1C File Offset: 0x0018831C
 		public static void DrawInteractionsLog(Rect rect, Pawn pawn, List<LogEntry> entries, int maxEntries)
 		{
 			float width = rect.width - 29f - 16f - 10f;

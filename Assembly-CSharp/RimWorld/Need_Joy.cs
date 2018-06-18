@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x020004FF RID: 1279
 	public class Need_Joy : Need
 	{
-		// Token: 0x060016F7 RID: 5879 RVA: 0x000CA8A0 File Offset: 0x000C8CA0
+		// Token: 0x060016F8 RID: 5880 RVA: 0x000CA8F4 File Offset: 0x000C8CF4
 		public Need_Joy(Pawn pawn) : base(pawn)
 		{
 			this.threshPercents = new List<float>();
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700031D RID: 797
-		// (get) Token: 0x060016F8 RID: 5880 RVA: 0x000CA918 File Offset: 0x000C8D18
+		// (get) Token: 0x060016F9 RID: 5881 RVA: 0x000CA96C File Offset: 0x000C8D6C
 		public JoyCategory CurCategory
 		{
 			get
@@ -55,7 +55,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700031E RID: 798
-		// (get) Token: 0x060016F9 RID: 5881 RVA: 0x000CA9A4 File Offset: 0x000C8DA4
+		// (get) Token: 0x060016FA RID: 5882 RVA: 0x000CA9F8 File Offset: 0x000C8DF8
 		private float FallPerInterval
 		{
 			get
@@ -89,7 +89,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700031F RID: 799
-		// (get) Token: 0x060016FA RID: 5882 RVA: 0x000CAA28 File Offset: 0x000C8E28
+		// (get) Token: 0x060016FB RID: 5883 RVA: 0x000CAA7C File Offset: 0x000C8E7C
 		public override int GUIChangeArrow
 		{
 			get
@@ -99,7 +99,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000320 RID: 800
-		// (get) Token: 0x060016FB RID: 5883 RVA: 0x000CAA50 File Offset: 0x000C8E50
+		// (get) Token: 0x060016FC RID: 5884 RVA: 0x000CAAA4 File Offset: 0x000C8EA4
 		private bool GainingJoy
 		{
 			get
@@ -108,20 +108,20 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060016FC RID: 5884 RVA: 0x000CAA7A File Offset: 0x000C8E7A
+		// Token: 0x060016FD RID: 5885 RVA: 0x000CAACE File Offset: 0x000C8ECE
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			this.tolerances.ExposeData();
 		}
 
-		// Token: 0x060016FD RID: 5885 RVA: 0x000CAA8E File Offset: 0x000C8E8E
+		// Token: 0x060016FE RID: 5886 RVA: 0x000CAAE2 File Offset: 0x000C8EE2
 		public override void SetInitialLevel()
 		{
 			this.CurLevel = Rand.Range(0.5f, 0.6f);
 		}
 
-		// Token: 0x060016FE RID: 5886 RVA: 0x000CAAA8 File Offset: 0x000C8EA8
+		// Token: 0x060016FF RID: 5887 RVA: 0x000CAAFC File Offset: 0x000C8EFC
 		public void GainJoy(float amount, JoyKindDef joyKind)
 		{
 			if (amount > 0f)
@@ -137,7 +137,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060016FF RID: 5887 RVA: 0x000CAB1B File Offset: 0x000C8F1B
+		// Token: 0x06001700 RID: 5888 RVA: 0x000CAB6F File Offset: 0x000C8F6F
 		public override void NeedInterval()
 		{
 			if (!base.IsFrozen)
@@ -150,7 +150,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001700 RID: 5888 RVA: 0x000CAB54 File Offset: 0x000C8F54
+		// Token: 0x06001701 RID: 5889 RVA: 0x000CABA8 File Offset: 0x000C8FA8
 		public override string GetTipString()
 		{
 			string text = base.GetTipString();

@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C02 RID: 3074
+	// Token: 0x02000C01 RID: 3073
 	public interface ICellBoolGiver
 	{
-		// Token: 0x17000A90 RID: 2704
-		// (get) Token: 0x0600432B RID: 17195
+		// Token: 0x17000A8F RID: 2703
+		// (get) Token: 0x06004329 RID: 17193
 		Color Color { get; }
 
-		// Token: 0x0600432C RID: 17196
+		// Token: 0x0600432A RID: 17194
 		bool GetCellBool(int index);
 
-		// Token: 0x0600432D RID: 17197
+		// Token: 0x0600432B RID: 17195
 		Color GetCellExtraColor(int index);
 	}
 }

@@ -7,7 +7,7 @@ namespace Verse
 	// Token: 0x02000B4C RID: 2892
 	public class JobDef : Def
 	{
-		// Token: 0x06003F50 RID: 16208 RVA: 0x00215AE0 File Offset: 0x00213EE0
+		// Token: 0x06003F52 RID: 16210 RVA: 0x00215BB4 File Offset: 0x00213FB4
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())

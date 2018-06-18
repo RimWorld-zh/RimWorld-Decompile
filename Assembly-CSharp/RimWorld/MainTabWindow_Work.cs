@@ -9,7 +9,7 @@ namespace RimWorld
 	public class MainTabWindow_Work : MainTabWindow_PawnTable
 	{
 		// Token: 0x170007F6 RID: 2038
-		// (get) Token: 0x06003176 RID: 12662 RVA: 0x001AD224 File Offset: 0x001AB624
+		// (get) Token: 0x06003178 RID: 12664 RVA: 0x001AD2EC File Offset: 0x001AB6EC
 		protected override PawnTableDef PawnTableDef
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007F7 RID: 2039
-		// (get) Token: 0x06003177 RID: 12663 RVA: 0x001AD240 File Offset: 0x001AB640
+		// (get) Token: 0x06003179 RID: 12665 RVA: 0x001AD308 File Offset: 0x001AB708
 		protected override float ExtraTopSpace
 		{
 			get
@@ -28,14 +28,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003178 RID: 12664 RVA: 0x001AD25A File Offset: 0x001AB65A
+		// Token: 0x0600317A RID: 12666 RVA: 0x001AD322 File Offset: 0x001AB722
 		public override void PostOpen()
 		{
 			base.PostOpen();
 			Find.World.renderer.wantedMode = WorldRenderMode.None;
 		}
 
-		// Token: 0x06003179 RID: 12665 RVA: 0x001AD274 File Offset: 0x001AB674
+		// Token: 0x0600317B RID: 12667 RVA: 0x001AD33C File Offset: 0x001AB73C
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DoWindowContents(rect);
@@ -55,7 +55,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600317A RID: 12666 RVA: 0x001AD360 File Offset: 0x001AB760
+		// Token: 0x0600317C RID: 12668 RVA: 0x001AD428 File Offset: 0x001AB828
 		private void DoManualPrioritiesCheckbox()
 		{
 			Text.Font = GameFont.Small;

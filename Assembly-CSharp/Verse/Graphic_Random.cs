@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DE0 RID: 3552
+	// Token: 0x02000DDF RID: 3551
 	public class Graphic_Random : Graphic_Collection
 	{
-		// Token: 0x17000CE2 RID: 3298
-		// (get) Token: 0x06004F6F RID: 20335 RVA: 0x00295150 File Offset: 0x00293550
+		// Token: 0x17000CE1 RID: 3297
+		// (get) Token: 0x06004F6D RID: 20333 RVA: 0x00295130 File Offset: 0x00293530
 		public override Material MatSingle
 		{
 			get
@@ -16,7 +16,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F70 RID: 20336 RVA: 0x00295180 File Offset: 0x00293580
+		// Token: 0x06004F6E RID: 20334 RVA: 0x00295160 File Offset: 0x00293560
 		public override Graphic GetColoredVersion(Shader newShader, Color newColor, Color newColorTwo)
 		{
 			if (newColorTwo != Color.white)
@@ -26,7 +26,7 @@ namespace Verse
 			return GraphicDatabase.Get<Graphic_Random>(this.path, newShader, this.drawSize, newColor, Color.white, this.data);
 		}
 
-		// Token: 0x06004F71 RID: 20337 RVA: 0x002951D4 File Offset: 0x002935D4
+		// Token: 0x06004F6F RID: 20335 RVA: 0x002951B4 File Offset: 0x002935B4
 		public override Material MatAt(Rot4 rot, Thing thing = null)
 		{
 			Material result;
@@ -41,7 +41,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004F72 RID: 20338 RVA: 0x00295204 File Offset: 0x00293604
+		// Token: 0x06004F70 RID: 20336 RVA: 0x002951E4 File Offset: 0x002935E4
 		public override Material MatSingleFor(Thing thing)
 		{
 			Material matSingle;
@@ -56,7 +56,7 @@ namespace Verse
 			return matSingle;
 		}
 
-		// Token: 0x06004F73 RID: 20339 RVA: 0x00295238 File Offset: 0x00293638
+		// Token: 0x06004F71 RID: 20337 RVA: 0x00295218 File Offset: 0x00293618
 		public override void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing, float extraRotation)
 		{
 			Graphic graphic;
@@ -71,7 +71,7 @@ namespace Verse
 			graphic.DrawWorker(loc, rot, thingDef, thing, extraRotation);
 		}
 
-		// Token: 0x06004F74 RID: 20340 RVA: 0x00295274 File Offset: 0x00293674
+		// Token: 0x06004F72 RID: 20338 RVA: 0x00295254 File Offset: 0x00293654
 		public Graphic SubGraphicFor(Thing thing)
 		{
 			Graphic result;
@@ -86,13 +86,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004F75 RID: 20341 RVA: 0x002952B4 File Offset: 0x002936B4
+		// Token: 0x06004F73 RID: 20339 RVA: 0x00295294 File Offset: 0x00293694
 		public Graphic FirstSubgraphic()
 		{
 			return this.subGraphics[0];
 		}
 
-		// Token: 0x06004F76 RID: 20342 RVA: 0x002952D4 File Offset: 0x002936D4
+		// Token: 0x06004F74 RID: 20340 RVA: 0x002952B4 File Offset: 0x002936B4
 		public override string ToString()
 		{
 			return string.Concat(new object[]

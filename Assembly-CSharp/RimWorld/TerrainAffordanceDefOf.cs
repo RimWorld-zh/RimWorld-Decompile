@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class TerrainAffordanceDefOf
 	{
-		// Token: 0x06003673 RID: 13939 RVA: 0x001D0BC9 File Offset: 0x001CEFC9
+		// Token: 0x06003675 RID: 13941 RVA: 0x001D0C91 File Offset: 0x001CF091
 		static TerrainAffordanceDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(TerrainAffordanceDefOf));

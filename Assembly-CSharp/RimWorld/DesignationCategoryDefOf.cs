@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class DesignationCategoryDefOf
 	{
-		// Token: 0x06003621 RID: 13857 RVA: 0x001D0605 File Offset: 0x001CEA05
+		// Token: 0x06003623 RID: 13859 RVA: 0x001D06CD File Offset: 0x001CEACD
 		static DesignationCategoryDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(DesignationCategoryDefOf));

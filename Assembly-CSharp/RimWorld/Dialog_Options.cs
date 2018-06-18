@@ -12,7 +12,7 @@ namespace RimWorld
 	// Token: 0x0200080E RID: 2062
 	public class Dialog_Options : Window
 	{
-		// Token: 0x06002DF7 RID: 11767 RVA: 0x00182E6B File Offset: 0x0018126B
+		// Token: 0x06002DF9 RID: 11769 RVA: 0x00182EFF File Offset: 0x001812FF
 		public Dialog_Options()
 		{
 			this.doCloseButton = true;
@@ -22,7 +22,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000754 RID: 1876
-		// (get) Token: 0x06002DF8 RID: 11768 RVA: 0x00182E90 File Offset: 0x00181290
+		// (get) Token: 0x06002DFA RID: 11770 RVA: 0x00182F24 File Offset: 0x00181324
 		public override Vector2 InitialSize
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DF9 RID: 11769 RVA: 0x00182EB4 File Offset: 0x001812B4
+		// Token: 0x06002DFB RID: 11771 RVA: 0x00182F48 File Offset: 0x00181348
 		public override void DoWindowContents(Rect inRect)
 		{
 			Rect rect = inRect.AtZero();
@@ -398,14 +398,14 @@ namespace RimWorld
 			listing_Standard.End();
 		}
 
-		// Token: 0x06002DFA RID: 11770 RVA: 0x00183E40 File Offset: 0x00182240
+		// Token: 0x06002DFC RID: 11772 RVA: 0x00183ED4 File Offset: 0x001822D4
 		public override void PreClose()
 		{
 			base.PreClose();
 			Prefs.Save();
 		}
 
-		// Token: 0x06002DFB RID: 11771 RVA: 0x00183E50 File Offset: 0x00182250
+		// Token: 0x06002DFD RID: 11773 RVA: 0x00183EE4 File Offset: 0x001822E4
 		public static string ResToString(int width, int height)
 		{
 			string text = width + "x" + height;
@@ -420,7 +420,7 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x06002DFC RID: 11772 RVA: 0x00183EC4 File Offset: 0x001822C4
+		// Token: 0x06002DFE RID: 11774 RVA: 0x00183F58 File Offset: 0x00182358
 		public void RestoreToDefaultSettings()
 		{
 			DirectoryInfo directoryInfo = new DirectoryInfo(GenFilePaths.ConfigFolderPath);

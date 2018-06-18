@@ -5,7 +5,7 @@ namespace Verse.AI
 	// Token: 0x02000AD1 RID: 2769
 	public class ThinkNode_QueuedJob : ThinkNode
 	{
-		// Token: 0x06003D7A RID: 15738 RVA: 0x00205A54 File Offset: 0x00203E54
+		// Token: 0x06003D7C RID: 15740 RVA: 0x00205B28 File Offset: 0x00203F28
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			ThinkNode_QueuedJob thinkNode_QueuedJob = (ThinkNode_QueuedJob)base.DeepCopy(resolve);
@@ -13,7 +13,7 @@ namespace Verse.AI
 			return thinkNode_QueuedJob;
 		}
 
-		// Token: 0x06003D7B RID: 15739 RVA: 0x00205A84 File Offset: 0x00203E84
+		// Token: 0x06003D7D RID: 15741 RVA: 0x00205B58 File Offset: 0x00203F58
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			JobQueue jobQueue = pawn.jobs.jobQueue;

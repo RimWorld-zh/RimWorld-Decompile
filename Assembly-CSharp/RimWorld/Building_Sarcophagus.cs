@@ -6,14 +6,14 @@ namespace RimWorld
 	// Token: 0x020006B1 RID: 1713
 	public class Building_Sarcophagus : Building_Grave
 	{
-		// Token: 0x060024BA RID: 9402 RVA: 0x0013A3A6 File Offset: 0x001387A6
+		// Token: 0x060024BC RID: 9404 RVA: 0x0013A41E File Offset: 0x0013881E
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<bool>(ref this.everNonEmpty, "everNonEmpty", false, false);
 		}
 
-		// Token: 0x060024BB RID: 9403 RVA: 0x0013A3C4 File Offset: 0x001387C4
+		// Token: 0x060024BD RID: 9405 RVA: 0x0013A43C File Offset: 0x0013883C
 		public override bool TryAcceptThing(Thing thing, bool allowSpecialEffects = true)
 		{
 			bool result;
@@ -30,7 +30,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060024BC RID: 9404 RVA: 0x0013A408 File Offset: 0x00138808
+		// Token: 0x060024BE RID: 9406 RVA: 0x0013A480 File Offset: 0x00138880
 		public override void Notify_CorpseBuried(Pawn worker)
 		{
 			base.Notify_CorpseBuried(worker);

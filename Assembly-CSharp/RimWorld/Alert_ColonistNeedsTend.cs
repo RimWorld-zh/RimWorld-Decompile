@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200079E RID: 1950
 	public class Alert_ColonistNeedsTend : Alert
 	{
-		// Token: 0x06002B2A RID: 11050 RVA: 0x0016C9A1 File Offset: 0x0016ADA1
+		// Token: 0x06002B2C RID: 11052 RVA: 0x0016CA35 File Offset: 0x0016AE35
 		public Alert_ColonistNeedsTend()
 		{
 			this.defaultLabel = "ColonistNeedsTreatment".Translate();
@@ -16,7 +16,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006B3 RID: 1715
-		// (get) Token: 0x06002B2B RID: 11051 RVA: 0x0016C9C4 File Offset: 0x0016ADC4
+		// (get) Token: 0x06002B2D RID: 11053 RVA: 0x0016CA58 File Offset: 0x0016AE58
 		private IEnumerable<Pawn> NeedingColonists
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B2C RID: 11052 RVA: 0x0016C9E8 File Offset: 0x0016ADE8
+		// Token: 0x06002B2E RID: 11054 RVA: 0x0016CA7C File Offset: 0x0016AE7C
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -50,7 +50,7 @@ namespace RimWorld
 			return string.Format("ColonistNeedsTreatmentDesc".Translate(), stringBuilder.ToString());
 		}
 
-		// Token: 0x06002B2D RID: 11053 RVA: 0x0016CA78 File Offset: 0x0016AE78
+		// Token: 0x06002B2F RID: 11055 RVA: 0x0016CB0C File Offset: 0x0016AF0C
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.NeedingColonists);

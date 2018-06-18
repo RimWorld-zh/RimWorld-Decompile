@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C0C RID: 3084
+	// Token: 0x02000C0B RID: 3083
 	[StaticConstructorOnStartup]
 	public static class DebugMatsRandom
 	{
-		// Token: 0x06004354 RID: 17236 RVA: 0x002385CC File Offset: 0x002369CC
+		// Token: 0x06004352 RID: 17234 RVA: 0x002385A4 File Offset: 0x002369A4
 		static DebugMatsRandom()
 		{
 			for (int i = 0; i < 100; i++)
@@ -16,7 +16,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004355 RID: 17237 RVA: 0x00238624 File Offset: 0x00236A24
+		// Token: 0x06004353 RID: 17235 RVA: 0x002385FC File Offset: 0x002369FC
 		public static Material Mat(int ind)
 		{
 			ind %= 100;
@@ -27,13 +27,13 @@ namespace Verse
 			return DebugMatsRandom.mats[ind];
 		}
 
-		// Token: 0x04002E0A RID: 11786
+		// Token: 0x04002E08 RID: 11784
 		private static readonly Material[] mats = new Material[100];
 
-		// Token: 0x04002E0B RID: 11787
+		// Token: 0x04002E09 RID: 11785
 		public const int MaterialCount = 100;
 
-		// Token: 0x04002E0C RID: 11788
+		// Token: 0x04002E0A RID: 11786
 		private const float Opacity = 0.25f;
 	}
 }

@@ -4,16 +4,16 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000FCD RID: 4045
+	// Token: 0x02000FCC RID: 4044
 	public class Triangulator
 	{
-		// Token: 0x060061C0 RID: 25024 RVA: 0x00314589 File Offset: 0x00312989
+		// Token: 0x060061BE RID: 25022 RVA: 0x00314665 File Offset: 0x00312A65
 		public Triangulator(Vector2[] points)
 		{
 			this.m_points = new List<Vector2>(points);
 		}
 
-		// Token: 0x060061C1 RID: 25025 RVA: 0x003145AC File Offset: 0x003129AC
+		// Token: 0x060061BF RID: 25023 RVA: 0x00314688 File Offset: 0x00312A88
 		public int[] Triangulate()
 		{
 			List<int> list = new List<int>();
@@ -90,7 +90,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060061C2 RID: 25026 RVA: 0x0031473C File Offset: 0x00312B3C
+		// Token: 0x060061C0 RID: 25024 RVA: 0x00314818 File Offset: 0x00312C18
 		private float Area()
 		{
 			int count = this.m_points.Count;
@@ -107,7 +107,7 @@ namespace Verse
 			return num * 0.5f;
 		}
 
-		// Token: 0x060061C3 RID: 25027 RVA: 0x003147C4 File Offset: 0x00312BC4
+		// Token: 0x060061C1 RID: 25025 RVA: 0x003148A0 File Offset: 0x00312CA0
 		private bool Snip(int u, int v, int w, int n, int[] V)
 		{
 			Vector2 a = this.m_points[V[u]];
@@ -136,7 +136,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060061C4 RID: 25028 RVA: 0x003148B8 File Offset: 0x00312CB8
+		// Token: 0x060061C2 RID: 25026 RVA: 0x00314994 File Offset: 0x00312D94
 		private bool InsideTriangle(Vector2 A, Vector2 B, Vector2 C, Vector2 P)
 		{
 			float num = C.x - B.x;
@@ -157,7 +157,7 @@ namespace Verse
 			return num13 >= 0f && num15 >= 0f && num14 >= 0f;
 		}
 
-		// Token: 0x04003FE5 RID: 16357
+		// Token: 0x04003FE4 RID: 16356
 		private List<Vector2> m_points = new List<Vector2>();
 	}
 }

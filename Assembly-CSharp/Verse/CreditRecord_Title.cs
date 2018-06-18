@@ -3,27 +3,27 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EDD RID: 3805
+	// Token: 0x02000EDC RID: 3804
 	public class CreditRecord_Title : CreditsEntry
 	{
-		// Token: 0x060059F3 RID: 23027 RVA: 0x002E1E9F File Offset: 0x002E029F
+		// Token: 0x060059F1 RID: 23025 RVA: 0x002E1F77 File Offset: 0x002E0377
 		public CreditRecord_Title()
 		{
 		}
 
-		// Token: 0x060059F4 RID: 23028 RVA: 0x002E1EA8 File Offset: 0x002E02A8
+		// Token: 0x060059F2 RID: 23026 RVA: 0x002E1F80 File Offset: 0x002E0380
 		public CreditRecord_Title(string title)
 		{
 			this.title = title;
 		}
 
-		// Token: 0x060059F5 RID: 23029 RVA: 0x002E1EB8 File Offset: 0x002E02B8
+		// Token: 0x060059F3 RID: 23027 RVA: 0x002E1F90 File Offset: 0x002E0390
 		public override float DrawHeight(float width)
 		{
 			return 100f;
 		}
 
-		// Token: 0x060059F6 RID: 23030 RVA: 0x002E1ED4 File Offset: 0x002E02D4
+		// Token: 0x060059F4 RID: 23028 RVA: 0x002E1FAC File Offset: 0x002E03AC
 		public override void Draw(Rect rect)
 		{
 			rect.yMin += 31f;
@@ -36,7 +36,7 @@ namespace Verse
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x04003C62 RID: 15458
+		// Token: 0x04003C61 RID: 15457
 		public string title;
 	}
 }

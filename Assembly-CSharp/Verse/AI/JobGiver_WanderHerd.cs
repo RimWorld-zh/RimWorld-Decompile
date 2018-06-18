@@ -7,14 +7,14 @@ namespace Verse.AI
 	// Token: 0x02000AD6 RID: 2774
 	public class JobGiver_WanderHerd : JobGiver_Wander
 	{
-		// Token: 0x06003D87 RID: 15751 RVA: 0x00205CD9 File Offset: 0x002040D9
+		// Token: 0x06003D89 RID: 15753 RVA: 0x00205DAD File Offset: 0x002041AD
 		public JobGiver_WanderHerd()
 		{
 			this.wanderRadius = 5f;
 			this.ticksBetweenWandersRange = new IntRange(125, 200);
 		}
 
-		// Token: 0x06003D88 RID: 15752 RVA: 0x00205D00 File Offset: 0x00204100
+		// Token: 0x06003D8A RID: 15754 RVA: 0x00205DD4 File Offset: 0x002041D4
 		protected override IntVec3 GetWanderRoot(Pawn pawn)
 		{
 			Predicate<Thing> validator = delegate(Thing t)

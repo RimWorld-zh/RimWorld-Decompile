@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020004E6 RID: 1254
 	public static class PawnNameDatabaseSolid
 	{
-		// Token: 0x06001657 RID: 5719 RVA: 0x000C6248 File Offset: 0x000C4648
+		// Token: 0x06001658 RID: 5720 RVA: 0x000C629C File Offset: 0x000C469C
 		static PawnNameDatabaseSolid()
 		{
 			IEnumerator enumerator = Enum.GetValues(typeof(GenderPossibility)).GetEnumerator();
@@ -31,19 +31,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001658 RID: 5720 RVA: 0x000C62D0 File Offset: 0x000C46D0
+		// Token: 0x06001659 RID: 5721 RVA: 0x000C6324 File Offset: 0x000C4724
 		public static void AddPlayerContentName(NameTriple newName, GenderPossibility genderPos)
 		{
 			PawnNameDatabaseSolid.solidNames[genderPos].Add(newName);
 		}
 
-		// Token: 0x06001659 RID: 5721 RVA: 0x000C62E4 File Offset: 0x000C46E4
+		// Token: 0x0600165A RID: 5722 RVA: 0x000C6338 File Offset: 0x000C4738
 		public static List<NameTriple> GetListForGender(GenderPossibility gp)
 		{
 			return PawnNameDatabaseSolid.solidNames[gp];
 		}
 
-		// Token: 0x0600165A RID: 5722 RVA: 0x000C6304 File Offset: 0x000C4704
+		// Token: 0x0600165B RID: 5723 RVA: 0x000C6358 File Offset: 0x000C4758
 		public static IEnumerable<NameTriple> AllNames()
 		{
 			foreach (KeyValuePair<GenderPossibility, List<NameTriple>> kvp in PawnNameDatabaseSolid.solidNames)

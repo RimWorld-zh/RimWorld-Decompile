@@ -7,7 +7,7 @@ namespace RimWorld.Planet
 	// Token: 0x020005B7 RID: 1463
 	public static class IcosahedronGenerator
 	{
-		// Token: 0x06001C0F RID: 7183 RVA: 0x000F0FD8 File Offset: 0x000EF3D8
+		// Token: 0x06001C11 RID: 7185 RVA: 0x000F1050 File Offset: 0x000EF450
 		public static void GenerateIcosahedron(List<Vector3> outVerts, List<TriangleIndices> outTris, float radius, Vector3 viewCenter, float viewAngle)
 		{
 			float num = (1f + Mathf.Sqrt(5f)) / 2f;
@@ -51,7 +51,7 @@ namespace RimWorld.Planet
 			MeshUtility.RemoveUnusedVertices(outVerts, outTris);
 		}
 
-		// Token: 0x06001C10 RID: 7184 RVA: 0x000F1234 File Offset: 0x000EF634
+		// Token: 0x06001C12 RID: 7186 RVA: 0x000F12AC File Offset: 0x000EF6AC
 		private static bool IcosahedronFaceNeeded(int v1, int v2, int v3, List<Vector3> verts, float radius, Vector3 viewCenter, float viewAngle)
 		{
 			viewAngle += 18f;

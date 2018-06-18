@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000472 RID: 1138
 	public class PawnCapacityWorker_BloodFiltration : PawnCapacityWorker
 	{
-		// Token: 0x06001402 RID: 5122 RVA: 0x000AE71C File Offset: 0x000ACB1C
+		// Token: 0x06001402 RID: 5122 RVA: 0x000AE728 File Offset: 0x000ACB28
 		public override float CalculateCapacityLevel(HediffSet diffSet, List<PawnCapacityUtility.CapacityImpactor> impactors = null)
 		{
 			BodyDef body = diffSet.pawn.RaceProps.body;
@@ -27,7 +27,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001403 RID: 5123 RVA: 0x000AE7C4 File Offset: 0x000ACBC4
+		// Token: 0x06001403 RID: 5123 RVA: 0x000AE7D0 File Offset: 0x000ACBD0
 		public override bool CanHaveCapacity(BodyDef body)
 		{
 			return (body.HasPartWithTag(BodyPartTagDefOf.BloodFiltrationKidney) && body.HasPartWithTag(BodyPartTagDefOf.BloodFiltrationLiver)) || body.HasPartWithTag(BodyPartTagDefOf.BloodFiltrationSource);

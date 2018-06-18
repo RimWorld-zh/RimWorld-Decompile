@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000B4D RID: 2893
 	public class KeyBindingCategoryDef : Def
 	{
-		// Token: 0x06003F53 RID: 16211 RVA: 0x00215D70 File Offset: 0x00214170
+		// Token: 0x06003F55 RID: 16213 RVA: 0x00215E44 File Offset: 0x00214244
 		public static KeyBindingCategoryDef Named(string defName)
 		{
 			return DefDatabase<KeyBindingCategoryDef>.GetNamed(defName, true);

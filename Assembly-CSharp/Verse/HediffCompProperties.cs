@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000B1D RID: 2845
 	public class HediffCompProperties
 	{
-		// Token: 0x06003EBF RID: 16063 RVA: 0x0021082C File Offset: 0x0020EC2C
+		// Token: 0x06003EC1 RID: 16065 RVA: 0x00210900 File Offset: 0x0020ED00
 		public virtual IEnumerable<string> ConfigErrors(HediffDef parentDef)
 		{
 			if (this.compClass == null)

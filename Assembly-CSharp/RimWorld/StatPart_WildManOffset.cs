@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020009BC RID: 2492
 	public class StatPart_WildManOffset : StatPart
 	{
-		// Token: 0x060037BF RID: 14271 RVA: 0x001DA9F8 File Offset: 0x001D8DF8
+		// Token: 0x060037C1 RID: 14273 RVA: 0x001DAACC File Offset: 0x001D8ECC
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (this.IsWildMan(req))
@@ -15,7 +15,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060037C0 RID: 14272 RVA: 0x001DAA14 File Offset: 0x001D8E14
+		// Token: 0x060037C2 RID: 14274 RVA: 0x001DAAE8 File Offset: 0x001D8EE8
 		public override string ExplanationPart(StatRequest req)
 		{
 			string result;
@@ -30,7 +30,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060037C1 RID: 14273 RVA: 0x001DAA60 File Offset: 0x001D8E60
+		// Token: 0x060037C3 RID: 14275 RVA: 0x001DAB34 File Offset: 0x001D8F34
 		private bool IsWildMan(StatRequest req)
 		{
 			Pawn pawn = req.Thing as Pawn;

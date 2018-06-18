@@ -5,7 +5,7 @@ namespace Verse
 	// Token: 0x02000BE2 RID: 3042
 	public static class UnityDataInitializer
 	{
-		// Token: 0x06004257 RID: 16983 RVA: 0x0022E280 File Offset: 0x0022C680
+		// Token: 0x06004259 RID: 16985 RVA: 0x0022E2F8 File Offset: 0x0022C6F8
 		public static void CopyUnityData()
 		{
 			UnityDataInitializer.initializing = true;

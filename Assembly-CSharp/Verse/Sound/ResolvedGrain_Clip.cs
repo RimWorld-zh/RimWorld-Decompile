@@ -6,20 +6,20 @@ namespace Verse.Sound
 	// Token: 0x02000B7C RID: 2940
 	public class ResolvedGrain_Clip : ResolvedGrain
 	{
-		// Token: 0x06004000 RID: 16384 RVA: 0x0021B32C File Offset: 0x0021972C
+		// Token: 0x06004002 RID: 16386 RVA: 0x0021B400 File Offset: 0x00219800
 		public ResolvedGrain_Clip(AudioClip clip)
 		{
 			this.clip = clip;
 			this.duration = clip.length;
 		}
 
-		// Token: 0x06004001 RID: 16385 RVA: 0x0021B348 File Offset: 0x00219748
+		// Token: 0x06004003 RID: 16387 RVA: 0x0021B41C File Offset: 0x0021981C
 		public override string ToString()
 		{
 			return "Clip:" + this.clip.name;
 		}
 
-		// Token: 0x06004002 RID: 16386 RVA: 0x0021B374 File Offset: 0x00219774
+		// Token: 0x06004004 RID: 16388 RVA: 0x0021B448 File Offset: 0x00219848
 		public override bool Equals(object obj)
 		{
 			bool result;
@@ -35,7 +35,7 @@ namespace Verse.Sound
 			return result;
 		}
 
-		// Token: 0x06004003 RID: 16387 RVA: 0x0021B3BC File Offset: 0x002197BC
+		// Token: 0x06004005 RID: 16389 RVA: 0x0021B490 File Offset: 0x00219890
 		public override int GetHashCode()
 		{
 			int result;

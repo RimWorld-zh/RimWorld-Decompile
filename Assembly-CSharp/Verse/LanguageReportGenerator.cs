@@ -9,10 +9,10 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000BF6 RID: 3062
+	// Token: 0x02000BF5 RID: 3061
 	public static class LanguageReportGenerator
 	{
-		// Token: 0x060042BA RID: 17082 RVA: 0x00234228 File Offset: 0x00232628
+		// Token: 0x060042B8 RID: 17080 RVA: 0x00234200 File Offset: 0x00232600
 		public static void SaveTranslationReport()
 		{
 			LoadedLanguage activeLanguage = LanguageDatabase.activeLanguage;
@@ -33,7 +33,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060042BB RID: 17083 RVA: 0x00234294 File Offset: 0x00232694
+		// Token: 0x060042B9 RID: 17081 RVA: 0x0023426C File Offset: 0x0023266C
 		private static void DoSaveTranslationReport()
 		{
 			LoadedLanguage activeLanguage = LanguageDatabase.activeLanguage;
@@ -154,7 +154,7 @@ namespace Verse
 			}), MessageTypeDefOf.TaskCompletion, false);
 		}
 
-		// Token: 0x060042BC RID: 17084 RVA: 0x002345D8 File Offset: 0x002329D8
+		// Token: 0x060042BA RID: 17082 RVA: 0x002345B0 File Offset: 0x002329B0
 		private static void AppendGeneralLoadErrors(StringBuilder sb)
 		{
 			LoadedLanguage activeLanguage = LanguageDatabase.activeLanguage;
@@ -170,7 +170,7 @@ namespace Verse
 			sb.Append(stringBuilder);
 		}
 
-		// Token: 0x060042BD RID: 17085 RVA: 0x00234678 File Offset: 0x00232A78
+		// Token: 0x060042BB RID: 17083 RVA: 0x00234650 File Offset: 0x00232A50
 		private static void AppendDefInjectionsLoadErros(StringBuilder sb)
 		{
 			LoadedLanguage activeLanguage = LanguageDatabase.activeLanguage;
@@ -189,7 +189,7 @@ namespace Verse
 			sb.Append(stringBuilder);
 		}
 
-		// Token: 0x060042BE RID: 17086 RVA: 0x00234764 File Offset: 0x00232B64
+		// Token: 0x060042BC RID: 17084 RVA: 0x0023473C File Offset: 0x00232B3C
 		private static void AppendBackstoriesLoadErrors(StringBuilder sb)
 		{
 			LoadedLanguage activeLanguage = LanguageDatabase.activeLanguage;
@@ -205,7 +205,7 @@ namespace Verse
 			sb.Append(stringBuilder);
 		}
 
-		// Token: 0x060042BF RID: 17087 RVA: 0x00234804 File Offset: 0x00232C04
+		// Token: 0x060042BD RID: 17085 RVA: 0x002347DC File Offset: 0x00232BDC
 		private static void AppendMissingKeyedTranslations(StringBuilder sb)
 		{
 			LoadedLanguage activeLanguage = LanguageDatabase.activeLanguage;
@@ -233,7 +233,7 @@ namespace Verse
 			sb.Append(stringBuilder);
 		}
 
-		// Token: 0x060042C0 RID: 17088 RVA: 0x00234914 File Offset: 0x00232D14
+		// Token: 0x060042BE RID: 17086 RVA: 0x002348EC File Offset: 0x00232CEC
 		private static void AppendMissingDefInjections(StringBuilder sb, List<string> outUnnecessaryDefInjections)
 		{
 			LoadedLanguage activeLanguage = LanguageDatabase.activeLanguage;
@@ -252,7 +252,7 @@ namespace Verse
 			sb.Append(stringBuilder);
 		}
 
-		// Token: 0x060042C1 RID: 17089 RVA: 0x00234A14 File Offset: 0x00232E14
+		// Token: 0x060042BF RID: 17087 RVA: 0x002349EC File Offset: 0x00232DEC
 		private static void AppendMissingBackstories(StringBuilder sb)
 		{
 			LoadedLanguage activeLanguage = LanguageDatabase.activeLanguage;
@@ -268,7 +268,7 @@ namespace Verse
 			sb.Append(stringBuilder);
 		}
 
-		// Token: 0x060042C2 RID: 17090 RVA: 0x00234AB4 File Offset: 0x00232EB4
+		// Token: 0x060042C0 RID: 17088 RVA: 0x00234A8C File Offset: 0x00232E8C
 		private static void AppendUnnecessaryDefInjections(StringBuilder sb, List<string> unnecessaryDefInjections)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -283,7 +283,7 @@ namespace Verse
 			sb.Append(stringBuilder);
 		}
 
-		// Token: 0x060042C3 RID: 17091 RVA: 0x00234B48 File Offset: 0x00232F48
+		// Token: 0x060042C1 RID: 17089 RVA: 0x00234B20 File Offset: 0x00232F20
 		private static void AppendRenamedDefInjections(StringBuilder sb)
 		{
 			LoadedLanguage activeLanguage = LanguageDatabase.activeLanguage;
@@ -319,7 +319,7 @@ namespace Verse
 			sb.Append(stringBuilder);
 		}
 
-		// Token: 0x060042C4 RID: 17092 RVA: 0x00234CA4 File Offset: 0x002330A4
+		// Token: 0x060042C2 RID: 17090 RVA: 0x00234C7C File Offset: 0x0023307C
 		private static void AppendArgumentCountMismatches(StringBuilder sb)
 		{
 			LoadedLanguage activeLanguage = LanguageDatabase.activeLanguage;
@@ -347,7 +347,7 @@ namespace Verse
 			sb.Append(stringBuilder);
 		}
 
-		// Token: 0x060042C5 RID: 17093 RVA: 0x00234DF0 File Offset: 0x002331F0
+		// Token: 0x060042C3 RID: 17091 RVA: 0x00234DC8 File Offset: 0x002331C8
 		private static void AppendUnnecessaryKeyedTranslations(StringBuilder sb)
 		{
 			LoadedLanguage activeLanguage = LanguageDatabase.activeLanguage;
@@ -375,7 +375,7 @@ namespace Verse
 			sb.Append(stringBuilder);
 		}
 
-		// Token: 0x060042C6 RID: 17094 RVA: 0x00234F00 File Offset: 0x00233300
+		// Token: 0x060042C4 RID: 17092 RVA: 0x00234ED8 File Offset: 0x002332D8
 		private static void AppendKeyedTranslationsMatchingEnglish(StringBuilder sb)
 		{
 			LoadedLanguage activeLanguage = LanguageDatabase.activeLanguage;
@@ -404,7 +404,7 @@ namespace Verse
 			sb.Append(stringBuilder);
 		}
 
-		// Token: 0x060042C7 RID: 17095 RVA: 0x00235024 File Offset: 0x00233424
+		// Token: 0x060042C5 RID: 17093 RVA: 0x00234FFC File Offset: 0x002333FC
 		private static void AppendBackstoriesMatchingEnglish(StringBuilder sb)
 		{
 			LoadedLanguage activeLanguage = LanguageDatabase.activeLanguage;
@@ -420,7 +420,7 @@ namespace Verse
 			sb.Append(stringBuilder);
 		}
 
-		// Token: 0x060042C8 RID: 17096 RVA: 0x002350C4 File Offset: 0x002334C4
+		// Token: 0x060042C6 RID: 17094 RVA: 0x0023509C File Offset: 0x0023349C
 		public static int CountParametersInString(string input)
 		{
 			MatchCollection matchCollection = Regex.Matches(input, "(?<!\\{)\\{([0-9]+).*?\\}(?!})");
@@ -436,10 +436,10 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04002DA4 RID: 11684
+		// Token: 0x04002DA2 RID: 11682
 		private const string FileName = "TranslationReport.txt";
 
-		// Token: 0x04002DA5 RID: 11685
+		// Token: 0x04002DA3 RID: 11683
 		[CompilerGenerated]
 		private static Action <>f__mg$cache0;
 	}

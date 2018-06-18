@@ -9,7 +9,7 @@ namespace RimWorld
 	public static class LightningBoltMeshPool
 	{
 		// Token: 0x1700028E RID: 654
-		// (get) Token: 0x06001300 RID: 4864 RVA: 0x000A3C10 File Offset: 0x000A2010
+		// (get) Token: 0x06001300 RID: 4864 RVA: 0x000A3C1C File Offset: 0x000A201C
 		public static Mesh RandomBoltMesh
 		{
 			get

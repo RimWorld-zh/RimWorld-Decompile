@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class LogEntryDefOf
 	{
-		// Token: 0x0600367B RID: 13947 RVA: 0x001D0C59 File Offset: 0x001CF059
+		// Token: 0x0600367D RID: 13949 RVA: 0x001D0D21 File Offset: 0x001CF121
 		static LogEntryDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(LogEntryDef));

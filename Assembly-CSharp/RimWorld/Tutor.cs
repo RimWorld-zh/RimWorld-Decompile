@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020008D5 RID: 2261
 	public class Tutor : IExposable
 	{
-		// Token: 0x060033B9 RID: 13241 RVA: 0x001B9EF8 File Offset: 0x001B82F8
+		// Token: 0x060033BB RID: 13243 RVA: 0x001B9FC0 File Offset: 0x001B83C0
 		public void ExposeData()
 		{
 			Scribe_Deep.Look<ActiveLessonHandler>(ref this.activeLesson, "activeLesson", new object[0]);
@@ -14,14 +14,14 @@ namespace RimWorld
 			Scribe_Deep.Look<TutorialState>(ref this.tutorialState, "tutorialState", new object[0]);
 		}
 
-		// Token: 0x060033BA RID: 13242 RVA: 0x001B9F48 File Offset: 0x001B8348
+		// Token: 0x060033BC RID: 13244 RVA: 0x001BA010 File Offset: 0x001B8410
 		internal void TutorUpdate()
 		{
 			this.activeLesson.ActiveLessonUpdate();
 			this.learningReadout.LearningReadoutUpdate();
 		}
 
-		// Token: 0x060033BB RID: 13243 RVA: 0x001B9F61 File Offset: 0x001B8361
+		// Token: 0x060033BD RID: 13245 RVA: 0x001BA029 File Offset: 0x001B8429
 		internal void TutorOnGUI()
 		{
 			this.activeLesson.ActiveLessonOnGUI();

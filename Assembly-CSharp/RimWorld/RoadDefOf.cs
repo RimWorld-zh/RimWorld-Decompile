@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class RoadDefOf
 	{
-		// Token: 0x0600365E RID: 13918 RVA: 0x001D0A4F File Offset: 0x001CEE4F
+		// Token: 0x06003660 RID: 13920 RVA: 0x001D0B17 File Offset: 0x001CEF17
 		static RoadDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(RoadDefOf));

@@ -6,13 +6,13 @@ namespace RimWorld
 	// Token: 0x020008AE RID: 2222
 	public class TransferableComparer_Category : TransferableComparer
 	{
-		// Token: 0x060032D6 RID: 13014 RVA: 0x001B629C File Offset: 0x001B469C
+		// Token: 0x060032D8 RID: 13016 RVA: 0x001B6364 File Offset: 0x001B4764
 		public override int Compare(Transferable lhs, Transferable rhs)
 		{
 			return TransferableComparer_Category.Compare(lhs.ThingDef, rhs.ThingDef);
 		}
 
-		// Token: 0x060032D7 RID: 13015 RVA: 0x001B62C4 File Offset: 0x001B46C4
+		// Token: 0x060032D9 RID: 13017 RVA: 0x001B638C File Offset: 0x001B478C
 		public static int Compare(ThingDef lhsTh, ThingDef rhsTh)
 		{
 			int result;

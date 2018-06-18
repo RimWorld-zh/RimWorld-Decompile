@@ -4,16 +4,16 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CAD RID: 3245
+	// Token: 0x02000CAC RID: 3244
 	internal class TemperatureSaveLoad
 	{
-		// Token: 0x06004778 RID: 18296 RVA: 0x0025A380 File Offset: 0x00258780
+		// Token: 0x06004776 RID: 18294 RVA: 0x0025A358 File Offset: 0x00258758
 		public TemperatureSaveLoad(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x06004779 RID: 18297 RVA: 0x0025A390 File Offset: 0x00258790
+		// Token: 0x06004777 RID: 18295 RVA: 0x0025A368 File Offset: 0x00258768
 		public void DoExposeWork()
 		{
 			byte[] arr = null;
@@ -50,7 +50,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600477A RID: 18298 RVA: 0x0025A56C File Offset: 0x0025896C
+		// Token: 0x06004778 RID: 18296 RVA: 0x0025A544 File Offset: 0x00258944
 		public void ApplyLoadedDataToRegions()
 		{
 			if (this.tempGrid != null)
@@ -67,7 +67,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600477B RID: 18299 RVA: 0x0025A628 File Offset: 0x00258A28
+		// Token: 0x06004779 RID: 18297 RVA: 0x0025A600 File Offset: 0x00258A00
 		private ushort TempFloatToShort(float temp)
 		{
 			temp = Mathf.Clamp(temp, -273.15f, 2000f);
@@ -75,16 +75,16 @@ namespace Verse
 			return (ushort)((int)temp + 32768);
 		}
 
-		// Token: 0x0600477C RID: 18300 RVA: 0x0025A664 File Offset: 0x00258A64
+		// Token: 0x0600477A RID: 18298 RVA: 0x0025A63C File Offset: 0x00258A3C
 		private float TempShortToFloat(ushort temp)
 		{
 			return ((float)temp - 32768f) / 16f;
 		}
 
-		// Token: 0x04003073 RID: 12403
+		// Token: 0x04003071 RID: 12401
 		private Map map;
 
-		// Token: 0x04003074 RID: 12404
+		// Token: 0x04003072 RID: 12402
 		private ushort[] tempGrid;
 	}
 }

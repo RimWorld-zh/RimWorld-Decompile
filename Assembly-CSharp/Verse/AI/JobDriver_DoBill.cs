@@ -8,7 +8,7 @@ namespace Verse.AI
 	// Token: 0x02000A40 RID: 2624
 	public class JobDriver_DoBill : JobDriver
 	{
-		// Token: 0x06003A28 RID: 14888 RVA: 0x001EC130 File Offset: 0x001EA530
+		// Token: 0x06003A2A RID: 14890 RVA: 0x001EC204 File Offset: 0x001EA604
 		public override string GetReport()
 		{
 			string result;
@@ -24,7 +24,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x170008E9 RID: 2281
-		// (get) Token: 0x06003A29 RID: 14889 RVA: 0x001EC178 File Offset: 0x001EA578
+		// (get) Token: 0x06003A2B RID: 14891 RVA: 0x001EC24C File Offset: 0x001EA64C
 		public IBillGiver BillGiver
 		{
 			get
@@ -38,7 +38,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003A2A RID: 14890 RVA: 0x001EC1BC File Offset: 0x001EA5BC
+		// Token: 0x06003A2C RID: 14892 RVA: 0x001EC290 File Offset: 0x001EA690
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -47,14 +47,14 @@ namespace Verse.AI
 			Scribe_Values.Look<int>(ref this.ticksSpentDoingRecipeWork, "ticksSpentDoingRecipeWork", 0, false);
 		}
 
-		// Token: 0x06003A2B RID: 14891 RVA: 0x001EC20C File Offset: 0x001EA60C
+		// Token: 0x06003A2D RID: 14893 RVA: 0x001EC2E0 File Offset: 0x001EA6E0
 		public override bool TryMakePreToilReservations()
 		{
 			this.pawn.ReserveAsManyAsPossible(this.job.GetTargetQueue(TargetIndex.B), this.job, 1, -1, null);
 			return this.pawn.Reserve(this.job.GetTarget(TargetIndex.A), this.job, 1, -1, null);
 		}
 
-		// Token: 0x06003A2C RID: 14892 RVA: 0x001EC264 File Offset: 0x001EA664
+		// Token: 0x06003A2E RID: 14894 RVA: 0x001EC338 File Offset: 0x001EA738
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			base.AddEndCondition(delegate
@@ -139,7 +139,7 @@ namespace Verse.AI
 			yield break;
 		}
 
-		// Token: 0x06003A2D RID: 14893 RVA: 0x001EC290 File Offset: 0x001EA690
+		// Token: 0x06003A2F RID: 14895 RVA: 0x001EC364 File Offset: 0x001EA764
 		private static Toil JumpToCollectNextIntoHandsForBill(Toil gotoGetTargetToil, TargetIndex ind)
 		{
 			Toil toil = new Toil();

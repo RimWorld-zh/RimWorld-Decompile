@@ -8,15 +8,15 @@ namespace RimWorld.Planet
 	// Token: 0x020005FF RID: 1535
 	public class FactionBase : Settlement
 	{
-		// Token: 0x06001E82 RID: 7810 RVA: 0x0010A654 File Offset: 0x00108A54
+		// Token: 0x06001E84 RID: 7812 RVA: 0x0010A6CC File Offset: 0x00108ACC
 		public FactionBase()
 		{
 			this.trader = new FactionBase_TraderTracker(this);
 		}
 
 		// Token: 0x17000477 RID: 1143
-		// (get) Token: 0x06001E83 RID: 7811 RVA: 0x0010A66C File Offset: 0x00108A6C
-		// (set) Token: 0x06001E84 RID: 7812 RVA: 0x0010A687 File Offset: 0x00108A87
+		// (get) Token: 0x06001E85 RID: 7813 RVA: 0x0010A6E4 File Offset: 0x00108AE4
+		// (set) Token: 0x06001E86 RID: 7814 RVA: 0x0010A6FF File Offset: 0x00108AFF
 		public string Name
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000478 RID: 1144
-		// (get) Token: 0x06001E85 RID: 7813 RVA: 0x0010A694 File Offset: 0x00108A94
+		// (get) Token: 0x06001E87 RID: 7815 RVA: 0x0010A70C File Offset: 0x00108B0C
 		public override Texture2D ExpandingIcon
 		{
 			get
@@ -40,7 +40,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000479 RID: 1145
-		// (get) Token: 0x06001E86 RID: 7814 RVA: 0x0010A6BC File Offset: 0x00108ABC
+		// (get) Token: 0x06001E88 RID: 7816 RVA: 0x0010A734 File Offset: 0x00108B34
 		public override string Label
 		{
 			get
@@ -50,7 +50,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700047A RID: 1146
-		// (get) Token: 0x06001E87 RID: 7815 RVA: 0x0010A6F0 File Offset: 0x00108AF0
+		// (get) Token: 0x06001E89 RID: 7817 RVA: 0x0010A768 File Offset: 0x00108B68
 		public override Material Material
 		{
 			get
@@ -64,7 +64,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700047B RID: 1147
-		// (get) Token: 0x06001E88 RID: 7816 RVA: 0x0010A750 File Offset: 0x00108B50
+		// (get) Token: 0x06001E8A RID: 7818 RVA: 0x0010A7C8 File Offset: 0x00108BC8
 		public override MapGeneratorDef MapGeneratorDef
 		{
 			get
@@ -82,7 +82,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E89 RID: 7817 RVA: 0x0010A788 File Offset: 0x00108B88
+		// Token: 0x06001E8B RID: 7819 RVA: 0x0010A800 File Offset: 0x00108C00
 		public override IEnumerable<IncidentTargetTypeDef> AcceptedTypes()
 		{
 			foreach (IncidentTargetTypeDef type in this.<AcceptedTypes>__BaseCallProxy0())
@@ -100,7 +100,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001E8A RID: 7818 RVA: 0x0010A7B2 File Offset: 0x00108BB2
+		// Token: 0x06001E8C RID: 7820 RVA: 0x0010A82A File Offset: 0x00108C2A
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -108,7 +108,7 @@ namespace RimWorld.Planet
 			Scribe_Values.Look<bool>(ref this.namedByPlayer, "namedByPlayer", false, false);
 		}
 
-		// Token: 0x06001E8B RID: 7819 RVA: 0x0010A7DF File Offset: 0x00108BDF
+		// Token: 0x06001E8D RID: 7821 RVA: 0x0010A857 File Offset: 0x00108C57
 		public override void Tick()
 		{
 			base.Tick();

@@ -9,7 +9,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class TrainingCardUtility
 	{
-		// Token: 0x06002E9F RID: 11935 RVA: 0x0018E920 File Offset: 0x0018CD20
+		// Token: 0x06002EA1 RID: 11937 RVA: 0x0018E9B4 File Offset: 0x0018CDB4
 		public static void DrawTrainingCard(Rect rect, Pawn pawn)
 		{
 			Text.Font = GameFont.Small;
@@ -52,7 +52,7 @@ namespace RimWorld
 			listing_Standard.End();
 		}
 
-		// Token: 0x06002EA0 RID: 11936 RVA: 0x0018EAFC File Offset: 0x0018CEFC
+		// Token: 0x06002EA2 RID: 11938 RVA: 0x0018EB90 File Offset: 0x0018CF90
 		private static bool TryDrawTrainableRow(Rect rect, Pawn pawn, TrainableDef td)
 		{
 			bool flag = pawn.training.HasLearned(td);
@@ -96,7 +96,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002EA1 RID: 11937 RVA: 0x0018EC78 File Offset: 0x0018D078
+		// Token: 0x06002EA3 RID: 11939 RVA: 0x0018ED0C File Offset: 0x0018D10C
 		public static void DoTrainableCheckbox(Rect rect, Pawn pawn, TrainableDef td, AcceptanceReport canTrain, bool drawLabel, bool doTooltip)
 		{
 			bool flag = pawn.training.HasLearned(td);
@@ -123,7 +123,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002EA2 RID: 11938 RVA: 0x0018ED44 File Offset: 0x0018D144
+		// Token: 0x06002EA4 RID: 11940 RVA: 0x0018EDD8 File Offset: 0x0018D1D8
 		private static void DoTrainableTooltip(Rect rect, Pawn pawn, TrainableDef td, AcceptanceReport canTrain)
 		{
 			TooltipHandler.TipRegion(rect, delegate()

@@ -10,7 +10,7 @@ namespace Verse.AI
 	// Token: 0x02000AE2 RID: 2786
 	public static class AttackTargetFinder
 	{
-		// Token: 0x06003DA8 RID: 15784 RVA: 0x00206614 File Offset: 0x00204A14
+		// Token: 0x06003DAA RID: 15786 RVA: 0x002066E8 File Offset: 0x00204AE8
 		public static IAttackTarget BestAttackTarget(IAttackTargetSearcher searcher, TargetScanFlags flags, Predicate<Thing> validator = null, float minDist = 0f, float maxDist = 9999f, IntVec3 locus = default(IntVec3), float maxTravelRadiusFromLocus = 3.40282347E+38f, bool canBash = false)
 		{
 			Thing searcherThing = searcher.Thing;
@@ -229,7 +229,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003DA9 RID: 15785 RVA: 0x00206ACC File Offset: 0x00204ECC
+		// Token: 0x06003DAB RID: 15787 RVA: 0x00206BA0 File Offset: 0x00204FA0
 		private static bool CanReach(Thing searcher, Thing target, bool canBash)
 		{
 			Pawn pawn = searcher as Pawn;
@@ -251,7 +251,7 @@ namespace Verse.AI
 			return true;
 		}
 
-		// Token: 0x06003DAA RID: 15786 RVA: 0x00206B54 File Offset: 0x00204F54
+		// Token: 0x06003DAC RID: 15788 RVA: 0x00206C28 File Offset: 0x00205028
 		private static IAttackTarget FindBestReachableMeleeTarget(Predicate<IAttackTarget> validator, Pawn searcherPawn, float maxTargDist, bool canBash)
 		{
 			maxTargDist = Mathf.Min(maxTargDist, 30f);
@@ -323,20 +323,20 @@ namespace Verse.AI
 			return reachableTarget;
 		}
 
-		// Token: 0x06003DAB RID: 15787 RVA: 0x00206C00 File Offset: 0x00205000
+		// Token: 0x06003DAD RID: 15789 RVA: 0x00206CD4 File Offset: 0x002050D4
 		private static bool HasRangedAttack(IAttackTargetSearcher t)
 		{
 			Verb currentEffectiveVerb = t.CurrentEffectiveVerb;
 			return currentEffectiveVerb != null && !currentEffectiveVerb.verbProps.IsMeleeAttack;
 		}
 
-		// Token: 0x06003DAC RID: 15788 RVA: 0x00206C34 File Offset: 0x00205034
+		// Token: 0x06003DAE RID: 15790 RVA: 0x00206D08 File Offset: 0x00205108
 		private static bool CanShootAtFromCurrentPosition(IAttackTarget target, IAttackTargetSearcher searcher, Verb verb)
 		{
 			return verb != null && verb.CanHitTargetFrom(searcher.Thing.Position, target.Thing);
 		}
 
-		// Token: 0x06003DAD RID: 15789 RVA: 0x00206C74 File Offset: 0x00205074
+		// Token: 0x06003DAF RID: 15791 RVA: 0x00206D48 File Offset: 0x00205148
 		private static IAttackTarget GetRandomShootingTargetByScore(List<IAttackTarget> targets, IAttackTargetSearcher searcher, Verb verb)
 		{
 			Pair<IAttackTarget, float> pair;
@@ -352,7 +352,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003DAE RID: 15790 RVA: 0x00206CC8 File Offset: 0x002050C8
+		// Token: 0x06003DB0 RID: 15792 RVA: 0x00206D9C File Offset: 0x0020519C
 		private static List<Pair<IAttackTarget, float>> GetAvailableShootingTargetsByScore(List<IAttackTarget> rawTargets, IAttackTargetSearcher searcher, Verb verb)
 		{
 			AttackTargetFinder.availableShootingTargets.Clear();
@@ -418,7 +418,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003DAF RID: 15791 RVA: 0x00206E88 File Offset: 0x00205288
+		// Token: 0x06003DB1 RID: 15793 RVA: 0x00206F5C File Offset: 0x0020535C
 		private static float GetShootingTargetScore(IAttackTarget target, IAttackTargetSearcher searcher, Verb verb)
 		{
 			float num = 60f;
@@ -441,7 +441,7 @@ namespace Verse.AI
 			return num + AttackTargetFinder.FriendlyFireConeTargetScoreOffset(target, searcher, verb);
 		}
 
-		// Token: 0x06003DB0 RID: 15792 RVA: 0x00206FC0 File Offset: 0x002053C0
+		// Token: 0x06003DB2 RID: 15794 RVA: 0x00207094 File Offset: 0x00205494
 		private static float FriendlyFireBlastRadiusTargetScoreOffset(IAttackTarget target, IAttackTargetSearcher searcher, Verb verb)
 		{
 			float result;
@@ -504,7 +504,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003DB1 RID: 15793 RVA: 0x0020717C File Offset: 0x0020557C
+		// Token: 0x06003DB3 RID: 15795 RVA: 0x00207250 File Offset: 0x00205650
 		private static float FriendlyFireConeTargetScoreOffset(IAttackTarget target, IAttackTargetSearcher searcher, Verb verb)
 		{
 			Pawn pawn = searcher.Thing as Pawn;
@@ -599,13 +599,13 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003DB2 RID: 15794 RVA: 0x00207498 File Offset: 0x00205898
+		// Token: 0x06003DB4 RID: 15796 RVA: 0x0020756C File Offset: 0x0020596C
 		public static IAttackTarget BestShootTargetFromCurrentPosition(IAttackTargetSearcher searcher, Predicate<Thing> validator, float maxDistance, float minDistance, TargetScanFlags flags)
 		{
 			return AttackTargetFinder.BestAttackTarget(searcher, flags, validator, minDistance, maxDistance, default(IntVec3), float.MaxValue, false);
 		}
 
-		// Token: 0x06003DB3 RID: 15795 RVA: 0x002074C8 File Offset: 0x002058C8
+		// Token: 0x06003DB5 RID: 15797 RVA: 0x0020759C File Offset: 0x0020599C
 		public static bool CanSee(this Thing seer, Thing target, Func<IntVec3, bool> validator = null)
 		{
 			ShootLeanUtility.CalcShootableCellsOf(AttackTargetFinder.tempDestList, target);
@@ -630,7 +630,7 @@ namespace Verse.AI
 			return false;
 		}
 
-		// Token: 0x06003DB4 RID: 15796 RVA: 0x002075BC File Offset: 0x002059BC
+		// Token: 0x06003DB6 RID: 15798 RVA: 0x00207690 File Offset: 0x00205A90
 		public static void DebugDrawAttackTargetScores_Update()
 		{
 			IAttackTargetSearcher attackTargetSearcher = Find.Selector.SingleSelectedThing as IAttackTargetSearcher;
@@ -657,7 +657,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003DB5 RID: 15797 RVA: 0x002076BC File Offset: 0x00205ABC
+		// Token: 0x06003DB7 RID: 15799 RVA: 0x00207790 File Offset: 0x00205B90
 		public static void DebugDrawAttackTargetScores_OnGUI()
 		{
 			IAttackTargetSearcher attackTargetSearcher = Find.Selector.SingleSelectedThing as IAttackTargetSearcher;

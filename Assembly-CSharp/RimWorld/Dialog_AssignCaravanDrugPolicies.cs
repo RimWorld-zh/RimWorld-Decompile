@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020007F9 RID: 2041
 	public class Dialog_AssignCaravanDrugPolicies : Window
 	{
-		// Token: 0x06002D37 RID: 11575 RVA: 0x0017BDB0 File Offset: 0x0017A1B0
+		// Token: 0x06002D39 RID: 11577 RVA: 0x0017BE44 File Offset: 0x0017A244
 		public Dialog_AssignCaravanDrugPolicies(Caravan caravan)
 		{
 			this.caravan = caravan;
@@ -16,7 +16,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000728 RID: 1832
-		// (get) Token: 0x06002D38 RID: 11576 RVA: 0x0017BDC8 File Offset: 0x0017A1C8
+		// (get) Token: 0x06002D3A RID: 11578 RVA: 0x0017BE5C File Offset: 0x0017A25C
 		public override Vector2 InitialSize
 		{
 			get
@@ -25,7 +25,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D39 RID: 11577 RVA: 0x0017BDEC File Offset: 0x0017A1EC
+		// Token: 0x06002D3B RID: 11579 RVA: 0x0017BE80 File Offset: 0x0017A280
 		public override void DoWindowContents(Rect rect)
 		{
 			rect.height -= this.CloseButSize.y;
@@ -55,7 +55,7 @@ namespace RimWorld
 			Widgets.EndScrollView();
 		}
 
-		// Token: 0x06002D3A RID: 11578 RVA: 0x0017BF8C File Offset: 0x0017A38C
+		// Token: 0x06002D3C RID: 11580 RVA: 0x0017C020 File Offset: 0x0017A420
 		private void DoRow(Rect rect, Pawn pawn)
 		{
 			Rect rect2 = new Rect(rect.x, rect.y, rect.width - 354f, 30f);

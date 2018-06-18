@@ -3,26 +3,26 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000FA4 RID: 4004
+	// Token: 0x02000FA3 RID: 4003
 	[StaticConstructorOnStartup]
 	public static class CustomCursor
 	{
-		// Token: 0x06006097 RID: 24727 RVA: 0x0030DAC6 File Offset: 0x0030BEC6
+		// Token: 0x06006095 RID: 24725 RVA: 0x0030DBA2 File Offset: 0x0030BFA2
 		public static void Activate()
 		{
 			Cursor.SetCursor(CustomCursor.CursorTex, CustomCursor.CursorHotspot, CursorMode.Auto);
 		}
 
-		// Token: 0x06006098 RID: 24728 RVA: 0x0030DAD9 File Offset: 0x0030BED9
+		// Token: 0x06006096 RID: 24726 RVA: 0x0030DBB5 File Offset: 0x0030BFB5
 		public static void Deactivate()
 		{
 			Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
 		}
 
-		// Token: 0x04003F43 RID: 16195
+		// Token: 0x04003F42 RID: 16194
 		private static readonly Texture2D CursorTex = ContentFinder<Texture2D>.Get("UI/Cursors/CursorCustom", true);
 
-		// Token: 0x04003F44 RID: 16196
+		// Token: 0x04003F43 RID: 16195
 		private static Vector2 CursorHotspot = new Vector2(3f, 3f);
 	}
 }

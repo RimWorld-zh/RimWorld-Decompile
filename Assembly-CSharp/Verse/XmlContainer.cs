@@ -3,16 +3,16 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000CCE RID: 3278
+	// Token: 0x02000CCD RID: 3277
 	public class XmlContainer
 	{
-		// Token: 0x06004869 RID: 18537 RVA: 0x0026001C File Offset: 0x0025E41C
+		// Token: 0x06004867 RID: 18535 RVA: 0x0025FFF4 File Offset: 0x0025E3F4
 		public void LoadDataFromXmlCustom(XmlNode xmlRoot)
 		{
 			this.node = xmlRoot;
 		}
 
-		// Token: 0x040030F3 RID: 12531
+		// Token: 0x040030F1 RID: 12529
 		public XmlNode node;
 	}
 }

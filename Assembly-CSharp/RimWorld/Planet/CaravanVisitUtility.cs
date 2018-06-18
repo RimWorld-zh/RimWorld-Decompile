@@ -10,7 +10,7 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public static class CaravanVisitUtility
 	{
-		// Token: 0x06001DEE RID: 7662 RVA: 0x00101988 File Offset: 0x000FFD88
+		// Token: 0x06001DF0 RID: 7664 RVA: 0x00101A00 File Offset: 0x000FFE00
 		public static Settlement SettlementVisitedNow(Caravan caravan)
 		{
 			Settlement result;
@@ -34,7 +34,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DEF RID: 7663 RVA: 0x00101A24 File Offset: 0x000FFE24
+		// Token: 0x06001DF1 RID: 7665 RVA: 0x00101A9C File Offset: 0x000FFE9C
 		public static Command TradeCommand(Caravan caravan)
 		{
 			Pawn bestNegotiator = BestCaravanPawnUtility.FindBestNegotiator(caravan);

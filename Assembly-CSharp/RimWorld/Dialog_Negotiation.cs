@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200080C RID: 2060
 	public class Dialog_Negotiation : Dialog_NodeTree
 	{
-		// Token: 0x06002DF1 RID: 11761 RVA: 0x00182AE8 File Offset: 0x00180EE8
+		// Token: 0x06002DF3 RID: 11763 RVA: 0x00182B7C File Offset: 0x00180F7C
 		public Dialog_Negotiation(Pawn negotiator, ICommunicable commTarget, DiaNode startNode, bool radioMode) : base(startNode, radioMode, false, null)
 		{
 			this.negotiator = negotiator;
@@ -15,7 +15,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000753 RID: 1875
-		// (get) Token: 0x06002DF2 RID: 11762 RVA: 0x00182B04 File Offset: 0x00180F04
+		// (get) Token: 0x06002DF4 RID: 11764 RVA: 0x00182B98 File Offset: 0x00180F98
 		public override Vector2 InitialSize
 		{
 			get
@@ -24,7 +24,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DF3 RID: 11763 RVA: 0x00182B28 File Offset: 0x00180F28
+		// Token: 0x06002DF5 RID: 11765 RVA: 0x00182BBC File Offset: 0x00180FBC
 		public override void DoWindowContents(Rect inRect)
 		{
 			GUI.BeginGroup(inRect);

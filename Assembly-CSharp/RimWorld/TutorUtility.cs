@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x020008D7 RID: 2263
 	public static class TutorUtility
 	{
-		// Token: 0x060033C1 RID: 13249 RVA: 0x001BA23C File Offset: 0x001B863C
+		// Token: 0x060033C3 RID: 13251 RVA: 0x001BA304 File Offset: 0x001B8704
 		public static bool BuildingOrBlueprintOrFrameCenterExists(IntVec3 c, Map map, ThingDef buildingDef)
 		{
 			List<Thing> thingList = c.GetThingList(map);
@@ -38,7 +38,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060033C2 RID: 13250 RVA: 0x001BA2BC File Offset: 0x001B86BC
+		// Token: 0x060033C4 RID: 13252 RVA: 0x001BA384 File Offset: 0x001B8784
 		public static CellRect FindUsableRect(int width, int height, Map map, float minFertility = 0f, bool noItems = false)
 		{
 			IntVec3 center = map.Center;
@@ -72,7 +72,7 @@ namespace RimWorld
 			return cellRect.ContractedBy(1);
 		}
 
-		// Token: 0x060033C3 RID: 13251 RVA: 0x001BA3F8 File Offset: 0x001B87F8
+		// Token: 0x060033C5 RID: 13253 RVA: 0x001BA4C0 File Offset: 0x001B88C0
 		private static bool ContainsBlockingThing(IntVec3 cell, Map map, bool noItems)
 		{
 			List<Thing> thingList = cell.GetThingList(map);
@@ -102,7 +102,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060033C4 RID: 13252 RVA: 0x001BA48C File Offset: 0x001B888C
+		// Token: 0x060033C6 RID: 13254 RVA: 0x001BA554 File Offset: 0x001B8954
 		public static void DrawLabelOnThingOnGUI(Thing t, string label)
 		{
 			Vector2 vector = (t.DrawPos + new Vector3(0f, 0f, 0.5f)).MapToUIPosition();
@@ -115,7 +115,7 @@ namespace RimWorld
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
-		// Token: 0x060033C5 RID: 13253 RVA: 0x001BA52C File Offset: 0x001B892C
+		// Token: 0x060033C7 RID: 13255 RVA: 0x001BA5F4 File Offset: 0x001B89F4
 		public static void DrawLabelOnGUI(Vector3 mapPos, string label)
 		{
 			Vector2 vector = mapPos.MapToUIPosition();
@@ -128,7 +128,7 @@ namespace RimWorld
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
-		// Token: 0x060033C6 RID: 13254 RVA: 0x001BA5AC File Offset: 0x001B89AC
+		// Token: 0x060033C8 RID: 13256 RVA: 0x001BA674 File Offset: 0x001B8A74
 		public static void DrawCellRectOnGUI(CellRect cellRect, string label = null)
 		{
 			if (label != null)
@@ -138,7 +138,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060033C7 RID: 13255 RVA: 0x001BA5D4 File Offset: 0x001B89D4
+		// Token: 0x060033C9 RID: 13257 RVA: 0x001BA69C File Offset: 0x001B8A9C
 		public static void DrawCellRectUpdate(CellRect cellRect)
 		{
 			CellRect.CellRectIterator iterator = cellRect.GetIterator();
@@ -149,7 +149,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060033C8 RID: 13256 RVA: 0x001BA618 File Offset: 0x001B8A18
+		// Token: 0x060033CA RID: 13258 RVA: 0x001BA6E0 File Offset: 0x001B8AE0
 		public static void DoModalDialogIfNotKnown(ConceptDef conc)
 		{
 			if (!PlayerKnowledgeDatabase.IsComplete(conc))
@@ -160,7 +160,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060033C9 RID: 13257 RVA: 0x001BA65C File Offset: 0x001B8A5C
+		// Token: 0x060033CB RID: 13259 RVA: 0x001BA724 File Offset: 0x001B8B24
 		public static bool EventCellsMatchExactly(EventPack ep, List<IntVec3> targetCells)
 		{
 			bool result;
@@ -188,7 +188,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060033CA RID: 13258 RVA: 0x001BA730 File Offset: 0x001B8B30
+		// Token: 0x060033CC RID: 13260 RVA: 0x001BA7F8 File Offset: 0x001B8BF8
 		public static bool EventCellsAreWithin(EventPack ep, List<IntVec3> targetCells)
 		{
 			bool result;

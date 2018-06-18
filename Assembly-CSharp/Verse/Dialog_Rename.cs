@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EB6 RID: 3766
+	// Token: 0x02000EB5 RID: 3765
 	public abstract class Dialog_Rename : Window
 	{
-		// Token: 0x060058FF RID: 22783 RVA: 0x002D9FE3 File Offset: 0x002D83E3
+		// Token: 0x060058FD RID: 22781 RVA: 0x002DA01B File Offset: 0x002D841B
 		public Dialog_Rename()
 		{
 			this.forcePause = true;
@@ -17,8 +17,8 @@ namespace Verse
 			this.closeOnClickedOutside = true;
 		}
 
-		// Token: 0x17000DFD RID: 3581
-		// (get) Token: 0x06005900 RID: 22784 RVA: 0x002DA010 File Offset: 0x002D8410
+		// Token: 0x17000DFC RID: 3580
+		// (get) Token: 0x060058FE RID: 22782 RVA: 0x002DA048 File Offset: 0x002D8448
 		protected virtual int MaxNameLength
 		{
 			get
@@ -27,8 +27,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DFE RID: 3582
-		// (get) Token: 0x06005901 RID: 22785 RVA: 0x002DA028 File Offset: 0x002D8428
+		// Token: 0x17000DFD RID: 3581
+		// (get) Token: 0x060058FF RID: 22783 RVA: 0x002DA060 File Offset: 0x002D8460
 		public override Vector2 InitialSize
 		{
 			get
@@ -37,7 +37,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005902 RID: 22786 RVA: 0x002DA04C File Offset: 0x002D844C
+		// Token: 0x06005900 RID: 22784 RVA: 0x002DA084 File Offset: 0x002D8484
 		protected virtual AcceptanceReport NameIsValid(string name)
 		{
 			AcceptanceReport result;
@@ -52,7 +52,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005903 RID: 22787 RVA: 0x002DA080 File Offset: 0x002D8480
+		// Token: 0x06005901 RID: 22785 RVA: 0x002DA0B8 File Offset: 0x002D84B8
 		public override void DoWindowContents(Rect inRect)
 		{
 			Text.Font = GameFont.Small;
@@ -95,13 +95,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005904 RID: 22788
+		// Token: 0x06005902 RID: 22786
 		protected abstract void SetName(string name);
 
-		// Token: 0x04003B58 RID: 15192
+		// Token: 0x04003B57 RID: 15191
 		protected string curName;
 
-		// Token: 0x04003B59 RID: 15193
+		// Token: 0x04003B58 RID: 15192
 		private bool focusedRenameField;
 	}
 }

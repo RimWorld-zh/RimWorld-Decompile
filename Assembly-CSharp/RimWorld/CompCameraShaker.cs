@@ -7,7 +7,7 @@ namespace RimWorld
 	public class CompCameraShaker : ThingComp
 	{
 		// Token: 0x170005E6 RID: 1510
-		// (get) Token: 0x0600275F RID: 10079 RVA: 0x00152274 File Offset: 0x00150674
+		// (get) Token: 0x06002761 RID: 10081 RVA: 0x001522EC File Offset: 0x001506EC
 		public CompProperties_CameraShaker Props
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002760 RID: 10080 RVA: 0x00152294 File Offset: 0x00150694
+		// Token: 0x06002762 RID: 10082 RVA: 0x0015230C File Offset: 0x0015070C
 		public override void CompTick()
 		{
 			base.CompTick();

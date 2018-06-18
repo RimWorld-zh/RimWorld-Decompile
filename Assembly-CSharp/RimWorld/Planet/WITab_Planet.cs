@@ -8,7 +8,7 @@ namespace RimWorld.Planet
 	// Token: 0x020008E9 RID: 2281
 	public class WITab_Planet : WITab
 	{
-		// Token: 0x0600346B RID: 13419 RVA: 0x001C055A File Offset: 0x001BE95A
+		// Token: 0x0600346D RID: 13421 RVA: 0x001C0622 File Offset: 0x001BEA22
 		public WITab_Planet()
 		{
 			this.size = WITab_Planet.WinSize;
@@ -16,7 +16,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000865 RID: 2149
-		// (get) Token: 0x0600346C RID: 13420 RVA: 0x001C057C File Offset: 0x001BE97C
+		// (get) Token: 0x0600346E RID: 13422 RVA: 0x001C0644 File Offset: 0x001BEA44
 		public override bool IsVisible
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000866 RID: 2150
-		// (get) Token: 0x0600346D RID: 13421 RVA: 0x001C05A0 File Offset: 0x001BE9A0
+		// (get) Token: 0x0600346F RID: 13423 RVA: 0x001C0668 File Offset: 0x001BEA68
 		private string Desc
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x0600346E RID: 13422 RVA: 0x001C062C File Offset: 0x001BEA2C
+		// Token: 0x06003470 RID: 13424 RVA: 0x001C06F4 File Offset: 0x001BEAF4
 		protected override void FillTab()
 		{
 			Rect rect = new Rect(0f, 0f, WITab_Planet.WinSize.x, WITab_Planet.WinSize.y).ContractedBy(10f);

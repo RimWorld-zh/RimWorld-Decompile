@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020006F1 RID: 1777
 	public class ThingSetMaker_Sum : ThingSetMaker
 	{
-		// Token: 0x060026A4 RID: 9892 RVA: 0x0014A91C File Offset: 0x00148D1C
+		// Token: 0x060026A6 RID: 9894 RVA: 0x0014A994 File Offset: 0x00148D94
 		protected override bool CanGenerateSub(ThingSetMakerParams parms)
 		{
 			for (int i = 0; i < this.options.Count; i++)
@@ -20,7 +20,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060026A5 RID: 9893 RVA: 0x0014A990 File Offset: 0x00148D90
+		// Token: 0x060026A7 RID: 9895 RVA: 0x0014AA08 File Offset: 0x00148E08
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			int num = 0;
@@ -75,7 +75,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026A6 RID: 9894 RVA: 0x0014AC64 File Offset: 0x00149064
+		// Token: 0x060026A8 RID: 9896 RVA: 0x0014ACDC File Offset: 0x001490DC
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -85,7 +85,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026A7 RID: 9895 RVA: 0x0014ACAC File Offset: 0x001490AC
+		// Token: 0x060026A9 RID: 9897 RVA: 0x0014AD24 File Offset: 0x00149124
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
 			for (int i = 0; i < this.options.Count; i++)

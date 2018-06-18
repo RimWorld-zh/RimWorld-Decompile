@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020009D5 RID: 2517
 	public class Verb_Bombardment : Verb
 	{
-		// Token: 0x06003864 RID: 14436 RVA: 0x001E18BC File Offset: 0x001DFCBC
+		// Token: 0x06003866 RID: 14438 RVA: 0x001E1990 File Offset: 0x001DFD90
 		protected override bool TryCastShot()
 		{
 			bool result;
@@ -30,7 +30,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003865 RID: 14437 RVA: 0x001E1998 File Offset: 0x001DFD98
+		// Token: 0x06003867 RID: 14439 RVA: 0x001E1A6C File Offset: 0x001DFE6C
 		public override float HighlightFieldRadiusAroundTarget(out bool needLOSToCenter)
 		{
 			needLOSToCenter = false;

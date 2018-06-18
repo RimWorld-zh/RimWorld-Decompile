@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x0200054E RID: 1358
 	public class BiomeWorker_IceSheet : BiomeWorker
 	{
-		// Token: 0x06001952 RID: 6482 RVA: 0x000DBBA8 File Offset: 0x000D9FA8
+		// Token: 0x06001953 RID: 6483 RVA: 0x000DBBFC File Offset: 0x000D9FFC
 		public override float GetScore(Tile tile, int tileID)
 		{
 			float result;
@@ -21,7 +21,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001953 RID: 6483 RVA: 0x000DBBDC File Offset: 0x000D9FDC
+		// Token: 0x06001954 RID: 6484 RVA: 0x000DBC30 File Offset: 0x000DA030
 		public static float PermaIceScore(Tile tile)
 		{
 			return -20f + -tile.temperature * 2f;

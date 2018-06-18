@@ -5,17 +5,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000FD3 RID: 4051
+	// Token: 0x02000FD2 RID: 4050
 	public static class VerbUtility
 	{
-		// Token: 0x060061F7 RID: 25079 RVA: 0x00315680 File Offset: 0x00313A80
+		// Token: 0x060061F5 RID: 25077 RVA: 0x0031575C File Offset: 0x00313B5C
 		public static ThingDef GetProjectile(this Verb verb)
 		{
 			Verb_LaunchProjectile verb_LaunchProjectile = verb as Verb_LaunchProjectile;
 			return (verb_LaunchProjectile == null) ? null : verb_LaunchProjectile.Projectile;
 		}
 
-		// Token: 0x060061F8 RID: 25080 RVA: 0x003156B0 File Offset: 0x00313AB0
+		// Token: 0x060061F6 RID: 25078 RVA: 0x0031578C File Offset: 0x00313B8C
 		public static DamageDef GetDamageDef(this Verb verb)
 		{
 			DamageDef result;
@@ -38,53 +38,53 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060061F9 RID: 25081 RVA: 0x00315708 File Offset: 0x00313B08
+		// Token: 0x060061F7 RID: 25079 RVA: 0x003157E4 File Offset: 0x00313BE4
 		public static bool IsIncendiary(this Verb verb)
 		{
 			ThingDef projectile = verb.GetProjectile();
 			return projectile != null && projectile.projectile.ai_IsIncendiary;
 		}
 
-		// Token: 0x060061FA RID: 25082 RVA: 0x00315738 File Offset: 0x00313B38
+		// Token: 0x060061F8 RID: 25080 RVA: 0x00315814 File Offset: 0x00313C14
 		public static bool ProjectileFliesOverhead(this Verb verb)
 		{
 			ThingDef projectile = verb.GetProjectile();
 			return projectile != null && projectile.projectile.flyOverhead;
 		}
 
-		// Token: 0x060061FB RID: 25083 RVA: 0x00315768 File Offset: 0x00313B68
+		// Token: 0x060061F9 RID: 25081 RVA: 0x00315844 File Offset: 0x00313C44
 		public static bool HarmsHealth(this Verb verb)
 		{
 			DamageDef damageDef = verb.GetDamageDef();
 			return damageDef != null && damageDef.harmsHealth;
 		}
 
-		// Token: 0x060061FC RID: 25084 RVA: 0x00315794 File Offset: 0x00313B94
+		// Token: 0x060061FA RID: 25082 RVA: 0x00315870 File Offset: 0x00313C70
 		public static bool IsEMP(this Verb verb)
 		{
 			return verb.GetDamageDef() == DamageDefOf.EMP;
 		}
 
-		// Token: 0x060061FD RID: 25085 RVA: 0x003157B8 File Offset: 0x00313BB8
+		// Token: 0x060061FB RID: 25083 RVA: 0x00315894 File Offset: 0x00313C94
 		public static bool UsesExplosiveProjectiles(this Verb verb)
 		{
 			ThingDef projectile = verb.GetProjectile();
 			return projectile != null && projectile.projectile.explosionRadius > 0f;
 		}
 
-		// Token: 0x060061FE RID: 25086 RVA: 0x003157F0 File Offset: 0x00313BF0
+		// Token: 0x060061FC RID: 25084 RVA: 0x003158CC File Offset: 0x00313CCC
 		public static string GenerateBeatFireLoadId(Pawn pawn)
 		{
 			return string.Format("{0}_BeatFire", pawn.ThingID);
 		}
 
-		// Token: 0x060061FF RID: 25087 RVA: 0x00315818 File Offset: 0x00313C18
+		// Token: 0x060061FD RID: 25085 RVA: 0x003158F4 File Offset: 0x00313CF4
 		public static string GenerateIgniteLoadId(Pawn pawn)
 		{
 			return string.Format("{0}_Ignite", pawn.ThingID);
 		}
 
-		// Token: 0x06006200 RID: 25088 RVA: 0x00315840 File Offset: 0x00313C40
+		// Token: 0x060061FE RID: 25086 RVA: 0x0031591C File Offset: 0x00313D1C
 		public static List<Verb> GetConcreteExampleVerbs(Def def, out Thing owner, ThingDef stuff = null)
 		{
 			owner = null;
@@ -116,7 +116,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06006201 RID: 25089 RVA: 0x003158E4 File Offset: 0x00313CE4
+		// Token: 0x060061FF RID: 25087 RVA: 0x003159C0 File Offset: 0x00313DC0
 		public static float CalculateAdjustedForcedMiss(float forcedMiss, IntVec3 vector)
 		{
 			float num = (float)vector.LengthHorizontalSquared;
@@ -140,7 +140,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06006202 RID: 25090 RVA: 0x0031594C File Offset: 0x00313D4C
+		// Token: 0x06006200 RID: 25088 RVA: 0x00315A28 File Offset: 0x00313E28
 		public static float DistanceInterceptChance(Vector3 origin, IntVec3 c, IntVec3 intendedTargetCell)
 		{
 			float num = (c.ToVector3Shifted() - origin).MagnitudeHorizontalSquared();
@@ -165,19 +165,19 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04004002 RID: 16386
+		// Token: 0x04004001 RID: 16385
 		public const float InterceptDist_Possible = 4f;
 
-		// Token: 0x04004003 RID: 16387
+		// Token: 0x04004002 RID: 16386
 		private const float InterceptDist_Short = 7f;
 
-		// Token: 0x04004004 RID: 16388
+		// Token: 0x04004003 RID: 16387
 		private const float InterceptDist_Normal = 10f;
 
-		// Token: 0x04004005 RID: 16389
+		// Token: 0x04004004 RID: 16388
 		private const float InterceptChanceFactor_VeryShort = 0.5f;
 
-		// Token: 0x04004006 RID: 16390
+		// Token: 0x04004005 RID: 16389
 		private const float InterceptChanceFactor_Short = 0.75f;
 	}
 }

@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000B38 RID: 2872
 	public class DesignationDef : Def
 	{
-		// Token: 0x06003F24 RID: 16164 RVA: 0x00213C06 File Offset: 0x00212006
+		// Token: 0x06003F26 RID: 16166 RVA: 0x00213CDA File Offset: 0x002120DA
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();

@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x020007F8 RID: 2040
 	public class Dialog_AssignBuildingOwner : Window
 	{
-		// Token: 0x06002D34 RID: 11572 RVA: 0x0017BA4B File Offset: 0x00179E4B
+		// Token: 0x06002D36 RID: 11574 RVA: 0x0017BADF File Offset: 0x00179EDF
 		public Dialog_AssignBuildingOwner(IAssignableBuilding assignable)
 		{
 			this.assignable = assignable;
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000727 RID: 1831
-		// (get) Token: 0x06002D35 RID: 11573 RVA: 0x0017BA78 File Offset: 0x00179E78
+		// (get) Token: 0x06002D37 RID: 11575 RVA: 0x0017BB0C File Offset: 0x00179F0C
 		public override Vector2 InitialSize
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D36 RID: 11574 RVA: 0x0017BA9C File Offset: 0x00179E9C
+		// Token: 0x06002D38 RID: 11576 RVA: 0x0017BB30 File Offset: 0x00179F30
 		public override void DoWindowContents(Rect inRect)
 		{
 			Text.Font = GameFont.Small;

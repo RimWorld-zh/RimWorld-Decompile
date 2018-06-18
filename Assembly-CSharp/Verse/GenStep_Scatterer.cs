@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C5E RID: 3166
+	// Token: 0x02000C5D RID: 3165
 	public abstract class GenStep_Scatterer : GenStep
 	{
-		// Token: 0x06004595 RID: 17813 RVA: 0x000919F8 File Offset: 0x0008FDF8
+		// Token: 0x06004593 RID: 17811 RVA: 0x000919F8 File Offset: 0x0008FDF8
 		public override void Generate(Map map)
 		{
 			if (this.allowInWaterBiome || !map.TileInfo.WaterCovered)
@@ -28,7 +28,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004596 RID: 17814 RVA: 0x00091A78 File Offset: 0x0008FE78
+		// Token: 0x06004594 RID: 17812 RVA: 0x00091A78 File Offset: 0x0008FE78
 		protected virtual bool TryFindScatterCell(Map map, out IntVec3 result)
 		{
 			if (this.nearMapCenter)
@@ -57,10 +57,10 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004597 RID: 17815
+		// Token: 0x06004595 RID: 17813
 		protected abstract void ScatterAt(IntVec3 loc, Map map, int count = 1);
 
-		// Token: 0x06004598 RID: 17816 RVA: 0x00091B70 File Offset: 0x0008FF70
+		// Token: 0x06004596 RID: 17814 RVA: 0x00091B70 File Offset: 0x0008FF70
 		protected virtual bool CanScatterAt(IntVec3 loc, Map map)
 		{
 			bool result;
@@ -101,7 +101,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004599 RID: 17817 RVA: 0x00091C84 File Offset: 0x00090084
+		// Token: 0x06004597 RID: 17815 RVA: 0x00091C84 File Offset: 0x00090084
 		protected bool NearUsedSpot(IntVec3 c, float dist)
 		{
 			for (int i = 0; i < this.usedSpots.Count; i++)
@@ -114,7 +114,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x0600459A RID: 17818 RVA: 0x00091CE4 File Offset: 0x000900E4
+		// Token: 0x06004598 RID: 17816 RVA: 0x00091CE4 File Offset: 0x000900E4
 		protected int CalculateFinalCount(Map map)
 		{
 			int result;
@@ -129,7 +129,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600459B RID: 17819 RVA: 0x00091D24 File Offset: 0x00090124
+		// Token: 0x06004599 RID: 17817 RVA: 0x00091D24 File Offset: 0x00090124
 		public static int CountFromPer10kCells(float countPer10kCells, Map map, int mapSize = -1)
 		{
 			if (mapSize < 0)
@@ -140,53 +140,53 @@ namespace Verse
 			return Mathf.RoundToInt((float)(mapSize * mapSize) / (float)num);
 		}
 
-		// Token: 0x0600459C RID: 17820 RVA: 0x00091D69 File Offset: 0x00090169
+		// Token: 0x0600459A RID: 17818 RVA: 0x00091D69 File Offset: 0x00090169
 		public void ForceScatterAt(IntVec3 loc, Map map)
 		{
 			this.ScatterAt(loc, map, 1);
 		}
 
-		// Token: 0x04002F89 RID: 12169
+		// Token: 0x04002F87 RID: 12167
 		public int count = -1;
 
-		// Token: 0x04002F8A RID: 12170
+		// Token: 0x04002F88 RID: 12168
 		public FloatRange countPer10kCellsRange = FloatRange.Zero;
 
-		// Token: 0x04002F8B RID: 12171
+		// Token: 0x04002F89 RID: 12169
 		public bool nearPlayerStart = false;
 
-		// Token: 0x04002F8C RID: 12172
+		// Token: 0x04002F8A RID: 12170
 		public bool nearMapCenter = false;
 
-		// Token: 0x04002F8D RID: 12173
+		// Token: 0x04002F8B RID: 12171
 		public float minSpacing = 10f;
 
-		// Token: 0x04002F8E RID: 12174
+		// Token: 0x04002F8C RID: 12172
 		public bool spotMustBeStandable = false;
 
-		// Token: 0x04002F8F RID: 12175
+		// Token: 0x04002F8D RID: 12173
 		public int minDistToPlayerStart = 0;
 
-		// Token: 0x04002F90 RID: 12176
+		// Token: 0x04002F8E RID: 12174
 		public int minEdgeDist = 0;
 
-		// Token: 0x04002F91 RID: 12177
+		// Token: 0x04002F8F RID: 12175
 		public int extraNoBuildEdgeDist = 0;
 
-		// Token: 0x04002F92 RID: 12178
+		// Token: 0x04002F90 RID: 12176
 		public List<ScattererValidator> validators = new List<ScattererValidator>();
 
-		// Token: 0x04002F93 RID: 12179
+		// Token: 0x04002F91 RID: 12177
 		public bool allowInWaterBiome = true;
 
-		// Token: 0x04002F94 RID: 12180
+		// Token: 0x04002F92 RID: 12178
 		public bool warnOnFail = true;
 
-		// Token: 0x04002F95 RID: 12181
+		// Token: 0x04002F93 RID: 12179
 		[Unsaved]
 		protected List<IntVec3> usedSpots = new List<IntVec3>();
 
-		// Token: 0x04002F96 RID: 12182
+		// Token: 0x04002F94 RID: 12180
 		private const int ScatterNearPlayerRadius = 20;
 	}
 }

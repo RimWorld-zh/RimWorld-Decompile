@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class BodyDefOf
 	{
-		// Token: 0x06003635 RID: 13877 RVA: 0x001D076D File Offset: 0x001CEB6D
+		// Token: 0x06003637 RID: 13879 RVA: 0x001D0835 File Offset: 0x001CEC35
 		static BodyDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(BodyDefOf));

@@ -8,7 +8,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class TradeUI
 	{
-		// Token: 0x060032D1 RID: 13009 RVA: 0x001B5CB8 File Offset: 0x001B40B8
+		// Token: 0x060032D3 RID: 13011 RVA: 0x001B5D80 File Offset: 0x001B4180
 		public static void DrawTradeableRow(Rect rect, Tradeable trad, int index)
 		{
 			if (index % 2 == 1)
@@ -73,7 +73,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x060032D2 RID: 13010 RVA: 0x001B5F4C File Offset: 0x001B434C
+		// Token: 0x060032D4 RID: 13012 RVA: 0x001B6014 File Offset: 0x001B4414
 		private static void DrawPrice(Rect rect, Tradeable trad, TradeAction action)
 		{
 			if (!trad.IsCurrency && trad.TraderWillTrade)
@@ -144,7 +144,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060032D3 RID: 13011 RVA: 0x001B61F4 File Offset: 0x001B45F4
+		// Token: 0x060032D5 RID: 13013 RVA: 0x001B62BC File Offset: 0x001B46BC
 		private static void DrawWillNotTradeIndication(Rect rect, Tradeable trad)
 		{
 			rect = rect.Rounded();

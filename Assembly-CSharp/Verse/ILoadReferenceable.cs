@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000D96 RID: 3478
+	// Token: 0x02000D95 RID: 3477
 	public interface ILoadReferenceable
 	{
-		// Token: 0x06004DA9 RID: 19881
+		// Token: 0x06004DA7 RID: 19879
 		string GetUniqueLoadID();
 	}
 }

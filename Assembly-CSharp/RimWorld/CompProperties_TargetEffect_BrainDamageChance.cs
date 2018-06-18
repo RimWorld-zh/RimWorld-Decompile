@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000754 RID: 1876
 	public class CompProperties_TargetEffect_BrainDamageChance : CompProperties
 	{
-		// Token: 0x06002988 RID: 10632 RVA: 0x001611A8 File Offset: 0x0015F5A8
+		// Token: 0x0600298A RID: 10634 RVA: 0x0016123C File Offset: 0x0015F63C
 		public CompProperties_TargetEffect_BrainDamageChance()
 		{
 			this.compClass = typeof(CompTargetEffect_BrainDamageChance);

@@ -7,7 +7,7 @@ namespace Verse.Grammar
 	public class RulePack
 	{
 		// Token: 0x17000A74 RID: 2676
-		// (get) Token: 0x0600427B RID: 17019 RVA: 0x002302B8 File Offset: 0x0022E6B8
+		// (get) Token: 0x0600427D RID: 17021 RVA: 0x00230330 File Offset: 0x0022E730
 		public List<Rule> Rules
 		{
 			get

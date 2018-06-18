@@ -7,7 +7,7 @@ namespace Verse.AI.Group
 	public class LordToil_ExitMapTraderFighting : LordToil
 	{
 		// Token: 0x170008D8 RID: 2264
-		// (get) Token: 0x06003948 RID: 14664 RVA: 0x001E6AC0 File Offset: 0x001E4EC0
+		// (get) Token: 0x0600394A RID: 14666 RVA: 0x001E6B94 File Offset: 0x001E4F94
 		public override bool AllowSatisfyLongNeeds
 		{
 			get
@@ -17,7 +17,7 @@ namespace Verse.AI.Group
 		}
 
 		// Token: 0x170008D9 RID: 2265
-		// (get) Token: 0x06003949 RID: 14665 RVA: 0x001E6AD8 File Offset: 0x001E4ED8
+		// (get) Token: 0x0600394B RID: 14667 RVA: 0x001E6BAC File Offset: 0x001E4FAC
 		public override bool AllowSelfTend
 		{
 			get
@@ -26,7 +26,7 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x0600394A RID: 14666 RVA: 0x001E6AF0 File Offset: 0x001E4EF0
+		// Token: 0x0600394C RID: 14668 RVA: 0x001E6BC4 File Offset: 0x001E4FC4
 		public override void UpdateAllDuties()
 		{
 			for (int i = 0; i < this.lord.ownedPawns.Count; i++)

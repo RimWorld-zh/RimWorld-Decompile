@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class ThoughtDefOf
 	{
-		// Token: 0x06003648 RID: 13896 RVA: 0x001D08C3 File Offset: 0x001CECC3
+		// Token: 0x0600364A RID: 13898 RVA: 0x001D098B File Offset: 0x001CED8B
 		static ThoughtDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ThoughtDefOf));

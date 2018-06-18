@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x02000806 RID: 2054
 	public class Dialog_ModSettings : Window
 	{
-		// Token: 0x06002DD4 RID: 11732 RVA: 0x00181E9A File Offset: 0x0018029A
+		// Token: 0x06002DD6 RID: 11734 RVA: 0x00181F2E File Offset: 0x0018032E
 		public Dialog_ModSettings()
 		{
 			this.forcePause = true;
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000752 RID: 1874
-		// (get) Token: 0x06002DD5 RID: 11733 RVA: 0x00181ED0 File Offset: 0x001802D0
+		// (get) Token: 0x06002DD7 RID: 11735 RVA: 0x00181F64 File Offset: 0x00180364
 		public override Vector2 InitialSize
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DD6 RID: 11734 RVA: 0x00181EF4 File Offset: 0x001802F4
+		// Token: 0x06002DD8 RID: 11736 RVA: 0x00181F88 File Offset: 0x00180388
 		public override void PreClose()
 		{
 			base.PreClose();
@@ -39,7 +39,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DD7 RID: 11735 RVA: 0x00181F14 File Offset: 0x00180314
+		// Token: 0x06002DD9 RID: 11737 RVA: 0x00181FA8 File Offset: 0x001803A8
 		public override void DoWindowContents(Rect inRect)
 		{
 			Rect rect = new Rect(0f, 0f, 150f, 35f);
@@ -82,7 +82,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DD8 RID: 11736 RVA: 0x00182118 File Offset: 0x00180518
+		// Token: 0x06002DDA RID: 11738 RVA: 0x001821AC File Offset: 0x001805AC
 		public static bool HasSettings()
 		{
 			return LoadedModManager.ModHandles.Any((Mod mod) => !mod.SettingsCategory().NullOrEmpty());

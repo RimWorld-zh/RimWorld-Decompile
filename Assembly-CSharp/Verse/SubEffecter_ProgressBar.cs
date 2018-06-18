@@ -6,12 +6,12 @@ namespace Verse
 	// Token: 0x0200097B RID: 2427
 	public class SubEffecter_ProgressBar : SubEffecter
 	{
-		// Token: 0x06003688 RID: 13960 RVA: 0x001D1007 File Offset: 0x001CF407
+		// Token: 0x0600368A RID: 13962 RVA: 0x001D10CF File Offset: 0x001CF4CF
 		public SubEffecter_ProgressBar(SubEffecterDef def, Effecter parent) : base(def, parent)
 		{
 		}
 
-		// Token: 0x06003689 RID: 13961 RVA: 0x001D1014 File Offset: 0x001CF414
+		// Token: 0x0600368B RID: 13963 RVA: 0x001D10DC File Offset: 0x001CF4DC
 		public override void SubEffectTick(TargetInfo A, TargetInfo B)
 		{
 			if (this.mote == null)
@@ -22,7 +22,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600368A RID: 13962 RVA: 0x001D1076 File Offset: 0x001CF476
+		// Token: 0x0600368C RID: 13964 RVA: 0x001D113E File Offset: 0x001CF53E
 		public override void SubCleanup()
 		{
 			if (this.mote != null && !this.mote.Destroyed)

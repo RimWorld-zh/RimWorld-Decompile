@@ -8,14 +8,14 @@ namespace RimWorld.Planet
 	// Token: 0x020008E7 RID: 2279
 	public class WITab_Caravan_Needs : WITab
 	{
-		// Token: 0x0600345C RID: 13404 RVA: 0x001BFC7A File Offset: 0x001BE07A
+		// Token: 0x0600345E RID: 13406 RVA: 0x001BFD42 File Offset: 0x001BE142
 		public WITab_Caravan_Needs()
 		{
 			this.labelKey = "TabCaravanNeeds";
 		}
 
 		// Token: 0x17000862 RID: 2146
-		// (get) Token: 0x0600345D RID: 13405 RVA: 0x001BFC90 File Offset: 0x001BE090
+		// (get) Token: 0x0600345F RID: 13407 RVA: 0x001BFD58 File Offset: 0x001BE158
 		private float SpecificNeedsTabWidth
 		{
 			get
@@ -33,13 +33,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x0600345E RID: 13406 RVA: 0x001BFCDE File Offset: 0x001BE0DE
+		// Token: 0x06003460 RID: 13408 RVA: 0x001BFDA6 File Offset: 0x001BE1A6
 		protected override void FillTab()
 		{
 			CaravanNeedsTabUtility.DoRows(this.size, base.SelCaravan.PawnsListForReading, base.SelCaravan, ref this.scrollPosition, ref this.scrollViewHeight, ref this.specificNeedsTabForPawn, this.doNeeds);
 		}
 
-		// Token: 0x0600345F RID: 13407 RVA: 0x001BFD18 File Offset: 0x001BE118
+		// Token: 0x06003461 RID: 13409 RVA: 0x001BFDE0 File Offset: 0x001BE1E0
 		protected override void UpdateSize()
 		{
 			base.UpdateSize();
@@ -56,7 +56,7 @@ namespace RimWorld.Planet
 			this.size.y = Mathf.Max(this.size.y, NeedsCardUtility.FullSize.y);
 		}
 
-		// Token: 0x06003460 RID: 13408 RVA: 0x001BFDC0 File Offset: 0x001BE1C0
+		// Token: 0x06003462 RID: 13410 RVA: 0x001BFE88 File Offset: 0x001BE288
 		protected override void ExtraOnGUI()
 		{
 			base.ExtraOnGUI();

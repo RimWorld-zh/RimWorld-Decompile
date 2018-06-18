@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000B50 RID: 2896
 	public class LogEntryDef : Def
 	{
-		// Token: 0x06003F61 RID: 16225 RVA: 0x0021629B File Offset: 0x0021469B
+		// Token: 0x06003F63 RID: 16227 RVA: 0x0021636F File Offset: 0x0021476F
 		public override void PostLoad()
 		{
 			base.PostLoad();

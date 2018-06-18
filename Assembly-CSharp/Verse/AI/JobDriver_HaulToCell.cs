@@ -7,14 +7,14 @@ namespace Verse.AI
 	// Token: 0x02000A42 RID: 2626
 	public class JobDriver_HaulToCell : JobDriver
 	{
-		// Token: 0x06003A39 RID: 14905 RVA: 0x001EDB5B File Offset: 0x001EBF5B
+		// Token: 0x06003A3B RID: 14907 RVA: 0x001EDC2F File Offset: 0x001EC02F
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<bool>(ref this.forbiddenInitially, "forbiddenInitially", false, false);
 		}
 
-		// Token: 0x06003A3A RID: 14906 RVA: 0x001EDB78 File Offset: 0x001EBF78
+		// Token: 0x06003A3C RID: 14908 RVA: 0x001EDC4C File Offset: 0x001EC04C
 		public override string GetReport()
 		{
 			IntVec3 cell = this.job.targetB.Cell;
@@ -59,13 +59,13 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003A3B RID: 14907 RVA: 0x001EDC80 File Offset: 0x001EC080
+		// Token: 0x06003A3D RID: 14909 RVA: 0x001EDD54 File Offset: 0x001EC154
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.job.GetTarget(TargetIndex.B), this.job, 1, -1, null) && this.pawn.Reserve(this.job.GetTarget(TargetIndex.A), this.job, 1, -1, null);
 		}
 
-		// Token: 0x06003A3C RID: 14908 RVA: 0x001EDCDD File Offset: 0x001EC0DD
+		// Token: 0x06003A3E RID: 14910 RVA: 0x001EDDB1 File Offset: 0x001EC1B1
 		public override void Notify_Starting()
 		{
 			base.Notify_Starting();
@@ -79,7 +79,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003A3D RID: 14909 RVA: 0x001EDD14 File Offset: 0x001EC114
+		// Token: 0x06003A3F RID: 14911 RVA: 0x001EDDE8 File Offset: 0x001EC1E8
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDestroyedOrNull(TargetIndex.A);

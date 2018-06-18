@@ -10,7 +10,7 @@ namespace RimWorld
 	// Token: 0x02000751 RID: 1873
 	public static class ShipUtility
 	{
-		// Token: 0x0600297D RID: 10621 RVA: 0x0016063C File Offset: 0x0015EA3C
+		// Token: 0x0600297F RID: 10623 RVA: 0x001606D0 File Offset: 0x0015EAD0
 		public static Dictionary<ThingDef, int> RequiredParts()
 		{
 			if (ShipUtility.requiredParts == null)
@@ -26,7 +26,7 @@ namespace RimWorld
 			return ShipUtility.requiredParts;
 		}
 
-		// Token: 0x0600297E RID: 10622 RVA: 0x001606CC File Offset: 0x0015EACC
+		// Token: 0x06002980 RID: 10624 RVA: 0x00160760 File Offset: 0x0015EB60
 		public static IEnumerable<string> LaunchFailReasons(Building rootBuilding)
 		{
 			List<Building> shipParts = ShipUtility.ShipBuildingsAttachedTo(rootBuilding).ToList<Building>();
@@ -81,7 +81,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600297F RID: 10623 RVA: 0x001606F8 File Offset: 0x0015EAF8
+		// Token: 0x06002981 RID: 10625 RVA: 0x0016078C File Offset: 0x0015EB8C
 		public static bool HasHibernatingParts(Building rootBuilding)
 		{
 			List<Building> list = ShipUtility.ShipBuildingsAttachedTo(rootBuilding).ToList<Building>();
@@ -96,7 +96,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06002980 RID: 10624 RVA: 0x00160788 File Offset: 0x0015EB88
+		// Token: 0x06002982 RID: 10626 RVA: 0x0016081C File Offset: 0x0015EC1C
 		public static void StartupHibernatingParts(Building rootBuilding)
 		{
 			List<Building> list = ShipUtility.ShipBuildingsAttachedTo(rootBuilding).ToList<Building>();
@@ -110,7 +110,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002981 RID: 10625 RVA: 0x0016080C File Offset: 0x0015EC0C
+		// Token: 0x06002983 RID: 10627 RVA: 0x001608A0 File Offset: 0x0015ECA0
 		public static List<Building> ShipBuildingsAttachedTo(Building root)
 		{
 			ShipUtility.closedSet.Clear();
@@ -142,7 +142,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002982 RID: 10626 RVA: 0x0016094C File Offset: 0x0015ED4C
+		// Token: 0x06002984 RID: 10628 RVA: 0x001609E0 File Offset: 0x0015EDE0
 		public static IEnumerable<Gizmo> ShipStartupGizmos(Building building)
 		{
 			if (ShipUtility.HasHibernatingParts(building))

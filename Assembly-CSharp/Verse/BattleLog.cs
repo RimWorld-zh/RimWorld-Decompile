@@ -9,7 +9,7 @@ namespace Verse
 	public class BattleLog : IExposable
 	{
 		// Token: 0x17000A2B RID: 2603
-		// (get) Token: 0x06004116 RID: 16662 RVA: 0x00225578 File Offset: 0x00223978
+		// (get) Token: 0x06004118 RID: 16664 RVA: 0x0022564C File Offset: 0x00223A4C
 		public List<Battle> Battles
 		{
 			get
@@ -18,7 +18,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004117 RID: 16663 RVA: 0x00225594 File Offset: 0x00223994
+		// Token: 0x06004119 RID: 16665 RVA: 0x00225668 File Offset: 0x00223A68
 		public void Add(LogEntry entry)
 		{
 			Battle battle = null;
@@ -56,7 +56,7 @@ namespace Verse
 			this.ReduceToCapacity();
 		}
 
-		// Token: 0x06004118 RID: 16664 RVA: 0x002256EC File Offset: 0x00223AEC
+		// Token: 0x0600411A RID: 16666 RVA: 0x002257C0 File Offset: 0x00223BC0
 		private void ReduceToCapacity()
 		{
 			int num = this.battles.Count((Battle btl) => btl.AbsorbedBy == null);
@@ -71,7 +71,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004119 RID: 16665 RVA: 0x002257B3 File Offset: 0x00223BB3
+		// Token: 0x0600411B RID: 16667 RVA: 0x00225887 File Offset: 0x00223C87
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Battle>(ref this.battles, "battles", LookMode.Deep, new object[0]);
@@ -81,7 +81,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600411A RID: 16666 RVA: 0x002257F0 File Offset: 0x00223BF0
+		// Token: 0x0600411C RID: 16668 RVA: 0x002258C4 File Offset: 0x00223CC4
 		public bool AnyEntryConcerns(Pawn p)
 		{
 			for (int i = 0; i < this.battles.Count; i++)
@@ -94,7 +94,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x0600411B RID: 16667 RVA: 0x00225844 File Offset: 0x00223C44
+		// Token: 0x0600411D RID: 16669 RVA: 0x00225918 File Offset: 0x00223D18
 		public bool IsEntryActive(LogEntry log)
 		{
 			if (this.activeEntries == null)
@@ -112,7 +112,7 @@ namespace Verse
 			return this.activeEntries.Contains(log);
 		}
 
-		// Token: 0x0600411C RID: 16668 RVA: 0x002258DC File Offset: 0x00223CDC
+		// Token: 0x0600411E RID: 16670 RVA: 0x002259B0 File Offset: 0x00223DB0
 		public void Notify_PawnDiscarded(Pawn p, bool silentlyRemoveReferences)
 		{
 			for (int i = this.battles.Count - 1; i >= 0; i--)

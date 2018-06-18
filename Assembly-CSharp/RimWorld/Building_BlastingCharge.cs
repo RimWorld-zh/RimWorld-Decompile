@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000685 RID: 1669
 	public class Building_BlastingCharge : Building
 	{
-		// Token: 0x0600231F RID: 8991 RVA: 0x0012E0C4 File Offset: 0x0012C4C4
+		// Token: 0x06002321 RID: 8993 RVA: 0x0012E13C File Offset: 0x0012C53C
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			Command_Action com = new Command_Action();
@@ -24,7 +24,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002320 RID: 8992 RVA: 0x0012E0EE File Offset: 0x0012C4EE
+		// Token: 0x06002322 RID: 8994 RVA: 0x0012E166 File Offset: 0x0012C566
 		private void Command_Detonate()
 		{
 			base.GetComp<CompExplosive>().StartWick(null);

@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E4C RID: 3660
+	// Token: 0x02000E4B RID: 3659
 	internal class EditWindow_DefEditor : EditWindow
 	{
-		// Token: 0x0600562B RID: 22059 RVA: 0x002C5E88 File Offset: 0x002C4288
+		// Token: 0x06005629 RID: 22057 RVA: 0x002C5E88 File Offset: 0x002C4288
 		public EditWindow_DefEditor(Def def)
 		{
 			this.def = def;
@@ -15,8 +15,8 @@ namespace Verse
 			this.optionalTitle = def.ToString();
 		}
 
-		// Token: 0x17000D7D RID: 3453
-		// (get) Token: 0x0600562C RID: 22060 RVA: 0x002C5ED8 File Offset: 0x002C42D8
+		// Token: 0x17000D7C RID: 3452
+		// (get) Token: 0x0600562A RID: 22058 RVA: 0x002C5ED8 File Offset: 0x002C42D8
 		public override Vector2 InitialSize
 		{
 			get
@@ -25,8 +25,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D7E RID: 3454
-		// (get) Token: 0x0600562D RID: 22061 RVA: 0x002C5EFC File Offset: 0x002C42FC
+		// Token: 0x17000D7D RID: 3453
+		// (get) Token: 0x0600562B RID: 22059 RVA: 0x002C5EFC File Offset: 0x002C42FC
 		public override bool IsDebug
 		{
 			get
@@ -35,7 +35,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600562E RID: 22062 RVA: 0x002C5F14 File Offset: 0x002C4314
+		// Token: 0x0600562C RID: 22060 RVA: 0x002C5F14 File Offset: 0x002C4314
 		public override void DoWindowContents(Rect inRect)
 		{
 			if (Event.current.type == EventType.KeyDown && (Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.KeypadEnter || Event.current.keyCode == KeyCode.Escape))
@@ -60,22 +60,22 @@ namespace Verse
 			Widgets.EndScrollView();
 		}
 
-		// Token: 0x040038EA RID: 14570
+		// Token: 0x040038E8 RID: 14568
 		public Def def;
 
-		// Token: 0x040038EB RID: 14571
+		// Token: 0x040038E9 RID: 14569
 		private float viewHeight;
 
-		// Token: 0x040038EC RID: 14572
+		// Token: 0x040038EA RID: 14570
 		private Vector2 scrollPosition = default(Vector2);
 
-		// Token: 0x040038ED RID: 14573
+		// Token: 0x040038EB RID: 14571
 		private float labelColumnWidth = 140f;
 
-		// Token: 0x040038EE RID: 14574
+		// Token: 0x040038EC RID: 14572
 		private const float TopAreaHeight = 16f;
 
-		// Token: 0x040038EF RID: 14575
+		// Token: 0x040038ED RID: 14573
 		private const float ExtraScrollHeight = 200f;
 	}
 }

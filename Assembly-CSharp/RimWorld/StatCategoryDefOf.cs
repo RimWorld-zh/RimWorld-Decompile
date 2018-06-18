@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class StatCategoryDefOf
 	{
-		// Token: 0x06003643 RID: 13891 RVA: 0x001D0869 File Offset: 0x001CEC69
+		// Token: 0x06003645 RID: 13893 RVA: 0x001D0931 File Offset: 0x001CED31
 		static StatCategoryDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(StatCategoryDefOf));

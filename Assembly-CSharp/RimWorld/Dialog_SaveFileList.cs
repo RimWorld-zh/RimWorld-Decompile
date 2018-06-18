@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000811 RID: 2065
 	public abstract class Dialog_SaveFileList : Dialog_FileList
 	{
-		// Token: 0x06002E1A RID: 11802 RVA: 0x00184978 File Offset: 0x00182D78
+		// Token: 0x06002E1C RID: 11804 RVA: 0x00184A0C File Offset: 0x00182E0C
 		protected override Color FileNameColor(SaveFileInfo sfi)
 		{
 			string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(sfi.FileInfo.Name);
@@ -19,7 +19,7 @@ namespace RimWorld
 			return base.FileNameColor(sfi);
 		}
 
-		// Token: 0x06002E1B RID: 11803 RVA: 0x001849BC File Offset: 0x00182DBC
+		// Token: 0x06002E1D RID: 11805 RVA: 0x00184A50 File Offset: 0x00182E50
 		protected override void ReloadFiles()
 		{
 			this.files.Clear();
@@ -36,7 +36,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E1C RID: 11804 RVA: 0x00184A6C File Offset: 0x00182E6C
+		// Token: 0x06002E1E RID: 11806 RVA: 0x00184B00 File Offset: 0x00182F00
 		public override void PostClose()
 		{
 			if (Current.ProgramState == ProgramState.Playing)

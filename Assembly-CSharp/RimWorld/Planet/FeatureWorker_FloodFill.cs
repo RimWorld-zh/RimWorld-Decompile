@@ -9,7 +9,7 @@ namespace RimWorld.Planet
 	public abstract class FeatureWorker_FloodFill : FeatureWorker
 	{
 		// Token: 0x170003B6 RID: 950
-		// (get) Token: 0x06001A4A RID: 6730 RVA: 0x000E3830 File Offset: 0x000E1C30
+		// (get) Token: 0x06001A4B RID: 6731 RVA: 0x000E3884 File Offset: 0x000E1C84
 		protected virtual int MinSize
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003B7 RID: 951
-		// (get) Token: 0x06001A4B RID: 6731 RVA: 0x000E3850 File Offset: 0x000E1C50
+		// (get) Token: 0x06001A4C RID: 6732 RVA: 0x000E38A4 File Offset: 0x000E1CA4
 		protected virtual int MaxSize
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003B8 RID: 952
-		// (get) Token: 0x06001A4C RID: 6732 RVA: 0x000E3870 File Offset: 0x000E1C70
+		// (get) Token: 0x06001A4D RID: 6733 RVA: 0x000E38C4 File Offset: 0x000E1CC4
 		protected virtual int MaxPossiblyAllowedSizeToTake
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003B9 RID: 953
-		// (get) Token: 0x06001A4D RID: 6733 RVA: 0x000E3890 File Offset: 0x000E1C90
+		// (get) Token: 0x06001A4E RID: 6734 RVA: 0x000E38E4 File Offset: 0x000E1CE4
 		protected virtual float MaxPossiblyAllowedSizePctOfMeToTake
 		{
 			get
@@ -48,29 +48,29 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001A4E RID: 6734
+		// Token: 0x06001A4F RID: 6735
 		protected abstract bool IsRoot(int tile);
 
-		// Token: 0x06001A4F RID: 6735 RVA: 0x000E38B0 File Offset: 0x000E1CB0
+		// Token: 0x06001A50 RID: 6736 RVA: 0x000E3904 File Offset: 0x000E1D04
 		protected virtual bool IsPossiblyAllowed(int tile)
 		{
 			return false;
 		}
 
-		// Token: 0x06001A50 RID: 6736 RVA: 0x000E38C8 File Offset: 0x000E1CC8
+		// Token: 0x06001A51 RID: 6737 RVA: 0x000E391C File Offset: 0x000E1D1C
 		protected virtual bool IsMember(int tile)
 		{
 			return Find.WorldGrid[tile].feature == null;
 		}
 
-		// Token: 0x06001A51 RID: 6737 RVA: 0x000E38F0 File Offset: 0x000E1CF0
+		// Token: 0x06001A52 RID: 6738 RVA: 0x000E3944 File Offset: 0x000E1D44
 		public override void GenerateWhereAppropriate()
 		{
 			this.CalculateRootsAndPossiblyAllowedTiles();
 			this.CalculateContiguousGroups();
 		}
 
-		// Token: 0x06001A52 RID: 6738 RVA: 0x000E3900 File Offset: 0x000E1D00
+		// Token: 0x06001A53 RID: 6739 RVA: 0x000E3954 File Offset: 0x000E1D54
 		private void CalculateRootsAndPossiblyAllowedTiles()
 		{
 			this.roots.Clear();
@@ -93,7 +93,7 @@ namespace RimWorld.Planet
 			this.possiblyAllowedSet.AddRange(this.possiblyAllowed);
 		}
 
-		// Token: 0x06001A53 RID: 6739 RVA: 0x000E39AC File Offset: 0x000E1DAC
+		// Token: 0x06001A54 RID: 6740 RVA: 0x000E3A00 File Offset: 0x000E1E00
 		private void CalculateContiguousGroups()
 		{
 			WorldFloodFiller worldFloodFiller = Find.WorldFloodFiller;

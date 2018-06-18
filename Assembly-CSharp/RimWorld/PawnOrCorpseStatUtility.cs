@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020009A8 RID: 2472
 	public static class PawnOrCorpseStatUtility
 	{
-		// Token: 0x06003764 RID: 14180 RVA: 0x001D9098 File Offset: 0x001D7498
+		// Token: 0x06003766 RID: 14182 RVA: 0x001D916C File Offset: 0x001D756C
 		public static bool TryGetPawnOrCorpseStat(StatRequest req, Func<Pawn, float> pawnStatGetter, Func<ThingDef, float> pawnDefStatGetter, out float stat)
 		{
 			if (req.HasThing)

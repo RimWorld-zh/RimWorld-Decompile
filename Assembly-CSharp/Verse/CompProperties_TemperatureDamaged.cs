@@ -5,7 +5,7 @@ namespace Verse
 	// Token: 0x02000B14 RID: 2836
 	public class CompProperties_TemperatureDamaged : CompProperties
 	{
-		// Token: 0x06003EA2 RID: 16034 RVA: 0x0020F527 File Offset: 0x0020D927
+		// Token: 0x06003EA4 RID: 16036 RVA: 0x0020F5FB File Offset: 0x0020D9FB
 		public CompProperties_TemperatureDamaged()
 		{
 			this.compClass = typeof(CompTemperatureDamaged);

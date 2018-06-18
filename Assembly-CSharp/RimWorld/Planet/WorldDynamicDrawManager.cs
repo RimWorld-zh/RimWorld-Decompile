@@ -7,7 +7,7 @@ namespace RimWorld.Planet
 	// Token: 0x0200058C RID: 1420
 	public class WorldDynamicDrawManager
 	{
-		// Token: 0x06001B14 RID: 6932 RVA: 0x000E85E4 File Offset: 0x000E69E4
+		// Token: 0x06001B15 RID: 6933 RVA: 0x000E8650 File Offset: 0x000E6A50
 		public void RegisterDrawable(WorldObject o)
 		{
 			if (o.def.useDynamicDrawer)
@@ -20,7 +20,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B15 RID: 6933 RVA: 0x000E8634 File Offset: 0x000E6A34
+		// Token: 0x06001B16 RID: 6934 RVA: 0x000E86A0 File Offset: 0x000E6AA0
 		public void DeRegisterDrawable(WorldObject o)
 		{
 			if (o.def.useDynamicDrawer)
@@ -33,7 +33,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B16 RID: 6934 RVA: 0x000E8684 File Offset: 0x000E6A84
+		// Token: 0x06001B17 RID: 6935 RVA: 0x000E86F0 File Offset: 0x000E6AF0
 		public void DrawDynamicWorldObjects()
 		{
 			this.drawingNow = true;

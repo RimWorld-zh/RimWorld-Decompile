@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200071B RID: 1819
 	public class CompIngredients : ThingComp
 	{
-		// Token: 0x060027F3 RID: 10227 RVA: 0x001555D8 File Offset: 0x001539D8
+		// Token: 0x060027F5 RID: 10229 RVA: 0x00155650 File Offset: 0x00153A50
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -22,7 +22,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027F4 RID: 10228 RVA: 0x00155626 File Offset: 0x00153A26
+		// Token: 0x060027F6 RID: 10230 RVA: 0x0015569E File Offset: 0x00153A9E
 		public void RegisterIngredient(ThingDef def)
 		{
 			if (!this.ingredients.Contains(def))
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027F5 RID: 10229 RVA: 0x00155648 File Offset: 0x00153A48
+		// Token: 0x060027F7 RID: 10231 RVA: 0x001556C0 File Offset: 0x00153AC0
 		public override void PostSplitOff(Thing piece)
 		{
 			base.PostSplitOff(piece);
@@ -45,7 +45,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027F6 RID: 10230 RVA: 0x001556A8 File Offset: 0x00153AA8
+		// Token: 0x060027F8 RID: 10232 RVA: 0x00155720 File Offset: 0x00153B20
 		public override void PreAbsorbStack(Thing otherStack, int count)
 		{
 			base.PreAbsorbStack(otherStack, count);
@@ -68,7 +68,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027F7 RID: 10231 RVA: 0x00155768 File Offset: 0x00153B68
+		// Token: 0x060027F9 RID: 10233 RVA: 0x001557E0 File Offset: 0x00153BE0
 		public override string CompInspectStringExtra()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

@@ -10,7 +10,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class SkillUI
 	{
-		// Token: 0x06003296 RID: 12950 RVA: 0x001B3644 File Offset: 0x001B1A44
+		// Token: 0x06003298 RID: 12952 RVA: 0x001B370C File Offset: 0x001B1B0C
 		public static void DrawSkillsOf(Pawn p, Vector2 offset, SkillUI.SkillDrawMode mode)
 		{
 			Text.Font = GameFont.Small;
@@ -30,13 +30,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003297 RID: 12951 RVA: 0x001B370C File Offset: 0x001B1B0C
+		// Token: 0x06003299 RID: 12953 RVA: 0x001B37D4 File Offset: 0x001B1BD4
 		public static void DrawSkill(SkillRecord skill, Vector2 topLeft, SkillUI.SkillDrawMode mode, string tooltipPrefix = "")
 		{
 			SkillUI.DrawSkill(skill, new Rect(topLeft.x, topLeft.y, 240f, 24f), mode, "");
 		}
 
-		// Token: 0x06003298 RID: 12952 RVA: 0x001B3738 File Offset: 0x001B1B38
+		// Token: 0x0600329A RID: 12954 RVA: 0x001B3800 File Offset: 0x001B1C00
 		public static void DrawSkill(SkillRecord skill, Rect holdingRect, SkillUI.SkillDrawMode mode, string tooltipPrefix = "")
 		{
 			if (Mouse.IsOver(holdingRect))
@@ -84,7 +84,7 @@ namespace RimWorld
 			TooltipHandler.TipRegion(holdingRect, new TipSignal(text, skill.def.GetHashCode() * 397945));
 		}
 
-		// Token: 0x06003299 RID: 12953 RVA: 0x001B3920 File Offset: 0x001B1D20
+		// Token: 0x0600329B RID: 12955 RVA: 0x001B39E8 File Offset: 0x001B1DE8
 		private static string GetSkillDescription(SkillRecord sk)
 		{
 			StringBuilder stringBuilder = new StringBuilder();

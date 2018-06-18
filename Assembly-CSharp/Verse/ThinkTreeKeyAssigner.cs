@@ -7,13 +7,13 @@ namespace Verse
 	// Token: 0x02000BAF RID: 2991
 	public static class ThinkTreeKeyAssigner
 	{
-		// Token: 0x060040DA RID: 16602 RVA: 0x002239EE File Offset: 0x00221DEE
+		// Token: 0x060040DC RID: 16604 RVA: 0x00223AC2 File Offset: 0x00221EC2
 		internal static void Reset()
 		{
 			ThinkTreeKeyAssigner.assignedKeys.Clear();
 		}
 
-		// Token: 0x060040DB RID: 16603 RVA: 0x002239FC File Offset: 0x00221DFC
+		// Token: 0x060040DD RID: 16605 RVA: 0x00223AD0 File Offset: 0x00221ED0
 		public static void AssignKeys(ThinkNode rootNode, int startHash)
 		{
 			Rand.PushState(startHash);
@@ -24,7 +24,7 @@ namespace Verse
 			Rand.PopState();
 		}
 
-		// Token: 0x060040DC RID: 16604 RVA: 0x00223A6C File Offset: 0x00221E6C
+		// Token: 0x060040DE RID: 16606 RVA: 0x00223B40 File Offset: 0x00221F40
 		public static void AssignSingleKey(ThinkNode node, int startHash)
 		{
 			Rand.PushState(startHash);
@@ -32,7 +32,7 @@ namespace Verse
 			Rand.PopState();
 		}
 
-		// Token: 0x060040DD RID: 16605 RVA: 0x00223A88 File Offset: 0x00221E88
+		// Token: 0x060040DF RID: 16607 RVA: 0x00223B5C File Offset: 0x00221F5C
 		private static int NextUnusedKeyFor(ThinkNode node)
 		{
 			int num = 0;

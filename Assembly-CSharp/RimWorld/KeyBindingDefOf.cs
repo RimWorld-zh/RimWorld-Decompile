@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class KeyBindingDefOf
 	{
-		// Token: 0x06003653 RID: 13907 RVA: 0x001D0989 File Offset: 0x001CED89
+		// Token: 0x06003655 RID: 13909 RVA: 0x001D0A51 File Offset: 0x001CEE51
 		static KeyBindingDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(KeyBindingDefOf));

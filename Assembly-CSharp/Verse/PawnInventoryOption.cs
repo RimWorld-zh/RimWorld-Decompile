@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000B5D RID: 2909
 	public class PawnInventoryOption
 	{
-		// Token: 0x06003F84 RID: 16260 RVA: 0x00216E34 File Offset: 0x00215234
+		// Token: 0x06003F86 RID: 16262 RVA: 0x00216F08 File Offset: 0x00215308
 		public IEnumerable<Thing> GenerateThings()
 		{
 			if (Rand.Value < this.skipChance)

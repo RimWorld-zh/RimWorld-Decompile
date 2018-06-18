@@ -3,10 +3,10 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000E72 RID: 3698
+	// Token: 0x02000E71 RID: 3697
 	public static class LetterMaker
 	{
-		// Token: 0x060056ED RID: 22253 RVA: 0x002CB6B4 File Offset: 0x002C9AB4
+		// Token: 0x060056EB RID: 22251 RVA: 0x002CB6B4 File Offset: 0x002C9AB4
 		public static Letter MakeLetter(LetterDef def)
 		{
 			Letter letter = (Letter)Activator.CreateInstance(def.letterClass);
@@ -15,7 +15,7 @@ namespace Verse
 			return letter;
 		}
 
-		// Token: 0x060056EE RID: 22254 RVA: 0x002CB6F4 File Offset: 0x002C9AF4
+		// Token: 0x060056EC RID: 22252 RVA: 0x002CB6F4 File Offset: 0x002C9AF4
 		public static ChoiceLetter MakeLetter(string label, string text, LetterDef def)
 		{
 			ChoiceLetter result;
@@ -34,7 +34,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060056EF RID: 22255 RVA: 0x002CB758 File Offset: 0x002C9B58
+		// Token: 0x060056ED RID: 22253 RVA: 0x002CB758 File Offset: 0x002C9B58
 		public static ChoiceLetter MakeLetter(string label, string text, LetterDef def, LookTargets lookTargets, Faction relatedFaction = null)
 		{
 			ChoiceLetter choiceLetter = LetterMaker.MakeLetter(label, text, def);

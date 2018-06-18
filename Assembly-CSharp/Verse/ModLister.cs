@@ -6,17 +6,17 @@ using Verse.Steam;
 
 namespace Verse
 {
-	// Token: 0x02000CC8 RID: 3272
+	// Token: 0x02000CC7 RID: 3271
 	public static class ModLister
 	{
-		// Token: 0x06004824 RID: 18468 RVA: 0x0025EE17 File Offset: 0x0025D217
+		// Token: 0x06004822 RID: 18466 RVA: 0x0025EDEF File Offset: 0x0025D1EF
 		static ModLister()
 		{
 			ModLister.RebuildModList();
 		}
 
-		// Token: 0x17000B68 RID: 2920
-		// (get) Token: 0x06004825 RID: 18469 RVA: 0x0025EE2C File Offset: 0x0025D22C
+		// Token: 0x17000B67 RID: 2919
+		// (get) Token: 0x06004823 RID: 18467 RVA: 0x0025EE04 File Offset: 0x0025D204
 		public static IEnumerable<ModMetaData> AllInstalledMods
 		{
 			get
@@ -25,8 +25,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B69 RID: 2921
-		// (get) Token: 0x06004826 RID: 18470 RVA: 0x0025EE48 File Offset: 0x0025D248
+		// Token: 0x17000B68 RID: 2920
+		// (get) Token: 0x06004824 RID: 18468 RVA: 0x0025EE20 File Offset: 0x0025D220
 		public static IEnumerable<DirectoryInfo> AllActiveModDirs
 		{
 			get
@@ -37,12 +37,12 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004827 RID: 18471 RVA: 0x0025EEA6 File Offset: 0x0025D2A6
+		// Token: 0x06004825 RID: 18469 RVA: 0x0025EE7E File Offset: 0x0025D27E
 		internal static void EnsureInit()
 		{
 		}
 
-		// Token: 0x06004828 RID: 18472 RVA: 0x0025EEAC File Offset: 0x0025D2AC
+		// Token: 0x06004826 RID: 18470 RVA: 0x0025EE84 File Offset: 0x0025D284
 		internal static void RebuildModList()
 		{
 			string s = "Rebuilding mods list";
@@ -80,7 +80,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004829 RID: 18473 RVA: 0x0025F0F0 File Offset: 0x0025D4F0
+		// Token: 0x06004827 RID: 18471 RVA: 0x0025F0C8 File Offset: 0x0025D4C8
 		public static int InstalledModsListHash(bool activeOnly)
 		{
 			int num = 17;
@@ -96,7 +96,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x0600482A RID: 18474 RVA: 0x0025F16C File Offset: 0x0025D56C
+		// Token: 0x06004828 RID: 18472 RVA: 0x0025F144 File Offset: 0x0025D544
 		internal static ModMetaData GetModWithIdentifier(string identifier)
 		{
 			for (int i = 0; i < ModLister.mods.Count; i++)
@@ -109,7 +109,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x0600482B RID: 18475 RVA: 0x0025F1CC File Offset: 0x0025D5CC
+		// Token: 0x06004829 RID: 18473 RVA: 0x0025F1A4 File Offset: 0x0025D5A4
 		public static bool HasActiveModWithName(string name)
 		{
 			for (int i = 0; i < ModLister.mods.Count; i++)
@@ -122,7 +122,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x040030D9 RID: 12505
+		// Token: 0x040030D7 RID: 12503
 		private static List<ModMetaData> mods = new List<ModMetaData>();
 	}
 }

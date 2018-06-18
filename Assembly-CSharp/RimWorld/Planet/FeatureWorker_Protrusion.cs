@@ -8,7 +8,7 @@ namespace RimWorld.Planet
 	public abstract class FeatureWorker_Protrusion : FeatureWorker
 	{
 		// Token: 0x170003BA RID: 954
-		// (get) Token: 0x06001A5E RID: 6750 RVA: 0x000E416C File Offset: 0x000E256C
+		// (get) Token: 0x06001A5F RID: 6751 RVA: 0x000E41C0 File Offset: 0x000E25C0
 		protected virtual int MinSize
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003BB RID: 955
-		// (get) Token: 0x06001A5F RID: 6751 RVA: 0x000E418C File Offset: 0x000E258C
+		// (get) Token: 0x06001A60 RID: 6752 RVA: 0x000E41E0 File Offset: 0x000E25E0
 		protected virtual int MaxSize
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003BC RID: 956
-		// (get) Token: 0x06001A60 RID: 6752 RVA: 0x000E41AC File Offset: 0x000E25AC
+		// (get) Token: 0x06001A61 RID: 6753 RVA: 0x000E4200 File Offset: 0x000E2600
 		protected virtual int MaxPassageWidth
 		{
 			get
@@ -38,7 +38,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003BD RID: 957
-		// (get) Token: 0x06001A61 RID: 6753 RVA: 0x000E41CC File Offset: 0x000E25CC
+		// (get) Token: 0x06001A62 RID: 6754 RVA: 0x000E4220 File Offset: 0x000E2620
 		protected virtual float MaxPctOfWholeArea
 		{
 			get
@@ -47,16 +47,16 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001A62 RID: 6754
+		// Token: 0x06001A63 RID: 6755
 		protected abstract bool IsRoot(int tile);
 
-		// Token: 0x06001A63 RID: 6755 RVA: 0x000E41EC File Offset: 0x000E25EC
+		// Token: 0x06001A64 RID: 6756 RVA: 0x000E4240 File Offset: 0x000E2640
 		protected virtual bool IsMember(int tile)
 		{
 			return Find.WorldGrid[tile].feature == null;
 		}
 
-		// Token: 0x06001A64 RID: 6756 RVA: 0x000E4214 File Offset: 0x000E2614
+		// Token: 0x06001A65 RID: 6757 RVA: 0x000E4268 File Offset: 0x000E2668
 		public override void GenerateWhereAppropriate()
 		{
 			this.CalculateRoots();
@@ -64,7 +64,7 @@ namespace RimWorld.Planet
 			this.CalculateContiguousGroups();
 		}
 
-		// Token: 0x06001A65 RID: 6757 RVA: 0x000E422C File Offset: 0x000E262C
+		// Token: 0x06001A66 RID: 6758 RVA: 0x000E4280 File Offset: 0x000E2680
 		private void CalculateRoots()
 		{
 			this.roots.Clear();
@@ -80,7 +80,7 @@ namespace RimWorld.Planet
 			this.rootsSet.AddRange(this.roots);
 		}
 
-		// Token: 0x06001A66 RID: 6758 RVA: 0x000E4298 File Offset: 0x000E2698
+		// Token: 0x06001A67 RID: 6759 RVA: 0x000E42EC File Offset: 0x000E26EC
 		private void CalculateRootsWithoutSmallPassages()
 		{
 			this.rootsWithoutSmallPassages.Clear();
@@ -90,7 +90,7 @@ namespace RimWorld.Planet
 			this.rootsWithoutSmallPassagesSet.AddRange(this.rootsWithoutSmallPassages);
 		}
 
-		// Token: 0x06001A67 RID: 6759 RVA: 0x000E42F0 File Offset: 0x000E26F0
+		// Token: 0x06001A68 RID: 6760 RVA: 0x000E4344 File Offset: 0x000E2744
 		private void CalculateContiguousGroups()
 		{
 			WorldGrid worldGrid = Find.WorldGrid;

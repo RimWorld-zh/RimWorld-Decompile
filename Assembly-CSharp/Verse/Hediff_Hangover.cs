@@ -3,11 +3,11 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D2B RID: 3371
+	// Token: 0x02000D2A RID: 3370
 	public class Hediff_Hangover : HediffWithComps
 	{
-		// Token: 0x17000BD0 RID: 3024
-		// (get) Token: 0x06004A2D RID: 18989 RVA: 0x0026AC18 File Offset: 0x00269018
+		// Token: 0x17000BCF RID: 3023
+		// (get) Token: 0x06004A2B RID: 18987 RVA: 0x0026ABF0 File Offset: 0x00268FF0
 		public override bool Visible
 		{
 			get

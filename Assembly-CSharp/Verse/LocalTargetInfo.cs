@@ -4,25 +4,25 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EF1 RID: 3825
+	// Token: 0x02000EF0 RID: 3824
 	public struct LocalTargetInfo : IEquatable<LocalTargetInfo>
 	{
-		// Token: 0x06005B11 RID: 23313 RVA: 0x002E7874 File Offset: 0x002E5C74
+		// Token: 0x06005B0F RID: 23311 RVA: 0x002E794C File Offset: 0x002E5D4C
 		public LocalTargetInfo(Thing thing)
 		{
 			this.thingInt = thing;
 			this.cellInt = IntVec3.Invalid;
 		}
 
-		// Token: 0x06005B12 RID: 23314 RVA: 0x002E7889 File Offset: 0x002E5C89
+		// Token: 0x06005B10 RID: 23312 RVA: 0x002E7961 File Offset: 0x002E5D61
 		public LocalTargetInfo(IntVec3 cell)
 		{
 			this.thingInt = null;
 			this.cellInt = cell;
 		}
 
-		// Token: 0x17000E7F RID: 3711
-		// (get) Token: 0x06005B13 RID: 23315 RVA: 0x002E789C File Offset: 0x002E5C9C
+		// Token: 0x17000E7E RID: 3710
+		// (get) Token: 0x06005B11 RID: 23313 RVA: 0x002E7974 File Offset: 0x002E5D74
 		public bool IsValid
 		{
 			get
@@ -31,8 +31,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E80 RID: 3712
-		// (get) Token: 0x06005B14 RID: 23316 RVA: 0x002E78CC File Offset: 0x002E5CCC
+		// Token: 0x17000E7F RID: 3711
+		// (get) Token: 0x06005B12 RID: 23314 RVA: 0x002E79A4 File Offset: 0x002E5DA4
 		public bool HasThing
 		{
 			get
@@ -41,8 +41,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E81 RID: 3713
-		// (get) Token: 0x06005B15 RID: 23317 RVA: 0x002E78F0 File Offset: 0x002E5CF0
+		// Token: 0x17000E80 RID: 3712
+		// (get) Token: 0x06005B13 RID: 23315 RVA: 0x002E79C8 File Offset: 0x002E5DC8
 		public Thing Thing
 		{
 			get
@@ -51,8 +51,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E82 RID: 3714
-		// (get) Token: 0x06005B16 RID: 23318 RVA: 0x002E790C File Offset: 0x002E5D0C
+		// Token: 0x17000E81 RID: 3713
+		// (get) Token: 0x06005B14 RID: 23316 RVA: 0x002E79E4 File Offset: 0x002E5DE4
 		public bool ThingDestroyed
 		{
 			get
@@ -61,8 +61,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E83 RID: 3715
-		// (get) Token: 0x06005B17 RID: 23319 RVA: 0x002E793C File Offset: 0x002E5D3C
+		// Token: 0x17000E82 RID: 3714
+		// (get) Token: 0x06005B15 RID: 23317 RVA: 0x002E7A14 File Offset: 0x002E5E14
 		public static LocalTargetInfo Invalid
 		{
 			get
@@ -71,8 +71,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E84 RID: 3716
-		// (get) Token: 0x06005B18 RID: 23320 RVA: 0x002E795C File Offset: 0x002E5D5C
+		// Token: 0x17000E83 RID: 3715
+		// (get) Token: 0x06005B16 RID: 23318 RVA: 0x002E7A34 File Offset: 0x002E5E34
 		public IntVec3 Cell
 		{
 			get
@@ -90,8 +90,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E85 RID: 3717
-		// (get) Token: 0x06005B19 RID: 23321 RVA: 0x002E7994 File Offset: 0x002E5D94
+		// Token: 0x17000E84 RID: 3716
+		// (get) Token: 0x06005B17 RID: 23319 RVA: 0x002E7A6C File Offset: 0x002E5E6C
 		public Vector3 CenterVector3
 		{
 			get
@@ -124,19 +124,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B1A RID: 23322 RVA: 0x002E7A44 File Offset: 0x002E5E44
+		// Token: 0x06005B18 RID: 23320 RVA: 0x002E7B1C File Offset: 0x002E5F1C
 		public static implicit operator LocalTargetInfo(Thing t)
 		{
 			return new LocalTargetInfo(t);
 		}
 
-		// Token: 0x06005B1B RID: 23323 RVA: 0x002E7A60 File Offset: 0x002E5E60
+		// Token: 0x06005B19 RID: 23321 RVA: 0x002E7B38 File Offset: 0x002E5F38
 		public static implicit operator LocalTargetInfo(IntVec3 c)
 		{
 			return new LocalTargetInfo(c);
 		}
 
-		// Token: 0x06005B1C RID: 23324 RVA: 0x002E7A7C File Offset: 0x002E5E7C
+		// Token: 0x06005B1A RID: 23322 RVA: 0x002E7B54 File Offset: 0x002E5F54
 		public static explicit operator IntVec3(LocalTargetInfo targ)
 		{
 			if (targ.thingInt != null)
@@ -146,7 +146,7 @@ namespace Verse
 			return targ.Cell;
 		}
 
-		// Token: 0x06005B1D RID: 23325 RVA: 0x002E7AC0 File Offset: 0x002E5EC0
+		// Token: 0x06005B1B RID: 23323 RVA: 0x002E7B98 File Offset: 0x002E5F98
 		public static explicit operator Thing(LocalTargetInfo targ)
 		{
 			if (targ.cellInt.IsValid)
@@ -156,7 +156,7 @@ namespace Verse
 			return targ.thingInt;
 		}
 
-		// Token: 0x06005B1E RID: 23326 RVA: 0x002E7B10 File Offset: 0x002E5F10
+		// Token: 0x06005B1C RID: 23324 RVA: 0x002E7BE8 File Offset: 0x002E5FE8
 		public TargetInfo ToTargetInfo(Map map)
 		{
 			TargetInfo result;
@@ -175,7 +175,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005B1F RID: 23327 RVA: 0x002E7B64 File Offset: 0x002E5F64
+		// Token: 0x06005B1D RID: 23325 RVA: 0x002E7C3C File Offset: 0x002E603C
 		public GlobalTargetInfo ToGlobalTargetInfo(Map map)
 		{
 			GlobalTargetInfo result;
@@ -194,7 +194,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005B20 RID: 23328 RVA: 0x002E7BB8 File Offset: 0x002E5FB8
+		// Token: 0x06005B1E RID: 23326 RVA: 0x002E7C90 File Offset: 0x002E6090
 		public static bool operator ==(LocalTargetInfo a, LocalTargetInfo b)
 		{
 			bool result;
@@ -209,25 +209,25 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005B21 RID: 23329 RVA: 0x002E7C38 File Offset: 0x002E6038
+		// Token: 0x06005B1F RID: 23327 RVA: 0x002E7D10 File Offset: 0x002E6110
 		public static bool operator !=(LocalTargetInfo a, LocalTargetInfo b)
 		{
 			return !(a == b);
 		}
 
-		// Token: 0x06005B22 RID: 23330 RVA: 0x002E7C58 File Offset: 0x002E6058
+		// Token: 0x06005B20 RID: 23328 RVA: 0x002E7D30 File Offset: 0x002E6130
 		public override bool Equals(object obj)
 		{
 			return obj is LocalTargetInfo && this.Equals((LocalTargetInfo)obj);
 		}
 
-		// Token: 0x06005B23 RID: 23331 RVA: 0x002E7C8C File Offset: 0x002E608C
+		// Token: 0x06005B21 RID: 23329 RVA: 0x002E7D64 File Offset: 0x002E6164
 		public bool Equals(LocalTargetInfo other)
 		{
 			return this == other;
 		}
 
-		// Token: 0x06005B24 RID: 23332 RVA: 0x002E7CB0 File Offset: 0x002E60B0
+		// Token: 0x06005B22 RID: 23330 RVA: 0x002E7D88 File Offset: 0x002E6188
 		public override int GetHashCode()
 		{
 			int hashCode;
@@ -242,7 +242,7 @@ namespace Verse
 			return hashCode;
 		}
 
-		// Token: 0x06005B25 RID: 23333 RVA: 0x002E7CF4 File Offset: 0x002E60F4
+		// Token: 0x06005B23 RID: 23331 RVA: 0x002E7DCC File Offset: 0x002E61CC
 		public override string ToString()
 		{
 			string result;
@@ -261,10 +261,10 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04003C92 RID: 15506
+		// Token: 0x04003C91 RID: 15505
 		private Thing thingInt;
 
-		// Token: 0x04003C93 RID: 15507
+		// Token: 0x04003C92 RID: 15506
 		private IntVec3 cellInt;
 	}
 }

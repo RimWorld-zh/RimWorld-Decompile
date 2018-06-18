@@ -8,7 +8,7 @@ namespace RimWorld
 	public class TransferableImmutable : Transferable
 	{
 		// Token: 0x17000769 RID: 1897
-		// (get) Token: 0x06002EC2 RID: 11970 RVA: 0x0018EEF0 File Offset: 0x0018D2F0
+		// (get) Token: 0x06002EC4 RID: 11972 RVA: 0x0018EF84 File Offset: 0x0018D384
 		public override Thing AnyThing
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700076A RID: 1898
-		// (get) Token: 0x06002EC3 RID: 11971 RVA: 0x0018EF24 File Offset: 0x0018D324
+		// (get) Token: 0x06002EC5 RID: 11973 RVA: 0x0018EFB8 File Offset: 0x0018D3B8
 		public override ThingDef ThingDef
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700076B RID: 1899
-		// (get) Token: 0x06002EC4 RID: 11972 RVA: 0x0018EF58 File Offset: 0x0018D358
+		// (get) Token: 0x06002EC6 RID: 11974 RVA: 0x0018EFEC File Offset: 0x0018D3EC
 		public override bool HasAnyThing
 		{
 			get
@@ -38,7 +38,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700076C RID: 1900
-		// (get) Token: 0x06002EC5 RID: 11973 RVA: 0x0018EF80 File Offset: 0x0018D380
+		// (get) Token: 0x06002EC7 RID: 11975 RVA: 0x0018F014 File Offset: 0x0018D414
 		public override string Label
 		{
 			get
@@ -48,7 +48,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700076D RID: 1901
-		// (get) Token: 0x06002EC6 RID: 11974 RVA: 0x0018EFA0 File Offset: 0x0018D3A0
+		// (get) Token: 0x06002EC8 RID: 11976 RVA: 0x0018F034 File Offset: 0x0018D434
 		public override bool Interactive
 		{
 			get
@@ -58,7 +58,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700076E RID: 1902
-		// (get) Token: 0x06002EC7 RID: 11975 RVA: 0x0018EFB8 File Offset: 0x0018D3B8
+		// (get) Token: 0x06002EC9 RID: 11977 RVA: 0x0018F04C File Offset: 0x0018D44C
 		public override TransferablePositiveCountDirection PositiveCountDirection
 		{
 			get
@@ -68,7 +68,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700076F RID: 1903
-		// (get) Token: 0x06002EC8 RID: 11976 RVA: 0x0018EFD0 File Offset: 0x0018D3D0
+		// (get) Token: 0x06002ECA RID: 11978 RVA: 0x0018F064 File Offset: 0x0018D464
 		public override string TipDescription
 		{
 			get
@@ -78,8 +78,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000770 RID: 1904
-		// (get) Token: 0x06002EC9 RID: 11977 RVA: 0x0018F008 File Offset: 0x0018D408
-		// (set) Token: 0x06002ECA RID: 11978 RVA: 0x0018F01E File Offset: 0x0018D41E
+		// (get) Token: 0x06002ECB RID: 11979 RVA: 0x0018F09C File Offset: 0x0018D49C
+		// (set) Token: 0x06002ECC RID: 11980 RVA: 0x0018F0B2 File Offset: 0x0018D4B2
 		public override int CountToTransfer
 		{
 			get
@@ -96,7 +96,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000771 RID: 1905
-		// (get) Token: 0x06002ECB RID: 11979 RVA: 0x0018F034 File Offset: 0x0018D434
+		// (get) Token: 0x06002ECD RID: 11981 RVA: 0x0018F0C8 File Offset: 0x0018D4C8
 		public string LabelWithTotalStackCount
 		{
 			get
@@ -112,7 +112,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000772 RID: 1906
-		// (get) Token: 0x06002ECC RID: 11980 RVA: 0x0018F074 File Offset: 0x0018D474
+		// (get) Token: 0x06002ECE RID: 11982 RVA: 0x0018F108 File Offset: 0x0018D508
 		public string LabelCapWithTotalStackCount
 		{
 			get
@@ -122,7 +122,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000773 RID: 1907
-		// (get) Token: 0x06002ECD RID: 11981 RVA: 0x0018F094 File Offset: 0x0018D494
+		// (get) Token: 0x06002ECF RID: 11983 RVA: 0x0018F128 File Offset: 0x0018D528
 		public int TotalStackCount
 		{
 			get
@@ -136,25 +136,25 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002ECE RID: 11982 RVA: 0x0018F0E0 File Offset: 0x0018D4E0
+		// Token: 0x06002ED0 RID: 11984 RVA: 0x0018F174 File Offset: 0x0018D574
 		public override int GetMinimumToTransfer()
 		{
 			return 0;
 		}
 
-		// Token: 0x06002ECF RID: 11983 RVA: 0x0018F0F8 File Offset: 0x0018D4F8
+		// Token: 0x06002ED1 RID: 11985 RVA: 0x0018F18C File Offset: 0x0018D58C
 		public override int GetMaximumToTransfer()
 		{
 			return 0;
 		}
 
-		// Token: 0x06002ED0 RID: 11984 RVA: 0x0018F110 File Offset: 0x0018D510
+		// Token: 0x06002ED2 RID: 11986 RVA: 0x0018F1A4 File Offset: 0x0018D5A4
 		public override AcceptanceReport OverflowReport()
 		{
 			return false;
 		}
 
-		// Token: 0x06002ED1 RID: 11985 RVA: 0x0018F12C File Offset: 0x0018D52C
+		// Token: 0x06002ED3 RID: 11987 RVA: 0x0018F1C0 File Offset: 0x0018D5C0
 		public override void ExposeData()
 		{
 			base.ExposeData();

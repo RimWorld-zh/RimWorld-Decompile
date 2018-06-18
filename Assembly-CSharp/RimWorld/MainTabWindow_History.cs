@@ -13,7 +13,7 @@ namespace RimWorld
 	public class MainTabWindow_History : MainTabWindow
 	{
 		// Token: 0x170007DB RID: 2011
-		// (get) Token: 0x0600311A RID: 12570 RVA: 0x001AA3EC File Offset: 0x001A87EC
+		// (get) Token: 0x0600311C RID: 12572 RVA: 0x001AA4B4 File Offset: 0x001A88B4
 		public override Vector2 RequestedTabSize
 		{
 			get
@@ -22,7 +22,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600311B RID: 12571 RVA: 0x001AA410 File Offset: 0x001A8810
+		// Token: 0x0600311D RID: 12573 RVA: 0x001AA4D8 File Offset: 0x001A88D8
 		public override void PreOpen()
 		{
 			base.PreOpen();
@@ -38,7 +38,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600311C RID: 12572 RVA: 0x001AA498 File Offset: 0x001A8898
+		// Token: 0x0600311E RID: 12574 RVA: 0x001AA560 File Offset: 0x001A8960
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DoWindowContents(rect);
@@ -79,7 +79,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600311D RID: 12573 RVA: 0x001AA5C8 File Offset: 0x001A89C8
+		// Token: 0x0600311F RID: 12575 RVA: 0x001AA690 File Offset: 0x001A8A90
 		private void DoStatisticsPage(Rect rect)
 		{
 			rect.yMin += 17f;
@@ -131,7 +131,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x0600311E RID: 12574 RVA: 0x001AA94C File Offset: 0x001A8D4C
+		// Token: 0x06003120 RID: 12576 RVA: 0x001AAA14 File Offset: 0x001A8E14
 		private void DoMessagesPage(Rect rect)
 		{
 			rect.yMin += 10f;
@@ -167,7 +167,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600311F RID: 12575 RVA: 0x001AAB58 File Offset: 0x001A8F58
+		// Token: 0x06003121 RID: 12577 RVA: 0x001AAC20 File Offset: 0x001A9020
 		private void DoArchivableRow(Rect rect, IArchivable archivable, int index)
 		{
 			if (index % 2 == 1)
@@ -270,7 +270,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003120 RID: 12576 RVA: 0x001AAEC4 File Offset: 0x001A92C4
+		// Token: 0x06003122 RID: 12578 RVA: 0x001AAF8C File Offset: 0x001A938C
 		private void DoGraphPage(Rect rect)
 		{
 			rect.yMin += 17f;

@@ -8,7 +8,7 @@ namespace RimWorld
 	public class PassingShip : IExposable, ICommunicable, ILoadReferenceable
 	{
 		// Token: 0x1700067C RID: 1660
-		// (get) Token: 0x060029E2 RID: 10722 RVA: 0x00162E90 File Offset: 0x00161290
+		// (get) Token: 0x060029E4 RID: 10724 RVA: 0x00162F24 File Offset: 0x00161324
 		public virtual string FullTitle
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700067D RID: 1661
-		// (get) Token: 0x060029E3 RID: 10723 RVA: 0x00162EAC File Offset: 0x001612AC
+		// (get) Token: 0x060029E5 RID: 10725 RVA: 0x00162F40 File Offset: 0x00161340
 		public bool Departed
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700067E RID: 1662
-		// (get) Token: 0x060029E4 RID: 10724 RVA: 0x00162ED0 File Offset: 0x001612D0
+		// (get) Token: 0x060029E6 RID: 10726 RVA: 0x00162F64 File Offset: 0x00161364
 		public Map Map
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060029E5 RID: 10725 RVA: 0x00162F01 File Offset: 0x00161301
+		// Token: 0x060029E7 RID: 10727 RVA: 0x00162F95 File Offset: 0x00161395
 		public virtual void ExposeData()
 		{
 			Scribe_Values.Look<string>(ref this.name, "name", null, false);
@@ -45,7 +45,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.ticksUntilDeparture, "ticksUntilDeparture", 0, false);
 		}
 
-		// Token: 0x060029E6 RID: 10726 RVA: 0x00162F3A File Offset: 0x0016133A
+		// Token: 0x060029E8 RID: 10728 RVA: 0x00162FCE File Offset: 0x001613CE
 		public virtual void PassingShipTick()
 		{
 			this.ticksUntilDeparture--;
@@ -55,7 +55,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060029E7 RID: 10727 RVA: 0x00162F5C File Offset: 0x0016135C
+		// Token: 0x060029E9 RID: 10729 RVA: 0x00162FF0 File Offset: 0x001613F0
 		public virtual void Depart()
 		{
 			if (this.Map.listerBuildings.ColonistsHaveBuilding((Thing b) => b.def.IsCommsConsole))
@@ -68,31 +68,31 @@ namespace RimWorld
 			this.passingShipManager.RemoveShip(this);
 		}
 
-		// Token: 0x060029E8 RID: 10728 RVA: 0x00162FCC File Offset: 0x001613CC
+		// Token: 0x060029EA RID: 10730 RVA: 0x00163060 File Offset: 0x00161460
 		public virtual void TryOpenComms(Pawn negotiator)
 		{
 			throw new NotImplementedException();
 		}
 
-		// Token: 0x060029E9 RID: 10729 RVA: 0x00162FD4 File Offset: 0x001613D4
+		// Token: 0x060029EB RID: 10731 RVA: 0x00163068 File Offset: 0x00161468
 		public virtual string GetCallLabel()
 		{
 			return this.name;
 		}
 
-		// Token: 0x060029EA RID: 10730 RVA: 0x00162FF0 File Offset: 0x001613F0
+		// Token: 0x060029EC RID: 10732 RVA: 0x00163084 File Offset: 0x00161484
 		public string GetInfoText()
 		{
 			return this.FullTitle;
 		}
 
-		// Token: 0x060029EB RID: 10731 RVA: 0x0016300C File Offset: 0x0016140C
+		// Token: 0x060029ED RID: 10733 RVA: 0x001630A0 File Offset: 0x001614A0
 		Faction ICommunicable.GetFaction()
 		{
 			return null;
 		}
 
-		// Token: 0x060029EC RID: 10732 RVA: 0x00163024 File Offset: 0x00161424
+		// Token: 0x060029EE RID: 10734 RVA: 0x001630B8 File Offset: 0x001614B8
 		public FloatMenuOption CommFloatMenuOption(Building_CommsConsole console, Pawn negotiator)
 		{
 			string label = "CallOnRadio".Translate(new object[]
@@ -113,7 +113,7 @@ namespace RimWorld
 			return FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(label, action, MenuOptionPriority.InitiateSocial, null, null, 0f, null, null), negotiator, console, "ReservedBy");
 		}
 
-		// Token: 0x060029ED RID: 10733 RVA: 0x001630A8 File Offset: 0x001614A8
+		// Token: 0x060029EF RID: 10735 RVA: 0x0016313C File Offset: 0x0016153C
 		public string GetUniqueLoadID()
 		{
 			return "PassingShip_" + this.loadID;

@@ -14,7 +14,7 @@ namespace RimWorld
 	public class Page_SelectScenario : Page
 	{
 		// Token: 0x17000788 RID: 1928
-		// (get) Token: 0x06002F8B RID: 12171 RVA: 0x00196D40 File Offset: 0x00195140
+		// (get) Token: 0x06002F8D RID: 12173 RVA: 0x00196DD4 File Offset: 0x001951D4
 		public override string PageTitle
 		{
 			get
@@ -23,7 +23,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F8C RID: 12172 RVA: 0x00196D5F File Offset: 0x0019515F
+		// Token: 0x06002F8E RID: 12174 RVA: 0x00196DF3 File Offset: 0x001951F3
 		public override void PreOpen()
 		{
 			base.PreOpen();
@@ -32,7 +32,7 @@ namespace RimWorld
 			this.EnsureValidSelection();
 		}
 
-		// Token: 0x06002F8D RID: 12173 RVA: 0x00196D80 File Offset: 0x00195180
+		// Token: 0x06002F8F RID: 12175 RVA: 0x00196E14 File Offset: 0x00195214
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DrawPageTitle(rect);
@@ -47,13 +47,13 @@ namespace RimWorld
 			base.DoBottomButtons(rect, null, midLabel, new Action(this.GoToScenarioEditor), true);
 		}
 
-		// Token: 0x06002F8E RID: 12174 RVA: 0x00196E50 File Offset: 0x00195250
+		// Token: 0x06002F90 RID: 12176 RVA: 0x00196EE4 File Offset: 0x001952E4
 		private bool CanEditScenario(Scenario scen)
 		{
 			return scen.Category == ScenarioCategory.CustomLocal || scen.CanToUploadToWorkshop();
 		}
 
-		// Token: 0x06002F8F RID: 12175 RVA: 0x00196E8C File Offset: 0x0019528C
+		// Token: 0x06002F91 RID: 12177 RVA: 0x00196F20 File Offset: 0x00195320
 		private void GoToScenarioEditor()
 		{
 			Scenario scen = (!this.CanEditScenario(this.curScen)) ? this.curScen.CopyForEditing() : this.curScen;
@@ -63,7 +63,7 @@ namespace RimWorld
 			this.Close(true);
 		}
 
-		// Token: 0x06002F90 RID: 12176 RVA: 0x00196EE4 File Offset: 0x001952E4
+		// Token: 0x06002F92 RID: 12178 RVA: 0x00196F78 File Offset: 0x00195378
 		private void DoScenarioSelectionList(Rect rect)
 		{
 			rect.xMax += 2f;
@@ -93,7 +93,7 @@ namespace RimWorld
 			Widgets.EndScrollView();
 		}
 
-		// Token: 0x06002F91 RID: 12177 RVA: 0x00197024 File Offset: 0x00195424
+		// Token: 0x06002F93 RID: 12179 RVA: 0x001970B8 File Offset: 0x001954B8
 		private void ListScenariosOnListing(Listing_Standard listing, IEnumerable<Scenario> scenarios)
 		{
 			bool flag = false;
@@ -116,7 +116,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F92 RID: 12178 RVA: 0x001970F8 File Offset: 0x001954F8
+		// Token: 0x06002F94 RID: 12180 RVA: 0x0019718C File Offset: 0x0019558C
 		private void DoScenarioListEntry(Rect rect, Scenario scen)
 		{
 			bool flag = this.curScen == scen;
@@ -186,7 +186,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F93 RID: 12179 RVA: 0x00197374 File Offset: 0x00195774
+		// Token: 0x06002F95 RID: 12181 RVA: 0x00197408 File Offset: 0x00195808
 		protected override bool CanDoNext()
 		{
 			bool result;
@@ -206,7 +206,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002F94 RID: 12180 RVA: 0x001973BC File Offset: 0x001957BC
+		// Token: 0x06002F96 RID: 12182 RVA: 0x00197450 File Offset: 0x00195850
 		public static void BeginScenarioConfiguration(Scenario scen, Page originPage)
 		{
 			Current.Game = new Game();
@@ -225,7 +225,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F95 RID: 12181 RVA: 0x0019742C File Offset: 0x0019582C
+		// Token: 0x06002F97 RID: 12183 RVA: 0x001974C0 File Offset: 0x001958C0
 		private void EnsureValidSelection()
 		{
 			if (this.curScen == null || !ScenarioLister.ScenarioIsListedAnywhere(this.curScen))
@@ -234,7 +234,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F96 RID: 12182 RVA: 0x0019745C File Offset: 0x0019585C
+		// Token: 0x06002F98 RID: 12184 RVA: 0x001974F0 File Offset: 0x001958F0
 		internal void Notify_ScenarioListChanged()
 		{
 			PublishedFileId_t selModId = this.curScen.GetPublishedFileId();
@@ -242,7 +242,7 @@ namespace RimWorld
 			this.EnsureValidSelection();
 		}
 
-		// Token: 0x06002F97 RID: 12183 RVA: 0x001974A3 File Offset: 0x001958A3
+		// Token: 0x06002F99 RID: 12185 RVA: 0x00197537 File Offset: 0x00195937
 		internal void Notify_SteamItemUnsubscribed(PublishedFileId_t pfid)
 		{
 			if (this.curScen != null && this.curScen.GetPublishedFileId() == pfid)

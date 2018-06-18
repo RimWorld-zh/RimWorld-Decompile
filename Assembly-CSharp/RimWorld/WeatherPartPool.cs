@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000454 RID: 1108
 	public static class WeatherPartPool
 	{
-		// Token: 0x06001342 RID: 4930 RVA: 0x000A56F0 File Offset: 0x000A3AF0
+		// Token: 0x06001342 RID: 4930 RVA: 0x000A56FC File Offset: 0x000A3AFC
 		public static SkyOverlay GetInstanceOf<T>() where T : SkyOverlay
 		{
 			for (int i = 0; i < WeatherPartPool.instances.Count; i++)

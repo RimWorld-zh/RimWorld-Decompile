@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class NeedDefOf
 	{
-		// Token: 0x06003623 RID: 13859 RVA: 0x001D0629 File Offset: 0x001CEA29
+		// Token: 0x06003625 RID: 13861 RVA: 0x001D06F1 File Offset: 0x001CEAF1
 		static NeedDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(NeedDefOf));

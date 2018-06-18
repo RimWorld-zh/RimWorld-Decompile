@@ -9,7 +9,7 @@ namespace RimWorld.Planet
 	internal class DebugTile
 	{
 		// Token: 0x170003ED RID: 1005
-		// (get) Token: 0x06001B06 RID: 6918 RVA: 0x000E8134 File Offset: 0x000E6534
+		// (get) Token: 0x06001B07 RID: 6919 RVA: 0x000E81A0 File Offset: 0x000E65A0
 		private Vector2 ScreenPos
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003EE RID: 1006
-		// (get) Token: 0x06001B07 RID: 6919 RVA: 0x000E8164 File Offset: 0x000E6564
+		// (get) Token: 0x06001B08 RID: 6920 RVA: 0x000E81D0 File Offset: 0x000E65D0
 		private bool VisibleForCamera
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003EF RID: 1007
-		// (get) Token: 0x06001B08 RID: 6920 RVA: 0x000E81A4 File Offset: 0x000E65A4
+		// (get) Token: 0x06001B09 RID: 6921 RVA: 0x000E8210 File Offset: 0x000E6610
 		public float DistanceToCamera
 		{
 			get
@@ -41,7 +41,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B09 RID: 6921 RVA: 0x000E81E0 File Offset: 0x000E65E0
+		// Token: 0x06001B0A RID: 6922 RVA: 0x000E824C File Offset: 0x000E664C
 		public void Draw()
 		{
 			if (this.VisibleForCamera)
@@ -81,7 +81,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B0A RID: 6922 RVA: 0x000E8358 File Offset: 0x000E6758
+		// Token: 0x06001B0B RID: 6923 RVA: 0x000E83C4 File Offset: 0x000E67C4
 		public void OnGUI()
 		{
 			if (this.VisibleForCamera)

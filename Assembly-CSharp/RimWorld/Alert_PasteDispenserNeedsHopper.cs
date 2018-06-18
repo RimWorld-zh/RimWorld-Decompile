@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020007A1 RID: 1953
 	public class Alert_PasteDispenserNeedsHopper : Alert
 	{
-		// Token: 0x06002B37 RID: 11063 RVA: 0x0016D0D6 File Offset: 0x0016B4D6
+		// Token: 0x06002B39 RID: 11065 RVA: 0x0016D16A File Offset: 0x0016B56A
 		public Alert_PasteDispenserNeedsHopper()
 		{
 			this.defaultLabel = "NeedFoodHopper".Translate();
@@ -16,7 +16,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006B6 RID: 1718
-		// (get) Token: 0x06002B38 RID: 11064 RVA: 0x0016D108 File Offset: 0x0016B508
+		// (get) Token: 0x06002B3A RID: 11066 RVA: 0x0016D19C File Offset: 0x0016B59C
 		private IEnumerable<Thing> BadDispensers
 		{
 			get
@@ -53,7 +53,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B39 RID: 11065 RVA: 0x0016D12C File Offset: 0x0016B52C
+		// Token: 0x06002B3B RID: 11067 RVA: 0x0016D1C0 File Offset: 0x0016B5C0
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.BadDispensers);

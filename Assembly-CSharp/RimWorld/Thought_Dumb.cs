@@ -7,7 +7,7 @@ namespace RimWorld
 	public class Thought_Dumb : Thought
 	{
 		// Token: 0x17000372 RID: 882
-		// (get) Token: 0x060018B9 RID: 6329 RVA: 0x000D80AC File Offset: 0x000D64AC
+		// (get) Token: 0x060018BA RID: 6330 RVA: 0x000D8100 File Offset: 0x000D6500
 		public override int CurStageIndex
 		{
 			get
@@ -16,13 +16,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060018BA RID: 6330 RVA: 0x000D80C7 File Offset: 0x000D64C7
+		// Token: 0x060018BB RID: 6331 RVA: 0x000D811B File Offset: 0x000D651B
 		public void SetForcedStage(int stageIndex)
 		{
 			this.forcedStage = stageIndex;
 		}
 
-		// Token: 0x060018BB RID: 6331 RVA: 0x000D80D1 File Offset: 0x000D64D1
+		// Token: 0x060018BC RID: 6332 RVA: 0x000D8125 File Offset: 0x000D6525
 		public override void ExposeData()
 		{
 			base.ExposeData();

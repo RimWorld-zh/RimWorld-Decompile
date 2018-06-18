@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020006AB RID: 1707
 	public class Building_MarriageSpot : Building
 	{
-		// Token: 0x0600248A RID: 9354 RVA: 0x00138B14 File Offset: 0x00136F14
+		// Token: 0x0600248C RID: 9356 RVA: 0x00138B8C File Offset: 0x00136F8C
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -21,7 +21,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x0600248B RID: 9355 RVA: 0x00138B64 File Offset: 0x00136F64
+		// Token: 0x0600248D RID: 9357 RVA: 0x00138BDC File Offset: 0x00136FDC
 		private string UsableNowStatus()
 		{
 			if (!this.AnyCoupleForWhichIsValid())
@@ -49,7 +49,7 @@ namespace RimWorld
 			return "MarriageSpotUsable".Translate();
 		}
 
-		// Token: 0x0600248C RID: 9356 RVA: 0x00138C14 File Offset: 0x00137014
+		// Token: 0x0600248E RID: 9358 RVA: 0x00138C8C File Offset: 0x0013708C
 		private bool AnyCoupleForWhichIsValid()
 		{
 			return base.Map.mapPawns.FreeColonistsSpawned.Any(delegate(Pawn p)
@@ -59,7 +59,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x0600248D RID: 9357 RVA: 0x00138C4C File Offset: 0x0013704C
+		// Token: 0x0600248F RID: 9359 RVA: 0x00138CC4 File Offset: 0x001370C4
 		private bool TryFindAnyFiancesCouple(out Pair<Pawn, Pawn> fiances)
 		{
 			foreach (Pawn pawn in base.Map.mapPawns.FreeColonistsSpawned)

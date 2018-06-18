@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class TraitDefOf
 	{
-		// Token: 0x06003645 RID: 13893 RVA: 0x001D088D File Offset: 0x001CEC8D
+		// Token: 0x06003647 RID: 13895 RVA: 0x001D0955 File Offset: 0x001CED55
 		static TraitDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(TraitDefOf));

@@ -2,15 +2,15 @@
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F75 RID: 3957
+	// Token: 0x02000F74 RID: 3956
 	public class Checker : ModuleBase
 	{
-		// Token: 0x06005F67 RID: 24423 RVA: 0x00308FA4 File Offset: 0x003073A4
+		// Token: 0x06005F65 RID: 24421 RVA: 0x00309080 File Offset: 0x00307480
 		public Checker() : base(0)
 		{
 		}
 
-		// Token: 0x06005F68 RID: 24424 RVA: 0x00308FB0 File Offset: 0x003073B0
+		// Token: 0x06005F66 RID: 24422 RVA: 0x0030908C File Offset: 0x0030748C
 		public override double GetValue(double x, double y, double z)
 		{
 			int num = (int)Math.Floor(Utils.MakeInt32Range(x));

@@ -6,14 +6,14 @@ namespace Verse.Grammar
 	// Token: 0x02000BEB RID: 3051
 	public class Rule_String : Rule
 	{
-		// Token: 0x06004281 RID: 17025 RVA: 0x00230420 File Offset: 0x0022E820
+		// Token: 0x06004283 RID: 17027 RVA: 0x00230498 File Offset: 0x0022E898
 		public Rule_String(string keyword, string output)
 		{
 			this.keyword = keyword;
 			this.output = output;
 		}
 
-		// Token: 0x06004282 RID: 17026 RVA: 0x00230444 File Offset: 0x0022E844
+		// Token: 0x06004284 RID: 17028 RVA: 0x002304BC File Offset: 0x0022E8BC
 		public Rule_String(string rawString)
 		{
 			Match match = Rule_String.pattern.Match(rawString);
@@ -55,7 +55,7 @@ namespace Verse.Grammar
 		}
 
 		// Token: 0x17000A76 RID: 2678
-		// (get) Token: 0x06004283 RID: 17027 RVA: 0x00230610 File Offset: 0x0022EA10
+		// (get) Token: 0x06004285 RID: 17029 RVA: 0x00230688 File Offset: 0x0022EA88
 		public override float BaseSelectionWeight
 		{
 			get
@@ -64,13 +64,13 @@ namespace Verse.Grammar
 			}
 		}
 
-		// Token: 0x06004284 RID: 17028 RVA: 0x0023062C File Offset: 0x0022EA2C
+		// Token: 0x06004286 RID: 17030 RVA: 0x002306A4 File Offset: 0x0022EAA4
 		public override string Generate()
 		{
 			return this.output;
 		}
 
-		// Token: 0x06004285 RID: 17029 RVA: 0x00230648 File Offset: 0x0022EA48
+		// Token: 0x06004287 RID: 17031 RVA: 0x002306C0 File Offset: 0x0022EAC0
 		public override string ToString()
 		{
 			return this.keyword + "->" + this.output;

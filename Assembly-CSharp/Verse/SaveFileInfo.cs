@@ -5,18 +5,18 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D92 RID: 3474
+	// Token: 0x02000D91 RID: 3473
 	public struct SaveFileInfo
 	{
-		// Token: 0x06004D9B RID: 19867 RVA: 0x002880A6 File Offset: 0x002864A6
+		// Token: 0x06004D99 RID: 19865 RVA: 0x00288086 File Offset: 0x00286486
 		public SaveFileInfo(FileInfo fileInfo)
 		{
 			this.fileInfo = fileInfo;
 			this.gameVersion = ScribeMetaHeaderUtility.GameVersionOf(fileInfo);
 		}
 
-		// Token: 0x17000C88 RID: 3208
-		// (get) Token: 0x06004D9C RID: 19868 RVA: 0x002880BC File Offset: 0x002864BC
+		// Token: 0x17000C87 RID: 3207
+		// (get) Token: 0x06004D9A RID: 19866 RVA: 0x0028809C File Offset: 0x0028649C
 		public bool Valid
 		{
 			get
@@ -25,8 +25,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C89 RID: 3209
-		// (get) Token: 0x06004D9D RID: 19869 RVA: 0x002880E0 File Offset: 0x002864E0
+		// Token: 0x17000C88 RID: 3208
+		// (get) Token: 0x06004D9B RID: 19867 RVA: 0x002880C0 File Offset: 0x002864C0
 		public FileInfo FileInfo
 		{
 			get
@@ -35,8 +35,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C8A RID: 3210
-		// (get) Token: 0x06004D9E RID: 19870 RVA: 0x002880FC File Offset: 0x002864FC
+		// Token: 0x17000C89 RID: 3209
+		// (get) Token: 0x06004D9C RID: 19868 RVA: 0x002880DC File Offset: 0x002864DC
 		public string GameVersion
 		{
 			get
@@ -54,8 +54,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C8B RID: 3211
-		// (get) Token: 0x06004D9F RID: 19871 RVA: 0x00288130 File Offset: 0x00286530
+		// Token: 0x17000C8A RID: 3210
+		// (get) Token: 0x06004D9D RID: 19869 RVA: 0x00288110 File Offset: 0x00286510
 		public Color VersionColor
 		{
 			get
@@ -88,8 +88,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C8C RID: 3212
-		// (get) Token: 0x06004DA0 RID: 19872 RVA: 0x002881D4 File Offset: 0x002865D4
+		// Token: 0x17000C8B RID: 3211
+		// (get) Token: 0x06004D9E RID: 19870 RVA: 0x002881B4 File Offset: 0x002865B4
 		public TipSignal CompatibilityTip
 		{
 			get
@@ -123,13 +123,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x040033CB RID: 13259
+		// Token: 0x040033C9 RID: 13257
 		private FileInfo fileInfo;
 
-		// Token: 0x040033CC RID: 13260
+		// Token: 0x040033CA RID: 13258
 		private string gameVersion;
 
-		// Token: 0x040033CD RID: 13261
+		// Token: 0x040033CB RID: 13259
 		public static readonly Color UnimportantTextColor = new Color(1f, 1f, 1f, 0.5f);
 	}
 }

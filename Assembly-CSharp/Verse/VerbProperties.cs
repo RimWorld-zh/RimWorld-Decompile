@@ -8,7 +8,7 @@ namespace Verse
 	public class VerbProperties
 	{
 		// Token: 0x17000988 RID: 2440
-		// (get) Token: 0x06003F0B RID: 16139 RVA: 0x002130C4 File Offset: 0x002114C4
+		// (get) Token: 0x06003F0D RID: 16141 RVA: 0x00213198 File Offset: 0x00211598
 		public bool CausesTimeSlowdown
 		{
 			get
@@ -18,7 +18,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000989 RID: 2441
-		// (get) Token: 0x06003F0C RID: 16140 RVA: 0x002130F0 File Offset: 0x002114F0
+		// (get) Token: 0x06003F0E RID: 16142 RVA: 0x002131C4 File Offset: 0x002115C4
 		public bool LaunchesProjectile
 		{
 			get
@@ -28,7 +28,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700098A RID: 2442
-		// (get) Token: 0x06003F0D RID: 16141 RVA: 0x0021311C File Offset: 0x0021151C
+		// (get) Token: 0x06003F0F RID: 16143 RVA: 0x002131F0 File Offset: 0x002115F0
 		public string AccuracySummaryString
 		{
 			get
@@ -47,7 +47,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700098B RID: 2443
-		// (get) Token: 0x06003F0E RID: 16142 RVA: 0x0021318C File Offset: 0x0021158C
+		// (get) Token: 0x06003F10 RID: 16144 RVA: 0x00213260 File Offset: 0x00211660
 		public bool IsMeleeAttack
 		{
 			get
@@ -57,7 +57,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700098C RID: 2444
-		// (get) Token: 0x06003F0F RID: 16143 RVA: 0x002131B8 File Offset: 0x002115B8
+		// (get) Token: 0x06003F11 RID: 16145 RVA: 0x0021328C File Offset: 0x0021168C
 		public bool CanBeUsedInMelee
 		{
 			get
@@ -67,7 +67,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700098D RID: 2445
-		// (get) Token: 0x06003F10 RID: 16144 RVA: 0x002131E4 File Offset: 0x002115E4
+		// (get) Token: 0x06003F12 RID: 16146 RVA: 0x002132B8 File Offset: 0x002116B8
 		public float BaseMeleeSelectionWeight
 		{
 			get
@@ -76,7 +76,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F11 RID: 16145 RVA: 0x00213204 File Offset: 0x00211604
+		// Token: 0x06003F13 RID: 16147 RVA: 0x002132D8 File Offset: 0x002116D8
 		public float AdjustedMeleeDamageAmount(Verb ownerVerb, Pawn attacker, Thing equipment)
 		{
 			if ((ownerVerb == null) ? (!this.IsMeleeAttack) : (!ownerVerb.IsMeleeAttack))
@@ -99,7 +99,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06003F12 RID: 16146 RVA: 0x0021329C File Offset: 0x0021169C
+		// Token: 0x06003F14 RID: 16148 RVA: 0x00213370 File Offset: 0x00211770
 		private float AdjustedExpectedMeleeDamage(Verb ownerVerb, Pawn attacker, Thing equipment)
 		{
 			float result;
@@ -118,7 +118,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003F13 RID: 16147 RVA: 0x00213300 File Offset: 0x00211700
+		// Token: 0x06003F15 RID: 16149 RVA: 0x002133D4 File Offset: 0x002117D4
 		public float AdjustedMeleeSelectionWeight(Verb ownerVerb, Pawn attacker, Thing equipment)
 		{
 			float result;
@@ -157,7 +157,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003F14 RID: 16148 RVA: 0x00213414 File Offset: 0x00211814
+		// Token: 0x06003F16 RID: 16150 RVA: 0x002134E8 File Offset: 0x002118E8
 		public float AdjustedCooldown(Verb ownerVerb, Pawn attacker, Thing equipment)
 		{
 			float result;
@@ -176,13 +176,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003F15 RID: 16149 RVA: 0x00213470 File Offset: 0x00211870
+		// Token: 0x06003F17 RID: 16151 RVA: 0x00213544 File Offset: 0x00211944
 		public int AdjustedCooldownTicks(Verb ownerVerb, Pawn attacker, Thing equipment)
 		{
 			return this.AdjustedCooldown(ownerVerb, attacker, equipment).SecondsToTicks();
 		}
 
-		// Token: 0x06003F16 RID: 16150 RVA: 0x00213494 File Offset: 0x00211894
+		// Token: 0x06003F18 RID: 16152 RVA: 0x00213568 File Offset: 0x00211968
 		private float AdjustedAccuracy(VerbProperties.RangeCategory cat, Thing equipment)
 		{
 			float statValue;
@@ -229,13 +229,13 @@ namespace Verse
 			return statValue;
 		}
 
-		// Token: 0x06003F17 RID: 16151 RVA: 0x00213554 File Offset: 0x00211954
+		// Token: 0x06003F19 RID: 16153 RVA: 0x00213628 File Offset: 0x00211A28
 		public float AdjustedFullCycleTime(Verb ownerVerb, Pawn attacker, Thing equipment)
 		{
 			return this.warmupTime + this.AdjustedCooldown(ownerVerb, attacker, equipment) + ((this.burstShotCount - 1) * this.ticksBetweenBurstShots).TicksToSeconds();
 		}
 
-		// Token: 0x06003F18 RID: 16152 RVA: 0x00213590 File Offset: 0x00211990
+		// Token: 0x06003F1A RID: 16154 RVA: 0x00213664 File Offset: 0x00211A64
 		public float GetHitChanceFactor(Thing equipment, float dist)
 		{
 			float num;
@@ -270,7 +270,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06003F19 RID: 16153 RVA: 0x0021368C File Offset: 0x00211A8C
+		// Token: 0x06003F1B RID: 16155 RVA: 0x00213760 File Offset: 0x00211B60
 		public void DrawRadiusRing(IntVec3 center)
 		{
 			if (Find.CurrentMap != null)
@@ -289,7 +289,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F1A RID: 16154 RVA: 0x00213730 File Offset: 0x00211B30
+		// Token: 0x06003F1C RID: 16156 RVA: 0x00213804 File Offset: 0x00211C04
 		public override string ToString()
 		{
 			string str;
@@ -310,7 +310,7 @@ namespace Verse
 			return "VerbProperties(" + str + ")";
 		}
 
-		// Token: 0x06003F1B RID: 16155 RVA: 0x002137AC File Offset: 0x00211BAC
+		// Token: 0x06003F1D RID: 16157 RVA: 0x00213880 File Offset: 0x00211C80
 		public new VerbProperties MemberwiseClone()
 		{
 			return (VerbProperties)base.MemberwiseClone();

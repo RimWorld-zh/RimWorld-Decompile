@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000475 RID: 1141
 	public class PawnCapacityWorker_Consciousness : PawnCapacityWorker
 	{
-		// Token: 0x0600140B RID: 5131 RVA: 0x000AE91C File Offset: 0x000ACD1C
+		// Token: 0x0600140B RID: 5131 RVA: 0x000AE928 File Offset: 0x000ACD28
 		public override float CalculateCapacityLevel(HediffSet diffSet, List<PawnCapacityUtility.CapacityImpactor> impactors = null)
 		{
 			BodyPartTagDef consciousnessSource = BodyPartTagDefOf.ConsciousnessSource;
@@ -27,7 +27,7 @@ namespace RimWorld
 			return Mathf.Lerp(num, num * Mathf.Min(base.CalculateCapacityAndRecord(diffSet, PawnCapacityDefOf.BloodFiltration, impactors), 1f), 0.1f);
 		}
 
-		// Token: 0x0600140C RID: 5132 RVA: 0x000AEA20 File Offset: 0x000ACE20
+		// Token: 0x0600140C RID: 5132 RVA: 0x000AEA2C File Offset: 0x000ACE2C
 		public override bool CanHaveCapacity(BodyDef body)
 		{
 			return body.HasPartWithTag(BodyPartTagDefOf.ConsciousnessSource);

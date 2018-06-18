@@ -4,16 +4,16 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000C0F RID: 3087
+	// Token: 0x02000C0E RID: 3086
 	public sealed class DesignationManager : IExposable
 	{
-		// Token: 0x06004367 RID: 17255 RVA: 0x002389EB File Offset: 0x00236DEB
+		// Token: 0x06004365 RID: 17253 RVA: 0x002389C3 File Offset: 0x00236DC3
 		public DesignationManager(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x06004368 RID: 17256 RVA: 0x00238A08 File Offset: 0x00236E08
+		// Token: 0x06004366 RID: 17254 RVA: 0x002389E0 File Offset: 0x00236DE0
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Designation>(ref this.allDesignations, "allDesignations", LookMode.Deep, new object[0]);
@@ -49,7 +49,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004369 RID: 17257 RVA: 0x00238B68 File Offset: 0x00236F68
+		// Token: 0x06004367 RID: 17255 RVA: 0x00238B40 File Offset: 0x00236F40
 		public void DrawDesignations()
 		{
 			for (int i = 0; i < this.allDesignations.Count; i++)
@@ -61,7 +61,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600436A RID: 17258 RVA: 0x00238BE8 File Offset: 0x00236FE8
+		// Token: 0x06004368 RID: 17256 RVA: 0x00238BC0 File Offset: 0x00236FC0
 		public void AddDesignation(Designation newDes)
 		{
 			if (newDes.def.targetType == TargetType.Cell && this.DesignationAt(newDes.target.Cell, newDes.def) != null)
@@ -89,7 +89,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600436B RID: 17259 RVA: 0x00238D10 File Offset: 0x00237110
+		// Token: 0x06004369 RID: 17257 RVA: 0x00238CE8 File Offset: 0x002370E8
 		public Designation DesignationOn(Thing t)
 		{
 			for (int i = 0; i < this.allDesignations.Count; i++)
@@ -103,7 +103,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x0600436C RID: 17260 RVA: 0x00238D6C File Offset: 0x0023716C
+		// Token: 0x0600436A RID: 17258 RVA: 0x00238D44 File Offset: 0x00237144
 		public Designation DesignationOn(Thing t, DesignationDef def)
 		{
 			Designation result;
@@ -127,7 +127,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600436D RID: 17261 RVA: 0x00238E00 File Offset: 0x00237200
+		// Token: 0x0600436B RID: 17259 RVA: 0x00238DD8 File Offset: 0x002371D8
 		public Designation DesignationAt(IntVec3 c, DesignationDef def)
 		{
 			Designation result;
@@ -151,7 +151,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600436E RID: 17262 RVA: 0x00238EC4 File Offset: 0x002372C4
+		// Token: 0x0600436C RID: 17260 RVA: 0x00238E9C File Offset: 0x0023729C
 		public IEnumerable<Designation> AllDesignationsOn(Thing t)
 		{
 			int count = this.allDesignations.Count;
@@ -165,7 +165,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x0600436F RID: 17263 RVA: 0x00238EF8 File Offset: 0x002372F8
+		// Token: 0x0600436D RID: 17261 RVA: 0x00238ED0 File Offset: 0x002372D0
 		public IEnumerable<Designation> AllDesignationsAt(IntVec3 c)
 		{
 			int count = this.allDesignations.Count;
@@ -180,7 +180,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004370 RID: 17264 RVA: 0x00238F2C File Offset: 0x0023732C
+		// Token: 0x0600436E RID: 17262 RVA: 0x00238F04 File Offset: 0x00237304
 		public bool HasMapDesignationAt(IntVec3 c)
 		{
 			int count = this.allDesignations.Count;
@@ -195,7 +195,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004371 RID: 17265 RVA: 0x00238F9C File Offset: 0x0023739C
+		// Token: 0x0600436F RID: 17263 RVA: 0x00238F74 File Offset: 0x00237374
 		public IEnumerable<Designation> SpawnedDesignationsOfDef(DesignationDef def)
 		{
 			int count = this.allDesignations.Count;
@@ -210,14 +210,14 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004372 RID: 17266 RVA: 0x00238FCD File Offset: 0x002373CD
+		// Token: 0x06004370 RID: 17264 RVA: 0x00238FA5 File Offset: 0x002373A5
 		public void RemoveDesignation(Designation des)
 		{
 			des.Notify_Removing();
 			this.allDesignations.Remove(des);
 		}
 
-		// Token: 0x06004373 RID: 17267 RVA: 0x00238FE4 File Offset: 0x002373E4
+		// Token: 0x06004371 RID: 17265 RVA: 0x00238FBC File Offset: 0x002373BC
 		public void TryRemoveDesignation(IntVec3 c, DesignationDef def)
 		{
 			Designation designation = this.DesignationAt(c, def);
@@ -227,7 +227,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004374 RID: 17268 RVA: 0x00239008 File Offset: 0x00237408
+		// Token: 0x06004372 RID: 17266 RVA: 0x00238FE0 File Offset: 0x002373E0
 		public void RemoveAllDesignationsOn(Thing t, bool standardCanceling = false)
 		{
 			for (int i = 0; i < this.allDesignations.Count; i++)
@@ -244,7 +244,7 @@ namespace Verse
 			this.allDesignations.RemoveAll((Designation d) => (!standardCanceling || d.def.designateCancelable) && d.target.Thing == t);
 		}
 
-		// Token: 0x06004375 RID: 17269 RVA: 0x002390AC File Offset: 0x002374AC
+		// Token: 0x06004373 RID: 17267 RVA: 0x00239084 File Offset: 0x00237484
 		public void TryRemoveDesignationOn(Thing t, DesignationDef def)
 		{
 			Designation designation = this.DesignationOn(t, def);
@@ -254,7 +254,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004376 RID: 17270 RVA: 0x002390D0 File Offset: 0x002374D0
+		// Token: 0x06004374 RID: 17268 RVA: 0x002390A8 File Offset: 0x002374A8
 		public void RemoveAllDesignationsOfDef(DesignationDef def)
 		{
 			for (int i = this.allDesignations.Count - 1; i >= 0; i--)
@@ -267,7 +267,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004377 RID: 17271 RVA: 0x00239134 File Offset: 0x00237534
+		// Token: 0x06004375 RID: 17269 RVA: 0x0023910C File Offset: 0x0023750C
 		public void Notify_BuildingDespawned(Thing b)
 		{
 			CellRect cellRect = b.OccupiedRect();
@@ -284,10 +284,10 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002E13 RID: 11795
+		// Token: 0x04002E11 RID: 11793
 		public Map map;
 
-		// Token: 0x04002E14 RID: 11796
+		// Token: 0x04002E12 RID: 11794
 		public List<Designation> allDesignations = new List<Designation>();
 	}
 }

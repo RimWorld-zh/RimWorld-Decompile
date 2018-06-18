@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class ToolCapacityDefOf
 	{
-		// Token: 0x06003679 RID: 13945 RVA: 0x001D0C35 File Offset: 0x001CF035
+		// Token: 0x0600367B RID: 13947 RVA: 0x001D0CFD File Offset: 0x001CF0FD
 		static ToolCapacityDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ToolCapacityDef));

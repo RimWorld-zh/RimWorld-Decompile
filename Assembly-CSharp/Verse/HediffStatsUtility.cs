@@ -9,7 +9,7 @@ namespace Verse
 	// Token: 0x02000B48 RID: 2888
 	public static class HediffStatsUtility
 	{
-		// Token: 0x06003F4C RID: 16204 RVA: 0x00214FEC File Offset: 0x002133EC
+		// Token: 0x06003F4E RID: 16206 RVA: 0x002150C0 File Offset: 0x002134C0
 		public static IEnumerable<StatDrawEntry> SpecialDisplayStats(HediffStage stage, Hediff instance)
 		{
 			if (instance != null)

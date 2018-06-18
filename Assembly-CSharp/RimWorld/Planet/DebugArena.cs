@@ -8,13 +8,13 @@ namespace RimWorld.Planet
 	// Token: 0x0200061D RID: 1565
 	public class DebugArena : WorldObjectComp
 	{
-		// Token: 0x06001FBB RID: 8123 RVA: 0x00111A68 File Offset: 0x0010FE68
+		// Token: 0x06001FBD RID: 8125 RVA: 0x00111AE0 File Offset: 0x0010FEE0
 		public DebugArena()
 		{
 			this.tickCreated = Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x06001FBC RID: 8124 RVA: 0x00111A90 File Offset: 0x0010FE90
+		// Token: 0x06001FBE RID: 8126 RVA: 0x00111B08 File Offset: 0x0010FF08
 		public override void CompTick()
 		{
 			if (this.lhs == null || this.rhs == null)

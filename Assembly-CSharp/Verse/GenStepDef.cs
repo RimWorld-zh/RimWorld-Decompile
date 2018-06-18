@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000B40 RID: 2880
 	public class GenStepDef : Def
 	{
-		// Token: 0x06003F32 RID: 16178 RVA: 0x002140BC File Offset: 0x002124BC
+		// Token: 0x06003F34 RID: 16180 RVA: 0x00214190 File Offset: 0x00212590
 		public override void PostLoad()
 		{
 			base.PostLoad();

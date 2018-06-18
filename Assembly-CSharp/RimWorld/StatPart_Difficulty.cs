@@ -6,19 +6,19 @@ namespace RimWorld
 	// Token: 0x020009AA RID: 2474
 	public class StatPart_Difficulty : StatPart
 	{
-		// Token: 0x0600376C RID: 14188 RVA: 0x001D9250 File Offset: 0x001D7650
+		// Token: 0x0600376E RID: 14190 RVA: 0x001D9324 File Offset: 0x001D7724
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			val *= this.Multiplier(Find.Storyteller.difficulty);
 		}
 
-		// Token: 0x0600376D RID: 14189 RVA: 0x001D9268 File Offset: 0x001D7668
+		// Token: 0x0600376F RID: 14191 RVA: 0x001D933C File Offset: 0x001D773C
 		public override string ExplanationPart(StatRequest req)
 		{
 			return "StatsReport_DifficultyMultiplier".Translate() + ": x" + this.Multiplier(Find.Storyteller.difficulty).ToStringPercent();
 		}
 
-		// Token: 0x0600376E RID: 14190 RVA: 0x001D92A8 File Offset: 0x001D76A8
+		// Token: 0x06003770 RID: 14192 RVA: 0x001D937C File Offset: 0x001D777C
 		private float Multiplier(DifficultyDef d)
 		{
 			float result;

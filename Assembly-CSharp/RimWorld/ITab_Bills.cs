@@ -10,7 +10,7 @@ namespace RimWorld
 	// Token: 0x0200084B RID: 2123
 	public class ITab_Bills : ITab
 	{
-		// Token: 0x06003007 RID: 12295 RVA: 0x001A15C4 File Offset: 0x0019F9C4
+		// Token: 0x06003009 RID: 12297 RVA: 0x001A168C File Offset: 0x0019FA8C
 		public ITab_Bills()
 		{
 			this.size = ITab_Bills.WinSize;
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007A7 RID: 1959
-		// (get) Token: 0x06003008 RID: 12296 RVA: 0x001A1614 File Offset: 0x0019FA14
+		// (get) Token: 0x0600300A RID: 12298 RVA: 0x001A16DC File Offset: 0x0019FADC
 		protected Building_WorkTable SelTable
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003009 RID: 12297 RVA: 0x001A1634 File Offset: 0x0019FA34
+		// Token: 0x0600300B RID: 12299 RVA: 0x001A16FC File Offset: 0x0019FAFC
 		protected override void FillTab()
 		{
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.BillsTab, KnowledgeAmount.FrameDisplayed);
@@ -102,7 +102,7 @@ namespace RimWorld
 			this.mouseoverBill = this.SelTable.billStack.DoListing(rect2, recipeOptionsMaker, ref this.scrollPosition, ref this.viewHeight);
 		}
 
-		// Token: 0x0600300A RID: 12298 RVA: 0x001A186E File Offset: 0x0019FC6E
+		// Token: 0x0600300C RID: 12300 RVA: 0x001A1936 File Offset: 0x0019FD36
 		public override void TabUpdate()
 		{
 			if (this.mouseoverBill != null)

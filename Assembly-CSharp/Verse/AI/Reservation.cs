@@ -6,12 +6,12 @@ namespace Verse.AI
 	// Token: 0x02000AAA RID: 2730
 	internal class Reservation : IExposable
 	{
-		// Token: 0x06003CDE RID: 15582 RVA: 0x00202F15 File Offset: 0x00201315
+		// Token: 0x06003CE0 RID: 15584 RVA: 0x00202FE9 File Offset: 0x002013E9
 		public Reservation()
 		{
 		}
 
-		// Token: 0x06003CDF RID: 15583 RVA: 0x00202F25 File Offset: 0x00201325
+		// Token: 0x06003CE1 RID: 15585 RVA: 0x00202FF9 File Offset: 0x002013F9
 		public Reservation(Pawn claimant, Job job, int maxPawns, int stackCount, LocalTargetInfo target, ReservationLayerDef layer)
 		{
 			this.claimant = claimant;
@@ -23,7 +23,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x17000934 RID: 2356
-		// (get) Token: 0x06003CE0 RID: 15584 RVA: 0x00202F64 File Offset: 0x00201364
+		// (get) Token: 0x06003CE2 RID: 15586 RVA: 0x00203038 File Offset: 0x00201438
 		public Pawn Claimant
 		{
 			get
@@ -33,7 +33,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x17000935 RID: 2357
-		// (get) Token: 0x06003CE1 RID: 15585 RVA: 0x00202F80 File Offset: 0x00201380
+		// (get) Token: 0x06003CE3 RID: 15587 RVA: 0x00203054 File Offset: 0x00201454
 		public Job Job
 		{
 			get
@@ -43,7 +43,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x17000936 RID: 2358
-		// (get) Token: 0x06003CE2 RID: 15586 RVA: 0x00202F9C File Offset: 0x0020139C
+		// (get) Token: 0x06003CE4 RID: 15588 RVA: 0x00203070 File Offset: 0x00201470
 		public LocalTargetInfo Target
 		{
 			get
@@ -53,7 +53,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x17000937 RID: 2359
-		// (get) Token: 0x06003CE3 RID: 15587 RVA: 0x00202FB8 File Offset: 0x002013B8
+		// (get) Token: 0x06003CE5 RID: 15589 RVA: 0x0020308C File Offset: 0x0020148C
 		public ReservationLayerDef Layer
 		{
 			get
@@ -63,7 +63,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x17000938 RID: 2360
-		// (get) Token: 0x06003CE4 RID: 15588 RVA: 0x00202FD4 File Offset: 0x002013D4
+		// (get) Token: 0x06003CE6 RID: 15590 RVA: 0x002030A8 File Offset: 0x002014A8
 		public int MaxPawns
 		{
 			get
@@ -73,7 +73,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x17000939 RID: 2361
-		// (get) Token: 0x06003CE5 RID: 15589 RVA: 0x00202FF0 File Offset: 0x002013F0
+		// (get) Token: 0x06003CE7 RID: 15591 RVA: 0x002030C4 File Offset: 0x002014C4
 		public int StackCount
 		{
 			get
@@ -83,7 +83,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x1700093A RID: 2362
-		// (get) Token: 0x06003CE6 RID: 15590 RVA: 0x0020300C File Offset: 0x0020140C
+		// (get) Token: 0x06003CE8 RID: 15592 RVA: 0x002030E0 File Offset: 0x002014E0
 		public Faction Faction
 		{
 			get
@@ -92,7 +92,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003CE7 RID: 15591 RVA: 0x0020302C File Offset: 0x0020142C
+		// Token: 0x06003CE9 RID: 15593 RVA: 0x00203100 File Offset: 0x00201500
 		public void ExposeData()
 		{
 			Scribe_References.Look<Pawn>(ref this.claimant, "claimant", false);
@@ -103,7 +103,7 @@ namespace Verse.AI
 			Scribe_Defs.Look<ReservationLayerDef>(ref this.layer, "layer");
 		}
 
-		// Token: 0x06003CE8 RID: 15592 RVA: 0x002030A0 File Offset: 0x002014A0
+		// Token: 0x06003CEA RID: 15594 RVA: 0x00203174 File Offset: 0x00201574
 		public override string ToString()
 		{
 			return string.Concat(new object[]

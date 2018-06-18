@@ -7,7 +7,7 @@ namespace Verse
 	public class MoteProperties
 	{
 		// Token: 0x17000975 RID: 2421
-		// (get) Token: 0x06003EC1 RID: 16065 RVA: 0x00210A94 File Offset: 0x0020EE94
+		// (get) Token: 0x06003EC3 RID: 16067 RVA: 0x00210B68 File Offset: 0x0020EF68
 		public float Lifespan
 		{
 			get

@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class HediffDefOf
 	{
-		// Token: 0x06003630 RID: 13872 RVA: 0x001D0713 File Offset: 0x001CEB13
+		// Token: 0x06003632 RID: 13874 RVA: 0x001D07DB File Offset: 0x001CEBDB
 		static HediffDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(HediffDefOf));

@@ -12,7 +12,7 @@ namespace Verse.AI.Group
 	public class Lord : IExposable, ILoadReferenceable
 	{
 		// Token: 0x170008BE RID: 2238
-		// (get) Token: 0x060038CA RID: 14538 RVA: 0x001E4ABC File Offset: 0x001E2EBC
+		// (get) Token: 0x060038CC RID: 14540 RVA: 0x001E4B90 File Offset: 0x001E2F90
 		public Map Map
 		{
 			get
@@ -22,7 +22,7 @@ namespace Verse.AI.Group
 		}
 
 		// Token: 0x170008BF RID: 2239
-		// (get) Token: 0x060038CB RID: 14539 RVA: 0x001E4ADC File Offset: 0x001E2EDC
+		// (get) Token: 0x060038CD RID: 14541 RVA: 0x001E4BB0 File Offset: 0x001E2FB0
 		public StateGraph Graph
 		{
 			get
@@ -32,7 +32,7 @@ namespace Verse.AI.Group
 		}
 
 		// Token: 0x170008C0 RID: 2240
-		// (get) Token: 0x060038CC RID: 14540 RVA: 0x001E4AF8 File Offset: 0x001E2EF8
+		// (get) Token: 0x060038CE RID: 14542 RVA: 0x001E4BCC File Offset: 0x001E2FCC
 		public LordToil CurLordToil
 		{
 			get
@@ -42,7 +42,7 @@ namespace Verse.AI.Group
 		}
 
 		// Token: 0x170008C1 RID: 2241
-		// (get) Token: 0x060038CD RID: 14541 RVA: 0x001E4B14 File Offset: 0x001E2F14
+		// (get) Token: 0x060038CF RID: 14543 RVA: 0x001E4BE8 File Offset: 0x001E2FE8
 		public LordJob LordJob
 		{
 			get
@@ -52,7 +52,7 @@ namespace Verse.AI.Group
 		}
 
 		// Token: 0x170008C2 RID: 2242
-		// (get) Token: 0x060038CE RID: 14542 RVA: 0x001E4B30 File Offset: 0x001E2F30
+		// (get) Token: 0x060038D0 RID: 14544 RVA: 0x001E4C04 File Offset: 0x001E3004
 		private bool CanExistWithoutPawns
 		{
 			get
@@ -62,7 +62,7 @@ namespace Verse.AI.Group
 		}
 
 		// Token: 0x170008C3 RID: 2243
-		// (get) Token: 0x060038CF RID: 14543 RVA: 0x001E4B54 File Offset: 0x001E2F54
+		// (get) Token: 0x060038D1 RID: 14545 RVA: 0x001E4C28 File Offset: 0x001E3028
 		public bool AnyActivePawn
 		{
 			get
@@ -78,20 +78,20 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x060038D0 RID: 14544 RVA: 0x001E4BC0 File Offset: 0x001E2FC0
+		// Token: 0x060038D2 RID: 14546 RVA: 0x001E4C94 File Offset: 0x001E3094
 		private void Init()
 		{
 			this.initialized = true;
 			this.initialColonyHealthTotal = this.Map.wealthWatcher.HealthTotal;
 		}
 
-		// Token: 0x060038D1 RID: 14545 RVA: 0x001E4BE0 File Offset: 0x001E2FE0
+		// Token: 0x060038D3 RID: 14547 RVA: 0x001E4CB4 File Offset: 0x001E30B4
 		public string GetUniqueLoadID()
 		{
 			return "Lord_" + this.loadID;
 		}
 
-		// Token: 0x060038D2 RID: 14546 RVA: 0x001E4C0C File Offset: 0x001E300C
+		// Token: 0x060038D4 RID: 14548 RVA: 0x001E4CE0 File Offset: 0x001E30E0
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.loadID, "loadID", 0, false);
@@ -112,7 +112,7 @@ namespace Verse.AI.Group
 			this.ExposeData_StateGraph();
 		}
 
-		// Token: 0x060038D3 RID: 14547 RVA: 0x001E4D2C File Offset: 0x001E312C
+		// Token: 0x060038D5 RID: 14549 RVA: 0x001E4E00 File Offset: 0x001E3200
 		private void ExposeData_StateGraph()
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
@@ -213,7 +213,7 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x060038D4 RID: 14548 RVA: 0x001E5158 File Offset: 0x001E3558
+		// Token: 0x060038D6 RID: 14550 RVA: 0x001E522C File Offset: 0x001E362C
 		public void SetJob(LordJob lordJob)
 		{
 			if (this.curJob != null)
@@ -255,7 +255,7 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x060038D5 RID: 14549 RVA: 0x001E5328 File Offset: 0x001E3728
+		// Token: 0x060038D7 RID: 14551 RVA: 0x001E53FC File Offset: 0x001E37FC
 		public void Cleanup()
 		{
 			this.curJob.Cleanup();
@@ -277,7 +277,7 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x060038D6 RID: 14550 RVA: 0x001E5404 File Offset: 0x001E3804
+		// Token: 0x060038D8 RID: 14552 RVA: 0x001E54D8 File Offset: 0x001E38D8
 		public void AddPawn(Pawn p)
 		{
 			if (this.ownedPawns.Contains(p))
@@ -314,7 +314,7 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x060038D7 RID: 14551 RVA: 0x001E54F9 File Offset: 0x001E38F9
+		// Token: 0x060038D9 RID: 14553 RVA: 0x001E55CD File Offset: 0x001E39CD
 		private void RemovePawn(Pawn p)
 		{
 			this.ownedPawns.Remove(p);
@@ -325,7 +325,7 @@ namespace Verse.AI.Group
 			this.Map.attackTargetsCache.UpdateTarget(p);
 		}
 
-		// Token: 0x060038D8 RID: 14552 RVA: 0x001E5534 File Offset: 0x001E3934
+		// Token: 0x060038DA RID: 14554 RVA: 0x001E5608 File Offset: 0x001E3A08
 		public void GotoToil(LordToil newLordToil)
 		{
 			LordToil previousToil = this.curLordToil;
@@ -351,7 +351,7 @@ namespace Verse.AI.Group
 			this.curLordToil.UpdateAllDuties();
 		}
 
-		// Token: 0x060038D9 RID: 14553 RVA: 0x001E564F File Offset: 0x001E3A4F
+		// Token: 0x060038DB RID: 14555 RVA: 0x001E5723 File Offset: 0x001E3B23
 		public void LordTick()
 		{
 			if (!this.initialized)
@@ -363,7 +363,7 @@ namespace Verse.AI.Group
 			this.ticksInToil++;
 		}
 
-		// Token: 0x060038DA RID: 14554 RVA: 0x001E5688 File Offset: 0x001E3A88
+		// Token: 0x060038DC RID: 14556 RVA: 0x001E575C File Offset: 0x001E3B5C
 		private Trigger GetTriggerByIndex(int index)
 		{
 			int num = 0;
@@ -381,13 +381,13 @@ namespace Verse.AI.Group
 			return null;
 		}
 
-		// Token: 0x060038DB RID: 14555 RVA: 0x001E571E File Offset: 0x001E3B1E
+		// Token: 0x060038DD RID: 14557 RVA: 0x001E57F2 File Offset: 0x001E3BF2
 		public void ReceiveMemo(string memo)
 		{
 			this.CheckTransitionOnSignal(TriggerSignal.ForMemo(memo));
 		}
 
-		// Token: 0x060038DC RID: 14556 RVA: 0x001E5730 File Offset: 0x001E3B30
+		// Token: 0x060038DE RID: 14558 RVA: 0x001E5804 File Offset: 0x001E3C04
 		public void Notify_FactionRelationsChanged(Faction otherFaction, FactionRelationKind previousRelationKind)
 		{
 			this.CheckTransitionOnSignal(new TriggerSignal
@@ -398,7 +398,7 @@ namespace Verse.AI.Group
 			});
 		}
 
-		// Token: 0x060038DD RID: 14557 RVA: 0x001E576C File Offset: 0x001E3B6C
+		// Token: 0x060038DF RID: 14559 RVA: 0x001E5840 File Offset: 0x001E3C40
 		public void Notify_PawnLost(Pawn pawn, PawnLostCondition cond)
 		{
 			if (this.ownedPawns.Contains(pawn))
@@ -439,7 +439,7 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x060038DE RID: 14558 RVA: 0x001E5870 File Offset: 0x001E3C70
+		// Token: 0x060038E0 RID: 14560 RVA: 0x001E5944 File Offset: 0x001E3D44
 		public void Notify_BuildingDamaged(Building building, DamageInfo dinfo)
 		{
 			this.CheckTransitionOnSignal(new TriggerSignal
@@ -450,7 +450,7 @@ namespace Verse.AI.Group
 			});
 		}
 
-		// Token: 0x060038DF RID: 14559 RVA: 0x001E58A8 File Offset: 0x001E3CA8
+		// Token: 0x060038E1 RID: 14561 RVA: 0x001E597C File Offset: 0x001E3D7C
 		public void Notify_PawnDamaged(Pawn victim, DamageInfo dinfo)
 		{
 			this.CheckTransitionOnSignal(new TriggerSignal
@@ -461,7 +461,7 @@ namespace Verse.AI.Group
 			});
 		}
 
-		// Token: 0x060038E0 RID: 14560 RVA: 0x001E58E0 File Offset: 0x001E3CE0
+		// Token: 0x060038E2 RID: 14562 RVA: 0x001E59B4 File Offset: 0x001E3DB4
 		public void Notify_PawnAttemptArrested(Pawn victim)
 		{
 			this.CheckTransitionOnSignal(new TriggerSignal
@@ -471,24 +471,24 @@ namespace Verse.AI.Group
 			});
 		}
 
-		// Token: 0x060038E1 RID: 14561 RVA: 0x001E590E File Offset: 0x001E3D0E
+		// Token: 0x060038E3 RID: 14563 RVA: 0x001E59E2 File Offset: 0x001E3DE2
 		public void Notify_PawnAcquiredTarget(Pawn detector, Thing newTarg)
 		{
 		}
 
-		// Token: 0x060038E2 RID: 14562 RVA: 0x001E5911 File Offset: 0x001E3D11
+		// Token: 0x060038E4 RID: 14564 RVA: 0x001E59E5 File Offset: 0x001E3DE5
 		public void Notify_ReachedDutyLocation(Pawn pawn)
 		{
 			this.curLordToil.Notify_ReachedDutyLocation(pawn);
 		}
 
-		// Token: 0x060038E3 RID: 14563 RVA: 0x001E5920 File Offset: 0x001E3D20
+		// Token: 0x060038E5 RID: 14565 RVA: 0x001E59F4 File Offset: 0x001E3DF4
 		public void Notify_ConstructionFailed(Pawn pawn, Frame frame, Blueprint_Build newBlueprint)
 		{
 			this.curLordToil.Notify_ConstructionFailed(pawn, frame, newBlueprint);
 		}
 
-		// Token: 0x060038E4 RID: 14564 RVA: 0x001E5934 File Offset: 0x001E3D34
+		// Token: 0x060038E6 RID: 14566 RVA: 0x001E5A08 File Offset: 0x001E3E08
 		private bool CheckTransitionOnSignal(TriggerSignal signal)
 		{
 			if (Trigger_PawnHarmed.SignalIsHarm(signal))
@@ -508,7 +508,7 @@ namespace Verse.AI.Group
 			return false;
 		}
 
-		// Token: 0x060038E5 RID: 14565 RVA: 0x001E59D8 File Offset: 0x001E3DD8
+		// Token: 0x060038E7 RID: 14567 RVA: 0x001E5AAC File Offset: 0x001E3EAC
 		private Vector3 DebugCenter()
 		{
 			Vector3 result = this.Map.Center.ToVector3ShiftedWithAltitude(AltitudeLayer.MetaOverlays);
@@ -526,7 +526,7 @@ namespace Verse.AI.Group
 			return result;
 		}
 
-		// Token: 0x060038E6 RID: 14566 RVA: 0x001E5ADC File Offset: 0x001E3EDC
+		// Token: 0x060038E8 RID: 14568 RVA: 0x001E5BB0 File Offset: 0x001E3FB0
 		public void DebugDraw()
 		{
 			Vector3 a = this.DebugCenter();
@@ -543,7 +543,7 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x060038E7 RID: 14567 RVA: 0x001E5BA4 File Offset: 0x001E3FA4
+		// Token: 0x060038E9 RID: 14569 RVA: 0x001E5C78 File Offset: 0x001E4078
 		public void DebugOnGUI()
 		{
 			Text.Anchor = TextAnchor.MiddleCenter;
@@ -568,7 +568,7 @@ namespace Verse.AI.Group
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
-		// Token: 0x060038E8 RID: 14568 RVA: 0x001E5C60 File Offset: 0x001E4060
+		// Token: 0x060038EA RID: 14570 RVA: 0x001E5D34 File Offset: 0x001E4134
 		public string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -594,7 +594,7 @@ namespace Verse.AI.Group
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060038E9 RID: 14569 RVA: 0x001E5D80 File Offset: 0x001E4180
+		// Token: 0x060038EB RID: 14571 RVA: 0x001E5E54 File Offset: 0x001E4254
 		private bool ShouldDoDebugOutput()
 		{
 			IntVec3 a = UI.MouseCell();

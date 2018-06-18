@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class LetterDefOf
 	{
-		// Token: 0x06003669 RID: 13929 RVA: 0x001D0B15 File Offset: 0x001CEF15
+		// Token: 0x0600366B RID: 13931 RVA: 0x001D0BDD File Offset: 0x001CEFDD
 		static LetterDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(LetterDefOf));

@@ -7,7 +7,7 @@ namespace Verse
 	public class ColorGenerator_StandardApparel : ColorGenerator
 	{
 		// Token: 0x17000970 RID: 2416
-		// (get) Token: 0x06003E8E RID: 16014 RVA: 0x0020F0A8 File Offset: 0x0020D4A8
+		// (get) Token: 0x06003E90 RID: 16016 RVA: 0x0020F17C File Offset: 0x0020D57C
 		public override Color ExemplaryColor
 		{
 			get
@@ -16,7 +16,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E8F RID: 16015 RVA: 0x0020F0D4 File Offset: 0x0020D4D4
+		// Token: 0x06003E91 RID: 16017 RVA: 0x0020F1A8 File Offset: 0x0020D5A8
 		public override Color NewRandomizedColor()
 		{
 			Color result;

@@ -8,20 +8,20 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class PawnColumnWorker_Pregnant : PawnColumnWorker_Icon
 	{
-		// Token: 0x060031E9 RID: 12777 RVA: 0x001AECD8 File Offset: 0x001AD0D8
+		// Token: 0x060031EB RID: 12779 RVA: 0x001AEDA0 File Offset: 0x001AD1A0
 		protected override Texture2D GetIconFor(Pawn pawn)
 		{
 			Hediff_Pregnant pregnantHediff = PawnColumnWorker_Pregnant.GetPregnantHediff(pawn);
 			return (pregnantHediff == null) ? null : PawnColumnWorker_Pregnant.Icon;
 		}
 
-		// Token: 0x060031EA RID: 12778 RVA: 0x001AED08 File Offset: 0x001AD108
+		// Token: 0x060031EC RID: 12780 RVA: 0x001AEDD0 File Offset: 0x001AD1D0
 		protected override string GetIconTip(Pawn pawn)
 		{
 			return PawnColumnWorker_Pregnant.GetTooltipText(pawn);
 		}
 
-		// Token: 0x060031EB RID: 12779 RVA: 0x001AED24 File Offset: 0x001AD124
+		// Token: 0x060031ED RID: 12781 RVA: 0x001AEDEC File Offset: 0x001AD1EC
 		public static string GetTooltipText(Pawn pawn)
 		{
 			Hediff_Pregnant pregnantHediff = PawnColumnWorker_Pregnant.GetPregnantHediff(pawn);
@@ -35,7 +35,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x060031EC RID: 12780 RVA: 0x001AED90 File Offset: 0x001AD190
+		// Token: 0x060031EE RID: 12782 RVA: 0x001AEE58 File Offset: 0x001AD258
 		private static Hediff_Pregnant GetPregnantHediff(Pawn pawn)
 		{
 			return (Hediff_Pregnant)pawn.health.hediffSet.GetFirstHediffOfDef(HediffDefOf.Pregnant, true);

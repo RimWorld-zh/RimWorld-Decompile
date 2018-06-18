@@ -2,10 +2,10 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DC5 RID: 3525
+	// Token: 0x02000DC4 RID: 3524
 	public static class SustainerAggregatorUtility
 	{
-		// Token: 0x06004E98 RID: 20120 RVA: 0x00290570 File Offset: 0x0028E970
+		// Token: 0x06004E96 RID: 20118 RVA: 0x00290550 File Offset: 0x0028E950
 		public static Sustainer AggregateOrSpawnSustainerFor(ISizeReporter reporter, SoundDef def, SoundInfo info)
 		{
 			Sustainer sustainer = null;
@@ -33,7 +33,7 @@ namespace Verse.Sound
 			return sustainer;
 		}
 
-		// Token: 0x0400345A RID: 13402
+		// Token: 0x04003458 RID: 13400
 		private static float AggregateRadius = 12f;
 	}
 }

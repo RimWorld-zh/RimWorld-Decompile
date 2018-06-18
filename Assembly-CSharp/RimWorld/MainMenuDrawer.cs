@@ -12,7 +12,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class MainMenuDrawer
 	{
-		// Token: 0x06002F16 RID: 12054 RVA: 0x00192A50 File Offset: 0x00190E50
+		// Token: 0x06002F18 RID: 12056 RVA: 0x00192AE4 File Offset: 0x00190EE4
 		public static void Init()
 		{
 			PlayerKnowledgeDatabase.Save();
@@ -20,7 +20,7 @@ namespace RimWorld
 			MainMenuDrawer.anyMapFiles = GenFilePaths.AllSavedGameFiles.Any<FileInfo>();
 		}
 
-		// Token: 0x06002F17 RID: 12055 RVA: 0x00192A6C File Offset: 0x00190E6C
+		// Token: 0x06002F19 RID: 12057 RVA: 0x00192B00 File Offset: 0x00190F00
 		public static void MainMenuOnGUI()
 		{
 			VersionControl.DrawInfoInCorner();
@@ -59,7 +59,7 @@ namespace RimWorld
 			MainMenuDrawer.DoMainMenuControls(rect, MainMenuDrawer.anyMapFiles);
 		}
 
-		// Token: 0x06002F18 RID: 12056 RVA: 0x00192CFC File Offset: 0x001910FC
+		// Token: 0x06002F1A RID: 12058 RVA: 0x00192D90 File Offset: 0x00191190
 		public static void DoMainMenuControls(Rect rect, bool anyMapFiles)
 		{
 			GUI.BeginGroup(rect);
@@ -257,7 +257,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002F19 RID: 12057 RVA: 0x00193360 File Offset: 0x00191760
+		// Token: 0x06002F1B RID: 12059 RVA: 0x001933F4 File Offset: 0x001917F4
 		private static void InitLearnToPlay()
 		{
 			Current.Game = new Game();
@@ -271,7 +271,7 @@ namespace RimWorld
 			Find.WindowStack.Add(next);
 		}
 
-		// Token: 0x06002F1A RID: 12058 RVA: 0x001933E7 File Offset: 0x001917E7
+		// Token: 0x06002F1C RID: 12060 RVA: 0x0019347B File Offset: 0x0019187B
 		private static void CloseMainTab()
 		{
 			if (Current.ProgramState == ProgramState.Playing)

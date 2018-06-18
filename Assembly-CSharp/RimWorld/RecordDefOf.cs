@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class RecordDefOf
 	{
-		// Token: 0x0600364D RID: 13901 RVA: 0x001D091D File Offset: 0x001CED1D
+		// Token: 0x0600364F RID: 13903 RVA: 0x001D09E5 File Offset: 0x001CEDE5
 		static RecordDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(RecordDefOf));

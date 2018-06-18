@@ -6,13 +6,13 @@ namespace RimWorld
 	// Token: 0x020007DE RID: 2014
 	public static class SmoothSurfaceDesignatorUtility
 	{
-		// Token: 0x06002C9C RID: 11420 RVA: 0x001778C4 File Offset: 0x00175CC4
+		// Token: 0x06002C9E RID: 11422 RVA: 0x00177958 File Offset: 0x00175D58
 		public static bool CanSmoothFloorUnder(Building b)
 		{
 			return b.def.Fillage != FillCategory.Full || b.def.passability != Traversability.Impassable;
 		}
 
-		// Token: 0x06002C9D RID: 11421 RVA: 0x00177900 File Offset: 0x00175D00
+		// Token: 0x06002C9F RID: 11423 RVA: 0x00177994 File Offset: 0x00175D94
 		public static void Notify_BuildingSpawned(Building b)
 		{
 			if (!SmoothSurfaceDesignatorUtility.CanSmoothFloorUnder(b))
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C9E RID: 11422 RVA: 0x00177978 File Offset: 0x00175D78
+		// Token: 0x06002CA0 RID: 11424 RVA: 0x00177A0C File Offset: 0x00175E0C
 		public static void Notify_BuildingDespawned(Building b, Map map)
 		{
 			CellRect.CellRectIterator iterator = b.OccupiedRect().GetIterator();

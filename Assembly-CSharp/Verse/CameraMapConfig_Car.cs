@@ -7,7 +7,7 @@ namespace Verse
 	// Token: 0x02000AED RID: 2797
 	public class CameraMapConfig_Car : CameraMapConfig
 	{
-		// Token: 0x06003DF1 RID: 15857 RVA: 0x0020AA76 File Offset: 0x00208E76
+		// Token: 0x06003DF3 RID: 15859 RVA: 0x0020AB4A File Offset: 0x00208F4A
 		public CameraMapConfig_Car()
 		{
 			this.dollyRateKeys = 0f;
@@ -17,7 +17,7 @@ namespace Verse
 			this.moveSpeedScale = 1f;
 		}
 
-		// Token: 0x06003DF2 RID: 15858 RVA: 0x0020AAB8 File Offset: 0x00208EB8
+		// Token: 0x06003DF4 RID: 15860 RVA: 0x0020AB8C File Offset: 0x00208F8C
 		public override void ConfigFixedUpdate_60(ref Vector3 velocity)
 		{
 			base.ConfigFixedUpdate_60(ref velocity);

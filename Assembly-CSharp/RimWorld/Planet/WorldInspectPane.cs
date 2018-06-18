@@ -10,7 +10,7 @@ namespace RimWorld.Planet
 	// Token: 0x020008ED RID: 2285
 	public class WorldInspectPane : Window, IInspectPane
 	{
-		// Token: 0x06003485 RID: 13445 RVA: 0x001C1230 File Offset: 0x001BF630
+		// Token: 0x06003487 RID: 13447 RVA: 0x001C12F8 File Offset: 0x001BF6F8
 		public WorldInspectPane()
 		{
 			this.layer = WindowLayer.GameUI;
@@ -23,8 +23,8 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000870 RID: 2160
-		// (get) Token: 0x06003486 RID: 13446 RVA: 0x001C126C File Offset: 0x001BF66C
-		// (set) Token: 0x06003487 RID: 13447 RVA: 0x001C1287 File Offset: 0x001BF687
+		// (get) Token: 0x06003488 RID: 13448 RVA: 0x001C1334 File Offset: 0x001BF734
+		// (set) Token: 0x06003489 RID: 13449 RVA: 0x001C134F File Offset: 0x001BF74F
 		public Type OpenTabType
 		{
 			get
@@ -38,8 +38,8 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000871 RID: 2161
-		// (get) Token: 0x06003488 RID: 13448 RVA: 0x001C1294 File Offset: 0x001BF694
-		// (set) Token: 0x06003489 RID: 13449 RVA: 0x001C12AF File Offset: 0x001BF6AF
+		// (get) Token: 0x0600348A RID: 13450 RVA: 0x001C135C File Offset: 0x001BF75C
+		// (set) Token: 0x0600348B RID: 13451 RVA: 0x001C1377 File Offset: 0x001BF777
 		public float RecentHeight
 		{
 			get
@@ -53,7 +53,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000872 RID: 2162
-		// (get) Token: 0x0600348A RID: 13450 RVA: 0x001C12BC File Offset: 0x001BF6BC
+		// (get) Token: 0x0600348C RID: 13452 RVA: 0x001C1384 File Offset: 0x001BF784
 		protected override float Margin
 		{
 			get
@@ -63,7 +63,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000873 RID: 2163
-		// (get) Token: 0x0600348B RID: 13451 RVA: 0x001C12D8 File Offset: 0x001BF6D8
+		// (get) Token: 0x0600348D RID: 13453 RVA: 0x001C13A0 File Offset: 0x001BF7A0
 		public override Vector2 InitialSize
 		{
 			get
@@ -73,7 +73,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000874 RID: 2164
-		// (get) Token: 0x0600348C RID: 13452 RVA: 0x001C12F4 File Offset: 0x001BF6F4
+		// (get) Token: 0x0600348E RID: 13454 RVA: 0x001C13BC File Offset: 0x001BF7BC
 		private List<WorldObject> Selected
 		{
 			get
@@ -83,7 +83,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000875 RID: 2165
-		// (get) Token: 0x0600348D RID: 13453 RVA: 0x001C1314 File Offset: 0x001BF714
+		// (get) Token: 0x0600348F RID: 13455 RVA: 0x001C13DC File Offset: 0x001BF7DC
 		private int NumSelectedObjects
 		{
 			get
@@ -93,7 +93,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000876 RID: 2166
-		// (get) Token: 0x0600348E RID: 13454 RVA: 0x001C1334 File Offset: 0x001BF734
+		// (get) Token: 0x06003490 RID: 13456 RVA: 0x001C13FC File Offset: 0x001BF7FC
 		public float PaneTopY
 		{
 			get
@@ -108,7 +108,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000877 RID: 2167
-		// (get) Token: 0x0600348F RID: 13455 RVA: 0x001C136C File Offset: 0x001BF76C
+		// (get) Token: 0x06003491 RID: 13457 RVA: 0x001C1434 File Offset: 0x001BF834
 		public bool AnythingSelected
 		{
 			get
@@ -118,7 +118,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000878 RID: 2168
-		// (get) Token: 0x06003490 RID: 13456 RVA: 0x001C138C File Offset: 0x001BF78C
+		// (get) Token: 0x06003492 RID: 13458 RVA: 0x001C1454 File Offset: 0x001BF854
 		private int SelectedTile
 		{
 			get
@@ -128,7 +128,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000879 RID: 2169
-		// (get) Token: 0x06003491 RID: 13457 RVA: 0x001C13AC File Offset: 0x001BF7AC
+		// (get) Token: 0x06003493 RID: 13459 RVA: 0x001C1474 File Offset: 0x001BF874
 		private bool SelectedSingleObjectOrTile
 		{
 			get
@@ -138,7 +138,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700087A RID: 2170
-		// (get) Token: 0x06003492 RID: 13458 RVA: 0x001C13EC File Offset: 0x001BF7EC
+		// (get) Token: 0x06003494 RID: 13460 RVA: 0x001C14B4 File Offset: 0x001BF8B4
 		public bool ShouldShowSelectNextInCellButton
 		{
 			get
@@ -148,7 +148,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700087B RID: 2171
-		// (get) Token: 0x06003493 RID: 13459 RVA: 0x001C1408 File Offset: 0x001BF808
+		// (get) Token: 0x06003495 RID: 13461 RVA: 0x001C14D0 File Offset: 0x001BF8D0
 		public bool ShouldShowPaneContents
 		{
 			get
@@ -158,7 +158,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700087C RID: 2172
-		// (get) Token: 0x06003494 RID: 13460 RVA: 0x001C1424 File Offset: 0x001BF824
+		// (get) Token: 0x06003496 RID: 13462 RVA: 0x001C14EC File Offset: 0x001BF8EC
 		public IEnumerable<InspectTabBase> CurTabs
 		{
 			get
@@ -181,7 +181,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700087D RID: 2173
-		// (get) Token: 0x06003495 RID: 13461 RVA: 0x001C1484 File Offset: 0x001BF884
+		// (get) Token: 0x06003497 RID: 13463 RVA: 0x001C154C File Offset: 0x001BF94C
 		private string TileInspectString
 		{
 			get
@@ -215,7 +215,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06003496 RID: 13462 RVA: 0x001C1630 File Offset: 0x001BFA30
+		// Token: 0x06003498 RID: 13464 RVA: 0x001C16F8 File Offset: 0x001BFAF8
 		protected override void SetInitialSizeAndPosition()
 		{
 			base.SetInitialSizeAndPosition();
@@ -223,7 +223,7 @@ namespace RimWorld.Planet
 			this.windowRect.y = this.PaneTopY;
 		}
 
-		// Token: 0x06003497 RID: 13463 RVA: 0x001C165C File Offset: 0x001BFA5C
+		// Token: 0x06003499 RID: 13465 RVA: 0x001C1724 File Offset: 0x001BFB24
 		public void DrawInspectGizmos()
 		{
 			WorldInspectPane.tmpObjectsList.Clear();
@@ -240,7 +240,7 @@ namespace RimWorld.Planet
 			WorldInspectPane.tmpObjectsList.Clear();
 		}
 
-		// Token: 0x06003498 RID: 13464 RVA: 0x001C16E8 File Offset: 0x001BFAE8
+		// Token: 0x0600349A RID: 13466 RVA: 0x001C17B0 File Offset: 0x001BFBB0
 		public string GetLabel(Rect rect)
 		{
 			string result;
@@ -259,7 +259,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06003499 RID: 13465 RVA: 0x001C174C File Offset: 0x001BFB4C
+		// Token: 0x0600349B RID: 13467 RVA: 0x001C1814 File Offset: 0x001BFC14
 		public void SelectNextInCell()
 		{
 			if (this.AnythingSelected)
@@ -275,7 +275,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x0600349A RID: 13466 RVA: 0x001C17A6 File Offset: 0x001BFBA6
+		// Token: 0x0600349C RID: 13468 RVA: 0x001C186E File Offset: 0x001BFC6E
 		public void DoPaneContents(Rect rect)
 		{
 			if (this.NumSelectedObjects > 0)
@@ -288,7 +288,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x0600349B RID: 13467 RVA: 0x001C17E4 File Offset: 0x001BFBE4
+		// Token: 0x0600349D RID: 13469 RVA: 0x001C18AC File Offset: 0x001BFCAC
 		public void DoInspectPaneButtons(Rect rect, ref float lineEndWidth)
 		{
 			WorldObject singleSelectedObject = Find.WorldSelector.SingleSelectedObject;
@@ -307,13 +307,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x0600349C RID: 13468 RVA: 0x001C1862 File Offset: 0x001BFC62
+		// Token: 0x0600349E RID: 13470 RVA: 0x001C192A File Offset: 0x001BFD2A
 		public override void DoWindowContents(Rect rect)
 		{
 			InspectPaneUtility.InspectPaneOnGUI(rect, this);
 		}
 
-		// Token: 0x0600349D RID: 13469 RVA: 0x001C186C File Offset: 0x001BFC6C
+		// Token: 0x0600349F RID: 13471 RVA: 0x001C1934 File Offset: 0x001BFD34
 		public override void WindowUpdate()
 		{
 			base.WindowUpdate();
@@ -324,20 +324,20 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x0600349E RID: 13470 RVA: 0x001C1891 File Offset: 0x001BFC91
+		// Token: 0x060034A0 RID: 13472 RVA: 0x001C1959 File Offset: 0x001BFD59
 		public override void ExtraOnGUI()
 		{
 			base.ExtraOnGUI();
 			InspectPaneUtility.ExtraOnGUI(this);
 		}
 
-		// Token: 0x0600349F RID: 13471 RVA: 0x001C18A0 File Offset: 0x001BFCA0
+		// Token: 0x060034A1 RID: 13473 RVA: 0x001C1968 File Offset: 0x001BFD68
 		public void CloseOpenTab()
 		{
 			this.openTabType = null;
 		}
 
-		// Token: 0x060034A0 RID: 13472 RVA: 0x001C18AA File Offset: 0x001BFCAA
+		// Token: 0x060034A2 RID: 13474 RVA: 0x001C1972 File Offset: 0x001BFD72
 		public void Reset()
 		{
 			this.openTabType = null;

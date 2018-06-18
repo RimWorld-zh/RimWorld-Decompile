@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x020008A2 RID: 2210
 	public class ResourceReadout
 	{
-		// Token: 0x0600328F RID: 12943 RVA: 0x001B31D5 File Offset: 0x001B15D5
+		// Token: 0x06003291 RID: 12945 RVA: 0x001B329D File Offset: 0x001B169D
 		public ResourceReadout()
 		{
 			this.RootThingCategories = (from cat in DefDatabase<ThingCategoryDef>.AllDefs
@@ -17,7 +17,7 @@ namespace RimWorld
 			select cat).ToList<ThingCategoryDef>();
 		}
 
-		// Token: 0x06003290 RID: 12944 RVA: 0x001B3210 File Offset: 0x001B1610
+		// Token: 0x06003292 RID: 12946 RVA: 0x001B32D8 File Offset: 0x001B16D8
 		public void ResourceReadoutOnGUI()
 		{
 			if (Event.current.type != EventType.Layout)
@@ -61,7 +61,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003291 RID: 12945 RVA: 0x001B3368 File Offset: 0x001B1768
+		// Token: 0x06003293 RID: 12947 RVA: 0x001B3430 File Offset: 0x001B1830
 		private void DoReadoutCategorized(Rect rect)
 		{
 			Listing_ResourceReadout listing_ResourceReadout = new Listing_ResourceReadout(Find.CurrentMap);
@@ -77,7 +77,7 @@ namespace RimWorld
 			this.lastDrawnHeight = listing_ResourceReadout.CurHeight;
 		}
 
-		// Token: 0x06003292 RID: 12946 RVA: 0x001B33F8 File Offset: 0x001B17F8
+		// Token: 0x06003294 RID: 12948 RVA: 0x001B34C0 File Offset: 0x001B18C0
 		private void DoReadoutSimple(Rect rect, float outRectHeight)
 		{
 			GUI.BeginGroup(rect);
@@ -100,7 +100,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06003293 RID: 12947 RVA: 0x001B3500 File Offset: 0x001B1900
+		// Token: 0x06003295 RID: 12949 RVA: 0x001B35C8 File Offset: 0x001B19C8
 		public void DrawResourceSimple(Rect rect, ThingDef thingDef)
 		{
 			this.DrawIcon(rect.x, rect.y, thingDef);
@@ -110,7 +110,7 @@ namespace RimWorld
 			Widgets.Label(rect2, count.ToStringCached());
 		}
 
-		// Token: 0x06003294 RID: 12948 RVA: 0x001B357C File Offset: 0x001B197C
+		// Token: 0x06003296 RID: 12950 RVA: 0x001B3644 File Offset: 0x001B1A44
 		private void DrawIcon(float x, float y, ThingDef thingDef)
 		{
 			Rect rect = new Rect(x, y, 27f, 27f);

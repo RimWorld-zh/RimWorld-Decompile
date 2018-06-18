@@ -7,7 +7,7 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public static class TexGame
 	{
-		// Token: 0x0600383E RID: 14398 RVA: 0x001DF734 File Offset: 0x001DDB34
+		// Token: 0x06003840 RID: 14400 RVA: 0x001DF808 File Offset: 0x001DDC08
 		static TexGame()
 		{
 			Shader.SetGlobalTexture("_NoiseTex", TexGame.NoiseTex);

@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000814 RID: 2068
 	public abstract class Dialog_ScenarioList : Dialog_FileList
 	{
-		// Token: 0x06002E24 RID: 11812 RVA: 0x00184BE4 File Offset: 0x00182FE4
+		// Token: 0x06002E26 RID: 11814 RVA: 0x00184C78 File Offset: 0x00183078
 		protected override void ReloadFiles()
 		{
 			this.files.Clear();

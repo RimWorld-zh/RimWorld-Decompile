@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200048E RID: 1166
 	public static class PawnTechHediffsGenerator
 	{
-		// Token: 0x0600148F RID: 5263 RVA: 0x000B47B8 File Offset: 0x000B2BB8
+		// Token: 0x0600148F RID: 5263 RVA: 0x000B47D4 File Offset: 0x000B2BD4
 		public static void GenerateTechHediffsFor(Pawn pawn)
 		{
 			if (pawn.kindDef.techHediffsTags != null)

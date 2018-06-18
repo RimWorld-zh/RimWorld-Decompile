@@ -7,7 +7,7 @@ namespace Verse.Grammar
 	public class Rule_File : Rule
 	{
 		// Token: 0x17000A77 RID: 2679
-		// (get) Token: 0x06004288 RID: 17032 RVA: 0x002306AC File Offset: 0x0022EAAC
+		// (get) Token: 0x0600428A RID: 17034 RVA: 0x00230724 File Offset: 0x0022EB24
 		public override float BaseSelectionWeight
 		{
 			get
@@ -16,13 +16,13 @@ namespace Verse.Grammar
 			}
 		}
 
-		// Token: 0x06004289 RID: 17033 RVA: 0x002306D0 File Offset: 0x0022EAD0
+		// Token: 0x0600428B RID: 17035 RVA: 0x00230748 File Offset: 0x0022EB48
 		public override string Generate()
 		{
 			return this.cachedStrings.RandomElement<string>();
 		}
 
-		// Token: 0x0600428A RID: 17034 RVA: 0x002306F0 File Offset: 0x0022EAF0
+		// Token: 0x0600428C RID: 17036 RVA: 0x00230768 File Offset: 0x0022EB68
 		public override void Init()
 		{
 			if (!this.path.NullOrEmpty())
@@ -35,7 +35,7 @@ namespace Verse.Grammar
 			}
 		}
 
-		// Token: 0x0600428B RID: 17035 RVA: 0x0023076C File Offset: 0x0022EB6C
+		// Token: 0x0600428D RID: 17037 RVA: 0x002307E4 File Offset: 0x0022EBE4
 		private void LoadStringsFromFile(string filePath)
 		{
 			List<string> list;
@@ -48,7 +48,7 @@ namespace Verse.Grammar
 			}
 		}
 
-		// Token: 0x0600428C RID: 17036 RVA: 0x002307DC File Offset: 0x0022EBDC
+		// Token: 0x0600428E RID: 17038 RVA: 0x00230854 File Offset: 0x0022EC54
 		public override string ToString()
 		{
 			string result;

@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F6C RID: 3948
+	// Token: 0x02000F6B RID: 3947
 	public static class SolidColorMaterials
 	{
-		// Token: 0x17000F45 RID: 3909
-		// (get) Token: 0x06005F3A RID: 24378 RVA: 0x00307FB8 File Offset: 0x003063B8
+		// Token: 0x17000F44 RID: 3908
+		// (get) Token: 0x06005F38 RID: 24376 RVA: 0x00308094 File Offset: 0x00306494
 		public static int SimpleColorMatCount
 		{
 			get
@@ -17,7 +17,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005F3B RID: 24379 RVA: 0x00307FE4 File Offset: 0x003063E4
+		// Token: 0x06005F39 RID: 24377 RVA: 0x003080C0 File Offset: 0x003064C0
 		public static Material SimpleSolidColorMaterial(Color col, bool careAboutVertexColors = false)
 		{
 			Material material;
@@ -37,7 +37,7 @@ namespace Verse
 			return material;
 		}
 
-		// Token: 0x06005F3C RID: 24380 RVA: 0x00308064 File Offset: 0x00306464
+		// Token: 0x06005F3A RID: 24378 RVA: 0x00308140 File Offset: 0x00306540
 		public static Material NewSolidColorMaterial(Color col, Shader shader)
 		{
 			Material result;
@@ -62,13 +62,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005F3D RID: 24381 RVA: 0x003080D8 File Offset: 0x003064D8
+		// Token: 0x06005F3B RID: 24379 RVA: 0x003081B4 File Offset: 0x003065B4
 		public static Texture2D NewSolidColorTexture(float r, float g, float b, float a)
 		{
 			return SolidColorMaterials.NewSolidColorTexture(new Color(r, g, b, a));
 		}
 
-		// Token: 0x06005F3E RID: 24382 RVA: 0x003080FC File Offset: 0x003064FC
+		// Token: 0x06005F3C RID: 24380 RVA: 0x003081D8 File Offset: 0x003065D8
 		public static Texture2D NewSolidColorTexture(Color color)
 		{
 			Texture2D result;
@@ -88,10 +88,10 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04003EAA RID: 16042
+		// Token: 0x04003EA9 RID: 16041
 		private static Dictionary<Color, Material> simpleColorMats = new Dictionary<Color, Material>();
 
-		// Token: 0x04003EAB RID: 16043
+		// Token: 0x04003EAA RID: 16042
 		private static Dictionary<Color, Material> simpleColorAndVertexColorMats = new Dictionary<Color, Material>();
 	}
 }

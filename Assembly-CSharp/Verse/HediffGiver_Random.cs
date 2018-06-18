@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000D39 RID: 3385
+	// Token: 0x02000D38 RID: 3384
 	public class HediffGiver_Random : HediffGiver
 	{
-		// Token: 0x06004A7A RID: 19066 RVA: 0x0026CD1A File Offset: 0x0026B11A
+		// Token: 0x06004A78 RID: 19064 RVA: 0x0026CCF2 File Offset: 0x0026B0F2
 		public override void OnIntervalPassed(Pawn pawn, Hediff cause)
 		{
 			if (Rand.MTBEventOccurs(this.mtbDays, 60000f, 60f))
@@ -17,7 +17,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0400324E RID: 12878
+		// Token: 0x0400324C RID: 12876
 		public float mtbDays = 0f;
 	}
 }

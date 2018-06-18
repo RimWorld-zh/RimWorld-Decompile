@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F6A RID: 3946
+	// Token: 0x02000F69 RID: 3945
 	public class ShaderParameter
 	{
-		// Token: 0x06005F38 RID: 24376 RVA: 0x00307DC4 File Offset: 0x003061C4
+		// Token: 0x06005F36 RID: 24374 RVA: 0x00307EA0 File Offset: 0x003062A0
 		public void Apply(Material mat)
 		{
 			ShaderParameter.Type type = this.type;
@@ -35,7 +35,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005F39 RID: 24377 RVA: 0x00307E68 File Offset: 0x00306268
+		// Token: 0x06005F37 RID: 24375 RVA: 0x00307F44 File Offset: 0x00306344
 		public void LoadDataFromXmlCustom(XmlNode xmlRoot)
 		{
 			if (xmlRoot.ChildNodes.Count != 1)
@@ -70,29 +70,29 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003EA1 RID: 16033
+		// Token: 0x04003EA0 RID: 16032
 		[NoTranslate]
 		private string name;
 
-		// Token: 0x04003EA2 RID: 16034
+		// Token: 0x04003EA1 RID: 16033
 		private Vector4 value;
 
-		// Token: 0x04003EA3 RID: 16035
+		// Token: 0x04003EA2 RID: 16034
 		private Texture2D valueTex;
 
-		// Token: 0x04003EA4 RID: 16036
+		// Token: 0x04003EA3 RID: 16035
 		private ShaderParameter.Type type;
 
-		// Token: 0x02000F6B RID: 3947
+		// Token: 0x02000F6A RID: 3946
 		private enum Type
 		{
-			// Token: 0x04003EA6 RID: 16038
+			// Token: 0x04003EA5 RID: 16037
 			Float,
-			// Token: 0x04003EA7 RID: 16039
+			// Token: 0x04003EA6 RID: 16038
 			Vector,
-			// Token: 0x04003EA8 RID: 16040
+			// Token: 0x04003EA7 RID: 16039
 			Matrix,
-			// Token: 0x04003EA9 RID: 16041
+			// Token: 0x04003EA8 RID: 16040
 			Texture
 		}
 	}

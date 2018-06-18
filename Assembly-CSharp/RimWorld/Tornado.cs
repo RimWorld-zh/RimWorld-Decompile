@@ -13,7 +13,7 @@ namespace RimWorld
 	public class Tornado : ThingWithComps
 	{
 		// Token: 0x1700059C RID: 1436
-		// (get) Token: 0x0600252D RID: 9517 RVA: 0x0013EA78 File Offset: 0x0013CE78
+		// (get) Token: 0x0600252F RID: 9519 RVA: 0x0013EAF0 File Offset: 0x0013CEF0
 		private float FadeInOutFactor
 		{
 			get
@@ -24,7 +24,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600252E RID: 9518 RVA: 0x0013EAE0 File Offset: 0x0013CEE0
+		// Token: 0x06002530 RID: 9520 RVA: 0x0013EB58 File Offset: 0x0013CF58
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -35,7 +35,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.ticksLeftToDisappear, "ticksLeftToDisappear", 0, false);
 		}
 
-		// Token: 0x0600252F RID: 9519 RVA: 0x0013EB5C File Offset: 0x0013CF5C
+		// Token: 0x06002531 RID: 9521 RVA: 0x0013EBD4 File Offset: 0x0013CFD4
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -51,7 +51,7 @@ namespace RimWorld
 			this.CreateSustainer();
 		}
 
-		// Token: 0x06002530 RID: 9520 RVA: 0x0013EBE8 File Offset: 0x0013CFE8
+		// Token: 0x06002532 RID: 9522 RVA: 0x0013EC60 File Offset: 0x0013D060
 		public override void Tick()
 		{
 			if (base.Spawned)
@@ -119,7 +119,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002531 RID: 9521 RVA: 0x0013EEB4 File Offset: 0x0013D2B4
+		// Token: 0x06002533 RID: 9523 RVA: 0x0013EF2C File Offset: 0x0013D32C
 		public override void Draw()
 		{
 			Rand.PushState();
@@ -131,7 +131,7 @@ namespace RimWorld
 			Rand.PopState();
 		}
 
-		// Token: 0x06002532 RID: 9522 RVA: 0x0013EF30 File Offset: 0x0013D330
+		// Token: 0x06002534 RID: 9524 RVA: 0x0013EFA8 File Offset: 0x0013D3A8
 		private void DrawTornadoPart(float distanceFromCenter, float initialAngle, float speedMultiplier, float colorMultiplier)
 		{
 			int ticksGame = Find.TickManager.TicksGame;
@@ -163,7 +163,7 @@ namespace RimWorld
 			Graphics.DrawMesh(MeshPool.plane10, matrix, Tornado.TornadoMaterial, 0, null, 0, Tornado.matPropertyBlock);
 		}
 
-		// Token: 0x06002533 RID: 9523 RVA: 0x0013F130 File Offset: 0x0013D530
+		// Token: 0x06002535 RID: 9525 RVA: 0x0013F1A8 File Offset: 0x0013D5A8
 		private float AdjustedDistanceFromCenter(float distanceFromCenter)
 		{
 			float num = Mathf.Min(distanceFromCenter / 8f, 1f);
@@ -171,13 +171,13 @@ namespace RimWorld
 			return distanceFromCenter * num;
 		}
 
-		// Token: 0x06002534 RID: 9524 RVA: 0x0013F15E File Offset: 0x0013D55E
+		// Token: 0x06002536 RID: 9526 RVA: 0x0013F1D6 File Offset: 0x0013D5D6
 		private void UpdateSustainerVolume()
 		{
 			this.sustainer.info.volumeFactor = this.FadeInOutFactor;
 		}
 
-		// Token: 0x06002535 RID: 9525 RVA: 0x0013F177 File Offset: 0x0013D577
+		// Token: 0x06002537 RID: 9527 RVA: 0x0013F1EF File Offset: 0x0013D5EF
 		private void CreateSustainer()
 		{
 			LongEventHandler.ExecuteWhenFinished(delegate
@@ -188,7 +188,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06002536 RID: 9526 RVA: 0x0013F18C File Offset: 0x0013D58C
+		// Token: 0x06002538 RID: 9528 RVA: 0x0013F204 File Offset: 0x0013D604
 		private void DamageCloseThings()
 		{
 			int num = GenRadial.NumCellsInRadius(4.2f);
@@ -207,7 +207,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002537 RID: 9527 RVA: 0x0013F254 File Offset: 0x0013D654
+		// Token: 0x06002539 RID: 9529 RVA: 0x0013F2CC File Offset: 0x0013D6CC
 		private void DamageFarThings()
 		{
 			IntVec3 c = (from x in GenRadial.RadialCellsAround(base.Position, 10f, true)
@@ -219,7 +219,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002538 RID: 9528 RVA: 0x0013F2A8 File Offset: 0x0013D6A8
+		// Token: 0x0600253A RID: 9530 RVA: 0x0013F320 File Offset: 0x0013D720
 		private bool CellImmuneToDamage(IntVec3 c)
 		{
 			bool result;
@@ -235,7 +235,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002539 RID: 9529 RVA: 0x0013F348 File Offset: 0x0013D748
+		// Token: 0x0600253B RID: 9531 RVA: 0x0013F3C0 File Offset: 0x0013D7C0
 		private void DoDamage(IntVec3 c, float damageFactor)
 		{
 			Tornado.tmpThings.Clear();

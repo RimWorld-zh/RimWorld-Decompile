@@ -5,10 +5,10 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000C01 RID: 3073
+	// Token: 0x02000C00 RID: 3072
 	public static class AreaUtility
 	{
-		// Token: 0x06004327 RID: 17191 RVA: 0x00237148 File Offset: 0x00235548
+		// Token: 0x06004325 RID: 17189 RVA: 0x00237120 File Offset: 0x00235520
 		public static void MakeAllowedAreaListFloatMenu(Action<Area> selAction, bool addNullAreaOption, bool addManageOption, Map map)
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
@@ -43,7 +43,7 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x06004328 RID: 17192 RVA: 0x002372B0 File Offset: 0x002356B0
+		// Token: 0x06004326 RID: 17190 RVA: 0x00237288 File Offset: 0x00235688
 		public static string AreaAllowedLabel(Pawn pawn)
 		{
 			string result;
@@ -58,7 +58,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004329 RID: 17193 RVA: 0x002372EC File Offset: 0x002356EC
+		// Token: 0x06004327 RID: 17191 RVA: 0x002372C4 File Offset: 0x002356C4
 		public static string AreaAllowedLabel_Area(Area area)
 		{
 			string result;

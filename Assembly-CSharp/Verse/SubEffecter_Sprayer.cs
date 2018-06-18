@@ -3,15 +3,15 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F22 RID: 3874
+	// Token: 0x02000F21 RID: 3873
 	public abstract class SubEffecter_Sprayer : SubEffecter
 	{
-		// Token: 0x06005CB3 RID: 23731 RVA: 0x002EF3C1 File Offset: 0x002ED7C1
+		// Token: 0x06005CB1 RID: 23729 RVA: 0x002EF49D File Offset: 0x002ED89D
 		public SubEffecter_Sprayer(SubEffecterDef def, Effecter parent) : base(def, parent)
 		{
 		}
 
-		// Token: 0x06005CB4 RID: 23732 RVA: 0x002EF3CC File Offset: 0x002ED7CC
+		// Token: 0x06005CB2 RID: 23730 RVA: 0x002EF4A8 File Offset: 0x002ED8A8
 		protected void MakeMote(TargetInfo A, TargetInfo B)
 		{
 			Vector3 vector = Vector3.zero;

@@ -8,7 +8,7 @@ namespace RimWorld.Planet
 	// Token: 0x020008EC RID: 2284
 	public class WorldGlobalControls
 	{
-		// Token: 0x06003484 RID: 13444 RVA: 0x001C105C File Offset: 0x001BF45C
+		// Token: 0x06003486 RID: 13446 RVA: 0x001C1124 File Offset: 0x001BF524
 		public void WorldGlobalControlsOnGUI()
 		{
 			if (Event.current.type != EventType.Layout)

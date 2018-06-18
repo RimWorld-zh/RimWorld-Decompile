@@ -8,7 +8,7 @@ namespace Verse.AI
 	public class MentalState_TargetedInsultingSpree : MentalState_InsultingSpree
 	{
 		// Token: 0x1700090F RID: 2319
-		// (get) Token: 0x06003B5C RID: 15196 RVA: 0x001F6FC4 File Offset: 0x001F53C4
+		// (get) Token: 0x06003B5E RID: 15198 RVA: 0x001F7098 File Offset: 0x001F5498
 		public override string InspectLine
 		{
 			get
@@ -18,7 +18,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x17000910 RID: 2320
-		// (get) Token: 0x06003B5D RID: 15197 RVA: 0x001F6FF4 File Offset: 0x001F53F4
+		// (get) Token: 0x06003B5F RID: 15199 RVA: 0x001F70C8 File Offset: 0x001F54C8
 		protected override bool CanEndBeforeMaxDurationNow
 		{
 			get
@@ -27,7 +27,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B5E RID: 15198 RVA: 0x001F7010 File Offset: 0x001F5410
+		// Token: 0x06003B60 RID: 15200 RVA: 0x001F70E4 File Offset: 0x001F54E4
 		public override void MentalStateTick()
 		{
 			if (this.target != null && (!this.target.Spawned || !this.pawn.CanReach(this.target, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn)))
@@ -58,14 +58,14 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B5F RID: 15199 RVA: 0x001F710E File Offset: 0x001F550E
+		// Token: 0x06003B61 RID: 15201 RVA: 0x001F71E2 File Offset: 0x001F55E2
 		public override void PostStart(string reason)
 		{
 			base.PostStart(reason);
 			this.TryFindNewTarget();
 		}
 
-		// Token: 0x06003B60 RID: 15200 RVA: 0x001F7120 File Offset: 0x001F5520
+		// Token: 0x06003B62 RID: 15202 RVA: 0x001F71F4 File Offset: 0x001F55F4
 		private bool TryFindNewTarget()
 		{
 			InsultingSpreeMentalStateUtility.GetInsultCandidatesFor(this.pawn, MentalState_TargetedInsultingSpree.candidates, false);
@@ -74,7 +74,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003B61 RID: 15201 RVA: 0x001F7164 File Offset: 0x001F5564
+		// Token: 0x06003B63 RID: 15203 RVA: 0x001F7238 File Offset: 0x001F5638
 		public override void PostEnd()
 		{
 			base.PostEnd();
@@ -88,7 +88,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B62 RID: 15202 RVA: 0x001F71D8 File Offset: 0x001F55D8
+		// Token: 0x06003B64 RID: 15204 RVA: 0x001F72AC File Offset: 0x001F56AC
 		public override string GetBeginLetterText()
 		{
 			string result;

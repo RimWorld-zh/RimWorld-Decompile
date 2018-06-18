@@ -8,7 +8,7 @@ namespace RimWorld.Planet
 	public class WorldDragBox
 	{
 		// Token: 0x17000868 RID: 2152
-		// (get) Token: 0x06003478 RID: 13432 RVA: 0x001C0DE4 File Offset: 0x001BF1E4
+		// (get) Token: 0x0600347A RID: 13434 RVA: 0x001C0EAC File Offset: 0x001BF2AC
 		public float LeftX
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000869 RID: 2153
-		// (get) Token: 0x06003479 RID: 13433 RVA: 0x001C0E18 File Offset: 0x001BF218
+		// (get) Token: 0x0600347B RID: 13435 RVA: 0x001C0EE0 File Offset: 0x001BF2E0
 		public float RightX
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700086A RID: 2154
-		// (get) Token: 0x0600347A RID: 13434 RVA: 0x001C0E4C File Offset: 0x001BF24C
+		// (get) Token: 0x0600347C RID: 13436 RVA: 0x001C0F14 File Offset: 0x001BF314
 		public float BotZ
 		{
 			get
@@ -38,7 +38,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700086B RID: 2155
-		// (get) Token: 0x0600347B RID: 13435 RVA: 0x001C0E80 File Offset: 0x001BF280
+		// (get) Token: 0x0600347D RID: 13437 RVA: 0x001C0F48 File Offset: 0x001BF348
 		public float TopZ
 		{
 			get
@@ -48,7 +48,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700086C RID: 2156
-		// (get) Token: 0x0600347C RID: 13436 RVA: 0x001C0EB4 File Offset: 0x001BF2B4
+		// (get) Token: 0x0600347E RID: 13438 RVA: 0x001C0F7C File Offset: 0x001BF37C
 		public Rect ScreenRect
 		{
 			get
@@ -58,7 +58,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700086D RID: 2157
-		// (get) Token: 0x0600347D RID: 13437 RVA: 0x001C0EF4 File Offset: 0x001BF2F4
+		// (get) Token: 0x0600347F RID: 13439 RVA: 0x001C0FBC File Offset: 0x001BF3BC
 		public float Diagonal
 		{
 			get
@@ -68,7 +68,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700086E RID: 2158
-		// (get) Token: 0x0600347E RID: 13438 RVA: 0x001C0F3C File Offset: 0x001BF33C
+		// (get) Token: 0x06003480 RID: 13440 RVA: 0x001C1004 File Offset: 0x001BF404
 		public bool IsValid
 		{
 			get
@@ -78,7 +78,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700086F RID: 2159
-		// (get) Token: 0x0600347F RID: 13439 RVA: 0x001C0F60 File Offset: 0x001BF360
+		// (get) Token: 0x06003481 RID: 13441 RVA: 0x001C1028 File Offset: 0x001BF428
 		public bool IsValidAndActive
 		{
 			get
@@ -87,7 +87,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06003480 RID: 13440 RVA: 0x001C0F89 File Offset: 0x001BF389
+		// Token: 0x06003482 RID: 13442 RVA: 0x001C1051 File Offset: 0x001BF451
 		public void DragBoxOnGUI()
 		{
 			if (this.IsValidAndActive)
@@ -96,13 +96,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06003481 RID: 13441 RVA: 0x001C0FA4 File Offset: 0x001BF3A4
+		// Token: 0x06003483 RID: 13443 RVA: 0x001C106C File Offset: 0x001BF46C
 		public bool Contains(WorldObject o)
 		{
 			return this.Contains(o.ScreenPos());
 		}
 
-		// Token: 0x06003482 RID: 13442 RVA: 0x001C0FC8 File Offset: 0x001BF3C8
+		// Token: 0x06003484 RID: 13444 RVA: 0x001C1090 File Offset: 0x001BF490
 		public bool Contains(Vector2 screenPoint)
 		{
 			return screenPoint.x + 0.5f > this.LeftX && screenPoint.x - 0.5f < this.RightX && screenPoint.y + 0.5f > this.BotZ && screenPoint.y - 0.5f < this.TopZ;

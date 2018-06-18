@@ -9,7 +9,7 @@ namespace RimWorld.Planet
 	public static class WorldGenerator
 	{
 		// Token: 0x17000425 RID: 1061
-		// (get) Token: 0x06001C7C RID: 7292 RVA: 0x000F4C04 File Offset: 0x000F3004
+		// (get) Token: 0x06001C7E RID: 7294 RVA: 0x000F4C7C File Offset: 0x000F307C
 		public static IEnumerable<WorldGenStepDef> GenStepsInOrder
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C7D RID: 7293 RVA: 0x000F4C64 File Offset: 0x000F3064
+		// Token: 0x06001C7F RID: 7295 RVA: 0x000F4CDC File Offset: 0x000F30DC
 		public static World GenerateWorld(float planetCoverage, string seedString, OverallRainfall overallRainfall, OverallTemperature overallTemperature)
 		{
 			DeepProfiler.Start("GenerateWorld");
@@ -35,7 +35,7 @@ namespace RimWorld.Planet
 				Current.CreatingWorld.info.planetCoverage = planetCoverage;
 				Current.CreatingWorld.info.overallRainfall = overallRainfall;
 				Current.CreatingWorld.info.overallTemperature = overallTemperature;
-				Current.CreatingWorld.info.name = NameGenerator.GenerateName(RulePackDefOf.NamerWorld, null, false, null);
+				Current.CreatingWorld.info.name = NameGenerator.GenerateName(RulePackDefOf.NamerWorld, null, false, null, null);
 				WorldGenerator.tmpGenSteps.Clear();
 				WorldGenerator.tmpGenSteps.AddRange(WorldGenerator.GenStepsInOrder);
 				for (int i = 0; i < WorldGenerator.tmpGenSteps.Count; i++)
@@ -70,7 +70,7 @@ namespace RimWorld.Planet
 			return creatingWorld;
 		}
 
-		// Token: 0x06001C7E RID: 7294 RVA: 0x000F4E30 File Offset: 0x000F3230
+		// Token: 0x06001C80 RID: 7296 RVA: 0x000F4EA8 File Offset: 0x000F32A8
 		public static void GenerateWithoutWorldData(string seedString)
 		{
 			int seedFromSeedString = WorldGenerator.GetSeedFromSeedString(seedString);
@@ -92,7 +92,7 @@ namespace RimWorld.Planet
 			Rand.PopState();
 		}
 
-		// Token: 0x06001C7F RID: 7295 RVA: 0x000F4EE4 File Offset: 0x000F32E4
+		// Token: 0x06001C81 RID: 7297 RVA: 0x000F4F5C File Offset: 0x000F335C
 		public static void GenerateFromScribe(string seedString)
 		{
 			int seedFromSeedString = WorldGenerator.GetSeedFromSeedString(seedString);
@@ -114,7 +114,7 @@ namespace RimWorld.Planet
 			Rand.PopState();
 		}
 
-		// Token: 0x06001C80 RID: 7296 RVA: 0x000F4F98 File Offset: 0x000F3398
+		// Token: 0x06001C82 RID: 7298 RVA: 0x000F5010 File Offset: 0x000F3410
 		private static int GetSeedPart(List<WorldGenStepDef> genSteps, int index)
 		{
 			int seedPart = genSteps[index].worldGenStep.SeedPart;
@@ -129,7 +129,7 @@ namespace RimWorld.Planet
 			return seedPart + num;
 		}
 
-		// Token: 0x06001C81 RID: 7297 RVA: 0x000F4FF8 File Offset: 0x000F33F8
+		// Token: 0x06001C83 RID: 7299 RVA: 0x000F5070 File Offset: 0x000F3470
 		private static int GetSeedFromSeedString(string seedString)
 		{
 			return GenText.StableStringHash(seedString);

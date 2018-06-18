@@ -10,7 +10,7 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public class WorldRenderer
 	{
-		// Token: 0x06001B7F RID: 7039 RVA: 0x000ED410 File Offset: 0x000EB810
+		// Token: 0x06001B80 RID: 7040 RVA: 0x000ED47C File Offset: 0x000EB87C
 		public WorldRenderer()
 		{
 			foreach (Type type in typeof(WorldLayer).AllLeafSubclasses())
@@ -20,7 +20,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700040C RID: 1036
-		// (get) Token: 0x06001B80 RID: 7040 RVA: 0x000ED4A0 File Offset: 0x000EB8A0
+		// (get) Token: 0x06001B81 RID: 7041 RVA: 0x000ED50C File Offset: 0x000EB90C
 		private bool ShouldRegenerateDirtyLayersInLongEvent
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B81 RID: 7041 RVA: 0x000ED50C File Offset: 0x000EB90C
+		// Token: 0x06001B82 RID: 7042 RVA: 0x000ED578 File Offset: 0x000EB978
 		public void SetAllLayersDirty()
 		{
 			for (int i = 0; i < this.layers.Count; i++)
@@ -48,7 +48,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B82 RID: 7042 RVA: 0x000ED54C File Offset: 0x000EB94C
+		// Token: 0x06001B83 RID: 7043 RVA: 0x000ED5B8 File Offset: 0x000EB9B8
 		public void SetDirty<T>() where T : WorldLayer
 		{
 			for (int i = 0; i < this.layers.Count; i++)
@@ -60,7 +60,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B83 RID: 7043 RVA: 0x000ED5A0 File Offset: 0x000EB9A0
+		// Token: 0x06001B84 RID: 7044 RVA: 0x000ED60C File Offset: 0x000EBA0C
 		public void RegenerateAllLayersNow()
 		{
 			for (int i = 0; i < this.layers.Count; i++)
@@ -69,7 +69,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B84 RID: 7044 RVA: 0x000ED5E0 File Offset: 0x000EB9E0
+		// Token: 0x06001B85 RID: 7045 RVA: 0x000ED64C File Offset: 0x000EBA4C
 		private IEnumerable RegenerateDirtyLayersNow_Async()
 		{
 			for (int i = 0; i < this.layers.Count; i++)
@@ -100,7 +100,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001B85 RID: 7045 RVA: 0x000ED60C File Offset: 0x000EBA0C
+		// Token: 0x06001B86 RID: 7046 RVA: 0x000ED678 File Offset: 0x000EBA78
 		public void Notify_StaticWorldObjectPosChanged()
 		{
 			for (int i = 0; i < this.layers.Count; i++)
@@ -113,13 +113,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B86 RID: 7046 RVA: 0x000ED656 File Offset: 0x000EBA56
+		// Token: 0x06001B87 RID: 7047 RVA: 0x000ED6C2 File Offset: 0x000EBAC2
 		public void CheckActivateWorldCamera()
 		{
 			Find.WorldCamera.gameObject.SetActive(WorldRendererUtility.WorldRenderedNow);
 		}
 
-		// Token: 0x06001B87 RID: 7047 RVA: 0x000ED670 File Offset: 0x000EBA70
+		// Token: 0x06001B88 RID: 7048 RVA: 0x000ED6DC File Offset: 0x000EBADC
 		public void DrawWorldLayers()
 		{
 			if (this.asynchronousRegenerationActive)
@@ -141,7 +141,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B88 RID: 7048 RVA: 0x000ED6F8 File Offset: 0x000EBAF8
+		// Token: 0x06001B89 RID: 7049 RVA: 0x000ED764 File Offset: 0x000EBB64
 		public int GetTileIDFromRayHit(RaycastHit hit)
 		{
 			int i = 0;

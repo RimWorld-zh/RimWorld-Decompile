@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200048F RID: 1167
 	public static class PawnWeaponGenerator
 	{
-		// Token: 0x06001492 RID: 5266 RVA: 0x000B4A30 File Offset: 0x000B2E30
+		// Token: 0x06001492 RID: 5266 RVA: 0x000B4A4C File Offset: 0x000B2E4C
 		public static void Reset()
 		{
 			Predicate<ThingDef> isWeapon = (ThingDef td) => td.equipmentType == EquipmentType.Primary && !td.weaponTags.NullOrEmpty<string>();
@@ -39,7 +39,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001493 RID: 5267 RVA: 0x000B4BA0 File Offset: 0x000B2FA0
+		// Token: 0x06001493 RID: 5267 RVA: 0x000B4BBC File Offset: 0x000B2FBC
 		public static void TryGenerateWeaponFor(Pawn pawn)
 		{
 			PawnWeaponGenerator.workingWeapons.Clear();
@@ -89,7 +89,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001494 RID: 5268 RVA: 0x000B4DBC File Offset: 0x000B31BC
+		// Token: 0x06001494 RID: 5268 RVA: 0x000B4DD8 File Offset: 0x000B31D8
 		public static bool IsDerpWeapon(ThingDef thing, ThingDef stuff)
 		{
 			bool result;
@@ -121,7 +121,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001495 RID: 5269 RVA: 0x000B4E50 File Offset: 0x000B3250
+		// Token: 0x06001495 RID: 5269 RVA: 0x000B4E6C File Offset: 0x000B326C
 		public static float CheapestNonDerpPriceFor(ThingDef weaponDef)
 		{
 			float num = 9999999f;
@@ -139,7 +139,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06001496 RID: 5270 RVA: 0x000B4ED4 File Offset: 0x000B32D4
+		// Token: 0x06001496 RID: 5270 RVA: 0x000B4EF0 File Offset: 0x000B32F0
 		[DebugOutput]
 		internal static void WeaponPairs()
 		{
@@ -157,7 +157,7 @@ namespace RimWorld
 			DebugTables.MakeTablesDialog<ThingStuffPair>(dataSources, array);
 		}
 
-		// Token: 0x06001497 RID: 5271 RVA: 0x000B503A File Offset: 0x000B343A
+		// Token: 0x06001497 RID: 5271 RVA: 0x000B5056 File Offset: 0x000B3456
 		[DebugOutput]
 		internal static void WeaponPairsByThing()
 		{

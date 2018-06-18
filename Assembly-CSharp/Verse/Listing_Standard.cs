@@ -6,29 +6,29 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000E81 RID: 3713
+	// Token: 0x02000E80 RID: 3712
 	public class Listing_Standard : Listing
 	{
-		// Token: 0x0600575F RID: 22367 RVA: 0x002CD64B File Offset: 0x002CBA4B
+		// Token: 0x0600575D RID: 22365 RVA: 0x002CD64B File Offset: 0x002CBA4B
 		public Listing_Standard(GameFont font)
 		{
 			this.font = font;
 		}
 
-		// Token: 0x06005760 RID: 22368 RVA: 0x002CD65B File Offset: 0x002CBA5B
+		// Token: 0x0600575E RID: 22366 RVA: 0x002CD65B File Offset: 0x002CBA5B
 		public Listing_Standard()
 		{
 			this.font = GameFont.Small;
 		}
 
-		// Token: 0x06005761 RID: 22369 RVA: 0x002CD66B File Offset: 0x002CBA6B
+		// Token: 0x0600575F RID: 22367 RVA: 0x002CD66B File Offset: 0x002CBA6B
 		public override void Begin(Rect rect)
 		{
 			base.Begin(rect);
 			Text.Font = this.font;
 		}
 
-		// Token: 0x06005762 RID: 22370 RVA: 0x002CD680 File Offset: 0x002CBA80
+		// Token: 0x06005760 RID: 22368 RVA: 0x002CD680 File Offset: 0x002CBA80
 		public void BeginScrollView(Rect rect, ref Vector2 scrollPosition, ref Rect viewRect)
 		{
 			Widgets.BeginScrollView(rect, ref scrollPosition, viewRect, true);
@@ -37,7 +37,7 @@ namespace Verse
 			this.Begin(rect.AtZero());
 		}
 
-		// Token: 0x06005763 RID: 22371 RVA: 0x002CD6BC File Offset: 0x002CBABC
+		// Token: 0x06005761 RID: 22369 RVA: 0x002CD6BC File Offset: 0x002CBABC
 		public override void End()
 		{
 			base.End();
@@ -54,7 +54,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005764 RID: 22372 RVA: 0x002CD738 File Offset: 0x002CBB38
+		// Token: 0x06005762 RID: 22370 RVA: 0x002CD738 File Offset: 0x002CBB38
 		public void EndScrollView(ref Rect viewRect)
 		{
 			viewRect = new Rect(0f, 0f, this.listingRect.width, this.curY);
@@ -62,7 +62,7 @@ namespace Verse
 			this.End();
 		}
 
-		// Token: 0x06005765 RID: 22373 RVA: 0x002CD768 File Offset: 0x002CBB68
+		// Token: 0x06005763 RID: 22371 RVA: 0x002CD768 File Offset: 0x002CBB68
 		public void Label(string label, float maxHeight = -1f, string tooltip = null)
 		{
 			float num = Text.CalcHeight(label, base.ColumnWidth);
@@ -90,7 +90,7 @@ namespace Verse
 			base.Gap(this.verticalSpacing);
 		}
 
-		// Token: 0x06005766 RID: 22374 RVA: 0x002CD808 File Offset: 0x002CBC08
+		// Token: 0x06005764 RID: 22372 RVA: 0x002CD808 File Offset: 0x002CBC08
 		public void LabelDouble(string leftLabel, string rightLabel, string tip = null)
 		{
 			float num = base.ColumnWidth / 2f;
@@ -109,7 +109,7 @@ namespace Verse
 			base.Gap(this.verticalSpacing);
 		}
 
-		// Token: 0x06005767 RID: 22375 RVA: 0x002CD898 File Offset: 0x002CBC98
+		// Token: 0x06005765 RID: 22373 RVA: 0x002CD898 File Offset: 0x002CBC98
 		public bool RadioButton(string label, bool active, float tabIn = 0f)
 		{
 			float lineHeight = Text.LineHeight;
@@ -119,7 +119,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005768 RID: 22376 RVA: 0x002CD8F4 File Offset: 0x002CBCF4
+		// Token: 0x06005766 RID: 22374 RVA: 0x002CD8F4 File Offset: 0x002CBCF4
 		public void CheckboxLabeled(string label, ref bool checkOn, string tooltip = null)
 		{
 			float lineHeight = Text.LineHeight;
@@ -136,7 +136,7 @@ namespace Verse
 			base.Gap(this.verticalSpacing);
 		}
 
-		// Token: 0x06005769 RID: 22377 RVA: 0x002CD954 File Offset: 0x002CBD54
+		// Token: 0x06005767 RID: 22375 RVA: 0x002CD954 File Offset: 0x002CBD54
 		public bool CheckboxLabeledSelectable(string label, ref bool selected, ref bool checkOn)
 		{
 			float lineHeight = Text.LineHeight;
@@ -146,7 +146,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600576A RID: 22378 RVA: 0x002CD990 File Offset: 0x002CBD90
+		// Token: 0x06005768 RID: 22376 RVA: 0x002CD990 File Offset: 0x002CBD90
 		public bool ButtonText(string label, string highlightTag = null)
 		{
 			Rect rect = base.GetRect(30f);
@@ -159,7 +159,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600576B RID: 22379 RVA: 0x002CD9D8 File Offset: 0x002CBDD8
+		// Token: 0x06005769 RID: 22377 RVA: 0x002CD9D8 File Offset: 0x002CBDD8
 		public bool ButtonTextLabeled(string label, string buttonLabel)
 		{
 			Rect rect = base.GetRect(30f);
@@ -169,7 +169,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600576C RID: 22380 RVA: 0x002CDA24 File Offset: 0x002CBE24
+		// Token: 0x0600576A RID: 22378 RVA: 0x002CDA24 File Offset: 0x002CBE24
 		public bool ButtonImage(Texture2D tex, float width, float height)
 		{
 			base.NewColumnIfNeeded(height);
@@ -178,7 +178,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600576D RID: 22381 RVA: 0x002CDA69 File Offset: 0x002CBE69
+		// Token: 0x0600576B RID: 22379 RVA: 0x002CDA69 File Offset: 0x002CBE69
 		public void None()
 		{
 			GUI.color = Color.gray;
@@ -188,7 +188,7 @@ namespace Verse
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x0600576E RID: 22382 RVA: 0x002CDAA4 File Offset: 0x002CBEA4
+		// Token: 0x0600576C RID: 22380 RVA: 0x002CDAA4 File Offset: 0x002CBEA4
 		public string TextEntry(string text, int lineCount = 1)
 		{
 			Rect rect = base.GetRect(Text.LineHeight * (float)lineCount);
@@ -205,7 +205,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600576F RID: 22383 RVA: 0x002CDAF4 File Offset: 0x002CBEF4
+		// Token: 0x0600576D RID: 22381 RVA: 0x002CDAF4 File Offset: 0x002CBEF4
 		public string TextEntryLabeled(string label, string text, int lineCount = 1)
 		{
 			Rect rect = base.GetRect(Text.LineHeight * (float)lineCount);
@@ -214,7 +214,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005770 RID: 22384 RVA: 0x002CDB30 File Offset: 0x002CBF30
+		// Token: 0x0600576E RID: 22382 RVA: 0x002CDB30 File Offset: 0x002CBF30
 		public void TextFieldNumeric<T>(ref T val, ref string buffer, float min = 0f, float max = 1E+09f) where T : struct
 		{
 			Rect rect = base.GetRect(Text.LineHeight);
@@ -222,7 +222,7 @@ namespace Verse
 			base.Gap(this.verticalSpacing);
 		}
 
-		// Token: 0x06005771 RID: 22385 RVA: 0x002CDB64 File Offset: 0x002CBF64
+		// Token: 0x0600576F RID: 22383 RVA: 0x002CDB64 File Offset: 0x002CBF64
 		public void TextFieldNumericLabeled<T>(string label, ref T val, ref string buffer, float min = 0f, float max = 1E+09f) where T : struct
 		{
 			Rect rect = base.GetRect(Text.LineHeight);
@@ -230,7 +230,7 @@ namespace Verse
 			base.Gap(this.verticalSpacing);
 		}
 
-		// Token: 0x06005772 RID: 22386 RVA: 0x002CDB98 File Offset: 0x002CBF98
+		// Token: 0x06005770 RID: 22384 RVA: 0x002CDB98 File Offset: 0x002CBF98
 		public void IntRange(ref IntRange range, int min, int max)
 		{
 			Rect rect = base.GetRect(28f);
@@ -238,7 +238,7 @@ namespace Verse
 			base.Gap(this.verticalSpacing);
 		}
 
-		// Token: 0x06005773 RID: 22387 RVA: 0x002CDBD0 File Offset: 0x002CBFD0
+		// Token: 0x06005771 RID: 22385 RVA: 0x002CDBD0 File Offset: 0x002CBFD0
 		public float Slider(float val, float min, float max)
 		{
 			Rect rect = base.GetRect(22f);
@@ -247,7 +247,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005774 RID: 22388 RVA: 0x002CDC14 File Offset: 0x002CC014
+		// Token: 0x06005772 RID: 22386 RVA: 0x002CDC14 File Offset: 0x002CC014
 		public void IntAdjuster(ref int val, int countChange, int min = 0)
 		{
 			Rect rect = base.GetRect(24f);
@@ -274,7 +274,7 @@ namespace Verse
 			base.Gap(this.verticalSpacing);
 		}
 
-		// Token: 0x06005775 RID: 22389 RVA: 0x002CDCE8 File Offset: 0x002CC0E8
+		// Token: 0x06005773 RID: 22387 RVA: 0x002CDCE8 File Offset: 0x002CC0E8
 		public void IntSetter(ref int val, int target, string label, float width = 42f)
 		{
 			Rect rect = base.GetRect(24f);
@@ -286,7 +286,7 @@ namespace Verse
 			base.Gap(this.verticalSpacing);
 		}
 
-		// Token: 0x06005776 RID: 22390 RVA: 0x002CDD30 File Offset: 0x002CC130
+		// Token: 0x06005774 RID: 22388 RVA: 0x002CDD30 File Offset: 0x002CC130
 		public void IntEntry(ref int val, ref string editBuffer, int multiplier = 1)
 		{
 			Rect rect = base.GetRect(24f);
@@ -294,7 +294,7 @@ namespace Verse
 			base.Gap(this.verticalSpacing);
 		}
 
-		// Token: 0x06005777 RID: 22391 RVA: 0x002CDD60 File Offset: 0x002CC160
+		// Token: 0x06005775 RID: 22389 RVA: 0x002CDD60 File Offset: 0x002CC160
 		public Listing_Standard BeginSection(float height)
 		{
 			Rect rect = base.GetRect(height + 8f);
@@ -304,13 +304,13 @@ namespace Verse
 			return listing_Standard;
 		}
 
-		// Token: 0x06005778 RID: 22392 RVA: 0x002CDDA1 File Offset: 0x002CC1A1
+		// Token: 0x06005776 RID: 22390 RVA: 0x002CDDA1 File Offset: 0x002CC1A1
 		public void EndSection(Listing_Standard listing)
 		{
 			listing.End();
 		}
 
-		// Token: 0x06005779 RID: 22393 RVA: 0x002CDDAC File Offset: 0x002CC1AC
+		// Token: 0x06005777 RID: 22391 RVA: 0x002CDDAC File Offset: 0x002CC1AC
 		private Vector2 GetLabelScrollbarPosition(float x, float y)
 		{
 			Vector2 zero;
@@ -333,7 +333,7 @@ namespace Verse
 			return zero;
 		}
 
-		// Token: 0x0600577A RID: 22394 RVA: 0x002CDE44 File Offset: 0x002CC244
+		// Token: 0x06005778 RID: 22392 RVA: 0x002CDE44 File Offset: 0x002CC244
 		private void SetLabelScrollbarPosition(float x, float y, Vector2 scrollbarPosition)
 		{
 			if (this.labelScrollbarPositions == null)
@@ -354,7 +354,7 @@ namespace Verse
 			this.labelScrollbarPositions.Add(new Pair<Vector2, Vector2>(new Vector2(x, y), scrollbarPosition));
 		}
 
-		// Token: 0x0600577B RID: 22395 RVA: 0x002CDF0C File Offset: 0x002CC30C
+		// Token: 0x06005779 RID: 22393 RVA: 0x002CDF0C File Offset: 0x002CC30C
 		public bool SelectableDef(string name, bool selected, Action deleteCallback)
 		{
 			Text.Font = GameFont.Tiny;
@@ -385,7 +385,7 @@ namespace Verse
 			return Widgets.ButtonInvisible(rect, false);
 		}
 
-		// Token: 0x0600577C RID: 22396 RVA: 0x002CDFF0 File Offset: 0x002CC3F0
+		// Token: 0x0600577A RID: 22394 RVA: 0x002CDFF0 File Offset: 0x002CC3F0
 		public void LabelCheckboxDebug(string label, ref bool checkOn)
 		{
 			Text.Font = GameFont.Tiny;
@@ -394,7 +394,7 @@ namespace Verse
 			base.Gap(22f + this.verticalSpacing);
 		}
 
-		// Token: 0x0600577D RID: 22397 RVA: 0x002CE048 File Offset: 0x002CC448
+		// Token: 0x0600577B RID: 22395 RVA: 0x002CE048 File Offset: 0x002CC448
 		public bool ButtonDebug(string label)
 		{
 			Text.Font = GameFont.Tiny;
@@ -407,16 +407,16 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x040039DE RID: 14814
+		// Token: 0x040039DC RID: 14812
 		private GameFont font;
 
-		// Token: 0x040039DF RID: 14815
+		// Token: 0x040039DD RID: 14813
 		private List<Pair<Vector2, Vector2>> labelScrollbarPositions;
 
-		// Token: 0x040039E0 RID: 14816
+		// Token: 0x040039DE RID: 14814
 		private List<Vector2> labelScrollbarPositionsSetThisFrame;
 
-		// Token: 0x040039E1 RID: 14817
+		// Token: 0x040039DF RID: 14815
 		private const float DefSelectionLineHeight = 21f;
 	}
 }

@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EF8 RID: 3832
+	// Token: 0x02000EF7 RID: 3831
 	public class SimpleCurveView
 	{
-		// Token: 0x17000E9F RID: 3743
-		// (get) Token: 0x06005B7D RID: 23421 RVA: 0x002E8F7C File Offset: 0x002E737C
+		// Token: 0x17000E9E RID: 3742
+		// (get) Token: 0x06005B7B RID: 23419 RVA: 0x002E9058 File Offset: 0x002E7458
 		public IEnumerable<float> DebugInputValues
 		{
 			get
@@ -26,13 +26,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B7E RID: 23422 RVA: 0x002E8FA6 File Offset: 0x002E73A6
+		// Token: 0x06005B7C RID: 23420 RVA: 0x002E9082 File Offset: 0x002E7482
 		public void SetDebugInput(object key, float value)
 		{
 			this.debugInputValues[key] = value;
 		}
 
-		// Token: 0x06005B7F RID: 23423 RVA: 0x002E8FB6 File Offset: 0x002E73B6
+		// Token: 0x06005B7D RID: 23421 RVA: 0x002E9092 File Offset: 0x002E7492
 		public void ClearDebugInputFrom(object key)
 		{
 			if (this.debugInputValues.ContainsKey(key))
@@ -41,7 +41,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005B80 RID: 23424 RVA: 0x002E8FD8 File Offset: 0x002E73D8
+		// Token: 0x06005B7E RID: 23422 RVA: 0x002E90B4 File Offset: 0x002E74B4
 		public void SetViewRectAround(SimpleCurve curve)
 		{
 			if (curve.PointsCount == 0)
@@ -83,16 +83,16 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003C9E RID: 15518
+		// Token: 0x04003C9D RID: 15517
 		public Rect rect;
 
-		// Token: 0x04003C9F RID: 15519
+		// Token: 0x04003C9E RID: 15518
 		private Dictionary<object, float> debugInputValues = new Dictionary<object, float>();
 
-		// Token: 0x04003CA0 RID: 15520
+		// Token: 0x04003C9F RID: 15519
 		private const float ResetZoomBuffer = 0.1f;
 
-		// Token: 0x04003CA1 RID: 15521
+		// Token: 0x04003CA0 RID: 15520
 		private static Rect identityRect = new Rect(0f, 0f, 1f, 1f);
 	}
 }

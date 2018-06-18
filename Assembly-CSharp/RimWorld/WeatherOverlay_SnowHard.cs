@@ -8,7 +8,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class WeatherOverlay_SnowHard : SkyOverlay
 	{
-		// Token: 0x0600133C RID: 4924 RVA: 0x000A5558 File Offset: 0x000A3958
+		// Token: 0x0600133C RID: 4924 RVA: 0x000A5564 File Offset: 0x000A3964
 		public WeatherOverlay_SnowHard()
 		{
 			this.worldOverlayMat = WeatherOverlay_SnowHard.SnowOverlayWorld;

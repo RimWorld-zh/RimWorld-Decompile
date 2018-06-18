@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020007E5 RID: 2021
 	public static class BuildDesignatorUtility
 	{
-		// Token: 0x06002CDB RID: 11483 RVA: 0x00179CA0 File Offset: 0x001780A0
+		// Token: 0x06002CDD RID: 11485 RVA: 0x00179D34 File Offset: 0x00178134
 		public static void TryDrawPowerGridAndAnticipatedConnection(BuildableDef def, Rot4 rotation)
 		{
 			ThingDef thingDef = def as ThingDef;

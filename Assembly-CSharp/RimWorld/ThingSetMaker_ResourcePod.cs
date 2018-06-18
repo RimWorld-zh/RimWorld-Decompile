@@ -11,7 +11,7 @@ namespace RimWorld
 	[HasDebugOutput]
 	public class ThingSetMaker_ResourcePod : ThingSetMaker
 	{
-		// Token: 0x060026F0 RID: 9968 RVA: 0x0014E26C File Offset: 0x0014C66C
+		// Token: 0x060026F2 RID: 9970 RVA: 0x0014E2E4 File Offset: 0x0014C6E4
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			ThingDef thingDef = ThingSetMaker_ResourcePod.RandomPodContentsDef();
@@ -39,7 +39,7 @@ namespace RimWorld
 			while (outThings.Count < 7 && num > thingDef.BaseMarketValue);
 		}
 
-		// Token: 0x060026F1 RID: 9969 RVA: 0x0014E330 File Offset: 0x0014C730
+		// Token: 0x060026F3 RID: 9971 RVA: 0x0014E3A8 File Offset: 0x0014C7A8
 		private static IEnumerable<ThingDef> PossiblePodContentsDefs()
 		{
 			return from d in DefDatabase<ThingDef>.AllDefs
@@ -47,7 +47,7 @@ namespace RimWorld
 			select d;
 		}
 
-		// Token: 0x060026F2 RID: 9970 RVA: 0x0014E36C File Offset: 0x0014C76C
+		// Token: 0x060026F4 RID: 9972 RVA: 0x0014E3E4 File Offset: 0x0014C7E4
 		private static ThingDef RandomPodContentsDef()
 		{
 			int numMeats = (from x in ThingSetMaker_ResourcePod.PossiblePodContentsDefs()
@@ -59,7 +59,7 @@ namespace RimWorld
 			return ThingSetMaker_ResourcePod.PossiblePodContentsDefs().RandomElementByWeight((ThingDef d) => ThingSetMakerUtility.AdjustedBigCategoriesSelectionWeight(d, numMeats, numLeathers));
 		}
 
-		// Token: 0x060026F3 RID: 9971 RVA: 0x0014E404 File Offset: 0x0014C804
+		// Token: 0x060026F5 RID: 9973 RVA: 0x0014E47C File Offset: 0x0014C87C
 		[DebugOutput]
 		[Category("Incidents")]
 		private static void PodContentsPossibleDefs()
@@ -73,7 +73,7 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x060026F4 RID: 9972 RVA: 0x0014E484 File Offset: 0x0014C884
+		// Token: 0x060026F6 RID: 9974 RVA: 0x0014E4FC File Offset: 0x0014C8FC
 		[DebugOutput]
 		[Category("Incidents")]
 		private static void PodContentsTest()
@@ -86,7 +86,7 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x060026F5 RID: 9973 RVA: 0x0014E4CC File Offset: 0x0014C8CC
+		// Token: 0x060026F7 RID: 9975 RVA: 0x0014E544 File Offset: 0x0014C944
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
 			return ThingSetMaker_ResourcePod.PossiblePodContentsDefs();

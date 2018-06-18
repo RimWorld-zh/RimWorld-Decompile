@@ -6,7 +6,7 @@ namespace Verse.AI.Group
 	// Token: 0x02000A2D RID: 2605
 	public class Trigger_ImportantTraderCaravanPeopleLost : Trigger
 	{
-		// Token: 0x060039D6 RID: 14806 RVA: 0x001E8A38 File Offset: 0x001E6E38
+		// Token: 0x060039D8 RID: 14808 RVA: 0x001E8B0C File Offset: 0x001E6F0C
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
 			if (signal.type == TriggerSignalType.PawnLost && (signal.condition == PawnLostCondition.IncappedOrKilled || signal.condition == PawnLostCondition.MadePrisoner))

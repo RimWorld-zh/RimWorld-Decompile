@@ -13,17 +13,17 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000E2C RID: 3628
+	// Token: 0x02000E2B RID: 3627
 	public class Dialog_DebugActionsMenu : Dialog_DebugOptionLister
 	{
-		// Token: 0x060054FF RID: 21759 RVA: 0x002B9ED9 File Offset: 0x002B82D9
+		// Token: 0x060054FD RID: 21757 RVA: 0x002B9ED9 File Offset: 0x002B82D9
 		public Dialog_DebugActionsMenu()
 		{
 			this.forcePause = true;
 		}
 
-		// Token: 0x17000D71 RID: 3441
-		// (get) Token: 0x06005500 RID: 21760 RVA: 0x002B9EEC File Offset: 0x002B82EC
+		// Token: 0x17000D70 RID: 3440
+		// (get) Token: 0x060054FE RID: 21758 RVA: 0x002B9EEC File Offset: 0x002B82EC
 		public override bool IsDebug
 		{
 			get
@@ -32,7 +32,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005501 RID: 21761 RVA: 0x002B9F04 File Offset: 0x002B8304
+		// Token: 0x060054FF RID: 21759 RVA: 0x002B9F04 File Offset: 0x002B8304
 		protected override void DoListingItems()
 		{
 			if (KeyBindingDefOf.Dev_ToggleDebugActionsMenu.KeyDownEvent)
@@ -59,7 +59,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005502 RID: 21762 RVA: 0x002B9F84 File Offset: 0x002B8384
+		// Token: 0x06005500 RID: 21760 RVA: 0x002B9F84 File Offset: 0x002B8384
 		private void DoListingItems_Entry()
 		{
 			base.DoLabel("Translation tools");
@@ -73,7 +73,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06005503 RID: 21763 RVA: 0x002B9FF0 File Offset: 0x002B83F0
+		// Token: 0x06005501 RID: 21761 RVA: 0x002B9FF0 File Offset: 0x002B83F0
 		private void DoListingItems_AllModePlayActions()
 		{
 			base.DoGap();
@@ -227,7 +227,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06005504 RID: 21764 RVA: 0x002BA1A8 File Offset: 0x002B85A8
+		// Token: 0x06005502 RID: 21762 RVA: 0x002BA1A8 File Offset: 0x002B85A8
 		private void DoListingItems_MapActions()
 		{
 			Text.Font = GameFont.Tiny;
@@ -560,7 +560,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06005505 RID: 21765 RVA: 0x002BA65C File Offset: 0x002B8A5C
+		// Token: 0x06005503 RID: 21763 RVA: 0x002BA65C File Offset: 0x002B8A5C
 		private void DoListingItems_MapTools()
 		{
 			base.DoGap();
@@ -2317,7 +2317,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06005506 RID: 21766 RVA: 0x002BB98C File Offset: 0x002B9D8C
+		// Token: 0x06005504 RID: 21764 RVA: 0x002BB98C File Offset: 0x002B9D8C
 		private void DoListingItems_World()
 		{
 			base.DoLabel("Tools - World");
@@ -2465,7 +2465,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06005507 RID: 21767 RVA: 0x002BBAB8 File Offset: 0x002B9EB8
+		// Token: 0x06005505 RID: 21765 RVA: 0x002BBAB8 File Offset: 0x002B9EB8
 		private void DoRaid(IncidentParms parms)
 		{
 			IncidentDef incidentDef;
@@ -2480,7 +2480,7 @@ namespace Verse
 			incidentDef.Worker.TryExecute(parms);
 		}
 
-		// Token: 0x06005508 RID: 21768 RVA: 0x002BBAFC File Offset: 0x002B9EFC
+		// Token: 0x06005506 RID: 21766 RVA: 0x002BBAFC File Offset: 0x002B9EFC
 		private void DoIncidentDebugAction(IIncidentTarget target)
 		{
 			base.DebugAction("Do incident (" + this.GetIncidentTargetLabel(target) + ")...", delegate
@@ -2512,7 +2512,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06005509 RID: 21769 RVA: 0x002BBB48 File Offset: 0x002B9F48
+		// Token: 0x06005507 RID: 21767 RVA: 0x002BBB48 File Offset: 0x002B9F48
 		private void DoIncidentWithPointsAction(IIncidentTarget target)
 		{
 			base.DebugAction("Do incident w/ points (" + this.GetIncidentTargetLabel(target) + ")...", delegate
@@ -2549,7 +2549,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x0600550A RID: 21770 RVA: 0x002BBB94 File Offset: 0x002B9F94
+		// Token: 0x06005508 RID: 21768 RVA: 0x002BBB94 File Offset: 0x002B9F94
 		private string GetIncidentTargetLabel(IIncidentTarget target)
 		{
 			string result;
@@ -2576,7 +2576,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600550B RID: 21771 RVA: 0x002BBC08 File Offset: 0x002BA008
+		// Token: 0x06005509 RID: 21769 RVA: 0x002BBC08 File Offset: 0x002BA008
 		private void DebugGiveResource(ThingDef resDef, int count)
 		{
 			Pawn pawn = Find.CurrentMap.mapPawns.FreeColonistsSpawned.RandomElement<Pawn>();
@@ -2606,7 +2606,7 @@ namespace Verse
 			}), MessageTypeDefOf.TaskCompletion, false);
 		}
 
-		// Token: 0x0600550C RID: 21772 RVA: 0x002BBCD0 File Offset: 0x002BA0D0
+		// Token: 0x0600550A RID: 21770 RVA: 0x002BBCD0 File Offset: 0x002BA0D0
 		private void OffsetNeed(NeedDef nd, float offsetPct)
 		{
 			foreach (Pawn pawn in (from t in Find.CurrentMap.thingGrid.ThingsAt(UI.MouseCell())
@@ -2622,7 +2622,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600550D RID: 21773 RVA: 0x002BBD8C File Offset: 0x002BA18C
+		// Token: 0x0600550B RID: 21771 RVA: 0x002BBD8C File Offset: 0x002BA18C
 		private void DustPuffFrom(Thing t)
 		{
 			Pawn pawn = t as Pawn;
@@ -2632,7 +2632,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600550E RID: 21774 RVA: 0x002BBDB4 File Offset: 0x002BA1B4
+		// Token: 0x0600550C RID: 21772 RVA: 0x002BBDB4 File Offset: 0x002BA1B4
 		private void AddGuest(bool prisoner)
 		{
 			foreach (Building_Bed building_Bed in Find.CurrentMap.listerBuildings.AllBuildingsColonistOfClass<Building_Bed>())
@@ -2669,7 +2669,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600550F RID: 21775 RVA: 0x002BBF74 File Offset: 0x002BA374
+		// Token: 0x0600550D RID: 21773 RVA: 0x002BBF74 File Offset: 0x002BA374
 		public static IEnumerable<float> PointsOptions(bool extended)
 		{
 			if (!extended)
@@ -2710,10 +2710,10 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x0400380B RID: 14347
+		// Token: 0x04003809 RID: 14345
 		private static List<PawnKindDef> pawnKindsForDamageTypeBattleRoyale = null;
 
-		// Token: 0x0400380C RID: 14348
+		// Token: 0x0400380A RID: 14346
 		private static Map mapLeak = null;
 	}
 }

@@ -3,20 +3,20 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D63 RID: 3427
+	// Token: 0x02000D62 RID: 3426
 	public class Stance_Cooldown : Stance_Busy
 	{
-		// Token: 0x06004CB5 RID: 19637 RVA: 0x0027EDA7 File Offset: 0x0027D1A7
+		// Token: 0x06004CB3 RID: 19635 RVA: 0x0027ED87 File Offset: 0x0027D187
 		public Stance_Cooldown()
 		{
 		}
 
-		// Token: 0x06004CB6 RID: 19638 RVA: 0x0027EDB0 File Offset: 0x0027D1B0
+		// Token: 0x06004CB4 RID: 19636 RVA: 0x0027ED90 File Offset: 0x0027D190
 		public Stance_Cooldown(int ticks, LocalTargetInfo focusTarg, Verb verb) : base(ticks, focusTarg, verb)
 		{
 		}
 
-		// Token: 0x06004CB7 RID: 19639 RVA: 0x0027EDBC File Offset: 0x0027D1BC
+		// Token: 0x06004CB5 RID: 19637 RVA: 0x0027ED9C File Offset: 0x0027D19C
 		public override void StanceDraw()
 		{
 			if (Find.Selector.IsSelected(this.stanceTracker.pawn))
@@ -26,10 +26,10 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003329 RID: 13097
+		// Token: 0x04003327 RID: 13095
 		private const float RadiusPerTick = 0.002f;
 
-		// Token: 0x0400332A RID: 13098
+		// Token: 0x04003328 RID: 13096
 		private const float MaxRadius = 0.5f;
 	}
 }

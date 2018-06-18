@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x020004BB RID: 1211
 	public class InteractionWorker_RecruitAttempt : InteractionWorker
 	{
-		// Token: 0x0600158F RID: 5519 RVA: 0x000BF364 File Offset: 0x000BD764
+		// Token: 0x0600158F RID: 5519 RVA: 0x000BF380 File Offset: 0x000BD780
 		public override void Interacted(Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks, out string letterText, out string letterLabel, out LetterDef letterDef)
 		{
 			letterText = null;
@@ -87,7 +87,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001590 RID: 5520 RVA: 0x000BF5CC File Offset: 0x000BD9CC
+		// Token: 0x06001590 RID: 5520 RVA: 0x000BF5E8 File Offset: 0x000BD9E8
 		public static void DoRecruit(Pawn recruiter, Pawn recruitee, float recruitChance, bool useAudiovisualEffects = true)
 		{
 			string text = recruitee.LabelIndefinite();

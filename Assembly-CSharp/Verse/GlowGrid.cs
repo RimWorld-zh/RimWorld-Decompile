@@ -5,10 +5,10 @@ using UnityEngine.Profiling;
 
 namespace Verse
 {
-	// Token: 0x02000C1B RID: 3099
+	// Token: 0x02000C1A RID: 3098
 	public sealed class GlowGrid
 	{
-		// Token: 0x0600439E RID: 17310 RVA: 0x0023AE2C File Offset: 0x0023922C
+		// Token: 0x0600439C RID: 17308 RVA: 0x0023AE04 File Offset: 0x00239204
 		public GlowGrid(Map map)
 		{
 			this.map = map;
@@ -16,13 +16,13 @@ namespace Verse
 			this.glowGridNoCavePlants = new Color32[map.cellIndices.NumGridCells];
 		}
 
-		// Token: 0x0600439F RID: 17311 RVA: 0x0023AE90 File Offset: 0x00239290
+		// Token: 0x0600439D RID: 17309 RVA: 0x0023AE68 File Offset: 0x00239268
 		public Color32 VisualGlowAt(IntVec3 c)
 		{
 			return this.glowGrid[this.map.cellIndices.CellToIndex(c)];
 		}
 
-		// Token: 0x060043A0 RID: 17312 RVA: 0x0023AEC8 File Offset: 0x002392C8
+		// Token: 0x0600439E RID: 17310 RVA: 0x0023AEA0 File Offset: 0x002392A0
 		public float GameGlowAt(IntVec3 c, bool ignoreCavePlants = false)
 		{
 			float num = 0f;
@@ -50,14 +50,14 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060043A1 RID: 17313 RVA: 0x0023AFB0 File Offset: 0x002393B0
+		// Token: 0x0600439F RID: 17311 RVA: 0x0023AF88 File Offset: 0x00239388
 		public PsychGlow PsychGlowAt(IntVec3 c)
 		{
 			float glow = this.GameGlowAt(c, false);
 			return GlowGrid.PsychGlowAtGlow(glow);
 		}
 
-		// Token: 0x060043A2 RID: 17314 RVA: 0x0023AFD4 File Offset: 0x002393D4
+		// Token: 0x060043A0 RID: 17312 RVA: 0x0023AFAC File Offset: 0x002393AC
 		public static PsychGlow PsychGlowAtGlow(float glow)
 		{
 			PsychGlow result;
@@ -76,7 +76,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060043A3 RID: 17315 RVA: 0x0023B010 File Offset: 0x00239410
+		// Token: 0x060043A1 RID: 17313 RVA: 0x0023AFE8 File Offset: 0x002393E8
 		public void RegisterGlower(CompGlower newGlow)
 		{
 			this.litGlowers.Add(newGlow);
@@ -87,21 +87,21 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043A4 RID: 17316 RVA: 0x0023B05D File Offset: 0x0023945D
+		// Token: 0x060043A2 RID: 17314 RVA: 0x0023B035 File Offset: 0x00239435
 		public void DeRegisterGlower(CompGlower oldGlow)
 		{
 			this.litGlowers.Remove(oldGlow);
 			this.MarkGlowGridDirty(oldGlow.parent.Position);
 		}
 
-		// Token: 0x060043A5 RID: 17317 RVA: 0x0023B07E File Offset: 0x0023947E
+		// Token: 0x060043A3 RID: 17315 RVA: 0x0023B056 File Offset: 0x00239456
 		public void MarkGlowGridDirty(IntVec3 loc)
 		{
 			this.glowGridDirty = true;
 			this.map.mapDrawer.MapMeshDirty(loc, MapMeshFlag.GroundGlow);
 		}
 
-		// Token: 0x060043A6 RID: 17318 RVA: 0x0023B09A File Offset: 0x0023949A
+		// Token: 0x060043A4 RID: 17316 RVA: 0x0023B072 File Offset: 0x00239472
 		public void GlowGridUpdate_First()
 		{
 			if (this.glowGridDirty)
@@ -111,7 +111,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043A7 RID: 17319 RVA: 0x0023B0B8 File Offset: 0x002394B8
+		// Token: 0x060043A5 RID: 17317 RVA: 0x0023B090 File Offset: 0x00239490
 		private void RecalculateAllGlow()
 		{
 			if (Current.ProgramState == ProgramState.Playing)
@@ -143,40 +143,40 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002E37 RID: 11831
+		// Token: 0x04002E35 RID: 11829
 		private Map map;
 
-		// Token: 0x04002E38 RID: 11832
+		// Token: 0x04002E36 RID: 11830
 		public Color32[] glowGrid;
 
-		// Token: 0x04002E39 RID: 11833
+		// Token: 0x04002E37 RID: 11831
 		public Color32[] glowGridNoCavePlants;
 
-		// Token: 0x04002E3A RID: 11834
+		// Token: 0x04002E38 RID: 11832
 		private bool glowGridDirty = false;
 
-		// Token: 0x04002E3B RID: 11835
+		// Token: 0x04002E39 RID: 11833
 		private HashSet<CompGlower> litGlowers = new HashSet<CompGlower>();
 
-		// Token: 0x04002E3C RID: 11836
+		// Token: 0x04002E3A RID: 11834
 		private List<IntVec3> initialGlowerLocs = new List<IntVec3>();
 
-		// Token: 0x04002E3D RID: 11837
+		// Token: 0x04002E3B RID: 11835
 		public const int AlphaOfNotOverlit = 0;
 
-		// Token: 0x04002E3E RID: 11838
+		// Token: 0x04002E3C RID: 11836
 		public const int AlphaOfOverlit = 1;
 
-		// Token: 0x04002E3F RID: 11839
+		// Token: 0x04002E3D RID: 11837
 		private const float GameGlowLitThreshold = 0.3f;
 
-		// Token: 0x04002E40 RID: 11840
+		// Token: 0x04002E3E RID: 11838
 		private const float GameGlowOverlitThreshold = 0.9f;
 
-		// Token: 0x04002E41 RID: 11841
+		// Token: 0x04002E3F RID: 11839
 		private const float GroundGameGlowFactor = 3.6f;
 
-		// Token: 0x04002E42 RID: 11842
+		// Token: 0x04002E40 RID: 11840
 		private const float MaxGameGlowFromNonOverlitGroundLights = 0.5f;
 	}
 }

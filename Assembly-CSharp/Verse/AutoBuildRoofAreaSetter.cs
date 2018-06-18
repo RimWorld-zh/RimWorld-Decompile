@@ -4,16 +4,16 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000C9D RID: 3229
+	// Token: 0x02000C9C RID: 3228
 	public class AutoBuildRoofAreaSetter
 	{
-		// Token: 0x0600470C RID: 18188 RVA: 0x00256B0E File Offset: 0x00254F0E
+		// Token: 0x0600470A RID: 18186 RVA: 0x00256AE6 File Offset: 0x00254EE6
 		public AutoBuildRoofAreaSetter(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x0600470D RID: 18189 RVA: 0x00256B4C File Offset: 0x00254F4C
+		// Token: 0x0600470B RID: 18187 RVA: 0x00256B24 File Offset: 0x00254F24
 		public void TryGenerateAreaOnImpassable(IntVec3 c)
 		{
 			if (!c.Roofed(this.map) && c.Impassable(this.map) && RoofCollapseUtility.WithinRangeOfRoofHolder(c, this.map, false))
@@ -37,19 +37,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600470E RID: 18190 RVA: 0x00256C10 File Offset: 0x00255010
+		// Token: 0x0600470C RID: 18188 RVA: 0x00256BE8 File Offset: 0x00254FE8
 		public void TryGenerateAreaFor(Room room)
 		{
 			this.queuedGenerateRooms.Add(room);
 		}
 
-		// Token: 0x0600470F RID: 18191 RVA: 0x00256C1F File Offset: 0x0025501F
+		// Token: 0x0600470D RID: 18189 RVA: 0x00256BF7 File Offset: 0x00254FF7
 		public void AutoBuildRoofAreaSetterTick_First()
 		{
 			this.ResolveQueuedGenerateRoofs();
 		}
 
-		// Token: 0x06004710 RID: 18192 RVA: 0x00256C28 File Offset: 0x00255028
+		// Token: 0x0600470E RID: 18190 RVA: 0x00256C00 File Offset: 0x00255000
 		public void ResolveQueuedGenerateRoofs()
 		{
 			for (int i = 0; i < this.queuedGenerateRooms.Count; i++)
@@ -59,7 +59,7 @@ namespace Verse
 			this.queuedGenerateRooms.Clear();
 		}
 
-		// Token: 0x06004711 RID: 18193 RVA: 0x00256C74 File Offset: 0x00255074
+		// Token: 0x0600470F RID: 18191 RVA: 0x00256C4C File Offset: 0x0025504C
 		private void TryGenerateAreaNow(Room room)
 		{
 			if (!room.Dereferenced && !room.TouchesMapEdge)
@@ -152,19 +152,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0400304A RID: 12362
+		// Token: 0x04003048 RID: 12360
 		private Map map;
 
-		// Token: 0x0400304B RID: 12363
+		// Token: 0x04003049 RID: 12361
 		private List<Room> queuedGenerateRooms = new List<Room>();
 
-		// Token: 0x0400304C RID: 12364
+		// Token: 0x0400304A RID: 12362
 		private HashSet<IntVec3> cellsToRoof = new HashSet<IntVec3>();
 
-		// Token: 0x0400304D RID: 12365
+		// Token: 0x0400304B RID: 12363
 		private HashSet<IntVec3> innerCells = new HashSet<IntVec3>();
 
-		// Token: 0x0400304E RID: 12366
+		// Token: 0x0400304C RID: 12364
 		private List<IntVec3> justRoofedCells = new List<IntVec3>();
 	}
 }

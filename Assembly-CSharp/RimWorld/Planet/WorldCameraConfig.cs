@@ -6,12 +6,12 @@ namespace RimWorld.Planet
 	// Token: 0x0200057E RID: 1406
 	public abstract class WorldCameraConfig
 	{
-		// Token: 0x06001ADC RID: 6876 RVA: 0x000E6DD5 File Offset: 0x000E51D5
+		// Token: 0x06001ADD RID: 6877 RVA: 0x000E6E41 File Offset: 0x000E5241
 		public virtual void ConfigFixedUpdate_60(ref Vector2 rotationVelocity)
 		{
 		}
 
-		// Token: 0x06001ADD RID: 6877 RVA: 0x000E6DD8 File Offset: 0x000E51D8
+		// Token: 0x06001ADE RID: 6878 RVA: 0x000E6E44 File Offset: 0x000E5244
 		public virtual void ConfigOnGUI()
 		{
 		}

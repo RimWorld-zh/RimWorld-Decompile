@@ -8,31 +8,31 @@ namespace RimWorld
 	// Token: 0x0200066C RID: 1644
 	public class Tale_DoublePawnAndTrader : Tale_DoublePawn
 	{
-		// Token: 0x06002268 RID: 8808 RVA: 0x001241F0 File Offset: 0x001225F0
+		// Token: 0x0600226A RID: 8810 RVA: 0x00124268 File Offset: 0x00122668
 		public Tale_DoublePawnAndTrader()
 		{
 		}
 
-		// Token: 0x06002269 RID: 8809 RVA: 0x001241F9 File Offset: 0x001225F9
+		// Token: 0x0600226B RID: 8811 RVA: 0x00124271 File Offset: 0x00122671
 		public Tale_DoublePawnAndTrader(Pawn firstPawn, Pawn secondPawn, ITrader trader) : base(firstPawn, secondPawn)
 		{
 			this.traderData = TaleData_Trader.GenerateFrom(trader);
 		}
 
-		// Token: 0x0600226A RID: 8810 RVA: 0x00124210 File Offset: 0x00122610
+		// Token: 0x0600226C RID: 8812 RVA: 0x00124288 File Offset: 0x00122688
 		public override bool Concerns(Thing th)
 		{
 			return base.Concerns(th) || this.traderData.pawnID == th.thingIDNumber;
 		}
 
-		// Token: 0x0600226B RID: 8811 RVA: 0x00124247 File Offset: 0x00122647
+		// Token: 0x0600226D RID: 8813 RVA: 0x001242BF File Offset: 0x001226BF
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Deep.Look<TaleData_Trader>(ref this.traderData, "traderData", new object[0]);
 		}
 
-		// Token: 0x0600226C RID: 8812 RVA: 0x00124268 File Offset: 0x00122668
+		// Token: 0x0600226E RID: 8814 RVA: 0x001242E0 File Offset: 0x001226E0
 		protected override IEnumerable<Rule> SpecialTextGenerationRules()
 		{
 			foreach (Rule r in this.<SpecialTextGenerationRules>__BaseCallProxy0())
@@ -46,7 +46,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600226D RID: 8813 RVA: 0x00124292 File Offset: 0x00122692
+		// Token: 0x0600226F RID: 8815 RVA: 0x0012430A File Offset: 0x0012270A
 		public override void GenerateTestData()
 		{
 			base.GenerateTestData();

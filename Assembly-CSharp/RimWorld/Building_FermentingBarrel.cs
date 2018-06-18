@@ -11,8 +11,8 @@ namespace RimWorld
 	public class Building_FermentingBarrel : Building
 	{
 		// Token: 0x17000575 RID: 1397
-		// (get) Token: 0x0600245C RID: 9308 RVA: 0x001376AC File Offset: 0x00135AAC
-		// (set) Token: 0x0600245D RID: 9309 RVA: 0x001376C7 File Offset: 0x00135AC7
+		// (get) Token: 0x0600245E RID: 9310 RVA: 0x00137724 File Offset: 0x00135B24
+		// (set) Token: 0x0600245F RID: 9311 RVA: 0x0013773F File Offset: 0x00135B3F
 		public float Progress
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000576 RID: 1398
-		// (get) Token: 0x0600245E RID: 9310 RVA: 0x001376EC File Offset: 0x00135AEC
+		// (get) Token: 0x06002460 RID: 9312 RVA: 0x00137764 File Offset: 0x00135B64
 		private Material BarFilledMat
 		{
 			get
@@ -44,7 +44,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000577 RID: 1399
-		// (get) Token: 0x0600245F RID: 9311 RVA: 0x0013773C File Offset: 0x00135B3C
+		// (get) Token: 0x06002461 RID: 9313 RVA: 0x001377B4 File Offset: 0x00135BB4
 		public int SpaceLeftForWort
 		{
 			get
@@ -63,7 +63,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000578 RID: 1400
-		// (get) Token: 0x06002460 RID: 9312 RVA: 0x0013776C File Offset: 0x00135B6C
+		// (get) Token: 0x06002462 RID: 9314 RVA: 0x001377E4 File Offset: 0x00135BE4
 		private bool Empty
 		{
 			get
@@ -73,7 +73,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000579 RID: 1401
-		// (get) Token: 0x06002461 RID: 9313 RVA: 0x00137790 File Offset: 0x00135B90
+		// (get) Token: 0x06002463 RID: 9315 RVA: 0x00137808 File Offset: 0x00135C08
 		public bool Fermented
 		{
 			get
@@ -83,7 +83,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700057A RID: 1402
-		// (get) Token: 0x06002462 RID: 9314 RVA: 0x001377C4 File Offset: 0x00135BC4
+		// (get) Token: 0x06002464 RID: 9316 RVA: 0x0013783C File Offset: 0x00135C3C
 		private float CurrentTempProgressSpeedFactor
 		{
 			get
@@ -108,7 +108,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700057B RID: 1403
-		// (get) Token: 0x06002463 RID: 9315 RVA: 0x00137834 File Offset: 0x00135C34
+		// (get) Token: 0x06002465 RID: 9317 RVA: 0x001378AC File Offset: 0x00135CAC
 		private float ProgressPerTickAtCurrentTemp
 		{
 			get
@@ -118,7 +118,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700057C RID: 1404
-		// (get) Token: 0x06002464 RID: 9316 RVA: 0x00137858 File Offset: 0x00135C58
+		// (get) Token: 0x06002466 RID: 9318 RVA: 0x001378D0 File Offset: 0x00135CD0
 		private int EstimatedTicksLeft
 		{
 			get
@@ -127,7 +127,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002465 RID: 9317 RVA: 0x0013788B File Offset: 0x00135C8B
+		// Token: 0x06002467 RID: 9319 RVA: 0x00137903 File Offset: 0x00135D03
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -135,7 +135,7 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.progressInt, "progress", 0f, false);
 		}
 
-		// Token: 0x06002466 RID: 9318 RVA: 0x001378BC File Offset: 0x00135CBC
+		// Token: 0x06002468 RID: 9320 RVA: 0x00137934 File Offset: 0x00135D34
 		public override void TickRare()
 		{
 			base.TickRare();
@@ -145,7 +145,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002467 RID: 9319 RVA: 0x001378F4 File Offset: 0x00135CF4
+		// Token: 0x06002469 RID: 9321 RVA: 0x0013796C File Offset: 0x00135D6C
 		public void AddWort(int count)
 		{
 			base.GetComp<CompTemperatureRuinable>().Reset();
@@ -164,7 +164,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002468 RID: 9320 RVA: 0x00137972 File Offset: 0x00135D72
+		// Token: 0x0600246A RID: 9322 RVA: 0x001379EA File Offset: 0x00135DEA
 		protected override void ReceiveCompSignal(string signal)
 		{
 			if (signal == "RuinedByTemperature")
@@ -173,14 +173,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002469 RID: 9321 RVA: 0x0013798B File Offset: 0x00135D8B
+		// Token: 0x0600246B RID: 9323 RVA: 0x00137A03 File Offset: 0x00135E03
 		private void Reset()
 		{
 			this.wortCount = 0;
 			this.Progress = 0f;
 		}
 
-		// Token: 0x0600246A RID: 9322 RVA: 0x001379A0 File Offset: 0x00135DA0
+		// Token: 0x0600246C RID: 9324 RVA: 0x00137A18 File Offset: 0x00135E18
 		public void AddWort(Thing wort)
 		{
 			int num = Mathf.Min(wort.stackCount, 25 - this.wortCount);
@@ -191,7 +191,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600246B RID: 9323 RVA: 0x001379E0 File Offset: 0x00135DE0
+		// Token: 0x0600246D RID: 9325 RVA: 0x00137A58 File Offset: 0x00135E58
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -254,7 +254,7 @@ namespace RimWorld
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
-		// Token: 0x0600246C RID: 9324 RVA: 0x00137BD0 File Offset: 0x00135FD0
+		// Token: 0x0600246E RID: 9326 RVA: 0x00137C48 File Offset: 0x00136048
 		public Thing TakeOutBeer()
 		{
 			Thing result;
@@ -273,7 +273,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600246D RID: 9325 RVA: 0x00137C24 File Offset: 0x00136024
+		// Token: 0x0600246F RID: 9327 RVA: 0x00137C9C File Offset: 0x0013609C
 		public override void Draw()
 		{
 			base.Draw();
@@ -295,7 +295,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600246E RID: 9326 RVA: 0x00137CDC File Offset: 0x001360DC
+		// Token: 0x06002470 RID: 9328 RVA: 0x00137D54 File Offset: 0x00136154
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())

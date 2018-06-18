@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x020004BC RID: 1212
 	public class InteractionWorker_RomanceAttempt : InteractionWorker
 	{
-		// Token: 0x06001593 RID: 5523 RVA: 0x000BFA38 File Offset: 0x000BDE38
+		// Token: 0x06001593 RID: 5523 RVA: 0x000BFA54 File Offset: 0x000BDE54
 		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
 		{
 			float result;
@@ -74,7 +74,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001594 RID: 5524 RVA: 0x000BFC20 File Offset: 0x000BE020
+		// Token: 0x06001594 RID: 5524 RVA: 0x000BFC3C File Offset: 0x000BE03C
 		public float SuccessChance(Pawn initiator, Pawn recipient)
 		{
 			float num = 0.6f;
@@ -106,7 +106,7 @@ namespace RimWorld
 			return Mathf.Clamp01(num);
 		}
 
-		// Token: 0x06001595 RID: 5525 RVA: 0x000BFD88 File Offset: 0x000BE188
+		// Token: 0x06001595 RID: 5525 RVA: 0x000BFDA4 File Offset: 0x000BE1A4
 		public override void Interacted(Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks, out string letterText, out string letterLabel, out LetterDef letterDef)
 		{
 			if (Rand.Value < this.SuccessChance(initiator, recipient))
@@ -164,7 +164,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001596 RID: 5526 RVA: 0x000BFFE4 File Offset: 0x000BE3E4
+		// Token: 0x06001596 RID: 5526 RVA: 0x000C0000 File Offset: 0x000BE400
 		private void BreakLoverAndFianceRelations(Pawn pawn, out List<Pawn> oldLoversAndFiances)
 		{
 			oldLoversAndFiances = new List<Pawn>();
@@ -191,7 +191,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001597 RID: 5527 RVA: 0x000C0095 File Offset: 0x000BE495
+		// Token: 0x06001597 RID: 5527 RVA: 0x000C00B1 File Offset: 0x000BE4B1
 		private void TryAddCheaterThought(Pawn pawn, Pawn cheater)
 		{
 			if (!pawn.Dead)
@@ -200,7 +200,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001598 RID: 5528 RVA: 0x000C00C8 File Offset: 0x000BE4C8
+		// Token: 0x06001598 RID: 5528 RVA: 0x000C00E4 File Offset: 0x000BE4E4
 		private void GetNewLoversLetter(Pawn initiator, Pawn recipient, List<Pawn> initiatorOldLoversAndFiances, List<Pawn> recipientOldLoversAndFiances, out string letterText, out string letterLabel, out LetterDef letterDef)
 		{
 			bool flag = false;

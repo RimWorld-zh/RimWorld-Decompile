@@ -10,7 +10,7 @@ namespace RimWorld
 	[HasDebugOutput]
 	public class StockGenerator_Animals : StockGenerator
 	{
-		// Token: 0x06002A21 RID: 10785 RVA: 0x00165260 File Offset: 0x00163660
+		// Token: 0x06002A23 RID: 10787 RVA: 0x001652F4 File Offset: 0x001636F4
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
 			int numKinds = this.kindCountRange.RandomInRange;
@@ -42,19 +42,19 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002A22 RID: 10786 RVA: 0x00165294 File Offset: 0x00163694
+		// Token: 0x06002A24 RID: 10788 RVA: 0x00165328 File Offset: 0x00163728
 		private float SelectionChance(PawnKindDef k)
 		{
 			return StockGenerator_Animals.SelectionChanceFromWildnessCurve.Evaluate(k.RaceProps.wildness);
 		}
 
-		// Token: 0x06002A23 RID: 10787 RVA: 0x001652C0 File Offset: 0x001636C0
+		// Token: 0x06002A25 RID: 10789 RVA: 0x00165354 File Offset: 0x00163754
 		public override bool HandlesThingDef(ThingDef thingDef)
 		{
 			return thingDef.category == ThingCategory.Pawn && thingDef.race.Animal && thingDef.tradeability != Tradeability.None && (this.tradeTagsSell.Any((string tag) => thingDef.tradeTags.Contains(tag)) || this.tradeTagsBuy.Any((string tag) => thingDef.tradeTags.Contains(tag)));
 		}
 
-		// Token: 0x06002A24 RID: 10788 RVA: 0x00165354 File Offset: 0x00163754
+		// Token: 0x06002A26 RID: 10790 RVA: 0x001653E8 File Offset: 0x001637E8
 		private bool PawnKindAllowed(PawnKindDef kind, int forTile)
 		{
 			bool result;
@@ -81,7 +81,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002A25 RID: 10789 RVA: 0x001654A0 File Offset: 0x001638A0
+		// Token: 0x06002A27 RID: 10791 RVA: 0x00165534 File Offset: 0x00163934
 		public void LogAnimalChances()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -92,7 +92,7 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x06002A26 RID: 10790 RVA: 0x00165534 File Offset: 0x00163934
+		// Token: 0x06002A28 RID: 10792 RVA: 0x001655C8 File Offset: 0x001639C8
 		[DebugOutput]
 		private static void StockGenerationAnimals()
 		{

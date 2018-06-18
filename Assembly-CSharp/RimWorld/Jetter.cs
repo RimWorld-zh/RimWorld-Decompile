@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020006CB RID: 1739
 	public class Jetter : Thing
 	{
-		// Token: 0x060025A3 RID: 9635 RVA: 0x00142408 File Offset: 0x00140808
+		// Token: 0x060025A5 RID: 9637 RVA: 0x00142480 File Offset: 0x00140880
 		public override void Tick()
 		{
 			if (this.JState == Jetter.JetterState.WickBurning)
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025A4 RID: 9636 RVA: 0x00142491 File Offset: 0x00140891
+		// Token: 0x060025A6 RID: 9638 RVA: 0x00142509 File Offset: 0x00140909
 		public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
 		{
 			base.PostApplyDamage(dinfo, totalDamageDealt);
@@ -40,7 +40,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025A5 RID: 9637 RVA: 0x001424CB File Offset: 0x001408CB
+		// Token: 0x060025A7 RID: 9639 RVA: 0x00142543 File Offset: 0x00140943
 		protected void StartWick()
 		{
 			this.JState = Jetter.JetterState.WickBurning;
@@ -49,7 +49,7 @@ namespace RimWorld
 			this.wickSoundSustainer = SoundDefOf.HissSmall.TrySpawnSustainer(this);
 		}
 
-		// Token: 0x060025A6 RID: 9638 RVA: 0x00142503 File Offset: 0x00140903
+		// Token: 0x060025A8 RID: 9640 RVA: 0x0014257B File Offset: 0x0014097B
 		protected void StartJetting()
 		{
 			this.JState = Jetter.JetterState.Jetting;
@@ -59,7 +59,7 @@ namespace RimWorld
 			this.wickSoundSustainer = SoundDefOf.HissJet.TrySpawnSustainer(this);
 		}
 
-		// Token: 0x060025A7 RID: 9639 RVA: 0x0014253C File Offset: 0x0014093C
+		// Token: 0x060025A9 RID: 9641 RVA: 0x001425B4 File Offset: 0x001409B4
 		protected void MoveJetter()
 		{
 			IntVec3 intVec = base.Position + base.Rotation.FacingCell;
@@ -74,7 +74,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025A8 RID: 9640 RVA: 0x001425EC File Offset: 0x001409EC
+		// Token: 0x060025AA RID: 9642 RVA: 0x00142664 File Offset: 0x00140A64
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
 		{
 			base.Destroy(mode);

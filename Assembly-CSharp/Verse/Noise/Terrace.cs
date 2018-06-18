@@ -5,29 +5,29 @@ using UnityEngine;
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F9E RID: 3998
+	// Token: 0x02000F9D RID: 3997
 	public class Terrace : ModuleBase
 	{
-		// Token: 0x0600605E RID: 24670 RVA: 0x0030CBF8 File Offset: 0x0030AFF8
+		// Token: 0x0600605C RID: 24668 RVA: 0x0030CCD4 File Offset: 0x0030B0D4
 		public Terrace() : base(1)
 		{
 		}
 
-		// Token: 0x0600605F RID: 24671 RVA: 0x0030CC14 File Offset: 0x0030B014
+		// Token: 0x0600605D RID: 24669 RVA: 0x0030CCF0 File Offset: 0x0030B0F0
 		public Terrace(ModuleBase input) : base(1)
 		{
 			this.modules[0] = input;
 		}
 
-		// Token: 0x06006060 RID: 24672 RVA: 0x0030CC39 File Offset: 0x0030B039
+		// Token: 0x0600605E RID: 24670 RVA: 0x0030CD15 File Offset: 0x0030B115
 		public Terrace(bool inverted, ModuleBase input) : base(1)
 		{
 			this.modules[0] = input;
 			this.IsInverted = inverted;
 		}
 
-		// Token: 0x17000F84 RID: 3972
-		// (get) Token: 0x06006061 RID: 24673 RVA: 0x0030CC68 File Offset: 0x0030B068
+		// Token: 0x17000F83 RID: 3971
+		// (get) Token: 0x0600605F RID: 24671 RVA: 0x0030CD44 File Offset: 0x0030B144
 		public int ControlPointCount
 		{
 			get
@@ -36,8 +36,8 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F85 RID: 3973
-		// (get) Token: 0x06006062 RID: 24674 RVA: 0x0030CC88 File Offset: 0x0030B088
+		// Token: 0x17000F84 RID: 3972
+		// (get) Token: 0x06006060 RID: 24672 RVA: 0x0030CD64 File Offset: 0x0030B164
 		public List<double> ControlPoints
 		{
 			get
@@ -46,9 +46,9 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F86 RID: 3974
-		// (get) Token: 0x06006063 RID: 24675 RVA: 0x0030CCA4 File Offset: 0x0030B0A4
-		// (set) Token: 0x06006064 RID: 24676 RVA: 0x0030CCBF File Offset: 0x0030B0BF
+		// Token: 0x17000F85 RID: 3973
+		// (get) Token: 0x06006061 RID: 24673 RVA: 0x0030CD80 File Offset: 0x0030B180
+		// (set) Token: 0x06006062 RID: 24674 RVA: 0x0030CD9B File Offset: 0x0030B19B
 		public bool IsInverted
 		{
 			get
@@ -61,7 +61,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06006065 RID: 24677 RVA: 0x0030CCCC File Offset: 0x0030B0CC
+		// Token: 0x06006063 RID: 24675 RVA: 0x0030CDA8 File Offset: 0x0030B1A8
 		public void Add(double input)
 		{
 			if (!this.m_data.Contains(input))
@@ -71,13 +71,13 @@ namespace Verse.Noise
 			this.m_data.Sort((double lhs, double rhs) => lhs.CompareTo(rhs));
 		}
 
-		// Token: 0x06006066 RID: 24678 RVA: 0x0030CD21 File Offset: 0x0030B121
+		// Token: 0x06006064 RID: 24676 RVA: 0x0030CDFD File Offset: 0x0030B1FD
 		public void Clear()
 		{
 			this.m_data.Clear();
 		}
 
-		// Token: 0x06006067 RID: 24679 RVA: 0x0030CD30 File Offset: 0x0030B130
+		// Token: 0x06006065 RID: 24677 RVA: 0x0030CE0C File Offset: 0x0030B20C
 		public void Generate(int steps)
 		{
 			if (steps < 2)
@@ -94,7 +94,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06006068 RID: 24680 RVA: 0x0030CD98 File Offset: 0x0030B198
+		// Token: 0x06006066 RID: 24678 RVA: 0x0030CE74 File Offset: 0x0030B274
 		public override double GetValue(double x, double y, double z)
 		{
 			System.Diagnostics.Debug.Assert(this.modules[0] != null);
@@ -133,10 +133,10 @@ namespace Verse.Noise
 			return result;
 		}
 
-		// Token: 0x04003F23 RID: 16163
+		// Token: 0x04003F22 RID: 16162
 		private List<double> m_data = new List<double>();
 
-		// Token: 0x04003F24 RID: 16164
+		// Token: 0x04003F23 RID: 16163
 		private bool m_inverted = false;
 	}
 }

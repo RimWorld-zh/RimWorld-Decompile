@@ -11,7 +11,7 @@ namespace RimWorld.Planet
 	// Token: 0x02000595 RID: 1429
 	public class WorldLayer_Roads : WorldLayer_Paths
 	{
-		// Token: 0x06001B3E RID: 6974 RVA: 0x000EA5E4 File Offset: 0x000E89E4
+		// Token: 0x06001B3F RID: 6975 RVA: 0x000EA650 File Offset: 0x000E8A50
 		public override IEnumerable Regenerate()
 		{
 			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();
@@ -92,7 +92,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001B3F RID: 6975 RVA: 0x000EA610 File Offset: 0x000E8A10
+		// Token: 0x06001B40 RID: 6976 RVA: 0x000EA67C File Offset: 0x000E8A7C
 		public override Vector3 FinalizePoint(Vector3 inp, float distortionFrequency, float distortionIntensity)
 		{
 			Vector3 coordinate = inp * distortionFrequency;

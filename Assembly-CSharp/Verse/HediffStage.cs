@@ -8,7 +8,7 @@ namespace Verse
 	public class HediffStage
 	{
 		// Token: 0x17000995 RID: 2453
-		// (get) Token: 0x06003F49 RID: 16201 RVA: 0x00214F70 File Offset: 0x00213370
+		// (get) Token: 0x06003F4B RID: 16203 RVA: 0x00215044 File Offset: 0x00213444
 		public bool AffectsMemory
 		{
 			get
@@ -18,7 +18,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000996 RID: 2454
-		// (get) Token: 0x06003F4A RID: 16202 RVA: 0x00214FA8 File Offset: 0x002133A8
+		// (get) Token: 0x06003F4C RID: 16204 RVA: 0x0021507C File Offset: 0x0021347C
 		public bool AffectsSocialInteractions
 		{
 			get
@@ -27,7 +27,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F4B RID: 16203 RVA: 0x00214FD0 File Offset: 0x002133D0
+		// Token: 0x06003F4D RID: 16205 RVA: 0x002150A4 File Offset: 0x002134A4
 		public IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
 			return HediffStatsUtility.SpecialDisplayStats(this, null);

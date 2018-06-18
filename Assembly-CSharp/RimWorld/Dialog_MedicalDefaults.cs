@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000805 RID: 2053
 	public class Dialog_MedicalDefaults : Window
 	{
-		// Token: 0x06002DD1 RID: 11729 RVA: 0x00181C85 File Offset: 0x00180085
+		// Token: 0x06002DD3 RID: 11731 RVA: 0x00181D19 File Offset: 0x00180119
 		public Dialog_MedicalDefaults()
 		{
 			this.forcePause = true;
@@ -18,7 +18,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000751 RID: 1873
-		// (get) Token: 0x06002DD2 RID: 11730 RVA: 0x00181CB4 File Offset: 0x001800B4
+		// (get) Token: 0x06002DD4 RID: 11732 RVA: 0x00181D48 File Offset: 0x00180148
 		public override Vector2 InitialSize
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DD3 RID: 11731 RVA: 0x00181CD8 File Offset: 0x001800D8
+		// Token: 0x06002DD5 RID: 11733 RVA: 0x00181D6C File Offset: 0x0018016C
 		public override void DoWindowContents(Rect inRect)
 		{
 			Rect rect = new Rect(0f, 0f, 170f, 28f);

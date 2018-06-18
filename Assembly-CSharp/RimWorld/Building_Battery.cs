@@ -9,14 +9,14 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Building_Battery : Building
 	{
-		// Token: 0x060023DA RID: 9178 RVA: 0x00133F6A File Offset: 0x0013236A
+		// Token: 0x060023DC RID: 9180 RVA: 0x00133FE2 File Offset: 0x001323E2
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.ticksToExplode, "ticksToExplode", 0, false);
 		}
 
-		// Token: 0x060023DB RID: 9179 RVA: 0x00133F88 File Offset: 0x00132388
+		// Token: 0x060023DD RID: 9181 RVA: 0x00134000 File Offset: 0x00132400
 		public override void Draw()
 		{
 			base.Draw();
@@ -38,7 +38,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060023DC RID: 9180 RVA: 0x0013405C File Offset: 0x0013245C
+		// Token: 0x060023DE RID: 9182 RVA: 0x001340D4 File Offset: 0x001324D4
 		public override void Tick()
 		{
 			base.Tick();
@@ -63,7 +63,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060023DD RID: 9181 RVA: 0x0013411C File Offset: 0x0013251C
+		// Token: 0x060023DF RID: 9183 RVA: 0x00134194 File Offset: 0x00132594
 		public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
 		{
 			base.PostApplyDamage(dinfo, totalDamageDealt);
@@ -74,7 +74,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060023DE RID: 9182 RVA: 0x00134198 File Offset: 0x00132598
+		// Token: 0x060023E0 RID: 9184 RVA: 0x00134210 File Offset: 0x00132610
 		private void StartWickSustainer()
 		{
 			SoundInfo info = SoundInfo.InMap(this, MaintenanceType.PerTick);

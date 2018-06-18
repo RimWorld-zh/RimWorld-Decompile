@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F49 RID: 3913
+	// Token: 0x02000F48 RID: 3912
 	public static class GenSight
 	{
-		// Token: 0x06005E84 RID: 24196 RVA: 0x00300A44 File Offset: 0x002FEE44
+		// Token: 0x06005E82 RID: 24194 RVA: 0x00300B20 File Offset: 0x002FEF20
 		public static bool LineOfSight(IntVec3 start, IntVec3 end, Map map, bool skipFirstCell = false, Func<IntVec3, bool> validator = null, int halfXOffset = 0, int halfZOffset = 0)
 		{
 			bool result;
@@ -71,7 +71,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E85 RID: 24197 RVA: 0x00300BFC File Offset: 0x002FEFFC
+		// Token: 0x06005E83 RID: 24195 RVA: 0x00300CD8 File Offset: 0x002FF0D8
 		public static bool LineOfSight(IntVec3 start, IntVec3 end, Map map, CellRect startRect, CellRect endRect, Func<IntVec3, bool> validator = null)
 		{
 			bool result;
@@ -137,7 +137,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E86 RID: 24198 RVA: 0x00300DB0 File Offset: 0x002FF1B0
+		// Token: 0x06005E84 RID: 24196 RVA: 0x00300E8C File Offset: 0x002FF28C
 		public static IEnumerable<IntVec3> PointsOnLineOfSight(IntVec3 start, IntVec3 end)
 		{
 			bool sideOnEqual;
@@ -180,7 +180,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005E87 RID: 24199 RVA: 0x00300DE4 File Offset: 0x002FF1E4
+		// Token: 0x06005E85 RID: 24197 RVA: 0x00300EC0 File Offset: 0x002FF2C0
 		public static bool LineOfSightToEdges(IntVec3 start, IntVec3 end, Map map, bool skipFirstCell = false, Func<IntVec3, bool> validator = null)
 		{
 			bool result;

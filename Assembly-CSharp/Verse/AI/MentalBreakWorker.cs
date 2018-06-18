@@ -8,7 +8,7 @@ namespace Verse.AI
 	// Token: 0x02000A5C RID: 2652
 	public class MentalBreakWorker
 	{
-		// Token: 0x06003AF9 RID: 15097 RVA: 0x001F4850 File Offset: 0x001F2C50
+		// Token: 0x06003AFB RID: 15099 RVA: 0x001F4924 File Offset: 0x001F2D24
 		public virtual float CommonalityFor(Pawn pawn)
 		{
 			float num = this.def.baseCommonality;
@@ -19,7 +19,7 @@ namespace Verse.AI
 			return num;
 		}
 
-		// Token: 0x06003AFA RID: 15098 RVA: 0x001F48B0 File Offset: 0x001F2CB0
+		// Token: 0x06003AFC RID: 15100 RVA: 0x001F4984 File Offset: 0x001F2D84
 		public virtual bool BreakCanOccur(Pawn pawn)
 		{
 			bool result;
@@ -50,7 +50,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003AFB RID: 15099 RVA: 0x001F4A30 File Offset: 0x001F2E30
+		// Token: 0x06003AFD RID: 15101 RVA: 0x001F4B04 File Offset: 0x001F2F04
 		public virtual bool TryStart(Pawn pawn, Thought reason, bool causedByMood)
 		{
 			string text = (reason == null) ? null : reason.LabelCap;
@@ -60,7 +60,7 @@ namespace Verse.AI
 			return mentalStateHandler.TryStartMentalState(mentalState, reason2, false, causedByMood, null, false);
 		}
 
-		// Token: 0x06003AFC RID: 15100 RVA: 0x001F4A80 File Offset: 0x001F2E80
+		// Token: 0x06003AFE RID: 15102 RVA: 0x001F4B54 File Offset: 0x001F2F54
 		protected bool TrySendLetter(Pawn pawn, string textKey, Thought reason)
 		{
 			bool result;

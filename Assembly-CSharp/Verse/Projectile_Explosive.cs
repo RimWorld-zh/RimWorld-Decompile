@@ -2,17 +2,17 @@
 
 namespace Verse
 {
-	// Token: 0x02000DF4 RID: 3572
+	// Token: 0x02000DF3 RID: 3571
 	public class Projectile_Explosive : Projectile
 	{
-		// Token: 0x06004FFE RID: 20478 RVA: 0x00296908 File Offset: 0x00294D08
+		// Token: 0x06004FFC RID: 20476 RVA: 0x002968E8 File Offset: 0x00294CE8
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.ticksToDetonation, "ticksToDetonation", 0, false);
 		}
 
-		// Token: 0x06004FFF RID: 20479 RVA: 0x00296923 File Offset: 0x00294D23
+		// Token: 0x06004FFD RID: 20477 RVA: 0x00296903 File Offset: 0x00294D03
 		public override void Tick()
 		{
 			base.Tick();
@@ -26,7 +26,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005000 RID: 20480 RVA: 0x0029695C File Offset: 0x00294D5C
+		// Token: 0x06004FFE RID: 20478 RVA: 0x0029693C File Offset: 0x00294D3C
 		protected override void Impact(Thing hitThing)
 		{
 			if (this.def.projectile.explosionDelay == 0)
@@ -41,7 +41,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005001 RID: 20481 RVA: 0x002969CC File Offset: 0x00294DCC
+		// Token: 0x06004FFF RID: 20479 RVA: 0x002969AC File Offset: 0x00294DAC
 		protected virtual void Explode()
 		{
 			Map map = base.Map;
@@ -69,7 +69,7 @@ namespace Verse
 			GenExplosion.DoExplosion(position, map2, explosionRadius, damageDef, launcher, damageAmount, soundExplode, equipmentDef, def, thing, postExplosionSpawnThingDef, postExplosionSpawnChance, postExplosionSpawnThingCount, this.def.projectile.applyDamageToExplosionCellsNeighbors, preExplosionSpawnThingDef, this.def.projectile.preExplosionSpawnChance, this.def.projectile.preExplosionSpawnThingCount, this.def.projectile.explosionChanceToStartFire, this.def.projectile.explosionDamageFalloff);
 		}
 
-		// Token: 0x04003507 RID: 13575
+		// Token: 0x04003505 RID: 13573
 		private int ticksToDetonation = 0;
 	}
 }

@@ -9,19 +9,19 @@ namespace RimWorld.Planet
 	// Token: 0x02000578 RID: 1400
 	public class WorldFeatures : IExposable
 	{
-		// Token: 0x06001AAB RID: 6827 RVA: 0x000E5445 File Offset: 0x000E3845
+		// Token: 0x06001AAC RID: 6828 RVA: 0x000E54B1 File Offset: 0x000E38B1
 		private static void TextWrapThreshold_Changed()
 		{
 			Find.WorldFeatures.textsCreated = false;
 		}
 
-		// Token: 0x06001AAC RID: 6828 RVA: 0x000E5453 File Offset: 0x000E3853
+		// Token: 0x06001AAD RID: 6829 RVA: 0x000E54BF File Offset: 0x000E38BF
 		protected static void ForceLegacyText_Changed()
 		{
 			Find.WorldFeatures.textsCreated = false;
 		}
 
-		// Token: 0x06001AAD RID: 6829 RVA: 0x000E5464 File Offset: 0x000E3864
+		// Token: 0x06001AAE RID: 6830 RVA: 0x000E54D0 File Offset: 0x000E38D0
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<WorldFeature>(ref this.features, "features", LookMode.Deep, new object[0]);
@@ -39,7 +39,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001AAE RID: 6830 RVA: 0x000E5500 File Offset: 0x000E3900
+		// Token: 0x06001AAF RID: 6831 RVA: 0x000E556C File Offset: 0x000E396C
 		public void UpdateFeatures()
 		{
 			if (!this.textsCreated)
@@ -64,7 +64,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001AAF RID: 6831 RVA: 0x000E55D4 File Offset: 0x000E39D4
+		// Token: 0x06001AB0 RID: 6832 RVA: 0x000E5640 File Offset: 0x000E3A40
 		public WorldFeature GetFeatureWithID(int uniqueID)
 		{
 			for (int i = 0; i < this.features.Count; i++)
@@ -77,7 +77,7 @@ namespace RimWorld.Planet
 			return null;
 		}
 
-		// Token: 0x06001AB0 RID: 6832 RVA: 0x000E5634 File Offset: 0x000E3A34
+		// Token: 0x06001AB1 RID: 6833 RVA: 0x000E56A0 File Offset: 0x000E3AA0
 		private void UpdateAlpha(WorldFeatureTextMesh text, WorldFeature feature)
 		{
 			float num = 0.3f * feature.alpha;
@@ -98,7 +98,7 @@ namespace RimWorld.Planet
 			feature.alpha = Mathf.Clamp01(feature.alpha);
 		}
 
-		// Token: 0x06001AB1 RID: 6833 RVA: 0x000E56D0 File Offset: 0x000E3AD0
+		// Token: 0x06001AB2 RID: 6834 RVA: 0x000E573C File Offset: 0x000E3B3C
 		private bool GoodCameraAltitudeFor(WorldFeature feature)
 		{
 			float num = feature.EffectiveDrawSize;
@@ -121,7 +121,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001AB2 RID: 6834 RVA: 0x000E5780 File Offset: 0x000E3B80
+		// Token: 0x06001AB3 RID: 6835 RVA: 0x000E57EC File Offset: 0x000E3BEC
 		private void CreateTextsAndSetPosition()
 		{
 			this.CreateOrDestroyTexts();
@@ -142,7 +142,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001AB3 RID: 6835 RVA: 0x000E58D8 File Offset: 0x000E3CD8
+		// Token: 0x06001AB4 RID: 6836 RVA: 0x000E5944 File Offset: 0x000E3D44
 		private void CreateOrDestroyTexts()
 		{
 			for (int i = 0; i < WorldFeatures.texts.Count; i++)
@@ -167,7 +167,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001AB4 RID: 6836 RVA: 0x000E5998 File Offset: 0x000E3D98
+		// Token: 0x06001AB5 RID: 6837 RVA: 0x000E5A04 File Offset: 0x000E3E04
 		private bool HasCharactersUnsupportedByTextMeshPro(string str)
 		{
 			TMP_FontAsset font = WorldFeatureTextMesh_TextMeshPro.WorldTextPrefab.GetComponent<TextMeshPro>().font;
@@ -181,7 +181,7 @@ namespace RimWorld.Planet
 			return false;
 		}
 
-		// Token: 0x06001AB5 RID: 6837 RVA: 0x000E59F4 File Offset: 0x000E3DF4
+		// Token: 0x06001AB6 RID: 6838 RVA: 0x000E5A60 File Offset: 0x000E3E60
 		private bool HasCharacter(TMP_FontAsset font, char character)
 		{
 			string characters = TMP_FontAsset.GetCharacters(font);

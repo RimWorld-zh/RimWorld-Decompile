@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class BodyTypeDefOf
 	{
-		// Token: 0x0600367A RID: 13946 RVA: 0x001D0C47 File Offset: 0x001CF047
+		// Token: 0x0600367C RID: 13948 RVA: 0x001D0D0F File Offset: 0x001CF10F
 		static BodyTypeDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(BodyTypeDef));

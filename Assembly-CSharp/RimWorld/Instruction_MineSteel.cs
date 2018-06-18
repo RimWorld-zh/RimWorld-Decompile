@@ -8,7 +8,7 @@ namespace RimWorld
 	public class Instruction_MineSteel : Lesson_Instruction
 	{
 		// Token: 0x1700082D RID: 2093
-		// (get) Token: 0x0600335A RID: 13146 RVA: 0x001B8DA4 File Offset: 0x001B71A4
+		// (get) Token: 0x0600335C RID: 13148 RVA: 0x001B8E6C File Offset: 0x001B726C
 		protected override float ProgressPercent
 		{
 			get
@@ -26,14 +26,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600335B RID: 13147 RVA: 0x001B8E40 File Offset: 0x001B7240
+		// Token: 0x0600335D RID: 13149 RVA: 0x001B8F08 File Offset: 0x001B7308
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Collections.Look<IntVec3>(ref this.mineCells, "mineCells", LookMode.Undefined, new object[0]);
 		}
 
-		// Token: 0x0600335C RID: 13148 RVA: 0x001B8E60 File Offset: 0x001B7260
+		// Token: 0x0600335E RID: 13150 RVA: 0x001B8F28 File Offset: 0x001B7328
 		public override void OnActivated()
 		{
 			base.OnActivated();
@@ -53,7 +53,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600335D RID: 13149 RVA: 0x001B8F30 File Offset: 0x001B7330
+		// Token: 0x0600335F RID: 13151 RVA: 0x001B8FF8 File Offset: 0x001B73F8
 		public override void LessonOnGUI()
 		{
 			if (!this.mineCells.NullOrEmpty<IntVec3>())
@@ -63,13 +63,13 @@ namespace RimWorld
 			base.LessonOnGUI();
 		}
 
-		// Token: 0x0600335E RID: 13150 RVA: 0x001B8F64 File Offset: 0x001B7364
+		// Token: 0x06003360 RID: 13152 RVA: 0x001B902C File Offset: 0x001B742C
 		public override void LessonUpdate()
 		{
 			GenDraw.DrawArrowPointingAt(Gen.AveragePosition(this.mineCells), false);
 		}
 
-		// Token: 0x0600335F RID: 13151 RVA: 0x001B8F78 File Offset: 0x001B7378
+		// Token: 0x06003361 RID: 13153 RVA: 0x001B9040 File Offset: 0x001B7440
 		public override AcceptanceReport AllowAction(EventPack ep)
 		{
 			AcceptanceReport result;
@@ -84,7 +84,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003360 RID: 13152 RVA: 0x001B8FC1 File Offset: 0x001B73C1
+		// Token: 0x06003362 RID: 13154 RVA: 0x001B9089 File Offset: 0x001B7489
 		public override void Notify_Event(EventPack ep)
 		{
 			if (ep.Tag == "Designate-Mine" && this.ProgressPercent > 0.999f)

@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x020006EE RID: 1774
 	public class ThingSetMaker_RandomOption : ThingSetMaker
 	{
-		// Token: 0x06002699 RID: 9881 RVA: 0x0014A3E8 File Offset: 0x001487E8
+		// Token: 0x0600269B RID: 9883 RVA: 0x0014A460 File Offset: 0x00148860
 		protected override bool CanGenerateSub(ThingSetMakerParams parms)
 		{
 			for (int i = 0; i < this.options.Count; i++)
@@ -22,7 +22,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x0600269A RID: 9882 RVA: 0x0014A45C File Offset: 0x0014885C
+		// Token: 0x0600269C RID: 9884 RVA: 0x0014A4D4 File Offset: 0x001488D4
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			ThingSetMaker_RandomOption.Option option;
@@ -34,7 +34,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600269B RID: 9883 RVA: 0x0014A4C4 File Offset: 0x001488C4
+		// Token: 0x0600269D RID: 9885 RVA: 0x0014A53C File Offset: 0x0014893C
 		private float GetSelectionWeight(ThingSetMaker_RandomOption.Option option)
 		{
 			float? weightIfPlayerHasNoSuchItem = option.weightIfPlayerHasNoSuchItem;
@@ -50,7 +50,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600269C RID: 9884 RVA: 0x0014A520 File Offset: 0x00148920
+		// Token: 0x0600269E RID: 9886 RVA: 0x0014A598 File Offset: 0x00148998
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -60,7 +60,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600269D RID: 9885 RVA: 0x0014A568 File Offset: 0x00148968
+		// Token: 0x0600269F RID: 9887 RVA: 0x0014A5E0 File Offset: 0x001489E0
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
 			for (int i = 0; i < this.options.Count; i++)

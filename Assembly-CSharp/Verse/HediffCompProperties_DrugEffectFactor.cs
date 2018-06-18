@@ -3,16 +3,16 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D0A RID: 3338
+	// Token: 0x02000D09 RID: 3337
 	public class HediffCompProperties_DrugEffectFactor : HediffCompProperties
 	{
-		// Token: 0x0600499B RID: 18843 RVA: 0x0026845A File Offset: 0x0026685A
+		// Token: 0x06004999 RID: 18841 RVA: 0x00268432 File Offset: 0x00266832
 		public HediffCompProperties_DrugEffectFactor()
 		{
 			this.compClass = typeof(HediffComp_DrugEffectFactor);
 		}
 
-		// Token: 0x040031E8 RID: 12776
+		// Token: 0x040031E6 RID: 12774
 		public ChemicalDef chemical;
 	}
 }

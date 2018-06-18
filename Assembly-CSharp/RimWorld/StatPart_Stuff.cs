@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020009BA RID: 2490
 	public class StatPart_Stuff : StatPart
 	{
-		// Token: 0x060037B7 RID: 14263 RVA: 0x001DA74C File Offset: 0x001D8B4C
+		// Token: 0x060037B9 RID: 14265 RVA: 0x001DA820 File Offset: 0x001D8C20
 		public override string ExplanationPart(StatRequest req)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -30,14 +30,14 @@ namespace RimWorld
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
-		// Token: 0x060037B8 RID: 14264 RVA: 0x001DA85C File Offset: 0x001D8C5C
+		// Token: 0x060037BA RID: 14266 RVA: 0x001DA930 File Offset: 0x001D8D30
 		public override void TransformValue(StatRequest req, ref float value)
 		{
 			float num = (req.StuffDef == null) ? 0f : req.StuffDef.GetStatValueAbstract(this.stuffPowerStat, null);
 			value += this.GetMultiplier(req) * num;
 		}
 
-		// Token: 0x060037B9 RID: 14265 RVA: 0x001DA8A4 File Offset: 0x001D8CA4
+		// Token: 0x060037BB RID: 14267 RVA: 0x001DA978 File Offset: 0x001D8D78
 		private float GetMultiplier(StatRequest req)
 		{
 			float result;

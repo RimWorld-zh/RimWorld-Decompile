@@ -6,7 +6,7 @@ namespace Verse.AI
 	// Token: 0x02000A8A RID: 2698
 	public static class MurderousRageMentalStateUtility
 	{
-		// Token: 0x06003BD7 RID: 15319 RVA: 0x001F8660 File Offset: 0x001F6A60
+		// Token: 0x06003BD9 RID: 15321 RVA: 0x001F8734 File Offset: 0x001F6B34
 		public static Pawn FindPawnToKill(Pawn pawn)
 		{
 			Pawn result;

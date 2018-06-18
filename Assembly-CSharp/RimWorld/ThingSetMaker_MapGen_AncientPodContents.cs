@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020006F8 RID: 1784
 	public class ThingSetMaker_MapGen_AncientPodContents : ThingSetMaker
 	{
-		// Token: 0x060026CA RID: 9930 RVA: 0x0014CA84 File Offset: 0x0014AE84
+		// Token: 0x060026CC RID: 9932 RVA: 0x0014CAFC File Offset: 0x0014AEFC
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			PodContentsType? podContentsType = parms.podContentsType;
@@ -38,7 +38,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026CB RID: 9931 RVA: 0x0014CB60 File Offset: 0x0014AF60
+		// Token: 0x060026CD RID: 9933 RVA: 0x0014CBD8 File Offset: 0x0014AFD8
 		private Pawn GenerateFriendlyAncient()
 		{
 			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.AncientSoldier, Faction.OfAncients, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, true, false, false, null, null, null, null, null, null, null, null);
@@ -47,7 +47,7 @@ namespace RimWorld
 			return pawn;
 		}
 
-		// Token: 0x060026CC RID: 9932 RVA: 0x0014CBDC File Offset: 0x0014AFDC
+		// Token: 0x060026CE RID: 9934 RVA: 0x0014CC54 File Offset: 0x0014B054
 		private Pawn GenerateIncappedAncient()
 		{
 			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.AncientSoldier, Faction.OfAncients, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, true, false, false, null, null, null, null, null, null, null, null);
@@ -57,7 +57,7 @@ namespace RimWorld
 			return pawn;
 		}
 
-		// Token: 0x060026CD RID: 9933 RVA: 0x0014CC60 File Offset: 0x0014B060
+		// Token: 0x060026CF RID: 9935 RVA: 0x0014CCD8 File Offset: 0x0014B0D8
 		private Pawn GenerateSlave()
 		{
 			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.Slave, Faction.OfAncients, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, true, false, false, null, null, null, null, null, null, null, null);
@@ -71,7 +71,7 @@ namespace RimWorld
 			return pawn;
 		}
 
-		// Token: 0x060026CE RID: 9934 RVA: 0x0014CCF8 File Offset: 0x0014B0F8
+		// Token: 0x060026D0 RID: 9936 RVA: 0x0014CD70 File Offset: 0x0014B170
 		private Pawn GenerateAngryAncient()
 		{
 			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.AncientSoldier, Faction.OfAncientsHostile, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, true, false, false, null, null, null, null, null, null, null, null);
@@ -80,7 +80,7 @@ namespace RimWorld
 			return pawn;
 		}
 
-		// Token: 0x060026CF RID: 9935 RVA: 0x0014CD74 File Offset: 0x0014B174
+		// Token: 0x060026D1 RID: 9937 RVA: 0x0014CDEC File Offset: 0x0014B1EC
 		private Pawn GenerateHalfEatenAncient()
 		{
 			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.AncientSoldier, Faction.OfAncients, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, true, false, false, null, null, null, null, null, null, null, null);
@@ -98,7 +98,7 @@ namespace RimWorld
 			return pawn;
 		}
 
-		// Token: 0x060026D0 RID: 9936 RVA: 0x0014CE44 File Offset: 0x0014B244
+		// Token: 0x060026D2 RID: 9938 RVA: 0x0014CEBC File Offset: 0x0014B2BC
 		private List<Thing> GenerateScarabs()
 		{
 			List<Thing> list = new List<Thing>();
@@ -112,7 +112,7 @@ namespace RimWorld
 			return list;
 		}
 
-		// Token: 0x060026D1 RID: 9937 RVA: 0x0014CEAC File Offset: 0x0014B2AC
+		// Token: 0x060026D3 RID: 9939 RVA: 0x0014CF24 File Offset: 0x0014B324
 		private void GiveRandomLootInventoryForTombPawn(Pawn p)
 		{
 			if (Rand.Value < 0.65f)
@@ -133,7 +133,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026D2 RID: 9938 RVA: 0x0014CF5C File Offset: 0x0014B35C
+		// Token: 0x060026D4 RID: 9940 RVA: 0x0014CFD4 File Offset: 0x0014B3D4
 		private void MakeIntoContainer(ThingOwner container, ThingDef def, int count)
 		{
 			if (count > 0)
@@ -144,7 +144,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026D3 RID: 9939 RVA: 0x0014CF90 File Offset: 0x0014B390
+		// Token: 0x060026D5 RID: 9941 RVA: 0x0014D008 File Offset: 0x0014B408
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
 			yield return PawnKindDefOf.AncientSoldier.race;

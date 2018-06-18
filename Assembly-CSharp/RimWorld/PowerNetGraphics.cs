@@ -8,7 +8,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class PowerNetGraphics
 	{
-		// Token: 0x06001286 RID: 4742 RVA: 0x000A0BC8 File Offset: 0x0009EFC8
+		// Token: 0x06001286 RID: 4742 RVA: 0x000A0BD4 File Offset: 0x0009EFD4
 		public static void PrintWirePieceConnecting(SectionLayer layer, Thing A, Thing B, bool forPowerOverlay)
 		{
 			Material mat = PowerNetGraphics.WireMat;
@@ -26,7 +26,7 @@ namespace RimWorld
 			Printer_Plane.PrintPlane(layer, center, size, mat, rot, false, null, null, 0.01f, 0f);
 		}
 
-		// Token: 0x06001287 RID: 4743 RVA: 0x000A0C64 File Offset: 0x0009F064
+		// Token: 0x06001287 RID: 4743 RVA: 0x000A0C70 File Offset: 0x0009F070
 		public static void RenderAnticipatedWirePieceConnecting(IntVec3 userPos, Rot4 rotation, IntVec2 thingSize, Thing transmitter)
 		{
 			Vector3 vector = GenThing.TrueCenter(userPos, rotation, thingSize, AltitudeLayer.MapDataOverlay.AltitudeFor());
@@ -44,7 +44,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001288 RID: 4744 RVA: 0x000A0D10 File Offset: 0x0009F110
+		// Token: 0x06001288 RID: 4744 RVA: 0x000A0D1C File Offset: 0x0009F11C
 		public static void PrintOverlayConnectorBaseFor(SectionLayer layer, Thing t)
 		{
 			Vector3 center = t.TrueCenter();

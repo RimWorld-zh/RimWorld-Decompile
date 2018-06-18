@@ -12,7 +12,7 @@ namespace RimWorld
 	public static class TrainableUtility
 	{
 		// Token: 0x17000387 RID: 903
-		// (get) Token: 0x060018FF RID: 6399 RVA: 0x000D9710 File Offset: 0x000D7B10
+		// (get) Token: 0x06001900 RID: 6400 RVA: 0x000D9764 File Offset: 0x000D7B64
 		public static List<TrainableDef> TrainableDefsInListOrder
 		{
 			get
@@ -21,7 +21,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001900 RID: 6400 RVA: 0x000D972C File Offset: 0x000D7B2C
+		// Token: 0x06001901 RID: 6401 RVA: 0x000D9780 File Offset: 0x000D7B80
 		public static void Reset()
 		{
 			TrainableUtility.defsInListOrder.Clear();
@@ -56,19 +56,19 @@ namespace RimWorld
 			while (flag);
 		}
 
-		// Token: 0x06001901 RID: 6401 RVA: 0x000D981C File Offset: 0x000D7C1C
+		// Token: 0x06001902 RID: 6402 RVA: 0x000D9870 File Offset: 0x000D7C70
 		public static string MasterString(Pawn pawn)
 		{
 			return (pawn.playerSettings.Master == null) ? ("(" + "NoneLower".Translate() + ")") : RelationsUtility.LabelWithBondInfo(pawn.playerSettings.Master, pawn);
 		}
 
-		// Token: 0x06001902 RID: 6402 RVA: 0x000D9870 File Offset: 0x000D7C70
+		// Token: 0x06001903 RID: 6403 RVA: 0x000D98C4 File Offset: 0x000D7CC4
 		public static int MinimumHandlingSkill(Pawn p)
 		{
 			return Mathf.RoundToInt(p.GetStatValue(StatDefOf.MinimumHandlingSkill, true));
 		}
 
-		// Token: 0x06001903 RID: 6403 RVA: 0x000D9898 File Offset: 0x000D7C98
+		// Token: 0x06001904 RID: 6404 RVA: 0x000D98EC File Offset: 0x000D7CEC
 		public static void MasterSelectButton(Rect rect, Pawn pawn, bool paintable)
 		{
 			Rect rect2 = rect;
@@ -87,13 +87,13 @@ namespace RimWorld
 			Widgets.Dropdown<Pawn, Pawn>(rect2, pawn, getPayload, menuGenerator, buttonLabel, null, dragLabel, null, null, paintable);
 		}
 
-		// Token: 0x06001904 RID: 6404 RVA: 0x000D9914 File Offset: 0x000D7D14
+		// Token: 0x06001905 RID: 6405 RVA: 0x000D9968 File Offset: 0x000D7D68
 		private static Pawn MasterSelectButton_GetMaster(Pawn pet)
 		{
 			return pet.playerSettings.Master;
 		}
 
-		// Token: 0x06001905 RID: 6405 RVA: 0x000D9934 File Offset: 0x000D7D34
+		// Token: 0x06001906 RID: 6406 RVA: 0x000D9988 File Offset: 0x000D7D88
 		private static IEnumerable<Widgets.DropdownMenuElement<Pawn>> MasterSelectButton_GenerateMenu(Pawn p)
 		{
 			yield return new Widgets.DropdownMenuElement<Pawn>
@@ -140,7 +140,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06001906 RID: 6406 RVA: 0x000D9960 File Offset: 0x000D7D60
+		// Token: 0x06001907 RID: 6407 RVA: 0x000D99B4 File Offset: 0x000D7DB4
 		public static bool CanBeMaster(Pawn master, Pawn animal, bool checkSpawned = true)
 		{
 			bool result;
@@ -157,7 +157,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001907 RID: 6407 RVA: 0x000D99BC File Offset: 0x000D7DBC
+		// Token: 0x06001908 RID: 6408 RVA: 0x000D9A10 File Offset: 0x000D7E10
 		public static string GetIconTooltipText(Pawn pawn)
 		{
 			string text = "";
@@ -174,7 +174,7 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x06001908 RID: 6408 RVA: 0x000D9A6C File Offset: 0x000D7E6C
+		// Token: 0x06001909 RID: 6409 RVA: 0x000D9AC0 File Offset: 0x000D7EC0
 		public static IEnumerable<Pawn> GetAllColonistBondsFor(Pawn pet)
 		{
 			return from bond in pet.relations.DirectRelations
@@ -182,19 +182,19 @@ namespace RimWorld
 			select bond.otherPawn;
 		}
 
-		// Token: 0x06001909 RID: 6409 RVA: 0x000D9AD0 File Offset: 0x000D7ED0
+		// Token: 0x0600190A RID: 6410 RVA: 0x000D9B24 File Offset: 0x000D7F24
 		public static int DegradationPeriodTicks(ThingDef def)
 		{
 			return Mathf.RoundToInt(TrainableUtility.DecayIntervalDaysFromWildnessCurve.Evaluate(def.race.wildness) * 60000f);
 		}
 
-		// Token: 0x0600190A RID: 6410 RVA: 0x000D9B08 File Offset: 0x000D7F08
+		// Token: 0x0600190B RID: 6411 RVA: 0x000D9B5C File Offset: 0x000D7F5C
 		public static bool TamenessCanDecay(ThingDef def)
 		{
 			return def.race.wildness > 0.101f;
 		}
 
-		// Token: 0x0600190B RID: 6411 RVA: 0x000D9B30 File Offset: 0x000D7F30
+		// Token: 0x0600190C RID: 6412 RVA: 0x000D9B84 File Offset: 0x000D7F84
 		public static string GetWildnessExplanation(ThingDef def)
 		{
 			StringBuilder stringBuilder = new StringBuilder();

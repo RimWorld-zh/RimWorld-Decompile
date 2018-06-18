@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000699 RID: 1689
 	public class Building_Cooler : Building_TempControl
 	{
-		// Token: 0x060023C8 RID: 9160 RVA: 0x0013287C File Offset: 0x00130C7C
+		// Token: 0x060023CA RID: 9162 RVA: 0x001328F4 File Offset: 0x00130CF4
 		public override void TickRare()
 		{
 			if (this.compPowerTrader.PowerOn)

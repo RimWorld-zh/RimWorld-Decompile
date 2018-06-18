@@ -8,7 +8,7 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public class LifeStageAge
 	{
-		// Token: 0x06003ECE RID: 16078 RVA: 0x00210EE8 File Offset: 0x0020F2E8
+		// Token: 0x06003ED0 RID: 16080 RVA: 0x00210FBC File Offset: 0x0020F3BC
 		public Texture2D GetIcon(Pawn forPawn)
 		{
 			Texture2D result;

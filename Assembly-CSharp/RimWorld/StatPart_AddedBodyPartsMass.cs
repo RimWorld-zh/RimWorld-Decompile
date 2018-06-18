@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020009A3 RID: 2467
 	public class StatPart_AddedBodyPartsMass : StatPart
 	{
-		// Token: 0x0600374A RID: 14154 RVA: 0x001D8864 File Offset: 0x001D6C64
+		// Token: 0x0600374C RID: 14156 RVA: 0x001D8938 File Offset: 0x001D6D38
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			float num;
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600374B RID: 14155 RVA: 0x001D8888 File Offset: 0x001D6C88
+		// Token: 0x0600374D RID: 14157 RVA: 0x001D895C File Offset: 0x001D6D5C
 		public override string ExplanationPart(StatRequest req)
 		{
 			float num;
@@ -33,13 +33,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600374C RID: 14156 RVA: 0x001D88D8 File Offset: 0x001D6CD8
+		// Token: 0x0600374E RID: 14158 RVA: 0x001D89AC File Offset: 0x001D6DAC
 		private bool TryGetValue(StatRequest req, out float value)
 		{
 			return PawnOrCorpseStatUtility.TryGetPawnOrCorpseStat(req, (Pawn x) => this.GetAddedBodyPartsMass(x), (ThingDef x) => 0f, out value);
 		}
 
-		// Token: 0x0600374D RID: 14157 RVA: 0x001D8920 File Offset: 0x001D6D20
+		// Token: 0x0600374F RID: 14159 RVA: 0x001D89F4 File Offset: 0x001D6DF4
 		private float GetAddedBodyPartsMass(Pawn p)
 		{
 			float num = 0f;

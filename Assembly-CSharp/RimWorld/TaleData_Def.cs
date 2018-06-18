@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200065D RID: 1629
 	public class TaleData_Def : TaleData
 	{
-		// Token: 0x060021FD RID: 8701 RVA: 0x001200F0 File Offset: 0x0011E4F0
+		// Token: 0x060021FF RID: 8703 RVA: 0x00120168 File Offset: 0x0011E568
 		public override void ExposeData()
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
@@ -24,7 +24,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021FE RID: 8702 RVA: 0x001201A4 File Offset: 0x0011E5A4
+		// Token: 0x06002200 RID: 8704 RVA: 0x0012021C File Offset: 0x0011E61C
 		public override IEnumerable<Rule> GetRules(string prefix)
 		{
 			if (this.def != null)
@@ -36,7 +36,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060021FF RID: 8703 RVA: 0x001201D8 File Offset: 0x0011E5D8
+		// Token: 0x06002201 RID: 8705 RVA: 0x00120250 File Offset: 0x0011E650
 		public static TaleData_Def GenerateFrom(Def def)
 		{
 			return new TaleData_Def

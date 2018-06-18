@@ -13,7 +13,7 @@ namespace RimWorld
 	public sealed class Autosaver
 	{
 		// Token: 0x1700088C RID: 2188
-		// (get) Token: 0x060034FF RID: 13567 RVA: 0x001C4B70 File Offset: 0x001C2F70
+		// (get) Token: 0x06003501 RID: 13569 RVA: 0x001C4C38 File Offset: 0x001C3038
 		private float AutosaveIntervalDays
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700088D RID: 2189
-		// (get) Token: 0x06003500 RID: 13568 RVA: 0x001C4BB4 File Offset: 0x001C2FB4
+		// (get) Token: 0x06003502 RID: 13570 RVA: 0x001C4C7C File Offset: 0x001C307C
 		private int AutosaveIntervalTicks
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003501 RID: 13569 RVA: 0x001C4BDC File Offset: 0x001C2FDC
+		// Token: 0x06003503 RID: 13571 RVA: 0x001C4CA4 File Offset: 0x001C30A4
 		public void AutosaverTick()
 		{
 			this.ticksSinceSave++;
@@ -48,7 +48,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003502 RID: 13570 RVA: 0x001C4C2C File Offset: 0x001C302C
+		// Token: 0x06003504 RID: 13572 RVA: 0x001C4CF4 File Offset: 0x001C30F4
 		public void DoAutosave()
 		{
 			string fileName;
@@ -63,7 +63,7 @@ namespace RimWorld
 			GameDataSaveLoader.SaveGame(fileName);
 		}
 
-		// Token: 0x06003503 RID: 13571 RVA: 0x001C4C70 File Offset: 0x001C3070
+		// Token: 0x06003505 RID: 13573 RVA: 0x001C4D38 File Offset: 0x001C3138
 		private void DoMemoryCleanup()
 		{
 			Profiler.BeginSample("UnloadUnusedAssets");
@@ -71,7 +71,7 @@ namespace RimWorld
 			Profiler.EndSample();
 		}
 
-		// Token: 0x06003504 RID: 13572 RVA: 0x001C4C88 File Offset: 0x001C3088
+		// Token: 0x06003506 RID: 13574 RVA: 0x001C4D50 File Offset: 0x001C3150
 		private string NewAutosaveFileName()
 		{
 			string text = (from name in this.AutoSaveNames()
@@ -90,7 +90,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003505 RID: 13573 RVA: 0x001C4D04 File Offset: 0x001C3104
+		// Token: 0x06003507 RID: 13575 RVA: 0x001C4DCC File Offset: 0x001C31CC
 		private IEnumerable<string> AutoSaveNames()
 		{
 			for (int i = 1; i <= 5; i++)

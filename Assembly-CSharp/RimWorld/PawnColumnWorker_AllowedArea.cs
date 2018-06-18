@@ -10,7 +10,7 @@ namespace RimWorld
 	public class PawnColumnWorker_AllowedArea : PawnColumnWorker
 	{
 		// Token: 0x17000802 RID: 2050
-		// (get) Token: 0x060031FB RID: 12795 RVA: 0x001AEEE4 File Offset: 0x001AD2E4
+		// (get) Token: 0x060031FD RID: 12797 RVA: 0x001AEFAC File Offset: 0x001AD3AC
 		protected override GameFont DefaultHeaderFont
 		{
 			get
@@ -19,25 +19,25 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060031FC RID: 12796 RVA: 0x001AEEFC File Offset: 0x001AD2FC
+		// Token: 0x060031FE RID: 12798 RVA: 0x001AEFC4 File Offset: 0x001AD3C4
 		public override int GetMinWidth(PawnTable table)
 		{
 			return Mathf.Max(base.GetMinWidth(table), 200);
 		}
 
-		// Token: 0x060031FD RID: 12797 RVA: 0x001AEF24 File Offset: 0x001AD324
+		// Token: 0x060031FF RID: 12799 RVA: 0x001AEFEC File Offset: 0x001AD3EC
 		public override int GetOptimalWidth(PawnTable table)
 		{
 			return Mathf.Clamp(273, this.GetMinWidth(table), this.GetMaxWidth(table));
 		}
 
-		// Token: 0x060031FE RID: 12798 RVA: 0x001AEF54 File Offset: 0x001AD354
+		// Token: 0x06003200 RID: 12800 RVA: 0x001AF01C File Offset: 0x001AD41C
 		public override int GetMinHeaderHeight(PawnTable table)
 		{
 			return Mathf.Max(base.GetMinHeaderHeight(table), 65);
 		}
 
-		// Token: 0x060031FF RID: 12799 RVA: 0x001AEF77 File Offset: 0x001AD377
+		// Token: 0x06003201 RID: 12801 RVA: 0x001AF03F File Offset: 0x001AD43F
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
 			if (pawn.Faction == Faction.OfPlayer)
@@ -46,7 +46,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003200 RID: 12800 RVA: 0x001AEF98 File Offset: 0x001AD398
+		// Token: 0x06003202 RID: 12802 RVA: 0x001AF060 File Offset: 0x001AD460
 		public override void DoHeader(Rect rect, PawnTable table)
 		{
 			base.DoHeader(rect, table);
@@ -57,13 +57,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003201 RID: 12801 RVA: 0x001AF014 File Offset: 0x001AD414
+		// Token: 0x06003203 RID: 12803 RVA: 0x001AF0DC File Offset: 0x001AD4DC
 		public override int Compare(Pawn a, Pawn b)
 		{
 			return this.GetValueToCompare(a).CompareTo(this.GetValueToCompare(b));
 		}
 
-		// Token: 0x06003202 RID: 12802 RVA: 0x001AF040 File Offset: 0x001AD440
+		// Token: 0x06003204 RID: 12804 RVA: 0x001AF108 File Offset: 0x001AD508
 		private int GetValueToCompare(Pawn pawn)
 		{
 			int result;
@@ -79,7 +79,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003203 RID: 12803 RVA: 0x001AF094 File Offset: 0x001AD494
+		// Token: 0x06003205 RID: 12805 RVA: 0x001AF15C File Offset: 0x001AD55C
 		protected override void HeaderClicked(Rect headerRect, PawnTable table)
 		{
 			base.HeaderClicked(headerRect, table);
@@ -112,7 +112,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003204 RID: 12804 RVA: 0x001AF190 File Offset: 0x001AD590
+		// Token: 0x06003206 RID: 12806 RVA: 0x001AF258 File Offset: 0x001AD658
 		protected override string GetHeaderTip(PawnTable table)
 		{
 			return base.GetHeaderTip(table) + "\n" + "AllowedAreaShiftClickTip".Translate();

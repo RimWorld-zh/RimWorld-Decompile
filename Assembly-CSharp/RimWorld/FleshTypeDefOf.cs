@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class FleshTypeDefOf
 	{
-		// Token: 0x06003661 RID: 13921 RVA: 0x001D0A85 File Offset: 0x001CEE85
+		// Token: 0x06003663 RID: 13923 RVA: 0x001D0B4D File Offset: 0x001CEF4D
 		static FleshTypeDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(FleshTypeDefOf));

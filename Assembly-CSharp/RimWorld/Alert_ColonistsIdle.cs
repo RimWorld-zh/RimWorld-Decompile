@@ -10,7 +10,7 @@ namespace RimWorld
 	public class Alert_ColonistsIdle : Alert
 	{
 		// Token: 0x170006B7 RID: 1719
-		// (get) Token: 0x06002B3B RID: 11067 RVA: 0x0016D46C File Offset: 0x0016B86C
+		// (get) Token: 0x06002B3D RID: 11069 RVA: 0x0016D500 File Offset: 0x0016B900
 		private IEnumerable<Pawn> IdleColonists
 		{
 			get
@@ -33,13 +33,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B3C RID: 11068 RVA: 0x0016D490 File Offset: 0x0016B890
+		// Token: 0x06002B3E RID: 11070 RVA: 0x0016D524 File Offset: 0x0016B924
 		public override string GetLabel()
 		{
 			return string.Format("ColonistsIdle".Translate(), this.IdleColonists.Count<Pawn>().ToStringCached());
 		}
 
-		// Token: 0x06002B3D RID: 11069 RVA: 0x0016D4C4 File Offset: 0x0016B8C4
+		// Token: 0x06002B3F RID: 11071 RVA: 0x0016D558 File Offset: 0x0016B958
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -50,7 +50,7 @@ namespace RimWorld
 			return string.Format("ColonistsIdleDesc".Translate(), stringBuilder.ToString());
 		}
 
-		// Token: 0x06002B3E RID: 11070 RVA: 0x0016D558 File Offset: 0x0016B958
+		// Token: 0x06002B40 RID: 11072 RVA: 0x0016D5EC File Offset: 0x0016B9EC
 		public override AlertReport GetReport()
 		{
 			AlertReport result;

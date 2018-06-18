@@ -8,7 +8,7 @@ namespace Verse
 	// Token: 0x02000BB8 RID: 3000
 	public class WorkTypeDef : Def
 	{
-		// Token: 0x060040F2 RID: 16626 RVA: 0x00224874 File Offset: 0x00222C74
+		// Token: 0x060040F4 RID: 16628 RVA: 0x00224948 File Offset: 0x00222D48
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -22,7 +22,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060040F3 RID: 16627 RVA: 0x002248A0 File Offset: 0x00222CA0
+		// Token: 0x060040F5 RID: 16629 RVA: 0x00224974 File Offset: 0x00222D74
 		public override void ResolveReferences()
 		{
 			foreach (WorkGiverDef item in from d in DefDatabase<WorkGiverDef>.AllDefs
@@ -34,7 +34,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060040F4 RID: 16628 RVA: 0x00224934 File Offset: 0x00222D34
+		// Token: 0x060040F6 RID: 16630 RVA: 0x00224A08 File Offset: 0x00222E08
 		public override int GetHashCode()
 		{
 			return Gen.HashCombine<string>(this.defName.GetHashCode(), this.gerundLabel);

@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000656 RID: 1622
 	public static class ScenarioLister
 	{
-		// Token: 0x060021CA RID: 8650 RVA: 0x0011E070 File Offset: 0x0011C470
+		// Token: 0x060021CC RID: 8652 RVA: 0x0011E0E8 File Offset: 0x0011C4E8
 		public static IEnumerable<Scenario> AllScenarios()
 		{
 			ScenarioLister.RecacheIfDirty();
@@ -26,7 +26,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060021CB RID: 8651 RVA: 0x0011E094 File Offset: 0x0011C494
+		// Token: 0x060021CD RID: 8653 RVA: 0x0011E10C File Offset: 0x0011C50C
 		public static IEnumerable<Scenario> ScenariosInCategory(ScenarioCategory cat)
 		{
 			ScenarioLister.RecacheIfDirty();
@@ -54,7 +54,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060021CC RID: 8652 RVA: 0x0011E0C0 File Offset: 0x0011C4C0
+		// Token: 0x060021CE RID: 8654 RVA: 0x0011E138 File Offset: 0x0011C538
 		public static bool ScenarioIsListedAnywhere(Scenario scen)
 		{
 			ScenarioLister.RecacheIfDirty();
@@ -75,13 +75,13 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060021CD RID: 8653 RVA: 0x0011E18C File Offset: 0x0011C58C
+		// Token: 0x060021CF RID: 8655 RVA: 0x0011E204 File Offset: 0x0011C604
 		public static void MarkDirty()
 		{
 			ScenarioLister.dirty = true;
 		}
 
-		// Token: 0x060021CE RID: 8654 RVA: 0x0011E195 File Offset: 0x0011C595
+		// Token: 0x060021D0 RID: 8656 RVA: 0x0011E20D File Offset: 0x0011C60D
 		private static void RecacheIfDirty()
 		{
 			if (ScenarioLister.dirty)
@@ -90,7 +90,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021CF RID: 8655 RVA: 0x0011E1A8 File Offset: 0x0011C5A8
+		// Token: 0x060021D1 RID: 8657 RVA: 0x0011E220 File Offset: 0x0011C620
 		private static void RecacheData()
 		{
 			ScenarioLister.dirty = false;
@@ -106,7 +106,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021D0 RID: 8656 RVA: 0x0011E1F8 File Offset: 0x0011C5F8
+		// Token: 0x060021D2 RID: 8658 RVA: 0x0011E270 File Offset: 0x0011C670
 		public static int ScenarioListHash()
 		{
 			int num = 9826121;

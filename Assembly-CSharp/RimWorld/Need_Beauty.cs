@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020004F4 RID: 1268
 	public class Need_Beauty : Need_Seeker
 	{
-		// Token: 0x060016CA RID: 5834 RVA: 0x000C99A4 File Offset: 0x000C7DA4
+		// Token: 0x060016CB RID: 5835 RVA: 0x000C99F8 File Offset: 0x000C7DF8
 		public Need_Beauty(Pawn pawn) : base(pawn)
 		{
 			this.threshPercents = new List<float>();
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000307 RID: 775
-		// (get) Token: 0x060016CB RID: 5835 RVA: 0x000C9A04 File Offset: 0x000C7E04
+		// (get) Token: 0x060016CC RID: 5836 RVA: 0x000C9A58 File Offset: 0x000C7E58
 		public override float CurInstantLevel
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000308 RID: 776
-		// (get) Token: 0x060016CC RID: 5836 RVA: 0x000C9A6C File Offset: 0x000C7E6C
+		// (get) Token: 0x060016CD RID: 5837 RVA: 0x000C9AC0 File Offset: 0x000C7EC0
 		public BeautyCategory CurCategory
 		{
 			get
@@ -80,13 +80,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060016CD RID: 5837 RVA: 0x000C9B0C File Offset: 0x000C7F0C
+		// Token: 0x060016CE RID: 5838 RVA: 0x000C9B60 File Offset: 0x000C7F60
 		private float LevelFromBeauty(float beauty)
 		{
 			return Mathf.Clamp01(this.def.baseLevel + beauty * 0.1f);
 		}
 
-		// Token: 0x060016CE RID: 5838 RVA: 0x000C9B3C File Offset: 0x000C7F3C
+		// Token: 0x060016CF RID: 5839 RVA: 0x000C9B90 File Offset: 0x000C7F90
 		public float CurrentInstantBeauty()
 		{
 			float result;

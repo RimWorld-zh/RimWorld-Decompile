@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x020007E9 RID: 2025
 	public abstract class Designator_ZoneAdd : Designator_Zone
 	{
-		// Token: 0x06002CF8 RID: 11512 RVA: 0x0017A20F File Offset: 0x0017860F
+		// Token: 0x06002CFA RID: 11514 RVA: 0x0017A2A3 File Offset: 0x001786A3
 		public Designator_ZoneAdd()
 		{
 			this.soundDragSustain = SoundDefOf.Designate_DragAreaAdd;
@@ -19,8 +19,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700071F RID: 1823
-		// (get) Token: 0x06002CF9 RID: 11513 RVA: 0x0017A23C File Offset: 0x0017863C
-		// (set) Token: 0x06002CFA RID: 11514 RVA: 0x0017A25B File Offset: 0x0017865B
+		// (get) Token: 0x06002CFB RID: 11515 RVA: 0x0017A2D0 File Offset: 0x001786D0
+		// (set) Token: 0x06002CFC RID: 11516 RVA: 0x0017A2EF File Offset: 0x001786EF
 		private Zone SelectedZone
 		{
 			get
@@ -38,13 +38,13 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000720 RID: 1824
-		// (get) Token: 0x06002CFB RID: 11515
+		// (get) Token: 0x06002CFD RID: 11517
 		protected abstract string NewZoneLabel { get; }
 
-		// Token: 0x06002CFC RID: 11516
+		// Token: 0x06002CFE RID: 11518
 		protected abstract Zone MakeNewZone();
 
-		// Token: 0x06002CFD RID: 11517 RVA: 0x0017A27C File Offset: 0x0017867C
+		// Token: 0x06002CFF RID: 11519 RVA: 0x0017A310 File Offset: 0x00178710
 		public override void SelectedUpdate()
 		{
 			base.SelectedUpdate();
@@ -54,7 +54,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002CFE RID: 11518 RVA: 0x0017A2D0 File Offset: 0x001786D0
+		// Token: 0x06002D00 RID: 11520 RVA: 0x0017A364 File Offset: 0x00178764
 		public override void DrawMouseAttachments()
 		{
 			if (this.useMouseIcon)
@@ -83,7 +83,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002CFF RID: 11519 RVA: 0x0017A378 File Offset: 0x00178778
+		// Token: 0x06002D01 RID: 11521 RVA: 0x0017A40C File Offset: 0x0017880C
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -121,7 +121,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002D00 RID: 11520 RVA: 0x0017A498 File Offset: 0x00178898
+		// Token: 0x06002D02 RID: 11522 RVA: 0x0017A52C File Offset: 0x0017892C
 		public override void DesignateMultiCell(IEnumerable<IntVec3> cells)
 		{
 			List<IntVec3> list = cells.ToList<IntVec3>();

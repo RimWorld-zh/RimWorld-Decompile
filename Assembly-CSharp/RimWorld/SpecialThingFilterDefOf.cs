@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class SpecialThingFilterDefOf
 	{
-		// Token: 0x06003647 RID: 13895 RVA: 0x001D08B1 File Offset: 0x001CECB1
+		// Token: 0x06003649 RID: 13897 RVA: 0x001D0979 File Offset: 0x001CED79
 		static SpecialThingFilterDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(SpecialThingFilterDefOf));

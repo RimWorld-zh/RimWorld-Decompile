@@ -9,12 +9,12 @@ using Steamworks;
 
 namespace Verse.Steam
 {
-	// Token: 0x02000FBF RID: 4031
+	// Token: 0x02000FBE RID: 4030
 	[HasDebugOutput]
 	public static class Workshop
 	{
-		// Token: 0x17000FC2 RID: 4034
-		// (get) Token: 0x0600614C RID: 24908 RVA: 0x00311118 File Offset: 0x0030F518
+		// Token: 0x17000FC1 RID: 4033
+		// (get) Token: 0x0600614A RID: 24906 RVA: 0x003111F4 File Offset: 0x0030F5F4
 		public static WorkshopInteractStage CurStage
 		{
 			get
@@ -23,7 +23,7 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x0600614D RID: 24909 RVA: 0x00311134 File Offset: 0x0030F534
+		// Token: 0x0600614B RID: 24907 RVA: 0x00311210 File Offset: 0x0030F610
 		internal static void Init()
 		{
 			if (Workshop.<>f__mg$cache0 == null)
@@ -43,7 +43,7 @@ namespace Verse.Steam
 			Workshop.unsubscribedCallback = Callback<RemoteStoragePublishedFileUnsubscribed_t>.Create(Workshop.<>f__mg$cache2);
 		}
 
-		// Token: 0x0600614E RID: 24910 RVA: 0x003111B8 File Offset: 0x0030F5B8
+		// Token: 0x0600614C RID: 24908 RVA: 0x00311294 File Offset: 0x0030F694
 		internal static void Upload(WorkshopUploadable item)
 		{
 			if (Workshop.curStage != WorkshopInteractStage.None)
@@ -95,13 +95,13 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x0600614F RID: 24911 RVA: 0x0031136E File Offset: 0x0030F76E
+		// Token: 0x0600614D RID: 24909 RVA: 0x0031144A File Offset: 0x0030F84A
 		internal static void Unsubscribe(WorkshopUploadable item)
 		{
 			SteamUGC.UnsubscribeItem(item.GetPublishedFileId());
 		}
 
-		// Token: 0x06006150 RID: 24912 RVA: 0x00311380 File Offset: 0x0030F780
+		// Token: 0x0600614E RID: 24910 RVA: 0x0031145C File Offset: 0x0030F85C
 		internal static void RequestItemsDetails(PublishedFileId_t[] publishedFileIds)
 		{
 			if (Workshop.detailsQueryCount >= 0)
@@ -122,7 +122,7 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x06006151 RID: 24913 RVA: 0x00311400 File Offset: 0x0030F800
+		// Token: 0x0600614F RID: 24911 RVA: 0x003114DC File Offset: 0x0030F8DC
 		internal static void OnItemSubscribed(RemoteStoragePublishedFileSubscribed_t result)
 		{
 			if (Workshop.IsOurAppId(result.m_nAppID))
@@ -135,7 +135,7 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x06006152 RID: 24914 RVA: 0x00311458 File Offset: 0x0030F858
+		// Token: 0x06006150 RID: 24912 RVA: 0x00311534 File Offset: 0x0030F934
 		internal static void OnItemInstalled(ItemInstalled_t result)
 		{
 			if (Workshop.IsOurAppId(result.m_unAppID))
@@ -148,7 +148,7 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x06006153 RID: 24915 RVA: 0x003114B0 File Offset: 0x0030F8B0
+		// Token: 0x06006151 RID: 24913 RVA: 0x0031158C File Offset: 0x0030F98C
 		internal static void OnItemUnsubscribed(RemoteStoragePublishedFileUnsubscribed_t result)
 		{
 			if (Workshop.IsOurAppId(result.m_nAppID))
@@ -171,7 +171,7 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x06006154 RID: 24916 RVA: 0x00311544 File Offset: 0x0030F944
+		// Token: 0x06006152 RID: 24914 RVA: 0x00311620 File Offset: 0x0030FA20
 		private static void OnItemCreated(CreateItemResult_t result, bool IOFailure)
 		{
 			if (IOFailure || result.m_eResult != EResult.k_EResultOK)
@@ -209,7 +209,7 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x06006155 RID: 24917 RVA: 0x00311694 File Offset: 0x0030FA94
+		// Token: 0x06006153 RID: 24915 RVA: 0x00311770 File Offset: 0x0030FB70
 		private static void OnItemSubmitted(SubmitItemUpdateResult_t result, bool IOFailure)
 		{
 			if (IOFailure || result.m_eResult != EResult.k_EResultOK)
@@ -238,7 +238,7 @@ namespace Verse.Steam
 			Workshop.submitResult = null;
 		}
 
-		// Token: 0x06006156 RID: 24918 RVA: 0x0031178C File Offset: 0x0030FB8C
+		// Token: 0x06006154 RID: 24916 RVA: 0x00311868 File Offset: 0x0030FC68
 		private static void OnGotItemDetails(SteamUGCRequestUGCDetailsResult_t result, bool IOFailure)
 		{
 			if (IOFailure)
@@ -284,7 +284,7 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x06006157 RID: 24919 RVA: 0x003119AC File Offset: 0x0030FDAC
+		// Token: 0x06006155 RID: 24917 RVA: 0x00311A88 File Offset: 0x0030FE88
 		public static void GetUpdateStatus(out EItemUpdateStatus updateStatus, out float progPercent)
 		{
 			ulong num;
@@ -293,13 +293,13 @@ namespace Verse.Steam
 			progPercent = num / num2;
 		}
 
-		// Token: 0x06006158 RID: 24920 RVA: 0x003119D4 File Offset: 0x0030FDD4
+		// Token: 0x06006156 RID: 24918 RVA: 0x00311AB0 File Offset: 0x0030FEB0
 		public static string UploadButtonLabel(PublishedFileId_t pfid)
 		{
 			return (!(pfid != PublishedFileId_t.Invalid)) ? "UploadToSteamWorkshop".Translate() : "UpdateOnSteamWorkshop".Translate();
 		}
 
-		// Token: 0x06006159 RID: 24921 RVA: 0x00311A14 File Offset: 0x0030FE14
+		// Token: 0x06006157 RID: 24919 RVA: 0x00311AF0 File Offset: 0x0030FEF0
 		private static void SetWorkshopItemDataFrom(UGCUpdateHandle_t updateHandle, WorkshopItemHook hook, bool creating)
 		{
 			hook.PrepareForWorkshopUpload();
@@ -322,7 +322,7 @@ namespace Verse.Steam
 			SteamUGC.SetItemContent(updateHandle, hook.Directory.FullName);
 		}
 
-		// Token: 0x0600615A RID: 24922 RVA: 0x00311AC8 File Offset: 0x0030FEC8
+		// Token: 0x06006158 RID: 24920 RVA: 0x00311BA4 File Offset: 0x0030FFA4
 		internal static IEnumerable<PublishedFileId_t> AllSubscribedItems()
 		{
 			uint numSub = SteamUGC.GetNumSubscribedItems();
@@ -338,7 +338,7 @@ namespace Verse.Steam
 			yield break;
 		}
 
-		// Token: 0x0600615B RID: 24923 RVA: 0x00311AEC File Offset: 0x0030FEEC
+		// Token: 0x06006159 RID: 24921 RVA: 0x00311BC8 File Offset: 0x0030FFC8
 		[DebugOutput]
 		[Category("System")]
 		internal static void SteamWorkshopStatus()
@@ -365,7 +365,7 @@ namespace Verse.Steam
 			Workshop.RequestItemsDetails(array);
 		}
 
-		// Token: 0x0600615C RID: 24924 RVA: 0x00311C58 File Offset: 0x00310058
+		// Token: 0x0600615A RID: 24922 RVA: 0x00311D34 File Offset: 0x00310134
 		private static string ItemStatusString(PublishedFileId_t pfid)
 		{
 			string result;
@@ -394,73 +394,73 @@ namespace Verse.Steam
 			return result;
 		}
 
-		// Token: 0x0600615D RID: 24925 RVA: 0x00311D0C File Offset: 0x0031010C
+		// Token: 0x0600615B RID: 24923 RVA: 0x00311DE8 File Offset: 0x003101E8
 		private static bool IsOurAppId(AppId_t appId)
 		{
 			return !(appId != SteamUtils.GetAppID());
 		}
 
-		// Token: 0x04003F9D RID: 16285
+		// Token: 0x04003F9C RID: 16284
 		private static WorkshopItemHook uploadingHook;
 
-		// Token: 0x04003F9E RID: 16286
+		// Token: 0x04003F9D RID: 16285
 		private static UGCUpdateHandle_t curUpdateHandle;
 
-		// Token: 0x04003F9F RID: 16287
+		// Token: 0x04003F9E RID: 16286
 		private static WorkshopInteractStage curStage = WorkshopInteractStage.None;
 
-		// Token: 0x04003FA0 RID: 16288
+		// Token: 0x04003F9F RID: 16287
 		private static Callback<RemoteStoragePublishedFileSubscribed_t> subscribedCallback;
 
-		// Token: 0x04003FA1 RID: 16289
+		// Token: 0x04003FA0 RID: 16288
 		private static Callback<RemoteStoragePublishedFileUnsubscribed_t> unsubscribedCallback;
 
-		// Token: 0x04003FA2 RID: 16290
+		// Token: 0x04003FA1 RID: 16289
 		private static Callback<ItemInstalled_t> installedCallback;
 
-		// Token: 0x04003FA3 RID: 16291
+		// Token: 0x04003FA2 RID: 16290
 		private static CallResult<SubmitItemUpdateResult_t> submitResult;
 
-		// Token: 0x04003FA4 RID: 16292
+		// Token: 0x04003FA3 RID: 16291
 		private static CallResult<CreateItemResult_t> createResult;
 
-		// Token: 0x04003FA5 RID: 16293
+		// Token: 0x04003FA4 RID: 16292
 		private static CallResult<SteamUGCRequestUGCDetailsResult_t> requestDetailsResult;
 
-		// Token: 0x04003FA6 RID: 16294
+		// Token: 0x04003FA5 RID: 16293
 		private static UGCQueryHandle_t detailsQueryHandle;
 
-		// Token: 0x04003FA7 RID: 16295
+		// Token: 0x04003FA6 RID: 16294
 		private static int detailsQueryCount = -1;
 
-		// Token: 0x04003FA8 RID: 16296
+		// Token: 0x04003FA7 RID: 16295
 		public const uint InstallInfoFolderNameMaxLength = 257u;
 
-		// Token: 0x04003FA9 RID: 16297
+		// Token: 0x04003FA8 RID: 16296
 		[CompilerGenerated]
 		private static Callback<RemoteStoragePublishedFileSubscribed_t>.DispatchDelegate <>f__mg$cache0;
 
-		// Token: 0x04003FAA RID: 16298
+		// Token: 0x04003FA9 RID: 16297
 		[CompilerGenerated]
 		private static Callback<ItemInstalled_t>.DispatchDelegate <>f__mg$cache1;
 
-		// Token: 0x04003FAB RID: 16299
+		// Token: 0x04003FAA RID: 16298
 		[CompilerGenerated]
 		private static Callback<RemoteStoragePublishedFileUnsubscribed_t>.DispatchDelegate <>f__mg$cache2;
 
-		// Token: 0x04003FAC RID: 16300
+		// Token: 0x04003FAB RID: 16299
 		[CompilerGenerated]
 		private static CallResult<SubmitItemUpdateResult_t>.APIDispatchDelegate <>f__mg$cache3;
 
-		// Token: 0x04003FAD RID: 16301
+		// Token: 0x04003FAC RID: 16300
 		[CompilerGenerated]
 		private static CallResult<CreateItemResult_t>.APIDispatchDelegate <>f__mg$cache4;
 
-		// Token: 0x04003FAE RID: 16302
+		// Token: 0x04003FAD RID: 16301
 		[CompilerGenerated]
 		private static CallResult<SteamUGCRequestUGCDetailsResult_t>.APIDispatchDelegate <>f__mg$cache5;
 
-		// Token: 0x04003FAF RID: 16303
+		// Token: 0x04003FAE RID: 16302
 		[CompilerGenerated]
 		private static CallResult<SubmitItemUpdateResult_t>.APIDispatchDelegate <>f__mg$cache6;
 	}

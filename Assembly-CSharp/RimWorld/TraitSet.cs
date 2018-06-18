@@ -7,19 +7,19 @@ namespace RimWorld
 	// Token: 0x0200053E RID: 1342
 	public class TraitSet : IExposable
 	{
-		// Token: 0x060018F8 RID: 6392 RVA: 0x000D92F4 File Offset: 0x000D76F4
+		// Token: 0x060018F9 RID: 6393 RVA: 0x000D9348 File Offset: 0x000D7748
 		public TraitSet(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x060018F9 RID: 6393 RVA: 0x000D930F File Offset: 0x000D770F
+		// Token: 0x060018FA RID: 6394 RVA: 0x000D9363 File Offset: 0x000D7763
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Trait>(ref this.allTraits, "allTraits", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x060018FA RID: 6394 RVA: 0x000D932C File Offset: 0x000D772C
+		// Token: 0x060018FB RID: 6395 RVA: 0x000D9380 File Offset: 0x000D7780
 		public void GainTrait(Trait trait)
 		{
 			if (this.HasTrait(trait.def))
@@ -45,7 +45,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060018FB RID: 6395 RVA: 0x000D9410 File Offset: 0x000D7810
+		// Token: 0x060018FC RID: 6396 RVA: 0x000D9464 File Offset: 0x000D7864
 		public bool HasTrait(TraitDef tDef)
 		{
 			for (int i = 0; i < this.allTraits.Count; i++)
@@ -59,7 +59,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000386 RID: 902
-		// (get) Token: 0x060018FC RID: 6396 RVA: 0x000D9464 File Offset: 0x000D7864
+		// (get) Token: 0x060018FD RID: 6397 RVA: 0x000D94B8 File Offset: 0x000D78B8
 		public IEnumerable<MentalBreakDef> TheOnlyAllowedMentalBreaks
 		{
 			get
@@ -79,7 +79,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060018FD RID: 6397 RVA: 0x000D9490 File Offset: 0x000D7890
+		// Token: 0x060018FE RID: 6398 RVA: 0x000D94E4 File Offset: 0x000D78E4
 		public Trait GetTrait(TraitDef tDef)
 		{
 			for (int i = 0; i < this.allTraits.Count; i++)
@@ -92,7 +92,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x060018FE RID: 6398 RVA: 0x000D94F0 File Offset: 0x000D78F0
+		// Token: 0x060018FF RID: 6399 RVA: 0x000D9544 File Offset: 0x000D7944
 		public int DegreeOfTrait(TraitDef tDef)
 		{
 			for (int i = 0; i < this.allTraits.Count; i++)

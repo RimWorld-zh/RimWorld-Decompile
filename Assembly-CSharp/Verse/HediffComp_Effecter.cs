@@ -2,11 +2,11 @@
 
 namespace Verse
 {
-	// Token: 0x02000D0D RID: 3341
+	// Token: 0x02000D0C RID: 3340
 	public class HediffComp_Effecter : HediffComp
 	{
-		// Token: 0x17000BA8 RID: 2984
-		// (get) Token: 0x060049A4 RID: 18852 RVA: 0x002685B0 File Offset: 0x002669B0
+		// Token: 0x17000BA7 RID: 2983
+		// (get) Token: 0x060049A2 RID: 18850 RVA: 0x00268588 File Offset: 0x00266988
 		public HediffCompProperties_Effecter Props
 		{
 			get
@@ -15,7 +15,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049A5 RID: 18853 RVA: 0x002685D0 File Offset: 0x002669D0
+		// Token: 0x060049A3 RID: 18851 RVA: 0x002685A8 File Offset: 0x002669A8
 		public EffecterDef CurrentStateEffecter()
 		{
 			EffecterDef result;

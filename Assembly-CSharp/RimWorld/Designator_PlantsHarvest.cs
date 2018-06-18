@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020007F4 RID: 2036
 	public class Designator_PlantsHarvest : Designator_Plants
 	{
-		// Token: 0x06002D22 RID: 11554 RVA: 0x0017AFA4 File Offset: 0x001793A4
+		// Token: 0x06002D24 RID: 11556 RVA: 0x0017B038 File Offset: 0x00179438
 		public Designator_PlantsHarvest()
 		{
 			this.defaultLabel = "DesignatorHarvest".Translate();
@@ -21,7 +21,7 @@ namespace RimWorld
 			this.designationDef = DesignationDefOf.HarvestPlant;
 		}
 
-		// Token: 0x06002D23 RID: 11555 RVA: 0x0017B028 File Offset: 0x00179428
+		// Token: 0x06002D25 RID: 11557 RVA: 0x0017B0BC File Offset: 0x001794BC
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			AcceptanceReport acceptanceReport = base.CanDesignateThing(t);
@@ -45,7 +45,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002D24 RID: 11556 RVA: 0x0017B0A4 File Offset: 0x001794A4
+		// Token: 0x06002D26 RID: 11558 RVA: 0x0017B138 File Offset: 0x00179538
 		protected override bool RemoveAllDesignationsAffects(LocalTargetInfo target)
 		{
 			return target.Thing.def.plant.harvestTag == "Standard";

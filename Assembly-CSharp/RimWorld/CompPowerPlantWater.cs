@@ -36,11 +36,11 @@ namespace RimWorld
 			{
 				vector += this.parent.Map.waterInfo.GetWaterMovement(intVec.ToVector3Shifted());
 			}
-			this.spinDirection = -Mathf.Sign(Vector3.Dot(vector, this.parent.Rotation.FacingCell.ToVector3()));
+			this.spinDirection = Mathf.Sign(Vector3.Dot(vector, this.parent.Rotation.Rotated(RotationDirection.Clockwise).FacingCell.ToVector3()));
 			this.spinDirection *= Rand.RangeSeeded(0.9f, 1.1f, this.parent.thingIDNumber * 60509 + 33151);
 		}
 
-		// Token: 0x06001242 RID: 4674 RVA: 0x0009E574 File Offset: 0x0009C974
+		// Token: 0x06001242 RID: 4674 RVA: 0x0009E580 File Offset: 0x0009C980
 		public override void CompTick()
 		{
 			base.CompTick();
@@ -50,13 +50,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001243 RID: 4675 RVA: 0x0009E5B4 File Offset: 0x0009C9B4
+		// Token: 0x06001243 RID: 4675 RVA: 0x0009E5C0 File Offset: 0x0009C9C0
 		public IEnumerable<IntVec3> WaterPoints()
 		{
 			return CompPowerPlantWater.WaterPoints(this.parent.Position, this.parent.Rotation);
 		}
 
-		// Token: 0x06001244 RID: 4676 RVA: 0x0009E5E4 File Offset: 0x0009C9E4
+		// Token: 0x06001244 RID: 4676 RVA: 0x0009E5F0 File Offset: 0x0009C9F0
 		public static IEnumerable<IntVec3> WaterPoints(IntVec3 loc, Rot4 rot)
 		{
 			Rot4 alongAxis = rot;
@@ -66,13 +66,13 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06001245 RID: 4677 RVA: 0x0009E618 File Offset: 0x0009CA18
+		// Token: 0x06001245 RID: 4677 RVA: 0x0009E624 File Offset: 0x0009CA24
 		public IEnumerable<IntVec3> GroundPoints()
 		{
 			return CompPowerPlantWater.GroundPoints(this.parent.Position, this.parent.Rotation);
 		}
 
-		// Token: 0x06001246 RID: 4678 RVA: 0x0009E648 File Offset: 0x0009CA48
+		// Token: 0x06001246 RID: 4678 RVA: 0x0009E654 File Offset: 0x0009CA54
 		public static IEnumerable<IntVec3> GroundPoints(IntVec3 loc, Rot4 rot)
 		{
 			Rot4 alongAxis = rot;
@@ -84,7 +84,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06001247 RID: 4679 RVA: 0x0009E67C File Offset: 0x0009CA7C
+		// Token: 0x06001247 RID: 4679 RVA: 0x0009E688 File Offset: 0x0009CA88
 		public override void PostDraw()
 		{
 			base.PostDraw();

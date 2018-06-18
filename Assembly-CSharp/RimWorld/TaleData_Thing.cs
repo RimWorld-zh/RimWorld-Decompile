@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x02000660 RID: 1632
 	public class TaleData_Thing : TaleData
 	{
-		// Token: 0x0600220C RID: 8716 RVA: 0x00120B38 File Offset: 0x0011EF38
+		// Token: 0x0600220E RID: 8718 RVA: 0x00120BB0 File Offset: 0x0011EFB0
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.thingID, "thingID", 0, false);
@@ -19,7 +19,7 @@ namespace RimWorld
 			Scribe_Values.Look<QualityCategory>(ref this.quality, "quality", QualityCategory.Awful, false);
 		}
 
-		// Token: 0x0600220D RID: 8717 RVA: 0x00120B9C File Offset: 0x0011EF9C
+		// Token: 0x0600220F RID: 8719 RVA: 0x00120C14 File Offset: 0x0011F014
 		public override IEnumerable<Rule> GetRules(string prefix)
 		{
 			yield return new Rule_String(prefix + "_label", this.thingDef.label);
@@ -37,7 +37,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600220E RID: 8718 RVA: 0x00120BD0 File Offset: 0x0011EFD0
+		// Token: 0x06002210 RID: 8720 RVA: 0x00120C48 File Offset: 0x0011F048
 		public static TaleData_Thing GenerateFrom(Thing t)
 		{
 			TaleData_Thing taleData_Thing = new TaleData_Thing();
@@ -53,7 +53,7 @@ namespace RimWorld
 			return taleData_Thing;
 		}
 
-		// Token: 0x0600220F RID: 8719 RVA: 0x00120C44 File Offset: 0x0011F044
+		// Token: 0x06002211 RID: 8721 RVA: 0x00120CBC File Offset: 0x0011F0BC
 		public static TaleData_Thing GenerateRandom()
 		{
 			ThingDef thingDef = DefDatabase<ThingDef>.AllDefs.Where(delegate(ThingDef d)

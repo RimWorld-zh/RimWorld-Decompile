@@ -7,7 +7,7 @@ namespace RimWorld.Planet
 	// Token: 0x0200056D RID: 1389
 	public class FeatureWorker_OuterOcean : FeatureWorker
 	{
-		// Token: 0x06001A43 RID: 6723 RVA: 0x000E35AC File Offset: 0x000E19AC
+		// Token: 0x06001A44 RID: 6724 RVA: 0x000E3600 File Offset: 0x000E1A00
 		public override void GenerateWhereAppropriate()
 		{
 			WorldGrid worldGrid = Find.WorldGrid;
@@ -41,14 +41,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001A44 RID: 6724 RVA: 0x000E36D8 File Offset: 0x000E1AD8
+		// Token: 0x06001A45 RID: 6725 RVA: 0x000E372C File Offset: 0x000E1B2C
 		private bool IsRoot(int tile)
 		{
 			WorldGrid worldGrid = Find.WorldGrid;
 			return worldGrid.IsOnEdge(tile) && this.CanTraverse(tile) && worldGrid[tile].feature == null;
 		}
 
-		// Token: 0x06001A45 RID: 6725 RVA: 0x000E3720 File Offset: 0x000E1B20
+		// Token: 0x06001A46 RID: 6726 RVA: 0x000E3774 File Offset: 0x000E1B74
 		private bool CanTraverse(int tile)
 		{
 			BiomeDef biome = Find.WorldGrid[tile].biome;

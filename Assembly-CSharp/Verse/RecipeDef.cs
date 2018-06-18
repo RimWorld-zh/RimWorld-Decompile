@@ -10,7 +10,7 @@ namespace Verse
 	public class RecipeDef : Def
 	{
 		// Token: 0x170009A5 RID: 2469
-		// (get) Token: 0x06003F98 RID: 16280 RVA: 0x00218058 File Offset: 0x00216458
+		// (get) Token: 0x06003F9A RID: 16282 RVA: 0x0021812C File Offset: 0x0021652C
 		public RecipeWorker Worker
 		{
 			get
@@ -25,7 +25,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009A6 RID: 2470
-		// (get) Token: 0x06003F99 RID: 16281 RVA: 0x002180A4 File Offset: 0x002164A4
+		// (get) Token: 0x06003F9B RID: 16283 RVA: 0x00218178 File Offset: 0x00216578
 		public RecipeWorkerCounter WorkerCounter
 		{
 			get
@@ -40,7 +40,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009A7 RID: 2471
-		// (get) Token: 0x06003F9A RID: 16282 RVA: 0x002180F0 File Offset: 0x002164F0
+		// (get) Token: 0x06003F9C RID: 16284 RVA: 0x002181C4 File Offset: 0x002165C4
 		public IngredientValueGetter IngredientValueGetter
 		{
 			get
@@ -54,7 +54,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009A8 RID: 2472
-		// (get) Token: 0x06003F9B RID: 16283 RVA: 0x0021812C File Offset: 0x0021652C
+		// (get) Token: 0x06003F9D RID: 16285 RVA: 0x00218200 File Offset: 0x00216600
 		public bool AvailableNow
 		{
 			get
@@ -80,7 +80,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009A9 RID: 2473
-		// (get) Token: 0x06003F9C RID: 16284 RVA: 0x002181A4 File Offset: 0x002165A4
+		// (get) Token: 0x06003F9E RID: 16286 RVA: 0x00218278 File Offset: 0x00216678
 		public string MinSkillString
 		{
 			get
@@ -111,7 +111,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009AA RID: 2474
-		// (get) Token: 0x06003F9D RID: 16285 RVA: 0x0021826C File Offset: 0x0021666C
+		// (get) Token: 0x06003F9F RID: 16287 RVA: 0x00218340 File Offset: 0x00216740
 		public IEnumerable<ThingDef> AllRecipeUsers
 		{
 			get
@@ -139,7 +139,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009AB RID: 2475
-		// (get) Token: 0x06003F9E RID: 16286 RVA: 0x00218298 File Offset: 0x00216698
+		// (get) Token: 0x06003FA0 RID: 16288 RVA: 0x0021836C File Offset: 0x0021676C
 		public bool UsesUnfinishedThing
 		{
 			get
@@ -149,7 +149,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009AC RID: 2476
-		// (get) Token: 0x06003F9F RID: 16287 RVA: 0x002182BC File Offset: 0x002166BC
+		// (get) Token: 0x06003FA1 RID: 16289 RVA: 0x00218390 File Offset: 0x00216790
 		public bool IsSurgery
 		{
 			get
@@ -166,7 +166,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009AD RID: 2477
-		// (get) Token: 0x06003FA0 RID: 16288 RVA: 0x00218330 File Offset: 0x00216730
+		// (get) Token: 0x06003FA2 RID: 16290 RVA: 0x00218404 File Offset: 0x00216804
 		public ThingDef ProducedThingDef
 		{
 			get
@@ -188,7 +188,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FA1 RID: 16289 RVA: 0x0021838C File Offset: 0x0021678C
+		// Token: 0x06003FA3 RID: 16291 RVA: 0x00218460 File Offset: 0x00216860
 		public float WorkAmountTotal(ThingDef stuffDef)
 		{
 			float statValueAbstract;
@@ -203,7 +203,7 @@ namespace Verse
 			return statValueAbstract;
 		}
 
-		// Token: 0x06003FA2 RID: 16290 RVA: 0x002183DC File Offset: 0x002167DC
+		// Token: 0x06003FA4 RID: 16292 RVA: 0x002184B0 File Offset: 0x002168B0
 		public IEnumerable<ThingDef> PotentiallyMissingIngredients(Pawn billDoer, Map map)
 		{
 			for (int i = 0; i < this.ingredients.Count; i++)
@@ -241,7 +241,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003FA3 RID: 16291 RVA: 0x00218414 File Offset: 0x00216814
+		// Token: 0x06003FA5 RID: 16293 RVA: 0x002184E8 File Offset: 0x002168E8
 		public bool IsIngredient(ThingDef th)
 		{
 			for (int i = 0; i < this.ingredients.Count; i++)
@@ -254,7 +254,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06003FA4 RID: 16292 RVA: 0x00218494 File Offset: 0x00216894
+		// Token: 0x06003FA6 RID: 16294 RVA: 0x00218568 File Offset: 0x00216968
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -272,7 +272,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003FA5 RID: 16293 RVA: 0x002184C0 File Offset: 0x002168C0
+		// Token: 0x06003FA7 RID: 16295 RVA: 0x00218594 File Offset: 0x00216994
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -303,13 +303,13 @@ namespace Verse
 			this.defaultIngredientFilter.ResolveReferences();
 		}
 
-		// Token: 0x06003FA6 RID: 16294 RVA: 0x00218584 File Offset: 0x00216984
+		// Token: 0x06003FA8 RID: 16296 RVA: 0x00218658 File Offset: 0x00216A58
 		public bool PawnSatisfiesSkillRequirements(Pawn pawn)
 		{
 			return this.FirstSkillRequirementPawnDoesntSatisfy(pawn) == null;
 		}
 
-		// Token: 0x06003FA7 RID: 16295 RVA: 0x002185A4 File Offset: 0x002169A4
+		// Token: 0x06003FA9 RID: 16297 RVA: 0x00218678 File Offset: 0x00216A78
 		public SkillRequirement FirstSkillRequirementPawnDoesntSatisfy(Pawn pawn)
 		{
 			SkillRequirement result;
@@ -331,7 +331,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003FA8 RID: 16296 RVA: 0x00218614 File Offset: 0x00216A14
+		// Token: 0x06003FAA RID: 16298 RVA: 0x002186E8 File Offset: 0x00216AE8
 		public List<ThingDef> GetPremultipliedSmallIngredients()
 		{
 			List<ThingDef> result;
@@ -365,7 +365,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003FA9 RID: 16297 RVA: 0x00218770 File Offset: 0x00216B70
+		// Token: 0x06003FAB RID: 16299 RVA: 0x00218844 File Offset: 0x00216C44
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
 			if (this.workSkill != null)

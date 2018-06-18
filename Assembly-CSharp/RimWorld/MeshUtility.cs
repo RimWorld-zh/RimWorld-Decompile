@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x02000990 RID: 2448
 	public static class MeshUtility
 	{
-		// Token: 0x06003702 RID: 14082 RVA: 0x001D5FF0 File Offset: 0x001D43F0
+		// Token: 0x06003704 RID: 14084 RVA: 0x001D60B8 File Offset: 0x001D44B8
 		public static void RemoveVertices(List<Vector3> verts, List<TriangleIndices> tris, Predicate<Vector3> predicate)
 		{
 			int i = 0;
@@ -27,7 +27,7 @@ namespace RimWorld
 			MeshUtility.RemoveUnusedVertices(verts, tris);
 		}
 
-		// Token: 0x06003703 RID: 14083 RVA: 0x001D60A4 File Offset: 0x001D44A4
+		// Token: 0x06003705 RID: 14085 RVA: 0x001D616C File Offset: 0x001D456C
 		public static void RemoveUnusedVertices(List<Vector3> verts, List<TriangleIndices> tris)
 		{
 			MeshUtility.vertIsUsed.Clear();
@@ -72,13 +72,13 @@ namespace RimWorld
 			verts.RemoveAll((Vector3 elem, int index) => !MeshUtility.vertIsUsed[index]);
 		}
 
-		// Token: 0x06003704 RID: 14084 RVA: 0x001D6234 File Offset: 0x001D4634
+		// Token: 0x06003706 RID: 14086 RVA: 0x001D62FC File Offset: 0x001D46FC
 		public static bool Visible(Vector3 point, float radius, Vector3 viewCenter, float viewAngle)
 		{
 			return viewAngle >= 180f || Vector3.Angle(viewCenter * radius, point) <= viewAngle;
 		}
 
-		// Token: 0x06003705 RID: 14085 RVA: 0x001D6270 File Offset: 0x001D4670
+		// Token: 0x06003707 RID: 14087 RVA: 0x001D6338 File Offset: 0x001D4738
 		public static bool VisibleForWorldgen(Vector3 point, float radius, Vector3 viewCenter, float viewAngle)
 		{
 			bool result;
@@ -98,7 +98,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003706 RID: 14086 RVA: 0x001D62DC File Offset: 0x001D46DC
+		// Token: 0x06003708 RID: 14088 RVA: 0x001D63A4 File Offset: 0x001D47A4
 		public static Color32 MutateAlpha(this Color32 input, byte newAlpha)
 		{
 			input.a = newAlpha;

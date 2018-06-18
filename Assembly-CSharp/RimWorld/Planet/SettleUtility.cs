@@ -10,7 +10,7 @@ namespace RimWorld.Planet
 	public static class SettleUtility
 	{
 		// Token: 0x17000475 RID: 1141
-		// (get) Token: 0x06001E6E RID: 7790 RVA: 0x001075E0 File Offset: 0x001059E0
+		// (get) Token: 0x06001E70 RID: 7792 RVA: 0x00107658 File Offset: 0x00105A58
 		public static bool PlayerHomesCountLimitReached
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E6F RID: 7791 RVA: 0x00107638 File Offset: 0x00105A38
+		// Token: 0x06001E71 RID: 7793 RVA: 0x001076B0 File Offset: 0x00105AB0
 		public static FactionBase AddNewHome(int tile, Faction faction)
 		{
 			FactionBase factionBase = (FactionBase)WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.FactionBase);

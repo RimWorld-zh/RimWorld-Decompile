@@ -2,12 +2,12 @@
 
 namespace Verse
 {
-	// Token: 0x02000E7F RID: 3711
+	// Token: 0x02000E7E RID: 3710
 	public enum ReorderDirection
 	{
-		// Token: 0x040039DB RID: 14811
+		// Token: 0x040039D9 RID: 14809
 		Up,
-		// Token: 0x040039DC RID: 14812
+		// Token: 0x040039DA RID: 14810
 		Down
 	}
 }

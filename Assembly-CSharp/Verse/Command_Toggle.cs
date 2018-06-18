@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E6A RID: 3690
+	// Token: 0x02000E69 RID: 3689
 	public class Command_Toggle : Command
 	{
-		// Token: 0x17000DA4 RID: 3492
-		// (get) Token: 0x060056CC RID: 22220 RVA: 0x002CA9A0 File Offset: 0x002C8DA0
+		// Token: 0x17000DA3 RID: 3491
+		// (get) Token: 0x060056CA RID: 22218 RVA: 0x002CA9A0 File Offset: 0x002C8DA0
 		public override SoundDef CurActivateSound
 		{
 			get
@@ -26,14 +26,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060056CD RID: 22221 RVA: 0x002CA9D7 File Offset: 0x002C8DD7
+		// Token: 0x060056CB RID: 22219 RVA: 0x002CA9D7 File Offset: 0x002C8DD7
 		public override void ProcessInput(Event ev)
 		{
 			base.ProcessInput(ev);
 			this.toggleAction();
 		}
 
-		// Token: 0x060056CE RID: 22222 RVA: 0x002CA9EC File Offset: 0x002C8DEC
+		// Token: 0x060056CC RID: 22220 RVA: 0x002CA9EC File Offset: 0x002C8DEC
 		public override GizmoResult GizmoOnGUI(Vector2 loc, float maxWidth)
 		{
 			GizmoResult result = base.GizmoOnGUI(loc, maxWidth);
@@ -44,23 +44,23 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060056CF RID: 22223 RVA: 0x002CAA84 File Offset: 0x002C8E84
+		// Token: 0x060056CD RID: 22221 RVA: 0x002CAA84 File Offset: 0x002C8E84
 		public override bool InheritInteractionsFrom(Gizmo other)
 		{
 			Command_Toggle command_Toggle = other as Command_Toggle;
 			return command_Toggle != null && command_Toggle.isActive() == this.isActive();
 		}
 
-		// Token: 0x04003984 RID: 14724
+		// Token: 0x04003982 RID: 14722
 		public Func<bool> isActive = null;
 
-		// Token: 0x04003985 RID: 14725
+		// Token: 0x04003983 RID: 14723
 		public Action toggleAction;
 
-		// Token: 0x04003986 RID: 14726
+		// Token: 0x04003984 RID: 14724
 		public SoundDef turnOnSound = SoundDefOf.Checkbox_TurnedOn;
 
-		// Token: 0x04003987 RID: 14727
+		// Token: 0x04003985 RID: 14725
 		public SoundDef turnOffSound = SoundDefOf.Checkbox_TurnedOff;
 	}
 }

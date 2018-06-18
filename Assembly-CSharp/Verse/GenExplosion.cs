@@ -5,10 +5,10 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000F3C RID: 3900
+	// Token: 0x02000F3B RID: 3899
 	public static class GenExplosion
 	{
-		// Token: 0x06005DE6 RID: 24038 RVA: 0x002FB574 File Offset: 0x002F9974
+		// Token: 0x06005DE4 RID: 24036 RVA: 0x002FB650 File Offset: 0x002F9A50
 		public static void DoExplosion(IntVec3 center, Map map, float radius, DamageDef damType, Thing instigator, int damAmount = -1, SoundDef explosionSound = null, ThingDef weapon = null, ThingDef projectile = null, Thing intendedTarget = null, ThingDef postExplosionSpawnThingDef = null, float postExplosionSpawnChance = 0f, int postExplosionSpawnThingCount = 1, bool applyDamageToExplosionCellsNeighbors = false, ThingDef preExplosionSpawnThingDef = null, float preExplosionSpawnChance = 0f, int preExplosionSpawnThingCount = 1, float chanceToStartFire = 0f, bool damageFalloff = false)
 		{
 			if (map == null)
@@ -47,13 +47,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005DE7 RID: 24039 RVA: 0x002FB65F File Offset: 0x002F9A5F
+		// Token: 0x06005DE5 RID: 24037 RVA: 0x002FB73B File Offset: 0x002F9B3B
 		public static void RenderPredictedAreaOfEffect(IntVec3 loc, float radius)
 		{
 			GenDraw.DrawFieldEdges(DamageDefOf.Bomb.Worker.ExplosionCellsToHit(loc, Find.CurrentMap, radius).ToList<IntVec3>());
 		}
 
-		// Token: 0x06005DE8 RID: 24040 RVA: 0x002FB684 File Offset: 0x002F9A84
+		// Token: 0x06005DE6 RID: 24038 RVA: 0x002FB760 File Offset: 0x002F9B60
 		public static void NotifyNearbyPawnsOfDangerousExplosive(Thing exploder, DamageDef damage, Faction onlyFaction = null)
 		{
 			if (damage.externalViolence)
@@ -82,7 +82,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003DED RID: 15853
+		// Token: 0x04003DEC RID: 15852
 		private static readonly int PawnNotifyCellCount = GenRadial.NumCellsInRadius(4.5f);
 	}
 }

@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class ConceptDefOf
 	{
-		// Token: 0x0600362E RID: 13870 RVA: 0x001D06EF File Offset: 0x001CEAEF
+		// Token: 0x06003630 RID: 13872 RVA: 0x001D07B7 File Offset: 0x001CEBB7
 		static ConceptDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ConceptDefOf));

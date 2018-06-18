@@ -8,7 +8,7 @@ namespace RimWorld
 	public class CompTemperatureRuinable : ThingComp
 	{
 		// Token: 0x17000655 RID: 1621
-		// (get) Token: 0x060028FC RID: 10492 RVA: 0x0015D7D4 File Offset: 0x0015BBD4
+		// (get) Token: 0x060028FE RID: 10494 RVA: 0x0015D868 File Offset: 0x0015BC68
 		public CompProperties_TemperatureRuinable Props
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000656 RID: 1622
-		// (get) Token: 0x060028FD RID: 10493 RVA: 0x0015D7F4 File Offset: 0x0015BBF4
+		// (get) Token: 0x060028FF RID: 10495 RVA: 0x0015D888 File Offset: 0x0015BC88
 		public bool Ruined
 		{
 			get
@@ -27,31 +27,31 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028FE RID: 10494 RVA: 0x0015D819 File Offset: 0x0015BC19
+		// Token: 0x06002900 RID: 10496 RVA: 0x0015D8AD File Offset: 0x0015BCAD
 		public override void PostExposeData()
 		{
 			Scribe_Values.Look<float>(ref this.ruinedPercent, "ruinedPercent", 0f, false);
 		}
 
-		// Token: 0x060028FF RID: 10495 RVA: 0x0015D832 File Offset: 0x0015BC32
+		// Token: 0x06002901 RID: 10497 RVA: 0x0015D8C6 File Offset: 0x0015BCC6
 		public void Reset()
 		{
 			this.ruinedPercent = 0f;
 		}
 
-		// Token: 0x06002900 RID: 10496 RVA: 0x0015D840 File Offset: 0x0015BC40
+		// Token: 0x06002902 RID: 10498 RVA: 0x0015D8D4 File Offset: 0x0015BCD4
 		public override void CompTick()
 		{
 			this.DoTicks(1);
 		}
 
-		// Token: 0x06002901 RID: 10497 RVA: 0x0015D84A File Offset: 0x0015BC4A
+		// Token: 0x06002903 RID: 10499 RVA: 0x0015D8DE File Offset: 0x0015BCDE
 		public override void CompTickRare()
 		{
 			this.DoTicks(250);
 		}
 
-		// Token: 0x06002902 RID: 10498 RVA: 0x0015D858 File Offset: 0x0015BC58
+		// Token: 0x06002904 RID: 10500 RVA: 0x0015D8EC File Offset: 0x0015BCEC
 		private void DoTicks(int ticks)
 		{
 			if (!this.Ruined)
@@ -77,7 +77,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002903 RID: 10499 RVA: 0x0015D948 File Offset: 0x0015BD48
+		// Token: 0x06002905 RID: 10501 RVA: 0x0015D9DC File Offset: 0x0015BDDC
 		public override void PreAbsorbStack(Thing otherStack, int count)
 		{
 			float t = (float)count / (float)(this.parent.stackCount + count);
@@ -85,21 +85,21 @@ namespace RimWorld
 			this.ruinedPercent = Mathf.Lerp(this.ruinedPercent, comp.ruinedPercent, t);
 		}
 
-		// Token: 0x06002904 RID: 10500 RVA: 0x0015D98C File Offset: 0x0015BD8C
+		// Token: 0x06002906 RID: 10502 RVA: 0x0015DA20 File Offset: 0x0015BE20
 		public override bool AllowStackWith(Thing other)
 		{
 			CompTemperatureRuinable comp = ((ThingWithComps)other).GetComp<CompTemperatureRuinable>();
 			return this.Ruined == comp.Ruined;
 		}
 
-		// Token: 0x06002905 RID: 10501 RVA: 0x0015D9BC File Offset: 0x0015BDBC
+		// Token: 0x06002907 RID: 10503 RVA: 0x0015DA50 File Offset: 0x0015BE50
 		public override void PostSplitOff(Thing piece)
 		{
 			CompTemperatureRuinable comp = ((ThingWithComps)piece).GetComp<CompTemperatureRuinable>();
 			comp.ruinedPercent = this.ruinedPercent;
 		}
 
-		// Token: 0x06002906 RID: 10502 RVA: 0x0015D9E4 File Offset: 0x0015BDE4
+		// Token: 0x06002908 RID: 10504 RVA: 0x0015DA78 File Offset: 0x0015BE78
 		public override string CompInspectStringExtra()
 		{
 			string result;

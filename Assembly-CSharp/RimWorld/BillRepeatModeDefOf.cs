@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class BillRepeatModeDefOf
 	{
-		// Token: 0x06003663 RID: 13923 RVA: 0x001D0AA9 File Offset: 0x001CEEA9
+		// Token: 0x06003665 RID: 13925 RVA: 0x001D0B71 File Offset: 0x001CEF71
 		static BillRepeatModeDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(BillRepeatModeDefOf));

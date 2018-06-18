@@ -8,7 +8,7 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public class Caravan_GotoMoteRenderer
 	{
-		// Token: 0x06001DFA RID: 7674 RVA: 0x00101EB4 File Offset: 0x001002B4
+		// Token: 0x06001DFC RID: 7676 RVA: 0x00101F2C File Offset: 0x0010032C
 		public void RenderMote()
 		{
 			float num = (Time.time - this.lastOrderedToTileTime) / 0.5f;
@@ -31,7 +31,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DFB RID: 7675 RVA: 0x00101F99 File Offset: 0x00100399
+		// Token: 0x06001DFD RID: 7677 RVA: 0x00102011 File Offset: 0x00100411
 		public void OrderedToTile(int tile)
 		{
 			this.tile = tile;

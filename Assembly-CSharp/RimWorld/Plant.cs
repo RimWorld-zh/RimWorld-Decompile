@@ -11,8 +11,8 @@ namespace RimWorld
 	public class Plant : ThingWithComps
 	{
 		// Token: 0x170005B4 RID: 1460
-		// (get) Token: 0x060025F8 RID: 9720 RVA: 0x00144B4C File Offset: 0x00142F4C
-		// (set) Token: 0x060025F9 RID: 9721 RVA: 0x00144B67 File Offset: 0x00142F67
+		// (get) Token: 0x060025FA RID: 9722 RVA: 0x00144BC4 File Offset: 0x00142FC4
+		// (set) Token: 0x060025FB RID: 9723 RVA: 0x00144BDF File Offset: 0x00142FDF
 		public virtual float Growth
 		{
 			get
@@ -27,8 +27,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005B5 RID: 1461
-		// (get) Token: 0x060025FA RID: 9722 RVA: 0x00144B80 File Offset: 0x00142F80
-		// (set) Token: 0x060025FB RID: 9723 RVA: 0x00144B9B File Offset: 0x00142F9B
+		// (get) Token: 0x060025FC RID: 9724 RVA: 0x00144BF8 File Offset: 0x00142FF8
+		// (set) Token: 0x060025FD RID: 9725 RVA: 0x00144C13 File Offset: 0x00143013
 		public virtual int Age
 		{
 			get
@@ -43,7 +43,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005B6 RID: 1462
-		// (get) Token: 0x060025FC RID: 9724 RVA: 0x00144BAC File Offset: 0x00142FAC
+		// (get) Token: 0x060025FE RID: 9726 RVA: 0x00144C24 File Offset: 0x00143024
 		public virtual bool HarvestableNow
 		{
 			get
@@ -53,7 +53,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005B7 RID: 1463
-		// (get) Token: 0x060025FD RID: 9725 RVA: 0x00144BF4 File Offset: 0x00142FF4
+		// (get) Token: 0x060025FF RID: 9727 RVA: 0x00144C6C File Offset: 0x0014306C
 		public bool HarvestableSoon
 		{
 			get
@@ -80,7 +80,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005B8 RID: 1464
-		// (get) Token: 0x060025FE RID: 9726 RVA: 0x00144CD0 File Offset: 0x001430D0
+		// (get) Token: 0x06002600 RID: 9728 RVA: 0x00144D48 File Offset: 0x00143148
 		public virtual bool BlightableNow
 		{
 			get
@@ -90,7 +90,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005B9 RID: 1465
-		// (get) Token: 0x060025FF RID: 9727 RVA: 0x00144D20 File Offset: 0x00143120
+		// (get) Token: 0x06002601 RID: 9729 RVA: 0x00144D98 File Offset: 0x00143198
 		public Blight Blight
 		{
 			get
@@ -109,7 +109,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005BA RID: 1466
-		// (get) Token: 0x06002600 RID: 9728 RVA: 0x00144D70 File Offset: 0x00143170
+		// (get) Token: 0x06002602 RID: 9730 RVA: 0x00144DE8 File Offset: 0x001431E8
 		public bool Blighted
 		{
 			get
@@ -119,7 +119,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005BB RID: 1467
-		// (get) Token: 0x06002601 RID: 9729 RVA: 0x00144D94 File Offset: 0x00143194
+		// (get) Token: 0x06002603 RID: 9731 RVA: 0x00144E0C File Offset: 0x0014320C
 		public override bool IngestibleNow
 		{
 			get
@@ -129,7 +129,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005BC RID: 1468
-		// (get) Token: 0x06002602 RID: 9730 RVA: 0x00144E40 File Offset: 0x00143240
+		// (get) Token: 0x06002604 RID: 9732 RVA: 0x00144EB8 File Offset: 0x001432B8
 		public virtual float CurrentDyingDamagePerTick
 		{
 			get
@@ -162,7 +162,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005BD RID: 1469
-		// (get) Token: 0x06002603 RID: 9731 RVA: 0x00144F1C File Offset: 0x0014331C
+		// (get) Token: 0x06002605 RID: 9733 RVA: 0x00144F94 File Offset: 0x00143394
 		public virtual bool DyingBecauseExposedToLight
 		{
 			get
@@ -172,7 +172,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005BE RID: 1470
-		// (get) Token: 0x06002604 RID: 9732 RVA: 0x00144F74 File Offset: 0x00143374
+		// (get) Token: 0x06002606 RID: 9734 RVA: 0x00144FEC File Offset: 0x001433EC
 		public bool Dying
 		{
 			get
@@ -182,7 +182,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005BF RID: 1471
-		// (get) Token: 0x06002605 RID: 9733 RVA: 0x00144F98 File Offset: 0x00143398
+		// (get) Token: 0x06002607 RID: 9735 RVA: 0x00145010 File Offset: 0x00143410
 		protected virtual bool Resting
 		{
 			get
@@ -192,7 +192,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005C0 RID: 1472
-		// (get) Token: 0x06002606 RID: 9734 RVA: 0x00144FD0 File Offset: 0x001433D0
+		// (get) Token: 0x06002608 RID: 9736 RVA: 0x00145048 File Offset: 0x00143448
 		public virtual float GrowthRate
 		{
 			get
@@ -215,7 +215,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005C1 RID: 1473
-		// (get) Token: 0x06002607 RID: 9735 RVA: 0x0014503C File Offset: 0x0014343C
+		// (get) Token: 0x06002609 RID: 9737 RVA: 0x001450B4 File Offset: 0x001434B4
 		protected float GrowthPerTick
 		{
 			get
@@ -235,7 +235,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005C2 RID: 1474
-		// (get) Token: 0x06002608 RID: 9736 RVA: 0x00145098 File Offset: 0x00143498
+		// (get) Token: 0x0600260A RID: 9738 RVA: 0x00145110 File Offset: 0x00143510
 		public float GrowthRateFactor_Fertility
 		{
 			get
@@ -245,7 +245,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005C3 RID: 1475
-		// (get) Token: 0x06002609 RID: 9737 RVA: 0x001450EC File Offset: 0x001434EC
+		// (get) Token: 0x0600260B RID: 9739 RVA: 0x00145164 File Offset: 0x00143564
 		public float GrowthRateFactor_Light
 		{
 			get
@@ -265,7 +265,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005C4 RID: 1476
-		// (get) Token: 0x0600260A RID: 9738 RVA: 0x00145188 File Offset: 0x00143588
+		// (get) Token: 0x0600260C RID: 9740 RVA: 0x00145200 File Offset: 0x00143600
 		public float GrowthRateFactor_Temperature
 		{
 			get
@@ -293,7 +293,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005C5 RID: 1477
-		// (get) Token: 0x0600260B RID: 9739 RVA: 0x00145208 File Offset: 0x00143608
+		// (get) Token: 0x0600260D RID: 9741 RVA: 0x00145280 File Offset: 0x00143680
 		protected int TicksUntilFullyGrown
 		{
 			get
@@ -320,7 +320,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005C6 RID: 1478
-		// (get) Token: 0x0600260C RID: 9740 RVA: 0x00145260 File Offset: 0x00143660
+		// (get) Token: 0x0600260E RID: 9742 RVA: 0x001452D8 File Offset: 0x001436D8
 		protected string GrowthPercentString
 		{
 			get
@@ -330,7 +330,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005C7 RID: 1479
-		// (get) Token: 0x0600260D RID: 9741 RVA: 0x00145288 File Offset: 0x00143688
+		// (get) Token: 0x0600260F RID: 9743 RVA: 0x00145300 File Offset: 0x00143700
 		public override string LabelMouseover
 		{
 			get
@@ -355,7 +355,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005C8 RID: 1480
-		// (get) Token: 0x0600260E RID: 9742 RVA: 0x00145330 File Offset: 0x00143730
+		// (get) Token: 0x06002610 RID: 9744 RVA: 0x001453A8 File Offset: 0x001437A8
 		protected virtual bool HasEnoughLightToGrow
 		{
 			get
@@ -365,7 +365,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005C9 RID: 1481
-		// (get) Token: 0x0600260F RID: 9743 RVA: 0x00145354 File Offset: 0x00143754
+		// (get) Token: 0x06002611 RID: 9745 RVA: 0x001453CC File Offset: 0x001437CC
 		public virtual PlantLifeStage LifeStage
 		{
 			get
@@ -388,7 +388,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005CA RID: 1482
-		// (get) Token: 0x06002610 RID: 9744 RVA: 0x00145398 File Offset: 0x00143798
+		// (get) Token: 0x06002612 RID: 9746 RVA: 0x00145410 File Offset: 0x00143810
 		public override Graphic Graphic
 		{
 			get
@@ -415,7 +415,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005CB RID: 1483
-		// (get) Token: 0x06002611 RID: 9745 RVA: 0x0014544C File Offset: 0x0014384C
+		// (get) Token: 0x06002613 RID: 9747 RVA: 0x001454C4 File Offset: 0x001438C4
 		public bool LeaflessNow
 		{
 			get
@@ -425,7 +425,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005CC RID: 1484
-		// (get) Token: 0x06002612 RID: 9746 RVA: 0x00145484 File Offset: 0x00143884
+		// (get) Token: 0x06002614 RID: 9748 RVA: 0x001454FC File Offset: 0x001438FC
 		protected virtual float LeaflessTemperatureThresh
 		{
 			get
@@ -436,7 +436,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005CD RID: 1485
-		// (get) Token: 0x06002613 RID: 9747 RVA: 0x001454B8 File Offset: 0x001438B8
+		// (get) Token: 0x06002615 RID: 9749 RVA: 0x00145530 File Offset: 0x00143930
 		public bool IsCrop
 		{
 			get
@@ -459,7 +459,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002614 RID: 9748 RVA: 0x00145520 File Offset: 0x00143920
+		// Token: 0x06002616 RID: 9750 RVA: 0x00145598 File Offset: 0x00143998
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -469,7 +469,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002615 RID: 9749 RVA: 0x00145544 File Offset: 0x00143944
+		// Token: 0x06002617 RID: 9751 RVA: 0x001455BC File Offset: 0x001439BC
 		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
 		{
 			Blight firstBlight = base.Position.GetFirstBlight(base.Map);
@@ -480,7 +480,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002616 RID: 9750 RVA: 0x00145578 File Offset: 0x00143978
+		// Token: 0x06002618 RID: 9752 RVA: 0x001455F0 File Offset: 0x001439F0
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -491,13 +491,13 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.sown, "sown", false, false);
 		}
 
-		// Token: 0x06002617 RID: 9751 RVA: 0x001455EE File Offset: 0x001439EE
+		// Token: 0x06002619 RID: 9753 RVA: 0x00145666 File Offset: 0x00143A66
 		public override void PostMapInit()
 		{
 			this.CheckTemperatureMakeLeafless();
 		}
 
-		// Token: 0x06002618 RID: 9752 RVA: 0x001455F8 File Offset: 0x001439F8
+		// Token: 0x0600261A RID: 9754 RVA: 0x00145670 File Offset: 0x00143A70
 		protected override void IngestedCalculateAmounts(Pawn ingester, float nutritionWanted, out int numTaken, out float nutritionIngested)
 		{
 			float statValue = this.GetStatValue(StatDefOf.Nutrition, true);
@@ -521,7 +521,7 @@ namespace RimWorld
 			nutritionIngested = statValue;
 		}
 
-		// Token: 0x06002619 RID: 9753 RVA: 0x00145688 File Offset: 0x00143A88
+		// Token: 0x0600261B RID: 9755 RVA: 0x00145700 File Offset: 0x00143B00
 		public virtual void PlantCollected()
 		{
 			if (this.def.plant.HarvestDestroys)
@@ -535,7 +535,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600261A RID: 9754 RVA: 0x001456E6 File Offset: 0x00143AE6
+		// Token: 0x0600261C RID: 9756 RVA: 0x0014575E File Offset: 0x00143B5E
 		protected virtual void CheckTemperatureMakeLeafless()
 		{
 			if (base.AmbientTemperature < this.LeaflessTemperatureThresh)
@@ -544,7 +544,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600261B RID: 9755 RVA: 0x00145704 File Offset: 0x00143B04
+		// Token: 0x0600261D RID: 9757 RVA: 0x0014577C File Offset: 0x00143B7C
 		public virtual void MakeLeafless(Plant.LeaflessCause cause)
 		{
 			bool flag = !this.LeaflessNow;
@@ -600,7 +600,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600261C RID: 9756 RVA: 0x0014591C File Offset: 0x00143D1C
+		// Token: 0x0600261E RID: 9758 RVA: 0x00145994 File Offset: 0x00143D94
 		public override void TickLong()
 		{
 			this.CheckTemperatureMakeLeafless();
@@ -680,7 +680,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600261D RID: 9757 RVA: 0x00145C58 File Offset: 0x00144058
+		// Token: 0x0600261F RID: 9759 RVA: 0x00145CD0 File Offset: 0x001440D0
 		protected virtual bool CurrentlyCultivated()
 		{
 			bool result;
@@ -708,13 +708,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600261E RID: 9758 RVA: 0x00145D00 File Offset: 0x00144100
+		// Token: 0x06002620 RID: 9760 RVA: 0x00145D78 File Offset: 0x00144178
 		public virtual bool CanYieldNow()
 		{
 			return this.HarvestableNow && this.def.plant.harvestYield > 0f && !this.Blighted;
 		}
 
-		// Token: 0x0600261F RID: 9759 RVA: 0x00145D5C File Offset: 0x0014415C
+		// Token: 0x06002621 RID: 9761 RVA: 0x00145DD4 File Offset: 0x001441D4
 		public virtual int YieldNow()
 		{
 			int result;
@@ -735,7 +735,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002620 RID: 9760 RVA: 0x00145E00 File Offset: 0x00144200
+		// Token: 0x06002622 RID: 9762 RVA: 0x00145E78 File Offset: 0x00144278
 		public override void Print(SectionLayer layer)
 		{
 			Vector3 a = this.TrueCenter();
@@ -842,7 +842,7 @@ namespace RimWorld
 			Rand.PopState();
 		}
 
-		// Token: 0x06002621 RID: 9761 RVA: 0x001461AC File Offset: 0x001445AC
+		// Token: 0x06002623 RID: 9763 RVA: 0x00146224 File Offset: 0x00144624
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -902,7 +902,7 @@ namespace RimWorld
 			return stringBuilder.ToString().TrimEndNewlines();
 		}
 
-		// Token: 0x06002622 RID: 9762 RVA: 0x0014638F File Offset: 0x0014478F
+		// Token: 0x06002624 RID: 9764 RVA: 0x00146407 File Offset: 0x00144807
 		public virtual void CropBlighted()
 		{
 			if (!this.Blighted)
@@ -911,7 +911,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002623 RID: 9763 RVA: 0x001463B8 File Offset: 0x001447B8
+		// Token: 0x06002625 RID: 9765 RVA: 0x00146430 File Offset: 0x00144830
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo gizmo in this.<GetGizmos>__BaseCallProxy0())

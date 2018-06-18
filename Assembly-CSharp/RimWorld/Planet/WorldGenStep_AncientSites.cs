@@ -7,7 +7,7 @@ namespace RimWorld.Planet
 	public class WorldGenStep_AncientSites : WorldGenStep
 	{
 		// Token: 0x1700041C RID: 1052
-		// (get) Token: 0x06001C33 RID: 7219 RVA: 0x000F2A40 File Offset: 0x000F0E40
+		// (get) Token: 0x06001C35 RID: 7221 RVA: 0x000F2AB8 File Offset: 0x000F0EB8
 		public override int SeedPart
 		{
 			get
@@ -16,13 +16,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C34 RID: 7220 RVA: 0x000F2A5A File Offset: 0x000F0E5A
+		// Token: 0x06001C36 RID: 7222 RVA: 0x000F2AD2 File Offset: 0x000F0ED2
 		public override void GenerateFresh(string seed)
 		{
 			this.GenerateAncientSites();
 		}
 
-		// Token: 0x06001C35 RID: 7221 RVA: 0x000F2A64 File Offset: 0x000F0E64
+		// Token: 0x06001C37 RID: 7223 RVA: 0x000F2ADC File Offset: 0x000F0EDC
 		private void GenerateAncientSites()
 		{
 			int num = GenMath.RoundRandom((float)Find.WorldGrid.TilesCount / 100000f * this.ancientSitesPer100kTiles.RandomInRange);

@@ -12,7 +12,7 @@ namespace Verse
 	public class ThingDef : BuildableDef
 	{
 		// Token: 0x170009E3 RID: 2531
-		// (get) Token: 0x06004086 RID: 16518 RVA: 0x0021F084 File Offset: 0x0021D484
+		// (get) Token: 0x06004088 RID: 16520 RVA: 0x0021F158 File Offset: 0x0021D558
 		public bool EverHaulable
 		{
 			get
@@ -22,7 +22,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009E4 RID: 2532
-		// (get) Token: 0x06004087 RID: 16519 RVA: 0x0021F0B0 File Offset: 0x0021D4B0
+		// (get) Token: 0x06004089 RID: 16521 RVA: 0x0021F184 File Offset: 0x0021D584
 		public float VolumePerUnit
 		{
 			get
@@ -32,7 +32,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009E5 RID: 2533
-		// (get) Token: 0x06004088 RID: 16520 RVA: 0x0021F0E0 File Offset: 0x0021D4E0
+		// (get) Token: 0x0600408A RID: 16522 RVA: 0x0021F1B4 File Offset: 0x0021D5B4
 		public override IntVec2 Size
 		{
 			get
@@ -42,7 +42,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009E6 RID: 2534
-		// (get) Token: 0x06004089 RID: 16521 RVA: 0x0021F0FC File Offset: 0x0021D4FC
+		// (get) Token: 0x0600408B RID: 16523 RVA: 0x0021F1D0 File Offset: 0x0021D5D0
 		public bool DiscardOnDestroyed
 		{
 			get
@@ -52,7 +52,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009E7 RID: 2535
-		// (get) Token: 0x0600408A RID: 16522 RVA: 0x0021F11C File Offset: 0x0021D51C
+		// (get) Token: 0x0600408C RID: 16524 RVA: 0x0021F1F0 File Offset: 0x0021D5F0
 		public int BaseMaxHitPoints
 		{
 			get
@@ -62,7 +62,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009E8 RID: 2536
-		// (get) Token: 0x0600408B RID: 16523 RVA: 0x0021F144 File Offset: 0x0021D544
+		// (get) Token: 0x0600408D RID: 16525 RVA: 0x0021F218 File Offset: 0x0021D618
 		public float BaseFlammability
 		{
 			get
@@ -72,8 +72,8 @@ namespace Verse
 		}
 
 		// Token: 0x170009E9 RID: 2537
-		// (get) Token: 0x0600408C RID: 16524 RVA: 0x0021F168 File Offset: 0x0021D568
-		// (set) Token: 0x0600408D RID: 16525 RVA: 0x0021F189 File Offset: 0x0021D589
+		// (get) Token: 0x0600408E RID: 16526 RVA: 0x0021F23C File Offset: 0x0021D63C
+		// (set) Token: 0x0600408F RID: 16527 RVA: 0x0021F25D File Offset: 0x0021D65D
 		public float BaseMarketValue
 		{
 			get
@@ -87,7 +87,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009EA RID: 2538
-		// (get) Token: 0x0600408E RID: 16526 RVA: 0x0021F198 File Offset: 0x0021D598
+		// (get) Token: 0x06004090 RID: 16528 RVA: 0x0021F26C File Offset: 0x0021D66C
 		public float BaseMass
 		{
 			get
@@ -97,7 +97,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009EB RID: 2539
-		// (get) Token: 0x0600408F RID: 16527 RVA: 0x0021F1BC File Offset: 0x0021D5BC
+		// (get) Token: 0x06004091 RID: 16529 RVA: 0x0021F290 File Offset: 0x0021D690
 		public bool PlayerAcquirable
 		{
 			get
@@ -107,7 +107,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009EC RID: 2540
-		// (get) Token: 0x06004090 RID: 16528 RVA: 0x0021F1DC File Offset: 0x0021D5DC
+		// (get) Token: 0x06004092 RID: 16530 RVA: 0x0021F2B0 File Offset: 0x0021D6B0
 		public bool EverTransmitsPower
 		{
 			get
@@ -125,7 +125,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009ED RID: 2541
-		// (get) Token: 0x06004091 RID: 16529 RVA: 0x0021F23C File Offset: 0x0021D63C
+		// (get) Token: 0x06004093 RID: 16531 RVA: 0x0021F310 File Offset: 0x0021D710
 		public bool Minifiable
 		{
 			get
@@ -135,7 +135,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009EE RID: 2542
-		// (get) Token: 0x06004092 RID: 16530 RVA: 0x0021F260 File Offset: 0x0021D660
+		// (get) Token: 0x06004094 RID: 16532 RVA: 0x0021F334 File Offset: 0x0021D734
 		public bool HasThingIDNumber
 		{
 			get
@@ -145,7 +145,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009EF RID: 2543
-		// (get) Token: 0x06004093 RID: 16531 RVA: 0x0021F284 File Offset: 0x0021D684
+		// (get) Token: 0x06004095 RID: 16533 RVA: 0x0021F358 File Offset: 0x0021D758
 		public List<RecipeDef> AllRecipes
 		{
 			get
@@ -177,7 +177,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009F0 RID: 2544
-		// (get) Token: 0x06004094 RID: 16532 RVA: 0x0021F354 File Offset: 0x0021D754
+		// (get) Token: 0x06004096 RID: 16534 RVA: 0x0021F428 File Offset: 0x0021D828
 		public bool ConnectToPower
 		{
 			get
@@ -207,7 +207,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009F1 RID: 2545
-		// (get) Token: 0x06004095 RID: 16533 RVA: 0x0021F3E8 File Offset: 0x0021D7E8
+		// (get) Token: 0x06004097 RID: 16535 RVA: 0x0021F4BC File Offset: 0x0021D8BC
 		public bool CoexistsWithFloors
 		{
 			get
@@ -217,7 +217,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009F2 RID: 2546
-		// (get) Token: 0x06004096 RID: 16534 RVA: 0x0021F414 File Offset: 0x0021D814
+		// (get) Token: 0x06004098 RID: 16536 RVA: 0x0021F4E8 File Offset: 0x0021D8E8
 		public FillCategory Fillage
 		{
 			get
@@ -240,7 +240,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009F3 RID: 2547
-		// (get) Token: 0x06004097 RID: 16535 RVA: 0x0021F458 File Offset: 0x0021D858
+		// (get) Token: 0x06004099 RID: 16537 RVA: 0x0021F52C File Offset: 0x0021D92C
 		public bool MakeFog
 		{
 			get
@@ -250,7 +250,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009F4 RID: 2548
-		// (get) Token: 0x06004098 RID: 16536 RVA: 0x0021F478 File Offset: 0x0021D878
+		// (get) Token: 0x0600409A RID: 16538 RVA: 0x0021F54C File Offset: 0x0021D94C
 		public bool CanOverlapZones
 		{
 			get
@@ -293,7 +293,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009F5 RID: 2549
-		// (get) Token: 0x06004099 RID: 16537 RVA: 0x0021F54C File Offset: 0x0021D94C
+		// (get) Token: 0x0600409B RID: 16539 RVA: 0x0021F620 File Offset: 0x0021DA20
 		public bool CountAsResource
 		{
 			get
@@ -303,7 +303,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009F6 RID: 2550
-		// (get) Token: 0x0600409A RID: 16538 RVA: 0x0021F570 File Offset: 0x0021D970
+		// (get) Token: 0x0600409C RID: 16540 RVA: 0x0021F644 File Offset: 0x0021DA44
 		public bool BlockPlanting
 		{
 			get
@@ -313,7 +313,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009F7 RID: 2551
-		// (get) Token: 0x0600409B RID: 16539 RVA: 0x0021F5F4 File Offset: 0x0021D9F4
+		// (get) Token: 0x0600409D RID: 16541 RVA: 0x0021F6C8 File Offset: 0x0021DAC8
 		public List<VerbProperties> Verbs
 		{
 			get
@@ -332,7 +332,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009F8 RID: 2552
-		// (get) Token: 0x0600409C RID: 16540 RVA: 0x0021F628 File Offset: 0x0021DA28
+		// (get) Token: 0x0600409E RID: 16542 RVA: 0x0021F6FC File Offset: 0x0021DAFC
 		public bool CanHaveFaction
 		{
 			get
@@ -352,7 +352,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009F9 RID: 2553
-		// (get) Token: 0x0600409D RID: 16541 RVA: 0x0021F684 File Offset: 0x0021DA84
+		// (get) Token: 0x0600409F RID: 16543 RVA: 0x0021F758 File Offset: 0x0021DB58
 		public bool Claimable
 		{
 			get
@@ -362,7 +362,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009FA RID: 2554
-		// (get) Token: 0x0600409E RID: 16542 RVA: 0x0021F6C8 File Offset: 0x0021DAC8
+		// (get) Token: 0x060040A0 RID: 16544 RVA: 0x0021F79C File Offset: 0x0021DB9C
 		public ThingCategoryDef FirstThingCategory
 		{
 			get
@@ -381,7 +381,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009FB RID: 2555
-		// (get) Token: 0x0600409F RID: 16543 RVA: 0x0021F700 File Offset: 0x0021DB00
+		// (get) Token: 0x060040A1 RID: 16545 RVA: 0x0021F7D4 File Offset: 0x0021DBD4
 		public float MedicineTendXpGainFactor
 		{
 			get
@@ -391,7 +391,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009FC RID: 2556
-		// (get) Token: 0x060040A0 RID: 16544 RVA: 0x0021F738 File Offset: 0x0021DB38
+		// (get) Token: 0x060040A2 RID: 16546 RVA: 0x0021F80C File Offset: 0x0021DC0C
 		public bool CanEverDeteriorate
 		{
 			get
@@ -401,7 +401,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009FD RID: 2557
-		// (get) Token: 0x060040A1 RID: 16545 RVA: 0x0021F778 File Offset: 0x0021DB78
+		// (get) Token: 0x060040A3 RID: 16547 RVA: 0x0021F84C File Offset: 0x0021DC4C
 		public bool CanInteractThroughCorners
 		{
 			get
@@ -411,7 +411,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009FE RID: 2558
-		// (get) Token: 0x060040A2 RID: 16546 RVA: 0x0021F7E8 File Offset: 0x0021DBE8
+		// (get) Token: 0x060040A4 RID: 16548 RVA: 0x0021F8BC File Offset: 0x0021DCBC
 		public bool AffectsRegions
 		{
 			get
@@ -421,7 +421,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009FF RID: 2559
-		// (get) Token: 0x060040A3 RID: 16547 RVA: 0x0021F814 File Offset: 0x0021DC14
+		// (get) Token: 0x060040A5 RID: 16549 RVA: 0x0021F8E8 File Offset: 0x0021DCE8
 		public bool AffectsReachability
 		{
 			get
@@ -431,7 +431,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A00 RID: 2560
-		// (get) Token: 0x060040A4 RID: 16548 RVA: 0x0021F86C File Offset: 0x0021DC6C
+		// (get) Token: 0x060040A6 RID: 16550 RVA: 0x0021F940 File Offset: 0x0021DD40
 		public string DescriptionDetailed
 		{
 			get
@@ -461,7 +461,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A01 RID: 2561
-		// (get) Token: 0x060040A5 RID: 16549 RVA: 0x0021F9AC File Offset: 0x0021DDAC
+		// (get) Token: 0x060040A7 RID: 16551 RVA: 0x0021FA80 File Offset: 0x0021DE80
 		public bool IsApparel
 		{
 			get
@@ -471,7 +471,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A02 RID: 2562
-		// (get) Token: 0x060040A6 RID: 16550 RVA: 0x0021F9D0 File Offset: 0x0021DDD0
+		// (get) Token: 0x060040A8 RID: 16552 RVA: 0x0021FAA4 File Offset: 0x0021DEA4
 		public bool IsBed
 		{
 			get
@@ -481,7 +481,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A03 RID: 2563
-		// (get) Token: 0x060040A7 RID: 16551 RVA: 0x0021F9FC File Offset: 0x0021DDFC
+		// (get) Token: 0x060040A9 RID: 16553 RVA: 0x0021FAD0 File Offset: 0x0021DED0
 		public bool IsCorpse
 		{
 			get
@@ -491,7 +491,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A04 RID: 2564
-		// (get) Token: 0x060040A8 RID: 16552 RVA: 0x0021FA28 File Offset: 0x0021DE28
+		// (get) Token: 0x060040AA RID: 16554 RVA: 0x0021FAFC File Offset: 0x0021DEFC
 		public bool IsFrame
 		{
 			get
@@ -501,7 +501,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A05 RID: 2565
-		// (get) Token: 0x060040A9 RID: 16553 RVA: 0x0021FA44 File Offset: 0x0021DE44
+		// (get) Token: 0x060040AB RID: 16555 RVA: 0x0021FB18 File Offset: 0x0021DF18
 		public bool IsBlueprint
 		{
 			get
@@ -511,7 +511,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A06 RID: 2566
-		// (get) Token: 0x060040AA RID: 16554 RVA: 0x0021FA74 File Offset: 0x0021DE74
+		// (get) Token: 0x060040AC RID: 16556 RVA: 0x0021FB48 File Offset: 0x0021DF48
 		public bool IsStuff
 		{
 			get
@@ -521,7 +521,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A07 RID: 2567
-		// (get) Token: 0x060040AB RID: 16555 RVA: 0x0021FA98 File Offset: 0x0021DE98
+		// (get) Token: 0x060040AD RID: 16557 RVA: 0x0021FB6C File Offset: 0x0021DF6C
 		public bool IsMedicine
 		{
 			get
@@ -531,7 +531,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A08 RID: 2568
-		// (get) Token: 0x060040AC RID: 16556 RVA: 0x0021FAC0 File Offset: 0x0021DEC0
+		// (get) Token: 0x060040AE RID: 16558 RVA: 0x0021FB94 File Offset: 0x0021DF94
 		public bool IsDoor
 		{
 			get
@@ -541,7 +541,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A09 RID: 2569
-		// (get) Token: 0x060040AD RID: 16557 RVA: 0x0021FAEC File Offset: 0x0021DEEC
+		// (get) Token: 0x060040AF RID: 16559 RVA: 0x0021FBC0 File Offset: 0x0021DFC0
 		public bool IsFilth
 		{
 			get
@@ -551,7 +551,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A0A RID: 2570
-		// (get) Token: 0x060040AE RID: 16558 RVA: 0x0021FB10 File Offset: 0x0021DF10
+		// (get) Token: 0x060040B0 RID: 16560 RVA: 0x0021FBE4 File Offset: 0x0021DFE4
 		public bool IsIngestible
 		{
 			get
@@ -561,7 +561,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A0B RID: 2571
-		// (get) Token: 0x060040AF RID: 16559 RVA: 0x0021FB34 File Offset: 0x0021DF34
+		// (get) Token: 0x060040B1 RID: 16561 RVA: 0x0021FC08 File Offset: 0x0021E008
 		public bool IsNutritionGivingIngestible
 		{
 			get
@@ -571,7 +571,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A0C RID: 2572
-		// (get) Token: 0x060040B0 RID: 16560 RVA: 0x0021FB6C File Offset: 0x0021DF6C
+		// (get) Token: 0x060040B2 RID: 16562 RVA: 0x0021FC40 File Offset: 0x0021E040
 		public bool IsWeapon
 		{
 			get
@@ -581,7 +581,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A0D RID: 2573
-		// (get) Token: 0x060040B1 RID: 16561 RVA: 0x0021FBB4 File Offset: 0x0021DFB4
+		// (get) Token: 0x060040B3 RID: 16563 RVA: 0x0021FC88 File Offset: 0x0021E088
 		public bool IsCommsConsole
 		{
 			get
@@ -591,7 +591,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A0E RID: 2574
-		// (get) Token: 0x060040B2 RID: 16562 RVA: 0x0021FBE0 File Offset: 0x0021DFE0
+		// (get) Token: 0x060040B4 RID: 16564 RVA: 0x0021FCB4 File Offset: 0x0021E0B4
 		public bool IsOrbitalTradeBeacon
 		{
 			get
@@ -601,7 +601,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A0F RID: 2575
-		// (get) Token: 0x060040B3 RID: 16563 RVA: 0x0021FC0C File Offset: 0x0021E00C
+		// (get) Token: 0x060040B5 RID: 16565 RVA: 0x0021FCE0 File Offset: 0x0021E0E0
 		public bool IsFoodDispenser
 		{
 			get
@@ -611,7 +611,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A10 RID: 2576
-		// (get) Token: 0x060040B4 RID: 16564 RVA: 0x0021FC38 File Offset: 0x0021E038
+		// (get) Token: 0x060040B6 RID: 16566 RVA: 0x0021FD0C File Offset: 0x0021E10C
 		public bool IsDrug
 		{
 			get
@@ -621,7 +621,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A11 RID: 2577
-		// (get) Token: 0x060040B5 RID: 16565 RVA: 0x0021FC6C File Offset: 0x0021E06C
+		// (get) Token: 0x060040B7 RID: 16567 RVA: 0x0021FD40 File Offset: 0x0021E140
 		public bool IsPleasureDrug
 		{
 			get
@@ -631,7 +631,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A12 RID: 2578
-		// (get) Token: 0x060040B6 RID: 16566 RVA: 0x0021FCA4 File Offset: 0x0021E0A4
+		// (get) Token: 0x060040B8 RID: 16568 RVA: 0x0021FD78 File Offset: 0x0021E178
 		public bool IsNonMedicalDrug
 		{
 			get
@@ -641,7 +641,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A13 RID: 2579
-		// (get) Token: 0x060040B7 RID: 16567 RVA: 0x0021FCD8 File Offset: 0x0021E0D8
+		// (get) Token: 0x060040B9 RID: 16569 RVA: 0x0021FDAC File Offset: 0x0021E1AC
 		public bool IsTable
 		{
 			get
@@ -651,7 +651,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A14 RID: 2580
-		// (get) Token: 0x060040B8 RID: 16568 RVA: 0x0021FD0C File Offset: 0x0021E10C
+		// (get) Token: 0x060040BA RID: 16570 RVA: 0x0021FDE0 File Offset: 0x0021E1E0
 		public bool IsWorkTable
 		{
 			get
@@ -661,7 +661,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A15 RID: 2581
-		// (get) Token: 0x060040B9 RID: 16569 RVA: 0x0021FD38 File Offset: 0x0021E138
+		// (get) Token: 0x060040BB RID: 16571 RVA: 0x0021FE0C File Offset: 0x0021E20C
 		public bool IsShell
 		{
 			get
@@ -671,7 +671,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A16 RID: 2582
-		// (get) Token: 0x060040BA RID: 16570 RVA: 0x0021FD5C File Offset: 0x0021E15C
+		// (get) Token: 0x060040BC RID: 16572 RVA: 0x0021FE30 File Offset: 0x0021E230
 		public bool IsArt
 		{
 			get
@@ -681,7 +681,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A17 RID: 2583
-		// (get) Token: 0x060040BB RID: 16571 RVA: 0x0021FD7C File Offset: 0x0021E17C
+		// (get) Token: 0x060040BD RID: 16573 RVA: 0x0021FE50 File Offset: 0x0021E250
 		public bool IsSmoothable
 		{
 			get
@@ -691,7 +691,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A18 RID: 2584
-		// (get) Token: 0x060040BC RID: 16572 RVA: 0x0021FDB0 File Offset: 0x0021E1B0
+		// (get) Token: 0x060040BE RID: 16574 RVA: 0x0021FE84 File Offset: 0x0021E284
 		public bool IsSmoothed
 		{
 			get
@@ -701,7 +701,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A19 RID: 2585
-		// (get) Token: 0x060040BD RID: 16573 RVA: 0x0021FDE4 File Offset: 0x0021E1E4
+		// (get) Token: 0x060040BF RID: 16575 RVA: 0x0021FEB8 File Offset: 0x0021E2B8
 		public bool IsMetal
 		{
 			get
@@ -711,7 +711,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A1A RID: 2586
-		// (get) Token: 0x060040BE RID: 16574 RVA: 0x0021FE1C File Offset: 0x0021E21C
+		// (get) Token: 0x060040C0 RID: 16576 RVA: 0x0021FEF0 File Offset: 0x0021E2F0
 		public bool IsAddictiveDrug
 		{
 			get
@@ -722,7 +722,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A1B RID: 2587
-		// (get) Token: 0x060040BF RID: 16575 RVA: 0x0021FE50 File Offset: 0x0021E250
+		// (get) Token: 0x060040C1 RID: 16577 RVA: 0x0021FF24 File Offset: 0x0021E324
 		public bool IsMeat
 		{
 			get
@@ -732,7 +732,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A1C RID: 2588
-		// (get) Token: 0x060040C0 RID: 16576 RVA: 0x0021FE90 File Offset: 0x0021E290
+		// (get) Token: 0x060040C2 RID: 16578 RVA: 0x0021FF64 File Offset: 0x0021E364
 		public bool IsLeather
 		{
 			get
@@ -742,7 +742,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A1D RID: 2589
-		// (get) Token: 0x060040C1 RID: 16577 RVA: 0x0021FED0 File Offset: 0x0021E2D0
+		// (get) Token: 0x060040C3 RID: 16579 RVA: 0x0021FFA4 File Offset: 0x0021E3A4
 		public bool IsRangedWeapon
 		{
 			get
@@ -771,7 +771,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A1E RID: 2590
-		// (get) Token: 0x060040C2 RID: 16578 RVA: 0x0021FF48 File Offset: 0x0021E348
+		// (get) Token: 0x060040C4 RID: 16580 RVA: 0x0022001C File Offset: 0x0021E41C
 		public bool IsMeleeWeapon
 		{
 			get
@@ -781,7 +781,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A1F RID: 2591
-		// (get) Token: 0x060040C3 RID: 16579 RVA: 0x0021FF74 File Offset: 0x0021E374
+		// (get) Token: 0x060040C5 RID: 16581 RVA: 0x00220048 File Offset: 0x0021E448
 		public bool IsWeaponUsingProjectiles
 		{
 			get
@@ -810,7 +810,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A20 RID: 2592
-		// (get) Token: 0x060040C4 RID: 16580 RVA: 0x0021FFEC File Offset: 0x0021E3EC
+		// (get) Token: 0x060040C6 RID: 16582 RVA: 0x002200C0 File Offset: 0x0021E4C0
 		public bool IsBuildingArtificial
 		{
 			get
@@ -819,7 +819,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060040C5 RID: 16581 RVA: 0x0022004C File Offset: 0x0021E44C
+		// Token: 0x060040C7 RID: 16583 RVA: 0x00220120 File Offset: 0x0021E520
 		public bool EverStorable(bool willMinifyIfPossible)
 		{
 			bool result;
@@ -845,7 +845,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060040C6 RID: 16582 RVA: 0x002200C0 File Offset: 0x0021E4C0
+		// Token: 0x060040C8 RID: 16584 RVA: 0x00220194 File Offset: 0x0021E594
 		public Thing GetConcreteExample(ThingDef stuff = null)
 		{
 			if (this.concreteExamplesInt == null)
@@ -872,19 +872,19 @@ namespace Verse
 			return this.concreteExamplesInt[stuff];
 		}
 
-		// Token: 0x060040C7 RID: 16583 RVA: 0x00220178 File Offset: 0x0021E578
+		// Token: 0x060040C9 RID: 16585 RVA: 0x0022024C File Offset: 0x0021E64C
 		public CompProperties CompDefFor<T>() where T : ThingComp
 		{
 			return this.comps.FirstOrDefault((CompProperties c) => c.compClass == typeof(T));
 		}
 
-		// Token: 0x060040C8 RID: 16584 RVA: 0x002201A4 File Offset: 0x0021E5A4
+		// Token: 0x060040CA RID: 16586 RVA: 0x00220278 File Offset: 0x0021E678
 		public CompProperties CompDefForAssignableFrom<T>() where T : ThingComp
 		{
 			return this.comps.FirstOrDefault((CompProperties c) => typeof(T).IsAssignableFrom(c.compClass));
 		}
 
-		// Token: 0x060040C9 RID: 16585 RVA: 0x002201D0 File Offset: 0x0021E5D0
+		// Token: 0x060040CB RID: 16587 RVA: 0x002202A4 File Offset: 0x0021E6A4
 		public bool HasComp(Type compType)
 		{
 			for (int i = 0; i < this.comps.Count; i++)
@@ -897,7 +897,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x060040CA RID: 16586 RVA: 0x00220224 File Offset: 0x0021E624
+		// Token: 0x060040CC RID: 16588 RVA: 0x002202F8 File Offset: 0x0021E6F8
 		public T GetCompProperties<T>() where T : CompProperties
 		{
 			for (int i = 0; i < this.comps.Count; i++)
@@ -911,7 +911,7 @@ namespace Verse
 			return (T)((object)null);
 		}
 
-		// Token: 0x060040CB RID: 16587 RVA: 0x00220288 File Offset: 0x0021E688
+		// Token: 0x060040CD RID: 16589 RVA: 0x0022035C File Offset: 0x0021E75C
 		public override void PostLoad()
 		{
 			if (this.graphicData != null)
@@ -944,7 +944,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060040CC RID: 16588 RVA: 0x00220340 File Offset: 0x0021E740
+		// Token: 0x060040CE RID: 16590 RVA: 0x00220414 File Offset: 0x0021E814
 		protected override void ResolveIcon()
 		{
 			base.ResolveIcon();
@@ -983,7 +983,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060040CD RID: 16589 RVA: 0x002204A4 File Offset: 0x0021E8A4
+		// Token: 0x060040CF RID: 16591 RVA: 0x00220578 File Offset: 0x0021E978
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -1053,7 +1053,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060040CE RID: 16590 RVA: 0x00220674 File Offset: 0x0021EA74
+		// Token: 0x060040D0 RID: 16592 RVA: 0x00220748 File Offset: 0x0021EB48
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string str in this.<ConfigErrors>__BaseCallProxy0())
@@ -1379,14 +1379,14 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060040CF RID: 16591 RVA: 0x002206A0 File Offset: 0x0021EAA0
+		// Token: 0x060040D1 RID: 16593 RVA: 0x00220774 File Offset: 0x0021EB74
 		public static ThingDef Named(string defName)
 		{
 			return DefDatabase<ThingDef>.GetNamed(defName, true);
 		}
 
 		// Token: 0x17000A21 RID: 2593
-		// (get) Token: 0x060040D0 RID: 16592 RVA: 0x002206BC File Offset: 0x0021EABC
+		// (get) Token: 0x060040D2 RID: 16594 RVA: 0x00220790 File Offset: 0x0021EB90
 		public string LabelAsStuff
 		{
 			get
@@ -1404,7 +1404,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060040D1 RID: 16593 RVA: 0x00220700 File Offset: 0x0021EB00
+		// Token: 0x060040D3 RID: 16595 RVA: 0x002207D4 File Offset: 0x0021EBD4
 		public bool IsWithinCategory(ThingCategoryDef category)
 		{
 			bool result;
@@ -1426,7 +1426,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060040D2 RID: 16594 RVA: 0x0022077C File Offset: 0x0021EB7C
+		// Token: 0x060040D4 RID: 16596 RVA: 0x00220850 File Offset: 0x0021EC50
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
 			foreach (StatDrawEntry stat in this.<SpecialDisplayStats>__BaseCallProxy1())
@@ -1682,7 +1682,7 @@ namespace Verse
 		public float deepCommonality;
 
 		// Token: 0x04002BC0 RID: 11200
-		public int deepCountPerCell = 150;
+		public int deepCountPerCell = 200;
 
 		// Token: 0x04002BC1 RID: 11201
 		public IntRange deepLumpSizeRange = IntRange.zero;

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DC1 RID: 3521
+	// Token: 0x02000DC0 RID: 3520
 	public class SoundParams
 	{
-		// Token: 0x17000CB0 RID: 3248
+		// Token: 0x17000CAF RID: 3247
 		public float this[string key]
 		{
 			get
@@ -19,16 +19,16 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004E81 RID: 20097 RVA: 0x0028FA50 File Offset: 0x0028DE50
+		// Token: 0x06004E7F RID: 20095 RVA: 0x0028FA30 File Offset: 0x0028DE30
 		public bool TryGetValue(string key, out float val)
 		{
 			return this.storedParams.TryGetValue(key, out val);
 		}
 
-		// Token: 0x04003443 RID: 13379
+		// Token: 0x04003441 RID: 13377
 		private Dictionary<string, float> storedParams = new Dictionary<string, float>();
 
-		// Token: 0x04003444 RID: 13380
+		// Token: 0x04003442 RID: 13378
 		public SoundSizeAggregator sizeAggregator = null;
 	}
 }

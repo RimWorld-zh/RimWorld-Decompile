@@ -5,10 +5,10 @@ using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000C2C RID: 3116
+	// Token: 0x02000C2B RID: 3115
 	public sealed class ListerBuildings
 	{
-		// Token: 0x0600446E RID: 17518 RVA: 0x0023EF60 File Offset: 0x0023D360
+		// Token: 0x0600446C RID: 17516 RVA: 0x0023EF38 File Offset: 0x0023D338
 		public void Add(Building b)
 		{
 			if (b.def.building == null || !b.def.building.isNaturalRock)
@@ -29,7 +29,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600446F RID: 17519 RVA: 0x0023EFF8 File Offset: 0x0023D3F8
+		// Token: 0x0600446D RID: 17517 RVA: 0x0023EFD0 File Offset: 0x0023D3D0
 		public void Remove(Building b)
 		{
 			this.allBuildingsColonist.Remove(b);
@@ -44,7 +44,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004470 RID: 17520 RVA: 0x0023F058 File Offset: 0x0023D458
+		// Token: 0x0600446E RID: 17518 RVA: 0x0023F030 File Offset: 0x0023D430
 		public bool ColonistsHaveBuilding(ThingDef def)
 		{
 			for (int i = 0; i < this.allBuildingsColonist.Count; i++)
@@ -57,7 +57,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004471 RID: 17521 RVA: 0x0023F0AC File Offset: 0x0023D4AC
+		// Token: 0x0600446F RID: 17519 RVA: 0x0023F084 File Offset: 0x0023D484
 		public bool ColonistsHaveBuilding(Func<Thing, bool> predicate)
 		{
 			for (int i = 0; i < this.allBuildingsColonist.Count; i++)
@@ -70,7 +70,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004472 RID: 17522 RVA: 0x0023F100 File Offset: 0x0023D500
+		// Token: 0x06004470 RID: 17520 RVA: 0x0023F0D8 File Offset: 0x0023D4D8
 		public bool ColonistsHaveResearchBench()
 		{
 			for (int i = 0; i < this.allBuildingsColonist.Count; i++)
@@ -83,7 +83,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004473 RID: 17523 RVA: 0x0023F154 File Offset: 0x0023D554
+		// Token: 0x06004471 RID: 17521 RVA: 0x0023F12C File Offset: 0x0023D52C
 		public bool ColonistsHaveBuildingWithPowerOn(ThingDef def)
 		{
 			for (int i = 0; i < this.allBuildingsColonist.Count; i++)
@@ -100,7 +100,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004474 RID: 17524 RVA: 0x0023F1CC File Offset: 0x0023D5CC
+		// Token: 0x06004472 RID: 17522 RVA: 0x0023F1A4 File Offset: 0x0023D5A4
 		public IEnumerable<Building> AllBuildingsColonistOfDef(ThingDef def)
 		{
 			for (int i = 0; i < this.allBuildingsColonist.Count; i++)
@@ -113,7 +113,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004475 RID: 17525 RVA: 0x0023F200 File Offset: 0x0023D600
+		// Token: 0x06004473 RID: 17523 RVA: 0x0023F1D8 File Offset: 0x0023D5D8
 		public IEnumerable<T> AllBuildingsColonistOfClass<T>() where T : Building
 		{
 			for (int i = 0; i < this.allBuildingsColonist.Count; i++)
@@ -127,13 +127,13 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x04002E71 RID: 11889
+		// Token: 0x04002E6F RID: 11887
 		public List<Building> allBuildingsColonist = new List<Building>();
 
-		// Token: 0x04002E72 RID: 11890
+		// Token: 0x04002E70 RID: 11888
 		public HashSet<Building> allBuildingsColonistCombatTargets = new HashSet<Building>();
 
-		// Token: 0x04002E73 RID: 11891
+		// Token: 0x04002E71 RID: 11889
 		public HashSet<Building> allBuildingsColonistElecFire = new HashSet<Building>();
 	}
 }

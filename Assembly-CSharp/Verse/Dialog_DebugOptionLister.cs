@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E2D RID: 3629
+	// Token: 0x02000E2C RID: 3628
 	public abstract class Dialog_DebugOptionLister : Dialog_OptionLister
 	{
-		// Token: 0x060055E7 RID: 21991 RVA: 0x002B9B34 File Offset: 0x002B7F34
+		// Token: 0x060055E5 RID: 21989 RVA: 0x002B9B34 File Offset: 0x002B7F34
 		protected bool DebugAction(string label, Action action)
 		{
 			bool result = false;
@@ -30,7 +30,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060055E8 RID: 21992 RVA: 0x002B9BC4 File Offset: 0x002B7FC4
+		// Token: 0x060055E6 RID: 21990 RVA: 0x002B9BC4 File Offset: 0x002B7FC4
 		protected void DebugToolMap(string label, Action toolAction)
 		{
 			if (!WorldRendererUtility.WorldRenderedNow)
@@ -52,7 +52,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060055E9 RID: 21993 RVA: 0x002B9C60 File Offset: 0x002B8060
+		// Token: 0x060055E7 RID: 21991 RVA: 0x002B9C60 File Offset: 0x002B8060
 		protected void DebugToolMapForPawns(string label, Action<Pawn> pawnAction)
 		{
 			this.DebugToolMap(label, delegate
@@ -69,7 +69,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x060055EA RID: 21994 RVA: 0x002B9C90 File Offset: 0x002B8090
+		// Token: 0x060055E8 RID: 21992 RVA: 0x002B9C90 File Offset: 0x002B8090
 		protected void DebugToolWorld(string label, Action toolAction)
 		{
 			if (WorldRendererUtility.WorldRenderedNow)
@@ -91,7 +91,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060055EB RID: 21995 RVA: 0x002B9D2C File Offset: 0x002B812C
+		// Token: 0x060055E9 RID: 21993 RVA: 0x002B9D2C File Offset: 0x002B812C
 		protected void CheckboxLabeledDebug(string label, ref bool checkOn)
 		{
 			if (!base.FilterAllows(label))
@@ -106,7 +106,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060055EC RID: 21996 RVA: 0x002B9D9D File Offset: 0x002B819D
+		// Token: 0x060055EA RID: 21994 RVA: 0x002B9D9D File Offset: 0x002B819D
 		protected void DoLabel(string label)
 		{
 			Text.Font = GameFont.Small;
@@ -114,14 +114,14 @@ namespace Verse
 			this.totalOptionsHeight += Text.CalcHeight(label, 300f) + 2f;
 		}
 
-		// Token: 0x060055ED RID: 21997 RVA: 0x002B9DD6 File Offset: 0x002B81D6
+		// Token: 0x060055EB RID: 21995 RVA: 0x002B9DD6 File Offset: 0x002B81D6
 		protected void DoGap()
 		{
 			this.listing.Gap(7f);
 			this.totalOptionsHeight += 7f;
 		}
 
-		// Token: 0x040038C3 RID: 14531
+		// Token: 0x040038C1 RID: 14529
 		private const float DebugOptionsGap = 7f;
 	}
 }

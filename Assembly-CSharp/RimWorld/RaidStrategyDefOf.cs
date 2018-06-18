@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class RaidStrategyDefOf
 	{
-		// Token: 0x06003641 RID: 13889 RVA: 0x001D0845 File Offset: 0x001CEC45
+		// Token: 0x06003643 RID: 13891 RVA: 0x001D090D File Offset: 0x001CED0D
 		static RaidStrategyDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(RaidStrategyDefOf));

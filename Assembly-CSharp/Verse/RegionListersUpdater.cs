@@ -4,10 +4,10 @@ using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000C92 RID: 3218
+	// Token: 0x02000C91 RID: 3217
 	public static class RegionListersUpdater
 	{
-		// Token: 0x0600468D RID: 18061 RVA: 0x00252C34 File Offset: 0x00251034
+		// Token: 0x0600468B RID: 18059 RVA: 0x00252C0C File Offset: 0x0025100C
 		public static void DeregisterInRegions(Thing thing, Map map)
 		{
 			ThingDef def = thing.def;
@@ -26,7 +26,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600468E RID: 18062 RVA: 0x00252CB4 File Offset: 0x002510B4
+		// Token: 0x0600468C RID: 18060 RVA: 0x00252C8C File Offset: 0x0025108C
 		public static void RegisterInRegions(Thing thing, Map map)
 		{
 			ThingDef def = thing.def;
@@ -44,7 +44,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600468F RID: 18063 RVA: 0x00252D28 File Offset: 0x00251128
+		// Token: 0x0600468D RID: 18061 RVA: 0x00252D00 File Offset: 0x00251100
 		public static void RegisterAllAt(IntVec3 c, Map map, HashSet<Thing> processedThings = null)
 		{
 			List<Thing> thingList = c.GetThingList(map);
@@ -59,7 +59,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004690 RID: 18064 RVA: 0x00252D80 File Offset: 0x00251180
+		// Token: 0x0600468E RID: 18062 RVA: 0x00252D58 File Offset: 0x00251158
 		public static void GetTouchableRegions(Thing thing, Map map, List<Region> outRegions, bool allowAdjacentEvenIfCantTouch = false)
 		{
 			outRegions.Clear();
@@ -92,13 +92,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004691 RID: 18065 RVA: 0x00252E64 File Offset: 0x00251264
+		// Token: 0x0600468F RID: 18063 RVA: 0x00252E3C File Offset: 0x0025123C
 		private static bool CanRegisterInAdjacentRegions(Thing thing)
 		{
 			return true;
 		}
 
-		// Token: 0x04003008 RID: 12296
+		// Token: 0x04003006 RID: 12294
 		private static List<Region> tmpRegions = new List<Region>();
 	}
 }

@@ -6,12 +6,12 @@ namespace Verse
 	// Token: 0x02000AE9 RID: 2793
 	public abstract class CameraMapConfig
 	{
-		// Token: 0x06003DEC RID: 15852 RVA: 0x0020AA01 File Offset: 0x00208E01
+		// Token: 0x06003DEE RID: 15854 RVA: 0x0020AAD5 File Offset: 0x00208ED5
 		public virtual void ConfigFixedUpdate_60(ref Vector3 velocity)
 		{
 		}
 
-		// Token: 0x06003DED RID: 15853 RVA: 0x0020AA04 File Offset: 0x00208E04
+		// Token: 0x06003DEF RID: 15855 RVA: 0x0020AAD8 File Offset: 0x00208ED8
 		public virtual void ConfigOnGUI()
 		{
 		}

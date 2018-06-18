@@ -5,16 +5,16 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000C9F RID: 3231
+	// Token: 0x02000C9E RID: 3230
 	public class RoofCollapseBufferResolver
 	{
-		// Token: 0x06004717 RID: 18199 RVA: 0x0025718B File Offset: 0x0025558B
+		// Token: 0x06004715 RID: 18197 RVA: 0x00257163 File Offset: 0x00255563
 		public RoofCollapseBufferResolver(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x06004718 RID: 18200 RVA: 0x002571B4 File Offset: 0x002555B4
+		// Token: 0x06004716 RID: 18198 RVA: 0x0025718C File Offset: 0x0025558C
 		public void CollapseRoofsMarkedToCollapse()
 		{
 			RoofCollapseBuffer roofCollapseBuffer = this.map.roofCollapseBuffer;
@@ -58,13 +58,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003050 RID: 12368
+		// Token: 0x0400304E RID: 12366
 		private Map map;
 
-		// Token: 0x04003051 RID: 12369
+		// Token: 0x0400304F RID: 12367
 		private List<Thing> tmpCrushedThings = new List<Thing>();
 
-		// Token: 0x04003052 RID: 12370
+		// Token: 0x04003050 RID: 12368
 		private HashSet<string> tmpCrushedNames = new HashSet<string>();
 	}
 }

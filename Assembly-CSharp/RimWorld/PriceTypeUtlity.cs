@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020008AC RID: 2220
 	public static class PriceTypeUtlity
 	{
-		// Token: 0x060032CF RID: 13007 RVA: 0x001B5B9C File Offset: 0x001B3F9C
+		// Token: 0x060032D1 RID: 13009 RVA: 0x001B5C64 File Offset: 0x001B4064
 		public static float PriceMultiplier(this PriceType pType)
 		{
 			float result;
@@ -35,7 +35,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060032D0 RID: 13008 RVA: 0x001B5C10 File Offset: 0x001B4010
+		// Token: 0x060032D2 RID: 13010 RVA: 0x001B5CD8 File Offset: 0x001B40D8
 		public static PriceType ClosestPriceType(float priceFactor)
 		{
 			float num = 99999f;

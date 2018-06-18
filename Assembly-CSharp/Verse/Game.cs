@@ -12,15 +12,15 @@ namespace Verse
 	// Token: 0x02000BC5 RID: 3013
 	public class Game : IExposable
 	{
-		// Token: 0x06004172 RID: 16754 RVA: 0x002287A0 File Offset: 0x00226BA0
+		// Token: 0x06004174 RID: 16756 RVA: 0x00228818 File Offset: 0x00226C18
 		public Game()
 		{
 			this.FillComponents();
 		}
 
 		// Token: 0x17000A38 RID: 2616
-		// (get) Token: 0x06004173 RID: 16755 RVA: 0x002288B4 File Offset: 0x00226CB4
-		// (set) Token: 0x06004174 RID: 16756 RVA: 0x002288CF File Offset: 0x00226CCF
+		// (get) Token: 0x06004175 RID: 16757 RVA: 0x0022892C File Offset: 0x00226D2C
+		// (set) Token: 0x06004176 RID: 16758 RVA: 0x00228947 File Offset: 0x00226D47
 		public Scenario Scenario
 		{
 			get
@@ -34,8 +34,8 @@ namespace Verse
 		}
 
 		// Token: 0x17000A39 RID: 2617
-		// (get) Token: 0x06004175 RID: 16757 RVA: 0x002288DC File Offset: 0x00226CDC
-		// (set) Token: 0x06004176 RID: 16758 RVA: 0x002288F7 File Offset: 0x00226CF7
+		// (get) Token: 0x06004177 RID: 16759 RVA: 0x00228954 File Offset: 0x00226D54
+		// (set) Token: 0x06004178 RID: 16760 RVA: 0x0022896F File Offset: 0x00226D6F
 		public World World
 		{
 			get
@@ -52,8 +52,8 @@ namespace Verse
 		}
 
 		// Token: 0x17000A3A RID: 2618
-		// (get) Token: 0x06004177 RID: 16759 RVA: 0x00228914 File Offset: 0x00226D14
-		// (set) Token: 0x06004178 RID: 16760 RVA: 0x00228950 File Offset: 0x00226D50
+		// (get) Token: 0x06004179 RID: 16761 RVA: 0x0022898C File Offset: 0x00226D8C
+		// (set) Token: 0x0600417A RID: 16762 RVA: 0x002289C8 File Offset: 0x00226DC8
 		public Map CurrentMap
 		{
 			get
@@ -95,7 +95,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A3B RID: 2619
-		// (get) Token: 0x06004179 RID: 16761 RVA: 0x002289B8 File Offset: 0x00226DB8
+		// (get) Token: 0x0600417B RID: 16763 RVA: 0x00228A30 File Offset: 0x00226E30
 		public Map AnyPlayerHomeMap
 		{
 			get
@@ -122,7 +122,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A3C RID: 2620
-		// (get) Token: 0x0600417A RID: 16762 RVA: 0x00228A1C File Offset: 0x00226E1C
+		// (get) Token: 0x0600417C RID: 16764 RVA: 0x00228A94 File Offset: 0x00226E94
 		public List<Map> Maps
 		{
 			get
@@ -132,8 +132,8 @@ namespace Verse
 		}
 
 		// Token: 0x17000A3D RID: 2621
-		// (get) Token: 0x0600417B RID: 16763 RVA: 0x00228A38 File Offset: 0x00226E38
-		// (set) Token: 0x0600417C RID: 16764 RVA: 0x00228A53 File Offset: 0x00226E53
+		// (get) Token: 0x0600417D RID: 16765 RVA: 0x00228AB0 File Offset: 0x00226EB0
+		// (set) Token: 0x0600417E RID: 16766 RVA: 0x00228ACB File Offset: 0x00226ECB
 		public GameInitData InitData
 		{
 			get
@@ -147,7 +147,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A3E RID: 2622
-		// (get) Token: 0x0600417D RID: 16765 RVA: 0x00228A60 File Offset: 0x00226E60
+		// (get) Token: 0x0600417F RID: 16767 RVA: 0x00228AD8 File Offset: 0x00226ED8
 		public GameInfo Info
 		{
 			get
@@ -157,7 +157,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A3F RID: 2623
-		// (get) Token: 0x0600417E RID: 16766 RVA: 0x00228A7C File Offset: 0x00226E7C
+		// (get) Token: 0x06004180 RID: 16768 RVA: 0x00228AF4 File Offset: 0x00226EF4
 		public GameRules Rules
 		{
 			get
@@ -166,7 +166,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600417F RID: 16767 RVA: 0x00228A98 File Offset: 0x00226E98
+		// Token: 0x06004181 RID: 16769 RVA: 0x00228B10 File Offset: 0x00226F10
 		public void AddMap(Map map)
 		{
 			if (map == null)
@@ -188,7 +188,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004180 RID: 16768 RVA: 0x00228B2C File Offset: 0x00226F2C
+		// Token: 0x06004182 RID: 16770 RVA: 0x00228BA4 File Offset: 0x00226FA4
 		public Map FindMap(MapParent mapParent)
 		{
 			for (int i = 0; i < this.maps.Count; i++)
@@ -201,7 +201,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06004181 RID: 16769 RVA: 0x00228B90 File Offset: 0x00226F90
+		// Token: 0x06004183 RID: 16771 RVA: 0x00228C08 File Offset: 0x00227008
 		public Map FindMap(int tile)
 		{
 			for (int i = 0; i < this.maps.Count; i++)
@@ -214,7 +214,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06004182 RID: 16770 RVA: 0x00228BF0 File Offset: 0x00226FF0
+		// Token: 0x06004184 RID: 16772 RVA: 0x00228C68 File Offset: 0x00227068
 		public void ExposeData()
 		{
 			if (Scribe.mode == LoadSaveMode.LoadingVars)
@@ -231,7 +231,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004183 RID: 16771 RVA: 0x00228C6C File Offset: 0x0022706C
+		// Token: 0x06004185 RID: 16773 RVA: 0x00228CE4 File Offset: 0x002270E4
 		private void ExposeSmallComponents()
 		{
 			Scribe_Deep.Look<GameInfo>(ref this.info, "info", new object[0]);
@@ -264,7 +264,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004184 RID: 16772 RVA: 0x00228E50 File Offset: 0x00227250
+		// Token: 0x06004186 RID: 16774 RVA: 0x00228EC8 File Offset: 0x002272C8
 		private void FillComponents()
 		{
 			this.components.RemoveAll((GameComponent component) => component == null);
@@ -281,7 +281,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004185 RID: 16773 RVA: 0x00228F08 File Offset: 0x00227308
+		// Token: 0x06004187 RID: 16775 RVA: 0x00228F80 File Offset: 0x00227380
 		public void InitNewGame()
 		{
 			string str = (from mod in LoadedModManager.RunningMods
@@ -362,7 +362,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004186 RID: 16774 RVA: 0x00229214 File Offset: 0x00227614
+		// Token: 0x06004188 RID: 16776 RVA: 0x0022928C File Offset: 0x0022768C
 		public void LoadGame()
 		{
 			if (this.maps.Any<Map>())
@@ -439,13 +439,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004187 RID: 16775 RVA: 0x00229448 File Offset: 0x00227848
+		// Token: 0x06004189 RID: 16777 RVA: 0x002294C0 File Offset: 0x002278C0
 		public void UpdateEntry()
 		{
 			GameComponentUtility.GameComponentUpdate();
 		}
 
-		// Token: 0x06004188 RID: 16776 RVA: 0x00229450 File Offset: 0x00227850
+		// Token: 0x0600418A RID: 16778 RVA: 0x002294C8 File Offset: 0x002278C8
 		public void UpdatePlay()
 		{
 			Profiler.BeginSample("tickManager.TickManagerUpdate()");
@@ -473,7 +473,7 @@ namespace Verse
 			Profiler.EndSample();
 		}
 
-		// Token: 0x06004189 RID: 16777 RVA: 0x00229534 File Offset: 0x00227934
+		// Token: 0x0600418B RID: 16779 RVA: 0x002295AC File Offset: 0x002279AC
 		public T GetComponent<T>() where T : GameComponent
 		{
 			for (int i = 0; i < this.components.Count; i++)
@@ -487,7 +487,7 @@ namespace Verse
 			return (T)((object)null);
 		}
 
-		// Token: 0x0600418A RID: 16778 RVA: 0x00229598 File Offset: 0x00227998
+		// Token: 0x0600418C RID: 16780 RVA: 0x00229610 File Offset: 0x00227A10
 		public GameComponent GetComponent(Type type)
 		{
 			for (int i = 0; i < this.components.Count; i++)
@@ -500,7 +500,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x0600418B RID: 16779 RVA: 0x002295FA File Offset: 0x002279FA
+		// Token: 0x0600418D RID: 16781 RVA: 0x00229672 File Offset: 0x00227A72
 		public void FinalizeInit()
 		{
 			LogSimple.FlushToFileAndOpen();
@@ -510,7 +510,7 @@ namespace Verse
 			Current.ProgramState = ProgramState.Playing;
 		}
 
-		// Token: 0x0600418C RID: 16780 RVA: 0x00229620 File Offset: 0x00227A20
+		// Token: 0x0600418E RID: 16782 RVA: 0x00229698 File Offset: 0x00227A98
 		public void DeinitAndRemoveMap(Map map)
 		{
 			if (map == null)
@@ -558,7 +558,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600418D RID: 16781 RVA: 0x00229728 File Offset: 0x00227B28
+		// Token: 0x0600418F RID: 16783 RVA: 0x002297A0 File Offset: 0x00227BA0
 		public string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

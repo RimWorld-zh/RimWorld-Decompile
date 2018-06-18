@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class WeatherDefOf
 	{
-		// Token: 0x06003656 RID: 13910 RVA: 0x001D09BF File Offset: 0x001CEDBF
+		// Token: 0x06003658 RID: 13912 RVA: 0x001D0A87 File Offset: 0x001CEE87
 		static WeatherDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(WeatherDefOf));

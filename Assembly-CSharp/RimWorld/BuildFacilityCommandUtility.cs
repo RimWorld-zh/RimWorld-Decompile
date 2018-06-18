@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020008FC RID: 2300
 	public static class BuildFacilityCommandUtility
 	{
-		// Token: 0x06003536 RID: 13622 RVA: 0x001C72F4 File Offset: 0x001C56F4
+		// Token: 0x06003538 RID: 13624 RVA: 0x001C73BC File Offset: 0x001C57BC
 		public static IEnumerable<Command> BuildFacilityCommands(BuildableDef building)
 		{
 			ThingDef thingDef = building as ThingDef;

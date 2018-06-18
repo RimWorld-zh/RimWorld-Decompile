@@ -10,7 +10,7 @@ namespace RimWorld.Planet
 	// Token: 0x020008DC RID: 2268
 	public class Dialog_SplitCaravan : Window
 	{
-		// Token: 0x060033DF RID: 13279 RVA: 0x001BB738 File Offset: 0x001B9B38
+		// Token: 0x060033E1 RID: 13281 RVA: 0x001BB800 File Offset: 0x001B9C00
 		public Dialog_SplitCaravan(Caravan caravan)
 		{
 			this.caravan = caravan;
@@ -19,7 +19,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000844 RID: 2116
-		// (get) Token: 0x060033E0 RID: 13280 RVA: 0x001BB7D8 File Offset: 0x001B9BD8
+		// (get) Token: 0x060033E2 RID: 13282 RVA: 0x001BB8A0 File Offset: 0x001B9CA0
 		public override Vector2 InitialSize
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000845 RID: 2117
-		// (get) Token: 0x060033E1 RID: 13281 RVA: 0x001BB800 File Offset: 0x001B9C00
+		// (get) Token: 0x060033E3 RID: 13283 RVA: 0x001BB8C8 File Offset: 0x001B9CC8
 		protected override float Margin
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000846 RID: 2118
-		// (get) Token: 0x060033E2 RID: 13282 RVA: 0x001BB81C File Offset: 0x001B9C1C
+		// (get) Token: 0x060033E4 RID: 13284 RVA: 0x001BB8E4 File Offset: 0x001B9CE4
 		private BiomeDef Biome
 		{
 			get
@@ -49,7 +49,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000847 RID: 2119
-		// (get) Token: 0x060033E3 RID: 13283 RVA: 0x001BB83C File Offset: 0x001B9C3C
+		// (get) Token: 0x060033E5 RID: 13285 RVA: 0x001BB904 File Offset: 0x001B9D04
 		private float SourceMassUsage
 		{
 			get
@@ -64,7 +64,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000848 RID: 2120
-		// (get) Token: 0x060033E4 RID: 13284 RVA: 0x001BB880 File Offset: 0x001B9C80
+		// (get) Token: 0x060033E6 RID: 13286 RVA: 0x001BB948 File Offset: 0x001B9D48
 		private float SourceMassCapacity
 		{
 			get
@@ -81,7 +81,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000849 RID: 2121
-		// (get) Token: 0x060033E5 RID: 13285 RVA: 0x001BB8D4 File Offset: 0x001B9CD4
+		// (get) Token: 0x060033E7 RID: 13287 RVA: 0x001BB99C File Offset: 0x001B9D9C
 		private float SourceTilesPerDay
 		{
 			get
@@ -98,7 +98,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700084A RID: 2122
-		// (get) Token: 0x060033E6 RID: 13286 RVA: 0x001BB96C File Offset: 0x001B9D6C
+		// (get) Token: 0x060033E8 RID: 13288 RVA: 0x001BBA34 File Offset: 0x001B9E34
 		private Pair<float, float> SourceDaysWorthOfFood
 		{
 			get
@@ -128,7 +128,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700084B RID: 2123
-		// (get) Token: 0x060033E7 RID: 13287 RVA: 0x001BBAF4 File Offset: 0x001B9EF4
+		// (get) Token: 0x060033E9 RID: 13289 RVA: 0x001BBBBC File Offset: 0x001B9FBC
 		private Pair<ThingDef, float> SourceForagedFoodPerDay
 		{
 			get
@@ -145,7 +145,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700084C RID: 2124
-		// (get) Token: 0x060033E8 RID: 13288 RVA: 0x001BBB54 File Offset: 0x001B9F54
+		// (get) Token: 0x060033EA RID: 13290 RVA: 0x001BBC1C File Offset: 0x001BA01C
 		private float SourceVisibility
 		{
 			get
@@ -162,7 +162,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700084D RID: 2125
-		// (get) Token: 0x060033E9 RID: 13289 RVA: 0x001BBBA8 File Offset: 0x001B9FA8
+		// (get) Token: 0x060033EB RID: 13291 RVA: 0x001BBC70 File Offset: 0x001BA070
 		private float DestMassUsage
 		{
 			get
@@ -177,7 +177,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700084E RID: 2126
-		// (get) Token: 0x060033EA RID: 13290 RVA: 0x001BBBEC File Offset: 0x001B9FEC
+		// (get) Token: 0x060033EC RID: 13292 RVA: 0x001BBCB4 File Offset: 0x001BA0B4
 		private float DestMassCapacity
 		{
 			get
@@ -194,7 +194,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700084F RID: 2127
-		// (get) Token: 0x060033EB RID: 13291 RVA: 0x001BBC40 File Offset: 0x001BA040
+		// (get) Token: 0x060033ED RID: 13293 RVA: 0x001BBD08 File Offset: 0x001BA108
 		private float DestTilesPerDay
 		{
 			get
@@ -211,7 +211,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000850 RID: 2128
-		// (get) Token: 0x060033EC RID: 13292 RVA: 0x001BBCD8 File Offset: 0x001BA0D8
+		// (get) Token: 0x060033EE RID: 13294 RVA: 0x001BBDA0 File Offset: 0x001BA1A0
 		private Pair<float, float> DestDaysWorthOfFood
 		{
 			get
@@ -238,7 +238,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000851 RID: 2129
-		// (get) Token: 0x060033ED RID: 13293 RVA: 0x001BBE14 File Offset: 0x001BA214
+		// (get) Token: 0x060033EF RID: 13295 RVA: 0x001BBEDC File Offset: 0x001BA2DC
 		private Pair<ThingDef, float> DestForagedFoodPerDay
 		{
 			get
@@ -255,7 +255,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000852 RID: 2130
-		// (get) Token: 0x060033EE RID: 13294 RVA: 0x001BBE74 File Offset: 0x001BA274
+		// (get) Token: 0x060033F0 RID: 13296 RVA: 0x001BBF3C File Offset: 0x001BA33C
 		private float DestVisibility
 		{
 			get
@@ -272,7 +272,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000853 RID: 2131
-		// (get) Token: 0x060033EF RID: 13295 RVA: 0x001BBEC8 File Offset: 0x001BA2C8
+		// (get) Token: 0x060033F1 RID: 13297 RVA: 0x001BBF90 File Offset: 0x001BA390
 		private int TicksToArrive
 		{
 			get
@@ -295,14 +295,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060033F0 RID: 13296 RVA: 0x001BBF25 File Offset: 0x001BA325
+		// Token: 0x060033F2 RID: 13298 RVA: 0x001BBFED File Offset: 0x001BA3ED
 		public override void PostOpen()
 		{
 			base.PostOpen();
 			this.CalculateAndRecacheTransferables();
 		}
 
-		// Token: 0x060033F1 RID: 13297 RVA: 0x001BBF34 File Offset: 0x001BA334
+		// Token: 0x060033F3 RID: 13299 RVA: 0x001BBFFC File Offset: 0x001BA3FC
 		public override void DoWindowContents(Rect inRect)
 		{
 			Rect rect = new Rect(0f, 0f, inRect.width, 35f);
@@ -350,13 +350,13 @@ namespace RimWorld.Planet
 			GUI.EndGroup();
 		}
 
-		// Token: 0x060033F2 RID: 13298 RVA: 0x001BC194 File Offset: 0x001BA594
+		// Token: 0x060033F4 RID: 13300 RVA: 0x001BC25C File Offset: 0x001BA65C
 		public override bool CausesMessageBackground()
 		{
 			return true;
 		}
 
-		// Token: 0x060033F3 RID: 13299 RVA: 0x001BC1AC File Offset: 0x001BA5AC
+		// Token: 0x060033F5 RID: 13301 RVA: 0x001BC274 File Offset: 0x001BA674
 		private void AddToTransferables(Thing t)
 		{
 			TransferableOneWay transferableOneWay = TransferableUtility.TransferableMatching<TransferableOneWay>(t, this.transferables, TransferAsOneMode.Normal);
@@ -368,7 +368,7 @@ namespace RimWorld.Planet
 			transferableOneWay.things.Add(t);
 		}
 
-		// Token: 0x060033F4 RID: 13300 RVA: 0x001BC1F0 File Offset: 0x001BA5F0
+		// Token: 0x060033F6 RID: 13302 RVA: 0x001BC2B8 File Offset: 0x001BA6B8
 		private void DoBottomButtons(Rect rect)
 		{
 			Rect rect2 = new Rect(rect.width / 2f - this.BottomButtonSize.x / 2f, rect.height - 55f, this.BottomButtonSize.x, this.BottomButtonSize.y);
@@ -393,7 +393,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060033F5 RID: 13301 RVA: 0x001BC358 File Offset: 0x001BA758
+		// Token: 0x060033F7 RID: 13303 RVA: 0x001BC420 File Offset: 0x001BA820
 		private void CalculateAndRecacheTransferables()
 		{
 			this.transferables = new List<TransferableOneWay>();
@@ -403,7 +403,7 @@ namespace RimWorld.Planet
 			this.CountToTransferChanged();
 		}
 
-		// Token: 0x060033F6 RID: 13302 RVA: 0x001BC3C0 File Offset: 0x001BA7C0
+		// Token: 0x060033F8 RID: 13304 RVA: 0x001BC488 File Offset: 0x001BA888
 		private bool TrySplitCaravan()
 		{
 			List<Pawn> pawnsFromTransferables = TransferableUtility.GetPawnsFromTransferables(this.transferables);
@@ -444,7 +444,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x060033F7 RID: 13303 RVA: 0x001BC508 File Offset: 0x001BA908
+		// Token: 0x060033F9 RID: 13305 RVA: 0x001BC5D0 File Offset: 0x001BA9D0
 		private bool CheckForErrors(List<Pawn> pawns)
 		{
 			bool result;
@@ -465,7 +465,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x060033F8 RID: 13304 RVA: 0x001BC5A4 File Offset: 0x001BA9A4
+		// Token: 0x060033FA RID: 13306 RVA: 0x001BC66C File Offset: 0x001BAA6C
 		private void AddPawnsToTransferables()
 		{
 			List<Pawn> pawnsListForReading = this.caravan.PawnsListForReading;
@@ -475,7 +475,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060033F9 RID: 13305 RVA: 0x001BC5E4 File Offset: 0x001BA9E4
+		// Token: 0x060033FB RID: 13307 RVA: 0x001BC6AC File Offset: 0x001BAAAC
 		private void AddItemsToTransferables()
 		{
 			List<Thing> list = CaravanInventoryUtility.AllInventoryItems(this.caravan);
@@ -485,7 +485,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060033FA RID: 13306 RVA: 0x001BC624 File Offset: 0x001BAA24
+		// Token: 0x060033FC RID: 13308 RVA: 0x001BC6EC File Offset: 0x001BAAEC
 		private bool AnyNonDownedColonistLeftInSourceCaravan(List<Pawn> pawnsToTransfer)
 		{
 			return this.transferables.Any((TransferableOneWay x) => x.things.Any(delegate(Thing y)
@@ -495,7 +495,7 @@ namespace RimWorld.Planet
 			}));
 		}
 
-		// Token: 0x060033FB RID: 13307 RVA: 0x001BC660 File Offset: 0x001BAA60
+		// Token: 0x060033FD RID: 13309 RVA: 0x001BC728 File Offset: 0x001BAB28
 		private void CountToTransferChanged()
 		{
 			this.sourceMassUsageDirty = true;

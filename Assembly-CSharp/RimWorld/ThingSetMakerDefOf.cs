@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class ThingSetMakerDefOf
 	{
-		// Token: 0x06003660 RID: 13920 RVA: 0x001D0A73 File Offset: 0x001CEE73
+		// Token: 0x06003662 RID: 13922 RVA: 0x001D0B3B File Offset: 0x001CEF3B
 		static ThingSetMakerDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ThingSetMakerDefOf));

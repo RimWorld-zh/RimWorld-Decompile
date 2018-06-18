@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class StoryEventDefOf
 	{
-		// Token: 0x0600366E RID: 13934 RVA: 0x001D0B6F File Offset: 0x001CEF6F
+		// Token: 0x06003670 RID: 13936 RVA: 0x001D0C37 File Offset: 0x001CF037
 		static StoryEventDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(StoryEventDefOf));

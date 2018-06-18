@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EB9 RID: 3769
+	// Token: 0x02000EB8 RID: 3768
 	public class Dialog_ResolutionConfirm : Window
 	{
-		// Token: 0x0600590B RID: 22795 RVA: 0x002DA41D File Offset: 0x002D881D
+		// Token: 0x06005909 RID: 22793 RVA: 0x002DA455 File Offset: 0x002D8855
 		private Dialog_ResolutionConfirm()
 		{
 			this.startTime = Time.realtimeSinceStartup;
@@ -15,7 +15,7 @@ namespace Verse
 			this.absorbInputAroundWindow = true;
 		}
 
-		// Token: 0x0600590C RID: 22796 RVA: 0x002DA446 File Offset: 0x002D8846
+		// Token: 0x0600590A RID: 22794 RVA: 0x002DA47E File Offset: 0x002D887E
 		public Dialog_ResolutionConfirm(bool oldFullscreen) : this()
 		{
 			this.oldFullscreen = oldFullscreen;
@@ -23,7 +23,7 @@ namespace Verse
 			this.oldUIScale = Prefs.UIScale;
 		}
 
-		// Token: 0x0600590D RID: 22797 RVA: 0x002DA476 File Offset: 0x002D8876
+		// Token: 0x0600590B RID: 22795 RVA: 0x002DA4AE File Offset: 0x002D88AE
 		public Dialog_ResolutionConfirm(IntVec2 oldRes) : this()
 		{
 			this.oldFullscreen = Screen.fullScreen;
@@ -31,7 +31,7 @@ namespace Verse
 			this.oldUIScale = Prefs.UIScale;
 		}
 
-		// Token: 0x0600590E RID: 22798 RVA: 0x002DA49C File Offset: 0x002D889C
+		// Token: 0x0600590C RID: 22796 RVA: 0x002DA4D4 File Offset: 0x002D88D4
 		public Dialog_ResolutionConfirm(float oldUIScale) : this()
 		{
 			this.oldFullscreen = Screen.fullScreen;
@@ -39,8 +39,8 @@ namespace Verse
 			this.oldUIScale = oldUIScale;
 		}
 
-		// Token: 0x17000DFF RID: 3583
-		// (get) Token: 0x0600590F RID: 22799 RVA: 0x002DA4CC File Offset: 0x002D88CC
+		// Token: 0x17000DFE RID: 3582
+		// (get) Token: 0x0600590D RID: 22797 RVA: 0x002DA504 File Offset: 0x002D8904
 		private float TimeUntilRevert
 		{
 			get
@@ -49,8 +49,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E00 RID: 3584
-		// (get) Token: 0x06005910 RID: 22800 RVA: 0x002DA4F4 File Offset: 0x002D88F4
+		// Token: 0x17000DFF RID: 3583
+		// (get) Token: 0x0600590E RID: 22798 RVA: 0x002DA52C File Offset: 0x002D892C
 		public override Vector2 InitialSize
 		{
 			get
@@ -59,7 +59,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005911 RID: 22801 RVA: 0x002DA518 File Offset: 0x002D8918
+		// Token: 0x0600590F RID: 22799 RVA: 0x002DA550 File Offset: 0x002D8950
 		public override void DoWindowContents(Rect inRect)
 		{
 			Text.Font = GameFont.Small;
@@ -79,7 +79,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005912 RID: 22802 RVA: 0x002DA628 File Offset: 0x002D8A28
+		// Token: 0x06005910 RID: 22800 RVA: 0x002DA660 File Offset: 0x002D8A60
 		private void Revert()
 		{
 			if (Prefs.LogVerbose)
@@ -98,7 +98,7 @@ namespace Verse
 			Prefs.UIScale = this.oldUIScale;
 		}
 
-		// Token: 0x06005913 RID: 22803 RVA: 0x002DA6C9 File Offset: 0x002D8AC9
+		// Token: 0x06005911 RID: 22801 RVA: 0x002DA701 File Offset: 0x002D8B01
 		public override void WindowUpdate()
 		{
 			if (this.TimeUntilRevert <= 0f)
@@ -108,19 +108,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003B5C RID: 15196
+		// Token: 0x04003B5B RID: 15195
 		private float startTime;
 
-		// Token: 0x04003B5D RID: 15197
+		// Token: 0x04003B5C RID: 15196
 		private IntVec2 oldRes;
 
-		// Token: 0x04003B5E RID: 15198
+		// Token: 0x04003B5D RID: 15197
 		private bool oldFullscreen;
 
-		// Token: 0x04003B5F RID: 15199
+		// Token: 0x04003B5E RID: 15198
 		private float oldUIScale;
 
-		// Token: 0x04003B60 RID: 15200
+		// Token: 0x04003B5F RID: 15199
 		private const float RevertTime = 10f;
 	}
 }

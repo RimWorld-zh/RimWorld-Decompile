@@ -7,7 +7,7 @@ namespace Verse
 	// Token: 0x02000BB0 RID: 2992
 	public class ThinkTreeDef : Def
 	{
-		// Token: 0x060040E0 RID: 16608 RVA: 0x00223B0C File Offset: 0x00221F0C
+		// Token: 0x060040E2 RID: 16610 RVA: 0x00223BE0 File Offset: 0x00221FE0
 		public override void ResolveReferences()
 		{
 			this.thinkRoot.ResolveSubnodesAndRecur();
@@ -19,7 +19,7 @@ namespace Verse
 			this.ResolveParentNodes(this.thinkRoot);
 		}
 
-		// Token: 0x060040E1 RID: 16609 RVA: 0x00223B9C File Offset: 0x00221F9C
+		// Token: 0x060040E3 RID: 16611 RVA: 0x00223C70 File Offset: 0x00222070
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -65,7 +65,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060040E2 RID: 16610 RVA: 0x00223BC8 File Offset: 0x00221FC8
+		// Token: 0x060040E4 RID: 16612 RVA: 0x00223C9C File Offset: 0x0022209C
 		public bool TryGetThinkNodeWithSaveKey(int key, out ThinkNode outNode)
 		{
 			outNode = null;
@@ -94,7 +94,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060040E3 RID: 16611 RVA: 0x00223C74 File Offset: 0x00222074
+		// Token: 0x060040E5 RID: 16613 RVA: 0x00223D48 File Offset: 0x00222148
 		private void ResolveParentNodes(ThinkNode node)
 		{
 			for (int i = 0; i < node.subNodes.Count; i++)

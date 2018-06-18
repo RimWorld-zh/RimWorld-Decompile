@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020007E7 RID: 2023
 	public abstract class Designator_Place : Designator
 	{
-		// Token: 0x06002CEB RID: 11499 RVA: 0x00178A47 File Offset: 0x00176E47
+		// Token: 0x06002CED RID: 11501 RVA: 0x00178ADB File Offset: 0x00176EDB
 		public Designator_Place()
 		{
 			this.soundDragSustain = SoundDefOf.Designate_DragBuilding;
@@ -17,10 +17,10 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700071C RID: 1820
-		// (get) Token: 0x06002CEC RID: 11500
+		// (get) Token: 0x06002CEE RID: 11502
 		public abstract BuildableDef PlacingDef { get; }
 
-		// Token: 0x06002CED RID: 11501 RVA: 0x00178A78 File Offset: 0x00176E78
+		// Token: 0x06002CEF RID: 11503 RVA: 0x00178B0C File Offset: 0x00176F0C
 		public override void DoExtraGuiControls(float leftX, float bottomY)
 		{
 			ThingDef thingDef = this.PlacingDef as ThingDef;
@@ -58,7 +58,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002CEE RID: 11502 RVA: 0x00178AF8 File Offset: 0x00176EF8
+		// Token: 0x06002CF0 RID: 11504 RVA: 0x00178B8C File Offset: 0x00176F8C
 		public override void SelectedProcessInput(Event ev)
 		{
 			base.SelectedProcessInput(ev);
@@ -69,7 +69,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002CEF RID: 11503 RVA: 0x00178B30 File Offset: 0x00176F30
+		// Token: 0x06002CF1 RID: 11505 RVA: 0x00178BC4 File Offset: 0x00176FC4
 		public override void SelectedUpdate()
 		{
 			GenDraw.DrawNoBuildEdgeLines();
@@ -104,13 +104,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002CF0 RID: 11504 RVA: 0x00178C2D File Offset: 0x0017702D
+		// Token: 0x06002CF2 RID: 11506 RVA: 0x00178CC1 File Offset: 0x001770C1
 		protected virtual void DrawGhost(Color ghostCol)
 		{
 			GhostDrawer.DrawGhostThing(UI.MouseCell(), this.placingRot, (ThingDef)this.PlacingDef, null, ghostCol, AltitudeLayer.Blueprint);
 		}
 
-		// Token: 0x06002CF1 RID: 11505 RVA: 0x00178C50 File Offset: 0x00177050
+		// Token: 0x06002CF3 RID: 11507 RVA: 0x00178CE4 File Offset: 0x001770E4
 		private void HandleRotationShortcuts()
 		{
 			RotationDirection rotationDirection = RotationDirection.None;
@@ -146,7 +146,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002CF2 RID: 11506 RVA: 0x00178D20 File Offset: 0x00177120
+		// Token: 0x06002CF4 RID: 11508 RVA: 0x00178DB4 File Offset: 0x001771B4
 		public override void Selected()
 		{
 			this.placingRot = this.PlacingDef.defaultPlacingRot;

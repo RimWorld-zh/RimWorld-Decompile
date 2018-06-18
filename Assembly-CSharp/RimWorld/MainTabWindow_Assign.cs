@@ -8,7 +8,7 @@ namespace RimWorld
 	public class MainTabWindow_Assign : MainTabWindow_PawnTable
 	{
 		// Token: 0x170007DA RID: 2010
-		// (get) Token: 0x06003115 RID: 12565 RVA: 0x001AA378 File Offset: 0x001A8778
+		// (get) Token: 0x06003117 RID: 12567 RVA: 0x001AA440 File Offset: 0x001A8840
 		protected override PawnTableDef PawnTableDef
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003116 RID: 12566 RVA: 0x001AA392 File Offset: 0x001A8792
+		// Token: 0x06003118 RID: 12568 RVA: 0x001AA45A File Offset: 0x001A885A
 		public override void PostOpen()
 		{
 			base.PostOpen();

@@ -8,7 +8,7 @@ namespace RimWorld
 	public class PawnGroupMaker
 	{
 		// Token: 0x170002C0 RID: 704
-		// (get) Token: 0x060014B9 RID: 5305 RVA: 0x000B6068 File Offset: 0x000B4468
+		// (get) Token: 0x060014B9 RID: 5305 RVA: 0x000B6084 File Offset: 0x000B4484
 		public float MinPointsToGenerateAnything
 		{
 			get
@@ -17,13 +17,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060014BA RID: 5306 RVA: 0x000B6090 File Offset: 0x000B4490
+		// Token: 0x060014BA RID: 5306 RVA: 0x000B60AC File Offset: 0x000B44AC
 		public IEnumerable<Pawn> GeneratePawns(PawnGroupMakerParms parms, bool errorOnZeroResults = true)
 		{
 			return this.kindDef.Worker.GeneratePawns(parms, this, errorOnZeroResults);
 		}
 
-		// Token: 0x060014BB RID: 5307 RVA: 0x000B60B8 File Offset: 0x000B44B8
+		// Token: 0x060014BB RID: 5307 RVA: 0x000B60D4 File Offset: 0x000B44D4
 		public bool CanGenerateFrom(PawnGroupMakerParms parms)
 		{
 			return parms.points <= this.maxTotalPoints && (this.disallowedStrategies == null || !this.disallowedStrategies.Contains(parms.raidStrategy)) && this.kindDef.Worker.CanGenerateFrom(parms, this);

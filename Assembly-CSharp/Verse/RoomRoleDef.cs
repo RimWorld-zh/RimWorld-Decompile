@@ -7,7 +7,7 @@ namespace Verse
 	public class RoomRoleDef : Def
 	{
 		// Token: 0x170009BA RID: 2490
-		// (get) Token: 0x06003FDB RID: 16347 RVA: 0x0021A630 File Offset: 0x00218A30
+		// (get) Token: 0x06003FDD RID: 16349 RVA: 0x0021A704 File Offset: 0x00218B04
 		public RoomRoleWorker Worker
 		{
 			get
@@ -20,7 +20,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FDC RID: 16348 RVA: 0x0021A66C File Offset: 0x00218A6C
+		// Token: 0x06003FDE RID: 16350 RVA: 0x0021A740 File Offset: 0x00218B40
 		public bool IsStatRelated(RoomStatDef def)
 		{
 			bool result;

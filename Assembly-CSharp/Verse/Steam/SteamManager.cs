@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace Verse.Steam
 {
-	// Token: 0x02000FBD RID: 4029
+	// Token: 0x02000FBC RID: 4028
 	public static class SteamManager
 	{
-		// Token: 0x17000FBF RID: 4031
-		// (get) Token: 0x0600613F RID: 24895 RVA: 0x00310EEC File Offset: 0x0030F2EC
+		// Token: 0x17000FBE RID: 4030
+		// (get) Token: 0x0600613D RID: 24893 RVA: 0x00310FC8 File Offset: 0x0030F3C8
 		public static bool Initialized
 		{
 			get
@@ -18,8 +18,8 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x17000FC0 RID: 4032
-		// (get) Token: 0x06006140 RID: 24896 RVA: 0x00310F08 File Offset: 0x0030F308
+		// Token: 0x17000FBF RID: 4031
+		// (get) Token: 0x0600613E RID: 24894 RVA: 0x00310FE4 File Offset: 0x0030F3E4
 		public static bool Active
 		{
 			get
@@ -28,7 +28,7 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x06006141 RID: 24897 RVA: 0x00310F20 File Offset: 0x0030F320
+		// Token: 0x0600613F RID: 24895 RVA: 0x00310FFC File Offset: 0x0030F3FC
 		public static void InitIfNeeded()
 		{
 			if (!SteamManager.initializedInt)
@@ -72,7 +72,7 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x06006142 RID: 24898 RVA: 0x0031100C File Offset: 0x0030F40C
+		// Token: 0x06006140 RID: 24896 RVA: 0x003110E8 File Offset: 0x0030F4E8
 		public static void Update()
 		{
 			if (SteamManager.initializedInt)
@@ -81,7 +81,7 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x06006143 RID: 24899 RVA: 0x00311023 File Offset: 0x0030F423
+		// Token: 0x06006141 RID: 24897 RVA: 0x003110FF File Offset: 0x0030F4FF
 		public static void ShutdownSteam()
 		{
 			if (SteamManager.initializedInt)
@@ -90,16 +90,16 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x06006144 RID: 24900 RVA: 0x0031103A File Offset: 0x0030F43A
+		// Token: 0x06006142 RID: 24898 RVA: 0x00311116 File Offset: 0x0030F516
 		private static void SteamAPIDebugTextHook(int nSeverity, StringBuilder pchDebugText)
 		{
 			Log.Error(pchDebugText.ToString(), false);
 		}
 
-		// Token: 0x04003F9A RID: 16282
+		// Token: 0x04003F99 RID: 16281
 		private static SteamAPIWarningMessageHook_t steamAPIWarningMessageHook;
 
-		// Token: 0x04003F9B RID: 16283
+		// Token: 0x04003F9A RID: 16282
 		private static bool initializedInt = false;
 	}
 }

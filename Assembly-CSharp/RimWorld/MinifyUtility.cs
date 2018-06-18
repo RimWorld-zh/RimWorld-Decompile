@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000674 RID: 1652
 	public static class MinifyUtility
 	{
-		// Token: 0x060022A4 RID: 8868 RVA: 0x0012A938 File Offset: 0x00128D38
+		// Token: 0x060022A6 RID: 8870 RVA: 0x0012A9B0 File Offset: 0x00128DB0
 		public static MinifiedThing MakeMinified(this Thing thing)
 		{
 			MinifiedThing result;
@@ -54,7 +54,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060022A5 RID: 8869 RVA: 0x0012AA50 File Offset: 0x00128E50
+		// Token: 0x060022A7 RID: 8871 RVA: 0x0012AAC8 File Offset: 0x00128EC8
 		public static Thing TryMakeMinified(this Thing thing)
 		{
 			Thing result;
@@ -69,7 +69,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060022A6 RID: 8870 RVA: 0x0012AA84 File Offset: 0x00128E84
+		// Token: 0x060022A8 RID: 8872 RVA: 0x0012AAFC File Offset: 0x00128EFC
 		public static Thing GetInnerIfMinified(this Thing outerThing)
 		{
 			MinifiedThing minifiedThing = outerThing as MinifiedThing;
@@ -85,7 +85,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060022A7 RID: 8871 RVA: 0x0012AAB4 File Offset: 0x00128EB4
+		// Token: 0x060022A9 RID: 8873 RVA: 0x0012AB2C File Offset: 0x00128F2C
 		public static MinifiedThing Uninstall(this Thing th)
 		{
 			MinifiedThing result;

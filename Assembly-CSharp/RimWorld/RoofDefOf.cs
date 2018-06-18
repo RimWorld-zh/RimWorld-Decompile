@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class RoofDefOf
 	{
-		// Token: 0x06003639 RID: 13881 RVA: 0x001D07B5 File Offset: 0x001CEBB5
+		// Token: 0x0600363B RID: 13883 RVA: 0x001D087D File Offset: 0x001CEC7D
 		static RoofDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(RoofDefOf));

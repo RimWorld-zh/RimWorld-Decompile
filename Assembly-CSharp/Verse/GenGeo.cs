@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F40 RID: 3904
+	// Token: 0x02000F3F RID: 3903
 	public static class GenGeo
 	{
-		// Token: 0x06005E1C RID: 24092 RVA: 0x002FCDC8 File Offset: 0x002FB1C8
+		// Token: 0x06005E1A RID: 24090 RVA: 0x002FCEA4 File Offset: 0x002FB2A4
 		public static float AngleDifferenceBetween(float A, float B)
 		{
 			float num = A + 360f;
@@ -42,19 +42,19 @@ namespace Verse
 			return num3;
 		}
 
-		// Token: 0x06005E1D RID: 24093 RVA: 0x002FCE5C File Offset: 0x002FB25C
+		// Token: 0x06005E1B RID: 24091 RVA: 0x002FCF38 File Offset: 0x002FB338
 		public static float MagnitudeHorizontal(this Vector3 v)
 		{
 			return (float)Math.Sqrt((double)(v.x * v.x + v.z * v.z));
 		}
 
-		// Token: 0x06005E1E RID: 24094 RVA: 0x002FCE98 File Offset: 0x002FB298
+		// Token: 0x06005E1C RID: 24092 RVA: 0x002FCF74 File Offset: 0x002FB374
 		public static float MagnitudeHorizontalSquared(this Vector3 v)
 		{
 			return v.x * v.x + v.z * v.z;
 		}
 
-		// Token: 0x06005E1F RID: 24095 RVA: 0x002FCECC File Offset: 0x002FB2CC
+		// Token: 0x06005E1D RID: 24093 RVA: 0x002FCFA8 File Offset: 0x002FB3A8
 		public static bool LinesIntersect(Vector3 line1V1, Vector3 line1V2, Vector3 line2V1, Vector3 line2V2)
 		{
 			float num = line1V2.z - line1V1.z;
@@ -78,7 +78,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E20 RID: 24096 RVA: 0x002FD074 File Offset: 0x002FB474
+		// Token: 0x06005E1E RID: 24094 RVA: 0x002FD150 File Offset: 0x002FB550
 		public static bool IntersectLineCircle(Vector2 center, float radius, Vector2 lineA, Vector2 lineB)
 		{
 			Vector2 lhs = center - lineA;
@@ -99,14 +99,14 @@ namespace Verse
 			return num4 <= radius * radius;
 		}
 
-		// Token: 0x06005E21 RID: 24097 RVA: 0x002FD10C File Offset: 0x002FB50C
+		// Token: 0x06005E1F RID: 24095 RVA: 0x002FD1E8 File Offset: 0x002FB5E8
 		public static Vector3 RegularPolygonVertexPositionVec3(int polygonVertices, int vertexIndex)
 		{
 			Vector2 vector = GenGeo.RegularPolygonVertexPosition(polygonVertices, vertexIndex);
 			return new Vector3(vector.x, 0f, vector.y);
 		}
 
-		// Token: 0x06005E22 RID: 24098 RVA: 0x002FD144 File Offset: 0x002FB544
+		// Token: 0x06005E20 RID: 24096 RVA: 0x002FD220 File Offset: 0x002FB620
 		public static Vector2 RegularPolygonVertexPosition(int polygonVertices, int vertexIndex)
 		{
 			Vector2 result;
@@ -132,7 +132,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E23 RID: 24099 RVA: 0x002FD1C0 File Offset: 0x002FB5C0
+		// Token: 0x06005E21 RID: 24097 RVA: 0x002FD29C File Offset: 0x002FB69C
 		private static Vector2 CalculatePolygonVertexPosition(int polygonVertices, int vertexIndex)
 		{
 			float num = 6.28318548f / (float)polygonVertices;
@@ -141,7 +141,7 @@ namespace Verse
 			return new Vector3(Mathf.Cos(num2), Mathf.Sin(num2));
 		}
 
-		// Token: 0x06005E24 RID: 24100 RVA: 0x002FD204 File Offset: 0x002FB604
+		// Token: 0x06005E22 RID: 24098 RVA: 0x002FD2E0 File Offset: 0x002FB6E0
 		public static Vector2 InverseQuadBilinear(Vector2 p, Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3)
 		{
 			float num = (p0 - p).Cross(p0 - p2);

@@ -6,10 +6,10 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000FCC RID: 4044
+	// Token: 0x02000FCB RID: 4043
 	public static class ThingFilterUI
 	{
-		// Token: 0x060061BD RID: 25021 RVA: 0x003142BC File Offset: 0x003126BC
+		// Token: 0x060061BB RID: 25019 RVA: 0x00314398 File Offset: 0x00312798
 		public static void DoThingFilterConfigWindow(Rect rect, ref Vector2 scrollPosition, ThingFilter filter, ThingFilter parentFilter = null, int openMask = 1, IEnumerable<ThingDef> forceHiddenDefs = null, IEnumerable<SpecialThingFilterDef> forceHiddenFilters = null, List<ThingDef> suppressSmallVolumeTags = null, Map map = null)
 		{
 			Widgets.DrawMenuSection(rect);
@@ -62,7 +62,7 @@ namespace Verse
 			Widgets.EndScrollView();
 		}
 
-		// Token: 0x060061BE RID: 25022 RVA: 0x003144C4 File Offset: 0x003128C4
+		// Token: 0x060061BC RID: 25020 RVA: 0x003145A0 File Offset: 0x003129A0
 		private static void DrawHitPointsFilterConfig(ref float y, float width, ThingFilter filter)
 		{
 			Rect rect = new Rect(20f, y, width - 20f, 28f);
@@ -74,7 +74,7 @@ namespace Verse
 			Text.Font = GameFont.Small;
 		}
 
-		// Token: 0x060061BF RID: 25023 RVA: 0x00314530 File Offset: 0x00312930
+		// Token: 0x060061BD RID: 25021 RVA: 0x0031460C File Offset: 0x00312A0C
 		private static void DrawQualityFilterConfig(ref float y, float width, ThingFilter filter)
 		{
 			Rect rect = new Rect(20f, y, width - 20f, 28f);
@@ -86,22 +86,22 @@ namespace Verse
 			Text.Font = GameFont.Small;
 		}
 
-		// Token: 0x04003FDF RID: 16351
+		// Token: 0x04003FDE RID: 16350
 		private static float viewHeight;
 
-		// Token: 0x04003FE0 RID: 16352
+		// Token: 0x04003FDF RID: 16351
 		private const float ExtraViewHeight = 90f;
 
-		// Token: 0x04003FE1 RID: 16353
+		// Token: 0x04003FE0 RID: 16352
 		private const float RangeLabelTab = 10f;
 
-		// Token: 0x04003FE2 RID: 16354
+		// Token: 0x04003FE1 RID: 16353
 		private const float RangeLabelHeight = 19f;
 
-		// Token: 0x04003FE3 RID: 16355
+		// Token: 0x04003FE2 RID: 16354
 		private const float SliderHeight = 28f;
 
-		// Token: 0x04003FE4 RID: 16356
+		// Token: 0x04003FE3 RID: 16355
 		private const float SliderTab = 20f;
 	}
 }

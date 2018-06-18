@@ -8,7 +8,7 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public static class WorldDebugMatsSpectrum
 	{
-		// Token: 0x06001B11 RID: 6929 RVA: 0x000E8540 File Offset: 0x000E6940
+		// Token: 0x06001B12 RID: 6930 RVA: 0x000E85AC File Offset: 0x000E69AC
 		static WorldDebugMatsSpectrum()
 		{
 			for (int i = 0; i < 100; i++)
@@ -18,7 +18,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B12 RID: 6930 RVA: 0x000E85A8 File Offset: 0x000E69A8
+		// Token: 0x06001B13 RID: 6931 RVA: 0x000E8614 File Offset: 0x000E6A14
 		public static Material Mat(int ind)
 		{
 			ind = Mathf.Clamp(ind, 0, 99);

@@ -6,19 +6,19 @@ namespace Verse
 	// Token: 0x02000A8D RID: 2701
 	public static class WildManUtility
 	{
-		// Token: 0x06003BDF RID: 15327 RVA: 0x001F8D54 File Offset: 0x001F7154
+		// Token: 0x06003BE1 RID: 15329 RVA: 0x001F8E28 File Offset: 0x001F7228
 		public static bool IsWildMan(this Pawn p)
 		{
 			return p.kindDef == PawnKindDefOf.WildMan;
 		}
 
-		// Token: 0x06003BE0 RID: 15328 RVA: 0x001F8D78 File Offset: 0x001F7178
+		// Token: 0x06003BE2 RID: 15330 RVA: 0x001F8E4C File Offset: 0x001F724C
 		public static bool AnimalOrWildMan(this Pawn p)
 		{
 			return p.RaceProps.Animal || p.IsWildMan();
 		}
 
-		// Token: 0x06003BE1 RID: 15329 RVA: 0x001F8DA8 File Offset: 0x001F71A8
+		// Token: 0x06003BE3 RID: 15331 RVA: 0x001F8E7C File Offset: 0x001F727C
 		public static bool NonHumanlikeOrWildMan(this Pawn p)
 		{
 			return !p.RaceProps.Humanlike || p.IsWildMan();

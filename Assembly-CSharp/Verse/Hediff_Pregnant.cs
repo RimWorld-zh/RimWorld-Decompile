@@ -7,12 +7,12 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D30 RID: 3376
+	// Token: 0x02000D2F RID: 3375
 	public class Hediff_Pregnant : HediffWithComps
 	{
-		// Token: 0x17000BE6 RID: 3046
-		// (get) Token: 0x06004A57 RID: 19031 RVA: 0x0026BA18 File Offset: 0x00269E18
-		// (set) Token: 0x06004A58 RID: 19032 RVA: 0x0026BA33 File Offset: 0x00269E33
+		// Token: 0x17000BE5 RID: 3045
+		// (get) Token: 0x06004A55 RID: 19029 RVA: 0x0026B9F0 File Offset: 0x00269DF0
+		// (set) Token: 0x06004A56 RID: 19030 RVA: 0x0026BA0B File Offset: 0x00269E0B
 		public float GestationProgress
 		{
 			get
@@ -25,8 +25,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BE7 RID: 3047
-		// (get) Token: 0x06004A59 RID: 19033 RVA: 0x0026BA40 File Offset: 0x00269E40
+		// Token: 0x17000BE6 RID: 3046
+		// (get) Token: 0x06004A57 RID: 19031 RVA: 0x0026BA18 File Offset: 0x00269E18
 		private bool IsSeverelyWounded
 		{
 			get
@@ -52,7 +52,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A5A RID: 19034 RVA: 0x0026BB3C File Offset: 0x00269F3C
+		// Token: 0x06004A58 RID: 19032 RVA: 0x0026BB14 File Offset: 0x00269F14
 		public override void Tick()
 		{
 			this.ageTicks++;
@@ -98,13 +98,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A5B RID: 19035 RVA: 0x0026BD97 File Offset: 0x0026A197
+		// Token: 0x06004A59 RID: 19033 RVA: 0x0026BD6F File Offset: 0x0026A16F
 		private void Miscarry()
 		{
 			this.pawn.health.RemoveHediff(this);
 		}
 
-		// Token: 0x06004A5C RID: 19036 RVA: 0x0026BDAC File Offset: 0x0026A1AC
+		// Token: 0x06004A5A RID: 19034 RVA: 0x0026BD84 File Offset: 0x0026A184
 		public static void DoBirthSpawn(Pawn mother, Pawn father)
 		{
 			int num = (mother.RaceProps.litterSizeCurve == null) ? 1 : Mathf.RoundToInt(Rand.ByCurve(mother.RaceProps.litterSizeCurve));
@@ -156,14 +156,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A5D RID: 19037 RVA: 0x0026BF67 File Offset: 0x0026A367
+		// Token: 0x06004A5B RID: 19035 RVA: 0x0026BF3F File Offset: 0x0026A33F
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_References.Look<Pawn>(ref this.father, "father", false);
 		}
 
-		// Token: 0x06004A5E RID: 19038 RVA: 0x0026BF84 File Offset: 0x0026A384
+		// Token: 0x06004A5C RID: 19036 RVA: 0x0026BF5C File Offset: 0x0026A35C
 		public override string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -173,16 +173,16 @@ namespace Verse
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x04003238 RID: 12856
+		// Token: 0x04003236 RID: 12854
 		public Pawn father;
 
-		// Token: 0x04003239 RID: 12857
+		// Token: 0x04003237 RID: 12855
 		private const int MiscarryCheckInterval = 1000;
 
-		// Token: 0x0400323A RID: 12858
+		// Token: 0x04003238 RID: 12856
 		private const float MTBMiscarryStarvingDays = 0.5f;
 
-		// Token: 0x0400323B RID: 12859
+		// Token: 0x04003239 RID: 12857
 		private const float MTBMiscarryWoundedDays = 0.5f;
 	}
 }

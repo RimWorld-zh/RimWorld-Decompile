@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DD7 RID: 3543
+	// Token: 0x02000DD6 RID: 3542
 	public class Graphic_Cluster : Graphic_Collection
 	{
-		// Token: 0x17000CD3 RID: 3283
-		// (get) Token: 0x06004F3B RID: 20283 RVA: 0x00293E50 File Offset: 0x00292250
+		// Token: 0x17000CD2 RID: 3282
+		// (get) Token: 0x06004F39 RID: 20281 RVA: 0x00293E30 File Offset: 0x00292230
 		public override Material MatSingle
 		{
 			get
@@ -17,13 +17,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F3C RID: 20284 RVA: 0x00293E7F File Offset: 0x0029227F
+		// Token: 0x06004F3A RID: 20282 RVA: 0x00293E5F File Offset: 0x0029225F
 		public override void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing, float extraRotation)
 		{
 			Log.ErrorOnce("Graphic_Scatter cannot draw realtime.", 9432243, false);
 		}
 
-		// Token: 0x06004F3D RID: 20285 RVA: 0x00293E94 File Offset: 0x00292294
+		// Token: 0x06004F3B RID: 20283 RVA: 0x00293E74 File Offset: 0x00292274
 		public override void Print(SectionLayer layer, Thing thing)
 		{
 			Vector3 a = thing.TrueCenter();
@@ -51,7 +51,7 @@ namespace Verse
 			Rand.PopState();
 		}
 
-		// Token: 0x06004F3E RID: 20286 RVA: 0x00293F94 File Offset: 0x00292394
+		// Token: 0x06004F3C RID: 20284 RVA: 0x00293F74 File Offset: 0x00292374
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -64,10 +64,10 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x040034A8 RID: 13480
+		// Token: 0x040034A6 RID: 13478
 		private const float PositionVariance = 0.45f;
 
-		// Token: 0x040034A9 RID: 13481
+		// Token: 0x040034A7 RID: 13479
 		private const float SizeVariance = 0.2f;
 	}
 }

@@ -8,7 +8,7 @@ namespace RimWorld
 	public class CompSpawner : ThingComp
 	{
 		// Token: 0x1700064E RID: 1614
-		// (get) Token: 0x060028C1 RID: 10433 RVA: 0x0015B700 File Offset: 0x00159B00
+		// (get) Token: 0x060028C3 RID: 10435 RVA: 0x0015B794 File Offset: 0x00159B94
 		public CompProperties_Spawner PropsSpawner
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700064F RID: 1615
-		// (get) Token: 0x060028C2 RID: 10434 RVA: 0x0015B720 File Offset: 0x00159B20
+		// (get) Token: 0x060028C4 RID: 10436 RVA: 0x0015B7B4 File Offset: 0x00159BB4
 		private bool PowerOn
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028C3 RID: 10435 RVA: 0x0015B750 File Offset: 0x00159B50
+		// Token: 0x060028C5 RID: 10437 RVA: 0x0015B7E4 File Offset: 0x00159BE4
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			if (!respawningAfterLoad)
@@ -37,19 +37,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028C4 RID: 10436 RVA: 0x0015B75F File Offset: 0x00159B5F
+		// Token: 0x060028C6 RID: 10438 RVA: 0x0015B7F3 File Offset: 0x00159BF3
 		public override void CompTick()
 		{
 			this.TickInterval(1);
 		}
 
-		// Token: 0x060028C5 RID: 10437 RVA: 0x0015B769 File Offset: 0x00159B69
+		// Token: 0x060028C7 RID: 10439 RVA: 0x0015B7FD File Offset: 0x00159BFD
 		public override void CompTickRare()
 		{
 			this.TickInterval(250);
 		}
 
-		// Token: 0x060028C6 RID: 10438 RVA: 0x0015B778 File Offset: 0x00159B78
+		// Token: 0x060028C8 RID: 10440 RVA: 0x0015B80C File Offset: 0x00159C0C
 		private void TickInterval(int interval)
 		{
 			if (this.parent.Spawned)
@@ -74,7 +74,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028C7 RID: 10439 RVA: 0x0015B81D File Offset: 0x00159C1D
+		// Token: 0x060028C9 RID: 10441 RVA: 0x0015B8B1 File Offset: 0x00159CB1
 		private void CheckShouldSpawn()
 		{
 			if (this.ticksUntilSpawn <= 0)
@@ -84,7 +84,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028C8 RID: 10440 RVA: 0x0015B83C File Offset: 0x00159C3C
+		// Token: 0x060028CA RID: 10442 RVA: 0x0015B8D0 File Offset: 0x00159CD0
 		public bool TryDoSpawn()
 		{
 			bool result;
@@ -145,7 +145,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060028C9 RID: 10441 RVA: 0x0015BA14 File Offset: 0x00159E14
+		// Token: 0x060028CB RID: 10443 RVA: 0x0015BAA8 File Offset: 0x00159EA8
 		private bool TryFindSpawnCell(out IntVec3 result)
 		{
 			foreach (IntVec3 intVec in GenAdj.CellsAdjacent8Way(this.parent).InRandomOrder(null))
@@ -185,20 +185,20 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x060028CA RID: 10442 RVA: 0x0015BBF4 File Offset: 0x00159FF4
+		// Token: 0x060028CC RID: 10444 RVA: 0x0015BC88 File Offset: 0x0015A088
 		private void ResetCountdown()
 		{
 			this.ticksUntilSpawn = this.PropsSpawner.spawnIntervalRange.RandomInRange;
 		}
 
-		// Token: 0x060028CB RID: 10443 RVA: 0x0015BC10 File Offset: 0x0015A010
+		// Token: 0x060028CD RID: 10445 RVA: 0x0015BCA4 File Offset: 0x0015A0A4
 		public override void PostExposeData()
 		{
 			string str = (!this.PropsSpawner.saveKeysPrefix.NullOrEmpty()) ? (this.PropsSpawner.saveKeysPrefix + "_") : null;
 			Scribe_Values.Look<int>(ref this.ticksUntilSpawn, str + "ticksUntilSpawn", 0, false);
 		}
 
-		// Token: 0x060028CC RID: 10444 RVA: 0x0015BC68 File Offset: 0x0015A068
+		// Token: 0x060028CE RID: 10446 RVA: 0x0015BCFC File Offset: 0x0015A0FC
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			if (Prefs.DevMode)
@@ -217,7 +217,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060028CD RID: 10445 RVA: 0x0015BC94 File Offset: 0x0015A094
+		// Token: 0x060028CF RID: 10447 RVA: 0x0015BD28 File Offset: 0x0015A128
 		public override string CompInspectStringExtra()
 		{
 			string result;

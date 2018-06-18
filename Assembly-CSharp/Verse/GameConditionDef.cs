@@ -7,19 +7,19 @@ namespace Verse
 	// Token: 0x02000B3F RID: 2879
 	public class GameConditionDef : Def
 	{
-		// Token: 0x06003F2D RID: 16173 RVA: 0x00213E00 File Offset: 0x00212200
+		// Token: 0x06003F2F RID: 16175 RVA: 0x00213ED4 File Offset: 0x002122D4
 		public bool CanCoexistWith(GameConditionDef other)
 		{
 			return this != other && (this.exclusiveConditions == null || !this.exclusiveConditions.Contains(other));
 		}
 
-		// Token: 0x06003F2E RID: 16174 RVA: 0x00213E40 File Offset: 0x00212240
+		// Token: 0x06003F30 RID: 16176 RVA: 0x00213F14 File Offset: 0x00212314
 		public static GameConditionDef Named(string defName)
 		{
 			return DefDatabase<GameConditionDef>.GetNamed(defName, true);
 		}
 
-		// Token: 0x06003F2F RID: 16175 RVA: 0x00213E5C File Offset: 0x0021225C
+		// Token: 0x06003F31 RID: 16177 RVA: 0x00213F30 File Offset: 0x00212330
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())

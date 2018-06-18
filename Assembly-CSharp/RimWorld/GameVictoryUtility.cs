@@ -10,7 +10,7 @@ namespace RimWorld
 	// Token: 0x02000750 RID: 1872
 	public static class GameVictoryUtility
 	{
-		// Token: 0x0600297B RID: 10619 RVA: 0x001604AC File Offset: 0x0015E8AC
+		// Token: 0x0600297D RID: 10621 RVA: 0x00160540 File Offset: 0x0015E940
 		public static void ShowCredits(string victoryText)
 		{
 			Screen_Credits screen_Credits = new Screen_Credits(victoryText);
@@ -20,7 +20,7 @@ namespace RimWorld
 			ScreenFader.StartFade(Color.clear, 3f);
 		}
 
-		// Token: 0x0600297C RID: 10620 RVA: 0x001604F4 File Offset: 0x0015E8F4
+		// Token: 0x0600297E RID: 10622 RVA: 0x00160588 File Offset: 0x0015E988
 		public static string PawnsLeftBehind()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

@@ -7,13 +7,13 @@ namespace Verse.AI
 	// Token: 0x02000A5A RID: 2650
 	public static class InsultingSpreeMentalStateUtility
 	{
-		// Token: 0x06003AF4 RID: 15092 RVA: 0x001F4504 File Offset: 0x001F2904
+		// Token: 0x06003AF6 RID: 15094 RVA: 0x001F45D8 File Offset: 0x001F29D8
 		public static bool CanChaseAndInsult(Pawn bully, Pawn insulted, bool skipReachabilityCheck = false, bool allowPrisoners = true)
 		{
 			return insulted.RaceProps.Humanlike && (insulted.Faction == bully.Faction || (allowPrisoners && insulted.HostFaction == bully.Faction)) && insulted != bully && !insulted.Dead && !insulted.Downed && insulted.Spawned && insulted.Awake() && insulted.Position.InHorDistOf(bully.Position, 40f) && InteractionUtility.CanReceiveInteraction(insulted) && !insulted.HostileTo(bully) && Find.TickManager.TicksGame - insulted.mindState.lastHarmTick >= 833 && (skipReachabilityCheck || bully.CanReach(insulted, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn));
 		}
 
-		// Token: 0x06003AF5 RID: 15093 RVA: 0x001F45F8 File Offset: 0x001F29F8
+		// Token: 0x06003AF7 RID: 15095 RVA: 0x001F46CC File Offset: 0x001F2ACC
 		public static void GetInsultCandidatesFor(Pawn bully, List<Pawn> outCandidates, bool allowPrisoners = true)
 		{
 			outCandidates.Clear();

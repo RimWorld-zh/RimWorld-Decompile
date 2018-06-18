@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000B0F RID: 2831
 	public class ColorOption
 	{
-		// Token: 0x06003E95 RID: 16021 RVA: 0x0020F3CC File Offset: 0x0020D7CC
+		// Token: 0x06003E97 RID: 16023 RVA: 0x0020F4A0 File Offset: 0x0020D8A0
 		public Color RandomizedColor()
 		{
 			Color result;
@@ -21,19 +21,19 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003E96 RID: 16022 RVA: 0x0020F474 File Offset: 0x0020D874
+		// Token: 0x06003E98 RID: 16024 RVA: 0x0020F548 File Offset: 0x0020D948
 		public void SetSingle(Color color)
 		{
 			this.only = color;
 		}
 
-		// Token: 0x06003E97 RID: 16023 RVA: 0x0020F47E File Offset: 0x0020D87E
+		// Token: 0x06003E99 RID: 16025 RVA: 0x0020F552 File Offset: 0x0020D952
 		public void SetMin(Color color)
 		{
 			this.min = color;
 		}
 
-		// Token: 0x06003E98 RID: 16024 RVA: 0x0020F488 File Offset: 0x0020D888
+		// Token: 0x06003E9A RID: 16026 RVA: 0x0020F55C File Offset: 0x0020D95C
 		public void SetMax(Color color)
 		{
 			this.max = color;

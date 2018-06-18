@@ -6,7 +6,7 @@ namespace Verse.AI
 	// Token: 0x02000A67 RID: 2663
 	public class MentalStateWorker_TargetedInsultingSpree : MentalStateWorker
 	{
-		// Token: 0x06003B37 RID: 15159 RVA: 0x001F6528 File Offset: 0x001F4928
+		// Token: 0x06003B39 RID: 15161 RVA: 0x001F65FC File Offset: 0x001F49FC
 		public override bool StateCanOccur(Pawn pawn)
 		{
 			bool result;

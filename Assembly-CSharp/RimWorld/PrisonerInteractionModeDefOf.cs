@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class PrisonerInteractionModeDefOf
 	{
-		// Token: 0x06003662 RID: 13922 RVA: 0x001D0A97 File Offset: 0x001CEE97
+		// Token: 0x06003664 RID: 13924 RVA: 0x001D0B5F File Offset: 0x001CEF5F
 		static PrisonerInteractionModeDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(PrisonerInteractionModeDefOf));

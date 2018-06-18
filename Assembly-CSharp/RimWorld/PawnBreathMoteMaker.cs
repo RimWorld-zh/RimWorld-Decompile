@@ -7,13 +7,13 @@ namespace RimWorld
 	// Token: 0x0200045F RID: 1119
 	public class PawnBreathMoteMaker
 	{
-		// Token: 0x0600139C RID: 5020 RVA: 0x000A91C5 File Offset: 0x000A75C5
+		// Token: 0x0600139C RID: 5020 RVA: 0x000A91D1 File Offset: 0x000A75D1
 		public PawnBreathMoteMaker(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x0600139D RID: 5021 RVA: 0x000A91DC File Offset: 0x000A75DC
+		// Token: 0x0600139D RID: 5021 RVA: 0x000A91E8 File Offset: 0x000A75E8
 		public void BreathMoteMakerTick()
 		{
 			if (this.pawn.RaceProps.Humanlike && !this.pawn.RaceProps.IsMechanoid)
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600139E RID: 5022 RVA: 0x000A9290 File Offset: 0x000A7690
+		// Token: 0x0600139E RID: 5022 RVA: 0x000A929C File Offset: 0x000A769C
 		private void TryMakeBreathMote()
 		{
 			Vector3 loc = this.pawn.Drawer.DrawPos + this.pawn.Drawer.renderer.BaseHeadOffsetAt(this.pawn.Rotation) + this.pawn.Rotation.FacingCell.ToVector3() * 0.21f + PawnBreathMoteMaker.BreathOffset;

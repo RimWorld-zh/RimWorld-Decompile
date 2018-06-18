@@ -6,7 +6,7 @@ namespace Verse.AI
 	// Token: 0x02000A59 RID: 2649
 	public static class CorpseObsessionMentalStateUtility
 	{
-		// Token: 0x06003AF2 RID: 15090 RVA: 0x001F4328 File Offset: 0x001F2728
+		// Token: 0x06003AF4 RID: 15092 RVA: 0x001F43FC File Offset: 0x001F27FC
 		public static Corpse GetClosestCorpseToDigUp(Pawn pawn)
 		{
 			Corpse result;
@@ -26,7 +26,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003AF3 RID: 15091 RVA: 0x001F43C4 File Offset: 0x001F27C4
+		// Token: 0x06003AF5 RID: 15093 RVA: 0x001F4498 File Offset: 0x001F2898
 		public static bool IsCorpseValid(Corpse corpse, Pawn pawn, bool ignoreReachability = false)
 		{
 			bool result;

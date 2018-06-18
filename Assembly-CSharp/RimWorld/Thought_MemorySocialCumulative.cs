@@ -8,7 +8,7 @@ namespace RimWorld
 	public class Thought_MemorySocialCumulative : Thought_MemorySocial
 	{
 		// Token: 0x1700037C RID: 892
-		// (get) Token: 0x060018D9 RID: 6361 RVA: 0x000D8708 File Offset: 0x000D6B08
+		// (get) Token: 0x060018DA RID: 6362 RVA: 0x000D875C File Offset: 0x000D6B5C
 		public override bool ShouldDiscard
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060018DA RID: 6362 RVA: 0x000D872C File Offset: 0x000D6B2C
+		// Token: 0x060018DB RID: 6363 RVA: 0x000D8780 File Offset: 0x000D6B80
 		public override float OpinionOffset()
 		{
 			float result;
@@ -32,7 +32,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060018DB RID: 6363 RVA: 0x000D8770 File Offset: 0x000D6B70
+		// Token: 0x060018DC RID: 6364 RVA: 0x000D87C4 File Offset: 0x000D6BC4
 		public override void ThoughtInterval()
 		{
 			base.ThoughtInterval();
@@ -58,7 +58,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060018DC RID: 6364 RVA: 0x000D8820 File Offset: 0x000D6C20
+		// Token: 0x060018DD RID: 6365 RVA: 0x000D8874 File Offset: 0x000D6C74
 		public override bool TryMergeWithExistingMemory(out bool showBubble)
 		{
 			showBubble = false;

@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class EffecterDefOf
 	{
-		// Token: 0x06003622 RID: 13858 RVA: 0x001D0617 File Offset: 0x001CEA17
+		// Token: 0x06003624 RID: 13860 RVA: 0x001D06DF File Offset: 0x001CEADF
 		static EffecterDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(EffecterDefOf));

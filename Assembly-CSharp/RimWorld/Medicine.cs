@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020006CD RID: 1741
 	public class Medicine : ThingWithComps
 	{
-		// Token: 0x060025AA RID: 9642 RVA: 0x00142648 File Offset: 0x00140A48
+		// Token: 0x060025AC RID: 9644 RVA: 0x001426C0 File Offset: 0x00140AC0
 		public static int GetMedicineCountToFullyHeal(Pawn pawn)
 		{
 			int num = 0;

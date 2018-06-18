@@ -8,7 +8,7 @@ namespace RimWorld
 	public class Thought_MemoryObservation : Thought_Memory
 	{
 		// Token: 0x17000377 RID: 887
-		// (set) Token: 0x060018CA RID: 6346 RVA: 0x000D8436 File Offset: 0x000D6836
+		// (set) Token: 0x060018CB RID: 6347 RVA: 0x000D848A File Offset: 0x000D688A
 		public Thing Target
 		{
 			set
@@ -17,14 +17,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060018CB RID: 6347 RVA: 0x000D8445 File Offset: 0x000D6845
+		// Token: 0x060018CC RID: 6348 RVA: 0x000D8499 File Offset: 0x000D6899
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.targetThingID, "targetThingID", 0, false);
 		}
 
-		// Token: 0x060018CC RID: 6348 RVA: 0x000D8460 File Offset: 0x000D6860
+		// Token: 0x060018CD RID: 6349 RVA: 0x000D84B4 File Offset: 0x000D68B4
 		public override bool TryMergeWithExistingMemory(out bool showBubble)
 		{
 			ThoughtHandler thoughts = this.pawn.needs.mood.thoughts;

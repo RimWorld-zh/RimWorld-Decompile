@@ -8,7 +8,7 @@ namespace Verse.Sound
 	// Token: 0x02000B81 RID: 2945
 	public class ReverbSetup
 	{
-		// Token: 0x06004016 RID: 16406 RVA: 0x0021BEE4 File Offset: 0x0021A2E4
+		// Token: 0x06004018 RID: 16408 RVA: 0x0021BFB8 File Offset: 0x0021A3B8
 		public void DoEditWidgets(WidgetRow widgetRow)
 		{
 			if (widgetRow.ButtonText("Setup from preset...", "Set up the reverb filter from a preset.", true, false))
@@ -43,7 +43,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004017 RID: 16407 RVA: 0x0021BFD0 File Offset: 0x0021A3D0
+		// Token: 0x06004019 RID: 16409 RVA: 0x0021C0A4 File Offset: 0x0021A4A4
 		public void ApplyTo(AudioReverbFilter filter)
 		{
 			filter.dryLevel = this.dryLevel;
@@ -62,7 +62,7 @@ namespace Verse.Sound
 			filter.density = this.density;
 		}
 
-		// Token: 0x06004018 RID: 16408 RVA: 0x0021C088 File Offset: 0x0021A488
+		// Token: 0x0600401A RID: 16410 RVA: 0x0021C15C File Offset: 0x0021A55C
 		public static ReverbSetup Lerp(ReverbSetup A, ReverbSetup B, float t)
 		{
 			return new ReverbSetup

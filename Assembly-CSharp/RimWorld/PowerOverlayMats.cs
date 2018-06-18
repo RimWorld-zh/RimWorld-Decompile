@@ -8,7 +8,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class PowerOverlayMats
 	{
-		// Token: 0x06001285 RID: 4741 RVA: 0x000A0B14 File Offset: 0x0009EF14
+		// Token: 0x06001285 RID: 4741 RVA: 0x000A0B20 File Offset: 0x0009EF20
 		static PowerOverlayMats()
 		{
 			Graphic graphic = GraphicDatabase.Get<Graphic_Single>("Things/Special/Power/TransmitterAtlas", PowerOverlayMats.TransmitterShader);

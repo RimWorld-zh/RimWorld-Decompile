@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000668 RID: 1640
 	public static class TaleUtility
 	{
-		// Token: 0x06002245 RID: 8773 RVA: 0x00122A10 File Offset: 0x00120E10
+		// Token: 0x06002247 RID: 8775 RVA: 0x00122A88 File Offset: 0x00120E88
 		public static void Notify_PawnDied(Pawn victim, DamageInfo? dinfo)
 		{
 			if (Current.ProgramState == ProgramState.Playing && dinfo != null)

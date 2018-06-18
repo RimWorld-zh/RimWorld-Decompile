@@ -7,21 +7,21 @@ namespace RimWorld
 	// Token: 0x020006BB RID: 1723
 	public class Bombardment : OrbitalStrike
 	{
-		// Token: 0x0600250A RID: 9482 RVA: 0x0013E099 File Offset: 0x0013C499
+		// Token: 0x0600250C RID: 9484 RVA: 0x0013E111 File Offset: 0x0013C511
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<bool>(ref this.anyExplosion, "anyExplosion", false, false);
 		}
 
-		// Token: 0x0600250B RID: 9483 RVA: 0x0013E0B4 File Offset: 0x0013C4B4
+		// Token: 0x0600250D RID: 9485 RVA: 0x0013E12C File Offset: 0x0013C52C
 		public override void StartStrike()
 		{
 			base.StartStrike();
 			MoteMaker.MakeBombardmentMote(base.Position, base.Map);
 		}
 
-		// Token: 0x0600250C RID: 9484 RVA: 0x0013E0D0 File Offset: 0x0013C4D0
+		// Token: 0x0600250E RID: 9486 RVA: 0x0013E148 File Offset: 0x0013C548
 		public override void Tick()
 		{
 			base.Tick();
@@ -42,7 +42,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600250D RID: 9485 RVA: 0x0013E150 File Offset: 0x0013C550
+		// Token: 0x0600250F RID: 9487 RVA: 0x0013E1C8 File Offset: 0x0013C5C8
 		private void CreateRandomExplosion()
 		{
 			IntVec3 intVec = (from x in GenRadial.RadialCellsAround(base.Position, 15f, true)
@@ -59,7 +59,7 @@ namespace RimWorld
 			this.anyExplosion = true;
 		}
 
-		// Token: 0x0600250E RID: 9486 RVA: 0x0013E1E4 File Offset: 0x0013C5E4
+		// Token: 0x06002510 RID: 9488 RVA: 0x0013E25C File Offset: 0x0013C65C
 		private void StartRandomFire()
 		{
 			IntVec3 c = (from x in GenRadial.RadialCellsAround(base.Position, 25f, true)

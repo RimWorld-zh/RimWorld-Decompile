@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x0200073B RID: 1851
 	public class CompProperties_SpawnerFilth : CompProperties
 	{
-		// Token: 0x060028D7 RID: 10455 RVA: 0x0015C164 File Offset: 0x0015A564
+		// Token: 0x060028D9 RID: 10457 RVA: 0x0015C1F8 File Offset: 0x0015A5F8
 		public CompProperties_SpawnerFilth()
 		{
 			this.compClass = typeof(CompSpawnerFilth);

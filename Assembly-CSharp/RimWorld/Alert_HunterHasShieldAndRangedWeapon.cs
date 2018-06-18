@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020007AC RID: 1964
 	public class Alert_HunterHasShieldAndRangedWeapon : Alert
 	{
-		// Token: 0x06002B63 RID: 11107 RVA: 0x0016E7E5 File Offset: 0x0016CBE5
+		// Token: 0x06002B65 RID: 11109 RVA: 0x0016E879 File Offset: 0x0016CC79
 		public Alert_HunterHasShieldAndRangedWeapon()
 		{
 			this.defaultLabel = "HunterHasShieldAndRangedWeapon".Translate();
@@ -15,7 +15,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006BD RID: 1725
-		// (get) Token: 0x06002B64 RID: 11108 RVA: 0x0016E810 File Offset: 0x0016CC10
+		// (get) Token: 0x06002B66 RID: 11110 RVA: 0x0016E8A4 File Offset: 0x0016CCA4
 		private IEnumerable<Pawn> BadHunters
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B65 RID: 11109 RVA: 0x0016E834 File Offset: 0x0016CC34
+		// Token: 0x06002B67 RID: 11111 RVA: 0x0016E8C8 File Offset: 0x0016CCC8
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.BadHunters);

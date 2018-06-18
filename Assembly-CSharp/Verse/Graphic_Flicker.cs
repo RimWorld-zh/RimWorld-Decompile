@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DD9 RID: 3545
+	// Token: 0x02000DD8 RID: 3544
 	public class Graphic_Flicker : Graphic_Collection
 	{
-		// Token: 0x17000CD4 RID: 3284
-		// (get) Token: 0x06004F44 RID: 20292 RVA: 0x00293FF4 File Offset: 0x002923F4
+		// Token: 0x17000CD3 RID: 3283
+		// (get) Token: 0x06004F42 RID: 20290 RVA: 0x00293FD4 File Offset: 0x002923D4
 		public override Material MatSingle
 		{
 			get
@@ -17,7 +17,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F45 RID: 20293 RVA: 0x00294024 File Offset: 0x00292424
+		// Token: 0x06004F43 RID: 20291 RVA: 0x00294004 File Offset: 0x00292404
 		public override void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing, float extraRotation)
 		{
 			if (thingDef == null)
@@ -73,7 +73,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F46 RID: 20294 RVA: 0x00294204 File Offset: 0x00292604
+		// Token: 0x06004F44 RID: 20292 RVA: 0x002941E4 File Offset: 0x002925E4
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -86,13 +86,13 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x040034AD RID: 13485
+		// Token: 0x040034AB RID: 13483
 		private const int BaseTicksPerFrameChange = 15;
 
-		// Token: 0x040034AE RID: 13486
+		// Token: 0x040034AC RID: 13484
 		private const int ExtraTicksPerFrameChange = 10;
 
-		// Token: 0x040034AF RID: 13487
+		// Token: 0x040034AD RID: 13485
 		private const float MaxOffset = 0.05f;
 	}
 }

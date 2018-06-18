@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000719 RID: 1817
 	public class CompProperties_Hatcher : CompProperties
 	{
-		// Token: 0x060027E5 RID: 10213 RVA: 0x00155149 File Offset: 0x00153549
+		// Token: 0x060027E7 RID: 10215 RVA: 0x001551C1 File Offset: 0x001535C1
 		public CompProperties_Hatcher()
 		{
 			this.compClass = typeof(CompHatcher);

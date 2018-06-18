@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000D90 RID: 3472
+	// Token: 0x02000D8F RID: 3471
 	public static class PreLoadUtility
 	{
-		// Token: 0x06004D91 RID: 19857 RVA: 0x00287C1C File Offset: 0x0028601C
+		// Token: 0x06004D8F RID: 19855 RVA: 0x00287BFC File Offset: 0x00285FFC
 		public static void CheckVersionAndLoad(string path, ScribeMetaHeaderUtility.ScribeHeaderMode mode, Action loadAct)
 		{
 			try

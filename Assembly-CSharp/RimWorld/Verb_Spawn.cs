@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020009DC RID: 2524
 	public class Verb_Spawn : Verb
 	{
-		// Token: 0x06003883 RID: 14467 RVA: 0x001E334C File Offset: 0x001E174C
+		// Token: 0x06003885 RID: 14469 RVA: 0x001E3420 File Offset: 0x001E1820
 		protected override bool TryCastShot()
 		{
 			bool result;

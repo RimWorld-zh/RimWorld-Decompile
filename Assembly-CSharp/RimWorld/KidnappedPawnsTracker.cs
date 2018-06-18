@@ -9,14 +9,14 @@ namespace RimWorld
 	// Token: 0x02000565 RID: 1381
 	public class KidnappedPawnsTracker : IExposable
 	{
-		// Token: 0x06001A10 RID: 6672 RVA: 0x000E20FF File Offset: 0x000E04FF
+		// Token: 0x06001A11 RID: 6673 RVA: 0x000E2153 File Offset: 0x000E0553
 		public KidnappedPawnsTracker(Faction faction)
 		{
 			this.faction = faction;
 		}
 
 		// Token: 0x170003AE RID: 942
-		// (get) Token: 0x06001A11 RID: 6673 RVA: 0x000E211C File Offset: 0x000E051C
+		// (get) Token: 0x06001A12 RID: 6674 RVA: 0x000E2170 File Offset: 0x000E0570
 		public List<Pawn> KidnappedPawnsListForReading
 		{
 			get
@@ -25,7 +25,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001A12 RID: 6674 RVA: 0x000E2138 File Offset: 0x000E0538
+		// Token: 0x06001A13 RID: 6675 RVA: 0x000E218C File Offset: 0x000E058C
 		public void ExposeData()
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
@@ -35,7 +35,7 @@ namespace RimWorld
 			Scribe_Collections.Look<Pawn>(ref this.kidnappedPawns, "kidnappedPawns", LookMode.Reference, new object[0]);
 		}
 
-		// Token: 0x06001A13 RID: 6675 RVA: 0x000E2194 File Offset: 0x000E0594
+		// Token: 0x06001A14 RID: 6676 RVA: 0x000E21E8 File Offset: 0x000E05E8
 		public void KidnapPawn(Pawn pawn, Pawn kidnapper)
 		{
 			if (this.kidnappedPawns.Contains(pawn))
@@ -70,7 +70,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001A14 RID: 6676 RVA: 0x000E2275 File Offset: 0x000E0675
+		// Token: 0x06001A15 RID: 6677 RVA: 0x000E22C9 File Offset: 0x000E06C9
 		public void RemoveKidnappedPawn(Pawn pawn)
 		{
 			if (!this.kidnappedPawns.Remove(pawn))
@@ -79,7 +79,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001A15 RID: 6677 RVA: 0x000E22A0 File Offset: 0x000E06A0
+		// Token: 0x06001A16 RID: 6678 RVA: 0x000E22F4 File Offset: 0x000E06F4
 		public void LogKidnappedPawns()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -91,7 +91,7 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x06001A16 RID: 6678 RVA: 0x000E2318 File Offset: 0x000E0718
+		// Token: 0x06001A17 RID: 6679 RVA: 0x000E236C File Offset: 0x000E076C
 		public void KidnappedPawnsTrackerTick()
 		{
 			for (int i = this.kidnappedPawns.Count - 1; i >= 0; i--)

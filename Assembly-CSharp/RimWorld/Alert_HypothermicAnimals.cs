@@ -10,7 +10,7 @@ namespace RimWorld
 	public class Alert_HypothermicAnimals : Alert
 	{
 		// Token: 0x170006B0 RID: 1712
-		// (get) Token: 0x06002AF6 RID: 10998 RVA: 0x0016AED8 File Offset: 0x001692D8
+		// (get) Token: 0x06002AF8 RID: 11000 RVA: 0x0016AF6C File Offset: 0x0016936C
 		private IEnumerable<Pawn> HypothermicAnimals
 		{
 			get
@@ -21,13 +21,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002AF7 RID: 10999 RVA: 0x0016AF14 File Offset: 0x00169314
+		// Token: 0x06002AF9 RID: 11001 RVA: 0x0016AFA8 File Offset: 0x001693A8
 		public override string GetLabel()
 		{
 			return "Hypothermic wild animals (debug)";
 		}
 
-		// Token: 0x06002AF8 RID: 11000 RVA: 0x0016AF30 File Offset: 0x00169330
+		// Token: 0x06002AFA RID: 11002 RVA: 0x0016AFC4 File Offset: 0x001693C4
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -45,7 +45,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06002AF9 RID: 11001 RVA: 0x0016AFDC File Offset: 0x001693DC
+		// Token: 0x06002AFB RID: 11003 RVA: 0x0016B070 File Offset: 0x00169470
 		public override AlertReport GetReport()
 		{
 			AlertReport result;

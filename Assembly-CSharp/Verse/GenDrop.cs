@@ -3,10 +3,10 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000F2D RID: 3885
+	// Token: 0x02000F2C RID: 3884
 	public static class GenDrop
 	{
-		// Token: 0x06005D36 RID: 23862 RVA: 0x002F3794 File Offset: 0x002F1B94
+		// Token: 0x06005D34 RID: 23860 RVA: 0x002F3870 File Offset: 0x002F1C70
 		public static bool TryDropSpawn(Thing thing, IntVec3 dropCell, Map map, ThingPlaceMode mode, out Thing resultingThing, Action<Thing, int> placedAction = null, Predicate<IntVec3> nearPlaceValidator = null)
 		{
 			bool result;

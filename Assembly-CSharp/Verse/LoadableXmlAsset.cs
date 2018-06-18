@@ -4,10 +4,10 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000D8B RID: 3467
+	// Token: 0x02000D8A RID: 3466
 	public class LoadableXmlAsset
 	{
-		// Token: 0x06004D6F RID: 19823 RVA: 0x00285F10 File Offset: 0x00284310
+		// Token: 0x06004D6D RID: 19821 RVA: 0x00285EF0 File Offset: 0x002842F0
 		public LoadableXmlAsset(string name, string fullFolderPath, string contents)
 		{
 			this.name = name;
@@ -30,8 +30,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000C86 RID: 3206
-		// (get) Token: 0x06004D70 RID: 19824 RVA: 0x00285F98 File Offset: 0x00284398
+		// Token: 0x17000C85 RID: 3205
+		// (get) Token: 0x06004D6E RID: 19822 RVA: 0x00285F78 File Offset: 0x00284378
 		public string FullFilePath
 		{
 			get
@@ -40,25 +40,25 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D71 RID: 19825 RVA: 0x00285FC8 File Offset: 0x002843C8
+		// Token: 0x06004D6F RID: 19823 RVA: 0x00285FA8 File Offset: 0x002843A8
 		public override string ToString()
 		{
 			return this.name;
 		}
 
-		// Token: 0x040033AD RID: 13229
+		// Token: 0x040033AB RID: 13227
 		public string name;
 
-		// Token: 0x040033AE RID: 13230
+		// Token: 0x040033AC RID: 13228
 		public string fullFolderPath;
 
-		// Token: 0x040033AF RID: 13231
+		// Token: 0x040033AD RID: 13229
 		public XmlDocument xmlDoc;
 
-		// Token: 0x040033B0 RID: 13232
+		// Token: 0x040033AE RID: 13230
 		public ModContentPack mod;
 
-		// Token: 0x040033B1 RID: 13233
+		// Token: 0x040033AF RID: 13231
 		public DefPackage defPackage;
 	}
 }

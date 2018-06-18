@@ -9,7 +9,7 @@ namespace RimWorld
 	public class WorkGiverDef : Def
 	{
 		// Token: 0x17000A23 RID: 2595
-		// (get) Token: 0x060040ED RID: 16621 RVA: 0x0022452C File Offset: 0x0022292C
+		// (get) Token: 0x060040EF RID: 16623 RVA: 0x00224600 File Offset: 0x00222A00
 		public WorkGiver Worker
 		{
 			get
@@ -23,7 +23,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060040EE RID: 16622 RVA: 0x00224578 File Offset: 0x00222978
+		// Token: 0x060040F0 RID: 16624 RVA: 0x0022464C File Offset: 0x00222A4C
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string error in this.<ConfigErrors>__BaseCallProxy0())

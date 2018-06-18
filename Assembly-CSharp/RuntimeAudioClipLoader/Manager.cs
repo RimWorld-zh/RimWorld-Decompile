@@ -13,13 +13,13 @@ namespace RuntimeAudioClipLoader
 	[StaticConstructorOnStartup]
 	public class Manager : MonoBehaviour
 	{
-		// Token: 0x06003891 RID: 14481 RVA: 0x001E3790 File Offset: 0x001E1B90
+		// Token: 0x06003893 RID: 14483 RVA: 0x001E3864 File Offset: 0x001E1C64
 		static Manager()
 		{
 			Manager.supportedFormats = Enum.GetNames(typeof(AudioFormat));
 		}
 
-		// Token: 0x06003893 RID: 14483 RVA: 0x001E37F8 File Offset: 0x001E1BF8
+		// Token: 0x06003895 RID: 14485 RVA: 0x001E38CC File Offset: 0x001E1CCC
 		public static AudioClip Load(string filePath, bool doStream = false, bool loadInBackground = true, bool useCache = true)
 		{
 			AudioClip result;
@@ -49,7 +49,7 @@ namespace RuntimeAudioClipLoader
 			return result;
 		}
 
-		// Token: 0x06003894 RID: 14484 RVA: 0x001E38B0 File Offset: 0x001E1CB0
+		// Token: 0x06003896 RID: 14486 RVA: 0x001E3984 File Offset: 0x001E1D84
 		public static AudioClip Load(Stream dataStream, AudioFormat audioFormat, string unityAudioClipName, bool doStream = false, bool loadInBackground = true, bool diposeDataStreamIfNotNeeded = true)
 		{
 			AudioClip audioClip = null;
@@ -118,7 +118,7 @@ namespace RuntimeAudioClipLoader
 			return audioClip;
 		}
 
-		// Token: 0x06003895 RID: 14485 RVA: 0x001E3AD4 File Offset: 0x001E1ED4
+		// Token: 0x06003897 RID: 14487 RVA: 0x001E3BA8 File Offset: 0x001E1FA8
 		private static void RunDeferredLoaderThread()
 		{
 			if (Manager.deferredLoaderThread == null || !Manager.deferredLoaderThread.IsAlive)
@@ -133,7 +133,7 @@ namespace RuntimeAudioClipLoader
 			}
 		}
 
-		// Token: 0x06003896 RID: 14486 RVA: 0x001E3B3C File Offset: 0x001E1F3C
+		// Token: 0x06003898 RID: 14488 RVA: 0x001E3C10 File Offset: 0x001E2010
 		private static void DeferredLoaderMain()
 		{
 			Manager.AudioInstance audioInstance = null;
@@ -183,7 +183,7 @@ namespace RuntimeAudioClipLoader
 			}
 		}
 
-		// Token: 0x06003897 RID: 14487 RVA: 0x001E3CBC File Offset: 0x001E20BC
+		// Token: 0x06003899 RID: 14489 RVA: 0x001E3D90 File Offset: 0x001E2190
 		private void Update()
 		{
 			Manager.AudioInstance audioInstance = null;
@@ -216,7 +216,7 @@ namespace RuntimeAudioClipLoader
 			}
 		}
 
-		// Token: 0x06003898 RID: 14488 RVA: 0x001E3DAC File Offset: 0x001E21AC
+		// Token: 0x0600389A RID: 14490 RVA: 0x001E3E80 File Offset: 0x001E2280
 		private static void EnsureInstanceExists()
 		{
 			if (!Manager.managerInstance)
@@ -227,13 +227,13 @@ namespace RuntimeAudioClipLoader
 			}
 		}
 
-		// Token: 0x06003899 RID: 14489 RVA: 0x001E3DE6 File Offset: 0x001E21E6
+		// Token: 0x0600389B RID: 14491 RVA: 0x001E3EBA File Offset: 0x001E22BA
 		public static void SetAudioClipLoadState(AudioClip audioClip, AudioDataLoadState newLoadState)
 		{
 			Manager.audioLoadState[audioClip] = newLoadState;
 		}
 
-		// Token: 0x0600389A RID: 14490 RVA: 0x001E3DF8 File Offset: 0x001E21F8
+		// Token: 0x0600389C RID: 14492 RVA: 0x001E3ECC File Offset: 0x001E22CC
 		public static AudioDataLoadState GetAudioClipLoadState(AudioClip audioClip)
 		{
 			AudioDataLoadState result = AudioDataLoadState.Failed;
@@ -245,13 +245,13 @@ namespace RuntimeAudioClipLoader
 			return result;
 		}
 
-		// Token: 0x0600389B RID: 14491 RVA: 0x001E3E33 File Offset: 0x001E2233
+		// Token: 0x0600389D RID: 14493 RVA: 0x001E3F07 File Offset: 0x001E2307
 		public static void SetAudioClipLoadType(AudioClip audioClip, AudioClipLoadType newLoadType)
 		{
 			Manager.audioClipLoadType[audioClip] = newLoadType;
 		}
 
-		// Token: 0x0600389C RID: 14492 RVA: 0x001E3E44 File Offset: 0x001E2244
+		// Token: 0x0600389E RID: 14494 RVA: 0x001E3F18 File Offset: 0x001E2318
 		public static AudioClipLoadType GetAudioClipLoadType(AudioClip audioClip)
 		{
 			AudioClipLoadType result = (AudioClipLoadType)(-1);
@@ -263,19 +263,19 @@ namespace RuntimeAudioClipLoader
 			return result;
 		}
 
-		// Token: 0x0600389D RID: 14493 RVA: 0x001E3E80 File Offset: 0x001E2280
+		// Token: 0x0600389F RID: 14495 RVA: 0x001E3F54 File Offset: 0x001E2354
 		private static string GetExtension(string filePath)
 		{
 			return Path.GetExtension(filePath).Substring(1).ToLower();
 		}
 
-		// Token: 0x0600389E RID: 14494 RVA: 0x001E3EA8 File Offset: 0x001E22A8
+		// Token: 0x060038A0 RID: 14496 RVA: 0x001E3F7C File Offset: 0x001E237C
 		public static bool IsSupportedFormat(string filePath)
 		{
 			return Manager.supportedFormats.Contains(Manager.GetExtension(filePath));
 		}
 
-		// Token: 0x0600389F RID: 14495 RVA: 0x001E3ED0 File Offset: 0x001E22D0
+		// Token: 0x060038A1 RID: 14497 RVA: 0x001E3FA4 File Offset: 0x001E23A4
 		public static AudioFormat GetAudioFormat(string filePath)
 		{
 			AudioFormat result = AudioFormat.unknown;
@@ -289,7 +289,7 @@ namespace RuntimeAudioClipLoader
 			return result;
 		}
 
-		// Token: 0x060038A0 RID: 14496 RVA: 0x001E3F24 File Offset: 0x001E2324
+		// Token: 0x060038A2 RID: 14498 RVA: 0x001E3FF8 File Offset: 0x001E23F8
 		public static void ClearCache()
 		{
 			Manager.cache.Clear();
@@ -330,7 +330,7 @@ namespace RuntimeAudioClipLoader
 		private class AudioInstance
 		{
 			// Token: 0x170008AE RID: 2222
-			// (get) Token: 0x060038A2 RID: 14498 RVA: 0x001E3F3C File Offset: 0x001E233C
+			// (get) Token: 0x060038A4 RID: 14500 RVA: 0x001E4010 File Offset: 0x001E2410
 			public int channels
 			{
 				get
@@ -340,7 +340,7 @@ namespace RuntimeAudioClipLoader
 			}
 
 			// Token: 0x170008AF RID: 2223
-			// (get) Token: 0x060038A3 RID: 14499 RVA: 0x001E3F64 File Offset: 0x001E2364
+			// (get) Token: 0x060038A5 RID: 14501 RVA: 0x001E4038 File Offset: 0x001E2438
 			public int sampleRate
 			{
 				get
@@ -349,7 +349,7 @@ namespace RuntimeAudioClipLoader
 				}
 			}
 
-			// Token: 0x060038A4 RID: 14500 RVA: 0x001E3F8C File Offset: 0x001E238C
+			// Token: 0x060038A6 RID: 14502 RVA: 0x001E4060 File Offset: 0x001E2460
 			public static implicit operator AudioClip(Manager.AudioInstance ai)
 			{
 				return ai.audioClip;

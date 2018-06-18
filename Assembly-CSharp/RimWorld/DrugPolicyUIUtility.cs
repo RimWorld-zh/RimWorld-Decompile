@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x02000893 RID: 2195
 	public static class DrugPolicyUIUtility
 	{
-		// Token: 0x0600320F RID: 12815 RVA: 0x001AF3A4 File Offset: 0x001AD7A4
+		// Token: 0x06003211 RID: 12817 RVA: 0x001AF46C File Offset: 0x001AD86C
 		public static void DoAssignDrugPolicyButtons(Rect rect, Pawn pawn)
 		{
 			int num = Mathf.FloorToInt((rect.width - 4f) * 0.714285731f);
@@ -50,7 +50,7 @@ namespace RimWorld
 			num3 += (float)num2;
 		}
 
-		// Token: 0x06003210 RID: 12816 RVA: 0x001AF590 File Offset: 0x001AD990
+		// Token: 0x06003212 RID: 12818 RVA: 0x001AF658 File Offset: 0x001ADA58
 		private static IEnumerable<Widgets.DropdownMenuElement<DrugPolicy>> Button_GenerateMenu(Pawn pawn)
 		{
 			using (List<DrugPolicy>.Enumerator enumerator = Current.Game.drugPolicyDatabase.AllPolicies.GetEnumerator())

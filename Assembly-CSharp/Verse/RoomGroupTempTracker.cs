@@ -5,18 +5,18 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C9C RID: 3228
+	// Token: 0x02000C9B RID: 3227
 	public sealed class RoomGroupTempTracker
 	{
-		// Token: 0x060046FB RID: 18171 RVA: 0x0025611C File Offset: 0x0025451C
+		// Token: 0x060046F9 RID: 18169 RVA: 0x002560F4 File Offset: 0x002544F4
 		public RoomGroupTempTracker(RoomGroup roomGroup, Map map)
 		{
 			this.roomGroup = roomGroup;
 			this.Temperature = map.mapTemperature.OutdoorTemp;
 		}
 
-		// Token: 0x17000B42 RID: 2882
-		// (get) Token: 0x060046FC RID: 18172 RVA: 0x00256150 File Offset: 0x00254550
+		// Token: 0x17000B41 RID: 2881
+		// (get) Token: 0x060046FA RID: 18170 RVA: 0x00256128 File Offset: 0x00254528
 		private Map Map
 		{
 			get
@@ -25,8 +25,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B43 RID: 2883
-		// (get) Token: 0x060046FD RID: 18173 RVA: 0x00256170 File Offset: 0x00254570
+		// Token: 0x17000B42 RID: 2882
+		// (get) Token: 0x060046FB RID: 18171 RVA: 0x00256148 File Offset: 0x00254548
 		private float ThinRoofCoverage
 		{
 			get
@@ -35,9 +35,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B44 RID: 2884
-		// (get) Token: 0x060046FE RID: 18174 RVA: 0x00256198 File Offset: 0x00254598
-		// (set) Token: 0x060046FF RID: 18175 RVA: 0x002561B3 File Offset: 0x002545B3
+		// Token: 0x17000B43 RID: 2883
+		// (get) Token: 0x060046FC RID: 18172 RVA: 0x00256170 File Offset: 0x00254570
+		// (set) Token: 0x060046FD RID: 18173 RVA: 0x0025618B File Offset: 0x0025458B
 		public float Temperature
 		{
 			get
@@ -50,13 +50,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004700 RID: 18176 RVA: 0x002561CC File Offset: 0x002545CC
+		// Token: 0x060046FE RID: 18174 RVA: 0x002561A4 File Offset: 0x002545A4
 		public void RoofChanged()
 		{
 			this.RegenerateEqualizationData();
 		}
 
-		// Token: 0x06004701 RID: 18177 RVA: 0x002561D5 File Offset: 0x002545D5
+		// Token: 0x060046FF RID: 18175 RVA: 0x002561AD File Offset: 0x002545AD
 		public void RoomChanged()
 		{
 			if (this.Map != null)
@@ -66,7 +66,7 @@ namespace Verse
 			this.RegenerateEqualizationData();
 		}
 
-		// Token: 0x06004702 RID: 18178 RVA: 0x002561FC File Offset: 0x002545FC
+		// Token: 0x06004700 RID: 18176 RVA: 0x002561D4 File Offset: 0x002545D4
 		private void RegenerateEqualizationData()
 		{
 			this.thickRoofCoverage = 0f;
@@ -166,7 +166,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004703 RID: 18179 RVA: 0x00256558 File Offset: 0x00254958
+		// Token: 0x06004701 RID: 18177 RVA: 0x00256530 File Offset: 0x00254930
 		public void EqualizeTemperature()
 		{
 			if (this.roomGroup.UsesOutdoorTemperature)
@@ -183,7 +183,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004704 RID: 18180 RVA: 0x002565F4 File Offset: 0x002549F4
+		// Token: 0x06004702 RID: 18178 RVA: 0x002565CC File Offset: 0x002549CC
 		private float WallEqualizationTempChangePerInterval()
 		{
 			float result;
@@ -216,7 +216,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004705 RID: 18181 RVA: 0x00256708 File Offset: 0x00254B08
+		// Token: 0x06004703 RID: 18179 RVA: 0x002566E0 File Offset: 0x00254AE0
 		private float TempDiffFromOutdoorsAdjusted()
 		{
 			float num = this.Map.mapTemperature.OutdoorTemp - this.temperatureInt;
@@ -232,7 +232,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004706 RID: 18182 RVA: 0x00256770 File Offset: 0x00254B70
+		// Token: 0x06004704 RID: 18180 RVA: 0x00256748 File Offset: 0x00254B48
 		private float ThinRoofEqualizationTempChangePerInterval()
 		{
 			float result;
@@ -250,7 +250,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004707 RID: 18183 RVA: 0x002567C0 File Offset: 0x00254BC0
+		// Token: 0x06004705 RID: 18181 RVA: 0x00256798 File Offset: 0x00254B98
 		private float NoRoofEqualizationTempChangePerInterval()
 		{
 			float result;
@@ -268,7 +268,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004708 RID: 18184 RVA: 0x00256810 File Offset: 0x00254C10
+		// Token: 0x06004706 RID: 18182 RVA: 0x002567E8 File Offset: 0x00254BE8
 		private float DeepEqualizationTempChangePerInterval()
 		{
 			float result;
@@ -293,7 +293,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004709 RID: 18185 RVA: 0x0025687C File Offset: 0x00254C7C
+		// Token: 0x06004707 RID: 18183 RVA: 0x00256854 File Offset: 0x00254C54
 		public void DebugDraw()
 		{
 			foreach (IntVec3 c in this.equalizeCells)
@@ -302,7 +302,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600470A RID: 18186 RVA: 0x002568E0 File Offset: 0x00254CE0
+		// Token: 0x06004708 RID: 18184 RVA: 0x002568B8 File Offset: 0x00254CB8
 		internal string DebugString()
 		{
 			string result;
@@ -353,37 +353,37 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0400303F RID: 12351
+		// Token: 0x0400303D RID: 12349
 		private RoomGroup roomGroup;
 
-		// Token: 0x04003040 RID: 12352
+		// Token: 0x0400303E RID: 12350
 		private float temperatureInt;
 
-		// Token: 0x04003041 RID: 12353
+		// Token: 0x0400303F RID: 12351
 		private List<IntVec3> equalizeCells = new List<IntVec3>();
 
-		// Token: 0x04003042 RID: 12354
+		// Token: 0x04003040 RID: 12352
 		private float noRoofCoverage;
 
-		// Token: 0x04003043 RID: 12355
+		// Token: 0x04003041 RID: 12353
 		private float thickRoofCoverage;
 
-		// Token: 0x04003044 RID: 12356
+		// Token: 0x04003042 RID: 12354
 		private int cycleIndex = 0;
 
-		// Token: 0x04003045 RID: 12357
+		// Token: 0x04003043 RID: 12355
 		private const float ThinRoofEqualizeRate = 5E-05f;
 
-		// Token: 0x04003046 RID: 12358
+		// Token: 0x04003044 RID: 12356
 		private const float NoRoofEqualizeRate = 0.0007f;
 
-		// Token: 0x04003047 RID: 12359
+		// Token: 0x04003045 RID: 12357
 		private const float DeepEqualizeFractionPerTick = 5E-05f;
 
-		// Token: 0x04003048 RID: 12360
+		// Token: 0x04003046 RID: 12358
 		private static int debugGetFrame = -999;
 
-		// Token: 0x04003049 RID: 12361
+		// Token: 0x04003047 RID: 12359
 		private static float debugWallEq;
 	}
 }

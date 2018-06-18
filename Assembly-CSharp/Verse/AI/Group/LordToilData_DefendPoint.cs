@@ -5,7 +5,7 @@ namespace Verse.AI.Group
 	// Token: 0x020009F4 RID: 2548
 	public class LordToilData_DefendPoint : LordToilData
 	{
-		// Token: 0x0600393A RID: 14650 RVA: 0x001E6880 File Offset: 0x001E4C80
+		// Token: 0x0600393C RID: 14652 RVA: 0x001E6954 File Offset: 0x001E4D54
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<IntVec3>(ref this.defendPoint, "defendPoint", default(IntVec3), false);

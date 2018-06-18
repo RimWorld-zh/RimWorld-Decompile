@@ -8,19 +8,19 @@ namespace RimWorld
 	// Token: 0x02000904 RID: 2308
 	public static class CostListCalculator
 	{
-		// Token: 0x06003588 RID: 13704 RVA: 0x001CD487 File Offset: 0x001CB887
+		// Token: 0x0600358A RID: 13706 RVA: 0x001CD54F File Offset: 0x001CB94F
 		public static void Reset()
 		{
 			CostListCalculator.cachedCosts.Clear();
 		}
 
-		// Token: 0x06003589 RID: 13705 RVA: 0x001CD494 File Offset: 0x001CB894
+		// Token: 0x0600358B RID: 13707 RVA: 0x001CD55C File Offset: 0x001CB95C
 		public static List<ThingDefCountClass> CostListAdjusted(this Thing thing)
 		{
 			return thing.def.CostListAdjusted(thing.Stuff, true);
 		}
 
-		// Token: 0x0600358A RID: 13706 RVA: 0x001CD4BC File Offset: 0x001CB8BC
+		// Token: 0x0600358C RID: 13708 RVA: 0x001CD584 File Offset: 0x001CB984
 		public static List<ThingDefCountClass> CostListAdjusted(this BuildableDef entDef, ThingDef stuff, bool errorOnNullStuff = true)
 		{
 			CostListCalculator.CostListPair key = new CostListCalculator.CostListPair(entDef, stuff);
@@ -93,14 +93,14 @@ namespace RimWorld
 		// Token: 0x02000905 RID: 2309
 		private struct CostListPair : IEquatable<CostListCalculator.CostListPair>
 		{
-			// Token: 0x0600358C RID: 13708 RVA: 0x001CD672 File Offset: 0x001CBA72
+			// Token: 0x0600358E RID: 13710 RVA: 0x001CD73A File Offset: 0x001CBB3A
 			public CostListPair(BuildableDef buildable, ThingDef stuff)
 			{
 				this.buildable = buildable;
 				this.stuff = stuff;
 			}
 
-			// Token: 0x0600358D RID: 13709 RVA: 0x001CD684 File Offset: 0x001CBA84
+			// Token: 0x0600358F RID: 13711 RVA: 0x001CD74C File Offset: 0x001CBB4C
 			public override int GetHashCode()
 			{
 				int seed = 0;
@@ -108,25 +108,25 @@ namespace RimWorld
 				return Gen.HashCombine<ThingDef>(seed, this.stuff);
 			}
 
-			// Token: 0x0600358E RID: 13710 RVA: 0x001CD6B8 File Offset: 0x001CBAB8
+			// Token: 0x06003590 RID: 13712 RVA: 0x001CD780 File Offset: 0x001CBB80
 			public override bool Equals(object obj)
 			{
 				return obj is CostListCalculator.CostListPair && this.Equals((CostListCalculator.CostListPair)obj);
 			}
 
-			// Token: 0x0600358F RID: 13711 RVA: 0x001CD6EC File Offset: 0x001CBAEC
+			// Token: 0x06003591 RID: 13713 RVA: 0x001CD7B4 File Offset: 0x001CBBB4
 			public bool Equals(CostListCalculator.CostListPair other)
 			{
 				return this == other;
 			}
 
-			// Token: 0x06003590 RID: 13712 RVA: 0x001CD710 File Offset: 0x001CBB10
+			// Token: 0x06003592 RID: 13714 RVA: 0x001CD7D8 File Offset: 0x001CBBD8
 			public static bool operator ==(CostListCalculator.CostListPair lhs, CostListCalculator.CostListPair rhs)
 			{
 				return lhs.buildable == rhs.buildable && lhs.stuff == rhs.stuff;
 			}
 
-			// Token: 0x06003591 RID: 13713 RVA: 0x001CD74C File Offset: 0x001CBB4C
+			// Token: 0x06003593 RID: 13715 RVA: 0x001CD814 File Offset: 0x001CBC14
 			public static bool operator !=(CostListCalculator.CostListPair lhs, CostListCalculator.CostListPair rhs)
 			{
 				return !(lhs == rhs);
@@ -142,13 +142,13 @@ namespace RimWorld
 		// Token: 0x02000906 RID: 2310
 		private class FastCostListPairComparer : IEqualityComparer<CostListCalculator.CostListPair>
 		{
-			// Token: 0x06003593 RID: 13715 RVA: 0x001CD774 File Offset: 0x001CBB74
+			// Token: 0x06003595 RID: 13717 RVA: 0x001CD83C File Offset: 0x001CBC3C
 			public bool Equals(CostListCalculator.CostListPair x, CostListCalculator.CostListPair y)
 			{
 				return x == y;
 			}
 
-			// Token: 0x06003594 RID: 13716 RVA: 0x001CD790 File Offset: 0x001CBB90
+			// Token: 0x06003596 RID: 13718 RVA: 0x001CD858 File Offset: 0x001CBC58
 			public int GetHashCode(CostListCalculator.CostListPair obj)
 			{
 				return obj.GetHashCode();

@@ -6,11 +6,11 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000E23 RID: 3619
+	// Token: 0x02000E22 RID: 3618
 	[HasDebugOutput]
 	internal static class DebugOutputsTextGen
 	{
-		// Token: 0x060054A8 RID: 21672 RVA: 0x002B662C File Offset: 0x002B4A2C
+		// Token: 0x060054A6 RID: 21670 RVA: 0x002B660C File Offset: 0x002B4A0C
 		[DebugOutput]
 		[Category("Text generation")]
 		public static void FlavorfulCombatTest()
@@ -214,7 +214,7 @@ namespace Verse
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 		}
 
-		// Token: 0x060054A9 RID: 21673 RVA: 0x002B6A38 File Offset: 0x002B4E38
+		// Token: 0x060054A7 RID: 21671 RVA: 0x002B6A18 File Offset: 0x002B4E18
 		private static void CreateDamagedDestroyedMenu(Action<Action<List<BodyPartRecord>, List<bool>>> callback)
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
@@ -255,7 +255,7 @@ namespace Verse
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 		}
 
-		// Token: 0x060054AA RID: 21674 RVA: 0x002B6B84 File Offset: 0x002B4F84
+		// Token: 0x060054A8 RID: 21672 RVA: 0x002B6B64 File Offset: 0x002B4F64
 		[DebugOutput]
 		[Category("Text generation")]
 		public static void ArtDescsSpecificTale()
@@ -275,7 +275,7 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x060054AB RID: 21675 RVA: 0x002B6C50 File Offset: 0x002B5050
+		// Token: 0x060054A9 RID: 21673 RVA: 0x002B6C30 File Offset: 0x002B5030
 		[DebugOutput]
 		[Category("Text generation")]
 		public static void NamesFromRulepack()
@@ -297,16 +297,20 @@ namespace Verse
 			orderby d.defName
 			select d;
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
-			foreach (RulePackDef localNamer2 in orderedEnumerable)
+			foreach (RulePackDef localNamer3 in orderedEnumerable)
 			{
-				RulePackDef localNamer = localNamer2;
+				RulePackDef localNamer = localNamer3;
 				FloatMenuOption item = new FloatMenuOption(localNamer.defName, delegate()
 				{
 					StringBuilder stringBuilder = new StringBuilder();
 					stringBuilder.AppendLine("Testing RulePack " + localNamer.defName + " as  a name generator:");
 					for (int i = 0; i < 200; i++)
 					{
-						stringBuilder.AppendLine(NameGenerator.GenerateName(localNamer, null, false, null));
+						string text = (i % 2 != 0) ? null : "Smithee";
+						StringBuilder stringBuilder2 = stringBuilder;
+						RulePackDef localNamer2 = localNamer;
+						string testPawnNameSymbol = text;
+						stringBuilder2.AppendLine(NameGenerator.GenerateName(localNamer2, null, false, null, testPawnNameSymbol));
 					}
 					Log.Message(stringBuilder.ToString(), false);
 				}, MenuOptionPriority.Default, null, null, 0f, null, null);
@@ -315,7 +319,7 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x060054AC RID: 21676 RVA: 0x002B6E34 File Offset: 0x002B5234
+		// Token: 0x060054AA RID: 21674 RVA: 0x002B6E14 File Offset: 0x002B5214
 		[DebugOutput]
 		[ModeRestrictionPlay]
 		[Category("Text generation")]
@@ -324,7 +328,7 @@ namespace Verse
 			Find.TaleManager.LogTales();
 		}
 
-		// Token: 0x060054AD RID: 21677 RVA: 0x002B6E41 File Offset: 0x002B5241
+		// Token: 0x060054AB RID: 21675 RVA: 0x002B6E21 File Offset: 0x002B5221
 		[DebugOutput]
 		[ModeRestrictionPlay]
 		[Category("Text generation")]
@@ -333,7 +337,7 @@ namespace Verse
 			Find.TaleManager.LogTaleInterestSummary();
 		}
 
-		// Token: 0x060054AE RID: 21678 RVA: 0x002B6E4E File Offset: 0x002B524E
+		// Token: 0x060054AC RID: 21676 RVA: 0x002B6E2E File Offset: 0x002B522E
 		[DebugOutput]
 		[ModeRestrictionPlay]
 		[Category("Text generation")]
@@ -344,7 +348,7 @@ namespace Verse
 			select t);
 		}
 
-		// Token: 0x060054AF RID: 21679 RVA: 0x002B6E84 File Offset: 0x002B5284
+		// Token: 0x060054AD RID: 21677 RVA: 0x002B6E64 File Offset: 0x002B5264
 		[DebugOutput]
 		[ModeRestrictionPlay]
 		[Category("Text generation")]
@@ -359,7 +363,7 @@ namespace Verse
 			DebugOutputsTextGen.LogTales(list);
 		}
 
-		// Token: 0x060054B0 RID: 21680 RVA: 0x002B6EC4 File Offset: 0x002B52C4
+		// Token: 0x060054AE RID: 21678 RVA: 0x002B6EA4 File Offset: 0x002B52A4
 		[DebugOutput]
 		[ModeRestrictionPlay]
 		[Category("Text generation")]
@@ -373,7 +377,7 @@ namespace Verse
 			DebugOutputsTextGen.LogTales(list);
 		}
 
-		// Token: 0x060054B1 RID: 21681 RVA: 0x002B6EF8 File Offset: 0x002B52F8
+		// Token: 0x060054AF RID: 21679 RVA: 0x002B6ED8 File Offset: 0x002B52D8
 		[DebugOutput]
 		[Category("Text generation")]
 		public static void InteractionLogs()
@@ -401,7 +405,7 @@ namespace Verse
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 		}
 
-		// Token: 0x060054B2 RID: 21682 RVA: 0x002B6F94 File Offset: 0x002B5394
+		// Token: 0x060054B0 RID: 21680 RVA: 0x002B6F74 File Offset: 0x002B5374
 		private static void LogSpecificTale(TaleDef def, int count)
 		{
 			List<Tale> list = new List<Tale>();
@@ -412,7 +416,7 @@ namespace Verse
 			DebugOutputsTextGen.LogTales(list);
 		}
 
-		// Token: 0x060054B3 RID: 21683 RVA: 0x002B6FD0 File Offset: 0x002B53D0
+		// Token: 0x060054B1 RID: 21681 RVA: 0x002B6FB0 File Offset: 0x002B53B0
 		private static void LogTales(IEnumerable<Tale> tales)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -436,32 +440,32 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060054B4 RID: 21684 RVA: 0x002B7094 File Offset: 0x002B5494
+		// Token: 0x060054B2 RID: 21682 RVA: 0x002B7074 File Offset: 0x002B5474
 		private static string RandomArtworkName(TaleReference tr)
 		{
 			RulePackDef extraInclude = null;
 			switch (Rand.RangeInclusive(0, 4))
 			{
 			case 0:
-				extraInclude = RulePackDefOf.ArtName_Sculpture;
+				extraInclude = RulePackDefOf.NamerArtSculpture;
 				break;
 			case 1:
-				extraInclude = RulePackDefOf.ArtName_WeaponMelee;
+				extraInclude = RulePackDefOf.NamerArtWeaponMelee;
 				break;
 			case 2:
-				extraInclude = RulePackDefOf.ArtName_WeaponGun;
+				extraInclude = RulePackDefOf.NamerArtWeaponGun;
 				break;
 			case 3:
-				extraInclude = RulePackDefOf.ArtName_Furniture;
+				extraInclude = RulePackDefOf.NamerArtFurniture;
 				break;
 			case 4:
-				extraInclude = RulePackDefOf.ArtName_SarcophagusPlate;
+				extraInclude = RulePackDefOf.NamerArtSarcophagusPlate;
 				break;
 			}
 			return tr.GenerateText(TextGenerationPurpose.ArtName, extraInclude);
 		}
 
-		// Token: 0x060054B5 RID: 21685 RVA: 0x002B7114 File Offset: 0x002B5514
+		// Token: 0x060054B3 RID: 21683 RVA: 0x002B70F4 File Offset: 0x002B54F4
 		private static string RandomArtworkDescription(TaleReference tr)
 		{
 			RulePackDef extraInclude = null;

@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200044C RID: 1100
 	public class WeatherEvent_LightningFlash : WeatherEvent
 	{
-		// Token: 0x06001318 RID: 4888 RVA: 0x000A4778 File Offset: 0x000A2B78
+		// Token: 0x06001318 RID: 4888 RVA: 0x000A4784 File Offset: 0x000A2B84
 		public WeatherEvent_LightningFlash(Map map) : base(map)
 		{
 			this.duration = Rand.Range(15, 60);
@@ -16,7 +16,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000291 RID: 657
-		// (get) Token: 0x06001319 RID: 4889 RVA: 0x000A47CC File Offset: 0x000A2BCC
+		// (get) Token: 0x06001319 RID: 4889 RVA: 0x000A47D8 File Offset: 0x000A2BD8
 		public override bool Expired
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000292 RID: 658
-		// (get) Token: 0x0600131A RID: 4890 RVA: 0x000A47F0 File Offset: 0x000A2BF0
+		// (get) Token: 0x0600131A RID: 4890 RVA: 0x000A47FC File Offset: 0x000A2BFC
 		public override SkyTarget SkyTarget
 		{
 			get
@@ -36,7 +36,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000293 RID: 659
-		// (get) Token: 0x0600131B RID: 4891 RVA: 0x000A4820 File Offset: 0x000A2C20
+		// (get) Token: 0x0600131B RID: 4891 RVA: 0x000A482C File Offset: 0x000A2C2C
 		public override Vector2? OverrideShadowVector
 		{
 			get
@@ -46,7 +46,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000294 RID: 660
-		// (get) Token: 0x0600131C RID: 4892 RVA: 0x000A4840 File Offset: 0x000A2C40
+		// (get) Token: 0x0600131C RID: 4892 RVA: 0x000A484C File Offset: 0x000A2C4C
 		public override float SkyTargetLerpFactor
 		{
 			get
@@ -56,7 +56,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000295 RID: 661
-		// (get) Token: 0x0600131D RID: 4893 RVA: 0x000A485C File Offset: 0x000A2C5C
+		// (get) Token: 0x0600131D RID: 4893 RVA: 0x000A4868 File Offset: 0x000A2C68
 		protected float LightningBrightness
 		{
 			get
@@ -74,13 +74,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600131E RID: 4894 RVA: 0x000A48A7 File Offset: 0x000A2CA7
+		// Token: 0x0600131E RID: 4894 RVA: 0x000A48B3 File Offset: 0x000A2CB3
 		public override void FireEvent()
 		{
 			SoundDefOf.Thunder_OffMap.PlayOneShotOnCamera(this.map);
 		}
 
-		// Token: 0x0600131F RID: 4895 RVA: 0x000A48BA File Offset: 0x000A2CBA
+		// Token: 0x0600131F RID: 4895 RVA: 0x000A48C6 File Offset: 0x000A2CC6
 		public override void WeatherEventTick()
 		{
 			this.age++;

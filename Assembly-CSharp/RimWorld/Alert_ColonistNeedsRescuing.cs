@@ -10,7 +10,7 @@ namespace RimWorld
 	public class Alert_ColonistNeedsRescuing : Alert_Critical
 	{
 		// Token: 0x170006AC RID: 1708
-		// (get) Token: 0x06002AE5 RID: 10981 RVA: 0x0016A460 File Offset: 0x00168860
+		// (get) Token: 0x06002AE7 RID: 10983 RVA: 0x0016A4F4 File Offset: 0x001688F4
 		private IEnumerable<Pawn> ColonistsNeedingRescue
 		{
 			get
@@ -26,13 +26,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002AE6 RID: 10982 RVA: 0x0016A484 File Offset: 0x00168884
+		// Token: 0x06002AE8 RID: 10984 RVA: 0x0016A518 File Offset: 0x00168918
 		public static bool NeedsRescue(Pawn p)
 		{
 			return p.Downed && !p.InBed() && !(p.ParentHolder is Pawn_CarryTracker) && (p.jobs.jobQueue == null || p.jobs.jobQueue.Count <= 0 || !p.jobs.jobQueue.Peek().job.CanBeginNow(p, false));
 		}
 
-		// Token: 0x06002AE7 RID: 10983 RVA: 0x0016A518 File Offset: 0x00168918
+		// Token: 0x06002AE9 RID: 10985 RVA: 0x0016A5AC File Offset: 0x001689AC
 		public override string GetLabel()
 		{
 			string result;
@@ -47,7 +47,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002AE8 RID: 10984 RVA: 0x0016A558 File Offset: 0x00168958
+		// Token: 0x06002AEA RID: 10986 RVA: 0x0016A5EC File Offset: 0x001689EC
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -58,7 +58,7 @@ namespace RimWorld
 			return string.Format("ColonistsNeedRescueDesc".Translate(), stringBuilder.ToString());
 		}
 
-		// Token: 0x06002AE9 RID: 10985 RVA: 0x0016A5E8 File Offset: 0x001689E8
+		// Token: 0x06002AEB RID: 10987 RVA: 0x0016A67C File Offset: 0x00168A7C
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.ColonistsNeedingRescue);

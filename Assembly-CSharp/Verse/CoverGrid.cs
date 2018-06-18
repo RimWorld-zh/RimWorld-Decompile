@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000C20 RID: 3104
+	// Token: 0x02000C1F RID: 3103
 	public sealed class CoverGrid
 	{
-		// Token: 0x060043D7 RID: 17367 RVA: 0x0023BD6B File Offset: 0x0023A16B
+		// Token: 0x060043D5 RID: 17365 RVA: 0x0023BD43 File Offset: 0x0023A143
 		public CoverGrid(Map map)
 		{
 			this.map = map;
 			this.innerArray = new Thing[map.cellIndices.NumGridCells];
 		}
 
-		// Token: 0x17000AA4 RID: 2724
+		// Token: 0x17000AA3 RID: 2723
 		public Thing this[int index]
 		{
 			get
@@ -22,7 +22,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AA5 RID: 2725
+		// Token: 0x17000AA4 RID: 2724
 		public Thing this[IntVec3 c]
 		{
 			get
@@ -31,7 +31,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043DA RID: 17370 RVA: 0x0023BDE4 File Offset: 0x0023A1E4
+		// Token: 0x060043D8 RID: 17368 RVA: 0x0023BDBC File Offset: 0x0023A1BC
 		public void Register(Thing t)
 		{
 			if (t.def.Fillage != FillCategory.None)
@@ -48,7 +48,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043DB RID: 17371 RVA: 0x0023BE60 File Offset: 0x0023A260
+		// Token: 0x060043D9 RID: 17369 RVA: 0x0023BE38 File Offset: 0x0023A238
 		public void DeRegister(Thing t)
 		{
 			if (t.def.Fillage != FillCategory.None)
@@ -65,7 +65,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043DC RID: 17372 RVA: 0x0023BEDC File Offset: 0x0023A2DC
+		// Token: 0x060043DA RID: 17370 RVA: 0x0023BEB4 File Offset: 0x0023A2B4
 		private void RecalculateCell(IntVec3 c, Thing ignoreThing = null)
 		{
 			Thing thing = null;
@@ -86,10 +86,10 @@ namespace Verse
 			this.innerArray[this.map.cellIndices.CellToIndex(c)] = thing;
 		}
 
-		// Token: 0x04002E4F RID: 11855
+		// Token: 0x04002E4D RID: 11853
 		private Map map;
 
-		// Token: 0x04002E50 RID: 11856
+		// Token: 0x04002E4E RID: 11854
 		private Thing[] innerArray;
 	}
 }

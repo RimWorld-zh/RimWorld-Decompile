@@ -5,7 +5,7 @@ namespace Verse
 	// Token: 0x02000B3E RID: 2878
 	public class SubEffecterDef
 	{
-		// Token: 0x06003F2B RID: 16171 RVA: 0x00213D90 File Offset: 0x00212190
+		// Token: 0x06003F2D RID: 16173 RVA: 0x00213E64 File Offset: 0x00212264
 		public SubEffecter Spawn(Effecter parent)
 		{
 			return (SubEffecter)Activator.CreateInstance(this.subEffecterClass, new object[]

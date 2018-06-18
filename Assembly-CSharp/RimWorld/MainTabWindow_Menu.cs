@@ -9,14 +9,14 @@ namespace RimWorld
 	// Token: 0x02000875 RID: 2165
 	public class MainTabWindow_Menu : MainTabWindow
 	{
-		// Token: 0x0600313F RID: 12607 RVA: 0x001AB75A File Offset: 0x001A9B5A
+		// Token: 0x06003141 RID: 12609 RVA: 0x001AB822 File Offset: 0x001A9C22
 		public MainTabWindow_Menu()
 		{
 			this.forcePause = true;
 		}
 
 		// Token: 0x170007E9 RID: 2025
-		// (get) Token: 0x06003140 RID: 12608 RVA: 0x001AB76C File Offset: 0x001A9B6C
+		// (get) Token: 0x06003142 RID: 12610 RVA: 0x001AB834 File Offset: 0x001A9C34
 		public override Vector2 RequestedTabSize
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007EA RID: 2026
-		// (get) Token: 0x06003141 RID: 12609 RVA: 0x001AB790 File Offset: 0x001A9B90
+		// (get) Token: 0x06003143 RID: 12611 RVA: 0x001AB858 File Offset: 0x001A9C58
 		public override MainTabWindowAnchor Anchor
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003142 RID: 12610 RVA: 0x001AB7A6 File Offset: 0x001A9BA6
+		// Token: 0x06003144 RID: 12612 RVA: 0x001AB86E File Offset: 0x001A9C6E
 		public override void PreOpen()
 		{
 			base.PreOpen();
@@ -44,14 +44,14 @@ namespace RimWorld
 			this.anyGameFiles = GenFilePaths.AllSavedGameFiles.Any<FileInfo>();
 		}
 
-		// Token: 0x06003143 RID: 12611 RVA: 0x001AB7C9 File Offset: 0x001A9BC9
+		// Token: 0x06003145 RID: 12613 RVA: 0x001AB891 File Offset: 0x001A9C91
 		public override void ExtraOnGUI()
 		{
 			base.ExtraOnGUI();
 			VersionControl.DrawInfoInCorner();
 		}
 
-		// Token: 0x06003144 RID: 12612 RVA: 0x001AB7D7 File Offset: 0x001A9BD7
+		// Token: 0x06003146 RID: 12614 RVA: 0x001AB89F File Offset: 0x001A9C9F
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DoWindowContents(rect);

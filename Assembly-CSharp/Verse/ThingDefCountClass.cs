@@ -3,15 +3,15 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000F03 RID: 3843
+	// Token: 0x02000F02 RID: 3842
 	public sealed class ThingDefCountClass : IExposable
 	{
-		// Token: 0x06005C0F RID: 23567 RVA: 0x002EC1F6 File Offset: 0x002EA5F6
+		// Token: 0x06005C0D RID: 23565 RVA: 0x002EC2D2 File Offset: 0x002EA6D2
 		public ThingDefCountClass()
 		{
 		}
 
-		// Token: 0x06005C10 RID: 23568 RVA: 0x002EC200 File Offset: 0x002EA600
+		// Token: 0x06005C0E RID: 23566 RVA: 0x002EC2DC File Offset: 0x002EA6DC
 		public ThingDefCountClass(ThingDef thingDef, int count)
 		{
 			if (count < 0)
@@ -29,8 +29,8 @@ namespace Verse
 			this.count = count;
 		}
 
-		// Token: 0x17000EC8 RID: 3784
-		// (get) Token: 0x06005C11 RID: 23569 RVA: 0x002EC25C File Offset: 0x002EA65C
+		// Token: 0x17000EC7 RID: 3783
+		// (get) Token: 0x06005C0F RID: 23567 RVA: 0x002EC338 File Offset: 0x002EA738
 		public string Summary
 		{
 			get
@@ -39,14 +39,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005C12 RID: 23570 RVA: 0x002EC2A6 File Offset: 0x002EA6A6
+		// Token: 0x06005C10 RID: 23568 RVA: 0x002EC382 File Offset: 0x002EA782
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<ThingDef>(ref this.thingDef, "thingDef");
 			Scribe_Values.Look<int>(ref this.count, "count", 1, false);
 		}
 
-		// Token: 0x06005C13 RID: 23571 RVA: 0x002EC2CC File Offset: 0x002EA6CC
+		// Token: 0x06005C11 RID: 23569 RVA: 0x002EC3A8 File Offset: 0x002EA7A8
 		public void LoadDataFromXmlCustom(XmlNode xmlRoot)
 		{
 			if (xmlRoot.ChildNodes.Count != 1)
@@ -60,7 +60,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005C14 RID: 23572 RVA: 0x002EC340 File Offset: 0x002EA740
+		// Token: 0x06005C12 RID: 23570 RVA: 0x002EC41C File Offset: 0x002EA81C
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -73,22 +73,22 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06005C15 RID: 23573 RVA: 0x002EC3AC File Offset: 0x002EA7AC
+		// Token: 0x06005C13 RID: 23571 RVA: 0x002EC488 File Offset: 0x002EA888
 		public override int GetHashCode()
 		{
 			return (int)this.thingDef.shortHash + this.count << 16;
 		}
 
-		// Token: 0x06005C16 RID: 23574 RVA: 0x002EC3D8 File Offset: 0x002EA7D8
+		// Token: 0x06005C14 RID: 23572 RVA: 0x002EC4B4 File Offset: 0x002EA8B4
 		public static implicit operator ThingDefCountClass(ThingDefCount t)
 		{
 			return new ThingDefCountClass(t.ThingDef, t.Count);
 		}
 
-		// Token: 0x04003CD4 RID: 15572
+		// Token: 0x04003CD3 RID: 15571
 		public ThingDef thingDef;
 
-		// Token: 0x04003CD5 RID: 15573
+		// Token: 0x04003CD4 RID: 15572
 		public int count;
 	}
 }

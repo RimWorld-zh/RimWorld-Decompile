@@ -8,7 +8,7 @@ namespace Verse
 	// Token: 0x02000B26 RID: 2854
 	public class RaceProperties
 	{
-		// Token: 0x06003ED0 RID: 16080 RVA: 0x00210FA4 File Offset: 0x0020F3A4
+		// Token: 0x06003ED2 RID: 16082 RVA: 0x00211078 File Offset: 0x0020F478
 		public RaceProperties()
 		{
 			ColorInt colorInt = new ColorInt(141, 56, 52);
@@ -28,7 +28,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000979 RID: 2425
-		// (get) Token: 0x06003ED1 RID: 16081 RVA: 0x00211178 File Offset: 0x0020F578
+		// (get) Token: 0x06003ED3 RID: 16083 RVA: 0x0021124C File Offset: 0x0020F64C
 		public bool Humanlike
 		{
 			get
@@ -38,7 +38,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700097A RID: 2426
-		// (get) Token: 0x06003ED2 RID: 16082 RVA: 0x0021119C File Offset: 0x0020F59C
+		// (get) Token: 0x06003ED4 RID: 16084 RVA: 0x00211270 File Offset: 0x0020F670
 		public bool ToolUser
 		{
 			get
@@ -48,7 +48,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700097B RID: 2427
-		// (get) Token: 0x06003ED3 RID: 16083 RVA: 0x002111C0 File Offset: 0x0020F5C0
+		// (get) Token: 0x06003ED5 RID: 16085 RVA: 0x00211294 File Offset: 0x0020F694
 		public bool Animal
 		{
 			get
@@ -58,7 +58,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700097C RID: 2428
-		// (get) Token: 0x06003ED4 RID: 16084 RVA: 0x002111EC File Offset: 0x0020F5EC
+		// (get) Token: 0x06003ED6 RID: 16086 RVA: 0x002112C0 File Offset: 0x0020F6C0
 		public bool EatsFood
 		{
 			get
@@ -68,7 +68,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700097D RID: 2429
-		// (get) Token: 0x06003ED5 RID: 16085 RVA: 0x00211210 File Offset: 0x0020F610
+		// (get) Token: 0x06003ED7 RID: 16087 RVA: 0x002112E4 File Offset: 0x0020F6E4
 		public float FoodLevelPercentageWantEat
 		{
 			get
@@ -102,7 +102,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700097E RID: 2430
-		// (get) Token: 0x06003ED6 RID: 16086 RVA: 0x00211294 File Offset: 0x0020F694
+		// (get) Token: 0x06003ED8 RID: 16088 RVA: 0x00211368 File Offset: 0x0020F768
 		public DietCategory ResolvedDietCategory
 		{
 			get
@@ -140,7 +140,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700097F RID: 2431
-		// (get) Token: 0x06003ED7 RID: 16087 RVA: 0x0021131C File Offset: 0x0020F71C
+		// (get) Token: 0x06003ED9 RID: 16089 RVA: 0x002113F0 File Offset: 0x0020F7F0
 		public DeathActionWorker DeathActionWorker
 		{
 			get
@@ -161,7 +161,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000980 RID: 2432
-		// (get) Token: 0x06003ED8 RID: 16088 RVA: 0x00211378 File Offset: 0x0020F778
+		// (get) Token: 0x06003EDA RID: 16090 RVA: 0x0021144C File Offset: 0x0020F84C
 		public FleshTypeDef FleshType
 		{
 			get
@@ -180,7 +180,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000981 RID: 2433
-		// (get) Token: 0x06003ED9 RID: 16089 RVA: 0x002113AC File Offset: 0x0020F7AC
+		// (get) Token: 0x06003EDB RID: 16091 RVA: 0x00211480 File Offset: 0x0020F880
 		public bool IsMechanoid
 		{
 			get
@@ -190,7 +190,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000982 RID: 2434
-		// (get) Token: 0x06003EDA RID: 16090 RVA: 0x002113D0 File Offset: 0x0020F7D0
+		// (get) Token: 0x06003EDC RID: 16092 RVA: 0x002114A4 File Offset: 0x0020F8A4
 		public bool IsFlesh
 		{
 			get
@@ -200,7 +200,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000983 RID: 2435
-		// (get) Token: 0x06003EDB RID: 16091 RVA: 0x002113F8 File Offset: 0x0020F7F8
+		// (get) Token: 0x06003EDD RID: 16093 RVA: 0x002114CC File Offset: 0x0020F8CC
 		public ThingDef BloodDef
 		{
 			get
@@ -223,7 +223,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000984 RID: 2436
-		// (get) Token: 0x06003EDC RID: 16092 RVA: 0x0021143C File Offset: 0x0020F83C
+		// (get) Token: 0x06003EDE RID: 16094 RVA: 0x00211510 File Offset: 0x0020F910
 		public bool CanDoHerdMigration
 		{
 			get
@@ -233,7 +233,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000985 RID: 2437
-		// (get) Token: 0x06003EDD RID: 16093 RVA: 0x00211468 File Offset: 0x0020F868
+		// (get) Token: 0x06003EDF RID: 16095 RVA: 0x0021153C File Offset: 0x0020F93C
 		public PawnKindDef AnyPawnKind
 		{
 			get
@@ -254,7 +254,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003EDE RID: 16094 RVA: 0x002114DC File Offset: 0x0020F8DC
+		// Token: 0x06003EE0 RID: 16096 RVA: 0x002115B0 File Offset: 0x0020F9B0
 		public RulePackDef GetNameGenerator(Gender gender)
 		{
 			RulePackDef result;
@@ -269,31 +269,31 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003EDF RID: 16095 RVA: 0x00211518 File Offset: 0x0020F918
+		// Token: 0x06003EE1 RID: 16097 RVA: 0x002115EC File Offset: 0x0020F9EC
 		public bool WillAutomaticallyEat(Thing t)
 		{
 			return t.def.ingestible != null && this.CanEverEat(t);
 		}
 
-		// Token: 0x06003EE0 RID: 16096 RVA: 0x00211558 File Offset: 0x0020F958
+		// Token: 0x06003EE2 RID: 16098 RVA: 0x0021162C File Offset: 0x0020FA2C
 		public bool CanEverEat(Thing t)
 		{
 			return this.CanEverEat(t.def);
 		}
 
-		// Token: 0x06003EE1 RID: 16097 RVA: 0x0021157C File Offset: 0x0020F97C
+		// Token: 0x06003EE3 RID: 16099 RVA: 0x00211650 File Offset: 0x0020FA50
 		public bool CanEverEat(ThingDef t)
 		{
 			return this.EatsFood && t.ingestible != null && t.ingestible.preferability != FoodPreferability.Undefined && this.Eats(t.ingestible.foodType);
 		}
 
-		// Token: 0x06003EE2 RID: 16098 RVA: 0x002115E0 File Offset: 0x0020F9E0
+		// Token: 0x06003EE4 RID: 16100 RVA: 0x002116B4 File Offset: 0x0020FAB4
 		public bool Eats(FoodTypeFlags food)
 		{
 			return this.EatsFood && (this.foodType & food) != FoodTypeFlags.None;
 		}
 
-		// Token: 0x06003EE3 RID: 16099 RVA: 0x00211618 File Offset: 0x0020FA18
+		// Token: 0x06003EE5 RID: 16101 RVA: 0x002116EC File Offset: 0x0020FAEC
 		public void ResolveReferencesSpecial()
 		{
 			if (this.useMeatFrom != null)
@@ -306,7 +306,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003EE4 RID: 16100 RVA: 0x00211668 File Offset: 0x0020FA68
+		// Token: 0x06003EE6 RID: 16102 RVA: 0x0021173C File Offset: 0x0020FB3C
 		public IEnumerable<string> ConfigErrors()
 		{
 			if (this.soundMeleeHitPawn == null)
@@ -385,7 +385,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003EE5 RID: 16101 RVA: 0x00211694 File Offset: 0x0020FA94
+		// Token: 0x06003EE7 RID: 16103 RVA: 0x00211768 File Offset: 0x0020FB68
 		public IEnumerable<StatDrawEntry> SpecialDisplayStats(ThingDef parentDef)
 		{
 			yield return new StatDrawEntry(StatCategoryDefOf.Basics, "Race".Translate(), parentDef.LabelCap, 2000, "");

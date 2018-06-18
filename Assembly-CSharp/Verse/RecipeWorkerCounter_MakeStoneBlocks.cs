@@ -7,13 +7,13 @@ namespace Verse
 	// Token: 0x02000B2A RID: 2858
 	public class RecipeWorkerCounter_MakeStoneBlocks : RecipeWorkerCounter
 	{
-		// Token: 0x06003EF5 RID: 16117 RVA: 0x00212954 File Offset: 0x00210D54
+		// Token: 0x06003EF7 RID: 16119 RVA: 0x00212A28 File Offset: 0x00210E28
 		public override bool CanCountProducts(Bill_Production bill)
 		{
 			return true;
 		}
 
-		// Token: 0x06003EF6 RID: 16118 RVA: 0x0021296C File Offset: 0x00210D6C
+		// Token: 0x06003EF8 RID: 16120 RVA: 0x00212A40 File Offset: 0x00210E40
 		public override int CountProducts(Bill_Production bill)
 		{
 			int num = 0;
@@ -25,13 +25,13 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06003EF7 RID: 16119 RVA: 0x002129C4 File Offset: 0x00210DC4
+		// Token: 0x06003EF9 RID: 16121 RVA: 0x00212A98 File Offset: 0x00210E98
 		public override string ProductsDescription(Bill_Production bill)
 		{
 			return ThingCategoryDefOf.StoneBlocks.label;
 		}
 
-		// Token: 0x06003EF8 RID: 16120 RVA: 0x002129E4 File Offset: 0x00210DE4
+		// Token: 0x06003EFA RID: 16122 RVA: 0x00212AB8 File Offset: 0x00210EB8
 		public override bool CanPossiblyStoreInStockpile(Bill_Production bill, Zone_Stockpile stockpile)
 		{
 			foreach (ThingDef thingDef in bill.ingredientFilter.AllowedThingDefs)

@@ -6,14 +6,14 @@ namespace Verse
 	// Token: 0x02000AF4 RID: 2804
 	public class RememberedCameraPos : IExposable
 	{
-		// Token: 0x06003E09 RID: 15881 RVA: 0x0020B190 File Offset: 0x00209590
+		// Token: 0x06003E0B RID: 15883 RVA: 0x0020B264 File Offset: 0x00209664
 		public RememberedCameraPos(Map map)
 		{
 			this.rootPos = map.Center.ToVector3Shifted();
 			this.rootSize = 24f;
 		}
 
-		// Token: 0x06003E0A RID: 15882 RVA: 0x0020B1C4 File Offset: 0x002095C4
+		// Token: 0x06003E0C RID: 15884 RVA: 0x0020B298 File Offset: 0x00209698
 		public void ExposeData()
 		{
 			Scribe_Values.Look<Vector3>(ref this.rootPos, "rootPos", default(Vector3), false);

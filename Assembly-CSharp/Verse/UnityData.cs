@@ -7,7 +7,7 @@ namespace Verse
 	// Token: 0x02000BE1 RID: 3041
 	public static class UnityData
 	{
-		// Token: 0x06004254 RID: 16980 RVA: 0x0022E1DC File Offset: 0x0022C5DC
+		// Token: 0x06004256 RID: 16982 RVA: 0x0022E254 File Offset: 0x0022C654
 		static UnityData()
 		{
 			if (!UnityData.initialized && !UnityDataInitializer.initializing)
@@ -17,7 +17,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A6D RID: 2669
-		// (get) Token: 0x06004255 RID: 16981 RVA: 0x0022E200 File Offset: 0x0022C600
+		// (get) Token: 0x06004257 RID: 16983 RVA: 0x0022E278 File Offset: 0x0022C678
 		public static bool IsInMainThread
 		{
 			get
@@ -26,7 +26,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004256 RID: 16982 RVA: 0x0022E228 File Offset: 0x0022C628
+		// Token: 0x06004258 RID: 16984 RVA: 0x0022E2A0 File Offset: 0x0022C6A0
 		public static void CopyUnityData()
 		{
 			UnityData.mainThreadId = Thread.CurrentThread.ManagedThreadId;

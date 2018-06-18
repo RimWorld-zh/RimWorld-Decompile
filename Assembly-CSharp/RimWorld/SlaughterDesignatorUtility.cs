@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020007DC RID: 2012
 	public static class SlaughterDesignatorUtility
 	{
-		// Token: 0x06002C93 RID: 11411 RVA: 0x00177580 File Offset: 0x00175980
+		// Token: 0x06002C95 RID: 11413 RVA: 0x00177614 File Offset: 0x00175A14
 		public static void CheckWarnAboutBondedAnimal(Pawn designated)
 		{
 			if (designated.RaceProps.IsFlesh)

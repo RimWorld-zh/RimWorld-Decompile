@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x020007D8 RID: 2008
 	public class Designator_RearmTrap : Designator
 	{
-		// Token: 0x06002C79 RID: 11385 RVA: 0x00176AA0 File Offset: 0x00174EA0
+		// Token: 0x06002C7B RID: 11387 RVA: 0x00176B34 File Offset: 0x00174F34
 		public Designator_RearmTrap()
 		{
 			this.defaultLabel = "DesignatorRearmTrap".Translate();
@@ -25,7 +25,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006FC RID: 1788
-		// (get) Token: 0x06002C7A RID: 11386 RVA: 0x00176B30 File Offset: 0x00174F30
+		// (get) Token: 0x06002C7C RID: 11388 RVA: 0x00176BC4 File Offset: 0x00174FC4
 		public override int DraggableDimensions
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006FD RID: 1789
-		// (get) Token: 0x06002C7B RID: 11387 RVA: 0x00176B48 File Offset: 0x00174F48
+		// (get) Token: 0x06002C7D RID: 11389 RVA: 0x00176BDC File Offset: 0x00174FDC
 		protected override DesignationDef Designation
 		{
 			get
@@ -44,7 +44,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C7C RID: 11388 RVA: 0x00176B64 File Offset: 0x00174F64
+		// Token: 0x06002C7E RID: 11390 RVA: 0x00176BF8 File Offset: 0x00174FF8
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -63,7 +63,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002C7D RID: 11389 RVA: 0x00176BBC File Offset: 0x00174FBC
+		// Token: 0x06002C7F RID: 11391 RVA: 0x00176C50 File Offset: 0x00175050
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			foreach (Thing t in this.RearmablesInCell(c))
@@ -72,20 +72,20 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C7E RID: 11390 RVA: 0x00176C1C File Offset: 0x0017501C
+		// Token: 0x06002C80 RID: 11392 RVA: 0x00176CB0 File Offset: 0x001750B0
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			Building_TrapRearmable building_TrapRearmable = t as Building_TrapRearmable;
 			return building_TrapRearmable != null && !building_TrapRearmable.Armed && base.Map.designationManager.DesignationOn(building_TrapRearmable, this.Designation) == null;
 		}
 
-		// Token: 0x06002C7F RID: 11391 RVA: 0x00176C6B File Offset: 0x0017506B
+		// Token: 0x06002C81 RID: 11393 RVA: 0x00176CFF File Offset: 0x001750FF
 		public override void DesignateThing(Thing t)
 		{
 			base.Map.designationManager.AddDesignation(new Designation(t, this.Designation));
 		}
 
-		// Token: 0x06002C80 RID: 11392 RVA: 0x00176C90 File Offset: 0x00175090
+		// Token: 0x06002C82 RID: 11394 RVA: 0x00176D24 File Offset: 0x00175124
 		private IEnumerable<Thing> RearmablesInCell(IntVec3 c)
 		{
 			if (c.Fogged(base.Map))

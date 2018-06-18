@@ -11,7 +11,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class HostilityResponseModeUtility
 	{
-		// Token: 0x060017E1 RID: 6113 RVA: 0x000D0870 File Offset: 0x000CEC70
+		// Token: 0x060017E2 RID: 6114 RVA: 0x000D08C4 File Offset: 0x000CECC4
 		public static Texture2D GetIcon(this HostilityResponseMode response)
 		{
 			Texture2D result;
@@ -33,7 +33,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060017E2 RID: 6114 RVA: 0x000D08C4 File Offset: 0x000CECC4
+		// Token: 0x060017E3 RID: 6115 RVA: 0x000D0918 File Offset: 0x000CED18
 		public static HostilityResponseMode GetNextResponse(Pawn pawn)
 		{
 			HostilityResponseMode result;
@@ -62,13 +62,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060017E3 RID: 6115 RVA: 0x000D0938 File Offset: 0x000CED38
+		// Token: 0x060017E4 RID: 6116 RVA: 0x000D098C File Offset: 0x000CED8C
 		public static string GetLabel(this HostilityResponseMode response)
 		{
 			return ("HostilityResponseMode_" + response).Translate();
 		}
 
-		// Token: 0x060017E4 RID: 6116 RVA: 0x000D0964 File Offset: 0x000CED64
+		// Token: 0x060017E5 RID: 6117 RVA: 0x000D09B8 File Offset: 0x000CEDB8
 		public static void DrawResponseButton(Rect rect, Pawn pawn, bool paintable)
 		{
 			if (HostilityResponseModeUtility.<>f__mg$cache0 == null)
@@ -97,13 +97,13 @@ namespace RimWorld
 			}));
 		}
 
-		// Token: 0x060017E5 RID: 6117 RVA: 0x000D0A50 File Offset: 0x000CEE50
+		// Token: 0x060017E6 RID: 6118 RVA: 0x000D0AA4 File Offset: 0x000CEEA4
 		private static HostilityResponseMode DrawResponseButton_GetResponse(Pawn pawn)
 		{
 			return pawn.playerSettings.hostilityResponse;
 		}
 
-		// Token: 0x060017E6 RID: 6118 RVA: 0x000D0A70 File Offset: 0x000CEE70
+		// Token: 0x060017E7 RID: 6119 RVA: 0x000D0AC4 File Offset: 0x000CEEC4
 		private static IEnumerable<Widgets.DropdownMenuElement<HostilityResponseMode>> DrawResponseButton_GenerateMenu(Pawn p)
 		{
 			IEnumerator enumerator = Enum.GetValues(typeof(HostilityResponseMode)).GetEnumerator();

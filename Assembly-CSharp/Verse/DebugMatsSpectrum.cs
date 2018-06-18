@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C0B RID: 3083
+	// Token: 0x02000C0A RID: 3082
 	[StaticConstructorOnStartup]
 	public static class DebugMatsSpectrum
 	{
-		// Token: 0x06004351 RID: 17233 RVA: 0x002383E4 File Offset: 0x002367E4
+		// Token: 0x0600434F RID: 17231 RVA: 0x002383BC File Offset: 0x002367BC
 		static DebugMatsSpectrum()
 		{
 			for (int i = 0; i < 100; i++)
@@ -17,7 +17,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004352 RID: 17234 RVA: 0x00238508 File Offset: 0x00236908
+		// Token: 0x06004350 RID: 17232 RVA: 0x002384E0 File Offset: 0x002368E0
 		private static Color[] DebugSpectrumWithOpacity(float opacity)
 		{
 			Color[] array = new Color[DebugMatsSpectrum.DebugSpectrum.Length];
@@ -28,7 +28,7 @@ namespace Verse
 			return array;
 		}
 
-		// Token: 0x06004353 RID: 17235 RVA: 0x00238588 File Offset: 0x00236988
+		// Token: 0x06004351 RID: 17233 RVA: 0x00238560 File Offset: 0x00236960
 		public static Material Mat(int ind, bool transparent)
 		{
 			if (ind >= 100)
@@ -42,16 +42,16 @@ namespace Verse
 			return (!transparent) ? DebugMatsSpectrum.spectrumMatsOpaque[ind] : DebugMatsSpectrum.spectrumMatsTranparent[ind];
 		}
 
-		// Token: 0x04002E06 RID: 11782
+		// Token: 0x04002E04 RID: 11780
 		private static readonly Material[] spectrumMatsTranparent = new Material[100];
 
-		// Token: 0x04002E07 RID: 11783
+		// Token: 0x04002E05 RID: 11781
 		private static readonly Material[] spectrumMatsOpaque = new Material[100];
 
-		// Token: 0x04002E08 RID: 11784
+		// Token: 0x04002E06 RID: 11782
 		public const int MaterialCount = 100;
 
-		// Token: 0x04002E09 RID: 11785
+		// Token: 0x04002E07 RID: 11783
 		public static Color[] DebugSpectrum = new Color[]
 		{
 			new Color(0.75f, 0f, 0f),

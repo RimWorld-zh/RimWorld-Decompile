@@ -10,13 +10,13 @@ namespace RimWorld.Planet
 	// Token: 0x02000594 RID: 1428
 	public class WorldLayer_Rivers : WorldLayer_Paths
 	{
-		// Token: 0x06001B39 RID: 6969 RVA: 0x000E9F5C File Offset: 0x000E835C
+		// Token: 0x06001B3A RID: 6970 RVA: 0x000E9FC8 File Offset: 0x000E83C8
 		public WorldLayer_Rivers()
 		{
 			this.pointyEnds = true;
 		}
 
-		// Token: 0x06001B3A RID: 6970 RVA: 0x000EA014 File Offset: 0x000E8414
+		// Token: 0x06001B3B RID: 6971 RVA: 0x000EA080 File Offset: 0x000E8480
 		public override IEnumerable Regenerate()
 		{
 			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();
@@ -78,7 +78,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001B3B RID: 6971 RVA: 0x000EA040 File Offset: 0x000E8440
+		// Token: 0x06001B3C RID: 6972 RVA: 0x000EA0AC File Offset: 0x000E84AC
 		public override Vector3 FinalizePoint(Vector3 inp, float distortionFrequency, float distortionIntensity)
 		{
 			float magnitude = inp.magnitude;

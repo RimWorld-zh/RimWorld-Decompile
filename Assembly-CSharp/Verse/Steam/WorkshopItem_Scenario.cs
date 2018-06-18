@@ -6,12 +6,12 @@ using Steamworks;
 
 namespace Verse.Steam
 {
-	// Token: 0x02000FC2 RID: 4034
+	// Token: 0x02000FC1 RID: 4033
 	public class WorkshopItem_Scenario : WorkshopItem
 	{
-		// Token: 0x17000FC5 RID: 4037
-		// (get) Token: 0x06006167 RID: 24935 RVA: 0x0031202C File Offset: 0x0031042C
-		// (set) Token: 0x06006168 RID: 24936 RVA: 0x00312047 File Offset: 0x00310447
+		// Token: 0x17000FC4 RID: 4036
+		// (get) Token: 0x06006165 RID: 24933 RVA: 0x00312108 File Offset: 0x00310508
+		// (set) Token: 0x06006166 RID: 24934 RVA: 0x00312123 File Offset: 0x00310523
 		public override PublishedFileId_t PublishedFileId
 		{
 			get
@@ -28,7 +28,7 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x06006169 RID: 24937 RVA: 0x00312068 File Offset: 0x00310468
+		// Token: 0x06006167 RID: 24935 RVA: 0x00312144 File Offset: 0x00310544
 		public Scenario GetScenario()
 		{
 			if (this.cachedScenario == null)
@@ -38,7 +38,7 @@ namespace Verse.Steam
 			return this.cachedScenario;
 		}
 
-		// Token: 0x0600616A RID: 24938 RVA: 0x00312094 File Offset: 0x00310494
+		// Token: 0x06006168 RID: 24936 RVA: 0x00312170 File Offset: 0x00310570
 		private void LoadScenario()
 		{
 			FileInfo fileInfo = (from fi in base.Directory.GetFiles("*.rsc")
@@ -50,7 +50,7 @@ namespace Verse.Steam
 			}
 		}
 
-		// Token: 0x04003FB2 RID: 16306
+		// Token: 0x04003FB1 RID: 16305
 		private Scenario cachedScenario;
 	}
 }

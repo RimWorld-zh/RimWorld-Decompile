@@ -6,13 +6,13 @@ namespace Verse.AI.Group
 	// Token: 0x02000A2B RID: 2603
 	public class Trigger_NoPawnsVeryTiredAndSleeping : Trigger
 	{
-		// Token: 0x060039D1 RID: 14801 RVA: 0x001E88F7 File Offset: 0x001E6CF7
+		// Token: 0x060039D3 RID: 14803 RVA: 0x001E89CB File Offset: 0x001E6DCB
 		public Trigger_NoPawnsVeryTiredAndSleeping(float extraRestThreshOffset = 0f)
 		{
 			this.extraRestThreshOffset = extraRestThreshOffset;
 		}
 
-		// Token: 0x060039D2 RID: 14802 RVA: 0x001E8908 File Offset: 0x001E6D08
+		// Token: 0x060039D4 RID: 14804 RVA: 0x001E89DC File Offset: 0x001E6DDC
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
 			bool result;

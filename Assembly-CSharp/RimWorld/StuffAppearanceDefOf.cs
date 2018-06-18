@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class StuffAppearanceDefOf
 	{
-		// Token: 0x0600365A RID: 13914 RVA: 0x001D0A07 File Offset: 0x001CEE07
+		// Token: 0x0600365C RID: 13916 RVA: 0x001D0ACF File Offset: 0x001CEECF
 		static StuffAppearanceDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(StuffAppearanceDefOf));

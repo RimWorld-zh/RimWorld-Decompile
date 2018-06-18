@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000664 RID: 1636
 	public static class TaleRecorder
 	{
-		// Token: 0x0600223B RID: 8763 RVA: 0x001225E0 File Offset: 0x001209E0
+		// Token: 0x0600223D RID: 8765 RVA: 0x00122658 File Offset: 0x00120A58
 		public static void RecordTale(TaleDef def, params object[] args)
 		{
 			bool flag = Rand.Value < def.ignoreChance;

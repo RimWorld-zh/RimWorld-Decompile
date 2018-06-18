@@ -8,14 +8,14 @@ namespace RimWorld.Planet
 	// Token: 0x020005EE RID: 1518
 	public class Caravan_TraderTracker : IExposable
 	{
-		// Token: 0x06001E1A RID: 7706 RVA: 0x00102E43 File Offset: 0x00101243
+		// Token: 0x06001E1C RID: 7708 RVA: 0x00102EBB File Offset: 0x001012BB
 		public Caravan_TraderTracker(Caravan caravan)
 		{
 			this.caravan = caravan;
 		}
 
 		// Token: 0x1700046D RID: 1133
-		// (get) Token: 0x06001E1B RID: 7707 RVA: 0x00102E60 File Offset: 0x00101260
+		// (get) Token: 0x06001E1D RID: 7709 RVA: 0x00102ED8 File Offset: 0x001012D8
 		public TraderKindDef TraderKind
 		{
 			get
@@ -34,7 +34,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700046E RID: 1134
-		// (get) Token: 0x06001E1C RID: 7708 RVA: 0x00102ECC File Offset: 0x001012CC
+		// (get) Token: 0x06001E1E RID: 7710 RVA: 0x00102F44 File Offset: 0x00101344
 		public IEnumerable<Thing> Goods
 		{
 			get
@@ -58,7 +58,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700046F RID: 1135
-		// (get) Token: 0x06001E1D RID: 7709 RVA: 0x00102EF8 File Offset: 0x001012F8
+		// (get) Token: 0x06001E1F RID: 7711 RVA: 0x00102F70 File Offset: 0x00101370
 		public int RandomPriceFactorSeed
 		{
 			get
@@ -68,7 +68,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000470 RID: 1136
-		// (get) Token: 0x06001E1E RID: 7710 RVA: 0x00102F24 File Offset: 0x00101324
+		// (get) Token: 0x06001E20 RID: 7712 RVA: 0x00102F9C File Offset: 0x0010139C
 		public string TraderName
 		{
 			get
@@ -78,7 +78,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000471 RID: 1137
-		// (get) Token: 0x06001E1F RID: 7711 RVA: 0x00102F44 File Offset: 0x00101344
+		// (get) Token: 0x06001E21 RID: 7713 RVA: 0x00102FBC File Offset: 0x001013BC
 		public bool CanTradeNow
 		{
 			get
@@ -87,7 +87,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E20 RID: 7712 RVA: 0x00102FA4 File Offset: 0x001013A4
+		// Token: 0x06001E22 RID: 7714 RVA: 0x0010301C File Offset: 0x0010141C
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Pawn>(ref this.soldPrisoners, "soldPrisoners", LookMode.Reference, new object[0]);
@@ -97,7 +97,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E21 RID: 7713 RVA: 0x00103000 File Offset: 0x00101400
+		// Token: 0x06001E23 RID: 7715 RVA: 0x00103078 File Offset: 0x00101478
 		public IEnumerable<Thing> ColonyThingsWillingToBuy(Pawn playerNegotiator)
 		{
 			Caravan playerCaravan = playerNegotiator.GetCaravan();
@@ -116,7 +116,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x06001E22 RID: 7714 RVA: 0x0010302C File Offset: 0x0010142C
+		// Token: 0x06001E24 RID: 7716 RVA: 0x001030A4 File Offset: 0x001014A4
 		public void GiveSoldThingToTrader(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			if (this.Goods.Contains(toGive))
@@ -159,7 +159,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E23 RID: 7715 RVA: 0x0010315C File Offset: 0x0010155C
+		// Token: 0x06001E25 RID: 7717 RVA: 0x001031D4 File Offset: 0x001015D4
 		public void GiveSoldThingToPlayer(Thing toGive, int countToGive, Pawn playerNegotiator)
 		{
 			Caravan caravan = playerNegotiator.GetCaravan();

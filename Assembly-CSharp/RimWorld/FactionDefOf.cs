@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class FactionDefOf
 	{
-		// Token: 0x06003627 RID: 13863 RVA: 0x001D0671 File Offset: 0x001CEA71
+		// Token: 0x06003629 RID: 13865 RVA: 0x001D0739 File Offset: 0x001CEB39
 		static FactionDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(FactionDefOf));

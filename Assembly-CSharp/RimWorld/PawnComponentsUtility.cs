@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200047D RID: 1149
 	public class PawnComponentsUtility
 	{
-		// Token: 0x06001423 RID: 5155 RVA: 0x000AEE20 File Offset: 0x000AD220
+		// Token: 0x06001423 RID: 5155 RVA: 0x000AEE2C File Offset: 0x000AD22C
 		public static void CreateInitialComponents(Pawn pawn)
 		{
 			if (pawn.ageTracker == null)
@@ -94,7 +94,7 @@ namespace RimWorld
 			PawnComponentsUtility.AddAndRemoveDynamicComponents(pawn, false);
 		}
 
-		// Token: 0x06001424 RID: 5156 RVA: 0x000AF008 File Offset: 0x000AD408
+		// Token: 0x06001424 RID: 5156 RVA: 0x000AF014 File Offset: 0x000AD414
 		public static void AddComponentsForSpawn(Pawn pawn)
 		{
 			if (pawn.rotationTracker == null)
@@ -142,7 +142,7 @@ namespace RimWorld
 			PawnComponentsUtility.AddAndRemoveDynamicComponents(pawn, true);
 		}
 
-		// Token: 0x06001425 RID: 5157 RVA: 0x000AF111 File Offset: 0x000AD511
+		// Token: 0x06001425 RID: 5157 RVA: 0x000AF11D File Offset: 0x000AD51D
 		public static void RemoveComponentsOnKilled(Pawn pawn)
 		{
 			pawn.carryTracker = null;
@@ -152,7 +152,7 @@ namespace RimWorld
 			pawn.trader = null;
 		}
 
-		// Token: 0x06001426 RID: 5158 RVA: 0x000AF138 File Offset: 0x000AD538
+		// Token: 0x06001426 RID: 5158 RVA: 0x000AF144 File Offset: 0x000AD544
 		public static void RemoveComponentsOnDespawned(Pawn pawn)
 		{
 			pawn.rotationTracker = null;
@@ -167,7 +167,7 @@ namespace RimWorld
 			pawn.drafter = null;
 		}
 
-		// Token: 0x06001427 RID: 5159 RVA: 0x000AF18C File Offset: 0x000AD58C
+		// Token: 0x06001427 RID: 5159 RVA: 0x000AF198 File Offset: 0x000AD598
 		public static void AddAndRemoveDynamicComponents(Pawn pawn, bool actAsIfSpawned = false)
 		{
 			bool flag = pawn.Faction != null && pawn.Faction.IsPlayer;
@@ -238,7 +238,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001428 RID: 5160 RVA: 0x000AF340 File Offset: 0x000AD740
+		// Token: 0x06001428 RID: 5160 RVA: 0x000AF34C File Offset: 0x000AD74C
 		public static bool HasSpawnedComponents(Pawn p)
 		{
 			return p.pather != null;

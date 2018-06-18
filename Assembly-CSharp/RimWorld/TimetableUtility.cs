@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x0200051B RID: 1307
 	public static class TimetableUtility
 	{
-		// Token: 0x060017BA RID: 6074 RVA: 0x000CF0F8 File Offset: 0x000CD4F8
+		// Token: 0x060017BB RID: 6075 RVA: 0x000CF14C File Offset: 0x000CD54C
 		public static TimeAssignmentDef GetTimeAssignment(this Pawn pawn)
 		{
 			TimeAssignmentDef result;

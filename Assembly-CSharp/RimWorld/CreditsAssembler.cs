@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200083D RID: 2109
 	public class CreditsAssembler
 	{
-		// Token: 0x06002FB6 RID: 12214 RVA: 0x00198420 File Offset: 0x00196820
+		// Token: 0x06002FB8 RID: 12216 RVA: 0x001984B4 File Offset: 0x001968B4
 		public static IEnumerable<CreditsEntry> AllCredits()
 		{
 			yield return new CreditRecord_Space(200f);
@@ -41,29 +41,30 @@ namespace RimWorld
 			yield return new CreditRecord_Role("Credit_Moderator", "Calahan", null);
 			yield return new CreditRecord_Role("Credit_Moderator", "milon", null);
 			yield return new CreditRecord_Role("Credit_Moderator", "Evul", null);
-			yield return new CreditRecord_Role("Credit_Moderator", "Semmy", null);
+			yield return new CreditRecord_Role("Credit_Moderator", "MarvinKosh", null);
 			yield return new CreditRecord_Role("Credit_WikiMaster", "ZestyLemons", null);
 			yield return new CreditRecord_Role("Credit_Tester", "ItchyFlea", null);
 			yield return new CreditRecord_Role("Credit_Tester", "Haplo", null);
 			yield return new CreditRecord_Role("Credit_Tester", "Mehni", null);
-			yield return new CreditRecord_Role("Credit_Tester", "Semmy", null);
-			yield return new CreditRecord_Role("Credit_Tester", "drb89", null);
+			yield return new CreditRecord_Role("Credit_Tester", "Vas", null);
+			yield return new CreditRecord_Role("Credit_Tester", "XeoNovaDan", null);
+			yield return new CreditRecord_Role("Credit_Tester", "JimmyAgnt007", null);
+			yield return new CreditRecord_Role("Credit_Tester", "Goldenpotatoes", null);
+			yield return new CreditRecord_Role("Credit_Tester", "_alphaBeta_", null);
+			yield return new CreditRecord_Role("Credit_Tester", "TheDee05", null);
+			yield return new CreditRecord_Role("Credit_Tester", "Drb89", null);
 			yield return new CreditRecord_Role("Credit_Tester", "Skissor", null);
 			yield return new CreditRecord_Role("Credit_Tester", "MarvinKosh", null);
-			yield return new CreditRecord_Role("Credit_Tester", "TLHeart", null);
-			yield return new CreditRecord_Role("Credit_Tester", "Sion", null);
 			yield return new CreditRecord_Role("Credit_Tester", "Evul", null);
-			yield return new CreditRecord_Role("Credit_Tester", "enystrom8734", null);
-			yield return new CreditRecord_Role("Credit_Tester", "pheanox", null);
-			yield return new CreditRecord_Role("Credit_Tester", "Nasikabatrachus", null);
-			yield return new CreditRecord_Role("Credit_Tester", "_alphaBeta_", null);
-			yield return new CreditRecord_Role("Credit_Tester", "letharion", null);
+			yield return new CreditRecord_Role("Credit_Tester", "Jimyoda", null);
+			yield return new CreditRecord_Role("Credit_Tester", "Pheanox", null);
+			yield return new CreditRecord_Role("Credit_Tester", "Semmy", null);
+			yield return new CreditRecord_Role("Credit_Tester", "Letharion", null);
 			yield return new CreditRecord_Role("Credit_Tester", "Laos", null);
 			yield return new CreditRecord_Role("Credit_Tester", "Coenmjc", null);
 			yield return new CreditRecord_Role("Credit_Tester", "Gaesatae", null);
-			yield return new CreditRecord_Role("Credit_Tester", "skullywag", null);
-			yield return new CreditRecord_Role("Credit_Tester", "Vas", null);
-			yield return new CreditRecord_Role("Credit_Tester", "theDee05", null);
+			yield return new CreditRecord_Role("Credit_Tester", "Skullywag", null);
+			yield return new CreditRecord_Role("Credit_Tester", "Enystrom8734", null);
 			yield return new CreditRecord_Role("", "Many other gracious volunteers!", null);
 			yield return new CreditRecord_Space(200f);
 			foreach (LoadedLanguage lang in LanguageDatabase.AllLoadedLanguages)

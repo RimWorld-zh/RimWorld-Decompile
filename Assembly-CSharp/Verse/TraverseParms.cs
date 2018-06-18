@@ -5,7 +5,7 @@ namespace Verse
 	// Token: 0x02000ADF RID: 2783
 	public struct TraverseParms : IEquatable<TraverseParms>
 	{
-		// Token: 0x06003D9A RID: 15770 RVA: 0x0020628C File Offset: 0x0020468C
+		// Token: 0x06003D9C RID: 15772 RVA: 0x00206360 File Offset: 0x00204760
 		public static TraverseParms For(Pawn pawn, Danger maxDanger = Danger.Deadly, TraverseMode mode = TraverseMode.ByPawn, bool canBash = false)
 		{
 			TraverseParms result;
@@ -27,7 +27,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003D9B RID: 15771 RVA: 0x002062EC File Offset: 0x002046EC
+		// Token: 0x06003D9D RID: 15773 RVA: 0x002063C0 File Offset: 0x002047C0
 		public static TraverseParms For(TraverseMode mode, Danger maxDanger = Danger.Deadly, bool canBash = false)
 		{
 			return new TraverseParms
@@ -39,7 +39,7 @@ namespace Verse
 			};
 		}
 
-		// Token: 0x06003D9C RID: 15772 RVA: 0x0020632A File Offset: 0x0020472A
+		// Token: 0x06003D9E RID: 15774 RVA: 0x002063FE File Offset: 0x002047FE
 		public void Validate()
 		{
 			if (this.mode == TraverseMode.ByPawn && this.pawn == null)
@@ -48,7 +48,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003D9D RID: 15773 RVA: 0x00206350 File Offset: 0x00204750
+		// Token: 0x06003D9F RID: 15775 RVA: 0x00206424 File Offset: 0x00204824
 		public static implicit operator TraverseParms(TraverseMode m)
 		{
 			if (m == TraverseMode.ByPawn)
@@ -58,31 +58,31 @@ namespace Verse
 			return TraverseParms.For(m, Danger.Deadly, false);
 		}
 
-		// Token: 0x06003D9E RID: 15774 RVA: 0x00206380 File Offset: 0x00204780
+		// Token: 0x06003DA0 RID: 15776 RVA: 0x00206454 File Offset: 0x00204854
 		public static bool operator ==(TraverseParms a, TraverseParms b)
 		{
 			return a.pawn == b.pawn && a.mode == b.mode && a.canBash == b.canBash && a.maxDanger == b.maxDanger;
 		}
 
-		// Token: 0x06003D9F RID: 15775 RVA: 0x002063E4 File Offset: 0x002047E4
+		// Token: 0x06003DA1 RID: 15777 RVA: 0x002064B8 File Offset: 0x002048B8
 		public static bool operator !=(TraverseParms a, TraverseParms b)
 		{
 			return a.pawn != b.pawn || a.mode != b.mode || a.canBash != b.canBash || a.maxDanger != b.maxDanger;
 		}
 
-		// Token: 0x06003DA0 RID: 15776 RVA: 0x00206448 File Offset: 0x00204848
+		// Token: 0x06003DA2 RID: 15778 RVA: 0x0020651C File Offset: 0x0020491C
 		public override bool Equals(object obj)
 		{
 			return obj is TraverseParms && this.Equals((TraverseParms)obj);
 		}
 
-		// Token: 0x06003DA1 RID: 15777 RVA: 0x0020647C File Offset: 0x0020487C
+		// Token: 0x06003DA3 RID: 15779 RVA: 0x00206550 File Offset: 0x00204950
 		public bool Equals(TraverseParms other)
 		{
 			return other.pawn == this.pawn && other.mode == this.mode && other.canBash == this.canBash && other.maxDanger == this.maxDanger;
 		}
 
-		// Token: 0x06003DA2 RID: 15778 RVA: 0x002064DC File Offset: 0x002048DC
+		// Token: 0x06003DA4 RID: 15780 RVA: 0x002065B0 File Offset: 0x002049B0
 		public override int GetHashCode()
 		{
 			int seed = (!this.canBash) ? 0 : 1;
@@ -97,7 +97,7 @@ namespace Verse
 			return Gen.HashCombineStruct<Danger>(seed, this.maxDanger);
 		}
 
-		// Token: 0x06003DA3 RID: 15779 RVA: 0x0020653C File Offset: 0x0020493C
+		// Token: 0x06003DA5 RID: 15781 RVA: 0x00206610 File Offset: 0x00204A10
 		public override string ToString()
 		{
 			string text = (!this.canBash) ? "" : " canBash";

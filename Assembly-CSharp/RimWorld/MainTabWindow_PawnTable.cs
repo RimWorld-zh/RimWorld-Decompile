@@ -9,7 +9,7 @@ namespace RimWorld
 	public abstract class MainTabWindow_PawnTable : MainTabWindow
 	{
 		// Token: 0x170007EB RID: 2027
-		// (get) Token: 0x06003146 RID: 12614 RVA: 0x001A9D70 File Offset: 0x001A8170
+		// (get) Token: 0x06003148 RID: 12616 RVA: 0x001A9E38 File Offset: 0x001A8238
 		protected virtual float ExtraBottomSpace
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007EC RID: 2028
-		// (get) Token: 0x06003147 RID: 12615 RVA: 0x001A9D8C File Offset: 0x001A818C
+		// (get) Token: 0x06003149 RID: 12617 RVA: 0x001A9E54 File Offset: 0x001A8254
 		protected virtual float ExtraTopSpace
 		{
 			get
@@ -29,11 +29,11 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007ED RID: 2029
-		// (get) Token: 0x06003148 RID: 12616
+		// (get) Token: 0x0600314A RID: 12618
 		protected abstract PawnTableDef PawnTableDef { get; }
 
 		// Token: 0x170007EE RID: 2030
-		// (get) Token: 0x06003149 RID: 12617 RVA: 0x001A9DA8 File Offset: 0x001A81A8
+		// (get) Token: 0x0600314B RID: 12619 RVA: 0x001A9E70 File Offset: 0x001A8270
 		protected override float Margin
 		{
 			get
@@ -43,7 +43,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007EF RID: 2031
-		// (get) Token: 0x0600314A RID: 12618 RVA: 0x001A9DC4 File Offset: 0x001A81C4
+		// (get) Token: 0x0600314C RID: 12620 RVA: 0x001A9E8C File Offset: 0x001A828C
 		public override Vector2 RequestedTabSize
 		{
 			get
@@ -62,7 +62,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007F0 RID: 2032
-		// (get) Token: 0x0600314B RID: 12619 RVA: 0x001A9E44 File Offset: 0x001A8244
+		// (get) Token: 0x0600314D RID: 12621 RVA: 0x001A9F0C File Offset: 0x001A830C
 		protected virtual IEnumerable<Pawn> Pawns
 		{
 			get
@@ -71,7 +71,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600314C RID: 12620 RVA: 0x001A9E68 File Offset: 0x001A8268
+		// Token: 0x0600314E RID: 12622 RVA: 0x001A9F30 File Offset: 0x001A8330
 		public override void PostOpen()
 		{
 			if (this.table == null)
@@ -81,27 +81,27 @@ namespace RimWorld
 			this.SetDirty();
 		}
 
-		// Token: 0x0600314D RID: 12621 RVA: 0x001A9E88 File Offset: 0x001A8288
+		// Token: 0x0600314F RID: 12623 RVA: 0x001A9F50 File Offset: 0x001A8350
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DoWindowContents(rect);
 			this.table.PawnTableOnGUI(new Vector2(rect.x, rect.y + this.ExtraTopSpace));
 		}
 
-		// Token: 0x0600314E RID: 12622 RVA: 0x001A9EB7 File Offset: 0x001A82B7
+		// Token: 0x06003150 RID: 12624 RVA: 0x001A9F7F File Offset: 0x001A837F
 		public void Notify_PawnsChanged()
 		{
 			this.SetDirty();
 		}
 
-		// Token: 0x0600314F RID: 12623 RVA: 0x001A9EC0 File Offset: 0x001A82C0
+		// Token: 0x06003151 RID: 12625 RVA: 0x001A9F88 File Offset: 0x001A8388
 		public override void Notify_ResolutionChanged()
 		{
 			this.table = this.CreateTable();
 			base.Notify_ResolutionChanged();
 		}
 
-		// Token: 0x06003150 RID: 12624 RVA: 0x001A9ED8 File Offset: 0x001A82D8
+		// Token: 0x06003152 RID: 12626 RVA: 0x001A9FA0 File Offset: 0x001A83A0
 		private PawnTable CreateTable()
 		{
 			return (PawnTable)Activator.CreateInstance(this.PawnTableDef.workerClass, new object[]
@@ -113,7 +113,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06003151 RID: 12625 RVA: 0x001A9F68 File Offset: 0x001A8368
+		// Token: 0x06003153 RID: 12627 RVA: 0x001AA030 File Offset: 0x001A8430
 		protected void SetDirty()
 		{
 			this.table.SetDirty();

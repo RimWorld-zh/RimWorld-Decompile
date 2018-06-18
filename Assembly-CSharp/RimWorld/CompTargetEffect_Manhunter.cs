@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000758 RID: 1880
 	public class CompTargetEffect_Manhunter : CompTargetEffect
 	{
-		// Token: 0x06002991 RID: 10641 RVA: 0x0016135C File Offset: 0x0015F75C
+		// Token: 0x06002993 RID: 10643 RVA: 0x001613F0 File Offset: 0x0015F7F0
 		public override void DoEffectOn(Pawn user, Thing target)
 		{
 			Pawn pawn = (Pawn)target;

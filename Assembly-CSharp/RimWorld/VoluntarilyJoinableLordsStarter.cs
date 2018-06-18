@@ -7,13 +7,13 @@ namespace RimWorld
 	// Token: 0x02000446 RID: 1094
 	public class VoluntarilyJoinableLordsStarter : IExposable
 	{
-		// Token: 0x060012EF RID: 4847 RVA: 0x000A34C8 File Offset: 0x000A18C8
+		// Token: 0x060012EF RID: 4847 RVA: 0x000A34D4 File Offset: 0x000A18D4
 		public VoluntarilyJoinableLordsStarter(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x060012F0 RID: 4848 RVA: 0x000A34EC File Offset: 0x000A18EC
+		// Token: 0x060012F0 RID: 4848 RVA: 0x000A34F8 File Offset: 0x000A18F8
 		public bool TryStartMarriageCeremony(Pawn firstFiance, Pawn secondFiance)
 		{
 			IntVec3 intVec;
@@ -36,7 +36,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060012F1 RID: 4849 RVA: 0x000A3584 File Offset: 0x000A1984
+		// Token: 0x060012F1 RID: 4849 RVA: 0x000A3590 File Offset: 0x000A1990
 		public bool TryStartParty()
 		{
 			Pawn pawn = PartyUtility.FindRandomPartyOrganizer(Faction.OfPlayer, this.map);
@@ -64,20 +64,20 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060012F2 RID: 4850 RVA: 0x000A3643 File Offset: 0x000A1A43
+		// Token: 0x060012F2 RID: 4850 RVA: 0x000A364F File Offset: 0x000A1A4F
 		public void VoluntarilyJoinableLordsStarterTick()
 		{
 			this.Tick_TryStartParty();
 		}
 
-		// Token: 0x060012F3 RID: 4851 RVA: 0x000A364C File Offset: 0x000A1A4C
+		// Token: 0x060012F3 RID: 4851 RVA: 0x000A3658 File Offset: 0x000A1A58
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.lastLordStartTick, "lastLordStartTick", 0, false);
 			Scribe_Values.Look<bool>(ref this.startPartyASAP, "startPartyASAP", false, false);
 		}
 
-		// Token: 0x060012F4 RID: 4852 RVA: 0x000A3674 File Offset: 0x000A1A74
+		// Token: 0x060012F4 RID: 4852 RVA: 0x000A3680 File Offset: 0x000A1A80
 		private void Tick_TryStartParty()
 		{
 			if (this.map.IsPlayerHome)

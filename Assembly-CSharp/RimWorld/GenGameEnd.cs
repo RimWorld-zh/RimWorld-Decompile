@@ -7,13 +7,13 @@ namespace RimWorld
 	// Token: 0x02000980 RID: 2432
 	public static class GenGameEnd
 	{
-		// Token: 0x060036AD RID: 13997 RVA: 0x001D290B File Offset: 0x001D0D0B
+		// Token: 0x060036AF RID: 13999 RVA: 0x001D29D3 File Offset: 0x001D0DD3
 		public static void EndGameDialogMessage(string msg, bool allowKeepPlaying = true)
 		{
 			GenGameEnd.EndGameDialogMessage(msg, allowKeepPlaying, Color.clear);
 		}
 
-		// Token: 0x060036AE RID: 13998 RVA: 0x001D291C File Offset: 0x001D0D1C
+		// Token: 0x060036B0 RID: 14000 RVA: 0x001D29E4 File Offset: 0x001D0DE4
 		public static void EndGameDialogMessage(string msg, bool allowKeepPlaying, Color screenFillColor)
 		{
 			DiaNode diaNode = new DiaNode(msg);

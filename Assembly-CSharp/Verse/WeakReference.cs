@@ -2,17 +2,17 @@
 
 namespace Verse
 {
-	// Token: 0x02000F58 RID: 3928
+	// Token: 0x02000F57 RID: 3927
 	public class WeakReference<T> : WeakReference where T : class
 	{
-		// Token: 0x06005F05 RID: 24325 RVA: 0x003061ED File Offset: 0x003045ED
+		// Token: 0x06005F03 RID: 24323 RVA: 0x003062C9 File Offset: 0x003046C9
 		public WeakReference(T target) : base(target)
 		{
 		}
 
-		// Token: 0x17000F42 RID: 3906
-		// (get) Token: 0x06005F06 RID: 24326 RVA: 0x003061FC File Offset: 0x003045FC
-		// (set) Token: 0x06005F07 RID: 24327 RVA: 0x0030621C File Offset: 0x0030461C
+		// Token: 0x17000F41 RID: 3905
+		// (get) Token: 0x06005F04 RID: 24324 RVA: 0x003062D8 File Offset: 0x003046D8
+		// (set) Token: 0x06005F05 RID: 24325 RVA: 0x003062F8 File Offset: 0x003046F8
 		public new T Target
 		{
 			get

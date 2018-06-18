@@ -5,10 +5,10 @@ using System.Xml.Linq;
 
 namespace Verse
 {
-	// Token: 0x02000D85 RID: 3461
+	// Token: 0x02000D84 RID: 3460
 	internal static class DirectXmlSaveFormatter
 	{
-		// Token: 0x06004D5B RID: 19803 RVA: 0x00284888 File Offset: 0x00282C88
+		// Token: 0x06004D59 RID: 19801 RVA: 0x00284868 File Offset: 0x00282C68
 		public static void AddWhitespaceFromRoot(XElement root)
 		{
 			if (root.Elements().Any<XElement>())
@@ -27,7 +27,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D5C RID: 19804 RVA: 0x00284998 File Offset: 0x00282D98
+		// Token: 0x06004D5A RID: 19802 RVA: 0x00284978 File Offset: 0x00282D78
 		private static void IndentXml(XElement element, int depth)
 		{
 			element.AddBeforeSelf(new XText(DirectXmlSaveFormatter.IndentString(depth, true)));
@@ -39,7 +39,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004D5D RID: 19805 RVA: 0x00284A30 File Offset: 0x00282E30
+		// Token: 0x06004D5B RID: 19803 RVA: 0x00284A10 File Offset: 0x00282E10
 		private static string IndentString(int depth, bool startWithNewline)
 		{
 			StringBuilder stringBuilder = new StringBuilder();

@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E5E RID: 3678
+	// Token: 0x02000E5D RID: 3677
 	internal static class BeautyDrawer
 	{
-		// Token: 0x0600568D RID: 22157 RVA: 0x002C921D File Offset: 0x002C761D
+		// Token: 0x0600568B RID: 22155 RVA: 0x002C921D File Offset: 0x002C761D
 		public static void BeautyDrawerOnGUI()
 		{
 			if (Event.current.type == EventType.Repaint && BeautyDrawer.ShouldShow())
@@ -17,13 +17,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600568E RID: 22158 RVA: 0x002C9244 File Offset: 0x002C7644
+		// Token: 0x0600568C RID: 22156 RVA: 0x002C9244 File Offset: 0x002C7644
 		private static bool ShouldShow()
 		{
 			return Find.PlaySettings.showBeauty && !Mouse.IsInputBlockedNow && UI.MouseCell().InBounds(Find.CurrentMap) && !UI.MouseCell().Fogged(Find.CurrentMap);
 		}
 
-		// Token: 0x0600568F RID: 22159 RVA: 0x002C92B0 File Offset: 0x002C76B0
+		// Token: 0x0600568D RID: 22157 RVA: 0x002C92B0 File Offset: 0x002C76B0
 		private static void DrawBeautyAroundMouse()
 		{
 			if (Find.PlaySettings.showBeauty)
@@ -43,7 +43,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005690 RID: 22160 RVA: 0x002C9364 File Offset: 0x002C7764
+		// Token: 0x0600568E RID: 22158 RVA: 0x002C9364 File Offset: 0x002C7764
 		public static Color BeautyColor(float beauty, float scale)
 		{
 			float num = Mathf.InverseLerp(-scale, scale, beauty);
@@ -52,13 +52,13 @@ namespace Verse
 			return Color.Lerp(a, Color.white, 0.5f);
 		}
 
-		// Token: 0x04003957 RID: 14679
+		// Token: 0x04003955 RID: 14677
 		private static List<Thing> beautyCountedThings = new List<Thing>();
 
-		// Token: 0x04003958 RID: 14680
+		// Token: 0x04003956 RID: 14678
 		private static Color ColorUgly = Color.red;
 
-		// Token: 0x04003959 RID: 14681
+		// Token: 0x04003957 RID: 14679
 		private static Color ColorBeautiful = Color.green;
 	}
 }

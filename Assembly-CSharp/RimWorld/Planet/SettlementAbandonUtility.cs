@@ -12,7 +12,7 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public static class SettlementAbandonUtility
 	{
-		// Token: 0x06001EE6 RID: 7910 RVA: 0x0010C94C File Offset: 0x0010AD4C
+		// Token: 0x06001EE8 RID: 7912 RVA: 0x0010C9C4 File Offset: 0x0010ADC4
 		public static Command AbandonCommand(MapParent settlement)
 		{
 			Command_Action command_Action = new Command_Action();
@@ -30,13 +30,13 @@ namespace RimWorld.Planet
 			return command_Action;
 		}
 
-		// Token: 0x06001EE7 RID: 7911 RVA: 0x0010C9D4 File Offset: 0x0010ADD4
+		// Token: 0x06001EE9 RID: 7913 RVA: 0x0010CA4C File Offset: 0x0010AE4C
 		public static bool AllColonistsThere(MapParent settlement)
 		{
 			return !CaravanUtility.PlayerHasAnyCaravan() && !Find.Maps.Any((Map x) => x.info.parent != settlement && x.mapPawns.FreeColonistsSpawned.Any<Pawn>());
 		}
 
-		// Token: 0x06001EE8 RID: 7912 RVA: 0x0010CA1C File Offset: 0x0010AE1C
+		// Token: 0x06001EEA RID: 7914 RVA: 0x0010CA94 File Offset: 0x0010AE94
 		public static void TryAbandonViaInterface(MapParent settlement)
 		{
 			Map map = settlement.Map;
@@ -83,7 +83,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001EE9 RID: 7913 RVA: 0x0010CBC0 File Offset: 0x0010AFC0
+		// Token: 0x06001EEB RID: 7915 RVA: 0x0010CC38 File Offset: 0x0010B038
 		private static void Abandon(MapParent settlement)
 		{
 			Find.WorldObjects.Remove(settlement);
@@ -95,7 +95,7 @@ namespace RimWorld.Planet
 			Find.GameEnder.CheckOrUpdateGameOver();
 		}
 
-		// Token: 0x06001EEA RID: 7914 RVA: 0x0010CBF8 File Offset: 0x0010AFF8
+		// Token: 0x06001EEC RID: 7916 RVA: 0x0010CC70 File Offset: 0x0010B070
 		private static void AddAbandonedBase(FactionBase factionBase)
 		{
 			WorldObject worldObject = WorldObjectMaker.MakeWorldObject(WorldObjectDefOf.AbandonedBase);

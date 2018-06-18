@@ -8,7 +8,7 @@ namespace RimWorld
 	public class Pawn_GuiltTracker : IExposable
 	{
 		// Token: 0x1700035C RID: 860
-		// (get) Token: 0x06001821 RID: 6177 RVA: 0x000D27BC File Offset: 0x000D0BBC
+		// (get) Token: 0x06001822 RID: 6178 RVA: 0x000D2810 File Offset: 0x000D0C10
 		public bool IsGuilty
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700035D RID: 861
-		// (get) Token: 0x06001822 RID: 6178 RVA: 0x000D27DC File Offset: 0x000D0BDC
+		// (get) Token: 0x06001823 RID: 6179 RVA: 0x000D2830 File Offset: 0x000D0C30
 		public int TicksUntilInnocent
 		{
 			get
@@ -27,13 +27,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001823 RID: 6179 RVA: 0x000D280E File Offset: 0x000D0C0E
+		// Token: 0x06001824 RID: 6180 RVA: 0x000D2862 File Offset: 0x000D0C62
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.lastGuiltyTick, "lastGuiltyTick", -99999, false);
 		}
 
-		// Token: 0x06001824 RID: 6180 RVA: 0x000D2827 File Offset: 0x000D0C27
+		// Token: 0x06001825 RID: 6181 RVA: 0x000D287B File Offset: 0x000D0C7B
 		public void Notify_Guilty()
 		{
 			this.lastGuiltyTick = Find.TickManager.TicksGame;

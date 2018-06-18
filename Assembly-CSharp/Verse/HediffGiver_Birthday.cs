@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D33 RID: 3379
+	// Token: 0x02000D32 RID: 3378
 	public class HediffGiver_Birthday : HediffGiver
 	{
-		// Token: 0x06004A68 RID: 19048 RVA: 0x0026C420 File Offset: 0x0026A820
+		// Token: 0x06004A66 RID: 19046 RVA: 0x0026C3F8 File Offset: 0x0026A7F8
 		public void TryApplyAndSimulateSeverityChange(Pawn pawn, float gotAtAge, bool tryNotToKillPawn)
 		{
 			HediffGiver_Birthday.addedHediffs.Clear();
@@ -36,7 +36,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A69 RID: 19049 RVA: 0x0026C4F0 File Offset: 0x0026A8F0
+		// Token: 0x06004A67 RID: 19047 RVA: 0x0026C4C8 File Offset: 0x0026A8C8
 		private void SimulateSeverityChange(Pawn pawn, Hediff hediff, float daysPassed, bool tryNotToKillPawn)
 		{
 			float num = this.averageSeverityPerDayBeforeGeneration * daysPassed;
@@ -50,7 +50,7 @@ namespace Verse
 			pawn.health.Notify_HediffChanged(hediff);
 		}
 
-		// Token: 0x06004A6A RID: 19050 RVA: 0x0026C554 File Offset: 0x0026A954
+		// Token: 0x06004A68 RID: 19048 RVA: 0x0026C52C File Offset: 0x0026A92C
 		private void AvoidLifeThreateningStages(ref float severity, List<HediffStage> stages)
 		{
 			if (!stages.NullOrEmpty<HediffStage>())
@@ -78,7 +78,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A6B RID: 19051 RVA: 0x0026C5FC File Offset: 0x0026A9FC
+		// Token: 0x06004A69 RID: 19049 RVA: 0x0026C5D4 File Offset: 0x0026A9D4
 		public float DebugChanceToHaveAtAge(Pawn pawn, int age)
 		{
 			float num = 1f;
@@ -90,13 +90,13 @@ namespace Verse
 			return 1f - num;
 		}
 
-		// Token: 0x04003242 RID: 12866
+		// Token: 0x04003240 RID: 12864
 		public SimpleCurve ageFractionChanceCurve = null;
 
-		// Token: 0x04003243 RID: 12867
+		// Token: 0x04003241 RID: 12865
 		public float averageSeverityPerDayBeforeGeneration = 0f;
 
-		// Token: 0x04003244 RID: 12868
+		// Token: 0x04003242 RID: 12866
 		private static List<Hediff> addedHediffs = new List<Hediff>();
 	}
 }

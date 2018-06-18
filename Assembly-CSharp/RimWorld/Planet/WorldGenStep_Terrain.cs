@@ -10,7 +10,7 @@ namespace RimWorld.Planet
 	public class WorldGenStep_Terrain : WorldGenStep
 	{
 		// Token: 0x17000423 RID: 1059
-		// (get) Token: 0x06001C6B RID: 7275 RVA: 0x000F3E94 File Offset: 0x000F2294
+		// (get) Token: 0x06001C6D RID: 7277 RVA: 0x000F3F0C File Offset: 0x000F230C
 		public override int SeedPart
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000424 RID: 1060
-		// (get) Token: 0x06001C6C RID: 7276 RVA: 0x000F3EB0 File Offset: 0x000F22B0
+		// (get) Token: 0x06001C6E RID: 7278 RVA: 0x000F3F28 File Offset: 0x000F2328
 		private static float FreqMultiplier
 		{
 			get
@@ -29,20 +29,20 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C6D RID: 7277 RVA: 0x000F3ECA File Offset: 0x000F22CA
+		// Token: 0x06001C6F RID: 7279 RVA: 0x000F3F42 File Offset: 0x000F2342
 		public override void GenerateFresh(string seed)
 		{
 			this.GenerateGridIntoWorld();
 		}
 
-		// Token: 0x06001C6E RID: 7278 RVA: 0x000F3ED3 File Offset: 0x000F22D3
+		// Token: 0x06001C70 RID: 7280 RVA: 0x000F3F4B File Offset: 0x000F234B
 		public override void GenerateFromScribe(string seed)
 		{
 			Find.World.pathGrid = new WorldPathGrid();
 			NoiseDebugUI.ClearPlanetNoises();
 		}
 
-		// Token: 0x06001C6F RID: 7279 RVA: 0x000F3EEC File Offset: 0x000F22EC
+		// Token: 0x06001C71 RID: 7281 RVA: 0x000F3F64 File Offset: 0x000F2364
 		private void GenerateGridIntoWorld()
 		{
 			Find.World.grid = new WorldGrid();
@@ -63,7 +63,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C70 RID: 7280 RVA: 0x000F3F7C File Offset: 0x000F237C
+		// Token: 0x06001C72 RID: 7282 RVA: 0x000F3FF4 File Offset: 0x000F23F4
 		private void SetupElevationNoise()
 		{
 			float freqMultiplier = WorldGenStep_Terrain.FreqMultiplier;
@@ -99,7 +99,7 @@ namespace RimWorld.Planet
 			this.noiseElevation = new ScaleBias((double)WorldGenStep_Terrain.ElevationRange.Span, (double)WorldGenStep_Terrain.ElevationRange.min, this.noiseElevation);
 		}
 
-		// Token: 0x06001C71 RID: 7281 RVA: 0x000F41F4 File Offset: 0x000F25F4
+		// Token: 0x06001C73 RID: 7283 RVA: 0x000F426C File Offset: 0x000F266C
 		private void SetupTemperatureOffsetNoise()
 		{
 			float freqMultiplier = WorldGenStep_Terrain.FreqMultiplier;
@@ -107,7 +107,7 @@ namespace RimWorld.Planet
 			this.noiseTemperatureOffset = new Multiply(this.noiseTemperatureOffset, new Const(4.0));
 		}
 
-		// Token: 0x06001C72 RID: 7282 RVA: 0x000F425C File Offset: 0x000F265C
+		// Token: 0x06001C74 RID: 7284 RVA: 0x000F42D4 File Offset: 0x000F26D4
 		private void SetupRainfallNoise()
 		{
 			float freqMultiplier = WorldGenStep_Terrain.FreqMultiplier;
@@ -184,7 +184,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C73 RID: 7283 RVA: 0x000F44A4 File Offset: 0x000F28A4
+		// Token: 0x06001C75 RID: 7285 RVA: 0x000F451C File Offset: 0x000F291C
 		private void SetupHillinessNoise()
 		{
 			float freqMultiplier = WorldGenStep_Terrain.FreqMultiplier;
@@ -200,7 +200,7 @@ namespace RimWorld.Planet
 			this.noiseHillsPatchesMicro = new Perlin((double)(0.19f * freqMultiplier), 2.0, 0.5, 6, Rand.Range(0, int.MaxValue), QualityMode.High);
 		}
 
-		// Token: 0x06001C74 RID: 7284 RVA: 0x000F45E4 File Offset: 0x000F29E4
+		// Token: 0x06001C76 RID: 7286 RVA: 0x000F465C File Offset: 0x000F2A5C
 		private void SetupSwampinessNoise()
 		{
 			float freqMultiplier = WorldGenStep_Terrain.FreqMultiplier;
@@ -216,7 +216,7 @@ namespace RimWorld.Planet
 			NoiseDebugUI.StorePlanetNoise(this.noiseSwampiness, "noiseSwampiness");
 		}
 
-		// Token: 0x06001C75 RID: 7285 RVA: 0x000F4710 File Offset: 0x000F2B10
+		// Token: 0x06001C77 RID: 7287 RVA: 0x000F4788 File Offset: 0x000F2B88
 		private Tile GenerateTileFor(int tileID)
 		{
 			Tile tile = new Tile();
@@ -290,7 +290,7 @@ namespace RimWorld.Planet
 			return tile;
 		}
 
-		// Token: 0x06001C76 RID: 7286 RVA: 0x000F4960 File Offset: 0x000F2D60
+		// Token: 0x06001C78 RID: 7288 RVA: 0x000F49D8 File Offset: 0x000F2DD8
 		private BiomeDef BiomeFrom(Tile ws, int tileID)
 		{
 			List<BiomeDef> allDefsListForReading = DefDatabase<BiomeDef>.AllDefsListForReading;
@@ -312,7 +312,7 @@ namespace RimWorld.Planet
 			return biomeDef;
 		}
 
-		// Token: 0x06001C77 RID: 7287 RVA: 0x000F49E0 File Offset: 0x000F2DE0
+		// Token: 0x06001C79 RID: 7289 RVA: 0x000F4A58 File Offset: 0x000F2E58
 		private static float FertilityFactorFromTemperature(float temp)
 		{
 			float result;
@@ -335,14 +335,14 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001C78 RID: 7288 RVA: 0x000F4A58 File Offset: 0x000F2E58
+		// Token: 0x06001C7A RID: 7290 RVA: 0x000F4AD0 File Offset: 0x000F2ED0
 		private static float BaseTemperatureAtLatitude(float lat)
 		{
 			float x = Mathf.Abs(lat) / 90f;
 			return WorldGenStep_Terrain.AvgTempByLatitudeCurve.Evaluate(x);
 		}
 
-		// Token: 0x06001C79 RID: 7289 RVA: 0x000F4A88 File Offset: 0x000F2E88
+		// Token: 0x06001C7B RID: 7291 RVA: 0x000F4B00 File Offset: 0x000F2F00
 		private static float TemperatureReductionAtElevation(float elev)
 		{
 			float result;

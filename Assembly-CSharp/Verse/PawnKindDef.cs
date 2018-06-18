@@ -10,7 +10,7 @@ namespace Verse
 	public class PawnKindDef : Def
 	{
 		// Token: 0x170009A3 RID: 2467
-		// (get) Token: 0x06003F89 RID: 16265 RVA: 0x00217558 File Offset: 0x00215958
+		// (get) Token: 0x06003F8B RID: 16267 RVA: 0x0021762C File Offset: 0x00215A2C
 		public RaceProperties RaceProps
 		{
 			get
@@ -19,7 +19,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F8A RID: 16266 RVA: 0x00217578 File Offset: 0x00215978
+		// Token: 0x06003F8C RID: 16268 RVA: 0x0021764C File Offset: 0x00215A4C
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -29,7 +29,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F8B RID: 16267 RVA: 0x002175BC File Offset: 0x002159BC
+		// Token: 0x06003F8D RID: 16269 RVA: 0x00217690 File Offset: 0x00215A90
 		public string GetLabelPlural(int count = -1)
 		{
 			string result;
@@ -44,7 +44,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003F8C RID: 16268 RVA: 0x00217600 File Offset: 0x00215A00
+		// Token: 0x06003F8E RID: 16270 RVA: 0x002176D4 File Offset: 0x00215AD4
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
@@ -126,7 +126,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003F8D RID: 16269 RVA: 0x0021762C File Offset: 0x00215A2C
+		// Token: 0x06003F8F RID: 16271 RVA: 0x00217700 File Offset: 0x00215B00
 		public static PawnKindDef Named(string defName)
 		{
 			return DefDatabase<PawnKindDef>.GetNamed(defName, true);

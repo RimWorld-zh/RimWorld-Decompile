@@ -7,7 +7,7 @@ namespace Verse
 	// Token: 0x02000BD3 RID: 3027
 	public class TickList
 	{
-		// Token: 0x060041E7 RID: 16871 RVA: 0x0022B90C File Offset: 0x00229D0C
+		// Token: 0x060041E9 RID: 16873 RVA: 0x0022B984 File Offset: 0x00229D84
 		public TickList(TickerType tickType)
 		{
 			this.tickType = tickType;
@@ -18,7 +18,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A4A RID: 2634
-		// (get) Token: 0x060041E8 RID: 16872 RVA: 0x0022B974 File Offset: 0x00229D74
+		// (get) Token: 0x060041EA RID: 16874 RVA: 0x0022B9EC File Offset: 0x00229DEC
 		private int TickInterval
 		{
 			get
@@ -51,7 +51,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041E9 RID: 16873 RVA: 0x0022B9C8 File Offset: 0x00229DC8
+		// Token: 0x060041EB RID: 16875 RVA: 0x0022BA40 File Offset: 0x00229E40
 		public void Reset()
 		{
 			for (int i = 0; i < this.thingLists.Count; i++)
@@ -62,7 +62,7 @@ namespace Verse
 			this.thingsToDeregister.Clear();
 		}
 
-		// Token: 0x060041EA RID: 16874 RVA: 0x0022BA1C File Offset: 0x00229E1C
+		// Token: 0x060041EC RID: 16876 RVA: 0x0022BA94 File Offset: 0x00229E94
 		public void RemoveWhere(Predicate<Thing> predicate)
 		{
 			for (int i = 0; i < this.thingLists.Count; i++)
@@ -73,19 +73,19 @@ namespace Verse
 			this.thingsToDeregister.RemoveAll(predicate);
 		}
 
-		// Token: 0x060041EB RID: 16875 RVA: 0x0022BA75 File Offset: 0x00229E75
+		// Token: 0x060041ED RID: 16877 RVA: 0x0022BAED File Offset: 0x00229EED
 		public void RegisterThing(Thing t)
 		{
 			this.thingsToRegister.Add(t);
 		}
 
-		// Token: 0x060041EC RID: 16876 RVA: 0x0022BA84 File Offset: 0x00229E84
+		// Token: 0x060041EE RID: 16878 RVA: 0x0022BAFC File Offset: 0x00229EFC
 		public void DeregisterThing(Thing t)
 		{
 			this.thingsToDeregister.Add(t);
 		}
 
-		// Token: 0x060041ED RID: 16877 RVA: 0x0022BA94 File Offset: 0x00229E94
+		// Token: 0x060041EF RID: 16879 RVA: 0x0022BB0C File Offset: 0x00229F0C
 		public void Tick()
 		{
 			for (int i = 0; i < this.thingsToRegister.Count; i++)
@@ -169,7 +169,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041EE RID: 16878 RVA: 0x0022BD48 File Offset: 0x0022A148
+		// Token: 0x060041F0 RID: 16880 RVA: 0x0022BDC0 File Offset: 0x0022A1C0
 		private List<Thing> BucketOf(Thing t)
 		{
 			int num = t.GetHashCode();

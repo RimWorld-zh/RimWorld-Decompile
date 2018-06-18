@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class ResearchProjectTagDefOf
 	{
-		// Token: 0x06003672 RID: 13938 RVA: 0x001D0BB7 File Offset: 0x001CEFB7
+		// Token: 0x06003674 RID: 13940 RVA: 0x001D0C7F File Offset: 0x001CF07F
 		static ResearchProjectTagDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ResearchProjectTagDefOf));

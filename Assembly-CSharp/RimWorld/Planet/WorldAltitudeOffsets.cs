@@ -45,6 +45,6 @@ namespace RimWorld.Planet
 		public const float WorldFeature = 0.06f;
 
 		// Token: 0x040010C1 RID: 4289
-		public const float WorldText = 0.2f;
+		public static float WorldText = 0.4f;
 	}
 }

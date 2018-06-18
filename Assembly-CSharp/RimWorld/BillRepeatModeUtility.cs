@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020006B7 RID: 1719
 	public static class BillRepeatModeUtility
 	{
-		// Token: 0x060024E8 RID: 9448 RVA: 0x0013BA3C File Offset: 0x00139E3C
+		// Token: 0x060024EA RID: 9450 RVA: 0x0013BAB4 File Offset: 0x00139EB4
 		public static void MakeConfigFloatMenu(Bill_Production bill)
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();

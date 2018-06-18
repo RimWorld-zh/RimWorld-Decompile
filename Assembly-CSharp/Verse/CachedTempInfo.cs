@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000CAB RID: 3243
+	// Token: 0x02000CAA RID: 3242
 	public struct CachedTempInfo
 	{
-		// Token: 0x0600476E RID: 18286 RVA: 0x0025A077 File Offset: 0x00258477
+		// Token: 0x0600476C RID: 18284 RVA: 0x0025A04F File Offset: 0x0025844F
 		public CachedTempInfo(int roomGroupID, int numCells, float temperature)
 		{
 			this.roomGroupID = roomGroupID;
@@ -13,7 +13,7 @@ namespace Verse
 			this.temperature = temperature;
 		}
 
-		// Token: 0x0600476F RID: 18287 RVA: 0x0025A090 File Offset: 0x00258490
+		// Token: 0x0600476D RID: 18285 RVA: 0x0025A068 File Offset: 0x00258468
 		public static CachedTempInfo NewCachedTempInfo()
 		{
 			CachedTempInfo result = default(CachedTempInfo);
@@ -21,7 +21,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004770 RID: 18288 RVA: 0x0025A0B5 File Offset: 0x002584B5
+		// Token: 0x0600476E RID: 18286 RVA: 0x0025A08D File Offset: 0x0025848D
 		public void Reset()
 		{
 			this.roomGroupID = -1;
@@ -29,13 +29,13 @@ namespace Verse
 			this.temperature = 0f;
 		}
 
-		// Token: 0x0400306B RID: 12395
+		// Token: 0x04003069 RID: 12393
 		public int roomGroupID;
 
-		// Token: 0x0400306C RID: 12396
+		// Token: 0x0400306A RID: 12394
 		public int numCells;
 
-		// Token: 0x0400306D RID: 12397
+		// Token: 0x0400306B RID: 12395
 		public float temperature;
 	}
 }

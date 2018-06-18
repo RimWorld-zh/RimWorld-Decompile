@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D79 RID: 3449
+	// Token: 0x02000D78 RID: 3448
 	internal static class MeshMakerShadows
 	{
-		// Token: 0x06004D33 RID: 19763 RVA: 0x00282CA0 File Offset: 0x002810A0
+		// Token: 0x06004D31 RID: 19761 RVA: 0x00282C80 File Offset: 0x00281080
 		public static Mesh NewShadowMesh(float baseWidth, float baseHeight, float tallness)
 		{
 			Color32 item = new Color32(byte.MaxValue, 0, 0, (byte)(255f * tallness));
@@ -72,16 +72,16 @@ namespace Verse
 			};
 		}
 
-		// Token: 0x04003378 RID: 13176
+		// Token: 0x04003376 RID: 13174
 		private static List<Vector3> vertsList = new List<Vector3>();
 
-		// Token: 0x04003379 RID: 13177
+		// Token: 0x04003377 RID: 13175
 		private static List<Color32> colorsList = new List<Color32>();
 
-		// Token: 0x0400337A RID: 13178
+		// Token: 0x04003378 RID: 13176
 		private static List<int> trianglesList = new List<int>();
 
-		// Token: 0x0400337B RID: 13179
+		// Token: 0x04003379 RID: 13177
 		private static readonly Color32 LowVertexColor = new Color32(0, 0, 0, 0);
 	}
 }

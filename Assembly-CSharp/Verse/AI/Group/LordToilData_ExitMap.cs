@@ -5,7 +5,7 @@ namespace Verse.AI.Group
 	// Token: 0x020009F8 RID: 2552
 	public class LordToilData_ExitMap : LordToilData
 	{
-		// Token: 0x06003946 RID: 14662 RVA: 0x001E6A91 File Offset: 0x001E4E91
+		// Token: 0x06003948 RID: 14664 RVA: 0x001E6B65 File Offset: 0x001E4F65
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<LocomotionUrgency>(ref this.locomotion, "locomotion", LocomotionUrgency.None, false);

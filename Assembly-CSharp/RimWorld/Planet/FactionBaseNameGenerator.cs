@@ -7,7 +7,7 @@ namespace RimWorld.Planet
 	// Token: 0x02000602 RID: 1538
 	public static class FactionBaseNameGenerator
 	{
-		// Token: 0x06001E93 RID: 7827 RVA: 0x0010B794 File Offset: 0x00109B94
+		// Token: 0x06001E95 RID: 7829 RVA: 0x0010B80C File Offset: 0x00109C0C
 		public static string GenerateFactionBaseName(FactionBase factionBase, RulePackDef rulePack = null)
 		{
 			if (rulePack == null)

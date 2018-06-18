@@ -7,7 +7,7 @@ namespace RimWorld.Planet
 	public class CaravansBattlefield : MapParent
 	{
 		// Token: 0x17000476 RID: 1142
-		// (get) Token: 0x06001E79 RID: 7801 RVA: 0x00108C64 File Offset: 0x00107064
+		// (get) Token: 0x06001E7B RID: 7803 RVA: 0x00108CDC File Offset: 0x001070DC
 		public bool WonBattle
 		{
 			get
@@ -16,14 +16,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E7A RID: 7802 RVA: 0x00108C7F File Offset: 0x0010707F
+		// Token: 0x06001E7C RID: 7804 RVA: 0x00108CF7 File Offset: 0x001070F7
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<bool>(ref this.wonBattle, "wonBattle", false, false);
 		}
 
-		// Token: 0x06001E7B RID: 7803 RVA: 0x00108C9C File Offset: 0x0010709C
+		// Token: 0x06001E7D RID: 7805 RVA: 0x00108D14 File Offset: 0x00107114
 		public override bool ShouldRemoveMapNow(out bool alsoRemoveWorldObject)
 		{
 			bool result;
@@ -40,7 +40,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E7C RID: 7804 RVA: 0x00108CD6 File Offset: 0x001070D6
+		// Token: 0x06001E7E RID: 7806 RVA: 0x00108D4E File Offset: 0x0010714E
 		public override void Tick()
 		{
 			base.Tick();
@@ -50,7 +50,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E7D RID: 7805 RVA: 0x00108CF0 File Offset: 0x001070F0
+		// Token: 0x06001E7F RID: 7807 RVA: 0x00108D68 File Offset: 0x00107168
 		private void CheckWonBattle()
 		{
 			if (!this.wonBattle)

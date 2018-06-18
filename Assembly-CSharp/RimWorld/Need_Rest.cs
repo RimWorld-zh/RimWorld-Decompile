@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000505 RID: 1285
 	public class Need_Rest : Need
 	{
-		// Token: 0x06001710 RID: 5904 RVA: 0x000CB33C File Offset: 0x000C973C
+		// Token: 0x06001711 RID: 5905 RVA: 0x000CB390 File Offset: 0x000C9790
 		public Need_Rest(Pawn pawn) : base(pawn)
 		{
 			this.threshPercents = new List<float>();
@@ -17,7 +17,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000327 RID: 807
-		// (get) Token: 0x06001711 RID: 5905 RVA: 0x000CB39C File Offset: 0x000C979C
+		// (get) Token: 0x06001712 RID: 5906 RVA: 0x000CB3F0 File Offset: 0x000C97F0
 		public RestCategory CurCategory
 		{
 			get
@@ -44,7 +44,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000328 RID: 808
-		// (get) Token: 0x06001712 RID: 5906 RVA: 0x000CB3F8 File Offset: 0x000C97F8
+		// (get) Token: 0x06001713 RID: 5907 RVA: 0x000CB44C File Offset: 0x000C984C
 		public float RestFallPerTick
 		{
 			get
@@ -73,7 +73,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000329 RID: 809
-		// (get) Token: 0x06001713 RID: 5907 RVA: 0x000CB490 File Offset: 0x000C9890
+		// (get) Token: 0x06001714 RID: 5908 RVA: 0x000CB4E4 File Offset: 0x000C98E4
 		private float RestFallFactor
 		{
 			get
@@ -83,7 +83,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700032A RID: 810
-		// (get) Token: 0x06001714 RID: 5908 RVA: 0x000CB4BC File Offset: 0x000C98BC
+		// (get) Token: 0x06001715 RID: 5909 RVA: 0x000CB510 File Offset: 0x000C9910
 		public override int GUIChangeArrow
 		{
 			get
@@ -102,7 +102,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700032B RID: 811
-		// (get) Token: 0x06001715 RID: 5909 RVA: 0x000CB4E4 File Offset: 0x000C98E4
+		// (get) Token: 0x06001716 RID: 5910 RVA: 0x000CB538 File Offset: 0x000C9938
 		public int TicksAtZero
 		{
 			get
@@ -112,7 +112,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700032C RID: 812
-		// (get) Token: 0x06001716 RID: 5910 RVA: 0x000CB500 File Offset: 0x000C9900
+		// (get) Token: 0x06001717 RID: 5911 RVA: 0x000CB554 File Offset: 0x000C9954
 		private bool Resting
 		{
 			get
@@ -121,20 +121,20 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001717 RID: 5911 RVA: 0x000CB529 File Offset: 0x000C9929
+		// Token: 0x06001718 RID: 5912 RVA: 0x000CB57D File Offset: 0x000C997D
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.ticksAtZero, "ticksAtZero", 0, false);
 		}
 
-		// Token: 0x06001718 RID: 5912 RVA: 0x000CB544 File Offset: 0x000C9944
+		// Token: 0x06001719 RID: 5913 RVA: 0x000CB598 File Offset: 0x000C9998
 		public override void SetInitialLevel()
 		{
 			this.CurLevel = Rand.Range(0.9f, 1f);
 		}
 
-		// Token: 0x06001719 RID: 5913 RVA: 0x000CB55C File Offset: 0x000C995C
+		// Token: 0x0600171A RID: 5914 RVA: 0x000CB5B0 File Offset: 0x000C99B0
 		public override void NeedInterval()
 		{
 			if (!base.IsFrozen)
@@ -204,7 +204,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600171A RID: 5914 RVA: 0x000CB79F File Offset: 0x000C9B9F
+		// Token: 0x0600171B RID: 5915 RVA: 0x000CB7F3 File Offset: 0x000C9BF3
 		public void TickResting(float restEffectiveness)
 		{
 			if (restEffectiveness > 0f)

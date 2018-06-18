@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000E0C RID: 3596
+	// Token: 0x02000E0B RID: 3595
 	public static class ThingCompUtility
 	{
-		// Token: 0x06005170 RID: 20848 RVA: 0x0029ACC8 File Offset: 0x002990C8
+		// Token: 0x0600516E RID: 20846 RVA: 0x0029ACA8 File Offset: 0x002990A8
 		public static T TryGetComp<T>(this Thing thing) where T : ThingComp
 		{
 			ThingWithComps thingWithComps = thing as ThingWithComps;

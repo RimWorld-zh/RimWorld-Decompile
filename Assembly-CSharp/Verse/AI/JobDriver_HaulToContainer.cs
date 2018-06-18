@@ -8,7 +8,7 @@ namespace Verse.AI
 	public class JobDriver_HaulToContainer : JobDriver
 	{
 		// Token: 0x170008EA RID: 2282
-		// (get) Token: 0x06003A3F RID: 14911 RVA: 0x001EE068 File Offset: 0x001EC468
+		// (get) Token: 0x06003A41 RID: 14913 RVA: 0x001EE13C File Offset: 0x001EC53C
 		private Thing ThingToCarry
 		{
 			get
@@ -18,7 +18,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x170008EB RID: 2283
-		// (get) Token: 0x06003A40 RID: 14912 RVA: 0x001EE090 File Offset: 0x001EC490
+		// (get) Token: 0x06003A42 RID: 14914 RVA: 0x001EE164 File Offset: 0x001EC564
 		private Thing Container
 		{
 			get
@@ -28,7 +28,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x170008EC RID: 2284
-		// (get) Token: 0x06003A41 RID: 14913 RVA: 0x001EE0B8 File Offset: 0x001EC4B8
+		// (get) Token: 0x06003A43 RID: 14915 RVA: 0x001EE18C File Offset: 0x001EC58C
 		private int Duration
 		{
 			get
@@ -37,7 +37,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003A42 RID: 14914 RVA: 0x001EE104 File Offset: 0x001EC504
+		// Token: 0x06003A44 RID: 14916 RVA: 0x001EE1D8 File Offset: 0x001EC5D8
 		public override string GetReport()
 		{
 			Thing thing;
@@ -65,7 +65,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003A43 RID: 14915 RVA: 0x001EE1C0 File Offset: 0x001EC5C0
+		// Token: 0x06003A45 RID: 14917 RVA: 0x001EE294 File Offset: 0x001EC694
 		public override bool TryMakePreToilReservations()
 		{
 			this.pawn.ReserveAsManyAsPossible(this.job.GetTargetQueue(TargetIndex.A), this.job, 1, -1, null);
@@ -73,7 +73,7 @@ namespace Verse.AI
 			return this.pawn.Reserve(this.job.GetTarget(TargetIndex.A), this.job, 1, -1, null) && this.pawn.Reserve(this.job.GetTarget(TargetIndex.B), this.job, 1, -1, null);
 		}
 
-		// Token: 0x06003A44 RID: 14916 RVA: 0x001EE260 File Offset: 0x001EC660
+		// Token: 0x06003A46 RID: 14918 RVA: 0x001EE334 File Offset: 0x001EC734
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDestroyedOrNull(TargetIndex.A);

@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200085C RID: 2140
 	public class ITab_Pawn_Training : ITab
 	{
-		// Token: 0x06003069 RID: 12393 RVA: 0x001A5148 File Offset: 0x001A3548
+		// Token: 0x0600306B RID: 12395 RVA: 0x001A5210 File Offset: 0x001A3610
 		public ITab_Pawn_Training()
 		{
 			this.size = new Vector2(300f, 130f + 28f * (float)DefDatabase<TrainableDef>.DefCount);
@@ -16,7 +16,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007B6 RID: 1974
-		// (get) Token: 0x0600306A RID: 12394 RVA: 0x001A5194 File Offset: 0x001A3594
+		// (get) Token: 0x0600306C RID: 12396 RVA: 0x001A525C File Offset: 0x001A365C
 		public override bool IsVisible
 		{
 			get
@@ -25,7 +25,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600306B RID: 12395 RVA: 0x001A51D0 File Offset: 0x001A35D0
+		// Token: 0x0600306D RID: 12397 RVA: 0x001A5298 File Offset: 0x001A3698
 		protected override void FillTab()
 		{
 			Rect rect = new Rect(0f, 0f, this.size.x, this.size.y).ContractedBy(17f);

@@ -2,24 +2,24 @@
 
 namespace Verse
 {
-	// Token: 0x02000F01 RID: 3841
+	// Token: 0x02000F00 RID: 3840
 	public sealed class ThingCountClass : IExposable
 	{
-		// Token: 0x06005BFC RID: 23548 RVA: 0x002EBDDA File Offset: 0x002EA1DA
+		// Token: 0x06005BFA RID: 23546 RVA: 0x002EBEB6 File Offset: 0x002EA2B6
 		public ThingCountClass()
 		{
 		}
 
-		// Token: 0x06005BFD RID: 23549 RVA: 0x002EBDE3 File Offset: 0x002EA1E3
+		// Token: 0x06005BFB RID: 23547 RVA: 0x002EBEBF File Offset: 0x002EA2BF
 		public ThingCountClass(Thing thing, int count)
 		{
 			this.thing = thing;
 			this.Count = count;
 		}
 
-		// Token: 0x17000EC5 RID: 3781
-		// (get) Token: 0x06005BFE RID: 23550 RVA: 0x002EBDFC File Offset: 0x002EA1FC
-		// (set) Token: 0x06005BFF RID: 23551 RVA: 0x002EBE18 File Offset: 0x002EA218
+		// Token: 0x17000EC4 RID: 3780
+		// (get) Token: 0x06005BFC RID: 23548 RVA: 0x002EBED8 File Offset: 0x002EA2D8
+		// (set) Token: 0x06005BFD RID: 23549 RVA: 0x002EBEF4 File Offset: 0x002EA2F4
 		public int Count
 		{
 			get
@@ -59,14 +59,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005C00 RID: 23552 RVA: 0x002EBEF5 File Offset: 0x002EA2F5
+		// Token: 0x06005BFE RID: 23550 RVA: 0x002EBFD1 File Offset: 0x002EA3D1
 		public void ExposeData()
 		{
 			Scribe_References.Look<Thing>(ref this.thing, "thing", false);
 			Scribe_Values.Look<int>(ref this.countInt, "count", 1, false);
 		}
 
-		// Token: 0x06005C01 RID: 23553 RVA: 0x002EBF1C File Offset: 0x002EA31C
+		// Token: 0x06005BFF RID: 23551 RVA: 0x002EBFF8 File Offset: 0x002EA3F8
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -79,16 +79,16 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06005C02 RID: 23554 RVA: 0x002EBF88 File Offset: 0x002EA388
+		// Token: 0x06005C00 RID: 23552 RVA: 0x002EC064 File Offset: 0x002EA464
 		public static implicit operator ThingCountClass(ThingCount t)
 		{
 			return new ThingCountClass(t.Thing, t.Count);
 		}
 
-		// Token: 0x04003CD0 RID: 15568
+		// Token: 0x04003CCF RID: 15567
 		public Thing thing;
 
-		// Token: 0x04003CD1 RID: 15569
+		// Token: 0x04003CD0 RID: 15568
 		private int countInt;
 	}
 }

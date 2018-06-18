@@ -3,34 +3,34 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D77 RID: 3447
+	// Token: 0x02000D76 RID: 3446
 	internal static class MeshMakerPlanes
 	{
-		// Token: 0x06004D28 RID: 19752 RVA: 0x00282810 File Offset: 0x00280C10
+		// Token: 0x06004D26 RID: 19750 RVA: 0x002827F0 File Offset: 0x00280BF0
 		public static Mesh NewPlaneMesh(float size)
 		{
 			return MeshMakerPlanes.NewPlaneMesh(size, false);
 		}
 
-		// Token: 0x06004D29 RID: 19753 RVA: 0x0028282C File Offset: 0x00280C2C
+		// Token: 0x06004D27 RID: 19751 RVA: 0x0028280C File Offset: 0x00280C0C
 		public static Mesh NewPlaneMesh(float size, bool flipped)
 		{
 			return MeshMakerPlanes.NewPlaneMesh(size, flipped, false);
 		}
 
-		// Token: 0x06004D2A RID: 19754 RVA: 0x0028284C File Offset: 0x00280C4C
+		// Token: 0x06004D28 RID: 19752 RVA: 0x0028282C File Offset: 0x00280C2C
 		public static Mesh NewPlaneMesh(float size, bool flipped, bool backLift)
 		{
 			return MeshMakerPlanes.NewPlaneMesh(new Vector2(size, size), flipped, backLift, false);
 		}
 
-		// Token: 0x06004D2B RID: 19755 RVA: 0x00282870 File Offset: 0x00280C70
+		// Token: 0x06004D29 RID: 19753 RVA: 0x00282850 File Offset: 0x00280C50
 		public static Mesh NewPlaneMesh(float size, bool flipped, bool backLift, bool twist)
 		{
 			return MeshMakerPlanes.NewPlaneMesh(new Vector2(size, size), flipped, backLift, twist);
 		}
 
-		// Token: 0x06004D2C RID: 19756 RVA: 0x00282894 File Offset: 0x00280C94
+		// Token: 0x06004D2A RID: 19754 RVA: 0x00282874 File Offset: 0x00280C74
 		public static Mesh NewPlaneMesh(Vector2 size, bool flipped, bool backLift, bool twist)
 		{
 			Vector3[] array = new Vector3[4];
@@ -83,7 +83,7 @@ namespace Verse
 			return mesh;
 		}
 
-		// Token: 0x06004D2D RID: 19757 RVA: 0x00282B3C File Offset: 0x00280F3C
+		// Token: 0x06004D2B RID: 19755 RVA: 0x00282B1C File Offset: 0x00280F1C
 		public static Mesh NewWholeMapPlane()
 		{
 			Mesh mesh = MeshMakerPlanes.NewPlaneMesh(2000f, false, false);
@@ -96,10 +96,10 @@ namespace Verse
 			return mesh;
 		}
 
-		// Token: 0x04003375 RID: 13173
+		// Token: 0x04003373 RID: 13171
 		private const float BackLiftAmount = 0.00234375f;
 
-		// Token: 0x04003376 RID: 13174
+		// Token: 0x04003374 RID: 13172
 		private const float TwistAmount = 0.001171875f;
 	}
 }

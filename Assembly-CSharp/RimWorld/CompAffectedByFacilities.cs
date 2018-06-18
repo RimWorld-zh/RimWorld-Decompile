@@ -12,7 +12,7 @@ namespace RimWorld
 	public class CompAffectedByFacilities : ThingComp
 	{
 		// Token: 0x170005DC RID: 1500
-		// (get) Token: 0x06002714 RID: 10004 RVA: 0x0015033C File Offset: 0x0014E73C
+		// (get) Token: 0x06002716 RID: 10006 RVA: 0x001503B4 File Offset: 0x0014E7B4
 		public List<Thing> LinkedFacilitiesListForReading
 		{
 			get
@@ -21,7 +21,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002715 RID: 10005 RVA: 0x00150358 File Offset: 0x0014E758
+		// Token: 0x06002717 RID: 10007 RVA: 0x001503D0 File Offset: 0x0014E7D0
 		public bool CanLinkTo(Thing facility)
 		{
 			bool result;
@@ -47,13 +47,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002716 RID: 10006 RVA: 0x001503DC File Offset: 0x0014E7DC
+		// Token: 0x06002718 RID: 10008 RVA: 0x00150454 File Offset: 0x0014E854
 		public static bool CanPotentiallyLinkTo_Static(Thing facility, ThingDef myDef, IntVec3 myPos, Rot4 myRot)
 		{
 			return CompAffectedByFacilities.CanPotentiallyLinkTo_Static(facility.def, facility.Position, facility.Rotation, myDef, myPos, myRot) && CompAffectedByFacilities.IsPotentiallyValidFacilityForMe_Static(facility, myDef, myPos, myRot);
 		}
 
-		// Token: 0x06002717 RID: 10007 RVA: 0x00150430 File Offset: 0x0014E830
+		// Token: 0x06002719 RID: 10009 RVA: 0x001504A8 File Offset: 0x0014E8A8
 		public bool CanPotentiallyLinkTo(ThingDef facilityDef, IntVec3 facilityPos, Rot4 facilityRot)
 		{
 			bool result;
@@ -94,7 +94,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002718 RID: 10008 RVA: 0x0015051C File Offset: 0x0014E91C
+		// Token: 0x0600271A RID: 10010 RVA: 0x00150594 File Offset: 0x0014E994
 		public static bool CanPotentiallyLinkTo_Static(ThingDef facilityDef, IntVec3 facilityPos, Rot4 facilityRot, ThingDef myDef, IntVec3 myPos, Rot4 myRot)
 		{
 			CompProperties_Facility compProperties = facilityDef.GetCompProperties<CompProperties_Facility>();
@@ -141,13 +141,13 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06002719 RID: 10009 RVA: 0x00150660 File Offset: 0x0014EA60
+		// Token: 0x0600271B RID: 10011 RVA: 0x001506D8 File Offset: 0x0014EAD8
 		public bool IsValidFacilityForMe(Thing facility)
 		{
 			return CompAffectedByFacilities.IsPotentiallyValidFacilityForMe_Static(facility, this.parent.def, this.parent.Position, this.parent.Rotation);
 		}
 
-		// Token: 0x0600271A RID: 10010 RVA: 0x001506AC File Offset: 0x0014EAAC
+		// Token: 0x0600271C RID: 10012 RVA: 0x00150724 File Offset: 0x0014EB24
 		private bool IsPotentiallyValidFacilityForMe(ThingDef facilityDef, IntVec3 facilityPos, Rot4 facilityRot)
 		{
 			bool result;
@@ -171,13 +171,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600271B RID: 10011 RVA: 0x0015073C File Offset: 0x0014EB3C
+		// Token: 0x0600271D RID: 10013 RVA: 0x001507B4 File Offset: 0x0014EBB4
 		private static bool IsPotentiallyValidFacilityForMe_Static(Thing facility, ThingDef myDef, IntVec3 myPos, Rot4 myRot)
 		{
 			return CompAffectedByFacilities.IsPotentiallyValidFacilityForMe_Static(facility.def, facility.Position, facility.Rotation, myDef, myPos, myRot, facility.Map);
 		}
 
-		// Token: 0x0600271C RID: 10012 RVA: 0x00150774 File Offset: 0x0014EB74
+		// Token: 0x0600271E RID: 10014 RVA: 0x001507EC File Offset: 0x0014EBEC
 		private static bool IsPotentiallyValidFacilityForMe_Static(ThingDef facilityDef, IntVec3 facilityPos, Rot4 facilityRot, ThingDef myDef, IntVec3 myPos, Rot4 myRot, Map map)
 		{
 			CellRect startRect = GenAdj.OccupiedRect(myPos, myRot, myDef.size);
@@ -204,7 +204,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600271D RID: 10013 RVA: 0x00150878 File Offset: 0x0014EC78
+		// Token: 0x0600271F RID: 10015 RVA: 0x001508F0 File Offset: 0x0014ECF0
 		public void Notify_NewLink(Thing facility)
 		{
 			for (int i = 0; i < this.linkedFacilities.Count; i++)
@@ -224,7 +224,7 @@ namespace RimWorld
 			this.linkedFacilities.Add(facility);
 		}
 
-		// Token: 0x0600271E RID: 10014 RVA: 0x00150914 File Offset: 0x0014ED14
+		// Token: 0x06002720 RID: 10016 RVA: 0x0015098C File Offset: 0x0014ED8C
 		public void Notify_LinkRemoved(Thing thing)
 		{
 			for (int i = 0; i < this.linkedFacilities.Count; i++)
@@ -238,37 +238,37 @@ namespace RimWorld
 			Log.Error("Notify_LinkRemoved was called but there is no such link here.", false);
 		}
 
-		// Token: 0x0600271F RID: 10015 RVA: 0x0015096F File Offset: 0x0014ED6F
+		// Token: 0x06002721 RID: 10017 RVA: 0x001509E7 File Offset: 0x0014EDE7
 		public void Notify_FacilityDespawned()
 		{
 			this.RelinkAll();
 		}
 
-		// Token: 0x06002720 RID: 10016 RVA: 0x00150978 File Offset: 0x0014ED78
+		// Token: 0x06002722 RID: 10018 RVA: 0x001509F0 File Offset: 0x0014EDF0
 		public void Notify_LOSBlockerSpawnedOrDespawned()
 		{
 			this.RelinkAll();
 		}
 
-		// Token: 0x06002721 RID: 10017 RVA: 0x00150981 File Offset: 0x0014ED81
+		// Token: 0x06002723 RID: 10019 RVA: 0x001509F9 File Offset: 0x0014EDF9
 		public void Notify_ThingChanged()
 		{
 			this.RelinkAll();
 		}
 
-		// Token: 0x06002722 RID: 10018 RVA: 0x0015098A File Offset: 0x0014ED8A
+		// Token: 0x06002724 RID: 10020 RVA: 0x00150A02 File Offset: 0x0014EE02
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			this.LinkToNearbyFacilities();
 		}
 
-		// Token: 0x06002723 RID: 10019 RVA: 0x00150993 File Offset: 0x0014ED93
+		// Token: 0x06002725 RID: 10021 RVA: 0x00150A0B File Offset: 0x0014EE0B
 		public override void PostDeSpawn(Map map)
 		{
 			this.UnlinkAll();
 		}
 
-		// Token: 0x06002724 RID: 10020 RVA: 0x0015099C File Offset: 0x0014ED9C
+		// Token: 0x06002726 RID: 10022 RVA: 0x00150A14 File Offset: 0x0014EE14
 		public override void PostDrawExtraSelectionOverlays()
 		{
 			for (int i = 0; i < this.linkedFacilities.Count; i++)
@@ -284,7 +284,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002725 RID: 10021 RVA: 0x00150A2C File Offset: 0x0014EE2C
+		// Token: 0x06002727 RID: 10023 RVA: 0x00150AA4 File Offset: 0x0014EEA4
 		private bool IsBetter(ThingDef facilityDef, IntVec3 facilityPos, Rot4 facilityRot, Thing thanThisFacility)
 		{
 			bool result;
@@ -316,7 +316,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005DD RID: 1501
-		// (get) Token: 0x06002726 RID: 10022 RVA: 0x00150B00 File Offset: 0x0014EF00
+		// (get) Token: 0x06002728 RID: 10024 RVA: 0x00150B78 File Offset: 0x0014EF78
 		private IEnumerable<Thing> ThingsICanLinkTo
 		{
 			get
@@ -337,7 +337,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002727 RID: 10023 RVA: 0x00150B2C File Offset: 0x0014EF2C
+		// Token: 0x06002729 RID: 10025 RVA: 0x00150BA4 File Offset: 0x0014EFA4
 		public static IEnumerable<Thing> PotentialThingsToLinkTo(ThingDef myDef, IntVec3 myPos, Rot4 myRot, Map map)
 		{
 			CompAffectedByFacilities.alreadyReturnedCount.Clear();
@@ -380,7 +380,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002728 RID: 10024 RVA: 0x00150B6C File Offset: 0x0014EF6C
+		// Token: 0x0600272A RID: 10026 RVA: 0x00150BE4 File Offset: 0x0014EFE4
 		public static void DrawLinesToPotentialThingsToLinkTo(ThingDef myDef, IntVec3 myPos, Rot4 myRot, Map map)
 		{
 			Vector3 a = GenThing.TrueCenter(myPos, myRot, myDef.size, myDef.Altitude);
@@ -390,7 +390,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002729 RID: 10025 RVA: 0x00150BE8 File Offset: 0x0014EFE8
+		// Token: 0x0600272B RID: 10027 RVA: 0x00150C60 File Offset: 0x0014F060
 		public void DrawRedLineToPotentiallySupplantedFacility(ThingDef facilityDef, IntVec3 facilityPos, Rot4 facilityRot)
 		{
 			Thing potentiallySupplantedFacility = this.GetPotentiallySupplantedFacility(facilityDef, facilityPos, facilityRot);
@@ -400,7 +400,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600272A RID: 10026 RVA: 0x00150C24 File Offset: 0x0014F024
+		// Token: 0x0600272C RID: 10028 RVA: 0x00150C9C File Offset: 0x0014F09C
 		private Thing GetPotentiallySupplantedFacility(ThingDef facilityDef, IntVec3 facilityPos, Rot4 facilityRot)
 		{
 			Thing thing = null;
@@ -447,7 +447,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600272B RID: 10027 RVA: 0x00150D38 File Offset: 0x0014F138
+		// Token: 0x0600272D RID: 10029 RVA: 0x00150DB0 File Offset: 0x0014F1B0
 		public float GetStatOffset(StatDef stat)
 		{
 			float num = 0f;
@@ -465,7 +465,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x0600272C RID: 10028 RVA: 0x00150DC4 File Offset: 0x0014F1C4
+		// Token: 0x0600272E RID: 10030 RVA: 0x00150E3C File Offset: 0x0014F23C
 		public void GetStatsExplanation(StatDef stat, StringBuilder sb)
 		{
 			this.alreadyUsed.Clear();
@@ -520,19 +520,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600272D RID: 10029 RVA: 0x00150FD4 File Offset: 0x0014F3D4
+		// Token: 0x0600272F RID: 10031 RVA: 0x0015104C File Offset: 0x0014F44C
 		private void RelinkAll()
 		{
 			this.LinkToNearbyFacilities();
 		}
 
-		// Token: 0x0600272E RID: 10030 RVA: 0x00150FE0 File Offset: 0x0014F3E0
+		// Token: 0x06002730 RID: 10032 RVA: 0x00151058 File Offset: 0x0014F458
 		public bool IsFacilityActive(Thing facility)
 		{
 			return facility.TryGetComp<CompFacility>().CanBeActive;
 		}
 
-		// Token: 0x0600272F RID: 10031 RVA: 0x00151000 File Offset: 0x0014F400
+		// Token: 0x06002731 RID: 10033 RVA: 0x00151078 File Offset: 0x0014F478
 		private void LinkToNearbyFacilities()
 		{
 			this.UnlinkAll();
@@ -546,7 +546,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002730 RID: 10032 RVA: 0x0015108C File Offset: 0x0014F48C
+		// Token: 0x06002732 RID: 10034 RVA: 0x00151104 File Offset: 0x0014F504
 		private void UnlinkAll()
 		{
 			for (int i = 0; i < this.linkedFacilities.Count; i++)

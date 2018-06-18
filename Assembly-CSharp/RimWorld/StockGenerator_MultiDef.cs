@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000772 RID: 1906
 	public class StockGenerator_MultiDef : StockGenerator
 	{
-		// Token: 0x06002A13 RID: 10771 RVA: 0x00164144 File Offset: 0x00162544
+		// Token: 0x06002A15 RID: 10773 RVA: 0x001641D8 File Offset: 0x001625D8
 		public override IEnumerable<Thing> GenerateThings(int forTile)
 		{
 			ThingDef td = this.thingDefs.RandomElement<ThingDef>();
@@ -18,13 +18,13 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002A14 RID: 10772 RVA: 0x00164170 File Offset: 0x00162570
+		// Token: 0x06002A16 RID: 10774 RVA: 0x00164204 File Offset: 0x00162604
 		public override bool HandlesThingDef(ThingDef thingDef)
 		{
 			return this.thingDefs.Contains(thingDef);
 		}
 
-		// Token: 0x06002A15 RID: 10773 RVA: 0x00164194 File Offset: 0x00162594
+		// Token: 0x06002A17 RID: 10775 RVA: 0x00164228 File Offset: 0x00162628
 		public override IEnumerable<string> ConfigErrors(TraderKindDef parentDef)
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0(parentDef))

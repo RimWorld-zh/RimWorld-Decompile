@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000CBD RID: 3261
+	// Token: 0x02000CBC RID: 3260
 	public static class ZoneMaker
 	{
-		// Token: 0x060047DA RID: 18394 RVA: 0x0025C3B0 File Offset: 0x0025A7B0
+		// Token: 0x060047D8 RID: 18392 RVA: 0x0025C388 File Offset: 0x0025A788
 		public static Zone MakeZoneWithCells(Zone z, IEnumerable<IntVec3> cells)
 		{
 			if (cells != null)

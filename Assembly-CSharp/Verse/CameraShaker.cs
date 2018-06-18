@@ -7,8 +7,8 @@ namespace Verse
 	public class CameraShaker
 	{
 		// Token: 0x17000951 RID: 2385
-		// (get) Token: 0x06003DFA RID: 15866 RVA: 0x0020AF14 File Offset: 0x00209314
-		// (set) Token: 0x06003DFB RID: 15867 RVA: 0x0020AF2F File Offset: 0x0020932F
+		// (get) Token: 0x06003DFC RID: 15868 RVA: 0x0020AFE8 File Offset: 0x002093E8
+		// (set) Token: 0x06003DFD RID: 15869 RVA: 0x0020B003 File Offset: 0x00209403
 		public float CurShakeMag
 		{
 			get
@@ -22,7 +22,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000952 RID: 2386
-		// (get) Token: 0x06003DFC RID: 15868 RVA: 0x0020AF48 File Offset: 0x00209348
+		// (get) Token: 0x06003DFE RID: 15870 RVA: 0x0020B01C File Offset: 0x0020941C
 		public Vector3 ShakeOffset
 		{
 			get
@@ -34,7 +34,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DFD RID: 15869 RVA: 0x0020AFB9 File Offset: 0x002093B9
+		// Token: 0x06003DFF RID: 15871 RVA: 0x0020B08D File Offset: 0x0020948D
 		public void DoShake(float mag)
 		{
 			if (mag > 0f)
@@ -43,13 +43,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DFE RID: 15870 RVA: 0x0020AFDA File Offset: 0x002093DA
+		// Token: 0x06003E00 RID: 15872 RVA: 0x0020B0AE File Offset: 0x002094AE
 		public void SetMinShake(float mag)
 		{
 			this.CurShakeMag = Mathf.Max(this.CurShakeMag, mag);
 		}
 
-		// Token: 0x06003DFF RID: 15871 RVA: 0x0020AFEF File Offset: 0x002093EF
+		// Token: 0x06003E01 RID: 15873 RVA: 0x0020B0C3 File Offset: 0x002094C3
 		public void Update()
 		{
 			this.curShakeMag -= 0.5f * RealTime.realDeltaTime;

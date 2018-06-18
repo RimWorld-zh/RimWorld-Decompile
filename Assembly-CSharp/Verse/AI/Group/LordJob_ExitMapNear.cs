@@ -5,12 +5,12 @@ namespace Verse.AI.Group
 	// Token: 0x020009EB RID: 2539
 	public class LordJob_ExitMapNear : LordJob
 	{
-		// Token: 0x06003907 RID: 14599 RVA: 0x001E5FE3 File Offset: 0x001E43E3
+		// Token: 0x06003909 RID: 14601 RVA: 0x001E60B7 File Offset: 0x001E44B7
 		public LordJob_ExitMapNear()
 		{
 		}
 
-		// Token: 0x06003908 RID: 14600 RVA: 0x001E5FF3 File Offset: 0x001E43F3
+		// Token: 0x0600390A RID: 14602 RVA: 0x001E60C7 File Offset: 0x001E44C7
 		public LordJob_ExitMapNear(IntVec3 near, LocomotionUrgency locomotion, float radius = 12f, bool canDig = false, bool useAvoidGridSmart = false)
 		{
 			this.near = near;
@@ -20,7 +20,7 @@ namespace Verse.AI.Group
 			this.useAvoidGridSmart = useAvoidGridSmart;
 		}
 
-		// Token: 0x06003909 RID: 14601 RVA: 0x001E6028 File Offset: 0x001E4428
+		// Token: 0x0600390B RID: 14603 RVA: 0x001E60FC File Offset: 0x001E44FC
 		public override StateGraph CreateGraph()
 		{
 			StateGraph stateGraph = new StateGraph();
@@ -33,7 +33,7 @@ namespace Verse.AI.Group
 			return stateGraph;
 		}
 
-		// Token: 0x0600390A RID: 14602 RVA: 0x001E6080 File Offset: 0x001E4480
+		// Token: 0x0600390C RID: 14604 RVA: 0x001E6154 File Offset: 0x001E4554
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<IntVec3>(ref this.near, "near", default(IntVec3), false);

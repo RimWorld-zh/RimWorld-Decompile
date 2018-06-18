@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000C40 RID: 3136
+	// Token: 0x02000C3F RID: 3135
 	internal static class MapMeshFlagUtility
 	{
-		// Token: 0x06004509 RID: 17673 RVA: 0x002448AC File Offset: 0x00242CAC
+		// Token: 0x06004507 RID: 17671 RVA: 0x00244884 File Offset: 0x00242C84
 		static MapMeshFlagUtility()
 		{
 			IEnumerator enumerator = Enum.GetValues(typeof(MapMeshFlag)).GetEnumerator();
@@ -33,7 +33,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002F37 RID: 12087
+		// Token: 0x04002F35 RID: 12085
 		public static List<MapMeshFlag> allFlags = new List<MapMeshFlag>();
 	}
 }

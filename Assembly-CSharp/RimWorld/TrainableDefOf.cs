@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class TrainableDefOf
 	{
-		// Token: 0x0600363D RID: 13885 RVA: 0x001D07FD File Offset: 0x001CEBFD
+		// Token: 0x0600363F RID: 13887 RVA: 0x001D08C5 File Offset: 0x001CECC5
 		static TrainableDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(TrainableDefOf));

@@ -7,23 +7,23 @@ namespace RimWorld
 	// Token: 0x02000680 RID: 1664
 	public class Graphic_LinkedTransmitterOverlay : Graphic_Linked
 	{
-		// Token: 0x060022FB RID: 8955 RVA: 0x0012D55F File Offset: 0x0012B95F
+		// Token: 0x060022FD RID: 8957 RVA: 0x0012D5D7 File Offset: 0x0012B9D7
 		public Graphic_LinkedTransmitterOverlay()
 		{
 		}
 
-		// Token: 0x060022FC RID: 8956 RVA: 0x0012D568 File Offset: 0x0012B968
+		// Token: 0x060022FE RID: 8958 RVA: 0x0012D5E0 File Offset: 0x0012B9E0
 		public Graphic_LinkedTransmitterOverlay(Graphic subGraphic) : base(subGraphic)
 		{
 		}
 
-		// Token: 0x060022FD RID: 8957 RVA: 0x0012D574 File Offset: 0x0012B974
+		// Token: 0x060022FF RID: 8959 RVA: 0x0012D5EC File Offset: 0x0012B9EC
 		public override bool ShouldLinkWith(IntVec3 c, Thing parent)
 		{
 			return c.InBounds(parent.Map) && parent.Map.powerNetGrid.TransmittedPowerNetAt(c) != null;
 		}
 
-		// Token: 0x060022FE RID: 8958 RVA: 0x0012D5C0 File Offset: 0x0012B9C0
+		// Token: 0x06002300 RID: 8960 RVA: 0x0012D638 File Offset: 0x0012BA38
 		public override void Print(SectionLayer layer, Thing parent)
 		{
 			CellRect.CellRectIterator iterator = parent.OccupiedRect().GetIterator();

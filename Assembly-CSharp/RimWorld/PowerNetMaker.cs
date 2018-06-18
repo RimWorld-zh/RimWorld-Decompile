@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000427 RID: 1063
 	public static class PowerNetMaker
 	{
-		// Token: 0x0600128F RID: 4751 RVA: 0x000A1128 File Offset: 0x0009F528
+		// Token: 0x0600128F RID: 4751 RVA: 0x000A1134 File Offset: 0x0009F534
 		private static IEnumerable<CompPower> ContiguousPowerBuildings(Building root)
 		{
 			PowerNetMaker.closedSet.Clear();
@@ -60,13 +60,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001290 RID: 4752 RVA: 0x000A13AC File Offset: 0x0009F7AC
+		// Token: 0x06001290 RID: 4752 RVA: 0x000A13B8 File Offset: 0x0009F7B8
 		public static PowerNet NewPowerNetStartingFrom(Building root)
 		{
 			return new PowerNet(PowerNetMaker.ContiguousPowerBuildings(root));
 		}
 
-		// Token: 0x06001291 RID: 4753 RVA: 0x000A13CC File Offset: 0x0009F7CC
+		// Token: 0x06001291 RID: 4753 RVA: 0x000A13D8 File Offset: 0x0009F7D8
 		public static void UpdateVisualLinkagesFor(PowerNet net)
 		{
 		}

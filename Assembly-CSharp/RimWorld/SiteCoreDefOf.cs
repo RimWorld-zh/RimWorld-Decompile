@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class SiteCoreDefOf
 	{
-		// Token: 0x0600365B RID: 13915 RVA: 0x001D0A19 File Offset: 0x001CEE19
+		// Token: 0x0600365D RID: 13917 RVA: 0x001D0AE1 File Offset: 0x001CEEE1
 		static SiteCoreDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(SiteCoreDefOf));

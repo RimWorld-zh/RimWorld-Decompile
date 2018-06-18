@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020008FB RID: 2299
 	public static class BuildCopyCommandUtility
 	{
-		// Token: 0x06003533 RID: 13619 RVA: 0x001C7054 File Offset: 0x001C5454
+		// Token: 0x06003535 RID: 13621 RVA: 0x001C711C File Offset: 0x001C551C
 		public static Command BuildCopyCommand(BuildableDef buildable, ThingDef stuff)
 		{
 			Designator_Build des = BuildCopyCommandUtility.FindAllowedDesignator(buildable, true);
@@ -49,7 +49,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003534 RID: 13620 RVA: 0x001C717C File Offset: 0x001C557C
+		// Token: 0x06003536 RID: 13622 RVA: 0x001C7244 File Offset: 0x001C5644
 		public static Designator_Build FindAllowedDesignator(BuildableDef buildable, bool mustBeVisible = true)
 		{
 			List<DesignationCategoryDef> allDefsListForReading = DefDatabase<DesignationCategoryDef>.AllDefsListForReading;
@@ -68,7 +68,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06003535 RID: 13621 RVA: 0x001C71FC File Offset: 0x001C55FC
+		// Token: 0x06003537 RID: 13623 RVA: 0x001C72C4 File Offset: 0x001C56C4
 		private static Designator_Build FindAllowedDesignatorRecursive(Designator designator, BuildableDef buildable, bool mustBeVisible)
 		{
 			Designator_Build result;

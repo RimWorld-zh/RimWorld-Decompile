@@ -9,11 +9,11 @@ namespace RimWorld
 	public abstract class Thought : IExposable
 	{
 		// Token: 0x1700036A RID: 874
-		// (get) Token: 0x060018AA RID: 6314
+		// (get) Token: 0x060018AB RID: 6315
 		public abstract int CurStageIndex { get; }
 
 		// Token: 0x1700036B RID: 875
-		// (get) Token: 0x060018AB RID: 6315 RVA: 0x00057558 File Offset: 0x00055958
+		// (get) Token: 0x060018AC RID: 6316 RVA: 0x00057558 File Offset: 0x00055958
 		public ThoughtStage CurStage
 		{
 			get
@@ -23,7 +23,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700036C RID: 876
-		// (get) Token: 0x060018AC RID: 6316 RVA: 0x00057584 File Offset: 0x00055984
+		// (get) Token: 0x060018AD RID: 6317 RVA: 0x00057584 File Offset: 0x00055984
 		public virtual bool VisibleInNeedsTab
 		{
 			get
@@ -33,7 +33,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700036D RID: 877
-		// (get) Token: 0x060018AD RID: 6317 RVA: 0x000575A4 File Offset: 0x000559A4
+		// (get) Token: 0x060018AE RID: 6318 RVA: 0x000575A4 File Offset: 0x000559A4
 		public virtual string LabelCap
 		{
 			get
@@ -43,7 +43,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700036E RID: 878
-		// (get) Token: 0x060018AE RID: 6318 RVA: 0x000575CC File Offset: 0x000559CC
+		// (get) Token: 0x060018AF RID: 6319 RVA: 0x000575CC File Offset: 0x000559CC
 		protected virtual float BaseMoodOffset
 		{
 			get
@@ -53,7 +53,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700036F RID: 879
-		// (get) Token: 0x060018AF RID: 6319 RVA: 0x000575EC File Offset: 0x000559EC
+		// (get) Token: 0x060018B0 RID: 6320 RVA: 0x000575EC File Offset: 0x000559EC
 		public string LabelCapSocial
 		{
 			get
@@ -72,7 +72,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000370 RID: 880
-		// (get) Token: 0x060018B0 RID: 6320 RVA: 0x00057630 File Offset: 0x00055A30
+		// (get) Token: 0x060018B1 RID: 6321 RVA: 0x00057630 File Offset: 0x00055A30
 		public string Description
 		{
 			get
@@ -92,7 +92,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000371 RID: 881
-		// (get) Token: 0x060018B1 RID: 6321 RVA: 0x0005766C File Offset: 0x00055A6C
+		// (get) Token: 0x060018B2 RID: 6322 RVA: 0x0005766C File Offset: 0x00055A6C
 		public Texture2D Icon
 		{
 			get
@@ -114,13 +114,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060018B2 RID: 6322 RVA: 0x000576C8 File Offset: 0x00055AC8
+		// Token: 0x060018B3 RID: 6323 RVA: 0x000576C8 File Offset: 0x00055AC8
 		public virtual void ExposeData()
 		{
 			Scribe_Defs.Look<ThoughtDef>(ref this.def, "def");
 		}
 
-		// Token: 0x060018B3 RID: 6323 RVA: 0x000576DC File Offset: 0x00055ADC
+		// Token: 0x060018B4 RID: 6324 RVA: 0x000576DC File Offset: 0x00055ADC
 		public virtual float MoodOffset()
 		{
 			float result;
@@ -147,18 +147,18 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060018B4 RID: 6324 RVA: 0x00057774 File Offset: 0x00055B74
+		// Token: 0x060018B5 RID: 6325 RVA: 0x00057774 File Offset: 0x00055B74
 		public virtual bool GroupsWith(Thought other)
 		{
 			return this.def == other.def;
 		}
 
-		// Token: 0x060018B5 RID: 6325 RVA: 0x00057797 File Offset: 0x00055B97
+		// Token: 0x060018B6 RID: 6326 RVA: 0x00057797 File Offset: 0x00055B97
 		public virtual void Init()
 		{
 		}
 
-		// Token: 0x060018B6 RID: 6326 RVA: 0x0005779C File Offset: 0x00055B9C
+		// Token: 0x060018B7 RID: 6327 RVA: 0x0005779C File Offset: 0x00055B9C
 		public override string ToString()
 		{
 			return "(" + this.def.defName + ")";

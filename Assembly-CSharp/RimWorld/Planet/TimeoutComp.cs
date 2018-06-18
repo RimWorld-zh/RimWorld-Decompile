@@ -7,7 +7,7 @@ namespace RimWorld.Planet
 	public class TimeoutComp : WorldObjectComp
 	{
 		// Token: 0x170004C9 RID: 1225
-		// (get) Token: 0x0600200C RID: 8204 RVA: 0x001134B0 File Offset: 0x001118B0
+		// (get) Token: 0x0600200E RID: 8206 RVA: 0x00113528 File Offset: 0x00111928
 		public bool Active
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004CA RID: 1226
-		// (get) Token: 0x0600200D RID: 8205 RVA: 0x001134D4 File Offset: 0x001118D4
+		// (get) Token: 0x0600200F RID: 8207 RVA: 0x0011354C File Offset: 0x0011194C
 		public bool Passed
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004CB RID: 1227
-		// (get) Token: 0x0600200E RID: 8206 RVA: 0x0011350C File Offset: 0x0011190C
+		// (get) Token: 0x06002010 RID: 8208 RVA: 0x00113584 File Offset: 0x00111984
 		private bool ShouldRemoveWorldObjectNow
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004CC RID: 1228
-		// (get) Token: 0x0600200F RID: 8207 RVA: 0x00113538 File Offset: 0x00111938
+		// (get) Token: 0x06002011 RID: 8209 RVA: 0x001135B0 File Offset: 0x001119B0
 		public int TicksLeft
 		{
 			get
@@ -46,13 +46,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06002010 RID: 8208 RVA: 0x0011356F File Offset: 0x0011196F
+		// Token: 0x06002012 RID: 8210 RVA: 0x001135E7 File Offset: 0x001119E7
 		public void StartTimeout(int ticks)
 		{
 			this.timeoutEndTick = Find.TickManager.TicksGame + ticks;
 		}
 
-		// Token: 0x06002011 RID: 8209 RVA: 0x00113584 File Offset: 0x00111984
+		// Token: 0x06002013 RID: 8211 RVA: 0x001135FC File Offset: 0x001119FC
 		public override void CompTick()
 		{
 			base.CompTick();
@@ -62,14 +62,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06002012 RID: 8210 RVA: 0x001135A8 File Offset: 0x001119A8
+		// Token: 0x06002014 RID: 8212 RVA: 0x00113620 File Offset: 0x00111A20
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
 			Scribe_Values.Look<int>(ref this.timeoutEndTick, "timeoutEndTick", 0, false);
 		}
 
-		// Token: 0x06002013 RID: 8211 RVA: 0x001135C4 File Offset: 0x001119C4
+		// Token: 0x06002015 RID: 8213 RVA: 0x0011363C File Offset: 0x00111A3C
 		public override string CompInspectStringExtra()
 		{
 			string result;

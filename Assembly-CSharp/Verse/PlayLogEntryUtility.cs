@@ -7,7 +7,7 @@ namespace Verse
 	// Token: 0x02000BD0 RID: 3024
 	public static class PlayLogEntryUtility
 	{
-		// Token: 0x060041D5 RID: 16853 RVA: 0x0022A56C File Offset: 0x0022896C
+		// Token: 0x060041D7 RID: 16855 RVA: 0x0022A5E4 File Offset: 0x002289E4
 		public static IEnumerable<Rule> RulesForOptionalWeapon(string prefix, ThingDef weaponDef, ThingDef projectileDef)
 		{
 			if (weaponDef != null)
@@ -32,7 +32,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060041D6 RID: 16854 RVA: 0x0022A5A4 File Offset: 0x002289A4
+		// Token: 0x060041D8 RID: 16856 RVA: 0x0022A61C File Offset: 0x00228A1C
 		public static IEnumerable<Rule> RulesForDamagedParts(string prefix, BodyDef body, List<BodyPartRecord> bodyParts, List<bool> bodyPartsDestroyed, Dictionary<string, string> constants)
 		{
 			if (bodyParts != null)

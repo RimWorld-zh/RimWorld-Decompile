@@ -8,14 +8,14 @@ namespace RimWorld
 	// Token: 0x02000637 RID: 1591
 	public class ScenPart_OnPawnDeathExplode : ScenPart
 	{
-		// Token: 0x060020CC RID: 8396 RVA: 0x00118877 File Offset: 0x00116C77
+		// Token: 0x060020CE RID: 8398 RVA: 0x001188EF File Offset: 0x00116CEF
 		public override void Randomize()
 		{
 			this.radius = (float)Rand.RangeInclusive(3, 8) - 0.1f;
 			this.damage = this.PossibleDamageDefs().RandomElement<DamageDef>();
 		}
 
-		// Token: 0x060020CD RID: 8397 RVA: 0x0011889F File Offset: 0x00116C9F
+		// Token: 0x060020CF RID: 8399 RVA: 0x00118917 File Offset: 0x00116D17
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -23,7 +23,7 @@ namespace RimWorld
 			Scribe_Defs.Look<DamageDef>(ref this.damage, "damage");
 		}
 
-		// Token: 0x060020CE RID: 8398 RVA: 0x001188D0 File Offset: 0x00116CD0
+		// Token: 0x060020D0 RID: 8400 RVA: 0x00118948 File Offset: 0x00116D48
 		public override string Summary(Scenario scen)
 		{
 			return "ScenPart_OnPawnDeathExplode".Translate(new object[]
@@ -33,7 +33,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x060020CF RID: 8399 RVA: 0x00118918 File Offset: 0x00116D18
+		// Token: 0x060020D1 RID: 8401 RVA: 0x00118990 File Offset: 0x00116D90
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight * 2f);
@@ -47,7 +47,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060020D0 RID: 8400 RVA: 0x001189B8 File Offset: 0x00116DB8
+		// Token: 0x060020D2 RID: 8402 RVA: 0x00118A30 File Offset: 0x00116E30
 		public override void Notify_PawnDied(Corpse corpse)
 		{
 			if (corpse.Spawned)
@@ -56,7 +56,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060020D1 RID: 8401 RVA: 0x00118A0C File Offset: 0x00116E0C
+		// Token: 0x060020D3 RID: 8403 RVA: 0x00118A84 File Offset: 0x00116E84
 		private IEnumerable<DamageDef> PossibleDamageDefs()
 		{
 			yield return DamageDefOf.Bomb;

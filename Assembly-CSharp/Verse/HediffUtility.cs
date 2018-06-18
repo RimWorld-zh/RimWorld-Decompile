@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000D26 RID: 3366
+	// Token: 0x02000D25 RID: 3365
 	public static class HediffUtility
 	{
-		// Token: 0x06004A08 RID: 18952 RVA: 0x0026A794 File Offset: 0x00268B94
+		// Token: 0x06004A06 RID: 18950 RVA: 0x0026A76C File Offset: 0x00268B6C
 		public static T TryGetComp<T>(this Hediff hd) where T : HediffComp
 		{
 			HediffWithComps hediffWithComps = hd as HediffWithComps;
@@ -32,7 +32,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004A09 RID: 18953 RVA: 0x0026A81C File Offset: 0x00268C1C
+		// Token: 0x06004A07 RID: 18951 RVA: 0x0026A7F4 File Offset: 0x00268BF4
 		public static bool IsTended(this Hediff hd)
 		{
 			HediffWithComps hediffWithComps = hd as HediffWithComps;
@@ -49,7 +49,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004A0A RID: 18954 RVA: 0x0026A860 File Offset: 0x00268C60
+		// Token: 0x06004A08 RID: 18952 RVA: 0x0026A838 File Offset: 0x00268C38
 		public static bool IsPermanent(this Hediff hd)
 		{
 			HediffWithComps hediffWithComps = hd as HediffWithComps;
@@ -66,7 +66,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004A0B RID: 18955 RVA: 0x0026A8A4 File Offset: 0x00268CA4
+		// Token: 0x06004A09 RID: 18953 RVA: 0x0026A87C File Offset: 0x00268C7C
 		public static bool FullyImmune(this Hediff hd)
 		{
 			HediffWithComps hediffWithComps = hd as HediffWithComps;
@@ -83,13 +83,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004A0C RID: 18956 RVA: 0x0026A8E8 File Offset: 0x00268CE8
+		// Token: 0x06004A0A RID: 18954 RVA: 0x0026A8C0 File Offset: 0x00268CC0
 		public static bool CanHealFromTending(this Hediff_Injury hd)
 		{
 			return hd.IsTended() && !hd.IsPermanent();
 		}
 
-		// Token: 0x06004A0D RID: 18957 RVA: 0x0026A914 File Offset: 0x00268D14
+		// Token: 0x06004A0B RID: 18955 RVA: 0x0026A8EC File Offset: 0x00268CEC
 		public static bool CanHealNaturally(this Hediff_Injury hd)
 		{
 			return !hd.IsPermanent();

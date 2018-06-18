@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class JobDefOf
 	{
-		// Token: 0x0600362A RID: 13866 RVA: 0x001D06A7 File Offset: 0x001CEAA7
+		// Token: 0x0600362C RID: 13868 RVA: 0x001D076F File Offset: 0x001CEB6F
 		static JobDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(JobDefOf));

@@ -9,7 +9,7 @@ namespace Verse
 	public class SoundDef : Def
 	{
 		// Token: 0x170009BF RID: 2495
-		// (get) Token: 0x06004009 RID: 16393 RVA: 0x0021B518 File Offset: 0x00219918
+		// (get) Token: 0x0600400B RID: 16395 RVA: 0x0021B5EC File Offset: 0x002199EC
 		private bool HasSubSoundsOnCamera
 		{
 			get
@@ -26,7 +26,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009C0 RID: 2496
-		// (get) Token: 0x0600400A RID: 16394 RVA: 0x0021B56C File Offset: 0x0021996C
+		// (get) Token: 0x0600400C RID: 16396 RVA: 0x0021B640 File Offset: 0x00219A40
 		public bool HasSubSoundsInWorld
 		{
 			get
@@ -43,7 +43,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009C1 RID: 2497
-		// (get) Token: 0x0600400B RID: 16395 RVA: 0x0021B5C0 File Offset: 0x002199C0
+		// (get) Token: 0x0600400D RID: 16397 RVA: 0x0021B694 File Offset: 0x00219A94
 		public int MaxSimultaneousSamples
 		{
 			get
@@ -52,7 +52,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600400C RID: 16396 RVA: 0x0021B5E8 File Offset: 0x002199E8
+		// Token: 0x0600400E RID: 16398 RVA: 0x0021B6BC File Offset: 0x00219ABC
 		public override void ResolveReferences()
 		{
 			for (int i = 0; i < this.subSounds.Count; i++)
@@ -62,7 +62,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600400D RID: 16397 RVA: 0x0021B638 File Offset: 0x00219A38
+		// Token: 0x0600400F RID: 16399 RVA: 0x0021B70C File Offset: 0x00219B0C
 		public override IEnumerable<string> ConfigErrors()
 		{
 			if (this.slot != "" && !this.HasSubSoundsOnCamera)
@@ -112,7 +112,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x0600400E RID: 16398 RVA: 0x0021B664 File Offset: 0x00219A64
+		// Token: 0x06004010 RID: 16400 RVA: 0x0021B738 File Offset: 0x00219B38
 		public void DoEditWidgets(WidgetRow widgetRow)
 		{
 			if (this.testSustainer == null)
@@ -156,7 +156,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600400F RID: 16399 RVA: 0x0021B768 File Offset: 0x00219B68
+		// Token: 0x06004011 RID: 16401 RVA: 0x0021B83C File Offset: 0x00219C3C
 		public static SoundDef Named(string defName)
 		{
 			SoundDef namedSilentFail = DefDatabase<SoundDef>.GetNamedSilentFail(defName);
@@ -197,7 +197,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004010 RID: 16400 RVA: 0x0021B86C File Offset: 0x00219C6C
+		// Token: 0x06004012 RID: 16402 RVA: 0x0021B940 File Offset: 0x00219D40
 		private static SoundDef UndefinedDefNamed(string defName)
 		{
 			SoundDef soundDef;

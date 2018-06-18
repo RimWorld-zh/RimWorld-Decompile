@@ -9,7 +9,7 @@ namespace RimWorld.Planet
 	[StaticConstructorOnStartup]
 	public static class CaravanThingsTabUtility
 	{
-		// Token: 0x06003417 RID: 13335 RVA: 0x001BD794 File Offset: 0x001BBB94
+		// Token: 0x06003419 RID: 13337 RVA: 0x001BD85C File Offset: 0x001BBC5C
 		public static void DoAbandonButton(Rect rowRect, Thing t, Caravan caravan)
 		{
 			Rect rect = new Rect(rowRect.width - 24f, (rowRect.height - 24f) / 2f, 24f, 24f);
@@ -20,7 +20,7 @@ namespace RimWorld.Planet
 			TooltipHandler.TipRegion(rect, () => CaravanAbandonOrBanishUtility.GetAbandonOrBanishButtonTooltip(t, false), Gen.HashCombineInt(t.GetHashCode(), 1383004931));
 		}
 
-		// Token: 0x06003418 RID: 13336 RVA: 0x001BD824 File Offset: 0x001BBC24
+		// Token: 0x0600341A RID: 13338 RVA: 0x001BD8EC File Offset: 0x001BBCEC
 		public static void DoAbandonButton(Rect rowRect, TransferableImmutable t, Caravan caravan)
 		{
 			Rect rect = new Rect(rowRect.width - 24f, (rowRect.height - 24f) / 2f, 24f, 24f);
@@ -31,7 +31,7 @@ namespace RimWorld.Planet
 			TooltipHandler.TipRegion(rect, () => CaravanAbandonOrBanishUtility.GetAbandonOrBanishButtonTooltip(t, false), Gen.HashCombineInt(t.GetHashCode(), 8476546));
 		}
 
-		// Token: 0x06003419 RID: 13337 RVA: 0x001BD8B4 File Offset: 0x001BBCB4
+		// Token: 0x0600341B RID: 13339 RVA: 0x001BD97C File Offset: 0x001BBD7C
 		public static void DoAbandonSpecificCountButton(Rect rowRect, Thing t, Caravan caravan)
 		{
 			Rect rect = new Rect(rowRect.width - 24f, (rowRect.height - 24f) / 2f, 24f, 24f);
@@ -42,7 +42,7 @@ namespace RimWorld.Planet
 			TooltipHandler.TipRegion(rect, () => CaravanAbandonOrBanishUtility.GetAbandonOrBanishButtonTooltip(t, true), Gen.HashCombineInt(t.GetHashCode(), 1163428609));
 		}
 
-		// Token: 0x0600341A RID: 13338 RVA: 0x001BD944 File Offset: 0x001BBD44
+		// Token: 0x0600341C RID: 13340 RVA: 0x001BDA0C File Offset: 0x001BBE0C
 		public static void DoAbandonSpecificCountButton(Rect rowRect, TransferableImmutable t, Caravan caravan)
 		{
 			Rect rect = new Rect(rowRect.width - 24f, (rowRect.height - 24f) / 2f, 24f, 24f);
@@ -53,7 +53,7 @@ namespace RimWorld.Planet
 			TooltipHandler.TipRegion(rect, () => CaravanAbandonOrBanishUtility.GetAbandonOrBanishButtonTooltip(t, true), Gen.HashCombineInt(t.GetHashCode(), 1163428609));
 		}
 
-		// Token: 0x0600341B RID: 13339 RVA: 0x001BD9D4 File Offset: 0x001BBDD4
+		// Token: 0x0600341D RID: 13341 RVA: 0x001BDA9C File Offset: 0x001BBE9C
 		public static void DoOpenSpecificTabButton(Rect rowRect, Pawn p, ref Pawn specificTabForPawn)
 		{
 			Color baseColor = (p != specificTabForPawn) ? Color.white : CaravanThingsTabUtility.OpenedSpecificTabButtonColor;
@@ -76,7 +76,7 @@ namespace RimWorld.Planet
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x0600341C RID: 13340 RVA: 0x001BDAA4 File Offset: 0x001BBEA4
+		// Token: 0x0600341E RID: 13342 RVA: 0x001BDB6C File Offset: 0x001BBF6C
 		public static void DrawMass(TransferableImmutable transferable, Rect rect)
 		{
 			float num = 0f;
@@ -87,14 +87,14 @@ namespace RimWorld.Planet
 			CaravanThingsTabUtility.DrawMass(num, rect);
 		}
 
-		// Token: 0x0600341D RID: 13341 RVA: 0x001BDB0C File Offset: 0x001BBF0C
+		// Token: 0x0600341F RID: 13343 RVA: 0x001BDBD4 File Offset: 0x001BBFD4
 		public static void DrawMass(Thing thing, Rect rect)
 		{
 			float mass = thing.GetStatValue(StatDefOf.Mass, true) * (float)thing.stackCount;
 			CaravanThingsTabUtility.DrawMass(mass, rect);
 		}
 
-		// Token: 0x0600341E RID: 13342 RVA: 0x001BDB36 File Offset: 0x001BBF36
+		// Token: 0x06003420 RID: 13344 RVA: 0x001BDBFE File Offset: 0x001BBFFE
 		private static void DrawMass(float mass, Rect rect)
 		{
 			GUI.color = TransferableOneWayWidget.ItemMassColor;

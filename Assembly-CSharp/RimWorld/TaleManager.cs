@@ -10,7 +10,7 @@ namespace RimWorld
 	public sealed class TaleManager : IExposable
 	{
 		// Token: 0x17000501 RID: 1281
-		// (get) Token: 0x0600221E RID: 8734 RVA: 0x00121650 File Offset: 0x0011FA50
+		// (get) Token: 0x06002220 RID: 8736 RVA: 0x001216C8 File Offset: 0x0011FAC8
 		public List<Tale> AllTalesListForReading
 		{
 			get
@@ -19,26 +19,26 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600221F RID: 8735 RVA: 0x0012166B File Offset: 0x0011FA6B
+		// Token: 0x06002221 RID: 8737 RVA: 0x001216E3 File Offset: 0x0011FAE3
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Tale>(ref this.tales, "tales", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x06002220 RID: 8736 RVA: 0x00121685 File Offset: 0x0011FA85
+		// Token: 0x06002222 RID: 8738 RVA: 0x001216FD File Offset: 0x0011FAFD
 		public void TaleManagerTick()
 		{
 			this.RemoveExpiredTales();
 		}
 
-		// Token: 0x06002221 RID: 8737 RVA: 0x0012168E File Offset: 0x0011FA8E
+		// Token: 0x06002223 RID: 8739 RVA: 0x00121706 File Offset: 0x0011FB06
 		public void Add(Tale tale)
 		{
 			this.tales.Add(tale);
 			this.CheckCullTales(tale);
 		}
 
-		// Token: 0x06002222 RID: 8738 RVA: 0x001216A4 File Offset: 0x0011FAA4
+		// Token: 0x06002224 RID: 8740 RVA: 0x0012171C File Offset: 0x0011FB1C
 		private void RemoveTale(Tale tale)
 		{
 			if (!tale.Unused)
@@ -51,14 +51,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002223 RID: 8739 RVA: 0x001216D6 File Offset: 0x0011FAD6
+		// Token: 0x06002225 RID: 8741 RVA: 0x0012174E File Offset: 0x0011FB4E
 		private void CheckCullTales(Tale addedTale)
 		{
 			this.CheckCullUnusedVolatileTales();
 			this.CheckCullUnusedTalesWithMaxPerPawnLimit(addedTale);
 		}
 
-		// Token: 0x06002224 RID: 8740 RVA: 0x001216E8 File Offset: 0x0011FAE8
+		// Token: 0x06002226 RID: 8742 RVA: 0x00121760 File Offset: 0x0011FB60
 		private void CheckCullUnusedVolatileTales()
 		{
 			int i = 0;
@@ -86,7 +86,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002225 RID: 8741 RVA: 0x00121800 File Offset: 0x0011FC00
+		// Token: 0x06002227 RID: 8743 RVA: 0x00121878 File Offset: 0x0011FC78
 		private void CheckCullUnusedTalesWithMaxPerPawnLimit(Tale addedTale)
 		{
 			if (addedTale.def.maxPerPawn >= 0)
@@ -120,7 +120,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002226 RID: 8742 RVA: 0x0012197C File Offset: 0x0011FD7C
+		// Token: 0x06002228 RID: 8744 RVA: 0x001219F4 File Offset: 0x0011FDF4
 		private void RemoveExpiredTales()
 		{
 			for (int i = this.tales.Count - 1; i >= 0; i--)
@@ -132,7 +132,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002227 RID: 8743 RVA: 0x001219D4 File Offset: 0x0011FDD4
+		// Token: 0x06002229 RID: 8745 RVA: 0x00121A4C File Offset: 0x0011FE4C
 		public TaleReference GetRandomTaleReferenceForArt(ArtGenerationContext source)
 		{
 			TaleReference result;
@@ -163,7 +163,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002228 RID: 8744 RVA: 0x00121A98 File Offset: 0x0011FE98
+		// Token: 0x0600222A RID: 8746 RVA: 0x00121B10 File Offset: 0x0011FF10
 		public TaleReference GetRandomTaleReferenceForArtConcerning(Thing th)
 		{
 			TaleReference result;
@@ -186,7 +186,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002229 RID: 8745 RVA: 0x00121B2C File Offset: 0x0011FF2C
+		// Token: 0x0600222B RID: 8747 RVA: 0x00121BA4 File Offset: 0x0011FFA4
 		public Tale GetLatestTale(TaleDef def, Pawn pawn)
 		{
 			Tale tale = null;
@@ -202,7 +202,7 @@ namespace RimWorld
 			return tale;
 		}
 
-		// Token: 0x0600222A RID: 8746 RVA: 0x00121BD0 File Offset: 0x0011FFD0
+		// Token: 0x0600222C RID: 8748 RVA: 0x00121C48 File Offset: 0x00120048
 		public void Notify_PawnDestroyed(Pawn pawn)
 		{
 			for (int i = this.tales.Count - 1; i >= 0; i--)
@@ -223,7 +223,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600222B RID: 8747 RVA: 0x00121C84 File Offset: 0x00120084
+		// Token: 0x0600222D RID: 8749 RVA: 0x00121CFC File Offset: 0x001200FC
 		public void Notify_PawnDiscarded(Pawn p, bool silentlyRemoveReferences)
 		{
 			for (int i = this.tales.Count - 1; i >= 0; i--)
@@ -257,7 +257,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600222C RID: 8748 RVA: 0x00121D78 File Offset: 0x00120178
+		// Token: 0x0600222E RID: 8750 RVA: 0x00121DF0 File Offset: 0x001201F0
 		public bool AnyActiveTaleConcerns(Pawn p)
 		{
 			for (int i = 0; i < this.tales.Count; i++)
@@ -270,7 +270,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x0600222D RID: 8749 RVA: 0x00121DE0 File Offset: 0x001201E0
+		// Token: 0x0600222F RID: 8751 RVA: 0x00121E58 File Offset: 0x00120258
 		public bool AnyTaleConcerns(Pawn p)
 		{
 			for (int i = 0; i < this.tales.Count; i++)
@@ -283,7 +283,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x0600222E RID: 8750 RVA: 0x00121E34 File Offset: 0x00120234
+		// Token: 0x06002230 RID: 8752 RVA: 0x00121EAC File Offset: 0x001202AC
 		public float GetMaxHistoricalTaleDay()
 		{
 			float num = 0f;
@@ -302,7 +302,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x0600222F RID: 8751 RVA: 0x00121EB0 File Offset: 0x001202B0
+		// Token: 0x06002231 RID: 8753 RVA: 0x00121F28 File Offset: 0x00120328
 		public void LogTales()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -354,7 +354,7 @@ namespace RimWorld
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x06002230 RID: 8752 RVA: 0x001221B8 File Offset: 0x001205B8
+		// Token: 0x06002232 RID: 8754 RVA: 0x00122230 File Offset: 0x00120630
 		public void LogTaleInterestSummary()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

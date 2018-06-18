@@ -8,7 +8,7 @@ namespace RimWorld
 	public class CompTargetEffect_GoodwillImpact : CompTargetEffect
 	{
 		// Token: 0x1700066A RID: 1642
-		// (get) Token: 0x0600298E RID: 10638 RVA: 0x001612B4 File Offset: 0x0015F6B4
+		// (get) Token: 0x06002990 RID: 10640 RVA: 0x00161348 File Offset: 0x0015F748
 		protected CompProperties_TargetEffect_GoodwillImpact PropsGoodwillImpact
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600298F RID: 10639 RVA: 0x001612D4 File Offset: 0x0015F6D4
+		// Token: 0x06002991 RID: 10641 RVA: 0x00161368 File Offset: 0x0015F768
 		public override void DoEffectOn(Pawn user, Thing target)
 		{
 			if (user.Faction != null && target.Faction != null)

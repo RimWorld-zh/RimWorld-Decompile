@@ -6,14 +6,14 @@ namespace Verse.Sound
 	// Token: 0x02000B7A RID: 2938
 	public class AudioGrain_Silence : AudioGrain
 	{
-		// Token: 0x06003FFD RID: 16381 RVA: 0x0021B1C8 File Offset: 0x002195C8
+		// Token: 0x06003FFF RID: 16383 RVA: 0x0021B29C File Offset: 0x0021969C
 		public override IEnumerable<ResolvedGrain> GetResolvedGrains()
 		{
 			yield return new ResolvedGrain_Silence(this);
 			yield break;
 		}
 
-		// Token: 0x06003FFE RID: 16382 RVA: 0x0021B1F4 File Offset: 0x002195F4
+		// Token: 0x06004000 RID: 16384 RVA: 0x0021B2C8 File Offset: 0x002196C8
 		public override int GetHashCode()
 		{
 			return this.durationRange.GetHashCode();

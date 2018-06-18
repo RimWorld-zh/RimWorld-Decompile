@@ -3,10 +3,10 @@ using System.Reflection;
 
 namespace Verse
 {
-	// Token: 0x02000D86 RID: 3462
+	// Token: 0x02000D85 RID: 3461
 	public static class DirectXmlSaveLoadUtility
 	{
-		// Token: 0x0400339F RID: 13215
+		// Token: 0x0400339D RID: 13213
 		public const BindingFlags FieldGetFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 	}
 }

@@ -6,10 +6,10 @@ using System.Xml.Linq;
 
 namespace Verse
 {
-	// Token: 0x02000D83 RID: 3459
+	// Token: 0x02000D82 RID: 3458
 	public static class DirectXmlLoaderSimple
 	{
-		// Token: 0x06004D5A RID: 19802 RVA: 0x002845DC File Offset: 0x002829DC
+		// Token: 0x06004D58 RID: 19800 RVA: 0x002845BC File Offset: 0x002829BC
 		public static IEnumerable<DirectXmlLoaderSimple.XmlKeyValuePair> ValuesFromXmlFile(FileInfo file)
 		{
 			XDocument doc = XDocument.Load(file.FullName, LoadOptions.SetLineInfo);
@@ -28,16 +28,16 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x02000D84 RID: 3460
+		// Token: 0x02000D83 RID: 3459
 		public struct XmlKeyValuePair
 		{
-			// Token: 0x0400339C RID: 13212
+			// Token: 0x0400339A RID: 13210
 			public string key;
 
-			// Token: 0x0400339D RID: 13213
+			// Token: 0x0400339B RID: 13211
 			public string value;
 
-			// Token: 0x0400339E RID: 13214
+			// Token: 0x0400339C RID: 13212
 			public int lineNumber;
 		}
 	}

@@ -11,7 +11,7 @@ namespace RimWorld
 	public static class LessonAutoActivator
 	{
 		// Token: 0x17000819 RID: 2073
-		// (get) Token: 0x060032F0 RID: 13040 RVA: 0x001B6704 File Offset: 0x001B4B04
+		// (get) Token: 0x060032F2 RID: 13042 RVA: 0x001B67CC File Offset: 0x001B4BCC
 		private static float SecondsSinceLesson
 		{
 			get
@@ -21,7 +21,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700081A RID: 2074
-		// (get) Token: 0x060032F1 RID: 13041 RVA: 0x001B6720 File Offset: 0x001B4B20
+		// (get) Token: 0x060032F3 RID: 13043 RVA: 0x001B67E8 File Offset: 0x001B4BE8
 		private static float RelaxDesire
 		{
 			get
@@ -30,19 +30,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060032F2 RID: 13042 RVA: 0x001B6746 File Offset: 0x001B4B46
+		// Token: 0x060032F4 RID: 13044 RVA: 0x001B680E File Offset: 0x001B4C0E
 		public static void Reset()
 		{
 			LessonAutoActivator.alertingConcepts.Clear();
 		}
 
-		// Token: 0x060032F3 RID: 13043 RVA: 0x001B6753 File Offset: 0x001B4B53
+		// Token: 0x060032F5 RID: 13045 RVA: 0x001B681B File Offset: 0x001B4C1B
 		public static void TeachOpportunity(ConceptDef conc, OpportunityType opp)
 		{
 			LessonAutoActivator.TeachOpportunity(conc, null, opp);
 		}
 
-		// Token: 0x060032F4 RID: 13044 RVA: 0x001B6760 File Offset: 0x001B4B60
+		// Token: 0x060032F6 RID: 13046 RVA: 0x001B6828 File Offset: 0x001B4C28
 		public static void TeachOpportunity(ConceptDef conc, Thing subject, OpportunityType opp)
 		{
 			if (TutorSystem.AdaptiveTrainingEnabled && !PlayerKnowledgeDatabase.IsComplete(conc))
@@ -71,7 +71,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060032F5 RID: 13045 RVA: 0x001B6804 File Offset: 0x001B4C04
+		// Token: 0x060032F7 RID: 13047 RVA: 0x001B68CC File Offset: 0x001B4CCC
 		public static void Notify_KnowledgeDemonstrated(ConceptDef conc)
 		{
 			if (PlayerKnowledgeDatabase.IsComplete(conc))
@@ -80,7 +80,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060032F6 RID: 13046 RVA: 0x001B6824 File Offset: 0x001B4C24
+		// Token: 0x060032F8 RID: 13048 RVA: 0x001B68EC File Offset: 0x001B4CEC
 		public static void LessonAutoActivatorUpdate()
 		{
 			if (TutorSystem.AdaptiveTrainingEnabled && Current.Game != null && !Find.Tutor.learningReadout.ShowAllMode)
@@ -146,7 +146,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060032F7 RID: 13047 RVA: 0x001B6A20 File Offset: 0x001B4E20
+		// Token: 0x060032F9 RID: 13049 RVA: 0x001B6AE8 File Offset: 0x001B4EE8
 		private static ConceptDef MostDesiredConcept()
 		{
 			float num = -9999f;
@@ -176,7 +176,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060032F8 RID: 13048 RVA: 0x001B6ABC File Offset: 0x001B4EBC
+		// Token: 0x060032FA RID: 13050 RVA: 0x001B6B84 File Offset: 0x001B4F84
 		private static float GetDesire(ConceptDef conc)
 		{
 			float result;
@@ -207,7 +207,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060032F9 RID: 13049 RVA: 0x001B6B7C File Offset: 0x001B4F7C
+		// Token: 0x060032FB RID: 13051 RVA: 0x001B6C44 File Offset: 0x001B5044
 		private static float GetOpportunity(ConceptDef conc)
 		{
 			float num;
@@ -224,7 +224,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060032FA RID: 13050 RVA: 0x001B6BC0 File Offset: 0x001B4FC0
+		// Token: 0x060032FC RID: 13052 RVA: 0x001B6C88 File Offset: 0x001B5088
 		private static void TryInitiateLesson(ConceptDef conc)
 		{
 			if (Find.Tutor.learningReadout.TryActivateConcept(conc))
@@ -233,19 +233,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060032FB RID: 13051 RVA: 0x001B6BDD File Offset: 0x001B4FDD
+		// Token: 0x060032FD RID: 13053 RVA: 0x001B6CA5 File Offset: 0x001B50A5
 		private static void SetLastLessonTimeToNow()
 		{
 			LessonAutoActivator.timeSinceLastLesson = 0f;
 		}
 
-		// Token: 0x060032FC RID: 13052 RVA: 0x001B6BEA File Offset: 0x001B4FEA
+		// Token: 0x060032FE RID: 13054 RVA: 0x001B6CB2 File Offset: 0x001B50B2
 		public static void Notify_TutorialEnding()
 		{
 			LessonAutoActivator.SetLastLessonTimeToNow();
 		}
 
-		// Token: 0x060032FD RID: 13053 RVA: 0x001B6BF4 File Offset: 0x001B4FF4
+		// Token: 0x060032FF RID: 13055 RVA: 0x001B6CBC File Offset: 0x001B50BC
 		public static string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -275,7 +275,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060032FE RID: 13054 RVA: 0x001B6D44 File Offset: 0x001B5144
+		// Token: 0x06003300 RID: 13056 RVA: 0x001B6E0C File Offset: 0x001B520C
 		public static void DebugForceInitiateBestLessonNow()
 		{
 			LessonAutoActivator.TryInitiateLesson((from def in DefDatabase<ConceptDef>.AllDefs

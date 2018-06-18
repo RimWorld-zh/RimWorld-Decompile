@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000BD2 RID: 3026
 	public sealed class PlaySettings : IExposable
 	{
-		// Token: 0x060041E4 RID: 16868 RVA: 0x0022B4E8 File Offset: 0x002298E8
+		// Token: 0x060041E6 RID: 16870 RVA: 0x0022B560 File Offset: 0x00229960
 		public void ExposeData()
 		{
 			Scribe_Values.Look<bool>(ref this.showLearningHelper, "showLearningHelper", false, false);
@@ -35,7 +35,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060041E5 RID: 16869 RVA: 0x0022B660 File Offset: 0x00229A60
+		// Token: 0x060041E7 RID: 16871 RVA: 0x0022B6D8 File Offset: 0x00229AD8
 		public void DoPlaySettingsGlobalControls(WidgetRow row, bool worldView)
 		{
 			bool flag = this.showColonistBar;
@@ -81,7 +81,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060041E6 RID: 16870 RVA: 0x0022B8D3 File Offset: 0x00229CD3
+		// Token: 0x060041E8 RID: 16872 RVA: 0x0022B94B File Offset: 0x00229D4B
 		private void CheckKeyBindingToggle(KeyBindingDef keyBinding, ref bool value)
 		{
 			if (keyBinding.KeyDownEvent)

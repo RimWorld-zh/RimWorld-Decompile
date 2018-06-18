@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020007DA RID: 2010
 	public class Designator_RemoveFloor : Designator
 	{
-		// Token: 0x06002C83 RID: 11395 RVA: 0x00176E74 File Offset: 0x00175274
+		// Token: 0x06002C85 RID: 11397 RVA: 0x00176F08 File Offset: 0x00175308
 		public Designator_RemoveFloor()
 		{
 			this.defaultLabel = "DesignatorRemoveFloor".Translate();
@@ -22,7 +22,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006FE RID: 1790
-		// (get) Token: 0x06002C84 RID: 11396 RVA: 0x00176EEC File Offset: 0x001752EC
+		// (get) Token: 0x06002C86 RID: 11398 RVA: 0x00176F80 File Offset: 0x00175380
 		public override int DraggableDimensions
 		{
 			get
@@ -32,7 +32,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006FF RID: 1791
-		// (get) Token: 0x06002C85 RID: 11397 RVA: 0x00176F04 File Offset: 0x00175304
+		// (get) Token: 0x06002C87 RID: 11399 RVA: 0x00176F98 File Offset: 0x00175398
 		public override bool DragDrawMeasurements
 		{
 			get
@@ -41,7 +41,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C86 RID: 11398 RVA: 0x00176F1C File Offset: 0x0017531C
+		// Token: 0x06002C88 RID: 11400 RVA: 0x00176FB0 File Offset: 0x001753B0
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -76,7 +76,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002C87 RID: 11399 RVA: 0x00177014 File Offset: 0x00175414
+		// Token: 0x06002C89 RID: 11401 RVA: 0x001770A8 File Offset: 0x001754A8
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			if (DebugSettings.godMode)
@@ -89,13 +89,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002C88 RID: 11400 RVA: 0x00177064 File Offset: 0x00175464
+		// Token: 0x06002C8A RID: 11402 RVA: 0x001770F8 File Offset: 0x001754F8
 		public override void SelectedUpdate()
 		{
 			GenUI.RenderMouseoverBracket();
 		}
 
-		// Token: 0x06002C89 RID: 11401 RVA: 0x0017706C File Offset: 0x0017546C
+		// Token: 0x06002C8B RID: 11403 RVA: 0x00177100 File Offset: 0x00175500
 		public override void RenderHighlight(List<IntVec3> dragCells)
 		{
 			DesignatorUtility.RenderHighlightOverSelectableCells(this, dragCells);

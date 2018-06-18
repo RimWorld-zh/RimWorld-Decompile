@@ -7,7 +7,7 @@ namespace Verse.AI
 	public class MentalState_Slaughterer : MentalState
 	{
 		// Token: 0x17000914 RID: 2324
-		// (get) Token: 0x06003B85 RID: 15237 RVA: 0x001F7614 File Offset: 0x001F5A14
+		// (get) Token: 0x06003B87 RID: 15239 RVA: 0x001F76E8 File Offset: 0x001F5AE8
 		public bool SlaughteredRecently
 		{
 			get
@@ -17,7 +17,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x17000915 RID: 2325
-		// (get) Token: 0x06003B86 RID: 15238 RVA: 0x001F7650 File Offset: 0x001F5A50
+		// (get) Token: 0x06003B88 RID: 15240 RVA: 0x001F7724 File Offset: 0x001F5B24
 		protected override bool CanEndBeforeMaxDurationNow
 		{
 			get
@@ -26,7 +26,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B87 RID: 15239 RVA: 0x001F7671 File Offset: 0x001F5A71
+		// Token: 0x06003B89 RID: 15241 RVA: 0x001F7745 File Offset: 0x001F5B45
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -34,7 +34,7 @@ namespace Verse.AI
 			Scribe_Values.Look<int>(ref this.animalsSlaughtered, "animalsSlaughtered", 0, false);
 		}
 
-		// Token: 0x06003B88 RID: 15240 RVA: 0x001F76A0 File Offset: 0x001F5AA0
+		// Token: 0x06003B8A RID: 15242 RVA: 0x001F7774 File Offset: 0x001F5B74
 		public override void MentalStateTick()
 		{
 			base.MentalStateTick();
@@ -44,7 +44,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B89 RID: 15241 RVA: 0x001F770B File Offset: 0x001F5B0B
+		// Token: 0x06003B8B RID: 15243 RVA: 0x001F77DF File Offset: 0x001F5BDF
 		public override void Notify_SlaughteredAnimal()
 		{
 			this.lastSlaughterTicks = Find.TickManager.TicksGame;

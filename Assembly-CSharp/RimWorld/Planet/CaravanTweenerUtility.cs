@@ -8,7 +8,7 @@ namespace RimWorld.Planet
 	// Token: 0x020005F0 RID: 1520
 	public static class CaravanTweenerUtility
 	{
-		// Token: 0x06001E2C RID: 7724 RVA: 0x00103840 File Offset: 0x00101C40
+		// Token: 0x06001E2E RID: 7726 RVA: 0x001038B8 File Offset: 0x00101CB8
 		public static Vector3 PatherTweenedPosRoot(Caravan caravan)
 		{
 			WorldGrid worldGrid = Find.WorldGrid;
@@ -46,7 +46,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E2D RID: 7725 RVA: 0x00103944 File Offset: 0x00101D44
+		// Token: 0x06001E2F RID: 7727 RVA: 0x001039BC File Offset: 0x00101DBC
 		public static Vector3 CaravanCollisionPosOffsetFor(Caravan caravan)
 		{
 			Vector3 result;
@@ -98,7 +98,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E2E RID: 7726 RVA: 0x00103A88 File Offset: 0x00101E88
+		// Token: 0x06001E30 RID: 7728 RVA: 0x00103B00 File Offset: 0x00101F00
 		private static void GetCaravansStandingAtOrAboutToStandAt(int tile, out int caravansCount, out int caravansWithLowerIdCount, Caravan forCaravan)
 		{
 			caravansCount = 0;
@@ -132,7 +132,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E2F RID: 7727 RVA: 0x00103B50 File Offset: 0x00101F50
+		// Token: 0x06001E31 RID: 7729 RVA: 0x00103BC8 File Offset: 0x00101FC8
 		private static bool DrawPosCollides(Caravan caravan)
 		{
 			Vector3 a = CaravanTweenerUtility.PatherTweenedPosRoot(caravan);

@@ -8,7 +8,7 @@ namespace RimWorld.Planet
 	public class WorldPathPool
 	{
 		// Token: 0x17000390 RID: 912
-		// (get) Token: 0x0600193D RID: 6461 RVA: 0x000DB5C0 File Offset: 0x000D99C0
+		// (get) Token: 0x0600193E RID: 6462 RVA: 0x000DB614 File Offset: 0x000D9A14
 		public static WorldPath NotFoundPath
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x0600193E RID: 6462 RVA: 0x000DB5DC File Offset: 0x000D99DC
+		// Token: 0x0600193F RID: 6463 RVA: 0x000DB630 File Offset: 0x000D9A30
 		public WorldPath GetEmptyWorldPath()
 		{
 			for (int i = 0; i < this.paths.Count; i++)

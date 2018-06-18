@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020009B2 RID: 2482
 	public class StatPart_Mood : StatPart
 	{
-		// Token: 0x06003793 RID: 14227 RVA: 0x001D9BD8 File Offset: 0x001D7FD8
+		// Token: 0x06003795 RID: 14229 RVA: 0x001D9CAC File Offset: 0x001D80AC
 		public override IEnumerable<string> ConfigErrors()
 		{
 			if (this.factorFromMoodCurve == null)
@@ -17,7 +17,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06003794 RID: 14228 RVA: 0x001D9C04 File Offset: 0x001D8004
+		// Token: 0x06003796 RID: 14230 RVA: 0x001D9CD8 File Offset: 0x001D80D8
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (req.HasThing)
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003795 RID: 14229 RVA: 0x001D9C50 File Offset: 0x001D8050
+		// Token: 0x06003797 RID: 14231 RVA: 0x001D9D24 File Offset: 0x001D8124
 		public override string ExplanationPart(StatRequest req)
 		{
 			if (req.HasThing)
@@ -47,13 +47,13 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06003796 RID: 14230 RVA: 0x001D9CD8 File Offset: 0x001D80D8
+		// Token: 0x06003798 RID: 14232 RVA: 0x001D9DAC File Offset: 0x001D81AC
 		private bool ActiveFor(Pawn pawn)
 		{
 			return pawn.needs.mood != null;
 		}
 
-		// Token: 0x06003797 RID: 14231 RVA: 0x001D9D00 File Offset: 0x001D8100
+		// Token: 0x06003799 RID: 14233 RVA: 0x001D9DD4 File Offset: 0x001D81D4
 		private float FactorFromMood(Pawn pawn)
 		{
 			return this.factorFromMoodCurve.Evaluate(pawn.needs.mood.CurLevel);

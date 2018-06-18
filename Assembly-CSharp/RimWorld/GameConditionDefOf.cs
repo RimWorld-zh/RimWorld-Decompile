@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class GameConditionDefOf
 	{
-		// Token: 0x06003625 RID: 13861 RVA: 0x001D064D File Offset: 0x001CEA4D
+		// Token: 0x06003627 RID: 13863 RVA: 0x001D0715 File Offset: 0x001CEB15
 		static GameConditionDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(GameConditionDefOf));

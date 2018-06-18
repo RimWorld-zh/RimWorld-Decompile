@@ -5,16 +5,16 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000E29 RID: 3625
+	// Token: 0x02000E28 RID: 3624
 	public static class DebugThingPlaceHelper
 	{
-		// Token: 0x060054F0 RID: 21744 RVA: 0x002B89F4 File Offset: 0x002B6DF4
+		// Token: 0x060054EE RID: 21742 RVA: 0x002B89F4 File Offset: 0x002B6DF4
 		public static bool IsDebugSpawnable(ThingDef def, bool allowPlayerBuildable = false)
 		{
 			return def.forceDebugSpawnable || (def.thingClass != typeof(Corpse) && !def.IsBlueprint && !def.IsFrame && def != ThingDefOf.ActiveDropPod && def.thingClass != typeof(MinifiedThing) && def.thingClass != typeof(UnfinishedThing) && !def.destroyOnDrop && (def.category == ThingCategory.Filth || def.category == ThingCategory.Item || def.category == ThingCategory.Plant || def.category == ThingCategory.Ethereal || (def.category == ThingCategory.Building && def.building.isNaturalRock) || (def.category == ThingCategory.Building && !def.BuildableByPlayer) || (def.category == ThingCategory.Building && def.BuildableByPlayer && allowPlayerBuildable)));
 		}
 
-		// Token: 0x060054F1 RID: 21745 RVA: 0x002B8B2C File Offset: 0x002B6F2C
+		// Token: 0x060054EF RID: 21743 RVA: 0x002B8B2C File Offset: 0x002B6F2C
 		public static void DebugSpawn(ThingDef def, IntVec3 c, int stackCount = -1, bool direct = false)
 		{
 			if (stackCount <= 0)
@@ -43,7 +43,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060054F2 RID: 21746 RVA: 0x002B8BBC File Offset: 0x002B6FBC
+		// Token: 0x060054F0 RID: 21744 RVA: 0x002B8BBC File Offset: 0x002B6FBC
 		public static List<DebugMenuOption> TryPlaceOptionsForStackCount(int stackCount, bool direct)
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();
@@ -74,7 +74,7 @@ namespace Verse
 			return list;
 		}
 
-		// Token: 0x060054F3 RID: 21747 RVA: 0x002B8D4C File Offset: 0x002B714C
+		// Token: 0x060054F1 RID: 21745 RVA: 0x002B8D4C File Offset: 0x002B714C
 		public static List<DebugMenuOption> SpawnOptions(WipeMode wipeMode)
 		{
 			List<DebugMenuOption> list = new List<DebugMenuOption>();

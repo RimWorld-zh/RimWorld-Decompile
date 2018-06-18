@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x0200087D RID: 2173
 	public abstract class PawnColumnWorker_Checkbox : PawnColumnWorker
 	{
-		// Token: 0x06003189 RID: 12681 RVA: 0x001ADC9C File Offset: 0x001AC09C
+		// Token: 0x0600318B RID: 12683 RVA: 0x001ADD64 File Offset: 0x001AC164
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
 			if (this.HasCheckbox(pawn))
@@ -39,31 +39,31 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600318A RID: 12682 RVA: 0x001ADD88 File Offset: 0x001AC188
+		// Token: 0x0600318C RID: 12684 RVA: 0x001ADE50 File Offset: 0x001AC250
 		public override int GetMinWidth(PawnTable table)
 		{
 			return Mathf.Max(base.GetMinWidth(table), 28);
 		}
 
-		// Token: 0x0600318B RID: 12683 RVA: 0x001ADDAC File Offset: 0x001AC1AC
+		// Token: 0x0600318D RID: 12685 RVA: 0x001ADE74 File Offset: 0x001AC274
 		public override int GetMaxWidth(PawnTable table)
 		{
 			return Mathf.Min(base.GetMaxWidth(table), this.GetMinWidth(table));
 		}
 
-		// Token: 0x0600318C RID: 12684 RVA: 0x001ADDD4 File Offset: 0x001AC1D4
+		// Token: 0x0600318E RID: 12686 RVA: 0x001ADE9C File Offset: 0x001AC29C
 		public override int GetMinCellHeight(Pawn pawn)
 		{
 			return Mathf.Max(base.GetMinCellHeight(pawn), 24);
 		}
 
-		// Token: 0x0600318D RID: 12685 RVA: 0x001ADDF8 File Offset: 0x001AC1F8
+		// Token: 0x0600318F RID: 12687 RVA: 0x001ADEC0 File Offset: 0x001AC2C0
 		public override int Compare(Pawn a, Pawn b)
 		{
 			return this.GetValueToCompare(a).CompareTo(this.GetValueToCompare(b));
 		}
 
-		// Token: 0x0600318E RID: 12686 RVA: 0x001ADE24 File Offset: 0x001AC224
+		// Token: 0x06003190 RID: 12688 RVA: 0x001ADEEC File Offset: 0x001AC2EC
 		private int GetValueToCompare(Pawn pawn)
 		{
 			int result;
@@ -82,25 +82,25 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600318F RID: 12687 RVA: 0x001ADE60 File Offset: 0x001AC260
+		// Token: 0x06003191 RID: 12689 RVA: 0x001ADF28 File Offset: 0x001AC328
 		protected virtual string GetTip(Pawn pawn)
 		{
 			return null;
 		}
 
-		// Token: 0x06003190 RID: 12688 RVA: 0x001ADE78 File Offset: 0x001AC278
+		// Token: 0x06003192 RID: 12690 RVA: 0x001ADF40 File Offset: 0x001AC340
 		protected virtual bool HasCheckbox(Pawn pawn)
 		{
 			return true;
 		}
 
-		// Token: 0x06003191 RID: 12689
+		// Token: 0x06003193 RID: 12691
 		protected abstract bool GetValue(Pawn pawn);
 
-		// Token: 0x06003192 RID: 12690
+		// Token: 0x06003194 RID: 12692
 		protected abstract void SetValue(Pawn pawn, bool value);
 
-		// Token: 0x06003193 RID: 12691 RVA: 0x001ADE90 File Offset: 0x001AC290
+		// Token: 0x06003195 RID: 12693 RVA: 0x001ADF58 File Offset: 0x001AC358
 		protected override void HeaderClicked(Rect headerRect, PawnTable table)
 		{
 			base.HeaderClicked(headerRect, table);
@@ -138,7 +138,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003194 RID: 12692 RVA: 0x001ADF90 File Offset: 0x001AC390
+		// Token: 0x06003196 RID: 12694 RVA: 0x001AE058 File Offset: 0x001AC458
 		protected override string GetHeaderTip(PawnTable table)
 		{
 			return base.GetHeaderTip(table) + "\n" + "CheckboxShiftClickTip".Translate();

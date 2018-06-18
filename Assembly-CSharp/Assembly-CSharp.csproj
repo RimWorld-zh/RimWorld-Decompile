@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6E36635F-B7DC-4869-9BBB-805C06276CFA}</ProjectGuid>
+    <ProjectGuid>{F4C6938A-CCFD-46AB-B3E7-2AEB908376CE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Assembly-CSharp</RootNamespace>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -33,9 +33,6 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>D:\Games\SteamLibrary\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
-    </Reference>
     <Reference Include="NAudio">
       <HintPath>D:\Games\SteamLibrary\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\NAudio.dll</HintPath>
     </Reference>
@@ -3182,9 +3179,8 @@
     <Compile Include="Verse\Grammar\Rule.cs" />
     <Compile Include="Verse\Grammar\RulePack.cs" />
     <Compile Include="Verse\Grammar\Rule_File.cs" />
-    <Compile Include="Verse\Grammar\Rule_List.cs" />
+    <Compile Include="Verse\Grammar\Rule_NamePerson.cs" />
     <Compile Include="Verse\Grammar\Rule_Number.cs" />
-    <Compile Include="Verse\Grammar\Rule_PersonName.cs" />
     <Compile Include="Verse\Grammar\Rule_String.cs" />
     <Compile Include="Verse\Graphic.cs" />
     <Compile Include="Verse\GraphicData.cs" />
@@ -3967,6 +3963,12 @@
     <Compile Include="Verse\ZoneColorUtility.cs" />
     <Compile Include="Verse\ZoneMaker.cs" />
     <Compile Include="Verse\ZoneManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Assembly-CSharp-firstpass\Assembly-CSharp-firstpass.csproj">
+      <Project>{f4c6938a-ccfd-46ab-b3e7-2aeb908376cf}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

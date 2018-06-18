@@ -9,13 +9,13 @@ namespace RimWorld
 	// Token: 0x020004DF RID: 1247
 	public static class BackstoryDatabase
 	{
-		// Token: 0x06001630 RID: 5680 RVA: 0x000C4CDC File Offset: 0x000C30DC
+		// Token: 0x06001630 RID: 5680 RVA: 0x000C4CF8 File Offset: 0x000C30F8
 		public static void Clear()
 		{
 			BackstoryDatabase.allBackstories.Clear();
 		}
 
-		// Token: 0x06001631 RID: 5681 RVA: 0x000C4CEC File Offset: 0x000C30EC
+		// Token: 0x06001631 RID: 5681 RVA: 0x000C4D08 File Offset: 0x000C3108
 		public static void ReloadAllBackstories()
 		{
 			foreach (Backstory backstory in DirectXmlLoader.LoadXmlDataInResourcesFolder<Backstory>("Backstories/Shuffled"))
@@ -31,7 +31,7 @@ namespace RimWorld
 			SolidBioDatabase.LoadAllBios();
 		}
 
-		// Token: 0x06001632 RID: 5682 RVA: 0x000C4DBC File Offset: 0x000C31BC
+		// Token: 0x06001632 RID: 5682 RVA: 0x000C4DD8 File Offset: 0x000C31D8
 		public static void AddBackstory(Backstory bs)
 		{
 			BackstoryHardcodedData.InjectHardcodedData(bs);
@@ -61,13 +61,20 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001633 RID: 5683 RVA: 0x000C4E8C File Offset: 0x000C328C
-		public static bool TryGetWithIdentifier(string identifier, out Backstory bs)
+		// Token: 0x06001633 RID: 5683 RVA: 0x000C4EA8 File Offset: 0x000C32A8
+		public static bool TryGetWithIdentifier(string identifier, out Backstory bs, bool closestMatchWarning = true)
 		{
-			bool result;
-			if (BackstoryDatabase.allBackstories.TryGetValue(identifier, out bs))
+			identifier = BackstoryDatabase.GetIdentifierClosestMatch(identifier, closestMatchWarning);
+			return BackstoryDatabase.allBackstories.TryGetValue(identifier, out bs);
+		}
+
+		// Token: 0x06001634 RID: 5684 RVA: 0x000C4ED4 File Offset: 0x000C32D4
+		public static string GetIdentifierClosestMatch(string identifier, bool closestMatchWarning = true)
+		{
+			string result;
+			if (BackstoryDatabase.allBackstories.ContainsKey(identifier))
 			{
-				result = true;
+				result = identifier;
 			}
 			else
 			{
@@ -77,18 +84,20 @@ namespace RimWorld
 					Backstory value = keyValuePair.Value;
 					if (BackstoryDatabase.StripNumericSuffix(value.identifier) == b)
 					{
-						bs = value;
-						Log.Warning("Couldn't find exact match for backstory " + identifier + " , using closest match " + bs.identifier, false);
-						return true;
+						if (closestMatchWarning)
+						{
+							Log.Warning("Couldn't find exact match for backstory " + identifier + " , using closest match " + value.identifier, false);
+						}
+						return value.identifier;
 					}
 				}
 				Log.Warning("Couldn't find exact match for backstory " + identifier + ", or any close match.", false);
-				result = false;
+				result = identifier;
 			}
 			return result;
 		}
 
-		// Token: 0x06001634 RID: 5684 RVA: 0x000C4F6C File Offset: 0x000C336C
+		// Token: 0x06001635 RID: 5685 RVA: 0x000C4FBC File Offset: 0x000C33BC
 		public static Backstory RandomBackstory(BackstorySlot slot)
 		{
 			return (from bs in BackstoryDatabase.allBackstories
@@ -96,7 +105,7 @@ namespace RimWorld
 			select bs).RandomElement<KeyValuePair<string, Backstory>>().Value;
 		}
 
-		// Token: 0x06001635 RID: 5685 RVA: 0x000C4FB4 File Offset: 0x000C33B4
+		// Token: 0x06001636 RID: 5686 RVA: 0x000C5004 File Offset: 0x000C3404
 		public static List<Backstory> ShuffleableBackstoryList(BackstorySlot slot, string tag)
 		{
 			Pair<BackstorySlot, string> key = new Pair<BackstorySlot, string>(slot, tag);
@@ -109,7 +118,7 @@ namespace RimWorld
 			return BackstoryDatabase.shuffleableBackstoryList[key];
 		}
 
-		// Token: 0x06001636 RID: 5686 RVA: 0x000C5038 File Offset: 0x000C3438
+		// Token: 0x06001637 RID: 5687 RVA: 0x000C5088 File Offset: 0x000C3488
 		public static string StripNumericSuffix(string key)
 		{
 			return BackstoryDatabase.regex.Match(key).Captures[0].Value;

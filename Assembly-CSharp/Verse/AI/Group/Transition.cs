@@ -6,7 +6,7 @@ namespace Verse.AI.Group
 	// Token: 0x020009FF RID: 2559
 	public class Transition
 	{
-		// Token: 0x06003963 RID: 14691 RVA: 0x001E70A0 File Offset: 0x001E54A0
+		// Token: 0x06003965 RID: 14693 RVA: 0x001E7174 File Offset: 0x001E5574
 		public Transition(LordToil firstSource, LordToil target, bool canMoveToSameState = false, bool updateDutiesIfMovedToSameState = true)
 		{
 			this.canMoveToSameState = canMoveToSameState;
@@ -17,7 +17,7 @@ namespace Verse.AI.Group
 		}
 
 		// Token: 0x170008E1 RID: 2273
-		// (get) Token: 0x06003964 RID: 14692 RVA: 0x001E7104 File Offset: 0x001E5504
+		// (get) Token: 0x06003966 RID: 14694 RVA: 0x001E71D8 File Offset: 0x001E55D8
 		public Map Map
 		{
 			get
@@ -26,7 +26,7 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x06003965 RID: 14693 RVA: 0x001E7124 File Offset: 0x001E5524
+		// Token: 0x06003967 RID: 14695 RVA: 0x001E71F8 File Offset: 0x001E55F8
 		public void AddSource(LordToil source)
 		{
 			if (this.sources.Contains(source))
@@ -43,7 +43,7 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x06003966 RID: 14694 RVA: 0x001E7190 File Offset: 0x001E5590
+		// Token: 0x06003968 RID: 14696 RVA: 0x001E7264 File Offset: 0x001E5664
 		public void AddSources(IEnumerable<LordToil> sources)
 		{
 			foreach (LordToil source in sources)
@@ -52,7 +52,7 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x06003967 RID: 14695 RVA: 0x001E71E8 File Offset: 0x001E55E8
+		// Token: 0x06003969 RID: 14697 RVA: 0x001E72BC File Offset: 0x001E56BC
 		public void AddSources(params LordToil[] sources)
 		{
 			for (int i = 0; i < sources.Length; i++)
@@ -61,25 +61,25 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x06003968 RID: 14696 RVA: 0x001E7215 File Offset: 0x001E5615
+		// Token: 0x0600396A RID: 14698 RVA: 0x001E72E9 File Offset: 0x001E56E9
 		public void AddTrigger(Trigger trigger)
 		{
 			this.triggers.Add(trigger);
 		}
 
-		// Token: 0x06003969 RID: 14697 RVA: 0x001E7224 File Offset: 0x001E5624
+		// Token: 0x0600396B RID: 14699 RVA: 0x001E72F8 File Offset: 0x001E56F8
 		public void AddPreAction(TransitionAction action)
 		{
 			this.preActions.Add(action);
 		}
 
-		// Token: 0x0600396A RID: 14698 RVA: 0x001E7233 File Offset: 0x001E5633
+		// Token: 0x0600396C RID: 14700 RVA: 0x001E7307 File Offset: 0x001E5707
 		public void AddPostAction(TransitionAction action)
 		{
 			this.postActions.Add(action);
 		}
 
-		// Token: 0x0600396B RID: 14699 RVA: 0x001E7244 File Offset: 0x001E5644
+		// Token: 0x0600396D RID: 14701 RVA: 0x001E7318 File Offset: 0x001E5718
 		public void SourceToilBecameActive(Transition transition, LordToil previousToil)
 		{
 			for (int i = 0; i < this.triggers.Count; i++)
@@ -88,7 +88,7 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x0600396C RID: 14700 RVA: 0x001E7284 File Offset: 0x001E5684
+		// Token: 0x0600396E RID: 14702 RVA: 0x001E7358 File Offset: 0x001E5758
 		public bool CheckSignal(Lord lord, TriggerSignal signal)
 		{
 			for (int i = 0; i < this.triggers.Count; i++)
@@ -133,7 +133,7 @@ namespace Verse.AI.Group
 			return false;
 		}
 
-		// Token: 0x0600396D RID: 14701 RVA: 0x001E73C0 File Offset: 0x001E57C0
+		// Token: 0x0600396F RID: 14703 RVA: 0x001E7494 File Offset: 0x001E5894
 		public void Execute(Lord lord)
 		{
 			if (this.canMoveToSameState || this.target != lord.CurLordToil)
@@ -153,7 +153,7 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x0600396E RID: 14702 RVA: 0x001E7478 File Offset: 0x001E5878
+		// Token: 0x06003970 RID: 14704 RVA: 0x001E754C File Offset: 0x001E594C
 		public override string ToString()
 		{
 			string text = (!this.sources.NullOrEmpty<LordToil>()) ? this.sources[0].ToString() : "null";

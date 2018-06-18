@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E7D RID: 3709
+	// Token: 0x02000E7C RID: 3708
 	public abstract class Listing
 	{
-		// Token: 0x17000DCE RID: 3534
-		// (get) Token: 0x06005751 RID: 22353 RVA: 0x001B2844 File Offset: 0x001B0C44
+		// Token: 0x17000DCD RID: 3533
+		// (get) Token: 0x0600574F RID: 22351 RVA: 0x001B290C File Offset: 0x001B0D0C
 		public float CurHeight
 		{
 			get
@@ -16,9 +16,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DCF RID: 3535
-		// (get) Token: 0x06005753 RID: 22355 RVA: 0x001B2870 File Offset: 0x001B0C70
-		// (set) Token: 0x06005752 RID: 22354 RVA: 0x001B285F File Offset: 0x001B0C5F
+		// Token: 0x17000DCE RID: 3534
+		// (get) Token: 0x06005751 RID: 22353 RVA: 0x001B2938 File Offset: 0x001B0D38
+		// (set) Token: 0x06005750 RID: 22352 RVA: 0x001B2927 File Offset: 0x001B0D27
 		public float ColumnWidth
 		{
 			get
@@ -32,14 +32,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005754 RID: 22356 RVA: 0x001B288B File Offset: 0x001B0C8B
+		// Token: 0x06005752 RID: 22354 RVA: 0x001B2953 File Offset: 0x001B0D53
 		public void NewColumn()
 		{
 			this.curY = 0f;
 			this.curX += this.ColumnWidth + 17f;
 		}
 
-		// Token: 0x06005755 RID: 22357 RVA: 0x001B28B2 File Offset: 0x001B0CB2
+		// Token: 0x06005753 RID: 22355 RVA: 0x001B297A File Offset: 0x001B0D7A
 		protected void NewColumnIfNeeded(float neededHeight)
 		{
 			if (this.curY + neededHeight > this.listingRect.height)
@@ -48,7 +48,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005756 RID: 22358 RVA: 0x001B28D4 File Offset: 0x001B0CD4
+		// Token: 0x06005754 RID: 22356 RVA: 0x001B299C File Offset: 0x001B0D9C
 		public Rect GetRect(float height)
 		{
 			this.NewColumnIfNeeded(height);
@@ -57,13 +57,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005757 RID: 22359 RVA: 0x001B2919 File Offset: 0x001B0D19
+		// Token: 0x06005755 RID: 22357 RVA: 0x001B29E1 File Offset: 0x001B0DE1
 		public void Gap(float gapHeight = 12f)
 		{
 			this.curY += gapHeight;
 		}
 
-		// Token: 0x06005758 RID: 22360 RVA: 0x001B292C File Offset: 0x001B0D2C
+		// Token: 0x06005756 RID: 22358 RVA: 0x001B29F4 File Offset: 0x001B0DF4
 		public void GapLine(float gapHeight = 12f)
 		{
 			float y = this.curY + gapHeight / 2f;
@@ -74,7 +74,7 @@ namespace Verse
 			this.curY += gapHeight;
 		}
 
-		// Token: 0x06005759 RID: 22361 RVA: 0x001B299C File Offset: 0x001B0D9C
+		// Token: 0x06005757 RID: 22359 RVA: 0x001B2A64 File Offset: 0x001B0E64
 		public virtual void Begin(Rect rect)
 		{
 			this.listingRect = rect;
@@ -102,34 +102,34 @@ namespace Verse
 			GUI.BeginGroup(rect);
 		}
 
-		// Token: 0x0600575A RID: 22362 RVA: 0x001B2A63 File Offset: 0x001B0E63
+		// Token: 0x06005758 RID: 22360 RVA: 0x001B2B2B File Offset: 0x001B0F2B
 		public virtual void End()
 		{
 			GUI.EndGroup();
 		}
 
-		// Token: 0x040039D1 RID: 14801
+		// Token: 0x040039CF RID: 14799
 		public float verticalSpacing = 2f;
 
-		// Token: 0x040039D2 RID: 14802
+		// Token: 0x040039D0 RID: 14800
 		protected Rect listingRect;
 
-		// Token: 0x040039D3 RID: 14803
+		// Token: 0x040039D1 RID: 14801
 		protected float curY = 0f;
 
-		// Token: 0x040039D4 RID: 14804
+		// Token: 0x040039D2 RID: 14802
 		protected float curX = 0f;
 
-		// Token: 0x040039D5 RID: 14805
+		// Token: 0x040039D3 RID: 14803
 		private float columnWidthInt;
 
-		// Token: 0x040039D6 RID: 14806
+		// Token: 0x040039D4 RID: 14804
 		private bool hasCustomColumnWidth;
 
-		// Token: 0x040039D7 RID: 14807
+		// Token: 0x040039D5 RID: 14805
 		public const float ColumnSpacing = 17f;
 
-		// Token: 0x040039D8 RID: 14808
+		// Token: 0x040039D6 RID: 14806
 		private const float DefaultGap = 12f;
 	}
 }

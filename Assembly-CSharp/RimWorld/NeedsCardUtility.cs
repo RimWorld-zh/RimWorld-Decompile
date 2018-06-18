@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x0200081B RID: 2075
 	public static class NeedsCardUtility
 	{
-		// Token: 0x06002E53 RID: 11859 RVA: 0x0018A108 File Offset: 0x00188508
+		// Token: 0x06002E55 RID: 11861 RVA: 0x0018A19C File Offset: 0x0018859C
 		public static Vector2 GetSize(Pawn pawn)
 		{
 			NeedsCardUtility.UpdateDisplayNeeds(pawn);
@@ -25,7 +25,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002E54 RID: 11860 RVA: 0x0018A178 File Offset: 0x00188578
+		// Token: 0x06002E56 RID: 11862 RVA: 0x0018A20C File Offset: 0x0018860C
 		public static void DoNeedsMoodAndThoughts(Rect rect, Pawn pawn, ref Vector2 thoughtScrollPosition)
 		{
 			Rect rect2 = new Rect(rect.x, rect.y, 225f, rect.height);
@@ -37,7 +37,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E55 RID: 11861 RVA: 0x0018A1F4 File Offset: 0x001885F4
+		// Token: 0x06002E57 RID: 11863 RVA: 0x0018A288 File Offset: 0x00188688
 		public static void DoNeeds(Rect rect, Pawn pawn)
 		{
 			NeedsCardUtility.UpdateDisplayNeeds(pawn);
@@ -60,7 +60,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E56 RID: 11862 RVA: 0x0018A308 File Offset: 0x00188708
+		// Token: 0x06002E58 RID: 11864 RVA: 0x0018A39C File Offset: 0x0018879C
 		private static void DoMoodAndThoughts(Rect rect, Pawn pawn, ref Vector2 thoughtScrollPosition)
 		{
 			GUI.BeginGroup(rect);
@@ -72,7 +72,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002E57 RID: 11863 RVA: 0x0018A3A4 File Offset: 0x001887A4
+		// Token: 0x06002E59 RID: 11865 RVA: 0x0018A438 File Offset: 0x00188838
 		private static void UpdateDisplayNeeds(Pawn pawn)
 		{
 			NeedsCardUtility.displayNeeds.Clear();
@@ -87,7 +87,7 @@ namespace RimWorld
 			PawnNeedsUIUtility.SortInDisplayOrder(NeedsCardUtility.displayNeeds);
 		}
 
-		// Token: 0x06002E58 RID: 11864 RVA: 0x0018A414 File Offset: 0x00188814
+		// Token: 0x06002E5A RID: 11866 RVA: 0x0018A4A8 File Offset: 0x001888A8
 		private static void DrawThoughtListing(Rect listingRect, Pawn pawn, ref Vector2 thoughtScrollPosition)
 		{
 			if (Event.current.type != EventType.Layout)
@@ -111,7 +111,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E59 RID: 11865 RVA: 0x0018A500 File Offset: 0x00188900
+		// Token: 0x06002E5B RID: 11867 RVA: 0x0018A594 File Offset: 0x00188994
 		private static bool DrawThoughtGroup(Rect rect, Thought group, Pawn pawn)
 		{
 			try

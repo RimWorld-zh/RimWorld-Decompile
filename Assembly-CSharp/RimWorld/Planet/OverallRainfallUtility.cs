@@ -7,7 +7,7 @@ namespace RimWorld.Planet
 	public static class OverallRainfallUtility
 	{
 		// Token: 0x170003E1 RID: 993
-		// (get) Token: 0x06001AD5 RID: 6869 RVA: 0x000E6520 File Offset: 0x000E4920
+		// (get) Token: 0x06001AD6 RID: 6870 RVA: 0x000E658C File Offset: 0x000E498C
 		public static int EnumValuesCount
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001AD6 RID: 6870 RVA: 0x000E655C File Offset: 0x000E495C
+		// Token: 0x06001AD7 RID: 6871 RVA: 0x000E65C8 File Offset: 0x000E49C8
 		public static SimpleCurve GetRainfallCurve(this OverallRainfall overallRainfall)
 		{
 			switch (overallRainfall)

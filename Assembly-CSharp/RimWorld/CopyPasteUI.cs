@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020007BB RID: 1979
 	public static class CopyPasteUI
 	{
-		// Token: 0x06002BDA RID: 11226 RVA: 0x00172FFC File Offset: 0x001713FC
+		// Token: 0x06002BDC RID: 11228 RVA: 0x00173090 File Offset: 0x00171490
 		public static void DoCopyPasteButtons(Rect rect, Action copyAction, Action pasteAction)
 		{
 			Rect rect2 = new Rect(rect.x, rect.y + (rect.height / 2f - 12f), 18f, 24f);

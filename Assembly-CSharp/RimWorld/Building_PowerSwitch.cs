@@ -9,7 +9,7 @@ namespace RimWorld
 	public class Building_PowerSwitch : Building
 	{
 		// Token: 0x17000528 RID: 1320
-		// (get) Token: 0x06002317 RID: 8983 RVA: 0x0012DEDC File Offset: 0x0012C2DC
+		// (get) Token: 0x06002319 RID: 8985 RVA: 0x0012DF54 File Offset: 0x0012C354
 		public override bool TransmitsPowerNow
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000529 RID: 1321
-		// (get) Token: 0x06002318 RID: 8984 RVA: 0x0012DEF8 File Offset: 0x0012C2F8
+		// (get) Token: 0x0600231A RID: 8986 RVA: 0x0012DF70 File Offset: 0x0012C370
 		public override Graphic Graphic
 		{
 			get
@@ -28,14 +28,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002319 RID: 8985 RVA: 0x0012DF18 File Offset: 0x0012C318
+		// Token: 0x0600231B RID: 8987 RVA: 0x0012DF90 File Offset: 0x0012C390
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
 			this.flickableComp = base.GetComp<CompFlickable>();
 		}
 
-		// Token: 0x0600231A RID: 8986 RVA: 0x0012DF30 File Offset: 0x0012C330
+		// Token: 0x0600231C RID: 8988 RVA: 0x0012DFA8 File Offset: 0x0012C3A8
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -50,7 +50,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600231B RID: 8987 RVA: 0x0012DF80 File Offset: 0x0012C380
+		// Token: 0x0600231D RID: 8989 RVA: 0x0012DFF8 File Offset: 0x0012C3F8
 		protected override void ReceiveCompSignal(string signal)
 		{
 			if (signal == "FlickedOff" || signal == "FlickedOn" || signal == "ScheduledOn" || signal == "ScheduledOff")
@@ -59,7 +59,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600231C RID: 8988 RVA: 0x0012DFD4 File Offset: 0x0012C3D4
+		// Token: 0x0600231E RID: 8990 RVA: 0x0012E04C File Offset: 0x0012C44C
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -80,7 +80,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x0600231D RID: 8989 RVA: 0x0012E06C File Offset: 0x0012C46C
+		// Token: 0x0600231F RID: 8991 RVA: 0x0012E0E4 File Offset: 0x0012C4E4
 		private void UpdatePowerGrid()
 		{
 			if (FlickUtility.WantsToBeOn(this) != this.wantsOnOld)

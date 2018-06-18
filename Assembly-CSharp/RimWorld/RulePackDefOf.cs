@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class RulePackDefOf
 	{
-		// Token: 0x06003655 RID: 13909 RVA: 0x001D09AD File Offset: 0x001CEDAD
+		// Token: 0x06003657 RID: 13911 RVA: 0x001D0A75 File Offset: 0x001CEE75
 		static RulePackDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(RulePackDefOf));
@@ -62,31 +62,31 @@ namespace RimWorld
 		public static RulePackDef NamerScenario;
 
 		// Token: 0x04002246 RID: 8774
-		public static RulePackDef ArtName_Sculpture;
+		public static RulePackDef NamerArtSculpture;
 
 		// Token: 0x04002247 RID: 8775
 		public static RulePackDef ArtDescription_Sculpture;
 
 		// Token: 0x04002248 RID: 8776
-		public static RulePackDef ArtName_WeaponMelee;
+		public static RulePackDef NamerArtWeaponMelee;
 
 		// Token: 0x04002249 RID: 8777
 		public static RulePackDef ArtDescription_WeaponMelee;
 
 		// Token: 0x0400224A RID: 8778
-		public static RulePackDef ArtName_WeaponGun;
+		public static RulePackDef NamerArtWeaponGun;
 
 		// Token: 0x0400224B RID: 8779
 		public static RulePackDef ArtDescription_WeaponGun;
 
 		// Token: 0x0400224C RID: 8780
-		public static RulePackDef ArtName_Furniture;
+		public static RulePackDef NamerArtFurniture;
 
 		// Token: 0x0400224D RID: 8781
 		public static RulePackDef ArtDescription_Furniture;
 
 		// Token: 0x0400224E RID: 8782
-		public static RulePackDef ArtName_SarcophagusPlate;
+		public static RulePackDef NamerArtSarcophagusPlate;
 
 		// Token: 0x0400224F RID: 8783
 		public static RulePackDef ArtDescription_SarcophagusPlate;

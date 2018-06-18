@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020009CD RID: 2509
 	public class TargetingParameters
 	{
-		// Token: 0x0600382F RID: 14383 RVA: 0x001DF024 File Offset: 0x001DD424
+		// Token: 0x06003831 RID: 14385 RVA: 0x001DF0F8 File Offset: 0x001DD4F8
 		public bool CanTarget(TargetInfo targ)
 		{
 			bool result;
@@ -70,7 +70,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003830 RID: 14384 RVA: 0x001DF2B4 File Offset: 0x001DD6B4
+		// Token: 0x06003832 RID: 14386 RVA: 0x001DF388 File Offset: 0x001DD788
 		public static TargetingParameters ForSelf(Pawn p)
 		{
 			return new TargetingParameters
@@ -82,7 +82,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x06003831 RID: 14385 RVA: 0x001DF2EC File Offset: 0x001DD6EC
+		// Token: 0x06003833 RID: 14387 RVA: 0x001DF3C0 File Offset: 0x001DD7C0
 		public static TargetingParameters ForArrest(Pawn arrester)
 		{
 			return new TargetingParameters
@@ -107,7 +107,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x06003832 RID: 14386 RVA: 0x001DF33C File Offset: 0x001DD73C
+		// Token: 0x06003834 RID: 14388 RVA: 0x001DF410 File Offset: 0x001DD810
 		public static TargetingParameters ForAttackHostile()
 		{
 			TargetingParameters targetingParameters = new TargetingParameters();
@@ -136,7 +136,7 @@ namespace RimWorld
 			return targetingParameters;
 		}
 
-		// Token: 0x06003833 RID: 14387 RVA: 0x001DF398 File Offset: 0x001DD798
+		// Token: 0x06003835 RID: 14389 RVA: 0x001DF46C File Offset: 0x001DD86C
 		public static TargetingParameters ForAttackAny()
 		{
 			return new TargetingParameters
@@ -148,7 +148,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x06003834 RID: 14388 RVA: 0x001DF3D0 File Offset: 0x001DD7D0
+		// Token: 0x06003836 RID: 14390 RVA: 0x001DF4A4 File Offset: 0x001DD8A4
 		public static TargetingParameters ForRescue(Pawn p)
 		{
 			return new TargetingParameters
@@ -160,7 +160,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x06003835 RID: 14389 RVA: 0x001DF408 File Offset: 0x001DD808
+		// Token: 0x06003837 RID: 14391 RVA: 0x001DF4DC File Offset: 0x001DD8DC
 		public static TargetingParameters ForStrip(Pawn p)
 		{
 			TargetingParameters targetingParameters = new TargetingParameters();
@@ -171,7 +171,7 @@ namespace RimWorld
 			return targetingParameters;
 		}
 
-		// Token: 0x06003836 RID: 14390 RVA: 0x001DF45C File Offset: 0x001DD85C
+		// Token: 0x06003838 RID: 14392 RVA: 0x001DF530 File Offset: 0x001DD930
 		public static TargetingParameters ForTrade()
 		{
 			TargetingParameters targetingParameters = new TargetingParameters();
@@ -186,7 +186,7 @@ namespace RimWorld
 			return targetingParameters;
 		}
 
-		// Token: 0x06003837 RID: 14391 RVA: 0x001DF4B0 File Offset: 0x001DD8B0
+		// Token: 0x06003839 RID: 14393 RVA: 0x001DF584 File Offset: 0x001DD984
 		public static TargetingParameters ForDropPodsDestination()
 		{
 			TargetingParameters targetingParameters = new TargetingParameters();
@@ -200,7 +200,7 @@ namespace RimWorld
 			return targetingParameters;
 		}
 
-		// Token: 0x06003838 RID: 14392 RVA: 0x001DF51C File Offset: 0x001DD91C
+		// Token: 0x0600383A RID: 14394 RVA: 0x001DF5F0 File Offset: 0x001DD9F0
 		public static TargetingParameters ForQuestPawnsWhoWillJoinColony(Pawn p)
 		{
 			TargetingParameters targetingParameters = new TargetingParameters();

@@ -9,20 +9,20 @@ namespace RimWorld
 	// Token: 0x020004EC RID: 1260
 	public class Pawn_DrugPolicyTracker : IExposable
 	{
-		// Token: 0x0600167B RID: 5755 RVA: 0x000C7194 File Offset: 0x000C5594
+		// Token: 0x0600167C RID: 5756 RVA: 0x000C71E8 File Offset: 0x000C55E8
 		public Pawn_DrugPolicyTracker()
 		{
 		}
 
-		// Token: 0x0600167C RID: 5756 RVA: 0x000C71A8 File Offset: 0x000C55A8
+		// Token: 0x0600167D RID: 5757 RVA: 0x000C71FC File Offset: 0x000C55FC
 		public Pawn_DrugPolicyTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
 		// Token: 0x170002F1 RID: 753
-		// (get) Token: 0x0600167D RID: 5757 RVA: 0x000C71C4 File Offset: 0x000C55C4
-		// (set) Token: 0x0600167E RID: 5758 RVA: 0x000C71FF File Offset: 0x000C55FF
+		// (get) Token: 0x0600167E RID: 5758 RVA: 0x000C7218 File Offset: 0x000C5618
+		// (set) Token: 0x0600167F RID: 5759 RVA: 0x000C7253 File Offset: 0x000C5653
 		public DrugPolicy CurrentPolicy
 		{
 			get
@@ -43,7 +43,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002F2 RID: 754
-		// (get) Token: 0x0600167F RID: 5759 RVA: 0x000C721C File Offset: 0x000C561C
+		// (get) Token: 0x06001680 RID: 5760 RVA: 0x000C7270 File Offset: 0x000C5670
 		private float DayPercentNotSleeping
 		{
 			get
@@ -89,7 +89,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002F3 RID: 755
-		// (get) Token: 0x06001680 RID: 5760 RVA: 0x000C7334 File Offset: 0x000C5734
+		// (get) Token: 0x06001681 RID: 5761 RVA: 0x000C7388 File Offset: 0x000C5788
 		private float HoursPerDayNotSleeping
 		{
 			get
@@ -115,14 +115,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001681 RID: 5761 RVA: 0x000C73A2 File Offset: 0x000C57A2
+		// Token: 0x06001682 RID: 5762 RVA: 0x000C73F6 File Offset: 0x000C57F6
 		public void ExposeData()
 		{
 			Scribe_References.Look<DrugPolicy>(ref this.curPolicy, "curAssignedDrugs", false);
 			Scribe_Collections.Look<DrugTakeRecord>(ref this.drugTakeRecords, "drugTakeRecords", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x06001682 RID: 5762 RVA: 0x000C73D0 File Offset: 0x000C57D0
+		// Token: 0x06001683 RID: 5763 RVA: 0x000C7424 File Offset: 0x000C5824
 		public bool HasEverTaken(ThingDef drug)
 		{
 			bool result;
@@ -138,7 +138,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001683 RID: 5763 RVA: 0x000C7438 File Offset: 0x000C5838
+		// Token: 0x06001684 RID: 5764 RVA: 0x000C748C File Offset: 0x000C588C
 		public bool AllowedToTakeScheduledEver(ThingDef thingDef)
 		{
 			bool result;
@@ -160,7 +160,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001684 RID: 5764 RVA: 0x000C74D8 File Offset: 0x000C58D8
+		// Token: 0x06001685 RID: 5765 RVA: 0x000C752C File Offset: 0x000C592C
 		public bool AllowedToTakeScheduledNow(ThingDef thingDef)
 		{
 			bool result;
@@ -218,7 +218,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001685 RID: 5765 RVA: 0x000C76AC File Offset: 0x000C5AAC
+		// Token: 0x06001686 RID: 5766 RVA: 0x000C7700 File Offset: 0x000C5B00
 		public bool ShouldTryToTakeScheduledNow(ThingDef ingestible)
 		{
 			bool result;
@@ -278,7 +278,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001686 RID: 5766 RVA: 0x000C78BC File Offset: 0x000C5CBC
+		// Token: 0x06001687 RID: 5767 RVA: 0x000C7910 File Offset: 0x000C5D10
 		public void Notify_DrugIngested(Thing drug)
 		{
 			DrugTakeRecord drugTakeRecord = this.drugTakeRecords.Find((DrugTakeRecord x) => x.drug == drug.def);
@@ -292,7 +292,7 @@ namespace RimWorld
 			drugTakeRecord.TimesTakenThisDay++;
 		}
 
-		// Token: 0x06001687 RID: 5767 RVA: 0x000C7938 File Offset: 0x000C5D38
+		// Token: 0x06001688 RID: 5768 RVA: 0x000C798C File Offset: 0x000C5D8C
 		private int LastTicksWhenTakenDrugWhichCanCauseOverdose()
 		{
 			int num = -999999;
@@ -306,7 +306,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06001688 RID: 5768 RVA: 0x000C79AC File Offset: 0x000C5DAC
+		// Token: 0x06001689 RID: 5769 RVA: 0x000C7A00 File Offset: 0x000C5E00
 		private bool CanCauseOverdose(ThingDef drug)
 		{
 			CompProperties_Drug compProperties = drug.GetCompProperties<CompProperties_Drug>();

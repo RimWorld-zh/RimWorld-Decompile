@@ -8,12 +8,12 @@ namespace RimWorld
 	// Token: 0x0200066E RID: 1646
 	public class Tale_SinglePawn : Tale
 	{
-		// Token: 0x06002271 RID: 8817 RVA: 0x001245C0 File Offset: 0x001229C0
+		// Token: 0x06002273 RID: 8819 RVA: 0x00124638 File Offset: 0x00122A38
 		public Tale_SinglePawn()
 		{
 		}
 
-		// Token: 0x06002272 RID: 8818 RVA: 0x001245C9 File Offset: 0x001229C9
+		// Token: 0x06002274 RID: 8820 RVA: 0x00124641 File Offset: 0x00122A41
 		public Tale_SinglePawn(Pawn pawn)
 		{
 			this.pawnData = TaleData_Pawn.GenerateFrom(pawn);
@@ -24,7 +24,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700050C RID: 1292
-		// (get) Token: 0x06002273 RID: 8819 RVA: 0x00124600 File Offset: 0x00122A00
+		// (get) Token: 0x06002275 RID: 8821 RVA: 0x00124678 File Offset: 0x00122A78
 		public override Pawn DominantPawn
 		{
 			get
@@ -34,7 +34,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700050D RID: 1293
-		// (get) Token: 0x06002274 RID: 8820 RVA: 0x00124620 File Offset: 0x00122A20
+		// (get) Token: 0x06002276 RID: 8822 RVA: 0x00124698 File Offset: 0x00122A98
 		public override string ShortSummary
 		{
 			get
@@ -43,20 +43,20 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002275 RID: 8821 RVA: 0x00124658 File Offset: 0x00122A58
+		// Token: 0x06002277 RID: 8823 RVA: 0x001246D0 File Offset: 0x00122AD0
 		public override bool Concerns(Thing th)
 		{
 			return base.Concerns(th) || this.pawnData.pawn == th;
 		}
 
-		// Token: 0x06002276 RID: 8822 RVA: 0x0012468A File Offset: 0x00122A8A
+		// Token: 0x06002278 RID: 8824 RVA: 0x00124702 File Offset: 0x00122B02
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Deep.Look<TaleData_Pawn>(ref this.pawnData, "pawnData", new object[0]);
 		}
 
-		// Token: 0x06002277 RID: 8823 RVA: 0x001246AC File Offset: 0x00122AAC
+		// Token: 0x06002279 RID: 8825 RVA: 0x00124724 File Offset: 0x00122B24
 		protected override IEnumerable<Rule> SpecialTextGenerationRules()
 		{
 			foreach (Rule r in this.pawnData.GetRules("ANYPAWN"))
@@ -70,7 +70,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002278 RID: 8824 RVA: 0x001246D6 File Offset: 0x00122AD6
+		// Token: 0x0600227A RID: 8826 RVA: 0x0012474E File Offset: 0x00122B4E
 		public override void GenerateTestData()
 		{
 			base.GenerateTestData();

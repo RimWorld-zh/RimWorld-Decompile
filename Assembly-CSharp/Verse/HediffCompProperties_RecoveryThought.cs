@@ -3,16 +3,16 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D19 RID: 3353
+	// Token: 0x02000D18 RID: 3352
 	public class HediffCompProperties_RecoveryThought : HediffCompProperties
 	{
-		// Token: 0x060049D0 RID: 18896 RVA: 0x00269475 File Offset: 0x00267875
+		// Token: 0x060049CE RID: 18894 RVA: 0x0026944D File Offset: 0x0026784D
 		public HediffCompProperties_RecoveryThought()
 		{
 			this.compClass = typeof(HediffComp_RecoveryThought);
 		}
 
-		// Token: 0x0400320C RID: 12812
+		// Token: 0x0400320A RID: 12810
 		public ThoughtDef thought;
 	}
 }

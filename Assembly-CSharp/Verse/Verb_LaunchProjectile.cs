@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000FD4 RID: 4052
+	// Token: 0x02000FD3 RID: 4051
 	public class Verb_LaunchProjectile : Verb
 	{
-		// Token: 0x17000FE7 RID: 4071
-		// (get) Token: 0x06006204 RID: 25092 RVA: 0x001E2BA4 File Offset: 0x001E0FA4
+		// Token: 0x17000FE6 RID: 4070
+		// (get) Token: 0x06006202 RID: 25090 RVA: 0x001E2C78 File Offset: 0x001E1078
 		public virtual ThingDef Projectile
 		{
 			get
@@ -25,14 +25,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06006205 RID: 25093 RVA: 0x001E2BFC File Offset: 0x001E0FFC
+		// Token: 0x06006203 RID: 25091 RVA: 0x001E2CD0 File Offset: 0x001E10D0
 		public override void WarmupComplete()
 		{
 			base.WarmupComplete();
 			Find.BattleLog.Add(new BattleLogEntry_RangedFire(this.caster, (!this.currentTarget.HasThing) ? null : this.currentTarget.Thing, (this.ownerEquipment == null) ? null : this.ownerEquipment.def, this.Projectile, this.ShotsPerBurst > 1));
 		}
 
-		// Token: 0x06006206 RID: 25094 RVA: 0x001E2C74 File Offset: 0x001E1074
+		// Token: 0x06006204 RID: 25092 RVA: 0x001E2D48 File Offset: 0x001E1148
 		protected override bool TryCastShot()
 		{
 			bool result;
@@ -181,7 +181,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06006207 RID: 25095 RVA: 0x001E3104 File Offset: 0x001E1504
+		// Token: 0x06006205 RID: 25093 RVA: 0x001E31D8 File Offset: 0x001E15D8
 		public override float HighlightFieldRadiusAroundTarget(out bool needLOSToCenter)
 		{
 			needLOSToCenter = true;
@@ -198,13 +198,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06006208 RID: 25096 RVA: 0x001E3140 File Offset: 0x001E1540
+		// Token: 0x06006206 RID: 25094 RVA: 0x001E3214 File Offset: 0x001E1614
 		public override bool Available()
 		{
 			return base.Available() && this.Projectile != null;
 		}
 
-		// Token: 0x04004007 RID: 16391
+		// Token: 0x04004006 RID: 16390
 		private const float NoInterceptChanceOnGoWild = 0.5f;
 	}
 }

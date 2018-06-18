@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x0200054F RID: 1359
 	public class BiomeWorker_SeaIce : BiomeWorker
 	{
-		// Token: 0x06001955 RID: 6485 RVA: 0x000DBC0C File Offset: 0x000DA00C
+		// Token: 0x06001956 RID: 6486 RVA: 0x000DBC60 File Offset: 0x000DA060
 		public override float GetScore(Tile tile, int tileID)
 		{
 			float result;
@@ -28,7 +28,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001956 RID: 6486 RVA: 0x000DBC5C File Offset: 0x000DA05C
+		// Token: 0x06001957 RID: 6487 RVA: 0x000DBCB0 File Offset: 0x000DA0B0
 		private bool AllowedAt(int tile)
 		{
 			Vector3 tileCenter = Find.WorldGrid.GetTileCenter(tile);

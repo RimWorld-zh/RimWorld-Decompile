@@ -7,7 +7,7 @@ namespace RimWorld
 	public class CompMilkable : CompHasGatherableBodyResource
 	{
 		// Token: 0x17000625 RID: 1573
-		// (get) Token: 0x0600283B RID: 10299 RVA: 0x001578CC File Offset: 0x00155CCC
+		// (get) Token: 0x0600283D RID: 10301 RVA: 0x00157944 File Offset: 0x00155D44
 		protected override int GatherResourcesIntervalDays
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000626 RID: 1574
-		// (get) Token: 0x0600283C RID: 10300 RVA: 0x001578EC File Offset: 0x00155CEC
+		// (get) Token: 0x0600283E RID: 10302 RVA: 0x00157964 File Offset: 0x00155D64
 		protected override int ResourceAmount
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000627 RID: 1575
-		// (get) Token: 0x0600283D RID: 10301 RVA: 0x0015790C File Offset: 0x00155D0C
+		// (get) Token: 0x0600283F RID: 10303 RVA: 0x00157984 File Offset: 0x00155D84
 		protected override ThingDef ResourceDef
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000628 RID: 1576
-		// (get) Token: 0x0600283E RID: 10302 RVA: 0x0015792C File Offset: 0x00155D2C
+		// (get) Token: 0x06002840 RID: 10304 RVA: 0x001579A4 File Offset: 0x00155DA4
 		protected override string SaveKey
 		{
 			get
@@ -47,7 +47,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000629 RID: 1577
-		// (get) Token: 0x0600283F RID: 10303 RVA: 0x00157948 File Offset: 0x00155D48
+		// (get) Token: 0x06002841 RID: 10305 RVA: 0x001579C0 File Offset: 0x00155DC0
 		public CompProperties_Milkable Props
 		{
 			get
@@ -57,7 +57,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700062A RID: 1578
-		// (get) Token: 0x06002840 RID: 10304 RVA: 0x00157968 File Offset: 0x00155D68
+		// (get) Token: 0x06002842 RID: 10306 RVA: 0x001579E0 File Offset: 0x00155DE0
 		protected override bool Active
 		{
 			get
@@ -83,7 +83,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002841 RID: 10305 RVA: 0x001579EC File Offset: 0x00155DEC
+		// Token: 0x06002843 RID: 10307 RVA: 0x00157A64 File Offset: 0x00155E64
 		public override string CompInspectStringExtra()
 		{
 			string result;

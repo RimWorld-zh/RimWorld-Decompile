@@ -7,7 +7,7 @@ namespace Verse
 	// Token: 0x02000B16 RID: 2838
 	public class DamageGraphicData
 	{
-		// Token: 0x06003EA5 RID: 16037 RVA: 0x0020F584 File Offset: 0x0020D984
+		// Token: 0x06003EA7 RID: 16039 RVA: 0x0020F658 File Offset: 0x0020DA58
 		public void ResolveReferencesSpecial()
 		{
 			LongEventHandler.ExecuteWhenFinished(delegate

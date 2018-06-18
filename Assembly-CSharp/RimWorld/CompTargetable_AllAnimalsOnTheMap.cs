@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x0200075D RID: 1885
 	public class CompTargetable_AllAnimalsOnTheMap : CompTargetable_AllPawnsOnTheMap
 	{
-		// Token: 0x060029A2 RID: 10658 RVA: 0x00161B3C File Offset: 0x0015FF3C
+		// Token: 0x060029A4 RID: 10660 RVA: 0x00161BD0 File Offset: 0x0015FFD0
 		protected override TargetingParameters GetTargetingParameters()
 		{
 			TargetingParameters targetingParameters = base.GetTargetingParameters();

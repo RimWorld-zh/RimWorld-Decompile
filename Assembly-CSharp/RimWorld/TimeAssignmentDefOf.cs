@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class TimeAssignmentDefOf
 	{
-		// Token: 0x06003642 RID: 13890 RVA: 0x001D0857 File Offset: 0x001CEC57
+		// Token: 0x06003644 RID: 13892 RVA: 0x001D091F File Offset: 0x001CED1F
 		static TimeAssignmentDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(TimeAssignmentDefOf));

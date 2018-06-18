@@ -4,10 +4,10 @@ using System.Xml.Serialization;
 
 namespace Verse
 {
-	// Token: 0x02000EC5 RID: 3781
+	// Token: 0x02000EC4 RID: 3780
 	public class DiaOptionMold
 	{
-		// Token: 0x0600594E RID: 22862 RVA: 0x002DB9A0 File Offset: 0x002D9DA0
+		// Token: 0x0600594C RID: 22860 RVA: 0x002DB9D8 File Offset: 0x002D9DD8
 		public DiaNodeMold RandomLinkNode()
 		{
 			List<DiaNodeMold> list = this.ChildNodes.ListFullCopy<DiaNodeMold>();
@@ -34,14 +34,14 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04003BA6 RID: 15270
+		// Token: 0x04003BA5 RID: 15269
 		public string Text = "OK".Translate();
 
-		// Token: 0x04003BA7 RID: 15271
+		// Token: 0x04003BA6 RID: 15270
 		[XmlElement("Node")]
 		public List<DiaNodeMold> ChildNodes = new List<DiaNodeMold>();
 
-		// Token: 0x04003BA8 RID: 15272
+		// Token: 0x04003BA7 RID: 15271
 		[XmlElement("NodeName")]
 		[DefaultValue("")]
 		public List<string> ChildNodeNames = new List<string>();

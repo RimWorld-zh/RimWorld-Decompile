@@ -7,7 +7,7 @@ namespace Verse.AI
 	// Token: 0x02000A3D RID: 2621
 	public class JobDriver_AttackStatic : JobDriver
 	{
-		// Token: 0x06003A1D RID: 14877 RVA: 0x001EB8E5 File Offset: 0x001E9CE5
+		// Token: 0x06003A1F RID: 14879 RVA: 0x001EB9B9 File Offset: 0x001E9DB9
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -15,13 +15,13 @@ namespace Verse.AI
 			Scribe_Values.Look<int>(ref this.numAttacksMade, "numAttacksMade", 0, false);
 		}
 
-		// Token: 0x06003A1E RID: 14878 RVA: 0x001EB914 File Offset: 0x001E9D14
+		// Token: 0x06003A20 RID: 14880 RVA: 0x001EB9E8 File Offset: 0x001E9DE8
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x06003A1F RID: 14879 RVA: 0x001EB92C File Offset: 0x001E9D2C
+		// Token: 0x06003A21 RID: 14881 RVA: 0x001EBA00 File Offset: 0x001E9E00
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			yield return Toils_Misc.ThrowColonistAttackingMote(TargetIndex.A);

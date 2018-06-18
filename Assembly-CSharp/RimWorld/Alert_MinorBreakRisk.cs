@@ -7,25 +7,25 @@ namespace RimWorld
 	// Token: 0x02000794 RID: 1940
 	public class Alert_MinorBreakRisk : Alert
 	{
-		// Token: 0x06002AFB RID: 11003 RVA: 0x0016B062 File Offset: 0x00169462
+		// Token: 0x06002AFD RID: 11005 RVA: 0x0016B0F6 File Offset: 0x001694F6
 		public Alert_MinorBreakRisk()
 		{
 			this.defaultPriority = AlertPriority.High;
 		}
 
-		// Token: 0x06002AFC RID: 11004 RVA: 0x0016B074 File Offset: 0x00169474
+		// Token: 0x06002AFE RID: 11006 RVA: 0x0016B108 File Offset: 0x00169508
 		public override string GetLabel()
 		{
 			return BreakRiskAlertUtility.AlertLabel;
 		}
 
-		// Token: 0x06002AFD RID: 11005 RVA: 0x0016B090 File Offset: 0x00169490
+		// Token: 0x06002AFF RID: 11007 RVA: 0x0016B124 File Offset: 0x00169524
 		public override string GetExplanation()
 		{
 			return BreakRiskAlertUtility.AlertExplanation;
 		}
 
-		// Token: 0x06002AFE RID: 11006 RVA: 0x0016B0AC File Offset: 0x001694AC
+		// Token: 0x06002B00 RID: 11008 RVA: 0x0016B140 File Offset: 0x00169540
 		public override AlertReport GetReport()
 		{
 			AlertReport result;

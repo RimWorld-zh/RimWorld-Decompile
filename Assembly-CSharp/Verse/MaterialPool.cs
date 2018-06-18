@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D74 RID: 3444
+	// Token: 0x02000D73 RID: 3443
 	public static class MaterialPool
 	{
-		// Token: 0x06004D11 RID: 19729 RVA: 0x00281E4C File Offset: 0x0028024C
+		// Token: 0x06004D0F RID: 19727 RVA: 0x00281E2C File Offset: 0x0028022C
 		public static Material MatFrom(string texPath, bool reportFailure)
 		{
 			Material result;
@@ -23,7 +23,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004D12 RID: 19730 RVA: 0x00281E94 File Offset: 0x00280294
+		// Token: 0x06004D10 RID: 19728 RVA: 0x00281E74 File Offset: 0x00280274
 		public static Material MatFrom(string texPath)
 		{
 			Material result;
@@ -39,21 +39,21 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004D13 RID: 19731 RVA: 0x00281EDC File Offset: 0x002802DC
+		// Token: 0x06004D11 RID: 19729 RVA: 0x00281EBC File Offset: 0x002802BC
 		public static Material MatFrom(Texture2D srcTex)
 		{
 			MaterialRequest req = new MaterialRequest(srcTex);
 			return MaterialPool.MatFrom(req);
 		}
 
-		// Token: 0x06004D14 RID: 19732 RVA: 0x00281F00 File Offset: 0x00280300
+		// Token: 0x06004D12 RID: 19730 RVA: 0x00281EE0 File Offset: 0x002802E0
 		public static Material MatFrom(Texture2D srcTex, Shader shader, Color color)
 		{
 			MaterialRequest req = new MaterialRequest(srcTex, shader, color);
 			return MaterialPool.MatFrom(req);
 		}
 
-		// Token: 0x06004D15 RID: 19733 RVA: 0x00281F28 File Offset: 0x00280328
+		// Token: 0x06004D13 RID: 19731 RVA: 0x00281F08 File Offset: 0x00280308
 		public static Material MatFrom(Texture2D srcTex, Shader shader, Color color, int renderQueue)
 		{
 			return MaterialPool.MatFrom(new MaterialRequest(srcTex, shader, color)
@@ -62,14 +62,14 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06004D16 RID: 19734 RVA: 0x00281F58 File Offset: 0x00280358
+		// Token: 0x06004D14 RID: 19732 RVA: 0x00281F38 File Offset: 0x00280338
 		public static Material MatFrom(string texPath, Shader shader)
 		{
 			MaterialRequest req = new MaterialRequest(ContentFinder<Texture2D>.Get(texPath, true), shader);
 			return MaterialPool.MatFrom(req);
 		}
 
-		// Token: 0x06004D17 RID: 19735 RVA: 0x00281F84 File Offset: 0x00280384
+		// Token: 0x06004D15 RID: 19733 RVA: 0x00281F64 File Offset: 0x00280364
 		public static Material MatFrom(string texPath, Shader shader, int renderQueue)
 		{
 			return MaterialPool.MatFrom(new MaterialRequest(ContentFinder<Texture2D>.Get(texPath, true), shader)
@@ -78,14 +78,14 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06004D18 RID: 19736 RVA: 0x00281FB8 File Offset: 0x002803B8
+		// Token: 0x06004D16 RID: 19734 RVA: 0x00281F98 File Offset: 0x00280398
 		public static Material MatFrom(string texPath, Shader shader, Color color)
 		{
 			MaterialRequest req = new MaterialRequest(ContentFinder<Texture2D>.Get(texPath, true), shader, color);
 			return MaterialPool.MatFrom(req);
 		}
 
-		// Token: 0x06004D19 RID: 19737 RVA: 0x00281FE4 File Offset: 0x002803E4
+		// Token: 0x06004D17 RID: 19735 RVA: 0x00281FC4 File Offset: 0x002803C4
 		public static Material MatFrom(string texPath, Shader shader, Color color, int renderQueue)
 		{
 			return MaterialPool.MatFrom(new MaterialRequest(ContentFinder<Texture2D>.Get(texPath, true), shader, color)
@@ -94,7 +94,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06004D1A RID: 19738 RVA: 0x00282018 File Offset: 0x00280418
+		// Token: 0x06004D18 RID: 19736 RVA: 0x00281FF8 File Offset: 0x002803F8
 		public static Material MatFrom(MaterialRequest req)
 		{
 			Material result;
@@ -158,7 +158,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0400336D RID: 13165
+		// Token: 0x0400336B RID: 13163
 		private static Dictionary<MaterialRequest, Material> matDictionary = new Dictionary<MaterialRequest, Material>();
 	}
 }

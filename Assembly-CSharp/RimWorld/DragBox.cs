@@ -8,7 +8,7 @@ namespace RimWorld
 	public class DragBox
 	{
 		// Token: 0x17000798 RID: 1944
-		// (get) Token: 0x06002FF0 RID: 12272 RVA: 0x001A0E04 File Offset: 0x0019F204
+		// (get) Token: 0x06002FF2 RID: 12274 RVA: 0x001A0ECC File Offset: 0x0019F2CC
 		public float LeftX
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000799 RID: 1945
-		// (get) Token: 0x06002FF1 RID: 12273 RVA: 0x001A0E38 File Offset: 0x0019F238
+		// (get) Token: 0x06002FF3 RID: 12275 RVA: 0x001A0F00 File Offset: 0x0019F300
 		public float RightX
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700079A RID: 1946
-		// (get) Token: 0x06002FF2 RID: 12274 RVA: 0x001A0E6C File Offset: 0x0019F26C
+		// (get) Token: 0x06002FF4 RID: 12276 RVA: 0x001A0F34 File Offset: 0x0019F334
 		public float BotZ
 		{
 			get
@@ -38,7 +38,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700079B RID: 1947
-		// (get) Token: 0x06002FF3 RID: 12275 RVA: 0x001A0EA0 File Offset: 0x0019F2A0
+		// (get) Token: 0x06002FF5 RID: 12277 RVA: 0x001A0F68 File Offset: 0x0019F368
 		public float TopZ
 		{
 			get
@@ -48,7 +48,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700079C RID: 1948
-		// (get) Token: 0x06002FF4 RID: 12276 RVA: 0x001A0ED4 File Offset: 0x0019F2D4
+		// (get) Token: 0x06002FF6 RID: 12278 RVA: 0x001A0F9C File Offset: 0x0019F39C
 		public Rect ScreenRect
 		{
 			get
@@ -78,7 +78,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700079D RID: 1949
-		// (get) Token: 0x06002FF5 RID: 12277 RVA: 0x001A0FAC File Offset: 0x0019F3AC
+		// (get) Token: 0x06002FF7 RID: 12279 RVA: 0x001A1074 File Offset: 0x0019F474
 		public bool IsValid
 		{
 			get
@@ -88,7 +88,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700079E RID: 1950
-		// (get) Token: 0x06002FF6 RID: 12278 RVA: 0x001A0FE0 File Offset: 0x0019F3E0
+		// (get) Token: 0x06002FF8 RID: 12280 RVA: 0x001A10A8 File Offset: 0x0019F4A8
 		public bool IsValidAndActive
 		{
 			get
@@ -97,7 +97,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FF7 RID: 12279 RVA: 0x001A1009 File Offset: 0x0019F409
+		// Token: 0x06002FF9 RID: 12281 RVA: 0x001A10D1 File Offset: 0x0019F4D1
 		public void DragBoxOnGUI()
 		{
 			if (this.IsValidAndActive)
@@ -106,7 +106,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FF8 RID: 12280 RVA: 0x001A1024 File Offset: 0x0019F424
+		// Token: 0x06002FFA RID: 12282 RVA: 0x001A10EC File Offset: 0x0019F4EC
 		public bool Contains(Thing t)
 		{
 			bool result;
@@ -131,7 +131,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002FF9 RID: 12281 RVA: 0x001A10AC File Offset: 0x0019F4AC
+		// Token: 0x06002FFB RID: 12283 RVA: 0x001A1174 File Offset: 0x0019F574
 		public bool Contains(Vector3 v)
 		{
 			return v.x + 0.5f > this.LeftX && v.x - 0.5f < this.RightX && v.z + 0.5f > this.BotZ && v.z - 0.5f < this.TopZ;

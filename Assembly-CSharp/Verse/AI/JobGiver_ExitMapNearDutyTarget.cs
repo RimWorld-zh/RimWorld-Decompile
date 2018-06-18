@@ -6,7 +6,7 @@ namespace Verse.AI
 	// Token: 0x02000AC5 RID: 2757
 	public class JobGiver_ExitMapNearDutyTarget : JobGiver_ExitMap
 	{
-		// Token: 0x06003D4D RID: 15693 RVA: 0x00205474 File Offset: 0x00203874
+		// Token: 0x06003D4F RID: 15695 RVA: 0x00205548 File Offset: 0x00203948
 		protected override bool TryFindGoodExitDest(Pawn pawn, bool canDig, out IntVec3 spot)
 		{
 			TraverseMode mode = (!canDig) ? TraverseMode.ByPawn : TraverseMode.PassAllDestroyableThings;

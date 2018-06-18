@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200067A RID: 1658
 	public static class InstallBlueprintUtility
 	{
-		// Token: 0x060022D5 RID: 8917 RVA: 0x0012BB38 File Offset: 0x00129F38
+		// Token: 0x060022D7 RID: 8919 RVA: 0x0012BBB0 File Offset: 0x00129FB0
 		public static void CancelBlueprintsFor(Thing th)
 		{
 			Blueprint_Install blueprint_Install = InstallBlueprintUtility.ExistingBlueprintFor(th);
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060022D6 RID: 8918 RVA: 0x0012BB5C File Offset: 0x00129F5C
+		// Token: 0x060022D8 RID: 8920 RVA: 0x0012BBD4 File Offset: 0x00129FD4
 		public static Blueprint_Install ExistingBlueprintFor(Thing th)
 		{
 			ThingDef installBlueprintDef = th.GetInnerIfMinified().def.installBlueprintDef;

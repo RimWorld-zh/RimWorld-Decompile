@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000727 RID: 1831
 	public class CompProperties_PlantHarmRadius : CompProperties
 	{
-		// Token: 0x06002856 RID: 10326 RVA: 0x00158600 File Offset: 0x00156A00
+		// Token: 0x06002858 RID: 10328 RVA: 0x00158678 File Offset: 0x00156A78
 		public CompProperties_PlantHarmRadius()
 		{
 			this.compClass = typeof(CompPlantHarmRadius);

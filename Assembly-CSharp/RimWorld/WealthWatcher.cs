@@ -8,14 +8,14 @@ namespace RimWorld
 	// Token: 0x02000447 RID: 1095
 	public class WealthWatcher
 	{
-		// Token: 0x060012F5 RID: 4853 RVA: 0x000A370D File Offset: 0x000A1B0D
+		// Token: 0x060012F5 RID: 4853 RVA: 0x000A3719 File Offset: 0x000A1B19
 		public WealthWatcher(Map map)
 		{
 			this.map = map;
 		}
 
 		// Token: 0x17000289 RID: 649
-		// (get) Token: 0x060012F6 RID: 4854 RVA: 0x000A3734 File Offset: 0x000A1B34
+		// (get) Token: 0x060012F6 RID: 4854 RVA: 0x000A3740 File Offset: 0x000A1B40
 		public int HealthTotal
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700028A RID: 650
-		// (get) Token: 0x060012F7 RID: 4855 RVA: 0x000A3758 File Offset: 0x000A1B58
+		// (get) Token: 0x060012F7 RID: 4855 RVA: 0x000A3764 File Offset: 0x000A1B64
 		public float WealthTotal
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700028B RID: 651
-		// (get) Token: 0x060012F8 RID: 4856 RVA: 0x000A3788 File Offset: 0x000A1B88
+		// (get) Token: 0x060012F8 RID: 4856 RVA: 0x000A3794 File Offset: 0x000A1B94
 		public float WealthItems
 		{
 			get
@@ -48,7 +48,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700028C RID: 652
-		// (get) Token: 0x060012F9 RID: 4857 RVA: 0x000A37AC File Offset: 0x000A1BAC
+		// (get) Token: 0x060012F9 RID: 4857 RVA: 0x000A37B8 File Offset: 0x000A1BB8
 		public float WealthBuildings
 		{
 			get
@@ -59,7 +59,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700028D RID: 653
-		// (get) Token: 0x060012FA RID: 4858 RVA: 0x000A37D0 File Offset: 0x000A1BD0
+		// (get) Token: 0x060012FA RID: 4858 RVA: 0x000A37DC File Offset: 0x000A1BDC
 		public float WealthTameAnimals
 		{
 			get
@@ -69,7 +69,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060012FB RID: 4859 RVA: 0x000A37F1 File Offset: 0x000A1BF1
+		// Token: 0x060012FB RID: 4859 RVA: 0x000A37FD File Offset: 0x000A1BFD
 		private void RecountIfNeeded()
 		{
 			if ((float)Find.TickManager.TicksGame - this.lastCountTick > 5000f)
@@ -78,7 +78,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060012FC RID: 4860 RVA: 0x000A3818 File Offset: 0x000A1C18
+		// Token: 0x060012FC RID: 4860 RVA: 0x000A3824 File Offset: 0x000A1C24
 		public void ForceRecount(bool allowDuringInit = false)
 		{
 			if (!allowDuringInit && Current.ProgramState != ProgramState.Playing)
@@ -116,7 +116,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060012FD RID: 4861 RVA: 0x000A39B0 File Offset: 0x000A1DB0
+		// Token: 0x060012FD RID: 4861 RVA: 0x000A39BC File Offset: 0x000A1DBC
 		public static float GetEquipmentApparelAndInventoryWealth(Pawn p)
 		{
 			float num = 0f;
@@ -147,7 +147,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x060012FE RID: 4862 RVA: 0x000A3ACC File Offset: 0x000A1ECC
+		// Token: 0x060012FE RID: 4862 RVA: 0x000A3AD8 File Offset: 0x000A1ED8
 		private float CalculateWealthItems()
 		{
 			this.tmpThings.Clear();

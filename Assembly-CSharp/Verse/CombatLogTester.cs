@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000BCE RID: 3022
 	public static class CombatLogTester
 	{
-		// Token: 0x060041CA RID: 16842 RVA: 0x0022A314 File Offset: 0x00228714
+		// Token: 0x060041CC RID: 16844 RVA: 0x0022A38C File Offset: 0x0022878C
 		public static Pawn GenerateRandom()
 		{
 			PawnKindDef pawnKindDef = DefDatabase<PawnKindDef>.AllDefsListForReading.RandomElementByWeight((PawnKindDef pawnkind) => (float)((!pawnkind.RaceProps.Humanlike) ? 1 : 5));

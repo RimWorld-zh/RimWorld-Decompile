@@ -9,7 +9,7 @@ namespace RimWorld
 	public class Blueprint_Install : Blueprint
 	{
 		// Token: 0x17000517 RID: 1303
-		// (get) Token: 0x060022C7 RID: 8903 RVA: 0x0012B588 File Offset: 0x00129988
+		// (get) Token: 0x060022C9 RID: 8905 RVA: 0x0012B600 File Offset: 0x00129A00
 		public Thing MiniToInstallOrBuildingToReinstall
 		{
 			get
@@ -32,7 +32,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000518 RID: 1304
-		// (get) Token: 0x060022C8 RID: 8904 RVA: 0x0012B5D0 File Offset: 0x001299D0
+		// (get) Token: 0x060022CA RID: 8906 RVA: 0x0012B648 File Offset: 0x00129A48
 		private Thing ThingToInstall
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000519 RID: 1305
-		// (get) Token: 0x060022C9 RID: 8905 RVA: 0x0012B5F0 File Offset: 0x001299F0
+		// (get) Token: 0x060022CB RID: 8907 RVA: 0x0012B668 File Offset: 0x00129A68
 		public override Graphic Graphic
 		{
 			get
@@ -53,7 +53,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700051A RID: 1306
-		// (get) Token: 0x060022CA RID: 8906 RVA: 0x0012B62C File Offset: 0x00129A2C
+		// (get) Token: 0x060022CC RID: 8908 RVA: 0x0012B6A4 File Offset: 0x00129AA4
 		protected override float WorkTotal
 		{
 			get
@@ -62,7 +62,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060022CB RID: 8907 RVA: 0x0012B646 File Offset: 0x00129A46
+		// Token: 0x060022CD RID: 8909 RVA: 0x0012B6BE File Offset: 0x00129ABE
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -70,20 +70,20 @@ namespace RimWorld
 			Scribe_References.Look<Building>(ref this.buildingToReinstall, "buildingToReinstall", false);
 		}
 
-		// Token: 0x060022CC RID: 8908 RVA: 0x0012B674 File Offset: 0x00129A74
+		// Token: 0x060022CE RID: 8910 RVA: 0x0012B6EC File Offset: 0x00129AEC
 		public override ThingDef UIStuff()
 		{
 			return this.ThingToInstall.Stuff;
 		}
 
-		// Token: 0x060022CD RID: 8909 RVA: 0x0012B694 File Offset: 0x00129A94
+		// Token: 0x060022CF RID: 8911 RVA: 0x0012B70C File Offset: 0x00129B0C
 		public override List<ThingDefCountClass> MaterialsNeeded()
 		{
 			Log.Error("Called MaterialsNeeded on a Blueprint_Install.", false);
 			return new List<ThingDefCountClass>();
 		}
 
-		// Token: 0x060022CE RID: 8910 RVA: 0x0012B6BC File Offset: 0x00129ABC
+		// Token: 0x060022D0 RID: 8912 RVA: 0x0012B734 File Offset: 0x00129B34
 		protected override Thing MakeSolidThing()
 		{
 			Thing thingToInstall = this.ThingToInstall;
@@ -95,7 +95,7 @@ namespace RimWorld
 			return thingToInstall;
 		}
 
-		// Token: 0x060022CF RID: 8911 RVA: 0x0012B700 File Offset: 0x00129B00
+		// Token: 0x060022D1 RID: 8913 RVA: 0x0012B778 File Offset: 0x00129B78
 		public override bool TryReplaceWithSolidThing(Pawn workerPawn, out Thing createdThing, out bool jobEnded)
 		{
 			Map map = base.Map;
@@ -108,7 +108,7 @@ namespace RimWorld
 			return flag;
 		}
 
-		// Token: 0x060022D0 RID: 8912 RVA: 0x0012B75C File Offset: 0x00129B5C
+		// Token: 0x060022D2 RID: 8914 RVA: 0x0012B7D4 File Offset: 0x00129BD4
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
@@ -130,7 +130,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060022D1 RID: 8913 RVA: 0x0012B786 File Offset: 0x00129B86
+		// Token: 0x060022D3 RID: 8915 RVA: 0x0012B7FE File Offset: 0x00129BFE
 		public override void DrawExtraSelectionOverlays()
 		{
 			base.DrawExtraSelectionOverlays();
@@ -140,14 +140,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060022D2 RID: 8914 RVA: 0x0012B7B0 File Offset: 0x00129BB0
+		// Token: 0x060022D4 RID: 8916 RVA: 0x0012B828 File Offset: 0x00129C28
 		internal void SetThingToInstallFromMinified(MinifiedThing itemToInstall)
 		{
 			this.miniToInstall = itemToInstall;
 			this.buildingToReinstall = null;
 		}
 
-		// Token: 0x060022D3 RID: 8915 RVA: 0x0012B7C1 File Offset: 0x00129BC1
+		// Token: 0x060022D5 RID: 8917 RVA: 0x0012B839 File Offset: 0x00129C39
 		internal void SetBuildingToReinstall(Building buildingToReinstall)
 		{
 			if (!buildingToReinstall.def.Minifiable)

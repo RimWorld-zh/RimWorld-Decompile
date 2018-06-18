@@ -6,12 +6,12 @@ namespace Verse
 	// Token: 0x02000977 RID: 2423
 	public abstract class SubEffecter_DrifterEmote : SubEffecter
 	{
-		// Token: 0x06003680 RID: 13952 RVA: 0x001D0DF9 File Offset: 0x001CF1F9
+		// Token: 0x06003682 RID: 13954 RVA: 0x001D0EC1 File Offset: 0x001CF2C1
 		public SubEffecter_DrifterEmote(SubEffecterDef def, Effecter parent) : base(def, parent)
 		{
 		}
 
-		// Token: 0x06003681 RID: 13953 RVA: 0x001D0E04 File Offset: 0x001CF204
+		// Token: 0x06003683 RID: 13955 RVA: 0x001D0ECC File Offset: 0x001CF2CC
 		protected void MakeMote(TargetInfo A)
 		{
 			Vector3 vector = (!A.HasThing) ? A.Cell.ToVector3Shifted() : A.Thing.DrawPos;

@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000556 RID: 1366
 	public class ConfiguredTicksAbsAtGameStartCache
 	{
-		// Token: 0x06001964 RID: 6500 RVA: 0x000DC0B4 File Offset: 0x000DA4B4
+		// Token: 0x06001965 RID: 6501 RVA: 0x000DC108 File Offset: 0x000DA508
 		public bool TryGetCachedValue(GameInitData initData, out int ticksAbs)
 		{
 			bool result;
@@ -23,7 +23,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001965 RID: 6501 RVA: 0x000DC0FF File Offset: 0x000DA4FF
+		// Token: 0x06001966 RID: 6502 RVA: 0x000DC153 File Offset: 0x000DA553
 		public void Cache(int ticksAbs, GameInitData initData)
 		{
 			this.cachedTicks = ticksAbs;

@@ -8,7 +8,7 @@ namespace RimWorld
 	public class PawnColumnWorker_Master : PawnColumnWorker
 	{
 		// Token: 0x17000803 RID: 2051
-		// (get) Token: 0x06003220 RID: 12832 RVA: 0x001AFC04 File Offset: 0x001AE004
+		// (get) Token: 0x06003222 RID: 12834 RVA: 0x001AFCCC File Offset: 0x001AE0CC
 		protected override GameFont DefaultHeaderFont
 		{
 			get
@@ -17,19 +17,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003221 RID: 12833 RVA: 0x001AFC1C File Offset: 0x001AE01C
+		// Token: 0x06003223 RID: 12835 RVA: 0x001AFCE4 File Offset: 0x001AE0E4
 		public override int GetMinWidth(PawnTable table)
 		{
 			return Mathf.Max(base.GetMinWidth(table), 100);
 		}
 
-		// Token: 0x06003222 RID: 12834 RVA: 0x001AFC40 File Offset: 0x001AE040
+		// Token: 0x06003224 RID: 12836 RVA: 0x001AFD08 File Offset: 0x001AE108
 		public override int GetOptimalWidth(PawnTable table)
 		{
 			return Mathf.Clamp(170, this.GetMinWidth(table), this.GetMaxWidth(table));
 		}
 
-		// Token: 0x06003223 RID: 12835 RVA: 0x001AFC70 File Offset: 0x001AE070
+		// Token: 0x06003225 RID: 12837 RVA: 0x001AFD38 File Offset: 0x001AE138
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
 			if (this.CanAssignMaster(pawn))
@@ -39,7 +39,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003224 RID: 12836 RVA: 0x001AFCA4 File Offset: 0x001AE0A4
+		// Token: 0x06003226 RID: 12838 RVA: 0x001AFD6C File Offset: 0x001AE16C
 		public override int Compare(Pawn a, Pawn b)
 		{
 			int valueToCompare = this.GetValueToCompare1(a);
@@ -56,13 +56,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003225 RID: 12837 RVA: 0x001AFCF4 File Offset: 0x001AE0F4
+		// Token: 0x06003227 RID: 12839 RVA: 0x001AFDBC File Offset: 0x001AE1BC
 		private bool CanAssignMaster(Pawn pawn)
 		{
 			return pawn.RaceProps.Animal && pawn.Faction == Faction.OfPlayer && pawn.training.HasLearned(TrainableDefOf.Obedience);
 		}
 
-		// Token: 0x06003226 RID: 12838 RVA: 0x001AFD50 File Offset: 0x001AE150
+		// Token: 0x06003228 RID: 12840 RVA: 0x001AFE18 File Offset: 0x001AE218
 		private int GetValueToCompare1(Pawn pawn)
 		{
 			int result;
@@ -81,7 +81,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003227 RID: 12839 RVA: 0x001AFD90 File Offset: 0x001AE190
+		// Token: 0x06003229 RID: 12841 RVA: 0x001AFE58 File Offset: 0x001AE258
 		private string GetValueToCompare2(Pawn pawn)
 		{
 			string result;

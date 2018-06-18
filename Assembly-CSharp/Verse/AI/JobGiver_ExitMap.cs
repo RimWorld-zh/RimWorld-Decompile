@@ -6,7 +6,7 @@ namespace Verse.AI
 	// Token: 0x02000AC2 RID: 2754
 	public abstract class JobGiver_ExitMap : ThinkNode_JobGiver
 	{
-		// Token: 0x06003D45 RID: 15685 RVA: 0x0020520C File Offset: 0x0020360C
+		// Token: 0x06003D47 RID: 15687 RVA: 0x002052E0 File Offset: 0x002036E0
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_ExitMap jobGiver_ExitMap = (JobGiver_ExitMap)base.DeepCopy(resolve);
@@ -20,7 +20,7 @@ namespace Verse.AI
 			return jobGiver_ExitMap;
 		}
 
-		// Token: 0x06003D46 RID: 15686 RVA: 0x00205284 File Offset: 0x00203684
+		// Token: 0x06003D48 RID: 15688 RVA: 0x00205358 File Offset: 0x00203758
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			bool flag = false;
@@ -64,7 +64,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003D47 RID: 15687
+		// Token: 0x06003D49 RID: 15689
 		protected abstract bool TryFindGoodExitDest(Pawn pawn, bool canDig, out IntVec3 dest);
 
 		// Token: 0x040026A8 RID: 9896

@@ -8,7 +8,7 @@ namespace Verse
 	public sealed class GameInfo : IExposable
 	{
 		// Token: 0x17000A40 RID: 2624
-		// (get) Token: 0x060041A7 RID: 16807 RVA: 0x00229D6C File Offset: 0x0022816C
+		// (get) Token: 0x060041A9 RID: 16809 RVA: 0x00229DE4 File Offset: 0x002281E4
 		public float RealPlayTimeInteracting
 		{
 			get
@@ -17,7 +17,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041A8 RID: 16808 RVA: 0x00229D87 File Offset: 0x00228187
+		// Token: 0x060041AA RID: 16810 RVA: 0x00229DFF File Offset: 0x002281FF
 		public void GameInfoOnGUI()
 		{
 			if (Event.current.type == EventType.MouseDown || Event.current.type == EventType.MouseMove || Event.current.type == EventType.KeyDown)
@@ -26,7 +26,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041A9 RID: 16809 RVA: 0x00229DC4 File Offset: 0x002281C4
+		// Token: 0x060041AB RID: 16811 RVA: 0x00229E3C File Offset: 0x0022823C
 		public void GameInfoUpdate()
 		{
 			if (Time.realtimeSinceStartup < this.lastInputRealTime + 90f && Find.MainTabsRoot.OpenTab != MainButtonDefOf.Menu && Current.ProgramState == ProgramState.Playing && !Find.WindowStack.IsOpen<Dialog_Options>())
@@ -35,7 +35,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041AA RID: 16810 RVA: 0x00229E2A File Offset: 0x0022822A
+		// Token: 0x060041AC RID: 16812 RVA: 0x00229EA2 File Offset: 0x002282A2
 		public void ExposeData()
 		{
 			Scribe_Values.Look<float>(ref this.realPlayTimeInteracting, "realPlayTimeInteracting", 0f, false);

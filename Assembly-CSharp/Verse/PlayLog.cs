@@ -7,7 +7,7 @@ namespace Verse
 	public class PlayLog : IExposable
 	{
 		// Token: 0x17000A46 RID: 2630
-		// (get) Token: 0x060041CD RID: 16845 RVA: 0x0022A3A4 File Offset: 0x002287A4
+		// (get) Token: 0x060041CF RID: 16847 RVA: 0x0022A41C File Offset: 0x0022881C
 		public List<LogEntry> AllEntries
 		{
 			get
@@ -17,7 +17,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A47 RID: 2631
-		// (get) Token: 0x060041CE RID: 16846 RVA: 0x0022A3C0 File Offset: 0x002287C0
+		// (get) Token: 0x060041D0 RID: 16848 RVA: 0x0022A438 File Offset: 0x00228838
 		public int LastTick
 		{
 			get
@@ -35,14 +35,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041CF RID: 16847 RVA: 0x0022A3FD File Offset: 0x002287FD
+		// Token: 0x060041D1 RID: 16849 RVA: 0x0022A475 File Offset: 0x00228875
 		public void Add(LogEntry entry)
 		{
 			this.entries.Insert(0, entry);
 			this.ReduceToCapacity();
 		}
 
-		// Token: 0x060041D0 RID: 16848 RVA: 0x0022A413 File Offset: 0x00228813
+		// Token: 0x060041D2 RID: 16850 RVA: 0x0022A48B File Offset: 0x0022888B
 		private void ReduceToCapacity()
 		{
 			while (this.entries.Count > 150)
@@ -51,13 +51,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041D1 RID: 16849 RVA: 0x0022A450 File Offset: 0x00228850
+		// Token: 0x060041D3 RID: 16851 RVA: 0x0022A4C8 File Offset: 0x002288C8
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<LogEntry>(ref this.entries, "entries", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x060041D2 RID: 16850 RVA: 0x0022A46C File Offset: 0x0022886C
+		// Token: 0x060041D4 RID: 16852 RVA: 0x0022A4E4 File Offset: 0x002288E4
 		public void Notify_PawnDiscarded(Pawn p, bool silentlyRemoveReferences)
 		{
 			for (int i = this.entries.Count - 1; i >= 0; i--)
@@ -80,13 +80,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041D3 RID: 16851 RVA: 0x0022A507 File Offset: 0x00228907
+		// Token: 0x060041D5 RID: 16853 RVA: 0x0022A57F File Offset: 0x0022897F
 		private void RemoveEntry(LogEntry entry)
 		{
 			this.entries.Remove(entry);
 		}
 
-		// Token: 0x060041D4 RID: 16852 RVA: 0x0022A518 File Offset: 0x00228918
+		// Token: 0x060041D6 RID: 16854 RVA: 0x0022A590 File Offset: 0x00228990
 		public bool AnyEntryConcerns(Pawn p)
 		{
 			for (int i = 0; i < this.entries.Count; i++)

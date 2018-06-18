@@ -6,7 +6,7 @@ namespace Verse.AI
 	// Token: 0x02000A4B RID: 2635
 	public static class ToilJumpConditions
 	{
-		// Token: 0x06003AAC RID: 15020 RVA: 0x001F18EC File Offset: 0x001EFCEC
+		// Token: 0x06003AAE RID: 15022 RVA: 0x001F19C0 File Offset: 0x001EFDC0
 		public static Toil JumpIf(this Toil toil, Func<bool> jumpCondition, Toil jumpToil)
 		{
 			toil.AddPreTickAction(delegate
@@ -19,7 +19,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AAD RID: 15021 RVA: 0x001F193C File Offset: 0x001EFD3C
+		// Token: 0x06003AAF RID: 15023 RVA: 0x001F1A10 File Offset: 0x001EFE10
 		public static Toil JumpIfDespawnedOrNull(this Toil toil, TargetIndex ind, Toil jumpToil)
 		{
 			return toil.JumpIf(delegate
@@ -29,7 +29,7 @@ namespace Verse.AI
 			}, jumpToil);
 		}
 
-		// Token: 0x06003AAE RID: 15022 RVA: 0x001F1980 File Offset: 0x001EFD80
+		// Token: 0x06003AB0 RID: 15024 RVA: 0x001F1A54 File Offset: 0x001EFE54
 		public static Toil JumpIfDespawnedOrNullOrForbidden(this Toil toil, TargetIndex ind, Toil jumpToil)
 		{
 			return toil.JumpIf(delegate
@@ -39,7 +39,7 @@ namespace Verse.AI
 			}, jumpToil);
 		}
 
-		// Token: 0x06003AAF RID: 15023 RVA: 0x001F19C4 File Offset: 0x001EFDC4
+		// Token: 0x06003AB1 RID: 15025 RVA: 0x001F1A98 File Offset: 0x001EFE98
 		public static Toil JumpIfOutsideHomeArea(this Toil toil, TargetIndex ind, Toil jumpToil)
 		{
 			return toil.JumpIf(delegate

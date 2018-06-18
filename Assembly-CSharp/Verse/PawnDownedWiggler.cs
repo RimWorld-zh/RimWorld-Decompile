@@ -3,17 +3,17 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000CF0 RID: 3312
+	// Token: 0x02000CEF RID: 3311
 	public class PawnDownedWiggler
 	{
-		// Token: 0x060048D0 RID: 18640 RVA: 0x0026289E File Offset: 0x00260C9E
+		// Token: 0x060048CE RID: 18638 RVA: 0x00262876 File Offset: 0x00260C76
 		public PawnDownedWiggler(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x17000B82 RID: 2946
-		// (get) Token: 0x060048D1 RID: 18641 RVA: 0x002628C8 File Offset: 0x00260CC8
+		// Token: 0x17000B81 RID: 2945
+		// (get) Token: 0x060048CF RID: 18639 RVA: 0x002628A0 File Offset: 0x00260CA0
 		private static float RandomDownedAngle
 		{
 			get
@@ -27,7 +27,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060048D2 RID: 18642 RVA: 0x00262908 File Offset: 0x00260D08
+		// Token: 0x060048D0 RID: 18640 RVA: 0x002628E0 File Offset: 0x00260CE0
 		public void WigglerTick()
 		{
 			if (this.pawn.Downed && this.pawn.Spawned && !this.pawn.InBed())
@@ -53,14 +53,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060048D3 RID: 18643 RVA: 0x002629FC File Offset: 0x00260DFC
+		// Token: 0x060048D1 RID: 18641 RVA: 0x002629D4 File Offset: 0x00260DD4
 		public void SetToCustomRotation(float rot)
 		{
 			this.downedAngle = rot;
 			this.usingCustomRotation = true;
 		}
 
-		// Token: 0x060048D4 RID: 18644 RVA: 0x00262A10 File Offset: 0x00260E10
+		// Token: 0x060048D2 RID: 18642 RVA: 0x002629E8 File Offset: 0x00260DE8
 		public void Notify_DamageApplied(DamageInfo dam)
 		{
 			if ((this.pawn.Downed || this.pawn.Dead) && dam.Def.hasForcefulImpact)
@@ -102,34 +102,34 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0400314E RID: 12622
+		// Token: 0x0400314C RID: 12620
 		private Pawn pawn;
 
-		// Token: 0x0400314F RID: 12623
+		// Token: 0x0400314D RID: 12621
 		public float downedAngle = PawnDownedWiggler.RandomDownedAngle;
 
-		// Token: 0x04003150 RID: 12624
+		// Token: 0x0400314E RID: 12622
 		public int ticksToIncapIcon = 0;
 
-		// Token: 0x04003151 RID: 12625
+		// Token: 0x0400314F RID: 12623
 		private bool usingCustomRotation = false;
 
-		// Token: 0x04003152 RID: 12626
+		// Token: 0x04003150 RID: 12624
 		private const float DownedAngleWidth = 45f;
 
-		// Token: 0x04003153 RID: 12627
+		// Token: 0x04003151 RID: 12625
 		private const float DamageTakenDownedAngleShift = 10f;
 
-		// Token: 0x04003154 RID: 12628
+		// Token: 0x04003152 RID: 12626
 		private const int IncapWigglePeriod = 300;
 
-		// Token: 0x04003155 RID: 12629
+		// Token: 0x04003153 RID: 12627
 		private const int IncapWiggleLength = 90;
 
-		// Token: 0x04003156 RID: 12630
+		// Token: 0x04003154 RID: 12628
 		private const float IncapWiggleSpeed = 0.35f;
 
-		// Token: 0x04003157 RID: 12631
+		// Token: 0x04003155 RID: 12629
 		private const int TicksBetweenIncapIcons = 200;
 	}
 }

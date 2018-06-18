@@ -8,7 +8,7 @@ namespace Verse
 	// Token: 0x02000AE6 RID: 2790
 	public static class CameraJumper
 	{
-		// Token: 0x06003DC3 RID: 15811 RVA: 0x00209313 File Offset: 0x00207713
+		// Token: 0x06003DC5 RID: 15813 RVA: 0x002093E7 File Offset: 0x002077E7
 		public static void TryJumpAndSelect(GlobalTargetInfo target)
 		{
 			if (target.IsValid)
@@ -18,7 +18,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DC4 RID: 15812 RVA: 0x00209334 File Offset: 0x00207734
+		// Token: 0x06003DC6 RID: 15814 RVA: 0x00209408 File Offset: 0x00207808
 		public static void TrySelect(GlobalTargetInfo target)
 		{
 			if (target.IsValid)
@@ -35,7 +35,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DC5 RID: 15813 RVA: 0x00209390 File Offset: 0x00207790
+		// Token: 0x06003DC7 RID: 15815 RVA: 0x00209464 File Offset: 0x00207864
 		private static void TrySelectInternal(Thing thing)
 		{
 			if (Current.ProgramState == ProgramState.Playing)
@@ -63,7 +63,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DC6 RID: 15814 RVA: 0x00209440 File Offset: 0x00207840
+		// Token: 0x06003DC8 RID: 15816 RVA: 0x00209514 File Offset: 0x00207914
 		private static void TrySelectInternal(WorldObject worldObject)
 		{
 			if (Find.World != null)
@@ -77,7 +77,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DC7 RID: 15815 RVA: 0x00209494 File Offset: 0x00207894
+		// Token: 0x06003DC9 RID: 15817 RVA: 0x00209568 File Offset: 0x00207968
 		public static void TryJump(GlobalTargetInfo target)
 		{
 			if (target.IsValid)
@@ -102,19 +102,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DC8 RID: 15816 RVA: 0x0020952D File Offset: 0x0020792D
+		// Token: 0x06003DCA RID: 15818 RVA: 0x00209601 File Offset: 0x00207A01
 		public static void TryJump(IntVec3 cell, Map map)
 		{
 			CameraJumper.TryJump(new GlobalTargetInfo(cell, map, false));
 		}
 
-		// Token: 0x06003DC9 RID: 15817 RVA: 0x0020953D File Offset: 0x0020793D
+		// Token: 0x06003DCB RID: 15819 RVA: 0x00209611 File Offset: 0x00207A11
 		public static void TryJump(int tile)
 		{
 			CameraJumper.TryJump(new GlobalTargetInfo(tile));
 		}
 
-		// Token: 0x06003DCA RID: 15818 RVA: 0x0020954C File Offset: 0x0020794C
+		// Token: 0x06003DCC RID: 15820 RVA: 0x00209620 File Offset: 0x00207A20
 		private static void TryJumpInternal(Thing thing)
 		{
 			if (Current.ProgramState == ProgramState.Playing)
@@ -136,7 +136,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DCB RID: 15819 RVA: 0x002095EC File Offset: 0x002079EC
+		// Token: 0x06003DCD RID: 15821 RVA: 0x002096C0 File Offset: 0x00207AC0
 		private static void TryJumpInternal(IntVec3 cell, Map map)
 		{
 			if (Current.ProgramState == ProgramState.Playing)
@@ -163,7 +163,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DCC RID: 15820 RVA: 0x00209681 File Offset: 0x00207A81
+		// Token: 0x06003DCE RID: 15822 RVA: 0x00209755 File Offset: 0x00207B55
 		private static void TryJumpInternal(WorldObject worldObject)
 		{
 			if (Find.World != null)
@@ -176,7 +176,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DCD RID: 15821 RVA: 0x002096BA File Offset: 0x00207ABA
+		// Token: 0x06003DCF RID: 15823 RVA: 0x0020978E File Offset: 0x00207B8E
 		private static void TryJumpInternal(int tile)
 		{
 			if (Find.World != null)
@@ -189,7 +189,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DCE RID: 15822 RVA: 0x002096EC File Offset: 0x00207AEC
+		// Token: 0x06003DD0 RID: 15824 RVA: 0x002097C0 File Offset: 0x00207BC0
 		public static bool CanJump(GlobalTargetInfo target)
 		{
 			bool result;
@@ -220,7 +220,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003DCF RID: 15823 RVA: 0x0020982C File Offset: 0x00207C2C
+		// Token: 0x06003DD1 RID: 15825 RVA: 0x00209900 File Offset: 0x00207D00
 		public static GlobalTargetInfo GetAdjustedTarget(GlobalTargetInfo target)
 		{
 			if (target.HasThing)
@@ -281,7 +281,7 @@ namespace Verse
 			return target;
 		}
 
-		// Token: 0x06003DD0 RID: 15824 RVA: 0x00209A3C File Offset: 0x00207E3C
+		// Token: 0x06003DD2 RID: 15826 RVA: 0x00209B10 File Offset: 0x00207F10
 		public static GlobalTargetInfo GetWorldTarget(GlobalTargetInfo target)
 		{
 			GlobalTargetInfo adjustedTarget = CameraJumper.GetAdjustedTarget(target);
@@ -304,7 +304,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003DD1 RID: 15825 RVA: 0x00209A90 File Offset: 0x00207E90
+		// Token: 0x06003DD3 RID: 15827 RVA: 0x00209B64 File Offset: 0x00207F64
 		public static GlobalTargetInfo GetWorldTargetOfMap(Map map)
 		{
 			GlobalTargetInfo result;
@@ -327,7 +327,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003DD2 RID: 15826 RVA: 0x00209B14 File Offset: 0x00207F14
+		// Token: 0x06003DD4 RID: 15828 RVA: 0x00209BE8 File Offset: 0x00207FE8
 		public static bool TryHideWorld()
 		{
 			bool result;
@@ -352,7 +352,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003DD3 RID: 15827 RVA: 0x00209B84 File Offset: 0x00207F84
+		// Token: 0x06003DD5 RID: 15829 RVA: 0x00209C58 File Offset: 0x00208058
 		public static bool TryShowWorld()
 		{
 			bool result;

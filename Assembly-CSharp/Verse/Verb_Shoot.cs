@@ -3,11 +3,11 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000FD5 RID: 4053
+	// Token: 0x02000FD4 RID: 4052
 	public class Verb_Shoot : Verb_LaunchProjectile
 	{
-		// Token: 0x17000FE8 RID: 4072
-		// (get) Token: 0x0600620A RID: 25098 RVA: 0x001E317C File Offset: 0x001E157C
+		// Token: 0x17000FE7 RID: 4071
+		// (get) Token: 0x06006208 RID: 25096 RVA: 0x001E3250 File Offset: 0x001E1650
 		protected override int ShotsPerBurst
 		{
 			get
@@ -16,7 +16,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600620B RID: 25099 RVA: 0x001E319C File Offset: 0x001E159C
+		// Token: 0x06006209 RID: 25097 RVA: 0x001E3270 File Offset: 0x001E1670
 		public override void WarmupComplete()
 		{
 			base.WarmupComplete();
@@ -29,7 +29,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600620C RID: 25100 RVA: 0x001E3244 File Offset: 0x001E1644
+		// Token: 0x0600620A RID: 25098 RVA: 0x001E3318 File Offset: 0x001E1718
 		protected override bool TryCastShot()
 		{
 			bool flag = base.TryCastShot();

@@ -6,7 +6,7 @@ namespace RimWorld.Planet
 	// Token: 0x02000587 RID: 1415
 	public static class WorldCameraManager
 	{
-		// Token: 0x06001AF7 RID: 6903 RVA: 0x000E7C04 File Offset: 0x000E6004
+		// Token: 0x06001AF8 RID: 6904 RVA: 0x000E7C70 File Offset: 0x000E6070
 		static WorldCameraManager()
 		{
 			WorldCameraManager.worldCameraInt = WorldCameraManager.CreateWorldCamera();
@@ -15,7 +15,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003EA RID: 1002
-		// (get) Token: 0x06001AF8 RID: 6904 RVA: 0x000E7CB8 File Offset: 0x000E60B8
+		// (get) Token: 0x06001AF9 RID: 6905 RVA: 0x000E7D24 File Offset: 0x000E6124
 		public static Camera WorldCamera
 		{
 			get
@@ -25,7 +25,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003EB RID: 1003
-		// (get) Token: 0x06001AF9 RID: 6905 RVA: 0x000E7CD4 File Offset: 0x000E60D4
+		// (get) Token: 0x06001AFA RID: 6906 RVA: 0x000E7D40 File Offset: 0x000E6140
 		public static Camera WorldSkyboxCamera
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003EC RID: 1004
-		// (get) Token: 0x06001AFA RID: 6906 RVA: 0x000E7CF0 File Offset: 0x000E60F0
+		// (get) Token: 0x06001AFB RID: 6907 RVA: 0x000E7D5C File Offset: 0x000E615C
 		public static WorldCameraDriver WorldCameraDriver
 		{
 			get
@@ -44,7 +44,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001AFB RID: 6907 RVA: 0x000E7D0C File Offset: 0x000E610C
+		// Token: 0x06001AFC RID: 6908 RVA: 0x000E7D78 File Offset: 0x000E6178
 		private static Camera CreateWorldCamera()
 		{
 			GameObject gameObject = new GameObject("WorldCamera", new Type[]
@@ -67,7 +67,7 @@ namespace RimWorld.Planet
 			return component;
 		}
 
-		// Token: 0x06001AFC RID: 6908 RVA: 0x000E7DB0 File Offset: 0x000E61B0
+		// Token: 0x06001AFD RID: 6909 RVA: 0x000E7E1C File Offset: 0x000E621C
 		private static Camera CreateWorldSkyboxCamera(Camera parent)
 		{
 			GameObject gameObject = new GameObject("WorldSkyboxCamera", new Type[]

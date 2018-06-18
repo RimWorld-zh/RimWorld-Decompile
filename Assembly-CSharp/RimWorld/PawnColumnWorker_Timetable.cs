@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000899 RID: 2201
 	public class PawnColumnWorker_Timetable : PawnColumnWorker
 	{
-		// Token: 0x06003238 RID: 12856 RVA: 0x001B05DC File Offset: 0x001AE9DC
+		// Token: 0x0600323A RID: 12858 RVA: 0x001B06A4 File Offset: 0x001AEAA4
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
 			if (pawn.timetable != null)
@@ -25,7 +25,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003239 RID: 12857 RVA: 0x001B0654 File Offset: 0x001AEA54
+		// Token: 0x0600323B RID: 12859 RVA: 0x001B071C File Offset: 0x001AEB1C
 		public override void DoHeader(Rect rect, PawnTable table)
 		{
 			float num = rect.x;
@@ -42,37 +42,37 @@ namespace RimWorld
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
-		// Token: 0x0600323A RID: 12858 RVA: 0x001B06DC File Offset: 0x001AEADC
+		// Token: 0x0600323C RID: 12860 RVA: 0x001B07A4 File Offset: 0x001AEBA4
 		public override int GetMinWidth(PawnTable table)
 		{
 			return Mathf.Max(base.GetMinWidth(table), 360);
 		}
 
-		// Token: 0x0600323B RID: 12859 RVA: 0x001B0704 File Offset: 0x001AEB04
+		// Token: 0x0600323D RID: 12861 RVA: 0x001B07CC File Offset: 0x001AEBCC
 		public override int GetOptimalWidth(PawnTable table)
 		{
 			return Mathf.Clamp(504, this.GetMinWidth(table), this.GetMaxWidth(table));
 		}
 
-		// Token: 0x0600323C RID: 12860 RVA: 0x001B0734 File Offset: 0x001AEB34
+		// Token: 0x0600323E RID: 12862 RVA: 0x001B07FC File Offset: 0x001AEBFC
 		public override int GetMaxWidth(PawnTable table)
 		{
 			return Mathf.Min(base.GetMaxWidth(table), 600);
 		}
 
-		// Token: 0x0600323D RID: 12861 RVA: 0x001B075C File Offset: 0x001AEB5C
+		// Token: 0x0600323F RID: 12863 RVA: 0x001B0824 File Offset: 0x001AEC24
 		public override int GetMinHeaderHeight(PawnTable table)
 		{
 			return Mathf.Max(base.GetMinHeaderHeight(table), 15);
 		}
 
-		// Token: 0x0600323E RID: 12862 RVA: 0x001B0780 File Offset: 0x001AEB80
+		// Token: 0x06003240 RID: 12864 RVA: 0x001B0848 File Offset: 0x001AEC48
 		public override int Compare(Pawn a, Pawn b)
 		{
 			return this.GetValueToCompare(a).CompareTo(this.GetValueToCompare(b));
 		}
 
-		// Token: 0x0600323F RID: 12863 RVA: 0x001B07AC File Offset: 0x001AEBAC
+		// Token: 0x06003241 RID: 12865 RVA: 0x001B0874 File Offset: 0x001AEC74
 		private int GetValueToCompare(Pawn pawn)
 		{
 			int result;
@@ -87,7 +87,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003240 RID: 12864 RVA: 0x001B0804 File Offset: 0x001AEC04
+		// Token: 0x06003242 RID: 12866 RVA: 0x001B08CC File Offset: 0x001AECCC
 		private void DoTimeAssignment(Rect rect, Pawn p, int hour)
 		{
 			rect = rect.ContractedBy(1f);

@@ -6,12 +6,12 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DFF RID: 3583
+	// Token: 0x02000DFE RID: 3582
 	public class UnfinishedThing : ThingWithComps
 	{
-		// Token: 0x17000D40 RID: 3392
-		// (get) Token: 0x06005106 RID: 20742 RVA: 0x0029980C File Offset: 0x00297C0C
-		// (set) Token: 0x06005107 RID: 20743 RVA: 0x00299827 File Offset: 0x00297C27
+		// Token: 0x17000D3F RID: 3391
+		// (get) Token: 0x06005104 RID: 20740 RVA: 0x002997EC File Offset: 0x00297BEC
+		// (set) Token: 0x06005105 RID: 20741 RVA: 0x00299807 File Offset: 0x00297C07
 		public Pawn Creator
 		{
 			get
@@ -32,8 +32,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D41 RID: 3393
-		// (get) Token: 0x06005108 RID: 20744 RVA: 0x00299854 File Offset: 0x00297C54
+		// Token: 0x17000D40 RID: 3392
+		// (get) Token: 0x06005106 RID: 20742 RVA: 0x00299834 File Offset: 0x00297C34
 		public RecipeDef Recipe
 		{
 			get
@@ -42,9 +42,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D42 RID: 3394
-		// (get) Token: 0x06005109 RID: 20745 RVA: 0x00299870 File Offset: 0x00297C70
-		// (set) Token: 0x0600510A RID: 20746 RVA: 0x002998C0 File Offset: 0x00297CC0
+		// Token: 0x17000D41 RID: 3393
+		// (get) Token: 0x06005107 RID: 20743 RVA: 0x00299850 File Offset: 0x00297C50
+		// (set) Token: 0x06005108 RID: 20744 RVA: 0x002998A0 File Offset: 0x00297CA0
 		public Bill_ProductionWithUft BoundBill
 		{
 			get
@@ -80,8 +80,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D43 RID: 3395
-		// (get) Token: 0x0600510B RID: 20747 RVA: 0x00299930 File Offset: 0x00297D30
+		// Token: 0x17000D42 RID: 3394
+		// (get) Token: 0x06005109 RID: 20745 RVA: 0x00299910 File Offset: 0x00297D10
 		public Thing BoundWorkTable
 		{
 			get
@@ -108,8 +108,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D44 RID: 3396
-		// (get) Token: 0x0600510C RID: 20748 RVA: 0x00299984 File Offset: 0x00297D84
+		// Token: 0x17000D43 RID: 3395
+		// (get) Token: 0x0600510A RID: 20746 RVA: 0x00299964 File Offset: 0x00297D64
 		public override string LabelNoCount
 		{
 			get
@@ -138,8 +138,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D45 RID: 3397
-		// (get) Token: 0x0600510D RID: 20749 RVA: 0x00299A2C File Offset: 0x00297E2C
+		// Token: 0x17000D44 RID: 3396
+		// (get) Token: 0x0600510B RID: 20747 RVA: 0x00299A0C File Offset: 0x00297E0C
 		public override string DescriptionDetailed
 		{
 			get
@@ -157,8 +157,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D46 RID: 3398
-		// (get) Token: 0x0600510E RID: 20750 RVA: 0x00299A68 File Offset: 0x00297E68
+		// Token: 0x17000D45 RID: 3397
+		// (get) Token: 0x0600510C RID: 20748 RVA: 0x00299A48 File Offset: 0x00297E48
 		public override string DescriptionFlavor
 		{
 			get
@@ -176,8 +176,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D47 RID: 3399
-		// (get) Token: 0x0600510F RID: 20751 RVA: 0x00299AA4 File Offset: 0x00297EA4
+		// Token: 0x17000D46 RID: 3398
+		// (get) Token: 0x0600510D RID: 20749 RVA: 0x00299A84 File Offset: 0x00297E84
 		public bool Initialized
 		{
 			get
@@ -186,7 +186,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005110 RID: 20752 RVA: 0x00299AC8 File Offset: 0x00297EC8
+		// Token: 0x0600510E RID: 20750 RVA: 0x00299AA8 File Offset: 0x00297EA8
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -205,7 +205,7 @@ namespace Verse
 			Scribe_Collections.Look<Thing>(ref this.ingredients, "ingredients", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x06005111 RID: 20753 RVA: 0x00299B7C File Offset: 0x00297F7C
+		// Token: 0x0600510F RID: 20751 RVA: 0x00299B5C File Offset: 0x00297F5C
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
 		{
 			if (mode == DestroyMode.Cancel)
@@ -225,7 +225,7 @@ namespace Verse
 			this.BoundBill = null;
 		}
 
-		// Token: 0x06005112 RID: 20754 RVA: 0x00299C24 File Offset: 0x00298024
+		// Token: 0x06005110 RID: 20752 RVA: 0x00299C04 File Offset: 0x00298004
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
@@ -246,7 +246,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005113 RID: 20755 RVA: 0x00299C50 File Offset: 0x00298050
+		// Token: 0x06005111 RID: 20753 RVA: 0x00299C30 File Offset: 0x00298030
 		public Bill_ProductionWithUft BillOnTableForMe(Thing workTable)
 		{
 			if (this.Recipe.AllRecipeUsers.Contains(workTable.def))
@@ -270,7 +270,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06005114 RID: 20756 RVA: 0x00299CF3 File Offset: 0x002980F3
+		// Token: 0x06005112 RID: 20754 RVA: 0x00299CD3 File Offset: 0x002980D3
 		public override void DrawExtraSelectionOverlays()
 		{
 			base.DrawExtraSelectionOverlays();
@@ -280,7 +280,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005115 RID: 20757 RVA: 0x00299D20 File Offset: 0x00298120
+		// Token: 0x06005113 RID: 20755 RVA: 0x00299D00 File Offset: 0x00298100
 		public override string GetInspectString()
 		{
 			string text = base.GetInspectString();
@@ -300,25 +300,25 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x0400353A RID: 13626
+		// Token: 0x04003538 RID: 13624
 		private Pawn creatorInt;
 
-		// Token: 0x0400353B RID: 13627
+		// Token: 0x04003539 RID: 13625
 		private string creatorName = "ErrorCreatorName";
 
-		// Token: 0x0400353C RID: 13628
+		// Token: 0x0400353A RID: 13626
 		private RecipeDef recipeInt;
 
-		// Token: 0x0400353D RID: 13629
+		// Token: 0x0400353B RID: 13627
 		public List<Thing> ingredients = new List<Thing>();
 
-		// Token: 0x0400353E RID: 13630
+		// Token: 0x0400353C RID: 13628
 		private Bill_ProductionWithUft boundBillInt;
 
-		// Token: 0x0400353F RID: 13631
+		// Token: 0x0400353D RID: 13629
 		public float workLeft = -10000f;
 
-		// Token: 0x04003540 RID: 13632
+		// Token: 0x0400353E RID: 13630
 		private const float CancelIngredientRecoveryFraction = 0.75f;
 	}
 }

@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x0200098A RID: 2442
 	public static class MiscDebugDrawer
 	{
-		// Token: 0x060036F1 RID: 14065 RVA: 0x001D5B5C File Offset: 0x001D3F5C
+		// Token: 0x060036F3 RID: 14067 RVA: 0x001D5C24 File Offset: 0x001D4024
 		public static void DebugDrawInteractionCells()
 		{
 			if (Find.CurrentMap != null)

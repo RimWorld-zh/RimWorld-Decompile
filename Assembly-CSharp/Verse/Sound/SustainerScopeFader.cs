@@ -2,10 +2,10 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DC7 RID: 3527
+	// Token: 0x02000DC6 RID: 3526
 	public class SustainerScopeFader
 	{
-		// Token: 0x06004EA5 RID: 20133 RVA: 0x00290B24 File Offset: 0x0028EF24
+		// Token: 0x06004EA3 RID: 20131 RVA: 0x00290B04 File Offset: 0x0028EF04
 		public void SustainerScopeUpdate()
 		{
 			if (this.inScope)
@@ -27,16 +27,16 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x0400345E RID: 13406
+		// Token: 0x0400345C RID: 13404
 		public bool inScope = true;
 
-		// Token: 0x0400345F RID: 13407
+		// Token: 0x0400345D RID: 13405
 		public float inScopePercent = 1f;
 
-		// Token: 0x04003460 RID: 13408
+		// Token: 0x0400345E RID: 13406
 		private const float ScopeMatchFallRate = 0.03f;
 
-		// Token: 0x04003461 RID: 13409
+		// Token: 0x0400345F RID: 13407
 		private const float ScopeMatchRiseRate = 0.05f;
 	}
 }

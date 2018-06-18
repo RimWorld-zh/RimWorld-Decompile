@@ -7,12 +7,12 @@ namespace Verse
 	// Token: 0x02000BC9 RID: 3017
 	public class GameComponent_OnetimeNotification : GameComponent
 	{
-		// Token: 0x060041A3 RID: 16803 RVA: 0x00229C17 File Offset: 0x00228017
+		// Token: 0x060041A5 RID: 16805 RVA: 0x00229C8F File Offset: 0x0022808F
 		public GameComponent_OnetimeNotification(Game game)
 		{
 		}
 
-		// Token: 0x060041A4 RID: 16804 RVA: 0x00229C28 File Offset: 0x00228028
+		// Token: 0x060041A6 RID: 16806 RVA: 0x00229CA0 File Offset: 0x002280A0
 		public override void GameComponentTick()
 		{
 			if (Find.TickManager.TicksGame % 2000 == 0 && Rand.Chance(0.05f))
@@ -39,7 +39,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041A5 RID: 16805 RVA: 0x00229D22 File Offset: 0x00228122
+		// Token: 0x060041A7 RID: 16807 RVA: 0x00229D9A File Offset: 0x0022819A
 		public override void ExposeData()
 		{
 			base.ExposeData();

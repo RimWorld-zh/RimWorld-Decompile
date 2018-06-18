@@ -8,13 +8,13 @@ namespace RimWorld
 	// Token: 0x0200045B RID: 1115
 	public class Zone_Stockpile : Zone, ISlotGroupParent, IStoreSettingsParent, IHaulDestination
 	{
-		// Token: 0x0600137C RID: 4988 RVA: 0x000A878E File Offset: 0x000A6B8E
+		// Token: 0x0600137C RID: 4988 RVA: 0x000A879A File Offset: 0x000A6B9A
 		public Zone_Stockpile()
 		{
 			this.slotGroup = new SlotGroup(this);
 		}
 
-		// Token: 0x0600137D RID: 4989 RVA: 0x000A87A3 File Offset: 0x000A6BA3
+		// Token: 0x0600137D RID: 4989 RVA: 0x000A87AF File Offset: 0x000A6BAF
 		public Zone_Stockpile(StorageSettingsPreset preset, ZoneManager zoneManager) : base(preset.PresetName(), zoneManager)
 		{
 			this.settings = new StorageSettings(this);
@@ -23,7 +23,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002AA RID: 682
-		// (get) Token: 0x0600137E RID: 4990 RVA: 0x000A87D8 File Offset: 0x000A6BD8
+		// (get) Token: 0x0600137E RID: 4990 RVA: 0x000A87E4 File Offset: 0x000A6BE4
 		public bool StorageTabVisible
 		{
 			get
@@ -33,7 +33,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002AB RID: 683
-		// (get) Token: 0x0600137F RID: 4991 RVA: 0x000A87F0 File Offset: 0x000A6BF0
+		// (get) Token: 0x0600137F RID: 4991 RVA: 0x000A87FC File Offset: 0x000A6BFC
 		public bool IgnoreStoredThingsBeauty
 		{
 			get
@@ -43,7 +43,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002AC RID: 684
-		// (get) Token: 0x06001380 RID: 4992 RVA: 0x000A8808 File Offset: 0x000A6C08
+		// (get) Token: 0x06001380 RID: 4992 RVA: 0x000A8814 File Offset: 0x000A6C14
 		protected override Color NextZoneColor
 		{
 			get
@@ -52,7 +52,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001381 RID: 4993 RVA: 0x000A8822 File Offset: 0x000A6C22
+		// Token: 0x06001381 RID: 4993 RVA: 0x000A882E File Offset: 0x000A6C2E
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -62,7 +62,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06001382 RID: 4994 RVA: 0x000A8845 File Offset: 0x000A6C45
+		// Token: 0x06001382 RID: 4994 RVA: 0x000A8851 File Offset: 0x000A6C51
 		public override void AddCell(IntVec3 sq)
 		{
 			base.AddCell(sq);
@@ -72,28 +72,28 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001383 RID: 4995 RVA: 0x000A8866 File Offset: 0x000A6C66
+		// Token: 0x06001383 RID: 4995 RVA: 0x000A8872 File Offset: 0x000A6C72
 		public override void RemoveCell(IntVec3 sq)
 		{
 			base.RemoveCell(sq);
 			this.slotGroup.Notify_LostCell(sq);
 		}
 
-		// Token: 0x06001384 RID: 4996 RVA: 0x000A887C File Offset: 0x000A6C7C
+		// Token: 0x06001384 RID: 4996 RVA: 0x000A8888 File Offset: 0x000A6C88
 		public override void PostDeregister()
 		{
 			base.PostDeregister();
 			BillUtility.Notify_ZoneStockpileRemoved(this);
 		}
 
-		// Token: 0x06001385 RID: 4997 RVA: 0x000A888C File Offset: 0x000A6C8C
+		// Token: 0x06001385 RID: 4997 RVA: 0x000A8898 File Offset: 0x000A6C98
 		public override IEnumerable<InspectTabBase> GetInspectTabs()
 		{
 			yield return Zone_Stockpile.StorageTab;
 			yield break;
 		}
 
-		// Token: 0x06001386 RID: 4998 RVA: 0x000A88B0 File Offset: 0x000A6CB0
+		// Token: 0x06001386 RID: 4998 RVA: 0x000A88BC File Offset: 0x000A6CBC
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())
@@ -107,20 +107,20 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06001387 RID: 4999 RVA: 0x000A88DC File Offset: 0x000A6CDC
+		// Token: 0x06001387 RID: 4999 RVA: 0x000A88E8 File Offset: 0x000A6CE8
 		public override IEnumerable<Gizmo> GetZoneAddGizmos()
 		{
 			yield return DesignatorUtility.FindAllowedDesignator<Designator_ZoneAddStockpile_Expand>();
 			yield break;
 		}
 
-		// Token: 0x06001388 RID: 5000 RVA: 0x000A8900 File Offset: 0x000A6D00
+		// Token: 0x06001388 RID: 5000 RVA: 0x000A890C File Offset: 0x000A6D0C
 		public SlotGroup GetSlotGroup()
 		{
 			return this.slotGroup;
 		}
 
-		// Token: 0x06001389 RID: 5001 RVA: 0x000A891C File Offset: 0x000A6D1C
+		// Token: 0x06001389 RID: 5001 RVA: 0x000A8928 File Offset: 0x000A6D28
 		public IEnumerable<IntVec3> AllSlotCells()
 		{
 			for (int i = 0; i < this.cells.Count; i++)
@@ -130,37 +130,37 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600138A RID: 5002 RVA: 0x000A8948 File Offset: 0x000A6D48
+		// Token: 0x0600138A RID: 5002 RVA: 0x000A8954 File Offset: 0x000A6D54
 		public List<IntVec3> AllSlotCellsList()
 		{
 			return this.cells;
 		}
 
-		// Token: 0x0600138B RID: 5003 RVA: 0x000A8964 File Offset: 0x000A6D64
+		// Token: 0x0600138B RID: 5003 RVA: 0x000A8970 File Offset: 0x000A6D70
 		public StorageSettings GetParentStoreSettings()
 		{
 			return null;
 		}
 
-		// Token: 0x0600138C RID: 5004 RVA: 0x000A897C File Offset: 0x000A6D7C
+		// Token: 0x0600138C RID: 5004 RVA: 0x000A8988 File Offset: 0x000A6D88
 		public StorageSettings GetStoreSettings()
 		{
 			return this.settings;
 		}
 
-		// Token: 0x0600138D RID: 5005 RVA: 0x000A8998 File Offset: 0x000A6D98
+		// Token: 0x0600138D RID: 5005 RVA: 0x000A89A4 File Offset: 0x000A6DA4
 		public bool Accepts(Thing t)
 		{
 			return this.settings.AllowedToAccept(t);
 		}
 
-		// Token: 0x0600138E RID: 5006 RVA: 0x000A89BC File Offset: 0x000A6DBC
+		// Token: 0x0600138E RID: 5006 RVA: 0x000A89C8 File Offset: 0x000A6DC8
 		public string SlotYielderLabel()
 		{
 			return this.label;
 		}
 
-		// Token: 0x0600138F RID: 5007 RVA: 0x000A89D7 File Offset: 0x000A6DD7
+		// Token: 0x0600138F RID: 5007 RVA: 0x000A89E3 File Offset: 0x000A6DE3
 		public void Notify_ReceivedThing(Thing newItem)
 		{
 			if (newItem.def.storedConceptLearnOpportunity != null)
@@ -169,7 +169,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001390 RID: 5008 RVA: 0x000A89FB File Offset: 0x000A6DFB
+		// Token: 0x06001390 RID: 5008 RVA: 0x000A8A07 File Offset: 0x000A6E07
 		public void Notify_LostThing(Thing newItem)
 		{
 		}

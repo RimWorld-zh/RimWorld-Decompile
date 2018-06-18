@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x0200055A RID: 1370
 	public static class FactionDialogMaker
 	{
-		// Token: 0x060019AE RID: 6574 RVA: 0x000DEC98 File Offset: 0x000DD098
+		// Token: 0x060019AF RID: 6575 RVA: 0x000DECEC File Offset: 0x000DD0EC
 		public static DiaNode FactionDialogFor(Pawn negotiator, Faction faction)
 		{
 			Map map = negotiator.Map;
@@ -81,7 +81,7 @@ namespace RimWorld
 			return diaNode;
 		}
 
-		// Token: 0x060019AF RID: 6575 RVA: 0x000DEEE0 File Offset: 0x000DD2E0
+		// Token: 0x060019B0 RID: 6576 RVA: 0x000DEF34 File Offset: 0x000DD334
 		private static IEnumerable<DiaOption> DebugOptions(Faction faction, Pawn negotiator)
 		{
 			yield return new DiaOption("(Debug) Goodwill +10")
@@ -103,7 +103,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060019B0 RID: 6576 RVA: 0x000DEF14 File Offset: 0x000DD314
+		// Token: 0x060019B1 RID: 6577 RVA: 0x000DEF68 File Offset: 0x000DD368
 		private static int AmountSendableSilver(Map map)
 		{
 			return (from t in TradeUtility.AllLaunchableThingsForTrade(map)
@@ -111,7 +111,7 @@ namespace RimWorld
 			select t).Sum((Thing t) => t.stackCount);
 		}
 
-		// Token: 0x060019B1 RID: 6577 RVA: 0x000DEF74 File Offset: 0x000DD374
+		// Token: 0x060019B2 RID: 6578 RVA: 0x000DEFC8 File Offset: 0x000DD3C8
 		private static DiaOption RequestAICoreQuest(Map map, Faction faction, Pawn negotiator)
 		{
 			string text = "RequestAICoreInformation".Translate(new object[]
@@ -182,7 +182,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060019B2 RID: 6578 RVA: 0x000DF158 File Offset: 0x000DD558
+		// Token: 0x060019B3 RID: 6579 RVA: 0x000DF1AC File Offset: 0x000DD5AC
 		private static DiaOption RequestTraderOption(Map map, Faction faction, Pawn negotiator)
 		{
 			string text = "RequestTrader".Translate(new object[]
@@ -261,7 +261,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060019B3 RID: 6579 RVA: 0x000DF404 File Offset: 0x000DD804
+		// Token: 0x060019B4 RID: 6580 RVA: 0x000DF458 File Offset: 0x000DD858
 		private static DiaOption RequestMilitaryAidOption(Map map, Faction faction, Pawn negotiator)
 		{
 			string text = "RequestMilitaryAid".Translate(new object[]
@@ -329,7 +329,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060019B4 RID: 6580 RVA: 0x000DF688 File Offset: 0x000DDA88
+		// Token: 0x060019B5 RID: 6581 RVA: 0x000DF6DC File Offset: 0x000DDADC
 		private static DiaNode CantMakeItInTime(Faction faction, Pawn negotiator)
 		{
 			return new DiaNode("CantSendMilitaryAidInTime".Translate(new object[]
@@ -344,7 +344,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060019B5 RID: 6581 RVA: 0x000DF6DC File Offset: 0x000DDADC
+		// Token: 0x060019B6 RID: 6582 RVA: 0x000DF730 File Offset: 0x000DDB30
 		private static DiaNode FightersSent(Faction faction, Pawn negotiator)
 		{
 			return new DiaNode("MilitaryAidSent".Translate(new object[]
@@ -359,7 +359,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060019B6 RID: 6582 RVA: 0x000DF730 File Offset: 0x000DDB30
+		// Token: 0x060019B7 RID: 6583 RVA: 0x000DF784 File Offset: 0x000DDB84
 		private static void CallForAid(Map map, Faction faction)
 		{
 			Faction ofPlayer = Faction.OfPlayer;
@@ -375,7 +375,7 @@ namespace RimWorld
 			IncidentDefOf.RaidFriendly.Worker.TryExecute(incidentParms);
 		}
 
-		// Token: 0x060019B7 RID: 6583 RVA: 0x000DF7B4 File Offset: 0x000DDBB4
+		// Token: 0x060019B8 RID: 6584 RVA: 0x000DF808 File Offset: 0x000DDC08
 		private static DiaOption OKToRoot(Faction faction, Pawn negotiator)
 		{
 			return new DiaOption("OK".Translate())
@@ -384,7 +384,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060019B8 RID: 6584 RVA: 0x000DF7E8 File Offset: 0x000DDBE8
+		// Token: 0x060019B9 RID: 6585 RVA: 0x000DF83C File Offset: 0x000DDC3C
 		private static Func<DiaNode> ResetToRoot(Faction faction, Pawn negotiator)
 		{
 			return () => FactionDialogMaker.FactionDialogFor(negotiator, faction);

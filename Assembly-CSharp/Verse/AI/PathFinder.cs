@@ -9,7 +9,7 @@ namespace Verse.AI
 	// Token: 0x02000A91 RID: 2705
 	public class PathFinder
 	{
-		// Token: 0x06003BFF RID: 15359 RVA: 0x001FA968 File Offset: 0x001F8D68
+		// Token: 0x06003C01 RID: 15361 RVA: 0x001FAA3C File Offset: 0x001F8E3C
 		public PathFinder(Map map)
 		{
 			this.map = map;
@@ -20,7 +20,7 @@ namespace Verse.AI
 			this.regionCostCalculator = new RegionCostCalculatorWrapper(map);
 		}
 
-		// Token: 0x06003C00 RID: 15360 RVA: 0x001FA9FC File Offset: 0x001F8DFC
+		// Token: 0x06003C02 RID: 15362 RVA: 0x001FAAD0 File Offset: 0x001F8ED0
 		public PawnPath FindPath(IntVec3 start, LocalTargetInfo dest, Pawn pawn, PathEndMode peMode = PathEndMode.OnCell)
 		{
 			bool flag = false;
@@ -33,7 +33,7 @@ namespace Verse.AI
 			return this.FindPath(start, dest, TraverseParms.For(pawn, maxDanger, TraverseMode.ByPawn, canBash), peMode);
 		}
 
-		// Token: 0x06003C01 RID: 15361 RVA: 0x001FAA54 File Offset: 0x001F8E54
+		// Token: 0x06003C03 RID: 15363 RVA: 0x001FAB28 File Offset: 0x001F8F28
 		public PawnPath FindPath(IntVec3 start, LocalTargetInfo dest, TraverseParms traverseParms, PathEndMode peMode = PathEndMode.OnCell)
 		{
 			if (DebugSettings.pathThroughWalls)
@@ -493,7 +493,7 @@ namespace Verse.AI
 			return notFound;
 		}
 
-		// Token: 0x06003C02 RID: 15362 RVA: 0x001FB8B0 File Offset: 0x001F9CB0
+		// Token: 0x06003C04 RID: 15364 RVA: 0x001FB984 File Offset: 0x001F9D84
 		public static int GetBuildingCost(Building b, TraverseParms traverseParms, Pawn pawn)
 		{
 			Building_Door building_Door = b as Building_Door;
@@ -564,7 +564,7 @@ namespace Verse.AI
 			return 0;
 		}
 
-		// Token: 0x06003C03 RID: 15363 RVA: 0x001FBA90 File Offset: 0x001F9E90
+		// Token: 0x06003C05 RID: 15365 RVA: 0x001FBB64 File Offset: 0x001F9F64
 		public static int GetBlueprintCost(Blueprint b, Pawn pawn)
 		{
 			int result;
@@ -579,49 +579,49 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C04 RID: 15364 RVA: 0x001FBABC File Offset: 0x001F9EBC
+		// Token: 0x06003C06 RID: 15366 RVA: 0x001FBB90 File Offset: 0x001F9F90
 		public static bool IsDestroyable(Thing th)
 		{
 			return th.def.useHitPoints && th.def.destroyable;
 		}
 
-		// Token: 0x06003C05 RID: 15365 RVA: 0x001FBAF0 File Offset: 0x001F9EF0
+		// Token: 0x06003C07 RID: 15367 RVA: 0x001FBBC4 File Offset: 0x001F9FC4
 		private bool BlocksDiagonalMovement(int x, int z)
 		{
 			return PathFinder.BlocksDiagonalMovement(x, z, this.map);
 		}
 
-		// Token: 0x06003C06 RID: 15366 RVA: 0x001FBB14 File Offset: 0x001F9F14
+		// Token: 0x06003C08 RID: 15368 RVA: 0x001FBBE8 File Offset: 0x001F9FE8
 		private bool BlocksDiagonalMovement(int index)
 		{
 			return PathFinder.BlocksDiagonalMovement(index, this.map);
 		}
 
-		// Token: 0x06003C07 RID: 15367 RVA: 0x001FBB38 File Offset: 0x001F9F38
+		// Token: 0x06003C09 RID: 15369 RVA: 0x001FBC0C File Offset: 0x001FA00C
 		public static bool BlocksDiagonalMovement(int x, int z, Map map)
 		{
 			return PathFinder.BlocksDiagonalMovement(map.cellIndices.CellToIndex(x, z), map);
 		}
 
-		// Token: 0x06003C08 RID: 15368 RVA: 0x001FBB60 File Offset: 0x001F9F60
+		// Token: 0x06003C0A RID: 15370 RVA: 0x001FBC34 File Offset: 0x001FA034
 		public static bool BlocksDiagonalMovement(int index, Map map)
 		{
 			return !map.pathGrid.WalkableFast(index) || map.edificeGrid[index] is Building_Door;
 		}
 
-		// Token: 0x06003C09 RID: 15369 RVA: 0x001FBBAB File Offset: 0x001F9FAB
+		// Token: 0x06003C0B RID: 15371 RVA: 0x001FBC7F File Offset: 0x001FA07F
 		private void DebugFlash(IntVec3 c, float colorPct, string str)
 		{
 			PathFinder.DebugFlash(c, this.map, colorPct, str);
 		}
 
-		// Token: 0x06003C0A RID: 15370 RVA: 0x001FBBBC File Offset: 0x001F9FBC
+		// Token: 0x06003C0C RID: 15372 RVA: 0x001FBC90 File Offset: 0x001FA090
 		private static void DebugFlash(IntVec3 c, Map map, float colorPct, string str)
 		{
 			map.debugDrawer.FlashCell(c, colorPct, str, 50);
 		}
 
-		// Token: 0x06003C0B RID: 15371 RVA: 0x001FBBD0 File Offset: 0x001F9FD0
+		// Token: 0x06003C0D RID: 15373 RVA: 0x001FBCA4 File Offset: 0x001FA0A4
 		private PawnPath FinalizedPath(int finalIndex)
 		{
 			PawnPath emptyPawnPath = this.map.pawnPathPool.GetEmptyPawnPath();
@@ -641,7 +641,7 @@ namespace Verse.AI
 			return emptyPawnPath;
 		}
 
-		// Token: 0x06003C0C RID: 15372 RVA: 0x001FBC5C File Offset: 0x001FA05C
+		// Token: 0x06003C0E RID: 15374 RVA: 0x001FBD30 File Offset: 0x001FA130
 		private void InitStatusesAndPushStartNode(ref int curIndex, IntVec3 start)
 		{
 			this.statusOpenValue += 2;
@@ -660,7 +660,7 @@ namespace Verse.AI
 			this.openList.Push(new PathFinder.CostNode(curIndex, 0));
 		}
 
-		// Token: 0x06003C0D RID: 15373 RVA: 0x001FBD30 File Offset: 0x001FA130
+		// Token: 0x06003C0F RID: 15375 RVA: 0x001FBE04 File Offset: 0x001FA204
 		private void ResetStatuses()
 		{
 			int num = this.calcGrid.Length;
@@ -672,19 +672,19 @@ namespace Verse.AI
 			this.statusClosedValue = 2;
 		}
 
-		// Token: 0x06003C0E RID: 15374 RVA: 0x001FBD7B File Offset: 0x001FA17B
+		// Token: 0x06003C10 RID: 15376 RVA: 0x001FBE4F File Offset: 0x001FA24F
 		[Conditional("PFPROFILE")]
 		private void PfProfilerBeginSample(string s)
 		{
 		}
 
-		// Token: 0x06003C0F RID: 15375 RVA: 0x001FBD7E File Offset: 0x001FA17E
+		// Token: 0x06003C11 RID: 15377 RVA: 0x001FBE52 File Offset: 0x001FA252
 		[Conditional("PFPROFILE")]
 		private void PfProfilerEndSample()
 		{
 		}
 
-		// Token: 0x06003C10 RID: 15376 RVA: 0x001FBD84 File Offset: 0x001FA184
+		// Token: 0x06003C12 RID: 15378 RVA: 0x001FBE58 File Offset: 0x001FA258
 		private void DebugDrawRichData()
 		{
 			if (DebugViewSettings.drawPaths)
@@ -698,7 +698,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003C11 RID: 15377 RVA: 0x001FBE00 File Offset: 0x001FA200
+		// Token: 0x06003C13 RID: 15379 RVA: 0x001FBED4 File Offset: 0x001FA2D4
 		private float DetermineHeuristicStrength(Pawn pawn, IntVec3 start, LocalTargetInfo dest)
 		{
 			float result;
@@ -714,7 +714,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C12 RID: 15378 RVA: 0x001FBE60 File Offset: 0x001FA260
+		// Token: 0x06003C14 RID: 15380 RVA: 0x001FBF34 File Offset: 0x001FA334
 		private CellRect CalculateDestinationRect(LocalTargetInfo dest, PathEndMode peMode)
 		{
 			CellRect result;
@@ -733,7 +733,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C13 RID: 15379 RVA: 0x001FBEB8 File Offset: 0x001FA2B8
+		// Token: 0x06003C15 RID: 15381 RVA: 0x001FBF8C File Offset: 0x001FA38C
 		private Area GetAllowedArea(Pawn pawn)
 		{
 			Area result;
@@ -753,7 +753,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C14 RID: 15380 RVA: 0x001FBF20 File Offset: 0x001FA320
+		// Token: 0x06003C16 RID: 15382 RVA: 0x001FBFF4 File Offset: 0x001FA3F4
 		private void CalculateAndAddDisallowedCorners(TraverseParms traverseParms, PathEndMode peMode, CellRect destinationRect)
 		{
 			this.disallowedCornerIndices.Clear();
@@ -782,7 +782,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003C15 RID: 15381 RVA: 0x001FC03C File Offset: 0x001FA43C
+		// Token: 0x06003C17 RID: 15383 RVA: 0x001FC110 File Offset: 0x001FA510
 		private bool IsCornerTouchAllowed(int cornerX, int cornerZ, int adjCardinal1X, int adjCardinal1Z, int adjCardinal2X, int adjCardinal2Z)
 		{
 			return TouchPathEndModeUtility.IsCornerTouchAllowed(cornerX, cornerZ, adjCardinal1X, adjCardinal1Z, adjCardinal2X, adjCardinal2Z, this.map);
@@ -920,7 +920,7 @@ namespace Verse.AI
 		// Token: 0x02000A92 RID: 2706
 		internal struct CostNode
 		{
-			// Token: 0x06003C17 RID: 15383 RVA: 0x001FC112 File Offset: 0x001FA512
+			// Token: 0x06003C19 RID: 15385 RVA: 0x001FC1E6 File Offset: 0x001FA5E6
 			public CostNode(int index, int cost)
 			{
 				this.index = index;
@@ -956,7 +956,7 @@ namespace Verse.AI
 		// Token: 0x02000A94 RID: 2708
 		internal class CostNodeComparer : IComparer<PathFinder.CostNode>
 		{
-			// Token: 0x06003C19 RID: 15385 RVA: 0x001FC12C File Offset: 0x001FA52C
+			// Token: 0x06003C1B RID: 15387 RVA: 0x001FC200 File Offset: 0x001FA600
 			public int Compare(PathFinder.CostNode a, PathFinder.CostNode b)
 			{
 				return a.cost.CompareTo(b.cost);

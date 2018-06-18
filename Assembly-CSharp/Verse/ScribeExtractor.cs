@@ -4,10 +4,10 @@ using RimWorld.Planet;
 
 namespace Verse
 {
-	// Token: 0x02000D9E RID: 3486
+	// Token: 0x02000D9D RID: 3485
 	public static class ScribeExtractor
 	{
-		// Token: 0x06004DC5 RID: 19909 RVA: 0x00289394 File Offset: 0x00287794
+		// Token: 0x06004DC3 RID: 19907 RVA: 0x00289374 File Offset: 0x00287774
 		public static T ValueFromNode<T>(XmlNode subNode, T defaultValue)
 		{
 			T result;
@@ -46,7 +46,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004DC6 RID: 19910 RVA: 0x00289468 File Offset: 0x00287868
+		// Token: 0x06004DC4 RID: 19908 RVA: 0x00289448 File Offset: 0x00287848
 		public static T DefFromNode<T>(XmlNode subNode) where T : Def, new()
 		{
 			T result;
@@ -88,7 +88,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004DC7 RID: 19911 RVA: 0x0028956C File Offset: 0x0028796C
+		// Token: 0x06004DC5 RID: 19909 RVA: 0x0028954C File Offset: 0x0028794C
 		public static T DefFromNodeUnsafe<T>(XmlNode subNode)
 		{
 			return (T)((object)GenGeneric.InvokeStaticGenericMethod(typeof(ScribeExtractor), typeof(T), "DefFromNode", new object[]
@@ -97,7 +97,7 @@ namespace Verse
 			}));
 		}
 
-		// Token: 0x06004DC8 RID: 19912 RVA: 0x002895B0 File Offset: 0x002879B0
+		// Token: 0x06004DC6 RID: 19910 RVA: 0x00289590 File Offset: 0x00287990
 		public static T SaveableFromNode<T>(XmlNode subNode, object[] ctorArgs)
 		{
 			T result;
@@ -189,7 +189,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004DC9 RID: 19913 RVA: 0x00289898 File Offset: 0x00287C98
+		// Token: 0x06004DC7 RID: 19911 RVA: 0x00289878 File Offset: 0x00287C78
 		public static LocalTargetInfo LocalTargetInfoFromNode(XmlNode node, string label, LocalTargetInfo defaultValue)
 		{
 			LoadIDsWantedBank loadIDs = Scribe.loader.crossRefs.loadIDs;
@@ -215,7 +215,7 @@ namespace Verse
 			return defaultValue;
 		}
 
-		// Token: 0x06004DCA RID: 19914 RVA: 0x00289970 File Offset: 0x00287D70
+		// Token: 0x06004DC8 RID: 19912 RVA: 0x00289950 File Offset: 0x00287D50
 		public static TargetInfo TargetInfoFromNode(XmlNode node, string label, TargetInfo defaultValue)
 		{
 			LoadIDsWantedBank loadIDs = Scribe.loader.crossRefs.loadIDs;
@@ -247,7 +247,7 @@ namespace Verse
 			return defaultValue;
 		}
 
-		// Token: 0x06004DCB RID: 19915 RVA: 0x00289AA0 File Offset: 0x00287EA0
+		// Token: 0x06004DC9 RID: 19913 RVA: 0x00289A80 File Offset: 0x00287E80
 		public static GlobalTargetInfo GlobalTargetInfoFromNode(XmlNode node, string label, GlobalTargetInfo defaultValue)
 		{
 			LoadIDsWantedBank loadIDs = Scribe.loader.crossRefs.loadIDs;
@@ -297,7 +297,7 @@ namespace Verse
 			return defaultValue;
 		}
 
-		// Token: 0x06004DCC RID: 19916 RVA: 0x00289CF0 File Offset: 0x002880F0
+		// Token: 0x06004DCA RID: 19914 RVA: 0x00289CD0 File Offset: 0x002880D0
 		public static LocalTargetInfo ResolveLocalTargetInfo(LocalTargetInfo loaded, string label)
 		{
 			if (Scribe.EnterNode(label))
@@ -320,7 +320,7 @@ namespace Verse
 			return loaded;
 		}
 
-		// Token: 0x06004DCD RID: 19917 RVA: 0x00289D68 File Offset: 0x00288168
+		// Token: 0x06004DCB RID: 19915 RVA: 0x00289D48 File Offset: 0x00288148
 		public static TargetInfo ResolveTargetInfo(TargetInfo loaded, string label)
 		{
 			if (Scribe.EnterNode(label))
@@ -348,7 +348,7 @@ namespace Verse
 			return loaded;
 		}
 
-		// Token: 0x06004DCE RID: 19918 RVA: 0x00289E14 File Offset: 0x00288214
+		// Token: 0x06004DCC RID: 19916 RVA: 0x00289DF4 File Offset: 0x002881F4
 		public static GlobalTargetInfo ResolveGlobalTargetInfo(GlobalTargetInfo loaded, string label)
 		{
 			if (Scribe.EnterNode(label))
@@ -393,7 +393,7 @@ namespace Verse
 			return loaded;
 		}
 
-		// Token: 0x06004DCF RID: 19919 RVA: 0x00289F18 File Offset: 0x00288318
+		// Token: 0x06004DCD RID: 19917 RVA: 0x00289EF8 File Offset: 0x002882F8
 		public static BodyPartRecord BodyPartFromNode(XmlNode node, string label, BodyPartRecord defaultValue)
 		{
 			if (node != null && Scribe.EnterNode(label))
@@ -422,7 +422,7 @@ namespace Verse
 			return defaultValue;
 		}
 
-		// Token: 0x06004DD0 RID: 19920 RVA: 0x00289FF4 File Offset: 0x002883F4
+		// Token: 0x06004DCE RID: 19918 RVA: 0x00289FD4 File Offset: 0x002883D4
 		private static void ExtractCellAndMapPairFromTargetInfo(string str, out string cell, out string map)
 		{
 			int num = str.IndexOf(')');

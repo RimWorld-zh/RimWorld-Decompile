@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000EC3 RID: 3779
+	// Token: 0x02000EC2 RID: 3778
 	public class DiaNodeList
 	{
-		// Token: 0x06005944 RID: 22852 RVA: 0x002DB5C4 File Offset: 0x002D99C4
+		// Token: 0x06005942 RID: 22850 RVA: 0x002DB5FC File Offset: 0x002D99FC
 		public DiaNodeMold RandomNodeFromList()
 		{
 			List<DiaNodeMold> list = this.Nodes.ListFullCopy<DiaNodeMold>();
@@ -24,13 +24,13 @@ namespace Verse
 			return list.RandomElement<DiaNodeMold>();
 		}
 
-		// Token: 0x04003B99 RID: 15257
+		// Token: 0x04003B98 RID: 15256
 		public string Name = "NeedsName";
 
-		// Token: 0x04003B9A RID: 15258
+		// Token: 0x04003B99 RID: 15257
 		public List<DiaNodeMold> Nodes = new List<DiaNodeMold>();
 
-		// Token: 0x04003B9B RID: 15259
+		// Token: 0x04003B9A RID: 15258
 		public List<string> NodeNames = new List<string>();
 	}
 }

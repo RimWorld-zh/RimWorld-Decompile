@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000804 RID: 2052
 	public class Dialog_ManageOutfits : Window
 	{
-		// Token: 0x06002DC8 RID: 11720 RVA: 0x00181664 File Offset: 0x0017FA64
+		// Token: 0x06002DCA RID: 11722 RVA: 0x001816F8 File Offset: 0x0017FAF8
 		public Dialog_ManageOutfits(Outfit selectedOutfit)
 		{
 			this.forcePause = true;
@@ -25,8 +25,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700074F RID: 1871
-		// (get) Token: 0x06002DC9 RID: 11721 RVA: 0x001816D4 File Offset: 0x0017FAD4
-		// (set) Token: 0x06002DCA RID: 11722 RVA: 0x001816EF File Offset: 0x0017FAEF
+		// (get) Token: 0x06002DCB RID: 11723 RVA: 0x00181768 File Offset: 0x0017FB68
+		// (set) Token: 0x06002DCC RID: 11724 RVA: 0x00181783 File Offset: 0x0017FB83
 		private Outfit SelectedOutfit
 		{
 			get
@@ -41,7 +41,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000750 RID: 1872
-		// (get) Token: 0x06002DCB RID: 11723 RVA: 0x00181700 File Offset: 0x0017FB00
+		// (get) Token: 0x06002DCD RID: 11725 RVA: 0x00181794 File Offset: 0x0017FB94
 		public override Vector2 InitialSize
 		{
 			get
@@ -50,7 +50,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DCC RID: 11724 RVA: 0x00181724 File Offset: 0x0017FB24
+		// Token: 0x06002DCE RID: 11726 RVA: 0x001817B8 File Offset: 0x0017FBB8
 		private void CheckSelectedOutfitHasName()
 		{
 			if (this.SelectedOutfit != null && this.SelectedOutfit.label.NullOrEmpty())
@@ -59,7 +59,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DCD RID: 11725 RVA: 0x00181758 File Offset: 0x0017FB58
+		// Token: 0x06002DCF RID: 11727 RVA: 0x001817EC File Offset: 0x0017FBEC
 		public override void DoWindowContents(Rect inRect)
 		{
 			float num = 0f;
@@ -135,21 +135,21 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DCE RID: 11726 RVA: 0x00181AC8 File Offset: 0x0017FEC8
+		// Token: 0x06002DD0 RID: 11728 RVA: 0x00181B5C File Offset: 0x0017FF5C
 		private IEnumerable<SpecialThingFilterDef> HiddenSpecialThingFilters()
 		{
 			yield return SpecialThingFilterDefOf.AllowNonDeadmansApparel;
 			yield break;
 		}
 
-		// Token: 0x06002DCF RID: 11727 RVA: 0x00181AEB File Offset: 0x0017FEEB
+		// Token: 0x06002DD1 RID: 11729 RVA: 0x00181B7F File Offset: 0x0017FF7F
 		public override void PreClose()
 		{
 			base.PreClose();
 			this.CheckSelectedOutfitHasName();
 		}
 
-		// Token: 0x06002DD0 RID: 11728 RVA: 0x00181AFA File Offset: 0x0017FEFA
+		// Token: 0x06002DD2 RID: 11730 RVA: 0x00181B8E File Offset: 0x0017FF8E
 		public static void DoNameInputRect(Rect rect, ref string name)
 		{
 			name = Widgets.TextField(rect, name, 30, Outfit.ValidNameRegex);

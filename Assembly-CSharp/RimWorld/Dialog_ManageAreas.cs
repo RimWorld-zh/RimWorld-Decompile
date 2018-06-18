@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x02000802 RID: 2050
 	public class Dialog_ManageAreas : Window
 	{
-		// Token: 0x06002DB4 RID: 11700 RVA: 0x00180776 File Offset: 0x0017EB76
+		// Token: 0x06002DB6 RID: 11702 RVA: 0x0018080A File Offset: 0x0017EC0A
 		public Dialog_ManageAreas(Map map)
 		{
 			this.map = map;
@@ -21,7 +21,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700074C RID: 1868
-		// (get) Token: 0x06002DB5 RID: 11701 RVA: 0x001807AC File Offset: 0x0017EBAC
+		// (get) Token: 0x06002DB7 RID: 11703 RVA: 0x00180840 File Offset: 0x0017EC40
 		public override Vector2 InitialSize
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DB6 RID: 11702 RVA: 0x001807D0 File Offset: 0x0017EBD0
+		// Token: 0x06002DB8 RID: 11704 RVA: 0x00180864 File Offset: 0x0017EC64
 		public override void DoWindowContents(Rect inRect)
 		{
 			Listing_Standard listing_Standard = new Listing_Standard();
@@ -64,7 +64,7 @@ namespace RimWorld
 			listing_Standard.End();
 		}
 
-		// Token: 0x06002DB7 RID: 11703 RVA: 0x001808CC File Offset: 0x0017ECCC
+		// Token: 0x06002DB9 RID: 11705 RVA: 0x00180960 File Offset: 0x0017ED60
 		private static void DoAreaRow(Rect rect, Area area)
 		{
 			if (Mouse.IsOver(rect))
@@ -97,7 +97,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002DB8 RID: 11704 RVA: 0x001809C8 File Offset: 0x0017EDC8
+		// Token: 0x06002DBA RID: 11706 RVA: 0x00180A5C File Offset: 0x0017EE5C
 		public static void DoNameInputRect(Rect rect, ref string name, int maxLength)
 		{
 			string text = Widgets.TextField(rect, name);

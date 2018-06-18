@@ -9,7 +9,7 @@ namespace RimWorld
 	public class Blueprint_Build : Blueprint
 	{
 		// Token: 0x17000515 RID: 1301
-		// (get) Token: 0x060022BB RID: 8891 RVA: 0x0012AFF0 File Offset: 0x001293F0
+		// (get) Token: 0x060022BD RID: 8893 RVA: 0x0012B068 File Offset: 0x00129468
 		public override string Label
 		{
 			get
@@ -33,7 +33,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000516 RID: 1302
-		// (get) Token: 0x060022BC RID: 8892 RVA: 0x0012B040 File Offset: 0x00129440
+		// (get) Token: 0x060022BE RID: 8894 RVA: 0x0012B0B8 File Offset: 0x001294B8
 		protected override float WorkTotal
 		{
 			get
@@ -42,32 +42,32 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060022BD RID: 8893 RVA: 0x0012B070 File Offset: 0x00129470
+		// Token: 0x060022BF RID: 8895 RVA: 0x0012B0E8 File Offset: 0x001294E8
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Defs.Look<ThingDef>(ref this.stuffToUse, "stuffToUse");
 		}
 
-		// Token: 0x060022BE RID: 8894 RVA: 0x0012B08C File Offset: 0x0012948C
+		// Token: 0x060022C0 RID: 8896 RVA: 0x0012B104 File Offset: 0x00129504
 		public override ThingDef UIStuff()
 		{
 			return this.stuffToUse;
 		}
 
-		// Token: 0x060022BF RID: 8895 RVA: 0x0012B0A8 File Offset: 0x001294A8
+		// Token: 0x060022C1 RID: 8897 RVA: 0x0012B120 File Offset: 0x00129520
 		public override List<ThingDefCountClass> MaterialsNeeded()
 		{
 			return this.def.entityDefToBuild.CostListAdjusted(this.stuffToUse, true);
 		}
 
-		// Token: 0x060022C0 RID: 8896 RVA: 0x0012B0D4 File Offset: 0x001294D4
+		// Token: 0x060022C2 RID: 8898 RVA: 0x0012B14C File Offset: 0x0012954C
 		protected override Thing MakeSolidThing()
 		{
 			return ThingMaker.MakeThing(this.def.entityDefToBuild.frameDef, this.stuffToUse);
 		}
 
-		// Token: 0x060022C1 RID: 8897 RVA: 0x0012B104 File Offset: 0x00129504
+		// Token: 0x060022C3 RID: 8899 RVA: 0x0012B17C File Offset: 0x0012957C
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
@@ -89,7 +89,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060022C2 RID: 8898 RVA: 0x0012B130 File Offset: 0x00129530
+		// Token: 0x060022C4 RID: 8900 RVA: 0x0012B1A8 File Offset: 0x001295A8
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

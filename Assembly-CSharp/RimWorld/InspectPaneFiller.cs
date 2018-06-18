@@ -8,7 +8,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	internal class InspectPaneFiller
 	{
-		// Token: 0x06003088 RID: 12424 RVA: 0x001A581C File Offset: 0x001A3C1C
+		// Token: 0x0600308A RID: 12426 RVA: 0x001A58E4 File Offset: 0x001A3CE4
 		public static void DoPaneContentsFor(ISelectable sel, Rect rect)
 		{
 			try
@@ -53,7 +53,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003089 RID: 12425 RVA: 0x001A5930 File Offset: 0x001A3D30
+		// Token: 0x0600308B RID: 12427 RVA: 0x001A59F8 File Offset: 0x001A3DF8
 		public static void DrawHealth(WidgetRow row, Thing t)
 		{
 			Pawn pawn = t as Pawn;
@@ -94,7 +94,7 @@ namespace RimWorld
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x0600308A RID: 12426 RVA: 0x001A5A54 File Offset: 0x001A3E54
+		// Token: 0x0600308C RID: 12428 RVA: 0x001A5B1C File Offset: 0x001A3F1C
 		private static void DrawMood(WidgetRow row, Pawn pawn)
 		{
 			if (pawn.needs != null && pawn.needs.mood != null)
@@ -104,14 +104,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600308B RID: 12427 RVA: 0x001A5AD0 File Offset: 0x001A3ED0
+		// Token: 0x0600308D RID: 12429 RVA: 0x001A5B98 File Offset: 0x001A3F98
 		private static void DrawTimetableSetting(WidgetRow row, Pawn pawn)
 		{
 			row.Gap(6f);
 			row.FillableBar(93f, 16f, 1f, pawn.timetable.CurrentAssignment.LabelCap, pawn.timetable.CurrentAssignment.ColorTexture, null);
 		}
 
-		// Token: 0x0600308C RID: 12428 RVA: 0x001A5B20 File Offset: 0x001A3F20
+		// Token: 0x0600308E RID: 12430 RVA: 0x001A5BE8 File Offset: 0x001A3FE8
 		private static void DrawAreaAllowed(WidgetRow row, Pawn pawn)
 		{
 			if (pawn.playerSettings != null && pawn.playerSettings.RespectsAllowedArea)
@@ -147,7 +147,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600308D RID: 12429 RVA: 0x001A5C50 File Offset: 0x001A4050
+		// Token: 0x0600308F RID: 12431 RVA: 0x001A5D18 File Offset: 0x001A4118
 		public static void DrawInspectStringFor(ISelectable sel, Rect rect)
 		{
 			string text;
@@ -184,14 +184,14 @@ namespace RimWorld
 			InspectPaneFiller.DrawInspectString(text, rect);
 		}
 
-		// Token: 0x0600308E RID: 12430 RVA: 0x001A5D34 File Offset: 0x001A4134
+		// Token: 0x06003090 RID: 12432 RVA: 0x001A5DFC File Offset: 0x001A41FC
 		public static void DrawInspectString(string str, Rect rect)
 		{
 			Text.Font = GameFont.Small;
 			Widgets.LabelScrollable(rect, str, ref InspectPaneFiller.inspectStringScrollPos, true);
 		}
 
-		// Token: 0x0600308F RID: 12431 RVA: 0x001A5D4C File Offset: 0x001A414C
+		// Token: 0x06003091 RID: 12433 RVA: 0x001A5E14 File Offset: 0x001A4214
 		// Note: this type is marked as 'beforefieldinit'.
 		static InspectPaneFiller()
 		{

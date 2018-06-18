@@ -6,7 +6,7 @@ namespace Verse
 	public class PawnCapacityModifier
 	{
 		// Token: 0x17000994 RID: 2452
-		// (get) Token: 0x06003F46 RID: 16198 RVA: 0x00214E44 File Offset: 0x00213244
+		// (get) Token: 0x06003F48 RID: 16200 RVA: 0x00214F18 File Offset: 0x00213318
 		public bool SetMaxDefined
 		{
 			get

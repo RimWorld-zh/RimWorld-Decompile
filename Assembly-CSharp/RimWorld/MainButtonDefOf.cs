@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class MainButtonDefOf
 	{
-		// Token: 0x06003631 RID: 13873 RVA: 0x001D0725 File Offset: 0x001CEB25
+		// Token: 0x06003633 RID: 13875 RVA: 0x001D07ED File Offset: 0x001CEBED
 		static MainButtonDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(MainButtonDefOf));

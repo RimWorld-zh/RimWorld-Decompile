@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200080D RID: 2061
 	public class Dialog_NodeTreeWithFactionInfo : Dialog_NodeTree
 	{
-		// Token: 0x06002DF4 RID: 11764 RVA: 0x00182D34 File Offset: 0x00181134
+		// Token: 0x06002DF6 RID: 11766 RVA: 0x00182DC8 File Offset: 0x001811C8
 		public Dialog_NodeTreeWithFactionInfo(DiaNode nodeRoot, Faction faction, bool delayInteractivity = false, bool radioMode = false, string title = null) : base(nodeRoot, delayInteractivity, radioMode, title)
 		{
 			this.faction = faction;
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DF5 RID: 11765 RVA: 0x00182D5C File Offset: 0x0018115C
+		// Token: 0x06002DF7 RID: 11767 RVA: 0x00182DF0 File Offset: 0x001811F0
 		public override void DoWindowContents(Rect inRect)
 		{
 			base.DoWindowContents(inRect);
@@ -27,7 +27,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DF6 RID: 11766 RVA: 0x00182DB0 File Offset: 0x001811B0
+		// Token: 0x06002DF8 RID: 11768 RVA: 0x00182E44 File Offset: 0x00181244
 		private void DrawFactionInfo(Rect rect, Faction faction)
 		{
 			Text.Anchor = TextAnchor.LowerRight;

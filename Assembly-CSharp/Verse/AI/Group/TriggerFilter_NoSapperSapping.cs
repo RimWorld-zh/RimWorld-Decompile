@@ -6,7 +6,7 @@ namespace Verse.AI.Group
 	// Token: 0x02000A0E RID: 2574
 	public class TriggerFilter_NoSapperSapping : TriggerFilter
 	{
-		// Token: 0x06003993 RID: 14739 RVA: 0x001E7AB0 File Offset: 0x001E5EB0
+		// Token: 0x06003995 RID: 14741 RVA: 0x001E7B84 File Offset: 0x001E5F84
 		public override bool AllowActivation(Lord lord, TriggerSignal signal)
 		{
 			for (int i = 0; i < lord.ownedPawns.Count; i++)

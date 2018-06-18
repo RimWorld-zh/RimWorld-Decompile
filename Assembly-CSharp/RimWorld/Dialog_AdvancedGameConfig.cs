@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x020007F7 RID: 2039
 	public class Dialog_AdvancedGameConfig : Window
 	{
-		// Token: 0x06002D30 RID: 11568 RVA: 0x0017B5DE File Offset: 0x001799DE
+		// Token: 0x06002D32 RID: 11570 RVA: 0x0017B672 File Offset: 0x00179A72
 		public Dialog_AdvancedGameConfig(int selTile)
 		{
 			this.doCloseButton = true;
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000726 RID: 1830
-		// (get) Token: 0x06002D31 RID: 11569 RVA: 0x0017B60C File Offset: 0x00179A0C
+		// (get) Token: 0x06002D33 RID: 11571 RVA: 0x0017B6A0 File Offset: 0x00179AA0
 		public override Vector2 InitialSize
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D32 RID: 11570 RVA: 0x0017B630 File Offset: 0x00179A30
+		// Token: 0x06002D34 RID: 11572 RVA: 0x0017B6C4 File Offset: 0x00179AC4
 		public override void DoWindowContents(Rect inRect)
 		{
 			Listing_Standard listing_Standard = new Listing_Standard();

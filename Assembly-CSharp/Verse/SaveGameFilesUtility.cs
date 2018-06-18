@@ -4,16 +4,16 @@ using System.Linq;
 
 namespace Verse
 {
-	// Token: 0x02000D93 RID: 3475
+	// Token: 0x02000D92 RID: 3474
 	public static class SaveGameFilesUtility
 	{
-		// Token: 0x06004DA2 RID: 19874 RVA: 0x002882D0 File Offset: 0x002866D0
+		// Token: 0x06004DA0 RID: 19872 RVA: 0x002882B0 File Offset: 0x002866B0
 		public static bool IsAutoSave(string fileName)
 		{
 			return fileName.Length >= 8 && fileName.Substring(0, 8) == "Autosave";
 		}
 
-		// Token: 0x06004DA3 RID: 19875 RVA: 0x0028830C File Offset: 0x0028670C
+		// Token: 0x06004DA1 RID: 19873 RVA: 0x002882EC File Offset: 0x002866EC
 		public static bool SavedGameNamedExists(string fileName)
 		{
 			foreach (string a in from f in GenFilePaths.AllSavedGameFiles
@@ -27,7 +27,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004DA4 RID: 19876 RVA: 0x002883A0 File Offset: 0x002867A0
+		// Token: 0x06004DA2 RID: 19874 RVA: 0x00288380 File Offset: 0x00286780
 		public static string UnusedDefaultFileName(string factionLabel)
 		{
 			int num = 1;
@@ -41,7 +41,7 @@ namespace Verse
 			return text;
 		}
 
-		// Token: 0x06004DA5 RID: 19877 RVA: 0x002883E4 File Offset: 0x002867E4
+		// Token: 0x06004DA3 RID: 19875 RVA: 0x002883C4 File Offset: 0x002867C4
 		public static FileInfo GetAutostartSaveFile()
 		{
 			FileInfo result;

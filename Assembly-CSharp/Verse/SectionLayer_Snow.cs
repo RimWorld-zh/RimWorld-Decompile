@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C4C RID: 3148
+	// Token: 0x02000C4B RID: 3147
 	internal class SectionLayer_Snow : SectionLayer
 	{
-		// Token: 0x0600454C RID: 17740 RVA: 0x00248C5A File Offset: 0x0024705A
+		// Token: 0x0600454A RID: 17738 RVA: 0x00248C32 File Offset: 0x00247032
 		public SectionLayer_Snow(Section section) : base(section)
 		{
 			this.relevantChangeTypes = MapMeshFlag.Snow;
 		}
 
-		// Token: 0x17000AEE RID: 2798
-		// (get) Token: 0x0600454D RID: 17741 RVA: 0x00248C7C File Offset: 0x0024707C
+		// Token: 0x17000AED RID: 2797
+		// (get) Token: 0x0600454B RID: 17739 RVA: 0x00248C54 File Offset: 0x00247054
 		public override bool Visible
 		{
 			get
@@ -22,14 +22,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600454E RID: 17742 RVA: 0x00248C98 File Offset: 0x00247098
+		// Token: 0x0600454C RID: 17740 RVA: 0x00248C70 File Offset: 0x00247070
 		private bool Filled(int index)
 		{
 			Building building = base.Map.edificeGrid[index];
 			return building != null && building.def.Fillage == FillCategory.Full;
 		}
 
-		// Token: 0x0600454F RID: 17743 RVA: 0x00248CD8 File Offset: 0x002470D8
+		// Token: 0x0600454D RID: 17741 RVA: 0x00248CB0 File Offset: 0x002470B0
 		public override void Regenerate()
 		{
 			LayerSubMesh subMesh = base.GetSubMesh(MatBases.Snow);
@@ -95,19 +95,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004550 RID: 17744 RVA: 0x0024903C File Offset: 0x0024743C
+		// Token: 0x0600454E RID: 17742 RVA: 0x00249014 File Offset: 0x00247414
 		private static Color32 SnowDepthColor(float snowDepth)
 		{
 			return Color32.Lerp(SectionLayer_Snow.ColorClear, SectionLayer_Snow.ColorWhite, snowDepth);
 		}
 
-		// Token: 0x04002F5D RID: 12125
+		// Token: 0x04002F5B RID: 12123
 		private float[] vertDepth = new float[9];
 
-		// Token: 0x04002F5E RID: 12126
+		// Token: 0x04002F5C RID: 12124
 		private static readonly Color32 ColorClear = new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, 0);
 
-		// Token: 0x04002F5F RID: 12127
+		// Token: 0x04002F5D RID: 12125
 		private static readonly Color32 ColorWhite = new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue);
 	}
 }

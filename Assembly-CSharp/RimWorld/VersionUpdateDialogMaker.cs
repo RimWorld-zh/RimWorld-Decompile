@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020009D3 RID: 2515
 	public static class VersionUpdateDialogMaker
 	{
-		// Token: 0x0600385E RID: 14430 RVA: 0x001E0508 File Offset: 0x001DE908
+		// Token: 0x06003860 RID: 14432 RVA: 0x001E05DC File Offset: 0x001DE9DC
 		public static void CreateVersionUpdateDialogIfNecessary()
 		{
 			if (!VersionUpdateDialogMaker.dialogDone && LastPlayedVersion.Version != null && (VersionControl.CurrentMajor != LastPlayedVersion.Version.Major || VersionControl.CurrentMinor != LastPlayedVersion.Version.Minor))
@@ -15,7 +15,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600385F RID: 14431 RVA: 0x001E0560 File Offset: 0x001DE960
+		// Token: 0x06003861 RID: 14433 RVA: 0x001E0634 File Offset: 0x001DEA34
 		private static void CreateNewVersionDialog()
 		{
 			string text = LastPlayedVersion.Version.Major + "." + LastPlayedVersion.Version.Minor;

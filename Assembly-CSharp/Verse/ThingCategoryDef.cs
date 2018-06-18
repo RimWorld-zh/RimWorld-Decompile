@@ -8,7 +8,7 @@ namespace Verse
 	public class ThingCategoryDef : Def
 	{
 		// Token: 0x170009DE RID: 2526
-		// (get) Token: 0x0600407B RID: 16507 RVA: 0x0021E214 File Offset: 0x0021C614
+		// (get) Token: 0x0600407D RID: 16509 RVA: 0x0021E2E8 File Offset: 0x0021C6E8
 		public IEnumerable<ThingCategoryDef> Parents
 		{
 			get
@@ -26,7 +26,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009DF RID: 2527
-		// (get) Token: 0x0600407C RID: 16508 RVA: 0x0021E240 File Offset: 0x0021C640
+		// (get) Token: 0x0600407E RID: 16510 RVA: 0x0021E314 File Offset: 0x0021C714
 		public IEnumerable<ThingCategoryDef> ThisAndChildCategoryDefs
 		{
 			get
@@ -44,7 +44,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009E0 RID: 2528
-		// (get) Token: 0x0600407D RID: 16509 RVA: 0x0021E26C File Offset: 0x0021C66C
+		// (get) Token: 0x0600407F RID: 16511 RVA: 0x0021E340 File Offset: 0x0021C740
 		public IEnumerable<ThingDef> DescendantThingDefs
 		{
 			get
@@ -61,7 +61,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009E1 RID: 2529
-		// (get) Token: 0x0600407E RID: 16510 RVA: 0x0021E298 File Offset: 0x0021C698
+		// (get) Token: 0x06004080 RID: 16512 RVA: 0x0021E36C File Offset: 0x0021C76C
 		public IEnumerable<SpecialThingFilterDef> DescendantSpecialThingFilterDefs
 		{
 			get
@@ -78,7 +78,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009E2 RID: 2530
-		// (get) Token: 0x0600407F RID: 16511 RVA: 0x0021E2C4 File Offset: 0x0021C6C4
+		// (get) Token: 0x06004081 RID: 16513 RVA: 0x0021E398 File Offset: 0x0021C798
 		public IEnumerable<SpecialThingFilterDef> ParentsSpecialThingFilterDefs
 		{
 			get
@@ -94,7 +94,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004080 RID: 16512 RVA: 0x0021E2EE File Offset: 0x0021C6EE
+		// Token: 0x06004082 RID: 16514 RVA: 0x0021E3C2 File Offset: 0x0021C7C2
 		public override void PostLoad()
 		{
 			this.treeNode = new TreeNode_ThingCategory(this);
@@ -107,13 +107,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004081 RID: 16513 RVA: 0x0021E320 File Offset: 0x0021C720
+		// Token: 0x06004083 RID: 16515 RVA: 0x0021E3F4 File Offset: 0x0021C7F4
 		public static ThingCategoryDef Named(string defName)
 		{
 			return DefDatabase<ThingCategoryDef>.GetNamed(defName, true);
 		}
 
-		// Token: 0x06004082 RID: 16514 RVA: 0x0021E33C File Offset: 0x0021C73C
+		// Token: 0x06004084 RID: 16516 RVA: 0x0021E410 File Offset: 0x0021C810
 		public override int GetHashCode()
 		{
 			return this.defName.GetHashCode();

@@ -4,12 +4,12 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000DCC RID: 3532
+	// Token: 0x02000DCB RID: 3531
 	public class RectTrigger : Thing
 	{
-		// Token: 0x17000CC6 RID: 3270
-		// (get) Token: 0x06004EF6 RID: 20214 RVA: 0x00292730 File Offset: 0x00290B30
-		// (set) Token: 0x06004EF7 RID: 20215 RVA: 0x0029274B File Offset: 0x00290B4B
+		// Token: 0x17000CC5 RID: 3269
+		// (get) Token: 0x06004EF4 RID: 20212 RVA: 0x00292710 File Offset: 0x00290B10
+		// (set) Token: 0x06004EF5 RID: 20213 RVA: 0x0029272B File Offset: 0x00290B2B
 		public CellRect Rect
 		{
 			get
@@ -26,14 +26,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EF8 RID: 20216 RVA: 0x00292772 File Offset: 0x00290B72
+		// Token: 0x06004EF6 RID: 20214 RVA: 0x00292752 File Offset: 0x00290B52
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
 			this.rect.ClipInsideMap(base.Map);
 		}
 
-		// Token: 0x06004EF9 RID: 20217 RVA: 0x00292790 File Offset: 0x00290B90
+		// Token: 0x06004EF7 RID: 20215 RVA: 0x00292770 File Offset: 0x00290B70
 		public override void Tick()
 		{
 			if (this.destroyIfUnfogged && !this.rect.CenterCell.Fogged(base.Map))
@@ -62,7 +62,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EFA RID: 20218 RVA: 0x002928D1 File Offset: 0x00290CD1
+		// Token: 0x06004EF8 RID: 20216 RVA: 0x002928B1 File Offset: 0x00290CB1
 		public void ActivatedBy(Pawn p)
 		{
 			Find.SignalManager.SendSignal(new Signal(this.signalTag, new object[]
@@ -75,7 +75,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EFB RID: 20219 RVA: 0x00292908 File Offset: 0x00290D08
+		// Token: 0x06004EF9 RID: 20217 RVA: 0x002928E8 File Offset: 0x00290CE8
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -85,16 +85,16 @@ namespace Verse
 			Scribe_Values.Look<string>(ref this.signalTag, "signalTag", null, false);
 		}
 
-		// Token: 0x04003483 RID: 13443
+		// Token: 0x04003481 RID: 13441
 		private CellRect rect;
 
-		// Token: 0x04003484 RID: 13444
+		// Token: 0x04003482 RID: 13442
 		public bool destroyIfUnfogged;
 
-		// Token: 0x04003485 RID: 13445
+		// Token: 0x04003483 RID: 13443
 		public bool activateOnExplosion;
 
-		// Token: 0x04003486 RID: 13446
+		// Token: 0x04003484 RID: 13444
 		public string signalTag;
 	}
 }

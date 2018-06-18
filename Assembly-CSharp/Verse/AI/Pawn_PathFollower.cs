@@ -8,14 +8,14 @@ namespace Verse.AI
 	// Token: 0x02000A9B RID: 2715
 	public class Pawn_PathFollower : IExposable
 	{
-		// Token: 0x06003C42 RID: 15426 RVA: 0x001FD16C File Offset: 0x001FB56C
+		// Token: 0x06003C44 RID: 15428 RVA: 0x001FD240 File Offset: 0x001FB640
 		public Pawn_PathFollower(Pawn newPawn)
 		{
 			this.pawn = newPawn;
 		}
 
 		// Token: 0x17000924 RID: 2340
-		// (get) Token: 0x06003C43 RID: 15427 RVA: 0x001FD1D8 File Offset: 0x001FB5D8
+		// (get) Token: 0x06003C45 RID: 15429 RVA: 0x001FD2AC File Offset: 0x001FB6AC
 		public LocalTargetInfo Destination
 		{
 			get
@@ -25,7 +25,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x17000925 RID: 2341
-		// (get) Token: 0x06003C44 RID: 15428 RVA: 0x001FD1F4 File Offset: 0x001FB5F4
+		// (get) Token: 0x06003C46 RID: 15430 RVA: 0x001FD2C8 File Offset: 0x001FB6C8
 		public bool Moving
 		{
 			get
@@ -35,7 +35,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x17000926 RID: 2342
-		// (get) Token: 0x06003C45 RID: 15429 RVA: 0x001FD210 File Offset: 0x001FB610
+		// (get) Token: 0x06003C47 RID: 15431 RVA: 0x001FD2E4 File Offset: 0x001FB6E4
 		public bool MovingNow
 		{
 			get
@@ -45,7 +45,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x17000927 RID: 2343
-		// (get) Token: 0x06003C46 RID: 15430 RVA: 0x001FD23C File Offset: 0x001FB63C
+		// (get) Token: 0x06003C48 RID: 15432 RVA: 0x001FD310 File Offset: 0x001FB710
 		public IntVec3 LastPassableCellInPath
 		{
 			get
@@ -82,7 +82,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003C47 RID: 15431 RVA: 0x001FD334 File Offset: 0x001FB734
+		// Token: 0x06003C49 RID: 15433 RVA: 0x001FD408 File Offset: 0x001FB808
 		public void ExposeData()
 		{
 			Scribe_Values.Look<bool>(ref this.moving, "moving", true, false);
@@ -98,7 +98,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003C48 RID: 15432 RVA: 0x001FD3F0 File Offset: 0x001FB7F0
+		// Token: 0x06003C4A RID: 15434 RVA: 0x001FD4C4 File Offset: 0x001FB8C4
 		public void StartPath(LocalTargetInfo dest, PathEndMode peMode)
 		{
 			dest = (LocalTargetInfo)GenPath.ResolvePathMode(this.pawn, dest.ToTargetInfo(this.pawn.Map), ref peMode);
@@ -158,7 +158,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003C49 RID: 15433 RVA: 0x001FD61B File Offset: 0x001FBA1B
+		// Token: 0x06003C4B RID: 15435 RVA: 0x001FD6EF File Offset: 0x001FBAEF
 		public void StopDead()
 		{
 			if (this.curPath != null)
@@ -170,7 +170,7 @@ namespace Verse.AI
 			this.nextCell = this.pawn.Position;
 		}
 
-		// Token: 0x06003C4A RID: 15434 RVA: 0x001FD654 File Offset: 0x001FBA54
+		// Token: 0x06003C4C RID: 15436 RVA: 0x001FD728 File Offset: 0x001FBB28
 		public void PatherTick()
 		{
 			if (this.WillCollideWithPawnAt(this.pawn.Position))
@@ -234,7 +234,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003C4B RID: 15435 RVA: 0x001FD894 File Offset: 0x001FBC94
+		// Token: 0x06003C4D RID: 15437 RVA: 0x001FD968 File Offset: 0x001FBD68
 		public void TryResumePathingAfterLoading()
 		{
 			if (this.moving)
@@ -243,20 +243,20 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003C4C RID: 15436 RVA: 0x001FD8B6 File Offset: 0x001FBCB6
+		// Token: 0x06003C4E RID: 15438 RVA: 0x001FD98A File Offset: 0x001FBD8A
 		public void Notify_Teleported_Int()
 		{
 			this.StopDead();
 			this.ResetToCurrentPosition();
 		}
 
-		// Token: 0x06003C4D RID: 15437 RVA: 0x001FD8C5 File Offset: 0x001FBCC5
+		// Token: 0x06003C4F RID: 15439 RVA: 0x001FD999 File Offset: 0x001FBD99
 		public void ResetToCurrentPosition()
 		{
 			this.nextCell = this.pawn.Position;
 		}
 
-		// Token: 0x06003C4E RID: 15438 RVA: 0x001FD8DC File Offset: 0x001FBCDC
+		// Token: 0x06003C50 RID: 15440 RVA: 0x001FD9B0 File Offset: 0x001FBDB0
 		private bool PawnCanOccupy(IntVec3 c)
 		{
 			bool result;
@@ -280,7 +280,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C4F RID: 15439 RVA: 0x001FD95C File Offset: 0x001FBD5C
+		// Token: 0x06003C51 RID: 15441 RVA: 0x001FDA30 File Offset: 0x001FBE30
 		public Building BuildingBlockingNextPathCell()
 		{
 			Building edifice = this.nextCell.GetEdifice(this.pawn.Map);
@@ -296,25 +296,25 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C50 RID: 15440 RVA: 0x001FD9A8 File Offset: 0x001FBDA8
+		// Token: 0x06003C52 RID: 15442 RVA: 0x001FDA7C File Offset: 0x001FBE7C
 		public bool WillCollideWithPawnOnNextPathCell()
 		{
 			return this.WillCollideWithPawnAt(this.nextCell);
 		}
 
-		// Token: 0x06003C51 RID: 15441 RVA: 0x001FD9CC File Offset: 0x001FBDCC
+		// Token: 0x06003C53 RID: 15443 RVA: 0x001FDAA0 File Offset: 0x001FBEA0
 		private bool IsNextCellWalkable()
 		{
 			return this.nextCell.Walkable(this.pawn.Map) && !this.WillCollideWithPawnAt(this.nextCell);
 		}
 
-		// Token: 0x06003C52 RID: 15442 RVA: 0x001FDA1C File Offset: 0x001FBE1C
+		// Token: 0x06003C54 RID: 15444 RVA: 0x001FDAF0 File Offset: 0x001FBEF0
 		private bool WillCollideWithPawnAt(IntVec3 c)
 		{
 			return PawnUtility.ShouldCollideWithPawns(this.pawn) && PawnUtility.AnyPawnBlockingPathAt(c, this.pawn, false, false, false);
 		}
 
-		// Token: 0x06003C53 RID: 15443 RVA: 0x001FDA58 File Offset: 0x001FBE58
+		// Token: 0x06003C55 RID: 15445 RVA: 0x001FDB2C File Offset: 0x001FBF2C
 		public Building_Door NextCellDoorToManuallyOpen()
 		{
 			Building_Door building_Door = this.pawn.Map.thingGrid.ThingAt<Building_Door>(this.nextCell);
@@ -330,7 +330,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C54 RID: 15444 RVA: 0x001FDABF File Offset: 0x001FBEBF
+		// Token: 0x06003C56 RID: 15446 RVA: 0x001FDB93 File Offset: 0x001FBF93
 		public void PatherDraw()
 		{
 			if (DebugViewSettings.drawPaths && this.curPath != null && Find.Selector.IsSelected(this.pawn))
@@ -339,13 +339,13 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003C55 RID: 15445 RVA: 0x001FDB00 File Offset: 0x001FBF00
+		// Token: 0x06003C57 RID: 15447 RVA: 0x001FDBD4 File Offset: 0x001FBFD4
 		public bool MovedRecently(int ticks)
 		{
 			return Find.TickManager.TicksGame - this.lastMovedTick <= ticks;
 		}
 
-		// Token: 0x06003C56 RID: 15446 RVA: 0x001FDB2C File Offset: 0x001FBF2C
+		// Token: 0x06003C58 RID: 15448 RVA: 0x001FDC00 File Offset: 0x001FC000
 		public bool TryRecoverFromUnwalkablePosition(bool error = true)
 		{
 			bool flag = false;
@@ -394,7 +394,7 @@ namespace Verse.AI
 			return flag;
 		}
 
-		// Token: 0x06003C57 RID: 15447 RVA: 0x001FDC6A File Offset: 0x001FC06A
+		// Token: 0x06003C59 RID: 15449 RVA: 0x001FDD3E File Offset: 0x001FC13E
 		private void PatherArrived()
 		{
 			this.StopDead();
@@ -404,14 +404,14 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003C58 RID: 15448 RVA: 0x001FDC9D File Offset: 0x001FC09D
+		// Token: 0x06003C5A RID: 15450 RVA: 0x001FDD71 File Offset: 0x001FC171
 		private void PatherFailed()
 		{
 			this.StopDead();
 			this.pawn.jobs.curDriver.Notify_PatherFailed();
 		}
 
-		// Token: 0x06003C59 RID: 15449 RVA: 0x001FDCBC File Offset: 0x001FC0BC
+		// Token: 0x06003C5B RID: 15451 RVA: 0x001FDD90 File Offset: 0x001FC190
 		private void TryEnterNextPathCell()
 		{
 			Building building = this.BuildingBlockingNextPathCell();
@@ -489,7 +489,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003C5A RID: 15450 RVA: 0x001FDF4C File Offset: 0x001FC34C
+		// Token: 0x06003C5C RID: 15452 RVA: 0x001FE020 File Offset: 0x001FC420
 		private void SetupMoveIntoNextCell()
 		{
 			if (this.curPath.NodesLeftCount <= 1)
@@ -529,13 +529,13 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003C5B RID: 15451 RVA: 0x001FE07C File Offset: 0x001FC47C
+		// Token: 0x06003C5D RID: 15453 RVA: 0x001FE150 File Offset: 0x001FC550
 		private int CostToMoveIntoCell(IntVec3 c)
 		{
 			return Pawn_PathFollower.CostToMoveIntoCell(this.pawn, c);
 		}
 
-		// Token: 0x06003C5C RID: 15452 RVA: 0x001FE0A0 File Offset: 0x001FC4A0
+		// Token: 0x06003C5E RID: 15454 RVA: 0x001FE174 File Offset: 0x001FC574
 		private static int CostToMoveIntoCell(Pawn pawn, IntVec3 c)
 		{
 			int num;
@@ -598,7 +598,7 @@ namespace Verse.AI
 			return Mathf.Max(num, 1);
 		}
 
-		// Token: 0x06003C5D RID: 15453 RVA: 0x001FE218 File Offset: 0x001FC618
+		// Token: 0x06003C5F RID: 15455 RVA: 0x001FE2EC File Offset: 0x001FC6EC
 		private float CostToPayThisTick()
 		{
 			float num = 1f;
@@ -613,7 +613,7 @@ namespace Verse.AI
 			return num;
 		}
 
-		// Token: 0x06003C5E RID: 15454 RVA: 0x001FE270 File Offset: 0x001FC670
+		// Token: 0x06003C60 RID: 15456 RVA: 0x001FE344 File Offset: 0x001FC744
 		private bool TrySetNewPath()
 		{
 			PawnPath pawnPath = this.GenerateNewPath();
@@ -656,20 +656,20 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C5F RID: 15455 RVA: 0x001FE390 File Offset: 0x001FC790
+		// Token: 0x06003C61 RID: 15457 RVA: 0x001FE464 File Offset: 0x001FC864
 		private PawnPath GenerateNewPath()
 		{
 			this.lastPathedTargetPosition = this.destination.Cell;
 			return this.pawn.Map.pathFinder.FindPath(this.pawn.Position, this.destination, this.pawn, this.peMode);
 		}
 
-		// Token: 0x06003C60 RID: 15456 RVA: 0x001FE3E8 File Offset: 0x001FC7E8
+		// Token: 0x06003C62 RID: 15458 RVA: 0x001FE4BC File Offset: 0x001FC8BC
 		private bool AtDestinationPosition()
 		{
 			return this.pawn.CanReachImmediate(this.destination, this.peMode);
 		}
 
-		// Token: 0x06003C61 RID: 15457 RVA: 0x001FE414 File Offset: 0x001FC814
+		// Token: 0x06003C63 RID: 15459 RVA: 0x001FE4E8 File Offset: 0x001FC8E8
 		private bool NeedNewPath()
 		{
 			bool result;
@@ -759,19 +759,19 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C62 RID: 15458 RVA: 0x001FE770 File Offset: 0x001FCB70
+		// Token: 0x06003C64 RID: 15460 RVA: 0x001FE844 File Offset: 0x001FCC44
 		private bool BestPathHadPawnsInTheWayRecently()
 		{
 			return this.foundPathWhichCollidesWithPawns + 240 > Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x06003C63 RID: 15459 RVA: 0x001FE7A0 File Offset: 0x001FCBA0
+		// Token: 0x06003C65 RID: 15461 RVA: 0x001FE874 File Offset: 0x001FCC74
 		private bool BestPathHadDangerRecently()
 		{
 			return this.foundPathWithDanger + 240 > Find.TickManager.TicksGame;
 		}
 
-		// Token: 0x06003C64 RID: 15460 RVA: 0x001FE7D0 File Offset: 0x001FCBD0
+		// Token: 0x06003C66 RID: 15462 RVA: 0x001FE8A4 File Offset: 0x001FCCA4
 		private bool FailedToFindCloseUnoccupiedCellRecently()
 		{
 			return this.failedToFindCloseUnoccupiedCellTicks + 100 > Find.TickManager.TicksGame;

@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000844 RID: 2116
 	public static class TimeControls
 	{
-		// Token: 0x06002FD4 RID: 12244 RVA: 0x0019E9E4 File Offset: 0x0019CDE4
+		// Token: 0x06002FD6 RID: 12246 RVA: 0x0019EAAC File Offset: 0x0019CEAC
 		private static void PlaySoundOf(TimeSpeed speed)
 		{
 			SoundDef soundDef = null;
@@ -36,7 +36,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FD5 RID: 12245 RVA: 0x0019EA58 File Offset: 0x0019CE58
+		// Token: 0x06002FD7 RID: 12247 RVA: 0x0019EB20 File Offset: 0x0019CF20
 		public static void DoTimeControlsGUI(Rect timerRect)
 		{
 			TickManager tickManager = Find.TickManager;

@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200051A RID: 1306
 	public class Pawn_RecordsTracker : IExposable
 	{
-		// Token: 0x060017AC RID: 6060 RVA: 0x000CEC7C File Offset: 0x000CD07C
+		// Token: 0x060017AD RID: 6061 RVA: 0x000CECD0 File Offset: 0x000CD0D0
 		public Pawn_RecordsTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000345 RID: 837
-		// (get) Token: 0x060017AD RID: 6061 RVA: 0x000CECFC File Offset: 0x000CD0FC
+		// (get) Token: 0x060017AE RID: 6062 RVA: 0x000CED50 File Offset: 0x000CD150
 		public float StoryRelevance
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000346 RID: 838
-		// (get) Token: 0x060017AE RID: 6062 RVA: 0x000CED20 File Offset: 0x000CD120
+		// (get) Token: 0x060017AF RID: 6063 RVA: 0x000CED74 File Offset: 0x000CD174
 		public Battle BattleActive
 		{
 			get
@@ -56,7 +56,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000347 RID: 839
-		// (get) Token: 0x060017AF RID: 6063 RVA: 0x000CED94 File Offset: 0x000CD194
+		// (get) Token: 0x060017B0 RID: 6064 RVA: 0x000CEDE8 File Offset: 0x000CD1E8
 		public int LastBattleTick
 		{
 			get
@@ -65,7 +65,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017B0 RID: 6064 RVA: 0x000CEDAF File Offset: 0x000CD1AF
+		// Token: 0x060017B1 RID: 6065 RVA: 0x000CEE03 File Offset: 0x000CD203
 		public void RecordsTick()
 		{
 			if (!this.pawn.Dead)
@@ -78,13 +78,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017B1 RID: 6065 RVA: 0x000CEDEF File Offset: 0x000CD1EF
+		// Token: 0x060017B2 RID: 6066 RVA: 0x000CEE43 File Offset: 0x000CD243
 		public void RecordsTickMothballed(int interval)
 		{
 			this.RecordsTickUpdate(interval);
 		}
 
-		// Token: 0x060017B2 RID: 6066 RVA: 0x000CEDFC File Offset: 0x000CD1FC
+		// Token: 0x060017B3 RID: 6067 RVA: 0x000CEE50 File Offset: 0x000CD250
 		private void RecordsTickUpdate(int interval)
 		{
 			List<RecordDef> allDefsListForReading = DefDatabase<RecordDef>.AllDefsListForReading;
@@ -103,7 +103,7 @@ namespace RimWorld
 			this.storyRelevance *= Math.Pow(0.20000000298023224, (double)(0 * interval));
 		}
 
-		// Token: 0x060017B3 RID: 6067 RVA: 0x000CEE98 File Offset: 0x000CD298
+		// Token: 0x060017B4 RID: 6068 RVA: 0x000CEEEC File Offset: 0x000CD2EC
 		public void Increment(RecordDef def)
 		{
 			if (def.type != RecordType.Int)
@@ -123,7 +123,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017B4 RID: 6068 RVA: 0x000CEF1C File Offset: 0x000CD31C
+		// Token: 0x060017B5 RID: 6069 RVA: 0x000CEF70 File Offset: 0x000CD370
 		public void AddTo(RecordDef def, float value)
 		{
 			if (def.type == RecordType.Int)
@@ -148,7 +148,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060017B5 RID: 6069 RVA: 0x000CEFD0 File Offset: 0x000CD3D0
+		// Token: 0x060017B6 RID: 6070 RVA: 0x000CF024 File Offset: 0x000CD424
 		public float GetValue(RecordDef def)
 		{
 			float num = this.records[def];
@@ -164,26 +164,26 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060017B6 RID: 6070 RVA: 0x000CF018 File Offset: 0x000CD418
+		// Token: 0x060017B7 RID: 6071 RVA: 0x000CF06C File Offset: 0x000CD46C
 		public int GetAsInt(RecordDef def)
 		{
 			return Mathf.RoundToInt(this.records[def]);
 		}
 
-		// Token: 0x060017B7 RID: 6071 RVA: 0x000CF03E File Offset: 0x000CD43E
+		// Token: 0x060017B8 RID: 6072 RVA: 0x000CF092 File Offset: 0x000CD492
 		public void AccumulateStoryEvent(StoryEventDef def)
 		{
 			this.storyRelevance += (double)def.importance;
 		}
 
-		// Token: 0x060017B8 RID: 6072 RVA: 0x000CF055 File Offset: 0x000CD455
+		// Token: 0x060017B9 RID: 6073 RVA: 0x000CF0A9 File Offset: 0x000CD4A9
 		public void EnterBattle(Battle battle)
 		{
 			this.battleActive = battle;
 			this.battleExitTick = Find.TickManager.TicksGame + 5000;
 		}
 
-		// Token: 0x060017B9 RID: 6073 RVA: 0x000CF078 File Offset: 0x000CD478
+		// Token: 0x060017BA RID: 6074 RVA: 0x000CF0CC File Offset: 0x000CD4CC
 		public void ExposeData()
 		{
 			this.battleActive = this.BattleActive;

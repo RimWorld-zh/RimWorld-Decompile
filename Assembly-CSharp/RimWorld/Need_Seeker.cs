@@ -7,13 +7,13 @@ namespace RimWorld
 	// Token: 0x02000508 RID: 1288
 	public abstract class Need_Seeker : Need
 	{
-		// Token: 0x06001720 RID: 5920 RVA: 0x000C9892 File Offset: 0x000C7C92
+		// Token: 0x06001721 RID: 5921 RVA: 0x000C98E6 File Offset: 0x000C7CE6
 		public Need_Seeker(Pawn pawn) : base(pawn)
 		{
 		}
 
 		// Token: 0x1700032F RID: 815
-		// (get) Token: 0x06001721 RID: 5921 RVA: 0x000C989C File Offset: 0x000C7C9C
+		// (get) Token: 0x06001722 RID: 5922 RVA: 0x000C98F0 File Offset: 0x000C7CF0
 		public override int GUIChangeArrow
 		{
 			get
@@ -43,7 +43,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001722 RID: 5922 RVA: 0x000C9904 File Offset: 0x000C7D04
+		// Token: 0x06001723 RID: 5923 RVA: 0x000C9958 File Offset: 0x000C7D58
 		public override void NeedInterval()
 		{
 			if (!base.IsFrozen)

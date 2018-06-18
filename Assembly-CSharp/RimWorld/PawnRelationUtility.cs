@@ -10,7 +10,7 @@ namespace RimWorld
 	// Token: 0x020004C1 RID: 1217
 	public static class PawnRelationUtility
 	{
-		// Token: 0x060015BF RID: 5567 RVA: 0x000C16A4 File Offset: 0x000BFAA4
+		// Token: 0x060015BF RID: 5567 RVA: 0x000C16C0 File Offset: 0x000BFAC0
 		public static IEnumerable<PawnRelationDef> GetRelations(this Pawn me, Pawn other)
 		{
 			if (me == other)
@@ -58,7 +58,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060015C0 RID: 5568 RVA: 0x000C16D8 File Offset: 0x000BFAD8
+		// Token: 0x060015C0 RID: 5568 RVA: 0x000C16F4 File Offset: 0x000BFAF4
 		public static PawnRelationDef GetMostImportantRelation(this Pawn me, Pawn other)
 		{
 			PawnRelationDef pawnRelationDef = null;
@@ -72,7 +72,7 @@ namespace RimWorld
 			return pawnRelationDef;
 		}
 
-		// Token: 0x060015C1 RID: 5569 RVA: 0x000C1754 File Offset: 0x000BFB54
+		// Token: 0x060015C1 RID: 5569 RVA: 0x000C1770 File Offset: 0x000BFB70
 		public static void Notify_PawnsSeenByPlayer(IEnumerable<Pawn> seenPawns, out string pawnRelationsInfo, bool informEvenIfSeenBefore = false, bool writeSeenPawnsNames = true)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -129,7 +129,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060015C2 RID: 5570 RVA: 0x000C1944 File Offset: 0x000BFD44
+		// Token: 0x060015C2 RID: 5570 RVA: 0x000C1960 File Offset: 0x000BFD60
 		public static void Notify_PawnsSeenByPlayer_Letter(IEnumerable<Pawn> seenPawns, ref string letterLabel, ref string letterText, string relationsInfoHeader, bool informEvenIfSeenBefore = false, bool writeSeenPawnsNames = true)
 		{
 			string text;
@@ -152,7 +152,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060015C3 RID: 5571 RVA: 0x000C19CC File Offset: 0x000BFDCC
+		// Token: 0x060015C3 RID: 5571 RVA: 0x000C19E8 File Offset: 0x000BFDE8
 		public static void Notify_PawnsSeenByPlayer_Letter_Send(IEnumerable<Pawn> seenPawns, string relationsInfoHeader, LetterDef letterDef, bool informEvenIfSeenBefore = false, bool writeSeenPawnsNames = true)
 		{
 			string label = "";
@@ -177,14 +177,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060015C4 RID: 5572 RVA: 0x000C1A80 File Offset: 0x000BFE80
+		// Token: 0x060015C4 RID: 5572 RVA: 0x000C1A9C File Offset: 0x000BFE9C
 		public static bool TryAppendRelationsWithColonistsInfo(ref string text, Pawn pawn)
 		{
 			string text2 = null;
 			return PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref text, ref text2, pawn);
 		}
 
-		// Token: 0x060015C5 RID: 5573 RVA: 0x000C1AA0 File Offset: 0x000BFEA0
+		// Token: 0x060015C5 RID: 5573 RVA: 0x000C1ABC File Offset: 0x000BFEBC
 		public static bool TryAppendRelationsWithColonistsInfo(ref string text, ref string title, Pawn pawn)
 		{
 			Pawn mostImportantColonyRelative = PawnRelationUtility.GetMostImportantColonyRelative(pawn);
@@ -223,7 +223,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060015C6 RID: 5574 RVA: 0x000C1B68 File Offset: 0x000BFF68
+		// Token: 0x060015C6 RID: 5574 RVA: 0x000C1B84 File Offset: 0x000BFF84
 		public static Pawn GetMostImportantColonyRelative(Pawn pawn)
 		{
 			Pawn result;
@@ -255,7 +255,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060015C7 RID: 5575 RVA: 0x000C1C50 File Offset: 0x000C0050
+		// Token: 0x060015C7 RID: 5575 RVA: 0x000C1C6C File Offset: 0x000C006C
 		public static float MaxPossibleBioAgeAt(float myBiologicalAge, float myChronologicalAge, float atChronologicalAge)
 		{
 			float num = Mathf.Min(myBiologicalAge, myChronologicalAge - atChronologicalAge);
@@ -271,7 +271,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060015C8 RID: 5576 RVA: 0x000C1C88 File Offset: 0x000C0088
+		// Token: 0x060015C8 RID: 5576 RVA: 0x000C1CA4 File Offset: 0x000C00A4
 		public static float MinPossibleBioAgeAt(float myBiologicalAge, float atChronologicalAge)
 		{
 			return Mathf.Max(myBiologicalAge - atChronologicalAge, 0f);

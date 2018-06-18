@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class InteractionDefOf
 	{
-		// Token: 0x0600364F RID: 13903 RVA: 0x001D0941 File Offset: 0x001CED41
+		// Token: 0x06003651 RID: 13905 RVA: 0x001D0A09 File Offset: 0x001CEE09
 		static InteractionDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(InteractionDefOf));

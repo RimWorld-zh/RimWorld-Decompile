@@ -8,7 +8,7 @@ namespace Verse.Sound
 	public class SoundParamSource_Perlin : SoundParamSource
 	{
 		// Token: 0x170009C9 RID: 2505
-		// (get) Token: 0x0600403A RID: 16442 RVA: 0x0021C634 File Offset: 0x0021AA34
+		// (get) Token: 0x0600403C RID: 16444 RVA: 0x0021C708 File Offset: 0x0021AB08
 		public override string Label
 		{
 			get
@@ -17,7 +17,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x0600403B RID: 16443 RVA: 0x0021C650 File Offset: 0x0021AA50
+		// Token: 0x0600403D RID: 16445 RVA: 0x0021C724 File Offset: 0x0021AB24
 		public override float ValueFor(Sample samp)
 		{
 			float num;

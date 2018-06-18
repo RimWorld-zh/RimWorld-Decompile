@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F80 RID: 3968
+	// Token: 0x02000F7F RID: 3967
 	public static class GradientPresets
 	{
-		// Token: 0x06005FAD RID: 24493 RVA: 0x00309DF4 File Offset: 0x003081F4
+		// Token: 0x06005FAB RID: 24491 RVA: 0x00309ED0 File Offset: 0x003082D0
 		static GradientPresets()
 		{
 			List<GradientColorKey> list = new List<GradientColorKey>();
@@ -48,8 +48,8 @@ namespace Verse.Noise
 			GradientPresets._terrain.SetKeys(list5.ToArray(), list6.ToArray());
 		}
 
-		// Token: 0x17000F60 RID: 3936
-		// (get) Token: 0x06005FAE RID: 24494 RVA: 0x0030A0E4 File Offset: 0x003084E4
+		// Token: 0x17000F5F RID: 3935
+		// (get) Token: 0x06005FAC RID: 24492 RVA: 0x0030A1C0 File Offset: 0x003085C0
 		public static Gradient Empty
 		{
 			get
@@ -58,8 +58,8 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F61 RID: 3937
-		// (get) Token: 0x06005FAF RID: 24495 RVA: 0x0030A100 File Offset: 0x00308500
+		// Token: 0x17000F60 RID: 3936
+		// (get) Token: 0x06005FAD RID: 24493 RVA: 0x0030A1DC File Offset: 0x003085DC
 		public static Gradient Grayscale
 		{
 			get
@@ -68,8 +68,8 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F62 RID: 3938
-		// (get) Token: 0x06005FB0 RID: 24496 RVA: 0x0030A11C File Offset: 0x0030851C
+		// Token: 0x17000F61 RID: 3937
+		// (get) Token: 0x06005FAE RID: 24494 RVA: 0x0030A1F8 File Offset: 0x003085F8
 		public static Gradient RGB
 		{
 			get
@@ -78,8 +78,8 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F63 RID: 3939
-		// (get) Token: 0x06005FB1 RID: 24497 RVA: 0x0030A138 File Offset: 0x00308538
+		// Token: 0x17000F62 RID: 3938
+		// (get) Token: 0x06005FAF RID: 24495 RVA: 0x0030A214 File Offset: 0x00308614
 		public static Gradient RGBA
 		{
 			get
@@ -88,8 +88,8 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F64 RID: 3940
-		// (get) Token: 0x06005FB2 RID: 24498 RVA: 0x0030A154 File Offset: 0x00308554
+		// Token: 0x17000F63 RID: 3939
+		// (get) Token: 0x06005FB0 RID: 24496 RVA: 0x0030A230 File Offset: 0x00308630
 		public static Gradient Terrain
 		{
 			get
@@ -98,19 +98,19 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x04003EDD RID: 16093
+		// Token: 0x04003EDC RID: 16092
 		private static Gradient _empty;
 
-		// Token: 0x04003EDE RID: 16094
+		// Token: 0x04003EDD RID: 16093
 		private static Gradient _grayscale;
 
-		// Token: 0x04003EDF RID: 16095
+		// Token: 0x04003EDE RID: 16094
 		private static Gradient _rgb;
 
-		// Token: 0x04003EE0 RID: 16096
+		// Token: 0x04003EDF RID: 16095
 		private static Gradient _rgba;
 
-		// Token: 0x04003EE1 RID: 16097
+		// Token: 0x04003EE0 RID: 16096
 		private static Gradient _terrain;
 	}
 }

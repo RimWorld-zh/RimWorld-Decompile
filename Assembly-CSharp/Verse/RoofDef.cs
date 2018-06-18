@@ -6,7 +6,7 @@ namespace Verse
 	public class RoofDef : Def
 	{
 		// Token: 0x170009B9 RID: 2489
-		// (get) Token: 0x06003FD9 RID: 16345 RVA: 0x0021A5FC File Offset: 0x002189FC
+		// (get) Token: 0x06003FDB RID: 16347 RVA: 0x0021A6D0 File Offset: 0x00218AD0
 		public bool VanishOnCollapse
 		{
 			get

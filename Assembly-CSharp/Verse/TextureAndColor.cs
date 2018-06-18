@@ -3,18 +3,18 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D27 RID: 3367
+	// Token: 0x02000D26 RID: 3366
 	public struct TextureAndColor
 	{
-		// Token: 0x06004A0E RID: 18958 RVA: 0x0026A932 File Offset: 0x00268D32
+		// Token: 0x06004A0C RID: 18956 RVA: 0x0026A90A File Offset: 0x00268D0A
 		public TextureAndColor(Texture2D texture, Color color)
 		{
 			this.texture = texture;
 			this.color = color;
 		}
 
-		// Token: 0x17000BC5 RID: 3013
-		// (get) Token: 0x06004A0F RID: 18959 RVA: 0x0026A944 File Offset: 0x00268D44
+		// Token: 0x17000BC4 RID: 3012
+		// (get) Token: 0x06004A0D RID: 18957 RVA: 0x0026A91C File Offset: 0x00268D1C
 		public bool HasValue
 		{
 			get
@@ -23,8 +23,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BC6 RID: 3014
-		// (get) Token: 0x06004A10 RID: 18960 RVA: 0x0026A968 File Offset: 0x00268D68
+		// Token: 0x17000BC5 RID: 3013
+		// (get) Token: 0x06004A0E RID: 18958 RVA: 0x0026A940 File Offset: 0x00268D40
 		public Texture2D Texture
 		{
 			get
@@ -33,8 +33,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BC7 RID: 3015
-		// (get) Token: 0x06004A11 RID: 18961 RVA: 0x0026A984 File Offset: 0x00268D84
+		// Token: 0x17000BC6 RID: 3014
+		// (get) Token: 0x06004A0F RID: 18959 RVA: 0x0026A95C File Offset: 0x00268D5C
 		public Color Color
 		{
 			get
@@ -43,8 +43,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BC8 RID: 3016
-		// (get) Token: 0x06004A12 RID: 18962 RVA: 0x0026A9A0 File Offset: 0x00268DA0
+		// Token: 0x17000BC7 RID: 3015
+		// (get) Token: 0x06004A10 RID: 18960 RVA: 0x0026A978 File Offset: 0x00268D78
 		public static TextureAndColor None
 		{
 			get
@@ -53,16 +53,16 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A13 RID: 18963 RVA: 0x0026A9C0 File Offset: 0x00268DC0
+		// Token: 0x06004A11 RID: 18961 RVA: 0x0026A998 File Offset: 0x00268D98
 		public static implicit operator TextureAndColor(Texture2D texture)
 		{
 			return new TextureAndColor(texture, Color.white);
 		}
 
-		// Token: 0x0400322D RID: 12845
+		// Token: 0x0400322B RID: 12843
 		private Texture2D texture;
 
-		// Token: 0x0400322E RID: 12846
+		// Token: 0x0400322C RID: 12844
 		private Color color;
 	}
 }

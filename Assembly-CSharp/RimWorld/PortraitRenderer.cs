@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020004A4 RID: 1188
 	public class PortraitRenderer : MonoBehaviour
 	{
-		// Token: 0x0600154A RID: 5450 RVA: 0x000BD4F8 File Offset: 0x000BB8F8
+		// Token: 0x0600154A RID: 5450 RVA: 0x000BD514 File Offset: 0x000BB914
 		public void RenderPortrait(Pawn pawn, RenderTexture renderTexture, Vector3 cameraOffset, float cameraZoom)
 		{
 			Camera portraitCamera = Find.PortraitCamera;
@@ -24,7 +24,7 @@ namespace RimWorld
 			portraitCamera.targetTexture = null;
 		}
 
-		// Token: 0x0600154B RID: 5451 RVA: 0x000BD579 File Offset: 0x000BB979
+		// Token: 0x0600154B RID: 5451 RVA: 0x000BD595 File Offset: 0x000BB995
 		public void OnPostRender()
 		{
 			this.pawn.Drawer.renderer.RenderPortrait();

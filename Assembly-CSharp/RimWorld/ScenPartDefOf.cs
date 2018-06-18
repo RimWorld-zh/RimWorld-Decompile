@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class ScenPartDefOf
 	{
-		// Token: 0x06003629 RID: 13865 RVA: 0x001D0695 File Offset: 0x001CEA95
+		// Token: 0x0600362B RID: 13867 RVA: 0x001D075D File Offset: 0x001CEB5D
 		static ScenPartDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ScenPartDefOf));

@@ -8,7 +8,7 @@ namespace RimWorld.Planet
 	public class Tile
 	{
 		// Token: 0x17000410 RID: 1040
-		// (get) Token: 0x06001B9A RID: 7066 RVA: 0x000EE110 File Offset: 0x000EC510
+		// (get) Token: 0x06001B9B RID: 7067 RVA: 0x000EE17C File Offset: 0x000EC57C
 		public bool WaterCovered
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000411 RID: 1041
-		// (get) Token: 0x06001B9B RID: 7067 RVA: 0x000EE138 File Offset: 0x000EC538
+		// (get) Token: 0x06001B9C RID: 7068 RVA: 0x000EE1A4 File Offset: 0x000EC5A4
 		public List<Tile.RoadLink> Roads
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000412 RID: 1042
-		// (get) Token: 0x06001B9C RID: 7068 RVA: 0x000EE16C File Offset: 0x000EC56C
+		// (get) Token: 0x06001B9D RID: 7069 RVA: 0x000EE1D8 File Offset: 0x000EC5D8
 		public List<Tile.RiverLink> Rivers
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B9D RID: 7069 RVA: 0x000EE1A0 File Offset: 0x000EC5A0
+		// Token: 0x06001B9E RID: 7070 RVA: 0x000EE20C File Offset: 0x000EC60C
 		public override string ToString()
 		{
 			return string.Concat(new object[]

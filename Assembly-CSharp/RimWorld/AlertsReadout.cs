@@ -10,7 +10,7 @@ namespace RimWorld
 	// Token: 0x020007B1 RID: 1969
 	public class AlertsReadout
 	{
-		// Token: 0x06002B75 RID: 11125 RVA: 0x0016F764 File Offset: 0x0016DB64
+		// Token: 0x06002B77 RID: 11127 RVA: 0x0016F7F8 File Offset: 0x0016DBF8
 		public AlertsReadout()
 		{
 			this.AllAlerts.Clear();
@@ -43,7 +43,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B76 RID: 11126 RVA: 0x0016F8AC File Offset: 0x0016DCAC
+		// Token: 0x06002B78 RID: 11128 RVA: 0x0016F940 File Offset: 0x0016DD40
 		public void AlertsReadoutUpdate()
 		{
 			if (Mathf.Max(Find.TickManager.TicksGame, Find.TutorialState.endTick) >= 600)
@@ -122,7 +122,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B77 RID: 11127 RVA: 0x0016FB7C File Offset: 0x0016DF7C
+		// Token: 0x06002B79 RID: 11129 RVA: 0x0016FC10 File Offset: 0x0016E010
 		public void AlertsReadoutOnGUI()
 		{
 			if (Event.current.type != EventType.Layout && Event.current.type != EventType.MouseDrag)

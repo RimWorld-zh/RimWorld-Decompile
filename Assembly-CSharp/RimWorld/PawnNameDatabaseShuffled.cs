@@ -9,7 +9,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class PawnNameDatabaseShuffled
 	{
-		// Token: 0x06001476 RID: 5238 RVA: 0x000B3000 File Offset: 0x000B1400
+		// Token: 0x06001476 RID: 5238 RVA: 0x000B3014 File Offset: 0x000B1414
 		static PawnNameDatabaseShuffled()
 		{
 			IEnumerator enumerator = Enum.GetValues(typeof(PawnNameCategory)).GetEnumerator();
@@ -46,7 +46,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001477 RID: 5239 RVA: 0x000B313C File Offset: 0x000B153C
+		// Token: 0x06001477 RID: 5239 RVA: 0x000B3150 File Offset: 0x000B1550
 		public static NameBank BankOf(PawnNameCategory category)
 		{
 			return PawnNameDatabaseShuffled.banks[category];

@@ -10,7 +10,7 @@ namespace RimWorld.Planet
 	public class WorldGenStep_Roads : WorldGenStep
 	{
 		// Token: 0x17000422 RID: 1058
-		// (get) Token: 0x06001C5A RID: 7258 RVA: 0x000F36B0 File Offset: 0x000F1AB0
+		// (get) Token: 0x06001C5C RID: 7260 RVA: 0x000F3728 File Offset: 0x000F1B28
 		public override int SeedPart
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C5B RID: 7259 RVA: 0x000F36CA File Offset: 0x000F1ACA
+		// Token: 0x06001C5D RID: 7261 RVA: 0x000F3742 File Offset: 0x000F1B42
 		public override void GenerateFresh(string seed)
 		{
 			this.GenerateRoadEndpoints();
@@ -29,7 +29,7 @@ namespace RimWorld.Planet
 			Rand.PopState();
 		}
 
-		// Token: 0x06001C5C RID: 7260 RVA: 0x000F36EE File Offset: 0x000F1AEE
+		// Token: 0x06001C5E RID: 7262 RVA: 0x000F3766 File Offset: 0x000F1B66
 		public override void GenerateWithoutWorldData(string seed)
 		{
 			Rand.PushState();
@@ -38,7 +38,7 @@ namespace RimWorld.Planet
 			Rand.PopState();
 		}
 
-		// Token: 0x06001C5D RID: 7261 RVA: 0x000F370C File Offset: 0x000F1B0C
+		// Token: 0x06001C5F RID: 7263 RVA: 0x000F3784 File Offset: 0x000F1B84
 		private void GenerateRoadEndpoints()
 		{
 			List<int> list = (from wo in Find.WorldObjects.AllWorldObjects
@@ -68,7 +68,7 @@ namespace RimWorld.Planet
 			Find.World.genData.roadNodes = list;
 		}
 
-		// Token: 0x06001C5E RID: 7262 RVA: 0x000F3868 File Offset: 0x000F1C68
+		// Token: 0x06001C60 RID: 7264 RVA: 0x000F38E0 File Offset: 0x000F1CE0
 		private void GenerateRoadNetwork()
 		{
 			Find.WorldPathGrid.RecalculateAllPerceivedPathCosts(new int?(0));
@@ -77,7 +77,7 @@ namespace RimWorld.Planet
 			this.DrawLinksOnWorld(linkFinal, Find.World.genData.roadNodes);
 		}
 
-		// Token: 0x06001C5F RID: 7263 RVA: 0x000F38D0 File Offset: 0x000F1CD0
+		// Token: 0x06001C61 RID: 7265 RVA: 0x000F3948 File Offset: 0x000F1D48
 		private List<WorldGenStep_Roads.Link> GenerateProspectiveLinks(List<int> indexToTile)
 		{
 			Dictionary<int, int> tileToIndexLookup = new Dictionary<int, int>();
@@ -113,7 +113,7 @@ namespace RimWorld.Planet
 			return linkProspective;
 		}
 
-		// Token: 0x06001C60 RID: 7264 RVA: 0x000F3A14 File Offset: 0x000F1E14
+		// Token: 0x06001C62 RID: 7266 RVA: 0x000F3A8C File Offset: 0x000F1E8C
 		private List<WorldGenStep_Roads.Link> GenerateFinalLinks(List<WorldGenStep_Roads.Link> linkProspective, int endpointCount)
 		{
 			List<WorldGenStep_Roads.Connectedness> list = new List<WorldGenStep_Roads.Connectedness>();
@@ -156,7 +156,7 @@ namespace RimWorld.Planet
 			return list2;
 		}
 
-		// Token: 0x06001C61 RID: 7265 RVA: 0x000F3B84 File Offset: 0x000F1F84
+		// Token: 0x06001C63 RID: 7267 RVA: 0x000F3BFC File Offset: 0x000F1FFC
 		private void DrawLinksOnWorld(List<WorldGenStep_Roads.Link> linkFinal, List<int> indexToTile)
 		{
 			foreach (WorldGenStep_Roads.Link link in linkFinal)
@@ -208,7 +208,7 @@ namespace RimWorld.Planet
 		// Token: 0x020005C6 RID: 1478
 		private class Connectedness
 		{
-			// Token: 0x06001C69 RID: 7273 RVA: 0x000F3D54 File Offset: 0x000F2154
+			// Token: 0x06001C6B RID: 7275 RVA: 0x000F3DCC File Offset: 0x000F21CC
 			public WorldGenStep_Roads.Connectedness Group()
 			{
 				WorldGenStep_Roads.Connectedness result;

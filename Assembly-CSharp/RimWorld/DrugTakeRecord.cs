@@ -7,7 +7,7 @@ namespace RimWorld
 	public class DrugTakeRecord : IExposable
 	{
 		// Token: 0x170002EF RID: 751
-		// (get) Token: 0x06001677 RID: 5751 RVA: 0x000C70D8 File Offset: 0x000C54D8
+		// (get) Token: 0x06001678 RID: 5752 RVA: 0x000C712C File Offset: 0x000C552C
 		public int LastTakenDays
 		{
 			get
@@ -17,8 +17,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002F0 RID: 752
-		// (get) Token: 0x06001678 RID: 5752 RVA: 0x000C70F8 File Offset: 0x000C54F8
-		// (set) Token: 0x06001679 RID: 5753 RVA: 0x000C712A File Offset: 0x000C552A
+		// (get) Token: 0x06001679 RID: 5753 RVA: 0x000C714C File Offset: 0x000C554C
+		// (set) Token: 0x0600167A RID: 5754 RVA: 0x000C717E File Offset: 0x000C557E
 		public int TimesTakenThisDay
 		{
 			get
@@ -41,7 +41,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600167A RID: 5754 RVA: 0x000C7140 File Offset: 0x000C5540
+		// Token: 0x0600167B RID: 5755 RVA: 0x000C7194 File Offset: 0x000C5594
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<ThingDef>(ref this.drug, "drug");

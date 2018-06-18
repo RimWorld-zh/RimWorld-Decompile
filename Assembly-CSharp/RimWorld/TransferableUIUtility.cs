@@ -10,7 +10,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class TransferableUIUtility
 	{
-		// Token: 0x06002F01 RID: 12033 RVA: 0x00190F34 File Offset: 0x0018F334
+		// Token: 0x06002F03 RID: 12035 RVA: 0x00190FC8 File Offset: 0x0018F3C8
 		public static void DoCountAdjustInterface(Rect rect, Transferable trad, int index, int min, int max, bool flash = false, List<TransferableCountToTransferStoppingPoint> extraStoppingPoints = null, bool readOnly = false)
 		{
 			TransferableUIUtility.stoppingPoints.Clear();
@@ -41,7 +41,7 @@ namespace RimWorld
 			TransferableUIUtility.DoCountAdjustInterfaceInternal(rect, trad, index, min, max, flash, readOnly);
 		}
 
-		// Token: 0x06002F02 RID: 12034 RVA: 0x0019104C File Offset: 0x0018F44C
+		// Token: 0x06002F04 RID: 12036 RVA: 0x001910E0 File Offset: 0x0018F4E0
 		private static void DoCountAdjustInterfaceInternal(Rect rect, Transferable trad, int index, int min, int max, bool flash, bool readOnly)
 		{
 			rect = rect.Rounded();
@@ -223,7 +223,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F03 RID: 12035 RVA: 0x00191750 File Offset: 0x0018FB50
+		// Token: 0x06002F05 RID: 12037 RVA: 0x001917E4 File Offset: 0x0018FBE4
 		public static void DrawTransferableInfo(Transferable trad, Rect idRect, Color labelColor)
 		{
 			if (trad.HasAnyThing)
@@ -265,7 +265,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F04 RID: 12036 RVA: 0x00191844 File Offset: 0x0018FC44
+		// Token: 0x06002F06 RID: 12038 RVA: 0x001918D8 File Offset: 0x0018FCD8
 		public static float DefaultListOrderPriority(Transferable transferable)
 		{
 			float result;
@@ -280,7 +280,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002F05 RID: 12037 RVA: 0x0019187C File Offset: 0x0018FC7C
+		// Token: 0x06002F07 RID: 12039 RVA: 0x00191910 File Offset: 0x0018FD10
 		public static float DefaultListOrderPriority(ThingDef def)
 		{
 			float result;
@@ -323,7 +323,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002F06 RID: 12038 RVA: 0x00191948 File Offset: 0x0018FD48
+		// Token: 0x06002F08 RID: 12040 RVA: 0x001919DC File Offset: 0x0018FDDC
 		public static void DoTransferableSorters(TransferableSorterDef sorter1, TransferableSorterDef sorter2, Action<TransferableSorterDef> sorter1Setter, Action<TransferableSorterDef> sorter2Setter)
 		{
 			Rect position = new Rect(0f, 0f, 350f, 27f);
@@ -346,7 +346,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002F07 RID: 12039 RVA: 0x00191A38 File Offset: 0x0018FE38
+		// Token: 0x06002F09 RID: 12041 RVA: 0x00191ACC File Offset: 0x0018FECC
 		private static void OpenSorterChangeFloatMenu(Action<TransferableSorterDef> sorterSetter)
 		{
 			List<FloatMenuOption> list = new List<FloatMenuOption>();
@@ -362,7 +362,7 @@ namespace RimWorld
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x06002F08 RID: 12040 RVA: 0x00191AD4 File Offset: 0x0018FED4
+		// Token: 0x06002F0A RID: 12042 RVA: 0x00191B68 File Offset: 0x0018FF68
 		public static void DrawExtraInfo(List<TransferableUIUtility.ExtraInfo> info, Rect rect)
 		{
 			if (rect.width > (float)info.Count * 230f)
@@ -464,7 +464,7 @@ namespace RimWorld
 		// Token: 0x0200082C RID: 2092
 		public struct ExtraInfo
 		{
-			// Token: 0x06002F0A RID: 12042 RVA: 0x00191ED4 File Offset: 0x001902D4
+			// Token: 0x06002F0C RID: 12044 RVA: 0x00191F68 File Offset: 0x00190368
 			public ExtraInfo(string key, string value, Color color, string tip, float lastFlashTime = -9999f)
 			{
 				this.key = key;
@@ -476,7 +476,7 @@ namespace RimWorld
 				this.secondColor = default(Color);
 			}
 
-			// Token: 0x06002F0B RID: 12043 RVA: 0x00191F1D File Offset: 0x0019031D
+			// Token: 0x06002F0D RID: 12045 RVA: 0x00191FB1 File Offset: 0x001903B1
 			public ExtraInfo(string key, string value, Color color, string tip, string secondValue, Color secondColor, float lastFlashTime = -9999f)
 			{
 				this.key = key;

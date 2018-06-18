@@ -9,7 +9,7 @@ namespace RimWorld.Planet
 	// Token: 0x020005F9 RID: 1529
 	public static class SettleInEmptyTileUtility
 	{
-		// Token: 0x06001E67 RID: 7783 RVA: 0x0010705C File Offset: 0x0010545C
+		// Token: 0x06001E69 RID: 7785 RVA: 0x001070D4 File Offset: 0x001054D4
 		public static void Settle(Caravan caravan)
 		{
 			Faction faction = caravan.Faction;
@@ -48,7 +48,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E68 RID: 7784 RVA: 0x00107120 File Offset: 0x00105520
+		// Token: 0x06001E6A RID: 7786 RVA: 0x00107198 File Offset: 0x00105598
 		public static Command SettleCommand(Caravan caravan)
 		{
 			Command_Settle command_Settle = new Command_Settle();

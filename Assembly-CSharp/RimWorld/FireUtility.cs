@@ -8,13 +8,13 @@ namespace RimWorld
 	// Token: 0x020006C6 RID: 1734
 	public static class FireUtility
 	{
-		// Token: 0x0600256E RID: 9582 RVA: 0x00140FB0 File Offset: 0x0013F3B0
+		// Token: 0x06002570 RID: 9584 RVA: 0x00141028 File Offset: 0x0013F428
 		public static bool CanEverAttachFire(this Thing t)
 		{
 			return !t.Destroyed && t.FlammableNow && t.def.category == ThingCategory.Pawn && t.TryGetComp<CompAttachBase>() != null;
 		}
 
-		// Token: 0x0600256F RID: 9583 RVA: 0x00141014 File Offset: 0x0013F414
+		// Token: 0x06002571 RID: 9585 RVA: 0x0014108C File Offset: 0x0013F48C
 		public static float ChanceToStartFireIn(IntVec3 c, Map map)
 		{
 			List<Thing> thingList = c.GetThingList(map);
@@ -53,7 +53,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06002570 RID: 9584 RVA: 0x00141194 File Offset: 0x0013F594
+		// Token: 0x06002572 RID: 9586 RVA: 0x0014120C File Offset: 0x0013F60C
 		public static bool TryStartFireIn(IntVec3 c, Map map, float fireSize)
 		{
 			float num = FireUtility.ChanceToStartFireIn(c, map);
@@ -72,7 +72,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002571 RID: 9585 RVA: 0x001411EC File Offset: 0x0013F5EC
+		// Token: 0x06002573 RID: 9587 RVA: 0x00141264 File Offset: 0x0013F664
 		public static void TryAttachFire(this Thing t, float fireSize)
 		{
 			if (t.CanEverAttachFire())
@@ -93,7 +93,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002572 RID: 9586 RVA: 0x00141284 File Offset: 0x0013F684
+		// Token: 0x06002574 RID: 9588 RVA: 0x001412FC File Offset: 0x0013F6FC
 		public static bool IsBurning(this TargetInfo t)
 		{
 			bool result;
@@ -108,7 +108,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002573 RID: 9587 RVA: 0x001412CC File Offset: 0x0013F6CC
+		// Token: 0x06002575 RID: 9589 RVA: 0x00141344 File Offset: 0x0013F744
 		public static bool IsBurning(this Thing t)
 		{
 			bool result;
@@ -143,7 +143,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002574 RID: 9588 RVA: 0x00141398 File Offset: 0x0013F798
+		// Token: 0x06002576 RID: 9590 RVA: 0x00141410 File Offset: 0x0013F810
 		public static bool ContainsStaticFire(this IntVec3 c, Map map)
 		{
 			List<Thing> list = map.thingGrid.ThingsListAt(c);
@@ -158,20 +158,20 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06002575 RID: 9589 RVA: 0x001413FC File Offset: 0x0013F7FC
+		// Token: 0x06002577 RID: 9591 RVA: 0x00141474 File Offset: 0x0013F874
 		public static bool ContainsTrap(this IntVec3 c, Map map)
 		{
 			Building edifice = c.GetEdifice(map);
 			return edifice != null && edifice is Building_Trap;
 		}
 
-		// Token: 0x06002576 RID: 9590 RVA: 0x0014142C File Offset: 0x0013F82C
+		// Token: 0x06002578 RID: 9592 RVA: 0x001414A4 File Offset: 0x0013F8A4
 		public static bool Flammable(this TerrainDef terrain)
 		{
 			return terrain.GetStatValueAbstract(StatDefOf.Flammability, null) > 0.01f;
 		}
 
-		// Token: 0x06002577 RID: 9591 RVA: 0x00141454 File Offset: 0x0013F854
+		// Token: 0x06002579 RID: 9593 RVA: 0x001414CC File Offset: 0x0013F8CC
 		public static bool TerrainFlammableNow(this IntVec3 c, Map map)
 		{
 			TerrainDef terrain = c.GetTerrain(map);

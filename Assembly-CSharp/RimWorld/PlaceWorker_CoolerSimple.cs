@@ -5,10 +5,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000C74 RID: 3188
+	// Token: 0x02000C73 RID: 3187
 	public class PlaceWorker_CoolerSimple : PlaceWorker
 	{
-		// Token: 0x060045DE RID: 17886 RVA: 0x0024CA6C File Offset: 0x0024AE6C
+		// Token: 0x060045DC RID: 17884 RVA: 0x0024CA44 File Offset: 0x0024AE44
 		public override void DrawGhost(ThingDef def, IntVec3 center, Rot4 rot, Color ghostCol)
 		{
 			Map currentMap = Find.CurrentMap;

@@ -7,15 +7,15 @@ namespace RimWorld
 	// Token: 0x0200068C RID: 1676
 	public class TurretTop
 	{
-		// Token: 0x06002370 RID: 9072 RVA: 0x001305DC File Offset: 0x0012E9DC
+		// Token: 0x06002372 RID: 9074 RVA: 0x00130654 File Offset: 0x0012EA54
 		public TurretTop(Building_Turret ParentTurret)
 		{
 			this.parentTurret = ParentTurret;
 		}
 
 		// Token: 0x17000541 RID: 1345
-		// (get) Token: 0x06002371 RID: 9073 RVA: 0x001305F8 File Offset: 0x0012E9F8
-		// (set) Token: 0x06002372 RID: 9074 RVA: 0x00130614 File Offset: 0x0012EA14
+		// (get) Token: 0x06002373 RID: 9075 RVA: 0x00130670 File Offset: 0x0012EA70
+		// (set) Token: 0x06002374 RID: 9076 RVA: 0x0013068C File Offset: 0x0012EA8C
 		private float CurRotation
 		{
 			get
@@ -36,7 +36,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002373 RID: 9075 RVA: 0x00130670 File Offset: 0x0012EA70
+		// Token: 0x06002375 RID: 9077 RVA: 0x001306E8 File Offset: 0x0012EAE8
 		public void TurretTopTick()
 		{
 			LocalTargetInfo currentTarget = this.parentTurret.CurrentTarget;
@@ -80,7 +80,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002374 RID: 9076 RVA: 0x001307A4 File Offset: 0x0012EBA4
+		// Token: 0x06002376 RID: 9078 RVA: 0x0013081C File Offset: 0x0012EC1C
 		public void DrawTurret()
 		{
 			Vector3 b = new Vector3(this.parentTurret.def.building.turretTopOffset.x, 0f, this.parentTurret.def.building.turretTopOffset.y);

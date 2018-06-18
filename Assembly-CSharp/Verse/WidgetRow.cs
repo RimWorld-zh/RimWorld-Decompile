@@ -5,22 +5,22 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000EAE RID: 3758
+	// Token: 0x02000EAD RID: 3757
 	public class WidgetRow
 	{
-		// Token: 0x06005878 RID: 22648 RVA: 0x002D5121 File Offset: 0x002D3521
+		// Token: 0x06005876 RID: 22646 RVA: 0x002D5131 File Offset: 0x002D3531
 		public WidgetRow()
 		{
 		}
 
-		// Token: 0x06005879 RID: 22649 RVA: 0x002D513C File Offset: 0x002D353C
+		// Token: 0x06005877 RID: 22647 RVA: 0x002D514C File Offset: 0x002D354C
 		public WidgetRow(float x, float y, UIDirection growDirection = UIDirection.RightThenUp, float maxWidth = 99999f, float gap = 4f)
 		{
 			this.Init(x, y, growDirection, maxWidth, gap);
 		}
 
-		// Token: 0x17000DF9 RID: 3577
-		// (get) Token: 0x0600587A RID: 22650 RVA: 0x002D5164 File Offset: 0x002D3564
+		// Token: 0x17000DF8 RID: 3576
+		// (get) Token: 0x06005878 RID: 22648 RVA: 0x002D5174 File Offset: 0x002D3574
 		public float FinalX
 		{
 			get
@@ -29,8 +29,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DFA RID: 3578
-		// (get) Token: 0x0600587B RID: 22651 RVA: 0x002D5180 File Offset: 0x002D3580
+		// Token: 0x17000DF9 RID: 3577
+		// (get) Token: 0x06005879 RID: 22649 RVA: 0x002D5190 File Offset: 0x002D3590
 		public float FinalY
 		{
 			get
@@ -39,7 +39,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600587C RID: 22652 RVA: 0x002D519B File Offset: 0x002D359B
+		// Token: 0x0600587A RID: 22650 RVA: 0x002D51AB File Offset: 0x002D35AB
 		public void Init(float x, float y, UIDirection growDirection = UIDirection.RightThenUp, float maxWidth = 99999f, float gap = 4f)
 		{
 			this.growDirection = growDirection;
@@ -50,7 +50,7 @@ namespace Verse
 			this.gap = gap;
 		}
 
-		// Token: 0x0600587D RID: 22653 RVA: 0x002D51CC File Offset: 0x002D35CC
+		// Token: 0x0600587B RID: 22651 RVA: 0x002D51DC File Offset: 0x002D35DC
 		private float LeftX(float elementWidth)
 		{
 			float result;
@@ -65,7 +65,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600587E RID: 22654 RVA: 0x002D5210 File Offset: 0x002D3610
+		// Token: 0x0600587C RID: 22652 RVA: 0x002D5220 File Offset: 0x002D3620
 		private void IncrementPosition(float amount)
 		{
 			if (this.growDirection == UIDirection.RightThenUp || this.growDirection == UIDirection.RightThenDown)
@@ -82,7 +82,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600587F RID: 22655 RVA: 0x002D527C File Offset: 0x002D367C
+		// Token: 0x0600587D RID: 22653 RVA: 0x002D528C File Offset: 0x002D368C
 		private void IncrementY()
 		{
 			if (this.growDirection == UIDirection.RightThenUp || this.growDirection == UIDirection.LeftThenUp)
@@ -96,7 +96,7 @@ namespace Verse
 			this.curX = this.startX;
 		}
 
-		// Token: 0x06005880 RID: 22656 RVA: 0x002D52E4 File Offset: 0x002D36E4
+		// Token: 0x0600587E RID: 22654 RVA: 0x002D52F4 File Offset: 0x002D36F4
 		private void IncrementYIfWillExceedMaxWidth(float width)
 		{
 			if (Mathf.Abs(this.curX - this.startX) + Mathf.Abs(width) > this.maxWidth)
@@ -105,7 +105,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005881 RID: 22657 RVA: 0x002D5311 File Offset: 0x002D3711
+		// Token: 0x0600587F RID: 22655 RVA: 0x002D5321 File Offset: 0x002D3721
 		public void Gap(float width)
 		{
 			if (this.curX != this.startX)
@@ -114,7 +114,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005882 RID: 22658 RVA: 0x002D532C File Offset: 0x002D372C
+		// Token: 0x06005880 RID: 22656 RVA: 0x002D533C File Offset: 0x002D373C
 		public bool ButtonIcon(Texture2D tex, string tooltip = null, Color? mouseoverColor = null)
 		{
 			this.IncrementYIfWillExceedMaxWidth(24f);
@@ -128,7 +128,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005883 RID: 22659 RVA: 0x002D53C2 File Offset: 0x002D37C2
+		// Token: 0x06005881 RID: 22657 RVA: 0x002D53D2 File Offset: 0x002D37D2
 		public void GapButtonIcon()
 		{
 			if (this.curY != this.startX)
@@ -137,7 +137,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005884 RID: 22660 RVA: 0x002D53E8 File Offset: 0x002D37E8
+		// Token: 0x06005882 RID: 22658 RVA: 0x002D53F8 File Offset: 0x002D37F8
 		public void ToggleableIcon(ref bool toggleable, Texture2D tex, string tooltip, SoundDef mouseoverSound = null, string tutorTag = null)
 		{
 			this.IncrementYIfWillExceedMaxWidth(24f);
@@ -173,7 +173,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005885 RID: 22661 RVA: 0x002D5500 File Offset: 0x002D3900
+		// Token: 0x06005883 RID: 22659 RVA: 0x002D5510 File Offset: 0x002D3910
 		public Rect Icon(Texture2D tex, string tooltip = null)
 		{
 			this.IncrementYIfWillExceedMaxWidth(24f);
@@ -187,7 +187,7 @@ namespace Verse
 			return rect;
 		}
 
-		// Token: 0x06005886 RID: 22662 RVA: 0x002D5574 File Offset: 0x002D3974
+		// Token: 0x06005884 RID: 22660 RVA: 0x002D5584 File Offset: 0x002D3984
 		public bool ButtonText(string label, string tooltip = null, bool drawBackground = true, bool doMouseoverSound = false)
 		{
 			Vector2 vector = Text.CalcSize(label);
@@ -204,7 +204,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005887 RID: 22663 RVA: 0x002D5624 File Offset: 0x002D3A24
+		// Token: 0x06005885 RID: 22661 RVA: 0x002D5634 File Offset: 0x002D3A34
 		public Rect Label(string text, float width = -1f)
 		{
 			if (width < 0f)
@@ -220,7 +220,7 @@ namespace Verse
 			return rect;
 		}
 
-		// Token: 0x06005888 RID: 22664 RVA: 0x002D56A0 File Offset: 0x002D3AA0
+		// Token: 0x06005886 RID: 22662 RVA: 0x002D56B0 File Offset: 0x002D3AB0
 		public Rect FillableBar(float width, float height, float fillPct, string label, Texture2D fillTex, Texture2D bgTex = null)
 		{
 			this.IncrementYIfWillExceedMaxWidth(width);
@@ -244,31 +244,31 @@ namespace Verse
 			return rect;
 		}
 
-		// Token: 0x04003AF6 RID: 15094
+		// Token: 0x04003AF5 RID: 15093
 		private float startX;
 
-		// Token: 0x04003AF7 RID: 15095
+		// Token: 0x04003AF6 RID: 15094
 		private float curX;
 
-		// Token: 0x04003AF8 RID: 15096
+		// Token: 0x04003AF7 RID: 15095
 		private float curY;
 
-		// Token: 0x04003AF9 RID: 15097
+		// Token: 0x04003AF8 RID: 15096
 		private float maxWidth = 99999f;
 
-		// Token: 0x04003AFA RID: 15098
+		// Token: 0x04003AF9 RID: 15097
 		private float gap;
 
-		// Token: 0x04003AFB RID: 15099
+		// Token: 0x04003AFA RID: 15098
 		private UIDirection growDirection = UIDirection.RightThenUp;
 
-		// Token: 0x04003AFC RID: 15100
+		// Token: 0x04003AFB RID: 15099
 		public const float IconSize = 24f;
 
-		// Token: 0x04003AFD RID: 15101
+		// Token: 0x04003AFC RID: 15100
 		public const float DefaultGap = 4f;
 
-		// Token: 0x04003AFE RID: 15102
+		// Token: 0x04003AFD RID: 15101
 		private const float DefaultMaxWidth = 99999f;
 	}
 }

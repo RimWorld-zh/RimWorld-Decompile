@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class ScenarioDefOf
 	{
-		// Token: 0x06003640 RID: 13888 RVA: 0x001D0833 File Offset: 0x001CEC33
+		// Token: 0x06003642 RID: 13890 RVA: 0x001D08FB File Offset: 0x001CECFB
 		static ScenarioDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ScenarioDefOf));

@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x02000996 RID: 2454
 	public static class ShortCircuitUtility
 	{
-		// Token: 0x06003719 RID: 14105 RVA: 0x001D7638 File Offset: 0x001D5A38
+		// Token: 0x0600371B RID: 14107 RVA: 0x001D770C File Offset: 0x001D5B0C
 		public static IEnumerable<Building> GetShortCircuitablePowerConduits(Map map)
 		{
 			ShortCircuitUtility.tmpPowerNetHasActivePowerSource.Clear();
@@ -42,7 +42,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600371A RID: 14106 RVA: 0x001D7664 File Offset: 0x001D5A64
+		// Token: 0x0600371C RID: 14108 RVA: 0x001D7738 File Offset: 0x001D5B38
 		public static void DoShortCircuit(Building culprit)
 		{
 			PowerNet powerNet = culprit.PowerComp.PowerNet;
@@ -106,7 +106,7 @@ namespace RimWorld
 			Find.LetterStack.ReceiveLetter("LetterLabelShortCircuit".Translate(), stringBuilder.ToString(), LetterDefOf.NegativeEvent, new TargetInfo(culprit.Position, map, false), null, null);
 		}
 
-		// Token: 0x0600371B RID: 14107 RVA: 0x001D7830 File Offset: 0x001D5C30
+		// Token: 0x0600371D RID: 14109 RVA: 0x001D7904 File Offset: 0x001D5D04
 		public static bool TryShortCircuitInRain(Thing thing)
 		{
 			CompPowerTrader compPowerTrader = thing.TryGetComp<CompPowerTrader>();
@@ -136,7 +136,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600371C RID: 14108 RVA: 0x001D7950 File Offset: 0x001D5D50
+		// Token: 0x0600371E RID: 14110 RVA: 0x001D7A24 File Offset: 0x001D5E24
 		private static void DrainBatteriesAndCauseExplosion(PowerNet net, Building culprit, out float totalEnergy, out float explosionRadius)
 		{
 			totalEnergy = 0f;
@@ -155,7 +155,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600371D RID: 14109 RVA: 0x001D7A44 File Offset: 0x001D5E44
+		// Token: 0x0600371F RID: 14111 RVA: 0x001D7B18 File Offset: 0x001D5F18
 		private static bool TryStartFireNear(Building b)
 		{
 			ShortCircuitUtility.tmpCells.Clear();

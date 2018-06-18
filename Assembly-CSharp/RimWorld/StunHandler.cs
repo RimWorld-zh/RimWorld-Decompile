@@ -7,14 +7,14 @@ namespace RimWorld
 	// Token: 0x020006D0 RID: 1744
 	public class StunHandler : IExposable
 	{
-		// Token: 0x060025B3 RID: 9651 RVA: 0x00142A2F File Offset: 0x00140E2F
+		// Token: 0x060025B5 RID: 9653 RVA: 0x00142AA7 File Offset: 0x00140EA7
 		public StunHandler(Thing parent)
 		{
 			this.parent = parent;
 		}
 
 		// Token: 0x170005A9 RID: 1449
-		// (get) Token: 0x060025B4 RID: 9652 RVA: 0x00142A54 File Offset: 0x00140E54
+		// (get) Token: 0x060025B6 RID: 9654 RVA: 0x00142ACC File Offset: 0x00140ECC
 		public bool Stunned
 		{
 			get
@@ -24,7 +24,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005AA RID: 1450
-		// (get) Token: 0x060025B5 RID: 9653 RVA: 0x00142A74 File Offset: 0x00140E74
+		// (get) Token: 0x060025B7 RID: 9655 RVA: 0x00142AEC File Offset: 0x00140EEC
 		private int EMPAdaptationTicksDuration
 		{
 			get
@@ -43,14 +43,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025B6 RID: 9654 RVA: 0x00142AB7 File Offset: 0x00140EB7
+		// Token: 0x060025B8 RID: 9656 RVA: 0x00142B2F File Offset: 0x00140F2F
 		public void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.stunTicksLeft, "stunTicksLeft", 0, false);
 			Scribe_Values.Look<int>(ref this.EMPAdaptedTicksLeft, "EMPAdaptedTicksLeft", 0, false);
 		}
 
-		// Token: 0x060025B7 RID: 9655 RVA: 0x00142AE0 File Offset: 0x00140EE0
+		// Token: 0x060025B9 RID: 9657 RVA: 0x00142B58 File Offset: 0x00140F58
 		public void StunHandlerTick()
 		{
 			if (this.EMPAdaptedTicksLeft > 0)
@@ -76,7 +76,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025B8 RID: 9656 RVA: 0x00142B8C File Offset: 0x00140F8C
+		// Token: 0x060025BA RID: 9658 RVA: 0x00142C04 File Offset: 0x00141004
 		public void Notify_DamageApplied(DamageInfo dinfo, bool affectedByEMP)
 		{
 			Pawn pawn = this.parent as Pawn;
@@ -102,7 +102,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025B9 RID: 9657 RVA: 0x00142CCC File Offset: 0x001410CC
+		// Token: 0x060025BB RID: 9659 RVA: 0x00142D44 File Offset: 0x00141144
 		public void StunFor(int ticks, Thing instigator)
 		{
 			this.stunTicksLeft = Mathf.Max(this.stunTicksLeft, ticks);

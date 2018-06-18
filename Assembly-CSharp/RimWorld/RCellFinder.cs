@@ -10,7 +10,7 @@ namespace RimWorld
 	// Token: 0x02000900 RID: 2304
 	public static class RCellFinder
 	{
-		// Token: 0x06003554 RID: 13652 RVA: 0x001C8E74 File Offset: 0x001C7274
+		// Token: 0x06003556 RID: 13654 RVA: 0x001C8F3C File Offset: 0x001C733C
 		public static IntVec3 BestOrderedGotoDestNear(IntVec3 root, Pawn searcher)
 		{
 			Map map = searcher.Map;
@@ -78,7 +78,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003555 RID: 13653 RVA: 0x001C8F70 File Offset: 0x001C7370
+		// Token: 0x06003557 RID: 13655 RVA: 0x001C9038 File Offset: 0x001C7438
 		public static bool TryFindBestExitSpot(Pawn pawn, out IntVec3 spot, TraverseMode mode = TraverseMode.ByPawn)
 		{
 			bool result;
@@ -142,7 +142,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003556 RID: 13654 RVA: 0x001C91CC File Offset: 0x001C75CC
+		// Token: 0x06003558 RID: 13656 RVA: 0x001C9294 File Offset: 0x001C7694
 		public static bool TryFindRandomExitSpot(Pawn pawn, out IntVec3 spot, TraverseMode mode = TraverseMode.ByPawn)
 		{
 			Danger danger = Danger.Some;
@@ -195,7 +195,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06003557 RID: 13655 RVA: 0x001C92E0 File Offset: 0x001C76E0
+		// Token: 0x06003559 RID: 13657 RVA: 0x001C93A8 File Offset: 0x001C77A8
 		public static bool TryFindExitSpotNear(Pawn pawn, IntVec3 near, float radius, out IntVec3 spot, TraverseMode mode = TraverseMode.ByPawn)
 		{
 			if (mode == TraverseMode.PassAllDestroyableThings)
@@ -216,7 +216,7 @@ namespace RimWorld
 			}, out spot);
 		}
 
-		// Token: 0x06003558 RID: 13656 RVA: 0x001C9364 File Offset: 0x001C7764
+		// Token: 0x0600355A RID: 13658 RVA: 0x001C942C File Offset: 0x001C782C
 		public static IntVec3 RandomWanderDestFor(Pawn pawn, IntVec3 root, float radius, Func<Pawn, IntVec3, IntVec3, bool> validator, Danger maxDanger)
 		{
 			if (radius > 12f)
@@ -292,7 +292,7 @@ namespace RimWorld
 			return position;
 		}
 
-		// Token: 0x06003559 RID: 13657 RVA: 0x001C976C File Offset: 0x001C7B6C
+		// Token: 0x0600355B RID: 13659 RVA: 0x001C9834 File Offset: 0x001C7C34
 		private static bool CanWanderToCell(IntVec3 c, Pawn pawn, IntVec3 root, Func<Pawn, IntVec3, IntVec3, bool> validator, int tryIndex, Danger maxDanger)
 		{
 			bool flag = UnityData.isDebugBuild && DebugViewSettings.drawDestSearch;
@@ -423,7 +423,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600355A RID: 13658 RVA: 0x001C9AE4 File Offset: 0x001C7EE4
+		// Token: 0x0600355C RID: 13660 RVA: 0x001C9BAC File Offset: 0x001C7FAC
 		public static bool TryFindGoodAdjacentSpotToTouch(Pawn toucher, Thing touchee, out IntVec3 result)
 		{
 			foreach (IntVec3 intVec in GenAdj.CellsAdjacent8Way(touchee).InRandomOrder(null))
@@ -446,13 +446,13 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x0600355B RID: 13659 RVA: 0x001C9BF8 File Offset: 0x001C7FF8
+		// Token: 0x0600355D RID: 13661 RVA: 0x001C9CC0 File Offset: 0x001C80C0
 		public static bool TryFindRandomPawnEntryCell(out IntVec3 result, Map map, float roadChance, Predicate<IntVec3> extraValidator = null)
 		{
 			return CellFinder.TryFindRandomEdgeCellWith((IntVec3 c) => c.Standable(map) && !map.roofGrid.Roofed(c) && map.reachability.CanReachColony(c) && c.GetRoom(map, RegionType.Set_Passable).TouchesMapEdge && (extraValidator == null || extraValidator(c)), map, roadChance, out result);
 		}
 
-		// Token: 0x0600355C RID: 13660 RVA: 0x001C9C3C File Offset: 0x001C803C
+		// Token: 0x0600355E RID: 13662 RVA: 0x001C9D04 File Offset: 0x001C8104
 		public static bool TryFindPrisonerReleaseCell(Pawn prisoner, Pawn warden, out IntVec3 result)
 		{
 			bool result2;
@@ -506,7 +506,7 @@ namespace RimWorld
 			return result2;
 		}
 
-		// Token: 0x0600355D RID: 13661 RVA: 0x001C9D1C File Offset: 0x001C811C
+		// Token: 0x0600355F RID: 13663 RVA: 0x001C9DE4 File Offset: 0x001C81E4
 		public static IntVec3 RandomAnimalSpawnCell_MapGen(Map map)
 		{
 			int numStand = 0;
@@ -565,7 +565,7 @@ namespace RimWorld
 			return intVec;
 		}
 
-		// Token: 0x0600355E RID: 13662 RVA: 0x001C9E04 File Offset: 0x001C8204
+		// Token: 0x06003560 RID: 13664 RVA: 0x001C9ECC File Offset: 0x001C82CC
 		public static bool TryFindSkygazeCell(IntVec3 root, Pawn searcher, out IntVec3 result)
 		{
 			Predicate<IntVec3> cellValidator = (IntVec3 c) => !c.Roofed(searcher.Map) && !c.GetTerrain(searcher.Map).avoidWander;
@@ -587,7 +587,7 @@ namespace RimWorld
 			return result2;
 		}
 
-		// Token: 0x0600355F RID: 13663 RVA: 0x001C9EB4 File Offset: 0x001C82B4
+		// Token: 0x06003561 RID: 13665 RVA: 0x001C9F7C File Offset: 0x001C837C
 		public static bool TryFindTravelDestFrom(IntVec3 root, Map map, out IntVec3 travelDest)
 		{
 			travelDest = root;
@@ -620,19 +620,19 @@ namespace RimWorld
 			return flag;
 		}
 
-		// Token: 0x06003560 RID: 13664 RVA: 0x001CA044 File Offset: 0x001C8444
+		// Token: 0x06003562 RID: 13666 RVA: 0x001CA10C File Offset: 0x001C850C
 		public static bool TryFindRandomSpotJustOutsideColony(IntVec3 originCell, Map map, out IntVec3 result)
 		{
 			return RCellFinder.TryFindRandomSpotJustOutsideColony(originCell, map, null, out result, null);
 		}
 
-		// Token: 0x06003561 RID: 13665 RVA: 0x001CA064 File Offset: 0x001C8464
+		// Token: 0x06003563 RID: 13667 RVA: 0x001CA12C File Offset: 0x001C852C
 		public static bool TryFindRandomSpotJustOutsideColony(Pawn searcher, out IntVec3 result)
 		{
 			return RCellFinder.TryFindRandomSpotJustOutsideColony(searcher.Position, searcher.Map, searcher, out result, null);
 		}
 
-		// Token: 0x06003562 RID: 13666 RVA: 0x001CA090 File Offset: 0x001C8490
+		// Token: 0x06003564 RID: 13668 RVA: 0x001CA158 File Offset: 0x001C8558
 		public static bool TryFindRandomSpotJustOutsideColony(IntVec3 root, Map map, Pawn searcher, out IntVec3 result, Predicate<IntVec3> extraValidator = null)
 		{
 			bool desperate = false;
@@ -793,7 +793,7 @@ namespace RimWorld
 			return CellFinderLoose.TryGetRandomCellWith(validator, map, 1000, out result);
 		}
 
-		// Token: 0x06003563 RID: 13667 RVA: 0x001CA310 File Offset: 0x001C8710
+		// Token: 0x06003565 RID: 13669 RVA: 0x001CA3D8 File Offset: 0x001C87D8
 		public static bool TryFindRandomCellInRegionUnforbidden(this Region reg, Pawn pawn, Predicate<IntVec3> validator, out IntVec3 result)
 		{
 			if (reg == null)
@@ -813,7 +813,7 @@ namespace RimWorld
 			return result2;
 		}
 
-		// Token: 0x06003564 RID: 13668 RVA: 0x001CA384 File Offset: 0x001C8784
+		// Token: 0x06003566 RID: 13670 RVA: 0x001CA44C File Offset: 0x001C884C
 		public static bool TryFindDirectFleeDestination(IntVec3 root, float dist, Pawn pawn, out IntVec3 result)
 		{
 			for (int i = 0; i < 30; i++)
@@ -844,7 +844,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06003565 RID: 13669 RVA: 0x001CA508 File Offset: 0x001C8908
+		// Token: 0x06003567 RID: 13671 RVA: 0x001CA5D0 File Offset: 0x001C89D0
 		public static bool TryFindRandomCellOutsideColonyNearTheCenterOfTheMap(IntVec3 pos, Map map, float minDistToColony, out IntVec3 result)
 		{
 			int num = 30;
@@ -907,14 +907,14 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06003566 RID: 13670 RVA: 0x001CA70C File Offset: 0x001C8B0C
+		// Token: 0x06003568 RID: 13672 RVA: 0x001CA7D4 File Offset: 0x001C8BD4
 		public static bool TryFindRandomCellNearTheCenterOfTheMapWith(Predicate<IntVec3> validator, Map map, out IntVec3 result)
 		{
 			int startingSearchRadius = Mathf.Clamp(Mathf.Max(map.Size.x, map.Size.z) / 20, 3, 25);
 			return RCellFinder.TryFindRandomCellNearWith(map.Center, validator, map, out result, startingSearchRadius, int.MaxValue);
 		}
 
-		// Token: 0x06003567 RID: 13671 RVA: 0x001CA764 File Offset: 0x001C8B64
+		// Token: 0x06003569 RID: 13673 RVA: 0x001CA82C File Offset: 0x001C8C2C
 		public static bool TryFindRandomCellNearWith(IntVec3 near, Predicate<IntVec3> validator, Map map, out IntVec3 result, int startingSearchRadius = 5, int maxSearchRadius = 2147483647)
 		{
 			int num = startingSearchRadius;
@@ -949,7 +949,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x06003568 RID: 13672 RVA: 0x001CA838 File Offset: 0x001C8C38
+		// Token: 0x0600356A RID: 13674 RVA: 0x001CA900 File Offset: 0x001C8D00
 		public static IntVec3 SpotToChewStandingNear(Pawn pawn, Thing ingestible)
 		{
 			IntVec3 root = pawn.Position;
@@ -1054,7 +1054,7 @@ namespace RimWorld
 			return region.RandomCell;
 		}
 
-		// Token: 0x06003569 RID: 13673 RVA: 0x001CAA54 File Offset: 0x001C8E54
+		// Token: 0x0600356B RID: 13675 RVA: 0x001CAB1C File Offset: 0x001C8F1C
 		public static bool TryFindMarriageSite(Pawn firstFiance, Pawn secondFiance, out IntVec3 result)
 		{
 			bool result2;
@@ -1123,7 +1123,7 @@ namespace RimWorld
 			return result2;
 		}
 
-		// Token: 0x0600356A RID: 13674 RVA: 0x001CAC3C File Offset: 0x001C903C
+		// Token: 0x0600356C RID: 13676 RVA: 0x001CAD04 File Offset: 0x001C9104
 		public static bool TryFindPartySpot(Pawn organizer, out IntVec3 result)
 		{
 			bool enjoyableOutside = JoyUtility.EnjoyableOutsideNow(organizer, null);
@@ -1198,7 +1198,7 @@ namespace RimWorld
 			return result2;
 		}
 
-		// Token: 0x0600356B RID: 13675 RVA: 0x001CAE08 File Offset: 0x001C9208
+		// Token: 0x0600356D RID: 13677 RVA: 0x001CAED0 File Offset: 0x001C92D0
 		internal static IntVec3 FindSiegePositionFrom(IntVec3 entrySpot, Map map)
 		{
 			IntVec3 result;
@@ -1241,7 +1241,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600356C RID: 13676 RVA: 0x001CAF10 File Offset: 0x001C9310
+		// Token: 0x0600356E RID: 13678 RVA: 0x001CAFD8 File Offset: 0x001C93D8
 		private static bool TryFindSiegePosition(IntVec3 entrySpot, float minDistToColony, Map map, out IntVec3 result)
 		{
 			CellRect cellRect = CellRect.CenteredOn(entrySpot, 60);

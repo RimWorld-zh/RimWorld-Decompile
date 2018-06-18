@@ -7,11 +7,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E1D RID: 3613
+	// Token: 0x02000E1C RID: 3612
 	[HasDebugOutput]
 	internal static class DebugOutputsInfection
 	{
-		// Token: 0x060052E5 RID: 21221 RVA: 0x002A7A88 File Offset: 0x002A5E88
+		// Token: 0x060052E3 RID: 21219 RVA: 0x002A7A68 File Offset: 0x002A5E68
 		private static List<Pawn> GenerateDoctorArray()
 		{
 			PawnGenerationRequest request = new PawnGenerationRequest(PawnKindDefOf.Colonist, Faction.OfPlayer, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, false, false, false, (Pawn p) => !p.story.WorkTypeIsDisabled(WorkTypeDefOf.Doctor) && p.health.hediffSet.hediffs.Count == 0, null, null, null, null, null, null, null);
@@ -25,7 +25,7 @@ namespace Verse
 			return list;
 		}
 
-		// Token: 0x060052E6 RID: 21222 RVA: 0x002A7B58 File Offset: 0x002A5F58
+		// Token: 0x060052E4 RID: 21220 RVA: 0x002A7B38 File Offset: 0x002A5F38
 		private static IEnumerable<HediffDef> InfectionList()
 		{
 			return from hediff in DefDatabase<HediffDef>.AllDefs
@@ -33,7 +33,7 @@ namespace Verse
 			select hediff;
 		}
 
-		// Token: 0x060052E7 RID: 21223 RVA: 0x002A7B94 File Offset: 0x002A5F94
+		// Token: 0x060052E5 RID: 21221 RVA: 0x002A7B74 File Offset: 0x002A5F74
 		[DebugOutput]
 		public static void Infections()
 		{
@@ -138,14 +138,14 @@ namespace Verse
 			DebugTables.MakeTablesDialog<HediffDef>(DebugOutputsInfection.InfectionList(), list.ToArray());
 		}
 
-		// Token: 0x060052E8 RID: 21224 RVA: 0x002A7F98 File Offset: 0x002A6398
+		// Token: 0x060052E6 RID: 21222 RVA: 0x002A7F78 File Offset: 0x002A6378
 		[DebugOutput]
 		public static void InfectionSimulator()
 		{
 			LongEventHandler.QueueLongEvent(DebugOutputsInfection.InfectionSimulatorWorker(), "Simulating . . .", null);
 		}
 
-		// Token: 0x060052E9 RID: 21225 RVA: 0x002A7FAC File Offset: 0x002A63AC
+		// Token: 0x060052E7 RID: 21223 RVA: 0x002A7F8C File Offset: 0x002A638C
 		private static IEnumerable InfectionSimulatorWorker()
 		{
 			int trials = 2;
@@ -235,36 +235,36 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x02000E1E RID: 3614
+		// Token: 0x02000E1D RID: 3613
 		private enum InfectionLuck
 		{
-			// Token: 0x0400366F RID: 13935
+			// Token: 0x0400366D RID: 13933
 			Bad,
-			// Token: 0x04003670 RID: 13936
+			// Token: 0x0400366E RID: 13934
 			Normal,
-			// Token: 0x04003671 RID: 13937
+			// Token: 0x0400366F RID: 13935
 			Good
 		}
 
-		// Token: 0x02000E1F RID: 3615
+		// Token: 0x02000E1E RID: 3614
 		private struct InfectionSimRow
 		{
-			// Token: 0x04003672 RID: 13938
+			// Token: 0x04003670 RID: 13936
 			public HediffDef illness;
 
-			// Token: 0x04003673 RID: 13939
+			// Token: 0x04003671 RID: 13937
 			public int skill;
 
-			// Token: 0x04003674 RID: 13940
+			// Token: 0x04003672 RID: 13938
 			public ThingDef medicine;
 
-			// Token: 0x04003675 RID: 13941
+			// Token: 0x04003673 RID: 13939
 			public float deathChance;
 
-			// Token: 0x04003676 RID: 13942
+			// Token: 0x04003674 RID: 13940
 			public float recoveryTimeDays;
 
-			// Token: 0x04003677 RID: 13943
+			// Token: 0x04003675 RID: 13941
 			public float medicineUsed;
 		}
 	}

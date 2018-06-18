@@ -7,7 +7,7 @@ namespace Verse.AI
 	// Token: 0x02000A5B RID: 2651
 	public static class JailbreakerMentalStateUtility
 	{
-		// Token: 0x06003AF6 RID: 15094 RVA: 0x001F4718 File Offset: 0x001F2B18
+		// Token: 0x06003AF8 RID: 15096 RVA: 0x001F47EC File Offset: 0x001F2BEC
 		public static Pawn FindPrisoner(Pawn pawn)
 		{
 			Pawn result;

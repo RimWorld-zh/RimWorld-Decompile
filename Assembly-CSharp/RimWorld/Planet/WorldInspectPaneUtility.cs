@@ -8,7 +8,7 @@ namespace RimWorld.Planet
 	// Token: 0x020008EE RID: 2286
 	public static class WorldInspectPaneUtility
 	{
-		// Token: 0x060034A4 RID: 13476 RVA: 0x001C1914 File Offset: 0x001BFD14
+		// Token: 0x060034A6 RID: 13478 RVA: 0x001C19DC File Offset: 0x001BFDDC
 		public static string AdjustedLabelFor(List<WorldObject> worldObjects, Rect rect)
 		{
 			string result;
@@ -27,7 +27,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x060034A5 RID: 13477 RVA: 0x001C1984 File Offset: 0x001BFD84
+		// Token: 0x060034A7 RID: 13479 RVA: 0x001C1A4C File Offset: 0x001BFE4C
 		private static bool AllLabelsAreSame(List<WorldObject> worldObjects)
 		{
 			for (int i = 0; i < worldObjects.Count; i++)

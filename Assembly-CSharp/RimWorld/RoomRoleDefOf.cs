@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class RoomRoleDefOf
 	{
-		// Token: 0x0600364C RID: 13900 RVA: 0x001D090B File Offset: 0x001CED0B
+		// Token: 0x0600364E RID: 13902 RVA: 0x001D09D3 File Offset: 0x001CEDD3
 		static RoomRoleDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(RoomRoleDefOf));

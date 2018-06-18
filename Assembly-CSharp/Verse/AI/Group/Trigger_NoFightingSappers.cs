@@ -6,7 +6,7 @@ namespace Verse.AI.Group
 	// Token: 0x02000A1D RID: 2589
 	public class Trigger_NoFightingSappers : Trigger
 	{
-		// Token: 0x060039B4 RID: 14772 RVA: 0x001E81A8 File Offset: 0x001E65A8
+		// Token: 0x060039B6 RID: 14774 RVA: 0x001E827C File Offset: 0x001E667C
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
 			bool result;
@@ -29,7 +29,7 @@ namespace Verse.AI.Group
 			return result;
 		}
 
-		// Token: 0x060039B5 RID: 14773 RVA: 0x001E8214 File Offset: 0x001E6614
+		// Token: 0x060039B7 RID: 14775 RVA: 0x001E82E8 File Offset: 0x001E66E8
 		private bool IsFightingSapper(Pawn p)
 		{
 			return !p.Downed && !p.InMentalState && (SappersUtility.IsGoodSapper(p) || SappersUtility.IsGoodBackupSapper(p));

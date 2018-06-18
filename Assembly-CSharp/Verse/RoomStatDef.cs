@@ -8,7 +8,7 @@ namespace Verse
 	public class RoomStatDef : Def
 	{
 		// Token: 0x170009BB RID: 2491
-		// (get) Token: 0x06003FE0 RID: 16352 RVA: 0x0021A708 File Offset: 0x00218B08
+		// (get) Token: 0x06003FE2 RID: 16354 RVA: 0x0021A7DC File Offset: 0x00218BDC
 		public RoomStatWorker Worker
 		{
 			get
@@ -21,7 +21,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FE1 RID: 16353 RVA: 0x0021A744 File Offset: 0x00218B44
+		// Token: 0x06003FE3 RID: 16355 RVA: 0x0021A818 File Offset: 0x00218C18
 		public RoomStatScoreStage GetScoreStage(float score)
 		{
 			RoomStatScoreStage result;
@@ -36,7 +36,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003FE2 RID: 16354 RVA: 0x0021A784 File Offset: 0x00218B84
+		// Token: 0x06003FE4 RID: 16356 RVA: 0x0021A858 File Offset: 0x00218C58
 		public int GetScoreStageIndex(float score)
 		{
 			if (this.scoreStages.NullOrEmpty<RoomStatScoreStage>())
@@ -55,7 +55,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003FE3 RID: 16355 RVA: 0x0021A7F8 File Offset: 0x00218BF8
+		// Token: 0x06003FE5 RID: 16357 RVA: 0x0021A8CC File Offset: 0x00218CCC
 		public string ScoreToString(float score)
 		{
 			string result;

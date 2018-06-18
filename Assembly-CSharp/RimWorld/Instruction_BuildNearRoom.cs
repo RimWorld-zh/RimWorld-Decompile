@@ -7,7 +7,7 @@ namespace RimWorld
 	public class Instruction_BuildNearRoom : Instruction_BuildAtRoom
 	{
 		// Token: 0x1700081F RID: 2079
-		// (get) Token: 0x06003316 RID: 13078 RVA: 0x001B7BF8 File Offset: 0x001B5FF8
+		// (get) Token: 0x06003318 RID: 13080 RVA: 0x001B7CC0 File Offset: 0x001B60C0
 		protected override CellRect BuildableRect
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003317 RID: 13079 RVA: 0x001B7C20 File Offset: 0x001B6020
+		// Token: 0x06003319 RID: 13081 RVA: 0x001B7CE8 File Offset: 0x001B60E8
 		protected override bool AllowBuildAt(IntVec3 c)
 		{
 			return base.AllowBuildAt(c) && !Find.TutorialState.roomRect.Contains(c);

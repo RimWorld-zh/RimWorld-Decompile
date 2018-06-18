@@ -8,7 +8,7 @@ namespace RimWorld
 	public class Instruction_SetGrowingZonePlant : Lesson_Instruction
 	{
 		// Token: 0x1700082E RID: 2094
-		// (get) Token: 0x06003370 RID: 13168 RVA: 0x001B9224 File Offset: 0x001B7624
+		// (get) Token: 0x06003372 RID: 13170 RVA: 0x001B92EC File Offset: 0x001B76EC
 		private Zone_Growing GrowZone
 		{
 			get
@@ -17,14 +17,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003371 RID: 13169 RVA: 0x001B9270 File Offset: 0x001B7670
+		// Token: 0x06003373 RID: 13171 RVA: 0x001B9338 File Offset: 0x001B7738
 		public override void LessonOnGUI()
 		{
 			TutorUtility.DrawLabelOnGUI(Gen.AveragePosition(this.GrowZone.cells), this.def.onMapInstruction);
 			base.LessonOnGUI();
 		}
 
-		// Token: 0x06003372 RID: 13170 RVA: 0x001B9299 File Offset: 0x001B7699
+		// Token: 0x06003374 RID: 13172 RVA: 0x001B9361 File Offset: 0x001B7761
 		public override void LessonUpdate()
 		{
 			GenDraw.DrawArrowPointingAt(Gen.AveragePosition(this.GrowZone.cells), false);

@@ -6,7 +6,7 @@ namespace Verse.AI.Group
 	// Token: 0x020009F5 RID: 2549
 	public class LordToil_DefendSelf : LordToil
 	{
-		// Token: 0x0600393C RID: 14652 RVA: 0x001E68C8 File Offset: 0x001E4CC8
+		// Token: 0x0600393E RID: 14654 RVA: 0x001E699C File Offset: 0x001E4D9C
 		public override void UpdateAllDuties()
 		{
 			for (int i = 0; i < this.lord.ownedPawns.Count; i++)

@@ -3,15 +3,15 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000F26 RID: 3878
+	// Token: 0x02000F25 RID: 3877
 	public class SubEffecter_Sustainer : SubEffecter
 	{
-		// Token: 0x06005CBB RID: 23739 RVA: 0x002EF869 File Offset: 0x002EDC69
+		// Token: 0x06005CB9 RID: 23737 RVA: 0x002EF945 File Offset: 0x002EDD45
 		public SubEffecter_Sustainer(SubEffecterDef def, Effecter parent) : base(def, parent)
 		{
 		}
 
-		// Token: 0x06005CBC RID: 23740 RVA: 0x002EF884 File Offset: 0x002EDC84
+		// Token: 0x06005CBA RID: 23738 RVA: 0x002EF960 File Offset: 0x002EDD60
 		public override void SubEffectTick(TargetInfo A, TargetInfo B)
 		{
 			this.age++;
@@ -29,10 +29,10 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003D8A RID: 15754
+		// Token: 0x04003D89 RID: 15753
 		private int age = 0;
 
-		// Token: 0x04003D8B RID: 15755
+		// Token: 0x04003D8A RID: 15754
 		private Sustainer sustainer = null;
 	}
 }

@@ -6,7 +6,7 @@ namespace Verse.Sound
 	public class SoundParamSource_MusicPlayingFadeOut : SoundParamSource
 	{
 		// Token: 0x170009C7 RID: 2503
-		// (get) Token: 0x06004034 RID: 16436 RVA: 0x0021C578 File Offset: 0x0021A978
+		// (get) Token: 0x06004036 RID: 16438 RVA: 0x0021C64C File Offset: 0x0021AA4C
 		public override string Label
 		{
 			get
@@ -15,7 +15,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004035 RID: 16437 RVA: 0x0021C594 File Offset: 0x0021A994
+		// Token: 0x06004037 RID: 16439 RVA: 0x0021C668 File Offset: 0x0021AA68
 		public override float ValueFor(Sample samp)
 		{
 			float result;

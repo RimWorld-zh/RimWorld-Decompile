@@ -7,7 +7,7 @@ namespace Verse
 	public class ProjectileProperties
 	{
 		// Token: 0x17000976 RID: 2422
-		// (get) Token: 0x06003EC3 RID: 16067 RVA: 0x00210B6C File Offset: 0x0020EF6C
+		// (get) Token: 0x06003EC5 RID: 16069 RVA: 0x00210C40 File Offset: 0x0020F040
 		public int DamageAmount
 		{
 			get
@@ -30,7 +30,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003EC4 RID: 16068 RVA: 0x00210BC8 File Offset: 0x0020EFC8
+		// Token: 0x06003EC6 RID: 16070 RVA: 0x00210C9C File Offset: 0x0020F09C
 		public IEnumerable<string> ConfigErrors(ThingDef parent)
 		{
 			if (this.alwaysFreeIntercept && this.flyOverhead)

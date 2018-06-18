@@ -7,7 +7,7 @@ namespace RimWorld
 	public class CompUseEffect_LearnSkill : CompUseEffect
 	{
 		// Token: 0x17000674 RID: 1652
-		// (get) Token: 0x060029D2 RID: 10706 RVA: 0x00162D18 File Offset: 0x00161118
+		// (get) Token: 0x060029D4 RID: 10708 RVA: 0x00162DAC File Offset: 0x001611AC
 		private SkillDef Skill
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060029D3 RID: 10707 RVA: 0x00162D40 File Offset: 0x00161140
+		// Token: 0x060029D5 RID: 10709 RVA: 0x00162DD4 File Offset: 0x001611D4
 		public override void DoEffect(Pawn user)
 		{
 			base.DoEffect(user);
@@ -36,7 +36,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060029D4 RID: 10708 RVA: 0x00162DE4 File Offset: 0x001611E4
+		// Token: 0x060029D6 RID: 10710 RVA: 0x00162E78 File Offset: 0x00161278
 		public override bool CanBeUsedBy(Pawn p, out string failReason)
 		{
 			bool result;

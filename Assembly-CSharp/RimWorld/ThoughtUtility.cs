@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020009D0 RID: 2512
 	public static class ThoughtUtility
 	{
-		// Token: 0x0600383F RID: 14399 RVA: 0x001DF790 File Offset: 0x001DDB90
+		// Token: 0x06003841 RID: 14401 RVA: 0x001DF864 File Offset: 0x001DDC64
 		public static void Reset()
 		{
 			ThoughtUtility.situationalSocialThoughtDefs = (from x in DefDatabase<ThoughtDef>.AllDefs
@@ -19,7 +19,7 @@ namespace RimWorld
 			select x).ToList<ThoughtDef>();
 		}
 
-		// Token: 0x06003840 RID: 14400 RVA: 0x001DF800 File Offset: 0x001DDC00
+		// Token: 0x06003842 RID: 14402 RVA: 0x001DF8D4 File Offset: 0x001DDCD4
 		public static void GiveThoughtsForPawnExecuted(Pawn victim, PawnExecutionKind kind)
 		{
 			if (victim.RaceProps.Humanlike)
@@ -63,7 +63,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003841 RID: 14401 RVA: 0x001DF8F4 File Offset: 0x001DDCF4
+		// Token: 0x06003843 RID: 14403 RVA: 0x001DF9C8 File Offset: 0x001DDDC8
 		public static void GiveThoughtsForPawnOrganHarvested(Pawn victim)
 		{
 			if (victim.RaceProps.Humanlike)
@@ -91,7 +91,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003842 RID: 14402 RVA: 0x001DF9DC File Offset: 0x001DDDDC
+		// Token: 0x06003844 RID: 14404 RVA: 0x001DFAB0 File Offset: 0x001DDEB0
 		public static bool IsSituationalThoughtNullifiedByHediffs(ThoughtDef def, Pawn pawn)
 		{
 			bool result;
@@ -127,7 +127,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003843 RID: 14403 RVA: 0x001DFAA0 File Offset: 0x001DDEA0
+		// Token: 0x06003845 RID: 14405 RVA: 0x001DFB74 File Offset: 0x001DDF74
 		public static bool IsThoughtNullifiedByOwnTales(ThoughtDef def, Pawn pawn)
 		{
 			if (def.nullifyingOwnTales != null)
@@ -143,7 +143,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06003844 RID: 14404 RVA: 0x001DFB04 File Offset: 0x001DDF04
+		// Token: 0x06003846 RID: 14406 RVA: 0x001DFBD8 File Offset: 0x001DDFD8
 		public static void RemovePositiveBedroomThoughts(Pawn pawn)
 		{
 			if (pawn.needs.mood != null)
@@ -153,7 +153,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003845 RID: 14405 RVA: 0x001DFBA0 File Offset: 0x001DDFA0
+		// Token: 0x06003847 RID: 14407 RVA: 0x001DFC74 File Offset: 0x001DE074
 		public static bool CanGetThought(Pawn pawn, ThoughtDef def)
 		{
 			try

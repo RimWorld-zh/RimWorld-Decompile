@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020007FD RID: 2045
 	public abstract class Dialog_GiveName : Window
 	{
-		// Token: 0x06002D77 RID: 11639 RVA: 0x0017E4D8 File Offset: 0x0017C8D8
+		// Token: 0x06002D79 RID: 11641 RVA: 0x0017E56C File Offset: 0x0017C96C
 		public Dialog_GiveName()
 		{
 			if (Find.AnyPlayerHomeMap != null && Find.AnyPlayerHomeMap.mapPawns.FreeColonistsCount != 0)
@@ -32,7 +32,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700073B RID: 1851
-		// (get) Token: 0x06002D78 RID: 11640 RVA: 0x0017E58C File Offset: 0x0017C98C
+		// (get) Token: 0x06002D7A RID: 11642 RVA: 0x0017E620 File Offset: 0x0017CA20
 		private float Height
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700073C RID: 1852
-		// (get) Token: 0x06002D79 RID: 11641 RVA: 0x0017E5BC File Offset: 0x0017C9BC
+		// (get) Token: 0x06002D7B RID: 11643 RVA: 0x0017E650 File Offset: 0x0017CA50
 		public override Vector2 InitialSize
 		{
 			get
@@ -51,7 +51,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D7A RID: 11642 RVA: 0x0017E5E4 File Offset: 0x0017C9E4
+		// Token: 0x06002D7C RID: 11644 RVA: 0x0017E678 File Offset: 0x0017CA78
 		public override void DoWindowContents(Rect rect)
 		{
 			Text.Font = GameFont.Small;
@@ -136,19 +136,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D7B RID: 11643
+		// Token: 0x06002D7D RID: 11645
 		protected abstract bool IsValidName(string s);
 
-		// Token: 0x06002D7C RID: 11644
+		// Token: 0x06002D7E RID: 11646
 		protected abstract void Named(string s);
 
-		// Token: 0x06002D7D RID: 11645 RVA: 0x0017EA80 File Offset: 0x0017CE80
+		// Token: 0x06002D7F RID: 11647 RVA: 0x0017EB14 File Offset: 0x0017CF14
 		protected virtual bool IsValidSecondName(string s)
 		{
 			return true;
 		}
 
-		// Token: 0x06002D7E RID: 11646 RVA: 0x0017EA96 File Offset: 0x0017CE96
+		// Token: 0x06002D80 RID: 11648 RVA: 0x0017EB2A File Offset: 0x0017CF2A
 		protected virtual void NamedSecond(string s)
 		{
 		}

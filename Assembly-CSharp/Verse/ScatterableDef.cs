@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000B73 RID: 2931
 	public class ScatterableDef : Def
 	{
-		// Token: 0x06003FEE RID: 16366 RVA: 0x0021AC80 File Offset: 0x00219080
+		// Token: 0x06003FF0 RID: 16368 RVA: 0x0021AD54 File Offset: 0x00219154
 		public override void PostLoad()
 		{
 			base.PostLoad();

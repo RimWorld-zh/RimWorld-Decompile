@@ -7,14 +7,14 @@ namespace RimWorld.Planet
 	// Token: 0x0200061E RID: 1566
 	public class DefeatAllEnemiesQuestComp : WorldObjectComp, IThingHolder
 	{
-		// Token: 0x06001FBF RID: 8127 RVA: 0x00111E03 File Offset: 0x00110203
+		// Token: 0x06001FC1 RID: 8129 RVA: 0x00111E7B File Offset: 0x0011027B
 		public DefeatAllEnemiesQuestComp()
 		{
 			this.rewards = new ThingOwner<Thing>(this);
 		}
 
 		// Token: 0x170004BA RID: 1210
-		// (get) Token: 0x06001FC0 RID: 8128 RVA: 0x00111E18 File Offset: 0x00110218
+		// (get) Token: 0x06001FC2 RID: 8130 RVA: 0x00111E90 File Offset: 0x00110290
 		public bool Active
 		{
 			get
@@ -23,7 +23,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001FC1 RID: 8129 RVA: 0x00111E33 File Offset: 0x00110233
+		// Token: 0x06001FC3 RID: 8131 RVA: 0x00111EAB File Offset: 0x001102AB
 		public void StartQuest(Faction requestingFaction, int relationsImprovement, List<Thing> rewards)
 		{
 			this.StopQuest();
@@ -34,7 +34,7 @@ namespace RimWorld.Planet
 			this.rewards.TryAddRangeOrTransfer(rewards, true, false);
 		}
 
-		// Token: 0x06001FC2 RID: 8130 RVA: 0x00111E6B File Offset: 0x0011026B
+		// Token: 0x06001FC4 RID: 8132 RVA: 0x00111EE3 File Offset: 0x001102E3
 		public void StopQuest()
 		{
 			this.active = false;
@@ -42,7 +42,7 @@ namespace RimWorld.Planet
 			this.rewards.ClearAndDestroyContents(DestroyMode.Vanish);
 		}
 
-		// Token: 0x06001FC3 RID: 8131 RVA: 0x00111E88 File Offset: 0x00110288
+		// Token: 0x06001FC5 RID: 8133 RVA: 0x00111F00 File Offset: 0x00110300
 		public override void CompTick()
 		{
 			base.CompTick();
@@ -56,7 +56,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001FC4 RID: 8132 RVA: 0x00111EC2 File Offset: 0x001102C2
+		// Token: 0x06001FC6 RID: 8134 RVA: 0x00111F3A File Offset: 0x0011033A
 		private void CheckAllEnemiesDefeated(MapParent mapParent)
 		{
 			if (mapParent.HasMap)
@@ -69,7 +69,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001FC5 RID: 8133 RVA: 0x00111EF8 File Offset: 0x001102F8
+		// Token: 0x06001FC7 RID: 8135 RVA: 0x00111F70 File Offset: 0x00110370
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -82,7 +82,7 @@ namespace RimWorld.Planet
 			});
 		}
 
-		// Token: 0x06001FC6 RID: 8134 RVA: 0x00111F5C File Offset: 0x0011035C
+		// Token: 0x06001FC8 RID: 8136 RVA: 0x00111FD4 File Offset: 0x001103D4
 		private void GiveRewardsAndSendLetter()
 		{
 			Map map = Find.AnyPlayerHomeMap ?? ((MapParent)this.parent).Map;
@@ -102,26 +102,26 @@ namespace RimWorld.Planet
 			Find.LetterStack.ReceiveLetter("LetterLabelDefeatAllEnemiesQuestCompleted".Translate(), text, LetterDefOf.PositiveEvent, new GlobalTargetInfo(intVec, map, false), this.requestingFaction, null);
 		}
 
-		// Token: 0x06001FC7 RID: 8135 RVA: 0x00112070 File Offset: 0x00110470
+		// Token: 0x06001FC9 RID: 8137 RVA: 0x001120E8 File Offset: 0x001104E8
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
 
-		// Token: 0x06001FC8 RID: 8136 RVA: 0x00112080 File Offset: 0x00110480
+		// Token: 0x06001FCA RID: 8138 RVA: 0x001120F8 File Offset: 0x001104F8
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.rewards;
 		}
 
-		// Token: 0x06001FC9 RID: 8137 RVA: 0x0011209B File Offset: 0x0011049B
+		// Token: 0x06001FCB RID: 8139 RVA: 0x00112113 File Offset: 0x00110513
 		public override void PostPostRemove()
 		{
 			base.PostPostRemove();
 			this.rewards.ClearAndDestroyContents(DestroyMode.Vanish);
 		}
 
-		// Token: 0x06001FCA RID: 8138 RVA: 0x001120B0 File Offset: 0x001104B0
+		// Token: 0x06001FCC RID: 8140 RVA: 0x00112128 File Offset: 0x00110528
 		public override string CompInspectStringExtra()
 		{
 			string result;

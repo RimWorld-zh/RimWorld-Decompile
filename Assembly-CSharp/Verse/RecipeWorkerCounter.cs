@@ -8,13 +8,13 @@ namespace Verse
 	// Token: 0x02000B29 RID: 2857
 	public class RecipeWorkerCounter
 	{
-		// Token: 0x06003EEE RID: 16110 RVA: 0x00212390 File Offset: 0x00210790
+		// Token: 0x06003EF0 RID: 16112 RVA: 0x00212464 File Offset: 0x00210864
 		public virtual bool CanCountProducts(Bill_Production bill)
 		{
 			return this.recipe.specialProducts == null && this.recipe.products != null && this.recipe.products.Count == 1;
 		}
 
-		// Token: 0x06003EEF RID: 16111 RVA: 0x002123DC File Offset: 0x002107DC
+		// Token: 0x06003EF1 RID: 16113 RVA: 0x002124B0 File Offset: 0x002108B0
 		public virtual int CountProducts(Bill_Production bill)
 		{
 			ThingDefCountClass thingDefCountClass = this.recipe.products[0];
@@ -68,7 +68,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003EF0 RID: 16112 RVA: 0x00212740 File Offset: 0x00210B40
+		// Token: 0x06003EF2 RID: 16114 RVA: 0x00212814 File Offset: 0x00210C14
 		public int CountValidThings(List<Thing> things, Bill_Production bill, ThingDef def)
 		{
 			int num = 0;
@@ -82,7 +82,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06003EF1 RID: 16113 RVA: 0x0021278C File Offset: 0x00210B8C
+		// Token: 0x06003EF3 RID: 16115 RVA: 0x00212860 File Offset: 0x00210C60
 		public bool CountValidThing(Thing thing, Bill_Production bill, ThingDef def)
 		{
 			ThingDef def2 = thing.def;
@@ -107,13 +107,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003EF2 RID: 16114 RVA: 0x0021285C File Offset: 0x00210C5C
+		// Token: 0x06003EF4 RID: 16116 RVA: 0x00212930 File Offset: 0x00210D30
 		public virtual string ProductsDescription(Bill_Production bill)
 		{
 			return null;
 		}
 
-		// Token: 0x06003EF3 RID: 16115 RVA: 0x00212874 File Offset: 0x00210C74
+		// Token: 0x06003EF5 RID: 16117 RVA: 0x00212948 File Offset: 0x00210D48
 		public virtual bool CanPossiblyStoreInStockpile(Bill_Production bill, Zone_Stockpile stockpile)
 		{
 			return !this.CanCountProducts(bill) || stockpile.GetStoreSettings().AllowedToAccept(this.recipe.products[0].thingDef);

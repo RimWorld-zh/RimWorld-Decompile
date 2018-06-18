@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000502 RID: 1282
 	public class Need_Outdoors : Need
 	{
-		// Token: 0x06001708 RID: 5896 RVA: 0x000CAFA0 File Offset: 0x000C93A0
+		// Token: 0x06001709 RID: 5897 RVA: 0x000CAFF4 File Offset: 0x000C93F4
 		public Need_Outdoors(Pawn pawn) : base(pawn)
 		{
 			this.threshPercents = new List<float>();
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000323 RID: 803
-		// (get) Token: 0x06001709 RID: 5897 RVA: 0x000CB01C File Offset: 0x000C941C
+		// (get) Token: 0x0600170A RID: 5898 RVA: 0x000CB070 File Offset: 0x000C9470
 		public override int GUIChangeArrow
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000324 RID: 804
-		// (get) Token: 0x0600170A RID: 5898 RVA: 0x000CB03C File Offset: 0x000C943C
+		// (get) Token: 0x0600170B RID: 5899 RVA: 0x000CB090 File Offset: 0x000C9490
 		public OutdoorsCategory CurCategory
 		{
 			get
@@ -65,7 +65,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000325 RID: 805
-		// (get) Token: 0x0600170B RID: 5899 RVA: 0x000CB0C8 File Offset: 0x000C94C8
+		// (get) Token: 0x0600170C RID: 5900 RVA: 0x000CB11C File Offset: 0x000C951C
 		public override bool ShowOnNeedList
 		{
 			get
@@ -75,7 +75,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000326 RID: 806
-		// (get) Token: 0x0600170C RID: 5900 RVA: 0x000CB0E8 File Offset: 0x000C94E8
+		// (get) Token: 0x0600170D RID: 5901 RVA: 0x000CB13C File Offset: 0x000C953C
 		private bool Disabled
 		{
 			get
@@ -84,13 +84,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600170D RID: 5901 RVA: 0x000CB117 File Offset: 0x000C9517
+		// Token: 0x0600170E RID: 5902 RVA: 0x000CB16B File Offset: 0x000C956B
 		public override void SetInitialLevel()
 		{
 			this.CurLevel = 1f;
 		}
 
-		// Token: 0x0600170E RID: 5902 RVA: 0x000CB128 File Offset: 0x000C9528
+		// Token: 0x0600170F RID: 5903 RVA: 0x000CB17C File Offset: 0x000C957C
 		public override void NeedInterval()
 		{
 			if (this.Disabled)

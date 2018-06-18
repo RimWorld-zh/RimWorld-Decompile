@@ -10,7 +10,7 @@ namespace RimWorld
 	public class Building_CommsConsole : Building
 	{
 		// Token: 0x17000568 RID: 1384
-		// (get) Token: 0x06002422 RID: 9250 RVA: 0x0013604C File Offset: 0x0013444C
+		// (get) Token: 0x06002424 RID: 9252 RVA: 0x001360C4 File Offset: 0x001344C4
 		public bool CanUseCommsNow
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002423 RID: 9251 RVA: 0x00136098 File Offset: 0x00134498
+		// Token: 0x06002425 RID: 9253 RVA: 0x00136110 File Offset: 0x00134510
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -28,7 +28,7 @@ namespace RimWorld
 			LessonAutoActivator.TeachOpportunity(ConceptDefOf.OpeningComms, OpportunityType.GoodToKnow);
 		}
 
-		// Token: 0x06002424 RID: 9252 RVA: 0x001360C8 File Offset: 0x001344C8
+		// Token: 0x06002426 RID: 9254 RVA: 0x00136140 File Offset: 0x00134540
 		private void UseAct(Pawn myPawn, ICommunicable commTarget)
 		{
 			Job job = new Job(JobDefOf.UseCommsConsole, this);
@@ -37,7 +37,7 @@ namespace RimWorld
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.OpeningComms, KnowledgeAmount.Total);
 		}
 
-		// Token: 0x06002425 RID: 9253 RVA: 0x00136108 File Offset: 0x00134508
+		// Token: 0x06002427 RID: 9255 RVA: 0x00136180 File Offset: 0x00134580
 		private FloatMenuOption GetFailureReason(Pawn myPawn)
 		{
 			FloatMenuOption result;
@@ -82,13 +82,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002426 RID: 9254 RVA: 0x001362B0 File Offset: 0x001346B0
+		// Token: 0x06002428 RID: 9256 RVA: 0x00136328 File Offset: 0x00134728
 		public IEnumerable<ICommunicable> GetCommTargets(Pawn myPawn)
 		{
 			return myPawn.Map.passingShipManager.passingShips.Cast<ICommunicable>().Concat(Find.FactionManager.AllFactionsVisibleInViewOrder.Cast<ICommunicable>());
 		}
 
-		// Token: 0x06002427 RID: 9255 RVA: 0x001362F0 File Offset: 0x001346F0
+		// Token: 0x06002429 RID: 9257 RVA: 0x00136368 File Offset: 0x00134768
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Pawn myPawn)
 		{
 			FloatMenuOption failureReason = this.GetFailureReason(myPawn);
@@ -108,7 +108,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002428 RID: 9256 RVA: 0x00136324 File Offset: 0x00134724
+		// Token: 0x0600242A RID: 9258 RVA: 0x0013639C File Offset: 0x0013479C
 		public void GiveUseCommsJob(Pawn negotiator, ICommunicable target)
 		{
 			Job job = new Job(JobDefOf.UseCommsConsole, this);

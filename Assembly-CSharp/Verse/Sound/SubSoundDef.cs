@@ -8,7 +8,7 @@ namespace Verse.Sound
 	// Token: 0x02000BA3 RID: 2979
 	public class SubSoundDef : Editable
 	{
-		// Token: 0x06004061 RID: 16481 RVA: 0x0021CEB0 File Offset: 0x0021B2B0
+		// Token: 0x06004063 RID: 16483 RVA: 0x0021CF84 File Offset: 0x0021B384
 		public virtual void TryPlay(SoundInfo info)
 		{
 			if (this.resolvedGrains.Count == 0)
@@ -55,7 +55,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004062 RID: 16482 RVA: 0x0021CFF4 File Offset: 0x0021B3F4
+		// Token: 0x06004064 RID: 16484 RVA: 0x0021D0C8 File Offset: 0x0021B4C8
 		public ResolvedGrain RandomizedResolvedGrain()
 		{
 			ResolvedGrain chosenGrain = null;
@@ -90,14 +90,14 @@ namespace Verse.Sound
 			return chosenGrain;
 		}
 
-		// Token: 0x06004063 RID: 16483 RVA: 0x0021D0A4 File Offset: 0x0021B4A4
+		// Token: 0x06004065 RID: 16485 RVA: 0x0021D178 File Offset: 0x0021B578
 		public float RandomizedVolume()
 		{
 			float randomInRange = this.volumeRange.RandomInRange;
 			return randomInRange / 100f;
 		}
 
-		// Token: 0x06004064 RID: 16484 RVA: 0x0021D0CE File Offset: 0x0021B4CE
+		// Token: 0x06004066 RID: 16486 RVA: 0x0021D1A2 File Offset: 0x0021B5A2
 		public override void ResolveReferences()
 		{
 			LongEventHandler.ExecuteWhenFinished(delegate
@@ -119,7 +119,7 @@ namespace Verse.Sound
 			});
 		}
 
-		// Token: 0x06004065 RID: 16485 RVA: 0x0021D0E4 File Offset: 0x0021B4E4
+		// Token: 0x06004067 RID: 16487 RVA: 0x0021D1B8 File Offset: 0x0021B5B8
 		public override IEnumerable<string> ConfigErrors()
 		{
 			if (this.resolvedGrains.Count == 0)
@@ -158,7 +158,7 @@ namespace Verse.Sound
 			yield break;
 		}
 
-		// Token: 0x06004066 RID: 16486 RVA: 0x0021D110 File Offset: 0x0021B510
+		// Token: 0x06004068 RID: 16488 RVA: 0x0021D1E4 File Offset: 0x0021B5E4
 		public override string ToString()
 		{
 			return this.name;

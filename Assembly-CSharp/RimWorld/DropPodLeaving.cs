@@ -10,8 +10,8 @@ namespace RimWorld
 	public class DropPodLeaving : Skyfaller, IActiveDropPod, IThingHolder
 	{
 		// Token: 0x170005D6 RID: 1494
-		// (get) Token: 0x0600265D RID: 9821 RVA: 0x00149444 File Offset: 0x00147844
-		// (set) Token: 0x0600265E RID: 9822 RVA: 0x0014946F File Offset: 0x0014786F
+		// (get) Token: 0x0600265F RID: 9823 RVA: 0x001494BC File Offset: 0x001478BC
+		// (set) Token: 0x06002660 RID: 9824 RVA: 0x001494E7 File Offset: 0x001478E7
 		public ActiveDropPodInfo Contents
 		{
 			get
@@ -24,7 +24,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600265F RID: 9823 RVA: 0x0014948C File Offset: 0x0014788C
+		// Token: 0x06002661 RID: 9825 RVA: 0x00149504 File Offset: 0x00147904
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -34,7 +34,7 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.alreadyLeft, "alreadyLeft", false, false);
 		}
 
-		// Token: 0x06002660 RID: 9824 RVA: 0x001494EC File Offset: 0x001478EC
+		// Token: 0x06002662 RID: 9826 RVA: 0x00149564 File Offset: 0x00147964
 		protected override void LeaveMap()
 		{
 			if (this.alreadyLeft)

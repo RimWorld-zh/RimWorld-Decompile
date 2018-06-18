@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x020007FE RID: 2046
 	public class Dialog_KeyBindings : Window
 	{
-		// Token: 0x06002D7F RID: 11647 RVA: 0x0017EA9C File Offset: 0x0017CE9C
+		// Token: 0x06002D81 RID: 11649 RVA: 0x0017EB30 File Offset: 0x0017CF30
 		public Dialog_KeyBindings()
 		{
 			this.forcePause = true;
@@ -31,7 +31,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700073D RID: 1853
-		// (get) Token: 0x06002D80 RID: 11648 RVA: 0x0017EB94 File Offset: 0x0017CF94
+		// (get) Token: 0x06002D82 RID: 11650 RVA: 0x0017EC28 File Offset: 0x0017D028
 		public override Vector2 InitialSize
 		{
 			get
@@ -41,7 +41,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700073E RID: 1854
-		// (get) Token: 0x06002D81 RID: 11649 RVA: 0x0017EBB0 File Offset: 0x0017CFB0
+		// (get) Token: 0x06002D83 RID: 11651 RVA: 0x0017EC44 File Offset: 0x0017D044
 		protected override float Margin
 		{
 			get
@@ -50,7 +50,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D82 RID: 11650 RVA: 0x0017EBCC File Offset: 0x0017CFCC
+		// Token: 0x06002D84 RID: 11652 RVA: 0x0017EC60 File Offset: 0x0017D060
 		public override void DoWindowContents(Rect inRect)
 		{
 			Vector2 vector = new Vector2(120f, 40f);
@@ -119,7 +119,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002D83 RID: 11651 RVA: 0x0017EFC4 File Offset: 0x0017D3C4
+		// Token: 0x06002D85 RID: 11653 RVA: 0x0017F058 File Offset: 0x0017D458
 		private void DrawCategoryEntry(KeyBindingCategoryDef category, float width, ref float curY, bool skipDrawing)
 		{
 			if (!skipDrawing)
@@ -144,7 +144,7 @@ namespace RimWorld
 			curY += 4f;
 		}
 
-		// Token: 0x06002D84 RID: 11652 RVA: 0x0017F080 File Offset: 0x0017D480
+		// Token: 0x06002D86 RID: 11654 RVA: 0x0017F114 File Offset: 0x0017D514
 		private void DrawKeyEntry(KeyBindingDef keyDef, Rect parentRect, ref float curY, bool skipDrawing)
 		{
 			if (!skipDrawing)
@@ -171,7 +171,7 @@ namespace RimWorld
 			curY += 34f;
 		}
 
-		// Token: 0x06002D85 RID: 11653 RVA: 0x0017F1EC File Offset: 0x0017D5EC
+		// Token: 0x06002D87 RID: 11655 RVA: 0x0017F280 File Offset: 0x0017D680
 		private void SettingButtonClicked(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot)
 		{
 			if (Event.current.button == 0)

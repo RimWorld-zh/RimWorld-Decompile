@@ -5,10 +5,10 @@ using RimWorld.Planet;
 
 namespace Verse
 {
-	// Token: 0x02000DFC RID: 3580
+	// Token: 0x02000DFB RID: 3579
 	public static class ThingOwnerUtility
 	{
-		// Token: 0x060050C2 RID: 20674 RVA: 0x00298A38 File Offset: 0x00296E38
+		// Token: 0x060050C0 RID: 20672 RVA: 0x00298A18 File Offset: 0x00296E18
 		public static bool ThisOrAnyCompIsThingHolder(this ThingDef thingDef)
 		{
 			bool result;
@@ -30,7 +30,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060050C3 RID: 20675 RVA: 0x00298ABC File Offset: 0x00296EBC
+		// Token: 0x060050C1 RID: 20673 RVA: 0x00298A9C File Offset: 0x00296E9C
 		public static ThingOwner TryGetInnerInteractableThingOwner(this Thing thing)
 		{
 			IThingHolder thingHolder = thing as IThingHolder;
@@ -96,13 +96,13 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x060050C4 RID: 20676 RVA: 0x00298C3C File Offset: 0x0029703C
+		// Token: 0x060050C2 RID: 20674 RVA: 0x00298C1C File Offset: 0x0029701C
 		public static bool SpawnedOrAnyParentSpawned(IThingHolder holder)
 		{
 			return ThingOwnerUtility.SpawnedParentOrMe(holder) != null;
 		}
 
-		// Token: 0x060050C5 RID: 20677 RVA: 0x00298C60 File Offset: 0x00297060
+		// Token: 0x060050C3 RID: 20675 RVA: 0x00298C40 File Offset: 0x00297040
 		public static Thing SpawnedParentOrMe(IThingHolder holder)
 		{
 			while (holder != null)
@@ -128,7 +128,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x060050C6 RID: 20678 RVA: 0x00298CD4 File Offset: 0x002970D4
+		// Token: 0x060050C4 RID: 20676 RVA: 0x00298CB4 File Offset: 0x002970B4
 		public static IntVec3 GetRootPosition(IThingHolder holder)
 		{
 			IntVec3 result = IntVec3.Invalid;
@@ -152,7 +152,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060050C7 RID: 20679 RVA: 0x00298D68 File Offset: 0x00297168
+		// Token: 0x060050C5 RID: 20677 RVA: 0x00298D48 File Offset: 0x00297148
 		public static Map GetRootMap(IThingHolder holder)
 		{
 			while (holder != null)
@@ -167,7 +167,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x060050C8 RID: 20680 RVA: 0x00298DA8 File Offset: 0x002971A8
+		// Token: 0x060050C6 RID: 20678 RVA: 0x00298D88 File Offset: 0x00297188
 		public static int GetRootTile(IThingHolder holder)
 		{
 			while (holder != null)
@@ -182,7 +182,7 @@ namespace Verse
 			return -1;
 		}
 
-		// Token: 0x060050C9 RID: 20681 RVA: 0x00298DF8 File Offset: 0x002971F8
+		// Token: 0x060050C7 RID: 20679 RVA: 0x00298DD8 File Offset: 0x002971D8
 		public static bool ContentsSuspended(IThingHolder holder)
 		{
 			while (holder != null)
@@ -196,31 +196,31 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x060050CA RID: 20682 RVA: 0x00298E44 File Offset: 0x00297244
+		// Token: 0x060050C8 RID: 20680 RVA: 0x00298E24 File Offset: 0x00297224
 		public static bool IsEnclosingContainer(this IThingHolder holder)
 		{
 			return holder != null && !(holder is Pawn_CarryTracker) && !(holder is Corpse) && !(holder is Map) && !(holder is Caravan) && !(holder is Settlement_TraderTracker) && !(holder is TradeShip);
 		}
 
-		// Token: 0x060050CB RID: 20683 RVA: 0x00298EA8 File Offset: 0x002972A8
+		// Token: 0x060050C9 RID: 20681 RVA: 0x00298E88 File Offset: 0x00297288
 		public static bool ShouldAutoRemoveDestroyedThings(IThingHolder holder)
 		{
 			return !(holder is Corpse) && !(holder is Caravan);
 		}
 
-		// Token: 0x060050CC RID: 20684 RVA: 0x00298ED8 File Offset: 0x002972D8
+		// Token: 0x060050CA RID: 20682 RVA: 0x00298EB8 File Offset: 0x002972B8
 		public static bool ShouldAutoExtinguishInnerThings(IThingHolder holder)
 		{
 			return !(holder is Map);
 		}
 
-		// Token: 0x060050CD RID: 20685 RVA: 0x00298EFC File Offset: 0x002972FC
+		// Token: 0x060050CB RID: 20683 RVA: 0x00298EDC File Offset: 0x002972DC
 		public static bool ShouldRemoveDesignationsOnAddedThings(IThingHolder holder)
 		{
 			return holder.IsEnclosingContainer();
 		}
 
-		// Token: 0x060050CE RID: 20686 RVA: 0x00298F18 File Offset: 0x00297318
+		// Token: 0x060050CC RID: 20684 RVA: 0x00298EF8 File Offset: 0x002972F8
 		public static void AppendThingHoldersFromThings(List<IThingHolder> outThingsHolders, IList<Thing> container)
 		{
 			if (container != null)
@@ -252,7 +252,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060050CF RID: 20687 RVA: 0x00298FC0 File Offset: 0x002973C0
+		// Token: 0x060050CD RID: 20685 RVA: 0x00298FA0 File Offset: 0x002973A0
 		public static bool AnyParentIs<T>(Thing thing) where T : IThingHolder
 		{
 			bool result;
@@ -274,7 +274,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060050D0 RID: 20688 RVA: 0x00299018 File Offset: 0x00297418
+		// Token: 0x060050CE RID: 20686 RVA: 0x00298FF8 File Offset: 0x002973F8
 		public static void GetAllThingsRecursively(IThingHolder holder, List<Thing> outThings, bool allowUnreal = true, Predicate<IThingHolder> passCheck = null)
 		{
 			outThings.Clear();
@@ -308,7 +308,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060050D1 RID: 20689 RVA: 0x0029911C File Offset: 0x0029751C
+		// Token: 0x060050CF RID: 20687 RVA: 0x002990FC File Offset: 0x002974FC
 		public static void GetAllThingsRecursively<T>(Map map, ThingRequest request, List<T> outThings, bool allowUnreal = true, Predicate<IThingHolder> passCheck = null, bool alsoGetSpawnedThings = true) where T : Thing
 		{
 			outThings.Clear();
@@ -345,7 +345,7 @@ namespace Verse
 			ThingOwnerUtility.tmpMapChildHolders.Clear();
 		}
 
-		// Token: 0x060050D2 RID: 20690 RVA: 0x00299250 File Offset: 0x00297650
+		// Token: 0x060050D0 RID: 20688 RVA: 0x00299230 File Offset: 0x00297630
 		public static List<Thing> GetAllThingsRecursively(IThingHolder holder, bool allowUnreal = true)
 		{
 			List<Thing> list = new List<Thing>();
@@ -353,13 +353,13 @@ namespace Verse
 			return list;
 		}
 
-		// Token: 0x060050D3 RID: 20691 RVA: 0x00299278 File Offset: 0x00297678
+		// Token: 0x060050D1 RID: 20689 RVA: 0x00299258 File Offset: 0x00297658
 		public static bool AreImmediateContentsReal(IThingHolder holder)
 		{
 			return !(holder is Corpse) && !(holder is MinifiedThing);
 		}
 
-		// Token: 0x060050D4 RID: 20692 RVA: 0x002992A8 File Offset: 0x002976A8
+		// Token: 0x060050D2 RID: 20690 RVA: 0x00299288 File Offset: 0x00297688
 		public static bool TryGetFixedTemperature(IThingHolder holder, Thing forThing, out float temperature)
 		{
 			if (holder is Pawn_InventoryTracker)
@@ -389,16 +389,16 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04003533 RID: 13619
+		// Token: 0x04003531 RID: 13617
 		private static Stack<IThingHolder> tmpStack = new Stack<IThingHolder>();
 
-		// Token: 0x04003534 RID: 13620
+		// Token: 0x04003532 RID: 13618
 		private static List<IThingHolder> tmpHolders = new List<IThingHolder>();
 
-		// Token: 0x04003535 RID: 13621
+		// Token: 0x04003533 RID: 13619
 		private static List<Thing> tmpThings = new List<Thing>();
 
-		// Token: 0x04003536 RID: 13622
+		// Token: 0x04003534 RID: 13620
 		private static List<IThingHolder> tmpMapChildHolders = new List<IThingHolder>();
 	}
 }

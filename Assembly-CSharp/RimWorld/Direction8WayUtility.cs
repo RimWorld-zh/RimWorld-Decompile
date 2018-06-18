@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000976 RID: 2422
 	public static class Direction8WayUtility
 	{
-		// Token: 0x0600367F RID: 13951 RVA: 0x001D0D14 File Offset: 0x001CF114
+		// Token: 0x06003681 RID: 13953 RVA: 0x001D0DDC File Offset: 0x001CF1DC
 		public static string LabelShort(this Direction8Way dir)
 		{
 			string result;

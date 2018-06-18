@@ -7,11 +7,11 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000DC9 RID: 3529
+	// Token: 0x02000DC8 RID: 3528
 	public class Building : ThingWithComps
 	{
-		// Token: 0x17000CB9 RID: 3257
-		// (get) Token: 0x06004EAD RID: 20141 RVA: 0x001293B0 File Offset: 0x001277B0
+		// Token: 0x17000CB8 RID: 3256
+		// (get) Token: 0x06004EAB RID: 20139 RVA: 0x00129428 File Offset: 0x00127828
 		public CompPower PowerComp
 		{
 			get
@@ -20,8 +20,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CBA RID: 3258
-		// (get) Token: 0x06004EAE RID: 20142 RVA: 0x001293CC File Offset: 0x001277CC
+		// Token: 0x17000CB9 RID: 3257
+		// (get) Token: 0x06004EAC RID: 20140 RVA: 0x00129444 File Offset: 0x00127844
 		public virtual bool TransmitsPowerNow
 		{
 			get
@@ -31,8 +31,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CBB RID: 3259
-		// (set) Token: 0x06004EAF RID: 20143 RVA: 0x001293FC File Offset: 0x001277FC
+		// Token: 0x17000CBA RID: 3258
+		// (set) Token: 0x06004EAD RID: 20141 RVA: 0x00129474 File Offset: 0x00127874
 		public override int HitPoints
 		{
 			set
@@ -43,14 +43,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EB0 RID: 20144 RVA: 0x0012941F File Offset: 0x0012781F
+		// Token: 0x06004EAE RID: 20142 RVA: 0x00129497 File Offset: 0x00127897
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<bool>(ref this.canChangeTerrainOnDestroyed, "canChangeTerrainOnDestroyed", true, false);
 		}
 
-		// Token: 0x06004EB1 RID: 20145 RVA: 0x0012943C File Offset: 0x0012783C
+		// Token: 0x06004EAF RID: 20143 RVA: 0x001294B4 File Offset: 0x001278B4
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			if (this.def.IsEdifice())
@@ -101,7 +101,7 @@ namespace Verse
 			SmoothSurfaceDesignatorUtility.Notify_BuildingSpawned(this);
 		}
 
-		// Token: 0x06004EB2 RID: 20146 RVA: 0x00129608 File Offset: 0x00127A08
+		// Token: 0x06004EB0 RID: 20144 RVA: 0x00129680 File Offset: 0x00127A80
 		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
 		{
 			Map map = base.Map;
@@ -180,7 +180,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EB3 RID: 20147 RVA: 0x00129868 File Offset: 0x00127C68
+		// Token: 0x06004EB1 RID: 20145 RVA: 0x001298E0 File Offset: 0x00127CE0
 		public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
 		{
 			Map map = base.Map;
@@ -197,7 +197,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EB4 RID: 20148 RVA: 0x00129929 File Offset: 0x00127D29
+		// Token: 0x06004EB2 RID: 20146 RVA: 0x001299A1 File Offset: 0x00127DA1
 		public override void Draw()
 		{
 			if (this.def.drawerType == DrawerType.RealtimeOnly)
@@ -210,7 +210,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EB5 RID: 20149 RVA: 0x00129950 File Offset: 0x00127D50
+		// Token: 0x06004EB3 RID: 20147 RVA: 0x001299C8 File Offset: 0x00127DC8
 		public override void SetFaction(Faction newFaction, Pawn recruiter = null)
 		{
 			if (base.Spawned)
@@ -231,7 +231,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EB6 RID: 20150 RVA: 0x001299F4 File Offset: 0x00127DF4
+		// Token: 0x06004EB4 RID: 20148 RVA: 0x00129A6C File Offset: 0x00127E6C
 		public override void PreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
 		{
 			if (base.Faction != null && base.Spawned && base.Faction != Faction.OfPlayer)
@@ -248,7 +248,7 @@ namespace Verse
 			base.PreApplyDamage(ref dinfo, out absorbed);
 		}
 
-		// Token: 0x06004EB7 RID: 20151 RVA: 0x00129A8F File Offset: 0x00127E8F
+		// Token: 0x06004EB5 RID: 20149 RVA: 0x00129B07 File Offset: 0x00127F07
 		public override void PostApplyDamage(DamageInfo dinfo, float totalDamageDealt)
 		{
 			base.PostApplyDamage(dinfo, totalDamageDealt);
@@ -258,7 +258,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EB8 RID: 20152 RVA: 0x00129AB8 File Offset: 0x00127EB8
+		// Token: 0x06004EB6 RID: 20150 RVA: 0x00129B30 File Offset: 0x00127F30
 		public override void DrawExtraSelectionOverlays()
 		{
 			base.DrawExtraSelectionOverlays();
@@ -269,7 +269,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004EB9 RID: 20153 RVA: 0x00129AEC File Offset: 0x00127EEC
+		// Token: 0x06004EB7 RID: 20151 RVA: 0x00129B64 File Offset: 0x00127F64
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
@@ -295,7 +295,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004EBA RID: 20154 RVA: 0x00129B18 File Offset: 0x00127F18
+		// Token: 0x06004EB8 RID: 20152 RVA: 0x00129B90 File Offset: 0x00127F90
 		public virtual bool ClaimableBy(Faction by)
 		{
 			bool result;
@@ -331,28 +331,28 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004EBB RID: 20155 RVA: 0x00129BE0 File Offset: 0x00127FE0
+		// Token: 0x06004EB9 RID: 20153 RVA: 0x00129C58 File Offset: 0x00128058
 		public virtual bool DeconstructibleBy(Faction faction)
 		{
 			return DebugSettings.godMode || (this.def.building.IsDeconstructible && (base.Faction == faction || this.ClaimableBy(faction) || this.def.building.alwaysDeconstructible));
 		}
 
-		// Token: 0x06004EBC RID: 20156 RVA: 0x00129C50 File Offset: 0x00128050
+		// Token: 0x06004EBA RID: 20154 RVA: 0x00129CC8 File Offset: 0x001280C8
 		public virtual ushort PathWalkCostFor(Pawn p)
 		{
 			return 0;
 		}
 
-		// Token: 0x06004EBD RID: 20157 RVA: 0x00129C68 File Offset: 0x00128068
+		// Token: 0x06004EBB RID: 20155 RVA: 0x00129CE0 File Offset: 0x001280E0
 		public virtual bool IsDangerousFor(Pawn p)
 		{
 			return false;
 		}
 
-		// Token: 0x04003463 RID: 13411
+		// Token: 0x04003461 RID: 13409
 		private Sustainer sustainerAmbient = null;
 
-		// Token: 0x04003464 RID: 13412
+		// Token: 0x04003462 RID: 13410
 		public bool canChangeTerrainOnDestroyed = true;
 	}
 }

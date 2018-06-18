@@ -10,7 +10,7 @@ namespace Verse.AI
 	// Token: 0x02000A44 RID: 2628
 	public class Toils_Haul
 	{
-		// Token: 0x06003A46 RID: 14918 RVA: 0x001EE62C File Offset: 0x001ECA2C
+		// Token: 0x06003A48 RID: 14920 RVA: 0x001EE700 File Offset: 0x001ECB00
 		public static bool ErrorCheckForCarry(Pawn pawn, Thing haulThing)
 		{
 			bool result;
@@ -56,7 +56,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003A47 RID: 14919 RVA: 0x001EE744 File Offset: 0x001ECB44
+		// Token: 0x06003A49 RID: 14921 RVA: 0x001EE818 File Offset: 0x001ECC18
 		public static Toil StartCarryThing(TargetIndex haulableInd, bool putRemainderInQueue = false, bool subtractNumTakenFromJobCount = false, bool failIfStackCountLessThanJobCount = false)
 		{
 			Toil toil = new Toil();
@@ -141,7 +141,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A48 RID: 14920 RVA: 0x001EE7A4 File Offset: 0x001ECBA4
+		// Token: 0x06003A4A RID: 14922 RVA: 0x001EE878 File Offset: 0x001ECC78
 		public static Toil JumpIfAlsoCollectingNextTargetInQueue(Toil gotoGetTargetToil, TargetIndex ind)
 		{
 			Toil toil = new Toil();
@@ -182,7 +182,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A49 RID: 14921 RVA: 0x001EE7F8 File Offset: 0x001ECBF8
+		// Token: 0x06003A4B RID: 14923 RVA: 0x001EE8CC File Offset: 0x001ECCCC
 		public static Toil CheckForGetOpportunityDuplicate(Toil getHaulTargetToil, TargetIndex haulableInd, TargetIndex storeCellInd, bool takeFromValidStorage = false, Predicate<Thing> extraValidator = null)
 		{
 			Toil toil = new Toil();
@@ -210,7 +210,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A4A RID: 14922 RVA: 0x001EE860 File Offset: 0x001ECC60
+		// Token: 0x06003A4C RID: 14924 RVA: 0x001EE934 File Offset: 0x001ECD34
 		public static Toil CarryHauledThingToCell(TargetIndex squareIndex)
 		{
 			Toil toil = new Toil();
@@ -229,7 +229,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A4B RID: 14923 RVA: 0x001EE8D0 File Offset: 0x001ECCD0
+		// Token: 0x06003A4D RID: 14925 RVA: 0x001EE9A4 File Offset: 0x001ECDA4
 		public static Toil PlaceCarriedThingInCellFacing(TargetIndex facingTargetInd)
 		{
 			Toil toil = new Toil();
@@ -263,7 +263,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A4C RID: 14924 RVA: 0x001EE91C File Offset: 0x001ECD1C
+		// Token: 0x06003A4E RID: 14926 RVA: 0x001EE9F0 File Offset: 0x001ECDF0
 		public static Toil PlaceHauledThingInCell(TargetIndex cellInd, Toil nextToilOnPlaceFailOrIncomplete, bool storageMode)
 		{
 			Toil toil = new Toil();
@@ -358,7 +358,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A4D RID: 14925 RVA: 0x001EE974 File Offset: 0x001ECD74
+		// Token: 0x06003A4F RID: 14927 RVA: 0x001EEA48 File Offset: 0x001ECE48
 		public static Toil CarryHauledThingToContainer()
 		{
 			Toil gotoDest = new Toil();
@@ -392,7 +392,7 @@ namespace Verse.AI
 			return gotoDest;
 		}
 
-		// Token: 0x06003A4E RID: 14926 RVA: 0x001EE9DC File Offset: 0x001ECDDC
+		// Token: 0x06003A50 RID: 14928 RVA: 0x001EEAB0 File Offset: 0x001ECEB0
 		public static Toil DepositHauledThingInContainer(TargetIndex containerInd, TargetIndex reserveForContainerInd)
 		{
 			Toil toil = new Toil();
@@ -447,7 +447,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A4F RID: 14927 RVA: 0x001EEA30 File Offset: 0x001ECE30
+		// Token: 0x06003A51 RID: 14929 RVA: 0x001EEB04 File Offset: 0x001ECF04
 		public static Toil JumpToCarryToNextContainerIfPossible(Toil carryToContainerToil, TargetIndex primaryTargetInd)
 		{
 			Toil toil = new Toil();
@@ -476,13 +476,13 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A50 RID: 14928 RVA: 0x001EEA84 File Offset: 0x001ECE84
+		// Token: 0x06003A52 RID: 14930 RVA: 0x001EEB58 File Offset: 0x001ECF58
 		public static Toil TakeToInventory(TargetIndex ind, int count)
 		{
 			return Toils_Haul.TakeToInventory(ind, () => count);
 		}
 
-		// Token: 0x06003A51 RID: 14929 RVA: 0x001EEAB8 File Offset: 0x001ECEB8
+		// Token: 0x06003A53 RID: 14931 RVA: 0x001EEB8C File Offset: 0x001ECF8C
 		public static Toil TakeToInventory(TargetIndex ind, Func<int> countGetter)
 		{
 			Toil takeThing = new Toil();

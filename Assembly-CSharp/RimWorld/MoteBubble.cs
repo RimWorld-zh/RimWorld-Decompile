@@ -8,14 +8,14 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class MoteBubble : MoteDualAttached
 	{
-		// Token: 0x060025BB RID: 9659 RVA: 0x0014333D File Offset: 0x0014173D
+		// Token: 0x060025BD RID: 9661 RVA: 0x001433B5 File Offset: 0x001417B5
 		public void SetupMoteBubble(Texture2D icon, Pawn target)
 		{
 			this.iconMat = MaterialPool.MatFrom(icon, ShaderDatabase.TransparentPostLight, Color.white);
 			this.arrowTarget = target;
 		}
 
-		// Token: 0x060025BC RID: 9660 RVA: 0x00143360 File Offset: 0x00141760
+		// Token: 0x060025BE RID: 9662 RVA: 0x001433D8 File Offset: 0x001417D8
 		public override void Draw()
 		{
 			base.Draw();

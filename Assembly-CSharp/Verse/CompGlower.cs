@@ -3,11 +3,11 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000C15 RID: 3093
+	// Token: 0x02000C14 RID: 3092
 	public class CompGlower : ThingComp
 	{
-		// Token: 0x17000A94 RID: 2708
-		// (get) Token: 0x0600438F RID: 17295 RVA: 0x0023A514 File Offset: 0x00238914
+		// Token: 0x17000A93 RID: 2707
+		// (get) Token: 0x0600438D RID: 17293 RVA: 0x0023A4EC File Offset: 0x002388EC
 		public CompProperties_Glower Props
 		{
 			get
@@ -16,8 +16,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A95 RID: 2709
-		// (get) Token: 0x06004390 RID: 17296 RVA: 0x0023A534 File Offset: 0x00238934
+		// Token: 0x17000A94 RID: 2708
+		// (get) Token: 0x0600438E RID: 17294 RVA: 0x0023A50C File Offset: 0x0023890C
 		private bool ShouldBeLitNow
 		{
 			get
@@ -48,7 +48,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004391 RID: 17297 RVA: 0x0023A5C0 File Offset: 0x002389C0
+		// Token: 0x0600438F RID: 17295 RVA: 0x0023A598 File Offset: 0x00238998
 		public void UpdateLit(Map map)
 		{
 			bool shouldBeLitNow = this.ShouldBeLitNow;
@@ -68,7 +68,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004392 RID: 17298 RVA: 0x0023A648 File Offset: 0x00238A48
+		// Token: 0x06004390 RID: 17296 RVA: 0x0023A620 File Offset: 0x00238A20
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			if (this.ShouldBeLitNow)
@@ -82,7 +82,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004393 RID: 17299 RVA: 0x0023A6A0 File Offset: 0x00238AA0
+		// Token: 0x06004391 RID: 17297 RVA: 0x0023A678 File Offset: 0x00238A78
 		public override void ReceiveCompSignal(string signal)
 		{
 			if (signal == "PowerTurnedOn" || signal == "PowerTurnedOff" || signal == "FlickedOn" || signal == "FlickedOff" || signal == "Refueled" || signal == "RanOutOfFuel" || signal == "ScheduledOn" || signal == "ScheduledOff")
@@ -91,20 +91,20 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004394 RID: 17300 RVA: 0x0023A73F File Offset: 0x00238B3F
+		// Token: 0x06004392 RID: 17298 RVA: 0x0023A717 File Offset: 0x00238B17
 		public override void PostExposeData()
 		{
 			Scribe_Values.Look<bool>(ref this.glowOnInt, "glowOn", false, false);
 		}
 
-		// Token: 0x06004395 RID: 17301 RVA: 0x0023A754 File Offset: 0x00238B54
+		// Token: 0x06004393 RID: 17299 RVA: 0x0023A72C File Offset: 0x00238B2C
 		public override void PostDeSpawn(Map map)
 		{
 			base.PostDeSpawn(map);
 			this.UpdateLit(map);
 		}
 
-		// Token: 0x04002E21 RID: 11809
+		// Token: 0x04002E1F RID: 11807
 		private bool glowOnInt = false;
 	}
 }

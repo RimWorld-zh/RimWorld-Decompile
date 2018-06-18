@@ -3,10 +3,10 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D35 RID: 3381
+	// Token: 0x02000D34 RID: 3380
 	public class HediffGiver_BrainInjury : HediffGiver
 	{
-		// Token: 0x06004A70 RID: 19056 RVA: 0x0026C6D4 File Offset: 0x0026AAD4
+		// Token: 0x06004A6E RID: 19054 RVA: 0x0026C6AC File Offset: 0x0026AAAC
 		public override bool OnHediffAdded(Pawn pawn, Hediff hediff)
 		{
 			bool result;
@@ -38,13 +38,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04003245 RID: 12869
+		// Token: 0x04003243 RID: 12867
 		public float chancePerDamagePct;
 
-		// Token: 0x04003246 RID: 12870
+		// Token: 0x04003244 RID: 12868
 		public string letterLabel;
 
-		// Token: 0x04003247 RID: 12871
+		// Token: 0x04003245 RID: 12869
 		public string letter;
 	}
 }

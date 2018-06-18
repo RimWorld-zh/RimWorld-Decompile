@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020004B8 RID: 1208
 	public static class NegativeInteractionUtility
 	{
-		// Token: 0x06001584 RID: 5508 RVA: 0x000BECF0 File Offset: 0x000BD0F0
+		// Token: 0x06001584 RID: 5508 RVA: 0x000BED0C File Offset: 0x000BD10C
 		public static float NegativeInteractionChanceFactor(Pawn initiator, Pawn recipient)
 		{
 			float result;

@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020004B6 RID: 1206
 	public class InteractionWorker_DeepTalk : InteractionWorker
 	{
-		// Token: 0x06001581 RID: 5505 RVA: 0x000BEC8C File Offset: 0x000BD08C
+		// Token: 0x06001581 RID: 5505 RVA: 0x000BECA8 File Offset: 0x000BD0A8
 		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
 		{
 			float num = 0.075f;

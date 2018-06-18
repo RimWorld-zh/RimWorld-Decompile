@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x02000988 RID: 2440
 	public static class GenWorld
 	{
-		// Token: 0x060036ED RID: 14061 RVA: 0x001D5934 File Offset: 0x001D3D34
+		// Token: 0x060036EF RID: 14063 RVA: 0x001D59FC File Offset: 0x001D3DFC
 		public static int MouseTile(bool snapToExpandableWorldObjects = false)
 		{
 			int result;
@@ -39,7 +39,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036EE RID: 14062 RVA: 0x001D59CC File Offset: 0x001D3DCC
+		// Token: 0x060036F0 RID: 14064 RVA: 0x001D5A94 File Offset: 0x001D3E94
 		public static int TileAt(Vector2 clickPos, bool snapToExpandableWorldObjects = false)
 		{
 			Camera worldCamera = Find.WorldCamera;

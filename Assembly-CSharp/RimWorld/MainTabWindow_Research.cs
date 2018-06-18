@@ -13,8 +13,8 @@ namespace RimWorld
 	public class MainTabWindow_Research : MainTabWindow
 	{
 		// Token: 0x170007F1 RID: 2033
-		// (get) Token: 0x06003154 RID: 12628 RVA: 0x001AB854 File Offset: 0x001A9C54
-		// (set) Token: 0x06003155 RID: 12629 RVA: 0x001AB870 File Offset: 0x001A9C70
+		// (get) Token: 0x06003156 RID: 12630 RVA: 0x001AB91C File Offset: 0x001A9D1C
+		// (set) Token: 0x06003157 RID: 12631 RVA: 0x001AB938 File Offset: 0x001A9D38
 		private ResearchTabDef CurTab
 		{
 			get
@@ -35,7 +35,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007F2 RID: 2034
-		// (get) Token: 0x06003156 RID: 12630 RVA: 0x001AB8C8 File Offset: 0x001A9CC8
+		// (get) Token: 0x06003158 RID: 12632 RVA: 0x001AB990 File Offset: 0x001A9D90
 		public override Vector2 InitialSize
 		{
 			get
@@ -49,7 +49,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003157 RID: 12631 RVA: 0x001AB950 File Offset: 0x001A9D50
+		// Token: 0x06003159 RID: 12633 RVA: 0x001ABA18 File Offset: 0x001A9E18
 		private Vector2 ViewSize(ResearchTabDef tab)
 		{
 			List<ResearchProjectDef> allDefsListForReading = DefDatabase<ResearchProjectDef>.AllDefsListForReading;
@@ -70,7 +70,7 @@ namespace RimWorld
 			return new Vector2(num + 20f, num2 + 20f);
 		}
 
-		// Token: 0x06003158 RID: 12632 RVA: 0x001ABA20 File Offset: 0x001A9E20
+		// Token: 0x0600315A RID: 12634 RVA: 0x001ABAE8 File Offset: 0x001A9EE8
 		public override void PreOpen()
 		{
 			base.PreOpen();
@@ -88,7 +88,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003159 RID: 12633 RVA: 0x001ABA80 File Offset: 0x001A9E80
+		// Token: 0x0600315B RID: 12635 RVA: 0x001ABB48 File Offset: 0x001A9F48
 		public override void DoWindowContents(Rect inRect)
 		{
 			base.DoWindowContents(inRect);
@@ -119,7 +119,7 @@ namespace RimWorld
 			this.DrawRightRect(rightOutRect);
 		}
 
-		// Token: 0x0600315A RID: 12634 RVA: 0x001ABB90 File Offset: 0x001A9F90
+		// Token: 0x0600315C RID: 12636 RVA: 0x001ABC58 File Offset: 0x001AA058
 		private void DrawLeftRect(Rect leftOutRect)
 		{
 			Rect position = leftOutRect;
@@ -240,43 +240,43 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x0600315B RID: 12635 RVA: 0x001AC13C File Offset: 0x001AA53C
+		// Token: 0x0600315D RID: 12637 RVA: 0x001AC204 File Offset: 0x001AA604
 		private float CoordToPixelsX(float x)
 		{
 			return x * 190f;
 		}
 
-		// Token: 0x0600315C RID: 12636 RVA: 0x001AC158 File Offset: 0x001AA558
+		// Token: 0x0600315E RID: 12638 RVA: 0x001AC220 File Offset: 0x001AA620
 		private float CoordToPixelsY(float y)
 		{
 			return y * 100f;
 		}
 
-		// Token: 0x0600315D RID: 12637 RVA: 0x001AC174 File Offset: 0x001AA574
+		// Token: 0x0600315F RID: 12639 RVA: 0x001AC23C File Offset: 0x001AA63C
 		private float PixelsToCoordX(float x)
 		{
 			return x / 190f;
 		}
 
-		// Token: 0x0600315E RID: 12638 RVA: 0x001AC190 File Offset: 0x001AA590
+		// Token: 0x06003160 RID: 12640 RVA: 0x001AC258 File Offset: 0x001AA658
 		private float PixelsToCoordY(float y)
 		{
 			return y / 100f;
 		}
 
-		// Token: 0x0600315F RID: 12639 RVA: 0x001AC1AC File Offset: 0x001AA5AC
+		// Token: 0x06003161 RID: 12641 RVA: 0x001AC274 File Offset: 0x001AA674
 		private float PosX(ResearchProjectDef d)
 		{
 			return this.CoordToPixelsX(d.ResearchViewX);
 		}
 
-		// Token: 0x06003160 RID: 12640 RVA: 0x001AC1D0 File Offset: 0x001AA5D0
+		// Token: 0x06003162 RID: 12642 RVA: 0x001AC298 File Offset: 0x001AA698
 		private float PosY(ResearchProjectDef d)
 		{
 			return this.CoordToPixelsY(d.ResearchViewY);
 		}
 
-		// Token: 0x06003161 RID: 12641 RVA: 0x001AC1F4 File Offset: 0x001AA5F4
+		// Token: 0x06003163 RID: 12643 RVA: 0x001AC2BC File Offset: 0x001AA6BC
 		private void DrawRightRect(Rect rightOutRect)
 		{
 			rightOutRect.yMin += 32f;
@@ -448,7 +448,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003162 RID: 12642 RVA: 0x001AC8E8 File Offset: 0x001AACE8
+		// Token: 0x06003164 RID: 12644 RVA: 0x001AC9B0 File Offset: 0x001AADB0
 		private float DrawResearchPrereqs(ResearchProjectDef project, Rect rect)
 		{
 			float result;
@@ -473,7 +473,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003163 RID: 12643 RVA: 0x001AC9D4 File Offset: 0x001AADD4
+		// Token: 0x06003165 RID: 12645 RVA: 0x001ACA9C File Offset: 0x001AAE9C
 		private float DrawResearchBenchRequirements(ResearchProjectDef project, Rect rect)
 		{
 			float yMin = rect.yMin;
@@ -516,13 +516,13 @@ namespace RimWorld
 			return rect.yMin - yMin;
 		}
 
-		// Token: 0x06003164 RID: 12644 RVA: 0x001ACBD4 File Offset: 0x001AAFD4
+		// Token: 0x06003166 RID: 12646 RVA: 0x001ACC9C File Offset: 0x001AB09C
 		private string GetLabel(ResearchProjectDef r)
 		{
 			return r.LabelCap + "\n(" + r.CostApparent.ToString("F0") + ")";
 		}
 
-		// Token: 0x06003165 RID: 12645 RVA: 0x001ACC11 File Offset: 0x001AB011
+		// Token: 0x06003167 RID: 12647 RVA: 0x001ACCD9 File Offset: 0x001AB0D9
 		private void SetPrerequisiteStatusColor(bool present, ResearchProjectDef project)
 		{
 			if (!project.IsFinished)
@@ -538,7 +538,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003166 RID: 12646 RVA: 0x001ACC44 File Offset: 0x001AB044
+		// Token: 0x06003168 RID: 12648 RVA: 0x001ACD0C File Offset: 0x001AB10C
 		private void DrawResearchBenchFacilityRequirement(ThingDef requiredFacility, CompAffectedByFacilities bestMatchingBench, ResearchProjectDef project, ref Rect rect)
 		{
 			Thing thing = null;
@@ -557,7 +557,7 @@ namespace RimWorld
 			Widgets.LabelCacheHeight(ref rect, "  " + text, true, false);
 		}
 
-		// Token: 0x06003167 RID: 12647 RVA: 0x001ACD08 File Offset: 0x001AB108
+		// Token: 0x06003169 RID: 12649 RVA: 0x001ACDD0 File Offset: 0x001AB1D0
 		private Building_ResearchBench FindBenchFulfillingMostRequirements(ThingDef requiredResearchBench, List<ThingDef> requiredFacilities)
 		{
 			MainTabWindow_Research.tmpAllBuildings.Clear();
@@ -588,7 +588,7 @@ namespace RimWorld
 			return building_ResearchBench;
 		}
 
-		// Token: 0x06003168 RID: 12648 RVA: 0x001ACDF0 File Offset: 0x001AB1F0
+		// Token: 0x0600316A RID: 12650 RVA: 0x001ACEB8 File Offset: 0x001AB2B8
 		private float GetResearchBenchRequirementsScore(Building_ResearchBench bench, List<ThingDef> requiredFacilities)
 		{
 			float num = 0f;

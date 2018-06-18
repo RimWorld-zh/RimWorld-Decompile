@@ -11,7 +11,7 @@ namespace Verse
 	// Token: 0x02000BE0 RID: 3040
 	public class Root_Play : Root
 	{
-		// Token: 0x0600424E RID: 16974 RVA: 0x0022DE68 File Offset: 0x0022C268
+		// Token: 0x06004250 RID: 16976 RVA: 0x0022DEE0 File Offset: 0x0022C2E0
 		public override void Start()
 		{
 			Log.ResetMessageCount();
@@ -79,7 +79,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600424F RID: 16975 RVA: 0x0022E00C File Offset: 0x0022C40C
+		// Token: 0x06004251 RID: 16977 RVA: 0x0022E084 File Offset: 0x0022C484
 		public override void Update()
 		{
 			base.Update();
@@ -107,7 +107,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004250 RID: 16976 RVA: 0x0022E0C8 File Offset: 0x0022C4C8
+		// Token: 0x06004252 RID: 16978 RVA: 0x0022E140 File Offset: 0x0022C540
 		private static void SetupForQuickTestPlay()
 		{
 			Current.ProgramState = ProgramState.Entry;

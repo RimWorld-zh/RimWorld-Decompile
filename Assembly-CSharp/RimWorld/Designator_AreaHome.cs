@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020007C2 RID: 1986
 	public abstract class Designator_AreaHome : Designator_Area
 	{
-		// Token: 0x06002BF3 RID: 11251 RVA: 0x001741BA File Offset: 0x001725BA
+		// Token: 0x06002BF5 RID: 11253 RVA: 0x0017424E File Offset: 0x0017264E
 		public Designator_AreaHome(DesignateMode mode)
 		{
 			this.mode = mode;
@@ -17,7 +17,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006DD RID: 1757
-		// (get) Token: 0x06002BF4 RID: 11252 RVA: 0x001741F4 File Offset: 0x001725F4
+		// (get) Token: 0x06002BF6 RID: 11254 RVA: 0x00174288 File Offset: 0x00172688
 		public override int DraggableDimensions
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006DE RID: 1758
-		// (get) Token: 0x06002BF5 RID: 11253 RVA: 0x0017420C File Offset: 0x0017260C
+		// (get) Token: 0x06002BF7 RID: 11255 RVA: 0x001742A0 File Offset: 0x001726A0
 		public override bool DragDrawMeasurements
 		{
 			get
@@ -36,7 +36,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002BF6 RID: 11254 RVA: 0x00174224 File Offset: 0x00172624
+		// Token: 0x06002BF8 RID: 11256 RVA: 0x001742B8 File Offset: 0x001726B8
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -59,7 +59,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002BF7 RID: 11255 RVA: 0x00174290 File Offset: 0x00172690
+		// Token: 0x06002BF9 RID: 11257 RVA: 0x00174324 File Offset: 0x00172724
 		public override void DesignateSingleCell(IntVec3 c)
 		{
 			if (this.mode == DesignateMode.Add)
@@ -72,14 +72,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002BF8 RID: 11256 RVA: 0x001742DC File Offset: 0x001726DC
+		// Token: 0x06002BFA RID: 11258 RVA: 0x00174370 File Offset: 0x00172770
 		protected override void FinalizeDesignationSucceeded()
 		{
 			base.FinalizeDesignationSucceeded();
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.HomeArea, KnowledgeAmount.Total);
 		}
 
-		// Token: 0x06002BF9 RID: 11257 RVA: 0x001742F0 File Offset: 0x001726F0
+		// Token: 0x06002BFB RID: 11259 RVA: 0x00174384 File Offset: 0x00172784
 		public override void SelectedUpdate()
 		{
 			GenUI.RenderMouseoverBracket();

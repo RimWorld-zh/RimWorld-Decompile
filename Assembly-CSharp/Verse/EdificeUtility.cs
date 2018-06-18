@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000C23 RID: 3107
+	// Token: 0x02000C22 RID: 3106
 	public static class EdificeUtility
 	{
-		// Token: 0x060043F1 RID: 17393 RVA: 0x0023C52C File Offset: 0x0023A92C
+		// Token: 0x060043EF RID: 17391 RVA: 0x0023C504 File Offset: 0x0023A904
 		public static bool IsEdifice(this BuildableDef def)
 		{
 			ThingDef thingDef = def as ThingDef;

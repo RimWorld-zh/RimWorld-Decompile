@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class ShaderTypeDefOf
 	{
-		// Token: 0x0600367C RID: 13948 RVA: 0x001D0C6B File Offset: 0x001CF06B
+		// Token: 0x0600367E RID: 13950 RVA: 0x001D0D33 File Offset: 0x001CF133
 		static ShaderTypeDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ShaderTypeDef));

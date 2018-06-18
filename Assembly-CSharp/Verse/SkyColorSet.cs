@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000B2C RID: 2860
 	public struct SkyColorSet
 	{
-		// Token: 0x06003EFE RID: 16126 RVA: 0x00212BF0 File Offset: 0x00210FF0
+		// Token: 0x06003F00 RID: 16128 RVA: 0x00212CC4 File Offset: 0x002110C4
 		public SkyColorSet(Color sky, Color shadow, Color overlay, float saturation)
 		{
 			this.sky = sky;
@@ -15,7 +15,7 @@ namespace Verse
 			this.saturation = saturation;
 		}
 
-		// Token: 0x06003EFF RID: 16127 RVA: 0x00212C10 File Offset: 0x00211010
+		// Token: 0x06003F01 RID: 16129 RVA: 0x00212CE4 File Offset: 0x002110E4
 		public static SkyColorSet Lerp(SkyColorSet A, SkyColorSet B, float t)
 		{
 			return new SkyColorSet
@@ -27,7 +27,7 @@ namespace Verse
 			};
 		}
 
-		// Token: 0x06003F00 RID: 16128 RVA: 0x00212C9C File Offset: 0x0021109C
+		// Token: 0x06003F02 RID: 16130 RVA: 0x00212D70 File Offset: 0x00211170
 		public override string ToString()
 		{
 			return string.Concat(new object[]

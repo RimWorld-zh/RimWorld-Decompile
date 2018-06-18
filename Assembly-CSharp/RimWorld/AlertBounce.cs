@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x0200078A RID: 1930
 	internal class AlertBounce
 	{
-		// Token: 0x06002AC3 RID: 10947 RVA: 0x00169B24 File Offset: 0x00167F24
+		// Token: 0x06002AC5 RID: 10949 RVA: 0x00169BB8 File Offset: 0x00167FB8
 		public void DoAlertStartEffect()
 		{
 			this.position = 300f;
@@ -15,7 +15,7 @@ namespace RimWorld
 			this.idle = false;
 		}
 
-		// Token: 0x06002AC4 RID: 10948 RVA: 0x00169B50 File Offset: 0x00167F50
+		// Token: 0x06002AC6 RID: 10950 RVA: 0x00169BE4 File Offset: 0x00167FE4
 		public float CalculateHorizontalOffset()
 		{
 			float result;

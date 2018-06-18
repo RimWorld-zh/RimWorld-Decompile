@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000507 RID: 1287
 	public class Need_RoomSize : Need_Seeker
 	{
-		// Token: 0x0600171B RID: 5915 RVA: 0x000CB7C9 File Offset: 0x000C9BC9
+		// Token: 0x0600171C RID: 5916 RVA: 0x000CB81D File Offset: 0x000C9C1D
 		public Need_RoomSize(Pawn pawn) : base(pawn)
 		{
 			this.threshPercents = new List<float>();
@@ -16,7 +16,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700032D RID: 813
-		// (get) Token: 0x0600171C RID: 5916 RVA: 0x000CB800 File Offset: 0x000C9C00
+		// (get) Token: 0x0600171D RID: 5917 RVA: 0x000CB854 File Offset: 0x000C9C54
 		public override float CurInstantLevel
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700032E RID: 814
-		// (get) Token: 0x0600171D RID: 5917 RVA: 0x000CB81C File Offset: 0x000C9C1C
+		// (get) Token: 0x0600171E RID: 5918 RVA: 0x000CB870 File Offset: 0x000C9C70
 		public RoomSizeCategory CurCategory
 		{
 			get
@@ -52,7 +52,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600171E RID: 5918 RVA: 0x000CB878 File Offset: 0x000C9C78
+		// Token: 0x0600171F RID: 5919 RVA: 0x000CB8CC File Offset: 0x000C9CCC
 		public float SpacePerceptibleNow()
 		{
 			float result;

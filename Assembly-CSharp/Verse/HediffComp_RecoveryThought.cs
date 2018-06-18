@@ -2,11 +2,11 @@
 
 namespace Verse
 {
-	// Token: 0x02000D1A RID: 3354
+	// Token: 0x02000D19 RID: 3353
 	public class HediffComp_RecoveryThought : HediffComp
 	{
-		// Token: 0x17000BB0 RID: 2992
-		// (get) Token: 0x060049D2 RID: 18898 RVA: 0x00269498 File Offset: 0x00267898
+		// Token: 0x17000BAF RID: 2991
+		// (get) Token: 0x060049D0 RID: 18896 RVA: 0x00269470 File Offset: 0x00267870
 		public HediffCompProperties_RecoveryThought Props
 		{
 			get
@@ -15,7 +15,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049D3 RID: 18899 RVA: 0x002694B8 File Offset: 0x002678B8
+		// Token: 0x060049D1 RID: 18897 RVA: 0x00269490 File Offset: 0x00267890
 		public override void CompPostPostRemoved()
 		{
 			base.CompPostPostRemoved();

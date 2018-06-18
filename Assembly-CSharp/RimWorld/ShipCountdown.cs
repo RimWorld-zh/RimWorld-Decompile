@@ -12,7 +12,7 @@ namespace RimWorld
 	public static class ShipCountdown
 	{
 		// Token: 0x17000668 RID: 1640
-		// (get) Token: 0x06002975 RID: 10613 RVA: 0x00160300 File Offset: 0x0015E700
+		// (get) Token: 0x06002977 RID: 10615 RVA: 0x00160394 File Offset: 0x0015E794
 		public static bool CountingDown
 		{
 			get
@@ -21,7 +21,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002976 RID: 10614 RVA: 0x00160324 File Offset: 0x0015E724
+		// Token: 0x06002978 RID: 10616 RVA: 0x001603B8 File Offset: 0x0015E7B8
 		public static void InitiateCountdown(Building launchingShipRoot)
 		{
 			SoundDefOf.ShipTakeoff.PlayOneShotOnCamera(null);
@@ -30,7 +30,7 @@ namespace RimWorld
 			ScreenFader.StartFade(Color.white, 7.2f);
 		}
 
-		// Token: 0x06002977 RID: 10615 RVA: 0x00160351 File Offset: 0x0015E751
+		// Token: 0x06002979 RID: 10617 RVA: 0x001603E5 File Offset: 0x0015E7E5
 		public static void ShipCountdownUpdate()
 		{
 			if (ShipCountdown.timeLeft > 0f)
@@ -43,13 +43,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002978 RID: 10616 RVA: 0x0016038B File Offset: 0x0015E78B
+		// Token: 0x0600297A RID: 10618 RVA: 0x0016041F File Offset: 0x0015E81F
 		public static void CancelCountdown()
 		{
 			ShipCountdown.timeLeft = -1000f;
 		}
 
-		// Token: 0x06002979 RID: 10617 RVA: 0x00160398 File Offset: 0x0015E798
+		// Token: 0x0600297B RID: 10619 RVA: 0x0016042C File Offset: 0x0015E82C
 		private static void CountdownEnded()
 		{
 			List<Building> list = ShipUtility.ShipBuildingsAttachedTo(ShipCountdown.shipRoot).ToList<Building>();

@@ -6,13 +6,13 @@ namespace RimWorld
 	// Token: 0x020006CF RID: 1743
 	public class IntermittentSteamSprayer
 	{
-		// Token: 0x060025B1 RID: 9649 RVA: 0x001428FF File Offset: 0x00140CFF
+		// Token: 0x060025B3 RID: 9651 RVA: 0x00142977 File Offset: 0x00140D77
 		public IntermittentSteamSprayer(Thing parent)
 		{
 			this.parent = parent;
 		}
 
-		// Token: 0x060025B2 RID: 9650 RVA: 0x00142930 File Offset: 0x00140D30
+		// Token: 0x060025B4 RID: 9652 RVA: 0x001429A8 File Offset: 0x00140DA8
 		public void SteamSprayerTick()
 		{
 			if (this.sprayTicksLeft > 0)

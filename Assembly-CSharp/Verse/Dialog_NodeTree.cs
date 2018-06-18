@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EC8 RID: 3784
+	// Token: 0x02000EC7 RID: 3783
 	public class Dialog_NodeTree : Window
 	{
-		// Token: 0x06005956 RID: 22870 RVA: 0x00182734 File Offset: 0x00180B34
+		// Token: 0x06005954 RID: 22868 RVA: 0x001827C8 File Offset: 0x00180BC8
 		public Dialog_NodeTree(DiaNode nodeRoot, bool delayInteractivity = false, bool radioMode = false, string title = null)
 		{
 			this.title = title;
@@ -28,8 +28,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E10 RID: 3600
-		// (get) Token: 0x06005957 RID: 22871 RVA: 0x001827BC File Offset: 0x00180BBC
+		// Token: 0x17000E0F RID: 3599
+		// (get) Token: 0x06005955 RID: 22869 RVA: 0x00182850 File Offset: 0x00180C50
 		public override Vector2 InitialSize
 		{
 			get
@@ -38,8 +38,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E11 RID: 3601
-		// (get) Token: 0x06005958 RID: 22872 RVA: 0x001827E0 File Offset: 0x00180BE0
+		// Token: 0x17000E10 RID: 3600
+		// (get) Token: 0x06005956 RID: 22870 RVA: 0x00182874 File Offset: 0x00180C74
 		private bool InteractiveNow
 		{
 			get
@@ -48,14 +48,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005959 RID: 22873 RVA: 0x00182805 File Offset: 0x00180C05
+		// Token: 0x06005957 RID: 22871 RVA: 0x00182899 File Offset: 0x00180C99
 		public override void PreClose()
 		{
 			base.PreClose();
 			this.curNode.PreClose();
 		}
 
-		// Token: 0x0600595A RID: 22874 RVA: 0x00182819 File Offset: 0x00180C19
+		// Token: 0x06005958 RID: 22872 RVA: 0x001828AD File Offset: 0x00180CAD
 		public override void PostClose()
 		{
 			base.PostClose();
@@ -65,7 +65,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600595B RID: 22875 RVA: 0x00182838 File Offset: 0x00180C38
+		// Token: 0x06005959 RID: 22873 RVA: 0x001828CC File Offset: 0x00180CCC
 		public override void WindowOnGUI()
 		{
 			if (this.screenFillColor != Color.clear)
@@ -77,7 +77,7 @@ namespace Verse
 			base.WindowOnGUI();
 		}
 
-		// Token: 0x0600595C RID: 22876 RVA: 0x001828A0 File Offset: 0x00180CA0
+		// Token: 0x0600595A RID: 22874 RVA: 0x00182934 File Offset: 0x00180D34
 		public override void DoWindowContents(Rect inRect)
 		{
 			Rect rect = inRect.AtZero();
@@ -95,7 +95,7 @@ namespace Verse
 			this.DrawNode(rect);
 		}
 
-		// Token: 0x0600595D RID: 22877 RVA: 0x00182928 File Offset: 0x00180D28
+		// Token: 0x0600595B RID: 22875 RVA: 0x001829BC File Offset: 0x00180DBC
 		protected void DrawNode(Rect rect)
 		{
 			GUI.BeginGroup(rect);
@@ -122,7 +122,7 @@ namespace Verse
 			GUI.EndGroup();
 		}
 
-		// Token: 0x0600595E RID: 22878 RVA: 0x00182A80 File Offset: 0x00180E80
+		// Token: 0x0600595C RID: 22876 RVA: 0x00182B14 File Offset: 0x00180F14
 		public void GotoNode(DiaNode node)
 		{
 			foreach (DiaOption diaOption in node.options)
@@ -132,40 +132,40 @@ namespace Verse
 			this.curNode = node;
 		}
 
-		// Token: 0x04003BAB RID: 15275
+		// Token: 0x04003BAA RID: 15274
 		private Vector2 scrollPosition;
 
-		// Token: 0x04003BAC RID: 15276
+		// Token: 0x04003BAB RID: 15275
 		protected string title;
 
-		// Token: 0x04003BAD RID: 15277
+		// Token: 0x04003BAC RID: 15276
 		protected DiaNode curNode;
 
-		// Token: 0x04003BAE RID: 15278
+		// Token: 0x04003BAD RID: 15277
 		public Action closeAction;
 
-		// Token: 0x04003BAF RID: 15279
+		// Token: 0x04003BAE RID: 15278
 		private float makeInteractiveAtTime;
 
-		// Token: 0x04003BB0 RID: 15280
+		// Token: 0x04003BAF RID: 15279
 		public Color screenFillColor = Color.clear;
 
-		// Token: 0x04003BB1 RID: 15281
+		// Token: 0x04003BB0 RID: 15280
 		protected float minOptionsAreaHeight;
 
-		// Token: 0x04003BB2 RID: 15282
+		// Token: 0x04003BB1 RID: 15281
 		private const float InteractivityDelay = 0.5f;
 
-		// Token: 0x04003BB3 RID: 15283
+		// Token: 0x04003BB2 RID: 15282
 		private const float TitleHeight = 36f;
 
-		// Token: 0x04003BB4 RID: 15284
+		// Token: 0x04003BB3 RID: 15283
 		protected const float OptHorMargin = 15f;
 
-		// Token: 0x04003BB5 RID: 15285
+		// Token: 0x04003BB4 RID: 15284
 		protected const float OptVerticalSpace = 7f;
 
-		// Token: 0x04003BB6 RID: 15286
+		// Token: 0x04003BB5 RID: 15285
 		private float optTotalHeight;
 	}
 }

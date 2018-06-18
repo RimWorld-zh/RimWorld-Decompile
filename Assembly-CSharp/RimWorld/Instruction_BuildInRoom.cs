@@ -7,7 +7,7 @@ namespace RimWorld
 	public class Instruction_BuildInRoom : Instruction_BuildAtRoom
 	{
 		// Token: 0x1700081E RID: 2078
-		// (get) Token: 0x06003314 RID: 13076 RVA: 0x001B7BC8 File Offset: 0x001B5FC8
+		// (get) Token: 0x06003316 RID: 13078 RVA: 0x001B7C90 File Offset: 0x001B6090
 		protected override CellRect BuildableRect
 		{
 			get

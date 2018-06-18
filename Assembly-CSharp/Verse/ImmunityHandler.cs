@@ -4,29 +4,29 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D3D RID: 3389
+	// Token: 0x02000D3C RID: 3388
 	public class ImmunityHandler : IExposable
 	{
-		// Token: 0x06004AAC RID: 19116 RVA: 0x0026F0EC File Offset: 0x0026D4EC
+		// Token: 0x06004AAA RID: 19114 RVA: 0x0026F0C4 File Offset: 0x0026D4C4
 		public ImmunityHandler(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x06004AAD RID: 19117 RVA: 0x0026F107 File Offset: 0x0026D507
+		// Token: 0x06004AAB RID: 19115 RVA: 0x0026F0DF File Offset: 0x0026D4DF
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<ImmunityRecord>(ref this.immunityList, "imList", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x06004AAE RID: 19118 RVA: 0x0026F124 File Offset: 0x0026D524
+		// Token: 0x06004AAC RID: 19116 RVA: 0x0026F0FC File Offset: 0x0026D4FC
 		public float DiseaseContractChanceFactor(HediffDef diseaseDef, BodyPartRecord part = null)
 		{
 			HediffDef hediffDef = null;
 			return this.DiseaseContractChanceFactor(diseaseDef, out hediffDef, part);
 		}
 
-		// Token: 0x06004AAF RID: 19119 RVA: 0x0026F148 File Offset: 0x0026D548
+		// Token: 0x06004AAD RID: 19117 RVA: 0x0026F120 File Offset: 0x0026D520
 		public float DiseaseContractChanceFactor(HediffDef diseaseDef, out HediffDef immunityCause, BodyPartRecord part = null)
 		{
 			immunityCause = null;
@@ -58,7 +58,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004AB0 RID: 19120 RVA: 0x0026F258 File Offset: 0x0026D658
+		// Token: 0x06004AAE RID: 19118 RVA: 0x0026F230 File Offset: 0x0026D630
 		public float GetImmunity(HediffDef def)
 		{
 			for (int i = 0; i < this.immunityList.Count; i++)
@@ -72,7 +72,7 @@ namespace Verse
 			return 0f;
 		}
 
-		// Token: 0x06004AB1 RID: 19121 RVA: 0x0026F2B8 File Offset: 0x0026D6B8
+		// Token: 0x06004AAF RID: 19119 RVA: 0x0026F290 File Offset: 0x0026D690
 		internal void ImmunityHandlerTick()
 		{
 			List<ImmunityHandler.ImmunityInfo> list = this.NeededImmunitiesNow();
@@ -111,7 +111,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004AB2 RID: 19122 RVA: 0x0026F450 File Offset: 0x0026D850
+		// Token: 0x06004AB0 RID: 19120 RVA: 0x0026F428 File Offset: 0x0026D828
 		private List<ImmunityHandler.ImmunityInfo> NeededImmunitiesNow()
 		{
 			ImmunityHandler.tmpNeededImmunitiesNow.Clear();
@@ -143,7 +143,7 @@ namespace Verse
 			return ImmunityHandler.tmpNeededImmunitiesNow;
 		}
 
-		// Token: 0x06004AB3 RID: 19123 RVA: 0x0026F560 File Offset: 0x0026D960
+		// Token: 0x06004AB1 RID: 19121 RVA: 0x0026F538 File Offset: 0x0026D938
 		private bool AnyHediffMakesFullyImmuneTo(HediffDef def)
 		{
 			List<Hediff> hediffs = this.pawn.health.hediffSet.hediffs;
@@ -164,7 +164,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004AB4 RID: 19124 RVA: 0x0026F600 File Offset: 0x0026DA00
+		// Token: 0x06004AB2 RID: 19122 RVA: 0x0026F5D8 File Offset: 0x0026D9D8
 		private void TryAddImmunityRecord(HediffDef def, HediffDef source)
 		{
 			if (def.CompProps<HediffCompProperties_Immunizable>() != null)
@@ -179,7 +179,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004AB5 RID: 19125 RVA: 0x0026F650 File Offset: 0x0026DA50
+		// Token: 0x06004AB3 RID: 19123 RVA: 0x0026F628 File Offset: 0x0026DA28
 		public ImmunityRecord GetImmunityRecord(HediffDef def)
 		{
 			for (int i = 0; i < this.immunityList.Count; i++)
@@ -192,28 +192,28 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06004AB6 RID: 19126 RVA: 0x0026F6B0 File Offset: 0x0026DAB0
+		// Token: 0x06004AB4 RID: 19124 RVA: 0x0026F688 File Offset: 0x0026DA88
 		public bool ImmunityRecordExists(HediffDef def)
 		{
 			return this.GetImmunityRecord(def) != null;
 		}
 
-		// Token: 0x0400325F RID: 12895
+		// Token: 0x0400325D RID: 12893
 		public Pawn pawn;
 
-		// Token: 0x04003260 RID: 12896
+		// Token: 0x0400325E RID: 12894
 		private List<ImmunityRecord> immunityList = new List<ImmunityRecord>();
 
-		// Token: 0x04003261 RID: 12897
+		// Token: 0x0400325F RID: 12895
 		private static List<ImmunityHandler.ImmunityInfo> tmpNeededImmunitiesNow = new List<ImmunityHandler.ImmunityInfo>();
 
-		// Token: 0x02000D3E RID: 3390
+		// Token: 0x02000D3D RID: 3389
 		public struct ImmunityInfo
 		{
-			// Token: 0x04003262 RID: 12898
+			// Token: 0x04003260 RID: 12896
 			public HediffDef immunity;
 
-			// Token: 0x04003263 RID: 12899
+			// Token: 0x04003261 RID: 12897
 			public HediffDef source;
 		}
 	}

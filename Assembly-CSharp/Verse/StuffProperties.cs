@@ -8,7 +8,7 @@ namespace Verse
 	// Token: 0x02000B30 RID: 2864
 	public class StuffProperties
 	{
-		// Token: 0x06003F06 RID: 16134 RVA: 0x00212EB8 File Offset: 0x002112B8
+		// Token: 0x06003F08 RID: 16136 RVA: 0x00212F8C File Offset: 0x0021138C
 		public bool CanMake(BuildableDef t)
 		{
 			bool result;
@@ -33,7 +33,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003F07 RID: 16135 RVA: 0x00212F40 File Offset: 0x00211340
+		// Token: 0x06003F09 RID: 16137 RVA: 0x00213014 File Offset: 0x00211414
 		public void ResolveReferencesSpecial()
 		{
 			if (this.appearance == null)

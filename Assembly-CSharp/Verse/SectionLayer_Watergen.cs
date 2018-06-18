@@ -4,22 +4,22 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C57 RID: 3159
+	// Token: 0x02000C56 RID: 3158
 	internal class SectionLayer_Watergen : SectionLayer_Terrain
 	{
-		// Token: 0x06004573 RID: 17779 RVA: 0x0024AC58 File Offset: 0x00249058
+		// Token: 0x06004571 RID: 17777 RVA: 0x0024AC30 File Offset: 0x00249030
 		public SectionLayer_Watergen(Section section) : base(section)
 		{
 			this.relevantChangeTypes = MapMeshFlag.Terrain;
 		}
 
-		// Token: 0x06004574 RID: 17780 RVA: 0x0024AC6C File Offset: 0x0024906C
+		// Token: 0x06004572 RID: 17778 RVA: 0x0024AC44 File Offset: 0x00249044
 		public override Material GetMaterialFor(TerrainDef terrain)
 		{
 			return terrain.waterDepthMaterial;
 		}
 
-		// Token: 0x06004575 RID: 17781 RVA: 0x0024AC88 File Offset: 0x00249088
+		// Token: 0x06004573 RID: 17779 RVA: 0x0024AC60 File Offset: 0x00249060
 		public override void DrawLayer()
 		{
 			if (this.Visible)

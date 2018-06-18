@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020006C4 RID: 1732
 	public static class FilthMaker
 	{
-		// Token: 0x06002556 RID: 9558 RVA: 0x00140068 File Offset: 0x0013E468
+		// Token: 0x06002558 RID: 9560 RVA: 0x001400E0 File Offset: 0x0013E4E0
 		public static void MakeFilth(IntVec3 c, Map map, ThingDef filthDef, int count = 1)
 		{
 			for (int i = 0; i < count; i++)
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002557 RID: 9559 RVA: 0x00140098 File Offset: 0x0013E498
+		// Token: 0x06002559 RID: 9561 RVA: 0x00140110 File Offset: 0x0013E510
 		public static bool MakeFilth(IntVec3 c, Map map, ThingDef filthDef, string source, int count = 1)
 		{
 			bool flag = false;
@@ -28,13 +28,13 @@ namespace RimWorld
 			return flag;
 		}
 
-		// Token: 0x06002558 RID: 9560 RVA: 0x001400D7 File Offset: 0x0013E4D7
+		// Token: 0x0600255A RID: 9562 RVA: 0x0014014F File Offset: 0x0013E54F
 		public static void MakeFilth(IntVec3 c, Map map, ThingDef filthDef, IEnumerable<string> sources)
 		{
 			FilthMaker.MakeFilth(c, map, filthDef, sources, true);
 		}
 
-		// Token: 0x06002559 RID: 9561 RVA: 0x001400E8 File Offset: 0x0013E4E8
+		// Token: 0x0600255B RID: 9563 RVA: 0x00140160 File Offset: 0x0013E560
 		private static bool MakeFilth(IntVec3 c, Map map, ThingDef filthDef, IEnumerable<string> sources, bool shouldPropagate)
 		{
 			Filth filth = (Filth)(from t in c.GetThingList(map)
@@ -83,7 +83,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600255A RID: 9562 RVA: 0x00140214 File Offset: 0x0013E614
+		// Token: 0x0600255C RID: 9564 RVA: 0x0014028C File Offset: 0x0013E68C
 		public static void RemoveAllFilth(IntVec3 c, Map map)
 		{
 			FilthMaker.toBeRemoved.Clear();

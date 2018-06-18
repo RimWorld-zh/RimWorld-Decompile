@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class BiomeDefOf
 	{
-		// Token: 0x0600363C RID: 13884 RVA: 0x001D07EB File Offset: 0x001CEBEB
+		// Token: 0x0600363E RID: 13886 RVA: 0x001D08B3 File Offset: 0x001CECB3
 		static BiomeDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(BiomeDefOf));

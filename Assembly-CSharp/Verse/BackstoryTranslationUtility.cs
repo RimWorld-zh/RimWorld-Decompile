@@ -7,10 +7,10 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000BF0 RID: 3056
+	// Token: 0x02000BEF RID: 3055
 	public static class BackstoryTranslationUtility
 	{
-		// Token: 0x06004299 RID: 17049 RVA: 0x00230A94 File Offset: 0x0022EE94
+		// Token: 0x06004297 RID: 17047 RVA: 0x00230A78 File Offset: 0x0022EE78
 		private static IEnumerable<XElement> BackstoryTranslationElements(IEnumerable<string> folderPaths, List<string> loadErrors)
 		{
 			foreach (string folderPath in folderPaths)
@@ -48,7 +48,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x0600429A RID: 17050 RVA: 0x00230AC8 File Offset: 0x0022EEC8
+		// Token: 0x06004298 RID: 17048 RVA: 0x00230AAC File Offset: 0x0022EEAC
 		public static void LoadAndInjectBackstoryData(IEnumerable<string> folderPaths, List<string> loadErrors)
 		{
 			foreach (XElement xelement in BackstoryTranslationUtility.BackstoryTranslationElements(folderPaths, loadErrors))
@@ -63,7 +63,7 @@ namespace Verse
 					string text3 = (xelement.Element("titleShortFemale") == null) ? null : xelement.Element("titleShortFemale").Value;
 					string value3 = xelement.Element("desc").Value;
 					Backstory backstory;
-					if (!BackstoryDatabase.TryGetWithIdentifier(text, out backstory))
+					if (!BackstoryDatabase.TryGetWithIdentifier(text, out backstory, false))
 					{
 						throw new Exception("Backstory not found matching identifier " + text);
 					}
@@ -107,7 +107,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600429B RID: 17051 RVA: 0x00230D40 File Offset: 0x0022F140
+		// Token: 0x06004299 RID: 17049 RVA: 0x00230D28 File Offset: 0x0022F128
 		public static List<string> MissingBackstoryTranslations(LoadedLanguage lang)
 		{
 			List<KeyValuePair<string, Backstory>> list = BackstoryDatabase.allBackstories.ToList<KeyValuePair<string, Backstory>>();
@@ -116,9 +116,10 @@ namespace Verse
 			{
 				try
 				{
-					string identifier = xelement.Name.ToString();
-					bool flag = list.Any((KeyValuePair<string, Backstory> x) => x.Key == identifier);
-					KeyValuePair<string, Backstory> backstory = list.Find((KeyValuePair<string, Backstory> x) => x.Key == identifier);
+					string text = xelement.Name.ToString();
+					string modifiedIdentifier = BackstoryDatabase.GetIdentifierClosestMatch(text, false);
+					bool flag = list.Any((KeyValuePair<string, Backstory> x) => x.Key == modifiedIdentifier);
+					KeyValuePair<string, Backstory> backstory = list.Find((KeyValuePair<string, Backstory> x) => x.Key == modifiedIdentifier);
 					if (flag)
 					{
 						list.RemoveAt(list.FindIndex((KeyValuePair<string, Backstory> x) => x.Key == backstory.Key));
@@ -129,28 +130,28 @@ namespace Verse
 						string value3 = xelement.Element("desc").Value;
 						if (value.NullOrEmpty())
 						{
-							list2.Add(identifier + ".title missing");
+							list2.Add(text + ".title missing");
 						}
 						if (flag && !backstory.Value.titleFemale.NullOrEmpty() && str.NullOrEmpty())
 						{
-							list2.Add(identifier + ".titleFemale missing");
+							list2.Add(text + ".titleFemale missing");
 						}
 						if (value2.NullOrEmpty())
 						{
-							list2.Add(identifier + ".titleShort missing");
+							list2.Add(text + ".titleShort missing");
 						}
 						if (flag && !backstory.Value.titleShortFemale.NullOrEmpty() && str2.NullOrEmpty())
 						{
-							list2.Add(identifier + ".titleShortFemale missing");
+							list2.Add(text + ".titleShortFemale missing");
 						}
 						if (value3.NullOrEmpty())
 						{
-							list2.Add(identifier + ".desc missing");
+							list2.Add(text + ".desc missing");
 						}
 					}
 					else
 					{
-						list2.Add("Translation doesn't correspond to any backstory: " + identifier);
+						list2.Add("Translation doesn't correspond to any backstory: " + text);
 					}
 				}
 				catch (Exception ex)
@@ -171,7 +172,7 @@ namespace Verse
 			return list2;
 		}
 
-		// Token: 0x0600429C RID: 17052 RVA: 0x002310AC File Offset: 0x0022F4AC
+		// Token: 0x0600429A RID: 17050 RVA: 0x00231080 File Offset: 0x0022F480
 		public static List<string> BackstoryTranslationsMatchingEnglish(LoadedLanguage lang)
 		{
 			List<string> list = new List<string>();
@@ -181,7 +182,7 @@ namespace Verse
 				{
 					string text = xelement.Name.ToString();
 					Backstory backstory;
-					if (BackstoryDatabase.allBackstories.TryGetValue(text, out backstory))
+					if (BackstoryDatabase.allBackstories.TryGetValue(BackstoryDatabase.GetIdentifierClosestMatch(text, true), out backstory))
 					{
 						string value = xelement.Element("title").Value;
 						string text2 = (xelement.Element("titleFemale") == null) ? null : xelement.Element("titleFemale").Value;

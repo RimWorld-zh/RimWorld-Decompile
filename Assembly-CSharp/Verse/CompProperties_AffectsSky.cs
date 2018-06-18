@@ -5,7 +5,7 @@ namespace Verse
 	// Token: 0x02000B11 RID: 2833
 	public class CompProperties_AffectsSky : CompProperties
 	{
-		// Token: 0x06003E9F RID: 16031 RVA: 0x0020F492 File Offset: 0x0020D892
+		// Token: 0x06003EA1 RID: 16033 RVA: 0x0020F566 File Offset: 0x0020D966
 		public CompProperties_AffectsSky()
 		{
 			this.compClass = typeof(CompAffectsSky);

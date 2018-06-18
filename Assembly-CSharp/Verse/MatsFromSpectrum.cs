@@ -3,16 +3,16 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F65 RID: 3941
+	// Token: 0x02000F64 RID: 3940
 	public static class MatsFromSpectrum
 	{
-		// Token: 0x06005F2F RID: 24367 RVA: 0x003078E8 File Offset: 0x00305CE8
+		// Token: 0x06005F2D RID: 24365 RVA: 0x003079C4 File Offset: 0x00305DC4
 		public static Material Get(Color[] spectrum, float val)
 		{
 			return MatsFromSpectrum.Get(spectrum, val, ShaderDatabase.MetaOverlay);
 		}
 
-		// Token: 0x06005F30 RID: 24368 RVA: 0x0030790C File Offset: 0x00305D0C
+		// Token: 0x06005F2E RID: 24366 RVA: 0x003079E8 File Offset: 0x00305DE8
 		public static Material Get(Color[] spectrum, float val, Shader shader)
 		{
 			Color col = ColorsFromSpectrum.Get(spectrum, val);

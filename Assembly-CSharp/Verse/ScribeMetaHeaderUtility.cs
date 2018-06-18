@@ -7,10 +7,10 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000DA5 RID: 3493
+	// Token: 0x02000DA4 RID: 3492
 	public class ScribeMetaHeaderUtility
 	{
-		// Token: 0x06004DF1 RID: 19953 RVA: 0x0028AEF8 File Offset: 0x002892F8
+		// Token: 0x06004DEF RID: 19951 RVA: 0x0028AED8 File Offset: 0x002892D8
 		public static void WriteMetaHeader()
 		{
 			if (Scribe.EnterNode("meta"))
@@ -33,7 +33,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DF2 RID: 19954 RVA: 0x0028AFCC File Offset: 0x002893CC
+		// Token: 0x06004DF0 RID: 19952 RVA: 0x0028AFAC File Offset: 0x002893AC
 		public static void LoadGameDataHeader(ScribeMetaHeaderUtility.ScribeHeaderMode mode, bool logVersionConflictWarning)
 		{
 			ScribeMetaHeaderUtility.loadedGameVersion = "Unknown";
@@ -74,13 +74,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004DF3 RID: 19955 RVA: 0x0028B0DC File Offset: 0x002894DC
+		// Token: 0x06004DF1 RID: 19953 RVA: 0x0028B0BC File Offset: 0x002894BC
 		private static bool VersionsMatch()
 		{
 			return VersionControl.BuildFromVersionString(ScribeMetaHeaderUtility.loadedGameVersion) == VersionControl.BuildFromVersionString(VersionControl.CurrentVersionStringWithRev);
 		}
 
-		// Token: 0x06004DF4 RID: 19956 RVA: 0x0028B108 File Offset: 0x00289508
+		// Token: 0x06004DF2 RID: 19954 RVA: 0x0028B0E8 File Offset: 0x002894E8
 		public static bool TryCreateDialogsForVersionMismatchWarnings(Action confirmedAction)
 		{
 			string text = null;
@@ -179,7 +179,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004DF5 RID: 19957 RVA: 0x0028B2E4 File Offset: 0x002896E4
+		// Token: 0x06004DF3 RID: 19955 RVA: 0x0028B2C4 File Offset: 0x002896C4
 		public static bool LoadedModsMatchesActiveMods(out string loadedModsSummary, out string runningModsSummary)
 		{
 			loadedModsSummary = null;
@@ -208,7 +208,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004DF6 RID: 19958 RVA: 0x0028B398 File Offset: 0x00289798
+		// Token: 0x06004DF4 RID: 19956 RVA: 0x0028B378 File Offset: 0x00289778
 		private static bool ModListsMatch(List<string> a, List<string> b)
 		{
 			bool result;
@@ -234,7 +234,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004DF7 RID: 19959 RVA: 0x0028B414 File Offset: 0x00289814
+		// Token: 0x06004DF5 RID: 19957 RVA: 0x0028B3F4 File Offset: 0x002897F4
 		public static string GameVersionOf(FileInfo file)
 		{
 			if (!file.Exists)
@@ -264,13 +264,13 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x06004DF8 RID: 19960 RVA: 0x0028B4FC File Offset: 0x002898FC
+		// Token: 0x06004DF6 RID: 19958 RVA: 0x0028B4DC File Offset: 0x002898DC
 		public static bool ReadToMetaElement(XmlTextReader textReader)
 		{
 			return ScribeMetaHeaderUtility.ReadToNextElement(textReader) && ScribeMetaHeaderUtility.ReadToNextElement(textReader) && !(textReader.Name != "meta");
 		}
 
-		// Token: 0x06004DF9 RID: 19961 RVA: 0x0028B554 File Offset: 0x00289954
+		// Token: 0x06004DF7 RID: 19959 RVA: 0x0028B534 File Offset: 0x00289934
 		private static bool ReadToNextElement(XmlTextReader textReader)
 		{
 			while (textReader.Read())
@@ -283,40 +283,40 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x04003405 RID: 13317
+		// Token: 0x04003403 RID: 13315
 		private static ScribeMetaHeaderUtility.ScribeHeaderMode lastMode;
 
-		// Token: 0x04003406 RID: 13318
+		// Token: 0x04003404 RID: 13316
 		public static string loadedGameVersion;
 
-		// Token: 0x04003407 RID: 13319
+		// Token: 0x04003405 RID: 13317
 		public static List<string> loadedModIdsList;
 
-		// Token: 0x04003408 RID: 13320
+		// Token: 0x04003406 RID: 13318
 		public static List<string> loadedModNamesList;
 
-		// Token: 0x04003409 RID: 13321
+		// Token: 0x04003407 RID: 13319
 		public const string MetaNodeName = "meta";
 
-		// Token: 0x0400340A RID: 13322
+		// Token: 0x04003408 RID: 13320
 		public const string GameVersionNodeName = "gameVersion";
 
-		// Token: 0x0400340B RID: 13323
+		// Token: 0x04003409 RID: 13321
 		public const string ModIdsNodeName = "modIds";
 
-		// Token: 0x0400340C RID: 13324
+		// Token: 0x0400340A RID: 13322
 		public const string ModNamesNodeName = "modNames";
 
-		// Token: 0x02000DA6 RID: 3494
+		// Token: 0x02000DA5 RID: 3493
 		public enum ScribeHeaderMode
 		{
-			// Token: 0x04003412 RID: 13330
+			// Token: 0x04003410 RID: 13328
 			None,
-			// Token: 0x04003413 RID: 13331
+			// Token: 0x04003411 RID: 13329
 			Map,
-			// Token: 0x04003414 RID: 13332
+			// Token: 0x04003412 RID: 13330
 			World,
-			// Token: 0x04003415 RID: 13333
+			// Token: 0x04003413 RID: 13331
 			Scenario
 		}
 	}

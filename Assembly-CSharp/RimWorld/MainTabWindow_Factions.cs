@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000871 RID: 2161
 	public class MainTabWindow_Factions : MainTabWindow
 	{
-		// Token: 0x06003118 RID: 12568 RVA: 0x001AA3BE File Offset: 0x001A87BE
+		// Token: 0x0600311A RID: 12570 RVA: 0x001AA486 File Offset: 0x001A8886
 		public override void DoWindowContents(Rect fillRect)
 		{
 			base.DoWindowContents(fillRect);

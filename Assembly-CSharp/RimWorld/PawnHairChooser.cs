@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200048C RID: 1164
 	public static class PawnHairChooser
 	{
-		// Token: 0x06001489 RID: 5257 RVA: 0x000B40A8 File Offset: 0x000B24A8
+		// Token: 0x06001489 RID: 5257 RVA: 0x000B40C4 File Offset: 0x000B24C4
 		public static HairDef RandomHairDefFor(Pawn pawn, FactionDef factionType)
 		{
 			IEnumerable<HairDef> source = from hair in DefDatabase<HairDef>.AllDefs
@@ -17,7 +17,7 @@ namespace RimWorld
 			return source.RandomElementByWeight((HairDef hair) => PawnHairChooser.HairChoiceLikelihoodFor(hair, pawn));
 		}
 
-		// Token: 0x0600148A RID: 5258 RVA: 0x000B40FC File Offset: 0x000B24FC
+		// Token: 0x0600148A RID: 5258 RVA: 0x000B4118 File Offset: 0x000B2518
 		private static float HairChoiceLikelihoodFor(HairDef hair, Pawn pawn)
 		{
 			float result;

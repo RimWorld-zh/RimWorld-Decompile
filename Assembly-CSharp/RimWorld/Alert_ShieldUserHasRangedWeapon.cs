@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020007A9 RID: 1961
 	public class Alert_ShieldUserHasRangedWeapon : Alert
 	{
-		// Token: 0x06002B56 RID: 11094 RVA: 0x0016E081 File Offset: 0x0016C481
+		// Token: 0x06002B58 RID: 11096 RVA: 0x0016E115 File Offset: 0x0016C515
 		public Alert_ShieldUserHasRangedWeapon()
 		{
 			this.defaultLabel = "ShieldUserHasRangedWeapon".Translate();
@@ -15,7 +15,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006BA RID: 1722
-		// (get) Token: 0x06002B57 RID: 11095 RVA: 0x0016E0AC File Offset: 0x0016C4AC
+		// (get) Token: 0x06002B59 RID: 11097 RVA: 0x0016E140 File Offset: 0x0016C540
 		private IEnumerable<Pawn> ShieldUsersWithRangedWeapon
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B58 RID: 11096 RVA: 0x0016E0D0 File Offset: 0x0016C4D0
+		// Token: 0x06002B5A RID: 11098 RVA: 0x0016E164 File Offset: 0x0016C564
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.ShieldUsersWithRangedWeapon);

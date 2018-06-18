@@ -8,7 +8,7 @@ namespace Verse.AI
 	// Token: 0x02000A41 RID: 2625
 	public static class Toils_Recipe
 	{
-		// Token: 0x06003A2E RID: 14894 RVA: 0x001ECBF8 File Offset: 0x001EAFF8
+		// Token: 0x06003A30 RID: 14896 RVA: 0x001ECCCC File Offset: 0x001EB0CC
 		public static Toil MakeUnfinishedThingIfNeeded()
 		{
 			Toil toil = new Toil();
@@ -50,7 +50,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A2F RID: 14895 RVA: 0x001ECC3C File Offset: 0x001EB03C
+		// Token: 0x06003A31 RID: 14897 RVA: 0x001ECD10 File Offset: 0x001EB110
 		public static Toil DoRecipeWork()
 		{
 			Toil toil = new Toil();
@@ -147,7 +147,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A30 RID: 14896 RVA: 0x001ECD24 File Offset: 0x001EB124
+		// Token: 0x06003A32 RID: 14898 RVA: 0x001ECDF8 File Offset: 0x001EB1F8
 		public static Toil FinishRecipeAndStartStoringProduct()
 		{
 			Toil toil = new Toil();
@@ -256,7 +256,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003A31 RID: 14897 RVA: 0x001ECD68 File Offset: 0x001EB168
+		// Token: 0x06003A33 RID: 14899 RVA: 0x001ECE3C File Offset: 0x001EB23C
 		private static List<Thing> CalculateIngredients(Job job, Pawn actor)
 		{
 			UnfinishedThing unfinishedThing = job.GetTarget(TargetIndex.B).Thing as UnfinishedThing;
@@ -324,7 +324,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003A32 RID: 14898 RVA: 0x001ECF5C File Offset: 0x001EB35C
+		// Token: 0x06003A34 RID: 14900 RVA: 0x001ED030 File Offset: 0x001EB430
 		private static Thing CalculateDominantIngredient(Job job, List<Thing> ingredients)
 		{
 			UnfinishedThing uft = job.GetTarget(TargetIndex.B).Thing as UnfinishedThing;
@@ -357,7 +357,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003A33 RID: 14899 RVA: 0x001ED0A4 File Offset: 0x001EB4A4
+		// Token: 0x06003A35 RID: 14901 RVA: 0x001ED178 File Offset: 0x001EB578
 		private static void ConsumeIngredients(List<Thing> ingredients, RecipeDef recipe, Map map)
 		{
 			for (int i = 0; i < ingredients.Count; i++)

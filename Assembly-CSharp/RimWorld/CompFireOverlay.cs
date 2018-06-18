@@ -9,7 +9,7 @@ namespace RimWorld
 	public class CompFireOverlay : ThingComp
 	{
 		// Token: 0x170005FB RID: 1531
-		// (get) Token: 0x060027B5 RID: 10165 RVA: 0x001540BC File Offset: 0x001524BC
+		// (get) Token: 0x060027B7 RID: 10167 RVA: 0x00154134 File Offset: 0x00152534
 		public CompProperties_FireOverlay Props
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027B6 RID: 10166 RVA: 0x001540DC File Offset: 0x001524DC
+		// Token: 0x060027B8 RID: 10168 RVA: 0x00154154 File Offset: 0x00152554
 		public override void PostDraw()
 		{
 			base.PostDraw();
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027B7 RID: 10167 RVA: 0x0015414A File Offset: 0x0015254A
+		// Token: 0x060027B9 RID: 10169 RVA: 0x001541C2 File Offset: 0x001525C2
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);

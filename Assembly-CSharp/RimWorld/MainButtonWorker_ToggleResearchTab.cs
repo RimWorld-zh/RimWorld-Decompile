@@ -7,7 +7,7 @@ namespace RimWorld
 	public class MainButtonWorker_ToggleResearchTab : MainButtonWorker_ToggleTab
 	{
 		// Token: 0x170007D3 RID: 2003
-		// (get) Token: 0x060030F8 RID: 12536 RVA: 0x001A9964 File Offset: 0x001A7D64
+		// (get) Token: 0x060030FA RID: 12538 RVA: 0x001A9A2C File Offset: 0x001A7E2C
 		public override float ButtonBarPercent
 		{
 			get

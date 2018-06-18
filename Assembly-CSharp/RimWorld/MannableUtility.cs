@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000722 RID: 1826
 	public static class MannableUtility
 	{
-		// Token: 0x06002837 RID: 10295 RVA: 0x00157800 File Offset: 0x00155C00
+		// Token: 0x06002839 RID: 10297 RVA: 0x00157878 File Offset: 0x00155C78
 		public static Thing MannedThing(this Pawn pawn)
 		{
 			Thing result;

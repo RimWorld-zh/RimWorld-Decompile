@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class TaleDefOf
 	{
-		// Token: 0x06003651 RID: 13905 RVA: 0x001D0965 File Offset: 0x001CED65
+		// Token: 0x06003653 RID: 13907 RVA: 0x001D0A2D File Offset: 0x001CEE2D
 		static TaleDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(TaleDefOf));

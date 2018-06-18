@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000BDB RID: 3035
 	internal static class QuickStarter
 	{
-		// Token: 0x06004231 RID: 16945 RVA: 0x0022D6B8 File Offset: 0x0022BAB8
+		// Token: 0x06004233 RID: 16947 RVA: 0x0022D730 File Offset: 0x0022BB30
 		public static bool CheckQuickStart()
 		{
 			bool result;

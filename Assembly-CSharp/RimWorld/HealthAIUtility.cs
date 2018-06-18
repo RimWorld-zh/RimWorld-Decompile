@@ -5,46 +5,46 @@ using Verse.AI;
 
 namespace RimWorld
 {
-	// Token: 0x02000CFF RID: 3327
+	// Token: 0x02000CFE RID: 3326
 	public static class HealthAIUtility
 	{
-		// Token: 0x06004925 RID: 18725 RVA: 0x002666DC File Offset: 0x00264ADC
+		// Token: 0x06004923 RID: 18723 RVA: 0x002666B4 File Offset: 0x00264AB4
 		public static bool ShouldSeekMedicalRestUrgent(Pawn pawn)
 		{
 			return pawn.Downed || pawn.health.HasHediffsNeedingTend(false) || HealthAIUtility.ShouldHaveSurgeryDoneNow(pawn);
 		}
 
-		// Token: 0x06004926 RID: 18726 RVA: 0x00266718 File Offset: 0x00264B18
+		// Token: 0x06004924 RID: 18724 RVA: 0x002666F0 File Offset: 0x00264AF0
 		public static bool ShouldSeekMedicalRest(Pawn pawn)
 		{
 			return HealthAIUtility.ShouldSeekMedicalRestUrgent(pawn) || pawn.health.hediffSet.HasTendedAndHealingInjury() || pawn.health.hediffSet.HasTendedImmunizableNotImmuneHediff();
 		}
 
-		// Token: 0x06004927 RID: 18727 RVA: 0x00266760 File Offset: 0x00264B60
+		// Token: 0x06004925 RID: 18725 RVA: 0x00266738 File Offset: 0x00264B38
 		public static bool ShouldBeTendedNowByPlayerUrgent(Pawn pawn)
 		{
 			return HealthAIUtility.ShouldBeTendedNowByPlayer(pawn) && HealthUtility.TicksUntilDeathDueToBloodLoss(pawn) < 45000;
 		}
 
-		// Token: 0x06004928 RID: 18728 RVA: 0x00266790 File Offset: 0x00264B90
+		// Token: 0x06004926 RID: 18726 RVA: 0x00266768 File Offset: 0x00264B68
 		public static bool ShouldBeTendedNowByPlayer(Pawn pawn)
 		{
 			return pawn.playerSettings != null && HealthAIUtility.ShouldEverReceiveMedicalCareFromPlayer(pawn) && pawn.health.HasHediffsNeedingTendByPlayer(false);
 		}
 
-		// Token: 0x06004929 RID: 18729 RVA: 0x002667D8 File Offset: 0x00264BD8
+		// Token: 0x06004927 RID: 18727 RVA: 0x002667B0 File Offset: 0x00264BB0
 		public static bool ShouldEverReceiveMedicalCareFromPlayer(Pawn pawn)
 		{
 			return (pawn.playerSettings == null || pawn.playerSettings.medCare != MedicalCareCategory.NoCare) && (pawn.guest == null || pawn.guest.interactionMode != PrisonerInteractionModeDefOf.Execution) && pawn.Map.designationManager.DesignationOn(pawn, DesignationDefOf.Slaughter) == null;
 		}
 
-		// Token: 0x0600492A RID: 18730 RVA: 0x0026685C File Offset: 0x00264C5C
+		// Token: 0x06004928 RID: 18728 RVA: 0x00266834 File Offset: 0x00264C34
 		public static bool ShouldHaveSurgeryDoneNow(Pawn pawn)
 		{
 			return pawn.health.surgeryBills.AnyShouldDoNow;
 		}
 
-		// Token: 0x0600492B RID: 18731 RVA: 0x00266884 File Offset: 0x00264C84
+		// Token: 0x06004929 RID: 18729 RVA: 0x0026685C File Offset: 0x00264C5C
 		public static Thing FindBestMedicine(Pawn healer, Pawn patient)
 		{
 			Thing result;

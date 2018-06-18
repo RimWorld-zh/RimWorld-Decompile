@@ -7,7 +7,7 @@ namespace Verse.AI
 	// Token: 0x02000A84 RID: 2692
 	public class MentalState_BedroomTantrum : MentalState_TantrumRandom
 	{
-		// Token: 0x06003BB6 RID: 15286 RVA: 0x001F82B8 File Offset: 0x001F66B8
+		// Token: 0x06003BB8 RID: 15288 RVA: 0x001F838C File Offset: 0x001F678C
 		protected override void GetPotentialTargets(List<Thing> outThings)
 		{
 			outThings.Clear();

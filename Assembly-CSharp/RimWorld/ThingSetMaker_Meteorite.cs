@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020006F9 RID: 1785
 	public class ThingSetMaker_Meteorite : ThingSetMaker
 	{
-		// Token: 0x060026D5 RID: 9941 RVA: 0x0014D185 File Offset: 0x0014B585
+		// Token: 0x060026D7 RID: 9943 RVA: 0x0014D1FD File Offset: 0x0014B5FD
 		public static void Reset()
 		{
 			ThingSetMaker_Meteorite.nonSmoothedMineables.Clear();
@@ -17,7 +17,7 @@ namespace RimWorld
 			select x);
 		}
 
-		// Token: 0x060026D6 RID: 9942 RVA: 0x0014D1C4 File Offset: 0x0014B5C4
+		// Token: 0x060026D8 RID: 9944 RVA: 0x0014D23C File Offset: 0x0014B63C
 		protected override void Generate(ThingSetMakerParams parms, List<Thing> outThings)
 		{
 			IntRange? countRange = parms.countRange;
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060026D7 RID: 9943 RVA: 0x0014D240 File Offset: 0x0014B640
+		// Token: 0x060026D9 RID: 9945 RVA: 0x0014D2B8 File Offset: 0x0014B6B8
 		private ThingDef FindRandomMineableDef()
 		{
 			float value = Rand.Value;
@@ -57,7 +57,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060026D8 RID: 9944 RVA: 0x0014D304 File Offset: 0x0014B704
+		// Token: 0x060026DA RID: 9946 RVA: 0x0014D37C File Offset: 0x0014B77C
 		protected override IEnumerable<ThingDef> AllGeneratableThingsDebugSub(ThingSetMakerParams parms)
 		{
 			return ThingSetMaker_Meteorite.nonSmoothedMineables;

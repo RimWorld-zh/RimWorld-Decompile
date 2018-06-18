@@ -7,7 +7,7 @@ namespace Verse.AI
 	// Token: 0x02000A98 RID: 2712
 	public static class PawnPathUtility
 	{
-		// Token: 0x06003C3D RID: 15421 RVA: 0x001FCD48 File Offset: 0x001FB148
+		// Token: 0x06003C3F RID: 15423 RVA: 0x001FCE1C File Offset: 0x001FB21C
 		public static Thing FirstBlockingBuilding(this PawnPath path, out IntVec3 cellBefore, Pawn pawn = null)
 		{
 			Thing result;
@@ -65,7 +65,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C3E RID: 15422 RVA: 0x001FCEE0 File Offset: 0x001FB2E0
+		// Token: 0x06003C40 RID: 15424 RVA: 0x001FCFB4 File Offset: 0x001FB3B4
 		public static IntVec3 FinalWalkableNonDoorCell(this PawnPath path, Map map)
 		{
 			IntVec3 result;
@@ -93,7 +93,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C3F RID: 15423 RVA: 0x001FCF90 File Offset: 0x001FB390
+		// Token: 0x06003C41 RID: 15425 RVA: 0x001FD064 File Offset: 0x001FB464
 		public static IntVec3 LastCellBeforeBlockerOrFinalCell(this PawnPath path, Map map)
 		{
 			IntVec3 result;
@@ -125,7 +125,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C40 RID: 15424 RVA: 0x001FD054 File Offset: 0x001FB454
+		// Token: 0x06003C42 RID: 15426 RVA: 0x001FD128 File Offset: 0x001FB528
 		public static bool TryFindLastCellBeforeBlockingDoor(this PawnPath path, Pawn pawn, out IntVec3 result)
 		{
 			bool result2;
@@ -155,7 +155,7 @@ namespace Verse.AI
 			return result2;
 		}
 
-		// Token: 0x06003C41 RID: 15425 RVA: 0x001FD108 File Offset: 0x001FB508
+		// Token: 0x06003C43 RID: 15427 RVA: 0x001FD1DC File Offset: 0x001FB5DC
 		public static bool TryFindCellAtIndex(PawnPath path, int index, out IntVec3 result)
 		{
 			bool result2;

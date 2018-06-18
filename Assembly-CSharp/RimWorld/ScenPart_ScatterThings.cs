@@ -7,10 +7,10 @@ namespace RimWorld
 	public abstract class ScenPart_ScatterThings : ScenPart_ThingCount
 	{
 		// Token: 0x170004EC RID: 1260
-		// (get) Token: 0x0600217F RID: 8575
+		// (get) Token: 0x06002181 RID: 8577
 		protected abstract bool NearPlayerStart { get; }
 
-		// Token: 0x06002180 RID: 8576 RVA: 0x0011C3C0 File Offset: 0x0011A7C0
+		// Token: 0x06002182 RID: 8578 RVA: 0x0011C438 File Offset: 0x0011A838
 		public override void GenerateIntoMap(Map map)
 		{
 			if (Find.GameInitData != null)

@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200043F RID: 1087
 	public class RoomStatWorker_Impressiveness : RoomStatWorker
 	{
-		// Token: 0x060012E0 RID: 4832 RVA: 0x000A2F24 File Offset: 0x000A1324
+		// Token: 0x060012E0 RID: 4832 RVA: 0x000A2F30 File Offset: 0x000A1330
 		public override float GetScore(Room room)
 		{
 			float factor = this.GetFactor(room.GetStat(RoomStatDefOf.Wealth) / 1500f);
@@ -25,7 +25,7 @@ namespace RimWorld
 			return num * 100f;
 		}
 
-		// Token: 0x060012E1 RID: 4833 RVA: 0x000A300C File Offset: 0x000A140C
+		// Token: 0x060012E1 RID: 4833 RVA: 0x000A3018 File Offset: 0x000A1418
 		private float GetFactor(float baseFactor)
 		{
 			float result;

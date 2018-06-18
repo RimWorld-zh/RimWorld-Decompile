@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class MessageTypeDefOf
 	{
-		// Token: 0x0600366A RID: 13930 RVA: 0x001D0B27 File Offset: 0x001CEF27
+		// Token: 0x0600366C RID: 13932 RVA: 0x001D0BEF File Offset: 0x001CEFEF
 		static MessageTypeDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(MessageTypeDefOf));

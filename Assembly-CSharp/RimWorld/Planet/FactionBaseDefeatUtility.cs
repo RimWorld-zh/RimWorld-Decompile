@@ -8,7 +8,7 @@ namespace RimWorld.Planet
 	// Token: 0x02000600 RID: 1536
 	public static class FactionBaseDefeatUtility
 	{
-		// Token: 0x06001E8D RID: 7821 RVA: 0x0010AA50 File Offset: 0x00108E50
+		// Token: 0x06001E8F RID: 7823 RVA: 0x0010AAC8 File Offset: 0x00108EC8
 		public static void CheckDefeated(FactionBase factionBase)
 		{
 			if (factionBase.Faction != Faction.OfPlayer)
@@ -64,7 +64,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E8E RID: 7822 RVA: 0x0010ACC0 File Offset: 0x001090C0
+		// Token: 0x06001E90 RID: 7824 RVA: 0x0010AD38 File Offset: 0x00109138
 		private static bool IsDefeated(Map map, Faction faction)
 		{
 			List<Pawn> list = map.mapPawns.SpawnedPawnsInFaction(faction);
@@ -79,7 +79,7 @@ namespace RimWorld.Planet
 			return true;
 		}
 
-		// Token: 0x06001E8F RID: 7823 RVA: 0x0010AD28 File Offset: 0x00109128
+		// Token: 0x06001E91 RID: 7825 RVA: 0x0010ADA0 File Offset: 0x001091A0
 		private static bool HasAnyOtherBase(FactionBase defeatedFactionBase)
 		{
 			List<FactionBase> factionBases = Find.WorldObjects.FactionBases;

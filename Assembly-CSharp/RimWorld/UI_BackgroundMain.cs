@@ -8,7 +8,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class UI_BackgroundMain : UIMenuBackground
 	{
-		// Token: 0x06002FB8 RID: 12216 RVA: 0x00199238 File Offset: 0x00197638
+		// Token: 0x06002FBA RID: 12218 RVA: 0x00199300 File Offset: 0x00197700
 		public override void BackgroundOnGUI()
 		{
 			bool flag = true;

@@ -7,13 +7,13 @@ namespace RimWorld
 	// Token: 0x0200076A RID: 1898
 	public sealed class PassingShipManager : IExposable
 	{
-		// Token: 0x060029EF RID: 10735 RVA: 0x00163161 File Offset: 0x00161561
+		// Token: 0x060029F1 RID: 10737 RVA: 0x001631F5 File Offset: 0x001615F5
 		public PassingShipManager(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x060029F0 RID: 10736 RVA: 0x0016317C File Offset: 0x0016157C
+		// Token: 0x060029F2 RID: 10738 RVA: 0x00163210 File Offset: 0x00161610
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<PassingShip>(ref this.passingShips, "passingShips", LookMode.Deep, new object[0]);
@@ -26,21 +26,21 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060029F1 RID: 10737 RVA: 0x001631DE File Offset: 0x001615DE
+		// Token: 0x060029F3 RID: 10739 RVA: 0x00163272 File Offset: 0x00161672
 		public void AddShip(PassingShip vis)
 		{
 			this.passingShips.Add(vis);
 			vis.passingShipManager = this;
 		}
 
-		// Token: 0x060029F2 RID: 10738 RVA: 0x001631F4 File Offset: 0x001615F4
+		// Token: 0x060029F4 RID: 10740 RVA: 0x00163288 File Offset: 0x00161688
 		public void RemoveShip(PassingShip vis)
 		{
 			this.passingShips.Remove(vis);
 			vis.passingShipManager = null;
 		}
 
-		// Token: 0x060029F3 RID: 10739 RVA: 0x0016320C File Offset: 0x0016160C
+		// Token: 0x060029F5 RID: 10741 RVA: 0x001632A0 File Offset: 0x001616A0
 		public void PassingShipManagerTick()
 		{
 			for (int i = this.passingShips.Count - 1; i >= 0; i--)
@@ -49,7 +49,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060029F4 RID: 10740 RVA: 0x0016324C File Offset: 0x0016164C
+		// Token: 0x060029F6 RID: 10742 RVA: 0x001632E0 File Offset: 0x001616E0
 		internal void DebugSendAllShipsAway()
 		{
 			PassingShipManager.tmpPassingShips.Clear();

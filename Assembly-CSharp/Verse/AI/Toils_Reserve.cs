@@ -6,7 +6,7 @@ namespace Verse.AI
 	// Token: 0x02000A53 RID: 2643
 	public static class Toils_Reserve
 	{
-		// Token: 0x06003AD6 RID: 15062 RVA: 0x001F39B4 File Offset: 0x001F1DB4
+		// Token: 0x06003AD8 RID: 15064 RVA: 0x001F3A88 File Offset: 0x001F1E88
 		public static Toil Reserve(TargetIndex ind, int maxPawns = 1, int stackCount = -1, ReservationLayerDef layer = null)
 		{
 			Toil toil = new Toil();
@@ -22,7 +22,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AD7 RID: 15063 RVA: 0x001F3A2C File Offset: 0x001F1E2C
+		// Token: 0x06003AD9 RID: 15065 RVA: 0x001F3B00 File Offset: 0x001F1F00
 		public static Toil ReserveQueue(TargetIndex ind, int maxPawns = 1, int stackCount = -1, ReservationLayerDef layer = null)
 		{
 			Toil toil = new Toil();
@@ -45,7 +45,7 @@ namespace Verse.AI
 			return toil;
 		}
 
-		// Token: 0x06003AD8 RID: 15064 RVA: 0x001F3AA4 File Offset: 0x001F1EA4
+		// Token: 0x06003ADA RID: 15066 RVA: 0x001F3B78 File Offset: 0x001F1F78
 		public static Toil Release(TargetIndex ind)
 		{
 			Toil toil = new Toil();

@@ -10,7 +10,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Dialog_ManageDrugPolicies : Window
 	{
-		// Token: 0x06002DBA RID: 11706 RVA: 0x00180A0F File Offset: 0x0017EE0F
+		// Token: 0x06002DBC RID: 11708 RVA: 0x00180AA3 File Offset: 0x0017EEA3
 		public Dialog_ManageDrugPolicies(DrugPolicy selectedAssignedDrugs)
 		{
 			this.forcePause = true;
@@ -22,8 +22,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700074D RID: 1869
-		// (get) Token: 0x06002DBB RID: 11707 RVA: 0x00180A44 File Offset: 0x0017EE44
-		// (set) Token: 0x06002DBC RID: 11708 RVA: 0x00180A5F File Offset: 0x0017EE5F
+		// (get) Token: 0x06002DBD RID: 11709 RVA: 0x00180AD8 File Offset: 0x0017EED8
+		// (set) Token: 0x06002DBE RID: 11710 RVA: 0x00180AF3 File Offset: 0x0017EEF3
 		private DrugPolicy SelectedPolicy
 		{
 			get
@@ -38,7 +38,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700074E RID: 1870
-		// (get) Token: 0x06002DBD RID: 11709 RVA: 0x00180A70 File Offset: 0x0017EE70
+		// (get) Token: 0x06002DBF RID: 11711 RVA: 0x00180B04 File Offset: 0x0017EF04
 		public override Vector2 InitialSize
 		{
 			get
@@ -47,7 +47,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DBE RID: 11710 RVA: 0x00180A94 File Offset: 0x0017EE94
+		// Token: 0x06002DC0 RID: 11712 RVA: 0x00180B28 File Offset: 0x0017EF28
 		private void CheckSelectedPolicyHasName()
 		{
 			if (this.SelectedPolicy != null && this.SelectedPolicy.label.NullOrEmpty())
@@ -56,7 +56,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DBF RID: 11711 RVA: 0x00180AC8 File Offset: 0x0017EEC8
+		// Token: 0x06002DC1 RID: 11713 RVA: 0x00180B5C File Offset: 0x0017EF5C
 		public override void DoWindowContents(Rect inRect)
 		{
 			float num = 0f;
@@ -126,27 +126,27 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DC0 RID: 11712 RVA: 0x00180E00 File Offset: 0x0017F200
+		// Token: 0x06002DC2 RID: 11714 RVA: 0x00180E94 File Offset: 0x0017F294
 		public override void PostOpen()
 		{
 			base.PostOpen();
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.DrugPolicies, KnowledgeAmount.Total);
 		}
 
-		// Token: 0x06002DC1 RID: 11713 RVA: 0x00180E14 File Offset: 0x0017F214
+		// Token: 0x06002DC3 RID: 11715 RVA: 0x00180EA8 File Offset: 0x0017F2A8
 		public override void PreClose()
 		{
 			base.PreClose();
 			this.CheckSelectedPolicyHasName();
 		}
 
-		// Token: 0x06002DC2 RID: 11714 RVA: 0x00180E23 File Offset: 0x0017F223
+		// Token: 0x06002DC4 RID: 11716 RVA: 0x00180EB7 File Offset: 0x0017F2B7
 		public static void DoNameInputRect(Rect rect, ref string name)
 		{
 			name = Widgets.TextField(rect, name, 30, Dialog_ManageDrugPolicies.ValidNameRegex);
 		}
 
-		// Token: 0x06002DC3 RID: 11715 RVA: 0x00180E38 File Offset: 0x0017F238
+		// Token: 0x06002DC5 RID: 11717 RVA: 0x00180ECC File Offset: 0x0017F2CC
 		private void DoPolicyConfigArea(Rect rect)
 		{
 			Rect rect2 = rect;
@@ -181,7 +181,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DC4 RID: 11716 RVA: 0x00180F84 File Offset: 0x0017F384
+		// Token: 0x06002DC6 RID: 11718 RVA: 0x00181018 File Offset: 0x0017F418
 		private void CalculateColumnsWidths(Rect rect, out float addictionWidth, out float allowJoyWidth, out float scheduledWidth, out float drugNameWidth, out float frequencyWidth, out float moodThresholdWidth, out float joyThresholdWidth, out float takeToInventoryWidth)
 		{
 			float num = rect.width - 108f;
@@ -195,7 +195,7 @@ namespace RimWorld
 			takeToInventoryWidth = num * 0.15f;
 		}
 
-		// Token: 0x06002DC5 RID: 11717 RVA: 0x00180FE8 File Offset: 0x0017F3E8
+		// Token: 0x06002DC7 RID: 11719 RVA: 0x0018107C File Offset: 0x0017F47C
 		private void DoColumnLabels(Rect rect)
 		{
 			rect.width -= 16f;
@@ -250,7 +250,7 @@ namespace RimWorld
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
-		// Token: 0x06002DC6 RID: 11718 RVA: 0x001812C8 File Offset: 0x0017F6C8
+		// Token: 0x06002DC8 RID: 11720 RVA: 0x0018135C File Offset: 0x0017F75C
 		private void DoEntryRow(Rect rect, DrugPolicyEntry entry)
 		{
 			float num;

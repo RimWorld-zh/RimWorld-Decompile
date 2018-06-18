@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000838 RID: 2104
 	public static class ScenarioUI
 	{
-		// Token: 0x06002F99 RID: 12185 RVA: 0x0019758C File Offset: 0x0019598C
+		// Token: 0x06002F9B RID: 12187 RVA: 0x00197620 File Offset: 0x00195A20
 		public static void DrawScenarioInfo(Rect rect, Scenario scen, ref Vector2 infoScrollPosition)
 		{
 			Widgets.DrawMenuSection(rect);
@@ -29,7 +29,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002F9A RID: 12186 RVA: 0x00197664 File Offset: 0x00195A64
+		// Token: 0x06002F9C RID: 12188 RVA: 0x001976F8 File Offset: 0x00195AF8
 		public static void DrawScenarioEditInterface(Rect rect, Scenario scen, ref Vector2 infoScrollPosition)
 		{
 			Widgets.DrawMenuSection(rect);

@@ -6,7 +6,7 @@ namespace Verse.Sound
 	public class SoundParamSource_AmbientVolume : SoundParamSource
 	{
 		// Token: 0x170009C8 RID: 2504
-		// (get) Token: 0x06004037 RID: 16439 RVA: 0x0021C5DC File Offset: 0x0021A9DC
+		// (get) Token: 0x06004039 RID: 16441 RVA: 0x0021C6B0 File Offset: 0x0021AAB0
 		public override string Label
 		{
 			get
@@ -15,7 +15,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004038 RID: 16440 RVA: 0x0021C5F8 File Offset: 0x0021A9F8
+		// Token: 0x0600403A RID: 16442 RVA: 0x0021C6CC File Offset: 0x0021AACC
 		public override float ValueFor(Sample samp)
 		{
 			return Prefs.VolumeAmbient;

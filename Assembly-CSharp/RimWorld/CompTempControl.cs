@@ -11,7 +11,7 @@ namespace RimWorld
 	public class CompTempControl : ThingComp
 	{
 		// Token: 0x17000654 RID: 1620
-		// (get) Token: 0x060028F1 RID: 10481 RVA: 0x0015CE90 File Offset: 0x0015B290
+		// (get) Token: 0x060028F3 RID: 10483 RVA: 0x0015CF24 File Offset: 0x0015B324
 		public CompProperties_TempControl Props
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028F2 RID: 10482 RVA: 0x0015CEB0 File Offset: 0x0015B2B0
+		// Token: 0x060028F4 RID: 10484 RVA: 0x0015CF44 File Offset: 0x0015B344
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
@@ -30,14 +30,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028F3 RID: 10483 RVA: 0x0015CEDB File Offset: 0x0015B2DB
+		// Token: 0x060028F5 RID: 10485 RVA: 0x0015CF6F File Offset: 0x0015B36F
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
 			Scribe_Values.Look<float>(ref this.targetTemperature, "targetTemperature", 0f, false);
 		}
 
-		// Token: 0x060028F4 RID: 10484 RVA: 0x0015CEFC File Offset: 0x0015B2FC
+		// Token: 0x060028F6 RID: 10486 RVA: 0x0015CF90 File Offset: 0x0015B390
 		private float RoundedToCurrentTempModeOffset(float celsiusTemp)
 		{
 			float num = GenTemperature.CelsiusToOffset(celsiusTemp, Prefs.TemperatureMode);
@@ -45,7 +45,7 @@ namespace RimWorld
 			return GenTemperature.ConvertTemperatureOffset(num, Prefs.TemperatureMode, TemperatureDisplayMode.Celsius);
 		}
 
-		// Token: 0x060028F5 RID: 10485 RVA: 0x0015CF34 File Offset: 0x0015B334
+		// Token: 0x060028F7 RID: 10487 RVA: 0x0015CFC8 File Offset: 0x0015B3C8
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			foreach (Gizmo c in this.<CompGetGizmosExtra>__BaseCallProxy0())
@@ -116,7 +116,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060028F6 RID: 10486 RVA: 0x0015CF60 File Offset: 0x0015B360
+		// Token: 0x060028F8 RID: 10488 RVA: 0x0015CFF4 File Offset: 0x0015B3F4
 		private void InterfaceChangeTargetTemperature(float offset)
 		{
 			if (offset > 0f)
@@ -132,13 +132,13 @@ namespace RimWorld
 			this.ThrowCurrentTemperatureText();
 		}
 
-		// Token: 0x060028F7 RID: 10487 RVA: 0x0015CFC4 File Offset: 0x0015B3C4
+		// Token: 0x060028F9 RID: 10489 RVA: 0x0015D058 File Offset: 0x0015B458
 		private void ThrowCurrentTemperatureText()
 		{
 			MoteMaker.ThrowText(this.parent.TrueCenter() + new Vector3(0.5f, 0f, 0.5f), this.parent.Map, this.targetTemperature.ToStringTemperature("F0"), Color.white, -1f);
 		}
 
-		// Token: 0x060028F8 RID: 10488 RVA: 0x0015D020 File Offset: 0x0015B420
+		// Token: 0x060028FA RID: 10490 RVA: 0x0015D0B4 File Offset: 0x0015B4B4
 		public override string CompInspectStringExtra()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

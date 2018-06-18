@@ -8,19 +8,19 @@ namespace RimWorld
 	// Token: 0x020008D1 RID: 2257
 	public class Lesson_Note : Lesson
 	{
-		// Token: 0x060033A4 RID: 13220 RVA: 0x001B974B File Offset: 0x001B7B4B
+		// Token: 0x060033A6 RID: 13222 RVA: 0x001B9813 File Offset: 0x001B7C13
 		public Lesson_Note()
 		{
 		}
 
-		// Token: 0x060033A5 RID: 13221 RVA: 0x001B9766 File Offset: 0x001B7B66
+		// Token: 0x060033A7 RID: 13223 RVA: 0x001B982E File Offset: 0x001B7C2E
 		public Lesson_Note(ConceptDef concept)
 		{
 			this.def = concept;
 		}
 
 		// Token: 0x1700083E RID: 2110
-		// (get) Token: 0x060033A6 RID: 13222 RVA: 0x001B9788 File Offset: 0x001B7B88
+		// (get) Token: 0x060033A8 RID: 13224 RVA: 0x001B9850 File Offset: 0x001B7C50
 		public bool Expiring
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700083F RID: 2111
-		// (get) Token: 0x060033A7 RID: 13223 RVA: 0x001B97AC File Offset: 0x001B7BAC
+		// (get) Token: 0x060033A9 RID: 13225 RVA: 0x001B9874 File Offset: 0x001B7C74
 		public Rect MainRect
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000840 RID: 2112
-		// (get) Token: 0x060033A8 RID: 13224 RVA: 0x001B97FC File Offset: 0x001B7BFC
+		// (get) Token: 0x060033AA RID: 13226 RVA: 0x001B98C4 File Offset: 0x001B7CC4
 		public override float MessagesYOffset
 		{
 			get
@@ -51,20 +51,20 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060033A9 RID: 13225 RVA: 0x001B981F File Offset: 0x001B7C1F
+		// Token: 0x060033AB RID: 13227 RVA: 0x001B98E7 File Offset: 0x001B7CE7
 		public override void ExposeData()
 		{
 			Scribe_Defs.Look<ConceptDef>(ref this.def, "def");
 		}
 
-		// Token: 0x060033AA RID: 13226 RVA: 0x001B9832 File Offset: 0x001B7C32
+		// Token: 0x060033AC RID: 13228 RVA: 0x001B98FA File Offset: 0x001B7CFA
 		public override void OnActivated()
 		{
 			base.OnActivated();
 			SoundDefOf.TutorMessageAppear.PlayOneShotOnCamera(null);
 		}
 
-		// Token: 0x060033AB RID: 13227 RVA: 0x001B9848 File Offset: 0x001B7C48
+		// Token: 0x060033AD RID: 13229 RVA: 0x001B9910 File Offset: 0x001B7D10
 		public override void LessonOnGUI()
 		{
 			Rect mainRect = this.MainRect;
@@ -127,7 +127,7 @@ namespace RimWorld
 			windowStack.ImmediateWindow(id, mainRect2, layer, doWindowFunc, doBackground, false, alpha2);
 		}
 
-		// Token: 0x060033AC RID: 13228 RVA: 0x001B9910 File Offset: 0x001B7D10
+		// Token: 0x060033AE RID: 13230 RVA: 0x001B99D8 File Offset: 0x001B7DD8
 		private void CloseButtonClicked()
 		{
 			KnowledgeAmount know = (!this.def.noteTeaches) ? KnowledgeAmount.NoteClosed : KnowledgeAmount.NoteTaught;
@@ -135,7 +135,7 @@ namespace RimWorld
 			Find.ActiveLesson.Deactivate();
 		}
 
-		// Token: 0x060033AD RID: 13229 RVA: 0x001B994C File Offset: 0x001B7D4C
+		// Token: 0x060033AF RID: 13231 RVA: 0x001B9A14 File Offset: 0x001B7E14
 		public override void Notify_KnowledgeDemonstrated(ConceptDef conc)
 		{
 			if (this.def == conc && PlayerKnowledgeDatabase.GetKnowledge(conc) > 0.2f)

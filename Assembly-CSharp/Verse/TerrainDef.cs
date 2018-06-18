@@ -10,7 +10,7 @@ namespace Verse
 	public class TerrainDef : BuildableDef
 	{
 		// Token: 0x170009DA RID: 2522
-		// (get) Token: 0x0600406D RID: 16493 RVA: 0x0021D83C File Offset: 0x0021BC3C
+		// (get) Token: 0x0600406F RID: 16495 RVA: 0x0021D910 File Offset: 0x0021BD10
 		public bool Removable
 		{
 			get
@@ -20,7 +20,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009DB RID: 2523
-		// (get) Token: 0x0600406E RID: 16494 RVA: 0x0021D858 File Offset: 0x0021BC58
+		// (get) Token: 0x06004070 RID: 16496 RVA: 0x0021D92C File Offset: 0x0021BD2C
 		public bool IsCarpet
 		{
 			get
@@ -30,7 +30,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009DC RID: 2524
-		// (get) Token: 0x0600406F RID: 16495 RVA: 0x0021D88C File Offset: 0x0021BC8C
+		// (get) Token: 0x06004071 RID: 16497 RVA: 0x0021D960 File Offset: 0x0021BD60
 		public bool IsRiver
 		{
 			get
@@ -40,7 +40,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009DD RID: 2525
-		// (get) Token: 0x06004070 RID: 16496 RVA: 0x0021D8AC File Offset: 0x0021BCAC
+		// (get) Token: 0x06004072 RID: 16498 RVA: 0x0021D980 File Offset: 0x0021BD80
 		public bool IsWater
 		{
 			get
@@ -49,7 +49,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004071 RID: 16497 RVA: 0x0021D8CC File Offset: 0x0021BCCC
+		// Token: 0x06004073 RID: 16499 RVA: 0x0021D9A0 File Offset: 0x0021BDA0
 		public override void PostLoad()
 		{
 			this.placingDraggableDimensions = 2;
@@ -93,14 +93,14 @@ namespace Verse
 			base.PostLoad();
 		}
 
-		// Token: 0x06004072 RID: 16498 RVA: 0x0021D8ED File Offset: 0x0021BCED
+		// Token: 0x06004074 RID: 16500 RVA: 0x0021D9C1 File Offset: 0x0021BDC1
 		protected override void ResolveIcon()
 		{
 			base.ResolveIcon();
 			this.uiIconColor = this.color;
 		}
 
-		// Token: 0x06004073 RID: 16499 RVA: 0x0021D904 File Offset: 0x0021BD04
+		// Token: 0x06004075 RID: 16501 RVA: 0x0021D9D8 File Offset: 0x0021BDD8
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
@@ -134,19 +134,19 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004074 RID: 16500 RVA: 0x0021D930 File Offset: 0x0021BD30
+		// Token: 0x06004076 RID: 16502 RVA: 0x0021DA04 File Offset: 0x0021BE04
 		public static TerrainDef Named(string defName)
 		{
 			return DefDatabase<TerrainDef>.GetNamed(defName, true);
 		}
 
-		// Token: 0x06004075 RID: 16501 RVA: 0x0021D94C File Offset: 0x0021BD4C
+		// Token: 0x06004077 RID: 16503 RVA: 0x0021DA20 File Offset: 0x0021BE20
 		public bool HasTag(string tag)
 		{
 			return this.tags != null && this.tags.Contains(tag);
 		}
 
-		// Token: 0x06004076 RID: 16502 RVA: 0x0021D97C File Offset: 0x0021BD7C
+		// Token: 0x06004078 RID: 16504 RVA: 0x0021DA50 File Offset: 0x0021BE50
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
 			foreach (StatDrawEntry stat in this.<SpecialDisplayStats>__BaseCallProxy1())

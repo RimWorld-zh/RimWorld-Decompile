@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x02000995 RID: 2453
 	public static class PriceUtility
 	{
-		// Token: 0x06003716 RID: 14102 RVA: 0x001D7438 File Offset: 0x001D5838
+		// Token: 0x06003718 RID: 14104 RVA: 0x001D750C File Offset: 0x001D590C
 		public static float PawnQualityPriceFactor(Pawn pawn)
 		{
 			float num = 1f;

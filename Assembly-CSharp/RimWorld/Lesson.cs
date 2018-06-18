@@ -8,7 +8,7 @@ namespace RimWorld
 	public abstract class Lesson : IExposable
 	{
 		// Token: 0x17000831 RID: 2097
-		// (get) Token: 0x06003383 RID: 13187 RVA: 0x001B6DE4 File Offset: 0x001B51E4
+		// (get) Token: 0x06003385 RID: 13189 RVA: 0x001B6EAC File Offset: 0x001B52AC
 		protected float AgeSeconds
 		{
 			get
@@ -22,7 +22,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000832 RID: 2098
-		// (get) Token: 0x06003384 RID: 13188 RVA: 0x001B6E20 File Offset: 0x001B5220
+		// (get) Token: 0x06003386 RID: 13190 RVA: 0x001B6EE8 File Offset: 0x001B52E8
 		public virtual ConceptDef Concept
 		{
 			get
@@ -32,7 +32,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000833 RID: 2099
-		// (get) Token: 0x06003385 RID: 13189 RVA: 0x001B6E38 File Offset: 0x001B5238
+		// (get) Token: 0x06003387 RID: 13191 RVA: 0x001B6F00 File Offset: 0x001B5300
 		public virtual InstructionDef Instruction
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000834 RID: 2100
-		// (get) Token: 0x06003386 RID: 13190 RVA: 0x001B6E50 File Offset: 0x001B5250
+		// (get) Token: 0x06003388 RID: 13192 RVA: 0x001B6F18 File Offset: 0x001B5318
 		public virtual float MessagesYOffset
 		{
 			get
@@ -51,48 +51,48 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003387 RID: 13191 RVA: 0x001B6E6A File Offset: 0x001B526A
+		// Token: 0x06003389 RID: 13193 RVA: 0x001B6F32 File Offset: 0x001B5332
 		public virtual void ExposeData()
 		{
 		}
 
-		// Token: 0x06003388 RID: 13192 RVA: 0x001B6E6D File Offset: 0x001B526D
+		// Token: 0x0600338A RID: 13194 RVA: 0x001B6F35 File Offset: 0x001B5335
 		public virtual void OnActivated()
 		{
 			this.startRealTime = Time.realtimeSinceStartup;
 		}
 
-		// Token: 0x06003389 RID: 13193 RVA: 0x001B6E7B File Offset: 0x001B527B
+		// Token: 0x0600338B RID: 13195 RVA: 0x001B6F43 File Offset: 0x001B5343
 		public virtual void PostDeactivated()
 		{
 		}
 
-		// Token: 0x0600338A RID: 13194
+		// Token: 0x0600338C RID: 13196
 		public abstract void LessonOnGUI();
 
-		// Token: 0x0600338B RID: 13195 RVA: 0x001B6E7E File Offset: 0x001B527E
+		// Token: 0x0600338D RID: 13197 RVA: 0x001B6F46 File Offset: 0x001B5346
 		public virtual void LessonUpdate()
 		{
 		}
 
-		// Token: 0x0600338C RID: 13196 RVA: 0x001B6E81 File Offset: 0x001B5281
+		// Token: 0x0600338E RID: 13198 RVA: 0x001B6F49 File Offset: 0x001B5349
 		public virtual void Notify_KnowledgeDemonstrated(ConceptDef conc)
 		{
 		}
 
-		// Token: 0x0600338D RID: 13197 RVA: 0x001B6E84 File Offset: 0x001B5284
+		// Token: 0x0600338F RID: 13199 RVA: 0x001B6F4C File Offset: 0x001B534C
 		public virtual void Notify_Event(EventPack ep)
 		{
 		}
 
-		// Token: 0x0600338E RID: 13198 RVA: 0x001B6E88 File Offset: 0x001B5288
+		// Token: 0x06003390 RID: 13200 RVA: 0x001B6F50 File Offset: 0x001B5350
 		public virtual AcceptanceReport AllowAction(EventPack ep)
 		{
 			return true;
 		}
 
 		// Token: 0x17000835 RID: 2101
-		// (get) Token: 0x0600338F RID: 13199 RVA: 0x001B6EA4 File Offset: 0x001B52A4
+		// (get) Token: 0x06003391 RID: 13201 RVA: 0x001B6F6C File Offset: 0x001B536C
 		public virtual string DefaultRejectInputMessage
 		{
 			get

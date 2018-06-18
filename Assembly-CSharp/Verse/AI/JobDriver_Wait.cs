@@ -7,7 +7,7 @@ namespace Verse.AI
 	// Token: 0x02000A39 RID: 2617
 	public class JobDriver_Wait : JobDriver
 	{
-		// Token: 0x06003A0B RID: 14859 RVA: 0x001EAD58 File Offset: 0x001E9158
+		// Token: 0x06003A0D RID: 14861 RVA: 0x001EAE2C File Offset: 0x001E922C
 		public override string GetReport()
 		{
 			string result;
@@ -29,13 +29,13 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003A0C RID: 14860 RVA: 0x001EADD0 File Offset: 0x001E91D0
+		// Token: 0x06003A0E RID: 14862 RVA: 0x001EAEA4 File Offset: 0x001E92A4
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x06003A0D RID: 14861 RVA: 0x001EADE8 File Offset: 0x001E91E8
+		// Token: 0x06003A0F RID: 14863 RVA: 0x001EAEBC File Offset: 0x001E92BC
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			Toil wait = new Toil();
@@ -63,12 +63,12 @@ namespace Verse.AI
 			yield break;
 		}
 
-		// Token: 0x06003A0E RID: 14862 RVA: 0x001EAE12 File Offset: 0x001E9212
+		// Token: 0x06003A10 RID: 14864 RVA: 0x001EAEE6 File Offset: 0x001E92E6
 		public virtual void DecorateWaitToil(Toil wait)
 		{
 		}
 
-		// Token: 0x06003A0F RID: 14863 RVA: 0x001EAE15 File Offset: 0x001E9215
+		// Token: 0x06003A11 RID: 14865 RVA: 0x001EAEE9 File Offset: 0x001E92E9
 		public override void Notify_StanceChanged()
 		{
 			if (this.pawn.stances.curStance is Stance_Mobile)
@@ -77,7 +77,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003A10 RID: 14864 RVA: 0x001EAE38 File Offset: 0x001E9238
+		// Token: 0x06003A12 RID: 14866 RVA: 0x001EAF0C File Offset: 0x001E930C
 		private void CheckForAutoAttack()
 		{
 			if (!this.pawn.Downed)

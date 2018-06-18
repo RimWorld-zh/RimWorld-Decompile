@@ -8,13 +8,13 @@ namespace RimWorld.Planet
 	// Token: 0x02000625 RID: 1573
 	public class ItemStashContentsComp : WorldObjectComp, IThingHolder
 	{
-		// Token: 0x06001FF1 RID: 8177 RVA: 0x00112EAA File Offset: 0x001112AA
+		// Token: 0x06001FF3 RID: 8179 RVA: 0x00112F22 File Offset: 0x00111322
 		public ItemStashContentsComp()
 		{
 			this.contents = new ThingOwner<Thing>(this);
 		}
 
-		// Token: 0x06001FF2 RID: 8178 RVA: 0x00112EBF File Offset: 0x001112BF
+		// Token: 0x06001FF4 RID: 8180 RVA: 0x00112F37 File Offset: 0x00111337
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -24,26 +24,26 @@ namespace RimWorld.Planet
 			});
 		}
 
-		// Token: 0x06001FF3 RID: 8179 RVA: 0x00112EE2 File Offset: 0x001112E2
+		// Token: 0x06001FF5 RID: 8181 RVA: 0x00112F5A File Offset: 0x0011135A
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
 
-		// Token: 0x06001FF4 RID: 8180 RVA: 0x00112EF4 File Offset: 0x001112F4
+		// Token: 0x06001FF6 RID: 8182 RVA: 0x00112F6C File Offset: 0x0011136C
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.contents;
 		}
 
-		// Token: 0x06001FF5 RID: 8181 RVA: 0x00112F0F File Offset: 0x0011130F
+		// Token: 0x06001FF7 RID: 8183 RVA: 0x00112F87 File Offset: 0x00111387
 		public override void PostPostRemove()
 		{
 			base.PostPostRemove();
 			this.contents.ClearAndDestroyContents(DestroyMode.Vanish);
 		}
 
-		// Token: 0x06001FF6 RID: 8182 RVA: 0x00112F24 File Offset: 0x00111324
+		// Token: 0x06001FF8 RID: 8184 RVA: 0x00112F9C File Offset: 0x0011139C
 		public override string CompInspectStringExtra()
 		{
 			string result;

@@ -8,7 +8,7 @@ namespace Verse
 	public class BodyPartDef : Def
 	{
 		// Token: 0x17000960 RID: 2400
-		// (get) Token: 0x06003E5F RID: 15967 RVA: 0x0020DE8C File Offset: 0x0020C28C
+		// (get) Token: 0x06003E61 RID: 15969 RVA: 0x0020DF60 File Offset: 0x0020C360
 		public bool IsDelicate
 		{
 			get
@@ -18,7 +18,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000961 RID: 2401
-		// (get) Token: 0x06003E60 RID: 15968 RVA: 0x0020DEB4 File Offset: 0x0020C2B4
+		// (get) Token: 0x06003E62 RID: 15970 RVA: 0x0020DF88 File Offset: 0x0020C388
 		public bool IsSolidInDefinition_Debug
 		{
 			get
@@ -28,7 +28,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000962 RID: 2402
-		// (get) Token: 0x06003E61 RID: 15969 RVA: 0x0020DED0 File Offset: 0x0020C2D0
+		// (get) Token: 0x06003E63 RID: 15971 RVA: 0x0020DFA4 File Offset: 0x0020C3A4
 		public bool IsSkinCoveredInDefinition_Debug
 		{
 			get
@@ -38,7 +38,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000963 RID: 2403
-		// (get) Token: 0x06003E62 RID: 15970 RVA: 0x0020DEEC File Offset: 0x0020C2EC
+		// (get) Token: 0x06003E64 RID: 15972 RVA: 0x0020DFC0 File Offset: 0x0020C3C0
 		public string LabelShort
 		{
 			get
@@ -48,7 +48,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000964 RID: 2404
-		// (get) Token: 0x06003E63 RID: 15971 RVA: 0x0020DF24 File Offset: 0x0020C324
+		// (get) Token: 0x06003E65 RID: 15973 RVA: 0x0020DFF8 File Offset: 0x0020C3F8
 		public string LabelShortCap
 		{
 			get
@@ -57,7 +57,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E64 RID: 15972 RVA: 0x0020DF44 File Offset: 0x0020C344
+		// Token: 0x06003E66 RID: 15974 RVA: 0x0020E018 File Offset: 0x0020C418
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -83,7 +83,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003E65 RID: 15973 RVA: 0x0020DF70 File Offset: 0x0020C370
+		// Token: 0x06003E67 RID: 15975 RVA: 0x0020E044 File Offset: 0x0020C444
 		public bool IsSolid(BodyPartRecord part, List<Hediff> hediffs)
 		{
 			for (BodyPartRecord bodyPartRecord = part; bodyPartRecord != null; bodyPartRecord = bodyPartRecord.parent)
@@ -99,19 +99,19 @@ namespace Verse
 			return this.solid;
 		}
 
-		// Token: 0x06003E66 RID: 15974 RVA: 0x0020DFFC File Offset: 0x0020C3FC
+		// Token: 0x06003E68 RID: 15976 RVA: 0x0020E0D0 File Offset: 0x0020C4D0
 		public bool IsSkinCovered(BodyPartRecord part, HediffSet body)
 		{
 			return !body.PartOrAnyAncestorHasDirectlyAddedParts(part) && this.skinCovered;
 		}
 
-		// Token: 0x06003E67 RID: 15975 RVA: 0x0020E02C File Offset: 0x0020C42C
+		// Token: 0x06003E69 RID: 15977 RVA: 0x0020E100 File Offset: 0x0020C500
 		public float GetMaxHealth(Pawn pawn)
 		{
 			return (float)Mathf.CeilToInt((float)this.hitPoints * pawn.HealthScale);
 		}
 
-		// Token: 0x06003E68 RID: 15976 RVA: 0x0020E058 File Offset: 0x0020C458
+		// Token: 0x06003E6A RID: 15978 RVA: 0x0020E12C File Offset: 0x0020C52C
 		public float GetHitChanceFactorFor(DamageDef damage)
 		{
 			float result;

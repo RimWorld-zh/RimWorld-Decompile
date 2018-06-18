@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CE2 RID: 3298
+	// Token: 0x02000CE1 RID: 3297
 	[StaticConstructorOnStartup]
 	public static class GenMapUI
 	{
-		// Token: 0x0600488F RID: 18575 RVA: 0x00260C48 File Offset: 0x0025F048
+		// Token: 0x0600488D RID: 18573 RVA: 0x00260C20 File Offset: 0x0025F020
 		public static Vector2 LabelDrawPosFor(Thing thing, float worldOffsetZ)
 		{
 			Vector3 drawPos = thing.DrawPos;
@@ -18,7 +18,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004890 RID: 18576 RVA: 0x00260CA4 File Offset: 0x0025F0A4
+		// Token: 0x0600488E RID: 18574 RVA: 0x00260C7C File Offset: 0x0025F07C
 		public static Vector2 LabelDrawPosFor(IntVec3 center)
 		{
 			Vector3 position = center.ToVector3ShiftedWithAltitude(AltitudeLayer.MetaOverlays);
@@ -28,19 +28,19 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004891 RID: 18577 RVA: 0x00260D07 File Offset: 0x0025F107
+		// Token: 0x0600488F RID: 18575 RVA: 0x00260CDF File Offset: 0x0025F0DF
 		public static void DrawThingLabel(Thing thing, string text)
 		{
 			GenMapUI.DrawThingLabel(thing, text, GenMapUI.DefaultThingLabelColor);
 		}
 
-		// Token: 0x06004892 RID: 18578 RVA: 0x00260D16 File Offset: 0x0025F116
+		// Token: 0x06004890 RID: 18576 RVA: 0x00260CEE File Offset: 0x0025F0EE
 		public static void DrawThingLabel(Thing thing, string text, Color textColor)
 		{
 			GenMapUI.DrawThingLabel(GenMapUI.LabelDrawPosFor(thing, -0.4f), text, textColor);
 		}
 
-		// Token: 0x06004893 RID: 18579 RVA: 0x00260D2C File Offset: 0x0025F12C
+		// Token: 0x06004891 RID: 18577 RVA: 0x00260D04 File Offset: 0x0025F104
 		public static void DrawThingLabel(Vector2 screenPos, string text, Color textColor)
 		{
 			Text.Font = GameFont.Tiny;
@@ -56,7 +56,7 @@ namespace Verse
 			Text.Font = GameFont.Small;
 		}
 
-		// Token: 0x06004894 RID: 18580 RVA: 0x00260DDC File Offset: 0x0025F1DC
+		// Token: 0x06004892 RID: 18578 RVA: 0x00260DB4 File Offset: 0x0025F1B4
 		public static void DrawPawnLabel(Pawn pawn, Vector2 pos, float alpha = 1f, float truncateToWidth = 9999f, Dictionary<string, string> truncatedLabelsCache = null, GameFont font = GameFont.Tiny, bool alwaysDrawBg = true, bool alignCenter = true)
 		{
 			float pawnLabelNameWidth = GenMapUI.GetPawnLabelNameWidth(pawn, truncateToWidth, truncatedLabelsCache, font);
@@ -68,7 +68,7 @@ namespace Verse
 			GenMapUI.DrawPawnLabel(pawn, bgRect, alpha, truncateToWidth, truncatedLabelsCache, font, alwaysDrawBg, alignCenter);
 		}
 
-		// Token: 0x06004895 RID: 18581 RVA: 0x00260E5C File Offset: 0x0025F25C
+		// Token: 0x06004893 RID: 18579 RVA: 0x00260E34 File Offset: 0x0025F234
 		public static void DrawPawnLabel(Pawn pawn, Rect bgRect, float alpha = 1f, float truncateToWidth = 9999f, Dictionary<string, string> truncatedLabelsCache = null, GameFont font = GameFont.Tiny, bool alwaysDrawBg = true, bool alignCenter = true)
 		{
 			GUI.color = new Color(1f, 1f, 1f, alpha);
@@ -108,7 +108,7 @@ namespace Verse
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
-		// Token: 0x06004896 RID: 18582 RVA: 0x00260FF0 File Offset: 0x0025F3F0
+		// Token: 0x06004894 RID: 18580 RVA: 0x00260FC8 File Offset: 0x0025F3C8
 		public static void DrawText(Vector2 worldPos, string text, Color textColor)
 		{
 			Vector3 position = new Vector3(worldPos.x, 0f, worldPos.y);
@@ -123,7 +123,7 @@ namespace Verse
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
-		// Token: 0x06004897 RID: 18583 RVA: 0x002610A8 File Offset: 0x0025F4A8
+		// Token: 0x06004895 RID: 18581 RVA: 0x00261080 File Offset: 0x0025F480
 		private static float GetPawnLabelNameWidth(Pawn pawn, float truncateToWidth, Dictionary<string, string> truncatedLabelsCache, GameFont font)
 		{
 			GameFont font2 = Text.Font;
@@ -146,7 +146,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06004898 RID: 18584 RVA: 0x00261110 File Offset: 0x0025F510
+		// Token: 0x06004896 RID: 18582 RVA: 0x002610E8 File Offset: 0x0025F4E8
 		private static string GetPawnLabel(Pawn pawn, float truncateToWidth, Dictionary<string, string> truncatedLabelsCache, GameFont font)
 		{
 			GameFont font2 = Text.Font;
@@ -156,25 +156,25 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04003114 RID: 12564
+		// Token: 0x04003112 RID: 12562
 		public static readonly Texture2D OverlayHealthTex = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 0f, 0f, 0.25f));
 
-		// Token: 0x04003115 RID: 12565
+		// Token: 0x04003113 RID: 12563
 		public const float NameBGHeight_Tiny = 12f;
 
-		// Token: 0x04003116 RID: 12566
+		// Token: 0x04003114 RID: 12564
 		public const float NameBGExtraWidth_Tiny = 4f;
 
-		// Token: 0x04003117 RID: 12567
+		// Token: 0x04003115 RID: 12565
 		public const float NameBGHeight_Small = 16f;
 
-		// Token: 0x04003118 RID: 12568
+		// Token: 0x04003116 RID: 12566
 		public const float NameBGExtraWidth_Small = 6f;
 
-		// Token: 0x04003119 RID: 12569
+		// Token: 0x04003117 RID: 12567
 		public const float LabelOffsetYStandard = -0.4f;
 
-		// Token: 0x0400311A RID: 12570
+		// Token: 0x04003118 RID: 12568
 		public static readonly Color DefaultThingLabelColor = new Color(1f, 1f, 1f, 0.75f);
 	}
 }

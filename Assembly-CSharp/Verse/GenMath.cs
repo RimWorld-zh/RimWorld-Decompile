@@ -7,54 +7,54 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F44 RID: 3908
+	// Token: 0x02000F43 RID: 3907
 	[HasDebugOutput]
 	public static class GenMath
 	{
-		// Token: 0x06005E3D RID: 24125 RVA: 0x002FDBA8 File Offset: 0x002FBFA8
+		// Token: 0x06005E3B RID: 24123 RVA: 0x002FDC84 File Offset: 0x002FC084
 		public static float RoundedHundredth(float f)
 		{
 			return Mathf.Round(f * 100f) / 100f;
 		}
 
-		// Token: 0x06005E3E RID: 24126 RVA: 0x002FDBD0 File Offset: 0x002FBFD0
+		// Token: 0x06005E3C RID: 24124 RVA: 0x002FDCAC File Offset: 0x002FC0AC
 		public static int RoundTo(int value, int roundToNearest)
 		{
 			return (int)Math.Round((double)((float)value / (float)roundToNearest)) * roundToNearest;
 		}
 
-		// Token: 0x06005E3F RID: 24127 RVA: 0x002FDBF4 File Offset: 0x002FBFF4
+		// Token: 0x06005E3D RID: 24125 RVA: 0x002FDCD0 File Offset: 0x002FC0D0
 		public static float RoundTo(float value, float roundToNearest)
 		{
 			return (float)((int)Math.Round((double)(value / roundToNearest))) * roundToNearest;
 		}
 
-		// Token: 0x06005E40 RID: 24128 RVA: 0x002FDC18 File Offset: 0x002FC018
+		// Token: 0x06005E3E RID: 24126 RVA: 0x002FDCF4 File Offset: 0x002FC0F4
 		public static float ChanceEitherHappens(float chanceA, float chanceB)
 		{
 			return chanceA + (1f - chanceA) * chanceB;
 		}
 
-		// Token: 0x06005E41 RID: 24129 RVA: 0x002FDC38 File Offset: 0x002FC038
+		// Token: 0x06005E3F RID: 24127 RVA: 0x002FDD14 File Offset: 0x002FC114
 		public static float SmootherStep(float edge0, float edge1, float x)
 		{
 			x = Mathf.Clamp01((x - edge0) / (edge1 - edge0));
 			return x * x * x * (x * (x * 6f - 15f) + 10f);
 		}
 
-		// Token: 0x06005E42 RID: 24130 RVA: 0x002FDC78 File Offset: 0x002FC078
+		// Token: 0x06005E40 RID: 24128 RVA: 0x002FDD54 File Offset: 0x002FC154
 		public static int RoundRandom(float f)
 		{
 			return (int)f + ((Rand.Value >= f % 1f) ? 0 : 1);
 		}
 
-		// Token: 0x06005E43 RID: 24131 RVA: 0x002FDCA8 File Offset: 0x002FC0A8
+		// Token: 0x06005E41 RID: 24129 RVA: 0x002FDD84 File Offset: 0x002FC184
 		public static float WeightedAverage(float A, float weightA, float B, float weightB)
 		{
 			return (A * weightA + B * weightB) / (weightA + weightB);
 		}
 
-		// Token: 0x06005E44 RID: 24132 RVA: 0x002FDCC8 File Offset: 0x002FC0C8
+		// Token: 0x06005E42 RID: 24130 RVA: 0x002FDDA4 File Offset: 0x002FC1A4
 		public static float Median<T>(IList<T> list, Func<T, float> orderBy, float noneValue = 0f, float center = 0.5f)
 		{
 			float result;
@@ -75,7 +75,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E45 RID: 24133 RVA: 0x002FDD60 File Offset: 0x002FC160
+		// Token: 0x06005E43 RID: 24131 RVA: 0x002FDE3C File Offset: 0x002FC23C
 		public static float WeightedMedian(IList<Pair<float, float>> list, float noneValue = 0f, float center = 0.5f)
 		{
 			GenMath.tmpPairs.Clear();
@@ -117,38 +117,38 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E46 RID: 24134 RVA: 0x002FDEB8 File Offset: 0x002FC2B8
+		// Token: 0x06005E44 RID: 24132 RVA: 0x002FDF94 File Offset: 0x002FC394
 		public static float Sqrt(float f)
 		{
 			return (float)Math.Sqrt((double)f);
 		}
 
-		// Token: 0x06005E47 RID: 24135 RVA: 0x002FDED8 File Offset: 0x002FC2D8
+		// Token: 0x06005E45 RID: 24133 RVA: 0x002FDFB4 File Offset: 0x002FC3B4
 		public static float LerpDouble(float inFrom, float inTo, float outFrom, float outTo, float x)
 		{
 			float num = (x - inFrom) / (inTo - inFrom);
 			return outFrom + (outTo - outFrom) * num;
 		}
 
-		// Token: 0x06005E48 RID: 24136 RVA: 0x002FDF00 File Offset: 0x002FC300
+		// Token: 0x06005E46 RID: 24134 RVA: 0x002FDFDC File Offset: 0x002FC3DC
 		public static float LerpDoubleClamped(float inFrom, float inTo, float outFrom, float outTo, float x)
 		{
 			return GenMath.LerpDouble(inFrom, inTo, outFrom, outTo, Mathf.Clamp(x, Mathf.Min(inFrom, inTo), Mathf.Max(inFrom, inTo)));
 		}
 
-		// Token: 0x06005E49 RID: 24137 RVA: 0x002FDF34 File Offset: 0x002FC334
+		// Token: 0x06005E47 RID: 24135 RVA: 0x002FE010 File Offset: 0x002FC410
 		public static float Reflection(float value, float mirror)
 		{
 			return mirror - (value - mirror);
 		}
 
-		// Token: 0x06005E4A RID: 24138 RVA: 0x002FDF50 File Offset: 0x002FC350
+		// Token: 0x06005E48 RID: 24136 RVA: 0x002FE02C File Offset: 0x002FC42C
 		public static Quaternion ToQuat(this float ang)
 		{
 			return Quaternion.AngleAxis(ang, Vector3.up);
 		}
 
-		// Token: 0x06005E4B RID: 24139 RVA: 0x002FDF70 File Offset: 0x002FC370
+		// Token: 0x06005E49 RID: 24137 RVA: 0x002FE04C File Offset: 0x002FC44C
 		public static float GetFactorInInterval(float min, float mid, float max, float power, float x)
 		{
 			float result;
@@ -180,7 +180,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E4C RID: 24140 RVA: 0x002FE000 File Offset: 0x002FC400
+		// Token: 0x06005E4A RID: 24138 RVA: 0x002FE0DC File Offset: 0x002FC4DC
 		public static float FlatHill(float min, float lower, float upper, float max, float x)
 		{
 			float result;
@@ -207,7 +207,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E4D RID: 24141 RVA: 0x002FE070 File Offset: 0x002FC470
+		// Token: 0x06005E4B RID: 24139 RVA: 0x002FE14C File Offset: 0x002FC54C
 		public static float FlatHill(float minY, float min, float lower, float upper, float max, float maxY, float x)
 		{
 			float result;
@@ -234,13 +234,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E4E RID: 24142 RVA: 0x002FE0E8 File Offset: 0x002FC4E8
+		// Token: 0x06005E4C RID: 24140 RVA: 0x002FE1C4 File Offset: 0x002FC5C4
 		public static int OctileDistance(int dx, int dz, int cardinal, int diagonal)
 		{
 			return cardinal * (dx + dz) + (diagonal - 2 * cardinal) * Mathf.Min(dx, dz);
 		}
 
-		// Token: 0x06005E4F RID: 24143 RVA: 0x002FE110 File Offset: 0x002FC510
+		// Token: 0x06005E4D RID: 24141 RVA: 0x002FE1EC File Offset: 0x002FC5EC
 		public static float UnboundedValueToFactor(float val)
 		{
 			float result;
@@ -255,7 +255,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E50 RID: 24144 RVA: 0x002FE14C File Offset: 0x002FC54C
+		// Token: 0x06005E4E RID: 24142 RVA: 0x002FE228 File Offset: 0x002FC628
 		[DebugOutput]
 		[Category("System")]
 		public static void TestMathPerf()
@@ -334,7 +334,7 @@ namespace Verse
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x06005E51 RID: 24145 RVA: 0x002FE3F4 File Offset: 0x002FC7F4
+		// Token: 0x06005E4F RID: 24143 RVA: 0x002FE4D0 File Offset: 0x002FC8D0
 		public static float Min(float a, float b, float c)
 		{
 			float result;
@@ -360,7 +360,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E52 RID: 24146 RVA: 0x002FE438 File Offset: 0x002FC838
+		// Token: 0x06005E50 RID: 24144 RVA: 0x002FE514 File Offset: 0x002FC914
 		public static int Max(int a, int b, int c)
 		{
 			int result;
@@ -386,7 +386,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E53 RID: 24147 RVA: 0x002FE47C File Offset: 0x002FC87C
+		// Token: 0x06005E51 RID: 24145 RVA: 0x002FE558 File Offset: 0x002FC958
 		public static float SphericalDistance(Vector3 normalizedA, Vector3 normalizedB)
 		{
 			float result;
@@ -401,7 +401,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E54 RID: 24148 RVA: 0x002FE4B4 File Offset: 0x002FC8B4
+		// Token: 0x06005E52 RID: 24146 RVA: 0x002FE590 File Offset: 0x002FC990
 		public static void DHondtDistribution(List<int> candidates, Func<int, float> scoreGetter, int numToDistribute)
 		{
 			GenMath.tmpScores.Clear();
@@ -422,25 +422,25 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005E55 RID: 24149 RVA: 0x002FE57C File Offset: 0x002FC97C
+		// Token: 0x06005E53 RID: 24147 RVA: 0x002FE658 File Offset: 0x002FCA58
 		public static int PositiveMod(int x, int m)
 		{
 			return (x % m + m) % m;
 		}
 
-		// Token: 0x06005E56 RID: 24150 RVA: 0x002FE598 File Offset: 0x002FC998
+		// Token: 0x06005E54 RID: 24148 RVA: 0x002FE674 File Offset: 0x002FCA74
 		public static long PositiveMod(long x, long m)
 		{
 			return (x % m + m) % m;
 		}
 
-		// Token: 0x06005E57 RID: 24151 RVA: 0x002FE5B4 File Offset: 0x002FC9B4
+		// Token: 0x06005E55 RID: 24149 RVA: 0x002FE690 File Offset: 0x002FCA90
 		public static float PositiveMod(float x, float m)
 		{
 			return (x % m + m) % m;
 		}
 
-		// Token: 0x06005E58 RID: 24152 RVA: 0x002FE5D0 File Offset: 0x002FC9D0
+		// Token: 0x06005E56 RID: 24150 RVA: 0x002FE6AC File Offset: 0x002FCAAC
 		public static int PositiveModRemap(long x, int d, int m)
 		{
 			if (x < 0L)
@@ -450,13 +450,13 @@ namespace Verse
 			return (int)((x / (long)d % (long)m + (long)m) % (long)m);
 		}
 
-		// Token: 0x06005E59 RID: 24153 RVA: 0x002FE604 File Offset: 0x002FCA04
+		// Token: 0x06005E57 RID: 24151 RVA: 0x002FE6E0 File Offset: 0x002FCAE0
 		public static Vector3 BezierCubicEvaluate(float t, GenMath.BezierCubicControls bcc)
 		{
 			return GenMath.BezierCubicEvaluate(t, bcc.w0, bcc.w1, bcc.w2, bcc.w3);
 		}
 
-		// Token: 0x06005E5A RID: 24154 RVA: 0x002FE63C File Offset: 0x002FCA3C
+		// Token: 0x06005E58 RID: 24152 RVA: 0x002FE718 File Offset: 0x002FCB18
 		public static Vector3 BezierCubicEvaluate(float t, Vector3 w0, Vector3 w1, Vector3 w2, Vector3 w3)
 		{
 			float d = t * t;
@@ -465,7 +465,7 @@ namespace Verse
 			return w0 * d2 * num + 3f * w1 * d2 * t + 3f * w2 * num * d + w3 * d * t;
 		}
 
-		// Token: 0x06005E5B RID: 24155 RVA: 0x002FE6BC File Offset: 0x002FCABC
+		// Token: 0x06005E59 RID: 24153 RVA: 0x002FE798 File Offset: 0x002FCB98
 		public static float CirclesOverlapArea(float x1, float y1, float r1, float x2, float y2, float r2)
 		{
 			float num = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
@@ -497,13 +497,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E5C RID: 24156 RVA: 0x002FE7C4 File Offset: 0x002FCBC4
+		// Token: 0x06005E5A RID: 24154 RVA: 0x002FE8A0 File Offset: 0x002FCCA0
 		public static bool AnyIntegerInRange(float min, float max)
 		{
 			return Mathf.Ceil(min) <= max;
 		}
 
-		// Token: 0x06005E5D RID: 24157 RVA: 0x002FE7E8 File Offset: 0x002FCBE8
+		// Token: 0x06005E5B RID: 24155 RVA: 0x002FE8C4 File Offset: 0x002FCCC4
 		public static void NormalizeToSum1(ref float a, ref float b, ref float c)
 		{
 			float num = a + b + c;
@@ -521,7 +521,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005E5E RID: 24158 RVA: 0x002FE83C File Offset: 0x002FCC3C
+		// Token: 0x06005E5C RID: 24156 RVA: 0x002FE918 File Offset: 0x002FCD18
 		public static float InverseLerp(float a, float b, float value)
 		{
 			float result;
@@ -536,7 +536,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E5F RID: 24159 RVA: 0x002FE87C File Offset: 0x002FCC7C
+		// Token: 0x06005E5D RID: 24157 RVA: 0x002FE958 File Offset: 0x002FCD58
 		public static T MaxBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3)
 		{
 			T result;
@@ -555,7 +555,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E60 RID: 24160 RVA: 0x002FE8C0 File Offset: 0x002FCCC0
+		// Token: 0x06005E5E RID: 24158 RVA: 0x002FE99C File Offset: 0x002FCD9C
 		public static T MaxBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4)
 		{
 			T result;
@@ -578,7 +578,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E61 RID: 24161 RVA: 0x002FE934 File Offset: 0x002FCD34
+		// Token: 0x06005E5F RID: 24159 RVA: 0x002FEA10 File Offset: 0x002FCE10
 		public static T MaxBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4, T elem5, float by5)
 		{
 			T result;
@@ -605,7 +605,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E62 RID: 24162 RVA: 0x002FE9EC File Offset: 0x002FCDEC
+		// Token: 0x06005E60 RID: 24160 RVA: 0x002FEAC8 File Offset: 0x002FCEC8
 		public static T MaxBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4, T elem5, float by5, T elem6, float by6)
 		{
 			T result;
@@ -636,7 +636,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E63 RID: 24163 RVA: 0x002FEAF8 File Offset: 0x002FCEF8
+		// Token: 0x06005E61 RID: 24161 RVA: 0x002FEBD4 File Offset: 0x002FCFD4
 		public static T MaxBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4, T elem5, float by5, T elem6, float by6, T elem7, float by7)
 		{
 			T result;
@@ -671,7 +671,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E64 RID: 24164 RVA: 0x002FEC6C File Offset: 0x002FD06C
+		// Token: 0x06005E62 RID: 24162 RVA: 0x002FED48 File Offset: 0x002FD148
 		public static T MaxBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4, T elem5, float by5, T elem6, float by6, T elem7, float by7, T elem8, float by8)
 		{
 			T result;
@@ -710,49 +710,49 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E65 RID: 24165 RVA: 0x002FEE58 File Offset: 0x002FD258
+		// Token: 0x06005E63 RID: 24163 RVA: 0x002FEF34 File Offset: 0x002FD334
 		public static T MinBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3)
 		{
 			return GenMath.MaxBy<T>(elem1, -by1, elem2, -by2, elem3, -by3);
 		}
 
-		// Token: 0x06005E66 RID: 24166 RVA: 0x002FEE80 File Offset: 0x002FD280
+		// Token: 0x06005E64 RID: 24164 RVA: 0x002FEF5C File Offset: 0x002FD35C
 		public static T MinBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4)
 		{
 			return GenMath.MaxBy<T>(elem1, -by1, elem2, -by2, elem3, -by3, elem4, -by4);
 		}
 
-		// Token: 0x06005E67 RID: 24167 RVA: 0x002FEEAC File Offset: 0x002FD2AC
+		// Token: 0x06005E65 RID: 24165 RVA: 0x002FEF88 File Offset: 0x002FD388
 		public static T MinBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4, T elem5, float by5)
 		{
 			return GenMath.MaxBy<T>(elem1, -by1, elem2, -by2, elem3, -by3, elem4, -by4, elem5, -by5);
 		}
 
-		// Token: 0x06005E68 RID: 24168 RVA: 0x002FEEDC File Offset: 0x002FD2DC
+		// Token: 0x06005E66 RID: 24166 RVA: 0x002FEFB8 File Offset: 0x002FD3B8
 		public static T MinBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4, T elem5, float by5, T elem6, float by6)
 		{
 			return GenMath.MaxBy<T>(elem1, -by1, elem2, -by2, elem3, -by3, elem4, -by4, elem5, -by5, elem6, -by6);
 		}
 
-		// Token: 0x06005E69 RID: 24169 RVA: 0x002FEF10 File Offset: 0x002FD310
+		// Token: 0x06005E67 RID: 24167 RVA: 0x002FEFEC File Offset: 0x002FD3EC
 		public static T MinBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4, T elem5, float by5, T elem6, float by6, T elem7, float by7)
 		{
 			return GenMath.MaxBy<T>(elem1, -by1, elem2, -by2, elem3, -by3, elem4, -by4, elem5, -by5, elem6, -by6, elem7, -by7);
 		}
 
-		// Token: 0x06005E6A RID: 24170 RVA: 0x002FEF4C File Offset: 0x002FD34C
+		// Token: 0x06005E68 RID: 24168 RVA: 0x002FF028 File Offset: 0x002FD428
 		public static T MinBy<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4, T elem5, float by5, T elem6, float by6, T elem7, float by7, T elem8, float by8)
 		{
 			return GenMath.MaxBy<T>(elem1, -by1, elem2, -by2, elem3, -by3, elem4, -by4, elem5, -by5, elem6, -by6, elem7, -by7, elem8, -by8);
 		}
 
-		// Token: 0x06005E6B RID: 24171 RVA: 0x002FEF8C File Offset: 0x002FD38C
+		// Token: 0x06005E69 RID: 24169 RVA: 0x002FF068 File Offset: 0x002FD468
 		public static T MaxByRandomIfEqual<T>(T elem1, float by1, T elem2, float by2, T elem3, float by3, T elem4, float by4, T elem5, float by5, T elem6, float by6, T elem7, float by7, T elem8, float by8, float eps = 0.0001f)
 		{
 			return GenMath.MaxBy<T>(elem1, by1 + Rand.Range(0f, eps), elem2, by2 + Rand.Range(0f, eps), elem3, by3 + Rand.Range(0f, eps), elem4, by4 + Rand.Range(0f, eps), elem5, by5 + Rand.Range(0f, eps), elem6, by6 + Rand.Range(0f, eps), elem7, by7 + Rand.Range(0f, eps), elem8, by8 + Rand.Range(0f, eps));
 		}
 
-		// Token: 0x06005E6C RID: 24172 RVA: 0x002FF02C File Offset: 0x002FD42C
+		// Token: 0x06005E6A RID: 24170 RVA: 0x002FF108 File Offset: 0x002FD508
 		public static float Stddev(IEnumerable<float> data)
 		{
 			int num = 0;
@@ -770,37 +770,37 @@ namespace Verse
 			return Mathf.Sqrt((float)num7);
 		}
 
-		// Token: 0x04003E05 RID: 15877
+		// Token: 0x04003E04 RID: 15876
 		public const float BigEpsilon = 1E-07f;
 
-		// Token: 0x04003E06 RID: 15878
+		// Token: 0x04003E05 RID: 15877
 		public const float Sqrt2 = 1.41421354f;
 
-		// Token: 0x04003E07 RID: 15879
+		// Token: 0x04003E06 RID: 15878
 		private static List<float> tmpElements = new List<float>();
 
-		// Token: 0x04003E08 RID: 15880
+		// Token: 0x04003E07 RID: 15879
 		private static List<Pair<float, float>> tmpPairs = new List<Pair<float, float>>();
 
-		// Token: 0x04003E09 RID: 15881
+		// Token: 0x04003E08 RID: 15880
 		private static List<float> tmpScores = new List<float>();
 
-		// Token: 0x04003E0A RID: 15882
+		// Token: 0x04003E09 RID: 15881
 		private static List<float> tmpCalcList = new List<float>();
 
-		// Token: 0x02000F45 RID: 3909
+		// Token: 0x02000F44 RID: 3908
 		public struct BezierCubicControls
 		{
-			// Token: 0x04003E0C RID: 15884
+			// Token: 0x04003E0B RID: 15883
 			public Vector3 w0;
 
-			// Token: 0x04003E0D RID: 15885
+			// Token: 0x04003E0C RID: 15884
 			public Vector3 w1;
 
-			// Token: 0x04003E0E RID: 15886
+			// Token: 0x04003E0D RID: 15885
 			public Vector3 w2;
 
-			// Token: 0x04003E0F RID: 15887
+			// Token: 0x04003E0E RID: 15886
 			public Vector3 w3;
 		}
 	}

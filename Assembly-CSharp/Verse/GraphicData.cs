@@ -9,7 +9,7 @@ namespace Verse
 	public class GraphicData
 	{
 		// Token: 0x17000973 RID: 2419
-		// (get) Token: 0x06003EB7 RID: 16055 RVA: 0x00210358 File Offset: 0x0020E758
+		// (get) Token: 0x06003EB9 RID: 16057 RVA: 0x0021042C File Offset: 0x0020E82C
 		public bool Linked
 		{
 			get
@@ -19,7 +19,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000974 RID: 2420
-		// (get) Token: 0x06003EB8 RID: 16056 RVA: 0x0021037C File Offset: 0x0020E77C
+		// (get) Token: 0x06003EBA RID: 16058 RVA: 0x00210450 File Offset: 0x0020E850
 		public Graphic Graphic
 		{
 			get
@@ -32,7 +32,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003EB9 RID: 16057 RVA: 0x002103A8 File Offset: 0x0020E7A8
+		// Token: 0x06003EBB RID: 16059 RVA: 0x0021047C File Offset: 0x0020E87C
 		public void CopyFrom(GraphicData other)
 		{
 			this.texPath = other.texPath;
@@ -51,7 +51,7 @@ namespace Verse
 			this.linkFlags = other.linkFlags;
 		}
 
-		// Token: 0x06003EBA RID: 16058 RVA: 0x00210460 File Offset: 0x0020E860
+		// Token: 0x06003EBC RID: 16060 RVA: 0x00210534 File Offset: 0x0020E934
 		private void Init()
 		{
 			if (this.graphicClass == null)
@@ -78,7 +78,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003EBB RID: 16059 RVA: 0x0021051A File Offset: 0x0020E91A
+		// Token: 0x06003EBD RID: 16061 RVA: 0x002105EE File Offset: 0x0020E9EE
 		public void ResolveReferencesSpecial()
 		{
 			if (this.damageData != null)
@@ -87,7 +87,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003EBC RID: 16060 RVA: 0x00210534 File Offset: 0x0020E934
+		// Token: 0x06003EBE RID: 16062 RVA: 0x00210608 File Offset: 0x0020EA08
 		public Graphic GraphicColoredFor(Thing t)
 		{
 			Graphic result;
@@ -102,7 +102,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003EBD RID: 16061 RVA: 0x002105B0 File Offset: 0x0020E9B0
+		// Token: 0x06003EBF RID: 16063 RVA: 0x00210684 File Offset: 0x0020EA84
 		internal IEnumerable<string> ConfigErrors(ThingDef thingDef)
 		{
 			if (this.graphicClass == null)

@@ -9,7 +9,7 @@ namespace RimWorld.Planet
 	// Token: 0x020005C9 RID: 1481
 	public class WorldGrid : IExposable
 	{
-		// Token: 0x06001C85 RID: 7301 RVA: 0x000F5058 File Offset: 0x000F3458
+		// Token: 0x06001C87 RID: 7303 RVA: 0x000F50D0 File Offset: 0x000F34D0
 		public WorldGrid()
 		{
 			this.CalculateViewCenterAndAngle();
@@ -18,7 +18,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000426 RID: 1062
-		// (get) Token: 0x06001C86 RID: 7302 RVA: 0x000F50C8 File Offset: 0x000F34C8
+		// (get) Token: 0x06001C88 RID: 7304 RVA: 0x000F5140 File Offset: 0x000F3540
 		public int TilesCount
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000427 RID: 1063
-		// (get) Token: 0x06001C87 RID: 7303 RVA: 0x000F50E8 File Offset: 0x000F34E8
+		// (get) Token: 0x06001C89 RID: 7305 RVA: 0x000F5160 File Offset: 0x000F3560
 		public Vector3 NorthPolePos
 		{
 			get
@@ -47,7 +47,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000429 RID: 1065
-		// (get) Token: 0x06001C89 RID: 7305 RVA: 0x000F514C File Offset: 0x000F354C
+		// (get) Token: 0x06001C8B RID: 7307 RVA: 0x000F51C4 File Offset: 0x000F35C4
 		public bool HasWorldData
 		{
 			get
@@ -56,13 +56,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C8A RID: 7306 RVA: 0x000F5170 File Offset: 0x000F3570
+		// Token: 0x06001C8C RID: 7308 RVA: 0x000F51E8 File Offset: 0x000F35E8
 		public bool InBounds(int tileID)
 		{
 			return (ulong)tileID < (ulong)((long)this.TilesCount);
 		}
 
-		// Token: 0x06001C8B RID: 7307 RVA: 0x000F5190 File Offset: 0x000F3590
+		// Token: 0x06001C8D RID: 7309 RVA: 0x000F5208 File Offset: 0x000F3608
 		public Vector2 LongLatOf(int tileID)
 		{
 			Vector3 tileCenter = this.GetTileCenter(tileID);
@@ -71,7 +71,7 @@ namespace RimWorld.Planet
 			return new Vector2(x, y);
 		}
 
-		// Token: 0x06001C8C RID: 7308 RVA: 0x000F51E8 File Offset: 0x000F35E8
+		// Token: 0x06001C8E RID: 7310 RVA: 0x000F5260 File Offset: 0x000F3660
 		public float GetHeadingFromTo(Vector3 from, Vector3 to)
 		{
 			float result;
@@ -99,7 +99,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001C8D RID: 7309 RVA: 0x000F5260 File Offset: 0x000F3660
+		// Token: 0x06001C8F RID: 7311 RVA: 0x000F52D8 File Offset: 0x000F36D8
 		public float GetHeadingFromTo(int fromTileID, int toTileID)
 		{
 			float result;
@@ -116,7 +116,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001C8E RID: 7310 RVA: 0x000F52A0 File Offset: 0x000F36A0
+		// Token: 0x06001C90 RID: 7312 RVA: 0x000F5318 File Offset: 0x000F3718
 		public Direction8Way GetDirection8WayFromTo(int fromTileID, int toTileID)
 		{
 			float headingFromTo = this.GetHeadingFromTo(fromTileID, toTileID);
@@ -156,7 +156,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001C8F RID: 7311 RVA: 0x000F5348 File Offset: 0x000F3748
+		// Token: 0x06001C91 RID: 7313 RVA: 0x000F53C0 File Offset: 0x000F37C0
 		public Rot4 GetRotFromTo(int fromTileID, int toTileID)
 		{
 			float headingFromTo = this.GetHeadingFromTo(fromTileID, toTileID);
@@ -180,64 +180,64 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001C90 RID: 7312 RVA: 0x000F53B8 File Offset: 0x000F37B8
+		// Token: 0x06001C92 RID: 7314 RVA: 0x000F5430 File Offset: 0x000F3830
 		public void GetTileVertices(int tileID, List<Vector3> outVerts)
 		{
 			PackedListOfLists.GetList<Vector3>(this.tileIDToVerts_offsets, this.verts, tileID, outVerts);
 		}
 
-		// Token: 0x06001C91 RID: 7313 RVA: 0x000F53CE File Offset: 0x000F37CE
+		// Token: 0x06001C93 RID: 7315 RVA: 0x000F5446 File Offset: 0x000F3846
 		public void GetTileVerticesIndices(int tileID, List<int> outVertsIndices)
 		{
 			PackedListOfLists.GetListValuesIndices<Vector3>(this.tileIDToVerts_offsets, this.verts, tileID, outVertsIndices);
 		}
 
-		// Token: 0x06001C92 RID: 7314 RVA: 0x000F53E4 File Offset: 0x000F37E4
+		// Token: 0x06001C94 RID: 7316 RVA: 0x000F545C File Offset: 0x000F385C
 		public void GetTileNeighbors(int tileID, List<int> outNeighbors)
 		{
 			PackedListOfLists.GetList<int>(this.tileIDToNeighbors_offsets, this.tileIDToNeighbors_values, tileID, outNeighbors);
 		}
 
-		// Token: 0x06001C93 RID: 7315 RVA: 0x000F53FC File Offset: 0x000F37FC
+		// Token: 0x06001C95 RID: 7317 RVA: 0x000F5474 File Offset: 0x000F3874
 		public int GetTileNeighborCount(int tileID)
 		{
 			return PackedListOfLists.GetListCount<int>(this.tileIDToNeighbors_offsets, this.tileIDToNeighbors_values, tileID);
 		}
 
-		// Token: 0x06001C94 RID: 7316 RVA: 0x000F5424 File Offset: 0x000F3824
+		// Token: 0x06001C96 RID: 7318 RVA: 0x000F549C File Offset: 0x000F389C
 		public int GetMaxTileNeighborCountEver(int tileID)
 		{
 			return PackedListOfLists.GetListCount<Vector3>(this.tileIDToVerts_offsets, this.verts, tileID);
 		}
 
-		// Token: 0x06001C95 RID: 7317 RVA: 0x000F544C File Offset: 0x000F384C
+		// Token: 0x06001C97 RID: 7319 RVA: 0x000F54C4 File Offset: 0x000F38C4
 		public bool IsNeighbor(int tile1, int tile2)
 		{
 			this.GetTileNeighbors(tile1, WorldGrid.tmpNeighbors);
 			return WorldGrid.tmpNeighbors.Contains(tile2);
 		}
 
-		// Token: 0x06001C96 RID: 7318 RVA: 0x000F5478 File Offset: 0x000F3878
+		// Token: 0x06001C98 RID: 7320 RVA: 0x000F54F0 File Offset: 0x000F38F0
 		public bool IsNeighborOrSame(int tile1, int tile2)
 		{
 			return tile1 == tile2 || this.IsNeighbor(tile1, tile2);
 		}
 
-		// Token: 0x06001C97 RID: 7319 RVA: 0x000F54A0 File Offset: 0x000F38A0
+		// Token: 0x06001C99 RID: 7321 RVA: 0x000F5518 File Offset: 0x000F3918
 		public int GetNeighborId(int tile1, int tile2)
 		{
 			this.GetTileNeighbors(tile1, WorldGrid.tmpNeighbors);
 			return WorldGrid.tmpNeighbors.IndexOf(tile2);
 		}
 
-		// Token: 0x06001C98 RID: 7320 RVA: 0x000F54CC File Offset: 0x000F38CC
+		// Token: 0x06001C9A RID: 7322 RVA: 0x000F5544 File Offset: 0x000F3944
 		public int GetTileNeighbor(int tileID, int adjacentId)
 		{
 			this.GetTileNeighbors(tileID, WorldGrid.tmpNeighbors);
 			return WorldGrid.tmpNeighbors[adjacentId];
 		}
 
-		// Token: 0x06001C99 RID: 7321 RVA: 0x000F54F8 File Offset: 0x000F38F8
+		// Token: 0x06001C9B RID: 7323 RVA: 0x000F5570 File Offset: 0x000F3970
 		public Vector3 GetTileCenter(int tileID)
 		{
 			int num = (tileID + 1 >= this.tileIDToVerts_offsets.Count) ? this.verts.Count : this.tileIDToVerts_offsets[tileID + 1];
@@ -251,31 +251,31 @@ namespace RimWorld.Planet
 			return a / (float)num2;
 		}
 
-		// Token: 0x06001C9A RID: 7322 RVA: 0x000F5588 File Offset: 0x000F3988
+		// Token: 0x06001C9C RID: 7324 RVA: 0x000F5600 File Offset: 0x000F3A00
 		public float TileRadiusToAngle(float radius)
 		{
 			return this.DistOnSurfaceToAngle(radius * this.averageTileSize);
 		}
 
-		// Token: 0x06001C9B RID: 7323 RVA: 0x000F55AC File Offset: 0x000F39AC
+		// Token: 0x06001C9D RID: 7325 RVA: 0x000F5624 File Offset: 0x000F3A24
 		public float DistOnSurfaceToAngle(float dist)
 		{
 			return dist / 628.318542f * 360f;
 		}
 
-		// Token: 0x06001C9C RID: 7324 RVA: 0x000F55D0 File Offset: 0x000F39D0
+		// Token: 0x06001C9E RID: 7326 RVA: 0x000F5648 File Offset: 0x000F3A48
 		public float DistanceFromEquatorNormalized(int tile)
 		{
 			return Mathf.Abs(Find.WorldGrid.GetTileCenter(tile).y / 100f);
 		}
 
-		// Token: 0x06001C9D RID: 7325 RVA: 0x000F5604 File Offset: 0x000F3A04
+		// Token: 0x06001C9F RID: 7327 RVA: 0x000F567C File Offset: 0x000F3A7C
 		public float ApproxDistanceInTiles(float sphericalDistance)
 		{
 			return sphericalDistance * 100f / this.averageTileSize;
 		}
 
-		// Token: 0x06001C9E RID: 7326 RVA: 0x000F5628 File Offset: 0x000F3A28
+		// Token: 0x06001CA0 RID: 7328 RVA: 0x000F56A0 File Offset: 0x000F3AA0
 		public float ApproxDistanceInTiles(int firstTile, int secondTile)
 		{
 			Vector3 tileCenter = this.GetTileCenter(firstTile);
@@ -283,7 +283,7 @@ namespace RimWorld.Planet
 			return this.ApproxDistanceInTiles(GenMath.SphericalDistance(tileCenter.normalized, tileCenter2.normalized));
 		}
 
-		// Token: 0x06001C9F RID: 7327 RVA: 0x000F5668 File Offset: 0x000F3A68
+		// Token: 0x06001CA1 RID: 7329 RVA: 0x000F56E0 File Offset: 0x000F3AE0
 		public void OverlayRoad(int fromTile, int toTile, RoadDef roadDef)
 		{
 			if (roadDef == null)
@@ -328,7 +328,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001CA0 RID: 7328 RVA: 0x000F57B0 File Offset: 0x000F3BB0
+		// Token: 0x06001CA2 RID: 7330 RVA: 0x000F5828 File Offset: 0x000F3C28
 		public RoadDef GetRoadDef(int fromTile, int toTile, bool visibleOnly = true)
 		{
 			RoadDef result;
@@ -360,7 +360,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001CA1 RID: 7329 RVA: 0x000F5864 File Offset: 0x000F3C64
+		// Token: 0x06001CA3 RID: 7331 RVA: 0x000F58DC File Offset: 0x000F3CDC
 		public void OverlayRiver(int fromTile, int toTile, RiverDef riverDef)
 		{
 			if (riverDef == null)
@@ -405,7 +405,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001CA2 RID: 7330 RVA: 0x000F59AC File Offset: 0x000F3DAC
+		// Token: 0x06001CA4 RID: 7332 RVA: 0x000F5A24 File Offset: 0x000F3E24
 		public RiverDef GetRiverDef(int fromTile, int toTile, bool visibleOnly = true)
 		{
 			RiverDef result;
@@ -437,7 +437,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001CA3 RID: 7331 RVA: 0x000F5A60 File Offset: 0x000F3E60
+		// Token: 0x06001CA5 RID: 7333 RVA: 0x000F5AD8 File Offset: 0x000F3ED8
 		public float GetRoadMovementDifficultyMultiplier(int fromTile, int toTile, StringBuilder explanation = null)
 		{
 			List<Tile.RoadLink> roads = this.tiles[fromTile].Roads;
@@ -473,7 +473,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001CA4 RID: 7332 RVA: 0x000F5B44 File Offset: 0x000F3F44
+		// Token: 0x06001CA6 RID: 7334 RVA: 0x000F5BBC File Offset: 0x000F3FBC
 		public int FindMostReasonableAdjacentTileForDisplayedPathCost(int fromTile)
 		{
 			Tile tile = this.tiles[fromTile];
@@ -513,7 +513,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001CA5 RID: 7333 RVA: 0x000F5C68 File Offset: 0x000F4068
+		// Token: 0x06001CA7 RID: 7335 RVA: 0x000F5CE0 File Offset: 0x000F40E0
 		public int TraversalDistanceBetween(int start, int end, bool passImpassable = true, int maxDist = 2147483647)
 		{
 			int result;
@@ -558,7 +558,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001CA6 RID: 7334 RVA: 0x000F5DAC File Offset: 0x000F41AC
+		// Token: 0x06001CA8 RID: 7336 RVA: 0x000F5E24 File Offset: 0x000F4224
 		public int TilesNumWithinTraversalDistance(int traversalDist)
 		{
 			int result;
@@ -573,13 +573,13 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001CA7 RID: 7335 RVA: 0x000F5DD8 File Offset: 0x000F41D8
+		// Token: 0x06001CA9 RID: 7337 RVA: 0x000F5E50 File Offset: 0x000F4250
 		public bool IsOnEdge(int tileID)
 		{
 			return this.InBounds(tileID) && this.GetTileNeighborCount(tileID) < this.GetMaxTileNeighborCountEver(tileID);
 		}
 
-		// Token: 0x06001CA8 RID: 7336 RVA: 0x000F5E0C File Offset: 0x000F420C
+		// Token: 0x06001CAA RID: 7338 RVA: 0x000F5E84 File Offset: 0x000F4284
 		private void CalculateAverageTileSize()
 		{
 			int tilesCount = this.TilesCount;
@@ -600,7 +600,7 @@ namespace RimWorld.Planet
 			this.averageTileSize = (float)(num / (double)num2);
 		}
 
-		// Token: 0x06001CA9 RID: 7337 RVA: 0x000F5ED8 File Offset: 0x000F42D8
+		// Token: 0x06001CAB RID: 7339 RVA: 0x000F5F50 File Offset: 0x000F4350
 		private void CalculateViewCenterAndAngle()
 		{
 			this.viewAngle = Find.World.PlanetCoverage * 180f;
@@ -613,7 +613,7 @@ namespace RimWorld.Planet
 			this.viewCenter = Quaternion.AngleAxis(angle, Vector3.right) * this.viewCenter;
 		}
 
-		// Token: 0x06001CAA RID: 7338 RVA: 0x000F5F50 File Offset: 0x000F4350
+		// Token: 0x06001CAC RID: 7340 RVA: 0x000F5FC8 File Offset: 0x000F43C8
 		public void ExposeData()
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
@@ -639,14 +639,14 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001CAB RID: 7339 RVA: 0x000F6050 File Offset: 0x000F4450
+		// Token: 0x06001CAD RID: 7341 RVA: 0x000F60C8 File Offset: 0x000F44C8
 		public void StandardizeTileData()
 		{
 			this.TilesToRawData();
 			this.RawDataToTiles();
 		}
 
-		// Token: 0x06001CAC RID: 7340 RVA: 0x000F6060 File Offset: 0x000F4460
+		// Token: 0x06001CAE RID: 7342 RVA: 0x000F60D8 File Offset: 0x000F44D8
 		private void TilesToRawData()
 		{
 			this.tileBiome = DataSerializeUtility.SerializeUshort(this.TilesCount, (int i) => this.tiles[i].biome.shortHash);
@@ -720,7 +720,7 @@ namespace RimWorld.Planet
 			this.tileRiverDef = DataSerializeUtility.SerializeUshort(list6.ToArray());
 		}
 
-		// Token: 0x06001CAD RID: 7341 RVA: 0x000F6358 File Offset: 0x000F4758
+		// Token: 0x06001CAF RID: 7343 RVA: 0x000F63D0 File Offset: 0x000F47D0
 		private void RawDataToTiles()
 		{
 			if (this.tiles.Count != this.TilesCount)

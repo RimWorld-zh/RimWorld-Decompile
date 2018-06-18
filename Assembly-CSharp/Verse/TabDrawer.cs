@@ -6,10 +6,10 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000EA8 RID: 3752
+	// Token: 0x02000EA7 RID: 3751
 	public static class TabDrawer
 	{
-		// Token: 0x0600585F RID: 22623 RVA: 0x002D4200 File Offset: 0x002D2600
+		// Token: 0x0600585D RID: 22621 RVA: 0x002D4200 File Offset: 0x002D2600
 		public static TabRecord DrawTabs(Rect baseRect, List<TabRecord> tabs, int rows)
 		{
 			TabRecord result;
@@ -49,7 +49,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005860 RID: 22624 RVA: 0x002D4320 File Offset: 0x002D2720
+		// Token: 0x0600585E RID: 22622 RVA: 0x002D4320 File Offset: 0x002D2720
 		public static TabRecord DrawTabs(Rect baseRect, List<TabRecord> tabs, float maxTabWidth = 200f)
 		{
 			TabRecord tabRecord = null;
@@ -113,16 +113,16 @@ namespace Verse
 			return tabRecord;
 		}
 
-		// Token: 0x04003A8C RID: 14988
+		// Token: 0x04003A8A RID: 14986
 		private const float MaxTabWidth = 200f;
 
-		// Token: 0x04003A8D RID: 14989
+		// Token: 0x04003A8B RID: 14987
 		public const float TabHeight = 32f;
 
-		// Token: 0x04003A8E RID: 14990
+		// Token: 0x04003A8C RID: 14988
 		public const float TabHoriztonalOverlap = 10f;
 
-		// Token: 0x04003A8F RID: 14991
+		// Token: 0x04003A8D RID: 14989
 		private static List<TabRecord> tmpTabs = new List<TabRecord>();
 	}
 }

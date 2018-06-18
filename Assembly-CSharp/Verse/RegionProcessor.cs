@@ -2,7 +2,7 @@
 
 namespace Verse
 {
-	// Token: 0x02000C95 RID: 3221
-	// (Invoke) Token: 0x060046A2 RID: 18082
+	// Token: 0x02000C94 RID: 3220
+	// (Invoke) Token: 0x060046A0 RID: 18080
 	public delegate bool RegionProcessor(Region reg);
 }

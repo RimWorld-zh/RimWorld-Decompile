@@ -6,7 +6,7 @@ namespace Verse.AI
 	// Token: 0x02000A5E RID: 2654
 	public class MentalBreakWorker_RunWild : MentalBreakWorker
 	{
-		// Token: 0x06003B01 RID: 15105 RVA: 0x001F4C4C File Offset: 0x001F304C
+		// Token: 0x06003B03 RID: 15107 RVA: 0x001F4D20 File Offset: 0x001F3120
 		public override bool BreakCanOccur(Pawn pawn)
 		{
 			bool result;
@@ -26,7 +26,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003B02 RID: 15106 RVA: 0x001F4D14 File Offset: 0x001F3114
+		// Token: 0x06003B04 RID: 15108 RVA: 0x001F4DE8 File Offset: 0x001F31E8
 		public override bool TryStart(Pawn pawn, Thought reason, bool causedByMood)
 		{
 			base.TrySendLetter(pawn, "LetterRunWildMentalBreak", reason);

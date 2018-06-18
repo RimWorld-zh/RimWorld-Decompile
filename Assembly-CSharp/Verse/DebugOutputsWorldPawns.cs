@@ -6,11 +6,11 @@ using RimWorld.Planet;
 
 namespace Verse
 {
-	// Token: 0x02000E24 RID: 3620
+	// Token: 0x02000E23 RID: 3619
 	[HasDebugOutput]
 	internal class DebugOutputsWorldPawns
 	{
-		// Token: 0x060054CF RID: 21711 RVA: 0x002B7E64 File Offset: 0x002B6264
+		// Token: 0x060054CD RID: 21709 RVA: 0x002B7E64 File Offset: 0x002B6264
 		[DebugOutput]
 		[Category("World pawns")]
 		[ModeRestrictionPlay]
@@ -49,7 +49,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060054D0 RID: 21712 RVA: 0x002B8020 File Offset: 0x002B6420
+		// Token: 0x060054CE RID: 21710 RVA: 0x002B8020 File Offset: 0x002B6420
 		[DebugOutput]
 		[Category("World pawns")]
 		[ModeRestrictionPlay]
@@ -58,7 +58,7 @@ namespace Verse
 			Find.FactionManager.LogKidnappedPawns();
 		}
 
-		// Token: 0x060054D1 RID: 21713 RVA: 0x002B802D File Offset: 0x002B642D
+		// Token: 0x060054CF RID: 21711 RVA: 0x002B802D File Offset: 0x002B642D
 		[DebugOutput]
 		[Category("World pawns")]
 		[ModeRestrictionPlay]
@@ -67,7 +67,7 @@ namespace Verse
 			Find.WorldPawns.LogWorldPawns();
 		}
 
-		// Token: 0x060054D2 RID: 21714 RVA: 0x002B803A File Offset: 0x002B643A
+		// Token: 0x060054D0 RID: 21712 RVA: 0x002B803A File Offset: 0x002B643A
 		[DebugOutput]
 		[Category("World pawns")]
 		[ModeRestrictionPlay]
@@ -76,7 +76,7 @@ namespace Verse
 			Find.WorldPawns.LogWorldPawnMothballPrevention();
 		}
 
-		// Token: 0x060054D3 RID: 21715 RVA: 0x002B8047 File Offset: 0x002B6447
+		// Token: 0x060054D1 RID: 21713 RVA: 0x002B8047 File Offset: 0x002B6447
 		[DebugOutput]
 		[Category("World pawns")]
 		[ModeRestrictionPlay]
@@ -85,7 +85,7 @@ namespace Verse
 			Find.WorldPawns.gc.LogGC();
 		}
 
-		// Token: 0x060054D4 RID: 21716 RVA: 0x002B8059 File Offset: 0x002B6459
+		// Token: 0x060054D2 RID: 21714 RVA: 0x002B8059 File Offset: 0x002B6459
 		[DebugOutput]
 		[Category("World pawns")]
 		[ModeRestrictionPlay]
@@ -94,7 +94,7 @@ namespace Verse
 			Find.WorldPawns.gc.LogDotgraph();
 		}
 
-		// Token: 0x060054D5 RID: 21717 RVA: 0x002B806B File Offset: 0x002B646B
+		// Token: 0x060054D3 RID: 21715 RVA: 0x002B806B File Offset: 0x002B646B
 		[DebugOutput]
 		[Category("World pawns")]
 		[ModeRestrictionPlay]
@@ -103,7 +103,7 @@ namespace Verse
 			Find.WorldPawns.gc.RunGC();
 		}
 
-		// Token: 0x060054D6 RID: 21718 RVA: 0x002B807D File Offset: 0x002B647D
+		// Token: 0x060054D4 RID: 21716 RVA: 0x002B807D File Offset: 0x002B647D
 		[DebugOutput]
 		[Category("World pawns")]
 		[ModeRestrictionPlay]

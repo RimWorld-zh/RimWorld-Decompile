@@ -11,7 +11,7 @@ namespace RimWorld
 	// Token: 0x0200073E RID: 1854
 	public class CompSpawnerMechanoidsOnDamaged : ThingComp
 	{
-		// Token: 0x060028E7 RID: 10471 RVA: 0x0015CA87 File Offset: 0x0015AE87
+		// Token: 0x060028E9 RID: 10473 RVA: 0x0015CB1B File Offset: 0x0015AF1B
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -19,7 +19,7 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.pointsLeft, "mechanoidPointsLeft", 0f, false);
 		}
 
-		// Token: 0x060028E8 RID: 10472 RVA: 0x0015CAB8 File Offset: 0x0015AEB8
+		// Token: 0x060028EA RID: 10474 RVA: 0x0015CB4C File Offset: 0x0015AF4C
 		public override void PostPreApplyDamage(DamageInfo dinfo, out bool absorbed)
 		{
 			base.PostPreApplyDamage(dinfo, out absorbed);
@@ -41,7 +41,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028E9 RID: 10473 RVA: 0x0015CB75 File Offset: 0x0015AF75
+		// Token: 0x060028EB RID: 10475 RVA: 0x0015CC09 File Offset: 0x0015B009
 		public void Notify_BlueprintReplacedWithSolidThingNearby(Pawn by)
 		{
 			if (by.Faction != Faction.OfMechanoids)
@@ -50,7 +50,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028EA RID: 10474 RVA: 0x0015CB90 File Offset: 0x0015AF90
+		// Token: 0x060028EC RID: 10476 RVA: 0x0015CC24 File Offset: 0x0015B024
 		private void TrySpawnMechanoids()
 		{
 			if (this.pointsLeft > 0f)
@@ -98,7 +98,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028EB RID: 10475 RVA: 0x0015CD88 File Offset: 0x0015B188
+		// Token: 0x060028ED RID: 10477 RVA: 0x0015CE1C File Offset: 0x0015B21C
 		private bool CanSpawnMechanoidAt(IntVec3 c)
 		{
 			return c.Walkable(this.parent.Map);

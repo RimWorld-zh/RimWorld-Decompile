@@ -10,7 +10,7 @@ namespace RimWorld
 	// Token: 0x020004B3 RID: 1203
 	public class InteractionWorker_Breakup : InteractionWorker
 	{
-		// Token: 0x06001577 RID: 5495 RVA: 0x000BE728 File Offset: 0x000BCB28
+		// Token: 0x06001577 RID: 5495 RVA: 0x000BE744 File Offset: 0x000BCB44
 		public override float RandomSelectionWeight(Pawn initiator, Pawn recipient)
 		{
 			float result;
@@ -31,7 +31,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001578 RID: 5496 RVA: 0x000BE79C File Offset: 0x000BCB9C
+		// Token: 0x06001578 RID: 5496 RVA: 0x000BE7B8 File Offset: 0x000BCBB8
 		public Thought RandomBreakupReason(Pawn initiator, Pawn recipient)
 		{
 			List<Thought_Memory> list = (from m in initiator.needs.mood.thoughts.memories.Memories
@@ -54,7 +54,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001579 RID: 5497 RVA: 0x000BE864 File Offset: 0x000BCC64
+		// Token: 0x06001579 RID: 5497 RVA: 0x000BE880 File Offset: 0x000BCC80
 		public override void Interacted(Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks, out string letterText, out string letterLabel, out LetterDef letterDef)
 		{
 			Thought thought = this.RandomBreakupReason(initiator, recipient);

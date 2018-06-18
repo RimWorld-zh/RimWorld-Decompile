@@ -10,7 +10,7 @@ namespace RimWorld
 	public class ScenPart_ForcedHediff : ScenPart_PawnModifier
 	{
 		// Token: 0x170004E4 RID: 1252
-		// (get) Token: 0x060020B0 RID: 8368 RVA: 0x00117CB4 File Offset: 0x001160B4
+		// (get) Token: 0x060020B2 RID: 8370 RVA: 0x00117D2C File Offset: 0x0011612C
 		private float MaxSeverity
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060020B1 RID: 8369 RVA: 0x00117CFC File Offset: 0x001160FC
+		// Token: 0x060020B3 RID: 8371 RVA: 0x00117D74 File Offset: 0x00116174
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight * 3f + 31f);
@@ -42,7 +42,7 @@ namespace RimWorld
 			base.DoPawnModifierEditInterface(scenPartRect.BottomPartPixels(ScenPart.RowHeight * 2f));
 		}
 
-		// Token: 0x060020B2 RID: 8370 RVA: 0x00117DE8 File Offset: 0x001161E8
+		// Token: 0x060020B4 RID: 8372 RVA: 0x00117E60 File Offset: 0x00116260
 		private IEnumerable<HediffDef> PossibleHediffs()
 		{
 			return from x in DefDatabase<HediffDef>.AllDefsListForReading
@@ -50,7 +50,7 @@ namespace RimWorld
 			select x;
 		}
 
-		// Token: 0x060020B3 RID: 8371 RVA: 0x00117E24 File Offset: 0x00116224
+		// Token: 0x060020B5 RID: 8373 RVA: 0x00117E9C File Offset: 0x0011629C
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -58,7 +58,7 @@ namespace RimWorld
 			Scribe_Values.Look<FloatRange>(ref this.severityRange, "severityRange", default(FloatRange), false);
 		}
 
-		// Token: 0x060020B4 RID: 8372 RVA: 0x00117E64 File Offset: 0x00116264
+		// Token: 0x060020B6 RID: 8374 RVA: 0x00117EDC File Offset: 0x001162DC
 		public override string Summary(Scenario scen)
 		{
 			return "ScenPart_PawnsHaveHediff".Translate(new object[]
@@ -69,7 +69,7 @@ namespace RimWorld
 			}).CapitalizeFirst();
 		}
 
-		// Token: 0x060020B5 RID: 8373 RVA: 0x00117EB8 File Offset: 0x001162B8
+		// Token: 0x060020B7 RID: 8375 RVA: 0x00117F30 File Offset: 0x00116330
 		public override void Randomize()
 		{
 			base.Randomize();
@@ -78,7 +78,7 @@ namespace RimWorld
 			this.severityRange.min = this.severityRange.max * Rand.Range(0f, 0.95f);
 		}
 
-		// Token: 0x060020B6 RID: 8374 RVA: 0x00117F2C File Offset: 0x0011632C
+		// Token: 0x060020B8 RID: 8376 RVA: 0x00117FA4 File Offset: 0x001163A4
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_ForcedHediff scenPart_ForcedHediff = other as ScenPart_ForcedHediff;
@@ -95,7 +95,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060020B7 RID: 8375 RVA: 0x00117F80 File Offset: 0x00116380
+		// Token: 0x060020B9 RID: 8377 RVA: 0x00117FF8 File Offset: 0x001163F8
 		public override bool AllowPlayerStartingPawn(Pawn pawn, bool tryingToRedress, PawnGenerationRequest req)
 		{
 			bool result;
@@ -121,19 +121,19 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060020B8 RID: 8376 RVA: 0x00118022 File Offset: 0x00116422
+		// Token: 0x060020BA RID: 8378 RVA: 0x0011809A File Offset: 0x0011649A
 		protected override void ModifyNewPawn(Pawn p)
 		{
 			this.AddHediff(p);
 		}
 
-		// Token: 0x060020B9 RID: 8377 RVA: 0x0011802C File Offset: 0x0011642C
+		// Token: 0x060020BB RID: 8379 RVA: 0x001180A4 File Offset: 0x001164A4
 		protected override void ModifyHideOffMapStartingPawnPostMapGenerate(Pawn p)
 		{
 			this.AddHediff(p);
 		}
 
-		// Token: 0x060020BA RID: 8378 RVA: 0x00118038 File Offset: 0x00116438
+		// Token: 0x060020BC RID: 8380 RVA: 0x001180B0 File Offset: 0x001164B0
 		private void AddHediff(Pawn p)
 		{
 			Hediff hediff = HediffMaker.MakeHediff(this.hediff, p, null);

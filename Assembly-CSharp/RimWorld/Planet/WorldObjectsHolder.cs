@@ -8,7 +8,7 @@ namespace RimWorld.Planet
 	public class WorldObjectsHolder : IExposable
 	{
 		// Token: 0x170004D0 RID: 1232
-		// (get) Token: 0x06002035 RID: 8245 RVA: 0x00113D94 File Offset: 0x00112194
+		// (get) Token: 0x06002037 RID: 8247 RVA: 0x00113E0C File Offset: 0x0011220C
 		public List<WorldObject> AllWorldObjects
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004D1 RID: 1233
-		// (get) Token: 0x06002036 RID: 8246 RVA: 0x00113DB0 File Offset: 0x001121B0
+		// (get) Token: 0x06002038 RID: 8248 RVA: 0x00113E28 File Offset: 0x00112228
 		public List<Caravan> Caravans
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004D2 RID: 1234
-		// (get) Token: 0x06002037 RID: 8247 RVA: 0x00113DCC File Offset: 0x001121CC
+		// (get) Token: 0x06002039 RID: 8249 RVA: 0x00113E44 File Offset: 0x00112244
 		public List<FactionBase> FactionBases
 		{
 			get
@@ -38,7 +38,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004D3 RID: 1235
-		// (get) Token: 0x06002038 RID: 8248 RVA: 0x00113DE8 File Offset: 0x001121E8
+		// (get) Token: 0x0600203A RID: 8250 RVA: 0x00113E60 File Offset: 0x00112260
 		public List<TravelingTransportPods> TravelingTransportPods
 		{
 			get
@@ -48,7 +48,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004D4 RID: 1236
-		// (get) Token: 0x06002039 RID: 8249 RVA: 0x00113E04 File Offset: 0x00112204
+		// (get) Token: 0x0600203B RID: 8251 RVA: 0x00113E7C File Offset: 0x0011227C
 		public List<Settlement> Settlements
 		{
 			get
@@ -58,7 +58,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004D5 RID: 1237
-		// (get) Token: 0x0600203A RID: 8250 RVA: 0x00113E20 File Offset: 0x00112220
+		// (get) Token: 0x0600203C RID: 8252 RVA: 0x00113E98 File Offset: 0x00112298
 		public List<DestroyedFactionBase> DestroyedFactionBases
 		{
 			get
@@ -68,7 +68,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004D6 RID: 1238
-		// (get) Token: 0x0600203B RID: 8251 RVA: 0x00113E3C File Offset: 0x0011223C
+		// (get) Token: 0x0600203D RID: 8253 RVA: 0x00113EB4 File Offset: 0x001122B4
 		public List<RoutePlannerWaypoint> RoutePlannerWaypoints
 		{
 			get
@@ -78,7 +78,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004D7 RID: 1239
-		// (get) Token: 0x0600203C RID: 8252 RVA: 0x00113E58 File Offset: 0x00112258
+		// (get) Token: 0x0600203E RID: 8254 RVA: 0x00113ED0 File Offset: 0x001122D0
 		public List<MapParent> MapParents
 		{
 			get
@@ -88,7 +88,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004D8 RID: 1240
-		// (get) Token: 0x0600203D RID: 8253 RVA: 0x00113E74 File Offset: 0x00112274
+		// (get) Token: 0x0600203F RID: 8255 RVA: 0x00113EEC File Offset: 0x001122EC
 		public List<Site> Sites
 		{
 			get
@@ -98,7 +98,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004D9 RID: 1241
-		// (get) Token: 0x0600203E RID: 8254 RVA: 0x00113E90 File Offset: 0x00112290
+		// (get) Token: 0x06002040 RID: 8256 RVA: 0x00113F08 File Offset: 0x00112308
 		public List<PeaceTalks> PeaceTalks
 		{
 			get
@@ -108,7 +108,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004DA RID: 1242
-		// (get) Token: 0x0600203F RID: 8255 RVA: 0x00113EAC File Offset: 0x001122AC
+		// (get) Token: 0x06002041 RID: 8257 RVA: 0x00113F24 File Offset: 0x00112324
 		public int WorldObjectsCount
 		{
 			get
@@ -118,7 +118,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004DB RID: 1243
-		// (get) Token: 0x06002040 RID: 8256 RVA: 0x00113ECC File Offset: 0x001122CC
+		// (get) Token: 0x06002042 RID: 8258 RVA: 0x00113F44 File Offset: 0x00112344
 		public int CaravansCount
 		{
 			get
@@ -128,7 +128,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004DC RID: 1244
-		// (get) Token: 0x06002041 RID: 8257 RVA: 0x00113EEC File Offset: 0x001122EC
+		// (get) Token: 0x06002043 RID: 8259 RVA: 0x00113F64 File Offset: 0x00112364
 		public int RoutePlannerWaypointsCount
 		{
 			get
@@ -138,7 +138,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170004DD RID: 1245
-		// (get) Token: 0x06002042 RID: 8258 RVA: 0x00113F0C File Offset: 0x0011230C
+		// (get) Token: 0x06002044 RID: 8260 RVA: 0x00113F84 File Offset: 0x00112384
 		public int PlayerControlledCaravansCount
 		{
 			get
@@ -155,7 +155,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06002043 RID: 8259 RVA: 0x00113F5C File Offset: 0x0011235C
+		// Token: 0x06002045 RID: 8261 RVA: 0x00113FD4 File Offset: 0x001123D4
 		public void ExposeData()
 		{
 			if (Scribe.mode == LoadSaveMode.Saving)
@@ -187,7 +187,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06002044 RID: 8260 RVA: 0x0011408C File Offset: 0x0011248C
+		// Token: 0x06002046 RID: 8262 RVA: 0x00114104 File Offset: 0x00112504
 		public void Add(WorldObject o)
 		{
 			if (this.worldObjects.Contains(o))
@@ -208,7 +208,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06002045 RID: 8261 RVA: 0x00114114 File Offset: 0x00112514
+		// Token: 0x06002047 RID: 8263 RVA: 0x0011418C File Offset: 0x0011258C
 		public void Remove(WorldObject o)
 		{
 			if (!this.worldObjects.Contains(o))
@@ -223,7 +223,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06002046 RID: 8262 RVA: 0x0011416C File Offset: 0x0011256C
+		// Token: 0x06002048 RID: 8264 RVA: 0x001141E4 File Offset: 0x001125E4
 		public void WorldObjectsHolderTick()
 		{
 			WorldObjectsHolder.tmpWorldObjects.Clear();
@@ -234,7 +234,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06002047 RID: 8263 RVA: 0x001141C4 File Offset: 0x001125C4
+		// Token: 0x06002049 RID: 8265 RVA: 0x0011423C File Offset: 0x0011263C
 		private void AddToCache(WorldObject o)
 		{
 			if (o is Caravan)
@@ -275,7 +275,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06002048 RID: 8264 RVA: 0x001142D0 File Offset: 0x001126D0
+		// Token: 0x0600204A RID: 8266 RVA: 0x00114348 File Offset: 0x00112748
 		private void RemoveFromCache(WorldObject o)
 		{
 			if (o is Caravan)
@@ -316,7 +316,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06002049 RID: 8265 RVA: 0x001143E4 File Offset: 0x001127E4
+		// Token: 0x0600204B RID: 8267 RVA: 0x0011445C File Offset: 0x0011285C
 		private void Recache()
 		{
 			this.caravans.Clear();
@@ -334,7 +334,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x0600204A RID: 8266 RVA: 0x00114488 File Offset: 0x00112888
+		// Token: 0x0600204C RID: 8268 RVA: 0x00114500 File Offset: 0x00112900
 		public bool Contains(WorldObject o)
 		{
 			bool result;
@@ -357,7 +357,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x0600204B RID: 8267 RVA: 0x001144FC File Offset: 0x001128FC
+		// Token: 0x0600204D RID: 8269 RVA: 0x00114574 File Offset: 0x00112974
 		public IEnumerable<WorldObject> ObjectsAt(int tileID)
 		{
 			if (tileID < 0)
@@ -374,7 +374,7 @@ namespace RimWorld.Planet
 			yield break;
 		}
 
-		// Token: 0x0600204C RID: 8268 RVA: 0x00114530 File Offset: 0x00112930
+		// Token: 0x0600204E RID: 8270 RVA: 0x001145A8 File Offset: 0x001129A8
 		public bool AnyWorldObjectAt(int tile)
 		{
 			for (int i = 0; i < this.worldObjects.Count; i++)
@@ -387,13 +387,13 @@ namespace RimWorld.Planet
 			return false;
 		}
 
-		// Token: 0x0600204D RID: 8269 RVA: 0x00114584 File Offset: 0x00112984
+		// Token: 0x0600204F RID: 8271 RVA: 0x001145FC File Offset: 0x001129FC
 		public bool AnyWorldObjectAt<T>(int tile) where T : WorldObject
 		{
 			return this.WorldObjectAt<T>(tile) != null;
 		}
 
-		// Token: 0x0600204E RID: 8270 RVA: 0x001145AC File Offset: 0x001129AC
+		// Token: 0x06002050 RID: 8272 RVA: 0x00114624 File Offset: 0x00112A24
 		public T WorldObjectAt<T>(int tile) where T : WorldObject
 		{
 			for (int i = 0; i < this.worldObjects.Count; i++)
@@ -406,13 +406,13 @@ namespace RimWorld.Planet
 			return (T)((object)null);
 		}
 
-		// Token: 0x0600204F RID: 8271 RVA: 0x00114630 File Offset: 0x00112A30
+		// Token: 0x06002051 RID: 8273 RVA: 0x001146A8 File Offset: 0x00112AA8
 		public bool AnyWorldObjectAt(int tile, WorldObjectDef def)
 		{
 			return this.WorldObjectAt(tile, def) != null;
 		}
 
-		// Token: 0x06002050 RID: 8272 RVA: 0x00114654 File Offset: 0x00112A54
+		// Token: 0x06002052 RID: 8274 RVA: 0x001146CC File Offset: 0x00112ACC
 		public WorldObject WorldObjectAt(int tile, WorldObjectDef def)
 		{
 			for (int i = 0; i < this.worldObjects.Count; i++)
@@ -425,13 +425,13 @@ namespace RimWorld.Planet
 			return null;
 		}
 
-		// Token: 0x06002051 RID: 8273 RVA: 0x001146C8 File Offset: 0x00112AC8
+		// Token: 0x06002053 RID: 8275 RVA: 0x00114740 File Offset: 0x00112B40
 		public bool AnyFactionBaseAt(int tile)
 		{
 			return this.FactionBaseAt(tile) != null;
 		}
 
-		// Token: 0x06002052 RID: 8274 RVA: 0x001146EC File Offset: 0x00112AEC
+		// Token: 0x06002054 RID: 8276 RVA: 0x00114764 File Offset: 0x00112B64
 		public FactionBase FactionBaseAt(int tile)
 		{
 			for (int i = 0; i < this.factionBases.Count; i++)
@@ -444,13 +444,13 @@ namespace RimWorld.Planet
 			return null;
 		}
 
-		// Token: 0x06002053 RID: 8275 RVA: 0x0011474C File Offset: 0x00112B4C
+		// Token: 0x06002055 RID: 8277 RVA: 0x001147C4 File Offset: 0x00112BC4
 		public bool AnySettlementAt(int tile)
 		{
 			return this.SettlementAt(tile) != null;
 		}
 
-		// Token: 0x06002054 RID: 8276 RVA: 0x00114770 File Offset: 0x00112B70
+		// Token: 0x06002056 RID: 8278 RVA: 0x001147E8 File Offset: 0x00112BE8
 		public Settlement SettlementAt(int tile)
 		{
 			for (int i = 0; i < this.settlements.Count; i++)
@@ -463,13 +463,13 @@ namespace RimWorld.Planet
 			return null;
 		}
 
-		// Token: 0x06002055 RID: 8277 RVA: 0x001147D0 File Offset: 0x00112BD0
+		// Token: 0x06002057 RID: 8279 RVA: 0x00114848 File Offset: 0x00112C48
 		public bool AnySiteAt(int tile)
 		{
 			return this.SiteAt(tile) != null;
 		}
 
-		// Token: 0x06002056 RID: 8278 RVA: 0x001147F4 File Offset: 0x00112BF4
+		// Token: 0x06002058 RID: 8280 RVA: 0x0011486C File Offset: 0x00112C6C
 		public Site SiteAt(int tile)
 		{
 			for (int i = 0; i < this.sites.Count; i++)
@@ -482,13 +482,13 @@ namespace RimWorld.Planet
 			return null;
 		}
 
-		// Token: 0x06002057 RID: 8279 RVA: 0x00114854 File Offset: 0x00112C54
+		// Token: 0x06002059 RID: 8281 RVA: 0x001148CC File Offset: 0x00112CCC
 		public bool AnyDestroyedFactionBaseAt(int tile)
 		{
 			return this.DestroyedFactionBaseAt(tile) != null;
 		}
 
-		// Token: 0x06002058 RID: 8280 RVA: 0x00114878 File Offset: 0x00112C78
+		// Token: 0x0600205A RID: 8282 RVA: 0x001148F0 File Offset: 0x00112CF0
 		public DestroyedFactionBase DestroyedFactionBaseAt(int tile)
 		{
 			for (int i = 0; i < this.destroyedFactionBases.Count; i++)
@@ -501,13 +501,13 @@ namespace RimWorld.Planet
 			return null;
 		}
 
-		// Token: 0x06002059 RID: 8281 RVA: 0x001148D8 File Offset: 0x00112CD8
+		// Token: 0x0600205B RID: 8283 RVA: 0x00114950 File Offset: 0x00112D50
 		public bool AnyMapParentAt(int tile)
 		{
 			return this.MapParentAt(tile) != null;
 		}
 
-		// Token: 0x0600205A RID: 8282 RVA: 0x001148FC File Offset: 0x00112CFC
+		// Token: 0x0600205C RID: 8284 RVA: 0x00114974 File Offset: 0x00112D74
 		public MapParent MapParentAt(int tile)
 		{
 			for (int i = 0; i < this.mapParents.Count; i++)
@@ -520,13 +520,13 @@ namespace RimWorld.Planet
 			return null;
 		}
 
-		// Token: 0x0600205B RID: 8283 RVA: 0x0011495C File Offset: 0x00112D5C
+		// Token: 0x0600205D RID: 8285 RVA: 0x001149D4 File Offset: 0x00112DD4
 		public bool AnyWorldObjectOfDefAt(WorldObjectDef def, int tile)
 		{
 			return this.WorldObjectOfDefAt(def, tile) != null;
 		}
 
-		// Token: 0x0600205C RID: 8284 RVA: 0x00114980 File Offset: 0x00112D80
+		// Token: 0x0600205E RID: 8286 RVA: 0x001149F8 File Offset: 0x00112DF8
 		public WorldObject WorldObjectOfDefAt(WorldObjectDef def, int tile)
 		{
 			for (int i = 0; i < this.worldObjects.Count; i++)
@@ -539,7 +539,7 @@ namespace RimWorld.Planet
 			return null;
 		}
 
-		// Token: 0x0600205D RID: 8285 RVA: 0x001149F4 File Offset: 0x00112DF4
+		// Token: 0x0600205F RID: 8287 RVA: 0x00114A6C File Offset: 0x00112E6C
 		public Caravan PlayerControlledCaravanAt(int tile)
 		{
 			for (int i = 0; i < this.caravans.Count; i++)
@@ -552,7 +552,7 @@ namespace RimWorld.Planet
 			return null;
 		}
 
-		// Token: 0x0600205E RID: 8286 RVA: 0x00114A68 File Offset: 0x00112E68
+		// Token: 0x06002060 RID: 8288 RVA: 0x00114AE0 File Offset: 0x00112EE0
 		public bool AnySettlementAtOrAdjacent(int tile)
 		{
 			WorldGrid worldGrid = Find.WorldGrid;
@@ -566,7 +566,7 @@ namespace RimWorld.Planet
 			return false;
 		}
 
-		// Token: 0x0600205F RID: 8287 RVA: 0x00114AC8 File Offset: 0x00112EC8
+		// Token: 0x06002061 RID: 8289 RVA: 0x00114B40 File Offset: 0x00112F40
 		public RoutePlannerWaypoint RoutePlannerWaypointAt(int tile)
 		{
 			for (int i = 0; i < this.routePlannerWaypoints.Count; i++)
@@ -579,7 +579,7 @@ namespace RimWorld.Planet
 			return null;
 		}
 
-		// Token: 0x06002060 RID: 8288 RVA: 0x00114B28 File Offset: 0x00112F28
+		// Token: 0x06002062 RID: 8290 RVA: 0x00114BA0 File Offset: 0x00112FA0
 		public void GetPlayerControlledCaravansAt(int tile, List<Caravan> outCaravans)
 		{
 			outCaravans.Clear();

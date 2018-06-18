@@ -9,11 +9,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000D51 RID: 3409
+	// Token: 0x02000D50 RID: 3408
 	[HasDebugOutput]
 	public static class PawnGenerator
 	{
-		// Token: 0x06004B97 RID: 19351 RVA: 0x00276F34 File Offset: 0x00275334
+		// Token: 0x06004B95 RID: 19349 RVA: 0x00276F14 File Offset: 0x00275314
 		public static void Reset()
 		{
 			PawnGenerator.relationsGeneratableBlood = (from rel in DefDatabase<PawnRelationDef>.AllDefsListForReading
@@ -24,13 +24,13 @@ namespace Verse
 			select rel).ToArray<PawnRelationDef>();
 		}
 
-		// Token: 0x06004B98 RID: 19352 RVA: 0x00276FA4 File Offset: 0x002753A4
+		// Token: 0x06004B96 RID: 19350 RVA: 0x00276F84 File Offset: 0x00275384
 		public static Pawn GeneratePawn(PawnKindDef kindDef, Faction faction = null)
 		{
 			return PawnGenerator.GeneratePawn(new PawnGenerationRequest(kindDef, faction, PawnGenerationContext.NonPlayer, -1, false, false, false, false, true, false, 1f, false, true, true, false, false, false, false, null, null, null, null, null, null, null, null));
 		}
 
-		// Token: 0x06004B99 RID: 19353 RVA: 0x0027700C File Offset: 0x0027540C
+		// Token: 0x06004B97 RID: 19351 RVA: 0x00276FEC File Offset: 0x002753EC
 		public static Pawn GeneratePawn(PawnGenerationRequest request)
 		{
 			Pawn result;
@@ -74,7 +74,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004B9A RID: 19354 RVA: 0x00277168 File Offset: 0x00275568
+		// Token: 0x06004B98 RID: 19352 RVA: 0x00277148 File Offset: 0x00275548
 		private static Pawn GenerateOrRedressPawnInternal(PawnGenerationRequest request)
 		{
 			Pawn pawn = null;
@@ -148,7 +148,7 @@ namespace Verse
 			return pawn;
 		}
 
-		// Token: 0x06004B9B RID: 19355 RVA: 0x002773B4 File Offset: 0x002757B4
+		// Token: 0x06004B99 RID: 19353 RVA: 0x00277394 File Offset: 0x00275794
 		public static void RedressPawn(Pawn pawn, PawnGenerationRequest request)
 		{
 			try
@@ -169,7 +169,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004B9C RID: 19356 RVA: 0x00277428 File Offset: 0x00275828
+		// Token: 0x06004B9A RID: 19354 RVA: 0x00277408 File Offset: 0x00275808
 		public static bool IsBeingGenerated(Pawn pawn)
 		{
 			for (int i = 0; i < PawnGenerator.pawnsBeingGenerated.Count; i++)
@@ -182,7 +182,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004B9D RID: 19357 RVA: 0x0027747C File Offset: 0x0027587C
+		// Token: 0x06004B9B RID: 19355 RVA: 0x0027745C File Offset: 0x0027585C
 		private static bool IsValidCandidateToRedress(Pawn pawn, PawnGenerationRequest request)
 		{
 			bool result;
@@ -264,7 +264,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004B9E RID: 19358 RVA: 0x002777F0 File Offset: 0x00275BF0
+		// Token: 0x06004B9C RID: 19356 RVA: 0x002777D0 File Offset: 0x00275BD0
 		private static Pawn GenerateNewPawnInternal(ref PawnGenerationRequest request)
 		{
 			Pawn pawn = null;
@@ -326,7 +326,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004B9F RID: 19359 RVA: 0x00277930 File Offset: 0x00275D30
+		// Token: 0x06004B9D RID: 19357 RVA: 0x00277910 File Offset: 0x00275D10
 		private static Pawn TryGenerateNewPawnInternal(ref PawnGenerationRequest request, out string error, bool ignoreScenarioRequirements, bool ignoreValidator)
 		{
 			error = null;
@@ -469,7 +469,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004BA0 RID: 19360 RVA: 0x00277E60 File Offset: 0x00276260
+		// Token: 0x06004B9E RID: 19358 RVA: 0x00277E40 File Offset: 0x00276240
 		private static void DiscardGeneratedPawn(Pawn pawn)
 		{
 			if (Find.WorldPawns.Contains(pawn))
@@ -496,7 +496,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004BA1 RID: 19361 RVA: 0x00277F38 File Offset: 0x00276338
+		// Token: 0x06004B9F RID: 19359 RVA: 0x00277F18 File Offset: 0x00276318
 		private static IEnumerable<Pawn> GetValidCandidatesToRedress(PawnGenerationRequest request)
 		{
 			IEnumerable<Pawn> enumerable = Find.WorldPawns.GetPawnsBySituation(WorldPawnSituation.Free);
@@ -509,7 +509,7 @@ namespace Verse
 			select x;
 		}
 
-		// Token: 0x06004BA2 RID: 19362 RVA: 0x00277FA4 File Offset: 0x002763A4
+		// Token: 0x06004BA0 RID: 19360 RVA: 0x00277F84 File Offset: 0x00276384
 		private static float ChanceToRedressAnyWorldPawn(PawnGenerationRequest request)
 		{
 			int pawnsBySituationCount = Find.WorldPawns.GetPawnsBySituationCount(WorldPawnSituation.Free);
@@ -521,7 +521,7 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06004BA3 RID: 19363 RVA: 0x00278014 File Offset: 0x00276414
+		// Token: 0x06004BA1 RID: 19361 RVA: 0x00277FF4 File Offset: 0x002763F4
 		private static float WorldPawnSelectionWeight(Pawn p)
 		{
 			float result;
@@ -536,7 +536,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004BA4 RID: 19364 RVA: 0x00278069 File Offset: 0x00276469
+		// Token: 0x06004BA2 RID: 19362 RVA: 0x00278049 File Offset: 0x00276449
 		private static void GenerateGearFor(Pawn pawn, PawnGenerationRequest request)
 		{
 			PawnApparelGenerator.GenerateStartingApparelFor(pawn, request);
@@ -544,7 +544,7 @@ namespace Verse
 			PawnInventoryGenerator.GenerateInventoryFor(pawn, request);
 		}
 
-		// Token: 0x06004BA5 RID: 19365 RVA: 0x00278080 File Offset: 0x00276480
+		// Token: 0x06004BA3 RID: 19363 RVA: 0x00278060 File Offset: 0x00276460
 		private static void GenerateInitialHediffs(Pawn pawn, PawnGenerationRequest request)
 		{
 			int num = 0;
@@ -598,7 +598,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004BA6 RID: 19366 RVA: 0x002781D8 File Offset: 0x002765D8
+		// Token: 0x06004BA4 RID: 19364 RVA: 0x002781B8 File Offset: 0x002765B8
 		private static void GenerateRandomAge(Pawn pawn, PawnGenerationRequest request)
 		{
 			if (request.FixedBiologicalAge != null && request.FixedChronologicalAge != null)
@@ -703,7 +703,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004BA7 RID: 19367 RVA: 0x00278548 File Offset: 0x00276948
+		// Token: 0x06004BA5 RID: 19365 RVA: 0x00278528 File Offset: 0x00276928
 		public static int RandomTraitDegree(TraitDef traitDef)
 		{
 			int degree;
@@ -718,7 +718,7 @@ namespace Verse
 			return degree;
 		}
 
-		// Token: 0x06004BA8 RID: 19368 RVA: 0x002785B4 File Offset: 0x002769B4
+		// Token: 0x06004BA6 RID: 19366 RVA: 0x00278594 File Offset: 0x00276994
 		private static void GenerateTraits(Pawn pawn, PawnGenerationRequest request)
 		{
 			if (pawn.story != null)
@@ -813,7 +813,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004BA9 RID: 19369 RVA: 0x00278AD4 File Offset: 0x00276ED4
+		// Token: 0x06004BA7 RID: 19367 RVA: 0x00278AB4 File Offset: 0x00276EB4
 		private static void GenerateBodyType(Pawn pawn)
 		{
 			if (pawn.story.adulthood != null)
@@ -830,7 +830,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004BAA RID: 19370 RVA: 0x00278B64 File Offset: 0x00276F64
+		// Token: 0x06004BA8 RID: 19368 RVA: 0x00278B44 File Offset: 0x00276F44
 		private static void GenerateSkills(Pawn pawn)
 		{
 			List<SkillDef> allDefsListForReading = DefDatabase<SkillDef>.AllDefsListForReading;
@@ -860,7 +860,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004BAB RID: 19371 RVA: 0x00278C2C File Offset: 0x0027702C
+		// Token: 0x06004BA9 RID: 19369 RVA: 0x00278C0C File Offset: 0x0027700C
 		private static int FinalLevelOfSkill(Pawn pawn, SkillDef sk)
 		{
 			float num;
@@ -898,7 +898,7 @@ namespace Verse
 			return Mathf.Clamp(Mathf.RoundToInt(num), 0, 20);
 		}
 
-		// Token: 0x06004BAC RID: 19372 RVA: 0x00278DEC File Offset: 0x002771EC
+		// Token: 0x06004BAA RID: 19370 RVA: 0x00278DCC File Offset: 0x002771CC
 		public static void PostProcessGeneratedGear(Thing gear, Pawn pawn)
 		{
 			CompQuality compQuality = gear.TryGetComp<CompQuality>();
@@ -918,7 +918,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004BAD RID: 19373 RVA: 0x00278E68 File Offset: 0x00277268
+		// Token: 0x06004BAB RID: 19371 RVA: 0x00278E48 File Offset: 0x00277248
 		private static void GeneratePawnRelations(Pawn pawn, ref PawnGenerationRequest request)
 		{
 			if (pawn.RaceProps.Humanlike)
@@ -964,7 +964,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004BAE RID: 19374 RVA: 0x00279038 File Offset: 0x00277438
+		// Token: 0x06004BAC RID: 19372 RVA: 0x00279018 File Offset: 0x00277418
 		private static Pair<Pawn, PawnRelationDef>[] GenerateSamples(Pawn[] pawns, PawnRelationDef[] relations, int count)
 		{
 			Pair<Pawn, PawnRelationDef>[] array = new Pair<Pawn, PawnRelationDef>[count];
@@ -975,7 +975,7 @@ namespace Verse
 			return array;
 		}
 
-		// Token: 0x06004BAF RID: 19375 RVA: 0x00279090 File Offset: 0x00277490
+		// Token: 0x06004BAD RID: 19373 RVA: 0x00279070 File Offset: 0x00277470
 		[DebugOutput]
 		[Category("Performance")]
 		public static void PawnGenerationHistogram()
@@ -992,23 +992,23 @@ namespace Verse
 			debugHistogram.Display();
 		}
 
-		// Token: 0x040032BE RID: 12990
+		// Token: 0x040032BC RID: 12988
 		private static List<PawnGenerator.PawnGenerationStatus> pawnsBeingGenerated = new List<PawnGenerator.PawnGenerationStatus>();
 
-		// Token: 0x040032BF RID: 12991
+		// Token: 0x040032BD RID: 12989
 		private static PawnRelationDef[] relationsGeneratableBlood = (from rel in DefDatabase<PawnRelationDef>.AllDefsListForReading
 		where rel.familyByBloodRelation && rel.generationChanceFactor > 0f
 		select rel).ToArray<PawnRelationDef>();
 
-		// Token: 0x040032C0 RID: 12992
+		// Token: 0x040032BE RID: 12990
 		private static PawnRelationDef[] relationsGeneratableNonblood = (from rel in DefDatabase<PawnRelationDef>.AllDefsListForReading
 		where !rel.familyByBloodRelation && rel.generationChanceFactor > 0f
 		select rel).ToArray<PawnRelationDef>();
 
-		// Token: 0x040032C1 RID: 12993
+		// Token: 0x040032BF RID: 12991
 		public const float MaxStartMentalBreakThreshold = 0.4f;
 
-		// Token: 0x040032C2 RID: 12994
+		// Token: 0x040032C0 RID: 12992
 		private static SimpleCurve DefaultAgeGenerationCurve = new SimpleCurve
 		{
 			{
@@ -1045,10 +1045,10 @@ namespace Verse
 			}
 		};
 
-		// Token: 0x040032C3 RID: 12995
+		// Token: 0x040032C1 RID: 12993
 		public const float MaxGeneratedMechanoidAge = 2500f;
 
-		// Token: 0x040032C4 RID: 12996
+		// Token: 0x040032C2 RID: 12994
 		private static readonly SimpleCurve AgeSkillMaxFactorCurve = new SimpleCurve
 		{
 			{
@@ -1069,7 +1069,7 @@ namespace Verse
 			}
 		};
 
-		// Token: 0x040032C5 RID: 12997
+		// Token: 0x040032C3 RID: 12995
 		private static readonly SimpleCurve LevelFinalAdjustmentCurve = new SimpleCurve
 		{
 			{
@@ -1090,7 +1090,7 @@ namespace Verse
 			}
 		};
 
-		// Token: 0x040032C6 RID: 12998
+		// Token: 0x040032C4 RID: 12996
 		private static readonly SimpleCurve LevelRandomCurve = new SimpleCurve
 		{
 			{
@@ -1119,11 +1119,11 @@ namespace Verse
 			}
 		};
 
-		// Token: 0x02000D52 RID: 3410
+		// Token: 0x02000D51 RID: 3409
 		[StructLayout(LayoutKind.Sequential, Size = 1)]
 		private struct PawnGenerationStatus
 		{
-			// Token: 0x06004BBC RID: 19388 RVA: 0x0027955F File Offset: 0x0027795F
+			// Token: 0x06004BBA RID: 19386 RVA: 0x0027953F File Offset: 0x0027793F
 			public PawnGenerationStatus(Pawn pawn, List<Pawn> pawnsGeneratedInTheMeantime)
 			{
 				this = default(PawnGenerator.PawnGenerationStatus);
@@ -1131,14 +1131,14 @@ namespace Verse
 				this.PawnsGeneratedInTheMeantime = pawnsGeneratedInTheMeantime;
 			}
 
-			// Token: 0x17000C3B RID: 3131
-			// (get) Token: 0x06004BBD RID: 19389 RVA: 0x00279578 File Offset: 0x00277978
-			// (set) Token: 0x06004BBE RID: 19390 RVA: 0x00279592 File Offset: 0x00277992
+			// Token: 0x17000C3A RID: 3130
+			// (get) Token: 0x06004BBB RID: 19387 RVA: 0x00279558 File Offset: 0x00277958
+			// (set) Token: 0x06004BBC RID: 19388 RVA: 0x00279572 File Offset: 0x00277972
 			public Pawn Pawn { get; private set; }
 
-			// Token: 0x17000C3C RID: 3132
-			// (get) Token: 0x06004BBF RID: 19391 RVA: 0x0027959C File Offset: 0x0027799C
-			// (set) Token: 0x06004BC0 RID: 19392 RVA: 0x002795B6 File Offset: 0x002779B6
+			// Token: 0x17000C3B RID: 3131
+			// (get) Token: 0x06004BBD RID: 19389 RVA: 0x0027957C File Offset: 0x0027797C
+			// (set) Token: 0x06004BBE RID: 19390 RVA: 0x00279596 File Offset: 0x00277996
 			public List<Pawn> PawnsGeneratedInTheMeantime { get; private set; }
 		}
 	}

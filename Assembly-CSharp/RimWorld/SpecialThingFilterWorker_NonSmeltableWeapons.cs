@@ -6,13 +6,13 @@ namespace RimWorld
 	// Token: 0x0200099E RID: 2462
 	public class SpecialThingFilterWorker_NonSmeltableWeapons : SpecialThingFilterWorker
 	{
-		// Token: 0x06003738 RID: 14136 RVA: 0x001D8508 File Offset: 0x001D6908
+		// Token: 0x0600373A RID: 14138 RVA: 0x001D85DC File Offset: 0x001D69DC
 		public override bool Matches(Thing t)
 		{
 			return this.CanEverMatch(t.def) && !t.Smeltable;
 		}
 
-		// Token: 0x06003739 RID: 14137 RVA: 0x001D8540 File Offset: 0x001D6940
+		// Token: 0x0600373B RID: 14139 RVA: 0x001D8614 File Offset: 0x001D6A14
 		public override bool CanEverMatch(ThingDef def)
 		{
 			bool result;
@@ -40,7 +40,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600373A RID: 14138 RVA: 0x001D85CC File Offset: 0x001D69CC
+		// Token: 0x0600373C RID: 14140 RVA: 0x001D86A0 File Offset: 0x001D6AA0
 		public override bool AlwaysMatches(ThingDef def)
 		{
 			return this.CanEverMatch(def) && !def.smeltable && !def.MadeFromStuff;

@@ -5,7 +5,7 @@ namespace RimWorld
 	// Token: 0x0200085D RID: 2141
 	public class ITab_Shells : ITab_Storage
 	{
-		// Token: 0x0600306C RID: 12396 RVA: 0x001A578C File Offset: 0x001A3B8C
+		// Token: 0x0600306E RID: 12398 RVA: 0x001A5854 File Offset: 0x001A3C54
 		public ITab_Shells()
 		{
 			this.labelKey = "TabShells";
@@ -13,7 +13,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007B7 RID: 1975
-		// (get) Token: 0x0600306D RID: 12397 RVA: 0x001A57AC File Offset: 0x001A3BAC
+		// (get) Token: 0x0600306F RID: 12399 RVA: 0x001A5874 File Offset: 0x001A3C74
 		protected override IStoreSettingsParent SelStoreSettingsParent
 		{
 			get
@@ -41,7 +41,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007B8 RID: 1976
-		// (get) Token: 0x0600306E RID: 12398 RVA: 0x001A57FC File Offset: 0x001A3BFC
+		// (get) Token: 0x06003070 RID: 12400 RVA: 0x001A58C4 File Offset: 0x001A3CC4
 		protected override bool IsPrioritySettingVisible
 		{
 			get

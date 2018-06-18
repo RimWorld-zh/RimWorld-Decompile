@@ -9,7 +9,7 @@ namespace Verse
 	// Token: 0x02000B17 RID: 2839
 	public class DamageWorker
 	{
-		// Token: 0x06003EA8 RID: 16040 RVA: 0x0020F710 File Offset: 0x0020DB10
+		// Token: 0x06003EAA RID: 16042 RVA: 0x0020F7E4 File Offset: 0x0020DBE4
 		public virtual DamageWorker.DamageResult Apply(DamageInfo dinfo, Thing victim)
 		{
 			DamageWorker.DamageResult damageResult = new DamageWorker.DamageResult();
@@ -30,7 +30,7 @@ namespace Verse
 			return damageResult;
 		}
 
-		// Token: 0x06003EA9 RID: 16041 RVA: 0x0020F7C4 File Offset: 0x0020DBC4
+		// Token: 0x06003EAB RID: 16043 RVA: 0x0020F898 File Offset: 0x0020DC98
 		public virtual void ExplosionStart(Explosion explosion, List<IntVec3> cellsToAffect)
 		{
 			if (this.def.explosionHeatEnergyPerCell > 1.401298E-45f)
@@ -46,7 +46,7 @@ namespace Verse
 			this.ExplosionVisualEffectCenter(explosion);
 		}
 
-		// Token: 0x06003EAA RID: 16042 RVA: 0x0020F894 File Offset: 0x0020DC94
+		// Token: 0x06003EAC RID: 16044 RVA: 0x0020F968 File Offset: 0x0020DD68
 		protected virtual void ExplosionVisualEffectCenter(Explosion explosion)
 		{
 			for (int i = 0; i < 4; i++)
@@ -63,7 +63,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003EAB RID: 16043 RVA: 0x0020F974 File Offset: 0x0020DD74
+		// Token: 0x06003EAD RID: 16045 RVA: 0x0020FA48 File Offset: 0x0020DE48
 		public virtual void ExplosionAffectCell(Explosion explosion, IntVec3 c, List<Thing> damagedThings, bool canThrowMotes)
 		{
 			if (this.def.explosionCellMote != null && canThrowMotes)
@@ -123,7 +123,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003EAC RID: 16044 RVA: 0x0020FC0C File Offset: 0x0020E00C
+		// Token: 0x06003EAE RID: 16046 RVA: 0x0020FCE0 File Offset: 0x0020E0E0
 		protected virtual void defaultDamageThing(Explosion explosion, Thing t, List<Thing> damagedThings, IntVec3 cell)
 		{
 			if (t.def.category != ThingCategory.Mote && t.def.category != ThingCategory.Ethereal)
@@ -184,7 +184,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003EAD RID: 16045 RVA: 0x0020FE20 File Offset: 0x0020E220
+		// Token: 0x06003EAF RID: 16047 RVA: 0x0020FEF4 File Offset: 0x0020E2F4
 		protected virtual void defaultDamageTerrain(Explosion explosion, IntVec3 c)
 		{
 			if (this.def == DamageDefOf.Bomb)
@@ -204,13 +204,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003EAE RID: 16046 RVA: 0x0020FEA8 File Offset: 0x0020E2A8
+		// Token: 0x06003EB0 RID: 16048 RVA: 0x0020FF7C File Offset: 0x0020E37C
 		public IEnumerable<IntVec3> ExplosionCellsToHit(Explosion explosion)
 		{
 			return this.ExplosionCellsToHit(explosion.Position, explosion.Map, explosion.radius);
 		}
 
-		// Token: 0x06003EAF RID: 16047 RVA: 0x0020FED8 File Offset: 0x0020E2D8
+		// Token: 0x06003EB1 RID: 16049 RVA: 0x0020FFAC File Offset: 0x0020E3AC
 		public virtual IEnumerable<IntVec3> ExplosionCellsToHit(IntVec3 center, Map map, float radius)
 		{
 			DamageWorker.openCells.Clear();
@@ -276,7 +276,7 @@ namespace Verse
 		public class DamageResult
 		{
 			// Token: 0x17000972 RID: 2418
-			// (get) Token: 0x06003EB2 RID: 16050 RVA: 0x002100B8 File Offset: 0x0020E4B8
+			// (get) Token: 0x06003EB4 RID: 16052 RVA: 0x0021018C File Offset: 0x0020E58C
 			public BodyPartRecord LastHitPart
 			{
 				get
@@ -298,7 +298,7 @@ namespace Verse
 				}
 			}
 
-			// Token: 0x06003EB3 RID: 16051 RVA: 0x00210110 File Offset: 0x0020E510
+			// Token: 0x06003EB5 RID: 16053 RVA: 0x002101E4 File Offset: 0x0020E5E4
 			public void AddPart(Thing hitThing, BodyPartRecord part)
 			{
 				if (this.hitThing != null && this.hitThing != hitThing)
@@ -313,7 +313,7 @@ namespace Verse
 				this.parts.Add(part);
 			}
 
-			// Token: 0x06003EB4 RID: 16052 RVA: 0x0021016E File Offset: 0x0020E56E
+			// Token: 0x06003EB6 RID: 16054 RVA: 0x00210242 File Offset: 0x0020E642
 			public void AddHediff(Hediff hediff)
 			{
 				if (this.hediffs == null)
@@ -323,7 +323,7 @@ namespace Verse
 				this.hediffs.Add(hediff);
 			}
 
-			// Token: 0x06003EB5 RID: 16053 RVA: 0x00210194 File Offset: 0x0020E594
+			// Token: 0x06003EB7 RID: 16055 RVA: 0x00210268 File Offset: 0x0020E668
 			public void AssociateWithLog(LogEntry_DamageResult log)
 			{
 				if (log != null)

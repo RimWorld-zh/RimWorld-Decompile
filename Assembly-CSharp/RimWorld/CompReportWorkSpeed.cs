@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000730 RID: 1840
 	public class CompReportWorkSpeed : ThingComp
 	{
-		// Token: 0x06002893 RID: 10387 RVA: 0x0015A7F4 File Offset: 0x00158BF4
+		// Token: 0x06002895 RID: 10389 RVA: 0x0015A888 File Offset: 0x00158C88
 		public override string CompInspectStringExtra()
 		{
 			bool flag = StatPart_WorkTableOutdoors.Applies(this.parent.def, this.parent.Map, this.parent.Position);

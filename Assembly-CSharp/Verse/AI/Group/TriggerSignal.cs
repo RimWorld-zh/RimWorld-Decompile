@@ -7,7 +7,7 @@ namespace Verse.AI.Group
 	// Token: 0x02000A11 RID: 2577
 	public struct TriggerSignal
 	{
-		// Token: 0x06003995 RID: 14741 RVA: 0x001E7BE4 File Offset: 0x001E5FE4
+		// Token: 0x06003997 RID: 14743 RVA: 0x001E7CB8 File Offset: 0x001E60B8
 		public TriggerSignal(TriggerSignalType type)
 		{
 			this.type = type;
@@ -20,7 +20,7 @@ namespace Verse.AI.Group
 		}
 
 		// Token: 0x170008E2 RID: 2274
-		// (get) Token: 0x06003996 RID: 14742 RVA: 0x001E7C34 File Offset: 0x001E6034
+		// (get) Token: 0x06003998 RID: 14744 RVA: 0x001E7D08 File Offset: 0x001E6108
 		public Pawn Pawn
 		{
 			get
@@ -30,7 +30,7 @@ namespace Verse.AI.Group
 		}
 
 		// Token: 0x170008E3 RID: 2275
-		// (get) Token: 0x06003997 RID: 14743 RVA: 0x001E7C54 File Offset: 0x001E6054
+		// (get) Token: 0x06003999 RID: 14745 RVA: 0x001E7D28 File Offset: 0x001E6128
 		public static TriggerSignal ForTick
 		{
 			get
@@ -39,7 +39,7 @@ namespace Verse.AI.Group
 			}
 		}
 
-		// Token: 0x06003998 RID: 14744 RVA: 0x001E7C70 File Offset: 0x001E6070
+		// Token: 0x0600399A RID: 14746 RVA: 0x001E7D44 File Offset: 0x001E6144
 		public static TriggerSignal ForMemo(string memo)
 		{
 			return new TriggerSignal(TriggerSignalType.Memo)
@@ -48,7 +48,7 @@ namespace Verse.AI.Group
 			};
 		}
 
-		// Token: 0x06003999 RID: 14745 RVA: 0x001E7C98 File Offset: 0x001E6098
+		// Token: 0x0600399B RID: 14747 RVA: 0x001E7D6C File Offset: 0x001E616C
 		public override string ToString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();

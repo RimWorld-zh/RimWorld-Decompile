@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000983 RID: 2435
 	public static class GenStuff
 	{
-		// Token: 0x060036CC RID: 14028 RVA: 0x001D3FD4 File Offset: 0x001D23D4
+		// Token: 0x060036CE RID: 14030 RVA: 0x001D409C File Offset: 0x001D249C
 		public static ThingDef DefaultStuffFor(BuildableDef bd)
 		{
 			ThingDef result;
@@ -80,7 +80,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036CD RID: 14029 RVA: 0x001D4190 File Offset: 0x001D2590
+		// Token: 0x060036CF RID: 14031 RVA: 0x001D4258 File Offset: 0x001D2658
 		public static ThingDef RandomStuffFor(ThingDef td)
 		{
 			ThingDef result;
@@ -95,7 +95,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036CE RID: 14030 RVA: 0x001D41C4 File Offset: 0x001D25C4
+		// Token: 0x060036D0 RID: 14032 RVA: 0x001D428C File Offset: 0x001D268C
 		public static ThingDef RandomStuffByCommonalityFor(ThingDef td, TechLevel maxTechLevel = TechLevel.Undefined)
 		{
 			ThingDef result;
@@ -115,7 +115,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036CF RID: 14031 RVA: 0x001D4204 File Offset: 0x001D2604
+		// Token: 0x060036D1 RID: 14033 RVA: 0x001D42CC File Offset: 0x001D26CC
 		public static IEnumerable<ThingDef> AllowedStuffsFor(BuildableDef td, TechLevel maxTechLevel = TechLevel.Undefined)
 		{
 			if (!td.MadeFromStuff)
@@ -134,7 +134,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060036D0 RID: 14032 RVA: 0x001D4238 File Offset: 0x001D2638
+		// Token: 0x060036D2 RID: 14034 RVA: 0x001D4300 File Offset: 0x001D2700
 		public static bool TryRandomStuffByCommonalityFor(ThingDef td, out ThingDef stuff, TechLevel maxTechLevel = TechLevel.Undefined)
 		{
 			bool result;
@@ -151,7 +151,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036D1 RID: 14033 RVA: 0x001D4290 File Offset: 0x001D2690
+		// Token: 0x060036D3 RID: 14035 RVA: 0x001D4358 File Offset: 0x001D2758
 		public static bool TryRandomStuffFor(ThingDef td, out ThingDef stuff, TechLevel maxTechLevel = TechLevel.Undefined)
 		{
 			bool result;
@@ -168,13 +168,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036D2 RID: 14034 RVA: 0x001D42CC File Offset: 0x001D26CC
+		// Token: 0x060036D4 RID: 14036 RVA: 0x001D4394 File Offset: 0x001D2794
 		public static ThingDef RandomStuffInexpensiveFor(ThingDef thingDef, Faction faction)
 		{
 			return GenStuff.RandomStuffInexpensiveFor(thingDef, (faction == null) ? TechLevel.Undefined : faction.def.techLevel);
 		}
 
-		// Token: 0x060036D3 RID: 14035 RVA: 0x001D4300 File Offset: 0x001D2700
+		// Token: 0x060036D5 RID: 14037 RVA: 0x001D43C8 File Offset: 0x001D27C8
 		public static ThingDef RandomStuffInexpensiveFor(ThingDef thingDef, TechLevel maxTechLevel)
 		{
 			ThingDef result;

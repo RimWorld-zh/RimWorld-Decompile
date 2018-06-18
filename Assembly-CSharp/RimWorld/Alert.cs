@@ -12,7 +12,7 @@ namespace RimWorld
 	public abstract class Alert
 	{
 		// Token: 0x170006A4 RID: 1700
-		// (get) Token: 0x06002AB7 RID: 10935 RVA: 0x00169604 File Offset: 0x00167A04
+		// (get) Token: 0x06002AB9 RID: 10937 RVA: 0x00169698 File Offset: 0x00167A98
 		public virtual AlertPriority Priority
 		{
 			get
@@ -22,7 +22,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006A5 RID: 1701
-		// (get) Token: 0x06002AB8 RID: 10936 RVA: 0x00169620 File Offset: 0x00167A20
+		// (get) Token: 0x06002ABA RID: 10938 RVA: 0x001696B4 File Offset: 0x00167AB4
 		protected virtual Color BGColor
 		{
 			get
@@ -32,7 +32,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006A6 RID: 1702
-		// (get) Token: 0x06002AB9 RID: 10937 RVA: 0x0016963C File Offset: 0x00167A3C
+		// (get) Token: 0x06002ABB RID: 10939 RVA: 0x001696D0 File Offset: 0x00167AD0
 		public virtual bool Active
 		{
 			get
@@ -41,22 +41,22 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002ABA RID: 10938
+		// Token: 0x06002ABC RID: 10940
 		public abstract AlertReport GetReport();
 
-		// Token: 0x06002ABB RID: 10939 RVA: 0x00169660 File Offset: 0x00167A60
+		// Token: 0x06002ABD RID: 10941 RVA: 0x001696F4 File Offset: 0x00167AF4
 		public virtual string GetExplanation()
 		{
 			return this.defaultExplanation;
 		}
 
-		// Token: 0x06002ABC RID: 10940 RVA: 0x0016967C File Offset: 0x00167A7C
+		// Token: 0x06002ABE RID: 10942 RVA: 0x00169710 File Offset: 0x00167B10
 		public virtual string GetLabel()
 		{
 			return this.defaultLabel;
 		}
 
-		// Token: 0x06002ABD RID: 10941 RVA: 0x00169698 File Offset: 0x00167A98
+		// Token: 0x06002ABF RID: 10943 RVA: 0x0016972C File Offset: 0x00167B2C
 		public void Notify_Started()
 		{
 			if (this.Priority >= AlertPriority.High)
@@ -74,12 +74,12 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002ABE RID: 10942 RVA: 0x00169712 File Offset: 0x00167B12
+		// Token: 0x06002AC0 RID: 10944 RVA: 0x001697A6 File Offset: 0x00167BA6
 		public virtual void AlertActiveUpdate()
 		{
 		}
 
-		// Token: 0x06002ABF RID: 10943 RVA: 0x00169718 File Offset: 0x00167B18
+		// Token: 0x06002AC1 RID: 10945 RVA: 0x001697AC File Offset: 0x00167BAC
 		public virtual Rect DrawAt(float topY, bool minimized)
 		{
 			Text.Font = GameFont.Small;
@@ -134,7 +134,7 @@ namespace RimWorld
 			return rect;
 		}
 
-		// Token: 0x06002AC0 RID: 10944 RVA: 0x001698F8 File Offset: 0x00167CF8
+		// Token: 0x06002AC2 RID: 10946 RVA: 0x0016998C File Offset: 0x00167D8C
 		public void DrawInfoPane()
 		{
 			Alert.<DrawInfoPane>c__AnonStorey0 <DrawInfoPane>c__AnonStorey = new Alert.<DrawInfoPane>c__AnonStorey0();

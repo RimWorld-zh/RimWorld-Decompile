@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200046E RID: 1134
 	public class Recipe_RemoveHediff : Recipe_Surgery
 	{
-		// Token: 0x060013E5 RID: 5093 RVA: 0x000AD584 File Offset: 0x000AB984
+		// Token: 0x060013E5 RID: 5093 RVA: 0x000AD590 File Offset: 0x000AB990
 		public override IEnumerable<BodyPartRecord> GetPartsToApplyOn(Pawn pawn, RecipeDef recipe)
 		{
 			List<Hediff> allHediffs = pawn.health.hediffSet.hediffs;
@@ -27,7 +27,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060013E6 RID: 5094 RVA: 0x000AD5B8 File Offset: 0x000AB9B8
+		// Token: 0x060013E6 RID: 5094 RVA: 0x000AD5C4 File Offset: 0x000AB9C4
 		public override void ApplyOnPawn(Pawn pawn, BodyPartRecord part, Pawn billDoer, List<Thing> ingredients, Bill bill)
 		{
 			if (billDoer != null)

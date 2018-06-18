@@ -10,7 +10,7 @@ namespace RimWorld
 	// Token: 0x0200087C RID: 2172
 	public class MapInterface
 	{
-		// Token: 0x06003182 RID: 12674 RVA: 0x001AD73C File Offset: 0x001ABB3C
+		// Token: 0x06003184 RID: 12676 RVA: 0x001AD804 File Offset: 0x001ABC04
 		public void MapInterfaceOnGUI_BeforeMainTabs()
 		{
 			if (Find.CurrentMap != null)
@@ -74,7 +74,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003183 RID: 12675 RVA: 0x001AD8E4 File Offset: 0x001ABCE4
+		// Token: 0x06003185 RID: 12677 RVA: 0x001AD9AC File Offset: 0x001ABDAC
 		public void MapInterfaceOnGUI_AfterMainTabs()
 		{
 			if (Find.CurrentMap != null)
@@ -98,7 +98,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003184 RID: 12676 RVA: 0x001AD974 File Offset: 0x001ABD74
+		// Token: 0x06003186 RID: 12678 RVA: 0x001ADA3C File Offset: 0x001ABE3C
 		public void HandleMapClicks()
 		{
 			if (Find.CurrentMap != null)
@@ -115,7 +115,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003185 RID: 12677 RVA: 0x001AD9D4 File Offset: 0x001ABDD4
+		// Token: 0x06003187 RID: 12679 RVA: 0x001ADA9C File Offset: 0x001ABE9C
 		public void HandleLowPriorityInput()
 		{
 			if (Find.CurrentMap != null)
@@ -132,7 +132,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003186 RID: 12678 RVA: 0x001ADA38 File Offset: 0x001ABE38
+		// Token: 0x06003188 RID: 12680 RVA: 0x001ADB00 File Offset: 0x001ABF00
 		public void MapInterfaceUpdate()
 		{
 			if (Find.CurrentMap != null)
@@ -192,7 +192,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003187 RID: 12679 RVA: 0x001ADBC8 File Offset: 0x001ABFC8
+		// Token: 0x06003189 RID: 12681 RVA: 0x001ADC90 File Offset: 0x001AC090
 		public void Notify_SwitchedMap()
 		{
 			this.designatorManager.Deselect();

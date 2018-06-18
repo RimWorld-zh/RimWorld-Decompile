@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E93 RID: 3731
+	// Token: 0x02000E92 RID: 3730
 	public static class TooltipHandler
 	{
-		// Token: 0x060057F0 RID: 22512 RVA: 0x002D0D98 File Offset: 0x002CF198
+		// Token: 0x060057EE RID: 22510 RVA: 0x002D0D98 File Offset: 0x002CF198
 		public static void ClearTooltipsFrom(Rect rect)
 		{
 			if (Event.current.type == EventType.Repaint)
@@ -31,13 +31,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057F1 RID: 22513 RVA: 0x002D0E78 File Offset: 0x002CF278
+		// Token: 0x060057EF RID: 22511 RVA: 0x002D0E78 File Offset: 0x002CF278
 		public static void TipRegion(Rect rect, Func<string> textGetter, int uniqueId)
 		{
 			TooltipHandler.TipRegion(rect, new TipSignal(textGetter, uniqueId));
 		}
 
-		// Token: 0x060057F2 RID: 22514 RVA: 0x002D0E88 File Offset: 0x002CF288
+		// Token: 0x060057F0 RID: 22512 RVA: 0x002D0E88 File Offset: 0x002CF288
 		public static void TipRegion(Rect rect, TipSignal tip)
 		{
 			if (Event.current.type == EventType.Repaint)
@@ -64,7 +64,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057F3 RID: 22515 RVA: 0x002D0F9A File Offset: 0x002CF39A
+		// Token: 0x060057F1 RID: 22513 RVA: 0x002D0F9A File Offset: 0x002CF39A
 		public static void DoTooltipGUI()
 		{
 			TooltipHandler.DrawActiveTips();
@@ -75,7 +75,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057F4 RID: 22516 RVA: 0x002D0FC8 File Offset: 0x002CF3C8
+		// Token: 0x060057F2 RID: 22514 RVA: 0x002D0FC8 File Offset: 0x002CF3C8
 		private static void DrawActiveTips()
 		{
 			TooltipHandler.drawingTips.Clear();
@@ -101,7 +101,7 @@ namespace Verse
 			TooltipHandler.drawingTips.Clear();
 		}
 
-		// Token: 0x060057F5 RID: 22517 RVA: 0x002D10E4 File Offset: 0x002CF4E4
+		// Token: 0x060057F3 RID: 22515 RVA: 0x002D10E4 File Offset: 0x002CF4E4
 		private static void CleanActiveTooltips()
 		{
 			TooltipHandler.dyingTips.Clear();
@@ -118,7 +118,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057F6 RID: 22518 RVA: 0x002D11A0 File Offset: 0x002CF5A0
+		// Token: 0x060057F4 RID: 22516 RVA: 0x002D11A0 File Offset: 0x002CF5A0
 		private static Vector2 CalculateInitialTipPosition(List<ActiveTip> drawingTips)
 		{
 			float num = 0f;
@@ -136,7 +136,7 @@ namespace Verse
 			return GenUI.GetMouseAttachedWindowPos(num2, num);
 		}
 
-		// Token: 0x060057F7 RID: 22519 RVA: 0x002D1220 File Offset: 0x002CF620
+		// Token: 0x060057F5 RID: 22517 RVA: 0x002D1220 File Offset: 0x002CF620
 		private static int CompareTooltipsByPriority(ActiveTip A, ActiveTip B)
 		{
 			int result;
@@ -159,25 +159,25 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04003A2E RID: 14894
+		// Token: 0x04003A2C RID: 14892
 		private static Dictionary<int, ActiveTip> activeTips = new Dictionary<int, ActiveTip>();
 
-		// Token: 0x04003A2F RID: 14895
+		// Token: 0x04003A2D RID: 14893
 		private static int frame = 0;
 
-		// Token: 0x04003A30 RID: 14896
+		// Token: 0x04003A2E RID: 14894
 		private static List<int> dyingTips = new List<int>(32);
 
-		// Token: 0x04003A31 RID: 14897
+		// Token: 0x04003A2F RID: 14895
 		private static float TooltipDelay = 0.45f;
 
-		// Token: 0x04003A32 RID: 14898
+		// Token: 0x04003A30 RID: 14896
 		private const float SpaceBetweenTooltips = 2f;
 
-		// Token: 0x04003A33 RID: 14899
+		// Token: 0x04003A31 RID: 14897
 		private static List<ActiveTip> drawingTips = new List<ActiveTip>();
 
-		// Token: 0x04003A34 RID: 14900
+		// Token: 0x04003A32 RID: 14898
 		[CompilerGenerated]
 		private static Comparison<ActiveTip> <>f__mg$cache0;
 	}

@@ -9,14 +9,14 @@ namespace RimWorld
 	// Token: 0x02000514 RID: 1300
 	public class Pawn_FilthTracker : IExposable
 	{
-		// Token: 0x06001775 RID: 6005 RVA: 0x000CD7AC File Offset: 0x000CBBAC
+		// Token: 0x06001776 RID: 6006 RVA: 0x000CD800 File Offset: 0x000CBC00
 		public Pawn_FilthTracker(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
 		// Token: 0x1700033A RID: 826
-		// (get) Token: 0x06001776 RID: 6006 RVA: 0x000CD7C8 File Offset: 0x000CBBC8
+		// (get) Token: 0x06001777 RID: 6007 RVA: 0x000CD81C File Offset: 0x000CBC1C
 		public string FilthReport
 		{
 			get
@@ -38,13 +38,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001777 RID: 6007 RVA: 0x000CD869 File Offset: 0x000CBC69
+		// Token: 0x06001778 RID: 6008 RVA: 0x000CD8BD File Offset: 0x000CBCBD
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Filth>(ref this.carriedFilth, "carriedFilth", LookMode.Deep, new object[0]);
 		}
 
-		// Token: 0x06001778 RID: 6008 RVA: 0x000CD884 File Offset: 0x000CBC84
+		// Token: 0x06001779 RID: 6009 RVA: 0x000CD8D8 File Offset: 0x000CBCD8
 		public void Notify_EnteredNewCell()
 		{
 			if (Rand.Value < 0.05f)
@@ -76,7 +76,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001779 RID: 6009 RVA: 0x000CD9CC File Offset: 0x000CBDCC
+		// Token: 0x0600177A RID: 6010 RVA: 0x000CDA20 File Offset: 0x000CBE20
 		private void TryPickupFilth()
 		{
 			TerrainDef terrDef = this.pawn.Map.terrainGrid.TerrainAt(this.pawn.Position);
@@ -110,7 +110,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600177A RID: 6010 RVA: 0x000CDB58 File Offset: 0x000CBF58
+		// Token: 0x0600177B RID: 6011 RVA: 0x000CDBAC File Offset: 0x000CBFAC
 		private void TryDropFilth()
 		{
 			if (this.carriedFilth.Count != 0)
@@ -127,14 +127,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600177B RID: 6011 RVA: 0x000CDBE8 File Offset: 0x000CBFE8
+		// Token: 0x0600177C RID: 6012 RVA: 0x000CDC3C File Offset: 0x000CC03C
 		private void DropCarriedFilth(Filth f)
 		{
 			this.ThinCarriedFilth(f);
 			FilthMaker.MakeFilth(this.pawn.Position, this.pawn.Map, f.def, f.sources);
 		}
 
-		// Token: 0x0600177C RID: 6012 RVA: 0x000CDC19 File Offset: 0x000CC019
+		// Token: 0x0600177D RID: 6013 RVA: 0x000CDC6D File Offset: 0x000CC06D
 		private void ThinCarriedFilth(Filth f)
 		{
 			f.ThinFilth();
@@ -144,13 +144,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600177D RID: 6013 RVA: 0x000CDC3B File Offset: 0x000CC03B
+		// Token: 0x0600177E RID: 6014 RVA: 0x000CDC8F File Offset: 0x000CC08F
 		public void GainFilth(ThingDef filthDef)
 		{
 			this.GainFilth(filthDef, null);
 		}
 
-		// Token: 0x0600177E RID: 6014 RVA: 0x000CDC48 File Offset: 0x000CC048
+		// Token: 0x0600177F RID: 6015 RVA: 0x000CDC9C File Offset: 0x000CC09C
 		public void GainFilth(ThingDef filthDef, IEnumerable<string> sources)
 		{
 			Filth filth = null;

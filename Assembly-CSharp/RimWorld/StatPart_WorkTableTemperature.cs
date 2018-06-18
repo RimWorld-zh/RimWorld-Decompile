@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020009BF RID: 2495
 	public class StatPart_WorkTableTemperature : StatPart
 	{
-		// Token: 0x060037CB RID: 14283 RVA: 0x001DAC60 File Offset: 0x001D9060
+		// Token: 0x060037CD RID: 14285 RVA: 0x001DAD34 File Offset: 0x001D9134
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (req.HasThing && StatPart_WorkTableTemperature.Applies(req.Thing))
@@ -15,7 +15,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060037CC RID: 14284 RVA: 0x001DAC8C File Offset: 0x001D908C
+		// Token: 0x060037CE RID: 14286 RVA: 0x001DAD60 File Offset: 0x001D9160
 		public override string ExplanationPart(StatRequest req)
 		{
 			string result;
@@ -30,13 +30,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060037CD RID: 14285 RVA: 0x001DACE8 File Offset: 0x001D90E8
+		// Token: 0x060037CF RID: 14287 RVA: 0x001DADBC File Offset: 0x001D91BC
 		public static bool Applies(Thing t)
 		{
 			return t.Spawned && StatPart_WorkTableTemperature.Applies(t.def, t.Map, t.Position);
 		}
 
-		// Token: 0x060037CE RID: 14286 RVA: 0x001DAD28 File Offset: 0x001D9128
+		// Token: 0x060037D0 RID: 14288 RVA: 0x001DADFC File Offset: 0x001D91FC
 		public static bool Applies(ThingDef tDef, Map map, IntVec3 c)
 		{
 			bool result;

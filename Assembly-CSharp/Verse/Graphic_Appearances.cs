@@ -6,11 +6,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DD6 RID: 3542
+	// Token: 0x02000DD5 RID: 3541
 	public class Graphic_Appearances : Graphic
 	{
-		// Token: 0x17000CD2 RID: 3282
-		// (get) Token: 0x06004F34 RID: 20276 RVA: 0x00293920 File Offset: 0x00291D20
+		// Token: 0x17000CD1 RID: 3281
+		// (get) Token: 0x06004F32 RID: 20274 RVA: 0x00293900 File Offset: 0x00291D00
 		public override Material MatSingle
 		{
 			get
@@ -19,7 +19,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F35 RID: 20277 RVA: 0x0029394C File Offset: 0x00291D4C
+		// Token: 0x06004F33 RID: 20275 RVA: 0x0029392C File Offset: 0x00291D2C
 		public override void Init(GraphicRequest req)
 		{
 			this.data = req.graphicData;
@@ -56,7 +56,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004F36 RID: 20278 RVA: 0x00293AC0 File Offset: 0x00291EC0
+		// Token: 0x06004F34 RID: 20276 RVA: 0x00293AA0 File Offset: 0x00291EA0
 		public override Graphic GetColoredVersion(Shader newShader, Color newColor, Color newColorTwo)
 		{
 			if (newColorTwo != Color.white)
@@ -66,7 +66,7 @@ namespace Verse
 			return GraphicDatabase.Get<Graphic_Appearances>(this.path, newShader, this.drawSize, newColor, Color.white, this.data);
 		}
 
-		// Token: 0x06004F37 RID: 20279 RVA: 0x00293B14 File Offset: 0x00291F14
+		// Token: 0x06004F35 RID: 20277 RVA: 0x00293AF4 File Offset: 0x00291EF4
 		public override Material MatSingleFor(Thing thing)
 		{
 			StuffAppearanceDef stuffAppearanceDef = StuffAppearanceDefOf.Smooth;
@@ -78,7 +78,7 @@ namespace Verse
 			return graphic.MatSingleFor(thing);
 		}
 
-		// Token: 0x06004F38 RID: 20280 RVA: 0x00293B7C File Offset: 0x00291F7C
+		// Token: 0x06004F36 RID: 20278 RVA: 0x00293B5C File Offset: 0x00291F5C
 		public override void DrawWorker(Vector3 loc, Rot4 rot, ThingDef thingDef, Thing thing, float extraRotation)
 		{
 			StuffAppearanceDef stuffAppearanceDef = StuffAppearanceDefOf.Smooth;
@@ -90,7 +90,7 @@ namespace Verse
 			graphic.DrawWorker(loc, rot, thingDef, thing, extraRotation);
 		}
 
-		// Token: 0x06004F39 RID: 20281 RVA: 0x00293BE8 File Offset: 0x00291FE8
+		// Token: 0x06004F37 RID: 20279 RVA: 0x00293BC8 File Offset: 0x00291FC8
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -103,7 +103,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x040034A7 RID: 13479
+		// Token: 0x040034A5 RID: 13477
 		protected Graphic[] subGraphics;
 	}
 }

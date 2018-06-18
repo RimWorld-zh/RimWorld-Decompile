@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x020008FA RID: 2298
 	public static class Autotests_RegionListers
 	{
-		// Token: 0x0600352C RID: 13612 RVA: 0x001C6BC5 File Offset: 0x001C4FC5
+		// Token: 0x0600352E RID: 13614 RVA: 0x001C6C8D File Offset: 0x001C508D
 		public static void CheckBugs(Map map)
 		{
 			Autotests_RegionListers.CalculateExpectedListers(map);
@@ -15,7 +15,7 @@ namespace Verse
 			Autotests_RegionListers.CheckThingRegisteredButShouldnt(map);
 		}
 
-		// Token: 0x0600352D RID: 13613 RVA: 0x001C6BE0 File Offset: 0x001C4FE0
+		// Token: 0x0600352F RID: 13615 RVA: 0x001C6CA8 File Offset: 0x001C50A8
 		private static void CheckThingRegisteredTwice(Map map)
 		{
 			foreach (KeyValuePair<Region, List<Thing>> keyValuePair in Autotests_RegionListers.expectedListers)
@@ -28,7 +28,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600352E RID: 13614 RVA: 0x001C6CA8 File Offset: 0x001C50A8
+		// Token: 0x06003530 RID: 13616 RVA: 0x001C6D70 File Offset: 0x001C5170
 		private static void CheckDuplicates(List<Thing> lister, Region region, bool expected)
 		{
 			for (int i = 1; i < lister.Count; i++)
@@ -63,7 +63,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600352F RID: 13615 RVA: 0x001C6D6C File Offset: 0x001C516C
+		// Token: 0x06003531 RID: 13617 RVA: 0x001C6E34 File Offset: 0x001C5234
 		private static void CheckThingNotRegisteredButShould()
 		{
 			foreach (KeyValuePair<Region, List<Thing>> keyValuePair in Autotests_RegionListers.expectedListers)
@@ -89,7 +89,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003530 RID: 13616 RVA: 0x001C6E6C File Offset: 0x001C526C
+		// Token: 0x06003532 RID: 13618 RVA: 0x001C6F34 File Offset: 0x001C5334
 		private static void CheckThingRegisteredButShouldnt(Map map)
 		{
 			foreach (Region region in map.regionGrid.AllRegions)
@@ -119,7 +119,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003531 RID: 13617 RVA: 0x001C6F74 File Offset: 0x001C5374
+		// Token: 0x06003533 RID: 13619 RVA: 0x001C703C File Offset: 0x001C543C
 		private static void CalculateExpectedListers(Map map)
 		{
 			Autotests_RegionListers.expectedListers.Clear();

@@ -9,7 +9,7 @@ namespace RimWorld.Planet
 	public static class ExpandableWorldObjectsUtility
 	{
 		// Token: 0x17000409 RID: 1033
-		// (get) Token: 0x06001B6B RID: 7019 RVA: 0x000EC834 File Offset: 0x000EAC34
+		// (get) Token: 0x06001B6C RID: 7020 RVA: 0x000EC8A0 File Offset: 0x000EACA0
 		public static float TransitionPct
 		{
 			get
@@ -28,7 +28,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700040A RID: 1034
-		// (get) Token: 0x06001B6C RID: 7020 RVA: 0x000EC868 File Offset: 0x000EAC68
+		// (get) Token: 0x06001B6D RID: 7021 RVA: 0x000EC8D4 File Offset: 0x000EACD4
 		public static float ExpandMoreTransitionPct
 		{
 			get
@@ -46,7 +46,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B6D RID: 7021 RVA: 0x000EC89C File Offset: 0x000EAC9C
+		// Token: 0x06001B6E RID: 7022 RVA: 0x000EC908 File Offset: 0x000EAD08
 		public static void ExpandableWorldObjectsUpdate()
 		{
 			float num = Time.deltaTime * 3f;
@@ -71,7 +71,7 @@ namespace RimWorld.Planet
 			ExpandableWorldObjectsUtility.expandMoreTransitionPct = Mathf.Clamp01(ExpandableWorldObjectsUtility.expandMoreTransitionPct);
 		}
 
-		// Token: 0x06001B6E RID: 7022 RVA: 0x000EC93C File Offset: 0x000EAD3C
+		// Token: 0x06001B6F RID: 7023 RVA: 0x000EC9A8 File Offset: 0x000EADA8
 		public static void ExpandableWorldObjectsOnGUI()
 		{
 			if (ExpandableWorldObjectsUtility.TransitionPct != 0f)
@@ -111,7 +111,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B6F RID: 7023 RVA: 0x000ECA9C File Offset: 0x000EAE9C
+		// Token: 0x06001B70 RID: 7024 RVA: 0x000ECB08 File Offset: 0x000EAF08
 		public static Rect ExpandedIconScreenRect(WorldObject o)
 		{
 			Vector2 vector = o.ScreenPos();
@@ -127,13 +127,13 @@ namespace RimWorld.Planet
 			return new Rect(vector.x - num / 2f, vector.y - num / 2f, num, num);
 		}
 
-		// Token: 0x06001B70 RID: 7024 RVA: 0x000ECB0C File Offset: 0x000EAF0C
+		// Token: 0x06001B71 RID: 7025 RVA: 0x000ECB78 File Offset: 0x000EAF78
 		public static bool IsExpanded(WorldObject o)
 		{
 			return ExpandableWorldObjectsUtility.TransitionPct > 0.5f && o.def.expandingIcon;
 		}
 
-		// Token: 0x06001B71 RID: 7025 RVA: 0x000ECB40 File Offset: 0x000EAF40
+		// Token: 0x06001B72 RID: 7026 RVA: 0x000ECBAC File Offset: 0x000EAFAC
 		public static void GetExpandedWorldObjectUnderMouse(Vector2 mousePos, List<WorldObject> outList)
 		{
 			outList.Clear();
@@ -158,7 +158,7 @@ namespace RimWorld.Planet
 			outList.Reverse();
 		}
 
-		// Token: 0x06001B72 RID: 7026 RVA: 0x000ECBE4 File Offset: 0x000EAFE4
+		// Token: 0x06001B73 RID: 7027 RVA: 0x000ECC50 File Offset: 0x000EB050
 		private static void SortByExpandingIconPriority(List<WorldObject> worldObjects)
 		{
 			worldObjects.SortBy(delegate(WorldObject x)

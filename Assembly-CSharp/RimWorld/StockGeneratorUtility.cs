@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200076C RID: 1900
 	public class StockGeneratorUtility
 	{
-		// Token: 0x060029FE RID: 10750 RVA: 0x00163548 File Offset: 0x00161948
+		// Token: 0x06002A00 RID: 10752 RVA: 0x001635DC File Offset: 0x001619DC
 		public static IEnumerable<Thing> TryMakeForStock(ThingDef thingDef, int count)
 		{
 			if (thingDef.MadeFromStuff)
@@ -33,7 +33,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060029FF RID: 10751 RVA: 0x0016357C File Offset: 0x0016197C
+		// Token: 0x06002A01 RID: 10753 RVA: 0x00163610 File Offset: 0x00161A10
 		public static Thing TryMakeForStockSingle(ThingDef thingDef, int stackCount)
 		{
 			Thing result;

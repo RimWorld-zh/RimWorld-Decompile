@@ -8,13 +8,13 @@ namespace RimWorld.Planet
 	// Token: 0x02000601 RID: 1537
 	public class FactionBase_TraderTracker : Settlement_TraderTracker
 	{
-		// Token: 0x06001E90 RID: 7824 RVA: 0x0010B70C File Offset: 0x00109B0C
+		// Token: 0x06001E92 RID: 7826 RVA: 0x0010B784 File Offset: 0x00109B84
 		public FactionBase_TraderTracker(Settlement factionBase) : base(factionBase)
 		{
 		}
 
 		// Token: 0x1700047C RID: 1148
-		// (get) Token: 0x06001E91 RID: 7825 RVA: 0x0010B718 File Offset: 0x00109B18
+		// (get) Token: 0x06001E93 RID: 7827 RVA: 0x0010B790 File Offset: 0x00109B90
 		public FactionBase FactionBase
 		{
 			get
@@ -24,7 +24,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700047D RID: 1149
-		// (get) Token: 0x06001E92 RID: 7826 RVA: 0x0010B738 File Offset: 0x00109B38
+		// (get) Token: 0x06001E94 RID: 7828 RVA: 0x0010B7B0 File Offset: 0x00109BB0
 		public override TraderKindDef TraderKind
 		{
 			get

@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000852 RID: 2130
 	public class ITab_Pawn_Health : ITab
 	{
-		// Token: 0x0600303D RID: 12349 RVA: 0x001A3D74 File Offset: 0x001A2174
+		// Token: 0x0600303F RID: 12351 RVA: 0x001A3E3C File Offset: 0x001A223C
 		public ITab_Pawn_Health()
 		{
 			this.size = new Vector2(630f, 430f);
@@ -16,7 +16,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007B1 RID: 1969
-		// (get) Token: 0x0600303E RID: 12350 RVA: 0x001A3DA8 File Offset: 0x001A21A8
+		// (get) Token: 0x06003040 RID: 12352 RVA: 0x001A3E70 File Offset: 0x001A2270
 		private Pawn PawnForHealth
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600303F RID: 12351 RVA: 0x001A3DF4 File Offset: 0x001A21F4
+		// Token: 0x06003041 RID: 12353 RVA: 0x001A3EBC File Offset: 0x001A22BC
 		protected override void FillTab()
 		{
 			Pawn pawnForHealth = this.PawnForHealth;
@@ -59,7 +59,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003040 RID: 12352 RVA: 0x001A3E84 File Offset: 0x001A2284
+		// Token: 0x06003042 RID: 12354 RVA: 0x001A3F4C File Offset: 0x001A234C
 		private bool ShouldAllowOperations()
 		{
 			Pawn pawnForHealth = this.PawnForHealth;

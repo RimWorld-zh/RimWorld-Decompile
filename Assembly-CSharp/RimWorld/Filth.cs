@@ -9,7 +9,7 @@ namespace RimWorld
 	public class Filth : Thing
 	{
 		// Token: 0x1700059D RID: 1437
-		// (get) Token: 0x06002549 RID: 9545 RVA: 0x0013FC30 File Offset: 0x0013E030
+		// (get) Token: 0x0600254B RID: 9547 RVA: 0x0013FCA8 File Offset: 0x0013E0A8
 		public bool CanFilthAttachNow
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700059E RID: 1438
-		// (get) Token: 0x0600254A RID: 9546 RVA: 0x0013FC84 File Offset: 0x0013E084
+		// (get) Token: 0x0600254C RID: 9548 RVA: 0x0013FCFC File Offset: 0x0013E0FC
 		public bool CanBeThickened
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700059F RID: 1439
-		// (get) Token: 0x0600254B RID: 9547 RVA: 0x0013FCA4 File Offset: 0x0013E0A4
+		// (get) Token: 0x0600254D RID: 9549 RVA: 0x0013FD1C File Offset: 0x0013E11C
 		public int TicksSinceThickened
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170005A0 RID: 1440
-		// (get) Token: 0x0600254C RID: 9548 RVA: 0x0013FCCC File Offset: 0x0013E0CC
+		// (get) Token: 0x0600254E RID: 9550 RVA: 0x0013FD44 File Offset: 0x0013E144
 		public override string Label
 		{
 			get
@@ -56,7 +56,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600254D RID: 9549 RVA: 0x0013FD5C File Offset: 0x0013E15C
+		// Token: 0x0600254F RID: 9551 RVA: 0x0013FDD4 File Offset: 0x0013E1D4
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -68,7 +68,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600254E RID: 9550 RVA: 0x0013FDC4 File Offset: 0x0013E1C4
+		// Token: 0x06002550 RID: 9552 RVA: 0x0013FE3C File Offset: 0x0013E23C
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -86,7 +86,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600254F RID: 9551 RVA: 0x0013FE34 File Offset: 0x0013E234
+		// Token: 0x06002551 RID: 9553 RVA: 0x0013FEAC File Offset: 0x0013E2AC
 		public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
 		{
 			Map map = base.Map;
@@ -97,7 +97,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002550 RID: 9552 RVA: 0x0013FE68 File Offset: 0x0013E268
+		// Token: 0x06002552 RID: 9554 RVA: 0x0013FEE0 File Offset: 0x0013E2E0
 		public void AddSource(string newSource)
 		{
 			if (this.sources == null)
@@ -118,7 +118,7 @@ namespace RimWorld
 			this.sources.Add(newSource);
 		}
 
-		// Token: 0x06002551 RID: 9553 RVA: 0x0013FEF8 File Offset: 0x0013E2F8
+		// Token: 0x06002553 RID: 9555 RVA: 0x0013FF70 File Offset: 0x0013E370
 		public void AddSources(IEnumerable<string> sources)
 		{
 			if (sources != null)
@@ -130,7 +130,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002552 RID: 9554 RVA: 0x0013FF5C File Offset: 0x0013E35C
+		// Token: 0x06002554 RID: 9556 RVA: 0x0013FFD4 File Offset: 0x0013E3D4
 		public virtual void ThickenFilth()
 		{
 			this.growTick = Find.TickManager.TicksGame;
@@ -141,7 +141,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002553 RID: 9555 RVA: 0x0013FFAB File Offset: 0x0013E3AB
+		// Token: 0x06002555 RID: 9557 RVA: 0x00140023 File Offset: 0x0013E423
 		public void ThinFilth()
 		{
 			this.thickness--;
@@ -158,7 +158,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002554 RID: 9556 RVA: 0x0013FFE6 File Offset: 0x0013E3E6
+		// Token: 0x06002556 RID: 9558 RVA: 0x0014005E File Offset: 0x0013E45E
 		private void UpdateMesh()
 		{
 			if (base.Spawned)
@@ -167,7 +167,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002555 RID: 9557 RVA: 0x0014000C File Offset: 0x0013E40C
+		// Token: 0x06002557 RID: 9559 RVA: 0x00140084 File Offset: 0x0013E484
 		public bool CanDropAt(IntVec3 c, Map map)
 		{
 			TerrainDef terrainDef = map.terrainGrid.TerrainAt(c);

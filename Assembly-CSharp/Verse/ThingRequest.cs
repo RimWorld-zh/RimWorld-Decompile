@@ -2,11 +2,11 @@
 
 namespace Verse
 {
-	// Token: 0x02000C31 RID: 3121
+	// Token: 0x02000C30 RID: 3120
 	public struct ThingRequest
 	{
-		// Token: 0x17000AB8 RID: 2744
-		// (get) Token: 0x06004489 RID: 17545 RVA: 0x0023F9E4 File Offset: 0x0023DDE4
+		// Token: 0x17000AB7 RID: 2743
+		// (get) Token: 0x06004487 RID: 17543 RVA: 0x0023F9BC File Offset: 0x0023DDBC
 		public bool IsUndefined
 		{
 			get
@@ -15,8 +15,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AB9 RID: 2745
-		// (get) Token: 0x0600448A RID: 17546 RVA: 0x0023FA10 File Offset: 0x0023DE10
+		// Token: 0x17000AB8 RID: 2744
+		// (get) Token: 0x06004488 RID: 17544 RVA: 0x0023F9E8 File Offset: 0x0023DDE8
 		public bool CanBeFoundInRegion
 		{
 			get
@@ -25,7 +25,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600448B RID: 17547 RVA: 0x0023FA5C File Offset: 0x0023DE5C
+		// Token: 0x06004489 RID: 17545 RVA: 0x0023FA34 File Offset: 0x0023DE34
 		public static ThingRequest ForUndefined()
 		{
 			return new ThingRequest
@@ -35,7 +35,7 @@ namespace Verse
 			};
 		}
 
-		// Token: 0x0600448C RID: 17548 RVA: 0x0023FA8C File Offset: 0x0023DE8C
+		// Token: 0x0600448A RID: 17546 RVA: 0x0023FA64 File Offset: 0x0023DE64
 		public static ThingRequest ForDef(ThingDef singleDef)
 		{
 			return new ThingRequest
@@ -45,7 +45,7 @@ namespace Verse
 			};
 		}
 
-		// Token: 0x0600448D RID: 17549 RVA: 0x0023FABC File Offset: 0x0023DEBC
+		// Token: 0x0600448B RID: 17547 RVA: 0x0023FA94 File Offset: 0x0023DE94
 		public static ThingRequest ForGroup(ThingRequestGroup group)
 		{
 			return new ThingRequest
@@ -55,7 +55,7 @@ namespace Verse
 			};
 		}
 
-		// Token: 0x0600448E RID: 17550 RVA: 0x0023FAEC File Offset: 0x0023DEEC
+		// Token: 0x0600448C RID: 17548 RVA: 0x0023FAC4 File Offset: 0x0023DEC4
 		public bool Accepts(Thing t)
 		{
 			bool result;
@@ -70,7 +70,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600448F RID: 17551 RVA: 0x0023FB44 File Offset: 0x0023DF44
+		// Token: 0x0600448D RID: 17549 RVA: 0x0023FB1C File Offset: 0x0023DF1C
 		public override string ToString()
 		{
 			string str;
@@ -85,10 +85,10 @@ namespace Verse
 			return "ThingRequest(" + str + ")";
 		}
 
-		// Token: 0x04002E7E RID: 11902
+		// Token: 0x04002E7C RID: 11900
 		public ThingDef singleDef;
 
-		// Token: 0x04002E7F RID: 11903
+		// Token: 0x04002E7D RID: 11901
 		public ThingRequestGroup group;
 	}
 }

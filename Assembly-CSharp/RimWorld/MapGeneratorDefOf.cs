@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class MapGeneratorDefOf
 	{
-		// Token: 0x06003658 RID: 13912 RVA: 0x001D09E3 File Offset: 0x001CEDE3
+		// Token: 0x0600365A RID: 13914 RVA: 0x001D0AAB File Offset: 0x001CEEAB
 		static MapGeneratorDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(MapGeneratorDefOf));

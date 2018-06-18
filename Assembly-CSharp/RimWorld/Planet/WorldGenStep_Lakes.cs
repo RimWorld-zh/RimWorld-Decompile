@@ -8,7 +8,7 @@ namespace RimWorld.Planet
 	public class WorldGenStep_Lakes : WorldGenStep
 	{
 		// Token: 0x17000420 RID: 1056
-		// (get) Token: 0x06001C45 RID: 7237 RVA: 0x000F2CA8 File Offset: 0x000F10A8
+		// (get) Token: 0x06001C47 RID: 7239 RVA: 0x000F2D20 File Offset: 0x000F1120
 		public override int SeedPart
 		{
 			get
@@ -17,13 +17,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001C46 RID: 7238 RVA: 0x000F2CC2 File Offset: 0x000F10C2
+		// Token: 0x06001C48 RID: 7240 RVA: 0x000F2D3A File Offset: 0x000F113A
 		public override void GenerateFresh(string seed)
 		{
 			this.GenerateLakes();
 		}
 
-		// Token: 0x06001C47 RID: 7239 RVA: 0x000F2CCC File Offset: 0x000F10CC
+		// Token: 0x06001C49 RID: 7241 RVA: 0x000F2D44 File Offset: 0x000F1144
 		private void GenerateLakes()
 		{
 			WorldGrid grid = Find.WorldGrid;

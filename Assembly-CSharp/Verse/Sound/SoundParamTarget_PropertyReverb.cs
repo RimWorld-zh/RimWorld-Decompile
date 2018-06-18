@@ -7,7 +7,7 @@ namespace Verse.Sound
 	public class SoundParamTarget_PropertyReverb : SoundParamTarget
 	{
 		// Token: 0x170009D6 RID: 2518
-		// (get) Token: 0x0600405A RID: 16474 RVA: 0x0021CB84 File Offset: 0x0021AF84
+		// (get) Token: 0x0600405C RID: 16476 RVA: 0x0021CC58 File Offset: 0x0021B058
 		public override string Label
 		{
 			get
@@ -17,7 +17,7 @@ namespace Verse.Sound
 		}
 
 		// Token: 0x170009D7 RID: 2519
-		// (get) Token: 0x0600405B RID: 16475 RVA: 0x0021CBA0 File Offset: 0x0021AFA0
+		// (get) Token: 0x0600405D RID: 16477 RVA: 0x0021CC74 File Offset: 0x0021B074
 		public override Type NeededFilterType
 		{
 			get
@@ -26,7 +26,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x0600405C RID: 16476 RVA: 0x0021CBC0 File Offset: 0x0021AFC0
+		// Token: 0x0600405E RID: 16478 RVA: 0x0021CC94 File Offset: 0x0021B094
 		public override void SetOn(Sample sample, float value)
 		{
 			AudioReverbFilter audioReverbFilter = sample.source.GetComponent<AudioReverbFilter>();

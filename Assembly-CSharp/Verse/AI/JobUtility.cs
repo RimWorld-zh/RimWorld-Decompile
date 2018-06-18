@@ -6,7 +6,7 @@ namespace Verse.AI
 	// Token: 0x02000A58 RID: 2648
 	public static class JobUtility
 	{
-		// Token: 0x06003AEF RID: 15087 RVA: 0x001F40E4 File Offset: 0x001F24E4
+		// Token: 0x06003AF1 RID: 15089 RVA: 0x001F41B8 File Offset: 0x001F25B8
 		public static void TryStartErrorRecoverJob(Pawn pawn, string message, Exception exception = null, JobDriver concreteDriver = null)
 		{
 			string text = message;
@@ -41,7 +41,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003AF0 RID: 15088 RVA: 0x001F41BC File Offset: 0x001F25BC
+		// Token: 0x06003AF2 RID: 15090 RVA: 0x001F4290 File Offset: 0x001F2690
 		private static void AppendVarsInfoToDebugMessage(Pawn pawn, ref string msg, JobDriver concreteDriver)
 		{
 			if (concreteDriver != null)

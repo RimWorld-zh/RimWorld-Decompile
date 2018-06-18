@@ -5,7 +5,7 @@ namespace Verse
 	// Token: 0x02000B5F RID: 2911
 	public class PawnKindLifeStage
 	{
-		// Token: 0x06003F87 RID: 16263 RVA: 0x00217320 File Offset: 0x00215720
+		// Token: 0x06003F89 RID: 16265 RVA: 0x002173F4 File Offset: 0x002157F4
 		public void ResolveReferences()
 		{
 			if (this.bodyGraphicData != null && this.bodyGraphicData.graphicClass == null)

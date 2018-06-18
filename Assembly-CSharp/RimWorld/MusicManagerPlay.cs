@@ -12,7 +12,7 @@ namespace RimWorld
 	public class MusicManagerPlay
 	{
 		// Token: 0x170004FA RID: 1274
-		// (get) Token: 0x060021E5 RID: 8677 RVA: 0x0011F550 File Offset: 0x0011D950
+		// (get) Token: 0x060021E7 RID: 8679 RVA: 0x0011F5C8 File Offset: 0x0011D9C8
 		private float CurTime
 		{
 			get
@@ -22,7 +22,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170004FB RID: 1275
-		// (get) Token: 0x060021E6 RID: 8678 RVA: 0x0011F56C File Offset: 0x0011D96C
+		// (get) Token: 0x060021E8 RID: 8680 RVA: 0x0011F5E4 File Offset: 0x0011D9E4
 		private bool DangerMusicMode
 		{
 			get
@@ -40,7 +40,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170004FC RID: 1276
-		// (get) Token: 0x060021E7 RID: 8679 RVA: 0x0011F5C0 File Offset: 0x0011D9C0
+		// (get) Token: 0x060021E9 RID: 8681 RVA: 0x0011F638 File Offset: 0x0011DA38
 		private float CurVolume
 		{
 			get
@@ -60,7 +60,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170004FD RID: 1277
-		// (get) Token: 0x060021E8 RID: 8680 RVA: 0x0011F618 File Offset: 0x0011DA18
+		// (get) Token: 0x060021EA RID: 8682 RVA: 0x0011F690 File Offset: 0x0011DA90
 		public float CurSanitizedVolume
 		{
 			get
@@ -70,7 +70,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170004FE RID: 1278
-		// (get) Token: 0x060021E9 RID: 8681 RVA: 0x0011F640 File Offset: 0x0011DA40
+		// (get) Token: 0x060021EB RID: 8683 RVA: 0x0011F6B8 File Offset: 0x0011DAB8
 		public bool IsPlaying
 		{
 			get
@@ -79,13 +79,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021EA RID: 8682 RVA: 0x0011F660 File Offset: 0x0011DA60
+		// Token: 0x060021EC RID: 8684 RVA: 0x0011F6D8 File Offset: 0x0011DAD8
 		public void ForceSilenceFor(float time)
 		{
 			this.nextSongStartTime = this.CurTime + time;
 		}
 
-		// Token: 0x060021EB RID: 8683 RVA: 0x0011F674 File Offset: 0x0011DA74
+		// Token: 0x060021ED RID: 8685 RVA: 0x0011F6EC File Offset: 0x0011DAEC
 		public void MusicUpdate()
 		{
 			if (!this.gameObjectCreated)
@@ -160,7 +160,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021EC RID: 8684 RVA: 0x0011F8D0 File Offset: 0x0011DCD0
+		// Token: 0x060021EE RID: 8686 RVA: 0x0011F948 File Offset: 0x0011DD48
 		private void UpdateSubtleAmbienceSoundVolumeMultiplier()
 		{
 			if (this.IsPlaying && this.CurSanitizedVolume > 0.001f)
@@ -174,7 +174,7 @@ namespace RimWorld
 			this.subtleAmbienceSoundVolumeMultiplier = Mathf.Clamp01(this.subtleAmbienceSoundVolumeMultiplier);
 		}
 
-		// Token: 0x060021ED RID: 8685 RVA: 0x0011F940 File Offset: 0x0011DD40
+		// Token: 0x060021EF RID: 8687 RVA: 0x0011F9B8 File Offset: 0x0011DDB8
 		private void StartNewSong()
 		{
 			this.lastStartedSong = this.ChooseNextSong();
@@ -185,7 +185,7 @@ namespace RimWorld
 			this.recentSongs.Enqueue(this.lastStartedSong);
 		}
 
-		// Token: 0x060021EE RID: 8686 RVA: 0x0011F9AD File Offset: 0x0011DDAD
+		// Token: 0x060021F0 RID: 8688 RVA: 0x0011FA25 File Offset: 0x0011DE25
 		public void ForceStartSong(SongDef song, bool ignorePrefsVolume)
 		{
 			this.forcedNextSong = song;
@@ -193,7 +193,7 @@ namespace RimWorld
 			this.StartNewSong();
 		}
 
-		// Token: 0x060021EF RID: 8687 RVA: 0x0011F9C4 File Offset: 0x0011DDC4
+		// Token: 0x060021F1 RID: 8689 RVA: 0x0011FA3C File Offset: 0x0011DE3C
 		private SongDef ChooseNextSong()
 		{
 			this.songWasForced = false;
@@ -232,7 +232,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060021F0 RID: 8688 RVA: 0x0011FAC0 File Offset: 0x0011DEC0
+		// Token: 0x060021F2 RID: 8690 RVA: 0x0011FB38 File Offset: 0x0011DF38
 		private bool AppropriateNow(SongDef song)
 		{
 			bool result;
@@ -292,7 +292,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060021F1 RID: 8689 RVA: 0x0011FBF8 File Offset: 0x0011DFF8
+		// Token: 0x060021F3 RID: 8691 RVA: 0x0011FC70 File Offset: 0x0011E070
 		public string DebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -308,7 +308,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060021F2 RID: 8690 RVA: 0x0011FD08 File Offset: 0x0011E108
+		// Token: 0x060021F4 RID: 8692 RVA: 0x0011FD80 File Offset: 0x0011E180
 		[DebugOutput]
 		public void SongSelectionData()
 		{

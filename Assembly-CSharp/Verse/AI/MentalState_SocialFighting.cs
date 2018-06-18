@@ -7,7 +7,7 @@ namespace Verse.AI
 	public class MentalState_SocialFighting : MentalState
 	{
 		// Token: 0x17000917 RID: 2327
-		// (get) Token: 0x06003BAF RID: 15279 RVA: 0x001F7CF4 File Offset: 0x001F60F4
+		// (get) Token: 0x06003BB1 RID: 15281 RVA: 0x001F7DC8 File Offset: 0x001F61C8
 		private bool ShouldStop
 		{
 			get
@@ -17,7 +17,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x17000918 RID: 2328
-		// (get) Token: 0x06003BB0 RID: 15280 RVA: 0x001F7D54 File Offset: 0x001F6154
+		// (get) Token: 0x06003BB2 RID: 15282 RVA: 0x001F7E28 File Offset: 0x001F6228
 		private bool IsOtherPawnSocialFightingWithMe
 		{
 			get
@@ -36,7 +36,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003BB1 RID: 15281 RVA: 0x001F7DB7 File Offset: 0x001F61B7
+		// Token: 0x06003BB3 RID: 15283 RVA: 0x001F7E8B File Offset: 0x001F628B
 		public override void MentalStateTick()
 		{
 			if (this.ShouldStop)
@@ -49,7 +49,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003BB2 RID: 15282 RVA: 0x001F7DD8 File Offset: 0x001F61D8
+		// Token: 0x06003BB4 RID: 15284 RVA: 0x001F7EAC File Offset: 0x001F62AC
 		public override void PostEnd()
 		{
 			base.PostEnd();
@@ -82,14 +82,14 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003BB3 RID: 15283 RVA: 0x001F7F25 File Offset: 0x001F6325
+		// Token: 0x06003BB5 RID: 15285 RVA: 0x001F7FF9 File Offset: 0x001F63F9
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_References.Look<Pawn>(ref this.otherPawn, "otherPawn", false);
 		}
 
-		// Token: 0x06003BB4 RID: 15284 RVA: 0x001F7F40 File Offset: 0x001F6340
+		// Token: 0x06003BB6 RID: 15286 RVA: 0x001F8014 File Offset: 0x001F6414
 		public override RandomSocialMode SocialModeMax()
 		{
 			return RandomSocialMode.Off;

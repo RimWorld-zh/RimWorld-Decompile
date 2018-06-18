@@ -7,7 +7,7 @@ namespace RimWorld
 	public static class TradeSession
 	{
 		// Token: 0x17000682 RID: 1666
-		// (get) Token: 0x06002A4A RID: 10826 RVA: 0x001666F0 File Offset: 0x00164AF0
+		// (get) Token: 0x06002A4C RID: 10828 RVA: 0x00166784 File Offset: 0x00164B84
 		public static bool Active
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002A4B RID: 10827 RVA: 0x00166710 File Offset: 0x00164B10
+		// Token: 0x06002A4D RID: 10829 RVA: 0x001667A4 File Offset: 0x00164BA4
 		public static void SetupWith(ITrader newTrader, Pawn newPlayerNegotiator, bool giftMode)
 		{
 			if (!newTrader.CanTradeNow)
@@ -33,7 +33,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002A4C RID: 10828 RVA: 0x00166795 File Offset: 0x00164B95
+		// Token: 0x06002A4E RID: 10830 RVA: 0x00166829 File Offset: 0x00164C29
 		public static void Close()
 		{
 			TradeSession.trader = null;

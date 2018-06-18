@@ -4,11 +4,11 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000DF0 RID: 3568
+	// Token: 0x02000DEF RID: 3567
 	public class MoteThrown : Mote
 	{
-		// Token: 0x17000CFC RID: 3324
-		// (get) Token: 0x06004FD9 RID: 20441 RVA: 0x002962B4 File Offset: 0x002946B4
+		// Token: 0x17000CFB RID: 3323
+		// (get) Token: 0x06004FD7 RID: 20439 RVA: 0x00296294 File Offset: 0x00294694
 		protected bool Flying
 		{
 			get
@@ -17,8 +17,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CFD RID: 3325
-		// (get) Token: 0x06004FDA RID: 20442 RVA: 0x002962D8 File Offset: 0x002946D8
+		// Token: 0x17000CFC RID: 3324
+		// (get) Token: 0x06004FD8 RID: 20440 RVA: 0x002962B8 File Offset: 0x002946B8
 		protected bool Skidding
 		{
 			get
@@ -27,9 +27,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CFE RID: 3326
-		// (get) Token: 0x06004FDB RID: 20443 RVA: 0x00296308 File Offset: 0x00294708
-		// (set) Token: 0x06004FDC RID: 20444 RVA: 0x00296323 File Offset: 0x00294723
+		// Token: 0x17000CFD RID: 3325
+		// (get) Token: 0x06004FD9 RID: 20441 RVA: 0x002962E8 File Offset: 0x002946E8
+		// (set) Token: 0x06004FDA RID: 20442 RVA: 0x00296303 File Offset: 0x00294703
 		public Vector3 Velocity
 		{
 			get
@@ -42,9 +42,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000CFF RID: 3327
-		// (get) Token: 0x06004FDD RID: 20445 RVA: 0x00296330 File Offset: 0x00294730
-		// (set) Token: 0x06004FDE RID: 20446 RVA: 0x00296350 File Offset: 0x00294750
+		// Token: 0x17000CFE RID: 3326
+		// (get) Token: 0x06004FDB RID: 20443 RVA: 0x00296310 File Offset: 0x00294710
+		// (set) Token: 0x06004FDC RID: 20444 RVA: 0x00296330 File Offset: 0x00294730
 		public float MoveAngle
 		{
 			get
@@ -57,9 +57,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D00 RID: 3328
-		// (get) Token: 0x06004FDF RID: 20447 RVA: 0x00296360 File Offset: 0x00294760
-		// (set) Token: 0x06004FE0 RID: 20448 RVA: 0x00296380 File Offset: 0x00294780
+		// Token: 0x17000CFF RID: 3327
+		// (get) Token: 0x06004FDD RID: 20445 RVA: 0x00296340 File Offset: 0x00294740
+		// (set) Token: 0x06004FDE RID: 20446 RVA: 0x00296360 File Offset: 0x00294760
 		public float Speed
 		{
 			get
@@ -83,7 +83,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004FE1 RID: 20449 RVA: 0x002963F4 File Offset: 0x002947F4
+		// Token: 0x06004FDF RID: 20447 RVA: 0x002963D4 File Offset: 0x002947D4
 		protected override void TimeInterval(float deltaTime)
 		{
 			base.TimeInterval(deltaTime);
@@ -146,19 +146,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004FE2 RID: 20450 RVA: 0x00296658 File Offset: 0x00294A58
+		// Token: 0x06004FE0 RID: 20448 RVA: 0x00296638 File Offset: 0x00294A38
 		protected virtual Vector3 NextExactPosition(float deltaTime)
 		{
 			return this.exactPosition + this.velocity * deltaTime;
 		}
 
-		// Token: 0x06004FE3 RID: 20451 RVA: 0x00296684 File Offset: 0x00294A84
+		// Token: 0x06004FE1 RID: 20449 RVA: 0x00296664 File Offset: 0x00294A64
 		public void SetVelocity(float angle, float speed)
 		{
 			this.velocity = Quaternion.AngleAxis(angle, Vector3.up) * Vector3.forward * speed;
 		}
 
-		// Token: 0x06004FE4 RID: 20452 RVA: 0x002966A8 File Offset: 0x00294AA8
+		// Token: 0x06004FE2 RID: 20450 RVA: 0x00296688 File Offset: 0x00294A88
 		protected virtual void WallHit()
 		{
 			this.airTimeLeft = 0f;
@@ -166,10 +166,10 @@ namespace Verse
 			this.rotationRate = 0f;
 		}
 
-		// Token: 0x040034ED RID: 13549
+		// Token: 0x040034EB RID: 13547
 		public float airTimeLeft = 999999f;
 
-		// Token: 0x040034EE RID: 13550
+		// Token: 0x040034EC RID: 13548
 		protected Vector3 velocity = Vector3.zero;
 	}
 }

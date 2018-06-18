@@ -11,7 +11,7 @@ namespace RimWorld
 	// Token: 0x020006B8 RID: 1720
 	public class Dialog_BillConfig : Window
 	{
-		// Token: 0x060024E9 RID: 9449 RVA: 0x0013BB76 File Offset: 0x00139F76
+		// Token: 0x060024EB RID: 9451 RVA: 0x0013BBEE File Offset: 0x00139FEE
 		public Dialog_BillConfig(Bill_Production bill, IntVec3 billGiverPos)
 		{
 			this.billGiverPos = billGiverPos;
@@ -23,7 +23,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000596 RID: 1430
-		// (get) Token: 0x060024EA RID: 9450 RVA: 0x0013BBAC File Offset: 0x00139FAC
+		// (get) Token: 0x060024EC RID: 9452 RVA: 0x0013BC24 File Offset: 0x0013A024
 		public override Vector2 InitialSize
 		{
 			get
@@ -32,7 +32,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024EB RID: 9451 RVA: 0x0013BBD0 File Offset: 0x00139FD0
+		// Token: 0x060024ED RID: 9453 RVA: 0x0013BC48 File Offset: 0x0013A048
 		private void AdjustCount(int offset)
 		{
 			if (offset > 0)
@@ -50,13 +50,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024EC RID: 9452 RVA: 0x0013BC30 File Offset: 0x0013A030
+		// Token: 0x060024EE RID: 9454 RVA: 0x0013BCA8 File Offset: 0x0013A0A8
 		public override void WindowUpdate()
 		{
 			this.bill.TryDrawIngredientSearchRadiusOnMap(this.billGiverPos);
 		}
 
-		// Token: 0x060024ED RID: 9453 RVA: 0x0013BC44 File Offset: 0x0013A044
+		// Token: 0x060024EF RID: 9455 RVA: 0x0013BCBC File Offset: 0x0013A0BC
 		public override void DoWindowContents(Rect inRect)
 		{
 			Text.Font = GameFont.Medium;
@@ -299,7 +299,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024EE RID: 9454 RVA: 0x0013CB2C File Offset: 0x0013AF2C
+		// Token: 0x060024F0 RID: 9456 RVA: 0x0013CBA4 File Offset: 0x0013AFA4
 		private IEnumerable<Widgets.DropdownMenuElement<Pawn>> GeneratePawnRestrictionOptions()
 		{
 			yield return new Widgets.DropdownMenuElement<Pawn>
@@ -404,7 +404,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060024EF RID: 9455 RVA: 0x0013CB58 File Offset: 0x0013AF58
+		// Token: 0x060024F1 RID: 9457 RVA: 0x0013CBD0 File Offset: 0x0013AFD0
 		private IEnumerable<Widgets.DropdownMenuElement<Zone_Stockpile>> GenerateStockpileInclusion()
 		{
 			yield return new Widgets.DropdownMenuElement<Zone_Stockpile>

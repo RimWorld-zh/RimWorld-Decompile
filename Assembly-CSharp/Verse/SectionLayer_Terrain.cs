@@ -5,17 +5,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C4E RID: 3150
+	// Token: 0x02000C4D RID: 3149
 	internal class SectionLayer_Terrain : SectionLayer
 	{
-		// Token: 0x06004556 RID: 17750 RVA: 0x002496C1 File Offset: 0x00247AC1
+		// Token: 0x06004554 RID: 17748 RVA: 0x00249699 File Offset: 0x00247A99
 		public SectionLayer_Terrain(Section section) : base(section)
 		{
 			this.relevantChangeTypes = MapMeshFlag.Terrain;
 		}
 
-		// Token: 0x17000AF0 RID: 2800
-		// (get) Token: 0x06004557 RID: 17751 RVA: 0x002496D4 File Offset: 0x00247AD4
+		// Token: 0x17000AEF RID: 2799
+		// (get) Token: 0x06004555 RID: 17749 RVA: 0x002496AC File Offset: 0x00247AAC
 		public override bool Visible
 		{
 			get
@@ -24,19 +24,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004558 RID: 17752 RVA: 0x002496F0 File Offset: 0x00247AF0
+		// Token: 0x06004556 RID: 17750 RVA: 0x002496C8 File Offset: 0x00247AC8
 		public virtual Material GetMaterialFor(TerrainDef terrain)
 		{
 			return terrain.DrawMatSingle;
 		}
 
-		// Token: 0x06004559 RID: 17753 RVA: 0x0024970C File Offset: 0x00247B0C
+		// Token: 0x06004557 RID: 17751 RVA: 0x002496E4 File Offset: 0x00247AE4
 		public bool AllowRenderingFor(TerrainDef terrain)
 		{
 			return DebugViewSettings.drawTerrainWater || !terrain.HasTag("Water");
 		}
 
-		// Token: 0x0600455A RID: 17754 RVA: 0x0024973C File Offset: 0x00247B3C
+		// Token: 0x06004558 RID: 17752 RVA: 0x00249714 File Offset: 0x00247B14
 		public override void Regenerate()
 		{
 			base.ClearSubMeshes(MeshParts.All);
@@ -152,10 +152,10 @@ namespace Verse
 			base.FinalizeMesh(MeshParts.All);
 		}
 
-		// Token: 0x04002F61 RID: 12129
+		// Token: 0x04002F5F RID: 12127
 		private static readonly Color32 ColorWhite = new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue);
 
-		// Token: 0x04002F62 RID: 12130
+		// Token: 0x04002F60 RID: 12128
 		private static readonly Color32 ColorClear = new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, 0);
 	}
 }

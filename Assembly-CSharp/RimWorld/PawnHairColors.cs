@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000495 RID: 1173
 	public static class PawnHairColors
 	{
-		// Token: 0x060014C9 RID: 5321 RVA: 0x000B7034 File Offset: 0x000B5434
+		// Token: 0x060014C9 RID: 5321 RVA: 0x000B7050 File Offset: 0x000B5450
 		public static Color RandomHairColor(Color skinColor, int ageYears)
 		{
 			Color result;

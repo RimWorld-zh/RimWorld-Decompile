@@ -6,7 +6,7 @@ namespace Verse
 	public class PawnCapacityDef : Def
 	{
 		// Token: 0x170009A2 RID: 2466
-		// (get) Token: 0x06003F76 RID: 16246 RVA: 0x00216B1C File Offset: 0x00214F1C
+		// (get) Token: 0x06003F78 RID: 16248 RVA: 0x00216BF0 File Offset: 0x00214FF0
 		public PawnCapacityWorker Worker
 		{
 			get
@@ -19,13 +19,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F77 RID: 16247 RVA: 0x00216B58 File Offset: 0x00214F58
+		// Token: 0x06003F79 RID: 16249 RVA: 0x00216C2C File Offset: 0x0021502C
 		public string GetLabelFor(Pawn pawn)
 		{
 			return this.GetLabelFor(pawn.RaceProps.IsFlesh, pawn.RaceProps.Humanlike);
 		}
 
-		// Token: 0x06003F78 RID: 16248 RVA: 0x00216B8C File Offset: 0x00214F8C
+		// Token: 0x06003F7A RID: 16250 RVA: 0x00216C60 File Offset: 0x00215060
 		public string GetLabelFor(bool isFlesh, bool isHumanlike)
 		{
 			string label;

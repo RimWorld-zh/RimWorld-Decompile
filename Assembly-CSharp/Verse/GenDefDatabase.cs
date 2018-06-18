@@ -7,7 +7,7 @@ namespace Verse
 	// Token: 0x02000AF6 RID: 2806
 	public static class GenDefDatabase
 	{
-		// Token: 0x06003E1E RID: 15902 RVA: 0x0020BAA8 File Offset: 0x00209EA8
+		// Token: 0x06003E20 RID: 15904 RVA: 0x0020BB7C File Offset: 0x00209F7C
 		public static Def GetDef(Type defType, string defName, bool errorOnFail = true)
 		{
 			return (Def)GenGeneric.InvokeStaticMethodOnGenericType(typeof(DefDatabase<>), defType, "GetNamed", new object[]
@@ -17,7 +17,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06003E1F RID: 15903 RVA: 0x0020BAEC File Offset: 0x00209EEC
+		// Token: 0x06003E21 RID: 15905 RVA: 0x0020BBC0 File Offset: 0x00209FC0
 		public static Def GetDefSilentFail(Type type, string targetDefName, bool specialCaseForSoundDefs = true)
 		{
 			Def result;
@@ -35,7 +35,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003E20 RID: 15904 RVA: 0x0020BB48 File Offset: 0x00209F48
+		// Token: 0x06003E22 RID: 15906 RVA: 0x0020BC1C File Offset: 0x0020A01C
 		public static IEnumerable<Type> AllDefTypesWithDatabases()
 		{
 			foreach (Type defType in typeof(Def).AllSubclasses())
@@ -65,7 +65,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003E21 RID: 15905 RVA: 0x0020BB6C File Offset: 0x00209F6C
+		// Token: 0x06003E23 RID: 15907 RVA: 0x0020BC40 File Offset: 0x0020A040
 		public static IEnumerable<T> DefsToGoInDatabase<T>(ModContentPack mod)
 		{
 			return mod.AllDefs.OfType<T>();

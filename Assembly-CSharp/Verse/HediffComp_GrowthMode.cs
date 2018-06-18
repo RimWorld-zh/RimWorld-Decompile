@@ -5,11 +5,11 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D14 RID: 3348
+	// Token: 0x02000D13 RID: 3347
 	public class HediffComp_GrowthMode : HediffComp_SeverityPerDay
 	{
-		// Token: 0x17000BAC RID: 2988
-		// (get) Token: 0x060049B3 RID: 18867 RVA: 0x00268AD8 File Offset: 0x00266ED8
+		// Token: 0x17000BAB RID: 2987
+		// (get) Token: 0x060049B1 RID: 18865 RVA: 0x00268AB0 File Offset: 0x00266EB0
 		public HediffCompProperties_GrowthMode Props
 		{
 			get
@@ -18,8 +18,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BAD RID: 2989
-		// (get) Token: 0x060049B4 RID: 18868 RVA: 0x00268AF8 File Offset: 0x00266EF8
+		// Token: 0x17000BAC RID: 2988
+		// (get) Token: 0x060049B2 RID: 18866 RVA: 0x00268AD0 File Offset: 0x00266ED0
 		public override string CompLabelInBracketsExtra
 		{
 			get
@@ -28,7 +28,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049B5 RID: 18869 RVA: 0x00268B18 File Offset: 0x00266F18
+		// Token: 0x060049B3 RID: 18867 RVA: 0x00268AF0 File Offset: 0x00266EF0
 		public override void CompExposeData()
 		{
 			base.CompExposeData();
@@ -37,7 +37,7 @@ namespace Verse
 			Scribe_Values.Look<float>(ref this.severityPerDayRemissionRandomFactor, "severityPerDayRemissionRandomFactor", 1f, false);
 		}
 
-		// Token: 0x060049B6 RID: 18870 RVA: 0x00268B6C File Offset: 0x00266F6C
+		// Token: 0x060049B4 RID: 18868 RVA: 0x00268B44 File Offset: 0x00266F44
 		public override void CompPostPostAdd(DamageInfo? dinfo)
 		{
 			base.CompPostPostAdd(dinfo);
@@ -46,7 +46,7 @@ namespace Verse
 			this.severityPerDayRemissionRandomFactor = this.Props.severityPerDayRemissionRandomFactor.RandomInRange;
 		}
 
-		// Token: 0x060049B7 RID: 18871 RVA: 0x00268BCC File Offset: 0x00266FCC
+		// Token: 0x060049B5 RID: 18869 RVA: 0x00268BA4 File Offset: 0x00266FA4
 		public override void CompPostTick(ref float severityAdjustment)
 		{
 			base.CompPostTick(ref severityAdjustment);
@@ -56,7 +56,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049B8 RID: 18872 RVA: 0x00268C0C File Offset: 0x0026700C
+		// Token: 0x060049B6 RID: 18870 RVA: 0x00268BE4 File Offset: 0x00266FE4
 		protected override float SeverityChangePerDay()
 		{
 			float result;
@@ -77,7 +77,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060049B9 RID: 18873 RVA: 0x00268C80 File Offset: 0x00267080
+		// Token: 0x060049B7 RID: 18871 RVA: 0x00268C58 File Offset: 0x00267058
 		private void ChangeGrowthMode()
 		{
 			this.growthMode = (from x in (HediffGrowthMode[])Enum.GetValues(typeof(HediffGrowthMode))
@@ -119,7 +119,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060049BA RID: 18874 RVA: 0x00268DC8 File Offset: 0x002671C8
+		// Token: 0x060049B8 RID: 18872 RVA: 0x00268DA0 File Offset: 0x002671A0
 		public override string CompDebugString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -130,19 +130,19 @@ namespace Verse
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x040031FD RID: 12797
+		// Token: 0x040031FB RID: 12795
 		private const int CheckGrowthModeChangeInterval = 5000;
 
-		// Token: 0x040031FE RID: 12798
+		// Token: 0x040031FC RID: 12796
 		private const float GrowthModeChangeMtbDays = 100f;
 
-		// Token: 0x040031FF RID: 12799
+		// Token: 0x040031FD RID: 12797
 		public HediffGrowthMode growthMode = HediffGrowthMode.Growing;
 
-		// Token: 0x04003200 RID: 12800
+		// Token: 0x040031FE RID: 12798
 		private float severityPerDayGrowingRandomFactor = 1f;
 
-		// Token: 0x04003201 RID: 12801
+		// Token: 0x040031FF RID: 12799
 		private float severityPerDayRemissionRandomFactor = 1f;
 	}
 }

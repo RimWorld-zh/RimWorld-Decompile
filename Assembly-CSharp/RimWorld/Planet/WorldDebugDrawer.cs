@@ -8,7 +8,7 @@ namespace RimWorld.Planet
 	// Token: 0x02000588 RID: 1416
 	public class WorldDebugDrawer
 	{
-		// Token: 0x06001AFE RID: 6910 RVA: 0x000E7E88 File Offset: 0x000E6288
+		// Token: 0x06001AFF RID: 6911 RVA: 0x000E7EF4 File Offset: 0x000E62F4
 		public void FlashTile(int tile, float colorPct = 0f, string text = null, int duration = 50)
 		{
 			DebugTile debugTile = new DebugTile();
@@ -19,7 +19,7 @@ namespace RimWorld.Planet
 			this.debugTiles.Add(debugTile);
 		}
 
-		// Token: 0x06001AFF RID: 6911 RVA: 0x000E7EC8 File Offset: 0x000E62C8
+		// Token: 0x06001B00 RID: 6912 RVA: 0x000E7F34 File Offset: 0x000E6334
 		public void FlashTile(int tile, Material mat, string text = null, int duration = 50)
 		{
 			DebugTile debugTile = new DebugTile();
@@ -30,7 +30,7 @@ namespace RimWorld.Planet
 			this.debugTiles.Add(debugTile);
 		}
 
-		// Token: 0x06001B00 RID: 6912 RVA: 0x000E7F08 File Offset: 0x000E6308
+		// Token: 0x06001B01 RID: 6913 RVA: 0x000E7F74 File Offset: 0x000E6374
 		public void FlashLine(Vector3 a, Vector3 b, bool onPlanetSurface = false, int duration = 50)
 		{
 			DebugWorldLine debugWorldLine = new DebugWorldLine(a, b, onPlanetSurface);
@@ -38,7 +38,7 @@ namespace RimWorld.Planet
 			this.debugLines.Add(debugWorldLine);
 		}
 
-		// Token: 0x06001B01 RID: 6913 RVA: 0x000E7F34 File Offset: 0x000E6334
+		// Token: 0x06001B02 RID: 6914 RVA: 0x000E7FA0 File Offset: 0x000E63A0
 		public void FlashLine(int tileA, int tileB, int duration = 50)
 		{
 			WorldGrid worldGrid = Find.WorldGrid;
@@ -49,7 +49,7 @@ namespace RimWorld.Planet
 			this.debugLines.Add(debugWorldLine);
 		}
 
-		// Token: 0x06001B02 RID: 6914 RVA: 0x000E7F74 File Offset: 0x000E6374
+		// Token: 0x06001B03 RID: 6915 RVA: 0x000E7FE0 File Offset: 0x000E63E0
 		public void WorldDebugDrawerUpdate()
 		{
 			for (int i = 0; i < this.debugTiles.Count; i++)
@@ -62,7 +62,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B03 RID: 6915 RVA: 0x000E7FE0 File Offset: 0x000E63E0
+		// Token: 0x06001B04 RID: 6916 RVA: 0x000E804C File Offset: 0x000E644C
 		public void WorldDebugDrawerTick()
 		{
 			for (int i = this.debugTiles.Count - 1; i >= 0; i--)
@@ -85,7 +85,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B04 RID: 6916 RVA: 0x000E8094 File Offset: 0x000E6494
+		// Token: 0x06001B05 RID: 6917 RVA: 0x000E8100 File Offset: 0x000E6500
 		public void WorldDebugDrawerOnGUI()
 		{
 			Text.Font = GameFont.Tiny;

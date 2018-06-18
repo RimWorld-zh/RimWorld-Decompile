@@ -7,19 +7,19 @@ namespace RimWorld.Planet
 	// Token: 0x020005D2 RID: 1490
 	public class CaravanArrivalAction_VisitSettlement : CaravanArrivalAction
 	{
-		// Token: 0x06001CF6 RID: 7414 RVA: 0x000F7E7F File Offset: 0x000F627F
+		// Token: 0x06001CF8 RID: 7416 RVA: 0x000F7EF7 File Offset: 0x000F62F7
 		public CaravanArrivalAction_VisitSettlement()
 		{
 		}
 
-		// Token: 0x06001CF7 RID: 7415 RVA: 0x000F7E88 File Offset: 0x000F6288
+		// Token: 0x06001CF9 RID: 7417 RVA: 0x000F7F00 File Offset: 0x000F6300
 		public CaravanArrivalAction_VisitSettlement(Settlement settlement)
 		{
 			this.settlement = settlement;
 		}
 
 		// Token: 0x17000438 RID: 1080
-		// (get) Token: 0x06001CF8 RID: 7416 RVA: 0x000F7E98 File Offset: 0x000F6298
+		// (get) Token: 0x06001CFA RID: 7418 RVA: 0x000F7F10 File Offset: 0x000F6310
 		public override string Label
 		{
 			get
@@ -32,7 +32,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000439 RID: 1081
-		// (get) Token: 0x06001CF9 RID: 7417 RVA: 0x000F7ECC File Offset: 0x000F62CC
+		// (get) Token: 0x06001CFB RID: 7419 RVA: 0x000F7F44 File Offset: 0x000F6344
 		public override string ReportString
 		{
 			get
@@ -44,7 +44,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001CFA RID: 7418 RVA: 0x000F7F00 File Offset: 0x000F6300
+		// Token: 0x06001CFC RID: 7420 RVA: 0x000F7F78 File Offset: 0x000F6378
 		public override FloatMenuAcceptanceReport StillValid(Caravan caravan, int destinationTile)
 		{
 			FloatMenuAcceptanceReport floatMenuAcceptanceReport = base.StillValid(caravan, destinationTile);
@@ -64,7 +64,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001CFB RID: 7419 RVA: 0x000F7F64 File Offset: 0x000F6364
+		// Token: 0x06001CFD RID: 7421 RVA: 0x000F7FDC File Offset: 0x000F63DC
 		public override void Arrived(Caravan caravan)
 		{
 			if (caravan.IsPlayerControlled)
@@ -77,20 +77,20 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001CFC RID: 7420 RVA: 0x000F7FBA File Offset: 0x000F63BA
+		// Token: 0x06001CFE RID: 7422 RVA: 0x000F8032 File Offset: 0x000F6432
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_References.Look<Settlement>(ref this.settlement, "settlement", false);
 		}
 
-		// Token: 0x06001CFD RID: 7421 RVA: 0x000F7FD4 File Offset: 0x000F63D4
+		// Token: 0x06001CFF RID: 7423 RVA: 0x000F804C File Offset: 0x000F644C
 		public static FloatMenuAcceptanceReport CanVisit(Caravan caravan, Settlement settlement)
 		{
 			return settlement != null && settlement.Spawned && settlement.Visitable;
 		}
 
-		// Token: 0x06001CFE RID: 7422 RVA: 0x000F8008 File Offset: 0x000F6408
+		// Token: 0x06001D00 RID: 7424 RVA: 0x000F8080 File Offset: 0x000F6480
 		public static IEnumerable<FloatMenuOption> GetFloatMenuOptions(Caravan caravan, Settlement settlement)
 		{
 			return CaravanArrivalActionUtility.GetFloatMenuOptions<CaravanArrivalAction_VisitSettlement>(() => CaravanArrivalAction_VisitSettlement.CanVisit(caravan, settlement), () => new CaravanArrivalAction_VisitSettlement(settlement), "VisitSettlement".Translate(new object[]

@@ -6,13 +6,13 @@ namespace Verse
 	// Token: 0x02000B58 RID: 2904
 	internal class FastPawnCapacityDefComparer : IEqualityComparer<PawnCapacityDef>
 	{
-		// Token: 0x06003F72 RID: 16242 RVA: 0x00216A50 File Offset: 0x00214E50
+		// Token: 0x06003F74 RID: 16244 RVA: 0x00216B24 File Offset: 0x00214F24
 		public bool Equals(PawnCapacityDef x, PawnCapacityDef y)
 		{
 			return x == y;
 		}
 
-		// Token: 0x06003F73 RID: 16243 RVA: 0x00216A6C File Offset: 0x00214E6C
+		// Token: 0x06003F75 RID: 16245 RVA: 0x00216B40 File Offset: 0x00214F40
 		public int GetHashCode(PawnCapacityDef obj)
 		{
 			return obj.GetHashCode();

@@ -4,17 +4,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000F5D RID: 3933
+	// Token: 0x02000F5C RID: 3932
 	public class KeyPrefsData
 	{
-		// Token: 0x06005F13 RID: 24339 RVA: 0x00306B7B File Offset: 0x00304F7B
+		// Token: 0x06005F11 RID: 24337 RVA: 0x00306C57 File Offset: 0x00305057
 		public void ResetToDefaults()
 		{
 			this.keyPrefs.Clear();
 			this.AddMissingDefaultBindings();
 		}
 
-		// Token: 0x06005F14 RID: 24340 RVA: 0x00306B90 File Offset: 0x00304F90
+		// Token: 0x06005F12 RID: 24338 RVA: 0x00306C6C File Offset: 0x0030506C
 		public void AddMissingDefaultBindings()
 		{
 			foreach (KeyBindingDef keyBindingDef in DefDatabase<KeyBindingDef>.AllDefs)
@@ -26,7 +26,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005F15 RID: 24341 RVA: 0x00306C14 File Offset: 0x00305014
+		// Token: 0x06005F13 RID: 24339 RVA: 0x00306CF0 File Offset: 0x003050F0
 		public bool SetBinding(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot, KeyCode keyCode)
 		{
 			KeyBindingData keyBindingData;
@@ -56,7 +56,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005F16 RID: 24342 RVA: 0x00306CBC File Offset: 0x003050BC
+		// Token: 0x06005F14 RID: 24340 RVA: 0x00306D98 File Offset: 0x00305198
 		public KeyCode GetBoundKeyCode(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot)
 		{
 			KeyBindingData keyBindingData;
@@ -81,7 +81,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005F17 RID: 24343 RVA: 0x00306D34 File Offset: 0x00305134
+		// Token: 0x06005F15 RID: 24341 RVA: 0x00306E10 File Offset: 0x00305210
 		private IEnumerable<KeyBindingDef> ConflictingBindings(KeyBindingDef keyDef, KeyCode code)
 		{
 			using (IEnumerator<KeyBindingDef> enumerator = DefDatabase<KeyBindingDef>.AllDefs.GetEnumerator())
@@ -102,7 +102,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06005F18 RID: 24344 RVA: 0x00306D6C File Offset: 0x0030516C
+		// Token: 0x06005F16 RID: 24342 RVA: 0x00306E48 File Offset: 0x00305248
 		public void EraseConflictingBindingsForKeyCode(KeyBindingDef keyDef, KeyCode keyCode, Action<KeyBindingDef> callBackOnErase = null)
 		{
 			foreach (KeyBindingDef keyBindingDef in this.ConflictingBindings(keyDef, keyCode))
@@ -123,7 +123,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005F19 RID: 24345 RVA: 0x00306E04 File Offset: 0x00305204
+		// Token: 0x06005F17 RID: 24343 RVA: 0x00306EE0 File Offset: 0x003052E0
 		public void CheckConflictsFor(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot)
 		{
 			KeyCode boundKeyCode = this.GetBoundKeyCode(keyDef, slot);
@@ -134,7 +134,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005F1A RID: 24346 RVA: 0x00306E38 File Offset: 0x00305238
+		// Token: 0x06005F18 RID: 24344 RVA: 0x00306F14 File Offset: 0x00305314
 		public KeyPrefsData Clone()
 		{
 			KeyPrefsData keyPrefsData = new KeyPrefsData();
@@ -145,7 +145,7 @@ namespace Verse
 			return keyPrefsData;
 		}
 
-		// Token: 0x06005F1B RID: 24347 RVA: 0x00306ED0 File Offset: 0x003052D0
+		// Token: 0x06005F19 RID: 24345 RVA: 0x00306FAC File Offset: 0x003053AC
 		public void ErrorCheck()
 		{
 			foreach (KeyBindingDef keyDef in DefDatabase<KeyBindingDef>.AllDefs)
@@ -155,7 +155,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005F1C RID: 24348 RVA: 0x00306F38 File Offset: 0x00305338
+		// Token: 0x06005F1A RID: 24346 RVA: 0x00307014 File Offset: 0x00305414
 		private void ErrorCheckOn(KeyBindingDef keyDef, KeyPrefs.BindingSlot slot)
 		{
 			KeyCode boundKeyCode = this.GetBoundKeyCode(keyDef, slot);
@@ -191,7 +191,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003E5C RID: 15964
+		// Token: 0x04003E5B RID: 15963
 		public Dictionary<KeyBindingDef, KeyBindingData> keyPrefs = new Dictionary<KeyBindingDef, KeyBindingData>();
 	}
 }

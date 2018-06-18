@@ -9,13 +9,13 @@ namespace RimWorld.Planet
 	// Token: 0x020008E6 RID: 2278
 	public class WITab_Caravan_Items : WITab
 	{
-		// Token: 0x06003451 RID: 13393 RVA: 0x001BF8BA File Offset: 0x001BDCBA
+		// Token: 0x06003453 RID: 13395 RVA: 0x001BF982 File Offset: 0x001BDD82
 		public WITab_Caravan_Items()
 		{
 			this.labelKey = "TabCaravanItems";
 		}
 
-		// Token: 0x06003452 RID: 13394 RVA: 0x001BF8DC File Offset: 0x001BDCDC
+		// Token: 0x06003454 RID: 13396 RVA: 0x001BF9A4 File Offset: 0x001BDDA4
 		protected override void FillTab()
 		{
 			this.CheckCreateSorters();
@@ -43,7 +43,7 @@ namespace RimWorld.Planet
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06003453 RID: 13395 RVA: 0x001BFA09 File Offset: 0x001BDE09
+		// Token: 0x06003455 RID: 13397 RVA: 0x001BFAD1 File Offset: 0x001BDED1
 		protected override void UpdateSize()
 		{
 			base.UpdateSize();
@@ -51,7 +51,7 @@ namespace RimWorld.Planet
 			this.size = CaravanItemsTabUtility.GetSize(this.cachedItems, this.PaneTopY, true);
 		}
 
-		// Token: 0x06003454 RID: 13396 RVA: 0x001BFA30 File Offset: 0x001BDE30
+		// Token: 0x06003456 RID: 13398 RVA: 0x001BFAF8 File Offset: 0x001BDEF8
 		private void CheckCacheItems()
 		{
 			List<Thing> list = CaravanInventoryUtility.AllInventoryItems(base.SelCaravan);
@@ -73,7 +73,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06003455 RID: 13397 RVA: 0x001BFAA8 File Offset: 0x001BDEA8
+		// Token: 0x06003457 RID: 13399 RVA: 0x001BFB70 File Offset: 0x001BDF70
 		private void CacheItems()
 		{
 			this.CheckCreateSorters();
@@ -96,7 +96,7 @@ namespace RimWorld.Planet
 			this.cachedItemsHash = seed;
 		}
 
-		// Token: 0x06003456 RID: 13398 RVA: 0x001BFBE1 File Offset: 0x001BDFE1
+		// Token: 0x06003458 RID: 13400 RVA: 0x001BFCA9 File Offset: 0x001BE0A9
 		private void CheckCreateSorters()
 		{
 			if (this.sorter1 == null)

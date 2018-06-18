@@ -3,20 +3,20 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000CEC RID: 3308
+	// Token: 0x02000CEB RID: 3307
 	public struct ApparelGraphicRecord
 	{
-		// Token: 0x060048C6 RID: 18630 RVA: 0x00262660 File Offset: 0x00260A60
+		// Token: 0x060048C4 RID: 18628 RVA: 0x00262638 File Offset: 0x00260A38
 		public ApparelGraphicRecord(Graphic graphic, Apparel sourceApparel)
 		{
 			this.graphic = graphic;
 			this.sourceApparel = sourceApparel;
 		}
 
-		// Token: 0x04003148 RID: 12616
+		// Token: 0x04003146 RID: 12614
 		public Graphic graphic;
 
-		// Token: 0x04003149 RID: 12617
+		// Token: 0x04003147 RID: 12615
 		public Apparel sourceApparel;
 	}
 }

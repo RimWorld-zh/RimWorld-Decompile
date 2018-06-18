@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C49 RID: 3145
+	// Token: 0x02000C48 RID: 3144
 	public class SectionLayer_FogOfWar : SectionLayer
 	{
-		// Token: 0x0600453F RID: 17727 RVA: 0x00247B53 File Offset: 0x00245F53
+		// Token: 0x0600453D RID: 17725 RVA: 0x00247B2B File Offset: 0x00245F2B
 		public SectionLayer_FogOfWar(Section section) : base(section)
 		{
 			this.relevantChangeTypes = MapMeshFlag.FogOfWar;
 		}
 
-		// Token: 0x17000AEB RID: 2795
-		// (get) Token: 0x06004540 RID: 17728 RVA: 0x00247B74 File Offset: 0x00245F74
+		// Token: 0x17000AEA RID: 2794
+		// (get) Token: 0x0600453E RID: 17726 RVA: 0x00247B4C File Offset: 0x00245F4C
 		public override bool Visible
 		{
 			get
@@ -22,7 +22,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004541 RID: 17729 RVA: 0x00247B90 File Offset: 0x00245F90
+		// Token: 0x0600453F RID: 17727 RVA: 0x00247B68 File Offset: 0x00245F68
 		public override void Regenerate()
 		{
 			LayerSubMesh subMesh = base.GetSubMesh(MatBases.FogOfWar);
@@ -122,10 +122,10 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002F57 RID: 12119
+		// Token: 0x04002F55 RID: 12117
 		private bool[] vertsCovered = new bool[9];
 
-		// Token: 0x04002F58 RID: 12120
+		// Token: 0x04002F56 RID: 12118
 		private const byte FogBrightness = 35;
 	}
 }

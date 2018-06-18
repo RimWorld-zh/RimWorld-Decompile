@@ -4,10 +4,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000C6C RID: 3180
+	// Token: 0x02000C6B RID: 3179
 	public class PlaceWorker_NextToHopperAccepter : PlaceWorker
 	{
-		// Token: 0x060045CD RID: 17869 RVA: 0x0024C680 File Offset: 0x0024AA80
+		// Token: 0x060045CB RID: 17867 RVA: 0x0024C658 File Offset: 0x0024AA58
 		public override AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 loc, Rot4 rot, Map map, Thing thingToIgnore = null)
 		{
 			for (int i = 0; i < 4; i++)

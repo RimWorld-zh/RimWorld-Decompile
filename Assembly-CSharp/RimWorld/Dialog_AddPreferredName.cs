@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x020007F6 RID: 2038
 	public class Dialog_AddPreferredName : Window
 	{
-		// Token: 0x06002D28 RID: 11560 RVA: 0x0017B220 File Offset: 0x00179620
+		// Token: 0x06002D2A RID: 11562 RVA: 0x0017B2B4 File Offset: 0x001796B4
 		public Dialog_AddPreferredName()
 		{
 			this.doCloseButton = true;
@@ -21,7 +21,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000725 RID: 1829
-		// (get) Token: 0x06002D29 RID: 11561 RVA: 0x0017B2AC File Offset: 0x001796AC
+		// (get) Token: 0x06002D2B RID: 11563 RVA: 0x0017B340 File Offset: 0x00179740
 		public override Vector2 InitialSize
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D2A RID: 11562 RVA: 0x0017B2D0 File Offset: 0x001796D0
+		// Token: 0x06002D2C RID: 11564 RVA: 0x0017B364 File Offset: 0x00179764
 		public override void DoWindowContents(Rect inRect)
 		{
 			Listing_Standard listing_Standard = new Listing_Standard();
@@ -63,7 +63,7 @@ namespace RimWorld
 			listing_Standard.End();
 		}
 
-		// Token: 0x06002D2B RID: 11563 RVA: 0x0017B41C File Offset: 0x0017981C
+		// Token: 0x06002D2D RID: 11565 RVA: 0x0017B4B0 File Offset: 0x001798B0
 		private bool FilterMatch(NameTriple n)
 		{
 			bool result;
@@ -86,7 +86,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002D2C RID: 11564 RVA: 0x0017B530 File Offset: 0x00179930
+		// Token: 0x06002D2E RID: 11566 RVA: 0x0017B5C4 File Offset: 0x001799C4
 		private void TryChooseName(NameTriple name)
 		{
 			if (this.AlreadyPreferred(name))
@@ -100,7 +100,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D2D RID: 11565 RVA: 0x0017B580 File Offset: 0x00179980
+		// Token: 0x06002D2F RID: 11567 RVA: 0x0017B614 File Offset: 0x00179A14
 		private bool AlreadyPreferred(NameTriple name)
 		{
 			return Prefs.PreferredNames.Contains(name.ToString());

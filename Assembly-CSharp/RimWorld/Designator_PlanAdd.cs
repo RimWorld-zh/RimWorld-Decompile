@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020007D6 RID: 2006
 	public class Designator_PlanAdd : Designator_Plan
 	{
-		// Token: 0x06002C77 RID: 11383 RVA: 0x001769E8 File Offset: 0x00174DE8
+		// Token: 0x06002C79 RID: 11385 RVA: 0x00176A7C File Offset: 0x00174E7C
 		public Designator_PlanAdd() : base(DesignateMode.Add)
 		{
 			this.defaultLabel = "DesignatorPlan".Translate();

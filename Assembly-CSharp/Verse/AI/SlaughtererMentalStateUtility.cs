@@ -7,7 +7,7 @@ namespace Verse.AI
 	// Token: 0x02000A8B RID: 2699
 	public static class SlaughtererMentalStateUtility
 	{
-		// Token: 0x06003BD9 RID: 15321 RVA: 0x001F8788 File Offset: 0x001F6B88
+		// Token: 0x06003BDB RID: 15323 RVA: 0x001F885C File Offset: 0x001F6C5C
 		public static Pawn FindAnimal(Pawn pawn)
 		{
 			Pawn result;

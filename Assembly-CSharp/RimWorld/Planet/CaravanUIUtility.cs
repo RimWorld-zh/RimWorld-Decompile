@@ -9,7 +9,7 @@ namespace RimWorld.Planet
 	// Token: 0x020005F1 RID: 1521
 	public static class CaravanUIUtility
 	{
-		// Token: 0x06001E30 RID: 7728 RVA: 0x00103BD8 File Offset: 0x00101FD8
+		// Token: 0x06001E32 RID: 7730 RVA: 0x00103C50 File Offset: 0x00102050
 		public static void CreateCaravanTransferableWidgets(List<TransferableOneWay> transferables, out TransferableOneWayWidget pawnsTransfer, out TransferableOneWayWidget itemsTransfer, string thingCountTip, IgnorePawnsInventoryMode ignorePawnInventoryMass, Func<float> availableMassGetter, bool ignoreSpawnedCorpsesGearAndInventoryMass, int tile, bool playerPawnsReadOnly = false)
 		{
 			IEnumerable<TransferableOneWay> transferables2 = null;
@@ -29,7 +29,7 @@ namespace RimWorld.Planet
 			itemsTransfer = new TransferableOneWayWidget(transferables2, sourceLabel2, destinationLabel, thingCountTip, drawMass2, ignorePawnInventoryMass, includePawnsMassInMassUsage2, availableMassGetter, 0f, ignoreSpawnedCorpsesGearAndInventoryMass, tile, true, false, false, true, false, true, false);
 		}
 
-		// Token: 0x06001E31 RID: 7729 RVA: 0x00103C90 File Offset: 0x00102090
+		// Token: 0x06001E33 RID: 7731 RVA: 0x00103D08 File Offset: 0x00102108
 		public static void AddPawnsSections(TransferableOneWayWidget widget, List<TransferableOneWay> transferables)
 		{
 			IEnumerable<TransferableOneWay> source = from x in transferables
@@ -49,7 +49,7 @@ namespace RimWorld.Planet
 			select x);
 		}
 
-		// Token: 0x06001E32 RID: 7730 RVA: 0x00103D90 File Offset: 0x00102190
+		// Token: 0x06001E34 RID: 7732 RVA: 0x00103E08 File Offset: 0x00102208
 		private static string GetDaysWorthOfFoodLabel(Pair<float, float> daysWorthOfFood, bool multiline)
 		{
 			string result;
@@ -73,7 +73,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E33 RID: 7731 RVA: 0x00103E58 File Offset: 0x00102258
+		// Token: 0x06001E35 RID: 7733 RVA: 0x00103ED0 File Offset: 0x001022D0
 		private static Color GetDaysWorthOfFoodColor(Pair<float, float> daysWorthOfFood, int? ticksToArrive)
 		{
 			Color result;
@@ -96,7 +96,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E34 RID: 7732 RVA: 0x00103ED4 File Offset: 0x001022D4
+		// Token: 0x06001E36 RID: 7734 RVA: 0x00103F4C File Offset: 0x0010234C
 		public static void DrawCaravanInfo(CaravanUIUtility.CaravanInfo info, CaravanUIUtility.CaravanInfo? info2, int currentTile, int? ticksToArrive, float lastMassFlashTime, Rect rect, bool lerpMassColor = true, string extraDaysWorthOfFoodTipInfo = null, bool multiline = false)
 		{
 			CaravanUIUtility.tmpInfo.Clear();
@@ -235,7 +235,7 @@ namespace RimWorld.Planet
 			TransferableUIUtility.DrawExtraInfo(CaravanUIUtility.tmpInfo, rect);
 		}
 
-		// Token: 0x06001E35 RID: 7733 RVA: 0x0010472C File Offset: 0x00102B2C
+		// Token: 0x06001E37 RID: 7735 RVA: 0x001047A4 File Offset: 0x00102BA4
 		private static Color GetMassColor(float massUsage, float massCapacity, bool lerpMassColor)
 		{
 			Color result;
@@ -306,7 +306,7 @@ namespace RimWorld.Planet
 		// Token: 0x020005F2 RID: 1522
 		public struct CaravanInfo
 		{
-			// Token: 0x06001E3D RID: 7741 RVA: 0x00104A54 File Offset: 0x00102E54
+			// Token: 0x06001E3F RID: 7743 RVA: 0x00104ACC File Offset: 0x00102ECC
 			public CaravanInfo(float massUsage, float massCapacity, string massCapacityExplanation, float tilesPerDay, string tilesPerDayExplanation, Pair<float, float> daysWorthOfFood, Pair<ThingDef, float> foragedFoodPerDay, string foragedFoodPerDayExplanation, float visibility, string visibilityExplanation)
 			{
 				this.massUsage = massUsage;

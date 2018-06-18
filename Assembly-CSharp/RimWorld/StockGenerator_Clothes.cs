@@ -6,13 +6,13 @@ namespace RimWorld
 	// Token: 0x0200077A RID: 1914
 	public class StockGenerator_Clothes : StockGenerator_MiscItems
 	{
-		// Token: 0x06002A36 RID: 10806 RVA: 0x00165E14 File Offset: 0x00164214
+		// Token: 0x06002A38 RID: 10808 RVA: 0x00165EA8 File Offset: 0x001642A8
 		public override bool HandlesThingDef(ThingDef td)
 		{
 			return td != ThingDefOf.Apparel_ShieldBelt && (base.HandlesThingDef(td) && td.IsApparel) && (td.GetStatValueAbstract(StatDefOf.ArmorRating_Blunt, null) < 0.15f || td.GetStatValueAbstract(StatDefOf.ArmorRating_Sharp, null) < 0.15f);
 		}
 
-		// Token: 0x06002A37 RID: 10807 RVA: 0x00165E84 File Offset: 0x00164284
+		// Token: 0x06002A39 RID: 10809 RVA: 0x00165F18 File Offset: 0x00164318
 		protected override float SelectionWeight(ThingDef thingDef)
 		{
 			return StockGenerator_Clothes.SelectionWeightMarketValueCurve.Evaluate(thingDef.BaseMarketValue);

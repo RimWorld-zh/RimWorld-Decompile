@@ -7,7 +7,7 @@ namespace RimWorld
 	public class CompPlantHarmRadius : ThingComp
 	{
 		// Token: 0x17000630 RID: 1584
-		// (get) Token: 0x06002858 RID: 10328 RVA: 0x0015862C File Offset: 0x00156A2C
+		// (get) Token: 0x0600285A RID: 10330 RVA: 0x001586A4 File Offset: 0x00156AA4
 		protected CompProperties_PlantHarmRadius PropsPlantHarmRadius
 		{
 			get
@@ -16,14 +16,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002859 RID: 10329 RVA: 0x0015864C File Offset: 0x00156A4C
+		// Token: 0x0600285B RID: 10331 RVA: 0x001586C4 File Offset: 0x00156AC4
 		public override void PostExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.plantHarmAge, "plantHarmAge", 0, false);
 			Scribe_Values.Look<int>(ref this.ticksToPlantHarm, "ticksToPlantHarm", 0, false);
 		}
 
-		// Token: 0x0600285A RID: 10330 RVA: 0x00158674 File Offset: 0x00156A74
+		// Token: 0x0600285C RID: 10332 RVA: 0x001586EC File Offset: 0x00156AEC
 		public override void CompTick()
 		{
 			if (this.parent.Spawned)
@@ -56,7 +56,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600285B RID: 10331 RVA: 0x00158760 File Offset: 0x00156B60
+		// Token: 0x0600285D RID: 10333 RVA: 0x001587D8 File Offset: 0x00156BD8
 		private void HarmRandomPlantInRadius(float radius)
 		{
 			IntVec3 c = this.parent.Position + (Rand.InsideUnitCircleVec3 * radius).ToIntVec3();

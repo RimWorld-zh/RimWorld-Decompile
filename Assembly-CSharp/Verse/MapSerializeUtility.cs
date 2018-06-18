@@ -2,16 +2,16 @@
 
 namespace Verse
 {
-	// Token: 0x02000CA6 RID: 3238
+	// Token: 0x02000CA5 RID: 3237
 	public static class MapSerializeUtility
 	{
-		// Token: 0x06004740 RID: 18240 RVA: 0x002587E8 File Offset: 0x00256BE8
+		// Token: 0x0600473E RID: 18238 RVA: 0x002587C0 File Offset: 0x00256BC0
 		public static byte[] SerializeUshort(Map map, Func<IntVec3, ushort> shortReader)
 		{
 			return DataSerializeUtility.SerializeUshort(map.info.NumCells, (int idx) => shortReader(map.cellIndices.IndexToCell(idx)));
 		}
 
-		// Token: 0x06004741 RID: 18241 RVA: 0x00258834 File Offset: 0x00256C34
+		// Token: 0x0600473F RID: 18239 RVA: 0x0025880C File Offset: 0x00256C0C
 		public static void LoadUshort(byte[] arr, Map map, Action<IntVec3, ushort> shortWriter)
 		{
 			DataSerializeUtility.LoadUshort(arr, map.info.NumCells, delegate(int idx, ushort data)

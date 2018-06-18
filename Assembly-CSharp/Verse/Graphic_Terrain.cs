@@ -2,16 +2,16 @@
 
 namespace Verse
 {
-	// Token: 0x02000DE5 RID: 3557
+	// Token: 0x02000DE4 RID: 3556
 	public class Graphic_Terrain : Graphic_Single
 	{
-		// Token: 0x06004F97 RID: 20375 RVA: 0x00295875 File Offset: 0x00293C75
+		// Token: 0x06004F95 RID: 20373 RVA: 0x00295855 File Offset: 0x00293C55
 		public override void Init(GraphicRequest req)
 		{
 			base.Init(req);
 		}
 
-		// Token: 0x06004F98 RID: 20376 RVA: 0x00295880 File Offset: 0x00293C80
+		// Token: 0x06004F96 RID: 20374 RVA: 0x00295860 File Offset: 0x00293C60
 		public override string ToString()
 		{
 			return string.Concat(new object[]

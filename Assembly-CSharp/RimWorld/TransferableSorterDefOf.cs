@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class TransferableSorterDefOf
 	{
-		// Token: 0x06003632 RID: 13874 RVA: 0x001D0737 File Offset: 0x001CEB37
+		// Token: 0x06003634 RID: 13876 RVA: 0x001D07FF File Offset: 0x001CEBFF
 		static TransferableSorterDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(TransferableSorterDefOf));

@@ -8,7 +8,7 @@ namespace RimWorld.Planet
 	// Token: 0x02000590 RID: 1424
 	public class WorldLayer_Hills : WorldLayer
 	{
-		// Token: 0x06001B2D RID: 6957 RVA: 0x000E9318 File Offset: 0x000E7718
+		// Token: 0x06001B2E RID: 6958 RVA: 0x000E9384 File Offset: 0x000E7784
 		public override IEnumerable Regenerate()
 		{
 			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();

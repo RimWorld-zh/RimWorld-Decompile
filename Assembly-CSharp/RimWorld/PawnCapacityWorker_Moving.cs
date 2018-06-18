@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200047A RID: 1146
 	public class PawnCapacityWorker_Moving : PawnCapacityWorker
 	{
-		// Token: 0x0600141A RID: 5146 RVA: 0x000AEC10 File Offset: 0x000AD010
+		// Token: 0x0600141A RID: 5146 RVA: 0x000AEC1C File Offset: 0x000AD01C
 		public override float CalculateCapacityLevel(HediffSet diffSet, List<PawnCapacityUtility.CapacityImpactor> impactors = null)
 		{
 			float num = 0f;
@@ -34,7 +34,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600141B RID: 5147 RVA: 0x000AED04 File Offset: 0x000AD104
+		// Token: 0x0600141B RID: 5147 RVA: 0x000AED10 File Offset: 0x000AD110
 		public override bool CanHaveCapacity(BodyDef body)
 		{
 			return body.HasPartWithTag(BodyPartTagDefOf.MovingLimbCore);

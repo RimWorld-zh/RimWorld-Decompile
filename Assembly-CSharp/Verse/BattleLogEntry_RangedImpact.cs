@@ -9,12 +9,12 @@ namespace Verse
 	// Token: 0x02000BC3 RID: 3011
 	public class BattleLogEntry_RangedImpact : LogEntry_DamageResult
 	{
-		// Token: 0x0600415A RID: 16730 RVA: 0x00227994 File Offset: 0x00225D94
+		// Token: 0x0600415C RID: 16732 RVA: 0x00227A0C File Offset: 0x00225E0C
 		public BattleLogEntry_RangedImpact() : base(null)
 		{
 		}
 
-		// Token: 0x0600415B RID: 16731 RVA: 0x002279A0 File Offset: 0x00225DA0
+		// Token: 0x0600415D RID: 16733 RVA: 0x00227A18 File Offset: 0x00225E18
 		public BattleLogEntry_RangedImpact(Thing initiator, Thing recipient, Thing originalTarget, ThingDef weaponDef, ThingDef projectileDef, ThingDef coverDef) : base(null)
 		{
 			if (initiator is Pawn)
@@ -48,7 +48,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A35 RID: 2613
-		// (get) Token: 0x0600415C RID: 16732 RVA: 0x00227A90 File Offset: 0x00225E90
+		// (get) Token: 0x0600415E RID: 16734 RVA: 0x00227B08 File Offset: 0x00225F08
 		private string InitiatorName
 		{
 			get
@@ -71,7 +71,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A36 RID: 2614
-		// (get) Token: 0x0600415D RID: 16733 RVA: 0x00227AE4 File Offset: 0x00225EE4
+		// (get) Token: 0x0600415F RID: 16735 RVA: 0x00227B5C File Offset: 0x00225F5C
 		private string RecipientName
 		{
 			get
@@ -93,13 +93,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600415E RID: 16734 RVA: 0x00227B38 File Offset: 0x00225F38
+		// Token: 0x06004160 RID: 16736 RVA: 0x00227BB0 File Offset: 0x00225FB0
 		public override bool Concerns(Thing t)
 		{
 			return t == this.initiatorPawn || t == this.recipientPawn || t == this.originalTargetPawn;
 		}
 
-		// Token: 0x0600415F RID: 16735 RVA: 0x00227B74 File Offset: 0x00225F74
+		// Token: 0x06004161 RID: 16737 RVA: 0x00227BEC File Offset: 0x00225FEC
 		public override IEnumerable<Thing> GetConcerns()
 		{
 			if (this.initiatorPawn != null)
@@ -117,7 +117,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004160 RID: 16736 RVA: 0x00227BA0 File Offset: 0x00225FA0
+		// Token: 0x06004162 RID: 16738 RVA: 0x00227C18 File Offset: 0x00226018
 		public override void ClickedFromPOV(Thing pov)
 		{
 			if (this.recipientPawn != null)
@@ -137,7 +137,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004161 RID: 16737 RVA: 0x00227C08 File Offset: 0x00226008
+		// Token: 0x06004163 RID: 16739 RVA: 0x00227C80 File Offset: 0x00226080
 		public override Texture2D IconFromPOV(Thing pov)
 		{
 			Texture2D result;
@@ -164,13 +164,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004162 RID: 16738 RVA: 0x00227C7C File Offset: 0x0022607C
+		// Token: 0x06004164 RID: 16740 RVA: 0x00227CF4 File Offset: 0x002260F4
 		protected override BodyDef DamagedBody()
 		{
 			return (this.recipientPawn == null) ? null : this.recipientPawn.RaceProps.body;
 		}
 
-		// Token: 0x06004163 RID: 16739 RVA: 0x00227CB4 File Offset: 0x002260B4
+		// Token: 0x06004165 RID: 16741 RVA: 0x00227D2C File Offset: 0x0022612C
 		protected override GrammarRequest GenerateGrammarRequest()
 		{
 			GrammarRequest result = base.GenerateGrammarRequest();
@@ -231,7 +231,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004164 RID: 16740 RVA: 0x00227F40 File Offset: 0x00226340
+		// Token: 0x06004166 RID: 16742 RVA: 0x00227FB8 File Offset: 0x002263B8
 		public override bool ShowInCompactView()
 		{
 			if (!this.deflected)
@@ -253,7 +253,7 @@ namespace Verse
 			return Rand.ChanceSeeded(BattleLogEntry_RangedImpact.DisplayChanceOnMiss / (float)num, this.logID);
 		}
 
-		// Token: 0x06004165 RID: 16741 RVA: 0x00227FE4 File Offset: 0x002263E4
+		// Token: 0x06004167 RID: 16743 RVA: 0x0022805C File Offset: 0x0022645C
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -269,7 +269,7 @@ namespace Verse
 			Scribe_Defs.Look<ThingDef>(ref this.coverDef, "coverDef");
 		}
 
-		// Token: 0x06004166 RID: 16742 RVA: 0x002280A0 File Offset: 0x002264A0
+		// Token: 0x06004168 RID: 16744 RVA: 0x00228118 File Offset: 0x00226518
 		public override string ToString()
 		{
 			return "BattleLogEntry_RangedImpact: " + this.InitiatorName + "->" + this.RecipientName;

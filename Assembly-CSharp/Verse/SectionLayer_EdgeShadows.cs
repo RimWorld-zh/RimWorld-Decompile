@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C48 RID: 3144
+	// Token: 0x02000C47 RID: 3143
 	internal class SectionLayer_EdgeShadows : SectionLayer
 	{
-		// Token: 0x0600453B RID: 17723 RVA: 0x00246FC2 File Offset: 0x002453C2
+		// Token: 0x06004539 RID: 17721 RVA: 0x00246F9A File Offset: 0x0024539A
 		public SectionLayer_EdgeShadows(Section section) : base(section)
 		{
 			this.relevantChangeTypes = MapMeshFlag.Buildings;
 		}
 
-		// Token: 0x17000AEA RID: 2794
-		// (get) Token: 0x0600453C RID: 17724 RVA: 0x00246FD4 File Offset: 0x002453D4
+		// Token: 0x17000AE9 RID: 2793
+		// (get) Token: 0x0600453A RID: 17722 RVA: 0x00246FAC File Offset: 0x002453AC
 		public override bool Visible
 		{
 			get
@@ -22,7 +22,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600453D RID: 17725 RVA: 0x00246FF0 File Offset: 0x002453F0
+		// Token: 0x0600453B RID: 17723 RVA: 0x00246FC8 File Offset: 0x002453C8
 		public override void Regenerate()
 		{
 			Building[] innerArray = base.Map.edificeGrid.InnerArray;
@@ -260,16 +260,16 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002F53 RID: 12115
+		// Token: 0x04002F51 RID: 12113
 		private const float InDist = 0.45f;
 
-		// Token: 0x04002F54 RID: 12116
+		// Token: 0x04002F52 RID: 12114
 		private const byte ShadowBrightness = 195;
 
-		// Token: 0x04002F55 RID: 12117
+		// Token: 0x04002F53 RID: 12115
 		private static readonly Color32 Shadowed = new Color32(195, 195, 195, byte.MaxValue);
 
-		// Token: 0x04002F56 RID: 12118
+		// Token: 0x04002F54 RID: 12116
 		private static readonly Color32 Lit = new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue);
 	}
 }

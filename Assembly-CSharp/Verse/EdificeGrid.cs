@@ -2,18 +2,18 @@
 
 namespace Verse
 {
-	// Token: 0x02000C22 RID: 3106
+	// Token: 0x02000C21 RID: 3105
 	public sealed class EdificeGrid
 	{
-		// Token: 0x060043EB RID: 17387 RVA: 0x0023C317 File Offset: 0x0023A717
+		// Token: 0x060043E9 RID: 17385 RVA: 0x0023C2EF File Offset: 0x0023A6EF
 		public EdificeGrid(Map map)
 		{
 			this.map = map;
 			this.innerArray = new Building[map.cellIndices.NumGridCells];
 		}
 
-		// Token: 0x17000AA7 RID: 2727
-		// (get) Token: 0x060043EC RID: 17388 RVA: 0x0023C340 File Offset: 0x0023A740
+		// Token: 0x17000AA6 RID: 2726
+		// (get) Token: 0x060043EA RID: 17386 RVA: 0x0023C318 File Offset: 0x0023A718
 		public Building[] InnerArray
 		{
 			get
@@ -22,7 +22,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AA8 RID: 2728
+		// Token: 0x17000AA7 RID: 2727
 		public Building this[int index]
 		{
 			get
@@ -31,7 +31,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AA9 RID: 2729
+		// Token: 0x17000AA8 RID: 2728
 		public Building this[IntVec3 c]
 		{
 			get
@@ -40,7 +40,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043EF RID: 17391 RVA: 0x0023C3AC File Offset: 0x0023A7AC
+		// Token: 0x060043ED RID: 17389 RVA: 0x0023C384 File Offset: 0x0023A784
 		public void Register(Building ed)
 		{
 			CellIndices cellIndices = this.map.cellIndices;
@@ -70,7 +70,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060043F0 RID: 17392 RVA: 0x0023C4B8 File Offset: 0x0023A8B8
+		// Token: 0x060043EE RID: 17390 RVA: 0x0023C490 File Offset: 0x0023A890
 		public void DeRegister(Building ed)
 		{
 			CellIndices cellIndices = this.map.cellIndices;
@@ -84,10 +84,10 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002E55 RID: 11861
+		// Token: 0x04002E53 RID: 11859
 		private Map map;
 
-		// Token: 0x04002E56 RID: 11862
+		// Token: 0x04002E54 RID: 11860
 		private Building[] innerArray;
 	}
 }

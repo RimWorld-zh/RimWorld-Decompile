@@ -2,14 +2,14 @@
 
 namespace Verse
 {
-	// Token: 0x02000E8D RID: 3725
+	// Token: 0x02000E8C RID: 3724
 	public enum GameFont : byte
 	{
-		// Token: 0x04003A13 RID: 14867
+		// Token: 0x04003A11 RID: 14865
 		Tiny,
-		// Token: 0x04003A14 RID: 14868
+		// Token: 0x04003A12 RID: 14866
 		Small,
-		// Token: 0x04003A15 RID: 14869
+		// Token: 0x04003A13 RID: 14867
 		Medium
 	}
 }

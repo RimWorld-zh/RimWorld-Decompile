@@ -8,7 +8,7 @@ namespace RimWorld.Planet
 	public class WorldLayer_MouseTile : WorldLayer_SingleTile
 	{
 		// Token: 0x170003F8 RID: 1016
-		// (get) Token: 0x06001B31 RID: 6961 RVA: 0x000E979C File Offset: 0x000E7B9C
+		// (get) Token: 0x06001B32 RID: 6962 RVA: 0x000E9808 File Offset: 0x000E7C08
 		protected override int Tile
 		{
 			get
@@ -36,7 +36,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003F9 RID: 1017
-		// (get) Token: 0x06001B32 RID: 6962 RVA: 0x000E980C File Offset: 0x000E7C0C
+		// (get) Token: 0x06001B33 RID: 6963 RVA: 0x000E9878 File Offset: 0x000E7C78
 		protected override Material Material
 		{
 			get

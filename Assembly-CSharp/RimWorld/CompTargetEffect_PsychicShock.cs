@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x0200075A RID: 1882
 	public class CompTargetEffect_PsychicShock : CompTargetEffect
 	{
-		// Token: 0x06002995 RID: 10645 RVA: 0x00161418 File Offset: 0x0015F818
+		// Token: 0x06002997 RID: 10647 RVA: 0x001614AC File Offset: 0x0015F8AC
 		public override void DoEffectOn(Pawn user, Thing target)
 		{
 			Pawn pawn = (Pawn)target;

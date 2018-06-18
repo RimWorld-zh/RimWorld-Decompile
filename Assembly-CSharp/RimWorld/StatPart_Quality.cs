@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020009B6 RID: 2486
 	public class StatPart_Quality : StatPart
 	{
-		// Token: 0x060037A8 RID: 14248 RVA: 0x001DA293 File Offset: 0x001D8693
+		// Token: 0x060037AA RID: 14250 RVA: 0x001DA367 File Offset: 0x001D8767
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (val > 0f || this.alsoAppliesToNegativeValues)
@@ -15,7 +15,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060037A9 RID: 14249 RVA: 0x001DA2C4 File Offset: 0x001D86C4
+		// Token: 0x060037AB RID: 14251 RVA: 0x001DA398 File Offset: 0x001D8798
 		public override string ExplanationPart(StatRequest req)
 		{
 			string result;
@@ -38,7 +38,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060037AA RID: 14250 RVA: 0x001DA360 File Offset: 0x001D8760
+		// Token: 0x060037AC RID: 14252 RVA: 0x001DA434 File Offset: 0x001D8834
 		private float QualityMultiplier(QualityCategory qc)
 		{
 			float result;

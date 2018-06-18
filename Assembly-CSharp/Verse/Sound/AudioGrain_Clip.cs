@@ -7,7 +7,7 @@ namespace Verse.Sound
 	// Token: 0x02000B78 RID: 2936
 	public class AudioGrain_Clip : AudioGrain
 	{
-		// Token: 0x06003FF9 RID: 16377 RVA: 0x0021AE08 File Offset: 0x00219208
+		// Token: 0x06003FFB RID: 16379 RVA: 0x0021AEDC File Offset: 0x002192DC
 		public override IEnumerable<ResolvedGrain> GetResolvedGrains()
 		{
 			AudioClip clip = ContentFinder<AudioClip>.Get(this.clipPath, true);

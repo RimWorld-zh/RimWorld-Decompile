@@ -7,11 +7,11 @@ using RimWorld.Planet;
 
 namespace Verse
 {
-	// Token: 0x02000E1C RID: 3612
+	// Token: 0x02000E1B RID: 3611
 	[HasDebugOutput]
 	internal static class DebugOutputsIncidents
 	{
-		// Token: 0x060052D2 RID: 21202 RVA: 0x002A6498 File Offset: 0x002A4898
+		// Token: 0x060052D0 RID: 21200 RVA: 0x002A6478 File Offset: 0x002A4878
 		[DebugOutput]
 		[Category("Incidents")]
 		public static void MiscIncidentChances()
@@ -27,7 +27,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060052D3 RID: 21203 RVA: 0x002A6504 File Offset: 0x002A4904
+		// Token: 0x060052D1 RID: 21201 RVA: 0x002A64E4 File Offset: 0x002A48E4
 		[DebugOutput]
 		[Category("Incidents")]
 		public static void TradeRequestsSampled()
@@ -65,7 +65,7 @@ namespace Verse
 			DebugTables.MakeTablesDialog<ThingDef>(dataSources, array);
 		}
 
-		// Token: 0x060052D4 RID: 21204 RVA: 0x002A665F File Offset: 0x002A4A5F
+		// Token: 0x060052D2 RID: 21202 RVA: 0x002A663F File Offset: 0x002A4A3F
 		[DebugOutput]
 		[Category("Incidents")]
 		[ModeRestrictionPlay]
@@ -74,7 +74,7 @@ namespace Verse
 			StorytellerUtility.ShowFutureIncidentsDebugLogFloatMenu(false);
 		}
 
-		// Token: 0x060052D5 RID: 21205 RVA: 0x002A6668 File Offset: 0x002A4A68
+		// Token: 0x060052D3 RID: 21203 RVA: 0x002A6648 File Offset: 0x002A4A48
 		[DebugOutput]
 		[Category("Incidents")]
 		[ModeRestrictionPlay]
@@ -83,7 +83,7 @@ namespace Verse
 			StorytellerUtility.ShowFutureIncidentsDebugLogFloatMenu(true);
 		}
 
-		// Token: 0x060052D6 RID: 21206 RVA: 0x002A6671 File Offset: 0x002A4A71
+		// Token: 0x060052D4 RID: 21204 RVA: 0x002A6651 File Offset: 0x002A4A51
 		[DebugOutput]
 		[Category("Incidents")]
 		[ModeRestrictionPlay]
@@ -92,7 +92,7 @@ namespace Verse
 			StorytellerUtility.DebugLogTestIncidentTargets();
 		}
 
-		// Token: 0x060052D7 RID: 21207 RVA: 0x002A667C File Offset: 0x002A4A7C
+		// Token: 0x060052D5 RID: 21205 RVA: 0x002A665C File Offset: 0x002A4A5C
 		[DebugOutput]
 		[Category("Incidents")]
 		public static void TradeRequests()
@@ -130,7 +130,7 @@ namespace Verse
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x060052D8 RID: 21208 RVA: 0x002A6850 File Offset: 0x002A4C50
+		// Token: 0x060052D6 RID: 21206 RVA: 0x002A6830 File Offset: 0x002A4C30
 		[DebugOutput]
 		[Category("Incidents")]
 		public static void PawnArrivalCandidates()
@@ -149,7 +149,7 @@ namespace Verse
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x060052D9 RID: 21209 RVA: 0x002A694C File Offset: 0x002A4D4C
+		// Token: 0x060052D7 RID: 21207 RVA: 0x002A692C File Offset: 0x002A4D2C
 		[DebugOutput]
 		[Category("Incidents")]
 		public static void TraderStockMarketValues()
@@ -162,7 +162,7 @@ namespace Verse
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x060052DA RID: 21210 RVA: 0x002A69EC File Offset: 0x002A4DEC
+		// Token: 0x060052D8 RID: 21208 RVA: 0x002A69CC File Offset: 0x002A4DCC
 		[DebugOutput]
 		[Category("Incidents")]
 		public static void TraderStockGeneration()
@@ -180,7 +180,7 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x060052DB RID: 21211 RVA: 0x002A6A94 File Offset: 0x002A4E94
+		// Token: 0x060052D9 RID: 21209 RVA: 0x002A6A74 File Offset: 0x002A4E74
 		[DebugOutput]
 		[Category("Incidents")]
 		public static void TraderStockGeneratorsDefs()
@@ -234,7 +234,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060052DC RID: 21212 RVA: 0x002A6B18 File Offset: 0x002A4F18
+		// Token: 0x060052DA RID: 21210 RVA: 0x002A6AF8 File Offset: 0x002A4EF8
 		[DebugOutput]
 		[Category("Incidents")]
 		public static void PawnGroupGenSampled()
@@ -356,7 +356,7 @@ namespace Verse
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 		}
 
-		// Token: 0x060052DD RID: 21213 RVA: 0x002A6C20 File Offset: 0x002A5020
+		// Token: 0x060052DB RID: 21211 RVA: 0x002A6C00 File Offset: 0x002A5000
 		[DebugOutput]
 		[Category("Incidents")]
 		public static void RaidFactionSampled()
@@ -364,7 +364,7 @@ namespace Verse
 			((IncidentWorker_Raid)IncidentDefOf.RaidEnemy.Worker).DoTable_RaidFactionSampled();
 		}
 
-		// Token: 0x060052DE RID: 21214 RVA: 0x002A6C38 File Offset: 0x002A5038
+		// Token: 0x060052DC RID: 21212 RVA: 0x002A6C18 File Offset: 0x002A5018
 		[DebugOutput]
 		[Category("Incidents")]
 		public static void RaidStrategySampled()
@@ -389,7 +389,7 @@ namespace Verse
 			Find.WindowStack.Add(new FloatMenu(list));
 		}
 
-		// Token: 0x060052DF RID: 21215 RVA: 0x002A6D34 File Offset: 0x002A5134
+		// Token: 0x060052DD RID: 21213 RVA: 0x002A6D14 File Offset: 0x002A5114
 		[DebugOutput]
 		[Category("Incidents")]
 		public static void RaidArrivemodeSampled()

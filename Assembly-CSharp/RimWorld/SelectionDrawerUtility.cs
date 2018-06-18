@@ -9,7 +9,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class SelectionDrawerUtility
 	{
-		// Token: 0x060030B9 RID: 12473 RVA: 0x001A6BD0 File Offset: 0x001A4FD0
+		// Token: 0x060030BB RID: 12475 RVA: 0x001A6C98 File Offset: 0x001A5098
 		public static void CalculateSelectionBracketPositionsUI<T>(Vector2[] bracketLocs, T obj, Rect rect, Dictionary<T, float> selectTimes, Vector2 textureSize, float jumpDistanceFactor = 1f)
 		{
 			float num;
@@ -31,7 +31,7 @@ namespace RimWorld
 			bracketLocs[3] = new Vector2(rect.center.x - num4, rect.center.y + num5);
 		}
 
-		// Token: 0x060030BA RID: 12474 RVA: 0x001A6D2C File Offset: 0x001A512C
+		// Token: 0x060030BC RID: 12476 RVA: 0x001A6DF4 File Offset: 0x001A51F4
 		public static void CalculateSelectionBracketPositionsWorld<T>(Vector3[] bracketLocs, T obj, Vector3 worldPos, Vector2 worldSize, Dictionary<T, float> selectTimes, Vector2 textureSize, float jumpDistanceFactor = 1f)
 		{
 			float num;

@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000D3A RID: 3386
+	// Token: 0x02000D39 RID: 3385
 	public class HediffGiver_RandomDrugEffect : HediffGiver
 	{
-		// Token: 0x06004A7C RID: 19068 RVA: 0x0026CD6C File Offset: 0x0026B16C
+		// Token: 0x06004A7A RID: 19066 RVA: 0x0026CD44 File Offset: 0x0026B144
 		public override void OnIntervalPassed(Pawn pawn, Hediff cause)
 		{
 			if (cause.Severity >= this.minSeverity)
@@ -20,10 +20,10 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0400324F RID: 12879
+		// Token: 0x0400324D RID: 12877
 		public float baseMtbDays = 0f;
 
-		// Token: 0x04003250 RID: 12880
+		// Token: 0x0400324E RID: 12878
 		public float minSeverity = 0f;
 	}
 }

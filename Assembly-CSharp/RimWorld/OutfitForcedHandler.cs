@@ -8,7 +8,7 @@ namespace RimWorld
 	public class OutfitForcedHandler : IExposable
 	{
 		// Token: 0x17000334 RID: 820
-		// (get) Token: 0x06001747 RID: 5959 RVA: 0x000CC4CC File Offset: 0x000CA8CC
+		// (get) Token: 0x06001748 RID: 5960 RVA: 0x000CC520 File Offset: 0x000CA920
 		public bool SomethingIsForced
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000335 RID: 821
-		// (get) Token: 0x06001748 RID: 5960 RVA: 0x000CC4F0 File Offset: 0x000CA8F0
+		// (get) Token: 0x06001749 RID: 5961 RVA: 0x000CC544 File Offset: 0x000CA944
 		public List<Apparel> ForcedApparel
 		{
 			get
@@ -27,19 +27,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001749 RID: 5961 RVA: 0x000CC50B File Offset: 0x000CA90B
+		// Token: 0x0600174A RID: 5962 RVA: 0x000CC55F File Offset: 0x000CA95F
 		public void Reset()
 		{
 			this.forcedAps.Clear();
 		}
 
-		// Token: 0x0600174A RID: 5962 RVA: 0x000CC51C File Offset: 0x000CA91C
+		// Token: 0x0600174B RID: 5963 RVA: 0x000CC570 File Offset: 0x000CA970
 		public bool AllowedToAutomaticallyDrop(Apparel ap)
 		{
 			return !this.forcedAps.Contains(ap);
 		}
 
-		// Token: 0x0600174B RID: 5963 RVA: 0x000CC540 File Offset: 0x000CA940
+		// Token: 0x0600174C RID: 5964 RVA: 0x000CC594 File Offset: 0x000CA994
 		public void SetForced(Apparel ap, bool forced)
 		{
 			if (forced)
@@ -55,13 +55,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600174C RID: 5964 RVA: 0x000CC598 File Offset: 0x000CA998
+		// Token: 0x0600174D RID: 5965 RVA: 0x000CC5EC File Offset: 0x000CA9EC
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Apparel>(ref this.forcedAps, "forcedAps", LookMode.Reference, new object[0]);
 		}
 
-		// Token: 0x0600174D RID: 5965 RVA: 0x000CC5B4 File Offset: 0x000CA9B4
+		// Token: 0x0600174E RID: 5966 RVA: 0x000CC608 File Offset: 0x000CAA08
 		public bool IsForced(Apparel ap)
 		{
 			bool result;

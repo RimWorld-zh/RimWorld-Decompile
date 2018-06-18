@@ -7,7 +7,7 @@ namespace RimWorld.Planet
 	public class PrisonerWillingToJoinComp : ImportantPawnComp, IThingHolder
 	{
 		// Token: 0x170004C6 RID: 1222
-		// (get) Token: 0x06001FFA RID: 8186 RVA: 0x00113080 File Offset: 0x00111480
+		// (get) Token: 0x06001FFC RID: 8188 RVA: 0x001130F8 File Offset: 0x001114F8
 		protected override string PawnSaveKey
 		{
 			get
@@ -16,13 +16,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001FFB RID: 8187 RVA: 0x0011309A File Offset: 0x0011149A
+		// Token: 0x06001FFD RID: 8189 RVA: 0x00113112 File Offset: 0x00111512
 		protected override void RemovePawnOnWorldObjectRemoved()
 		{
 			this.pawn.ClearAndDestroyContentsOrPassToWorld(DestroyMode.Vanish);
 		}
 
-		// Token: 0x06001FFC RID: 8188 RVA: 0x001130AC File Offset: 0x001114AC
+		// Token: 0x06001FFE RID: 8190 RVA: 0x00113124 File Offset: 0x00111524
 		public override string CompInspectStringExtra()
 		{
 			string result;

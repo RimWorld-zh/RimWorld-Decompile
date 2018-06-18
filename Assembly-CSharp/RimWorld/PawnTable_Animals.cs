@@ -8,12 +8,12 @@ namespace RimWorld
 	// Token: 0x0200089D RID: 2205
 	public class PawnTable_Animals : PawnTable
 	{
-		// Token: 0x0600327B RID: 12923 RVA: 0x001B25A2 File Offset: 0x001B09A2
+		// Token: 0x0600327D RID: 12925 RVA: 0x001B266A File Offset: 0x001B0A6A
 		public PawnTable_Animals(PawnTableDef def, Func<IEnumerable<Pawn>> pawnsGetter, int uiWidth, int uiHeight) : base(def, pawnsGetter, uiWidth, uiHeight)
 		{
 		}
 
-		// Token: 0x0600327C RID: 12924 RVA: 0x001B25B0 File Offset: 0x001B09B0
+		// Token: 0x0600327E RID: 12926 RVA: 0x001B2678 File Offset: 0x001B0A78
 		protected override IEnumerable<Pawn> LabelSortFunction(IEnumerable<Pawn> input)
 		{
 			return from p in input
@@ -21,7 +21,7 @@ namespace RimWorld
 			select p;
 		}
 
-		// Token: 0x0600327D RID: 12925 RVA: 0x001B262C File Offset: 0x001B0A2C
+		// Token: 0x0600327F RID: 12927 RVA: 0x001B26F4 File Offset: 0x001B0AF4
 		protected override IEnumerable<Pawn> PrimarySortFunction(IEnumerable<Pawn> input)
 		{
 			return from p in input

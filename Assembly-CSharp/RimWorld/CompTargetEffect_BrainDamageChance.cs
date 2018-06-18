@@ -7,7 +7,7 @@ namespace RimWorld
 	public class CompTargetEffect_BrainDamageChance : CompTargetEffect
 	{
 		// Token: 0x17000669 RID: 1641
-		// (get) Token: 0x0600298A RID: 10634 RVA: 0x001611D4 File Offset: 0x0015F5D4
+		// (get) Token: 0x0600298C RID: 10636 RVA: 0x00161268 File Offset: 0x0015F668
 		protected CompProperties_TargetEffect_BrainDamageChance PropsBrainDamageChance
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600298B RID: 10635 RVA: 0x001611F4 File Offset: 0x0015F5F4
+		// Token: 0x0600298D RID: 10637 RVA: 0x00161288 File Offset: 0x0015F688
 		public override void DoEffectOn(Pawn user, Thing target)
 		{
 			Pawn pawn = (Pawn)target;

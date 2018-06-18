@@ -9,7 +9,7 @@ namespace Verse
 	public class CameraDriver : MonoBehaviour
 	{
 		// Token: 0x17000948 RID: 2376
-		// (get) Token: 0x06003DD5 RID: 15829 RVA: 0x00209C4C File Offset: 0x0020804C
+		// (get) Token: 0x06003DD7 RID: 15831 RVA: 0x00209D20 File Offset: 0x00208120
 		private Camera MyCamera
 		{
 			get
@@ -23,7 +23,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000949 RID: 2377
-		// (get) Token: 0x06003DD6 RID: 15830 RVA: 0x00209C84 File Offset: 0x00208084
+		// (get) Token: 0x06003DD8 RID: 15832 RVA: 0x00209D58 File Offset: 0x00208158
 		private float ScreenDollyEdgeWidthBottom
 		{
 			get
@@ -42,7 +42,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700094A RID: 2378
-		// (get) Token: 0x06003DD7 RID: 15831 RVA: 0x00209CB4 File Offset: 0x002080B4
+		// (get) Token: 0x06003DD9 RID: 15833 RVA: 0x00209D88 File Offset: 0x00208188
 		public CameraZoomRange CurrentZoom
 		{
 			get
@@ -73,7 +73,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700094B RID: 2379
-		// (get) Token: 0x06003DD8 RID: 15832 RVA: 0x00209D28 File Offset: 0x00208128
+		// (get) Token: 0x06003DDA RID: 15834 RVA: 0x00209DFC File Offset: 0x002081FC
 		private Vector3 CurrentRealPosition
 		{
 			get
@@ -83,7 +83,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700094C RID: 2380
-		// (get) Token: 0x06003DD9 RID: 15833 RVA: 0x00209D50 File Offset: 0x00208150
+		// (get) Token: 0x06003DDB RID: 15835 RVA: 0x00209E24 File Offset: 0x00208224
 		private bool AnythingPreventsCameraMotion
 		{
 			get
@@ -93,7 +93,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700094D RID: 2381
-		// (get) Token: 0x06003DDA RID: 15834 RVA: 0x00209D7C File Offset: 0x0020817C
+		// (get) Token: 0x06003DDC RID: 15836 RVA: 0x00209E50 File Offset: 0x00208250
 		public IntVec3 MapPosition
 		{
 			get
@@ -105,7 +105,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700094E RID: 2382
-		// (get) Token: 0x06003DDB RID: 15835 RVA: 0x00209DA8 File Offset: 0x002081A8
+		// (get) Token: 0x06003DDD RID: 15837 RVA: 0x00209E7C File Offset: 0x0020827C
 		public CellRect CurrentViewRect
 		{
 			get
@@ -125,7 +125,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700094F RID: 2383
-		// (get) Token: 0x06003DDC RID: 15836 RVA: 0x00209EA0 File Offset: 0x002082A0
+		// (get) Token: 0x06003DDE RID: 15838 RVA: 0x00209F74 File Offset: 0x00208374
 		public static float HitchReduceFactor
 		{
 			get
@@ -140,7 +140,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000950 RID: 2384
-		// (get) Token: 0x06003DDD RID: 15837 RVA: 0x00209ED8 File Offset: 0x002082D8
+		// (get) Token: 0x06003DDF RID: 15839 RVA: 0x00209FAC File Offset: 0x002083AC
 		public float CellSizePixels
 		{
 			get
@@ -149,7 +149,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DDE RID: 15838 RVA: 0x00209F00 File Offset: 0x00208300
+		// Token: 0x06003DE0 RID: 15840 RVA: 0x00209FD4 File Offset: 0x002083D4
 		public void Awake()
 		{
 			this.ResetSize();
@@ -158,7 +158,7 @@ namespace Verse
 			this.MyCamera.farClipPlane = 71.5f;
 		}
 
-		// Token: 0x06003DDF RID: 15839 RVA: 0x00209F2F File Offset: 0x0020832F
+		// Token: 0x06003DE1 RID: 15841 RVA: 0x0020A003 File Offset: 0x00208403
 		public void OnPreRender()
 		{
 			if (!LongEventHandler.ShouldWaitForEvent)
@@ -169,7 +169,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DE0 RID: 15840 RVA: 0x00209F50 File Offset: 0x00208350
+		// Token: 0x06003DE2 RID: 15842 RVA: 0x0020A024 File Offset: 0x00208424
 		public void OnPreCull()
 		{
 			if (!LongEventHandler.ShouldWaitForEvent)
@@ -184,7 +184,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DE1 RID: 15841 RVA: 0x00209F8C File Offset: 0x0020838C
+		// Token: 0x06003DE3 RID: 15843 RVA: 0x0020A060 File Offset: 0x00208460
 		public void OnGUI()
 		{
 			GUI.depth = 100;
@@ -253,7 +253,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DE2 RID: 15842 RVA: 0x0020A224 File Offset: 0x00208624
+		// Token: 0x06003DE4 RID: 15844 RVA: 0x0020A2F8 File Offset: 0x002086F8
 		public void Update()
 		{
 			if (LongEventHandler.ShouldWaitForEvent)
@@ -317,7 +317,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DE3 RID: 15843 RVA: 0x0020A514 File Offset: 0x00208914
+		// Token: 0x06003DE5 RID: 15845 RVA: 0x0020A5E8 File Offset: 0x002089E8
 		private void ApplyPositionToGameObject()
 		{
 			this.rootPos.y = 15f + (this.rootSize - 11f) / 49f * 50f;
@@ -328,7 +328,7 @@ namespace Verse
 			this.reverbDummy.transform.position = position;
 		}
 
-		// Token: 0x06003DE4 RID: 15844 RVA: 0x0020A5AC File Offset: 0x002089AC
+		// Token: 0x06003DE6 RID: 15846 RVA: 0x0020A680 File Offset: 0x00208A80
 		private Vector2 CalculateCurInputDollyVect()
 		{
 			Vector2 vector = this.desiredDolly;
@@ -388,7 +388,7 @@ namespace Verse
 			return vector;
 		}
 
-		// Token: 0x06003DE5 RID: 15845 RVA: 0x0020A8A0 File Offset: 0x00208CA0
+		// Token: 0x06003DE7 RID: 15847 RVA: 0x0020A974 File Offset: 0x00208D74
 		public void Expose()
 		{
 			if (Scribe.EnterNode("cameraMap"))
@@ -406,26 +406,26 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DE6 RID: 15846 RVA: 0x0020A91C File Offset: 0x00208D1C
+		// Token: 0x06003DE8 RID: 15848 RVA: 0x0020A9F0 File Offset: 0x00208DF0
 		public void ResetSize()
 		{
 			this.desiredSize = 24f;
 			this.rootSize = this.desiredSize;
 		}
 
-		// Token: 0x06003DE7 RID: 15847 RVA: 0x0020A936 File Offset: 0x00208D36
+		// Token: 0x06003DE9 RID: 15849 RVA: 0x0020AA0A File Offset: 0x00208E0A
 		public void JumpToCurrentMapLoc(IntVec3 cell)
 		{
 			this.JumpToCurrentMapLoc(cell.ToVector3Shifted());
 		}
 
-		// Token: 0x06003DE8 RID: 15848 RVA: 0x0020A946 File Offset: 0x00208D46
+		// Token: 0x06003DEA RID: 15850 RVA: 0x0020AA1A File Offset: 0x00208E1A
 		public void JumpToCurrentMapLoc(Vector3 loc)
 		{
 			this.rootPos = new Vector3(loc.x, this.rootPos.y, loc.z);
 		}
 
-		// Token: 0x06003DE9 RID: 15849 RVA: 0x0020A96D File Offset: 0x00208D6D
+		// Token: 0x06003DEB RID: 15851 RVA: 0x0020AA41 File Offset: 0x00208E41
 		public void SetRootPosAndSize(Vector3 rootPos, float rootSize)
 		{
 			this.rootPos = rootPos;

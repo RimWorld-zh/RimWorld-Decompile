@@ -6,13 +6,13 @@ namespace RimWorld
 	// Token: 0x02000778 RID: 1912
 	public class StockGenerator_WeaponsRanged : StockGenerator_MiscItems
 	{
-		// Token: 0x06002A2E RID: 10798 RVA: 0x00165C20 File Offset: 0x00164020
+		// Token: 0x06002A30 RID: 10800 RVA: 0x00165CB4 File Offset: 0x001640B4
 		public override bool HandlesThingDef(ThingDef td)
 		{
 			return base.HandlesThingDef(td) && td.IsRangedWeapon;
 		}
 
-		// Token: 0x06002A2F RID: 10799 RVA: 0x00165C4C File Offset: 0x0016404C
+		// Token: 0x06002A31 RID: 10801 RVA: 0x00165CE0 File Offset: 0x001640E0
 		protected override float SelectionWeight(ThingDef thingDef)
 		{
 			return StockGenerator_WeaponsRanged.SelectionWeightMarketValueCurve.Evaluate(thingDef.BaseMarketValue);

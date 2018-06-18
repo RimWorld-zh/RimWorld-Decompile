@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000CF9 RID: 3321
+	// Token: 0x02000CF8 RID: 3320
 	public class DamageWorker_Frostbite : DamageWorker_AddInjury
 	{
-		// Token: 0x06004918 RID: 18712 RVA: 0x00266093 File Offset: 0x00264493
+		// Token: 0x06004916 RID: 18710 RVA: 0x0026606B File Offset: 0x0026446B
 		protected override void ApplySpecialEffectsToPart(Pawn pawn, float totalDamage, DamageInfo dinfo, DamageWorker.DamageResult result)
 		{
 			base.FinalizeAndAddInjury(pawn, totalDamage, dinfo, result);

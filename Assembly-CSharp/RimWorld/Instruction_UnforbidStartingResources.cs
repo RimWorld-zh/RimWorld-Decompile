@@ -9,7 +9,7 @@ namespace RimWorld
 	public class Instruction_UnforbidStartingResources : Lesson_Instruction
 	{
 		// Token: 0x17000830 RID: 2096
-		// (get) Token: 0x0600337A RID: 13178 RVA: 0x001B9400 File Offset: 0x001B7800
+		// (get) Token: 0x0600337C RID: 13180 RVA: 0x001B94C8 File Offset: 0x001B78C8
 		protected override float ProgressPercent
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600337B RID: 13179 RVA: 0x001B9458 File Offset: 0x001B7858
+		// Token: 0x0600337D RID: 13181 RVA: 0x001B9520 File Offset: 0x001B7920
 		private IEnumerable<Thing> NeedUnforbidItems()
 		{
 			return from it in Find.TutorialState.startingItems
@@ -28,14 +28,14 @@ namespace RimWorld
 			select it;
 		}
 
-		// Token: 0x0600337C RID: 13180 RVA: 0x001B9499 File Offset: 0x001B7899
+		// Token: 0x0600337E RID: 13182 RVA: 0x001B9561 File Offset: 0x001B7961
 		public override void PostDeactivated()
 		{
 			base.PostDeactivated();
 			Find.TutorialState.startingItems.RemoveAll((Thing it) => !Instruction_EquipWeapons.IsWeapon(it));
 		}
 
-		// Token: 0x0600337D RID: 13181 RVA: 0x001B94D0 File Offset: 0x001B78D0
+		// Token: 0x0600337F RID: 13183 RVA: 0x001B9598 File Offset: 0x001B7998
 		public override void LessonOnGUI()
 		{
 			foreach (Thing t in this.NeedUnforbidItems())
@@ -45,7 +45,7 @@ namespace RimWorld
 			base.LessonOnGUI();
 		}
 
-		// Token: 0x0600337E RID: 13182 RVA: 0x001B9540 File Offset: 0x001B7940
+		// Token: 0x06003380 RID: 13184 RVA: 0x001B9608 File Offset: 0x001B7A08
 		public override void LessonUpdate()
 		{
 			if (this.ProgressPercent > 0.9999f)

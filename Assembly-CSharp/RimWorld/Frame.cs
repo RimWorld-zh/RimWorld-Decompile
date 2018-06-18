@@ -13,14 +13,14 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Frame : Building, IThingHolder, IConstructible
 	{
-		// Token: 0x060022D9 RID: 8921 RVA: 0x0012BC12 File Offset: 0x0012A012
+		// Token: 0x060022DB RID: 8923 RVA: 0x0012BC8A File Offset: 0x0012A08A
 		public Frame()
 		{
 			this.resourceContainer = new ThingOwner<Thing>(this, false, LookMode.Deep);
 		}
 
 		// Token: 0x1700051B RID: 1307
-		// (get) Token: 0x060022DA RID: 8922 RVA: 0x0012BC34 File Offset: 0x0012A034
+		// (get) Token: 0x060022DC RID: 8924 RVA: 0x0012BCAC File Offset: 0x0012A0AC
 		public float WorkToMake
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700051C RID: 1308
-		// (get) Token: 0x060022DB RID: 8923 RVA: 0x0012BC64 File Offset: 0x0012A064
+		// (get) Token: 0x060022DD RID: 8925 RVA: 0x0012BCDC File Offset: 0x0012A0DC
 		public float WorkLeft
 		{
 			get
@@ -40,7 +40,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700051D RID: 1309
-		// (get) Token: 0x060022DC RID: 8924 RVA: 0x0012BC88 File Offset: 0x0012A088
+		// (get) Token: 0x060022DE RID: 8926 RVA: 0x0012BD00 File Offset: 0x0012A100
 		public float PercentComplete
 		{
 			get
@@ -50,7 +50,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700051E RID: 1310
-		// (get) Token: 0x060022DD RID: 8925 RVA: 0x0012BCAC File Offset: 0x0012A0AC
+		// (get) Token: 0x060022DF RID: 8927 RVA: 0x0012BD24 File Offset: 0x0012A124
 		public override string Label
 		{
 			get
@@ -60,7 +60,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700051F RID: 1311
-		// (get) Token: 0x060022DE RID: 8926 RVA: 0x0012BCD8 File Offset: 0x0012A0D8
+		// (get) Token: 0x060022E0 RID: 8928 RVA: 0x0012BD50 File Offset: 0x0012A150
 		public string LabelEntityToBuild
 		{
 			get
@@ -80,7 +80,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000520 RID: 1312
-		// (get) Token: 0x060022DF RID: 8927 RVA: 0x0012BD28 File Offset: 0x0012A128
+		// (get) Token: 0x060022E1 RID: 8929 RVA: 0x0012BDA0 File Offset: 0x0012A1A0
 		public override Color DrawColor
 		{
 			get
@@ -111,7 +111,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000521 RID: 1313
-		// (get) Token: 0x060022E0 RID: 8928 RVA: 0x0012BDE4 File Offset: 0x0012A1E4
+		// (get) Token: 0x060022E2 RID: 8930 RVA: 0x0012BE5C File Offset: 0x0012A25C
 		public EffecterDef ConstructionEffect
 		{
 			get
@@ -134,7 +134,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000522 RID: 1314
-		// (get) Token: 0x060022E1 RID: 8929 RVA: 0x0012BE60 File Offset: 0x0012A260
+		// (get) Token: 0x060022E3 RID: 8931 RVA: 0x0012BED8 File Offset: 0x0012A2D8
 		private Material CornerMat
 		{
 			get
@@ -148,7 +148,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000523 RID: 1315
-		// (get) Token: 0x060022E2 RID: 8930 RVA: 0x0012BEAC File Offset: 0x0012A2AC
+		// (get) Token: 0x060022E4 RID: 8932 RVA: 0x0012BF24 File Offset: 0x0012A324
 		private Material TileMat
 		{
 			get
@@ -161,19 +161,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060022E3 RID: 8931 RVA: 0x0012BEF8 File Offset: 0x0012A2F8
+		// Token: 0x060022E5 RID: 8933 RVA: 0x0012BF70 File Offset: 0x0012A370
 		public ThingOwner GetDirectlyHeldThings()
 		{
 			return this.resourceContainer;
 		}
 
-		// Token: 0x060022E4 RID: 8932 RVA: 0x0012BF13 File Offset: 0x0012A313
+		// Token: 0x060022E6 RID: 8934 RVA: 0x0012BF8B File Offset: 0x0012A38B
 		public void GetChildHolders(List<IThingHolder> outChildren)
 		{
 			ThingOwnerUtility.AppendThingHoldersFromThings(outChildren, this.GetDirectlyHeldThings());
 		}
 
-		// Token: 0x060022E5 RID: 8933 RVA: 0x0012BF22 File Offset: 0x0012A322
+		// Token: 0x060022E7 RID: 8935 RVA: 0x0012BF9A File Offset: 0x0012A39A
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -184,13 +184,13 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x060022E6 RID: 8934 RVA: 0x0012BF5C File Offset: 0x0012A35C
+		// Token: 0x060022E8 RID: 8936 RVA: 0x0012BFD4 File Offset: 0x0012A3D4
 		public ThingDef UIStuff()
 		{
 			return base.Stuff;
 		}
 
-		// Token: 0x060022E7 RID: 8935 RVA: 0x0012BF78 File Offset: 0x0012A378
+		// Token: 0x060022E9 RID: 8937 RVA: 0x0012BFF0 File Offset: 0x0012A3F0
 		public List<ThingDefCountClass> MaterialsNeeded()
 		{
 			this.cachedMaterialsNeeded.Clear();
@@ -208,7 +208,7 @@ namespace RimWorld
 			return this.cachedMaterialsNeeded;
 		}
 
-		// Token: 0x060022E8 RID: 8936 RVA: 0x0012C018 File Offset: 0x0012A418
+		// Token: 0x060022EA RID: 8938 RVA: 0x0012C090 File Offset: 0x0012A490
 		public void CompleteConstruction(Pawn worker)
 		{
 			this.resourceContainer.ClearAndDestroyContents(DestroyMode.Vanish);
@@ -259,7 +259,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060022E9 RID: 8937 RVA: 0x0012C1E0 File Offset: 0x0012A5E0
+		// Token: 0x060022EB RID: 8939 RVA: 0x0012C258 File Offset: 0x0012A658
 		public void FailConstruction(Pawn worker)
 		{
 			Map map = base.Map;
@@ -288,7 +288,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060022EA RID: 8938 RVA: 0x0012C2F4 File Offset: 0x0012A6F4
+		// Token: 0x060022EC RID: 8940 RVA: 0x0012C36C File Offset: 0x0012A76C
 		public override void Draw()
 		{
 			Vector2 vector = new Vector2((float)this.def.size.x, (float)this.def.size.z);
@@ -349,7 +349,7 @@ namespace RimWorld
 			base.Comps_PostDraw();
 		}
 
-		// Token: 0x060022EB RID: 8939 RVA: 0x0012C694 File Offset: 0x0012AA94
+		// Token: 0x060022ED RID: 8941 RVA: 0x0012C70C File Offset: 0x0012AB0C
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy0())
@@ -371,7 +371,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060022EC RID: 8940 RVA: 0x0012C6C0 File Offset: 0x0012AAC0
+		// Token: 0x060022EE RID: 8942 RVA: 0x0012C738 File Offset: 0x0012AB38
 		public override string GetInspectString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -401,7 +401,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060022ED RID: 8941 RVA: 0x0012C840 File Offset: 0x0012AC40
+		// Token: 0x060022EF RID: 8943 RVA: 0x0012C8B8 File Offset: 0x0012ACB8
 		public override ushort PathFindCostFor(Pawn p)
 		{
 			ushort result;

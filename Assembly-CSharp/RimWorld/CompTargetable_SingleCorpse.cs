@@ -8,7 +8,7 @@ namespace RimWorld
 	public class CompTargetable_SingleCorpse : CompTargetable
 	{
 		// Token: 0x1700066E RID: 1646
-		// (get) Token: 0x060029AA RID: 10666 RVA: 0x00161BC4 File Offset: 0x0015FFC4
+		// (get) Token: 0x060029AC RID: 10668 RVA: 0x00161C58 File Offset: 0x00160058
 		protected override bool PlayerChoosesTarget
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060029AB RID: 10667 RVA: 0x00161BDC File Offset: 0x0015FFDC
+		// Token: 0x060029AD RID: 10669 RVA: 0x00161C70 File Offset: 0x00160070
 		protected override TargetingParameters GetTargetingParameters()
 		{
 			return new TargetingParameters
@@ -30,7 +30,7 @@ namespace RimWorld
 			};
 		}
 
-		// Token: 0x060029AC RID: 10668 RVA: 0x00161C28 File Offset: 0x00160028
+		// Token: 0x060029AE RID: 10670 RVA: 0x00161CBC File Offset: 0x001600BC
 		public override IEnumerable<Thing> GetTargets(Thing targetChosenByPlayer = null)
 		{
 			yield return targetChosenByPlayer;

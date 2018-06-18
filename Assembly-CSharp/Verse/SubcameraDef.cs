@@ -7,7 +7,7 @@ namespace Verse
 	public class SubcameraDef : Def
 	{
 		// Token: 0x170009D8 RID: 2520
-		// (get) Token: 0x06004069 RID: 16489 RVA: 0x0021D62C File Offset: 0x0021BA2C
+		// (get) Token: 0x0600406B RID: 16491 RVA: 0x0021D700 File Offset: 0x0021BB00
 		public int LayerId
 		{
 			get
@@ -21,7 +21,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009D9 RID: 2521
-		// (get) Token: 0x0600406A RID: 16490 RVA: 0x0021D664 File Offset: 0x0021BA64
+		// (get) Token: 0x0600406C RID: 16492 RVA: 0x0021D738 File Offset: 0x0021BB38
 		public RenderTextureFormat BestFormat
 		{
 			get

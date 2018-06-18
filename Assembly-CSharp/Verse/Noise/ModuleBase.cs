@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F82 RID: 3970
+	// Token: 0x02000F81 RID: 3969
 	public abstract class ModuleBase : IDisposable
 	{
-		// Token: 0x06005FB3 RID: 24499 RVA: 0x003089C4 File Offset: 0x00306DC4
+		// Token: 0x06005FB1 RID: 24497 RVA: 0x00308AA0 File Offset: 0x00306EA0
 		protected ModuleBase(int count)
 		{
 			if (count > 0)
@@ -17,8 +17,8 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F65 RID: 3941
-		// (get) Token: 0x06005FB4 RID: 24500 RVA: 0x003089F0 File Offset: 0x00306DF0
+		// Token: 0x17000F64 RID: 3940
+		// (get) Token: 0x06005FB2 RID: 24498 RVA: 0x00308ACC File Offset: 0x00306ECC
 		public int SourceModuleCount
 		{
 			get
@@ -27,7 +27,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F66 RID: 3942
+		// Token: 0x17000F65 RID: 3941
 		public virtual ModuleBase this[int index]
 		{
 			get
@@ -59,29 +59,29 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06005FB7 RID: 24503
+		// Token: 0x06005FB5 RID: 24501
 		public abstract double GetValue(double x, double y, double z);
 
-		// Token: 0x06005FB8 RID: 24504 RVA: 0x00308AF4 File Offset: 0x00306EF4
+		// Token: 0x06005FB6 RID: 24502 RVA: 0x00308BD0 File Offset: 0x00306FD0
 		public float GetValue(IntVec2 coordinate)
 		{
 			return (float)this.GetValue((double)coordinate.x, 0.0, (double)coordinate.z);
 		}
 
-		// Token: 0x06005FB9 RID: 24505 RVA: 0x00308B2C File Offset: 0x00306F2C
+		// Token: 0x06005FB7 RID: 24503 RVA: 0x00308C08 File Offset: 0x00307008
 		public float GetValue(IntVec3 coordinate)
 		{
 			return (float)this.GetValue((double)coordinate.x, (double)coordinate.y, (double)coordinate.z);
 		}
 
-		// Token: 0x06005FBA RID: 24506 RVA: 0x00308B60 File Offset: 0x00306F60
+		// Token: 0x06005FB8 RID: 24504 RVA: 0x00308C3C File Offset: 0x0030703C
 		public float GetValue(Vector3 coordinate)
 		{
 			return (float)this.GetValue((double)coordinate.x, (double)coordinate.y, (double)coordinate.z);
 		}
 
-		// Token: 0x17000F67 RID: 3943
-		// (get) Token: 0x06005FBB RID: 24507 RVA: 0x00308B94 File Offset: 0x00306F94
+		// Token: 0x17000F66 RID: 3942
+		// (get) Token: 0x06005FB9 RID: 24505 RVA: 0x00308C70 File Offset: 0x00307070
 		public bool IsDisposed
 		{
 			get
@@ -90,7 +90,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06005FBC RID: 24508 RVA: 0x00308BAF File Offset: 0x00306FAF
+		// Token: 0x06005FBA RID: 24506 RVA: 0x00308C8B File Offset: 0x0030708B
 		public void Dispose()
 		{
 			if (!this.m_disposed)
@@ -100,7 +100,7 @@ namespace Verse.Noise
 			GC.SuppressFinalize(this);
 		}
 
-		// Token: 0x06005FBD RID: 24509 RVA: 0x00308BD4 File Offset: 0x00306FD4
+		// Token: 0x06005FBB RID: 24507 RVA: 0x00308CB0 File Offset: 0x003070B0
 		protected virtual bool Disposing()
 		{
 			if (this.modules != null)
@@ -115,10 +115,10 @@ namespace Verse.Noise
 			return true;
 		}
 
-		// Token: 0x04003EE6 RID: 16102
+		// Token: 0x04003EE5 RID: 16101
 		protected ModuleBase[] modules = null;
 
-		// Token: 0x04003EE7 RID: 16103
+		// Token: 0x04003EE6 RID: 16102
 		[XmlIgnore]
 		[NonSerialized]
 		private bool m_disposed = false;

@@ -8,21 +8,21 @@ namespace Verse.AI
 	// Token: 0x02000A71 RID: 2673
 	public class MentalState_InsultingSpreeAll : MentalState_InsultingSpree
 	{
-		// Token: 0x06003B51 RID: 15185 RVA: 0x001F6D4E File Offset: 0x001F514E
+		// Token: 0x06003B53 RID: 15187 RVA: 0x001F6E22 File Offset: 0x001F5222
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.targetFoundTicks, "targetFoundTicks", 0, false);
 		}
 
-		// Token: 0x06003B52 RID: 15186 RVA: 0x001F6D69 File Offset: 0x001F5169
+		// Token: 0x06003B54 RID: 15188 RVA: 0x001F6E3D File Offset: 0x001F523D
 		public override void PostStart(string reason)
 		{
 			base.PostStart(reason);
 			this.ChooseNextTarget();
 		}
 
-		// Token: 0x06003B53 RID: 15187 RVA: 0x001F6D7C File Offset: 0x001F517C
+		// Token: 0x06003B55 RID: 15189 RVA: 0x001F6E50 File Offset: 0x001F5250
 		public override void MentalStateTick()
 		{
 			if (this.target != null && !InsultingSpreeMentalStateUtility.CanChaseAndInsult(this.pawn, this.target, false, true))
@@ -36,7 +36,7 @@ namespace Verse.AI
 			base.MentalStateTick();
 		}
 
-		// Token: 0x06003B54 RID: 15188 RVA: 0x001F6DEC File Offset: 0x001F51EC
+		// Token: 0x06003B56 RID: 15190 RVA: 0x001F6EC0 File Offset: 0x001F52C0
 		private void ChooseNextTarget()
 		{
 			InsultingSpreeMentalStateUtility.GetInsultCandidatesFor(this.pawn, MentalState_InsultingSpreeAll.candidates, true);
@@ -68,7 +68,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B55 RID: 15189 RVA: 0x001F6EEC File Offset: 0x001F52EC
+		// Token: 0x06003B57 RID: 15191 RVA: 0x001F6FC0 File Offset: 0x001F53C0
 		private float GetCandidateWeight(Pawn candidate)
 		{
 			float num = this.pawn.Position.DistanceTo(candidate.Position);

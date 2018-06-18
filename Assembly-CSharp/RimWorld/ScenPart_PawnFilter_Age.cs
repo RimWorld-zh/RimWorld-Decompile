@@ -7,21 +7,21 @@ namespace RimWorld
 	// Token: 0x02000644 RID: 1604
 	public class ScenPart_PawnFilter_Age : ScenPart
 	{
-		// Token: 0x06002139 RID: 8505 RVA: 0x0011A1D4 File Offset: 0x001185D4
+		// Token: 0x0600213B RID: 8507 RVA: 0x0011A24C File Offset: 0x0011864C
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, 31f);
 			Widgets.IntRange(scenPartRect, (int)listing.CurHeight, ref this.allowedAgeRange, 15, 120, null, 4);
 		}
 
-		// Token: 0x0600213A RID: 8506 RVA: 0x0011A208 File Offset: 0x00118608
+		// Token: 0x0600213C RID: 8508 RVA: 0x0011A280 File Offset: 0x00118680
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<IntRange>(ref this.allowedAgeRange, "allowedAgeRange", default(IntRange), false);
 		}
 
-		// Token: 0x0600213B RID: 8507 RVA: 0x0011A238 File Offset: 0x00118638
+		// Token: 0x0600213D RID: 8509 RVA: 0x0011A2B0 File Offset: 0x001186B0
 		public override string Summary(Scenario scen)
 		{
 			string result;
@@ -57,13 +57,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600213C RID: 8508 RVA: 0x0011A318 File Offset: 0x00118718
+		// Token: 0x0600213E RID: 8510 RVA: 0x0011A390 File Offset: 0x00118790
 		public override bool AllowPlayerStartingPawn(Pawn pawn, bool tryingToRedress, PawnGenerationRequest req)
 		{
 			return this.allowedAgeRange.Includes(pawn.ageTracker.AgeBiologicalYears);
 		}
 
-		// Token: 0x0600213D RID: 8509 RVA: 0x0011A344 File Offset: 0x00118744
+		// Token: 0x0600213F RID: 8511 RVA: 0x0011A3BC File Offset: 0x001187BC
 		public override void Randomize()
 		{
 			this.allowedAgeRange = new IntRange(15, 120);
@@ -90,7 +90,7 @@ namespace RimWorld
 			this.MakeAllowedAgeRangeValid();
 		}
 
-		// Token: 0x0600213E RID: 8510 RVA: 0x0011A3E8 File Offset: 0x001187E8
+		// Token: 0x06002140 RID: 8512 RVA: 0x0011A460 File Offset: 0x00118860
 		private void MakeAllowedAgeRangeValid()
 		{
 			if (this.allowedAgeRange.max < 19)

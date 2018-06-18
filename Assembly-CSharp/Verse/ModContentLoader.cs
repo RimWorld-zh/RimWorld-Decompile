@@ -6,10 +6,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CC6 RID: 3270
+	// Token: 0x02000CC5 RID: 3269
 	public static class ModContentLoader<T> where T : class
 	{
-		// Token: 0x06004808 RID: 18440 RVA: 0x0025DFF0 File Offset: 0x0025C3F0
+		// Token: 0x06004806 RID: 18438 RVA: 0x0025DFC8 File Offset: 0x0025C3C8
 		private static bool IsAcceptableExtension(string extension)
 		{
 			string[] array;
@@ -40,7 +40,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06004809 RID: 18441 RVA: 0x0025E0D0 File Offset: 0x0025C4D0
+		// Token: 0x06004807 RID: 18439 RVA: 0x0025E0A8 File Offset: 0x0025C4A8
 		public static IEnumerable<LoadedContentItem<T>> LoadAllForMod(ModContentPack mod)
 		{
 			string contentDirPath = Path.Combine(mod.RootDir, GenFilePaths.ContentPath<T>());
@@ -71,7 +71,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x0600480A RID: 18442 RVA: 0x0025E0FC File Offset: 0x0025C4FC
+		// Token: 0x06004808 RID: 18440 RVA: 0x0025E0D4 File Offset: 0x0025C4D4
 		public static LoadedContentItem<T> LoadItem(string absFilePath, string contentDirPath = null)
 		{
 			string text = absFilePath;
@@ -144,7 +144,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600480B RID: 18443 RVA: 0x0025E31C File Offset: 0x0025C71C
+		// Token: 0x06004809 RID: 18441 RVA: 0x0025E2F4 File Offset: 0x0025C6F4
 		private static bool ShouldStreamAudioClipFromPath(string absPath)
 		{
 			bool result;
@@ -160,7 +160,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600480C RID: 18444 RVA: 0x0025E358 File Offset: 0x0025C758
+		// Token: 0x0600480A RID: 18442 RVA: 0x0025E330 File Offset: 0x0025C730
 		private static Texture2D LoadPNG(string filePath)
 		{
 			Texture2D texture2D = null;
@@ -178,7 +178,7 @@ namespace Verse
 			return texture2D;
 		}
 
-		// Token: 0x040030CA RID: 12490
+		// Token: 0x040030C8 RID: 12488
 		private static string[] AcceptableExtensionsAudio = new string[]
 		{
 			".wav",
@@ -190,14 +190,14 @@ namespace Verse
 			".s3m"
 		};
 
-		// Token: 0x040030CB RID: 12491
+		// Token: 0x040030C9 RID: 12489
 		private static string[] AcceptableExtensionsTexture = new string[]
 		{
 			".png",
 			".jpg"
 		};
 
-		// Token: 0x040030CC RID: 12492
+		// Token: 0x040030CA RID: 12490
 		private static string[] AcceptableExtensionsString = new string[]
 		{
 			".txt"

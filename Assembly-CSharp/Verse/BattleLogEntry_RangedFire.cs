@@ -8,12 +8,12 @@ namespace Verse
 	// Token: 0x02000BC2 RID: 3010
 	public class BattleLogEntry_RangedFire : LogEntry
 	{
-		// Token: 0x0600414E RID: 16718 RVA: 0x002273C0 File Offset: 0x002257C0
+		// Token: 0x06004150 RID: 16720 RVA: 0x00227438 File Offset: 0x00225838
 		public BattleLogEntry_RangedFire() : base(null)
 		{
 		}
 
-		// Token: 0x0600414F RID: 16719 RVA: 0x002273CC File Offset: 0x002257CC
+		// Token: 0x06004151 RID: 16721 RVA: 0x00227444 File Offset: 0x00225844
 		public BattleLogEntry_RangedFire(Thing initiator, Thing target, ThingDef weaponDef, ThingDef projectileDef, bool burst) : base(null)
 		{
 			if (initiator is Pawn)
@@ -38,7 +38,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A33 RID: 2611
-		// (get) Token: 0x06004150 RID: 16720 RVA: 0x00227454 File Offset: 0x00225854
+		// (get) Token: 0x06004152 RID: 16722 RVA: 0x002274CC File Offset: 0x002258CC
 		private string InitiatorName
 		{
 			get
@@ -48,7 +48,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A34 RID: 2612
-		// (get) Token: 0x06004151 RID: 16721 RVA: 0x0022748C File Offset: 0x0022588C
+		// (get) Token: 0x06004153 RID: 16723 RVA: 0x00227504 File Offset: 0x00225904
 		private string RecipientName
 		{
 			get
@@ -57,13 +57,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004152 RID: 16722 RVA: 0x002274C4 File Offset: 0x002258C4
+		// Token: 0x06004154 RID: 16724 RVA: 0x0022753C File Offset: 0x0022593C
 		public override bool Concerns(Thing t)
 		{
 			return t == this.initiatorPawn || t == this.recipientPawn;
 		}
 
-		// Token: 0x06004153 RID: 16723 RVA: 0x002274F4 File Offset: 0x002258F4
+		// Token: 0x06004155 RID: 16725 RVA: 0x0022756C File Offset: 0x0022596C
 		public override IEnumerable<Thing> GetConcerns()
 		{
 			if (this.initiatorPawn != null)
@@ -77,7 +77,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06004154 RID: 16724 RVA: 0x00227520 File Offset: 0x00225920
+		// Token: 0x06004156 RID: 16726 RVA: 0x00227598 File Offset: 0x00225998
 		public override void ClickedFromPOV(Thing pov)
 		{
 			if (this.recipientPawn != null)
@@ -97,7 +97,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004155 RID: 16725 RVA: 0x00227588 File Offset: 0x00225988
+		// Token: 0x06004157 RID: 16727 RVA: 0x00227600 File Offset: 0x00225A00
 		protected override GrammarRequest GenerateGrammarRequest()
 		{
 			GrammarRequest result = base.GenerateGrammarRequest();
@@ -142,13 +142,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004156 RID: 16726 RVA: 0x00227758 File Offset: 0x00225B58
+		// Token: 0x06004158 RID: 16728 RVA: 0x002277D0 File Offset: 0x00225BD0
 		public override bool ShowInCompactView()
 		{
 			return Rand.ChanceSeeded(BattleLogEntry_RangedFire.DisplayChance, this.logID);
 		}
 
-		// Token: 0x06004157 RID: 16727 RVA: 0x00227780 File Offset: 0x00225B80
+		// Token: 0x06004159 RID: 16729 RVA: 0x002277F8 File Offset: 0x00225BF8
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -161,7 +161,7 @@ namespace Verse
 			Scribe_Values.Look<bool>(ref this.burst, "burst", false, false);
 		}
 
-		// Token: 0x06004158 RID: 16728 RVA: 0x00227808 File Offset: 0x00225C08
+		// Token: 0x0600415A RID: 16730 RVA: 0x00227880 File Offset: 0x00225C80
 		public override string ToString()
 		{
 			return "BattleLogEntry_RangedFire: " + this.InitiatorName + "->" + this.RecipientName;

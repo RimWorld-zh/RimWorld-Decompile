@@ -10,7 +10,7 @@ namespace RimWorld
 	public class Building_TrapRearmable : Building_Trap
 	{
 		// Token: 0x1700052B RID: 1323
-		// (get) Token: 0x06002331 RID: 9009 RVA: 0x0012E72C File Offset: 0x0012CB2C
+		// (get) Token: 0x06002333 RID: 9011 RVA: 0x0012E7A4 File Offset: 0x0012CBA4
 		public override bool Armed
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700052C RID: 1324
-		// (get) Token: 0x06002332 RID: 9010 RVA: 0x0012E748 File Offset: 0x0012CB48
+		// (get) Token: 0x06002334 RID: 9012 RVA: 0x0012E7C0 File Offset: 0x0012CBC0
 		public override Graphic Graphic
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002333 RID: 9011 RVA: 0x0012E7A2 File Offset: 0x0012CBA2
+		// Token: 0x06002335 RID: 9013 RVA: 0x0012E81A File Offset: 0x0012CC1A
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -50,7 +50,7 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.autoRearm, "autoRearm", false, false);
 		}
 
-		// Token: 0x06002334 RID: 9012 RVA: 0x0012E7D0 File Offset: 0x0012CBD0
+		// Token: 0x06002336 RID: 9014 RVA: 0x0012E848 File Offset: 0x0012CC48
 		protected override void SpringSub(Pawn p)
 		{
 			this.armedInt = false;
@@ -64,14 +64,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002335 RID: 9013 RVA: 0x0012E81D File Offset: 0x0012CC1D
+		// Token: 0x06002337 RID: 9015 RVA: 0x0012E895 File Offset: 0x0012CC95
 		public void Rearm()
 		{
 			this.armedInt = true;
 			SoundDefOf.TrapArm.PlayOneShot(new TargetInfo(base.Position, base.Map, false));
 		}
 
-		// Token: 0x06002336 RID: 9014 RVA: 0x0012E848 File Offset: 0x0012CC48
+		// Token: 0x06002338 RID: 9016 RVA: 0x0012E8C0 File Offset: 0x0012CCC0
 		private void DamagePawn(Pawn p)
 		{
 			BodyPartHeight height = (Rand.Value >= 0.666f) ? BodyPartHeight.Middle : BodyPartHeight.Top;
@@ -91,7 +91,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002337 RID: 9015 RVA: 0x0012E908 File Offset: 0x0012CD08
+		// Token: 0x06002339 RID: 9017 RVA: 0x0012E980 File Offset: 0x0012CD80
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo g in this.<GetGizmos>__BaseCallProxy0())

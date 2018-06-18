@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000CE5 RID: 3301
+	// Token: 0x02000CE4 RID: 3300
 	public static class PawnNameColorUtility
 	{
-		// Token: 0x060048A3 RID: 18595 RVA: 0x00261430 File Offset: 0x0025F830
+		// Token: 0x060048A1 RID: 18593 RVA: 0x00261408 File Offset: 0x0025F808
 		static PawnNameColorUtility()
 		{
 			for (int i = 0; i < 10; i++)
@@ -19,13 +19,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060048A4 RID: 18596 RVA: 0x00261640 File Offset: 0x0025FA40
+		// Token: 0x060048A2 RID: 18594 RVA: 0x00261618 File Offset: 0x0025FA18
 		private static Color RandomShiftOf(Color color, int i)
 		{
 			return new Color(Mathf.Clamp01(color.r * PawnNameColorUtility.ColorShifts[i].r), Mathf.Clamp01(color.g * PawnNameColorUtility.ColorShifts[i].g), Mathf.Clamp01(color.b * PawnNameColorUtility.ColorShifts[i].b), color.a);
 		}
 
-		// Token: 0x060048A5 RID: 18597 RVA: 0x002616C4 File Offset: 0x0025FAC4
+		// Token: 0x060048A3 RID: 18595 RVA: 0x0026169C File Offset: 0x0025FA9C
 		public static Color PawnNameColorOf(Pawn pawn)
 		{
 			Color result;
@@ -72,34 +72,34 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04003125 RID: 12581
+		// Token: 0x04003123 RID: 12579
 		private static readonly List<Color> ColorsNeutral = new List<Color>();
 
-		// Token: 0x04003126 RID: 12582
+		// Token: 0x04003124 RID: 12580
 		private static readonly List<Color> ColorsHostile = new List<Color>();
 
-		// Token: 0x04003127 RID: 12583
+		// Token: 0x04003125 RID: 12581
 		private static readonly List<Color> ColorsPrisoner = new List<Color>();
 
-		// Token: 0x04003128 RID: 12584
+		// Token: 0x04003126 RID: 12582
 		private static readonly Color ColorBaseNeutral = new Color(0.4f, 0.85f, 0.9f);
 
-		// Token: 0x04003129 RID: 12585
+		// Token: 0x04003127 RID: 12583
 		private static readonly Color ColorBaseHostile = new Color(0.9f, 0.2f, 0.2f);
 
-		// Token: 0x0400312A RID: 12586
+		// Token: 0x04003128 RID: 12584
 		private static readonly Color ColorBasePrisoner = new Color(1f, 0.85f, 0.5f);
 
-		// Token: 0x0400312B RID: 12587
+		// Token: 0x04003129 RID: 12585
 		private static readonly Color ColorColony = new Color(0.9f, 0.9f, 0.9f);
 
-		// Token: 0x0400312C RID: 12588
+		// Token: 0x0400312A RID: 12586
 		private static readonly Color ColorWildMan = new Color(1f, 0.8f, 1f);
 
-		// Token: 0x0400312D RID: 12589
+		// Token: 0x0400312B RID: 12587
 		private const int ColorShiftCount = 10;
 
-		// Token: 0x0400312E RID: 12590
+		// Token: 0x0400312C RID: 12588
 		private static readonly List<Color> ColorShifts = new List<Color>
 		{
 			new Color(1f, 1f, 1f),

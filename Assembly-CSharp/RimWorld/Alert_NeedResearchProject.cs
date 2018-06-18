@@ -7,14 +7,14 @@ namespace RimWorld
 	// Token: 0x020007A6 RID: 1958
 	public class Alert_NeedResearchProject : Alert
 	{
-		// Token: 0x06002B4B RID: 11083 RVA: 0x0016DBA5 File Offset: 0x0016BFA5
+		// Token: 0x06002B4D RID: 11085 RVA: 0x0016DC39 File Offset: 0x0016C039
 		public Alert_NeedResearchProject()
 		{
 			this.defaultLabel = "NeedResearchProject".Translate();
 			this.defaultExplanation = "NeedResearchProjectDesc".Translate();
 		}
 
-		// Token: 0x06002B4C RID: 11084 RVA: 0x0016DBD0 File Offset: 0x0016BFD0
+		// Token: 0x06002B4E RID: 11086 RVA: 0x0016DC64 File Offset: 0x0016C064
 		public override AlertReport GetReport()
 		{
 			AlertReport result;

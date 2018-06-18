@@ -7,14 +7,14 @@ namespace RimWorld
 	// Token: 0x020006B5 RID: 1717
 	public class Building_WorkTable : Building, IBillGiver, IBillGiverWithTickAction
 	{
-		// Token: 0x060024DC RID: 9436 RVA: 0x0013B7A6 File Offset: 0x00139BA6
+		// Token: 0x060024DE RID: 9438 RVA: 0x0013B81E File Offset: 0x00139C1E
 		public Building_WorkTable()
 		{
 			this.billStack = new BillStack(this);
 		}
 
 		// Token: 0x17000592 RID: 1426
-		// (get) Token: 0x060024DD RID: 9437 RVA: 0x0013B7D8 File Offset: 0x00139BD8
+		// (get) Token: 0x060024DF RID: 9439 RVA: 0x0013B850 File Offset: 0x00139C50
 		public bool CanWorkWithoutPower
 		{
 			get
@@ -23,7 +23,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024DE RID: 9438 RVA: 0x0013B821 File Offset: 0x00139C21
+		// Token: 0x060024E0 RID: 9440 RVA: 0x0013B899 File Offset: 0x00139C99
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -33,7 +33,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x060024DF RID: 9439 RVA: 0x0013B844 File Offset: 0x00139C44
+		// Token: 0x060024E1 RID: 9441 RVA: 0x0013B8BC File Offset: 0x00139CBC
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -46,7 +46,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024E0 RID: 9440 RVA: 0x0013B8CC File Offset: 0x00139CCC
+		// Token: 0x060024E2 RID: 9442 RVA: 0x0013B944 File Offset: 0x00139D44
 		public virtual void UsedThisTick()
 		{
 			if (this.refuelableComp != null)
@@ -56,7 +56,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000593 RID: 1427
-		// (get) Token: 0x060024E1 RID: 9441 RVA: 0x0013B8E8 File Offset: 0x00139CE8
+		// (get) Token: 0x060024E3 RID: 9443 RVA: 0x0013B960 File Offset: 0x00139D60
 		public BillStack BillStack
 		{
 			get
@@ -66,7 +66,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000594 RID: 1428
-		// (get) Token: 0x060024E2 RID: 9442 RVA: 0x0013B904 File Offset: 0x00139D04
+		// (get) Token: 0x060024E4 RID: 9444 RVA: 0x0013B97C File Offset: 0x00139D7C
 		public IntVec3 BillInteractionCell
 		{
 			get
@@ -76,7 +76,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000595 RID: 1429
-		// (get) Token: 0x060024E3 RID: 9443 RVA: 0x0013B920 File Offset: 0x00139D20
+		// (get) Token: 0x060024E5 RID: 9445 RVA: 0x0013B998 File Offset: 0x00139D98
 		public IEnumerable<IntVec3> IngredientStackCells
 		{
 			get
@@ -85,13 +85,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024E4 RID: 9444 RVA: 0x0013B93C File Offset: 0x00139D3C
+		// Token: 0x060024E6 RID: 9446 RVA: 0x0013B9B4 File Offset: 0x00139DB4
 		public bool CurrentlyUsableForBills()
 		{
 			return this.UsableForBillsAfterFueling() && (this.CanWorkWithoutPower || (this.powerComp != null && this.powerComp.PowerOn));
 		}
 
-		// Token: 0x060024E5 RID: 9445 RVA: 0x0013B994 File Offset: 0x00139D94
+		// Token: 0x060024E7 RID: 9447 RVA: 0x0013BA0C File Offset: 0x00139E0C
 		public bool UsableForBillsAfterFueling()
 		{
 			return (this.CanWorkWithoutPower || (this.powerComp != null && this.powerComp.PowerOn)) && (this.breakdownableComp == null || !this.breakdownableComp.BrokenDown);

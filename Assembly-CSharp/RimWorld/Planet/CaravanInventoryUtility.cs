@@ -8,7 +8,7 @@ namespace RimWorld.Planet
 	// Token: 0x020005E0 RID: 1504
 	public static class CaravanInventoryUtility
 	{
-		// Token: 0x06001D9F RID: 7583 RVA: 0x000FF344 File Offset: 0x000FD744
+		// Token: 0x06001DA1 RID: 7585 RVA: 0x000FF3BC File Offset: 0x000FD7BC
 		public static List<Thing> AllInventoryItems(Caravan caravan)
 		{
 			CaravanInventoryUtility.inventoryItems.Clear();
@@ -25,13 +25,13 @@ namespace RimWorld.Planet
 			return CaravanInventoryUtility.inventoryItems;
 		}
 
-		// Token: 0x06001DA0 RID: 7584 RVA: 0x000FF3D4 File Offset: 0x000FD7D4
+		// Token: 0x06001DA2 RID: 7586 RVA: 0x000FF44C File Offset: 0x000FD84C
 		public static void CaravanInventoryUtilityStaticUpdate()
 		{
 			CaravanInventoryUtility.inventoryItems.Clear();
 		}
 
-		// Token: 0x06001DA1 RID: 7585 RVA: 0x000FF3E4 File Offset: 0x000FD7E4
+		// Token: 0x06001DA3 RID: 7587 RVA: 0x000FF45C File Offset: 0x000FD85C
 		public static Pawn GetOwnerOf(Caravan caravan, Thing item)
 		{
 			IThingHolder parentHolder = item.ParentHolder;
@@ -46,7 +46,7 @@ namespace RimWorld.Planet
 			return null;
 		}
 
-		// Token: 0x06001DA2 RID: 7586 RVA: 0x000FF430 File Offset: 0x000FD830
+		// Token: 0x06001DA4 RID: 7588 RVA: 0x000FF4A8 File Offset: 0x000FD8A8
 		public static bool TryGetBestFood(Caravan caravan, Pawn forPawn, out Thing food, out Pawn owner)
 		{
 			List<Thing> list = CaravanInventoryUtility.AllInventoryItems(caravan);
@@ -81,7 +81,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DA3 RID: 7587 RVA: 0x000FF4D0 File Offset: 0x000FD8D0
+		// Token: 0x06001DA5 RID: 7589 RVA: 0x000FF548 File Offset: 0x000FD948
 		public static bool TryGetBestDrug(Caravan caravan, Pawn forPawn, Need_Chemical chemical, out Thing drug, out Pawn owner)
 		{
 			Hediff_Addiction addictionHediff = chemical.AddictionHediff;
@@ -131,7 +131,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DA4 RID: 7588 RVA: 0x000FF620 File Offset: 0x000FDA20
+		// Token: 0x06001DA6 RID: 7590 RVA: 0x000FF698 File Offset: 0x000FDA98
 		public static bool TryGetBestMedicine(Caravan caravan, Pawn patient, out Medicine medicine, out Pawn owner)
 		{
 			bool result;
@@ -178,7 +178,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DA5 RID: 7589 RVA: 0x000FF718 File Offset: 0x000FDB18
+		// Token: 0x06001DA7 RID: 7591 RVA: 0x000FF790 File Offset: 0x000FDB90
 		public static bool TryGetThingOfDef(Caravan caravan, ThingDef thingDef, out Thing thing, out Pawn owner)
 		{
 			List<Thing> list = CaravanInventoryUtility.AllInventoryItems(caravan);
@@ -197,7 +197,7 @@ namespace RimWorld.Planet
 			return false;
 		}
 
-		// Token: 0x06001DA6 RID: 7590 RVA: 0x000FF77C File Offset: 0x000FDB7C
+		// Token: 0x06001DA8 RID: 7592 RVA: 0x000FF7F4 File Offset: 0x000FDBF4
 		public static void MoveAllInventoryToSomeoneElse(Pawn from, List<Pawn> candidates, List<Pawn> ignoreCandidates = null)
 		{
 			CaravanInventoryUtility.inventoryToMove.Clear();
@@ -209,7 +209,7 @@ namespace RimWorld.Planet
 			CaravanInventoryUtility.inventoryToMove.Clear();
 		}
 
-		// Token: 0x06001DA7 RID: 7591 RVA: 0x000FF7F4 File Offset: 0x000FDBF4
+		// Token: 0x06001DA9 RID: 7593 RVA: 0x000FF86C File Offset: 0x000FDC6C
 		public static void MoveInventoryToSomeoneElse(Pawn itemOwner, Thing item, List<Pawn> candidates, List<Pawn> ignoreCandidates, int numToMove)
 		{
 			if (numToMove < 0 || numToMove > item.stackCount)
@@ -235,7 +235,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DA8 RID: 7592 RVA: 0x000FF8A0 File Offset: 0x000FDCA0
+		// Token: 0x06001DAA RID: 7594 RVA: 0x000FF918 File Offset: 0x000FDD18
 		public static Pawn FindPawnToMoveInventoryTo(Thing item, List<Pawn> candidates, List<Pawn> ignoreCandidates, Pawn currentItemOwner = null)
 		{
 			Pawn result;
@@ -270,7 +270,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001DA9 RID: 7593 RVA: 0x000FF95C File Offset: 0x000FDD5C
+		// Token: 0x06001DAB RID: 7595 RVA: 0x000FF9D4 File Offset: 0x000FDDD4
 		public static void MoveAllApparelToSomeonesInventory(Pawn moveFrom, List<Pawn> candidates)
 		{
 			if (moveFrom.apparel != null)
@@ -290,7 +290,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DAA RID: 7594 RVA: 0x000FFA10 File Offset: 0x000FDE10
+		// Token: 0x06001DAC RID: 7596 RVA: 0x000FFA88 File Offset: 0x000FDE88
 		public static void MoveAllEquipmentToSomeonesInventory(Pawn moveFrom, List<Pawn> candidates)
 		{
 			if (moveFrom.equipment != null)
@@ -310,13 +310,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DAB RID: 7595 RVA: 0x000FFAC4 File Offset: 0x000FDEC4
+		// Token: 0x06001DAD RID: 7597 RVA: 0x000FFB3C File Offset: 0x000FDF3C
 		private static bool CanMoveInventoryTo(Pawn pawn)
 		{
 			return MassUtility.CanEverCarryAnything(pawn);
 		}
 
-		// Token: 0x06001DAC RID: 7596 RVA: 0x000FFAE0 File Offset: 0x000FDEE0
+		// Token: 0x06001DAE RID: 7598 RVA: 0x000FFB58 File Offset: 0x000FDF58
 		public static List<Thing> TakeThings(Caravan caravan, Func<Thing, int> takeQuantity)
 		{
 			List<Thing> list = new List<Thing>();
@@ -331,7 +331,7 @@ namespace RimWorld.Planet
 			return list;
 		}
 
-		// Token: 0x06001DAD RID: 7597 RVA: 0x000FFB70 File Offset: 0x000FDF70
+		// Token: 0x06001DAF RID: 7599 RVA: 0x000FFBE8 File Offset: 0x000FDFE8
 		public static void GiveThing(Caravan caravan, Thing thing)
 		{
 			if (CaravanInventoryUtility.AllInventoryItems(caravan).Contains(thing))
@@ -361,7 +361,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001DAE RID: 7598 RVA: 0x000FFC30 File Offset: 0x000FE030
+		// Token: 0x06001DB0 RID: 7600 RVA: 0x000FFCA8 File Offset: 0x000FE0A8
 		public static bool HasThings(Caravan caravan, ThingDef thingDef, int count, Func<Thing, bool> validator = null)
 		{
 			int num = 0;

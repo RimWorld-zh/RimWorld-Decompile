@@ -6,7 +6,7 @@ namespace Verse.AI
 	// Token: 0x02000A82 RID: 2690
 	public class MentalState_FireStartingSpree : MentalState
 	{
-		// Token: 0x06003BAD RID: 15277 RVA: 0x001F7CD4 File Offset: 0x001F60D4
+		// Token: 0x06003BAF RID: 15279 RVA: 0x001F7DA8 File Offset: 0x001F61A8
 		public override RandomSocialMode SocialModeMax()
 		{
 			return RandomSocialMode.Off;

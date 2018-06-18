@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000467 RID: 1127
 	public class Recipe_AdministerIngestible : Recipe_Surgery
 	{
-		// Token: 0x060013CD RID: 5069 RVA: 0x000AC1D8 File Offset: 0x000AA5D8
+		// Token: 0x060013CD RID: 5069 RVA: 0x000AC1E4 File Offset: 0x000AA5E4
 		public override void ApplyOnPawn(Pawn pawn, BodyPartRecord part, Pawn billDoer, List<Thing> ingredients, Bill bill)
 		{
 			ingredients[0].Ingested(pawn, 0f);
@@ -22,18 +22,18 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060013CE RID: 5070 RVA: 0x000AC287 File Offset: 0x000AA687
+		// Token: 0x060013CE RID: 5070 RVA: 0x000AC293 File Offset: 0x000AA693
 		public override void ConsumeIngredient(Thing ingredient, RecipeDef recipe, Map map)
 		{
 		}
 
-		// Token: 0x060013CF RID: 5071 RVA: 0x000AC28C File Offset: 0x000AA68C
+		// Token: 0x060013CF RID: 5071 RVA: 0x000AC298 File Offset: 0x000AA698
 		public override bool IsViolationOnPawn(Pawn pawn, BodyPartRecord part, Faction billDoerFaction)
 		{
 			return pawn.Faction != billDoerFaction && this.recipe.ingredients[0].filter.AllowedThingDefs.First<ThingDef>().IsNonMedicalDrug;
 		}
 
-		// Token: 0x060013D0 RID: 5072 RVA: 0x000AC2DC File Offset: 0x000AA6DC
+		// Token: 0x060013D0 RID: 5072 RVA: 0x000AC2E8 File Offset: 0x000AA6E8
 		public override string GetLabelWhenUsedOn(Pawn pawn, BodyPartRecord part)
 		{
 			string result;

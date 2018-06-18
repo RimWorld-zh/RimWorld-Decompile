@@ -2,21 +2,21 @@
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F94 RID: 3988
+	// Token: 0x02000F93 RID: 3987
 	public class OneMinus : ModuleBase
 	{
-		// Token: 0x06006024 RID: 24612 RVA: 0x0030BDD0 File Offset: 0x0030A1D0
+		// Token: 0x06006022 RID: 24610 RVA: 0x0030BEAC File Offset: 0x0030A2AC
 		public OneMinus() : base(1)
 		{
 		}
 
-		// Token: 0x06006025 RID: 24613 RVA: 0x0030BDDA File Offset: 0x0030A1DA
+		// Token: 0x06006023 RID: 24611 RVA: 0x0030BEB6 File Offset: 0x0030A2B6
 		public OneMinus(ModuleBase module) : base(1)
 		{
 			this.modules[0] = module;
 		}
 
-		// Token: 0x06006026 RID: 24614 RVA: 0x0030BDF0 File Offset: 0x0030A1F0
+		// Token: 0x06006024 RID: 24612 RVA: 0x0030BECC File Offset: 0x0030A2CC
 		public override double GetValue(double x, double y, double z)
 		{
 			return 1.0 - this.modules[0].GetValue(x, y, z);

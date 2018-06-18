@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020004D5 RID: 1237
 	public class PawnRelationWorker_SecondCousin : PawnRelationWorker
 	{
-		// Token: 0x06001602 RID: 5634 RVA: 0x000C2FBC File Offset: 0x000C13BC
+		// Token: 0x06001602 RID: 5634 RVA: 0x000C2FD8 File Offset: 0x000C13D8
 		public override bool InRelation(Pawn me, Pawn other)
 		{
 			bool result;

@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020009CB RID: 2507
 	public class StatWorker_SurgerySuccessChanceFactor : StatWorker
 	{
-		// Token: 0x06003822 RID: 14370 RVA: 0x001DE710 File Offset: 0x001DCB10
+		// Token: 0x06003824 RID: 14372 RVA: 0x001DE7E4 File Offset: 0x001DCBE4
 		public override bool ShouldShowFor(StatRequest req)
 		{
 			bool result;

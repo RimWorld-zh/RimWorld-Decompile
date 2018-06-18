@@ -10,14 +10,14 @@ namespace RimWorld
 	// Token: 0x02000841 RID: 2113
 	public static class DateReadout
 	{
-		// Token: 0x06002FC7 RID: 12231 RVA: 0x0019DE4F File Offset: 0x0019C24F
+		// Token: 0x06002FC9 RID: 12233 RVA: 0x0019DF17 File Offset: 0x0019C317
 		static DateReadout()
 		{
 			DateReadout.Reset();
 		}
 
 		// Token: 0x17000791 RID: 1937
-		// (get) Token: 0x06002FC8 RID: 12232 RVA: 0x0019DE7C File Offset: 0x0019C27C
+		// (get) Token: 0x06002FCA RID: 12234 RVA: 0x0019DF44 File Offset: 0x0019C344
 		public static float Height
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000792 RID: 1938
-		// (get) Token: 0x06002FC9 RID: 12233 RVA: 0x0019DEA8 File Offset: 0x0019C2A8
+		// (get) Token: 0x06002FCB RID: 12235 RVA: 0x0019DF70 File Offset: 0x0019C370
 		private static bool SeasonLabelVisible
 		{
 			get
@@ -36,7 +36,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FCA RID: 12234 RVA: 0x0019DED8 File Offset: 0x0019C2D8
+		// Token: 0x06002FCC RID: 12236 RVA: 0x0019DFA0 File Offset: 0x0019C3A0
 		public static void Reset()
 		{
 			DateReadout.dateString = null;
@@ -51,7 +51,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FCB RID: 12235 RVA: 0x0019DF44 File Offset: 0x0019C344
+		// Token: 0x06002FCD RID: 12237 RVA: 0x0019E00C File Offset: 0x0019C40C
 		public static void DateOnGUI(Rect dateRect)
 		{
 			Vector2 location;

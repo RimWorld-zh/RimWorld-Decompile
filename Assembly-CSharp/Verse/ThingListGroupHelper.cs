@@ -5,10 +5,10 @@ using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000C34 RID: 3124
+	// Token: 0x02000C33 RID: 3123
 	public static class ThingListGroupHelper
 	{
-		// Token: 0x06004491 RID: 17553 RVA: 0x0023FDA0 File Offset: 0x0023E1A0
+		// Token: 0x0600448F RID: 17551 RVA: 0x0023FD78 File Offset: 0x0023E178
 		static ThingListGroupHelper()
 		{
 			int length = Enum.GetValues(typeof(ThingRequestGroup)).Length;
@@ -34,7 +34,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004492 RID: 17554 RVA: 0x0023FE3C File Offset: 0x0023E23C
+		// Token: 0x06004490 RID: 17552 RVA: 0x0023FE14 File Offset: 0x0023E214
 		public static bool Includes(this ThingRequestGroup group, ThingDef def)
 		{
 			bool result;
@@ -172,7 +172,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04002EAB RID: 11947
+		// Token: 0x04002EA9 RID: 11945
 		public static readonly ThingRequestGroup[] AllGroups;
 	}
 }

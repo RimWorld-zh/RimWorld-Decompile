@@ -9,7 +9,7 @@ namespace RimWorld.Planet
 	// Token: 0x02000592 RID: 1426
 	public abstract class WorldLayer_Paths : WorldLayer
 	{
-		// Token: 0x06001B34 RID: 6964 RVA: 0x000E9858 File Offset: 0x000E7C58
+		// Token: 0x06001B35 RID: 6965 RVA: 0x000E98C4 File Offset: 0x000E7CC4
 		public void GeneratePaths(LayerSubMesh subMesh, int tileID, List<WorldLayer_Paths.OutputDirection> nodes, Color32 color, bool allowSmoothTransition)
 		{
 			WorldGrid worldGrid = Find.WorldGrid;
@@ -102,7 +102,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001B35 RID: 6965 RVA: 0x000E9DD0 File Offset: 0x000E81D0
+		// Token: 0x06001B36 RID: 6966 RVA: 0x000E9E3C File Offset: 0x000E823C
 		private void AddPathEndpoint(LayerSubMesh subMesh, List<Vector3> verts, int index, Color32 color, int tileID, WorldLayer_Paths.OutputDirection data)
 		{
 			int index2 = (index + 1) % verts.Count;
@@ -120,7 +120,7 @@ namespace RimWorld.Planet
 			subMesh.colors.Add(color.MutateAlpha(0));
 		}
 
-		// Token: 0x06001B36 RID: 6966
+		// Token: 0x06001B37 RID: 6967
 		public abstract Vector3 FinalizePoint(Vector3 inp, float distortionFrequency, float distortionIntensity);
 
 		// Token: 0x04001005 RID: 4101

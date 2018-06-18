@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020009A7 RID: 2471
 	public class StatPart_BodySize : StatPart
 	{
-		// Token: 0x0600375F RID: 14175 RVA: 0x001D8F84 File Offset: 0x001D7384
+		// Token: 0x06003761 RID: 14177 RVA: 0x001D9058 File Offset: 0x001D7458
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			float num;
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003760 RID: 14176 RVA: 0x001D8FA8 File Offset: 0x001D73A8
+		// Token: 0x06003762 RID: 14178 RVA: 0x001D907C File Offset: 0x001D747C
 		public override string ExplanationPart(StatRequest req)
 		{
 			float f;
@@ -35,7 +35,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003761 RID: 14177 RVA: 0x001D9004 File Offset: 0x001D7404
+		// Token: 0x06003763 RID: 14179 RVA: 0x001D90D8 File Offset: 0x001D74D8
 		private bool TryGetBodySize(StatRequest req, out float bodySize)
 		{
 			return PawnOrCorpseStatUtility.TryGetPawnOrCorpseStat(req, (Pawn x) => x.BodySize, (ThingDef x) => x.race.baseBodySize, out bodySize);

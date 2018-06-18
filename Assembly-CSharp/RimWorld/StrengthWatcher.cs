@@ -6,14 +6,14 @@ namespace RimWorld
 	// Token: 0x02000445 RID: 1093
 	public class StrengthWatcher
 	{
-		// Token: 0x060012ED RID: 4845 RVA: 0x000A3394 File Offset: 0x000A1794
+		// Token: 0x060012ED RID: 4845 RVA: 0x000A33A0 File Offset: 0x000A17A0
 		public StrengthWatcher(Map map)
 		{
 			this.map = map;
 		}
 
 		// Token: 0x17000288 RID: 648
-		// (get) Token: 0x060012EE RID: 4846 RVA: 0x000A33A4 File Offset: 0x000A17A4
+		// (get) Token: 0x060012EE RID: 4846 RVA: 0x000A33B0 File Offset: 0x000A17B0
 		public float StrengthRating
 		{
 			get

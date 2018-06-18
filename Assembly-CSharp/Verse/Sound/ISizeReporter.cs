@@ -2,10 +2,10 @@
 
 namespace Verse.Sound
 {
-	// Token: 0x02000DB9 RID: 3513
+	// Token: 0x02000DB8 RID: 3512
 	public interface ISizeReporter
 	{
-		// Token: 0x06004E6C RID: 20076
+		// Token: 0x06004E6A RID: 20074
 		float CurrentSize();
 	}
 }

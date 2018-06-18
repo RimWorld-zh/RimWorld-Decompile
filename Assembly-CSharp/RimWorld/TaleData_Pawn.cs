@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200065E RID: 1630
 	public class TaleData_Pawn : TaleData
 	{
-		// Token: 0x06002201 RID: 8705 RVA: 0x001203DC File Offset: 0x0011E7DC
+		// Token: 0x06002203 RID: 8707 RVA: 0x00120454 File Offset: 0x0011E854
 		public override void ExposeData()
 		{
 			Scribe_References.Look<Pawn>(ref this.pawn, "pawn", true);
@@ -20,13 +20,13 @@ namespace RimWorld
 			Scribe_Defs.Look<ThingDef>(ref this.notableApparel, "app");
 		}
 
-		// Token: 0x06002202 RID: 8706 RVA: 0x00120464 File Offset: 0x0011E864
+		// Token: 0x06002204 RID: 8708 RVA: 0x001204DC File Offset: 0x0011E8DC
 		public override IEnumerable<Rule> GetRules(string prefix)
 		{
 			return GrammarUtility.RulesForPawn(prefix, this.name, this.kind, this.gender, this.faction, null);
 		}
 
-		// Token: 0x06002203 RID: 8707 RVA: 0x00120498 File Offset: 0x0011E898
+		// Token: 0x06002205 RID: 8709 RVA: 0x00120510 File Offset: 0x0011E910
 		public static TaleData_Pawn GenerateFrom(Pawn pawn)
 		{
 			TaleData_Pawn taleData_Pawn = new TaleData_Pawn();
@@ -50,7 +50,7 @@ namespace RimWorld
 			return taleData_Pawn;
 		}
 
-		// Token: 0x06002204 RID: 8708 RVA: 0x0012055C File Offset: 0x0011E95C
+		// Token: 0x06002206 RID: 8710 RVA: 0x001205D4 File Offset: 0x0011E9D4
 		public static TaleData_Pawn GenerateRandom()
 		{
 			PawnKindDef random = DefDatabase<PawnKindDef>.GetRandom();

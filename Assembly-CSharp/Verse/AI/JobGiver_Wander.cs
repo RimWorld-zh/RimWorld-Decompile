@@ -6,7 +6,7 @@ namespace Verse.AI
 	// Token: 0x02000AD2 RID: 2770
 	public abstract class JobGiver_Wander : ThinkNode_JobGiver
 	{
-		// Token: 0x06003D7D RID: 15741 RVA: 0x000308B0 File Offset: 0x0002ECB0
+		// Token: 0x06003D7F RID: 15743 RVA: 0x000308B0 File Offset: 0x0002ECB0
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			JobGiver_Wander jobGiver_Wander = (JobGiver_Wander)base.DeepCopy(resolve);
@@ -19,7 +19,7 @@ namespace Verse.AI
 			return jobGiver_Wander;
 		}
 
-		// Token: 0x06003D7E RID: 15742 RVA: 0x0003091C File Offset: 0x0002ED1C
+		// Token: 0x06003D80 RID: 15744 RVA: 0x0003091C File Offset: 0x0002ED1C
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			bool flag = pawn.CurJob != null && pawn.CurJob.def == JobDefOf.GotoWander;
@@ -57,14 +57,14 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003D7F RID: 15743 RVA: 0x00030A10 File Offset: 0x0002EE10
+		// Token: 0x06003D81 RID: 15745 RVA: 0x00030A10 File Offset: 0x0002EE10
 		protected virtual IntVec3 GetExactWanderDest(Pawn pawn)
 		{
 			IntVec3 wanderRoot = this.GetWanderRoot(pawn);
 			return RCellFinder.RandomWanderDestFor(pawn, wanderRoot, this.wanderRadius, this.wanderDestValidator, PawnUtility.ResolveMaxDanger(pawn, this.maxDanger));
 		}
 
-		// Token: 0x06003D80 RID: 15744
+		// Token: 0x06003D82 RID: 15746
 		protected abstract IntVec3 GetWanderRoot(Pawn pawn);
 
 		// Token: 0x040026BE RID: 9918

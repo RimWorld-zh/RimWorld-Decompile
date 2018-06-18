@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C52 RID: 3154
+	// Token: 0x02000C51 RID: 3153
 	public static class Printer_Plane
 	{
-		// Token: 0x06004564 RID: 17764 RVA: 0x0024A28C File Offset: 0x0024868C
+		// Token: 0x06004562 RID: 17762 RVA: 0x0024A264 File Offset: 0x00248664
 		public static void PrintPlane(SectionLayer layer, Vector3 center, Vector2 size, Material mat, float rot = 0f, bool flipUv = false, Vector2[] uvs = null, Color32[] colors = null, float topVerticesAltitudeBias = 0.01f, float uvzPayload = 0f)
 		{
 			if (colors == null)
@@ -62,7 +62,7 @@ namespace Verse
 			subMesh.tris.Add(count + 3);
 		}
 
-		// Token: 0x04002F6A RID: 12138
+		// Token: 0x04002F68 RID: 12136
 		private static Color32[] defaultColors = new Color32[]
 		{
 			new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue),
@@ -71,7 +71,7 @@ namespace Verse
 			new Color32(byte.MaxValue, byte.MaxValue, byte.MaxValue, byte.MaxValue)
 		};
 
-		// Token: 0x04002F6B RID: 12139
+		// Token: 0x04002F69 RID: 12137
 		private static Vector2[] defaultUvs = new Vector2[]
 		{
 			new Vector2(0f, 0f),
@@ -80,7 +80,7 @@ namespace Verse
 			new Vector2(1f, 0f)
 		};
 
-		// Token: 0x04002F6C RID: 12140
+		// Token: 0x04002F6A RID: 12138
 		private static Vector2[] defaultUvsFlipped = new Vector2[]
 		{
 			new Vector2(1f, 0f),

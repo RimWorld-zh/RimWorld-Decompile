@@ -6,7 +6,7 @@ namespace Verse.AI
 	// Token: 0x02000A86 RID: 2694
 	public abstract class MentalState_Tantrum : MentalState
 	{
-		// Token: 0x06003BBE RID: 15294 RVA: 0x001F7F5E File Offset: 0x001F635E
+		// Token: 0x06003BC0 RID: 15296 RVA: 0x001F8032 File Offset: 0x001F6432
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -14,13 +14,13 @@ namespace Verse.AI
 			Scribe_Values.Look<bool>(ref this.hitTargetAtLeastOnce, "hitTargetAtLeastOnce", false, false);
 		}
 
-		// Token: 0x06003BBF RID: 15295 RVA: 0x001F7F8C File Offset: 0x001F638C
+		// Token: 0x06003BC1 RID: 15297 RVA: 0x001F8060 File Offset: 0x001F6460
 		public override RandomSocialMode SocialModeMax()
 		{
 			return RandomSocialMode.Off;
 		}
 
-		// Token: 0x06003BC0 RID: 15296 RVA: 0x001F7FA2 File Offset: 0x001F63A2
+		// Token: 0x06003BC2 RID: 15298 RVA: 0x001F8076 File Offset: 0x001F6476
 		public override void Notify_AttackedTarget(LocalTargetInfo hitTarget)
 		{
 			base.Notify_AttackedTarget(hitTarget);

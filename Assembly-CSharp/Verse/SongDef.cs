@@ -8,7 +8,7 @@ namespace Verse
 	// Token: 0x02000B76 RID: 2934
 	public class SongDef : Def
 	{
-		// Token: 0x06003FF3 RID: 16371 RVA: 0x0021AD68 File Offset: 0x00219168
+		// Token: 0x06003FF5 RID: 16373 RVA: 0x0021AE3C File Offset: 0x0021923C
 		public override void PostLoad()
 		{
 			base.PostLoad();
@@ -23,7 +23,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FF4 RID: 16372 RVA: 0x0021ADBC File Offset: 0x002191BC
+		// Token: 0x06003FF6 RID: 16374 RVA: 0x0021AE90 File Offset: 0x00219290
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();

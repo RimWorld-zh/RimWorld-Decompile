@@ -6,7 +6,7 @@ namespace Verse.AI.Group
 	// Token: 0x02000A27 RID: 2599
 	public class Trigger_UrgentlyHungry : Trigger
 	{
-		// Token: 0x060039CA RID: 14794 RVA: 0x001E877C File Offset: 0x001E6B7C
+		// Token: 0x060039CC RID: 14796 RVA: 0x001E8850 File Offset: 0x001E6C50
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
 			if (signal.type == TriggerSignalType.Tick)

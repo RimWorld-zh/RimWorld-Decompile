@@ -6,7 +6,7 @@ namespace Verse.AI
 	// Token: 0x02000A75 RID: 2677
 	public class MentalState_Jailbreaker : MentalState
 	{
-		// Token: 0x06003B7A RID: 15226 RVA: 0x001F7310 File Offset: 0x001F5710
+		// Token: 0x06003B7C RID: 15228 RVA: 0x001F73E4 File Offset: 0x001F57E4
 		public override void MentalStateTick()
 		{
 			base.MentalStateTick();
@@ -16,7 +16,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B7B RID: 15227 RVA: 0x001F7348 File Offset: 0x001F5748
+		// Token: 0x06003B7D RID: 15229 RVA: 0x001F741C File Offset: 0x001F581C
 		public void Notify_InducedPrisonerToEscape()
 		{
 			if (MentalStateDefOf.Wander_OwnRoom.Worker.StateCanOccur(this.pawn))

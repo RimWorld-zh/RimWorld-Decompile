@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000864 RID: 2148
 	public static class InspectTabManager
 	{
-		// Token: 0x060030B1 RID: 12465 RVA: 0x001A69E8 File Offset: 0x001A4DE8
+		// Token: 0x060030B3 RID: 12467 RVA: 0x001A6AB0 File Offset: 0x001A4EB0
 		public static InspectTabBase GetSharedInstance(Type tabType)
 		{
 			InspectTabBase inspectTabBase;

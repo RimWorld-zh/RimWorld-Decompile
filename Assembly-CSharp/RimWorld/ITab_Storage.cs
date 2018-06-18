@@ -10,7 +10,7 @@ namespace RimWorld
 	// Token: 0x0200085E RID: 2142
 	public class ITab_Storage : ITab
 	{
-		// Token: 0x0600306F RID: 12399 RVA: 0x001A522D File Offset: 0x001A362D
+		// Token: 0x06003071 RID: 12401 RVA: 0x001A52F5 File Offset: 0x001A36F5
 		public ITab_Storage()
 		{
 			this.size = ITab_Storage.WinSize;
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007B9 RID: 1977
-		// (get) Token: 0x06003070 RID: 12400 RVA: 0x001A5258 File Offset: 0x001A3658
+		// (get) Token: 0x06003072 RID: 12402 RVA: 0x001A5320 File Offset: 0x001A3720
 		protected virtual IStoreSettingsParent SelStoreSettingsParent
 		{
 			get
@@ -47,7 +47,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007BA RID: 1978
-		// (get) Token: 0x06003071 RID: 12401 RVA: 0x001A52A8 File Offset: 0x001A36A8
+		// (get) Token: 0x06003073 RID: 12403 RVA: 0x001A5370 File Offset: 0x001A3770
 		public override bool IsVisible
 		{
 			get
@@ -57,7 +57,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007BB RID: 1979
-		// (get) Token: 0x06003072 RID: 12402 RVA: 0x001A52C8 File Offset: 0x001A36C8
+		// (get) Token: 0x06003074 RID: 12404 RVA: 0x001A5390 File Offset: 0x001A3790
 		protected virtual bool IsPrioritySettingVisible
 		{
 			get
@@ -67,7 +67,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007BC RID: 1980
-		// (get) Token: 0x06003073 RID: 12403 RVA: 0x001A52E0 File Offset: 0x001A36E0
+		// (get) Token: 0x06003075 RID: 12405 RVA: 0x001A53A8 File Offset: 0x001A37A8
 		private float TopAreaHeight
 		{
 			get
@@ -76,7 +76,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003074 RID: 12404 RVA: 0x001A530C File Offset: 0x001A370C
+		// Token: 0x06003076 RID: 12406 RVA: 0x001A53D4 File Offset: 0x001A37D4
 		protected override void FillTab()
 		{
 			IStoreSettingsParent storeSettingsParent = this.SelStoreSettingsParent;
@@ -146,7 +146,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06003075 RID: 12405 RVA: 0x001A5634 File Offset: 0x001A3A34
+		// Token: 0x06003077 RID: 12407 RVA: 0x001A56FC File Offset: 0x001A3AFC
 		protected IStoreSettingsParent GetThingOrThingCompStoreSettingsParent(Thing t)
 		{
 			IStoreSettingsParent storeSettingsParent = t as IStoreSettingsParent;

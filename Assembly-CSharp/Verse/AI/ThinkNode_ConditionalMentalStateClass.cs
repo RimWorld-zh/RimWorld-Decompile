@@ -5,7 +5,7 @@ namespace Verse.AI
 	// Token: 0x02000AB4 RID: 2740
 	public class ThinkNode_ConditionalMentalStateClass : ThinkNode_Conditional
 	{
-		// Token: 0x06003D1C RID: 15644 RVA: 0x0020485C File Offset: 0x00202C5C
+		// Token: 0x06003D1E RID: 15646 RVA: 0x00204930 File Offset: 0x00202D30
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			ThinkNode_ConditionalMentalStateClass thinkNode_ConditionalMentalStateClass = (ThinkNode_ConditionalMentalStateClass)base.DeepCopy(resolve);
@@ -13,7 +13,7 @@ namespace Verse.AI
 			return thinkNode_ConditionalMentalStateClass;
 		}
 
-		// Token: 0x06003D1D RID: 15645 RVA: 0x0020488C File Offset: 0x00202C8C
+		// Token: 0x06003D1F RID: 15647 RVA: 0x00204960 File Offset: 0x00202D60
 		protected override bool Satisfied(Pawn pawn)
 		{
 			MentalState mentalState = pawn.MentalState;

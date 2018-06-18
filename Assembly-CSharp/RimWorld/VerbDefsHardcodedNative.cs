@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000993 RID: 2451
 	public static class VerbDefsHardcodedNative
 	{
-		// Token: 0x0600370E RID: 14094 RVA: 0x001D65C0 File Offset: 0x001D49C0
+		// Token: 0x06003710 RID: 14096 RVA: 0x001D6694 File Offset: 0x001D4A94
 		public static IEnumerable<VerbProperties> AllVerbDefs()
 		{
 			VerbProperties d = new VerbProperties();

@@ -8,13 +8,13 @@ namespace RimWorld
 	// Token: 0x020007B7 RID: 1975
 	public static class PlayerPawnsDisplayOrderUtility
 	{
-		// Token: 0x06002BB8 RID: 11192 RVA: 0x00172729 File Offset: 0x00170B29
+		// Token: 0x06002BBA RID: 11194 RVA: 0x001727BD File Offset: 0x00170BBD
 		public static void Sort(List<Pawn> pawns)
 		{
 			pawns.SortBy(PlayerPawnsDisplayOrderUtility.displayOrderGetter, PlayerPawnsDisplayOrderUtility.thingIDNumberGetter);
 		}
 
-		// Token: 0x06002BB9 RID: 11193 RVA: 0x0017273C File Offset: 0x00170B3C
+		// Token: 0x06002BBB RID: 11195 RVA: 0x001727D0 File Offset: 0x00170BD0
 		public static IEnumerable<Pawn> InOrder(IEnumerable<Pawn> pawns)
 		{
 			return pawns.OrderBy(PlayerPawnsDisplayOrderUtility.displayOrderGetter).ThenBy(PlayerPawnsDisplayOrderUtility.thingIDNumberGetter);

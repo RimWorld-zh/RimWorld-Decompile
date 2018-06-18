@@ -9,14 +9,14 @@ namespace RimWorld
 	// Token: 0x020006BD RID: 1725
 	public class PowerBeam : OrbitalStrike
 	{
-		// Token: 0x0600251A RID: 9498 RVA: 0x0013E280 File Offset: 0x0013C680
+		// Token: 0x0600251C RID: 9500 RVA: 0x0013E2F8 File Offset: 0x0013C6F8
 		public override void StartStrike()
 		{
 			base.StartStrike();
 			MoteMaker.MakePowerBeamMote(base.Position, base.Map);
 		}
 
-		// Token: 0x0600251B RID: 9499 RVA: 0x0013E29C File Offset: 0x0013C69C
+		// Token: 0x0600251D RID: 9501 RVA: 0x0013E314 File Offset: 0x0013C714
 		public override void Tick()
 		{
 			base.Tick();
@@ -29,7 +29,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600251C RID: 9500 RVA: 0x0013E2DC File Offset: 0x0013C6DC
+		// Token: 0x0600251E RID: 9502 RVA: 0x0013E354 File Offset: 0x0013C754
 		private void StartRandomFireAndDoFlameDamage()
 		{
 			IntVec3 c = (from x in GenRadial.RadialCellsAround(base.Position, 15f, true)

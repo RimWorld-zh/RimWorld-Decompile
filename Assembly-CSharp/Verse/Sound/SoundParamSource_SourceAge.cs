@@ -7,7 +7,7 @@ namespace Verse.Sound
 	public class SoundParamSource_SourceAge : SoundParamSource
 	{
 		// Token: 0x170009CB RID: 2507
-		// (get) Token: 0x06004041 RID: 16449 RVA: 0x0021C7E4 File Offset: 0x0021ABE4
+		// (get) Token: 0x06004043 RID: 16451 RVA: 0x0021C8B8 File Offset: 0x0021ACB8
 		public override string Label
 		{
 			get
@@ -16,7 +16,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004042 RID: 16450 RVA: 0x0021C800 File Offset: 0x0021AC00
+		// Token: 0x06004044 RID: 16452 RVA: 0x0021C8D4 File Offset: 0x0021ACD4
 		public override float ValueFor(Sample samp)
 		{
 			float result;

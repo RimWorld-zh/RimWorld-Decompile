@@ -15,7 +15,7 @@ namespace Verse
 	// Token: 0x02000BDE RID: 3038
 	public abstract class Root : MonoBehaviour
 	{
-		// Token: 0x06004243 RID: 16963 RVA: 0x0022D928 File Offset: 0x0022BD28
+		// Token: 0x06004245 RID: 16965 RVA: 0x0022D9A0 File Offset: 0x0022BDA0
 		public virtual void Start()
 		{
 			try
@@ -60,7 +60,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004244 RID: 16964 RVA: 0x0022D9CC File Offset: 0x0022BDCC
+		// Token: 0x06004246 RID: 16966 RVA: 0x0022DA44 File Offset: 0x0022BE44
 		private static void CheckGlobalInit()
 		{
 			if (!Root.globalInitDone)
@@ -88,7 +88,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004245 RID: 16965 RVA: 0x0022DA70 File Offset: 0x0022BE70
+		// Token: 0x06004247 RID: 16967 RVA: 0x0022DAE8 File Offset: 0x0022BEE8
 		public virtual void Update()
 		{
 			try
@@ -141,7 +141,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004246 RID: 16966 RVA: 0x0022DBA0 File Offset: 0x0022BFA0
+		// Token: 0x06004248 RID: 16968 RVA: 0x0022DC18 File Offset: 0x0022C018
 		public void OnGUI()
 		{
 			try
@@ -168,7 +168,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004247 RID: 16967 RVA: 0x0022DC48 File Offset: 0x0022C048
+		// Token: 0x06004249 RID: 16969 RVA: 0x0022DCC0 File Offset: 0x0022C0C0
 		public static void Shutdown()
 		{
 			SteamManager.ShutdownSteam();

@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x02000449 RID: 1097
 	public static class LightningBoltMeshMaker
 	{
-		// Token: 0x06001302 RID: 4866 RVA: 0x000A3C68 File Offset: 0x000A2068
+		// Token: 0x06001302 RID: 4866 RVA: 0x000A3C74 File Offset: 0x000A2074
 		public static Mesh NewBoltMesh()
 		{
 			LightningBoltMeshMaker.lightningTop = new Vector2(Rand.Range(-50f, 50f), 200f);
@@ -19,7 +19,7 @@ namespace RimWorld
 			return LightningBoltMeshMaker.MeshFromVerts();
 		}
 
-		// Token: 0x06001303 RID: 4867 RVA: 0x000A3CB0 File Offset: 0x000A20B0
+		// Token: 0x06001303 RID: 4867 RVA: 0x000A3CBC File Offset: 0x000A20BC
 		private static void MakeVerticesBase()
 		{
 			int num = (int)Math.Ceiling((double)((Vector2.zero - LightningBoltMeshMaker.lightningTop).magnitude / 0.25f));
@@ -33,7 +33,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001304 RID: 4868 RVA: 0x000A3D2C File Offset: 0x000A212C
+		// Token: 0x06001304 RID: 4868 RVA: 0x000A3D38 File Offset: 0x000A2138
 		private static void PeturbVerticesRandomly()
 		{
 			Perlin perlin = new Perlin(0.0070000002160668373, 2.0, 0.5, 6, Rand.Range(0, int.MaxValue), QualityMode.High);
@@ -47,7 +47,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001305 RID: 4869 RVA: 0x000A3DE0 File Offset: 0x000A21E0
+		// Token: 0x06001305 RID: 4869 RVA: 0x000A3DEC File Offset: 0x000A21EC
 		private static void DoubleVertices()
 		{
 			List<Vector2> list = LightningBoltMeshMaker.verts2D.ListFullCopy<Vector2>();
@@ -69,7 +69,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001306 RID: 4870 RVA: 0x000A3ED4 File Offset: 0x000A22D4
+		// Token: 0x06001306 RID: 4870 RVA: 0x000A3EE0 File Offset: 0x000A22E0
 		private static Mesh MeshFromVerts()
 		{
 			Vector3[] array = new Vector3[LightningBoltMeshMaker.verts2D.Count];

@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000AF0 RID: 2800
 	public class SubcameraDriver : MonoBehaviour
 	{
-		// Token: 0x06003DF6 RID: 15862 RVA: 0x0020AC08 File Offset: 0x00209008
+		// Token: 0x06003DF8 RID: 15864 RVA: 0x0020ACDC File Offset: 0x002090DC
 		public void Init()
 		{
 			if (this.subcameras == null)
@@ -55,7 +55,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DF7 RID: 15863 RVA: 0x0020ADD4 File Offset: 0x002091D4
+		// Token: 0x06003DF9 RID: 15865 RVA: 0x0020AEA8 File Offset: 0x002092A8
 		public void UpdatePositions(Camera camera)
 		{
 			if (this.subcameras != null)
@@ -82,7 +82,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003DF8 RID: 15864 RVA: 0x0020AEB4 File Offset: 0x002092B4
+		// Token: 0x06003DFA RID: 15866 RVA: 0x0020AF88 File Offset: 0x00209388
 		public Camera GetSubcamera(SubcameraDef def)
 		{
 			Camera result;

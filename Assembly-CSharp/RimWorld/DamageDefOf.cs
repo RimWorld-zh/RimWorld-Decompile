@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class DamageDefOf
 	{
-		// Token: 0x0600362C RID: 13868 RVA: 0x001D06CB File Offset: 0x001CEACB
+		// Token: 0x0600362E RID: 13870 RVA: 0x001D0793 File Offset: 0x001CEB93
 		static DamageDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(DamageDefOf));

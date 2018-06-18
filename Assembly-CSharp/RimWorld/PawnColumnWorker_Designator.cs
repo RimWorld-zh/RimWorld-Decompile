@@ -7,21 +7,21 @@ namespace RimWorld
 	public abstract class PawnColumnWorker_Designator : PawnColumnWorker_Checkbox
 	{
 		// Token: 0x170007F9 RID: 2041
-		// (get) Token: 0x06003196 RID: 12694
+		// (get) Token: 0x06003198 RID: 12696
 		protected abstract DesignationDef DesignationType { get; }
 
-		// Token: 0x06003197 RID: 12695 RVA: 0x001ADFC8 File Offset: 0x001AC3C8
+		// Token: 0x06003199 RID: 12697 RVA: 0x001AE090 File Offset: 0x001AC490
 		protected virtual void Notify_DesignationAdded(Pawn pawn)
 		{
 		}
 
-		// Token: 0x06003198 RID: 12696 RVA: 0x001ADFCC File Offset: 0x001AC3CC
+		// Token: 0x0600319A RID: 12698 RVA: 0x001AE094 File Offset: 0x001AC494
 		protected override bool GetValue(Pawn pawn)
 		{
 			return this.GetDesignation(pawn) != null;
 		}
 
-		// Token: 0x06003199 RID: 12697 RVA: 0x001ADFF0 File Offset: 0x001AC3F0
+		// Token: 0x0600319B RID: 12699 RVA: 0x001AE0B8 File Offset: 0x001AC4B8
 		protected override void SetValue(Pawn pawn, bool value)
 		{
 			if (value != this.GetValue(pawn))
@@ -42,7 +42,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600319A RID: 12698 RVA: 0x001AE068 File Offset: 0x001AC468
+		// Token: 0x0600319C RID: 12700 RVA: 0x001AE130 File Offset: 0x001AC530
 		private Designation GetDesignation(Pawn pawn)
 		{
 			Map mapHeld = pawn.MapHeld;

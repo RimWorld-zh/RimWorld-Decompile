@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200043D RID: 1085
 	public class RoomStatWorker_FoodPoisonChanceFactor : RoomStatWorker
 	{
-		// Token: 0x060012DC RID: 4828 RVA: 0x000A2E90 File Offset: 0x000A1290
+		// Token: 0x060012DC RID: 4828 RVA: 0x000A2E9C File Offset: 0x000A129C
 		public override float GetScore(Room room)
 		{
 			float stat = room.GetStat(RoomStatDefOf.Cleanliness);

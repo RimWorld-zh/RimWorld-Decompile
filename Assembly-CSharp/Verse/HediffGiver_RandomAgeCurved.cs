@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000D3B RID: 3387
+	// Token: 0x02000D3A RID: 3386
 	public class HediffGiver_RandomAgeCurved : HediffGiver
 	{
-		// Token: 0x06004A7E RID: 19070 RVA: 0x0026CDD0 File Offset: 0x0026B1D0
+		// Token: 0x06004A7C RID: 19068 RVA: 0x0026CDA8 File Offset: 0x0026B1A8
 		public override void OnIntervalPassed(Pawn pawn, Hediff cause)
 		{
 			float x = (float)pawn.ageTracker.AgeBiologicalYears / pawn.RaceProps.lifeExpectancy;
@@ -18,7 +18,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003251 RID: 12881
+		// Token: 0x0400324F RID: 12879
 		public SimpleCurve ageFractionMtbDaysCurve = null;
 	}
 }

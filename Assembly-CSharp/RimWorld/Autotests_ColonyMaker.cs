@@ -11,7 +11,7 @@ namespace RimWorld
 	public static class Autotests_ColonyMaker
 	{
 		// Token: 0x1700088E RID: 2190
-		// (get) Token: 0x06003508 RID: 13576 RVA: 0x001C4E8C File Offset: 0x001C328C
+		// (get) Token: 0x0600350A RID: 13578 RVA: 0x001C4F54 File Offset: 0x001C3354
 		private static Map Map
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003509 RID: 13577 RVA: 0x001C4EA6 File Offset: 0x001C32A6
+		// Token: 0x0600350B RID: 13579 RVA: 0x001C4F6E File Offset: 0x001C336E
 		public static void MakeColony_Full()
 		{
 			Autotests_ColonyMaker.MakeColony(new ColonyMakerFlag[]
@@ -43,13 +43,13 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x0600350A RID: 13578 RVA: 0x001C4EC0 File Offset: 0x001C32C0
+		// Token: 0x0600350C RID: 13580 RVA: 0x001C4F88 File Offset: 0x001C3388
 		public static void MakeColony_Animals()
 		{
 			Autotests_ColonyMaker.MakeColony(new ColonyMakerFlag[1]);
 		}
 
-		// Token: 0x0600350B RID: 13579 RVA: 0x001C4ED0 File Offset: 0x001C32D0
+		// Token: 0x0600350D RID: 13581 RVA: 0x001C4F98 File Offset: 0x001C3398
 		public static void MakeColony(params ColonyMakerFlag[] flags)
 		{
 			bool godMode = DebugSettings.godMode;
@@ -366,7 +366,7 @@ namespace RimWorld
 			Thing.allowDestroyNonDestroyable = false;
 		}
 
-		// Token: 0x0600350C RID: 13580 RVA: 0x001C5CB8 File Offset: 0x001C40B8
+		// Token: 0x0600350E RID: 13582 RVA: 0x001C5D80 File Offset: 0x001C4180
 		private static void FillWithItems(CellRect rect, List<ThingDef> itemDefs)
 		{
 			int num = 0;
@@ -385,7 +385,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600350D RID: 13581 RVA: 0x001C5D50 File Offset: 0x001C4150
+		// Token: 0x0600350F RID: 13583 RVA: 0x001C5E18 File Offset: 0x001C4218
 		private static Thing TryMakeBuilding(ThingDef def)
 		{
 			CellRect cellRect;
@@ -408,7 +408,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600350E RID: 13582 RVA: 0x001C5E18 File Offset: 0x001C4218
+		// Token: 0x06003510 RID: 13584 RVA: 0x001C5EE0 File Offset: 0x001C42E0
 		private static bool TryGetFreeRect(int width, int height, out CellRect result)
 		{
 			for (int i = Autotests_ColonyMaker.overRect.minZ; i <= Autotests_ColonyMaker.overRect.maxZ - height; i++)
@@ -455,7 +455,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x0600350F RID: 13583 RVA: 0x001C5FAC File Offset: 0x001C43AC
+		// Token: 0x06003511 RID: 13585 RVA: 0x001C6074 File Offset: 0x001C4474
 		private static void DoToColonists(float fraction, Action<Pawn> funcToDo)
 		{
 			int num = Rand.RangeInclusive(1, Mathf.RoundToInt((float)Autotests_ColonyMaker.Map.mapPawns.FreeColonistsCount * fraction));
@@ -471,7 +471,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003510 RID: 13584 RVA: 0x001C6048 File Offset: 0x001C4448
+		// Token: 0x06003512 RID: 13586 RVA: 0x001C6110 File Offset: 0x001C4510
 		private static void MakeColonists(int count, IntVec3 center)
 		{
 			for (int i = 0; i < count; i++)
@@ -490,7 +490,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003511 RID: 13585 RVA: 0x001C610C File Offset: 0x001C450C
+		// Token: 0x06003513 RID: 13587 RVA: 0x001C61D4 File Offset: 0x001C45D4
 		private static void DeleteAllSpawnedPawns()
 		{
 			foreach (Pawn pawn in Autotests_ColonyMaker.Map.mapPawns.AllPawnsSpawned.ToList<Pawn>())
@@ -501,7 +501,7 @@ namespace RimWorld
 			Find.GameEnder.gameEnding = false;
 		}
 
-		// Token: 0x06003512 RID: 13586 RVA: 0x001C6190 File Offset: 0x001C4590
+		// Token: 0x06003514 RID: 13588 RVA: 0x001C6258 File Offset: 0x001C4658
 		private static void ClearAllHomeArea()
 		{
 			foreach (IntVec3 c in Autotests_ColonyMaker.Map.AllCells)
@@ -510,7 +510,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003513 RID: 13587 RVA: 0x001C6200 File Offset: 0x001C4600
+		// Token: 0x06003515 RID: 13589 RVA: 0x001C62C8 File Offset: 0x001C46C8
 		private static void FillWithHomeArea(CellRect r)
 		{
 			Designator_AreaHomeExpand designator_AreaHomeExpand = new Designator_AreaHomeExpand();

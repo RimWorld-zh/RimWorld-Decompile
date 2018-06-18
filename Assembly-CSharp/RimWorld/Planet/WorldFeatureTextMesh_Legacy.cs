@@ -7,14 +7,14 @@ namespace RimWorld.Planet
 	// Token: 0x02000576 RID: 1398
 	public class WorldFeatureTextMesh_Legacy : WorldFeatureTextMesh
 	{
-		// Token: 0x06001A87 RID: 6791 RVA: 0x000E4C0C File Offset: 0x000E300C
+		// Token: 0x06001A88 RID: 6792 RVA: 0x000E4C60 File Offset: 0x000E3060
 		private static void TextScaleFactor_Changed()
 		{
 			Find.WorldFeatures.textsCreated = false;
 		}
 
 		// Token: 0x170003C7 RID: 967
-		// (get) Token: 0x06001A88 RID: 6792 RVA: 0x000E4C1C File Offset: 0x000E301C
+		// (get) Token: 0x06001A89 RID: 6793 RVA: 0x000E4C70 File Offset: 0x000E3070
 		public override bool Active
 		{
 			get
@@ -24,7 +24,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003C8 RID: 968
-		// (get) Token: 0x06001A89 RID: 6793 RVA: 0x000E4C44 File Offset: 0x000E3044
+		// (get) Token: 0x06001A8A RID: 6794 RVA: 0x000E4C98 File Offset: 0x000E3098
 		public override Vector3 Position
 		{
 			get
@@ -34,8 +34,8 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003C9 RID: 969
-		// (get) Token: 0x06001A8A RID: 6794 RVA: 0x000E4C6C File Offset: 0x000E306C
-		// (set) Token: 0x06001A8B RID: 6795 RVA: 0x000E4C8C File Offset: 0x000E308C
+		// (get) Token: 0x06001A8B RID: 6795 RVA: 0x000E4CC0 File Offset: 0x000E30C0
+		// (set) Token: 0x06001A8C RID: 6796 RVA: 0x000E4CE0 File Offset: 0x000E30E0
 		public override Color Color
 		{
 			get
@@ -49,8 +49,8 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003CA RID: 970
-		// (get) Token: 0x06001A8C RID: 6796 RVA: 0x000E4C9C File Offset: 0x000E309C
-		// (set) Token: 0x06001A8D RID: 6797 RVA: 0x000E4CBC File Offset: 0x000E30BC
+		// (get) Token: 0x06001A8D RID: 6797 RVA: 0x000E4CF0 File Offset: 0x000E30F0
+		// (set) Token: 0x06001A8E RID: 6798 RVA: 0x000E4D10 File Offset: 0x000E3110
 		public override string Text
 		{
 			get
@@ -64,7 +64,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003CB RID: 971
-		// (set) Token: 0x06001A8E RID: 6798 RVA: 0x000E4CCB File Offset: 0x000E30CB
+		// (set) Token: 0x06001A8F RID: 6799 RVA: 0x000E4D1F File Offset: 0x000E311F
 		public override float Size
 		{
 			set
@@ -74,8 +74,8 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003CC RID: 972
-		// (get) Token: 0x06001A8F RID: 6799 RVA: 0x000E4CE8 File Offset: 0x000E30E8
-		// (set) Token: 0x06001A90 RID: 6800 RVA: 0x000E4D0D File Offset: 0x000E310D
+		// (get) Token: 0x06001A90 RID: 6800 RVA: 0x000E4D3C File Offset: 0x000E313C
+		// (set) Token: 0x06001A91 RID: 6801 RVA: 0x000E4D61 File Offset: 0x000E3161
 		public override Quaternion Rotation
 		{
 			get
@@ -89,8 +89,8 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003CD RID: 973
-		// (get) Token: 0x06001A91 RID: 6801 RVA: 0x000E4D24 File Offset: 0x000E3124
-		// (set) Token: 0x06001A92 RID: 6802 RVA: 0x000E4D49 File Offset: 0x000E3149
+		// (get) Token: 0x06001A92 RID: 6802 RVA: 0x000E4D78 File Offset: 0x000E3178
+		// (set) Token: 0x06001A93 RID: 6803 RVA: 0x000E4D9D File Offset: 0x000E319D
 		public override Vector3 LocalPosition
 		{
 			get
@@ -103,19 +103,19 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001A93 RID: 6803 RVA: 0x000E4D5D File Offset: 0x000E315D
+		// Token: 0x06001A94 RID: 6804 RVA: 0x000E4DB1 File Offset: 0x000E31B1
 		public override void SetActive(bool active)
 		{
 			this.textMesh.gameObject.SetActive(active);
 		}
 
-		// Token: 0x06001A94 RID: 6804 RVA: 0x000E4D71 File Offset: 0x000E3171
+		// Token: 0x06001A95 RID: 6805 RVA: 0x000E4DC5 File Offset: 0x000E31C5
 		public override void Destroy()
 		{
 			UnityEngine.Object.Destroy(this.textMesh.gameObject);
 		}
 
-		// Token: 0x06001A95 RID: 6805 RVA: 0x000E4D84 File Offset: 0x000E3184
+		// Token: 0x06001A96 RID: 6806 RVA: 0x000E4DD8 File Offset: 0x000E31D8
 		public override void Init()
 		{
 			GameObject gameObject = new GameObject("World feature name (legacy)");
@@ -130,7 +130,7 @@ namespace RimWorld.Planet
 			this.textMesh.transform.localScale = new Vector3(0.23f, 0.23f, 0.23f);
 		}
 
-		// Token: 0x06001A96 RID: 6806 RVA: 0x000E4E53 File Offset: 0x000E3253
+		// Token: 0x06001A97 RID: 6807 RVA: 0x000E4EA7 File Offset: 0x000E32A7
 		public override void WrapAroundPlanetSurface()
 		{
 		}

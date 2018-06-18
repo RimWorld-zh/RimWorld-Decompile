@@ -12,7 +12,7 @@ namespace RimWorld
 	// Token: 0x0200084E RID: 2126
 	public class ITab_Pawn_Gear : ITab
 	{
-		// Token: 0x06003023 RID: 12323 RVA: 0x001A29B8 File Offset: 0x001A0DB8
+		// Token: 0x06003025 RID: 12325 RVA: 0x001A2A80 File Offset: 0x001A0E80
 		public ITab_Pawn_Gear()
 		{
 			this.size = new Vector2(460f, 450f);
@@ -21,7 +21,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007AB RID: 1963
-		// (get) Token: 0x06003024 RID: 12324 RVA: 0x001A2A10 File Offset: 0x001A0E10
+		// (get) Token: 0x06003026 RID: 12326 RVA: 0x001A2AD8 File Offset: 0x001A0ED8
 		public override bool IsVisible
 		{
 			get
@@ -32,7 +32,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007AC RID: 1964
-		// (get) Token: 0x06003025 RID: 12325 RVA: 0x001A2A50 File Offset: 0x001A0E50
+		// (get) Token: 0x06003027 RID: 12327 RVA: 0x001A2B18 File Offset: 0x001A0F18
 		private bool CanControl
 		{
 			get
@@ -43,7 +43,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007AD RID: 1965
-		// (get) Token: 0x06003026 RID: 12326 RVA: 0x001A2B18 File Offset: 0x001A0F18
+		// (get) Token: 0x06003028 RID: 12328 RVA: 0x001A2BE0 File Offset: 0x001A0FE0
 		private bool CanControlColonist
 		{
 			get
@@ -53,7 +53,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007AE RID: 1966
-		// (get) Token: 0x06003027 RID: 12327 RVA: 0x001A2B48 File Offset: 0x001A0F48
+		// (get) Token: 0x06003029 RID: 12329 RVA: 0x001A2C10 File Offset: 0x001A1010
 		private Pawn SelPawnForGear
 		{
 			get
@@ -76,7 +76,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003028 RID: 12328 RVA: 0x001A2BA4 File Offset: 0x001A0FA4
+		// Token: 0x0600302A RID: 12330 RVA: 0x001A2C6C File Offset: 0x001A106C
 		protected override void FillTab()
 		{
 			Text.Font = GameFont.Small;
@@ -138,7 +138,7 @@ namespace RimWorld
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
-		// Token: 0x06003029 RID: 12329 RVA: 0x001A2F40 File Offset: 0x001A1340
+		// Token: 0x0600302B RID: 12331 RVA: 0x001A3008 File Offset: 0x001A1408
 		private void DrawThingRow(ref float y, float width, Thing thing, bool inventory = false)
 		{
 			Rect rect = new Rect(0f, y, width, 28f);
@@ -214,7 +214,7 @@ namespace RimWorld
 			y += 28f;
 		}
 
-		// Token: 0x0600302A RID: 12330 RVA: 0x001A32CC File Offset: 0x001A16CC
+		// Token: 0x0600302C RID: 12332 RVA: 0x001A3394 File Offset: 0x001A1794
 		private void TryDrawOverallArmor(ref float curY, float width, StatDef stat, string label)
 		{
 			float num = 0f;
@@ -245,7 +245,7 @@ namespace RimWorld
 			curY += 22f;
 		}
 
-		// Token: 0x0600302B RID: 12331 RVA: 0x001A343C File Offset: 0x001A183C
+		// Token: 0x0600302D RID: 12333 RVA: 0x001A3504 File Offset: 0x001A1904
 		private void TryDrawMassInfo(ref float curY, float width)
 		{
 			if (!this.SelPawnForGear.Dead && this.ShouldShowInventory(this.SelPawnForGear))
@@ -262,7 +262,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600302C RID: 12332 RVA: 0x001A34DC File Offset: 0x001A18DC
+		// Token: 0x0600302E RID: 12334 RVA: 0x001A35A4 File Offset: 0x001A19A4
 		private void TryDrawComfyTemperatureRange(ref float curY, float width)
 		{
 			if (!this.SelPawnForGear.Dead)
@@ -282,7 +282,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600302D RID: 12333 RVA: 0x001A358C File Offset: 0x001A198C
+		// Token: 0x0600302F RID: 12335 RVA: 0x001A3654 File Offset: 0x001A1A54
 		private void InterfaceDrop(Thing t)
 		{
 			ThingWithComps thingWithComps = t as ThingWithComps;
@@ -302,7 +302,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600302E RID: 12334 RVA: 0x001A369C File Offset: 0x001A1A9C
+		// Token: 0x06003030 RID: 12336 RVA: 0x001A3764 File Offset: 0x001A1B64
 		private void InterfaceIngest(Thing t)
 		{
 			Job job = new Job(JobDefOf.Ingest, t);
@@ -311,25 +311,25 @@ namespace RimWorld
 			this.SelPawnForGear.jobs.TryTakeOrderedJob(job, JobTag.Misc);
 		}
 
-		// Token: 0x0600302F RID: 12335 RVA: 0x001A3720 File Offset: 0x001A1B20
+		// Token: 0x06003031 RID: 12337 RVA: 0x001A37E8 File Offset: 0x001A1BE8
 		private bool ShouldShowInventory(Pawn p)
 		{
 			return p.RaceProps.Humanlike || p.inventory.innerContainer.Any;
 		}
 
-		// Token: 0x06003030 RID: 12336 RVA: 0x001A3758 File Offset: 0x001A1B58
+		// Token: 0x06003032 RID: 12338 RVA: 0x001A3820 File Offset: 0x001A1C20
 		private bool ShouldShowApparel(Pawn p)
 		{
 			return p.apparel != null && (p.RaceProps.Humanlike || p.apparel.WornApparel.Any<Apparel>());
 		}
 
-		// Token: 0x06003031 RID: 12337 RVA: 0x001A37A4 File Offset: 0x001A1BA4
+		// Token: 0x06003033 RID: 12339 RVA: 0x001A386C File Offset: 0x001A1C6C
 		private bool ShouldShowEquipment(Pawn p)
 		{
 			return p.equipment != null;
 		}
 
-		// Token: 0x06003032 RID: 12338 RVA: 0x001A37C8 File Offset: 0x001A1BC8
+		// Token: 0x06003034 RID: 12340 RVA: 0x001A3890 File Offset: 0x001A1C90
 		private bool ShouldShowOverallArmor(Pawn p)
 		{
 			return p.RaceProps.Humanlike || this.ShouldShowApparel(p) || p.GetStatValue(StatDefOf.ArmorRating_Sharp, true) > 0f || p.GetStatValue(StatDefOf.ArmorRating_Blunt, true) > 0f || p.GetStatValue(StatDefOf.ArmorRating_Heat, true) > 0f;

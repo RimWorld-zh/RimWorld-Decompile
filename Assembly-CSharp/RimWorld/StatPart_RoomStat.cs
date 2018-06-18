@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020009B9 RID: 2489
 	public class StatPart_RoomStat : StatPart
 	{
-		// Token: 0x060037B4 RID: 14260 RVA: 0x001DA67C File Offset: 0x001D8A7C
+		// Token: 0x060037B6 RID: 14262 RVA: 0x001DA750 File Offset: 0x001D8B50
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (req.HasThing)
@@ -19,7 +19,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060037B5 RID: 14261 RVA: 0x001DA6C0 File Offset: 0x001D8AC0
+		// Token: 0x060037B7 RID: 14263 RVA: 0x001DA794 File Offset: 0x001D8B94
 		public override string ExplanationPart(StatRequest req)
 		{
 			if (req.HasThing)

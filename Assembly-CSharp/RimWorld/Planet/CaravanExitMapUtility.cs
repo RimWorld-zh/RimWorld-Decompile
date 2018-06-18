@@ -8,14 +8,14 @@ namespace RimWorld.Planet
 	// Token: 0x020005DD RID: 1501
 	public static class CaravanExitMapUtility
 	{
-		// Token: 0x06001D78 RID: 7544 RVA: 0x000FD404 File Offset: 0x000FB804
+		// Token: 0x06001D7A RID: 7546 RVA: 0x000FD47C File Offset: 0x000FB87C
 		public static Caravan ExitMapAndCreateCaravan(IEnumerable<Pawn> pawns, Faction faction, int exitFromTile, Direction8Way dir, int destinationTile, bool sendMessage = true)
 		{
 			int directionTile = CaravanExitMapUtility.FindRandomStartingTileBasedOnExitDir(exitFromTile, dir);
 			return CaravanExitMapUtility.ExitMapAndCreateCaravan(pawns, faction, exitFromTile, directionTile, destinationTile, sendMessage);
 		}
 
-		// Token: 0x06001D79 RID: 7545 RVA: 0x000FD430 File Offset: 0x000FB830
+		// Token: 0x06001D7B RID: 7547 RVA: 0x000FD4A8 File Offset: 0x000FB8A8
 		public static Caravan ExitMapAndCreateCaravan(IEnumerable<Pawn> pawns, Faction faction, int exitFromTile, int directionTile, int destinationTile, bool sendMessage = true)
 		{
 			Caravan result;
@@ -106,7 +106,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001D7A RID: 7546 RVA: 0x000FD728 File Offset: 0x000FBB28
+		// Token: 0x06001D7C RID: 7548 RVA: 0x000FD7A0 File Offset: 0x000FBBA0
 		public static void ExitMapAndJoinOrCreateCaravan(Pawn pawn, Rot4 exitDir)
 		{
 			Caravan caravan = CaravanExitMapUtility.FindCaravanToJoinFor(pawn);
@@ -153,13 +153,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001D7B RID: 7547 RVA: 0x000FD8BC File Offset: 0x000FBCBC
+		// Token: 0x06001D7D RID: 7549 RVA: 0x000FD934 File Offset: 0x000FBD34
 		public static bool CanExitMapAndJoinOrCreateCaravanNow(Pawn pawn)
 		{
 			return pawn.Spawned && pawn.Map.exitMapGrid.MapUsesExitGrid && (pawn.IsColonist || CaravanExitMapUtility.FindCaravanToJoinFor(pawn) != null);
 		}
 
-		// Token: 0x06001D7C RID: 7548 RVA: 0x000FD91C File Offset: 0x000FBD1C
+		// Token: 0x06001D7E RID: 7550 RVA: 0x000FD994 File Offset: 0x000FBD94
 		public static List<int> AvailableExitTilesAt(Map map)
 		{
 			CaravanExitMapUtility.retTiles.Clear();
@@ -184,7 +184,7 @@ namespace RimWorld.Planet
 			return CaravanExitMapUtility.retTiles;
 		}
 
-		// Token: 0x06001D7D RID: 7549 RVA: 0x000FDA1C File Offset: 0x000FBE1C
+		// Token: 0x06001D7F RID: 7551 RVA: 0x000FDA94 File Offset: 0x000FBE94
 		public static int RandomBestExitTileFrom(Map map)
 		{
 			Tile tileInfo = map.TileInfo;
@@ -229,7 +229,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001D7E RID: 7550 RVA: 0x000FDB80 File Offset: 0x000FBF80
+		// Token: 0x06001D80 RID: 7552 RVA: 0x000FDBF8 File Offset: 0x000FBFF8
 		public static int BestExitTileToGoTo(int destinationTile, Map from)
 		{
 			int num = -1;
@@ -268,7 +268,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001D7F RID: 7551 RVA: 0x000FDCAC File Offset: 0x000FC0AC
+		// Token: 0x06001D81 RID: 7553 RVA: 0x000FDD24 File Offset: 0x000FC124
 		private static int FindRandomStartingTileBasedOnExitDir(int tileID, Rot4 exitDir)
 		{
 			CaravanExitMapUtility.tileCandidates.Clear();
@@ -322,7 +322,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001D80 RID: 7552 RVA: 0x000FDE0C File Offset: 0x000FC20C
+		// Token: 0x06001D82 RID: 7554 RVA: 0x000FDE84 File Offset: 0x000FC284
 		private static int FindRandomStartingTileBasedOnExitDir(int tileID, Direction8Way exitDir)
 		{
 			CaravanExitMapUtility.tileCandidates.Clear();
@@ -359,13 +359,13 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001D81 RID: 7553 RVA: 0x000FDEF4 File Offset: 0x000FC2F4
+		// Token: 0x06001D83 RID: 7555 RVA: 0x000FDF6C File Offset: 0x000FC36C
 		private static bool IsGoodCaravanStartingTile(int tile)
 		{
 			return !Find.World.Impassable(tile);
 		}
 
-		// Token: 0x06001D82 RID: 7554 RVA: 0x000FDF18 File Offset: 0x000FC318
+		// Token: 0x06001D84 RID: 7556 RVA: 0x000FDF90 File Offset: 0x000FC390
 		public static Caravan FindCaravanToJoinFor(Pawn pawn)
 		{
 			Caravan result;
@@ -409,7 +409,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001D83 RID: 7555 RVA: 0x000FE03C File Offset: 0x000FC43C
+		// Token: 0x06001D85 RID: 7557 RVA: 0x000FE0B4 File Offset: 0x000FC4B4
 		public static bool AnyoneTryingToJoinCaravan(Caravan c)
 		{
 			List<Map> maps = Find.Maps;
@@ -431,13 +431,13 @@ namespace RimWorld.Planet
 			return false;
 		}
 
-		// Token: 0x06001D84 RID: 7556 RVA: 0x000FE10F File Offset: 0x000FC50F
+		// Token: 0x06001D86 RID: 7558 RVA: 0x000FE187 File Offset: 0x000FC587
 		public static void OpenSomeoneTryingToJoinCaravanDialog(Caravan c, Action confirmAction)
 		{
 			Find.WindowStack.Add(Dialog_MessageBox.CreateConfirmation("ConfirmMoveAutoJoinableCaravan".Translate(), confirmAction, false, null));
 		}
 
-		// Token: 0x06001D85 RID: 7557 RVA: 0x000FE130 File Offset: 0x000FC530
+		// Token: 0x06001D87 RID: 7559 RVA: 0x000FE1A8 File Offset: 0x000FC5A8
 		private static void AddCaravanExitTaleIfShould(Pawn pawn)
 		{
 			if (pawn.Spawned && pawn.IsFreeColonist)

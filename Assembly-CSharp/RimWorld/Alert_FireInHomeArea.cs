@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000791 RID: 1937
 	public class Alert_FireInHomeArea : Alert_Critical
 	{
-		// Token: 0x06002AEF RID: 10991 RVA: 0x0016ABF1 File Offset: 0x00168FF1
+		// Token: 0x06002AF1 RID: 10993 RVA: 0x0016AC85 File Offset: 0x00169085
 		public Alert_FireInHomeArea()
 		{
 			this.defaultLabel = "FireInHomeArea".Translate();
@@ -15,7 +15,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006AE RID: 1710
-		// (get) Token: 0x06002AF0 RID: 10992 RVA: 0x0016AC1C File Offset: 0x0016901C
+		// (get) Token: 0x06002AF2 RID: 10994 RVA: 0x0016ACB0 File Offset: 0x001690B0
 		private Fire FireInHomeArea
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002AF1 RID: 10993 RVA: 0x0016ACD4 File Offset: 0x001690D4
+		// Token: 0x06002AF3 RID: 10995 RVA: 0x0016AD68 File Offset: 0x00169168
 		public override AlertReport GetReport()
 		{
 			return this.FireInHomeArea;

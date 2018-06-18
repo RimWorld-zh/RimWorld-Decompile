@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020004A1 RID: 1185
 	public class PawnsArrivalModeWorker_RandomDrop : PawnsArrivalModeWorker
 	{
-		// Token: 0x06001529 RID: 5417 RVA: 0x000B9A60 File Offset: 0x000B7E60
+		// Token: 0x06001529 RID: 5417 RVA: 0x000B9A7C File Offset: 0x000B7E7C
 		public override void Arrive(List<Pawn> pawns, IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600152A RID: 5418 RVA: 0x000B9AB8 File Offset: 0x000B7EB8
+		// Token: 0x0600152A RID: 5418 RVA: 0x000B9AD4 File Offset: 0x000B7ED4
 		public override bool TryResolveRaidSpawnCenter(IncidentParms parms)
 		{
 			parms.podOpenDelay = 520;

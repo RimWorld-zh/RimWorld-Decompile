@@ -11,7 +11,7 @@ namespace RimWorld
 	public class CompPowerPlantWind : CompPowerPlant
 	{
 		// Token: 0x17000279 RID: 633
-		// (get) Token: 0x0600124A RID: 4682 RVA: 0x0009EB98 File Offset: 0x0009CF98
+		// (get) Token: 0x0600124A RID: 4682 RVA: 0x0009EBA4 File Offset: 0x0009CFA4
 		protected override float DesiredPowerOutput
 		{
 			get
@@ -21,7 +21,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700027A RID: 634
-		// (get) Token: 0x0600124B RID: 4683 RVA: 0x0009EBB4 File Offset: 0x0009CFB4
+		// (get) Token: 0x0600124B RID: 4683 RVA: 0x0009EBC0 File Offset: 0x0009CFC0
 		private float PowerPercent
 		{
 			get
@@ -30,7 +30,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600124C RID: 4684 RVA: 0x0009EBE4 File Offset: 0x0009CFE4
+		// Token: 0x0600124C RID: 4684 RVA: 0x0009EBF0 File Offset: 0x0009CFF0
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
@@ -39,7 +39,7 @@ namespace RimWorld
 			this.spinPosition = Rand.Range(0f, 15f);
 		}
 
-		// Token: 0x0600124D RID: 4685 RVA: 0x0009EC3F File Offset: 0x0009D03F
+		// Token: 0x0600124D RID: 4685 RVA: 0x0009EC4B File Offset: 0x0009D04B
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -47,7 +47,7 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.cachedPowerOutput, "cachedPowerOutput", 0f, false);
 		}
 
-		// Token: 0x0600124E RID: 4686 RVA: 0x0009EC70 File Offset: 0x0009D070
+		// Token: 0x0600124E RID: 4686 RVA: 0x0009EC7C File Offset: 0x0009D07C
 		public override void CompTick()
 		{
 			base.CompTick();
@@ -85,7 +85,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600124F RID: 4687 RVA: 0x0009ED9C File Offset: 0x0009D19C
+		// Token: 0x0600124F RID: 4687 RVA: 0x0009EDA8 File Offset: 0x0009D1A8
 		public override void PostDraw()
 		{
 			base.PostDraw();
@@ -122,7 +122,7 @@ namespace RimWorld
 			Graphics.DrawMesh((!flag) ? MeshPool.plane10 : MeshPool.plane10Flip, matrix, CompPowerPlantWind.WindTurbineBladesMat, 0);
 		}
 
-		// Token: 0x06001250 RID: 4688 RVA: 0x0009EFC4 File Offset: 0x0009D3C4
+		// Token: 0x06001250 RID: 4688 RVA: 0x0009EFD0 File Offset: 0x0009D3D0
 		public override string CompInspectStringExtra()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -147,7 +147,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06001251 RID: 4689 RVA: 0x0009F064 File Offset: 0x0009D464
+		// Token: 0x06001251 RID: 4689 RVA: 0x0009F070 File Offset: 0x0009D470
 		private void RecalculateBlockages()
 		{
 			if (this.windPathCells.Count == 0)

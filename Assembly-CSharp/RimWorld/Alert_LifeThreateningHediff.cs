@@ -9,7 +9,7 @@ namespace RimWorld
 	public class Alert_LifeThreateningHediff : Alert_Critical
 	{
 		// Token: 0x170006AD RID: 1709
-		// (get) Token: 0x06002AEB RID: 10987 RVA: 0x0016A7DC File Offset: 0x00168BDC
+		// (get) Token: 0x06002AED RID: 10989 RVA: 0x0016A870 File Offset: 0x00168C70
 		private IEnumerable<Pawn> SickPawns
 		{
 			get
@@ -30,13 +30,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002AEC RID: 10988 RVA: 0x0016A800 File Offset: 0x00168C00
+		// Token: 0x06002AEE RID: 10990 RVA: 0x0016A894 File Offset: 0x00168C94
 		public override string GetLabel()
 		{
 			return "PawnsWithLifeThreateningDisease".Translate();
 		}
 
-		// Token: 0x06002AED RID: 10989 RVA: 0x0016A820 File Offset: 0x00168C20
+		// Token: 0x06002AEF RID: 10991 RVA: 0x0016A8B4 File Offset: 0x00168CB4
 		public override string GetExplanation()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -65,7 +65,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002AEE RID: 10990 RVA: 0x0016A978 File Offset: 0x00168D78
+		// Token: 0x06002AF0 RID: 10992 RVA: 0x0016AA0C File Offset: 0x00168E0C
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.SickPawns);

@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class DamageArmorCategoryDefOf
 	{
-		// Token: 0x06003666 RID: 13926 RVA: 0x001D0ADF File Offset: 0x001CEEDF
+		// Token: 0x06003668 RID: 13928 RVA: 0x001D0BA7 File Offset: 0x001CEFA7
 		static DamageArmorCategoryDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(DamageArmorCategoryDefOf));

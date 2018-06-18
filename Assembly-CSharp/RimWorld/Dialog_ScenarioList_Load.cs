@@ -6,14 +6,14 @@ namespace RimWorld
 	// Token: 0x02000816 RID: 2070
 	public class Dialog_ScenarioList_Load : Dialog_ScenarioList
 	{
-		// Token: 0x06002E28 RID: 11816 RVA: 0x00184D5D File Offset: 0x0018315D
+		// Token: 0x06002E2A RID: 11818 RVA: 0x00184DF1 File Offset: 0x001831F1
 		public Dialog_ScenarioList_Load(Action<Scenario> scenarioReturner)
 		{
 			this.interactButLabel = "LoadGameButton".Translate();
 			this.scenarioReturner = scenarioReturner;
 		}
 
-		// Token: 0x06002E29 RID: 11817 RVA: 0x00184D80 File Offset: 0x00183180
+		// Token: 0x06002E2B RID: 11819 RVA: 0x00184E14 File Offset: 0x00183214
 		protected override void DoFileInteraction(string fileName)
 		{
 			string filePath = GenFilePaths.AbsPathForScenario(fileName);

@@ -7,14 +7,14 @@ namespace Verse.AI
 	// Token: 0x02000A9C RID: 2716
 	public class RegionCostCalculator
 	{
-		// Token: 0x06003C65 RID: 15461 RVA: 0x001FE7FC File Offset: 0x001FCBFC
+		// Token: 0x06003C67 RID: 15463 RVA: 0x001FE8D0 File Offset: 0x001FCCD0
 		public RegionCostCalculator(Map map)
 		{
 			this.map = map;
 			this.preciseRegionLinkDistancesDistanceGetter = new Func<int, int, float>(this.PreciseRegionLinkDistancesDistanceGetter);
 		}
 
-		// Token: 0x06003C66 RID: 15462 RVA: 0x001FE870 File Offset: 0x001FCC70
+		// Token: 0x06003C68 RID: 15464 RVA: 0x001FE944 File Offset: 0x001FCD44
 		public void Init(CellRect destination, HashSet<Region> destRegions, TraverseParms parms, int moveTicksCardinal, int moveTicksDiagonal, ByteGrid avoidGrid, Area allowedArea, bool drafted)
 		{
 			this.regionGrid = this.map.regionGrid.DirectGrid;
@@ -76,7 +76,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003C67 RID: 15463 RVA: 0x001FEAD4 File Offset: 0x001FCED4
+		// Token: 0x06003C69 RID: 15465 RVA: 0x001FEBA8 File Offset: 0x001FCFA8
 		public int GetRegionDistance(Region region, out RegionLink minLink)
 		{
 			int result;
@@ -148,7 +148,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C68 RID: 15464 RVA: 0x001FED44 File Offset: 0x001FD144
+		// Token: 0x06003C6A RID: 15466 RVA: 0x001FEE18 File Offset: 0x001FD218
 		public int GetRegionBestDistances(Region region, out RegionLink bestLink, out RegionLink secondBestLink, out int secondBestCost)
 		{
 			int regionDistance = this.GetRegionDistance(region, out bestLink);
@@ -170,7 +170,7 @@ namespace Verse.AI
 			return regionDistance;
 		}
 
-		// Token: 0x06003C69 RID: 15465 RVA: 0x001FEDE4 File Offset: 0x001FD1E4
+		// Token: 0x06003C6B RID: 15467 RVA: 0x001FEEB8 File Offset: 0x001FD2B8
 		public int RegionMedianPathCost(Region region)
 		{
 			int num;
@@ -198,7 +198,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C6A RID: 15466 RVA: 0x001FEEC8 File Offset: 0x001FD2C8
+		// Token: 0x06003C6C RID: 15468 RVA: 0x001FEF9C File Offset: 0x001FD39C
 		private int GetCellCostFast(int index, bool ignoreAllowedAreaCost = false)
 		{
 			int num = this.map.pathGrid.pathGrid[index];
@@ -221,7 +221,7 @@ namespace Verse.AI
 			return num;
 		}
 
-		// Token: 0x06003C6B RID: 15467 RVA: 0x001FEF7C File Offset: 0x001FD37C
+		// Token: 0x06003C6D RID: 15469 RVA: 0x001FF050 File Offset: 0x001FD450
 		private int RegionLinkDistance(RegionLink a, RegionLink b, int minPathCost)
 		{
 			IntVec3 a2 = (!this.linkTargetCells.ContainsKey(a)) ? RegionCostCalculator.RegionLinkCenter(a) : this.linkTargetCells[a];
@@ -232,7 +232,7 @@ namespace Verse.AI
 			return this.OctileDistance(num, num2) + minPathCost * Math.Max(num, num2) + minPathCost * Math.Min(num, num2);
 		}
 
-		// Token: 0x06003C6C RID: 15468 RVA: 0x001FF028 File Offset: 0x001FD428
+		// Token: 0x06003C6E RID: 15470 RVA: 0x001FF0FC File Offset: 0x001FD4FC
 		public int RegionLinkDistance(IntVec3 cell, RegionLink link, int minPathCost)
 		{
 			IntVec3 linkTargetCell = this.GetLinkTargetCell(cell, link);
@@ -242,44 +242,44 @@ namespace Verse.AI
 			return this.OctileDistance(num, num2) + minPathCost * Math.Max(num, num2) + minPathCost * Math.Min(num, num2);
 		}
 
-		// Token: 0x06003C6D RID: 15469 RVA: 0x001FF088 File Offset: 0x001FD488
+		// Token: 0x06003C6F RID: 15471 RVA: 0x001FF15C File Offset: 0x001FD55C
 		private static int SpanCenterX(EdgeSpan e)
 		{
 			return e.root.x + ((e.dir != SpanDirection.East) ? 0 : (e.length / 2));
 		}
 
-		// Token: 0x06003C6E RID: 15470 RVA: 0x001FF0C8 File Offset: 0x001FD4C8
+		// Token: 0x06003C70 RID: 15472 RVA: 0x001FF19C File Offset: 0x001FD59C
 		private static int SpanCenterZ(EdgeSpan e)
 		{
 			return e.root.z + ((e.dir != SpanDirection.North) ? 0 : (e.length / 2));
 		}
 
-		// Token: 0x06003C6F RID: 15471 RVA: 0x001FF108 File Offset: 0x001FD508
+		// Token: 0x06003C71 RID: 15473 RVA: 0x001FF1DC File Offset: 0x001FD5DC
 		private static IntVec3 RegionLinkCenter(RegionLink link)
 		{
 			return new IntVec3(RegionCostCalculator.SpanCenterX(link.span), 0, RegionCostCalculator.SpanCenterZ(link.span));
 		}
 
-		// Token: 0x06003C70 RID: 15472 RVA: 0x001FF13C File Offset: 0x001FD53C
+		// Token: 0x06003C72 RID: 15474 RVA: 0x001FF210 File Offset: 0x001FD610
 		private int MinimumRegionLinkDistance(IntVec3 cell, RegionLink link)
 		{
 			IntVec3 intVec = cell - RegionCostCalculator.LinkClosestCell(cell, link);
 			return this.OctileDistance(Math.Abs(intVec.x), Math.Abs(intVec.z));
 		}
 
-		// Token: 0x06003C71 RID: 15473 RVA: 0x001FF180 File Offset: 0x001FD580
+		// Token: 0x06003C73 RID: 15475 RVA: 0x001FF254 File Offset: 0x001FD654
 		private int OctileDistance(int dx, int dz)
 		{
 			return GenMath.OctileDistance(dx, dz, this.moveTicksCardinal, this.moveTicksDiagonal);
 		}
 
-		// Token: 0x06003C72 RID: 15474 RVA: 0x001FF1A8 File Offset: 0x001FD5A8
+		// Token: 0x06003C74 RID: 15476 RVA: 0x001FF27C File Offset: 0x001FD67C
 		private IntVec3 GetLinkTargetCell(IntVec3 cell, RegionLink link)
 		{
 			return RegionCostCalculator.LinkClosestCell(cell, link);
 		}
 
-		// Token: 0x06003C73 RID: 15475 RVA: 0x001FF1C4 File Offset: 0x001FD5C4
+		// Token: 0x06003C75 RID: 15477 RVA: 0x001FF298 File Offset: 0x001FD698
 		private static IntVec3 LinkClosestCell(IntVec3 cell, RegionLink link)
 		{
 			EdgeSpan span = link.span;
@@ -298,7 +298,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C74 RID: 15476 RVA: 0x001FF258 File Offset: 0x001FD658
+		// Token: 0x06003C76 RID: 15478 RVA: 0x001FF32C File Offset: 0x001FD72C
 		private void GetPreciseRegionLinkDistances(Region region, CellRect destination, List<Pair<RegionLink, int>> outDistances)
 		{
 			outDistances.Clear();
@@ -337,7 +337,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003C75 RID: 15477 RVA: 0x001FF3FC File Offset: 0x001FD7FC
+		// Token: 0x06003C77 RID: 15479 RVA: 0x001FF4D0 File Offset: 0x001FD8D0
 		private IEnumerable<int> PreciseRegionLinkDistancesNeighborsGetter(int node, Region region)
 		{
 			IEnumerable<int> result;
@@ -352,20 +352,20 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003C76 RID: 15478 RVA: 0x001FF43C File Offset: 0x001FD83C
+		// Token: 0x06003C78 RID: 15480 RVA: 0x001FF510 File Offset: 0x001FD910
 		private float PreciseRegionLinkDistancesDistanceGetter(int a, int b)
 		{
 			return (float)(this.GetCellCostFast(b, false) + ((!this.AreCellsDiagonal(a, b)) ? this.moveTicksCardinal : this.moveTicksDiagonal));
 		}
 
-		// Token: 0x06003C77 RID: 15479 RVA: 0x001FF47C File Offset: 0x001FD87C
+		// Token: 0x06003C79 RID: 15481 RVA: 0x001FF550 File Offset: 0x001FD950
 		private bool AreCellsDiagonal(int a, int b)
 		{
 			int x = this.map.Size.x;
 			return a % x != b % x && a / x != b / x;
 		}
 
-		// Token: 0x06003C78 RID: 15480 RVA: 0x001FF4C0 File Offset: 0x001FD8C0
+		// Token: 0x06003C7A RID: 15482 RVA: 0x001FF594 File Offset: 0x001FD994
 		private List<int> PathableNeighborIndices(int index)
 		{
 			RegionCostCalculator.tmpPathableNeighborIndices.Clear();
@@ -484,7 +484,7 @@ namespace Verse.AI
 		// Token: 0x02000A9D RID: 2717
 		private struct RegionLinkQueueEntry
 		{
-			// Token: 0x06003C7A RID: 15482 RVA: 0x001FF6F3 File Offset: 0x001FDAF3
+			// Token: 0x06003C7C RID: 15484 RVA: 0x001FF7C7 File Offset: 0x001FDBC7
 			public RegionLinkQueueEntry(Region from, RegionLink link, int cost, int estimatedPathCost)
 			{
 				this.from = from;
@@ -494,7 +494,7 @@ namespace Verse.AI
 			}
 
 			// Token: 0x17000928 RID: 2344
-			// (get) Token: 0x06003C7B RID: 15483 RVA: 0x001FF714 File Offset: 0x001FDB14
+			// (get) Token: 0x06003C7D RID: 15485 RVA: 0x001FF7E8 File Offset: 0x001FDBE8
 			public Region From
 			{
 				get
@@ -504,7 +504,7 @@ namespace Verse.AI
 			}
 
 			// Token: 0x17000929 RID: 2345
-			// (get) Token: 0x06003C7C RID: 15484 RVA: 0x001FF730 File Offset: 0x001FDB30
+			// (get) Token: 0x06003C7E RID: 15486 RVA: 0x001FF804 File Offset: 0x001FDC04
 			public RegionLink Link
 			{
 				get
@@ -514,7 +514,7 @@ namespace Verse.AI
 			}
 
 			// Token: 0x1700092A RID: 2346
-			// (get) Token: 0x06003C7D RID: 15485 RVA: 0x001FF74C File Offset: 0x001FDB4C
+			// (get) Token: 0x06003C7F RID: 15487 RVA: 0x001FF820 File Offset: 0x001FDC20
 			public int Cost
 			{
 				get
@@ -524,7 +524,7 @@ namespace Verse.AI
 			}
 
 			// Token: 0x1700092B RID: 2347
-			// (get) Token: 0x06003C7E RID: 15486 RVA: 0x001FF768 File Offset: 0x001FDB68
+			// (get) Token: 0x06003C80 RID: 15488 RVA: 0x001FF83C File Offset: 0x001FDC3C
 			public int EstimatedPathCost
 			{
 				get
@@ -549,7 +549,7 @@ namespace Verse.AI
 		// Token: 0x02000A9E RID: 2718
 		private class DistanceComparer : IComparer<RegionCostCalculator.RegionLinkQueueEntry>
 		{
-			// Token: 0x06003C80 RID: 15488 RVA: 0x001FF78C File Offset: 0x001FDB8C
+			// Token: 0x06003C82 RID: 15490 RVA: 0x001FF860 File Offset: 0x001FDC60
 			public int Compare(RegionCostCalculator.RegionLinkQueueEntry a, RegionCostCalculator.RegionLinkQueueEntry b)
 			{
 				return a.EstimatedPathCost.CompareTo(b.EstimatedPathCost);

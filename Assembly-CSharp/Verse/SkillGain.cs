@@ -7,19 +7,19 @@ namespace Verse
 	// Token: 0x02000B63 RID: 2915
 	public class SkillGain
 	{
-		// Token: 0x06003F94 RID: 16276 RVA: 0x00217E33 File Offset: 0x00216233
+		// Token: 0x06003F96 RID: 16278 RVA: 0x00217F07 File Offset: 0x00216307
 		public SkillGain()
 		{
 		}
 
-		// Token: 0x06003F95 RID: 16277 RVA: 0x00217E3C File Offset: 0x0021623C
+		// Token: 0x06003F97 RID: 16279 RVA: 0x00217F10 File Offset: 0x00216310
 		public SkillGain(SkillDef skill, int xp)
 		{
 			this.skill = skill;
 			this.xp = xp;
 		}
 
-		// Token: 0x06003F96 RID: 16278 RVA: 0x00217E54 File Offset: 0x00216254
+		// Token: 0x06003F98 RID: 16280 RVA: 0x00217F28 File Offset: 0x00216328
 		public void LoadDataFromXmlCustom(XmlNode xmlRoot)
 		{
 			if (xmlRoot.ChildNodes.Count != 1)

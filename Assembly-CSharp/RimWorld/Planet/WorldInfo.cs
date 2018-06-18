@@ -7,7 +7,7 @@ namespace RimWorld.Planet
 	public class WorldInfo : IExposable
 	{
 		// Token: 0x1700042A RID: 1066
-		// (get) Token: 0x06001CBD RID: 7357 RVA: 0x000F6AE4 File Offset: 0x000F4EE4
+		// (get) Token: 0x06001CBF RID: 7359 RVA: 0x000F6B5C File Offset: 0x000F4F5C
 		public string FileNameNoExtension
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700042B RID: 1067
-		// (get) Token: 0x06001CBE RID: 7358 RVA: 0x000F6B04 File Offset: 0x000F4F04
+		// (get) Token: 0x06001CC0 RID: 7360 RVA: 0x000F6B7C File Offset: 0x000F4F7C
 		public int Seed
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001CBF RID: 7359 RVA: 0x000F6B24 File Offset: 0x000F4F24
+		// Token: 0x06001CC1 RID: 7361 RVA: 0x000F6B9C File Offset: 0x000F4F9C
 		public void ExposeData()
 		{
 			Scribe_Values.Look<string>(ref this.name, "name", null, false);

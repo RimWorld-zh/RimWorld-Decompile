@@ -6,13 +6,13 @@ namespace RimWorld
 	// Token: 0x020009D4 RID: 2516
 	public class Verb_BeatFire : Verb
 	{
-		// Token: 0x06003861 RID: 14433 RVA: 0x001E181C File Offset: 0x001DFC1C
+		// Token: 0x06003863 RID: 14435 RVA: 0x001E18F0 File Offset: 0x001DFCF0
 		public Verb_BeatFire()
 		{
 			this.verbProps = NativeVerbPropertiesDatabase.VerbWithCategory(VerbCategory.BeatFire);
 		}
 
-		// Token: 0x06003862 RID: 14434 RVA: 0x001E1834 File Offset: 0x001DFC34
+		// Token: 0x06003864 RID: 14436 RVA: 0x001E1908 File Offset: 0x001DFD08
 		protected override bool TryCastShot()
 		{
 			Fire fire = (Fire)this.currentTarget.Thing;

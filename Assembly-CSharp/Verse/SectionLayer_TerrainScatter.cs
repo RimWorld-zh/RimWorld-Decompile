@@ -5,17 +5,17 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C4F RID: 3151
+	// Token: 0x02000C4E RID: 3150
 	public class SectionLayer_TerrainScatter : SectionLayer
 	{
-		// Token: 0x0600455C RID: 17756 RVA: 0x00249DAA File Offset: 0x002481AA
+		// Token: 0x0600455A RID: 17754 RVA: 0x00249D82 File Offset: 0x00248182
 		public SectionLayer_TerrainScatter(Section section) : base(section)
 		{
 			this.relevantChangeTypes = MapMeshFlag.Terrain;
 		}
 
-		// Token: 0x17000AF1 RID: 2801
-		// (get) Token: 0x0600455D RID: 17757 RVA: 0x00249DC8 File Offset: 0x002481C8
+		// Token: 0x17000AF0 RID: 2800
+		// (get) Token: 0x0600455B RID: 17755 RVA: 0x00249DA0 File Offset: 0x002481A0
 		public override bool Visible
 		{
 			get
@@ -24,7 +24,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600455E RID: 17758 RVA: 0x00249DE4 File Offset: 0x002481E4
+		// Token: 0x0600455C RID: 17756 RVA: 0x00249DBC File Offset: 0x002481BC
 		public override void Regenerate()
 		{
 			base.ClearSubMeshes(MeshParts.All);
@@ -71,13 +71,13 @@ namespace Verse
 			base.FinalizeMesh(MeshParts.All);
 		}
 
-		// Token: 0x04002F63 RID: 12131
+		// Token: 0x04002F61 RID: 12129
 		private List<SectionLayer_TerrainScatter.Scatterable> scats = new List<SectionLayer_TerrainScatter.Scatterable>();
 
-		// Token: 0x02000C50 RID: 3152
+		// Token: 0x02000C4F RID: 3151
 		private class Scatterable
 		{
-			// Token: 0x06004560 RID: 17760 RVA: 0x0024A018 File Offset: 0x00248418
+			// Token: 0x0600455E RID: 17758 RVA: 0x00249FF0 File Offset: 0x002483F0
 			public Scatterable(ScatterableDef def, Vector3 loc, Map map)
 			{
 				this.def = def;
@@ -87,14 +87,14 @@ namespace Verse
 				this.rotation = Rand.Range(0f, 360f);
 			}
 
-			// Token: 0x06004561 RID: 17761 RVA: 0x0024A070 File Offset: 0x00248470
+			// Token: 0x0600455F RID: 17759 RVA: 0x0024A048 File Offset: 0x00248448
 			public void PrintOnto(SectionLayer layer)
 			{
 				Printer_Plane.PrintPlane(layer, this.loc, Vector2.one * this.size, this.def.mat, this.rotation, false, null, null, 0.01f, 0f);
 			}
 
-			// Token: 0x17000AF2 RID: 2802
-			// (get) Token: 0x06004562 RID: 17762 RVA: 0x0024A0B8 File Offset: 0x002484B8
+			// Token: 0x17000AF1 RID: 2801
+			// (get) Token: 0x06004560 RID: 17760 RVA: 0x0024A090 File Offset: 0x00248490
 			public bool IsOnValidTerrain
 			{
 				get
@@ -105,19 +105,19 @@ namespace Verse
 				}
 			}
 
-			// Token: 0x04002F65 RID: 12133
+			// Token: 0x04002F63 RID: 12131
 			private Map map;
 
-			// Token: 0x04002F66 RID: 12134
+			// Token: 0x04002F64 RID: 12132
 			public ScatterableDef def;
 
-			// Token: 0x04002F67 RID: 12135
+			// Token: 0x04002F65 RID: 12133
 			public Vector3 loc;
 
-			// Token: 0x04002F68 RID: 12136
+			// Token: 0x04002F66 RID: 12134
 			public float size;
 
-			// Token: 0x04002F69 RID: 12137
+			// Token: 0x04002F67 RID: 12135
 			public float rotation;
 		}
 	}

@@ -8,7 +8,7 @@ namespace Verse.AI
 	public class JobDriver_FollowClose : JobDriver
 	{
 		// Token: 0x170008E7 RID: 2279
-		// (get) Token: 0x060039FA RID: 14842 RVA: 0x001EA074 File Offset: 0x001E8474
+		// (get) Token: 0x060039FC RID: 14844 RVA: 0x001EA148 File Offset: 0x001E8548
 		private Pawn Followee
 		{
 			get
@@ -18,7 +18,7 @@ namespace Verse.AI
 		}
 
 		// Token: 0x170008E8 RID: 2280
-		// (get) Token: 0x060039FB RID: 14843 RVA: 0x001EA0A4 File Offset: 0x001E84A4
+		// (get) Token: 0x060039FD RID: 14845 RVA: 0x001EA178 File Offset: 0x001E8578
 		private bool CurrentlyWalkingToFollowee
 		{
 			get
@@ -27,13 +27,13 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x060039FC RID: 14844 RVA: 0x001EA0F4 File Offset: 0x001E84F4
+		// Token: 0x060039FE RID: 14846 RVA: 0x001EA1C8 File Offset: 0x001E85C8
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x060039FD RID: 14845 RVA: 0x001EA10C File Offset: 0x001E850C
+		// Token: 0x060039FF RID: 14847 RVA: 0x001EA1E0 File Offset: 0x001E85E0
 		public override void Notify_Starting()
 		{
 			base.Notify_Starting();
@@ -44,7 +44,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x060039FE RID: 14846 RVA: 0x001EA164 File Offset: 0x001E8564
+		// Token: 0x06003A00 RID: 14848 RVA: 0x001EA238 File Offset: 0x001E8638
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.A);
@@ -117,13 +117,13 @@ namespace Verse.AI
 			yield break;
 		}
 
-		// Token: 0x060039FF RID: 14847 RVA: 0x001EA190 File Offset: 0x001E8590
+		// Token: 0x06003A01 RID: 14849 RVA: 0x001EA264 File Offset: 0x001E8664
 		public override bool IsContinuation(Job j)
 		{
 			return this.job.GetTarget(TargetIndex.A) == j.GetTarget(TargetIndex.A);
 		}
 
-		// Token: 0x06003A00 RID: 14848 RVA: 0x001EA1C0 File Offset: 0x001E85C0
+		// Token: 0x06003A02 RID: 14850 RVA: 0x001EA294 File Offset: 0x001E8694
 		public static bool FarEnoughAndPossibleToStartJob(Pawn follower, Pawn followee, float radius)
 		{
 			bool result;
@@ -149,13 +149,13 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003A01 RID: 14849 RVA: 0x001EA2A4 File Offset: 0x001E86A4
+		// Token: 0x06003A03 RID: 14851 RVA: 0x001EA378 File Offset: 0x001E8778
 		private static bool NearFollowee(Pawn follower, Pawn followee, float radius)
 		{
 			return follower.Position.AdjacentTo8WayOrInside(followee.Position) || (follower.Position.InHorDistOf(followee.Position, radius) && GenSight.LineOfSight(follower.Position, followee.Position, follower.Map, false, null, 0, 0));
 		}
 
-		// Token: 0x06003A02 RID: 14850 RVA: 0x001EA310 File Offset: 0x001E8710
+		// Token: 0x06003A04 RID: 14852 RVA: 0x001EA3E4 File Offset: 0x001E87E4
 		private static bool NearDestinationOrNotMoving(Pawn follower, Pawn followee, float radius)
 		{
 			bool result;

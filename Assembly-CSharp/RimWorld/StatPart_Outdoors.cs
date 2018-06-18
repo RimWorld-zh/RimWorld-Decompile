@@ -6,13 +6,13 @@ namespace RimWorld
 	// Token: 0x020009B4 RID: 2484
 	public class StatPart_Outdoors : StatPart
 	{
-		// Token: 0x0600379F RID: 14239 RVA: 0x001D9F73 File Offset: 0x001D8373
+		// Token: 0x060037A1 RID: 14241 RVA: 0x001DA047 File Offset: 0x001D8447
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			val *= this.OutdoorsFactor(req);
 		}
 
-		// Token: 0x060037A0 RID: 14240 RVA: 0x001D9F84 File Offset: 0x001D8384
+		// Token: 0x060037A2 RID: 14242 RVA: 0x001DA058 File Offset: 0x001D8458
 		public override string ExplanationPart(StatRequest req)
 		{
 			if (req.HasThing)
@@ -35,7 +35,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x060037A1 RID: 14241 RVA: 0x001DA004 File Offset: 0x001D8404
+		// Token: 0x060037A3 RID: 14243 RVA: 0x001DA0D8 File Offset: 0x001D84D8
 		private float OutdoorsFactor(StatRequest req)
 		{
 			float result;
@@ -50,7 +50,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060037A2 RID: 14242 RVA: 0x001DA038 File Offset: 0x001D8438
+		// Token: 0x060037A4 RID: 14244 RVA: 0x001DA10C File Offset: 0x001D850C
 		private bool ConsideredOutdoors(StatRequest req)
 		{
 			if (req.HasThing)

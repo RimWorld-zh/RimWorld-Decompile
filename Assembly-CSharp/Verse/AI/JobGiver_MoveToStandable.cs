@@ -7,7 +7,7 @@ namespace Verse.AI
 	// Token: 0x02000ACB RID: 2763
 	public class JobGiver_MoveToStandable : ThinkNode_JobGiver
 	{
-		// Token: 0x06003D59 RID: 15705 RVA: 0x00205648 File Offset: 0x00203A48
+		// Token: 0x06003D5B RID: 15707 RVA: 0x0020571C File Offset: 0x00203B1C
 		protected override Job TryGiveJob(Pawn pawn)
 		{
 			Job result;
@@ -35,7 +35,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003D5A RID: 15706 RVA: 0x0020570C File Offset: 0x00203B0C
+		// Token: 0x06003D5C RID: 15708 RVA: 0x002057E0 File Offset: 0x00203BE0
 		private Job FindBetterPosition(Pawn pawn)
 		{
 			IntVec3 intVec = RCellFinder.BestOrderedGotoDestNear(pawn.Position, pawn);

@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020009B7 RID: 2487
 	public class StatPart_Rest : StatPart
 	{
-		// Token: 0x060037AC RID: 14252 RVA: 0x001DA424 File Offset: 0x001D8824
+		// Token: 0x060037AE RID: 14254 RVA: 0x001DA4F8 File Offset: 0x001D88F8
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (req.HasThing)
@@ -19,7 +19,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060037AD RID: 14253 RVA: 0x001DA480 File Offset: 0x001D8880
+		// Token: 0x060037AF RID: 14255 RVA: 0x001DA554 File Offset: 0x001D8954
 		public override string ExplanationPart(StatRequest req)
 		{
 			if (req.HasThing)
@@ -33,7 +33,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x060037AE RID: 14254 RVA: 0x001DA508 File Offset: 0x001D8908
+		// Token: 0x060037B0 RID: 14256 RVA: 0x001DA5DC File Offset: 0x001D89DC
 		private float RestMultiplier(RestCategory fatigue)
 		{
 			float result;

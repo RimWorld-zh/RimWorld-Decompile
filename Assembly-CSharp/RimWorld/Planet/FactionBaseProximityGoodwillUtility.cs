@@ -11,7 +11,7 @@ namespace RimWorld.Planet
 	public static class FactionBaseProximityGoodwillUtility
 	{
 		// Token: 0x1700039E RID: 926
-		// (get) Token: 0x060019A5 RID: 6565 RVA: 0x000DE7CC File Offset: 0x000DCBCC
+		// (get) Token: 0x060019A6 RID: 6566 RVA: 0x000DE820 File Offset: 0x000DCC20
 		public static int MaxDist
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060019A6 RID: 6566 RVA: 0x000DE7F8 File Offset: 0x000DCBF8
+		// Token: 0x060019A7 RID: 6567 RVA: 0x000DE84C File Offset: 0x000DCC4C
 		public static void CheckFactionBaseProximityGoodwillChange()
 		{
 			if (Find.TickManager.TicksGame != 0 && Find.TickManager.TicksGame % 900000 == 0)
@@ -70,7 +70,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060019A7 RID: 6567 RVA: 0x000DE9D4 File Offset: 0x000DCDD4
+		// Token: 0x060019A8 RID: 6568 RVA: 0x000DEA28 File Offset: 0x000DCE28
 		public static void AppendProximityGoodwillOffsets(int tile, List<Pair<FactionBase, int>> outOffsets, bool ignoreIfAlreadyMinGoodwill)
 		{
 			int maxDist = FactionBaseProximityGoodwillUtility.MaxDist;
@@ -96,13 +96,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060019A8 RID: 6568 RVA: 0x000DEA94 File Offset: 0x000DCE94
+		// Token: 0x060019A9 RID: 6569 RVA: 0x000DEAE8 File Offset: 0x000DCEE8
 		public static void SortProximityGoodwillOffsets(List<Pair<FactionBase, int>> offsets)
 		{
 			offsets.SortBy((Pair<FactionBase, int> x) => x.First.Faction.loadID, (Pair<FactionBase, int> x) => -Mathf.Abs(x.Second));
 		}
 
-		// Token: 0x060019A9 RID: 6569 RVA: 0x000DEAE4 File Offset: 0x000DCEE4
+		// Token: 0x060019AA RID: 6570 RVA: 0x000DEB38 File Offset: 0x000DCF38
 		public static string ProximityGoodwillOffsetsToString(List<Pair<FactionBase, int>> offsets)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -121,7 +121,7 @@ namespace RimWorld.Planet
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060019AA RID: 6570 RVA: 0x000DEBA4 File Offset: 0x000DCFA4
+		// Token: 0x060019AB RID: 6571 RVA: 0x000DEBF8 File Offset: 0x000DCFF8
 		public static void CheckConfirmSettle(int tile, Action settleAction)
 		{
 			FactionBaseProximityGoodwillUtility.tmpGoodwillOffsets.Clear();

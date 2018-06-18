@@ -5,7 +5,7 @@ namespace Verse
 	// Token: 0x02000B22 RID: 2850
 	public static class DietCategoryUtility
 	{
-		// Token: 0x06003EC5 RID: 16069 RVA: 0x00210D70 File Offset: 0x0020F170
+		// Token: 0x06003EC7 RID: 16071 RVA: 0x00210E44 File Offset: 0x0020F244
 		public static string ToStringHuman(this DietCategory diet)
 		{
 			string result;
@@ -36,7 +36,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003EC6 RID: 16070 RVA: 0x00210E10 File Offset: 0x0020F210
+		// Token: 0x06003EC8 RID: 16072 RVA: 0x00210EE4 File Offset: 0x0020F2E4
 		public static string ToStringHumanShort(this DietCategory diet)
 		{
 			string result;

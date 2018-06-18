@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020009B3 RID: 2483
 	public class StatPart_NaturalNotMissingBodyPartsCoverage : StatPart
 	{
-		// Token: 0x06003799 RID: 14233 RVA: 0x001D9E48 File Offset: 0x001D8248
+		// Token: 0x0600379B RID: 14235 RVA: 0x001D9F1C File Offset: 0x001D831C
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			float num;
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600379A RID: 14234 RVA: 0x001D9E6C File Offset: 0x001D826C
+		// Token: 0x0600379C RID: 14236 RVA: 0x001D9F40 File Offset: 0x001D8340
 		public override string ExplanationPart(StatRequest req)
 		{
 			float f;
@@ -32,7 +32,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600379B RID: 14235 RVA: 0x001D9EB0 File Offset: 0x001D82B0
+		// Token: 0x0600379D RID: 14237 RVA: 0x001D9F84 File Offset: 0x001D8384
 		private bool TryGetValue(StatRequest req, out float value)
 		{
 			return PawnOrCorpseStatUtility.TryGetPawnOrCorpseStat(req, (Pawn x) => x.health.hediffSet.GetCoverageOfNotMissingNaturalParts(x.RaceProps.body.corePart), (ThingDef x) => 1f, out value);

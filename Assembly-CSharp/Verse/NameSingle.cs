@@ -2,23 +2,23 @@
 
 namespace Verse
 {
-	// Token: 0x02000D4B RID: 3403
+	// Token: 0x02000D4A RID: 3402
 	public class NameSingle : Name
 	{
-		// Token: 0x06004AE2 RID: 19170 RVA: 0x00270650 File Offset: 0x0026EA50
+		// Token: 0x06004AE0 RID: 19168 RVA: 0x00270628 File Offset: 0x0026EA28
 		public NameSingle()
 		{
 		}
 
-		// Token: 0x06004AE3 RID: 19171 RVA: 0x00270659 File Offset: 0x0026EA59
+		// Token: 0x06004AE1 RID: 19169 RVA: 0x00270631 File Offset: 0x0026EA31
 		public NameSingle(string name, bool numerical = false)
 		{
 			this.nameInt = name;
 			this.numerical = numerical;
 		}
 
-		// Token: 0x17000BF8 RID: 3064
-		// (get) Token: 0x06004AE4 RID: 19172 RVA: 0x00270670 File Offset: 0x0026EA70
+		// Token: 0x17000BF7 RID: 3063
+		// (get) Token: 0x06004AE2 RID: 19170 RVA: 0x00270648 File Offset: 0x0026EA48
 		public string Name
 		{
 			get
@@ -27,8 +27,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BF9 RID: 3065
-		// (get) Token: 0x06004AE5 RID: 19173 RVA: 0x0027068C File Offset: 0x0026EA8C
+		// Token: 0x17000BF8 RID: 3064
+		// (get) Token: 0x06004AE3 RID: 19171 RVA: 0x00270664 File Offset: 0x0026EA64
 		public override string ToStringFull
 		{
 			get
@@ -37,8 +37,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BFA RID: 3066
-		// (get) Token: 0x06004AE6 RID: 19174 RVA: 0x002706A8 File Offset: 0x0026EAA8
+		// Token: 0x17000BF9 RID: 3065
+		// (get) Token: 0x06004AE4 RID: 19172 RVA: 0x00270680 File Offset: 0x0026EA80
 		public override string ToStringShort
 		{
 			get
@@ -47,8 +47,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BFB RID: 3067
-		// (get) Token: 0x06004AE7 RID: 19175 RVA: 0x002706C4 File Offset: 0x0026EAC4
+		// Token: 0x17000BFA RID: 3066
+		// (get) Token: 0x06004AE5 RID: 19173 RVA: 0x0027069C File Offset: 0x0026EA9C
 		public override bool IsValid
 		{
 			get
@@ -57,8 +57,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BFC RID: 3068
-		// (get) Token: 0x06004AE8 RID: 19176 RVA: 0x002706E8 File Offset: 0x0026EAE8
+		// Token: 0x17000BFB RID: 3067
+		// (get) Token: 0x06004AE6 RID: 19174 RVA: 0x002706C0 File Offset: 0x0026EAC0
 		public override bool Numerical
 		{
 			get
@@ -67,8 +67,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BFD RID: 3069
-		// (get) Token: 0x06004AE9 RID: 19177 RVA: 0x00270704 File Offset: 0x0026EB04
+		// Token: 0x17000BFC RID: 3068
+		// (get) Token: 0x06004AE7 RID: 19175 RVA: 0x002706DC File Offset: 0x0026EADC
 		private int FirstDigitPosition
 		{
 			get
@@ -97,8 +97,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BFE RID: 3070
-		// (get) Token: 0x06004AEA RID: 19178 RVA: 0x002707A4 File Offset: 0x0026EBA4
+		// Token: 0x17000BFD RID: 3069
+		// (get) Token: 0x06004AE8 RID: 19176 RVA: 0x0027077C File Offset: 0x0026EB7C
 		public string NameWithoutNumber
 		{
 			get
@@ -136,8 +136,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BFF RID: 3071
-		// (get) Token: 0x06004AEB RID: 19179 RVA: 0x00270830 File Offset: 0x0026EC30
+		// Token: 0x17000BFE RID: 3070
+		// (get) Token: 0x06004AE9 RID: 19177 RVA: 0x00270808 File Offset: 0x0026EC08
 		public int Number
 		{
 			get
@@ -163,14 +163,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004AEC RID: 19180 RVA: 0x0027087D File Offset: 0x0026EC7D
+		// Token: 0x06004AEA RID: 19178 RVA: 0x00270855 File Offset: 0x0026EC55
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<string>(ref this.nameInt, "name", null, false);
 			Scribe_Values.Look<bool>(ref this.numerical, "numerical", false, false);
 		}
 
-		// Token: 0x06004AED RID: 19181 RVA: 0x002708A4 File Offset: 0x0026ECA4
+		// Token: 0x06004AEB RID: 19179 RVA: 0x0027087C File Offset: 0x0026EC7C
 		public override bool ConfusinglySimilarTo(Name other)
 		{
 			NameSingle nameSingle = other as NameSingle;
@@ -187,13 +187,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004AEE RID: 19182 RVA: 0x00270910 File Offset: 0x0026ED10
+		// Token: 0x06004AEC RID: 19180 RVA: 0x002708E8 File Offset: 0x0026ECE8
 		public override string ToString()
 		{
 			return this.nameInt;
 		}
 
-		// Token: 0x06004AEF RID: 19183 RVA: 0x0027092C File Offset: 0x0026ED2C
+		// Token: 0x06004AED RID: 19181 RVA: 0x00270904 File Offset: 0x0026ED04
 		public override bool Equals(object obj)
 		{
 			bool result;
@@ -213,16 +213,16 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004AF0 RID: 19184 RVA: 0x00270978 File Offset: 0x0026ED78
+		// Token: 0x06004AEE RID: 19182 RVA: 0x00270950 File Offset: 0x0026ED50
 		public override int GetHashCode()
 		{
 			return Gen.HashCombineInt(this.nameInt.GetHashCode(), 1384661390);
 		}
 
-		// Token: 0x04003275 RID: 12917
+		// Token: 0x04003273 RID: 12915
 		private string nameInt;
 
-		// Token: 0x04003276 RID: 12918
+		// Token: 0x04003274 RID: 12916
 		private bool numerical;
 	}
 }

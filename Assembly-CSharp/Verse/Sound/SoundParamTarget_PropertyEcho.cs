@@ -7,7 +7,7 @@ namespace Verse.Sound
 	public class SoundParamTarget_PropertyEcho : SoundParamTarget
 	{
 		// Token: 0x170009D4 RID: 2516
-		// (get) Token: 0x06004056 RID: 16470 RVA: 0x0021CA98 File Offset: 0x0021AE98
+		// (get) Token: 0x06004058 RID: 16472 RVA: 0x0021CB6C File Offset: 0x0021AF6C
 		public override string Label
 		{
 			get
@@ -17,7 +17,7 @@ namespace Verse.Sound
 		}
 
 		// Token: 0x170009D5 RID: 2517
-		// (get) Token: 0x06004057 RID: 16471 RVA: 0x0021CAC4 File Offset: 0x0021AEC4
+		// (get) Token: 0x06004059 RID: 16473 RVA: 0x0021CB98 File Offset: 0x0021AF98
 		public override Type NeededFilterType
 		{
 			get
@@ -26,7 +26,7 @@ namespace Verse.Sound
 			}
 		}
 
-		// Token: 0x06004058 RID: 16472 RVA: 0x0021CAE4 File Offset: 0x0021AEE4
+		// Token: 0x0600405A RID: 16474 RVA: 0x0021CBB8 File Offset: 0x0021AFB8
 		public override void SetOn(Sample sample, float value)
 		{
 			AudioEchoFilter audioEchoFilter = sample.source.GetComponent<AudioEchoFilter>();

@@ -7,7 +7,7 @@ namespace RimWorld
 	public class CompShearable : CompHasGatherableBodyResource
 	{
 		// Token: 0x17000647 RID: 1607
-		// (get) Token: 0x060028B1 RID: 10417 RVA: 0x0015B1B4 File Offset: 0x001595B4
+		// (get) Token: 0x060028B3 RID: 10419 RVA: 0x0015B248 File Offset: 0x00159648
 		protected override int GatherResourcesIntervalDays
 		{
 			get
@@ -17,7 +17,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000648 RID: 1608
-		// (get) Token: 0x060028B2 RID: 10418 RVA: 0x0015B1D4 File Offset: 0x001595D4
+		// (get) Token: 0x060028B4 RID: 10420 RVA: 0x0015B268 File Offset: 0x00159668
 		protected override int ResourceAmount
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000649 RID: 1609
-		// (get) Token: 0x060028B3 RID: 10419 RVA: 0x0015B1F4 File Offset: 0x001595F4
+		// (get) Token: 0x060028B5 RID: 10421 RVA: 0x0015B288 File Offset: 0x00159688
 		protected override ThingDef ResourceDef
 		{
 			get
@@ -37,7 +37,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700064A RID: 1610
-		// (get) Token: 0x060028B4 RID: 10420 RVA: 0x0015B214 File Offset: 0x00159614
+		// (get) Token: 0x060028B6 RID: 10422 RVA: 0x0015B2A8 File Offset: 0x001596A8
 		protected override string SaveKey
 		{
 			get
@@ -47,7 +47,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700064B RID: 1611
-		// (get) Token: 0x060028B5 RID: 10421 RVA: 0x0015B230 File Offset: 0x00159630
+		// (get) Token: 0x060028B7 RID: 10423 RVA: 0x0015B2C4 File Offset: 0x001596C4
 		public CompProperties_Shearable Props
 		{
 			get
@@ -57,7 +57,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700064C RID: 1612
-		// (get) Token: 0x060028B6 RID: 10422 RVA: 0x0015B250 File Offset: 0x00159650
+		// (get) Token: 0x060028B8 RID: 10424 RVA: 0x0015B2E4 File Offset: 0x001596E4
 		protected override bool Active
 		{
 			get
@@ -76,7 +76,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060028B7 RID: 10423 RVA: 0x0015B2A8 File Offset: 0x001596A8
+		// Token: 0x060028B9 RID: 10425 RVA: 0x0015B33C File Offset: 0x0015973C
 		public override string CompInspectStringExtra()
 		{
 			string result;

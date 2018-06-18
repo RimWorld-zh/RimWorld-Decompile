@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000E85 RID: 3717
+	// Token: 0x02000E84 RID: 3716
 	public class TreeNode_ThingCategory : TreeNode
 	{
-		// Token: 0x0600579B RID: 22427 RVA: 0x002CEDD8 File Offset: 0x002CD1D8
+		// Token: 0x06005799 RID: 22425 RVA: 0x002CEDD8 File Offset: 0x002CD1D8
 		public TreeNode_ThingCategory(ThingCategoryDef def)
 		{
 			this.catDef = def;
 		}
 
-		// Token: 0x17000DD4 RID: 3540
-		// (get) Token: 0x0600579C RID: 22428 RVA: 0x002CEDE8 File Offset: 0x002CD1E8
+		// Token: 0x17000DD3 RID: 3539
+		// (get) Token: 0x0600579A RID: 22426 RVA: 0x002CEDE8 File Offset: 0x002CD1E8
 		public string Label
 		{
 			get
@@ -22,8 +22,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DD5 RID: 3541
-		// (get) Token: 0x0600579D RID: 22429 RVA: 0x002CEE08 File Offset: 0x002CD208
+		// Token: 0x17000DD4 RID: 3540
+		// (get) Token: 0x0600579B RID: 22427 RVA: 0x002CEE08 File Offset: 0x002CD208
 		public string LabelCap
 		{
 			get
@@ -32,8 +32,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DD6 RID: 3542
-		// (get) Token: 0x0600579E RID: 22430 RVA: 0x002CEE28 File Offset: 0x002CD228
+		// Token: 0x17000DD5 RID: 3541
+		// (get) Token: 0x0600579C RID: 22428 RVA: 0x002CEE28 File Offset: 0x002CD228
 		public IEnumerable<TreeNode_ThingCategory> ChildCategoryNodesAndThis
 		{
 			get
@@ -46,8 +46,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DD7 RID: 3543
-		// (get) Token: 0x0600579F RID: 22431 RVA: 0x002CEE54 File Offset: 0x002CD254
+		// Token: 0x17000DD6 RID: 3542
+		// (get) Token: 0x0600579D RID: 22429 RVA: 0x002CEE54 File Offset: 0x002CD254
 		public IEnumerable<TreeNode_ThingCategory> ChildCategoryNodes
 		{
 			get
@@ -60,13 +60,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057A0 RID: 22432 RVA: 0x002CEE80 File Offset: 0x002CD280
+		// Token: 0x0600579E RID: 22430 RVA: 0x002CEE80 File Offset: 0x002CD280
 		public override string ToString()
 		{
 			return this.catDef.defName;
 		}
 
-		// Token: 0x040039ED RID: 14829
+		// Token: 0x040039EB RID: 14827
 		public ThingCategoryDef catDef;
 	}
 }

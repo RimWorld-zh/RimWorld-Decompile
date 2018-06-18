@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020004E9 RID: 1257
 	public class DrugPolicyEntry : IExposable
 	{
-		// Token: 0x0600166B RID: 5739 RVA: 0x000C6DF8 File Offset: 0x000C51F8
+		// Token: 0x0600166C RID: 5740 RVA: 0x000C6E4C File Offset: 0x000C524C
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<ThingDef>(ref this.drug, "drug");

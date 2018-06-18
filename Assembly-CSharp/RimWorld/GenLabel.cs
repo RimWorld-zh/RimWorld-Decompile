@@ -9,13 +9,13 @@ namespace RimWorld
 	// Token: 0x02000985 RID: 2437
 	public static class GenLabel
 	{
-		// Token: 0x060036DE RID: 14046 RVA: 0x001D4B62 File Offset: 0x001D2F62
+		// Token: 0x060036E0 RID: 14048 RVA: 0x001D4C2A File Offset: 0x001D302A
 		public static void ClearCache()
 		{
 			GenLabel.labelDictionary.Clear();
 		}
 
-		// Token: 0x060036DF RID: 14047 RVA: 0x001D4B70 File Offset: 0x001D2F70
+		// Token: 0x060036E1 RID: 14049 RVA: 0x001D4C38 File Offset: 0x001D3038
 		public static string ThingLabel(BuildableDef entDef, ThingDef stuffDef, int stackCount = 1)
 		{
 			GenLabel.LabelRequest key = default(GenLabel.LabelRequest);
@@ -35,7 +35,7 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x060036E0 RID: 14048 RVA: 0x001D4BF0 File Offset: 0x001D2FF0
+		// Token: 0x060036E2 RID: 14050 RVA: 0x001D4CB8 File Offset: 0x001D30B8
 		private static string NewThingLabel(BuildableDef entDef, ThingDef stuffDef, int stackCount)
 		{
 			string text;
@@ -58,7 +58,7 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x060036E1 RID: 14049 RVA: 0x001D4C54 File Offset: 0x001D3054
+		// Token: 0x060036E3 RID: 14051 RVA: 0x001D4D1C File Offset: 0x001D311C
 		public static string ThingLabel(Thing t, int stackCount, bool includeHp = true)
 		{
 			GenLabel.LabelRequest key = default(GenLabel.LabelRequest);
@@ -89,7 +89,7 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x060036E2 RID: 14050 RVA: 0x001D4D38 File Offset: 0x001D3138
+		// Token: 0x060036E4 RID: 14052 RVA: 0x001D4E00 File Offset: 0x001D3200
 		private static string NewThingLabel(Thing t, int stackCount, bool includeHp)
 		{
 			string text = GenLabel.ThingLabel(t.def, t.Stuff, 1);
@@ -132,7 +132,7 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x060036E3 RID: 14051 RVA: 0x001D4E84 File Offset: 0x001D3284
+		// Token: 0x060036E5 RID: 14053 RVA: 0x001D4F4C File Offset: 0x001D334C
 		public static string ThingsLabel(List<Thing> things)
 		{
 			GenLabel.tmpThingsLabelElements.Clear();
@@ -203,7 +203,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060036E4 RID: 14052 RVA: 0x001D5128 File Offset: 0x001D3528
+		// Token: 0x060036E6 RID: 14054 RVA: 0x001D51F0 File Offset: 0x001D35F0
 		public static string BestKindLabel(Pawn pawn, bool mustNoteGender = false, bool mustNoteLifeStage = false, bool plural = false, int pluralCount = -1)
 		{
 			bool flag = false;
@@ -404,31 +404,31 @@ namespace RimWorld
 		// Token: 0x02000987 RID: 2439
 		private struct LabelRequest : IEquatable<GenLabel.LabelRequest>
 		{
-			// Token: 0x060036E8 RID: 14056 RVA: 0x001D5724 File Offset: 0x001D3B24
+			// Token: 0x060036EA RID: 14058 RVA: 0x001D57EC File Offset: 0x001D3BEC
 			public static bool operator ==(GenLabel.LabelRequest lhs, GenLabel.LabelRequest rhs)
 			{
 				return lhs.Equals(rhs);
 			}
 
-			// Token: 0x060036E9 RID: 14057 RVA: 0x001D5744 File Offset: 0x001D3B44
+			// Token: 0x060036EB RID: 14059 RVA: 0x001D580C File Offset: 0x001D3C0C
 			public static bool operator !=(GenLabel.LabelRequest lhs, GenLabel.LabelRequest rhs)
 			{
 				return !(lhs == rhs);
 			}
 
-			// Token: 0x060036EA RID: 14058 RVA: 0x001D5764 File Offset: 0x001D3B64
+			// Token: 0x060036EC RID: 14060 RVA: 0x001D582C File Offset: 0x001D3C2C
 			public override bool Equals(object obj)
 			{
 				return obj is GenLabel.LabelRequest && this.Equals((GenLabel.LabelRequest)obj);
 			}
 
-			// Token: 0x060036EB RID: 14059 RVA: 0x001D5798 File Offset: 0x001D3B98
+			// Token: 0x060036ED RID: 14061 RVA: 0x001D5860 File Offset: 0x001D3C60
 			public bool Equals(GenLabel.LabelRequest other)
 			{
 				return this.entDef == other.entDef && this.stuffDef == other.stuffDef && this.stackCount == other.stackCount && this.quality == other.quality && this.health == other.health && this.maxHealth == other.maxHealth && this.wornByCorpse == other.wornByCorpse;
 			}
 
-			// Token: 0x060036EC RID: 14060 RVA: 0x001D582C File Offset: 0x001D3C2C
+			// Token: 0x060036EE RID: 14062 RVA: 0x001D58F4 File Offset: 0x001D3CF4
 			public override int GetHashCode()
 			{
 				int num = 0;

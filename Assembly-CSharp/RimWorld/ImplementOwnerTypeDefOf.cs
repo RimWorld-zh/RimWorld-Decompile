@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class ImplementOwnerTypeDefOf
 	{
-		// Token: 0x06003670 RID: 13936 RVA: 0x001D0B93 File Offset: 0x001CEF93
+		// Token: 0x06003672 RID: 13938 RVA: 0x001D0C5B File Offset: 0x001CF05B
 		static ImplementOwnerTypeDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ImplementOwnerTypeDefOf));

@@ -2,15 +2,15 @@
 
 namespace Verse
 {
-	// Token: 0x02000F23 RID: 3875
+	// Token: 0x02000F22 RID: 3874
 	public class SubEffecter_SprayerContinuous : SubEffecter_Sprayer
 	{
-		// Token: 0x06005CB5 RID: 23733 RVA: 0x002EF783 File Offset: 0x002EDB83
+		// Token: 0x06005CB3 RID: 23731 RVA: 0x002EF85F File Offset: 0x002EDC5F
 		public SubEffecter_SprayerContinuous(SubEffecterDef def, Effecter parent) : base(def, parent)
 		{
 		}
 
-		// Token: 0x06005CB6 RID: 23734 RVA: 0x002EF795 File Offset: 0x002EDB95
+		// Token: 0x06005CB4 RID: 23732 RVA: 0x002EF871 File Offset: 0x002EDC71
 		public override void SubEffectTick(TargetInfo A, TargetInfo B)
 		{
 			this.ticksUntilMote--;
@@ -21,7 +21,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003D89 RID: 15753
+		// Token: 0x04003D88 RID: 15752
 		private int ticksUntilMote = 0;
 	}
 }

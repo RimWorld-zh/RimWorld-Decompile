@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020009C7 RID: 2503
 	public abstract class StatWorker_MeleeDamageAmount : StatWorker
 	{
-		// Token: 0x06003815 RID: 14357 RVA: 0x001DE3F0 File Offset: 0x001DC7F0
+		// Token: 0x06003817 RID: 14359 RVA: 0x001DE4C4 File Offset: 0x001DC8C4
 		public override float GetValueUnfinalized(StatRequest req, bool applyPostProcess = true)
 		{
 			float num = base.GetValueUnfinalized(req, true);
@@ -27,7 +27,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06003816 RID: 14358 RVA: 0x001DE45C File Offset: 0x001DC85C
+		// Token: 0x06003818 RID: 14360 RVA: 0x001DE530 File Offset: 0x001DC930
 		public override string GetExplanationUnfinalized(StatRequest req, ToStringNumberSense numberSense)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -49,7 +49,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06003817 RID: 14359
+		// Token: 0x06003819 RID: 14361
 		protected abstract DamageArmorCategoryDef CategoryOfDamage(ThingDef def);
 	}
 }

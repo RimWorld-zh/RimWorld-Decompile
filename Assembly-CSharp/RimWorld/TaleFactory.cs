@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000662 RID: 1634
 	public static class TaleFactory
 	{
-		// Token: 0x06002219 RID: 8729 RVA: 0x00121500 File Offset: 0x0011F900
+		// Token: 0x0600221B RID: 8731 RVA: 0x00121578 File Offset: 0x0011F978
 		public static Tale MakeRawTale(TaleDef def, params object[] args)
 		{
 			Tale result;
@@ -29,7 +29,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600221A RID: 8730 RVA: 0x001215A4 File Offset: 0x0011F9A4
+		// Token: 0x0600221C RID: 8732 RVA: 0x0012161C File Offset: 0x0011FA1C
 		public static Tale MakeRandomTestTale(TaleDef def = null)
 		{
 			if (def == null)

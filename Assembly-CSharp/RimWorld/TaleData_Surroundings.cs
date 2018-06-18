@@ -9,7 +9,7 @@ namespace RimWorld
 	public class TaleData_Surroundings : TaleData
 	{
 		// Token: 0x170004FF RID: 1279
-		// (get) Token: 0x06002206 RID: 8710 RVA: 0x0012059C File Offset: 0x0011E99C
+		// (get) Token: 0x06002208 RID: 8712 RVA: 0x00120614 File Offset: 0x0011EA14
 		public bool Outdoors
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002207 RID: 8711 RVA: 0x001205C0 File Offset: 0x0011E9C0
+		// Token: 0x06002209 RID: 8713 RVA: 0x00120638 File Offset: 0x0011EA38
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.tile, "tile", 0, false);
@@ -31,7 +31,7 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.roomCleanliness, "roomCleanliness", 0f, false);
 		}
 
-		// Token: 0x06002208 RID: 8712 RVA: 0x00120670 File Offset: 0x0011EA70
+		// Token: 0x0600220A RID: 8714 RVA: 0x001206E8 File Offset: 0x0011EAE8
 		public override IEnumerable<Rule> GetRules()
 		{
 			yield return new Rule_String("BIOME", Find.WorldGrid[this.tile].biome.label);
@@ -53,7 +53,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002209 RID: 8713 RVA: 0x0012069C File Offset: 0x0011EA9C
+		// Token: 0x0600220B RID: 8715 RVA: 0x00120714 File Offset: 0x0011EB14
 		public static TaleData_Surroundings GenerateFrom(IntVec3 c, Map map)
 		{
 			TaleData_Surroundings taleData_Surroundings = new TaleData_Surroundings();
@@ -78,7 +78,7 @@ namespace RimWorld
 			return taleData_Surroundings;
 		}
 
-		// Token: 0x0600220A RID: 8714 RVA: 0x00120760 File Offset: 0x0011EB60
+		// Token: 0x0600220C RID: 8716 RVA: 0x001207D8 File Offset: 0x0011EBD8
 		public static TaleData_Surroundings GenerateRandom(Map map)
 		{
 			return TaleData_Surroundings.GenerateFrom(CellFinder.RandomCell(map), map);

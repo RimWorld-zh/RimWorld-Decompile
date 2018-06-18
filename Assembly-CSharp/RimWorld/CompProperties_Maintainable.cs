@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000720 RID: 1824
 	public class CompProperties_Maintainable : CompProperties
 	{
-		// Token: 0x06002830 RID: 10288 RVA: 0x001573A8 File Offset: 0x001557A8
+		// Token: 0x06002832 RID: 10290 RVA: 0x00157420 File Offset: 0x00155820
 		public CompProperties_Maintainable()
 		{
 			this.compClass = typeof(CompMaintainable);

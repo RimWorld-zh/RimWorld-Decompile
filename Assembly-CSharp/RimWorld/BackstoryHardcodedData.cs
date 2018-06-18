@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020004E0 RID: 1248
 	internal static class BackstoryHardcodedData
 	{
-		// Token: 0x06001638 RID: 5688 RVA: 0x000C510C File Offset: 0x000C350C
+		// Token: 0x06001639 RID: 5689 RVA: 0x000C515C File Offset: 0x000C355C
 		public static void InjectHardcodedData(Backstory bs)
 		{
 			string a = bs.title.CapitalizeFirst();
@@ -73,7 +73,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001639 RID: 5689 RVA: 0x000C52D8 File Offset: 0x000C36D8
+		// Token: 0x0600163A RID: 5690 RVA: 0x000C5328 File Offset: 0x000C3728
 		public static void InjectHardcodedData(PawnBio bio)
 		{
 			if (bio.name.First == "Xia" && bio.name.Last == "Xue")

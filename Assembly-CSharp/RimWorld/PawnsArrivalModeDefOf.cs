@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class PawnsArrivalModeDefOf
 	{
-		// Token: 0x06003675 RID: 13941 RVA: 0x001D0BED File Offset: 0x001CEFED
+		// Token: 0x06003677 RID: 13943 RVA: 0x001D0CB5 File Offset: 0x001CF0B5
 		static PawnsArrivalModeDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(PawnsArrivalModeDefOf));

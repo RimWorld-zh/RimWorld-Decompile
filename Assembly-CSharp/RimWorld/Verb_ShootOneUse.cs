@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020009DB RID: 2523
 	public class Verb_ShootOneUse : Verb_Shoot
 	{
-		// Token: 0x0600387F RID: 14463 RVA: 0x001E3290 File Offset: 0x001E1690
+		// Token: 0x06003881 RID: 14465 RVA: 0x001E3364 File Offset: 0x001E1764
 		protected override bool TryCastShot()
 		{
 			bool result;
@@ -29,7 +29,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003880 RID: 14464 RVA: 0x001E32E8 File Offset: 0x001E16E8
+		// Token: 0x06003882 RID: 14466 RVA: 0x001E33BC File Offset: 0x001E17BC
 		public override void Notify_EquipmentLost()
 		{
 			base.Notify_EquipmentLost();
@@ -39,7 +39,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003881 RID: 14465 RVA: 0x001E3319 File Offset: 0x001E1719
+		// Token: 0x06003883 RID: 14467 RVA: 0x001E33ED File Offset: 0x001E17ED
 		private void SelfConsume()
 		{
 			if (this.ownerEquipment != null && !this.ownerEquipment.Destroyed)

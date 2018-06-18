@@ -7,18 +7,18 @@ namespace Verse.Grammar
 	public abstract class Rule
 	{
 		// Token: 0x17000A75 RID: 2677
-		// (get) Token: 0x0600427D RID: 17021
+		// (get) Token: 0x0600427F RID: 17023
 		public abstract float BaseSelectionWeight { get; }
 
-		// Token: 0x0600427E RID: 17022
+		// Token: 0x06004280 RID: 17024
 		public abstract string Generate();
 
-		// Token: 0x0600427F RID: 17023 RVA: 0x002303CC File Offset: 0x0022E7CC
+		// Token: 0x06004281 RID: 17025 RVA: 0x00230444 File Offset: 0x0022E844
 		public virtual void Init()
 		{
 		}
 
-		// Token: 0x06004280 RID: 17024 RVA: 0x002303D0 File Offset: 0x0022E7D0
+		// Token: 0x06004282 RID: 17026 RVA: 0x00230448 File Offset: 0x0022E848
 		public void AddConstantConstraint(string key, string value, bool equality)
 		{
 			if (this.constantConstraints == null)

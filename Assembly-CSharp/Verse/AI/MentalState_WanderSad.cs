@@ -6,7 +6,7 @@ namespace Verse.AI
 	// Token: 0x02000A80 RID: 2688
 	public class MentalState_WanderSad : MentalState
 	{
-		// Token: 0x06003BA9 RID: 15273 RVA: 0x001F7C94 File Offset: 0x001F6094
+		// Token: 0x06003BAB RID: 15275 RVA: 0x001F7D68 File Offset: 0x001F6168
 		public override RandomSocialMode SocialModeMax()
 		{
 			return RandomSocialMode.Off;

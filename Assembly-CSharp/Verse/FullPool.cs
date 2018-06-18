@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000FB8 RID: 4024
+	// Token: 0x02000FB7 RID: 4023
 	public static class FullPool<T> where T : IFullPoolable, new()
 	{
-		// Token: 0x06006131 RID: 24881 RVA: 0x00310ABC File Offset: 0x0030EEBC
+		// Token: 0x0600612F RID: 24879 RVA: 0x00310B98 File Offset: 0x0030EF98
 		public static T Get()
 		{
 			T result;
@@ -23,14 +23,14 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06006132 RID: 24882 RVA: 0x00310B1B File Offset: 0x0030EF1B
+		// Token: 0x06006130 RID: 24880 RVA: 0x00310BF7 File Offset: 0x0030EFF7
 		public static void Return(T item)
 		{
 			item.Reset();
 			FullPool<T>.freeItems.Add(item);
 		}
 
-		// Token: 0x04003F95 RID: 16277
+		// Token: 0x04003F94 RID: 16276
 		private static List<T> freeItems = new List<T>();
 	}
 }

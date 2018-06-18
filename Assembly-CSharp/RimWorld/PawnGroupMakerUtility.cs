@@ -11,7 +11,7 @@ namespace RimWorld
 	[HasDebugOutput]
 	public class PawnGroupMakerUtility
 	{
-		// Token: 0x060014BF RID: 5311 RVA: 0x000B622C File Offset: 0x000B462C
+		// Token: 0x060014BF RID: 5311 RVA: 0x000B6248 File Offset: 0x000B4648
 		public static IEnumerable<Pawn> GeneratePawns(PawnGroupMakerParms parms, bool warnOnZeroResults = true)
 		{
 			if (parms.groupKind == null)
@@ -55,7 +55,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060014C0 RID: 5312 RVA: 0x000B6260 File Offset: 0x000B4660
+		// Token: 0x060014C0 RID: 5312 RVA: 0x000B627C File Offset: 0x000B467C
 		public static IEnumerable<PawnGenOption> ChoosePawnGenOptionsByPoints(float pointsTotal, List<PawnGenOption> options, PawnGroupMakerParms groupParms)
 		{
 			float num = PawnGroupMakerUtility.MaxPawnCost(groupParms.faction, pointsTotal, groupParms.raidStrategy, groupParms.groupKind);
@@ -126,7 +126,7 @@ namespace RimWorld
 			return list2;
 		}
 
-		// Token: 0x060014C1 RID: 5313 RVA: 0x000B6488 File Offset: 0x000B4888
+		// Token: 0x060014C1 RID: 5313 RVA: 0x000B64A4 File Offset: 0x000B48A4
 		public static float MaxPawnCost(Faction faction, float totalPoints, RaidStrategyDef raidStrategy, PawnGroupKindDef groupKind)
 		{
 			float num = faction.def.maxPawnCostPerTotalPointsCurve.Evaluate(totalPoints);
@@ -142,7 +142,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x060014C2 RID: 5314 RVA: 0x000B6500 File Offset: 0x000B4900
+		// Token: 0x060014C2 RID: 5314 RVA: 0x000B651C File Offset: 0x000B491C
 		public static bool CanGenerateAnyNormalGroup(Faction faction, float points)
 		{
 			bool result;
@@ -171,7 +171,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060014C3 RID: 5315 RVA: 0x000B65A0 File Offset: 0x000B49A0
+		// Token: 0x060014C3 RID: 5315 RVA: 0x000B65BC File Offset: 0x000B49BC
 		[DebugOutput]
 		public static void PawnGroupsMade()
 		{
@@ -253,7 +253,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x060014C4 RID: 5316 RVA: 0x000B661C File Offset: 0x000B4A1C
+		// Token: 0x060014C4 RID: 5316 RVA: 0x000B6638 File Offset: 0x000B4A38
 		public static bool TryGetRandomFactionForCombatPawnGroup(float points, out Faction faction, Predicate<Faction> validator = null, bool allowNonHostileToPlayer = false, bool allowHidden = false, bool allowDefeated = false, bool allowNonHumanlike = true)
 		{
 			List<Faction> source = Find.FactionManager.AllFactions.Where(delegate(Faction f)

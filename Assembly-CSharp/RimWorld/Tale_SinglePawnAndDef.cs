@@ -8,25 +8,25 @@ namespace RimWorld
 	// Token: 0x0200066F RID: 1647
 	public class Tale_SinglePawnAndDef : Tale_SinglePawn
 	{
-		// Token: 0x06002279 RID: 8825 RVA: 0x001249A8 File Offset: 0x00122DA8
+		// Token: 0x0600227B RID: 8827 RVA: 0x00124A20 File Offset: 0x00122E20
 		public Tale_SinglePawnAndDef()
 		{
 		}
 
-		// Token: 0x0600227A RID: 8826 RVA: 0x001249B1 File Offset: 0x00122DB1
+		// Token: 0x0600227C RID: 8828 RVA: 0x00124A29 File Offset: 0x00122E29
 		public Tale_SinglePawnAndDef(Pawn pawn, Def def) : base(pawn)
 		{
 			this.defData = TaleData_Def.GenerateFrom(def);
 		}
 
-		// Token: 0x0600227B RID: 8827 RVA: 0x001249C7 File Offset: 0x00122DC7
+		// Token: 0x0600227D RID: 8829 RVA: 0x00124A3F File Offset: 0x00122E3F
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Deep.Look<TaleData_Def>(ref this.defData, "defData", new object[0]);
 		}
 
-		// Token: 0x0600227C RID: 8828 RVA: 0x001249E8 File Offset: 0x00122DE8
+		// Token: 0x0600227E RID: 8830 RVA: 0x00124A60 File Offset: 0x00122E60
 		protected override IEnumerable<Rule> SpecialTextGenerationRules()
 		{
 			if (this.def.defSymbol.NullOrEmpty())
@@ -44,7 +44,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x0600227D RID: 8829 RVA: 0x00124A12 File Offset: 0x00122E12
+		// Token: 0x0600227F RID: 8831 RVA: 0x00124A8A File Offset: 0x00122E8A
 		public override void GenerateTestData()
 		{
 			base.GenerateTestData();

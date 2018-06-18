@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class RecipeDefOf
 	{
-		// Token: 0x06003633 RID: 13875 RVA: 0x001D0749 File Offset: 0x001CEB49
+		// Token: 0x06003635 RID: 13877 RVA: 0x001D0811 File Offset: 0x001CEC11
 		static RecipeDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(RecipeDefOf));

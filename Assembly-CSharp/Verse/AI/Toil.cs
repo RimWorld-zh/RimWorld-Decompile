@@ -7,7 +7,7 @@ namespace Verse.AI
 	// Token: 0x02000A48 RID: 2632
 	public sealed class Toil : IJobEndable
 	{
-		// Token: 0x06003A83 RID: 14979 RVA: 0x001EFDFC File Offset: 0x001EE1FC
+		// Token: 0x06003A85 RID: 14981 RVA: 0x001EFED0 File Offset: 0x001EE2D0
 		public void Cleanup(int myIndex, JobDriver jobDriver)
 		{
 			if (this.finishActions != null)
@@ -40,13 +40,13 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003A84 RID: 14980 RVA: 0x001EFEE8 File Offset: 0x001EE2E8
+		// Token: 0x06003A86 RID: 14982 RVA: 0x001EFFBC File Offset: 0x001EE3BC
 		public Pawn GetActor()
 		{
 			return this.actor;
 		}
 
-		// Token: 0x06003A85 RID: 14981 RVA: 0x001EFF04 File Offset: 0x001EE304
+		// Token: 0x06003A87 RID: 14983 RVA: 0x001EFFD8 File Offset: 0x001EE3D8
 		public void AddFailCondition(Func<bool> newFailCondition)
 		{
 			this.endConditions.Add(delegate
@@ -64,13 +64,13 @@ namespace Verse.AI
 			});
 		}
 
-		// Token: 0x06003A86 RID: 14982 RVA: 0x001EFF36 File Offset: 0x001EE336
+		// Token: 0x06003A88 RID: 14984 RVA: 0x001F000A File Offset: 0x001EE40A
 		public void AddEndCondition(Func<JobCondition> newEndCondition)
 		{
 			this.endConditions.Add(newEndCondition);
 		}
 
-		// Token: 0x06003A87 RID: 14983 RVA: 0x001EFF45 File Offset: 0x001EE345
+		// Token: 0x06003A89 RID: 14985 RVA: 0x001F0019 File Offset: 0x001EE419
 		public void AddPreInitAction(Action newAct)
 		{
 			if (this.preInitActions == null)
@@ -80,7 +80,7 @@ namespace Verse.AI
 			this.preInitActions.Add(newAct);
 		}
 
-		// Token: 0x06003A88 RID: 14984 RVA: 0x001EFF6A File Offset: 0x001EE36A
+		// Token: 0x06003A8A RID: 14986 RVA: 0x001F003E File Offset: 0x001EE43E
 		public void AddPreTickAction(Action newAct)
 		{
 			if (this.preTickActions == null)
@@ -90,7 +90,7 @@ namespace Verse.AI
 			this.preTickActions.Add(newAct);
 		}
 
-		// Token: 0x06003A89 RID: 14985 RVA: 0x001EFF8F File Offset: 0x001EE38F
+		// Token: 0x06003A8B RID: 14987 RVA: 0x001F0063 File Offset: 0x001EE463
 		public void AddFinishAction(Action newAct)
 		{
 			if (this.finishActions == null)

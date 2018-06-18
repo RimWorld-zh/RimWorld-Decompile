@@ -6,10 +6,10 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000E59 RID: 3673
+	// Token: 0x02000E58 RID: 3672
 	public class FloatMenuOption
 	{
-		// Token: 0x0600566F RID: 22127 RVA: 0x002C8720 File Offset: 0x002C6B20
+		// Token: 0x0600566D RID: 22125 RVA: 0x002C8720 File Offset: 0x002C6B20
 		public FloatMenuOption(string label, Action action, MenuOptionPriority priority = MenuOptionPriority.Default, Action mouseoverGuiAction = null, Thing revalidateClickTarget = null, float extraPartWidth = 0f, Func<Rect, bool> extraPartOnGUI = null, WorldObject revalidateWorldClickTarget = null)
 		{
 			this.Label = label;
@@ -22,9 +22,9 @@ namespace Verse
 			this.revalidateWorldClickTarget = revalidateWorldClickTarget;
 		}
 
-		// Token: 0x17000D92 RID: 3474
-		// (get) Token: 0x06005670 RID: 22128 RVA: 0x002C87C4 File Offset: 0x002C6BC4
-		// (set) Token: 0x06005671 RID: 22129 RVA: 0x002C87DF File Offset: 0x002C6BDF
+		// Token: 0x17000D91 RID: 3473
+		// (get) Token: 0x0600566E RID: 22126 RVA: 0x002C87C4 File Offset: 0x002C6BC4
+		// (set) Token: 0x0600566F RID: 22127 RVA: 0x002C87DF File Offset: 0x002C6BDF
 		public string Label
 		{
 			get
@@ -42,8 +42,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D93 RID: 3475
-		// (get) Token: 0x06005672 RID: 22130 RVA: 0x002C8814 File Offset: 0x002C6C14
+		// Token: 0x17000D92 RID: 3474
+		// (get) Token: 0x06005670 RID: 22128 RVA: 0x002C8814 File Offset: 0x002C6C14
 		private float VerticalMargin
 		{
 			get
@@ -52,8 +52,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D94 RID: 3476
-		// (get) Token: 0x06005673 RID: 22131 RVA: 0x002C8844 File Offset: 0x002C6C44
+		// Token: 0x17000D93 RID: 3475
+		// (get) Token: 0x06005671 RID: 22129 RVA: 0x002C8844 File Offset: 0x002C6C44
 		private float HorizontalMargin
 		{
 			get
@@ -62,8 +62,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D95 RID: 3477
-		// (get) Token: 0x06005674 RID: 22132 RVA: 0x002C8874 File Offset: 0x002C6C74
+		// Token: 0x17000D94 RID: 3476
+		// (get) Token: 0x06005672 RID: 22130 RVA: 0x002C8874 File Offset: 0x002C6C74
 		private GameFont CurrentFont
 		{
 			get
@@ -72,9 +72,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D96 RID: 3478
-		// (get) Token: 0x06005675 RID: 22133 RVA: 0x002C889C File Offset: 0x002C6C9C
-		// (set) Token: 0x06005676 RID: 22134 RVA: 0x002C88BA File Offset: 0x002C6CBA
+		// Token: 0x17000D95 RID: 3477
+		// (get) Token: 0x06005673 RID: 22131 RVA: 0x002C889C File Offset: 0x002C6C9C
+		// (set) Token: 0x06005674 RID: 22132 RVA: 0x002C88BA File Offset: 0x002C6CBA
 		public bool Disabled
 		{
 			get
@@ -90,8 +90,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D97 RID: 3479
-		// (get) Token: 0x06005677 RID: 22135 RVA: 0x002C88CC File Offset: 0x002C6CCC
+		// Token: 0x17000D96 RID: 3478
+		// (get) Token: 0x06005675 RID: 22133 RVA: 0x002C88CC File Offset: 0x002C6CCC
 		public float RequiredHeight
 		{
 			get
@@ -100,8 +100,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D98 RID: 3480
-		// (get) Token: 0x06005678 RID: 22136 RVA: 0x002C88E8 File Offset: 0x002C6CE8
+		// Token: 0x17000D97 RID: 3479
+		// (get) Token: 0x06005676 RID: 22134 RVA: 0x002C88E8 File Offset: 0x002C6CE8
 		public float RequiredWidth
 		{
 			get
@@ -110,9 +110,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D99 RID: 3481
-		// (get) Token: 0x06005679 RID: 22137 RVA: 0x002C8904 File Offset: 0x002C6D04
-		// (set) Token: 0x0600567A RID: 22138 RVA: 0x002C8931 File Offset: 0x002C6D31
+		// Token: 0x17000D98 RID: 3480
+		// (get) Token: 0x06005677 RID: 22135 RVA: 0x002C8904 File Offset: 0x002C6D04
+		// (set) Token: 0x06005678 RID: 22136 RVA: 0x002C8931 File Offset: 0x002C6D31
 		public MenuOptionPriority Priority
 		{
 			get
@@ -138,7 +138,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600567B RID: 22139 RVA: 0x002C895C File Offset: 0x002C6D5C
+		// Token: 0x06005679 RID: 22137 RVA: 0x002C895C File Offset: 0x002C6D5C
 		public void SetSizeMode(FloatMenuSizeMode newSizeMode)
 		{
 			this.sizeMode = newSizeMode;
@@ -150,7 +150,7 @@ namespace Verse
 			Text.Font = font;
 		}
 
-		// Token: 0x0600567C RID: 22140 RVA: 0x002C89FC File Offset: 0x002C6DFC
+		// Token: 0x0600567A RID: 22138 RVA: 0x002C89FC File Offset: 0x002C6DFC
 		public void Chosen(bool colonistOrdering)
 		{
 			if (!this.Disabled)
@@ -170,7 +170,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600567D RID: 22141 RVA: 0x002C8A54 File Offset: 0x002C6E54
+		// Token: 0x0600567B RID: 22139 RVA: 0x002C8A54 File Offset: 0x002C6E54
 		public virtual bool DoGUI(Rect rect, bool colonistOrdering)
 		{
 			Rect rect2 = rect;
@@ -263,7 +263,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600567E RID: 22142 RVA: 0x002C8D24 File Offset: 0x002C7124
+		// Token: 0x0600567C RID: 22140 RVA: 0x002C8D24 File Offset: 0x002C7124
 		public override string ToString()
 		{
 			return string.Concat(new string[]
@@ -276,7 +276,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x0600567F RID: 22143 RVA: 0x002C8D84 File Offset: 0x002C7184
+		// Token: 0x0600567D RID: 22141 RVA: 0x002C8D84 File Offset: 0x002C7184
 		// Note: this type is marked as 'beforefieldinit'.
 		static FloatMenuOption()
 		{
@@ -290,82 +290,82 @@ namespace Verse
 			FloatMenuOption.ColorTextDisabled = new Color(0.9f, 0.9f, 0.9f);
 		}
 
-		// Token: 0x0400393A RID: 14650
+		// Token: 0x04003938 RID: 14648
 		private string labelInt = null;
 
-		// Token: 0x0400393B RID: 14651
+		// Token: 0x04003939 RID: 14649
 		public Action action = null;
 
-		// Token: 0x0400393C RID: 14652
+		// Token: 0x0400393A RID: 14650
 		private MenuOptionPriority priorityInt = MenuOptionPriority.Default;
 
-		// Token: 0x0400393D RID: 14653
+		// Token: 0x0400393B RID: 14651
 		public bool autoTakeable = false;
 
-		// Token: 0x0400393E RID: 14654
+		// Token: 0x0400393C RID: 14652
 		public float autoTakeablePriority;
 
-		// Token: 0x0400393F RID: 14655
+		// Token: 0x0400393D RID: 14653
 		public Action mouseoverGuiAction = null;
 
-		// Token: 0x04003940 RID: 14656
+		// Token: 0x0400393E RID: 14654
 		public Thing revalidateClickTarget = null;
 
-		// Token: 0x04003941 RID: 14657
+		// Token: 0x0400393F RID: 14655
 		public WorldObject revalidateWorldClickTarget = null;
 
-		// Token: 0x04003942 RID: 14658
+		// Token: 0x04003940 RID: 14656
 		public float extraPartWidth = 0f;
 
-		// Token: 0x04003943 RID: 14659
+		// Token: 0x04003941 RID: 14657
 		public Func<Rect, bool> extraPartOnGUI = null;
 
-		// Token: 0x04003944 RID: 14660
+		// Token: 0x04003942 RID: 14658
 		public string tutorTag = null;
 
-		// Token: 0x04003945 RID: 14661
+		// Token: 0x04003943 RID: 14659
 		private FloatMenuSizeMode sizeMode = FloatMenuSizeMode.Undefined;
 
-		// Token: 0x04003946 RID: 14662
+		// Token: 0x04003944 RID: 14660
 		private float cachedRequiredHeight;
 
-		// Token: 0x04003947 RID: 14663
+		// Token: 0x04003945 RID: 14661
 		private float cachedRequiredWidth;
 
-		// Token: 0x04003948 RID: 14664
+		// Token: 0x04003946 RID: 14662
 		public const float MaxWidth = 300f;
 
-		// Token: 0x04003949 RID: 14665
+		// Token: 0x04003947 RID: 14663
 		private const float NormalVerticalMargin = 4f;
 
-		// Token: 0x0400394A RID: 14666
+		// Token: 0x04003948 RID: 14664
 		private const float TinyVerticalMargin = 1f;
 
-		// Token: 0x0400394B RID: 14667
+		// Token: 0x04003949 RID: 14665
 		private const float NormalHorizontalMargin = 6f;
 
-		// Token: 0x0400394C RID: 14668
+		// Token: 0x0400394A RID: 14666
 		private const float TinyHorizontalMargin = 3f;
 
-		// Token: 0x0400394D RID: 14669
+		// Token: 0x0400394B RID: 14667
 		private const float MouseOverLabelShift = 4f;
 
-		// Token: 0x0400394E RID: 14670
+		// Token: 0x0400394C RID: 14668
 		private static readonly Color ColorBGActive;
 
-		// Token: 0x0400394F RID: 14671
+		// Token: 0x0400394D RID: 14669
 		private static readonly Color ColorBGActiveMouseover;
 
-		// Token: 0x04003950 RID: 14672
+		// Token: 0x0400394E RID: 14670
 		private static readonly Color ColorBGDisabled;
 
-		// Token: 0x04003951 RID: 14673
+		// Token: 0x0400394F RID: 14671
 		private static readonly Color ColorTextActive;
 
-		// Token: 0x04003952 RID: 14674
+		// Token: 0x04003950 RID: 14672
 		private static readonly Color ColorTextDisabled;
 
-		// Token: 0x04003953 RID: 14675
+		// Token: 0x04003951 RID: 14673
 		public const float ExtraPartHeight = 30f;
 	}
 }

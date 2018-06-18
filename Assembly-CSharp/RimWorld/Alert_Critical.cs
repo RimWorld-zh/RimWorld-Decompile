@@ -7,14 +7,14 @@ namespace RimWorld
 	// Token: 0x0200078C RID: 1932
 	public abstract class Alert_Critical : Alert
 	{
-		// Token: 0x06002AD9 RID: 10969 RVA: 0x0016A01A File Offset: 0x0016841A
+		// Token: 0x06002ADB RID: 10971 RVA: 0x0016A0AE File Offset: 0x001684AE
 		public Alert_Critical()
 		{
 			this.defaultPriority = AlertPriority.Critical;
 		}
 
 		// Token: 0x170006AA RID: 1706
-		// (get) Token: 0x06002ADA RID: 10970 RVA: 0x0016A034 File Offset: 0x00168434
+		// (get) Token: 0x06002ADC RID: 10972 RVA: 0x0016A0C8 File Offset: 0x001684C8
 		protected override Color BGColor
 		{
 			get
@@ -24,7 +24,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002ADB RID: 10971 RVA: 0x0016A078 File Offset: 0x00168478
+		// Token: 0x06002ADD RID: 10973 RVA: 0x0016A10C File Offset: 0x0016850C
 		public override void AlertActiveUpdate()
 		{
 			if (this.lastActiveFrame < Time.frameCount - 1)

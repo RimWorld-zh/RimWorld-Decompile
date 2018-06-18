@@ -9,7 +9,7 @@ namespace Verse
 	public class DamageDef : Def
 	{
 		// Token: 0x1700096E RID: 2414
-		// (get) Token: 0x06003E84 RID: 16004 RVA: 0x0020EFB8 File Offset: 0x0020D3B8
+		// (get) Token: 0x06003E86 RID: 16006 RVA: 0x0020F08C File Offset: 0x0020D48C
 		public DamageWorker Worker
 		{
 			get

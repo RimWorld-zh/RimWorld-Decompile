@@ -7,7 +7,7 @@ namespace RimWorld
 	public class PredatorThreat : IExposable
 	{
 		// Token: 0x170003AF RID: 943
-		// (get) Token: 0x06001A22 RID: 6690 RVA: 0x000E26E4 File Offset: 0x000E0AE4
+		// (get) Token: 0x06001A23 RID: 6691 RVA: 0x000E2738 File Offset: 0x000E0B38
 		public bool Expired
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001A23 RID: 6691 RVA: 0x000E272B File Offset: 0x000E0B2B
+		// Token: 0x06001A24 RID: 6692 RVA: 0x000E277F File Offset: 0x000E0B7F
 		public void ExposeData()
 		{
 			Scribe_References.Look<Pawn>(ref this.predator, "predator", false);

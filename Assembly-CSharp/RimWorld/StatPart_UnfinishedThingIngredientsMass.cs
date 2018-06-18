@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020009BB RID: 2491
 	public class StatPart_UnfinishedThingIngredientsMass : StatPart
 	{
-		// Token: 0x060037BB RID: 14267 RVA: 0x001DA8FC File Offset: 0x001D8CFC
+		// Token: 0x060037BD RID: 14269 RVA: 0x001DA9D0 File Offset: 0x001D8DD0
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			float num;
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060037BC RID: 14268 RVA: 0x001DA920 File Offset: 0x001D8D20
+		// Token: 0x060037BE RID: 14270 RVA: 0x001DA9F4 File Offset: 0x001D8DF4
 		public override string ExplanationPart(StatRequest req)
 		{
 			float mass;
@@ -32,7 +32,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060037BD RID: 14269 RVA: 0x001DA964 File Offset: 0x001D8D64
+		// Token: 0x060037BF RID: 14271 RVA: 0x001DAA38 File Offset: 0x001D8E38
 		private bool TryGetValue(StatRequest req, out float value)
 		{
 			UnfinishedThing unfinishedThing = req.Thing as UnfinishedThing;

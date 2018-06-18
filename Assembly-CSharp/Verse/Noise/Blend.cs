@@ -3,15 +3,15 @@ using System.Diagnostics;
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F87 RID: 3975
+	// Token: 0x02000F86 RID: 3974
 	public class Blend : ModuleBase
 	{
-		// Token: 0x06005FE6 RID: 24550 RVA: 0x0030B104 File Offset: 0x00309504
+		// Token: 0x06005FE4 RID: 24548 RVA: 0x0030B1E0 File Offset: 0x003095E0
 		public Blend() : base(3)
 		{
 		}
 
-		// Token: 0x06005FE7 RID: 24551 RVA: 0x0030B10E File Offset: 0x0030950E
+		// Token: 0x06005FE5 RID: 24549 RVA: 0x0030B1EA File Offset: 0x003095EA
 		public Blend(ModuleBase lhs, ModuleBase rhs, ModuleBase controller) : base(3)
 		{
 			this.modules[0] = lhs;
@@ -19,9 +19,9 @@ namespace Verse.Noise
 			this.modules[2] = controller;
 		}
 
-		// Token: 0x17000F6E RID: 3950
-		// (get) Token: 0x06005FE8 RID: 24552 RVA: 0x0030B134 File Offset: 0x00309534
-		// (set) Token: 0x06005FE9 RID: 24553 RVA: 0x0030B151 File Offset: 0x00309551
+		// Token: 0x17000F6D RID: 3949
+		// (get) Token: 0x06005FE6 RID: 24550 RVA: 0x0030B210 File Offset: 0x00309610
+		// (set) Token: 0x06005FE7 RID: 24551 RVA: 0x0030B22D File Offset: 0x0030962D
 		public ModuleBase Controller
 		{
 			get
@@ -35,7 +35,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06005FEA RID: 24554 RVA: 0x0030B16C File Offset: 0x0030956C
+		// Token: 0x06005FE8 RID: 24552 RVA: 0x0030B248 File Offset: 0x00309648
 		public override double GetValue(double x, double y, double z)
 		{
 			Debug.Assert(this.modules[0] != null);

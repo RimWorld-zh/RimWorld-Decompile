@@ -10,7 +10,7 @@ namespace Verse
 	[StaticConstructorOnStartup]
 	public abstract class LogEntry : IExposable, ILoadReferenceable
 	{
-		// Token: 0x060041B1 RID: 16817 RVA: 0x00225940 File Offset: 0x00223D40
+		// Token: 0x060041B3 RID: 16819 RVA: 0x00225A14 File Offset: 0x00223E14
 		public LogEntry(LogEntryDef def = null)
 		{
 			this.ticksAbs = Find.TickManager.TicksAbs;
@@ -22,7 +22,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A42 RID: 2626
-		// (get) Token: 0x060041B2 RID: 16818 RVA: 0x002259A4 File Offset: 0x00223DA4
+		// (get) Token: 0x060041B4 RID: 16820 RVA: 0x00225A78 File Offset: 0x00223E78
 		public int Age
 		{
 			get
@@ -32,7 +32,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A43 RID: 2627
-		// (get) Token: 0x060041B3 RID: 16819 RVA: 0x002259CC File Offset: 0x00223DCC
+		// (get) Token: 0x060041B5 RID: 16821 RVA: 0x00225AA0 File Offset: 0x00223EA0
 		public int Tick
 		{
 			get
@@ -42,7 +42,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A44 RID: 2628
-		// (get) Token: 0x060041B4 RID: 16820 RVA: 0x002259E8 File Offset: 0x00223DE8
+		// (get) Token: 0x060041B6 RID: 16822 RVA: 0x00225ABC File Offset: 0x00223EBC
 		public int LogID
 		{
 			get
@@ -52,7 +52,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A45 RID: 2629
-		// (get) Token: 0x060041B5 RID: 16821 RVA: 0x00225A04 File Offset: 0x00223E04
+		// (get) Token: 0x060041B7 RID: 16823 RVA: 0x00225AD8 File Offset: 0x00223ED8
 		public int Timestamp
 		{
 			get
@@ -61,7 +61,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041B6 RID: 16822 RVA: 0x00225A1F File Offset: 0x00223E1F
+		// Token: 0x060041B8 RID: 16824 RVA: 0x00225AF3 File Offset: 0x00223EF3
 		public virtual void ExposeData()
 		{
 			Scribe_Values.Look<int>(ref this.ticksAbs, "ticksAbs", 0, false);
@@ -69,7 +69,7 @@ namespace Verse
 			Scribe_Defs.Look<LogEntryDef>(ref this.def, "def");
 		}
 
-		// Token: 0x060041B7 RID: 16823 RVA: 0x00225A58 File Offset: 0x00223E58
+		// Token: 0x060041B9 RID: 16825 RVA: 0x00225B2C File Offset: 0x00223F2C
 		public string ToGameStringFromPOV(Thing pov, bool forceLog = false)
 		{
 			if (this.cachedString == null || pov == null != (this.cachedStringPov == null) || (this.cachedStringPov != null && pov != this.cachedStringPov.Target) || DebugViewSettings.logGrammarResolution || forceLog)
@@ -91,7 +91,7 @@ namespace Verse
 			return this.cachedString;
 		}
 
-		// Token: 0x060041B8 RID: 16824 RVA: 0x00225B2C File Offset: 0x00223F2C
+		// Token: 0x060041BA RID: 16826 RVA: 0x00225C00 File Offset: 0x00224000
 		protected virtual string ToGameStringFromPOV_Worker(Thing pov, bool forceLog)
 		{
 			string rootKeyword = "r_logentry";
@@ -99,13 +99,13 @@ namespace Verse
 			return GrammarResolver.Resolve(rootKeyword, request, null, forceLog);
 		}
 
-		// Token: 0x060041B9 RID: 16825 RVA: 0x00225B5C File Offset: 0x00223F5C
+		// Token: 0x060041BB RID: 16827 RVA: 0x00225C30 File Offset: 0x00224030
 		protected virtual GrammarRequest GenerateGrammarRequest()
 		{
 			return default(GrammarRequest);
 		}
 
-		// Token: 0x060041BA RID: 16826 RVA: 0x00225B7C File Offset: 0x00223F7C
+		// Token: 0x060041BC RID: 16828 RVA: 0x00225C50 File Offset: 0x00224050
 		public float GetTextHeight(Thing pov, float width)
 		{
 			string text = this.ToGameStringFromPOV(pov, false);
@@ -117,7 +117,7 @@ namespace Verse
 			return this.cachedHeight;
 		}
 
-		// Token: 0x060041BB RID: 16827 RVA: 0x00225BC2 File Offset: 0x00223FC2
+		// Token: 0x060041BD RID: 16829 RVA: 0x00225C96 File Offset: 0x00224096
 		protected void ResetCache()
 		{
 			this.cachedStringPov = null;
@@ -126,24 +126,24 @@ namespace Verse
 			this.cachedHeight = 0f;
 		}
 
-		// Token: 0x060041BC RID: 16828
+		// Token: 0x060041BE RID: 16830
 		public abstract bool Concerns(Thing t);
 
-		// Token: 0x060041BD RID: 16829
+		// Token: 0x060041BF RID: 16831
 		public abstract IEnumerable<Thing> GetConcerns();
 
-		// Token: 0x060041BE RID: 16830 RVA: 0x00225BE9 File Offset: 0x00223FE9
+		// Token: 0x060041C0 RID: 16832 RVA: 0x00225CBD File Offset: 0x002240BD
 		public virtual void ClickedFromPOV(Thing pov)
 		{
 		}
 
-		// Token: 0x060041BF RID: 16831 RVA: 0x00225BEC File Offset: 0x00223FEC
+		// Token: 0x060041C1 RID: 16833 RVA: 0x00225CC0 File Offset: 0x002240C0
 		public virtual Texture2D IconFromPOV(Thing pov)
 		{
 			return null;
 		}
 
-		// Token: 0x060041C0 RID: 16832 RVA: 0x00225C04 File Offset: 0x00224004
+		// Token: 0x060041C2 RID: 16834 RVA: 0x00225CD8 File Offset: 0x002240D8
 		public virtual string GetTipString()
 		{
 			return "OccurredTimeAgo".Translate(new object[]
@@ -152,19 +152,19 @@ namespace Verse
 			}).CapitalizeFirst() + ".";
 		}
 
-		// Token: 0x060041C1 RID: 16833 RVA: 0x00225C48 File Offset: 0x00224048
+		// Token: 0x060041C3 RID: 16835 RVA: 0x00225D1C File Offset: 0x0022411C
 		public virtual bool ShowInCompactView()
 		{
 			return true;
 		}
 
-		// Token: 0x060041C2 RID: 16834 RVA: 0x00225C5E File Offset: 0x0022405E
+		// Token: 0x060041C4 RID: 16836 RVA: 0x00225D32 File Offset: 0x00224132
 		public void Debug_OverrideTicks(int newTicks)
 		{
 			this.ticksAbs = newTicks;
 		}
 
-		// Token: 0x060041C3 RID: 16835 RVA: 0x00225C68 File Offset: 0x00224068
+		// Token: 0x060041C5 RID: 16837 RVA: 0x00225D3C File Offset: 0x0022413C
 		public string GetUniqueLoadID()
 		{
 			return string.Format("LogEntry_{0}_{1}", this.ticksAbs, this.logID);

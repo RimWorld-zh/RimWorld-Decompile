@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020007D2 RID: 2002
 	public static class HuntUtility
 	{
-		// Token: 0x06002C5A RID: 11354 RVA: 0x0017612C File Offset: 0x0017452C
+		// Token: 0x06002C5C RID: 11356 RVA: 0x001761C0 File Offset: 0x001745C0
 		public static void ShowDesignationWarnings(Pawn pawn)
 		{
 			float baseManhunterOnDamageChance = PawnUtility.GetBaseManhunterOnDamageChance(pawn.kindDef);

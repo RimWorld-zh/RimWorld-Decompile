@@ -10,7 +10,7 @@ namespace RimWorld
 	public static class AmbientSoundManager
 	{
 		// Token: 0x170004F6 RID: 1270
-		// (get) Token: 0x060021D9 RID: 8665 RVA: 0x0011F1B8 File Offset: 0x0011D5B8
+		// (get) Token: 0x060021DB RID: 8667 RVA: 0x0011F230 File Offset: 0x0011D630
 		private static bool WorldAmbientSoundCreated
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170004F7 RID: 1271
-		// (get) Token: 0x060021DA RID: 8666 RVA: 0x0011F1E4 File Offset: 0x0011D5E4
+		// (get) Token: 0x060021DC RID: 8668 RVA: 0x0011F25C File Offset: 0x0011D65C
 		private static bool AltitudeWindSoundCreated
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021DB RID: 8667 RVA: 0x0011F20D File Offset: 0x0011D60D
+		// Token: 0x060021DD RID: 8669 RVA: 0x0011F285 File Offset: 0x0011D685
 		public static void EnsureWorldAmbientSoundCreated()
 		{
 			if (!AmbientSoundManager.WorldAmbientSoundCreated)
@@ -38,13 +38,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021DC RID: 8668 RVA: 0x0011F22B File Offset: 0x0011D62B
+		// Token: 0x060021DE RID: 8670 RVA: 0x0011F2A3 File Offset: 0x0011D6A3
 		public static void Notify_SwitchedMap()
 		{
 			LongEventHandler.ExecuteWhenFinished(AmbientSoundManager.recreateMapSustainers);
 		}
 
-		// Token: 0x060021DD RID: 8669 RVA: 0x0011F238 File Offset: 0x0011D638
+		// Token: 0x060021DF RID: 8671 RVA: 0x0011F2B0 File Offset: 0x0011D6B0
 		private static void RecreateMapSustainers()
 		{
 			if (!AmbientSoundManager.AltitudeWindSoundCreated)
@@ -72,7 +72,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060021DE RID: 8670 RVA: 0x0011F31B File Offset: 0x0011D71B
+		// Token: 0x060021E0 RID: 8672 RVA: 0x0011F393 File Offset: 0x0011D793
 		// Note: this type is marked as 'beforefieldinit'.
 		static AmbientSoundManager()
 		{

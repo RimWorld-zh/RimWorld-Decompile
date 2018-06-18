@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000998 RID: 2456
 	public class SpecialThingFilterWorker_CorpsesColonist : SpecialThingFilterWorker
 	{
-		// Token: 0x06003725 RID: 14117 RVA: 0x001D81E8 File Offset: 0x001D65E8
+		// Token: 0x06003727 RID: 14119 RVA: 0x001D82BC File Offset: 0x001D66BC
 		public override bool Matches(Thing t)
 		{
 			Corpse corpse = t as Corpse;

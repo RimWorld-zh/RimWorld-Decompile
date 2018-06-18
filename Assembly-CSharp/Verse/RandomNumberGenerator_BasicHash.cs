@@ -2,16 +2,16 @@
 
 namespace Verse
 {
-	// Token: 0x02000FAC RID: 4012
+	// Token: 0x02000FAB RID: 4011
 	public class RandomNumberGenerator_BasicHash : RandomNumberGenerator
 	{
-		// Token: 0x060060D8 RID: 24792 RVA: 0x0030E46C File Offset: 0x0030C86C
+		// Token: 0x060060D6 RID: 24790 RVA: 0x0030E548 File Offset: 0x0030C948
 		public override int GetInt(uint iterations)
 		{
 			return (int)this.GetHash((int)iterations);
 		}
 
-		// Token: 0x060060D9 RID: 24793 RVA: 0x0030E488 File Offset: 0x0030C888
+		// Token: 0x060060D7 RID: 24791 RVA: 0x0030E564 File Offset: 0x0030C964
 		private uint GetHash(int buffer)
 		{
 			uint num = this.seed + 374761393u;
@@ -25,25 +25,25 @@ namespace Verse
 			return num ^ num >> 16;
 		}
 
-		// Token: 0x060060DA RID: 24794 RVA: 0x0030E4F0 File Offset: 0x0030C8F0
+		// Token: 0x060060D8 RID: 24792 RVA: 0x0030E5CC File Offset: 0x0030C9CC
 		private static uint Rotate(uint value, int count)
 		{
 			return value << count | value >> 32 - count;
 		}
 
-		// Token: 0x04003F68 RID: 16232
+		// Token: 0x04003F67 RID: 16231
 		private const uint Prime1 = 2654435761u;
 
-		// Token: 0x04003F69 RID: 16233
+		// Token: 0x04003F68 RID: 16232
 		private const uint Prime2 = 2246822519u;
 
-		// Token: 0x04003F6A RID: 16234
+		// Token: 0x04003F69 RID: 16233
 		private const uint Prime3 = 3266489917u;
 
-		// Token: 0x04003F6B RID: 16235
+		// Token: 0x04003F6A RID: 16234
 		private const uint Prime4 = 668265263u;
 
-		// Token: 0x04003F6C RID: 16236
+		// Token: 0x04003F6B RID: 16235
 		private const uint Prime5 = 374761393u;
 	}
 }

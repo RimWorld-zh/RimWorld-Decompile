@@ -6,10 +6,10 @@ namespace Verse.Sound
 	// Token: 0x02000B82 RID: 2946
 	public abstract class SoundFilter
 	{
-		// Token: 0x0600401A RID: 16410
+		// Token: 0x0600401C RID: 16412
 		public abstract void SetupOn(AudioSource source);
 
-		// Token: 0x0600401B RID: 16411 RVA: 0x0021C218 File Offset: 0x0021A618
+		// Token: 0x0600401D RID: 16413 RVA: 0x0021C2EC File Offset: 0x0021A6EC
 		protected static T GetOrMakeFilterOn<T>(AudioSource source) where T : Behaviour
 		{
 			T t = source.gameObject.GetComponent<T>();

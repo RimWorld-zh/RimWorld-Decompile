@@ -8,19 +8,19 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	internal class Gizmo_RefuelableFuelStatus : Gizmo
 	{
-		// Token: 0x06002888 RID: 10376 RVA: 0x00159C17 File Offset: 0x00158017
+		// Token: 0x0600288A RID: 10378 RVA: 0x00159C8F File Offset: 0x0015808F
 		public Gizmo_RefuelableFuelStatus()
 		{
 			this.order = -100f;
 		}
 
-		// Token: 0x06002889 RID: 10377 RVA: 0x00159C2C File Offset: 0x0015802C
+		// Token: 0x0600288B RID: 10379 RVA: 0x00159CA4 File Offset: 0x001580A4
 		public override float GetWidth(float maxWidth)
 		{
 			return 140f;
 		}
 
-		// Token: 0x0600288A RID: 10378 RVA: 0x00159C48 File Offset: 0x00158048
+		// Token: 0x0600288C RID: 10380 RVA: 0x00159CC0 File Offset: 0x001580C0
 		public override GizmoResult GizmoOnGUI(Vector2 topLeft, float maxWidth)
 		{
 			Rect overRect = new Rect(topLeft.x, topLeft.y, this.GetWidth(maxWidth), 75f);

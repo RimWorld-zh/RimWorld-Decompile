@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020009B5 RID: 2485
 	public class StatPart_PlantGrowthNutritionFactor : StatPart
 	{
-		// Token: 0x060037A4 RID: 14244 RVA: 0x001DA0E0 File Offset: 0x001D84E0
+		// Token: 0x060037A6 RID: 14246 RVA: 0x001DA1B4 File Offset: 0x001D85B4
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			float num;
@@ -17,7 +17,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060037A5 RID: 14245 RVA: 0x001DA104 File Offset: 0x001D8504
+		// Token: 0x060037A7 RID: 14247 RVA: 0x001DA1D8 File Offset: 0x001D85D8
 		public override string ExplanationPart(StatRequest req)
 		{
 			float f;
@@ -42,7 +42,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060037A6 RID: 14246 RVA: 0x001DA19C File Offset: 0x001D859C
+		// Token: 0x060037A8 RID: 14248 RVA: 0x001DA270 File Offset: 0x001D8670
 		private bool TryGetFactor(StatRequest req, out float factor)
 		{
 			bool result;

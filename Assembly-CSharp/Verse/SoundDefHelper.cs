@@ -7,13 +7,13 @@ namespace Verse
 	// Token: 0x02000B7F RID: 2943
 	public static class SoundDefHelper
 	{
-		// Token: 0x06004012 RID: 16402 RVA: 0x0021BCB0 File Offset: 0x0021A0B0
+		// Token: 0x06004014 RID: 16404 RVA: 0x0021BD84 File Offset: 0x0021A184
 		public static bool NullOrUndefined(this SoundDef def)
 		{
 			return def == null || def.isUndefined;
 		}
 
-		// Token: 0x06004013 RID: 16403 RVA: 0x0021BCD4 File Offset: 0x0021A0D4
+		// Token: 0x06004015 RID: 16405 RVA: 0x0021BDA8 File Offset: 0x0021A1A8
 		public static bool CorrectContextNow(SoundDef def, Map sourceMap)
 		{
 			bool result;

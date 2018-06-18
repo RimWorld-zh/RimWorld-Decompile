@@ -8,14 +8,14 @@ namespace RimWorld
 	// Token: 0x020008D9 RID: 2265
 	public class UIRoot_Play : UIRoot
 	{
-		// Token: 0x060033D2 RID: 13266 RVA: 0x001BAB27 File Offset: 0x001B8F27
+		// Token: 0x060033D4 RID: 13268 RVA: 0x001BABEF File Offset: 0x001B8FEF
 		public override void Init()
 		{
 			base.Init();
 			Messages.Clear();
 		}
 
-		// Token: 0x060033D3 RID: 13267 RVA: 0x001BAB38 File Offset: 0x001B8F38
+		// Token: 0x060033D5 RID: 13269 RVA: 0x001BAC00 File Offset: 0x001B9000
 		public override void UIRootOnGUI()
 		{
 			Profiler.BeginSample("Event: " + Event.current.type);
@@ -86,7 +86,7 @@ namespace RimWorld
 			Profiler.EndSample();
 		}
 
-		// Token: 0x060033D4 RID: 13268 RVA: 0x001BAD68 File Offset: 0x001B9168
+		// Token: 0x060033D6 RID: 13270 RVA: 0x001BAE30 File Offset: 0x001B9230
 		public override void UIRootUpdate()
 		{
 			base.UIRootUpdate();
@@ -114,7 +114,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060033D5 RID: 13269 RVA: 0x001BAE30 File Offset: 0x001B9230
+		// Token: 0x060033D7 RID: 13271 RVA: 0x001BAEF8 File Offset: 0x001B92F8
 		private void OpenMainMenuShortcut()
 		{
 			if ((Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Escape) || KeyBindingDefOf.Cancel.KeyDownEvent)

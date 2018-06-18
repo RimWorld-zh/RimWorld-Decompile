@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200055F RID: 1375
 	public static class FactionRelationKindUtility
 	{
-		// Token: 0x060019EF RID: 6639 RVA: 0x000E13B0 File Offset: 0x000DF7B0
+		// Token: 0x060019F0 RID: 6640 RVA: 0x000E1404 File Offset: 0x000DF804
 		public static string GetLabel(this FactionRelationKind kind)
 		{
 			string result;
@@ -29,7 +29,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060019F0 RID: 6640 RVA: 0x000E1414 File Offset: 0x000DF814
+		// Token: 0x060019F1 RID: 6641 RVA: 0x000E1468 File Offset: 0x000DF868
 		public static Color GetColor(this FactionRelationKind kind)
 		{
 			Color result;

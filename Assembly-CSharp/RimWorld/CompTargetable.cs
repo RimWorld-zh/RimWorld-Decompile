@@ -8,7 +8,7 @@ namespace RimWorld
 	public abstract class CompTargetable : CompUseEffect
 	{
 		// Token: 0x1700066B RID: 1643
-		// (get) Token: 0x06002999 RID: 10649 RVA: 0x001615C4 File Offset: 0x0015F9C4
+		// (get) Token: 0x0600299B RID: 10651 RVA: 0x00161658 File Offset: 0x0015FA58
 		private CompProperties_Targetable Props
 		{
 			get
@@ -18,17 +18,17 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700066C RID: 1644
-		// (get) Token: 0x0600299A RID: 10650
+		// (get) Token: 0x0600299C RID: 10652
 		protected abstract bool PlayerChoosesTarget { get; }
 
-		// Token: 0x0600299B RID: 10651 RVA: 0x001615E4 File Offset: 0x0015F9E4
+		// Token: 0x0600299D RID: 10653 RVA: 0x00161678 File Offset: 0x0015FA78
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
 			Scribe_References.Look<Thing>(ref this.target, "target", false);
 		}
 
-		// Token: 0x0600299C RID: 10652 RVA: 0x00161600 File Offset: 0x0015FA00
+		// Token: 0x0600299E RID: 10654 RVA: 0x00161694 File Offset: 0x0015FA94
 		public override bool SelectedUseOption(Pawn p)
 		{
 			bool result;
@@ -49,7 +49,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600299D RID: 10653 RVA: 0x0016166C File Offset: 0x0015FA6C
+		// Token: 0x0600299F RID: 10655 RVA: 0x00161700 File Offset: 0x0015FB00
 		public override void DoEffect(Pawn usedBy)
 		{
 			if (!this.PlayerChoosesTarget || this.target != null)
@@ -69,13 +69,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600299E RID: 10654
+		// Token: 0x060029A0 RID: 10656
 		protected abstract TargetingParameters GetTargetingParameters();
 
-		// Token: 0x0600299F RID: 10655
+		// Token: 0x060029A1 RID: 10657
 		public abstract IEnumerable<Thing> GetTargets(Thing targetChosenByPlayer = null);
 
-		// Token: 0x060029A0 RID: 10656 RVA: 0x00161770 File Offset: 0x0015FB70
+		// Token: 0x060029A2 RID: 10658 RVA: 0x00161804 File Offset: 0x0015FC04
 		public bool BaseTargetValidator(Thing t)
 		{
 			if (this.Props.psychicSensitiveTargetsOnly)

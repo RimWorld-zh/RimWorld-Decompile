@@ -5,17 +5,17 @@ using Verse.AI;
 
 namespace Verse
 {
-	// Token: 0x02000F4F RID: 3919
+	// Token: 0x02000F4E RID: 3918
 	public static class GenPlace
 	{
-		// Token: 0x06005EA0 RID: 24224 RVA: 0x00302180 File Offset: 0x00300580
+		// Token: 0x06005E9E RID: 24222 RVA: 0x0030225C File Offset: 0x0030065C
 		public static bool TryPlaceThing(Thing thing, IntVec3 center, Map map, ThingPlaceMode mode, Action<Thing, int> placedAction = null, Predicate<IntVec3> nearPlaceValidator = null)
 		{
 			Thing thing2;
 			return GenPlace.TryPlaceThing(thing, center, map, mode, out thing2, placedAction, nearPlaceValidator);
 		}
 
-		// Token: 0x06005EA1 RID: 24225 RVA: 0x003021A4 File Offset: 0x003005A4
+		// Token: 0x06005E9F RID: 24223 RVA: 0x00302280 File Offset: 0x00300680
 		public static bool TryPlaceThing(Thing thing, IntVec3 center, Map map, ThingPlaceMode mode, out Thing lastResultingThing, Action<Thing, int> placedAction = null, Predicate<IntVec3> nearPlaceValidator = null)
 		{
 			bool result;
@@ -80,7 +80,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005EA2 RID: 24226 RVA: 0x003022BC File Offset: 0x003006BC
+		// Token: 0x06005EA0 RID: 24224 RVA: 0x00302398 File Offset: 0x00300798
 		private static bool TryFindPlaceSpotNear(IntVec3 center, Map map, Thing thing, bool allowStacking, out IntVec3 bestSpot, Predicate<IntVec3> extraValidator = null)
 		{
 			GenPlace.PlaceSpotQuality placeSpotQuality = GenPlace.PlaceSpotQuality.Unusable;
@@ -154,7 +154,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005EA3 RID: 24227 RVA: 0x0030242C File Offset: 0x0030082C
+		// Token: 0x06005EA1 RID: 24225 RVA: 0x00302508 File Offset: 0x00300908
 		private static GenPlace.PlaceSpotQuality PlaceSpotQualityAt(IntVec3 c, Map map, Thing thing, IntVec3 center, bool allowStacking, Predicate<IntVec3> extraValidator = null)
 		{
 			GenPlace.PlaceSpotQuality result;
@@ -251,7 +251,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005EA4 RID: 24228 RVA: 0x003026A8 File Offset: 0x00300AA8
+		// Token: 0x06005EA2 RID: 24226 RVA: 0x00302784 File Offset: 0x00300B84
 		private static bool TryPlaceDirect(Thing thing, IntVec3 loc, Map map, out Thing resultingThing, Action<Thing, int> placedAction = null)
 		{
 			Thing thing2 = thing;
@@ -305,7 +305,7 @@ namespace Verse
 			return !flag;
 		}
 
-		// Token: 0x06005EA5 RID: 24229 RVA: 0x003027DC File Offset: 0x00300BDC
+		// Token: 0x06005EA3 RID: 24227 RVA: 0x003028B8 File Offset: 0x00300CB8
 		public static Thing HaulPlaceBlockerIn(Thing haulThing, IntVec3 c, Map map, bool checkBlueprints)
 		{
 			List<Thing> list = map.thingGrid.ThingsListAt(c);
@@ -344,24 +344,24 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x04003E2A RID: 15914
+		// Token: 0x04003E29 RID: 15913
 		private static readonly int PlaceNearMaxRadialCells = GenRadial.NumCellsInRadius(12.9f);
 
-		// Token: 0x04003E2B RID: 15915
+		// Token: 0x04003E2A RID: 15914
 		private static readonly int PlaceNearMiddleRadialCells = GenRadial.NumCellsInRadius(3f);
 
-		// Token: 0x02000F50 RID: 3920
+		// Token: 0x02000F4F RID: 3919
 		private enum PlaceSpotQuality : byte
 		{
-			// Token: 0x04003E2D RID: 15917
+			// Token: 0x04003E2C RID: 15916
 			Unusable,
-			// Token: 0x04003E2E RID: 15918
+			// Token: 0x04003E2D RID: 15917
 			Awful,
-			// Token: 0x04003E2F RID: 15919
+			// Token: 0x04003E2E RID: 15918
 			Bad,
-			// Token: 0x04003E30 RID: 15920
+			// Token: 0x04003E2F RID: 15919
 			Okay,
-			// Token: 0x04003E31 RID: 15921
+			// Token: 0x04003E30 RID: 15920
 			Perfect
 		}
 	}

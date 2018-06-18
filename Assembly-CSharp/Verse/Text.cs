@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E8E RID: 3726
+	// Token: 0x02000E8D RID: 3725
 	public static class Text
 	{
-		// Token: 0x060057D1 RID: 22481 RVA: 0x002D02C8 File Offset: 0x002CE6C8
+		// Token: 0x060057CF RID: 22479 RVA: 0x002D02C8 File Offset: 0x002CE6C8
 		static Text()
 		{
 			Font font = (Font)Resources.Load("Fonts/Calibri_tiny");
@@ -71,9 +71,9 @@ namespace Verse
 			Text.Font = GameFont.Small;
 		}
 
-		// Token: 0x17000DE7 RID: 3559
-		// (get) Token: 0x060057D2 RID: 22482 RVA: 0x002D05F4 File Offset: 0x002CE9F4
-		// (set) Token: 0x060057D3 RID: 22483 RVA: 0x002D060E File Offset: 0x002CEA0E
+		// Token: 0x17000DE6 RID: 3558
+		// (get) Token: 0x060057D0 RID: 22480 RVA: 0x002D05F4 File Offset: 0x002CE9F4
+		// (set) Token: 0x060057D1 RID: 22481 RVA: 0x002D060E File Offset: 0x002CEA0E
 		public static GameFont Font
 		{
 			get
@@ -93,9 +93,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DE8 RID: 3560
-		// (get) Token: 0x060057D4 RID: 22484 RVA: 0x002D0648 File Offset: 0x002CEA48
-		// (set) Token: 0x060057D5 RID: 22485 RVA: 0x002D0662 File Offset: 0x002CEA62
+		// Token: 0x17000DE7 RID: 3559
+		// (get) Token: 0x060057D2 RID: 22482 RVA: 0x002D0648 File Offset: 0x002CEA48
+		// (set) Token: 0x060057D3 RID: 22483 RVA: 0x002D0662 File Offset: 0x002CEA62
 		public static TextAnchor Anchor
 		{
 			get
@@ -108,9 +108,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DE9 RID: 3561
-		// (get) Token: 0x060057D6 RID: 22486 RVA: 0x002D066C File Offset: 0x002CEA6C
-		// (set) Token: 0x060057D7 RID: 22487 RVA: 0x002D0686 File Offset: 0x002CEA86
+		// Token: 0x17000DE8 RID: 3560
+		// (get) Token: 0x060057D4 RID: 22484 RVA: 0x002D066C File Offset: 0x002CEA6C
+		// (set) Token: 0x060057D5 RID: 22485 RVA: 0x002D0686 File Offset: 0x002CEA86
 		public static bool WordWrap
 		{
 			get
@@ -123,8 +123,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DEA RID: 3562
-		// (get) Token: 0x060057D8 RID: 22488 RVA: 0x002D0690 File Offset: 0x002CEA90
+		// Token: 0x17000DE9 RID: 3561
+		// (get) Token: 0x060057D6 RID: 22486 RVA: 0x002D0690 File Offset: 0x002CEA90
 		public static float LineHeight
 		{
 			get
@@ -133,8 +133,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DEB RID: 3563
-		// (get) Token: 0x060057D9 RID: 22489 RVA: 0x002D06B0 File Offset: 0x002CEAB0
+		// Token: 0x17000DEA RID: 3562
+		// (get) Token: 0x060057D7 RID: 22487 RVA: 0x002D06B0 File Offset: 0x002CEAB0
 		public static float SpaceBetweenLines
 		{
 			get
@@ -143,8 +143,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DEC RID: 3564
-		// (get) Token: 0x060057DA RID: 22490 RVA: 0x002D06D0 File Offset: 0x002CEAD0
+		// Token: 0x17000DEB RID: 3563
+		// (get) Token: 0x060057D8 RID: 22488 RVA: 0x002D06D0 File Offset: 0x002CEAD0
 		internal static GUIStyle CurFontStyle
 		{
 			get
@@ -170,8 +170,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DED RID: 3565
-		// (get) Token: 0x060057DB RID: 22491 RVA: 0x002D0748 File Offset: 0x002CEB48
+		// Token: 0x17000DEC RID: 3564
+		// (get) Token: 0x060057D9 RID: 22489 RVA: 0x002D0748 File Offset: 0x002CEB48
 		public static GUIStyle CurTextFieldStyle
 		{
 			get
@@ -201,8 +201,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DEE RID: 3566
-		// (get) Token: 0x060057DC RID: 22492 RVA: 0x002D07A4 File Offset: 0x002CEBA4
+		// Token: 0x17000DED RID: 3565
+		// (get) Token: 0x060057DA RID: 22490 RVA: 0x002D07A4 File Offset: 0x002CEBA4
 		public static GUIStyle CurTextAreaStyle
 		{
 			get
@@ -232,8 +232,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000DEF RID: 3567
-		// (get) Token: 0x060057DD RID: 22493 RVA: 0x002D0800 File Offset: 0x002CEC00
+		// Token: 0x17000DEE RID: 3566
+		// (get) Token: 0x060057DB RID: 22491 RVA: 0x002D0800 File Offset: 0x002CEC00
 		public static GUIStyle CurTextAreaReadOnlyStyle
 		{
 			get
@@ -263,21 +263,21 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060057DE RID: 22494 RVA: 0x002D085C File Offset: 0x002CEC5C
+		// Token: 0x060057DC RID: 22492 RVA: 0x002D085C File Offset: 0x002CEC5C
 		public static float CalcHeight(string text, float width)
 		{
 			Text.tmpTextGUIContent.text = text;
 			return Text.CurFontStyle.CalcHeight(Text.tmpTextGUIContent, width);
 		}
 
-		// Token: 0x060057DF RID: 22495 RVA: 0x002D088C File Offset: 0x002CEC8C
+		// Token: 0x060057DD RID: 22493 RVA: 0x002D088C File Offset: 0x002CEC8C
 		public static Vector2 CalcSize(string text)
 		{
 			Text.tmpTextGUIContent.text = text;
 			return Text.CurFontStyle.CalcSize(Text.tmpTextGUIContent);
 		}
 
-		// Token: 0x060057E0 RID: 22496 RVA: 0x002D08BC File Offset: 0x002CECBC
+		// Token: 0x060057DE RID: 22494 RVA: 0x002D08BC File Offset: 0x002CECBC
 		internal static void StartOfOnGUI()
 		{
 			if (!Text.WordWrap)
@@ -293,37 +293,37 @@ namespace Verse
 			Text.Font = GameFont.Small;
 		}
 
-		// Token: 0x04003A16 RID: 14870
+		// Token: 0x04003A14 RID: 14868
 		private static GameFont fontInt = GameFont.Small;
 
-		// Token: 0x04003A17 RID: 14871
+		// Token: 0x04003A15 RID: 14869
 		private static TextAnchor anchorInt = TextAnchor.UpperLeft;
 
-		// Token: 0x04003A18 RID: 14872
+		// Token: 0x04003A16 RID: 14870
 		private static bool wordWrapInt = true;
 
-		// Token: 0x04003A19 RID: 14873
+		// Token: 0x04003A17 RID: 14871
 		public static readonly GUIStyle[] fontStyles = new GUIStyle[3];
 
-		// Token: 0x04003A1A RID: 14874
+		// Token: 0x04003A18 RID: 14872
 		public static readonly GUIStyle[] textFieldStyles = new GUIStyle[3];
 
-		// Token: 0x04003A1B RID: 14875
+		// Token: 0x04003A19 RID: 14873
 		public static readonly GUIStyle[] textAreaStyles = new GUIStyle[3];
 
-		// Token: 0x04003A1C RID: 14876
+		// Token: 0x04003A1A RID: 14874
 		public static readonly GUIStyle[] textAreaReadOnlyStyles = new GUIStyle[3];
 
-		// Token: 0x04003A1D RID: 14877
+		// Token: 0x04003A1B RID: 14875
 		private static readonly float[] lineHeights = new float[3];
 
-		// Token: 0x04003A1E RID: 14878
+		// Token: 0x04003A1C RID: 14876
 		private static readonly float[] spaceBetweenLines = new float[3];
 
-		// Token: 0x04003A1F RID: 14879
+		// Token: 0x04003A1D RID: 14877
 		private static GUIContent tmpTextGUIContent = new GUIContent();
 
-		// Token: 0x04003A20 RID: 14880
+		// Token: 0x04003A1E RID: 14878
 		private const int NumFonts = 3;
 	}
 }

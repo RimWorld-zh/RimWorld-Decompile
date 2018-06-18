@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000443 RID: 1091
 	public class RoomStatWorker_SurgerySuccessChanceCleanlinessFactor : RoomStatWorker
 	{
-		// Token: 0x060012EA RID: 4842 RVA: 0x000A325C File Offset: 0x000A165C
+		// Token: 0x060012EA RID: 4842 RVA: 0x000A3268 File Offset: 0x000A1668
 		public override float GetScore(Room room)
 		{
 			float stat = room.GetStat(RoomStatDefOf.Cleanliness);

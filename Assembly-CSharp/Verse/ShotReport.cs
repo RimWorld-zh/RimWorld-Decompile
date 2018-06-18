@@ -6,11 +6,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000FB5 RID: 4021
+	// Token: 0x02000FB4 RID: 4020
 	public struct ShotReport
 	{
-		// Token: 0x17000FB7 RID: 4023
-		// (get) Token: 0x06006122 RID: 24866 RVA: 0x00310214 File Offset: 0x0030E614
+		// Token: 0x17000FB6 RID: 4022
+		// (get) Token: 0x06006120 RID: 24864 RVA: 0x003102F0 File Offset: 0x0030E6F0
 		private float FactorFromPosture
 		{
 			get
@@ -30,8 +30,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FB8 RID: 4024
-		// (get) Token: 0x06006123 RID: 24867 RVA: 0x00310280 File Offset: 0x0030E680
+		// Token: 0x17000FB7 RID: 4023
+		// (get) Token: 0x06006121 RID: 24865 RVA: 0x0031035C File Offset: 0x0030E75C
 		private float FactorFromExecution
 		{
 			get
@@ -51,8 +51,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FB9 RID: 4025
-		// (get) Token: 0x06006124 RID: 24868 RVA: 0x003102EC File Offset: 0x0030E6EC
+		// Token: 0x17000FB8 RID: 4024
+		// (get) Token: 0x06006122 RID: 24866 RVA: 0x003103C8 File Offset: 0x0030E7C8
 		private float FactorFromCoveringGas
 		{
 			get
@@ -70,8 +70,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FBA RID: 4026
-		// (get) Token: 0x06006125 RID: 24869 RVA: 0x00310330 File Offset: 0x0030E730
+		// Token: 0x17000FB9 RID: 4025
+		// (get) Token: 0x06006123 RID: 24867 RVA: 0x0031040C File Offset: 0x0030E80C
 		public float ChanceToNotHitCover
 		{
 			get
@@ -80,8 +80,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FBB RID: 4027
-		// (get) Token: 0x06006126 RID: 24870 RVA: 0x00310354 File Offset: 0x0030E754
+		// Token: 0x17000FBA RID: 4026
+		// (get) Token: 0x06006124 RID: 24868 RVA: 0x00310430 File Offset: 0x0030E830
 		public float ChanceToNotGoWild_IgnoringPosture
 		{
 			get
@@ -90,8 +90,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FBC RID: 4028
-		// (get) Token: 0x06006127 RID: 24871 RVA: 0x00310394 File Offset: 0x0030E794
+		// Token: 0x17000FBB RID: 4027
+		// (get) Token: 0x06006125 RID: 24869 RVA: 0x00310470 File Offset: 0x0030E870
 		public float TotalEstimatedHitChance
 		{
 			get
@@ -101,8 +101,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FBD RID: 4029
-		// (get) Token: 0x06006128 RID: 24872 RVA: 0x003103C8 File Offset: 0x0030E7C8
+		// Token: 0x17000FBC RID: 4028
+		// (get) Token: 0x06006126 RID: 24870 RVA: 0x003104A4 File Offset: 0x0030E8A4
 		public ShootLine ShootLine
 		{
 			get
@@ -111,7 +111,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06006129 RID: 24873 RVA: 0x003103E4 File Offset: 0x0030E7E4
+		// Token: 0x06006127 RID: 24871 RVA: 0x003104C0 File Offset: 0x0030E8C0
 		public static ShotReport HitReportFor(Thing caster, Verb verb, LocalTargetInfo target)
 		{
 			Pawn pawn = caster as Pawn;
@@ -181,7 +181,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600612A RID: 24874 RVA: 0x003106E4 File Offset: 0x0030EAE4
+		// Token: 0x06006128 RID: 24872 RVA: 0x003107C0 File Offset: 0x0030EBC0
 		public string GetTextReadout()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -239,7 +239,7 @@ namespace Verse
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x0600612B RID: 24875 RVA: 0x003109D0 File Offset: 0x0030EDD0
+		// Token: 0x06006129 RID: 24873 RVA: 0x00310AAC File Offset: 0x0030EEAC
 		public Thing GetRandomCoverToMissInto()
 		{
 			CoverInfo coverInfo;
@@ -255,61 +255,61 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04003F80 RID: 16256
+		// Token: 0x04003F7F RID: 16255
 		private TargetInfo target;
 
-		// Token: 0x04003F81 RID: 16257
+		// Token: 0x04003F80 RID: 16256
 		private float distance;
 
-		// Token: 0x04003F82 RID: 16258
+		// Token: 0x04003F81 RID: 16257
 		private List<CoverInfo> covers;
 
-		// Token: 0x04003F83 RID: 16259
+		// Token: 0x04003F82 RID: 16258
 		private float coversOverallBlockChance;
 
-		// Token: 0x04003F84 RID: 16260
+		// Token: 0x04003F83 RID: 16259
 		private ThingDef coveringGas;
 
-		// Token: 0x04003F85 RID: 16261
+		// Token: 0x04003F84 RID: 16260
 		private float factorFromShooterAndDist;
 
-		// Token: 0x04003F86 RID: 16262
+		// Token: 0x04003F85 RID: 16261
 		private float factorFromEquipment;
 
-		// Token: 0x04003F87 RID: 16263
+		// Token: 0x04003F86 RID: 16262
 		private float factorFromTargetSize;
 
-		// Token: 0x04003F88 RID: 16264
+		// Token: 0x04003F87 RID: 16263
 		private float factorFromWeather;
 
-		// Token: 0x04003F89 RID: 16265
+		// Token: 0x04003F88 RID: 16264
 		private float forcedMissRadius;
 
-		// Token: 0x04003F8A RID: 16266
+		// Token: 0x04003F89 RID: 16265
 		private ShootLine shootLine;
 
-		// Token: 0x04003F8B RID: 16267
+		// Token: 0x04003F8A RID: 16266
 		public const float LayingDownHitChanceFactorMinDistance = 4.5f;
 
-		// Token: 0x04003F8C RID: 16268
+		// Token: 0x04003F8B RID: 16267
 		public const float HitChanceFactorIfLayingDown = 0.2f;
 
-		// Token: 0x04003F8D RID: 16269
+		// Token: 0x04003F8C RID: 16268
 		private const float NonPawnShooterHitFactorPerDistance = 0.96f;
 
-		// Token: 0x04003F8E RID: 16270
+		// Token: 0x04003F8D RID: 16269
 		private const float ExecutionMaxDistance = 3.9f;
 
-		// Token: 0x04003F8F RID: 16271
+		// Token: 0x04003F8E RID: 16270
 		private const float ExecutionFactor = 7.5f;
 
-		// Token: 0x04003F90 RID: 16272
+		// Token: 0x04003F8F RID: 16271
 		private const float TargetSizeFactorFromFillPercentFactor = 1.7f;
 
-		// Token: 0x04003F91 RID: 16273
+		// Token: 0x04003F90 RID: 16272
 		private const float TargetSizeFactorMin = 0.5f;
 
-		// Token: 0x04003F92 RID: 16274
+		// Token: 0x04003F91 RID: 16273
 		private const float TargetSizeFactorMax = 2f;
 	}
 }

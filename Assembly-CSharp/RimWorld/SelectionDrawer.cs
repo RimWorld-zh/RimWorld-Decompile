@@ -10,7 +10,7 @@ namespace RimWorld
 	public static class SelectionDrawer
 	{
 		// Token: 0x170007C9 RID: 1993
-		// (get) Token: 0x060030B3 RID: 12467 RVA: 0x001A6A3C File Offset: 0x001A4E3C
+		// (get) Token: 0x060030B5 RID: 12469 RVA: 0x001A6B04 File Offset: 0x001A4F04
 		public static Dictionary<object, float> SelectTimes
 		{
 			get
@@ -19,19 +19,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030B4 RID: 12468 RVA: 0x001A6A56 File Offset: 0x001A4E56
+		// Token: 0x060030B6 RID: 12470 RVA: 0x001A6B1E File Offset: 0x001A4F1E
 		public static void Notify_Selected(object t)
 		{
 			SelectionDrawer.selectTimes[t] = Time.realtimeSinceStartup;
 		}
 
-		// Token: 0x060030B5 RID: 12469 RVA: 0x001A6A69 File Offset: 0x001A4E69
+		// Token: 0x060030B7 RID: 12471 RVA: 0x001A6B31 File Offset: 0x001A4F31
 		public static void Clear()
 		{
 			SelectionDrawer.selectTimes.Clear();
 		}
 
-		// Token: 0x060030B6 RID: 12470 RVA: 0x001A6A78 File Offset: 0x001A4E78
+		// Token: 0x060030B8 RID: 12472 RVA: 0x001A6B40 File Offset: 0x001A4F40
 		public static void DrawSelectionOverlays()
 		{
 			foreach (object obj in Find.Selector.SelectedObjects)
@@ -45,7 +45,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060030B7 RID: 12471 RVA: 0x001A6AF0 File Offset: 0x001A4EF0
+		// Token: 0x060030B9 RID: 12473 RVA: 0x001A6BB8 File Offset: 0x001A4FB8
 		private static void DrawSelectionBracketFor(object obj)
 		{
 			Zone zone = obj as Zone;

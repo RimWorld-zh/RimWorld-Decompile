@@ -9,12 +9,12 @@ namespace Verse
 	// Token: 0x02000BC4 RID: 3012
 	public class BattleLogEntry_StateTransition : LogEntry
 	{
-		// Token: 0x06004168 RID: 16744 RVA: 0x00228264 File Offset: 0x00226664
+		// Token: 0x0600416A RID: 16746 RVA: 0x002282DC File Offset: 0x002266DC
 		public BattleLogEntry_StateTransition() : base(null)
 		{
 		}
 
-		// Token: 0x06004169 RID: 16745 RVA: 0x00228270 File Offset: 0x00226670
+		// Token: 0x0600416B RID: 16747 RVA: 0x002282E8 File Offset: 0x002266E8
 		public BattleLogEntry_StateTransition(Thing subject, RulePackDef transitionDef, Pawn initiator, Hediff culpritHediff, BodyPartRecord culpritTargetDef) : base(null)
 		{
 			if (subject is Pawn)
@@ -39,7 +39,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A37 RID: 2615
-		// (get) Token: 0x0600416A RID: 16746 RVA: 0x002282F8 File Offset: 0x002266F8
+		// (get) Token: 0x0600416C RID: 16748 RVA: 0x00228370 File Offset: 0x00226770
 		private string SubjectName
 		{
 			get
@@ -48,13 +48,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600416B RID: 16747 RVA: 0x00228330 File Offset: 0x00226730
+		// Token: 0x0600416D RID: 16749 RVA: 0x002283A8 File Offset: 0x002267A8
 		public override bool Concerns(Thing t)
 		{
 			return t == this.subjectPawn || t == this.initiator;
 		}
 
-		// Token: 0x0600416C RID: 16748 RVA: 0x00228360 File Offset: 0x00226760
+		// Token: 0x0600416E RID: 16750 RVA: 0x002283D8 File Offset: 0x002267D8
 		public override IEnumerable<Thing> GetConcerns()
 		{
 			if (this.initiator != null)
@@ -68,7 +68,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x0600416D RID: 16749 RVA: 0x0022838C File Offset: 0x0022678C
+		// Token: 0x0600416F RID: 16751 RVA: 0x00228404 File Offset: 0x00226804
 		public override void ClickedFromPOV(Thing pov)
 		{
 			if (pov == this.subjectPawn)
@@ -85,7 +85,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600416E RID: 16750 RVA: 0x002283E4 File Offset: 0x002267E4
+		// Token: 0x06004170 RID: 16752 RVA: 0x0022845C File Offset: 0x0022685C
 		public override Texture2D IconFromPOV(Thing pov)
 		{
 			Texture2D result;
@@ -104,7 +104,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600416F RID: 16751 RVA: 0x00228464 File Offset: 0x00226864
+		// Token: 0x06004171 RID: 16753 RVA: 0x002284DC File Offset: 0x002268DC
 		protected override GrammarRequest GenerateGrammarRequest()
 		{
 			GrammarRequest result = base.GenerateGrammarRequest();
@@ -136,7 +136,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004170 RID: 16752 RVA: 0x00228598 File Offset: 0x00226998
+		// Token: 0x06004172 RID: 16754 RVA: 0x00228610 File Offset: 0x00226A10
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -149,7 +149,7 @@ namespace Verse
 			Scribe_BodyParts.Look(ref this.culpritTargetPart, "culpritTargetPart", null);
 		}
 
-		// Token: 0x06004171 RID: 16753 RVA: 0x00228620 File Offset: 0x00226A20
+		// Token: 0x06004173 RID: 16755 RVA: 0x00228698 File Offset: 0x00226A98
 		public override string ToString()
 		{
 			return this.transitionDef.defName + ": " + this.subjectPawn;

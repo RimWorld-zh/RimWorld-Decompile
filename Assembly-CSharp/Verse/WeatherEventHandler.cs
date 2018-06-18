@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000CB6 RID: 3254
+	// Token: 0x02000CB5 RID: 3253
 	public class WeatherEventHandler
 	{
-		// Token: 0x17000B52 RID: 2898
-		// (get) Token: 0x060047AC RID: 18348 RVA: 0x0025B764 File Offset: 0x00259B64
+		// Token: 0x17000B51 RID: 2897
+		// (get) Token: 0x060047AA RID: 18346 RVA: 0x0025B73C File Offset: 0x00259B3C
 		public List<WeatherEvent> LiveEventsListForReading
 		{
 			get
@@ -16,14 +16,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047AD RID: 18349 RVA: 0x0025B77F File Offset: 0x00259B7F
+		// Token: 0x060047AB RID: 18347 RVA: 0x0025B757 File Offset: 0x00259B57
 		public void AddEvent(WeatherEvent newEvent)
 		{
 			this.liveEvents.Add(newEvent);
 			newEvent.FireEvent();
 		}
 
-		// Token: 0x060047AE RID: 18350 RVA: 0x0025B794 File Offset: 0x00259B94
+		// Token: 0x060047AC RID: 18348 RVA: 0x0025B76C File Offset: 0x00259B6C
 		public void WeatherEventHandlerTick()
 		{
 			for (int i = this.liveEvents.Count - 1; i >= 0; i--)
@@ -36,7 +36,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060047AF RID: 18351 RVA: 0x0025B7F8 File Offset: 0x00259BF8
+		// Token: 0x060047AD RID: 18349 RVA: 0x0025B7D0 File Offset: 0x00259BD0
 		public void WeatherEventsDraw()
 		{
 			for (int i = 0; i < this.liveEvents.Count; i++)
@@ -45,7 +45,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0400309D RID: 12445
+		// Token: 0x0400309B RID: 12443
 		private List<WeatherEvent> liveEvents = new List<WeatherEvent>();
 	}
 }

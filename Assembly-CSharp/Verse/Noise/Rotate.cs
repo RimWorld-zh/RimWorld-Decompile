@@ -3,31 +3,31 @@ using System.Diagnostics;
 
 namespace Verse.Noise
 {
-	// Token: 0x02000F97 RID: 3991
+	// Token: 0x02000F96 RID: 3990
 	public class Rotate : ModuleBase
 	{
-		// Token: 0x0600602D RID: 24621 RVA: 0x0030BF40 File Offset: 0x0030A340
+		// Token: 0x0600602B RID: 24619 RVA: 0x0030C01C File Offset: 0x0030A41C
 		public Rotate() : base(1)
 		{
 			this.SetAngles(0.0, 0.0, 0.0);
 		}
 
-		// Token: 0x0600602E RID: 24622 RVA: 0x0030C02C File Offset: 0x0030A42C
+		// Token: 0x0600602C RID: 24620 RVA: 0x0030C108 File Offset: 0x0030A508
 		public Rotate(ModuleBase input) : base(1)
 		{
 			this.modules[0] = input;
 		}
 
-		// Token: 0x0600602F RID: 24623 RVA: 0x0030C100 File Offset: 0x0030A500
+		// Token: 0x0600602D RID: 24621 RVA: 0x0030C1DC File Offset: 0x0030A5DC
 		public Rotate(double x, double y, double z, ModuleBase input) : base(1)
 		{
 			this.modules[0] = input;
 			this.SetAngles(x, y, z);
 		}
 
-		// Token: 0x17000F78 RID: 3960
-		// (get) Token: 0x06006030 RID: 24624 RVA: 0x0030C1DC File Offset: 0x0030A5DC
-		// (set) Token: 0x06006031 RID: 24625 RVA: 0x0030C1F7 File Offset: 0x0030A5F7
+		// Token: 0x17000F77 RID: 3959
+		// (get) Token: 0x0600602E RID: 24622 RVA: 0x0030C2B8 File Offset: 0x0030A6B8
+		// (set) Token: 0x0600602F RID: 24623 RVA: 0x0030C2D3 File Offset: 0x0030A6D3
 		public double X
 		{
 			get
@@ -40,9 +40,9 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F79 RID: 3961
-		// (get) Token: 0x06006032 RID: 24626 RVA: 0x0030C210 File Offset: 0x0030A610
-		// (set) Token: 0x06006033 RID: 24627 RVA: 0x0030C22B File Offset: 0x0030A62B
+		// Token: 0x17000F78 RID: 3960
+		// (get) Token: 0x06006030 RID: 24624 RVA: 0x0030C2EC File Offset: 0x0030A6EC
+		// (set) Token: 0x06006031 RID: 24625 RVA: 0x0030C307 File Offset: 0x0030A707
 		public double Y
 		{
 			get
@@ -55,9 +55,9 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x17000F7A RID: 3962
-		// (get) Token: 0x06006034 RID: 24628 RVA: 0x0030C244 File Offset: 0x0030A644
-		// (set) Token: 0x06006035 RID: 24629 RVA: 0x0030C25F File Offset: 0x0030A65F
+		// Token: 0x17000F79 RID: 3961
+		// (get) Token: 0x06006032 RID: 24626 RVA: 0x0030C320 File Offset: 0x0030A720
+		// (set) Token: 0x06006033 RID: 24627 RVA: 0x0030C33B File Offset: 0x0030A73B
 		public double Z
 		{
 			get
@@ -70,7 +70,7 @@ namespace Verse.Noise
 			}
 		}
 
-		// Token: 0x06006036 RID: 24630 RVA: 0x0030C278 File Offset: 0x0030A678
+		// Token: 0x06006034 RID: 24628 RVA: 0x0030C354 File Offset: 0x0030A754
 		private void SetAngles(double x, double y, double z)
 		{
 			double num = Math.Cos(x * 0.017453292519943295);
@@ -93,7 +93,7 @@ namespace Verse.Noise
 			this.m_z = z;
 		}
 
-		// Token: 0x06006037 RID: 24631 RVA: 0x0030C378 File Offset: 0x0030A778
+		// Token: 0x06006035 RID: 24629 RVA: 0x0030C454 File Offset: 0x0030A854
 		public override double GetValue(double x, double y, double z)
 		{
 			Debug.Assert(this.modules[0] != null);
@@ -103,40 +103,40 @@ namespace Verse.Noise
 			return this.modules[0].GetValue(x2, y2, z2);
 		}
 
-		// Token: 0x04003F0C RID: 16140
+		// Token: 0x04003F0B RID: 16139
 		private double m_x = 0.0;
 
-		// Token: 0x04003F0D RID: 16141
+		// Token: 0x04003F0C RID: 16140
 		private double m_x1Matrix = 0.0;
 
-		// Token: 0x04003F0E RID: 16142
+		// Token: 0x04003F0D RID: 16141
 		private double m_x2Matrix = 0.0;
 
-		// Token: 0x04003F0F RID: 16143
+		// Token: 0x04003F0E RID: 16142
 		private double m_x3Matrix = 0.0;
 
-		// Token: 0x04003F10 RID: 16144
+		// Token: 0x04003F0F RID: 16143
 		private double m_y = 0.0;
 
-		// Token: 0x04003F11 RID: 16145
+		// Token: 0x04003F10 RID: 16144
 		private double m_y1Matrix = 0.0;
 
-		// Token: 0x04003F12 RID: 16146
+		// Token: 0x04003F11 RID: 16145
 		private double m_y2Matrix = 0.0;
 
-		// Token: 0x04003F13 RID: 16147
+		// Token: 0x04003F12 RID: 16146
 		private double m_y3Matrix = 0.0;
 
-		// Token: 0x04003F14 RID: 16148
+		// Token: 0x04003F13 RID: 16147
 		private double m_z = 0.0;
 
-		// Token: 0x04003F15 RID: 16149
+		// Token: 0x04003F14 RID: 16148
 		private double m_z1Matrix = 0.0;
 
-		// Token: 0x04003F16 RID: 16150
+		// Token: 0x04003F15 RID: 16149
 		private double m_z2Matrix = 0.0;
 
-		// Token: 0x04003F17 RID: 16151
+		// Token: 0x04003F16 RID: 16150
 		private double m_z3Matrix = 0.0;
 	}
 }

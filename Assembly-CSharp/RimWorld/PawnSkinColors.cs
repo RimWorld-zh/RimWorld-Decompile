@@ -7,14 +7,14 @@ namespace RimWorld
 	// Token: 0x02000496 RID: 1174
 	public static class PawnSkinColors
 	{
-		// Token: 0x060014CA RID: 5322 RVA: 0x000B71F4 File Offset: 0x000B55F4
+		// Token: 0x060014CA RID: 5322 RVA: 0x000B7210 File Offset: 0x000B5610
 		public static bool IsDarkSkin(Color color)
 		{
 			Color skinColor = PawnSkinColors.GetSkinColor(0.5f);
 			return color.r + color.g + color.b <= skinColor.r + skinColor.g + skinColor.b + 0.01f;
 		}
 
-		// Token: 0x060014CB RID: 5323 RVA: 0x000B7250 File Offset: 0x000B5650
+		// Token: 0x060014CB RID: 5323 RVA: 0x000B726C File Offset: 0x000B566C
 		public static Color GetSkinColor(float melanin)
 		{
 			int skinDataIndexOfMelanin = PawnSkinColors.GetSkinDataIndexOfMelanin(melanin);
@@ -31,7 +31,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060014CC RID: 5324 RVA: 0x000B72E4 File Offset: 0x000B56E4
+		// Token: 0x060014CC RID: 5324 RVA: 0x000B7300 File Offset: 0x000B5700
 		public static float RandomMelanin(Faction fac)
 		{
 			float num;
@@ -65,7 +65,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060014CD RID: 5325 RVA: 0x000B73F8 File Offset: 0x000B57F8
+		// Token: 0x060014CD RID: 5325 RVA: 0x000B7414 File Offset: 0x000B5814
 		public static float GetMelaninCommonalityFactor(float melanin)
 		{
 			int skinDataIndexOfMelanin = PawnSkinColors.GetSkinDataIndexOfMelanin(melanin);
@@ -82,13 +82,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060014CE RID: 5326 RVA: 0x000B746C File Offset: 0x000B586C
+		// Token: 0x060014CE RID: 5326 RVA: 0x000B7488 File Offset: 0x000B5888
 		public static float GetRandomMelaninSimilarTo(float value, float clampMin = 0f, float clampMax = 1f)
 		{
 			return Mathf.Clamp01(Mathf.Clamp(Rand.Gaussian(value, 0.05f), clampMin, clampMax));
 		}
 
-		// Token: 0x060014CF RID: 5327 RVA: 0x000B7498 File Offset: 0x000B5898
+		// Token: 0x060014CF RID: 5327 RVA: 0x000B74B4 File Offset: 0x000B58B4
 		private static float GetSkinDataCommonalityFactor(int skinDataIndex)
 		{
 			float num = 0f;
@@ -99,7 +99,7 @@ namespace RimWorld
 			return PawnSkinColors.GetTotalAreaWhereClosestToSelector(skinDataIndex) / num;
 		}
 
-		// Token: 0x060014D0 RID: 5328 RVA: 0x000B74E4 File Offset: 0x000B58E4
+		// Token: 0x060014D0 RID: 5328 RVA: 0x000B7500 File Offset: 0x000B5900
 		private static float GetTotalAreaWhereClosestToSelector(int skinDataIndex)
 		{
 			float num = 0f;
@@ -122,7 +122,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x060014D1 RID: 5329 RVA: 0x000B75C0 File Offset: 0x000B59C0
+		// Token: 0x060014D1 RID: 5329 RVA: 0x000B75DC File Offset: 0x000B59DC
 		private static int GetSkinDataIndexOfMelanin(float melanin)
 		{
 			int result = 0;
@@ -151,7 +151,7 @@ namespace RimWorld
 		// Token: 0x02000497 RID: 1175
 		private struct SkinColorData
 		{
-			// Token: 0x060014D3 RID: 5331 RVA: 0x000B7746 File Offset: 0x000B5B46
+			// Token: 0x060014D3 RID: 5331 RVA: 0x000B7762 File Offset: 0x000B5B62
 			public SkinColorData(float melanin, float selector, Color color)
 			{
 				this.melanin = melanin;

@@ -9,7 +9,7 @@ namespace Verse
 	public class Def : Editable
 	{
 		// Token: 0x17000957 RID: 2391
-		// (get) Token: 0x06003E33 RID: 15923 RVA: 0x00063394 File Offset: 0x00061794
+		// (get) Token: 0x06003E35 RID: 15925 RVA: 0x00063394 File Offset: 0x00061794
 		public string LabelCap
 		{
 			get
@@ -31,13 +31,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E34 RID: 15924 RVA: 0x000633EC File Offset: 0x000617EC
+		// Token: 0x06003E36 RID: 15926 RVA: 0x000633EC File Offset: 0x000617EC
 		public virtual IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
 			yield break;
 		}
 
-		// Token: 0x06003E35 RID: 15925 RVA: 0x00063410 File Offset: 0x00061810
+		// Token: 0x06003E37 RID: 15927 RVA: 0x00063410 File Offset: 0x00061810
 		public override IEnumerable<string> ConfigErrors()
 		{
 			if (this.defName == "UnnamedDef")
@@ -80,25 +80,25 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003E36 RID: 15926 RVA: 0x0006343A File Offset: 0x0006183A
+		// Token: 0x06003E38 RID: 15928 RVA: 0x0006343A File Offset: 0x0006183A
 		public virtual void ClearCachedData()
 		{
 			this.cachedLabelCap = null;
 		}
 
-		// Token: 0x06003E37 RID: 15927 RVA: 0x00063444 File Offset: 0x00061844
+		// Token: 0x06003E39 RID: 15929 RVA: 0x00063444 File Offset: 0x00061844
 		public override string ToString()
 		{
 			return this.defName;
 		}
 
-		// Token: 0x06003E38 RID: 15928 RVA: 0x00063460 File Offset: 0x00061860
+		// Token: 0x06003E3A RID: 15930 RVA: 0x00063460 File Offset: 0x00061860
 		public override int GetHashCode()
 		{
 			return this.defName.GetHashCode();
 		}
 
-		// Token: 0x06003E39 RID: 15929 RVA: 0x00063480 File Offset: 0x00061880
+		// Token: 0x06003E3B RID: 15931 RVA: 0x00063480 File Offset: 0x00061880
 		public T GetModExtension<T>() where T : DefModExtension
 		{
 			T result;
@@ -120,7 +120,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003E3A RID: 15930 RVA: 0x00063504 File Offset: 0x00061904
+		// Token: 0x06003E3C RID: 15932 RVA: 0x00063504 File Offset: 0x00061904
 		public bool HasModExtension<T>() where T : DefModExtension
 		{
 			return this.GetModExtension<T>() != null;

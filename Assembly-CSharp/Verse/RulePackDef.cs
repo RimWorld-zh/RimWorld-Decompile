@@ -8,7 +8,7 @@ namespace Verse
 	public class RulePackDef : Def
 	{
 		// Token: 0x170009BC RID: 2492
-		// (get) Token: 0x06003FE8 RID: 16360 RVA: 0x0021A878 File Offset: 0x00218C78
+		// (get) Token: 0x06003FEA RID: 16362 RVA: 0x0021A94C File Offset: 0x00218D4C
 		public List<Rule> RulesPlusIncludes
 		{
 			get
@@ -33,7 +33,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009BD RID: 2493
-		// (get) Token: 0x06003FE9 RID: 16361 RVA: 0x0021A914 File Offset: 0x00218D14
+		// (get) Token: 0x06003FEB RID: 16363 RVA: 0x0021A9E8 File Offset: 0x00218DE8
 		public List<Rule> RulesImmediate
 		{
 			get
@@ -42,7 +42,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FEA RID: 16362 RVA: 0x0021A948 File Offset: 0x00218D48
+		// Token: 0x06003FEC RID: 16364 RVA: 0x0021AA1C File Offset: 0x00218E1C
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string err in this.<ConfigErrors>__BaseCallProxy0())
@@ -62,7 +62,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003FEB RID: 16363 RVA: 0x0021A974 File Offset: 0x00218D74
+		// Token: 0x06003FED RID: 16365 RVA: 0x0021AA48 File Offset: 0x00218E48
 		public static RulePackDef Named(string defName)
 		{
 			return DefDatabase<RulePackDef>.GetNamed(defName, true);

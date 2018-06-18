@@ -7,10 +7,10 @@ namespace RimWorld
 	// Token: 0x0200067B RID: 1659
 	public interface IConstructible
 	{
-		// Token: 0x060022D7 RID: 8919
+		// Token: 0x060022D9 RID: 8921
 		List<ThingDefCountClass> MaterialsNeeded();
 
-		// Token: 0x060022D8 RID: 8920
+		// Token: 0x060022DA RID: 8922
 		ThingDef UIStuff();
 	}
 }

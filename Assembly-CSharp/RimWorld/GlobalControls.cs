@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x02000842 RID: 2114
 	public class GlobalControls
 	{
-		// Token: 0x06002FCD RID: 12237 RVA: 0x0019E320 File Offset: 0x0019C720
+		// Token: 0x06002FCF RID: 12239 RVA: 0x0019E3E8 File Offset: 0x0019C7E8
 		public void GlobalControlsOnGUI()
 		{
 			if (Event.current.type != EventType.Layout)
@@ -73,7 +73,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002FCE RID: 12238 RVA: 0x0019E5B0 File Offset: 0x0019C9B0
+		// Token: 0x06002FD0 RID: 12240 RVA: 0x0019E678 File Offset: 0x0019CA78
 		private static string TemperatureString()
 		{
 			IntVec3 intVec = UI.MouseCell();
@@ -137,7 +137,7 @@ namespace RimWorld
 			return str + " " + celsiusTemp.ToStringTemperature("F0");
 		}
 
-		// Token: 0x06002FCF RID: 12239 RVA: 0x0019E804 File Offset: 0x0019CC04
+		// Token: 0x06002FD1 RID: 12241 RVA: 0x0019E8CC File Offset: 0x0019CCCC
 		private static void DoCountdownTimer(Rect rect, TimedForcedExit timedForcedExit)
 		{
 			string forceExitAndRemoveMapCountdownTimeLeftString = timedForcedExit.ForceExitAndRemoveMapCountdownTimeLeftString;

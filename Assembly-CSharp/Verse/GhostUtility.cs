@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E9C RID: 3740
+	// Token: 0x02000E9B RID: 3739
 	public static class GhostUtility
 	{
-		// Token: 0x06005840 RID: 22592 RVA: 0x002D30C4 File Offset: 0x002D14C4
+		// Token: 0x0600583E RID: 22590 RVA: 0x002D30C4 File Offset: 0x002D14C4
 		public static Graphic GhostGraphicFor(Graphic baseGraphic, ThingDef thingDef, Color ghostCol)
 		{
 			int num = 0;
@@ -42,7 +42,7 @@ namespace Verse
 			return graphic;
 		}
 
-		// Token: 0x04003A62 RID: 14946
+		// Token: 0x04003A60 RID: 14944
 		private static Dictionary<int, Graphic> ghostGraphics = new Dictionary<int, Graphic>();
 	}
 }

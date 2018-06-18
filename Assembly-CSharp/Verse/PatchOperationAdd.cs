@@ -4,10 +4,10 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000CD2 RID: 3282
+	// Token: 0x02000CD1 RID: 3281
 	public class PatchOperationAdd : PatchOperationPathed
 	{
-		// Token: 0x06004871 RID: 18545 RVA: 0x0026015C File Offset: 0x0025E55C
+		// Token: 0x0600486F RID: 18543 RVA: 0x00260134 File Offset: 0x0025E534
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
 			XmlNode node = this.value.node;
@@ -47,18 +47,18 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x040030FD RID: 12541
+		// Token: 0x040030FB RID: 12539
 		private XmlContainer value;
 
-		// Token: 0x040030FE RID: 12542
+		// Token: 0x040030FC RID: 12540
 		private PatchOperationAdd.Order order = PatchOperationAdd.Order.Append;
 
-		// Token: 0x02000CD3 RID: 3283
+		// Token: 0x02000CD2 RID: 3282
 		private enum Order
 		{
-			// Token: 0x04003100 RID: 12544
+			// Token: 0x040030FE RID: 12542
 			Append,
-			// Token: 0x04003101 RID: 12545
+			// Token: 0x040030FF RID: 12543
 			Prepend
 		}
 	}

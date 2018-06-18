@@ -3,11 +3,11 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D09 RID: 3337
+	// Token: 0x02000D08 RID: 3336
 	public class HediffComp_Discoverable : HediffComp
 	{
-		// Token: 0x17000BA4 RID: 2980
-		// (get) Token: 0x06004993 RID: 18835 RVA: 0x00268048 File Offset: 0x00266448
+		// Token: 0x17000BA3 RID: 2979
+		// (get) Token: 0x06004991 RID: 18833 RVA: 0x00268020 File Offset: 0x00266420
 		public HediffCompProperties_Discoverable Props
 		{
 			get
@@ -16,19 +16,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004994 RID: 18836 RVA: 0x00268068 File Offset: 0x00266468
+		// Token: 0x06004992 RID: 18834 RVA: 0x00268040 File Offset: 0x00266440
 		public override void CompExposeData()
 		{
 			Scribe_Values.Look<bool>(ref this.discovered, "discovered", false, false);
 		}
 
-		// Token: 0x06004995 RID: 18837 RVA: 0x00268080 File Offset: 0x00266480
+		// Token: 0x06004993 RID: 18835 RVA: 0x00268058 File Offset: 0x00266458
 		public override bool CompDisallowVisible()
 		{
 			return !this.discovered;
 		}
 
-		// Token: 0x06004996 RID: 18838 RVA: 0x0026809E File Offset: 0x0026649E
+		// Token: 0x06004994 RID: 18836 RVA: 0x00268076 File Offset: 0x00266476
 		public override void CompPostTick(ref float severityAdjustment)
 		{
 			if (Find.TickManager.TicksGame % 103 == 0)
@@ -37,13 +37,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004997 RID: 18839 RVA: 0x002680B9 File Offset: 0x002664B9
+		// Token: 0x06004995 RID: 18837 RVA: 0x00268091 File Offset: 0x00266491
 		public override void CompPostPostAdd(DamageInfo? dinfo)
 		{
 			this.CheckDiscovered();
 		}
 
-		// Token: 0x06004998 RID: 18840 RVA: 0x002680C4 File Offset: 0x002664C4
+		// Token: 0x06004996 RID: 18838 RVA: 0x0026809C File Offset: 0x0026649C
 		private void CheckDiscovered()
 		{
 			if (!this.discovered)
@@ -123,19 +123,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004999 RID: 18841 RVA: 0x00268425 File Offset: 0x00266825
+		// Token: 0x06004997 RID: 18839 RVA: 0x002683FD File Offset: 0x002667FD
 		public override void Notify_PawnDied()
 		{
 			this.CheckDiscovered();
 		}
 
-		// Token: 0x0600499A RID: 18842 RVA: 0x00268430 File Offset: 0x00266830
+		// Token: 0x06004998 RID: 18840 RVA: 0x00268408 File Offset: 0x00266808
 		public override string CompDebugString()
 		{
 			return "discovered: " + this.discovered;
 		}
 
-		// Token: 0x040031E7 RID: 12775
+		// Token: 0x040031E5 RID: 12773
 		private bool discovered = false;
 	}
 }

@@ -6,13 +6,13 @@ namespace RimWorld
 	// Token: 0x02000744 RID: 1860
 	public class CompTerrainPumpDry : CompTerrainPump
 	{
-		// Token: 0x06002917 RID: 10519 RVA: 0x0015DF27 File Offset: 0x0015C327
+		// Token: 0x06002919 RID: 10521 RVA: 0x0015DFBB File Offset: 0x0015C3BB
 		protected override void AffectCell(IntVec3 c)
 		{
 			CompTerrainPumpDry.AffectCell(this.parent.Map, c);
 		}
 
-		// Token: 0x06002918 RID: 10520 RVA: 0x0015DF3C File Offset: 0x0015C33C
+		// Token: 0x0600291A RID: 10522 RVA: 0x0015DFD0 File Offset: 0x0015C3D0
 		public static void AffectCell(Map map, IntVec3 c)
 		{
 			TerrainDef terrain = c.GetTerrain(map);
@@ -32,7 +32,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002919 RID: 10521 RVA: 0x0015DFA0 File Offset: 0x0015C3A0
+		// Token: 0x0600291B RID: 10523 RVA: 0x0015E034 File Offset: 0x0015C434
 		private static TerrainDef GetTerrainToDryTo(Map map, TerrainDef terrainDef)
 		{
 			TerrainDef result;

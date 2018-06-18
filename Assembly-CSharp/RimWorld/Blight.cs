@@ -10,8 +10,8 @@ namespace RimWorld
 	public class Blight : Thing
 	{
 		// Token: 0x17000597 RID: 1431
-		// (get) Token: 0x060024F7 RID: 9463 RVA: 0x0013D914 File Offset: 0x0013BD14
-		// (set) Token: 0x060024F8 RID: 9464 RVA: 0x0013D92F File Offset: 0x0013BD2F
+		// (get) Token: 0x060024F9 RID: 9465 RVA: 0x0013D98C File Offset: 0x0013BD8C
+		// (set) Token: 0x060024FA RID: 9466 RVA: 0x0013D9A7 File Offset: 0x0013BDA7
 		public float Severity
 		{
 			get
@@ -25,7 +25,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000598 RID: 1432
-		// (get) Token: 0x060024F9 RID: 9465 RVA: 0x0013D940 File Offset: 0x0013BD40
+		// (get) Token: 0x060024FB RID: 9467 RVA: 0x0013D9B8 File Offset: 0x0013BDB8
 		public Plant Plant
 		{
 			get
@@ -44,7 +44,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000599 RID: 1433
-		// (get) Token: 0x060024FA RID: 9466 RVA: 0x0013D978 File Offset: 0x0013BD78
+		// (get) Token: 0x060024FC RID: 9468 RVA: 0x0013D9F0 File Offset: 0x0013BDF0
 		protected float ReproduceMTBHours
 		{
 			get
@@ -62,7 +62,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024FB RID: 9467 RVA: 0x0013D9C7 File Offset: 0x0013BDC7
+		// Token: 0x060024FD RID: 9469 RVA: 0x0013DA3F File Offset: 0x0013BE3F
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -70,7 +70,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.lastPlantHarmTick, "lastPlantHarmTick", 0, false);
 		}
 
-		// Token: 0x060024FC RID: 9468 RVA: 0x0013D9F8 File Offset: 0x0013BDF8
+		// Token: 0x060024FE RID: 9470 RVA: 0x0013DA70 File Offset: 0x0013BE70
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
@@ -81,7 +81,7 @@ namespace RimWorld
 			this.lastMapMeshUpdateSeverity = this.Severity;
 		}
 
-		// Token: 0x060024FD RID: 9469 RVA: 0x0013DA28 File Offset: 0x0013BE28
+		// Token: 0x060024FF RID: 9471 RVA: 0x0013DAA0 File Offset: 0x0013BEA0
 		public override void TickLong()
 		{
 			this.CheckHarmPlant();
@@ -101,13 +101,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060024FE RID: 9470 RVA: 0x0013DACE File Offset: 0x0013BECE
+		// Token: 0x06002500 RID: 9472 RVA: 0x0013DB46 File Offset: 0x0013BF46
 		public void Notify_PlantDeSpawned()
 		{
 			this.DestroyIfNoPlantHere();
 		}
 
-		// Token: 0x060024FF RID: 9471 RVA: 0x0013DAD8 File Offset: 0x0013BED8
+		// Token: 0x06002501 RID: 9473 RVA: 0x0013DB50 File Offset: 0x0013BF50
 		private bool DestroyIfNoPlantHere()
 		{
 			bool result;
@@ -127,7 +127,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002500 RID: 9472 RVA: 0x0013DB1C File Offset: 0x0013BF1C
+		// Token: 0x06002502 RID: 9474 RVA: 0x0013DB94 File Offset: 0x0013BF94
 		private void CheckHarmPlant()
 		{
 			int ticksGame = Find.TickManager.TicksGame;
@@ -146,7 +146,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002501 RID: 9473 RVA: 0x0013DB98 File Offset: 0x0013BF98
+		// Token: 0x06002503 RID: 9475 RVA: 0x0013DC10 File Offset: 0x0013C010
 		private void HarmPlant(Plant plant)
 		{
 			bool isCrop = plant.IsCrop;
@@ -162,7 +162,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002502 RID: 9474 RVA: 0x0013DC48 File Offset: 0x0013C048
+		// Token: 0x06002504 RID: 9476 RVA: 0x0013DCC0 File Offset: 0x0013C0C0
 		public void TryReproduceNow()
 		{
 			GenRadial.ProcessEquidistantCells(base.Position, 4f, delegate(List<IntVec3> cells)
@@ -184,7 +184,7 @@ namespace RimWorld
 			}, base.Map);
 		}
 
-		// Token: 0x06002503 RID: 9475 RVA: 0x0013DC70 File Offset: 0x0013C070
+		// Token: 0x06002505 RID: 9477 RVA: 0x0013DCE8 File Offset: 0x0013C0E8
 		public override void Print(SectionLayer layer)
 		{
 			Plant plant = this.Plant;

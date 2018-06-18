@@ -7,22 +7,22 @@ namespace RimWorld
 	// Token: 0x02000689 RID: 1673
 	public abstract class Building_Turret : Building, IAttackTarget, IAttackTargetSearcher, ILoadReferenceable
 	{
-		// Token: 0x0600233A RID: 9018 RVA: 0x0012EC2F File Offset: 0x0012D02F
+		// Token: 0x0600233C RID: 9020 RVA: 0x0012ECA7 File Offset: 0x0012D0A7
 		public Building_Turret()
 		{
 			this.stunner = new StunHandler(this);
 		}
 
 		// Token: 0x1700052F RID: 1327
-		// (get) Token: 0x0600233B RID: 9019
+		// (get) Token: 0x0600233D RID: 9021
 		public abstract LocalTargetInfo CurrentTarget { get; }
 
 		// Token: 0x17000530 RID: 1328
-		// (get) Token: 0x0600233C RID: 9020
+		// (get) Token: 0x0600233E RID: 9022
 		public abstract Verb AttackVerb { get; }
 
 		// Token: 0x1700052D RID: 1325
-		// (get) Token: 0x0600233D RID: 9021 RVA: 0x0012EC50 File Offset: 0x0012D050
+		// (get) Token: 0x0600233F RID: 9023 RVA: 0x0012ECC8 File Offset: 0x0012D0C8
 		Thing IAttackTarget.Thing
 		{
 			get
@@ -32,7 +32,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000531 RID: 1329
-		// (get) Token: 0x0600233E RID: 9022 RVA: 0x0012EC68 File Offset: 0x0012D068
+		// (get) Token: 0x06002340 RID: 9024 RVA: 0x0012ECE0 File Offset: 0x0012D0E0
 		public LocalTargetInfo TargetCurrentlyAimingAt
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700052E RID: 1326
-		// (get) Token: 0x0600233F RID: 9023 RVA: 0x0012EC84 File Offset: 0x0012D084
+		// (get) Token: 0x06002341 RID: 9025 RVA: 0x0012ECFC File Offset: 0x0012D0FC
 		Thing IAttackTargetSearcher.Thing
 		{
 			get
@@ -52,7 +52,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000532 RID: 1330
-		// (get) Token: 0x06002340 RID: 9024 RVA: 0x0012EC9C File Offset: 0x0012D09C
+		// (get) Token: 0x06002342 RID: 9026 RVA: 0x0012ED14 File Offset: 0x0012D114
 		public Verb CurrentEffectiveVerb
 		{
 			get
@@ -62,7 +62,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000533 RID: 1331
-		// (get) Token: 0x06002341 RID: 9025 RVA: 0x0012ECB8 File Offset: 0x0012D0B8
+		// (get) Token: 0x06002343 RID: 9027 RVA: 0x0012ED30 File Offset: 0x0012D130
 		public LocalTargetInfo LastAttackedTarget
 		{
 			get
@@ -72,7 +72,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000534 RID: 1332
-		// (get) Token: 0x06002342 RID: 9026 RVA: 0x0012ECD4 File Offset: 0x0012D0D4
+		// (get) Token: 0x06002344 RID: 9028 RVA: 0x0012ED4C File Offset: 0x0012D14C
 		public int LastAttackTargetTick
 		{
 			get
@@ -81,7 +81,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002343 RID: 9027 RVA: 0x0012ECF0 File Offset: 0x0012D0F0
+		// Token: 0x06002345 RID: 9029 RVA: 0x0012ED68 File Offset: 0x0012D168
 		public override void Tick()
 		{
 			base.Tick();
@@ -92,7 +92,7 @@ namespace RimWorld
 			this.stunner.StunHandlerTick();
 		}
 
-		// Token: 0x06002344 RID: 9028 RVA: 0x0012ED68 File Offset: 0x0012D168
+		// Token: 0x06002346 RID: 9030 RVA: 0x0012EDE0 File Offset: 0x0012D1E0
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -105,7 +105,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.lastAttackTargetTick, "lastAttackTargetTick", 0, false);
 		}
 
-		// Token: 0x06002345 RID: 9029 RVA: 0x0012EDC8 File Offset: 0x0012D1C8
+		// Token: 0x06002347 RID: 9031 RVA: 0x0012EE40 File Offset: 0x0012D240
 		public override void PreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
 		{
 			base.PreApplyDamage(ref dinfo, out absorbed);
@@ -116,10 +116,10 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002346 RID: 9030
+		// Token: 0x06002348 RID: 9032
 		public abstract void OrderAttack(LocalTargetInfo targ);
 
-		// Token: 0x06002347 RID: 9031 RVA: 0x0012EDF4 File Offset: 0x0012D1F4
+		// Token: 0x06002349 RID: 9033 RVA: 0x0012EE6C File Offset: 0x0012D26C
 		public bool ThreatDisabled(IAttackTargetSearcher disabledFor)
 		{
 			CompPowerTrader comp = base.GetComp<CompPowerTrader>();
@@ -136,7 +136,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002348 RID: 9032 RVA: 0x0012EE48 File Offset: 0x0012D248
+		// Token: 0x0600234A RID: 9034 RVA: 0x0012EEC0 File Offset: 0x0012D2C0
 		protected void OnAttackedTarget(LocalTargetInfo target)
 		{
 			this.lastAttackTargetTick = Find.TickManager.TicksGame;

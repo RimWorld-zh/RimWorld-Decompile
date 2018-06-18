@@ -7,10 +7,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000FBB RID: 4027
+	// Token: 0x02000FBA RID: 4026
 	public static class StaticConstructorOnStartupUtility
 	{
-		// Token: 0x06006138 RID: 24888 RVA: 0x00310BC8 File Offset: 0x0030EFC8
+		// Token: 0x06006136 RID: 24886 RVA: 0x00310CA4 File Offset: 0x0030F0A4
 		public static void CallAll()
 		{
 			IEnumerable<Type> enumerable = GenTypes.AllTypesWithAttribute<StaticConstructorOnStartup>();
@@ -21,7 +21,7 @@ namespace Verse
 			StaticConstructorOnStartupUtility.coreStaticAssetsLoaded = true;
 		}
 
-		// Token: 0x06006139 RID: 24889 RVA: 0x00310C30 File Offset: 0x0030F030
+		// Token: 0x06006137 RID: 24887 RVA: 0x00310D0C File Offset: 0x0030F10C
 		public static void ReportProbablyMissingAttributes()
 		{
 			BindingFlags bindingAttr = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
@@ -55,7 +55,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003F98 RID: 16280
+		// Token: 0x04003F97 RID: 16279
 		public static bool coreStaticAssetsLoaded;
 	}
 }

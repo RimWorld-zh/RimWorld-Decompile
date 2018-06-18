@@ -6,7 +6,7 @@ namespace Verse
 	public class TimeSlower
 	{
 		// Token: 0x17000A53 RID: 2643
-		// (get) Token: 0x06004204 RID: 16900 RVA: 0x0022C9B0 File Offset: 0x0022ADB0
+		// (get) Token: 0x06004206 RID: 16902 RVA: 0x0022CA28 File Offset: 0x0022AE28
 		public bool ForcedNormalSpeed
 		{
 			get
@@ -15,13 +15,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004205 RID: 16901 RVA: 0x0022C9D7 File Offset: 0x0022ADD7
+		// Token: 0x06004207 RID: 16903 RVA: 0x0022CA4F File Offset: 0x0022AE4F
 		public void SignalForceNormalSpeed()
 		{
 			this.forceNormalSpeedUntil = Find.TickManager.TicksGame + 790;
 		}
 
-		// Token: 0x06004206 RID: 16902 RVA: 0x0022C9F0 File Offset: 0x0022ADF0
+		// Token: 0x06004208 RID: 16904 RVA: 0x0022CA68 File Offset: 0x0022AE68
 		public void SignalForceNormalSpeedShort()
 		{
 			this.forceNormalSpeedUntil = Find.TickManager.TicksGame + 250;

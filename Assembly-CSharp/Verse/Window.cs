@@ -6,18 +6,18 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000ECC RID: 3788
+	// Token: 0x02000ECB RID: 3787
 	public abstract class Window
 	{
-		// Token: 0x06005968 RID: 22888 RVA: 0x00067628 File Offset: 0x00065A28
+		// Token: 0x06005966 RID: 22886 RVA: 0x00067628 File Offset: 0x00065A28
 		public Window()
 		{
 			this.soundAppear = SoundDefOf.DialogBoxAppear;
 			this.soundClose = SoundDefOf.Click;
 		}
 
-		// Token: 0x17000E16 RID: 3606
-		// (get) Token: 0x06005969 RID: 22889 RVA: 0x000676B4 File Offset: 0x00065AB4
+		// Token: 0x17000E15 RID: 3605
+		// (get) Token: 0x06005967 RID: 22887 RVA: 0x000676B4 File Offset: 0x00065AB4
 		public virtual Vector2 InitialSize
 		{
 			get
@@ -26,8 +26,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E17 RID: 3607
-		// (get) Token: 0x0600596A RID: 22890 RVA: 0x000676D8 File Offset: 0x00065AD8
+		// Token: 0x17000E16 RID: 3606
+		// (get) Token: 0x06005968 RID: 22888 RVA: 0x000676D8 File Offset: 0x00065AD8
 		protected virtual float Margin
 		{
 			get
@@ -36,8 +36,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E18 RID: 3608
-		// (get) Token: 0x0600596B RID: 22891 RVA: 0x000676F4 File Offset: 0x00065AF4
+		// Token: 0x17000E17 RID: 3607
+		// (get) Token: 0x06005969 RID: 22889 RVA: 0x000676F4 File Offset: 0x00065AF4
 		public virtual bool IsDebug
 		{
 			get
@@ -46,8 +46,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000E19 RID: 3609
-		// (get) Token: 0x0600596C RID: 22892 RVA: 0x0006770C File Offset: 0x00065B0C
+		// Token: 0x17000E18 RID: 3608
+		// (get) Token: 0x0600596A RID: 22890 RVA: 0x0006770C File Offset: 0x00065B0C
 		public bool IsOpen
 		{
 			get
@@ -56,7 +56,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600596D RID: 22893 RVA: 0x0006772C File Offset: 0x00065B2C
+		// Token: 0x0600596B RID: 22891 RVA: 0x0006772C File Offset: 0x00065B2C
 		public virtual void WindowUpdate()
 		{
 			if (this.sustainerAmbient != null)
@@ -65,15 +65,15 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600596E RID: 22894
+		// Token: 0x0600596C RID: 22892
 		public abstract void DoWindowContents(Rect inRect);
 
-		// Token: 0x0600596F RID: 22895 RVA: 0x00067745 File Offset: 0x00065B45
+		// Token: 0x0600596D RID: 22893 RVA: 0x00067745 File Offset: 0x00065B45
 		public virtual void ExtraOnGUI()
 		{
 		}
 
-		// Token: 0x06005970 RID: 22896 RVA: 0x00067748 File Offset: 0x00065B48
+		// Token: 0x0600596E RID: 22894 RVA: 0x00067748 File Offset: 0x00065B48
 		public virtual void PreOpen()
 		{
 			this.SetInitialSizeAndPosition();
@@ -92,7 +92,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005971 RID: 22897 RVA: 0x000677AE File Offset: 0x00065BAE
+		// Token: 0x0600596F RID: 22895 RVA: 0x000677AE File Offset: 0x00065BAE
 		public virtual void PostOpen()
 		{
 			if (this.soundAppear != null)
@@ -105,17 +105,17 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005972 RID: 22898 RVA: 0x000677EA File Offset: 0x00065BEA
+		// Token: 0x06005970 RID: 22896 RVA: 0x000677EA File Offset: 0x00065BEA
 		public virtual void PreClose()
 		{
 		}
 
-		// Token: 0x06005973 RID: 22899 RVA: 0x000677ED File Offset: 0x00065BED
+		// Token: 0x06005971 RID: 22897 RVA: 0x000677ED File Offset: 0x00065BED
 		public virtual void PostClose()
 		{
 		}
 
-		// Token: 0x06005974 RID: 22900 RVA: 0x000677F0 File Offset: 0x00065BF0
+		// Token: 0x06005972 RID: 22898 RVA: 0x000677F0 File Offset: 0x00065BF0
 		public virtual void WindowOnGUI()
 		{
 			if (this.resizeable)
@@ -235,26 +235,26 @@ namespace Verse
 			}, "", Widgets.EmptyStyle);
 		}
 
-		// Token: 0x06005975 RID: 22901 RVA: 0x0006789D File Offset: 0x00065C9D
+		// Token: 0x06005973 RID: 22899 RVA: 0x0006789D File Offset: 0x00065C9D
 		public virtual void Close(bool doCloseSound = true)
 		{
 			Find.WindowStack.TryRemove(this, doCloseSound);
 		}
 
-		// Token: 0x06005976 RID: 22902 RVA: 0x000678B0 File Offset: 0x00065CB0
+		// Token: 0x06005974 RID: 22900 RVA: 0x000678B0 File Offset: 0x00065CB0
 		public virtual bool CausesMessageBackground()
 		{
 			return false;
 		}
 
-		// Token: 0x06005977 RID: 22903 RVA: 0x000678C8 File Offset: 0x00065CC8
+		// Token: 0x06005975 RID: 22901 RVA: 0x000678C8 File Offset: 0x00065CC8
 		protected virtual void SetInitialSizeAndPosition()
 		{
 			this.windowRect = new Rect(((float)UI.screenWidth - this.InitialSize.x) / 2f, ((float)UI.screenHeight - this.InitialSize.y) / 2f, this.InitialSize.x, this.InitialSize.y);
 			this.windowRect = this.windowRect.Rounded();
 		}
 
-		// Token: 0x06005978 RID: 22904 RVA: 0x00067944 File Offset: 0x00065D44
+		// Token: 0x06005976 RID: 22902 RVA: 0x00067944 File Offset: 0x00065D44
 		public virtual void OnCancelKeyPressed()
 		{
 			if (this.closeOnCancel)
@@ -264,7 +264,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005979 RID: 22905 RVA: 0x00067965 File Offset: 0x00065D65
+		// Token: 0x06005977 RID: 22903 RVA: 0x00067965 File Offset: 0x00065D65
 		public virtual void OnAcceptKeyPressed()
 		{
 			if (this.closeOnAccept)
@@ -274,103 +274,103 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600597A RID: 22906 RVA: 0x00067986 File Offset: 0x00065D86
+		// Token: 0x06005978 RID: 22904 RVA: 0x00067986 File Offset: 0x00065D86
 		public virtual void Notify_ResolutionChanged()
 		{
 			this.SetInitialSizeAndPosition();
 		}
 
-		// Token: 0x04003BC1 RID: 15297
+		// Token: 0x04003BC0 RID: 15296
 		public WindowLayer layer = WindowLayer.Dialog;
 
-		// Token: 0x04003BC2 RID: 15298
+		// Token: 0x04003BC1 RID: 15297
 		public string optionalTitle;
 
-		// Token: 0x04003BC3 RID: 15299
+		// Token: 0x04003BC2 RID: 15298
 		public bool doCloseX;
 
-		// Token: 0x04003BC4 RID: 15300
+		// Token: 0x04003BC3 RID: 15299
 		public bool doCloseButton;
 
-		// Token: 0x04003BC5 RID: 15301
+		// Token: 0x04003BC4 RID: 15300
 		public bool closeOnAccept = true;
 
-		// Token: 0x04003BC6 RID: 15302
+		// Token: 0x04003BC5 RID: 15301
 		public bool closeOnCancel = true;
 
-		// Token: 0x04003BC7 RID: 15303
+		// Token: 0x04003BC6 RID: 15302
 		public bool forceCatchAcceptAndCancelEventEvenIfUnfocused;
 
-		// Token: 0x04003BC8 RID: 15304
+		// Token: 0x04003BC7 RID: 15303
 		public bool closeOnClickedOutside;
 
-		// Token: 0x04003BC9 RID: 15305
+		// Token: 0x04003BC8 RID: 15304
 		public bool forcePause;
 
-		// Token: 0x04003BCA RID: 15306
+		// Token: 0x04003BC9 RID: 15305
 		public bool preventCameraMotion = true;
 
-		// Token: 0x04003BCB RID: 15307
+		// Token: 0x04003BCA RID: 15306
 		public bool preventDrawTutor;
 
-		// Token: 0x04003BCC RID: 15308
+		// Token: 0x04003BCB RID: 15307
 		public bool doWindowBackground = true;
 
-		// Token: 0x04003BCD RID: 15309
+		// Token: 0x04003BCC RID: 15308
 		public bool onlyOneOfTypeAllowed = true;
 
-		// Token: 0x04003BCE RID: 15310
+		// Token: 0x04003BCD RID: 15309
 		public bool absorbInputAroundWindow;
 
-		// Token: 0x04003BCF RID: 15311
+		// Token: 0x04003BCE RID: 15310
 		public bool resizeable;
 
-		// Token: 0x04003BD0 RID: 15312
+		// Token: 0x04003BCF RID: 15311
 		public bool draggable;
 
-		// Token: 0x04003BD1 RID: 15313
+		// Token: 0x04003BD0 RID: 15312
 		public bool drawShadow = true;
 
-		// Token: 0x04003BD2 RID: 15314
+		// Token: 0x04003BD1 RID: 15313
 		public bool focusWhenOpened = true;
 
-		// Token: 0x04003BD3 RID: 15315
+		// Token: 0x04003BD2 RID: 15314
 		public float shadowAlpha = 1f;
 
-		// Token: 0x04003BD4 RID: 15316
+		// Token: 0x04003BD3 RID: 15315
 		public SoundDef soundAppear;
 
-		// Token: 0x04003BD5 RID: 15317
+		// Token: 0x04003BD4 RID: 15316
 		public SoundDef soundClose;
 
-		// Token: 0x04003BD6 RID: 15318
+		// Token: 0x04003BD5 RID: 15317
 		public SoundDef soundAmbient;
 
-		// Token: 0x04003BD7 RID: 15319
+		// Token: 0x04003BD6 RID: 15318
 		public bool silenceAmbientSound = false;
 
-		// Token: 0x04003BD8 RID: 15320
+		// Token: 0x04003BD7 RID: 15319
 		protected const float StandardMargin = 18f;
 
-		// Token: 0x04003BD9 RID: 15321
+		// Token: 0x04003BD8 RID: 15320
 		protected readonly Vector2 CloseButSize = new Vector2(120f, 40f);
 
-		// Token: 0x04003BDA RID: 15322
+		// Token: 0x04003BD9 RID: 15321
 		public int ID;
 
-		// Token: 0x04003BDB RID: 15323
+		// Token: 0x04003BDA RID: 15322
 		public Rect windowRect;
 
-		// Token: 0x04003BDC RID: 15324
+		// Token: 0x04003BDB RID: 15323
 		private Sustainer sustainerAmbient;
 
-		// Token: 0x04003BDD RID: 15325
+		// Token: 0x04003BDC RID: 15324
 		private WindowResizer resizer;
 
-		// Token: 0x04003BDE RID: 15326
+		// Token: 0x04003BDD RID: 15325
 		private bool resizeLater;
 
-		// Token: 0x04003BDF RID: 15327
+		// Token: 0x04003BDE RID: 15326
 		private Rect resizeLaterRect;
 	}
 }

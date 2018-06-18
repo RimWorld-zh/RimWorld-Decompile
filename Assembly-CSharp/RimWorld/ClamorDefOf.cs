@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class ClamorDefOf
 	{
-		// Token: 0x06003678 RID: 13944 RVA: 0x001D0C23 File Offset: 0x001CF023
+		// Token: 0x0600367A RID: 13946 RVA: 0x001D0CEB File Offset: 0x001CF0EB
 		static ClamorDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ClamorDefOf));

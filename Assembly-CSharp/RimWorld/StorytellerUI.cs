@@ -9,7 +9,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class StorytellerUI
 	{
-		// Token: 0x06002FA5 RID: 12197 RVA: 0x00197A64 File Offset: 0x00195E64
+		// Token: 0x06002FA7 RID: 12199 RVA: 0x00197AF8 File Offset: 0x00195EF8
 		internal static void DrawStorytellerSelectionInterface(Rect rect, ref StorytellerDef chosenStoryteller, ref DifficultyDef difficulty, Listing_Standard selectedStorytellerInfoListing)
 		{
 			GUI.BeginGroup(rect);

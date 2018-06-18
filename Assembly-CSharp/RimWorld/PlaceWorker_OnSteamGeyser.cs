@@ -3,10 +3,10 @@ using Verse;
 
 namespace RimWorld
 {
-	// Token: 0x02000C6B RID: 3179
+	// Token: 0x02000C6A RID: 3178
 	public class PlaceWorker_OnSteamGeyser : PlaceWorker
 	{
-		// Token: 0x060045CA RID: 17866 RVA: 0x0024C5FC File Offset: 0x0024A9FC
+		// Token: 0x060045C8 RID: 17864 RVA: 0x0024C5D4 File Offset: 0x0024A9D4
 		public override AcceptanceReport AllowsPlacing(BuildableDef checkingDef, IntVec3 loc, Rot4 rot, Map map, Thing thingToIgnore = null)
 		{
 			Thing thing = map.thingGrid.ThingAt(loc, ThingDefOf.SteamGeyser);
@@ -22,7 +22,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060045CB RID: 17867 RVA: 0x0024C658 File Offset: 0x0024AA58
+		// Token: 0x060045C9 RID: 17865 RVA: 0x0024C630 File Offset: 0x0024AA30
 		public override bool ForceAllowPlaceOver(BuildableDef otherDef)
 		{
 			return otherDef == ThingDefOf.SteamGeyser;

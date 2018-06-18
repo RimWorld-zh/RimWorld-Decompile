@@ -10,7 +10,7 @@ namespace RimWorld.Planet
 	// Token: 0x020005FA RID: 1530
 	public static class SettleInExistingMapUtility
 	{
-		// Token: 0x06001E6A RID: 7786 RVA: 0x00107318 File Offset: 0x00105718
+		// Token: 0x06001E6C RID: 7788 RVA: 0x00107390 File Offset: 0x00105790
 		public static Command SettleCommand(Map map, bool requiresNoEnemies)
 		{
 			Command_Settle command_Settle = new Command_Settle();
@@ -57,7 +57,7 @@ namespace RimWorld.Planet
 			return command_Settle;
 		}
 
-		// Token: 0x06001E6B RID: 7787 RVA: 0x00107474 File Offset: 0x00105874
+		// Token: 0x06001E6D RID: 7789 RVA: 0x001074EC File Offset: 0x001058EC
 		public static void Settle(Map map)
 		{
 			MapParent parent = map.Parent;

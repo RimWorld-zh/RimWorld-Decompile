@@ -9,7 +9,7 @@ namespace Verse.AI
 	public class MentalState_BingingDrug : MentalState_Binging
 	{
 		// Token: 0x17000916 RID: 2326
-		// (get) Token: 0x06003B91 RID: 15249 RVA: 0x001F77B8 File Offset: 0x001F5BB8
+		// (get) Token: 0x06003B93 RID: 15251 RVA: 0x001F788C File Offset: 0x001F5C8C
 		public override string InspectLine
 		{
 			get
@@ -18,7 +18,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B92 RID: 15250 RVA: 0x001F77E3 File Offset: 0x001F5BE3
+		// Token: 0x06003B94 RID: 15252 RVA: 0x001F78B7 File Offset: 0x001F5CB7
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -26,7 +26,7 @@ namespace Verse.AI
 			Scribe_Values.Look<DrugCategory>(ref this.drugCategory, "drugCategory", DrugCategory.None, false);
 		}
 
-		// Token: 0x06003B93 RID: 15251 RVA: 0x001F7810 File Offset: 0x001F5C10
+		// Token: 0x06003B95 RID: 15253 RVA: 0x001F78E4 File Offset: 0x001F5CE4
 		public override void PostStart(string reason)
 		{
 			base.PostStart(reason);
@@ -53,7 +53,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B94 RID: 15252 RVA: 0x001F78F0 File Offset: 0x001F5CF0
+		// Token: 0x06003B96 RID: 15254 RVA: 0x001F79C4 File Offset: 0x001F5DC4
 		public override void PostEnd()
 		{
 			base.PostEnd();
@@ -67,7 +67,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003B95 RID: 15253 RVA: 0x001F7958 File Offset: 0x001F5D58
+		// Token: 0x06003B97 RID: 15255 RVA: 0x001F7A2C File Offset: 0x001F5E2C
 		private void ChooseRandomChemical()
 		{
 			MentalState_BingingDrug.addictions.Clear();

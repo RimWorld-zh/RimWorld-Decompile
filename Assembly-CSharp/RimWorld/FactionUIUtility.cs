@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000818 RID: 2072
 	public static class FactionUIUtility
 	{
-		// Token: 0x06002E2E RID: 11822 RVA: 0x00185B44 File Offset: 0x00183F44
+		// Token: 0x06002E30 RID: 11824 RVA: 0x00185BD8 File Offset: 0x00183FD8
 		public static void DoWindowContents(Rect fillRect, ref Vector2 scrollPosition, ref float scrollViewHeight)
 		{
 			Rect position = new Rect(0f, 0f, fillRect.width, fillRect.height);
@@ -45,7 +45,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002E2F RID: 11823 RVA: 0x00185D0C File Offset: 0x0018410C
+		// Token: 0x06002E31 RID: 11825 RVA: 0x00185DA0 File Offset: 0x001841A0
 		private static float DrawFactionRow(Faction faction, float rowY, Rect fillRect)
 		{
 			Rect rect = new Rect(35f, rowY, 250f, 80f);

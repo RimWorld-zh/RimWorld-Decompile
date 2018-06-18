@@ -7,7 +7,7 @@ namespace Verse
 	public abstract class DeathActionWorker
 	{
 		// Token: 0x17000977 RID: 2423
-		// (get) Token: 0x06003EC8 RID: 16072 RVA: 0x000A9044 File Offset: 0x000A7444
+		// (get) Token: 0x06003ECA RID: 16074 RVA: 0x000A9050 File Offset: 0x000A7450
 		public virtual RulePackDef DeathRules
 		{
 			get
@@ -17,7 +17,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000978 RID: 2424
-		// (get) Token: 0x06003EC9 RID: 16073 RVA: 0x000A9060 File Offset: 0x000A7460
+		// (get) Token: 0x06003ECB RID: 16075 RVA: 0x000A906C File Offset: 0x000A746C
 		public virtual bool DangerousInMelee
 		{
 			get
@@ -26,7 +26,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003ECA RID: 16074
+		// Token: 0x06003ECC RID: 16076
 		public abstract void PawnDied(Corpse corpse);
 	}
 }

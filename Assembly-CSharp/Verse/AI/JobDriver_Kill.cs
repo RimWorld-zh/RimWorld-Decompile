@@ -6,13 +6,13 @@ namespace Verse.AI
 	// Token: 0x02000A3E RID: 2622
 	public class JobDriver_Kill : JobDriver
 	{
-		// Token: 0x06003A21 RID: 14881 RVA: 0x001EBD00 File Offset: 0x001EA100
+		// Token: 0x06003A23 RID: 14883 RVA: 0x001EBDD4 File Offset: 0x001EA1D4
 		public override bool TryMakePreToilReservations()
 		{
 			return this.pawn.Reserve(this.job.GetTarget(TargetIndex.A), this.job, 1, -1, null);
 		}
 
-		// Token: 0x06003A22 RID: 14882 RVA: 0x001EBD38 File Offset: 0x001EA138
+		// Token: 0x06003A24 RID: 14884 RVA: 0x001EBE0C File Offset: 0x001EA20C
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.EndOnDespawnedOrNull(TargetIndex.A, JobCondition.Succeeded);

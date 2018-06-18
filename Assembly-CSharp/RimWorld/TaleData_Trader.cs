@@ -10,7 +10,7 @@ namespace RimWorld
 	public class TaleData_Trader : TaleData
 	{
 		// Token: 0x17000500 RID: 1280
-		// (get) Token: 0x06002213 RID: 8723 RVA: 0x0012103C File Offset: 0x0011F43C
+		// (get) Token: 0x06002215 RID: 8725 RVA: 0x001210B4 File Offset: 0x0011F4B4
 		private bool IsPawn
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002214 RID: 8724 RVA: 0x0012105D File Offset: 0x0011F45D
+		// Token: 0x06002216 RID: 8726 RVA: 0x001210D5 File Offset: 0x0011F4D5
 		public override void ExposeData()
 		{
 			Scribe_Values.Look<string>(ref this.name, "name", null, false);
@@ -27,7 +27,7 @@ namespace RimWorld
 			Scribe_Values.Look<Gender>(ref this.gender, "gender", Gender.Male, false);
 		}
 
-		// Token: 0x06002215 RID: 8725 RVA: 0x00121098 File Offset: 0x0011F498
+		// Token: 0x06002217 RID: 8727 RVA: 0x00121110 File Offset: 0x0011F510
 		public override IEnumerable<Rule> GetRules(string prefix)
 		{
 			string nameFull;
@@ -67,7 +67,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002216 RID: 8726 RVA: 0x001210CC File Offset: 0x0011F4CC
+		// Token: 0x06002218 RID: 8728 RVA: 0x00121144 File Offset: 0x0011F544
 		public static TaleData_Trader GenerateFrom(ITrader trader)
 		{
 			TaleData_Trader taleData_Trader = new TaleData_Trader();
@@ -81,7 +81,7 @@ namespace RimWorld
 			return taleData_Trader;
 		}
 
-		// Token: 0x06002217 RID: 8727 RVA: 0x0012111C File Offset: 0x0011F51C
+		// Token: 0x06002219 RID: 8729 RVA: 0x00121194 File Offset: 0x0011F594
 		public static TaleData_Trader GenerateRandom()
 		{
 			PawnKindDef pawnKindDef = (from d in DefDatabase<PawnKindDef>.AllDefs

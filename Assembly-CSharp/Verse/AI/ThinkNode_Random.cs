@@ -6,7 +6,7 @@ namespace Verse.AI
 	// Token: 0x02000ABE RID: 2750
 	public class ThinkNode_Random : ThinkNode
 	{
-		// Token: 0x06003D35 RID: 15669 RVA: 0x00204DCC File Offset: 0x002031CC
+		// Token: 0x06003D37 RID: 15671 RVA: 0x00204EA0 File Offset: 0x002032A0
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			ThinkNode_Random.tempList.Clear();

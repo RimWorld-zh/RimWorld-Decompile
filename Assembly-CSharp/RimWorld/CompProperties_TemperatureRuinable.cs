@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000740 RID: 1856
 	public class CompProperties_TemperatureRuinable : CompProperties
 	{
-		// Token: 0x060028FA RID: 10490 RVA: 0x0015D785 File Offset: 0x0015BB85
+		// Token: 0x060028FC RID: 10492 RVA: 0x0015D819 File Offset: 0x0015BC19
 		public CompProperties_TemperatureRuinable()
 		{
 			this.compClass = typeof(CompTemperatureRuinable);

@@ -6,7 +6,7 @@ namespace Verse.Sound
 	// Token: 0x02000B86 RID: 2950
 	public class SoundFilterReverb : SoundFilter
 	{
-		// Token: 0x06004023 RID: 16419 RVA: 0x0021C390 File Offset: 0x0021A790
+		// Token: 0x06004025 RID: 16421 RVA: 0x0021C464 File Offset: 0x0021A864
 		public override void SetupOn(AudioSource source)
 		{
 			AudioReverbFilter orMakeFilterOn = SoundFilter.GetOrMakeFilterOn<AudioReverbFilter>(source);

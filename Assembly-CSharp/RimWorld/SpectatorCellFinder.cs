@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x02000902 RID: 2306
 	public static class SpectatorCellFinder
 	{
-		// Token: 0x06003572 RID: 13682 RVA: 0x001CC24C File Offset: 0x001CA64C
+		// Token: 0x06003574 RID: 13684 RVA: 0x001CC314 File Offset: 0x001CA714
 		public static bool TryFindSpectatorCellFor(Pawn p, CellRect spectateRect, Map map, out IntVec3 cell, SpectateRectSide allowedSides = SpectateRectSide.All, int margin = 1, List<IntVec3> extraDisallowedCells = null)
 		{
 			spectateRect.ClipInsideMap(map);
@@ -163,13 +163,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003573 RID: 13683 RVA: 0x001CC444 File Offset: 0x001CA844
+		// Token: 0x06003575 RID: 13685 RVA: 0x001CC50C File Offset: 0x001CA90C
 		private static bool CorrectlyRotatedChairAt(IntVec3 x, Map map, CellRect spectateRect)
 		{
 			return SpectatorCellFinder.GetCorrectlyRotatedChairAt(x, map, spectateRect) != null;
 		}
 
-		// Token: 0x06003574 RID: 13684 RVA: 0x001CC468 File Offset: 0x001CA868
+		// Token: 0x06003576 RID: 13686 RVA: 0x001CC530 File Offset: 0x001CA930
 		private static Building GetCorrectlyRotatedChairAt(IntVec3 x, Map map, CellRect spectateRect)
 		{
 			Building result;
@@ -200,7 +200,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003575 RID: 13685 RVA: 0x001CC510 File Offset: 0x001CA910
+		// Token: 0x06003577 RID: 13687 RVA: 0x001CC5D8 File Offset: 0x001CA9D8
 		private static int DistanceToClosestChair(IntVec3 from, IntVec3 step, Map map, int maxDist, CellRect spectateRect)
 		{
 			int num = 0;
@@ -235,7 +235,7 @@ namespace RimWorld
 			return -1;
 		}
 
-		// Token: 0x06003576 RID: 13686 RVA: 0x001CC580 File Offset: 0x001CA980
+		// Token: 0x06003578 RID: 13688 RVA: 0x001CC648 File Offset: 0x001CAA48
 		public static void DebugFlashPotentialSpectatorCells(CellRect spectateRect, Map map, SpectateRectSide allowedSides = SpectateRectSide.All, int margin = 1)
 		{
 			List<IntVec3> list = new List<IntVec3>();
@@ -272,7 +272,7 @@ namespace RimWorld
 			map.debugDrawer.FlashLine(spectateRect.CenterCell, centerCell, 50, SimpleColor.White);
 		}
 
-		// Token: 0x06003577 RID: 13687 RVA: 0x001CC6FC File Offset: 0x001CAAFC
+		// Token: 0x06003579 RID: 13689 RVA: 0x001CC7C4 File Offset: 0x001CABC4
 		public static SpectateRectSide FindSingleBestSide(CellRect spectateRect, Map map, SpectateRectSide allowedSides = SpectateRectSide.All, int margin = 1)
 		{
 			for (int i = 0; i < SpectatorCellFinder.scorePerSide.Length; i++)

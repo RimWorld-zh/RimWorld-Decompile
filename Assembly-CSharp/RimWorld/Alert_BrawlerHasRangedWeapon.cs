@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020007A8 RID: 1960
 	public class Alert_BrawlerHasRangedWeapon : Alert
 	{
-		// Token: 0x06002B53 RID: 11091 RVA: 0x0016DE04 File Offset: 0x0016C204
+		// Token: 0x06002B55 RID: 11093 RVA: 0x0016DE98 File Offset: 0x0016C298
 		public Alert_BrawlerHasRangedWeapon()
 		{
 			this.defaultLabel = "BrawlerHasRangedWeapon".Translate();
@@ -15,7 +15,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170006B9 RID: 1721
-		// (get) Token: 0x06002B54 RID: 11092 RVA: 0x0016DE30 File Offset: 0x0016C230
+		// (get) Token: 0x06002B56 RID: 11094 RVA: 0x0016DEC4 File Offset: 0x0016C2C4
 		private IEnumerable<Pawn> BrawlersWithRangedWeapon
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002B55 RID: 11093 RVA: 0x0016DE54 File Offset: 0x0016C254
+		// Token: 0x06002B57 RID: 11095 RVA: 0x0016DEE8 File Offset: 0x0016C2E8
 		public override AlertReport GetReport()
 		{
 			return AlertReport.CulpritsAre(this.BrawlersWithRangedWeapon);

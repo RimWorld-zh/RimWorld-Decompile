@@ -7,7 +7,7 @@ namespace RimWorld.Planet
 	// Token: 0x020005D9 RID: 1497
 	public static class CaravanDrugPolicyUtility
 	{
-		// Token: 0x06001D6D RID: 7533 RVA: 0x000FCC64 File Offset: 0x000FB064
+		// Token: 0x06001D6F RID: 7535 RVA: 0x000FCCDC File Offset: 0x000FB0DC
 		public static void TryTakeScheduledDrugs(Caravan caravan)
 		{
 			List<Pawn> pawnsListForReading = caravan.PawnsListForReading;
@@ -17,7 +17,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001D6E RID: 7534 RVA: 0x000FCCA0 File Offset: 0x000FB0A0
+		// Token: 0x06001D70 RID: 7536 RVA: 0x000FCD18 File Offset: 0x000FB118
 		private static void TryTakeScheduledDrugs(Pawn pawn, Caravan caravan)
 		{
 			if (pawn.drugs != null)

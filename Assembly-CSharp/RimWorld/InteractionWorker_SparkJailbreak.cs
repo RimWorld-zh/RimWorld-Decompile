@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020004BE RID: 1214
 	public class InteractionWorker_SparkJailbreak : InteractionWorker
 	{
-		// Token: 0x0600159E RID: 5534 RVA: 0x000C0368 File Offset: 0x000BE768
+		// Token: 0x0600159E RID: 5534 RVA: 0x000C0384 File Offset: 0x000BE784
 		public override void Interacted(Pawn initiator, Pawn recipient, List<RulePackDef> extraSentencePacks, out string letterText, out string letterLabel, out LetterDef letterDef)
 		{
 			if (!recipient.IsPrisoner || !recipient.guest.PrisonerIsSecure || !PrisonBreakUtility.CanParticipateInPrisonBreak(recipient))

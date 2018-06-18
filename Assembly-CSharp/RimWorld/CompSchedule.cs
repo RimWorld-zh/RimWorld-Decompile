@@ -7,7 +7,7 @@ namespace RimWorld
 	public class CompSchedule : ThingComp
 	{
 		// Token: 0x1700027F RID: 639
-		// (get) Token: 0x06001268 RID: 4712 RVA: 0x0009F6F4 File Offset: 0x0009DAF4
+		// (get) Token: 0x06001268 RID: 4712 RVA: 0x0009F700 File Offset: 0x0009DB00
 		public CompProperties_Schedule Props
 		{
 			get
@@ -17,8 +17,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000280 RID: 640
-		// (get) Token: 0x06001269 RID: 4713 RVA: 0x0009F714 File Offset: 0x0009DB14
-		// (set) Token: 0x0600126A RID: 4714 RVA: 0x0009F72F File Offset: 0x0009DB2F
+		// (get) Token: 0x06001269 RID: 4713 RVA: 0x0009F720 File Offset: 0x0009DB20
+		// (set) Token: 0x0600126A RID: 4714 RVA: 0x0009F73B File Offset: 0x0009DB3B
 		public bool Allowed
 		{
 			get
@@ -35,21 +35,21 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600126B RID: 4715 RVA: 0x0009F76F File Offset: 0x0009DB6F
+		// Token: 0x0600126B RID: 4715 RVA: 0x0009F77B File Offset: 0x0009DB7B
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
 			this.RecalculateAllowed();
 		}
 
-		// Token: 0x0600126C RID: 4716 RVA: 0x0009F77F File Offset: 0x0009DB7F
+		// Token: 0x0600126C RID: 4716 RVA: 0x0009F78B File Offset: 0x0009DB8B
 		public override void CompTickRare()
 		{
 			base.CompTickRare();
 			this.RecalculateAllowed();
 		}
 
-		// Token: 0x0600126D RID: 4717 RVA: 0x0009F790 File Offset: 0x0009DB90
+		// Token: 0x0600126D RID: 4717 RVA: 0x0009F79C File Offset: 0x0009DB9C
 		public void RecalculateAllowed()
 		{
 			float num = GenLocalDate.DayPercent(this.parent);
@@ -63,7 +63,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600126E RID: 4718 RVA: 0x0009F820 File Offset: 0x0009DC20
+		// Token: 0x0600126E RID: 4718 RVA: 0x0009F82C File Offset: 0x0009DC2C
 		public override string CompInspectStringExtra()
 		{
 			string result;

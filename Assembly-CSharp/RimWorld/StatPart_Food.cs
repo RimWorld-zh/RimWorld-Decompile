@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020009AB RID: 2475
 	public class StatPart_Food : StatPart
 	{
-		// Token: 0x06003770 RID: 14192 RVA: 0x001D9354 File Offset: 0x001D7754
+		// Token: 0x06003772 RID: 14194 RVA: 0x001D9428 File Offset: 0x001D7828
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (req.HasThing)
@@ -19,7 +19,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003771 RID: 14193 RVA: 0x001D93B0 File Offset: 0x001D77B0
+		// Token: 0x06003773 RID: 14195 RVA: 0x001D9484 File Offset: 0x001D7884
 		public override string ExplanationPart(StatRequest req)
 		{
 			if (req.HasThing)
@@ -33,7 +33,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06003772 RID: 14194 RVA: 0x001D9438 File Offset: 0x001D7838
+		// Token: 0x06003774 RID: 14196 RVA: 0x001D950C File Offset: 0x001D790C
 		private float FoodMultiplier(HungerCategory hunger)
 		{
 			float result;

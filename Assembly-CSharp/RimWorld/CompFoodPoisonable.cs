@@ -8,8 +8,8 @@ namespace RimWorld
 	public class CompFoodPoisonable : ThingComp
 	{
 		// Token: 0x170005FC RID: 1532
-		// (get) Token: 0x060027BA RID: 10170 RVA: 0x00154190 File Offset: 0x00152590
-		// (set) Token: 0x060027BB RID: 10171 RVA: 0x001541AB File Offset: 0x001525AB
+		// (get) Token: 0x060027BC RID: 10172 RVA: 0x00154208 File Offset: 0x00152608
+		// (set) Token: 0x060027BD RID: 10173 RVA: 0x00154223 File Offset: 0x00152623
 		public float PoisonPercent
 		{
 			get
@@ -22,14 +22,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027BC RID: 10172 RVA: 0x001541BA File Offset: 0x001525BA
+		// Token: 0x060027BE RID: 10174 RVA: 0x00154232 File Offset: 0x00152632
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
 			Scribe_Values.Look<float>(ref this.poisonPct, "poisonPct", 0f, false);
 		}
 
-		// Token: 0x060027BD RID: 10173 RVA: 0x001541DC File Offset: 0x001525DC
+		// Token: 0x060027BF RID: 10175 RVA: 0x00154254 File Offset: 0x00152654
 		public override void PostSplitOff(Thing piece)
 		{
 			base.PostSplitOff(piece);
@@ -37,7 +37,7 @@ namespace RimWorld
 			compFoodPoisonable.poisonPct = this.poisonPct;
 		}
 
-		// Token: 0x060027BE RID: 10174 RVA: 0x00154204 File Offset: 0x00152604
+		// Token: 0x060027C0 RID: 10176 RVA: 0x0015427C File Offset: 0x0015267C
 		public override void PreAbsorbStack(Thing otherStack, int count)
 		{
 			base.PreAbsorbStack(otherStack, count);
@@ -45,7 +45,7 @@ namespace RimWorld
 			this.poisonPct = GenMath.WeightedAverage(this.poisonPct, (float)this.parent.stackCount, compFoodPoisonable.poisonPct, (float)count);
 		}
 
-		// Token: 0x060027BF RID: 10175 RVA: 0x00154246 File Offset: 0x00152646
+		// Token: 0x060027C1 RID: 10177 RVA: 0x001542BE File Offset: 0x001526BE
 		public override void PostIngested(Pawn ingester)
 		{
 			if (Rand.Value < this.poisonPct)

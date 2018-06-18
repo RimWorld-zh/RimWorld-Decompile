@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C16 RID: 3094
+	// Token: 0x02000C15 RID: 3093
 	public class GlowFlooder
 	{
-		// Token: 0x06004396 RID: 17302 RVA: 0x0023A768 File Offset: 0x00238B68
+		// Token: 0x06004394 RID: 17300 RVA: 0x0023A740 File Offset: 0x00238B40
 		public GlowFlooder(Map map)
 		{
 			this.map = map;
@@ -17,7 +17,7 @@ namespace Verse
 			this.openSet = new FastPriorityQueue<int>(new GlowFlooder.CompareGlowFlooderLightSquares(this.calcGrid));
 		}
 
-		// Token: 0x06004397 RID: 17303 RVA: 0x0023A7FC File Offset: 0x00238BFC
+		// Token: 0x06004395 RID: 17301 RVA: 0x0023A7D4 File Offset: 0x00238BD4
 		public void AddFloodGlowFor(CompGlower theGlower, Color32[] glowGrid)
 		{
 			this.cellIndices = this.map.cellIndices;
@@ -123,7 +123,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004398 RID: 17304 RVA: 0x0023ABD0 File Offset: 0x00238FD0
+		// Token: 0x06004396 RID: 17302 RVA: 0x0023ABA8 File Offset: 0x00238FA8
 		private void InitStatusesAndPushStartNode(ref int curIndex, IntVec3 start)
 		{
 			this.statusUnseenValue += 3u;
@@ -136,7 +136,7 @@ namespace Verse
 			this.openSet.Push(curIndex);
 		}
 
-		// Token: 0x06004399 RID: 17305 RVA: 0x0023AC50 File Offset: 0x00239050
+		// Token: 0x06004397 RID: 17303 RVA: 0x0023AC28 File Offset: 0x00239028
 		private void SetGlowGridFromDist(int index)
 		{
 			float num = (float)this.calcGrid[index].intDist / 100f;
@@ -162,46 +162,46 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002E22 RID: 11810
+		// Token: 0x04002E20 RID: 11808
 		private Map map;
 
-		// Token: 0x04002E23 RID: 11811
+		// Token: 0x04002E21 RID: 11809
 		private GlowFlooder.GlowFloodCell[] calcGrid;
 
-		// Token: 0x04002E24 RID: 11812
+		// Token: 0x04002E22 RID: 11810
 		private FastPriorityQueue<int> openSet;
 
-		// Token: 0x04002E25 RID: 11813
+		// Token: 0x04002E23 RID: 11811
 		private uint statusUnseenValue = 0u;
 
-		// Token: 0x04002E26 RID: 11814
+		// Token: 0x04002E24 RID: 11812
 		private uint statusOpenValue = 1u;
 
-		// Token: 0x04002E27 RID: 11815
+		// Token: 0x04002E25 RID: 11813
 		private uint statusFinalizedValue = 2u;
 
-		// Token: 0x04002E28 RID: 11816
+		// Token: 0x04002E26 RID: 11814
 		private int mapSizeX;
 
-		// Token: 0x04002E29 RID: 11817
+		// Token: 0x04002E27 RID: 11815
 		private int mapSizeZ;
 
-		// Token: 0x04002E2A RID: 11818
+		// Token: 0x04002E28 RID: 11816
 		private CompGlower glower;
 
-		// Token: 0x04002E2B RID: 11819
+		// Token: 0x04002E29 RID: 11817
 		private CellIndices cellIndices;
 
-		// Token: 0x04002E2C RID: 11820
+		// Token: 0x04002E2A RID: 11818
 		private Color32[] glowGrid;
 
-		// Token: 0x04002E2D RID: 11821
+		// Token: 0x04002E2B RID: 11819
 		private float attenLinearSlope;
 
-		// Token: 0x04002E2E RID: 11822
+		// Token: 0x04002E2C RID: 11820
 		private Thing[] blockers = new Thing[8];
 
-		// Token: 0x04002E2F RID: 11823
+		// Token: 0x04002E2D RID: 11821
 		private static readonly sbyte[,] Directions = new sbyte[,]
 		{
 			{
@@ -238,32 +238,32 @@ namespace Verse
 			}
 		};
 
-		// Token: 0x02000C17 RID: 3095
+		// Token: 0x02000C16 RID: 3094
 		private struct GlowFloodCell
 		{
-			// Token: 0x04002E30 RID: 11824
+			// Token: 0x04002E2E RID: 11822
 			public int intDist;
 
-			// Token: 0x04002E31 RID: 11825
+			// Token: 0x04002E2F RID: 11823
 			public uint status;
 		}
 
-		// Token: 0x02000C18 RID: 3096
+		// Token: 0x02000C17 RID: 3095
 		private class CompareGlowFlooderLightSquares : IComparer<int>
 		{
-			// Token: 0x0600439B RID: 17307 RVA: 0x0023AD7D File Offset: 0x0023917D
+			// Token: 0x06004399 RID: 17305 RVA: 0x0023AD55 File Offset: 0x00239155
 			public CompareGlowFlooderLightSquares(GlowFlooder.GlowFloodCell[] grid)
 			{
 				this.grid = grid;
 			}
 
-			// Token: 0x0600439C RID: 17308 RVA: 0x0023AD90 File Offset: 0x00239190
+			// Token: 0x0600439A RID: 17306 RVA: 0x0023AD68 File Offset: 0x00239168
 			public int Compare(int a, int b)
 			{
 				return this.grid[a].intDist.CompareTo(this.grid[b].intDist);
 			}
 
-			// Token: 0x04002E32 RID: 11826
+			// Token: 0x04002E30 RID: 11824
 			private GlowFlooder.GlowFloodCell[] grid;
 		}
 	}

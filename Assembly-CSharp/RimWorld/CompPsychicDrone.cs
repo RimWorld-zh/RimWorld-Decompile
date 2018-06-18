@@ -8,7 +8,7 @@ namespace RimWorld
 	public class CompPsychicDrone : ThingComp
 	{
 		// Token: 0x17000632 RID: 1586
-		// (get) Token: 0x06002861 RID: 10337 RVA: 0x001588C0 File Offset: 0x00156CC0
+		// (get) Token: 0x06002863 RID: 10339 RVA: 0x00158938 File Offset: 0x00156D38
 		public CompProperties_PsychicDrone Props
 		{
 			get
@@ -18,7 +18,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000633 RID: 1587
-		// (get) Token: 0x06002862 RID: 10338 RVA: 0x001588E0 File Offset: 0x00156CE0
+		// (get) Token: 0x06002864 RID: 10340 RVA: 0x00158958 File Offset: 0x00156D58
 		public PsychicDroneLevel DroneLevel
 		{
 			get
@@ -27,7 +27,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002863 RID: 10339 RVA: 0x001588FB File Offset: 0x00156CFB
+		// Token: 0x06002865 RID: 10341 RVA: 0x00158973 File Offset: 0x00156D73
 		public override void PostSpawnSetup(bool respawningAfterLoad)
 		{
 			base.PostSpawnSetup(respawningAfterLoad);
@@ -38,7 +38,7 @@ namespace RimWorld
 			SoundDefOf.PsychicPulseGlobal.PlayOneShotOnCamera(this.parent.Map);
 		}
 
-		// Token: 0x06002864 RID: 10340 RVA: 0x00158931 File Offset: 0x00156D31
+		// Token: 0x06002866 RID: 10342 RVA: 0x001589A9 File Offset: 0x00156DA9
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -46,7 +46,7 @@ namespace RimWorld
 			Scribe_Values.Look<PsychicDroneLevel>(ref this.droneLevel, "droneLevel", PsychicDroneLevel.None, false);
 		}
 
-		// Token: 0x06002865 RID: 10341 RVA: 0x00158960 File Offset: 0x00156D60
+		// Token: 0x06002867 RID: 10343 RVA: 0x001589D8 File Offset: 0x00156DD8
 		public override void CompTick()
 		{
 			if (this.parent.Spawned)
@@ -60,7 +60,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002866 RID: 10342 RVA: 0x001589B8 File Offset: 0x00156DB8
+		// Token: 0x06002868 RID: 10344 RVA: 0x00158A30 File Offset: 0x00156E30
 		private void IncreaseDroneLevel()
 		{
 			if (this.droneLevel != PsychicDroneLevel.BadExtreme)
@@ -72,7 +72,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002867 RID: 10343 RVA: 0x00158A24 File Offset: 0x00156E24
+		// Token: 0x06002869 RID: 10345 RVA: 0x00158A9C File Offset: 0x00156E9C
 		public override string CompInspectStringExtra()
 		{
 			string text = "Error";

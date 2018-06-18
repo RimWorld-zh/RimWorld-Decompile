@@ -10,7 +10,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public static class PortraitsCache
 	{
-		// Token: 0x06002BBD RID: 11197 RVA: 0x001727DC File Offset: 0x00170BDC
+		// Token: 0x06002BBF RID: 11199 RVA: 0x00172870 File Offset: 0x00170C70
 		public static RenderTexture Get(Pawn pawn, Vector2 size, Vector3 cameraOffset = default(Vector3), float cameraZoom = 1f)
 		{
 			Dictionary<Pawn, PortraitsCache.CachedPortrait> dictionary = PortraitsCache.GetOrCreateCachedPortraitsWithParams(size, cameraOffset, cameraZoom).CachedPortraits;
@@ -41,7 +41,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002BBE RID: 11198 RVA: 0x001728B8 File Offset: 0x00170CB8
+		// Token: 0x06002BC0 RID: 11200 RVA: 0x0017294C File Offset: 0x00170D4C
 		public static void SetDirty(Pawn pawn)
 		{
 			for (int i = 0; i < PortraitsCache.cachedPortraits.Count; i++)
@@ -56,14 +56,14 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002BBF RID: 11199 RVA: 0x00172936 File Offset: 0x00170D36
+		// Token: 0x06002BC1 RID: 11201 RVA: 0x001729CA File Offset: 0x00170DCA
 		public static void PortraitsCacheUpdate()
 		{
 			PortraitsCache.RemoveExpiredCachedPortraits();
 			PortraitsCache.SetAnimatedPortraitsDirty();
 		}
 
-		// Token: 0x06002BC0 RID: 11200 RVA: 0x00172944 File Offset: 0x00170D44
+		// Token: 0x06002BC2 RID: 11202 RVA: 0x001729D8 File Offset: 0x00170DD8
 		public static void Clear()
 		{
 			for (int i = 0; i < PortraitsCache.cachedPortraits.Count; i++)
@@ -81,7 +81,7 @@ namespace RimWorld
 			PortraitsCache.renderTexturesPool.Clear();
 		}
 
-		// Token: 0x06002BC1 RID: 11201 RVA: 0x00172A24 File Offset: 0x00170E24
+		// Token: 0x06002BC3 RID: 11203 RVA: 0x00172AB8 File Offset: 0x00170EB8
 		private static PortraitsCache.CachedPortraitsWithParams GetOrCreateCachedPortraitsWithParams(Vector2 size, Vector3 cameraOffset, float cameraZoom)
 		{
 			for (int i = 0; i < PortraitsCache.cachedPortraits.Count; i++)
@@ -96,14 +96,14 @@ namespace RimWorld
 			return cachedPortraitsWithParams;
 		}
 
-		// Token: 0x06002BC2 RID: 11202 RVA: 0x00172AD8 File Offset: 0x00170ED8
+		// Token: 0x06002BC4 RID: 11204 RVA: 0x00172B6C File Offset: 0x00170F6C
 		private static void DestroyRenderTexture(RenderTexture rt)
 		{
 			rt.DiscardContents();
 			UnityEngine.Object.Destroy(rt);
 		}
 
-		// Token: 0x06002BC3 RID: 11203 RVA: 0x00172AE8 File Offset: 0x00170EE8
+		// Token: 0x06002BC5 RID: 11205 RVA: 0x00172B7C File Offset: 0x00170F7C
 		private static void RemoveExpiredCachedPortraits()
 		{
 			for (int i = 0; i < PortraitsCache.cachedPortraits.Count; i++)
@@ -126,7 +126,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002BC4 RID: 11204 RVA: 0x00172BF8 File Offset: 0x00170FF8
+		// Token: 0x06002BC6 RID: 11206 RVA: 0x00172C8C File Offset: 0x0017108C
 		private static void SetAnimatedPortraitsDirty()
 		{
 			for (int i = 0; i < PortraitsCache.cachedPortraits.Count; i++)
@@ -150,7 +150,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002BC5 RID: 11205 RVA: 0x00172D38 File Offset: 0x00171138
+		// Token: 0x06002BC7 RID: 11207 RVA: 0x00172DCC File Offset: 0x001711CC
 		private static RenderTexture NewRenderTexture(Vector2 size)
 		{
 			int num = PortraitsCache.renderTexturesPool.FindLastIndex((RenderTexture x) => x.width == (int)size.x && x.height == (int)size.y);
@@ -169,13 +169,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002BC6 RID: 11206 RVA: 0x00172DBA File Offset: 0x001711BA
+		// Token: 0x06002BC8 RID: 11208 RVA: 0x00172E4E File Offset: 0x0017124E
 		private static void RenderPortrait(Pawn pawn, RenderTexture renderTexture, Vector3 cameraOffset, float cameraZoom)
 		{
 			Find.PortraitRenderer.RenderPortrait(pawn, renderTexture, cameraOffset, cameraZoom);
 		}
 
-		// Token: 0x06002BC7 RID: 11207 RVA: 0x00172DCC File Offset: 0x001711CC
+		// Token: 0x06002BC9 RID: 11209 RVA: 0x00172E60 File Offset: 0x00171260
 		private static bool IsAnimated(Pawn pawn)
 		{
 			return Current.ProgramState == ProgramState.Playing && pawn.Drawer.renderer.graphics.flasher.FlashingNowOrRecently;
@@ -197,7 +197,7 @@ namespace RimWorld
 		[StructLayout(LayoutKind.Sequential, Size = 1)]
 		private struct CachedPortrait
 		{
-			// Token: 0x06002BC9 RID: 11209 RVA: 0x00172E3E File Offset: 0x0017123E
+			// Token: 0x06002BCB RID: 11211 RVA: 0x00172ED2 File Offset: 0x001712D2
 			public CachedPortrait(RenderTexture renderTexture, bool dirty, float lastUseTime)
 			{
 				this = default(PortraitsCache.CachedPortrait);
@@ -207,22 +207,22 @@ namespace RimWorld
 			}
 
 			// Token: 0x170006D0 RID: 1744
-			// (get) Token: 0x06002BCA RID: 11210 RVA: 0x00172E60 File Offset: 0x00171260
-			// (set) Token: 0x06002BCB RID: 11211 RVA: 0x00172E7A File Offset: 0x0017127A
+			// (get) Token: 0x06002BCC RID: 11212 RVA: 0x00172EF4 File Offset: 0x001712F4
+			// (set) Token: 0x06002BCD RID: 11213 RVA: 0x00172F0E File Offset: 0x0017130E
 			public RenderTexture RenderTexture { get; private set; }
 
 			// Token: 0x170006D1 RID: 1745
-			// (get) Token: 0x06002BCC RID: 11212 RVA: 0x00172E84 File Offset: 0x00171284
-			// (set) Token: 0x06002BCD RID: 11213 RVA: 0x00172E9E File Offset: 0x0017129E
+			// (get) Token: 0x06002BCE RID: 11214 RVA: 0x00172F18 File Offset: 0x00171318
+			// (set) Token: 0x06002BCF RID: 11215 RVA: 0x00172F32 File Offset: 0x00171332
 			public bool Dirty { get; private set; }
 
 			// Token: 0x170006D2 RID: 1746
-			// (get) Token: 0x06002BCE RID: 11214 RVA: 0x00172EA8 File Offset: 0x001712A8
-			// (set) Token: 0x06002BCF RID: 11215 RVA: 0x00172EC2 File Offset: 0x001712C2
+			// (get) Token: 0x06002BD0 RID: 11216 RVA: 0x00172F3C File Offset: 0x0017133C
+			// (set) Token: 0x06002BD1 RID: 11217 RVA: 0x00172F56 File Offset: 0x00171356
 			public float LastUseTime { get; private set; }
 
 			// Token: 0x170006D3 RID: 1747
-			// (get) Token: 0x06002BD0 RID: 11216 RVA: 0x00172ECC File Offset: 0x001712CC
+			// (get) Token: 0x06002BD2 RID: 11218 RVA: 0x00172F60 File Offset: 0x00171360
 			public bool Expired
 			{
 				get
@@ -239,7 +239,7 @@ namespace RimWorld
 		[StructLayout(LayoutKind.Sequential, Size = 1)]
 		private struct CachedPortraitsWithParams
 		{
-			// Token: 0x06002BD1 RID: 11217 RVA: 0x00172EF4 File Offset: 0x001712F4
+			// Token: 0x06002BD3 RID: 11219 RVA: 0x00172F88 File Offset: 0x00171388
 			public CachedPortraitsWithParams(Vector2 size, Vector3 cameraOffset, float cameraZoom)
 			{
 				this = default(PortraitsCache.CachedPortraitsWithParams);
@@ -250,23 +250,23 @@ namespace RimWorld
 			}
 
 			// Token: 0x170006D4 RID: 1748
-			// (get) Token: 0x06002BD2 RID: 11218 RVA: 0x00172F20 File Offset: 0x00171320
-			// (set) Token: 0x06002BD3 RID: 11219 RVA: 0x00172F3A File Offset: 0x0017133A
+			// (get) Token: 0x06002BD4 RID: 11220 RVA: 0x00172FB4 File Offset: 0x001713B4
+			// (set) Token: 0x06002BD5 RID: 11221 RVA: 0x00172FCE File Offset: 0x001713CE
 			public Dictionary<Pawn, PortraitsCache.CachedPortrait> CachedPortraits { get; private set; }
 
 			// Token: 0x170006D5 RID: 1749
-			// (get) Token: 0x06002BD4 RID: 11220 RVA: 0x00172F44 File Offset: 0x00171344
-			// (set) Token: 0x06002BD5 RID: 11221 RVA: 0x00172F5E File Offset: 0x0017135E
+			// (get) Token: 0x06002BD6 RID: 11222 RVA: 0x00172FD8 File Offset: 0x001713D8
+			// (set) Token: 0x06002BD7 RID: 11223 RVA: 0x00172FF2 File Offset: 0x001713F2
 			public Vector2 Size { get; private set; }
 
 			// Token: 0x170006D6 RID: 1750
-			// (get) Token: 0x06002BD6 RID: 11222 RVA: 0x00172F68 File Offset: 0x00171368
-			// (set) Token: 0x06002BD7 RID: 11223 RVA: 0x00172F82 File Offset: 0x00171382
+			// (get) Token: 0x06002BD8 RID: 11224 RVA: 0x00172FFC File Offset: 0x001713FC
+			// (set) Token: 0x06002BD9 RID: 11225 RVA: 0x00173016 File Offset: 0x00171416
 			public Vector3 CameraOffset { get; private set; }
 
 			// Token: 0x170006D7 RID: 1751
-			// (get) Token: 0x06002BD8 RID: 11224 RVA: 0x00172F8C File Offset: 0x0017138C
-			// (set) Token: 0x06002BD9 RID: 11225 RVA: 0x00172FA6 File Offset: 0x001713A6
+			// (get) Token: 0x06002BDA RID: 11226 RVA: 0x00173020 File Offset: 0x00171420
+			// (set) Token: 0x06002BDB RID: 11227 RVA: 0x0017303A File Offset: 0x0017143A
 			public float CameraZoom { get; private set; }
 		}
 	}

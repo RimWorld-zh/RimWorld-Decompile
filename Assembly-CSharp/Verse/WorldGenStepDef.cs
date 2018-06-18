@@ -5,7 +5,7 @@ namespace Verse
 	// Token: 0x02000BBA RID: 3002
 	public class WorldGenStepDef : Def
 	{
-		// Token: 0x060040FD RID: 16637 RVA: 0x00224E8A File Offset: 0x0022328A
+		// Token: 0x060040FF RID: 16639 RVA: 0x00224F5E File Offset: 0x0022335E
 		public override void PostLoad()
 		{
 			base.PostLoad();

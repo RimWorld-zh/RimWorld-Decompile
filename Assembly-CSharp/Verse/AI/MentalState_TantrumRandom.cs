@@ -8,30 +8,30 @@ namespace Verse.AI
 	// Token: 0x02000A88 RID: 2696
 	public abstract class MentalState_TantrumRandom : MentalState_Tantrum
 	{
-		// Token: 0x06003BC4 RID: 15300
+		// Token: 0x06003BC6 RID: 15302
 		protected abstract void GetPotentialTargets(List<Thing> outThings);
 
-		// Token: 0x06003BC5 RID: 15301 RVA: 0x001F7FD8 File Offset: 0x001F63D8
+		// Token: 0x06003BC7 RID: 15303 RVA: 0x001F80AC File Offset: 0x001F64AC
 		protected virtual Predicate<Thing> GetCustomValidator()
 		{
 			return null;
 		}
 
-		// Token: 0x06003BC6 RID: 15302 RVA: 0x001F7FEE File Offset: 0x001F63EE
+		// Token: 0x06003BC8 RID: 15304 RVA: 0x001F80C2 File Offset: 0x001F64C2
 		public override void ExposeData()
 		{
 			base.ExposeData();
 			Scribe_Values.Look<int>(ref this.targetFoundTicks, "targetFoundTicks", 0, false);
 		}
 
-		// Token: 0x06003BC7 RID: 15303 RVA: 0x001F8009 File Offset: 0x001F6409
+		// Token: 0x06003BC9 RID: 15305 RVA: 0x001F80DD File Offset: 0x001F64DD
 		public override void PostStart(string reason)
 		{
 			base.PostStart(reason);
 			this.ChooseNextTarget();
 		}
 
-		// Token: 0x06003BC8 RID: 15304 RVA: 0x001F801C File Offset: 0x001F641C
+		// Token: 0x06003BCA RID: 15306 RVA: 0x001F80F0 File Offset: 0x001F64F0
 		public override void MentalStateTick()
 		{
 			if (this.target != null && (!this.target.Spawned || !this.pawn.CanReach(this.target, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn) || (this.target is Pawn && ((Pawn)this.target).Downed)))
@@ -45,7 +45,7 @@ namespace Verse.AI
 			base.MentalStateTick();
 		}
 
-		// Token: 0x06003BC9 RID: 15305 RVA: 0x001F80CC File Offset: 0x001F64CC
+		// Token: 0x06003BCB RID: 15307 RVA: 0x001F81A0 File Offset: 0x001F65A0
 		private void ChooseNextTarget()
 		{
 			MentalState_TantrumRandom.candidates.Clear();
@@ -79,7 +79,7 @@ namespace Verse.AI
 			MentalState_TantrumRandom.candidates.Clear();
 		}
 
-		// Token: 0x06003BCA RID: 15306 RVA: 0x001F81D8 File Offset: 0x001F65D8
+		// Token: 0x06003BCC RID: 15308 RVA: 0x001F82AC File Offset: 0x001F66AC
 		private float GetCandidateWeight(Thing candidate)
 		{
 			float num = this.pawn.Position.DistanceTo(candidate.Position);

@@ -13,7 +13,7 @@ namespace Verse
 	public static class LongEventHandler
 	{
 		// Token: 0x17000A5B RID: 2651
-		// (get) Token: 0x06004217 RID: 16919 RVA: 0x0022CAA8 File Offset: 0x0022AEA8
+		// (get) Token: 0x06004219 RID: 16921 RVA: 0x0022CB20 File Offset: 0x0022AF20
 		public static bool ShouldWaitForEvent
 		{
 			get
@@ -23,7 +23,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A5C RID: 2652
-		// (get) Token: 0x06004218 RID: 16920 RVA: 0x0022CB0C File Offset: 0x0022AF0C
+		// (get) Token: 0x0600421A RID: 16922 RVA: 0x0022CB84 File Offset: 0x0022AF84
 		public static bool CanApplyUIScaleNow
 		{
 			get
@@ -34,7 +34,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A5D RID: 2653
-		// (get) Token: 0x06004219 RID: 16921 RVA: 0x0022CB3C File Offset: 0x0022AF3C
+		// (get) Token: 0x0600421B RID: 16923 RVA: 0x0022CBB4 File Offset: 0x0022AFB4
 		public static bool AnyEventNowOrWaiting
 		{
 			get
@@ -44,7 +44,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A5E RID: 2654
-		// (get) Token: 0x0600421A RID: 16922 RVA: 0x0022CB6C File Offset: 0x0022AF6C
+		// (get) Token: 0x0600421C RID: 16924 RVA: 0x0022CBE4 File Offset: 0x0022AFE4
 		private static bool AnyEventWhichDoesntUseStandardWindowNowOrWaiting
 		{
 			get
@@ -64,7 +64,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000A5F RID: 2655
-		// (get) Token: 0x0600421B RID: 16923 RVA: 0x0022CBC8 File Offset: 0x0022AFC8
+		// (get) Token: 0x0600421D RID: 16925 RVA: 0x0022CC40 File Offset: 0x0022B040
 		public static bool ForcePause
 		{
 			get
@@ -73,7 +73,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600421C RID: 16924 RVA: 0x0022CBE4 File Offset: 0x0022AFE4
+		// Token: 0x0600421E RID: 16926 RVA: 0x0022CC5C File Offset: 0x0022B05C
 		public static void QueueLongEvent(Action action, string textKey, bool doAsynchronously, Action<Exception> exceptionHandler)
 		{
 			LongEventHandler.QueuedLongEvent queuedLongEvent = new LongEventHandler.QueuedLongEvent();
@@ -85,7 +85,7 @@ namespace Verse
 			LongEventHandler.eventQueue.Enqueue(queuedLongEvent);
 		}
 
-		// Token: 0x0600421D RID: 16925 RVA: 0x0022CC30 File Offset: 0x0022B030
+		// Token: 0x0600421F RID: 16927 RVA: 0x0022CCA8 File Offset: 0x0022B0A8
 		public static void QueueLongEvent(IEnumerable action, string textKey, Action<Exception> exceptionHandler = null)
 		{
 			LongEventHandler.QueuedLongEvent queuedLongEvent = new LongEventHandler.QueuedLongEvent();
@@ -97,7 +97,7 @@ namespace Verse
 			LongEventHandler.eventQueue.Enqueue(queuedLongEvent);
 		}
 
-		// Token: 0x0600421E RID: 16926 RVA: 0x0022CC80 File Offset: 0x0022B080
+		// Token: 0x06004220 RID: 16928 RVA: 0x0022CCF8 File Offset: 0x0022B0F8
 		public static void QueueLongEvent(Action preLoadLevelAction, string levelToLoad, string textKey, bool doAsynchronously, Action<Exception> exceptionHandler)
 		{
 			LongEventHandler.QueuedLongEvent queuedLongEvent = new LongEventHandler.QueuedLongEvent();
@@ -110,13 +110,13 @@ namespace Verse
 			LongEventHandler.eventQueue.Enqueue(queuedLongEvent);
 		}
 
-		// Token: 0x0600421F RID: 16927 RVA: 0x0022CCD1 File Offset: 0x0022B0D1
+		// Token: 0x06004221 RID: 16929 RVA: 0x0022CD49 File Offset: 0x0022B149
 		public static void ClearQueuedEvents()
 		{
 			LongEventHandler.eventQueue.Clear();
 		}
 
-		// Token: 0x06004220 RID: 16928 RVA: 0x0022CCE0 File Offset: 0x0022B0E0
+		// Token: 0x06004222 RID: 16930 RVA: 0x0022CD58 File Offset: 0x0022B158
 		public static void LongEventsOnGUI()
 		{
 			if (LongEventHandler.currentEvent != null)
@@ -151,7 +151,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004221 RID: 16929 RVA: 0x0022CE58 File Offset: 0x0022B258
+		// Token: 0x06004223 RID: 16931 RVA: 0x0022CED0 File Offset: 0x0022B2D0
 		public static void LongEventsUpdate(out bool sceneChanged)
 		{
 			sceneChanged = false;
@@ -187,7 +187,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004222 RID: 16930 RVA: 0x0022CF16 File Offset: 0x0022B316
+		// Token: 0x06004224 RID: 16932 RVA: 0x0022CF8E File Offset: 0x0022B38E
 		public static void ExecuteWhenFinished(Action action)
 		{
 			LongEventHandler.toExecuteWhenFinished.Add(action);
@@ -197,7 +197,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004223 RID: 16931 RVA: 0x0022CF4C File Offset: 0x0022B34C
+		// Token: 0x06004225 RID: 16933 RVA: 0x0022CFC4 File Offset: 0x0022B3C4
 		public static void SetCurrentEventText(string newText)
 		{
 			object currentEventTextLock = LongEventHandler.CurrentEventTextLock;
@@ -210,7 +210,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004224 RID: 16932 RVA: 0x0022CFA0 File Offset: 0x0022B3A0
+		// Token: 0x06004226 RID: 16934 RVA: 0x0022D018 File Offset: 0x0022B418
 		private static void UpdateCurrentEnumeratorEvent()
 		{
 			try
@@ -254,7 +254,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004225 RID: 16933 RVA: 0x0022D0B0 File Offset: 0x0022B4B0
+		// Token: 0x06004227 RID: 16935 RVA: 0x0022D128 File Offset: 0x0022B528
 		private static void UpdateCurrentAsynchronousEvent()
 		{
 			if (LongEventHandler.eventThread == null)
@@ -293,7 +293,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004226 RID: 16934 RVA: 0x0022D18C File Offset: 0x0022B58C
+		// Token: 0x06004228 RID: 16936 RVA: 0x0022D204 File Offset: 0x0022B604
 		private static void UpdateCurrentSynchronousEvent(out bool sceneChanged)
 		{
 			sceneChanged = false;
@@ -329,7 +329,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004227 RID: 16935 RVA: 0x0022D27C File Offset: 0x0022B67C
+		// Token: 0x06004229 RID: 16937 RVA: 0x0022D2F4 File Offset: 0x0022B6F4
 		private static void RunEventFromAnotherThread(Action action)
 		{
 			CultureInfoUtility.EnsureEnglish();
@@ -357,7 +357,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004228 RID: 16936 RVA: 0x0022D320 File Offset: 0x0022B720
+		// Token: 0x0600422A RID: 16938 RVA: 0x0022D398 File Offset: 0x0022B798
 		private static void ExecuteToExecuteWhenFinished()
 		{
 			if (LongEventHandler.executingToExecuteWhenFinished)
@@ -383,7 +383,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004229 RID: 16937 RVA: 0x0022D3BC File Offset: 0x0022B7BC
+		// Token: 0x0600422B RID: 16939 RVA: 0x0022D434 File Offset: 0x0022B834
 		private static void DrawLongEventWindowContents(Rect rect)
 		{
 			if (LongEventHandler.currentEvent != null)
@@ -450,7 +450,7 @@ namespace Verse
 		private class QueuedLongEvent
 		{
 			// Token: 0x17000A60 RID: 2656
-			// (get) Token: 0x0600422E RID: 16942 RVA: 0x0022D5F8 File Offset: 0x0022B9F8
+			// (get) Token: 0x06004230 RID: 16944 RVA: 0x0022D670 File Offset: 0x0022BA70
 			public bool UseAnimatedDots
 			{
 				get
@@ -460,7 +460,7 @@ namespace Verse
 			}
 
 			// Token: 0x17000A61 RID: 2657
-			// (get) Token: 0x0600422F RID: 16943 RVA: 0x0022D628 File Offset: 0x0022BA28
+			// (get) Token: 0x06004231 RID: 16945 RVA: 0x0022D6A0 File Offset: 0x0022BAA0
 			public bool ShouldWaitUntilDisplayed
 			{
 				get
@@ -470,7 +470,7 @@ namespace Verse
 			}
 
 			// Token: 0x17000A62 RID: 2658
-			// (get) Token: 0x06004230 RID: 16944 RVA: 0x0022D664 File Offset: 0x0022BA64
+			// (get) Token: 0x06004232 RID: 16946 RVA: 0x0022D6DC File Offset: 0x0022BADC
 			public bool UseStandardWindow
 			{
 				get

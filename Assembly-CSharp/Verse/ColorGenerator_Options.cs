@@ -8,7 +8,7 @@ namespace Verse
 	public class ColorGenerator_Options : ColorGenerator
 	{
 		// Token: 0x17000971 RID: 2417
-		// (get) Token: 0x06003E91 RID: 16017 RVA: 0x0020F1E0 File Offset: 0x0020D5E0
+		// (get) Token: 0x06003E93 RID: 16019 RVA: 0x0020F2B4 File Offset: 0x0020D6B4
 		public override Color ExemplaryColor
 		{
 			get
@@ -38,7 +38,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E92 RID: 16018 RVA: 0x0020F2F0 File Offset: 0x0020D6F0
+		// Token: 0x06003E94 RID: 16020 RVA: 0x0020F3C4 File Offset: 0x0020D7C4
 		public override Color NewRandomizedColor()
 		{
 			ColorOption colorOption = this.options.RandomElementByWeight((ColorOption pi) => pi.weight);

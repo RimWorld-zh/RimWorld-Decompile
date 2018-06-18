@@ -7,7 +7,7 @@ namespace RimWorld.Planet
 	public static class OverallTemperatureUtility
 	{
 		// Token: 0x170003E2 RID: 994
-		// (get) Token: 0x06001AD8 RID: 6872 RVA: 0x000E68F8 File Offset: 0x000E4CF8
+		// (get) Token: 0x06001AD9 RID: 6873 RVA: 0x000E6964 File Offset: 0x000E4D64
 		public static int EnumValuesCount
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001AD9 RID: 6873 RVA: 0x000E6934 File Offset: 0x000E4D34
+		// Token: 0x06001ADA RID: 6874 RVA: 0x000E69A0 File Offset: 0x000E4DA0
 		public static SimpleCurve GetTemperatureCurve(this OverallTemperature overallTemperature)
 		{
 			switch (overallTemperature)

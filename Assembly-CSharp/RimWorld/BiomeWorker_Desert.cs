@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x0200054C RID: 1356
 	public class BiomeWorker_Desert : BiomeWorker
 	{
-		// Token: 0x0600194E RID: 6478 RVA: 0x000DBADC File Offset: 0x000D9EDC
+		// Token: 0x0600194F RID: 6479 RVA: 0x000DBB30 File Offset: 0x000D9F30
 		public override float GetScore(Tile tile, int tileID)
 		{
 			float result;

@@ -9,7 +9,7 @@ namespace Verse
 	public class MentalBreakDef : Def
 	{
 		// Token: 0x1700099E RID: 2462
-		// (get) Token: 0x06003F66 RID: 16230 RVA: 0x00216370 File Offset: 0x00214770
+		// (get) Token: 0x06003F68 RID: 16232 RVA: 0x00216444 File Offset: 0x00214844
 		public MentalBreakWorker Worker
 		{
 			get
@@ -26,7 +26,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F67 RID: 16231 RVA: 0x002163C8 File Offset: 0x002147C8
+		// Token: 0x06003F69 RID: 16233 RVA: 0x0021649C File Offset: 0x0021489C
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())

@@ -5,7 +5,7 @@ namespace RimWorld.Planet
 	// Token: 0x02000580 RID: 1408
 	public class WorldCameraConfig_ContinuousPan : WorldCameraConfig
 	{
-		// Token: 0x06001ADF RID: 6879 RVA: 0x000E6DE4 File Offset: 0x000E51E4
+		// Token: 0x06001AE0 RID: 6880 RVA: 0x000E6E50 File Offset: 0x000E5250
 		public WorldCameraConfig_ContinuousPan()
 		{
 			this.dollyRateKeys = 34f;

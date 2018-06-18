@@ -5,7 +5,7 @@ namespace Verse.AI
 	// Token: 0x02000ABA RID: 2746
 	public class ThinkNode_FilterPriority : ThinkNode
 	{
-		// Token: 0x06003D2B RID: 15659 RVA: 0x00204A14 File Offset: 0x00202E14
+		// Token: 0x06003D2D RID: 15661 RVA: 0x00204AE8 File Offset: 0x00202EE8
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			ThinkNode_FilterPriority thinkNode_FilterPriority = (ThinkNode_FilterPriority)base.DeepCopy(resolve);
@@ -13,7 +13,7 @@ namespace Verse.AI
 			return thinkNode_FilterPriority;
 		}
 
-		// Token: 0x06003D2C RID: 15660 RVA: 0x00204A44 File Offset: 0x00202E44
+		// Token: 0x06003D2E RID: 15662 RVA: 0x00204B18 File Offset: 0x00202F18
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			int count = this.subNodes.Count;

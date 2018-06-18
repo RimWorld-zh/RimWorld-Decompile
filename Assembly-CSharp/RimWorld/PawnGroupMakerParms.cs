@@ -5,7 +5,7 @@ namespace RimWorld
 	// Token: 0x02000493 RID: 1171
 	public class PawnGroupMakerParms
 	{
-		// Token: 0x060014BD RID: 5309 RVA: 0x000B6130 File Offset: 0x000B4530
+		// Token: 0x060014BD RID: 5309 RVA: 0x000B614C File Offset: 0x000B454C
 		public override string ToString()
 		{
 			return string.Concat(new object[]

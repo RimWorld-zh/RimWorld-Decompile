@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000984 RID: 2436
 	public static class GenThing
 	{
-		// Token: 0x060036D6 RID: 14038 RVA: 0x001D4644 File Offset: 0x001D2A44
+		// Token: 0x060036D8 RID: 14040 RVA: 0x001D470C File Offset: 0x001D2B0C
 		public static Vector3 TrueCenter(this Thing t)
 		{
 			Pawn pawn = t as Pawn;
@@ -24,7 +24,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036D7 RID: 14039 RVA: 0x001D46A0 File Offset: 0x001D2AA0
+		// Token: 0x060036D9 RID: 14041 RVA: 0x001D4768 File Offset: 0x001D2B68
 		public static Vector3 TrueCenter(IntVec3 loc, Rot4 rotation, IntVec2 thingSize, float altitude)
 		{
 			Vector3 result = loc.ToVector3ShiftedWithAltitude(altitude);
@@ -83,7 +83,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036D8 RID: 14040 RVA: 0x001D4848 File Offset: 0x001D2C48
+		// Token: 0x060036DA RID: 14042 RVA: 0x001D4910 File Offset: 0x001D2D10
 		public static bool TryDropAndSetForbidden(Thing th, IntVec3 pos, Map map, ThingPlaceMode mode, out Thing resultingThing, bool forbidden)
 		{
 			bool result;
@@ -103,7 +103,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036D9 RID: 14041 RVA: 0x001D4890 File Offset: 0x001D2C90
+		// Token: 0x060036DB RID: 14043 RVA: 0x001D4958 File Offset: 0x001D2D58
 		public static string ThingsToCommaList(IList<Thing> things, bool useAnd = false, bool aggregate = true)
 		{
 			GenThing.tmpThings.Clear();
@@ -148,7 +148,7 @@ namespace RimWorld
 			return GenThing.tmpThingLabels.ToCommaList(useAnd);
 		}
 
-		// Token: 0x060036DA RID: 14042 RVA: 0x001D4AAC File Offset: 0x001D2EAC
+		// Token: 0x060036DC RID: 14044 RVA: 0x001D4B74 File Offset: 0x001D2F74
 		public static float GetMarketValue(IList<Thing> things)
 		{
 			float num = 0f;

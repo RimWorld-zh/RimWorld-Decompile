@@ -11,7 +11,7 @@ namespace RimWorld
 	// Token: 0x020006A6 RID: 1702
 	public class Building_CryptosleepCasket : Building_Casket
 	{
-		// Token: 0x06002430 RID: 9264 RVA: 0x00133054 File Offset: 0x00131454
+		// Token: 0x06002432 RID: 9266 RVA: 0x001330CC File Offset: 0x001314CC
 		public override bool TryAcceptThing(Thing thing, bool allowSpecialEffects = true)
 		{
 			bool result;
@@ -30,7 +30,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002431 RID: 9265 RVA: 0x001330A8 File Offset: 0x001314A8
+		// Token: 0x06002433 RID: 9267 RVA: 0x00133120 File Offset: 0x00131520
 		public override IEnumerable<FloatMenuOption> GetFloatMenuOptions(Pawn myPawn)
 		{
 			foreach (FloatMenuOption o in this.<GetFloatMenuOptions>__BaseCallProxy0(myPawn))
@@ -59,7 +59,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002432 RID: 9266 RVA: 0x001330DC File Offset: 0x001314DC
+		// Token: 0x06002434 RID: 9268 RVA: 0x00133154 File Offset: 0x00131554
 		public override IEnumerable<Gizmo> GetGizmos()
 		{
 			foreach (Gizmo c in this.<GetGizmos>__BaseCallProxy1())
@@ -83,7 +83,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002433 RID: 9267 RVA: 0x00133108 File Offset: 0x00131508
+		// Token: 0x06002435 RID: 9269 RVA: 0x00133180 File Offset: 0x00131580
 		public override void EjectContents()
 		{
 			ThingDef filth_Slime = ThingDefOf.Filth_Slime;
@@ -107,7 +107,7 @@ namespace RimWorld
 			base.EjectContents();
 		}
 
-		// Token: 0x06002434 RID: 9268 RVA: 0x001331E8 File Offset: 0x001315E8
+		// Token: 0x06002436 RID: 9270 RVA: 0x00133260 File Offset: 0x00131660
 		public static Building_CryptosleepCasket FindCryptosleepCasketFor(Pawn p, Pawn traveler, bool ignoreOtherReservations = false)
 		{
 			IEnumerable<ThingDef> enumerable = from def in DefDatabase<ThingDef>.AllDefs

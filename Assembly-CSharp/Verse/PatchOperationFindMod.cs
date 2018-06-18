@@ -4,10 +4,10 @@ using System.Xml;
 
 namespace Verse
 {
-	// Token: 0x02000CE1 RID: 3297
+	// Token: 0x02000CE0 RID: 3296
 	public class PatchOperationFindMod : PatchOperation
 	{
-		// Token: 0x0600488D RID: 18573 RVA: 0x00260B74 File Offset: 0x0025EF74
+		// Token: 0x0600488B RID: 18571 RVA: 0x00260B4C File Offset: 0x0025EF4C
 		protected override bool ApplyWorker(XmlDocument xml)
 		{
 			bool flag = false;
@@ -33,19 +33,19 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x0600488E RID: 18574 RVA: 0x00260C14 File Offset: 0x0025F014
+		// Token: 0x0600488C RID: 18572 RVA: 0x00260BEC File Offset: 0x0025EFEC
 		public override string ToString()
 		{
 			return string.Format("{0}({1})", base.ToString(), this.mods.ToCommaList(false));
 		}
 
-		// Token: 0x04003111 RID: 12561
+		// Token: 0x0400310F RID: 12559
 		private List<string> mods;
 
-		// Token: 0x04003112 RID: 12562
+		// Token: 0x04003110 RID: 12560
 		private PatchOperation match;
 
-		// Token: 0x04003113 RID: 12563
+		// Token: 0x04003111 RID: 12561
 		private PatchOperation nomatch;
 	}
 }

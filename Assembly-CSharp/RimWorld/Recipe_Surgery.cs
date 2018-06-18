@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200046F RID: 1135
 	public class Recipe_Surgery : RecipeWorker
 	{
-		// Token: 0x060013E8 RID: 5096 RVA: 0x000ABE18 File Offset: 0x000AA218
+		// Token: 0x060013E8 RID: 5096 RVA: 0x000ABE24 File Offset: 0x000AA224
 		protected bool CheckSurgeryFail(Pawn surgeon, Pawn patient, List<Thing> ingredients, BodyPartRecord part, Bill bill)
 		{
 			float num = 1f;
@@ -89,7 +89,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060013E9 RID: 5097 RVA: 0x000AC071 File Offset: 0x000AA471
+		// Token: 0x060013E9 RID: 5097 RVA: 0x000AC07D File Offset: 0x000AA47D
 		private void TryGainBotchedSurgeryThought(Pawn patient, Pawn surgeon)
 		{
 			if (patient.RaceProps.Humanlike)
@@ -98,7 +98,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060013EA RID: 5098 RVA: 0x000AC0AC File Offset: 0x000AA4AC
+		// Token: 0x060013EA RID: 5098 RVA: 0x000AC0B8 File Offset: 0x000AA4B8
 		private float GetAverageMedicalPotency(List<Thing> ingredients, Bill bill)
 		{
 			Bill_Medical bill_Medical = bill as Bill_Medical;

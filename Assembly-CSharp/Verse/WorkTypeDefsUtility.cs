@@ -8,7 +8,7 @@ namespace Verse
 	public static class WorkTypeDefsUtility
 	{
 		// Token: 0x17000A24 RID: 2596
-		// (get) Token: 0x060040F8 RID: 16632 RVA: 0x00224BF8 File Offset: 0x00222FF8
+		// (get) Token: 0x060040FA RID: 16634 RVA: 0x00224CCC File Offset: 0x002230CC
 		public static IEnumerable<WorkTypeDef> WorkTypeDefsInPriorityOrder
 		{
 			get
@@ -19,7 +19,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060040F9 RID: 16633 RVA: 0x00224C34 File Offset: 0x00223034
+		// Token: 0x060040FB RID: 16635 RVA: 0x00224D08 File Offset: 0x00223108
 		public static string LabelTranslated(this WorkTags tags)
 		{
 			string result;
@@ -133,7 +133,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060040FA RID: 16634 RVA: 0x00224E08 File Offset: 0x00223208
+		// Token: 0x060040FC RID: 16636 RVA: 0x00224EDC File Offset: 0x002232DC
 		public static bool OverlapsWithOnAnyWorkType(this WorkTags a, WorkTags b)
 		{
 			List<WorkTypeDef> allDefsListForReading = DefDatabase<WorkTypeDef>.AllDefsListForReading;

@@ -7,7 +7,7 @@ namespace Verse.AI
 	// Token: 0x02000A5F RID: 2655
 	public class MentalBreakWorker_BingingDrug : MentalBreakWorker
 	{
-		// Token: 0x06003B04 RID: 15108 RVA: 0x001F4DA0 File Offset: 0x001F31A0
+		// Token: 0x06003B06 RID: 15110 RVA: 0x001F4E74 File Offset: 0x001F3274
 		public override float CommonalityFor(Pawn pawn)
 		{
 			float num = base.CommonalityFor(pawn);
@@ -34,7 +34,7 @@ namespace Verse.AI
 			return num;
 		}
 
-		// Token: 0x06003B05 RID: 15109 RVA: 0x001F4E30 File Offset: 0x001F3230
+		// Token: 0x06003B07 RID: 15111 RVA: 0x001F4F04 File Offset: 0x001F3304
 		private int BingeableAddictionsCount(Pawn pawn)
 		{
 			int num = 0;

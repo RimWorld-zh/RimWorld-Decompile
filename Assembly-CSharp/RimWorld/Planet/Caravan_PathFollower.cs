@@ -9,14 +9,14 @@ namespace RimWorld.Planet
 	// Token: 0x020005ED RID: 1517
 	public class Caravan_PathFollower : IExposable
 	{
-		// Token: 0x06001DFD RID: 7677 RVA: 0x00101FD3 File Offset: 0x001003D3
+		// Token: 0x06001DFF RID: 7679 RVA: 0x0010204B File Offset: 0x0010044B
 		public Caravan_PathFollower(Caravan caravan)
 		{
 			this.caravan = caravan;
 		}
 
 		// Token: 0x17000468 RID: 1128
-		// (get) Token: 0x06001DFE RID: 7678 RVA: 0x00102008 File Offset: 0x00100408
+		// (get) Token: 0x06001E00 RID: 7680 RVA: 0x00102080 File Offset: 0x00100480
 		public int Destination
 		{
 			get
@@ -26,7 +26,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000469 RID: 1129
-		// (get) Token: 0x06001DFF RID: 7679 RVA: 0x00102024 File Offset: 0x00100424
+		// (get) Token: 0x06001E01 RID: 7681 RVA: 0x0010209C File Offset: 0x0010049C
 		public bool Moving
 		{
 			get
@@ -36,7 +36,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700046A RID: 1130
-		// (get) Token: 0x06001E00 RID: 7680 RVA: 0x00102054 File Offset: 0x00100454
+		// (get) Token: 0x06001E02 RID: 7682 RVA: 0x001020CC File Offset: 0x001004CC
 		public bool MovingNow
 		{
 			get
@@ -46,7 +46,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700046B RID: 1131
-		// (get) Token: 0x06001E01 RID: 7681 RVA: 0x00102090 File Offset: 0x00100490
+		// (get) Token: 0x06001E03 RID: 7683 RVA: 0x00102108 File Offset: 0x00100508
 		public CaravanArrivalAction ArrivalAction
 		{
 			get
@@ -56,8 +56,8 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x1700046C RID: 1132
-		// (get) Token: 0x06001E02 RID: 7682 RVA: 0x001020BC File Offset: 0x001004BC
-		// (set) Token: 0x06001E03 RID: 7683 RVA: 0x001020E8 File Offset: 0x001004E8
+		// (get) Token: 0x06001E04 RID: 7684 RVA: 0x00102134 File Offset: 0x00100534
+		// (set) Token: 0x06001E05 RID: 7685 RVA: 0x00102160 File Offset: 0x00100560
 		public bool Paused
 		{
 			get
@@ -85,7 +85,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E04 RID: 7684 RVA: 0x0010215C File Offset: 0x0010055C
+		// Token: 0x06001E06 RID: 7686 RVA: 0x001021D4 File Offset: 0x001005D4
 		public void ExposeData()
 		{
 			Scribe_Values.Look<bool>(ref this.moving, "moving", true, false);
@@ -105,7 +105,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E05 RID: 7685 RVA: 0x0010223C File Offset: 0x0010063C
+		// Token: 0x06001E07 RID: 7687 RVA: 0x001022B4 File Offset: 0x001006B4
 		public void StartPath(int destTile, CaravanArrivalAction arrivalAction, bool repathImmediately = false, bool resetPauseStatus = true)
 		{
 			this.caravan.autoJoinable = false;
@@ -166,7 +166,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E06 RID: 7686 RVA: 0x001023C0 File Offset: 0x001007C0
+		// Token: 0x06001E08 RID: 7688 RVA: 0x00102438 File Offset: 0x00100838
 		public void StopDead()
 		{
 			if (this.curPath != null)
@@ -183,7 +183,7 @@ namespace RimWorld.Planet
 			this.caravan.Notify_DestinationOrPauseStatusChanged();
 		}
 
-		// Token: 0x06001E07 RID: 7687 RVA: 0x00102430 File Offset: 0x00100830
+		// Token: 0x06001E09 RID: 7689 RVA: 0x001024A8 File Offset: 0x001008A8
 		public void PatherTick()
 		{
 			if (this.moving && this.arrivalAction != null && !this.arrivalAction.StillValid(this.caravan, this.Destination))
@@ -208,25 +208,25 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E08 RID: 7688 RVA: 0x0010254F File Offset: 0x0010094F
+		// Token: 0x06001E0A RID: 7690 RVA: 0x001025C7 File Offset: 0x001009C7
 		public void Notify_Teleported_Int()
 		{
 			this.StopDead();
 		}
 
-		// Token: 0x06001E09 RID: 7689 RVA: 0x00102558 File Offset: 0x00100958
+		// Token: 0x06001E0B RID: 7691 RVA: 0x001025D0 File Offset: 0x001009D0
 		private bool IsPassable(int tile)
 		{
 			return !Find.World.Impassable(tile);
 		}
 
-		// Token: 0x06001E0A RID: 7690 RVA: 0x0010257C File Offset: 0x0010097C
+		// Token: 0x06001E0C RID: 7692 RVA: 0x001025F4 File Offset: 0x001009F4
 		public bool IsNextTilePassable()
 		{
 			return this.IsPassable(this.nextTile);
 		}
 
-		// Token: 0x06001E0B RID: 7691 RVA: 0x001025A0 File Offset: 0x001009A0
+		// Token: 0x06001E0D RID: 7693 RVA: 0x00102618 File Offset: 0x00100A18
 		private bool TryRecoverFromUnwalkablePosition()
 		{
 			int num;
@@ -260,7 +260,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E0C RID: 7692 RVA: 0x00102694 File Offset: 0x00100A94
+		// Token: 0x06001E0E RID: 7694 RVA: 0x0010270C File Offset: 0x00100B0C
 		private void PatherArrived()
 		{
 			CaravanArrivalAction caravanArrivalAction = this.arrivalAction;
@@ -278,13 +278,13 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E0D RID: 7693 RVA: 0x00102740 File Offset: 0x00100B40
+		// Token: 0x06001E0F RID: 7695 RVA: 0x001027B8 File Offset: 0x00100BB8
 		private void PatherFailed()
 		{
 			this.StopDead();
 		}
 
-		// Token: 0x06001E0E RID: 7694 RVA: 0x0010274C File Offset: 0x00100B4C
+		// Token: 0x06001E10 RID: 7696 RVA: 0x001027C4 File Offset: 0x00100BC4
 		private void TryEnterNextPathTile()
 		{
 			if (!this.IsNextTilePassable())
@@ -317,7 +317,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E0F RID: 7695 RVA: 0x001027F0 File Offset: 0x00100BF0
+		// Token: 0x06001E11 RID: 7697 RVA: 0x00102868 File Offset: 0x00100C68
 		private void SetupMoveIntoNextTile()
 		{
 			if (this.curPath.NodesLeftCount < 2)
@@ -353,19 +353,19 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E10 RID: 7696 RVA: 0x001028FC File Offset: 0x00100CFC
+		// Token: 0x06001E12 RID: 7698 RVA: 0x00102974 File Offset: 0x00100D74
 		private int CostToMove(int start, int end)
 		{
 			return Caravan_PathFollower.CostToMove(this.caravan, start, end, null);
 		}
 
-		// Token: 0x06001E11 RID: 7697 RVA: 0x00102928 File Offset: 0x00100D28
+		// Token: 0x06001E13 RID: 7699 RVA: 0x001029A0 File Offset: 0x00100DA0
 		public static int CostToMove(Caravan caravan, int start, int end, int? ticksAbs = null)
 		{
 			return Caravan_PathFollower.CostToMove(caravan.TicksPerMove, start, end, ticksAbs, false, null, null);
 		}
 
-		// Token: 0x06001E12 RID: 7698 RVA: 0x00102950 File Offset: 0x00100D50
+		// Token: 0x06001E14 RID: 7700 RVA: 0x001029C8 File Offset: 0x00100DC8
 		public static int CostToMove(int caravanTicksPerMove, int start, int end, int? ticksAbs = null, bool perceivedStatic = false, StringBuilder explanation = null, string caravanTicksPerMoveExplanation = null)
 		{
 			int result;
@@ -426,7 +426,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E13 RID: 7699 RVA: 0x00102B44 File Offset: 0x00100F44
+		// Token: 0x06001E15 RID: 7701 RVA: 0x00102BBC File Offset: 0x00100FBC
 		public static bool IsValidFinalPushDestination(int tile)
 		{
 			List<WorldObject> allWorldObjects = Find.WorldObjects.AllWorldObjects;
@@ -440,7 +440,7 @@ namespace RimWorld.Planet
 			return false;
 		}
 
-		// Token: 0x06001E14 RID: 7700 RVA: 0x00102BA8 File Offset: 0x00100FA8
+		// Token: 0x06001E16 RID: 7702 RVA: 0x00102C20 File Offset: 0x00101020
 		private float CostToPayThisTick()
 		{
 			float num = 1f;
@@ -455,7 +455,7 @@ namespace RimWorld.Planet
 			return num;
 		}
 
-		// Token: 0x06001E15 RID: 7701 RVA: 0x00102BF4 File Offset: 0x00100FF4
+		// Token: 0x06001E17 RID: 7703 RVA: 0x00102C6C File Offset: 0x0010106C
 		private bool TrySetNewPath()
 		{
 			WorldPath worldPath = this.GenerateNewPath();
@@ -477,7 +477,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001E16 RID: 7702 RVA: 0x00102C48 File Offset: 0x00101048
+		// Token: 0x06001E18 RID: 7704 RVA: 0x00102CC0 File Offset: 0x001010C0
 		private WorldPath GenerateNewPath()
 		{
 			int num = (!this.moving || this.nextTile < 0 || !this.IsNextTilePassable()) ? this.caravan.Tile : this.nextTile;
@@ -503,13 +503,13 @@ namespace RimWorld.Planet
 			return worldPath;
 		}
 
-		// Token: 0x06001E17 RID: 7703 RVA: 0x00102D5C File Offset: 0x0010115C
+		// Token: 0x06001E19 RID: 7705 RVA: 0x00102DD4 File Offset: 0x001011D4
 		private bool AtDestinationPosition()
 		{
 			return this.caravan.Tile == this.destTile;
 		}
 
-		// Token: 0x06001E18 RID: 7704 RVA: 0x00102D84 File Offset: 0x00101184
+		// Token: 0x06001E1A RID: 7706 RVA: 0x00102DFC File Offset: 0x001011FC
 		private bool NeedNewPath()
 		{
 			bool result;

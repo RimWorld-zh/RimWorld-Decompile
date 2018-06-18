@@ -7,7 +7,7 @@ namespace RimWorld.Planet
 	// Token: 0x020005F8 RID: 1528
 	public static class CaravanNameGenerator
 	{
-		// Token: 0x06001E65 RID: 7781 RVA: 0x00106ED4 File Offset: 0x001052D4
+		// Token: 0x06001E67 RID: 7783 RVA: 0x00106F4C File Offset: 0x0010534C
 		public static string GenerateCaravanName(Caravan caravan)
 		{
 			Pawn pawn;
@@ -36,7 +36,7 @@ namespace RimWorld.Planet
 			return caravan.def.label;
 		}
 
-		// Token: 0x06001E66 RID: 7782 RVA: 0x00106FDC File Offset: 0x001053DC
+		// Token: 0x06001E68 RID: 7784 RVA: 0x00107054 File Offset: 0x00105454
 		private static bool CaravanNameInUse(string name)
 		{
 			List<Caravan> caravans = Find.WorldObjects.Caravans;

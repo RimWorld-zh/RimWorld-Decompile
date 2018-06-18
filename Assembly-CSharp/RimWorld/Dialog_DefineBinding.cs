@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020007FF RID: 2047
 	public class Dialog_DefineBinding : Window
 	{
-		// Token: 0x06002D89 RID: 11657 RVA: 0x0017F398 File Offset: 0x0017D798
+		// Token: 0x06002D8B RID: 11659 RVA: 0x0017F42C File Offset: 0x0017D82C
 		public Dialog_DefineBinding(KeyPrefsData keyPrefsData, KeyBindingDef keyDef, KeyPrefs.BindingSlot slot)
 		{
 			this.keyDef = keyDef;
@@ -21,7 +21,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700073F RID: 1855
-		// (get) Token: 0x06002D8A RID: 11658 RVA: 0x0017F3FC File Offset: 0x0017D7FC
+		// (get) Token: 0x06002D8C RID: 11660 RVA: 0x0017F490 File Offset: 0x0017D890
 		public override Vector2 InitialSize
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000740 RID: 1856
-		// (get) Token: 0x06002D8B RID: 11659 RVA: 0x0017F418 File Offset: 0x0017D818
+		// (get) Token: 0x06002D8D RID: 11661 RVA: 0x0017F4AC File Offset: 0x0017D8AC
 		protected override float Margin
 		{
 			get
@@ -40,7 +40,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D8C RID: 11660 RVA: 0x0017F434 File Offset: 0x0017D834
+		// Token: 0x06002D8E RID: 11662 RVA: 0x0017F4C8 File Offset: 0x0017D8C8
 		public override void DoWindowContents(Rect inRect)
 		{
 			Text.Anchor = TextAnchor.MiddleCenter;

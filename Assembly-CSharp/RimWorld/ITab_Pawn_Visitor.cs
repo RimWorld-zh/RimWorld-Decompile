@@ -8,13 +8,13 @@ namespace RimWorld
 	// Token: 0x0200084F RID: 2127
 	public abstract class ITab_Pawn_Visitor : ITab
 	{
-		// Token: 0x06003035 RID: 12341 RVA: 0x001A38BF File Offset: 0x001A1CBF
+		// Token: 0x06003037 RID: 12343 RVA: 0x001A3987 File Offset: 0x001A1D87
 		public ITab_Pawn_Visitor()
 		{
 			this.size = new Vector2(280f, 450f);
 		}
 
-		// Token: 0x06003036 RID: 12342 RVA: 0x001A38E0 File Offset: 0x001A1CE0
+		// Token: 0x06003038 RID: 12344 RVA: 0x001A39A8 File Offset: 0x001A1DA8
 		protected override void FillTab()
 		{
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.PrisonerTab, KnowledgeAmount.FrameDisplayed);
@@ -73,7 +73,7 @@ namespace RimWorld
 			listing_Standard.End();
 		}
 
-		// Token: 0x06003037 RID: 12343 RVA: 0x001A3C20 File Offset: 0x001A2020
+		// Token: 0x06003039 RID: 12345 RVA: 0x001A3CE8 File Offset: 0x001A20E8
 		private bool ColonyHasAnyWardenCapableOfViolence(Map map)
 		{
 			foreach (Pawn pawn in map.mapPawns.FreeColonistsSpawned)

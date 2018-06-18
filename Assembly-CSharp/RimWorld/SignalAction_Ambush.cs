@@ -11,7 +11,7 @@ namespace RimWorld
 	// Token: 0x020006BF RID: 1727
 	public class SignalAction_Ambush : SignalAction
 	{
-		// Token: 0x06002525 RID: 9509 RVA: 0x0013E544 File Offset: 0x0013C944
+		// Token: 0x06002527 RID: 9511 RVA: 0x0013E5BC File Offset: 0x0013C9BC
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -23,7 +23,7 @@ namespace RimWorld
 			Scribe_Values.Look<bool>(ref this.spawnPawnsOnEdge, "spawnPawnsOnEdge", false, false);
 		}
 
-		// Token: 0x06002526 RID: 9510 RVA: 0x0013E5D8 File Offset: 0x0013C9D8
+		// Token: 0x06002528 RID: 9512 RVA: 0x0013E650 File Offset: 0x0013CA50
 		protected override void DoAction(object[] args)
 		{
 			if (this.points > 0f)
@@ -85,7 +85,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002527 RID: 9511 RVA: 0x0013E854 File Offset: 0x0013CC54
+		// Token: 0x06002529 RID: 9513 RVA: 0x0013E8CC File Offset: 0x0013CCCC
 		private IEnumerable<Pawn> GenerateAmbushPawns()
 		{
 			IEnumerable<Pawn> result;

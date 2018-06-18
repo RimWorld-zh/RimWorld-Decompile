@@ -9,12 +9,12 @@ namespace RimWorld
 	// Token: 0x0200053D RID: 1341
 	public class Trait : IExposable
 	{
-		// Token: 0x060018E9 RID: 6377 RVA: 0x000D88CA File Offset: 0x000D6CCA
+		// Token: 0x060018EA RID: 6378 RVA: 0x000D891E File Offset: 0x000D6D1E
 		public Trait()
 		{
 		}
 
-		// Token: 0x060018EA RID: 6378 RVA: 0x000D88D3 File Offset: 0x000D6CD3
+		// Token: 0x060018EB RID: 6379 RVA: 0x000D8927 File Offset: 0x000D6D27
 		public Trait(TraitDef def, int degree = 0, bool forced = false)
 		{
 			this.def = def;
@@ -23,7 +23,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000381 RID: 897
-		// (get) Token: 0x060018EB RID: 6379 RVA: 0x000D88F4 File Offset: 0x000D6CF4
+		// (get) Token: 0x060018EC RID: 6380 RVA: 0x000D8948 File Offset: 0x000D6D48
 		public int Degree
 		{
 			get
@@ -33,7 +33,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000382 RID: 898
-		// (get) Token: 0x060018EC RID: 6380 RVA: 0x000D8910 File Offset: 0x000D6D10
+		// (get) Token: 0x060018ED RID: 6381 RVA: 0x000D8964 File Offset: 0x000D6D64
 		public TraitDegreeData CurrentData
 		{
 			get
@@ -43,7 +43,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000383 RID: 899
-		// (get) Token: 0x060018ED RID: 6381 RVA: 0x000D8938 File Offset: 0x000D6D38
+		// (get) Token: 0x060018EE RID: 6382 RVA: 0x000D898C File Offset: 0x000D6D8C
 		public string Label
 		{
 			get
@@ -53,7 +53,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000384 RID: 900
-		// (get) Token: 0x060018EE RID: 6382 RVA: 0x000D8958 File Offset: 0x000D6D58
+		// (get) Token: 0x060018EF RID: 6383 RVA: 0x000D89AC File Offset: 0x000D6DAC
 		public string LabelCap
 		{
 			get
@@ -63,7 +63,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000385 RID: 901
-		// (get) Token: 0x060018EF RID: 6383 RVA: 0x000D8978 File Offset: 0x000D6D78
+		// (get) Token: 0x060018F0 RID: 6384 RVA: 0x000D89CC File Offset: 0x000D6DCC
 		public bool ScenForced
 		{
 			get
@@ -72,7 +72,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060018F0 RID: 6384 RVA: 0x000D8994 File Offset: 0x000D6D94
+		// Token: 0x060018F1 RID: 6385 RVA: 0x000D89E8 File Offset: 0x000D6DE8
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<TraitDef>(ref this.def, "def");
@@ -85,7 +85,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060018F1 RID: 6385 RVA: 0x000D8A0C File Offset: 0x000D6E0C
+		// Token: 0x060018F2 RID: 6386 RVA: 0x000D8A60 File Offset: 0x000D6E60
 		public float OffsetOfStat(StatDef stat)
 		{
 			float num = 0f;
@@ -103,7 +103,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x060018F2 RID: 6386 RVA: 0x000D8A88 File Offset: 0x000D6E88
+		// Token: 0x060018F3 RID: 6387 RVA: 0x000D8ADC File Offset: 0x000D6EDC
 		public float MultiplierOfStat(StatDef stat)
 		{
 			float num = 1f;
@@ -121,7 +121,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x060018F3 RID: 6387 RVA: 0x000D8B04 File Offset: 0x000D6F04
+		// Token: 0x060018F4 RID: 6388 RVA: 0x000D8B58 File Offset: 0x000D6F58
 		public string TipString(Pawn pawn)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -200,7 +200,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x060018F4 RID: 6388 RVA: 0x000D8E0C File Offset: 0x000D720C
+		// Token: 0x060018F5 RID: 6389 RVA: 0x000D8E60 File Offset: 0x000D7260
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -213,7 +213,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x060018F5 RID: 6389 RVA: 0x000D8E60 File Offset: 0x000D7260
+		// Token: 0x060018F6 RID: 6390 RVA: 0x000D8EB4 File Offset: 0x000D72B4
 		private IEnumerable<ThoughtDef> GetPermaThoughts()
 		{
 			TraitDegreeData degree = this.CurrentData;
@@ -237,13 +237,13 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x060018F6 RID: 6390 RVA: 0x000D8E8C File Offset: 0x000D728C
+		// Token: 0x060018F7 RID: 6391 RVA: 0x000D8EE0 File Offset: 0x000D72E0
 		private bool AllowsWorkType(WorkTypeDef workDef)
 		{
 			return (this.def.disabledWorkTags & workDef.workTags) == WorkTags.None;
 		}
 
-		// Token: 0x060018F7 RID: 6391 RVA: 0x000D8EB8 File Offset: 0x000D72B8
+		// Token: 0x060018F8 RID: 6392 RVA: 0x000D8F0C File Offset: 0x000D730C
 		public IEnumerable<WorkTypeDef> GetDisabledWorkTypes()
 		{
 			for (int i = 0; i < this.def.disabledWorkTypes.Count; i++)

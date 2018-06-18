@@ -7,13 +7,13 @@ namespace Verse
 	// Token: 0x02000B2B RID: 2859
 	public class RecipeWorkerCounter_ButcherAnimals : RecipeWorkerCounter
 	{
-		// Token: 0x06003EFA RID: 16122 RVA: 0x00212A94 File Offset: 0x00210E94
+		// Token: 0x06003EFC RID: 16124 RVA: 0x00212B68 File Offset: 0x00210F68
 		public override bool CanCountProducts(Bill_Production bill)
 		{
 			return true;
 		}
 
-		// Token: 0x06003EFB RID: 16123 RVA: 0x00212AAC File Offset: 0x00210EAC
+		// Token: 0x06003EFD RID: 16125 RVA: 0x00212B80 File Offset: 0x00210F80
 		public override int CountProducts(Bill_Production bill)
 		{
 			int num = 0;
@@ -25,13 +25,13 @@ namespace Verse
 			return num;
 		}
 
-		// Token: 0x06003EFC RID: 16124 RVA: 0x00212B04 File Offset: 0x00210F04
+		// Token: 0x06003EFE RID: 16126 RVA: 0x00212BD8 File Offset: 0x00210FD8
 		public override string ProductsDescription(Bill_Production bill)
 		{
 			return ThingCategoryDefOf.MeatRaw.label;
 		}
 
-		// Token: 0x06003EFD RID: 16125 RVA: 0x00212B24 File Offset: 0x00210F24
+		// Token: 0x06003EFF RID: 16127 RVA: 0x00212BF8 File Offset: 0x00210FF8
 		public override bool CanPossiblyStoreInStockpile(Bill_Production bill, Zone_Stockpile stockpile)
 		{
 			foreach (ThingDef thingDef in bill.ingredientFilter.AllowedThingDefs)

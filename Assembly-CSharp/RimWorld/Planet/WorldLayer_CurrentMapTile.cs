@@ -8,7 +8,7 @@ namespace RimWorld.Planet
 	public class WorldLayer_CurrentMapTile : WorldLayer_SingleTile
 	{
 		// Token: 0x170003F6 RID: 1014
-		// (get) Token: 0x06001B27 RID: 6951 RVA: 0x000E8FFC File Offset: 0x000E73FC
+		// (get) Token: 0x06001B28 RID: 6952 RVA: 0x000E9068 File Offset: 0x000E7468
 		protected override int Tile
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x170003F7 RID: 1015
-		// (get) Token: 0x06001B28 RID: 6952 RVA: 0x000E9040 File Offset: 0x000E7440
+		// (get) Token: 0x06001B29 RID: 6953 RVA: 0x000E90AC File Offset: 0x000E74AC
 		protected override Material Material
 		{
 			get

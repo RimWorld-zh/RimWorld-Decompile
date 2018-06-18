@@ -6,7 +6,7 @@ namespace Verse.AI.Group
 	// Token: 0x02000A06 RID: 2566
 	public class TransitionAction_EnsureHaveExitDestination : TransitionAction
 	{
-		// Token: 0x06003980 RID: 14720 RVA: 0x001E783C File Offset: 0x001E5C3C
+		// Token: 0x06003982 RID: 14722 RVA: 0x001E7910 File Offset: 0x001E5D10
 		public override void DoAction(Transition trans)
 		{
 			LordToil_Travel lordToil_Travel = (LordToil_Travel)trans.target;

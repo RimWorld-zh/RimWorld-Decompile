@@ -5,7 +5,7 @@ namespace Verse
 	// Token: 0x02000B12 RID: 2834
 	public class CompProperties_HeatPusher : CompProperties
 	{
-		// Token: 0x06003EA0 RID: 16032 RVA: 0x0020F4CC File Offset: 0x0020D8CC
+		// Token: 0x06003EA2 RID: 16034 RVA: 0x0020F5A0 File Offset: 0x0020D9A0
 		public CompProperties_HeatPusher()
 		{
 			this.compClass = typeof(CompHeatPusher);

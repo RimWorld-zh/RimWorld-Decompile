@@ -9,13 +9,13 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class PawnWoundDrawer
 	{
-		// Token: 0x060013A4 RID: 5028 RVA: 0x000A9596 File Offset: 0x000A7996
+		// Token: 0x060013A4 RID: 5028 RVA: 0x000A95A2 File Offset: 0x000A79A2
 		public PawnWoundDrawer(Pawn pawn)
 		{
 			this.pawn = pawn;
 		}
 
-		// Token: 0x060013A5 RID: 5029 RVA: 0x000A95B8 File Offset: 0x000A79B8
+		// Token: 0x060013A5 RID: 5029 RVA: 0x000A95C4 File Offset: 0x000A79C4
 		public void RenderOverBody(Vector3 drawLoc, Mesh bodyMesh, Quaternion quat, bool forPortrait)
 		{
 			int num = 0;
@@ -64,7 +64,7 @@ namespace RimWorld
 		// Token: 0x02000462 RID: 1122
 		private class Wound
 		{
-			// Token: 0x060013A6 RID: 5030 RVA: 0x000A9710 File Offset: 0x000A7B10
+			// Token: 0x060013A6 RID: 5030 RVA: 0x000A971C File Offset: 0x000A7B1C
 			public Wound(Pawn pawn)
 			{
 				this.mat = pawn.RaceProps.FleshType.ChooseWoundOverlay();
@@ -80,7 +80,7 @@ namespace RimWorld
 				}
 			}
 
-			// Token: 0x060013A7 RID: 5031 RVA: 0x000A97D4 File Offset: 0x000A7BD4
+			// Token: 0x060013A7 RID: 5031 RVA: 0x000A97E0 File Offset: 0x000A7BE0
 			public void DrawWound(Vector3 drawLoc, Quaternion bodyQuat, Rot4 bodyRot, bool forPortrait)
 			{
 				Vector2 vector = this.locsPerSide[bodyRot.AsInt];

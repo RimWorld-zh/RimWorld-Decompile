@@ -3,11 +3,11 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000E09 RID: 3593
+	// Token: 0x02000E08 RID: 3592
 	public class CompTemperatureDamaged : ThingComp
 	{
-		// Token: 0x17000D59 RID: 3417
-		// (get) Token: 0x0600514D RID: 20813 RVA: 0x0029ABFC File Offset: 0x00298FFC
+		// Token: 0x17000D58 RID: 3416
+		// (get) Token: 0x0600514B RID: 20811 RVA: 0x0029ABDC File Offset: 0x00298FDC
 		public CompProperties_TemperatureDamaged Props
 		{
 			get
@@ -16,7 +16,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600514E RID: 20814 RVA: 0x0029AC1C File Offset: 0x0029901C
+		// Token: 0x0600514C RID: 20812 RVA: 0x0029ABFC File Offset: 0x00298FFC
 		public override void CompTick()
 		{
 			if (Find.TickManager.TicksGame % 250 == 0)
@@ -25,13 +25,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600514F RID: 20815 RVA: 0x0029AC3A File Offset: 0x0029903A
+		// Token: 0x0600514D RID: 20813 RVA: 0x0029AC1A File Offset: 0x0029901A
 		public override void CompTickRare()
 		{
 			this.CheckTakeDamage();
 		}
 
-		// Token: 0x06005150 RID: 20816 RVA: 0x0029AC44 File Offset: 0x00299044
+		// Token: 0x0600514E RID: 20814 RVA: 0x0029AC24 File Offset: 0x00299024
 		private void CheckTakeDamage()
 		{
 			if (!this.Props.safeTemperatureRange.Includes(this.parent.AmbientTemperature))

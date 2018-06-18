@@ -9,7 +9,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class MoteProgressBar : MoteDualAttached
 	{
-		// Token: 0x060025EB RID: 9707 RVA: 0x00144924 File Offset: 0x00142D24
+		// Token: 0x060025ED RID: 9709 RVA: 0x0014499C File Offset: 0x00142D9C
 		public override void Draw()
 		{
 			base.UpdatePositionAndRotation();
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060025EC RID: 9708 RVA: 0x00144A14 File Offset: 0x00142E14
+		// Token: 0x060025EE RID: 9710 RVA: 0x00144A8C File Offset: 0x00142E8C
 		private bool AnyThingWithQualityHere()
 		{
 			IntVec3 c = this.exactPosition.ToIntVec3();

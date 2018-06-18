@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020009BD RID: 2493
 	public class StatPart_WornByCorpse : StatPart
 	{
-		// Token: 0x060037C3 RID: 14275 RVA: 0x001DAA9C File Offset: 0x001D8E9C
+		// Token: 0x060037C5 RID: 14277 RVA: 0x001DAB70 File Offset: 0x001D8F70
 		public override void TransformValue(StatRequest req, ref float val)
 		{
 			if (req.HasThing)
@@ -19,7 +19,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060037C4 RID: 14276 RVA: 0x001DAAE0 File Offset: 0x001D8EE0
+		// Token: 0x060037C6 RID: 14278 RVA: 0x001DABB4 File Offset: 0x001D8FB4
 		public override string ExplanationPart(StatRequest req)
 		{
 			if (req.HasThing)

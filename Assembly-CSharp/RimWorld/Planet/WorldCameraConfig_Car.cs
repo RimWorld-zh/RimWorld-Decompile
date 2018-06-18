@@ -6,7 +6,7 @@ namespace RimWorld.Planet
 	// Token: 0x02000582 RID: 1410
 	public class WorldCameraConfig_Car : WorldCameraConfig
 	{
-		// Token: 0x06001AE1 RID: 6881 RVA: 0x000E6E4A File Offset: 0x000E524A
+		// Token: 0x06001AE2 RID: 6882 RVA: 0x000E6EB6 File Offset: 0x000E52B6
 		public WorldCameraConfig_Car()
 		{
 			this.dollyRateKeys = 0f;
@@ -16,7 +16,7 @@ namespace RimWorld.Planet
 			this.rotationSpeedScale = 0.15f;
 		}
 
-		// Token: 0x06001AE2 RID: 6882 RVA: 0x000E6E8C File Offset: 0x000E528C
+		// Token: 0x06001AE3 RID: 6883 RVA: 0x000E6EF8 File Offset: 0x000E52F8
 		public override void ConfigFixedUpdate_60(ref Vector2 rotationVelocity)
 		{
 			base.ConfigFixedUpdate_60(ref rotationVelocity);

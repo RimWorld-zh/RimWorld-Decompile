@@ -4,10 +4,10 @@ using System.Linq;
 
 namespace Verse
 {
-	// Token: 0x02000D32 RID: 3378
+	// Token: 0x02000D31 RID: 3377
 	public static class HediffGiveUtility
 	{
-		// Token: 0x06004A64 RID: 19044 RVA: 0x0026C188 File Offset: 0x0026A588
+		// Token: 0x06004A62 RID: 19042 RVA: 0x0026C160 File Offset: 0x0026A560
 		public static bool TryApply(Pawn pawn, HediffDef hediff, List<BodyPartDef> partsToAffect, bool canAffectAnyLivePart = false, int countToAffect = 1, List<Hediff> outAddedHediffs = null)
 		{
 			bool result;

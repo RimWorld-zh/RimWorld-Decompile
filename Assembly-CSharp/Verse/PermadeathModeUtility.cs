@@ -3,25 +3,25 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000FA3 RID: 4003
+	// Token: 0x02000FA2 RID: 4002
 	public static class PermadeathModeUtility
 	{
-		// Token: 0x06006092 RID: 24722 RVA: 0x0030D98C File Offset: 0x0030BD8C
+		// Token: 0x06006090 RID: 24720 RVA: 0x0030DA68 File Offset: 0x0030BE68
 		public static string GeneratePermadeathSaveName()
 		{
-			string text = NameGenerator.GenerateName(Faction.OfPlayer.def.factionNameMaker, null, false, null);
+			string text = NameGenerator.GenerateName(Faction.OfPlayer.def.factionNameMaker, null, false, null, null);
 			text = GenFile.SanitizedFileName(text);
 			return PermadeathModeUtility.NewPermadeathSaveNameWithAppendedNumberIfNecessary(text, null);
 		}
 
-		// Token: 0x06006093 RID: 24723 RVA: 0x0030D9C8 File Offset: 0x0030BDC8
+		// Token: 0x06006091 RID: 24721 RVA: 0x0030DAA4 File Offset: 0x0030BEA4
 		public static string GeneratePermadeathSaveNameBasedOnPlayerInput(string factionName, string acceptedNameEvenIfTaken = null)
 		{
 			string name = GenFile.SanitizedFileName(factionName);
 			return PermadeathModeUtility.NewPermadeathSaveNameWithAppendedNumberIfNecessary(name, acceptedNameEvenIfTaken);
 		}
 
-		// Token: 0x06006094 RID: 24724 RVA: 0x0030D9EC File Offset: 0x0030BDEC
+		// Token: 0x06006092 RID: 24722 RVA: 0x0030DAC8 File Offset: 0x0030BEC8
 		public static void CheckUpdatePermadeathModeUniqueNameOnGameLoad(string filename)
 		{
 			if (Current.Game.Info.permadeathMode && Current.Game.Info.permadeathModeUniqueName != filename)
@@ -31,7 +31,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06006095 RID: 24725 RVA: 0x0030DA48 File Offset: 0x0030BE48
+		// Token: 0x06006093 RID: 24723 RVA: 0x0030DB24 File Offset: 0x0030BF24
 		private static string NewPermadeathSaveNameWithAppendedNumberIfNecessary(string name, string acceptedNameEvenIfTaken = null)
 		{
 			int num = 0;
@@ -50,7 +50,7 @@ namespace Verse
 			return text;
 		}
 
-		// Token: 0x06006096 RID: 24726 RVA: 0x0030DA9C File Offset: 0x0030BE9C
+		// Token: 0x06006094 RID: 24724 RVA: 0x0030DB78 File Offset: 0x0030BF78
 		private static string AppendedPermadeathModeSuffix(string str)
 		{
 			return str + " " + "PermadeathModeSaveSuffix".Translate();

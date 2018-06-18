@@ -8,20 +8,20 @@ namespace RimWorld
 	// Token: 0x0200079B RID: 1947
 	public class Alert_NeedWarmClothes : Alert
 	{
-		// Token: 0x06002B16 RID: 11030 RVA: 0x0016BD12 File Offset: 0x0016A112
+		// Token: 0x06002B18 RID: 11032 RVA: 0x0016BDA6 File Offset: 0x0016A1A6
 		public Alert_NeedWarmClothes()
 		{
 			this.defaultLabel = "NeedWarmClothes".Translate();
 			this.defaultPriority = AlertPriority.High;
 		}
 
-		// Token: 0x06002B17 RID: 11031 RVA: 0x0016BD34 File Offset: 0x0016A134
+		// Token: 0x06002B19 RID: 11033 RVA: 0x0016BDC8 File Offset: 0x0016A1C8
 		private int NeededWarmClothesCount(Map map)
 		{
 			return map.mapPawns.FreeColonistsSpawnedCount;
 		}
 
-		// Token: 0x06002B18 RID: 11032 RVA: 0x0016BD54 File Offset: 0x0016A154
+		// Token: 0x06002B1A RID: 11034 RVA: 0x0016BDE8 File Offset: 0x0016A1E8
 		private int ColonistsWithWarmClothesCount(Map map)
 		{
 			float num = this.LowestTemperatureComing(map);
@@ -36,7 +36,7 @@ namespace RimWorld
 			return num2;
 		}
 
-		// Token: 0x06002B19 RID: 11033 RVA: 0x0016BDDC File Offset: 0x0016A1DC
+		// Token: 0x06002B1B RID: 11035 RVA: 0x0016BE70 File Offset: 0x0016A270
 		private int FreeWarmClothesSetsCount(Map map)
 		{
 			Alert_NeedWarmClothes.jackets.Clear();
@@ -121,7 +121,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002B1A RID: 11034 RVA: 0x0016C158 File Offset: 0x0016A558
+		// Token: 0x06002B1C RID: 11036 RVA: 0x0016C1EC File Offset: 0x0016A5EC
 		private int MissingWarmClothesCount(Map map)
 		{
 			int result;
@@ -136,7 +136,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002B1B RID: 11035 RVA: 0x0016C1B0 File Offset: 0x0016A5B0
+		// Token: 0x06002B1D RID: 11037 RVA: 0x0016C244 File Offset: 0x0016A644
 		private float LowestTemperatureComing(Map map)
 		{
 			Twelfth twelfth = GenLocalDate.Twelfth(map);
@@ -149,7 +149,7 @@ namespace RimWorld
 			return Mathf.Min(a, map.mapTemperature.OutdoorTemp);
 		}
 
-		// Token: 0x06002B1C RID: 11036 RVA: 0x0016C210 File Offset: 0x0016A610
+		// Token: 0x06002B1E RID: 11038 RVA: 0x0016C2A4 File Offset: 0x0016A6A4
 		public override string GetExplanation()
 		{
 			Map map = this.MapWithMissingWarmClothes();
@@ -182,7 +182,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002B1D RID: 11037 RVA: 0x0016C2D8 File Offset: 0x0016A6D8
+		// Token: 0x06002B1F RID: 11039 RVA: 0x0016C36C File Offset: 0x0016A76C
 		public override AlertReport GetReport()
 		{
 			Map map = this.MapWithMissingWarmClothes();
@@ -206,7 +206,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002B1E RID: 11038 RVA: 0x0016C384 File Offset: 0x0016A784
+		// Token: 0x06002B20 RID: 11040 RVA: 0x0016C418 File Offset: 0x0016A818
 		private Map MapWithMissingWarmClothes()
 		{
 			List<Map> maps = Find.Maps;
@@ -227,7 +227,7 @@ namespace RimWorld
 			return null;
 		}
 
-		// Token: 0x06002B1F RID: 11039 RVA: 0x0016C400 File Offset: 0x0016A800
+		// Token: 0x06002B21 RID: 11041 RVA: 0x0016C494 File Offset: 0x0016A894
 		private float GetTemperature(Twelfth twelfth, Map map)
 		{
 			return GenTemperature.AverageTemperatureAtTileForTwelfth(map.Tile, twelfth);

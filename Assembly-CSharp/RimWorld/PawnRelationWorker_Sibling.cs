@@ -8,13 +8,13 @@ namespace RimWorld
 	// Token: 0x020004D6 RID: 1238
 	public class PawnRelationWorker_Sibling : PawnRelationWorker
 	{
-		// Token: 0x06001604 RID: 5636 RVA: 0x000C3098 File Offset: 0x000C1498
+		// Token: 0x06001604 RID: 5636 RVA: 0x000C30B4 File Offset: 0x000C14B4
 		public override bool InRelation(Pawn me, Pawn other)
 		{
 			return me != other && (me.GetMother() != null && me.GetFather() != null && me.GetMother() == other.GetMother() && me.GetFather() == other.GetFather());
 		}
 
-		// Token: 0x06001605 RID: 5637 RVA: 0x000C30FC File Offset: 0x000C14FC
+		// Token: 0x06001605 RID: 5637 RVA: 0x000C3118 File Offset: 0x000C1518
 		public override float GenerationChance(Pawn generated, Pawn other, PawnGenerationRequest request)
 		{
 			float num = 1f;
@@ -44,7 +44,7 @@ namespace RimWorld
 			return num * num2 * num4 * base.BaseGenerationChanceFactor(generated, other, request);
 		}
 
-		// Token: 0x06001606 RID: 5638 RVA: 0x000C3214 File Offset: 0x000C1614
+		// Token: 0x06001606 RID: 5638 RVA: 0x000C3230 File Offset: 0x000C1630
 		public override void CreateRelation(Pawn generated, Pawn other, ref PawnGenerationRequest request)
 		{
 			bool flag = other.GetMother() != null;
@@ -90,7 +90,7 @@ namespace RimWorld
 			PawnRelationWorker_Sibling.ResolveMySkinColor(ref request, generated);
 		}
 
-		// Token: 0x06001607 RID: 5639 RVA: 0x000C338C File Offset: 0x000C178C
+		// Token: 0x06001607 RID: 5639 RVA: 0x000C33A8 File Offset: 0x000C17A8
 		private static Pawn GenerateParent(Pawn generatedChild, Pawn existingChild, Gender genderToGenerate, PawnGenerationRequest childRequest, bool newlyGeneratedParentsWillBeSpousesIfNotGay)
 		{
 			float ageChronologicalYearsFloat = generatedChild.ageTracker.AgeChronologicalYearsFloat;
@@ -150,7 +150,7 @@ namespace RimWorld
 			return pawn;
 		}
 
-		// Token: 0x06001608 RID: 5640 RVA: 0x000C35F0 File Offset: 0x000C19F0
+		// Token: 0x06001608 RID: 5640 RVA: 0x000C360C File Offset: 0x000C1A0C
 		private static void GenerateParentParams(float minChronologicalAge, float maxChronologicalAge, float midChronologicalAge, float minBioAgeToHaveChildren, Pawn generatedChild, Pawn existingChild, PawnGenerationRequest childRequest, out float biologicalAge, out float chronologicalAge, out float melanin, out string lastName)
 		{
 			chronologicalAge = Rand.GaussianAsymmetric(midChronologicalAge, (midChronologicalAge - minChronologicalAge) / 2f, (maxChronologicalAge - midChronologicalAge) / 2f);
@@ -214,7 +214,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001609 RID: 5641 RVA: 0x000C384C File Offset: 0x000C1C4C
+		// Token: 0x06001609 RID: 5641 RVA: 0x000C3868 File Offset: 0x000C1C68
 		private static void ResolveMyName(ref PawnGenerationRequest request, Pawn generated)
 		{
 			if (request.FixedLastName == null)
@@ -233,7 +233,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600160A RID: 5642 RVA: 0x000C38C4 File Offset: 0x000C1CC4
+		// Token: 0x0600160A RID: 5642 RVA: 0x000C38E0 File Offset: 0x000C1CE0
 		private static void ResolveMySkinColor(ref PawnGenerationRequest request, Pawn generated)
 		{
 			if (request.FixedMelanin == null)

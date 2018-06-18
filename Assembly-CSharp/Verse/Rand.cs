@@ -6,18 +6,18 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000FAD RID: 4013
+	// Token: 0x02000FAC RID: 4012
 	[HasDebugOutput]
 	public static class Rand
 	{
-		// Token: 0x060060DB RID: 24795 RVA: 0x0030E518 File Offset: 0x0030C918
+		// Token: 0x060060D9 RID: 24793 RVA: 0x0030E5F4 File Offset: 0x0030C9F4
 		static Rand()
 		{
 			Rand.random.seed = (uint)DateTime.Now.GetHashCode();
 		}
 
-		// Token: 0x17000FA7 RID: 4007
-		// (set) Token: 0x060060DC RID: 24796 RVA: 0x0030E567 File Offset: 0x0030C967
+		// Token: 0x17000FA6 RID: 4006
+		// (set) Token: 0x060060DA RID: 24794 RVA: 0x0030E643 File Offset: 0x0030CA43
 		public static int Seed
 		{
 			set
@@ -31,8 +31,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FA8 RID: 4008
-		// (get) Token: 0x060060DD RID: 24797 RVA: 0x0030E59C File Offset: 0x0030C99C
+		// Token: 0x17000FA7 RID: 4007
+		// (get) Token: 0x060060DB RID: 24795 RVA: 0x0030E678 File Offset: 0x0030CA78
 		public static float Value
 		{
 			get
@@ -41,8 +41,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FA9 RID: 4009
-		// (get) Token: 0x060060DE RID: 24798 RVA: 0x0030E5C8 File Offset: 0x0030C9C8
+		// Token: 0x17000FA8 RID: 4008
+		// (get) Token: 0x060060DC RID: 24796 RVA: 0x0030E6A4 File Offset: 0x0030CAA4
 		public static bool Bool
 		{
 			get
@@ -51,8 +51,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FAA RID: 4010
-		// (get) Token: 0x060060DF RID: 24799 RVA: 0x0030E5EC File Offset: 0x0030C9EC
+		// Token: 0x17000FA9 RID: 4009
+		// (get) Token: 0x060060DD RID: 24797 RVA: 0x0030E6C8 File Offset: 0x0030CAC8
 		public static int Sign
 		{
 			get
@@ -61,8 +61,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FAB RID: 4011
-		// (get) Token: 0x060060E0 RID: 24800 RVA: 0x0030E614 File Offset: 0x0030CA14
+		// Token: 0x17000FAA RID: 4010
+		// (get) Token: 0x060060DE RID: 24798 RVA: 0x0030E6F0 File Offset: 0x0030CAF0
 		public static int Int
 		{
 			get
@@ -71,8 +71,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FAC RID: 4012
-		// (get) Token: 0x060060E1 RID: 24801 RVA: 0x0030E640 File Offset: 0x0030CA40
+		// Token: 0x17000FAB RID: 4011
+		// (get) Token: 0x060060DF RID: 24799 RVA: 0x0030E71C File Offset: 0x0030CB1C
 		public static Vector3 UnitVector3
 		{
 			get
@@ -82,8 +82,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FAD RID: 4013
-		// (get) Token: 0x060060E2 RID: 24802 RVA: 0x0030E690 File Offset: 0x0030CA90
+		// Token: 0x17000FAC RID: 4012
+		// (get) Token: 0x060060E0 RID: 24800 RVA: 0x0030E76C File Offset: 0x0030CB6C
 		public static Vector2 UnitVector2
 		{
 			get
@@ -93,8 +93,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FAE RID: 4014
-		// (get) Token: 0x060060E3 RID: 24803 RVA: 0x0030E6D4 File Offset: 0x0030CAD4
+		// Token: 0x17000FAD RID: 4013
+		// (get) Token: 0x060060E1 RID: 24801 RVA: 0x0030E7B0 File Offset: 0x0030CBB0
 		public static Vector2 InsideUnitCircle
 		{
 			get
@@ -109,8 +109,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FAF RID: 4015
-		// (get) Token: 0x060060E4 RID: 24804 RVA: 0x0030E72C File Offset: 0x0030CB2C
+		// Token: 0x17000FAE RID: 4014
+		// (get) Token: 0x060060E2 RID: 24802 RVA: 0x0030E808 File Offset: 0x0030CC08
 		public static Vector3 InsideUnitCircleVec3
 		{
 			get
@@ -120,9 +120,9 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FB0 RID: 4016
-		// (get) Token: 0x060060E5 RID: 24805 RVA: 0x0030E760 File Offset: 0x0030CB60
-		// (set) Token: 0x060060E6 RID: 24806 RVA: 0x0030E78A File Offset: 0x0030CB8A
+		// Token: 0x17000FAF RID: 4015
+		// (get) Token: 0x060060E3 RID: 24803 RVA: 0x0030E83C File Offset: 0x0030CC3C
+		// (set) Token: 0x060060E4 RID: 24804 RVA: 0x0030E866 File Offset: 0x0030CC66
 		private static ulong StateCompressed
 		{
 			get
@@ -136,7 +136,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060060E7 RID: 24807 RVA: 0x0030E7A9 File Offset: 0x0030CBA9
+		// Token: 0x060060E5 RID: 24805 RVA: 0x0030E885 File Offset: 0x0030CC85
 		public static void EnsureStateStackEmpty()
 		{
 			if (Rand.stateStack.Count > 0)
@@ -149,7 +149,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060060E8 RID: 24808 RVA: 0x0030E7E4 File Offset: 0x0030CBE4
+		// Token: 0x060060E6 RID: 24806 RVA: 0x0030E8C0 File Offset: 0x0030CCC0
 		public static float Gaussian(float centerX = 0f, float widthFactor = 1f)
 		{
 			float value = Rand.Value;
@@ -158,7 +158,7 @@ namespace Verse
 			return num * widthFactor + centerX;
 		}
 
-		// Token: 0x060060E9 RID: 24809 RVA: 0x0030E82C File Offset: 0x0030CC2C
+		// Token: 0x060060E7 RID: 24807 RVA: 0x0030E908 File Offset: 0x0030CD08
 		public static float GaussianAsymmetric(float centerX = 0f, float lowerWidthFactor = 1f, float upperWidthFactor = 1f)
 		{
 			float value = Rand.Value;
@@ -176,7 +176,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060060EA RID: 24810 RVA: 0x0030E888 File Offset: 0x0030CC88
+		// Token: 0x060060E8 RID: 24808 RVA: 0x0030E964 File Offset: 0x0030CD64
 		public static int Range(int min, int max)
 		{
 			int result;
@@ -191,7 +191,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060060EB RID: 24811 RVA: 0x0030E8D0 File Offset: 0x0030CCD0
+		// Token: 0x060060E9 RID: 24809 RVA: 0x0030E9AC File Offset: 0x0030CDAC
 		public static int RangeInclusive(int min, int max)
 		{
 			int result;
@@ -206,7 +206,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060060EC RID: 24812 RVA: 0x0030E8FC File Offset: 0x0030CCFC
+		// Token: 0x060060EA RID: 24810 RVA: 0x0030E9D8 File Offset: 0x0030CDD8
 		public static float Range(float min, float max)
 		{
 			float result;
@@ -221,13 +221,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060060ED RID: 24813 RVA: 0x0030E92C File Offset: 0x0030CD2C
+		// Token: 0x060060EB RID: 24811 RVA: 0x0030EA08 File Offset: 0x0030CE08
 		public static bool Chance(float chance)
 		{
 			return chance > 0f && (chance >= 1f || Rand.Value < chance);
 		}
 
-		// Token: 0x060060EE RID: 24814 RVA: 0x0030E970 File Offset: 0x0030CD70
+		// Token: 0x060060EC RID: 24812 RVA: 0x0030EA4C File Offset: 0x0030CE4C
 		public static bool ChanceSeeded(float chance, int specialSeed)
 		{
 			Rand.PushState(specialSeed);
@@ -236,7 +236,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060060EF RID: 24815 RVA: 0x0030E998 File Offset: 0x0030CD98
+		// Token: 0x060060ED RID: 24813 RVA: 0x0030EA74 File Offset: 0x0030CE74
 		public static float ValueSeeded(int specialSeed)
 		{
 			Rand.PushState(specialSeed);
@@ -245,7 +245,7 @@ namespace Verse
 			return value;
 		}
 
-		// Token: 0x060060F0 RID: 24816 RVA: 0x0030E9C0 File Offset: 0x0030CDC0
+		// Token: 0x060060EE RID: 24814 RVA: 0x0030EA9C File Offset: 0x0030CE9C
 		public static float RangeSeeded(float min, float max, int specialSeed)
 		{
 			Rand.PushState(specialSeed);
@@ -254,7 +254,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060060F1 RID: 24817 RVA: 0x0030E9EC File Offset: 0x0030CDEC
+		// Token: 0x060060EF RID: 24815 RVA: 0x0030EAC8 File Offset: 0x0030CEC8
 		public static int RangeSeeded(int min, int max, int specialSeed)
 		{
 			Rand.PushState(specialSeed);
@@ -263,7 +263,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060060F2 RID: 24818 RVA: 0x0030EA18 File Offset: 0x0030CE18
+		// Token: 0x060060F0 RID: 24816 RVA: 0x0030EAF4 File Offset: 0x0030CEF4
 		public static int RangeInclusiveSeeded(int min, int max, int specialSeed)
 		{
 			Rand.PushState(specialSeed);
@@ -272,13 +272,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060060F3 RID: 24819 RVA: 0x0030EA44 File Offset: 0x0030CE44
+		// Token: 0x060060F1 RID: 24817 RVA: 0x0030EB20 File Offset: 0x0030CF20
 		public static T Element<T>(T a, T b)
 		{
 			return (!Rand.Bool) ? b : a;
 		}
 
-		// Token: 0x060060F4 RID: 24820 RVA: 0x0030EA6C File Offset: 0x0030CE6C
+		// Token: 0x060060F2 RID: 24818 RVA: 0x0030EB48 File Offset: 0x0030CF48
 		public static T Element<T>(T a, T b, T c)
 		{
 			float value = Rand.Value;
@@ -298,7 +298,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060060F5 RID: 24821 RVA: 0x0030EAAC File Offset: 0x0030CEAC
+		// Token: 0x060060F3 RID: 24819 RVA: 0x0030EB88 File Offset: 0x0030CF88
 		public static T Element<T>(T a, T b, T c, T d)
 		{
 			float value = Rand.Value;
@@ -322,7 +322,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060060F6 RID: 24822 RVA: 0x0030EB00 File Offset: 0x0030CF00
+		// Token: 0x060060F4 RID: 24820 RVA: 0x0030EBDC File Offset: 0x0030CFDC
 		public static T Element<T>(T a, T b, T c, T d, T e)
 		{
 			float value = Rand.Value;
@@ -350,7 +350,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060060F7 RID: 24823 RVA: 0x0030EB68 File Offset: 0x0030CF68
+		// Token: 0x060060F5 RID: 24821 RVA: 0x0030EC44 File Offset: 0x0030D044
 		public static T Element<T>(T a, T b, T c, T d, T e, T f)
 		{
 			float value = Rand.Value;
@@ -382,26 +382,26 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060060F8 RID: 24824 RVA: 0x0030EBE0 File Offset: 0x0030CFE0
+		// Token: 0x060060F6 RID: 24822 RVA: 0x0030ECBC File Offset: 0x0030D0BC
 		public static void PushState()
 		{
 			Rand.stateStack.Push(Rand.StateCompressed);
 		}
 
-		// Token: 0x060060F9 RID: 24825 RVA: 0x0030EBF2 File Offset: 0x0030CFF2
+		// Token: 0x060060F7 RID: 24823 RVA: 0x0030ECCE File Offset: 0x0030D0CE
 		public static void PushState(int replacementSeed)
 		{
 			Rand.PushState();
 			Rand.Seed = replacementSeed;
 		}
 
-		// Token: 0x060060FA RID: 24826 RVA: 0x0030EC00 File Offset: 0x0030D000
+		// Token: 0x060060F8 RID: 24824 RVA: 0x0030ECDC File Offset: 0x0030D0DC
 		public static void PopState()
 		{
 			Rand.StateCompressed = Rand.stateStack.Pop();
 		}
 
-		// Token: 0x060060FB RID: 24827 RVA: 0x0030EC14 File Offset: 0x0030D014
+		// Token: 0x060060F9 RID: 24825 RVA: 0x0030ECF0 File Offset: 0x0030D0F0
 		public static float ByCurve(SimpleCurve curve)
 		{
 			if (curve.PointsCount < 3)
@@ -443,7 +443,7 @@ namespace Verse
 			throw new Exception("Reached end of Rand.ByCurve without choosing a point.");
 		}
 
-		// Token: 0x060060FC RID: 24828 RVA: 0x0030EE50 File Offset: 0x0030D250
+		// Token: 0x060060FA RID: 24826 RVA: 0x0030EF2C File Offset: 0x0030D32C
 		public static float ByCurveAverage(SimpleCurve curve)
 		{
 			float num = 0f;
@@ -456,7 +456,7 @@ namespace Verse
 			return num2 / num / 3f;
 		}
 
-		// Token: 0x060060FD RID: 24829 RVA: 0x0030EF80 File Offset: 0x0030D380
+		// Token: 0x060060FB RID: 24827 RVA: 0x0030F05C File Offset: 0x0030D45C
 		public static bool MTBEventOccurs(float mtb, float mtbUnit, float checkDuration)
 		{
 			bool result;
@@ -518,7 +518,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060060FE RID: 24830 RVA: 0x0030F100 File Offset: 0x0030D500
+		// Token: 0x060060FC RID: 24828 RVA: 0x0030F1DC File Offset: 0x0030D5DC
 		[DebugOutput]
 		[Category("System")]
 		internal static void RandTests()
@@ -641,7 +641,7 @@ namespace Verse
 			Log.Message(stringBuilder.ToString(), false);
 		}
 
-		// Token: 0x060060FF RID: 24831 RVA: 0x0030F4B0 File Offset: 0x0030D8B0
+		// Token: 0x060060FD RID: 24829 RVA: 0x0030F58C File Offset: 0x0030D98C
 		public static int RandSeedForHour(this Thing t, int salt)
 		{
 			int seed = t.HashOffset();
@@ -649,7 +649,7 @@ namespace Verse
 			return Gen.HashCombineInt(seed, salt);
 		}
 
-		// Token: 0x06006100 RID: 24832 RVA: 0x0030F4EC File Offset: 0x0030D8EC
+		// Token: 0x060060FE RID: 24830 RVA: 0x0030F5C8 File Offset: 0x0030D9C8
 		public static bool TryRangeInclusiveWhere(int from, int to, Predicate<int> predicate, out int value)
 		{
 			int num = to - from + 1;
@@ -694,7 +694,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06006101 RID: 24833 RVA: 0x0030F5F0 File Offset: 0x0030D9F0
+		// Token: 0x060060FF RID: 24831 RVA: 0x0030F6CC File Offset: 0x0030DACC
 		public static Vector3 PointOnSphereCap(Vector3 center, float angle)
 		{
 			Vector3 result;
@@ -716,16 +716,16 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04003F6D RID: 16237
+		// Token: 0x04003F6C RID: 16236
 		private static Stack<ulong> stateStack = new Stack<ulong>();
 
-		// Token: 0x04003F6E RID: 16238
+		// Token: 0x04003F6D RID: 16237
 		private static RandomNumberGenerator random = new RandomNumberGenerator_BasicHash();
 
-		// Token: 0x04003F6F RID: 16239
+		// Token: 0x04003F6E RID: 16238
 		private static uint iterations = 0u;
 
-		// Token: 0x04003F70 RID: 16240
+		// Token: 0x04003F6F RID: 16239
 		private static List<int> tmpRange = new List<int>();
 	}
 }

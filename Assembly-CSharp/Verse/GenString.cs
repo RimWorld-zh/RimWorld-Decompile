@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000F4A RID: 3914
+	// Token: 0x02000F49 RID: 3913
 	public static class GenString
 	{
-		// Token: 0x06005E88 RID: 24200 RVA: 0x003011D8 File Offset: 0x002FF5D8
+		// Token: 0x06005E86 RID: 24198 RVA: 0x003012B4 File Offset: 0x002FF6B4
 		static GenString()
 		{
 			for (int i = 0; i < 10000; i++)
@@ -15,7 +15,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005E89 RID: 24201 RVA: 0x0030122C File Offset: 0x002FF62C
+		// Token: 0x06005E87 RID: 24199 RVA: 0x00301308 File Offset: 0x002FF708
 		public static string ToStringCached(this int num)
 		{
 			string result;
@@ -34,7 +34,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06005E8A RID: 24202 RVA: 0x0030128C File Offset: 0x002FF68C
+		// Token: 0x06005E88 RID: 24200 RVA: 0x00301368 File Offset: 0x002FF768
 		public static IEnumerable<string> SplitBy(this string str, int chunkLength)
 		{
 			if (str.NullOrEmpty())
@@ -56,7 +56,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x04003E1C RID: 15900
+		// Token: 0x04003E1B RID: 15899
 		private static string[] numberStrings = new string[10000];
 	}
 }

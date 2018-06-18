@@ -8,7 +8,7 @@ namespace Verse
 	public class KeyBindingDef : Def
 	{
 		// Token: 0x17000997 RID: 2455
-		// (get) Token: 0x06003F55 RID: 16213 RVA: 0x00215D9C File Offset: 0x0021419C
+		// (get) Token: 0x06003F57 RID: 16215 RVA: 0x00215E70 File Offset: 0x00214270
 		public KeyCode MainKey
 		{
 			get
@@ -30,7 +30,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000998 RID: 2456
-		// (get) Token: 0x06003F56 RID: 16214 RVA: 0x00215DFC File Offset: 0x002141FC
+		// (get) Token: 0x06003F58 RID: 16216 RVA: 0x00215ED0 File Offset: 0x002142D0
 		public string MainKeyLabel
 		{
 			get
@@ -40,7 +40,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000999 RID: 2457
-		// (get) Token: 0x06003F57 RID: 16215 RVA: 0x00215E1C File Offset: 0x0021421C
+		// (get) Token: 0x06003F59 RID: 16217 RVA: 0x00215EF0 File Offset: 0x002142F0
 		public bool KeyDownEvent
 		{
 			get
@@ -58,7 +58,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700099A RID: 2458
-		// (get) Token: 0x06003F58 RID: 16216 RVA: 0x00215EF4 File Offset: 0x002142F4
+		// (get) Token: 0x06003F5A RID: 16218 RVA: 0x00215FC8 File Offset: 0x002143C8
 		public bool IsDownEvent
 		{
 			get
@@ -69,7 +69,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700099B RID: 2459
-		// (get) Token: 0x06003F59 RID: 16217 RVA: 0x002160AC File Offset: 0x002144AC
+		// (get) Token: 0x06003F5B RID: 16219 RVA: 0x00216180 File Offset: 0x00214580
 		public bool JustPressed
 		{
 			get
@@ -80,7 +80,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700099C RID: 2460
-		// (get) Token: 0x06003F5A RID: 16218 RVA: 0x00216100 File Offset: 0x00214500
+		// (get) Token: 0x06003F5C RID: 16220 RVA: 0x002161D4 File Offset: 0x002145D4
 		public bool IsDown
 		{
 			get
@@ -90,7 +90,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F5B RID: 16219 RVA: 0x00216154 File Offset: 0x00214554
+		// Token: 0x06003F5D RID: 16221 RVA: 0x00216228 File Offset: 0x00214628
 		public KeyCode GetDefaultKeyCode(KeyPrefs.BindingSlot slot)
 		{
 			KeyCode result;
@@ -109,7 +109,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003F5C RID: 16220 RVA: 0x00216190 File Offset: 0x00214590
+		// Token: 0x06003F5E RID: 16222 RVA: 0x00216264 File Offset: 0x00214664
 		public static KeyBindingDef Named(string name)
 		{
 			return DefDatabase<KeyBindingDef>.GetNamedSilentFail(name);

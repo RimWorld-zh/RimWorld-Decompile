@@ -4,16 +4,16 @@ using System.Linq;
 
 namespace Verse
 {
-	// Token: 0x02000CFA RID: 3322
+	// Token: 0x02000CF9 RID: 3321
 	public class DamageWorker_Scratch : DamageWorker_AddInjury
 	{
-		// Token: 0x0600491A RID: 18714 RVA: 0x002660AC File Offset: 0x002644AC
+		// Token: 0x06004918 RID: 18712 RVA: 0x00266084 File Offset: 0x00264484
 		protected override BodyPartRecord ChooseHitPart(DamageInfo dinfo, Pawn pawn)
 		{
 			return pawn.health.hediffSet.GetRandomNotMissingPart(dinfo.Def, dinfo.Height, BodyPartDepth.Outside);
 		}
 
-		// Token: 0x0600491B RID: 18715 RVA: 0x002660E0 File Offset: 0x002644E0
+		// Token: 0x06004919 RID: 18713 RVA: 0x002660B8 File Offset: 0x002644B8
 		protected override void ApplySpecialEffectsToPart(Pawn pawn, float totalDamage, DamageInfo dinfo, DamageWorker.DamageResult result)
 		{
 			if (dinfo.HitPart.depth == BodyPartDepth.Inside)

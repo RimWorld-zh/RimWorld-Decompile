@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C07 RID: 3079
+	// Token: 0x02000C06 RID: 3078
 	public sealed class DebugCellDrawer
 	{
-		// Token: 0x06004342 RID: 17218 RVA: 0x00238010 File Offset: 0x00236410
+		// Token: 0x06004340 RID: 17216 RVA: 0x00237FE8 File Offset: 0x002363E8
 		public void FlashCell(IntVec3 c, float colorPct = 0f, string text = null, int duration = 50)
 		{
 			DebugCell debugCell = new DebugCell();
@@ -18,7 +18,7 @@ namespace Verse
 			this.debugCells.Add(debugCell);
 		}
 
-		// Token: 0x06004343 RID: 17219 RVA: 0x00238050 File Offset: 0x00236450
+		// Token: 0x06004341 RID: 17217 RVA: 0x00238028 File Offset: 0x00236428
 		public void FlashCell(IntVec3 c, Material mat, string text = null, int duration = 50)
 		{
 			DebugCell debugCell = new DebugCell();
@@ -29,13 +29,13 @@ namespace Verse
 			this.debugCells.Add(debugCell);
 		}
 
-		// Token: 0x06004344 RID: 17220 RVA: 0x0023808D File Offset: 0x0023648D
+		// Token: 0x06004342 RID: 17218 RVA: 0x00238065 File Offset: 0x00236465
 		public void FlashLine(IntVec3 a, IntVec3 b, int duration = 50, SimpleColor color = SimpleColor.White)
 		{
 			this.debugLines.Add(new DebugLine(a.ToVector3Shifted(), b.ToVector3Shifted(), duration, color));
 		}
 
-		// Token: 0x06004345 RID: 17221 RVA: 0x002380B4 File Offset: 0x002364B4
+		// Token: 0x06004343 RID: 17219 RVA: 0x0023808C File Offset: 0x0023648C
 		public void DebugDrawerUpdate()
 		{
 			for (int i = 0; i < this.debugCells.Count; i++)
@@ -48,7 +48,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004346 RID: 17222 RVA: 0x00238124 File Offset: 0x00236524
+		// Token: 0x06004344 RID: 17220 RVA: 0x002380FC File Offset: 0x002364FC
 		public void DebugDrawerTick()
 		{
 			for (int i = this.debugCells.Count - 1; i >= 0; i--)
@@ -63,7 +63,7 @@ namespace Verse
 			this.debugLines.RemoveAll((DebugLine dl) => dl.Done);
 		}
 
-		// Token: 0x06004347 RID: 17223 RVA: 0x002381B0 File Offset: 0x002365B0
+		// Token: 0x06004345 RID: 17221 RVA: 0x00238188 File Offset: 0x00236588
 		public void DebugDrawerOnGUI()
 		{
 			if (Find.CameraDriver.CurrentZoom == CameraZoomRange.Closest)
@@ -80,13 +80,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002DF8 RID: 11768
+		// Token: 0x04002DF6 RID: 11766
 		private List<DebugCell> debugCells = new List<DebugCell>();
 
-		// Token: 0x04002DF9 RID: 11769
+		// Token: 0x04002DF7 RID: 11767
 		private List<DebugLine> debugLines = new List<DebugLine>();
 
-		// Token: 0x04002DFA RID: 11770
+		// Token: 0x04002DF8 RID: 11768
 		private const int DefaultLifespanTicks = 50;
 	}
 }

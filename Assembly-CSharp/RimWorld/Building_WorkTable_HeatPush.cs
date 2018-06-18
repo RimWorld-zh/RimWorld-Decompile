@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020006B6 RID: 1718
 	public class Building_WorkTable_HeatPush : Building_WorkTable
 	{
-		// Token: 0x060024E7 RID: 9447 RVA: 0x0013BA01 File Offset: 0x00139E01
+		// Token: 0x060024E9 RID: 9449 RVA: 0x0013BA79 File Offset: 0x00139E79
 		public override void UsedThisTick()
 		{
 			base.UsedThisTick();

@@ -13,7 +13,7 @@ namespace RimWorld
 	// Token: 0x02000817 RID: 2071
 	public static class CharacterCardUtility
 	{
-		// Token: 0x06002E2A RID: 11818 RVA: 0x00184E08 File Offset: 0x00183208
+		// Token: 0x06002E2C RID: 11820 RVA: 0x00184E9C File Offset: 0x0018329C
 		public static void DrawCharacterCard(Rect rect, Pawn pawn, Action randomizeCallback = null, Rect creationRect = default(Rect))
 		{
 			bool flag = randomizeCallback != null;
@@ -235,7 +235,7 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002E2B RID: 11819 RVA: 0x0018586C File Offset: 0x00183C6C
+		// Token: 0x06002E2D RID: 11821 RVA: 0x00185900 File Offset: 0x00183D00
 		public static void DoNameInputRect(Rect rect, ref string name, int maxLength)
 		{
 			string text = Widgets.TextField(rect, name);
@@ -245,7 +245,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002E2C RID: 11820 RVA: 0x001858A4 File Offset: 0x00183CA4
+		// Token: 0x06002E2E RID: 11822 RVA: 0x00185938 File Offset: 0x00183D38
 		private static IEnumerable<WorkTags> WorkTagsFrom(WorkTags tags)
 		{
 			foreach (WorkTags workTag in tags.GetAllSelectedItems<WorkTags>())

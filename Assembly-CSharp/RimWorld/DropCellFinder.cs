@@ -10,13 +10,13 @@ namespace RimWorld
 	// Token: 0x020008FD RID: 2301
 	public static class DropCellFinder
 	{
-		// Token: 0x06003537 RID: 13623 RVA: 0x001C74D8 File Offset: 0x001C58D8
+		// Token: 0x06003539 RID: 13625 RVA: 0x001C75A0 File Offset: 0x001C59A0
 		public static IntVec3 RandomDropSpot(Map map)
 		{
 			return CellFinderLoose.RandomCellWith((IntVec3 c) => c.Standable(map) && !c.Roofed(map) && !c.Fogged(map), map, 1000);
 		}
 
-		// Token: 0x06003538 RID: 13624 RVA: 0x001C7518 File Offset: 0x001C5918
+		// Token: 0x0600353A RID: 13626 RVA: 0x001C75E0 File Offset: 0x001C59E0
 		public static IntVec3 TradeDropSpot(Map map)
 		{
 			IEnumerable<Building> collection = from b in map.listerBuildings.allBuildingsColonist
@@ -85,7 +85,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003539 RID: 13625 RVA: 0x001C7768 File Offset: 0x001C5B68
+		// Token: 0x0600353B RID: 13627 RVA: 0x001C7830 File Offset: 0x001C5C30
 		public static bool TryFindDropSpotNear(IntVec3 center, Map map, out IntVec3 result, bool allowFogged, bool canRoofPunch, bool willExplode)
 		{
 			if (DebugViewSettings.drawDestSearch)
@@ -106,7 +106,7 @@ namespace RimWorld
 			return true;
 		}
 
-		// Token: 0x0600353A RID: 13626 RVA: 0x001C7828 File Offset: 0x001C5C28
+		// Token: 0x0600353C RID: 13628 RVA: 0x001C78F0 File Offset: 0x001C5CF0
 		public static bool IsGoodDropSpot(IntVec3 c, Map map, bool allowFogged, bool canRoofPunch)
 		{
 			bool result;
@@ -149,13 +149,13 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600353B RID: 13627 RVA: 0x001C7930 File Offset: 0x001C5D30
+		// Token: 0x0600353D RID: 13629 RVA: 0x001C79F8 File Offset: 0x001C5DF8
 		private static bool AnyAdjacentGoodDropSpot(IntVec3 c, Map map, bool allowFogged, bool canRoofPunch)
 		{
 			return DropCellFinder.IsGoodDropSpot(c + IntVec3.North, map, allowFogged, canRoofPunch) || DropCellFinder.IsGoodDropSpot(c + IntVec3.East, map, allowFogged, canRoofPunch) || DropCellFinder.IsGoodDropSpot(c + IntVec3.South, map, allowFogged, canRoofPunch) || DropCellFinder.IsGoodDropSpot(c + IntVec3.West, map, allowFogged, canRoofPunch);
 		}
 
-		// Token: 0x0600353C RID: 13628 RVA: 0x001C79A4 File Offset: 0x001C5DA4
+		// Token: 0x0600353E RID: 13630 RVA: 0x001C7A6C File Offset: 0x001C5E6C
 		public static IntVec3 FindRaidDropCenterDistant(Map map)
 		{
 			Faction hostFaction = map.ParentFaction ?? Faction.OfPlayer;
@@ -207,7 +207,7 @@ namespace RimWorld
 			return intVec;
 		}
 
-		// Token: 0x0600353D RID: 13629 RVA: 0x001C7B38 File Offset: 0x001C5F38
+		// Token: 0x0600353F RID: 13631 RVA: 0x001C7C00 File Offset: 0x001C6000
 		public static bool TryFindRaidDropCenterClose(out IntVec3 spot, Map map)
 		{
 			Faction faction = map.ParentFaction ?? Faction.OfPlayer;
@@ -265,7 +265,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x0600353E RID: 13630 RVA: 0x001C7D1C File Offset: 0x001C611C
+		// Token: 0x06003540 RID: 13632 RVA: 0x001C7DE4 File Offset: 0x001C61E4
 		private static bool CanPhysicallyDropInto(IntVec3 c, Map map, bool canRoofPunch)
 		{
 			bool result;

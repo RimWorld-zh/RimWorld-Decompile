@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class IncidentCategoryDefOf
 	{
-		// Token: 0x06003677 RID: 13943 RVA: 0x001D0C11 File Offset: 0x001CF011
+		// Token: 0x06003679 RID: 13945 RVA: 0x001D0CD9 File Offset: 0x001CF0D9
 		static IncidentCategoryDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(IncidentCategoryDefOf));

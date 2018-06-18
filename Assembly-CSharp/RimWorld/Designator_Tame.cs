@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x020007E0 RID: 2016
 	public class Designator_Tame : Designator
 	{
-		// Token: 0x06002CA7 RID: 11431 RVA: 0x00177D98 File Offset: 0x00176198
+		// Token: 0x06002CA9 RID: 11433 RVA: 0x00177E2C File Offset: 0x0017622C
 		public Designator_Tame()
 		{
 			this.defaultLabel = "DesignatorTame".Translate();
@@ -24,7 +24,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000706 RID: 1798
-		// (get) Token: 0x06002CA8 RID: 11432 RVA: 0x00177E28 File Offset: 0x00176228
+		// (get) Token: 0x06002CAA RID: 11434 RVA: 0x00177EBC File Offset: 0x001762BC
 		public override int DraggableDimensions
 		{
 			get
@@ -34,7 +34,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000707 RID: 1799
-		// (get) Token: 0x06002CA9 RID: 11433 RVA: 0x00177E40 File Offset: 0x00176240
+		// (get) Token: 0x06002CAB RID: 11435 RVA: 0x00177ED4 File Offset: 0x001762D4
 		protected override DesignationDef Designation
 		{
 			get
@@ -43,7 +43,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002CAA RID: 11434 RVA: 0x00177E5C File Offset: 0x0017625C
+		// Token: 0x06002CAC RID: 11436 RVA: 0x00177EF0 File Offset: 0x001762F0
 		public override AcceptanceReport CanDesignateCell(IntVec3 c)
 		{
 			AcceptanceReport result;
@@ -62,7 +62,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002CAB RID: 11435 RVA: 0x00177EBC File Offset: 0x001762BC
+		// Token: 0x06002CAD RID: 11437 RVA: 0x00177F50 File Offset: 0x00176350
 		public override void DesignateSingleCell(IntVec3 loc)
 		{
 			foreach (Pawn t in this.TameablesInCell(loc))
@@ -71,7 +71,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002CAC RID: 11436 RVA: 0x00177F1C File Offset: 0x0017631C
+		// Token: 0x06002CAE RID: 11438 RVA: 0x00177FB0 File Offset: 0x001763B0
 		public override AcceptanceReport CanDesignateThing(Thing t)
 		{
 			Pawn pawn = t as Pawn;
@@ -87,7 +87,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002CAD RID: 11437 RVA: 0x00177FA4 File Offset: 0x001763A4
+		// Token: 0x06002CAF RID: 11439 RVA: 0x00178038 File Offset: 0x00176438
 		protected override void FinalizeDesignationSucceeded()
 		{
 			base.FinalizeDesignationSucceeded();
@@ -104,7 +104,7 @@ namespace RimWorld
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.AnimalTaming, KnowledgeAmount.Total);
 		}
 
-		// Token: 0x06002CAE RID: 11438 RVA: 0x00178064 File Offset: 0x00176464
+		// Token: 0x06002CB0 RID: 11440 RVA: 0x001780F8 File Offset: 0x001764F8
 		public override void DesignateThing(Thing t)
 		{
 			base.Map.designationManager.RemoveAllDesignationsOn(t, false);
@@ -112,7 +112,7 @@ namespace RimWorld
 			this.justDesignated.Add((Pawn)t);
 		}
 
-		// Token: 0x06002CAF RID: 11439 RVA: 0x001780B8 File Offset: 0x001764B8
+		// Token: 0x06002CB1 RID: 11441 RVA: 0x0017814C File Offset: 0x0017654C
 		private IEnumerable<Pawn> TameablesInCell(IntVec3 c)
 		{
 			if (c.Fogged(base.Map))

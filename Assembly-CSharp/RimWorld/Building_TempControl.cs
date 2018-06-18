@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x0200069B RID: 1691
 	public class Building_TempControl : Building
 	{
-		// Token: 0x060023CC RID: 9164 RVA: 0x00132850 File Offset: 0x00130C50
+		// Token: 0x060023CE RID: 9166 RVA: 0x001328C8 File Offset: 0x00130CC8
 		public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);

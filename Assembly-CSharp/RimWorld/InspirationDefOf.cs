@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class InspirationDefOf
 	{
-		// Token: 0x0600366F RID: 13935 RVA: 0x001D0B81 File Offset: 0x001CEF81
+		// Token: 0x06003671 RID: 13937 RVA: 0x001D0C49 File Offset: 0x001CF049
 		static InspirationDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(InspirationDefOf));

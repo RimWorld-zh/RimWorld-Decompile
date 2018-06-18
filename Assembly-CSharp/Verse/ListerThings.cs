@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000C30 RID: 3120
+	// Token: 0x02000C2F RID: 3119
 	public sealed class ListerThings
 	{
-		// Token: 0x0600447E RID: 17534 RVA: 0x0023F5E0 File Offset: 0x0023D9E0
+		// Token: 0x0600447C RID: 17532 RVA: 0x0023F5B8 File Offset: 0x0023D9B8
 		public ListerThings(ListerThingsUse use)
 		{
 			this.use = use;
@@ -14,8 +14,8 @@ namespace Verse
 			this.listsByGroup[2] = new List<Thing>();
 		}
 
-		// Token: 0x17000AB7 RID: 2743
-		// (get) Token: 0x0600447F RID: 17535 RVA: 0x0023F634 File Offset: 0x0023DA34
+		// Token: 0x17000AB6 RID: 2742
+		// (get) Token: 0x0600447D RID: 17533 RVA: 0x0023F60C File Offset: 0x0023DA0C
 		public List<Thing> AllThings
 		{
 			get
@@ -24,19 +24,19 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004480 RID: 17536 RVA: 0x0023F654 File Offset: 0x0023DA54
+		// Token: 0x0600447E RID: 17534 RVA: 0x0023F62C File Offset: 0x0023DA2C
 		public List<Thing> ThingsInGroup(ThingRequestGroup group)
 		{
 			return this.ThingsMatching(ThingRequest.ForGroup(group));
 		}
 
-		// Token: 0x06004481 RID: 17537 RVA: 0x0023F678 File Offset: 0x0023DA78
+		// Token: 0x0600447F RID: 17535 RVA: 0x0023F650 File Offset: 0x0023DA50
 		public List<Thing> ThingsOfDef(ThingDef def)
 		{
 			return this.ThingsMatching(ThingRequest.ForDef(def));
 		}
 
-		// Token: 0x06004482 RID: 17538 RVA: 0x0023F69C File Offset: 0x0023DA9C
+		// Token: 0x06004480 RID: 17536 RVA: 0x0023F674 File Offset: 0x0023DA74
 		public List<Thing> ThingsMatching(ThingRequest req)
 		{
 			List<Thing> result;
@@ -72,13 +72,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004483 RID: 17539 RVA: 0x0023F778 File Offset: 0x0023DB78
+		// Token: 0x06004481 RID: 17537 RVA: 0x0023F750 File Offset: 0x0023DB50
 		public bool Contains(Thing t)
 		{
 			return this.AllThings.Contains(t);
 		}
 
-		// Token: 0x06004484 RID: 17540 RVA: 0x0023F79C File Offset: 0x0023DB9C
+		// Token: 0x06004482 RID: 17538 RVA: 0x0023F774 File Offset: 0x0023DB74
 		public void Add(Thing t)
 		{
 			if (ListerThings.EverListable(t.def, this.use))
@@ -109,7 +109,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004485 RID: 17541 RVA: 0x0023F87C File Offset: 0x0023DC7C
+		// Token: 0x06004483 RID: 17539 RVA: 0x0023F854 File Offset: 0x0023DC54
 		public void Remove(Thing t)
 		{
 			if (ListerThings.EverListable(t.def, this.use))
@@ -130,13 +130,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004486 RID: 17542 RVA: 0x0023F91C File Offset: 0x0023DD1C
+		// Token: 0x06004484 RID: 17540 RVA: 0x0023F8F4 File Offset: 0x0023DCF4
 		public static bool EverListable(ThingDef def, ListerThingsUse use)
 		{
 			return (def.category != ThingCategory.Mote || (def.drawGUIOverlay && use != ListerThingsUse.Region)) && (def.category != ThingCategory.Projectile || use != ListerThingsUse.Region) && def.category != ThingCategory.Gas;
 		}
 
-		// Token: 0x06004487 RID: 17543 RVA: 0x0023F988 File Offset: 0x0023DD88
+		// Token: 0x06004485 RID: 17541 RVA: 0x0023F960 File Offset: 0x0023DD60
 		public void Clear()
 		{
 			this.listsByDef.Clear();
@@ -149,16 +149,16 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04002E7A RID: 11898
+		// Token: 0x04002E78 RID: 11896
 		private Dictionary<ThingDef, List<Thing>> listsByDef = new Dictionary<ThingDef, List<Thing>>(ThingDefComparer.Instance);
 
-		// Token: 0x04002E7B RID: 11899
+		// Token: 0x04002E79 RID: 11897
 		private List<Thing>[] listsByGroup;
 
-		// Token: 0x04002E7C RID: 11900
+		// Token: 0x04002E7A RID: 11898
 		public ListerThingsUse use = ListerThingsUse.Undefined;
 
-		// Token: 0x04002E7D RID: 11901
+		// Token: 0x04002E7B RID: 11899
 		private static readonly List<Thing> EmptyList = new List<Thing>();
 	}
 }

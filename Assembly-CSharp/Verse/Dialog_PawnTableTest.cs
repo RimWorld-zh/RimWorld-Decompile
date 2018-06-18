@@ -6,18 +6,18 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000E39 RID: 3641
+	// Token: 0x02000E38 RID: 3640
 	[HasDebugOutput]
 	public class Dialog_PawnTableTest : Window
 	{
-		// Token: 0x06005603 RID: 22019 RVA: 0x002C4894 File Offset: 0x002C2C94
+		// Token: 0x06005601 RID: 22017 RVA: 0x002C4894 File Offset: 0x002C2C94
 		public Dialog_PawnTableTest(PawnColumnDef singleColumn)
 		{
 			this.singleColumn = singleColumn;
 		}
 
-		// Token: 0x17000D76 RID: 3446
-		// (get) Token: 0x06005604 RID: 22020 RVA: 0x002C48A4 File Offset: 0x002C2CA4
+		// Token: 0x17000D75 RID: 3445
+		// (get) Token: 0x06005602 RID: 22018 RVA: 0x002C48A4 File Offset: 0x002C2CA4
 		public override Vector2 InitialSize
 		{
 			get
@@ -26,8 +26,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D77 RID: 3447
-		// (get) Token: 0x06005605 RID: 22021 RVA: 0x002C48CC File Offset: 0x002C2CCC
+		// Token: 0x17000D76 RID: 3446
+		// (get) Token: 0x06005603 RID: 22019 RVA: 0x002C48CC File Offset: 0x002C2CCC
 		private List<Pawn> Pawns
 		{
 			get
@@ -36,7 +36,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005606 RID: 22022 RVA: 0x002C48FC File Offset: 0x002C2CFC
+		// Token: 0x06005604 RID: 22020 RVA: 0x002C48FC File Offset: 0x002C2CFC
 		public override void DoWindowContents(Rect inRect)
 		{
 			int num = ((int)inRect.height - 90) / 3;
@@ -83,7 +83,7 @@ namespace Verse
 			num2 += num;
 		}
 
-		// Token: 0x06005607 RID: 22023 RVA: 0x002C4BC8 File Offset: 0x002C2FC8
+		// Token: 0x06005605 RID: 22021 RVA: 0x002C4BC8 File Offset: 0x002C2FC8
 		[DebugOutput]
 		[Category("UI")]
 		private static void PawnColumnTest()
@@ -101,19 +101,19 @@ namespace Verse
 			Find.WindowStack.Add(new Dialog_DebugOptionListLister(list));
 		}
 
-		// Token: 0x040038D6 RID: 14550
+		// Token: 0x040038D4 RID: 14548
 		private PawnColumnDef singleColumn;
 
-		// Token: 0x040038D7 RID: 14551
+		// Token: 0x040038D5 RID: 14549
 		private PawnTable pawnTableMin;
 
-		// Token: 0x040038D8 RID: 14552
+		// Token: 0x040038D6 RID: 14550
 		private PawnTable pawnTableOptimal;
 
-		// Token: 0x040038D9 RID: 14553
+		// Token: 0x040038D7 RID: 14551
 		private PawnTable pawnTableMax;
 
-		// Token: 0x040038DA RID: 14554
+		// Token: 0x040038D8 RID: 14552
 		private const int TableTitleHeight = 30;
 	}
 }

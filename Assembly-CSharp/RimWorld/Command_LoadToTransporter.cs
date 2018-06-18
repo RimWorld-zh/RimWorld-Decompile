@@ -10,7 +10,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Command_LoadToTransporter : Command
 	{
-		// Token: 0x0600293D RID: 10557 RVA: 0x0015EE5C File Offset: 0x0015D25C
+		// Token: 0x0600293F RID: 10559 RVA: 0x0015EEF0 File Offset: 0x0015D2F0
 		public override void ProcessInput(Event ev)
 		{
 			base.ProcessInput(ev);
@@ -59,7 +59,7 @@ namespace RimWorld
 			Find.WindowStack.Add(new Dialog_LoadTransporters(this.transComp.Map, this.transporters));
 		}
 
-		// Token: 0x0600293E RID: 10558 RVA: 0x0015F074 File Offset: 0x0015D474
+		// Token: 0x06002940 RID: 10560 RVA: 0x0015F108 File Offset: 0x0015D508
 		public override bool InheritInteractionsFrom(Gizmo other)
 		{
 			Command_LoadToTransporter command_LoadToTransporter = (Command_LoadToTransporter)other;

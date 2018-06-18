@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x0200089C RID: 2204
 	public class PawnTable
 	{
-		// Token: 0x0600325A RID: 12890 RVA: 0x001B1528 File Offset: 0x001AF928
+		// Token: 0x0600325C RID: 12892 RVA: 0x001B15F0 File Offset: 0x001AF9F0
 		public PawnTable(PawnTableDef def, Func<IEnumerable<Pawn>> pawnsGetter, int uiWidth, int uiHeight)
 		{
 			this.def = def;
@@ -19,7 +19,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000804 RID: 2052
-		// (get) Token: 0x0600325B RID: 12891 RVA: 0x001B1598 File Offset: 0x001AF998
+		// (get) Token: 0x0600325D RID: 12893 RVA: 0x001B1660 File Offset: 0x001AFA60
 		public List<PawnColumnDef> ColumnsListForReading
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000805 RID: 2053
-		// (get) Token: 0x0600325C RID: 12892 RVA: 0x001B15B8 File Offset: 0x001AF9B8
+		// (get) Token: 0x0600325E RID: 12894 RVA: 0x001B1680 File Offset: 0x001AFA80
 		public PawnColumnDef SortingBy
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000806 RID: 2054
-		// (get) Token: 0x0600325D RID: 12893 RVA: 0x001B15D4 File Offset: 0x001AF9D4
+		// (get) Token: 0x0600325F RID: 12895 RVA: 0x001B169C File Offset: 0x001AFA9C
 		public bool SortingDescending
 		{
 			get
@@ -49,7 +49,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000807 RID: 2055
-		// (get) Token: 0x0600325E RID: 12894 RVA: 0x001B1600 File Offset: 0x001AFA00
+		// (get) Token: 0x06003260 RID: 12896 RVA: 0x001B16C8 File Offset: 0x001AFAC8
 		public Vector2 Size
 		{
 			get
@@ -60,7 +60,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000808 RID: 2056
-		// (get) Token: 0x0600325F RID: 12895 RVA: 0x001B1624 File Offset: 0x001AFA24
+		// (get) Token: 0x06003261 RID: 12897 RVA: 0x001B16EC File Offset: 0x001AFAEC
 		public float HeightNoScrollbar
 		{
 			get
@@ -71,7 +71,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000809 RID: 2057
-		// (get) Token: 0x06003260 RID: 12896 RVA: 0x001B1648 File Offset: 0x001AFA48
+		// (get) Token: 0x06003262 RID: 12898 RVA: 0x001B1710 File Offset: 0x001AFB10
 		public float HeaderHeight
 		{
 			get
@@ -82,7 +82,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700080A RID: 2058
-		// (get) Token: 0x06003261 RID: 12897 RVA: 0x001B166C File Offset: 0x001AFA6C
+		// (get) Token: 0x06003263 RID: 12899 RVA: 0x001B1734 File Offset: 0x001AFB34
 		public List<Pawn> PawnsListForReading
 		{
 			get
@@ -92,7 +92,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003262 RID: 12898 RVA: 0x001B1690 File Offset: 0x001AFA90
+		// Token: 0x06003264 RID: 12900 RVA: 0x001B1758 File Offset: 0x001AFB58
 		public void PawnTableOnGUI(Vector2 position)
 		{
 			if (Event.current.type != EventType.Layout)
@@ -160,13 +160,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003263 RID: 12899 RVA: 0x001B19FF File Offset: 0x001AFDFF
+		// Token: 0x06003265 RID: 12901 RVA: 0x001B1AC7 File Offset: 0x001AFEC7
 		public void SetDirty()
 		{
 			this.dirty = true;
 		}
 
-		// Token: 0x06003264 RID: 12900 RVA: 0x001B1A09 File Offset: 0x001AFE09
+		// Token: 0x06003266 RID: 12902 RVA: 0x001B1AD1 File Offset: 0x001AFED1
 		public void SetMinMaxSize(int minTableWidth, int maxTableWidth, int minTableHeight, int maxTableHeight)
 		{
 			this.minTableWidth = minTableWidth;
@@ -177,7 +177,7 @@ namespace RimWorld
 			this.SetDirty();
 		}
 
-		// Token: 0x06003265 RID: 12901 RVA: 0x001B1A36 File Offset: 0x001AFE36
+		// Token: 0x06003267 RID: 12903 RVA: 0x001B1AFE File Offset: 0x001AFEFE
 		public void SetFixedSize(Vector2 size)
 		{
 			this.fixedSize = size;
@@ -185,7 +185,7 @@ namespace RimWorld
 			this.SetDirty();
 		}
 
-		// Token: 0x06003266 RID: 12902 RVA: 0x001B1A4D File Offset: 0x001AFE4D
+		// Token: 0x06003268 RID: 12904 RVA: 0x001B1B15 File Offset: 0x001AFF15
 		public void SortBy(PawnColumnDef column, bool descending)
 		{
 			this.sortByColumn = column;
@@ -193,7 +193,7 @@ namespace RimWorld
 			this.SetDirty();
 		}
 
-		// Token: 0x06003267 RID: 12903 RVA: 0x001B1A64 File Offset: 0x001AFE64
+		// Token: 0x06003269 RID: 12905 RVA: 0x001B1B2C File Offset: 0x001AFF2C
 		private void RecacheIfDirty()
 		{
 			if (this.dirty)
@@ -208,7 +208,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003268 RID: 12904 RVA: 0x001B1ABC File Offset: 0x001AFEBC
+		// Token: 0x0600326A RID: 12906 RVA: 0x001B1B84 File Offset: 0x001AFF84
 		private void RecachePawns()
 		{
 			this.cachedPawns.Clear();
@@ -228,7 +228,7 @@ namespace RimWorld
 			this.cachedPawns = this.PrimarySortFunction(this.cachedPawns).ToList<Pawn>();
 		}
 
-		// Token: 0x06003269 RID: 12905 RVA: 0x001B1B70 File Offset: 0x001AFF70
+		// Token: 0x0600326B RID: 12907 RVA: 0x001B1C38 File Offset: 0x001B0038
 		protected virtual IEnumerable<Pawn> LabelSortFunction(IEnumerable<Pawn> input)
 		{
 			return from p in input
@@ -236,13 +236,13 @@ namespace RimWorld
 			select p;
 		}
 
-		// Token: 0x0600326A RID: 12906 RVA: 0x001B1BA8 File Offset: 0x001AFFA8
+		// Token: 0x0600326C RID: 12908 RVA: 0x001B1C70 File Offset: 0x001B0070
 		protected virtual IEnumerable<Pawn> PrimarySortFunction(IEnumerable<Pawn> input)
 		{
 			return input;
 		}
 
-		// Token: 0x0600326B RID: 12907 RVA: 0x001B1BC0 File Offset: 0x001AFFC0
+		// Token: 0x0600326D RID: 12909 RVA: 0x001B1C88 File Offset: 0x001B0088
 		private void RecacheColumnWidths()
 		{
 			float num = this.cachedSize.x - 16f;
@@ -266,7 +266,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600326C RID: 12908 RVA: 0x001B1C34 File Offset: 0x001B0034
+		// Token: 0x0600326E RID: 12910 RVA: 0x001B1CFC File Offset: 0x001B00FC
 		private void RecacheColumnWidths_StartWithMinWidths(out float minWidthsSum)
 		{
 			minWidthsSum = 0f;
@@ -279,7 +279,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600326D RID: 12909 RVA: 0x001B1CA4 File Offset: 0x001B00A4
+		// Token: 0x0600326F RID: 12911 RVA: 0x001B1D6C File Offset: 0x001B016C
 		private void RecacheColumnWidths_DistributeUntilOptimal(float totalAvailableSpaceForColumns, ref float usedWidth, out bool noMoreFreeSpace)
 		{
 			this.columnAtOptimalWidth.Clear();
@@ -372,7 +372,7 @@ namespace RimWorld
 			noMoreFreeSpace = false;
 		}
 
-		// Token: 0x0600326E RID: 12910 RVA: 0x001B1F5C File Offset: 0x001B035C
+		// Token: 0x06003270 RID: 12912 RVA: 0x001B2024 File Offset: 0x001B0424
 		private void RecacheColumnWidths_DistributeAboveOptimal(float totalAvailableSpaceForColumns, ref float usedWidth)
 		{
 			this.columnAtMaxWidth.Clear();
@@ -438,7 +438,7 @@ namespace RimWorld
 			this.DistributeRemainingWidthProportionallyAboveMax(totalAvailableSpaceForColumns - usedWidth);
 		}
 
-		// Token: 0x0600326F RID: 12911 RVA: 0x001B2170 File Offset: 0x001B0570
+		// Token: 0x06003271 RID: 12913 RVA: 0x001B2238 File Offset: 0x001B0638
 		private void RecacheRowHeights()
 		{
 			this.cachedRowHeights.Clear();
@@ -448,7 +448,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003270 RID: 12912 RVA: 0x001B21C4 File Offset: 0x001B05C4
+		// Token: 0x06003272 RID: 12914 RVA: 0x001B228C File Offset: 0x001B068C
 		private void RecacheSize()
 		{
 			if (this.hasFixedSize)
@@ -473,7 +473,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003271 RID: 12913 RVA: 0x001B22B0 File Offset: 0x001B06B0
+		// Token: 0x06003273 RID: 12915 RVA: 0x001B2378 File Offset: 0x001B0778
 		private void SubtractProportionally(float toSubtract, float totalUsedWidth)
 		{
 			for (int i = 0; i < this.cachedColumnWidths.Count; i++)
@@ -484,7 +484,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003272 RID: 12914 RVA: 0x001B2304 File Offset: 0x001B0704
+		// Token: 0x06003274 RID: 12916 RVA: 0x001B23CC File Offset: 0x001B07CC
 		private void DistributeRemainingWidthProportionallyAboveMax(float toDistribute)
 		{
 			float num = 0f;
@@ -500,25 +500,25 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003273 RID: 12915 RVA: 0x001B23C4 File Offset: 0x001B07C4
+		// Token: 0x06003275 RID: 12917 RVA: 0x001B248C File Offset: 0x001B088C
 		private float GetOptimalWidth(PawnColumnDef column)
 		{
 			return Mathf.Max((float)column.Worker.GetOptimalWidth(this), 0f);
 		}
 
-		// Token: 0x06003274 RID: 12916 RVA: 0x001B23F0 File Offset: 0x001B07F0
+		// Token: 0x06003276 RID: 12918 RVA: 0x001B24B8 File Offset: 0x001B08B8
 		private float GetMinWidth(PawnColumnDef column)
 		{
 			return Mathf.Max((float)column.Worker.GetMinWidth(this), 0f);
 		}
 
-		// Token: 0x06003275 RID: 12917 RVA: 0x001B241C File Offset: 0x001B081C
+		// Token: 0x06003277 RID: 12919 RVA: 0x001B24E4 File Offset: 0x001B08E4
 		private float GetMaxWidth(PawnColumnDef column)
 		{
 			return Mathf.Max((float)column.Worker.GetMaxWidth(this), 0f);
 		}
 
-		// Token: 0x06003276 RID: 12918 RVA: 0x001B2448 File Offset: 0x001B0848
+		// Token: 0x06003278 RID: 12920 RVA: 0x001B2510 File Offset: 0x001B0910
 		private float CalculateRowHeight(Pawn pawn)
 		{
 			float num = 0f;
@@ -529,7 +529,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06003277 RID: 12919 RVA: 0x001B24AC File Offset: 0x001B08AC
+		// Token: 0x06003279 RID: 12921 RVA: 0x001B2574 File Offset: 0x001B0974
 		private float CalculateHeaderHeight()
 		{
 			float num = 0f;
@@ -540,7 +540,7 @@ namespace RimWorld
 			return num;
 		}
 
-		// Token: 0x06003278 RID: 12920 RVA: 0x001B2510 File Offset: 0x001B0910
+		// Token: 0x0600327A RID: 12922 RVA: 0x001B25D8 File Offset: 0x001B09D8
 		private float CalculateTotalRequiredHeight()
 		{
 			float num = this.CalculateHeaderHeight();

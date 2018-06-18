@@ -6,7 +6,7 @@ namespace Verse.AI
 	// Token: 0x02000A3F RID: 2623
 	public class JobDriver_CastVerbOnce : JobDriver
 	{
-		// Token: 0x06003A24 RID: 14884 RVA: 0x001EBF38 File Offset: 0x001EA338
+		// Token: 0x06003A26 RID: 14886 RVA: 0x001EC00C File Offset: 0x001EA40C
 		public override string GetReport()
 		{
 			string text;
@@ -25,13 +25,13 @@ namespace Verse.AI
 			});
 		}
 
-		// Token: 0x06003A25 RID: 14885 RVA: 0x001EBFA8 File Offset: 0x001EA3A8
+		// Token: 0x06003A27 RID: 14887 RVA: 0x001EC07C File Offset: 0x001EA47C
 		public override bool TryMakePreToilReservations()
 		{
 			return true;
 		}
 
-		// Token: 0x06003A26 RID: 14886 RVA: 0x001EBFC0 File Offset: 0x001EA3C0
+		// Token: 0x06003A28 RID: 14888 RVA: 0x001EC094 File Offset: 0x001EA494
 		protected override IEnumerable<Toil> MakeNewToils()
 		{
 			this.FailOnDespawnedOrNull(TargetIndex.A);

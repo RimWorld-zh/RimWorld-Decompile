@@ -7,7 +7,7 @@ namespace Verse
 	public class WeatherDef : Def
 	{
 		// Token: 0x17000A22 RID: 2594
-		// (get) Token: 0x060040E8 RID: 16616 RVA: 0x00224258 File Offset: 0x00222658
+		// (get) Token: 0x060040EA RID: 16618 RVA: 0x0022432C File Offset: 0x0022272C
 		public WeatherWorker Worker
 		{
 			get
@@ -20,14 +20,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060040E9 RID: 16617 RVA: 0x0022428A File Offset: 0x0022268A
+		// Token: 0x060040EB RID: 16619 RVA: 0x0022435E File Offset: 0x0022275E
 		public override void PostLoad()
 		{
 			base.PostLoad();
 			this.workerInt = new WeatherWorker(this);
 		}
 
-		// Token: 0x060040EA RID: 16618 RVA: 0x002242A0 File Offset: 0x002226A0
+		// Token: 0x060040EC RID: 16620 RVA: 0x00224374 File Offset: 0x00222774
 		public override IEnumerable<string> ConfigErrors()
 		{
 			if (this.skyColorsDay.saturation == 0f || this.skyColorsDusk.saturation == 0f || this.skyColorsNightMid.saturation == 0f || this.skyColorsNightEdge.saturation == 0f)
@@ -37,7 +37,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x060040EB RID: 16619 RVA: 0x002242CC File Offset: 0x002226CC
+		// Token: 0x060040ED RID: 16621 RVA: 0x002243A0 File Offset: 0x002227A0
 		public static WeatherDef Named(string defName)
 		{
 			return DefDatabase<WeatherDef>.GetNamed(defName, true);

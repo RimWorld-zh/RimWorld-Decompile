@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Verse
 {
-	// Token: 0x02000C12 RID: 3090
+	// Token: 0x02000C11 RID: 3089
 	public static class FloodFillerFog
 	{
-		// Token: 0x0600437D RID: 17277 RVA: 0x002399C4 File Offset: 0x00237DC4
+		// Token: 0x0600437B RID: 17275 RVA: 0x0023999C File Offset: 0x00237D9C
 		public static FloodUnfogResult FloodUnfog(IntVec3 root, Map map)
 		{
 			FloodFillerFog.cellsToUnfog.Clear();
@@ -89,7 +89,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x0600437E RID: 17278 RVA: 0x00239BC0 File Offset: 0x00237FC0
+		// Token: 0x0600437C RID: 17276 RVA: 0x00239B98 File Offset: 0x00237F98
 		internal static void DebugFloodUnfog(IntVec3 root, Map map)
 		{
 			map.fogGrid.SetAllFogged();
@@ -102,7 +102,7 @@ namespace Verse
 			FloodFillerFog.testMode = false;
 		}
 
-		// Token: 0x0600437F RID: 17279 RVA: 0x00239C44 File Offset: 0x00238044
+		// Token: 0x0600437D RID: 17277 RVA: 0x00239C1C File Offset: 0x0023801C
 		internal static void DebugRefogMap(Map map)
 		{
 			map.fogGrid.SetAllFogged();
@@ -113,13 +113,13 @@ namespace Verse
 			FloodFillerFog.FloodUnfog(map.mapPawns.FreeColonistsSpawned.RandomElement<Pawn>().Position, map);
 		}
 
-		// Token: 0x04002E1B RID: 11803
+		// Token: 0x04002E19 RID: 11801
 		private static bool testMode = false;
 
-		// Token: 0x04002E1C RID: 11804
+		// Token: 0x04002E1A RID: 11802
 		private static List<IntVec3> cellsToUnfog = new List<IntVec3>(1024);
 
-		// Token: 0x04002E1D RID: 11805
+		// Token: 0x04002E1B RID: 11803
 		private const int MaxNumTestUnfog = 500;
 	}
 }

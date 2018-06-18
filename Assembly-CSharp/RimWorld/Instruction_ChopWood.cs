@@ -8,7 +8,7 @@ namespace RimWorld
 	public class Instruction_ChopWood : Lesson_Instruction
 	{
 		// Token: 0x17000824 RID: 2084
-		// (get) Token: 0x06003333 RID: 13107 RVA: 0x001B8430 File Offset: 0x001B6830
+		// (get) Token: 0x06003335 RID: 13109 RVA: 0x001B84F8 File Offset: 0x001B68F8
 		protected override float ProgressPercent
 		{
 			get
@@ -19,7 +19,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003334 RID: 13108 RVA: 0x001B848F File Offset: 0x001B688F
+		// Token: 0x06003336 RID: 13110 RVA: 0x001B8557 File Offset: 0x001B6957
 		public override void LessonUpdate()
 		{
 			if (this.ProgressPercent > 0.999f)

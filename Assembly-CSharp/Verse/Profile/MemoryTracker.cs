@@ -8,12 +8,12 @@ using UnityEngine;
 
 namespace Verse.Profile
 {
-	// Token: 0x02000D66 RID: 3430
+	// Token: 0x02000D65 RID: 3429
 	[HasDebugOutput]
 	public static class MemoryTracker
 	{
-		// Token: 0x17000C80 RID: 3200
-		// (get) Token: 0x06004CC3 RID: 19651 RVA: 0x0027F3C4 File Offset: 0x0027D7C4
+		// Token: 0x17000C7F RID: 3199
+		// (get) Token: 0x06004CC1 RID: 19649 RVA: 0x0027F3A4 File Offset: 0x0027D7A4
 		public static bool AnythingTracked
 		{
 			get
@@ -22,8 +22,8 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x17000C81 RID: 3201
-		// (get) Token: 0x06004CC4 RID: 19652 RVA: 0x0027F3E8 File Offset: 0x0027D7E8
+		// Token: 0x17000C80 RID: 3200
+		// (get) Token: 0x06004CC2 RID: 19650 RVA: 0x0027F3C8 File Offset: 0x0027D7C8
 		public static IEnumerable<WeakReference> FoundCollections
 		{
 			get
@@ -36,7 +36,7 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CC5 RID: 19653 RVA: 0x0027F418 File Offset: 0x0027D818
+		// Token: 0x06004CC3 RID: 19651 RVA: 0x0027F3F8 File Offset: 0x0027D7F8
 		public static void RegisterObject(object obj)
 		{
 			if (MemoryTracker.trackedLocked)
@@ -56,7 +56,7 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CC6 RID: 19654 RVA: 0x0027F480 File Offset: 0x0027D880
+		// Token: 0x06004CC4 RID: 19652 RVA: 0x0027F460 File Offset: 0x0027D860
 		public static void RegisterType(RuntimeTypeHandle typeHandle)
 		{
 			if (MemoryTracker.trackedLocked)
@@ -73,7 +73,7 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CC7 RID: 19655 RVA: 0x0027F4D2 File Offset: 0x0027D8D2
+		// Token: 0x06004CC5 RID: 19653 RVA: 0x0027F4B2 File Offset: 0x0027D8B2
 		private static void LockTracking()
 		{
 			if (MemoryTracker.trackedLocked)
@@ -83,7 +83,7 @@ namespace Verse.Profile
 			MemoryTracker.trackedLocked = true;
 		}
 
-		// Token: 0x06004CC8 RID: 19656 RVA: 0x0027F4EC File Offset: 0x0027D8EC
+		// Token: 0x06004CC6 RID: 19654 RVA: 0x0027F4CC File Offset: 0x0027D8CC
 		private static void UnlockTracking()
 		{
 			if (!MemoryTracker.trackedLocked)
@@ -103,7 +103,7 @@ namespace Verse.Profile
 			MemoryTracker.trackedTypeQueue.Clear();
 		}
 
-		// Token: 0x06004CC9 RID: 19657 RVA: 0x0027F5C4 File Offset: 0x0027D9C4
+		// Token: 0x06004CC7 RID: 19655 RVA: 0x0027F5A4 File Offset: 0x0027D9A4
 		[DebugOutput]
 		[Category("System")]
 		private static void ObjectsLoaded()
@@ -138,7 +138,7 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CCA RID: 19658 RVA: 0x0027F714 File Offset: 0x0027DB14
+		// Token: 0x06004CC8 RID: 19656 RVA: 0x0027F6F4 File Offset: 0x0027DAF4
 		[DebugOutput]
 		[Category("System")]
 		private static void ObjectHoldPaths()
@@ -188,7 +188,7 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CCB RID: 19659 RVA: 0x0027F930 File Offset: 0x0027DD30
+		// Token: 0x06004CC9 RID: 19657 RVA: 0x0027F910 File Offset: 0x0027DD10
 		public static void LogObjectHoldPathsFor(IEnumerable<WeakReference> elements, Func<WeakReference, int> weight)
 		{
 			GC.Collect();
@@ -285,7 +285,7 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CCC RID: 19660 RVA: 0x0027FE60 File Offset: 0x0027E260
+		// Token: 0x06004CCA RID: 19658 RVA: 0x0027FE40 File Offset: 0x0027E240
 		private static void AccumulateReferences(object obj, Dictionary<object, MemoryTracker.ReferenceData> references, HashSet<object> seen, Queue<object> toProcess)
 		{
 			MemoryTracker.ReferenceData referenceData = null;
@@ -326,7 +326,7 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CCD RID: 19661 RVA: 0x0027FFD8 File Offset: 0x0027E3D8
+		// Token: 0x06004CCB RID: 19659 RVA: 0x0027FFB8 File Offset: 0x0027E3B8
 		private static void AccumulateStaticMembers(Type type, Dictionary<object, MemoryTracker.ReferenceData> references, HashSet<object> seen, Queue<object> toProcess)
 		{
 			foreach (MemoryTracker.ChildReference childReference in MemoryTracker.GetAllReferencedClassesFromClassOrStruct(null, MemoryTracker.GetFields(type, BindingFlags.Static), null, type.ToString() + "."))
@@ -351,7 +351,7 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CCE RID: 19662 RVA: 0x002800D4 File Offset: 0x0027E4D4
+		// Token: 0x06004CCC RID: 19660 RVA: 0x002800B4 File Offset: 0x0027E4B4
 		private static IEnumerable<MemoryTracker.ChildReference> GetAllReferencedClassesFromClassOrStruct(object current, IEnumerable<FieldInfo> fields, object parent, string currentPath)
 		{
 			foreach (FieldInfo field in fields)
@@ -399,7 +399,7 @@ namespace Verse.Profile
 			yield break;
 		}
 
-		// Token: 0x06004CCF RID: 19663 RVA: 0x00280114 File Offset: 0x0027E514
+		// Token: 0x06004CCD RID: 19661 RVA: 0x002800F4 File Offset: 0x0027E4F4
 		private static IEnumerable<MemoryTracker.ChildReference> DistillChildReferencesFromObject(object current, object parent, string currentPath)
 		{
 			Type type = current.GetType();
@@ -429,7 +429,7 @@ namespace Verse.Profile
 			yield break;
 		}
 
-		// Token: 0x06004CD0 RID: 19664 RVA: 0x0028014C File Offset: 0x0027E54C
+		// Token: 0x06004CCE RID: 19662 RVA: 0x0028012C File Offset: 0x0027E52C
 		private static IEnumerable<FieldInfo> GetFieldsFromHierarchy(Type type, BindingFlags bindingFlags)
 		{
 			while (type != null)
@@ -443,7 +443,7 @@ namespace Verse.Profile
 			yield break;
 		}
 
-		// Token: 0x06004CD1 RID: 19665 RVA: 0x00280184 File Offset: 0x0027E584
+		// Token: 0x06004CCF RID: 19663 RVA: 0x00280164 File Offset: 0x0027E564
 		private static IEnumerable<FieldInfo> GetFields(Type type, BindingFlags bindingFlags)
 		{
 			foreach (FieldInfo field in type.GetFields(bindingFlags | BindingFlags.Public | BindingFlags.NonPublic))
@@ -453,7 +453,7 @@ namespace Verse.Profile
 			yield break;
 		}
 
-		// Token: 0x06004CD2 RID: 19666 RVA: 0x002801B8 File Offset: 0x0027E5B8
+		// Token: 0x06004CD0 RID: 19664 RVA: 0x00280198 File Offset: 0x0027E598
 		private static void CalculateReferencePaths(Dictionary<object, MemoryTracker.ReferenceData> references, IEnumerable<object> objects, int pathCost)
 		{
 			Queue<object> queue = new Queue<object>(objects);
@@ -469,7 +469,7 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CD3 RID: 19667 RVA: 0x00280230 File Offset: 0x0027E630
+		// Token: 0x06004CD1 RID: 19665 RVA: 0x00280210 File Offset: 0x0027E610
 		private static void CalculateObjectReferencePath(object obj, Dictionary<object, MemoryTracker.ReferenceData> references, Queue<object> queue)
 		{
 			MemoryTracker.ReferenceData referenceData = references[obj];
@@ -495,7 +495,7 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CD4 RID: 19668 RVA: 0x0028033C File Offset: 0x0027E73C
+		// Token: 0x06004CD2 RID: 19666 RVA: 0x0028031C File Offset: 0x0027E71C
 		public static void Update()
 		{
 			if (MemoryTracker.tracked.Count != 0)
@@ -516,76 +516,76 @@ namespace Verse.Profile
 			}
 		}
 
-		// Token: 0x06004CD5 RID: 19669 RVA: 0x002803BA File Offset: 0x0027E7BA
+		// Token: 0x06004CD3 RID: 19667 RVA: 0x0028039A File Offset: 0x0027E79A
 		private static void CullNulls(HashSet<WeakReference> table)
 		{
 			table.RemoveWhere((WeakReference element) => !element.IsAlive);
 		}
 
-		// Token: 0x04003338 RID: 13112
+		// Token: 0x04003336 RID: 13110
 		private static Dictionary<Type, HashSet<WeakReference>> tracked = new Dictionary<Type, HashSet<WeakReference>>();
 
-		// Token: 0x04003339 RID: 13113
+		// Token: 0x04003337 RID: 13111
 		private static List<WeakReference> foundCollections = new List<WeakReference>();
 
-		// Token: 0x0400333A RID: 13114
+		// Token: 0x04003338 RID: 13112
 		private static bool trackedLocked = false;
 
-		// Token: 0x0400333B RID: 13115
+		// Token: 0x04003339 RID: 13113
 		private static List<object> trackedQueue = new List<object>();
 
-		// Token: 0x0400333C RID: 13116
+		// Token: 0x0400333A RID: 13114
 		private static List<RuntimeTypeHandle> trackedTypeQueue = new List<RuntimeTypeHandle>();
 
-		// Token: 0x0400333D RID: 13117
+		// Token: 0x0400333B RID: 13115
 		private const int updatesPerCull = 10;
 
-		// Token: 0x0400333E RID: 13118
+		// Token: 0x0400333C RID: 13116
 		private static int updatesSinceLastCull = 0;
 
-		// Token: 0x0400333F RID: 13119
+		// Token: 0x0400333D RID: 13117
 		private static int cullTargetIndex = 0;
 
-		// Token: 0x02000D67 RID: 3431
+		// Token: 0x02000D66 RID: 3430
 		private class ReferenceData
 		{
-			// Token: 0x0400334E RID: 13134
+			// Token: 0x0400334C RID: 13132
 			public List<MemoryTracker.ReferenceData.Link> refers = new List<MemoryTracker.ReferenceData.Link>();
 
-			// Token: 0x0400334F RID: 13135
+			// Token: 0x0400334D RID: 13133
 			public List<MemoryTracker.ReferenceData.Link> referredBy = new List<MemoryTracker.ReferenceData.Link>();
 
-			// Token: 0x04003350 RID: 13136
+			// Token: 0x0400334E RID: 13134
 			public string path;
 
-			// Token: 0x04003351 RID: 13137
+			// Token: 0x0400334F RID: 13135
 			public int pathCost;
 
-			// Token: 0x02000D68 RID: 3432
+			// Token: 0x02000D67 RID: 3431
 			public struct Link
 			{
-				// Token: 0x04003352 RID: 13138
+				// Token: 0x04003350 RID: 13136
 				public object target;
 
-				// Token: 0x04003353 RID: 13139
+				// Token: 0x04003351 RID: 13137
 				public MemoryTracker.ReferenceData targetRef;
 
-				// Token: 0x04003354 RID: 13140
+				// Token: 0x04003352 RID: 13138
 				public string path;
 			}
 		}
 
-		// Token: 0x02000D69 RID: 3433
+		// Token: 0x02000D68 RID: 3432
 		private struct ChildReference
 		{
-			// Token: 0x04003355 RID: 13141
+			// Token: 0x04003353 RID: 13139
 			public object child;
 
-			// Token: 0x04003356 RID: 13142
+			// Token: 0x04003354 RID: 13140
 			public string path;
 		}
 
-		// Token: 0x02000D6A RID: 3434
+		// Token: 0x02000D69 RID: 3433
 		public class MarkupComplete : Attribute
 		{
 		}

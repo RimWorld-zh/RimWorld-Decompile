@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000C61 RID: 3169
+	// Token: 0x02000C60 RID: 3168
 	public class ScattererValidator_NoNonNaturalEdifices : ScattererValidator
 	{
-		// Token: 0x060045A2 RID: 17826 RVA: 0x0024BA40 File Offset: 0x00249E40
+		// Token: 0x060045A0 RID: 17824 RVA: 0x0024BA18 File Offset: 0x00249E18
 		public override bool Allows(IntVec3 c, Map map)
 		{
 			CellRect cellRect = CellRect.CenteredOn(c, this.radius);
@@ -23,7 +23,7 @@ namespace Verse
 			return true;
 		}
 
-		// Token: 0x04002F99 RID: 12185
+		// Token: 0x04002F97 RID: 12183
 		public int radius = 1;
 	}
 }

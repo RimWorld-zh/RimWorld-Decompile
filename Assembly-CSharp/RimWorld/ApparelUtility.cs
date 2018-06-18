@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000512 RID: 1298
 	public static class ApparelUtility
 	{
-		// Token: 0x0600176F RID: 5999 RVA: 0x000CD400 File Offset: 0x000CB800
+		// Token: 0x06001770 RID: 6000 RVA: 0x000CD454 File Offset: 0x000CB854
 		public static bool CanWearTogether(ThingDef A, ThingDef B, BodyDef body)
 		{
 			bool flag = false;
@@ -60,7 +60,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001770 RID: 6000 RVA: 0x000CD554 File Offset: 0x000CB954
+		// Token: 0x06001771 RID: 6001 RVA: 0x000CD5A8 File Offset: 0x000CB9A8
 		public static void GenerateLayerGroupPairs(BodyDef body, ThingDef td, Action<ApparelUtility.LayerGroupPair> callback)
 		{
 			for (int i = 0; i < td.apparel.layers.Count; i++)
@@ -74,7 +74,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001771 RID: 6001 RVA: 0x000CD5CC File Offset: 0x000CB9CC
+		// Token: 0x06001772 RID: 6002 RVA: 0x000CD620 File Offset: 0x000CBA20
 		public static bool HasPartsToWear(Pawn p, ThingDef apparel)
 		{
 			List<Hediff> hediffs = p.health.hediffSet.hediffs;
@@ -112,14 +112,14 @@ namespace RimWorld
 		// Token: 0x02000513 RID: 1299
 		public struct LayerGroupPair
 		{
-			// Token: 0x06001772 RID: 6002 RVA: 0x000CD6C9 File Offset: 0x000CBAC9
+			// Token: 0x06001773 RID: 6003 RVA: 0x000CD71D File Offset: 0x000CBB1D
 			public LayerGroupPair(ApparelLayerDef layer, BodyPartGroupDef group)
 			{
 				this.layer = layer;
 				this.group = group;
 			}
 
-			// Token: 0x06001773 RID: 6003 RVA: 0x000CD6DC File Offset: 0x000CBADC
+			// Token: 0x06001774 RID: 6004 RVA: 0x000CD730 File Offset: 0x000CBB30
 			public override bool Equals(object rhs)
 			{
 				bool result;
@@ -135,7 +135,7 @@ namespace RimWorld
 				return result;
 			}
 
-			// Token: 0x06001774 RID: 6004 RVA: 0x000CD730 File Offset: 0x000CBB30
+			// Token: 0x06001775 RID: 6005 RVA: 0x000CD784 File Offset: 0x000CBB84
 			public override int GetHashCode()
 			{
 				int num = 17;

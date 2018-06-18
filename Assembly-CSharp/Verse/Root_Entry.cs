@@ -7,7 +7,7 @@ namespace Verse
 	// Token: 0x02000BDF RID: 3039
 	public class Root_Entry : Root
 	{
-		// Token: 0x0600424B RID: 16971 RVA: 0x0022DD4C File Offset: 0x0022C14C
+		// Token: 0x0600424D RID: 16973 RVA: 0x0022DDC4 File Offset: 0x0022C1C4
 		public override void Start()
 		{
 			base.Start();
@@ -28,7 +28,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600424C RID: 16972 RVA: 0x0022DDCC File Offset: 0x0022C1CC
+		// Token: 0x0600424E RID: 16974 RVA: 0x0022DE44 File Offset: 0x0022C244
 		public override void Update()
 		{
 			base.Update();

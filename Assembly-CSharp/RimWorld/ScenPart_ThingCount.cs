@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x02000652 RID: 1618
 	public abstract class ScenPart_ThingCount : ScenPart
 	{
-		// Token: 0x0600218F RID: 8591 RVA: 0x0011BE6B File Offset: 0x0011A26B
+		// Token: 0x06002191 RID: 8593 RVA: 0x0011BEE3 File Offset: 0x0011A2E3
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -18,7 +18,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.count, "count", 1, false);
 		}
 
-		// Token: 0x06002190 RID: 8592 RVA: 0x0011BEA8 File Offset: 0x0011A2A8
+		// Token: 0x06002192 RID: 8594 RVA: 0x0011BF20 File Offset: 0x0011A320
 		public override void Randomize()
 		{
 			this.thingDef = this.PossibleThingDefs().RandomElement<ThingDef>();
@@ -35,7 +35,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002191 RID: 8593 RVA: 0x0011BF40 File Offset: 0x0011A340
+		// Token: 0x06002193 RID: 8595 RVA: 0x0011BFB8 File Offset: 0x0011A3B8
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			Rect scenPartRect = listing.GetScenPartRect(this, ScenPart.RowHeight * 3f);
@@ -79,7 +79,7 @@ namespace RimWorld
 			Widgets.TextFieldNumeric<int>(rect3, ref this.count, ref this.countBuf, 1f, 1E+09f);
 		}
 
-		// Token: 0x06002192 RID: 8594 RVA: 0x0011C204 File Offset: 0x0011A604
+		// Token: 0x06002194 RID: 8596 RVA: 0x0011C27C File Offset: 0x0011A67C
 		public override bool TryMerge(ScenPart other)
 		{
 			ScenPart_ThingCount scenPart_ThingCount = other as ScenPart_ThingCount;
@@ -96,7 +96,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002193 RID: 8595 RVA: 0x0011C290 File Offset: 0x0011A690
+		// Token: 0x06002195 RID: 8597 RVA: 0x0011C308 File Offset: 0x0011A708
 		protected virtual IEnumerable<ThingDef> PossibleThingDefs()
 		{
 			return from d in DefDatabase<ThingDef>.AllDefs

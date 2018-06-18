@@ -9,7 +9,7 @@ namespace RimWorld.Planet
 	// Token: 0x0200058F RID: 1423
 	public class WorldLayer_Glow : WorldLayer
 	{
-		// Token: 0x06001B2A RID: 6954 RVA: 0x000E9064 File Offset: 0x000E7464
+		// Token: 0x06001B2B RID: 6955 RVA: 0x000E90D0 File Offset: 0x000E74D0
 		public override IEnumerable Regenerate()
 		{
 			IEnumerator enumerator = this.<Regenerate>__BaseCallProxy0().GetEnumerator();

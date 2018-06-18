@@ -6,7 +6,7 @@ namespace RimWorld
 	[DefOf]
 	public static class WorldObjectDefOf
 	{
-		// Token: 0x06003657 RID: 13911 RVA: 0x001D09D1 File Offset: 0x001CEDD1
+		// Token: 0x06003659 RID: 13913 RVA: 0x001D0A99 File Offset: 0x001CEE99
 		static WorldObjectDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(WorldObjectDefOf));

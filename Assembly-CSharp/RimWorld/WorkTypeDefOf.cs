@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class WorkTypeDefOf
 	{
-		// Token: 0x06003628 RID: 13864 RVA: 0x001D0683 File Offset: 0x001CEA83
+		// Token: 0x0600362A RID: 13866 RVA: 0x001D074B File Offset: 0x001CEB4B
 		static WorkTypeDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(WorkTypeDefOf));

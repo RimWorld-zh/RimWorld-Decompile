@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020004F7 RID: 1271
 	public class Need_Chemical : Need
 	{
-		// Token: 0x060016D4 RID: 5844 RVA: 0x000C9FA0 File Offset: 0x000C83A0
+		// Token: 0x060016D5 RID: 5845 RVA: 0x000C9FF4 File Offset: 0x000C83F4
 		public Need_Chemical(Pawn pawn) : base(pawn)
 		{
 			this.threshPercents = new List<float>();
@@ -15,7 +15,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000309 RID: 777
-		// (get) Token: 0x060016D5 RID: 5845 RVA: 0x000C9FC8 File Offset: 0x000C83C8
+		// (get) Token: 0x060016D6 RID: 5846 RVA: 0x000CA01C File Offset: 0x000C841C
 		public override int GUIChangeArrow
 		{
 			get
@@ -25,7 +25,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700030A RID: 778
-		// (get) Token: 0x060016D6 RID: 5846 RVA: 0x000C9FE0 File Offset: 0x000C83E0
+		// (get) Token: 0x060016D7 RID: 5847 RVA: 0x000CA034 File Offset: 0x000C8434
 		public DrugDesireCategory CurCategory
 		{
 			get
@@ -48,8 +48,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700030B RID: 779
-		// (get) Token: 0x060016D7 RID: 5847 RVA: 0x000CA024 File Offset: 0x000C8424
-		// (set) Token: 0x060016D8 RID: 5848 RVA: 0x000CA040 File Offset: 0x000C8440
+		// (get) Token: 0x060016D8 RID: 5848 RVA: 0x000CA078 File Offset: 0x000C8478
+		// (set) Token: 0x060016D9 RID: 5849 RVA: 0x000CA094 File Offset: 0x000C8494
 		public override float CurLevel
 		{
 			get
@@ -68,7 +68,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700030C RID: 780
-		// (get) Token: 0x060016D9 RID: 5849 RVA: 0x000CA070 File Offset: 0x000C8470
+		// (get) Token: 0x060016DA RID: 5850 RVA: 0x000CA0C4 File Offset: 0x000C84C4
 		public Hediff_Addiction AddictionHediff
 		{
 			get
@@ -87,7 +87,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700030D RID: 781
-		// (get) Token: 0x060016DA RID: 5850 RVA: 0x000CA0E8 File Offset: 0x000C84E8
+		// (get) Token: 0x060016DB RID: 5851 RVA: 0x000CA13C File Offset: 0x000C853C
 		private float ChemicalFallPerTick
 		{
 			get
@@ -96,13 +96,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060016DB RID: 5851 RVA: 0x000CA10E File Offset: 0x000C850E
+		// Token: 0x060016DC RID: 5852 RVA: 0x000CA162 File Offset: 0x000C8562
 		public override void SetInitialLevel()
 		{
 			base.CurLevelPercentage = Rand.Range(0.8f, 1f);
 		}
 
-		// Token: 0x060016DC RID: 5852 RVA: 0x000CA126 File Offset: 0x000C8526
+		// Token: 0x060016DD RID: 5853 RVA: 0x000CA17A File Offset: 0x000C857A
 		public override void NeedInterval()
 		{
 			if (!base.IsFrozen)
@@ -111,7 +111,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060016DD RID: 5853 RVA: 0x000CA150 File Offset: 0x000C8550
+		// Token: 0x060016DE RID: 5854 RVA: 0x000CA1A4 File Offset: 0x000C85A4
 		private void CategoryChanged()
 		{
 			Hediff_Addiction addictionHediff = this.AddictionHediff;

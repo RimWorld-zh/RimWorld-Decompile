@@ -2,24 +2,24 @@
 
 namespace Verse
 {
-	// Token: 0x02000DEC RID: 3564
+	// Token: 0x02000DEB RID: 3563
 	public class MoteDualAttached : Mote
 	{
-		// Token: 0x06004FC1 RID: 20417 RVA: 0x001431B7 File Offset: 0x001415B7
+		// Token: 0x06004FBF RID: 20415 RVA: 0x0014322F File Offset: 0x0014162F
 		public void Attach(TargetInfo a, TargetInfo b)
 		{
 			this.link1 = new MoteAttachLink(a);
 			this.link2 = new MoteAttachLink(b);
 		}
 
-		// Token: 0x06004FC2 RID: 20418 RVA: 0x001431D2 File Offset: 0x001415D2
+		// Token: 0x06004FC0 RID: 20416 RVA: 0x0014324A File Offset: 0x0014164A
 		public override void Draw()
 		{
 			this.UpdatePositionAndRotation();
 			base.Draw();
 		}
 
-		// Token: 0x06004FC3 RID: 20419 RVA: 0x001431E4 File Offset: 0x001415E4
+		// Token: 0x06004FC1 RID: 20417 RVA: 0x0014325C File Offset: 0x0014165C
 		protected void UpdatePositionAndRotation()
 		{
 			if (this.link1.Linked)
@@ -52,7 +52,7 @@ namespace Verse
 			this.exactPosition.y = this.def.altitudeLayer.AltitudeFor();
 		}
 
-		// Token: 0x040034DB RID: 13531
+		// Token: 0x040034D9 RID: 13529
 		protected MoteAttachLink link2 = MoteAttachLink.Invalid;
 	}
 }

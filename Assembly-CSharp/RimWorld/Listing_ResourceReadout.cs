@@ -8,14 +8,14 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class Listing_ResourceReadout : Listing_Tree
 	{
-		// Token: 0x06003289 RID: 12937 RVA: 0x001B2DBD File Offset: 0x001B11BD
+		// Token: 0x0600328B RID: 12939 RVA: 0x001B2E85 File Offset: 0x001B1285
 		public Listing_ResourceReadout(Map map)
 		{
 			this.map = map;
 		}
 
 		// Token: 0x1700080B RID: 2059
-		// (get) Token: 0x0600328A RID: 12938 RVA: 0x001B2DD0 File Offset: 0x001B11D0
+		// (get) Token: 0x0600328C RID: 12940 RVA: 0x001B2E98 File Offset: 0x001B1298
 		protected override float LabelWidth
 		{
 			get
@@ -24,7 +24,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600328B RID: 12939 RVA: 0x001B2DEC File Offset: 0x001B11EC
+		// Token: 0x0600328D RID: 12941 RVA: 0x001B2EB4 File Offset: 0x001B12B4
 		public void DoCategory(TreeNode_ThingCategory node, int nestLevel, int openMask)
 		{
 			int countIn = this.map.resourceCounter.GetCountIn(node.catDef);
@@ -63,7 +63,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600328C RID: 12940 RVA: 0x001B2F70 File Offset: 0x001B1370
+		// Token: 0x0600328E RID: 12942 RVA: 0x001B3038 File Offset: 0x001B1438
 		public void DoCategoryChildren(TreeNode_ThingCategory node, int indentLevel, int openMask)
 		{
 			foreach (TreeNode_ThingCategory treeNode_ThingCategory in node.ChildCategoryNodes)
@@ -82,7 +82,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600328D RID: 12941 RVA: 0x001B3040 File Offset: 0x001B1440
+		// Token: 0x0600328F RID: 12943 RVA: 0x001B3108 File Offset: 0x001B1508
 		private void DoThingDef(ThingDef thingDef, int nestLevel)
 		{
 			int count = this.map.resourceCounter.GetCount(thingDef);

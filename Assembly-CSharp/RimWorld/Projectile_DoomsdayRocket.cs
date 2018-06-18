@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020006DC RID: 1756
 	public class Projectile_DoomsdayRocket : Projectile
 	{
-		// Token: 0x06002631 RID: 9777 RVA: 0x00147718 File Offset: 0x00145B18
+		// Token: 0x06002633 RID: 9779 RVA: 0x00147790 File Offset: 0x00145B90
 		protected override void Impact(Thing hitThing)
 		{
 			Map map = base.Map;
@@ -28,7 +28,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002632 RID: 9778 RVA: 0x001477F8 File Offset: 0x00145BF8
+		// Token: 0x06002634 RID: 9780 RVA: 0x00147870 File Offset: 0x00145C70
 		protected void FireExplosion(IntVec3 pos, Map map, float radius)
 		{
 			DamageDef flame = DamageDefOf.Flame;

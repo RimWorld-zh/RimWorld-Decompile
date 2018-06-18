@@ -9,7 +9,7 @@ namespace RimWorld.Planet
 	public static class CompassWidget
 	{
 		// Token: 0x17000843 RID: 2115
-		// (get) Token: 0x060033DB RID: 13275 RVA: 0x001BB604 File Offset: 0x001B9A04
+		// (get) Token: 0x060033DD RID: 13277 RVA: 0x001BB6CC File Offset: 0x001B9ACC
 		private static float Angle
 		{
 			get
@@ -21,7 +21,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060033DC RID: 13276 RVA: 0x001BB664 File Offset: 0x001B9A64
+		// Token: 0x060033DE RID: 13278 RVA: 0x001BB72C File Offset: 0x001B9B2C
 		public static void CompassOnGUI(ref float curBaseY)
 		{
 			Vector2 center = new Vector2((float)UI.screenWidth - 10f - 32f, curBaseY - 10f - 32f);
@@ -29,7 +29,7 @@ namespace RimWorld.Planet
 			curBaseY -= 84f;
 		}
 
-		// Token: 0x060033DD RID: 13277 RVA: 0x001BB6AC File Offset: 0x001B9AAC
+		// Token: 0x060033DF RID: 13279 RVA: 0x001BB774 File Offset: 0x001B9B74
 		private static void CompassOnGUI(Vector2 center)
 		{
 			Widgets.DrawTextureRotated(center, CompassWidget.CompassTex, CompassWidget.Angle, 1f);

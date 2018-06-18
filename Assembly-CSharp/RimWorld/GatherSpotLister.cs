@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x02000717 RID: 1815
 	public class GatherSpotLister
 	{
-		// Token: 0x060027D8 RID: 10200 RVA: 0x00154EDD File Offset: 0x001532DD
+		// Token: 0x060027DA RID: 10202 RVA: 0x00154F55 File Offset: 0x00153355
 		public void RegisterActivated(CompGatherSpot spot)
 		{
 			if (!this.activeSpots.Contains(spot))
@@ -15,7 +15,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060027D9 RID: 10201 RVA: 0x00154EFD File Offset: 0x001532FD
+		// Token: 0x060027DB RID: 10203 RVA: 0x00154F75 File Offset: 0x00153375
 		public void RegisterDeactivated(CompGatherSpot spot)
 		{
 			if (this.activeSpots.Contains(spot))

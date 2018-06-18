@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020006A4 RID: 1700
 	public static class CommsConsoleUtility
 	{
-		// Token: 0x06002429 RID: 9257 RVA: 0x001365C8 File Offset: 0x001349C8
+		// Token: 0x0600242B RID: 9259 RVA: 0x00136640 File Offset: 0x00134A40
 		public static bool PlayerHasPoweredCommsConsole(Map map)
 		{
 			List<Thing> list = map.listerThings.ThingsMatching(ThingRequest.ForDef(ThingDefOf.CommsConsole));
@@ -25,7 +25,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x0600242A RID: 9258 RVA: 0x00136654 File Offset: 0x00134A54
+		// Token: 0x0600242C RID: 9260 RVA: 0x001366CC File Offset: 0x00134ACC
 		public static bool PlayerHasPoweredCommsConsole()
 		{
 			List<Map> maps = Find.Maps;

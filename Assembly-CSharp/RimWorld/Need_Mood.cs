@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x02000500 RID: 1280
 	public class Need_Mood : Need_Seeker
 	{
-		// Token: 0x06001701 RID: 5889 RVA: 0x000CAC1A File Offset: 0x000C901A
+		// Token: 0x06001702 RID: 5890 RVA: 0x000CAC6E File Offset: 0x000C906E
 		public Need_Mood(Pawn pawn) : base(pawn)
 		{
 			this.thoughts = new ThoughtHandler(pawn);
@@ -18,7 +18,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000321 RID: 801
-		// (get) Token: 0x06001702 RID: 5890 RVA: 0x000CAC48 File Offset: 0x000C9048
+		// (get) Token: 0x06001703 RID: 5891 RVA: 0x000CAC9C File Offset: 0x000C909C
 		public override float CurInstantLevel
 		{
 			get
@@ -33,7 +33,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000322 RID: 802
-		// (get) Token: 0x06001703 RID: 5891 RVA: 0x000CACB4 File Offset: 0x000C90B4
+		// (get) Token: 0x06001704 RID: 5892 RVA: 0x000CAD08 File Offset: 0x000C9108
 		public string MoodString
 		{
 			get
@@ -75,7 +75,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001704 RID: 5892 RVA: 0x000CADB4 File Offset: 0x000C91B4
+		// Token: 0x06001705 RID: 5893 RVA: 0x000CAE08 File Offset: 0x000C9208
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -89,7 +89,7 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x06001705 RID: 5893 RVA: 0x000CAE06 File Offset: 0x000C9206
+		// Token: 0x06001706 RID: 5894 RVA: 0x000CAE5A File Offset: 0x000C925A
 		public override void NeedInterval()
 		{
 			base.NeedInterval();
@@ -98,7 +98,7 @@ namespace RimWorld
 			this.observer.ObserverInterval();
 		}
 
-		// Token: 0x06001706 RID: 5894 RVA: 0x000CAE30 File Offset: 0x000C9230
+		// Token: 0x06001707 RID: 5895 RVA: 0x000CAE84 File Offset: 0x000C9284
 		public override string GetTipString()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -110,7 +110,7 @@ namespace RimWorld
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06001707 RID: 5895 RVA: 0x000CAF04 File Offset: 0x000C9304
+		// Token: 0x06001708 RID: 5896 RVA: 0x000CAF58 File Offset: 0x000C9358
 		public override void DrawOnGUI(Rect rect, int maxThresholdMarkers = 2147483647, float customMargin = -1f, bool drawArrows = true, bool doTooltip = true)
 		{
 			if (this.threshPercents == null)

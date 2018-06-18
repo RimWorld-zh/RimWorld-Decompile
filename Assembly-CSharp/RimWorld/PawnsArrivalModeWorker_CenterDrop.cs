@@ -8,13 +8,13 @@ namespace RimWorld
 	// Token: 0x0200049C RID: 1180
 	public class PawnsArrivalModeWorker_CenterDrop : PawnsArrivalModeWorker
 	{
-		// Token: 0x06001518 RID: 5400 RVA: 0x000B9696 File Offset: 0x000B7A96
+		// Token: 0x06001518 RID: 5400 RVA: 0x000B96B2 File Offset: 0x000B7AB2
 		public override void Arrive(List<Pawn> pawns, IncidentParms parms)
 		{
 			PawnsArrivalModeWorkerUtility.DropInDropPodsNearSpawnCenter(parms, pawns);
 		}
 
-		// Token: 0x06001519 RID: 5401 RVA: 0x000B96A0 File Offset: 0x000B7AA0
+		// Token: 0x06001519 RID: 5401 RVA: 0x000B96BC File Offset: 0x000B7ABC
 		public override void TravelingTransportPodsArrived(List<ActiveDropPodInfo> dropPods, Map map)
 		{
 			IntVec3 near;
@@ -25,7 +25,7 @@ namespace RimWorld
 			TransportPodsArrivalActionUtility.DropTravelingTransportPods(dropPods, near, map);
 		}
 
-		// Token: 0x0600151A RID: 5402 RVA: 0x000B96CC File Offset: 0x000B7ACC
+		// Token: 0x0600151A RID: 5402 RVA: 0x000B96E8 File Offset: 0x000B7AE8
 		public override bool TryResolveRaidSpawnCenter(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;

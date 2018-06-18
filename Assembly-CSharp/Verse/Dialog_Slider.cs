@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EBA RID: 3770
+	// Token: 0x02000EB9 RID: 3769
 	public class Dialog_Slider : Window
 	{
-		// Token: 0x06005914 RID: 22804 RVA: 0x002DA6EC File Offset: 0x002D8AEC
+		// Token: 0x06005912 RID: 22802 RVA: 0x002DA724 File Offset: 0x002D8B24
 		public Dialog_Slider(Func<int, string> textGetter, int from, int to, Action<int> confirmAction, int startingValue = -2147483648)
 		{
 			this.textGetter = textGetter;
@@ -25,13 +25,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005915 RID: 22805 RVA: 0x002DA74C File Offset: 0x002D8B4C
+		// Token: 0x06005913 RID: 22803 RVA: 0x002DA784 File Offset: 0x002D8B84
 		public Dialog_Slider(string text, int from, int to, Action<int> confirmAction, int startingValue = -2147483648) : this((int val) => string.Format(text, val), from, to, confirmAction, startingValue)
 		{
 		}
 
-		// Token: 0x17000E01 RID: 3585
-		// (get) Token: 0x06005916 RID: 22806 RVA: 0x002DA780 File Offset: 0x002D8B80
+		// Token: 0x17000E00 RID: 3584
+		// (get) Token: 0x06005914 RID: 22804 RVA: 0x002DA7B8 File Offset: 0x002D8BB8
 		public override Vector2 InitialSize
 		{
 			get
@@ -40,7 +40,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005917 RID: 22807 RVA: 0x002DA7A4 File Offset: 0x002D8BA4
+		// Token: 0x06005915 RID: 22805 RVA: 0x002DA7DC File Offset: 0x002D8BDC
 		public override void DoWindowContents(Rect inRect)
 		{
 			Rect rect = new Rect(inRect.x, inRect.y + 15f, inRect.width, 30f);
@@ -59,25 +59,25 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003B61 RID: 15201
+		// Token: 0x04003B60 RID: 15200
 		public Func<int, string> textGetter;
 
-		// Token: 0x04003B62 RID: 15202
+		// Token: 0x04003B61 RID: 15201
 		public int from;
 
-		// Token: 0x04003B63 RID: 15203
+		// Token: 0x04003B62 RID: 15202
 		public int to;
 
-		// Token: 0x04003B64 RID: 15204
+		// Token: 0x04003B63 RID: 15203
 		private Action<int> confirmAction;
 
-		// Token: 0x04003B65 RID: 15205
+		// Token: 0x04003B64 RID: 15204
 		private int curValue;
 
-		// Token: 0x04003B66 RID: 15206
+		// Token: 0x04003B65 RID: 15205
 		private const float BotAreaHeight = 30f;
 
-		// Token: 0x04003B67 RID: 15207
+		// Token: 0x04003B66 RID: 15206
 		private const float TopPadding = 15f;
 	}
 }

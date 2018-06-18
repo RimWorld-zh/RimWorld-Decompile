@@ -6,10 +6,10 @@ using UnityEngine.Profiling;
 
 namespace Verse
 {
-	// Token: 0x02000C42 RID: 3138
+	// Token: 0x02000C41 RID: 3137
 	public class Section
 	{
-		// Token: 0x06004517 RID: 17687 RVA: 0x00245064 File Offset: 0x00243464
+		// Token: 0x06004515 RID: 17685 RVA: 0x0024503C File Offset: 0x0024343C
 		public Section(IntVec3 sectCoords, Map map)
 		{
 			this.botLeft = sectCoords * 17;
@@ -23,8 +23,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000AE7 RID: 2791
-		// (get) Token: 0x06004518 RID: 17688 RVA: 0x00245118 File Offset: 0x00243518
+		// Token: 0x17000AE6 RID: 2790
+		// (get) Token: 0x06004516 RID: 17686 RVA: 0x002450F0 File Offset: 0x002434F0
 		public CellRect CellRect
 		{
 			get
@@ -39,7 +39,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004519 RID: 17689 RVA: 0x00245180 File Offset: 0x00243580
+		// Token: 0x06004517 RID: 17687 RVA: 0x00245158 File Offset: 0x00243558
 		public void DrawSection(bool drawSunShadowsOnly)
 		{
 			int count = this.layers.Count;
@@ -57,7 +57,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600451A RID: 17690 RVA: 0x00245258 File Offset: 0x00243658
+		// Token: 0x06004518 RID: 17688 RVA: 0x00245230 File Offset: 0x00243630
 		public void RegenerateAllLayers()
 		{
 			for (int i = 0; i < this.layers.Count; i++)
@@ -82,7 +82,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600451B RID: 17691 RVA: 0x00245308 File Offset: 0x00243708
+		// Token: 0x06004519 RID: 17689 RVA: 0x002452E0 File Offset: 0x002436E0
 		public void RegenerateLayers(MapMeshFlag changeType)
 		{
 			for (int i = 0; i < this.layers.Count; i++)
@@ -116,7 +116,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600451C RID: 17692 RVA: 0x002453E4 File Offset: 0x002437E4
+		// Token: 0x0600451A RID: 17690 RVA: 0x002453BC File Offset: 0x002437BC
 		public SectionLayer GetLayer(Type type)
 		{
 			return (from sect in this.layers
@@ -124,25 +124,25 @@ namespace Verse
 			select sect).FirstOrDefault<SectionLayer>();
 		}
 
-		// Token: 0x04002F3A RID: 12090
+		// Token: 0x04002F38 RID: 12088
 		public IntVec3 botLeft;
 
-		// Token: 0x04002F3B RID: 12091
+		// Token: 0x04002F39 RID: 12089
 		public Map map;
 
-		// Token: 0x04002F3C RID: 12092
+		// Token: 0x04002F3A RID: 12090
 		public MapMeshFlag dirtyFlags = MapMeshFlag.None;
 
-		// Token: 0x04002F3D RID: 12093
+		// Token: 0x04002F3B RID: 12091
 		private List<SectionLayer> layers = new List<SectionLayer>();
 
-		// Token: 0x04002F3E RID: 12094
+		// Token: 0x04002F3C RID: 12092
 		private bool foundRect = false;
 
-		// Token: 0x04002F3F RID: 12095
+		// Token: 0x04002F3D RID: 12093
 		private CellRect calculatedRect;
 
-		// Token: 0x04002F40 RID: 12096
+		// Token: 0x04002F3E RID: 12094
 		public const int Size = 17;
 	}
 }

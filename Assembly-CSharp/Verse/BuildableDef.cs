@@ -10,7 +10,7 @@ namespace Verse
 	public abstract class BuildableDef : Def
 	{
 		// Token: 0x17000967 RID: 2407
-		// (get) Token: 0x06003E6F RID: 15983 RVA: 0x0020E578 File Offset: 0x0020C978
+		// (get) Token: 0x06003E71 RID: 15985 RVA: 0x0020E64C File Offset: 0x0020CA4C
 		public virtual IntVec2 Size
 		{
 			get
@@ -20,7 +20,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000968 RID: 2408
-		// (get) Token: 0x06003E70 RID: 15984 RVA: 0x0020E594 File Offset: 0x0020C994
+		// (get) Token: 0x06003E72 RID: 15986 RVA: 0x0020E668 File Offset: 0x0020CA68
 		public bool MadeFromStuff
 		{
 			get
@@ -30,7 +30,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000969 RID: 2409
-		// (get) Token: 0x06003E71 RID: 15985 RVA: 0x0020E5B8 File Offset: 0x0020C9B8
+		// (get) Token: 0x06003E73 RID: 15987 RVA: 0x0020E68C File Offset: 0x0020CA8C
 		public bool BuildableByPlayer
 		{
 			get
@@ -40,7 +40,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700096A RID: 2410
-		// (get) Token: 0x06003E72 RID: 15986 RVA: 0x0020E5DC File Offset: 0x0020C9DC
+		// (get) Token: 0x06003E74 RID: 15988 RVA: 0x0020E6B0 File Offset: 0x0020CAB0
 		public Material DrawMatSingle
 		{
 			get
@@ -59,7 +59,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700096B RID: 2411
-		// (get) Token: 0x06003E73 RID: 15987 RVA: 0x0020E610 File Offset: 0x0020CA10
+		// (get) Token: 0x06003E75 RID: 15989 RVA: 0x0020E6E4 File Offset: 0x0020CAE4
 		public float Altitude
 		{
 			get
@@ -69,7 +69,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700096C RID: 2412
-		// (get) Token: 0x06003E74 RID: 15988 RVA: 0x0020E630 File Offset: 0x0020CA30
+		// (get) Token: 0x06003E76 RID: 15990 RVA: 0x0020E704 File Offset: 0x0020CB04
 		public List<PlaceWorker> PlaceWorkers
 		{
 			get
@@ -93,7 +93,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700096D RID: 2413
-		// (get) Token: 0x06003E75 RID: 15989 RVA: 0x0020E6CC File Offset: 0x0020CACC
+		// (get) Token: 0x06003E77 RID: 15991 RVA: 0x0020E7A0 File Offset: 0x0020CBA0
 		public bool IsResearchFinished
 		{
 			get
@@ -112,7 +112,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E76 RID: 15990 RVA: 0x0020E72C File Offset: 0x0020CB2C
+		// Token: 0x06003E78 RID: 15992 RVA: 0x0020E800 File Offset: 0x0020CC00
 		public bool ForceAllowPlaceOver(BuildableDef other)
 		{
 			bool result;
@@ -134,7 +134,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003E77 RID: 15991 RVA: 0x0020E790 File Offset: 0x0020CB90
+		// Token: 0x06003E79 RID: 15993 RVA: 0x0020E864 File Offset: 0x0020CC64
 		public override void PostLoad()
 		{
 			base.PostLoad();
@@ -151,7 +151,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06003E78 RID: 15992 RVA: 0x0020E7AC File Offset: 0x0020CBAC
+		// Token: 0x06003E7A RID: 15994 RVA: 0x0020E880 File Offset: 0x0020CC80
 		protected virtual void ResolveIcon()
 		{
 			if (this.graphic != null && this.graphic != BaseContent.BadGraphic)
@@ -162,13 +162,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E79 RID: 15993 RVA: 0x0020E80D File Offset: 0x0020CC0D
+		// Token: 0x06003E7B RID: 15995 RVA: 0x0020E8E1 File Offset: 0x0020CCE1
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
 		}
 
-		// Token: 0x06003E7A RID: 15994 RVA: 0x0020E818 File Offset: 0x0020CC18
+		// Token: 0x06003E7C RID: 15996 RVA: 0x0020E8EC File Offset: 0x0020CCEC
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string error in this.<ConfigErrors>__BaseCallProxy0())
@@ -178,7 +178,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003E7B RID: 15995 RVA: 0x0020E844 File Offset: 0x0020CC44
+		// Token: 0x06003E7D RID: 15997 RVA: 0x0020E918 File Offset: 0x0020CD18
 		public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
 		{
 			foreach (StatDrawEntry stat in this.<SpecialDisplayStats>__BaseCallProxy1())
@@ -204,13 +204,13 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003E7C RID: 15996 RVA: 0x0020E870 File Offset: 0x0020CC70
+		// Token: 0x06003E7E RID: 15998 RVA: 0x0020E944 File Offset: 0x0020CD44
 		public override string ToString()
 		{
 			return this.defName;
 		}
 
-		// Token: 0x06003E7D RID: 15997 RVA: 0x0020E88C File Offset: 0x0020CC8C
+		// Token: 0x06003E7F RID: 15999 RVA: 0x0020E960 File Offset: 0x0020CD60
 		public override int GetHashCode()
 		{
 			return this.defName.GetHashCode();

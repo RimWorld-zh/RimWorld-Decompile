@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200064D RID: 1613
 	public class ScenPart_ConfigPage_ConfigureStartingPawns : ScenPart_ConfigPage
 	{
-		// Token: 0x06002179 RID: 8569 RVA: 0x0011BC50 File Offset: 0x0011A050
+		// Token: 0x0600217B RID: 8571 RVA: 0x0011BCC8 File Offset: 0x0011A0C8
 		public override void DoEditInterface(Listing_ScenEdit listing)
 		{
 			base.DoEditInterface(listing);
@@ -23,7 +23,7 @@ namespace RimWorld
 			Widgets.TextFieldNumeric<int>(scenPartRect, ref this.pawnChoiceCount, ref this.pawnCountChoiceBuffer, (float)this.pawnCount, 10f);
 		}
 
-		// Token: 0x0600217A RID: 8570 RVA: 0x0011BD2D File Offset: 0x0011A12D
+		// Token: 0x0600217C RID: 8572 RVA: 0x0011BDA5 File Offset: 0x0011A1A5
 		public override void ExposeData()
 		{
 			base.ExposeData();
@@ -31,7 +31,7 @@ namespace RimWorld
 			Scribe_Values.Look<int>(ref this.pawnChoiceCount, "pawnChoiceCount", 0, false);
 		}
 
-		// Token: 0x0600217B RID: 8571 RVA: 0x0011BD5C File Offset: 0x0011A15C
+		// Token: 0x0600217D RID: 8573 RVA: 0x0011BDD4 File Offset: 0x0011A1D4
 		public override string Summary(Scenario scen)
 		{
 			return "ScenPart_StartWithPawns".Translate(new object[]
@@ -41,14 +41,14 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x0600217C RID: 8572 RVA: 0x0011BD9D File Offset: 0x0011A19D
+		// Token: 0x0600217E RID: 8574 RVA: 0x0011BE15 File Offset: 0x0011A215
 		public override void Randomize()
 		{
 			this.pawnCount = Rand.RangeInclusive(1, 6);
 			this.pawnChoiceCount = 10;
 		}
 
-		// Token: 0x0600217D RID: 8573 RVA: 0x0011BDB8 File Offset: 0x0011A1B8
+		// Token: 0x0600217F RID: 8575 RVA: 0x0011BE30 File Offset: 0x0011A230
 		public override void PostWorldGenerate()
 		{
 			Find.GameInitData.startingPawnCount = this.pawnCount;

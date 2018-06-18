@@ -7,14 +7,14 @@ namespace RimWorld
 	// Token: 0x0200042C RID: 1068
 	public class RetainedCaravanData : IExposable
 	{
-		// Token: 0x060012B4 RID: 4788 RVA: 0x000A20E6 File Offset: 0x000A04E6
+		// Token: 0x060012B4 RID: 4788 RVA: 0x000A20F2 File Offset: 0x000A04F2
 		public RetainedCaravanData(Map map)
 		{
 			this.map = map;
 		}
 
 		// Token: 0x17000287 RID: 647
-		// (get) Token: 0x060012B5 RID: 4789 RVA: 0x000A2104 File Offset: 0x000A0504
+		// (get) Token: 0x060012B5 RID: 4789 RVA: 0x000A2110 File Offset: 0x000A0510
 		public bool HasDestinationTile
 		{
 			get
@@ -23,7 +23,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060012B6 RID: 4790 RVA: 0x000A2128 File Offset: 0x000A0528
+		// Token: 0x060012B6 RID: 4790 RVA: 0x000A2134 File Offset: 0x000A0534
 		public void ExposeData()
 		{
 			Scribe_Values.Look<bool>(ref this.shouldPassStoryState, "shouldPassStoryState", false, false);
@@ -34,7 +34,7 @@ namespace RimWorld
 			Scribe_Deep.Look<CaravanArrivalAction>(ref this.arrivalAction, "arrivalAction", new object[0]);
 		}
 
-		// Token: 0x060012B7 RID: 4791 RVA: 0x000A21AA File Offset: 0x000A05AA
+		// Token: 0x060012B7 RID: 4791 RVA: 0x000A21B6 File Offset: 0x000A05B6
 		public void Notify_GeneratedTempIncidentMapFor(Caravan caravan)
 		{
 			if (this.map.Parent.def.isTempIncidentMapOwner)
@@ -43,7 +43,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060012B8 RID: 4792 RVA: 0x000A21D4 File Offset: 0x000A05D4
+		// Token: 0x060012B8 RID: 4792 RVA: 0x000A21E0 File Offset: 0x000A05E0
 		public void Notify_CaravanFormed(Caravan caravan)
 		{
 			if (this.shouldPassStoryState)
@@ -66,7 +66,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060012B9 RID: 4793 RVA: 0x000A22D0 File Offset: 0x000A06D0
+		// Token: 0x060012B9 RID: 4793 RVA: 0x000A22DC File Offset: 0x000A06DC
 		private void Set(Caravan caravan)
 		{
 			caravan.StoryState.CopyTo(this.map.StoryState);

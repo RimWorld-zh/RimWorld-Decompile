@@ -9,7 +9,7 @@ namespace RimWorld.Planet
 	public static class WorldSelectionDrawer
 	{
 		// Token: 0x17000884 RID: 2180
-		// (get) Token: 0x060034CA RID: 13514 RVA: 0x001C3470 File Offset: 0x001C1870
+		// (get) Token: 0x060034CC RID: 13516 RVA: 0x001C3538 File Offset: 0x001C1938
 		public static Dictionary<WorldObject, float> SelectTimes
 		{
 			get
@@ -18,19 +18,19 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034CB RID: 13515 RVA: 0x001C348A File Offset: 0x001C188A
+		// Token: 0x060034CD RID: 13517 RVA: 0x001C3552 File Offset: 0x001C1952
 		public static void Notify_Selected(WorldObject t)
 		{
 			WorldSelectionDrawer.selectTimes[t] = Time.realtimeSinceStartup;
 		}
 
-		// Token: 0x060034CC RID: 13516 RVA: 0x001C349D File Offset: 0x001C189D
+		// Token: 0x060034CE RID: 13518 RVA: 0x001C3565 File Offset: 0x001C1965
 		public static void Clear()
 		{
 			WorldSelectionDrawer.selectTimes.Clear();
 		}
 
-		// Token: 0x060034CD RID: 13517 RVA: 0x001C34AC File Offset: 0x001C18AC
+		// Token: 0x060034CF RID: 13519 RVA: 0x001C3574 File Offset: 0x001C1974
 		public static void SelectionOverlaysOnGUI()
 		{
 			List<WorldObject> selectedObjects = Find.WorldSelector.SelectedObjects;
@@ -42,7 +42,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034CE RID: 13518 RVA: 0x001C34F4 File Offset: 0x001C18F4
+		// Token: 0x060034D0 RID: 13520 RVA: 0x001C35BC File Offset: 0x001C19BC
 		public static void DrawSelectionOverlays()
 		{
 			List<WorldObject> selectedObjects = Find.WorldSelector.SelectedObjects;
@@ -53,7 +53,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x060034CF RID: 13519 RVA: 0x001C3534 File Offset: 0x001C1934
+		// Token: 0x060034D1 RID: 13521 RVA: 0x001C35FC File Offset: 0x001C19FC
 		private static void DrawSelectionBracketOnGUIFor(WorldObject obj)
 		{
 			Vector2 vector = obj.ScreenPos();

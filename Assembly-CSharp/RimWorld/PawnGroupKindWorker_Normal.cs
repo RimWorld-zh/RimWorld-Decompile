@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000490 RID: 1168
 	public class PawnGroupKindWorker_Normal : PawnGroupKindWorker
 	{
-		// Token: 0x060014A5 RID: 5285 RVA: 0x000B52B4 File Offset: 0x000B36B4
+		// Token: 0x060014A5 RID: 5285 RVA: 0x000B52D0 File Offset: 0x000B36D0
 		public override float MinPointsToGenerateAnything(PawnGroupMaker groupMaker)
 		{
 			return (from x in groupMaker.options
@@ -16,13 +16,13 @@ namespace RimWorld
 			select x).Min((PawnGenOption g) => g.Cost);
 		}
 
-		// Token: 0x060014A6 RID: 5286 RVA: 0x000B5314 File Offset: 0x000B3714
+		// Token: 0x060014A6 RID: 5286 RVA: 0x000B5330 File Offset: 0x000B3730
 		public override bool CanGenerateFrom(PawnGroupMakerParms parms, PawnGroupMaker groupMaker)
 		{
 			return base.CanGenerateFrom(parms, groupMaker) && PawnGroupMakerUtility.ChoosePawnGenOptionsByPoints(parms.points, groupMaker.options, parms).Any<PawnGenOption>();
 		}
 
-		// Token: 0x060014A7 RID: 5287 RVA: 0x000B5364 File Offset: 0x000B3764
+		// Token: 0x060014A7 RID: 5287 RVA: 0x000B5380 File Offset: 0x000B3780
 		protected override void GeneratePawns(PawnGroupMakerParms parms, PawnGroupMaker groupMaker, List<Pawn> outPawns, bool errorOnZeroResults = true)
 		{
 			if (!this.CanGenerateFrom(parms, groupMaker))

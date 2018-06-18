@@ -6,18 +6,18 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000BFB RID: 3067
+	// Token: 0x02000BFA RID: 3066
 	public class LoadedLanguage
 	{
-		// Token: 0x060042DF RID: 17119 RVA: 0x0023590C File Offset: 0x00233D0C
+		// Token: 0x060042DD RID: 17117 RVA: 0x002358E4 File Offset: 0x00233CE4
 		public LoadedLanguage(string folderPath)
 		{
 			DirectoryInfo directoryInfo = new DirectoryInfo(folderPath);
 			this.folderName = directoryInfo.Name;
 		}
 
-		// Token: 0x17000A7C RID: 2684
-		// (get) Token: 0x060042E0 RID: 17120 RVA: 0x00235990 File Offset: 0x00233D90
+		// Token: 0x17000A7B RID: 2683
+		// (get) Token: 0x060042DE RID: 17118 RVA: 0x00235968 File Offset: 0x00233D68
 		public string FriendlyNameNative
 		{
 			get
@@ -35,8 +35,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A7D RID: 2685
-		// (get) Token: 0x060042E1 RID: 17121 RVA: 0x002359DC File Offset: 0x00233DDC
+		// Token: 0x17000A7C RID: 2684
+		// (get) Token: 0x060042DF RID: 17119 RVA: 0x002359B4 File Offset: 0x00233DB4
 		public string FriendlyNameEnglish
 		{
 			get
@@ -54,8 +54,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A7E RID: 2686
-		// (get) Token: 0x060042E2 RID: 17122 RVA: 0x00235A28 File Offset: 0x00233E28
+		// Token: 0x17000A7D RID: 2685
+		// (get) Token: 0x060042E0 RID: 17120 RVA: 0x00235A00 File Offset: 0x00233E00
 		public IEnumerable<string> FolderPaths
 		{
 			get
@@ -74,8 +74,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A7F RID: 2687
-		// (get) Token: 0x060042E3 RID: 17123 RVA: 0x00235A54 File Offset: 0x00233E54
+		// Token: 0x17000A7E RID: 2686
+		// (get) Token: 0x060042E1 RID: 17121 RVA: 0x00235A2C File Offset: 0x00233E2C
 		public LanguageWorker Worker
 		{
 			get
@@ -88,7 +88,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060042E4 RID: 17124 RVA: 0x00235A98 File Offset: 0x00233E98
+		// Token: 0x060042E2 RID: 17122 RVA: 0x00235A70 File Offset: 0x00233E70
 		public void TryLoadMetadataFrom(string folderPath)
 		{
 			if (this.info == null)
@@ -114,7 +114,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060042E5 RID: 17125 RVA: 0x00235B6C File Offset: 0x00233F6C
+		// Token: 0x060042E3 RID: 17123 RVA: 0x00235B44 File Offset: 0x00233F44
 		public void LoadData()
 		{
 			if (!this.dataIsLoaded)
@@ -206,7 +206,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060042E6 RID: 17126 RVA: 0x00235EB0 File Offset: 0x002342B0
+		// Token: 0x060042E4 RID: 17124 RVA: 0x00235E88 File Offset: 0x00234288
 		private void LoadFromFile_Strings(FileInfo file, DirectoryInfo stringsTopDir)
 		{
 			string text;
@@ -251,7 +251,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060042E7 RID: 17127 RVA: 0x0023602C File Offset: 0x0023442C
+		// Token: 0x060042E5 RID: 17125 RVA: 0x00236004 File Offset: 0x00234404
 		private void LoadFromFile_Keyed(FileInfo file)
 		{
 			Dictionary<string, string> dictionary = new Dictionary<string, string>();
@@ -289,7 +289,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060042E8 RID: 17128 RVA: 0x002361E4 File Offset: 0x002345E4
+		// Token: 0x060042E6 RID: 17126 RVA: 0x002361BC File Offset: 0x002345BC
 		public void LoadFromFile_DefInject(FileInfo file, Type defType)
 		{
 			DefInjectionPackage defInjectionPackage = (from di in this.defInjections
@@ -303,7 +303,7 @@ namespace Verse
 			defInjectionPackage.AddDataFromFile(file);
 		}
 
-		// Token: 0x060042E9 RID: 17129 RVA: 0x00236244 File Offset: 0x00234644
+		// Token: 0x060042E7 RID: 17127 RVA: 0x0023621C File Offset: 0x0023461C
 		public bool HaveTextForKey(string key)
 		{
 			if (!this.dataIsLoaded)
@@ -313,7 +313,7 @@ namespace Verse
 			return this.keyedReplacements.ContainsKey(key);
 		}
 
-		// Token: 0x060042EA RID: 17130 RVA: 0x00236278 File Offset: 0x00234678
+		// Token: 0x060042E8 RID: 17128 RVA: 0x00236250 File Offset: 0x00234650
 		public bool TryGetTextFromKey(string key, out string translated)
 		{
 			if (!this.dataIsLoaded)
@@ -333,7 +333,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060042EB RID: 17131 RVA: 0x002362BC File Offset: 0x002346BC
+		// Token: 0x060042E9 RID: 17129 RVA: 0x00236294 File Offset: 0x00234694
 		public bool TryGetStringsFromFile(string fileName, out List<string> stringsList)
 		{
 			if (!this.dataIsLoaded)
@@ -353,7 +353,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060042EC RID: 17132 RVA: 0x00236300 File Offset: 0x00234700
+		// Token: 0x060042EA RID: 17130 RVA: 0x002362D8 File Offset: 0x002346D8
 		public string GetKeySourceFileAndLine(string key)
 		{
 			Pair<string, int> pair;
@@ -369,7 +369,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x060042ED RID: 17133 RVA: 0x00236350 File Offset: 0x00234750
+		// Token: 0x060042EB RID: 17131 RVA: 0x00236328 File Offset: 0x00234728
 		public void InjectIntoData_BeforeImpliedDefs()
 		{
 			if (!this.dataIsLoaded)
@@ -389,7 +389,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060042EE RID: 17134 RVA: 0x002363F0 File Offset: 0x002347F0
+		// Token: 0x060042EC RID: 17132 RVA: 0x002363C8 File Offset: 0x002347C8
 		public void InjectIntoData_AfterImpliedDefs()
 		{
 			if (!this.dataIsLoaded)
@@ -424,43 +424,43 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060042EF RID: 17135 RVA: 0x0023650C File Offset: 0x0023490C
+		// Token: 0x060042ED RID: 17133 RVA: 0x002364E4 File Offset: 0x002348E4
 		public override string ToString()
 		{
 			return this.info.friendlyNameEnglish;
 		}
 
-		// Token: 0x04002DA8 RID: 11688
+		// Token: 0x04002DA6 RID: 11686
 		public string folderName;
 
-		// Token: 0x04002DA9 RID: 11689
+		// Token: 0x04002DA7 RID: 11687
 		public LanguageInfo info = null;
 
-		// Token: 0x04002DAA RID: 11690
+		// Token: 0x04002DA8 RID: 11688
 		private LanguageWorker workerInt;
 
-		// Token: 0x04002DAB RID: 11691
+		// Token: 0x04002DA9 RID: 11689
 		private bool dataIsLoaded = false;
 
-		// Token: 0x04002DAC RID: 11692
+		// Token: 0x04002DAA RID: 11690
 		public List<string> loadErrors = new List<string>();
 
-		// Token: 0x04002DAD RID: 11693
+		// Token: 0x04002DAB RID: 11691
 		public List<string> backstoriesLoadErrors = new List<string>();
 
-		// Token: 0x04002DAE RID: 11694
+		// Token: 0x04002DAC RID: 11692
 		public Texture2D icon = BaseContent.BadTex;
 
-		// Token: 0x04002DAF RID: 11695
+		// Token: 0x04002DAD RID: 11693
 		public Dictionary<string, string> keyedReplacements = new Dictionary<string, string>();
 
-		// Token: 0x04002DB0 RID: 11696
+		// Token: 0x04002DAE RID: 11694
 		public Dictionary<string, Pair<string, int>> keyedReplacementsFileSource = new Dictionary<string, Pair<string, int>>();
 
-		// Token: 0x04002DB1 RID: 11697
+		// Token: 0x04002DAF RID: 11695
 		public List<DefInjectionPackage> defInjections = new List<DefInjectionPackage>();
 
-		// Token: 0x04002DB2 RID: 11698
+		// Token: 0x04002DB0 RID: 11696
 		public Dictionary<string, List<string>> stringFiles = new Dictionary<string, List<string>>();
 	}
 }

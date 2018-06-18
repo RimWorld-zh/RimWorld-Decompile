@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000895 RID: 2197
 	public class PawnColumnWorker_Label : PawnColumnWorker
 	{
-		// Token: 0x0600321B RID: 12827 RVA: 0x001AF984 File Offset: 0x001ADD84
+		// Token: 0x0600321D RID: 12829 RVA: 0x001AFA4C File Offset: 0x001ADE4C
 		public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
 		{
 			Rect rect2 = new Rect(rect.x, rect.y, rect.width, Mathf.Min(rect.height, 30f));
@@ -62,13 +62,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600321C RID: 12828 RVA: 0x001AFB94 File Offset: 0x001ADF94
+		// Token: 0x0600321E RID: 12830 RVA: 0x001AFC5C File Offset: 0x001AE05C
 		public override int GetMinWidth(PawnTable table)
 		{
 			return Mathf.Max(base.GetMinWidth(table), 80);
 		}
 
-		// Token: 0x0600321D RID: 12829 RVA: 0x001AFBB8 File Offset: 0x001ADFB8
+		// Token: 0x0600321F RID: 12831 RVA: 0x001AFC80 File Offset: 0x001AE080
 		public override int GetOptimalWidth(PawnTable table)
 		{
 			return Mathf.Clamp(165, this.GetMinWidth(table), this.GetMaxWidth(table));

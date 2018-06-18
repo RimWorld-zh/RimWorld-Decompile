@@ -6,13 +6,13 @@ namespace RimWorld
 	// Token: 0x0200080B RID: 2059
 	public static class NamePlayerFactionBaseDialogUtility
 	{
-		// Token: 0x06002DEF RID: 11759 RVA: 0x001826F8 File Offset: 0x00180AF8
+		// Token: 0x06002DF1 RID: 11761 RVA: 0x0018278C File Offset: 0x00180B8C
 		public static bool IsValidName(string s)
 		{
 			return s.Length != 0;
 		}
 
-		// Token: 0x06002DF0 RID: 11760 RVA: 0x00182720 File Offset: 0x00180B20
+		// Token: 0x06002DF2 RID: 11762 RVA: 0x001827B4 File Offset: 0x00180BB4
 		public static void Named(FactionBase factionBase, string s)
 		{
 			factionBase.Name = s;

@@ -10,13 +10,13 @@ namespace RimWorld
 	// Token: 0x020009CC RID: 2508
 	public class SteadyEnvironmentEffects
 	{
-		// Token: 0x06003823 RID: 14371 RVA: 0x001DE77B File Offset: 0x001DCB7B
+		// Token: 0x06003825 RID: 14373 RVA: 0x001DE84F File Offset: 0x001DCC4F
 		public SteadyEnvironmentEffects(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x06003824 RID: 14372 RVA: 0x001DE78C File Offset: 0x001DCB8C
+		// Token: 0x06003826 RID: 14374 RVA: 0x001DE860 File Offset: 0x001DCC60
 		public void SteadyEnvironmentEffectsTick()
 		{
 			Profiler.BeginSample("Init");
@@ -49,7 +49,7 @@ namespace RimWorld
 			Profiler.EndSample();
 		}
 
-		// Token: 0x06003825 RID: 14373 RVA: 0x001DE8E0 File Offset: 0x001DCCE0
+		// Token: 0x06003827 RID: 14375 RVA: 0x001DE9B4 File Offset: 0x001DCDB4
 		private void DoCellSteadyEffects(IntVec3 c)
 		{
 			Room room = c.GetRoom(this.map, RegionType.Set_All);
@@ -129,14 +129,14 @@ namespace RimWorld
 			Profiler.EndSample();
 		}
 
-		// Token: 0x06003826 RID: 14374 RVA: 0x001DEB68 File Offset: 0x001DCF68
+		// Token: 0x06003828 RID: 14376 RVA: 0x001DEC3C File Offset: 0x001DD03C
 		private static bool ProtectedByEdifice(IntVec3 c, Map map)
 		{
 			Building edifice = c.GetEdifice(map);
 			return edifice != null && edifice.def.building != null && edifice.def.building.preventDeteriorationOnTop;
 		}
 
-		// Token: 0x06003827 RID: 14375 RVA: 0x001DEBB8 File Offset: 0x001DCFB8
+		// Token: 0x06003829 RID: 14377 RVA: 0x001DEC8C File Offset: 0x001DD08C
 		private float MeltAmountAt(float temperature)
 		{
 			float result;
@@ -155,7 +155,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06003828 RID: 14376 RVA: 0x001DEC10 File Offset: 0x001DD010
+		// Token: 0x0600382A RID: 14378 RVA: 0x001DECE4 File Offset: 0x001DD0E4
 		public void AddFallenSnowAt(IntVec3 c, float baseAmount)
 		{
 			if (this.snowNoise == null)
@@ -173,7 +173,7 @@ namespace RimWorld
 			this.map.snowGrid.AddDepth(c, depthToAdd);
 		}
 
-		// Token: 0x06003829 RID: 14377 RVA: 0x001DECA0 File Offset: 0x001DD0A0
+		// Token: 0x0600382B RID: 14379 RVA: 0x001DED74 File Offset: 0x001DD174
 		public static float FinalDeteriorationRate(Thing t, List<string> reasons = null)
 		{
 			float result;
@@ -189,7 +189,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600382A RID: 14378 RVA: 0x001DED28 File Offset: 0x001DD128
+		// Token: 0x0600382C RID: 14380 RVA: 0x001DEDFC File Offset: 0x001DD1FC
 		public static float FinalDeteriorationRate(Thing t, bool roofed, bool roomUsesOutdoorTemperature, bool protectedByEdifice, TerrainDef terrain, List<string> reasons = null)
 		{
 			float result;
@@ -248,7 +248,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600382B RID: 14379 RVA: 0x001DEE34 File Offset: 0x001DD234
+		// Token: 0x0600382D RID: 14381 RVA: 0x001DEF08 File Offset: 0x001DD308
 		private void TryDoDeteriorate(Thing t, bool roofed, bool roomUsesOutdoorTemperature, bool protectedByEdifice, TerrainDef terrain)
 		{
 			Corpse corpse = t as Corpse;
@@ -274,7 +274,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600382C RID: 14380 RVA: 0x001DEEFC File Offset: 0x001DD2FC
+		// Token: 0x0600382E RID: 14382 RVA: 0x001DEFD0 File Offset: 0x001DD3D0
 		private void RollForRainFire()
 		{
 			float chance = 0.2f * (float)this.map.listerBuildings.allBuildingsColonistElecFire.Count * this.map.weatherManager.RainRate;

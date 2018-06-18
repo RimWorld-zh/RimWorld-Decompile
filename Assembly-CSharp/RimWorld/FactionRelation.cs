@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x02000560 RID: 1376
 	public class FactionRelation : IExposable
 	{
-		// Token: 0x060019F2 RID: 6642 RVA: 0x000E1494 File Offset: 0x000DF894
+		// Token: 0x060019F3 RID: 6643 RVA: 0x000E14E8 File Offset: 0x000DF8E8
 		public void CheckKindThresholds(Faction faction, bool canSendLetter, string reason, GlobalTargetInfo lookTarget, out bool sentLetter)
 		{
 			FactionRelationKind previousKind = this.kind;
@@ -34,7 +34,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060019F3 RID: 6643 RVA: 0x000E1580 File Offset: 0x000DF980
+		// Token: 0x060019F4 RID: 6644 RVA: 0x000E15D4 File Offset: 0x000DF9D4
 		public void ExposeData()
 		{
 			Scribe_References.Look<Faction>(ref this.other, "other", false);
@@ -46,7 +46,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060019F4 RID: 6644 RVA: 0x000E15D4 File Offset: 0x000DF9D4
+		// Token: 0x060019F5 RID: 6645 RVA: 0x000E1628 File Offset: 0x000DFA28
 		public override string ToString()
 		{
 			return string.Concat(new object[]

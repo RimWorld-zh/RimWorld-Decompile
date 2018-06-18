@@ -9,7 +9,7 @@ namespace RimWorld
 	// Token: 0x020008A5 RID: 2213
 	public static class TargetHighlighter
 	{
-		// Token: 0x0600329B RID: 12955 RVA: 0x001B3BE4 File Offset: 0x001B1FE4
+		// Token: 0x0600329D RID: 12957 RVA: 0x001B3CAC File Offset: 0x001B20AC
 		public static void Highlight(GlobalTargetInfo target, bool arrow = true, bool colonistBar = true, bool circleOverlay = false)
 		{
 			if (target.IsValid)
@@ -80,7 +80,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600329C RID: 12956 RVA: 0x001B3E50 File Offset: 0x001B2250
+		// Token: 0x0600329E RID: 12958 RVA: 0x001B3F18 File Offset: 0x001B2318
 		public static void TargetHighlighterUpdate()
 		{
 			for (int i = 0; i < TargetHighlighter.arrowPositions.Count; i++)

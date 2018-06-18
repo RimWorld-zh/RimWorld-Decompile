@@ -4,10 +4,10 @@ using System.Threading;
 
 namespace Verse
 {
-	// Token: 0x02000EDE RID: 3806
+	// Token: 0x02000EDD RID: 3805
 	public static class CultureInfoUtility
 	{
-		// Token: 0x060059F7 RID: 23031 RVA: 0x002E1F6C File Offset: 0x002E036C
+		// Token: 0x060059F5 RID: 23029 RVA: 0x002E2044 File Offset: 0x002E0444
 		public static void EnsureEnglish()
 		{
 			if (Thread.CurrentThread.CurrentCulture.Name != "en-US")
@@ -16,7 +16,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003C63 RID: 15459
+		// Token: 0x04003C62 RID: 15458
 		private const string EnglishCulture = "en-US";
 	}
 }

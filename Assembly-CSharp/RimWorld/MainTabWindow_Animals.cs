@@ -10,7 +10,7 @@ namespace RimWorld
 	public class MainTabWindow_Animals : MainTabWindow_PawnTable
 	{
 		// Token: 0x170007D5 RID: 2005
-		// (get) Token: 0x06003105 RID: 12549 RVA: 0x001A9FA0 File Offset: 0x001A83A0
+		// (get) Token: 0x06003107 RID: 12551 RVA: 0x001AA068 File Offset: 0x001A8468
 		protected override PawnTableDef PawnTableDef
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170007D6 RID: 2006
-		// (get) Token: 0x06003106 RID: 12550 RVA: 0x001A9FBC File Offset: 0x001A83BC
+		// (get) Token: 0x06003108 RID: 12552 RVA: 0x001AA084 File Offset: 0x001A8484
 		protected override IEnumerable<Pawn> Pawns
 		{
 			get
@@ -31,7 +31,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06003107 RID: 12551 RVA: 0x001AA007 File Offset: 0x001A8407
+		// Token: 0x06003109 RID: 12553 RVA: 0x001AA0CF File Offset: 0x001A84CF
 		public override void PostOpen()
 		{
 			base.PostOpen();

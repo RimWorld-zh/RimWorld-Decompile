@@ -7,7 +7,7 @@ namespace Verse
 	public class ShaderTypeDef : Def
 	{
 		// Token: 0x170009BE RID: 2494
-		// (get) Token: 0x06003FF1 RID: 16369 RVA: 0x0021ACF0 File Offset: 0x002190F0
+		// (get) Token: 0x06003FF3 RID: 16371 RVA: 0x0021ADC4 File Offset: 0x002191C4
 		public Shader Shader
 		{
 			get

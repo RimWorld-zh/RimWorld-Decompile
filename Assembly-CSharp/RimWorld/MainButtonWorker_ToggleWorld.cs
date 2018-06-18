@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200086C RID: 2156
 	public class MainButtonWorker_ToggleWorld : MainButtonWorker
 	{
-		// Token: 0x060030FC RID: 12540 RVA: 0x001A99AC File Offset: 0x001A7DAC
+		// Token: 0x060030FE RID: 12542 RVA: 0x001A9A74 File Offset: 0x001A7E74
 		public override void Activate()
 		{
 			if (Find.World.renderer.wantedMode == WorldRenderMode.None)

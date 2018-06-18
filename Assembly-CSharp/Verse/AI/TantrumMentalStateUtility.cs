@@ -6,7 +6,7 @@ namespace Verse.AI
 	// Token: 0x02000A8C RID: 2700
 	public static class TantrumMentalStateUtility
 	{
-		// Token: 0x06003BDB RID: 15323 RVA: 0x001F888C File Offset: 0x001F6C8C
+		// Token: 0x06003BDD RID: 15325 RVA: 0x001F8960 File Offset: 0x001F6D60
 		public static bool CanSmash(Pawn pawn, Thing thing, bool skipReachabilityCheck = false, Predicate<Thing> customValidator = null, int extraMinBuildingOrItemMarketValue = 0)
 		{
 			if (customValidator != null)
@@ -23,7 +23,7 @@ namespace Verse.AI
 			return !thing.Destroyed && thing.Spawned && thing != pawn && (thing.def.category == ThingCategory.Pawn || thing.def.useHitPoints) && (thing.def.category == ThingCategory.Pawn || !thing.def.CanHaveFaction || thing.Faction == pawn.Faction) && (thing.def.category != ThingCategory.Item || thing.MarketValue * (float)thing.stackCount >= 75f) && (thing.def.category != ThingCategory.Pawn || !((Pawn)thing).Downed) && ((thing.def.category != ThingCategory.Item && thing.def.category != ThingCategory.Building) || thing.MarketValue * (float)thing.stackCount >= (float)extraMinBuildingOrItemMarketValue) && (skipReachabilityCheck || pawn.CanReach(thing, PathEndMode.Touch, Danger.Deadly, false, TraverseMode.ByPawn));
 		}
 
-		// Token: 0x06003BDC RID: 15324 RVA: 0x001F89F8 File Offset: 0x001F6DF8
+		// Token: 0x06003BDE RID: 15326 RVA: 0x001F8ACC File Offset: 0x001F6ECC
 		public static void GetSmashableThingsNear(Pawn pawn, IntVec3 near, List<Thing> outCandidates, Predicate<Thing> customValidator = null, int extraMinBuildingOrItemMarketValue = 0, int maxDistance = 40)
 		{
 			outCandidates.Clear();
@@ -65,7 +65,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003BDD RID: 15325 RVA: 0x001F8AC0 File Offset: 0x001F6EC0
+		// Token: 0x06003BDF RID: 15327 RVA: 0x001F8B94 File Offset: 0x001F6F94
 		public static void GetSmashableThingsIn(Room room, Pawn pawn, List<Thing> outCandidates, Predicate<Thing> customValidator = null, int extraMinBuildingOrItemMarketValue = 0)
 		{
 			outCandidates.Clear();
@@ -80,7 +80,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003BDE RID: 15326 RVA: 0x001F8B20 File Offset: 0x001F6F20
+		// Token: 0x06003BE0 RID: 15328 RVA: 0x001F8BF4 File Offset: 0x001F6FF4
 		public static bool CanAttackPrisoner(Pawn pawn, Thing prisoner)
 		{
 			Pawn pawn2 = prisoner as Pawn;

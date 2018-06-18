@@ -4,23 +4,23 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000C0E RID: 3086
+	// Token: 0x02000C0D RID: 3085
 	public class Designation : IExposable
 	{
-		// Token: 0x0600435D RID: 17245 RVA: 0x00238794 File Offset: 0x00236B94
+		// Token: 0x0600435B RID: 17243 RVA: 0x0023876C File Offset: 0x00236B6C
 		public Designation()
 		{
 		}
 
-		// Token: 0x0600435E RID: 17246 RVA: 0x0023879D File Offset: 0x00236B9D
+		// Token: 0x0600435C RID: 17244 RVA: 0x00238775 File Offset: 0x00236B75
 		public Designation(LocalTargetInfo target, DesignationDef def)
 		{
 			this.target = target;
 			this.def = def;
 		}
 
-		// Token: 0x17000A92 RID: 2706
-		// (get) Token: 0x0600435F RID: 17247 RVA: 0x002387B4 File Offset: 0x00236BB4
+		// Token: 0x17000A91 RID: 2705
+		// (get) Token: 0x0600435D RID: 17245 RVA: 0x0023878C File Offset: 0x00236B8C
 		private Map Map
 		{
 			get
@@ -29,8 +29,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A93 RID: 2707
-		// (get) Token: 0x06004360 RID: 17248 RVA: 0x002387D4 File Offset: 0x00236BD4
+		// Token: 0x17000A92 RID: 2706
+		// (get) Token: 0x0600435E RID: 17246 RVA: 0x002387AC File Offset: 0x00236BAC
 		public float DesignationDrawAltitude
 		{
 			get
@@ -39,7 +39,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004361 RID: 17249 RVA: 0x002387F0 File Offset: 0x00236BF0
+		// Token: 0x0600435F RID: 17247 RVA: 0x002387C8 File Offset: 0x00236BC8
 		public void ExposeData()
 		{
 			Scribe_Defs.Look<DesignationDef>(ref this.def, "def");
@@ -54,7 +54,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004362 RID: 17250 RVA: 0x0023885E File Offset: 0x00236C5E
+		// Token: 0x06004360 RID: 17248 RVA: 0x00238836 File Offset: 0x00236C36
 		public void Notify_Added()
 		{
 			if (this.def == DesignationDefOf.Haul)
@@ -63,7 +63,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004363 RID: 17251 RVA: 0x0023888C File Offset: 0x00236C8C
+		// Token: 0x06004361 RID: 17249 RVA: 0x00238864 File Offset: 0x00236C64
 		internal void Notify_Removing()
 		{
 			if (this.def == DesignationDefOf.Haul && this.target.HasThing)
@@ -72,7 +72,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004364 RID: 17252 RVA: 0x002388CC File Offset: 0x00236CCC
+		// Token: 0x06004362 RID: 17250 RVA: 0x002388A4 File Offset: 0x00236CA4
 		public virtual void DesignationDraw()
 		{
 			if (!this.target.HasThing || this.target.Thing.Spawned)
@@ -91,13 +91,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004365 RID: 17253 RVA: 0x00238977 File Offset: 0x00236D77
+		// Token: 0x06004363 RID: 17251 RVA: 0x0023894F File Offset: 0x00236D4F
 		public void Delete()
 		{
 			this.Map.designationManager.RemoveDesignation(this);
 		}
 
-		// Token: 0x06004366 RID: 17254 RVA: 0x0023898C File Offset: 0x00236D8C
+		// Token: 0x06004364 RID: 17252 RVA: 0x00238964 File Offset: 0x00236D64
 		public override string ToString()
 		{
 			return string.Format(string.Concat(new object[]
@@ -110,16 +110,16 @@ namespace Verse
 			}), new object[0]);
 		}
 
-		// Token: 0x04002E0F RID: 11791
+		// Token: 0x04002E0D RID: 11789
 		public DesignationManager designationManager;
 
-		// Token: 0x04002E10 RID: 11792
+		// Token: 0x04002E0E RID: 11790
 		public DesignationDef def;
 
-		// Token: 0x04002E11 RID: 11793
+		// Token: 0x04002E0F RID: 11791
 		public LocalTargetInfo target;
 
-		// Token: 0x04002E12 RID: 11794
+		// Token: 0x04002E10 RID: 11792
 		public const float ClaimedDesignationDrawAltitude = 15f;
 	}
 }

@@ -11,8 +11,8 @@ namespace RimWorld
 	public class CompRefuelable : ThingComp
 	{
 		// Token: 0x17000637 RID: 1591
-		// (get) Token: 0x06002870 RID: 10352 RVA: 0x00158F60 File Offset: 0x00157360
-		// (set) Token: 0x06002871 RID: 10353 RVA: 0x00158FBD File Offset: 0x001573BD
+		// (get) Token: 0x06002872 RID: 10354 RVA: 0x00158FD8 File Offset: 0x001573D8
+		// (set) Token: 0x06002873 RID: 10355 RVA: 0x00159035 File Offset: 0x00157435
 		public float TargetFuelLevel
 		{
 			get
@@ -39,7 +39,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000638 RID: 1592
-		// (get) Token: 0x06002872 RID: 10354 RVA: 0x00158FDC File Offset: 0x001573DC
+		// (get) Token: 0x06002874 RID: 10356 RVA: 0x00159054 File Offset: 0x00157454
 		public CompProperties_Refuelable Props
 		{
 			get
@@ -49,7 +49,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000639 RID: 1593
-		// (get) Token: 0x06002873 RID: 10355 RVA: 0x00158FFC File Offset: 0x001573FC
+		// (get) Token: 0x06002875 RID: 10357 RVA: 0x00159074 File Offset: 0x00157474
 		public float Fuel
 		{
 			get
@@ -59,7 +59,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700063A RID: 1594
-		// (get) Token: 0x06002874 RID: 10356 RVA: 0x00159018 File Offset: 0x00157418
+		// (get) Token: 0x06002876 RID: 10358 RVA: 0x00159090 File Offset: 0x00157490
 		public float FuelPercentOfTarget
 		{
 			get
@@ -69,7 +69,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700063B RID: 1595
-		// (get) Token: 0x06002875 RID: 10357 RVA: 0x0015903C File Offset: 0x0015743C
+		// (get) Token: 0x06002877 RID: 10359 RVA: 0x001590B4 File Offset: 0x001574B4
 		public float FuelPercentOfMax
 		{
 			get
@@ -79,7 +79,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700063C RID: 1596
-		// (get) Token: 0x06002876 RID: 10358 RVA: 0x00159064 File Offset: 0x00157464
+		// (get) Token: 0x06002878 RID: 10360 RVA: 0x001590DC File Offset: 0x001574DC
 		public bool IsFull
 		{
 			get
@@ -89,7 +89,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700063D RID: 1597
-		// (get) Token: 0x06002877 RID: 10359 RVA: 0x00159090 File Offset: 0x00157490
+		// (get) Token: 0x06002879 RID: 10361 RVA: 0x00159108 File Offset: 0x00157508
 		public bool HasFuel
 		{
 			get
@@ -99,7 +99,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700063E RID: 1598
-		// (get) Token: 0x06002878 RID: 10360 RVA: 0x001590D0 File Offset: 0x001574D0
+		// (get) Token: 0x0600287A RID: 10362 RVA: 0x00159148 File Offset: 0x00157548
 		private float ConsumptionRatePerTick
 		{
 			get
@@ -109,7 +109,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700063F RID: 1599
-		// (get) Token: 0x06002879 RID: 10361 RVA: 0x001590F8 File Offset: 0x001574F8
+		// (get) Token: 0x0600287B RID: 10363 RVA: 0x00159170 File Offset: 0x00157570
 		public bool ShouldAutoRefuelNow
 		{
 			get
@@ -118,7 +118,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600287A RID: 10362 RVA: 0x001591B4 File Offset: 0x001575B4
+		// Token: 0x0600287C RID: 10364 RVA: 0x0015922C File Offset: 0x0015762C
 		public override void Initialize(CompProperties props)
 		{
 			base.Initialize(props);
@@ -126,7 +126,7 @@ namespace RimWorld
 			this.flickComp = this.parent.GetComp<CompFlickable>();
 		}
 
-		// Token: 0x0600287B RID: 10363 RVA: 0x001591EC File Offset: 0x001575EC
+		// Token: 0x0600287D RID: 10365 RVA: 0x00159264 File Offset: 0x00157664
 		public override void PostExposeData()
 		{
 			base.PostExposeData();
@@ -134,7 +134,7 @@ namespace RimWorld
 			Scribe_Values.Look<float>(ref this.configuredTargetFuelLevel, "configuredTargetFuelLevel", -1f, false);
 		}
 
-		// Token: 0x0600287C RID: 10364 RVA: 0x00159224 File Offset: 0x00157624
+		// Token: 0x0600287E RID: 10366 RVA: 0x0015929C File Offset: 0x0015769C
 		public override void PostDraw()
 		{
 			base.PostDraw();
@@ -158,7 +158,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600287D RID: 10365 RVA: 0x00159314 File Offset: 0x00157714
+		// Token: 0x0600287F RID: 10367 RVA: 0x0015938C File Offset: 0x0015778C
 		public override void PostDestroy(DestroyMode mode, Map previousMap)
 		{
 			base.PostDestroy(mode, previousMap);
@@ -177,7 +177,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600287E RID: 10366 RVA: 0x001593D0 File Offset: 0x001577D0
+		// Token: 0x06002880 RID: 10368 RVA: 0x00159448 File Offset: 0x00157848
 		public override string CompInspectStringExtra()
 		{
 			string text = string.Concat(new string[]
@@ -207,7 +207,7 @@ namespace RimWorld
 			return text;
 		}
 
-		// Token: 0x0600287F RID: 10367 RVA: 0x00159518 File Offset: 0x00157918
+		// Token: 0x06002881 RID: 10369 RVA: 0x00159590 File Offset: 0x00157990
 		public override void CompTick()
 		{
 			base.CompTick();
@@ -221,7 +221,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002880 RID: 10368 RVA: 0x001595E0 File Offset: 0x001579E0
+		// Token: 0x06002882 RID: 10370 RVA: 0x00159658 File Offset: 0x00157A58
 		public void ConsumeFuel(float amount)
 		{
 			if (this.fuel > 0f)
@@ -239,7 +239,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002881 RID: 10369 RVA: 0x0015965C File Offset: 0x00157A5C
+		// Token: 0x06002883 RID: 10371 RVA: 0x001596D4 File Offset: 0x00157AD4
 		public void Refuel(List<Thing> fuelThings)
 		{
 			if (this.Props.atomicFueling)
@@ -261,7 +261,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002882 RID: 10370 RVA: 0x0015970C File Offset: 0x00157B0C
+		// Token: 0x06002884 RID: 10372 RVA: 0x00159784 File Offset: 0x00157B84
 		public void Refuel(float amount)
 		{
 			this.fuel += amount * this.Props.fuelMultiplier;
@@ -272,13 +272,13 @@ namespace RimWorld
 			this.parent.BroadcastCompSignal("Refueled");
 		}
 
-		// Token: 0x06002883 RID: 10371 RVA: 0x0015976B File Offset: 0x00157B6B
+		// Token: 0x06002885 RID: 10373 RVA: 0x001597E3 File Offset: 0x00157BE3
 		public void Notify_UsedThisTick()
 		{
 			this.ConsumeFuel(this.ConsumptionRatePerTick);
 		}
 
-		// Token: 0x06002884 RID: 10372 RVA: 0x0015977C File Offset: 0x00157B7C
+		// Token: 0x06002886 RID: 10374 RVA: 0x001597F4 File Offset: 0x00157BF4
 		public int GetFuelCountToFullyRefuel()
 		{
 			int result;
@@ -294,7 +294,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002885 RID: 10373 RVA: 0x001597EC File Offset: 0x00157BEC
+		// Token: 0x06002887 RID: 10375 RVA: 0x00159864 File Offset: 0x00157C64
 		public override IEnumerable<Gizmo> CompGetGizmosExtra()
 		{
 			if (this.Props.targetFuelLevelConfigurable)

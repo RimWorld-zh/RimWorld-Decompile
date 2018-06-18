@@ -5,17 +5,17 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000C00 RID: 3072
+	// Token: 0x02000BFF RID: 3071
 	public class AreaManager : IExposable
 	{
-		// Token: 0x06004313 RID: 17171 RVA: 0x00236CCC File Offset: 0x002350CC
+		// Token: 0x06004311 RID: 17169 RVA: 0x00236CA4 File Offset: 0x002350A4
 		public AreaManager(Map map)
 		{
 			this.map = map;
 		}
 
-		// Token: 0x17000A8B RID: 2699
-		// (get) Token: 0x06004314 RID: 17172 RVA: 0x00236CE8 File Offset: 0x002350E8
+		// Token: 0x17000A8A RID: 2698
+		// (get) Token: 0x06004312 RID: 17170 RVA: 0x00236CC0 File Offset: 0x002350C0
 		public List<Area> AllAreas
 		{
 			get
@@ -24,8 +24,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A8C RID: 2700
-		// (get) Token: 0x06004315 RID: 17173 RVA: 0x00236D04 File Offset: 0x00235104
+		// Token: 0x17000A8B RID: 2699
+		// (get) Token: 0x06004313 RID: 17171 RVA: 0x00236CDC File Offset: 0x002350DC
 		public Area_Home Home
 		{
 			get
@@ -34,8 +34,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A8D RID: 2701
-		// (get) Token: 0x06004316 RID: 17174 RVA: 0x00236D20 File Offset: 0x00235120
+		// Token: 0x17000A8C RID: 2700
+		// (get) Token: 0x06004314 RID: 17172 RVA: 0x00236CF8 File Offset: 0x002350F8
 		public Area_BuildRoof BuildRoof
 		{
 			get
@@ -44,8 +44,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A8E RID: 2702
-		// (get) Token: 0x06004317 RID: 17175 RVA: 0x00236D3C File Offset: 0x0023513C
+		// Token: 0x17000A8D RID: 2701
+		// (get) Token: 0x06004315 RID: 17173 RVA: 0x00236D14 File Offset: 0x00235114
 		public Area_NoRoof NoRoof
 		{
 			get
@@ -54,8 +54,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000A8F RID: 2703
-		// (get) Token: 0x06004318 RID: 17176 RVA: 0x00236D58 File Offset: 0x00235158
+		// Token: 0x17000A8E RID: 2702
+		// (get) Token: 0x06004316 RID: 17174 RVA: 0x00236D30 File Offset: 0x00235130
 		public Area_SnowClear SnowClear
 		{
 			get
@@ -64,7 +64,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004319 RID: 17177 RVA: 0x00236D74 File Offset: 0x00235174
+		// Token: 0x06004317 RID: 17175 RVA: 0x00236D4C File Offset: 0x0023514C
 		public void AddStartingAreas()
 		{
 			this.areas.Add(new Area_Home(this));
@@ -75,7 +75,7 @@ namespace Verse
 			this.TryMakeNewAllowed(out area_Allowed);
 		}
 
-		// Token: 0x0600431A RID: 17178 RVA: 0x00236DCF File Offset: 0x002351CF
+		// Token: 0x06004318 RID: 17176 RVA: 0x00236DA7 File Offset: 0x002351A7
 		public void ExposeData()
 		{
 			Scribe_Collections.Look<Area>(ref this.areas, "areas", LookMode.Deep, new object[0]);
@@ -85,7 +85,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600431B RID: 17179 RVA: 0x00236DFC File Offset: 0x002351FC
+		// Token: 0x06004319 RID: 17177 RVA: 0x00236DD4 File Offset: 0x002351D4
 		public void AreaManagerUpdate()
 		{
 			for (int i = 0; i < this.areas.Count; i++)
@@ -94,7 +94,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600431C RID: 17180 RVA: 0x00236E3C File Offset: 0x0023523C
+		// Token: 0x0600431A RID: 17178 RVA: 0x00236E14 File Offset: 0x00235214
 		internal void Remove(Area area)
 		{
 			if (!area.Mutable)
@@ -112,7 +112,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x0600431D RID: 17181 RVA: 0x00236E90 File Offset: 0x00235290
+		// Token: 0x0600431B RID: 17179 RVA: 0x00236E68 File Offset: 0x00235268
 		public Area GetLabeled(string s)
 		{
 			for (int i = 0; i < this.areas.Count; i++)
@@ -125,7 +125,7 @@ namespace Verse
 			return null;
 		}
 
-		// Token: 0x0600431E RID: 17182 RVA: 0x00236EF4 File Offset: 0x002352F4
+		// Token: 0x0600431C RID: 17180 RVA: 0x00236ECC File Offset: 0x002352CC
 		public T Get<T>() where T : Area
 		{
 			for (int i = 0; i < this.areas.Count; i++)
@@ -139,13 +139,13 @@ namespace Verse
 			return (T)((object)null);
 		}
 
-		// Token: 0x0600431F RID: 17183 RVA: 0x00236F56 File Offset: 0x00235356
+		// Token: 0x0600431D RID: 17181 RVA: 0x00236F2E File Offset: 0x0023532E
 		private void SortAreas()
 		{
 			this.areas.InsertionSort((Area a, Area b) => b.ListPriority.CompareTo(a.ListPriority));
 		}
 
-		// Token: 0x06004320 RID: 17184 RVA: 0x00236F84 File Offset: 0x00235384
+		// Token: 0x0600431E RID: 17182 RVA: 0x00236F5C File Offset: 0x0023535C
 		private void UpdateAllAreasLinks()
 		{
 			for (int i = 0; i < this.areas.Count; i++)
@@ -154,7 +154,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004321 RID: 17185 RVA: 0x00236FC4 File Offset: 0x002353C4
+		// Token: 0x0600431F RID: 17183 RVA: 0x00236F9C File Offset: 0x0023539C
 		private void NotifyEveryoneAreaRemoved(Area area)
 		{
 			foreach (Pawn pawn in PawnsFinder.All_AliveOrDead)
@@ -166,7 +166,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004322 RID: 17186 RVA: 0x00237030 File Offset: 0x00235430
+		// Token: 0x06004320 RID: 17184 RVA: 0x00237008 File Offset: 0x00235408
 		public void Notify_MapRemoved()
 		{
 			for (int i = 0; i < this.areas.Count; i++)
@@ -175,7 +175,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004323 RID: 17187 RVA: 0x00237070 File Offset: 0x00235470
+		// Token: 0x06004321 RID: 17185 RVA: 0x00237048 File Offset: 0x00235448
 		public bool CanMakeNewAllowed()
 		{
 			return (from a in this.areas
@@ -183,7 +183,7 @@ namespace Verse
 			select a).Count<Area>() < 10;
 		}
 
-		// Token: 0x06004324 RID: 17188 RVA: 0x002370B8 File Offset: 0x002354B8
+		// Token: 0x06004322 RID: 17186 RVA: 0x00237090 File Offset: 0x00235490
 		public bool TryMakeNewAllowed(out Area_Allowed area)
 		{
 			bool result;
@@ -202,13 +202,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04002DDE RID: 11742
+		// Token: 0x04002DDC RID: 11740
 		public Map map;
 
-		// Token: 0x04002DDF RID: 11743
+		// Token: 0x04002DDD RID: 11741
 		private List<Area> areas = new List<Area>();
 
-		// Token: 0x04002DE0 RID: 11744
+		// Token: 0x04002DDE RID: 11742
 		public const int MaxAllowedAreas = 10;
 	}
 }

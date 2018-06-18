@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200049F RID: 1183
 	public class PawnsArrivalModeWorker_EdgeWalkIn : PawnsArrivalModeWorker
 	{
-		// Token: 0x06001523 RID: 5411 RVA: 0x000B98AC File Offset: 0x000B7CAC
+		// Token: 0x06001523 RID: 5411 RVA: 0x000B98C8 File Offset: 0x000B7CC8
 		public override void Arrive(List<Pawn> pawns, IncidentParms parms)
 		{
 			Map map = (Map)parms.target;
@@ -18,7 +18,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001524 RID: 5412 RVA: 0x000B9908 File Offset: 0x000B7D08
+		// Token: 0x06001524 RID: 5412 RVA: 0x000B9924 File Offset: 0x000B7D24
 		public override bool TryResolveRaidSpawnCenter(IncidentParms parms)
 		{
 			Map map = (Map)parms.target;

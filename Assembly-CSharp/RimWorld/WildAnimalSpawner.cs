@@ -9,14 +9,14 @@ namespace RimWorld
 	// Token: 0x02000455 RID: 1109
 	public class WildAnimalSpawner
 	{
-		// Token: 0x06001344 RID: 4932 RVA: 0x000A5772 File Offset: 0x000A3B72
+		// Token: 0x06001344 RID: 4932 RVA: 0x000A577E File Offset: 0x000A3B7E
 		public WildAnimalSpawner(Map map)
 		{
 			this.map = map;
 		}
 
 		// Token: 0x1700029D RID: 669
-		// (get) Token: 0x06001345 RID: 4933 RVA: 0x000A5784 File Offset: 0x000A3B84
+		// (get) Token: 0x06001345 RID: 4933 RVA: 0x000A5790 File Offset: 0x000A3B90
 		private float DesiredAnimalDensity
 		{
 			get
@@ -40,7 +40,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700029E RID: 670
-		// (get) Token: 0x06001346 RID: 4934 RVA: 0x000A5868 File Offset: 0x000A3C68
+		// (get) Token: 0x06001346 RID: 4934 RVA: 0x000A5874 File Offset: 0x000A3C74
 		private float DesiredTotalAnimalWeight
 		{
 			get
@@ -61,7 +61,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700029F RID: 671
-		// (get) Token: 0x06001347 RID: 4935 RVA: 0x000A58B0 File Offset: 0x000A3CB0
+		// (get) Token: 0x06001347 RID: 4935 RVA: 0x000A58BC File Offset: 0x000A3CBC
 		private float CurrentTotalAnimalWeight
 		{
 			get
@@ -80,7 +80,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002A0 RID: 672
-		// (get) Token: 0x06001348 RID: 4936 RVA: 0x000A591C File Offset: 0x000A3D1C
+		// (get) Token: 0x06001348 RID: 4936 RVA: 0x000A5928 File Offset: 0x000A3D28
 		public bool AnimalEcosystemFull
 		{
 			get
@@ -89,7 +89,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06001349 RID: 4937 RVA: 0x000A5944 File Offset: 0x000A3D44
+		// Token: 0x06001349 RID: 4937 RVA: 0x000A5950 File Offset: 0x000A3D50
 		public void WildAnimalSpawnerTick()
 		{
 			if (Find.TickManager.TicksGame % 1210 == 0)
@@ -108,7 +108,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x0600134A RID: 4938 RVA: 0x000A59B0 File Offset: 0x000A3DB0
+		// Token: 0x0600134A RID: 4938 RVA: 0x000A59BC File Offset: 0x000A3DBC
 		public bool SpawnRandomWildAnimalAt(IntVec3 loc)
 		{
 			PawnKindDef pawnKindDef = (from a in this.map.Biome.AllWildAnimals
@@ -135,7 +135,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x0600134B RID: 4939 RVA: 0x000A5A78 File Offset: 0x000A3E78
+		// Token: 0x0600134B RID: 4939 RVA: 0x000A5A84 File Offset: 0x000A3E84
 		public string DebugString()
 		{
 			return string.Concat(new object[]

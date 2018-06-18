@@ -7,7 +7,7 @@ namespace Verse
 	public class SkyfallerProperties
 	{
 		// Token: 0x17000986 RID: 2438
-		// (get) Token: 0x06003F02 RID: 16130 RVA: 0x00212DBC File Offset: 0x002111BC
+		// (get) Token: 0x06003F04 RID: 16132 RVA: 0x00212E90 File Offset: 0x00211290
 		public bool MakesShrapnel
 		{
 			get
@@ -17,7 +17,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000987 RID: 2439
-		// (get) Token: 0x06003F03 RID: 16131 RVA: 0x00212DF4 File Offset: 0x002111F4
+		// (get) Token: 0x06003F05 RID: 16133 RVA: 0x00212EC8 File Offset: 0x002112C8
 		public bool CausesExplosion
 		{
 			get

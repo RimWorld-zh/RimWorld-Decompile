@@ -9,7 +9,7 @@ namespace Verse
 	public class ResearchProjectDef : Def
 	{
 		// Token: 0x170009AE RID: 2478
-		// (get) Token: 0x06003FBE RID: 16318 RVA: 0x00219858 File Offset: 0x00217C58
+		// (get) Token: 0x06003FC0 RID: 16320 RVA: 0x0021992C File Offset: 0x00217D2C
 		public float ResearchViewX
 		{
 			get
@@ -19,7 +19,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009AF RID: 2479
-		// (get) Token: 0x06003FBF RID: 16319 RVA: 0x00219874 File Offset: 0x00217C74
+		// (get) Token: 0x06003FC1 RID: 16321 RVA: 0x00219948 File Offset: 0x00217D48
 		public float ResearchViewY
 		{
 			get
@@ -29,7 +29,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009B0 RID: 2480
-		// (get) Token: 0x06003FC0 RID: 16320 RVA: 0x00219890 File Offset: 0x00217C90
+		// (get) Token: 0x06003FC2 RID: 16322 RVA: 0x00219964 File Offset: 0x00217D64
 		public float CostApparent
 		{
 			get
@@ -39,7 +39,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009B1 RID: 2481
-		// (get) Token: 0x06003FC1 RID: 16321 RVA: 0x002198C4 File Offset: 0x00217CC4
+		// (get) Token: 0x06003FC3 RID: 16323 RVA: 0x00219998 File Offset: 0x00217D98
 		public float ProgressReal
 		{
 			get
@@ -49,7 +49,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009B2 RID: 2482
-		// (get) Token: 0x06003FC2 RID: 16322 RVA: 0x002198E4 File Offset: 0x00217CE4
+		// (get) Token: 0x06003FC4 RID: 16324 RVA: 0x002199B8 File Offset: 0x00217DB8
 		public float ProgressApparent
 		{
 			get
@@ -59,7 +59,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009B3 RID: 2483
-		// (get) Token: 0x06003FC3 RID: 16323 RVA: 0x00219918 File Offset: 0x00217D18
+		// (get) Token: 0x06003FC5 RID: 16325 RVA: 0x002199EC File Offset: 0x00217DEC
 		public float ProgressPercent
 		{
 			get
@@ -69,7 +69,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009B4 RID: 2484
-		// (get) Token: 0x06003FC4 RID: 16324 RVA: 0x00219940 File Offset: 0x00217D40
+		// (get) Token: 0x06003FC6 RID: 16326 RVA: 0x00219A14 File Offset: 0x00217E14
 		public bool IsFinished
 		{
 			get
@@ -79,7 +79,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009B5 RID: 2485
-		// (get) Token: 0x06003FC5 RID: 16325 RVA: 0x00219968 File Offset: 0x00217D68
+		// (get) Token: 0x06003FC7 RID: 16327 RVA: 0x00219A3C File Offset: 0x00217E3C
 		public bool CanStartNow
 		{
 			get
@@ -89,7 +89,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009B6 RID: 2486
-		// (get) Token: 0x06003FC6 RID: 16326 RVA: 0x002199AC File Offset: 0x00217DAC
+		// (get) Token: 0x06003FC8 RID: 16328 RVA: 0x00219A80 File Offset: 0x00217E80
 		public bool PrerequisitesCompleted
 		{
 			get
@@ -109,7 +109,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009B7 RID: 2487
-		// (get) Token: 0x06003FC7 RID: 16327 RVA: 0x00219A0C File Offset: 0x00217E0C
+		// (get) Token: 0x06003FC9 RID: 16329 RVA: 0x00219AE0 File Offset: 0x00217EE0
 		public string DescriptionDiscovered
 		{
 			get
@@ -128,7 +128,7 @@ namespace Verse
 		}
 
 		// Token: 0x170009B8 RID: 2488
-		// (get) Token: 0x06003FC8 RID: 16328 RVA: 0x00219A40 File Offset: 0x00217E40
+		// (get) Token: 0x06003FCA RID: 16330 RVA: 0x00219B14 File Offset: 0x00217F14
 		private bool PlayerHasAnyAppropriateResearchBench
 		{
 			get
@@ -150,7 +150,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FC9 RID: 16329 RVA: 0x00219ACD File Offset: 0x00217ECD
+		// Token: 0x06003FCB RID: 16331 RVA: 0x00219BA1 File Offset: 0x00217FA1
 		public override void ResolveReferences()
 		{
 			if (this.tab == null)
@@ -159,7 +159,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FCA RID: 16330 RVA: 0x00219AE8 File Offset: 0x00217EE8
+		// Token: 0x06003FCC RID: 16332 RVA: 0x00219BBC File Offset: 0x00217FBC
 		public override IEnumerable<string> ConfigErrors()
 		{
 			foreach (string e in this.<ConfigErrors>__BaseCallProxy0())
@@ -196,7 +196,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003FCB RID: 16331 RVA: 0x00219B14 File Offset: 0x00217F14
+		// Token: 0x06003FCD RID: 16333 RVA: 0x00219BE8 File Offset: 0x00217FE8
 		public float CostFactor(TechLevel researcherTechLevel)
 		{
 			float result;
@@ -212,13 +212,13 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003FCC RID: 16332 RVA: 0x00219B54 File Offset: 0x00217F54
+		// Token: 0x06003FCE RID: 16334 RVA: 0x00219C28 File Offset: 0x00218028
 		public bool HasTag(ResearchProjectTagDef tag)
 		{
 			return this.tags != null && this.tags.Contains(tag);
 		}
 
-		// Token: 0x06003FCD RID: 16333 RVA: 0x00219B88 File Offset: 0x00217F88
+		// Token: 0x06003FCF RID: 16335 RVA: 0x00219C5C File Offset: 0x0021805C
 		public bool CanBeResearchedAt(Building_ResearchBench bench, bool ignoreResearchBenchPowerStatus)
 		{
 			bool result;
@@ -260,7 +260,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003FCE RID: 16334 RVA: 0x00219C98 File Offset: 0x00218098
+		// Token: 0x06003FD0 RID: 16336 RVA: 0x00219D6C File Offset: 0x0021816C
 		public void ReapplyAllMods()
 		{
 			if (this.researchMods != null)
@@ -285,13 +285,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FCF RID: 16335 RVA: 0x00219D30 File Offset: 0x00218130
+		// Token: 0x06003FD1 RID: 16337 RVA: 0x00219E04 File Offset: 0x00218204
 		public static ResearchProjectDef Named(string defName)
 		{
 			return DefDatabase<ResearchProjectDef>.GetNamed(defName, true);
 		}
 
-		// Token: 0x06003FD0 RID: 16336 RVA: 0x00219D4C File Offset: 0x0021814C
+		// Token: 0x06003FD2 RID: 16338 RVA: 0x00219E20 File Offset: 0x00218220
 		public static void GenerateNonOverlappingCoordinates()
 		{
 			foreach (ResearchProjectDef researchProjectDef in DefDatabase<ResearchProjectDef>.AllDefsListForReading)
@@ -359,7 +359,7 @@ namespace Verse
 			Log.Error("Couldn't relax research project coordinates apart after " + 200 + " passes.", false);
 		}
 
-		// Token: 0x06003FD1 RID: 16337 RVA: 0x0021A054 File Offset: 0x00218454
+		// Token: 0x06003FD3 RID: 16339 RVA: 0x0021A128 File Offset: 0x00218528
 		private static void ClampInCoordinateLimits(ResearchProjectDef rp)
 		{
 			if (rp.x < 0f)
@@ -376,7 +376,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003FD2 RID: 16338 RVA: 0x0021A0B3 File Offset: 0x002184B3
+		// Token: 0x06003FD4 RID: 16340 RVA: 0x0021A187 File Offset: 0x00218587
 		public void Debug_ApplyPositionDelta(Vector2 delta)
 		{
 			this.x += delta.x;
@@ -384,7 +384,7 @@ namespace Verse
 			this.positionModified = true;
 		}
 
-		// Token: 0x06003FD3 RID: 16339 RVA: 0x0021A0E8 File Offset: 0x002184E8
+		// Token: 0x06003FD5 RID: 16341 RVA: 0x0021A1BC File Offset: 0x002185BC
 		public bool Debug_IsPositionModified()
 		{
 			return this.positionModified;

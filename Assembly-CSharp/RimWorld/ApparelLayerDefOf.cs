@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class ApparelLayerDefOf
 	{
-		// Token: 0x06003676 RID: 13942 RVA: 0x001D0BFF File Offset: 0x001CEFFF
+		// Token: 0x06003678 RID: 13944 RVA: 0x001D0CC7 File Offset: 0x001CF0C7
 		static ApparelLayerDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ApparelLayerDefOf));

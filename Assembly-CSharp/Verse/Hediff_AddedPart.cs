@@ -4,11 +4,11 @@ using RimWorld;
 
 namespace Verse
 {
-	// Token: 0x02000D29 RID: 3369
+	// Token: 0x02000D28 RID: 3368
 	public class Hediff_AddedPart : HediffWithComps
 	{
-		// Token: 0x17000BCE RID: 3022
-		// (get) Token: 0x06004A26 RID: 18982 RVA: 0x0026A9E8 File Offset: 0x00268DE8
+		// Token: 0x17000BCD RID: 3021
+		// (get) Token: 0x06004A24 RID: 18980 RVA: 0x0026A9C0 File Offset: 0x00268DC0
 		public override bool ShouldRemove
 		{
 			get
@@ -17,8 +17,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000BCF RID: 3023
-		// (get) Token: 0x06004A27 RID: 18983 RVA: 0x0026AA00 File Offset: 0x00268E00
+		// Token: 0x17000BCE RID: 3022
+		// (get) Token: 0x06004A25 RID: 18981 RVA: 0x0026A9D8 File Offset: 0x00268DD8
 		public override string TipStringExtra
 		{
 			get
@@ -30,7 +30,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004A28 RID: 18984 RVA: 0x0026AA60 File Offset: 0x00268E60
+		// Token: 0x06004A26 RID: 18982 RVA: 0x0026AA38 File Offset: 0x00268E38
 		public override void PostAdd(DamageInfo? dinfo)
 		{
 			if (base.Part == null)

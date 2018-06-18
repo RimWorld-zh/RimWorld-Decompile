@@ -7,7 +7,7 @@ namespace Verse
 	// Token: 0x020005B1 RID: 1457
 	public class WorldFloodFiller
 	{
-		// Token: 0x06001BDA RID: 7130 RVA: 0x000EFA20 File Offset: 0x000EDE20
+		// Token: 0x06001BDB RID: 7131 RVA: 0x000EFA8C File Offset: 0x000EDE8C
 		public void FloodFill(int rootTile, Predicate<int> passCheck, Action<int> processor, int maxTilesToProcess = 2147483647, IEnumerable<int> extraRootTiles = null)
 		{
 			this.FloodFill(rootTile, passCheck, delegate(int tile, int traversalDistance)
@@ -17,7 +17,7 @@ namespace Verse
 			}, maxTilesToProcess, extraRootTiles);
 		}
 
-		// Token: 0x06001BDB RID: 7131 RVA: 0x000EFA54 File Offset: 0x000EDE54
+		// Token: 0x06001BDC RID: 7132 RVA: 0x000EFAC0 File Offset: 0x000EDEC0
 		public void FloodFill(int rootTile, Predicate<int> passCheck, Action<int, int> processor, int maxTilesToProcess = 2147483647, IEnumerable<int> extraRootTiles = null)
 		{
 			this.FloodFill(rootTile, passCheck, delegate(int tile, int traversalDistance)
@@ -27,13 +27,13 @@ namespace Verse
 			}, maxTilesToProcess, extraRootTiles);
 		}
 
-		// Token: 0x06001BDC RID: 7132 RVA: 0x000EFA88 File Offset: 0x000EDE88
+		// Token: 0x06001BDD RID: 7133 RVA: 0x000EFAF4 File Offset: 0x000EDEF4
 		public void FloodFill(int rootTile, Predicate<int> passCheck, Predicate<int> processor, int maxTilesToProcess = 2147483647, IEnumerable<int> extraRootTiles = null)
 		{
 			this.FloodFill(rootTile, passCheck, (int tile, int traversalDistance) => processor(tile), maxTilesToProcess, extraRootTiles);
 		}
 
-		// Token: 0x06001BDD RID: 7133 RVA: 0x000EFABC File Offset: 0x000EDEBC
+		// Token: 0x06001BDE RID: 7134 RVA: 0x000EFB28 File Offset: 0x000EDF28
 		public void FloodFill(int rootTile, Predicate<int> passCheck, Func<int, int, bool> processor, int maxTilesToProcess = 2147483647, IEnumerable<int> extraRootTiles = null)
 		{
 			if (this.working)
@@ -126,7 +126,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06001BDE RID: 7134 RVA: 0x000EFDC8 File Offset: 0x000EE1C8
+		// Token: 0x06001BDF RID: 7135 RVA: 0x000EFE34 File Offset: 0x000EE234
 		private void ClearVisited()
 		{
 			int i = 0;

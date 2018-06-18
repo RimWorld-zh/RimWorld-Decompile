@@ -8,25 +8,25 @@ namespace Verse.AI
 	// Token: 0x02000AE5 RID: 2789
 	public static class GenAI
 	{
-		// Token: 0x06003DBC RID: 15804 RVA: 0x00208CA4 File Offset: 0x002070A4
+		// Token: 0x06003DBE RID: 15806 RVA: 0x00208D78 File Offset: 0x00207178
 		public static bool MachinesLike(Faction machineFaction, Pawn p)
 		{
 			return (p.Faction != null || !p.NonHumanlikeOrWildMan() || (p.HostFaction == machineFaction && !p.IsPrisoner)) && (!p.IsPrisoner || p.HostFaction != machineFaction) && (p.Faction == null || !p.Faction.HostileTo(machineFaction));
 		}
 
-		// Token: 0x06003DBD RID: 15805 RVA: 0x00208D30 File Offset: 0x00207130
+		// Token: 0x06003DBF RID: 15807 RVA: 0x00208E04 File Offset: 0x00207204
 		public static bool CanUseItemForWork(Pawn p, Thing item)
 		{
 			return !item.IsForbidden(p) && p.CanReserveAndReach(item, PathEndMode.ClosestTouch, p.NormalMaxDanger(), 1, -1, null, false);
 		}
 
-		// Token: 0x06003DBE RID: 15806 RVA: 0x00208D7C File Offset: 0x0020717C
+		// Token: 0x06003DC0 RID: 15808 RVA: 0x00208E50 File Offset: 0x00207250
 		public static bool CanBeArrestedBy(this Pawn pawn, Pawn arrester)
 		{
 			return pawn.RaceProps.Humanlike && (!pawn.InAggroMentalState || !pawn.HostileTo(arrester)) && !pawn.HostileTo(Faction.OfPlayer) && (!pawn.IsPrisonerOfColony || !pawn.Position.IsInPrisonCell(pawn.Map));
 		}
 
-		// Token: 0x06003DBF RID: 15807 RVA: 0x00208E00 File Offset: 0x00207200
+		// Token: 0x06003DC1 RID: 15809 RVA: 0x00208ED4 File Offset: 0x002072D4
 		public static bool InDangerousCombat(Pawn pawn)
 		{
 			Region root = pawn.GetRegion(RegionType.Set_Passable);
@@ -49,7 +49,7 @@ namespace Verse.AI
 			return found;
 		}
 
-		// Token: 0x06003DC0 RID: 15808 RVA: 0x00208E68 File Offset: 0x00207268
+		// Token: 0x06003DC2 RID: 15810 RVA: 0x00208F3C File Offset: 0x0020733C
 		public static IntVec3 RandomRaidDest(IntVec3 raidSpawnLoc, Map map)
 		{
 			List<ThingDef> allBedDefBestToWorst = RestUtility.AllBedDefBestToWorst;
@@ -107,7 +107,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003DC1 RID: 15809 RVA: 0x002090AC File Offset: 0x002074AC
+		// Token: 0x06003DC3 RID: 15811 RVA: 0x00209180 File Offset: 0x00207580
 		public static bool EnemyIsNear(Pawn p, float radius)
 		{
 			bool result;

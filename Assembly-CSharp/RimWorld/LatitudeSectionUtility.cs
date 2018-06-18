@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x0200090D RID: 2317
 	public static class LatitudeSectionUtility
 	{
-		// Token: 0x060035F6 RID: 13814 RVA: 0x001CF29C File Offset: 0x001CD69C
+		// Token: 0x060035F8 RID: 13816 RVA: 0x001CF364 File Offset: 0x001CD764
 		public static LatitudeSection GetReportedLatitudeSection(float latitude)
 		{
 			float num;
@@ -35,7 +35,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060035F7 RID: 13815 RVA: 0x001CF30C File Offset: 0x001CD70C
+		// Token: 0x060035F9 RID: 13817 RVA: 0x001CF3D4 File Offset: 0x001CD7D4
 		public static LatitudeSection GetDominantLatitudeSection(float latitude)
 		{
 			float num;
@@ -54,7 +54,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060035F8 RID: 13816 RVA: 0x001CF360 File Offset: 0x001CD760
+		// Token: 0x060035FA RID: 13818 RVA: 0x001CF428 File Offset: 0x001CD828
 		public static void GetLatitudeSection(float latitude, out float equatorial, out float seasonal, out float polar)
 		{
 			float num = Mathf.Abs(latitude);
@@ -90,7 +90,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060035F9 RID: 13817 RVA: 0x001CF438 File Offset: 0x001CD838
+		// Token: 0x060035FB RID: 13819 RVA: 0x001CF500 File Offset: 0x001CD900
 		public static float GetMaxLatitude(this LatitudeSection latitudeSection)
 		{
 			switch (Find.World.info.overallTemperature)

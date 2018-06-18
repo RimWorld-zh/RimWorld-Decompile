@@ -6,7 +6,7 @@ namespace Verse.AI.Group
 	// Token: 0x02000A2F RID: 2607
 	public class Trigger_PawnExperiencingDangerousTemperatures : Trigger
 	{
-		// Token: 0x060039DA RID: 14810 RVA: 0x001E8B64 File Offset: 0x001E6F64
+		// Token: 0x060039DC RID: 14812 RVA: 0x001E8C38 File Offset: 0x001E7038
 		public override bool ActivateOn(Lord lord, TriggerSignal signal)
 		{
 			if (signal.type == TriggerSignalType.Tick && Find.TickManager.TicksGame % 197 == 0)

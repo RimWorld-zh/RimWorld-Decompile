@@ -13,7 +13,7 @@ namespace RimWorld
 	// Token: 0x020007FB RID: 2043
 	public class Dialog_FormCaravan : Window
 	{
-		// Token: 0x06002D3E RID: 11582 RVA: 0x0017C0C0 File Offset: 0x0017A4C0
+		// Token: 0x06002D40 RID: 11584 RVA: 0x0017C154 File Offset: 0x0017A554
 		public Dialog_FormCaravan(Map map, bool reform = false, Action onClosed = null, bool mapAboutToBeRemoved = false)
 		{
 			this.map = map;
@@ -28,7 +28,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700072A RID: 1834
-		// (get) Token: 0x06002D3F RID: 11583 RVA: 0x0017C198 File Offset: 0x0017A598
+		// (get) Token: 0x06002D41 RID: 11585 RVA: 0x0017C22C File Offset: 0x0017A62C
 		public int CurrentTile
 		{
 			get
@@ -38,7 +38,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700072B RID: 1835
-		// (get) Token: 0x06002D40 RID: 11584 RVA: 0x0017C1B8 File Offset: 0x0017A5B8
+		// (get) Token: 0x06002D42 RID: 11586 RVA: 0x0017C24C File Offset: 0x0017A64C
 		public override Vector2 InitialSize
 		{
 			get
@@ -48,7 +48,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700072C RID: 1836
-		// (get) Token: 0x06002D41 RID: 11585 RVA: 0x0017C1E0 File Offset: 0x0017A5E0
+		// (get) Token: 0x06002D43 RID: 11587 RVA: 0x0017C274 File Offset: 0x0017A674
 		protected override float Margin
 		{
 			get
@@ -58,7 +58,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700072D RID: 1837
-		// (get) Token: 0x06002D42 RID: 11586 RVA: 0x0017C1FC File Offset: 0x0017A5FC
+		// (get) Token: 0x06002D44 RID: 11588 RVA: 0x0017C290 File Offset: 0x0017A690
 		private bool AutoStripSpawnedCorpses
 		{
 			get
@@ -68,7 +68,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700072E RID: 1838
-		// (get) Token: 0x06002D43 RID: 11587 RVA: 0x0017C218 File Offset: 0x0017A618
+		// (get) Token: 0x06002D45 RID: 11589 RVA: 0x0017C2AC File Offset: 0x0017A6AC
 		private bool ListPlayerPawnsInventorySeparately
 		{
 			get
@@ -78,7 +78,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700072F RID: 1839
-		// (get) Token: 0x06002D44 RID: 11588 RVA: 0x0017C234 File Offset: 0x0017A634
+		// (get) Token: 0x06002D46 RID: 11590 RVA: 0x0017C2C8 File Offset: 0x0017A6C8
 		private BiomeDef Biome
 		{
 			get
@@ -88,7 +88,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000730 RID: 1840
-		// (get) Token: 0x06002D45 RID: 11589 RVA: 0x0017C254 File Offset: 0x0017A654
+		// (get) Token: 0x06002D47 RID: 11591 RVA: 0x0017C2E8 File Offset: 0x0017A6E8
 		private bool MustChooseRoute
 		{
 			get
@@ -98,7 +98,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000731 RID: 1841
-		// (get) Token: 0x06002D46 RID: 11590 RVA: 0x0017C298 File Offset: 0x0017A698
+		// (get) Token: 0x06002D48 RID: 11592 RVA: 0x0017C32C File Offset: 0x0017A72C
 		private bool ShowCancelButton
 		{
 			get
@@ -127,7 +127,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000732 RID: 1842
-		// (get) Token: 0x06002D47 RID: 11591 RVA: 0x0017C328 File Offset: 0x0017A728
+		// (get) Token: 0x06002D49 RID: 11593 RVA: 0x0017C3BC File Offset: 0x0017A7BC
 		private IgnorePawnsInventoryMode IgnoreInventoryMode
 		{
 			get
@@ -137,7 +137,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000733 RID: 1843
-		// (get) Token: 0x06002D48 RID: 11592 RVA: 0x0017C350 File Offset: 0x0017A750
+		// (get) Token: 0x06002D4A RID: 11594 RVA: 0x0017C3E4 File Offset: 0x0017A7E4
 		public float MassUsage
 		{
 			get
@@ -155,7 +155,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000734 RID: 1844
-		// (get) Token: 0x06002D49 RID: 11593 RVA: 0x0017C3A4 File Offset: 0x0017A7A4
+		// (get) Token: 0x06002D4B RID: 11595 RVA: 0x0017C438 File Offset: 0x0017A838
 		public float MassCapacity
 		{
 			get
@@ -172,7 +172,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000735 RID: 1845
-		// (get) Token: 0x06002D4A RID: 11594 RVA: 0x0017C3F8 File Offset: 0x0017A7F8
+		// (get) Token: 0x06002D4C RID: 11596 RVA: 0x0017C48C File Offset: 0x0017A88C
 		private float TilesPerDay
 		{
 			get
@@ -189,7 +189,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000736 RID: 1846
-		// (get) Token: 0x06002D4B RID: 11595 RVA: 0x0017C464 File Offset: 0x0017A864
+		// (get) Token: 0x06002D4D RID: 11597 RVA: 0x0017C4F8 File Offset: 0x0017A8F8
 		private Pair<float, float> DaysWorthOfFood
 		{
 			get
@@ -220,7 +220,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000737 RID: 1847
-		// (get) Token: 0x06002D4C RID: 11596 RVA: 0x0017C590 File Offset: 0x0017A990
+		// (get) Token: 0x06002D4E RID: 11598 RVA: 0x0017C624 File Offset: 0x0017AA24
 		private Pair<ThingDef, float> ForagedFoodPerDay
 		{
 			get
@@ -237,7 +237,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000738 RID: 1848
-		// (get) Token: 0x06002D4D RID: 11597 RVA: 0x0017C5F0 File Offset: 0x0017A9F0
+		// (get) Token: 0x06002D4F RID: 11599 RVA: 0x0017C684 File Offset: 0x0017AA84
 		private float Visibility
 		{
 			get
@@ -254,7 +254,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000739 RID: 1849
-		// (get) Token: 0x06002D4E RID: 11598 RVA: 0x0017C644 File Offset: 0x0017AA44
+		// (get) Token: 0x06002D50 RID: 11600 RVA: 0x0017C6D8 File Offset: 0x0017AAD8
 		private int TicksToArrive
 		{
 			get
@@ -281,7 +281,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x1700073A RID: 1850
-		// (get) Token: 0x06002D4F RID: 11599 RVA: 0x0017C6F8 File Offset: 0x0017AAF8
+		// (get) Token: 0x06002D51 RID: 11601 RVA: 0x0017C78C File Offset: 0x0017AB8C
 		private bool MostFoodWillRotSoon
 		{
 			get
@@ -314,7 +314,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D50 RID: 11600 RVA: 0x0017C818 File Offset: 0x0017AC18
+		// Token: 0x06002D52 RID: 11602 RVA: 0x0017C8AC File Offset: 0x0017ACAC
 		public override void PostOpen()
 		{
 			base.PostOpen();
@@ -327,7 +327,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D51 RID: 11601 RVA: 0x0017C84D File Offset: 0x0017AC4D
+		// Token: 0x06002D53 RID: 11603 RVA: 0x0017C8E1 File Offset: 0x0017ACE1
 		public override void PostClose()
 		{
 			base.PostClose();
@@ -337,7 +337,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D52 RID: 11602 RVA: 0x0017C877 File Offset: 0x0017AC77
+		// Token: 0x06002D54 RID: 11604 RVA: 0x0017C90B File Offset: 0x0017AD0B
 		public void Notify_NoLongerChoosingRoute()
 		{
 			this.choosingRoute = false;
@@ -347,7 +347,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D53 RID: 11603 RVA: 0x0017C8A8 File Offset: 0x0017ACA8
+		// Token: 0x06002D55 RID: 11605 RVA: 0x0017C93C File Offset: 0x0017AD3C
 		public override void DoWindowContents(Rect inRect)
 		{
 			Rect rect = new Rect(0f, 0f, inRect.width, 35f);
@@ -404,13 +404,13 @@ namespace RimWorld
 			GUI.EndGroup();
 		}
 
-		// Token: 0x06002D54 RID: 11604 RVA: 0x0017CB28 File Offset: 0x0017AF28
+		// Token: 0x06002D56 RID: 11606 RVA: 0x0017CBBC File Offset: 0x0017AFBC
 		public override bool CausesMessageBackground()
 		{
 			return true;
 		}
 
-		// Token: 0x06002D55 RID: 11605 RVA: 0x0017CB3E File Offset: 0x0017AF3E
+		// Token: 0x06002D57 RID: 11607 RVA: 0x0017CBD2 File Offset: 0x0017AFD2
 		public void Notify_ChoseRoute(int destinationTile)
 		{
 			this.destinationTile = destinationTile;
@@ -420,7 +420,7 @@ namespace RimWorld
 			Messages.Message("MessageChoseRoute".Translate(), MessageTypeDefOf.CautionInput, false);
 		}
 
-		// Token: 0x06002D56 RID: 11606 RVA: 0x0017CB80 File Offset: 0x0017AF80
+		// Token: 0x06002D58 RID: 11608 RVA: 0x0017CC14 File Offset: 0x0017B014
 		private void AddToTransferables(Thing t, bool setToTransferMax = false)
 		{
 			TransferableOneWay transferableOneWay = TransferableUtility.TransferableMatching<TransferableOneWay>(t, this.transferables, TransferAsOneMode.PodsOrCaravanPacking);
@@ -436,7 +436,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D57 RID: 11607 RVA: 0x0017CBDC File Offset: 0x0017AFDC
+		// Token: 0x06002D59 RID: 11609 RVA: 0x0017CC70 File Offset: 0x0017B070
 		private void DoBottomButtons(Rect rect)
 		{
 			Rect rect2 = new Rect(rect.width / 2f - this.BottomButtonSize.x / 2f, rect.height - 55f - 17f, this.BottomButtonSize.x, this.BottomButtonSize.y);
@@ -556,7 +556,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D58 RID: 11608 RVA: 0x0017D10C File Offset: 0x0017B50C
+		// Token: 0x06002D5A RID: 11610 RVA: 0x0017D1A0 File Offset: 0x0017B5A0
 		private void CalculateAndRecacheTransferables()
 		{
 			this.transferables = new List<TransferableOneWay>();
@@ -566,7 +566,7 @@ namespace RimWorld
 			this.CountToTransferChanged();
 		}
 
-		// Token: 0x06002D59 RID: 11609 RVA: 0x0017D17C File Offset: 0x0017B57C
+		// Token: 0x06002D5B RID: 11611 RVA: 0x0017D210 File Offset: 0x0017B610
 		private bool DebugTryFormCaravanInstantly()
 		{
 			List<Pawn> pawnsFromTransferables = TransferableUtility.GetPawnsFromTransferables(this.transferables);
@@ -594,7 +594,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002D5A RID: 11610 RVA: 0x0017D22C File Offset: 0x0017B62C
+		// Token: 0x06002D5C RID: 11612 RVA: 0x0017D2C0 File Offset: 0x0017B6C0
 		private bool TryFormAndSendCaravan()
 		{
 			List<Pawn> pawnsFromTransferables = TransferableUtility.GetPawnsFromTransferables(this.transferables);
@@ -641,7 +641,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002D5B RID: 11611 RVA: 0x0017D38C File Offset: 0x0017B78C
+		// Token: 0x06002D5D RID: 11613 RVA: 0x0017D420 File Offset: 0x0017B820
 		private bool TryReformCaravan()
 		{
 			List<Pawn> pawnsFromTransferables = TransferableUtility.GetPawnsFromTransferables(this.transferables);
@@ -675,7 +675,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002D5C RID: 11612 RVA: 0x0017D480 File Offset: 0x0017B880
+		// Token: 0x06002D5E RID: 11614 RVA: 0x0017D514 File Offset: 0x0017B914
 		private void AddItemsFromTransferablesToRandomInventories(List<Pawn> pawns)
 		{
 			this.transferables.RemoveAll((TransferableOneWay x) => x.AnyThing is Pawn);
@@ -732,7 +732,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D5D RID: 11613 RVA: 0x0017D6E4 File Offset: 0x0017BAE4
+		// Token: 0x06002D5F RID: 11615 RVA: 0x0017D778 File Offset: 0x0017BB78
 		private bool CheckForErrors(List<Pawn> pawns)
 		{
 			bool result;
@@ -818,7 +818,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002D5E RID: 11614 RVA: 0x0017D9E0 File Offset: 0x0017BDE0
+		// Token: 0x06002D60 RID: 11616 RVA: 0x0017DA74 File Offset: 0x0017BE74
 		private bool TryFindExitSpot(List<Pawn> pawns, bool reachableForEveryColonist, out IntVec3 spot)
 		{
 			bool result;
@@ -885,7 +885,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002D5F RID: 11615 RVA: 0x0017DB90 File Offset: 0x0017BF90
+		// Token: 0x06002D61 RID: 11617 RVA: 0x0017DC24 File Offset: 0x0017C024
 		private bool TryFindRandomPackingSpot(IntVec3 exitSpot, out IntVec3 packingSpot)
 		{
 			Dialog_FormCaravan.tmpPackingSpots.Clear();
@@ -913,7 +913,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06002D60 RID: 11616 RVA: 0x0017DC64 File Offset: 0x0017C064
+		// Token: 0x06002D62 RID: 11618 RVA: 0x0017DCF8 File Offset: 0x0017C0F8
 		private void AddPawnsToTransferables()
 		{
 			List<Pawn> list = Dialog_FormCaravan.AllSendablePawns(this.map, this.reform);
@@ -924,7 +924,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D61 RID: 11617 RVA: 0x0017DCDC File Offset: 0x0017C0DC
+		// Token: 0x06002D63 RID: 11619 RVA: 0x0017DD70 File Offset: 0x0017C170
 		private void AddItemsToTransferables()
 		{
 			List<Thing> list = CaravanFormingUtility.AllReachableColonyItems(this.map, this.reform, this.reform, this.reform);
@@ -963,7 +963,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D62 RID: 11618 RVA: 0x0017DE38 File Offset: 0x0017C238
+		// Token: 0x06002D64 RID: 11620 RVA: 0x0017DECC File Offset: 0x0017C2CC
 		private void TryAddCorpseInventoryAndGearToTransferables(Thing potentiallyCorpse)
 		{
 			Corpse corpse = potentiallyCorpse as Corpse;
@@ -973,7 +973,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D63 RID: 11619 RVA: 0x0017DE5C File Offset: 0x0017C25C
+		// Token: 0x06002D65 RID: 11621 RVA: 0x0017DEF0 File Offset: 0x0017C2F0
 		private void AddCorpseInventoryAndGearToTransferables(Corpse corpse)
 		{
 			Pawn_InventoryTracker inventory = corpse.InnerPawn.inventory;
@@ -1001,7 +1001,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D64 RID: 11620 RVA: 0x0017DF3C File Offset: 0x0017C33C
+		// Token: 0x06002D66 RID: 11622 RVA: 0x0017DFD0 File Offset: 0x0017C3D0
 		private void RemoveCarriedItemFromTransferablesOrDrop(Thing carried, Pawn carrier, List<TransferableOneWay> transferables)
 		{
 			TransferableOneWay transferableOneWay = TransferableUtility.TransferableMatchingDesperate(carried, transferables, TransferAsOneMode.PodsOrCaravanPacking);
@@ -1035,19 +1035,19 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002D65 RID: 11621 RVA: 0x0017DFEE File Offset: 0x0017C3EE
+		// Token: 0x06002D67 RID: 11623 RVA: 0x0017E082 File Offset: 0x0017C482
 		private void FlashMass()
 		{
 			this.lastMassFlashTime = Time.time;
 		}
 
-		// Token: 0x06002D66 RID: 11622 RVA: 0x0017DFFC File Offset: 0x0017C3FC
+		// Token: 0x06002D68 RID: 11624 RVA: 0x0017E090 File Offset: 0x0017C490
 		public static bool CanListInventorySeparately(Pawn p)
 		{
 			return p.Faction == Faction.OfPlayer || p.HostFaction == Faction.OfPlayer;
 		}
 
-		// Token: 0x06002D67 RID: 11623 RVA: 0x0017E034 File Offset: 0x0017C434
+		// Token: 0x06002D69 RID: 11625 RVA: 0x0017E0C8 File Offset: 0x0017C4C8
 		private void SetToSendEverything()
 		{
 			for (int i = 0; i < this.transferables.Count; i++)
@@ -1057,7 +1057,7 @@ namespace RimWorld
 			this.CountToTransferChanged();
 		}
 
-		// Token: 0x06002D68 RID: 11624 RVA: 0x0017E088 File Offset: 0x0017C488
+		// Token: 0x06002D6A RID: 11626 RVA: 0x0017E11C File Offset: 0x0017C51C
 		private void CountToTransferChanged()
 		{
 			this.massUsageDirty = true;
@@ -1069,7 +1069,7 @@ namespace RimWorld
 			this.ticksToArriveDirty = true;
 		}
 
-		// Token: 0x06002D69 RID: 11625 RVA: 0x0017E0BC File Offset: 0x0017C4BC
+		// Token: 0x06002D6B RID: 11627 RVA: 0x0017E150 File Offset: 0x0017C550
 		public static List<Pawn> AllSendablePawns(Map map, bool reform)
 		{
 			return CaravanFormingUtility.AllSendablePawns(map, reform, reform, reform);

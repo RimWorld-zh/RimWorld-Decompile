@@ -6,7 +6,7 @@ namespace RimWorld.Planet
 	// Token: 0x02000547 RID: 1351
 	public class WorldReachability
 	{
-		// Token: 0x0600193F RID: 6463 RVA: 0x000DB6AA File Offset: 0x000D9AAA
+		// Token: 0x06001940 RID: 6464 RVA: 0x000DB6FE File Offset: 0x000D9AFE
 		public WorldReachability()
 		{
 			this.fields = new int[Find.WorldGrid.TilesCount];
@@ -14,19 +14,19 @@ namespace RimWorld.Planet
 			this.InvalidateAllFields();
 		}
 
-		// Token: 0x06001940 RID: 6464 RVA: 0x000DB6D5 File Offset: 0x000D9AD5
+		// Token: 0x06001941 RID: 6465 RVA: 0x000DB729 File Offset: 0x000D9B29
 		public void ClearCache()
 		{
 			this.InvalidateAllFields();
 		}
 
-		// Token: 0x06001941 RID: 6465 RVA: 0x000DB6E0 File Offset: 0x000D9AE0
+		// Token: 0x06001942 RID: 6466 RVA: 0x000DB734 File Offset: 0x000D9B34
 		public bool CanReach(Caravan c, int tile)
 		{
 			return this.CanReach(c.Tile, tile);
 		}
 
-		// Token: 0x06001942 RID: 6466 RVA: 0x000DB704 File Offset: 0x000D9B04
+		// Token: 0x06001943 RID: 6467 RVA: 0x000DB758 File Offset: 0x000D9B58
 		public bool CanReach(int startTile, int destTile)
 		{
 			bool result;
@@ -50,7 +50,7 @@ namespace RimWorld.Planet
 			return result;
 		}
 
-		// Token: 0x06001943 RID: 6467 RVA: 0x000DB7E8 File Offset: 0x000D9BE8
+		// Token: 0x06001944 RID: 6468 RVA: 0x000DB83C File Offset: 0x000D9C3C
 		private void InvalidateAllFields()
 		{
 			if (this.nextFieldID == 2147483646)
@@ -62,13 +62,13 @@ namespace RimWorld.Planet
 			this.nextFieldID++;
 		}
 
-		// Token: 0x06001944 RID: 6468 RVA: 0x000DB828 File Offset: 0x000D9C28
+		// Token: 0x06001945 RID: 6469 RVA: 0x000DB87C File Offset: 0x000D9C7C
 		private bool IsValidField(int fieldID)
 		{
 			return fieldID >= this.minValidFieldID;
 		}
 
-		// Token: 0x06001945 RID: 6469 RVA: 0x000DB84C File Offset: 0x000D9C4C
+		// Token: 0x06001946 RID: 6470 RVA: 0x000DB8A0 File Offset: 0x000D9CA0
 		private void FloodFillAt(int tile)
 		{
 			World world = Find.World;

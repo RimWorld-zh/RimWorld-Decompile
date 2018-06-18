@@ -10,7 +10,7 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public class PawnColumnWorker_Bond : PawnColumnWorker_Icon
 	{
-		// Token: 0x060031C4 RID: 12740 RVA: 0x001AE900 File Offset: 0x001ACD00
+		// Token: 0x060031C6 RID: 12742 RVA: 0x001AE9C8 File Offset: 0x001ACDC8
 		protected override Texture2D GetIconFor(Pawn pawn)
 		{
 			IEnumerable<Pawn> allColonistBondsFor = TrainableUtility.GetAllColonistBondsFor(pawn);
@@ -30,19 +30,19 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060031C5 RID: 12741 RVA: 0x001AE968 File Offset: 0x001ACD68
+		// Token: 0x060031C7 RID: 12743 RVA: 0x001AEA30 File Offset: 0x001ACE30
 		protected override string GetIconTip(Pawn pawn)
 		{
 			return TrainableUtility.GetIconTooltipText(pawn);
 		}
 
-		// Token: 0x060031C6 RID: 12742 RVA: 0x001AE984 File Offset: 0x001ACD84
+		// Token: 0x060031C8 RID: 12744 RVA: 0x001AEA4C File Offset: 0x001ACE4C
 		public override int Compare(Pawn a, Pawn b)
 		{
 			return this.GetCompareValueFor(a).CompareTo(this.GetCompareValueFor(b));
 		}
 
-		// Token: 0x060031C7 RID: 12743 RVA: 0x001AE9B0 File Offset: 0x001ACDB0
+		// Token: 0x060031C9 RID: 12745 RVA: 0x001AEA78 File Offset: 0x001ACE78
 		public int GetCompareValueFor(Pawn a)
 		{
 			Texture2D iconFor = this.GetIconFor(a);
@@ -67,7 +67,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060031C8 RID: 12744 RVA: 0x001AEA20 File Offset: 0x001ACE20
+		// Token: 0x060031CA RID: 12746 RVA: 0x001AEAE8 File Offset: 0x001ACEE8
 		protected override void PaintedIcon(Pawn pawn)
 		{
 			if (!(this.GetIconFor(pawn) != PawnColumnWorker_Bond.BondBrokenIcon))

@@ -10,7 +10,7 @@ namespace RimWorld
 	public class CompUsable : ThingComp
 	{
 		// Token: 0x17000664 RID: 1636
-		// (get) Token: 0x06002941 RID: 10561 RVA: 0x00157A3C File Offset: 0x00155E3C
+		// (get) Token: 0x06002943 RID: 10563 RVA: 0x00157AB4 File Offset: 0x00155EB4
 		public CompProperties_Usable Props
 		{
 			get
@@ -20,7 +20,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000665 RID: 1637
-		// (get) Token: 0x06002942 RID: 10562 RVA: 0x00157A5C File Offset: 0x00155E5C
+		// (get) Token: 0x06002944 RID: 10564 RVA: 0x00157AD4 File Offset: 0x00155ED4
 		protected virtual string FloatMenuOptionLabel
 		{
 			get
@@ -29,7 +29,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002943 RID: 10563 RVA: 0x00157A7C File Offset: 0x00155E7C
+		// Token: 0x06002945 RID: 10565 RVA: 0x00157AF4 File Offset: 0x00155EF4
 		public override IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn myPawn)
 		{
 			string failReason;
@@ -70,7 +70,7 @@ namespace RimWorld
 			yield break;
 		}
 
-		// Token: 0x06002944 RID: 10564 RVA: 0x00157AB0 File Offset: 0x00155EB0
+		// Token: 0x06002946 RID: 10566 RVA: 0x00157B28 File Offset: 0x00155F28
 		public void TryStartUseJob(Pawn user)
 		{
 			if (user.CanReserveAndReach(this.parent, PathEndMode.Touch, Danger.Deadly, 1, -1, null, false))
@@ -84,7 +84,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002945 RID: 10565 RVA: 0x00157B1C File Offset: 0x00155F1C
+		// Token: 0x06002947 RID: 10567 RVA: 0x00157B94 File Offset: 0x00155F94
 		public void UsedBy(Pawn p)
 		{
 			string text;
@@ -106,7 +106,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002946 RID: 10566 RVA: 0x00157BE0 File Offset: 0x00155FE0
+		// Token: 0x06002948 RID: 10568 RVA: 0x00157C58 File Offset: 0x00156058
 		private bool CanBeUsedBy(Pawn p, out string failReason)
 		{
 			List<ThingComp> allComps = this.parent.AllComps;

@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x0200080A RID: 2058
 	public class Dialog_NamePlayerFactionBase : Dialog_GiveName
 	{
-		// Token: 0x06002DEA RID: 11754 RVA: 0x001825C4 File Offset: 0x001809C4
+		// Token: 0x06002DEC RID: 11756 RVA: 0x00182658 File Offset: 0x00180A58
 		public Dialog_NamePlayerFactionBase(FactionBase factionBase)
 		{
 			this.factionBase = factionBase;
@@ -15,14 +15,14 @@ namespace RimWorld
 			{
 				this.suggestingPawn = factionBase.Map.mapPawns.FreeColonistsSpawned.RandomElement<Pawn>();
 			}
-			this.nameGenerator = (() => NameGenerator.GenerateName(Faction.OfPlayer.def.settlementNameMaker, null, false, null));
+			this.nameGenerator = (() => NameGenerator.GenerateName(Faction.OfPlayer.def.settlementNameMaker, null, false, null, null));
 			this.curName = this.nameGenerator();
 			this.nameMessageKey = "NamePlayerFactionBaseMessage";
 			this.gainedNameMessageKey = "PlayerFactionBaseGainsName";
 			this.invalidNameMessageKey = "PlayerFactionBaseNameIsInvalid";
 		}
 
-		// Token: 0x06002DEB RID: 11755 RVA: 0x0018266F File Offset: 0x00180A6F
+		// Token: 0x06002DED RID: 11757 RVA: 0x00182703 File Offset: 0x00180B03
 		public override void PostOpen()
 		{
 			base.PostOpen();
@@ -32,13 +32,13 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002DEC RID: 11756 RVA: 0x001826A0 File Offset: 0x00180AA0
+		// Token: 0x06002DEE RID: 11758 RVA: 0x00182734 File Offset: 0x00180B34
 		protected override bool IsValidName(string s)
 		{
 			return NamePlayerFactionBaseDialogUtility.IsValidName(s);
 		}
 
-		// Token: 0x06002DED RID: 11757 RVA: 0x001826BB File Offset: 0x00180ABB
+		// Token: 0x06002DEF RID: 11759 RVA: 0x0018274F File Offset: 0x00180B4F
 		protected override void Named(string s)
 		{
 			NamePlayerFactionBaseDialogUtility.Named(this.factionBase, s);

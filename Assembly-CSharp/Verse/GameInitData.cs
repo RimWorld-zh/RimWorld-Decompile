@@ -10,7 +10,7 @@ namespace Verse
 	public class GameInitData
 	{
 		// Token: 0x17000A41 RID: 2625
-		// (get) Token: 0x060041AC RID: 16812 RVA: 0x00229EB4 File Offset: 0x002282B4
+		// (get) Token: 0x060041AE RID: 16814 RVA: 0x00229F2C File Offset: 0x0022832C
 		public bool QuickStarted
 		{
 			get
@@ -19,13 +19,13 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x060041AD RID: 16813 RVA: 0x00229EE5 File Offset: 0x002282E5
+		// Token: 0x060041AF RID: 16815 RVA: 0x00229F5D File Offset: 0x0022835D
 		public void ChooseRandomStartingTile()
 		{
 			this.startingTile = TileFinder.RandomStartingTile();
 		}
 
-		// Token: 0x060041AE RID: 16814 RVA: 0x00229EF3 File Offset: 0x002282F3
+		// Token: 0x060041B0 RID: 16816 RVA: 0x00229F6B File Offset: 0x0022836B
 		public void ResetWorldRelatedMapInitData()
 		{
 			Current.Game.World = null;
@@ -34,7 +34,7 @@ namespace Verse
 			this.startingTile = -1;
 		}
 
-		// Token: 0x060041AF RID: 16815 RVA: 0x00229F1C File Offset: 0x0022831C
+		// Token: 0x060041B1 RID: 16817 RVA: 0x00229F94 File Offset: 0x00228394
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -46,7 +46,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x060041B0 RID: 16816 RVA: 0x00229F70 File Offset: 0x00228370
+		// Token: 0x060041B2 RID: 16818 RVA: 0x00229FE8 File Offset: 0x002283E8
 		public void PrepForMapGen()
 		{
 			while (this.startingAndOptionalPawns.Count > this.startingPawnCount)

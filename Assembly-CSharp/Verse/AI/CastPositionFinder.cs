@@ -9,7 +9,7 @@ namespace Verse.AI
 	// Token: 0x02000AE4 RID: 2788
 	public static class CastPositionFinder
 	{
-		// Token: 0x06003DB8 RID: 15800 RVA: 0x00208060 File Offset: 0x00206460
+		// Token: 0x06003DBA RID: 15802 RVA: 0x00208134 File Offset: 0x00206534
 		public static bool TryFindCastPosition(CastPositionRequest newReq, out IntVec3 dest)
 		{
 			CastPositionFinder.req = newReq;
@@ -140,7 +140,7 @@ namespace Verse.AI
 			return result;
 		}
 
-		// Token: 0x06003DB9 RID: 15801 RVA: 0x00208608 File Offset: 0x00206A08
+		// Token: 0x06003DBB RID: 15803 RVA: 0x002086DC File Offset: 0x00206ADC
 		private static void EvaluateCell(IntVec3 c)
 		{
 			if (CastPositionFinder.maxRangeFromTargetSquared > 0.01f && CastPositionFinder.maxRangeFromTargetSquared < 250000f)
@@ -238,7 +238,7 @@ namespace Verse.AI
 			}
 		}
 
-		// Token: 0x06003DBA RID: 15802 RVA: 0x00208A24 File Offset: 0x00206E24
+		// Token: 0x06003DBC RID: 15804 RVA: 0x00208AF8 File Offset: 0x00206EF8
 		private static float CastPositionPreference(IntVec3 c)
 		{
 			bool flag = true;

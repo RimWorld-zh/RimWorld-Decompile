@@ -8,20 +8,20 @@ namespace RimWorld.Planet
 	// Token: 0x020005F6 RID: 1526
 	public class Gizmo_CaravanInfo : Gizmo
 	{
-		// Token: 0x06001E5E RID: 7774 RVA: 0x00106851 File Offset: 0x00104C51
+		// Token: 0x06001E60 RID: 7776 RVA: 0x001068C9 File Offset: 0x00104CC9
 		public Gizmo_CaravanInfo(Caravan caravan)
 		{
 			this.caravan = caravan;
 			this.order = -100f;
 		}
 
-		// Token: 0x06001E5F RID: 7775 RVA: 0x0010686C File Offset: 0x00104C6C
+		// Token: 0x06001E61 RID: 7777 RVA: 0x001068E4 File Offset: 0x00104CE4
 		public override float GetWidth(float maxWidth)
 		{
 			return Mathf.Min(520f, maxWidth);
 		}
 
-		// Token: 0x06001E60 RID: 7776 RVA: 0x0010688C File Offset: 0x00104C8C
+		// Token: 0x06001E62 RID: 7778 RVA: 0x00106904 File Offset: 0x00104D04
 		public override GizmoResult GizmoOnGUI(Vector2 topLeft, float maxWidth)
 		{
 			GizmoResult result;

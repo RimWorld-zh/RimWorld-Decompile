@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000EAC RID: 3756
+	// Token: 0x02000EAB RID: 3755
 	public static class UnityGUIBugsFixer
 	{
-		// Token: 0x17000DF8 RID: 3576
-		// (get) Token: 0x06005873 RID: 22643 RVA: 0x002D4F74 File Offset: 0x002D3374
+		// Token: 0x17000DF7 RID: 3575
+		// (get) Token: 0x06005871 RID: 22641 RVA: 0x002D4F84 File Offset: 0x002D3384
 		public static List<Resolution> ScreenResolutionsWithoutDuplicates
 		{
 			get
@@ -35,14 +35,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005874 RID: 22644 RVA: 0x002D5043 File Offset: 0x002D3443
+		// Token: 0x06005872 RID: 22642 RVA: 0x002D5053 File Offset: 0x002D3453
 		public static void OnGUI()
 		{
 			UnityGUIBugsFixer.FixScrolling();
 			UnityGUIBugsFixer.FixShift();
 		}
 
-		// Token: 0x06005875 RID: 22645 RVA: 0x002D5050 File Offset: 0x002D3450
+		// Token: 0x06005873 RID: 22643 RVA: 0x002D5060 File Offset: 0x002D3460
 		private static void FixScrolling()
 		{
 			if (Event.current.type == EventType.ScrollWheel && (Application.platform == RuntimePlatform.LinuxEditor || Application.platform == RuntimePlatform.LinuxPlayer))
@@ -52,7 +52,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005876 RID: 22646 RVA: 0x002D50B8 File Offset: 0x002D34B8
+		// Token: 0x06005874 RID: 22644 RVA: 0x002D50C8 File Offset: 0x002D34C8
 		private static void FixShift()
 		{
 			if (Application.platform == RuntimePlatform.LinuxEditor || Application.platform == RuntimePlatform.LinuxPlayer)
@@ -64,10 +64,10 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003AEF RID: 15087
+		// Token: 0x04003AEE RID: 15086
 		private static List<Resolution> resolutions = new List<Resolution>();
 
-		// Token: 0x04003AF0 RID: 15088
+		// Token: 0x04003AEF RID: 15087
 		private const float ScrollFactor = -6f;
 	}
 }

@@ -9,8 +9,8 @@ namespace RimWorld
 	public class WorldInterface
 	{
 		// Token: 0x1700087E RID: 2174
-		// (get) Token: 0x060034A7 RID: 13479 RVA: 0x001C1A38 File Offset: 0x001BFE38
-		// (set) Token: 0x060034A8 RID: 13480 RVA: 0x001C1A58 File Offset: 0x001BFE58
+		// (get) Token: 0x060034A9 RID: 13481 RVA: 0x001C1B00 File Offset: 0x001BFF00
+		// (set) Token: 0x060034AA RID: 13482 RVA: 0x001C1B20 File Offset: 0x001BFF20
 		public int SelectedTile
 		{
 			get
@@ -23,7 +23,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060034A9 RID: 13481 RVA: 0x001C1A68 File Offset: 0x001BFE68
+		// Token: 0x060034AB RID: 13483 RVA: 0x001C1B30 File Offset: 0x001BFF30
 		public void Reset()
 		{
 			this.everReset = true;
@@ -64,7 +64,7 @@ namespace RimWorld
 			Find.WorldCameraDriver.ResetAltitude();
 		}
 
-		// Token: 0x060034AA RID: 13482 RVA: 0x001C1B88 File Offset: 0x001BFF88
+		// Token: 0x060034AC RID: 13484 RVA: 0x001C1C50 File Offset: 0x001C0050
 		public void WorldInterfaceUpdate()
 		{
 			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
@@ -89,7 +89,7 @@ namespace RimWorld
 			Profiler.EndSample();
 		}
 
-		// Token: 0x060034AB RID: 13483 RVA: 0x001C1C18 File Offset: 0x001C0018
+		// Token: 0x060034AD RID: 13485 RVA: 0x001C1CE0 File Offset: 0x001C00E0
 		public void WorldInterfaceOnGUI()
 		{
 			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
@@ -132,7 +132,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060034AC RID: 13484 RVA: 0x001C1D40 File Offset: 0x001C0140
+		// Token: 0x060034AE RID: 13486 RVA: 0x001C1E08 File Offset: 0x001C0208
 		public void HandleLowPriorityInput()
 		{
 			bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
@@ -147,7 +147,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060034AD RID: 13485 RVA: 0x001C1D90 File Offset: 0x001C0190
+		// Token: 0x060034AF RID: 13487 RVA: 0x001C1E58 File Offset: 0x001C0258
 		private void CheckOpenOrCloseInspectPane()
 		{
 			if (this.selector.AnyObjectOrTileSelected && WorldRendererUtility.WorldRenderedNow && (Current.ProgramState != ProgramState.Playing || Find.MainTabsRoot.OpenTab == null))

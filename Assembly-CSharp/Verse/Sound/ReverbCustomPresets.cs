@@ -6,7 +6,7 @@ namespace Verse.Sound
 	// Token: 0x02000B80 RID: 2944
 	public static class ReverbCustomPresets
 	{
-		// Token: 0x06004014 RID: 16404 RVA: 0x0021BD58 File Offset: 0x0021A158
+		// Token: 0x06004016 RID: 16406 RVA: 0x0021BE2C File Offset: 0x0021A22C
 		public static void SetupAs(this ReverbSetup setup, AudioReverbPreset preset)
 		{
 			GameObject gameObject = new GameObject("OneFrameTemp");

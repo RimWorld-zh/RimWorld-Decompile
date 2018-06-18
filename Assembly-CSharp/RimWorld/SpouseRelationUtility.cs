@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020004DB RID: 1243
 	public static class SpouseRelationUtility
 	{
-		// Token: 0x06001616 RID: 5654 RVA: 0x000C3BA4 File Offset: 0x000C1FA4
+		// Token: 0x06001616 RID: 5654 RVA: 0x000C3BC0 File Offset: 0x000C1FC0
 		public static Pawn GetSpouse(this Pawn pawn)
 		{
 			Pawn result;
@@ -21,7 +21,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x06001617 RID: 5655 RVA: 0x000C3BE4 File Offset: 0x000C1FE4
+		// Token: 0x06001617 RID: 5655 RVA: 0x000C3C00 File Offset: 0x000C2000
 		public static Pawn GetSpouseOppositeGender(this Pawn pawn)
 		{
 			Pawn spouse = pawn.GetSpouse();

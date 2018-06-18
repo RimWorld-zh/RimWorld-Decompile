@@ -9,13 +9,13 @@ namespace RimWorld
 	// Token: 0x02000981 RID: 2433
 	public static class GenLeaving
 	{
-		// Token: 0x060036B0 RID: 14000 RVA: 0x001D29F5 File Offset: 0x001D0DF5
+		// Token: 0x060036B2 RID: 14002 RVA: 0x001D2ABD File Offset: 0x001D0EBD
 		public static void DoLeavingsFor(Thing diedThing, Map map, DestroyMode mode)
 		{
 			GenLeaving.DoLeavingsFor(diedThing, map, mode, diedThing.OccupiedRect(), null);
 		}
 
-		// Token: 0x060036B1 RID: 14001 RVA: 0x001D2A08 File Offset: 0x001D0E08
+		// Token: 0x060036B3 RID: 14003 RVA: 0x001D2AD0 File Offset: 0x001D0ED0
 		public static void DoLeavingsFor(Thing diedThing, Map map, DestroyMode mode, CellRect leavingsRect, Predicate<IntVec3> nearPlaceValidator = null)
 		{
 			if ((Current.ProgramState == ProgramState.Playing || mode == DestroyMode.Refund) && mode != DestroyMode.Vanish)
@@ -119,7 +119,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060036B2 RID: 14002 RVA: 0x001D2DDC File Offset: 0x001D11DC
+		// Token: 0x060036B4 RID: 14004 RVA: 0x001D2EA4 File Offset: 0x001D12A4
 		public static void DoLeavingsFor(TerrainDef terrain, IntVec3 cell, Map map)
 		{
 			if (Current.ProgramState == ProgramState.Playing)
@@ -155,7 +155,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060036B3 RID: 14003 RVA: 0x001D2ECC File Offset: 0x001D12CC
+		// Token: 0x060036B5 RID: 14005 RVA: 0x001D2F94 File Offset: 0x001D1394
 		public static bool CanBuildingLeaveResources(Thing diedThing, DestroyMode mode)
 		{
 			bool result;
@@ -199,7 +199,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060036B4 RID: 14004 RVA: 0x001D2F90 File Offset: 0x001D1390
+		// Token: 0x060036B6 RID: 14006 RVA: 0x001D3058 File Offset: 0x001D1458
 		public static Func<int, int> GetBuildingResourcesLeaveCalculator(Thing diedThing, DestroyMode mode)
 		{
 			if (GenLeaving.CanBuildingLeaveResources(diedThing, mode))
@@ -224,7 +224,7 @@ namespace RimWorld
 			return (int count) => 0;
 		}
 
-		// Token: 0x060036B5 RID: 14005 RVA: 0x001D30E0 File Offset: 0x001D14E0
+		// Token: 0x060036B7 RID: 14007 RVA: 0x001D31A8 File Offset: 0x001D15A8
 		public static void DropFilthDueToDamage(Thing t, float damageDealt)
 		{
 			if (t.def.useHitPoints && t.Spawned && t.def.filthLeaving != null)

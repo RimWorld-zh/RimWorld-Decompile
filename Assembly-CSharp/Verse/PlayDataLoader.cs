@@ -11,7 +11,7 @@ namespace Verse
 	public static class PlayDataLoader
 	{
 		// Token: 0x17000956 RID: 2390
-		// (get) Token: 0x06003E22 RID: 15906 RVA: 0x0020BE08 File Offset: 0x0020A208
+		// (get) Token: 0x06003E24 RID: 15908 RVA: 0x0020BEDC File Offset: 0x0020A2DC
 		public static bool Loaded
 		{
 			get
@@ -20,7 +20,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E23 RID: 15907 RVA: 0x0020BE24 File Offset: 0x0020A224
+		// Token: 0x06003E25 RID: 15909 RVA: 0x0020BEF8 File Offset: 0x0020A2F8
 		public static void LoadAllPlayData(bool recovering = false)
 		{
 			if (PlayDataLoader.loadedInt)
@@ -77,7 +77,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E24 RID: 15908 RVA: 0x0020BF58 File Offset: 0x0020A358
+		// Token: 0x06003E26 RID: 15910 RVA: 0x0020C02C File Offset: 0x0020A42C
 		private static void DoPlayLoad()
 		{
 			GraphicDatabase.Clear();
@@ -314,7 +314,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06003E25 RID: 15909 RVA: 0x0020C498 File Offset: 0x0020A898
+		// Token: 0x06003E27 RID: 15911 RVA: 0x0020C56C File Offset: 0x0020A96C
 		public static void ClearAllPlayData()
 		{
 			LanguageDatabase.Clear();

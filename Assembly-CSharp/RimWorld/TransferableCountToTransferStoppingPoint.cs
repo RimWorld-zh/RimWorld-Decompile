@@ -5,7 +5,7 @@ namespace RimWorld
 	// Token: 0x0200082A RID: 2090
 	public struct TransferableCountToTransferStoppingPoint
 	{
-		// Token: 0x06002F00 RID: 12032 RVA: 0x00190F1A File Offset: 0x0018F31A
+		// Token: 0x06002F02 RID: 12034 RVA: 0x00190FAE File Offset: 0x0018F3AE
 		public TransferableCountToTransferStoppingPoint(int threshold, string leftLabel, string rightLabel)
 		{
 			this.threshold = threshold;

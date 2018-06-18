@@ -8,7 +8,7 @@ namespace Verse.AI.Group
 	// Token: 0x02000A08 RID: 2568
 	public class TransitionAction_SetDefendTrader : TransitionAction
 	{
-		// Token: 0x06003984 RID: 14724 RVA: 0x001E78EC File Offset: 0x001E5CEC
+		// Token: 0x06003986 RID: 14726 RVA: 0x001E79C0 File Offset: 0x001E5DC0
 		public override void DoAction(Transition trans)
 		{
 			LordToil_DefendPoint lordToil_DefendPoint = (LordToil_DefendPoint)trans.target;

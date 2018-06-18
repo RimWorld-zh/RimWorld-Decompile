@@ -7,7 +7,7 @@ namespace RimWorld
 	public class ScenPart_DisableIncident : ScenPart_IncidentBase
 	{
 		// Token: 0x170004E9 RID: 1257
-		// (get) Token: 0x06002123 RID: 8483 RVA: 0x00119E24 File Offset: 0x00118224
+		// (get) Token: 0x06002125 RID: 8485 RVA: 0x00119E9C File Offset: 0x0011829C
 		protected override string IncidentTag
 		{
 			get
@@ -16,7 +16,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x06002124 RID: 8484 RVA: 0x00119E40 File Offset: 0x00118240
+		// Token: 0x06002126 RID: 8486 RVA: 0x00119EB8 File Offset: 0x001182B8
 		protected override IEnumerable<IncidentDef> RandomizableIncidents()
 		{
 			yield return IncidentDefOf.TraderCaravanArrival;

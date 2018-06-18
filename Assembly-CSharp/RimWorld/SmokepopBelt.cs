@@ -6,7 +6,7 @@ namespace RimWorld
 	// Token: 0x020006ED RID: 1773
 	public class SmokepopBelt : Apparel
 	{
-		// Token: 0x06002696 RID: 9878 RVA: 0x0014A2EC File Offset: 0x001486EC
+		// Token: 0x06002698 RID: 9880 RVA: 0x0014A364 File Offset: 0x00148764
 		public override bool CheckPreAbsorbDamage(DamageInfo dinfo)
 		{
 			if (!dinfo.Def.isExplosive && dinfo.Def.harmsHealth && dinfo.Def.externalViolence && dinfo.Weapon != null && dinfo.Weapon.IsRangedWeapon)
@@ -23,7 +23,7 @@ namespace RimWorld
 			return false;
 		}
 
-		// Token: 0x06002697 RID: 9879 RVA: 0x0014A3B8 File Offset: 0x001487B8
+		// Token: 0x06002699 RID: 9881 RVA: 0x0014A430 File Offset: 0x00148830
 		public override float GetSpecialApparelScoreOffset()
 		{
 			return this.GetStatValue(StatDefOf.SmokepopBeltRadius, true) * this.ApparelScorePerBeltRadius;

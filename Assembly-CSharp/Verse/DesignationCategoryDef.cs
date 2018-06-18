@@ -9,7 +9,7 @@ namespace Verse
 	public class DesignationCategoryDef : Def
 	{
 		// Token: 0x1700098E RID: 2446
-		// (get) Token: 0x06003F1D RID: 16157 RVA: 0x002137F8 File Offset: 0x00211BF8
+		// (get) Token: 0x06003F1F RID: 16159 RVA: 0x002138CC File Offset: 0x00211CCC
 		public IEnumerable<Designator> ResolvedAllowedDesignators
 		{
 			get
@@ -28,7 +28,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700098F RID: 2447
-		// (get) Token: 0x06003F1E RID: 16158 RVA: 0x00213824 File Offset: 0x00211C24
+		// (get) Token: 0x06003F20 RID: 16160 RVA: 0x002138F8 File Offset: 0x00211CF8
 		public List<Designator> AllResolvedDesignators
 		{
 			get
@@ -37,7 +37,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003F1F RID: 16159 RVA: 0x0021383F File Offset: 0x00211C3F
+		// Token: 0x06003F21 RID: 16161 RVA: 0x00213913 File Offset: 0x00211D13
 		public override void ResolveReferences()
 		{
 			base.ResolveReferences();
@@ -48,7 +48,7 @@ namespace Verse
 			this.cachedHighlightClosedTag = "DesignationCategoryButton-" + this.defName + "-Closed";
 		}
 
-		// Token: 0x06003F20 RID: 16160 RVA: 0x00213874 File Offset: 0x00211C74
+		// Token: 0x06003F22 RID: 16162 RVA: 0x00213948 File Offset: 0x00211D48
 		private void ResolveDesignators()
 		{
 			this.resolvedDesignators.Clear();

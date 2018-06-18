@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DAE RID: 3502
+	// Token: 0x02000DAD RID: 3501
 	public static class AudioSourceUtility
 	{
-		// Token: 0x06004E1A RID: 19994 RVA: 0x0028D4A0 File Offset: 0x0028B8A0
+		// Token: 0x06004E18 RID: 19992 RVA: 0x0028D480 File Offset: 0x0028B880
 		public static float GetSanitizedVolume(float volume, object debugInfo)
 		{
 			float result;
@@ -32,7 +32,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06004E1B RID: 19995 RVA: 0x0028D55C File Offset: 0x0028B95C
+		// Token: 0x06004E19 RID: 19993 RVA: 0x0028D53C File Offset: 0x0028B93C
 		public static float GetSanitizedPitch(float pitch, object debugInfo)
 		{
 			float result;

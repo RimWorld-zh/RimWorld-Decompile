@@ -8,13 +8,13 @@ namespace RimWorld
 	// Token: 0x02000466 RID: 1126
 	internal class MedicalRecipesUtility
 	{
-		// Token: 0x060013C7 RID: 5063 RVA: 0x000ABA64 File Offset: 0x000A9E64
+		// Token: 0x060013C7 RID: 5063 RVA: 0x000ABA70 File Offset: 0x000A9E70
 		public static bool IsCleanAndDroppable(Pawn pawn, BodyPartRecord part)
 		{
 			return !pawn.Dead && !pawn.RaceProps.Animal && part.def.spawnThingOnRemoved != null && MedicalRecipesUtility.IsClean(pawn, part);
 		}
 
-		// Token: 0x060013C8 RID: 5064 RVA: 0x000ABABC File Offset: 0x000A9EBC
+		// Token: 0x060013C8 RID: 5064 RVA: 0x000ABAC8 File Offset: 0x000A9EC8
 		public static bool IsClean(Pawn pawn, BodyPartRecord part)
 		{
 			return !pawn.Dead && !(from x in pawn.health.hediffSet.hediffs
@@ -22,7 +22,7 @@ namespace RimWorld
 			select x).Any<Hediff>();
 		}
 
-		// Token: 0x060013C9 RID: 5065 RVA: 0x000ABB19 File Offset: 0x000A9F19
+		// Token: 0x060013C9 RID: 5065 RVA: 0x000ABB25 File Offset: 0x000A9F25
 		public static void RestorePartAndSpawnAllPreviousParts(Pawn pawn, BodyPartRecord part, IntVec3 pos, Map map)
 		{
 			MedicalRecipesUtility.SpawnNaturalPartIfClean(pawn, part, pos, map);
@@ -30,7 +30,7 @@ namespace RimWorld
 			pawn.health.RestorePart(part, null, true);
 		}
 
-		// Token: 0x060013CA RID: 5066 RVA: 0x000ABB40 File Offset: 0x000A9F40
+		// Token: 0x060013CA RID: 5066 RVA: 0x000ABB4C File Offset: 0x000A9F4C
 		public static Thing SpawnNaturalPartIfClean(Pawn pawn, BodyPartRecord part, IntVec3 pos, Map map)
 		{
 			Thing result;
@@ -45,7 +45,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060013CB RID: 5067 RVA: 0x000ABB7C File Offset: 0x000A9F7C
+		// Token: 0x060013CB RID: 5067 RVA: 0x000ABB88 File Offset: 0x000A9F88
 		public static void SpawnThingsFromHediffs(Pawn pawn, BodyPartRecord part, IntVec3 pos, Map map)
 		{
 			if (pawn.health.hediffSet.GetNotMissingParts(BodyPartHeight.Undefined, BodyPartDepth.Undefined, null).Contains(part))

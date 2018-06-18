@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000B66 RID: 2918
 	public class IngredientValueGetter_Volume : IngredientValueGetter
 	{
-		// Token: 0x06003FB4 RID: 16308 RVA: 0x002194F4 File Offset: 0x002178F4
+		// Token: 0x06003FB6 RID: 16310 RVA: 0x002195C8 File Offset: 0x002179C8
 		public override float ValuePerUnitOf(ThingDef t)
 		{
 			float result;
@@ -21,7 +21,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003FB5 RID: 16309 RVA: 0x00219528 File Offset: 0x00217928
+		// Token: 0x06003FB7 RID: 16311 RVA: 0x002195FC File Offset: 0x002179FC
 		public override string BillRequirementsDescription(RecipeDef r, IngredientCount ing)
 		{
 			string result;
@@ -44,7 +44,7 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x06003FB6 RID: 16310 RVA: 0x00219604 File Offset: 0x00217A04
+		// Token: 0x06003FB8 RID: 16312 RVA: 0x002196D8 File Offset: 0x00217AD8
 		public override string ExtraDescriptionLine(RecipeDef r)
 		{
 			string result;

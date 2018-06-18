@@ -2,10 +2,10 @@
 
 namespace Verse
 {
-	// Token: 0x02000C80 RID: 3200
+	// Token: 0x02000C7F RID: 3199
 	public class FloodFillRangeQueue
 	{
-		// Token: 0x060045FC RID: 17916 RVA: 0x0024D41B File Offset: 0x0024B81B
+		// Token: 0x060045FA RID: 17914 RVA: 0x0024D3F3 File Offset: 0x0024B7F3
 		public FloodFillRangeQueue(int initialSize)
 		{
 			this.array = new FloodFillRange[initialSize];
@@ -13,8 +13,8 @@ namespace Verse
 			this.count = 0;
 		}
 
-		// Token: 0x17000B03 RID: 2819
-		// (get) Token: 0x060045FD RID: 17917 RVA: 0x0024D44C File Offset: 0x0024B84C
+		// Token: 0x17000B02 RID: 2818
+		// (get) Token: 0x060045FB RID: 17915 RVA: 0x0024D424 File Offset: 0x0024B824
 		public int Count
 		{
 			get
@@ -23,8 +23,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B04 RID: 2820
-		// (get) Token: 0x060045FE RID: 17918 RVA: 0x0024D468 File Offset: 0x0024B868
+		// Token: 0x17000B03 RID: 2819
+		// (get) Token: 0x060045FC RID: 17916 RVA: 0x0024D440 File Offset: 0x0024B840
 		public FloodFillRange First
 		{
 			get
@@ -33,8 +33,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000B05 RID: 2821
-		// (get) Token: 0x060045FF RID: 17919 RVA: 0x0024D494 File Offset: 0x0024B894
+		// Token: 0x17000B04 RID: 2820
+		// (get) Token: 0x060045FD RID: 17917 RVA: 0x0024D46C File Offset: 0x0024B86C
 		public string PerfDebugString
 		{
 			get
@@ -53,7 +53,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06004600 RID: 17920 RVA: 0x0024D518 File Offset: 0x0024B918
+		// Token: 0x060045FE RID: 17918 RVA: 0x0024D4F0 File Offset: 0x0024B8F0
 		public void Enqueue(FloodFillRange r)
 		{
 			if (this.count + this.head == this.array.Length)
@@ -68,7 +68,7 @@ namespace Verse
 			this.debugMaxUsedSpace = this.count + this.head;
 		}
 
-		// Token: 0x06004601 RID: 17921 RVA: 0x0024D5C4 File Offset: 0x0024B9C4
+		// Token: 0x060045FF RID: 17919 RVA: 0x0024D59C File Offset: 0x0024B99C
 		public FloodFillRange Dequeue()
 		{
 			FloodFillRange result = default(FloodFillRange);
@@ -82,19 +82,19 @@ namespace Verse
 			return result;
 		}
 
-		// Token: 0x04002FB1 RID: 12209
+		// Token: 0x04002FAF RID: 12207
 		private FloodFillRange[] array;
 
-		// Token: 0x04002FB2 RID: 12210
+		// Token: 0x04002FB0 RID: 12208
 		private int count;
 
-		// Token: 0x04002FB3 RID: 12211
+		// Token: 0x04002FB1 RID: 12209
 		private int head;
 
-		// Token: 0x04002FB4 RID: 12212
+		// Token: 0x04002FB2 RID: 12210
 		private int debugNumTimesExpanded = 0;
 
-		// Token: 0x04002FB5 RID: 12213
+		// Token: 0x04002FB3 RID: 12211
 		private int debugMaxUsedSpace = 0;
 	}
 }

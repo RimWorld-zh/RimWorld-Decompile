@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Verse
 {
-	// Token: 0x02000DD4 RID: 3540
+	// Token: 0x02000DD3 RID: 3539
 	public static class GraphicGetter_NakedHumanlike
 	{
-		// Token: 0x06004F30 RID: 20272 RVA: 0x00293820 File Offset: 0x00291C20
+		// Token: 0x06004F2E RID: 20270 RVA: 0x00293800 File Offset: 0x00291C00
 		public static Graphic GetNakedBodyGraphic(BodyTypeDef bodyType, Shader shader, Color skinColor)
 		{
 			if (bodyType == null)
@@ -20,7 +20,7 @@ namespace Verse
 			return GraphicDatabase.Get<Graphic_Multi>(path, shader, Vector2.one, skinColor);
 		}
 
-		// Token: 0x040034A6 RID: 13478
+		// Token: 0x040034A4 RID: 13476
 		private const string NakedBodyTextureFolderPath = "Things/Pawn/Humanlike/Bodies/";
 	}
 }

@@ -2,18 +2,18 @@
 
 namespace Verse
 {
-	// Token: 0x02000FB1 RID: 4017
+	// Token: 0x02000FB0 RID: 4016
 	public struct CoverInfo
 	{
-		// Token: 0x0600610E RID: 24846 RVA: 0x0030F8F4 File Offset: 0x0030DCF4
+		// Token: 0x0600610C RID: 24844 RVA: 0x0030F9D0 File Offset: 0x0030DDD0
 		public CoverInfo(Thing thing, float blockChance)
 		{
 			this.thingInt = thing;
 			this.blockChanceInt = blockChance;
 		}
 
-		// Token: 0x17000FB2 RID: 4018
-		// (get) Token: 0x0600610F RID: 24847 RVA: 0x0030F908 File Offset: 0x0030DD08
+		// Token: 0x17000FB1 RID: 4017
+		// (get) Token: 0x0600610D RID: 24845 RVA: 0x0030F9E4 File Offset: 0x0030DDE4
 		public Thing Thing
 		{
 			get
@@ -22,8 +22,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FB3 RID: 4019
-		// (get) Token: 0x06006110 RID: 24848 RVA: 0x0030F924 File Offset: 0x0030DD24
+		// Token: 0x17000FB2 RID: 4018
+		// (get) Token: 0x0600610E RID: 24846 RVA: 0x0030FA00 File Offset: 0x0030DE00
 		public float BlockChance
 		{
 			get
@@ -32,8 +32,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000FB4 RID: 4020
-		// (get) Token: 0x06006111 RID: 24849 RVA: 0x0030F940 File Offset: 0x0030DD40
+		// Token: 0x17000FB3 RID: 4019
+		// (get) Token: 0x0600610F RID: 24847 RVA: 0x0030FA1C File Offset: 0x0030DE1C
 		public static CoverInfo Invalid
 		{
 			get
@@ -42,10 +42,10 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003F7A RID: 16250
+		// Token: 0x04003F79 RID: 16249
 		private Thing thingInt;
 
-		// Token: 0x04003F7B RID: 16251
+		// Token: 0x04003F7A RID: 16250
 		private float blockChanceInt;
 	}
 }

@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class ReservationLayerDefOf
 	{
-		// Token: 0x06003665 RID: 13925 RVA: 0x001D0ACD File Offset: 0x001CEECD
+		// Token: 0x06003667 RID: 13927 RVA: 0x001D0B95 File Offset: 0x001CEF95
 		static ReservationLayerDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(ReservationLayerDefOf));

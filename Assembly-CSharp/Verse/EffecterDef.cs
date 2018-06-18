@@ -6,7 +6,7 @@ namespace Verse
 	// Token: 0x02000B3C RID: 2876
 	public class EffecterDef : Def
 	{
-		// Token: 0x06003F29 RID: 16169 RVA: 0x00213C6C File Offset: 0x0021206C
+		// Token: 0x06003F2B RID: 16171 RVA: 0x00213D40 File Offset: 0x00212140
 		public Effecter Spawn()
 		{
 			return new Effecter(this);

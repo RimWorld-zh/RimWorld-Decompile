@@ -8,7 +8,7 @@ namespace Verse
 	public class BodyPartRecord
 	{
 		// Token: 0x17000958 RID: 2392
-		// (get) Token: 0x06003E46 RID: 15942 RVA: 0x0020CB38 File Offset: 0x0020AF38
+		// (get) Token: 0x06003E48 RID: 15944 RVA: 0x0020CC0C File Offset: 0x0020B00C
 		public bool IsCorePart
 		{
 			get
@@ -18,7 +18,7 @@ namespace Verse
 		}
 
 		// Token: 0x17000959 RID: 2393
-		// (get) Token: 0x06003E47 RID: 15943 RVA: 0x0020CB58 File Offset: 0x0020AF58
+		// (get) Token: 0x06003E49 RID: 15945 RVA: 0x0020CC2C File Offset: 0x0020B02C
 		public string Label
 		{
 			get
@@ -28,7 +28,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700095A RID: 2394
-		// (get) Token: 0x06003E48 RID: 15944 RVA: 0x0020CB94 File Offset: 0x0020AF94
+		// (get) Token: 0x06003E4A RID: 15946 RVA: 0x0020CC68 File Offset: 0x0020B068
 		public string LabelCap
 		{
 			get
@@ -38,7 +38,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700095B RID: 2395
-		// (get) Token: 0x06003E49 RID: 15945 RVA: 0x0020CBB4 File Offset: 0x0020AFB4
+		// (get) Token: 0x06003E4B RID: 15947 RVA: 0x0020CC88 File Offset: 0x0020B088
 		public string LabelShort
 		{
 			get
@@ -48,7 +48,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700095C RID: 2396
-		// (get) Token: 0x06003E4A RID: 15946 RVA: 0x0020CBD4 File Offset: 0x0020AFD4
+		// (get) Token: 0x06003E4C RID: 15948 RVA: 0x0020CCA8 File Offset: 0x0020B0A8
 		public string LabelShortCap
 		{
 			get
@@ -58,7 +58,7 @@ namespace Verse
 		}
 
 		// Token: 0x1700095D RID: 2397
-		// (get) Token: 0x06003E4B RID: 15947 RVA: 0x0020CBF4 File Offset: 0x0020AFF4
+		// (get) Token: 0x06003E4D RID: 15949 RVA: 0x0020CCC8 File Offset: 0x0020B0C8
 		public int Index
 		{
 			get
@@ -67,7 +67,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06003E4C RID: 15948 RVA: 0x0020CC18 File Offset: 0x0020B018
+		// Token: 0x06003E4E RID: 15950 RVA: 0x0020CCEC File Offset: 0x0020B0EC
 		public override string ToString()
 		{
 			return string.Concat(new object[]
@@ -80,7 +80,7 @@ namespace Verse
 			});
 		}
 
-		// Token: 0x06003E4D RID: 15949 RVA: 0x0020CC88 File Offset: 0x0020B088
+		// Token: 0x06003E4F RID: 15951 RVA: 0x0020CD5C File Offset: 0x0020B15C
 		public bool IsInGroup(BodyPartGroupDef group)
 		{
 			for (int i = 0; i < this.groups.Count; i++)
@@ -93,7 +93,7 @@ namespace Verse
 			return false;
 		}
 
-		// Token: 0x06003E4E RID: 15950 RVA: 0x0020CCD8 File Offset: 0x0020B0D8
+		// Token: 0x06003E50 RID: 15952 RVA: 0x0020CDAC File Offset: 0x0020B1AC
 		public IEnumerable<BodyPartRecord> GetChildParts(BodyPartTagDef tag)
 		{
 			if (this.def.tags.Contains(tag))
@@ -110,7 +110,7 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003E4F RID: 15951 RVA: 0x0020CD0C File Offset: 0x0020B10C
+		// Token: 0x06003E51 RID: 15953 RVA: 0x0020CDE0 File Offset: 0x0020B1E0
 		public IEnumerable<BodyPartRecord> GetDirectChildParts()
 		{
 			for (int i = 0; i < this.parts.Count; i++)
@@ -120,13 +120,13 @@ namespace Verse
 			yield break;
 		}
 
-		// Token: 0x06003E50 RID: 15952 RVA: 0x0020CD38 File Offset: 0x0020B138
+		// Token: 0x06003E52 RID: 15954 RVA: 0x0020CE0C File Offset: 0x0020B20C
 		public bool HasChildParts(BodyPartTagDef tag)
 		{
 			return this.GetChildParts(tag).Any<BodyPartRecord>();
 		}
 
-		// Token: 0x06003E51 RID: 15953 RVA: 0x0020CD5C File Offset: 0x0020B15C
+		// Token: 0x06003E53 RID: 15955 RVA: 0x0020CE30 File Offset: 0x0020B230
 		public IEnumerable<BodyPartRecord> GetConnectedParts(BodyPartTagDef tag)
 		{
 			BodyPartRecord ancestor = this;

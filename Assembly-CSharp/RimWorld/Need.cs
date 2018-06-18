@@ -10,12 +10,12 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	public abstract class Need : IExposable
 	{
-		// Token: 0x060016B1 RID: 5809 RVA: 0x000C8FC4 File Offset: 0x000C73C4
+		// Token: 0x060016B2 RID: 5810 RVA: 0x000C9018 File Offset: 0x000C7418
 		public Need()
 		{
 		}
 
-		// Token: 0x060016B2 RID: 5810 RVA: 0x000C8FD4 File Offset: 0x000C73D4
+		// Token: 0x060016B3 RID: 5811 RVA: 0x000C9028 File Offset: 0x000C7428
 		public Need(Pawn newPawn)
 		{
 			this.pawn = newPawn;
@@ -23,7 +23,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002FD RID: 765
-		// (get) Token: 0x060016B3 RID: 5811 RVA: 0x000C8FF4 File Offset: 0x000C73F4
+		// (get) Token: 0x060016B4 RID: 5812 RVA: 0x000C9048 File Offset: 0x000C7448
 		public string LabelCap
 		{
 			get
@@ -33,7 +33,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002FE RID: 766
-		// (get) Token: 0x060016B4 RID: 5812 RVA: 0x000C9014 File Offset: 0x000C7414
+		// (get) Token: 0x060016B5 RID: 5813 RVA: 0x000C9068 File Offset: 0x000C7468
 		public float CurInstantLevelPercentage
 		{
 			get
@@ -43,7 +43,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x170002FF RID: 767
-		// (get) Token: 0x060016B5 RID: 5813 RVA: 0x000C9038 File Offset: 0x000C7438
+		// (get) Token: 0x060016B6 RID: 5814 RVA: 0x000C908C File Offset: 0x000C748C
 		public virtual int GUIChangeArrow
 		{
 			get
@@ -53,7 +53,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000300 RID: 768
-		// (get) Token: 0x060016B6 RID: 5814 RVA: 0x000C9050 File Offset: 0x000C7450
+		// (get) Token: 0x060016B7 RID: 5815 RVA: 0x000C90A4 File Offset: 0x000C74A4
 		public virtual float CurInstantLevel
 		{
 			get
@@ -63,7 +63,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000301 RID: 769
-		// (get) Token: 0x060016B7 RID: 5815 RVA: 0x000C906C File Offset: 0x000C746C
+		// (get) Token: 0x060016B8 RID: 5816 RVA: 0x000C90C0 File Offset: 0x000C74C0
 		public virtual float MaxLevel
 		{
 			get
@@ -73,8 +73,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000302 RID: 770
-		// (get) Token: 0x060016B8 RID: 5816 RVA: 0x000C9088 File Offset: 0x000C7488
-		// (set) Token: 0x060016B9 RID: 5817 RVA: 0x000C90A3 File Offset: 0x000C74A3
+		// (get) Token: 0x060016B9 RID: 5817 RVA: 0x000C90DC File Offset: 0x000C74DC
+		// (set) Token: 0x060016BA RID: 5818 RVA: 0x000C90F7 File Offset: 0x000C74F7
 		public virtual float CurLevel
 		{
 			get
@@ -88,8 +88,8 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000303 RID: 771
-		// (get) Token: 0x060016BA RID: 5818 RVA: 0x000C90C0 File Offset: 0x000C74C0
-		// (set) Token: 0x060016BB RID: 5819 RVA: 0x000C90E2 File Offset: 0x000C74E2
+		// (get) Token: 0x060016BB RID: 5819 RVA: 0x000C9114 File Offset: 0x000C7514
+		// (set) Token: 0x060016BC RID: 5820 RVA: 0x000C9136 File Offset: 0x000C7536
 		public float CurLevelPercentage
 		{
 			get
@@ -103,7 +103,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000304 RID: 772
-		// (get) Token: 0x060016BC RID: 5820 RVA: 0x000C90F4 File Offset: 0x000C74F4
+		// (get) Token: 0x060016BD RID: 5821 RVA: 0x000C9148 File Offset: 0x000C7548
 		protected bool IsFrozen
 		{
 			get
@@ -113,7 +113,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000305 RID: 773
-		// (get) Token: 0x060016BD RID: 5821 RVA: 0x000C9150 File Offset: 0x000C7550
+		// (get) Token: 0x060016BE RID: 5822 RVA: 0x000C91A4 File Offset: 0x000C75A4
 		private bool IsPawnInteractableOrVisible
 		{
 			get
@@ -123,7 +123,7 @@ namespace RimWorld
 		}
 
 		// Token: 0x17000306 RID: 774
-		// (get) Token: 0x060016BE RID: 5822 RVA: 0x000C91AC File Offset: 0x000C75AC
+		// (get) Token: 0x060016BF RID: 5823 RVA: 0x000C9200 File Offset: 0x000C7600
 		public virtual bool ShowOnNeedList
 		{
 			get
@@ -132,17 +132,17 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060016BF RID: 5823 RVA: 0x000C91CC File Offset: 0x000C75CC
+		// Token: 0x060016C0 RID: 5824 RVA: 0x000C9220 File Offset: 0x000C7620
 		public virtual void ExposeData()
 		{
 			Scribe_Defs.Look<NeedDef>(ref this.def, "def");
 			Scribe_Values.Look<float>(ref this.curLevelInt, "curLevel", 0f, false);
 		}
 
-		// Token: 0x060016C0 RID: 5824
+		// Token: 0x060016C1 RID: 5825
 		public abstract void NeedInterval();
 
-		// Token: 0x060016C1 RID: 5825 RVA: 0x000C91F8 File Offset: 0x000C75F8
+		// Token: 0x060016C2 RID: 5826 RVA: 0x000C924C File Offset: 0x000C764C
 		public virtual string GetTipString()
 		{
 			return string.Concat(new string[]
@@ -155,19 +155,19 @@ namespace RimWorld
 			});
 		}
 
-		// Token: 0x060016C2 RID: 5826 RVA: 0x000C924D File Offset: 0x000C764D
+		// Token: 0x060016C3 RID: 5827 RVA: 0x000C92A1 File Offset: 0x000C76A1
 		public virtual void SetInitialLevel()
 		{
 			this.CurLevelPercentage = 0.5f;
 		}
 
-		// Token: 0x060016C3 RID: 5827 RVA: 0x000C925B File Offset: 0x000C765B
+		// Token: 0x060016C4 RID: 5828 RVA: 0x000C92AF File Offset: 0x000C76AF
 		public void ForceSetLevel(float levelPercent)
 		{
 			this.CurLevelPercentage = levelPercent;
 		}
 
-		// Token: 0x060016C4 RID: 5828 RVA: 0x000C9268 File Offset: 0x000C7668
+		// Token: 0x060016C5 RID: 5829 RVA: 0x000C92BC File Offset: 0x000C76BC
 		public virtual void DrawOnGUI(Rect rect, int maxThresholdMarkers = 2147483647, float customMargin = -1f, bool drawArrows = true, bool doTooltip = true)
 		{
 			if (rect.height > 70f)
@@ -237,7 +237,7 @@ namespace RimWorld
 			Text.Font = GameFont.Small;
 		}
 
-		// Token: 0x060016C5 RID: 5829 RVA: 0x000C9568 File Offset: 0x000C7968
+		// Token: 0x060016C6 RID: 5830 RVA: 0x000C95BC File Offset: 0x000C79BC
 		protected void DrawBarInstantMarkerAt(Rect barRect, float pct)
 		{
 			if (pct > 1f)
@@ -254,7 +254,7 @@ namespace RimWorld
 			GUI.DrawTexture(position, Need.BarInstantMarkerTex);
 		}
 
-		// Token: 0x060016C6 RID: 5830 RVA: 0x000C9614 File Offset: 0x000C7A14
+		// Token: 0x060016C7 RID: 5831 RVA: 0x000C9668 File Offset: 0x000C7A68
 		private void DrawBarThreshold(Rect barRect, float threshPct)
 		{
 			float num = (float)((barRect.width <= 60f) ? 1 : 2);
@@ -274,7 +274,7 @@ namespace RimWorld
 			GUI.color = Color.white;
 		}
 
-		// Token: 0x060016C7 RID: 5831 RVA: 0x000C96F0 File Offset: 0x000C7AF0
+		// Token: 0x060016C8 RID: 5832 RVA: 0x000C9744 File Offset: 0x000C7B44
 		private void DrawBarDivision(Rect barRect, float threshPct)
 		{
 			float num = 5f;

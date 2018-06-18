@@ -7,7 +7,7 @@ namespace RimWorld
 	// Token: 0x020004F5 RID: 1269
 	public static class BeautyUtility
 	{
-		// Token: 0x060016CF RID: 5839 RVA: 0x000C9B88 File Offset: 0x000C7F88
+		// Token: 0x060016D0 RID: 5840 RVA: 0x000C9BDC File Offset: 0x000C7FDC
 		public static float AverageBeautyPerceptible(IntVec3 root, Map map)
 		{
 			float result;
@@ -39,7 +39,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060016D0 RID: 5840 RVA: 0x000C9C34 File Offset: 0x000C8034
+		// Token: 0x060016D1 RID: 5841 RVA: 0x000C9C88 File Offset: 0x000C8088
 		public static void FillBeautyRelevantCells(IntVec3 root, Map map)
 		{
 			BeautyUtility.beautyRelevantCells.Clear();
@@ -89,7 +89,7 @@ namespace RimWorld
 			}
 		}
 
-		// Token: 0x060016D1 RID: 5841 RVA: 0x000C9DFC File Offset: 0x000C81FC
+		// Token: 0x060016D2 RID: 5842 RVA: 0x000C9E50 File Offset: 0x000C8250
 		public static float CellBeauty(IntVec3 c, Map map, List<Thing> countedThings = null)
 		{
 			float num = 0f;
@@ -143,7 +143,7 @@ namespace RimWorld
 			return result;
 		}
 
-		// Token: 0x060016D2 RID: 5842 RVA: 0x000C9F40 File Offset: 0x000C8340
+		// Token: 0x060016D3 RID: 5843 RVA: 0x000C9F94 File Offset: 0x000C8394
 		public static bool BeautyRelevant(ThingCategory cat)
 		{
 			return cat == ThingCategory.Building || cat == ThingCategory.Item || cat == ThingCategory.Plant || cat == ThingCategory.Filth;

@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x020008A7 RID: 2215
 	public static class TimeAssignmentSelector
 	{
-		// Token: 0x0600329F RID: 12959 RVA: 0x001B4030 File Offset: 0x001B2430
+		// Token: 0x060032A1 RID: 12961 RVA: 0x001B40F8 File Offset: 0x001B24F8
 		public static void DrawTimeAssignmentSelectorGrid(Rect rect)
 		{
 			rect.yMax -= 2f;
@@ -25,7 +25,7 @@ namespace RimWorld
 			TimeAssignmentSelector.DrawTimeAssignmentSelectorFor(rect2, TimeAssignmentDefOf.Sleep);
 		}
 
-		// Token: 0x060032A0 RID: 12960 RVA: 0x001B4100 File Offset: 0x001B2500
+		// Token: 0x060032A2 RID: 12962 RVA: 0x001B41C8 File Offset: 0x001B25C8
 		private static void DrawTimeAssignmentSelectorFor(Rect rect, TimeAssignmentDef ta)
 		{
 			rect = rect.ContractedBy(2f);

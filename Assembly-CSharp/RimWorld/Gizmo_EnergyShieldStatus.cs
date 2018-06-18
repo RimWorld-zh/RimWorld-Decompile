@@ -8,19 +8,19 @@ namespace RimWorld
 	[StaticConstructorOnStartup]
 	internal class Gizmo_EnergyShieldStatus : Gizmo
 	{
-		// Token: 0x06002637 RID: 9783 RVA: 0x00147984 File Offset: 0x00145D84
+		// Token: 0x06002639 RID: 9785 RVA: 0x001479FC File Offset: 0x00145DFC
 		public Gizmo_EnergyShieldStatus()
 		{
 			this.order = -100f;
 		}
 
-		// Token: 0x06002638 RID: 9784 RVA: 0x00147998 File Offset: 0x00145D98
+		// Token: 0x0600263A RID: 9786 RVA: 0x00147A10 File Offset: 0x00145E10
 		public override float GetWidth(float maxWidth)
 		{
 			return 140f;
 		}
 
-		// Token: 0x06002639 RID: 9785 RVA: 0x001479B4 File Offset: 0x00145DB4
+		// Token: 0x0600263B RID: 9787 RVA: 0x00147A2C File Offset: 0x00145E2C
 		public override GizmoResult GizmoOnGUI(Vector2 topLeft, float maxWidth)
 		{
 			Rect overRect = new Rect(topLeft.x, topLeft.y, this.GetWidth(maxWidth), 75f);

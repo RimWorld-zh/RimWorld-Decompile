@@ -6,7 +6,7 @@ namespace Verse.AI
 	// Token: 0x02000ABD RID: 2749
 	public class ThinkNode_PrioritySorter : ThinkNode
 	{
-		// Token: 0x06003D31 RID: 15665 RVA: 0x00204BA4 File Offset: 0x00202FA4
+		// Token: 0x06003D33 RID: 15667 RVA: 0x00204C78 File Offset: 0x00203078
 		public override ThinkNode DeepCopy(bool resolve = true)
 		{
 			ThinkNode_PrioritySorter thinkNode_PrioritySorter = (ThinkNode_PrioritySorter)base.DeepCopy(resolve);
@@ -14,7 +14,7 @@ namespace Verse.AI
 			return thinkNode_PrioritySorter;
 		}
 
-		// Token: 0x06003D32 RID: 15666 RVA: 0x00204BD4 File Offset: 0x00202FD4
+		// Token: 0x06003D34 RID: 15668 RVA: 0x00204CA8 File Offset: 0x002030A8
 		public override ThinkResult TryIssueJobPackage(Pawn pawn, JobIssueParams jobParams)
 		{
 			ThinkNode_PrioritySorter.workingNodes.Clear();

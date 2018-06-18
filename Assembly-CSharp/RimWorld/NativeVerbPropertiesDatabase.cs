@@ -8,7 +8,7 @@ namespace RimWorld
 	// Token: 0x02000992 RID: 2450
 	public static class NativeVerbPropertiesDatabase
 	{
-		// Token: 0x0600370D RID: 14093 RVA: 0x001D6534 File Offset: 0x001D4934
+		// Token: 0x0600370F RID: 14095 RVA: 0x001D6608 File Offset: 0x001D4A08
 		public static VerbProperties VerbWithCategory(VerbCategory id)
 		{
 			VerbProperties verbProperties = (from v in NativeVerbPropertiesDatabase.allVerbDefs

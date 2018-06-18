@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Verse
 {
-	// Token: 0x02000FA2 RID: 4002
+	// Token: 0x02000FA1 RID: 4001
 	public static class PerfLogger
 	{
-		// Token: 0x0600608B RID: 24715 RVA: 0x0030D858 File Offset: 0x0030BC58
+		// Token: 0x06006089 RID: 24713 RVA: 0x0030D934 File Offset: 0x0030BD34
 		public static void Reset()
 		{
 			PerfLogger.currentLog = null;
@@ -15,14 +15,14 @@ namespace Verse
 			PerfLogger.current = PerfLogger.start;
 		}
 
-		// Token: 0x0600608C RID: 24716 RVA: 0x0030D875 File Offset: 0x0030BC75
+		// Token: 0x0600608A RID: 24714 RVA: 0x0030D951 File Offset: 0x0030BD51
 		public static void Flush()
 		{
 			Log.Message((PerfLogger.currentLog == null) ? "" : PerfLogger.currentLog.ToString(), false);
 			PerfLogger.Reset();
 		}
 
-		// Token: 0x0600608D RID: 24717 RVA: 0x0030D8A4 File Offset: 0x0030BCA4
+		// Token: 0x0600608B RID: 24715 RVA: 0x0030D980 File Offset: 0x0030BD80
 		public static void Record(string label)
 		{
 			long timestamp = Stopwatch.GetTimestamp();
@@ -40,34 +40,34 @@ namespace Verse
 			PerfLogger.current = timestamp;
 		}
 
-		// Token: 0x0600608E RID: 24718 RVA: 0x0030D93A File Offset: 0x0030BD3A
+		// Token: 0x0600608C RID: 24716 RVA: 0x0030DA16 File Offset: 0x0030BE16
 		public static void Indent()
 		{
 			PerfLogger.indent++;
 		}
 
-		// Token: 0x0600608F RID: 24719 RVA: 0x0030D949 File Offset: 0x0030BD49
+		// Token: 0x0600608D RID: 24717 RVA: 0x0030DA25 File Offset: 0x0030BE25
 		public static void Outdent()
 		{
 			PerfLogger.indent--;
 		}
 
-		// Token: 0x06006090 RID: 24720 RVA: 0x0030D958 File Offset: 0x0030BD58
+		// Token: 0x0600608E RID: 24718 RVA: 0x0030DA34 File Offset: 0x0030BE34
 		public static float Duration()
 		{
 			return (float)(Stopwatch.GetTimestamp() - PerfLogger.start) / (float)Stopwatch.Frequency;
 		}
 
-		// Token: 0x04003F3F RID: 16191
+		// Token: 0x04003F3E RID: 16190
 		public static StringBuilder currentLog = new StringBuilder();
 
-		// Token: 0x04003F40 RID: 16192
+		// Token: 0x04003F3F RID: 16191
 		private static long start;
 
-		// Token: 0x04003F41 RID: 16193
+		// Token: 0x04003F40 RID: 16192
 		private static long current;
 
-		// Token: 0x04003F42 RID: 16194
+		// Token: 0x04003F41 RID: 16193
 		private static int indent;
 	}
 }

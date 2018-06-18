@@ -6,14 +6,14 @@ namespace RimWorld.Planet
 	// Token: 0x020005EF RID: 1519
 	public class Caravan_Tweener
 	{
-		// Token: 0x06001E26 RID: 7718 RVA: 0x0010374C File Offset: 0x00101B4C
+		// Token: 0x06001E28 RID: 7720 RVA: 0x001037C4 File Offset: 0x00101BC4
 		public Caravan_Tweener(Caravan caravan)
 		{
 			this.caravan = caravan;
 		}
 
 		// Token: 0x17000472 RID: 1138
-		// (get) Token: 0x06001E27 RID: 7719 RVA: 0x00103768 File Offset: 0x00101B68
+		// (get) Token: 0x06001E29 RID: 7721 RVA: 0x001037E0 File Offset: 0x00101BE0
 		public Vector3 TweenedPos
 		{
 			get
@@ -23,7 +23,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000473 RID: 1139
-		// (get) Token: 0x06001E28 RID: 7720 RVA: 0x00103784 File Offset: 0x00101B84
+		// (get) Token: 0x06001E2A RID: 7722 RVA: 0x001037FC File Offset: 0x00101BFC
 		public Vector3 LastTickTweenedVelocity
 		{
 			get
@@ -33,7 +33,7 @@ namespace RimWorld.Planet
 		}
 
 		// Token: 0x17000474 RID: 1140
-		// (get) Token: 0x06001E29 RID: 7721 RVA: 0x001037AC File Offset: 0x00101BAC
+		// (get) Token: 0x06001E2B RID: 7723 RVA: 0x00103824 File Offset: 0x00101C24
 		public Vector3 TweenedPosRoot
 		{
 			get
@@ -42,7 +42,7 @@ namespace RimWorld.Planet
 			}
 		}
 
-		// Token: 0x06001E2A RID: 7722 RVA: 0x001037DC File Offset: 0x00101BDC
+		// Token: 0x06001E2C RID: 7724 RVA: 0x00103854 File Offset: 0x00101C54
 		public void TweenerTick()
 		{
 			this.lastTickSpringPos = this.tweenedPos;
@@ -50,7 +50,7 @@ namespace RimWorld.Planet
 			this.tweenedPos += a * 0.09f;
 		}
 
-		// Token: 0x06001E2B RID: 7723 RVA: 0x00103824 File Offset: 0x00101C24
+		// Token: 0x06001E2D RID: 7725 RVA: 0x0010389C File Offset: 0x00101C9C
 		public void ResetTweenedPosToRoot()
 		{
 			this.tweenedPos = this.TweenedPosRoot;

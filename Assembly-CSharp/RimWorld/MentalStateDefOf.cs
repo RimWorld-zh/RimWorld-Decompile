@@ -7,7 +7,7 @@ namespace RimWorld
 	[DefOf]
 	public static class MentalStateDefOf
 	{
-		// Token: 0x06003637 RID: 13879 RVA: 0x001D0791 File Offset: 0x001CEB91
+		// Token: 0x06003639 RID: 13881 RVA: 0x001D0859 File Offset: 0x001CEC59
 		static MentalStateDefOf()
 		{
 			DefOfHelper.EnsureInitializedInCtor(typeof(MentalStateDefOf));

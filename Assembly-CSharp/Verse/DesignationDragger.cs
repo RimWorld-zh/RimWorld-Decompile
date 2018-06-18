@@ -5,12 +5,12 @@ using Verse.Sound;
 
 namespace Verse
 {
-	// Token: 0x02000E14 RID: 3604
+	// Token: 0x02000E13 RID: 3603
 	[StaticConstructorOnStartup]
 	public class DesignationDragger
 	{
-		// Token: 0x17000D60 RID: 3424
-		// (get) Token: 0x0600518F RID: 20879 RVA: 0x0029D158 File Offset: 0x0029B558
+		// Token: 0x17000D5F RID: 3423
+		// (get) Token: 0x0600518D RID: 20877 RVA: 0x0029D138 File Offset: 0x0029B538
 		public bool Dragging
 		{
 			get
@@ -19,8 +19,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D61 RID: 3425
-		// (get) Token: 0x06005190 RID: 20880 RVA: 0x0029D174 File Offset: 0x0029B574
+		// Token: 0x17000D60 RID: 3424
+		// (get) Token: 0x0600518E RID: 20878 RVA: 0x0029D154 File Offset: 0x0029B554
 		private Designator SelDes
 		{
 			get
@@ -29,8 +29,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D62 RID: 3426
-		// (get) Token: 0x06005191 RID: 20881 RVA: 0x0029D194 File Offset: 0x0029B594
+		// Token: 0x17000D61 RID: 3425
+		// (get) Token: 0x0600518F RID: 20879 RVA: 0x0029D174 File Offset: 0x0029B574
 		public List<IntVec3> DragCells
 		{
 			get
@@ -40,8 +40,8 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x17000D63 RID: 3427
-		// (get) Token: 0x06005192 RID: 20882 RVA: 0x0029D1B8 File Offset: 0x0029B5B8
+		// Token: 0x17000D62 RID: 3426
+		// (get) Token: 0x06005190 RID: 20880 RVA: 0x0029D198 File Offset: 0x0029B598
 		public string FailureReason
 		{
 			get
@@ -51,14 +51,14 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005193 RID: 20883 RVA: 0x0029D1D9 File Offset: 0x0029B5D9
+		// Token: 0x06005191 RID: 20881 RVA: 0x0029D1B9 File Offset: 0x0029B5B9
 		public void StartDrag()
 		{
 			this.dragging = true;
 			this.startDragCell = UI.MouseCell();
 		}
 
-		// Token: 0x06005194 RID: 20884 RVA: 0x0029D1EE File Offset: 0x0029B5EE
+		// Token: 0x06005192 RID: 20882 RVA: 0x0029D1CE File Offset: 0x0029B5CE
 		public void EndDrag()
 		{
 			this.dragging = false;
@@ -71,7 +71,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005195 RID: 20885 RVA: 0x0029D22C File Offset: 0x0029B62C
+		// Token: 0x06005193 RID: 20883 RVA: 0x0029D20C File Offset: 0x0029B60C
 		public void DraggerUpdate()
 		{
 			if (this.dragging)
@@ -102,7 +102,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005196 RID: 20886 RVA: 0x0029D324 File Offset: 0x0029B724
+		// Token: 0x06005194 RID: 20884 RVA: 0x0029D304 File Offset: 0x0029B704
 		public void DraggerOnGUI()
 		{
 			if (this.dragging && this.SelDes != null && this.SelDes.DragDrawMeasurements)
@@ -127,7 +127,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005197 RID: 20887 RVA: 0x0029D464 File Offset: 0x0029B864
+		// Token: 0x06005195 RID: 20885 RVA: 0x0029D444 File Offset: 0x0029B844
 		private void DrawNumber(Vector2 screenPos, int number)
 		{
 			Text.Anchor = TextAnchor.MiddleCenter;
@@ -138,7 +138,7 @@ namespace Verse
 			Widgets.Label(rect, number.ToStringCached());
 		}
 
-		// Token: 0x06005198 RID: 20888 RVA: 0x0029D4D4 File Offset: 0x0029B8D4
+		// Token: 0x06005196 RID: 20886 RVA: 0x0029D4B4 File Offset: 0x0029B8B4
 		private void UpdateDragCellsIfNeeded()
 		{
 			if (Time.frameCount != this.lastUpdateFrame)
@@ -227,7 +227,7 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x06005199 RID: 20889 RVA: 0x0029D7E8 File Offset: 0x0029BBE8
+		// Token: 0x06005197 RID: 20887 RVA: 0x0029D7C8 File Offset: 0x0029BBC8
 		private void TryAddDragCell(IntVec3 c)
 		{
 			AcceptanceReport acceptanceReport = this.SelDes.CanDesignateCell(c);
@@ -241,31 +241,31 @@ namespace Verse
 			}
 		}
 
-		// Token: 0x04003573 RID: 13683
+		// Token: 0x04003571 RID: 13681
 		private bool dragging = false;
 
-		// Token: 0x04003574 RID: 13684
+		// Token: 0x04003572 RID: 13682
 		private IntVec3 startDragCell;
 
-		// Token: 0x04003575 RID: 13685
+		// Token: 0x04003573 RID: 13683
 		private int lastFrameDragCellsDrawn = 0;
 
-		// Token: 0x04003576 RID: 13686
+		// Token: 0x04003574 RID: 13684
 		private Sustainer sustainer;
 
-		// Token: 0x04003577 RID: 13687
+		// Token: 0x04003575 RID: 13685
 		private float lastDragRealTime = -1000f;
 
-		// Token: 0x04003578 RID: 13688
+		// Token: 0x04003576 RID: 13686
 		private List<IntVec3> dragCells = new List<IntVec3>();
 
-		// Token: 0x04003579 RID: 13689
+		// Token: 0x04003577 RID: 13687
 		private string failureReasonInt = null;
 
-		// Token: 0x0400357A RID: 13690
+		// Token: 0x04003578 RID: 13688
 		private int lastUpdateFrame = -1;
 
-		// Token: 0x0400357B RID: 13691
+		// Token: 0x04003579 RID: 13689
 		private const int MaxSquareWidth = 50;
 	}
 }

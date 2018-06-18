@@ -5,12 +5,12 @@ namespace Verse
 	// Token: 0x02000978 RID: 2424
 	public class SubEffecter_DrifterEmoteContinuous : SubEffecter_DrifterEmote
 	{
-		// Token: 0x06003682 RID: 13954 RVA: 0x001D0F6E File Offset: 0x001CF36E
+		// Token: 0x06003684 RID: 13956 RVA: 0x001D1036 File Offset: 0x001CF436
 		public SubEffecter_DrifterEmoteContinuous(SubEffecterDef def, Effecter parent) : base(def, parent)
 		{
 		}
 
-		// Token: 0x06003683 RID: 13955 RVA: 0x001D0F80 File Offset: 0x001CF380
+		// Token: 0x06003685 RID: 13957 RVA: 0x001D1048 File Offset: 0x001CF448
 		public override void SubEffectTick(TargetInfo A, TargetInfo B)
 		{
 			this.ticksUntilMote--;
